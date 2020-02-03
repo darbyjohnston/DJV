@@ -1,824 +1,824 @@
 [
     {
-        "source": "Cannot parse the value.", 
-        "description": "", 
-        "id": "Cannot parse the value.", 
+        "source": "Cannot parse the value.",
+        "description": "",
+        "id": "Cannot parse the value.",
         "text": "Nelze analyzovat hodnotu."
-    }, 
+    },
     {
-        "source": "The file", 
-        "description": "", 
-        "id": "The file", 
+        "source": "The file",
+        "description": "",
+        "id": "The file",
         "text": "Soubor"
-    }, 
+    },
     {
-        "source": "cannot be opened", 
-        "description": "", 
-        "id": "cannot be opened", 
-        "text": "nelze otev\u0159\u00edt"
-    }, 
+        "source": "cannot be opened",
+        "description": "",
+        "id": "cannot be opened",
+        "text": "nelze otevřít"
+    },
     {
-        "source": "does not have any video or audio streams", 
-        "description": "", 
-        "id": "does not have any video or audio streams", 
-        "text": "nem\u00e1 \u017e\u00e1dn\u00e9 video ani audio streamy"
-    }, 
+        "source": "does not have any video or audio streams",
+        "description": "",
+        "id": "does not have any video or audio streams",
+        "text": "nemá žádné video ani audio streamy"
+    },
     {
-        "source": "does not match any video codecs", 
-        "description": "", 
-        "id": "does not match any video codecs", 
-        "text": "neodpov\u00edd\u00e1 \u017e\u00e1dn\u00fdm videokodek\u016fm"
-    }, 
+        "source": "does not match any video codecs",
+        "description": "",
+        "id": "does not match any video codecs",
+        "text": "neodpovídá žádným videokodekům"
+    },
     {
-        "source": "The audio format ", 
-        "description": "", 
-        "id": "The audio format ", 
-        "text": "Zvukov\u00fd form\u00e1t"
-    }, 
+        "source": "The audio format ",
+        "description": "",
+        "id": "The audio format ",
+        "text": "Zvukový formát"
+    },
     {
-        "source": "is not supported", 
-        "description": "", 
-        "id": "is not supported", 
-        "text": "nen\u00ed podporov\u00e1no"
-    }, 
+        "source": "is not supported",
+        "description": "",
+        "id": "is not supported",
+        "text": "není podporováno"
+    },
     {
-        "source": "does not match any audio codecs", 
-        "description": "", 
-        "id": "does not match any audio codecs", 
-        "text": "neodpov\u00edd\u00e1 \u017e\u00e1dn\u00fdm zvukov\u00fdm kodek\u016fm"
-    }, 
+        "source": "does not match any audio codecs",
+        "description": "",
+        "id": "does not match any audio codecs",
+        "text": "neodpovídá žádným zvukovým kodekům"
+    },
     {
-        "source": "None", 
-        "description": "", 
-        "id": "None", 
-        "text": "\u017d\u00e1dn\u00fd"
-    }, 
+        "source": "None",
+        "description": "",
+        "id": "None",
+        "text": "Žádný"
+    },
     {
-        "source": "Left", 
-        "description": "", 
-        "id": "Left", 
+        "source": "Left",
+        "description": "",
+        "id": "Left",
         "text": "Vlevo, odjet"
-    }, 
+    },
     {
-        "source": "Top", 
-        "description": "", 
-        "id": "Top", 
-        "text": "Horn\u00ed"
-    }, 
+        "source": "Top",
+        "description": "",
+        "id": "Top",
+        "text": "Horní"
+    },
     {
-        "source": "Right", 
-        "description": "", 
-        "id": "Right", 
-        "text": "\u017de jo"
-    }, 
+        "source": "Right",
+        "description": "",
+        "id": "Right",
+        "text": "Že jo"
+    },
     {
-        "source": "Bottom", 
-        "description": "", 
-        "id": "Bottom", 
+        "source": "Bottom",
+        "description": "",
+        "id": "Bottom",
         "text": "Dno"
-    }, 
+    },
     {
-        "source": "Timecode", 
-        "description": "", 
-        "id": "Timecode", 
-        "text": "\u010casov\u00fd k\u00f3d"
-    }, 
+        "source": "Timecode",
+        "description": "",
+        "id": "Timecode",
+        "text": "Časový kód"
+    },
     {
-        "source": "Frames", 
-        "description": "", 
-        "id": "Frames", 
-        "text": "R\u00e1my"
-    }, 
+        "source": "Frames",
+        "description": "",
+        "id": "Frames",
+        "text": "Rámy"
+    },
     {
-        "source": "Bad magic number.", 
-        "description": "", 
-        "id": "Bad magic number.", 
-        "text": "\u0160patn\u00e9 magick\u00e9 \u010d\u00edslo."
-    }, 
+        "source": "Bad magic number.",
+        "description": "",
+        "id": "Bad magic number.",
+        "text": "Špatné magické číslo."
+    },
     {
-        "source": "Unsupported file.", 
-        "description": "", 
-        "id": "Unsupported file.", 
-        "text": "Nepodporovan\u00fd soubor."
-    }, 
+        "source": "Unsupported file.",
+        "description": "",
+        "id": "Unsupported file.",
+        "text": "Nepodporovaný soubor."
+    },
     {
-        "source": "Incomplete file.", 
-        "description": "", 
-        "id": "Incomplete file.", 
-        "text": "Ne\u00fapln\u00fd soubor."
-    }, 
+        "source": "Incomplete file.",
+        "description": "",
+        "id": "Incomplete file.",
+        "text": "Neúplný soubor."
+    },
     {
-        "source": "This plugin provides DPX image I/O.", 
-        "description": "", 
-        "id": "This plugin provides DPX image I/O.", 
+        "source": "This plugin provides DPX image I/O.",
+        "description": "",
+        "id": "This plugin provides DPX image I/O.",
         "text": "Tento plugin poskytuje DPX image I / O."
-    }, 
+    },
     {
-        "source": "1.0", 
-        "description": "", 
-        "id": "1.0", 
+        "source": "1.0",
+        "description": "",
+        "id": "1.0",
         "text": "1,0"
-    }, 
+    },
     {
-        "source": "2.0", 
-        "description": "", 
-        "id": "2.0", 
+        "source": "2.0",
+        "description": "",
+        "id": "2.0",
         "text": "2,0"
-    }, 
+    },
     {
-        "source": "Auto", 
-        "description": "", 
-        "id": "Auto", 
+        "source": "Auto",
+        "description": "",
+        "id": "Auto",
         "text": "Auto"
-    }, 
+    },
     {
-        "source": "MSB", 
-        "description": "", 
-        "id": "MSB", 
+        "source": "MSB",
+        "description": "",
+        "id": "MSB",
         "text": "MSB"
-    }, 
+    },
     {
-        "source": "LSB", 
-        "description": "", 
-        "id": "LSB", 
+        "source": "LSB",
+        "description": "",
+        "id": "LSB",
         "text": "LSB"
-    }, 
+    },
     {
-        "source": "Cannot open file.", 
-        "description": "", 
-        "id": "Cannot open file.", 
-        "text": "Nelze otev\u0159\u00edt soubor."
-    }, 
+        "source": "Cannot open file.",
+        "description": "",
+        "id": "Cannot open file.",
+        "text": "Nelze otevřít soubor."
+    },
     {
-        "source": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "description": "", 
-        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
+        "source": "This plugin provides Portable Network Graphics (PNG) image I/O.",
+        "description": "",
+        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.",
         "text": "Tento plugin poskytuje I / O obraz Portable Network Graphics (PNG)."
-    }, 
+    },
     {
-        "source": "This plugin provides NetPBM image I/O.", 
-        "description": "", 
-        "id": "This plugin provides NetPBM image I/O.", 
+        "source": "This plugin provides NetPBM image I/O.",
+        "description": "",
+        "id": "This plugin provides NetPBM image I/O.",
         "text": "Tento plugin poskytuje I / O obraz NetPBM."
-    }, 
+    },
     {
-        "source": "ASCII", 
-        "description": "", 
-        "id": "ASCII", 
+        "source": "ASCII",
+        "description": "",
+        "id": "ASCII",
         "text": "ASCII"
-    }, 
+    },
     {
-        "source": "Binary", 
-        "description": "", 
-        "id": "Binary", 
-        "text": "Bin\u00e1rn\u00ed"
-    }, 
+        "source": "Binary",
+        "description": "",
+        "id": "Binary",
+        "text": "Binární"
+    },
     {
-        "source": "Error reading scanline.", 
-        "description": "", 
-        "id": "Error reading scanline.", 
-        "text": "Chyba p\u0159i \u010dten\u00ed scanline."
-    }, 
+        "source": "Error reading scanline.",
+        "description": "",
+        "id": "Error reading scanline.",
+        "text": "Chyba při čtení scanline."
+    },
     {
-        "source": "Unsupported image type.", 
-        "description": "", 
-        "id": "Unsupported image type.", 
-        "text": "Nepodporovan\u00fd typ obr\u00e1zku."
-    }, 
+        "source": "Unsupported image type.",
+        "description": "",
+        "id": "Unsupported image type.",
+        "text": "Nepodporovaný typ obrázku."
+    },
     {
-        "source": "Unknown", 
-        "description": "", 
-        "id": "Unknown", 
-        "text": "Nezn\u00e1m\u00fd"
-    }, 
+        "source": "Unknown",
+        "description": "",
+        "id": "Unknown",
+        "text": "Neznámý"
+    },
     {
-        "source": "Out of memory", 
-        "description": "", 
-        "id": "Out of memory", 
-        "text": "Nedostatek pam\u011bti"
-    }, 
+        "source": "Out of memory",
+        "description": "",
+        "id": "Out of memory",
+        "text": "Nedostatek paměti"
+    },
     {
-        "source": "Invalid value", 
-        "description": "", 
-        "id": "Invalid value", 
-        "text": "neplatn\u00e1 hodnota"
-    }, 
+        "source": "Invalid value",
+        "description": "",
+        "id": "Invalid value",
+        "text": "neplatná hodnota"
+    },
     {
-        "source": "Invalid enum", 
-        "description": "", 
-        "id": "Invalid enum", 
-        "text": "Neplatn\u00e9 v\u00fd\u010det"
-    }, 
+        "source": "Invalid enum",
+        "description": "",
+        "id": "Invalid enum",
+        "text": "Neplatné výčet"
+    },
     {
-        "source": "U8", 
-        "description": "", 
-        "id": "U8", 
+        "source": "U8",
+        "description": "",
+        "id": "U8",
         "text": "U8"
-    }, 
+    },
     {
-        "source": "S16", 
-        "description": "", 
-        "id": "S16", 
+        "source": "S16",
+        "description": "",
+        "id": "S16",
         "text": "S16"
-    }, 
+    },
     {
-        "source": "S32", 
-        "description": "", 
-        "id": "S32", 
+        "source": "S32",
+        "description": "",
+        "id": "S32",
         "text": "S32"
-    }, 
+    },
     {
-        "source": "F32", 
-        "description": "", 
-        "id": "F32", 
+        "source": "F32",
+        "description": "",
+        "id": "F32",
         "text": "F32"
-    }, 
+    },
     {
-        "source": "Unsupported color components.", 
-        "description": "", 
-        "id": "Unsupported color components.", 
-        "text": "Nepodporovan\u00e9 barevn\u00e9 komponenty."
-    }, 
+        "source": "Unsupported color components.",
+        "description": "",
+        "id": "Unsupported color components.",
+        "text": "Nepodporované barevné komponenty."
+    },
     {
-        "source": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
-        "description": "", 
-        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
-        "text": "Tento plugin poskytuje I / O obrazov\u00fd form\u00e1t obrazov\u00e9ho souboru (TIFF)."
-    }, 
+        "source": "This plugin provides Tagged Image File Format (TIFF) image I/O.",
+        "description": "",
+        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.",
+        "text": "Tento plugin poskytuje I / O obrazový formát obrazového souboru (TIFF)."
+    },
     {
-        "source": "RLE", 
-        "description": "", 
-        "id": "RLE", 
+        "source": "RLE",
+        "description": "",
+        "id": "RLE",
         "text": "RLE"
-    }, 
+    },
     {
-        "source": "LZW", 
-        "description": "", 
-        "id": "LZW", 
+        "source": "LZW",
+        "description": "",
+        "id": "LZW",
         "text": "LZW"
-    }, 
+    },
     {
-        "source": "The OpenGL texture cannot be created.", 
-        "description": "", 
-        "id": "The OpenGL texture cannot be created.", 
-        "text": "Texturu OpenGL nelze vytvo\u0159it."
-    }, 
+        "source": "The OpenGL texture cannot be created.",
+        "description": "",
+        "id": "The OpenGL texture cannot be created.",
+        "text": "Texturu OpenGL nelze vytvořit."
+    },
     {
-        "source": "The OpenGL frame buffer cannot be created.", 
-        "description": "", 
-        "id": "The OpenGL frame buffer cannot be created.", 
-        "text": "Nelze vytvo\u0159it vyrovn\u00e1vac\u00ed pam\u011b\u0165 r\u00e1mc\u016f OpenGL."
-    }, 
+        "source": "The OpenGL frame buffer cannot be created.",
+        "description": "",
+        "id": "The OpenGL frame buffer cannot be created.",
+        "text": "Nelze vytvořit vyrovnávací paměť rámců OpenGL."
+    },
     {
-        "source": "The OpenGL frame buffer cannot be initialized.", 
-        "description": "", 
-        "id": "The OpenGL frame buffer cannot be initialized.", 
-        "text": "Vyrovn\u00e1vac\u00ed pam\u011b\u0165 r\u00e1mc\u016f OpenGL nelze inicializovat."
-    }, 
+        "source": "The OpenGL frame buffer cannot be initialized.",
+        "description": "",
+        "id": "The OpenGL frame buffer cannot be initialized.",
+        "text": "Vyrovnávací paměť rámců OpenGL nelze inicializovat."
+    },
     {
-        "source": "Error writing scanline.", 
-        "description": "", 
-        "id": "Error writing scanline.", 
-        "text": "Chyba p\u0159i z\u00e1pisu scanline."
-    }, 
+        "source": "Error writing scanline.",
+        "description": "",
+        "id": "Error writing scanline.",
+        "text": "Chyba při zápisu scanline."
+    },
     {
-        "source": "The OpenGL vertex shader cannot be created.", 
-        "description": "", 
-        "id": "The OpenGL vertex shader cannot be created.", 
-        "text": "Nelze vytvo\u0159it vertex shaderu OpenGL."
-    }, 
+        "source": "The OpenGL vertex shader cannot be created.",
+        "description": "",
+        "id": "The OpenGL vertex shader cannot be created.",
+        "text": "Nelze vytvořit vertex shaderu OpenGL."
+    },
     {
-        "source": "The OpenGL vertex shader", 
-        "description": "", 
-        "id": "The OpenGL vertex shader", 
+        "source": "The OpenGL vertex shader",
+        "description": "",
+        "id": "The OpenGL vertex shader",
         "text": "OpenGL vertex shader"
-    }, 
+    },
     {
-        "source": "cannot be compiled", 
-        "description": "", 
-        "id": "cannot be compiled", 
+        "source": "cannot be compiled",
+        "description": "",
+        "id": "cannot be compiled",
         "text": "nelze zkompilovat"
-    }, 
+    },
     {
-        "source": "The OpenGL fragment shader cannot be created.", 
-        "description": "", 
-        "id": "The OpenGL fragment shader cannot be created.", 
-        "text": "Shader fragment\u016f OpenGL nelze vytvo\u0159it."
-    }, 
+        "source": "The OpenGL fragment shader cannot be created.",
+        "description": "",
+        "id": "The OpenGL fragment shader cannot be created.",
+        "text": "Shader fragmentů OpenGL nelze vytvořit."
+    },
     {
-        "source": "The OpenGL fragment shader", 
-        "description": "", 
-        "id": "The OpenGL fragment shader", 
-        "text": "P\u0159edn\u00ed shader OpenGL"
-    }, 
+        "source": "The OpenGL fragment shader",
+        "description": "",
+        "id": "The OpenGL fragment shader",
+        "text": "Přední shader OpenGL"
+    },
     {
-        "source": "The program", 
-        "description": "", 
-        "id": "The program", 
+        "source": "The program",
+        "description": "",
+        "id": "The program",
         "text": "Program"
-    }, 
+    },
     {
-        "source": "cannot be linked", 
-        "description": "", 
-        "id": "cannot be linked", 
+        "source": "cannot be linked",
+        "description": "",
+        "id": "cannot be linked",
         "text": "nelze propojit"
-    }, 
+    },
     {
-        "source": "L U8", 
-        "description": "", 
-        "id": "L_U8", 
+        "source": "L U8",
+        "description": "",
+        "id": "L_U8",
         "text": "50 U8"
-    }, 
+    },
     {
-        "source": "L U16", 
-        "description": "", 
-        "id": "L_U16", 
+        "source": "L U16",
+        "description": "",
+        "id": "L_U16",
         "text": "L U16"
-    }, 
+    },
     {
-        "source": "L U32", 
-        "description": "", 
-        "id": "L_U32", 
+        "source": "L U32",
+        "description": "",
+        "id": "L_U32",
         "text": "L U32"
-    }, 
+    },
     {
-        "source": "L F16", 
-        "description": "", 
-        "id": "L_F16", 
+        "source": "L F16",
+        "description": "",
+        "id": "L_F16",
         "text": "L F16"
-    }, 
+    },
     {
-        "source": "L F32", 
-        "description": "", 
-        "id": "L_F32", 
+        "source": "L F32",
+        "description": "",
+        "id": "L_F32",
         "text": "L F32"
-    }, 
+    },
     {
-        "source": "LA U8", 
-        "description": "", 
-        "id": "LA_U8", 
+        "source": "LA U8",
+        "description": "",
+        "id": "LA_U8",
         "text": "U8"
-    }, 
+    },
     {
-        "source": "LA U16", 
-        "description": "", 
-        "id": "LA_U16", 
+        "source": "LA U16",
+        "description": "",
+        "id": "LA_U16",
         "text": "THE U16"
-    }, 
+    },
     {
-        "source": "LA U32", 
-        "description": "", 
-        "id": "LA_U32", 
+        "source": "LA U32",
+        "description": "",
+        "id": "LA_U32",
         "text": "THE U32"
-    }, 
+    },
     {
-        "source": "LA F16", 
-        "description": "", 
-        "id": "LA_F16", 
+        "source": "LA F16",
+        "description": "",
+        "id": "LA_F16",
         "text": "THE F16"
-    }, 
+    },
     {
-        "source": "LA F32", 
-        "description": "", 
-        "id": "LA_F32", 
+        "source": "LA F32",
+        "description": "",
+        "id": "LA_F32",
         "text": "LA F32"
-    }, 
+    },
     {
-        "source": "RGB U8", 
-        "description": "", 
-        "id": "RGB_U8", 
+        "source": "RGB U8",
+        "description": "",
+        "id": "RGB_U8",
         "text": "RGB U8"
-    }, 
+    },
     {
-        "source": "RGB U10", 
-        "description": "", 
-        "id": "RGB_U10", 
+        "source": "RGB U10",
+        "description": "",
+        "id": "RGB_U10",
         "text": "RGB U10"
-    }, 
+    },
     {
-        "source": "RGB U16", 
-        "description": "", 
-        "id": "RGB_U16", 
+        "source": "RGB U16",
+        "description": "",
+        "id": "RGB_U16",
         "text": "RGB U16"
-    }, 
+    },
     {
-        "source": "RGB U32", 
-        "description": "", 
-        "id": "RGB_U32", 
+        "source": "RGB U32",
+        "description": "",
+        "id": "RGB_U32",
         "text": "RGB U32"
-    }, 
+    },
     {
-        "source": "RGB F16", 
-        "description": "", 
-        "id": "RGB_F16", 
+        "source": "RGB F16",
+        "description": "",
+        "id": "RGB_F16",
         "text": "RGB F16"
-    }, 
+    },
     {
-        "source": "RGB F32", 
-        "description": "", 
-        "id": "RGB_F32", 
+        "source": "RGB F32",
+        "description": "",
+        "id": "RGB_F32",
         "text": "RGB F32"
-    }, 
+    },
     {
-        "source": "RGBA U8", 
-        "description": "", 
-        "id": "RGBA_U8", 
+        "source": "RGBA U8",
+        "description": "",
+        "id": "RGBA_U8",
         "text": "RGBA U8"
-    }, 
+    },
     {
-        "source": "RGBA U16", 
-        "description": "", 
-        "id": "RGBA_U16", 
+        "source": "RGBA U16",
+        "description": "",
+        "id": "RGBA_U16",
         "text": "RGBA U16"
-    }, 
+    },
     {
-        "source": "RGBA U32", 
-        "description": "", 
-        "id": "RGBA_U32", 
+        "source": "RGBA U32",
+        "description": "",
+        "id": "RGBA_U32",
         "text": "RGBA U32"
-    }, 
+    },
     {
-        "source": "RGBA F16", 
-        "description": "", 
-        "id": "RGBA_F16", 
+        "source": "RGBA F16",
+        "description": "",
+        "id": "RGBA_F16",
         "text": "RGBA F16"
-    }, 
+    },
     {
-        "source": "RGBA F32", 
-        "description": "", 
-        "id": "RGBA_F32", 
+        "source": "RGBA F32",
+        "description": "",
+        "id": "RGBA_F32",
         "text": "RGBA F32"
-    }, 
+    },
     {
-        "source": "L", 
-        "description": "", 
-        "id": "L", 
+        "source": "L",
+        "description": "",
+        "id": "L",
         "text": ""
-    }, 
+    },
     {
-        "source": "LA", 
-        "description": "", 
-        "id": "LA", 
+        "source": "LA",
+        "description": "",
+        "id": "LA",
         "text": "LA"
-    }, 
+    },
     {
-        "source": "RGB", 
-        "description": "", 
-        "id": "RGB", 
+        "source": "RGB",
+        "description": "",
+        "id": "RGB",
         "text": "RGB"
-    }, 
+    },
     {
-        "source": "RGBA", 
-        "description": "", 
-        "id": "RGBA", 
+        "source": "RGBA",
+        "description": "",
+        "id": "RGBA",
         "text": "RGBA"
-    }, 
+    },
     {
-        "source": "U10", 
-        "description": "", 
-        "id": "U10", 
+        "source": "U10",
+        "description": "",
+        "id": "U10",
         "text": "U10"
-    }, 
+    },
     {
-        "source": "U16", 
-        "description": "", 
-        "id": "U16", 
+        "source": "U16",
+        "description": "",
+        "id": "U16",
         "text": "U16"
-    }, 
+    },
     {
-        "source": "U32", 
-        "description": "", 
-        "id": "U32", 
+        "source": "U32",
+        "description": "",
+        "id": "U32",
         "text": "U32"
-    }, 
+    },
     {
-        "source": "F16", 
-        "description": "", 
-        "id": "F16", 
+        "source": "F16",
+        "description": "",
+        "id": "F16",
         "text": "F16"
-    }, 
+    },
     {
-        "source": "The shader cannot be created", 
-        "description": "", 
-        "id": "The shader cannot be created", 
-        "text": "Shader nelze vytvo\u0159it"
-    }, 
+        "source": "The shader cannot be created",
+        "description": "",
+        "id": "The shader cannot be created",
+        "text": "Shader nelze vytvořit"
+    },
     {
-        "source": "Cannot create GLFW window.", 
-        "description": "", 
-        "id": "Cannot create GLFW window.", 
-        "text": "Nelze vytvo\u0159it okno GLFW."
-    }, 
+        "source": "Cannot create GLFW window.",
+        "description": "",
+        "id": "Cannot create GLFW window.",
+        "text": "Nelze vytvořit okno GLFW."
+    },
     {
-        "source": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
-        "description": "", 
-        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
-        "text": "Tento plugin poskytuje I / O obrazov\u00e9 skupiny Joint Photographic Experts Group (JPEG)."
-    }, 
+        "source": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.",
+        "description": "",
+        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.",
+        "text": "Tento plugin poskytuje I / O obrazové skupiny Joint Photographic Experts Group (JPEG)."
+    },
     {
-        "source": "This plugin provides OpenEXR file I/O.", 
-        "description": "", 
-        "id": "This plugin provides OpenEXR file I/O.", 
+        "source": "This plugin provides OpenEXR file I/O.",
+        "description": "",
+        "id": "This plugin provides OpenEXR file I/O.",
         "text": "Tento plugin poskytuje I / O soubor OpenEXR."
-    }, 
+    },
     {
-        "source": "Known", 
-        "description": "", 
-        "id": "Known", 
-        "text": "Zn\u00e1m\u00fd"
-    }, 
+        "source": "Known",
+        "description": "",
+        "id": "Known",
+        "text": "Známý"
+    },
     {
-        "source": "All", 
-        "description": "", 
-        "id": "All", 
-        "text": "V\u0161echno"
-    }, 
+        "source": "All",
+        "description": "",
+        "id": "All",
+        "text": "Všechno"
+    },
     {
-        "source": "ZIPS", 
-        "description": "", 
-        "id": "ZIPS", 
+        "source": "ZIPS",
+        "description": "",
+        "id": "ZIPS",
         "text": "ZIP"
-    }, 
+    },
     {
-        "source": "ZIP", 
-        "description": "", 
-        "id": "ZIP", 
+        "source": "ZIP",
+        "description": "",
+        "id": "ZIP",
         "text": "ZIP"
-    }, 
+    },
     {
-        "source": "PIZ", 
-        "description": "", 
-        "id": "PIZ", 
+        "source": "PIZ",
+        "description": "",
+        "id": "PIZ",
         "text": "PIZ"
-    }, 
+    },
     {
-        "source": "PXR24", 
-        "description": "", 
-        "id": "PXR24", 
+        "source": "PXR24",
+        "description": "",
+        "id": "PXR24",
         "text": "PXR24"
-    }, 
+    },
     {
-        "source": "B44", 
-        "description": "", 
-        "id": "B44", 
+        "source": "B44",
+        "description": "",
+        "id": "B44",
         "text": "B44"
-    }, 
+    },
     {
-        "source": "B44A", 
-        "description": "", 
-        "id": "B44A", 
+        "source": "B44A",
+        "description": "",
+        "id": "B44A",
         "text": "B44A"
-    }, 
+    },
     {
-        "source": "DWAA", 
-        "description": "", 
-        "id": "DWAA", 
+        "source": "DWAA",
+        "description": "",
+        "id": "DWAA",
         "text": "DWAA"
-    }, 
+    },
     {
-        "source": "DWAB", 
-        "description": "", 
-        "id": "DWAB", 
+        "source": "DWAB",
+        "description": "",
+        "id": "DWAB",
         "text": "DWAB"
-    }, 
+    },
     {
-        "source": "cannot be read", 
-        "description": "", 
-        "id": "cannot be read", 
-        "text": "nelze \u010d\u00edst"
-    }, 
+        "source": "cannot be read",
+        "description": "",
+        "id": "cannot be read",
+        "text": "nelze číst"
+    },
     {
-        "source": "cannot be written", 
-        "description": "", 
-        "id": "cannot be written", 
-        "text": "nelze ps\u00e1t"
-    }, 
+        "source": "cannot be written",
+        "description": "",
+        "id": "cannot be written",
+        "text": "nelze psát"
+    },
     {
-        "source": "Float", 
-        "description": "", 
-        "id": "Float", 
-        "text": "Plov\u00e1k"
-    }, 
+        "source": "Float",
+        "description": "",
+        "id": "Float",
+        "text": "Plovák"
+    },
     {
-        "source": "Double", 
-        "description": "", 
-        "id": "Double", 
-        "text": "Dvojn\u00e1sobek"
-    }, 
+        "source": "Double",
+        "description": "",
+        "id": "Double",
+        "text": "Dvojnásobek"
+    },
     {
-        "source": "U8 Planar", 
-        "description": "", 
-        "id": "U8 Planar", 
+        "source": "U8 Planar",
+        "description": "",
+        "id": "U8 Planar",
         "text": "U8 Planar"
-    }, 
+    },
     {
-        "source": "S16 Planar", 
-        "description": "", 
-        "id": "S16 Planar", 
+        "source": "S16 Planar",
+        "description": "",
+        "id": "S16 Planar",
         "text": "S16 Planar"
-    }, 
+    },
     {
-        "source": "S32 Planar", 
-        "description": "", 
-        "id": "S32 Planar", 
+        "source": "S32 Planar",
+        "description": "",
+        "id": "S32 Planar",
         "text": "S32 Planar"
-    }, 
+    },
     {
-        "source": "Float Planar", 
-        "description": "", 
-        "id": "Float Planar", 
-        "text": "Plov\u00e1kov\u00fd plan\u00e1r"
-    }, 
+        "source": "Float Planar",
+        "description": "",
+        "id": "Float Planar",
+        "text": "Plovákový planár"
+    },
     {
-        "source": "Double Planar", 
-        "description": "", 
-        "id": "Double Planar", 
+        "source": "Double Planar",
+        "description": "",
+        "id": "Double Planar",
         "text": "Double Planar"
-    }, 
+    },
     {
-        "source": "This plugin provides FFmpeg image and audio I/O.", 
-        "description": "", 
-        "id": "This plugin provides FFmpeg image and audio I/O.", 
-        "text": "Tento plugin poskytuje obrazov\u00e9 a zvukov\u00e9 I / O soubory FFmpeg."
-    }, 
+        "source": "This plugin provides FFmpeg image and audio I/O.",
+        "description": "",
+        "id": "This plugin provides FFmpeg image and audio I/O.",
+        "text": "Tento plugin poskytuje obrazové a zvukové I / O soubory FFmpeg."
+    },
     {
-        "source": "The file cannot be opened.", 
-        "description": "", 
-        "id": "The file cannot be opened.", 
-        "text": "Soubor nelze otev\u0159\u00edt."
-    }, 
+        "source": "The file cannot be opened.",
+        "description": "",
+        "id": "The file cannot be opened.",
+        "text": "Soubor nelze otevřít."
+    },
     {
-        "source": "No image channels.", 
-        "description": "", 
-        "id": "No image channels.", 
-        "text": "\u017d\u00e1dn\u00e9 obrazov\u00e9 kan\u00e1ly."
-    }, 
+        "source": "No image channels.",
+        "description": "",
+        "id": "No image channels.",
+        "text": "Žádné obrazové kanály."
+    },
     {
-        "source": "Image channels must have the same size and bit depth.", 
-        "description": "", 
-        "id": "Image channels must have the same size and bit depth.", 
-        "text": "Obrazov\u00e9 kan\u00e1ly mus\u00ed m\u00edt stejnou velikost a bitovou hloubku."
-    }, 
+        "source": "Image channels must have the same size and bit depth.",
+        "description": "",
+        "id": "Image channels must have the same size and bit depth.",
+        "text": "Obrazové kanály musí mít stejnou velikost a bitovou hloubku."
+    },
     {
-        "source": "Unsupported bit depth.", 
-        "description": "", 
-        "id": "Unsupported bit depth.", 
-        "text": "Nepodporovan\u00e1 bitov\u00e1 hloubka."
-    }, 
+        "source": "Unsupported bit depth.",
+        "description": "",
+        "id": "Unsupported bit depth.",
+        "text": "Nepodporovaná bitová hloubka."
+    },
     {
-        "source": "Line padding is unsupported.", 
-        "description": "", 
-        "id": "Line padding is unsupported.", 
-        "text": "\u010caloun\u011bn\u00ed linky nen\u00ed podporov\u00e1no."
-    }, 
+        "source": "Line padding is unsupported.",
+        "description": "",
+        "id": "Line padding is unsupported.",
+        "text": "Čalounění linky není podporováno."
+    },
     {
-        "source": "Channel padding is unsupported.", 
-        "description": "", 
-        "id": "Channel padding is unsupported.", 
-        "text": "V\u00fdpl\u0148 kan\u00e1lu nen\u00ed podporov\u00e1na."
-    }, 
+        "source": "Channel padding is unsupported.",
+        "description": "",
+        "id": "Channel padding is unsupported.",
+        "text": "Výplň kanálu není podporována."
+    },
     {
-        "source": "This plugin provides Cineon image I/O.", 
-        "description": "", 
-        "id": "This plugin provides Cineon image I/O.", 
+        "source": "This plugin provides Cineon image I/O.",
+        "description": "",
+        "id": "This plugin provides Cineon image I/O.",
         "text": "Tento plugin poskytuje Cineon image I / O."
-    }, 
+    },
     {
-        "source": "Default", 
-        "description": "", 
-        "id": "Default", 
-        "text": "V\u00fdchoz\u00ed"
-    }, 
+        "source": "Default",
+        "description": "",
+        "id": "Default",
+        "text": "Výchozí"
+    },
     {
-        "id": "The audio format", 
-        "source": "The audio format", 
-        "description": "", 
-        "text": "Zvukov\u00fd form\u00e1t"
-    }, 
+        "id": "The audio format",
+        "source": "The audio format",
+        "description": "",
+        "text": "Zvukový formát"
+    },
     {
-        "source": "F64", 
-        "description": "", 
-        "id": "F64", 
+        "source": "F64",
+        "description": "",
+        "id": "F64",
         "text": "F64"
-    }, 
+    },
     {
-        "source": "RtAudio cannot be initialized", 
-        "description": "", 
-        "id": "RtAudio cannot be initialized", 
+        "source": "RtAudio cannot be initialized",
+        "description": "",
+        "id": "RtAudio cannot be initialized",
         "text": "RtAudio nelze inicializovat"
-    }, 
+    },
     {
-        "source": "File not supported.", 
-        "description": "", 
-        "id": "File not supported.", 
-        "text": "Soubor nen\u00ed podporov\u00e1n."
-    }, 
+        "source": "File not supported.",
+        "description": "",
+        "id": "File not supported.",
+        "text": "Soubor není podporován."
+    },
     {
-        "source": "Error reading header.", 
-        "description": "", 
-        "id": "Error reading header.", 
-        "text": "Chyba p\u0159i \u010dten\u00ed z\u00e1hlav\u00ed."
-    }, 
+        "source": "Error reading header.",
+        "description": "",
+        "id": "Error reading header.",
+        "text": "Chyba při čtení záhlaví."
+    },
     {
-        "source": "Straight", 
-        "description": "", 
-        "id": "Straight", 
-        "text": "Rovn\u00fd"
-    }, 
+        "source": "Straight",
+        "description": "",
+        "id": "Straight",
+        "text": "Rovný"
+    },
     {
-        "source": "Premultiplied", 
-        "description": "", 
-        "id": "Premultiplied", 
-        "text": "P\u0159edb\u011b\u017en\u00e9 pou\u017eit\u00ed"
-    }, 
+        "source": "Premultiplied",
+        "description": "",
+        "id": "Premultiplied",
+        "text": "Předběžné použití"
+    },
     {
-        "source": "This plugin provides IFF image I/O.", 
-        "description": "", 
-        "id": "This plugin provides IFF image I/O.", 
+        "source": "This plugin provides IFF image I/O.",
+        "description": "",
+        "id": "This plugin provides IFF image I/O.",
         "text": "Tento plugin poskytuje I / O obraz IFF."
-    }, 
+    },
     {
-        "source": "Cannot initialize GLFW.", 
-        "description": "", 
-        "id": "Cannot initialize GLFW.", 
+        "source": "Cannot initialize GLFW.",
+        "description": "",
+        "id": "Cannot initialize GLFW.",
         "text": "Nelze inicializovat GLFW."
-    }, 
+    },
     {
-        "source": "Cannot initialize GLAD.", 
-        "description": "", 
-        "id": "Cannot initialize GLAD.", 
+        "source": "Cannot initialize GLAD.",
+        "description": "",
+        "id": "Cannot initialize GLAD.",
         "text": "GLAD nelze inicializovat."
-    }, 
+    },
     {
-        "source": "This plugin provides RLA image I/O.", 
-        "description": "", 
-        "id": "This plugin provides RLA image I/O.", 
+        "source": "This plugin provides RLA image I/O.",
+        "description": "",
+        "id": "This plugin provides RLA image I/O.",
         "text": "Tento plugin poskytuje I / O obraz RLA."
-    }, 
+    },
     {
-        "source": "This plugin provides SGI image I/O.", 
-        "description": "", 
-        "id": "This plugin provides SGI image I/O.", 
+        "source": "This plugin provides SGI image I/O.",
+        "description": "",
+        "id": "This plugin provides SGI image I/O.",
         "text": "Tento plugin poskytuje I / O obraz SGI."
-    }, 
+    },
     {
-        "source": "Read error.", 
-        "description": "", 
-        "id": "Read error.", 
-        "text": "Chyba \u010dten\u00ed."
-    }, 
+        "source": "Read error.",
+        "description": "",
+        "id": "Read error.",
+        "text": "Chyba čtení."
+    },
     {
-        "source": "This plugin provides Targa image I/O.", 
-        "description": "", 
-        "id": "This plugin provides Targa image I/O.", 
+        "source": "This plugin provides Targa image I/O.",
+        "description": "",
+        "id": "This plugin provides Targa image I/O.",
         "text": "Tento plugin poskytuje Targa image I / O."
-    }, 
+    },
     {
-        "source": "Red", 
-        "text": "\u010cerven\u00e9", 
-        "id": "Red", 
+        "source": "Red",
+        "text": "Červené",
+        "id": "Red",
         "description": ""
-    }, 
+    },
     {
-        "source": "Green", 
-        "text": "Zelen\u00fd", 
-        "id": "Green", 
+        "source": "Green",
+        "text": "Zelený",
+        "id": "Green",
         "description": ""
-    }, 
+    },
     {
-        "source": "Blue", 
-        "text": "Modr\u00fd", 
-        "id": "Blue", 
+        "source": "Blue",
+        "text": "Modrý",
+        "id": "Blue",
         "description": ""
-    }, 
+    },
     {
-        "source": "Alpha", 
-        "text": "Alfa", 
-        "id": "Alpha", 
+        "source": "Alpha",
+        "text": "Alfa",
+        "id": "Alpha",
         "description": ""
-    }, 
+    },
     {
-        "source": "Atlas", 
-        "text": "Atlas", 
-        "id": "Atlas", 
+        "source": "Atlas",
+        "text": "Atlas",
+        "id": "Atlas",
         "description": ""
-    }, 
+    },
     {
-        "source": "Dynamic", 
-        "text": "Dynamick\u00fd", 
-        "id": "Dynamic", 
+        "source": "Dynamic",
+        "text": "Dynamický",
+        "id": "Dynamic",
         "description": ""
-    }, 
+    },
     {
-        "source": "Nearest", 
-        "text": "Nejbli\u017e\u0161\u00ed", 
-        "id": "Nearest", 
+        "source": "Nearest",
+        "text": "Nejbližší",
+        "id": "Nearest",
         "description": ""
-    }, 
+    },
     {
-        "source": "Linear", 
-        "text": "Line\u00e1rn\u00ed", 
-        "id": "Linear", 
+        "source": "Linear",
+        "text": "Lineární",
+        "id": "Linear",
         "description": ""
     }
 ]

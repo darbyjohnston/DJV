@@ -1,170 +1,170 @@
 [
     {
-        "source": "Nothing to convert", 
-        "description": "", 
-        "id": "Nothing to convert", 
-        "text": "\u5909\u63db\u3059\u308b\u3082\u306e\u304c\u3042\u308a\u307e\u305b\u3093"
-    }, 
+        "source": "Nothing to convert",
+        "description": "",
+        "id": "Nothing to convert",
+        "text": "変換するものがありません"
+    },
     {
-        "source": "Cannot parse the option '-resize'", 
-        "description": "", 
-        "id": "Cannot parse the option '-resize'", 
-        "text": "\u30aa\u30d7\u30b7\u30e7\u30f3 &#39;-resize&#39;\u3092\u89e3\u6790\u3067\u304d\u307e\u305b\u3093"
-    }, 
+        "source": "Cannot parse the option '-resize'",
+        "description": "",
+        "id": "Cannot parse the option '-resize'",
+        "text": "オプション &#39;-resize&#39;を解析できません"
+    },
     {
-        "source": "Usage: djv_convert (input) (output)", 
-        "description": "", 
-        "id": "Usage: djv_convert (input) (output)", 
-        "text": "\u4f7f\u7528\u6cd5\uff1adjv_convert\uff08\u5165\u529b\uff09\uff08\u51fa\u529b\uff09"
-    }, 
+        "source": "Usage: djv_convert (input) (output)",
+        "description": "",
+        "id": "Usage: djv_convert (input) (output)",
+        "text": "使用法：djv_convert（入力）（出力）"
+    },
     {
-        "source": " Usage:", 
-        "description": "", 
-        "id": " Usage:", 
-        "text": "\u4f7f\u7528\u6cd5\uff1a"
-    }, 
+        "source": " Usage:",
+        "description": "",
+        "id": " Usage:",
+        "text": "使用法："
+    },
     {
-        "source": "   djv_convert (input) (output) [option, ...]", 
-        "description": "", 
-        "id": "   djv_convert (input) (output) [option, ...]", 
-        "text": "djv_convert\uff08\u5165\u529b\uff09\uff08\u51fa\u529b\uff09[\u30aa\u30d7\u30b7\u30e7\u30f3\u3001...]"
-    }, 
+        "source": "   djv_convert (input) (output) [option, ...]",
+        "description": "",
+        "id": "   djv_convert (input) (output) [option, ...]",
+        "text": "djv_convert（入力）（出力）[オプション、...]"
+    },
     {
-        "source": " Options:", 
-        "description": "", 
-        "id": " Options:", 
-        "text": "\u30aa\u30d7\u30b7\u30e7\u30f3\uff1a"
-    }, 
+        "source": " Options:",
+        "description": "",
+        "id": " Options:",
+        "text": "オプション："
+    },
     {
-        "source": "   -resize '(width) (height)'", 
-        "description": "", 
-        "id": "   -resize '(width) (height)'", 
-        "text": "-resize &#39;\uff08width\uff09\uff08height\uff09&#39;"
-    }, 
+        "source": "   -resize '(width) (height)'",
+        "description": "",
+        "id": "   -resize '(width) (height)'",
+        "text": "-resize &#39;（width）（height）&#39;"
+    },
     {
-        "source": "     Resize the image.", 
-        "description": "", 
-        "id": "     Resize the image.", 
-        "text": "\u753b\u50cf\u306e\u30b5\u30a4\u30ba\u3092\u5909\u66f4\u3057\u307e\u3059\u3002"
-    }, 
+        "source": "     Resize the image.",
+        "description": "",
+        "id": "     Resize the image.",
+        "text": "画像のサイズを変更します。"
+    },
     {
-        "source": "   -readSeq", 
-        "description": "", 
-        "id": "   -readSeq", 
+        "source": "   -readSeq",
+        "description": "",
+        "id": "   -readSeq",
         "text": "-readSeq"
-    }, 
+    },
     {
-        "source": "     Interpret the input file name as a sequence.", 
-        "description": "", 
-        "id": "     Interpret the input file name as a sequence.", 
-        "text": "\u5165\u529b\u30d5\u30a1\u30a4\u30eb\u540d\u3092\u30b7\u30fc\u30b1\u30f3\u30b9\u3068\u3057\u3066\u89e3\u91c8\u3057\u307e\u3059\u3002"
-    }, 
+        "source": "     Interpret the input file name as a sequence.",
+        "description": "",
+        "id": "     Interpret the input file name as a sequence.",
+        "text": "入力ファイル名をシーケンスとして解釈します。"
+    },
     {
-        "source": "   -writeSeq", 
-        "description": "", 
-        "id": "   -writeSeq", 
+        "source": "   -writeSeq",
+        "description": "",
+        "id": "   -writeSeq",
         "text": "-writeSeq"
-    }, 
+    },
     {
-        "source": "     Interpret the output file name as a sequence.", 
-        "description": "", 
-        "id": "     Interpret the output file name as a sequence.", 
-        "text": "\u51fa\u529b\u30d5\u30a1\u30a4\u30eb\u540d\u3092\u30b7\u30fc\u30b1\u30f3\u30b9\u3068\u3057\u3066\u89e3\u91c8\u3057\u307e\u3059\u3002"
-    }, 
+        "source": "     Interpret the output file name as a sequence.",
+        "description": "",
+        "id": "     Interpret the output file name as a sequence.",
+        "text": "出力ファイル名をシーケンスとして解釈します。"
+    },
     {
-        "source": "   -readQueue (value)", 
-        "description": "", 
-        "id": "   -readQueue (value)", 
-        "text": "-readQueue\uff08\u5024\uff09"
-    }, 
+        "source": "   -readQueue (value)",
+        "description": "",
+        "id": "   -readQueue (value)",
+        "text": "-readQueue（値）"
+    },
     {
-        "source": "     Set the size of the read queue.", 
-        "description": "", 
-        "id": "     Set the size of the read queue.", 
-        "text": "\u8aad\u307f\u53d6\u308a\u30ad\u30e5\u30fc\u306e\u30b5\u30a4\u30ba\u3092\u8a2d\u5b9a\u3057\u307e\u3059\u3002"
-    }, 
+        "source": "     Set the size of the read queue.",
+        "description": "",
+        "id": "     Set the size of the read queue.",
+        "text": "読み取りキューのサイズを設定します。"
+    },
     {
-        "source": "   -writeQueue (value)", 
-        "description": "", 
-        "id": "   -writeQueue (value)", 
-        "text": "-writeQueue\uff08\u5024\uff09"
-    }, 
+        "source": "   -writeQueue (value)",
+        "description": "",
+        "id": "   -writeQueue (value)",
+        "text": "-writeQueue（値）"
+    },
     {
-        "source": "     Set the size of the write queue.", 
-        "description": "", 
-        "id": "     Set the size of the write queue.", 
-        "text": "\u66f8\u304d\u8fbc\u307f\u30ad\u30e5\u30fc\u306e\u30b5\u30a4\u30ba\u3092\u8a2d\u5b9a\u3057\u307e\u3059\u3002"
-    }, 
+        "source": "     Set the size of the write queue.",
+        "description": "",
+        "id": "     Set the size of the write queue.",
+        "text": "書き込みキューのサイズを設定します。"
+    },
     {
-        "source": "   -readThreads (value)", 
-        "description": "", 
-        "id": "   -readThreads (value)", 
-        "text": "-readThreads\uff08\u5024\uff09"
-    }, 
+        "source": "   -readThreads (value)",
+        "description": "",
+        "id": "   -readThreads (value)",
+        "text": "-readThreads（値）"
+    },
     {
-        "source": "     Set the number of threads for reading.", 
-        "description": "", 
-        "id": "     Set the number of threads for reading.", 
-        "text": "\u8aad\u307f\u8fbc\u3080\u30b9\u30ec\u30c3\u30c9\u306e\u6570\u3092\u8a2d\u5b9a\u3057\u307e\u3059\u3002"
-    }, 
+        "source": "     Set the number of threads for reading.",
+        "description": "",
+        "id": "     Set the number of threads for reading.",
+        "text": "読み込むスレッドの数を設定します。"
+    },
     {
-        "source": "   -writeThreads (value)", 
-        "description": "", 
-        "id": "   -writeThreads (value)", 
-        "text": "-writeThreads\uff08\u5024\uff09"
-    }, 
+        "source": "   -writeThreads (value)",
+        "description": "",
+        "id": "   -writeThreads (value)",
+        "text": "-writeThreads（値）"
+    },
     {
-        "source": "     Set the number of threads for writing.", 
-        "description": "", 
-        "id": "     Set the number of threads for writing.", 
-        "text": "\u66f8\u304d\u8fbc\u3080\u30b9\u30ec\u30c3\u30c9\u306e\u6570\u3092\u8a2d\u5b9a\u3057\u307e\u3059\u3002"
-    }, 
+        "source": "     Set the number of threads for writing.",
+        "description": "",
+        "id": "     Set the number of threads for writing.",
+        "text": "書き込むスレッドの数を設定します。"
+    },
     {
-        "source": "   -resize \\\"(width) (height)\\\"", 
-        "text": "-resize \\ &quot;\uff08width\uff09\uff08height\uff09\\&quot;", 
-        "id": "   -resize \\\"(width) (height)\\\"", 
+        "source": "   -resize \\\"(width) (height)\\\"",
+        "text": "-resize \\ &quot;（width）（height）\\&quot;",
+        "id": "   -resize \\\"(width) (height)\\\"",
         "description": ""
-    }, 
+    },
     {
-        "source": "   Resize the image.", 
-        "text": "\u753b\u50cf\u306e\u30b5\u30a4\u30ba\u3092\u5909\u66f4\u3057\u307e\u3059\u3002", 
-        "id": "   Resize the image.", 
+        "source": "   Resize the image.",
+        "text": "画像のサイズを変更します。",
+        "id": "   Resize the image.",
         "description": ""
-    }, 
+    },
     {
-        "source": "   Interpret the input file name as a sequence.", 
-        "text": "\u5165\u529b\u30d5\u30a1\u30a4\u30eb\u540d\u3092\u30b7\u30fc\u30b1\u30f3\u30b9\u3068\u3057\u3066\u89e3\u91c8\u3057\u307e\u3059\u3002", 
-        "id": "   Interpret the input file name as a sequence.", 
+        "source": "   Interpret the input file name as a sequence.",
+        "text": "入力ファイル名をシーケンスとして解釈します。",
+        "id": "   Interpret the input file name as a sequence.",
         "description": ""
-    }, 
+    },
     {
-        "source": "   Interpret the output file name as a sequence.", 
-        "text": "\u51fa\u529b\u30d5\u30a1\u30a4\u30eb\u540d\u3092\u30b7\u30fc\u30b1\u30f3\u30b9\u3068\u3057\u3066\u89e3\u91c8\u3057\u307e\u3059\u3002", 
-        "id": "   Interpret the output file name as a sequence.", 
+        "source": "   Interpret the output file name as a sequence.",
+        "text": "出力ファイル名をシーケンスとして解釈します。",
+        "id": "   Interpret the output file name as a sequence.",
         "description": ""
-    }, 
+    },
     {
-        "source": "   Set the size of the read queue.", 
-        "text": "\u8aad\u307f\u53d6\u308a\u30ad\u30e5\u30fc\u306e\u30b5\u30a4\u30ba\u3092\u8a2d\u5b9a\u3057\u307e\u3059\u3002", 
-        "id": "   Set the size of the read queue.", 
+        "source": "   Set the size of the read queue.",
+        "text": "読み取りキューのサイズを設定します。",
+        "id": "   Set the size of the read queue.",
         "description": ""
-    }, 
+    },
     {
-        "source": "   Set the size of the write queue.", 
-        "text": "\u66f8\u304d\u8fbc\u307f\u30ad\u30e5\u30fc\u306e\u30b5\u30a4\u30ba\u3092\u8a2d\u5b9a\u3057\u307e\u3059\u3002", 
-        "id": "   Set the size of the write queue.", 
+        "source": "   Set the size of the write queue.",
+        "text": "書き込みキューのサイズを設定します。",
+        "id": "   Set the size of the write queue.",
         "description": ""
-    }, 
+    },
     {
-        "source": "   Set the number of threads for reading.", 
-        "text": "\u8aad\u307f\u8fbc\u3080\u30b9\u30ec\u30c3\u30c9\u306e\u6570\u3092\u8a2d\u5b9a\u3057\u307e\u3059\u3002", 
-        "id": "   Set the number of threads for reading.", 
+        "source": "   Set the number of threads for reading.",
+        "text": "読み込むスレッドの数を設定します。",
+        "id": "   Set the number of threads for reading.",
         "description": ""
-    }, 
+    },
     {
-        "source": "   Set the number of threads for writing.", 
-        "text": "\u66f8\u304d\u8fbc\u3080\u30b9\u30ec\u30c3\u30c9\u306e\u6570\u3092\u8a2d\u5b9a\u3057\u307e\u3059\u3002", 
-        "id": "   Set the number of threads for writing.", 
+        "source": "   Set the number of threads for writing.",
+        "text": "書き込むスレッドの数を設定します。",
+        "id": "   Set the number of threads for writing.",
         "description": ""
     }
 ]

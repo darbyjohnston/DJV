@@ -1,86 +1,86 @@
 [
     {
-        "source": " Usage:", 
-        "text": "Uso:", 
-        "id": " Usage:", 
+        "source": " Usage:",
+        "text": "Uso:",
+        "id": " Usage:",
         "description": ""
-    }, 
+    },
     {
-        "source": "   djv_test_pattern (output) [option, ...]", 
-        "text": "djv_test_pattern (output) [op\u00e7\u00e3o, ...]", 
-        "id": "   djv_test_pattern (output) [option, ...]", 
+        "source": "   djv_test_pattern (output) [option, ...]",
+        "text": "djv_test_pattern (output) [opção, ...]",
+        "id": "   djv_test_pattern (output) [option, ...]",
         "description": ""
-    }, 
+    },
     {
-        "source": " Options:", 
-        "text": "Op\u00e7\u00f5es:", 
-        "id": " Options:", 
+        "source": " Options:",
+        "text": "Opções:",
+        "id": " Options:",
         "description": ""
-    }, 
+    },
     {
-        "source": "   -frameCount (value)", 
-        "text": "-frameCount (valor)", 
-        "id": "   -frameCount (value)", 
+        "source": "   -frameCount (value)",
+        "text": "-frameCount (valor)",
+        "id": "   -frameCount (value)",
         "description": ""
-    }, 
+    },
     {
-        "source": "   The number of frames to render. Default: ", 
-        "text": "O n\u00famero de quadros a serem renderizados. Padr\u00e3o:", 
-        "id": "   The number of frames to render. Default: ", 
+        "source": "   The number of frames to render. Default: ",
+        "text": "O número de quadros a serem renderizados. Padrão:",
+        "id": "   The number of frames to render. Default: ",
         "description": ""
-    }, 
+    },
     {
-        "source": "   -size \\\"(width) (height)\\\"", 
-        "text": "-tamanho \\ &quot;(largura) (altura) \\&quot;", 
-        "id": "   -size \\\"(width) (height)\\\"", 
+        "source": "   -size \\\"(width) (height)\\\"",
+        "text": "-tamanho \\ &quot;(largura) (altura) \\&quot;",
+        "id": "   -size \\\"(width) (height)\\\"",
         "description": ""
-    }, 
+    },
     {
-        "source": "   The image resolution. Default: ", 
-        "text": "A resolu\u00e7\u00e3o da imagem. Padr\u00e3o:", 
-        "id": "   The image resolution. Default: ", 
+        "source": "   The image resolution. Default: ",
+        "text": "A resolução da imagem. Padrão:",
+        "id": "   The image resolution. Default: ",
         "description": ""
-    }, 
+    },
     {
-        "source": "   -type (value)", 
-        "text": "-type (valor)", 
-        "id": "   -type (value)", 
+        "source": "   -type (value)",
+        "text": "-type (valor)",
+        "id": "   -type (value)",
         "description": ""
-    }, 
+    },
     {
-        "source": "   The image type. Default: ", 
-        "text": "O tipo de imagem. Padr\u00e3o:", 
-        "id": "   The image type. Default: ", 
+        "source": "   The image type. Default: ",
+        "text": "O tipo de imagem. Padrão:",
+        "id": "   The image type. Default: ",
         "description": ""
-    }, 
+    },
     {
-        "source": " Examples:", 
-        "text": "Exemplos:", 
-        "id": " Examples:", 
+        "source": " Examples:",
+        "text": "Exemplos:",
+        "id": " Examples:",
         "description": ""
-    }, 
+    },
     {
-        "source": "   > djv_test_pattern test.1.dpx", 
-        "text": "&gt; djv_test_pattern test.1.dpx", 
-        "id": "   > djv_test_pattern test.1.dpx", 
+        "source": "   > djv_test_pattern test.1.dpx",
+        "text": "&gt; djv_test_pattern test.1.dpx",
+        "id": "   > djv_test_pattern test.1.dpx",
         "description": ""
-    }, 
+    },
     {
-        "source": "   Render a test pattern with the default values.", 
-        "text": "Renderize um padr\u00e3o de teste com os valores padr\u00e3o.", 
-        "id": "   Render a test pattern with the default values.", 
+        "source": "   Render a test pattern with the default values.",
+        "text": "Renderize um padrão de teste com os valores padrão.",
+        "id": "   Render a test pattern with the default values.",
         "description": ""
-    }, 
+    },
     {
-        "source": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16", 
-        "text": "&gt; djv_test_pattern test.1.tif - tamanho &#39;3840 2160&#39; - tipo RGB_U16", 
-        "id": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16", 
+        "source": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16",
+        "text": "&gt; djv_test_pattern test.1.tif - tamanho &#39;3840 2160&#39; - tipo RGB_U16",
+        "id": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16",
         "description": ""
-    }, 
+    },
     {
-        "source": "   Render a UHD resolution test pattern with a RGB 16-bit image type.", 
-        "text": "Renderize um padr\u00e3o de teste de resolu\u00e7\u00e3o UHD com um tipo de imagem RGB de 16 bits.", 
-        "id": "   Render a UHD resolution test pattern with a RGB 16-bit image type.", 
+        "source": "   Render a UHD resolution test pattern with a RGB 16-bit image type.",
+        "text": "Renderize um padrão de teste de resolução UHD com um tipo de imagem RGB de 16 bits.",
+        "id": "   Render a UHD resolution test pattern with a RGB 16-bit image type.",
         "description": ""
     }
 ]

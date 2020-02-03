@@ -1,86 +1,86 @@
 [
     {
-        "source": " Usage:", 
-        "text": "Notkun:", 
-        "id": " Usage:", 
+        "source": " Usage:",
+        "text": "Notkun:",
+        "id": " Usage:",
         "description": ""
-    }, 
+    },
     {
-        "source": "   djv_test_pattern (output) [option, ...]", 
-        "text": "djv_test_pattern (framlei\u00f0sla) [valkostur, ...]", 
-        "id": "   djv_test_pattern (output) [option, ...]", 
+        "source": "   djv_test_pattern (output) [option, ...]",
+        "text": "djv_test_pattern (framleiðsla) [valkostur, ...]",
+        "id": "   djv_test_pattern (output) [option, ...]",
         "description": ""
-    }, 
+    },
     {
-        "source": " Options:", 
-        "text": "Valkostir:", 
-        "id": " Options:", 
+        "source": " Options:",
+        "text": "Valkostir:",
+        "id": " Options:",
         "description": ""
-    }, 
+    },
     {
-        "source": "   -frameCount (value)", 
-        "text": "-frameCount (gildi)", 
-        "id": "   -frameCount (value)", 
+        "source": "   -frameCount (value)",
+        "text": "-frameCount (gildi)",
+        "id": "   -frameCount (value)",
         "description": ""
-    }, 
+    },
     {
-        "source": "   The number of frames to render. Default: ", 
-        "text": "Fj\u00f6ldi ramma sem \u00e1 a\u00f0 skila. Sj\u00e1lfgefi\u00f0:", 
-        "id": "   The number of frames to render. Default: ", 
+        "source": "   The number of frames to render. Default: ",
+        "text": "Fjöldi ramma sem á að skila. Sjálfgefið:",
+        "id": "   The number of frames to render. Default: ",
         "description": ""
-    }, 
+    },
     {
-        "source": "   -size \\\"(width) (height)\\\"", 
-        "text": "-st\u00e6r\u00f0 \\ &quot;(breidd) (h\u00e6\u00f0) \\&quot;", 
-        "id": "   -size \\\"(width) (height)\\\"", 
+        "source": "   -size \\\"(width) (height)\\\"",
+        "text": "-stærð \\ &quot;(breidd) (hæð) \\&quot;",
+        "id": "   -size \\\"(width) (height)\\\"",
         "description": ""
-    }, 
+    },
     {
-        "source": "   The image resolution. Default: ", 
-        "text": "Upplausn myndarinnar. Sj\u00e1lfgefi\u00f0:", 
-        "id": "   The image resolution. Default: ", 
+        "source": "   The image resolution. Default: ",
+        "text": "Upplausn myndarinnar. Sjálfgefið:",
+        "id": "   The image resolution. Default: ",
         "description": ""
-    }, 
+    },
     {
-        "source": "   -type (value)", 
-        "text": "-ger\u00f0 (gildi)", 
-        "id": "   -type (value)", 
+        "source": "   -type (value)",
+        "text": "-gerð (gildi)",
+        "id": "   -type (value)",
         "description": ""
-    }, 
+    },
     {
-        "source": "   The image type. Default: ", 
-        "text": "Ger\u00f0 myndarinnar. Sj\u00e1lfgefi\u00f0:", 
-        "id": "   The image type. Default: ", 
+        "source": "   The image type. Default: ",
+        "text": "Gerð myndarinnar. Sjálfgefið:",
+        "id": "   The image type. Default: ",
         "description": ""
-    }, 
+    },
     {
-        "source": " Examples:", 
-        "text": "D\u00e6mi:", 
-        "id": " Examples:", 
+        "source": " Examples:",
+        "text": "Dæmi:",
+        "id": " Examples:",
         "description": ""
-    }, 
+    },
     {
-        "source": "   > djv_test_pattern test.1.dpx", 
-        "text": "&gt; djv_test_pattern test.1.dpx", 
-        "id": "   > djv_test_pattern test.1.dpx", 
+        "source": "   > djv_test_pattern test.1.dpx",
+        "text": "&gt; djv_test_pattern test.1.dpx",
+        "id": "   > djv_test_pattern test.1.dpx",
         "description": ""
-    }, 
+    },
     {
-        "source": "   Render a test pattern with the default values.", 
-        "text": "Skili\u00f0 pr\u00f3fmynstri me\u00f0 sj\u00e1lfgefnum gildum.", 
-        "id": "   Render a test pattern with the default values.", 
+        "source": "   Render a test pattern with the default values.",
+        "text": "Skilið prófmynstri með sjálfgefnum gildum.",
+        "id": "   Render a test pattern with the default values.",
         "description": ""
-    }, 
+    },
     {
-        "source": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16", 
-        "text": "&gt; djv_test_pattern test.1.tif-st\u00e6r\u00f0 &#39;3840 2160&#39; -ger\u00f0 RGB_U16", 
-        "id": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16", 
+        "source": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16",
+        "text": "&gt; djv_test_pattern test.1.tif-stærð &#39;3840 2160&#39; -gerð RGB_U16",
+        "id": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16",
         "description": ""
-    }, 
+    },
     {
-        "source": "   Render a UHD resolution test pattern with a RGB 16-bit image type.", 
-        "text": "Ger\u00f0u UHD pr\u00f3funarmynstur me\u00f0 RGB 16 bita ger\u00f0.", 
-        "id": "   Render a UHD resolution test pattern with a RGB 16-bit image type.", 
+        "source": "   Render a UHD resolution test pattern with a RGB 16-bit image type.",
+        "text": "Gerðu UHD prófunarmynstur með RGB 16 bita gerð.",
+        "id": "   Render a UHD resolution test pattern with a RGB 16-bit image type.",
         "description": ""
     }
 ]

@@ -1235,11 +1235,11 @@
         "text": "unexpected GmbH, https://www.unexpected.de"
     },
     {
-        "source": "Copyright (c) 2004-2019 Darby Johnston, All rights reserved",
+        "source": "Copyright (c) 2004-2020 Darby Johnston, All rights reserved",
         "description": "",
         "id": "License 1",
         "language": "en",
-        "text": "Copyright (c) 2004-2019 Darby Johnston, All rights reserved"
+        "text": "Copyright (c) 2004-2020 Darby Johnston, All rights reserved"
     },
     {
         "source": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:",
@@ -1283,11 +1283,11 @@
         "text": "Certaines parties de ce logiciel sont protégées par le droit d’auteur (par ordre alphabétique):"
     },
     {
-        "source": "* Copyright (c) 2004-2019 Darby Johnston, All rights reserved",
+        "source": "* Copyright (c) 2004-2020 Darby Johnston, All rights reserved",
         "description": "",
         "id": "Copyright Darby Johnston",
         "language": "en",
-        "text": "* Copyright (c) 2004-2019 Darby Johnston, All rights reserved"
+        "text": "* Copyright (c) 2004-2020 Darby Johnston, All rights reserved"
     },
     {
         "source": "* Copyright (c) 2019 Kent Oberheu, All rights reserved",

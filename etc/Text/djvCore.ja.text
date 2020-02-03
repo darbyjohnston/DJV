@@ -1,1730 +1,1730 @@
 [
     {
-        "source": "Parent Changed", 
-        "description": "", 
-        "id": "ParentChanged", 
-        "text": "\u89aa\u304c\u5909\u66f4\u3055\u308c\u307e\u3057\u305f"
-    }, 
+        "source": "Parent Changed",
+        "description": "",
+        "id": "ParentChanged",
+        "text": "親が変更されました"
+    },
     {
-        "source": "Child Added", 
-        "description": "", 
-        "id": "ChildAdded", 
-        "text": "\u8ffd\u52a0\u3055\u308c\u305f\u5b50"
-    }, 
+        "source": "Child Added",
+        "description": "",
+        "id": "ChildAdded",
+        "text": "追加された子"
+    },
     {
-        "source": "Child Removed", 
-        "description": "", 
-        "id": "ChildRemoved", 
-        "text": "\u5b50\u304c\u524a\u9664\u3055\u308c\u307e\u3057\u305f"
-    }, 
+        "source": "Child Removed",
+        "description": "",
+        "id": "ChildRemoved",
+        "text": "子が削除されました"
+    },
     {
-        "source": "Child Order", 
-        "description": "", 
-        "id": "ChildOrder", 
-        "text": "\u30c1\u30e3\u30a4\u30eb\u30c9\u30aa\u30fc\u30c0\u30fc"
-    }, 
+        "source": "Child Order",
+        "description": "",
+        "id": "ChildOrder",
+        "text": "チャイルドオーダー"
+    },
     {
-        "source": "Locale", 
-        "description": "", 
-        "id": "Locale", 
-        "text": "\u30ed\u30fc\u30ab\u30eb"
-    }, 
+        "source": "Locale",
+        "description": "",
+        "id": "Locale",
+        "text": "ローカル"
+    },
     {
-        "source": "Update", 
-        "description": "", 
-        "id": "Update", 
-        "text": "\u66f4\u65b0"
-    }, 
+        "source": "Update",
+        "description": "",
+        "id": "Update",
+        "text": "更新"
+    },
     {
-        "source": "Style", 
-        "description": "", 
-        "id": "Style", 
-        "text": "\u30b9\u30bf\u30a4\u30eb"
-    }, 
+        "source": "Style",
+        "description": "",
+        "id": "Style",
+        "text": "スタイル"
+    },
     {
-        "source": "Pre Layout", 
-        "description": "", 
-        "id": "PreLayout", 
-        "text": "\u4e8b\u524d\u30ec\u30a4\u30a2\u30a6\u30c8"
-    }, 
+        "source": "Pre Layout",
+        "description": "",
+        "id": "PreLayout",
+        "text": "事前レイアウト"
+    },
     {
-        "source": "Layout", 
-        "description": "", 
-        "id": "Layout", 
-        "text": "\u30ec\u30a4\u30a2\u30a6\u30c8"
-    }, 
+        "source": "Layout",
+        "description": "",
+        "id": "Layout",
+        "text": "レイアウト"
+    },
     {
-        "source": "Clip", 
-        "description": "", 
-        "id": "Clip", 
-        "text": "\u30af\u30ea\u30c3\u30d7"
-    }, 
+        "source": "Clip",
+        "description": "",
+        "id": "Clip",
+        "text": "クリップ"
+    },
     {
-        "source": "Paint", 
-        "description": "", 
-        "id": "Paint", 
-        "text": "\u30da\u30a4\u30f3\u30c8"
-    }, 
+        "source": "Paint",
+        "description": "",
+        "id": "Paint",
+        "text": "ペイント"
+    },
     {
-        "source": "Paint Overlay", 
-        "description": "", 
-        "id": "PaintOverlay", 
-        "text": "\u30da\u30a4\u30f3\u30c8\u30aa\u30fc\u30d0\u30fc\u30ec\u30a4"
-    }, 
+        "source": "Paint Overlay",
+        "description": "",
+        "id": "PaintOverlay",
+        "text": "ペイントオーバーレイ"
+    },
     {
-        "source": "Pointer Enter", 
-        "description": "", 
-        "id": "PointerEnter", 
-        "text": "\u30dd\u30a4\u30f3\u30bf\u5165\u529b"
-    }, 
+        "source": "Pointer Enter",
+        "description": "",
+        "id": "PointerEnter",
+        "text": "ポインタ入力"
+    },
     {
-        "source": "Pointer Leave", 
-        "description": "", 
-        "id": "PointerLeave", 
-        "text": "\u30dd\u30a4\u30f3\u30bf\u3092\u6b8b\u3059"
-    }, 
+        "source": "Pointer Leave",
+        "description": "",
+        "id": "PointerLeave",
+        "text": "ポインタを残す"
+    },
     {
-        "source": "Pointer Move", 
-        "description": "", 
-        "id": "PointerMove", 
-        "text": "\u30dd\u30a4\u30f3\u30bf\u79fb\u52d5"
-    }, 
+        "source": "Pointer Move",
+        "description": "",
+        "id": "PointerMove",
+        "text": "ポインタ移動"
+    },
     {
-        "source": "Button Press", 
-        "description": "", 
-        "id": "ButtonPress", 
-        "text": "\u30dc\u30bf\u30f3\u3092\u62bc\u3059"
-    }, 
+        "source": "Button Press",
+        "description": "",
+        "id": "ButtonPress",
+        "text": "ボタンを押す"
+    },
     {
-        "source": "Button Release", 
-        "description": "", 
-        "id": "ButtonRelease", 
-        "text": "\u30dc\u30bf\u30f3\u30ea\u30ea\u30fc\u30b9"
-    }, 
+        "source": "Button Release",
+        "description": "",
+        "id": "ButtonRelease",
+        "text": "ボタンリリース"
+    },
     {
-        "source": "Scroll", 
-        "description": "", 
-        "id": "Scroll", 
-        "text": "\u30b9\u30af\u30ed\u30fc\u30eb"
-    }, 
+        "source": "Scroll",
+        "description": "",
+        "id": "Scroll",
+        "text": "スクロール"
+    },
     {
-        "source": "Drop", 
-        "description": "", 
-        "id": "Drop", 
-        "text": "\u30c9\u30ed\u30c3\u30d7"
-    }, 
+        "source": "Drop",
+        "description": "",
+        "id": "Drop",
+        "text": "ドロップ"
+    },
     {
-        "source": "Key Press", 
-        "description": "", 
-        "id": "KeyPress", 
-        "text": "\u30ad\u30fc\u30d7\u30ec\u30b9"
-    }, 
+        "source": "Key Press",
+        "description": "",
+        "id": "KeyPress",
+        "text": "キープレス"
+    },
     {
-        "source": "Key Release", 
-        "description": "", 
-        "id": "KeyRelease", 
-        "text": "\u30ad\u30fc\u30ea\u30ea\u30fc\u30b9"
-    }, 
+        "source": "Key Release",
+        "description": "",
+        "id": "KeyRelease",
+        "text": "キーリリース"
+    },
     {
-        "source": "Text Focus", 
-        "description": "", 
-        "id": "TextFocus", 
-        "text": "\u30c6\u30ad\u30b9\u30c8\u30d5\u30a9\u30fc\u30ab\u30b9"
-    }, 
+        "source": "Text Focus",
+        "description": "",
+        "id": "TextFocus",
+        "text": "テキストフォーカス"
+    },
     {
-        "source": "Text Focus Lost", 
-        "description": "", 
-        "id": "TextFocusLost", 
-        "text": "\u5931\u308f\u308c\u305f\u30c6\u30ad\u30b9\u30c8\u30d5\u30a9\u30fc\u30ab\u30b9"
-    }, 
+        "source": "Text Focus Lost",
+        "description": "",
+        "id": "TextFocusLost",
+        "text": "失われたテキストフォーカス"
+    },
     {
-        "source": "Text", 
-        "description": "", 
-        "id": "Text", 
-        "text": "\u30c6\u30ad\u30b9\u30c8"
-    }, 
+        "source": "Text",
+        "description": "",
+        "id": "Text",
+        "text": "テキスト"
+    },
     {
-        "source": "The file", 
-        "description": "", 
-        "id": "The file", 
-        "text": "\u30d5\u30a1\u30a4\u30eb"
-    }, 
+        "source": "The file",
+        "description": "",
+        "id": "The file",
+        "text": "ファイル"
+    },
     {
-        "source": "cannot be opened", 
-        "description": "", 
-        "id": "cannot be opened", 
-        "text": "\u958b\u3051\u3089\u308c\u306a\u3044"
-    }, 
+        "source": "cannot be opened",
+        "description": "",
+        "id": "cannot be opened",
+        "text": "開けられない"
+    },
     {
-        "source": "cannot be closed", 
-        "description": "", 
-        "id": "cannot be closed", 
-        "text": "\u9589\u3058\u308b\u3053\u3068\u306f\u3067\u304d\u307e\u305b\u3093"
-    }, 
+        "source": "cannot be closed",
+        "description": "",
+        "id": "cannot be closed",
+        "text": "閉じることはできません"
+    },
     {
-        "source": "cannot be mapped", 
-        "description": "", 
-        "id": "cannot be mapped", 
-        "text": "\u30de\u30c3\u30d4\u30f3\u30b0\u3067\u304d\u306a\u3044"
-    }, 
+        "source": "cannot be mapped",
+        "description": "",
+        "id": "cannot be mapped",
+        "text": "マッピングできない"
+    },
     {
-        "source": "cannot be unmapped", 
-        "description": "", 
-        "id": "cannot be unmapped", 
-        "text": "\u30de\u30c3\u30d7\u89e3\u9664\u3067\u304d\u307e\u305b\u3093"
-    }, 
+        "source": "cannot be unmapped",
+        "description": "",
+        "id": "cannot be unmapped",
+        "text": "マップ解除できません"
+    },
     {
-        "source": "cannot be read", 
-        "description": "", 
-        "id": "cannot be read", 
-        "text": "\u8aad\u3081\u306a\u3044"
-    }, 
+        "source": "cannot be read",
+        "description": "",
+        "id": "cannot be read",
+        "text": "読めない"
+    },
     {
-        "source": "cannot be written", 
-        "description": "", 
-        "id": "cannot be written", 
-        "text": "\u66f8\u304d\u8fbc\u3081\u306a\u3044"
-    }, 
+        "source": "cannot be written",
+        "description": "",
+        "id": "cannot be written",
+        "text": "書き込めない"
+    },
     {
-        "source": "Error reading the text file", 
-        "description": "", 
-        "id": "Error reading the text file", 
-        "text": "\u30c6\u30ad\u30b9\u30c8\u30d5\u30a1\u30a4\u30eb\u306e\u8aad\u307f\u53d6\u308a\u30a8\u30e9\u30fc"
-    }, 
+        "source": "Error reading the text file",
+        "description": "",
+        "id": "Error reading the text file",
+        "text": "テキストファイルの読み取りエラー"
+    },
     {
-        "source": "MSB", 
-        "description": "", 
-        "id": "MSB", 
+        "source": "MSB",
+        "description": "",
+        "id": "MSB",
         "text": "MSB"
-    }, 
+    },
     {
-        "source": "LSB", 
-        "description": "", 
-        "id": "LSB", 
+        "source": "LSB",
+        "description": "",
+        "id": "LSB",
         "text": "LSB"
-    }, 
+    },
     {
-        "source": "Home", 
-        "description": "", 
-        "id": "Home", 
-        "text": "\u30db\u30fc\u30e0"
-    }, 
+        "source": "Home",
+        "description": "",
+        "id": "Home",
+        "text": "ホーム"
+    },
     {
-        "source": "Desktop", 
-        "description": "", 
-        "id": "Desktop", 
-        "text": "\u30c7\u30b9\u30af\u30c8\u30c3\u30d7"
-    }, 
+        "source": "Desktop",
+        "description": "",
+        "id": "Desktop",
+        "text": "デスクトップ"
+    },
     {
-        "source": "Documents", 
-        "description": "", 
-        "id": "Documents", 
-        "text": "\u66f8\u985e"
-    }, 
+        "source": "Documents",
+        "description": "",
+        "id": "Documents",
+        "text": "書類"
+    },
     {
-        "source": "Downloads", 
-        "description": "", 
-        "id": "Downloads", 
-        "text": "\u30c0\u30a6\u30f3\u30ed\u30fc\u30c9"
-    }, 
+        "source": "Downloads",
+        "description": "",
+        "id": "Downloads",
+        "text": "ダウンロード"
+    },
     {
-        "source": "The directory", 
-        "description": "", 
-        "id": "The directory", 
-        "text": "\u30c7\u30a3\u30ec\u30af\u30c8\u30ea"
-    }, 
+        "source": "The directory",
+        "description": "",
+        "id": "The directory",
+        "text": "ディレクトリ"
+    },
     {
-        "source": "cannot be created", 
-        "description": "", 
-        "id": "cannot be created", 
-        "text": "\u4f5c\u6210\u3067\u304d\u307e\u305b\u3093"
-    }, 
+        "source": "cannot be created",
+        "description": "",
+        "id": "cannot be created",
+        "text": "作成できません"
+    },
     {
-        "source": "Cannot parse the value", 
-        "description": "", 
-        "id": "Cannot parse the value", 
-        "text": "\u5024\u3092\u89e3\u6790\u3067\u304d\u307e\u305b\u3093"
-    }, 
+        "source": "Cannot parse the value",
+        "description": "",
+        "id": "Cannot parse the value",
+        "text": "値を解析できません"
+    },
     {
-        "source": "Cannot parse the value.", 
-        "description": "", 
-        "id": "Cannot parse the value.", 
-        "text": "\u5024\u3092\u89e3\u6790\u3067\u304d\u307e\u305b\u3093\u3002"
-    }, 
+        "source": "Cannot parse the value.",
+        "description": "",
+        "id": "Cannot parse the value.",
+        "text": "値を解析できません。"
+    },
     {
-        "source": "cannot be queried", 
-        "description": "", 
-        "id": "cannot be queried", 
-        "text": "\u554f\u3044\u5408\u308f\u305b\u3067\u304d\u306a\u3044"
-    }, 
+        "source": "cannot be queried",
+        "description": "",
+        "id": "cannot be queried",
+        "text": "問い合わせできない"
+    },
     {
-        "source": "Application", 
-        "description": "", 
-        "id": "Application", 
-        "text": "\u5fdc\u7528"
-    }, 
+        "source": "Application",
+        "description": "",
+        "id": "Application",
+        "text": "応用"
+    },
     {
-        "source": "Log File", 
-        "description": "", 
-        "id": "LogFile", 
-        "text": "\u30ed\u30b0\u30d5\u30a1\u30a4\u30eb"
-    }, 
+        "source": "Log File",
+        "description": "",
+        "id": "LogFile",
+        "text": "ログファイル"
+    },
     {
-        "source": "Settings File", 
-        "description": "", 
-        "id": "SettingsFile", 
-        "text": "\u8a2d\u5b9a\u30d5\u30a1\u30a4\u30eb"
-    }, 
+        "source": "Settings File",
+        "description": "",
+        "id": "SettingsFile",
+        "text": "設定ファイル"
+    },
     {
-        "source": "Audio Directory", 
-        "description": "", 
-        "id": "AudioDirectory", 
-        "text": "\u30aa\u30fc\u30c7\u30a3\u30aa\u30c7\u30a3\u30ec\u30af\u30c8\u30ea"
-    }, 
+        "source": "Audio Directory",
+        "description": "",
+        "id": "AudioDirectory",
+        "text": "オーディオディレクトリ"
+    },
     {
-        "source": "Fonts Directory", 
-        "description": "", 
-        "id": "FontsDirectory", 
-        "text": "\u30d5\u30a9\u30f3\u30c8\u30c7\u30a3\u30ec\u30af\u30c8\u30ea"
-    }, 
+        "source": "Fonts Directory",
+        "description": "",
+        "id": "FontsDirectory",
+        "text": "フォントディレクトリ"
+    },
     {
-        "source": "Icons Directory", 
-        "description": "", 
-        "id": "IconsDirectory", 
-        "text": "\u30a2\u30a4\u30b3\u30f3\u30c7\u30a3\u30ec\u30af\u30c8\u30ea"
-    }, 
+        "source": "Icons Directory",
+        "description": "",
+        "id": "IconsDirectory",
+        "text": "アイコンディレクトリ"
+    },
     {
-        "source": "Images Directory", 
-        "description": "", 
-        "id": "ImagesDirectory", 
-        "text": "\u753b\u50cf\u30c7\u30a3\u30ec\u30af\u30c8\u30ea"
-    }, 
+        "source": "Images Directory",
+        "description": "",
+        "id": "ImagesDirectory",
+        "text": "画像ディレクトリ"
+    },
     {
-        "source": "Models Directory", 
-        "description": "", 
-        "id": "ModelsDirectory", 
-        "text": "\u30e2\u30c7\u30eb\u30c7\u30a3\u30ec\u30af\u30c8\u30ea"
-    }, 
+        "source": "Models Directory",
+        "description": "",
+        "id": "ModelsDirectory",
+        "text": "モデルディレクトリ"
+    },
     {
-        "source": "Shaders Directory", 
-        "description": "", 
-        "id": "ShadersDirectory", 
-        "text": "\u30b7\u30a7\u30fc\u30c0\u30c7\u30a3\u30ec\u30af\u30c8\u30ea"
-    }, 
+        "source": "Shaders Directory",
+        "description": "",
+        "id": "ShadersDirectory",
+        "text": "シェーダディレクトリ"
+    },
     {
-        "source": "Text Directory", 
-        "description": "", 
-        "id": "TextDirectory", 
-        "text": "\u30c6\u30ad\u30b9\u30c8\u30c7\u30a3\u30ec\u30af\u30c8\u30ea"
-    }, 
+        "source": "Text Directory",
+        "description": "",
+        "id": "TextDirectory",
+        "text": "テキストディレクトリ"
+    },
     {
-        "source": "File", 
-        "description": "", 
-        "id": "File", 
-        "text": "\u30d5\u30a1\u30a4\u30eb"
-    }, 
+        "source": "File",
+        "description": "",
+        "id": "File",
+        "text": "ファイル"
+    },
     {
-        "source": "Sequence", 
-        "description": "", 
-        "id": "Sequence", 
-        "text": "\u30b7\u30fc\u30b1\u30f3\u30b9"
-    }, 
+        "source": "Sequence",
+        "description": "",
+        "id": "Sequence",
+        "text": "シーケンス"
+    },
     {
-        "source": "Directory", 
-        "description": "", 
-        "id": "Directory", 
-        "text": "\u30c7\u30a3\u30ec\u30af\u30c8\u30ea"
-    }, 
+        "source": "Directory",
+        "description": "",
+        "id": "Directory",
+        "text": "ディレクトリ"
+    },
     {
-        "source": "Name", 
-        "description": "", 
-        "id": "Name", 
-        "text": "\u540d"
-    }, 
+        "source": "Name",
+        "description": "",
+        "id": "Name",
+        "text": "名"
+    },
     {
-        "source": "Size", 
-        "description": "", 
-        "id": "Size", 
-        "text": "\u30b5\u30a4\u30ba"
-    }, 
+        "source": "Size",
+        "description": "",
+        "id": "Size",
+        "text": "サイズ"
+    },
     {
-        "source": "Type", 
-        "description": "", 
-        "id": "Type", 
-        "text": "\u30bf\u30a4\u30d7"
-    }, 
+        "source": "Type",
+        "description": "",
+        "id": "Type",
+        "text": "タイプ"
+    },
     {
-        "source": "Linear", 
-        "description": "", 
-        "id": "Linear", 
-        "text": "\u30ea\u30cb\u30a2"
-    }, 
+        "source": "Linear",
+        "description": "",
+        "id": "Linear",
+        "text": "リニア"
+    },
     {
-        "source": "Ease In", 
-        "description": "", 
-        "id": "EaseIn", 
-        "text": "\u30a4\u30fc\u30ba\u30a4\u30f3"
-    }, 
+        "source": "Ease In",
+        "description": "",
+        "id": "EaseIn",
+        "text": "イーズイン"
+    },
     {
-        "source": "Ease Out", 
-        "description": "", 
-        "id": "EaseOut", 
-        "text": "\u30a4\u30fc\u30ba\u30a2\u30a6\u30c8"
-    }, 
+        "source": "Ease Out",
+        "description": "",
+        "id": "EaseOut",
+        "text": "イーズアウト"
+    },
     {
-        "source": "Smooth Step", 
-        "description": "", 
-        "id": "SmoothStep", 
-        "text": "\u6ed1\u3089\u304b\u306a\u30b9\u30c6\u30c3\u30d7"
-    }, 
+        "source": "Smooth Step",
+        "description": "",
+        "id": "SmoothStep",
+        "text": "滑らかなステップ"
+    },
     {
-        "source": "Sine", 
-        "description": "", 
-        "id": "Sine", 
-        "text": "\u305d\u308c\u306e"
-    }, 
+        "source": "Sine",
+        "description": "",
+        "id": "Sine",
+        "text": "それの"
+    },
     {
-        "source": "Error finding the change notification for", 
-        "description": "", 
-        "id": "Error finding the change notification for", 
-        "text": "\u306e\u5909\u66f4\u901a\u77e5\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093"
-    }, 
+        "source": "Error finding the change notification for",
+        "description": "",
+        "id": "Error finding the change notification for",
+        "text": "の変更通知が見つかりません"
+    },
     {
-        "source": "Error watching the directory", 
-        "description": "", 
-        "id": "Error watching the directory", 
-        "text": "\u30c7\u30a3\u30ec\u30af\u30c8\u30ea\u306e\u76e3\u8996\u30a8\u30e9\u30fc"
-    }, 
+        "source": "Error watching the directory",
+        "description": "",
+        "id": "Error watching the directory",
+        "text": "ディレクトリの監視エラー"
+    },
     {
-        "source": "Amargosa Canyon Speckled Dace", 
-        "description": "", 
-        "id": "Amargosa Canyon Speckled Dace", 
-        "text": "\u30a2\u30de\u30fc\u30b4\u30b5\u30ad\u30e3\u30cb\u30aa\u30f3\u6591\u5165\u308a\u306e\u30c0\u30a4\u30b9"
-    }, 
+        "source": "Amargosa Canyon Speckled Dace",
+        "description": "",
+        "id": "Amargosa Canyon Speckled Dace",
+        "text": "アマーゴサキャニオン斑入りのダイス"
+    },
     {
-        "source": "Amargosa River Pupfish", 
-        "description": "", 
-        "id": "Amargosa River Pupfish", 
-        "text": "\u30a2\u30de\u30eb\u30b4\u30b5\u5ddd\u306e\u5b50\u72ac"
-    }, 
+        "source": "Amargosa River Pupfish",
+        "description": "",
+        "id": "Amargosa River Pupfish",
+        "text": "アマルゴサ川の子犬"
+    },
     {
-        "source": "American Shad", 
-        "description": "", 
-        "id": "American Shad", 
-        "text": "\u30a2\u30e1\u30ea\u30ab\u30f3\u30b7\u30e3\u30c3\u30c9"
-    }, 
+        "source": "American Shad",
+        "description": "",
+        "id": "American Shad",
+        "text": "アメリカンシャッド"
+    },
     {
-        "source": "Arroyo Chub", 
-        "description": "", 
-        "id": "Arroyo Chub", 
-        "text": "\u30a2\u30ed\u30e8\u30c1\u30e3\u30d6"
-    }, 
+        "source": "Arroyo Chub",
+        "description": "",
+        "id": "Arroyo Chub",
+        "text": "アロヨチャブ"
+    },
     {
-        "source": "Bigeye Marbled Sculpin", 
-        "description": "", 
-        "id": "Bigeye Marbled Sculpin", 
+        "source": "Bigeye Marbled Sculpin",
+        "description": "",
+        "id": "Bigeye Marbled Sculpin",
         "text": "Bigeye Marbled Sculpin"
-    }, 
+    },
     {
-        "source": "Bigscale Logperch", 
-        "description": "", 
-        "id": "Bigscale Logperch", 
-        "text": "\u30d3\u30c3\u30b0\u30b9\u30b1\u30fc\u30ebLogperch"
-    }, 
+        "source": "Bigscale Logperch",
+        "description": "",
+        "id": "Bigscale Logperch",
+        "text": "ビッグスケールLogperch"
+    },
     {
-        "source": "Black Bullhead", 
-        "description": "", 
-        "id": "Black Bullhead", 
-        "text": "\u30d6\u30e9\u30c3\u30af\u30d6\u30eb\u30d8\u30c3\u30c9"
-    }, 
+        "source": "Black Bullhead",
+        "description": "",
+        "id": "Black Bullhead",
+        "text": "ブラックブルヘッド"
+    },
     {
-        "source": "Black Crappie", 
-        "description": "", 
-        "id": "Black Crappie", 
-        "text": "\u30d6\u30e9\u30c3\u30af\u30af\u30e9\u30c3\u30d4\u30fc"
-    }, 
+        "source": "Black Crappie",
+        "description": "",
+        "id": "Black Crappie",
+        "text": "ブラッククラッピー"
+    },
     {
-        "source": "Blue Catfish", 
-        "description": "", 
-        "id": "Blue Catfish", 
-        "text": "\u9752\u3044\u30ca\u30de\u30ba"
-    }, 
+        "source": "Blue Catfish",
+        "description": "",
+        "id": "Blue Catfish",
+        "text": "青いナマズ"
+    },
     {
-        "source": "Blue Chub", 
-        "description": "", 
-        "id": "Blue Chub", 
-        "text": "\u30d6\u30eb\u30fc\u30c1\u30e3\u30d6"
-    }, 
+        "source": "Blue Chub",
+        "description": "",
+        "id": "Blue Chub",
+        "text": "ブルーチャブ"
+    },
     {
-        "source": "Bluefin Killifish", 
-        "description": "", 
-        "id": "Bluefin Killifish", 
-        "text": "\u30af\u30ed\u30de\u30b0\u30ed\u30ad\u30ea\u30d5\u30a3\u30c3\u30b7\u30e5"
-    }, 
+        "source": "Bluefin Killifish",
+        "description": "",
+        "id": "Bluefin Killifish",
+        "text": "クロマグロキリフィッシュ"
+    },
     {
-        "source": "Bluegill", 
-        "description": "", 
-        "id": "Bluegill", 
-        "text": "\u30d6\u30eb\u30fc\u30ae\u30eb"
-    }, 
+        "source": "Bluegill",
+        "description": "",
+        "id": "Bluegill",
+        "text": "ブルーギル"
+    },
     {
-        "source": "Lepomis macrochirus", 
-        "description": "", 
-        "id": "Lepomis macrochirus", 
-        "text": "\u30ec\u30dd\u30df\u30b9\u30de\u30af\u30ed\u30a6\u30a4\u30eb\u30b9"
-    }, 
+        "source": "Lepomis macrochirus",
+        "description": "",
+        "id": "Lepomis macrochirus",
+        "text": "レポミスマクロウイルス"
+    },
     {
-        "source": "Bonytail", 
-        "description": "", 
-        "id": "Bonytail", 
-        "text": "\u30dc\u30cb\u30c6\u30fc\u30eb"
-    }, 
+        "source": "Bonytail",
+        "description": "",
+        "id": "Bonytail",
+        "text": "ボニテール"
+    },
     {
-        "source": "Brook Stickleback", 
-        "description": "", 
-        "id": "Brook Stickleback", 
-        "text": "\u30d6\u30eb\u30c3\u30af\u30b9\u30c6\u30a3\u30c3\u30af\u30d0\u30c3\u30af"
-    }, 
+        "source": "Brook Stickleback",
+        "description": "",
+        "id": "Brook Stickleback",
+        "text": "ブルックスティックバック"
+    },
     {
-        "source": "Brook Trout", 
-        "description": "", 
-        "id": "Brook Trout", 
-        "text": "\u30d6\u30eb\u30c3\u30af\u30c8\u30e9\u30a6\u30c8"
-    }, 
+        "source": "Brook Trout",
+        "description": "",
+        "id": "Brook Trout",
+        "text": "ブルックトラウト"
+    },
     {
-        "source": "Brown Bullhead", 
-        "description": "", 
-        "id": "Brown Bullhead", 
-        "text": "\u30d6\u30e9\u30a6\u30f3\u30d6\u30eb\u30d8\u30c3\u30c9"
-    }, 
+        "source": "Brown Bullhead",
+        "description": "",
+        "id": "Brown Bullhead",
+        "text": "ブラウンブルヘッド"
+    },
     {
-        "source": "Brown Trout", 
-        "description": "", 
-        "id": "Brown Trout", 
-        "text": "\u30d6\u30e9\u30a6\u30f3\u30c8\u30e9\u30a6\u30c8"
-    }, 
+        "source": "Brown Trout",
+        "description": "",
+        "id": "Brown Trout",
+        "text": "ブラウントラウト"
+    },
     {
-        "source": "Bull Trout", 
-        "description": "", 
-        "id": "Bull Trout", 
-        "text": "\u30d6\u30eb\u30c8\u30e9\u30a6\u30c8"
-    }, 
+        "source": "Bull Trout",
+        "description": "",
+        "id": "Bull Trout",
+        "text": "ブルトラウト"
+    },
     {
-        "source": "California Coast Fall Chinook Salmon", 
-        "description": "", 
-        "id": "California Coast Fall Chinook Salmon", 
-        "text": "\u30ab\u30ea\u30d5\u30a9\u30eb\u30cb\u30a2\u30b3\u30fc\u30b9\u30c8\u30d5\u30a9\u30fc\u30eb\u30c1\u30cc\u30fc\u30af\u30b5\u30fc\u30e2\u30f3"
-    }, 
+        "source": "California Coast Fall Chinook Salmon",
+        "description": "",
+        "id": "California Coast Fall Chinook Salmon",
+        "text": "カリフォルニアコーストフォールチヌークサーモン"
+    },
     {
-        "source": "California Golden Trout", 
-        "description": "", 
-        "id": "California Golden Trout", 
-        "text": "\u30ab\u30ea\u30d5\u30a9\u30eb\u30cb\u30a2\u30b4\u30fc\u30eb\u30c7\u30f3\u30c8\u30e9\u30a6\u30c8"
-    }, 
+        "source": "California Golden Trout",
+        "description": "",
+        "id": "California Golden Trout",
+        "text": "カリフォルニアゴールデントラウト"
+    },
     {
-        "source": "California Killifish", 
-        "description": "", 
-        "id": "California Killifish", 
-        "text": "\u30ab\u30ea\u30d5\u30a9\u30eb\u30cb\u30a2\u30ad\u30ea\u30d5\u30a3\u30c3\u30b7\u30e5"
-    }, 
+        "source": "California Killifish",
+        "description": "",
+        "id": "California Killifish",
+        "text": "カリフォルニアキリフィッシュ"
+    },
     {
-        "source": "California Tilapia", 
-        "description": "", 
-        "id": "California Tilapia", 
-        "text": "\u30ab\u30ea\u30d5\u30a9\u30eb\u30cb\u30a2\u30c6\u30a3\u30e9\u30d4\u30a2"
-    }, 
+        "source": "California Tilapia",
+        "description": "",
+        "id": "California Tilapia",
+        "text": "カリフォルニアティラピア"
+    },
     {
-        "source": "Central California Coast Winter Steelhead", 
-        "description": "", 
-        "id": "Central California Coast Winter Steelhead", 
-        "text": "\u30bb\u30f3\u30c8\u30e9\u30eb\u30ab\u30ea\u30d5\u30a9\u30eb\u30cb\u30a2\u30b3\u30fc\u30b9\u30c8\u30a6\u30a3\u30f3\u30bf\u30fc\u30b9\u30c1\u30fc\u30eb\u30d8\u30c3\u30c9"
-    }, 
+        "source": "Central California Coast Winter Steelhead",
+        "description": "",
+        "id": "Central California Coast Winter Steelhead",
+        "text": "セントラルカリフォルニアコーストウィンタースチールヘッド"
+    },
     {
-        "source": "Central California Roach", 
-        "description": "", 
-        "id": "Central California Roach", 
-        "text": "\u30bb\u30f3\u30c8\u30e9\u30eb\u30ab\u30ea\u30d5\u30a9\u30eb\u30cb\u30a2\u30b4\u30ad\u30d6\u30ea"
-    }, 
+        "source": "Central California Roach",
+        "description": "",
+        "id": "Central California Roach",
+        "text": "セントラルカリフォルニアゴキブリ"
+    },
     {
-        "source": "Central Coast Coho Salmon", 
-        "description": "", 
-        "id": "Central Coast Coho Salmon", 
-        "text": "\u30bb\u30f3\u30c8\u30e9\u30eb\u30b3\u30fc\u30b9\u30c8\u30b3\u30fc\u30db\u30fc\u30b5\u30fc\u30e2\u30f3"
-    }, 
+        "source": "Central Coast Coho Salmon",
+        "description": "",
+        "id": "Central Coast Coho Salmon",
+        "text": "セントラルコーストコーホーサーモン"
+    },
     {
-        "source": "Central Valley Fall Chinook Salmon", 
-        "description": "", 
-        "id": "Central Valley Fall Chinook Salmon", 
-        "text": "\u30bb\u30f3\u30c8\u30e9\u30eb\u30d0\u30ec\u30fc\u79cb\u30c1\u30cc\u30fc\u30af\u30b5\u30fc\u30e2\u30f3"
-    }, 
+        "source": "Central Valley Fall Chinook Salmon",
+        "description": "",
+        "id": "Central Valley Fall Chinook Salmon",
+        "text": "セントラルバレー秋チヌークサーモン"
+    },
     {
-        "source": "Central Valley late Fall Chinook Salmon", 
-        "description": "", 
-        "id": "Central Valley late Fall Chinook Salmon", 
-        "text": "\u30bb\u30f3\u30c8\u30e9\u30eb\u30d0\u30ec\u30fc\u6669\u79cb\u30c1\u30cc\u30fc\u30af\u30b5\u30fc\u30e2\u30f3"
-    }, 
+        "source": "Central Valley late Fall Chinook Salmon",
+        "description": "",
+        "id": "Central Valley late Fall Chinook Salmon",
+        "text": "セントラルバレー晩秋チヌークサーモン"
+    },
     {
-        "source": "Oncorhynchus tshawytscha", 
-        "description": "", 
-        "id": "Oncorhynchus tshawytscha", 
+        "source": "Oncorhynchus tshawytscha",
+        "description": "",
+        "id": "Oncorhynchus tshawytscha",
         "text": "Oncorhynchus tshawytscha"
-    }, 
+    },
     {
-        "source": "Central Valley spring Chinook Salmon", 
-        "description": "", 
-        "id": "Central Valley spring Chinook Salmon", 
-        "text": "\u30bb\u30f3\u30c8\u30e9\u30eb\u30d0\u30ec\u30fc\u6625\u30c1\u30cc\u30fc\u30af\u30b5\u30fc\u30e2\u30f3"
-    }, 
+        "source": "Central Valley spring Chinook Salmon",
+        "description": "",
+        "id": "Central Valley spring Chinook Salmon",
+        "text": "セントラルバレー春チヌークサーモン"
+    },
     {
-        "source": "Central Valley Steelhead", 
-        "description": "", 
-        "id": "Central Valley Steelhead", 
-        "text": "\u30bb\u30f3\u30c8\u30e9\u30eb\u30d0\u30ec\u30fc\u30b9\u30c1\u30fc\u30eb\u30d8\u30c3\u30c9"
-    }, 
+        "source": "Central Valley Steelhead",
+        "description": "",
+        "id": "Central Valley Steelhead",
+        "text": "セントラルバレースチールヘッド"
+    },
     {
-        "source": "Central Valley Winter Chinook Salmon", 
-        "description": "", 
-        "id": "Central Valley Winter Chinook Salmon", 
-        "text": "\u30bb\u30f3\u30c8\u30e9\u30eb\u30d0\u30ec\u30fc\u30a6\u30a3\u30f3\u30bf\u30fc\u30c1\u30cc\u30fc\u30af\u30b5\u30fc\u30e2\u30f3"
-    }, 
+        "source": "Central Valley Winter Chinook Salmon",
+        "description": "",
+        "id": "Central Valley Winter Chinook Salmon",
+        "text": "セントラルバレーウィンターチヌークサーモン"
+    },
     {
-        "source": "Channel Catfish", 
-        "description": "", 
-        "id": "Channel Catfish", 
-        "text": "\u30c1\u30e3\u30f3\u30cd\u30eb\u30ca\u30de\u30ba"
-    }, 
+        "source": "Channel Catfish",
+        "description": "",
+        "id": "Channel Catfish",
+        "text": "チャンネルナマズ"
+    },
     {
-        "source": "Chum Salmon", 
-        "description": "", 
-        "id": "Chum Salmon", 
-        "text": "\u30c1\u30e3\u30e0\u30b5\u30fc\u30e2\u30f3"
-    }, 
+        "source": "Chum Salmon",
+        "description": "",
+        "id": "Chum Salmon",
+        "text": "チャムサーモン"
+    },
     {
-        "source": "Clear Lake Hitch", 
-        "description": "", 
-        "id": "Clear Lake Hitch", 
-        "text": "\u30af\u30ea\u30a2\u30ec\u30a4\u30af\u30d2\u30c3\u30c1"
-    }, 
+        "source": "Clear Lake Hitch",
+        "description": "",
+        "id": "Clear Lake Hitch",
+        "text": "クリアレイクヒッチ"
+    },
     {
-        "source": "Clear Lake Prickly Sculpin", 
-        "description": "", 
-        "id": "Clear Lake Prickly Sculpin", 
-        "text": "\u30af\u30ea\u30a2\u30ec\u30a4\u30af\u30a6\u30c1\u30ef\u30b5\u30dc\u30c6\u30f3"
-    }, 
+        "source": "Clear Lake Prickly Sculpin",
+        "description": "",
+        "id": "Clear Lake Prickly Sculpin",
+        "text": "クリアレイクウチワサボテン"
+    },
     {
-        "source": "Clear Lake Roach", 
-        "description": "", 
-        "id": "Clear Lake Roach", 
-        "text": "\u30af\u30ea\u30a2\u30ec\u30a4\u30af\u30ed\u30fc\u30c1"
-    }, 
+        "source": "Clear Lake Roach",
+        "description": "",
+        "id": "Clear Lake Roach",
+        "text": "クリアレイクローチ"
+    },
     {
-        "source": "Clear Lake Splittail", 
-        "description": "", 
-        "id": "Clear Lake Splittail", 
-        "text": "\u30af\u30ea\u30a2\u30ec\u30a4\u30af\u30b9\u30d7\u30ea\u30c3\u30c8\u30c6\u30a4\u30eb"
-    }, 
+        "source": "Clear Lake Splittail",
+        "description": "",
+        "id": "Clear Lake Splittail",
+        "text": "クリアレイクスプリットテイル"
+    },
     {
-        "source": "Clear Lake Tule Perch", 
-        "description": "", 
-        "id": "Clear Lake Tule Perch", 
-        "text": "\u30af\u30ea\u30a2\u30ec\u30a4\u30af\u30c1\u30e5\u30fc\u30eb\u30d1\u30fc\u30c1"
-    }, 
+        "source": "Clear Lake Tule Perch",
+        "description": "",
+        "id": "Clear Lake Tule Perch",
+        "text": "クリアレイクチュールパーチ"
+    },
     {
-        "source": "Coastal Cutthroat Trout", 
-        "description": "", 
-        "id": "Coastal Cutthroat Trout", 
-        "text": "\u6cbf\u5cb8\u30ab\u30c3\u30c8\u30b9\u30ed\u30fc\u30c8\u30de\u30b9"
-    }, 
+        "source": "Coastal Cutthroat Trout",
+        "description": "",
+        "id": "Coastal Cutthroat Trout",
+        "text": "沿岸カットスロートマス"
+    },
     {
-        "source": "Coastal Rainbow Trout", 
-        "description": "", 
-        "id": "Coastal Rainbow Trout", 
-        "text": "\u6cbf\u5cb8\u306e\u30cb\u30b8\u30de\u30b9"
-    }, 
+        "source": "Coastal Rainbow Trout",
+        "description": "",
+        "id": "Coastal Rainbow Trout",
+        "text": "沿岸のニジマス"
+    },
     {
-        "source": "Coastal Threespine Stickleback", 
-        "description": "", 
-        "id": "Coastal Threespine Stickleback", 
-        "text": "\u30b3\u30fc\u30b9\u30bf\u30eb\u30b9\u30ea\u30fc\u30b9\u30d1\u30a4\u30f3\u30b9\u30c6\u30a3\u30c3\u30af\u30d0\u30c3\u30af"
-    }, 
+        "source": "Coastal Threespine Stickleback",
+        "description": "",
+        "id": "Coastal Threespine Stickleback",
+        "text": "コースタルスリースパインスティックバック"
+    },
     {
-        "source": "Coastrange Sculpin", 
-        "description": "", 
-        "id": "Coastrange Sculpin", 
-        "text": "\u6cbf\u5cb8\u30b9\u30ab\u30eb\u30d4\u30f3"
-    }, 
+        "source": "Coastrange Sculpin",
+        "description": "",
+        "id": "Coastrange Sculpin",
+        "text": "沿岸スカルピン"
+    },
     {
-        "source": "Colorado Pikeminnow", 
-        "description": "", 
-        "id": "Colorado Pikeminnow", 
-        "text": "\u30b3\u30ed\u30e9\u30c9\u30d1\u30a4\u30af\u30df\u30ce\u30fc"
-    }, 
+        "source": "Colorado Pikeminnow",
+        "description": "",
+        "id": "Colorado Pikeminnow",
+        "text": "コロラドパイクミノー"
+    },
     {
-        "source": "Colorado River Cutthroat Trout", 
-        "description": "", 
-        "id": "Colorado River Cutthroat Trout", 
-        "text": "\u30b3\u30ed\u30e9\u30c9\u5ddd\u30ab\u30c3\u30c8\u30b9\u30ed\u30fc\u30c8\u30de\u30b9"
-    }, 
+        "source": "Colorado River Cutthroat Trout",
+        "description": "",
+        "id": "Colorado River Cutthroat Trout",
+        "text": "コロラド川カットスロートマス"
+    },
     {
-        "source": "Common Carp", 
-        "description": "", 
-        "id": "Common Carp", 
-        "text": "\u30b3\u30a4"
-    }, 
+        "source": "Common Carp",
+        "description": "",
+        "id": "Common Carp",
+        "text": "コイ"
+    },
     {
-        "source": "Cottonball Marsh Pupfish", 
-        "description": "", 
-        "id": "Cottonball Marsh Pupfish", 
-        "text": "\u30b3\u30c3\u30c8\u30f3\u30dc\u30fc\u30eb\u30de\u30fc\u30b7\u30e5\u30d1\u30d7\u30ea"
-    }, 
+        "source": "Cottonball Marsh Pupfish",
+        "description": "",
+        "id": "Cottonball Marsh Pupfish",
+        "text": "コットンボールマーシュパプリ"
+    },
     {
-        "source": "Cow Head Tui Chub", 
-        "description": "", 
-        "id": "Cow Head Tui Chub", 
-        "text": "\u30ab\u30a6\u30d8\u30c3\u30c9\u30c8\u30a5\u30a4\u30c1\u30e3\u30d6"
-    }, 
+        "source": "Cow Head Tui Chub",
+        "description": "",
+        "id": "Cow Head Tui Chub",
+        "text": "カウヘッドトゥイチャブ"
+    },
     {
-        "source": "Delta Smelt", 
-        "description": "", 
-        "id": "Delta Smelt", 
-        "text": "\u30c7\u30eb\u30bf\u30e1\u30eb\u30c8"
-    }, 
+        "source": "Delta Smelt",
+        "description": "",
+        "id": "Delta Smelt",
+        "text": "デルタメルト"
+    },
     {
-        "source": "Desert Pupfish", 
-        "description": "", 
-        "id": "Desert Pupfish", 
-        "text": "\u7802\u6f20\u306e\u30d5\u30b0"
-    }, 
+        "source": "Desert Pupfish",
+        "description": "",
+        "id": "Desert Pupfish",
+        "text": "砂漠のフグ"
+    },
     {
-        "source": "Eagle Lake Rainbow Trout", 
-        "description": "", 
-        "id": "Eagle Lake Rainbow Trout", 
-        "text": "\u30a4\u30fc\u30b0\u30eb\u30ec\u30a4\u30af\u30cb\u30b8\u30de\u30b9"
-    }, 
+        "source": "Eagle Lake Rainbow Trout",
+        "description": "",
+        "id": "Eagle Lake Rainbow Trout",
+        "text": "イーグルレイクニジマス"
+    },
     {
-        "source": "Eagle Lake Tui Chub", 
-        "description": "", 
-        "id": "Eagle Lake Tui Chub", 
-        "text": "\u30a4\u30fc\u30b0\u30eb\u30ec\u30a4\u30af\u30c8\u30a5\u30a4\u30c1\u30e3\u30d6"
-    }, 
+        "source": "Eagle Lake Tui Chub",
+        "description": "",
+        "id": "Eagle Lake Tui Chub",
+        "text": "イーグルレイクトゥイチャブ"
+    },
     {
-        "source": "Eulachon", 
-        "description": "", 
-        "id": "Eulachon", 
-        "text": "\u30a8\u30a6\u30e9\u30c1\u30e7\u30f3"
-    }, 
+        "source": "Eulachon",
+        "description": "",
+        "id": "Eulachon",
+        "text": "エウラチョン"
+    },
     {
-        "source": "Fathead Minnow", 
-        "description": "", 
-        "id": "Fathead Minnow", 
-        "text": "\u30d5\u30a1\u30c3\u30c8\u30d8\u30c3\u30c9\u30df\u30ce\u30fc"
-    }, 
+        "source": "Fathead Minnow",
+        "description": "",
+        "id": "Fathead Minnow",
+        "text": "ファットヘッドミノー"
+    },
     {
-        "source": "Flannelmouth Sucker", 
-        "description": "", 
-        "id": "Flannelmouth Sucker", 
-        "text": "\u30d5\u30e9\u30f3\u30cd\u30eb\u30de\u30a6\u30b9\u30b5\u30c3\u30ab\u30fc"
-    }, 
+        "source": "Flannelmouth Sucker",
+        "description": "",
+        "id": "Flannelmouth Sucker",
+        "text": "フランネルマウスサッカー"
+    },
     {
-        "source": "Flathead Catfish", 
-        "description": "", 
-        "id": "Flathead Catfish", 
-        "text": "\u30ca\u30de\u30ba"
-    }, 
+        "source": "Flathead Catfish",
+        "description": "",
+        "id": "Flathead Catfish",
+        "text": "ナマズ"
+    },
     {
-        "source": "Golden Shiner", 
-        "description": "", 
-        "id": "Golden Shiner", 
-        "text": "\u30b4\u30fc\u30eb\u30c7\u30f3\u30b7\u30e3\u30a4\u30ca\u30fc"
-    }, 
+        "source": "Golden Shiner",
+        "description": "",
+        "id": "Golden Shiner",
+        "text": "ゴールデンシャイナー"
+    },
     {
-        "source": "Goldfish", 
-        "description": "", 
-        "id": "Goldfish", 
-        "text": "\u91d1\u9b5a"
-    }, 
+        "source": "Goldfish",
+        "description": "",
+        "id": "Goldfish",
+        "text": "金魚"
+    },
     {
-        "source": "Goose Lake Lamprey", 
-        "description": "", 
-        "id": "Goose Lake Lamprey", 
-        "text": "\u30ac\u30c1\u30e7\u30a6\u6e56Lamprey"
-    }, 
+        "source": "Goose Lake Lamprey",
+        "description": "",
+        "id": "Goose Lake Lamprey",
+        "text": "ガチョウ湖Lamprey"
+    },
     {
-        "source": "Goose Lake Redband Trout", 
-        "description": "", 
-        "id": "Goose Lake Redband Trout", 
-        "text": "\u30b0\u30fc\u30b9\u30ec\u30a4\u30af\u30ec\u30c3\u30c9\u30d0\u30f3\u30c9\u30c8\u30e9\u30a6\u30c8"
-    }, 
+        "source": "Goose Lake Redband Trout",
+        "description": "",
+        "id": "Goose Lake Redband Trout",
+        "text": "グースレイクレッドバンドトラウト"
+    },
     {
-        "source": "Goose Lake Sucker", 
-        "description": "", 
-        "id": "Goose Lake Sucker", 
-        "text": "\u30b0\u30fc\u30b9\u30ec\u30a4\u30af\u5438\u76e4"
-    }, 
+        "source": "Goose Lake Sucker",
+        "description": "",
+        "id": "Goose Lake Sucker",
+        "text": "グースレイク吸盤"
+    },
     {
-        "source": "Goose Lake Tui Chub", 
-        "description": "", 
-        "id": "Goose Lake Tui Chub", 
-        "text": "\u30b0\u30fc\u30b9\u30ec\u30a4\u30af\u30c8\u30a5\u30a4\u30c1\u30e3\u30d6"
-    }, 
+        "source": "Goose Lake Tui Chub",
+        "description": "",
+        "id": "Goose Lake Tui Chub",
+        "text": "グースレイクトゥイチャブ"
+    },
     {
-        "source": "Grass Carp", 
-        "description": "", 
-        "id": "Grass Carp", 
-        "text": "\u30b0\u30e9\u30b9\u30b3\u30a4"
-    }, 
+        "source": "Grass Carp",
+        "description": "",
+        "id": "Grass Carp",
+        "text": "グラスコイ"
+    },
     {
-        "source": "Green Sunfish", 
-        "description": "", 
-        "id": "Green Sunfish", 
-        "text": "\u30b0\u30ea\u30fc\u30f3\u30b5\u30f3\u30d5\u30a3\u30c3\u30b7\u30e5"
-    }, 
+        "source": "Green Sunfish",
+        "description": "",
+        "id": "Green Sunfish",
+        "text": "グリーンサンフィッシュ"
+    },
     {
-        "source": "Gualala Roach", 
-        "description": "", 
-        "id": "Gualala Roach", 
-        "text": "\u30b0\u30a2\u30e9\u30e9\u30ed\u30fc\u30c1"
-    }, 
+        "source": "Gualala Roach",
+        "description": "",
+        "id": "Gualala Roach",
+        "text": "グアララローチ"
+    },
     {
-        "source": "Hardhead", 
-        "description": "", 
-        "id": "Hardhead", 
-        "text": "\u30cf\u30fc\u30c9\u30d8\u30c3\u30c9"
-    }, 
+        "source": "Hardhead",
+        "description": "",
+        "id": "Hardhead",
+        "text": "ハードヘッド"
+    },
     {
-        "source": "High Rock Springs Tui Chub", 
-        "description": "", 
-        "id": "High Rock Springs Tui Chub", 
-        "text": "\u30cf\u30a4\u30ed\u30c3\u30af\u30b9\u30d7\u30ea\u30f3\u30b0\u30b9\u30c8\u30a5\u30a4\u30c1\u30e3\u30d6"
-    }, 
+        "source": "High Rock Springs Tui Chub",
+        "description": "",
+        "id": "High Rock Springs Tui Chub",
+        "text": "ハイロックスプリングストゥイチャブ"
+    },
     {
-        "source": "Humboldt Sucker", 
-        "description": "", 
-        "id": "Humboldt Sucker", 
-        "text": "\u30d5\u30f3\u30dc\u30eb\u30c8\u30b5\u30c3\u30ab\u30fc"
-    }, 
+        "source": "Humboldt Sucker",
+        "description": "",
+        "id": "Humboldt Sucker",
+        "text": "フンボルトサッカー"
+    },
     {
-        "source": "Inland Threespine Stickleback", 
-        "description": "", 
-        "id": "Inland Threespine Stickleback", 
-        "text": "\u30a4\u30f3\u30e9\u30f3\u30c9\u30b9\u30ea\u30fc\u30b9\u30d1\u30a4\u30f3Stickleback"
-    }, 
+        "source": "Inland Threespine Stickleback",
+        "description": "",
+        "id": "Inland Threespine Stickleback",
+        "text": "インランドスリースパインStickleback"
+    },
     {
-        "source": "Kern Brook Lamprey", 
-        "description": "", 
-        "id": "Kern Brook Lamprey", 
-        "text": "\u30ab\u30fc\u30f3\u30d6\u30eb\u30c3\u30af\u30e9\u30f3\u30d7\u30ea\u30fc"
-    }, 
+        "source": "Kern Brook Lamprey",
+        "description": "",
+        "id": "Kern Brook Lamprey",
+        "text": "カーンブルックランプリー"
+    },
     {
-        "source": "Kern River Rainbow Trout", 
-        "description": "", 
-        "id": "Kern River Rainbow Trout", 
-        "text": "\u30ab\u30fc\u30f3\u30ea\u30d0\u30fc\u30cb\u30b8\u30de\u30b9"
-    }, 
+        "source": "Kern River Rainbow Trout",
+        "description": "",
+        "id": "Kern River Rainbow Trout",
+        "text": "カーンリバーニジマス"
+    },
     {
-        "source": "Klamath Largescale Sucker", 
-        "description": "", 
-        "id": "Klamath Largescale Sucker", 
-        "text": "\u30af\u30e9\u30de\u30b9\u30e9\u30fc\u30b8\u30b9\u30b1\u30fc\u30eb\u30b5\u30c3\u30ab\u30fc"
-    }, 
+        "source": "Klamath Largescale Sucker",
+        "description": "",
+        "id": "Klamath Largescale Sucker",
+        "text": "クラマスラージスケールサッカー"
+    },
     {
-        "source": "Klamath Mountains Province Summer Steelhead", 
-        "description": "", 
-        "id": "Klamath Mountains Province Summer Steelhead", 
-        "text": "\u30af\u30e9\u30de\u30b9\u5c71\u8108\u770c\u30b5\u30de\u30fc\u30b9\u30c1\u30fc\u30eb\u30d8\u30c3\u30c9"
-    }, 
+        "source": "Klamath Mountains Province Summer Steelhead",
+        "description": "",
+        "id": "Klamath Mountains Province Summer Steelhead",
+        "text": "クラマス山脈県サマースチールヘッド"
+    },
     {
-        "source": "Klamath Mountains Province Winter Steelhead", 
-        "description": "", 
-        "id": "Klamath Mountains Province Winter Steelhead", 
-        "text": "\u30af\u30e9\u30de\u30b9\u5c71\u8108\u5dde\u306e\u51ac\u30b9\u30c6\u30a3\u30fc\u30eb\u30d8\u30c3\u30c9"
-    }, 
+        "source": "Klamath Mountains Province Winter Steelhead",
+        "description": "",
+        "id": "Klamath Mountains Province Winter Steelhead",
+        "text": "クラマス山脈州の冬スティールヘッド"
+    },
     {
-        "source": "Klamath River Lamprey", 
-        "description": "", 
-        "id": "Klamath River Lamprey", 
-        "text": "\u30af\u30e9\u30de\u30b9\u30ea\u30d0\u30fc\u30e9\u30f3\u30d7\u30ea\u30fc"
-    }, 
+        "source": "Klamath River Lamprey",
+        "description": "",
+        "id": "Klamath River Lamprey",
+        "text": "クラマスリバーランプリー"
+    },
     {
-        "source": "Klamath Smallscale Sucker", 
-        "description": "", 
-        "id": "Klamath Smallscale Sucker", 
-        "text": "\u30af\u30e9\u30de\u30b9\u30b9\u30e2\u30fc\u30eb\u30b5\u30c3\u30ab\u30fc"
-    }, 
+        "source": "Klamath Smallscale Sucker",
+        "description": "",
+        "id": "Klamath Smallscale Sucker",
+        "text": "クラマススモールサッカー"
+    },
     {
-        "source": "Klamath Speckled Dace", 
-        "description": "", 
-        "id": "Klamath Speckled Dace", 
-        "text": "\u30af\u30e9\u30de\u30b9\u30fb\u30b9\u30da\u30c3\u30af\u30eb\u30c9\u30fc\u30b9"
-    }, 
+        "source": "Klamath Speckled Dace",
+        "description": "",
+        "id": "Klamath Speckled Dace",
+        "text": "クラマス・スペックルドース"
+    },
     {
-        "source": "Klamath Tui Chub", 
-        "description": "", 
-        "id": "Klamath Tui Chub", 
-        "text": "\u30af\u30e9\u30de\u30b9\u30c8\u30a5\u30a4\u30c1\u30e3\u30d6"
-    }, 
+        "source": "Klamath Tui Chub",
+        "description": "",
+        "id": "Klamath Tui Chub",
+        "text": "クラマストゥイチャブ"
+    },
     {
-        "source": "Lahontan Cutthroat Trout", 
-        "description": "", 
-        "id": "Lahontan Cutthroat Trout", 
-        "text": "\u30e9\u30db\u30fc\u30f3\u30ab\u30c3\u30c8\u30b9\u30ed\u30fc\u30c8\u30de\u30b9"
-    }, 
+        "source": "Lahontan Cutthroat Trout",
+        "description": "",
+        "id": "Lahontan Cutthroat Trout",
+        "text": "ラホーンカットスロートマス"
+    },
     {
-        "source": "Lahontan Lake Tui Chub", 
-        "description": "", 
-        "id": "Lahontan Lake Tui Chub", 
-        "text": "\u30e9\u30db\u30fc\u30f3\u30bf\u30f3\u30c8\u30a5\u30a4\u30c1\u30e3\u30d6"
-    }, 
+        "source": "Lahontan Lake Tui Chub",
+        "description": "",
+        "id": "Lahontan Lake Tui Chub",
+        "text": "ラホーンタントゥイチャブ"
+    },
     {
-        "source": "Lahontan Mountain Sucker", 
-        "description": "", 
-        "id": "Lahontan Mountain Sucker", 
-        "text": "\u30e9\u30db\u30f3\u30bf\u30f3\u30de\u30a6\u30f3\u30c6\u30f3\u30b5\u30c3\u30ab\u30fc"
-    }, 
+        "source": "Lahontan Mountain Sucker",
+        "description": "",
+        "id": "Lahontan Mountain Sucker",
+        "text": "ラホンタンマウンテンサッカー"
+    },
     {
-        "source": "Lahontan Redside", 
-        "description": "", 
-        "id": "Lahontan Redside", 
-        "text": "\u30e9\u30db\u30f3\u30bf\u30f3\u30ec\u30c3\u30c9\u30b5\u30a4\u30c9"
-    }, 
+        "source": "Lahontan Redside",
+        "description": "",
+        "id": "Lahontan Redside",
+        "text": "ラホンタンレッドサイド"
+    },
     {
-        "source": "Lahontan Speckled Dace", 
-        "description": "", 
-        "id": "Lahontan Speckled Dace", 
-        "text": "\u30e9\u30db\u30f3\u30bf\u30f3\u6591\u70b9\u306e\u3042\u308b\u30c0\u30a4\u30b9"
-    }, 
+        "source": "Lahontan Speckled Dace",
+        "description": "",
+        "id": "Lahontan Speckled Dace",
+        "text": "ラホンタン斑点のあるダイス"
+    },
     {
-        "source": "Lahontan Stream Tui Chub", 
-        "description": "", 
-        "id": "Lahontan Stream Tui Chub", 
-        "text": "\u30e9\u30db\u30f3\u30bf\u30f3\u30b9\u30c8\u30ea\u30fc\u30e0\u30c8\u30a5\u30a4\u30c1\u30e3\u30d6"
-    }, 
+        "source": "Lahontan Stream Tui Chub",
+        "description": "",
+        "id": "Lahontan Stream Tui Chub",
+        "text": "ラホンタンストリームトゥイチャブ"
+    },
     {
-        "source": "Lake Trout", 
-        "description": "", 
-        "id": "Lake Trout", 
-        "text": "\u30ec\u30a4\u30af\u30c8\u30e9\u30a6\u30c8"
-    }, 
+        "source": "Lake Trout",
+        "description": "",
+        "id": "Lake Trout",
+        "text": "レイクトラウト"
+    },
     {
-        "source": "Largemouth Bass", 
-        "description": "", 
-        "id": "Largemouth Bass", 
-        "text": "\u30aa\u30aa\u30af\u30c1\u30d0\u30b9"
-    }, 
+        "source": "Largemouth Bass",
+        "description": "",
+        "id": "Largemouth Bass",
+        "text": "オオクチバス"
+    },
     {
-        "source": "Little Kern Golden Trout", 
-        "description": "", 
-        "id": "Little Kern Golden Trout", 
-        "text": "\u30ea\u30c8\u30eb\u30ab\u30fc\u30f3\u30b4\u30fc\u30eb\u30c7\u30f3\u30c8\u30e9\u30a6\u30c8"
-    }, 
+        "source": "Little Kern Golden Trout",
+        "description": "",
+        "id": "Little Kern Golden Trout",
+        "text": "リトルカーンゴールデントラウト"
+    },
     {
-        "source": "Long Valley Speckled Dace", 
-        "description": "", 
-        "id": "Long Valley Speckled Dace", 
-        "text": "\u30ed\u30f3\u30b0\u30d0\u30ec\u30fc\u306e\u6591\u70b9\u306e\u3042\u308b\u30c0\u30b9"
-    }, 
+        "source": "Long Valley Speckled Dace",
+        "description": "",
+        "id": "Long Valley Speckled Dace",
+        "text": "ロングバレーの斑点のあるダス"
+    },
     {
-        "source": "Longfin Smelt", 
-        "description": "", 
-        "id": "Longfin Smelt", 
+        "source": "Longfin Smelt",
+        "description": "",
+        "id": "Longfin Smelt",
         "text": "Longfin Smelt"
-    }, 
+    },
     {
-        "source": "Longjaw Mudsucker", 
-        "description": "", 
-        "id": "Longjaw Mudsucker", 
+        "source": "Longjaw Mudsucker",
+        "description": "",
+        "id": "Longjaw Mudsucker",
         "text": "Longjaw Mudsucker"
-    }, 
+    },
     {
-        "source": "Lost River Sucker", 
-        "description": "", 
-        "id": "Lost River Sucker", 
-        "text": "\u30ed\u30b9\u30c8\u30ea\u30d0\u30fc\u5438\u76e4"
-    }, 
+        "source": "Lost River Sucker",
+        "description": "",
+        "id": "Lost River Sucker",
+        "text": "ロストリバー吸盤"
+    },
     {
-        "source": "Lower Klamath Marbled Sculpin", 
-        "description": "", 
-        "id": "Lower Klamath Marbled Sculpin", 
-        "text": "\u30ed\u30fc\u30ef\u30fc\u30af\u30e9\u30de\u30b9\u30de\u30fc\u30d6\u30eb\u30c9\u30b9\u30ab\u30eb\u30d4\u30f3"
-    }, 
+        "source": "Lower Klamath Marbled Sculpin",
+        "description": "",
+        "id": "Lower Klamath Marbled Sculpin",
+        "text": "ローワークラマスマーブルドスカルピン"
+    },
     {
-        "source": "McCloud River Redband Trout", 
-        "description": "", 
-        "id": "McCloud River Redband Trout", 
+        "source": "McCloud River Redband Trout",
+        "description": "",
+        "id": "McCloud River Redband Trout",
         "text": "McCloud River Redband Trout"
-    }, 
+    },
     {
-        "source": "Mississippi Silversides", 
-        "description": "", 
-        "id": "Mississippi Silversides", 
-        "text": "\u30df\u30b7\u30b7\u30c3\u30d4\u30b7\u30eb\u30d0\u30fc\u30b5\u30a4\u30c9"
-    }, 
+        "source": "Mississippi Silversides",
+        "description": "",
+        "id": "Mississippi Silversides",
+        "text": "ミシシッピシルバーサイド"
+    },
     {
-        "source": "Modoc Sucker", 
-        "description": "", 
-        "id": "Modoc Sucker", 
-        "text": "\u30e2\u30c9\u30c3\u30af\u30b5\u30c3\u30ab\u30fc"
-    }, 
+        "source": "Modoc Sucker",
+        "description": "",
+        "id": "Modoc Sucker",
+        "text": "モドックサッカー"
+    },
     {
-        "source": "Mojave Tui Chub", 
-        "description": "", 
-        "id": "Mojave Tui Chub", 
-        "text": "\u30e2\u30cf\u30d9\u30c8\u30a5\u30a4\u30c1\u30e3\u30d6"
-    }, 
+        "source": "Mojave Tui Chub",
+        "description": "",
+        "id": "Mojave Tui Chub",
+        "text": "モハベトゥイチャブ"
+    },
     {
-        "source": "Monterey Hitch", 
-        "description": "", 
-        "id": "Monterey Hitch", 
-        "text": "\u30e2\u30f3\u30c8\u30ec\u30fc\u30d2\u30c3\u30c1"
-    }, 
+        "source": "Monterey Hitch",
+        "description": "",
+        "id": "Monterey Hitch",
+        "text": "モントレーヒッチ"
+    },
     {
-        "source": "Monterey Roach", 
-        "description": "", 
-        "id": "Monterey Roach", 
-        "text": "\u30e2\u30f3\u30c8\u30ec\u30fc\u30ed\u30fc\u30c1"
-    }, 
+        "source": "Monterey Roach",
+        "description": "",
+        "id": "Monterey Roach",
+        "text": "モントレーローチ"
+    },
     {
-        "source": "Monterey Sucker", 
-        "description": "", 
-        "id": "Monterey Sucker", 
-        "text": "\u30e2\u30f3\u30c8\u30ec\u30fc\u30b5\u30c3\u30ab\u30fc"
-    }, 
+        "source": "Monterey Sucker",
+        "description": "",
+        "id": "Monterey Sucker",
+        "text": "モントレーサッカー"
+    },
     {
-        "source": "Mountain Whitefish", 
-        "description": "", 
-        "id": "Mountain Whitefish", 
-        "text": "\u30de\u30a6\u30f3\u30c6\u30f3\u30db\u30ef\u30a4\u30c8\u30d5\u30a3\u30c3\u30b7\u30e5"
-    }, 
+        "source": "Mountain Whitefish",
+        "description": "",
+        "id": "Mountain Whitefish",
+        "text": "マウンテンホワイトフィッシュ"
+    },
     {
-        "source": "Navarro Roach", 
-        "description": "", 
-        "id": "Navarro Roach", 
-        "text": "\u30ca\u30d0\u30ed\u30ed\u30fc\u30c1"
-    }, 
+        "source": "Navarro Roach",
+        "description": "",
+        "id": "Navarro Roach",
+        "text": "ナバロローチ"
+    },
     {
-        "source": "Northern (Pit) Roach", 
-        "description": "", 
-        "id": "Northern (Pit) Roach", 
-        "text": "\u5317\u90e8\uff08\u30d4\u30c3\u30c8\uff09\u30b4\u30ad\u30d6\u30ea"
-    }, 
+        "source": "Northern (Pit) Roach",
+        "description": "",
+        "id": "Northern (Pit) Roach",
+        "text": "北部（ピット）ゴキブリ"
+    },
     {
-        "source": "Northern California Brook Lamprey", 
-        "description": "", 
-        "id": "Northern California Brook Lamprey", 
-        "text": "\u30ab\u30ea\u30d5\u30a9\u30eb\u30cb\u30a2\u5317\u90e8\u30d6\u30eb\u30c3\u30af\u30e9\u30f3\u30d7\u30ea"
-    }, 
+        "source": "Northern California Brook Lamprey",
+        "description": "",
+        "id": "Northern California Brook Lamprey",
+        "text": "カリフォルニア北部ブルックランプリ"
+    },
     {
-        "source": "Northern California Coast Summer Steelhead", 
-        "description": "", 
-        "id": "Northern California Coast Summer Steelhead", 
-        "text": "\u5317\u30ab\u30ea\u30d5\u30a9\u30eb\u30cb\u30a2\u30b3\u30fc\u30b9\u30c8\u30b5\u30de\u30fc\u30b9\u30c1\u30fc\u30eb\u30d8\u30c3\u30c9"
-    }, 
+        "source": "Northern California Coast Summer Steelhead",
+        "description": "",
+        "id": "Northern California Coast Summer Steelhead",
+        "text": "北カリフォルニアコーストサマースチールヘッド"
+    },
     {
-        "source": "Northern California Coast Winter Steelhead", 
-        "description": "", 
-        "id": "Northern California Coast Winter Steelhead", 
-        "text": "\u5317\u30ab\u30ea\u30d5\u30a9\u30eb\u30cb\u30a2\u30b3\u30fc\u30b9\u30c8\u30a6\u30a3\u30f3\u30bf\u30fc\u30b9\u30c1\u30fc\u30eb\u30d8\u30c3\u30c9"
-    }, 
+        "source": "Northern California Coast Winter Steelhead",
+        "description": "",
+        "id": "Northern California Coast Winter Steelhead",
+        "text": "北カリフォルニアコーストウィンタースチールヘッド"
+    },
     {
-        "source": "Northern Green Sturgeon", 
-        "description": "", 
-        "id": "Northern Green Sturgeon", 
-        "text": "\u30ce\u30fc\u30b6\u30f3\u30b0\u30ea\u30fc\u30f3\u30c1\u30e7\u30a6\u30b6\u30e1"
-    }, 
+        "source": "Northern Green Sturgeon",
+        "description": "",
+        "id": "Northern Green Sturgeon",
+        "text": "ノーザングリーンチョウザメ"
+    },
     {
-        "source": "Owens Pupfish", 
-        "description": "", 
-        "id": "Owens Pupfish", 
-        "text": "\u30aa\u30fc\u30a6\u30a7\u30f3\u30ba\u306e\u30d1\u30d7\u30ea"
-    }, 
+        "source": "Owens Pupfish",
+        "description": "",
+        "id": "Owens Pupfish",
+        "text": "オーウェンズのパプリ"
+    },
     {
-        "source": "Owens Speckled Dace", 
-        "description": "", 
-        "id": "Owens Speckled Dace", 
-        "text": "\u30aa\u30fc\u30a6\u30a7\u30f3\u30ba\u30b9\u30da\u30c3\u30af\u30eb\u30c9\u30fc\u30b9"
-    }, 
+        "source": "Owens Speckled Dace",
+        "description": "",
+        "id": "Owens Speckled Dace",
+        "text": "オーウェンズスペックルドース"
+    },
     {
-        "source": "Owens Sucker", 
-        "description": "", 
-        "id": "Owens Sucker", 
-        "text": "\u30aa\u30fc\u30a6\u30a7\u30f3\u30ba\u30b5\u30c3\u30ab\u30fc"
-    }, 
+        "source": "Owens Sucker",
+        "description": "",
+        "id": "Owens Sucker",
+        "text": "オーウェンズサッカー"
+    },
     {
-        "source": "Owens Tui Chub", 
-        "description": "", 
-        "id": "Owens Tui Chub", 
-        "text": "\u30aa\u30fc\u30a6\u30a7\u30f3\u30ba\u30c8\u30a5\u30a4\u30c1\u30e3\u30d6"
-    }, 
+        "source": "Owens Tui Chub",
+        "description": "",
+        "id": "Owens Tui Chub",
+        "text": "オーウェンズトゥイチャブ"
+    },
     {
-        "source": "Pacific Lamprey", 
-        "description": "", 
-        "id": "Pacific Lamprey", 
-        "text": "\u30d1\u30b7\u30d5\u30a3\u30c3\u30af\u30e9\u30f3\u30d7\u30ea\u30fc"
-    }, 
+        "source": "Pacific Lamprey",
+        "description": "",
+        "id": "Pacific Lamprey",
+        "text": "パシフィックランプリー"
+    },
     {
-        "source": "Paiute Cutthroat Trout", 
-        "description": "", 
-        "id": "Paiute Cutthroat Trout", 
-        "text": "\u30d1\u30a4\u30e6\u30fc\u30c8\u30ab\u30c3\u30c8\u30b9\u30ed\u30fc\u30c8\u30de\u30b9"
-    }, 
+        "source": "Paiute Cutthroat Trout",
+        "description": "",
+        "id": "Paiute Cutthroat Trout",
+        "text": "パイユートカットスロートマス"
+    },
     {
-        "source": "Paiute Sculpin", 
-        "description": "", 
-        "id": "Paiute Sculpin", 
-        "text": "\u30d1\u30a4\u30e6\u30fc\u30c8\u30b9\u30ab\u30eb\u30d4\u30f3"
-    }, 
+        "source": "Paiute Sculpin",
+        "description": "",
+        "id": "Paiute Sculpin",
+        "text": "パイユートスカルピン"
+    },
     {
-        "source": "Pink Salmon", 
-        "description": "", 
-        "id": "Pink Salmon", 
-        "text": "\u30d4\u30f3\u30af\u30b5\u30fc\u30e2\u30f3"
-    }, 
+        "source": "Pink Salmon",
+        "description": "",
+        "id": "Pink Salmon",
+        "text": "ピンクサーモン"
+    },
     {
-        "source": "Pit River Tui Chub", 
-        "description": "", 
-        "id": "Pit River Tui Chub", 
-        "text": "\u30d4\u30c3\u30c8\u30ea\u30d0\u30fc\u30c8\u30a5\u30a4\u30c1\u30e3\u30d6"
-    }, 
+        "source": "Pit River Tui Chub",
+        "description": "",
+        "id": "Pit River Tui Chub",
+        "text": "ピットリバートゥイチャブ"
+    },
     {
-        "source": "Pit Sculpin", 
-        "description": "", 
-        "id": "Pit Sculpin", 
-        "text": "\u30d4\u30c3\u30c8\u30b9\u30ab\u30eb\u30d4\u30f3"
-    }, 
+        "source": "Pit Sculpin",
+        "description": "",
+        "id": "Pit Sculpin",
+        "text": "ピットスカルピン"
+    },
     {
-        "source": "Pit-Klamath Brook Lamprey", 
-        "description": "", 
-        "id": "Pit-Klamath Brook Lamprey", 
-        "text": "\u30d4\u30c3\u30c8\u30af\u30e9\u30de\u30b9\u30d6\u30eb\u30c3\u30af\u30e9\u30f3\u30d7\u30ea\u30fc"
-    }, 
+        "source": "Pit-Klamath Brook Lamprey",
+        "description": "",
+        "id": "Pit-Klamath Brook Lamprey",
+        "text": "ピットクラマスブルックランプリー"
+    },
     {
-        "source": "Porthole Livebearer", 
-        "description": "", 
-        "id": "Porthole Livebearer", 
-        "text": "\u8237\u7a93\u30e9\u30a4\u30d6\u30d9\u30a2\u30e9"
-    }, 
+        "source": "Porthole Livebearer",
+        "description": "",
+        "id": "Porthole Livebearer",
+        "text": "舷窓ライブベアラ"
+    },
     {
-        "source": "Prickly Sculpin", 
-        "description": "", 
-        "id": "Prickly Sculpin", 
-        "text": "\u30a6\u30c1\u30ef\u30b5\u30dc\u30c6\u30f3"
-    }, 
+        "source": "Prickly Sculpin",
+        "description": "",
+        "id": "Prickly Sculpin",
+        "text": "ウチワサボテン"
+    },
     {
-        "source": "Pumpkinseed", 
-        "description": "", 
-        "id": "Pumpkinseed", 
-        "text": "\u304b\u307c\u3061\u3083\u306e\u5b9f"
-    }, 
+        "source": "Pumpkinseed",
+        "description": "",
+        "id": "Pumpkinseed",
+        "text": "かぼちゃの実"
+    },
     {
-        "source": "Rainwater Killifish", 
-        "description": "", 
-        "id": "Rainwater Killifish", 
-        "text": "\u96e8\u6c34\u30ad\u30ea\u30d5\u30a3\u30c3\u30b7\u30e5"
-    }, 
+        "source": "Rainwater Killifish",
+        "description": "",
+        "id": "Rainwater Killifish",
+        "text": "雨水キリフィッシュ"
+    },
     {
-        "source": "Razorback Sucker", 
-        "description": "", 
-        "id": "Razorback Sucker", 
-        "text": "\u30ec\u30a4\u30b6\u30fc\u30d0\u30c3\u30af\u30b5\u30c3\u30ab\u30fc"
-    }, 
+        "source": "Razorback Sucker",
+        "description": "",
+        "id": "Razorback Sucker",
+        "text": "レイザーバックサッカー"
+    },
     {
-        "source": "Red Hills Roach", 
-        "description": "", 
-        "id": "Red Hills Roach", 
-        "text": "\u30ec\u30c3\u30c9\u30d2\u30eb\u30ba\u30ed\u30fc\u30c1"
-    }, 
+        "source": "Red Hills Roach",
+        "description": "",
+        "id": "Red Hills Roach",
+        "text": "レッドヒルズローチ"
+    },
     {
-        "source": "Red Shiner", 
-        "description": "", 
-        "id": "Red Shiner", 
-        "text": "\u30ec\u30c3\u30c9\u30b7\u30e3\u30a4\u30ca\u30fc"
-    }, 
+        "source": "Red Shiner",
+        "description": "",
+        "id": "Red Shiner",
+        "text": "レッドシャイナー"
+    },
     {
-        "source": "Redear Sunfish", 
-        "description": "", 
-        "id": "Redear Sunfish", 
-        "text": "\u30b5\u30f3\u30d5\u30a3\u30c3\u30b7\u30e5"
-    }, 
+        "source": "Redear Sunfish",
+        "description": "",
+        "id": "Redear Sunfish",
+        "text": "サンフィッシュ"
+    },
     {
-        "source": "Redeye Bass", 
-        "description": "", 
-        "id": "Redeye Bass", 
-        "text": "\u8d64\u76ee\u30d9\u30fc\u30b9"
-    }, 
+        "source": "Redeye Bass",
+        "description": "",
+        "id": "Redeye Bass",
+        "text": "赤目ベース"
+    },
     {
-        "source": "Reticulate Sculpin", 
-        "description": "", 
-        "id": "Reticulate Sculpin", 
-        "text": "\u30b9\u30ab\u30eb\u30d4\u30f3\u7db2\u72b6"
-    }, 
+        "source": "Reticulate Sculpin",
+        "description": "",
+        "id": "Reticulate Sculpin",
+        "text": "スカルピン網状"
+    },
     {
-        "source": "Riffle Sculpin", 
-        "description": "", 
-        "id": "Riffle Sculpin", 
-        "text": "\u30ea\u30d5\u30eb\u30b9\u30ab\u30eb\u30d4\u30f3"
-    }, 
+        "source": "Riffle Sculpin",
+        "description": "",
+        "id": "Riffle Sculpin",
+        "text": "リフルスカルピン"
+    },
     {
-        "source": "River Lamprey", 
-        "description": "", 
-        "id": "River Lamprey", 
-        "text": "\u5dddLamprey"
-    }, 
+        "source": "River Lamprey",
+        "description": "",
+        "id": "River Lamprey",
+        "text": "川Lamprey"
+    },
     {
-        "source": "Rough Sculpin", 
-        "description": "", 
-        "id": "Rough Sculpin", 
-        "text": "\u30e9\u30d5\u30b9\u30ab\u30eb\u30d4\u30f3"
-    }, 
+        "source": "Rough Sculpin",
+        "description": "",
+        "id": "Rough Sculpin",
+        "text": "ラフスカルピン"
+    },
     {
-        "source": "Russian River Roach", 
-        "description": "", 
-        "id": "Russian River Roach", 
-        "text": "\u30ed\u30b7\u30a2\u30f3\u30ea\u30d0\u30fc\u30ed\u30fc\u30c1"
-    }, 
+        "source": "Russian River Roach",
+        "description": "",
+        "id": "Russian River Roach",
+        "text": "ロシアンリバーローチ"
+    },
     {
-        "source": "Russian River Tule Perch", 
-        "description": "", 
-        "id": "Russian River Tule Perch", 
-        "text": "\u30ed\u30b7\u30a2\u5ddd\u30c1\u30e5\u30fc\u30eb\u30d1\u30fc\u30c1"
-    }, 
+        "source": "Russian River Tule Perch",
+        "description": "",
+        "id": "Russian River Tule Perch",
+        "text": "ロシア川チュールパーチ"
+    },
     {
-        "source": "Sacramento Blackfish", 
-        "description": "", 
-        "id": "Sacramento Blackfish", 
-        "text": "\u30b5\u30af\u30e9\u30e1\u30f3\u30c8\u30d6\u30e9\u30c3\u30af\u30d5\u30a3\u30c3\u30b7\u30e5"
-    }, 
+        "source": "Sacramento Blackfish",
+        "description": "",
+        "id": "Sacramento Blackfish",
+        "text": "サクラメントブラックフィッシュ"
+    },
     {
-        "source": "Sacramento Hitch", 
-        "description": "", 
-        "id": "Sacramento Hitch", 
-        "text": "\u30b5\u30af\u30e9\u30e1\u30f3\u30c8\u30d2\u30c3\u30c1"
-    }, 
+        "source": "Sacramento Hitch",
+        "description": "",
+        "id": "Sacramento Hitch",
+        "text": "サクラメントヒッチ"
+    },
     {
-        "source": "Sacramento Perch", 
-        "description": "", 
-        "id": "Sacramento Perch", 
-        "text": "\u30b5\u30af\u30e9\u30e1\u30f3\u30c8\u30d1\u30fc\u30c1"
-    }, 
+        "source": "Sacramento Perch",
+        "description": "",
+        "id": "Sacramento Perch",
+        "text": "サクラメントパーチ"
+    },
     {
-        "source": "Sacramento Pikeminnow", 
-        "description": "", 
-        "id": "Sacramento Pikeminnow", 
-        "text": "\u30b5\u30af\u30e9\u30e1\u30f3\u30c8\u30d1\u30a4\u30af\u30df\u30ce\u30fc"
-    }, 
+        "source": "Sacramento Pikeminnow",
+        "description": "",
+        "id": "Sacramento Pikeminnow",
+        "text": "サクラメントパイクミノー"
+    },
     {
-        "source": "Sacramento Speckled Dace", 
-        "description": "", 
-        "id": "Sacramento Speckled Dace", 
-        "text": "\u30b5\u30af\u30e9\u30e1\u30f3\u30c8\u30b9\u30da\u30c3\u30af\u30eb\u30c9\u30fc\u30b9"
-    }, 
+        "source": "Sacramento Speckled Dace",
+        "description": "",
+        "id": "Sacramento Speckled Dace",
+        "text": "サクラメントスペックルドース"
+    },
     {
-        "source": "Sacramento Splittail", 
-        "description": "", 
-        "id": "Sacramento Splittail", 
-        "text": "\u30b5\u30af\u30e9\u30e1\u30f3\u30c8\u30b9\u30d7\u30ea\u30c3\u30c8\u30c6\u30a4\u30eb"
-    }, 
+        "source": "Sacramento Splittail",
+        "description": "",
+        "id": "Sacramento Splittail",
+        "text": "サクラメントスプリットテイル"
+    },
     {
-        "source": "Sacramento Sucker", 
-        "description": "", 
-        "id": "Sacramento Sucker", 
-        "text": "\u30b5\u30af\u30e9\u30e1\u30f3\u30c8\u5438\u76e4"
-    }, 
+        "source": "Sacramento Sucker",
+        "description": "",
+        "id": "Sacramento Sucker",
+        "text": "サクラメント吸盤"
+    },
     {
-        "source": "Sacramento Tule Perch", 
-        "description": "", 
-        "id": "Sacramento Tule Perch", 
-        "text": "\u30b5\u30af\u30e9\u30e1\u30f3\u30c8\u30c8\u30a5\u30fc\u30eb\u30d1\u30fc\u30c1"
-    }, 
+        "source": "Sacramento Tule Perch",
+        "description": "",
+        "id": "Sacramento Tule Perch",
+        "text": "サクラメントトゥールパーチ"
+    },
     {
-        "source": "Sailfin Molly", 
-        "description": "", 
-        "id": "Sailfin Molly", 
-        "text": "\u30bb\u30a4\u30eb\u30e2\u30ea\u30fc"
-    }, 
+        "source": "Sailfin Molly",
+        "description": "",
+        "id": "Sailfin Molly",
+        "text": "セイルモリー"
+    },
     {
-        "source": "Salt Creek Pupfish", 
-        "description": "", 
-        "id": "Salt Creek Pupfish", 
-        "text": "\u30bd\u30eb\u30c8\u30af\u30ea\u30fc\u30af\u30d5\u30b8"
-    }, 
+        "source": "Salt Creek Pupfish",
+        "description": "",
+        "id": "Salt Creek Pupfish",
+        "text": "ソルトクリークフジ"
+    },
     {
-        "source": "Santa Ana Speckled Dace", 
-        "description": "", 
-        "id": "Santa Ana Speckled Dace", 
-        "text": "\u30b5\u30f3\u30bf\u30a2\u30ca\u6591\u5165\u308a\u306e\u30c0\u30b9"
-    }, 
+        "source": "Santa Ana Speckled Dace",
+        "description": "",
+        "id": "Santa Ana Speckled Dace",
+        "text": "サンタアナ斑入りのダス"
+    },
     {
-        "source": "Santa Ana Sucker", 
-        "description": "", 
-        "id": "Santa Ana Sucker", 
-        "text": "\u30b5\u30f3\u30bf\u30a2\u30ca\u30b5\u30c3\u30ab\u30fc"
-    }, 
+        "source": "Santa Ana Sucker",
+        "description": "",
+        "id": "Santa Ana Sucker",
+        "text": "サンタアナサッカー"
+    },
     {
-        "source": "Saratoga Springs Pupfish", 
-        "description": "", 
-        "id": "Saratoga Springs Pupfish", 
-        "text": "\u30b5\u30e9\u30c8\u30ac\u30b9\u30d7\u30ea\u30f3\u30b0\u30b9\u306e\u30d1\u30d7\u30ea"
-    }, 
+        "source": "Saratoga Springs Pupfish",
+        "description": "",
+        "id": "Saratoga Springs Pupfish",
+        "text": "サラトガスプリングスのパプリ"
+    },
     {
-        "source": "Shay Creek Stickleback", 
-        "description": "", 
-        "id": "Shay Creek Stickleback", 
-        "text": "\u30b7\u30a7\u30a4\u30af\u30ea\u30fc\u30af\u30b9\u30c6\u30a3\u30c3\u30af\u30d0\u30c3\u30af"
-    }, 
+        "source": "Shay Creek Stickleback",
+        "description": "",
+        "id": "Shay Creek Stickleback",
+        "text": "シェイクリークスティックバック"
+    },
     {
-        "source": "Shimofuri Goby", 
-        "description": "", 
-        "id": "Shimofuri Goby", 
+        "source": "Shimofuri Goby",
+        "description": "",
+        "id": "Shimofuri Goby",
         "text": "Shimofuri Goby"
-    }, 
+    },
     {
-        "source": "Shiner Perch", 
-        "description": "", 
-        "id": "Shiner Perch", 
-        "text": "\u30b7\u30e3\u30a4\u30ca\u30fc\u30d1\u30fc\u30c1"
-    }, 
+        "source": "Shiner Perch",
+        "description": "",
+        "id": "Shiner Perch",
+        "text": "シャイナーパーチ"
+    },
     {
-        "source": "Shortfin Molly", 
-        "description": "", 
-        "id": "Shortfin Molly", 
-        "text": "\u30b7\u30e7\u30fc\u30c8\u30d5\u30a3\u30f3\u30e2\u30ea\u30fc"
-    }, 
+        "source": "Shortfin Molly",
+        "description": "",
+        "id": "Shortfin Molly",
+        "text": "ショートフィンモリー"
+    },
     {
-        "source": "Shortnose Sucker", 
-        "description": "", 
-        "id": "Shortnose Sucker", 
-        "text": "\u77ed\u9f3b\u30b5\u30c3\u30ab\u30fc"
-    }, 
+        "source": "Shortnose Sucker",
+        "description": "",
+        "id": "Shortnose Sucker",
+        "text": "短鼻サッカー"
+    },
     {
-        "source": "Shoshone Pupfish", 
-        "description": "", 
-        "id": "Shoshone Pupfish", 
-        "text": "\u3057\u3087\u3057\u3087\u306d\u3081"
-    }, 
+        "source": "Shoshone Pupfish",
+        "description": "",
+        "id": "Shoshone Pupfish",
+        "text": "しょしょねめ"
+    },
     {
-        "source": "Smallmouth Bass", 
-        "description": "", 
-        "id": "Smallmouth Bass", 
-        "text": "\u30b3\u30af\u30c1\u30d0\u30b9"
-    }, 
+        "source": "Smallmouth Bass",
+        "description": "",
+        "id": "Smallmouth Bass",
+        "text": "コクチバス"
+    },
     {
-        "source": "Sockeye (Kokanee) Salmon", 
-        "description": "", 
-        "id": "Sockeye (Kokanee) Salmon", 
-        "text": "Sockeye\uff08\u3053\u304b\u306d\uff09\u30b5\u30fc\u30e2\u30f3"
-    }, 
+        "source": "Sockeye (Kokanee) Salmon",
+        "description": "",
+        "id": "Sockeye (Kokanee) Salmon",
+        "text": "Sockeye（こかね）サーモン"
+    },
     {
-        "source": "South Central California Coast Steelhead", 
-        "description": "", 
-        "id": "South Central California Coast Steelhead", 
-        "text": "\u30b5\u30a6\u30b9\u30bb\u30f3\u30c8\u30e9\u30eb\u30ab\u30ea\u30d5\u30a9\u30eb\u30cb\u30a2\u30b3\u30fc\u30b9\u30c8\u30b9\u30c1\u30fc\u30eb\u30d8\u30c3\u30c9"
-    }, 
+        "source": "South Central California Coast Steelhead",
+        "description": "",
+        "id": "South Central California Coast Steelhead",
+        "text": "サウスセントラルカリフォルニアコーストスチールヘッド"
+    },
     {
-        "source": "Southern California Steelhead", 
-        "description": "", 
-        "id": "Southern California Steelhead", 
-        "text": "\u5357\u30ab\u30ea\u30d5\u30a9\u30eb\u30cb\u30a2\u30b9\u30c1\u30fc\u30eb\u30d8\u30c3\u30c9"
-    }, 
+        "source": "Southern California Steelhead",
+        "description": "",
+        "id": "Southern California Steelhead",
+        "text": "南カリフォルニアスチールヘッド"
+    },
     {
-        "source": "Southern Green Sturgeon", 
-        "description": "", 
-        "id": "Southern Green Sturgeon", 
-        "text": "\u30b5\u30b6\u30f3\u30b0\u30ea\u30fc\u30f3\u30c1\u30e7\u30a6\u30b6\u30e1"
-    }, 
+        "source": "Southern Green Sturgeon",
+        "description": "",
+        "id": "Southern Green Sturgeon",
+        "text": "サザングリーンチョウザメ"
+    },
     {
-        "source": "Southern Oregon Northern California Coast Coho Salmon", 
-        "description": "", 
-        "id": "Southern Oregon Northern California Coast Coho Salmon", 
-        "text": "\u5357\u30aa\u30ec\u30b4\u30f3\u5dde\u30ab\u30ea\u30d5\u30a9\u30eb\u30cb\u30a2\u5317\u90e8\u30b3\u30fc\u30b9\u30c8\u30b3\u30fc\u30db\u30fc\u30b5\u30fc\u30e2\u30f3"
-    }, 
+        "source": "Southern Oregon Northern California Coast Coho Salmon",
+        "description": "",
+        "id": "Southern Oregon Northern California Coast Coho Salmon",
+        "text": "南オレゴン州カリフォルニア北部コーストコーホーサーモン"
+    },
     {
-        "source": "Southern Oregon Northern California Coast Fall Chinook Salmon", 
-        "description": "", 
-        "id": "Southern Oregon Northern California Coast Fall Chinook Salmon", 
-        "text": "\u5357\u30aa\u30ec\u30b4\u30f3\u5dde\u30ab\u30ea\u30d5\u30a9\u30eb\u30cb\u30a2\u5317\u90e8\u30b3\u30fc\u30b9\u30c8\u79cb\u30c1\u30cc\u30fc\u30af\u30b5\u30fc\u30e2\u30f3"
-    }, 
+        "source": "Southern Oregon Northern California Coast Fall Chinook Salmon",
+        "description": "",
+        "id": "Southern Oregon Northern California Coast Fall Chinook Salmon",
+        "text": "南オレゴン州カリフォルニア北部コースト秋チヌークサーモン"
+    },
     {
-        "source": "Spotted Bass", 
-        "description": "", 
-        "id": "Spotted Bass", 
-        "text": "\u6591\u70b9\u3092\u4ed8\u3051\u3089\u308c\u305f\u4f4e\u97f3"
-    }, 
+        "source": "Spotted Bass",
+        "description": "",
+        "id": "Spotted Bass",
+        "text": "斑点を付けられた低音"
+    },
     {
-        "source": "Staghorn Sculpin", 
-        "description": "", 
-        "id": "Staghorn Sculpin", 
+        "source": "Staghorn Sculpin",
+        "description": "",
+        "id": "Staghorn Sculpin",
         "text": "Staghorn Sculpin"
-    }, 
+    },
     {
-        "source": "Starry Flounder", 
-        "description": "", 
-        "id": "Starry Flounder", 
-        "text": "\u661f\u7a7a\u306e\u30d2\u30e9\u30e1"
-    }, 
+        "source": "Starry Flounder",
+        "description": "",
+        "id": "Starry Flounder",
+        "text": "星空のヒラメ"
+    },
     {
-        "source": "Striped Bass", 
-        "description": "", 
-        "id": "Striped Bass", 
-        "text": "\u7e1e\u6a21\u69d8\u306e\u30d9\u30fc\u30b9"
-    }, 
+        "source": "Striped Bass",
+        "description": "",
+        "id": "Striped Bass",
+        "text": "縞模様のベース"
+    },
     {
-        "source": "Striped Mullet", 
-        "description": "", 
-        "id": "Striped Mullet", 
-        "text": "\u30b9\u30c8\u30e9\u30a4\u30d7\u30dc\u30e9"
-    }, 
+        "source": "Striped Mullet",
+        "description": "",
+        "id": "Striped Mullet",
+        "text": "ストライプボラ"
+    },
     {
-        "source": "Surf Smelt", 
-        "description": "", 
-        "id": "Surf Smelt", 
-        "text": "\u30b5\u30fc\u30d5\u30ef\u30ab\u30b5\u30ae"
-    }, 
+        "source": "Surf Smelt",
+        "description": "",
+        "id": "Surf Smelt",
+        "text": "サーフワカサギ"
+    },
     {
-        "source": "Tahoe Sucker", 
-        "description": "", 
-        "id": "Tahoe Sucker", 
-        "text": "\u30bf\u30db\u30b5\u30c3\u30ab\u30fc"
-    }, 
+        "source": "Tahoe Sucker",
+        "description": "",
+        "id": "Tahoe Sucker",
+        "text": "タホサッカー"
+    },
     {
-        "source": "Tecopa Pupfish", 
-        "description": "", 
-        "id": "Tecopa Pupfish", 
-        "text": "\u30c6\u30b3\u30d1\u306e\u30d5\u30b8"
-    }, 
+        "source": "Tecopa Pupfish",
+        "description": "",
+        "id": "Tecopa Pupfish",
+        "text": "テコパのフジ"
+    },
     {
-        "source": "Tench", 
-        "description": "", 
-        "id": "Tench", 
-        "text": "\u30c6\u30f3\u30c1"
-    }, 
+        "source": "Tench",
+        "description": "",
+        "id": "Tench",
+        "text": "テンチ"
+    },
     {
-        "source": "Thicktail Chub", 
-        "description": "", 
-        "id": "Thicktail Chub", 
-        "text": "\u30b7\u30c3\u30af\u30c6\u30a4\u30eb\u30c1\u30e3\u30d6"
-    }, 
+        "source": "Thicktail Chub",
+        "description": "",
+        "id": "Thicktail Chub",
+        "text": "シックテイルチャブ"
+    },
     {
-        "source": "Threadfin Shad", 
-        "description": "", 
-        "id": "Threadfin Shad", 
-        "text": "\u30b9\u30ec\u30c3\u30c9\u30d5\u30a3\u30f3\u30b7\u30e3\u30c3\u30c9"
-    }, 
+        "source": "Threadfin Shad",
+        "description": "",
+        "id": "Threadfin Shad",
+        "text": "スレッドフィンシャッド"
+    },
     {
-        "source": "Tidewater Goby", 
-        "description": "", 
-        "id": "Tidewater Goby", 
-        "text": "\u30bf\u30a4\u30c9\u30a6\u30a9\u30fc\u30bf\u30fc\u30b4\u30d3\u30fc"
-    }, 
+        "source": "Tidewater Goby",
+        "description": "",
+        "id": "Tidewater Goby",
+        "text": "タイドウォーターゴビー"
+    },
     {
-        "source": "Tomales Roach", 
-        "description": "", 
-        "id": "Tomales Roach", 
-        "text": "\u30c8\u30de\u30ec\u30b9\u30ed\u30fc\u30c1"
-    }, 
+        "source": "Tomales Roach",
+        "description": "",
+        "id": "Tomales Roach",
+        "text": "トマレスローチ"
+    },
     {
-        "source": "Topsmelt", 
-        "description": "", 
-        "id": "Topsmelt", 
+        "source": "Topsmelt",
+        "description": "",
+        "id": "Topsmelt",
         "text": "Topsmelt"
-    }, 
+    },
     {
-        "source": "Unarmored Threespine Stickleback", 
-        "description": "", 
-        "id": "Unarmored Threespine Stickleback", 
-        "text": "\u88c5\u7532\u306e\u306a\u3044\u4e09\u672c\u8db3\u306e\u30bf\u30fc\u30c8\u30eb\u30d0\u30c3\u30af"
-    }, 
+        "source": "Unarmored Threespine Stickleback",
+        "description": "",
+        "id": "Unarmored Threespine Stickleback",
+        "text": "装甲のない三本足のタートルバック"
+    },
     {
-        "source": "Upper Klamath Marbled Sculpin", 
-        "description": "", 
-        "id": "Upper Klamath Marbled Sculpin", 
-        "text": "\u30a2\u30c3\u30d1\u30fc\u30af\u30e9\u30de\u30b9\u30de\u30fc\u30d6\u30eb\u30c9\u30b9\u30ab\u30eb\u30d4\u30f3"
-    }, 
+        "source": "Upper Klamath Marbled Sculpin",
+        "description": "",
+        "id": "Upper Klamath Marbled Sculpin",
+        "text": "アッパークラマスマーブルドスカルピン"
+    },
     {
-        "source": "Upper Klamath-Trinity Fall Chinook Salmon", 
-        "description": "", 
-        "id": "Upper Klamath-Trinity Fall Chinook Salmon", 
-        "text": "\u30a2\u30c3\u30d1\u30fc\u30af\u30e9\u30de\u30b9\u30c8\u30ea\u30cb\u30c6\u30a3\u30d5\u30a9\u30fc\u30eb\u30c1\u30cc\u30fc\u30af\u30b5\u30fc\u30e2\u30f3"
-    }, 
+        "source": "Upper Klamath-Trinity Fall Chinook Salmon",
+        "description": "",
+        "id": "Upper Klamath-Trinity Fall Chinook Salmon",
+        "text": "アッパークラマストリニティフォールチヌークサーモン"
+    },
     {
-        "source": "Upper Klamath-Trinity Spring Chinook Salmon", 
-        "description": "", 
-        "id": "Upper Klamath-Trinity Spring Chinook Salmon", 
-        "text": "\u30a2\u30c3\u30d1\u30fc\u30af\u30e9\u30de\u30b9\u30c8\u30ea\u30cb\u30c6\u30a3\u30b9\u30d7\u30ea\u30f3\u30b0\u30c1\u30cc\u30fc\u30af\u30b5\u30fc\u30e2\u30f3"
-    }, 
+        "source": "Upper Klamath-Trinity Spring Chinook Salmon",
+        "description": "",
+        "id": "Upper Klamath-Trinity Spring Chinook Salmon",
+        "text": "アッパークラマストリニティスプリングチヌークサーモン"
+    },
     {
-        "source": "Wakasagi", 
-        "description": "", 
-        "id": "Wakasagi", 
+        "source": "Wakasagi",
+        "description": "",
+        "id": "Wakasagi",
         "text": "Wakasagi"
-    }, 
+    },
     {
-        "source": "Warmouth", 
-        "description": "", 
-        "id": "Warmouth", 
-        "text": "\u30a6\u30a9\u30fc\u30de\u30a6\u30b9"
-    }, 
+        "source": "Warmouth",
+        "description": "",
+        "id": "Warmouth",
+        "text": "ウォーマウス"
+    },
     {
-        "source": "Western Brook Lamprey", 
-        "description": "", 
-        "id": "Western Brook Lamprey", 
-        "text": "\u30a6\u30a8\u30b9\u30bf\u30f3\u30d6\u30eb\u30c3\u30af\u30e9\u30f3\u30d7\u30ea\u30fc"
-    }, 
+        "source": "Western Brook Lamprey",
+        "description": "",
+        "id": "Western Brook Lamprey",
+        "text": "ウエスタンブルックランプリー"
+    },
     {
-        "source": "Western Mosquitofish", 
-        "description": "", 
-        "id": "Western Mosquitofish", 
-        "text": "\u30cb\u30db\u30f3\u30e2\u30b9\u30ad\u30fc\u30c8"
-    }, 
+        "source": "Western Mosquitofish",
+        "description": "",
+        "id": "Western Mosquitofish",
+        "text": "ニホンモスキート"
+    },
     {
-        "source": "White Bass", 
-        "description": "", 
-        "id": "White Bass", 
-        "text": "\u30db\u30ef\u30a4\u30c8\u30d9\u30fc\u30b9"
-    }, 
+        "source": "White Bass",
+        "description": "",
+        "id": "White Bass",
+        "text": "ホワイトベース"
+    },
     {
-        "source": "White Catfish", 
-        "description": "", 
-        "id": "White Catfish", 
-        "text": "\u767d\u30ca\u30de\u30ba"
-    }, 
+        "source": "White Catfish",
+        "description": "",
+        "id": "White Catfish",
+        "text": "白ナマズ"
+    },
     {
-        "source": "White Crappie", 
-        "description": "", 
-        "id": "White Crappie", 
-        "text": "\u30db\u30ef\u30a4\u30c8\u30af\u30e9\u30c3\u30d4\u30fc"
-    }, 
+        "source": "White Crappie",
+        "description": "",
+        "id": "White Crappie",
+        "text": "ホワイトクラッピー"
+    },
     {
-        "source": "White Sturgeon", 
-        "description": "", 
-        "id": "White Sturgeon", 
-        "text": "\u30db\u30ef\u30a4\u30c8\u30c1\u30e7\u30a6\u30b6\u30e1"
-    }, 
+        "source": "White Sturgeon",
+        "description": "",
+        "id": "White Sturgeon",
+        "text": "ホワイトチョウザメ"
+    },
     {
-        "source": "Yellow Bullhead", 
-        "description": "", 
-        "id": "Yellow Bullhead", 
-        "text": "\u30a4\u30a8\u30ed\u30fc\u30d6\u30eb\u30d8\u30c3\u30c9"
-    }, 
+        "source": "Yellow Bullhead",
+        "description": "",
+        "id": "Yellow Bullhead",
+        "text": "イエローブルヘッド"
+    },
     {
-        "source": "Yellow Perch", 
-        "description": "", 
-        "id": "Yellow Perch", 
-        "text": "\u30a4\u30a8\u30ed\u30fc\u30d1\u30fc\u30c1"
-    }, 
+        "source": "Yellow Perch",
+        "description": "",
+        "id": "Yellow Perch",
+        "text": "イエローパーチ"
+    },
     {
-        "source": "Yellowfin Goby", 
-        "description": "", 
-        "id": "Yellowfin Goby", 
-        "text": "\u30ad\u30cf\u30c0\u30de\u30b0\u30ed"
-    }, 
+        "source": "Yellowfin Goby",
+        "description": "",
+        "id": "Yellowfin Goby",
+        "text": "キハダマグロ"
+    },
     {
-        "source": "Speckled Dace are capable of living in an array of habitats from small springs or streams to large rivers and deep lakes.", 
-        "description": "", 
-        "id": "Speckled Dace are capable of living in an array of habitats from small springs or streams to large rivers and deep lakes.", 
-        "text": "Speckled Dace\u306f\u3001\u5c0f\u3055\u306a\u6cc9\u3084\u5c0f\u5ddd\u304b\u3089\u5927\u304d\u306a\u5ddd\u3084\u6df1\u3044\u6e56\u307e\u3067\u3001\u3055\u307e\u3056\u307e\u306a\u751f\u606f\u5730\u306b\u4f4f\u3093\u3067\u3044\u307e\u3059\u3002"
-    }, 
+        "source": "Speckled Dace are capable of living in an array of habitats from small springs or streams to large rivers and deep lakes.",
+        "description": "",
+        "id": "Speckled Dace are capable of living in an array of habitats from small springs or streams to large rivers and deep lakes.",
+        "text": "Speckled Daceは、小さな泉や小川から大きな川や深い湖まで、さまざまな生息地に住んでいます。"
+    },
     {
-        "source": "Speckled Dace prefer habitat that includes clear, well oxygenated water, with movement due to a current or waves.", 
-        "description": "", 
-        "id": "Speckled Dace prefer habitat that includes clear, well oxygenated water, with movement due to a current or waves.", 
-        "text": "\u6591\u70b9\u306e\u3042\u308bDace\u306f\u3001\u6d41\u308c\u3084\u6ce2\u306e\u305f\u3081\u306b\u52d5\u304f\u3001\u6e05\u6f54\u3067\u5341\u5206\u306b\u9178\u7d20\u5316\u3055\u308c\u305f\u6c34\u3092\u542b\u3080\u751f\u606f\u5730\u3092\u597d\u307f\u307e\u3059\u3002"
-    }, 
+        "source": "Speckled Dace prefer habitat that includes clear, well oxygenated water, with movement due to a current or waves.",
+        "description": "",
+        "id": "Speckled Dace prefer habitat that includes clear, well oxygenated water, with movement due to a current or waves.",
+        "text": "斑点のあるDaceは、流れや波のために動く、清潔で十分に酸素化された水を含む生息地を好みます。"
+    },
     {
-        "source": "In addition the fish thrive in areas with deep cover or overhead protection from vegetation or woody debris.", 
-        "description": "", 
-        "id": "In addition the fish thrive in areas with deep cover or overhead protection from vegetation or woody debris.", 
-        "text": "\u3055\u3089\u306b\u3001\u9b5a\u306f\u690d\u751f\u3084\u6728\u8cea\u306e\u7834\u7247\u304b\u3089\u306e\u6df1\u3044\u8986\u3044\u3084\u982d\u4e0a\u306e\u4fdd\u8b77\u306e\u3042\u308b\u5730\u57df\u3067\u7e41\u6804\u3057\u3066\u3044\u307e\u3059\u3002"
-    }, 
+        "source": "In addition the fish thrive in areas with deep cover or overhead protection from vegetation or woody debris.",
+        "description": "",
+        "id": "In addition the fish thrive in areas with deep cover or overhead protection from vegetation or woody debris.",
+        "text": "さらに、魚は植生や木質の破片からの深い覆いや頭上の保護のある地域で繁栄しています。"
+    },
     {
-        "source": "Speckled Dace predominantly occupy small streams of the second to third order where they feed and forage for aquatic insects.", 
-        "description": "", 
-        "id": "Speckled Dace predominantly occupy small streams of the second to third order where they feed and forage for aquatic insects.", 
-        "text": "\u6591\u70b9\u306e\u3042\u308bDace\u306f\u4e3b\u306b\u6c34\u751f\u6606\u866b\u3092\u990c\u306b\u3057\u3066\u990c\u306b\u3059\u308b2\u301c3\u6b21\u306e\u5c0f\u5ddd\u3092\u5360\u3081\u307e\u3059\u3002"
-    }, 
+        "source": "Speckled Dace predominantly occupy small streams of the second to third order where they feed and forage for aquatic insects.",
+        "description": "",
+        "id": "Speckled Dace predominantly occupy small streams of the second to third order where they feed and forage for aquatic insects.",
+        "text": "斑点のあるDaceは主に水生昆虫を餌にして餌にする2〜3次の小川を占めます。"
+    },
     {
-        "source": "The species is very adaptable and is found in cold alpine lakes such as Lake Tahoe, but has also been able to survive adversity in temperatures at or above 31\\u2103 with a dissolved oxygen concentration of 1 mg / L.", 
-        "description": "", 
-        "id": "The species is very adaptable and is found in cold alpine lakes such as Lake Tahoe, but has also been able to survive adversity in temperatures at or above 31\\u2103 with a dissolved oxygen concentration of 1 mg / L.", 
-        "text": "\u3053\u306e\u7a2e\u306f\u975e\u5e38\u306b\u9069\u5fdc\u6027\u304c\u3042\u308a\u3001Tahoe\u6e56\u306e\u3088\u3046\u306a\u5bd2\u3044\u9ad8\u5c71\u6e56\u3067\u3082\u898b\u3089\u308c\u307e\u3059\u304c\u3001\u6eb6\u5b58\u9178\u7d20\u6fc3\u5ea61 mg / L\u306731\u2103\u4ee5\u4e0a\u306e\u6e29\u5ea6\u3067\u306e\u9006\u5883\u306b\u8010\u3048\u308b\u3053\u3068\u304c\u3067\u304d\u307e\u3057\u305f\u3002"
-    }, 
+        "source": "The species is very adaptable and is found in cold alpine lakes such as Lake Tahoe, but has also been able to survive adversity in temperatures at or above 31\\u2103 with a dissolved oxygen concentration of 1 mg / L.",
+        "description": "",
+        "id": "The species is very adaptable and is found in cold alpine lakes such as Lake Tahoe, but has also been able to survive adversity in temperatures at or above 31\\u2103 with a dissolved oxygen concentration of 1 mg / L.",
+        "text": "この種は非常に適応性があり、Tahoe湖のような寒い高山湖でも見られますが、溶存酸素濃度1 mg / Lで31℃以上の温度での逆境に耐えることができました。"
+    },
     {
-        "source": "In streams speckled dace swim along the bottom looking for small invertebrates while in lakes they are opportunistic feeders that may feed on zooplankton, algae, nymphs, or the resulting flying insects.", 
-        "description": "", 
-        "id": "In streams speckled dace swim along the bottom looking for small invertebrates while in lakes they are opportunistic feeders that may feed on zooplankton, algae, nymphs, or the resulting flying insects.", 
-        "text": "\u5c0f\u6cb3\u5ddd\u3067\u306f\u5c0f\u3055\u306a\u7121\u810a\u690e\u52d5\u7269\u3092\u63a2\u3057\u306a\u304c\u3089\u5e95\u306b\u6cbf\u3063\u3066\u6591\u70b9\u3092\u4ed8\u3051\u3089\u308c\u305f\u7db1\u304c\u6cf3\u3044\u3067\u3044\u308b\u4e00\u65b9\u3001\u305d\u308c\u3089\u306f\u52d5\u7269\u30d7\u30e9\u30f3\u30af\u30c8\u30f3\u3001\u85fb\u985e\u3001\u82e5\u866b\u3001\u307e\u305f\u306f\u305d\u306e\u7d50\u679c\u98db\u3076\u6606\u866b\u3092\u990c\u306b\u3059\u308b\u304b\u3082\u3057\u308c\u306a\u3044\u65e5\u548c\u898b\u7684\u306a\u990c\u7bb1\u3067\u3059\u3002"
-    }, 
+        "source": "In streams speckled dace swim along the bottom looking for small invertebrates while in lakes they are opportunistic feeders that may feed on zooplankton, algae, nymphs, or the resulting flying insects.",
+        "description": "",
+        "id": "In streams speckled dace swim along the bottom looking for small invertebrates while in lakes they are opportunistic feeders that may feed on zooplankton, algae, nymphs, or the resulting flying insects.",
+        "text": "小河川では小さな無脊椎動物を探しながら底に沿って斑点を付けられた綱が泳いでいる一方、それらは動物プランクトン、藻類、若虫、またはその結果飛ぶ昆虫を餌にするかもしれない日和見的な餌箱です。"
+    },
     {
-        "source": "Speckled Dace typically have a life span of three years, but may live 6 or more years, during which time females typically grow more rapidly than males.", 
-        "description": "", 
-        "id": "Speckled Dace typically have a life span of three years, but may live 6 or more years, during which time females typically grow more rapidly than males.", 
-        "text": "Speckled Dace\u306e\u5bff\u547d\u306f\u901a\u5e383\u5e74\u3067\u3059\u304c\u30016\u5e74\u4ee5\u4e0a\u751f\u304d\u308b\u3053\u3068\u3082\u3042\u308a\u307e\u3059\u3002\u3053\u306e\u9593\u3001\u5973\u6027\u306f\u7537\u6027\u3088\u308a\u3082\u6025\u901f\u306b\u6210\u9577\u3057\u307e\u3059\u3002"
-    }, 
+        "source": "Speckled Dace typically have a life span of three years, but may live 6 or more years, during which time females typically grow more rapidly than males.",
+        "description": "",
+        "id": "Speckled Dace typically have a life span of three years, but may live 6 or more years, during which time females typically grow more rapidly than males.",
+        "text": "Speckled Daceの寿命は通常3年ですが、6年以上生きることもあります。この間、女性は男性よりも急速に成長します。"
+    },
     {
-        "source": "The fish become sexually mature in their second year and during the summer months the dace spawn.", 
-        "description": "", 
-        "id": "The fish become sexually mature in their second year and during the summer months the dace spawn.", 
-        "text": "\u9b5a\u306f2\u5e74\u76ee\u3068\u6027\u7684\u306b\u6210\u719f\u3059\u308b\u3088\u3046\u306b\u306a\u308a\u3001\u590f\u306e\u9593\u306fdace\u304c\u51fa\u73fe\u3057\u307e\u3059\u3002"
-    }, 
+        "source": "The fish become sexually mature in their second year and during the summer months the dace spawn.",
+        "description": "",
+        "id": "The fish become sexually mature in their second year and during the summer months the dace spawn.",
+        "text": "魚は2年目と性的に成熟するようになり、夏の間はdaceが出現します。"
+    },
     {
-        "source": "Stream dwellers spawn in riffles or gravely areas, while the lake inhabitants spawn in tributaries or in shallow shoreline regions.", 
-        "description": "", 
-        "id": "Stream dwellers spawn in riffles or gravely areas, while the lake inhabitants spawn in tributaries or in shallow shoreline regions.", 
-        "text": "\u5c0f\u5ddd\u306e\u4f4f\u4eba\u306f\u5c0f\u5ddd\u3084\u967a\u3057\u3044\u5730\u57df\u306b\u7523\u5375\u3057\u3001\u6e56\u306e\u4f4f\u6c11\u306f\u652f\u6d41\u3084\u6d45\u3044\u6d77\u5cb8\u7dda\u5730\u57df\u306b\u7523\u5375\u3057\u307e\u3059\u3002"
-    }, 
+        "source": "Stream dwellers spawn in riffles or gravely areas, while the lake inhabitants spawn in tributaries or in shallow shoreline regions.",
+        "description": "",
+        "id": "Stream dwellers spawn in riffles or gravely areas, while the lake inhabitants spawn in tributaries or in shallow shoreline regions.",
+        "text": "小川の住人は小川や険しい地域に産卵し、湖の住民は支流や浅い海岸線地域に産卵します。"
+    },
     {
-        "source": "The embryos hatch in 6 days, and the larvae remain in the safety of the gravel for 7 - 8 days.", 
-        "description": "", 
-        "id": "The embryos hatch in 6 days, and the larvae remain in the safety of the gravel for 7 - 8 days.", 
-        "text": "\u80da\u306f6\u65e5\u3067\u5b75\u5316\u3057\u3001\u5e7c\u866b\u306f7\u301c8\u65e5\u9593\u7802\u5229\u306e\u5b89\u5168\u6027\u3092\u4fdd\u3061\u307e\u3059\u3002"
-    }, 
+        "source": "The embryos hatch in 6 days, and the larvae remain in the safety of the gravel for 7 - 8 days.",
+        "description": "",
+        "id": "The embryos hatch in 6 days, and the larvae remain in the safety of the gravel for 7 - 8 days.",
+        "text": "胚は6日で孵化し、幼虫は7〜8日間砂利の安全性を保ちます。"
+    },
     {
-        "source": "The young fry then spend the early part of their lives in the shallow warm areas of the stream or lake where they hatched.", 
-        "description": "", 
-        "id": "The young fry then spend the early part of their lives in the shallow warm areas of the stream or lake where they hatched.", 
-        "text": "\u305d\u308c\u304b\u3089\u82e5\u3044\u7a1a\u9b5a\u306f\u5f7c\u3089\u304c\u5b75\u5316\u3057\u305f\u5c0f\u5ddd\u307e\u305f\u306f\u6e56\u306e\u6d45\u3044\u6696\u304b\u3044\u5730\u57df\u3067\u5f7c\u3089\u306e\u4eba\u751f\u306e\u521d\u671f\u306e\u90e8\u5206\u3092\u904e\u3054\u3057\u307e\u3059\u3002"
-    }, 
+        "source": "The young fry then spend the early part of their lives in the shallow warm areas of the stream or lake where they hatched.",
+        "description": "",
+        "id": "The young fry then spend the early part of their lives in the shallow warm areas of the stream or lake where they hatched.",
+        "text": "それから若い稚魚は彼らが孵化した小川または湖の浅い暖かい地域で彼らの人生の初期の部分を過ごします。"
+    },
     {
-        "source": "False", 
-        "description": "", 
-        "id": "False", 
-        "text": "\u507d"
-    }, 
+        "source": "False",
+        "description": "",
+        "id": "False",
+        "text": "偽"
+    },
     {
-        "source": "True", 
-        "description": "", 
-        "id": "True", 
-        "text": "\u672c\u5f53"
-    }, 
+        "source": "True",
+        "description": "",
+        "id": "True",
+        "text": "本当"
+    },
     {
-        "source": "Slow", 
-        "description": "", 
-        "id": "Slow", 
-        "text": "\u30b9\u30ed\u30fc"
-    }, 
+        "source": "Slow",
+        "description": "",
+        "id": "Slow",
+        "text": "スロー"
+    },
     {
-        "source": "Medium", 
-        "description": "", 
-        "id": "Medium", 
-        "text": "\u4e2d"
-    }, 
+        "source": "Medium",
+        "description": "",
+        "id": "Medium",
+        "text": "中"
+    },
     {
-        "source": "Fast", 
-        "description": "", 
-        "id": "Fast", 
-        "text": "\u901f\u3044"
-    }, 
+        "source": "Fast",
+        "description": "",
+        "id": "Fast",
+        "text": "速い"
+    },
     {
-        "source": "Very Fast", 
-        "description": "", 
-        "id": "VeryFast", 
-        "text": "\u3068\u3066\u3082\u65e9\u3044"
-    }, 
+        "source": "Very Fast",
+        "description": "",
+        "id": "VeryFast",
+        "text": "とても早い"
+    },
     {
-        "id": "cannot be seeked", 
-        "source": "cannot be seeked", 
-        "description": "", 
-        "text": "\u63a2\u305b\u306a\u3044"
-    }, 
+        "id": "cannot be seeked",
+        "source": "cannot be seeked",
+        "description": "",
+        "text": "探せない"
+    },
     {
-        "id": "The temporary file cannot be opened", 
-        "source": "The temporary file cannot be opened", 
-        "description": "", 
-        "text": "\u4e00\u6642\u30d5\u30a1\u30a4\u30eb\u3092\u958b\u3051\u307e\u305b\u3093"
-    }, 
+        "id": "The temporary file cannot be opened",
+        "source": "The temporary file cannot be opened",
+        "description": "",
+        "text": "一時ファイルを開けません"
+    },
     {
-        "source": "TextUpdate", 
-        "description": "", 
-        "id": "TextUpdate", 
+        "source": "TextUpdate",
+        "description": "",
+        "id": "TextUpdate",
         "text": "TextUpdate"
-    }, 
+    },
     {
-        "source": "TextInput", 
-        "description": "", 
-        "id": "TextInput", 
+        "source": "TextInput",
+        "description": "",
+        "id": "TextInput",
         "text": "TextInput"
-    }, 
+    },
     {
-        "source": "Time", 
-        "description": "", 
-        "id": "Time", 
-        "text": "\u6642\u9593"
-    }, 
+        "source": "Time",
+        "description": "",
+        "id": "Time",
+        "text": "時間"
+    },
     {
-        "source": "Cannot open the URL", 
-        "description": "", 
-        "id": "Cannot open the URL", 
-        "text": "URL\u3092\u958b\u3051\u307e\u305b\u3093"
-    }, 
+        "source": "Cannot open the URL",
+        "description": "",
+        "id": "Cannot open the URL",
+        "text": "URLを開けません"
+    },
     {
-        "source": "the return code was", 
-        "description": "", 
-        "id": "the return code was", 
-        "text": "\u623b\u308a\u30b3\u30fc\u30c9\u306f"
-    }, 
+        "source": "the return code was",
+        "description": "",
+        "id": "the return code was",
+        "text": "戻りコードは"
+    },
     {
-        "source": "Audio", 
-        "description": "", 
-        "id": "Audio", 
-        "text": "\u30aa\u30fc\u30c7\u30a3\u30aa"
-    }, 
+        "source": "Audio",
+        "description": "",
+        "id": "Audio",
+        "text": "オーディオ"
+    },
     {
-        "source": "Fonts", 
-        "description": "", 
-        "id": "Fonts", 
-        "text": "\u30d5\u30a9\u30f3\u30c8"
-    }, 
+        "source": "Fonts",
+        "description": "",
+        "id": "Fonts",
+        "text": "フォント"
+    },
     {
-        "source": "Icons", 
-        "description": "", 
-        "id": "Icons", 
-        "text": "\u30a2\u30a4\u30b3\u30f3"
-    }, 
+        "source": "Icons",
+        "description": "",
+        "id": "Icons",
+        "text": "アイコン"
+    },
     {
-        "source": "Images", 
-        "description": "", 
-        "id": "Images", 
-        "text": "\u753b\u50cf"
-    }, 
+        "source": "Images",
+        "description": "",
+        "id": "Images",
+        "text": "画像"
+    },
     {
-        "source": "Models", 
-        "description": "", 
-        "id": "Models", 
-        "text": "\u30e2\u30c7\u30eb"
-    }, 
+        "source": "Models",
+        "description": "",
+        "id": "Models",
+        "text": "モデル"
+    },
     {
-        "source": "Shaders", 
-        "description": "", 
-        "id": "Shaders", 
-        "text": "\u30b7\u30a7\u30fc\u30c0\u30fc"
-    }, 
+        "source": "Shaders",
+        "description": "",
+        "id": "Shaders",
+        "text": "シェーダー"
+    },
     {
-        "source": "Color", 
-        "description": "", 
-        "id": "Color", 
-        "text": "\u8272"
-    }, 
+        "source": "Color",
+        "description": "",
+        "id": "Color",
+        "text": "色"
+    },
     {
-        "source": "Documentation", 
-        "description": "", 
-        "id": "Documentation", 
-        "text": "\u30c9\u30ad\u30e5\u30e1\u30f3\u30c6\u30fc\u30b7\u30e7\u30f3"
-    }, 
+        "source": "Documentation",
+        "description": "",
+        "id": "Documentation",
+        "text": "ドキュメンテーション"
+    },
     {
-        "source": "cannot be removed", 
-        "description": "", 
-        "id": "cannot be removed", 
-        "text": "\u524a\u9664\u3067\u304d\u307e\u305b\u3093"
-    }, 
+        "source": "cannot be removed",
+        "description": "",
+        "id": "cannot be removed",
+        "text": "削除できません"
+    },
     {
-        "source": "Error reading the environment varible", 
-        "description": "", 
-        "id": "Error reading the environment varible", 
-        "text": "\u74b0\u5883\u5909\u6570\u306e\u8aad\u307f\u53d6\u308a\u30a8\u30e9\u30fc"
-    }, 
+        "source": "Error reading the environment varible",
+        "description": "",
+        "id": "Error reading the environment varible",
+        "text": "環境変数の読み取りエラー"
+    },
     {
-        "source": "Init", 
-        "text": "\u521d\u671f\u5316", 
-        "description": "", 
+        "source": "Init",
+        "text": "初期化",
+        "description": "",
         "id": "Init"
     }
 ]

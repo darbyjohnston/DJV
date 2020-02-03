@@ -1,824 +1,824 @@
 [
     {
-        "source": "Cannot parse the value.", 
-        "description": "", 
-        "id": "Cannot parse the value.", 
-        "text": "\uac12\uc744 \uad6c\ubb38 \ubd84\uc11d \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
+        "source": "Cannot parse the value.",
+        "description": "",
+        "id": "Cannot parse the value.",
+        "text": "값을 구문 분석 할 수 없습니다."
+    },
     {
-        "source": "The file", 
-        "description": "", 
-        "id": "The file", 
-        "text": "\ud30c\uc77c"
-    }, 
+        "source": "The file",
+        "description": "",
+        "id": "The file",
+        "text": "파일"
+    },
     {
-        "source": "cannot be opened", 
-        "description": "", 
-        "id": "cannot be opened", 
-        "text": "\uc5f4 \uc218 \uc5c6\ub2e4."
-    }, 
+        "source": "cannot be opened",
+        "description": "",
+        "id": "cannot be opened",
+        "text": "열 수 없다."
+    },
     {
-        "source": "does not have any video or audio streams", 
-        "description": "", 
-        "id": "does not have any video or audio streams", 
-        "text": "\ub3d9\uc601\uc0c1 \ub610\ub294 \uc624\ub514\uc624 \uc2a4\ud2b8\ub9bc\uc774 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
+        "source": "does not have any video or audio streams",
+        "description": "",
+        "id": "does not have any video or audio streams",
+        "text": "동영상 또는 오디오 스트림이 없습니다."
+    },
     {
-        "source": "does not match any video codecs", 
-        "description": "", 
-        "id": "does not match any video codecs", 
-        "text": "\uc5b4\ub5a4 \ube44\ub514\uc624 \ucf54\ub371\uacfc\ub3c4 \uc77c\uce58\ud558\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4."
-    }, 
+        "source": "does not match any video codecs",
+        "description": "",
+        "id": "does not match any video codecs",
+        "text": "어떤 비디오 코덱과도 일치하지 않습니다."
+    },
     {
-        "source": "The audio format ", 
-        "description": "", 
-        "id": "The audio format ", 
-        "text": "\uc624\ub514\uc624 \ud3ec\ub9f7"
-    }, 
+        "source": "The audio format ",
+        "description": "",
+        "id": "The audio format ",
+        "text": "오디오 포맷"
+    },
     {
-        "source": "is not supported", 
-        "description": "", 
-        "id": "is not supported", 
-        "text": "\uc9c0\uc6d0\ub418\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4."
-    }, 
+        "source": "is not supported",
+        "description": "",
+        "id": "is not supported",
+        "text": "지원되지 않습니다."
+    },
     {
-        "source": "does not match any audio codecs", 
-        "description": "", 
-        "id": "does not match any audio codecs", 
-        "text": "\uc5b4\ub5a4 \uc624\ub514\uc624 \ucf54\ub371\uacfc\ub3c4 \uc77c\uce58\ud558\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4."
-    }, 
+        "source": "does not match any audio codecs",
+        "description": "",
+        "id": "does not match any audio codecs",
+        "text": "어떤 오디오 코덱과도 일치하지 않습니다."
+    },
     {
-        "source": "None", 
-        "description": "", 
-        "id": "None", 
-        "text": "\uc5c6\uc74c"
-    }, 
+        "source": "None",
+        "description": "",
+        "id": "None",
+        "text": "없음"
+    },
     {
-        "source": "Left", 
-        "description": "", 
-        "id": "Left", 
-        "text": "\uc67c\ucabd"
-    }, 
+        "source": "Left",
+        "description": "",
+        "id": "Left",
+        "text": "왼쪽"
+    },
     {
-        "source": "Top", 
-        "description": "", 
-        "id": "Top", 
-        "text": "\uc0c1\ub2e8"
-    }, 
+        "source": "Top",
+        "description": "",
+        "id": "Top",
+        "text": "상단"
+    },
     {
-        "source": "Right", 
-        "description": "", 
-        "id": "Right", 
-        "text": "\uad8c\ub9ac"
-    }, 
+        "source": "Right",
+        "description": "",
+        "id": "Right",
+        "text": "권리"
+    },
     {
-        "source": "Bottom", 
-        "description": "", 
-        "id": "Bottom", 
-        "text": "\ubc14\ub2e5"
-    }, 
+        "source": "Bottom",
+        "description": "",
+        "id": "Bottom",
+        "text": "바닥"
+    },
     {
-        "source": "Timecode", 
-        "description": "", 
-        "id": "Timecode", 
-        "text": "\uc2dc\uac04 \ucf54\ub4dc"
-    }, 
+        "source": "Timecode",
+        "description": "",
+        "id": "Timecode",
+        "text": "시간 코드"
+    },
     {
-        "source": "Frames", 
-        "description": "", 
-        "id": "Frames", 
-        "text": "\ud504\ub808\uc784"
-    }, 
+        "source": "Frames",
+        "description": "",
+        "id": "Frames",
+        "text": "프레임"
+    },
     {
-        "source": "Bad magic number.", 
-        "description": "", 
-        "id": "Bad magic number.", 
-        "text": "\ub098\uc05c \ub9c8\ubc95\uc758 \uc22b\uc790."
-    }, 
+        "source": "Bad magic number.",
+        "description": "",
+        "id": "Bad magic number.",
+        "text": "나쁜 마법의 숫자."
+    },
     {
-        "source": "Unsupported file.", 
-        "description": "", 
-        "id": "Unsupported file.", 
-        "text": "\uc9c0\uc6d0\ub418\uc9c0 \uc54a\ub294 \ud30c\uc77c\uc785\ub2c8\ub2e4."
-    }, 
+        "source": "Unsupported file.",
+        "description": "",
+        "id": "Unsupported file.",
+        "text": "지원되지 않는 파일입니다."
+    },
     {
-        "source": "Incomplete file.", 
-        "description": "", 
-        "id": "Incomplete file.", 
-        "text": "\ubd88\uc644\uc804\ud55c \ud30c\uc77c."
-    }, 
+        "source": "Incomplete file.",
+        "description": "",
+        "id": "Incomplete file.",
+        "text": "불완전한 파일."
+    },
     {
-        "source": "This plugin provides DPX image I/O.", 
-        "description": "", 
-        "id": "This plugin provides DPX image I/O.", 
-        "text": "\uc774 \ud50c\ub7ec\uadf8\uc778\uc740 DPX \uc774\ubbf8\uc9c0 I / O\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4."
-    }, 
+        "source": "This plugin provides DPX image I/O.",
+        "description": "",
+        "id": "This plugin provides DPX image I/O.",
+        "text": "이 플러그인은 DPX 이미지 I / O를 제공합니다."
+    },
     {
-        "source": "1.0", 
-        "description": "", 
-        "id": "1.0", 
+        "source": "1.0",
+        "description": "",
+        "id": "1.0",
         "text": "1.0"
-    }, 
+    },
     {
-        "source": "2.0", 
-        "description": "", 
-        "id": "2.0", 
+        "source": "2.0",
+        "description": "",
+        "id": "2.0",
         "text": "2.0"
-    }, 
+    },
     {
-        "source": "Auto", 
-        "description": "", 
-        "id": "Auto", 
-        "text": "\uc790\ub3d9"
-    }, 
+        "source": "Auto",
+        "description": "",
+        "id": "Auto",
+        "text": "자동"
+    },
     {
-        "source": "MSB", 
-        "description": "", 
-        "id": "MSB", 
+        "source": "MSB",
+        "description": "",
+        "id": "MSB",
         "text": "MSB"
-    }, 
+    },
     {
-        "source": "LSB", 
-        "description": "", 
-        "id": "LSB", 
+        "source": "LSB",
+        "description": "",
+        "id": "LSB",
         "text": "LSB"
-    }, 
+    },
     {
-        "source": "Cannot open file.", 
-        "description": "", 
-        "id": "Cannot open file.", 
-        "text": "\ud30c\uc77c\uc744 \uc5f4 \uc218 \uc5c6\ub2e4."
-    }, 
+        "source": "Cannot open file.",
+        "description": "",
+        "id": "Cannot open file.",
+        "text": "파일을 열 수 없다."
+    },
     {
-        "source": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "description": "", 
-        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "text": "\uc774 \ud50c\ub7ec\uadf8\uc778\uc740 PNG (Portable Network Graphics) \uc774\ubbf8\uc9c0 I / O\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4."
-    }, 
+        "source": "This plugin provides Portable Network Graphics (PNG) image I/O.",
+        "description": "",
+        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.",
+        "text": "이 플러그인은 PNG (Portable Network Graphics) 이미지 I / O를 제공합니다."
+    },
     {
-        "source": "This plugin provides NetPBM image I/O.", 
-        "description": "", 
-        "id": "This plugin provides NetPBM image I/O.", 
-        "text": "\uc774 \ud50c\ub7ec\uadf8\uc778\uc740 NetPBM \uc774\ubbf8\uc9c0 I / O\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4."
-    }, 
+        "source": "This plugin provides NetPBM image I/O.",
+        "description": "",
+        "id": "This plugin provides NetPBM image I/O.",
+        "text": "이 플러그인은 NetPBM 이미지 I / O를 제공합니다."
+    },
     {
-        "source": "ASCII", 
-        "description": "", 
-        "id": "ASCII", 
+        "source": "ASCII",
+        "description": "",
+        "id": "ASCII",
         "text": "ASCII"
-    }, 
+    },
     {
-        "source": "Binary", 
-        "description": "", 
-        "id": "Binary", 
-        "text": "\uc774\uc9c4"
-    }, 
+        "source": "Binary",
+        "description": "",
+        "id": "Binary",
+        "text": "이진"
+    },
     {
-        "source": "Error reading scanline.", 
-        "description": "", 
-        "id": "Error reading scanline.", 
-        "text": "\uc2a4\uce94 \ub77c\uc778\uc744 \uc77d\ub294 \uc911 \uc624\ub958\uac00 \ubc1c\uc0dd\ud588\uc2b5\ub2c8\ub2e4."
-    }, 
+        "source": "Error reading scanline.",
+        "description": "",
+        "id": "Error reading scanline.",
+        "text": "스캔 라인을 읽는 중 오류가 발생했습니다."
+    },
     {
-        "source": "Unsupported image type.", 
-        "description": "", 
-        "id": "Unsupported image type.", 
-        "text": "\uc9c0\uc6d0\ub418\uc9c0 \uc54a\ub294 \uc774\ubbf8\uc9c0 \uc720\ud615\uc785\ub2c8\ub2e4."
-    }, 
+        "source": "Unsupported image type.",
+        "description": "",
+        "id": "Unsupported image type.",
+        "text": "지원되지 않는 이미지 유형입니다."
+    },
     {
-        "source": "Unknown", 
-        "description": "", 
-        "id": "Unknown", 
-        "text": "\uc54c \uc218 \uc5c6\ub294"
-    }, 
+        "source": "Unknown",
+        "description": "",
+        "id": "Unknown",
+        "text": "알 수 없는"
+    },
     {
-        "source": "Out of memory", 
-        "description": "", 
-        "id": "Out of memory", 
-        "text": "\uba54\ubaa8\ub9ac \ubd80\uc871"
-    }, 
+        "source": "Out of memory",
+        "description": "",
+        "id": "Out of memory",
+        "text": "메모리 부족"
+    },
     {
-        "source": "Invalid value", 
-        "description": "", 
-        "id": "Invalid value", 
-        "text": "\uc798\ubabb\ub41c \uac12"
-    }, 
+        "source": "Invalid value",
+        "description": "",
+        "id": "Invalid value",
+        "text": "잘못된 값"
+    },
     {
-        "source": "Invalid enum", 
-        "description": "", 
-        "id": "Invalid enum", 
-        "text": "\uc720\ud6a8\ud558\uc9c0 \uc54a\uc740 \uc5f4\uac70 \ud615"
-    }, 
+        "source": "Invalid enum",
+        "description": "",
+        "id": "Invalid enum",
+        "text": "유효하지 않은 열거 형"
+    },
     {
-        "source": "U8", 
-        "description": "", 
-        "id": "U8", 
+        "source": "U8",
+        "description": "",
+        "id": "U8",
         "text": "U8"
-    }, 
+    },
     {
-        "source": "S16", 
-        "description": "", 
-        "id": "S16", 
+        "source": "S16",
+        "description": "",
+        "id": "S16",
         "text": "S16"
-    }, 
+    },
     {
-        "source": "S32", 
-        "description": "", 
-        "id": "S32", 
+        "source": "S32",
+        "description": "",
+        "id": "S32",
         "text": "S32"
-    }, 
+    },
     {
-        "source": "F32", 
-        "description": "", 
-        "id": "F32", 
+        "source": "F32",
+        "description": "",
+        "id": "F32",
         "text": "F32"
-    }, 
+    },
     {
-        "source": "Unsupported color components.", 
-        "description": "", 
-        "id": "Unsupported color components.", 
-        "text": "\uc9c0\uc6d0\ub418\uc9c0 \uc54a\ub294 \uc0c9\uc0c1 \uad6c\uc131 \uc694\uc18c."
-    }, 
+        "source": "Unsupported color components.",
+        "description": "",
+        "id": "Unsupported color components.",
+        "text": "지원되지 않는 색상 구성 요소."
+    },
     {
-        "source": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
-        "description": "", 
-        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
-        "text": "\uc774 \ud50c\ub7ec\uadf8\uc778\uc740 TIFF (Tagged Image File Format) \uc774\ubbf8\uc9c0 I / O\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4."
-    }, 
+        "source": "This plugin provides Tagged Image File Format (TIFF) image I/O.",
+        "description": "",
+        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.",
+        "text": "이 플러그인은 TIFF (Tagged Image File Format) 이미지 I / O를 제공합니다."
+    },
     {
-        "source": "RLE", 
-        "description": "", 
-        "id": "RLE", 
+        "source": "RLE",
+        "description": "",
+        "id": "RLE",
         "text": "RLE"
-    }, 
+    },
     {
-        "source": "LZW", 
-        "description": "", 
-        "id": "LZW", 
+        "source": "LZW",
+        "description": "",
+        "id": "LZW",
         "text": "LZW"
-    }, 
+    },
     {
-        "source": "The OpenGL texture cannot be created.", 
-        "description": "", 
-        "id": "The OpenGL texture cannot be created.", 
-        "text": "OpenGL \ud14d\uc2a4\ucc98\ub97c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
+        "source": "The OpenGL texture cannot be created.",
+        "description": "",
+        "id": "The OpenGL texture cannot be created.",
+        "text": "OpenGL 텍스처를 만들 수 없습니다."
+    },
     {
-        "source": "The OpenGL frame buffer cannot be created.", 
-        "description": "", 
-        "id": "The OpenGL frame buffer cannot be created.", 
-        "text": "OpenGL \ud504\ub808\uc784 \ubc84\ud37c\ub97c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
+        "source": "The OpenGL frame buffer cannot be created.",
+        "description": "",
+        "id": "The OpenGL frame buffer cannot be created.",
+        "text": "OpenGL 프레임 버퍼를 만들 수 없습니다."
+    },
     {
-        "source": "The OpenGL frame buffer cannot be initialized.", 
-        "description": "", 
-        "id": "The OpenGL frame buffer cannot be initialized.", 
-        "text": "OpenGL \ud504\ub808\uc784 \ubc84\ud37c\ub97c \ucd08\uae30\ud654 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
+        "source": "The OpenGL frame buffer cannot be initialized.",
+        "description": "",
+        "id": "The OpenGL frame buffer cannot be initialized.",
+        "text": "OpenGL 프레임 버퍼를 초기화 할 수 없습니다."
+    },
     {
-        "source": "Error writing scanline.", 
-        "description": "", 
-        "id": "Error writing scanline.", 
-        "text": "\uc8fc\uc0ac\uc120 \uc4f0\uae30 \uc624\ub958."
-    }, 
+        "source": "Error writing scanline.",
+        "description": "",
+        "id": "Error writing scanline.",
+        "text": "주사선 쓰기 오류."
+    },
     {
-        "source": "The OpenGL vertex shader cannot be created.", 
-        "description": "", 
-        "id": "The OpenGL vertex shader cannot be created.", 
-        "text": "OpenGL \ubc84\ud14d\uc2a4 \uc250\uc774\ub354\ub97c \uc0dd\uc131 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
+        "source": "The OpenGL vertex shader cannot be created.",
+        "description": "",
+        "id": "The OpenGL vertex shader cannot be created.",
+        "text": "OpenGL 버텍스 쉐이더를 생성 할 수 없습니다."
+    },
     {
-        "source": "The OpenGL vertex shader", 
-        "description": "", 
-        "id": "The OpenGL vertex shader", 
-        "text": "OpenGL \ubc84\ud14d\uc2a4 \uc250\uc774\ub354"
-    }, 
+        "source": "The OpenGL vertex shader",
+        "description": "",
+        "id": "The OpenGL vertex shader",
+        "text": "OpenGL 버텍스 쉐이더"
+    },
     {
-        "source": "cannot be compiled", 
-        "description": "", 
-        "id": "cannot be compiled", 
-        "text": "\ucef4\ud30c\uc77c \ud560 \uc218 \uc5c6\ub2e4."
-    }, 
+        "source": "cannot be compiled",
+        "description": "",
+        "id": "cannot be compiled",
+        "text": "컴파일 할 수 없다."
+    },
     {
-        "source": "The OpenGL fragment shader cannot be created.", 
-        "description": "", 
-        "id": "The OpenGL fragment shader cannot be created.", 
-        "text": "OpenGL \uc870\uac01 \uc170\uc774\ub354\ub97c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
+        "source": "The OpenGL fragment shader cannot be created.",
+        "description": "",
+        "id": "The OpenGL fragment shader cannot be created.",
+        "text": "OpenGL 조각 셰이더를 만들 수 없습니다."
+    },
     {
-        "source": "The OpenGL fragment shader", 
-        "description": "", 
-        "id": "The OpenGL fragment shader", 
-        "text": "OpenGL \ud3ec\uc6cc\ub4dc \uc170\uc774\ub354"
-    }, 
+        "source": "The OpenGL fragment shader",
+        "description": "",
+        "id": "The OpenGL fragment shader",
+        "text": "OpenGL 포워드 셰이더"
+    },
     {
-        "source": "The program", 
-        "description": "", 
-        "id": "The program", 
-        "text": "\ud504\ub85c\uadf8\ub7a8"
-    }, 
+        "source": "The program",
+        "description": "",
+        "id": "The program",
+        "text": "프로그램"
+    },
     {
-        "source": "cannot be linked", 
-        "description": "", 
-        "id": "cannot be linked", 
-        "text": "\uc5f0\uacb0\ub420 \uc218 \uc5c6\ub2e4."
-    }, 
+        "source": "cannot be linked",
+        "description": "",
+        "id": "cannot be linked",
+        "text": "연결될 수 없다."
+    },
     {
-        "source": "L U8", 
-        "description": "", 
-        "id": "L_U8", 
+        "source": "L U8",
+        "description": "",
+        "id": "L_U8",
         "text": "50 U8"
-    }, 
+    },
     {
-        "source": "L U16", 
-        "description": "", 
-        "id": "L_U16", 
+        "source": "L U16",
+        "description": "",
+        "id": "L_U16",
         "text": "L U16"
-    }, 
+    },
     {
-        "source": "L U32", 
-        "description": "", 
-        "id": "L_U32", 
+        "source": "L U32",
+        "description": "",
+        "id": "L_U32",
         "text": "L U32"
-    }, 
+    },
     {
-        "source": "L F16", 
-        "description": "", 
-        "id": "L_F16", 
+        "source": "L F16",
+        "description": "",
+        "id": "L_F16",
         "text": "L F16"
-    }, 
+    },
     {
-        "source": "L F32", 
-        "description": "", 
-        "id": "L_F32", 
+        "source": "L F32",
+        "description": "",
+        "id": "L_F32",
         "text": "L F32"
-    }, 
+    },
     {
-        "source": "LA U8", 
-        "description": "", 
-        "id": "LA_U8", 
+        "source": "LA U8",
+        "description": "",
+        "id": "LA_U8",
         "text": "THE U8"
-    }, 
+    },
     {
-        "source": "LA U16", 
-        "description": "", 
-        "id": "LA_U16", 
+        "source": "LA U16",
+        "description": "",
+        "id": "LA_U16",
         "text": "THE U16"
-    }, 
+    },
     {
-        "source": "LA U32", 
-        "description": "", 
-        "id": "LA_U32", 
+        "source": "LA U32",
+        "description": "",
+        "id": "LA_U32",
         "text": "THE U32"
-    }, 
+    },
     {
-        "source": "LA F16", 
-        "description": "", 
-        "id": "LA_F16", 
+        "source": "LA F16",
+        "description": "",
+        "id": "LA_F16",
         "text": "THE F16"
-    }, 
+    },
     {
-        "source": "LA F32", 
-        "description": "", 
-        "id": "LA_F32", 
-        "text": "\ub77c F32"
-    }, 
+        "source": "LA F32",
+        "description": "",
+        "id": "LA_F32",
+        "text": "라 F32"
+    },
     {
-        "source": "RGB U8", 
-        "description": "", 
-        "id": "RGB_U8", 
+        "source": "RGB U8",
+        "description": "",
+        "id": "RGB_U8",
         "text": "RGB U8"
-    }, 
+    },
     {
-        "source": "RGB U10", 
-        "description": "", 
-        "id": "RGB_U10", 
+        "source": "RGB U10",
+        "description": "",
+        "id": "RGB_U10",
         "text": "RGB U10"
-    }, 
+    },
     {
-        "source": "RGB U16", 
-        "description": "", 
-        "id": "RGB_U16", 
+        "source": "RGB U16",
+        "description": "",
+        "id": "RGB_U16",
         "text": "RGB U16"
-    }, 
+    },
     {
-        "source": "RGB U32", 
-        "description": "", 
-        "id": "RGB_U32", 
+        "source": "RGB U32",
+        "description": "",
+        "id": "RGB_U32",
         "text": "RGB U32"
-    }, 
+    },
     {
-        "source": "RGB F16", 
-        "description": "", 
-        "id": "RGB_F16", 
+        "source": "RGB F16",
+        "description": "",
+        "id": "RGB_F16",
         "text": "RGB F16"
-    }, 
+    },
     {
-        "source": "RGB F32", 
-        "description": "", 
-        "id": "RGB_F32", 
+        "source": "RGB F32",
+        "description": "",
+        "id": "RGB_F32",
         "text": "RGB F32"
-    }, 
+    },
     {
-        "source": "RGBA U8", 
-        "description": "", 
-        "id": "RGBA_U8", 
+        "source": "RGBA U8",
+        "description": "",
+        "id": "RGBA_U8",
         "text": "RGBA U8"
-    }, 
+    },
     {
-        "source": "RGBA U16", 
-        "description": "", 
-        "id": "RGBA_U16", 
+        "source": "RGBA U16",
+        "description": "",
+        "id": "RGBA_U16",
         "text": "RGBA U16"
-    }, 
+    },
     {
-        "source": "RGBA U32", 
-        "description": "", 
-        "id": "RGBA_U32", 
+        "source": "RGBA U32",
+        "description": "",
+        "id": "RGBA_U32",
         "text": "RGBA U32"
-    }, 
+    },
     {
-        "source": "RGBA F16", 
-        "description": "", 
-        "id": "RGBA_F16", 
+        "source": "RGBA F16",
+        "description": "",
+        "id": "RGBA_F16",
         "text": "RGBA F16"
-    }, 
+    },
     {
-        "source": "RGBA F32", 
-        "description": "", 
-        "id": "RGBA_F32", 
+        "source": "RGBA F32",
+        "description": "",
+        "id": "RGBA_F32",
         "text": "RGBA F32"
-    }, 
+    },
     {
-        "source": "L", 
-        "description": "", 
-        "id": "L", 
+        "source": "L",
+        "description": "",
+        "id": "L",
         "text": ""
-    }, 
+    },
     {
-        "source": "LA", 
-        "description": "", 
-        "id": "LA", 
+        "source": "LA",
+        "description": "",
+        "id": "LA",
         "text": "LA"
-    }, 
+    },
     {
-        "source": "RGB", 
-        "description": "", 
-        "id": "RGB", 
+        "source": "RGB",
+        "description": "",
+        "id": "RGB",
         "text": "RGB"
-    }, 
+    },
     {
-        "source": "RGBA", 
-        "description": "", 
-        "id": "RGBA", 
+        "source": "RGBA",
+        "description": "",
+        "id": "RGBA",
         "text": "RGBA"
-    }, 
+    },
     {
-        "source": "U10", 
-        "description": "", 
-        "id": "U10", 
+        "source": "U10",
+        "description": "",
+        "id": "U10",
         "text": "U10"
-    }, 
+    },
     {
-        "source": "U16", 
-        "description": "", 
-        "id": "U16", 
+        "source": "U16",
+        "description": "",
+        "id": "U16",
         "text": "U16"
-    }, 
+    },
     {
-        "source": "U32", 
-        "description": "", 
-        "id": "U32", 
+        "source": "U32",
+        "description": "",
+        "id": "U32",
         "text": "U32"
-    }, 
+    },
     {
-        "source": "F16", 
-        "description": "", 
-        "id": "F16", 
+        "source": "F16",
+        "description": "",
+        "id": "F16",
         "text": "F16"
-    }, 
+    },
     {
-        "source": "The shader cannot be created", 
-        "description": "", 
-        "id": "The shader cannot be created", 
-        "text": "\uc170\uc774\ub354\ub97c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
+        "source": "The shader cannot be created",
+        "description": "",
+        "id": "The shader cannot be created",
+        "text": "셰이더를 만들 수 없습니다."
+    },
     {
-        "source": "Cannot create GLFW window.", 
-        "description": "", 
-        "id": "Cannot create GLFW window.", 
-        "text": "GLFW \ucc3d\uc744 \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
+        "source": "Cannot create GLFW window.",
+        "description": "",
+        "id": "Cannot create GLFW window.",
+        "text": "GLFW 창을 만들 수 없습니다."
+    },
     {
-        "source": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
-        "description": "", 
-        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
-        "text": "\uc774 \ud50c\ub7ec\uadf8\uc778\uc740 JPEG (Joint Photographic Experts Group) \uc774\ubbf8\uc9c0 I / O\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4."
-    }, 
+        "source": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.",
+        "description": "",
+        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.",
+        "text": "이 플러그인은 JPEG (Joint Photographic Experts Group) 이미지 I / O를 제공합니다."
+    },
     {
-        "source": "This plugin provides OpenEXR file I/O.", 
-        "description": "", 
-        "id": "This plugin provides OpenEXR file I/O.", 
-        "text": "\uc774 \ud50c\ub7ec\uadf8\uc778\uc740 OpenEXR \ud30c\uc77c I / O\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4."
-    }, 
+        "source": "This plugin provides OpenEXR file I/O.",
+        "description": "",
+        "id": "This plugin provides OpenEXR file I/O.",
+        "text": "이 플러그인은 OpenEXR 파일 I / O를 제공합니다."
+    },
     {
-        "source": "Known", 
-        "description": "", 
-        "id": "Known", 
-        "text": "\uc54c\ub824\uc9c4"
-    }, 
+        "source": "Known",
+        "description": "",
+        "id": "Known",
+        "text": "알려진"
+    },
     {
-        "source": "All", 
-        "description": "", 
-        "id": "All", 
-        "text": "\ubaa8\ub4e0"
-    }, 
+        "source": "All",
+        "description": "",
+        "id": "All",
+        "text": "모든"
+    },
     {
-        "source": "ZIPS", 
-        "description": "", 
-        "id": "ZIPS", 
-        "text": "\uc9c0\ud37c"
-    }, 
+        "source": "ZIPS",
+        "description": "",
+        "id": "ZIPS",
+        "text": "지퍼"
+    },
     {
-        "source": "ZIP", 
-        "description": "", 
-        "id": "ZIP", 
-        "text": "\uc9c0\ud37c"
-    }, 
+        "source": "ZIP",
+        "description": "",
+        "id": "ZIP",
+        "text": "지퍼"
+    },
     {
-        "source": "PIZ", 
-        "description": "", 
-        "id": "PIZ", 
+        "source": "PIZ",
+        "description": "",
+        "id": "PIZ",
         "text": "PIZ"
-    }, 
+    },
     {
-        "source": "PXR24", 
-        "description": "", 
-        "id": "PXR24", 
+        "source": "PXR24",
+        "description": "",
+        "id": "PXR24",
         "text": "PXR24"
-    }, 
+    },
     {
-        "source": "B44", 
-        "description": "", 
-        "id": "B44", 
+        "source": "B44",
+        "description": "",
+        "id": "B44",
         "text": "B44"
-    }, 
+    },
     {
-        "source": "B44A", 
-        "description": "", 
-        "id": "B44A", 
+        "source": "B44A",
+        "description": "",
+        "id": "B44A",
         "text": "B44A"
-    }, 
+    },
     {
-        "source": "DWAA", 
-        "description": "", 
-        "id": "DWAA", 
+        "source": "DWAA",
+        "description": "",
+        "id": "DWAA",
         "text": "DWAA"
-    }, 
+    },
     {
-        "source": "DWAB", 
-        "description": "", 
-        "id": "DWAB", 
+        "source": "DWAB",
+        "description": "",
+        "id": "DWAB",
         "text": "DWAB"
-    }, 
+    },
     {
-        "source": "cannot be read", 
-        "description": "", 
-        "id": "cannot be read", 
-        "text": "\uc77d\uc744 \uc218 \uc5c6\ub2e4."
-    }, 
+        "source": "cannot be read",
+        "description": "",
+        "id": "cannot be read",
+        "text": "읽을 수 없다."
+    },
     {
-        "source": "cannot be written", 
-        "description": "", 
-        "id": "cannot be written", 
-        "text": "\uc4f8 \uc218 \uc5c6\ub2e4."
-    }, 
+        "source": "cannot be written",
+        "description": "",
+        "id": "cannot be written",
+        "text": "쓸 수 없다."
+    },
     {
-        "source": "Float", 
-        "description": "", 
-        "id": "Float", 
-        "text": "\ud759\uc190"
-    }, 
+        "source": "Float",
+        "description": "",
+        "id": "Float",
+        "text": "흙손"
+    },
     {
-        "source": "Double", 
-        "description": "", 
-        "id": "Double", 
-        "text": "\ub354\ube14"
-    }, 
+        "source": "Double",
+        "description": "",
+        "id": "Double",
+        "text": "더블"
+    },
     {
-        "source": "U8 Planar", 
-        "description": "", 
-        "id": "U8 Planar", 
-        "text": "U8 \ud3c9\uba74"
-    }, 
+        "source": "U8 Planar",
+        "description": "",
+        "id": "U8 Planar",
+        "text": "U8 평면"
+    },
     {
-        "source": "S16 Planar", 
-        "description": "", 
-        "id": "S16 Planar", 
-        "text": "S16 \ud3c9\uba74"
-    }, 
+        "source": "S16 Planar",
+        "description": "",
+        "id": "S16 Planar",
+        "text": "S16 평면"
+    },
     {
-        "source": "S32 Planar", 
-        "description": "", 
-        "id": "S32 Planar", 
-        "text": "S32 \ud3c9\uba74"
-    }, 
+        "source": "S32 Planar",
+        "description": "",
+        "id": "S32 Planar",
+        "text": "S32 평면"
+    },
     {
-        "source": "Float Planar", 
-        "description": "", 
-        "id": "Float Planar", 
-        "text": "\ud50c\ub85c\ud2b8 \ud3c9\uba74"
-    }, 
+        "source": "Float Planar",
+        "description": "",
+        "id": "Float Planar",
+        "text": "플로트 평면"
+    },
     {
-        "source": "Double Planar", 
-        "description": "", 
-        "id": "Double Planar", 
-        "text": "\ub354\ube14 \ud50c\ub808\uc778"
-    }, 
+        "source": "Double Planar",
+        "description": "",
+        "id": "Double Planar",
+        "text": "더블 플레인"
+    },
     {
-        "source": "This plugin provides FFmpeg image and audio I/O.", 
-        "description": "", 
-        "id": "This plugin provides FFmpeg image and audio I/O.", 
-        "text": "\uc774 \ud50c\ub7ec\uadf8\uc778\uc740 FFmpeg \uc774\ubbf8\uc9c0 \ubc0f \uc624\ub514\uc624 I / O\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4."
-    }, 
+        "source": "This plugin provides FFmpeg image and audio I/O.",
+        "description": "",
+        "id": "This plugin provides FFmpeg image and audio I/O.",
+        "text": "이 플러그인은 FFmpeg 이미지 및 오디오 I / O를 제공합니다."
+    },
     {
-        "source": "The file cannot be opened.", 
-        "description": "", 
-        "id": "The file cannot be opened.", 
-        "text": "\ud30c\uc77c\uc744 \uc5f4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
+        "source": "The file cannot be opened.",
+        "description": "",
+        "id": "The file cannot be opened.",
+        "text": "파일을 열 수 없습니다."
+    },
     {
-        "source": "No image channels.", 
-        "description": "", 
-        "id": "No image channels.", 
-        "text": "\uc774\ubbf8\uc9c0 \ucc44\ub110\uc774 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
+        "source": "No image channels.",
+        "description": "",
+        "id": "No image channels.",
+        "text": "이미지 채널이 없습니다."
+    },
     {
-        "source": "Image channels must have the same size and bit depth.", 
-        "description": "", 
-        "id": "Image channels must have the same size and bit depth.", 
-        "text": "\uc774\ubbf8\uc9c0 \ucc44\ub110\uc740 \ub3d9\uc77c\ud55c \ud06c\uae30\uc640 \ube44\ud2b8 \uae4a\uc774\ub97c \uac00\uc838\uc57c\ud569\ub2c8\ub2e4."
-    }, 
+        "source": "Image channels must have the same size and bit depth.",
+        "description": "",
+        "id": "Image channels must have the same size and bit depth.",
+        "text": "이미지 채널은 동일한 크기와 비트 깊이를 가져야합니다."
+    },
     {
-        "source": "Unsupported bit depth.", 
-        "description": "", 
-        "id": "Unsupported bit depth.", 
-        "text": "\uc9c0\uc6d0\ub418\uc9c0 \uc54a\ub294 \ube44\ud2b8 \uc2ec\ub3c4."
-    }, 
+        "source": "Unsupported bit depth.",
+        "description": "",
+        "id": "Unsupported bit depth.",
+        "text": "지원되지 않는 비트 심도."
+    },
     {
-        "source": "Line padding is unsupported.", 
-        "description": "", 
-        "id": "Line padding is unsupported.", 
-        "text": "\uc904 \ubc14\uafc8\uc740 \uc9c0\uc6d0\ub418\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4."
-    }, 
+        "source": "Line padding is unsupported.",
+        "description": "",
+        "id": "Line padding is unsupported.",
+        "text": "줄 바꿈은 지원되지 않습니다."
+    },
     {
-        "source": "Channel padding is unsupported.", 
-        "description": "", 
-        "id": "Channel padding is unsupported.", 
-        "text": "\ucc44\ub110 \ud328\ub529\uc740 \uc9c0\uc6d0\ub418\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4."
-    }, 
+        "source": "Channel padding is unsupported.",
+        "description": "",
+        "id": "Channel padding is unsupported.",
+        "text": "채널 패딩은 지원되지 않습니다."
+    },
     {
-        "source": "This plugin provides Cineon image I/O.", 
-        "description": "", 
-        "id": "This plugin provides Cineon image I/O.", 
-        "text": "\uc774 \ud50c\ub7ec\uadf8\uc778\uc740 Cineon \uc774\ubbf8\uc9c0 I / O\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4."
-    }, 
+        "source": "This plugin provides Cineon image I/O.",
+        "description": "",
+        "id": "This plugin provides Cineon image I/O.",
+        "text": "이 플러그인은 Cineon 이미지 I / O를 제공합니다."
+    },
     {
-        "source": "Default", 
-        "description": "", 
-        "id": "Default", 
-        "text": "\ud0dc\ub9cc"
-    }, 
+        "source": "Default",
+        "description": "",
+        "id": "Default",
+        "text": "태만"
+    },
     {
-        "id": "The audio format", 
-        "source": "The audio format", 
-        "description": "", 
-        "text": "\uc624\ub514\uc624 \ud3ec\ub9f7"
-    }, 
+        "id": "The audio format",
+        "source": "The audio format",
+        "description": "",
+        "text": "오디오 포맷"
+    },
     {
-        "source": "F64", 
-        "description": "", 
-        "id": "F64", 
+        "source": "F64",
+        "description": "",
+        "id": "F64",
         "text": "F64"
-    }, 
+    },
     {
-        "source": "RtAudio cannot be initialized", 
-        "description": "", 
-        "id": "RtAudio cannot be initialized", 
-        "text": "RtAudio\ub97c \ucd08\uae30\ud654 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4"
-    }, 
+        "source": "RtAudio cannot be initialized",
+        "description": "",
+        "id": "RtAudio cannot be initialized",
+        "text": "RtAudio를 초기화 할 수 없습니다"
+    },
     {
-        "source": "File not supported.", 
-        "description": "", 
-        "id": "File not supported.", 
-        "text": "\ud30c\uc77c\uc774 \uc9c0\uc6d0\ub418\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4."
-    }, 
+        "source": "File not supported.",
+        "description": "",
+        "id": "File not supported.",
+        "text": "파일이 지원되지 않습니다."
+    },
     {
-        "source": "Error reading header.", 
-        "description": "", 
-        "id": "Error reading header.", 
-        "text": "\ud5e4\ub354\ub97c \uc77d\ub294 \uc911 \uc624\ub958\uac00 \ubc1c\uc0dd\ud588\uc2b5\ub2c8\ub2e4."
-    }, 
+        "source": "Error reading header.",
+        "description": "",
+        "id": "Error reading header.",
+        "text": "헤더를 읽는 중 오류가 발생했습니다."
+    },
     {
-        "source": "Straight", 
-        "description": "", 
-        "id": "Straight", 
-        "text": "\uc9c1\uc9c4"
-    }, 
+        "source": "Straight",
+        "description": "",
+        "id": "Straight",
+        "text": "직진"
+    },
     {
-        "source": "Premultiplied", 
-        "description": "", 
-        "id": "Premultiplied", 
-        "text": "\ubbf8\ub9ac \uacf1\ud558\uae30"
-    }, 
+        "source": "Premultiplied",
+        "description": "",
+        "id": "Premultiplied",
+        "text": "미리 곱하기"
+    },
     {
-        "source": "This plugin provides IFF image I/O.", 
-        "description": "", 
-        "id": "This plugin provides IFF image I/O.", 
-        "text": "\uc774 \ud50c\ub7ec\uadf8\uc778\uc740 IFF \uc774\ubbf8\uc9c0 I / O\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4."
-    }, 
+        "source": "This plugin provides IFF image I/O.",
+        "description": "",
+        "id": "This plugin provides IFF image I/O.",
+        "text": "이 플러그인은 IFF 이미지 I / O를 제공합니다."
+    },
     {
-        "source": "Cannot initialize GLFW.", 
-        "description": "", 
-        "id": "Cannot initialize GLFW.", 
-        "text": "GLFW\ub97c \ucd08\uae30\ud654 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
+        "source": "Cannot initialize GLFW.",
+        "description": "",
+        "id": "Cannot initialize GLFW.",
+        "text": "GLFW를 초기화 할 수 없습니다."
+    },
     {
-        "source": "Cannot initialize GLAD.", 
-        "description": "", 
-        "id": "Cannot initialize GLAD.", 
-        "text": "GLAD\ub97c \ucd08\uae30\ud654 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
+        "source": "Cannot initialize GLAD.",
+        "description": "",
+        "id": "Cannot initialize GLAD.",
+        "text": "GLAD를 초기화 할 수 없습니다."
+    },
     {
-        "source": "This plugin provides RLA image I/O.", 
-        "description": "", 
-        "id": "This plugin provides RLA image I/O.", 
-        "text": "\uc774 \ud50c\ub7ec\uadf8\uc778\uc740 RLA \uc774\ubbf8\uc9c0 I / O\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4."
-    }, 
+        "source": "This plugin provides RLA image I/O.",
+        "description": "",
+        "id": "This plugin provides RLA image I/O.",
+        "text": "이 플러그인은 RLA 이미지 I / O를 제공합니다."
+    },
     {
-        "source": "This plugin provides SGI image I/O.", 
-        "description": "", 
-        "id": "This plugin provides SGI image I/O.", 
-        "text": "\uc774 \ud50c\ub7ec\uadf8\uc778\uc740 SGI \uc774\ubbf8\uc9c0 I / O\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4."
-    }, 
+        "source": "This plugin provides SGI image I/O.",
+        "description": "",
+        "id": "This plugin provides SGI image I/O.",
+        "text": "이 플러그인은 SGI 이미지 I / O를 제공합니다."
+    },
     {
-        "source": "Read error.", 
-        "description": "", 
-        "id": "Read error.", 
-        "text": "\uc77d\uae30 \uc624\ub958"
-    }, 
+        "source": "Read error.",
+        "description": "",
+        "id": "Read error.",
+        "text": "읽기 오류"
+    },
     {
-        "source": "This plugin provides Targa image I/O.", 
-        "description": "", 
-        "id": "This plugin provides Targa image I/O.", 
-        "text": "\uc774 \ud50c\ub7ec\uadf8\uc778\uc740 Targa \uc774\ubbf8\uc9c0 I / O\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4."
-    }, 
+        "source": "This plugin provides Targa image I/O.",
+        "description": "",
+        "id": "This plugin provides Targa image I/O.",
+        "text": "이 플러그인은 Targa 이미지 I / O를 제공합니다."
+    },
     {
-        "source": "Red", 
-        "text": "\ube68\uac04", 
-        "id": "Red", 
+        "source": "Red",
+        "text": "빨간",
+        "id": "Red",
         "description": ""
-    }, 
+    },
     {
-        "source": "Green", 
-        "text": "\ucd08\ub85d", 
-        "id": "Green", 
+        "source": "Green",
+        "text": "초록",
+        "id": "Green",
         "description": ""
-    }, 
+    },
     {
-        "source": "Blue", 
-        "text": "\ud478\ub978", 
-        "id": "Blue", 
+        "source": "Blue",
+        "text": "푸른",
+        "id": "Blue",
         "description": ""
-    }, 
+    },
     {
-        "source": "Alpha", 
-        "text": "\uc54c\ud30c", 
-        "id": "Alpha", 
+        "source": "Alpha",
+        "text": "알파",
+        "id": "Alpha",
         "description": ""
-    }, 
+    },
     {
-        "source": "Atlas", 
-        "text": "\uc544\ud2c0\ub77c\uc2a4", 
-        "id": "Atlas", 
+        "source": "Atlas",
+        "text": "아틀라스",
+        "id": "Atlas",
         "description": ""
-    }, 
+    },
     {
-        "source": "Dynamic", 
-        "text": "\ub3d9\uc801", 
-        "id": "Dynamic", 
+        "source": "Dynamic",
+        "text": "동적",
+        "id": "Dynamic",
         "description": ""
-    }, 
+    },
     {
-        "source": "Nearest", 
-        "text": "\uac00\uc7a5 \uac00\uae4c\uc6b4", 
-        "id": "Nearest", 
+        "source": "Nearest",
+        "text": "가장 가까운",
+        "id": "Nearest",
         "description": ""
-    }, 
+    },
     {
-        "source": "Linear", 
-        "text": "\uc120\uc758", 
-        "id": "Linear", 
+        "source": "Linear",
+        "text": "선의",
+        "id": "Linear",
         "description": ""
     }
 ]

@@ -1,86 +1,86 @@
 [
     {
-        "source": " Usage:", 
-        "text": "\u7528\u6cd5\uff1a", 
-        "id": " Usage:", 
+        "source": " Usage:",
+        "text": "用法：",
+        "id": " Usage:",
         "description": ""
-    }, 
+    },
     {
-        "source": "   djv_test_pattern (output) [option, ...]", 
-        "text": "djv_test_pattern\uff08\u8f93\u51fa\uff09[\u9009\u9879\uff0c...]", 
-        "id": "   djv_test_pattern (output) [option, ...]", 
+        "source": "   djv_test_pattern (output) [option, ...]",
+        "text": "djv_test_pattern（输出）[选项，...]",
+        "id": "   djv_test_pattern (output) [option, ...]",
         "description": ""
-    }, 
+    },
     {
-        "source": " Options:", 
-        "text": "\u9009\u9879\uff1a", 
-        "id": " Options:", 
+        "source": " Options:",
+        "text": "选项：",
+        "id": " Options:",
         "description": ""
-    }, 
+    },
     {
-        "source": "   -frameCount (value)", 
-        "text": "-frameCount\uff08\u503c\uff09", 
-        "id": "   -frameCount (value)", 
+        "source": "   -frameCount (value)",
+        "text": "-frameCount（值）",
+        "id": "   -frameCount (value)",
         "description": ""
-    }, 
+    },
     {
-        "source": "   The number of frames to render. Default: ", 
-        "text": "\u8981\u6e32\u67d3\u7684\u5e27\u6570\u3002\u9ed8\u8ba4\uff1a", 
-        "id": "   The number of frames to render. Default: ", 
+        "source": "   The number of frames to render. Default: ",
+        "text": "要渲染的帧数。默认：",
+        "id": "   The number of frames to render. Default: ",
         "description": ""
-    }, 
+    },
     {
-        "source": "   -size \\\"(width) (height)\\\"", 
-        "text": "-\u5927\u5c0f\\\u201c\uff08\u5bbd\u5ea6\uff09\uff08\u9ad8\u5ea6\uff09\\\u201d", 
-        "id": "   -size \\\"(width) (height)\\\"", 
+        "source": "   -size \\\"(width) (height)\\\"",
+        "text": "-大小\\“（宽度）（高度）\\”",
+        "id": "   -size \\\"(width) (height)\\\"",
         "description": ""
-    }, 
+    },
     {
-        "source": "   The image resolution. Default: ", 
-        "text": "\u56fe\u50cf\u5206\u8fa8\u7387\u3002\u9ed8\u8ba4\uff1a", 
-        "id": "   The image resolution. Default: ", 
+        "source": "   The image resolution. Default: ",
+        "text": "图像分辨率。默认：",
+        "id": "   The image resolution. Default: ",
         "description": ""
-    }, 
+    },
     {
-        "source": "   -type (value)", 
-        "text": "\u7c7b\u578b\uff08\u503c\uff09", 
-        "id": "   -type (value)", 
+        "source": "   -type (value)",
+        "text": "类型（值）",
+        "id": "   -type (value)",
         "description": ""
-    }, 
+    },
     {
-        "source": "   The image type. Default: ", 
-        "text": "\u56fe\u50cf\u7c7b\u578b\u3002\u9ed8\u8ba4\uff1a", 
-        "id": "   The image type. Default: ", 
+        "source": "   The image type. Default: ",
+        "text": "图像类型。默认：",
+        "id": "   The image type. Default: ",
         "description": ""
-    }, 
+    },
     {
-        "source": " Examples:", 
-        "text": "\u4f8b\u5b50\uff1a", 
-        "id": " Examples:", 
+        "source": " Examples:",
+        "text": "例子：",
+        "id": " Examples:",
         "description": ""
-    }, 
+    },
     {
-        "source": "   > djv_test_pattern test.1.dpx", 
-        "text": "&gt; djv_test_pattern test.1.dpx", 
-        "id": "   > djv_test_pattern test.1.dpx", 
+        "source": "   > djv_test_pattern test.1.dpx",
+        "text": "&gt; djv_test_pattern test.1.dpx",
+        "id": "   > djv_test_pattern test.1.dpx",
         "description": ""
-    }, 
+    },
     {
-        "source": "   Render a test pattern with the default values.", 
-        "text": "\u4f7f\u7528\u9ed8\u8ba4\u503c\u6e32\u67d3\u6d4b\u8bd5\u56fe\u6848\u3002", 
-        "id": "   Render a test pattern with the default values.", 
+        "source": "   Render a test pattern with the default values.",
+        "text": "使用默认值渲染测试图案。",
+        "id": "   Render a test pattern with the default values.",
         "description": ""
-    }, 
+    },
     {
-        "source": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16", 
-        "text": "&gt; djv_test_pattern test.1.tif -size&#39;3840 2160&#39;-type RGB_U16", 
-        "id": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16", 
+        "source": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16",
+        "text": "&gt; djv_test_pattern test.1.tif -size&#39;3840 2160&#39;-type RGB_U16",
+        "id": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16",
         "description": ""
-    }, 
+    },
     {
-        "source": "   Render a UHD resolution test pattern with a RGB 16-bit image type.", 
-        "text": "\u6e32\u67d3\u5177\u6709RGB 16\u4f4d\u56fe\u50cf\u7c7b\u578b\u7684UHD\u5206\u8fa8\u7387\u6d4b\u8bd5\u56fe\u6848\u3002", 
-        "id": "   Render a UHD resolution test pattern with a RGB 16-bit image type.", 
+        "source": "   Render a UHD resolution test pattern with a RGB 16-bit image type.",
+        "text": "渲染具有RGB 16位图像类型的UHD分辨率测试图案。",
+        "id": "   Render a UHD resolution test pattern with a RGB 16-bit image type.",
         "description": ""
     }
 ]

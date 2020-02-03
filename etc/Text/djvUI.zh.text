@@ -1,1292 +1,1292 @@
 [
     {
-        "source": "Cannot parse the value.", 
-        "description": "", 
-        "id": "Cannot parse the value.", 
-        "text": "\u65e0\u6cd5\u89e3\u6790\u8be5\u503c\u3002"
-    }, 
-    {
-        "source": "Horizontal", 
-        "description": "", 
-        "id": "Horizontal", 
-        "text": "\u6a2a"
-    }, 
-    {
-        "source": "Vertical", 
-        "description": "", 
-        "id": "Vertical", 
-        "text": "\u5782\u76f4"
-    }, 
-    {
-        "source": "Left", 
-        "description": "", 
-        "id": "Left", 
-        "text": "\u5269\u4e0b"
-    }, 
-    {
-        "source": "Top", 
-        "description": "", 
-        "id": "Top", 
-        "text": "\u6700\u4f73"
-    }, 
-    {
-        "source": "Right", 
-        "description": "", 
-        "id": "Right", 
-        "text": "\u5bf9"
-    }, 
-    {
-        "source": "Bottom", 
-        "description": "", 
-        "id": "Bottom", 
-        "text": "\u5e95\u90e8"
-    }, 
-    {
-        "source": "None", 
-        "description": "", 
-        "id": "None", 
-        "text": "\u6ca1\u6709"
-    }, 
-    {
-        "source": "Both", 
-        "description": "", 
-        "id": "Both", 
-        "text": "\u90fd"
-    }, 
-    {
-        "source": "Center", 
-        "description": "", 
-        "id": "Center", 
-        "text": "\u4e2d\u592e"
-    }, 
-    {
-        "source": "Fill", 
-        "description": "", 
-        "id": "Fill", 
-        "text": "\u586b"
-    }, 
-    {
-        "source": "Baseline", 
-        "description": "", 
-        "id": "Baseline", 
-        "text": "\u5e95\u7ebf"
-    }, 
-    {
-        "source": "Single", 
-        "description": "", 
-        "id": "Single", 
-        "text": "\u5355"
-    }, 
-    {
-        "source": "Radio", 
-        "description": "", 
-        "id": "Radio", 
-        "text": "\u65e0\u7ebf\u7535"
-    }, 
-    {
-        "source": "Multiple", 
-        "description": "", 
-        "id": "Multiple", 
-        "text": "\u591a"
-    }, 
-    {
-        "source": "Forward", 
-        "description": "", 
-        "id": "Forward", 
-        "text": "\u5411\u524d"
-    }, 
-    {
-        "source": "Reverse", 
-        "description": "", 
-        "id": "Reverse", 
-        "text": "\u76f8\u53cd"
-    }, 
-    {
-        "source": "Push", 
-        "description": "", 
-        "id": "Push", 
-        "text": "\u63a8"
-    }, 
-    {
-        "source": "Toggle", 
-        "description": "", 
-        "id": "Toggle", 
-        "text": "\u5207\u6362"
-    }, 
-    {
-        "source": "Exclusive", 
-        "description": "", 
-        "id": "Exclusive", 
-        "text": "\u72ec\u5bb6"
-    }, 
-    {
-        "source": "Tiles", 
-        "description": "", 
-        "id": "Tiles", 
-        "text": "\u74f7\u7816"
-    }, 
-    {
-        "source": "List", 
-        "description": "", 
-        "id": "List", 
-        "text": "\u540d\u5355"
-    }, 
-    {
-        "source": "Background", 
-        "description": "", 
-        "id": "Background", 
-        "text": "\u80cc\u666f"
-    }, 
-    {
-        "source": "Background Header", 
-        "description": "", 
-        "id": "BackgroundHeader", 
-        "text": "\u80cc\u666f\u6807\u9898"
-    }, 
-    {
-        "source": "Background Bellows", 
-        "description": "", 
-        "id": "BackgroundBellows", 
-        "text": "\u80cc\u666f\u6ce2\u7eb9\u7ba1"
-    }, 
-    {
-        "source": "Background ToolBar", 
-        "description": "", 
-        "id": "BackgroundToolBar", 
-        "text": "\u80cc\u666f\u5de5\u5177\u680f"
-    }, 
-    {
-        "source": "Foreground", 
-        "description": "", 
-        "id": "Foreground", 
-        "text": "\u524d\u666f"
-    }, 
-    {
-        "source": "Foreground Dim", 
-        "description": "", 
-        "id": "ForegroundDim", 
-        "text": "\u524d\u666f\u6697\u6de1"
-    }, 
-    {
-        "source": "Border", 
-        "description": "", 
-        "id": "Border", 
-        "text": "\u8fb9\u754c"
-    }, 
-    {
-        "source": "Border Button", 
-        "description": "", 
-        "id": "BorderButton", 
-        "text": "\u8fb9\u6846\u6309\u94ae"
-    }, 
-    {
-        "source": "Trough", 
-        "description": "", 
-        "id": "Trough", 
-        "text": "\u69fd"
-    }, 
-    {
-        "source": "Button", 
-        "description": "", 
-        "id": "Button", 
-        "text": "\u6309\u952e"
-    }, 
-    {
-        "source": "Hovered", 
-        "description": "", 
-        "id": "Hovered", 
-        "text": "\u5f98\u5f8a"
-    }, 
-    {
-        "source": "Pressed", 
-        "description": "", 
-        "id": "Pressed", 
-        "text": "\u8ffd\u95ee"
-    }, 
-    {
-        "source": "Checked", 
-        "description": "", 
-        "id": "Checked", 
-        "text": "\u7ecf\u8fc7"
-    }, 
-    {
-        "source": "Text Focus", 
-        "description": "", 
-        "id": "TextFocus", 
-        "text": "\u6587\u5b57\u7126\u70b9"
-    }, 
-    {
-        "source": "Tooltip Background", 
-        "description": "", 
-        "id": "TooltipBackground", 
-        "text": "\u5de5\u5177\u63d0\u793a\u80cc\u666f"
-    }, 
-    {
-        "source": "Tooltip Foreground", 
-        "description": "", 
-        "id": "TooltipForeground", 
-        "text": "\u5de5\u5177\u63d0\u793a\u524d\u666f"
-    }, 
-    {
-        "source": "Overlay", 
-        "description": "", 
-        "id": "Overlay", 
-        "text": "\u8986\u76d6"
-    }, 
-    {
-        "source": "Overlay Light", 
-        "description": "", 
-        "id": "OverlayLight", 
-        "text": "\u53e0\u52a0\u5149"
-    }, 
-    {
-        "source": "Shadow", 
-        "description": "", 
-        "id": "Shadow", 
-        "text": "\u9634\u5f71"
-    }, 
-    {
-        "source": "Handle", 
-        "description": "", 
-        "id": "Handle", 
-        "text": "\u5904\u7406"
-    }, 
-    {
-        "source": "Margin", 
-        "description": "", 
-        "id": "Margin", 
-        "text": "\u4f59\u91cf"
-    }, 
-    {
-        "source": "Margin Small", 
-        "description": "", 
-        "id": "MarginSmall", 
-        "text": "\u4fdd\u8bc1\u91d1\u5c0f"
-    }, 
-    {
-        "source": "Margin Large", 
-        "description": "", 
-        "id": "MarginLarge", 
-        "text": "\u4fdd\u8bc1\u91d1\u5927"
-    }, 
-    {
-        "source": "Margin Dialog", 
-        "description": "", 
-        "id": "MarginDialog", 
-        "text": "\u4fdd\u8bc1\u91d1\u5bf9\u8bdd"
-    }, 
-    {
-        "source": "Spacing", 
-        "description": "", 
-        "id": "Spacing", 
-        "text": "\u95f4\u8ddd"
-    }, 
-    {
-        "source": "Spacing Small", 
-        "description": "", 
-        "id": "SpacingSmall", 
-        "text": "\u95f4\u8ddd\u5c0f"
-    }, 
-    {
-        "source": "Spacing Large", 
-        "description": "", 
-        "id": "SpacingLarge", 
-        "text": "\u95f4\u8ddd\u5927"
-    }, 
-    {
-        "source": "Drag", 
-        "description": "", 
-        "id": "Drag", 
-        "text": "\u62d6\u52a8"
-    }, 
-    {
-        "source": "Icon", 
-        "description": "", 
-        "id": "Icon", 
-        "text": "\u56fe\u6807"
-    }, 
-    {
-        "source": "Icon Small", 
-        "description": "", 
-        "id": "IconSmall", 
-        "text": "\u56fe\u6807\u5c0f"
-    }, 
-    {
-        "source": "Font Small", 
-        "description": "", 
-        "id": "FontSmall", 
-        "text": "\u5b57\u4f53\u5c0f"
-    }, 
-    {
-        "source": "Font Medium", 
-        "description": "", 
-        "id": "FontMedium", 
-        "text": "\u5b57\u4f53\u4e2d\u7b49"
-    }, 
-    {
-        "source": "Font Large", 
-        "description": "", 
-        "id": "FontLarge", 
-        "text": "\u5b57\u4f53\u5927"
-    }, 
-    {
-        "source": "Font Header", 
-        "description": "", 
-        "id": "FontHeader", 
-        "text": "\u5b57\u4f53\u6807\u9898"
-    }, 
-    {
-        "source": "Font Title", 
-        "description": "", 
-        "id": "FontTitle", 
-        "text": "\u5b57\u4f53\u6807\u9898"
-    }, 
-    {
-        "source": "Swatch", 
-        "description": "", 
-        "id": "Swatch", 
-        "text": "\u65af\u6c83\u742a"
-    }, 
-    {
-        "source": "Slider", 
-        "description": "", 
-        "id": "Slider", 
-        "text": "\u6ed1\u5757"
-    }, 
-    {
-        "source": "Scroll Area", 
-        "description": "", 
-        "id": "ScrollArea", 
-        "text": "\u6eda\u52a8\u533a\u57df"
-    }, 
-    {
-        "source": "Menu", 
-        "description": "", 
-        "id": "Menu", 
-        "text": "\u83dc\u5355"
-    }, 
-    {
-        "source": "Text Column", 
-        "description": "", 
-        "id": "TextColumn", 
-        "text": "\u6587\u672c\u5217"
-    }, 
-    {
-        "source": "Text Column Large", 
-        "description": "", 
-        "id": "TextColumnLarge", 
-        "text": "\u6587\u5b57\u680f\u5927"
-    }, 
-    {
-        "source": "Search Box", 
-        "description": "", 
-        "id": "SearchBox", 
-        "text": "\u641c\u7d22\u6846"
-    }, 
-    {
-        "source": "Dialog", 
-        "description": "", 
-        "id": "Dialog", 
-        "text": "\u5bf9\u8bdd"
-    }, 
-    {
-        "source": "Shadow Small", 
-        "description": "", 
-        "id": "ShadowSmall", 
-        "text": "\u5f71\u5b50\u5c0f"
-    }, 
-    {
-        "source": "Tooltip Offset", 
-        "description": "", 
-        "id": "TooltipOffset", 
-        "text": "\u5de5\u5177\u63d0\u793a\u504f\u79fb"
-    }, 
-    {
-        "source": "Move", 
-        "description": "", 
-        "id": "Move", 
-        "text": "\u79fb\u52a8"
-    }, 
-    {
-        "source": "Dark", 
-        "description": "", 
-        "id": "Dark", 
-        "text": "\u6697"
-    }, 
-    {
-        "source": "Light", 
-        "description": "", 
-        "id": "Light", 
-        "text": "\u5149"
-    }, 
-    {
-        "source": "Medium", 
-        "description": "", 
-        "id": "Medium", 
-        "text": "\u4ecb\u8d28"
-    }, 
-    {
-        "source": "Small", 
-        "description": "", 
-        "id": "Small", 
-        "text": "\u5c0f"
-    }, 
-    {
-        "source": "Large", 
-        "description": "", 
-        "id": "Large", 
-        "text": "\u5927"
-    }, 
-    {
-        "source": "Extra Large", 
-        "description": "", 
-        "id": "ExtraLarge", 
-        "text": "\u7279\u5927\u53f7"
-    }, 
-    {
-        "source": "Default", 
-        "description": "", 
-        "id": "Default", 
-        "text": "\u9ed8\u8ba4"
-    }, 
-    {
-        "source": "Expand", 
-        "description": "", 
-        "id": "Expand", 
-        "text": "\u6269\u5927"
-    }, 
-    {
-        "source": "Space", 
-        "description": "", 
-        "id": "Space", 
-        "text": "\u7a7a\u95f4"
-    }, 
-    {
-        "source": "Apostrophe", 
-        "description": "", 
-        "id": "Apostrophe", 
-        "text": "\u6487\u53f7"
-    }, 
-    {
-        "source": "Comma", 
-        "description": "", 
-        "id": "Comma", 
-        "text": "\u9017\u53f7"
-    }, 
-    {
-        "source": "Minus", 
-        "description": "", 
-        "id": "Minus", 
-        "text": "\u51cf\u53bb"
-    }, 
-    {
-        "source": "Period", 
-        "description": "", 
-        "id": "Period", 
-        "text": "\u671f"
-    }, 
-    {
-        "source": "Slash", 
-        "description": "", 
-        "id": "Slash", 
-        "text": "\u524a\u51cf"
-    }, 
-    {
-        "source": "0", 
-        "description": "", 
-        "id": "0", 
+        "source": "Cannot parse the value.",
+        "description": "",
+        "id": "Cannot parse the value.",
+        "text": "无法解析该值。"
+    },
+    {
+        "source": "Horizontal",
+        "description": "",
+        "id": "Horizontal",
+        "text": "横"
+    },
+    {
+        "source": "Vertical",
+        "description": "",
+        "id": "Vertical",
+        "text": "垂直"
+    },
+    {
+        "source": "Left",
+        "description": "",
+        "id": "Left",
+        "text": "剩下"
+    },
+    {
+        "source": "Top",
+        "description": "",
+        "id": "Top",
+        "text": "最佳"
+    },
+    {
+        "source": "Right",
+        "description": "",
+        "id": "Right",
+        "text": "对"
+    },
+    {
+        "source": "Bottom",
+        "description": "",
+        "id": "Bottom",
+        "text": "底部"
+    },
+    {
+        "source": "None",
+        "description": "",
+        "id": "None",
+        "text": "没有"
+    },
+    {
+        "source": "Both",
+        "description": "",
+        "id": "Both",
+        "text": "都"
+    },
+    {
+        "source": "Center",
+        "description": "",
+        "id": "Center",
+        "text": "中央"
+    },
+    {
+        "source": "Fill",
+        "description": "",
+        "id": "Fill",
+        "text": "填"
+    },
+    {
+        "source": "Baseline",
+        "description": "",
+        "id": "Baseline",
+        "text": "底线"
+    },
+    {
+        "source": "Single",
+        "description": "",
+        "id": "Single",
+        "text": "单"
+    },
+    {
+        "source": "Radio",
+        "description": "",
+        "id": "Radio",
+        "text": "无线电"
+    },
+    {
+        "source": "Multiple",
+        "description": "",
+        "id": "Multiple",
+        "text": "多"
+    },
+    {
+        "source": "Forward",
+        "description": "",
+        "id": "Forward",
+        "text": "向前"
+    },
+    {
+        "source": "Reverse",
+        "description": "",
+        "id": "Reverse",
+        "text": "相反"
+    },
+    {
+        "source": "Push",
+        "description": "",
+        "id": "Push",
+        "text": "推"
+    },
+    {
+        "source": "Toggle",
+        "description": "",
+        "id": "Toggle",
+        "text": "切换"
+    },
+    {
+        "source": "Exclusive",
+        "description": "",
+        "id": "Exclusive",
+        "text": "独家"
+    },
+    {
+        "source": "Tiles",
+        "description": "",
+        "id": "Tiles",
+        "text": "瓷砖"
+    },
+    {
+        "source": "List",
+        "description": "",
+        "id": "List",
+        "text": "名单"
+    },
+    {
+        "source": "Background",
+        "description": "",
+        "id": "Background",
+        "text": "背景"
+    },
+    {
+        "source": "Background Header",
+        "description": "",
+        "id": "BackgroundHeader",
+        "text": "背景标题"
+    },
+    {
+        "source": "Background Bellows",
+        "description": "",
+        "id": "BackgroundBellows",
+        "text": "背景波纹管"
+    },
+    {
+        "source": "Background ToolBar",
+        "description": "",
+        "id": "BackgroundToolBar",
+        "text": "背景工具栏"
+    },
+    {
+        "source": "Foreground",
+        "description": "",
+        "id": "Foreground",
+        "text": "前景"
+    },
+    {
+        "source": "Foreground Dim",
+        "description": "",
+        "id": "ForegroundDim",
+        "text": "前景暗淡"
+    },
+    {
+        "source": "Border",
+        "description": "",
+        "id": "Border",
+        "text": "边界"
+    },
+    {
+        "source": "Border Button",
+        "description": "",
+        "id": "BorderButton",
+        "text": "边框按钮"
+    },
+    {
+        "source": "Trough",
+        "description": "",
+        "id": "Trough",
+        "text": "槽"
+    },
+    {
+        "source": "Button",
+        "description": "",
+        "id": "Button",
+        "text": "按键"
+    },
+    {
+        "source": "Hovered",
+        "description": "",
+        "id": "Hovered",
+        "text": "徘徊"
+    },
+    {
+        "source": "Pressed",
+        "description": "",
+        "id": "Pressed",
+        "text": "追问"
+    },
+    {
+        "source": "Checked",
+        "description": "",
+        "id": "Checked",
+        "text": "经过"
+    },
+    {
+        "source": "Text Focus",
+        "description": "",
+        "id": "TextFocus",
+        "text": "文字焦点"
+    },
+    {
+        "source": "Tooltip Background",
+        "description": "",
+        "id": "TooltipBackground",
+        "text": "工具提示背景"
+    },
+    {
+        "source": "Tooltip Foreground",
+        "description": "",
+        "id": "TooltipForeground",
+        "text": "工具提示前景"
+    },
+    {
+        "source": "Overlay",
+        "description": "",
+        "id": "Overlay",
+        "text": "覆盖"
+    },
+    {
+        "source": "Overlay Light",
+        "description": "",
+        "id": "OverlayLight",
+        "text": "叠加光"
+    },
+    {
+        "source": "Shadow",
+        "description": "",
+        "id": "Shadow",
+        "text": "阴影"
+    },
+    {
+        "source": "Handle",
+        "description": "",
+        "id": "Handle",
+        "text": "处理"
+    },
+    {
+        "source": "Margin",
+        "description": "",
+        "id": "Margin",
+        "text": "余量"
+    },
+    {
+        "source": "Margin Small",
+        "description": "",
+        "id": "MarginSmall",
+        "text": "保证金小"
+    },
+    {
+        "source": "Margin Large",
+        "description": "",
+        "id": "MarginLarge",
+        "text": "保证金大"
+    },
+    {
+        "source": "Margin Dialog",
+        "description": "",
+        "id": "MarginDialog",
+        "text": "保证金对话"
+    },
+    {
+        "source": "Spacing",
+        "description": "",
+        "id": "Spacing",
+        "text": "间距"
+    },
+    {
+        "source": "Spacing Small",
+        "description": "",
+        "id": "SpacingSmall",
+        "text": "间距小"
+    },
+    {
+        "source": "Spacing Large",
+        "description": "",
+        "id": "SpacingLarge",
+        "text": "间距大"
+    },
+    {
+        "source": "Drag",
+        "description": "",
+        "id": "Drag",
+        "text": "拖动"
+    },
+    {
+        "source": "Icon",
+        "description": "",
+        "id": "Icon",
+        "text": "图标"
+    },
+    {
+        "source": "Icon Small",
+        "description": "",
+        "id": "IconSmall",
+        "text": "图标小"
+    },
+    {
+        "source": "Font Small",
+        "description": "",
+        "id": "FontSmall",
+        "text": "字体小"
+    },
+    {
+        "source": "Font Medium",
+        "description": "",
+        "id": "FontMedium",
+        "text": "字体中等"
+    },
+    {
+        "source": "Font Large",
+        "description": "",
+        "id": "FontLarge",
+        "text": "字体大"
+    },
+    {
+        "source": "Font Header",
+        "description": "",
+        "id": "FontHeader",
+        "text": "字体标题"
+    },
+    {
+        "source": "Font Title",
+        "description": "",
+        "id": "FontTitle",
+        "text": "字体标题"
+    },
+    {
+        "source": "Swatch",
+        "description": "",
+        "id": "Swatch",
+        "text": "斯沃琪"
+    },
+    {
+        "source": "Slider",
+        "description": "",
+        "id": "Slider",
+        "text": "滑块"
+    },
+    {
+        "source": "Scroll Area",
+        "description": "",
+        "id": "ScrollArea",
+        "text": "滚动区域"
+    },
+    {
+        "source": "Menu",
+        "description": "",
+        "id": "Menu",
+        "text": "菜单"
+    },
+    {
+        "source": "Text Column",
+        "description": "",
+        "id": "TextColumn",
+        "text": "文本列"
+    },
+    {
+        "source": "Text Column Large",
+        "description": "",
+        "id": "TextColumnLarge",
+        "text": "文字栏大"
+    },
+    {
+        "source": "Search Box",
+        "description": "",
+        "id": "SearchBox",
+        "text": "搜索框"
+    },
+    {
+        "source": "Dialog",
+        "description": "",
+        "id": "Dialog",
+        "text": "对话"
+    },
+    {
+        "source": "Shadow Small",
+        "description": "",
+        "id": "ShadowSmall",
+        "text": "影子小"
+    },
+    {
+        "source": "Tooltip Offset",
+        "description": "",
+        "id": "TooltipOffset",
+        "text": "工具提示偏移"
+    },
+    {
+        "source": "Move",
+        "description": "",
+        "id": "Move",
+        "text": "移动"
+    },
+    {
+        "source": "Dark",
+        "description": "",
+        "id": "Dark",
+        "text": "暗"
+    },
+    {
+        "source": "Light",
+        "description": "",
+        "id": "Light",
+        "text": "光"
+    },
+    {
+        "source": "Medium",
+        "description": "",
+        "id": "Medium",
+        "text": "介质"
+    },
+    {
+        "source": "Small",
+        "description": "",
+        "id": "Small",
+        "text": "小"
+    },
+    {
+        "source": "Large",
+        "description": "",
+        "id": "Large",
+        "text": "大"
+    },
+    {
+        "source": "Extra Large",
+        "description": "",
+        "id": "ExtraLarge",
+        "text": "特大号"
+    },
+    {
+        "source": "Default",
+        "description": "",
+        "id": "Default",
+        "text": "默认"
+    },
+    {
+        "source": "Expand",
+        "description": "",
+        "id": "Expand",
+        "text": "扩大"
+    },
+    {
+        "source": "Space",
+        "description": "",
+        "id": "Space",
+        "text": "空间"
+    },
+    {
+        "source": "Apostrophe",
+        "description": "",
+        "id": "Apostrophe",
+        "text": "撇号"
+    },
+    {
+        "source": "Comma",
+        "description": "",
+        "id": "Comma",
+        "text": "逗号"
+    },
+    {
+        "source": "Minus",
+        "description": "",
+        "id": "Minus",
+        "text": "减去"
+    },
+    {
+        "source": "Period",
+        "description": "",
+        "id": "Period",
+        "text": "期"
+    },
+    {
+        "source": "Slash",
+        "description": "",
+        "id": "Slash",
+        "text": "削减"
+    },
+    {
+        "source": "0",
+        "description": "",
+        "id": "0",
         "text": "0"
-    }, 
+    },
     {
-        "source": "1", 
-        "description": "", 
-        "id": "1", 
+        "source": "1",
+        "description": "",
+        "id": "1",
         "text": "1"
-    }, 
+    },
     {
-        "source": "2", 
-        "description": "", 
-        "id": "2", 
+        "source": "2",
+        "description": "",
+        "id": "2",
         "text": "2"
-    }, 
+    },
     {
-        "source": "3", 
-        "description": "", 
-        "id": "3", 
+        "source": "3",
+        "description": "",
+        "id": "3",
         "text": "3"
-    }, 
+    },
     {
-        "source": "4", 
-        "description": "", 
-        "id": "4", 
+        "source": "4",
+        "description": "",
+        "id": "4",
         "text": "4"
-    }, 
+    },
     {
-        "source": "5", 
-        "description": "", 
-        "id": "5", 
-        "text": "\u4e94"
-    }, 
+        "source": "5",
+        "description": "",
+        "id": "5",
+        "text": "五"
+    },
     {
-        "source": "6", 
-        "description": "", 
-        "id": "6", 
+        "source": "6",
+        "description": "",
+        "id": "6",
         "text": "6"
-    }, 
+    },
     {
-        "source": "7", 
-        "description": "", 
-        "id": "7", 
+        "source": "7",
+        "description": "",
+        "id": "7",
         "text": "7"
-    }, 
+    },
     {
-        "source": "8", 
-        "description": "", 
-        "id": "8", 
+        "source": "8",
+        "description": "",
+        "id": "8",
         "text": "8"
-    }, 
+    },
     {
-        "source": "9", 
-        "description": "", 
-        "id": "9", 
+        "source": "9",
+        "description": "",
+        "id": "9",
         "text": "9"
-    }, 
+    },
     {
-        "source": "Semicolon", 
-        "description": "", 
-        "id": "Semicolon", 
-        "text": "\u5206\u53f7"
-    }, 
+        "source": "Semicolon",
+        "description": "",
+        "id": "Semicolon",
+        "text": "分号"
+    },
     {
-        "source": "Equal", 
-        "description": "", 
-        "id": "Equal", 
-        "text": "\u7b49\u4e8e"
-    }, 
+        "source": "Equal",
+        "description": "",
+        "id": "Equal",
+        "text": "等于"
+    },
     {
-        "source": "A", 
-        "description": "", 
-        "id": "A", 
-        "text": "\u4e00\u4e2a"
-    }, 
+        "source": "A",
+        "description": "",
+        "id": "A",
+        "text": "一个"
+    },
     {
-        "source": "B", 
-        "description": "", 
-        "id": "B", 
-        "text": "\u4e59"
-    }, 
+        "source": "B",
+        "description": "",
+        "id": "B",
+        "text": "乙"
+    },
     {
-        "source": "C", 
-        "description": "", 
-        "id": "C", 
+        "source": "C",
+        "description": "",
+        "id": "C",
         "text": "C"
-    }, 
+    },
     {
-        "source": "D", 
-        "description": "", 
-        "id": "D", 
+        "source": "D",
+        "description": "",
+        "id": "D",
         "text": "d"
-    }, 
+    },
     {
-        "source": "E", 
-        "description": "", 
-        "id": "E", 
-        "text": "\u548c"
-    }, 
+        "source": "E",
+        "description": "",
+        "id": "E",
+        "text": "和"
+    },
     {
-        "source": "F", 
-        "description": "", 
-        "id": "F", 
+        "source": "F",
+        "description": "",
+        "id": "F",
         "text": "F"
-    }, 
+    },
     {
-        "source": "G", 
-        "description": "", 
-        "id": "G", 
+        "source": "G",
+        "description": "",
+        "id": "G",
         "text": "G"
-    }, 
+    },
     {
-        "source": "H", 
-        "description": "", 
-        "id": "H", 
+        "source": "H",
+        "description": "",
+        "id": "H",
         "text": "H"
-    }, 
+    },
     {
-        "source": "I", 
-        "description": "", 
-        "id": "I", 
-        "text": "\u4e00\u4e16"
-    }, 
+        "source": "I",
+        "description": "",
+        "id": "I",
+        "text": "一世"
+    },
     {
-        "source": "J", 
-        "description": "", 
-        "id": "J", 
-        "text": "\u0134"
-    }, 
+        "source": "J",
+        "description": "",
+        "id": "J",
+        "text": "Ĵ"
+    },
     {
-        "source": "K", 
-        "description": "", 
-        "id": "K", 
-        "text": "\u8be5"
-    }, 
+        "source": "K",
+        "description": "",
+        "id": "K",
+        "text": "该"
+    },
     {
-        "source": "L", 
-        "description": "", 
-        "id": "L", 
-        "text": "\u8be5"
-    }, 
+        "source": "L",
+        "description": "",
+        "id": "L",
+        "text": "该"
+    },
     {
-        "source": "M", 
-        "description": "", 
-        "id": "M", 
-        "text": "\u4e2d\u53f7"
-    }, 
+        "source": "M",
+        "description": "",
+        "id": "M",
+        "text": "中号"
+    },
     {
-        "source": "N", 
-        "description": "", 
-        "id": "N", 
-        "text": "\u00f1"
-    }, 
+        "source": "N",
+        "description": "",
+        "id": "N",
+        "text": "ñ"
+    },
     {
-        "source": "O", 
-        "description": "", 
-        "id": "O", 
-        "text": "\u8be5"
-    }, 
+        "source": "O",
+        "description": "",
+        "id": "O",
+        "text": "该"
+    },
     {
-        "source": "P", 
-        "description": "", 
-        "id": "P", 
+        "source": "P",
+        "description": "",
+        "id": "P",
         "text": "P"
-    }, 
+    },
     {
-        "source": "Q", 
-        "description": "", 
-        "id": "Q", 
+        "source": "Q",
+        "description": "",
+        "id": "Q",
         "text": "Q"
-    }, 
+    },
     {
-        "source": "R", 
-        "description": "", 
-        "id": "R", 
+        "source": "R",
+        "description": "",
+        "id": "R",
         "text": "[R"
-    }, 
+    },
     {
-        "source": "S", 
-        "description": "", 
-        "id": "S", 
-        "text": "\u5c0f\u53f7"
-    }, 
+        "source": "S",
+        "description": "",
+        "id": "S",
+        "text": "小号"
+    },
     {
-        "source": "T", 
-        "description": "", 
-        "id": "T", 
-        "text": "\u0164"
-    }, 
+        "source": "T",
+        "description": "",
+        "id": "T",
+        "text": "Ť"
+    },
     {
-        "source": "U", 
-        "description": "", 
-        "id": "U", 
-        "text": "\u8be5"
-    }, 
+        "source": "U",
+        "description": "",
+        "id": "U",
+        "text": "该"
+    },
     {
-        "source": "V", 
-        "description": "", 
-        "id": "V", 
+        "source": "V",
+        "description": "",
+        "id": "V",
         "text": "V"
-    }, 
+    },
     {
-        "source": "W", 
-        "description": "", 
-        "id": "W", 
-        "text": "\u8be5"
-    }, 
+        "source": "W",
+        "description": "",
+        "id": "W",
+        "text": "该"
+    },
     {
-        "source": "X", 
-        "description": "", 
-        "id": "X", 
+        "source": "X",
+        "description": "",
+        "id": "X",
         "text": "X"
-    }, 
+    },
     {
-        "source": "Y", 
-        "description": "", 
-        "id": "Y", 
-        "text": "\u548c"
-    }, 
+        "source": "Y",
+        "description": "",
+        "id": "Y",
+        "text": "和"
+    },
     {
-        "source": "Z", 
-        "description": "", 
-        "id": "Z", 
-        "text": "\u540c"
-    }, 
+        "source": "Z",
+        "description": "",
+        "id": "Z",
+        "text": "同"
+    },
     {
-        "source": "Left Bracket", 
-        "description": "", 
-        "id": "LeftBracket", 
-        "text": "\u5de6\u652f\u67b6"
-    }, 
+        "source": "Left Bracket",
+        "description": "",
+        "id": "LeftBracket",
+        "text": "左支架"
+    },
     {
-        "source": "Backslash", 
-        "description": "", 
-        "id": "Backslash", 
-        "text": "\u53cd\u659c\u6760"
-    }, 
+        "source": "Backslash",
+        "description": "",
+        "id": "Backslash",
+        "text": "反斜杠"
+    },
     {
-        "source": "Right Bracket", 
-        "description": "", 
-        "id": "RightBracket", 
-        "text": "\u53f3\u652f\u67b6"
-    }, 
+        "source": "Right Bracket",
+        "description": "",
+        "id": "RightBracket",
+        "text": "右支架"
+    },
     {
-        "source": "Grave Accent", 
-        "description": "", 
-        "id": "GraveAccent", 
-        "text": "\u4e25\u8083\u7684\u53e3\u97f3"
-    }, 
+        "source": "Grave Accent",
+        "description": "",
+        "id": "GraveAccent",
+        "text": "严肃的口音"
+    },
     {
-        "source": "World 1", 
-        "description": "", 
-        "id": "World1", 
-        "text": "\u4e16\u754c1"
-    }, 
+        "source": "World 1",
+        "description": "",
+        "id": "World1",
+        "text": "世界1"
+    },
     {
-        "source": "World 2", 
-        "description": "", 
-        "id": "World2", 
-        "text": "\u4e16\u754c2"
-    }, 
+        "source": "World 2",
+        "description": "",
+        "id": "World2",
+        "text": "世界2"
+    },
     {
-        "source": "Escape", 
-        "description": "", 
-        "id": "Escape", 
-        "text": "\u9003\u9038"
-    }, 
+        "source": "Escape",
+        "description": "",
+        "id": "Escape",
+        "text": "逃逸"
+    },
     {
-        "source": "Enter", 
-        "description": "", 
-        "id": "Enter", 
-        "text": "\u8f93\u5165"
-    }, 
+        "source": "Enter",
+        "description": "",
+        "id": "Enter",
+        "text": "输入"
+    },
     {
-        "source": "Tab", 
-        "description": "", 
-        "id": "Tab", 
-        "text": "\u6807\u7b7e"
-    }, 
+        "source": "Tab",
+        "description": "",
+        "id": "Tab",
+        "text": "标签"
+    },
     {
-        "source": "Backspace", 
-        "description": "", 
-        "id": "Backspace", 
-        "text": "\u9000\u683c"
-    }, 
+        "source": "Backspace",
+        "description": "",
+        "id": "Backspace",
+        "text": "退格"
+    },
     {
-        "source": "Insert", 
-        "description": "", 
-        "id": "Insert", 
-        "text": "\u63d2\u5165"
-    }, 
+        "source": "Insert",
+        "description": "",
+        "id": "Insert",
+        "text": "插入"
+    },
     {
-        "source": "Delete", 
-        "description": "", 
-        "id": "Delete", 
-        "text": "\u5220\u9664"
-    }, 
+        "source": "Delete",
+        "description": "",
+        "id": "Delete",
+        "text": "删除"
+    },
     {
-        "source": "Right Arrow", 
-        "description": "", 
-        "id": "RightArrow", 
-        "text": "\u53f3\u7bad\u5934"
-    }, 
+        "source": "Right Arrow",
+        "description": "",
+        "id": "RightArrow",
+        "text": "右箭头"
+    },
     {
-        "source": "Left Arrow", 
-        "description": "", 
-        "id": "LeftArrow", 
-        "text": "\u5de6\u7bad\u5934"
-    }, 
+        "source": "Left Arrow",
+        "description": "",
+        "id": "LeftArrow",
+        "text": "左箭头"
+    },
     {
-        "source": "Down Arrow", 
-        "description": "", 
-        "id": "DownArrow", 
-        "text": "\u5411\u4e0b\u7bad\u5934"
-    }, 
+        "source": "Down Arrow",
+        "description": "",
+        "id": "DownArrow",
+        "text": "向下箭头"
+    },
     {
-        "source": "Up Arrow", 
-        "description": "", 
-        "id": "UpArrow", 
-        "text": "\u5411\u4e0a\u7bad\u5934"
-    }, 
+        "source": "Up Arrow",
+        "description": "",
+        "id": "UpArrow",
+        "text": "向上箭头"
+    },
     {
-        "source": "Page Up", 
-        "description": "", 
-        "id": "PageUp", 
+        "source": "Page Up",
+        "description": "",
+        "id": "PageUp",
         "text": "Page Up"
-    }, 
+    },
     {
-        "source": "Page Down", 
-        "description": "", 
-        "id": "PageDown", 
-        "text": "\u5411\u4e0b\u7ffb\u9875"
-    }, 
+        "source": "Page Down",
+        "description": "",
+        "id": "PageDown",
+        "text": "向下翻页"
+    },
     {
-        "source": "Home", 
-        "description": "", 
-        "id": "Home", 
-        "text": "\u5bb6"
-    }, 
+        "source": "Home",
+        "description": "",
+        "id": "Home",
+        "text": "家"
+    },
     {
-        "source": "End", 
-        "description": "", 
-        "id": "End", 
-        "text": "\u7ed3\u675f"
-    }, 
+        "source": "End",
+        "description": "",
+        "id": "End",
+        "text": "结束"
+    },
     {
-        "source": "Caps Lock", 
-        "description": "", 
-        "id": "CapsLock", 
-        "text": "\u5927\u5199\u9501\u5b9a"
-    }, 
+        "source": "Caps Lock",
+        "description": "",
+        "id": "CapsLock",
+        "text": "大写锁定"
+    },
     {
-        "source": "Scroll Lock", 
-        "description": "", 
-        "id": "ScrollLock", 
-        "text": "\u6eda\u52a8\u9501\u5b9a"
-    }, 
+        "source": "Scroll Lock",
+        "description": "",
+        "id": "ScrollLock",
+        "text": "滚动锁定"
+    },
     {
-        "source": "Num Lock", 
-        "description": "", 
-        "id": "NumLock", 
-        "text": "\u6570\u5b57\u952e\u76d8\uff08\u7684\u7b2c\u4e00\u4e2a\u952e"
-    }, 
+        "source": "Num Lock",
+        "description": "",
+        "id": "NumLock",
+        "text": "数字键盘（的第一个键"
+    },
     {
-        "source": "Print Screen", 
-        "description": "", 
-        "id": "PrintScreen", 
-        "text": "\u6253\u5370\u5c4f\u5e55"
-    }, 
+        "source": "Print Screen",
+        "description": "",
+        "id": "PrintScreen",
+        "text": "打印屏幕"
+    },
     {
-        "source": "F1", 
-        "description": "", 
-        "id": "F1", 
+        "source": "F1",
+        "description": "",
+        "id": "F1",
         "text": "F1"
-    }, 
+    },
     {
-        "source": "F2", 
-        "description": "", 
-        "id": "F2", 
+        "source": "F2",
+        "description": "",
+        "id": "F2",
         "text": "F2"
-    }, 
+    },
     {
-        "source": "F3", 
-        "description": "", 
-        "id": "F3", 
+        "source": "F3",
+        "description": "",
+        "id": "F3",
         "text": "F3"
-    }, 
+    },
     {
-        "source": "F4", 
-        "description": "", 
-        "id": "F4", 
+        "source": "F4",
+        "description": "",
+        "id": "F4",
         "text": "F4"
-    }, 
+    },
     {
-        "source": "F5", 
-        "description": "", 
-        "id": "F5", 
+        "source": "F5",
+        "description": "",
+        "id": "F5",
         "text": "F5"
-    }, 
+    },
     {
-        "source": "F6", 
-        "description": "", 
-        "id": "F6", 
+        "source": "F6",
+        "description": "",
+        "id": "F6",
         "text": "F6"
-    }, 
+    },
     {
-        "source": "F7", 
-        "description": "", 
-        "id": "F7", 
+        "source": "F7",
+        "description": "",
+        "id": "F7",
         "text": "F7"
-    }, 
+    },
     {
-        "source": "F8", 
-        "description": "", 
-        "id": "F8", 
+        "source": "F8",
+        "description": "",
+        "id": "F8",
         "text": "F8"
-    }, 
+    },
     {
-        "source": "F9", 
-        "description": "", 
-        "id": "F9", 
+        "source": "F9",
+        "description": "",
+        "id": "F9",
         "text": "F9"
-    }, 
+    },
     {
-        "source": "F10", 
-        "description": "", 
-        "id": "F10", 
+        "source": "F10",
+        "description": "",
+        "id": "F10",
         "text": "F10"
-    }, 
+    },
     {
-        "source": "F11", 
-        "description": "", 
-        "id": "F11", 
+        "source": "F11",
+        "description": "",
+        "id": "F11",
         "text": "F11"
-    }, 
+    },
     {
-        "source": "F12", 
-        "description": "", 
-        "id": "F12", 
+        "source": "F12",
+        "description": "",
+        "id": "F12",
         "text": "F12"
-    }, 
+    },
     {
-        "source": "F13", 
-        "description": "", 
-        "id": "F13", 
+        "source": "F13",
+        "description": "",
+        "id": "F13",
         "text": "F13"
-    }, 
+    },
     {
-        "source": "F14", 
-        "description": "", 
-        "id": "F14", 
+        "source": "F14",
+        "description": "",
+        "id": "F14",
         "text": "F14"
-    }, 
+    },
     {
-        "source": "F15", 
-        "description": "", 
-        "id": "F15", 
+        "source": "F15",
+        "description": "",
+        "id": "F15",
         "text": "F15"
-    }, 
+    },
     {
-        "source": "F16", 
-        "description": "", 
-        "id": "F16", 
+        "source": "F16",
+        "description": "",
+        "id": "F16",
         "text": "F16"
-    }, 
+    },
     {
-        "source": "F17", 
-        "description": "", 
-        "id": "F17", 
+        "source": "F17",
+        "description": "",
+        "id": "F17",
         "text": "F17"
-    }, 
+    },
     {
-        "source": "F18", 
-        "description": "", 
-        "id": "F18", 
+        "source": "F18",
+        "description": "",
+        "id": "F18",
         "text": "F18"
-    }, 
+    },
     {
-        "source": "F19", 
-        "description": "", 
-        "id": "F19", 
+        "source": "F19",
+        "description": "",
+        "id": "F19",
         "text": "F19"
-    }, 
+    },
     {
-        "source": "F20", 
-        "description": "", 
-        "id": "F20", 
+        "source": "F20",
+        "description": "",
+        "id": "F20",
         "text": "F20"
-    }, 
+    },
     {
-        "source": "F21", 
-        "description": "", 
-        "id": "F21", 
+        "source": "F21",
+        "description": "",
+        "id": "F21",
         "text": "F21"
-    }, 
+    },
     {
-        "source": "F22", 
-        "description": "", 
-        "id": "F22", 
+        "source": "F22",
+        "description": "",
+        "id": "F22",
         "text": "F22"
-    }, 
+    },
     {
-        "source": "F23", 
-        "description": "", 
-        "id": "F23", 
+        "source": "F23",
+        "description": "",
+        "id": "F23",
         "text": "F23"
-    }, 
+    },
     {
-        "source": "F24", 
-        "description": "", 
-        "id": "F24", 
+        "source": "F24",
+        "description": "",
+        "id": "F24",
         "text": "F24"
-    }, 
+    },
     {
-        "source": "F25", 
-        "description": "", 
-        "id": "F25", 
+        "source": "F25",
+        "description": "",
+        "id": "F25",
         "text": "F25"
-    }, 
+    },
     {
-        "source": "Key Pad 0", 
-        "description": "", 
-        "id": "KeyPad0", 
-        "text": "\u952e\u76d80"
-    }, 
+        "source": "Key Pad 0",
+        "description": "",
+        "id": "KeyPad0",
+        "text": "键盘0"
+    },
     {
-        "source": "Key Pad 1", 
-        "description": "", 
-        "id": "KeyPad1", 
-        "text": "\u952e\u76d81"
-    }, 
+        "source": "Key Pad 1",
+        "description": "",
+        "id": "KeyPad1",
+        "text": "键盘1"
+    },
     {
-        "source": "Key Pad 2", 
-        "description": "", 
-        "id": "KeyPad2", 
-        "text": "\u952e\u76d82"
-    }, 
+        "source": "Key Pad 2",
+        "description": "",
+        "id": "KeyPad2",
+        "text": "键盘2"
+    },
     {
-        "source": "Key Pad 3", 
-        "description": "", 
-        "id": "KeyPad3", 
-        "text": "\u952e\u76d83"
-    }, 
+        "source": "Key Pad 3",
+        "description": "",
+        "id": "KeyPad3",
+        "text": "键盘3"
+    },
     {
-        "source": "Key Pad 4", 
-        "description": "", 
-        "id": "KeyPad4", 
-        "text": "\u952e\u76d84"
-    }, 
+        "source": "Key Pad 4",
+        "description": "",
+        "id": "KeyPad4",
+        "text": "键盘4"
+    },
     {
-        "source": "Key Pad 5", 
-        "description": "", 
-        "id": "KeyPad5", 
-        "text": "\u952e\u76d85"
-    }, 
+        "source": "Key Pad 5",
+        "description": "",
+        "id": "KeyPad5",
+        "text": "键盘5"
+    },
     {
-        "source": "Key Pad 6", 
-        "description": "", 
-        "id": "KeyPad6", 
-        "text": "\u952e\u76d86"
-    }, 
+        "source": "Key Pad 6",
+        "description": "",
+        "id": "KeyPad6",
+        "text": "键盘6"
+    },
     {
-        "source": "Key Pad 7", 
-        "description": "", 
-        "id": "KeyPad7", 
-        "text": "\u952e\u76d87"
-    }, 
+        "source": "Key Pad 7",
+        "description": "",
+        "id": "KeyPad7",
+        "text": "键盘7"
+    },
     {
-        "source": "Key Pad 8", 
-        "description": "", 
-        "id": "KeyPad8", 
-        "text": "\u952e\u76d88"
-    }, 
+        "source": "Key Pad 8",
+        "description": "",
+        "id": "KeyPad8",
+        "text": "键盘8"
+    },
     {
-        "source": "Key Pad 9", 
-        "description": "", 
-        "id": "KeyPad9", 
-        "text": "\u952e\u76d89"
-    }, 
+        "source": "Key Pad 9",
+        "description": "",
+        "id": "KeyPad9",
+        "text": "键盘9"
+    },
     {
-        "source": "Key Pad Decimal", 
-        "description": "", 
-        "id": "KeyPadDecimal", 
-        "text": "\u952e\u76d8\u5341\u8fdb\u5236"
-    }, 
+        "source": "Key Pad Decimal",
+        "description": "",
+        "id": "KeyPadDecimal",
+        "text": "键盘十进制"
+    },
     {
-        "source": "Key Pad Divide", 
-        "description": "", 
-        "id": "KeyPadDivide", 
-        "text": "\u952e\u76d8\u5212\u5206"
-    }, 
+        "source": "Key Pad Divide",
+        "description": "",
+        "id": "KeyPadDivide",
+        "text": "键盘划分"
+    },
     {
-        "source": "Key Pad Multiply", 
-        "description": "", 
-        "id": "KeyPadMultiply", 
-        "text": "\u952e\u76d8\u500d\u589e"
-    }, 
+        "source": "Key Pad Multiply",
+        "description": "",
+        "id": "KeyPadMultiply",
+        "text": "键盘倍增"
+    },
     {
-        "source": "Key Pad Substract", 
-        "description": "", 
-        "id": "KeyPadSubstract", 
-        "text": "\u952e\u76d8\u51cf\u6cd5"
-    }, 
+        "source": "Key Pad Substract",
+        "description": "",
+        "id": "KeyPadSubstract",
+        "text": "键盘减法"
+    },
     {
-        "source": "Key Pad Add", 
-        "description": "", 
-        "id": "KeyPadAdd", 
-        "text": "\u952e\u76d8\u6dfb\u52a0"
-    }, 
+        "source": "Key Pad Add",
+        "description": "",
+        "id": "KeyPadAdd",
+        "text": "键盘添加"
+    },
     {
-        "source": "Key Pad Enter", 
-        "description": "", 
-        "id": "KeyPadEnter", 
-        "text": "\u952e\u76d8\u8f93\u5165"
-    }, 
+        "source": "Key Pad Enter",
+        "description": "",
+        "id": "KeyPadEnter",
+        "text": "键盘输入"
+    },
     {
-        "source": "Key Pad Equal", 
-        "description": "", 
-        "id": "KeyPadEqual", 
-        "text": "\u952e\u76d8\u76f8\u7b49"
-    }, 
+        "source": "Key Pad Equal",
+        "description": "",
+        "id": "KeyPadEqual",
+        "text": "键盘相等"
+    },
     {
-        "source": "Left Shift", 
-        "description": "", 
-        "id": "LeftShift", 
-        "text": "\u5de6\u79fb"
-    }, 
+        "source": "Left Shift",
+        "description": "",
+        "id": "LeftShift",
+        "text": "左移"
+    },
     {
-        "source": "Left Control", 
-        "description": "", 
-        "id": "LeftControl", 
-        "text": "\u5de6\u63a7\u5236"
-    }, 
+        "source": "Left Control",
+        "description": "",
+        "id": "LeftControl",
+        "text": "左控制"
+    },
     {
-        "source": "Left Alt", 
-        "description": "", 
-        "id": "LeftAlt", 
-        "text": "\u5de6Alt"
-    }, 
+        "source": "Left Alt",
+        "description": "",
+        "id": "LeftAlt",
+        "text": "左Alt"
+    },
     {
-        "source": "Left Command", 
-        "description": "", 
-        "id": "LeftCommand", 
-        "text": "\u5de6\u547d\u4ee4"
-    }, 
+        "source": "Left Command",
+        "description": "",
+        "id": "LeftCommand",
+        "text": "左命令"
+    },
     {
-        "source": "Right Shift", 
-        "description": "", 
-        "id": "RightShift", 
-        "text": "\u53f3\u8f6c"
-    }, 
+        "source": "Right Shift",
+        "description": "",
+        "id": "RightShift",
+        "text": "右转"
+    },
     {
-        "source": "Right Control", 
-        "description": "", 
-        "id": "RightControl", 
-        "text": "\u6b63\u786e\u63a7\u5236"
-    }, 
+        "source": "Right Control",
+        "description": "",
+        "id": "RightControl",
+        "text": "正确控制"
+    },
     {
-        "source": "Right Alt", 
-        "description": "", 
-        "id": "RightAlt", 
-        "text": "\u53f3Alt"
-    }, 
+        "source": "Right Alt",
+        "description": "",
+        "id": "RightAlt",
+        "text": "右Alt"
+    },
     {
-        "source": "Right Command", 
-        "description": "", 
-        "id": "RightCommand", 
-        "text": "\u6b63\u786e\u7684\u547d\u4ee4"
-    }, 
+        "source": "Right Command",
+        "description": "",
+        "id": "RightCommand",
+        "text": "正确的命令"
+    },
     {
-        "source": "Shift", 
-        "description": "", 
-        "id": "Shift", 
-        "text": "\u8f6c\u79fb"
-    }, 
+        "source": "Shift",
+        "description": "",
+        "id": "Shift",
+        "text": "转移"
+    },
     {
-        "source": "Ctrl", 
-        "description": "", 
-        "id": "Ctrl", 
-        "text": "\u6309Ctrl"
-    }, 
+        "source": "Ctrl",
+        "description": "",
+        "id": "Ctrl",
+        "text": "按Ctrl"
+    },
     {
-        "source": "Alt", 
-        "description": "", 
-        "id": "Alt", 
-        "text": "\u4e00\u5207"
-    }, 
+        "source": "Alt",
+        "description": "",
+        "id": "Alt",
+        "text": "一切"
+    },
     {
-        "source": "Command", 
-        "description": "", 
-        "id": "Command", 
-        "text": "\u547d\u4ee4"
-    }, 
+        "source": "Command",
+        "description": "",
+        "id": "Command",
+        "text": "命令"
+    },
     {
-        "source": "Cached", 
-        "description": "", 
-        "id": "Cached", 
-        "text": "\u5df2\u7f13\u5b58"
-    }, 
+        "source": "Cached",
+        "description": "",
+        "id": "Cached",
+        "text": "已缓存"
+    },
     {
-        "source": "Scrub", 
-        "description": "", 
-        "id": "Scrub", 
-        "text": "\u64e6\u6d17"
-    }, 
+        "source": "Scrub",
+        "description": "",
+        "id": "Scrub",
+        "text": "擦洗"
+    },
     {
-        "source": "Keyboard shortcut", 
-        "description": "", 
-        "id": "Keyboard shortcut", 
-        "text": "\u952e\u76d8\u5feb\u6377\u952e"
-    }, 
+        "source": "Keyboard shortcut",
+        "description": "",
+        "id": "Keyboard shortcut",
+        "text": "键盘快捷键"
+    },
     {
-        "source": "Keyboard shortcuts", 
-        "description": "", 
-        "id": "Keyboard shortcuts", 
-        "text": "\u952e\u76d8\u5feb\u6377\u952e"
-    }, 
+        "source": "Keyboard shortcuts",
+        "description": "",
+        "id": "Keyboard shortcuts",
+        "text": "键盘快捷键"
+    },
     {
-        "source": "IconMini", 
-        "text": "\u56fe\u6807\u8ff7\u4f60", 
-        "id": "IconMini", 
+        "source": "IconMini",
+        "text": "图标迷你",
+        "id": "IconMini",
         "description": ""
-    }, 
+    },
     {
-        "source": "SwatchSmall", 
-        "text": "\u8272\u677f\u5c0f", 
-        "id": "SwatchSmall", 
+        "source": "SwatchSmall",
+        "text": "色板小",
+        "id": "SwatchSmall",
         "description": ""
-    }, 
+    },
     {
-        "source": "ScrollBar", 
-        "text": "\u6eda\u52a8\u6761", 
-        "id": "ScrollBar", 
+        "source": "ScrollBar",
+        "text": "滚动条",
+        "id": "ScrollBar",
         "description": ""
-    }, 
+    },
     {
-        "source": "ScrollBarSmall", 
-        "text": "\u6eda\u52a8\u6761\u5c0f", 
-        "id": "ScrollBarSmall", 
+        "source": "ScrollBarSmall",
+        "text": "滚动条小",
+        "id": "ScrollBarSmall",
         "description": ""
-    }, 
+    },
     {
-        "source": "Native", 
-        "text": "\u672c\u673a", 
-        "id": "Native", 
+        "source": "Native",
+        "text": "本机",
+        "id": "Native",
         "description": ""
-    }, 
+    },
     {
-        "source": "16:9", 
-        "text": "16\uff1a9", 
-        "id": "16:9", 
+        "source": "16:9",
+        "text": "16：9",
+        "id": "16:9",
         "description": ""
-    }, 
+    },
     {
-        "source": "1.85", 
-        "text": "1.85", 
-        "id": "1.85", 
+        "source": "1.85",
+        "text": "1.85",
+        "id": "1.85",
         "description": ""
-    }, 
+    },
     {
-        "source": "2.35", 
-        "text": "2.35", 
-        "id": "2.35", 
+        "source": "2.35",
+        "text": "2.35",
+        "id": "2.35",
         "description": ""
-    }, 
+    },
     {
-        "source": "Reset the value.", 
-        "text": "\u91cd\u7f6e\u503c\u3002", 
-        "id": "Reset the value.", 
+        "source": "Reset the value.",
+        "text": "重置值。",
+        "id": "Reset the value.",
         "description": ""
-    }, 
+    },
     {
-        "source": "BelowRight", 
-        "text": "\u53f3\u4e0b", 
-        "description": "", 
+        "source": "BelowRight",
+        "text": "右下",
+        "description": "",
         "id": "BelowRight"
-    }, 
+    },
     {
-        "source": "BelowLeft", 
-        "text": "\u5de6\u4e0b", 
-        "description": "", 
+        "source": "BelowLeft",
+        "text": "左下",
+        "description": "",
         "id": "BelowLeft"
-    }, 
+    },
     {
-        "source": "AboveRight", 
-        "text": "\u53f3\u4e0a", 
-        "description": "", 
+        "source": "AboveRight",
+        "text": "右上",
+        "description": "",
         "id": "AboveRight"
-    }, 
+    },
     {
-        "source": "AboveLeft", 
-        "text": "\u5de6\u4e0a", 
-        "description": "", 
+        "source": "AboveLeft",
+        "text": "左上",
+        "description": "",
         "id": "AboveLeft"
     }
 ]

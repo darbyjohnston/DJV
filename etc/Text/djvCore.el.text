@@ -1,1730 +1,1730 @@
 [
     {
-        "source": "Parent Changed", 
-        "description": "", 
-        "id": "ParentChanged", 
-        "text": "\u039f \u03b3\u03bf\u03bd\u03ad\u03b1\u03c2 \u03ac\u03bb\u03bb\u03b1\u03be\u03b5"
-    }, 
+        "source": "Parent Changed",
+        "description": "",
+        "id": "ParentChanged",
+        "text": "Ο γονέας άλλαξε"
+    },
     {
-        "source": "Child Added", 
-        "description": "", 
-        "id": "ChildAdded", 
-        "text": "\u03a0\u03c1\u03bf\u03c3\u03c4\u03ad\u03b8\u03b7\u03ba\u03b5 \u03c0\u03b1\u03b9\u03b4\u03af"
-    }, 
+        "source": "Child Added",
+        "description": "",
+        "id": "ChildAdded",
+        "text": "Προστέθηκε παιδί"
+    },
     {
-        "source": "Child Removed", 
-        "description": "", 
-        "id": "ChildRemoved", 
-        "text": "\u03a4\u03bf \u03c0\u03b1\u03b9\u03b4\u03af \u03b1\u03c6\u03b1\u03b9\u03c1\u03ad\u03b8\u03b7\u03ba\u03b5"
-    }, 
+        "source": "Child Removed",
+        "description": "",
+        "id": "ChildRemoved",
+        "text": "Το παιδί αφαιρέθηκε"
+    },
     {
-        "source": "Child Order", 
-        "description": "", 
-        "id": "ChildOrder", 
-        "text": "\u03a0\u03b1\u03b9\u03b4\u03b9\u03ba\u03ae \u03a0\u03b1\u03c1\u03b1\u03b3\u03b3\u03b5\u03bb\u03af\u03b1"
-    }, 
+        "source": "Child Order",
+        "description": "",
+        "id": "ChildOrder",
+        "text": "Παιδική Παραγγελία"
+    },
     {
-        "source": "Locale", 
-        "description": "", 
-        "id": "Locale", 
-        "text": "\u03c4\u03bf\u03c0\u03b9\u03ba\u03cc\u03c2"
-    }, 
+        "source": "Locale",
+        "description": "",
+        "id": "Locale",
+        "text": "τοπικός"
+    },
     {
-        "source": "Update", 
-        "description": "", 
-        "id": "Update", 
-        "text": "\u0395\u03ba\u03c3\u03c5\u03b3\u03c7\u03c1\u03bf\u03bd\u03af\u03b6\u03c9"
-    }, 
+        "source": "Update",
+        "description": "",
+        "id": "Update",
+        "text": "Εκσυγχρονίζω"
+    },
     {
-        "source": "Style", 
-        "description": "", 
-        "id": "Style", 
-        "text": "\u03a3\u03c4\u03c5\u03bb"
-    }, 
+        "source": "Style",
+        "description": "",
+        "id": "Style",
+        "text": "Στυλ"
+    },
     {
-        "source": "Pre Layout", 
-        "description": "", 
-        "id": "PreLayout", 
-        "text": "\u03a0\u03c1\u03bf\u03c1\u03cd\u03b8\u03bc\u03b9\u03c3\u03b7"
-    }, 
+        "source": "Pre Layout",
+        "description": "",
+        "id": "PreLayout",
+        "text": "Προρύθμιση"
+    },
     {
-        "source": "Layout", 
-        "description": "", 
-        "id": "Layout", 
-        "text": "\u03a3\u03c7\u03ad\u03b4\u03b9\u03bf"
-    }, 
+        "source": "Layout",
+        "description": "",
+        "id": "Layout",
+        "text": "Σχέδιο"
+    },
     {
-        "source": "Clip", 
-        "description": "", 
-        "id": "Clip", 
-        "text": "\u03a3\u03c5\u03bd\u03b4\u03b5\u03c4\u03ae\u03c1\u03b1\u03c2"
-    }, 
+        "source": "Clip",
+        "description": "",
+        "id": "Clip",
+        "text": "Συνδετήρας"
+    },
     {
-        "source": "Paint", 
-        "description": "", 
-        "id": "Paint", 
-        "text": "\u03a7\u03c1\u03ce\u03bc\u03b1"
-    }, 
+        "source": "Paint",
+        "description": "",
+        "id": "Paint",
+        "text": "Χρώμα"
+    },
     {
-        "source": "Paint Overlay", 
-        "description": "", 
-        "id": "PaintOverlay", 
-        "text": "\u0395\u03c0\u03b9\u03ba\u03ac\u03bb\u03c5\u03c8\u03b7 \u03c7\u03c1\u03c9\u03bc\u03ac\u03c4\u03c9\u03bd"
-    }, 
+        "source": "Paint Overlay",
+        "description": "",
+        "id": "PaintOverlay",
+        "text": "Επικάλυψη χρωμάτων"
+    },
     {
-        "source": "Pointer Enter", 
-        "description": "", 
-        "id": "PointerEnter", 
-        "text": "\u0395\u03b9\u03c3\u03b1\u03b3\u03c9\u03b3\u03ae \u03b4\u03b5\u03af\u03ba\u03c4\u03b7"
-    }, 
+        "source": "Pointer Enter",
+        "description": "",
+        "id": "PointerEnter",
+        "text": "Εισαγωγή δείκτη"
+    },
     {
-        "source": "Pointer Leave", 
-        "description": "", 
-        "id": "PointerLeave", 
-        "text": "\u0388\u03be\u03bf\u03b4\u03bf\u03c2 \u03b4\u03b5\u03af\u03ba\u03c4\u03b7"
-    }, 
+        "source": "Pointer Leave",
+        "description": "",
+        "id": "PointerLeave",
+        "text": "Έξοδος δείκτη"
+    },
     {
-        "source": "Pointer Move", 
-        "description": "", 
-        "id": "PointerMove", 
-        "text": "\u039c\u03b5\u03c4\u03b1\u03ba\u03af\u03bd\u03b7\u03c3\u03b7 \u03b4\u03b5\u03af\u03ba\u03c4\u03b7"
-    }, 
+        "source": "Pointer Move",
+        "description": "",
+        "id": "PointerMove",
+        "text": "Μετακίνηση δείκτη"
+    },
     {
-        "source": "Button Press", 
-        "description": "", 
-        "id": "ButtonPress", 
-        "text": "\u039a\u03bf\u03c5\u03bc\u03c0\u03af \u03a0\u03b9\u03ad\u03c3\u03c4\u03b5"
-    }, 
+        "source": "Button Press",
+        "description": "",
+        "id": "ButtonPress",
+        "text": "Κουμπί Πιέστε"
+    },
     {
-        "source": "Button Release", 
-        "description": "", 
-        "id": "ButtonRelease", 
-        "text": "\u0391\u03c0\u03b5\u03bb\u03b5\u03c5\u03b8\u03ad\u03c1\u03c9\u03c3\u03b7 \u03ba\u03bf\u03c5\u03bc\u03c0\u03b9\u03bf\u03cd"
-    }, 
+        "source": "Button Release",
+        "description": "",
+        "id": "ButtonRelease",
+        "text": "Απελευθέρωση κουμπιού"
+    },
     {
-        "source": "Scroll", 
-        "description": "", 
-        "id": "Scroll", 
-        "text": "\u03a0\u03ac\u03c0\u03c5\u03c1\u03bf\u03c2"
-    }, 
+        "source": "Scroll",
+        "description": "",
+        "id": "Scroll",
+        "text": "Πάπυρος"
+    },
     {
-        "source": "Drop", 
-        "description": "", 
-        "id": "Drop", 
-        "text": "\u03a0\u03c4\u03ce\u03c3\u03b7"
-    }, 
+        "source": "Drop",
+        "description": "",
+        "id": "Drop",
+        "text": "Πτώση"
+    },
     {
-        "source": "Key Press", 
-        "description": "", 
-        "id": "KeyPress", 
-        "text": "\u03a0\u03bb\u03ae\u03ba\u03c4\u03c1\u03bf \u03a0\u03b1\u03c4\u03ae\u03c3\u03c4\u03b5"
-    }, 
+        "source": "Key Press",
+        "description": "",
+        "id": "KeyPress",
+        "text": "Πλήκτρο Πατήστε"
+    },
     {
-        "source": "Key Release", 
-        "description": "", 
-        "id": "KeyRelease", 
-        "text": "\u0392\u03b1\u03c3\u03b9\u03ba\u03ae \u03b1\u03c0\u03b5\u03bb\u03b5\u03c5\u03b8\u03ad\u03c1\u03c9\u03c3\u03b7"
-    }, 
+        "source": "Key Release",
+        "description": "",
+        "id": "KeyRelease",
+        "text": "Βασική απελευθέρωση"
+    },
     {
-        "source": "Text Focus", 
-        "description": "", 
-        "id": "TextFocus", 
-        "text": "\u039a\u03b5\u03af\u03bc\u03b5\u03bd\u03bf Focus"
-    }, 
+        "source": "Text Focus",
+        "description": "",
+        "id": "TextFocus",
+        "text": "Κείμενο Focus"
+    },
     {
-        "source": "Text Focus Lost", 
-        "description": "", 
-        "id": "TextFocusLost", 
-        "text": "\u039a\u03c1\u03af\u03c3\u03b7 \u03b5\u03c3\u03c4\u03af\u03b1\u03c3\u03b7\u03c2 \u03bc\u03b5 \u03ba\u03b5\u03af\u03bc\u03b5\u03bd\u03bf"
-    }, 
+        "source": "Text Focus Lost",
+        "description": "",
+        "id": "TextFocusLost",
+        "text": "Κρίση εστίασης με κείμενο"
+    },
     {
-        "source": "Text", 
-        "description": "", 
-        "id": "Text", 
-        "text": "\u039a\u03b5\u03af\u03bc\u03b5\u03bd\u03bf"
-    }, 
+        "source": "Text",
+        "description": "",
+        "id": "Text",
+        "text": "Κείμενο"
+    },
     {
-        "source": "The file", 
-        "description": "", 
-        "id": "The file", 
-        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf"
-    }, 
+        "source": "The file",
+        "description": "",
+        "id": "The file",
+        "text": "Το αρχείο"
+    },
     {
-        "source": "cannot be opened", 
-        "description": "", 
-        "id": "cannot be opened", 
-        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b1\u03bd\u03bf\u03b9\u03c7\u03c4\u03b5\u03af"
-    }, 
+        "source": "cannot be opened",
+        "description": "",
+        "id": "cannot be opened",
+        "text": "δεν μπορεί να ανοιχτεί"
+    },
     {
-        "source": "cannot be closed", 
-        "description": "", 
-        "id": "cannot be closed", 
-        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03ba\u03bb\u03b5\u03af\u03c3\u03b5\u03b9"
-    }, 
+        "source": "cannot be closed",
+        "description": "",
+        "id": "cannot be closed",
+        "text": "δεν μπορεί να κλείσει"
+    },
     {
-        "source": "cannot be mapped", 
-        "description": "", 
-        "id": "cannot be mapped", 
-        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03bf\u03cd\u03bd \u03bd\u03b1 \u03b1\u03bd\u03c4\u03b9\u03c3\u03c4\u03bf\u03b9\u03c7\u03b9\u03c3\u03c4\u03bf\u03cd\u03bd"
-    }, 
+        "source": "cannot be mapped",
+        "description": "",
+        "id": "cannot be mapped",
+        "text": "δεν μπορούν να αντιστοιχιστούν"
+    },
     {
-        "source": "cannot be unmapped", 
-        "description": "", 
-        "id": "cannot be unmapped", 
-        "text": "\u03b4\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03bc\u03b7 \u03b1\u03c0\u03b5\u03b9\u03ba\u03cc\u03bd\u03b9\u03c3\u03b7"
-    }, 
+        "source": "cannot be unmapped",
+        "description": "",
+        "id": "cannot be unmapped",
+        "text": "δεν είναι δυνατή η μη απεικόνιση"
+    },
     {
-        "source": "cannot be read", 
-        "description": "", 
-        "id": "cannot be read", 
-        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b4\u03b9\u03b1\u03b2\u03b1\u03c3\u03c4\u03b5\u03af"
-    }, 
+        "source": "cannot be read",
+        "description": "",
+        "id": "cannot be read",
+        "text": "δεν μπορεί να διαβαστεί"
+    },
     {
-        "source": "cannot be written", 
-        "description": "", 
-        "id": "cannot be written", 
-        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b3\u03c1\u03b1\u03c6\u03c4\u03b5\u03af"
-    }, 
+        "source": "cannot be written",
+        "description": "",
+        "id": "cannot be written",
+        "text": "δεν μπορεί να γραφτεί"
+    },
     {
-        "source": "Error reading the text file", 
-        "description": "", 
-        "id": "Error reading the text file", 
-        "text": "\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03ba\u03b1\u03c4\u03ac \u03c4\u03b7\u03bd \u03b1\u03bd\u03ac\u03b3\u03bd\u03c9\u03c3\u03b7 \u03c4\u03bf\u03c5 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5 \u03ba\u03b5\u03b9\u03bc\u03ad\u03bd\u03bf\u03c5"
-    }, 
+        "source": "Error reading the text file",
+        "description": "",
+        "id": "Error reading the text file",
+        "text": "Σφάλμα κατά την ανάγνωση του αρχείου κειμένου"
+    },
     {
-        "source": "MSB", 
-        "description": "", 
-        "id": "MSB", 
+        "source": "MSB",
+        "description": "",
+        "id": "MSB",
         "text": "MSB"
-    }, 
+    },
     {
-        "source": "LSB", 
-        "description": "", 
-        "id": "LSB", 
+        "source": "LSB",
+        "description": "",
+        "id": "LSB",
         "text": "LSB"
-    }, 
+    },
     {
-        "source": "Home", 
-        "description": "", 
-        "id": "Home", 
-        "text": "\u03a3\u03c0\u03af\u03c4\u03b9"
-    }, 
+        "source": "Home",
+        "description": "",
+        "id": "Home",
+        "text": "Σπίτι"
+    },
     {
-        "source": "Desktop", 
-        "description": "", 
-        "id": "Desktop", 
-        "text": "\u0395\u03c0\u03b9\u03c6\u03ac\u03bd\u03b5\u03b9\u03b1 \u03b5\u03c1\u03b3\u03b1\u03c3\u03af\u03b1\u03c2"
-    }, 
+        "source": "Desktop",
+        "description": "",
+        "id": "Desktop",
+        "text": "Επιφάνεια εργασίας"
+    },
     {
-        "source": "Documents", 
-        "description": "", 
-        "id": "Documents", 
-        "text": "\u0395\u03b3\u03b3\u03c1\u03b1\u03c6\u03b1"
-    }, 
+        "source": "Documents",
+        "description": "",
+        "id": "Documents",
+        "text": "Εγγραφα"
+    },
     {
-        "source": "Downloads", 
-        "description": "", 
-        "id": "Downloads", 
-        "text": "\u039b\u03ae\u03c8\u03b5\u03b9\u03c2"
-    }, 
+        "source": "Downloads",
+        "description": "",
+        "id": "Downloads",
+        "text": "Λήψεις"
+    },
     {
-        "source": "The directory", 
-        "description": "", 
-        "id": "The directory", 
-        "text": "\u039f \u03ba\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2"
-    }, 
+        "source": "The directory",
+        "description": "",
+        "id": "The directory",
+        "text": "Ο κατάλογος"
+    },
     {
-        "source": "cannot be created", 
-        "description": "", 
-        "id": "cannot be created", 
-        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03b7\u03b8\u03b5\u03af"
-    }, 
+        "source": "cannot be created",
+        "description": "",
+        "id": "cannot be created",
+        "text": "δεν μπορεί να δημιουργηθεί"
+    },
     {
-        "source": "Cannot parse the value", 
-        "description": "", 
-        "id": "Cannot parse the value", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03bd\u03ac\u03bb\u03c5\u03c3\u03b7 \u03c4\u03b7\u03c2 \u03c4\u03b9\u03bc\u03ae\u03c2"
-    }, 
+        "source": "Cannot parse the value",
+        "description": "",
+        "id": "Cannot parse the value",
+        "text": "Δεν είναι δυνατή η ανάλυση της τιμής"
+    },
     {
-        "source": "Cannot parse the value.", 
-        "description": "", 
-        "id": "Cannot parse the value.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03bd\u03ac\u03bb\u03c5\u03c3\u03b7 \u03c4\u03b7\u03c2 \u03c4\u03b9\u03bc\u03ae\u03c2."
-    }, 
+        "source": "Cannot parse the value.",
+        "description": "",
+        "id": "Cannot parse the value.",
+        "text": "Δεν είναι δυνατή η ανάλυση της τιμής."
+    },
     {
-        "source": "cannot be queried", 
-        "description": "", 
-        "id": "cannot be queried", 
-        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b5\u03c1\u03c9\u03c4\u03b7\u03b8\u03b5\u03af"
-    }, 
+        "source": "cannot be queried",
+        "description": "",
+        "id": "cannot be queried",
+        "text": "δεν μπορεί να ερωτηθεί"
+    },
     {
-        "source": "Application", 
-        "description": "", 
-        "id": "Application", 
-        "text": "\u0395\u03c6\u03b1\u03c1\u03bc\u03bf\u03b3\u03ae"
-    }, 
+        "source": "Application",
+        "description": "",
+        "id": "Application",
+        "text": "Εφαρμογή"
+    },
     {
-        "source": "Log File", 
-        "description": "", 
-        "id": "LogFile", 
-        "text": "\u0391\u03c1\u03c7\u03b5\u03af\u03bf \u03ba\u03b1\u03c4\u03b1\u03b3\u03c1\u03b1\u03c6\u03ae\u03c2"
-    }, 
+        "source": "Log File",
+        "description": "",
+        "id": "LogFile",
+        "text": "Αρχείο καταγραφής"
+    },
     {
-        "source": "Settings File", 
-        "description": "", 
-        "id": "SettingsFile", 
-        "text": "\u0391\u03c1\u03c7\u03b5\u03af\u03bf \u03c1\u03c5\u03b8\u03bc\u03af\u03c3\u03b5\u03c9\u03bd"
-    }, 
+        "source": "Settings File",
+        "description": "",
+        "id": "SettingsFile",
+        "text": "Αρχείο ρυθμίσεων"
+    },
     {
-        "source": "Audio Directory", 
-        "description": "", 
-        "id": "AudioDirectory", 
-        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2 \u03ae\u03c7\u03bf\u03c5"
-    }, 
+        "source": "Audio Directory",
+        "description": "",
+        "id": "AudioDirectory",
+        "text": "Κατάλογος ήχου"
+    },
     {
-        "source": "Fonts Directory", 
-        "description": "", 
-        "id": "FontsDirectory", 
-        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2 \u03b3\u03c1\u03b1\u03bc\u03bc\u03b1\u03c4\u03bf\u03c3\u03b5\u03b9\u03c1\u03ce\u03bd"
-    }, 
+        "source": "Fonts Directory",
+        "description": "",
+        "id": "FontsDirectory",
+        "text": "Κατάλογος γραμματοσειρών"
+    },
     {
-        "source": "Icons Directory", 
-        "description": "", 
-        "id": "IconsDirectory", 
-        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2 \u03b5\u03b9\u03ba\u03bf\u03bd\u03b9\u03b4\u03af\u03c9\u03bd"
-    }, 
+        "source": "Icons Directory",
+        "description": "",
+        "id": "IconsDirectory",
+        "text": "Κατάλογος εικονιδίων"
+    },
     {
-        "source": "Images Directory", 
-        "description": "", 
-        "id": "ImagesDirectory", 
-        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2 \u03b5\u03b9\u03ba\u03cc\u03bd\u03c9\u03bd"
-    }, 
+        "source": "Images Directory",
+        "description": "",
+        "id": "ImagesDirectory",
+        "text": "Κατάλογος εικόνων"
+    },
     {
-        "source": "Models Directory", 
-        "description": "", 
-        "id": "ModelsDirectory", 
-        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2 \u03bc\u03bf\u03bd\u03c4\u03ad\u03bb\u03c9\u03bd"
-    }, 
+        "source": "Models Directory",
+        "description": "",
+        "id": "ModelsDirectory",
+        "text": "Κατάλογος μοντέλων"
+    },
     {
-        "source": "Shaders Directory", 
-        "description": "", 
-        "id": "ShadersDirectory", 
-        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2 Shaders"
-    }, 
+        "source": "Shaders Directory",
+        "description": "",
+        "id": "ShadersDirectory",
+        "text": "Κατάλογος Shaders"
+    },
     {
-        "source": "Text Directory", 
-        "description": "", 
-        "id": "TextDirectory", 
-        "text": "\u039a\u03b1\u03c4\u03ac\u03bb\u03bf\u03b3\u03bf\u03c2 \u03ba\u03b5\u03b9\u03bc\u03ad\u03bd\u03c9\u03bd"
-    }, 
+        "source": "Text Directory",
+        "description": "",
+        "id": "TextDirectory",
+        "text": "Κατάλογος κειμένων"
+    },
     {
-        "source": "File", 
-        "description": "", 
-        "id": "File", 
-        "text": "\u0391\u03c1\u03c7\u03b5\u03af\u03bf"
-    }, 
+        "source": "File",
+        "description": "",
+        "id": "File",
+        "text": "Αρχείο"
+    },
     {
-        "source": "Sequence", 
-        "description": "", 
-        "id": "Sequence", 
-        "text": "\u0391\u03bb\u03bb\u03b7\u03bb\u03bf\u03c5\u03c7\u03af\u03b1"
-    }, 
+        "source": "Sequence",
+        "description": "",
+        "id": "Sequence",
+        "text": "Αλληλουχία"
+    },
     {
-        "source": "Directory", 
-        "description": "", 
-        "id": "Directory", 
-        "text": "\u0395\u03c5\u03c1\u03b5\u03c4\u03ae\u03c1\u03b9\u03bf"
-    }, 
+        "source": "Directory",
+        "description": "",
+        "id": "Directory",
+        "text": "Ευρετήριο"
+    },
     {
-        "source": "Name", 
-        "description": "", 
-        "id": "Name", 
-        "text": "\u039f\u03bd\u03bf\u03bc\u03b1"
-    }, 
+        "source": "Name",
+        "description": "",
+        "id": "Name",
+        "text": "Ονομα"
+    },
     {
-        "source": "Size", 
-        "description": "", 
-        "id": "Size", 
-        "text": "\u039c\u03ad\u03b3\u03b5\u03b8\u03bf\u03c2"
-    }, 
+        "source": "Size",
+        "description": "",
+        "id": "Size",
+        "text": "Μέγεθος"
+    },
     {
-        "source": "Type", 
-        "description": "", 
-        "id": "Type", 
-        "text": "\u03a4\u03cd\u03c0\u03bf\u03c2"
-    }, 
+        "source": "Type",
+        "description": "",
+        "id": "Type",
+        "text": "Τύπος"
+    },
     {
-        "source": "Linear", 
-        "description": "", 
-        "id": "Linear", 
-        "text": "\u0393\u03c1\u03b1\u03bc\u03bc\u03b9\u03ba\u03cc\u03c2"
-    }, 
+        "source": "Linear",
+        "description": "",
+        "id": "Linear",
+        "text": "Γραμμικός"
+    },
     {
-        "source": "Ease In", 
-        "description": "", 
-        "id": "EaseIn", 
-        "text": "\u0395\u03c5\u03ba\u03bf\u03bb\u03af\u03b1 \u03c3\u03c4\u03bf"
-    }, 
+        "source": "Ease In",
+        "description": "",
+        "id": "EaseIn",
+        "text": "Ευκολία στο"
+    },
     {
-        "source": "Ease Out", 
-        "description": "", 
-        "id": "EaseOut", 
+        "source": "Ease Out",
+        "description": "",
+        "id": "EaseOut",
         "text": "Ease Out"
-    }, 
+    },
     {
-        "source": "Smooth Step", 
-        "description": "", 
-        "id": "SmoothStep", 
-        "text": "\u039f\u03bc\u03b1\u03bb\u03ae \u0392\u03ae\u03bc\u03b1"
-    }, 
+        "source": "Smooth Step",
+        "description": "",
+        "id": "SmoothStep",
+        "text": "Ομαλή Βήμα"
+    },
     {
-        "source": "Sine", 
-        "description": "", 
-        "id": "Sine", 
-        "text": "\u03c4\u03bf\u03c5"
-    }, 
+        "source": "Sine",
+        "description": "",
+        "id": "Sine",
+        "text": "του"
+    },
     {
-        "source": "Error finding the change notification for", 
-        "description": "", 
-        "id": "Error finding the change notification for", 
-        "text": "\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03ba\u03b1\u03c4\u03ac \u03c4\u03b7\u03bd \u03b5\u03cd\u03c1\u03b5\u03c3\u03b7 \u03c4\u03b7\u03c2 \u03b5\u03b9\u03b4\u03bf\u03c0\u03bf\u03af\u03b7\u03c3\u03b7\u03c2 \u03b1\u03bb\u03bb\u03b1\u03b3\u03ae\u03c2 \u03b3\u03b9\u03b1"
-    }, 
+        "source": "Error finding the change notification for",
+        "description": "",
+        "id": "Error finding the change notification for",
+        "text": "Σφάλμα κατά την εύρεση της ειδοποίησης αλλαγής για"
+    },
     {
-        "source": "Error watching the directory", 
-        "description": "", 
-        "id": "Error watching the directory", 
-        "text": "\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03ba\u03b1\u03c4\u03ac \u03c4\u03b7\u03bd \u03c0\u03b1\u03c1\u03b1\u03ba\u03bf\u03bb\u03bf\u03cd\u03b8\u03b7\u03c3\u03b7 \u03c4\u03bf\u03c5 \u03ba\u03b1\u03c4\u03b1\u03bb\u03cc\u03b3\u03bf\u03c5"
-    }, 
+        "source": "Error watching the directory",
+        "description": "",
+        "id": "Error watching the directory",
+        "text": "Σφάλμα κατά την παρακολούθηση του καταλόγου"
+    },
     {
-        "source": "Amargosa Canyon Speckled Dace", 
-        "description": "", 
-        "id": "Amargosa Canyon Speckled Dace", 
-        "text": "\u03a6\u03b1\u03c1\u03ac\u03b3\u03b3\u03b9 Amargosa Speckled Dace"
-    }, 
+        "source": "Amargosa Canyon Speckled Dace",
+        "description": "",
+        "id": "Amargosa Canyon Speckled Dace",
+        "text": "Φαράγγι Amargosa Speckled Dace"
+    },
     {
-        "source": "Amargosa River Pupfish", 
-        "description": "", 
-        "id": "Amargosa River Pupfish", 
+        "source": "Amargosa River Pupfish",
+        "description": "",
+        "id": "Amargosa River Pupfish",
         "text": "Amargosa River Pupfish"
-    }, 
+    },
     {
-        "source": "American Shad", 
-        "description": "", 
-        "id": "American Shad", 
+        "source": "American Shad",
+        "description": "",
+        "id": "American Shad",
         "text": "American Shad"
-    }, 
+    },
     {
-        "source": "Arroyo Chub", 
-        "description": "", 
-        "id": "Arroyo Chub", 
+        "source": "Arroyo Chub",
+        "description": "",
+        "id": "Arroyo Chub",
         "text": "Arroyo Chub"
-    }, 
+    },
     {
-        "source": "Bigeye Marbled Sculpin", 
-        "description": "", 
-        "id": "Bigeye Marbled Sculpin", 
-        "text": "\u039c\u03b5\u03c3\u03bf\u03b3\u03b5\u03b9\u03b1\u03ba\u03cc \u03bc\u03b1\u03c1\u03bc\u03ac\u03c1\u03b9\u03bd\u03bf Sculpin"
-    }, 
+        "source": "Bigeye Marbled Sculpin",
+        "description": "",
+        "id": "Bigeye Marbled Sculpin",
+        "text": "Μεσογειακό μαρμάρινο Sculpin"
+    },
     {
-        "source": "Bigscale Logperch", 
-        "description": "", 
-        "id": "Bigscale Logperch", 
-        "text": "\u039c\u03b5\u03b3\u03ac\u03bb\u03b7 \u03ba\u03bb\u03af\u03bc\u03b1\u03ba\u03b1 Logperch"
-    }, 
+        "source": "Bigscale Logperch",
+        "description": "",
+        "id": "Bigscale Logperch",
+        "text": "Μεγάλη κλίμακα Logperch"
+    },
     {
-        "source": "Black Bullhead", 
-        "description": "", 
-        "id": "Black Bullhead", 
+        "source": "Black Bullhead",
+        "description": "",
+        "id": "Black Bullhead",
         "text": "Black Bullhead"
-    }, 
+    },
     {
-        "source": "Black Crappie", 
-        "description": "", 
-        "id": "Black Crappie", 
-        "text": "\u039c\u03b1\u03cd\u03c1\u03bf Crappie"
-    }, 
+        "source": "Black Crappie",
+        "description": "",
+        "id": "Black Crappie",
+        "text": "Μαύρο Crappie"
+    },
     {
-        "source": "Blue Catfish", 
-        "description": "", 
-        "id": "Blue Catfish", 
-        "text": "\u039c\u03c0\u03bb\u03b5 \u03b3\u03b1\u03c4\u03cc\u03c8\u03b1\u03c1\u03bf"
-    }, 
+        "source": "Blue Catfish",
+        "description": "",
+        "id": "Blue Catfish",
+        "text": "Μπλε γατόψαρο"
+    },
     {
-        "source": "Blue Chub", 
-        "description": "", 
-        "id": "Blue Chub", 
+        "source": "Blue Chub",
+        "description": "",
+        "id": "Blue Chub",
         "text": "Blue Chub"
-    }, 
+    },
     {
-        "source": "Bluefin Killifish", 
-        "description": "", 
-        "id": "Bluefin Killifish", 
-        "text": "\u039a\u03c5\u03b1\u03bd\u03cc\u03c8\u03b1\u03c1\u03bf"
-    }, 
+        "source": "Bluefin Killifish",
+        "description": "",
+        "id": "Bluefin Killifish",
+        "text": "Κυανόψαρο"
+    },
     {
-        "source": "Bluegill", 
-        "description": "", 
-        "id": "Bluegill", 
+        "source": "Bluegill",
+        "description": "",
+        "id": "Bluegill",
         "text": "Bluegill"
-    }, 
+    },
     {
-        "source": "Lepomis macrochirus", 
-        "description": "", 
-        "id": "Lepomis macrochirus", 
+        "source": "Lepomis macrochirus",
+        "description": "",
+        "id": "Lepomis macrochirus",
         "text": "Lepomis macrochirus"
-    }, 
+    },
     {
-        "source": "Bonytail", 
-        "description": "", 
-        "id": "Bonytail", 
-        "text": "\u039f\u03c3\u03bc\u03ae"
-    }, 
+        "source": "Bonytail",
+        "description": "",
+        "id": "Bonytail",
+        "text": "Οσμή"
+    },
     {
-        "source": "Brook Stickleback", 
-        "description": "", 
-        "id": "Brook Stickleback", 
+        "source": "Brook Stickleback",
+        "description": "",
+        "id": "Brook Stickleback",
         "text": "Brook Stickleback"
-    }, 
+    },
     {
-        "source": "Brook Trout", 
-        "description": "", 
-        "id": "Brook Trout", 
-        "text": "\u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1"
-    }, 
+        "source": "Brook Trout",
+        "description": "",
+        "id": "Brook Trout",
+        "text": "Πέστροφα"
+    },
     {
-        "source": "Brown Bullhead", 
-        "description": "", 
-        "id": "Brown Bullhead", 
+        "source": "Brown Bullhead",
+        "description": "",
+        "id": "Brown Bullhead",
         "text": "Brown Bullhead"
-    }, 
+    },
     {
-        "source": "Brown Trout", 
-        "description": "", 
-        "id": "Brown Trout", 
-        "text": "\u039a\u03b1\u03c6\u03ad \u03c0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1"
-    }, 
+        "source": "Brown Trout",
+        "description": "",
+        "id": "Brown Trout",
+        "text": "Καφέ πέστροφα"
+    },
     {
-        "source": "Bull Trout", 
-        "description": "", 
-        "id": "Bull Trout", 
-        "text": "\u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b5\u03c2 \u03c4\u03b1\u03cd\u03c1\u03c9\u03bd"
-    }, 
+        "source": "Bull Trout",
+        "description": "",
+        "id": "Bull Trout",
+        "text": "Πέστροφες ταύρων"
+    },
     {
-        "source": "California Coast Fall Chinook Salmon", 
-        "description": "", 
-        "id": "California Coast Fall Chinook Salmon", 
-        "text": "\u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 \u0391\u03ba\u03c4\u03ae \u03a6\u03b8\u03b9\u03bd\u03cc\u03c0\u03c9\u03c1\u03bf Chinook \u03a3\u03bf\u03bb\u03bf\u03bc\u03cc\u03c2"
-    }, 
+        "source": "California Coast Fall Chinook Salmon",
+        "description": "",
+        "id": "California Coast Fall Chinook Salmon",
+        "text": "Καλιφόρνια Ακτή Φθινόπωρο Chinook Σολομός"
+    },
     {
-        "source": "California Golden Trout", 
-        "description": "", 
-        "id": "California Golden Trout", 
-        "text": "\u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 Golden Trout"
-    }, 
+        "source": "California Golden Trout",
+        "description": "",
+        "id": "California Golden Trout",
+        "text": "Καλιφόρνια Golden Trout"
+    },
     {
-        "source": "California Killifish", 
-        "description": "", 
-        "id": "California Killifish", 
-        "text": "\u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 Killifish"
-    }, 
+        "source": "California Killifish",
+        "description": "",
+        "id": "California Killifish",
+        "text": "Καλιφόρνια Killifish"
+    },
     {
-        "source": "California Tilapia", 
-        "description": "", 
-        "id": "California Tilapia", 
-        "text": "\u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 Tilapia"
-    }, 
+        "source": "California Tilapia",
+        "description": "",
+        "id": "California Tilapia",
+        "text": "Καλιφόρνια Tilapia"
+    },
     {
-        "source": "Central California Coast Winter Steelhead", 
-        "description": "", 
-        "id": "Central California Coast Winter Steelhead", 
-        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 \u0391\u03ba\u03c4\u03ae \u03a7\u03b5\u03b9\u03bc\u03ce\u03bd\u03b1\u03c2 Steelhead"
-    }, 
+        "source": "Central California Coast Winter Steelhead",
+        "description": "",
+        "id": "Central California Coast Winter Steelhead",
+        "text": "Κεντρική Καλιφόρνια Ακτή Χειμώνας Steelhead"
+    },
     {
-        "source": "Central California Roach", 
-        "description": "", 
-        "id": "Central California Roach", 
-        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 Roach"
-    }, 
+        "source": "Central California Roach",
+        "description": "",
+        "id": "Central California Roach",
+        "text": "Κεντρική Καλιφόρνια Roach"
+    },
     {
-        "source": "Central Coast Coho Salmon", 
-        "description": "", 
-        "id": "Central Coast Coho Salmon", 
-        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u0391\u03ba\u03c4\u03ae Coho Salmon"
-    }, 
+        "source": "Central Coast Coho Salmon",
+        "description": "",
+        "id": "Central Coast Coho Salmon",
+        "text": "Κεντρική Ακτή Coho Salmon"
+    },
     {
-        "source": "Central Valley Fall Chinook Salmon", 
-        "description": "", 
-        "id": "Central Valley Fall Chinook Salmon", 
-        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u039a\u03bf\u03b9\u03bb\u03ac\u03b4\u03b1 \u03c4\u03b7\u03c2 \u039a\u03bf\u03b9\u03bb\u03ac\u03b4\u03b1\u03c2 Chinook Salmon"
-    }, 
+        "source": "Central Valley Fall Chinook Salmon",
+        "description": "",
+        "id": "Central Valley Fall Chinook Salmon",
+        "text": "Κεντρική Κοιλάδα της Κοιλάδας Chinook Salmon"
+    },
     {
-        "source": "Central Valley late Fall Chinook Salmon", 
-        "description": "", 
-        "id": "Central Valley late Fall Chinook Salmon", 
-        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u03ba\u03bf\u03b9\u03bb\u03ac\u03b4\u03b1 \u03b1\u03c1\u03b3\u03ac Fall Chinook \u03a3\u03bf\u03bb\u03bf\u03bc\u03cc\u03c2"
-    }, 
+        "source": "Central Valley late Fall Chinook Salmon",
+        "description": "",
+        "id": "Central Valley late Fall Chinook Salmon",
+        "text": "Κεντρική κοιλάδα αργά Fall Chinook Σολομός"
+    },
     {
-        "source": "Oncorhynchus tshawytscha", 
-        "description": "", 
-        "id": "Oncorhynchus tshawytscha", 
+        "source": "Oncorhynchus tshawytscha",
+        "description": "",
+        "id": "Oncorhynchus tshawytscha",
         "text": "Oncorhynchus tshawytscha"
-    }, 
+    },
     {
-        "source": "Central Valley spring Chinook Salmon", 
-        "description": "", 
-        "id": "Central Valley spring Chinook Salmon", 
-        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u03ac\u03bd\u03bf\u03b9\u03be\u03b7 \u03c4\u03b7\u03c2 \u03ba\u03bf\u03b9\u03bb\u03ac\u03b4\u03b1\u03c2 Chinook Salmon"
-    }, 
+        "source": "Central Valley spring Chinook Salmon",
+        "description": "",
+        "id": "Central Valley spring Chinook Salmon",
+        "text": "Κεντρική άνοιξη της κοιλάδας Chinook Salmon"
+    },
     {
-        "source": "Central Valley Steelhead", 
-        "description": "", 
-        "id": "Central Valley Steelhead", 
-        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u03ba\u03bf\u03b9\u03bb\u03ac\u03b4\u03b1 Steelhead"
-    }, 
+        "source": "Central Valley Steelhead",
+        "description": "",
+        "id": "Central Valley Steelhead",
+        "text": "Κεντρική κοιλάδα Steelhead"
+    },
     {
-        "source": "Central Valley Winter Chinook Salmon", 
-        "description": "", 
-        "id": "Central Valley Winter Chinook Salmon", 
-        "text": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u03ba\u03bf\u03b9\u03bb\u03ac\u03b4\u03b1 Chinook \u03c3\u03bf\u03bb\u03bf\u03bc\u03bf\u03cd \u03c7\u03b5\u03b9\u03bc\u03ce\u03bd\u03b1"
-    }, 
+        "source": "Central Valley Winter Chinook Salmon",
+        "description": "",
+        "id": "Central Valley Winter Chinook Salmon",
+        "text": "Κεντρική κοιλάδα Chinook σολομού χειμώνα"
+    },
     {
-        "source": "Channel Catfish", 
-        "description": "", 
-        "id": "Channel Catfish", 
+        "source": "Channel Catfish",
+        "description": "",
+        "id": "Channel Catfish",
         "text": "Channel Catfish"
-    }, 
+    },
     {
-        "source": "Chum Salmon", 
-        "description": "", 
-        "id": "Chum Salmon", 
+        "source": "Chum Salmon",
+        "description": "",
+        "id": "Chum Salmon",
         "text": "Chum Salmon"
-    }, 
+    },
     {
-        "source": "Clear Lake Hitch", 
-        "description": "", 
-        "id": "Clear Lake Hitch", 
+        "source": "Clear Lake Hitch",
+        "description": "",
+        "id": "Clear Lake Hitch",
         "text": "Clear Lake Hitch"
-    }, 
+    },
     {
-        "source": "Clear Lake Prickly Sculpin", 
-        "description": "", 
-        "id": "Clear Lake Prickly Sculpin", 
-        "text": "\u039a\u03b1\u03b8\u03b1\u03c1\u03ae \u03bb\u03af\u03bc\u03bd\u03b7 Prickly Sculpin"
-    }, 
+        "source": "Clear Lake Prickly Sculpin",
+        "description": "",
+        "id": "Clear Lake Prickly Sculpin",
+        "text": "Καθαρή λίμνη Prickly Sculpin"
+    },
     {
-        "source": "Clear Lake Roach", 
-        "description": "", 
-        "id": "Clear Lake Roach", 
+        "source": "Clear Lake Roach",
+        "description": "",
+        "id": "Clear Lake Roach",
         "text": "Clear Lake Roach"
-    }, 
+    },
     {
-        "source": "Clear Lake Splittail", 
-        "description": "", 
-        "id": "Clear Lake Splittail", 
+        "source": "Clear Lake Splittail",
+        "description": "",
+        "id": "Clear Lake Splittail",
         "text": "Clear Lake Splittail"
-    }, 
+    },
     {
-        "source": "Clear Lake Tule Perch", 
-        "description": "", 
-        "id": "Clear Lake Tule Perch", 
+        "source": "Clear Lake Tule Perch",
+        "description": "",
+        "id": "Clear Lake Tule Perch",
         "text": "Clear Lake Tule"
-    }, 
+    },
     {
-        "source": "Coastal Cutthroat Trout", 
-        "description": "", 
-        "id": "Coastal Cutthroat Trout", 
-        "text": "\u03a0\u03b1\u03c1\u03b1\u03b8\u03b1\u03bb\u03ac\u03c3\u03c3\u03b9\u03b1 \u03c0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1"
-    }, 
+        "source": "Coastal Cutthroat Trout",
+        "description": "",
+        "id": "Coastal Cutthroat Trout",
+        "text": "Παραθαλάσσια πέστροφα"
+    },
     {
-        "source": "Coastal Rainbow Trout", 
-        "description": "", 
-        "id": "Coastal Rainbow Trout", 
-        "text": "\u03a0\u03b1\u03c1\u03ac\u03ba\u03c4\u03b9\u03b1 \u03c4\u03c1\u03bf\u03c0\u03b9\u03ba\u03ae \u03c0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1"
-    }, 
+        "source": "Coastal Rainbow Trout",
+        "description": "",
+        "id": "Coastal Rainbow Trout",
+        "text": "Παράκτια τροπική πέστροφα"
+    },
     {
-        "source": "Coastal Threespine Stickleback", 
-        "description": "", 
-        "id": "Coastal Threespine Stickleback", 
+        "source": "Coastal Threespine Stickleback",
+        "description": "",
+        "id": "Coastal Threespine Stickleback",
         "text": "Coastle Threepine Stickleback"
-    }, 
+    },
     {
-        "source": "Coastrange Sculpin", 
-        "description": "", 
-        "id": "Coastrange Sculpin", 
-        "text": "\u0391\u03ba\u03c4\u03bf\u03c0\u03bb\u03bf\u03ca\u03ba\u03ae Sculpin"
-    }, 
+        "source": "Coastrange Sculpin",
+        "description": "",
+        "id": "Coastrange Sculpin",
+        "text": "Ακτοπλοϊκή Sculpin"
+    },
     {
-        "source": "Colorado Pikeminnow", 
-        "description": "", 
-        "id": "Colorado Pikeminnow", 
-        "text": "\u039a\u03bf\u03bb\u03bf\u03c1\u03ac\u03bd\u03c4\u03bf Pikeminnow"
-    }, 
+        "source": "Colorado Pikeminnow",
+        "description": "",
+        "id": "Colorado Pikeminnow",
+        "text": "Κολοράντο Pikeminnow"
+    },
     {
-        "source": "Colorado River Cutthroat Trout", 
-        "description": "", 
-        "id": "Colorado River Cutthroat Trout", 
-        "text": "\u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1 \u03ba\u03bf\u03c1\u03b1\u03bb\u03bb\u03b9\u03bf\u03b3\u03b5\u03bd\u03ce\u03bd \u03c0\u03bf\u03c4\u03b1\u03bc\u03ce\u03bd \u03c4\u03bf\u03c5 \u039a\u03bf\u03bb\u03bf\u03c1\u03ac\u03bd\u03c4\u03bf"
-    }, 
+        "source": "Colorado River Cutthroat Trout",
+        "description": "",
+        "id": "Colorado River Cutthroat Trout",
+        "text": "Πέστροφα κοραλλιογενών ποταμών του Κολοράντο"
+    },
     {
-        "source": "Common Carp", 
-        "description": "", 
-        "id": "Common Carp", 
-        "text": "\u039a\u03bf\u03b9\u03bd\u03cc\u03c2 \u039a\u03c5\u03c0\u03c1\u03af\u03bd\u03bf\u03c2"
-    }, 
+        "source": "Common Carp",
+        "description": "",
+        "id": "Common Carp",
+        "text": "Κοινός Κυπρίνος"
+    },
     {
-        "source": "Cottonball Marsh Pupfish", 
-        "description": "", 
-        "id": "Cottonball Marsh Pupfish", 
-        "text": "\u0392\u03b1\u03bc\u03b2\u03ac\u03ba\u03b9 \u03b2\u03b1\u03ba\u03b1\u03bb\u03ac\u03bf\u03c5"
-    }, 
+        "source": "Cottonball Marsh Pupfish",
+        "description": "",
+        "id": "Cottonball Marsh Pupfish",
+        "text": "Βαμβάκι βακαλάου"
+    },
     {
-        "source": "Cow Head Tui Chub", 
-        "description": "", 
-        "id": "Cow Head Tui Chub", 
-        "text": "\u0391\u03b3\u03b5\u03bb\u03ac\u03b4\u03b1 \u03ba\u03b5\u03c6\u03ac\u03bb\u03b9 Tui Chub"
-    }, 
+        "source": "Cow Head Tui Chub",
+        "description": "",
+        "id": "Cow Head Tui Chub",
+        "text": "Αγελάδα κεφάλι Tui Chub"
+    },
     {
-        "source": "Delta Smelt", 
-        "description": "", 
-        "id": "Delta Smelt", 
+        "source": "Delta Smelt",
+        "description": "",
+        "id": "Delta Smelt",
         "text": "Delta Melt"
-    }, 
+    },
     {
-        "source": "Desert Pupfish", 
-        "description": "", 
-        "id": "Desert Pupfish", 
-        "text": "\u0388\u03c1\u03b7\u03bc\u03bf\u03c2 \u03ba\u03bf\u03c5\u03c4\u03ac\u03b2\u03b9"
-    }, 
+        "source": "Desert Pupfish",
+        "description": "",
+        "id": "Desert Pupfish",
+        "text": "Έρημος κουτάβι"
+    },
     {
-        "source": "Eagle Lake Rainbow Trout", 
-        "description": "", 
-        "id": "Eagle Lake Rainbow Trout", 
-        "text": "\u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1\u03c2 \u03bf\u03c5\u03c1\u03ac\u03bd\u03b9\u03bf\u03c5 \u03c4\u03cc\u03be\u03bf\u03c5"
-    }, 
+        "source": "Eagle Lake Rainbow Trout",
+        "description": "",
+        "id": "Eagle Lake Rainbow Trout",
+        "text": "Πέστροφας ουράνιου τόξου"
+    },
     {
-        "source": "Eagle Lake Tui Chub", 
-        "description": "", 
-        "id": "Eagle Lake Tui Chub", 
-        "text": "\u039b\u03af\u03bc\u03bd\u03b7 \u03b1\u03b5\u03c4\u03ce\u03bd Tui Chub"
-    }, 
+        "source": "Eagle Lake Tui Chub",
+        "description": "",
+        "id": "Eagle Lake Tui Chub",
+        "text": "Λίμνη αετών Tui Chub"
+    },
     {
-        "source": "Eulachon", 
-        "description": "", 
-        "id": "Eulachon", 
+        "source": "Eulachon",
+        "description": "",
+        "id": "Eulachon",
         "text": "Eulachon"
-    }, 
+    },
     {
-        "source": "Fathead Minnow", 
-        "description": "", 
-        "id": "Fathead Minnow", 
+        "source": "Fathead Minnow",
+        "description": "",
+        "id": "Fathead Minnow",
         "text": "Fathead Minnow"
-    }, 
+    },
     {
-        "source": "Flannelmouth Sucker", 
-        "description": "", 
-        "id": "Flannelmouth Sucker", 
+        "source": "Flannelmouth Sucker",
+        "description": "",
+        "id": "Flannelmouth Sucker",
         "text": "Flannelmouth Sucker"
-    }, 
+    },
     {
-        "source": "Flathead Catfish", 
-        "description": "", 
-        "id": "Flathead Catfish", 
-        "text": "Flathead \u03b3\u03b1\u03c4\u03cc\u03c8\u03b1\u03c1\u03bf"
-    }, 
+        "source": "Flathead Catfish",
+        "description": "",
+        "id": "Flathead Catfish",
+        "text": "Flathead γατόψαρο"
+    },
     {
-        "source": "Golden Shiner", 
-        "description": "", 
-        "id": "Golden Shiner", 
+        "source": "Golden Shiner",
+        "description": "",
+        "id": "Golden Shiner",
         "text": "Golden Shiner"
-    }, 
+    },
     {
-        "source": "Goldfish", 
-        "description": "", 
-        "id": "Goldfish", 
-        "text": "\u03a7\u03c1\u03c5\u03c3\u03cc\u03c8\u03b1\u03c1\u03bf"
-    }, 
+        "source": "Goldfish",
+        "description": "",
+        "id": "Goldfish",
+        "text": "Χρυσόψαρο"
+    },
     {
-        "source": "Goose Lake Lamprey", 
-        "description": "", 
-        "id": "Goose Lake Lamprey", 
-        "text": "\u0393\u03ba\u03cc\u03b6 \u039b\u03ac\u03bc\u03c0\u03b5\u03c1\u03b9"
-    }, 
+        "source": "Goose Lake Lamprey",
+        "description": "",
+        "id": "Goose Lake Lamprey",
+        "text": "Γκόζ Λάμπερι"
+    },
     {
-        "source": "Goose Lake Redband Trout", 
-        "description": "", 
-        "id": "Goose Lake Redband Trout", 
-        "text": "\u039b\u03af\u03bc\u03bd\u03b7 \u03c4\u03b7\u03c2 \u03c7\u03ae\u03bd\u03b1\u03c2 Redband \u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1"
-    }, 
+        "source": "Goose Lake Redband Trout",
+        "description": "",
+        "id": "Goose Lake Redband Trout",
+        "text": "Λίμνη της χήνας Redband Πέστροφα"
+    },
     {
-        "source": "Goose Lake Sucker", 
-        "description": "", 
-        "id": "Goose Lake Sucker", 
-        "text": "\u0393\u03b1\u03bb\u03ac\u03b6\u03b9\u03b5\u03c2 \u03bb\u03af\u03bc\u03bd\u03b5\u03c2"
-    }, 
+        "source": "Goose Lake Sucker",
+        "description": "",
+        "id": "Goose Lake Sucker",
+        "text": "Γαλάζιες λίμνες"
+    },
     {
-        "source": "Goose Lake Tui Chub", 
-        "description": "", 
-        "id": "Goose Lake Tui Chub", 
-        "text": "\u03a7\u03ae\u03bd\u03b1 \u03bb\u03af\u03bc\u03bd\u03b7 Tui Chub"
-    }, 
+        "source": "Goose Lake Tui Chub",
+        "description": "",
+        "id": "Goose Lake Tui Chub",
+        "text": "Χήνα λίμνη Tui Chub"
+    },
     {
-        "source": "Grass Carp", 
-        "description": "", 
-        "id": "Grass Carp", 
-        "text": "\u03a7\u03bb\u03bf\u03bf\u03c4\u03ac\u03c0\u03b7\u03c4\u03b1"
-    }, 
+        "source": "Grass Carp",
+        "description": "",
+        "id": "Grass Carp",
+        "text": "Χλοοτάπητα"
+    },
     {
-        "source": "Green Sunfish", 
-        "description": "", 
-        "id": "Green Sunfish", 
+        "source": "Green Sunfish",
+        "description": "",
+        "id": "Green Sunfish",
         "text": "Green Sunfish"
-    }, 
+    },
     {
-        "source": "Gualala Roach", 
-        "description": "", 
-        "id": "Gualala Roach", 
+        "source": "Gualala Roach",
+        "description": "",
+        "id": "Gualala Roach",
         "text": "Gualala Roach"
-    }, 
+    },
     {
-        "source": "Hardhead", 
-        "description": "", 
-        "id": "Hardhead", 
+        "source": "Hardhead",
+        "description": "",
+        "id": "Hardhead",
         "text": "Hardhead"
-    }, 
+    },
     {
-        "source": "High Rock Springs Tui Chub", 
-        "description": "", 
-        "id": "High Rock Springs Tui Chub", 
+        "source": "High Rock Springs Tui Chub",
+        "description": "",
+        "id": "High Rock Springs Tui Chub",
         "text": "High Rock Springs Tui Chub"
-    }, 
+    },
     {
-        "source": "Humboldt Sucker", 
-        "description": "", 
-        "id": "Humboldt Sucker", 
+        "source": "Humboldt Sucker",
+        "description": "",
+        "id": "Humboldt Sucker",
         "text": "Humboldt Sucker"
-    }, 
+    },
     {
-        "source": "Inland Threespine Stickleback", 
-        "description": "", 
-        "id": "Inland Threespine Stickleback", 
-        "text": "\u0395\u03bd\u03b4\u03bf\u03b4\u03b1\u03c0\u03ad\u03b4\u03b9\u03bf Stickleback \u03b5\u03c3\u03c9\u03c4\u03b5\u03c1\u03b9\u03ba\u03bf\u03cd \u03c7\u03ce\u03c1\u03bf\u03c5"
-    }, 
+        "source": "Inland Threespine Stickleback",
+        "description": "",
+        "id": "Inland Threespine Stickleback",
+        "text": "Ενδοδαπέδιο Stickleback εσωτερικού χώρου"
+    },
     {
-        "source": "Kern Brook Lamprey", 
-        "description": "", 
-        "id": "Kern Brook Lamprey", 
+        "source": "Kern Brook Lamprey",
+        "description": "",
+        "id": "Kern Brook Lamprey",
         "text": "Kern Brook Lamprey"
-    }, 
+    },
     {
-        "source": "Kern River Rainbow Trout", 
-        "description": "", 
-        "id": "Kern River Rainbow Trout", 
-        "text": "\u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b5\u03c2 \u03c4\u03bf\u03c5 \u03bf\u03c5\u03c1\u03ac\u03bd\u03b9\u03bf\u03c5 \u03c4\u03cc\u03be\u03bf\u03c5"
-    }, 
+        "source": "Kern River Rainbow Trout",
+        "description": "",
+        "id": "Kern River Rainbow Trout",
+        "text": "Πέστροφες του ουράνιου τόξου"
+    },
     {
-        "source": "Klamath Largescale Sucker", 
-        "description": "", 
-        "id": "Klamath Largescale Sucker", 
+        "source": "Klamath Largescale Sucker",
+        "description": "",
+        "id": "Klamath Largescale Sucker",
         "text": "Klamath Largescale Sucker"
-    }, 
+    },
     {
-        "source": "Klamath Mountains Province Summer Steelhead", 
-        "description": "", 
-        "id": "Klamath Mountains Province Summer Steelhead", 
-        "text": "\u0395\u03c0\u03b1\u03c1\u03c7\u03af\u03b1 Klamath Mountains \u039a\u03b1\u03bb\u03bf\u03ba\u03b1\u03b9\u03c1\u03b9\u03bd\u03cc Steelhead"
-    }, 
+        "source": "Klamath Mountains Province Summer Steelhead",
+        "description": "",
+        "id": "Klamath Mountains Province Summer Steelhead",
+        "text": "Επαρχία Klamath Mountains Καλοκαιρινό Steelhead"
+    },
     {
-        "source": "Klamath Mountains Province Winter Steelhead", 
-        "description": "", 
-        "id": "Klamath Mountains Province Winter Steelhead", 
-        "text": "Klamath \u03b2\u03bf\u03c5\u03bd\u03cc \u03b5\u03c0\u03b1\u03c1\u03c7\u03af\u03b1 \u03a7\u03b5\u03b9\u03bc\u03ce\u03bd\u03b1\u03c2 Steelhead"
-    }, 
+        "source": "Klamath Mountains Province Winter Steelhead",
+        "description": "",
+        "id": "Klamath Mountains Province Winter Steelhead",
+        "text": "Klamath βουνό επαρχία Χειμώνας Steelhead"
+    },
     {
-        "source": "Klamath River Lamprey", 
-        "description": "", 
-        "id": "Klamath River Lamprey", 
-        "text": "\u039f \u03c0\u03bf\u03c4\u03b1\u03bc\u03cc\u03c2 Klamath Lamprey"
-    }, 
+        "source": "Klamath River Lamprey",
+        "description": "",
+        "id": "Klamath River Lamprey",
+        "text": "Ο ποταμός Klamath Lamprey"
+    },
     {
-        "source": "Klamath Smallscale Sucker", 
-        "description": "", 
-        "id": "Klamath Smallscale Sucker", 
+        "source": "Klamath Smallscale Sucker",
+        "description": "",
+        "id": "Klamath Smallscale Sucker",
         "text": "Klamath Smallscale Sucker"
-    }, 
+    },
     {
-        "source": "Klamath Speckled Dace", 
-        "description": "", 
-        "id": "Klamath Speckled Dace", 
+        "source": "Klamath Speckled Dace",
+        "description": "",
+        "id": "Klamath Speckled Dace",
         "text": "Klamath Speckled Dace"
-    }, 
+    },
     {
-        "source": "Klamath Tui Chub", 
-        "description": "", 
-        "id": "Klamath Tui Chub", 
+        "source": "Klamath Tui Chub",
+        "description": "",
+        "id": "Klamath Tui Chub",
         "text": "Klamath Tui Chub"
-    }, 
+    },
     {
-        "source": "Lahontan Cutthroat Trout", 
-        "description": "", 
-        "id": "Lahontan Cutthroat Trout", 
-        "text": "\u039b\u03b9\u03b8\u03cc\u03c3\u03c4\u03c1\u03c9\u03c4\u03bf \u039b\u03ac\u03bf\u03c4\u03bf\u03bd"
-    }, 
+        "source": "Lahontan Cutthroat Trout",
+        "description": "",
+        "id": "Lahontan Cutthroat Trout",
+        "text": "Λιθόστρωτο Λάοτον"
+    },
     {
-        "source": "Lahontan Lake Tui Chub", 
-        "description": "", 
-        "id": "Lahontan Lake Tui Chub", 
-        "text": "Lahontan \u03bb\u03af\u03bc\u03bd\u03b7 Tui Chub"
-    }, 
+        "source": "Lahontan Lake Tui Chub",
+        "description": "",
+        "id": "Lahontan Lake Tui Chub",
+        "text": "Lahontan λίμνη Tui Chub"
+    },
     {
-        "source": "Lahontan Mountain Sucker", 
-        "description": "", 
-        "id": "Lahontan Mountain Sucker", 
-        "text": "\u0395\u03ba\u03c4\u03bf\u03be\u03b5\u03c5\u03c4\u03ae\u03c2 \u03b2\u03bf\u03c5\u03bd\u03ce\u03bd Lahontan"
-    }, 
+        "source": "Lahontan Mountain Sucker",
+        "description": "",
+        "id": "Lahontan Mountain Sucker",
+        "text": "Εκτοξευτής βουνών Lahontan"
+    },
     {
-        "source": "Lahontan Redside", 
-        "description": "", 
-        "id": "Lahontan Redside", 
+        "source": "Lahontan Redside",
+        "description": "",
+        "id": "Lahontan Redside",
         "text": "Lahontan Redside"
-    }, 
+    },
     {
-        "source": "Lahontan Speckled Dace", 
-        "description": "", 
-        "id": "Lahontan Speckled Dace", 
+        "source": "Lahontan Speckled Dace",
+        "description": "",
+        "id": "Lahontan Speckled Dace",
         "text": "Lahontan Speckled Dace"
-    }, 
+    },
     {
-        "source": "Lahontan Stream Tui Chub", 
-        "description": "", 
-        "id": "Lahontan Stream Tui Chub", 
-        "text": "Lahontan \u03c1\u03b5\u03cd\u03bc\u03b1 Tui Chub"
-    }, 
+        "source": "Lahontan Stream Tui Chub",
+        "description": "",
+        "id": "Lahontan Stream Tui Chub",
+        "text": "Lahontan ρεύμα Tui Chub"
+    },
     {
-        "source": "Lake Trout", 
-        "description": "", 
-        "id": "Lake Trout", 
-        "text": "\u039b\u03af\u03bc\u03bd\u03b7 \u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1"
-    }, 
+        "source": "Lake Trout",
+        "description": "",
+        "id": "Lake Trout",
+        "text": "Λίμνη Πέστροφα"
+    },
     {
-        "source": "Largemouth Bass", 
-        "description": "", 
-        "id": "Largemouth Bass", 
-        "text": "\u039b\u03b1\u03c5\u03c1\u03ac\u03ba\u03b9"
-    }, 
+        "source": "Largemouth Bass",
+        "description": "",
+        "id": "Largemouth Bass",
+        "text": "Λαυράκι"
+    },
     {
-        "source": "Little Kern Golden Trout", 
-        "description": "", 
-        "id": "Little Kern Golden Trout", 
-        "text": "\u039c\u03b9\u03ba\u03c1\u03ae Kern \u03c7\u03c1\u03c5\u03c3\u03ae \u03c0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1"
-    }, 
+        "source": "Little Kern Golden Trout",
+        "description": "",
+        "id": "Little Kern Golden Trout",
+        "text": "Μικρή Kern χρυσή πέστροφα"
+    },
     {
-        "source": "Long Valley Speckled Dace", 
-        "description": "", 
-        "id": "Long Valley Speckled Dace", 
+        "source": "Long Valley Speckled Dace",
+        "description": "",
+        "id": "Long Valley Speckled Dace",
         "text": "Long Valley Speckled Dace"
-    }, 
+    },
     {
-        "source": "Longfin Smelt", 
-        "description": "", 
-        "id": "Longfin Smelt", 
+        "source": "Longfin Smelt",
+        "description": "",
+        "id": "Longfin Smelt",
         "text": "Longfin Smelt"
-    }, 
+    },
     {
-        "source": "Longjaw Mudsucker", 
-        "description": "", 
-        "id": "Longjaw Mudsucker", 
+        "source": "Longjaw Mudsucker",
+        "description": "",
+        "id": "Longjaw Mudsucker",
         "text": "Longjaw Mudsucker"
-    }, 
+    },
     {
-        "source": "Lost River Sucker", 
-        "description": "", 
-        "id": "Lost River Sucker", 
-        "text": "\u0391\u03c0\u03ce\u03bb\u03b5\u03b9\u03b1 \u03c0\u03bf\u03c4\u03b1\u03bc\u03ce\u03bd"
-    }, 
+        "source": "Lost River Sucker",
+        "description": "",
+        "id": "Lost River Sucker",
+        "text": "Απώλεια ποταμών"
+    },
     {
-        "source": "Lower Klamath Marbled Sculpin", 
-        "description": "", 
-        "id": "Lower Klamath Marbled Sculpin", 
-        "text": "\u039a\u03ac\u03c4\u03c9 \u039a\u03bb\u03b1\u03bc\u03b1\u03b8 \u039c\u03ac\u03c1\u03bc\u03c0\u03bb\u03b5\u03c1 \u03a3\u03ba\u03bb\u03af\u03c0\u03b9\u03bd"
-    }, 
+        "source": "Lower Klamath Marbled Sculpin",
+        "description": "",
+        "id": "Lower Klamath Marbled Sculpin",
+        "text": "Κάτω Κλαμαθ Μάρμπλερ Σκλίπιν"
+    },
     {
-        "source": "McCloud River Redband Trout", 
-        "description": "", 
-        "id": "McCloud River Redband Trout", 
-        "text": "McCloud \u03c0\u03bf\u03c4\u03b1\u03bc\u03cc\u03c2 Redband \u03c0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1\u03c2"
-    }, 
+        "source": "McCloud River Redband Trout",
+        "description": "",
+        "id": "McCloud River Redband Trout",
+        "text": "McCloud ποταμός Redband πέστροφας"
+    },
     {
-        "source": "Mississippi Silversides", 
-        "description": "", 
-        "id": "Mississippi Silversides", 
-        "text": "\u039c\u03b9\u03c3\u03c3\u03af\u03c3\u03c3\u03b9 \u03a3\u03af\u03bb\u03b2\u03b5\u03c1\u03c3\u03c2"
-    }, 
+        "source": "Mississippi Silversides",
+        "description": "",
+        "id": "Mississippi Silversides",
+        "text": "Μισσίσσι Σίλβερσς"
+    },
     {
-        "source": "Modoc Sucker", 
-        "description": "", 
-        "id": "Modoc Sucker", 
+        "source": "Modoc Sucker",
+        "description": "",
+        "id": "Modoc Sucker",
         "text": "Modoc Sucker"
-    }, 
+    },
     {
-        "source": "Mojave Tui Chub", 
-        "description": "", 
-        "id": "Mojave Tui Chub", 
+        "source": "Mojave Tui Chub",
+        "description": "",
+        "id": "Mojave Tui Chub",
         "text": "Mojave Tui Chub"
-    }, 
+    },
     {
-        "source": "Monterey Hitch", 
-        "description": "", 
-        "id": "Monterey Hitch", 
+        "source": "Monterey Hitch",
+        "description": "",
+        "id": "Monterey Hitch",
         "text": "Monterey Hitch"
-    }, 
+    },
     {
-        "source": "Monterey Roach", 
-        "description": "", 
-        "id": "Monterey Roach", 
+        "source": "Monterey Roach",
+        "description": "",
+        "id": "Monterey Roach",
         "text": "Monterey Roach"
-    }, 
+    },
     {
-        "source": "Monterey Sucker", 
-        "description": "", 
-        "id": "Monterey Sucker", 
+        "source": "Monterey Sucker",
+        "description": "",
+        "id": "Monterey Sucker",
         "text": "Monterey Sucker"
-    }, 
+    },
     {
-        "source": "Mountain Whitefish", 
-        "description": "", 
-        "id": "Mountain Whitefish", 
+        "source": "Mountain Whitefish",
+        "description": "",
+        "id": "Mountain Whitefish",
         "text": "Mountainfish Whitefish"
-    }, 
+    },
     {
-        "source": "Navarro Roach", 
-        "description": "", 
-        "id": "Navarro Roach", 
-        "text": "\u039d\u03b1\u03b2\u03ac\u03c1\u03bf \u03a1\u03cc\u03bf\u03c5\u03c4\u03c2"
-    }, 
+        "source": "Navarro Roach",
+        "description": "",
+        "id": "Navarro Roach",
+        "text": "Ναβάρο Ρόουτς"
+    },
     {
-        "source": "Northern (Pit) Roach", 
-        "description": "", 
-        "id": "Northern (Pit) Roach", 
-        "text": "\u0392\u03cc\u03c1\u03b5\u03b9\u03bf (Pit) Roach"
-    }, 
+        "source": "Northern (Pit) Roach",
+        "description": "",
+        "id": "Northern (Pit) Roach",
+        "text": "Βόρειο (Pit) Roach"
+    },
     {
-        "source": "Northern California Brook Lamprey", 
-        "description": "", 
-        "id": "Northern California Brook Lamprey", 
-        "text": "\u0392\u03cc\u03c1\u03b5\u03b9\u03b1 \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 Brook Lamprey"
-    }, 
+        "source": "Northern California Brook Lamprey",
+        "description": "",
+        "id": "Northern California Brook Lamprey",
+        "text": "Βόρεια Καλιφόρνια Brook Lamprey"
+    },
     {
-        "source": "Northern California Coast Summer Steelhead", 
-        "description": "", 
-        "id": "Northern California Coast Summer Steelhead", 
-        "text": "\u03a0\u03b1\u03c1\u03b1\u03bb\u03af\u03b1 \u03c4\u03b7\u03c2 \u0392\u03cc\u03c1\u03b5\u03b9\u03b1\u03c2 \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1\u03c2 Summer Steel"
-    }, 
+        "source": "Northern California Coast Summer Steelhead",
+        "description": "",
+        "id": "Northern California Coast Summer Steelhead",
+        "text": "Παραλία της Βόρειας Καλιφόρνιας Summer Steel"
+    },
     {
-        "source": "Northern California Coast Winter Steelhead", 
-        "description": "", 
-        "id": "Northern California Coast Winter Steelhead", 
-        "text": "\u0391\u03ba\u03c4\u03ae \u03c4\u03b7\u03c2 \u0392\u03cc\u03c1\u03b5\u03b9\u03b1\u03c2 \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1\u03c2 Winter Steelhead"
-    }, 
+        "source": "Northern California Coast Winter Steelhead",
+        "description": "",
+        "id": "Northern California Coast Winter Steelhead",
+        "text": "Ακτή της Βόρειας Καλιφόρνιας Winter Steelhead"
+    },
     {
-        "source": "Northern Green Sturgeon", 
-        "description": "", 
-        "id": "Northern Green Sturgeon", 
-        "text": "\u0392\u03cc\u03c1\u03b5\u03b9\u03bf \u03a0\u03c1\u03ac\u03c3\u03b9\u03bd\u03bf \u03a3\u03c4\u03c1\u03bf\u03c5\u03b3\u03b3\u03ac\u03c1\u03b9"
-    }, 
+        "source": "Northern Green Sturgeon",
+        "description": "",
+        "id": "Northern Green Sturgeon",
+        "text": "Βόρειο Πράσινο Στρουγγάρι"
+    },
     {
-        "source": "Owens Pupfish", 
-        "description": "", 
-        "id": "Owens Pupfish", 
+        "source": "Owens Pupfish",
+        "description": "",
+        "id": "Owens Pupfish",
         "text": "Owens Pupfish"
-    }, 
+    },
     {
-        "source": "Owens Speckled Dace", 
-        "description": "", 
-        "id": "Owens Speckled Dace", 
+        "source": "Owens Speckled Dace",
+        "description": "",
+        "id": "Owens Speckled Dace",
         "text": "Owens Speckled Dace"
-    }, 
+    },
     {
-        "source": "Owens Sucker", 
-        "description": "", 
-        "id": "Owens Sucker", 
+        "source": "Owens Sucker",
+        "description": "",
+        "id": "Owens Sucker",
         "text": "Owens Sucker"
-    }, 
+    },
     {
-        "source": "Owens Tui Chub", 
-        "description": "", 
-        "id": "Owens Tui Chub", 
+        "source": "Owens Tui Chub",
+        "description": "",
+        "id": "Owens Tui Chub",
         "text": "Owens Tui Chub"
-    }, 
+    },
     {
-        "source": "Pacific Lamprey", 
-        "description": "", 
-        "id": "Pacific Lamprey", 
+        "source": "Pacific Lamprey",
+        "description": "",
+        "id": "Pacific Lamprey",
         "text": "Pacific Lamprey"
-    }, 
+    },
     {
-        "source": "Paiute Cutthroat Trout", 
-        "description": "", 
-        "id": "Paiute Cutthroat Trout", 
-        "text": "\u03a0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1 \u03c4\u03b7\u03c2 \u03c0\u03ad\u03c3\u03c4\u03c1\u03bf\u03c6\u03b1\u03c2"
-    }, 
+        "source": "Paiute Cutthroat Trout",
+        "description": "",
+        "id": "Paiute Cutthroat Trout",
+        "text": "Πέστροφα της πέστροφας"
+    },
     {
-        "source": "Paiute Sculpin", 
-        "description": "", 
-        "id": "Paiute Sculpin", 
+        "source": "Paiute Sculpin",
+        "description": "",
+        "id": "Paiute Sculpin",
         "text": "Paiute Sculpin"
-    }, 
+    },
     {
-        "source": "Pink Salmon", 
-        "description": "", 
-        "id": "Pink Salmon", 
-        "text": "\u03a1\u03bf\u03b6 \u03c3\u03bf\u03bb\u03bf\u03bc\u03cc\u03c2"
-    }, 
+        "source": "Pink Salmon",
+        "description": "",
+        "id": "Pink Salmon",
+        "text": "Ροζ σολομός"
+    },
     {
-        "source": "Pit River Tui Chub", 
-        "description": "", 
-        "id": "Pit River Tui Chub", 
-        "text": "\u03a0\u03bf\u03c4\u03b1\u03bc\u03cc\u03c2 Tui Chub"
-    }, 
+        "source": "Pit River Tui Chub",
+        "description": "",
+        "id": "Pit River Tui Chub",
+        "text": "Ποταμός Tui Chub"
+    },
     {
-        "source": "Pit Sculpin", 
-        "description": "", 
-        "id": "Pit Sculpin", 
-        "text": "\u03a3\u03ba\u03bf\u03c5\u03c0\u03b9\u03ad\u03c1\u03b1"
-    }, 
+        "source": "Pit Sculpin",
+        "description": "",
+        "id": "Pit Sculpin",
+        "text": "Σκουπιέρα"
+    },
     {
-        "source": "Pit-Klamath Brook Lamprey", 
-        "description": "", 
-        "id": "Pit-Klamath Brook Lamprey", 
-        "text": "\u03a0\u03b9\u03c4-\u039a\u03bb\u03b1\u03bc\u03ac\u03c4 \u039c\u03c0\u03c1\u03bf\u03c5\u03ba \u039b\u03ac\u03bc\u03c0\u03c1\u03b5\u03ca"
-    }, 
+        "source": "Pit-Klamath Brook Lamprey",
+        "description": "",
+        "id": "Pit-Klamath Brook Lamprey",
+        "text": "Πιτ-Κλαμάτ Μπρουκ Λάμπρεϊ"
+    },
     {
-        "source": "Porthole Livebearer", 
-        "description": "", 
-        "id": "Porthole Livebearer", 
-        "text": "\u0398\u03c5\u03bc\u03ac\u03c1\u03b9 \u03b6\u03c9\u03bd\u03ce\u03bd"
-    }, 
+        "source": "Porthole Livebearer",
+        "description": "",
+        "id": "Porthole Livebearer",
+        "text": "Θυμάρι ζωνών"
+    },
     {
-        "source": "Prickly Sculpin", 
-        "description": "", 
-        "id": "Prickly Sculpin", 
-        "text": "\u03a6\u03c1\u03b1\u03b3\u03ba\u03cc\u03c3\u03c5\u03ba\u03bf Sculpin"
-    }, 
+        "source": "Prickly Sculpin",
+        "description": "",
+        "id": "Prickly Sculpin",
+        "text": "Φραγκόσυκο Sculpin"
+    },
     {
-        "source": "Pumpkinseed", 
-        "description": "", 
-        "id": "Pumpkinseed", 
-        "text": "\u03a3\u03c0\u03cc\u03c1\u03bf\u03c2 \u03ba\u03bf\u03bb\u03bf\u03ba\u03cd\u03b8\u03b1\u03c2"
-    }, 
+        "source": "Pumpkinseed",
+        "description": "",
+        "id": "Pumpkinseed",
+        "text": "Σπόρος κολοκύθας"
+    },
     {
-        "source": "Rainwater Killifish", 
-        "description": "", 
-        "id": "Rainwater Killifish", 
-        "text": "\u0392\u03c1\u03bf\u03c7\u03cc\u03c0\u03c4\u03c9\u03c3\u03b7 Killifish"
-    }, 
+        "source": "Rainwater Killifish",
+        "description": "",
+        "id": "Rainwater Killifish",
+        "text": "Βροχόπτωση Killifish"
+    },
     {
-        "source": "Razorback Sucker", 
-        "description": "", 
-        "id": "Razorback Sucker", 
-        "text": "\u039e\u03cd\u03c0\u03bd\u03b7\u03bc\u03b1"
-    }, 
+        "source": "Razorback Sucker",
+        "description": "",
+        "id": "Razorback Sucker",
+        "text": "Ξύπνημα"
+    },
     {
-        "source": "Red Hills Roach", 
-        "description": "", 
-        "id": "Red Hills Roach", 
+        "source": "Red Hills Roach",
+        "description": "",
+        "id": "Red Hills Roach",
         "text": "Red Hills Roach"
-    }, 
+    },
     {
-        "source": "Red Shiner", 
-        "description": "", 
-        "id": "Red Shiner", 
+        "source": "Red Shiner",
+        "description": "",
+        "id": "Red Shiner",
         "text": "Red Shiner"
-    }, 
+    },
     {
-        "source": "Redear Sunfish", 
-        "description": "", 
-        "id": "Redear Sunfish", 
+        "source": "Redear Sunfish",
+        "description": "",
+        "id": "Redear Sunfish",
         "text": "Redear Sunfish"
-    }, 
+    },
     {
-        "source": "Redeye Bass", 
-        "description": "", 
-        "id": "Redeye Bass", 
+        "source": "Redeye Bass",
+        "description": "",
+        "id": "Redeye Bass",
         "text": "Redeye Bass"
-    }, 
+    },
     {
-        "source": "Reticulate Sculpin", 
-        "description": "", 
-        "id": "Reticulate Sculpin", 
-        "text": "\u03a3\u03ba\u03b5\u03bb\u03b5\u03c4\u03cc\u03c2 \u03bc\u03b5 \u03c3\u03ba\u03b5\u03bb\u03b5\u03c4\u03cc"
-    }, 
+        "source": "Reticulate Sculpin",
+        "description": "",
+        "id": "Reticulate Sculpin",
+        "text": "Σκελετός με σκελετό"
+    },
     {
-        "source": "Riffle Sculpin", 
-        "description": "", 
-        "id": "Riffle Sculpin", 
+        "source": "Riffle Sculpin",
+        "description": "",
+        "id": "Riffle Sculpin",
         "text": "Riffle Sculpin"
-    }, 
+    },
     {
-        "source": "River Lamprey", 
-        "description": "", 
-        "id": "River Lamprey", 
-        "text": "\u03a4\u03bf\u03bd \u03c0\u03bf\u03c4\u03b1\u03bc\u03cc Lamprey"
-    }, 
+        "source": "River Lamprey",
+        "description": "",
+        "id": "River Lamprey",
+        "text": "Τον ποταμό Lamprey"
+    },
     {
-        "source": "Rough Sculpin", 
-        "description": "", 
-        "id": "Rough Sculpin", 
-        "text": "\u03a3\u03ba\u03bb\u03b7\u03c1\u03cc Sculpin"
-    }, 
+        "source": "Rough Sculpin",
+        "description": "",
+        "id": "Rough Sculpin",
+        "text": "Σκληρό Sculpin"
+    },
     {
-        "source": "Russian River Roach", 
-        "description": "", 
-        "id": "Russian River Roach", 
-        "text": "\u03a1\u03ce\u03c3\u03b9\u03ba\u03b1 \u03c0\u03bf\u03c4\u03b1\u03bc\u03bf\u03cd \u03a1\u03cc\u03bf\u03c5\u03ba"
-    }, 
+        "source": "Russian River Roach",
+        "description": "",
+        "id": "Russian River Roach",
+        "text": "Ρώσικα ποταμού Ρόουκ"
+    },
     {
-        "source": "Russian River Tule Perch", 
-        "description": "", 
-        "id": "Russian River Tule Perch", 
-        "text": "\u03a1\u03ce\u03c3\u03b9\u03ba\u03b1 \u03c0\u03bf\u03c4\u03b1\u03bc\u03bf\u03cd Tule"
-    }, 
+        "source": "Russian River Tule Perch",
+        "description": "",
+        "id": "Russian River Tule Perch",
+        "text": "Ρώσικα ποταμού Tule"
+    },
     {
-        "source": "Sacramento Blackfish", 
-        "description": "", 
-        "id": "Sacramento Blackfish", 
+        "source": "Sacramento Blackfish",
+        "description": "",
+        "id": "Sacramento Blackfish",
         "text": "Sacramento Blackfish"
-    }, 
+    },
     {
-        "source": "Sacramento Hitch", 
-        "description": "", 
-        "id": "Sacramento Hitch", 
+        "source": "Sacramento Hitch",
+        "description": "",
+        "id": "Sacramento Hitch",
         "text": "Sacramento Hitch"
-    }, 
+    },
     {
-        "source": "Sacramento Perch", 
-        "description": "", 
-        "id": "Sacramento Perch", 
-        "text": "Sacramento \u03c0\u03ad\u03c1\u03ba\u03b1"
-    }, 
+        "source": "Sacramento Perch",
+        "description": "",
+        "id": "Sacramento Perch",
+        "text": "Sacramento πέρκα"
+    },
     {
-        "source": "Sacramento Pikeminnow", 
-        "description": "", 
-        "id": "Sacramento Pikeminnow", 
+        "source": "Sacramento Pikeminnow",
+        "description": "",
+        "id": "Sacramento Pikeminnow",
         "text": "Sacramento Pikeminnow"
-    }, 
+    },
     {
-        "source": "Sacramento Speckled Dace", 
-        "description": "", 
-        "id": "Sacramento Speckled Dace", 
+        "source": "Sacramento Speckled Dace",
+        "description": "",
+        "id": "Sacramento Speckled Dace",
         "text": "Sacramento Speckled Dace"
-    }, 
+    },
     {
-        "source": "Sacramento Splittail", 
-        "description": "", 
-        "id": "Sacramento Splittail", 
-        "text": "\u03a3\u03b1\u03ba\u03c1\u03b1\u03bc\u03ad\u03bd\u03c4\u03bf"
-    }, 
+        "source": "Sacramento Splittail",
+        "description": "",
+        "id": "Sacramento Splittail",
+        "text": "Σακραμέντο"
+    },
     {
-        "source": "Sacramento Sucker", 
-        "description": "", 
-        "id": "Sacramento Sucker", 
+        "source": "Sacramento Sucker",
+        "description": "",
+        "id": "Sacramento Sucker",
         "text": "Sacramento Sucker"
-    }, 
+    },
     {
-        "source": "Sacramento Tule Perch", 
-        "description": "", 
-        "id": "Sacramento Tule Perch", 
+        "source": "Sacramento Tule Perch",
+        "description": "",
+        "id": "Sacramento Tule Perch",
         "text": "Sacramento Tule"
-    }, 
+    },
     {
-        "source": "Sailfin Molly", 
-        "description": "", 
-        "id": "Sailfin Molly", 
+        "source": "Sailfin Molly",
+        "description": "",
+        "id": "Sailfin Molly",
         "text": "Sailfin Molly"
-    }, 
+    },
     {
-        "source": "Salt Creek Pupfish", 
-        "description": "", 
-        "id": "Salt Creek Pupfish", 
+        "source": "Salt Creek Pupfish",
+        "description": "",
+        "id": "Salt Creek Pupfish",
         "text": "Salt Creek Pupfish"
-    }, 
+    },
     {
-        "source": "Santa Ana Speckled Dace", 
-        "description": "", 
-        "id": "Santa Ana Speckled Dace", 
-        "text": "\u0397 \u03a3\u03ac\u03bd\u03c4\u03b1 \u0386\u03bd\u03b1 \u0386\u03ba\u03c1\u03b7"
-    }, 
+        "source": "Santa Ana Speckled Dace",
+        "description": "",
+        "id": "Santa Ana Speckled Dace",
+        "text": "Η Σάντα Άνα Άκρη"
+    },
     {
-        "source": "Santa Ana Sucker", 
-        "description": "", 
-        "id": "Santa Ana Sucker", 
+        "source": "Santa Ana Sucker",
+        "description": "",
+        "id": "Santa Ana Sucker",
         "text": "Santa Ana Sucker"
-    }, 
+    },
     {
-        "source": "Saratoga Springs Pupfish", 
-        "description": "", 
-        "id": "Saratoga Springs Pupfish", 
+        "source": "Saratoga Springs Pupfish",
+        "description": "",
+        "id": "Saratoga Springs Pupfish",
         "text": "Saratoga Springs Pupfish"
-    }, 
+    },
     {
-        "source": "Shay Creek Stickleback", 
-        "description": "", 
-        "id": "Shay Creek Stickleback", 
-        "text": "\u03a3\u03ba\u03ad\u03b9\u03c3\u03b9\u03c2 \u03c4\u03bf\u03c5 \u03a3\u03ac\u03b9 \u039a\u03c1\u03cd\u03c0"
-    }, 
+        "source": "Shay Creek Stickleback",
+        "description": "",
+        "id": "Shay Creek Stickleback",
+        "text": "Σκέισις του Σάι Κρύπ"
+    },
     {
-        "source": "Shimofuri Goby", 
-        "description": "", 
-        "id": "Shimofuri Goby", 
+        "source": "Shimofuri Goby",
+        "description": "",
+        "id": "Shimofuri Goby",
         "text": "Shimofuri Goby"
-    }, 
+    },
     {
-        "source": "Shiner Perch", 
-        "description": "", 
-        "id": "Shiner Perch", 
+        "source": "Shiner Perch",
+        "description": "",
+        "id": "Shiner Perch",
         "text": "Shinch Perch"
-    }, 
+    },
     {
-        "source": "Shortfin Molly", 
-        "description": "", 
-        "id": "Shortfin Molly", 
+        "source": "Shortfin Molly",
+        "description": "",
+        "id": "Shortfin Molly",
         "text": "Shortfin Molly"
-    }, 
+    },
     {
-        "source": "Shortnose Sucker", 
-        "description": "", 
-        "id": "Shortnose Sucker", 
-        "text": "\u0392\u03c1\u03b1\u03c3\u03c4\u03ae\u03c1\u03b1 \u03b2\u03c1\u03b1\u03c7\u03c5\u03c0\u03c1\u03cc\u03b8\u03b5\u03c3\u03bc\u03b1"
-    }, 
+        "source": "Shortnose Sucker",
+        "description": "",
+        "id": "Shortnose Sucker",
+        "text": "Βραστήρα βραχυπρόθεσμα"
+    },
     {
-        "source": "Shoshone Pupfish", 
-        "description": "", 
-        "id": "Shoshone Pupfish", 
+        "source": "Shoshone Pupfish",
+        "description": "",
+        "id": "Shoshone Pupfish",
         "text": "Shoshone Pupfish"
-    }, 
+    },
     {
-        "source": "Smallmouth Bass", 
-        "description": "", 
-        "id": "Smallmouth Bass", 
+        "source": "Smallmouth Bass",
+        "description": "",
+        "id": "Smallmouth Bass",
         "text": "Smallmouth Bass"
-    }, 
+    },
     {
-        "source": "Sockeye (Kokanee) Salmon", 
-        "description": "", 
-        "id": "Sockeye (Kokanee) Salmon", 
-        "text": "Sockeye (\u039a\u03bf\u03ba\u03ac\u03bd\u03b5) \u03a3\u03bf\u03bb\u03bf\u03bc\u03cc\u03c2"
-    }, 
+        "source": "Sockeye (Kokanee) Salmon",
+        "description": "",
+        "id": "Sockeye (Kokanee) Salmon",
+        "text": "Sockeye (Κοκάνε) Σολομός"
+    },
     {
-        "source": "South Central California Coast Steelhead", 
-        "description": "", 
-        "id": "South Central California Coast Steelhead", 
-        "text": "\u039d\u03cc\u03c4\u03b9\u03b1 \u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 Coast Steelhead"
-    }, 
+        "source": "South Central California Coast Steelhead",
+        "description": "",
+        "id": "South Central California Coast Steelhead",
+        "text": "Νότια Κεντρική Καλιφόρνια Coast Steelhead"
+    },
     {
-        "source": "Southern California Steelhead", 
-        "description": "", 
-        "id": "Southern California Steelhead", 
-        "text": "\u039d\u03cc\u03c4\u03b9\u03b1 \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 Steelhead"
-    }, 
+        "source": "Southern California Steelhead",
+        "description": "",
+        "id": "Southern California Steelhead",
+        "text": "Νότια Καλιφόρνια Steelhead"
+    },
     {
-        "source": "Southern Green Sturgeon", 
-        "description": "", 
-        "id": "Southern Green Sturgeon", 
-        "text": "\u039d\u03cc\u03c4\u03b9\u03b1 \u03a0\u03c1\u03ac\u03c3\u03b9\u03bd\u03b7 \u03a3\u03c4\u03c1\u03bf\u03c5\u03b8\u03bf\u03ba\u03b1\u03bc\u03ae\u03bb\u03bf\u03c5"
-    }, 
+        "source": "Southern Green Sturgeon",
+        "description": "",
+        "id": "Southern Green Sturgeon",
+        "text": "Νότια Πράσινη Στρουθοκαμήλου"
+    },
     {
-        "source": "Southern Oregon Northern California Coast Coho Salmon", 
-        "description": "", 
-        "id": "Southern Oregon Northern California Coast Coho Salmon", 
-        "text": "\u039d\u03cc\u03c4\u03b9\u03bf \u038c\u03c1\u03b5\u03b3\u03ba\u03bf\u03bd \u0392\u03cc\u03c1\u03b5\u03b9\u03b1 \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 \u0391\u03ba\u03c4\u03ae Coho Salmon"
-    }, 
+        "source": "Southern Oregon Northern California Coast Coho Salmon",
+        "description": "",
+        "id": "Southern Oregon Northern California Coast Coho Salmon",
+        "text": "Νότιο Όρεγκον Βόρεια Καλιφόρνια Ακτή Coho Salmon"
+    },
     {
-        "source": "Southern Oregon Northern California Coast Fall Chinook Salmon", 
-        "description": "", 
-        "id": "Southern Oregon Northern California Coast Fall Chinook Salmon", 
-        "text": "\u039d\u03cc\u03c4\u03b9\u03b1 \u038c\u03c1\u03b5\u03b3\u03ba\u03bf\u03bd \u0392\u03cc\u03c1\u03b5\u03b9\u03b1 \u039a\u03b1\u03bb\u03b9\u03c6\u03cc\u03c1\u03bd\u03b9\u03b1 \u0391\u03ba\u03c4\u03ae Fall Chinook \u03a3\u03bf\u03bb\u03bf\u03bc\u03cc\u03c2"
-    }, 
+        "source": "Southern Oregon Northern California Coast Fall Chinook Salmon",
+        "description": "",
+        "id": "Southern Oregon Northern California Coast Fall Chinook Salmon",
+        "text": "Νότια Όρεγκον Βόρεια Καλιφόρνια Ακτή Fall Chinook Σολομός"
+    },
     {
-        "source": "Spotted Bass", 
-        "description": "", 
-        "id": "Spotted Bass", 
-        "text": "\u03a3\u03ba\u03bf\u03cd\u03c1\u03bf \u03bc\u03c0\u03ac\u03c3\u03bf"
-    }, 
+        "source": "Spotted Bass",
+        "description": "",
+        "id": "Spotted Bass",
+        "text": "Σκούρο μπάσο"
+    },
     {
-        "source": "Staghorn Sculpin", 
-        "description": "", 
-        "id": "Staghorn Sculpin", 
+        "source": "Staghorn Sculpin",
+        "description": "",
+        "id": "Staghorn Sculpin",
         "text": "Staghorn Sculpin"
-    }, 
+    },
     {
-        "source": "Starry Flounder", 
-        "description": "", 
-        "id": "Starry Flounder", 
-        "text": "\u0391\u03c3\u03c4\u03b5\u03c1\u03bf\u03b5\u03b9\u03b4\u03ae\u03c2 \u03c7\u03bb\u03bf\u03bf\u03c4\u03ac\u03c0\u03b7\u03c4\u03b1"
-    }, 
+        "source": "Starry Flounder",
+        "description": "",
+        "id": "Starry Flounder",
+        "text": "Αστεροειδής χλοοτάπητα"
+    },
     {
-        "source": "Striped Bass", 
-        "description": "", 
-        "id": "Striped Bass", 
-        "text": "\u03a1\u03b1\u03b2\u03b4\u03c9\u03c4\u03ae \u03c0\u03ad\u03c1\u03ba\u03b1"
-    }, 
+        "source": "Striped Bass",
+        "description": "",
+        "id": "Striped Bass",
+        "text": "Ραβδωτή πέρκα"
+    },
     {
-        "source": "Striped Mullet", 
-        "description": "", 
-        "id": "Striped Mullet", 
-        "text": "\u03a1\u03b9\u03b3\u03ad Mullet"
-    }, 
+        "source": "Striped Mullet",
+        "description": "",
+        "id": "Striped Mullet",
+        "text": "Ριγέ Mullet"
+    },
     {
-        "source": "Surf Smelt", 
-        "description": "", 
-        "id": "Surf Smelt", 
+        "source": "Surf Smelt",
+        "description": "",
+        "id": "Surf Smelt",
         "text": "Surf Smelt"
-    }, 
+    },
     {
-        "source": "Tahoe Sucker", 
-        "description": "", 
-        "id": "Tahoe Sucker", 
+        "source": "Tahoe Sucker",
+        "description": "",
+        "id": "Tahoe Sucker",
         "text": "Tahoe Sucker"
-    }, 
+    },
     {
-        "source": "Tecopa Pupfish", 
-        "description": "", 
-        "id": "Tecopa Pupfish", 
+        "source": "Tecopa Pupfish",
+        "description": "",
+        "id": "Tecopa Pupfish",
         "text": "Tecopa Pupfish"
-    }, 
+    },
     {
-        "source": "Tench", 
-        "description": "", 
-        "id": "Tench", 
-        "text": "\u0395\u03af\u03b4\u03bf\u03c2 \u03ba\u03c5\u03c0\u03c1\u03af\u03bd\u03bf\u03c5"
-    }, 
+        "source": "Tench",
+        "description": "",
+        "id": "Tench",
+        "text": "Είδος κυπρίνου"
+    },
     {
-        "source": "Thicktail Chub", 
-        "description": "", 
-        "id": "Thicktail Chub", 
-        "text": "\u03a0\u03bb\u03bf\u03cd\u03c3\u03b9\u03bf \u03c4\u03c3\u03bf\u03cd\u03bc"
-    }, 
+        "source": "Thicktail Chub",
+        "description": "",
+        "id": "Thicktail Chub",
+        "text": "Πλούσιο τσούμ"
+    },
     {
-        "source": "Threadfin Shad", 
-        "description": "", 
-        "id": "Threadfin Shad", 
+        "source": "Threadfin Shad",
+        "description": "",
+        "id": "Threadfin Shad",
         "text": "Threadfin Shad"
-    }, 
+    },
     {
-        "source": "Tidewater Goby", 
-        "description": "", 
-        "id": "Tidewater Goby", 
+        "source": "Tidewater Goby",
+        "description": "",
+        "id": "Tidewater Goby",
         "text": "Tidewater Goby"
-    }, 
+    },
     {
-        "source": "Tomales Roach", 
-        "description": "", 
-        "id": "Tomales Roach", 
+        "source": "Tomales Roach",
+        "description": "",
+        "id": "Tomales Roach",
         "text": "Tomales Roach"
-    }, 
+    },
     {
-        "source": "Topsmelt", 
-        "description": "", 
-        "id": "Topsmelt", 
+        "source": "Topsmelt",
+        "description": "",
+        "id": "Topsmelt",
         "text": "Topsmelt"
-    }, 
+    },
     {
-        "source": "Unarmored Threespine Stickleback", 
-        "description": "", 
-        "id": "Unarmored Threespine Stickleback", 
-        "text": "\u0386\u03bd\u03b5\u03c5 \u03b1\u03bd\u03c4\u03b9\u03ba\u03b5\u03b9\u03bc\u03ad\u03bd\u03bf\u03c5"
-    }, 
+        "source": "Unarmored Threespine Stickleback",
+        "description": "",
+        "id": "Unarmored Threespine Stickleback",
+        "text": "Άνευ αντικειμένου"
+    },
     {
-        "source": "Upper Klamath Marbled Sculpin", 
-        "description": "", 
-        "id": "Upper Klamath Marbled Sculpin", 
-        "text": "\u0386\u03bd\u03c9 \u039a\u03bb\u03b1\u03bc\u03b1\u03b8 \u039c\u03ac\u03c1\u03bc\u03c0\u03bb\u03b5\u03c1 \u03a3\u03ba\u03bb\u03af\u03c0\u03b9\u03bd"
-    }, 
+        "source": "Upper Klamath Marbled Sculpin",
+        "description": "",
+        "id": "Upper Klamath Marbled Sculpin",
+        "text": "Άνω Κλαμαθ Μάρμπλερ Σκλίπιν"
+    },
     {
-        "source": "Upper Klamath-Trinity Fall Chinook Salmon", 
-        "description": "", 
-        "id": "Upper Klamath-Trinity Fall Chinook Salmon", 
-        "text": "\u0386\u03bd\u03c9 \u039a\u03bb\u03b1\u03bc\u03b1\u03b8\u03af\u03b1-\u03a4\u03c1\u03b9\u03ac\u03b4\u03b1 \u03a0\u03c4\u03ce\u03c3\u03b7 Chinook \u03a3\u03bf\u03bb\u03bf\u03bc\u03cc\u03c2"
-    }, 
+        "source": "Upper Klamath-Trinity Fall Chinook Salmon",
+        "description": "",
+        "id": "Upper Klamath-Trinity Fall Chinook Salmon",
+        "text": "Άνω Κλαμαθία-Τριάδα Πτώση Chinook Σολομός"
+    },
     {
-        "source": "Upper Klamath-Trinity Spring Chinook Salmon", 
-        "description": "", 
-        "id": "Upper Klamath-Trinity Spring Chinook Salmon", 
-        "text": "\u0386\u03bd\u03bf\u03b9\u03be\u03b7 Klamath-Trinity \u0386\u03bd\u03bf\u03b9\u03be\u03b7 Chinook \u03a3\u03bf\u03bb\u03bf\u03bc\u03cc\u03c2"
-    }, 
+        "source": "Upper Klamath-Trinity Spring Chinook Salmon",
+        "description": "",
+        "id": "Upper Klamath-Trinity Spring Chinook Salmon",
+        "text": "Άνοιξη Klamath-Trinity Άνοιξη Chinook Σολομός"
+    },
     {
-        "source": "Wakasagi", 
-        "description": "", 
-        "id": "Wakasagi", 
+        "source": "Wakasagi",
+        "description": "",
+        "id": "Wakasagi",
         "text": "Wakasagi"
-    }, 
+    },
     {
-        "source": "Warmouth", 
-        "description": "", 
-        "id": "Warmouth", 
+        "source": "Warmouth",
+        "description": "",
+        "id": "Warmouth",
         "text": "Warmouth"
-    }, 
+    },
     {
-        "source": "Western Brook Lamprey", 
-        "description": "", 
-        "id": "Western Brook Lamprey", 
-        "text": "\u0394\u03c5\u03c4\u03b9\u03ba\u03cc Brook Lamprey"
-    }, 
+        "source": "Western Brook Lamprey",
+        "description": "",
+        "id": "Western Brook Lamprey",
+        "text": "Δυτικό Brook Lamprey"
+    },
     {
-        "source": "Western Mosquitofish", 
-        "description": "", 
-        "id": "Western Mosquitofish", 
-        "text": "\u0394\u03c5\u03c4\u03b9\u03ba\u03cc Mosquitofish"
-    }, 
+        "source": "Western Mosquitofish",
+        "description": "",
+        "id": "Western Mosquitofish",
+        "text": "Δυτικό Mosquitofish"
+    },
     {
-        "source": "White Bass", 
-        "description": "", 
-        "id": "White Bass", 
-        "text": "\u039b\u03b5\u03c5\u03ba\u03cc \u03bc\u03c0\u03ac\u03c3\u03bf"
-    }, 
+        "source": "White Bass",
+        "description": "",
+        "id": "White Bass",
+        "text": "Λευκό μπάσο"
+    },
     {
-        "source": "White Catfish", 
-        "description": "", 
-        "id": "White Catfish", 
-        "text": "\u039b\u03b5\u03c5\u03ba\u03cc \u03b3\u03b1\u03c4\u03cc\u03c8\u03b1\u03c1\u03bf"
-    }, 
+        "source": "White Catfish",
+        "description": "",
+        "id": "White Catfish",
+        "text": "Λευκό γατόψαρο"
+    },
     {
-        "source": "White Crappie", 
-        "description": "", 
-        "id": "White Crappie", 
-        "text": "\u039b\u03b5\u03c5\u03ba\u03cc Crappie"
-    }, 
+        "source": "White Crappie",
+        "description": "",
+        "id": "White Crappie",
+        "text": "Λευκό Crappie"
+    },
     {
-        "source": "White Sturgeon", 
-        "description": "", 
-        "id": "White Sturgeon", 
-        "text": "\u0386\u03c3\u03c0\u03c1\u03bf\u03c2 \u03a3\u03c4\u03c1\u03bf\u03c5\u03b8\u03bf\u03ba\u03b1\u03bc\u03ae\u03bb\u03bf\u03c2"
-    }, 
+        "source": "White Sturgeon",
+        "description": "",
+        "id": "White Sturgeon",
+        "text": "Άσπρος Στρουθοκαμήλος"
+    },
     {
-        "source": "Yellow Bullhead", 
-        "description": "", 
-        "id": "Yellow Bullhead", 
-        "text": "\u039a\u03af\u03c4\u03c1\u03b9\u03bd\u03bf Bullhead"
-    }, 
+        "source": "Yellow Bullhead",
+        "description": "",
+        "id": "Yellow Bullhead",
+        "text": "Κίτρινο Bullhead"
+    },
     {
-        "source": "Yellow Perch", 
-        "description": "", 
-        "id": "Yellow Perch", 
-        "text": "\u039a\u03af\u03c4\u03c1\u03b9\u03bd\u03bf \u03c0\u03ad\u03c1\u03ba\u03b1"
-    }, 
+        "source": "Yellow Perch",
+        "description": "",
+        "id": "Yellow Perch",
+        "text": "Κίτρινο πέρκα"
+    },
     {
-        "source": "Yellowfin Goby", 
-        "description": "", 
-        "id": "Yellowfin Goby", 
-        "text": "\u0393\u03b1\u03bb\u03bf\u03c0\u03bf\u03cd\u03bb\u03b1 Goby"
-    }, 
+        "source": "Yellowfin Goby",
+        "description": "",
+        "id": "Yellowfin Goby",
+        "text": "Γαλοπούλα Goby"
+    },
     {
-        "source": "Speckled Dace are capable of living in an array of habitats from small springs or streams to large rivers and deep lakes.", 
-        "description": "", 
-        "id": "Speckled Dace are capable of living in an array of habitats from small springs or streams to large rivers and deep lakes.", 
-        "text": "\u03a4\u03bf Speckled Dace \u03b5\u03af\u03bd\u03b1\u03b9 \u03b9\u03ba\u03b1\u03bd\u03cc \u03bd\u03b1 \u03b6\u03b5\u03b9 \u03c3\u03b5 \u03bc\u03b9\u03b1 \u03c3\u03b5\u03b9\u03c1\u03ac \u03b1\u03c0\u03cc \u03b5\u03bd\u03b4\u03b9\u03b1\u03b9\u03c4\u03ae\u03bc\u03b1\u03c4\u03b1 \u03b1\u03c0\u03cc \u03bc\u03b9\u03ba\u03c1\u03ad\u03c2 \u03c0\u03b7\u03b3\u03ad\u03c2 \u03ae \u03c1\u03c5\u03ac\u03ba\u03b9\u03b1 \u03c3\u03b5 \u03bc\u03b5\u03b3\u03ac\u03bb\u03bf\u03c5\u03c2 \u03c0\u03bf\u03c4\u03b1\u03bc\u03bf\u03cd\u03c2 \u03ba\u03b1\u03b9 \u03b2\u03b1\u03b8\u03b9\u03ad\u03c2 \u03bb\u03af\u03bc\u03bd\u03b5\u03c2."
-    }, 
+        "source": "Speckled Dace are capable of living in an array of habitats from small springs or streams to large rivers and deep lakes.",
+        "description": "",
+        "id": "Speckled Dace are capable of living in an array of habitats from small springs or streams to large rivers and deep lakes.",
+        "text": "Το Speckled Dace είναι ικανό να ζει σε μια σειρά από ενδιαιτήματα από μικρές πηγές ή ρυάκια σε μεγάλους ποταμούς και βαθιές λίμνες."
+    },
     {
-        "source": "Speckled Dace prefer habitat that includes clear, well oxygenated water, with movement due to a current or waves.", 
-        "description": "", 
-        "id": "Speckled Dace prefer habitat that includes clear, well oxygenated water, with movement due to a current or waves.", 
-        "text": "\u03a4\u03bf Speckled Dace \u03c0\u03c1\u03bf\u03c4\u03b9\u03bc\u03ac \u03c4\u03bf \u03b2\u03b9\u03cc\u03c4\u03bf\u03c0\u03bf \u03c0\u03bf\u03c5 \u03c0\u03b5\u03c1\u03b9\u03bb\u03b1\u03bc\u03b2\u03ac\u03bd\u03b5\u03b9 \u03ba\u03b1\u03b8\u03b1\u03c1\u03cc, \u03ba\u03b1\u03bb\u03ac \u03bf\u03be\u03c5\u03b3\u03bf\u03bd\u03c9\u03bc\u03ad\u03bd\u03bf \u03bd\u03b5\u03c1\u03cc, \u03bc\u03b5 \u03ba\u03af\u03bd\u03b7\u03c3\u03b7 \u03bb\u03cc\u03b3\u03c9 \u03c1\u03b5\u03cd\u03bc\u03b1\u03c4\u03bf\u03c2 \u03ae \u03ba\u03c5\u03bc\u03ac\u03c4\u03c9\u03bd."
-    }, 
+        "source": "Speckled Dace prefer habitat that includes clear, well oxygenated water, with movement due to a current or waves.",
+        "description": "",
+        "id": "Speckled Dace prefer habitat that includes clear, well oxygenated water, with movement due to a current or waves.",
+        "text": "Το Speckled Dace προτιμά το βιότοπο που περιλαμβάνει καθαρό, καλά οξυγονωμένο νερό, με κίνηση λόγω ρεύματος ή κυμάτων."
+    },
     {
-        "source": "In addition the fish thrive in areas with deep cover or overhead protection from vegetation or woody debris.", 
-        "description": "", 
-        "id": "In addition the fish thrive in areas with deep cover or overhead protection from vegetation or woody debris.", 
-        "text": "\u0395\u03c0\u03b9\u03c0\u03bb\u03ad\u03bf\u03bd, \u03c4\u03b1 \u03c8\u03ac\u03c1\u03b9\u03b1 \u03b5\u03c5\u03b4\u03bf\u03ba\u03b9\u03bc\u03bf\u03cd\u03bd \u03c3\u03b5 \u03c0\u03b5\u03c1\u03b9\u03bf\u03c7\u03ad\u03c2 \u03bc\u03b5 \u03b2\u03b1\u03b8\u03b9\u03ac \u03ba\u03ac\u03bb\u03c5\u03c8\u03b7 \u03ae \u03b5\u03bd\u03b1\u03ad\u03c1\u03b9\u03b1 \u03c0\u03c1\u03bf\u03c3\u03c4\u03b1\u03c3\u03af\u03b1 \u03b1\u03c0\u03cc \u03b2\u03bb\u03ac\u03c3\u03c4\u03b7\u03c3\u03b7 \u03ae \u03be\u03c5\u03bb\u03ce\u03b4\u03b7 \u03c3\u03c5\u03bd\u03c4\u03c1\u03af\u03bc\u03bc\u03b9\u03b1."
-    }, 
+        "source": "In addition the fish thrive in areas with deep cover or overhead protection from vegetation or woody debris.",
+        "description": "",
+        "id": "In addition the fish thrive in areas with deep cover or overhead protection from vegetation or woody debris.",
+        "text": "Επιπλέον, τα ψάρια ευδοκιμούν σε περιοχές με βαθιά κάλυψη ή εναέρια προστασία από βλάστηση ή ξυλώδη συντρίμμια."
+    },
     {
-        "source": "Speckled Dace predominantly occupy small streams of the second to third order where they feed and forage for aquatic insects.", 
-        "description": "", 
-        "id": "Speckled Dace predominantly occupy small streams of the second to third order where they feed and forage for aquatic insects.", 
-        "text": "\u03a4\u03bf Speckled Dace \u03ba\u03b1\u03c4\u03ad\u03c7\u03b5\u03b9 \u03ba\u03b1\u03c4\u03ac \u03ba\u03cd\u03c1\u03b9\u03bf \u03bb\u03cc\u03b3\u03bf \u03bc\u03b9\u03ba\u03c1\u03ad\u03c2 \u03c1\u03bf\u03ad\u03c2 \u03c4\u03b7\u03c2 \u03b4\u03b5\u03cd\u03c4\u03b5\u03c1\u03b7\u03c2 \u03ad\u03c9\u03c2 \u03c4\u03c1\u03af\u03c4\u03b7\u03c2 \u03c4\u03ac\u03be\u03b7\u03c2 \u03cc\u03c0\u03bf\u03c5 \u03c4\u03c1\u03bf\u03c6\u03bf\u03b4\u03bf\u03c4\u03bf\u03cd\u03bd \u03ba\u03b1\u03b9 \u03c7\u03bf\u03c1\u03c4\u03bf\u03ba\u03bf\u03c0\u03bf\u03cd\u03bd\u03bf\u03c5\u03bd \u03b3\u03b9\u03b1 \u03c5\u03b4\u03c1\u03cc\u03b2\u03b9\u03b1 \u03ad\u03bd\u03c4\u03bf\u03bc\u03b1."
-    }, 
+        "source": "Speckled Dace predominantly occupy small streams of the second to third order where they feed and forage for aquatic insects.",
+        "description": "",
+        "id": "Speckled Dace predominantly occupy small streams of the second to third order where they feed and forage for aquatic insects.",
+        "text": "Το Speckled Dace κατέχει κατά κύριο λόγο μικρές ροές της δεύτερης έως τρίτης τάξης όπου τροφοδοτούν και χορτοκοπούνουν για υδρόβια έντομα."
+    },
     {
-        "source": "The species is very adaptable and is found in cold alpine lakes such as Lake Tahoe, but has also been able to survive adversity in temperatures at or above 31\\u2103 with a dissolved oxygen concentration of 1 mg / L.", 
-        "description": "", 
-        "id": "The species is very adaptable and is found in cold alpine lakes such as Lake Tahoe, but has also been able to survive adversity in temperatures at or above 31\\u2103 with a dissolved oxygen concentration of 1 mg / L.", 
-        "text": "\u03a4\u03bf \u03b5\u03af\u03b4\u03bf\u03c2 \u03b5\u03af\u03bd\u03b1\u03b9 \u03c0\u03bf\u03bb\u03cd \u03b5\u03c5\u03c0\u03c1\u03bf\u03c3\u03ac\u03c1\u03bc\u03bf\u03c3\u03c4\u03bf \u03ba\u03b1\u03b9 \u03b2\u03c1\u03af\u03c3\u03ba\u03b5\u03c4\u03b1\u03b9 \u03c3\u03b5 \u03c8\u03c5\u03c7\u03c1\u03ad\u03c2 \u03b1\u03bb\u03c0\u03b9\u03ba\u03ad\u03c2 \u03bb\u03af\u03bc\u03bd\u03b5\u03c2 \u03cc\u03c0\u03c9\u03c2 \u03b7 Lake Tahoe, \u03b1\u03bb\u03bb\u03ac \u03ad\u03c7\u03b5\u03b9 \u03b5\u03c0\u03af\u03c3\u03b7\u03c2 \u03b5\u03c0\u03b9\u03c4\u03cd\u03c7\u03b5\u03b9 \u03bd\u03b1 \u03b5\u03c0\u03b9\u03b2\u03b9\u03ce\u03c3\u03b5\u03b9 \u03c3\u03c4\u03b9\u03c2 \u03b1\u03bd\u03c4\u03b9\u03be\u03bf\u03cc\u03c4\u03b7\u03c4\u03b5\u03c2 \u03c3\u03b5 \u03b8\u03b5\u03c1\u03bc\u03bf\u03ba\u03c1\u03b1\u03c3\u03af\u03b5\u03c2 \u03af\u03c3\u03b5\u03c2 \u03ae \u03b1\u03bd\u03ce\u03c4\u03b5\u03c1\u03b5\u03c2 \u03c4\u03c9\u03bd 31 \u03bc2103 \u03bc\u03b5 \u03c3\u03c5\u03b3\u03ba\u03ad\u03bd\u03c4\u03c1\u03c9\u03c3\u03b7 \u03b4\u03b9\u03b1\u03bb\u03c5\u03bc\u03ad\u03bd\u03bf\u03c5 \u03bf\u03be\u03c5\u03b3\u03cc\u03bd\u03bf\u03c5 1 mg / l."
-    }, 
+        "source": "The species is very adaptable and is found in cold alpine lakes such as Lake Tahoe, but has also been able to survive adversity in temperatures at or above 31\\u2103 with a dissolved oxygen concentration of 1 mg / L.",
+        "description": "",
+        "id": "The species is very adaptable and is found in cold alpine lakes such as Lake Tahoe, but has also been able to survive adversity in temperatures at or above 31\\u2103 with a dissolved oxygen concentration of 1 mg / L.",
+        "text": "Το είδος είναι πολύ ευπροσάρμοστο και βρίσκεται σε ψυχρές αλπικές λίμνες όπως η Lake Tahoe, αλλά έχει επίσης επιτύχει να επιβιώσει στις αντιξοότητες σε θερμοκρασίες ίσες ή ανώτερες των 31 μ2103 με συγκέντρωση διαλυμένου οξυγόνου 1 mg / l."
+    },
     {
-        "source": "In streams speckled dace swim along the bottom looking for small invertebrates while in lakes they are opportunistic feeders that may feed on zooplankton, algae, nymphs, or the resulting flying insects.", 
-        "description": "", 
-        "id": "In streams speckled dace swim along the bottom looking for small invertebrates while in lakes they are opportunistic feeders that may feed on zooplankton, algae, nymphs, or the resulting flying insects.", 
-        "text": "\u03a3\u03c4\u03b1 \u03c1\u03ad\u03bc\u03b1\u03c4\u03b1 \u03c0\u03bf\u03c5 \u03c3\u03c0\u03c1\u03ce\u03c7\u03bd\u03bf\u03c5\u03bd \u03c4\u03bf \u03b4\u03ad\u03bd\u03c4\u03c1\u03bf \u03ba\u03bf\u03bb\u03c5\u03bc\u03c0\u03bf\u03cd\u03bd \u03ba\u03b1\u03c4\u03ac \u03bc\u03ae\u03ba\u03bf\u03c2 \u03c4\u03bf\u03c5 \u03c0\u03c5\u03b8\u03bc\u03ad\u03bd\u03b1 \u03c8\u03ac\u03c7\u03bd\u03bf\u03bd\u03c4\u03b1\u03c2 \u03b3\u03b9\u03b1 \u03bc\u03b9\u03ba\u03c1\u03ac \u03b1\u03c3\u03c0\u03cc\u03bd\u03b4\u03c5\u03bb\u03b1, \u03b5\u03bd\u03ce \u03c3\u03c4\u03b9\u03c2 \u03bb\u03af\u03bc\u03bd\u03b5\u03c2 \u03b5\u03af\u03bd\u03b1\u03b9 \u03b5\u03c5\u03ba\u03b1\u03b9\u03c1\u03b9\u03b1\u03ba\u03bf\u03af \u03c4\u03c1\u03bf\u03c6\u03bf\u03b4\u03cc\u03c4\u03b5\u03c2 \u03c0\u03bf\u03c5 \u03bc\u03c0\u03bf\u03c1\u03bf\u03cd\u03bd \u03bd\u03b1 \u03c4\u03c1\u03bf\u03c6\u03bf\u03b4\u03bf\u03c4\u03ae\u03c3\u03bf\u03c5\u03bd \u03c4\u03bf \u03b6\u03c9\u03bf\u03c0\u03bb\u03b1\u03b3\u03ba\u03c4\u03cc\u03bd, \u03c4\u03b1 \u03ac\u03bb\u03b3\u03b7, \u03c4\u03b9\u03c2 \u03bd\u03cd\u03bc\u03c6\u03b5\u03c2 \u03ae \u03c4\u03b1 \u03b9\u03c0\u03c4\u03ac\u03bc\u03b5\u03bd\u03b1 \u03ad\u03bd\u03c4\u03bf\u03bc\u03b1 \u03c0\u03bf\u03c5 \u03c0\u03c1\u03bf\u03ba\u03cd\u03c0\u03c4\u03bf\u03c5\u03bd."
-    }, 
+        "source": "In streams speckled dace swim along the bottom looking for small invertebrates while in lakes they are opportunistic feeders that may feed on zooplankton, algae, nymphs, or the resulting flying insects.",
+        "description": "",
+        "id": "In streams speckled dace swim along the bottom looking for small invertebrates while in lakes they are opportunistic feeders that may feed on zooplankton, algae, nymphs, or the resulting flying insects.",
+        "text": "Στα ρέματα που σπρώχνουν το δέντρο κολυμπούν κατά μήκος του πυθμένα ψάχνοντας για μικρά ασπόνδυλα, ενώ στις λίμνες είναι ευκαιριακοί τροφοδότες που μπορούν να τροφοδοτήσουν το ζωοπλαγκτόν, τα άλγη, τις νύμφες ή τα ιπτάμενα έντομα που προκύπτουν."
+    },
     {
-        "source": "Speckled Dace typically have a life span of three years, but may live 6 or more years, during which time females typically grow more rapidly than males.", 
-        "description": "", 
-        "id": "Speckled Dace typically have a life span of three years, but may live 6 or more years, during which time females typically grow more rapidly than males.", 
-        "text": "\u03a4\u03bf Speckled Dace \u03ad\u03c7\u03b5\u03b9 \u03c3\u03c5\u03bd\u03ae\u03b8\u03c9\u03c2 \u03b4\u03b9\u03ac\u03c1\u03ba\u03b5\u03b9\u03b1 \u03b6\u03c9\u03ae\u03c2 \u03c4\u03c1\u03b9\u03ce\u03bd \u03b5\u03c4\u03ce\u03bd, \u03b1\u03bb\u03bb\u03ac \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b6\u03ae\u03c3\u03b5\u03b9 6 \u03ae \u03c0\u03b5\u03c1\u03b9\u03c3\u03c3\u03cc\u03c4\u03b5\u03c1\u03b1 \u03c7\u03c1\u03cc\u03bd\u03b9\u03b1, \u03ba\u03b1\u03c4\u03ac \u03c4\u03b7 \u03b4\u03b9\u03ac\u03c1\u03ba\u03b5\u03b9\u03b1 \u03c4\u03c9\u03bd \u03bf\u03c0\u03bf\u03af\u03c9\u03bd \u03bf\u03b9 \u03b3\u03c5\u03bd\u03b1\u03af\u03ba\u03b5\u03c2 \u03c3\u03c5\u03bd\u03ae\u03b8\u03c9\u03c2 \u03bc\u03b5\u03b3\u03b1\u03bb\u03ce\u03bd\u03bf\u03c5\u03bd \u03c4\u03b1\u03c7\u03cd\u03c4\u03b5\u03c1\u03b1 \u03b1\u03c0\u03cc \u03c4\u03bf\u03c5\u03c2 \u03ac\u03bd\u03b4\u03c1\u03b5\u03c2."
-    }, 
+        "source": "Speckled Dace typically have a life span of three years, but may live 6 or more years, during which time females typically grow more rapidly than males.",
+        "description": "",
+        "id": "Speckled Dace typically have a life span of three years, but may live 6 or more years, during which time females typically grow more rapidly than males.",
+        "text": "Το Speckled Dace έχει συνήθως διάρκεια ζωής τριών ετών, αλλά μπορεί να ζήσει 6 ή περισσότερα χρόνια, κατά τη διάρκεια των οποίων οι γυναίκες συνήθως μεγαλώνουν ταχύτερα από τους άνδρες."
+    },
     {
-        "source": "The fish become sexually mature in their second year and during the summer months the dace spawn.", 
-        "description": "", 
-        "id": "The fish become sexually mature in their second year and during the summer months the dace spawn.", 
-        "text": "\u03a4\u03b1 \u03c8\u03ac\u03c1\u03b9\u03b1 \u03b3\u03af\u03bd\u03bf\u03bd\u03c4\u03b1\u03b9 \u03c3\u03b5\u03be\u03bf\u03c5\u03b1\u03bb\u03b9\u03ba\u03ac \u03ce\u03c1\u03b9\u03bc\u03b1 \u03c3\u03c4\u03bf \u03b4\u03b5\u03cd\u03c4\u03b5\u03c1\u03bf \u03ad\u03c4\u03bf\u03c2 \u03c4\u03bf\u03c5\u03c2 \u03ba\u03b1\u03b9 \u03ba\u03b1\u03c4\u03ac \u03c4\u03b7 \u03b4\u03b9\u03ac\u03c1\u03ba\u03b5\u03b9\u03b1 \u03c4\u03c9\u03bd \u03ba\u03b1\u03bb\u03bf\u03ba\u03b1\u03b9\u03c1\u03b9\u03bd\u03ce\u03bd \u03bc\u03b7\u03bd\u03ce\u03bd \u03c4\u03bf \u03bc\u03c0\u03b1\u03ba\u03b1\u03bb\u03b9\u03ac\u03c1\u03bf."
-    }, 
+        "source": "The fish become sexually mature in their second year and during the summer months the dace spawn.",
+        "description": "",
+        "id": "The fish become sexually mature in their second year and during the summer months the dace spawn.",
+        "text": "Τα ψάρια γίνονται σεξουαλικά ώριμα στο δεύτερο έτος τους και κατά τη διάρκεια των καλοκαιρινών μηνών το μπακαλιάρο."
+    },
     {
-        "source": "Stream dwellers spawn in riffles or gravely areas, while the lake inhabitants spawn in tributaries or in shallow shoreline regions.", 
-        "description": "", 
-        "id": "Stream dwellers spawn in riffles or gravely areas, while the lake inhabitants spawn in tributaries or in shallow shoreline regions.", 
-        "text": "\u039f\u03b9 \u03ba\u03ac\u03c4\u03bf\u03b9\u03ba\u03bf\u03b9 \u03c1\u03b5\u03cd\u03bc\u03b1\u03c4\u03bf\u03c2 \u03b5\u03ba\u03c4\u03c1\u03ad\u03c6\u03bf\u03bd\u03c4\u03b1\u03b9 \u03c3\u03b5 \u03ba\u03ce\u03bd\u03bf\u03b9 \u03ae \u03c3\u03b5 \u03c3\u03bf\u03b2\u03b1\u03c1\u03ad\u03c2 \u03c0\u03b5\u03c1\u03b9\u03bf\u03c7\u03ad\u03c2, \u03b5\u03bd\u03ce \u03bf\u03b9 \u03ba\u03ac\u03c4\u03bf\u03b9\u03ba\u03bf\u03b9 \u03c4\u03b7\u03c2 \u03bb\u03af\u03bc\u03bd\u03b7\u03c2 \u03b1\u03bd\u03b1\u03c0\u03c4\u03cd\u03c3\u03c3\u03bf\u03bd\u03c4\u03b1\u03b9 \u03c3\u03b5 \u03c0\u03b1\u03c1\u03b1\u03c0\u03bf\u03c4\u03ac\u03bc\u03bf\u03c5\u03c2 \u03ae \u03c3\u03b5 \u03c1\u03b7\u03c7\u03ac \u03b1\u03ba\u03c4\u03ad\u03c2."
-    }, 
+        "source": "Stream dwellers spawn in riffles or gravely areas, while the lake inhabitants spawn in tributaries or in shallow shoreline regions.",
+        "description": "",
+        "id": "Stream dwellers spawn in riffles or gravely areas, while the lake inhabitants spawn in tributaries or in shallow shoreline regions.",
+        "text": "Οι κάτοικοι ρεύματος εκτρέφονται σε κώνοι ή σε σοβαρές περιοχές, ενώ οι κάτοικοι της λίμνης αναπτύσσονται σε παραποτάμους ή σε ρηχά ακτές."
+    },
     {
-        "source": "The embryos hatch in 6 days, and the larvae remain in the safety of the gravel for 7 - 8 days.", 
-        "description": "", 
-        "id": "The embryos hatch in 6 days, and the larvae remain in the safety of the gravel for 7 - 8 days.", 
-        "text": "\u03a4\u03b1 \u03ad\u03bc\u03b2\u03c1\u03c5\u03b1 \u03b5\u03ba\u03ba\u03bf\u03bb\u03ac\u03c0\u03c4\u03bf\u03bd\u03c4\u03b1\u03b9 \u03c3\u03b5 6 \u03b7\u03bc\u03ad\u03c1\u03b5\u03c2 \u03ba\u03b1\u03b9 \u03bf\u03b9 \u03c0\u03c1\u03bf\u03bd\u03cd\u03bc\u03c6\u03b5\u03c2 \u03c0\u03b1\u03c1\u03b1\u03bc\u03ad\u03bd\u03bf\u03c5\u03bd \u03c3\u03c4\u03b7\u03bd \u03b1\u03c3\u03c6\u03ac\u03bb\u03b5\u03b9\u03b1 \u03c4\u03bf\u03c5 \u03c7\u03b1\u03bb\u03b9\u03ba\u03b9\u03bf\u03cd \u03b3\u03b9\u03b1 7 - 8 \u03b7\u03bc\u03ad\u03c1\u03b5\u03c2."
-    }, 
+        "source": "The embryos hatch in 6 days, and the larvae remain in the safety of the gravel for 7 - 8 days.",
+        "description": "",
+        "id": "The embryos hatch in 6 days, and the larvae remain in the safety of the gravel for 7 - 8 days.",
+        "text": "Τα έμβρυα εκκολάπτονται σε 6 ημέρες και οι προνύμφες παραμένουν στην ασφάλεια του χαλικιού για 7 - 8 ημέρες."
+    },
     {
-        "source": "The young fry then spend the early part of their lives in the shallow warm areas of the stream or lake where they hatched.", 
-        "description": "", 
-        "id": "The young fry then spend the early part of their lives in the shallow warm areas of the stream or lake where they hatched.", 
-        "text": "\u03a4\u03b1 \u03bd\u03b5\u03b1\u03c1\u03ac \u03c4\u03b7\u03b3\u03b1\u03bd\u03b7\u03c4\u03ac \u03c3\u03c4\u03b7 \u03c3\u03c5\u03bd\u03ad\u03c7\u03b5\u03b9\u03b1 \u03c0\u03b5\u03c1\u03bd\u03bf\u03cd\u03bd \u03c4\u03bf \u03b1\u03c1\u03c7\u03b9\u03ba\u03cc \u03bc\u03ad\u03c1\u03bf\u03c2 \u03c4\u03b7\u03c2 \u03b6\u03c9\u03ae\u03c2 \u03c4\u03bf\u03c5\u03c2 \u03c3\u03c4\u03b9\u03c2 \u03c1\u03b7\u03c7\u03ad\u03c2 \u03b6\u03b5\u03c3\u03c4\u03ad\u03c2 \u03c0\u03b5\u03c1\u03b9\u03bf\u03c7\u03ad\u03c2 \u03c4\u03bf\u03c5 \u03c1\u03ad\u03bc\u03b1\u03c4\u03bf\u03c2 \u03ae \u03c4\u03b7\u03c2 \u03bb\u03af\u03bc\u03bd\u03b7\u03c2 \u03cc\u03c0\u03bf\u03c5 \u03b5\u03ba\u03c4\u03bf\u03be\u03b5\u03cd\u03b8\u03b7\u03ba\u03b1\u03bd."
-    }, 
+        "source": "The young fry then spend the early part of their lives in the shallow warm areas of the stream or lake where they hatched.",
+        "description": "",
+        "id": "The young fry then spend the early part of their lives in the shallow warm areas of the stream or lake where they hatched.",
+        "text": "Τα νεαρά τηγανητά στη συνέχεια περνούν το αρχικό μέρος της ζωής τους στις ρηχές ζεστές περιοχές του ρέματος ή της λίμνης όπου εκτοξεύθηκαν."
+    },
     {
-        "source": "False", 
-        "description": "", 
-        "id": "False", 
-        "text": "\u03a8\u03b5\u03c5\u03b4\u03ae\u03c2"
-    }, 
+        "source": "False",
+        "description": "",
+        "id": "False",
+        "text": "Ψευδής"
+    },
     {
-        "source": "True", 
-        "description": "", 
-        "id": "True", 
-        "text": "\u0391\u03bb\u03b7\u03b8\u03ae\u03c2"
-    }, 
+        "source": "True",
+        "description": "",
+        "id": "True",
+        "text": "Αληθής"
+    },
     {
-        "source": "Slow", 
-        "description": "", 
-        "id": "Slow", 
-        "text": "\u0391\u03c1\u03b3\u03cc\u03c2"
-    }, 
+        "source": "Slow",
+        "description": "",
+        "id": "Slow",
+        "text": "Αργός"
+    },
     {
-        "source": "Medium", 
-        "description": "", 
-        "id": "Medium", 
-        "text": "\u039c\u03b5\u03c3\u03b1\u03af\u03bf"
-    }, 
+        "source": "Medium",
+        "description": "",
+        "id": "Medium",
+        "text": "Μεσαίο"
+    },
     {
-        "source": "Fast", 
-        "description": "", 
-        "id": "Fast", 
-        "text": "\u0393\u03c1\u03ae\u03b3\u03bf\u03c1\u03b1"
-    }, 
+        "source": "Fast",
+        "description": "",
+        "id": "Fast",
+        "text": "Γρήγορα"
+    },
     {
-        "source": "Very Fast", 
-        "description": "", 
-        "id": "VeryFast", 
-        "text": "\u03a0\u03bf\u03bb\u03cd \u03b3\u03c1\u03ae\u03b3\u03bf\u03c1\u03b1"
-    }, 
+        "source": "Very Fast",
+        "description": "",
+        "id": "VeryFast",
+        "text": "Πολύ γρήγορα"
+    },
     {
-        "id": "cannot be seeked", 
-        "source": "cannot be seeked", 
-        "description": "", 
-        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b1\u03bd\u03b1\u03b6\u03b7\u03c4\u03b7\u03b8\u03b5\u03af"
-    }, 
+        "id": "cannot be seeked",
+        "source": "cannot be seeked",
+        "description": "",
+        "text": "δεν μπορεί να αναζητηθεί"
+    },
     {
-        "id": "The temporary file cannot be opened", 
-        "source": "The temporary file cannot be opened", 
-        "description": "", 
-        "text": "\u03a4\u03bf \u03c0\u03c1\u03bf\u03c3\u03c9\u03c1\u03b9\u03bd\u03cc \u03b1\u03c1\u03c7\u03b5\u03af\u03bf \u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b1\u03bd\u03bf\u03b9\u03c7\u03c4\u03b5\u03af"
-    }, 
+        "id": "The temporary file cannot be opened",
+        "source": "The temporary file cannot be opened",
+        "description": "",
+        "text": "Το προσωρινό αρχείο δεν μπορεί να ανοιχτεί"
+    },
     {
-        "source": "TextUpdate", 
-        "description": "", 
-        "id": "TextUpdate", 
+        "source": "TextUpdate",
+        "description": "",
+        "id": "TextUpdate",
         "text": "TextUpdate"
-    }, 
+    },
     {
-        "source": "TextInput", 
-        "description": "", 
-        "id": "TextInput", 
+        "source": "TextInput",
+        "description": "",
+        "id": "TextInput",
         "text": "TextInput"
-    }, 
+    },
     {
-        "source": "Time", 
-        "description": "", 
-        "id": "Time", 
-        "text": "\u03c7\u03c1\u03cc\u03bd\u03bf\u03c2"
-    }, 
+        "source": "Time",
+        "description": "",
+        "id": "Time",
+        "text": "χρόνος"
+    },
     {
-        "source": "Cannot open the URL", 
-        "description": "", 
-        "id": "Cannot open the URL", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03cc \u03bd\u03b1 \u03b1\u03bd\u03bf\u03af\u03be\u03b5\u03b9 \u03b7 \u03b4\u03b9\u03b5\u03cd\u03b8\u03c5\u03bd\u03c3\u03b7 URL"
-    }, 
+        "source": "Cannot open the URL",
+        "description": "",
+        "id": "Cannot open the URL",
+        "text": "Δεν είναι δυνατό να ανοίξει η διεύθυνση URL"
+    },
     {
-        "source": "the return code was", 
-        "description": "", 
-        "id": "the return code was", 
-        "text": "\u03bf \u03ba\u03c9\u03b4\u03b9\u03ba\u03cc\u03c2 \u03b5\u03c0\u03b9\u03c3\u03c4\u03c1\u03bf\u03c6\u03ae\u03c2 \u03ae\u03c4\u03b1\u03bd"
-    }, 
+        "source": "the return code was",
+        "description": "",
+        "id": "the return code was",
+        "text": "ο κωδικός επιστροφής ήταν"
+    },
     {
-        "source": "Audio", 
-        "description": "", 
-        "id": "Audio", 
-        "text": "\u0389\u03c7\u03bf\u03c2"
-    }, 
+        "source": "Audio",
+        "description": "",
+        "id": "Audio",
+        "text": "Ήχος"
+    },
     {
-        "source": "Fonts", 
-        "description": "", 
-        "id": "Fonts", 
-        "text": "\u0393\u03c1\u03b1\u03bc\u03bc\u03b1\u03c4\u03bf\u03c3\u03b5\u03b9\u03c1\u03ad\u03c2"
-    }, 
+        "source": "Fonts",
+        "description": "",
+        "id": "Fonts",
+        "text": "Γραμματοσειρές"
+    },
     {
-        "source": "Icons", 
-        "description": "", 
-        "id": "Icons", 
-        "text": "\u0395\u03b9\u03ba\u03cc\u03bd\u03b5\u03c2"
-    }, 
+        "source": "Icons",
+        "description": "",
+        "id": "Icons",
+        "text": "Εικόνες"
+    },
     {
-        "source": "Images", 
-        "description": "", 
-        "id": "Images", 
-        "text": "\u0395\u03b9\u03ba\u03cc\u03bd\u03b5\u03c2"
-    }, 
+        "source": "Images",
+        "description": "",
+        "id": "Images",
+        "text": "Εικόνες"
+    },
     {
-        "source": "Models", 
-        "description": "", 
-        "id": "Models", 
-        "text": "\u039c\u03bf\u03bd\u03c4\u03ad\u03bb\u03b1"
-    }, 
+        "source": "Models",
+        "description": "",
+        "id": "Models",
+        "text": "Μοντέλα"
+    },
     {
-        "source": "Shaders", 
-        "description": "", 
-        "id": "Shaders", 
+        "source": "Shaders",
+        "description": "",
+        "id": "Shaders",
         "text": "Shaders"
-    }, 
+    },
     {
-        "source": "Color", 
-        "description": "", 
-        "id": "Color", 
-        "text": "\u03a7\u03c1\u03ce\u03bc\u03b1"
-    }, 
+        "source": "Color",
+        "description": "",
+        "id": "Color",
+        "text": "Χρώμα"
+    },
     {
-        "source": "Documentation", 
-        "description": "", 
-        "id": "Documentation", 
-        "text": "\u03a4\u03b5\u03ba\u03bc\u03b7\u03c1\u03af\u03c9\u03c3\u03b7"
-    }, 
+        "source": "Documentation",
+        "description": "",
+        "id": "Documentation",
+        "text": "Τεκμηρίωση"
+    },
     {
-        "source": "cannot be removed", 
-        "description": "", 
-        "id": "cannot be removed", 
-        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b1\u03c6\u03b1\u03b9\u03c1\u03b5\u03b8\u03b5\u03af"
-    }, 
+        "source": "cannot be removed",
+        "description": "",
+        "id": "cannot be removed",
+        "text": "δεν μπορεί να αφαιρεθεί"
+    },
     {
-        "source": "Error reading the environment varible", 
-        "description": "", 
-        "id": "Error reading the environment varible", 
-        "text": "\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03ba\u03b1\u03c4\u03ac \u03c4\u03b7\u03bd \u03b1\u03bd\u03ac\u03b3\u03bd\u03c9\u03c3\u03b7 \u03c4\u03bf\u03c5 \u03c0\u03b5\u03c1\u03b9\u03b2\u03ac\u03bb\u03bb\u03bf\u03bd\u03c4\u03bf\u03c2 \u03c0\u03bf\u03b9\u03ba\u03af\u03bb\u03b7"
-    }, 
+        "source": "Error reading the environment varible",
+        "description": "",
+        "id": "Error reading the environment varible",
+        "text": "Σφάλμα κατά την ανάγνωση του περιβάλλοντος ποικίλη"
+    },
     {
-        "source": "Init", 
-        "text": "\u039c\u03ad\u03c3\u03b1 \u03c3\u03b5 \u03b1\u03c5\u03c4\u03cc", 
-        "description": "", 
+        "source": "Init",
+        "text": "Μέσα σε αυτό",
+        "description": "",
         "id": "Init"
     }
 ]

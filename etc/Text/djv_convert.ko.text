@@ -1,170 +1,170 @@
 [
     {
-        "source": "Nothing to convert", 
-        "description": "", 
-        "id": "Nothing to convert", 
-        "text": "\ubcc0\ud658 \ud560 \ub0b4\uc6a9\uc774 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
+        "source": "Nothing to convert",
+        "description": "",
+        "id": "Nothing to convert",
+        "text": "변환 할 내용이 없습니다."
+    },
     {
-        "source": "Cannot parse the option '-resize'", 
-        "description": "", 
-        "id": "Cannot parse the option '-resize'", 
-        "text": "&#39;-resize&#39;\uc635\uc158\uc744 \uad6c\ubb38 \ubd84\uc11d \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
+        "source": "Cannot parse the option '-resize'",
+        "description": "",
+        "id": "Cannot parse the option '-resize'",
+        "text": "&#39;-resize&#39;옵션을 구문 분석 할 수 없습니다."
+    },
     {
-        "source": "Usage: djv_convert (input) (output)", 
-        "description": "", 
-        "id": "Usage: djv_convert (input) (output)", 
-        "text": "\uc0ac\uc6a9\ubc95 : djv_convert (\uc785\ub825) (\ucd9c\ub825)"
-    }, 
+        "source": "Usage: djv_convert (input) (output)",
+        "description": "",
+        "id": "Usage: djv_convert (input) (output)",
+        "text": "사용법 : djv_convert (입력) (출력)"
+    },
     {
-        "source": " Usage:", 
-        "description": "", 
-        "id": " Usage:", 
-        "text": "\uc6a9\ubc95:"
-    }, 
+        "source": " Usage:",
+        "description": "",
+        "id": " Usage:",
+        "text": "용법:"
+    },
     {
-        "source": "   djv_convert (input) (output) [option, ...]", 
-        "description": "", 
-        "id": "   djv_convert (input) (output) [option, ...]", 
-        "text": "djv_convert (\uc785\ub825) (\ucd9c\ub825) [\uc635\uc158, ...]"
-    }, 
+        "source": "   djv_convert (input) (output) [option, ...]",
+        "description": "",
+        "id": "   djv_convert (input) (output) [option, ...]",
+        "text": "djv_convert (입력) (출력) [옵션, ...]"
+    },
     {
-        "source": " Options:", 
-        "description": "", 
-        "id": " Options:", 
-        "text": "\uc635\uc158 :"
-    }, 
+        "source": " Options:",
+        "description": "",
+        "id": " Options:",
+        "text": "옵션 :"
+    },
     {
-        "source": "   -resize '(width) (height)'", 
-        "description": "", 
-        "id": "   -resize '(width) (height)'", 
-        "text": "\ud06c\uae30 \uc870\uc815 &#39;(\ud3ed) (\ub192\uc774)&#39;"
-    }, 
+        "source": "   -resize '(width) (height)'",
+        "description": "",
+        "id": "   -resize '(width) (height)'",
+        "text": "크기 조정 &#39;(폭) (높이)&#39;"
+    },
     {
-        "source": "     Resize the image.", 
-        "description": "", 
-        "id": "     Resize the image.", 
-        "text": "\uc774\ubbf8\uc9c0 \ud06c\uae30\ub97c \uc870\uc815\ud558\uc2ed\uc2dc\uc624."
-    }, 
+        "source": "     Resize the image.",
+        "description": "",
+        "id": "     Resize the image.",
+        "text": "이미지 크기를 조정하십시오."
+    },
     {
-        "source": "   -readSeq", 
-        "description": "", 
-        "id": "   -readSeq", 
+        "source": "   -readSeq",
+        "description": "",
+        "id": "   -readSeq",
         "text": "-readSeq"
-    }, 
+    },
     {
-        "source": "     Interpret the input file name as a sequence.", 
-        "description": "", 
-        "id": "     Interpret the input file name as a sequence.", 
-        "text": "\uc785\ub825 \ud30c\uc77c \uc774\ub984\uc744 \uc2dc\ud000\uc2a4\ub85c \ud574\uc11d\ud558\uc2ed\uc2dc\uc624."
-    }, 
+        "source": "     Interpret the input file name as a sequence.",
+        "description": "",
+        "id": "     Interpret the input file name as a sequence.",
+        "text": "입력 파일 이름을 시퀀스로 해석하십시오."
+    },
     {
-        "source": "   -writeSeq", 
-        "description": "", 
-        "id": "   -writeSeq", 
+        "source": "   -writeSeq",
+        "description": "",
+        "id": "   -writeSeq",
         "text": "-writeSeq"
-    }, 
+    },
     {
-        "source": "     Interpret the output file name as a sequence.", 
-        "description": "", 
-        "id": "     Interpret the output file name as a sequence.", 
-        "text": "\ucd9c\ub825 \ud30c\uc77c \uc774\ub984\uc744 \uc2dc\ud000\uc2a4\ub85c \ud574\uc11d\ud558\uc2ed\uc2dc\uc624."
-    }, 
+        "source": "     Interpret the output file name as a sequence.",
+        "description": "",
+        "id": "     Interpret the output file name as a sequence.",
+        "text": "출력 파일 이름을 시퀀스로 해석하십시오."
+    },
     {
-        "source": "   -readQueue (value)", 
-        "description": "", 
-        "id": "   -readQueue (value)", 
-        "text": "-readQueue (\uac12)"
-    }, 
+        "source": "   -readQueue (value)",
+        "description": "",
+        "id": "   -readQueue (value)",
+        "text": "-readQueue (값)"
+    },
     {
-        "source": "     Set the size of the read queue.", 
-        "description": "", 
-        "id": "     Set the size of the read queue.", 
-        "text": "\uc77d\uae30 \ub300\uae30\uc5f4\uc758 \ud06c\uae30\ub97c \uc124\uc815\ud558\uc2ed\uc2dc\uc624."
-    }, 
+        "source": "     Set the size of the read queue.",
+        "description": "",
+        "id": "     Set the size of the read queue.",
+        "text": "읽기 대기열의 크기를 설정하십시오."
+    },
     {
-        "source": "   -writeQueue (value)", 
-        "description": "", 
-        "id": "   -writeQueue (value)", 
-        "text": "-writeQueue (\uac12)"
-    }, 
+        "source": "   -writeQueue (value)",
+        "description": "",
+        "id": "   -writeQueue (value)",
+        "text": "-writeQueue (값)"
+    },
     {
-        "source": "     Set the size of the write queue.", 
-        "description": "", 
-        "id": "     Set the size of the write queue.", 
-        "text": "\uc4f0\uae30 \ub300\uae30\uc5f4\uc758 \ud06c\uae30\ub97c \uc124\uc815\ud558\uc2ed\uc2dc\uc624."
-    }, 
+        "source": "     Set the size of the write queue.",
+        "description": "",
+        "id": "     Set the size of the write queue.",
+        "text": "쓰기 대기열의 크기를 설정하십시오."
+    },
     {
-        "source": "   -readThreads (value)", 
-        "description": "", 
-        "id": "   -readThreads (value)", 
-        "text": "-readThreads (\uac12)"
-    }, 
+        "source": "   -readThreads (value)",
+        "description": "",
+        "id": "   -readThreads (value)",
+        "text": "-readThreads (값)"
+    },
     {
-        "source": "     Set the number of threads for reading.", 
-        "description": "", 
-        "id": "     Set the number of threads for reading.", 
-        "text": "\uc77d\uc744 \uc2a4\ub808\ub4dc \uc218\ub97c \uc124\uc815\ud558\uc2ed\uc2dc\uc624."
-    }, 
+        "source": "     Set the number of threads for reading.",
+        "description": "",
+        "id": "     Set the number of threads for reading.",
+        "text": "읽을 스레드 수를 설정하십시오."
+    },
     {
-        "source": "   -writeThreads (value)", 
-        "description": "", 
-        "id": "   -writeThreads (value)", 
-        "text": "-writeThreads (\uac12)"
-    }, 
+        "source": "   -writeThreads (value)",
+        "description": "",
+        "id": "   -writeThreads (value)",
+        "text": "-writeThreads (값)"
+    },
     {
-        "source": "     Set the number of threads for writing.", 
-        "description": "", 
-        "id": "     Set the number of threads for writing.", 
-        "text": "\uc4f0\ub824\ub294 \uc2a4\ub808\ub4dc \uc218\ub97c \uc124\uc815\ud558\uc2ed\uc2dc\uc624."
-    }, 
+        "source": "     Set the number of threads for writing.",
+        "description": "",
+        "id": "     Set the number of threads for writing.",
+        "text": "쓰려는 스레드 수를 설정하십시오."
+    },
     {
-        "source": "   -resize \\\"(width) (height)\\\"", 
-        "text": "\ud06c\uae30 \uc870\uc815 \\ &quot;(\ud3ed) (\ub192\uc774) \\&quot;", 
-        "id": "   -resize \\\"(width) (height)\\\"", 
+        "source": "   -resize \\\"(width) (height)\\\"",
+        "text": "크기 조정 \\ &quot;(폭) (높이) \\&quot;",
+        "id": "   -resize \\\"(width) (height)\\\"",
         "description": ""
-    }, 
+    },
     {
-        "source": "   Resize the image.", 
-        "text": "\uc774\ubbf8\uc9c0 \ud06c\uae30\ub97c \uc870\uc815\ud558\uc2ed\uc2dc\uc624.", 
-        "id": "   Resize the image.", 
+        "source": "   Resize the image.",
+        "text": "이미지 크기를 조정하십시오.",
+        "id": "   Resize the image.",
         "description": ""
-    }, 
+    },
     {
-        "source": "   Interpret the input file name as a sequence.", 
-        "text": "\uc785\ub825 \ud30c\uc77c \uc774\ub984\uc744 \uc2dc\ud000\uc2a4\ub85c \ud574\uc11d\ud558\uc2ed\uc2dc\uc624.", 
-        "id": "   Interpret the input file name as a sequence.", 
+        "source": "   Interpret the input file name as a sequence.",
+        "text": "입력 파일 이름을 시퀀스로 해석하십시오.",
+        "id": "   Interpret the input file name as a sequence.",
         "description": ""
-    }, 
+    },
     {
-        "source": "   Interpret the output file name as a sequence.", 
-        "text": "\ucd9c\ub825 \ud30c\uc77c \uc774\ub984\uc744 \uc2dc\ud000\uc2a4\ub85c \ud574\uc11d\ud558\uc2ed\uc2dc\uc624.", 
-        "id": "   Interpret the output file name as a sequence.", 
+        "source": "   Interpret the output file name as a sequence.",
+        "text": "출력 파일 이름을 시퀀스로 해석하십시오.",
+        "id": "   Interpret the output file name as a sequence.",
         "description": ""
-    }, 
+    },
     {
-        "source": "   Set the size of the read queue.", 
-        "text": "\uc77d\uae30 \ub300\uae30\uc5f4\uc758 \ud06c\uae30\ub97c \uc124\uc815\ud558\uc2ed\uc2dc\uc624.", 
-        "id": "   Set the size of the read queue.", 
+        "source": "   Set the size of the read queue.",
+        "text": "읽기 대기열의 크기를 설정하십시오.",
+        "id": "   Set the size of the read queue.",
         "description": ""
-    }, 
+    },
     {
-        "source": "   Set the size of the write queue.", 
-        "text": "\uc4f0\uae30 \ub300\uae30\uc5f4\uc758 \ud06c\uae30\ub97c \uc124\uc815\ud558\uc2ed\uc2dc\uc624.", 
-        "id": "   Set the size of the write queue.", 
+        "source": "   Set the size of the write queue.",
+        "text": "쓰기 대기열의 크기를 설정하십시오.",
+        "id": "   Set the size of the write queue.",
         "description": ""
-    }, 
+    },
     {
-        "source": "   Set the number of threads for reading.", 
-        "text": "\uc77d\uc744 \uc2a4\ub808\ub4dc \uc218\ub97c \uc124\uc815\ud558\uc2ed\uc2dc\uc624.", 
-        "id": "   Set the number of threads for reading.", 
+        "source": "   Set the number of threads for reading.",
+        "text": "읽을 스레드 수를 설정하십시오.",
+        "id": "   Set the number of threads for reading.",
         "description": ""
-    }, 
+    },
     {
-        "source": "   Set the number of threads for writing.", 
-        "text": "\uc4f0\ub824\ub294 \uc2a4\ub808\ub4dc \uc218\ub97c \uc124\uc815\ud558\uc2ed\uc2dc\uc624.", 
-        "id": "   Set the number of threads for writing.", 
+        "source": "   Set the number of threads for writing.",
+        "text": "쓰려는 스레드 수를 설정하십시오.",
+        "id": "   Set the number of threads for writing.",
         "description": ""
     }
 ]

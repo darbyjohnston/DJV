@@ -1,170 +1,170 @@
 [
     {
-        "source": "Nothing to convert", 
-        "description": "", 
-        "id": "Nothing to convert", 
-        "text": "\u041d\u0435\u0447\u0435\u0433\u043e \u043a\u043e\u043d\u0432\u0435\u0440\u0442\u0438\u0440\u043e\u0432\u0430\u0442\u044c"
-    }, 
+        "source": "Nothing to convert",
+        "description": "",
+        "id": "Nothing to convert",
+        "text": "Нечего конвертировать"
+    },
     {
-        "source": "Cannot parse the option '-resize'", 
-        "description": "", 
-        "id": "Cannot parse the option '-resize'", 
-        "text": "\u041d\u0435 \u0443\u0434\u0430\u0435\u0442\u0441\u044f \u0440\u0430\u0437\u043e\u0431\u0440\u0430\u0442\u044c \u043e\u043f\u0446\u0438\u044e -resize"
-    }, 
+        "source": "Cannot parse the option '-resize'",
+        "description": "",
+        "id": "Cannot parse the option '-resize'",
+        "text": "Не удается разобрать опцию -resize"
+    },
     {
-        "source": "Usage: djv_convert (input) (output)", 
-        "description": "", 
-        "id": "Usage: djv_convert (input) (output)", 
-        "text": "\u0418\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435: djv_convert (\u0432\u0445\u043e\u0434\u043d\u043e\u0439) (\u0432\u044b\u0445\u043e\u0434\u043d\u043e\u0439)"
-    }, 
+        "source": "Usage: djv_convert (input) (output)",
+        "description": "",
+        "id": "Usage: djv_convert (input) (output)",
+        "text": "Использование: djv_convert (входной) (выходной)"
+    },
     {
-        "source": " Usage:", 
-        "description": "", 
-        "id": " Usage:", 
-        "text": "\u0418\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435:"
-    }, 
+        "source": " Usage:",
+        "description": "",
+        "id": " Usage:",
+        "text": "Использование:"
+    },
     {
-        "source": "   djv_convert (input) (output) [option, ...]", 
-        "description": "", 
-        "id": "   djv_convert (input) (output) [option, ...]", 
-        "text": "djv_convert (\u0432\u0445\u043e\u0434\u043d\u043e\u0439) (\u0432\u044b\u0445\u043e\u0434\u043d\u043e\u0439) [\u043e\u043f\u0446\u0438\u044f, ...]"
-    }, 
+        "source": "   djv_convert (input) (output) [option, ...]",
+        "description": "",
+        "id": "   djv_convert (input) (output) [option, ...]",
+        "text": "djv_convert (входной) (выходной) [опция, ...]"
+    },
     {
-        "source": " Options:", 
-        "description": "", 
-        "id": " Options:", 
-        "text": "\u041f\u0430\u0440\u0430\u043c\u0435\u0442\u0440\u044b:"
-    }, 
+        "source": " Options:",
+        "description": "",
+        "id": " Options:",
+        "text": "Параметры:"
+    },
     {
-        "source": "   -resize '(width) (height)'", 
-        "description": "", 
-        "id": "   -resize '(width) (height)'", 
-        "text": "-resize &#39;(\u0448\u0438\u0440\u0438\u043d\u0430) (\u0432\u044b\u0441\u043e\u0442\u0430)&#39;"
-    }, 
+        "source": "   -resize '(width) (height)'",
+        "description": "",
+        "id": "   -resize '(width) (height)'",
+        "text": "-resize &#39;(ширина) (высота)&#39;"
+    },
     {
-        "source": "     Resize the image.", 
-        "description": "", 
-        "id": "     Resize the image.", 
-        "text": "\u0418\u0437\u043c\u0435\u043d\u0438\u0442\u044c \u0440\u0430\u0437\u043c\u0435\u0440 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f."
-    }, 
+        "source": "     Resize the image.",
+        "description": "",
+        "id": "     Resize the image.",
+        "text": "Изменить размер изображения."
+    },
     {
-        "source": "   -readSeq", 
-        "description": "", 
-        "id": "   -readSeq", 
+        "source": "   -readSeq",
+        "description": "",
+        "id": "   -readSeq",
         "text": "-readSeq"
-    }, 
+    },
     {
-        "source": "     Interpret the input file name as a sequence.", 
-        "description": "", 
-        "id": "     Interpret the input file name as a sequence.", 
-        "text": "\u0418\u043d\u0442\u0435\u0440\u043f\u0440\u0435\u0442\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0438\u043c\u044f \u0432\u0445\u043e\u0434\u043d\u043e\u0433\u043e \u0444\u0430\u0439\u043b\u0430 \u043a\u0430\u043a \u043f\u043e\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u044c."
-    }, 
+        "source": "     Interpret the input file name as a sequence.",
+        "description": "",
+        "id": "     Interpret the input file name as a sequence.",
+        "text": "Интерпретировать имя входного файла как последовательность."
+    },
     {
-        "source": "   -writeSeq", 
-        "description": "", 
-        "id": "   -writeSeq", 
+        "source": "   -writeSeq",
+        "description": "",
+        "id": "   -writeSeq",
         "text": "-writeSeq"
-    }, 
+    },
     {
-        "source": "     Interpret the output file name as a sequence.", 
-        "description": "", 
-        "id": "     Interpret the output file name as a sequence.", 
-        "text": "\u0418\u043d\u0442\u0435\u0440\u043f\u0440\u0435\u0442\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0438\u043c\u044f \u0432\u044b\u0445\u043e\u0434\u043d\u043e\u0433\u043e \u0444\u0430\u0439\u043b\u0430 \u043a\u0430\u043a \u043f\u043e\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u044c."
-    }, 
+        "source": "     Interpret the output file name as a sequence.",
+        "description": "",
+        "id": "     Interpret the output file name as a sequence.",
+        "text": "Интерпретировать имя выходного файла как последовательность."
+    },
     {
-        "source": "   -readQueue (value)", 
-        "description": "", 
-        "id": "   -readQueue (value)", 
-        "text": "-readQueue (\u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435)"
-    }, 
+        "source": "   -readQueue (value)",
+        "description": "",
+        "id": "   -readQueue (value)",
+        "text": "-readQueue (значение)"
+    },
     {
-        "source": "     Set the size of the read queue.", 
-        "description": "", 
-        "id": "     Set the size of the read queue.", 
-        "text": "\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u0435 \u0440\u0430\u0437\u043c\u0435\u0440 \u043e\u0447\u0435\u0440\u0435\u0434\u0438 \u0447\u0442\u0435\u043d\u0438\u044f."
-    }, 
+        "source": "     Set the size of the read queue.",
+        "description": "",
+        "id": "     Set the size of the read queue.",
+        "text": "Установите размер очереди чтения."
+    },
     {
-        "source": "   -writeQueue (value)", 
-        "description": "", 
-        "id": "   -writeQueue (value)", 
-        "text": "-writeQueue (\u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435)"
-    }, 
+        "source": "   -writeQueue (value)",
+        "description": "",
+        "id": "   -writeQueue (value)",
+        "text": "-writeQueue (значение)"
+    },
     {
-        "source": "     Set the size of the write queue.", 
-        "description": "", 
-        "id": "     Set the size of the write queue.", 
-        "text": "\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u0435 \u0440\u0430\u0437\u043c\u0435\u0440 \u043e\u0447\u0435\u0440\u0435\u0434\u0438 \u0437\u0430\u043f\u0438\u0441\u0438."
-    }, 
+        "source": "     Set the size of the write queue.",
+        "description": "",
+        "id": "     Set the size of the write queue.",
+        "text": "Установите размер очереди записи."
+    },
     {
-        "source": "   -readThreads (value)", 
-        "description": "", 
-        "id": "   -readThreads (value)", 
-        "text": "-readThreads (\u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435)"
-    }, 
+        "source": "   -readThreads (value)",
+        "description": "",
+        "id": "   -readThreads (value)",
+        "text": "-readThreads (значение)"
+    },
     {
-        "source": "     Set the number of threads for reading.", 
-        "description": "", 
-        "id": "     Set the number of threads for reading.", 
-        "text": "\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u0435 \u043a\u043e\u043b\u0438\u0447\u0435\u0441\u0442\u0432\u043e \u0442\u0435\u043c \u0434\u043b\u044f \u0447\u0442\u0435\u043d\u0438\u044f."
-    }, 
+        "source": "     Set the number of threads for reading.",
+        "description": "",
+        "id": "     Set the number of threads for reading.",
+        "text": "Установите количество тем для чтения."
+    },
     {
-        "source": "   -writeThreads (value)", 
-        "description": "", 
-        "id": "   -writeThreads (value)", 
-        "text": "-writeThreads (\u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435)"
-    }, 
+        "source": "   -writeThreads (value)",
+        "description": "",
+        "id": "   -writeThreads (value)",
+        "text": "-writeThreads (значение)"
+    },
     {
-        "source": "     Set the number of threads for writing.", 
-        "description": "", 
-        "id": "     Set the number of threads for writing.", 
-        "text": "\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u0435 \u043a\u043e\u043b\u0438\u0447\u0435\u0441\u0442\u0432\u043e \u043f\u043e\u0442\u043e\u043a\u043e\u0432 \u0434\u043b\u044f \u0437\u0430\u043f\u0438\u0441\u0438."
-    }, 
+        "source": "     Set the number of threads for writing.",
+        "description": "",
+        "id": "     Set the number of threads for writing.",
+        "text": "Установите количество потоков для записи."
+    },
     {
-        "source": "   -resize \\\"(width) (height)\\\"", 
-        "text": "-resize \\ &quot;(\u0448\u0438\u0440\u0438\u043d\u0430) (\u0432\u044b\u0441\u043e\u0442\u0430) \\&quot;", 
-        "id": "   -resize \\\"(width) (height)\\\"", 
+        "source": "   -resize \\\"(width) (height)\\\"",
+        "text": "-resize \\ &quot;(ширина) (высота) \\&quot;",
+        "id": "   -resize \\\"(width) (height)\\\"",
         "description": ""
-    }, 
+    },
     {
-        "source": "   Resize the image.", 
-        "text": "\u0418\u0437\u043c\u0435\u043d\u0438\u0442\u044c \u0440\u0430\u0437\u043c\u0435\u0440 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f.", 
-        "id": "   Resize the image.", 
+        "source": "   Resize the image.",
+        "text": "Изменить размер изображения.",
+        "id": "   Resize the image.",
         "description": ""
-    }, 
+    },
     {
-        "source": "   Interpret the input file name as a sequence.", 
-        "text": "\u0418\u043d\u0442\u0435\u0440\u043f\u0440\u0435\u0442\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0438\u043c\u044f \u0432\u0445\u043e\u0434\u043d\u043e\u0433\u043e \u0444\u0430\u0439\u043b\u0430 \u043a\u0430\u043a \u043f\u043e\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u044c.", 
-        "id": "   Interpret the input file name as a sequence.", 
+        "source": "   Interpret the input file name as a sequence.",
+        "text": "Интерпретировать имя входного файла как последовательность.",
+        "id": "   Interpret the input file name as a sequence.",
         "description": ""
-    }, 
+    },
     {
-        "source": "   Interpret the output file name as a sequence.", 
-        "text": "\u0418\u043d\u0442\u0435\u0440\u043f\u0440\u0435\u0442\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0438\u043c\u044f \u0432\u044b\u0445\u043e\u0434\u043d\u043e\u0433\u043e \u0444\u0430\u0439\u043b\u0430 \u043a\u0430\u043a \u043f\u043e\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u044c.", 
-        "id": "   Interpret the output file name as a sequence.", 
+        "source": "   Interpret the output file name as a sequence.",
+        "text": "Интерпретировать имя выходного файла как последовательность.",
+        "id": "   Interpret the output file name as a sequence.",
         "description": ""
-    }, 
+    },
     {
-        "source": "   Set the size of the read queue.", 
-        "text": "\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u0435 \u0440\u0430\u0437\u043c\u0435\u0440 \u043e\u0447\u0435\u0440\u0435\u0434\u0438 \u0447\u0442\u0435\u043d\u0438\u044f.", 
-        "id": "   Set the size of the read queue.", 
+        "source": "   Set the size of the read queue.",
+        "text": "Установите размер очереди чтения.",
+        "id": "   Set the size of the read queue.",
         "description": ""
-    }, 
+    },
     {
-        "source": "   Set the size of the write queue.", 
-        "text": "\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u0435 \u0440\u0430\u0437\u043c\u0435\u0440 \u043e\u0447\u0435\u0440\u0435\u0434\u0438 \u0437\u0430\u043f\u0438\u0441\u0438.", 
-        "id": "   Set the size of the write queue.", 
+        "source": "   Set the size of the write queue.",
+        "text": "Установите размер очереди записи.",
+        "id": "   Set the size of the write queue.",
         "description": ""
-    }, 
+    },
     {
-        "source": "   Set the number of threads for reading.", 
-        "text": "\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u0435 \u043a\u043e\u043b\u0438\u0447\u0435\u0441\u0442\u0432\u043e \u0442\u0435\u043c \u0434\u043b\u044f \u0447\u0442\u0435\u043d\u0438\u044f.", 
-        "id": "   Set the number of threads for reading.", 
+        "source": "   Set the number of threads for reading.",
+        "text": "Установите количество тем для чтения.",
+        "id": "   Set the number of threads for reading.",
         "description": ""
-    }, 
+    },
     {
-        "source": "   Set the number of threads for writing.", 
-        "text": "\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u0435 \u043a\u043e\u043b\u0438\u0447\u0435\u0441\u0442\u0432\u043e \u043f\u043e\u0442\u043e\u043a\u043e\u0432 \u0434\u043b\u044f \u0437\u0430\u043f\u0438\u0441\u0438.", 
-        "id": "   Set the number of threads for writing.", 
+        "source": "   Set the number of threads for writing.",
+        "text": "Установите количество потоков для записи.",
+        "id": "   Set the number of threads for writing.",
         "description": ""
     }
 ]

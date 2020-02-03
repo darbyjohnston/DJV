@@ -1,848 +1,848 @@
 [
     {
-        "source": "Cineon", 
-        "description": "", 
-        "id": "Cineon", 
-        "text": "\uc2dc\ub124\uc628"
-    }, 
+        "source": "Cineon",
+        "description": "",
+        "id": "Cineon",
+        "text": "시네온"
+    },
     {
-        "source": "I/O", 
-        "description": "", 
-        "id": "I/O", 
+        "source": "I/O",
+        "description": "",
+        "id": "I/O",
         "text": "I / O"
-    }, 
+    },
     {
-        "source": "Color space", 
-        "description": "", 
-        "id": "Color space", 
-        "text": "\uc0c9 \uacf5\uac04"
-    }, 
+        "source": "Color space",
+        "description": "",
+        "id": "Color space",
+        "text": "색 공간"
+    },
     {
-        "source": "Color Space", 
-        "description": "", 
-        "id": "Color Space", 
-        "text": "\uc0c9 \uacf5\uac04"
-    }, 
+        "source": "Color Space",
+        "description": "",
+        "id": "Color Space",
+        "text": "색 공간"
+    },
     {
-        "source": "General", 
-        "description": "", 
-        "id": "General", 
-        "text": "\uc77c\ubc18"
-    }, 
+        "source": "General",
+        "description": "",
+        "id": "General",
+        "text": "일반"
+    },
     {
-        "source": "Input", 
-        "description": "", 
-        "id": "Input", 
-        "text": "\uc785\ub825"
-    }, 
+        "source": "Input",
+        "description": "",
+        "id": "Input",
+        "text": "입력"
+    },
     {
-        "source": "Display", 
-        "description": "", 
-        "id": "Display", 
-        "text": "\ub514\uc2a4\ud50c\ub808\uc774"
-    }, 
+        "source": "Display",
+        "description": "",
+        "id": "Display",
+        "text": "디스플레이"
+    },
     {
-        "source": "View", 
-        "description": "", 
-        "id": "View", 
-        "text": "\uc804\ub9dd"
-    }, 
+        "source": "View",
+        "description": "",
+        "id": "View",
+        "text": "전망"
+    },
     {
-        "source": "DPX", 
-        "description": "", 
-        "id": "DPX", 
+        "source": "DPX",
+        "description": "",
+        "id": "DPX",
         "text": "DPX"
-    }, 
+    },
     {
-        "source": "TIFF", 
-        "description": "", 
-        "id": "TIFF", 
-        "text": "\uc0ac\uc18c\ud55c \ub9d0\ub2e4\ud23c"
-    }, 
+        "source": "TIFF",
+        "description": "",
+        "id": "TIFF",
+        "text": "사소한 말다툼"
+    },
     {
-        "source": "File compression", 
-        "description": "", 
-        "id": "File compression", 
-        "text": "\ud30c\uc77c \uc555\ucd95"
-    }, 
+        "source": "File compression",
+        "description": "",
+        "id": "File compression",
+        "text": "파일 압축"
+    },
     {
-        "source": "The file", 
-        "description": "", 
-        "id": "The file", 
-        "text": "\ud30c\uc77c"
-    }, 
+        "source": "The file",
+        "description": "",
+        "id": "The file",
+        "text": "파일"
+    },
     {
-        "source": "cannot be read", 
-        "description": "", 
-        "id": "cannot be read", 
-        "text": "\uc77d\uc744 \uc218 \uc5c6\ub2e4."
-    }, 
+        "source": "cannot be read",
+        "description": "",
+        "id": "cannot be read",
+        "text": "읽을 수 없다."
+    },
     {
-        "source": "Size", 
-        "description": "", 
-        "id": "Size", 
-        "text": "\ud06c\uae30"
-    }, 
+        "source": "Size",
+        "description": "",
+        "id": "Size",
+        "text": "크기"
+    },
     {
-        "source": "Last modification time", 
-        "description": "", 
-        "id": "Last modification time", 
-        "text": "\ucd5c\uc885 \uc218\uc815 \uc2dc\uac04"
-    }, 
+        "source": "Last modification time",
+        "description": "",
+        "id": "Last modification time",
+        "text": "최종 수정 시간"
+    },
     {
-        "source": "Video track", 
-        "description": "", 
-        "id": "Video track", 
-        "text": "\ube44\ub514\uc624 \ud2b8\ub799"
-    }, 
+        "source": "Video track",
+        "description": "",
+        "id": "Video track",
+        "text": "비디오 트랙"
+    },
     {
-        "source": "Name", 
-        "description": "", 
-        "id": "Name", 
-        "text": "\uc774\ub984"
-    }, 
+        "source": "Name",
+        "description": "",
+        "id": "Name",
+        "text": "이름"
+    },
     {
-        "source": "Type", 
-        "description": "", 
-        "id": "Type", 
-        "text": "\uc720\ud615"
-    }, 
+        "source": "Type",
+        "description": "",
+        "id": "Type",
+        "text": "유형"
+    },
     {
-        "source": "Speed", 
-        "description": "", 
-        "id": "Speed", 
-        "text": "\uc18d\ub3c4"
-    }, 
+        "source": "Speed",
+        "description": "",
+        "id": "Speed",
+        "text": "속도"
+    },
     {
-        "source": "FPS", 
-        "description": "", 
-        "id": "FPS", 
+        "source": "FPS",
+        "description": "",
+        "id": "FPS",
         "text": "FPS"
-    }, 
+    },
     {
-        "source": "Duration", 
-        "description": "", 
-        "id": "Duration", 
-        "text": "\uc9c0\uc18d"
-    }, 
+        "source": "Duration",
+        "description": "",
+        "id": "Duration",
+        "text": "지속"
+    },
     {
-        "source": "Audio track", 
-        "description": "", 
-        "id": "Audio track", 
-        "text": "\uc624\ub514\uc624 \ud2b8\ub799"
-    }, 
+        "source": "Audio track",
+        "description": "",
+        "id": "Audio track",
+        "text": "오디오 트랙"
+    },
     {
-        "source": "Channels", 
-        "description": "", 
-        "id": "Channels", 
-        "text": "\ucc44\ub110"
-    }, 
+        "source": "Channels",
+        "description": "",
+        "id": "Channels",
+        "text": "채널"
+    },
     {
-        "source": "Sample rate", 
-        "description": "", 
-        "id": "Sample rate", 
-        "text": "\uc0d8\ud50c \uc18d\ub3c4"
-    }, 
+        "source": "Sample rate",
+        "description": "",
+        "id": "Sample rate",
+        "text": "샘플 속도"
+    },
     {
-        "source": "kHz", 
-        "description": "", 
-        "id": "kHz", 
+        "source": "kHz",
+        "description": "",
+        "id": "kHz",
         "text": "kHz"
-    }, 
+    },
     {
-        "source": "OpenEXR", 
-        "description": "", 
-        "id": "OpenEXR", 
+        "source": "OpenEXR",
+        "description": "",
+        "id": "OpenEXR",
         "text": "OpenEXR"
-    }, 
+    },
     {
-        "source": "Thread count", 
-        "description": "", 
-        "id": "Thread count", 
-        "text": "\uc2a4\ub808\ub4dc \uc218"
-    }, 
+        "source": "Thread count",
+        "description": "",
+        "id": "Thread count",
+        "text": "스레드 수"
+    },
     {
-        "source": "Channel grouping", 
-        "description": "", 
-        "id": "Channel grouping", 
-        "text": "\ucc44\ub110 \uadf8\ub8f9"
-    }, 
+        "source": "Channel grouping",
+        "description": "",
+        "id": "Channel grouping",
+        "text": "채널 그룹"
+    },
     {
-        "source": "DWA compression level", 
-        "description": "", 
-        "id": "DWA compression level", 
-        "text": "DWA \uc555\ucd95 \uc218\uc900"
-    }, 
+        "source": "DWA compression level",
+        "description": "",
+        "id": "DWA compression level",
+        "text": "DWA 압축 수준"
+    },
     {
-        "source": "Color profile", 
-        "description": "", 
-        "id": "Color profile", 
-        "text": "\uc0c9\uc0c1 \ud504\ub85c\ud30c\uc77c"
-    }, 
+        "source": "Color profile",
+        "description": "",
+        "id": "Color profile",
+        "text": "색상 프로파일"
+    },
     {
-        "source": "PPM", 
-        "description": "", 
-        "id": "PPM", 
+        "source": "PPM",
+        "description": "",
+        "id": "PPM",
         "text": "PPM"
-    }, 
+    },
     {
-        "source": "Data type", 
-        "description": "", 
-        "id": "Data type", 
-        "text": "\ub370\uc774\ud130 \ud615\uc2dd"
-    }, 
+        "source": "Data type",
+        "description": "",
+        "id": "Data type",
+        "text": "데이터 형식"
+    },
     {
-        "source": "Time", 
-        "description": "", 
-        "id": "Time", 
-        "text": "\uc2dc\uac01"
-    }, 
+        "source": "Time",
+        "description": "",
+        "id": "Time",
+        "text": "시각"
+    },
     {
-        "source": "Units", 
-        "description": "", 
-        "id": "Units", 
-        "text": "\ub2e8\uc704"
-    }, 
+        "source": "Units",
+        "description": "",
+        "id": "Units",
+        "text": "단위"
+    },
     {
-        "source": "Tooltips", 
-        "description": "", 
-        "id": "Tooltips", 
-        "text": "\ud234\ud301"
-    }, 
+        "source": "Tooltips",
+        "description": "",
+        "id": "Tooltips",
+        "text": "툴팁"
+    },
     {
-        "source": "Enable tooltips", 
-        "description": "", 
-        "id": "Enable tooltips", 
-        "text": "\ud234\ud301 \uc0ac\uc6a9"
-    }, 
+        "source": "Enable tooltips",
+        "description": "",
+        "id": "Enable tooltips",
+        "text": "툴팁 사용"
+    },
     {
-        "source": "Set the color type", 
-        "description": "", 
-        "id": "Color type widget tooltip", 
-        "text": "\uc0c9\uc0c1 \uc720\ud615 \uc124\uc815"
-    }, 
+        "source": "Set the color type",
+        "description": "",
+        "id": "Color type widget tooltip",
+        "text": "색상 유형 설정"
+    },
     {
-        "source": "L", 
-        "description": "", 
-        "id": "L", 
+        "source": "L",
+        "description": "",
+        "id": "L",
         "text": ""
-    }, 
+    },
     {
-        "source": "Set the luminance value", 
-        "description": "", 
-        "id": "RGB color sliders luminance tooltip", 
-        "text": "\ud718\ub3c4 \uac12 \uc124\uc815"
-    }, 
+        "source": "Set the luminance value",
+        "description": "",
+        "id": "RGB color sliders luminance tooltip",
+        "text": "휘도 값 설정"
+    },
     {
-        "source": "A", 
-        "description": "", 
-        "id": "A", 
-        "text": "\uc5d0\uc774"
-    }, 
+        "source": "A",
+        "description": "",
+        "id": "A",
+        "text": "에이"
+    },
     {
-        "source": "Set the alpha value", 
-        "description": "", 
-        "id": "RGB color sliders alpha tooltip", 
-        "text": "\uc54c\ud30c \uac12 \uc124\uc815"
-    }, 
+        "source": "Set the alpha value",
+        "description": "",
+        "id": "RGB color sliders alpha tooltip",
+        "text": "알파 값 설정"
+    },
     {
-        "source": "R", 
-        "description": "", 
-        "id": "R", 
-        "text": "\uc544\ub974 \uc790\ud615"
-    }, 
+        "source": "R",
+        "description": "",
+        "id": "R",
+        "text": "아르 자형"
+    },
     {
-        "source": "G", 
-        "description": "", 
-        "id": "G", 
-        "text": "\uc9c0"
-    }, 
+        "source": "G",
+        "description": "",
+        "id": "G",
+        "text": "지"
+    },
     {
-        "source": "B", 
-        "description": "", 
-        "id": "B", 
-        "text": "\ube44"
-    }, 
+        "source": "B",
+        "description": "",
+        "id": "B",
+        "text": "비"
+    },
     {
-        "source": "Set the red value", 
-        "description": "", 
-        "id": "RGB color sliders red tooltip", 
-        "text": "\ube68\uac04\uc0c9 \uac12 \uc124\uc815"
-    }, 
+        "source": "Set the red value",
+        "description": "",
+        "id": "RGB color sliders red tooltip",
+        "text": "빨간색 값 설정"
+    },
     {
-        "source": "Set the green value", 
-        "description": "", 
-        "id": "RGB color sliders green tooltip", 
-        "text": "\ub179\uc0c9 \uac12 \uc124\uc815"
-    }, 
+        "source": "Set the green value",
+        "description": "",
+        "id": "RGB color sliders green tooltip",
+        "text": "녹색 값 설정"
+    },
     {
-        "source": "Set the blue value", 
-        "description": "", 
-        "id": "RGB color sliders blue tooltip", 
-        "text": "\ud30c\ub780\uc0c9 \uac12 \uc124\uc815"
-    }, 
+        "source": "Set the blue value",
+        "description": "",
+        "id": "RGB color sliders blue tooltip",
+        "text": "파란색 값 설정"
+    },
     {
-        "source": "V", 
-        "description": "", 
-        "id": "V", 
+        "source": "V",
+        "description": "",
+        "id": "V",
         "text": "V"
-    }, 
+    },
     {
-        "source": "Set the value", 
-        "description": "", 
-        "id": "HSV color sliders value tooltip", 
-        "text": "\uac12\uc744 \uc124\uc815\ud558\uc2ed\uc2dc\uc624."
-    }, 
+        "source": "Set the value",
+        "description": "",
+        "id": "HSV color sliders value tooltip",
+        "text": "값을 설정하십시오."
+    },
     {
-        "source": "Set the alpha value", 
-        "description": "", 
-        "id": "HSV color sliders alpha tooltip", 
-        "text": "\uc54c\ud30c \uac12 \uc124\uc815"
-    }, 
+        "source": "Set the alpha value",
+        "description": "",
+        "id": "HSV color sliders alpha tooltip",
+        "text": "알파 값 설정"
+    },
     {
-        "source": "H", 
-        "description": "", 
-        "id": "H", 
+        "source": "H",
+        "description": "",
+        "id": "H",
         "text": "H"
-    }, 
+    },
     {
-        "source": "S", 
-        "description": "", 
-        "id": "S", 
-        "text": "\uc5d0\uc2a4"
-    }, 
+        "source": "S",
+        "description": "",
+        "id": "S",
+        "text": "에스"
+    },
     {
-        "source": "Set the hue", 
-        "description": "", 
-        "id": "HSV color sliders hue tooltip", 
-        "text": "\uc0c9\uc870 \uc124\uc815"
-    }, 
+        "source": "Set the hue",
+        "description": "",
+        "id": "HSV color sliders hue tooltip",
+        "text": "색조 설정"
+    },
     {
-        "source": "Set the saturation", 
-        "description": "", 
-        "id": "HSV color sliders saturation tooltip", 
-        "text": "\ucc44\ub3c4 \uc124\uc815"
-    }, 
+        "source": "Set the saturation",
+        "description": "",
+        "id": "HSV color sliders saturation tooltip",
+        "text": "채도 설정"
+    },
     {
-        "source": "Add the current directory to the list of shortcuts", 
-        "description": "", 
-        "id": "Add shortcut tooltip", 
-        "text": "\ubc14\ub85c \uac00\uae30 \ubaa9\ub85d\uc5d0 \ud604\uc7ac \ub514\ub809\ud1a0\ub9ac \ucd94\uac00"
-    }, 
+        "source": "Add the current directory to the list of shortcuts",
+        "description": "",
+        "id": "Add shortcut tooltip",
+        "text": "바로 가기 목록에 현재 디렉토리 추가"
+    },
     {
-        "source": "Edit the list of shortcuts", 
-        "description": "", 
-        "id": "Edit shortcuts tooltip", 
-        "text": "\ubc14\ub85c \uac00\uae30 \ubaa9\ub85d \ud3b8\uc9d1"
-    }, 
+        "source": "Edit the list of shortcuts",
+        "description": "",
+        "id": "Edit shortcuts tooltip",
+        "text": "바로 가기 목록 편집"
+    },
     {
-        "source": "Back", 
-        "description": "", 
-        "id": "Back", 
-        "text": "\ub4a4\ub85c"
-    }, 
+        "source": "Back",
+        "description": "",
+        "id": "Back",
+        "text": "뒤로"
+    },
     {
-        "source": "Go back a directory", 
-        "description": "", 
-        "id": "File browser back tooltip", 
-        "text": "\ub514\ub809\ud1a0\ub9ac\ub85c \ub3cc\uc544 \uac00\uae30"
-    }, 
+        "source": "Go back a directory",
+        "description": "",
+        "id": "File browser back tooltip",
+        "text": "디렉토리로 돌아 가기"
+    },
     {
-        "source": "Forward", 
-        "description": "", 
-        "id": "Forward", 
-        "text": "\uc55e\uc73c\ub85c"
-    }, 
+        "source": "Forward",
+        "description": "",
+        "id": "Forward",
+        "text": "앞으로"
+    },
     {
-        "source": "Go forward a directory", 
-        "description": "", 
-        "id": "File browser forward tooltip", 
-        "text": "\ub514\ub809\ud1a0\ub9ac \uc55e\uc73c\ub85c \uc774\ub3d9"
-    }, 
+        "source": "Go forward a directory",
+        "description": "",
+        "id": "File browser forward tooltip",
+        "text": "디렉토리 앞으로 이동"
+    },
     {
-        "source": "Up", 
-        "description": "", 
-        "id": "Up", 
-        "text": "\ucabd\uc73c\ub85c"
-    }, 
+        "source": "Up",
+        "description": "",
+        "id": "Up",
+        "text": "쪽으로"
+    },
     {
-        "source": "Go up a directory", 
-        "description": "", 
-        "id": "File browser up tooltip", 
-        "text": "\ub514\ub809\ud1a0\ub9ac\ub85c \uc774\ub3d9"
-    }, 
+        "source": "Go up a directory",
+        "description": "",
+        "id": "File browser up tooltip",
+        "text": "디렉토리로 이동"
+    },
     {
-        "source": "Tile View", 
-        "description": "", 
-        "id": "Tile View", 
-        "text": "\ud0c0\uc77c\ubcf4\uae30"
-    }, 
+        "source": "Tile View",
+        "description": "",
+        "id": "Tile View",
+        "text": "타일보기"
+    },
     {
-        "source": "Show directory items as tiles", 
-        "description": "", 
-        "id": "File browser tile view tooltip", 
-        "text": "\ub514\ub809\ud1a0\ub9ac \ud56d\ubaa9\uc744 \ud0c0\uc77c\ub85c \ud45c\uc2dc"
-    }, 
+        "source": "Show directory items as tiles",
+        "description": "",
+        "id": "File browser tile view tooltip",
+        "text": "디렉토리 항목을 타일로 표시"
+    },
     {
-        "source": "List View", 
-        "description": "", 
-        "id": "List View", 
-        "text": "\ubaa9\ub85d\ubcf4\uae30"
-    }, 
+        "source": "List View",
+        "description": "",
+        "id": "List View",
+        "text": "목록보기"
+    },
     {
-        "source": "Show directory items as a list", 
-        "description": "", 
-        "id": "File browser list view tooltip", 
-        "text": "\ub514\ub809\ud1a0\ub9ac \ud56d\ubaa9\uc744 \ubaa9\ub85d\uc73c\ub85c \ud45c\uc2dc"
-    }, 
+        "source": "Show directory items as a list",
+        "description": "",
+        "id": "File browser list view tooltip",
+        "text": "디렉토리 항목을 목록으로 표시"
+    },
     {
-        "source": "Increase Thumbnail Size", 
-        "description": "", 
-        "id": "Increase Thumbnail Size", 
-        "text": "\ucd95\uc18c\ud310 \uadf8\ub9bc \ud06c\uae30 \ub298\ub9ac\uae30"
-    }, 
+        "source": "Increase Thumbnail Size",
+        "description": "",
+        "id": "Increase Thumbnail Size",
+        "text": "축소판 그림 크기 늘리기"
+    },
     {
-        "source": "Increase the size of the thumbnails", 
-        "description": "", 
-        "id": "File browser increase thumbnail size tooltip", 
-        "text": "\ubbf8\ub9ac\ubcf4\uae30 \uc774\ubbf8\uc9c0\uc758 \ud06c\uae30\ub97c \ub298\ub9ac\uc2ed\uc2dc\uc624."
-    }, 
+        "source": "Increase the size of the thumbnails",
+        "description": "",
+        "id": "File browser increase thumbnail size tooltip",
+        "text": "미리보기 이미지의 크기를 늘리십시오."
+    },
     {
-        "source": "Decrease Thumbnail Size", 
-        "description": "", 
-        "id": "Decrease Thumbnail Size", 
-        "text": "\ucd95\uc18c\ud310 \uadf8\ub9bc \ud06c\uae30 \uc904\uc774\uae30"
-    }, 
+        "source": "Decrease Thumbnail Size",
+        "description": "",
+        "id": "Decrease Thumbnail Size",
+        "text": "축소판 그림 크기 줄이기"
+    },
     {
-        "source": "Decrease the size of the thumbnails", 
-        "description": "", 
-        "id": "File browser decrease thumbnail size tooltip", 
-        "text": "\ucd95\uc18c \uc774\ubbf8\uc9c0\uc758 \ud06c\uae30\ub97c \uc904\uc785\ub2c8\ub2e4."
-    }, 
+        "source": "Decrease the size of the thumbnails",
+        "description": "",
+        "id": "File browser decrease thumbnail size tooltip",
+        "text": "축소 이미지의 크기를 줄입니다."
+    },
     {
-        "source": "Enable File Sequences", 
-        "description": "", 
-        "id": "Enable File Sequences", 
-        "text": "\ud30c\uc77c \uc2dc\ud000\uc2a4 \uc0ac\uc6a9"
-    }, 
+        "source": "Enable File Sequences",
+        "description": "",
+        "id": "Enable File Sequences",
+        "text": "파일 시퀀스 사용"
+    },
     {
-        "source": "Show sequences of files as a single item", 
-        "description": "", 
-        "id": "File browser file sequences tooltip", 
-        "text": "\ud30c\uc77c\uc758 \uc2dc\ud000\uc2a4\ub97c \ub2e8\uc77c \ud56d\ubaa9\uc73c\ub85c \ud45c\uc2dc"
-    }, 
+        "source": "Show sequences of files as a single item",
+        "description": "",
+        "id": "File browser file sequences tooltip",
+        "text": "파일의 시퀀스를 단일 항목으로 표시"
+    },
     {
-        "source": "Show Hidden Files", 
-        "description": "", 
-        "id": "Show Hidden Files", 
-        "text": "\uc228\uaca8\uc9c4 \ud30c\uc77c \ud45c\uc2dc"
-    }, 
+        "source": "Show Hidden Files",
+        "description": "",
+        "id": "Show Hidden Files",
+        "text": "숨겨진 파일 표시"
+    },
     {
-        "source": "Show directory items that begin with a '.'", 
-        "description": "", 
-        "id": "File browser show hidden tooltip", 
-        "text": "&#39;.&#39;\ub85c \uc2dc\uc791\ud558\ub294 \ub514\ub809\ud1a0\ub9ac \ud56d\ubaa9 \ud45c\uc2dc"
-    }, 
+        "source": "Show directory items that begin with a '.'",
+        "description": "",
+        "id": "File browser show hidden tooltip",
+        "text": "&#39;.&#39;로 시작하는 디렉토리 항목 표시"
+    },
     {
-        "source": "Sort By Name", 
-        "description": "", 
-        "id": "Sort By Name", 
-        "text": "\uc774\ub984\uc73c\ub85c \ubd84\ub958\ud558\ub2e4"
-    }, 
+        "source": "Sort By Name",
+        "description": "",
+        "id": "Sort By Name",
+        "text": "이름으로 분류하다"
+    },
     {
-        "source": "Sort directory items by name", 
-        "description": "", 
-        "id": "File browser sort by name tooltip", 
-        "text": "\uc774\ub984\uc73c\ub85c \ub514\ub809\ud1a0\ub9ac \ud56d\ubaa9 \uc815\ub82c"
-    }, 
+        "source": "Sort directory items by name",
+        "description": "",
+        "id": "File browser sort by name tooltip",
+        "text": "이름으로 디렉토리 항목 정렬"
+    },
     {
-        "source": "Sort By Size", 
-        "description": "", 
-        "id": "Sort By Size", 
-        "text": "\ud06c\uae30\ub85c \uc815\ub82c"
-    }, 
+        "source": "Sort By Size",
+        "description": "",
+        "id": "Sort By Size",
+        "text": "크기로 정렬"
+    },
     {
-        "source": "Sort directory items by size", 
-        "description": "", 
-        "id": "File browser sort by size tooltip", 
-        "text": "\ud06c\uae30\ub85c \ub514\ub809\ud1a0\ub9ac \ud56d\ubaa9 \uc815\ub82c"
-    }, 
+        "source": "Sort directory items by size",
+        "description": "",
+        "id": "File browser sort by size tooltip",
+        "text": "크기로 디렉토리 항목 정렬"
+    },
     {
-        "source": "Sort By Time", 
-        "description": "", 
-        "id": "Sort By Time", 
-        "text": "\uc2dc\uac04\uc21c\uc73c\ub85c \uc815\ub82c"
-    }, 
+        "source": "Sort By Time",
+        "description": "",
+        "id": "Sort By Time",
+        "text": "시간순으로 정렬"
+    },
     {
-        "source": "Sort directory items by time", 
-        "description": "", 
-        "id": "File browser sort by time tooltip", 
-        "text": "\uc2dc\uac04\ubcc4 \ub514\ub809\ud1a0\ub9ac \ud56d\ubaa9 \uc815\ub82c"
-    }, 
+        "source": "Sort directory items by time",
+        "description": "",
+        "id": "File browser sort by time tooltip",
+        "text": "시간별 디렉토리 항목 정렬"
+    },
     {
-        "source": "Reverse Sort", 
-        "description": "", 
-        "id": "Reverse Sort", 
-        "text": "\uc5ed\uc21c \uc815\ub82c"
-    }, 
+        "source": "Reverse Sort",
+        "description": "",
+        "id": "Reverse Sort",
+        "text": "역순 정렬"
+    },
     {
-        "source": "Reverse the sort direction", 
-        "description": "", 
-        "id": "File browser reverse sort tooltip", 
-        "text": "\uc815\ub82c \ubc29\ud5a5 \ubc18\uc804"
-    }, 
+        "source": "Reverse the sort direction",
+        "description": "",
+        "id": "File browser reverse sort tooltip",
+        "text": "정렬 방향 반전"
+    },
     {
-        "source": "Sort Directories First", 
-        "description": "", 
-        "id": "Sort Directories First", 
-        "text": "\ub514\ub809\ud1a0\ub9ac \uc6b0\uc120 \uc815\ub82c"
-    }, 
+        "source": "Sort Directories First",
+        "description": "",
+        "id": "Sort Directories First",
+        "text": "디렉토리 우선 정렬"
+    },
     {
-        "source": "Show directories before files", 
-        "description": "", 
-        "id": "File browser sort directories first tooltip", 
-        "text": "\ud30c\uc77c \uc804\uc5d0 \ub514\ub809\ud1a0\ub9ac\ubcf4\uae30"
-    }, 
+        "source": "Show directories before files",
+        "description": "",
+        "id": "File browser sort directories first tooltip",
+        "text": "파일 전에 디렉토리보기"
+    },
     {
-        "source": "Name", 
-        "description": "", 
-        "id": "File browser name column", 
-        "text": "\uc774\ub984"
-    }, 
+        "source": "Name",
+        "description": "",
+        "id": "File browser name column",
+        "text": "이름"
+    },
     {
-        "source": "Size", 
-        "description": "", 
-        "id": "File browse size column", 
-        "text": "\ud06c\uae30"
-    }, 
+        "source": "Size",
+        "description": "",
+        "id": "File browse size column",
+        "text": "크기"
+    },
     {
-        "source": "Time", 
-        "description": "", 
-        "id": "File browser time column", 
-        "text": "\uc2dc\uac01"
-    }, 
+        "source": "Time",
+        "description": "",
+        "id": "File browser time column",
+        "text": "시각"
+    },
     {
-        "source": "Show the shortcuts", 
-        "description": "", 
-        "id": "File browser shortcuts tooltip", 
-        "text": "\ubc14\ub85c \uac00\uae30 \ud45c\uc2dc"
-    }, 
+        "source": "Show the shortcuts",
+        "description": "",
+        "id": "File browser shortcuts tooltip",
+        "text": "바로 가기 표시"
+    },
     {
-        "source": "Show the recently used directories", 
-        "description": "", 
-        "id": "File browser recent paths tooltip", 
-        "text": "\ucd5c\uadfc\uc5d0 \uc0ac\uc6a9\ud55c \ub514\ub809\ud1a0\ub9ac \ud45c\uc2dc"
-    }, 
+        "source": "Show the recently used directories",
+        "description": "",
+        "id": "File browser recent paths tooltip",
+        "text": "최근에 사용한 디렉토리 표시"
+    },
     {
-        "source": "Show the drives", 
-        "description": "", 
-        "id": "File browser drives tooltip", 
-        "text": "\ub4dc\ub77c\uc774\ube0c \ud45c\uc2dc"
-    }, 
+        "source": "Show the drives",
+        "description": "",
+        "id": "File browser drives tooltip",
+        "text": "드라이브 표시"
+    },
     {
-        "source": "Show the file browser sorting options", 
-        "description": "", 
-        "id": "File browser sort tooltip", 
-        "text": "\ud30c\uc77c \ube0c\ub77c\uc6b0\uc800 \uc815\ub82c \uc635\uc158 \ud45c\uc2dc"
-    }, 
+        "source": "Show the file browser sorting options",
+        "description": "",
+        "id": "File browser sort tooltip",
+        "text": "파일 브라우저 정렬 옵션 표시"
+    },
     {
-        "source": "Show the file browser settings", 
-        "description": "", 
-        "id": "File browser settings tooltip", 
-        "text": "\ud30c\uc77c \ube0c\ub77c\uc6b0\uc800 \uc124\uc815 \ud45c\uc2dc"
-    }, 
+        "source": "Show the file browser settings",
+        "description": "",
+        "id": "File browser settings tooltip",
+        "text": "파일 브라우저 설정 표시"
+    },
     {
-        "source": "Search for items in the directory", 
-        "description": "", 
-        "id": "File browser search tooltip", 
-        "text": "\ub514\ub809\ud1a0\ub9ac\uc5d0\uc11c \ud56d\ubaa9 \uac80\uc0c9"
-    }, 
+        "source": "Search for items in the directory",
+        "description": "",
+        "id": "File browser search tooltip",
+        "text": "디렉토리에서 항목 검색"
+    },
     {
-        "source": "Items", 
-        "description": "", 
-        "id": "Items", 
-        "text": "\ud56d\ubaa9"
-    }, 
+        "source": "Items",
+        "description": "",
+        "id": "Items",
+        "text": "항목"
+    },
     {
-        "source": "File Browser", 
-        "description": "", 
-        "id": "File Browser", 
-        "text": "\ud30c\uc77c \ud0d0\uc0c9\uae30"
-    }, 
+        "source": "File Browser",
+        "description": "",
+        "id": "File Browser",
+        "text": "파일 탐색기"
+    },
     {
-        "source": "Show the file browser history", 
-        "description": "", 
-        "id": "File browser history tooltip", 
-        "text": "\ud30c\uc77c \ube0c\ub77c\uc6b0\uc800 \ud788\uc2a4\ud1a0\ub9ac \ud45c\uc2dc"
-    }, 
+        "source": "Show the file browser history",
+        "description": "",
+        "id": "File browser history tooltip",
+        "text": "파일 브라우저 히스토리 표시"
+    },
     {
-        "source": "JPEG", 
-        "description": "", 
-        "id": "JPEG", 
+        "source": "JPEG",
+        "description": "",
+        "id": "JPEG",
         "text": "JPEG"
-    }, 
+    },
     {
-        "source": "Compression quality", 
-        "description": "", 
-        "id": "Compression quality", 
-        "text": "\uc555\ucd95 \ud488\uc9c8"
-    }, 
+        "source": "Compression quality",
+        "description": "",
+        "id": "Compression quality",
+        "text": "압축 품질"
+    },
     {
-        "source": "Language", 
-        "description": "", 
-        "id": "Language", 
-        "text": "\uc5b8\uc5b4"
-    }, 
+        "source": "Language",
+        "description": "",
+        "id": "Language",
+        "text": "언어"
+    },
     {
-        "source": "Min", 
-        "description": "", 
-        "id": "Min", 
-        "text": "\ubbfc"
-    }, 
+        "source": "Min",
+        "description": "",
+        "id": "Min",
+        "text": "민"
+    },
     {
-        "source": "Max", 
-        "description": "", 
-        "id": "Max", 
-        "text": "\ub9e5\uc2a4"
-    }, 
+        "source": "Max",
+        "description": "",
+        "id": "Max",
+        "text": "맥스"
+    },
     {
-        "source": "Current", 
-        "description": "", 
-        "id": "Current", 
-        "text": "\ud750\ub984"
-    }, 
+        "source": "Current",
+        "description": "",
+        "id": "Current",
+        "text": "흐름"
+    },
     {
-        "source": "Palette", 
-        "description": "", 
-        "id": "Palette", 
-        "text": "\ud314\ub808\ud2b8"
-    }, 
+        "source": "Palette",
+        "description": "",
+        "id": "Palette",
+        "text": "팔레트"
+    },
     {
-        "id": "FFmpeg", 
-        "source": "FFmpeg", 
-        "description": "", 
+        "id": "FFmpeg",
+        "source": "FFmpeg",
+        "description": "",
         "text": "FFmpeg"
-    }, 
+    },
     {
-        "id": "Threads", 
-        "source": "Threads", 
-        "description": "", 
-        "text": "\uc2e4"
-    }, 
+        "id": "Threads",
+        "source": "Threads",
+        "description": "",
+        "text": "실"
+    },
     {
-        "id": "frames", 
-        "source": "frames", 
-        "description": "", 
-        "text": "\ud504\ub808\uc784"
-    }, 
+        "id": "frames",
+        "source": "frames",
+        "description": "",
+        "text": "프레임"
+    },
     {
-        "id": "seconds", 
-        "source": "seconds", 
-        "description": "", 
-        "text": "\ucd08"
-    }, 
+        "id": "seconds",
+        "source": "seconds",
+        "description": "",
+        "text": "초"
+    },
     {
-        "source": "Recent Paths", 
-        "description": "", 
-        "id": "Recent Paths", 
-        "text": "\ucd5c\uadfc \uacbd\ub85c"
-    }, 
+        "source": "Recent Paths",
+        "description": "",
+        "id": "Recent Paths",
+        "text": "최근 경로"
+    },
     {
-        "source": "Shortcuts", 
-        "description": "", 
-        "id": "Shortcuts", 
-        "text": "\ubc14\ub85c \uac00\uae30"
-    }, 
+        "source": "Shortcuts",
+        "description": "",
+        "id": "Shortcuts",
+        "text": "바로 가기"
+    },
     {
-        "source": "Color sliders luminance tooltip", 
-        "description": "", 
-        "id": "Color sliders luminance tooltip", 
-        "text": "\uc0c9\uc0c1 \uc2ac\ub77c\uc774\ub354 \uad11\ub3c4 \ud234\ud301"
-    }, 
+        "source": "Color sliders luminance tooltip",
+        "description": "",
+        "id": "Color sliders luminance tooltip",
+        "text": "색상 슬라이더 광도 툴팁"
+    },
     {
-        "source": "Color sliders alpha tooltip", 
-        "description": "", 
-        "id": "Color sliders alpha tooltip", 
-        "text": "\uc0c9\uc0c1 \uc2ac\ub77c\uc774\ub354 \uc54c\ud30c \ud234\ud301"
-    }, 
+        "source": "Color sliders alpha tooltip",
+        "description": "",
+        "id": "Color sliders alpha tooltip",
+        "text": "색상 슬라이더 알파 툴팁"
+    },
     {
-        "source": "Color sliders hue tooltip", 
-        "description": "", 
-        "id": "Color sliders hue tooltip", 
-        "text": "\uc0c9\uc0c1 \uc2ac\ub77c\uc774\ub354 \uc0c9\uc870 \ud234\ud301"
-    }, 
+        "source": "Color sliders hue tooltip",
+        "description": "",
+        "id": "Color sliders hue tooltip",
+        "text": "색상 슬라이더 색조 툴팁"
+    },
     {
-        "source": "Color sliders saturation tooltip", 
-        "description": "", 
-        "id": "Color sliders saturation tooltip", 
-        "text": "\uc0c9\uc0c1 \uc2ac\ub77c\uc774\ub354 \ucc44\ub3c4 \ud234\ud301"
-    }, 
+        "source": "Color sliders saturation tooltip",
+        "description": "",
+        "id": "Color sliders saturation tooltip",
+        "text": "색상 슬라이더 채도 툴팁"
+    },
     {
-        "source": "Color sliders value tooltip", 
-        "description": "", 
-        "id": "Color sliders value tooltip", 
-        "text": "\uc0c9\uc0c1 \uc2ac\ub77c\uc774\ub354 \uac12 \ud234\ud301"
-    }, 
+        "source": "Color sliders value tooltip",
+        "description": "",
+        "id": "Color sliders value tooltip",
+        "text": "색상 슬라이더 값 툴팁"
+    },
     {
-        "source": "Color sliders red tooltip", 
-        "description": "", 
-        "id": "Color sliders red tooltip", 
-        "text": "\uc0c9\uc0c1 \uc2ac\ub77c\uc774\ub354 \ube68\uac04\uc0c9 \ud234\ud301"
-    }, 
+        "source": "Color sliders red tooltip",
+        "description": "",
+        "id": "Color sliders red tooltip",
+        "text": "색상 슬라이더 빨간색 툴팁"
+    },
     {
-        "source": "Color sliders green tooltip", 
-        "description": "", 
-        "id": "Color sliders green tooltip", 
-        "text": "\uc0c9\uc0c1 \uc2ac\ub77c\uc774\ub354 \ub179\uc0c9 \ud234\ud301"
-    }, 
+        "source": "Color sliders green tooltip",
+        "description": "",
+        "id": "Color sliders green tooltip",
+        "text": "색상 슬라이더 녹색 툴팁"
+    },
     {
-        "source": "Color sliders blue tooltip", 
-        "description": "", 
-        "id": "Color sliders blue tooltip", 
-        "text": "\uc0c9\uc0c1 \uc2ac\ub77c\uc774\ub354 \ud30c\ub780\uc0c9 \ud234\ud301"
-    }, 
+        "source": "Color sliders blue tooltip",
+        "description": "",
+        "id": "Color sliders blue tooltip",
+        "text": "색상 슬라이더 파란색 툴팁"
+    },
     {
-        "source": "Tiles", 
-        "description": "", 
-        "id": "Tiles", 
-        "text": "\ud0c0\uc77c"
-    }, 
+        "source": "Tiles",
+        "description": "",
+        "id": "Tiles",
+        "text": "타일"
+    },
     {
-        "source": "List", 
-        "description": "", 
-        "id": "List", 
-        "text": "\uba85\ubd80"
-    }, 
+        "source": "List",
+        "description": "",
+        "id": "List",
+        "text": "명부"
+    },
     {
-        "source": "Increase", 
-        "description": "", 
-        "id": "Increase", 
-        "text": "\uc99d\uac00\ud558\ub2e4"
-    }, 
+        "source": "Increase",
+        "description": "",
+        "id": "Increase",
+        "text": "증가하다"
+    },
     {
-        "source": "Decrease", 
-        "description": "", 
-        "id": "Decrease", 
-        "text": "\uac10\uc18c"
-    }, 
+        "source": "Decrease",
+        "description": "",
+        "id": "Decrease",
+        "text": "감소"
+    },
     {
-        "source": "Enable file sequences", 
-        "description": "", 
-        "id": "Enable file sequences", 
-        "text": "\ud30c\uc77c \uc2dc\ud000\uc2a4 \ud65c\uc131\ud654"
-    }, 
+        "source": "Enable file sequences",
+        "description": "",
+        "id": "Enable file sequences",
+        "text": "파일 시퀀스 활성화"
+    },
     {
-        "source": "Show hidden files", 
-        "description": "", 
-        "id": "Show hidden files", 
-        "text": "\uc228\uaca8\uc9c4 \ud30c\uc77c \ud45c\uc2dc"
-    }, 
+        "source": "Show hidden files",
+        "description": "",
+        "id": "Show hidden files",
+        "text": "숨겨진 파일 표시"
+    },
     {
-        "source": "Sort by name", 
-        "description": "", 
-        "id": "Sort by name", 
-        "text": "\uc774\ub984\uc73c\ub85c \ubd84\ub958\ud558\ub2e4"
-    }, 
+        "source": "Sort by name",
+        "description": "",
+        "id": "Sort by name",
+        "text": "이름으로 분류하다"
+    },
     {
-        "source": "Sort by size", 
-        "description": "", 
-        "id": "Sort by size", 
-        "text": "\ud06c\uae30\ubcc4\ub85c \uc815\ub82c"
-    }, 
+        "source": "Sort by size",
+        "description": "",
+        "id": "Sort by size",
+        "text": "크기별로 정렬"
+    },
     {
-        "source": "Sort by time", 
-        "description": "", 
-        "id": "Sort by time", 
-        "text": "\uc2dc\uac04\uc21c\uc73c\ub85c \uc815\ub82c"
-    }, 
+        "source": "Sort by time",
+        "description": "",
+        "id": "Sort by time",
+        "text": "시간순으로 정렬"
+    },
     {
-        "source": "Reverse sort", 
-        "description": "", 
-        "id": "Reverse sort", 
-        "text": "\uc5ed \ubd84\ub958"
-    }, 
+        "source": "Reverse sort",
+        "description": "",
+        "id": "Reverse sort",
+        "text": "역 분류"
+    },
     {
-        "source": "Sort directories first", 
-        "description": "", 
-        "id": "Sort directories first", 
-        "text": "\ub514\ub809\ud1a0\ub9ac\ub97c \uba3c\uc800 \uc815\ub82c"
-    }, 
+        "source": "Sort directories first",
+        "description": "",
+        "id": "Sort directories first",
+        "text": "디렉토리를 먼저 정렬"
+    },
     {
-        "source": "Sorting", 
-        "description": "", 
-        "id": "Sorting", 
-        "text": "\uc815\ub82c"
-    }, 
+        "source": "Sorting",
+        "description": "",
+        "id": "Sorting",
+        "text": "정렬"
+    },
     {
-        "source": "Thumbnail Size", 
-        "description": "", 
-        "id": "Thumbnail Size", 
-        "text": "\uc378\ub124\uc77c \ud06c\uae30"
-    }, 
+        "source": "Thumbnail Size",
+        "description": "",
+        "id": "Thumbnail Size",
+        "text": "썸네일 크기"
+    },
     {
-        "source": "Miscellaneous", 
-        "description": "", 
-        "id": "Miscellaneous", 
-        "text": "\uc5ec\ub7ec \uac00\uc9c0 \uc7a1\ub2e4\ud55c"
-    }, 
+        "source": "Miscellaneous",
+        "description": "",
+        "id": "Miscellaneous",
+        "text": "여러 가지 잡다한"
+    },
     {
-        "source": "Drives", 
-        "description": "", 
-        "id": "Drives", 
-        "text": "\ub4dc\ub77c\uc774\ube0c"
-    }, 
+        "source": "Drives",
+        "description": "",
+        "id": "Drives",
+        "text": "드라이브"
+    },
     {
-        "source": "Text", 
-        "description": "", 
-        "id": "Text", 
-        "text": "\ubcf8\ubb38"
-    }, 
+        "source": "Text",
+        "description": "",
+        "id": "Text",
+        "text": "본문"
+    },
     {
-        "source": "Render 2D", 
-        "description": "", 
-        "id": "Render 2D", 
-        "text": "2D \ub80c\ub354\ub9c1"
-    }, 
+        "source": "Render 2D",
+        "description": "",
+        "id": "Render 2D",
+        "text": "2D 렌더링"
+    },
     {
-        "source": "Enable LCD text rendering", 
-        "description": "", 
-        "id": "Enable LCD text rendering", 
-        "text": "LCD \ud14d\uc2a4\ud2b8 \ub80c\ub354\ub9c1 \uc0ac\uc6a9"
-    }, 
+        "source": "Enable LCD text rendering",
+        "description": "",
+        "id": "Enable LCD text rendering",
+        "text": "LCD 텍스트 렌더링 사용"
+    },
     {
-        "source": "Cannot set the path", 
-        "text": "\uacbd\ub85c\ub97c \uc124\uc815\ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4", 
-        "id": "Cannot set the path", 
+        "source": "Cannot set the path",
+        "text": "경로를 설정할 수 없습니다",
+        "id": "Cannot set the path",
         "description": ""
-    }, 
+    },
     {
-        "id": "min", 
-        "source": "min", 
-        "description": "", 
-        "text": "\ubd84"
-    }, 
+        "id": "min",
+        "source": "min",
+        "description": "",
+        "text": "분"
+    },
     {
-        "id": "max", 
-        "source": "max", 
-        "description": "", 
-        "text": "\ucd5c\ub300"
-    }, 
+        "id": "max",
+        "source": "max",
+        "description": "",
+        "text": "최대"
+    },
     {
-        "source": "Image", 
-        "text": "\uc601\uc0c1", 
-        "id": "Image", 
+        "source": "Image",
+        "text": "영상",
+        "id": "Image",
         "description": ""
-    }, 
+    },
     {
-        "source": "Minify filter", 
-        "text": "\ud544\ud130 \ucd95\uc18c", 
-        "id": "Minify filter", 
+        "source": "Minify filter",
+        "text": "필터 축소",
+        "id": "Minify filter",
         "description": ""
-    }, 
+    },
     {
-        "source": "Magnify filter", 
-        "text": "\ud544\ud130 \ud655\ub300", 
-        "id": "Magnify filter", 
+        "source": "Magnify filter",
+        "text": "필터 확대",
+        "id": "Magnify filter",
         "description": ""
     }
 ]

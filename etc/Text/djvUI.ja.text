@@ -1,1292 +1,1292 @@
 [
     {
-        "source": "Cannot parse the value.", 
-        "description": "", 
-        "id": "Cannot parse the value.", 
-        "text": "\u5024\u3092\u89e3\u6790\u3067\u304d\u307e\u305b\u3093\u3002"
-    }, 
-    {
-        "source": "Horizontal", 
-        "description": "", 
-        "id": "Horizontal", 
-        "text": "\u6c34\u5e73"
-    }, 
-    {
-        "source": "Vertical", 
-        "description": "", 
-        "id": "Vertical", 
-        "text": "\u5782\u76f4"
-    }, 
-    {
-        "source": "Left", 
-        "description": "", 
-        "id": "Left", 
-        "text": "\u5de6"
-    }, 
-    {
-        "source": "Top", 
-        "description": "", 
-        "id": "Top", 
-        "text": "\u4e0a"
-    }, 
-    {
-        "source": "Right", 
-        "description": "", 
-        "id": "Right", 
-        "text": "\u53f3"
-    }, 
-    {
-        "source": "Bottom", 
-        "description": "", 
-        "id": "Bottom", 
-        "text": "\u5e95"
-    }, 
-    {
-        "source": "None", 
-        "description": "", 
-        "id": "None", 
-        "text": "\u7121\u3057"
-    }, 
-    {
-        "source": "Both", 
-        "description": "", 
-        "id": "Both", 
-        "text": "\u4e21\u65b9"
-    }, 
-    {
-        "source": "Center", 
-        "description": "", 
-        "id": "Center", 
-        "text": "\u30bb\u30f3\u30bf\u30fc"
-    }, 
-    {
-        "source": "Fill", 
-        "description": "", 
-        "id": "Fill", 
-        "text": "\u5857\u308a\u3064\u3076\u3057"
-    }, 
-    {
-        "source": "Baseline", 
-        "description": "", 
-        "id": "Baseline", 
-        "text": "\u30d9\u30fc\u30b9\u30e9\u30a4\u30f3"
-    }, 
-    {
-        "source": "Single", 
-        "description": "", 
-        "id": "Single", 
-        "text": "\u30b7\u30f3\u30b0\u30eb"
-    }, 
-    {
-        "source": "Radio", 
-        "description": "", 
-        "id": "Radio", 
-        "text": "\u7121\u7dda"
-    }, 
-    {
-        "source": "Multiple", 
-        "description": "", 
-        "id": "Multiple", 
-        "text": "\u8907\u6570"
-    }, 
-    {
-        "source": "Forward", 
-        "description": "", 
-        "id": "Forward", 
-        "text": "\u9032\u3080"
-    }, 
-    {
-        "source": "Reverse", 
-        "description": "", 
-        "id": "Reverse", 
-        "text": "\u9006"
-    }, 
-    {
-        "source": "Push", 
-        "description": "", 
-        "id": "Push", 
-        "text": "\u62bc\u3059"
-    }, 
-    {
-        "source": "Toggle", 
-        "description": "", 
-        "id": "Toggle", 
-        "text": "\u30c8\u30b0\u30eb"
-    }, 
-    {
-        "source": "Exclusive", 
-        "description": "", 
-        "id": "Exclusive", 
-        "text": "\u72ec\u5360"
-    }, 
-    {
-        "source": "Tiles", 
-        "description": "", 
-        "id": "Tiles", 
-        "text": "\u30bf\u30a4\u30eb"
-    }, 
-    {
-        "source": "List", 
-        "description": "", 
-        "id": "List", 
-        "text": "\u30ea\u30b9\u30c8"
-    }, 
-    {
-        "source": "Background", 
-        "description": "", 
-        "id": "Background", 
-        "text": "\u30d0\u30c3\u30af\u30b0\u30e9\u30a6\u30f3\u30c9"
-    }, 
-    {
-        "source": "Background Header", 
-        "description": "", 
-        "id": "BackgroundHeader", 
-        "text": "\u30d0\u30c3\u30af\u30b0\u30e9\u30a6\u30f3\u30c9\u30d8\u30c3\u30c0"
-    }, 
-    {
-        "source": "Background Bellows", 
-        "description": "", 
-        "id": "BackgroundBellows", 
-        "text": "\u30d0\u30c3\u30af\u30b0\u30e9\u30a6\u30f3\u30c9\u30d9\u30ed\u30fc\u30ba"
-    }, 
-    {
-        "source": "Background ToolBar", 
-        "description": "", 
-        "id": "BackgroundToolBar", 
-        "text": "\u80cc\u666f\u30c4\u30fc\u30eb\u30d0\u30fc"
-    }, 
-    {
-        "source": "Foreground", 
-        "description": "", 
-        "id": "Foreground", 
-        "text": "\u524d\u666f"
-    }, 
-    {
-        "source": "Foreground Dim", 
-        "description": "", 
-        "id": "ForegroundDim", 
-        "text": "\u524d\u666f\u306e\u6697\u3055"
-    }, 
-    {
-        "source": "Border", 
-        "description": "", 
-        "id": "Border", 
-        "text": "\u5883\u754c"
-    }, 
-    {
-        "source": "Border Button", 
-        "description": "", 
-        "id": "BorderButton", 
-        "text": "\u67a0\u30dc\u30bf\u30f3"
-    }, 
-    {
-        "source": "Trough", 
-        "description": "", 
-        "id": "Trough", 
-        "text": "\u30c8\u30e9\u30d5"
-    }, 
-    {
-        "source": "Button", 
-        "description": "", 
-        "id": "Button", 
-        "text": "\u30dc\u30bf\u30f3"
-    }, 
-    {
-        "source": "Hovered", 
-        "description": "", 
-        "id": "Hovered", 
-        "text": "\u30db\u30d0\u30fc"
-    }, 
-    {
-        "source": "Pressed", 
-        "description": "", 
-        "id": "Pressed", 
-        "text": "\u62bc\u3055\u308c\u305f"
-    }, 
-    {
-        "source": "Checked", 
-        "description": "", 
-        "id": "Checked", 
-        "text": "\u30c1\u30a7\u30c3\u30af\u3042\u308a"
-    }, 
-    {
-        "source": "Text Focus", 
-        "description": "", 
-        "id": "TextFocus", 
-        "text": "\u30c6\u30ad\u30b9\u30c8\u30d5\u30a9\u30fc\u30ab\u30b9"
-    }, 
-    {
-        "source": "Tooltip Background", 
-        "description": "", 
-        "id": "TooltipBackground", 
-        "text": "\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7\u306e\u80cc\u666f"
-    }, 
-    {
-        "source": "Tooltip Foreground", 
-        "description": "", 
-        "id": "TooltipForeground", 
-        "text": "\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7\u524d\u666f"
-    }, 
-    {
-        "source": "Overlay", 
-        "description": "", 
-        "id": "Overlay", 
-        "text": "\u30aa\u30fc\u30d0\u30fc\u30ec\u30a4"
-    }, 
-    {
-        "source": "Overlay Light", 
-        "description": "", 
-        "id": "OverlayLight", 
-        "text": "\u30aa\u30fc\u30d0\u30fc\u30ec\u30a4\u30e9\u30a4\u30c8"
-    }, 
-    {
-        "source": "Shadow", 
-        "description": "", 
-        "id": "Shadow", 
-        "text": "\u5f71"
-    }, 
-    {
-        "source": "Handle", 
-        "description": "", 
-        "id": "Handle", 
-        "text": "\u30cf\u30f3\u30c9\u30eb"
-    }, 
-    {
-        "source": "Margin", 
-        "description": "", 
-        "id": "Margin", 
-        "text": "\u30de\u30fc\u30b8\u30f3"
-    }, 
-    {
-        "source": "Margin Small", 
-        "description": "", 
-        "id": "MarginSmall", 
-        "text": "\u30de\u30fc\u30b8\u30f3\u5c0f"
-    }, 
-    {
-        "source": "Margin Large", 
-        "description": "", 
-        "id": "MarginLarge", 
-        "text": "\u30de\u30fc\u30b8\u30f3\u5927"
-    }, 
-    {
-        "source": "Margin Dialog", 
-        "description": "", 
-        "id": "MarginDialog", 
-        "text": "\u30de\u30fc\u30b8\u30f3\u30c0\u30a4\u30a2\u30ed\u30b0"
-    }, 
-    {
-        "source": "Spacing", 
-        "description": "", 
-        "id": "Spacing", 
-        "text": "\u9593\u9694"
-    }, 
-    {
-        "source": "Spacing Small", 
-        "description": "", 
-        "id": "SpacingSmall", 
-        "text": "\u30b9\u30da\u30fc\u30b7\u30f3\u30b0\u30b9\u30e2\u30fc\u30eb"
-    }, 
-    {
-        "source": "Spacing Large", 
-        "description": "", 
-        "id": "SpacingLarge", 
-        "text": "\u5927\u304d\u3044\u9593\u9694"
-    }, 
-    {
-        "source": "Drag", 
-        "description": "", 
-        "id": "Drag", 
-        "text": "\u30c9\u30e9\u30c3\u30b0"
-    }, 
-    {
-        "source": "Icon", 
-        "description": "", 
-        "id": "Icon", 
-        "text": "\u30a2\u30a4\u30b3\u30f3"
-    }, 
-    {
-        "source": "Icon Small", 
-        "description": "", 
-        "id": "IconSmall", 
-        "text": "\u30a2\u30a4\u30b3\u30f3\u5c0f"
-    }, 
-    {
-        "source": "Font Small", 
-        "description": "", 
-        "id": "FontSmall", 
-        "text": "\u5c0f\u3055\u3044\u30d5\u30a9\u30f3\u30c8"
-    }, 
-    {
-        "source": "Font Medium", 
-        "description": "", 
-        "id": "FontMedium", 
-        "text": "\u30d5\u30a9\u30f3\u30c8\u5a92\u4f53"
-    }, 
-    {
-        "source": "Font Large", 
-        "description": "", 
-        "id": "FontLarge", 
-        "text": "\u30d5\u30a9\u30f3\u30c8\u5927"
-    }, 
-    {
-        "source": "Font Header", 
-        "description": "", 
-        "id": "FontHeader", 
-        "text": "\u30d5\u30a9\u30f3\u30c8\u30d8\u30c3\u30c0"
-    }, 
-    {
-        "source": "Font Title", 
-        "description": "", 
-        "id": "FontTitle", 
-        "text": "\u30d5\u30a9\u30f3\u30c8\u306e\u30bf\u30a4\u30c8\u30eb"
-    }, 
-    {
-        "source": "Swatch", 
-        "description": "", 
-        "id": "Swatch", 
-        "text": "\u898b\u672c"
-    }, 
-    {
-        "source": "Slider", 
-        "description": "", 
-        "id": "Slider", 
-        "text": "\u30b9\u30e9\u30a4\u30c0\u30fc"
-    }, 
-    {
-        "source": "Scroll Area", 
-        "description": "", 
-        "id": "ScrollArea", 
-        "text": "\u30b9\u30af\u30ed\u30fc\u30eb\u9818\u57df"
-    }, 
-    {
-        "source": "Menu", 
-        "description": "", 
-        "id": "Menu", 
-        "text": "\u30e1\u30cb\u30e5\u30fc"
-    }, 
-    {
-        "source": "Text Column", 
-        "description": "", 
-        "id": "TextColumn", 
-        "text": "\u30c6\u30ad\u30b9\u30c8\u5217"
-    }, 
-    {
-        "source": "Text Column Large", 
-        "description": "", 
-        "id": "TextColumnLarge", 
-        "text": "\u30c6\u30ad\u30b9\u30c8\u5217\u5927"
-    }, 
-    {
-        "source": "Search Box", 
-        "description": "", 
-        "id": "SearchBox", 
-        "text": "\u691c\u7d22\u30dc\u30c3\u30af\u30b9"
-    }, 
-    {
-        "source": "Dialog", 
-        "description": "", 
-        "id": "Dialog", 
-        "text": "\u30c0\u30a4\u30a2\u30ed\u30b0"
-    }, 
-    {
-        "source": "Shadow Small", 
-        "description": "", 
-        "id": "ShadowSmall", 
-        "text": "\u30b7\u30e3\u30c9\u30fc\u30b9\u30e2\u30fc\u30eb"
-    }, 
-    {
-        "source": "Tooltip Offset", 
-        "description": "", 
-        "id": "TooltipOffset", 
-        "text": "\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7\u30aa\u30d5\u30bb\u30c3\u30c8"
-    }, 
-    {
-        "source": "Move", 
-        "description": "", 
-        "id": "Move", 
-        "text": "\u79fb\u52d5\u3059\u308b"
-    }, 
-    {
-        "source": "Dark", 
-        "description": "", 
-        "id": "Dark", 
-        "text": "\u30c0\u30fc\u30af"
-    }, 
-    {
-        "source": "Light", 
-        "description": "", 
-        "id": "Light", 
-        "text": "\u5149"
-    }, 
-    {
-        "source": "Medium", 
-        "description": "", 
-        "id": "Medium", 
-        "text": "\u4e2d"
-    }, 
-    {
-        "source": "Small", 
-        "description": "", 
-        "id": "Small", 
-        "text": "\u5c0f\u3055\u3044"
-    }, 
-    {
-        "source": "Large", 
-        "description": "", 
-        "id": "Large", 
-        "text": "\u5927"
-    }, 
-    {
-        "source": "Extra Large", 
-        "description": "", 
-        "id": "ExtraLarge", 
-        "text": "\u7279\u5927"
-    }, 
-    {
-        "source": "Default", 
-        "description": "", 
-        "id": "Default", 
-        "text": "\u30c7\u30d5\u30a9\u30eb\u30c8"
-    }, 
-    {
-        "source": "Expand", 
-        "description": "", 
-        "id": "Expand", 
-        "text": "\u5c55\u958b\u3059\u308b"
-    }, 
-    {
-        "source": "Space", 
-        "description": "", 
-        "id": "Space", 
-        "text": "\u30b9\u30da\u30fc\u30b9"
-    }, 
-    {
-        "source": "Apostrophe", 
-        "description": "", 
-        "id": "Apostrophe", 
-        "text": "\u30a2\u30dd\u30b9\u30c8\u30ed\u30d5\u30a3"
-    }, 
-    {
-        "source": "Comma", 
-        "description": "", 
-        "id": "Comma", 
-        "text": "\u30b3\u30f3\u30de"
-    }, 
-    {
-        "source": "Minus", 
-        "description": "", 
-        "id": "Minus", 
-        "text": "\u30de\u30a4\u30ca\u30b9"
-    }, 
-    {
-        "source": "Period", 
-        "description": "", 
-        "id": "Period", 
-        "text": "\u671f\u9593"
-    }, 
-    {
-        "source": "Slash", 
-        "description": "", 
-        "id": "Slash", 
-        "text": "\u30b9\u30e9\u30c3\u30b7\u30e5"
-    }, 
-    {
-        "source": "0", 
-        "description": "", 
-        "id": "0", 
+        "source": "Cannot parse the value.",
+        "description": "",
+        "id": "Cannot parse the value.",
+        "text": "値を解析できません。"
+    },
+    {
+        "source": "Horizontal",
+        "description": "",
+        "id": "Horizontal",
+        "text": "水平"
+    },
+    {
+        "source": "Vertical",
+        "description": "",
+        "id": "Vertical",
+        "text": "垂直"
+    },
+    {
+        "source": "Left",
+        "description": "",
+        "id": "Left",
+        "text": "左"
+    },
+    {
+        "source": "Top",
+        "description": "",
+        "id": "Top",
+        "text": "上"
+    },
+    {
+        "source": "Right",
+        "description": "",
+        "id": "Right",
+        "text": "右"
+    },
+    {
+        "source": "Bottom",
+        "description": "",
+        "id": "Bottom",
+        "text": "底"
+    },
+    {
+        "source": "None",
+        "description": "",
+        "id": "None",
+        "text": "無し"
+    },
+    {
+        "source": "Both",
+        "description": "",
+        "id": "Both",
+        "text": "両方"
+    },
+    {
+        "source": "Center",
+        "description": "",
+        "id": "Center",
+        "text": "センター"
+    },
+    {
+        "source": "Fill",
+        "description": "",
+        "id": "Fill",
+        "text": "塗りつぶし"
+    },
+    {
+        "source": "Baseline",
+        "description": "",
+        "id": "Baseline",
+        "text": "ベースライン"
+    },
+    {
+        "source": "Single",
+        "description": "",
+        "id": "Single",
+        "text": "シングル"
+    },
+    {
+        "source": "Radio",
+        "description": "",
+        "id": "Radio",
+        "text": "無線"
+    },
+    {
+        "source": "Multiple",
+        "description": "",
+        "id": "Multiple",
+        "text": "複数"
+    },
+    {
+        "source": "Forward",
+        "description": "",
+        "id": "Forward",
+        "text": "進む"
+    },
+    {
+        "source": "Reverse",
+        "description": "",
+        "id": "Reverse",
+        "text": "逆"
+    },
+    {
+        "source": "Push",
+        "description": "",
+        "id": "Push",
+        "text": "押す"
+    },
+    {
+        "source": "Toggle",
+        "description": "",
+        "id": "Toggle",
+        "text": "トグル"
+    },
+    {
+        "source": "Exclusive",
+        "description": "",
+        "id": "Exclusive",
+        "text": "独占"
+    },
+    {
+        "source": "Tiles",
+        "description": "",
+        "id": "Tiles",
+        "text": "タイル"
+    },
+    {
+        "source": "List",
+        "description": "",
+        "id": "List",
+        "text": "リスト"
+    },
+    {
+        "source": "Background",
+        "description": "",
+        "id": "Background",
+        "text": "バックグラウンド"
+    },
+    {
+        "source": "Background Header",
+        "description": "",
+        "id": "BackgroundHeader",
+        "text": "バックグラウンドヘッダ"
+    },
+    {
+        "source": "Background Bellows",
+        "description": "",
+        "id": "BackgroundBellows",
+        "text": "バックグラウンドベローズ"
+    },
+    {
+        "source": "Background ToolBar",
+        "description": "",
+        "id": "BackgroundToolBar",
+        "text": "背景ツールバー"
+    },
+    {
+        "source": "Foreground",
+        "description": "",
+        "id": "Foreground",
+        "text": "前景"
+    },
+    {
+        "source": "Foreground Dim",
+        "description": "",
+        "id": "ForegroundDim",
+        "text": "前景の暗さ"
+    },
+    {
+        "source": "Border",
+        "description": "",
+        "id": "Border",
+        "text": "境界"
+    },
+    {
+        "source": "Border Button",
+        "description": "",
+        "id": "BorderButton",
+        "text": "枠ボタン"
+    },
+    {
+        "source": "Trough",
+        "description": "",
+        "id": "Trough",
+        "text": "トラフ"
+    },
+    {
+        "source": "Button",
+        "description": "",
+        "id": "Button",
+        "text": "ボタン"
+    },
+    {
+        "source": "Hovered",
+        "description": "",
+        "id": "Hovered",
+        "text": "ホバー"
+    },
+    {
+        "source": "Pressed",
+        "description": "",
+        "id": "Pressed",
+        "text": "押された"
+    },
+    {
+        "source": "Checked",
+        "description": "",
+        "id": "Checked",
+        "text": "チェックあり"
+    },
+    {
+        "source": "Text Focus",
+        "description": "",
+        "id": "TextFocus",
+        "text": "テキストフォーカス"
+    },
+    {
+        "source": "Tooltip Background",
+        "description": "",
+        "id": "TooltipBackground",
+        "text": "ツールチップの背景"
+    },
+    {
+        "source": "Tooltip Foreground",
+        "description": "",
+        "id": "TooltipForeground",
+        "text": "ツールチップ前景"
+    },
+    {
+        "source": "Overlay",
+        "description": "",
+        "id": "Overlay",
+        "text": "オーバーレイ"
+    },
+    {
+        "source": "Overlay Light",
+        "description": "",
+        "id": "OverlayLight",
+        "text": "オーバーレイライト"
+    },
+    {
+        "source": "Shadow",
+        "description": "",
+        "id": "Shadow",
+        "text": "影"
+    },
+    {
+        "source": "Handle",
+        "description": "",
+        "id": "Handle",
+        "text": "ハンドル"
+    },
+    {
+        "source": "Margin",
+        "description": "",
+        "id": "Margin",
+        "text": "マージン"
+    },
+    {
+        "source": "Margin Small",
+        "description": "",
+        "id": "MarginSmall",
+        "text": "マージン小"
+    },
+    {
+        "source": "Margin Large",
+        "description": "",
+        "id": "MarginLarge",
+        "text": "マージン大"
+    },
+    {
+        "source": "Margin Dialog",
+        "description": "",
+        "id": "MarginDialog",
+        "text": "マージンダイアログ"
+    },
+    {
+        "source": "Spacing",
+        "description": "",
+        "id": "Spacing",
+        "text": "間隔"
+    },
+    {
+        "source": "Spacing Small",
+        "description": "",
+        "id": "SpacingSmall",
+        "text": "スペーシングスモール"
+    },
+    {
+        "source": "Spacing Large",
+        "description": "",
+        "id": "SpacingLarge",
+        "text": "大きい間隔"
+    },
+    {
+        "source": "Drag",
+        "description": "",
+        "id": "Drag",
+        "text": "ドラッグ"
+    },
+    {
+        "source": "Icon",
+        "description": "",
+        "id": "Icon",
+        "text": "アイコン"
+    },
+    {
+        "source": "Icon Small",
+        "description": "",
+        "id": "IconSmall",
+        "text": "アイコン小"
+    },
+    {
+        "source": "Font Small",
+        "description": "",
+        "id": "FontSmall",
+        "text": "小さいフォント"
+    },
+    {
+        "source": "Font Medium",
+        "description": "",
+        "id": "FontMedium",
+        "text": "フォント媒体"
+    },
+    {
+        "source": "Font Large",
+        "description": "",
+        "id": "FontLarge",
+        "text": "フォント大"
+    },
+    {
+        "source": "Font Header",
+        "description": "",
+        "id": "FontHeader",
+        "text": "フォントヘッダ"
+    },
+    {
+        "source": "Font Title",
+        "description": "",
+        "id": "FontTitle",
+        "text": "フォントのタイトル"
+    },
+    {
+        "source": "Swatch",
+        "description": "",
+        "id": "Swatch",
+        "text": "見本"
+    },
+    {
+        "source": "Slider",
+        "description": "",
+        "id": "Slider",
+        "text": "スライダー"
+    },
+    {
+        "source": "Scroll Area",
+        "description": "",
+        "id": "ScrollArea",
+        "text": "スクロール領域"
+    },
+    {
+        "source": "Menu",
+        "description": "",
+        "id": "Menu",
+        "text": "メニュー"
+    },
+    {
+        "source": "Text Column",
+        "description": "",
+        "id": "TextColumn",
+        "text": "テキスト列"
+    },
+    {
+        "source": "Text Column Large",
+        "description": "",
+        "id": "TextColumnLarge",
+        "text": "テキスト列大"
+    },
+    {
+        "source": "Search Box",
+        "description": "",
+        "id": "SearchBox",
+        "text": "検索ボックス"
+    },
+    {
+        "source": "Dialog",
+        "description": "",
+        "id": "Dialog",
+        "text": "ダイアログ"
+    },
+    {
+        "source": "Shadow Small",
+        "description": "",
+        "id": "ShadowSmall",
+        "text": "シャドースモール"
+    },
+    {
+        "source": "Tooltip Offset",
+        "description": "",
+        "id": "TooltipOffset",
+        "text": "ツールチップオフセット"
+    },
+    {
+        "source": "Move",
+        "description": "",
+        "id": "Move",
+        "text": "移動する"
+    },
+    {
+        "source": "Dark",
+        "description": "",
+        "id": "Dark",
+        "text": "ダーク"
+    },
+    {
+        "source": "Light",
+        "description": "",
+        "id": "Light",
+        "text": "光"
+    },
+    {
+        "source": "Medium",
+        "description": "",
+        "id": "Medium",
+        "text": "中"
+    },
+    {
+        "source": "Small",
+        "description": "",
+        "id": "Small",
+        "text": "小さい"
+    },
+    {
+        "source": "Large",
+        "description": "",
+        "id": "Large",
+        "text": "大"
+    },
+    {
+        "source": "Extra Large",
+        "description": "",
+        "id": "ExtraLarge",
+        "text": "特大"
+    },
+    {
+        "source": "Default",
+        "description": "",
+        "id": "Default",
+        "text": "デフォルト"
+    },
+    {
+        "source": "Expand",
+        "description": "",
+        "id": "Expand",
+        "text": "展開する"
+    },
+    {
+        "source": "Space",
+        "description": "",
+        "id": "Space",
+        "text": "スペース"
+    },
+    {
+        "source": "Apostrophe",
+        "description": "",
+        "id": "Apostrophe",
+        "text": "アポストロフィ"
+    },
+    {
+        "source": "Comma",
+        "description": "",
+        "id": "Comma",
+        "text": "コンマ"
+    },
+    {
+        "source": "Minus",
+        "description": "",
+        "id": "Minus",
+        "text": "マイナス"
+    },
+    {
+        "source": "Period",
+        "description": "",
+        "id": "Period",
+        "text": "期間"
+    },
+    {
+        "source": "Slash",
+        "description": "",
+        "id": "Slash",
+        "text": "スラッシュ"
+    },
+    {
+        "source": "0",
+        "description": "",
+        "id": "0",
         "text": "0"
-    }, 
+    },
     {
-        "source": "1", 
-        "description": "", 
-        "id": "1", 
+        "source": "1",
+        "description": "",
+        "id": "1",
         "text": "1"
-    }, 
+    },
     {
-        "source": "2", 
-        "description": "", 
-        "id": "2", 
+        "source": "2",
+        "description": "",
+        "id": "2",
         "text": "2"
-    }, 
+    },
     {
-        "source": "3", 
-        "description": "", 
-        "id": "3", 
+        "source": "3",
+        "description": "",
+        "id": "3",
         "text": "3"
-    }, 
+    },
     {
-        "source": "4", 
-        "description": "", 
-        "id": "4", 
+        "source": "4",
+        "description": "",
+        "id": "4",
         "text": "4"
-    }, 
+    },
     {
-        "source": "5", 
-        "description": "", 
-        "id": "5", 
+        "source": "5",
+        "description": "",
+        "id": "5",
         "text": "5"
-    }, 
+    },
     {
-        "source": "6", 
-        "description": "", 
-        "id": "6", 
+        "source": "6",
+        "description": "",
+        "id": "6",
         "text": "6"
-    }, 
+    },
     {
-        "source": "7", 
-        "description": "", 
-        "id": "7", 
+        "source": "7",
+        "description": "",
+        "id": "7",
         "text": "7"
-    }, 
+    },
     {
-        "source": "8", 
-        "description": "", 
-        "id": "8", 
+        "source": "8",
+        "description": "",
+        "id": "8",
         "text": "8"
-    }, 
+    },
     {
-        "source": "9", 
-        "description": "", 
-        "id": "9", 
+        "source": "9",
+        "description": "",
+        "id": "9",
         "text": "9"
-    }, 
+    },
     {
-        "source": "Semicolon", 
-        "description": "", 
-        "id": "Semicolon", 
-        "text": "\u30bb\u30df\u30b3\u30ed\u30f3"
-    }, 
+        "source": "Semicolon",
+        "description": "",
+        "id": "Semicolon",
+        "text": "セミコロン"
+    },
     {
-        "source": "Equal", 
-        "description": "", 
-        "id": "Equal", 
-        "text": "\u7b49\u3057\u3044"
-    }, 
+        "source": "Equal",
+        "description": "",
+        "id": "Equal",
+        "text": "等しい"
+    },
     {
-        "source": "A", 
-        "description": "", 
-        "id": "A", 
+        "source": "A",
+        "description": "",
+        "id": "A",
         "text": "A"
-    }, 
+    },
     {
-        "source": "B", 
-        "description": "", 
-        "id": "B", 
+        "source": "B",
+        "description": "",
+        "id": "B",
         "text": "B"
-    }, 
+    },
     {
-        "source": "C", 
-        "description": "", 
-        "id": "C", 
+        "source": "C",
+        "description": "",
+        "id": "C",
         "text": "C"
-    }, 
+    },
     {
-        "source": "D", 
-        "description": "", 
-        "id": "D", 
+        "source": "D",
+        "description": "",
+        "id": "D",
         "text": "D"
-    }, 
+    },
     {
-        "source": "E", 
-        "description": "", 
-        "id": "E", 
-        "text": "\u3068"
-    }, 
+        "source": "E",
+        "description": "",
+        "id": "E",
+        "text": "と"
+    },
     {
-        "source": "F", 
-        "description": "", 
-        "id": "F", 
+        "source": "F",
+        "description": "",
+        "id": "F",
         "text": "F"
-    }, 
+    },
     {
-        "source": "G", 
-        "description": "", 
-        "id": "G", 
+        "source": "G",
+        "description": "",
+        "id": "G",
         "text": "G"
-    }, 
+    },
     {
-        "source": "H", 
-        "description": "", 
-        "id": "H", 
+        "source": "H",
+        "description": "",
+        "id": "H",
         "text": "H"
-    }, 
+    },
     {
-        "source": "I", 
-        "description": "", 
-        "id": "I", 
-        "text": "\u79c1"
-    }, 
+        "source": "I",
+        "description": "",
+        "id": "I",
+        "text": "私"
+    },
     {
-        "source": "J", 
-        "description": "", 
-        "id": "J", 
+        "source": "J",
+        "description": "",
+        "id": "J",
         "text": "J"
-    }, 
+    },
     {
-        "source": "K", 
-        "description": "", 
-        "id": "K", 
+        "source": "K",
+        "description": "",
+        "id": "K",
         "text": "K"
-    }, 
+    },
     {
-        "source": "L", 
-        "description": "", 
-        "id": "L", 
-        "text": "\u30b6\u30fb"
-    }, 
+        "source": "L",
+        "description": "",
+        "id": "L",
+        "text": "ザ・"
+    },
     {
-        "source": "M", 
-        "description": "", 
-        "id": "M", 
+        "source": "M",
+        "description": "",
+        "id": "M",
         "text": "M"
-    }, 
+    },
     {
-        "source": "N", 
-        "description": "", 
-        "id": "N", 
+        "source": "N",
+        "description": "",
+        "id": "N",
         "text": "N"
-    }, 
+    },
     {
-        "source": "O", 
-        "description": "", 
-        "id": "O", 
-        "text": "\u25cb"
-    }, 
+        "source": "O",
+        "description": "",
+        "id": "O",
+        "text": "○"
+    },
     {
-        "source": "P", 
-        "description": "", 
-        "id": "P", 
+        "source": "P",
+        "description": "",
+        "id": "P",
         "text": "P"
-    }, 
+    },
     {
-        "source": "Q", 
-        "description": "", 
-        "id": "Q", 
+        "source": "Q",
+        "description": "",
+        "id": "Q",
         "text": "Q"
-    }, 
+    },
     {
-        "source": "R", 
-        "description": "", 
-        "id": "R", 
+        "source": "R",
+        "description": "",
+        "id": "R",
         "text": "R"
-    }, 
+    },
     {
-        "source": "S", 
-        "description": "", 
-        "id": "S", 
+        "source": "S",
+        "description": "",
+        "id": "S",
         "text": "S"
-    }, 
+    },
     {
-        "source": "T", 
-        "description": "", 
-        "id": "T", 
+        "source": "T",
+        "description": "",
+        "id": "T",
         "text": "T"
-    }, 
+    },
     {
-        "source": "U", 
-        "description": "", 
-        "id": "U", 
+        "source": "U",
+        "description": "",
+        "id": "U",
         "text": "U"
-    }, 
+    },
     {
-        "source": "V", 
-        "description": "", 
-        "id": "V", 
+        "source": "V",
+        "description": "",
+        "id": "V",
         "text": "V"
-    }, 
+    },
     {
-        "source": "W", 
-        "description": "", 
-        "id": "W", 
-        "text": "\u30b6\u30fb"
-    }, 
+        "source": "W",
+        "description": "",
+        "id": "W",
+        "text": "ザ・"
+    },
     {
-        "source": "X", 
-        "description": "", 
-        "id": "X", 
-        "text": "\u30d0\u30c4"
-    }, 
+        "source": "X",
+        "description": "",
+        "id": "X",
+        "text": "バツ"
+    },
     {
-        "source": "Y", 
-        "description": "", 
-        "id": "Y", 
+        "source": "Y",
+        "description": "",
+        "id": "Y",
         "text": "Y"
-    }, 
+    },
     {
-        "source": "Z", 
-        "description": "", 
-        "id": "Z", 
-        "text": "\u3068\u3068\u3082\u306b"
-    }, 
+        "source": "Z",
+        "description": "",
+        "id": "Z",
+        "text": "とともに"
+    },
     {
-        "source": "Left Bracket", 
-        "description": "", 
-        "id": "LeftBracket", 
-        "text": "\u5de6\u30d6\u30e9\u30b1\u30c3\u30c8"
-    }, 
+        "source": "Left Bracket",
+        "description": "",
+        "id": "LeftBracket",
+        "text": "左ブラケット"
+    },
     {
-        "source": "Backslash", 
-        "description": "", 
-        "id": "Backslash", 
-        "text": "\u30d0\u30c3\u30af\u30b9\u30e9\u30c3\u30b7\u30e5"
-    }, 
+        "source": "Backslash",
+        "description": "",
+        "id": "Backslash",
+        "text": "バックスラッシュ"
+    },
     {
-        "source": "Right Bracket", 
-        "description": "", 
-        "id": "RightBracket", 
-        "text": "\u53f3\u30d6\u30e9\u30b1\u30c3\u30c8"
-    }, 
+        "source": "Right Bracket",
+        "description": "",
+        "id": "RightBracket",
+        "text": "右ブラケット"
+    },
     {
-        "source": "Grave Accent", 
-        "description": "", 
-        "id": "GraveAccent", 
-        "text": "\u6df1\u523b\u306a\u30a2\u30af\u30bb\u30f3\u30c8"
-    }, 
+        "source": "Grave Accent",
+        "description": "",
+        "id": "GraveAccent",
+        "text": "深刻なアクセント"
+    },
     {
-        "source": "World 1", 
-        "description": "", 
-        "id": "World1", 
-        "text": "\u30ef\u30fc\u30eb\u30c91"
-    }, 
+        "source": "World 1",
+        "description": "",
+        "id": "World1",
+        "text": "ワールド1"
+    },
     {
-        "source": "World 2", 
-        "description": "", 
-        "id": "World2", 
-        "text": "\u30ef\u30fc\u30eb\u30c92"
-    }, 
+        "source": "World 2",
+        "description": "",
+        "id": "World2",
+        "text": "ワールド2"
+    },
     {
-        "source": "Escape", 
-        "description": "", 
-        "id": "Escape", 
-        "text": "\u30a8\u30b9\u30b1\u30fc\u30d7"
-    }, 
+        "source": "Escape",
+        "description": "",
+        "id": "Escape",
+        "text": "エスケープ"
+    },
     {
-        "source": "Enter", 
-        "description": "", 
-        "id": "Enter", 
-        "text": "\u5165\u308b"
-    }, 
+        "source": "Enter",
+        "description": "",
+        "id": "Enter",
+        "text": "入る"
+    },
     {
-        "source": "Tab", 
-        "description": "", 
-        "id": "Tab", 
-        "text": "\u30bf\u30d6"
-    }, 
+        "source": "Tab",
+        "description": "",
+        "id": "Tab",
+        "text": "タブ"
+    },
     {
-        "source": "Backspace", 
-        "description": "", 
-        "id": "Backspace", 
-        "text": "\u30d0\u30c3\u30af\u30b9\u30da\u30fc\u30b9"
-    }, 
+        "source": "Backspace",
+        "description": "",
+        "id": "Backspace",
+        "text": "バックスペース"
+    },
     {
-        "source": "Insert", 
-        "description": "", 
-        "id": "Insert", 
-        "text": "\u30a4\u30f3\u30b5\u30fc\u30c8"
-    }, 
+        "source": "Insert",
+        "description": "",
+        "id": "Insert",
+        "text": "インサート"
+    },
     {
-        "source": "Delete", 
-        "description": "", 
-        "id": "Delete", 
-        "text": "\u524a\u9664\u3059\u308b"
-    }, 
+        "source": "Delete",
+        "description": "",
+        "id": "Delete",
+        "text": "削除する"
+    },
     {
-        "source": "Right Arrow", 
-        "description": "", 
-        "id": "RightArrow", 
-        "text": "\u53f3\u77e2\u5370"
-    }, 
+        "source": "Right Arrow",
+        "description": "",
+        "id": "RightArrow",
+        "text": "右矢印"
+    },
     {
-        "source": "Left Arrow", 
-        "description": "", 
-        "id": "LeftArrow", 
-        "text": "\u5de6\u77e2\u5370"
-    }, 
+        "source": "Left Arrow",
+        "description": "",
+        "id": "LeftArrow",
+        "text": "左矢印"
+    },
     {
-        "source": "Down Arrow", 
-        "description": "", 
-        "id": "DownArrow", 
-        "text": "\u4e0b\u77e2\u5370"
-    }, 
+        "source": "Down Arrow",
+        "description": "",
+        "id": "DownArrow",
+        "text": "下矢印"
+    },
     {
-        "source": "Up Arrow", 
-        "description": "", 
-        "id": "UpArrow", 
-        "text": "\u4e0a\u77e2\u5370"
-    }, 
+        "source": "Up Arrow",
+        "description": "",
+        "id": "UpArrow",
+        "text": "上矢印"
+    },
     {
-        "source": "Page Up", 
-        "description": "", 
-        "id": "PageUp", 
-        "text": "\u30da\u30fc\u30b8\u30a2\u30c3\u30d7"
-    }, 
+        "source": "Page Up",
+        "description": "",
+        "id": "PageUp",
+        "text": "ページアップ"
+    },
     {
-        "source": "Page Down", 
-        "description": "", 
-        "id": "PageDown", 
-        "text": "\u30da\u30fc\u30b8\u30c0\u30a6\u30f3"
-    }, 
+        "source": "Page Down",
+        "description": "",
+        "id": "PageDown",
+        "text": "ページダウン"
+    },
     {
-        "source": "Home", 
-        "description": "", 
-        "id": "Home", 
-        "text": "\u30db\u30fc\u30e0"
-    }, 
+        "source": "Home",
+        "description": "",
+        "id": "Home",
+        "text": "ホーム"
+    },
     {
-        "source": "End", 
-        "description": "", 
-        "id": "End", 
-        "text": "\u7d42\u308f\u308a"
-    }, 
+        "source": "End",
+        "description": "",
+        "id": "End",
+        "text": "終わり"
+    },
     {
-        "source": "Caps Lock", 
-        "description": "", 
-        "id": "CapsLock", 
-        "text": "\u30ad\u30e3\u30c3\u30d7\u30b9\u30ed\u30c3\u30af"
-    }, 
+        "source": "Caps Lock",
+        "description": "",
+        "id": "CapsLock",
+        "text": "キャップスロック"
+    },
     {
-        "source": "Scroll Lock", 
-        "description": "", 
-        "id": "ScrollLock", 
-        "text": "\u30b9\u30af\u30ed\u30fc\u30eb\u30ed\u30c3\u30af"
-    }, 
+        "source": "Scroll Lock",
+        "description": "",
+        "id": "ScrollLock",
+        "text": "スクロールロック"
+    },
     {
-        "source": "Num Lock", 
-        "description": "", 
-        "id": "NumLock", 
+        "source": "Num Lock",
+        "description": "",
+        "id": "NumLock",
         "text": "Num Lock"
-    }, 
+    },
     {
-        "source": "Print Screen", 
-        "description": "", 
-        "id": "PrintScreen", 
-        "text": "\u5370\u5237\u753b\u9762"
-    }, 
+        "source": "Print Screen",
+        "description": "",
+        "id": "PrintScreen",
+        "text": "印刷画面"
+    },
     {
-        "source": "F1", 
-        "description": "", 
-        "id": "F1", 
+        "source": "F1",
+        "description": "",
+        "id": "F1",
         "text": "F1"
-    }, 
+    },
     {
-        "source": "F2", 
-        "description": "", 
-        "id": "F2", 
+        "source": "F2",
+        "description": "",
+        "id": "F2",
         "text": "F2"
-    }, 
+    },
     {
-        "source": "F3", 
-        "description": "", 
-        "id": "F3", 
+        "source": "F3",
+        "description": "",
+        "id": "F3",
         "text": "F3"
-    }, 
+    },
     {
-        "source": "F4", 
-        "description": "", 
-        "id": "F4", 
+        "source": "F4",
+        "description": "",
+        "id": "F4",
         "text": "F4"
-    }, 
+    },
     {
-        "source": "F5", 
-        "description": "", 
-        "id": "F5", 
+        "source": "F5",
+        "description": "",
+        "id": "F5",
         "text": "F5"
-    }, 
+    },
     {
-        "source": "F6", 
-        "description": "", 
-        "id": "F6", 
+        "source": "F6",
+        "description": "",
+        "id": "F6",
         "text": "F6"
-    }, 
+    },
     {
-        "source": "F7", 
-        "description": "", 
-        "id": "F7", 
+        "source": "F7",
+        "description": "",
+        "id": "F7",
         "text": "F7"
-    }, 
+    },
     {
-        "source": "F8", 
-        "description": "", 
-        "id": "F8", 
+        "source": "F8",
+        "description": "",
+        "id": "F8",
         "text": "F8"
-    }, 
+    },
     {
-        "source": "F9", 
-        "description": "", 
-        "id": "F9", 
+        "source": "F9",
+        "description": "",
+        "id": "F9",
         "text": "F9"
-    }, 
+    },
     {
-        "source": "F10", 
-        "description": "", 
-        "id": "F10", 
+        "source": "F10",
+        "description": "",
+        "id": "F10",
         "text": "F10"
-    }, 
+    },
     {
-        "source": "F11", 
-        "description": "", 
-        "id": "F11", 
+        "source": "F11",
+        "description": "",
+        "id": "F11",
         "text": "F11"
-    }, 
+    },
     {
-        "source": "F12", 
-        "description": "", 
-        "id": "F12", 
+        "source": "F12",
+        "description": "",
+        "id": "F12",
         "text": "F12"
-    }, 
+    },
     {
-        "source": "F13", 
-        "description": "", 
-        "id": "F13", 
+        "source": "F13",
+        "description": "",
+        "id": "F13",
         "text": "F13"
-    }, 
+    },
     {
-        "source": "F14", 
-        "description": "", 
-        "id": "F14", 
+        "source": "F14",
+        "description": "",
+        "id": "F14",
         "text": "F14"
-    }, 
+    },
     {
-        "source": "F15", 
-        "description": "", 
-        "id": "F15", 
+        "source": "F15",
+        "description": "",
+        "id": "F15",
         "text": "F15"
-    }, 
+    },
     {
-        "source": "F16", 
-        "description": "", 
-        "id": "F16", 
+        "source": "F16",
+        "description": "",
+        "id": "F16",
         "text": "F16"
-    }, 
+    },
     {
-        "source": "F17", 
-        "description": "", 
-        "id": "F17", 
+        "source": "F17",
+        "description": "",
+        "id": "F17",
         "text": "F17"
-    }, 
+    },
     {
-        "source": "F18", 
-        "description": "", 
-        "id": "F18", 
+        "source": "F18",
+        "description": "",
+        "id": "F18",
         "text": "F18"
-    }, 
+    },
     {
-        "source": "F19", 
-        "description": "", 
-        "id": "F19", 
+        "source": "F19",
+        "description": "",
+        "id": "F19",
         "text": "F19"
-    }, 
+    },
     {
-        "source": "F20", 
-        "description": "", 
-        "id": "F20", 
+        "source": "F20",
+        "description": "",
+        "id": "F20",
         "text": "F20"
-    }, 
+    },
     {
-        "source": "F21", 
-        "description": "", 
-        "id": "F21", 
+        "source": "F21",
+        "description": "",
+        "id": "F21",
         "text": "F21"
-    }, 
+    },
     {
-        "source": "F22", 
-        "description": "", 
-        "id": "F22", 
+        "source": "F22",
+        "description": "",
+        "id": "F22",
         "text": "F22"
-    }, 
+    },
     {
-        "source": "F23", 
-        "description": "", 
-        "id": "F23", 
+        "source": "F23",
+        "description": "",
+        "id": "F23",
         "text": "F23"
-    }, 
+    },
     {
-        "source": "F24", 
-        "description": "", 
-        "id": "F24", 
+        "source": "F24",
+        "description": "",
+        "id": "F24",
         "text": "F24"
-    }, 
+    },
     {
-        "source": "F25", 
-        "description": "", 
-        "id": "F25", 
+        "source": "F25",
+        "description": "",
+        "id": "F25",
         "text": "F25"
-    }, 
+    },
     {
-        "source": "Key Pad 0", 
-        "description": "", 
-        "id": "KeyPad0", 
-        "text": "\u30ad\u30fc\u30d1\u30c3\u30c90"
-    }, 
+        "source": "Key Pad 0",
+        "description": "",
+        "id": "KeyPad0",
+        "text": "キーパッド0"
+    },
     {
-        "source": "Key Pad 1", 
-        "description": "", 
-        "id": "KeyPad1", 
-        "text": "\u30ad\u30fc\u30d1\u30c3\u30c91"
-    }, 
+        "source": "Key Pad 1",
+        "description": "",
+        "id": "KeyPad1",
+        "text": "キーパッド1"
+    },
     {
-        "source": "Key Pad 2", 
-        "description": "", 
-        "id": "KeyPad2", 
-        "text": "\u30ad\u30fc\u30d1\u30c3\u30c92"
-    }, 
+        "source": "Key Pad 2",
+        "description": "",
+        "id": "KeyPad2",
+        "text": "キーパッド2"
+    },
     {
-        "source": "Key Pad 3", 
-        "description": "", 
-        "id": "KeyPad3", 
-        "text": "\u30ad\u30fc\u30d1\u30c3\u30c93"
-    }, 
+        "source": "Key Pad 3",
+        "description": "",
+        "id": "KeyPad3",
+        "text": "キーパッド3"
+    },
     {
-        "source": "Key Pad 4", 
-        "description": "", 
-        "id": "KeyPad4", 
-        "text": "\u30ad\u30fc\u30d1\u30c3\u30c94"
-    }, 
+        "source": "Key Pad 4",
+        "description": "",
+        "id": "KeyPad4",
+        "text": "キーパッド4"
+    },
     {
-        "source": "Key Pad 5", 
-        "description": "", 
-        "id": "KeyPad5", 
-        "text": "\u30ad\u30fc\u30d1\u30c3\u30c95"
-    }, 
+        "source": "Key Pad 5",
+        "description": "",
+        "id": "KeyPad5",
+        "text": "キーパッド5"
+    },
     {
-        "source": "Key Pad 6", 
-        "description": "", 
-        "id": "KeyPad6", 
-        "text": "\u30ad\u30fc\u30d1\u30c3\u30c96"
-    }, 
+        "source": "Key Pad 6",
+        "description": "",
+        "id": "KeyPad6",
+        "text": "キーパッド6"
+    },
     {
-        "source": "Key Pad 7", 
-        "description": "", 
-        "id": "KeyPad7", 
-        "text": "\u30ad\u30fc\u30d1\u30c3\u30c97"
-    }, 
+        "source": "Key Pad 7",
+        "description": "",
+        "id": "KeyPad7",
+        "text": "キーパッド7"
+    },
     {
-        "source": "Key Pad 8", 
-        "description": "", 
-        "id": "KeyPad8", 
-        "text": "\u30ad\u30fc\u30d1\u30c3\u30c98"
-    }, 
+        "source": "Key Pad 8",
+        "description": "",
+        "id": "KeyPad8",
+        "text": "キーパッド8"
+    },
     {
-        "source": "Key Pad 9", 
-        "description": "", 
-        "id": "KeyPad9", 
-        "text": "\u30ad\u30fc\u30d1\u30c3\u30c99"
-    }, 
+        "source": "Key Pad 9",
+        "description": "",
+        "id": "KeyPad9",
+        "text": "キーパッド9"
+    },
     {
-        "source": "Key Pad Decimal", 
-        "description": "", 
-        "id": "KeyPadDecimal", 
-        "text": "\u30ad\u30fc\u30d1\u30c3\u30c910\u9032\u6570"
-    }, 
+        "source": "Key Pad Decimal",
+        "description": "",
+        "id": "KeyPadDecimal",
+        "text": "キーパッド10進数"
+    },
     {
-        "source": "Key Pad Divide", 
-        "description": "", 
-        "id": "KeyPadDivide", 
-        "text": "\u30ad\u30fc\u30d1\u30c3\u30c9\u5206\u5272"
-    }, 
+        "source": "Key Pad Divide",
+        "description": "",
+        "id": "KeyPadDivide",
+        "text": "キーパッド分割"
+    },
     {
-        "source": "Key Pad Multiply", 
-        "description": "", 
-        "id": "KeyPadMultiply", 
-        "text": "\u30ad\u30fc\u30d1\u30c3\u30c9\u4e57\u7b97"
-    }, 
+        "source": "Key Pad Multiply",
+        "description": "",
+        "id": "KeyPadMultiply",
+        "text": "キーパッド乗算"
+    },
     {
-        "source": "Key Pad Substract", 
-        "description": "", 
-        "id": "KeyPadSubstract", 
-        "text": "\u30ad\u30fc\u30d1\u30c3\u30c9"
-    }, 
+        "source": "Key Pad Substract",
+        "description": "",
+        "id": "KeyPadSubstract",
+        "text": "キーパッド"
+    },
     {
-        "source": "Key Pad Add", 
-        "description": "", 
-        "id": "KeyPadAdd", 
-        "text": "\u30ad\u30fc\u30d1\u30c3\u30c9\u8ffd\u52a0"
-    }, 
+        "source": "Key Pad Add",
+        "description": "",
+        "id": "KeyPadAdd",
+        "text": "キーパッド追加"
+    },
     {
-        "source": "Key Pad Enter", 
-        "description": "", 
-        "id": "KeyPadEnter", 
-        "text": "\u30ad\u30fc\u30d1\u30c3\u30c9"
-    }, 
+        "source": "Key Pad Enter",
+        "description": "",
+        "id": "KeyPadEnter",
+        "text": "キーパッド"
+    },
     {
-        "source": "Key Pad Equal", 
-        "description": "", 
-        "id": "KeyPadEqual", 
-        "text": "\u7b49\u3057\u3044\u30ad\u30fc\u30d1\u30c3\u30c9"
-    }, 
+        "source": "Key Pad Equal",
+        "description": "",
+        "id": "KeyPadEqual",
+        "text": "等しいキーパッド"
+    },
     {
-        "source": "Left Shift", 
-        "description": "", 
-        "id": "LeftShift", 
-        "text": "\u5de6\u65b9\u79fb\u52d5"
-    }, 
+        "source": "Left Shift",
+        "description": "",
+        "id": "LeftShift",
+        "text": "左方移動"
+    },
     {
-        "source": "Left Control", 
-        "description": "", 
-        "id": "LeftControl", 
-        "text": "\u5de6\u30b3\u30f3\u30c8\u30ed\u30fc\u30eb"
-    }, 
+        "source": "Left Control",
+        "description": "",
+        "id": "LeftControl",
+        "text": "左コントロール"
+    },
     {
-        "source": "Left Alt", 
-        "description": "", 
-        "id": "LeftAlt", 
-        "text": "\u5de6Alt"
-    }, 
+        "source": "Left Alt",
+        "description": "",
+        "id": "LeftAlt",
+        "text": "左Alt"
+    },
     {
-        "source": "Left Command", 
-        "description": "", 
-        "id": "LeftCommand", 
-        "text": "\u5de6\u306e\u30b3\u30de\u30f3\u30c9"
-    }, 
+        "source": "Left Command",
+        "description": "",
+        "id": "LeftCommand",
+        "text": "左のコマンド"
+    },
     {
-        "source": "Right Shift", 
-        "description": "", 
-        "id": "RightShift", 
-        "text": "\u53f3\u30b7\u30d5\u30c8"
-    }, 
+        "source": "Right Shift",
+        "description": "",
+        "id": "RightShift",
+        "text": "右シフト"
+    },
     {
-        "source": "Right Control", 
-        "description": "", 
-        "id": "RightControl", 
-        "text": "\u6b63\u3057\u3044\u7ba1\u7406"
-    }, 
+        "source": "Right Control",
+        "description": "",
+        "id": "RightControl",
+        "text": "正しい管理"
+    },
     {
-        "source": "Right Alt", 
-        "description": "", 
-        "id": "RightAlt", 
-        "text": "\u53f3Alt"
-    }, 
+        "source": "Right Alt",
+        "description": "",
+        "id": "RightAlt",
+        "text": "右Alt"
+    },
     {
-        "source": "Right Command", 
-        "description": "", 
-        "id": "RightCommand", 
-        "text": "\u6b63\u3057\u3044\u30b3\u30de\u30f3\u30c9"
-    }, 
+        "source": "Right Command",
+        "description": "",
+        "id": "RightCommand",
+        "text": "正しいコマンド"
+    },
     {
-        "source": "Shift", 
-        "description": "", 
-        "id": "Shift", 
-        "text": "\u30b7\u30d5\u30c8"
-    }, 
+        "source": "Shift",
+        "description": "",
+        "id": "Shift",
+        "text": "シフト"
+    },
     {
-        "source": "Ctrl", 
-        "description": "", 
-        "id": "Ctrl", 
+        "source": "Ctrl",
+        "description": "",
+        "id": "Ctrl",
         "text": "Ctrl"
-    }, 
+    },
     {
-        "source": "Alt", 
-        "description": "", 
-        "id": "Alt", 
-        "text": "\u3059\u3079\u3066"
-    }, 
+        "source": "Alt",
+        "description": "",
+        "id": "Alt",
+        "text": "すべて"
+    },
     {
-        "source": "Command", 
-        "description": "", 
-        "id": "Command", 
-        "text": "\u30b3\u30de\u30f3\u30c9"
-    }, 
+        "source": "Command",
+        "description": "",
+        "id": "Command",
+        "text": "コマンド"
+    },
     {
-        "source": "Cached", 
-        "description": "", 
-        "id": "Cached", 
-        "text": "\u30ad\u30e3\u30c3\u30b7\u30e5\u6e08\u307f"
-    }, 
+        "source": "Cached",
+        "description": "",
+        "id": "Cached",
+        "text": "キャッシュ済み"
+    },
     {
-        "source": "Scrub", 
-        "description": "", 
-        "id": "Scrub", 
-        "text": "\u30b9\u30af\u30e9\u30d6"
-    }, 
+        "source": "Scrub",
+        "description": "",
+        "id": "Scrub",
+        "text": "スクラブ"
+    },
     {
-        "source": "Keyboard shortcut", 
-        "description": "", 
-        "id": "Keyboard shortcut", 
-        "text": "\u30ad\u30fc\u30dc\u30fc\u30c9\u30b7\u30e7\u30fc\u30c8\u30ab\u30c3\u30c8"
-    }, 
+        "source": "Keyboard shortcut",
+        "description": "",
+        "id": "Keyboard shortcut",
+        "text": "キーボードショートカット"
+    },
     {
-        "source": "Keyboard shortcuts", 
-        "description": "", 
-        "id": "Keyboard shortcuts", 
-        "text": "\u30ad\u30fc\u30dc\u30fc\u30c9\u30b7\u30e7\u30fc\u30c8\u30ab\u30c3\u30c8"
-    }, 
+        "source": "Keyboard shortcuts",
+        "description": "",
+        "id": "Keyboard shortcuts",
+        "text": "キーボードショートカット"
+    },
     {
-        "source": "IconMini", 
-        "text": "IconMini", 
-        "id": "IconMini", 
+        "source": "IconMini",
+        "text": "IconMini",
+        "id": "IconMini",
         "description": ""
-    }, 
+    },
     {
-        "source": "SwatchSmall", 
-        "text": "\u30b9\u30a6\u30a9\u30c3\u30c1\u30b9\u30e2\u30fc\u30eb", 
-        "id": "SwatchSmall", 
+        "source": "SwatchSmall",
+        "text": "スウォッチスモール",
+        "id": "SwatchSmall",
         "description": ""
-    }, 
+    },
     {
-        "source": "ScrollBar", 
-        "text": "\u30b9\u30af\u30ed\u30fc\u30eb\u30fb\u30d0\u30fc", 
-        "id": "ScrollBar", 
+        "source": "ScrollBar",
+        "text": "スクロール・バー",
+        "id": "ScrollBar",
         "description": ""
-    }, 
+    },
     {
-        "source": "ScrollBarSmall", 
-        "text": "ScrollBarSmall", 
-        "id": "ScrollBarSmall", 
+        "source": "ScrollBarSmall",
+        "text": "ScrollBarSmall",
+        "id": "ScrollBarSmall",
         "description": ""
-    }, 
+    },
     {
-        "source": "Native", 
-        "text": "\u30cd\u30a4\u30c6\u30a3\u30d6", 
-        "id": "Native", 
+        "source": "Native",
+        "text": "ネイティブ",
+        "id": "Native",
         "description": ""
-    }, 
+    },
     {
-        "source": "16:9", 
-        "text": "16\uff1a9", 
-        "id": "16:9", 
+        "source": "16:9",
+        "text": "16：9",
+        "id": "16:9",
         "description": ""
-    }, 
+    },
     {
-        "source": "1.85", 
-        "text": "1.85", 
-        "id": "1.85", 
+        "source": "1.85",
+        "text": "1.85",
+        "id": "1.85",
         "description": ""
-    }, 
+    },
     {
-        "source": "2.35", 
-        "text": "2.35", 
-        "id": "2.35", 
+        "source": "2.35",
+        "text": "2.35",
+        "id": "2.35",
         "description": ""
-    }, 
+    },
     {
-        "source": "Reset the value.", 
-        "text": "\u5024\u3092\u30ea\u30bb\u30c3\u30c8\u3057\u307e\u3059\u3002", 
-        "id": "Reset the value.", 
+        "source": "Reset the value.",
+        "text": "値をリセットします。",
+        "id": "Reset the value.",
         "description": ""
-    }, 
+    },
     {
-        "source": "BelowRight", 
-        "text": "BelowRight", 
-        "description": "", 
+        "source": "BelowRight",
+        "text": "BelowRight",
+        "description": "",
         "id": "BelowRight"
-    }, 
+    },
     {
-        "source": "BelowLeft", 
-        "text": "\u4e0b\u5de6", 
-        "description": "", 
+        "source": "BelowLeft",
+        "text": "下左",
+        "description": "",
         "id": "BelowLeft"
-    }, 
+    },
     {
-        "source": "AboveRight", 
-        "text": "\u4e0a\u8a18\u53f3", 
-        "description": "", 
+        "source": "AboveRight",
+        "text": "上記右",
+        "description": "",
         "id": "AboveRight"
-    }, 
+    },
     {
-        "source": "AboveLeft", 
-        "text": "\u4e0a\u5de6", 
-        "description": "", 
+        "source": "AboveLeft",
+        "text": "上左",
+        "description": "",
         "id": "AboveLeft"
     }
 ]

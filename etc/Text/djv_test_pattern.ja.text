@@ -1,86 +1,86 @@
 [
     {
-        "source": " Usage:", 
-        "text": "\u4f7f\u7528\u6cd5\uff1a", 
-        "id": " Usage:", 
+        "source": " Usage:",
+        "text": "使用法：",
+        "id": " Usage:",
         "description": ""
-    }, 
+    },
     {
-        "source": "   djv_test_pattern (output) [option, ...]", 
-        "text": "djv_test_pattern\uff08\u51fa\u529b\uff09[\u30aa\u30d7\u30b7\u30e7\u30f3\u3001...]", 
-        "id": "   djv_test_pattern (output) [option, ...]", 
+        "source": "   djv_test_pattern (output) [option, ...]",
+        "text": "djv_test_pattern（出力）[オプション、...]",
+        "id": "   djv_test_pattern (output) [option, ...]",
         "description": ""
-    }, 
+    },
     {
-        "source": " Options:", 
-        "text": "\u30aa\u30d7\u30b7\u30e7\u30f3\uff1a", 
-        "id": " Options:", 
+        "source": " Options:",
+        "text": "オプション：",
+        "id": " Options:",
         "description": ""
-    }, 
+    },
     {
-        "source": "   -frameCount (value)", 
-        "text": "-frameCount\uff08\u5024\uff09", 
-        "id": "   -frameCount (value)", 
+        "source": "   -frameCount (value)",
+        "text": "-frameCount（値）",
+        "id": "   -frameCount (value)",
         "description": ""
-    }, 
+    },
     {
-        "source": "   The number of frames to render. Default: ", 
-        "text": "\u30ec\u30f3\u30c0\u30ea\u30f3\u30b0\u3059\u308b\u30d5\u30ec\u30fc\u30e0\u306e\u6570\u3002\u30c7\u30d5\u30a9\u30eb\u30c8\uff1a", 
-        "id": "   The number of frames to render. Default: ", 
+        "source": "   The number of frames to render. Default: ",
+        "text": "レンダリングするフレームの数。デフォルト：",
+        "id": "   The number of frames to render. Default: ",
         "description": ""
-    }, 
+    },
     {
-        "source": "   -size \\\"(width) (height)\\\"", 
-        "text": "-size \\ &quot;\uff08width\uff09\uff08height\uff09\\&quot;", 
-        "id": "   -size \\\"(width) (height)\\\"", 
+        "source": "   -size \\\"(width) (height)\\\"",
+        "text": "-size \\ &quot;（width）（height）\\&quot;",
+        "id": "   -size \\\"(width) (height)\\\"",
         "description": ""
-    }, 
+    },
     {
-        "source": "   The image resolution. Default: ", 
-        "text": "\u753b\u50cf\u306e\u89e3\u50cf\u5ea6\u3002\u30c7\u30d5\u30a9\u30eb\u30c8\uff1a", 
-        "id": "   The image resolution. Default: ", 
+        "source": "   The image resolution. Default: ",
+        "text": "画像の解像度。デフォルト：",
+        "id": "   The image resolution. Default: ",
         "description": ""
-    }, 
+    },
     {
-        "source": "   -type (value)", 
-        "text": "-type\uff08\u5024\uff09", 
-        "id": "   -type (value)", 
+        "source": "   -type (value)",
+        "text": "-type（値）",
+        "id": "   -type (value)",
         "description": ""
-    }, 
+    },
     {
-        "source": "   The image type. Default: ", 
-        "text": "\u753b\u50cf\u30bf\u30a4\u30d7\u3002\u30c7\u30d5\u30a9\u30eb\u30c8\uff1a", 
-        "id": "   The image type. Default: ", 
+        "source": "   The image type. Default: ",
+        "text": "画像タイプ。デフォルト：",
+        "id": "   The image type. Default: ",
         "description": ""
-    }, 
+    },
     {
-        "source": " Examples:", 
-        "text": "\u4f8b\uff1a", 
-        "id": " Examples:", 
+        "source": " Examples:",
+        "text": "例：",
+        "id": " Examples:",
         "description": ""
-    }, 
+    },
     {
-        "source": "   > djv_test_pattern test.1.dpx", 
-        "text": "&gt; djv_test_pattern test.1.dpx", 
-        "id": "   > djv_test_pattern test.1.dpx", 
+        "source": "   > djv_test_pattern test.1.dpx",
+        "text": "&gt; djv_test_pattern test.1.dpx",
+        "id": "   > djv_test_pattern test.1.dpx",
         "description": ""
-    }, 
+    },
     {
-        "source": "   Render a test pattern with the default values.", 
-        "text": "\u30c7\u30d5\u30a9\u30eb\u30c8\u5024\u3067\u30c6\u30b9\u30c8\u30d1\u30bf\u30fc\u30f3\u3092\u30ec\u30f3\u30c0\u30ea\u30f3\u30b0\u3057\u307e\u3059\u3002", 
-        "id": "   Render a test pattern with the default values.", 
+        "source": "   Render a test pattern with the default values.",
+        "text": "デフォルト値でテストパターンをレンダリングします。",
+        "id": "   Render a test pattern with the default values.",
         "description": ""
-    }, 
+    },
     {
-        "source": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16", 
-        "text": "&gt; djv_test_pattern test.1.tif -size &#39;3840 2160&#39; -type RGB_U16", 
-        "id": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16", 
+        "source": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16",
+        "text": "&gt; djv_test_pattern test.1.tif -size &#39;3840 2160&#39; -type RGB_U16",
+        "id": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16",
         "description": ""
-    }, 
+    },
     {
-        "source": "   Render a UHD resolution test pattern with a RGB 16-bit image type.", 
-        "text": "RGB 16\u30d3\u30c3\u30c8\u753b\u50cf\u30bf\u30a4\u30d7\u3067UHD\u89e3\u50cf\u5ea6\u306e\u30c6\u30b9\u30c8\u30d1\u30bf\u30fc\u30f3\u3092\u30ec\u30f3\u30c0\u30ea\u30f3\u30b0\u3057\u307e\u3059\u3002", 
-        "id": "   Render a UHD resolution test pattern with a RGB 16-bit image type.", 
+        "source": "   Render a UHD resolution test pattern with a RGB 16-bit image type.",
+        "text": "RGB 16ビット画像タイプでUHD解像度のテストパターンをレンダリングします。",
+        "id": "   Render a UHD resolution test pattern with a RGB 16-bit image type.",
         "description": ""
     }
 ]

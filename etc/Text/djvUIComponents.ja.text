@@ -1,848 +1,848 @@
 [
     {
-        "source": "Cineon", 
-        "description": "", 
-        "id": "Cineon", 
-        "text": "\u30b7\u30cd\u30aa\u30f3"
-    }, 
+        "source": "Cineon",
+        "description": "",
+        "id": "Cineon",
+        "text": "シネオン"
+    },
     {
-        "source": "I/O", 
-        "description": "", 
-        "id": "I/O", 
-        "text": "\u5165\u51fa\u529b"
-    }, 
+        "source": "I/O",
+        "description": "",
+        "id": "I/O",
+        "text": "入出力"
+    },
     {
-        "source": "Color space", 
-        "description": "", 
-        "id": "Color space", 
-        "text": "\u8272\u7a7a\u9593"
-    }, 
+        "source": "Color space",
+        "description": "",
+        "id": "Color space",
+        "text": "色空間"
+    },
     {
-        "source": "Color Space", 
-        "description": "", 
-        "id": "Color Space", 
-        "text": "\u8272\u7a7a\u9593"
-    }, 
+        "source": "Color Space",
+        "description": "",
+        "id": "Color Space",
+        "text": "色空間"
+    },
     {
-        "source": "General", 
-        "description": "", 
-        "id": "General", 
-        "text": "\u5168\u822c"
-    }, 
+        "source": "General",
+        "description": "",
+        "id": "General",
+        "text": "全般"
+    },
     {
-        "source": "Input", 
-        "description": "", 
-        "id": "Input", 
-        "text": "\u5165\u529b"
-    }, 
+        "source": "Input",
+        "description": "",
+        "id": "Input",
+        "text": "入力"
+    },
     {
-        "source": "Display", 
-        "description": "", 
-        "id": "Display", 
-        "text": "\u8868\u793a"
-    }, 
+        "source": "Display",
+        "description": "",
+        "id": "Display",
+        "text": "表示"
+    },
     {
-        "source": "View", 
-        "description": "", 
-        "id": "View", 
-        "text": "\u898b\u308b"
-    }, 
+        "source": "View",
+        "description": "",
+        "id": "View",
+        "text": "見る"
+    },
     {
-        "source": "DPX", 
-        "description": "", 
-        "id": "DPX", 
+        "source": "DPX",
+        "description": "",
+        "id": "DPX",
         "text": "DPX"
-    }, 
+    },
     {
-        "source": "TIFF", 
-        "description": "", 
-        "id": "TIFF", 
+        "source": "TIFF",
+        "description": "",
+        "id": "TIFF",
         "text": "TIFF"
-    }, 
+    },
     {
-        "source": "File compression", 
-        "description": "", 
-        "id": "File compression", 
-        "text": "\u30d5\u30a1\u30a4\u30eb\u5727\u7e2e"
-    }, 
+        "source": "File compression",
+        "description": "",
+        "id": "File compression",
+        "text": "ファイル圧縮"
+    },
     {
-        "source": "The file", 
-        "description": "", 
-        "id": "The file", 
-        "text": "\u30d5\u30a1\u30a4\u30eb"
-    }, 
+        "source": "The file",
+        "description": "",
+        "id": "The file",
+        "text": "ファイル"
+    },
     {
-        "source": "cannot be read", 
-        "description": "", 
-        "id": "cannot be read", 
-        "text": "\u8aad\u3081\u306a\u3044"
-    }, 
+        "source": "cannot be read",
+        "description": "",
+        "id": "cannot be read",
+        "text": "読めない"
+    },
     {
-        "source": "Size", 
-        "description": "", 
-        "id": "Size", 
-        "text": "\u30b5\u30a4\u30ba"
-    }, 
+        "source": "Size",
+        "description": "",
+        "id": "Size",
+        "text": "サイズ"
+    },
     {
-        "source": "Last modification time", 
-        "description": "", 
-        "id": "Last modification time", 
-        "text": "\u6700\u7d42\u4fee\u6b63\u6642\u523b"
-    }, 
+        "source": "Last modification time",
+        "description": "",
+        "id": "Last modification time",
+        "text": "最終修正時刻"
+    },
     {
-        "source": "Video track", 
-        "description": "", 
-        "id": "Video track", 
-        "text": "\u30d3\u30c7\u30aa\u30c8\u30e9\u30c3\u30af"
-    }, 
+        "source": "Video track",
+        "description": "",
+        "id": "Video track",
+        "text": "ビデオトラック"
+    },
     {
-        "source": "Name", 
-        "description": "", 
-        "id": "Name", 
-        "text": "\u540d"
-    }, 
+        "source": "Name",
+        "description": "",
+        "id": "Name",
+        "text": "名"
+    },
     {
-        "source": "Type", 
-        "description": "", 
-        "id": "Type", 
-        "text": "\u30bf\u30a4\u30d7"
-    }, 
+        "source": "Type",
+        "description": "",
+        "id": "Type",
+        "text": "タイプ"
+    },
     {
-        "source": "Speed", 
-        "description": "", 
-        "id": "Speed", 
-        "text": "\u901f\u5ea6"
-    }, 
+        "source": "Speed",
+        "description": "",
+        "id": "Speed",
+        "text": "速度"
+    },
     {
-        "source": "FPS", 
-        "description": "", 
-        "id": "FPS", 
+        "source": "FPS",
+        "description": "",
+        "id": "FPS",
         "text": "FPS"
-    }, 
+    },
     {
-        "source": "Duration", 
-        "description": "", 
-        "id": "Duration", 
-        "text": "\u671f\u9593"
-    }, 
+        "source": "Duration",
+        "description": "",
+        "id": "Duration",
+        "text": "期間"
+    },
     {
-        "source": "Audio track", 
-        "description": "", 
-        "id": "Audio track", 
-        "text": "\u30aa\u30fc\u30c7\u30a3\u30aa\u30c8\u30e9\u30c3\u30af"
-    }, 
+        "source": "Audio track",
+        "description": "",
+        "id": "Audio track",
+        "text": "オーディオトラック"
+    },
     {
-        "source": "Channels", 
-        "description": "", 
-        "id": "Channels", 
-        "text": "\u30c1\u30e3\u30f3\u30cd\u30eb"
-    }, 
+        "source": "Channels",
+        "description": "",
+        "id": "Channels",
+        "text": "チャンネル"
+    },
     {
-        "source": "Sample rate", 
-        "description": "", 
-        "id": "Sample rate", 
-        "text": "\u30b5\u30f3\u30d7\u30eb\u30ec\u30fc\u30c8"
-    }, 
+        "source": "Sample rate",
+        "description": "",
+        "id": "Sample rate",
+        "text": "サンプルレート"
+    },
     {
-        "source": "kHz", 
-        "description": "", 
-        "id": "kHz", 
+        "source": "kHz",
+        "description": "",
+        "id": "kHz",
         "text": "kHz"
-    }, 
+    },
     {
-        "source": "OpenEXR", 
-        "description": "", 
-        "id": "OpenEXR", 
+        "source": "OpenEXR",
+        "description": "",
+        "id": "OpenEXR",
         "text": "OpenEXR"
-    }, 
+    },
     {
-        "source": "Thread count", 
-        "description": "", 
-        "id": "Thread count", 
-        "text": "\u30b9\u30ec\u30c3\u30c9\u6570"
-    }, 
+        "source": "Thread count",
+        "description": "",
+        "id": "Thread count",
+        "text": "スレッド数"
+    },
     {
-        "source": "Channel grouping", 
-        "description": "", 
-        "id": "Channel grouping", 
-        "text": "\u30c1\u30e3\u30f3\u30cd\u30eb\u30b0\u30eb\u30fc\u30d4\u30f3\u30b0"
-    }, 
+        "source": "Channel grouping",
+        "description": "",
+        "id": "Channel grouping",
+        "text": "チャンネルグルーピング"
+    },
     {
-        "source": "DWA compression level", 
-        "description": "", 
-        "id": "DWA compression level", 
-        "text": "DWA\u5727\u7e2e\u30ec\u30d9\u30eb"
-    }, 
+        "source": "DWA compression level",
+        "description": "",
+        "id": "DWA compression level",
+        "text": "DWA圧縮レベル"
+    },
     {
-        "source": "Color profile", 
-        "description": "", 
-        "id": "Color profile", 
-        "text": "\u30ab\u30e9\u30fc\u30d7\u30ed\u30d5\u30a1\u30a4\u30eb"
-    }, 
+        "source": "Color profile",
+        "description": "",
+        "id": "Color profile",
+        "text": "カラープロファイル"
+    },
     {
-        "source": "PPM", 
-        "description": "", 
-        "id": "PPM", 
+        "source": "PPM",
+        "description": "",
+        "id": "PPM",
         "text": "PPM"
-    }, 
+    },
     {
-        "source": "Data type", 
-        "description": "", 
-        "id": "Data type", 
-        "text": "\u30c7\u30fc\u30bf\u30fb\u30bf\u30a4\u30d7"
-    }, 
+        "source": "Data type",
+        "description": "",
+        "id": "Data type",
+        "text": "データ・タイプ"
+    },
     {
-        "source": "Time", 
-        "description": "", 
-        "id": "Time", 
-        "text": "\u6642\u9593"
-    }, 
+        "source": "Time",
+        "description": "",
+        "id": "Time",
+        "text": "時間"
+    },
     {
-        "source": "Units", 
-        "description": "", 
-        "id": "Units", 
-        "text": "\u5358\u4f4d"
-    }, 
+        "source": "Units",
+        "description": "",
+        "id": "Units",
+        "text": "単位"
+    },
     {
-        "source": "Tooltips", 
-        "description": "", 
-        "id": "Tooltips", 
-        "text": "\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7"
-    }, 
+        "source": "Tooltips",
+        "description": "",
+        "id": "Tooltips",
+        "text": "ツールチップ"
+    },
     {
-        "source": "Enable tooltips", 
-        "description": "", 
-        "id": "Enable tooltips", 
-        "text": "\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7\u3092\u6709\u52b9\u306b\u3059\u308b"
-    }, 
+        "source": "Enable tooltips",
+        "description": "",
+        "id": "Enable tooltips",
+        "text": "ツールチップを有効にする"
+    },
     {
-        "source": "Set the color type", 
-        "description": "", 
-        "id": "Color type widget tooltip", 
-        "text": "\u8272\u306e\u7a2e\u985e\u3092\u8a2d\u5b9a\u3059\u308b"
-    }, 
+        "source": "Set the color type",
+        "description": "",
+        "id": "Color type widget tooltip",
+        "text": "色の種類を設定する"
+    },
     {
-        "source": "L", 
-        "description": "", 
-        "id": "L", 
-        "text": "\u30b6\u30fb"
-    }, 
+        "source": "L",
+        "description": "",
+        "id": "L",
+        "text": "ザ・"
+    },
     {
-        "source": "Set the luminance value", 
-        "description": "", 
-        "id": "RGB color sliders luminance tooltip", 
-        "text": "\u8f1d\u5ea6\u5024\u3092\u8a2d\u5b9a\u3059\u308b"
-    }, 
+        "source": "Set the luminance value",
+        "description": "",
+        "id": "RGB color sliders luminance tooltip",
+        "text": "輝度値を設定する"
+    },
     {
-        "source": "A", 
-        "description": "", 
-        "id": "A", 
+        "source": "A",
+        "description": "",
+        "id": "A",
         "text": "A"
-    }, 
+    },
     {
-        "source": "Set the alpha value", 
-        "description": "", 
-        "id": "RGB color sliders alpha tooltip", 
-        "text": "\u30a2\u30eb\u30d5\u30a1\u5024\u3092\u8a2d\u5b9a"
-    }, 
+        "source": "Set the alpha value",
+        "description": "",
+        "id": "RGB color sliders alpha tooltip",
+        "text": "アルファ値を設定"
+    },
     {
-        "source": "R", 
-        "description": "", 
-        "id": "R", 
+        "source": "R",
+        "description": "",
+        "id": "R",
         "text": "R"
-    }, 
+    },
     {
-        "source": "G", 
-        "description": "", 
-        "id": "G", 
+        "source": "G",
+        "description": "",
+        "id": "G",
         "text": "G"
-    }, 
+    },
     {
-        "source": "B", 
-        "description": "", 
-        "id": "B", 
+        "source": "B",
+        "description": "",
+        "id": "B",
         "text": "B"
-    }, 
+    },
     {
-        "source": "Set the red value", 
-        "description": "", 
-        "id": "RGB color sliders red tooltip", 
-        "text": "\u8d64\u306e\u5024\u3092\u8a2d\u5b9a"
-    }, 
+        "source": "Set the red value",
+        "description": "",
+        "id": "RGB color sliders red tooltip",
+        "text": "赤の値を設定"
+    },
     {
-        "source": "Set the green value", 
-        "description": "", 
-        "id": "RGB color sliders green tooltip", 
-        "text": "\u7dd1\u8272\u306e\u5024\u3092\u8a2d\u5b9a"
-    }, 
+        "source": "Set the green value",
+        "description": "",
+        "id": "RGB color sliders green tooltip",
+        "text": "緑色の値を設定"
+    },
     {
-        "source": "Set the blue value", 
-        "description": "", 
-        "id": "RGB color sliders blue tooltip", 
-        "text": "\u9752\u3044\u5024\u3092\u8a2d\u5b9a"
-    }, 
+        "source": "Set the blue value",
+        "description": "",
+        "id": "RGB color sliders blue tooltip",
+        "text": "青い値を設定"
+    },
     {
-        "source": "V", 
-        "description": "", 
-        "id": "V", 
+        "source": "V",
+        "description": "",
+        "id": "V",
         "text": "V"
-    }, 
+    },
     {
-        "source": "Set the value", 
-        "description": "", 
-        "id": "HSV color sliders value tooltip", 
-        "text": "\u5024\u3092\u8a2d\u5b9a"
-    }, 
+        "source": "Set the value",
+        "description": "",
+        "id": "HSV color sliders value tooltip",
+        "text": "値を設定"
+    },
     {
-        "source": "Set the alpha value", 
-        "description": "", 
-        "id": "HSV color sliders alpha tooltip", 
-        "text": "\u30a2\u30eb\u30d5\u30a1\u5024\u3092\u8a2d\u5b9a"
-    }, 
+        "source": "Set the alpha value",
+        "description": "",
+        "id": "HSV color sliders alpha tooltip",
+        "text": "アルファ値を設定"
+    },
     {
-        "source": "H", 
-        "description": "", 
-        "id": "H", 
+        "source": "H",
+        "description": "",
+        "id": "H",
         "text": "H"
-    }, 
+    },
     {
-        "source": "S", 
-        "description": "", 
-        "id": "S", 
+        "source": "S",
+        "description": "",
+        "id": "S",
         "text": "S"
-    }, 
+    },
     {
-        "source": "Set the hue", 
-        "description": "", 
-        "id": "HSV color sliders hue tooltip", 
-        "text": "\u8272\u76f8\u3092\u8a2d\u5b9a\u3059\u308b"
-    }, 
+        "source": "Set the hue",
+        "description": "",
+        "id": "HSV color sliders hue tooltip",
+        "text": "色相を設定する"
+    },
     {
-        "source": "Set the saturation", 
-        "description": "", 
-        "id": "HSV color sliders saturation tooltip", 
-        "text": "\u5f69\u5ea6\u3092\u8a2d\u5b9a\u3059\u308b"
-    }, 
+        "source": "Set the saturation",
+        "description": "",
+        "id": "HSV color sliders saturation tooltip",
+        "text": "彩度を設定する"
+    },
     {
-        "source": "Add the current directory to the list of shortcuts", 
-        "description": "", 
-        "id": "Add shortcut tooltip", 
-        "text": "\u73fe\u5728\u306e\u30c7\u30a3\u30ec\u30af\u30c8\u30ea\u3092\u30b7\u30e7\u30fc\u30c8\u30ab\u30c3\u30c8\u306e\u30ea\u30b9\u30c8\u306b\u8ffd\u52a0\u3057\u307e\u3059"
-    }, 
+        "source": "Add the current directory to the list of shortcuts",
+        "description": "",
+        "id": "Add shortcut tooltip",
+        "text": "現在のディレクトリをショートカットのリストに追加します"
+    },
     {
-        "source": "Edit the list of shortcuts", 
-        "description": "", 
-        "id": "Edit shortcuts tooltip", 
-        "text": "\u30b7\u30e7\u30fc\u30c8\u30ab\u30c3\u30c8\u306e\u30ea\u30b9\u30c8\u3092\u7de8\u96c6\u3059\u308b"
-    }, 
+        "source": "Edit the list of shortcuts",
+        "description": "",
+        "id": "Edit shortcuts tooltip",
+        "text": "ショートカットのリストを編集する"
+    },
     {
-        "source": "Back", 
-        "description": "", 
-        "id": "Back", 
-        "text": "\u30d0\u30c3\u30af"
-    }, 
+        "source": "Back",
+        "description": "",
+        "id": "Back",
+        "text": "バック"
+    },
     {
-        "source": "Go back a directory", 
-        "description": "", 
-        "id": "File browser back tooltip", 
-        "text": "\u30c7\u30a3\u30ec\u30af\u30c8\u30ea\u306b\u623b\u308b"
-    }, 
+        "source": "Go back a directory",
+        "description": "",
+        "id": "File browser back tooltip",
+        "text": "ディレクトリに戻る"
+    },
     {
-        "source": "Forward", 
-        "description": "", 
-        "id": "Forward", 
-        "text": "\u9032\u3080"
-    }, 
+        "source": "Forward",
+        "description": "",
+        "id": "Forward",
+        "text": "進む"
+    },
     {
-        "source": "Go forward a directory", 
-        "description": "", 
-        "id": "File browser forward tooltip", 
-        "text": "\u30c7\u30a3\u30ec\u30af\u30c8\u30ea\u3092\u9032\u3081\u307e\u3059"
-    }, 
+        "source": "Go forward a directory",
+        "description": "",
+        "id": "File browser forward tooltip",
+        "text": "ディレクトリを進めます"
+    },
     {
-        "source": "Up", 
-        "description": "", 
-        "id": "Up", 
-        "text": "\u30a2\u30c3\u30d7"
-    }, 
+        "source": "Up",
+        "description": "",
+        "id": "Up",
+        "text": "アップ"
+    },
     {
-        "source": "Go up a directory", 
-        "description": "", 
-        "id": "File browser up tooltip", 
-        "text": "\u30c7\u30a3\u30ec\u30af\u30c8\u30ea\u3092\u4e0a\u308b"
-    }, 
+        "source": "Go up a directory",
+        "description": "",
+        "id": "File browser up tooltip",
+        "text": "ディレクトリを上る"
+    },
     {
-        "source": "Tile View", 
-        "description": "", 
-        "id": "Tile View", 
-        "text": "\u30bf\u30a4\u30eb\u30d3\u30e5\u30fc"
-    }, 
+        "source": "Tile View",
+        "description": "",
+        "id": "Tile View",
+        "text": "タイルビュー"
+    },
     {
-        "source": "Show directory items as tiles", 
-        "description": "", 
-        "id": "File browser tile view tooltip", 
-        "text": "\u30c7\u30a3\u30ec\u30af\u30c8\u30ea\u9805\u76ee\u3092\u30bf\u30a4\u30eb\u3068\u3057\u3066\u8868\u793a\u3059\u308b"
-    }, 
+        "source": "Show directory items as tiles",
+        "description": "",
+        "id": "File browser tile view tooltip",
+        "text": "ディレクトリ項目をタイルとして表示する"
+    },
     {
-        "source": "List View", 
-        "description": "", 
-        "id": "List View", 
-        "text": "\u30ea\u30b9\u30c8\u30d3\u30e5\u30fc"
-    }, 
+        "source": "List View",
+        "description": "",
+        "id": "List View",
+        "text": "リストビュー"
+    },
     {
-        "source": "Show directory items as a list", 
-        "description": "", 
-        "id": "File browser list view tooltip", 
-        "text": "\u30c7\u30a3\u30ec\u30af\u30c8\u30ea\u9805\u76ee\u3092\u30ea\u30b9\u30c8\u3068\u3057\u3066\u8868\u793a\u3059\u308b"
-    }, 
+        "source": "Show directory items as a list",
+        "description": "",
+        "id": "File browser list view tooltip",
+        "text": "ディレクトリ項目をリストとして表示する"
+    },
     {
-        "source": "Increase Thumbnail Size", 
-        "description": "", 
-        "id": "Increase Thumbnail Size", 
-        "text": "\u30b5\u30e0\u30cd\u30a4\u30eb\u30b5\u30a4\u30ba\u3092\u5927\u304d\u304f\u3059\u308b"
-    }, 
+        "source": "Increase Thumbnail Size",
+        "description": "",
+        "id": "Increase Thumbnail Size",
+        "text": "サムネイルサイズを大きくする"
+    },
     {
-        "source": "Increase the size of the thumbnails", 
-        "description": "", 
-        "id": "File browser increase thumbnail size tooltip", 
-        "text": "\u30b5\u30e0\u30cd\u30a4\u30eb\u306e\u30b5\u30a4\u30ba\u3092\u5927\u304d\u304f\u3059\u308b"
-    }, 
+        "source": "Increase the size of the thumbnails",
+        "description": "",
+        "id": "File browser increase thumbnail size tooltip",
+        "text": "サムネイルのサイズを大きくする"
+    },
     {
-        "source": "Decrease Thumbnail Size", 
-        "description": "", 
-        "id": "Decrease Thumbnail Size", 
-        "text": "\u30b5\u30e0\u30cd\u30a4\u30eb\u30b5\u30a4\u30ba\u3092\u5c0f\u3055\u304f\u3059\u308b"
-    }, 
+        "source": "Decrease Thumbnail Size",
+        "description": "",
+        "id": "Decrease Thumbnail Size",
+        "text": "サムネイルサイズを小さくする"
+    },
     {
-        "source": "Decrease the size of the thumbnails", 
-        "description": "", 
-        "id": "File browser decrease thumbnail size tooltip", 
-        "text": "\u30b5\u30e0\u30cd\u30a4\u30eb\u306e\u30b5\u30a4\u30ba\u3092\u5c0f\u3055\u304f\u3059\u308b"
-    }, 
+        "source": "Decrease the size of the thumbnails",
+        "description": "",
+        "id": "File browser decrease thumbnail size tooltip",
+        "text": "サムネイルのサイズを小さくする"
+    },
     {
-        "source": "Enable File Sequences", 
-        "description": "", 
-        "id": "Enable File Sequences", 
-        "text": "\u30d5\u30a1\u30a4\u30eb\u30b7\u30fc\u30b1\u30f3\u30b9\u3092\u6709\u52b9\u306b\u3059\u308b"
-    }, 
+        "source": "Enable File Sequences",
+        "description": "",
+        "id": "Enable File Sequences",
+        "text": "ファイルシーケンスを有効にする"
+    },
     {
-        "source": "Show sequences of files as a single item", 
-        "description": "", 
-        "id": "File browser file sequences tooltip", 
-        "text": "\u30d5\u30a1\u30a4\u30eb\u306e\u30b7\u30fc\u30b1\u30f3\u30b9\u3092\u5358\u4e00\u306e\u30a2\u30a4\u30c6\u30e0\u3068\u3057\u3066\u8868\u793a\u3059\u308b"
-    }, 
+        "source": "Show sequences of files as a single item",
+        "description": "",
+        "id": "File browser file sequences tooltip",
+        "text": "ファイルのシーケンスを単一のアイテムとして表示する"
+    },
     {
-        "source": "Show Hidden Files", 
-        "description": "", 
-        "id": "Show Hidden Files", 
-        "text": "\u96a0\u3057\u30d5\u30a1\u30a4\u30eb\u3092\u8868\u793a"
-    }, 
+        "source": "Show Hidden Files",
+        "description": "",
+        "id": "Show Hidden Files",
+        "text": "隠しファイルを表示"
+    },
     {
-        "source": "Show directory items that begin with a '.'", 
-        "description": "", 
-        "id": "File browser show hidden tooltip", 
-        "text": "\u300c\u3002\u300d\u3067\u59cb\u307e\u308b\u30c7\u30a3\u30ec\u30af\u30c8\u30ea\u9805\u76ee\u3092\u8868\u793a\u3057\u307e\u3059\u3002"
-    }, 
+        "source": "Show directory items that begin with a '.'",
+        "description": "",
+        "id": "File browser show hidden tooltip",
+        "text": "「。」で始まるディレクトリ項目を表示します。"
+    },
     {
-        "source": "Sort By Name", 
-        "description": "", 
-        "id": "Sort By Name", 
-        "text": "\u540d\u524d\u9806"
-    }, 
+        "source": "Sort By Name",
+        "description": "",
+        "id": "Sort By Name",
+        "text": "名前順"
+    },
     {
-        "source": "Sort directory items by name", 
-        "description": "", 
-        "id": "File browser sort by name tooltip", 
-        "text": "\u30c7\u30a3\u30ec\u30af\u30c8\u30ea\u9805\u76ee\u3092\u540d\u524d\u3067\u30bd\u30fc\u30c8\u3059\u308b"
-    }, 
+        "source": "Sort directory items by name",
+        "description": "",
+        "id": "File browser sort by name tooltip",
+        "text": "ディレクトリ項目を名前でソートする"
+    },
     {
-        "source": "Sort By Size", 
-        "description": "", 
-        "id": "Sort By Size", 
-        "text": "\u30b5\u30a4\u30ba\u9806\u306b\u4e26\u3079\u66ff\u3048"
-    }, 
+        "source": "Sort By Size",
+        "description": "",
+        "id": "Sort By Size",
+        "text": "サイズ順に並べ替え"
+    },
     {
-        "source": "Sort directory items by size", 
-        "description": "", 
-        "id": "File browser sort by size tooltip", 
-        "text": "\u30b5\u30a4\u30ba\u3067\u30c7\u30a3\u30ec\u30af\u30c8\u30ea\u9805\u76ee\u3092\u4e26\u3079\u66ff\u3048\u308b"
-    }, 
+        "source": "Sort directory items by size",
+        "description": "",
+        "id": "File browser sort by size tooltip",
+        "text": "サイズでディレクトリ項目を並べ替える"
+    },
     {
-        "source": "Sort By Time", 
-        "description": "", 
-        "id": "Sort By Time", 
-        "text": "\u6642\u9593\u9806\u306b\u4e26\u3079\u66ff\u3048"
-    }, 
+        "source": "Sort By Time",
+        "description": "",
+        "id": "Sort By Time",
+        "text": "時間順に並べ替え"
+    },
     {
-        "source": "Sort directory items by time", 
-        "description": "", 
-        "id": "File browser sort by time tooltip", 
-        "text": "\u30c7\u30a3\u30ec\u30af\u30c8\u30ea\u9805\u76ee\u3092\u6642\u9593\u3067\u30bd\u30fc\u30c8\u3059\u308b"
-    }, 
+        "source": "Sort directory items by time",
+        "description": "",
+        "id": "File browser sort by time tooltip",
+        "text": "ディレクトリ項目を時間でソートする"
+    },
     {
-        "source": "Reverse Sort", 
-        "description": "", 
-        "id": "Reverse Sort", 
-        "text": "\u9006\u30bd\u30fc\u30c8"
-    }, 
+        "source": "Reverse Sort",
+        "description": "",
+        "id": "Reverse Sort",
+        "text": "逆ソート"
+    },
     {
-        "source": "Reverse the sort direction", 
-        "description": "", 
-        "id": "File browser reverse sort tooltip", 
-        "text": "\u30bd\u30fc\u30c8\u65b9\u5411\u3092\u9006\u306b\u3059\u308b"
-    }, 
+        "source": "Reverse the sort direction",
+        "description": "",
+        "id": "File browser reverse sort tooltip",
+        "text": "ソート方向を逆にする"
+    },
     {
-        "source": "Sort Directories First", 
-        "description": "", 
-        "id": "Sort Directories First", 
-        "text": "\u30c7\u30a3\u30ec\u30af\u30c8\u30ea\u3092\u6700\u521d\u306b\u4e26\u3079\u66ff\u3048\u308b"
-    }, 
+        "source": "Sort Directories First",
+        "description": "",
+        "id": "Sort Directories First",
+        "text": "ディレクトリを最初に並べ替える"
+    },
     {
-        "source": "Show directories before files", 
-        "description": "", 
-        "id": "File browser sort directories first tooltip", 
-        "text": "\u30d5\u30a1\u30a4\u30eb\u306e\u524d\u306b\u30c7\u30a3\u30ec\u30af\u30c8\u30ea\u3092\u8868\u793a"
-    }, 
+        "source": "Show directories before files",
+        "description": "",
+        "id": "File browser sort directories first tooltip",
+        "text": "ファイルの前にディレクトリを表示"
+    },
     {
-        "source": "Name", 
-        "description": "", 
-        "id": "File browser name column", 
-        "text": "\u540d"
-    }, 
+        "source": "Name",
+        "description": "",
+        "id": "File browser name column",
+        "text": "名"
+    },
     {
-        "source": "Size", 
-        "description": "", 
-        "id": "File browse size column", 
-        "text": "\u30b5\u30a4\u30ba"
-    }, 
+        "source": "Size",
+        "description": "",
+        "id": "File browse size column",
+        "text": "サイズ"
+    },
     {
-        "source": "Time", 
-        "description": "", 
-        "id": "File browser time column", 
-        "text": "\u6642\u9593"
-    }, 
+        "source": "Time",
+        "description": "",
+        "id": "File browser time column",
+        "text": "時間"
+    },
     {
-        "source": "Show the shortcuts", 
-        "description": "", 
-        "id": "File browser shortcuts tooltip", 
-        "text": "\u30b7\u30e7\u30fc\u30c8\u30ab\u30c3\u30c8\u3092\u8868\u793a\u3059\u308b"
-    }, 
+        "source": "Show the shortcuts",
+        "description": "",
+        "id": "File browser shortcuts tooltip",
+        "text": "ショートカットを表示する"
+    },
     {
-        "source": "Show the recently used directories", 
-        "description": "", 
-        "id": "File browser recent paths tooltip", 
-        "text": "\u6700\u8fd1\u4f7f\u7528\u3057\u305f\u30c7\u30a3\u30ec\u30af\u30c8\u30ea\u3092\u8868\u793a\u3059\u308b"
-    }, 
+        "source": "Show the recently used directories",
+        "description": "",
+        "id": "File browser recent paths tooltip",
+        "text": "最近使用したディレクトリを表示する"
+    },
     {
-        "source": "Show the drives", 
-        "description": "", 
-        "id": "File browser drives tooltip", 
-        "text": "\u30c9\u30e9\u30a4\u30d6\u3092\u8868\u793a\u3059\u308b"
-    }, 
+        "source": "Show the drives",
+        "description": "",
+        "id": "File browser drives tooltip",
+        "text": "ドライブを表示する"
+    },
     {
-        "source": "Show the file browser sorting options", 
-        "description": "", 
-        "id": "File browser sort tooltip", 
-        "text": "\u30d5\u30a1\u30a4\u30eb\u30d6\u30e9\u30a6\u30b6\u306e\u4e26\u3079\u66ff\u3048\u30aa\u30d7\u30b7\u30e7\u30f3\u3092\u8868\u793a\u3059\u308b"
-    }, 
+        "source": "Show the file browser sorting options",
+        "description": "",
+        "id": "File browser sort tooltip",
+        "text": "ファイルブラウザの並べ替えオプションを表示する"
+    },
     {
-        "source": "Show the file browser settings", 
-        "description": "", 
-        "id": "File browser settings tooltip", 
-        "text": "\u30d5\u30a1\u30a4\u30eb\u30d6\u30e9\u30a6\u30b6\u306e\u8a2d\u5b9a\u3092\u8868\u793a\u3059\u308b"
-    }, 
+        "source": "Show the file browser settings",
+        "description": "",
+        "id": "File browser settings tooltip",
+        "text": "ファイルブラウザの設定を表示する"
+    },
     {
-        "source": "Search for items in the directory", 
-        "description": "", 
-        "id": "File browser search tooltip", 
-        "text": "\u30c7\u30a3\u30ec\u30af\u30c8\u30ea\u5185\u306e\u30a2\u30a4\u30c6\u30e0\u3092\u691c\u7d22\u3059\u308b"
-    }, 
+        "source": "Search for items in the directory",
+        "description": "",
+        "id": "File browser search tooltip",
+        "text": "ディレクトリ内のアイテムを検索する"
+    },
     {
-        "source": "Items", 
-        "description": "", 
-        "id": "Items", 
-        "text": "\u30a2\u30a4\u30c6\u30e0"
-    }, 
+        "source": "Items",
+        "description": "",
+        "id": "Items",
+        "text": "アイテム"
+    },
     {
-        "source": "File Browser", 
-        "description": "", 
-        "id": "File Browser", 
-        "text": "\u30d5\u30a1\u30a4\u30eb\u30d6\u30e9\u30a6\u30b6"
-    }, 
+        "source": "File Browser",
+        "description": "",
+        "id": "File Browser",
+        "text": "ファイルブラウザ"
+    },
     {
-        "source": "Show the file browser history", 
-        "description": "", 
-        "id": "File browser history tooltip", 
-        "text": "\u30d5\u30a1\u30a4\u30eb\u30d6\u30e9\u30a6\u30b6\u306e\u5c65\u6b74\u3092\u8868\u793a\u3059\u308b"
-    }, 
+        "source": "Show the file browser history",
+        "description": "",
+        "id": "File browser history tooltip",
+        "text": "ファイルブラウザの履歴を表示する"
+    },
     {
-        "source": "JPEG", 
-        "description": "", 
-        "id": "JPEG", 
+        "source": "JPEG",
+        "description": "",
+        "id": "JPEG",
         "text": "JPEG"
-    }, 
+    },
     {
-        "source": "Compression quality", 
-        "description": "", 
-        "id": "Compression quality", 
-        "text": "\u5727\u7e2e\u54c1\u8cea"
-    }, 
+        "source": "Compression quality",
+        "description": "",
+        "id": "Compression quality",
+        "text": "圧縮品質"
+    },
     {
-        "source": "Language", 
-        "description": "", 
-        "id": "Language", 
-        "text": "\u8a00\u8a9e"
-    }, 
+        "source": "Language",
+        "description": "",
+        "id": "Language",
+        "text": "言語"
+    },
     {
-        "source": "Min", 
-        "description": "", 
-        "id": "Min", 
-        "text": "\u5206"
-    }, 
+        "source": "Min",
+        "description": "",
+        "id": "Min",
+        "text": "分"
+    },
     {
-        "source": "Max", 
-        "description": "", 
-        "id": "Max", 
-        "text": "\u30de\u30c3\u30af\u30b9"
-    }, 
+        "source": "Max",
+        "description": "",
+        "id": "Max",
+        "text": "マックス"
+    },
     {
-        "source": "Current", 
-        "description": "", 
-        "id": "Current", 
-        "text": "\u73fe\u5728"
-    }, 
+        "source": "Current",
+        "description": "",
+        "id": "Current",
+        "text": "現在"
+    },
     {
-        "source": "Palette", 
-        "description": "", 
-        "id": "Palette", 
-        "text": "\u30d1\u30ec\u30c3\u30c8"
-    }, 
+        "source": "Palette",
+        "description": "",
+        "id": "Palette",
+        "text": "パレット"
+    },
     {
-        "id": "FFmpeg", 
-        "source": "FFmpeg", 
-        "description": "", 
+        "id": "FFmpeg",
+        "source": "FFmpeg",
+        "description": "",
         "text": "FFmpeg"
-    }, 
+    },
     {
-        "id": "Threads", 
-        "source": "Threads", 
-        "description": "", 
-        "text": "\u30b9\u30ec\u30c3\u30c9"
-    }, 
+        "id": "Threads",
+        "source": "Threads",
+        "description": "",
+        "text": "スレッド"
+    },
     {
-        "id": "frames", 
-        "source": "frames", 
-        "description": "", 
-        "text": "\u30d5\u30ec\u30fc\u30e0"
-    }, 
+        "id": "frames",
+        "source": "frames",
+        "description": "",
+        "text": "フレーム"
+    },
     {
-        "id": "seconds", 
-        "source": "seconds", 
-        "description": "", 
-        "text": "\u79d2"
-    }, 
+        "id": "seconds",
+        "source": "seconds",
+        "description": "",
+        "text": "秒"
+    },
     {
-        "source": "Recent Paths", 
-        "description": "", 
-        "id": "Recent Paths", 
-        "text": "\u6700\u8fd1\u306e\u30d1\u30b9"
-    }, 
+        "source": "Recent Paths",
+        "description": "",
+        "id": "Recent Paths",
+        "text": "最近のパス"
+    },
     {
-        "source": "Shortcuts", 
-        "description": "", 
-        "id": "Shortcuts", 
-        "text": "\u30b7\u30e7\u30fc\u30c8\u30ab\u30c3\u30c8"
-    }, 
+        "source": "Shortcuts",
+        "description": "",
+        "id": "Shortcuts",
+        "text": "ショートカット"
+    },
     {
-        "source": "Color sliders luminance tooltip", 
-        "description": "", 
-        "id": "Color sliders luminance tooltip", 
-        "text": "\u30ab\u30e9\u30fc\u30b9\u30e9\u30a4\u30c0\u30fc\u306e\u8f1d\u5ea6\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7"
-    }, 
+        "source": "Color sliders luminance tooltip",
+        "description": "",
+        "id": "Color sliders luminance tooltip",
+        "text": "カラースライダーの輝度ツールチップ"
+    },
     {
-        "source": "Color sliders alpha tooltip", 
-        "description": "", 
-        "id": "Color sliders alpha tooltip", 
-        "text": "\u30ab\u30e9\u30fc\u30b9\u30e9\u30a4\u30c0\u30fc\u30a2\u30eb\u30d5\u30a1\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7"
-    }, 
+        "source": "Color sliders alpha tooltip",
+        "description": "",
+        "id": "Color sliders alpha tooltip",
+        "text": "カラースライダーアルファツールチップ"
+    },
     {
-        "source": "Color sliders hue tooltip", 
-        "description": "", 
-        "id": "Color sliders hue tooltip", 
-        "text": "\u30ab\u30e9\u30fc\u30b9\u30e9\u30a4\u30c0\u30fc\u306e\u8272\u76f8\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7"
-    }, 
+        "source": "Color sliders hue tooltip",
+        "description": "",
+        "id": "Color sliders hue tooltip",
+        "text": "カラースライダーの色相ツールチップ"
+    },
     {
-        "source": "Color sliders saturation tooltip", 
-        "description": "", 
-        "id": "Color sliders saturation tooltip", 
-        "text": "\u30ab\u30e9\u30fc\u30b9\u30e9\u30a4\u30c0\u30fc\u306e\u5f69\u5ea6\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7"
-    }, 
+        "source": "Color sliders saturation tooltip",
+        "description": "",
+        "id": "Color sliders saturation tooltip",
+        "text": "カラースライダーの彩度ツールチップ"
+    },
     {
-        "source": "Color sliders value tooltip", 
-        "description": "", 
-        "id": "Color sliders value tooltip", 
-        "text": "\u30ab\u30e9\u30fc\u30b9\u30e9\u30a4\u30c0\u30fc\u5024\u306e\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7"
-    }, 
+        "source": "Color sliders value tooltip",
+        "description": "",
+        "id": "Color sliders value tooltip",
+        "text": "カラースライダー値のツールチップ"
+    },
     {
-        "source": "Color sliders red tooltip", 
-        "description": "", 
-        "id": "Color sliders red tooltip", 
-        "text": "\u30ab\u30e9\u30fc\u30b9\u30e9\u30a4\u30c0\u30fc\u306e\u8d64\u3044\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7"
-    }, 
+        "source": "Color sliders red tooltip",
+        "description": "",
+        "id": "Color sliders red tooltip",
+        "text": "カラースライダーの赤いツールチップ"
+    },
     {
-        "source": "Color sliders green tooltip", 
-        "description": "", 
-        "id": "Color sliders green tooltip", 
-        "text": "\u30ab\u30e9\u30fc\u30b9\u30e9\u30a4\u30c0\u30fc\u30b0\u30ea\u30fc\u30f3\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7"
-    }, 
+        "source": "Color sliders green tooltip",
+        "description": "",
+        "id": "Color sliders green tooltip",
+        "text": "カラースライダーグリーンツールチップ"
+    },
     {
-        "source": "Color sliders blue tooltip", 
-        "description": "", 
-        "id": "Color sliders blue tooltip", 
-        "text": "\u30ab\u30e9\u30fc\u30b9\u30e9\u30a4\u30c0\u30fc\u30d6\u30eb\u30fc\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7"
-    }, 
+        "source": "Color sliders blue tooltip",
+        "description": "",
+        "id": "Color sliders blue tooltip",
+        "text": "カラースライダーブルーツールチップ"
+    },
     {
-        "source": "Tiles", 
-        "description": "", 
-        "id": "Tiles", 
-        "text": "\u30bf\u30a4\u30eb"
-    }, 
+        "source": "Tiles",
+        "description": "",
+        "id": "Tiles",
+        "text": "タイル"
+    },
     {
-        "source": "List", 
-        "description": "", 
-        "id": "List", 
-        "text": "\u30ea\u30b9\u30c8"
-    }, 
+        "source": "List",
+        "description": "",
+        "id": "List",
+        "text": "リスト"
+    },
     {
-        "source": "Increase", 
-        "description": "", 
-        "id": "Increase", 
-        "text": "\u5897\u52a0\u3059\u308b"
-    }, 
+        "source": "Increase",
+        "description": "",
+        "id": "Increase",
+        "text": "増加する"
+    },
     {
-        "source": "Decrease", 
-        "description": "", 
-        "id": "Decrease", 
-        "text": "\u6e1b\u5c11"
-    }, 
+        "source": "Decrease",
+        "description": "",
+        "id": "Decrease",
+        "text": "減少"
+    },
     {
-        "source": "Enable file sequences", 
-        "description": "", 
-        "id": "Enable file sequences", 
-        "text": "\u30d5\u30a1\u30a4\u30eb\u30b7\u30fc\u30b1\u30f3\u30b9\u3092\u6709\u52b9\u306b\u3059\u308b"
-    }, 
+        "source": "Enable file sequences",
+        "description": "",
+        "id": "Enable file sequences",
+        "text": "ファイルシーケンスを有効にする"
+    },
     {
-        "source": "Show hidden files", 
-        "description": "", 
-        "id": "Show hidden files", 
-        "text": "\u96a0\u3057\u30d5\u30a1\u30a4\u30eb\u3092\u8868\u793a\u3059\u308b"
-    }, 
+        "source": "Show hidden files",
+        "description": "",
+        "id": "Show hidden files",
+        "text": "隠しファイルを表示する"
+    },
     {
-        "source": "Sort by name", 
-        "description": "", 
-        "id": "Sort by name", 
-        "text": "\u540d\u524d\u9806"
-    }, 
+        "source": "Sort by name",
+        "description": "",
+        "id": "Sort by name",
+        "text": "名前順"
+    },
     {
-        "source": "Sort by size", 
-        "description": "", 
-        "id": "Sort by size", 
-        "text": "\u30b5\u30a4\u30ba\u3067\u4e26\u3079\u66ff\u3048"
-    }, 
+        "source": "Sort by size",
+        "description": "",
+        "id": "Sort by size",
+        "text": "サイズで並べ替え"
+    },
     {
-        "source": "Sort by time", 
-        "description": "", 
-        "id": "Sort by time", 
-        "text": "\u6642\u9593\u3067\u4e26\u3079\u66ff\u3048"
-    }, 
+        "source": "Sort by time",
+        "description": "",
+        "id": "Sort by time",
+        "text": "時間で並べ替え"
+    },
     {
-        "source": "Reverse sort", 
-        "description": "", 
-        "id": "Reverse sort", 
-        "text": "\u9006\u30bd\u30fc\u30c8"
-    }, 
+        "source": "Reverse sort",
+        "description": "",
+        "id": "Reverse sort",
+        "text": "逆ソート"
+    },
     {
-        "source": "Sort directories first", 
-        "description": "", 
-        "id": "Sort directories first", 
-        "text": "\u6700\u521d\u306b\u30c7\u30a3\u30ec\u30af\u30c8\u30ea\u3092\u4e26\u3079\u66ff\u3048\u308b"
-    }, 
+        "source": "Sort directories first",
+        "description": "",
+        "id": "Sort directories first",
+        "text": "最初にディレクトリを並べ替える"
+    },
     {
-        "source": "Sorting", 
-        "description": "", 
-        "id": "Sorting", 
-        "text": "\u4ed5\u5206\u3051"
-    }, 
+        "source": "Sorting",
+        "description": "",
+        "id": "Sorting",
+        "text": "仕分け"
+    },
     {
-        "source": "Thumbnail Size", 
-        "description": "", 
-        "id": "Thumbnail Size", 
-        "text": "\u30b5\u30e0\u30cd\u30a4\u30eb\u306e\u30b5\u30a4\u30ba"
-    }, 
+        "source": "Thumbnail Size",
+        "description": "",
+        "id": "Thumbnail Size",
+        "text": "サムネイルのサイズ"
+    },
     {
-        "source": "Miscellaneous", 
-        "description": "", 
-        "id": "Miscellaneous", 
-        "text": "\u305d\u306e\u4ed6"
-    }, 
+        "source": "Miscellaneous",
+        "description": "",
+        "id": "Miscellaneous",
+        "text": "その他"
+    },
     {
-        "source": "Drives", 
-        "description": "", 
-        "id": "Drives", 
-        "text": "\u30c9\u30e9\u30a4\u30d6"
-    }, 
+        "source": "Drives",
+        "description": "",
+        "id": "Drives",
+        "text": "ドライブ"
+    },
     {
-        "source": "Text", 
-        "description": "", 
-        "id": "Text", 
-        "text": "\u30c6\u30ad\u30b9\u30c8"
-    }, 
+        "source": "Text",
+        "description": "",
+        "id": "Text",
+        "text": "テキスト"
+    },
     {
-        "source": "Render 2D", 
-        "description": "", 
-        "id": "Render 2D", 
-        "text": "2D\u3092\u30ec\u30f3\u30c0\u30ea\u30f3\u30b0"
-    }, 
+        "source": "Render 2D",
+        "description": "",
+        "id": "Render 2D",
+        "text": "2Dをレンダリング"
+    },
     {
-        "source": "Enable LCD text rendering", 
-        "description": "", 
-        "id": "Enable LCD text rendering", 
-        "text": "LCD\u30c6\u30ad\u30b9\u30c8\u30ec\u30f3\u30c0\u30ea\u30f3\u30b0\u3092\u6709\u52b9\u306b\u3059\u308b"
-    }, 
+        "source": "Enable LCD text rendering",
+        "description": "",
+        "id": "Enable LCD text rendering",
+        "text": "LCDテキストレンダリングを有効にする"
+    },
     {
-        "source": "Cannot set the path", 
-        "text": "\u30d1\u30b9\u3092\u8a2d\u5b9a\u3067\u304d\u307e\u305b\u3093", 
-        "id": "Cannot set the path", 
+        "source": "Cannot set the path",
+        "text": "パスを設定できません",
+        "id": "Cannot set the path",
         "description": ""
-    }, 
+    },
     {
-        "id": "min", 
-        "source": "min", 
-        "description": "", 
-        "text": "\u5206"
-    }, 
+        "id": "min",
+        "source": "min",
+        "description": "",
+        "text": "分"
+    },
     {
-        "id": "max", 
-        "source": "max", 
-        "description": "", 
-        "text": "\u6700\u5927"
-    }, 
+        "id": "max",
+        "source": "max",
+        "description": "",
+        "text": "最大"
+    },
     {
-        "source": "Image", 
-        "text": "\u753b\u50cf", 
-        "id": "Image", 
+        "source": "Image",
+        "text": "画像",
+        "id": "Image",
         "description": ""
-    }, 
+    },
     {
-        "source": "Minify filter", 
-        "text": "\u7e2e\u5c0f\u30d5\u30a3\u30eb\u30bf\u30fc", 
-        "id": "Minify filter", 
+        "source": "Minify filter",
+        "text": "縮小フィルター",
+        "id": "Minify filter",
         "description": ""
-    }, 
+    },
     {
-        "source": "Magnify filter", 
-        "text": "\u62e1\u5927\u30d5\u30a3\u30eb\u30bf\u30fc", 
-        "id": "Magnify filter", 
+        "source": "Magnify filter",
+        "text": "拡大フィルター",
+        "id": "Magnify filter",
         "description": ""
     }
 ]
