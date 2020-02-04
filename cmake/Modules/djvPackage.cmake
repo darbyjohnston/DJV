@@ -178,9 +178,13 @@ elseif (UNIX)
         ${PROJECT_BINARY_DIR}/etc/Linux/install.sh)
     SET(CPACK_RPM_POST_UNINSTALL_SCRIPT_FILE
         ${PROJECT_BINARY_DIR}/etc/Linux/uninstall.sh)
-        
+
     set(CPACK_DEBIAN_PACKAGE_NAME ${INSTALL_NAME})
-    set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6, libgcc1, libgl1")
+    set(DJV_DEBIAN_PACKAGE_DEPS "libc6, libgcc1, libgl1")
+    if(RtAudio_DEBIAN_PACKAGE_DEPS)
+        string(APPEND DJV_DEBIAN_PACKAGE_DEPS ", " ${RtAudio_DEBIAN_PACKAGE_DEPS})
+    endif()
+    set(CPACK_DEBIAN_PACKAGE_DEPENDS ${DJV_DEBIAN_PACKAGE_DEPS})
     set(CPACK_DEBIAN_PACKAGE_MAINTAINER darbyjohnston@yahoo.com)
     set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
     configure_file(
