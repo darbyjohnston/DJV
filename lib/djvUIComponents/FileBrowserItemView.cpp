@@ -756,6 +756,7 @@ namespace djv
                     try
                     {
                         p.nameFontMetrics = p.nameFontMetricsFuture.get();
+                        _resize();
                     }
                     catch (const std::exception & e)
                     {
@@ -772,7 +773,7 @@ namespace djv
                             try
                             {
                                 p.nameLines[i->first] = i->second.get();
-                                _redraw();
+                                _resize();
                             }
                             catch (const std::exception & e)
                             {
@@ -826,7 +827,7 @@ namespace djv
                                 {
                                     p.thumbnails[i->first] = image;
                                     p.thumbnailTimers[i->first] = _getUpdateTime();
-                                    _redraw();
+                                    _resize();
                                 }
                             }
                             catch (const std::exception & e)
@@ -859,7 +860,7 @@ namespace djv
                             ++i;
                         }
                     }
-                    _redraw();
+                    _resize();
                 }
                 {
                     auto i = p.iconsFutures.begin();
@@ -871,7 +872,7 @@ namespace djv
                             try
                             {
                                 p.icons[i->first] = i->second.get();
-                                _redraw();
+                                _resize();
                             }
                             catch (const std::exception & e)
                             {
@@ -895,7 +896,7 @@ namespace djv
                             try
                             {
                                 p.nameGlyphs[i->first] = i->second.get();
-                                _redraw();
+                                _resize();
                             }
                             catch (const std::exception & e)
                             {
@@ -919,7 +920,7 @@ namespace djv
                             try
                             {
                                 p.sizeGlyphs[i->first] = i->second.get();
-                                _redraw();
+                                _resize();
                             }
                             catch (const std::exception & e)
                             {
@@ -943,7 +944,7 @@ namespace djv
                             try
                             {
                                 p.timeGlyphs[i->first] = i->second.get();
-                                _redraw();
+                                _resize();
                             }
                             catch (const std::exception & e)
                             {
