@@ -60,7 +60,7 @@ namespace djv
         namespace
         {
             //! \todo Should this be configurable?
-            const size_t tooltipTimeout  = 500;
+            const Time::Unit tooltipTimeout = std::chrono::milliseconds(500);
             const float tooltipHideDelta = 1.F;
 
             size_t globalWidgetCount = 0;
@@ -572,7 +572,7 @@ namespace djv
                             const auto j = _pointerHover.find(i.first);
                             const auto t = std::chrono::duration_cast<std::chrono::milliseconds>(_updateTime - i.second.timer);
                             if (_tooltipsEnabled &&
-                                t.count() > tooltipTimeout &&
+                                t > tooltipTimeout &&
                                 !i.second.tooltip &&
                                 j != _pointerHover.end())
                             {

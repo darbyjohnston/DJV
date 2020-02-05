@@ -53,7 +53,7 @@ namespace djv
     {
         namespace
         {
-            const size_t cursorTimeout = 500;
+            const Time::Unit cursorTimeout = std::chrono::milliseconds(500);
 
         } // namespace
 
@@ -912,7 +912,7 @@ namespace djv
                 p.cursorBlink = true;
                 auto weak = std::weak_ptr<LineEditBase>(std::dynamic_pointer_cast<LineEditBase>(shared_from_this()));
                 p.cursorBlinkTimer->start(
-                    std::chrono::milliseconds(cursorTimeout),
+                    cursorTimeout,
                     [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                 {
                     if (auto widget = weak.lock())
