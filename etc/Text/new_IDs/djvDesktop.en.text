@@ -1,0 +1,4 @@
+{
+    "Cannot initialize GLFW.": "cannot_initialize_glfw",
+    "Cannot create GLFW window.": "cannot_create_glfw_window"
+}

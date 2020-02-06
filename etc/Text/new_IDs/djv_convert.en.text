@@ -1,0 +1,20 @@
+{
+    "Nothing to convert": "nothing_to_convert",
+    " Usage:": "usage",
+    "   djv_convert (input) (output) [option, ...]": "djv_convert_input_output_option",
+    " Options:": "options",
+    "   -resize \\\"(width) (height)\\\"": "-resize_width_height",
+    "   Resize the image.": "resize_the_image",
+    "   -readSeq": "-readseq",
+    "   Interpret the input file name as a sequence.": "interpret_the_input_file_name_as_a_sequence",
+    "   -writeSeq": "-writeseq",
+    "   Interpret the output file name as a sequence.": "interpret_the_output_file_name_as_a_sequence",
+    "   -readQueue (value)": "-readqueue_value",
+    "   Set the size of the read queue.": "set_the_size_of_the_read_queue",
+    "   -writeQueue (value)": "-writequeue_value",
+    "   Set the size of the write queue.": "set_the_size_of_the_write_queue",
+    "   -readThreads (value)": "-readthreads_value",
+    "   Set the number of threads for reading.": "set_the_number_of_threads_for_reading",
+    "   -writeThreads (value)": "-writethreads_value",
+    "   Set the number of threads for writing.": "set_the_number_of_threads_for_writing"
+}
