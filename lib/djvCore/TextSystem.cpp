@@ -459,35 +459,18 @@ namespace djv
                     throw FileSystem::Error(ss.str());
                 }
 
-                if (v.is<picojson::array>())
+                if (v.is<picojson::object>())
                 {
-                    for (const auto& item : v.get<picojson::array>())
+                    std::string id;
+                    std::string text;
+                    const auto& obj = v.get<picojson::object>();
+                    for (auto i = obj.begin(); i != obj.end(); ++i)
                     {
-                        if (item.is<picojson::object>())
+                        id = i->first;
+                        text = i->second.to_str();
+                        if (!id.empty())
                         {
-                            std::string id;
-                            std::string text;
-                            std::string description;
-                            const auto& obj = item.get<picojson::object>();
-                            for (auto i = obj.begin(); i != obj.end(); ++i)
-                            {
-                                if ("id" == i->first)
-                                {
-                                    id = i->second.to_str();
-                                }
-                                else if ("text" == i->first)
-                                {
-                                    text = i->second.to_str();
-                                }
-                                else if ("description" == i->first)
-                                {
-                                    description = i->second.to_str();
-                                }
-                            }
-                            if (!id.empty())
-                            {
-                                out[locale][id] = text;
-                            }
+                            out[locale][id] = text;
                         }
                     }
                 }
