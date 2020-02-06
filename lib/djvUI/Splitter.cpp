@@ -376,7 +376,7 @@ namespace djv
                 if (event.getPointerInfo().id != p.pressedID.first)
                     return;
                 event.accept();
-                p.pressedID.first = Event::InvalidID;
+                p.pressedID.first = Event::invalidID;
                 p.pressedID.second = 0;
                 _redraw();
             }

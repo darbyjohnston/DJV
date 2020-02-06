@@ -72,7 +72,7 @@ namespace djv
             void _doHoverCallback(const PointerData&);
             void _doDragCallback(const PointerData&);
 
-            uint32_t _pressedID = Core::Event::InvalidID;
+            uint32_t _pressedID = Core::Event::invalidID;
             std::map<int, bool> _buttons;
             std::function<void(PointerData)> _hoverCallback;
             std::function<void(PointerData)> _dragCallback;

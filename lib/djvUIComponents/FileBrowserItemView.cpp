@@ -94,7 +94,7 @@ namespace djv
 
                 size_t hover = invalid;
                 size_t grab = invalid;
-                Event::PointerID pressedId = Event::InvalidID;
+                Event::PointerID pressedId = Event::invalidID;
                 glm::vec2 pressedPos = glm::vec2(0.F, 0.F);
                 std::function<void(const FileSystem::FileInfo &)> callback;
             };
@@ -641,7 +641,7 @@ namespace djv
                     if (!accepted)
                     {
                         p.grab = invalid;
-                        p.pressedId = Event::InvalidID;
+                        p.pressedId = Event::invalidID;
                         _redraw();
                     }
                 }
@@ -687,7 +687,7 @@ namespace djv
                 {
                     event.accept();
                     p.grab = invalid;
-                    p.pressedId = Event::InvalidID;
+                    p.pressedId = Event::invalidID;
                     const auto & hover = _getPointerHover();
                     const auto i = hover.find(pointerInfo.id);
                     if (p.callback && i != hover.end())

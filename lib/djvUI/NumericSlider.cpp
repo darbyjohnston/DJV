@@ -52,7 +52,7 @@ namespace djv
             float handleWidth = 0.F;
             Time::Unit delay = Time::Unit::zero();
             std::shared_ptr<Time::Timer> delayTimer;
-            Event::PointerID pressedID = Event::InvalidID;
+            Event::PointerID pressedID = Event::invalidID;
             glm::vec2 pressedPos = glm::vec2(0.F, 0.F);
             glm::vec2 prevPos = glm::vec2(0.F, 0.F);
         };
@@ -204,7 +204,7 @@ namespace djv
             render->drawRect(handleBBox);
             render->setFillColor(style->getColor(ColorRole::Button));
             render->drawRect(handleBBox.margin(-b));
-            if (p.pressedID != Event::InvalidID)
+            if (p.pressedID != Event::invalidID)
             {
                 render->setFillColor(style->getColor(ColorRole::Pressed));
                 render->drawRect(handleBBox);
@@ -320,7 +320,7 @@ namespace djv
             if (pointerInfo.id == p.pressedID)
             {
                 event.accept();
-                p.pressedID = Event::InvalidID;
+                p.pressedID = Event::invalidID;
                 _buttonRelease();
                 p.delayTimer->stop();
                 _redraw();

@@ -84,7 +84,7 @@ namespace djv
             std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > currentFrameGlyphsFuture;
             float maxFrameLength = 0.F;
             std::future<glm::vec2> maxFrameSizeFuture;
-            uint32_t pressedID = Event::InvalidID;
+            uint32_t pressedID = Event::invalidID;
             bool pip = true;
             AV::TimeUnits timeUnits = AV::TimeUnits::First;
             std::shared_ptr<TimelinePIPWidget> pipWidget;
@@ -596,7 +596,7 @@ namespace djv
             if (event.getPointerInfo().id != p.pressedID)
                 return;
             event.accept();
-            p.pressedID = Event::InvalidID;
+            p.pressedID = Event::invalidID;
             _redraw();
             _doCurrentFrameDragCallback(false);
         }

@@ -48,7 +48,7 @@ namespace djv
             AV::Image::Color color;
             MetricsRole swatchSizeRole = MetricsRole::Swatch;
             bool border = true;
-            Event::PointerID pressedID = Event::InvalidID;
+            Event::PointerID pressedID = Event::invalidID;
             std::function<void(void)> clickedCallback;
         };
 
@@ -246,7 +246,7 @@ namespace djv
                 if (pointerInfo.id == p.pressedID)
                 {
                     event.accept();
-                    p.pressedID = Event::InvalidID;
+                    p.pressedID = Event::invalidID;
                     const BBox2f& g = getGeometry();
                     const auto& hover = _getPointerHover();
                     const auto i = hover.find(pointerInfo.id);

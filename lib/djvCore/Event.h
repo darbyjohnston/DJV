@@ -225,7 +225,7 @@ namespace djv
             typedef uint32_t PointerID;
 
             //! This constant provides an invalid pointer ID.
-            const PointerID InvalidID = 0;
+            const PointerID invalidID = 0;
 
             //! This struct provides information about the pointer.
             class PointerInfo
@@ -233,7 +233,7 @@ namespace djv
             public:
                 PointerInfo();
                 
-                PointerID id = InvalidID;
+                PointerID id = invalidID;
                 glm::vec3 pos = glm::vec3(0.F, 0.F, 0.F);
                 glm::vec3 dir = glm::vec3(0.F, 0.F, 0.F);
                 glm::vec2 projectedPos = glm::vec2(-1.F, -1.F);

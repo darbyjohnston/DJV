@@ -86,7 +86,7 @@ namespace djv
             std::vector<std::shared_ptr<AV::Font::Glyph> > glyphs;
             std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > glyphsFuture;
             bool cursorBlink = false;
-            Event::PointerID pressedID = Event::InvalidID;
+            Event::PointerID pressedID = Event::invalidID;
 
             std::shared_ptr<Time::Timer> cursorBlinkTimer;
             
@@ -459,7 +459,7 @@ namespace djv
             if (pointerInfo.id == p.pressedID)
             {
                 event.accept();
-                p.pressedID = Event::InvalidID;
+                p.pressedID = Event::invalidID;
             }
         }
 

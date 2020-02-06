@@ -122,7 +122,7 @@ namespace djv
                 return;
             event.accept();
             const auto& info = event.getPointerInfo();
-            _pressedID = Event::InvalidID;
+            _pressedID = Event::invalidID;
             _buttons = std::map<int, bool>();
             _doDragCallback(PointerData(PointerState::End, info.pos, info.buttons));
         }
