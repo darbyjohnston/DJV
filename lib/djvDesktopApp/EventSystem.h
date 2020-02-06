@@ -81,6 +81,7 @@ namespace djv
             static void _resizeCallback(GLFWwindow*, int, int);
             static void _contentScaleCallback(GLFWwindow*, float, float);
             static void _redrawCallback(GLFWwindow *);
+            static void _pointerEnterCallback(GLFWwindow*, int);
             static void _pointerCallback(GLFWwindow *, double, double);
             static void _buttonCallback(GLFWwindow *, int button, int action, int mods);
             static void _dropCallback(GLFWwindow *, int, const char **);

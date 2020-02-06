@@ -571,10 +571,12 @@ namespace djv
                         {
                             const auto j = _pointerHover.find(i.first);
                             const auto t = std::chrono::duration_cast<std::chrono::milliseconds>(_updateTime - i.second.timer);
+                            const auto& g = getGeometry();
                             if (_tooltipsEnabled &&
                                 t > tooltipTimeout &&
                                 !i.second.tooltip &&
-                                j != _pointerHover.end())
+                                j != _pointerHover.end() &&
+                                g.contains(j->second))
                             {
                                 for (
                                     auto widget = std::dynamic_pointer_cast<Widget>(shared_from_this());

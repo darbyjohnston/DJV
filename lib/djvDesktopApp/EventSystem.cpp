@@ -130,6 +130,7 @@ namespace djv
             glfwSetFramebufferSizeCallback(glfwWindow, _resizeCallback);
             glfwSetWindowContentScaleCallback(glfwWindow, _contentScaleCallback);
             glfwSetWindowRefreshCallback(glfwWindow, _redrawCallback);
+            glfwSetCursorEnterCallback(glfwWindow, _pointerEnterCallback);
             glfwSetCursorPosCallback(glfwWindow, _pointerCallback);
             glfwSetMouseButtonCallback(glfwWindow, _buttonCallback);
             glfwSetDropCallback(glfwWindow, _dropCallback);
@@ -460,6 +461,27 @@ namespace djv
             if (auto system = context->getSystemT<EventSystem>())
             {
                 system->_redraw();
+            }
+        }
+
+        void EventSystem::_pointerEnterCallback(GLFWwindow* window, int value)
+        {
+            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
+            if (auto system = context->getSystemT<EventSystem>())
+            {
+                if (GLFW_FALSE == value)
+                {
+                    Event::PointerInfo info;
+                    info.id = pointerID;
+                    info.pos.x = -1.F;
+                    info.pos.y = -1.F;
+                    info.pos.z = 0.F;
+                    info.dir.x = 0.F;
+                    info.dir.y = 0.F;
+                    info.dir.z = 1.F;
+                    info.projectedPos = info.pos;
+                    system->_pointerMove(info);
+                }
             }
         }
 
