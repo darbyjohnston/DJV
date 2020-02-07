@@ -61,6 +61,7 @@ namespace djv
             void _buttonPress(float) override;
             void _buttonRelease() override;
             bool _keyPress(int) override;
+            void _scroll(float) override;
             void _valueUpdate() override;
         
             void _paintEvent(Core::Event::Paint &) override;

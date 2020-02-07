@@ -371,6 +371,7 @@ namespace djv
                         x = geom.min.x + geom.w();
                     }
                 }
+                render->setFillColor(style->getColor(p.textColorRole));
                 render->drawRect(BBox2f(
                     g.min.x + m + x - p.viewOffset,
                     g.min.y + m,
@@ -881,12 +882,12 @@ namespace djv
             {
                 p.sizeStringFuture = p.fontSystem->measure(p.sizeString, fontInfo);
             }
-            p.glyphGeomFuture = p.fontSystem->measureGlyphs(p.text, fontInfo);
-            p.glyphGeom.clear();
             if (!p.text.size())
             {
+                p.glyphGeom.clear();
                 p.glyphs.clear();
             }
+            p.glyphGeomFuture = p.fontSystem->measureGlyphs(p.text, fontInfo);
             p.glyphsFuture = p.fontSystem->getGlyphs(p.text, fontInfo);
         }
 

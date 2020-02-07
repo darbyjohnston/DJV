@@ -148,6 +148,14 @@ namespace djv
             return INumericEdit<float>::_keyPress(fromGLFWKey(value));
         }
 
+        void FloatEdit::_scroll(float value)
+        {
+            if (auto model = getModel())
+            {
+                model->setValue(model->observeValue()->get() + model->observeSmallIncrement()->get() * value);
+            }
+        }
+
         void FloatEdit::_incrementValue()
         {
             if (auto model = getModel())

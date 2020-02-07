@@ -360,6 +360,17 @@ namespace djv
             _redraw();
         }
 
+        void NumericSlider::_scrollEvent(Event::Scroll& event)
+        {
+            DJV_PRIVATE_PTR();
+            if (isEnabled(true))
+            {
+                event.accept();
+                takeTextFocus();
+                _scroll(event.getScrollDelta().y);
+            }
+        }
+
         void NumericSlider::_initEvent(Event::Init& event)
         {
             Widget::_initEvent(event);

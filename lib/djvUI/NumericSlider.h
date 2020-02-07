@@ -63,6 +63,7 @@ namespace djv
             virtual void _buttonPress(float) = 0;
             virtual void _buttonRelease() = 0;
             virtual bool _keyPress(int) = 0;
+            virtual void _scroll(float) = 0;
             virtual void _valueUpdate() = 0;
             
             void _preLayoutEvent(Core::Event::PreLayout &) override;
@@ -74,6 +75,7 @@ namespace djv
             void _keyPressEvent(Core::Event::KeyPress&) override;
             void _textFocusEvent(Core::Event::TextFocus&) override;
             void _textFocusLostEvent(Core::Event::TextFocusLost&) override;
+            void _scrollEvent(Core::Event::Scroll&) override;
 
             void _initEvent(Core::Event::Init&) override;
 

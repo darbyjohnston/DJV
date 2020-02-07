@@ -132,6 +132,14 @@ namespace djv
             return INumericEdit<int>::_keyPress(fromGLFWKey(value));
         }
 
+        void IntEdit::_scroll(float value)
+        {
+            if (auto model = getModel())
+            {
+                model->setValue(model->observeValue()->get() + static_cast<int>(model->observeSmallIncrement()->get() * value));
+            }
+        }
+
         void IntEdit::_incrementValue()
         {
             if (auto model = getModel())

@@ -112,7 +112,15 @@ namespace djv
         {
             return INumericSlider<int>::_keyPress(fromGLFWKey(key));
         }
-        
+
+        void BasicIntSlider::_scroll(float value)
+        {
+            if (auto model = getModel())
+            {
+                model->setValue(model->observeValue()->get() + static_cast<int>(model->observeSmallIncrement()->get() * value));
+            }
+        }
+
         void BasicIntSlider::_valueUpdate()
         {
             INumericSlider<int>::_valueUpdate();

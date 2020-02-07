@@ -61,6 +61,7 @@ namespace djv
 
             void _textEdit(const std::string&, TextEditReason) override;
             bool _keyPress(int) override;
+            void _scroll(float) override;
             void _incrementValue() override;
             void _decrementValue() override;
 

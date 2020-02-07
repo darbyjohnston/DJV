@@ -312,5 +312,16 @@ namespace djv
             }
         }
 
+        void NumericEdit::_scrollEvent(Event::Scroll& event)
+        {
+            DJV_PRIVATE_PTR();
+            if (isEnabled(true))
+            {
+                event.accept();
+                p.lineEditBase->takeTextFocus();
+                _scroll(event.getScrollDelta().y);
+            }
+        }
+
     } // namespace UI
 } // namespace djv
