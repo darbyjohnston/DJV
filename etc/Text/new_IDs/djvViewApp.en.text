@@ -42,7 +42,7 @@
     "Config": "widget_color_space_config",
     "Display": "widget_color_space_display",
     "Image": "widget_color_space_image",
-    "None": "widget_color_space_display_name_none",
+    "None": "None",
     "Default": "widget_color_space_display_name_default",
 
     "Slow": "settings_scroll_wheel_slow",
@@ -506,7 +506,7 @@
     "Position": "position",
     "Zoom": "zoom",
     "Labels": "widget_view_grid_labels",
-    "Background": "widget_view_background",
+    "Background": "Background",
 
     "Scroll wheel zoom speed": "scroll_wheel_zoom_speed"
 }

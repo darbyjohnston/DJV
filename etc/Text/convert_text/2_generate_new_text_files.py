@@ -4,7 +4,7 @@ from glob import glob
 from html import unescape
 
 
-for language in ("cs", "da", "de", "el", "es", "fr", "it", "is", "ko", "ja", "pl", "pt", "ru", "sv", "zh"):
+for language in ("cs", "da", "de", "el", "en", "es", "fr", "it", "is", "ko", "ja", "pl", "pt", "ru", "sv", "zh"):
     for new_id_path in glob("new_IDs/*.*.text"):
         # Open IDs map
         with open(new_id_path) as rf:
