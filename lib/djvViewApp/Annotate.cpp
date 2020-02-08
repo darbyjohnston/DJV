@@ -110,10 +110,10 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         ViewApp,
         AnnotateType,
-        DJV_TEXT("Polyline"),
-        DJV_TEXT("Line"),
-        DJV_TEXT("Rectangle"),
-        DJV_TEXT("Ellipse"));
+        DJV_TEXT("polyline"),
+        DJV_TEXT("line"),
+        DJV_TEXT("rectangle"),
+        DJV_TEXT("ellipse"));
 
     picojson::value toJSON(ViewApp::AnnotateType value)
     {
@@ -131,7 +131,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
     }
 

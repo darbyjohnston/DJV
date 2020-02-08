@@ -1,0 +1,16 @@
+{
+    "cli_usage": "Uso:",
+    "cli_djv_test_pattern_output_option": "djv_test_pattern (output) [opção, ...]",
+    "cli_options": "Opções:",
+    "cli_option_frame_number": "-frameCount (valor)",
+    "cli_description_frame_number": "O número de quadros a serem renderizados. Padrão:",
+    "cli_option_resolution": "-tamanho \\ &quot;(largura) (altura) \\&quot;",
+    "cli_description_resolution": "A resolução da imagem. Padrão:",
+    "cli_option_type": "-type (valor)",
+    "cli_description_type": "O tipo de imagem. Padrão:",
+    "cli_examples": "Exemplos:",
+    "cli_djv_test_pattern_test_1_dpx": "&gt; djv_test_pattern test.1.dpx",
+    "cli_render_a_test_pattern_with_the_default_values": "Renderize um padrão de teste com os valores padrão.",
+    "cli_djv_test_pattern_test_1_tif_-size_3840_2160_-type_rgb_u16": "&gt; djv_test_pattern test.1.tif - tamanho &#39;3840 2160&#39; - tipo RGB_U16",
+    "cli_render_a_uhd_resolution_test_pattern_with_a_rgb_16-bit_image_type": "Renderize um padrão de teste de resolução UHD com um tipo de imagem RGB de 16 bits."
+}

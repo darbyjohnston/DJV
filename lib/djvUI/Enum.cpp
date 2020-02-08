@@ -115,7 +115,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
     }
 
@@ -128,61 +128,61 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
     }
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         Orientation,
-        DJV_TEXT("Horizontal"),
-        DJV_TEXT("Vertical"));
+        DJV_TEXT("direction_horizontal"),
+        DJV_TEXT("direction_vertical"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         Side,
-        DJV_TEXT("Left"),
-        DJV_TEXT("Top"),
-        DJV_TEXT("Right"),
-        DJV_TEXT("Bottom"));
+        DJV_TEXT("menu_view_left"),
+        DJV_TEXT("direction_top"),
+        DJV_TEXT("menu_view_right"),
+        DJV_TEXT("direction_bottom"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         Expand,
         DJV_TEXT("None"),
-        DJV_TEXT("Horizontal"),
-        DJV_TEXT("Vertical"),
+        DJV_TEXT("direction_horizontal"),
+        DJV_TEXT("direction_vertical"),
         DJV_TEXT("Both"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         HAlign,
-        DJV_TEXT("Center"),
-        DJV_TEXT("Left"),
-        DJV_TEXT("Right"),
-        DJV_TEXT("Fill"));
+        DJV_TEXT("menu_view_center"),
+        DJV_TEXT("menu_view_left"),
+        DJV_TEXT("menu_view_right"),
+        DJV_TEXT("menu_view_fill"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         VAlign,
-        DJV_TEXT("Center"),
-        DJV_TEXT("Top"),
-        DJV_TEXT("Bottom"),
-        DJV_TEXT("Fill"));
+        DJV_TEXT("menu_view_center"),
+        DJV_TEXT("direction_top"),
+        DJV_TEXT("direction_bottom"),
+        DJV_TEXT("menu_view_fill"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         TextHAlign,
-        DJV_TEXT("Center"),
-        DJV_TEXT("Left"),
-        DJV_TEXT("Right"));
+        DJV_TEXT("menu_view_center"),
+        DJV_TEXT("menu_view_left"),
+        DJV_TEXT("menu_view_right"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         TextVAlign,
-        DJV_TEXT("Center"),
-        DJV_TEXT("Top"),
-        DJV_TEXT("Bottom"),
+        DJV_TEXT("menu_view_center"),
+        DJV_TEXT("direction_top"),
+        DJV_TEXT("direction_bottom"),
         DJV_TEXT("Baseline"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
@@ -196,8 +196,8 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         SortOrder,
-        DJV_TEXT("Forward"),
-        DJV_TEXT("Reverse"));
+        DJV_TEXT("menu_playback_forward"),
+        DJV_TEXT("menu_playback_reverse"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
@@ -281,19 +281,19 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         ImageAspectRatio,
-        DJV_TEXT("Native"),
-        DJV_TEXT("Default"),
-        DJV_TEXT("16:9"),
-        DJV_TEXT("1.85"),
-        DJV_TEXT("2.35"));
+        DJV_TEXT("aspect_ratio_native"),
+        DJV_TEXT("widget_color_space_display_name_default"),
+        DJV_TEXT("aspect_ratio_16_9"),
+        DJV_TEXT("aspect_ratio_1_85"),
+        DJV_TEXT("aspect_ratio_2_35"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         Popup,
-        DJV_TEXT("BelowRight"),
-        DJV_TEXT("BelowLeft"),
-        DJV_TEXT("AboveRight"),
-        DJV_TEXT("AboveLeft"));
+        DJV_TEXT("belowright"),
+        DJV_TEXT("belowleft"),
+        DJV_TEXT("aboveright"),
+        DJV_TEXT("aboveleft"));
 
 } // namespace djv
 

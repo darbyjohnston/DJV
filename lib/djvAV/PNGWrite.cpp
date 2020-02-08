@@ -234,7 +234,7 @@ namespace djv
                     }
                     if (!f.open(fileName))
                     {
-                        throw FileSystem::Error(DJV_TEXT("Cannot open file."));
+                        throw FileSystem::Error(DJV_TEXT("error_file_open"));
                     }
                     const auto& info = image->getInfo();
                     if (!pngOpen(f.f, f.png, &f.pngInfo, info))

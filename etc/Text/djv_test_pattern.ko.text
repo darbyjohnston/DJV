@@ -1,0 +1,16 @@
+{
+    "cli_usage": "용법:",
+    "cli_djv_test_pattern_output_option": "djv_test_pattern (출력) [옵션, ...]",
+    "cli_options": "옵션 :",
+    "cli_option_frame_number": "-frameCount (값)",
+    "cli_description_frame_number": "렌더링 할 프레임 수입니다. 기본:",
+    "cli_option_resolution": "-크기 \\ &quot;(폭) (높이) \\&quot;",
+    "cli_description_resolution": "이미지 해상도. 기본:",
+    "cli_option_type": "유형 (값)",
+    "cli_description_type": "이미지 타입. 기본:",
+    "cli_examples": "예 :",
+    "cli_djv_test_pattern_test_1_dpx": "&gt; djv_test_pattern test.1.dpx",
+    "cli_render_a_test_pattern_with_the_default_values": "기본값으로 테스트 패턴을 렌더링하십시오.",
+    "cli_djv_test_pattern_test_1_tif_-size_3840_2160_-type_rgb_u16": "&gt; djv_test_pattern test.1.tif -size &#39;3840 2160&#39;-유형 RGB_U16",
+    "cli_render_a_uhd_resolution_test_pattern_with_a_rgb_16-bit_image_type": "RGB 16 비트 이미지 유형으로 UHD 해상도 테스트 패턴을 렌더링하십시오."
+}

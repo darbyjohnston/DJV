@@ -443,7 +443,7 @@ namespace djv
         UI::Layout,
         RowStretch,
         DJV_TEXT("None"),
-        DJV_TEXT("Expand"));
+        DJV_TEXT("expand"));
 
 } // namespace ddjv
 

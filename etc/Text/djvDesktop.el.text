@@ -1,0 +1,4 @@
+{
+    "error_glfw_init": "Δεν είναι δυνατή η προετοιμασία του GLFW.",
+    "error_glfw_window_creation": "Δεν είναι δυνατή η δημιουργία παραθύρου GLFW."
+}

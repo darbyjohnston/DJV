@@ -138,7 +138,7 @@ namespace djv
         void ColorTypeWidget::_initEvent(Event::Init & event)
         {
             Widget::_initEvent(event);
-            setTooltip(_getText(DJV_TEXT("Color type widget tooltip")));
+            setTooltip(_getText(DJV_TEXT("color_type_widget_tooltip")));
             _widgetUpdate();
         }
 
@@ -426,11 +426,11 @@ namespace djv
             {
                 const std::vector<std::string> text =
                 {
-                    _getText(DJV_TEXT("L"))
+                    _getText(DJV_TEXT("key_l"))
                 };
                 const std::vector<std::string> tooltips =
                 {
-                    _getText(DJV_TEXT("Color sliders luminance tooltip"))
+                    _getText(DJV_TEXT("color_sliders_luminance_tooltip"))
                 };
                 if (AV::Image::isIntType(type))
                 {
@@ -452,13 +452,13 @@ namespace djv
             {
                 const std::vector<std::string> text =
                 {
-                    _getText(DJV_TEXT("L")),
-                    _getText(DJV_TEXT("A"))
+                    _getText(DJV_TEXT("key_l")),
+                    _getText(DJV_TEXT("key_a"))
                 };
                 const std::vector<std::string> tooltips =
                 {
-                    _getText(DJV_TEXT("Color sliders luminance tooltip")),
-                    _getText(DJV_TEXT("Color sliders alpha tooltip"))
+                    _getText(DJV_TEXT("color_sliders_luminance_tooltip")),
+                    _getText(DJV_TEXT("color_sliders_alpha_tooltip"))
                 };
                 if (AV::Image::isIntType(type))
                 {
@@ -496,30 +496,30 @@ namespace djv
                 {
                     text =
                     {
-                        _getText(DJV_TEXT("H")),
-                        _getText(DJV_TEXT("S")),
-                        _getText(DJV_TEXT("V"))
+                        _getText(DJV_TEXT("key_h")),
+                        _getText(DJV_TEXT("key_s")),
+                        _getText(DJV_TEXT("key_v"))
                     };
                     tooltips =
                     {
-                        _getText(DJV_TEXT("Color sliders hue tooltip")),
-                        _getText(DJV_TEXT("Color sliders saturation tooltip")),
-                        _getText(DJV_TEXT("Color sliders value tooltip"))
+                        _getText(DJV_TEXT("color_sliders_hue_tooltip")),
+                        _getText(DJV_TEXT("color_sliders_saturation_tooltip")),
+                        _getText(DJV_TEXT("color_sliders_value_tooltip"))
                     };
                 }
                 else
                 {
                     text =
                     {
-                        _getText(DJV_TEXT("R")),
-                        _getText(DJV_TEXT("G")),
-                        _getText(DJV_TEXT("B"))
+                        _getText(DJV_TEXT("key_r")),
+                        _getText(DJV_TEXT("key_g")),
+                        _getText(DJV_TEXT("key_b"))
                     };
                     tooltips =
                     {
-                        _getText(DJV_TEXT("Color sliders red tooltip")),
-                        _getText(DJV_TEXT("Color sliders green tooltip")),
-                        _getText(DJV_TEXT("Color sliders blue tooltip"))
+                        _getText(DJV_TEXT("color_sliders_red_tooltip")),
+                        _getText(DJV_TEXT("color_sliders_green_tooltip")),
+                        _getText(DJV_TEXT("color_sliders_blue_tooltip"))
                     };
                 }
                 if (AV::Image::isIntType(type))
@@ -558,34 +558,34 @@ namespace djv
                 {
                     text =
                     {
-                        _getText(DJV_TEXT("H")),
-                        _getText(DJV_TEXT("S")),
-                        _getText(DJV_TEXT("V")),
-                        _getText(DJV_TEXT("A"))
+                        _getText(DJV_TEXT("key_h")),
+                        _getText(DJV_TEXT("key_s")),
+                        _getText(DJV_TEXT("key_v")),
+                        _getText(DJV_TEXT("key_a"))
                     };
                     tooltips =
                     {
-                        _getText(DJV_TEXT("Color sliders hue tooltip")),
-                        _getText(DJV_TEXT("Color sliders saturation tooltip")),
-                        _getText(DJV_TEXT("Color sliders value tooltip")),
-                        _getText(DJV_TEXT("Color sliders alpha tooltip"))
+                        _getText(DJV_TEXT("color_sliders_hue_tooltip")),
+                        _getText(DJV_TEXT("color_sliders_saturation_tooltip")),
+                        _getText(DJV_TEXT("color_sliders_value_tooltip")),
+                        _getText(DJV_TEXT("color_sliders_alpha_tooltip"))
                     };
                 }
                 else
                 {
                     text =
                     {
-                        _getText(DJV_TEXT("R")),
-                        _getText(DJV_TEXT("G")),
-                        _getText(DJV_TEXT("B")),
-                        _getText(DJV_TEXT("A"))
+                        _getText(DJV_TEXT("key_r")),
+                        _getText(DJV_TEXT("key_g")),
+                        _getText(DJV_TEXT("key_b")),
+                        _getText(DJV_TEXT("key_a"))
                     };
                     tooltips =
                     {
-                        _getText(DJV_TEXT("Color sliders red tooltip")),
-                        _getText(DJV_TEXT("Color sliders green tooltip")),
-                        _getText(DJV_TEXT("Color sliders blue tooltip")),
-                        _getText(DJV_TEXT("Color sliders alpha tooltip"))
+                        _getText(DJV_TEXT("color_sliders_red_tooltip")),
+                        _getText(DJV_TEXT("color_sliders_green_tooltip")),
+                        _getText(DJV_TEXT("color_sliders_blue_tooltip")),
+                        _getText(DJV_TEXT("color_sliders_alpha_tooltip"))
                     };
                 }
                 if (AV::Image::isIntType(type))

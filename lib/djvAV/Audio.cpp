@@ -39,12 +39,12 @@ namespace djv
         {
             /*std::string getALErrorString(ALenum value)
             {
-                std::string out = DJV_TEXT("Unknown");
+                std::string out = DJV_TEXT("error_unknown");
                 switch (value)
                 {
-                case AL_OUT_OF_MEMORY: out = DJV_TEXT("Out of memory"); break;
-                case AL_INVALID_VALUE: out = DJV_TEXT("Invalid value"); break;
-                case AL_INVALID_ENUM:  out = DJV_TEXT("Invalid enum");  break;
+                case AL_OUT_OF_MEMORY: out = DJV_TEXT("error_out_of_memory"); break;
+                case AL_INVALID_VALUE: out = DJV_TEXT("error_invalid_value"); break;
+                case AL_INVALID_ENUM:  out = DJV_TEXT("error_invalid_enum");  break;
                 default: break;
                 }
                 return out;
@@ -57,11 +57,11 @@ namespace djv
         AV::Audio,
         Type,
         DJV_TEXT("None"),
-        DJV_TEXT("U8"),
-        DJV_TEXT("S16"),
-        DJV_TEXT("S32"),
-        DJV_TEXT("F32"),
-        DJV_TEXT("F64"));
+        DJV_TEXT("u8"),
+        DJV_TEXT("s16"),
+        DJV_TEXT("s32"),
+        DJV_TEXT("f32"),
+        DJV_TEXT("f64"));
 
 } // namespace djv
 

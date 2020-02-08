@@ -212,7 +212,7 @@ namespace djv
                                             xmax >= info.video[0].info.size.w ||
                                             ymax >= info.video[0].info.size.h)
                                         {
-                                            throw FileSystem::Error(DJV_TEXT("File not supported."));
+                                            throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
                                         }
 
                                         // NOTE: tile w = xmax - xmin + 1
@@ -223,7 +223,7 @@ namespace djv
 
                                         if (!tw || !th)
                                         {
-                                            throw FileSystem::Error(DJV_TEXT("File not supported."));
+                                            throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
                                         }
 
                                         bool tile_compress = false;
@@ -283,7 +283,7 @@ namespace djv
                                                 // Test.
                                                 if (p != imageSize - 8)
                                                 {
-                                                    throw FileSystem::Error(DJV_TEXT("File not supported."));
+                                                    throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
                                                 }
                                             }
                                             else
@@ -304,7 +304,7 @@ namespace djv
 
                                                         if (size < static_cast<uint32_t>(byteCount))
                                                         {
-                                                            throw FileSystem::Error(DJV_TEXT("File not supported."));
+                                                            throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
                                                         }
 
                                                         size -= byteCount;
@@ -392,7 +392,7 @@ namespace djv
                                                 // Test.
                                                 if (p != imageSize - 8)
                                                 {
-                                                    throw FileSystem::Error(DJV_TEXT("File not supported."));
+                                                    throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
                                                 }
                                             }
                                             else
@@ -413,7 +413,7 @@ namespace djv
 
                                                         if (size < static_cast<uint32_t>(byteCount))
                                                         {
-                                                            throw FileSystem::Error(DJV_TEXT("File not supported."));
+                                                            throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
                                                         }
 
                                                         size -= byteCount;
@@ -570,7 +570,7 @@ namespace djv
                                             // Test if size if correct.
                                             if (tbhdsize != 24 && tbhdsize != 32)
                                             {
-                                                throw FileSystem::Error(DJV_TEXT("Error reading header."));
+                                                throw FileSystem::Error(DJV_TEXT("error_reading_header"));
                                             }
 
                                             // Set data.
@@ -604,7 +604,7 @@ namespace djv
                                             {
                                                 // no compression or non-rle compression not
                                                 // supported
-                                                throw FileSystem::Error(DJV_TEXT("File not supported."));
+                                                throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
                                             }
 
                                             // Get compressed.

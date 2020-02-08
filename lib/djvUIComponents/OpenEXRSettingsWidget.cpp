@@ -160,12 +160,12 @@ namespace djv
 
         std::string OpenEXRSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("OpenEXR");
+            return DJV_TEXT("settings_io_title_openexr");
         }
 
         std::string OpenEXRSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("I/O");
+            return DJV_TEXT("settings_title_io");
         }
 
         std::string OpenEXRSettingsWidget::getSettingsSortKey() const
@@ -177,10 +177,10 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.layout->setText(p.threadCountSlider, _getText(DJV_TEXT("Thread count")) + ":");
-            p.layout->setText(p.channelsComboBox, _getText(DJV_TEXT("Channel grouping")) + ":");
-            p.layout->setText(p.compressionComboBox, _getText(DJV_TEXT("File compression")) + ":");
-            p.layout->setText(p.dwaCompressionLevelSlider, _getText(DJV_TEXT("DWA compression level")) + ":");
+            p.layout->setText(p.threadCountSlider, _getText(DJV_TEXT("thread_count")) + ":");
+            p.layout->setText(p.channelsComboBox, _getText(DJV_TEXT("settings_io_exr_channel_grouping")) + ":");
+            p.layout->setText(p.compressionComboBox, _getText(DJV_TEXT("settings_io_file_compression")) + ":");
+            p.layout->setText(p.dwaCompressionLevelSlider, _getText(DJV_TEXT("settings_io_exr_dwa_compression_level")) + ":");
             _widgetUpdate();
         }
 

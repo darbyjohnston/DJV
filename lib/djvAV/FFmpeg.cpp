@@ -72,17 +72,17 @@ namespace djv
                     std::map<AVSampleFormat, std::string> data =
                     {
                         { AV_SAMPLE_FMT_NONE, DJV_TEXT("None") },
-                        { AV_SAMPLE_FMT_S16, DJV_TEXT("S16") },
-                        { AV_SAMPLE_FMT_S32, DJV_TEXT("S32") },
-                        { AV_SAMPLE_FMT_FLT, DJV_TEXT("Float") },
-                        { AV_SAMPLE_FMT_DBL, DJV_TEXT("Double") },
-                        { AV_SAMPLE_FMT_S16P, DJV_TEXT("S16 Planar") },
-                        { AV_SAMPLE_FMT_S32P, DJV_TEXT("S32 Planar") },
-                        { AV_SAMPLE_FMT_FLTP, DJV_TEXT("Float Planar") },
-                        { AV_SAMPLE_FMT_DBLP, DJV_TEXT("Double Planar") }
+                        { AV_SAMPLE_FMT_S16, DJV_TEXT("s16") },
+                        { AV_SAMPLE_FMT_S32, DJV_TEXT("s32") },
+                        { AV_SAMPLE_FMT_FLT, DJV_TEXT("type_float") },
+                        { AV_SAMPLE_FMT_DBL, DJV_TEXT("type_double") },
+                        { AV_SAMPLE_FMT_S16P, DJV_TEXT("type_s16_planar") },
+                        { AV_SAMPLE_FMT_S32P, DJV_TEXT("type_s32_planar") },
+                        { AV_SAMPLE_FMT_FLTP, DJV_TEXT("type_float_planar") },
+                        { AV_SAMPLE_FMT_DBLP, DJV_TEXT("type_double_planar") }
                     };
                     const auto i = data.find(value);
-                    return i != data.end() ? i->second : DJV_TEXT("Unknown");
+                    return i != data.end() ? i->second : DJV_TEXT("error_unknown");
                 }
 
                 std::string getErrorString(int r)
@@ -119,7 +119,7 @@ namespace djv
                 {
                     IPlugin::_init(
                         pluginName,
-                        DJV_TEXT("This plugin provides FFmpeg image and audio I/O."),
+                        DJV_TEXT("plugin_ffmpeg_io"),
                         fileExtensions,
                         context);
                         
@@ -184,7 +184,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
     }
 

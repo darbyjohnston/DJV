@@ -262,28 +262,28 @@ namespace djv
         void Application::_printUsage()
         {
             std::cout << std::endl;
-            std::cout << DJV_TEXT(" Usage:") << std::endl;
+            std::cout << DJV_TEXT("cli_usage") << std::endl;
             std::cout << std::endl;
-            std::cout << DJV_TEXT("   djv_test_pattern (output) [option, ...]") << std::endl;
+            std::cout << DJV_TEXT("cli_djv_test_pattern_output_option") << std::endl;
             std::cout << std::endl;
-            std::cout << DJV_TEXT(" Options:") << std::endl;
+            std::cout << DJV_TEXT("cli_options") << std::endl;
             std::cout << std::endl;
-            std::cout << DJV_TEXT("   -frameCount (value)") << std::endl;
-            std::cout << DJV_TEXT("   The number of frames to render. Default: ") << frameCountDefault << std::endl;
+            std::cout << DJV_TEXT("cli_option_frame_number") << std::endl;
+            std::cout << DJV_TEXT("cli_description_frame_number") << frameCountDefault << std::endl;
             std::cout << std::endl;
-            std::cout << DJV_TEXT("   -size \"(width) (height)\"") << std::endl;
-            std::cout << DJV_TEXT("   The image resolution. Default: ") << sizeDefault << std::endl;
+            std::cout << DJV_TEXT("cli_option_resolution") << std::endl;
+            std::cout << DJV_TEXT("cli_description_resolution") << sizeDefault << std::endl;
             std::cout << std::endl;
-            std::cout << DJV_TEXT("   -type (value)") << std::endl;
-            std::cout << DJV_TEXT("   The image type. Default: ") << typeDefault << std::endl;
+            std::cout << DJV_TEXT("cli_option_type") << std::endl;
+            std::cout << DJV_TEXT("cli_description_type") << typeDefault << std::endl;
             std::cout << std::endl;
-            std::cout << DJV_TEXT(" Examples:") << std::endl;
+            std::cout << DJV_TEXT("cli_examples") << std::endl;
             std::cout << std::endl;
-            std::cout << DJV_TEXT("   > djv_test_pattern test.1.dpx") << std::endl;
-            std::cout << DJV_TEXT("   Render a test pattern with the default values.") << std::endl;
+            std::cout << DJV_TEXT("cli_djv_test_pattern_test_1_dpx") << std::endl;
+            std::cout << DJV_TEXT("cli_render_a_test_pattern_with_the_default_values") << std::endl;
             std::cout << std::endl;
-            std::cout << DJV_TEXT("   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16") << std::endl;
-            std::cout << DJV_TEXT("   Render a UHD resolution test pattern with a RGB 16-bit image type.") << std::endl;
+            std::cout << DJV_TEXT("cli_djv_test_pattern_test_1_tif_-size_3840_2160_-type_rgb_u16") << std::endl;
+            std::cout << DJV_TEXT("cli_render_a_uhd_resolution_test_pattern_with_a_rgb_16-bit_image_type") << std::endl;
             std::cout << std::endl;
         }
 

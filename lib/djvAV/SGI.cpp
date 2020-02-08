@@ -47,7 +47,7 @@ namespace djv
                     auto out = std::shared_ptr<Plugin>(new Plugin);
                     out->_init(
                         pluginName,
-                        DJV_TEXT("This plugin provides SGI image I/O."),
+                        DJV_TEXT("plugin_sgi_io"),
                         fileExtensions,
                         context);
                     return out;

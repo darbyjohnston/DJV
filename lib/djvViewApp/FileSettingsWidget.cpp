@@ -109,12 +109,12 @@ namespace djv
 
         std::string SequenceSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("Sequences");
+            return DJV_TEXT("settings_file_sequences");
         }
 
         std::string SequenceSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("File");
+            return DJV_TEXT("menu_file");
         }
 
         std::string SequenceSettingsWidget::getSettingsSortKey() const
@@ -126,7 +126,7 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.checkBox->setText(_getText(DJV_TEXT("Auto-detect file sequences")));
+            p.checkBox->setText(_getText(DJV_TEXT("settings_file_auto-detect_file_sequences")));
         }
 
     } // namespace ViewApp

@@ -1206,7 +1206,7 @@ namespace djv
         UI,
         ScrollType,
         DJV_TEXT("Both"),
-        DJV_TEXT("Horizontal"),
-        DJV_TEXT("Vertical"));
+        DJV_TEXT("direction_horizontal"),
+        DJV_TEXT("direction_vertical"));
 
 } // namespace djv

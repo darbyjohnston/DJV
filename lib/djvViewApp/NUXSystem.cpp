@@ -417,12 +417,12 @@ namespace djv
         {
             Window::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.labels["Language"]->setText(_getText(DJV_TEXT("Choose your language")) + ":");
-            p.labels["DisplaySize"]->setText(_getText(DJV_TEXT("Choose a user interface size")) + ":");
-            p.labels["DisplayPalette"]->setText(_getText(DJV_TEXT("Choose a palette")) + ":");
-            p.buttons["Next"]->setText(_getText(DJV_TEXT("Next")));
-            p.buttons["Prev"]->setText(_getText(DJV_TEXT("Previous")));
-            p.buttons["Finish"]->setText(_getText(DJV_TEXT("Finish")));
+            p.labels["Language"]->setText(_getText(DJV_TEXT("startup_choose_language")) + ":");
+            p.labels["DisplaySize"]->setText(_getText(DJV_TEXT("startup_choose_ui_size")) + ":");
+            p.labels["DisplayPalette"]->setText(_getText(DJV_TEXT("startup_choose_palette")) + ":");
+            p.buttons["Next"]->setText(_getText(DJV_TEXT("startup_next")));
+            p.buttons["Prev"]->setText(_getText(DJV_TEXT("startup_previous")));
+            p.buttons["Finish"]->setText(_getText(DJV_TEXT("startup_finish")));
         }
 
         void NUXWidget::_widgetUpdate()

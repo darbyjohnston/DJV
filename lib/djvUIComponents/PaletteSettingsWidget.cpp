@@ -190,12 +190,12 @@ namespace djv
 
         std::string PaletteSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("Palette");
+            return DJV_TEXT("settings_general_section_palette");
         }
 
         std::string PaletteSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("General");
+            return DJV_TEXT("debug_section_general");
         }
 
         std::string PaletteSettingsWidget::getSettingsSortKey() const

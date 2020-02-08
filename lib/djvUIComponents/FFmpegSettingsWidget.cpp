@@ -97,12 +97,12 @@ namespace djv
 
         std::string FFmpegSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("FFmpeg");
+            return DJV_TEXT("file_browser_file_tooltip_ffmpeg");
         }
 
         std::string FFmpegSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("I/O");
+            return DJV_TEXT("settings_title_io");
         }
 
         std::string FFmpegSettingsWidget::getSettingsSortKey() const
@@ -114,7 +114,7 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.layout->setText(p.threadCountSlider, _getText(DJV_TEXT("Thread count")) + ":");
+            p.layout->setText(p.threadCountSlider, _getText(DJV_TEXT("thread_count")) + ":");
             _widgetUpdate();
         }
 

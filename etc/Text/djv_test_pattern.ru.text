@@ -1,0 +1,16 @@
+{
+    "cli_usage": "Использование:",
+    "cli_djv_test_pattern_output_option": "djv_test_pattern (выход) [опция, ...]",
+    "cli_options": "Параметры:",
+    "cli_option_frame_number": "-frameCount (значение)",
+    "cli_description_frame_number": "Количество кадров для визуализации. По умолчанию:",
+    "cli_option_resolution": "размер \\ &quot;(ширина) (высота) \\&quot;",
+    "cli_description_resolution": "Разрешение изображения. По умолчанию:",
+    "cli_option_type": "тип (значение)",
+    "cli_description_type": "Тип изображения. По умолчанию:",
+    "cli_examples": "Примеры:",
+    "cli_djv_test_pattern_test_1_dpx": "&gt; djv_test_pattern test.1.dpx",
+    "cli_render_a_test_pattern_with_the_default_values": "Визуализируйте тестовый шаблон со значениями по умолчанию.",
+    "cli_djv_test_pattern_test_1_tif_-size_3840_2160_-type_rgb_u16": "&gt; djv_test_pattern test.1.tif -size &#39;3840 2160&#39; -типа RGB_U16",
+    "cli_render_a_uhd_resolution_test_pattern_with_a_rgb_16-bit_image_type": "Визуализируйте тестовый шаблон разрешения UHD с 16-битным типом изображения RGB."
+}

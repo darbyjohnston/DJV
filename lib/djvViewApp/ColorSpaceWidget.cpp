@@ -617,16 +617,16 @@ namespace djv
         {
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            setTitle(_getText(DJV_TEXT("Color Space")));
-            p.addConfigButton->setTooltip(_getText(DJV_TEXT("Color space add config tooltip")));
-            p.editConfigButton->setTooltip(_getText(DJV_TEXT("Color space edit configs tooltip")));
-            p.displayLayout->setText(p.displayPopupWidget, _getText(DJV_TEXT("Name")) + ":");
-            p.displayLayout->setText(p.viewPopupWidget, _getText(DJV_TEXT("View")) + ":");
-            p.addImagePopupWidget->setTooltip(_getText(DJV_TEXT("Color space add image tooltip")));
-            p.editImageButton->setTooltip(_getText(DJV_TEXT("Color space edit images tooltip")));
-            p.tabWidget->setText(p.configLayout, DJV_TEXT("Config"));
-            p.tabWidget->setText(p.displayLayout, DJV_TEXT("Display"));
-            p.tabWidget->setText(p.imageLayout, DJV_TEXT("Image"));
+            setTitle(_getText(DJV_TEXT("widget_color_space")));
+            p.addConfigButton->setTooltip(_getText(DJV_TEXT("widget_color_space_add_config_tooltip")));
+            p.editConfigButton->setTooltip(_getText(DJV_TEXT("widget_color_space_edit_configs_tooltip")));
+            p.displayLayout->setText(p.displayPopupWidget, _getText(DJV_TEXT("widget_color_space_display_name")) + ":");
+            p.displayLayout->setText(p.viewPopupWidget, _getText(DJV_TEXT("widget_color_space_display_view")) + ":");
+            p.addImagePopupWidget->setTooltip(_getText(DJV_TEXT("widget_color_space_add_format_tooltip")));
+            p.editImageButton->setTooltip(_getText(DJV_TEXT("widget_color_space_edit_format_tooltip")));
+            p.tabWidget->setText(p.configLayout, DJV_TEXT("widget_color_space_config"));
+            p.tabWidget->setText(p.displayLayout, DJV_TEXT("widget_color_space_display"));
+            p.tabWidget->setText(p.imageLayout, DJV_TEXT("menu_image"));
             _widgetUpdate();
         }
 
@@ -805,7 +805,7 @@ namespace djv
                     std::string s = i.first;
                     if (s.empty())
                     {
-                        s = _getText(DJV_TEXT("Default"));
+                        s = _getText(DJV_TEXT("widget_color_space_display_name_default"));
                     }
                     p.imageItemLayout->setText(hLayout, s + ":");
 

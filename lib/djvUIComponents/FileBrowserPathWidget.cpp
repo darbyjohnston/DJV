@@ -306,7 +306,7 @@ namespace djv
             {
                 Widget::_initEvent(event);
                 DJV_PRIVATE_PTR();
-                p.historyButton->setTooltip(_getText(DJV_TEXT("File browser history tooltip")));
+                p.historyButton->setTooltip(_getText(DJV_TEXT("file_browser_history_tooltip")));
             }
 
             bool PathWidget::_eventFilter(const std::shared_ptr<IObject> & object, Event::Event & event)

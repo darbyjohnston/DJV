@@ -1,0 +1,20 @@
+{
+    "djv_convert_nothing_convert": "변환 할 내용이 없습니다.",
+    "djv_convert_usage_text": "용법:",
+    "djv_convert_usage": "djv_convert (입력) (출력) [옵션, ...]",
+    "djv_convert_options_text": "옵션 :",
+    "djv_convert_option_resize": "크기 조정 \\ &quot;(폭) (높이) \\&quot;",
+    "djv_convert_option_resize_description": "이미지 크기를 조정하십시오.",
+    "djv_convert_option_readseq": "-readSeq",
+    "djv_convert_option_readseq_description": "입력 파일 이름을 시퀀스로 해석하십시오.",
+    "djv_convert_option_writeseq": "-writeSeq",
+    "djv_convert_option_writeseq_description": "출력 파일 이름을 시퀀스로 해석하십시오.",
+    "djv_convert_option_readqueue": "-readQueue (값)",
+    "djv_convert_option_readqueue_description": "읽기 대기열의 크기를 설정하십시오.",
+    "djv_convert_option_writequeue": "-writeQueue (값)",
+    "djv_convert_option_writequeue_description": "쓰기 대기열의 크기를 설정하십시오.",
+    "djv_convert_option_readthreads": "-readThreads (값)",
+    "djv_convert_option_readthreads_description": "읽을 스레드 수를 설정하십시오.",
+    "djv_convert_option_writethreads": "-writeThreads (값)",
+    "djv_convert_option_writethreads_description": "쓰려는 스레드 수를 설정하십시오."
+}

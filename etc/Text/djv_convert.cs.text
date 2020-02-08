@@ -1,0 +1,20 @@
+{
+    "djv_convert_nothing_convert": "Nic převést",
+    "djv_convert_usage_text": "Používání:",
+    "djv_convert_usage": "djv_convert (vstup) (výstup) [možnost, ...]",
+    "djv_convert_options_text": "Možnosti:",
+    "djv_convert_option_resize": "- velikost \\ &quot;(šířka) (výška) \\&quot;",
+    "djv_convert_option_resize_description": "Změňte velikost obrázku.",
+    "djv_convert_option_readseq": "-readSeq",
+    "djv_convert_option_readseq_description": "Interpretujte název vstupního souboru jako sekvenci.",
+    "djv_convert_option_writeseq": "-writeSeq",
+    "djv_convert_option_writeseq_description": "Interpretovat název výstupního souboru jako posloupnost.",
+    "djv_convert_option_readqueue": "-readQueue (value)",
+    "djv_convert_option_readqueue_description": "Nastavte velikost čtecí fronty.",
+    "djv_convert_option_writequeue": "-writeQueue (hodnota)",
+    "djv_convert_option_writequeue_description": "Nastavte velikost fronty pro zápis.",
+    "djv_convert_option_readthreads": "-readThreads (hodnota)",
+    "djv_convert_option_readthreads_description": "Nastavte počet vláken pro čtení.",
+    "djv_convert_option_writethreads": "-writeThreads (hodnota)",
+    "djv_convert_option_writethreads_description": "Nastavte počet vláken pro zápis."
+}

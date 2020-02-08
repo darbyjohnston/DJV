@@ -1,0 +1,20 @@
+{
+    "djv_convert_nothing_convert": "Nic do konwersji",
+    "djv_convert_usage_text": "Stosowanie:",
+    "djv_convert_usage": "djv_convert (wejście) (wyjście) [opcja, ...]",
+    "djv_convert_options_text": "Opcje:",
+    "djv_convert_option_resize": "-resize \\ &quot;(szerokość) (wysokość) \\&quot;",
+    "djv_convert_option_resize_description": "Zmień rozmiar obrazu.",
+    "djv_convert_option_readseq": "-readSeq",
+    "djv_convert_option_readseq_description": "Interpretuj nazwę pliku wejściowego jako sekwencję.",
+    "djv_convert_option_writeseq": "-writeSeq",
+    "djv_convert_option_writeseq_description": "Interpretuj nazwę pliku wyjściowego jako sekwencję.",
+    "djv_convert_option_readqueue": "-readQueue (wartość)",
+    "djv_convert_option_readqueue_description": "Ustaw rozmiar kolejki odczytu.",
+    "djv_convert_option_writequeue": "-writeQueue (wartość)",
+    "djv_convert_option_writequeue_description": "Ustaw rozmiar kolejki zapisu.",
+    "djv_convert_option_readthreads": "-readThreads (wartość)",
+    "djv_convert_option_readthreads_description": "Ustaw liczbę wątków do odczytu.",
+    "djv_convert_option_writethreads": "-writeThreads (wartość)",
+    "djv_convert_option_writethreads_description": "Ustaw liczbę wątków do pisania."
+}

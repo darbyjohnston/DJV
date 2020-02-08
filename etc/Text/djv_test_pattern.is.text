@@ -1,0 +1,16 @@
+{
+    "cli_usage": "Notkun:",
+    "cli_djv_test_pattern_output_option": "djv_test_pattern (framleiðsla) [valkostur, ...]",
+    "cli_options": "Valkostir:",
+    "cli_option_frame_number": "-frameCount (gildi)",
+    "cli_description_frame_number": "Fjöldi ramma sem á að skila. Sjálfgefið:",
+    "cli_option_resolution": "-stærð \\ &quot;(breidd) (hæð) \\&quot;",
+    "cli_description_resolution": "Upplausn myndarinnar. Sjálfgefið:",
+    "cli_option_type": "-gerð (gildi)",
+    "cli_description_type": "Gerð myndarinnar. Sjálfgefið:",
+    "cli_examples": "Dæmi:",
+    "cli_djv_test_pattern_test_1_dpx": "&gt; djv_test_pattern test.1.dpx",
+    "cli_render_a_test_pattern_with_the_default_values": "Skilið prófmynstri með sjálfgefnum gildum.",
+    "cli_djv_test_pattern_test_1_tif_-size_3840_2160_-type_rgb_u16": "&gt; djv_test_pattern test.1.tif-stærð &#39;3840 2160&#39; -gerð RGB_U16",
+    "cli_render_a_uhd_resolution_test_pattern_with_a_rgb_16-bit_image_type": "Gerðu UHD prófunarmynstur með RGB 16 bita gerð."
+}

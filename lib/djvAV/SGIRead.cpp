@@ -254,7 +254,7 @@ namespace djv
                                     bytes,
                                     io.hasEndianConversion()))
                                 {
-                                    throw FileSystem::Error(DJV_TEXT("Read error."));
+                                    throw FileSystem::Error(DJV_TEXT("error_read"));
                                 }
                             }
                         }
@@ -310,7 +310,7 @@ namespace djv
                         io.readU16(&_data.magic);
                         if (_data.magic != 474)
                         {
-                            throw FileSystem::Error(DJV_TEXT("File not supported."));
+                            throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
                         }
                         io.readU8(&_data.storage);
                         io.readU8(&_data.bytes);
@@ -328,7 +328,7 @@ namespace djv
                         info.type = Image::getIntType(_data.channels, 1 == _data.bytes ? 8 : 16);
                         if (Image::Type::None == info.type)
                         {
-                            throw FileSystem::Error(DJV_TEXT("File not supported."));
+                            throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
                         }
                         info.layout.mirror.y = true;
                         info.layout.endian = Memory::Endian::MSB;

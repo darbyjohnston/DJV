@@ -390,7 +390,7 @@ namespace djv
             catch (const std::exception& e)
             {
                 std::stringstream ss;
-                ss << DJV_TEXT("Error reading the environment varible") << " 'DJV_TEXT_PATH'. " << e.what();
+                ss << DJV_TEXT("error_reading_the_environment_varible") << " 'DJV_TEXT_PATH'. " << e.what();
                 p.logSystem->log(getSystemName(), ss.str(), LogLevel::Error);
             }
 
@@ -455,7 +455,7 @@ namespace djv
                 if (!error.empty())
                 {
                     std::stringstream ss;
-                    ss << DJV_TEXT("Error reading the text file") << " '" << path << "'. " << error;
+                    ss << DJV_TEXT("error_reading_the_text_file") << " '" << path << "'. " << error;
                     throw FileSystem::Error(ss.str());
                 }
 

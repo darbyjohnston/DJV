@@ -119,12 +119,12 @@ namespace djv
 
         std::string AutoHideSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("Auto-Hide");
+            return DJV_TEXT("settings_window_auto-hide");
         }
 
         std::string AutoHideSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("Window");
+            return DJV_TEXT("menu_window");
         }
 
         std::string AutoHideSettingsWidget::getSettingsSortKey() const
@@ -136,7 +136,7 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.autoHideCheckBox->setText(_getText(DJV_TEXT("Automatically hide the user interface")));
+            p.autoHideCheckBox->setText(_getText(DJV_TEXT("settings_window_automatically_hide_the_user_interface")));
         }
         
         struct FullscreenMonitorSettingsWidget::Private
@@ -228,12 +228,12 @@ namespace djv
 
         std::string FullscreenMonitorSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("Fullscreen");
+            return DJV_TEXT("settings_window_section_fullscreen");
         }
 
         std::string FullscreenMonitorSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("Window");
+            return DJV_TEXT("menu_window");
         }
 
         std::string FullscreenMonitorSettingsWidget::getSettingsSortKey() const
@@ -245,7 +245,7 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.formLayout->setText(p.monitorComboBox, _getText(DJV_TEXT("Monitor")) + ":");
+            p.formLayout->setText(p.monitorComboBox, _getText(DJV_TEXT("settings_window_section_monitor")) + ":");
         }
 
         void FullscreenMonitorSettingsWidget::_widgetUpdate()
@@ -486,12 +486,12 @@ namespace djv
 
         std::string BackgroundImageSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("Background Image");
+            return DJV_TEXT("settings_window_section_background_image");
         }
 
         std::string BackgroundImageSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("Window");
+            return DJV_TEXT("menu_window");
         }
 
         std::string BackgroundImageSettingsWidget::getSettingsSortKey() const
@@ -503,10 +503,10 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.openButton->setTooltip(_getText(DJV_TEXT("Open the file browser")));
-            p.closeButton->setTooltip(_getText(DJV_TEXT("Clear the background image")));
-            p.scaleCheckBox->setText(_getText(DJV_TEXT("Scale to fit")));
-            p.colorizeCheckBox->setText(_getText(DJV_TEXT("Colorize with the UI style")));
+            p.openButton->setTooltip(_getText(DJV_TEXT("settings_window_open_file_browser")));
+            p.closeButton->setTooltip(_getText(DJV_TEXT("settings_window_clear_background_image")));
+            p.scaleCheckBox->setText(_getText(DJV_TEXT("settings_window_scale_to_fit")));
+            p.colorizeCheckBox->setText(_getText(DJV_TEXT("settings_window_colorize_with_the_ui_style")));
             _imageUpdate();
         }
 

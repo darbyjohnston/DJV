@@ -616,7 +616,7 @@ namespace djv
                     Imf::setGlobalThreadCount(out->_p->options.threadCount);
                     out->_init(
                         pluginName,
-                        DJV_TEXT("This plugin provides OpenEXR file I/O."),
+                        DJV_TEXT("plugin_openexr_io"),
                         fileExtensions,
                         context);
                     return out;
@@ -652,22 +652,22 @@ namespace djv
         AV::IO::OpenEXR,
         Channels,
         DJV_TEXT("None"),
-        DJV_TEXT("Known"),
-        DJV_TEXT("All"));
+        DJV_TEXT("format_exr_channel_grouping_known"),
+        DJV_TEXT("format_exr_channel_grouping_all"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::IO::OpenEXR,
         Compression,
         DJV_TEXT("None"),
-        DJV_TEXT("RLE"),
-        DJV_TEXT("ZIPS"),
-        DJV_TEXT("ZIP"),
-        DJV_TEXT("PIZ"),
-        DJV_TEXT("PXR24"),
-        DJV_TEXT("B44"),
-        DJV_TEXT("B44A"),
-        DJV_TEXT("DWAA"),
-        DJV_TEXT("DWAB"));
+        DJV_TEXT("format_tiff_compression_rle"),
+        DJV_TEXT("format_exr_compression_zips"),
+        DJV_TEXT("format_exr_compression_zip"),
+        DJV_TEXT("format_exr_compression_piz"),
+        DJV_TEXT("format_exr_compression_pxr24"),
+        DJV_TEXT("format_exr_compression_b44"),
+        DJV_TEXT("format_exr_compression_b44a"),
+        DJV_TEXT("format_exr_compression_dwaa"),
+        DJV_TEXT("format_exr_compression_dwab"));
 
     picojson::value toJSON(const AV::IO::OpenEXR::Options & value)
     {
@@ -717,7 +717,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
     }
 

@@ -763,34 +763,34 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.actions.size())
             {
-                p.actions["Open"]->setText(_getText(DJV_TEXT("Open")));
-                p.actions["Open"]->setTooltip(_getText(DJV_TEXT("Open tooltip")));
-                p.actions["Recent"]->setText(_getText(DJV_TEXT("Recent")));
-                p.actions["Recent"]->setTooltip(_getText(DJV_TEXT("Recent tooltip")));
-                p.actions["Reload"]->setText(_getText(DJV_TEXT("Reload")));
-                p.actions["Reload"]->setTooltip(_getText(DJV_TEXT("Reload tooltip")));
-                p.actions["Close"]->setText(_getText(DJV_TEXT("Close")));
-                p.actions["Close"]->setTooltip(_getText(DJV_TEXT("Close tooltip")));
-                p.actions["CloseAll"]->setText(_getText(DJV_TEXT("Close All")));
-                p.actions["CloseAll"]->setTooltip(_getText(DJV_TEXT("Close all tooltip")));
-                //p.actions["Export"]->setText(_getText(DJV_TEXT("Export")));
-                //p.actions["Export"]->setTooltip(_getText(DJV_TEXT("Export tooltip")));
-                p.actions["Next"]->setText(_getText(DJV_TEXT("Next")));
-                p.actions["Next"]->setTooltip(_getText(DJV_TEXT("Next tooltip")));
-                p.actions["Prev"]->setText(_getText(DJV_TEXT("Previous")));
-                p.actions["Prev"]->setTooltip(_getText(DJV_TEXT("Prev tooltip")));
-                p.actions["Layers"]->setText(_getText(DJV_TEXT("Layers")));
-                p.actions["Layers"]->setTooltip(_getText(DJV_TEXT("Layers tooltip")));
-                p.actions["NextLayer"]->setText(_getText(DJV_TEXT("Next layer")));
-                p.actions["NextLayer"]->setTooltip(_getText(DJV_TEXT("Next layer tooltip")));
-                p.actions["PrevLayer"]->setText(_getText(DJV_TEXT("Previous Layer")));
-                p.actions["PrevLayer"]->setTooltip(_getText(DJV_TEXT("Previous layer tooltip")));
-                //p.actions["8BitConversion"]->setText(_getText(DJV_TEXT("8-Bit Conversion")));
-                //p.actions["8BitConversion"]->setTooltip(_getText(DJV_TEXT("8-bit conversion tooltip")));
-                p.actions["Exit"]->setText(_getText(DJV_TEXT("Exit")));
-                p.actions["Exit"]->setTooltip(_getText(DJV_TEXT("Exit tooltip")));
+                p.actions["Open"]->setText(_getText(DJV_TEXT("menu_file_open")));
+                p.actions["Open"]->setTooltip(_getText(DJV_TEXT("menu_file_open_tooltip")));
+                p.actions["Recent"]->setText(_getText(DJV_TEXT("menu_file_recent")));
+                p.actions["Recent"]->setTooltip(_getText(DJV_TEXT("menu_file_recent_tooltip")));
+                p.actions["Reload"]->setText(_getText(DJV_TEXT("menu_file_reload")));
+                p.actions["Reload"]->setTooltip(_getText(DJV_TEXT("menu_file_reload_tooltip")));
+                p.actions["Close"]->setText(_getText(DJV_TEXT("menu_file_close")));
+                p.actions["Close"]->setTooltip(_getText(DJV_TEXT("menu_file_close_tooltip")));
+                p.actions["CloseAll"]->setText(_getText(DJV_TEXT("menu_file_close_all")));
+                p.actions["CloseAll"]->setTooltip(_getText(DJV_TEXT("menu_file_close_all_tooltip")));
+                //p.actions["Export"]->setText(_getText(DJV_TEXT("menu_export")));
+                //p.actions["Export"]->setTooltip(_getText(DJV_TEXT("menu_file_export_tooltip")));
+                p.actions["Next"]->setText(_getText(DJV_TEXT("startup_next")));
+                p.actions["Next"]->setTooltip(_getText(DJV_TEXT("menu_file_next_tooltip")));
+                p.actions["Prev"]->setText(_getText(DJV_TEXT("startup_previous")));
+                p.actions["Prev"]->setTooltip(_getText(DJV_TEXT("menu_file_prev_tooltip")));
+                p.actions["Layers"]->setText(_getText(DJV_TEXT("menu_file_layers")));
+                p.actions["Layers"]->setTooltip(_getText(DJV_TEXT("menu_file_layers_tooltip")));
+                p.actions["NextLayer"]->setText(_getText(DJV_TEXT("menu_file_next_layer")));
+                p.actions["NextLayer"]->setTooltip(_getText(DJV_TEXT("menu_file_next_layer_tooltip")));
+                p.actions["PrevLayer"]->setText(_getText(DJV_TEXT("menu_file_previous_layer")));
+                p.actions["PrevLayer"]->setTooltip(_getText(DJV_TEXT("menu_file_previous_layer_tooltip")));
+                //p.actions["8BitConversion"]->setText(_getText(DJV_TEXT("8-bit_conversion")));
+                //p.actions["8BitConversion"]->setTooltip(_getText(DJV_TEXT("8-bit_conversion_tooltip")));
+                p.actions["Exit"]->setText(_getText(DJV_TEXT("menu_file_exit")));
+                p.actions["Exit"]->setTooltip(_getText(DJV_TEXT("menu_file_exit_tooltip")));
 
-                p.menu->setText(_getText(DJV_TEXT("File")));
+                p.menu->setText(_getText(DJV_TEXT("menu_file")));
             }
         }
 
@@ -862,7 +862,7 @@ namespace djv
                 if (exceededMax)
                 {
                     std::stringstream ss;
-                    ss << DJV_TEXT("Cannot open more than") << " " << openMax << " " << DJV_TEXT("files at once.");
+                    ss << DJV_TEXT("error_cannot_open_more_than") << " " << openMax << " " << DJV_TEXT("error_files_at_once");
                     _log(ss.str(), LogLevel::Error);
                 }
             }

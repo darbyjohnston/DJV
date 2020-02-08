@@ -134,7 +134,7 @@ namespace djv
 #endif // DJV_WINDOWS
                     if (!f.f)
                     {
-                        throw FileSystem::Error(DJV_TEXT("Cannot open file."));
+                        throw FileSystem::Error(DJV_TEXT("error_file_open"));
                     }
 
                     const auto& info = image->getInfo();
@@ -236,7 +236,7 @@ namespace djv
                     {
                         if (TIFFWriteScanline(f.f, (tdata_t *)image->getData(y), y) == -1)
                         {
-                            throw FileSystem::Error(DJV_TEXT("Error writing scanline."));
+                            throw FileSystem::Error(DJV_TEXT("error_write_scanline"));
                         }
                     }
                 }

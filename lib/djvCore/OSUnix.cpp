@@ -192,7 +192,7 @@ namespace djv
                 if (r != 0)
                 {
                     std::stringstream s;
-                    s << DJV_TEXT("Cannot open the URL") << " '" << value << "', " << DJV_TEXT("the return code was") << " " << r << ".";
+                    s << DJV_TEXT("error_cannot_open_the_url") << " '" << value << "', " << DJV_TEXT("error_the_return_code_was") << " " << r << ".";
                     throw std::runtime_error(s.str());
                 }
 #endif // DJV_PLATFORM_OSX

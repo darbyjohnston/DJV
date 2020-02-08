@@ -1,0 +1,16 @@
+{
+    "cli_usage": "Χρήση:",
+    "cli_djv_test_pattern_output_option": "djv_test_pattern (έξοδος) [επιλογή, ...]",
+    "cli_options": "Επιλογές:",
+    "cli_option_frame_number": "-frameCount (τιμή)",
+    "cli_description_frame_number": "Ο αριθμός των καρέ που πρέπει να αναπαραχθούν. Προκαθορισμένο:",
+    "cli_option_resolution": "-size \\ &quot;(πλάτος) (ύψος) \\&quot;",
+    "cli_description_resolution": "Η ανάλυση εικόνας. Προκαθορισμένο:",
+    "cli_option_type": "-τύπος (τιμή)",
+    "cli_description_type": "Ο τύπος εικόνας. Προκαθορισμένο:",
+    "cli_examples": "Παραδείγματα:",
+    "cli_djv_test_pattern_test_1_dpx": "&gt; djv_test_pattern test.1.dpx",
+    "cli_render_a_test_pattern_with_the_default_values": "Κατασκευάστε ένα πρότυπο δοκιμής με τις προεπιλεγμένες τιμές.",
+    "cli_djv_test_pattern_test_1_tif_-size_3840_2160_-type_rgb_u16": "&gt; djv_test_pattern test.1.tif-μέγεθος &quot;3840 2160&quot; - τύπος RGB_U16",
+    "cli_render_a_uhd_resolution_test_pattern_with_a_rgb_16-bit_image_type": "Εκτυπώστε ένα πρότυπο δοκιμής ανάλυσης UHD με έναν τύπο εικόνας RGB 16 bit."
+}

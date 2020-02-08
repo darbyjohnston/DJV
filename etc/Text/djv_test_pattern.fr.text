@@ -1,0 +1,16 @@
+{
+    "cli_usage": "Usage:",
+    "cli_djv_test_pattern_output_option": "djv_test_pattern (sortie) [option, ...]",
+    "cli_options": "Options:",
+    "cli_option_frame_number": "-frameCount (valeur)",
+    "cli_description_frame_number": "Le nombre d&#39;images à restituer. Défaut:",
+    "cli_option_resolution": "-taille \\ &quot;(largeur) (hauteur) \\&quot;",
+    "cli_description_resolution": "La résolution de l&#39;image. Défaut:",
+    "cli_option_type": "-type (valeur)",
+    "cli_description_type": "Le type d&#39;image. Défaut:",
+    "cli_examples": "Exemples:",
+    "cli_djv_test_pattern_test_1_dpx": "&gt; djv_test_pattern test.1.dpx",
+    "cli_render_a_test_pattern_with_the_default_values": "Rendre un motif de test avec les valeurs par défaut.",
+    "cli_djv_test_pattern_test_1_tif_-size_3840_2160_-type_rgb_u16": "&gt; djv_test_pattern test.1.tif -size &#39;3840 2160&#39; -type RGB_U16",
+    "cli_render_a_uhd_resolution_test_pattern_with_a_rgb_16-bit_image_type": "Rendre un motif de test de résolution UHD avec un type d&#39;image RVB 16 bits."
+}

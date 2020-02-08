@@ -183,10 +183,10 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.actions.size())
             {
-                p.actions["Documentation"]->setText(_getText(DJV_TEXT("Documentation")));
-                p.actions["About"]->setText(_getText(DJV_TEXT("About")));
+                p.actions["Documentation"]->setText(_getText(DJV_TEXT("menu_help_documentation")));
+                p.actions["About"]->setText(_getText(DJV_TEXT("menu_help_about")));
 
-                p.menu->setText(_getText(DJV_TEXT("Help")));
+                p.menu->setText(_getText(DJV_TEXT("menu_help")));
             }
         }
 

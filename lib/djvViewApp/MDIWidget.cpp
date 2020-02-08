@@ -206,7 +206,7 @@ namespace djv
         {
             IWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.closeButton->setTooltip(_getText(DJV_TEXT("Close tooltip")));
+            p.closeButton->setTooltip(_getText(DJV_TEXT("menu_file_close_tooltip")));
         }
 
     } // namespace ViewApp

@@ -1,0 +1,20 @@
+{
+    "djv_convert_nothing_convert": "Ekkert að breyta",
+    "djv_convert_usage_text": "Notkun:",
+    "djv_convert_usage": "djv_convert (inntak) (framleiðsla) [valkostur, ...]",
+    "djv_convert_options_text": "Valkostir:",
+    "djv_convert_option_resize": "-stærð \\ &quot;(breidd) (hæð) \\&quot;",
+    "djv_convert_option_resize_description": "Breyttu stærð myndarinnar.",
+    "djv_convert_option_readseq": "-readSeq",
+    "djv_convert_option_readseq_description": "Túlkaðu innsláttarheitið sem röð.",
+    "djv_convert_option_writeseq": "-SkrifaSeq",
+    "djv_convert_option_writeseq_description": "Túlkaðu framleiðsluskráheitið sem röð.",
+    "djv_convert_option_readqueue": "-readQueue (gildi)",
+    "djv_convert_option_readqueue_description": "Stilltu stærð lestrar biðröð.",
+    "djv_convert_option_writequeue": "-Skrifa biðröð (gildi)",
+    "djv_convert_option_writequeue_description": "Stilltu stærð skrifa biðröð.",
+    "djv_convert_option_readthreads": "-readTreads (gildi)",
+    "djv_convert_option_readthreads_description": "Stilltu fjölda þráða til að lesa.",
+    "djv_convert_option_writethreads": "-Skrifa þræði (gildi)",
+    "djv_convert_option_writethreads_description": "Stilltu fjölda þráða til að skrifa."
+}

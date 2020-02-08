@@ -62,38 +62,38 @@ namespace djv
         ViewApp,
         ImageViewLock,
         DJV_TEXT("None"),
-        DJV_TEXT("Fill"),
-        DJV_TEXT("Frame"),
-        DJV_TEXT("Center"));
+        DJV_TEXT("menu_view_fill"),
+        DJV_TEXT("menu_view_frame"),
+        DJV_TEXT("menu_view_center"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         ViewApp,
         ScrollWheelZoomSpeed,
-        DJV_TEXT("Slow"),
-        DJV_TEXT("Medium"),
-        DJV_TEXT("Fast"));
+        DJV_TEXT("settings_scroll_wheel_slow"),
+        DJV_TEXT("settings_scroll_wheel_medium"),
+        DJV_TEXT("settings_scroll_wheel_fast"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         ViewApp,
         ImageRotate,
-        DJV_TEXT("0"),
-        DJV_TEXT("90"),
-        DJV_TEXT("180"),
-        DJV_TEXT("270"));
+        DJV_TEXT("image_controls_transform_rotate_0"),
+        DJV_TEXT("image_controls_transform_rotate_90"),
+        DJV_TEXT("image_controls_transform_rotate_180"),
+        DJV_TEXT("image_controls_transform_rotate_270"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         ViewApp,
         Playback,
-        DJV_TEXT("Stop"),
-        DJV_TEXT("Forward"),
-        DJV_TEXT("Reverse"));
+        DJV_TEXT("stop"),
+        DJV_TEXT("menu_playback_forward"),
+        DJV_TEXT("menu_playback_reverse"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         ViewApp,
         PlaybackMode,
-        DJV_TEXT("Once"),
-        DJV_TEXT("Loop"),
-        DJV_TEXT("PingPong"));
+        DJV_TEXT("once"),
+        DJV_TEXT("loop"),
+        DJV_TEXT("pingpong"));
 
     picojson::value toJSON(ViewApp::ImageViewLock value)
     {
@@ -132,7 +132,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
     }
 
@@ -145,7 +145,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
     }
 
@@ -158,7 +158,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
     }
 
@@ -171,7 +171,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
     }
 
