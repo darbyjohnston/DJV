@@ -11,6 +11,30 @@
     "Time": "settings_general_section_time",
     "Units": "settings_general_time_units",
 
+    "Language": "settings_general_section_language",
+
+    "Tooltips": "settings_general_section_tooltips",
+    "Enable tooltips": "settings_general_enable_tooltips",
+
+    "PPM": "settings_io_section_ppm",
+    "Data type": "settings_io_data_type",
+
+    "Current": "current",
+    "min": "min",
+    "max": "max",
+    "Threads": "settings_io_section_threads",
+    "JPEG": "settings_io_section_jpeg",
+    "Compression quality": "settings_io_jpeg_compression_quality",
+    "OpenEXR": "settings_io_title_openexr",
+    "Channel grouping": "settings_io_exr_channel_grouping",
+    "DWA compression level": "settings_io_exr_dwa_compression_level",
+
+    "Image": "settings_image",
+    "Render 2D": "settings_render2d",
+    "Minify filter": "settings_render2d_minify_filter",
+    "Magnify filter": "settings_render2d_magnify_filter",
+    "Text": "settings_render_2d_section_text",
+    "Enable LCD text rendering": "settings_render_2d_text_lcd_rendering"
 
     "The file": "error_the_file",
     "cannot be read": "error_cannot_be_read",
@@ -32,21 +56,9 @@
 
     "Thread count": "thread_count",
     "File browser history tooltip": "file_browser_history_tooltip",
-    "Shortcuts": "file_browser_file_browser_show_shortcuts",
+    "Shortcuts": "file_browser_show_shortcuts",
     "Add shortcut tooltip": "file_browser_add_shortcut_tooltip",
     "Edit shortcuts tooltip": "file_browser_edit_shortcuts_tooltip",
-
-    "Tooltips": "settings_general_section_tooltips",
-    "Enable tooltips": "settings_general_enable_tooltips",
-    "Current": "current",
-    "min": "min",
-    "max": "max",
-    "Threads": "settings_io_section_threads",
-    "JPEG": "settings_io_section_jpeg",
-    "Compression quality": "settings_io_jpeg_compression_quality",
-    "OpenEXR": "settings_io_title_openexr",
-    "Channel grouping": "settings_io_exr_channel_grouping",
-    "DWA compression level": "settings_io_exr_dwa_compression_level",
 
     "Cannot set the path": "error_file_browser_cannot_set_the_path",
     "Back": "file_browser_back",
@@ -94,10 +106,6 @@
     "File Browser": "file_browser",
     "Drives": "file_browser_drives",
     "Recent Paths": "file_browser_recent_paths",
-    "Language": "settings_general_section_language",
-
-    "PPM": "settings_io_section_ppm",
-    "Data type": "settings_io_data_type",
 
     "Color type widget tooltip": "color_type_widget_tooltip",
 
@@ -117,11 +125,4 @@
     "Color sliders red tooltip": "color_sliders_red_tooltip",
     "Color sliders green tooltip": "color_sliders_green_tooltip",
     "Color sliders blue tooltip": "color_sliders_blue_tooltip",
-
-    "Image": "settings_image",
-    "Render 2D": "settings_render2d",
-    "Minify filter": "settings_render2d_minify_filter",
-    "Magnify filter": "settings_render2d_magnify_filter",
-    "Text": "settings_render_2d_section_text",
-    "Enable LCD text rendering": "settings_render_2d_text_lcd_rendering"
 }

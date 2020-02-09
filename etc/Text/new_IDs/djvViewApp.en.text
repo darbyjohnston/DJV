@@ -121,16 +121,18 @@
     "Reset out point tooltip": "playback_reset_out_point_tooltip",
     "Duration tooltip": "playback_duration_tooltip",
 
+    "Play Every Frame": "playback_play_every_frame",
+
+    "Playback mode once tooltip": "playback_mode_once_tooltip",
+    "Playback mode loop tooltip": "playback_mode_loop_tooltip",
+    "Playback mode ping-pong tooltip": "playback_mode_ping-pong_tooltip",
+
     "Audio": "menu_audio",
     "Volume tooltip": "audio_volume_tooltip",
     "Mute tooltip": "audio_mute_tooltip",
     "Audio popup tooltip": "audio_popup_tooltip",
 
     "I/O threads popup tooltip": "io_threads_popup_tooltip",
-
-    "Playback mode once tooltip": "playback_mode_once_tooltip",
-    "Playback mode loop tooltip": "playback_mode_loop_tooltip",
-    "Playback mode ping-pong tooltip": "playback_mode_ping-pong_tooltip",
 
     "Image": "menu_image",
     "Image Controls": "menu_image_controls_widget",
@@ -464,8 +466,6 @@
     "Ping Pong": "menu_playback_ping_pong",
     "Ping pong tooltip": "menu_playback_ping_pong_tooltip",
 
-    "Play Every Frame": "playback_play_every_frame",
-
     "Go to In Point": "menu_playback_go_to_in_point",
     "Go to Out Point": "menu_playback_go_to_out_point",
     "Go to Start Frame": "menu_playback_go_to_start_frame",
@@ -501,6 +501,7 @@
     "Memory cache tooltip": "menu_memory_cache_tooltip",
     "Memory cache thermometer tooltip": "menu_memory_cache_thermometer_tooltip",
     "Color picker tooltip": "menu_color_picker_tooltip",
+
     "Set as Default": "set_as_default",
     "Reset the value.": "reset_the_value",
     "Position": "position",
