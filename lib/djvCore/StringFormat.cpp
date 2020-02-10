@@ -67,7 +67,7 @@ namespace djv
                             {
                                 const ptrdiff_t pos = m.position(0);
                                 const ptrdiff_t len = m.length(0);
-                                matches[std::stoi(m[1])] = Match({ currentPos + pos, len });
+                                matches[std::stoi(m[1])] = { currentPos + pos, len };
                                 currentPos += pos + len;
                             }
                             else
