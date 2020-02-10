@@ -42,6 +42,14 @@ namespace djv
             {
                 struct Match
                 {
+                    Match()
+                    {}
+
+                    Match(ptrdiff_t pos, ptrdiff_t length) :
+                        pos(pos),
+                        length(length)
+                    {}
+
                     ptrdiff_t pos    = 0;
                     ptrdiff_t length = 0;
                 };
@@ -67,7 +75,7 @@ namespace djv
                             {
                                 const ptrdiff_t pos = m.position(0);
                                 const ptrdiff_t len = m.length(0);
-                                matches[std::stoi(m[1])] = { currentPos + pos, len };
+                                matches[std::stoi(m[1])] = Match(currentPos + pos, len);
                                 currentPos += pos + len;
                             }
                             else
