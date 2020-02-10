@@ -84,10 +84,10 @@ namespace djv
             bool match(const std::string & value, const std::string & expression)
             {
                 bool out = false;
-                std::smatch m;
                 try
                 {
                     std::regex r(expression, std::regex_constants::icase);
+                    std::smatch m;
                     std::regex_search(value, m, r);
                     out = m.size() > 0;
                 }
