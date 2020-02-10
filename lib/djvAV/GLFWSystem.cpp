@@ -151,15 +151,15 @@ namespace djv
 #else // DJV_OPENGL_ES2
                 glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
                 glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-                glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+                glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
                 glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #endif // DJV_OPENGL_ES2
                 glfwWindowHint(GLFW_SAMPLES, 1);
                 glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-                glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
+                glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
                 if (OS::getIntEnv("DJV_OPENGL_DEBUG") != 0)
                 {
-                    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+                    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
                 }
                 p.glfwWindow = glfwCreateWindow(
                     windowSize.x,
@@ -202,7 +202,7 @@ namespace djv
                         static_cast<GLenum>(GL_DONT_CARE),
                         0,
                         nullptr,
-                        GL_TRUE);
+                        GLFW_TRUE);
                 }
 #endif // DJV_OPENGL_ES2
                 glfwSwapInterval(1);
