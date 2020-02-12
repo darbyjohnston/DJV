@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -75,6 +75,24 @@ namespace djv
                 }
                 return out;
             }
+
+            bool doesExecutableExist(const std::string& path)
+            {
+                bool out = false;
+                if (FileInfo(Path(path)).doesExist())
+                {
+                    out = true;
+                }
+                else if (FileInfo(Path(path + ".com")).doesExist())
+                {
+                    out = true;
+                }
+                else if (FileInfo(Path(path + ".exe")).doesExist())
+                {
+                    out = true;
+                }
+                return out;
+            }
             
         } // namespace
         
@@ -85,7 +103,24 @@ namespace djv
             DJV_PRIVATE_PTR();
             try
             {
-                p.applicationPath = Path::getAbsolute(Path(Path(argv0).getDirectoryName()));
+                // Try and get the application path from the command-line arguments,
+                // if that doesn't work check the search path.
+                if (doesExecutableExist(argv0))
+                {
+                    p.applicationPath = Path::getAbsolute(Path(Path(argv0).getDirectoryName()));
+                }
+                else
+                {
+                    const auto& searchPaths = OS::getStringListEnv("PATH");
+                    for (const auto& i : searchPaths)
+                    {
+                        if (doesExecutableExist(Path(i, argv0).get()))
+                        {
+                            p.applicationPath = Path(i);
+                            break;
+                        }
+                    }
+                }
             }
             catch (const std::exception & e)
             {

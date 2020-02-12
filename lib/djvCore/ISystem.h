@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -29,8 +29,9 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
+#include <djvCore/Time.h>
 
+#include <chrono>
 #include <memory>
 #include <string>
 #include <vector>
@@ -47,6 +48,8 @@ namespace djv
         //! This class provides the very base functionality for systems.
         class ISystemBase : public std::enable_shared_from_this<ISystemBase>
         {
+            DJV_NON_COPYABLE(ISystemBase);
+            
         protected:
             void _init(const std::string& name, const std::shared_ptr<Context>&);
             ISystemBase();
@@ -67,7 +70,7 @@ namespace djv
             void addDependency(const std::shared_ptr<ISystemBase>&);
 
             //! Override this function to do work each frame.
-            virtual void tick(float dt);
+            virtual void tick(const std::chrono::steady_clock::time_point&, const Time::Unit&);
 
         private:
             std::string _name;
@@ -78,6 +81,8 @@ namespace djv
         //! This class provides the base functionality for systems.
         class ISystem : public ISystemBase
         {
+            DJV_NON_COPYABLE(ISystem);
+
         protected:
             void _init(const std::string& name, const std::shared_ptr<Context>&);
             ISystem();

@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -93,10 +93,11 @@ namespace djv
             }
             
             {
-                const Font::TextLine textLine("line", glm::vec2(1.F, 2.F));
+                const Font::TextLine textLine("line", glm::vec2(1.F, 2.F), {});
                 DJV_ASSERT(!textLine.text.empty());
                 DJV_ASSERT(1.F == textLine.size.x);
                 DJV_ASSERT(2.F == textLine.size.y);
+                DJV_ASSERT(0 == textLine.glyphs.size());
             }
         }
         
@@ -167,7 +168,7 @@ namespace djv
                     textLinesFuture.valid() ||
                     glyphsFuture.valid())
                 {
-                    _tickFor(Time::getMilliseconds(Time::TimerValue::Fast));
+                    _tickFor(Time::getTime(Time::TimerValue::Fast));
                     if (metricsFuture.valid() &&
                         metricsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                     {

@@ -49,7 +49,7 @@ namespace djv
                 std::shared_ptr<Icon> icon;
                 std::function<void(int)> callback;
                 MetricsRole insideMargin = MetricsRole::MarginSmall;
-                Event::PointerID pressedID = Event::InvalidID;
+                Event::PointerID pressedID = Event::invalidID;
                 glm::vec2 pressedPos = glm::vec2(0.F, 0.F);
                 bool canRejectPressed = true;
             };
@@ -168,7 +168,7 @@ namespace djv
                 const auto& style = _getStyle();
                 const BBox2f g = getMargin().bbox(getGeometry(), style);
                 auto render = _getRender();
-                if (p.pressedID != Event::InvalidID)
+                if (p.pressedID != Event::invalidID)
                 {
                     render->setFillColor(style->getColor(ColorRole::Pressed));
                     render->drawRect(g);
@@ -212,7 +212,7 @@ namespace djv
                     event.setAccepted(accepted);
                     if (!accepted)
                     {
-                        p.pressedID = Event::InvalidID;
+                        p.pressedID = Event::invalidID;
                         _redraw();
                     }
                 }
@@ -237,7 +237,7 @@ namespace djv
                 if (pointerInfo.id == p.pressedID)
                 {
                     event.accept();
-                    p.pressedID = Event::InvalidID;
+                    p.pressedID = Event::invalidID;
                     const BBox2f& g = getGeometry();
                     const auto& hover = _getPointerHover();
                     const auto i = hover.find(pointerInfo.id);

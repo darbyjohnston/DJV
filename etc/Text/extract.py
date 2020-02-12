@@ -2,6 +2,7 @@ import glob
 import json
 import re
 import sys
+from collections import OrderedDict 
 
 def run():
     
@@ -25,7 +26,7 @@ def run():
         # Read the existing .text file.
         try:
             with open(outFile, 'r') as f:
-                existing = json.load(f)
+                existing = json.load(f, object_pairs_hook=OrderedDict)
         except IOError:
             existing = []
         
@@ -41,7 +42,7 @@ def run():
             if not found:
                 data.append({'id' : string, 'text': string, 'description': ''})
         with open(outFile, 'w') as f:
-            json.dump(data, f, indent = 4)
+            json.dump(data, f, indent = 4, ensure_ascii=False)
     
 if __name__ == '__main__':
     run()

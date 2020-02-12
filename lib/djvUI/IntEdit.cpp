@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -49,7 +49,6 @@ namespace djv
         void IntEdit::_init(const std::shared_ptr<Context>& context)
         {
             NumericEdit::_init(context);
-            DJV_PRIVATE_PTR();
             setClassName("djv::UI::IntEdit");
             setModel(IntValueModel::create());
         }
@@ -133,6 +132,14 @@ namespace djv
             return INumericEdit<int>::_keyPress(fromGLFWKey(value));
         }
 
+        void IntEdit::_scroll(float value)
+        {
+            if (auto model = getModel())
+            {
+                model->setValue(model->observeValue()->get() + static_cast<int>(model->observeSmallIncrement()->get() * value));
+            }
+        }
+
         void IntEdit::_incrementValue()
         {
             if (auto model = getModel())
@@ -151,7 +158,6 @@ namespace djv
 
         void IntEdit::_textUpdate()
         {
-            DJV_PRIVATE_PTR();
             if (auto model = getModel())
             {
                 std::stringstream ss;

@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -80,7 +80,6 @@ namespace djv
                 
                 void Write::_write(const std::string & fileName, const std::shared_ptr<Image::Image> & image)
                 {
-                    DJV_PRIVATE_PTR();
                     FileSystem::FileIO io;
                     io.open(fileName, FileSystem::FileIO::Mode::Write);
                     Info info;

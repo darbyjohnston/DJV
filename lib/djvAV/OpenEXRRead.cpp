@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -165,14 +165,14 @@ namespace djv
                     std::shared_ptr<Image::Image> out = Image::Image::create(imageInfo);
                     out->setPluginName(pluginName);
                     out->setTags(info.tags);
-                    const uint8_t channels = Image::getChannelCount(imageInfo.type);
-                    const uint8_t channelByteCount = Image::getByteCount(getDataType(imageInfo.type));
-                    const uint8_t cb = channels * channelByteCount;
-                    const uint16_t scb = imageInfo.size.w * channels * channelByteCount;
+                    const size_t channels = Image::getChannelCount(imageInfo.type);
+                    const size_t channelByteCount = Image::getByteCount(getDataType(imageInfo.type));
+                    const size_t cb = channels * channelByteCount;
+                    const size_t scb = imageInfo.size.w * channels * channelByteCount;
                     if (f.fast)
                     {
                         Imf::FrameBuffer frameBuffer;
-                        for (uint8_t c = 0; c < channels; ++c)
+                        for (size_t c = 0; c < channels; ++c)
                         {
                             const std::string& name = f.layers[_options.layer].channels[c].name;
                             const glm::ivec2& sampling = f.layers[_options.layer].channels[c].sampling;
@@ -180,7 +180,7 @@ namespace djv
                                 name.c_str(),
                                 Imf::Slice(
                                     toImf(Image::getDataType(imageInfo.type)),
-                                    (char*)out->getData() + (static_cast<size_t>(c) * static_cast<size_t>(channelByteCount)),
+                                    (char*)out->getData() + (c * channelByteCount),
                                     cb,
                                     scb,
                                     sampling.x,

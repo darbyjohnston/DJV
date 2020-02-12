@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -86,10 +86,13 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             // Parse the command line.
-            std::vector<Core::FileSystem::Path> cmdlinePaths;
-            for (auto arg = args.begin() + 1; arg != args.end(); ++arg)
+            auto arg = args.begin();
+            ++arg;
+            std::vector<std::string> cmdlinePaths;
+            while (arg != args.end())
             {
-                cmdlinePaths.push_back(Core::FileSystem::Path(*arg));
+                cmdlinePaths.push_back(*arg);
+                ++arg;
             }
 
             // Create the systems.
@@ -142,8 +145,8 @@ namespace djv
             p.timer = Time::Timer::create(shared_from_this());
             p.timer->setRepeating(true);
             p.timer->start(
-                Time::getMilliseconds(Time::TimerValue::Fast),
-                [this](float value)
+                Time::getTime(Time::TimerValue::Fast),
+                [this](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                 {
                     DJV_PRIVATE_PTR();
                     auto i = p.read.begin();
@@ -187,22 +190,7 @@ namespace djv
                 });
 
             // Open command-line files.
-            auto settingsSystem = getSystemT<UI::Settings::System>();
-            auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
-            auto io = getSystemT<AV::IO::System>();
-            for (const auto& i : cmdlinePaths)
-            {
-                Core::FileSystem::FileInfo fileInfo;
-                if (io->canSequence(i) && fileSettings->observeAutoDetectSequences()->get())
-                {
-                    fileInfo = Core::FileSystem::FileInfo::getFileSequence(i, io->getSequenceExtensions());
-                }
-                else
-                {
-                    fileInfo = i;
-                }
-                fileSystem->open(fileInfo);
-            }
+            fileSystem->open(cmdlinePaths);
 
             // Show the main window.
             p.mainWindow->show();

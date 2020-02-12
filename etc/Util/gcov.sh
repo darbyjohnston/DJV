@@ -1,12 +1,19 @@
 #!/bin/sh
 
-for gcno in `find $PWD -name "*.gcno"`
+dirList=`cd $1 && find lib tests -mindepth 1 -maxdepth 1 -type d`
+#echo "dirList="$dirList
+for dir in $dirList
 do
-    #echo $gcno
-    srcName=`basename -s .gcno $gcno`
-    #echo $srcName
-    src=`find $1 -name $srcName`
-    #echo $src
-    gcov -o $gcno $src
+    gcnoList=`find $dir -name "*.gcno" -and \( -not -name "CMakeC*CompilerId.gcno" \)`
+    #echo "gcnoList="$gcnoList
+    for gcno in $gcnoList
+    do
+        #echo "gcno="$gcno
+        srcName=`basename -s .gcno $gcno`
+        #echo "srcName="$srcName
+        src=`find $1/$dir -name $srcName`
+        #echo "src="$src
+        gcov -o $gcno $src
+    done
 done
 

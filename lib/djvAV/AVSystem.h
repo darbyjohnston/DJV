@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -31,14 +31,21 @@
 
 #include <djvAV/Enum.h>
 
+#include <djvCore/Frame.h>
 #include <djvCore/ISystem.h>
-#include <djvCore/Time.h>
+#include <djvCore/Speed.h>
 #include <djvCore/ValueObserver.h>
 
 namespace djv
 {
     namespace AV
     {
+        namespace Render2D
+        {
+            struct ImageFilterOptions;
+
+        } // namespace Render2D
+
         //! This class provides an AV system.
         class AVSystem : public Core::ISystem
         {
@@ -61,6 +68,12 @@ namespace djv
 
             std::shared_ptr<Core::IValueSubject<Core::Time::FPS> > observeDefaultSpeed() const;
             void setDefaultSpeed(Core::Time::FPS);
+
+            std::shared_ptr<Core::IValueSubject<Render2D::ImageFilterOptions> > observeImageFilterOptions() const;
+            void setImageFilterOptions(const Render2D::ImageFilterOptions&);
+
+            std::shared_ptr<Core::IValueSubject<bool> > observeLCDText() const;
+            void setLCDText(bool);
 
             std::string getLabel(Core::Frame::Number, const Core::Time::Speed&) const;
 

@@ -1,114 +1,114 @@
 [
     {
-        "source": "\u010de\u0161tina", 
-        "text": "\u010de\u0161tina", 
-        "id": "cs", 
-        "language": "cs", 
-        "description": "This is a locale label."
-    }, 
+        "source": "čeština",
+        "text": "čeština",
+        "description": "This is a locale label.",
+        "language": "cs",
+        "id": "cs"
+    },
     {
-        "source": "dansk", 
-        "text": "dansk", 
-        "id": "da", 
-        "language": "da", 
-        "description": "This is a locale label."
-    }, 
+        "source": "dansk",
+        "text": "dansk",
+        "description": "This is a locale label.",
+        "language": "da",
+        "id": "da"
+    },
     {
-        "source": "Deutsche", 
-        "text": "Deutsche", 
-        "id": "de", 
-        "language": "de", 
-        "description": "This is a locale label."
-    }, 
+        "source": "Deutsche",
+        "text": "Deutsche",
+        "description": "This is a locale label.",
+        "language": "de",
+        "id": "de"
+    },
     {
-        "source": "\u0395\u03bb\u03bb\u03b7\u03bd\u03b9\u03ba\u03ac", 
-        "text": "\u0395\u03bb\u03bb\u03b7\u03bd\u03b9\u03ba\u03ac", 
-        "id": "el", 
-        "language": "el", 
-        "description": "This is a locale label."
-    }, 
+        "source": "Ελληνικά",
+        "text": "Ελληνικά",
+        "description": "This is a locale label.",
+        "language": "el",
+        "id": "el"
+    },
     {
-        "source": "English", 
-        "text": "English", 
-        "id": "en", 
-        "language": "en", 
-        "description": "This is a locale label."
-    }, 
+        "source": "English",
+        "text": "English",
+        "description": "This is a locale label.",
+        "language": "en",
+        "id": "en"
+    },
     {
-        "source": "Espa\u00f1ol", 
-        "text": "Espa\u00f1ol", 
-        "id": "es", 
-        "language": "es", 
-        "description": "This is a locale label."
-    }, 
+        "source": "Español",
+        "text": "Español",
+        "description": "This is a locale label.",
+        "language": "es",
+        "id": "es"
+    },
     {
-        "source": "fran\u00e7ais", 
-        "text": "fran\u00e7ais", 
-        "id": "fr", 
-        "language": "fr", 
-        "description": "This is a locale label."
-    }, 
+        "source": "français",
+        "text": "français",
+        "description": "This is a locale label.",
+        "language": "fr",
+        "id": "fr"
+    },
     {
-        "source": "italiano", 
-        "text": "italiano", 
-        "id": "it", 
-        "language": "it", 
-        "description": "This is a locale label."
-    }, 
+        "source": "italiano",
+        "text": "italiano",
+        "description": "This is a locale label.",
+        "language": "it",
+        "id": "it"
+    },
     {
-        "source": "\u00cdslensku", 
-        "text": "\u00cdslensku", 
-        "id": "is", 
-        "language": "is", 
-        "description": "This is a locale label."
-    }, 
+        "source": "Íslensku",
+        "text": "Íslensku",
+        "description": "This is a locale label.",
+        "language": "is",
+        "id": "is"
+    },
     {
-        "source": "\u65e5\u672c\u4eba", 
-        "text": "\u65e5\u672c\u4eba", 
-        "id": "ja", 
-        "language": "ja", 
-        "description": "This is a locale label."
-    }, 
+        "source": "日本人",
+        "text": "日本人",
+        "description": "This is a locale label.",
+        "language": "ja",
+        "id": "ja"
+    },
     {
-        "source": "\ud55c\uad6d\uc5b4", 
-        "text": "\ud55c\uad6d\uc5b4", 
-        "id": "ko", 
-        "language": "ko", 
-        "description": "This is a locale label."
-    }, 
+        "source": "한국어",
+        "text": "한국어",
+        "description": "This is a locale label.",
+        "language": "ko",
+        "id": "ko"
+    },
     {
-        "source": "Polskie", 
-        "text": "Polskie", 
-        "id": "pl", 
-        "language": "pl", 
-        "description": "This is a locale label."
-    }, 
+        "source": "Polskie",
+        "text": "Polskie",
+        "description": "This is a locale label.",
+        "language": "pl",
+        "id": "pl"
+    },
     {
-        "source": "Portugu\u00eas", 
-        "text": "Portugu\u00eas", 
-        "id": "pt", 
-        "language": "pt", 
-        "description": "This is a locale label."
-    }, 
+        "source": "Português",
+        "text": "Português",
+        "description": "This is a locale label.",
+        "language": "pt",
+        "id": "pt"
+    },
     {
-        "source": "\u0440\u0443\u0441\u0441\u043a\u0438\u0439", 
-        "text": "\u0440\u0443\u0441\u0441\u043a\u0438\u0439", 
-        "id": "ru", 
-        "language": "ru", 
-        "description": "This is a locale label."
-    }, 
+        "source": "русский",
+        "text": "русский",
+        "description": "This is a locale label.",
+        "language": "ru",
+        "id": "ru"
+    },
     {
-        "source": "svenska", 
-        "text": "svenska", 
-        "id": "sv", 
-        "language": "sv", 
-        "description": "This is a locale label."
-    }, 
+        "source": "svenska",
+        "text": "svenska",
+        "description": "This is a locale label.",
+        "language": "sv",
+        "id": "sv"
+    },
     {
-        "source": "\u4e2d\u56fd", 
-        "text": "\u4e2d\u56fd", 
-        "id": "zh", 
-        "language": "zh", 
-        "description": "This is a locale label."
+        "source": "中国",
+        "text": "中国",
+        "description": "This is a locale label.",
+        "language": "zh",
+        "id": "zh"
     }
 ]

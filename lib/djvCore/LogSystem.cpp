@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -151,8 +151,8 @@ namespace djv
             p.warningsAndErrorsTimer->setRepeating(true);
             auto weak = std::weak_ptr<LogSystem>(std::dynamic_pointer_cast<LogSystem>(shared_from_this()));
             p.warningsAndErrorsTimer->start(
-                Time::getMilliseconds(Time::TimerValue::Medium),
-                [weak](float)
+                Time::getTime(Time::TimerValue::Medium),
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                 {
                     if (auto system = weak.lock())
                     {

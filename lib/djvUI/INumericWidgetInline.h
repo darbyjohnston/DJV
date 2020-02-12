@@ -168,12 +168,12 @@ namespace djv
         {}
 
         template<typename T>
-        inline void INumericSlider<T>::_pointerMove(float pos, std::chrono::milliseconds delay)
+        inline void INumericSlider<T>::_pointerMove(float pos, const Core::Time::Unit& delay)
         {
             _value = _posToValue(pos);
             if (INumericWidget<T>::_model)
             {
-                if (std::chrono::milliseconds(0) == delay)
+                if (Core::Time::Unit::zero() == delay)
                 {
                     INumericWidget<T>::_model->setValue(_value);
                     INumericWidget<T>::_doCallback(TextEditReason::Accepted);
@@ -182,12 +182,12 @@ namespace djv
         }
 
         template<typename T>
-        inline void INumericSlider<T>::_buttonPress(float pos, std::chrono::milliseconds delay)
+        inline void INumericSlider<T>::_buttonPress(float pos, const Core::Time::Unit& delay)
         {
             _value = _posToValue(pos);
             if (INumericWidget<T>::_model)
             {
-                if (std::chrono::milliseconds(0) == delay)
+                if (Core::Time::Unit::zero() == delay)
                 {
                     INumericWidget<T>::_model->setValue(_value);
                     INumericWidget<T>::_doCallback(TextEditReason::Accepted);
@@ -196,11 +196,11 @@ namespace djv
         }
 
         template<typename T>
-        inline void INumericSlider<T>::_buttonRelease(std::chrono::milliseconds delay)
+        inline void INumericSlider<T>::_buttonRelease(const Core::Time::Unit& delay)
         {
             if (INumericWidget<T>::_model)
             {
-                if (delay > std::chrono::milliseconds(0))
+                if (delay > Core::Time::Unit::zero())
                 {
                     INumericWidget<T>::_model->setValue(_value);
                     INumericWidget<T>::_doCallback(TextEditReason::Accepted);

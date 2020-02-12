@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -126,6 +126,7 @@ namespace djv
             void _paintEvent(Core::Event::Paint &) override;
 
             void _initEvent(Core::Event::Init&) override;
+            void _updateEvent(Core::Event::Update&) override;
 
         private:
             std::vector<glm::vec3> _getImagePoints() const;

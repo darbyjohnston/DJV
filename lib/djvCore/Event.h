@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -31,10 +31,12 @@
 
 #include <djvCore/BBox.h>
 #include <djvCore/Enum.h>
+#include <djvCore/Time.h>
 
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 
+#include <chrono>
 #include <map>
 #include <memory>
 
@@ -155,14 +157,14 @@ namespace djv
             class Update : public Event
             {
             public:
-                Update(float t, float dt);
+                Update(const std::chrono::steady_clock::time_point&, const Time::Unit&);
 
-                float getTime() const;
-                float getDeltaTime() const;
+                const std::chrono::steady_clock::time_point& getTime() const;
+                const Time::Unit& getDeltaTime() const;
 
             private:
-                float _t;
-                float _dt;
+                std::chrono::steady_clock::time_point _t;
+                Time::Unit _dt;
             };
 
             //! This class provides an event to prepare for user interface layout.
@@ -223,7 +225,7 @@ namespace djv
             typedef uint32_t PointerID;
 
             //! This constant provides an invalid pointer ID.
-            const PointerID InvalidID = 0;
+            const PointerID invalidID = 0;
 
             //! This struct provides information about the pointer.
             class PointerInfo
@@ -231,7 +233,7 @@ namespace djv
             public:
                 PointerInfo();
                 
-                PointerID id = InvalidID;
+                PointerID id = invalidID;
                 glm::vec3 pos = glm::vec3(0.F, 0.F, 0.F);
                 glm::vec3 dir = glm::vec3(0.F, 0.F, 0.F);
                 glm::vec2 projectedPos = glm::vec2(-1.F, -1.F);

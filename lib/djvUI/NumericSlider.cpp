@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -50,9 +50,9 @@ namespace djv
         {
             Orientation orientation = Orientation::First;
             float handleWidth = 0.F;
-            std::chrono::milliseconds delay = std::chrono::milliseconds(0);
+            Time::Unit delay = Time::Unit::zero();
             std::shared_ptr<Time::Timer> delayTimer;
-            Event::PointerID pressedID = Event::InvalidID;
+            Event::PointerID pressedID = Event::invalidID;
             glm::vec2 pressedPos = glm::vec2(0.F, 0.F);
             glm::vec2 prevPos = glm::vec2(0.F, 0.F);
         };
@@ -84,12 +84,12 @@ namespace djv
             return _p->orientation;
         }
 
-        std::chrono::milliseconds NumericSlider::getDelay() const
+        const Time::Unit& NumericSlider::getDelay() const
         {
             return _p->delay;
         }
 
-        void NumericSlider::setDelay(std::chrono::milliseconds value)
+        void NumericSlider::setDelay(const Time::Unit& value)
         {
             _p->delay = value;
         }
@@ -204,7 +204,7 @@ namespace djv
             render->drawRect(handleBBox);
             render->setFillColor(style->getColor(ColorRole::Button));
             render->drawRect(handleBBox.margin(-b));
-            if (p.pressedID != Event::InvalidID)
+            if (p.pressedID != Event::invalidID)
             {
                 render->setFillColor(style->getColor(ColorRole::Pressed));
                 render->drawRect(handleBBox);
@@ -274,7 +274,7 @@ namespace djv
                 default: break;
                 }
                 _pointerMove(v);
-                if (p.delay > std::chrono::milliseconds(0) && glm::length(pointerInfo.projectedPos - p.prevPos) > 0.F)
+                if (p.delay > Time::Unit::zero() && glm::length(pointerInfo.projectedPos - p.prevPos) > 0.F)
                 {
                     _resetTimer();
                 }
@@ -306,7 +306,7 @@ namespace djv
             default: break;
             }
             _buttonPress(v);
-            if (p.delay > std::chrono::milliseconds(0))
+            if (p.delay > Time::Unit::zero())
             {
                 _resetTimer();
             }
@@ -320,7 +320,7 @@ namespace djv
             if (pointerInfo.id == p.pressedID)
             {
                 event.accept();
-                p.pressedID = Event::InvalidID;
+                p.pressedID = Event::invalidID;
                 _buttonRelease();
                 p.delayTimer->stop();
                 _redraw();
@@ -330,7 +330,6 @@ namespace djv
         void NumericSlider::_keyPressEvent(Event::KeyPress& event)
         {
             Widget::_keyPressEvent(event);
-            DJV_PRIVATE_PTR();
             if (!event.isAccepted() && hasTextFocus())
             {
                 if (_keyPress(event.getKey()))
@@ -361,6 +360,17 @@ namespace djv
             _redraw();
         }
 
+        void NumericSlider::_scrollEvent(Event::Scroll& event)
+        {
+            DJV_PRIVATE_PTR();
+            if (isEnabled(true))
+            {
+                event.accept();
+                takeTextFocus();
+                _scroll(event.getScrollDelta().y);
+            }
+        }
+
         void NumericSlider::_initEvent(Event::Init& event)
         {
             Widget::_initEvent(event);
@@ -378,7 +388,7 @@ namespace djv
             auto weak = std::weak_ptr<NumericSlider>(std::dynamic_pointer_cast<NumericSlider>(shared_from_this()));
             p.delayTimer->start(
                 p.delay,
-                [weak](float)
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
             {
                 if (auto widget = weak.lock())
                 {

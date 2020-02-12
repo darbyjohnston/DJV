@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -55,7 +55,6 @@ namespace djv
         namespace
         {
             //! \todo Should this be configurable?
-            const size_t velocityTimeout            = 16;   // The timer resolution for velocity updates.
             const float  velocityDecay              = .5F;  // How quickly the velocity decays.
             const float  velocityStopDelta          = 5.F;  // The minimum amount of movement to stop the velocity.
             const size_t pointerAverageCount        = 5;    // The number of pointer samples to average.
@@ -108,7 +107,7 @@ namespace djv
                 std::function<void(float)> _scrollPosCallback;
                 MetricsRole _sizeRole = MetricsRole::ScrollBar;
                 std::map<Event::PointerID, bool> _hover;
-                Event::PointerID _pressedID = Event::InvalidID;
+                Event::PointerID _pressedID = Event::invalidID;
                 float _pressedPos = 0.F;
                 float _pressedScrollPos = 0.F;
             };
@@ -336,7 +335,7 @@ namespace djv
                 if (event.getPointerInfo().id != _pressedID)
                     return;
                 event.accept();
-                _pressedID = Event::InvalidID;
+                _pressedID = Event::invalidID;
                 _redraw();
             }
 
@@ -598,7 +597,7 @@ namespace djv
             std::map<Orientation, std::shared_ptr<ScrollBar> > scrollBars;
             bool autoHideScrollBars = true;
             std::shared_ptr<Border> border;
-            Event::PointerID pointerID = Event::InvalidID;
+            Event::PointerID pointerID = Event::invalidID;
             glm::vec2 pointerPos = glm::vec2(0.F, 0.F);
             std::list<glm::vec2> pointerAverage;
             std::shared_ptr<Time::Timer> pointerAverageTimer;
@@ -703,7 +702,7 @@ namespace djv
             p.pointerAverageTimer->setRepeating(true);
             p.pointerAverageTimer->start(
                 std::chrono::milliseconds(pointerAverageDecayTimeout),
-                [weak](float value)
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
             {
                 if (auto widget = weak.lock())
                 {
@@ -732,8 +731,8 @@ namespace djv
             p.swipeTimer = Time::Timer::create(context);
             p.swipeTimer->setRepeating(true);
             p.swipeTimer->start(
-                std::chrono::milliseconds(velocityTimeout),
-                [weak](float value)
+                Time::getTime(Time::TimerValue::Fast),
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Unit& value)
             {
                 if (auto widget = weak.lock())
                 {
@@ -741,7 +740,7 @@ namespace djv
                     glm::vec2 scrollPos(ceilf(pos.x + widget->_p->swipeVelocity.x), ceilf(pos.y + widget->_p->swipeVelocity.y));
                     if (widget->_p->scrollArea->setScrollPos(scrollPos))
                     {
-                        const float mult = value / (velocityTimeout / 1000.F);
+                        const float mult = value.count() / static_cast<float>(Time::getTime(Time::TimerValue::Fast).count());
                         const float decay = velocityDecay * mult;
                         if (widget->_p->swipeVelocity.x > 0.F)
                         {
@@ -1103,7 +1102,7 @@ namespace djv
                 if (pointerEvent.getPointerInfo().id == p.pointerID)
                 {
                     pointerEvent.accept();
-                    p.pointerID = Event::InvalidID;
+                    p.pointerID = Event::invalidID;
                     p.pointerPos = pointerEvent.getPointerInfo().projectedPos;
                     const auto delta = _getPointerAverage();
                     if (glm::length(delta) < velocityStopDelta)

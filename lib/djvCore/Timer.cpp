@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -53,9 +53,9 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
-            std::chrono::milliseconds getMilliseconds(TimerValue value)
+            Unit getTime(TimerValue value)
             {
-                return std::chrono::milliseconds(getValue(value));
+                return Unit(std::chrono::duration_cast<Unit>(std::chrono::milliseconds(getValue(value))));
             }
 
             void Timer::_init(const std::shared_ptr<Context>& context)
@@ -78,12 +78,14 @@ namespace djv
                 _repeating = value;
             }
 
-            void Timer::start(std::chrono::milliseconds value, const std::function<void(float)> & callback)
+            void Timer::start(
+                const Unit& value,
+                const std::function<void(const std::chrono::steady_clock::time_point&, const Unit&)> & callback)
             {
                 _active   = true;
                 _timeout  = value;
                 _callback = callback;
-                _start    = std::chrono::system_clock::now();
+                _start    = _time;
             }
 
             void Timer::stop()
@@ -91,21 +93,21 @@ namespace djv
                 _active = false;
             }
 
-            void Timer::_tick(float dt)
+            void Timer::_tick(const std::chrono::steady_clock::time_point& t, const Unit& dt)
             {
+                _time = t;
                 if (_active)
                 {
-                    const auto now = std::chrono::system_clock::now();
-                    if (now >= (_start + _timeout))
+                    if (_time >= (_start + _timeout))
                     {
                         if (_callback)
                         {
-                            const std::chrono::duration<float> delta = now - _start;
-                            _callback(delta.count());
+                            const auto v = std::chrono::duration_cast<Unit>(_time - _start);
+                            _callback(_time, v);
                         }
                         if (_repeating)
                         {
-                            _start = now;
+                            _start = _time;
                         }
                         else
                         {
@@ -140,7 +142,7 @@ namespace djv
                 return out;
             }
 
-            void TimerSystem::tick(float dt)
+            void TimerSystem::tick(const std::chrono::steady_clock::time_point& t, const Unit& dt)
             {
                 DJV_PRIVATE_PTR();
                 p.timers.insert(p.timers.end(), p.newTimers.begin(), p.newTimers.end());
@@ -150,7 +152,7 @@ namespace djv
                 {
                     if (auto timer = i->lock())
                     {
-                        timer->_tick(dt);
+                        timer->_tick(t, dt);
                         ++i;
                     }
                     else

@@ -54,9 +54,7 @@ make test</pre>
 
 <div class="block">
 	<p class="header"><a name="Packaging">Packaging</a></p>
-	<p>Set the new version in "CMakeLists.txt", "Doxyfile", "sonar-project.properties", and
-    "docs/djv_install.html".</p>
-	<p>Update the download information in "docs/index.html".</p>
+	<p>Update the download information in "docs/index.html" and "docs/djv_install.html".</p>
 	<p>Build the static web site.</p>
 	<p>Tag the git repository:</p>
 	<pre>
@@ -64,15 +62,28 @@ git tag -a 2.0.0 -m "Version 2.0.0"
 git push origin 2.0.0</pre>
 	<p>Building an RPM package:</p>
 	<pre>
+mkdir djv-git-Release
+cd djv-git-Release
+cmake ../djv-git -DCMAKE_BUILD_TYPE=Release -DDJV_BUILD_PACKAGE=TRUE
+make -j
 cmake ../djv-git -DCPACK_GENERATOR=RPM -DCPACK_PACKAGING_INSTALL_PREFIX=/usr/local/DJV2 -DDJV_THIRD_PARTY_DISABLE_BUILD=TRUE
 make package</pre>
 	<p>Building a Debian package:</p>
 	<pre>
+mkdir djv-git-Release
+cd djv-git-Release
+cmake ../djv-git -DCMAKE_BUILD_TYPE=Release -DDJV_BUILD_PACKAGE=TRUE
+make -j
 cmake ../djv-git -DCPACK_GENERATOR=DEB -DCPACK_PACKAGING_INSTALL_PREFIX=/usr/local/DJV2 -DDJV_THIRD_PARTY_DISABLE_BUILD=TRUE
 make package</pre>
 	<p>Building a TGZ package:</p>
 	<pre>
+mkdir djv-git-Release
+cd djv-git-Release
+cmake ../djv-git -DCMAKE_BUILD_TYPE=Release -DDJV_BUILD_PACKAGE=TRUE
+make -j
 cmake ../djv-git -DCPACK_GENERATOR=TGZ -DCPACK_PACKAGING_INSTALL_PREFIX= -DDJV_THIRD_PARTY_DISABLE_BUILD=TRUE
 make package</pre>
+	<p>Bump the version number in "CMakeLists.txt", "Doxyfile", and "sonar-project.properties".</p>
 </div>
 

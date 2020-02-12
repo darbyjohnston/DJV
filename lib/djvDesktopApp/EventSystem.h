@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -62,7 +62,7 @@ namespace djv
             void setClipboard(const std::string&) override;
             std::string getClipboard() const override;
 
-            void tick(float dt) override;
+            void tick(const std::chrono::steady_clock::time_point&, const Core::Time::Unit& dt) override;
 
         protected:
             void _pushClipRect(const Core::BBox2f &) override;
@@ -71,13 +71,15 @@ namespace djv
             void _hover(Core::Event::PointerMove &, std::shared_ptr<Core::IObject> &) override;
 
         private:
-            void _resize(const glm::ivec2 &);
+            void _resize(const glm::ivec2&);
+            void _contentScale(const glm::vec2&);
             void _redraw();
             void _hover(const std::shared_ptr<UI::Widget> &, Core::Event::PointerMove &, std::shared_ptr<Core::IObject> &);
 
             static void _resizeCallback(GLFWwindow*, int, int);
             static void _contentScaleCallback(GLFWwindow*, float, float);
             static void _redrawCallback(GLFWwindow *);
+            static void _pointerEnterCallback(GLFWwindow*, int);
             static void _pointerCallback(GLFWwindow *, double, double);
             static void _buttonCallback(GLFWwindow *, int button, int action, int mods);
             static void _dropCallback(GLFWwindow *, int, const char **);

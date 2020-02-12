@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -64,6 +64,7 @@ namespace djv
             std::shared_ptr<ValueSubject<bool> > textChanged;
 
             std::vector<std::future<TextMap> > readFutures;
+            std::future<std::vector<FileSystem::FileInfo> > statFuture;
             std::shared_ptr<Time::Timer> timer;
         };
 
@@ -236,8 +237,8 @@ namespace djv
             p.timer->setRepeating(true);
             auto weak = std::weak_ptr<TextSystem>(std::dynamic_pointer_cast<TextSystem>(shared_from_this()));
             p.timer->start(
-                Time::getMilliseconds(Time::TimerValue::Slow),
-                [weak](float)
+                Time::getTime(Time::TimerValue::Slow),
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                 {
                     if (auto system = weak.lock())
                     {
@@ -268,14 +269,43 @@ namespace djv
                             system->_p->textChanged->setAlways(true);
                         }
 
-                        for (auto j = system->_p->textFiles.begin(); j != system->_p->textFiles.end(); ++j)
+                        bool stat = false;
+                        if (system->_p->statFuture.valid())
                         {
-                            FileSystem::FileInfo fileInfo(j->getFileName());
-                            if (fileInfo.getTime() > j->getTime())
+                            if (system->_p->statFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                             {
-                                system->_reload(fileInfo);
-                                *j = fileInfo;
+                                auto textFiles = system->_p->statFuture.get();
+                                for (auto j = system->_p->textFiles.begin(), k = textFiles.begin();
+                                    j != system->_p->textFiles.end() && k != textFiles.end();
+                                    ++j, ++k)
+                                {
+                                    if (k->getTime() > j->getTime())
+                                    {
+                                        system->_reload(*k);
+                                        *j = *k;
+                                    }
+                                }
+                                stat = true;
                             }
+                        }
+                        else
+                        {
+                            stat = true;
+                        }
+                        if (stat)
+                        {
+                            auto textFiles = system->_p->textFiles;
+                            system->_p->statFuture = std::async(
+                                std::launch::async,
+                                [textFiles]
+                                {
+                                    std::vector<FileSystem::FileInfo> out;
+                                    for (const auto& i : textFiles)
+                                    {
+                                        out.push_back(FileSystem::FileInfo(i.getPath()));
+                                    }
+                                    return out;
+                                });
                         }
                     }
                 });

@@ -1,1292 +1,1292 @@
 [
     {
-        "source": "Cannot parse the value.", 
-        "text": "Ekki er h\u00e6gt a\u00f0 flokka gildi.", 
-        "id": "Cannot parse the value.", 
-        "description": ""
-    }, 
-    {
-        "source": "Horizontal", 
-        "text": "L\u00e1r\u00e9tt", 
-        "id": "Horizontal", 
-        "description": ""
-    }, 
-    {
-        "source": "Vertical", 
-        "text": "L\u00f3\u00f0r\u00e9tt", 
-        "id": "Vertical", 
-        "description": ""
-    }, 
-    {
-        "source": "Left", 
-        "text": "Vinstri", 
-        "id": "Left", 
-        "description": ""
-    }, 
-    {
-        "source": "Top", 
-        "text": "Efst", 
-        "id": "Top", 
-        "description": ""
-    }, 
-    {
-        "source": "Right", 
-        "text": "H\u00e6gri", 
-        "id": "Right", 
-        "description": ""
-    }, 
-    {
-        "source": "Bottom", 
-        "text": "Ne\u00f0st", 
-        "id": "Bottom", 
-        "description": ""
-    }, 
-    {
-        "source": "None", 
-        "text": "Enginn", 
-        "id": "None", 
-        "description": ""
-    }, 
-    {
-        "source": "Both", 
-        "text": "B\u00e6\u00f0i", 
-        "id": "Both", 
-        "description": ""
-    }, 
-    {
-        "source": "Center", 
-        "text": "Mi\u00f0st\u00f6\u00f0", 
-        "id": "Center", 
-        "description": ""
-    }, 
-    {
-        "source": "Fill", 
-        "text": "Fylla", 
-        "id": "Fill", 
-        "description": ""
-    }, 
-    {
-        "source": "Baseline", 
-        "text": "Grunngildi", 
-        "id": "Baseline", 
-        "description": ""
-    }, 
-    {
-        "source": "Single", 
-        "text": "Single", 
-        "id": "Single", 
-        "description": ""
-    }, 
-    {
-        "source": "Radio", 
-        "text": "\u00datvarp", 
-        "id": "Radio", 
-        "description": ""
-    }, 
-    {
-        "source": "Multiple", 
-        "text": "Margfeldi", 
-        "id": "Multiple", 
-        "description": ""
-    }, 
-    {
-        "source": "Forward", 
-        "text": "\u00c1fram", 
-        "id": "Forward", 
-        "description": ""
-    }, 
-    {
-        "source": "Reverse", 
-        "text": "Aftur", 
-        "id": "Reverse", 
-        "description": ""
-    }, 
-    {
-        "source": "Push", 
-        "text": "\u00ddttu \u00e1", 
-        "id": "Push", 
-        "description": ""
-    }, 
-    {
-        "source": "Toggle", 
-        "text": "Skipta um", 
-        "id": "Toggle", 
-        "description": ""
-    }, 
-    {
-        "source": "Exclusive", 
-        "text": "Exclusive", 
-        "id": "Exclusive", 
-        "description": ""
-    }, 
-    {
-        "source": "Tiles", 
-        "text": "Fl\u00edsar", 
-        "id": "Tiles", 
-        "description": ""
-    }, 
-    {
-        "source": "List", 
-        "text": "Listi", 
-        "id": "List", 
-        "description": ""
-    }, 
-    {
-        "source": "Background", 
-        "text": "Bakgrunnur", 
-        "id": "Background", 
-        "description": ""
-    }, 
-    {
-        "source": "Background Header", 
-        "text": "Bakgrunnsh\u00f3pur", 
-        "id": "BackgroundHeader", 
-        "description": ""
-    }, 
-    {
-        "source": "Background Bellows", 
-        "text": "Bakgrunnur Bellows", 
-        "id": "BackgroundBellows", 
-        "description": ""
-    }, 
-    {
-        "source": "Background ToolBar", 
-        "text": "Bakgrunnur Toolbar", 
-        "id": "BackgroundToolBar", 
-        "description": ""
-    }, 
-    {
-        "source": "Foreground", 
-        "text": "Forgrunn", 
-        "id": "Foreground", 
-        "description": ""
-    }, 
-    {
-        "source": "Foreground Dim", 
-        "text": "Forgrunn Dim", 
-        "id": "ForegroundDim", 
-        "description": ""
-    }, 
-    {
-        "source": "Border", 
-        "text": "Border", 
-        "id": "Border", 
-        "description": ""
-    }, 
-    {
-        "source": "Border Button", 
-        "text": "Border Button", 
-        "id": "BorderButton", 
-        "description": ""
-    }, 
-    {
-        "source": "Trough", 
-        "text": "Trog", 
-        "id": "Trough", 
-        "description": ""
-    }, 
-    {
-        "source": "Button", 
-        "text": "Takki", 
-        "id": "Button", 
-        "description": ""
-    }, 
-    {
-        "source": "Hovered", 
-        "text": "H\u00f6gg", 
-        "id": "Hovered", 
-        "description": ""
-    }, 
-    {
-        "source": "Pressed", 
-        "text": "\u00der\u00fdstingur", 
-        "id": "Pressed", 
-        "description": ""
-    }, 
-    {
-        "source": "Checked", 
-        "text": "Sko\u00f0u\u00f0", 
-        "id": "Checked", 
-        "description": ""
-    }, 
-    {
-        "source": "Text Focus", 
-        "text": "Textareikningur", 
-        "id": "TextFocus", 
-        "description": ""
-    }, 
-    {
-        "source": "Tooltip Background", 
-        "text": "Tooltip Bakgrunnur", 
-        "id": "TooltipBackground", 
-        "description": ""
-    }, 
-    {
-        "source": "Tooltip Foreground", 
-        "text": "Tooltip Foreground", 
-        "id": "TooltipForeground", 
-        "description": ""
-    }, 
-    {
-        "source": "Overlay", 
-        "text": "Yfirbor\u00f0", 
-        "id": "Overlay", 
-        "description": ""
-    }, 
-    {
-        "source": "Overlay Light", 
-        "text": "Yfirbor\u00f0slj\u00f3s", 
-        "id": "OverlayLight", 
-        "description": ""
-    }, 
-    {
-        "source": "Shadow", 
-        "text": "Skuggi", 
-        "id": "Shadow", 
-        "description": ""
-    }, 
-    {
-        "source": "Handle", 
-        "text": "H\u00f6ndla", 
-        "id": "Handle", 
-        "description": ""
-    }, 
-    {
-        "source": "Margin", 
-        "text": "Framleg\u00f0", 
-        "id": "Margin", 
-        "description": ""
-    }, 
-    {
-        "source": "Margin Small", 
-        "text": "Minni L\u00edtil", 
-        "id": "MarginSmall", 
-        "description": ""
-    }, 
-    {
-        "source": "Margin Large", 
-        "text": "St\u00e6r\u00f0ur framleg\u00f0", 
-        "id": "MarginLarge", 
-        "description": ""
-    }, 
-    {
-        "source": "Margin Dialog", 
-        "text": "Margmi\u00f0lunarvalmynd", 
-        "id": "MarginDialog", 
-        "description": ""
-    }, 
-    {
-        "source": "Spacing", 
-        "text": "Spacing", 
-        "id": "Spacing", 
-        "description": ""
-    }, 
-    {
-        "source": "Spacing Small", 
-        "text": "Spacing Small", 
-        "id": "SpacingSmall", 
-        "description": ""
-    }, 
-    {
-        "source": "Spacing Large", 
-        "text": "Spacing Large", 
-        "id": "SpacingLarge", 
-        "description": ""
-    }, 
-    {
-        "source": "Drag", 
-        "text": "Drag\u00f0u", 
-        "id": "Drag", 
-        "description": ""
-    }, 
-    {
-        "source": "Icon", 
-        "text": "T\u00e1knmynd", 
-        "id": "Icon", 
-        "description": ""
-    }, 
-    {
-        "source": "Icon Small", 
-        "text": "T\u00e1kn l\u00edtil", 
-        "id": "IconSmall", 
-        "description": ""
-    }, 
-    {
-        "source": "Font Small", 
-        "text": "Letur letur", 
-        "id": "FontSmall", 
-        "description": ""
-    }, 
-    {
-        "source": "Font Medium", 
-        "text": "Leturst\u00e6r\u00f0", 
-        "id": "FontMedium", 
-        "description": ""
-    }, 
-    {
-        "source": "Font Large", 
-        "text": "Leturst\u00e6r\u00f0", 
-        "id": "FontLarge", 
-        "description": ""
-    }, 
-    {
-        "source": "Font Header", 
-        "text": "Leturhausur", 
-        "id": "FontHeader", 
-        "description": ""
-    }, 
-    {
-        "source": "Font Title", 
-        "text": "Leturger\u00f0", 
-        "id": "FontTitle", 
-        "description": ""
-    }, 
-    {
-        "source": "Swatch", 
-        "text": "Swatch", 
-        "id": "Swatch", 
-        "description": ""
-    }, 
-    {
-        "source": "Slider", 
-        "text": "Renna", 
-        "id": "Slider", 
-        "description": ""
-    }, 
-    {
-        "source": "Scroll Area", 
-        "text": "Skrunasv\u00e6\u00f0i", 
-        "id": "ScrollArea", 
-        "description": ""
-    }, 
-    {
-        "source": "Menu", 
-        "text": "Valmynd", 
-        "id": "Menu", 
-        "description": ""
-    }, 
-    {
-        "source": "Text Column", 
-        "text": "Textas\u00falan", 
-        "id": "TextColumn", 
-        "description": ""
-    }, 
-    {
-        "source": "Text Column Large", 
-        "text": "Textas\u00falan St\u00f3r", 
-        "id": "TextColumnLarge", 
-        "description": ""
-    }, 
-    {
-        "source": "Search Box", 
-        "text": "Leitarreitinn", 
-        "id": "SearchBox", 
-        "description": ""
-    }, 
-    {
-        "source": "Dialog", 
-        "text": "Dialog", 
-        "id": "Dialog", 
-        "description": ""
-    }, 
-    {
-        "source": "Shadow Small", 
-        "text": "Shadow Small", 
-        "id": "ShadowSmall", 
-        "description": ""
-    }, 
-    {
-        "source": "Tooltip Offset", 
-        "text": "Tooltip Offset", 
-        "id": "TooltipOffset", 
-        "description": ""
-    }, 
-    {
-        "source": "Move", 
-        "text": "F\u00e6ra", 
-        "id": "Move", 
-        "description": ""
-    }, 
-    {
-        "source": "Dark", 
-        "text": "Myrkur", 
-        "id": "Dark", 
-        "description": ""
-    }, 
-    {
-        "source": "Light", 
-        "text": "Lj\u00f3s", 
-        "id": "Light", 
-        "description": ""
-    }, 
-    {
-        "source": "Medium", 
-        "text": "Mi\u00f0lungs", 
-        "id": "Medium", 
-        "description": ""
-    }, 
-    {
-        "source": "Small", 
-        "text": "L\u00edtil", 
-        "id": "Small", 
-        "description": ""
-    }, 
-    {
-        "source": "Large", 
-        "text": "St\u00f3rt", 
-        "id": "Large", 
-        "description": ""
-    }, 
-    {
-        "source": "Extra Large", 
-        "text": "Auka st\u00f3r", 
-        "id": "ExtraLarge", 
-        "description": ""
-    }, 
-    {
-        "source": "Default", 
-        "text": "Sj\u00e1lfgefi\u00f0", 
-        "id": "Default", 
-        "description": ""
-    }, 
-    {
-        "source": "Expand", 
-        "text": "St\u00e6kka", 
-        "id": "Expand", 
-        "description": ""
-    }, 
-    {
-        "source": "Space", 
-        "text": "R\u00fam", 
-        "id": "Space", 
-        "description": ""
-    }, 
-    {
-        "source": "Apostrophe", 
-        "text": "Apostrophe", 
-        "id": "Apostrophe", 
-        "description": ""
-    }, 
-    {
-        "source": "Comma", 
-        "text": "komma", 
-        "id": "Comma", 
-        "description": ""
-    }, 
-    {
-        "source": "Minus", 
-        "text": "M\u00ednus", 
-        "id": "Minus", 
-        "description": ""
-    }, 
-    {
-        "source": "Period", 
-        "text": "T\u00edmabil", 
-        "id": "Period", 
-        "description": ""
-    }, 
-    {
-        "source": "Slash", 
-        "text": "Rista", 
-        "id": "Slash", 
-        "description": ""
-    }, 
-    {
-        "source": "0", 
-        "text": "0", 
-        "id": "0", 
-        "description": ""
-    }, 
-    {
-        "source": "1", 
-        "text": "1", 
-        "id": "1", 
-        "description": ""
-    }, 
-    {
-        "source": "2", 
-        "text": "2", 
-        "id": "2", 
-        "description": ""
-    }, 
-    {
-        "source": "3", 
-        "text": "3", 
-        "id": "3", 
-        "description": ""
-    }, 
-    {
-        "source": "4", 
-        "text": "4", 
-        "id": "4", 
-        "description": ""
-    }, 
-    {
-        "source": "5", 
-        "text": "5", 
-        "id": "5", 
-        "description": ""
-    }, 
-    {
-        "source": "6", 
-        "text": "6", 
-        "id": "6", 
-        "description": ""
-    }, 
-    {
-        "source": "7", 
-        "text": "7", 
-        "id": "7", 
-        "description": ""
-    }, 
-    {
-        "source": "8", 
-        "text": "8", 
-        "id": "8", 
-        "description": ""
-    }, 
-    {
-        "source": "9", 
-        "text": "9", 
-        "id": "9", 
-        "description": ""
-    }, 
-    {
-        "source": "Semicolon", 
-        "text": "Semicolon", 
-        "id": "Semicolon", 
-        "description": ""
-    }, 
-    {
-        "source": "Equal", 
-        "text": "Jafnt", 
-        "id": "Equal", 
-        "description": ""
-    }, 
-    {
-        "source": "A", 
-        "text": "A", 
-        "id": "A", 
-        "description": ""
-    }, 
-    {
-        "source": "B", 
-        "text": "B", 
-        "id": "B", 
-        "description": ""
-    }, 
-    {
-        "source": "C", 
-        "text": "C", 
-        "id": "C", 
-        "description": ""
-    }, 
-    {
-        "source": "D", 
-        "text": "D", 
-        "id": "D", 
-        "description": ""
-    }, 
-    {
-        "source": "E", 
-        "text": "og", 
-        "id": "E", 
-        "description": ""
-    }, 
-    {
-        "source": "F", 
-        "text": "F", 
-        "id": "F", 
-        "description": ""
-    }, 
-    {
-        "source": "G", 
-        "text": "G", 
-        "id": "G", 
-        "description": ""
-    }, 
-    {
-        "source": "H", 
-        "text": "H", 
-        "id": "H", 
-        "description": ""
-    }, 
-    {
-        "source": "I", 
-        "text": "\u00c9g", 
-        "id": "I", 
-        "description": ""
-    }, 
-    {
-        "source": "J", 
-        "text": "J", 
-        "id": "J", 
-        "description": ""
-    }, 
-    {
-        "source": "K", 
-        "text": "K", 
-        "id": "K", 
-        "description": ""
-    }, 
-    {
-        "source": "L", 
-        "text": "The", 
-        "id": "L", 
-        "description": ""
-    }, 
-    {
-        "source": "M", 
-        "text": "M", 
-        "id": "M", 
-        "description": ""
-    }, 
-    {
-        "source": "N", 
-        "text": "N", 
-        "id": "N", 
-        "description": ""
-    }, 
-    {
-        "source": "O", 
-        "text": "O", 
-        "id": "O", 
-        "description": ""
-    }, 
-    {
-        "source": "P", 
-        "text": "P", 
-        "id": "P", 
-        "description": ""
-    }, 
-    {
-        "source": "Q", 
-        "text": "Q", 
-        "id": "Q", 
-        "description": ""
-    }, 
-    {
-        "source": "R", 
-        "text": "R", 
-        "id": "R", 
-        "description": ""
-    }, 
-    {
-        "source": "S", 
-        "text": "S", 
-        "id": "S", 
-        "description": ""
-    }, 
-    {
-        "source": "T", 
-        "text": "T", 
-        "id": "T", 
-        "description": ""
-    }, 
-    {
-        "source": "U", 
-        "text": "U", 
-        "id": "U", 
-        "description": ""
-    }, 
-    {
-        "source": "V", 
-        "text": "V", 
-        "id": "V", 
-        "description": ""
-    }, 
-    {
-        "source": "W", 
-        "text": "The", 
-        "id": "W", 
-        "description": ""
-    }, 
-    {
-        "source": "X", 
-        "text": "X", 
-        "id": "X", 
-        "description": ""
-    }, 
-    {
-        "source": "Y", 
-        "text": "Y", 
-        "id": "Y", 
-        "description": ""
-    }, 
-    {
-        "source": "Z", 
-        "text": "me\u00f0", 
-        "id": "Z", 
-        "description": ""
-    }, 
-    {
-        "source": "Left Bracket", 
-        "text": "Vinstri krappi", 
-        "id": "LeftBracket", 
-        "description": ""
-    }, 
-    {
-        "source": "Backslash", 
-        "text": "Bakslag", 
-        "id": "Backslash", 
-        "description": ""
-    }, 
-    {
-        "source": "Right Bracket", 
-        "text": "H\u00e6gri krappi", 
-        "id": "RightBracket", 
-        "description": ""
-    }, 
-    {
-        "source": "Grave Accent", 
-        "text": "Alvarleg \u00e1hersla", 
-        "id": "GraveAccent", 
-        "description": ""
-    }, 
-    {
-        "source": "World 1", 
-        "text": "Heimur 1", 
-        "id": "World1", 
-        "description": ""
-    }, 
-    {
-        "source": "World 2", 
-        "text": "Heimur 2", 
-        "id": "World2", 
-        "description": ""
-    }, 
-    {
-        "source": "Escape", 
-        "text": "Fl\u00fdja", 
-        "id": "Escape", 
-        "description": ""
-    }, 
-    {
-        "source": "Enter", 
-        "text": "Koma inn", 
-        "id": "Enter", 
-        "description": ""
-    }, 
-    {
-        "source": "Tab", 
-        "text": "Flipi", 
-        "id": "Tab", 
-        "description": ""
-    }, 
-    {
-        "source": "Backspace", 
-        "text": "Backspace", 
-        "id": "Backspace", 
-        "description": ""
-    }, 
-    {
-        "source": "Insert", 
-        "text": "Setja inn", 
-        "id": "Insert", 
-        "description": ""
-    }, 
-    {
-        "source": "Delete", 
-        "text": "Ey\u00f0a", 
-        "id": "Delete", 
-        "description": ""
-    }, 
-    {
-        "source": "Right Arrow", 
-        "text": "H\u00e6gri \u00f6r", 
-        "id": "RightArrow", 
-        "description": ""
-    }, 
-    {
-        "source": "Left Arrow", 
-        "text": "Vinstri \u00f6r", 
-        "id": "LeftArrow", 
-        "description": ""
-    }, 
-    {
-        "source": "Down Arrow", 
-        "text": "Ni\u00f0ur \u00f6r", 
-        "id": "DownArrow", 
-        "description": ""
-    }, 
-    {
-        "source": "Up Arrow", 
-        "text": "Upp \u00f6r", 
-        "id": "UpArrow", 
-        "description": ""
-    }, 
-    {
-        "source": "Page Up", 
-        "text": "Page Up", 
-        "id": "PageUp", 
-        "description": ""
-    }, 
-    {
-        "source": "Page Down", 
-        "text": "Page Down", 
-        "id": "PageDown", 
-        "description": ""
-    }, 
-    {
-        "source": "Home", 
-        "text": "Heim", 
-        "id": "Home", 
-        "description": ""
-    }, 
-    {
-        "source": "End", 
-        "text": "Enda", 
-        "id": "End", 
-        "description": ""
-    }, 
-    {
-        "source": "Caps Lock", 
-        "text": "Caps Lock", 
-        "id": "CapsLock", 
-        "description": ""
-    }, 
-    {
-        "source": "Scroll Lock", 
-        "text": "Skruna\u00f0u L\u00e6sa", 
-        "id": "ScrollLock", 
-        "description": ""
-    }, 
-    {
-        "source": "Num Lock", 
-        "text": "Num Lock", 
-        "id": "NumLock", 
-        "description": ""
-    }, 
-    {
-        "source": "Print Screen", 
-        "text": "Prenta skj\u00e1", 
-        "id": "PrintScreen", 
-        "description": ""
-    }, 
-    {
-        "source": "F1", 
-        "text": "F1", 
-        "id": "F1", 
-        "description": ""
-    }, 
-    {
-        "source": "F2", 
-        "text": "F2", 
-        "id": "F2", 
-        "description": ""
-    }, 
-    {
-        "source": "F3", 
-        "text": "F3", 
-        "id": "F3", 
-        "description": ""
-    }, 
-    {
-        "source": "F4", 
-        "text": "F4", 
-        "id": "F4", 
-        "description": ""
-    }, 
-    {
-        "source": "F5", 
-        "text": "F5", 
-        "id": "F5", 
-        "description": ""
-    }, 
-    {
-        "source": "F6", 
-        "text": "F6", 
-        "id": "F6", 
-        "description": ""
-    }, 
-    {
-        "source": "F7", 
-        "text": "F7", 
-        "id": "F7", 
-        "description": ""
-    }, 
-    {
-        "source": "F8", 
-        "text": "F8", 
-        "id": "F8", 
-        "description": ""
-    }, 
-    {
-        "source": "F9", 
-        "text": "F9", 
-        "id": "F9", 
-        "description": ""
-    }, 
-    {
-        "source": "F10", 
-        "text": "F10", 
-        "id": "F10", 
-        "description": ""
-    }, 
-    {
-        "source": "F11", 
-        "text": "F11", 
-        "id": "F11", 
-        "description": ""
-    }, 
-    {
-        "source": "F12", 
-        "text": "F12", 
-        "id": "F12", 
-        "description": ""
-    }, 
-    {
-        "source": "F13", 
-        "text": "F13", 
-        "id": "F13", 
-        "description": ""
-    }, 
-    {
-        "source": "F14", 
-        "text": "F14", 
-        "id": "F14", 
-        "description": ""
-    }, 
-    {
-        "source": "F15", 
-        "text": "F15", 
-        "id": "F15", 
-        "description": ""
-    }, 
-    {
-        "source": "F16", 
-        "text": "F16", 
-        "id": "F16", 
-        "description": ""
-    }, 
-    {
-        "source": "F17", 
-        "text": "F17", 
-        "id": "F17", 
-        "description": ""
-    }, 
-    {
-        "source": "F18", 
-        "text": "F18", 
-        "id": "F18", 
-        "description": ""
-    }, 
-    {
-        "source": "F19", 
-        "text": "F19", 
-        "id": "F19", 
-        "description": ""
-    }, 
-    {
-        "source": "F20", 
-        "text": "F20", 
-        "id": "F20", 
-        "description": ""
-    }, 
-    {
-        "source": "F21", 
-        "text": "F21", 
-        "id": "F21", 
-        "description": ""
-    }, 
-    {
-        "source": "F22", 
-        "text": "F22", 
-        "id": "F22", 
-        "description": ""
-    }, 
-    {
-        "source": "F23", 
-        "text": "F23", 
-        "id": "F23", 
-        "description": ""
-    }, 
-    {
-        "source": "F24", 
-        "text": "F24", 
-        "id": "F24", 
-        "description": ""
-    }, 
-    {
-        "source": "F25", 
-        "text": "F25", 
-        "id": "F25", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad 0", 
-        "text": "Lykill Pad 0", 
-        "id": "KeyPad0", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad 1", 
-        "text": "Lykill Pad 1", 
-        "id": "KeyPad1", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad 2", 
-        "text": "Lykill Pad 2", 
-        "id": "KeyPad2", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad 3", 
-        "text": "Lykill Pad 3", 
-        "id": "KeyPad3", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad 4", 
-        "text": "Key Pad 4", 
-        "id": "KeyPad4", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad 5", 
-        "text": "Lykill Pad 5", 
-        "id": "KeyPad5", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad 6", 
-        "text": "Lykill Pad 6", 
-        "id": "KeyPad6", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad 7", 
-        "text": "Lykill Pad 7", 
-        "id": "KeyPad7", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad 8", 
-        "text": "Lykill Pad 8", 
-        "id": "KeyPad8", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad 9", 
-        "text": "Key Pad 9", 
-        "id": "KeyPad9", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad Decimal", 
-        "text": "Key Pad Decimal", 
-        "id": "KeyPadDecimal", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad Divide", 
-        "text": "Key Pad Skipta", 
-        "id": "KeyPadDivide", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad Multiply", 
-        "text": "Key Pad margfalda", 
-        "id": "KeyPadMultiply", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad Substract", 
-        "text": "Key Pad Substract", 
-        "id": "KeyPadSubstract", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad Add", 
-        "text": "Key Pad Add", 
-        "id": "KeyPadAdd", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad Enter", 
-        "text": "Key Pad Enter", 
-        "id": "KeyPadEnter", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad Equal", 
-        "text": "Key Pad Equal", 
-        "id": "KeyPadEqual", 
-        "description": ""
-    }, 
-    {
-        "source": "Left Shift", 
-        "text": "Vinstri skift", 
-        "id": "LeftShift", 
-        "description": ""
-    }, 
-    {
-        "source": "Left Control", 
-        "text": "Vinstri stj\u00f3rn", 
-        "id": "LeftControl", 
-        "description": ""
-    }, 
-    {
-        "source": "Left Alt", 
-        "text": "Vinstri Alt", 
-        "id": "LeftAlt", 
-        "description": ""
-    }, 
-    {
-        "source": "Left Command", 
-        "text": "Vinstri stj\u00f3rn", 
-        "id": "LeftCommand", 
-        "description": ""
-    }, 
-    {
-        "source": "Right Shift", 
-        "text": "H\u00e6gri Shift", 
-        "id": "RightShift", 
-        "description": ""
-    }, 
-    {
-        "source": "Right Control", 
-        "text": "H\u00e6gri stj\u00f3rn", 
-        "id": "RightControl", 
-        "description": ""
-    }, 
-    {
-        "source": "Right Alt", 
-        "text": "H\u00e6gri Alt", 
-        "id": "RightAlt", 
-        "description": ""
-    }, 
-    {
-        "source": "Right Command", 
-        "text": "H\u00e6gri stj\u00f3rn", 
-        "id": "RightCommand", 
-        "description": ""
-    }, 
-    {
-        "source": "Shift", 
-        "text": "Shift", 
-        "id": "Shift", 
-        "description": ""
-    }, 
-    {
-        "source": "Ctrl", 
-        "text": "Ctrl", 
-        "id": "Ctrl", 
-        "description": ""
-    }, 
-    {
-        "source": "Alt", 
-        "text": "allt", 
-        "id": "Alt", 
-        "description": ""
-    }, 
-    {
-        "source": "Command", 
-        "text": "Stj\u00f3rn", 
-        "id": "Command", 
-        "description": ""
-    }, 
-    {
-        "source": "Cached", 
-        "text": "Skyndiminni", 
-        "id": "Cached", 
-        "description": ""
-    }, 
-    {
-        "source": "Scrub", 
-        "text": "Sk\u00fara", 
-        "id": "Scrub", 
-        "description": ""
-    }, 
-    {
-        "source": "Keyboard shortcut", 
-        "text": "Fl\u00fdtilykla", 
-        "id": "Keyboard shortcut", 
-        "description": ""
-    }, 
-    {
-        "source": "Keyboard shortcuts", 
-        "text": "Fl\u00fdtilyklar", 
-        "id": "Keyboard shortcuts", 
-        "description": ""
-    }, 
-    {
-        "id": "IconMini", 
-        "source": "IconMini", 
-        "description": "", 
-        "text": "IconMini"
-    }, 
-    {
-        "id": "SwatchSmall", 
-        "source": "SwatchSmall", 
-        "description": "", 
-        "text": "SwatchSmall"
-    }, 
-    {
-        "id": "ScrollBar", 
-        "source": "ScrollBar", 
-        "description": "", 
-        "text": "Flettubitinn"
-    }, 
-    {
-        "id": "ScrollBarSmall", 
-        "source": "ScrollBarSmall", 
-        "description": "", 
-        "text": "ScrollBarSmall"
-    }, 
-    {
-        "id": "Native", 
-        "source": "Native", 
-        "description": "", 
-        "text": "Innf\u00e6ddur"
-    }, 
-    {
-        "id": "16:9", 
-        "source": "16:9", 
-        "description": "", 
-        "text": "16: 9"
-    }, 
-    {
-        "id": "1.85", 
-        "source": "1.85", 
-        "description": "", 
-        "text": "1,85"
-    }, 
-    {
-        "id": "2.35", 
-        "source": "2.35", 
-        "description": "", 
-        "text": "2,35"
-    }, 
-    {
-        "id": "Reset the value.", 
-        "source": "Reset the value.", 
-        "description": "", 
-        "text": "Endurstilla gildi."
-    }, 
-    {
-        "source": "BelowRight", 
-        "description": "", 
-        "id": "BelowRight", 
-        "text": "UnderRight"
-    }, 
-    {
-        "source": "BelowLeft", 
-        "description": "", 
-        "id": "BelowLeft", 
-        "text": "UnderLeft"
-    }, 
-    {
-        "source": "AboveRight", 
-        "description": "", 
-        "id": "AboveRight", 
-        "text": "h\u00e9r a\u00f0 framan H\u00e6gri"
-    }, 
-    {
-        "source": "AboveLeft", 
-        "description": "", 
-        "id": "AboveLeft", 
-        "text": "AboveLeft"
+        "source": "Cannot parse the value.",
+        "description": "",
+        "id": "Cannot parse the value.",
+        "text": "Ekki er hægt að flokka gildi."
+    },
+    {
+        "source": "Horizontal",
+        "description": "",
+        "id": "Horizontal",
+        "text": "Lárétt"
+    },
+    {
+        "source": "Vertical",
+        "description": "",
+        "id": "Vertical",
+        "text": "Lóðrétt"
+    },
+    {
+        "source": "Left",
+        "description": "",
+        "id": "Left",
+        "text": "Vinstri"
+    },
+    {
+        "source": "Top",
+        "description": "",
+        "id": "Top",
+        "text": "Efst"
+    },
+    {
+        "source": "Right",
+        "description": "",
+        "id": "Right",
+        "text": "Hægri"
+    },
+    {
+        "source": "Bottom",
+        "description": "",
+        "id": "Bottom",
+        "text": "Neðst"
+    },
+    {
+        "source": "None",
+        "description": "",
+        "id": "None",
+        "text": "Enginn"
+    },
+    {
+        "source": "Both",
+        "description": "",
+        "id": "Both",
+        "text": "Bæði"
+    },
+    {
+        "source": "Center",
+        "description": "",
+        "id": "Center",
+        "text": "Miðstöð"
+    },
+    {
+        "source": "Fill",
+        "description": "",
+        "id": "Fill",
+        "text": "Fylla"
+    },
+    {
+        "source": "Baseline",
+        "description": "",
+        "id": "Baseline",
+        "text": "Grunngildi"
+    },
+    {
+        "source": "Single",
+        "description": "",
+        "id": "Single",
+        "text": "Single"
+    },
+    {
+        "source": "Radio",
+        "description": "",
+        "id": "Radio",
+        "text": "Útvarp"
+    },
+    {
+        "source": "Multiple",
+        "description": "",
+        "id": "Multiple",
+        "text": "Margfeldi"
+    },
+    {
+        "source": "Forward",
+        "description": "",
+        "id": "Forward",
+        "text": "Áfram"
+    },
+    {
+        "source": "Reverse",
+        "description": "",
+        "id": "Reverse",
+        "text": "Aftur"
+    },
+    {
+        "source": "Push",
+        "description": "",
+        "id": "Push",
+        "text": "Ýttu á"
+    },
+    {
+        "source": "Toggle",
+        "description": "",
+        "id": "Toggle",
+        "text": "Skipta um"
+    },
+    {
+        "source": "Exclusive",
+        "description": "",
+        "id": "Exclusive",
+        "text": "Exclusive"
+    },
+    {
+        "source": "Tiles",
+        "description": "",
+        "id": "Tiles",
+        "text": "Flísar"
+    },
+    {
+        "source": "List",
+        "description": "",
+        "id": "List",
+        "text": "Listi"
+    },
+    {
+        "source": "Background",
+        "description": "",
+        "id": "Background",
+        "text": "Bakgrunnur"
+    },
+    {
+        "source": "Background Header",
+        "description": "",
+        "id": "BackgroundHeader",
+        "text": "Bakgrunnshópur"
+    },
+    {
+        "source": "Background Bellows",
+        "description": "",
+        "id": "BackgroundBellows",
+        "text": "Bakgrunnur Bellows"
+    },
+    {
+        "source": "Background ToolBar",
+        "description": "",
+        "id": "BackgroundToolBar",
+        "text": "Bakgrunnur Toolbar"
+    },
+    {
+        "source": "Foreground",
+        "description": "",
+        "id": "Foreground",
+        "text": "Forgrunn"
+    },
+    {
+        "source": "Foreground Dim",
+        "description": "",
+        "id": "ForegroundDim",
+        "text": "Forgrunn Dim"
+    },
+    {
+        "source": "Border",
+        "description": "",
+        "id": "Border",
+        "text": "Border"
+    },
+    {
+        "source": "Border Button",
+        "description": "",
+        "id": "BorderButton",
+        "text": "Border Button"
+    },
+    {
+        "source": "Trough",
+        "description": "",
+        "id": "Trough",
+        "text": "Trog"
+    },
+    {
+        "source": "Button",
+        "description": "",
+        "id": "Button",
+        "text": "Takki"
+    },
+    {
+        "source": "Hovered",
+        "description": "",
+        "id": "Hovered",
+        "text": "Högg"
+    },
+    {
+        "source": "Pressed",
+        "description": "",
+        "id": "Pressed",
+        "text": "Þrýstingur"
+    },
+    {
+        "source": "Checked",
+        "description": "",
+        "id": "Checked",
+        "text": "Skoðuð"
+    },
+    {
+        "source": "Text Focus",
+        "description": "",
+        "id": "TextFocus",
+        "text": "Textareikningur"
+    },
+    {
+        "source": "Tooltip Background",
+        "description": "",
+        "id": "TooltipBackground",
+        "text": "Tooltip Bakgrunnur"
+    },
+    {
+        "source": "Tooltip Foreground",
+        "description": "",
+        "id": "TooltipForeground",
+        "text": "Tooltip Foreground"
+    },
+    {
+        "source": "Overlay",
+        "description": "",
+        "id": "Overlay",
+        "text": "Yfirborð"
+    },
+    {
+        "source": "Overlay Light",
+        "description": "",
+        "id": "OverlayLight",
+        "text": "Yfirborðsljós"
+    },
+    {
+        "source": "Shadow",
+        "description": "",
+        "id": "Shadow",
+        "text": "Skuggi"
+    },
+    {
+        "source": "Handle",
+        "description": "",
+        "id": "Handle",
+        "text": "Höndla"
+    },
+    {
+        "source": "Margin",
+        "description": "",
+        "id": "Margin",
+        "text": "Framlegð"
+    },
+    {
+        "source": "Margin Small",
+        "description": "",
+        "id": "MarginSmall",
+        "text": "Minni Lítil"
+    },
+    {
+        "source": "Margin Large",
+        "description": "",
+        "id": "MarginLarge",
+        "text": "Stærður framlegð"
+    },
+    {
+        "source": "Margin Dialog",
+        "description": "",
+        "id": "MarginDialog",
+        "text": "Margmiðlunarvalmynd"
+    },
+    {
+        "source": "Spacing",
+        "description": "",
+        "id": "Spacing",
+        "text": "Spacing"
+    },
+    {
+        "source": "Spacing Small",
+        "description": "",
+        "id": "SpacingSmall",
+        "text": "Spacing Small"
+    },
+    {
+        "source": "Spacing Large",
+        "description": "",
+        "id": "SpacingLarge",
+        "text": "Spacing Large"
+    },
+    {
+        "source": "Drag",
+        "description": "",
+        "id": "Drag",
+        "text": "Dragðu"
+    },
+    {
+        "source": "Icon",
+        "description": "",
+        "id": "Icon",
+        "text": "Táknmynd"
+    },
+    {
+        "source": "Icon Small",
+        "description": "",
+        "id": "IconSmall",
+        "text": "Tákn lítil"
+    },
+    {
+        "source": "Font Small",
+        "description": "",
+        "id": "FontSmall",
+        "text": "Letur letur"
+    },
+    {
+        "source": "Font Medium",
+        "description": "",
+        "id": "FontMedium",
+        "text": "Leturstærð"
+    },
+    {
+        "source": "Font Large",
+        "description": "",
+        "id": "FontLarge",
+        "text": "Leturstærð"
+    },
+    {
+        "source": "Font Header",
+        "description": "",
+        "id": "FontHeader",
+        "text": "Leturhausur"
+    },
+    {
+        "source": "Font Title",
+        "description": "",
+        "id": "FontTitle",
+        "text": "Leturgerð"
+    },
+    {
+        "source": "Swatch",
+        "description": "",
+        "id": "Swatch",
+        "text": "Swatch"
+    },
+    {
+        "source": "Slider",
+        "description": "",
+        "id": "Slider",
+        "text": "Renna"
+    },
+    {
+        "source": "Scroll Area",
+        "description": "",
+        "id": "ScrollArea",
+        "text": "Skrunasvæði"
+    },
+    {
+        "source": "Menu",
+        "description": "",
+        "id": "Menu",
+        "text": "Valmynd"
+    },
+    {
+        "source": "Text Column",
+        "description": "",
+        "id": "TextColumn",
+        "text": "Textasúlan"
+    },
+    {
+        "source": "Text Column Large",
+        "description": "",
+        "id": "TextColumnLarge",
+        "text": "Textasúlan Stór"
+    },
+    {
+        "source": "Search Box",
+        "description": "",
+        "id": "SearchBox",
+        "text": "Leitarreitinn"
+    },
+    {
+        "source": "Dialog",
+        "description": "",
+        "id": "Dialog",
+        "text": "Dialog"
+    },
+    {
+        "source": "Shadow Small",
+        "description": "",
+        "id": "ShadowSmall",
+        "text": "Shadow Small"
+    },
+    {
+        "source": "Tooltip Offset",
+        "description": "",
+        "id": "TooltipOffset",
+        "text": "Tooltip Offset"
+    },
+    {
+        "source": "Move",
+        "description": "",
+        "id": "Move",
+        "text": "Færa"
+    },
+    {
+        "source": "Dark",
+        "description": "",
+        "id": "Dark",
+        "text": "Myrkur"
+    },
+    {
+        "source": "Light",
+        "description": "",
+        "id": "Light",
+        "text": "Ljós"
+    },
+    {
+        "source": "Medium",
+        "description": "",
+        "id": "Medium",
+        "text": "Miðlungs"
+    },
+    {
+        "source": "Small",
+        "description": "",
+        "id": "Small",
+        "text": "Lítil"
+    },
+    {
+        "source": "Large",
+        "description": "",
+        "id": "Large",
+        "text": "Stórt"
+    },
+    {
+        "source": "Extra Large",
+        "description": "",
+        "id": "ExtraLarge",
+        "text": "Auka stór"
+    },
+    {
+        "source": "Default",
+        "description": "",
+        "id": "Default",
+        "text": "Sjálfgefið"
+    },
+    {
+        "source": "Expand",
+        "description": "",
+        "id": "Expand",
+        "text": "Stækka"
+    },
+    {
+        "source": "Space",
+        "description": "",
+        "id": "Space",
+        "text": "Rúm"
+    },
+    {
+        "source": "Apostrophe",
+        "description": "",
+        "id": "Apostrophe",
+        "text": "Apostrophe"
+    },
+    {
+        "source": "Comma",
+        "description": "",
+        "id": "Comma",
+        "text": "komma"
+    },
+    {
+        "source": "Minus",
+        "description": "",
+        "id": "Minus",
+        "text": "Mínus"
+    },
+    {
+        "source": "Period",
+        "description": "",
+        "id": "Period",
+        "text": "Tímabil"
+    },
+    {
+        "source": "Slash",
+        "description": "",
+        "id": "Slash",
+        "text": "Rista"
+    },
+    {
+        "source": "0",
+        "description": "",
+        "id": "0",
+        "text": "0"
+    },
+    {
+        "source": "1",
+        "description": "",
+        "id": "1",
+        "text": "1"
+    },
+    {
+        "source": "2",
+        "description": "",
+        "id": "2",
+        "text": "2"
+    },
+    {
+        "source": "3",
+        "description": "",
+        "id": "3",
+        "text": "3"
+    },
+    {
+        "source": "4",
+        "description": "",
+        "id": "4",
+        "text": "4"
+    },
+    {
+        "source": "5",
+        "description": "",
+        "id": "5",
+        "text": "5"
+    },
+    {
+        "source": "6",
+        "description": "",
+        "id": "6",
+        "text": "6"
+    },
+    {
+        "source": "7",
+        "description": "",
+        "id": "7",
+        "text": "7"
+    },
+    {
+        "source": "8",
+        "description": "",
+        "id": "8",
+        "text": "8"
+    },
+    {
+        "source": "9",
+        "description": "",
+        "id": "9",
+        "text": "9"
+    },
+    {
+        "source": "Semicolon",
+        "description": "",
+        "id": "Semicolon",
+        "text": "Semicolon"
+    },
+    {
+        "source": "Equal",
+        "description": "",
+        "id": "Equal",
+        "text": "Jafnt"
+    },
+    {
+        "source": "A",
+        "description": "",
+        "id": "A",
+        "text": "A"
+    },
+    {
+        "source": "B",
+        "description": "",
+        "id": "B",
+        "text": "B"
+    },
+    {
+        "source": "C",
+        "description": "",
+        "id": "C",
+        "text": "C"
+    },
+    {
+        "source": "D",
+        "description": "",
+        "id": "D",
+        "text": "D"
+    },
+    {
+        "source": "E",
+        "description": "",
+        "id": "E",
+        "text": "og"
+    },
+    {
+        "source": "F",
+        "description": "",
+        "id": "F",
+        "text": "F"
+    },
+    {
+        "source": "G",
+        "description": "",
+        "id": "G",
+        "text": "G"
+    },
+    {
+        "source": "H",
+        "description": "",
+        "id": "H",
+        "text": "H"
+    },
+    {
+        "source": "I",
+        "description": "",
+        "id": "I",
+        "text": "Ég"
+    },
+    {
+        "source": "J",
+        "description": "",
+        "id": "J",
+        "text": "J"
+    },
+    {
+        "source": "K",
+        "description": "",
+        "id": "K",
+        "text": "K"
+    },
+    {
+        "source": "L",
+        "description": "",
+        "id": "L",
+        "text": "The"
+    },
+    {
+        "source": "M",
+        "description": "",
+        "id": "M",
+        "text": "M"
+    },
+    {
+        "source": "N",
+        "description": "",
+        "id": "N",
+        "text": "N"
+    },
+    {
+        "source": "O",
+        "description": "",
+        "id": "O",
+        "text": "O"
+    },
+    {
+        "source": "P",
+        "description": "",
+        "id": "P",
+        "text": "P"
+    },
+    {
+        "source": "Q",
+        "description": "",
+        "id": "Q",
+        "text": "Q"
+    },
+    {
+        "source": "R",
+        "description": "",
+        "id": "R",
+        "text": "R"
+    },
+    {
+        "source": "S",
+        "description": "",
+        "id": "S",
+        "text": "S"
+    },
+    {
+        "source": "T",
+        "description": "",
+        "id": "T",
+        "text": "T"
+    },
+    {
+        "source": "U",
+        "description": "",
+        "id": "U",
+        "text": "U"
+    },
+    {
+        "source": "V",
+        "description": "",
+        "id": "V",
+        "text": "V"
+    },
+    {
+        "source": "W",
+        "description": "",
+        "id": "W",
+        "text": "The"
+    },
+    {
+        "source": "X",
+        "description": "",
+        "id": "X",
+        "text": "X"
+    },
+    {
+        "source": "Y",
+        "description": "",
+        "id": "Y",
+        "text": "Y"
+    },
+    {
+        "source": "Z",
+        "description": "",
+        "id": "Z",
+        "text": "með"
+    },
+    {
+        "source": "Left Bracket",
+        "description": "",
+        "id": "LeftBracket",
+        "text": "Vinstri krappi"
+    },
+    {
+        "source": "Backslash",
+        "description": "",
+        "id": "Backslash",
+        "text": "Bakslag"
+    },
+    {
+        "source": "Right Bracket",
+        "description": "",
+        "id": "RightBracket",
+        "text": "Hægri krappi"
+    },
+    {
+        "source": "Grave Accent",
+        "description": "",
+        "id": "GraveAccent",
+        "text": "Alvarleg áhersla"
+    },
+    {
+        "source": "World 1",
+        "description": "",
+        "id": "World1",
+        "text": "Heimur 1"
+    },
+    {
+        "source": "World 2",
+        "description": "",
+        "id": "World2",
+        "text": "Heimur 2"
+    },
+    {
+        "source": "Escape",
+        "description": "",
+        "id": "Escape",
+        "text": "Flýja"
+    },
+    {
+        "source": "Enter",
+        "description": "",
+        "id": "Enter",
+        "text": "Koma inn"
+    },
+    {
+        "source": "Tab",
+        "description": "",
+        "id": "Tab",
+        "text": "Flipi"
+    },
+    {
+        "source": "Backspace",
+        "description": "",
+        "id": "Backspace",
+        "text": "Backspace"
+    },
+    {
+        "source": "Insert",
+        "description": "",
+        "id": "Insert",
+        "text": "Setja inn"
+    },
+    {
+        "source": "Delete",
+        "description": "",
+        "id": "Delete",
+        "text": "Eyða"
+    },
+    {
+        "source": "Right Arrow",
+        "description": "",
+        "id": "RightArrow",
+        "text": "Hægri ör"
+    },
+    {
+        "source": "Left Arrow",
+        "description": "",
+        "id": "LeftArrow",
+        "text": "Vinstri ör"
+    },
+    {
+        "source": "Down Arrow",
+        "description": "",
+        "id": "DownArrow",
+        "text": "Niður ör"
+    },
+    {
+        "source": "Up Arrow",
+        "description": "",
+        "id": "UpArrow",
+        "text": "Upp ör"
+    },
+    {
+        "source": "Page Up",
+        "description": "",
+        "id": "PageUp",
+        "text": "Page Up"
+    },
+    {
+        "source": "Page Down",
+        "description": "",
+        "id": "PageDown",
+        "text": "Page Down"
+    },
+    {
+        "source": "Home",
+        "description": "",
+        "id": "Home",
+        "text": "Heim"
+    },
+    {
+        "source": "End",
+        "description": "",
+        "id": "End",
+        "text": "Enda"
+    },
+    {
+        "source": "Caps Lock",
+        "description": "",
+        "id": "CapsLock",
+        "text": "Caps Lock"
+    },
+    {
+        "source": "Scroll Lock",
+        "description": "",
+        "id": "ScrollLock",
+        "text": "Skrunaðu Læsa"
+    },
+    {
+        "source": "Num Lock",
+        "description": "",
+        "id": "NumLock",
+        "text": "Num Lock"
+    },
+    {
+        "source": "Print Screen",
+        "description": "",
+        "id": "PrintScreen",
+        "text": "Prenta skjá"
+    },
+    {
+        "source": "F1",
+        "description": "",
+        "id": "F1",
+        "text": "F1"
+    },
+    {
+        "source": "F2",
+        "description": "",
+        "id": "F2",
+        "text": "F2"
+    },
+    {
+        "source": "F3",
+        "description": "",
+        "id": "F3",
+        "text": "F3"
+    },
+    {
+        "source": "F4",
+        "description": "",
+        "id": "F4",
+        "text": "F4"
+    },
+    {
+        "source": "F5",
+        "description": "",
+        "id": "F5",
+        "text": "F5"
+    },
+    {
+        "source": "F6",
+        "description": "",
+        "id": "F6",
+        "text": "F6"
+    },
+    {
+        "source": "F7",
+        "description": "",
+        "id": "F7",
+        "text": "F7"
+    },
+    {
+        "source": "F8",
+        "description": "",
+        "id": "F8",
+        "text": "F8"
+    },
+    {
+        "source": "F9",
+        "description": "",
+        "id": "F9",
+        "text": "F9"
+    },
+    {
+        "source": "F10",
+        "description": "",
+        "id": "F10",
+        "text": "F10"
+    },
+    {
+        "source": "F11",
+        "description": "",
+        "id": "F11",
+        "text": "F11"
+    },
+    {
+        "source": "F12",
+        "description": "",
+        "id": "F12",
+        "text": "F12"
+    },
+    {
+        "source": "F13",
+        "description": "",
+        "id": "F13",
+        "text": "F13"
+    },
+    {
+        "source": "F14",
+        "description": "",
+        "id": "F14",
+        "text": "F14"
+    },
+    {
+        "source": "F15",
+        "description": "",
+        "id": "F15",
+        "text": "F15"
+    },
+    {
+        "source": "F16",
+        "description": "",
+        "id": "F16",
+        "text": "F16"
+    },
+    {
+        "source": "F17",
+        "description": "",
+        "id": "F17",
+        "text": "F17"
+    },
+    {
+        "source": "F18",
+        "description": "",
+        "id": "F18",
+        "text": "F18"
+    },
+    {
+        "source": "F19",
+        "description": "",
+        "id": "F19",
+        "text": "F19"
+    },
+    {
+        "source": "F20",
+        "description": "",
+        "id": "F20",
+        "text": "F20"
+    },
+    {
+        "source": "F21",
+        "description": "",
+        "id": "F21",
+        "text": "F21"
+    },
+    {
+        "source": "F22",
+        "description": "",
+        "id": "F22",
+        "text": "F22"
+    },
+    {
+        "source": "F23",
+        "description": "",
+        "id": "F23",
+        "text": "F23"
+    },
+    {
+        "source": "F24",
+        "description": "",
+        "id": "F24",
+        "text": "F24"
+    },
+    {
+        "source": "F25",
+        "description": "",
+        "id": "F25",
+        "text": "F25"
+    },
+    {
+        "source": "Key Pad 0",
+        "description": "",
+        "id": "KeyPad0",
+        "text": "Lykill Pad 0"
+    },
+    {
+        "source": "Key Pad 1",
+        "description": "",
+        "id": "KeyPad1",
+        "text": "Lykill Pad 1"
+    },
+    {
+        "source": "Key Pad 2",
+        "description": "",
+        "id": "KeyPad2",
+        "text": "Lykill Pad 2"
+    },
+    {
+        "source": "Key Pad 3",
+        "description": "",
+        "id": "KeyPad3",
+        "text": "Lykill Pad 3"
+    },
+    {
+        "source": "Key Pad 4",
+        "description": "",
+        "id": "KeyPad4",
+        "text": "Key Pad 4"
+    },
+    {
+        "source": "Key Pad 5",
+        "description": "",
+        "id": "KeyPad5",
+        "text": "Lykill Pad 5"
+    },
+    {
+        "source": "Key Pad 6",
+        "description": "",
+        "id": "KeyPad6",
+        "text": "Lykill Pad 6"
+    },
+    {
+        "source": "Key Pad 7",
+        "description": "",
+        "id": "KeyPad7",
+        "text": "Lykill Pad 7"
+    },
+    {
+        "source": "Key Pad 8",
+        "description": "",
+        "id": "KeyPad8",
+        "text": "Lykill Pad 8"
+    },
+    {
+        "source": "Key Pad 9",
+        "description": "",
+        "id": "KeyPad9",
+        "text": "Key Pad 9"
+    },
+    {
+        "source": "Key Pad Decimal",
+        "description": "",
+        "id": "KeyPadDecimal",
+        "text": "Key Pad Decimal"
+    },
+    {
+        "source": "Key Pad Divide",
+        "description": "",
+        "id": "KeyPadDivide",
+        "text": "Key Pad Skipta"
+    },
+    {
+        "source": "Key Pad Multiply",
+        "description": "",
+        "id": "KeyPadMultiply",
+        "text": "Key Pad margfalda"
+    },
+    {
+        "source": "Key Pad Substract",
+        "description": "",
+        "id": "KeyPadSubstract",
+        "text": "Key Pad Substract"
+    },
+    {
+        "source": "Key Pad Add",
+        "description": "",
+        "id": "KeyPadAdd",
+        "text": "Key Pad Add"
+    },
+    {
+        "source": "Key Pad Enter",
+        "description": "",
+        "id": "KeyPadEnter",
+        "text": "Key Pad Enter"
+    },
+    {
+        "source": "Key Pad Equal",
+        "description": "",
+        "id": "KeyPadEqual",
+        "text": "Key Pad Equal"
+    },
+    {
+        "source": "Left Shift",
+        "description": "",
+        "id": "LeftShift",
+        "text": "Vinstri skift"
+    },
+    {
+        "source": "Left Control",
+        "description": "",
+        "id": "LeftControl",
+        "text": "Vinstri stjórn"
+    },
+    {
+        "source": "Left Alt",
+        "description": "",
+        "id": "LeftAlt",
+        "text": "Vinstri Alt"
+    },
+    {
+        "source": "Left Command",
+        "description": "",
+        "id": "LeftCommand",
+        "text": "Vinstri stjórn"
+    },
+    {
+        "source": "Right Shift",
+        "description": "",
+        "id": "RightShift",
+        "text": "Hægri Shift"
+    },
+    {
+        "source": "Right Control",
+        "description": "",
+        "id": "RightControl",
+        "text": "Hægri stjórn"
+    },
+    {
+        "source": "Right Alt",
+        "description": "",
+        "id": "RightAlt",
+        "text": "Hægri Alt"
+    },
+    {
+        "source": "Right Command",
+        "description": "",
+        "id": "RightCommand",
+        "text": "Hægri stjórn"
+    },
+    {
+        "source": "Shift",
+        "description": "",
+        "id": "Shift",
+        "text": "Shift"
+    },
+    {
+        "source": "Ctrl",
+        "description": "",
+        "id": "Ctrl",
+        "text": "Ctrl"
+    },
+    {
+        "source": "Alt",
+        "description": "",
+        "id": "Alt",
+        "text": "allt"
+    },
+    {
+        "source": "Command",
+        "description": "",
+        "id": "Command",
+        "text": "Stjórn"
+    },
+    {
+        "source": "Cached",
+        "description": "",
+        "id": "Cached",
+        "text": "Skyndiminni"
+    },
+    {
+        "source": "Scrub",
+        "description": "",
+        "id": "Scrub",
+        "text": "Skúra"
+    },
+    {
+        "source": "Keyboard shortcut",
+        "description": "",
+        "id": "Keyboard shortcut",
+        "text": "Flýtilykla"
+    },
+    {
+        "source": "Keyboard shortcuts",
+        "description": "",
+        "id": "Keyboard shortcuts",
+        "text": "Flýtilyklar"
+    },
+    {
+        "source": "IconMini",
+        "text": "IconMini",
+        "id": "IconMini",
+        "description": ""
+    },
+    {
+        "source": "SwatchSmall",
+        "text": "SwatchSmall",
+        "id": "SwatchSmall",
+        "description": ""
+    },
+    {
+        "source": "ScrollBar",
+        "text": "Flettubitinn",
+        "id": "ScrollBar",
+        "description": ""
+    },
+    {
+        "source": "ScrollBarSmall",
+        "text": "ScrollBarSmall",
+        "id": "ScrollBarSmall",
+        "description": ""
+    },
+    {
+        "source": "Native",
+        "text": "Innfæddur",
+        "id": "Native",
+        "description": ""
+    },
+    {
+        "source": "16:9",
+        "text": "16: 9",
+        "id": "16:9",
+        "description": ""
+    },
+    {
+        "source": "1.85",
+        "text": "1,85",
+        "id": "1.85",
+        "description": ""
+    },
+    {
+        "source": "2.35",
+        "text": "2,35",
+        "id": "2.35",
+        "description": ""
+    },
+    {
+        "source": "Reset the value.",
+        "text": "Endurstilla gildi.",
+        "id": "Reset the value.",
+        "description": ""
+    },
+    {
+        "source": "BelowRight",
+        "text": "UnderRight",
+        "description": "",
+        "id": "BelowRight"
+    },
+    {
+        "source": "BelowLeft",
+        "text": "UnderLeft",
+        "description": "",
+        "id": "BelowLeft"
+    },
+    {
+        "source": "AboveRight",
+        "text": "hér að framan Hægri",
+        "description": "",
+        "id": "AboveRight"
+    },
+    {
+        "source": "AboveLeft",
+        "text": "AboveLeft",
+        "description": "",
+        "id": "AboveLeft"
     }
 ]

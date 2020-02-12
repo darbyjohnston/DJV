@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -29,8 +29,21 @@
 
 #include <djvUITest/WidgetTest.h>
 
+#include <djvUI/CheckBox.h>
+#include <djvUI/ColorSwatch.h>
 #include <djvUI/EventSystem.h>
+#include <djvUI/IntSlider.h>
+#include <djvUI/FloatSlider.h>
+#include <djvUI/FormLayout.h>
+#include <djvUI/GridLayout.h>
+#include <djvUI/Icon.h>
+#include <djvUI/Label.h>
+#include <djvUI/LineEdit.h>
+#include <djvUI/ListButton.h>
 #include <djvUI/PushButton.h>
+#include <djvUI/ToggleButton.h>
+#include <djvUI/ToolButton.h>
+#include <djvUI/RowLayout.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/Window.h>
 
@@ -65,9 +78,9 @@ namespace djv
                 return out;
             }
             
-            void tick(float dt) override
+            void tick(const std::chrono::steady_clock::time_point& t, const Time::Unit& dt) override
             {
-                EventSystem::tick(dt);
+                EventSystem::tick(t, dt);
                 
                 const glm::vec2 size(1280, 720);
                 
@@ -183,39 +196,60 @@ namespace djv
                 {
                     auto widget = PushButton::create(context);
                     
-                    auto widget2 = PushButton::create(context);
+                    auto widget2 = ListButton::create(context);
                     widget2->setHAlign(HAlign::Left);
                     widget2->setHAlign(HAlign::Left);
-                    auto widget3 = PushButton::create(context);
+                    auto widget3 = ToolButton::create(context);
                     widget3->setHAlign(HAlign::Right);
-                    auto widget4 = PushButton::create(context);
+                    auto widget4 = ToggleButton::create(context);
                     widget4->setHAlign(HAlign::Center);
                     
-                    auto widget5 = PushButton::create(context);
+                    auto widget5 = IntSlider::create(context);
                     widget5->setVAlign(VAlign::Top);
                     widget5->setVAlign(VAlign::Top);
-                    auto widget6 = PushButton::create(context);
+                    auto widget6 = FloatSlider::create(context);
                     widget6->setVAlign(VAlign::Bottom);
-                    auto widget7 = PushButton::create(context);
+                    auto widget7 = LineEdit::create(context);
                     widget7->setVAlign(VAlign::Center);
                     
-                    auto layout = StackLayout::create(context);
-                    layout->addChild(widget);
-                    layout->addChild(widget2);
-                    layout->addChild(widget3);
-                    layout->addChild(widget4);
-                    layout->addChild(widget5);
-                    layout->addChild(widget6);
+                    auto stackLayout = StackLayout::create(context);
+                    stackLayout->addChild(widget);
+                    stackLayout->addChild(widget2);
+                    stackLayout->addChild(widget3);
+                    stackLayout->addChild(widget4);
+                    stackLayout->addChild(widget5);
+                    stackLayout->addChild(widget6);
                     
+                    auto rowLayout = HorizontalLayout::create(context);
+                    auto label = Label::create(context);
+                    label->setText("Hello world!");
+                    rowLayout->addChild(label);
+                    auto icon = Icon::create(context);
+                    icon->setIcon("djvIconFileOpen");
+                    rowLayout->addChild(icon);
+
+                    auto formLayout = FormLayout::create(context);
+                    formLayout->addChild(CheckBox::create(context));
+                    formLayout->addChild(ColorSwatch::create(context));
+
+                    auto gridLayout = GridLayout::create(context);
+                    gridLayout->addChild(stackLayout);
+                    gridLayout->addChild(rowLayout);
+                    gridLayout->setGridPos(rowLayout, 1, 0);
+                    gridLayout->addChild(formLayout);
+                    gridLayout->setGridPos(formLayout, 0, 1);
+
                     auto window = Window::create(context);
-                    window->addChild(layout);
-                    if (auto parentWindow = layout->getWindow())
+                    window->addChild(gridLayout);
+                    if (auto parentWindow = gridLayout->getWindow())
                     {
                         DJV_ASSERT(window == parentWindow);
                     }
                     window->show();
                     
                     _tickFor(std::chrono::milliseconds(1000));
+                    
+                    window->close();
                 }
             }
         }

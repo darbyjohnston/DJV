@@ -1,0 +1,72 @@
+[
+    {
+        "text": " Usage:",
+        "id": " Usage:",
+        "description": ""
+    },
+    {
+        "text": "   djv_test_pattern (output) [option, ...]",
+        "id": "   djv_test_pattern (output) [option, ...]",
+        "description": ""
+    },
+    {
+        "text": " Options:",
+        "id": " Options:",
+        "description": ""
+    },
+    {
+        "text": "   -frameCount (value)",
+        "id": "   -frameCount (value)",
+        "description": ""
+    },
+    {
+        "text": "   The number of frames to render. Default: ",
+        "id": "   The number of frames to render. Default: ",
+        "description": ""
+    },
+    {
+        "text": "   -size \\\"(width) (height)\\\"",
+        "id": "   -size \\\"(width) (height)\\\"",
+        "description": ""
+    },
+    {
+        "text": "   The image resolution. Default: ",
+        "id": "   The image resolution. Default: ",
+        "description": ""
+    },
+    {
+        "text": "   -type (value)",
+        "id": "   -type (value)",
+        "description": ""
+    },
+    {
+        "text": "   The image type. Default: ",
+        "id": "   The image type. Default: ",
+        "description": ""
+    },
+    {
+        "text": " Examples:",
+        "id": " Examples:",
+        "description": ""
+    },
+    {
+        "text": "   > djv_test_pattern test.1.dpx",
+        "id": "   > djv_test_pattern test.1.dpx",
+        "description": ""
+    },
+    {
+        "text": "   Render a test pattern with the default values.",
+        "id": "   Render a test pattern with the default values.",
+        "description": ""
+    },
+    {
+        "text": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16",
+        "id": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16",
+        "description": ""
+    },
+    {
+        "text": "   Render a UHD resolution test pattern with a RGB 16-bit image type.",
+        "id": "   Render a UHD resolution test pattern with a RGB 16-bit image type.",
+        "description": ""
+    }
+]

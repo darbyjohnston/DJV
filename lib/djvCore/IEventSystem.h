@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -66,7 +66,7 @@ namespace djv
                 virtual void setClipboard(const std::string&);
                 virtual std::string getClipboard() const;
 
-                void tick(float dt) override;
+                void tick(const std::chrono::steady_clock::time_point&, const Time::Unit&) override;
 
                 //! \todo How can we make this function protected?
                 void _objectCreated(const std::shared_ptr<IObject> &);

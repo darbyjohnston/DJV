@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -309,6 +309,17 @@ namespace djv
                 {
                     event.accept();
                 }
+            }
+        }
+
+        void NumericEdit::_scrollEvent(Event::Scroll& event)
+        {
+            DJV_PRIVATE_PTR();
+            if (isEnabled(true))
+            {
+                event.accept();
+                p.lineEditBase->takeTextFocus();
+                _scroll(event.getScrollDelta().y);
             }
         }
 

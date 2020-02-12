@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -452,7 +452,6 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->moveToFront();
-                        const BBox2f& g = widget->_p->imageView->getGeometry();
                         widget->_p->scroll->setAlways(value);
                     }
                 });

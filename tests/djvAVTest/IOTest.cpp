@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -367,7 +367,7 @@ namespace djv
                                         }
                                         if (sleep)
                                         {
-                                            std::this_thread::sleep_for(Time::getMilliseconds(Time::TimerValue::Fast));
+                                            std::this_thread::sleep_for(Time::getTime(Time::TimerValue::Fast));
                                         }
                                     }
                                 }

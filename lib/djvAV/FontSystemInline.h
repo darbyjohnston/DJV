@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -83,14 +83,6 @@ namespace djv
             inline Metrics::Metrics()
             {}
 
-            inline TextLine::TextLine()
-            {}
-
-            inline TextLine::TextLine(const std::string& text, const glm::vec2& size) :
-                text(text),
-                size(size)
-            {}
-
             inline GlyphInfo::GlyphInfo()
             {}
 
@@ -112,6 +104,15 @@ namespace djv
             }
 
             inline Glyph::Glyph()
+            {}
+
+            inline TextLine::TextLine()
+            {}
+
+            inline TextLine::TextLine(const std::string & text, const glm::vec2 & size, const std::vector<std::shared_ptr<Glyph> > & glyphs) :
+                text(text),
+                size(size),
+                glyphs(glyphs)
             {}
 
         } // namespace Font

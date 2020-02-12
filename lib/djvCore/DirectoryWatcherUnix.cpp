@@ -216,7 +216,7 @@ namespace djv
                 _p->running = true;
                 
                 std::weak_ptr<DirectoryWatcher> weak(shared_from_this());
-                const auto timeout = Time::getMilliseconds(Time::TimerValue::Medium);
+                const auto timeout = Time::getTime(Time::TimerValue::Medium);
                 _p->thread = std::thread(
                     [weak, timeout]
                 {
@@ -270,7 +270,7 @@ namespace djv
                 _p->timer->setRepeating(true);
                 _p->timer->start(
                     timeout,
-                    [weak, timeout](float)
+                    [weak, timeout](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                 {
                     if (auto watcher = weak.lock())
                     {

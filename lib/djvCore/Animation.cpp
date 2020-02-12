@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -86,11 +86,11 @@ namespace djv
             }
 
             void Animation::start(
-                float                     begin,
-                float                     end,
-                std::chrono::milliseconds duration,
-                const Callback &          callback,
-                const Callback &          endCallback)
+                float            begin,
+                float            end,
+                Time::Unit       duration,
+                const Callback & callback,
+                const Callback & endCallback)
             {
                 /*if (_active && _endCallback)
                 {
@@ -103,7 +103,7 @@ namespace djv
                 _duration    = duration;
                 _callback    = callback;
                 _endCallback = endCallback;
-                _start       = std::chrono::system_clock::now();
+                _start       = _time;
             }
 
             void Animation::stop()
@@ -111,13 +111,12 @@ namespace djv
                 _active = false;
             }
 
-            void Animation::_tick(float)
+            void Animation::_tick(const std::chrono::steady_clock::time_point& tp, const Time::Unit&)
             {
+                _time = tp;
                 if (_active)
                 {
-                    const auto now = std::chrono::system_clock::now();
-                    const auto diff = std::chrono::duration<float>(now - _start);
-
+                    const auto diff = std::chrono::duration<float>(tp - _start);
                     const float t = Math::clamp(diff.count() / std::chrono::duration<float>(_duration).count(), 0.F, 1.F);
 
                     float v = 0.F;
@@ -131,7 +130,7 @@ namespace djv
                     }
                     _callback(v);
 
-                    if (now > (_start + _duration))
+                    if (tp > (_start + _duration))
                     {
                         if (_callback)
                         {
@@ -145,7 +144,7 @@ namespace djv
                         if (_repeating)
                         {
                             _active = true;
-                            _start = now;
+                            _start = tp;
                         }
                     }
                 }
@@ -176,7 +175,7 @@ namespace djv
                 return out;
             }
 
-            void System::tick(float dt)
+            void System::tick(const std::chrono::steady_clock::time_point& tp, const Time::Unit& dt)
             {
                 DJV_PRIVATE_PTR();
                 auto i = p.animations.begin();
@@ -184,7 +183,7 @@ namespace djv
                 {
                     if (auto animation = i->lock())
                     {
-                        animation->_tick(dt);
+                        animation->_tick(tp, dt);
                         ++i;
                     }
                     else

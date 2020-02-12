@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -73,7 +73,7 @@ namespace djv
                 std::vector<std::shared_ptr<IObject> > objectsCreated;
                 std::shared_ptr<RootObject> rootObject;
                 std::weak_ptr<TextSystem> textSystem;
-                float t = 0.F;
+                std::chrono::steady_clock::time_point t;
                 PointerInfo pointerInfo;
                 std::shared_ptr<ValueSubject<PointerInfo> > pointerSubject;
                 std::shared_ptr<ValueSubject<std::shared_ptr<IObject> > > hover;
@@ -125,8 +125,8 @@ namespace djv
                 p.statsTimer = Time::Timer::create(context);
                 p.statsTimer->setRepeating(true);
                 p.statsTimer->start(
-                    Time::getMilliseconds(Time::TimerValue::VerySlow),
-                    [weak](float)
+                    Time::getTime(Time::TimerValue::VerySlow),
+                    [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                 {
                     if (auto system = weak.lock())
                     {
@@ -203,7 +203,7 @@ namespace djv
                 return std::string();
             }
 
-            void IEventSystem::tick(float dt)
+            void IEventSystem::tick(const std::chrono::steady_clock::time_point&, const Time::Unit& dt)
             {
                 DJV_PRIVATE_PTR();
                 p.t += dt;

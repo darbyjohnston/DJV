@@ -5,50 +5,79 @@
 
 import sys
 import json
-from google.cloud import translate
+from collections import OrderedDict 
+from google.cloud import translate_v2
 
 def getTranslation(translateClient, text, language):
     translation = translateClient.translate(text, target_language=language)
-    print text, "=", translation['translatedText']
+    print(text, "=", translation['translatedText'])
     return translation['translatedText']
 
 def run():
     
+    # Parse the command-line arguments.
     inFile = sys.argv[1]
     outFile = sys.argv[2]
     language = sys.argv[3]
     
-    inData = json.load(open(inFile))
+    # Read the input and output files.
+    inData = json.load(open(inFile), object_pairs_hook=OrderedDict)
     outData = []
     try:
-        outData = json.load(open(outFile))
+        outData = json.load(open(outFile), object_pairs_hook=OrderedDict)
     except:
         pass
 
-    translateClient = translate.Client()
+    # Create the translation client.
+    translateClient = translate_v2.Client()
+    
     for inItem in inData:
+
+        # The language passed on the command-line is used by default,
+        # but this may be over-ridden by the input file.
+        itemLanguage = language
+        if 'language' in inItem:
+            itemLanguage = inItem['language']
+
+        # Check if the item exists in the output file.
         i = None
         for outItem in outData:
             if outItem['id'] == inItem['id']:
                 i = outItem
                 break
+
         if None == i:
-            i = dict(inItem)
-            itemLanguage = language
-            if 'language' in inItem:
-                itemLanguage = i['language']
-            i['text'] = getTranslation(translateClient, inItem['text'], itemLanguage)
+
+            # The item doesn't exist in the output file, add it.
+            i = OrderedDict(inItem)
+            if itemLanguage != 'en':
+                i['text'] = getTranslation(translateClient, inItem['text'], itemLanguage)
+            else:
+                i['text'] = inItem['text']
             i['source'] = inItem['text']
             outData.append(i)
-        elif i['source'] != inItem['text']:
-            itemLanguage = language
+            
+        else:
+
+            # The item exists in the output file, only translate
+            # it if the text or input language has changed.
+            textChanged = i['source'] != inItem['text']
+            languageChanged = False
             if 'language' in inItem:
-                itemLanguage = i['language']
-            i['text'] = getTranslation(translateClient, inItem['text'], itemLanguage)
-            i['source'] = inItem['text']
+                if 'language' in i:
+                    languageChanged = inItem['language'] != i['language']
+                else:
+                    languageChanged = True
+                i['language'] = itemLanguage
+            if textChanged or languageChanged:
+                if itemLanguage != 'en':
+                    i['text'] = getTranslation(translateClient, inItem['text'], itemLanguage)
+                else:
+                    i['text'] = inItem['text']
+                i['source'] = inItem['text']
 
     with open(outFile, 'w') as f:
-        json.dump(outData, f, indent = 4)
+        json.dump(outData, f, indent = 4, ensure_ascii=False)
     
 if __name__ == '__main__':
     run()

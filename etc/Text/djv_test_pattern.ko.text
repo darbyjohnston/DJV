@@ -1,0 +1,86 @@
+[
+    {
+        "source": " Usage:",
+        "text": "용법:",
+        "id": " Usage:",
+        "description": ""
+    },
+    {
+        "source": "   djv_test_pattern (output) [option, ...]",
+        "text": "djv_test_pattern (출력) [옵션, ...]",
+        "id": "   djv_test_pattern (output) [option, ...]",
+        "description": ""
+    },
+    {
+        "source": " Options:",
+        "text": "옵션 :",
+        "id": " Options:",
+        "description": ""
+    },
+    {
+        "source": "   -frameCount (value)",
+        "text": "-frameCount (값)",
+        "id": "   -frameCount (value)",
+        "description": ""
+    },
+    {
+        "source": "   The number of frames to render. Default: ",
+        "text": "렌더링 할 프레임 수입니다. 기본:",
+        "id": "   The number of frames to render. Default: ",
+        "description": ""
+    },
+    {
+        "source": "   -size \\\"(width) (height)\\\"",
+        "text": "-크기 \\ &quot;(폭) (높이) \\&quot;",
+        "id": "   -size \\\"(width) (height)\\\"",
+        "description": ""
+    },
+    {
+        "source": "   The image resolution. Default: ",
+        "text": "이미지 해상도. 기본:",
+        "id": "   The image resolution. Default: ",
+        "description": ""
+    },
+    {
+        "source": "   -type (value)",
+        "text": "유형 (값)",
+        "id": "   -type (value)",
+        "description": ""
+    },
+    {
+        "source": "   The image type. Default: ",
+        "text": "이미지 타입. 기본:",
+        "id": "   The image type. Default: ",
+        "description": ""
+    },
+    {
+        "source": " Examples:",
+        "text": "예 :",
+        "id": " Examples:",
+        "description": ""
+    },
+    {
+        "source": "   > djv_test_pattern test.1.dpx",
+        "text": "&gt; djv_test_pattern test.1.dpx",
+        "id": "   > djv_test_pattern test.1.dpx",
+        "description": ""
+    },
+    {
+        "source": "   Render a test pattern with the default values.",
+        "text": "기본값으로 테스트 패턴을 렌더링하십시오.",
+        "id": "   Render a test pattern with the default values.",
+        "description": ""
+    },
+    {
+        "source": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16",
+        "text": "&gt; djv_test_pattern test.1.tif -size &#39;3840 2160&#39;-유형 RGB_U16",
+        "id": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16",
+        "description": ""
+    },
+    {
+        "source": "   Render a UHD resolution test pattern with a RGB 16-bit image type.",
+        "text": "RGB 16 비트 이미지 유형으로 UHD 해상도 테스트 패턴을 렌더링하십시오.",
+        "id": "   Render a UHD resolution test pattern with a RGB 16-bit image type.",
+        "description": ""
+    }
+]

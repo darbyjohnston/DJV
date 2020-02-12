@@ -9,7 +9,7 @@ do
         do
             outfile=`echo $file | sed -e "s/\.en\./\.$language\./"`
             echo "    "$outfile
-            python ./translate.py $file $outfile $language
+            python3 ./translate.py $file $outfile $language
         done
     fi
 done

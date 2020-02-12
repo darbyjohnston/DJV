@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -86,10 +86,13 @@ namespace djv
             void _preLayoutEvent(Core::Event::PreLayout &) override;
             void _paintEvent(Core::Event::Paint &) override;
 
-            void _initEvent(Core::Event::Init &) override;
+            void _initEvent(Core::Event::Init&) override;
+            void _updateEvent(Core::Event::Update&) override;
 
         private:
             void _textUpdate();
+            void _sizeStringUpdate();
+            void _fontUpdate();
 
             DJV_PRIVATE();
         };

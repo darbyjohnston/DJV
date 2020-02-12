@@ -1,3 +1,4 @@
+set(header)
 set(source main.cpp)
 
 add_executable(djv_ls ${header} ${source})

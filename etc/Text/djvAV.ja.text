@@ -1,812 +1,824 @@
 [
     {
-        "source": "Cannot parse the value.", 
-        "text": "\u5024\u3092\u89e3\u6790\u3067\u304d\u307e\u305b\u3093\u3002", 
-        "id": "Cannot parse the value.", 
+        "source": "Cannot parse the value.",
+        "description": "",
+        "id": "Cannot parse the value.",
+        "text": "値を解析できません。"
+    },
+    {
+        "source": "The file",
+        "description": "",
+        "id": "The file",
+        "text": "ファイル"
+    },
+    {
+        "source": "cannot be opened",
+        "description": "",
+        "id": "cannot be opened",
+        "text": "開けられない"
+    },
+    {
+        "source": "does not have any video or audio streams",
+        "description": "",
+        "id": "does not have any video or audio streams",
+        "text": "ビデオやオーディオのストリームはありません"
+    },
+    {
+        "source": "does not match any video codecs",
+        "description": "",
+        "id": "does not match any video codecs",
+        "text": "どのビデオコーデックとも一致しません"
+    },
+    {
+        "source": "The audio format ",
+        "description": "",
+        "id": "The audio format ",
+        "text": "オーディオフォーマット"
+    },
+    {
+        "source": "is not supported",
+        "description": "",
+        "id": "is not supported",
+        "text": "サポートされていません"
+    },
+    {
+        "source": "does not match any audio codecs",
+        "description": "",
+        "id": "does not match any audio codecs",
+        "text": "どのオーディオコーデックとも一致しません"
+    },
+    {
+        "source": "None",
+        "description": "",
+        "id": "None",
+        "text": "無し"
+    },
+    {
+        "source": "Left",
+        "description": "",
+        "id": "Left",
+        "text": "左"
+    },
+    {
+        "source": "Top",
+        "description": "",
+        "id": "Top",
+        "text": "上"
+    },
+    {
+        "source": "Right",
+        "description": "",
+        "id": "Right",
+        "text": "右"
+    },
+    {
+        "source": "Bottom",
+        "description": "",
+        "id": "Bottom",
+        "text": "底"
+    },
+    {
+        "source": "Timecode",
+        "description": "",
+        "id": "Timecode",
+        "text": "タイムコード"
+    },
+    {
+        "source": "Frames",
+        "description": "",
+        "id": "Frames",
+        "text": "フレーム"
+    },
+    {
+        "source": "Bad magic number.",
+        "description": "",
+        "id": "Bad magic number.",
+        "text": "マジックナンバーが悪い。"
+    },
+    {
+        "source": "Unsupported file.",
+        "description": "",
+        "id": "Unsupported file.",
+        "text": "サポートされていないファイルです。"
+    },
+    {
+        "source": "Incomplete file.",
+        "description": "",
+        "id": "Incomplete file.",
+        "text": "不完全なファイルです。"
+    },
+    {
+        "source": "This plugin provides DPX image I/O.",
+        "description": "",
+        "id": "This plugin provides DPX image I/O.",
+        "text": "このプラグインはDPXイメージI / Oを提供します。"
+    },
+    {
+        "source": "1.0",
+        "description": "",
+        "id": "1.0",
+        "text": "1.0"
+    },
+    {
+        "source": "2.0",
+        "description": "",
+        "id": "2.0",
+        "text": "2.0"
+    },
+    {
+        "source": "Auto",
+        "description": "",
+        "id": "Auto",
+        "text": "自動"
+    },
+    {
+        "source": "MSB",
+        "description": "",
+        "id": "MSB",
+        "text": "MSB"
+    },
+    {
+        "source": "LSB",
+        "description": "",
+        "id": "LSB",
+        "text": "LSB"
+    },
+    {
+        "source": "Cannot open file.",
+        "description": "",
+        "id": "Cannot open file.",
+        "text": "ファイルを開けません。"
+    },
+    {
+        "source": "This plugin provides Portable Network Graphics (PNG) image I/O.",
+        "description": "",
+        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.",
+        "text": "このプラグインはPortable Network Graphics（PNG）画像の入出力を提供します。"
+    },
+    {
+        "source": "This plugin provides NetPBM image I/O.",
+        "description": "",
+        "id": "This plugin provides NetPBM image I/O.",
+        "text": "このプラグインはNetPBMイメージI / Oを提供します。"
+    },
+    {
+        "source": "ASCII",
+        "description": "",
+        "id": "ASCII",
+        "text": "ASCII"
+    },
+    {
+        "source": "Binary",
+        "description": "",
+        "id": "Binary",
+        "text": "バイナリ"
+    },
+    {
+        "source": "Error reading scanline.",
+        "description": "",
+        "id": "Error reading scanline.",
+        "text": "走査線の読み取りエラー。"
+    },
+    {
+        "source": "Unsupported image type.",
+        "description": "",
+        "id": "Unsupported image type.",
+        "text": "サポートされていない画像タイプです。"
+    },
+    {
+        "source": "Unknown",
+        "description": "",
+        "id": "Unknown",
+        "text": "道の"
+    },
+    {
+        "source": "Out of memory",
+        "description": "",
+        "id": "Out of memory",
+        "text": "メモリ不足"
+    },
+    {
+        "source": "Invalid value",
+        "description": "",
+        "id": "Invalid value",
+        "text": "無効な値"
+    },
+    {
+        "source": "Invalid enum",
+        "description": "",
+        "id": "Invalid enum",
+        "text": "無効な列挙型"
+    },
+    {
+        "source": "U8",
+        "description": "",
+        "id": "U8",
+        "text": "U8"
+    },
+    {
+        "source": "S16",
+        "description": "",
+        "id": "S16",
+        "text": "S16"
+    },
+    {
+        "source": "S32",
+        "description": "",
+        "id": "S32",
+        "text": "S32"
+    },
+    {
+        "source": "F32",
+        "description": "",
+        "id": "F32",
+        "text": "F32"
+    },
+    {
+        "source": "Unsupported color components.",
+        "description": "",
+        "id": "Unsupported color components.",
+        "text": "サポートされていない色成分です。"
+    },
+    {
+        "source": "This plugin provides Tagged Image File Format (TIFF) image I/O.",
+        "description": "",
+        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.",
+        "text": "このプラグインはタグ付きイメージファイルフォーマット（TIFF）イメージI / Oを提供します。"
+    },
+    {
+        "source": "RLE",
+        "description": "",
+        "id": "RLE",
+        "text": "RLE"
+    },
+    {
+        "source": "LZW",
+        "description": "",
+        "id": "LZW",
+        "text": "LZW"
+    },
+    {
+        "source": "The OpenGL texture cannot be created.",
+        "description": "",
+        "id": "The OpenGL texture cannot be created.",
+        "text": "OpenGLテクスチャは作成できません。"
+    },
+    {
+        "source": "The OpenGL frame buffer cannot be created.",
+        "description": "",
+        "id": "The OpenGL frame buffer cannot be created.",
+        "text": "OpenGLフレームバッファは作成できません。"
+    },
+    {
+        "source": "The OpenGL frame buffer cannot be initialized.",
+        "description": "",
+        "id": "The OpenGL frame buffer cannot be initialized.",
+        "text": "OpenGLフレームバッファは初期化できません。"
+    },
+    {
+        "source": "Error writing scanline.",
+        "description": "",
+        "id": "Error writing scanline.",
+        "text": "走査線の書き込み中にエラーが発生しました。"
+    },
+    {
+        "source": "The OpenGL vertex shader cannot be created.",
+        "description": "",
+        "id": "The OpenGL vertex shader cannot be created.",
+        "text": "OpenGLバーテックスシェーダは作成できません。"
+    },
+    {
+        "source": "The OpenGL vertex shader",
+        "description": "",
+        "id": "The OpenGL vertex shader",
+        "text": "OpenGLバーテックスシェーダ"
+    },
+    {
+        "source": "cannot be compiled",
+        "description": "",
+        "id": "cannot be compiled",
+        "text": "コンパイルできません"
+    },
+    {
+        "source": "The OpenGL fragment shader cannot be created.",
+        "description": "",
+        "id": "The OpenGL fragment shader cannot be created.",
+        "text": "OpenGLフラグメントシェーダは作成できません。"
+    },
+    {
+        "source": "The OpenGL fragment shader",
+        "description": "",
+        "id": "The OpenGL fragment shader",
+        "text": "OpenGLフォワードシェーダ"
+    },
+    {
+        "source": "The program",
+        "description": "",
+        "id": "The program",
+        "text": "プログラム"
+    },
+    {
+        "source": "cannot be linked",
+        "description": "",
+        "id": "cannot be linked",
+        "text": "リンクできません"
+    },
+    {
+        "source": "L U8",
+        "description": "",
+        "id": "L_U8",
+        "text": "50 U8"
+    },
+    {
+        "source": "L U16",
+        "description": "",
+        "id": "L_U16",
+        "text": "L U16"
+    },
+    {
+        "source": "L U32",
+        "description": "",
+        "id": "L_U32",
+        "text": "L U32"
+    },
+    {
+        "source": "L F16",
+        "description": "",
+        "id": "L_F16",
+        "text": "L F16"
+    },
+    {
+        "source": "L F32",
+        "description": "",
+        "id": "L_F32",
+        "text": "L F32"
+    },
+    {
+        "source": "LA U8",
+        "description": "",
+        "id": "LA_U8",
+        "text": "THE U8"
+    },
+    {
+        "source": "LA U16",
+        "description": "",
+        "id": "LA_U16",
+        "text": "THE U16"
+    },
+    {
+        "source": "LA U32",
+        "description": "",
+        "id": "LA_U32",
+        "text": "THE U32"
+    },
+    {
+        "source": "LA F16",
+        "description": "",
+        "id": "LA_F16",
+        "text": "THE F16"
+    },
+    {
+        "source": "LA F32",
+        "description": "",
+        "id": "LA_F32",
+        "text": "LA F32"
+    },
+    {
+        "source": "RGB U8",
+        "description": "",
+        "id": "RGB_U8",
+        "text": "RGB U8"
+    },
+    {
+        "source": "RGB U10",
+        "description": "",
+        "id": "RGB_U10",
+        "text": "RGB U10"
+    },
+    {
+        "source": "RGB U16",
+        "description": "",
+        "id": "RGB_U16",
+        "text": "RGB U16"
+    },
+    {
+        "source": "RGB U32",
+        "description": "",
+        "id": "RGB_U32",
+        "text": "RGB U32"
+    },
+    {
+        "source": "RGB F16",
+        "description": "",
+        "id": "RGB_F16",
+        "text": "RGB F16"
+    },
+    {
+        "source": "RGB F32",
+        "description": "",
+        "id": "RGB_F32",
+        "text": "RGB F32"
+    },
+    {
+        "source": "RGBA U8",
+        "description": "",
+        "id": "RGBA_U8",
+        "text": "RGBA U8"
+    },
+    {
+        "source": "RGBA U16",
+        "description": "",
+        "id": "RGBA_U16",
+        "text": "RGBA U16"
+    },
+    {
+        "source": "RGBA U32",
+        "description": "",
+        "id": "RGBA_U32",
+        "text": "RGBA U32"
+    },
+    {
+        "source": "RGBA F16",
+        "description": "",
+        "id": "RGBA_F16",
+        "text": "RGBA F16"
+    },
+    {
+        "source": "RGBA F32",
+        "description": "",
+        "id": "RGBA_F32",
+        "text": "RGBA F32"
+    },
+    {
+        "source": "L",
+        "description": "",
+        "id": "L",
+        "text": "ザ・"
+    },
+    {
+        "source": "LA",
+        "description": "",
+        "id": "LA",
+        "text": "LA"
+    },
+    {
+        "source": "RGB",
+        "description": "",
+        "id": "RGB",
+        "text": "RGB"
+    },
+    {
+        "source": "RGBA",
+        "description": "",
+        "id": "RGBA",
+        "text": "RGBA"
+    },
+    {
+        "source": "U10",
+        "description": "",
+        "id": "U10",
+        "text": "U10"
+    },
+    {
+        "source": "U16",
+        "description": "",
+        "id": "U16",
+        "text": "U16"
+    },
+    {
+        "source": "U32",
+        "description": "",
+        "id": "U32",
+        "text": "U32"
+    },
+    {
+        "source": "F16",
+        "description": "",
+        "id": "F16",
+        "text": "F16"
+    },
+    {
+        "source": "The shader cannot be created",
+        "description": "",
+        "id": "The shader cannot be created",
+        "text": "シェーダを作成できません"
+    },
+    {
+        "source": "Cannot create GLFW window.",
+        "description": "",
+        "id": "Cannot create GLFW window.",
+        "text": "GLFWウィンドウを作成できません。"
+    },
+    {
+        "source": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.",
+        "description": "",
+        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.",
+        "text": "このプラグインはJPEG（Joint Photographic Experts Group）画像I / Oを提供します。"
+    },
+    {
+        "source": "This plugin provides OpenEXR file I/O.",
+        "description": "",
+        "id": "This plugin provides OpenEXR file I/O.",
+        "text": "このプラグインはOpenEXRファイルの入出力を提供します。"
+    },
+    {
+        "source": "Known",
+        "description": "",
+        "id": "Known",
+        "text": "知られている"
+    },
+    {
+        "source": "All",
+        "description": "",
+        "id": "All",
+        "text": "すべて"
+    },
+    {
+        "source": "ZIPS",
+        "description": "",
+        "id": "ZIPS",
+        "text": "ジッパー"
+    },
+    {
+        "source": "ZIP",
+        "description": "",
+        "id": "ZIP",
+        "text": "ZIP"
+    },
+    {
+        "source": "PIZ",
+        "description": "",
+        "id": "PIZ",
+        "text": "PIZ"
+    },
+    {
+        "source": "PXR24",
+        "description": "",
+        "id": "PXR24",
+        "text": "PXR24"
+    },
+    {
+        "source": "B44",
+        "description": "",
+        "id": "B44",
+        "text": "B44"
+    },
+    {
+        "source": "B44A",
+        "description": "",
+        "id": "B44A",
+        "text": "B44A"
+    },
+    {
+        "source": "DWAA",
+        "description": "",
+        "id": "DWAA",
+        "text": "DWAA"
+    },
+    {
+        "source": "DWAB",
+        "description": "",
+        "id": "DWAB",
+        "text": "DWAB"
+    },
+    {
+        "source": "cannot be read",
+        "description": "",
+        "id": "cannot be read",
+        "text": "読めない"
+    },
+    {
+        "source": "cannot be written",
+        "description": "",
+        "id": "cannot be written",
+        "text": "書き込めない"
+    },
+    {
+        "source": "Float",
+        "description": "",
+        "id": "Float",
+        "text": "浮く"
+    },
+    {
+        "source": "Double",
+        "description": "",
+        "id": "Double",
+        "text": "ダブル"
+    },
+    {
+        "source": "U8 Planar",
+        "description": "",
+        "id": "U8 Planar",
+        "text": "U8プレーナ"
+    },
+    {
+        "source": "S16 Planar",
+        "description": "",
+        "id": "S16 Planar",
+        "text": "S16平面"
+    },
+    {
+        "source": "S32 Planar",
+        "description": "",
+        "id": "S32 Planar",
+        "text": "S32平面"
+    },
+    {
+        "source": "Float Planar",
+        "description": "",
+        "id": "Float Planar",
+        "text": "フロート平面"
+    },
+    {
+        "source": "Double Planar",
+        "description": "",
+        "id": "Double Planar",
+        "text": "二重平面"
+    },
+    {
+        "source": "This plugin provides FFmpeg image and audio I/O.",
+        "description": "",
+        "id": "This plugin provides FFmpeg image and audio I/O.",
+        "text": "このプラグインはFFmpegの画像と音声のI / Oを提供します。"
+    },
+    {
+        "source": "The file cannot be opened.",
+        "description": "",
+        "id": "The file cannot be opened.",
+        "text": "ファイルを開けません。"
+    },
+    {
+        "source": "No image channels.",
+        "description": "",
+        "id": "No image channels.",
+        "text": "画像チャンネルはありません。"
+    },
+    {
+        "source": "Image channels must have the same size and bit depth.",
+        "description": "",
+        "id": "Image channels must have the same size and bit depth.",
+        "text": "画像チャンネルは同じサイズとビット深度を持たなければなりません。"
+    },
+    {
+        "source": "Unsupported bit depth.",
+        "description": "",
+        "id": "Unsupported bit depth.",
+        "text": "サポートされていないビット深度"
+    },
+    {
+        "source": "Line padding is unsupported.",
+        "description": "",
+        "id": "Line padding is unsupported.",
+        "text": "行パディングはサポートされていません。"
+    },
+    {
+        "source": "Channel padding is unsupported.",
+        "description": "",
+        "id": "Channel padding is unsupported.",
+        "text": "チャネルパディングはサポートされていません。"
+    },
+    {
+        "source": "This plugin provides Cineon image I/O.",
+        "description": "",
+        "id": "This plugin provides Cineon image I/O.",
+        "text": "このプラグインはCineonイメージI / Oを提供します。"
+    },
+    {
+        "source": "Default",
+        "description": "",
+        "id": "Default",
+        "text": "デフォルト"
+    },
+    {
+        "id": "The audio format",
+        "source": "The audio format",
+        "description": "",
+        "text": "オーディオ形式"
+    },
+    {
+        "source": "F64",
+        "description": "",
+        "id": "F64",
+        "text": "F64"
+    },
+    {
+        "source": "RtAudio cannot be initialized",
+        "description": "",
+        "id": "RtAudio cannot be initialized",
+        "text": "RtAudioを初期化できません"
+    },
+    {
+        "source": "File not supported.",
+        "description": "",
+        "id": "File not supported.",
+        "text": "ファイルはサポートされていません。"
+    },
+    {
+        "source": "Error reading header.",
+        "description": "",
+        "id": "Error reading header.",
+        "text": "ヘッダーの読み取りエラー。"
+    },
+    {
+        "source": "Straight",
+        "description": "",
+        "id": "Straight",
+        "text": "まっすぐ"
+    },
+    {
+        "source": "Premultiplied",
+        "description": "",
+        "id": "Premultiplied",
+        "text": "事前乗算"
+    },
+    {
+        "source": "This plugin provides IFF image I/O.",
+        "description": "",
+        "id": "This plugin provides IFF image I/O.",
+        "text": "このプラグインは、IFFイメージI / Oを提供します。"
+    },
+    {
+        "source": "Cannot initialize GLFW.",
+        "description": "",
+        "id": "Cannot initialize GLFW.",
+        "text": "GLFWを初期化できません。"
+    },
+    {
+        "source": "Cannot initialize GLAD.",
+        "description": "",
+        "id": "Cannot initialize GLAD.",
+        "text": "GLADを初期化できません。"
+    },
+    {
+        "source": "This plugin provides RLA image I/O.",
+        "description": "",
+        "id": "This plugin provides RLA image I/O.",
+        "text": "このプラグインはRLAイメージI / Oを提供します。"
+    },
+    {
+        "source": "This plugin provides SGI image I/O.",
+        "description": "",
+        "id": "This plugin provides SGI image I/O.",
+        "text": "このプラグインは、SGIイメージI / Oを提供します。"
+    },
+    {
+        "source": "Read error.",
+        "description": "",
+        "id": "Read error.",
+        "text": "読み取りエラー。"
+    },
+    {
+        "source": "This plugin provides Targa image I/O.",
+        "description": "",
+        "id": "This plugin provides Targa image I/O.",
+        "text": "このプラグインは、TargaイメージI / Oを提供します。"
+    },
+    {
+        "source": "Red",
+        "text": "赤",
+        "id": "Red",
+        "description": ""
+    },
+    {
+        "source": "Green",
+        "text": "緑",
+        "id": "Green",
+        "description": ""
+    },
+    {
+        "source": "Blue",
+        "text": "青",
+        "id": "Blue",
+        "description": ""
+    },
+    {
+        "source": "Alpha",
+        "text": "アルファ",
+        "id": "Alpha",
+        "description": ""
+    },
+    {
+        "source": "Atlas",
+        "text": "アトラス",
+        "id": "Atlas",
+        "description": ""
+    },
+    {
+        "source": "Dynamic",
+        "text": "動的",
+        "id": "Dynamic",
+        "description": ""
+    },
+    {
+        "source": "Nearest",
+        "text": "最も近い",
+        "id": "Nearest",
+        "description": ""
+    },
+    {
+        "source": "Linear",
+        "text": "線形",
+        "id": "Linear",
         "description": ""
-    }, 
-    {
-        "source": "The file", 
-        "text": "\u30d5\u30a1\u30a4\u30eb", 
-        "id": "The file", 
-        "description": ""
-    }, 
-    {
-        "source": "cannot be opened", 
-        "text": "\u958b\u3051\u3089\u308c\u306a\u3044", 
-        "id": "cannot be opened", 
-        "description": ""
-    }, 
-    {
-        "source": "does not have any video or audio streams", 
-        "text": "\u30d3\u30c7\u30aa\u3084\u30aa\u30fc\u30c7\u30a3\u30aa\u306e\u30b9\u30c8\u30ea\u30fc\u30e0\u306f\u3042\u308a\u307e\u305b\u3093", 
-        "id": "does not have any video or audio streams", 
-        "description": ""
-    }, 
-    {
-        "source": "does not match any video codecs", 
-        "text": "\u3069\u306e\u30d3\u30c7\u30aa\u30b3\u30fc\u30c7\u30c3\u30af\u3068\u3082\u4e00\u81f4\u3057\u307e\u305b\u3093", 
-        "id": "does not match any video codecs", 
-        "description": ""
-    }, 
-    {
-        "source": "The audio format ", 
-        "text": "\u30aa\u30fc\u30c7\u30a3\u30aa\u30d5\u30a9\u30fc\u30de\u30c3\u30c8", 
-        "id": "The audio format ", 
-        "description": ""
-    }, 
-    {
-        "source": "is not supported", 
-        "text": "\u30b5\u30dd\u30fc\u30c8\u3055\u308c\u3066\u3044\u307e\u305b\u3093", 
-        "id": "is not supported", 
-        "description": ""
-    }, 
-    {
-        "source": "does not match any audio codecs", 
-        "text": "\u3069\u306e\u30aa\u30fc\u30c7\u30a3\u30aa\u30b3\u30fc\u30c7\u30c3\u30af\u3068\u3082\u4e00\u81f4\u3057\u307e\u305b\u3093", 
-        "id": "does not match any audio codecs", 
-        "description": ""
-    }, 
-    {
-        "source": "None", 
-        "text": "\u7121\u3057", 
-        "id": "None", 
-        "description": ""
-    }, 
-    {
-        "source": "Left", 
-        "text": "\u5de6", 
-        "id": "Left", 
-        "description": ""
-    }, 
-    {
-        "source": "Top", 
-        "text": "\u4e0a", 
-        "id": "Top", 
-        "description": ""
-    }, 
-    {
-        "source": "Right", 
-        "text": "\u53f3", 
-        "id": "Right", 
-        "description": ""
-    }, 
-    {
-        "source": "Bottom", 
-        "text": "\u5e95", 
-        "id": "Bottom", 
-        "description": ""
-    }, 
-    {
-        "source": "Timecode", 
-        "text": "\u30bf\u30a4\u30e0\u30b3\u30fc\u30c9", 
-        "id": "Timecode", 
-        "description": ""
-    }, 
-    {
-        "source": "Frames", 
-        "text": "\u30d5\u30ec\u30fc\u30e0", 
-        "id": "Frames", 
-        "description": ""
-    }, 
-    {
-        "source": "Bad magic number.", 
-        "text": "\u30de\u30b8\u30c3\u30af\u30ca\u30f3\u30d0\u30fc\u304c\u60aa\u3044\u3002", 
-        "id": "Bad magic number.", 
-        "description": ""
-    }, 
-    {
-        "source": "Unsupported file.", 
-        "text": "\u30b5\u30dd\u30fc\u30c8\u3055\u308c\u3066\u3044\u306a\u3044\u30d5\u30a1\u30a4\u30eb\u3067\u3059\u3002", 
-        "id": "Unsupported file.", 
-        "description": ""
-    }, 
-    {
-        "source": "Incomplete file.", 
-        "text": "\u4e0d\u5b8c\u5168\u306a\u30d5\u30a1\u30a4\u30eb\u3067\u3059\u3002", 
-        "id": "Incomplete file.", 
-        "description": ""
-    }, 
-    {
-        "source": "This plugin provides DPX image I/O.", 
-        "text": "\u3053\u306e\u30d7\u30e9\u30b0\u30a4\u30f3\u306fDPX\u30a4\u30e1\u30fc\u30b8I / O\u3092\u63d0\u4f9b\u3057\u307e\u3059\u3002", 
-        "id": "This plugin provides DPX image I/O.", 
-        "description": ""
-    }, 
-    {
-        "source": "1.0", 
-        "text": "1.0", 
-        "id": "1.0", 
-        "description": ""
-    }, 
-    {
-        "source": "2.0", 
-        "text": "2.0", 
-        "id": "2.0", 
-        "description": ""
-    }, 
-    {
-        "source": "Auto", 
-        "text": "\u81ea\u52d5", 
-        "id": "Auto", 
-        "description": ""
-    }, 
-    {
-        "source": "MSB", 
-        "text": "MSB", 
-        "id": "MSB", 
-        "description": ""
-    }, 
-    {
-        "source": "LSB", 
-        "text": "LSB", 
-        "id": "LSB", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot open file.", 
-        "text": "\u30d5\u30a1\u30a4\u30eb\u3092\u958b\u3051\u307e\u305b\u3093\u3002", 
-        "id": "Cannot open file.", 
-        "description": ""
-    }, 
-    {
-        "source": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "text": "\u3053\u306e\u30d7\u30e9\u30b0\u30a4\u30f3\u306fPortable Network Graphics\uff08PNG\uff09\u753b\u50cf\u306e\u5165\u51fa\u529b\u3092\u63d0\u4f9b\u3057\u307e\u3059\u3002", 
-        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "description": ""
-    }, 
-    {
-        "source": "This plugin provides NetPBM image I/O.", 
-        "text": "\u3053\u306e\u30d7\u30e9\u30b0\u30a4\u30f3\u306fNetPBM\u30a4\u30e1\u30fc\u30b8I / O\u3092\u63d0\u4f9b\u3057\u307e\u3059\u3002", 
-        "id": "This plugin provides NetPBM image I/O.", 
-        "description": ""
-    }, 
-    {
-        "source": "ASCII", 
-        "text": "ASCII", 
-        "id": "ASCII", 
-        "description": ""
-    }, 
-    {
-        "source": "Binary", 
-        "text": "\u30d0\u30a4\u30ca\u30ea", 
-        "id": "Binary", 
-        "description": ""
-    }, 
-    {
-        "source": "Error reading scanline.", 
-        "text": "\u8d70\u67fb\u7dda\u306e\u8aad\u307f\u53d6\u308a\u30a8\u30e9\u30fc\u3002", 
-        "id": "Error reading scanline.", 
-        "description": ""
-    }, 
-    {
-        "source": "Unsupported image type.", 
-        "text": "\u30b5\u30dd\u30fc\u30c8\u3055\u308c\u3066\u3044\u306a\u3044\u753b\u50cf\u30bf\u30a4\u30d7\u3067\u3059\u3002", 
-        "id": "Unsupported image type.", 
-        "description": ""
-    }, 
-    {
-        "source": "Unknown", 
-        "text": "\u9053\u306e", 
-        "id": "Unknown", 
-        "description": ""
-    }, 
-    {
-        "source": "Out of memory", 
-        "text": "\u30e1\u30e2\u30ea\u4e0d\u8db3", 
-        "id": "Out of memory", 
-        "description": ""
-    }, 
-    {
-        "source": "Invalid value", 
-        "text": "\u7121\u52b9\u306a\u5024", 
-        "id": "Invalid value", 
-        "description": ""
-    }, 
-    {
-        "source": "Invalid enum", 
-        "text": "\u7121\u52b9\u306a\u5217\u6319\u578b", 
-        "id": "Invalid enum", 
-        "description": ""
-    }, 
-    {
-        "source": "U8", 
-        "text": "U8", 
-        "id": "U8", 
-        "description": ""
-    }, 
-    {
-        "source": "S16", 
-        "text": "S16", 
-        "id": "S16", 
-        "description": ""
-    }, 
-    {
-        "source": "S32", 
-        "text": "S32", 
-        "id": "S32", 
-        "description": ""
-    }, 
-    {
-        "source": "F32", 
-        "text": "F32", 
-        "id": "F32", 
-        "description": ""
-    }, 
-    {
-        "source": "Unsupported color components.", 
-        "text": "\u30b5\u30dd\u30fc\u30c8\u3055\u308c\u3066\u3044\u306a\u3044\u8272\u6210\u5206\u3067\u3059\u3002", 
-        "id": "Unsupported color components.", 
-        "description": ""
-    }, 
-    {
-        "source": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
-        "text": "\u3053\u306e\u30d7\u30e9\u30b0\u30a4\u30f3\u306f\u30bf\u30b0\u4ed8\u304d\u30a4\u30e1\u30fc\u30b8\u30d5\u30a1\u30a4\u30eb\u30d5\u30a9\u30fc\u30de\u30c3\u30c8\uff08TIFF\uff09\u30a4\u30e1\u30fc\u30b8I / O\u3092\u63d0\u4f9b\u3057\u307e\u3059\u3002", 
-        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
-        "description": ""
-    }, 
-    {
-        "source": "RLE", 
-        "text": "RLE", 
-        "id": "RLE", 
-        "description": ""
-    }, 
-    {
-        "source": "LZW", 
-        "text": "LZW", 
-        "id": "LZW", 
-        "description": ""
-    }, 
-    {
-        "source": "The OpenGL texture cannot be created.", 
-        "text": "OpenGL\u30c6\u30af\u30b9\u30c1\u30e3\u306f\u4f5c\u6210\u3067\u304d\u307e\u305b\u3093\u3002", 
-        "id": "The OpenGL texture cannot be created.", 
-        "description": ""
-    }, 
-    {
-        "source": "The OpenGL frame buffer cannot be created.", 
-        "text": "OpenGL\u30d5\u30ec\u30fc\u30e0\u30d0\u30c3\u30d5\u30a1\u306f\u4f5c\u6210\u3067\u304d\u307e\u305b\u3093\u3002", 
-        "id": "The OpenGL frame buffer cannot be created.", 
-        "description": ""
-    }, 
-    {
-        "source": "The OpenGL frame buffer cannot be initialized.", 
-        "text": "OpenGL\u30d5\u30ec\u30fc\u30e0\u30d0\u30c3\u30d5\u30a1\u306f\u521d\u671f\u5316\u3067\u304d\u307e\u305b\u3093\u3002", 
-        "id": "The OpenGL frame buffer cannot be initialized.", 
-        "description": ""
-    }, 
-    {
-        "source": "Error writing scanline.", 
-        "text": "\u8d70\u67fb\u7dda\u306e\u66f8\u304d\u8fbc\u307f\u4e2d\u306b\u30a8\u30e9\u30fc\u304c\u767a\u751f\u3057\u307e\u3057\u305f\u3002", 
-        "id": "Error writing scanline.", 
-        "description": ""
-    }, 
-    {
-        "source": "The OpenGL vertex shader cannot be created.", 
-        "text": "OpenGL\u30d0\u30fc\u30c6\u30c3\u30af\u30b9\u30b7\u30a7\u30fc\u30c0\u306f\u4f5c\u6210\u3067\u304d\u307e\u305b\u3093\u3002", 
-        "id": "The OpenGL vertex shader cannot be created.", 
-        "description": ""
-    }, 
-    {
-        "source": "The OpenGL vertex shader", 
-        "text": "OpenGL\u30d0\u30fc\u30c6\u30c3\u30af\u30b9\u30b7\u30a7\u30fc\u30c0", 
-        "id": "The OpenGL vertex shader", 
-        "description": ""
-    }, 
-    {
-        "source": "cannot be compiled", 
-        "text": "\u30b3\u30f3\u30d1\u30a4\u30eb\u3067\u304d\u307e\u305b\u3093", 
-        "id": "cannot be compiled", 
-        "description": ""
-    }, 
-    {
-        "source": "The OpenGL fragment shader cannot be created.", 
-        "text": "OpenGL\u30d5\u30e9\u30b0\u30e1\u30f3\u30c8\u30b7\u30a7\u30fc\u30c0\u306f\u4f5c\u6210\u3067\u304d\u307e\u305b\u3093\u3002", 
-        "id": "The OpenGL fragment shader cannot be created.", 
-        "description": ""
-    }, 
-    {
-        "source": "The OpenGL framgent shader", 
-        "text": "OpenGL\u30d5\u30a9\u30ef\u30fc\u30c9\u30b7\u30a7\u30fc\u30c0", 
-        "id": "The OpenGL framgent shader", 
-        "description": ""
-    }, 
-    {
-        "source": "The program", 
-        "text": "\u30d7\u30ed\u30b0\u30e9\u30e0", 
-        "id": "The program", 
-        "description": ""
-    }, 
-    {
-        "source": "cannot be linked", 
-        "text": "\u30ea\u30f3\u30af\u3067\u304d\u307e\u305b\u3093", 
-        "id": "cannot be linked", 
-        "description": ""
-    }, 
-    {
-        "source": "L U8", 
-        "text": "50 U8", 
-        "id": "L_U8", 
-        "description": ""
-    }, 
-    {
-        "source": "L U16", 
-        "text": "L U16", 
-        "id": "L_U16", 
-        "description": ""
-    }, 
-    {
-        "source": "L U32", 
-        "text": "L U32", 
-        "id": "L_U32", 
-        "description": ""
-    }, 
-    {
-        "source": "L F16", 
-        "text": "L F16", 
-        "id": "L_F16", 
-        "description": ""
-    }, 
-    {
-        "source": "L F32", 
-        "text": "L F32", 
-        "id": "L_F32", 
-        "description": ""
-    }, 
-    {
-        "source": "LA U8", 
-        "text": "THE U8", 
-        "id": "LA_U8", 
-        "description": ""
-    }, 
-    {
-        "source": "LA U16", 
-        "text": "THE U16", 
-        "id": "LA_U16", 
-        "description": ""
-    }, 
-    {
-        "source": "LA U32", 
-        "text": "THE U32", 
-        "id": "LA_U32", 
-        "description": ""
-    }, 
-    {
-        "source": "LA F16", 
-        "text": "THE F16", 
-        "id": "LA_F16", 
-        "description": ""
-    }, 
-    {
-        "source": "LA F32", 
-        "text": "LA F32", 
-        "id": "LA_F32", 
-        "description": ""
-    }, 
-    {
-        "source": "RGB U8", 
-        "text": "RGB U8", 
-        "id": "RGB_U8", 
-        "description": ""
-    }, 
-    {
-        "source": "RGB U10", 
-        "text": "RGB U10", 
-        "id": "RGB_U10", 
-        "description": ""
-    }, 
-    {
-        "source": "RGB U16", 
-        "text": "RGB U16", 
-        "id": "RGB_U16", 
-        "description": ""
-    }, 
-    {
-        "source": "RGB U32", 
-        "text": "RGB U32", 
-        "id": "RGB_U32", 
-        "description": ""
-    }, 
-    {
-        "source": "RGB F16", 
-        "text": "RGB F16", 
-        "id": "RGB_F16", 
-        "description": ""
-    }, 
-    {
-        "source": "RGB F32", 
-        "text": "RGB F32", 
-        "id": "RGB_F32", 
-        "description": ""
-    }, 
-    {
-        "source": "RGBA U8", 
-        "text": "RGBA U8", 
-        "id": "RGBA_U8", 
-        "description": ""
-    }, 
-    {
-        "source": "RGBA U16", 
-        "text": "RGBA U16", 
-        "id": "RGBA_U16", 
-        "description": ""
-    }, 
-    {
-        "source": "RGBA U32", 
-        "text": "RGBA U32", 
-        "id": "RGBA_U32", 
-        "description": ""
-    }, 
-    {
-        "source": "RGBA F16", 
-        "text": "RGBA F16", 
-        "id": "RGBA_F16", 
-        "description": ""
-    }, 
-    {
-        "source": "RGBA F32", 
-        "text": "RGBA F32", 
-        "id": "RGBA_F32", 
-        "description": ""
-    }, 
-    {
-        "source": "L", 
-        "text": "\u30b6\u30fb", 
-        "id": "L", 
-        "description": ""
-    }, 
-    {
-        "source": "LA", 
-        "text": "LA", 
-        "id": "LA", 
-        "description": ""
-    }, 
-    {
-        "source": "RGB", 
-        "text": "RGB", 
-        "id": "RGB", 
-        "description": ""
-    }, 
-    {
-        "source": "RGBA", 
-        "text": "RGBA", 
-        "id": "RGBA", 
-        "description": ""
-    }, 
-    {
-        "source": "U10", 
-        "text": "U10", 
-        "id": "U10", 
-        "description": ""
-    }, 
-    {
-        "source": "U16", 
-        "text": "U16", 
-        "id": "U16", 
-        "description": ""
-    }, 
-    {
-        "source": "U32", 
-        "text": "U32", 
-        "id": "U32", 
-        "description": ""
-    }, 
-    {
-        "source": "F16", 
-        "text": "F16", 
-        "id": "F16", 
-        "description": ""
-    }, 
-    {
-        "source": "The shader cannot be created", 
-        "text": "\u30b7\u30a7\u30fc\u30c0\u3092\u4f5c\u6210\u3067\u304d\u307e\u305b\u3093", 
-        "id": "The shader cannot be created", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot create GLFW window.", 
-        "text": "GLFW\u30a6\u30a3\u30f3\u30c9\u30a6\u3092\u4f5c\u6210\u3067\u304d\u307e\u305b\u3093\u3002", 
-        "id": "Cannot create GLFW window.", 
-        "description": ""
-    }, 
-    {
-        "source": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
-        "text": "\u3053\u306e\u30d7\u30e9\u30b0\u30a4\u30f3\u306fJPEG\uff08Joint Photographic Experts Group\uff09\u753b\u50cfI / O\u3092\u63d0\u4f9b\u3057\u307e\u3059\u3002", 
-        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
-        "description": ""
-    }, 
-    {
-        "source": "This plugin provides OpenEXR file I/O.", 
-        "text": "\u3053\u306e\u30d7\u30e9\u30b0\u30a4\u30f3\u306fOpenEXR\u30d5\u30a1\u30a4\u30eb\u306e\u5165\u51fa\u529b\u3092\u63d0\u4f9b\u3057\u307e\u3059\u3002", 
-        "id": "This plugin provides OpenEXR file I/O.", 
-        "description": ""
-    }, 
-    {
-        "source": "Known", 
-        "text": "\u77e5\u3089\u308c\u3066\u3044\u308b", 
-        "id": "Known", 
-        "description": ""
-    }, 
-    {
-        "source": "All", 
-        "text": "\u3059\u3079\u3066", 
-        "id": "All", 
-        "description": ""
-    }, 
-    {
-        "source": "ZIPS", 
-        "text": "\u30b8\u30c3\u30d1\u30fc", 
-        "id": "ZIPS", 
-        "description": ""
-    }, 
-    {
-        "source": "ZIP", 
-        "text": "ZIP", 
-        "id": "ZIP", 
-        "description": ""
-    }, 
-    {
-        "source": "PIZ", 
-        "text": "PIZ", 
-        "id": "PIZ", 
-        "description": ""
-    }, 
-    {
-        "source": "PXR24", 
-        "text": "PXR24", 
-        "id": "PXR24", 
-        "description": ""
-    }, 
-    {
-        "source": "B44", 
-        "text": "B44", 
-        "id": "B44", 
-        "description": ""
-    }, 
-    {
-        "source": "B44A", 
-        "text": "B44A", 
-        "id": "B44A", 
-        "description": ""
-    }, 
-    {
-        "source": "DWAA", 
-        "text": "DWAA", 
-        "id": "DWAA", 
-        "description": ""
-    }, 
-    {
-        "source": "DWAB", 
-        "text": "DWAB", 
-        "id": "DWAB", 
-        "description": ""
-    }, 
-    {
-        "source": "cannot be read", 
-        "text": "\u8aad\u3081\u306a\u3044", 
-        "id": "cannot be read", 
-        "description": ""
-    }, 
-    {
-        "source": "cannot be written", 
-        "text": "\u66f8\u304d\u8fbc\u3081\u306a\u3044", 
-        "id": "cannot be written", 
-        "description": ""
-    }, 
-    {
-        "source": "Float", 
-        "text": "\u6d6e\u304f", 
-        "id": "Float", 
-        "description": ""
-    }, 
-    {
-        "source": "Double", 
-        "text": "\u30c0\u30d6\u30eb", 
-        "id": "Double", 
-        "description": ""
-    }, 
-    {
-        "source": "U8 Planar", 
-        "text": "U8\u30d7\u30ec\u30fc\u30ca", 
-        "id": "U8 Planar", 
-        "description": ""
-    }, 
-    {
-        "source": "S16 Planar", 
-        "text": "S16\u5e73\u9762", 
-        "id": "S16 Planar", 
-        "description": ""
-    }, 
-    {
-        "source": "S32 Planar", 
-        "text": "S32\u5e73\u9762", 
-        "id": "S32 Planar", 
-        "description": ""
-    }, 
-    {
-        "source": "Float Planar", 
-        "text": "\u30d5\u30ed\u30fc\u30c8\u5e73\u9762", 
-        "id": "Float Planar", 
-        "description": ""
-    }, 
-    {
-        "source": "Double Planar", 
-        "text": "\u4e8c\u91cd\u5e73\u9762", 
-        "id": "Double Planar", 
-        "description": ""
-    }, 
-    {
-        "source": "This plugin provides FFmpeg image and audio I/O.", 
-        "text": "\u3053\u306e\u30d7\u30e9\u30b0\u30a4\u30f3\u306fFFmpeg\u306e\u753b\u50cf\u3068\u97f3\u58f0\u306eI / O\u3092\u63d0\u4f9b\u3057\u307e\u3059\u3002", 
-        "id": "This plugin provides FFmpeg image and audio I/O.", 
-        "description": ""
-    }, 
-    {
-        "source": "The file cannot be opened.", 
-        "text": "\u30d5\u30a1\u30a4\u30eb\u3092\u958b\u3051\u307e\u305b\u3093\u3002", 
-        "id": "The file cannot be opened.", 
-        "description": ""
-    }, 
-    {
-        "source": "No image channels.", 
-        "text": "\u753b\u50cf\u30c1\u30e3\u30f3\u30cd\u30eb\u306f\u3042\u308a\u307e\u305b\u3093\u3002", 
-        "id": "No image channels.", 
-        "description": ""
-    }, 
-    {
-        "source": "Image channels must have the same size and bit depth.", 
-        "text": "\u753b\u50cf\u30c1\u30e3\u30f3\u30cd\u30eb\u306f\u540c\u3058\u30b5\u30a4\u30ba\u3068\u30d3\u30c3\u30c8\u6df1\u5ea6\u3092\u6301\u305f\u306a\u3051\u308c\u3070\u306a\u308a\u307e\u305b\u3093\u3002", 
-        "id": "Image channels must have the same size and bit depth.", 
-        "description": ""
-    }, 
-    {
-        "source": "Unsupported bit depth.", 
-        "text": "\u30b5\u30dd\u30fc\u30c8\u3055\u308c\u3066\u3044\u306a\u3044\u30d3\u30c3\u30c8\u6df1\u5ea6", 
-        "id": "Unsupported bit depth.", 
-        "description": ""
-    }, 
-    {
-        "source": "Line padding is unsupported.", 
-        "text": "\u884c\u30d1\u30c7\u30a3\u30f3\u30b0\u306f\u30b5\u30dd\u30fc\u30c8\u3055\u308c\u3066\u3044\u307e\u305b\u3093\u3002", 
-        "id": "Line padding is unsupported.", 
-        "description": ""
-    }, 
-    {
-        "source": "Channel padding is unsupported.", 
-        "text": "\u30c1\u30e3\u30cd\u30eb\u30d1\u30c7\u30a3\u30f3\u30b0\u306f\u30b5\u30dd\u30fc\u30c8\u3055\u308c\u3066\u3044\u307e\u305b\u3093\u3002", 
-        "id": "Channel padding is unsupported.", 
-        "description": ""
-    }, 
-    {
-        "source": "This plugin provides Cineon image I/O.", 
-        "text": "\u3053\u306e\u30d7\u30e9\u30b0\u30a4\u30f3\u306fCineon\u30a4\u30e1\u30fc\u30b8I / O\u3092\u63d0\u4f9b\u3057\u307e\u3059\u3002", 
-        "id": "This plugin provides Cineon image I/O.", 
-        "description": ""
-    }, 
-    {
-        "source": "Default", 
-        "text": "\u30c7\u30d5\u30a9\u30eb\u30c8", 
-        "id": "Default", 
-        "description": ""
-    }, 
-    {
-        "source": "The audio format", 
-        "text": "\u30aa\u30fc\u30c7\u30a3\u30aa\u5f62\u5f0f", 
-        "description": "", 
-        "id": "The audio format"
-    }, 
-    {
-        "source": "F64", 
-        "text": "F64", 
-        "id": "F64", 
-        "description": ""
-    }, 
-    {
-        "source": "RtAudio cannot be initialized", 
-        "text": "RtAudio\u3092\u521d\u671f\u5316\u3067\u304d\u307e\u305b\u3093", 
-        "id": "RtAudio cannot be initialized", 
-        "description": ""
-    }, 
-    {
-        "source": "File not supported.", 
-        "text": "\u30d5\u30a1\u30a4\u30eb\u306f\u30b5\u30dd\u30fc\u30c8\u3055\u308c\u3066\u3044\u307e\u305b\u3093\u3002", 
-        "id": "File not supported.", 
-        "description": ""
-    }, 
-    {
-        "source": "Error reading header.", 
-        "text": "\u30d8\u30c3\u30c0\u30fc\u306e\u8aad\u307f\u53d6\u308a\u30a8\u30e9\u30fc\u3002", 
-        "id": "Error reading header.", 
-        "description": ""
-    }, 
-    {
-        "source": "Straight", 
-        "text": "\u307e\u3063\u3059\u3050", 
-        "id": "Straight", 
-        "description": ""
-    }, 
-    {
-        "source": "Premultiplied", 
-        "text": "\u4e8b\u524d\u4e57\u7b97", 
-        "id": "Premultiplied", 
-        "description": ""
-    }, 
-    {
-        "source": "This plugin provides IFF image I/O.", 
-        "text": "\u3053\u306e\u30d7\u30e9\u30b0\u30a4\u30f3\u306f\u3001IFF\u30a4\u30e1\u30fc\u30b8I / O\u3092\u63d0\u4f9b\u3057\u307e\u3059\u3002", 
-        "id": "This plugin provides IFF image I/O.", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot initialize GLFW.", 
-        "text": "GLFW\u3092\u521d\u671f\u5316\u3067\u304d\u307e\u305b\u3093\u3002", 
-        "id": "Cannot initialize GLFW.", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot initialize GLAD.", 
-        "text": "GLAD\u3092\u521d\u671f\u5316\u3067\u304d\u307e\u305b\u3093\u3002", 
-        "id": "Cannot initialize GLAD.", 
-        "description": ""
-    }, 
-    {
-        "source": "This plugin provides RLA image I/O.", 
-        "text": "\u3053\u306e\u30d7\u30e9\u30b0\u30a4\u30f3\u306fRLA\u30a4\u30e1\u30fc\u30b8I / O\u3092\u63d0\u4f9b\u3057\u307e\u3059\u3002", 
-        "id": "This plugin provides RLA image I/O.", 
-        "description": ""
-    }, 
-    {
-        "source": "This plugin provides SGI image I/O.", 
-        "text": "\u3053\u306e\u30d7\u30e9\u30b0\u30a4\u30f3\u306f\u3001SGI\u30a4\u30e1\u30fc\u30b8I / O\u3092\u63d0\u4f9b\u3057\u307e\u3059\u3002", 
-        "id": "This plugin provides SGI image I/O.", 
-        "description": ""
-    }, 
-    {
-        "source": "Read error.", 
-        "text": "\u8aad\u307f\u53d6\u308a\u30a8\u30e9\u30fc\u3002", 
-        "id": "Read error.", 
-        "description": ""
-    }, 
-    {
-        "source": "This plugin provides Targa image I/O.", 
-        "text": "\u3053\u306e\u30d7\u30e9\u30b0\u30a4\u30f3\u306f\u3001Targa\u30a4\u30e1\u30fc\u30b8I / O\u3092\u63d0\u4f9b\u3057\u307e\u3059\u3002", 
-        "id": "This plugin provides Targa image I/O.", 
-        "description": ""
-    }, 
-    {
-        "id": "Red", 
-        "source": "Red", 
-        "description": "", 
-        "text": "\u8d64"
-    }, 
-    {
-        "id": "Green", 
-        "source": "Green", 
-        "description": "", 
-        "text": "\u7dd1"
-    }, 
-    {
-        "id": "Blue", 
-        "source": "Blue", 
-        "description": "", 
-        "text": "\u9752"
-    }, 
-    {
-        "id": "Alpha", 
-        "source": "Alpha", 
-        "description": "", 
-        "text": "\u30a2\u30eb\u30d5\u30a1"
-    }, 
-    {
-        "id": "Atlas", 
-        "source": "Atlas", 
-        "description": "", 
-        "text": "\u30a2\u30c8\u30e9\u30b9"
-    }, 
-    {
-        "id": "Dynamic", 
-        "source": "Dynamic", 
-        "description": "", 
-        "text": "\u52d5\u7684"
     }
 ]

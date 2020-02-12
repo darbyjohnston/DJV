@@ -1,1292 +1,1292 @@
 [
     {
-        "source": "Cannot parse the value.", 
-        "text": "\uac12\uc744 \uad6c\ubb38 \ubd84\uc11d \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
-        "id": "Cannot parse the value.", 
-        "description": ""
-    }, 
-    {
-        "source": "Horizontal", 
-        "text": "\uc218\ud3c9", 
-        "id": "Horizontal", 
-        "description": ""
-    }, 
-    {
-        "source": "Vertical", 
-        "text": "\uc218\uc9c1\uc120", 
-        "id": "Vertical", 
-        "description": ""
-    }, 
-    {
-        "source": "Left", 
-        "text": "\uc67c\ucabd", 
-        "id": "Left", 
-        "description": ""
-    }, 
-    {
-        "source": "Top", 
-        "text": "\uc0c1\ub2e8", 
-        "id": "Top", 
-        "description": ""
-    }, 
-    {
-        "source": "Right", 
-        "text": "\uad8c\ub9ac", 
-        "id": "Right", 
-        "description": ""
-    }, 
-    {
-        "source": "Bottom", 
-        "text": "\ubc14\ub2e5", 
-        "id": "Bottom", 
-        "description": ""
-    }, 
-    {
-        "source": "None", 
-        "text": "\uc5c6\uc74c", 
-        "id": "None", 
-        "description": ""
-    }, 
-    {
-        "source": "Both", 
-        "text": "\uc591\uc790 \ubaa8\ub450", 
-        "id": "Both", 
-        "description": ""
-    }, 
-    {
-        "source": "Center", 
-        "text": "\uc13c\ud130", 
-        "id": "Center", 
-        "description": ""
-    }, 
-    {
-        "source": "Fill", 
-        "text": "\uac00\ub4dd \ub530\ub974\ub2e4", 
-        "id": "Fill", 
-        "description": ""
-    }, 
-    {
-        "source": "Baseline", 
-        "text": "\uae30\uc900\uc120", 
-        "id": "Baseline", 
-        "description": ""
-    }, 
-    {
-        "source": "Single", 
-        "text": "\ub2e8\uc77c", 
-        "id": "Single", 
-        "description": ""
-    }, 
-    {
-        "source": "Radio", 
-        "text": "\ub77c\ub514\uc624", 
-        "id": "Radio", 
-        "description": ""
-    }, 
-    {
-        "source": "Multiple", 
-        "text": "\ubc30\uc218", 
-        "id": "Multiple", 
-        "description": ""
-    }, 
-    {
-        "source": "Forward", 
-        "text": "\uc55e\uc73c\ub85c", 
-        "id": "Forward", 
-        "description": ""
-    }, 
-    {
-        "source": "Reverse", 
-        "text": "\uc5ed", 
-        "id": "Reverse", 
-        "description": ""
-    }, 
-    {
-        "source": "Push", 
-        "text": "\ud478\uc2dc", 
-        "id": "Push", 
-        "description": ""
-    }, 
-    {
-        "source": "Toggle", 
-        "text": "\ube44\ub140\uc7a5", 
-        "id": "Toggle", 
-        "description": ""
-    }, 
-    {
-        "source": "Exclusive", 
-        "text": "\ub3c5\ud2b9\ud55c", 
-        "id": "Exclusive", 
-        "description": ""
-    }, 
-    {
-        "source": "Tiles", 
-        "text": "\ud0c0\uc77c", 
-        "id": "Tiles", 
-        "description": ""
-    }, 
-    {
-        "source": "List", 
-        "text": "\uba85\ubd80", 
-        "id": "List", 
-        "description": ""
-    }, 
-    {
-        "source": "Background", 
-        "text": "\ubc30\uacbd", 
-        "id": "Background", 
-        "description": ""
-    }, 
-    {
-        "source": "Background Header", 
-        "text": "\ubc30\uacbd \ud5e4\ub354", 
-        "id": "BackgroundHeader", 
-        "description": ""
-    }, 
-    {
-        "source": "Background Bellows", 
-        "text": "\ubc30\uacbd \ubca8\ub85c\uc6b0\uc988", 
-        "id": "BackgroundBellows", 
-        "description": ""
-    }, 
-    {
-        "source": "Background ToolBar", 
-        "text": "\ubc30\uacbd \ub3c4\uad6c \ubaa8\uc74c", 
-        "id": "BackgroundToolBar", 
-        "description": ""
-    }, 
-    {
-        "source": "Foreground", 
-        "text": "\uc804\uacbd", 
-        "id": "Foreground", 
-        "description": ""
-    }, 
-    {
-        "source": "Foreground Dim", 
-        "text": "\uc804\uacbd \uc5b4\ub461\uac8c", 
-        "id": "ForegroundDim", 
-        "description": ""
-    }, 
-    {
-        "source": "Border", 
-        "text": "\uacbd\uacc4", 
-        "id": "Border", 
-        "description": ""
-    }, 
-    {
-        "source": "Border Button", 
-        "text": "\ud14c\ub450\ub9ac \ubc84\ud2bc", 
-        "id": "BorderButton", 
-        "description": ""
-    }, 
-    {
-        "source": "Trough", 
-        "text": "\uad6c\uc720", 
-        "id": "Trough", 
-        "description": ""
-    }, 
-    {
-        "source": "Button", 
-        "text": "\ub2e8\ucd94", 
-        "id": "Button", 
-        "description": ""
-    }, 
-    {
-        "source": "Hovered", 
-        "text": "\ub36e\uc778", 
-        "id": "Hovered", 
-        "description": ""
-    }, 
-    {
-        "source": "Pressed", 
-        "text": "\ub20c\ub7ec\uc9c0\ub2e4", 
-        "id": "Pressed", 
-        "description": ""
-    }, 
-    {
-        "source": "Checked", 
-        "text": "\uccb4\ud06c \ub428", 
-        "id": "Checked", 
-        "description": ""
-    }, 
-    {
-        "source": "Text Focus", 
-        "text": "\ud14d\uc2a4\ud2b8 \ud3ec\ucee4\uc2a4", 
-        "id": "TextFocus", 
-        "description": ""
-    }, 
-    {
-        "source": "Tooltip Background", 
-        "text": "\ud234\ud301 \ubc30\uacbd", 
-        "id": "TooltipBackground", 
-        "description": ""
-    }, 
-    {
-        "source": "Tooltip Foreground", 
-        "text": "\ud234\ud301 \ud3ec\uc5b4 \uadf8\ub77c\uc6b4\ub4dc", 
-        "id": "TooltipForeground", 
-        "description": ""
-    }, 
-    {
-        "source": "Overlay", 
-        "text": "\uc704\uc5d0 \uae4c\ub294 \uac83", 
-        "id": "Overlay", 
-        "description": ""
-    }, 
-    {
-        "source": "Overlay Light", 
-        "text": "\uc624\ubc84\ub808\uc774 \ub77c\uc774\ud2b8", 
-        "id": "OverlayLight", 
-        "description": ""
-    }, 
-    {
-        "source": "Shadow", 
-        "text": "\uadf8\ub9bc\uc790", 
-        "id": "Shadow", 
-        "description": ""
-    }, 
-    {
-        "source": "Handle", 
-        "text": "\ud578\ub4e4", 
-        "id": "Handle", 
-        "description": ""
-    }, 
-    {
-        "source": "Margin", 
-        "text": "\uc5ec\uc720", 
-        "id": "Margin", 
-        "description": ""
-    }, 
-    {
-        "source": "Margin Small", 
-        "text": "\ub9c8\uc9c4 \uc791\uc740", 
-        "id": "MarginSmall", 
-        "description": ""
-    }, 
-    {
-        "source": "Margin Large", 
-        "text": "\ud070 \uc5ec\ubc31", 
-        "id": "MarginLarge", 
-        "description": ""
-    }, 
-    {
-        "source": "Margin Dialog", 
-        "text": "\uc5ec\ubc31 \ub300\ud654 \uc0c1\uc790", 
-        "id": "MarginDialog", 
-        "description": ""
-    }, 
-    {
-        "source": "Spacing", 
-        "text": "\uac04\uaca9", 
-        "id": "Spacing", 
-        "description": ""
-    }, 
-    {
-        "source": "Spacing Small", 
-        "text": "\uc791\uc740 \uacf5\ubc31", 
-        "id": "SpacingSmall", 
-        "description": ""
-    }, 
-    {
-        "source": "Spacing Large", 
-        "text": "\ud070 \ub744\uc5b4\uc4f0\uae30", 
-        "id": "SpacingLarge", 
-        "description": ""
-    }, 
-    {
-        "source": "Drag", 
-        "text": "\uacac\uc778", 
-        "id": "Drag", 
-        "description": ""
-    }, 
-    {
-        "source": "Icon", 
-        "text": "\uc0c1", 
-        "id": "Icon", 
-        "description": ""
-    }, 
-    {
-        "source": "Icon Small", 
-        "text": "\uc791\uc740 \uc544\uc774\ucf58", 
-        "id": "IconSmall", 
-        "description": ""
-    }, 
-    {
-        "source": "Font Small", 
-        "text": "\uc791\uc740 \uae00\uaf34", 
-        "id": "FontSmall", 
-        "description": ""
-    }, 
-    {
-        "source": "Font Medium", 
-        "text": "\uae00\uaf34 \uc911\uac04", 
-        "id": "FontMedium", 
-        "description": ""
-    }, 
-    {
-        "source": "Font Large", 
-        "text": "\ud070 \uae00\uaf34", 
-        "id": "FontLarge", 
-        "description": ""
-    }, 
-    {
-        "source": "Font Header", 
-        "text": "\uae00\uaf34 \uba38\ub9ac\uae00", 
-        "id": "FontHeader", 
-        "description": ""
-    }, 
-    {
-        "source": "Font Title", 
-        "text": "\uae00\uaf34 \uc81c\ubaa9", 
-        "id": "FontTitle", 
-        "description": ""
-    }, 
-    {
-        "source": "Swatch", 
-        "text": "\uacac\ubcf8", 
-        "id": "Swatch", 
-        "description": ""
-    }, 
-    {
-        "source": "Slider", 
-        "text": "\uc2ac\ub77c\uc774\ub354", 
-        "id": "Slider", 
-        "description": ""
-    }, 
-    {
-        "source": "Scroll Area", 
-        "text": "\uc2a4\ud06c\ub864 \uc601\uc5ed", 
-        "id": "ScrollArea", 
-        "description": ""
-    }, 
-    {
-        "source": "Menu", 
-        "text": "\uba54\ub274", 
-        "id": "Menu", 
-        "description": ""
-    }, 
-    {
-        "source": "Text Column", 
-        "text": "\ud14d\uc2a4\ud2b8 \uc5f4", 
-        "id": "TextColumn", 
-        "description": ""
-    }, 
-    {
-        "source": "Text Column Large", 
-        "text": "\ud14d\uc2a4\ud2b8 \uc5f4 \ub300", 
-        "id": "TextColumnLarge", 
-        "description": ""
-    }, 
-    {
-        "source": "Search Box", 
-        "text": "\uac80\uc0c9 \ucc3d", 
-        "id": "SearchBox", 
-        "description": ""
-    }, 
-    {
-        "source": "Dialog", 
-        "text": "\ub300\ud654", 
-        "id": "Dialog", 
-        "description": ""
-    }, 
-    {
-        "source": "Shadow Small", 
-        "text": "\uadf8\ub9bc\uc790 \uc791\uc740", 
-        "id": "ShadowSmall", 
-        "description": ""
-    }, 
-    {
-        "source": "Tooltip Offset", 
-        "text": "\ud234\ud301 \uc624\ud504\uc14b", 
-        "id": "TooltipOffset", 
-        "description": ""
-    }, 
-    {
-        "source": "Move", 
-        "text": "\uc6c0\uc9c1\uc784", 
-        "id": "Move", 
-        "description": ""
-    }, 
-    {
-        "source": "Dark", 
-        "text": "\uc5b4\ub450\uc6b4", 
-        "id": "Dark", 
-        "description": ""
-    }, 
-    {
-        "source": "Light", 
-        "text": "\ube5b", 
-        "id": "Light", 
-        "description": ""
-    }, 
-    {
-        "source": "Medium", 
-        "text": "\ub9e4\uc9c8", 
-        "id": "Medium", 
-        "description": ""
-    }, 
-    {
-        "source": "Small", 
-        "text": "\uc791\uc740", 
-        "id": "Small", 
-        "description": ""
-    }, 
-    {
-        "source": "Large", 
-        "text": "\ud070", 
-        "id": "Large", 
-        "description": ""
-    }, 
-    {
-        "source": "Extra Large", 
-        "text": "\ud2b9\ub300", 
-        "id": "ExtraLarge", 
-        "description": ""
-    }, 
-    {
-        "source": "Default", 
-        "text": "\ud0dc\ub9cc", 
-        "id": "Default", 
-        "description": ""
-    }, 
-    {
-        "source": "Expand", 
-        "text": "\ub113\ud788\ub2e4", 
-        "id": "Expand", 
-        "description": ""
-    }, 
-    {
-        "source": "Space", 
-        "text": "\uacf5\uac04", 
-        "id": "Space", 
-        "description": ""
-    }, 
-    {
-        "source": "Apostrophe", 
-        "text": "\uc544\ud3ec\uc2a4\ud2b8\ub85c\ud53c", 
-        "id": "Apostrophe", 
-        "description": ""
-    }, 
-    {
-        "source": "Comma", 
-        "text": "\ucf64\ub9c8", 
-        "id": "Comma", 
-        "description": ""
-    }, 
-    {
-        "source": "Minus", 
-        "text": "\ub9c8\uc774\ub108\uc2a4", 
-        "id": "Minus", 
-        "description": ""
-    }, 
-    {
-        "source": "Period", 
-        "text": "\uae30\uac04", 
-        "id": "Period", 
-        "description": ""
-    }, 
-    {
-        "source": "Slash", 
-        "text": "\uc0ad\uac10", 
-        "id": "Slash", 
-        "description": ""
-    }, 
-    {
-        "source": "0", 
-        "text": "0", 
-        "id": "0", 
-        "description": ""
-    }, 
-    {
-        "source": "1", 
-        "text": "1", 
-        "id": "1", 
-        "description": ""
-    }, 
-    {
-        "source": "2", 
-        "text": "2", 
-        "id": "2", 
-        "description": ""
-    }, 
-    {
-        "source": "3", 
-        "text": "\uc0bc", 
-        "id": "3", 
-        "description": ""
-    }, 
-    {
-        "source": "4", 
-        "text": "4", 
-        "id": "4", 
-        "description": ""
-    }, 
-    {
-        "source": "5", 
-        "text": "5", 
-        "id": "5", 
-        "description": ""
-    }, 
-    {
-        "source": "6", 
-        "text": "6", 
-        "id": "6", 
-        "description": ""
-    }, 
-    {
-        "source": "7", 
-        "text": "7", 
-        "id": "7", 
-        "description": ""
-    }, 
-    {
-        "source": "8", 
-        "text": "8", 
-        "id": "8", 
-        "description": ""
-    }, 
-    {
-        "source": "9", 
-        "text": "9", 
-        "id": "9", 
-        "description": ""
-    }, 
-    {
-        "source": "Semicolon", 
-        "text": "\uc138\ubbf8\ucf5c\ub860", 
-        "id": "Semicolon", 
-        "description": ""
-    }, 
-    {
-        "source": "Equal", 
-        "text": "\uac19\uc740", 
-        "id": "Equal", 
-        "description": ""
-    }, 
-    {
-        "source": "A", 
-        "text": "\uc5d0\uc774", 
-        "id": "A", 
-        "description": ""
-    }, 
-    {
-        "source": "B", 
-        "text": "\ube44", 
-        "id": "B", 
-        "description": ""
-    }, 
-    {
-        "source": "C", 
-        "text": "\uae30\uc74c", 
-        "id": "C", 
-        "description": ""
-    }, 
-    {
-        "source": "D", 
-        "text": "\ub514", 
-        "id": "D", 
-        "description": ""
-    }, 
-    {
-        "source": "E", 
-        "text": "\uacfc", 
-        "id": "E", 
-        "description": ""
-    }, 
-    {
-        "source": "F", 
-        "text": "\uc5d0\ud504", 
-        "id": "F", 
-        "description": ""
-    }, 
-    {
-        "source": "G", 
-        "text": "\uc9c0", 
-        "id": "G", 
-        "description": ""
-    }, 
-    {
-        "source": "H", 
-        "text": "H", 
-        "id": "H", 
-        "description": ""
-    }, 
-    {
-        "source": "I", 
-        "text": "\ub098\ub294", 
-        "id": "I", 
-        "description": ""
-    }, 
-    {
-        "source": "J", 
-        "text": "\uc77c\ubcf8", 
-        "id": "J", 
-        "description": ""
-    }, 
-    {
-        "source": "K", 
-        "text": "\ucf00\uc774", 
-        "id": "K", 
-        "description": ""
-    }, 
-    {
-        "source": "L", 
-        "text": "", 
-        "id": "L", 
-        "description": ""
-    }, 
-    {
-        "source": "M", 
-        "text": "\uc5e0", 
-        "id": "M", 
-        "description": ""
-    }, 
-    {
-        "source": "N", 
-        "text": "\uc5d4", 
-        "id": "N", 
-        "description": ""
-    }, 
-    {
-        "source": "O", 
-        "text": "O", 
-        "id": "O", 
-        "description": ""
-    }, 
-    {
-        "source": "P", 
-        "text": "\ud53c", 
-        "id": "P", 
-        "description": ""
-    }, 
-    {
-        "source": "Q", 
-        "text": "\ud050", 
-        "id": "Q", 
-        "description": ""
-    }, 
-    {
-        "source": "R", 
-        "text": "\uc544\ub974 \uc790\ud615", 
-        "id": "R", 
-        "description": ""
-    }, 
-    {
-        "source": "S", 
-        "text": "\uc5d0\uc2a4", 
-        "id": "S", 
-        "description": ""
-    }, 
-    {
-        "source": "T", 
-        "text": "\ud2f0", 
-        "id": "T", 
-        "description": ""
-    }, 
-    {
-        "source": "U", 
-        "text": "\uc720", 
-        "id": "U", 
-        "description": ""
-    }, 
-    {
-        "source": "V", 
-        "text": "V", 
-        "id": "V", 
-        "description": ""
-    }, 
-    {
-        "source": "W", 
-        "text": "", 
-        "id": "W", 
-        "description": ""
-    }, 
-    {
-        "source": "X", 
-        "text": "\uc5d1\uc2a4", 
-        "id": "X", 
-        "description": ""
-    }, 
-    {
-        "source": "Y", 
-        "text": "Y", 
-        "id": "Y", 
-        "description": ""
-    }, 
-    {
-        "source": "Z", 
-        "text": "\uc640", 
-        "id": "Z", 
-        "description": ""
-    }, 
-    {
-        "source": "Left Bracket", 
-        "text": "\uc67c\ucabd \ube0c\ub798\ud0b7", 
-        "id": "LeftBracket", 
-        "description": ""
-    }, 
-    {
-        "source": "Backslash", 
-        "text": "\ubc31 \uc2ac\ub798\uc2dc", 
-        "id": "Backslash", 
-        "description": ""
-    }, 
-    {
-        "source": "Right Bracket", 
-        "text": "\uc624\ub978\ucabd \ube0c\ub798\ud0b7", 
-        "id": "RightBracket", 
-        "description": ""
-    }, 
-    {
-        "source": "Grave Accent", 
-        "text": "\uc2ec\uac01\ud55c \uc545\uc13c\ud2b8", 
-        "id": "GraveAccent", 
-        "description": ""
-    }, 
-    {
-        "source": "World 1", 
-        "text": "\uc138\uacc4 1", 
-        "id": "World1", 
-        "description": ""
-    }, 
-    {
-        "source": "World 2", 
-        "text": "\uc138\uacc4 2", 
-        "id": "World2", 
-        "description": ""
-    }, 
-    {
-        "source": "Escape", 
-        "text": "\ud0c8\ucd9c", 
-        "id": "Escape", 
-        "description": ""
-    }, 
-    {
-        "source": "Enter", 
-        "text": "\ub4e4\uc5b4\uac00\ub2e4", 
-        "id": "Enter", 
-        "description": ""
-    }, 
-    {
-        "source": "Tab", 
-        "text": "\ud0ed", 
-        "id": "Tab", 
-        "description": ""
-    }, 
-    {
-        "source": "Backspace", 
-        "text": "\uc5ed\ud589 \ud0a4\uc774", 
-        "id": "Backspace", 
-        "description": ""
-    }, 
-    {
-        "source": "Insert", 
-        "text": "\ub07c\uc6cc \ub123\ub2e4", 
-        "id": "Insert", 
-        "description": ""
-    }, 
-    {
-        "source": "Delete", 
-        "text": "\uc9c0\uc6b0\ub2e4", 
-        "id": "Delete", 
-        "description": ""
-    }, 
-    {
-        "source": "Right Arrow", 
-        "text": "\uc624\ub978\ucabd \ud654\uc0b4\ud45c", 
-        "id": "RightArrow", 
-        "description": ""
-    }, 
-    {
-        "source": "Left Arrow", 
-        "text": "\uc67c\ucabd \ud654\uc0b4\ud45c", 
-        "id": "LeftArrow", 
-        "description": ""
-    }, 
-    {
-        "source": "Down Arrow", 
-        "text": "\uc544\ub798\ucabd \ud654\uc0b4\ud45c", 
-        "id": "DownArrow", 
-        "description": ""
-    }, 
-    {
-        "source": "Up Arrow", 
-        "text": "\uc704\ucabd \ud654\uc0b4\ud45c", 
-        "id": "UpArrow", 
-        "description": ""
-    }, 
-    {
-        "source": "Page Up", 
-        "text": "\ud398\uc774\uc9c0 \uc704\ub85c", 
-        "id": "PageUp", 
-        "description": ""
-    }, 
-    {
-        "source": "Page Down", 
-        "text": "Page Down", 
-        "id": "PageDown", 
-        "description": ""
-    }, 
-    {
-        "source": "Home", 
-        "text": "\uc9d1", 
-        "id": "Home", 
-        "description": ""
-    }, 
-    {
-        "source": "End", 
-        "text": "\uc885\ub8cc", 
-        "id": "End", 
-        "description": ""
-    }, 
-    {
-        "source": "Caps Lock", 
-        "text": "Caps Lock", 
-        "id": "CapsLock", 
-        "description": ""
-    }, 
-    {
-        "source": "Scroll Lock", 
-        "text": "\uc2a4\ud06c\ub864 \uc7a0\uae08", 
-        "id": "ScrollLock", 
-        "description": ""
-    }, 
-    {
-        "source": "Num Lock", 
-        "text": "Num \uc7a0\uae08", 
-        "id": "NumLock", 
-        "description": ""
-    }, 
-    {
-        "source": "Print Screen", 
-        "text": "\ud654\uba74 \uc778\uc1c4", 
-        "id": "PrintScreen", 
-        "description": ""
-    }, 
-    {
-        "source": "F1", 
-        "text": "F1", 
-        "id": "F1", 
-        "description": ""
-    }, 
-    {
-        "source": "F2", 
-        "text": "F2", 
-        "id": "F2", 
-        "description": ""
-    }, 
-    {
-        "source": "F3", 
-        "text": "F3", 
-        "id": "F3", 
-        "description": ""
-    }, 
-    {
-        "source": "F4", 
-        "text": "F4", 
-        "id": "F4", 
-        "description": ""
-    }, 
-    {
-        "source": "F5", 
-        "text": "F5", 
-        "id": "F5", 
-        "description": ""
-    }, 
-    {
-        "source": "F6", 
-        "text": "F6", 
-        "id": "F6", 
-        "description": ""
-    }, 
-    {
-        "source": "F7", 
-        "text": "F7", 
-        "id": "F7", 
-        "description": ""
-    }, 
-    {
-        "source": "F8", 
-        "text": "F8", 
-        "id": "F8", 
-        "description": ""
-    }, 
-    {
-        "source": "F9", 
-        "text": "F9", 
-        "id": "F9", 
-        "description": ""
-    }, 
-    {
-        "source": "F10", 
-        "text": "F10", 
-        "id": "F10", 
-        "description": ""
-    }, 
-    {
-        "source": "F11", 
-        "text": "F11", 
-        "id": "F11", 
-        "description": ""
-    }, 
-    {
-        "source": "F12", 
-        "text": "F12", 
-        "id": "F12", 
-        "description": ""
-    }, 
-    {
-        "source": "F13", 
-        "text": "F13", 
-        "id": "F13", 
-        "description": ""
-    }, 
-    {
-        "source": "F14", 
-        "text": "F14", 
-        "id": "F14", 
-        "description": ""
-    }, 
-    {
-        "source": "F15", 
-        "text": "F15", 
-        "id": "F15", 
-        "description": ""
-    }, 
-    {
-        "source": "F16", 
-        "text": "F16", 
-        "id": "F16", 
-        "description": ""
-    }, 
-    {
-        "source": "F17", 
-        "text": "F17", 
-        "id": "F17", 
-        "description": ""
-    }, 
-    {
-        "source": "F18", 
-        "text": "F18", 
-        "id": "F18", 
-        "description": ""
-    }, 
-    {
-        "source": "F19", 
-        "text": "F19", 
-        "id": "F19", 
-        "description": ""
-    }, 
-    {
-        "source": "F20", 
-        "text": "F20", 
-        "id": "F20", 
-        "description": ""
-    }, 
-    {
-        "source": "F21", 
-        "text": "F21", 
-        "id": "F21", 
-        "description": ""
-    }, 
-    {
-        "source": "F22", 
-        "text": "F22", 
-        "id": "F22", 
-        "description": ""
-    }, 
-    {
-        "source": "F23", 
-        "text": "F23", 
-        "id": "F23", 
-        "description": ""
-    }, 
-    {
-        "source": "F24", 
-        "text": "F24", 
-        "id": "F24", 
-        "description": ""
-    }, 
-    {
-        "source": "F25", 
-        "text": "F25", 
-        "id": "F25", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad 0", 
-        "text": "\ud0a4\ud328\ub4dc 0", 
-        "id": "KeyPad0", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad 1", 
-        "text": "\ud0a4\ud328\ub4dc 1", 
-        "id": "KeyPad1", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad 2", 
-        "text": "\ud0a4\ud328\ub4dc 2", 
-        "id": "KeyPad2", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad 3", 
-        "text": "\ud0a4 \ud328\ub4dc 3", 
-        "id": "KeyPad3", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad 4", 
-        "text": "\ud0a4 \ud328\ub4dc 4", 
-        "id": "KeyPad4", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad 5", 
-        "text": "\ud0a4\ud328\ub4dc 5", 
-        "id": "KeyPad5", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad 6", 
-        "text": "\ud0a4\ud328\ub4dc 6", 
-        "id": "KeyPad6", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad 7", 
-        "text": "\ud0a4\ud328\ub4dc 7", 
-        "id": "KeyPad7", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad 8", 
-        "text": "\ud0a4\ud328\ub4dc 8", 
-        "id": "KeyPad8", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad 9", 
-        "text": "\ud0a4\ud328\ub4dc 9", 
-        "id": "KeyPad9", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad Decimal", 
-        "text": "\ud0a4 \ud328\ub4dc \uc2ed\uc9c4\uc218", 
-        "id": "KeyPadDecimal", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad Divide", 
-        "text": "\ud0a4 \ud328\ub4dc \ub098\ub204\uae30", 
-        "id": "KeyPadDivide", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad Multiply", 
-        "text": "\ud0a4\ud328\ub4dc \uacf1\ud558\uae30", 
-        "id": "KeyPadMultiply", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad Substract", 
-        "text": "\ud0a4 \ud328\ub4dc Substract", 
-        "id": "KeyPadSubstract", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad Add", 
-        "text": "\ud0a4 \ud328\ub4dc \ucd94\uac00", 
-        "id": "KeyPadAdd", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad Enter", 
-        "text": "\ud0a4 \ud328\ub4dc \uc785\ub825", 
-        "id": "KeyPadEnter", 
-        "description": ""
-    }, 
-    {
-        "source": "Key Pad Equal", 
-        "text": "\ud0a4\ud328\ub4dc \uac19\uc74c", 
-        "id": "KeyPadEqual", 
-        "description": ""
-    }, 
-    {
-        "source": "Left Shift", 
-        "text": "\uc67c\ucabd \uc2dc\ud504\ud2b8", 
-        "id": "LeftShift", 
-        "description": ""
-    }, 
-    {
-        "source": "Left Control", 
-        "text": "\uc67c\ucabd \ucee8\ud2b8\ub864", 
-        "id": "LeftControl", 
-        "description": ""
-    }, 
-    {
-        "source": "Left Alt", 
-        "text": "\uc67c\ucabd Alt", 
-        "id": "LeftAlt", 
-        "description": ""
-    }, 
-    {
-        "source": "Left Command", 
-        "text": "\uc67c\ucabd \uba85\ub839", 
-        "id": "LeftCommand", 
-        "description": ""
-    }, 
-    {
-        "source": "Right Shift", 
-        "text": "\uc624\ub978\ucabd \uc2dc\ud504\ud2b8", 
-        "id": "RightShift", 
-        "description": ""
-    }, 
-    {
-        "source": "Right Control", 
-        "text": "\uc624\ub978\ucabd \ucee8\ud2b8\ub864", 
-        "id": "RightControl", 
-        "description": ""
-    }, 
-    {
-        "source": "Right Alt", 
-        "text": "\uc624\ub978\ucabd Alt", 
-        "id": "RightAlt", 
-        "description": ""
-    }, 
-    {
-        "source": "Right Command", 
-        "text": "\uc624\ub978\ucabd \uba85\ub839", 
-        "id": "RightCommand", 
-        "description": ""
-    }, 
-    {
-        "source": "Shift", 
-        "text": "\uc2dc\ud504\ud2b8", 
-        "id": "Shift", 
-        "description": ""
-    }, 
-    {
-        "source": "Ctrl", 
-        "text": "Ctrl", 
-        "id": "Ctrl", 
-        "description": ""
-    }, 
-    {
-        "source": "Alt", 
-        "text": "\ubaa8\ub450", 
-        "id": "Alt", 
-        "description": ""
-    }, 
-    {
-        "source": "Command", 
-        "text": "\uba85\ub839", 
-        "id": "Command", 
-        "description": ""
-    }, 
-    {
-        "source": "Cached", 
-        "text": "\uce90\uc2dc", 
-        "id": "Cached", 
-        "description": ""
-    }, 
-    {
-        "source": "Scrub", 
-        "text": "\ubd81\ubd81 \ub2e6\ub2e4", 
-        "id": "Scrub", 
-        "description": ""
-    }, 
-    {
-        "source": "Keyboard shortcut", 
-        "text": "\ud0a4\ubcf4\ub4dc \ub2e8\ucd95\ud0a4", 
-        "id": "Keyboard shortcut", 
-        "description": ""
-    }, 
-    {
-        "source": "Keyboard shortcuts", 
-        "text": "\ud0a4\ubcf4\ub4dc \ub2e8\ucd95\ud0a4", 
-        "id": "Keyboard shortcuts", 
-        "description": ""
-    }, 
-    {
-        "id": "IconMini", 
-        "source": "IconMini", 
-        "description": "", 
-        "text": "IconMini"
-    }, 
-    {
-        "id": "SwatchSmall", 
-        "source": "SwatchSmall", 
-        "description": "", 
-        "text": "\uacac\ubcf8"
-    }, 
-    {
-        "id": "ScrollBar", 
-        "source": "ScrollBar", 
-        "description": "", 
-        "text": "\uc2a4\ud06c\ub864 \ubc14"
-    }, 
-    {
-        "id": "ScrollBarSmall", 
-        "source": "ScrollBarSmall", 
-        "description": "", 
-        "text": "ScrollBarSmall"
-    }, 
-    {
-        "id": "Native", 
-        "source": "Native", 
-        "description": "", 
-        "text": "\uc6d0\uc8fc\ubbfc"
-    }, 
-    {
-        "id": "16:9", 
-        "source": "16:9", 
-        "description": "", 
-        "text": "16 : 9"
-    }, 
-    {
-        "id": "1.85", 
-        "source": "1.85", 
-        "description": "", 
-        "text": "1.85"
-    }, 
-    {
-        "id": "2.35", 
-        "source": "2.35", 
-        "description": "", 
-        "text": "2.35"
-    }, 
-    {
-        "id": "Reset the value.", 
-        "source": "Reset the value.", 
-        "description": "", 
-        "text": "\uac12\uc744 \uc7ac\uc124\uc815\ud558\uc2ed\uc2dc\uc624."
-    }, 
-    {
-        "source": "BelowRight", 
-        "description": "", 
-        "id": "BelowRight", 
-        "text": "\uc624\ub978\ucabd"
-    }, 
-    {
-        "source": "BelowLeft", 
-        "description": "", 
-        "id": "BelowLeft", 
-        "text": "\uc67c\ucabd \uc544\ub798"
-    }, 
-    {
-        "source": "AboveRight", 
-        "description": "", 
-        "id": "AboveRight", 
-        "text": "\uc704 \uc624\ub978\ucabd"
-    }, 
-    {
-        "source": "AboveLeft", 
-        "description": "", 
-        "id": "AboveLeft", 
-        "text": "\uc704 \uc67c\ucabd"
+        "source": "Cannot parse the value.",
+        "description": "",
+        "id": "Cannot parse the value.",
+        "text": "값을 구문 분석 할 수 없습니다."
+    },
+    {
+        "source": "Horizontal",
+        "description": "",
+        "id": "Horizontal",
+        "text": "수평"
+    },
+    {
+        "source": "Vertical",
+        "description": "",
+        "id": "Vertical",
+        "text": "수직선"
+    },
+    {
+        "source": "Left",
+        "description": "",
+        "id": "Left",
+        "text": "왼쪽"
+    },
+    {
+        "source": "Top",
+        "description": "",
+        "id": "Top",
+        "text": "상단"
+    },
+    {
+        "source": "Right",
+        "description": "",
+        "id": "Right",
+        "text": "권리"
+    },
+    {
+        "source": "Bottom",
+        "description": "",
+        "id": "Bottom",
+        "text": "바닥"
+    },
+    {
+        "source": "None",
+        "description": "",
+        "id": "None",
+        "text": "없음"
+    },
+    {
+        "source": "Both",
+        "description": "",
+        "id": "Both",
+        "text": "양자 모두"
+    },
+    {
+        "source": "Center",
+        "description": "",
+        "id": "Center",
+        "text": "센터"
+    },
+    {
+        "source": "Fill",
+        "description": "",
+        "id": "Fill",
+        "text": "가득 따르다"
+    },
+    {
+        "source": "Baseline",
+        "description": "",
+        "id": "Baseline",
+        "text": "기준선"
+    },
+    {
+        "source": "Single",
+        "description": "",
+        "id": "Single",
+        "text": "단일"
+    },
+    {
+        "source": "Radio",
+        "description": "",
+        "id": "Radio",
+        "text": "라디오"
+    },
+    {
+        "source": "Multiple",
+        "description": "",
+        "id": "Multiple",
+        "text": "배수"
+    },
+    {
+        "source": "Forward",
+        "description": "",
+        "id": "Forward",
+        "text": "앞으로"
+    },
+    {
+        "source": "Reverse",
+        "description": "",
+        "id": "Reverse",
+        "text": "역"
+    },
+    {
+        "source": "Push",
+        "description": "",
+        "id": "Push",
+        "text": "푸시"
+    },
+    {
+        "source": "Toggle",
+        "description": "",
+        "id": "Toggle",
+        "text": "비녀장"
+    },
+    {
+        "source": "Exclusive",
+        "description": "",
+        "id": "Exclusive",
+        "text": "독특한"
+    },
+    {
+        "source": "Tiles",
+        "description": "",
+        "id": "Tiles",
+        "text": "타일"
+    },
+    {
+        "source": "List",
+        "description": "",
+        "id": "List",
+        "text": "명부"
+    },
+    {
+        "source": "Background",
+        "description": "",
+        "id": "Background",
+        "text": "배경"
+    },
+    {
+        "source": "Background Header",
+        "description": "",
+        "id": "BackgroundHeader",
+        "text": "배경 헤더"
+    },
+    {
+        "source": "Background Bellows",
+        "description": "",
+        "id": "BackgroundBellows",
+        "text": "배경 벨로우즈"
+    },
+    {
+        "source": "Background ToolBar",
+        "description": "",
+        "id": "BackgroundToolBar",
+        "text": "배경 도구 모음"
+    },
+    {
+        "source": "Foreground",
+        "description": "",
+        "id": "Foreground",
+        "text": "전경"
+    },
+    {
+        "source": "Foreground Dim",
+        "description": "",
+        "id": "ForegroundDim",
+        "text": "전경 어둡게"
+    },
+    {
+        "source": "Border",
+        "description": "",
+        "id": "Border",
+        "text": "경계"
+    },
+    {
+        "source": "Border Button",
+        "description": "",
+        "id": "BorderButton",
+        "text": "테두리 버튼"
+    },
+    {
+        "source": "Trough",
+        "description": "",
+        "id": "Trough",
+        "text": "구유"
+    },
+    {
+        "source": "Button",
+        "description": "",
+        "id": "Button",
+        "text": "단추"
+    },
+    {
+        "source": "Hovered",
+        "description": "",
+        "id": "Hovered",
+        "text": "덮인"
+    },
+    {
+        "source": "Pressed",
+        "description": "",
+        "id": "Pressed",
+        "text": "눌러지다"
+    },
+    {
+        "source": "Checked",
+        "description": "",
+        "id": "Checked",
+        "text": "체크 됨"
+    },
+    {
+        "source": "Text Focus",
+        "description": "",
+        "id": "TextFocus",
+        "text": "텍스트 포커스"
+    },
+    {
+        "source": "Tooltip Background",
+        "description": "",
+        "id": "TooltipBackground",
+        "text": "툴팁 배경"
+    },
+    {
+        "source": "Tooltip Foreground",
+        "description": "",
+        "id": "TooltipForeground",
+        "text": "툴팁 포어 그라운드"
+    },
+    {
+        "source": "Overlay",
+        "description": "",
+        "id": "Overlay",
+        "text": "위에 까는 것"
+    },
+    {
+        "source": "Overlay Light",
+        "description": "",
+        "id": "OverlayLight",
+        "text": "오버레이 라이트"
+    },
+    {
+        "source": "Shadow",
+        "description": "",
+        "id": "Shadow",
+        "text": "그림자"
+    },
+    {
+        "source": "Handle",
+        "description": "",
+        "id": "Handle",
+        "text": "핸들"
+    },
+    {
+        "source": "Margin",
+        "description": "",
+        "id": "Margin",
+        "text": "여유"
+    },
+    {
+        "source": "Margin Small",
+        "description": "",
+        "id": "MarginSmall",
+        "text": "마진 작은"
+    },
+    {
+        "source": "Margin Large",
+        "description": "",
+        "id": "MarginLarge",
+        "text": "큰 여백"
+    },
+    {
+        "source": "Margin Dialog",
+        "description": "",
+        "id": "MarginDialog",
+        "text": "여백 대화 상자"
+    },
+    {
+        "source": "Spacing",
+        "description": "",
+        "id": "Spacing",
+        "text": "간격"
+    },
+    {
+        "source": "Spacing Small",
+        "description": "",
+        "id": "SpacingSmall",
+        "text": "작은 공백"
+    },
+    {
+        "source": "Spacing Large",
+        "description": "",
+        "id": "SpacingLarge",
+        "text": "큰 띄어쓰기"
+    },
+    {
+        "source": "Drag",
+        "description": "",
+        "id": "Drag",
+        "text": "견인"
+    },
+    {
+        "source": "Icon",
+        "description": "",
+        "id": "Icon",
+        "text": "상"
+    },
+    {
+        "source": "Icon Small",
+        "description": "",
+        "id": "IconSmall",
+        "text": "작은 아이콘"
+    },
+    {
+        "source": "Font Small",
+        "description": "",
+        "id": "FontSmall",
+        "text": "작은 글꼴"
+    },
+    {
+        "source": "Font Medium",
+        "description": "",
+        "id": "FontMedium",
+        "text": "글꼴 중간"
+    },
+    {
+        "source": "Font Large",
+        "description": "",
+        "id": "FontLarge",
+        "text": "큰 글꼴"
+    },
+    {
+        "source": "Font Header",
+        "description": "",
+        "id": "FontHeader",
+        "text": "글꼴 머리글"
+    },
+    {
+        "source": "Font Title",
+        "description": "",
+        "id": "FontTitle",
+        "text": "글꼴 제목"
+    },
+    {
+        "source": "Swatch",
+        "description": "",
+        "id": "Swatch",
+        "text": "견본"
+    },
+    {
+        "source": "Slider",
+        "description": "",
+        "id": "Slider",
+        "text": "슬라이더"
+    },
+    {
+        "source": "Scroll Area",
+        "description": "",
+        "id": "ScrollArea",
+        "text": "스크롤 영역"
+    },
+    {
+        "source": "Menu",
+        "description": "",
+        "id": "Menu",
+        "text": "메뉴"
+    },
+    {
+        "source": "Text Column",
+        "description": "",
+        "id": "TextColumn",
+        "text": "텍스트 열"
+    },
+    {
+        "source": "Text Column Large",
+        "description": "",
+        "id": "TextColumnLarge",
+        "text": "텍스트 열 대"
+    },
+    {
+        "source": "Search Box",
+        "description": "",
+        "id": "SearchBox",
+        "text": "검색 창"
+    },
+    {
+        "source": "Dialog",
+        "description": "",
+        "id": "Dialog",
+        "text": "대화"
+    },
+    {
+        "source": "Shadow Small",
+        "description": "",
+        "id": "ShadowSmall",
+        "text": "그림자 작은"
+    },
+    {
+        "source": "Tooltip Offset",
+        "description": "",
+        "id": "TooltipOffset",
+        "text": "툴팁 오프셋"
+    },
+    {
+        "source": "Move",
+        "description": "",
+        "id": "Move",
+        "text": "움직임"
+    },
+    {
+        "source": "Dark",
+        "description": "",
+        "id": "Dark",
+        "text": "어두운"
+    },
+    {
+        "source": "Light",
+        "description": "",
+        "id": "Light",
+        "text": "빛"
+    },
+    {
+        "source": "Medium",
+        "description": "",
+        "id": "Medium",
+        "text": "매질"
+    },
+    {
+        "source": "Small",
+        "description": "",
+        "id": "Small",
+        "text": "작은"
+    },
+    {
+        "source": "Large",
+        "description": "",
+        "id": "Large",
+        "text": "큰"
+    },
+    {
+        "source": "Extra Large",
+        "description": "",
+        "id": "ExtraLarge",
+        "text": "특대"
+    },
+    {
+        "source": "Default",
+        "description": "",
+        "id": "Default",
+        "text": "태만"
+    },
+    {
+        "source": "Expand",
+        "description": "",
+        "id": "Expand",
+        "text": "넓히다"
+    },
+    {
+        "source": "Space",
+        "description": "",
+        "id": "Space",
+        "text": "공간"
+    },
+    {
+        "source": "Apostrophe",
+        "description": "",
+        "id": "Apostrophe",
+        "text": "아포스트로피"
+    },
+    {
+        "source": "Comma",
+        "description": "",
+        "id": "Comma",
+        "text": "콤마"
+    },
+    {
+        "source": "Minus",
+        "description": "",
+        "id": "Minus",
+        "text": "마이너스"
+    },
+    {
+        "source": "Period",
+        "description": "",
+        "id": "Period",
+        "text": "기간"
+    },
+    {
+        "source": "Slash",
+        "description": "",
+        "id": "Slash",
+        "text": "삭감"
+    },
+    {
+        "source": "0",
+        "description": "",
+        "id": "0",
+        "text": "0"
+    },
+    {
+        "source": "1",
+        "description": "",
+        "id": "1",
+        "text": "1"
+    },
+    {
+        "source": "2",
+        "description": "",
+        "id": "2",
+        "text": "2"
+    },
+    {
+        "source": "3",
+        "description": "",
+        "id": "3",
+        "text": "삼"
+    },
+    {
+        "source": "4",
+        "description": "",
+        "id": "4",
+        "text": "4"
+    },
+    {
+        "source": "5",
+        "description": "",
+        "id": "5",
+        "text": "5"
+    },
+    {
+        "source": "6",
+        "description": "",
+        "id": "6",
+        "text": "6"
+    },
+    {
+        "source": "7",
+        "description": "",
+        "id": "7",
+        "text": "7"
+    },
+    {
+        "source": "8",
+        "description": "",
+        "id": "8",
+        "text": "8"
+    },
+    {
+        "source": "9",
+        "description": "",
+        "id": "9",
+        "text": "9"
+    },
+    {
+        "source": "Semicolon",
+        "description": "",
+        "id": "Semicolon",
+        "text": "세미콜론"
+    },
+    {
+        "source": "Equal",
+        "description": "",
+        "id": "Equal",
+        "text": "같은"
+    },
+    {
+        "source": "A",
+        "description": "",
+        "id": "A",
+        "text": "에이"
+    },
+    {
+        "source": "B",
+        "description": "",
+        "id": "B",
+        "text": "비"
+    },
+    {
+        "source": "C",
+        "description": "",
+        "id": "C",
+        "text": "기음"
+    },
+    {
+        "source": "D",
+        "description": "",
+        "id": "D",
+        "text": "디"
+    },
+    {
+        "source": "E",
+        "description": "",
+        "id": "E",
+        "text": "과"
+    },
+    {
+        "source": "F",
+        "description": "",
+        "id": "F",
+        "text": "에프"
+    },
+    {
+        "source": "G",
+        "description": "",
+        "id": "G",
+        "text": "지"
+    },
+    {
+        "source": "H",
+        "description": "",
+        "id": "H",
+        "text": "H"
+    },
+    {
+        "source": "I",
+        "description": "",
+        "id": "I",
+        "text": "나는"
+    },
+    {
+        "source": "J",
+        "description": "",
+        "id": "J",
+        "text": "일본"
+    },
+    {
+        "source": "K",
+        "description": "",
+        "id": "K",
+        "text": "케이"
+    },
+    {
+        "source": "L",
+        "description": "",
+        "id": "L",
+        "text": ""
+    },
+    {
+        "source": "M",
+        "description": "",
+        "id": "M",
+        "text": "엠"
+    },
+    {
+        "source": "N",
+        "description": "",
+        "id": "N",
+        "text": "엔"
+    },
+    {
+        "source": "O",
+        "description": "",
+        "id": "O",
+        "text": "O"
+    },
+    {
+        "source": "P",
+        "description": "",
+        "id": "P",
+        "text": "피"
+    },
+    {
+        "source": "Q",
+        "description": "",
+        "id": "Q",
+        "text": "큐"
+    },
+    {
+        "source": "R",
+        "description": "",
+        "id": "R",
+        "text": "아르 자형"
+    },
+    {
+        "source": "S",
+        "description": "",
+        "id": "S",
+        "text": "에스"
+    },
+    {
+        "source": "T",
+        "description": "",
+        "id": "T",
+        "text": "티"
+    },
+    {
+        "source": "U",
+        "description": "",
+        "id": "U",
+        "text": "유"
+    },
+    {
+        "source": "V",
+        "description": "",
+        "id": "V",
+        "text": "V"
+    },
+    {
+        "source": "W",
+        "description": "",
+        "id": "W",
+        "text": ""
+    },
+    {
+        "source": "X",
+        "description": "",
+        "id": "X",
+        "text": "엑스"
+    },
+    {
+        "source": "Y",
+        "description": "",
+        "id": "Y",
+        "text": "Y"
+    },
+    {
+        "source": "Z",
+        "description": "",
+        "id": "Z",
+        "text": "와"
+    },
+    {
+        "source": "Left Bracket",
+        "description": "",
+        "id": "LeftBracket",
+        "text": "왼쪽 브래킷"
+    },
+    {
+        "source": "Backslash",
+        "description": "",
+        "id": "Backslash",
+        "text": "백 슬래시"
+    },
+    {
+        "source": "Right Bracket",
+        "description": "",
+        "id": "RightBracket",
+        "text": "오른쪽 브래킷"
+    },
+    {
+        "source": "Grave Accent",
+        "description": "",
+        "id": "GraveAccent",
+        "text": "심각한 악센트"
+    },
+    {
+        "source": "World 1",
+        "description": "",
+        "id": "World1",
+        "text": "세계 1"
+    },
+    {
+        "source": "World 2",
+        "description": "",
+        "id": "World2",
+        "text": "세계 2"
+    },
+    {
+        "source": "Escape",
+        "description": "",
+        "id": "Escape",
+        "text": "탈출"
+    },
+    {
+        "source": "Enter",
+        "description": "",
+        "id": "Enter",
+        "text": "들어가다"
+    },
+    {
+        "source": "Tab",
+        "description": "",
+        "id": "Tab",
+        "text": "탭"
+    },
+    {
+        "source": "Backspace",
+        "description": "",
+        "id": "Backspace",
+        "text": "역행 키이"
+    },
+    {
+        "source": "Insert",
+        "description": "",
+        "id": "Insert",
+        "text": "끼워 넣다"
+    },
+    {
+        "source": "Delete",
+        "description": "",
+        "id": "Delete",
+        "text": "지우다"
+    },
+    {
+        "source": "Right Arrow",
+        "description": "",
+        "id": "RightArrow",
+        "text": "오른쪽 화살표"
+    },
+    {
+        "source": "Left Arrow",
+        "description": "",
+        "id": "LeftArrow",
+        "text": "왼쪽 화살표"
+    },
+    {
+        "source": "Down Arrow",
+        "description": "",
+        "id": "DownArrow",
+        "text": "아래쪽 화살표"
+    },
+    {
+        "source": "Up Arrow",
+        "description": "",
+        "id": "UpArrow",
+        "text": "위쪽 화살표"
+    },
+    {
+        "source": "Page Up",
+        "description": "",
+        "id": "PageUp",
+        "text": "페이지 위로"
+    },
+    {
+        "source": "Page Down",
+        "description": "",
+        "id": "PageDown",
+        "text": "Page Down"
+    },
+    {
+        "source": "Home",
+        "description": "",
+        "id": "Home",
+        "text": "집"
+    },
+    {
+        "source": "End",
+        "description": "",
+        "id": "End",
+        "text": "종료"
+    },
+    {
+        "source": "Caps Lock",
+        "description": "",
+        "id": "CapsLock",
+        "text": "Caps Lock"
+    },
+    {
+        "source": "Scroll Lock",
+        "description": "",
+        "id": "ScrollLock",
+        "text": "스크롤 잠금"
+    },
+    {
+        "source": "Num Lock",
+        "description": "",
+        "id": "NumLock",
+        "text": "Num 잠금"
+    },
+    {
+        "source": "Print Screen",
+        "description": "",
+        "id": "PrintScreen",
+        "text": "화면 인쇄"
+    },
+    {
+        "source": "F1",
+        "description": "",
+        "id": "F1",
+        "text": "F1"
+    },
+    {
+        "source": "F2",
+        "description": "",
+        "id": "F2",
+        "text": "F2"
+    },
+    {
+        "source": "F3",
+        "description": "",
+        "id": "F3",
+        "text": "F3"
+    },
+    {
+        "source": "F4",
+        "description": "",
+        "id": "F4",
+        "text": "F4"
+    },
+    {
+        "source": "F5",
+        "description": "",
+        "id": "F5",
+        "text": "F5"
+    },
+    {
+        "source": "F6",
+        "description": "",
+        "id": "F6",
+        "text": "F6"
+    },
+    {
+        "source": "F7",
+        "description": "",
+        "id": "F7",
+        "text": "F7"
+    },
+    {
+        "source": "F8",
+        "description": "",
+        "id": "F8",
+        "text": "F8"
+    },
+    {
+        "source": "F9",
+        "description": "",
+        "id": "F9",
+        "text": "F9"
+    },
+    {
+        "source": "F10",
+        "description": "",
+        "id": "F10",
+        "text": "F10"
+    },
+    {
+        "source": "F11",
+        "description": "",
+        "id": "F11",
+        "text": "F11"
+    },
+    {
+        "source": "F12",
+        "description": "",
+        "id": "F12",
+        "text": "F12"
+    },
+    {
+        "source": "F13",
+        "description": "",
+        "id": "F13",
+        "text": "F13"
+    },
+    {
+        "source": "F14",
+        "description": "",
+        "id": "F14",
+        "text": "F14"
+    },
+    {
+        "source": "F15",
+        "description": "",
+        "id": "F15",
+        "text": "F15"
+    },
+    {
+        "source": "F16",
+        "description": "",
+        "id": "F16",
+        "text": "F16"
+    },
+    {
+        "source": "F17",
+        "description": "",
+        "id": "F17",
+        "text": "F17"
+    },
+    {
+        "source": "F18",
+        "description": "",
+        "id": "F18",
+        "text": "F18"
+    },
+    {
+        "source": "F19",
+        "description": "",
+        "id": "F19",
+        "text": "F19"
+    },
+    {
+        "source": "F20",
+        "description": "",
+        "id": "F20",
+        "text": "F20"
+    },
+    {
+        "source": "F21",
+        "description": "",
+        "id": "F21",
+        "text": "F21"
+    },
+    {
+        "source": "F22",
+        "description": "",
+        "id": "F22",
+        "text": "F22"
+    },
+    {
+        "source": "F23",
+        "description": "",
+        "id": "F23",
+        "text": "F23"
+    },
+    {
+        "source": "F24",
+        "description": "",
+        "id": "F24",
+        "text": "F24"
+    },
+    {
+        "source": "F25",
+        "description": "",
+        "id": "F25",
+        "text": "F25"
+    },
+    {
+        "source": "Key Pad 0",
+        "description": "",
+        "id": "KeyPad0",
+        "text": "키패드 0"
+    },
+    {
+        "source": "Key Pad 1",
+        "description": "",
+        "id": "KeyPad1",
+        "text": "키패드 1"
+    },
+    {
+        "source": "Key Pad 2",
+        "description": "",
+        "id": "KeyPad2",
+        "text": "키패드 2"
+    },
+    {
+        "source": "Key Pad 3",
+        "description": "",
+        "id": "KeyPad3",
+        "text": "키 패드 3"
+    },
+    {
+        "source": "Key Pad 4",
+        "description": "",
+        "id": "KeyPad4",
+        "text": "키 패드 4"
+    },
+    {
+        "source": "Key Pad 5",
+        "description": "",
+        "id": "KeyPad5",
+        "text": "키패드 5"
+    },
+    {
+        "source": "Key Pad 6",
+        "description": "",
+        "id": "KeyPad6",
+        "text": "키패드 6"
+    },
+    {
+        "source": "Key Pad 7",
+        "description": "",
+        "id": "KeyPad7",
+        "text": "키패드 7"
+    },
+    {
+        "source": "Key Pad 8",
+        "description": "",
+        "id": "KeyPad8",
+        "text": "키패드 8"
+    },
+    {
+        "source": "Key Pad 9",
+        "description": "",
+        "id": "KeyPad9",
+        "text": "키패드 9"
+    },
+    {
+        "source": "Key Pad Decimal",
+        "description": "",
+        "id": "KeyPadDecimal",
+        "text": "키 패드 십진수"
+    },
+    {
+        "source": "Key Pad Divide",
+        "description": "",
+        "id": "KeyPadDivide",
+        "text": "키 패드 나누기"
+    },
+    {
+        "source": "Key Pad Multiply",
+        "description": "",
+        "id": "KeyPadMultiply",
+        "text": "키패드 곱하기"
+    },
+    {
+        "source": "Key Pad Substract",
+        "description": "",
+        "id": "KeyPadSubstract",
+        "text": "키 패드 Substract"
+    },
+    {
+        "source": "Key Pad Add",
+        "description": "",
+        "id": "KeyPadAdd",
+        "text": "키 패드 추가"
+    },
+    {
+        "source": "Key Pad Enter",
+        "description": "",
+        "id": "KeyPadEnter",
+        "text": "키 패드 입력"
+    },
+    {
+        "source": "Key Pad Equal",
+        "description": "",
+        "id": "KeyPadEqual",
+        "text": "키패드 같음"
+    },
+    {
+        "source": "Left Shift",
+        "description": "",
+        "id": "LeftShift",
+        "text": "왼쪽 시프트"
+    },
+    {
+        "source": "Left Control",
+        "description": "",
+        "id": "LeftControl",
+        "text": "왼쪽 컨트롤"
+    },
+    {
+        "source": "Left Alt",
+        "description": "",
+        "id": "LeftAlt",
+        "text": "왼쪽 Alt"
+    },
+    {
+        "source": "Left Command",
+        "description": "",
+        "id": "LeftCommand",
+        "text": "왼쪽 명령"
+    },
+    {
+        "source": "Right Shift",
+        "description": "",
+        "id": "RightShift",
+        "text": "오른쪽 시프트"
+    },
+    {
+        "source": "Right Control",
+        "description": "",
+        "id": "RightControl",
+        "text": "오른쪽 컨트롤"
+    },
+    {
+        "source": "Right Alt",
+        "description": "",
+        "id": "RightAlt",
+        "text": "오른쪽 Alt"
+    },
+    {
+        "source": "Right Command",
+        "description": "",
+        "id": "RightCommand",
+        "text": "오른쪽 명령"
+    },
+    {
+        "source": "Shift",
+        "description": "",
+        "id": "Shift",
+        "text": "시프트"
+    },
+    {
+        "source": "Ctrl",
+        "description": "",
+        "id": "Ctrl",
+        "text": "Ctrl"
+    },
+    {
+        "source": "Alt",
+        "description": "",
+        "id": "Alt",
+        "text": "모두"
+    },
+    {
+        "source": "Command",
+        "description": "",
+        "id": "Command",
+        "text": "명령"
+    },
+    {
+        "source": "Cached",
+        "description": "",
+        "id": "Cached",
+        "text": "캐시"
+    },
+    {
+        "source": "Scrub",
+        "description": "",
+        "id": "Scrub",
+        "text": "북북 닦다"
+    },
+    {
+        "source": "Keyboard shortcut",
+        "description": "",
+        "id": "Keyboard shortcut",
+        "text": "키보드 단축키"
+    },
+    {
+        "source": "Keyboard shortcuts",
+        "description": "",
+        "id": "Keyboard shortcuts",
+        "text": "키보드 단축키"
+    },
+    {
+        "source": "IconMini",
+        "text": "IconMini",
+        "id": "IconMini",
+        "description": ""
+    },
+    {
+        "source": "SwatchSmall",
+        "text": "견본",
+        "id": "SwatchSmall",
+        "description": ""
+    },
+    {
+        "source": "ScrollBar",
+        "text": "스크롤 바",
+        "id": "ScrollBar",
+        "description": ""
+    },
+    {
+        "source": "ScrollBarSmall",
+        "text": "ScrollBarSmall",
+        "id": "ScrollBarSmall",
+        "description": ""
+    },
+    {
+        "source": "Native",
+        "text": "원주민",
+        "id": "Native",
+        "description": ""
+    },
+    {
+        "source": "16:9",
+        "text": "16 : 9",
+        "id": "16:9",
+        "description": ""
+    },
+    {
+        "source": "1.85",
+        "text": "1.85",
+        "id": "1.85",
+        "description": ""
+    },
+    {
+        "source": "2.35",
+        "text": "2.35",
+        "id": "2.35",
+        "description": ""
+    },
+    {
+        "source": "Reset the value.",
+        "text": "값을 재설정하십시오.",
+        "id": "Reset the value.",
+        "description": ""
+    },
+    {
+        "source": "BelowRight",
+        "text": "오른쪽",
+        "description": "",
+        "id": "BelowRight"
+    },
+    {
+        "source": "BelowLeft",
+        "text": "왼쪽 아래",
+        "description": "",
+        "id": "BelowLeft"
+    },
+    {
+        "source": "AboveRight",
+        "text": "위 오른쪽",
+        "description": "",
+        "id": "AboveRight"
+    },
+    {
+        "source": "AboveLeft",
+        "text": "위 왼쪽",
+        "description": "",
+        "id": "AboveLeft"
     }
 ]

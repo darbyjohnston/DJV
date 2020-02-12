@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -112,6 +112,24 @@ namespace djv
                 return !(*this == other);
             }
 
+            inline ImageFilterOptions::ImageFilterOptions()
+            {}
+
+            inline ImageFilterOptions::ImageFilterOptions(ImageFilter min, ImageFilter mag) :
+                min(min),
+                mag(mag)
+            {}
+
+            inline bool ImageFilterOptions::operator == (const ImageFilterOptions& other) const
+            {
+                return min == other.min && mag == other.mag;
+            }
+
+            inline bool ImageFilterOptions::operator != (const ImageFilterOptions& other) const
+            {
+                return !(*this == other);
+            }
+
             inline void Render::pushTransform(const glm::mat3x3& value)
             {
                 _transforms.push_back(_transforms.size() ? _transforms.back() * value : value);
@@ -127,14 +145,28 @@ namespace djv
 
             inline void Render::pushClipRect(const Core::BBox2f & value)
             {
-                _clipRects.push_back(value);
-                _currentClipRect = _currentClipRect.intersect(value);
+                if (!_clipRects.size())
+                {
+                    _currentClipRect = value;
+                }
+                else
+                {
+                    _currentClipRect = _currentClipRect.intersect(value);
+                }
+                _clipRects.push_back(_currentClipRect);
             }
 
             inline void Render::popClipRect()
             {
                 _clipRects.pop_back();
-                _updateCurrentClipRect();
+                if (_clipRects.size())
+                {
+                    _currentClipRect = _clipRects.back();
+                }
+                else
+                {
+                    _currentClipRect.zero();
+                }
             }
 
             inline void Render::setFillColor(const Image::Color & value)

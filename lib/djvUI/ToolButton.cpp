@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -436,13 +436,13 @@ namespace djv
                         auto weak = std::weak_ptr<Tool>(std::dynamic_pointer_cast<Tool>(shared_from_this()));
                         p.autoRepeatStartTimer->start(
                             std::chrono::milliseconds(autoRepeatStart),
-                            [weak](float)
+                            [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                             {
                                 if (auto widget = weak.lock())
                                 {
                                     widget->_p->autoRepeatTimer->start(
                                         std::chrono::milliseconds(autoRepeatTimeout),
-                                        [weak](float)
+                                        [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                                         {
                                             if (auto widget2 = weak.lock())
                                             {
@@ -469,7 +469,6 @@ namespace djv
             void Tool::_keyPressEvent(Event::KeyPress& event)
             {
                 IButton::_keyPressEvent(event);
-                DJV_PRIVATE_PTR();
                 if (!event.isAccepted() && hasTextFocus())
                 {
                     switch (event.getKey())

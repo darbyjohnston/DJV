@@ -31,6 +31,7 @@ set(header
     ISettings.h
     ISettingsTemplates.h
     ISettingsTemplatesInline.h
+    ITooltipWidget.h
     Icon.h
     IconSystem.h
     ImageWidget.h
@@ -116,6 +117,7 @@ set(source
     IDialog.cpp
     INumericWidget.cpp
     ISettings.cpp
+    ITooltipWidget.cpp
     Icon.cpp
     IconSystem.cpp
     ImageWidget.cpp

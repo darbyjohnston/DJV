@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -137,7 +137,7 @@ namespace djv
             p.actions["Maximize"]->setShortcut(GLFW_KEY_M);
 
             p.actions["Fit"] = UI::Action::create();
-            p.actions["Fit"]->setShortcut(GLFW_KEY_F);
+            p.actions["Fit"]->setShortcut(GLFW_KEY_F, UI::Shortcut::getSystemModifier());
 
             p.actions["AutoHide"] = UI::Action::create();
             p.actions["AutoHide"]->setButtonType(UI::ButtonType::Toggle);
@@ -432,7 +432,10 @@ namespace djv
                         p.pointerMotion[p.pointerInfo.id] = p.pointerInfo.projectedPos;
                         if (auto glfwSystem = context->getSystemT<Desktop::GLFWSystem>())
                         {
-                            glfwSystem->showCursor();
+                            if (!glfwSystem->isCursorVisible())
+                            {
+                                glfwSystem->showCursor();
+                            }
                         }
                         const float fade = p.fade->get();
                         if (fade < 1.F)
@@ -467,7 +470,7 @@ namespace djv
                 {
                     p.pointerMotionTimer->start(
                         std::chrono::milliseconds(fadeTimeout),
-                        [weak](float value)
+                        [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                         {
                             if (auto system = weak.lock())
                             {

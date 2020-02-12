@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -187,7 +187,6 @@ namespace djv
             void CheckBox::_buttonPressEvent(Event::ButtonPress& event)
             {
                 IButton::_buttonPressEvent(event);
-                DJV_PRIVATE_PTR();
                 if (event.isAccepted())
                 {
                     takeTextFocus();
@@ -197,7 +196,6 @@ namespace djv
             void CheckBox::_keyPressEvent(Event::KeyPress& event)
             {
                 IButton::_keyPressEvent(event);
-                DJV_PRIVATE_PTR();
                 if (!event.isAccepted() && hasTextFocus())
                 {
                     switch (event.getKey())

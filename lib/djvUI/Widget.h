@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -57,6 +57,7 @@ namespace djv
     {
         class Action;
         class EventSystem;
+        class ITooltipWidget;
         class Tooltip;
         class Window;
 
@@ -235,17 +236,17 @@ namespace djv
             //! Set the desired size. This is computed and set in the pre-layout event.
             void _setDesiredSize(const glm::vec2&);
 
-            static float _getUpdateTime();
+            static const std::chrono::steady_clock::time_point& _getUpdateTime();
             const std::map<Core::Event::PointerID, glm::vec2> _getPointerHover() const;
 
             std::string _getTooltipText() const;
-            std::shared_ptr<Widget> _createTooltipDefault(const std::string &);
-            virtual std::shared_ptr<Widget> _createTooltip(const glm::vec2 & pos);
+            std::shared_ptr<ITooltipWidget> _createTooltipDefault();
+            virtual std::shared_ptr<ITooltipWidget> _createTooltip(const glm::vec2 & pos);
 
         private:
             std::vector<std::shared_ptr<Widget> > _childWidgets;
 
-            static float        _updateTime;
+            static std::chrono::steady_clock::time_point _updateTime;
 
             bool                _visible         = true;
             bool                _visibleInit     = true;
@@ -276,7 +277,7 @@ namespace djv
             static bool         _tooltipsEnabled;
             struct TooltipData
             {
-                float timer = 0.F;
+                std::chrono::steady_clock::time_point timer;
                 std::shared_ptr<Tooltip> tooltip;
             };
             std::map<Core::Event::PointerID, TooltipData>

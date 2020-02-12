@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -88,7 +88,6 @@ namespace djv
                 float getHeightForWidth(float) const override;
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout &) override;
                 void _layoutEvent(Core::Event::Layout &) override;
                 void _clipEvent(Core::Event::Clip &) override;
                 void _paintEvent(Core::Event::Paint &) override;
@@ -98,7 +97,7 @@ namespace djv
                 void _buttonPressEvent(Core::Event::ButtonPress &) override;
                 void _buttonReleaseEvent(Core::Event::ButtonRelease &) override;
 
-                std::shared_ptr<Widget> _createTooltip(const glm::vec2 & pos) override;
+                std::shared_ptr<ITooltipWidget> _createTooltip(const glm::vec2 & pos) override;
 
                 void _initEvent(Core::Event::Init &) override;
                 void _updateEvent(Core::Event::Update &) override;

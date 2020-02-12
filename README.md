@@ -1,4 +1,5 @@
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
+[![Build Status](https://dev.azure.com/darbyjohnston/DJV/_apis/build/status/darbyjohnston.DJV?branchName=master)](https://dev.azure.com/darbyjohnston/DJV/_build/latest?definitionId=1&branchName=master)
 [![Build Status](https://travis-ci.org/darbyjohnston/DJV.svg?branch=master)](https://travis-ci.org/darbyjohnston/DJV)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=darbyjohnston_DJV&metric=alert_status)](https://sonarcloud.io/dashboard?id=darbyjohnston_DJV)
 

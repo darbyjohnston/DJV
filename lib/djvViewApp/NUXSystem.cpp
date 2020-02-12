@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -88,7 +88,7 @@ namespace djv
                 void _paintEvent(Event::Paint&) override;
 
             private:
-                void _primitivesUpdate(float);
+                void _primitivesUpdate(const Time::Unit&);
 
                 std::vector<std::shared_ptr<AV::IO::IRead> > _read;
                 std::vector<std::shared_ptr<AV::Image::Image> > _images;
@@ -128,8 +128,8 @@ namespace djv
                 _timer->setRepeating(true);
                 auto weak = std::weak_ptr<BackgroundWidget>(std::dynamic_pointer_cast<BackgroundWidget>(shared_from_this()));
                 _timer->start(
-                    Time::getMilliseconds(Time::TimerValue::Fast),
-                    [weak](float value)
+                    Time::getTime(Time::TimerValue::Fast),
+                    [weak](const std::chrono::steady_clock::time_point&, const Time::Unit& dt)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -159,7 +159,7 @@ namespace djv
                                 ++i;
                             }
                         }
-                        widget->_primitivesUpdate(value);
+                        widget->_primitivesUpdate(dt);
                     }
                 });
             }
@@ -188,14 +188,15 @@ namespace djv
                 }
             }
 
-            void BackgroundWidget::_primitivesUpdate(float value)
+            void BackgroundWidget::_primitivesUpdate(const Time::Unit& value)
             {
                 std::vector<std::vector<Primitive>::iterator> dead;
                 for (auto i = _primitives.begin(); i != _primitives.end(); ++i)
                 {
-                    i->pos.x += i->vel.x * value;
-                    i->pos.y += i->vel.y * value;
-                    i->age += value;
+                    const float s = std::chrono::duration<float>(value).count();
+                    i->pos.x += i->vel.x * s;
+                    i->pos.y += i->vel.y * s;
+                    i->age += s;
                     if (i->age > i->lifespan)
                     {
                         dead.push_back(i);
@@ -297,8 +298,8 @@ namespace djv
             vLayout->addChild(soloLayout);
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->addChild(p.buttons["Prev"]);
-            hLayout->addExpander();
             hLayout->addChild(p.buttons["Next"]);
+            hLayout->addExpander();
             hLayout->addChild(p.buttons["Finish"]);
             hLayout->addChild(p.settingsPopupWidget);
             vLayout->addChild(hLayout);

@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -59,6 +59,7 @@ namespace djv
             void _buttonPress(float) override;
             void _buttonRelease() override;
             bool _keyPress(int) override;
+            void _scroll(float) override;
             void _valueUpdate() override;
 
             void _paintEvent(Core::Event::Paint &) override;
@@ -98,8 +99,8 @@ namespace djv
             void setDefaultVisible(bool);
             void resetValue();
 
-            std::chrono::milliseconds getDelay() const;
-            void setDelay(std::chrono::milliseconds);
+            const Core::Time::Unit& getDelay() const;
+            void setDelay(const Core::Time::Unit&);
 
             const std::shared_ptr<Core::INumericValueModel<float>>& getModel() const;
 

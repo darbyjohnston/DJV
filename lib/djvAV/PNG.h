@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -76,7 +76,7 @@ namespace djv
                     std::shared_ptr<Image::Image> _readImage(const std::string & fileName) override;
 
                 private:
-                    struct File;
+                    class File;
                     Info _open(const std::string &, File &);
                 };
                 

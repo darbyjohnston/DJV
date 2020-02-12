@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -30,6 +30,7 @@
 #pragma once
 
 #include <djvCore/Path.h>
+#include <djvCore/Time.h>
 
 #include <chrono>
 #include <list>
@@ -95,10 +96,13 @@ namespace djv
             void removeSystem(const std::shared_ptr<ISystemBase>&);
 
             //! This function is called by the application event loop.
-            virtual void tick(float dt);
+            virtual void tick(const std::chrono::steady_clock::time_point&, const Time::Unit&);
 
             //! Get the average tick FPS.
             float getFPSAverage() const;
+
+            //! Get the system tick times.
+            const std::vector<std::pair<std::string, Time::Unit> >& getSystemTickTimes() const;
 
         protected:
             void _addSystem(const std::shared_ptr<ISystemBase> &);
@@ -111,7 +115,9 @@ namespace djv
             std::shared_ptr<LogSystem> _logSystem;
             std::shared_ptr<TextSystem> _textSystem;
             std::vector<std::shared_ptr<ISystemBase> > _systems;
-            std::chrono::time_point<std::chrono::system_clock> _fpsTime = std::chrono::system_clock::now();
+            std::vector<std::pair<std::string, Time::Unit> > _systemTickTimes;
+            std::vector<std::pair<std::string, Time::Unit> > _systemTickTimesTemp;
+            std::chrono::time_point<std::chrono::steady_clock> _fpsTime = std::chrono::steady_clock::now();
             std::list<float> _fpsSamples;
             float _fpsAverage = 0.F;
             std::shared_ptr<Time::Timer> _fpsTimer;

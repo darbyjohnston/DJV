@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -188,7 +188,7 @@ namespace djv
             _resizeRequest = true;
         }
 
-        inline float Widget::_getUpdateTime()
+        inline const std::chrono::steady_clock::time_point& Widget::_getUpdateTime()
         {
             return _updateTime;
         }

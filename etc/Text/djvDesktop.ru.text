@@ -1,14 +1,14 @@
 [
     {
-        "source": "Cannot initialize GLFW.", 
-        "text": "\u041d\u0435 \u0443\u0434\u0430\u0435\u0442\u0441\u044f \u0438\u043d\u0438\u0446\u0438\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u0442\u044c GLFW.", 
-        "id": "Cannot initialize GLFW.", 
-        "description": ""
-    }, 
+        "source": "Cannot initialize GLFW.",
+        "description": "",
+        "id": "Cannot initialize GLFW.",
+        "text": "Не удается инициализировать GLFW."
+    },
     {
-        "source": "Cannot create GLFW window.", 
-        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u0442\u044c \u043e\u043a\u043d\u043e GLFW.", 
-        "id": "Cannot create GLFW window.", 
-        "description": ""
+        "source": "Cannot create GLFW window.",
+        "description": "",
+        "id": "Cannot create GLFW window.",
+        "text": "Невозможно создать окно GLFW."
     }
 ]

@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -243,8 +243,8 @@ namespace djv
             p.statsTimer = Time::Timer::create(context);
             p.statsTimer->setRepeating(true);
             p.statsTimer->start(
-                Time::getMilliseconds(Time::TimerValue::VerySlow),
-                [this](float)
+                Time::getTime(Time::TimerValue::VerySlow),
+                [this](const std::chrono::steady_clock::time_point&, const Time::Unit&)
             {
                 DJV_PRIVATE_PTR();
                 std::stringstream ss;
@@ -272,7 +272,7 @@ namespace djv
 #endif // DJV_OPENGL_ES2
                     {
                         std::stringstream ss;
-                        ss << "Cannot initialize GLAD.";
+                        ss << DJV_TEXT("Cannot initialize GLAD.");
                         throw ThumbnailError(ss.str());
                     }
 
@@ -571,13 +571,13 @@ namespace djv
                             i.promise.set_value(nullptr);
                         }
                     }
-                    catch (const std::exception &)
+                    catch (const std::exception&)
                     {
                         try
                         {
                             i.promise.set_exception(std::current_exception());
                         }
-                        catch (const std::exception & e)
+                        catch (const std::exception &e)
                         {
                             _log(e.what(), LogLevel::Error);
                         }
@@ -605,32 +605,46 @@ namespace djv
                 }
                 if (image)
                 {
-                    Image::Size imageSize = image->getSize();
-                    imageSize.w *= image->getInfo().pixelAspectRatio;
-                    if (i->size != imageSize || i->type != Image::Type::None)
+                    try
                     {
-                        Image::Size size = i->size;
-                        const float aspect = size.h != 0 ? (size.w / static_cast<float>(size.h)) : 1.F;
-                        const float imageAspect = imageSize.h != 0 ? (imageSize.w / static_cast<float>(imageSize.h)) : 1.F;
-                        if (imageAspect < aspect)
+                        Image::Size imageSize = image->getSize();
+                        imageSize.w *= image->getInfo().pixelAspectRatio;
+                        if (i->size != imageSize || i->type != Image::Type::None)
                         {
-                            size.w = static_cast<uint16_t>(size.h * imageAspect);
+                            Image::Size size = i->size;
+                            const float aspect = size.h != 0 ? (size.w / static_cast<float>(size.h)) : 1.F;
+                            const float imageAspect = imageSize.h != 0 ? (imageSize.w / static_cast<float>(imageSize.h)) : 1.F;
+                            if (imageAspect < aspect)
+                            {
+                                size.w = static_cast<uint16_t>(size.h * imageAspect);
+                            }
+                            else
+                            {
+                                size.h = static_cast<int>(size.w / imageAspect);
+                            }
+                            const auto type = i->type != Image::Type::None ? i->type : image->getType();
+                            const auto info = Image::Info(size, type);
+                            auto tmp = Image::Image::create(info);
+                            tmp->setPluginName(image->getPluginName());
+                            tmp->setTags(image->getTags());
+                            convert->process(*image, info, *tmp);
+                            image = tmp;
                         }
-                        else
-                        {
-                            size.h = static_cast<int>(size.w / imageAspect);
-                        }
-                        const auto type = i->type != Image::Type::None ? i->type : image->getType();
-                        const auto info = Image::Info(size, type);
-                        auto tmp = Image::Image::create(info);
-                        tmp->setPluginName(image->getPluginName());
-                        tmp->setTags(image->getTags());
-                        convert->process(*image, info, *tmp);
-                        image = tmp;
+                        p.imageCache.add(getImageCacheKey(i->fileInfo, i->size, i->type), image);
+                        p.imageCachePercentage = p.imageCache.getPercentageUsed();
+                        i->promise.set_value(image);
                     }
-                    p.imageCache.add(getImageCacheKey(i->fileInfo, i->size, i->type), image);
-                    p.imageCachePercentage = p.imageCache.getPercentageUsed();
-                    i->promise.set_value(image);
+                    catch (const std::exception&)
+                    {
+                        try
+                        {
+                            i->promise.set_exception(std::current_exception());
+                        }
+                        catch (const std::exception& e)
+                        {
+                            _log(e.what(), LogLevel::Error);
+                        }
+                    }
                 }
                 else if (finished)
                 {

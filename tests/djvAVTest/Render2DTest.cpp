@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -30,6 +30,7 @@
 #include <djvAVTest/Render2DTest.h>
 
 #include <djvAV/Color.h>
+#include <djvAV/FontSystem.h>
 #include <djvAV/OCIO.h>
 #include <djvAV/OpenGLOffscreenBuffer.h>
 #include <djvAV/Render2D.h>
@@ -107,7 +108,8 @@ namespace djv
                 
                 Font::Info fontInfo(1, 1, 64, AV::dpiDefault);
                 render->setCurrentFont(fontInfo);
-                render->drawText(String::getRandomText(5), glm::vec2(200.F, 200.F));
+                auto fontSystem = context->getSystemT<Font::System>();
+                render->drawText(fontSystem->getGlyphs(String::getRandomText(5), fontInfo).get(), glm::vec2(200.F, 200.F));
                 
                 render->drawShadow(BBox2f(700.F, 500.F, 100.F, 100.F), Side::Right);
                 render->drawShadow(BBox2f(800.F, 600.F, 100.F, 100.F), 32.F);

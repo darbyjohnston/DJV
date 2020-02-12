@@ -79,7 +79,7 @@ namespace djv
             std::shared_ptr<Scene::Render> render;
             std::shared_ptr<AV::OpenGL::OffscreenBuffer> offscreenBuffer;
             std::shared_ptr<AV::OpenGL::OffscreenBuffer> offscreenBuffer2;
-            Event::PointerID pressedID = Event::InvalidID;
+            Event::PointerID pressedID = Event::invalidID;
             std::map<int, bool> buttons;
             glm::vec2 pointerPos = glm::vec2(0.F, 0.F);
             std::shared_ptr<ValueSubject<BBox3f> > bbox;
@@ -110,8 +110,8 @@ namespace djv
             p.statsTimer->setRepeating(true);
             auto weak = std::weak_ptr<SceneWidget>(std::dynamic_pointer_cast<SceneWidget>(shared_from_this()));
             p.statsTimer->start(
-                Core::Time::getMilliseconds(Core::Time::TimerValue::Slow),
-                [weak](float)
+                Core::Time::getTime(Core::Time::TimerValue::Slow),
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -316,7 +316,7 @@ namespace djv
             if (pointerInfo.id == p.pressedID)
             {
                 event.accept();
-                p.pressedID = Event::InvalidID;
+                p.pressedID = Event::invalidID;
                 p.buttons.clear();
             }
         }

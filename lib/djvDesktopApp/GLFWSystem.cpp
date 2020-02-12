@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -70,6 +70,7 @@ namespace djv
         {
             std::shared_ptr<ListSubject<MonitorInfo> > monitorInfo;
             std::shared_ptr<Time::Timer> monitorTimer;
+            bool cursorVisible = true;
             GLFWcursor* arrowCursor  = nullptr;
             GLFWcursor* hiddenCursor = nullptr;
         };
@@ -89,8 +90,8 @@ namespace djv
             p.monitorTimer->setRepeating(true);
             auto weak = std::weak_ptr<GLFWSystem>(std::dynamic_pointer_cast<GLFWSystem>(shared_from_this()));
             p.monitorTimer->start(
-                Time::getMilliseconds(Time::TimerValue::Slow),
-                [weak](float)
+                Time::getTime(Time::TimerValue::Slow),
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                 {
                     if (auto system = weak.lock())
                     {
@@ -120,11 +121,6 @@ namespace djv
             auto glfwWindow = avGLFWSystem->getGLFWWindow();
             glm::vec2 contentScale = glm::vec2(1.F, 1.F);
             glfwGetWindowContentScale(glfwWindow, &contentScale.x, &contentScale.y);
-            {
-                std::stringstream ss;
-                ss << "Window content scale: " << contentScale.x << "x" << contentScale.y;
-                _log(ss.str());
-            }
             glfwSetWindowSize(
                 glfwWindow,
                 static_cast<int>(windowSize.x * contentScale.x),
@@ -170,25 +166,38 @@ namespace djv
             return _p->monitorInfo;
         }
 
+        bool GLFWSystem::isCursorVisible() const
+        {
+            return _p->cursorVisible;
+        }
+
         void GLFWSystem::showCursor()
         {
             DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
+            if (!p.cursorVisible)
             {
-                auto avGLFWSystem = context->getSystemT<AV::GLFW::System>();
-                auto glfwWindow = avGLFWSystem->getGLFWWindow();
-                glfwSetCursor(glfwWindow, p.arrowCursor);
+                p.cursorVisible = true;
+                if (auto context = getContext().lock())
+                {
+                    auto avGLFWSystem = context->getSystemT<AV::GLFW::System>();
+                    auto glfwWindow = avGLFWSystem->getGLFWWindow();
+                    glfwSetCursor(glfwWindow, p.arrowCursor);
+                }
             }
         }
 
         void GLFWSystem::hideCursor()
         {
             DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
+            if (p.cursorVisible)
             {
-                auto avGLFWSystem = context->getSystemT<AV::GLFW::System>();
-                auto glfwWindow = avGLFWSystem->getGLFWWindow();
-                glfwSetCursor(glfwWindow, p.hiddenCursor);
+                p.cursorVisible = false;
+                if (auto context = getContext().lock())
+                {
+                    auto avGLFWSystem = context->getSystemT<AV::GLFW::System>();
+                    auto glfwWindow = avGLFWSystem->getGLFWWindow();
+                    glfwSetCursor(glfwWindow, p.hiddenCursor);
+                }
             }
         }
 

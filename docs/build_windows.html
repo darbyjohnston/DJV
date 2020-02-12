@@ -86,6 +86,9 @@ $CMAKE_BINARY_DIR\install\bin</pre>
 
 <div class="block">
 	<p class="header"><a name="Packaging">Packaging</a></p>
+	<pre>
+cmake ..\djv-git -DCMAKE_BUILD_TYPE=Release -DDJV_BUILD_PACKAGE=TRUE
+cmake ..\djv-git -DDJV_THIRD_PARTY_DISABLE_BUILD=TRUE</pre>
 	<p>Create MSI and ZIP packages by building the PACKAGE target.</p>
 </div>
 

@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -49,6 +49,7 @@ namespace djv
             std::shared_ptr<ValueSubject<ImageViewLock> > lock;
             std::shared_ptr<ValueSubject<GridOptions> > gridOptions;
             std::shared_ptr<ValueSubject<AV::Image::Color> > backgroundColor;
+            std::shared_ptr<ValueSubject<ScrollWheelZoomSpeed> > scrollWheelZoomSpeed;
             std::map<std::string, BBox2f> widgetGeom;
         };
 
@@ -60,6 +61,7 @@ namespace djv
             p.lock = ValueSubject<ImageViewLock>::create(ImageViewLock::Fill);
             p.gridOptions = ValueSubject<GridOptions>::create();
             p.backgroundColor = ValueSubject<AV::Image::Color>::create(AV::Image::Color(0.F, 0.F, 0.F));
+            p.scrollWheelZoomSpeed = ValueSubject<ScrollWheelZoomSpeed>::create(ScrollWheelZoomSpeed::Slow);
             _load();
         }
 
@@ -114,6 +116,16 @@ namespace djv
             _p->backgroundColor->setIfChanged(value);
         }
 
+        std::shared_ptr<IValueSubject<ScrollWheelZoomSpeed> > ViewSettings::observeScrollWheelZoomSpeed() const
+        {
+            return _p->scrollWheelZoomSpeed;
+        }
+
+        void ViewSettings::setScrollWheelZoomSpeed(ScrollWheelZoomSpeed value)
+        {
+            _p->scrollWheelZoomSpeed->setIfChanged(value);
+        }
+
         const std::map<std::string, BBox2f>& ViewSettings::getWidgetGeom() const
         {
             return _p->widgetGeom;
@@ -134,6 +146,7 @@ namespace djv
                 UI::Settings::read("Lock", object, p.lock);
                 UI::Settings::read("GridOptions", object, p.gridOptions);
                 UI::Settings::read("BackgroundColor", object, p.backgroundColor);
+                UI::Settings::read("ScrollWheelZoomSpeed", object, p.scrollWheelZoomSpeed);
                 UI::Settings::read("WidgetGeom", object, p.widgetGeom);
             }
         }
@@ -147,6 +160,7 @@ namespace djv
             UI::Settings::write("Lock", p.lock->get(), object);
             UI::Settings::write("GridOptions", p.gridOptions->get(), object);
             UI::Settings::write("BackgroundColor", p.backgroundColor->get(), object);
+            UI::Settings::write("ScrollWheelZoomSpeed", p.scrollWheelZoomSpeed->get(), object);
             UI::Settings::write("WidgetGeom", p.widgetGeom, object);
             return out;
         }

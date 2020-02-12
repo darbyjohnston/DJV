@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -376,7 +376,7 @@ namespace djv
                 if (event.getPointerInfo().id != p.pressedID.first)
                     return;
                 event.accept();
-                p.pressedID.first = Event::InvalidID;
+                p.pressedID.first = Event::invalidID;
                 p.pressedID.second = 0;
                 _redraw();
             }

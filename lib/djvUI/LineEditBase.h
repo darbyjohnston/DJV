@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -90,7 +90,8 @@ namespace djv
             void _textFocusLostEvent(Core::Event::TextFocusLost &) override;
             void _textInputEvent(Core::Event::TextInput&) override;
 
-            void _initEvent(Core::Event::Init &) override;
+            void _initEvent(Core::Event::Init&) override;
+            void _updateEvent(Core::Event::Update&) override;
 
         private:
             std::string _fromUtf32(const std::basic_string<djv_char_t>&);

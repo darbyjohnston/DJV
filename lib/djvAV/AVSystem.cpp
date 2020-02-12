@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -58,7 +58,10 @@ namespace djv
             std::shared_ptr<ValueSubject<TimeUnits> > timeUnits;
             std::shared_ptr<ValueSubject<AlphaBlend> > alphaBlend;
             std::shared_ptr<ValueSubject<Time::FPS> > defaultSpeed;
+            std::shared_ptr<ValueSubject<Render2D::ImageFilterOptions> > imageFilterOptions;
+            std::shared_ptr<ValueSubject<bool> > lcdText;
             std::shared_ptr<ThumbnailSystem> thumbnailSystem;
+            std::shared_ptr<Render2D::Render> render2D;
         };
 
         void AVSystem::_init(const std::shared_ptr<Core::Context>& context)
@@ -69,6 +72,8 @@ namespace djv
             p.timeUnits = ValueSubject<TimeUnits>::create(TimeUnits::First);
             p.alphaBlend = ValueSubject<AlphaBlend>::create(AlphaBlend::First);
             p.defaultSpeed = ValueSubject<Time::FPS>::create(Time::getDefaultSpeed());
+            p.imageFilterOptions = ValueSubject<Render2D::ImageFilterOptions>::create();
+            p.lcdText = ValueSubject<bool>::create(true);
 
             auto glfwSystem = GLFW::System::create(context);
             auto ocioSystem = OCIO::System::create(context);
@@ -76,7 +81,7 @@ namespace djv
             auto fontSystem = Font::System::create(context);
             p.thumbnailSystem = ThumbnailSystem::create(context);
             auto shaderSystem = Render::ShaderSystem::create(context);
-            auto render2D = Render2D::Render::create(context);
+            p.render2D = Render2D::Render::create(context);
             auto render3D = Render3D::Render::create(context);
             auto audioSystem = Audio::System::create(context);
 
@@ -86,7 +91,7 @@ namespace djv
             addDependency(fontSystem);
             addDependency(p.thumbnailSystem);
             addDependency(shaderSystem);
-            addDependency(render2D);
+            addDependency(p.render2D);
             addDependency(render3D);
             addDependency(audioSystem);
         }
@@ -137,6 +142,34 @@ namespace djv
             {
                 Time::setDefaultSpeed(value);
                 p.thumbnailSystem->clearCache();
+            }
+        }
+
+        std::shared_ptr<IValueSubject<Render2D::ImageFilterOptions> > AVSystem::observeImageFilterOptions() const
+        {
+            return _p->imageFilterOptions;
+        }
+
+        void AVSystem::setImageFilterOptions(const Render2D::ImageFilterOptions& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.imageFilterOptions->setIfChanged(value))
+            {
+                p.render2D->setImageFilterOptions(value);
+            }
+        }
+
+        std::shared_ptr<IValueSubject<bool> > AVSystem::observeLCDText() const
+        {
+            return _p->lcdText;
+        }
+
+        void AVSystem::setLCDText(bool value)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.lcdText->setIfChanged(value))
+            {
+                p.render2D->setLCDText(value);
             }
         }
 

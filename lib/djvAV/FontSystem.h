@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -48,7 +48,7 @@ namespace djv
             typedef uint16_t FamilyID;
             typedef uint16_t FaceID;
 
-            const std::string familyDefault = "Barlow";
+            const std::string familyDefault = "Noto Sans";
             const std::string faceDefault   = "Regular";
             const std::string familyMono    = "Noto Mono";
 
@@ -86,17 +86,6 @@ namespace djv
                 uint16_t lineHeight = 0;
             };
 
-            //! This struct provides a line of text.
-            class TextLine
-            {
-            public:
-                TextLine();
-                TextLine(const std::string&, const glm::vec2 &);
-
-                std::string text;
-                glm::vec2   size = glm::vec2(0.F, 0.F);
-            };
-
             //! This struct provides font glyph information.
             class GlyphInfo
             {
@@ -128,6 +117,18 @@ namespace djv
                 uint16_t                     advance   = 0;
                 int32_t                      lsbDelta  = 0;
                 int32_t                      rsbDelta  = 0;
+            };
+
+            //! This struct provides a line of text.
+            class TextLine
+            {
+            public:
+                TextLine();
+                TextLine(const std::string&, const glm::vec2&, const std::vector<std::shared_ptr<Glyph> >&);
+
+                std::string                          text;
+                glm::vec2                            size = glm::vec2(0.F, 0.F);
+                std::vector<std::shared_ptr<Glyph> > glyphs;
             };
             
             //! This class provides a font error.
@@ -174,15 +175,15 @@ namespace djv
                     const std::string& text,
                     const Info&        info);
 
+                //! Get font glyphs.
+                std::future<std::vector<std::shared_ptr<Glyph> > > getGlyphs(
+                    const std::string& text,
+                    const Info&        info);
+
                 //! Break text into lines for wrapping.
                 std::future<std::vector<TextLine> > textLines(
                     const std::string& text,
                     uint16_t           maxLineWidth,
-                    const Info&        info);
-
-                //! Get font glyphs.
-                std::future<std::vector<std::shared_ptr<Glyph> > > getGlyphs(
-                    const std::string& text,
                     const Info&        info);
 
                 //! Request font glyphs to be cached.
@@ -199,8 +200,8 @@ namespace djv
                 void _delFreeType();
                 void _handleMetricsRequests();
                 void _handleMeasureRequests();
-                void _handleMeasureGlyphsRequests();
                 void _handleTextLinesRequests();
+                void _handleMeasureGlyphsRequests();
                 void _handleGlyphsRequests();
 
                 DJV_PRIVATE();

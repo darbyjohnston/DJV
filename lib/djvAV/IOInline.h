@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -294,6 +294,27 @@ namespace djv
             inline const Core::Frame::Sequence& Cache::getSequence() const
             {
                 return _sequence;
+            }
+
+            inline bool Cache::contains(Core::Frame::Index value) const
+            {
+                return _cache.find(value) != _cache.end();
+            }
+
+            inline bool Cache::get(Core::Frame::Index index, std::shared_ptr<AV::Image::Image>& out) const
+            {
+                const auto i = _cache.find(index);
+                const bool found = i != _cache.end();
+                if (found)
+                {
+                    out = i->second;
+                }
+                return found;
+            }
+
+            inline void Cache::clear()
+            {
+                _cache.clear();
             }
 
         } // namespace IO

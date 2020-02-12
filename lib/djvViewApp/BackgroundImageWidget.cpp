@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -95,8 +95,8 @@ namespace djv
                                         auto io = context->getSystemT<AV::IO::System>();
                                         widget->_p->read = io->read(value);
                                         widget->_p->timer->start(
-                                            Time::getMilliseconds(Time::TimerValue::Fast),
-                                            [weak](float)
+                                            Time::getTime(Time::TimerValue::Fast),
+                                            [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                                             {
                                                 if (auto widget = weak.lock())
                                                 {

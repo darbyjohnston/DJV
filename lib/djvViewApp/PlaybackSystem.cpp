@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -96,14 +96,17 @@ namespace djv
             p.actions["Forward"] = UI::Action::create();
             p.actions["Forward"]->setIcon("djvIconPlaybackForward");
             p.actions["Forward"]->addShortcut(GLFW_KEY_UP);
+            p.actions["Forward"]->addShortcut(GLFW_KEY_L);
             p.actions["Reverse"] = UI::Action::create();
             p.actions["Reverse"]->setIcon("djvIconPlaybackReverse");
-            p.actions["Reverse"]->setShortcut(GLFW_KEY_DOWN);
+            p.actions["Reverse"]->addShortcut(GLFW_KEY_DOWN);
+            p.actions["Reverse"]->addShortcut(GLFW_KEY_J);
             p.playbackActionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
             p.playbackActionGroup->addAction(p.actions["Forward"]);
             p.playbackActionGroup->addAction(p.actions["Reverse"]);
             p.actions["Playback"] = UI::Action::create();
             p.actions["Playback"]->addShortcut(GLFW_KEY_SPACE);
+            p.actions["Playback"]->addShortcut(GLFW_KEY_K);
 
             p.actions["PlayOnce"] = UI::Action::create();
             p.actions["PlayOnce"]->setEnabled(false);

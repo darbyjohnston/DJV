@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,6 @@ namespace djv
             struct AV::Private
             {
                 std::shared_ptr<djv::AV::AVSystem> avSystem;
-                std::shared_ptr<djv::AV::Render2D::Render> renderSystem;
                 std::shared_ptr<djv::AV::IO::System> ioSystem;
             };
 
@@ -61,7 +60,6 @@ namespace djv
                 ISettings::_init("djv::UI::Settings::AV", context);
                 DJV_PRIVATE_PTR();
                 p.avSystem = context->getSystemT<djv::AV::AVSystem>();
-                p.renderSystem = context->getSystemT<djv::AV::Render2D::Render>();
                 p.ioSystem = context->getSystemT<djv::AV::IO::System>();
                 _load();
             }
@@ -89,6 +87,7 @@ namespace djv
                     djv::AV::TimeUnits timeUnits = djv::AV::TimeUnits::First;
                     djv::AV::AlphaBlend alphaBlend = djv::AV::AlphaBlend::Straight;
                     Time::FPS defaultSpeed = Time::getDefaultSpeed();
+                    djv::AV::Render2D::ImageFilterOptions imageFilterOptions;
                     bool lcdText = false;
                     for (const auto & i : object)
                     {
@@ -107,6 +106,10 @@ namespace djv
                             std::stringstream ss(i.second.get<std::string>());
                             ss >> defaultSpeed;
                         }
+                        else if ("ImageFilterOptions" == i.first)
+                        {
+                            fromJSON(i.second, imageFilterOptions);
+                        }
                         else if ("LCDText" == i.first)
                         {
                             std::stringstream ss(i.second.get<std::string>());
@@ -116,7 +119,8 @@ namespace djv
                     p.avSystem->setTimeUnits(timeUnits);
                     p.avSystem->setAlphaBlend(alphaBlend);
                     p.avSystem->setDefaultSpeed(defaultSpeed);
-                    p.renderSystem->setLCDText(lcdText);
+                    p.avSystem->setImageFilterOptions(imageFilterOptions);
+                    p.avSystem->setLCDText(lcdText);
                     for (const auto & i : p.ioSystem->getPluginNames())
                     {
                         const auto j = object.find(i);
@@ -149,8 +153,12 @@ namespace djv
                     object["DefaultSpeed"] = picojson::value(ss.str());
                 }
                 {
+                    auto value = p.avSystem->observeImageFilterOptions()->get();
+                    object["ImageFilterOptions"] = toJSON(value);
+                }
+                {
                     std::stringstream ss;
-                    ss << p.renderSystem->observeLCDText()->get();
+                    ss << p.avSystem->observeLCDText()->get();
                     object["LCDText"] = picojson::value(ss.str());
                 }
                 for (const auto & i : p.ioSystem->getPluginNames())

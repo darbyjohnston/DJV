@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -31,6 +31,7 @@
 
 #include <djvCore/Enum.h>
 #include <djvCore/ISystem.h>
+#include <djvCore/Time.h>
 
 #include <chrono>
 #include <functional>
@@ -57,7 +58,7 @@ namespace djv
             };
             DJV_ENUM_HELPERS(TimerValue);
             size_t getValue(TimerValue);
-            std::chrono::milliseconds getMilliseconds(TimerValue);
+            Unit getTime(TimerValue);
 
             //! This class provides a timer.
             class Timer : public std::enable_shared_from_this<Timer>
@@ -82,19 +83,22 @@ namespace djv
                 bool isActive() const;
 
                 //! Start the timer.
-                void start(std::chrono::milliseconds, const std::function<void(float)> &);
+                void start(
+                    const Unit&,
+                    const std::function<void(const std::chrono::steady_clock::time_point&, const Unit&)> &);
 
                 //! Stop the timer.
                 void stop();
 
             private:
-                void _tick(float dt);
+                void _tick(const std::chrono::steady_clock::time_point&, const Unit&);
 
                 bool _repeating = false;
                 bool _active = false;
-                std::chrono::milliseconds _timeout = std::chrono::milliseconds(0);
-                std::function<void(float)> _callback;
-                std::chrono::time_point<std::chrono::system_clock> _start;
+                Unit _timeout = Unit::zero();
+                std::function<void(const std::chrono::steady_clock::time_point&, const Unit&)> _callback;
+                std::chrono::time_point<std::chrono::steady_clock> _time;
+                std::chrono::time_point<std::chrono::steady_clock> _start;
 
                 friend class TimerSystem;
             };
@@ -112,7 +116,7 @@ namespace djv
                 //! Create a new timer system.
                 static std::shared_ptr<TimerSystem> create(const std::shared_ptr<Context>&);
 
-                void tick(float dt) override;
+                void tick(const std::chrono::steady_clock::time_point&, const Unit&) override;
 
             private:
                 void _addTimer(const std::weak_ptr<Timer> &);

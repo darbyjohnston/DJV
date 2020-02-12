@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -108,6 +108,18 @@ namespace djv
             {
                 p.samples.pop_back();
             }
+            p.samplesRange.min = p.samplesRange.max = 0.F;
+            auto i = p.samples.begin();
+            if (i != p.samples.end())
+            {
+                p.samplesRange.min = p.samplesRange.max = p.samples.front();
+                ++i;
+            }
+            for (; i != p.samples.end(); ++i)
+            {
+                p.samplesRange.min = std::min(p.samplesRange.min, *i);
+                p.samplesRange.max = std::max(p.samplesRange.max, *i);
+            }
             _updateWidget();
             _redraw();
         }
@@ -167,13 +179,13 @@ namespace djv
             color2.setF32(color2.getF32(3) * .5F, 3);
             float x = g.min.x;
             const float range = p.samplesRange.max - p.samplesRange.min;
-            std::vector<BBox2f> boxes1;
-            std::vector<BBox2f> boxes2;
+            std::vector<BBox2f> boxes1(p.samples.size());
+            std::vector<BBox2f> boxes2(p.samples.size());
             for (const auto& i : p.samples)
             {
                 float h = (i - p.samplesRange.min) / range * g.h();
-                boxes1.push_back(BBox2f(x, g.min.y + g.h() - h, b, b));
-                boxes2.push_back(BBox2f(x, g.min.y + g.h() - h + b, b, h));
+                boxes1.emplace_back(BBox2f(x, g.min.y + g.h() - h, b, b));
+                boxes2.emplace_back(BBox2f(x, g.min.y + g.h() - h + b, b, h));
                 x += b;
             }
             render->setFillColor(color1);

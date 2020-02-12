@@ -25,6 +25,7 @@ set(header
 	PicoJSONTest.h
 	RangeTest.h
 	SpeedTest.h
+    StringFormatTest.h
     StringTest.h
     TextSystemTest.h
     TimeTest.h
@@ -57,6 +58,7 @@ set(source
 	PicoJSONTest.cpp
 	RangeTest.cpp
 	SpeedTest.cpp
+    StringFormatTest.cpp
     StringTest.cpp
     TextSystemTest.cpp
     TimeTest.cpp

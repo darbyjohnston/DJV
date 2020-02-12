@@ -55,6 +55,10 @@ make test</pre>
     <p class="header"><a name="Packaging">Packaging</a></p>
 	<p>Building a DMG package:</p>
 	<pre>
+mkdir djv-git-Release
+cd djv-git-Release
+cmake ../djv-git -DCMAKE_BUILD_TYPE=Release -DDJV_BUILD_PACKAGE=TRUE -DCMAKE_FIND_FRAMEWORK="LAST"
+make -j
 cmake ../djv-git -DDJV_THIRD_PARTY_DISABLE_BUILD=TRUE
 make package</pre>
 </div>

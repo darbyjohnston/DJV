@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -381,8 +381,8 @@ namespace djv
                 });
 
                 p.futureTimer->start(
-                    Time::getMilliseconds(Time::TimerValue::Medium),
-                    [this](float)
+                    Time::getTime(Time::TimerValue::Medium),
+                    [this](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                 {
                     DJV_PRIVATE_PTR();
                     if (p.future.valid() &&

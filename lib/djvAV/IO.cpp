@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
 #include <djvAV/DPX.h>
 #include <djvAV/GLFWSystem.h>
 #include <djvAV/IFF.h>
-#include <djvAV/OCIOSystem.h>
 #include <djvAV/PPM.h>
 #include <djvAV/RLA.h>
 #include <djvAV/SGI.h>
@@ -235,31 +234,10 @@ namespace djv
                 _cacheUpdate();
             }
 
-            bool Cache::contains(Frame::Index value) const
-            {
-                return _cache.find(value) != _cache.end();
-            }
-
-            bool Cache::get(Frame::Index index, std::shared_ptr<AV::Image::Image>& out) const
-            {
-                const auto i = _cache.find(index);
-                const bool found = i != _cache.end();
-                if (found)
-                {
-                    out = i->second;
-                }
-                return found;
-            }
-
             void Cache::add(Frame::Index index, const std::shared_ptr<AV::Image::Image>& image)
             {
                 _cache[index] = image;
                 _cacheUpdate();
-            }
-
-            void Cache::clear()
-            {
-                _cache.clear();
             }
 
             void Cache::_cacheUpdate()
@@ -507,7 +485,6 @@ namespace djv
                 DJV_PRIVATE_PTR();
 
                 addDependency(context->getSystemT<GLFW::System>());
-                addDependency(context->getSystemT<OCIO::System>());
 
                 p.optionsChanged = ValueSubject<bool>::create();
 

@@ -1,122 +1,170 @@
 [
     {
-        "source": "Nothing to convert", 
-        "text": "\u03a4\u03af\u03c0\u03bf\u03c4\u03b1 \u03b4\u03b5\u03bd \u03bc\u03b5\u03c4\u03b1\u03c4\u03c1\u03ad\u03c0\u03b5\u03c4\u03b1\u03b9", 
-        "id": "Nothing to convert", 
-        "description": ""
-    }, 
+        "source": "Nothing to convert",
+        "description": "",
+        "id": "Nothing to convert",
+        "text": "Τίποτα δεν μετατρέπεται"
+    },
     {
-        "source": "Cannot parse the option '-resize'", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03bd\u03ac\u03bb\u03c5\u03c3\u03b7 \u03c4\u03b7\u03c2 \u03b5\u03c0\u03b9\u03bb\u03bf\u03b3\u03ae\u03c2 &#39;-resize&#39;", 
-        "id": "Cannot parse the option '-resize'", 
-        "description": ""
-    }, 
+        "source": "Cannot parse the option '-resize'",
+        "description": "",
+        "id": "Cannot parse the option '-resize'",
+        "text": "Δεν είναι δυνατή η ανάλυση της επιλογής &#39;-resize&#39;"
+    },
     {
-        "source": "Usage: djv_convert (input) (output)", 
-        "text": "\u03a7\u03c1\u03ae\u03c3\u03b7: djv_convert (\u03b5\u03af\u03c3\u03bf\u03b4\u03bf\u03c2) (\u03ad\u03be\u03bf\u03b4\u03bf\u03c2)", 
-        "id": "Usage: djv_convert (input) (output)", 
-        "description": ""
-    }, 
+        "source": "Usage: djv_convert (input) (output)",
+        "description": "",
+        "id": "Usage: djv_convert (input) (output)",
+        "text": "Χρήση: djv_convert (είσοδος) (έξοδος)"
+    },
     {
-        "source": " Usage:", 
-        "text": "\u03a7\u03c1\u03ae\u03c3\u03b7:", 
-        "id": " Usage:", 
-        "description": ""
-    }, 
+        "source": " Usage:",
+        "description": "",
+        "id": " Usage:",
+        "text": "Χρήση:"
+    },
     {
-        "source": "   djv_convert (input) (output) [option, ...]", 
-        "text": "djv_convert (\u03b5\u03af\u03c3\u03bf\u03b4\u03bf\u03c2) (\u03ad\u03be\u03bf\u03b4\u03bf\u03c2) [\u03b5\u03c0\u03b9\u03bb\u03bf\u03b3\u03ae, ...]", 
-        "id": "   djv_convert (input) (output) [option, ...]", 
-        "description": ""
-    }, 
+        "source": "   djv_convert (input) (output) [option, ...]",
+        "description": "",
+        "id": "   djv_convert (input) (output) [option, ...]",
+        "text": "djv_convert (είσοδος) (έξοδος) [επιλογή, ...]"
+    },
     {
-        "source": " Options:", 
-        "text": "\u0395\u03c0\u03b9\u03bb\u03bf\u03b3\u03ad\u03c2:", 
-        "id": " Options:", 
-        "description": ""
-    }, 
+        "source": " Options:",
+        "description": "",
+        "id": " Options:",
+        "text": "Επιλογές:"
+    },
     {
-        "source": "   -resize '(width) (height)'", 
-        "text": "&quot;(\u03c0\u03bb\u03ac\u03c4\u03bf\u03c2) (\u03cd\u03c8\u03bf\u03c2)&quot;", 
-        "id": "   -resize '(width) (height)'", 
-        "description": ""
-    }, 
+        "source": "   -resize '(width) (height)'",
+        "description": "",
+        "id": "   -resize '(width) (height)'",
+        "text": "&quot;(πλάτος) (ύψος)&quot;"
+    },
     {
-        "source": "     Resize the image.", 
-        "text": "\u0391\u03bb\u03bb\u03ac\u03be\u03c4\u03b5 \u03c4\u03bf \u03bc\u03ad\u03b3\u03b5\u03b8\u03bf\u03c2 \u03c4\u03b7\u03c2 \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1\u03c2.", 
-        "id": "     Resize the image.", 
-        "description": ""
-    }, 
+        "source": "     Resize the image.",
+        "description": "",
+        "id": "     Resize the image.",
+        "text": "Αλλάξτε το μέγεθος της εικόνας."
+    },
     {
-        "source": "   -readSeq", 
-        "text": "-readSeq", 
-        "id": "   -readSeq", 
-        "description": ""
-    }, 
+        "source": "   -readSeq",
+        "description": "",
+        "id": "   -readSeq",
+        "text": "-readSeq"
+    },
     {
-        "source": "     Interpret the input file name as a sequence.", 
-        "text": "\u0395\u03c1\u03bc\u03b7\u03bd\u03b5\u03cd\u03c3\u03c4\u03b5 \u03c4\u03bf \u03cc\u03bd\u03bf\u03bc\u03b1 \u03c4\u03bf\u03c5 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5 \u03b5\u03b9\u03c3\u03cc\u03b4\u03bf\u03c5 \u03c9\u03c2 \u03b1\u03ba\u03bf\u03bb\u03bf\u03c5\u03b8\u03af\u03b1.", 
-        "id": "     Interpret the input file name as a sequence.", 
-        "description": ""
-    }, 
+        "source": "     Interpret the input file name as a sequence.",
+        "description": "",
+        "id": "     Interpret the input file name as a sequence.",
+        "text": "Ερμηνεύστε το όνομα του αρχείου εισόδου ως ακολουθία."
+    },
     {
-        "source": "   -writeSeq", 
-        "text": "-writeSeq", 
-        "id": "   -writeSeq", 
-        "description": ""
-    }, 
+        "source": "   -writeSeq",
+        "description": "",
+        "id": "   -writeSeq",
+        "text": "-writeSeq"
+    },
     {
-        "source": "     Interpret the output file name as a sequence.", 
-        "text": "\u0395\u03c1\u03bc\u03b7\u03bd\u03b5\u03cd\u03c3\u03c4\u03b5 \u03c4\u03bf \u03cc\u03bd\u03bf\u03bc\u03b1 \u03c4\u03bf\u03c5 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5 \u03b5\u03be\u03cc\u03b4\u03bf\u03c5 \u03c9\u03c2 \u03b1\u03ba\u03bf\u03bb\u03bf\u03c5\u03b8\u03af\u03b1.", 
-        "id": "     Interpret the output file name as a sequence.", 
-        "description": ""
-    }, 
+        "source": "     Interpret the output file name as a sequence.",
+        "description": "",
+        "id": "     Interpret the output file name as a sequence.",
+        "text": "Ερμηνεύστε το όνομα του αρχείου εξόδου ως ακολουθία."
+    },
     {
-        "source": "   -readQueue (value)", 
-        "text": "-readQueue (\u03c4\u03b9\u03bc\u03ae)", 
-        "id": "   -readQueue (value)", 
-        "description": ""
-    }, 
+        "source": "   -readQueue (value)",
+        "description": "",
+        "id": "   -readQueue (value)",
+        "text": "-readQueue (τιμή)"
+    },
     {
-        "source": "     Set the size of the read queue.", 
-        "text": "\u039f\u03c1\u03af\u03c3\u03c4\u03b5 \u03c4\u03bf \u03bc\u03ad\u03b3\u03b5\u03b8\u03bf\u03c2 \u03c4\u03b7\u03c2 \u03bf\u03c5\u03c1\u03ac\u03c2 \u03b1\u03bd\u03ac\u03b3\u03bd\u03c9\u03c3\u03b7\u03c2.", 
-        "id": "     Set the size of the read queue.", 
-        "description": ""
-    }, 
+        "source": "     Set the size of the read queue.",
+        "description": "",
+        "id": "     Set the size of the read queue.",
+        "text": "Ορίστε το μέγεθος της ουράς ανάγνωσης."
+    },
     {
-        "source": "   -writeQueue (value)", 
-        "text": "-writeQueue (\u03c4\u03b9\u03bc\u03ae)", 
-        "id": "   -writeQueue (value)", 
-        "description": ""
-    }, 
+        "source": "   -writeQueue (value)",
+        "description": "",
+        "id": "   -writeQueue (value)",
+        "text": "-writeQueue (τιμή)"
+    },
     {
-        "source": "     Set the size of the write queue.", 
-        "text": "\u039f\u03c1\u03af\u03c3\u03c4\u03b5 \u03c4\u03bf \u03bc\u03ad\u03b3\u03b5\u03b8\u03bf\u03c2 \u03c4\u03b7\u03c2 \u03bf\u03c5\u03c1\u03ac\u03c2 \u03b5\u03b3\u03b3\u03c1\u03b1\u03c6\u03ae\u03c2.", 
-        "id": "     Set the size of the write queue.", 
-        "description": ""
-    }, 
+        "source": "     Set the size of the write queue.",
+        "description": "",
+        "id": "     Set the size of the write queue.",
+        "text": "Ορίστε το μέγεθος της ουράς εγγραφής."
+    },
     {
-        "source": "   -readThreads (value)", 
-        "text": "-readThreads (\u03c4\u03b9\u03bc\u03ae)", 
-        "id": "   -readThreads (value)", 
-        "description": ""
-    }, 
+        "source": "   -readThreads (value)",
+        "description": "",
+        "id": "   -readThreads (value)",
+        "text": "-readThreads (τιμή)"
+    },
     {
-        "source": "     Set the number of threads for reading.", 
-        "text": "\u039f\u03c1\u03af\u03c3\u03c4\u03b5 \u03c4\u03bf\u03bd \u03b1\u03c1\u03b9\u03b8\u03bc\u03cc \u03c4\u03c9\u03bd \u03bd\u03b7\u03bc\u03ac\u03c4\u03c9\u03bd \u03b3\u03b9\u03b1 \u03b1\u03bd\u03ac\u03b3\u03bd\u03c9\u03c3\u03b7.", 
-        "id": "     Set the number of threads for reading.", 
-        "description": ""
-    }, 
+        "source": "     Set the number of threads for reading.",
+        "description": "",
+        "id": "     Set the number of threads for reading.",
+        "text": "Ορίστε τον αριθμό των νημάτων για ανάγνωση."
+    },
     {
-        "source": "   -writeThreads (value)", 
-        "text": "-writeThreads (\u03c4\u03b9\u03bc\u03ae)", 
-        "id": "   -writeThreads (value)", 
-        "description": ""
-    }, 
+        "source": "   -writeThreads (value)",
+        "description": "",
+        "id": "   -writeThreads (value)",
+        "text": "-writeThreads (τιμή)"
+    },
     {
-        "source": "     Set the number of threads for writing.", 
-        "text": "\u039f\u03c1\u03af\u03c3\u03c4\u03b5 \u03c4\u03bf\u03bd \u03b1\u03c1\u03b9\u03b8\u03bc\u03cc \u03c4\u03c9\u03bd \u03ba\u03bb\u03c9\u03c3\u03c4\u03ce\u03bd \u03b3\u03b9\u03b1 \u03b5\u03b3\u03b3\u03c1\u03b1\u03c6\u03ae.", 
-        "id": "     Set the number of threads for writing.", 
+        "source": "     Set the number of threads for writing.",
+        "description": "",
+        "id": "     Set the number of threads for writing.",
+        "text": "Ορίστε τον αριθμό των κλωστών για εγγραφή."
+    },
+    {
+        "source": "   -resize \\\"(width) (height)\\\"",
+        "text": "-resize \\ &quot;(πλάτος) (ύψος) \\&quot;",
+        "id": "   -resize \\\"(width) (height)\\\"",
+        "description": ""
+    },
+    {
+        "source": "   Resize the image.",
+        "text": "Αλλάξτε το μέγεθος της εικόνας.",
+        "id": "   Resize the image.",
+        "description": ""
+    },
+    {
+        "source": "   Interpret the input file name as a sequence.",
+        "text": "Ερμηνεύστε το όνομα του αρχείου εισόδου ως ακολουθία.",
+        "id": "   Interpret the input file name as a sequence.",
+        "description": ""
+    },
+    {
+        "source": "   Interpret the output file name as a sequence.",
+        "text": "Ερμηνεύστε το όνομα του αρχείου εξόδου ως ακολουθία.",
+        "id": "   Interpret the output file name as a sequence.",
+        "description": ""
+    },
+    {
+        "source": "   Set the size of the read queue.",
+        "text": "Ορίστε το μέγεθος της ουράς ανάγνωσης.",
+        "id": "   Set the size of the read queue.",
+        "description": ""
+    },
+    {
+        "source": "   Set the size of the write queue.",
+        "text": "Ορίστε το μέγεθος της ουράς εγγραφής.",
+        "id": "   Set the size of the write queue.",
+        "description": ""
+    },
+    {
+        "source": "   Set the number of threads for reading.",
+        "text": "Ορίστε τον αριθμό των νημάτων για ανάγνωση.",
+        "id": "   Set the number of threads for reading.",
+        "description": ""
+    },
+    {
+        "source": "   Set the number of threads for writing.",
+        "text": "Ορίστε τον αριθμό των κλωστών για εγγραφή.",
+        "id": "   Set the number of threads for writing.",
         "description": ""
     }
 ]

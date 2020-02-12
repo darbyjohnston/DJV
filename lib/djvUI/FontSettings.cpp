@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -57,10 +57,8 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 p.localeFonts = MapSubject<std::string, std::string>::create();
                 p.localeFonts->setItem("Default", AV::Font::familyDefault);
-                p.localeFonts->setItem("el", "Noto Sans");
                 p.localeFonts->setItem("ja", "Noto Sans CJK JP");
                 p.localeFonts->setItem("ko", "Noto Sans CJK KR");
-                p.localeFonts->setItem("ru", "Noto Sans");
                 p.localeFonts->setItem("zh", "Noto Sans CJK SC");
 
                 _load();

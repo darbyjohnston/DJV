@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -209,7 +209,6 @@ int Application::run()
         glfwPollEvents();
         _render();
         glfwSwapBuffers(_glfwWindow);
-        //glFlush();
         auto now = std::chrono::system_clock::now();
         std::chrono::duration<float> delta = now - time;
         time = now;
@@ -316,8 +315,10 @@ void Application::_drawRandomCircle()
 void Application::_drawRandomText()
 {
     _render2D->setFillColor(_currentColor->c);
-    _render2D->setCurrentFont(AV::Font::Info(1, 1, _currentText->size, AV::dpiDefault));
-    _render2D->drawText(_currentText->s, _currentPos->v);
+    const AV::Font::Info fontInfo(1, 1, _currentText->size, AV::dpiDefault);
+    _render2D->setCurrentFont(fontInfo);
+    auto fontSystem = getSystemT<AV::Font::System>();
+    _render2D->drawText(fontSystem->getGlyphs(_currentText->s, fontInfo).get(), _currentPos->v);
     _currentColor = _currentColor->next;
     _currentPos = _currentPos->next;
     _currentSize = _currentSize->next;

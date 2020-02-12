@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -100,19 +100,6 @@ namespace djv
                     std::promise<std::vector<BBox2f> > promise;
                 };
 
-                class TextLinesRequest
-                {
-                public:
-                    TextLinesRequest() {}
-                    TextLinesRequest(TextLinesRequest &&) = default;
-                    TextLinesRequest & operator = (TextLinesRequest &&) = default;
-
-                    std::string text;
-                    Info info;
-                    uint16_t maxLineWidth = std::numeric_limits<uint16_t>::max();
-                    std::promise<std::vector<TextLine> > promise;
-                };
-
                 class GlyphsRequest
                 {
                 public:
@@ -124,6 +111,19 @@ namespace djv
                     Info info;
                     bool cacheOnly = false;
                     std::promise<std::vector<std::shared_ptr<Glyph> > > promise;
+                };
+
+                class TextLinesRequest
+                {
+                public:
+                    TextLinesRequest() {}
+                    TextLinesRequest(TextLinesRequest&&) = default;
+                    TextLinesRequest& operator = (TextLinesRequest&&) = default;
+
+                    std::string text;
+                    Info info;
+                    uint16_t maxLineWidth = std::numeric_limits<uint16_t>::max();
+                    std::promise<std::vector<TextLine> > promise;
                 };
 
                 constexpr bool isSpace(djv_char_t c)
@@ -184,15 +184,15 @@ namespace djv
                 std::list<MetricsRequest> metricsQueue;
                 std::list<MeasureRequest> measureQueue;
                 std::list<MeasureGlyphsRequest> measureGlyphsQueue;
-                std::list<TextLinesRequest> textLinesQueue;
                 std::list<GlyphsRequest> glyphsQueue;
+                std::list<TextLinesRequest> textLinesQueue;
                 std::condition_variable requestCV;
                 std::mutex requestMutex;
                 std::list<MetricsRequest> metricsRequests;
                 std::list<MeasureRequest> measureRequests;
                 std::list<MeasureGlyphsRequest> measureGlyphsRequests;
-                std::list<TextLinesRequest> textLinesRequests;
                 std::list<GlyphsRequest> glyphsRequests;
+                std::list<TextLinesRequest> textLinesRequests;
 
                 std::wstring_convert<std::codecvt_utf8<djv_char_t>, djv_char_t> utf32Convert;
                 Memory::Cache<GlyphInfo, std::shared_ptr<Glyph> > glyphCache;
@@ -231,8 +231,8 @@ namespace djv
                 p.fontNamesTimer = Time::Timer::create(context);
                 p.fontNamesTimer->setRepeating(true);
                 p.fontNamesTimer->start(
-                    Time::getMilliseconds(Time::TimerValue::Medium),
-                    [this](float)
+                    Time::getTime(Time::TimerValue::Medium),
+                    [this](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                 {
                     DJV_PRIVATE_PTR();
                     std::map<FamilyID, std::string> fontNames;
@@ -246,8 +246,8 @@ namespace djv
                 p.statsTimer = Time::Timer::create(context);
                 p.statsTimer->setRepeating(true);
                 p.statsTimer->start(
-                    Time::getMilliseconds(Time::TimerValue::VerySlow),
-                    [this](float)
+                    Time::getTime(Time::TimerValue::VerySlow),
+                    [this](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                 {
                     DJV_PRIVATE_PTR();
                     std::stringstream ss;
@@ -261,28 +261,27 @@ namespace djv
                 {
                     DJV_PRIVATE_PTR();
                     _initFreeType();
-                    const auto timeout = Time::getValue(Time::TimerValue::Fast);
                     while (p.running)
                     {
                         {
                             std::unique_lock<std::mutex> lock(p.requestMutex);
                             p.requestCV.wait_for(
                                 lock,
-                                std::chrono::milliseconds(timeout),
+                                Time::getTime(Time::TimerValue::Fast),
                                 [this]
                             {
                                 DJV_PRIVATE_PTR();
                                 return
                                     p.metricsQueue.size() ||
                                     p.measureQueue.size() ||
-                                    p.textLinesQueue.size() ||
-                                    p.glyphsQueue.size();
+                                    p.glyphsQueue.size() ||
+                                    p.textLinesQueue.size();
                             });
                             p.metricsRequests = std::move(p.metricsQueue);
                             p.measureRequests = std::move(p.measureQueue);
                             p.measureGlyphsRequests = std::move(p.measureGlyphsQueue);
-                            p.textLinesRequests = std::move(p.textLinesQueue);
                             p.glyphsRequests = std::move(p.glyphsQueue);
+                            p.textLinesRequests = std::move(p.textLinesQueue);
                         }
                         if (p.metricsRequests.size())
                         {
@@ -296,13 +295,13 @@ namespace djv
                         {
                             _handleMeasureGlyphsRequests();
                         }
-                        if (p.textLinesRequests.size())
-                        {
-                            _handleTextLinesRequests();
-                        }
                         if (p.glyphsRequests.size())
                         {
                             _handleGlyphsRequests();
+                        }
+                        if (p.textLinesRequests.size())
+                        {
+                            _handleTextLinesRequests();
                         }
                     }
                     _delFreeType();
@@ -379,22 +378,6 @@ namespace djv
                 return future;
             }
 
-            std::future<std::vector<TextLine> > System::textLines(const std::string & text, uint16_t maxLineWidth, const Info & info)
-            {
-                DJV_PRIVATE_PTR();
-                TextLinesRequest request;
-                request.text         = text;
-                request.info         = info;
-                request.maxLineWidth = maxLineWidth;
-                auto future = request.promise.get_future();
-                {
-                    std::unique_lock<std::mutex> lock(p.requestMutex);
-                    p.textLinesQueue.push_back(std::move(request));
-                }
-                p.requestCV.notify_one();
-                return future;
-            }
-
             std::future<std::vector<std::shared_ptr<Glyph> > > System::getGlyphs(const std::string& text, const Info& info)
             {
                 DJV_PRIVATE_PTR();
@@ -405,6 +388,22 @@ namespace djv
                 {
                     std::unique_lock<std::mutex> lock(p.requestMutex);
                     p.glyphsQueue.push_back(std::move(request));
+                }
+                p.requestCV.notify_one();
+                return future;
+            }
+
+            std::future<std::vector<TextLine> > System::textLines(const std::string& text, uint16_t maxLineWidth, const Info& info)
+            {
+                DJV_PRIVATE_PTR();
+                TextLinesRequest request;
+                request.text = text;
+                request.info = info;
+                request.maxLineWidth = maxLineWidth;
+                auto future = request.promise.get_future();
+                {
+                    std::unique_lock<std::mutex> lock(p.requestMutex);
+                    p.textLinesQueue.push_back(std::move(request));
                 }
                 p.requestCV.notify_one();
                 return future;
@@ -599,144 +598,6 @@ namespace djv
                 p.measureGlyphsRequests.clear();
             }
 
-            void System::_handleTextLinesRequests()
-            {
-                DJV_PRIVATE_PTR();
-                for (auto & request : p.textLinesRequests)
-                {
-                    std::basic_string<djv_char_t> utf32;
-                    FT_Face font;
-                    std::string error;
-                    std::vector<TextLine> lines;
-                    if (p.getText(request.text, request.info, utf32, font, error))
-                    {
-                        const auto utf32Begin = utf32.begin();
-                        glm::vec2 pos = glm::vec2(0.F, font->size->metrics.height / 64.F);
-                        auto lineBegin = utf32Begin;
-                        auto textLine = utf32.end();
-                        float textLineX = 0.F;
-                        int32_t rsbDeltaPrev = 0;
-                        auto i = utf32.begin();
-                        for (; i != utf32.end(); ++i)
-                        {
-                            const auto info = GlyphInfo(*i, request.info);
-                            float x = 0.F;
-                            if (const auto glyph = p.getGlyph(info))
-                            {
-                                x = glyph->advance;
-                                if (rsbDeltaPrev - glyph->lsbDelta > 32)
-                                {
-                                    x -= 1.F;
-                                }
-                                else if (rsbDeltaPrev - glyph->lsbDelta < -31)
-                                {
-                                    x += 1.F;
-                                }
-                                rsbDeltaPrev = glyph->rsbDelta;
-                            }
-                            else
-                            {
-                                rsbDeltaPrev = 0;
-                            }
-
-                            if (isNewline(*i))
-                            {
-                                try
-                                {
-                                    lines.push_back(TextLine(
-                                        p.utf32Convert.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
-                                        glm::vec2(pos.x, font->size->metrics.height / 64.F)));
-                                }
-                                catch (const std::exception& e)
-                                {
-                                    std::stringstream ss;
-                                    ss << "Error converting string" << " '" << request.text << "': " << e.what();
-                                    _log(ss.str(), LogLevel::Error);
-                                }
-                                pos.x = 0.F;
-                                pos.y += font->size->metrics.height / 64.F;
-                                lineBegin = i;
-                                rsbDeltaPrev = 0;
-                            }
-                            else if (pos.x > 0.F && pos.x + (!isSpace(*i) ? x : 0) >= request.maxLineWidth)
-                            {
-                                if (textLine != utf32.end())
-                                {
-                                    i = textLine;
-                                    textLine = utf32.end();
-                                    try
-                                    {
-                                        lines.push_back(TextLine(
-                                            p.utf32Convert.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
-                                            glm::vec2(textLineX, font->size->metrics.height / 64.F)));
-                                    }
-                                    catch (const std::exception& e)
-                                    {
-                                        std::stringstream ss;
-                                        ss << "Error converting string" << " '" << request.text << "': " << e.what();
-                                        _log(ss.str(), LogLevel::Error);
-                                    }
-                                    pos.x = 0.F;
-                                    pos.y += font->size->metrics.height / 64.F;
-                                    lineBegin = i + 1;
-                                }
-                                else
-                                {
-                                    try
-                                    {
-                                        lines.push_back(TextLine(
-                                        p.utf32Convert.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
-                                        glm::vec2(pos.x, font->size->metrics.height / 64.F)));
-                                    }
-                                    catch (const std::exception& e)
-                                    {
-                                        std::stringstream ss;
-                                        ss << "Error converting string" << " '" << request.text << "': " << e.what();
-                                        _log(ss.str(), LogLevel::Error);
-                                    }
-                                    pos.x = x;
-                                    pos.y += font->size->metrics.height / 64.F;
-                                    lineBegin = i;
-                                }
-                                rsbDeltaPrev = 0;
-                            }
-                            else
-                            {
-                                if (isSpace(*i) && i != utf32.begin())
-                                {
-                                    textLine = i;
-                                    textLineX = pos.x;
-                                }
-                                pos.x += x;
-                            }
-                        }
-                        if (i != lineBegin)
-                        {
-                            try
-                            {
-                                lines.push_back(TextLine(
-                                p.utf32Convert.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
-                                glm::vec2(pos.x, font->size->metrics.height / 64.F)));
-                            }
-                            catch (const std::exception& e)
-                            {
-                                std::stringstream ss;
-                                ss << "Error converting string" << " '" << request.text << "': " << e.what();
-                                _log(ss.str(), LogLevel::Error);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        std::stringstream ss;
-                        ss << "Error converting string" << " '" << request.text << "': " << error;
-                        _log(ss.str(), LogLevel::Error);
-                    }
-                    request.promise.set_value(lines);
-                }
-                p.textLinesRequests.clear();
-            }
-
             void System::_handleGlyphsRequests()
             {
                 DJV_PRIVATE_PTR();
@@ -772,6 +633,192 @@ namespace djv
                     }
                 }
                 p.glyphsRequests.clear();
+            }
+
+            void System::_handleTextLinesRequests()
+            {
+                DJV_PRIVATE_PTR();
+                for (auto& request : p.textLinesRequests)
+                {
+                    // Input:
+                    //   Speckled Dace are capable of |living in an array of habitats
+                    //                                ^
+                    //                                max width
+                    //
+                    // Processing:
+                    //   Speckled Dace are capable of |living in an array of habitats
+                    //   ^                           ^^
+                    //   line begin        line break  i
+                    //
+                    // Output:
+                    //   "Speckled Dace are capable of"
+                    //   "living in an array of"
+                    //   "habitats"
+
+                    std::basic_string<djv_char_t> utf32;
+                    FT_Face font;
+                    std::string error;
+                    std::vector<TextLine> lines;
+                    if (p.getText(request.text, request.info, utf32, font, error))
+                    {
+                        // Get the glyphs.
+                        std::vector<std::shared_ptr<Glyph> > glyphs(utf32.size());
+                        const auto utf32Begin = utf32.begin();
+                        auto i = utf32Begin;
+                        for (; i != utf32.end(); ++i)
+                        {
+                            const auto info = GlyphInfo(*i, request.info);
+                            auto glyph = p.getGlyph(info);
+                            glyphs[i - utf32Begin] = glyph;
+                        }
+
+                        glm::vec2 pos = glm::vec2(0.F, font->size->metrics.height / 64.F);
+                        auto lineBegin = utf32Begin;
+                        auto lineBreak = utf32.end();
+                        float lineBreakPos = 0.F;
+                        int32_t rsbDeltaPrev = 0;
+                        i = utf32Begin;
+                        for (; i != utf32.end(); ++i)
+                        {
+                            // Get the current glyph's advance.
+                            float advance = 0.F;
+                            if (auto glyph = glyphs[i - utf32Begin])
+                            {
+                                advance = glyph->advance;
+                                if (rsbDeltaPrev - glyph->lsbDelta > 32)
+                                {
+                                    advance -= 1.F;
+                                }
+                                else if (rsbDeltaPrev - glyph->lsbDelta < -31)
+                                {
+                                    advance += 1.F;
+                                }
+                                rsbDeltaPrev = glyph->rsbDelta;
+                            }
+                            else
+                            {
+                                rsbDeltaPrev = 0;
+                            }
+
+                            if (isNewline(*i))
+                            {
+                                // Line break from newline.
+                                try
+                                {
+                                    const size_t offset = lineBegin - utf32.begin();
+                                    const size_t size = i - lineBegin;
+                                    TextLine line;
+                                    line.text = p.utf32Convert.to_bytes(utf32.substr(offset, size));
+                                    line.size = glm::vec2(pos.x, font->size->metrics.height / 64.F);
+                                    line.glyphs = std::vector<std::shared_ptr<Glyph> >(glyphs.begin() + offset, glyphs.begin() + offset + size);
+                                    lines.push_back(line);
+                                }
+                                catch (const std::exception & e)
+                                {
+                                    std::stringstream ss;
+                                    ss << "Error converting string" << " '" << request.text << "': " << e.what();
+                                    _log(ss.str(), LogLevel::Error);
+                                }
+                                pos.x = 0.F;
+                                pos.y += font->size->metrics.height / 64.F;
+                                lineBegin = i;
+                                lineBreak = utf32.end();
+                                rsbDeltaPrev = 0;
+                            }
+                            else if (pos.x > 0.F && pos.x + (!isSpace(*i) ? advance : 0) >= request.maxLineWidth)
+                            {
+                                if (lineBreak != utf32.end())
+                                {
+                                    // Maximum line width reached, rewind to the line break.
+                                    i = lineBreak;
+                                    lineBreak = utf32.end();
+                                    try
+                                    {
+                                        const size_t offset = lineBegin - utf32.begin();
+                                        const size_t size = i - lineBegin;
+                                        TextLine line;
+                                        line.text = p.utf32Convert.to_bytes(utf32.substr(offset, size));
+                                        line.size = glm::vec2(lineBreakPos, font->size->metrics.height / 64.F);
+                                        line.glyphs = std::vector<std::shared_ptr<Glyph> >(glyphs.begin() + offset, glyphs.begin() + offset + size);
+                                        lines.push_back(line);
+                                    }
+                                    catch (const std::exception & e)
+                                    {
+                                        std::stringstream ss;
+                                        ss << "Error converting string" << " '" << request.text << "': " << e.what();
+                                        _log(ss.str(), LogLevel::Error);
+                                    }
+                                    pos.x = 0.F;
+                                    pos.y += font->size->metrics.height / 64.F;
+                                    lineBegin = i + 1;
+                                }
+                                else
+                                {
+                                    // Maximum line width reached without a line break.
+                                    try
+                                    {
+                                        const size_t offset = lineBegin - utf32.begin();
+                                        const size_t size = i - lineBegin;
+                                        TextLine line;
+                                        line.text = p.utf32Convert.to_bytes(utf32.substr(offset, size));
+                                        line.size = glm::vec2(pos.x, font->size->metrics.height / 64.F);
+                                        line.glyphs = std::vector<std::shared_ptr<Glyph> >(glyphs.begin() + offset, glyphs.begin() + offset + size);
+                                        lines.push_back(line);
+                                    }
+                                    catch (const std::exception & e)
+                                    {
+                                        std::stringstream ss;
+                                        ss << "Error converting string" << " '" << request.text << "': " << e.what();
+                                        _log(ss.str(), LogLevel::Error);
+                                    }
+                                    pos.x = advance;
+                                    pos.y += font->size->metrics.height / 64.F;
+                                    lineBegin = i;
+                                    lineBreak = utf32.end();
+                                }
+                                rsbDeltaPrev = 0;
+                            }
+                            else
+                            {
+                                if (isSpace(*i) && i != utf32.begin())
+                                {
+                                    lineBreak = i;
+                                    lineBreakPos = pos.x;
+                                }
+                                pos.x += advance;
+                            }
+                        }
+
+                        // Remainder.
+                        if (i != lineBegin)
+                        {
+                            try
+                            {
+                                const size_t offset = lineBegin - utf32.begin();
+                                const size_t size = i - lineBegin;
+                                TextLine textLine;
+                                textLine.text = p.utf32Convert.to_bytes(utf32.substr(offset, size));
+                                textLine.size = glm::vec2(pos.x, font->size->metrics.height / 64.F);
+                                textLine.glyphs = std::vector<std::shared_ptr<Glyph> >(glyphs.begin() + offset, glyphs.begin() + offset + size);
+                                lines.push_back(textLine);
+                            }
+                            catch (const std::exception & e)
+                            {
+                                std::stringstream ss;
+                                ss << "Error converting string" << " '" << request.text << "': " << e.what();
+                                _log(ss.str(), LogLevel::Error);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        std::stringstream ss;
+                        ss << "Error converting string" << " '" << request.text << "': " << error;
+                        _log(ss.str(), LogLevel::Error);
+                    }
+                    request.promise.set_value(lines);
+                }
+                p.textLinesRequests.clear();
             }
 
             bool System::Private::getText(

@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -36,8 +36,8 @@
 
 #include <djvCore/BBox.h>
 #include <djvCore/ISystem.h>
+#include <djvCore/PicoJSON.h>
 #include <djvCore/Range.h>
-#include <djvCore/ValueObserver.h>
 
 #include <list>
 
@@ -160,6 +160,31 @@ namespace djv
                 bool operator != (const ImageOptions&) const;
             };
 
+            //! This eumeration provides the image filtering options.
+            enum class ImageFilter
+            {
+                Nearest,
+                Linear,
+
+                Count,
+                First = Nearest
+            };
+            DJV_ENUM_HELPERS(ImageFilter);
+            GLenum toGL(ImageFilter);
+
+            class ImageFilterOptions
+            {
+            public:
+                ImageFilterOptions();
+                ImageFilterOptions(ImageFilter min, ImageFilter mag);
+
+                ImageFilter min = ImageFilter::Linear;
+                ImageFilter mag = ImageFilter::Nearest;
+
+                bool operator == (const ImageFilterOptions&) const;
+                bool operator != (const ImageFilterOptions&) const;
+            };
+
             //! This class provides a 2D render system.
             class Render : public Core::ISystem
             {
@@ -228,6 +253,9 @@ namespace djv
                 //! \name Images
                 ///@{
 
+                //! This function should only be called outside of beginFrame()/endFrame().
+                void setImageFilterOptions(const ImageFilterOptions&);
+
                 void drawImage(
                     const std::shared_ptr<Image::Image> &,
                     const glm::vec2& pos,
@@ -244,12 +272,8 @@ namespace djv
                 ///@{
 
                 void setCurrentFont(const Font::Info &);
-
-                std::shared_ptr<Core::IValueSubject<bool> > observeLCDText() const;
-
                 void setLCDText(bool);
 
-                std::vector<std::shared_ptr<Font::Glyph> > drawText(const std::string& text, const glm::vec2& position);
                 void drawText(const std::vector<std::shared_ptr<Font::Glyph> >& glyphs, const glm::vec2& position);
 
                 ///@}
@@ -281,6 +305,8 @@ namespace djv
             private:
                 const glm::mat3x3& _getCurrentTransform() const;
                 void _updateCurrentClipRect();
+                void _updateCurrentTransform();
+                void _updateImageFilter();
 
                 Image::Size             _size;
                 std::list<glm::mat3x3>  _transforms;
@@ -301,6 +327,15 @@ namespace djv
 
     DJV_ENUM_SERIALIZE_HELPERS(AV::Render2D::ImageChannel);
     DJV_ENUM_SERIALIZE_HELPERS(AV::Render2D::ImageCache);
+    DJV_ENUM_SERIALIZE_HELPERS(AV::Render2D::ImageFilter);
+
+    picojson::value toJSON(AV::Render2D::ImageFilter);
+    picojson::value toJSON(const AV::Render2D::ImageFilterOptions&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const picojson::value&, AV::Render2D::ImageFilter&);
+    void fromJSON(const picojson::value&, AV::Render2D::ImageFilterOptions&);
 
 } // namespace djv
 

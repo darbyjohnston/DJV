@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -128,7 +128,6 @@ namespace djv
                 {
                     for (const auto& range : value._sequence.ranges)
                     {
-                        bool merged = false;
                         if (!_sequence.merge(range))
                         {
                             _sequence.ranges.push_back(range);

@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,8 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/Widget.h>
 
-#include <djvCore/Time.h>
+#include <djvCore/Frame.h>
+#include <djvCore/Speed.h>
 #include <djvCore/ValueObserver.h>
 
 namespace djv
@@ -71,7 +72,7 @@ namespace djv
             void _doHoverCallback(const PointerData&);
             void _doDragCallback(const PointerData&);
 
-            uint32_t _pressedID = Core::Event::InvalidID;
+            uint32_t _pressedID = Core::Event::invalidID;
             std::map<int, bool> _buttons;
             std::function<void(PointerData)> _hoverCallback;
             std::function<void(PointerData)> _dragCallback;

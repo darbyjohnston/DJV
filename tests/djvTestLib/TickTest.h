@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -31,7 +31,7 @@
 
 #include <djvTestLib/Test.h>
 
-#include <chrono>
+#include <djvCore/Time.h>
 
 namespace djv
 {
@@ -45,7 +45,7 @@ namespace djv
             virtual ~ITickTest() = 0;
 
         protected:
-            void _tickFor(std::chrono::milliseconds);
+            void _tickFor(const Core::Time::Unit&);
         };
         
     } // namespace Test

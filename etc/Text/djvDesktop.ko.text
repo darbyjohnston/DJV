@@ -1,14 +1,14 @@
 [
     {
-        "source": "Cannot initialize GLFW.", 
-        "text": "GLFW\ub97c \ucd08\uae30\ud654 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
-        "id": "Cannot initialize GLFW.", 
-        "description": ""
-    }, 
+        "source": "Cannot initialize GLFW.",
+        "description": "",
+        "id": "Cannot initialize GLFW.",
+        "text": "GLFW를 초기화 할 수 없습니다."
+    },
     {
-        "source": "Cannot create GLFW window.", 
-        "text": "GLFW \ucc3d\uc744 \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
-        "id": "Cannot create GLFW window.", 
-        "description": ""
+        "source": "Cannot create GLFW window.",
+        "description": "",
+        "id": "Cannot create GLFW window.",
+        "text": "GLFW 창을 만들 수 없습니다."
     }
 ]

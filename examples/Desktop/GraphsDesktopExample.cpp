@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -78,22 +78,22 @@ int main(int argc, char ** argv)
         window->show();
 
         // Start a timer to drive the line graphs.
-        float v = 0.f;
+        Core::Time::Unit t = Core::Time::Unit::zero();
         auto timer = Core::Time::Timer::create(app);
         timer->setRepeating(true);
         timer->start(
             std::chrono::milliseconds(30),
-            [lineGraphWidgets, &v](float diff)
+            [lineGraphWidgets, &t](const std::chrono::steady_clock::time_point&, const Core::Time::Unit& value)
         {
             float f = 5.f;
             for (size_t i = 0; i < lineGraphWidgets.size(); ++i)
             {
-                const float vv = sinf(v * f);
+                const float vv = sinf(t.count() / 1000.F * f);
                 lineGraphWidgets[i]->addSample(vv);
 
                 f *= .5f;
             }
-            v += diff;
+            t += value;
         });
 
         // Run the application.

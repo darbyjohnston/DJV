@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -29,6 +29,7 @@
 
 #include <djvUI/Tooltip.h>
 
+#include <djvUI/ITooltipWidget.h>
 #include <djvUI/Overlay.h>
 #include <djvUI/Style.h>
 #include <djvUI/TextBlock.h>
@@ -180,19 +181,23 @@ namespace djv
         struct Tooltip::Private
         {
             std::shared_ptr<Layout::Overlay> overlay;
+            std::shared_ptr<ITooltipWidget> widget;
         };
 
         void Tooltip::_init(
             const std::shared_ptr<Window> & window,
             const glm::vec2 & pos,
-            const std::shared_ptr<Widget> & widget,
+            const std::shared_ptr<ITooltipWidget> & widget,
             const std::shared_ptr<Core::Context>& context)
         {
+            DJV_PRIVATE_PTR();
+
+            p.widget = widget;
+
             auto layout = TooltipLayout::create(context);
             layout->addChild(widget);
             layout->setPos(widget, pos);
 
-            DJV_PRIVATE_PTR();
             p.overlay = Layout::Overlay::create(context);
             p.overlay->setCapturePointer(false);
             p.overlay->setCaptureKeyboard(false);
@@ -219,12 +224,17 @@ namespace djv
         std::shared_ptr<Tooltip> Tooltip::create(
             const std::shared_ptr<Window> & window,
             const glm::vec2 & pos,
-            const std::shared_ptr<Widget> & widget,
+            const std::shared_ptr<ITooltipWidget> & widget,
             const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<Tooltip>(new Tooltip);
             out->_init(window, pos, widget, context);
             return out;
+        }
+
+        const std::shared_ptr<ITooltipWidget>& Tooltip::getWidget() const
+        {
+            return _p->widget;
         }
 
     } // namespace UI

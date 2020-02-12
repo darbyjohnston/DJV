@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -32,7 +32,6 @@
 #include <djvViewApp/PlaybackSettings.h>
 
 #include <djvUI/CheckBox.h>
-#include <djvUI/ComboBox.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>

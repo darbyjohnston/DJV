@@ -1,9 +1,9 @@
 #!/bin/sh
 
-appname=`basename $0 | sed s,\.sh$,,`
+appname=`basename $(realpath $0) | sed s,\.sh$,,`
 #echo "appname="$appname
 
-dirname=`echo $(cd $(dirname "$0") && pwd -P)`
+dirname=`echo $(cd $(dirname $(realpath $0)) && pwd -P)`
 #echo "dirname="$dirname
 
 root=`dirname $dirname`

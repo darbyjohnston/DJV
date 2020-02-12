@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -242,24 +242,10 @@ namespace djv
             const auto& style = _getStyle();
             const BBox2f& g = getMargin().bbox(getGeometry(), style);
             const auto key = std::make_pair(p.fontInfo, g.w());
-
             Private::TextCacheValue cacheValue;
             if (p.textCache.get(key, cacheValue))
             {
                 const glm::vec2 c = g.getCenter();
-
-                if (p.fontMetricsFuture.valid())
-                {
-                    try
-                    {
-                        p.fontMetrics = p.fontMetricsFuture.get();
-                    }
-                    catch (const std::exception & e)
-                    {
-                        _log(e.what(), LogLevel::Error);
-                    }
-                }
-
                 glm::vec2 pos = g.min;
                 auto render = _getRender();
                 render->setCurrentFont(p.fontInfo);
@@ -282,7 +268,7 @@ namespace djv
                         render->setFillColor(style->getColor(p.textColorRole));
                         //! \bug Why the extra subtract by one here?
                         render->drawText(
-                            line.text,
+                            line.glyphs,
                             glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.F)));
                     }
                     pos.y += line.size.y;
@@ -290,10 +276,29 @@ namespace djv
             }
         }
 
-        void TextBlock::_initEvent(Event::Init & event)
+        void TextBlock::_initEvent(Event::Init& event)
         {
             Widget::_initEvent(event);
             _textUpdate();
+        }
+
+        void TextBlock::_updateEvent(Event::Update& event)
+        {
+            Widget::_updateEvent(event);
+            DJV_PRIVATE_PTR();
+            if (p.fontMetricsFuture.valid() &&
+                p.fontMetricsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+            {
+                try
+                {
+                    p.fontMetrics = p.fontMetricsFuture.get();
+                    _resize();
+                }
+                catch (const std::exception & e)
+                {
+                    _log(e.what(), LogLevel::Error);
+                }
+            }
         }
 
         void TextBlock::_textUpdate()

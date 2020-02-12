@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -81,9 +81,14 @@ namespace djv
                     DJV_ASSERT(!context->getSystemT<System>());
                 }
                 
+                auto time = std::chrono::steady_clock::now();
+                std::chrono::milliseconds delta;
                 for (size_t i = 0; i < 100; ++i)
                 {
-                    context->tick(0.f);
+                    context->tick(time, delta);
+                    auto now = std::chrono::steady_clock::now();
+                    delta = std::chrono::duration_cast<std::chrono::milliseconds>(now - time);
+                    time = now;
                 }
                 
                 {

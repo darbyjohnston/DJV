@@ -53,6 +53,7 @@
 #include <djvCoreTest/PicoJSONTest.h>
 #include <djvCoreTest/RangeTest.h>
 #include <djvCoreTest/SpeedTest.h>
+#include <djvCoreTest/StringFormatTest.h>
 #include <djvCoreTest/StringTest.h>
 #include <djvCoreTest/TextSystemTest.h>
 #include <djvCoreTest/TimeTest.h>
@@ -128,6 +129,7 @@ int main(int argc, char ** argv)
         tests.emplace_back(new CoreTest::PicoJSONTest(context));
         tests.emplace_back(new CoreTest::RangeTest(context));
         tests.emplace_back(new CoreTest::SpeedTest(context));
+        tests.emplace_back(new CoreTest::StringFormatTest(context));
         tests.emplace_back(new CoreTest::StringTest(context));
         tests.emplace_back(new CoreTest::TextSystemTest(context));
         tests.emplace_back(new CoreTest::TimeTest(context));

@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -77,7 +77,6 @@ namespace djv
 
                 std::shared_ptr<Image::Image> Read::_readImage(const std::string & fileName)
                 {
-                    DJV_PRIVATE_PTR();
                     FileSystem::FileIO io;
                     const auto info = _open(fileName, io);
                     auto out = Cineon::Read::readImage(info, io);

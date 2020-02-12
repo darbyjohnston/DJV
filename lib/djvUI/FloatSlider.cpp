@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -51,7 +51,6 @@ namespace djv
         void BasicFloatSlider::_init(Orientation orientation, const std::shared_ptr<Context>& context)
         {
             NumericSlider::_init(orientation, context);
-            DJV_PRIVATE_PTR();
             setClassName("djv::UI::BasicFloatSlider");
             setModel(FloatValueModel::create());
         }
@@ -113,6 +112,14 @@ namespace djv
         {
             return INumericSlider<float>::_keyPress(fromGLFWKey(key));
         }
+
+        void BasicFloatSlider::_scroll(float value)
+        {
+            if (auto model = getModel())
+            {
+                model->setValue(model->observeValue()->get() + model->observeSmallIncrement()->get() * value);
+            }
+        }
         
         void BasicFloatSlider::_valueUpdate()
         {
@@ -122,7 +129,6 @@ namespace djv
         void BasicFloatSlider::_paintEvent(Event::Paint & event)
         {
             NumericSlider::_paintEvent(event);
-            DJV_PRIVATE_PTR();
             if (auto model = getModel())
             {
                 const auto & range = model->observeRange()->get();
@@ -133,7 +139,6 @@ namespace djv
 
         float BasicFloatSlider::_valueToPos(float value) const
         {
-            DJV_PRIVATE_PTR();
             float out = 0.F;
             if (auto model = getModel())
             {
@@ -162,7 +167,6 @@ namespace djv
 
         float BasicFloatSlider::_posToValue(float value) const
         {
-            DJV_PRIVATE_PTR();
             float out = 0.F;
             if (auto model = getModel())
             {
@@ -309,12 +313,12 @@ namespace djv
             setValue(_p->defaultValue);
         }
 
-        std::chrono::milliseconds FloatSlider::getDelay() const
+        const Time::Unit& FloatSlider::getDelay() const
         {
             return _p->slider->getDelay();
         }
 
-        void FloatSlider::setDelay(std::chrono::milliseconds value)
+        void FloatSlider::setDelay(const Time::Unit& value)
         {
             _p->slider->setDelay(value);
         }

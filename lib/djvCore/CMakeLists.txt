@@ -60,6 +60,8 @@ set(header
     Speed.h
     SpeedInline.h
     String.h
+    StringFormat.h
+    StringFormatInline.h
     StringInline.h
     TextSystem.h
     Time.h
@@ -102,6 +104,7 @@ set(source
     PicoJSON.cpp
     Speed.cpp
     String.cpp
+    StringFormat.cpp
     TextSystem.cpp
     Time.cpp
     Timer.cpp

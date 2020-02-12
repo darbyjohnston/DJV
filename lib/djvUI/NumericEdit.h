@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -78,6 +78,7 @@ namespace djv
         protected:
             virtual void _textEdit(const std::string&, TextEditReason) = 0;
             virtual bool _keyPress(int) = 0;
+            virtual void _scroll(float) = 0;
             virtual void _incrementValue() = 0;
             virtual void _decrementValue() = 0;
             void _textUpdate(const std::string&, const std::string&);
@@ -88,6 +89,7 @@ namespace djv
             void _layoutEvent(Core::Event::Layout &) override;
             void _paintEvent(Core::Event::Paint&) override;
             void _keyPressEvent(Core::Event::KeyPress&) override;
+            void _scrollEvent(Core::Event::Scroll&) override;
 
         private:
             DJV_PRIVATE();

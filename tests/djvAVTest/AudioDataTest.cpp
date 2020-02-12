@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -116,16 +116,13 @@ namespace djv
             
             for (auto i : Audio::getTypeEnums())
             {
-                for (auto j : Audio::getTypeEnums())
-                {
-                    const Audio::Info info(2, i, 44000, 100);
-                    auto data = Audio::Data::create(info);
-                    data->zero();
-                    auto data2 = Audio::Data::planarInterleave(data);
-                    DJV_ASSERT(data->getInfo() == data2->getInfo());
-                    auto data3 = Audio::Data::planarDeinterleave(data);
-                    DJV_ASSERT(data->getInfo() == data2->getInfo());
-                }
+                const Audio::Info info(2, i, 44000, 100);
+                auto data = Audio::Data::create(info);
+                data->zero();
+                auto data2 = Audio::Data::planarInterleave(data);
+                DJV_ASSERT(data->getInfo() == data2->getInfo());
+                auto data3 = Audio::Data::planarDeinterleave(data);
+                DJV_ASSERT(data->getInfo() == data2->getInfo());
             }
             
             for (auto i : Audio::getTypeEnums())

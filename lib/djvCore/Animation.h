@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -31,6 +31,7 @@
 
 #include <djvCore/Enum.h>
 #include <djvCore/ISystem.h>
+#include <djvCore/Time.h>
 
 #include <chrono>
 #include <functional>
@@ -99,17 +100,17 @@ namespace djv
 
                 //! Start the animation.
                 void start(
-                    float                     begin,
-                    float                     end,
-                    std::chrono::milliseconds duration,
-                    const Callback &          callback,
-                    const Callback &          endCallback = nullptr);
+                    float            begin,
+                    float            end,
+                    Time::Unit       duration,
+                    const Callback & callback,
+                    const Callback & endCallback = nullptr);
 
                 //! Stop the animation.
                 void stop();
 
             private:
-                void _tick(float dt);
+                void _tick(const std::chrono::steady_clock::time_point&, const Time::Unit&);
 
                 Type                      _type        = Type::Linear;
                 Function                  _function;
@@ -117,10 +118,11 @@ namespace djv
                 bool                      _active      = false;
                 float                     _begin       = 0.F;
                 float                     _end         = 0.F;
-                std::chrono::milliseconds _duration    = std::chrono::milliseconds(0);
+                Time::Unit                _duration    = Time::Unit::zero();
                 Callback                  _callback;
                 Callback                  _endCallback;
-                std::chrono::time_point<std::chrono::system_clock> _start;
+                std::chrono::time_point<std::chrono::steady_clock> _time;
+                std::chrono::time_point<std::chrono::steady_clock> _start;
 
                 friend class System;
             };
@@ -137,7 +139,7 @@ namespace djv
 
                 static std::shared_ptr<System> create(const std::shared_ptr<Context>&);
 
-                void tick(float dt) override;
+                void tick(const std::chrono::steady_clock::time_point&, const Time::Unit&) override;
 
             private:
                 void _addAnimation(const std::weak_ptr<Animation> &);

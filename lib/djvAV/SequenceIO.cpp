@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -140,7 +140,7 @@ namespace djv
 
                     // Start looping...
                     p.infoTimer = std::chrono::system_clock::now();
-                    const auto timeout = Time::getValue(Time::TimerValue::Fast);
+                    const auto timeout = Time::getValue(Time::TimerValue::VeryFast);
                     while (p.running)
                     {
                         // Update the options.

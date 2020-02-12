@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -35,6 +35,31 @@ namespace djv
 {
     namespace UI
     {
+        //! This class provides a 2D renderer image settings widget.
+        class Render2DImageSettingsWidget : public ISettingsWidget
+        {
+            DJV_NON_COPYABLE(Render2DImageSettingsWidget);
+
+        protected:
+            void _init(const std::shared_ptr<Core::Context>&);
+            Render2DImageSettingsWidget();
+
+        public:
+            static std::shared_ptr<Render2DImageSettingsWidget> create(const std::shared_ptr<Core::Context>&);
+
+            std::string getSettingsName() const override;
+            std::string getSettingsGroup() const override;
+            std::string getSettingsSortKey() const override;
+
+        protected:
+            void _initEvent(Core::Event::Init&) override;
+
+        private:
+            void _widgetUpdate();
+
+            DJV_PRIVATE();
+        };
+
         //! This class provides a 2D renderer text settings widget.
         class Render2DTextSettingsWidget : public ISettingsWidget
         {

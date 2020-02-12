@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -31,6 +31,7 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/EventSystem.h>
+#include <djvUI/ITooltipWidget.h>
 #include <djvUI/Shortcut.h>
 #include <djvUI/Style.h>
 #include <djvUI/TextBlock.h>
@@ -59,14 +60,60 @@ namespace djv
         namespace
         {
             //! \todo Should this be configurable?
-            const float tooltipTimeout   =  .5F;
+            const Time::Unit tooltipTimeout = std::chrono::milliseconds(500);
             const float tooltipHideDelta = 1.F;
 
             size_t globalWidgetCount = 0;
 
+            class DefaultTooltipWidget : public ITooltipWidget
+            {
+            protected:
+                void _init(const std::shared_ptr<Context>& context)
+                {
+                    ITooltipWidget::_init(context);
+                    _textBlock = TextBlock::create(context);
+                    _textBlock->setTextColorRole(ColorRole::TooltipForeground);
+                    _textBlock->setBackgroundRole(ColorRole::TooltipBackground);
+                    _textBlock->setMargin(Layout::Margin(MetricsRole::Margin));
+                    addChild(_textBlock);
+                }
+
+            public:
+                static std::shared_ptr<DefaultTooltipWidget> create(const std::shared_ptr<Context>& context)
+                {
+                    auto out = std::shared_ptr<DefaultTooltipWidget>(new DefaultTooltipWidget);
+                    out->_init(context);
+                    return out;
+                }
+
+                void setTooltip(const std::string& value) override
+                {
+                    _textBlock->setText(value);
+                }
+
+                float getHeightForWidth(float value) const override
+                {
+                    return _textBlock->getHeightForWidth(value);
+                }
+
+            protected:
+                void _preLayoutEvent(Core::Event::PreLayout&) override
+                {
+                    _setMinimumSize(_textBlock->getMinimumSize());
+                }
+
+                void _layoutEvent(Core::Event::Layout&) override
+                {
+                    _textBlock->setGeometry(getGeometry());
+                }
+
+            private:
+                std::shared_ptr<TextBlock> _textBlock;
+            };
+
         } // namespace
 
-        float Widget::_updateTime      = 0.F;
+        std::chrono::steady_clock::time_point Widget::_updateTime;
         bool  Widget::_tooltipsEnabled = true;
         bool  Widget::_resizeRequest   = true;
         bool  Widget::_redrawRequest   = true;
@@ -398,6 +445,13 @@ namespace djv
         void Widget::setTooltip(const std::string & value)
         {
             _tooltipText = value;
+            for (auto& i : _pointerToTooltips)
+            {
+                if (auto tooltip = i.second.tooltip)
+                {
+                    tooltip->getWidget()->setTooltip(_tooltipText);
+                }
+            }
             setPointerEnabled(true);
         }
 
@@ -528,10 +582,13 @@ namespace djv
                         for (auto & i : _pointerToTooltips)
                         {
                             const auto j = _pointerHover.find(i.first);
+                            const auto t = std::chrono::duration_cast<std::chrono::milliseconds>(_updateTime - i.second.timer);
+                            const auto& g = getGeometry();
                             if (_tooltipsEnabled &&
-                                (_updateTime - i.second.timer) > tooltipTimeout &&
+                                t > tooltipTimeout &&
                                 !i.second.tooltip &&
-                                j != _pointerHover.end())
+                                j != _pointerHover.end() &&
+                                g.contains(j->second))
                             {
                                 for (
                                     auto widget = std::dynamic_pointer_cast<Widget>(shared_from_this());
@@ -888,27 +945,23 @@ namespace djv
             return out.str();
         }
 
-        std::shared_ptr<Widget> Widget::_createTooltipDefault(const std::string & text)
+        std::shared_ptr<ITooltipWidget> Widget::_createTooltipDefault()
         {
-            std::shared_ptr<Widget> out;
+            std::shared_ptr<ITooltipWidget> out;
             if (auto context = getContext().lock())
             {
-                auto textBlock = TextBlock::create(context);
-                textBlock->setText(text);
-                textBlock->setTextColorRole(ColorRole::TooltipForeground);
-                textBlock->setBackgroundRole(ColorRole::TooltipBackground);
-                textBlock->setMargin(Layout::Margin(MetricsRole::Margin));
-                out = textBlock;
+                out = DefaultTooltipWidget::create(context);
             }
             return out;
         }
 
-        std::shared_ptr<Widget> Widget::_createTooltip(const glm::vec2 &)
+        std::shared_ptr<ITooltipWidget> Widget::_createTooltip(const glm::vec2 &)
         {
-            std::shared_ptr<Widget> out;
+            std::shared_ptr<ITooltipWidget> out;
             if (!_tooltipText.empty())
             {
-                out = _createTooltipDefault(_getTooltipText());
+                out = _createTooltipDefault();
+                out->setTooltip(_getTooltipText());
             }
             return out;
         }

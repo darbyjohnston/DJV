@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -369,7 +369,7 @@ namespace djv
                         {
                             if (auto widget = weak.lock())
                             {
-                                widget->_p->cacheThermometerWidget->setPercentage(value);
+                                widget->_cacheUpdate();
                             }
                         });
                 }
@@ -425,26 +425,13 @@ namespace djv
                 const auto& style = _getStyle();
                 const float s = style->getMetric(UI::MetricsRole::SpacingLarge);
                 glm::vec2 pos = event.getPointerInfo().projectedPos;
+                std::vector<std::string> fileNames;
                 for (const auto& i : event.getDropPaths())
                 {
-                    auto io = context->getSystemT<AV::IO::System>();
-                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                    auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
-                    Core::FileSystem::FileInfo fileInfo;
-                    if (io->canSequence(i) && fileSettings->observeAutoDetectSequences()->get())
-                    {
-                        fileInfo = Core::FileSystem::FileInfo::getFileSequence(
-                            Core::FileSystem::Path(i),
-                            io->getSequenceExtensions());
-                    }
-                    else
-                    {
-                        fileInfo = i;
-                    }
-                    auto fileSystem = context->getSystemT<FileSystem>();
-                    fileSystem->open(fileInfo, pos);
-                    pos += s;
+                    fileNames.push_back(i);
                 }
+                auto fileSystem = context->getSystemT<FileSystem>();
+                fileSystem->open(fileNames, pos, s);
             }
         }
 
@@ -454,10 +441,27 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.mediaButton->setTooltip(_getText(DJV_TEXT("Media popup tooltip")));
             p.cachePopupWidget->setTooltip(_getText(DJV_TEXT("Memory cache tooltip")));
-            p.cacheThermometerWidget->setTooltip(_getText(DJV_TEXT("Memory cache thermometer tooltip")));
 #ifdef DJV_DEMO
             p.titleLabel->setText(_getText(DJV_TEXT("DJV 2.0.4")));
 #endif // DJV_DEMO
+            _cacheUpdate();
+        }
+
+        void MainWindow::_cacheUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (auto context = getContext().lock())
+            {
+                if (auto fileSystem = context->getSystemT<FileSystem>())
+                {
+                    const float percentage = fileSystem->observeCachePercentage()->get();
+                    p.cacheThermometerWidget->setPercentage(percentage);
+                    std::stringstream ss;
+                    ss << _getText(DJV_TEXT("Memory cache thermometer tooltip")) << ": " <<
+                        static_cast<int>(percentage) << "%";
+                    p.cacheThermometerWidget->setTooltip(ss.str());
+                }
+            }
         }
 
     } // namespace ViewApp

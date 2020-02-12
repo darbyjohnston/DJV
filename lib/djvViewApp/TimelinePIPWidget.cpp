@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -99,8 +99,8 @@ namespace djv
             p.timer = Time::Timer::create(context);
             p.timer->setRepeating(true);
             p.timer->start(
-                Time::getMilliseconds(Time::TimerValue::Fast),
-                [weak](float)
+                Time::getTime(Time::TimerValue::VeryFast),
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -220,7 +220,7 @@ namespace djv
             const float sh = style->getMetric(UI::MetricsRole::Shadow);
             auto render = _getRender();
             render->setFillColor(style->getColor(UI::ColorRole::Shadow));
-            for (const auto& i : getChildrenT<UI::Widget>())
+            for (const auto& i : getChildWidgets())
             {
                 if (i->isVisible())
                 {

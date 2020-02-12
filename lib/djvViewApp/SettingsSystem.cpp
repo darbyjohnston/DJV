@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,7 @@
 #include <djvViewApp/NUXSettingsWidget.h>
 #include <djvViewApp/PlaybackSettingsWidget.h>
 #include <djvViewApp/SettingsDialog.h>
+#include <djvViewApp/ViewSettingsWidget.h>
 #include <djvViewApp/WindowSettingsWidget.h>
 
 #include <djvUIComponents/IOSettingsWidget.h>
@@ -81,7 +82,6 @@ namespace djv
         void SettingsSystem::_init(const std::shared_ptr<Core::Context>& context)
         {
             IViewSystem::_init("djv::ViewApp::SettingsSystem", context);
-            DJV_PRIVATE_PTR();
         }
 
         SettingsSystem::SettingsSystem() :
@@ -145,6 +145,7 @@ namespace djv
                     UI::LanguageSettingsWidget::create(context),
                     UI::SizeSettingsWidget::create(context),
                     UI::PaletteSettingsWidget::create(context),
+                    UI::Render2DImageSettingsWidget::create(context),
                     UI::Render2DTextSettingsWidget::create(context),
                     UI::TimeSettingsWidget::create(context),
                     UI::TooltipsSettingsWidget::create(context),
@@ -172,6 +173,7 @@ namespace djv
                     PlaybackSettingsWidget::create(context),
                     SequenceSettingsWidget::create(context),
                     TimelineSettingsWidget::create(context),
+                    ViewSettingsWidget::create(context),
                 };
             }
             return out;

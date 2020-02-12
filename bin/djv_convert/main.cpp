@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -100,8 +100,8 @@ namespace djv
                 _statsTimer = Core::Time::Timer::create(shared_from_this());
                 _statsTimer->setRepeating(true);
                 _statsTimer->start(
-                    Core::Time::getMilliseconds(Core::Time::TimerValue::Slow),
-                    [this, size](float)
+                    Core::Time::getTime(Core::Time::TimerValue::Slow),
+                    [this, size](const std::chrono::steady_clock::time_point&, const Core::Time::Unit&)
                 {
                     Core::Frame::Number frame = 0;
                     {
@@ -114,7 +114,7 @@ namespace djv
                     }
                     if (frame && size)
                     {
-                        std::cout << (frame / static_cast<float>(size - 1) * 100.F) << "%" << std::endl;
+                        std::cout << static_cast<size_t>(frame / static_cast<float>(size - 1) * 100.F) << "%" << std::endl;
                     }
                 });
             }
@@ -130,9 +130,9 @@ namespace djv
                 return out;
             }
 
-            void tick(float dt) override
+            void tick(const std::chrono::steady_clock::time_point& t, const Core::Time::Unit& dt) override
             {
-                CmdLine::Application::tick(dt);
+                CmdLine::Application::tick(t, dt);
                 if (_read && _write)
                 {
                     std::unique_lock<std::mutex> readLock(_read->getMutex(), std::try_to_lock);
@@ -232,13 +232,16 @@ namespace djv
                         ++i;
                     }
                 }
-                if (args.size() != 3)
+                if (3 == args.size())
+                {
+                    _input = args[1];
+                    _output = args[2];
+                }
+                else
                 {
                     out = false;
                     _printUsage();
                 }
-                _input = args[1];
-                _output = args[2];
                 return out;
             }
             
@@ -251,26 +254,26 @@ namespace djv
                 std::cout << std::endl;
                 std::cout << DJV_TEXT(" Options:") << std::endl;
                 std::cout << std::endl;
-                std::cout << DJV_TEXT("   -resize '(width) (height)'") << std::endl;
-                std::cout << DJV_TEXT("     Resize the image.") << std::endl;
+                std::cout << DJV_TEXT("   -resize \"(width) (height)\"") << std::endl;
+                std::cout << DJV_TEXT("   Resize the image.") << std::endl;
                 std::cout << std::endl;
                 std::cout << DJV_TEXT("   -readSeq") << std::endl;
-                std::cout << DJV_TEXT("     Interpret the input file name as a sequence.") << std::endl;
+                std::cout << DJV_TEXT("   Interpret the input file name as a sequence.") << std::endl;
                 std::cout << std::endl;
                 std::cout << DJV_TEXT("   -writeSeq") << std::endl;
-                std::cout << DJV_TEXT("     Interpret the output file name as a sequence.") << std::endl;
+                std::cout << DJV_TEXT("   Interpret the output file name as a sequence.") << std::endl;
                 std::cout << std::endl;
                 std::cout << DJV_TEXT("   -readQueue (value)") << std::endl;
-                std::cout << DJV_TEXT("     Set the size of the read queue.") << std::endl;
+                std::cout << DJV_TEXT("   Set the size of the read queue.") << std::endl;
                 std::cout << std::endl;
                 std::cout << DJV_TEXT("   -writeQueue (value)") << std::endl;
-                std::cout << DJV_TEXT("     Set the size of the write queue.") << std::endl;
+                std::cout << DJV_TEXT("   Set the size of the write queue.") << std::endl;
                 std::cout << std::endl;
                 std::cout << DJV_TEXT("   -readThreads (value)") << std::endl;
-                std::cout << DJV_TEXT("     Set the number of threads for reading.") << std::endl;
+                std::cout << DJV_TEXT("   Set the number of threads for reading.") << std::endl;
                 std::cout << std::endl;
                 std::cout << DJV_TEXT("   -writeThreads (value)") << std::endl;
-                std::cout << DJV_TEXT("     Set the number of threads for writing.") << std::endl;
+                std::cout << DJV_TEXT("   Set the number of threads for writing.") << std::endl;
                 std::cout << std::endl;
             }
 

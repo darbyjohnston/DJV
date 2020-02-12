@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -74,7 +74,9 @@ namespace djv
 
             void open();
             void open(const Core::FileSystem::FileInfo&);
-            void open(const Core::FileSystem::FileInfo&, const glm::vec2 &);
+            void open(const Core::FileSystem::FileInfo&, const glm::vec2& pos);
+            void open(const std::vector<std::string>&);
+            void open(const std::vector<std::string>&, const glm::vec2& pos, float spacing);
             void close(const std::shared_ptr<Media> &);
             void closeAll();
             void setCurrentMedia(const std::shared_ptr<Media> &);
@@ -93,6 +95,8 @@ namespace djv
             void _textUpdate() override;
 
         private:
+            std::vector<Core::FileSystem::FileInfo> _processFileNames(std::vector<std::string>);
+            
             DJV_PRIVATE();
         };
 

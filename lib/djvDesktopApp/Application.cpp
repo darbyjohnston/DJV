@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -66,8 +66,6 @@ namespace djv
         void Application::_init(const std::vector<std::string>& args)
         {
             Context::_init(args);
-            DJV_PRIVATE_PTR();
-
             auto avSystem = AV::AVSystem::create(shared_from_this());
             auto glfwSystem = GLFWSystem::create(shared_from_this());
             auto uiSystem = UI::UISystem::create(shared_from_this());
@@ -98,22 +96,28 @@ namespace djv
             {
                 glfwShowWindow(glfwWindow);
                 p.running = true;
-                auto time = std::chrono::system_clock::now();
-                float dt = 0.F;
+                auto start = std::chrono::steady_clock::now();
+                auto delta = Time::Unit::zero();
+                auto frameTime = std::chrono::microseconds(1000000 / frameRate);
                 while (p.running && glfwWindow && !glfwWindowShouldClose(glfwWindow))
                 {
                     glfwPollEvents();
-                    tick(dt);
+                    tick(start, delta);
+                    const auto systemTime = std::chrono::steady_clock::now();
+                    glfwSwapBuffers(glfwWindow);
 
-                    auto t = std::chrono::system_clock::now();
-                    std::chrono::duration<float> delta = t - time;
-                    const float sleep = 1 / static_cast<float>(frameRate) - delta.count();
-                    std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(sleep * 1000)));
-
-                    t = std::chrono::system_clock::now();
-                    delta = t - time;
-                    dt = delta.count();
-                    time = t;
+                    auto end = std::chrono::steady_clock::now();
+                    delta = std::chrono::duration_cast<Time::Unit>(end - start);
+                    while (delta < frameTime)
+                    {
+                        end = std::chrono::steady_clock::now();
+                        delta = std::chrono::duration_cast<Time::Unit>(end - start);
+                    }
+                    //std::cout << "frame: " <<
+                    //    std::chrono::duration_cast<Time::Unit>(systemTime - start).count() << "/" <<
+                    //    delta.count() << "/" <<
+                    //    (1000000 / frameRate) << std::endl;
+                    start = end;
                 }
             }
             return 0;

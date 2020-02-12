@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -62,6 +62,9 @@ namespace djv
             virtual ~FileSettings();
 
             static std::shared_ptr<FileSettings> create(const std::shared_ptr<Core::Context>&);
+            
+            std::shared_ptr<Core::IValueSubject<size_t> > observeOpenMax() const;
+            void setOpenMax(size_t);
 
             std::shared_ptr<Core::IListSubject<Core::FileSystem::FileInfo> > observeRecentFiles() const;
             void setRecentFiles(const std::vector<Core::FileSystem::FileInfo>&);

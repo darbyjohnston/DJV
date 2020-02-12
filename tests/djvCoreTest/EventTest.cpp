@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -161,8 +161,8 @@ namespace djv
             }
             
             {
-                const float t = 1.F;
-                const float dt = 2.F;
+                const auto t = std::chrono::steady_clock::now();
+                const Time::Unit dt = Time::Unit::zero();
                 const Event::Update event(t, dt);
                 DJV_ASSERT(event.getEventType() == Event::Type::Update);
                 DJV_ASSERT(event.getTime() == t);

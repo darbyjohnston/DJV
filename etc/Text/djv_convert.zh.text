@@ -1,122 +1,170 @@
 [
     {
-        "source": "Nothing to convert", 
-        "text": "\u4ec0\u4e48\u90fd\u6ca1\u6709\u8f6c\u6362", 
-        "id": "Nothing to convert", 
-        "description": ""
-    }, 
+        "source": "Nothing to convert",
+        "description": "",
+        "id": "Nothing to convert",
+        "text": "什么都没有转换"
+    },
     {
-        "source": "Cannot parse the option '-resize'", 
-        "text": "\u65e0\u6cd5\u89e3\u6790\u9009\u9879&#39;-resize&#39;", 
-        "id": "Cannot parse the option '-resize'", 
-        "description": ""
-    }, 
+        "source": "Cannot parse the option '-resize'",
+        "description": "",
+        "id": "Cannot parse the option '-resize'",
+        "text": "无法解析选项&#39;-resize&#39;"
+    },
     {
-        "source": "Usage: djv_convert (input) (output)", 
-        "text": "\u7528\u6cd5\uff1adjv_convert\uff08\u8f93\u5165\uff09\uff08\u8f93\u51fa\uff09", 
-        "id": "Usage: djv_convert (input) (output)", 
-        "description": ""
-    }, 
+        "source": "Usage: djv_convert (input) (output)",
+        "description": "",
+        "id": "Usage: djv_convert (input) (output)",
+        "text": "用法：djv_convert（输入）（输出）"
+    },
     {
-        "source": " Usage:", 
-        "text": "\u7528\u6cd5\uff1a", 
-        "id": " Usage:", 
-        "description": ""
-    }, 
+        "source": " Usage:",
+        "description": "",
+        "id": " Usage:",
+        "text": "用法："
+    },
     {
-        "source": "   djv_convert (input) (output) [option, ...]", 
-        "text": "djv_convert\uff08\u8f93\u5165\uff09\uff08\u8f93\u51fa\uff09[\u9009\u9879\uff0c...]", 
-        "id": "   djv_convert (input) (output) [option, ...]", 
-        "description": ""
-    }, 
+        "source": "   djv_convert (input) (output) [option, ...]",
+        "description": "",
+        "id": "   djv_convert (input) (output) [option, ...]",
+        "text": "djv_convert（输入）（输出）[选项，...]"
+    },
     {
-        "source": " Options:", 
-        "text": "\u9009\u9879\uff1a", 
-        "id": " Options:", 
-        "description": ""
-    }, 
+        "source": " Options:",
+        "description": "",
+        "id": " Options:",
+        "text": "选项："
+    },
     {
-        "source": "   -resize '(width) (height)'", 
-        "text": "-resize&#39;\uff08\u5bbd\u5ea6\uff09\uff08\u9ad8\u5ea6\uff09&#39;", 
-        "id": "   -resize '(width) (height)'", 
-        "description": ""
-    }, 
+        "source": "   -resize '(width) (height)'",
+        "description": "",
+        "id": "   -resize '(width) (height)'",
+        "text": "-resize&#39;（宽度）（高度）&#39;"
+    },
     {
-        "source": "     Resize the image.", 
-        "text": "\u8c03\u6574\u56fe\u50cf\u5927\u5c0f\u3002", 
-        "id": "     Resize the image.", 
-        "description": ""
-    }, 
+        "source": "     Resize the image.",
+        "description": "",
+        "id": "     Resize the image.",
+        "text": "调整图像大小。"
+    },
     {
-        "source": "   -readSeq", 
-        "text": "-readSeq", 
-        "id": "   -readSeq", 
-        "description": ""
-    }, 
+        "source": "   -readSeq",
+        "description": "",
+        "id": "   -readSeq",
+        "text": "-readSeq"
+    },
     {
-        "source": "     Interpret the input file name as a sequence.", 
-        "text": "\u5c06\u8f93\u5165\u6587\u4ef6\u540d\u89e3\u91ca\u4e3a\u4e00\u4e2a\u5e8f\u5217\u3002", 
-        "id": "     Interpret the input file name as a sequence.", 
-        "description": ""
-    }, 
+        "source": "     Interpret the input file name as a sequence.",
+        "description": "",
+        "id": "     Interpret the input file name as a sequence.",
+        "text": "将输入文件名解释为一个序列。"
+    },
     {
-        "source": "   -writeSeq", 
-        "text": "-writeSeq", 
-        "id": "   -writeSeq", 
-        "description": ""
-    }, 
+        "source": "   -writeSeq",
+        "description": "",
+        "id": "   -writeSeq",
+        "text": "-writeSeq"
+    },
     {
-        "source": "     Interpret the output file name as a sequence.", 
-        "text": "\u5c06\u8f93\u51fa\u6587\u4ef6\u540d\u89e3\u91ca\u4e3a\u4e00\u4e2a\u5e8f\u5217\u3002", 
-        "id": "     Interpret the output file name as a sequence.", 
-        "description": ""
-    }, 
+        "source": "     Interpret the output file name as a sequence.",
+        "description": "",
+        "id": "     Interpret the output file name as a sequence.",
+        "text": "将输出文件名解释为一个序列。"
+    },
     {
-        "source": "   -readQueue (value)", 
-        "text": "-readQueue\uff08\u503c\uff09", 
-        "id": "   -readQueue (value)", 
-        "description": ""
-    }, 
+        "source": "   -readQueue (value)",
+        "description": "",
+        "id": "   -readQueue (value)",
+        "text": "-readQueue（值）"
+    },
     {
-        "source": "     Set the size of the read queue.", 
-        "text": "\u8bbe\u7f6e\u8bfb\u53d6\u961f\u5217\u7684\u5927\u5c0f\u3002", 
-        "id": "     Set the size of the read queue.", 
-        "description": ""
-    }, 
+        "source": "     Set the size of the read queue.",
+        "description": "",
+        "id": "     Set the size of the read queue.",
+        "text": "设置读取队列的大小。"
+    },
     {
-        "source": "   -writeQueue (value)", 
-        "text": "-writeQueue\uff08\u503c\uff09", 
-        "id": "   -writeQueue (value)", 
-        "description": ""
-    }, 
+        "source": "   -writeQueue (value)",
+        "description": "",
+        "id": "   -writeQueue (value)",
+        "text": "-writeQueue（值）"
+    },
     {
-        "source": "     Set the size of the write queue.", 
-        "text": "\u8bbe\u7f6e\u5199\u961f\u5217\u7684\u5927\u5c0f\u3002", 
-        "id": "     Set the size of the write queue.", 
-        "description": ""
-    }, 
+        "source": "     Set the size of the write queue.",
+        "description": "",
+        "id": "     Set the size of the write queue.",
+        "text": "设置写队列的大小。"
+    },
     {
-        "source": "   -readThreads (value)", 
-        "text": "-readThreads\uff08\u503c\uff09", 
-        "id": "   -readThreads (value)", 
-        "description": ""
-    }, 
+        "source": "   -readThreads (value)",
+        "description": "",
+        "id": "   -readThreads (value)",
+        "text": "-readThreads（值）"
+    },
     {
-        "source": "     Set the number of threads for reading.", 
-        "text": "\u8bbe\u7f6e\u8981\u8bfb\u53d6\u7684\u7ebf\u7a0b\u6570\u3002", 
-        "id": "     Set the number of threads for reading.", 
-        "description": ""
-    }, 
+        "source": "     Set the number of threads for reading.",
+        "description": "",
+        "id": "     Set the number of threads for reading.",
+        "text": "设置要读取的线程数。"
+    },
     {
-        "source": "   -writeThreads (value)", 
-        "text": "-writeThreads\uff08\u503c\uff09", 
-        "id": "   -writeThreads (value)", 
-        "description": ""
-    }, 
+        "source": "   -writeThreads (value)",
+        "description": "",
+        "id": "   -writeThreads (value)",
+        "text": "-writeThreads（值）"
+    },
     {
-        "source": "     Set the number of threads for writing.", 
-        "text": "\u8bbe\u7f6e\u8981\u5199\u5165\u7684\u7ebf\u7a0b\u6570\u3002", 
-        "id": "     Set the number of threads for writing.", 
+        "source": "     Set the number of threads for writing.",
+        "description": "",
+        "id": "     Set the number of threads for writing.",
+        "text": "设置要写入的线程数。"
+    },
+    {
+        "source": "   -resize \\\"(width) (height)\\\"",
+        "text": "-调整大小\\“（宽度）（高度）\\”",
+        "id": "   -resize \\\"(width) (height)\\\"",
+        "description": ""
+    },
+    {
+        "source": "   Resize the image.",
+        "text": "调整图像大小。",
+        "id": "   Resize the image.",
+        "description": ""
+    },
+    {
+        "source": "   Interpret the input file name as a sequence.",
+        "text": "将输入文件名解释为一个序列。",
+        "id": "   Interpret the input file name as a sequence.",
+        "description": ""
+    },
+    {
+        "source": "   Interpret the output file name as a sequence.",
+        "text": "将输出文件名解释为一个序列。",
+        "id": "   Interpret the output file name as a sequence.",
+        "description": ""
+    },
+    {
+        "source": "   Set the size of the read queue.",
+        "text": "设置读取队列的大小。",
+        "id": "   Set the size of the read queue.",
+        "description": ""
+    },
+    {
+        "source": "   Set the size of the write queue.",
+        "text": "设置写队列的大小。",
+        "id": "   Set the size of the write queue.",
+        "description": ""
+    },
+    {
+        "source": "   Set the number of threads for reading.",
+        "text": "设置要读取的线程数。",
+        "id": "   Set the number of threads for reading.",
+        "description": ""
+    },
+    {
+        "source": "   Set the number of threads for writing.",
+        "text": "设置要写入的线程数。",
+        "id": "   Set the number of threads for writing.",
         "description": ""
     }
 ]

@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -90,8 +90,8 @@ namespace djv
             _fpsTimer->setRepeating(true);
             auto weak = std::weak_ptr<Context>(shared_from_this());
             _fpsTimer->start(
-                Time::getMilliseconds(Time::TimerValue::VerySlow),
-                [weak](float)
+                Time::getTime(Time::TimerValue::VerySlow),
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
             {
                 if (auto context = weak.lock())
                 {
@@ -128,11 +128,10 @@ namespace djv
             }
         }
         
-        void Context::tick(float dt)
+        void Context::tick(const std::chrono::steady_clock::time_point& t, const Time::Unit& dt)
         {
-            const auto now = std::chrono::system_clock::now();
-            const std::chrono::duration<float> delta = now - _fpsTime;
-            _fpsTime = now;
+            std::chrono::duration<float> delta = t - _fpsTime;
+            _fpsTime = t;
             _fpsSamples.push_front(1.F / delta.count());
             while (_fpsSamples.size() > fpsSamplesCount)
             {
@@ -173,10 +172,41 @@ namespace djv
                 //FileSystem::FileIO::writeLines("systems.dot", dot);
             }
 
+            Time::Unit total = Time::Unit::zero();
+            _systemTickTimesTemp.resize(_systems.size());
+            auto sytemTime = t;
+            size_t i = 0;
             for (const auto & system : _systems)
             {
-                system->tick(dt);
+                system->tick(t, dt);
+                auto end = std::chrono::steady_clock::now();
+                const auto diff = std::chrono::duration_cast<Time::Unit>(end - sytemTime);
+                sytemTime = end;
+                auto& tickTimes = _systemTickTimesTemp[i];
+                tickTimes.first = system->getSystemName();
+                tickTimes.second = diff;
+                total += diff;
+                ++i;
             }
+            std::sort(
+                _systemTickTimesTemp.begin(),
+                _systemTickTimesTemp.end(),
+                [](const std::pair<std::string, Time::Unit>& a, const std::pair<std::string, Time::Unit>& b)
+                {
+                    return a.second > b.second;
+                });
+            /*if (_systemTickTimesTemp.size() > 0)
+            {
+                std::cout << "System tick time: " <<
+                    _systemTickTimesTemp[0].first << ", " <<
+                    _systemTickTimesTemp[0].second.count() << std::endl;
+            }
+            for (const auto& i : _systemTickTimesTemp)
+            {
+                std::cout << i.first << ": " << i.second.count() << std::endl;
+            }
+            std::cout << "total: " << total.count() << std::endl << std::endl;*/
+            _systemTickTimes = _systemTickTimesTemp;
         }
 
         void Context::_addSystem(const std::shared_ptr<ISystemBase> & system)
