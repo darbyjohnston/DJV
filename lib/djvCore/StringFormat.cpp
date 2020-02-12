@@ -45,13 +45,13 @@ namespace djv
                     Match()
                     {}
 
-                    Match(ptrdiff_t pos, ptrdiff_t length) :
+                    Match(std::ptrdiff_t pos, std::ptrdiff_t length) :
                         pos(pos),
                         length(length)
                     {}
 
-                    ptrdiff_t pos    = 0;
-                    ptrdiff_t length = 0;
+                    std::ptrdiff_t pos    = 0;
+                    std::ptrdiff_t length = 0;
                 };
 
             } // namespace
@@ -64,7 +64,7 @@ namespace djv
                     std::regex r("\\{([0-9]+)\\}");
                     std::smatch m;
                     std::map<int, Match> matches;
-                    ptrdiff_t currentPos = 0;
+                    std::ptrdiff_t currentPos = 0;
                     while (std::regex_search(subject, m, r))
                     {
                         if (2 == m.size())
@@ -73,8 +73,8 @@ namespace djv
                             const auto i = matches.find(index);
                             if (i == matches.end())
                             {
-                                const ptrdiff_t pos = m.position(0);
-                                const ptrdiff_t len = m.length(0);
+                                const std::ptrdiff_t pos = m.position(0);
+                                const std::ptrdiff_t len = m.length(0);
                                 matches[std::stoi(m[1])] = Match(currentPos + pos, len);
                                 currentPos += pos + len;
                             }
