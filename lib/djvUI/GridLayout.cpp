@@ -584,8 +584,8 @@ namespace djv
         UI::Layout,
         GridStretch,
         DJV_TEXT("None"),
-        DJV_TEXT("Horizontal"),
-        DJV_TEXT("Vertical"),
+        DJV_TEXT("direction_horizontal"),
+        DJV_TEXT("direction_vertical"),
         DJV_TEXT("Both"));
 
 } // namespace djv

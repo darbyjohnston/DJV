@@ -133,7 +133,7 @@ namespace djv
                     io.read(magic, 2);
                     if (magic[0] != 'P')
                     {
-                        throw FileSystem::Error(DJV_TEXT("Bad magic number."));
+                        throw FileSystem::Error(DJV_TEXT("error_bad_magic_number"));
                     }
                     switch (magic[1])
                     {
@@ -143,7 +143,7 @@ namespace djv
                     case '6': break;
                     default:
                     {
-                        throw FileSystem::Error(DJV_TEXT("Bad magic number."));
+                        throw FileSystem::Error(DJV_TEXT("error_bad_magic_number"));
                     }
                     }
                     const int ppmType = magic[1] - '0';
@@ -169,14 +169,14 @@ namespace djv
                     const auto imageType = Image::getIntType(channelCount, bitDepth);
                     if (Image::Type::None == imageType)
                     {
-                        throw FileSystem::Error(DJV_TEXT("Unsupported image type."));
+                        throw FileSystem::Error(DJV_TEXT("error_unsupported_image_type"));
                     }
                     Image::Layout layout;
                     layout.endian = data != Data::ASCII ? Memory::Endian::MSB : Memory::getEndian();
                     auto info = Image::Info(w, h, imageType, layout);
                     if (Data::Binary == data && io.getSize() - io.getPos() != info.getDataByteCount())
                     {
-                        throw FileSystem::Error(DJV_TEXT("Incomplete file."));
+                        throw FileSystem::Error(DJV_TEXT("error_incomplete_file"));
                     }
                     return Info(fileName, VideoInfo(info, _speed, _sequence));
                 }

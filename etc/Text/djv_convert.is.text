@@ -1,170 +1,20 @@
-[
-    {
-        "source": "Nothing to convert",
-        "description": "",
-        "id": "Nothing to convert",
-        "text": "Ekkert að breyta"
-    },
-    {
-        "source": "Cannot parse the option '-resize'",
-        "description": "",
-        "id": "Cannot parse the option '-resize'",
-        "text": "Ekki er hægt að flokka valkostinn &#39;-resize&#39;"
-    },
-    {
-        "source": "Usage: djv_convert (input) (output)",
-        "description": "",
-        "id": "Usage: djv_convert (input) (output)",
-        "text": "Notkun: djv_convert (inntak) (framleiðsla)"
-    },
-    {
-        "source": " Usage:",
-        "description": "",
-        "id": " Usage:",
-        "text": "Notkun:"
-    },
-    {
-        "source": "   djv_convert (input) (output) [option, ...]",
-        "description": "",
-        "id": "   djv_convert (input) (output) [option, ...]",
-        "text": "djv_convert (inntak) (framleiðsla) [valkostur, ...]"
-    },
-    {
-        "source": " Options:",
-        "description": "",
-        "id": " Options:",
-        "text": "Valkostir:"
-    },
-    {
-        "source": "   -resize '(width) (height)'",
-        "description": "",
-        "id": "   -resize '(width) (height)'",
-        "text": "-stærð &#39;(breidd) (hæð)&#39;"
-    },
-    {
-        "source": "     Resize the image.",
-        "description": "",
-        "id": "     Resize the image.",
-        "text": "Breyttu stærð myndarinnar."
-    },
-    {
-        "source": "   -readSeq",
-        "description": "",
-        "id": "   -readSeq",
-        "text": "-readSeq"
-    },
-    {
-        "source": "     Interpret the input file name as a sequence.",
-        "description": "",
-        "id": "     Interpret the input file name as a sequence.",
-        "text": "Túlka heiti innsláttarskrárinnar sem röð."
-    },
-    {
-        "source": "   -writeSeq",
-        "description": "",
-        "id": "   -writeSeq",
-        "text": "-SkrifaSeq"
-    },
-    {
-        "source": "     Interpret the output file name as a sequence.",
-        "description": "",
-        "id": "     Interpret the output file name as a sequence.",
-        "text": "Túlkaðu framleiðsluskráheitið sem röð."
-    },
-    {
-        "source": "   -readQueue (value)",
-        "description": "",
-        "id": "   -readQueue (value)",
-        "text": "-readQueue (gildi)"
-    },
-    {
-        "source": "     Set the size of the read queue.",
-        "description": "",
-        "id": "     Set the size of the read queue.",
-        "text": "Stilltu stærð lestrar biðröð."
-    },
-    {
-        "source": "   -writeQueue (value)",
-        "description": "",
-        "id": "   -writeQueue (value)",
-        "text": "-Skrifa biðröð (gildi)"
-    },
-    {
-        "source": "     Set the size of the write queue.",
-        "description": "",
-        "id": "     Set the size of the write queue.",
-        "text": "Stilltu stærð skrifa biðröð."
-    },
-    {
-        "source": "   -readThreads (value)",
-        "description": "",
-        "id": "   -readThreads (value)",
-        "text": "-readTreads (gildi)"
-    },
-    {
-        "source": "     Set the number of threads for reading.",
-        "description": "",
-        "id": "     Set the number of threads for reading.",
-        "text": "Stilltu fjölda þráða til að lesa."
-    },
-    {
-        "source": "   -writeThreads (value)",
-        "description": "",
-        "id": "   -writeThreads (value)",
-        "text": "-Skrifa þræði (gildi)"
-    },
-    {
-        "source": "     Set the number of threads for writing.",
-        "description": "",
-        "id": "     Set the number of threads for writing.",
-        "text": "Stilltu fjölda þráða til að skrifa."
-    },
-    {
-        "source": "   -resize \\\"(width) (height)\\\"",
-        "text": "-stærð \\ &quot;(breidd) (hæð) \\&quot;",
-        "id": "   -resize \\\"(width) (height)\\\"",
-        "description": ""
-    },
-    {
-        "source": "   Resize the image.",
-        "text": "Breyttu stærð myndarinnar.",
-        "id": "   Resize the image.",
-        "description": ""
-    },
-    {
-        "source": "   Interpret the input file name as a sequence.",
-        "text": "Túlkaðu innsláttarheitið sem röð.",
-        "id": "   Interpret the input file name as a sequence.",
-        "description": ""
-    },
-    {
-        "source": "   Interpret the output file name as a sequence.",
-        "text": "Túlkaðu framleiðsluskráheitið sem röð.",
-        "id": "   Interpret the output file name as a sequence.",
-        "description": ""
-    },
-    {
-        "source": "   Set the size of the read queue.",
-        "text": "Stilltu stærð lestrar biðröð.",
-        "id": "   Set the size of the read queue.",
-        "description": ""
-    },
-    {
-        "source": "   Set the size of the write queue.",
-        "text": "Stilltu stærð skrifa biðröð.",
-        "id": "   Set the size of the write queue.",
-        "description": ""
-    },
-    {
-        "source": "   Set the number of threads for reading.",
-        "text": "Stilltu fjölda þráða til að lesa.",
-        "id": "   Set the number of threads for reading.",
-        "description": ""
-    },
-    {
-        "source": "   Set the number of threads for writing.",
-        "text": "Stilltu fjölda þráða til að skrifa.",
-        "id": "   Set the number of threads for writing.",
-        "description": ""
-    }
-]
+{
+    "djv_convert_nothing_convert": "Ekkert að breyta",
+    "djv_convert_usage_text": "Notkun:",
+    "djv_convert_usage": "djv_convert (inntak) (framleiðsla) [valkostur, ...]",
+    "djv_convert_options_text": "Valkostir:",
+    "djv_convert_option_resize": "-stærð \\ &quot;(breidd) (hæð) \\&quot;",
+    "djv_convert_option_resize_description": "Breyttu stærð myndarinnar.",
+    "djv_convert_option_readseq": "-readSeq",
+    "djv_convert_option_readseq_description": "Túlkaðu innsláttarheitið sem röð.",
+    "djv_convert_option_writeseq": "-SkrifaSeq",
+    "djv_convert_option_writeseq_description": "Túlkaðu framleiðsluskráheitið sem röð.",
+    "djv_convert_option_readqueue": "-readQueue (gildi)",
+    "djv_convert_option_readqueue_description": "Stilltu stærð lestrar biðröð.",
+    "djv_convert_option_writequeue": "-Skrifa biðröð (gildi)",
+    "djv_convert_option_writequeue_description": "Stilltu stærð skrifa biðröð.",
+    "djv_convert_option_readthreads": "-readTreads (gildi)",
+    "djv_convert_option_readthreads_description": "Stilltu fjölda þráða til að lesa.",
+    "djv_convert_option_writethreads": "-Skrifa þræði (gildi)",
+    "djv_convert_option_writethreads_description": "Stilltu fjölda þráða til að skrifa."
+}

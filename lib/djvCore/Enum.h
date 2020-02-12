@@ -83,7 +83,7 @@
         if (i == data.end()) \
         { \
             std::stringstream ss; \
-            ss << DJV_TEXT("Cannot parse the value") << " '" << s << "'."; \
+            ss << DJV_TEXT("error_cannot_parse_the_value") << " '" << s << "'."; \
             throw std::invalid_argument(ss.str()); \
         } \
         value = static_cast<prefix::name>(i - data.begin()); \

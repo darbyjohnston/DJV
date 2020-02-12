@@ -267,7 +267,7 @@ namespace djv
                         for (const auto& i : value)
                         {
                             std::stringstream ss;
-                            ss << system->_getText(DJV_TEXT("Warning")) << ": ";
+                            ss << system->_getText(DJV_TEXT("recent_files_label_warning")) << ": ";
                             ss << i;
                             system->_p->errorsText.push_back(ss.str());
                             while (system->_p->errorsText.size() > errorsMax)
@@ -295,7 +295,7 @@ namespace djv
                         for (const auto& i : value)
                         {
                             std::stringstream ss;
-                            ss << system->_getText(DJV_TEXT("ERROR")) << ": ";
+                            ss << system->_getText(DJV_TEXT("recent_files_label_error")) << ": ";
                             ss << i;
                             system->_p->errorsText.push_back(ss.str());
                             while (system->_p->errorsText.size() > errorsMax)
@@ -393,18 +393,18 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.actions.size())
             {
-                p.actions["Info"]->setText(_getText(DJV_TEXT("Information")));
-                p.actions["Info"]->setTooltip(_getText(DJV_TEXT("Information widget tooltip")));
-                p.actions["Errors"]->setText(_getText(DJV_TEXT("Errors")));
-                p.actions["Errors"]->setTooltip(_getText(DJV_TEXT("Errors widget tooltip")));
-                p.actions["SystemLog"]->setText(_getText(DJV_TEXT("System Log")));
-                p.actions["SystemLog"]->setTooltip(_getText(DJV_TEXT("System log widget tooltip")));
-                p.actions["Debug"]->setText(_getText(DJV_TEXT("Debugging")));
-                p.actions["Debug"]->setTooltip(_getText(DJV_TEXT("Debugging widget tooltip")));
-                p.actions["Settings"]->setText(_getText(DJV_TEXT("Settings")));
-                p.actions["Settings"]->setTooltip(_getText(DJV_TEXT("Settings tooltip")));
+                p.actions["Info"]->setText(_getText(DJV_TEXT("menu_tools_information")));
+                p.actions["Info"]->setTooltip(_getText(DJV_TEXT("menu_tools_information_widget_tooltip")));
+                p.actions["Errors"]->setText(_getText(DJV_TEXT("menu_tools_errors")));
+                p.actions["Errors"]->setTooltip(_getText(DJV_TEXT("menu_tools_errors_widget_tooltip")));
+                p.actions["SystemLog"]->setText(_getText(DJV_TEXT("menu_tools_system_log")));
+                p.actions["SystemLog"]->setTooltip(_getText(DJV_TEXT("menu_tools_system_log_widget_tooltip")));
+                p.actions["Debug"]->setText(_getText(DJV_TEXT("menu_tools_debugging")));
+                p.actions["Debug"]->setTooltip(_getText(DJV_TEXT("menu_tools_debugging_widget_tooltip")));
+                p.actions["Settings"]->setText(_getText(DJV_TEXT("menu_tools_settings")));
+                p.actions["Settings"]->setTooltip(_getText(DJV_TEXT("menu_tools_settings_tooltip")));
 
-                p.menu->setText(_getText(DJV_TEXT("Tools")));
+                p.menu->setText(_getText(DJV_TEXT("menu_tools")));
             }
         }
 

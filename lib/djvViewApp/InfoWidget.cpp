@@ -125,7 +125,7 @@ namespace djv
         void InfoWidget::_initEvent(Event::Init & event)
         {
             MDIWidget::_initEvent(event);
-            setTitle(_getText(DJV_TEXT("Information")));
+            setTitle(_getText(DJV_TEXT("menu_tools_information")));
             _widgetUpdate();
         }
 
@@ -145,7 +145,7 @@ namespace djv
                     formLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
                     formLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
                     formLayout->addChild(label);
-                    formLayout->setText(label, _getText(DJV_TEXT("File name")) + ":");
+                    formLayout->setText(label, _getText(DJV_TEXT("file_name")) + ":");
                     p.layout->addChild(formLayout);
                 }
 
@@ -161,7 +161,7 @@ namespace djv
                     label->setText(i.info.name);
                     label->setHAlign(UI::HAlign::Left);
                     formLayout->addChild(label);
-                    formLayout->setText(label, _getText(DJV_TEXT("Name")) + ":");
+                    formLayout->setText(label, _getText(DJV_TEXT("widget_color_space_display_name")) + ":");
 
                     label = UI::Label::create(context);
                     {
@@ -173,7 +173,7 @@ namespace djv
                     }
                     label->setHAlign(UI::HAlign::Left);
                     formLayout->addChild(label);
-                    formLayout->setText(label, _getText(DJV_TEXT("Size")) + ":");
+                    formLayout->setText(label, _getText(DJV_TEXT("size")) + ":");
 
                     label = UI::Label::create(context);
                     {
@@ -183,7 +183,7 @@ namespace djv
                     }
                     label->setHAlign(UI::HAlign::Left);
                     formLayout->addChild(label);
-                    formLayout->setText(label, _getText(DJV_TEXT("Type")) + ":");
+                    formLayout->setText(label, _getText(DJV_TEXT("type")) + ":");
 
                     label = UI::Label::create(context);
                     {
@@ -193,7 +193,7 @@ namespace djv
                     }
                     label->setHAlign(UI::HAlign::Left);
                     formLayout->addChild(label);
-                    formLayout->setText(label, _getText(DJV_TEXT("Speed")) + ":");
+                    formLayout->setText(label, _getText(DJV_TEXT("speed")) + ":");
 
                     label = UI::Label::create(context);
                     {
@@ -211,18 +211,18 @@ namespace djv
                     }
                     label->setHAlign(UI::HAlign::Left);
                     formLayout->addChild(label);
-                    formLayout->setText(label, _getText(DJV_TEXT("Duration")) + ":");
+                    formLayout->setText(label, _getText(DJV_TEXT("duration")) + ":");
 
                     label = UI::Label::create(context);
                     label->setText(i.codec);
                     label->setHAlign(UI::HAlign::Left);
                     formLayout->addChild(label);
-                    formLayout->setText(label, _getText(DJV_TEXT("Codec")) + ":");
+                    formLayout->setText(label, _getText(DJV_TEXT("codec")) + ":");
 
                     auto bellows = UI::Bellows::create(context);
                     {
                         std::stringstream ss;
-                        ss << _getText(DJV_TEXT("Video track")) << " #" << j << ":";
+                        ss << _getText(DJV_TEXT("video_track")) << " #" << j << ":";
                         bellows->setText(ss.str());
                     }
                     bellows->addChild(formLayout);
@@ -247,7 +247,7 @@ namespace djv
                     }
                     label->setHAlign(UI::HAlign::Left);
                     formLayout->addChild(label);
-                    formLayout->setText(label, _getText(DJV_TEXT("Channels")) + ":");
+                    formLayout->setText(label, _getText(DJV_TEXT("image_controls_section_channels")) + ":");
 
                     label = UI::Label::create(context);
                     {
@@ -257,17 +257,17 @@ namespace djv
                     }
                     label->setHAlign(UI::HAlign::Left);
                     formLayout->addChild(label);
-                    formLayout->setText(label, _getText(DJV_TEXT("Type")) + ":");
+                    formLayout->setText(label, _getText(DJV_TEXT("type")) + ":");
 
                     label = UI::Label::create(context);
                     {
                         std::stringstream ss;
-                        ss << i.info.sampleRate / 1000.F << _getText(DJV_TEXT("kHz"));
+                        ss << i.info.sampleRate / 1000.F << _getText(DJV_TEXT("khz"));
                         label->setText(ss.str());
                     }
                     label->setHAlign(UI::HAlign::Left);
                     formLayout->addChild(label);
-                    formLayout->setText(label, _getText(DJV_TEXT("Sample rate")) + ":");
+                    formLayout->setText(label, _getText(DJV_TEXT("sample_rate")) + ":");
 
                     label = UI::Label::create(context);
                     {
@@ -277,18 +277,18 @@ namespace djv
                     }
                     label->setHAlign(UI::HAlign::Left);
                     formLayout->addChild(label);
-                    formLayout->setText(label, _getText(DJV_TEXT("Duration")) + ":");
+                    formLayout->setText(label, _getText(DJV_TEXT("duration")) + ":");
 
                     label = UI::Label::create(context);
                     label->setText(i.codec);
                     label->setHAlign(UI::HAlign::Left);
                     formLayout->addChild(label);
-                    formLayout->setText(label, _getText(DJV_TEXT("Codec")) + ":");
+                    formLayout->setText(label, _getText(DJV_TEXT("codec")) + ":");
 
                     auto bellows = UI::Bellows::create(context);
                     {
                         std::stringstream ss;
-                        ss << _getText(DJV_TEXT("Audio track")) << " #" << j << ":";
+                        ss << _getText(DJV_TEXT("audio_track")) << " #" << j << ":";
                         bellows->setText(ss.str());
                     }
                     bellows->addChild(formLayout);
@@ -318,7 +318,7 @@ namespace djv
                     auto bellows = UI::Bellows::create(context);
                     {
                         std::stringstream ss;
-                        ss << _getText(DJV_TEXT("Tags"));
+                        ss << _getText(DJV_TEXT("tags"));
                         bellows->setText(ss.str());
                     }
                     bellows->addChild(formLayout);

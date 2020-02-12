@@ -1,1292 +1,217 @@
-[
-    {
-        "source": "Cannot parse the value.",
-        "description": "",
-        "id": "Cannot parse the value.",
-        "text": "Kan ikke analysere værdien."
-    },
-    {
-        "source": "Horizontal",
-        "description": "",
-        "id": "Horizontal",
-        "text": "Vandret"
-    },
-    {
-        "source": "Vertical",
-        "description": "",
-        "id": "Vertical",
-        "text": "Lodret"
-    },
-    {
-        "source": "Left",
-        "description": "",
-        "id": "Left",
-        "text": "Venstre"
-    },
-    {
-        "source": "Top",
-        "description": "",
-        "id": "Top",
-        "text": "Top"
-    },
-    {
-        "source": "Right",
-        "description": "",
-        "id": "Right",
-        "text": "Ret"
-    },
-    {
-        "source": "Bottom",
-        "description": "",
-        "id": "Bottom",
-        "text": "Bund"
-    },
-    {
-        "source": "None",
-        "description": "",
-        "id": "None",
-        "text": "Ingen"
-    },
-    {
-        "source": "Both",
-        "description": "",
-        "id": "Both",
-        "text": "Begge"
-    },
-    {
-        "source": "Center",
-        "description": "",
-        "id": "Center",
-        "text": "Centrum"
-    },
-    {
-        "source": "Fill",
-        "description": "",
-        "id": "Fill",
-        "text": "Fylde"
-    },
-    {
-        "source": "Baseline",
-        "description": "",
-        "id": "Baseline",
-        "text": "Baseline"
-    },
-    {
-        "source": "Single",
-        "description": "",
-        "id": "Single",
-        "text": "Enkelt"
-    },
-    {
-        "source": "Radio",
-        "description": "",
-        "id": "Radio",
-        "text": "Radio"
-    },
-    {
-        "source": "Multiple",
-        "description": "",
-        "id": "Multiple",
-        "text": "Mange"
-    },
-    {
-        "source": "Forward",
-        "description": "",
-        "id": "Forward",
-        "text": "Frem"
-    },
-    {
-        "source": "Reverse",
-        "description": "",
-        "id": "Reverse",
-        "text": "Bagside"
-    },
-    {
-        "source": "Push",
-        "description": "",
-        "id": "Push",
-        "text": "Skubbe"
-    },
-    {
-        "source": "Toggle",
-        "description": "",
-        "id": "Toggle",
-        "text": "Toggle"
-    },
-    {
-        "source": "Exclusive",
-        "description": "",
-        "id": "Exclusive",
-        "text": "Eksklusiv"
-    },
-    {
-        "source": "Tiles",
-        "description": "",
-        "id": "Tiles",
-        "text": "Fliser"
-    },
-    {
-        "source": "List",
-        "description": "",
-        "id": "List",
-        "text": "Liste"
-    },
-    {
-        "source": "Background",
-        "description": "",
-        "id": "Background",
-        "text": "Baggrund"
-    },
-    {
-        "source": "Background Header",
-        "description": "",
-        "id": "BackgroundHeader",
-        "text": "Baggrundsoverskrift"
-    },
-    {
-        "source": "Background Bellows",
-        "description": "",
-        "id": "BackgroundBellows",
-        "text": "Baggrund Bellows"
-    },
-    {
-        "source": "Background ToolBar",
-        "description": "",
-        "id": "BackgroundToolBar",
-        "text": "Baggrund Værktøjslinje"
-    },
-    {
-        "source": "Foreground",
-        "description": "",
-        "id": "Foreground",
-        "text": "forgrund"
-    },
-    {
-        "source": "Foreground Dim",
-        "description": "",
-        "id": "ForegroundDim",
-        "text": "Forgrundsdæmper Dim"
-    },
-    {
-        "source": "Border",
-        "description": "",
-        "id": "Border",
-        "text": "Grænse"
-    },
-    {
-        "source": "Border Button",
-        "description": "",
-        "id": "BorderButton",
-        "text": "Border Button"
-    },
-    {
-        "source": "Trough",
-        "description": "",
-        "id": "Trough",
-        "text": "trug"
-    },
-    {
-        "source": "Button",
-        "description": "",
-        "id": "Button",
-        "text": "Knap"
-    },
-    {
-        "source": "Hovered",
-        "description": "",
-        "id": "Hovered",
-        "text": "svævede"
-    },
-    {
-        "source": "Pressed",
-        "description": "",
-        "id": "Pressed",
-        "text": "presset"
-    },
-    {
-        "source": "Checked",
-        "description": "",
-        "id": "Checked",
-        "text": "Kontrolleret"
-    },
-    {
-        "source": "Text Focus",
-        "description": "",
-        "id": "TextFocus",
-        "text": "Tekstfokus"
-    },
-    {
-        "source": "Tooltip Background",
-        "description": "",
-        "id": "TooltipBackground",
-        "text": "Tooltip Baggrund"
-    },
-    {
-        "source": "Tooltip Foreground",
-        "description": "",
-        "id": "TooltipForeground",
-        "text": "Tooltip Forgrund"
-    },
-    {
-        "source": "Overlay",
-        "description": "",
-        "id": "Overlay",
-        "text": "Overlay"
-    },
-    {
-        "source": "Overlay Light",
-        "description": "",
-        "id": "OverlayLight",
-        "text": "Overlay Light"
-    },
-    {
-        "source": "Shadow",
-        "description": "",
-        "id": "Shadow",
-        "text": "Skygge"
-    },
-    {
-        "source": "Handle",
-        "description": "",
-        "id": "Handle",
-        "text": "Håndtere"
-    },
-    {
-        "source": "Margin",
-        "description": "",
-        "id": "Margin",
-        "text": "Margin"
-    },
-    {
-        "source": "Margin Small",
-        "description": "",
-        "id": "MarginSmall",
-        "text": "Margin Small"
-    },
-    {
-        "source": "Margin Large",
-        "description": "",
-        "id": "MarginLarge",
-        "text": "Margin Large"
-    },
-    {
-        "source": "Margin Dialog",
-        "description": "",
-        "id": "MarginDialog",
-        "text": "Margen Dialog"
-    },
-    {
-        "source": "Spacing",
-        "description": "",
-        "id": "Spacing",
-        "text": "Mellemrum"
-    },
-    {
-        "source": "Spacing Small",
-        "description": "",
-        "id": "SpacingSmall",
-        "text": "Spacing Small"
-    },
-    {
-        "source": "Spacing Large",
-        "description": "",
-        "id": "SpacingLarge",
-        "text": "Spacing Large"
-    },
-    {
-        "source": "Drag",
-        "description": "",
-        "id": "Drag",
-        "text": "Træk"
-    },
-    {
-        "source": "Icon",
-        "description": "",
-        "id": "Icon",
-        "text": "Ikon"
-    },
-    {
-        "source": "Icon Small",
-        "description": "",
-        "id": "IconSmall",
-        "text": "Ikon Lille"
-    },
-    {
-        "source": "Font Small",
-        "description": "",
-        "id": "FontSmall",
-        "text": "Skrifttype Lille"
-    },
-    {
-        "source": "Font Medium",
-        "description": "",
-        "id": "FontMedium",
-        "text": "Font Medium"
-    },
-    {
-        "source": "Font Large",
-        "description": "",
-        "id": "FontLarge",
-        "text": "Font Large"
-    },
-    {
-        "source": "Font Header",
-        "description": "",
-        "id": "FontHeader",
-        "text": "Font Header"
-    },
-    {
-        "source": "Font Title",
-        "description": "",
-        "id": "FontTitle",
-        "text": "Font Titel"
-    },
-    {
-        "source": "Swatch",
-        "description": "",
-        "id": "Swatch",
-        "text": "Swatch"
-    },
-    {
-        "source": "Slider",
-        "description": "",
-        "id": "Slider",
-        "text": "Slider"
-    },
-    {
-        "source": "Scroll Area",
-        "description": "",
-        "id": "ScrollArea",
-        "text": "Rulleområde"
-    },
-    {
-        "source": "Menu",
-        "description": "",
-        "id": "Menu",
-        "text": "Menu"
-    },
-    {
-        "source": "Text Column",
-        "description": "",
-        "id": "TextColumn",
-        "text": "Tekst kolonne"
-    },
-    {
-        "source": "Text Column Large",
-        "description": "",
-        "id": "TextColumnLarge",
-        "text": "Tekst kolonne Large"
-    },
-    {
-        "source": "Search Box",
-        "description": "",
-        "id": "SearchBox",
-        "text": "Søgefelt"
-    },
-    {
-        "source": "Dialog",
-        "description": "",
-        "id": "Dialog",
-        "text": "Dialog"
-    },
-    {
-        "source": "Shadow Small",
-        "description": "",
-        "id": "ShadowSmall",
-        "text": "Skygge Lille"
-    },
-    {
-        "source": "Tooltip Offset",
-        "description": "",
-        "id": "TooltipOffset",
-        "text": "Tooltip Offset"
-    },
-    {
-        "source": "Move",
-        "description": "",
-        "id": "Move",
-        "text": "Bevæge sig"
-    },
-    {
-        "source": "Dark",
-        "description": "",
-        "id": "Dark",
-        "text": "Mørk"
-    },
-    {
-        "source": "Light",
-        "description": "",
-        "id": "Light",
-        "text": "Lys"
-    },
-    {
-        "source": "Medium",
-        "description": "",
-        "id": "Medium",
-        "text": "Medium"
-    },
-    {
-        "source": "Small",
-        "description": "",
-        "id": "Small",
-        "text": "Lille"
-    },
-    {
-        "source": "Large",
-        "description": "",
-        "id": "Large",
-        "text": "Stor"
-    },
-    {
-        "source": "Extra Large",
-        "description": "",
-        "id": "ExtraLarge",
-        "text": "Ekstra stor"
-    },
-    {
-        "source": "Default",
-        "description": "",
-        "id": "Default",
-        "text": "Standard"
-    },
-    {
-        "source": "Expand",
-        "description": "",
-        "id": "Expand",
-        "text": "Udvide"
-    },
-    {
-        "source": "Space",
-        "description": "",
-        "id": "Space",
-        "text": "Plads"
-    },
-    {
-        "source": "Apostrophe",
-        "description": "",
-        "id": "Apostrophe",
-        "text": "Apostrof"
-    },
-    {
-        "source": "Comma",
-        "description": "",
-        "id": "Comma",
-        "text": "Komma"
-    },
-    {
-        "source": "Minus",
-        "description": "",
-        "id": "Minus",
-        "text": "Minus"
-    },
-    {
-        "source": "Period",
-        "description": "",
-        "id": "Period",
-        "text": "Periode"
-    },
-    {
-        "source": "Slash",
-        "description": "",
-        "id": "Slash",
-        "text": "Skråstreg"
-    },
-    {
-        "source": "0",
-        "description": "",
-        "id": "0",
-        "text": "0"
-    },
-    {
-        "source": "1",
-        "description": "",
-        "id": "1",
-        "text": "1"
-    },
-    {
-        "source": "2",
-        "description": "",
-        "id": "2",
-        "text": "2"
-    },
-    {
-        "source": "3",
-        "description": "",
-        "id": "3",
-        "text": "3"
-    },
-    {
-        "source": "4",
-        "description": "",
-        "id": "4",
-        "text": "4"
-    },
-    {
-        "source": "5",
-        "description": "",
-        "id": "5",
-        "text": "5"
-    },
-    {
-        "source": "6",
-        "description": "",
-        "id": "6",
-        "text": "6"
-    },
-    {
-        "source": "7",
-        "description": "",
-        "id": "7",
-        "text": "7"
-    },
-    {
-        "source": "8",
-        "description": "",
-        "id": "8",
-        "text": "8"
-    },
-    {
-        "source": "9",
-        "description": "",
-        "id": "9",
-        "text": "9"
-    },
-    {
-        "source": "Semicolon",
-        "description": "",
-        "id": "Semicolon",
-        "text": "Semikolon"
-    },
-    {
-        "source": "Equal",
-        "description": "",
-        "id": "Equal",
-        "text": "Lige"
-    },
-    {
-        "source": "A",
-        "description": "",
-        "id": "A",
-        "text": "EN"
-    },
-    {
-        "source": "B",
-        "description": "",
-        "id": "B",
-        "text": "B"
-    },
-    {
-        "source": "C",
-        "description": "",
-        "id": "C",
-        "text": "C"
-    },
-    {
-        "source": "D",
-        "description": "",
-        "id": "D",
-        "text": "D"
-    },
-    {
-        "source": "E",
-        "description": "",
-        "id": "E",
-        "text": "og"
-    },
-    {
-        "source": "F",
-        "description": "",
-        "id": "F",
-        "text": "F"
-    },
-    {
-        "source": "G",
-        "description": "",
-        "id": "G",
-        "text": "G"
-    },
-    {
-        "source": "H",
-        "description": "",
-        "id": "H",
-        "text": "H"
-    },
-    {
-        "source": "I",
-        "description": "",
-        "id": "I",
-        "text": "jeg"
-    },
-    {
-        "source": "J",
-        "description": "",
-        "id": "J",
-        "text": "J"
-    },
-    {
-        "source": "K",
-        "description": "",
-        "id": "K",
-        "text": "den"
-    },
-    {
-        "source": "L",
-        "description": "",
-        "id": "L",
-        "text": "den"
-    },
-    {
-        "source": "M",
-        "description": "",
-        "id": "M",
-        "text": "M"
-    },
-    {
-        "source": "N",
-        "description": "",
-        "id": "N",
-        "text": "N"
-    },
-    {
-        "source": "O",
-        "description": "",
-        "id": "O",
-        "text": "den"
-    },
-    {
-        "source": "P",
-        "description": "",
-        "id": "P",
-        "text": "P"
-    },
-    {
-        "source": "Q",
-        "description": "",
-        "id": "Q",
-        "text": "Q"
-    },
-    {
-        "source": "R",
-        "description": "",
-        "id": "R",
-        "text": "R"
-    },
-    {
-        "source": "S",
-        "description": "",
-        "id": "S",
-        "text": "S"
-    },
-    {
-        "source": "T",
-        "description": "",
-        "id": "T",
-        "text": "T"
-    },
-    {
-        "source": "U",
-        "description": "",
-        "id": "U",
-        "text": "den"
-    },
-    {
-        "source": "V",
-        "description": "",
-        "id": "V",
-        "text": "V"
-    },
-    {
-        "source": "W",
-        "description": "",
-        "id": "W",
-        "text": "den"
-    },
-    {
-        "source": "X",
-        "description": "",
-        "id": "X",
-        "text": "x"
-    },
-    {
-        "source": "Y",
-        "description": "",
-        "id": "Y",
-        "text": "og"
-    },
-    {
-        "source": "Z",
-        "description": "",
-        "id": "Z",
-        "text": "med"
-    },
-    {
-        "source": "Left Bracket",
-        "description": "",
-        "id": "LeftBracket",
-        "text": "Venstre beslag"
-    },
-    {
-        "source": "Backslash",
-        "description": "",
-        "id": "Backslash",
-        "text": "backslash"
-    },
-    {
-        "source": "Right Bracket",
-        "description": "",
-        "id": "RightBracket",
-        "text": "Højre beslag"
-    },
-    {
-        "source": "Grave Accent",
-        "description": "",
-        "id": "GraveAccent",
-        "text": "Alvorlig accent"
-    },
-    {
-        "source": "World 1",
-        "description": "",
-        "id": "World1",
-        "text": "Verden 1"
-    },
-    {
-        "source": "World 2",
-        "description": "",
-        "id": "World2",
-        "text": "Verden 2"
-    },
-    {
-        "source": "Escape",
-        "description": "",
-        "id": "Escape",
-        "text": "Flugt"
-    },
-    {
-        "source": "Enter",
-        "description": "",
-        "id": "Enter",
-        "text": "Gå ind"
-    },
-    {
-        "source": "Tab",
-        "description": "",
-        "id": "Tab",
-        "text": "Tab"
-    },
-    {
-        "source": "Backspace",
-        "description": "",
-        "id": "Backspace",
-        "text": "Backspace"
-    },
-    {
-        "source": "Insert",
-        "description": "",
-        "id": "Insert",
-        "text": "Indsæt"
-    },
-    {
-        "source": "Delete",
-        "description": "",
-        "id": "Delete",
-        "text": "Slet"
-    },
-    {
-        "source": "Right Arrow",
-        "description": "",
-        "id": "RightArrow",
-        "text": "Højre pil"
-    },
-    {
-        "source": "Left Arrow",
-        "description": "",
-        "id": "LeftArrow",
-        "text": "Venstre pil"
-    },
-    {
-        "source": "Down Arrow",
-        "description": "",
-        "id": "DownArrow",
-        "text": "Pil ned"
-    },
-    {
-        "source": "Up Arrow",
-        "description": "",
-        "id": "UpArrow",
-        "text": "Pil op"
-    },
-    {
-        "source": "Page Up",
-        "description": "",
-        "id": "PageUp",
-        "text": "Side op"
-    },
-    {
-        "source": "Page Down",
-        "description": "",
-        "id": "PageDown",
-        "text": "Side ned"
-    },
-    {
-        "source": "Home",
-        "description": "",
-        "id": "Home",
-        "text": "Hjem"
-    },
-    {
-        "source": "End",
-        "description": "",
-        "id": "End",
-        "text": "Ende"
-    },
-    {
-        "source": "Caps Lock",
-        "description": "",
-        "id": "CapsLock",
-        "text": "Caps Lock"
-    },
-    {
-        "source": "Scroll Lock",
-        "description": "",
-        "id": "ScrollLock",
-        "text": "Scroll Lock"
-    },
-    {
-        "source": "Num Lock",
-        "description": "",
-        "id": "NumLock",
-        "text": "Num Lock"
-    },
-    {
-        "source": "Print Screen",
-        "description": "",
-        "id": "PrintScreen",
-        "text": "Skærmudskrift"
-    },
-    {
-        "source": "F1",
-        "description": "",
-        "id": "F1",
-        "text": "F1"
-    },
-    {
-        "source": "F2",
-        "description": "",
-        "id": "F2",
-        "text": "F2"
-    },
-    {
-        "source": "F3",
-        "description": "",
-        "id": "F3",
-        "text": "F3"
-    },
-    {
-        "source": "F4",
-        "description": "",
-        "id": "F4",
-        "text": "F4"
-    },
-    {
-        "source": "F5",
-        "description": "",
-        "id": "F5",
-        "text": "F5"
-    },
-    {
-        "source": "F6",
-        "description": "",
-        "id": "F6",
-        "text": "F6"
-    },
-    {
-        "source": "F7",
-        "description": "",
-        "id": "F7",
-        "text": "F7"
-    },
-    {
-        "source": "F8",
-        "description": "",
-        "id": "F8",
-        "text": "F8"
-    },
-    {
-        "source": "F9",
-        "description": "",
-        "id": "F9",
-        "text": "F9"
-    },
-    {
-        "source": "F10",
-        "description": "",
-        "id": "F10",
-        "text": "F10"
-    },
-    {
-        "source": "F11",
-        "description": "",
-        "id": "F11",
-        "text": "F11"
-    },
-    {
-        "source": "F12",
-        "description": "",
-        "id": "F12",
-        "text": "F12"
-    },
-    {
-        "source": "F13",
-        "description": "",
-        "id": "F13",
-        "text": "F13"
-    },
-    {
-        "source": "F14",
-        "description": "",
-        "id": "F14",
-        "text": "F14"
-    },
-    {
-        "source": "F15",
-        "description": "",
-        "id": "F15",
-        "text": "F15"
-    },
-    {
-        "source": "F16",
-        "description": "",
-        "id": "F16",
-        "text": "F16"
-    },
-    {
-        "source": "F17",
-        "description": "",
-        "id": "F17",
-        "text": "F17"
-    },
-    {
-        "source": "F18",
-        "description": "",
-        "id": "F18",
-        "text": "F18"
-    },
-    {
-        "source": "F19",
-        "description": "",
-        "id": "F19",
-        "text": "F19"
-    },
-    {
-        "source": "F20",
-        "description": "",
-        "id": "F20",
-        "text": "F20"
-    },
-    {
-        "source": "F21",
-        "description": "",
-        "id": "F21",
-        "text": "F21"
-    },
-    {
-        "source": "F22",
-        "description": "",
-        "id": "F22",
-        "text": "F22"
-    },
-    {
-        "source": "F23",
-        "description": "",
-        "id": "F23",
-        "text": "F23"
-    },
-    {
-        "source": "F24",
-        "description": "",
-        "id": "F24",
-        "text": "F24"
-    },
-    {
-        "source": "F25",
-        "description": "",
-        "id": "F25",
-        "text": "F25"
-    },
-    {
-        "source": "Key Pad 0",
-        "description": "",
-        "id": "KeyPad0",
-        "text": "Key Pad 0"
-    },
-    {
-        "source": "Key Pad 1",
-        "description": "",
-        "id": "KeyPad1",
-        "text": "Key Pad 1"
-    },
-    {
-        "source": "Key Pad 2",
-        "description": "",
-        "id": "KeyPad2",
-        "text": "Key Pad 2"
-    },
-    {
-        "source": "Key Pad 3",
-        "description": "",
-        "id": "KeyPad3",
-        "text": "Key Pad 3"
-    },
-    {
-        "source": "Key Pad 4",
-        "description": "",
-        "id": "KeyPad4",
-        "text": "Key Pad 4"
-    },
-    {
-        "source": "Key Pad 5",
-        "description": "",
-        "id": "KeyPad5",
-        "text": "Key Pad 5"
-    },
-    {
-        "source": "Key Pad 6",
-        "description": "",
-        "id": "KeyPad6",
-        "text": "Key Pad 6"
-    },
-    {
-        "source": "Key Pad 7",
-        "description": "",
-        "id": "KeyPad7",
-        "text": "Key Pad 7"
-    },
-    {
-        "source": "Key Pad 8",
-        "description": "",
-        "id": "KeyPad8",
-        "text": "Key Pad 8"
-    },
-    {
-        "source": "Key Pad 9",
-        "description": "",
-        "id": "KeyPad9",
-        "text": "Key Pad 9"
-    },
-    {
-        "source": "Key Pad Decimal",
-        "description": "",
-        "id": "KeyPadDecimal",
-        "text": "Key Pad Decimal"
-    },
-    {
-        "source": "Key Pad Divide",
-        "description": "",
-        "id": "KeyPadDivide",
-        "text": "Key Pad Divide"
-    },
-    {
-        "source": "Key Pad Multiply",
-        "description": "",
-        "id": "KeyPadMultiply",
-        "text": "Key Pad Multiply"
-    },
-    {
-        "source": "Key Pad Substract",
-        "description": "",
-        "id": "KeyPadSubstract",
-        "text": "Key Pad Substract"
-    },
-    {
-        "source": "Key Pad Add",
-        "description": "",
-        "id": "KeyPadAdd",
-        "text": "Key Pad Add"
-    },
-    {
-        "source": "Key Pad Enter",
-        "description": "",
-        "id": "KeyPadEnter",
-        "text": "Key Pad Enter"
-    },
-    {
-        "source": "Key Pad Equal",
-        "description": "",
-        "id": "KeyPadEqual",
-        "text": "Key Pad Equal"
-    },
-    {
-        "source": "Left Shift",
-        "description": "",
-        "id": "LeftShift",
-        "text": "Venstre skift"
-    },
-    {
-        "source": "Left Control",
-        "description": "",
-        "id": "LeftControl",
-        "text": "Venstre kontrol"
-    },
-    {
-        "source": "Left Alt",
-        "description": "",
-        "id": "LeftAlt",
-        "text": "Venstre Alt"
-    },
-    {
-        "source": "Left Command",
-        "description": "",
-        "id": "LeftCommand",
-        "text": "Venstre kommando"
-    },
-    {
-        "source": "Right Shift",
-        "description": "",
-        "id": "RightShift",
-        "text": "Højre Shift"
-    },
-    {
-        "source": "Right Control",
-        "description": "",
-        "id": "RightControl",
-        "text": "Højre kontrol"
-    },
-    {
-        "source": "Right Alt",
-        "description": "",
-        "id": "RightAlt",
-        "text": "Right Alt"
-    },
-    {
-        "source": "Right Command",
-        "description": "",
-        "id": "RightCommand",
-        "text": "Højre kommando"
-    },
-    {
-        "source": "Shift",
-        "description": "",
-        "id": "Shift",
-        "text": "Flytte"
-    },
-    {
-        "source": "Ctrl",
-        "description": "",
-        "id": "Ctrl",
-        "text": "Ctrl"
-    },
-    {
-        "source": "Alt",
-        "description": "",
-        "id": "Alt",
-        "text": "Alt"
-    },
-    {
-        "source": "Command",
-        "description": "",
-        "id": "Command",
-        "text": "Kommando"
-    },
-    {
-        "source": "Cached",
-        "description": "",
-        "id": "Cached",
-        "text": "Cached"
-    },
-    {
-        "source": "Scrub",
-        "description": "",
-        "id": "Scrub",
-        "text": "Skrubbe"
-    },
-    {
-        "source": "Keyboard shortcut",
-        "description": "",
-        "id": "Keyboard shortcut",
-        "text": "Tastaturgenvej"
-    },
-    {
-        "source": "Keyboard shortcuts",
-        "description": "",
-        "id": "Keyboard shortcuts",
-        "text": "Tastaturgenveje"
-    },
-    {
-        "source": "IconMini",
-        "text": "den conMini",
-        "id": "IconMini",
-        "description": ""
-    },
-    {
-        "source": "SwatchSmall",
-        "text": "SwatchSmall",
-        "id": "SwatchSmall",
-        "description": ""
-    },
-    {
-        "source": "ScrollBar",
-        "text": "Rullebar",
-        "id": "ScrollBar",
-        "description": ""
-    },
-    {
-        "source": "ScrollBarSmall",
-        "text": "ScrollBarSmall",
-        "id": "ScrollBarSmall",
-        "description": ""
-    },
-    {
-        "source": "Native",
-        "text": "Hjemmehørende",
-        "id": "Native",
-        "description": ""
-    },
-    {
-        "source": "16:9",
-        "text": "16: 9",
-        "id": "16:9",
-        "description": ""
-    },
-    {
-        "source": "1.85",
-        "text": "1,85",
-        "id": "1.85",
-        "description": ""
-    },
-    {
-        "source": "2.35",
-        "text": "2,35",
-        "id": "2.35",
-        "description": ""
-    },
-    {
-        "source": "Reset the value.",
-        "text": "Nulstil værdien.",
-        "id": "Reset the value.",
-        "description": ""
-    },
-    {
-        "source": "BelowRight",
-        "text": "BelowRight",
-        "description": "",
-        "id": "BelowRight"
-    },
-    {
-        "source": "BelowLeft",
-        "text": "BelowLeft",
-        "description": "",
-        "id": "BelowLeft"
-    },
-    {
-        "source": "AboveRight",
-        "text": "ovenstående Right",
-        "description": "",
-        "id": "AboveRight"
-    },
-    {
-        "source": "AboveLeft",
-        "text": "AboveLeft",
-        "description": "",
-        "id": "AboveLeft"
-    }
-]
+{
+    "error_cannot_parse_the_value": "Kan ikke analysere værdien.",
+    "direction_horizontal": "Vandret",
+    "direction_vertical": "Lodret",
+    "direction_left": "Venstre",
+    "direction_top": "Top",
+    "direction_right": "Ret",
+    "direction_bottom": "Bund",
+    "None": "Ingen",
+    "Both": "Begge",
+    "Center": "Centrum",
+    "Fill": "Fylde",
+    "Baseline": "Baseline",
+    "Single": "Enkelt",
+    "Radio": "Radio",
+    "Multiple": "Mange",
+    "Forward": "Frem",
+    "Reverse": "Bagside",
+    "Push": "Skubbe",
+    "Toggle": "Toggle",
+    "Exclusive": "Eksklusiv",
+    "Tiles": "Fliser",
+    "List": "Liste",
+    "Background": "Baggrund",
+    "BackgroundHeader": "Baggrundsoverskrift",
+    "BackgroundBellows": "Baggrund Bellows",
+    "BackgroundToolBar": "Baggrund Værktøjslinje",
+    "Foreground": "forgrund",
+    "ForegroundDim": "Forgrundsdæmper Dim",
+    "Border": "Grænse",
+    "BorderButton": "Border Button",
+    "Trough": "trug",
+    "Button": "Knap",
+    "Hovered": "svævede",
+    "Pressed": "presset",
+    "Checked": "Kontrolleret",
+    "TextFocus": "Tekstfokus",
+    "TooltipBackground": "Tooltip Baggrund",
+    "TooltipForeground": "Tooltip Forgrund",
+    "Overlay": "Overlay",
+    "OverlayLight": "Overlay Light",
+    "Shadow": "Skygge",
+    "Handle": "Håndtere",
+    "Cached": "Cached",
+    "Margin": "Margin",
+    "MarginSmall": "Margin Small",
+    "MarginLarge": "Margin Large",
+    "MarginDialog": "Margen Dialog",
+    "Spacing": "Mellemrum",
+    "SpacingSmall": "Spacing Small",
+    "SpacingLarge": "Spacing Large",
+    "Drag": "Træk",
+    "Icon": "Ikon",
+    "IconSmall": "Ikon Lille",
+    "IconMini": "den conMini",
+    "FontSmall": "Skrifttype Lille",
+    "FontMedium": "Font Medium",
+    "FontLarge": "Font Large",
+    "FontHeader": "Font Header",
+    "FontTitle": "Font Titel",
+    "Swatch": "Swatch",
+    "SwatchSmall": "SwatchSmall",
+    "Slider": "Slider",
+    "ScrollArea": "Rulleområde",
+    "ScrollBar": "Rullebar",
+    "ScrollBarSmall": "ScrollBarSmall",
+    "Menu": "Menu",
+    "TextColumn": "Tekst kolonne",
+    "TextColumnLarge": "Tekst kolonne Large",
+    "SearchBox": "Søgefelt",
+    "Dialog": "Dialog",
+    "ShadowSmall": "Skygge Lille",
+    "TooltipOffset": "Tooltip Offset",
+    "Move": "Bevæge sig",
+    "Scrub": "Skrubbe",
+    "aspect_ratio_native": "Hjemmehørende",
+    "aspect_ratio_default": "Standard",
+    "aspect_ratio_16_9": "16: 9",
+    "aspect_ratio_1_85": "1,85",
+    "aspect_ratio_2_35": "2,35",
+    "belowright": "BelowRight",
+    "belowleft": "BelowLeft",
+    "aboveright": "ovenstående Right",
+    "aboveleft": "AboveLeft",
+    "reset_the_value": "Nulstil værdien.",
+    "expand": "Udvide",
+    "key_space": "Plads",
+    "key_apostrophe": "Apostrof",
+    "key_comma": "Komma",
+    "key_minus": "Minus",
+    "key_period": "Periode",
+    "key_slash": "Skråstreg",
+    "key_0": "0",
+    "key_1": "1",
+    "key_2": "2",
+    "key_3": "3",
+    "key_4": "4",
+    "key_5": "5",
+    "key_6": "6",
+    "key_7": "7",
+    "key_8": "8",
+    "key_9": "9",
+    "key_semicolon": "Semikolon",
+    "key_equal": "Lige",
+    "key_a": "EN",
+    "key_b": "B",
+    "key_c": "C",
+    "key_d": "D",
+    "key_e": "og",
+    "key_f": "F",
+    "key_g": "G",
+    "key_h": "H",
+    "key_i": "jeg",
+    "key_j": "J",
+    "key_k": "den",
+    "key_l": "den",
+    "key_m": "M",
+    "key_n": "N",
+    "key_o": "den",
+    "key_p": "P",
+    "key_q": "Q",
+    "key_r": "R",
+    "key_s": "S",
+    "key_t": "T",
+    "key_u": "den",
+    "key_v": "V",
+    "key_w": "den",
+    "key_x": "x",
+    "key_y": "og",
+    "key_z": "med",
+    "key_leftbracket": "Venstre beslag",
+    "key_backslash": "backslash",
+    "key_rightbracket": "Højre beslag",
+    "key_graveaccent": "Alvorlig accent",
+    "key_world1": "Verden 1",
+    "key_world2": "Verden 2",
+    "key_escape": "Flugt",
+    "key_enter": "Gå ind",
+    "key_tab": "Tab",
+    "key_backspace": "Backspace",
+    "key_insert": "Indsæt",
+    "key_delete": "Slet",
+    "key_rightarrow": "Højre pil",
+    "key_leftarrow": "Venstre pil",
+    "key_downarrow": "Pil ned",
+    "key_uparrow": "Pil op",
+    "key_pageup": "Side op",
+    "key_pagedown": "Side ned",
+    "key_home": "Hjem",
+    "key_end": "Ende",
+    "key_capslock": "Caps Lock",
+    "key_scrolllock": "Scroll Lock",
+    "key_numlock": "Num Lock",
+    "key_printscreen": "Skærmudskrift",
+    "key_f1": "F1",
+    "key_f2": "F2",
+    "key_f3": "F3",
+    "key_f4": "F4",
+    "key_f5": "F5",
+    "key_f6": "F6",
+    "key_f7": "F7",
+    "key_f8": "F8",
+    "key_f9": "F9",
+    "key_f10": "F10",
+    "key_f11": "F11",
+    "key_f12": "F12",
+    "key_f13": "F13",
+    "key_f14": "F14",
+    "key_f15": "F15",
+    "key_f16": "F16",
+    "key_f17": "F17",
+    "key_f18": "F18",
+    "key_f19": "F19",
+    "key_f20": "F20",
+    "key_f21": "F21",
+    "key_f22": "F22",
+    "key_f23": "F23",
+    "key_f24": "F24",
+    "key_f25": "F25",
+    "key_keypad0": "Key Pad 0",
+    "key_keypad1": "Key Pad 1",
+    "key_keypad2": "Key Pad 2",
+    "key_keypad3": "Key Pad 3",
+    "key_keypad4": "Key Pad 4",
+    "key_keypad5": "Key Pad 5",
+    "key_keypad6": "Key Pad 6",
+    "key_keypad7": "Key Pad 7",
+    "key_keypad8": "Key Pad 8",
+    "key_keypad9": "Key Pad 9",
+    "key_keypaddecimal": "Key Pad Decimal",
+    "key_keypaddivide": "Key Pad Divide",
+    "key_keypadmultiply": "Key Pad Multiply",
+    "key_keypadsubstract": "Key Pad Substract",
+    "key_keypadadd": "Key Pad Add",
+    "key_keypadenter": "Key Pad Enter",
+    "key_keypadequal": "Key Pad Equal",
+    "key_leftshift": "Venstre skift",
+    "key_leftcontrol": "Venstre kontrol",
+    "key_leftalt": "Venstre Alt",
+    "key_leftcommand": "Venstre kommando",
+    "key_rightshift": "Højre Shift",
+    "key_rightcontrol": "Højre kontrol",
+    "key_rightalt": "Right Alt",
+    "key_rightcommand": "Højre kommando",
+    "key_shift": "Flytte",
+    "key_ctrl": "Ctrl",
+    "key_alt": "Alt",
+    "key_command": "Kommando",
+    "Dark": "Mørk",
+    "Light": "Lys",
+    "size_medium": "Medium",
+    "Small": "Lille",
+    "Large": "Stor",
+    "size_extralarge": "Ekstra stor",
+    "keyboard_shortcut": "Tastaturgenvej",
+    "keyboard_shortcuts": "Tastaturgenveje"
+}

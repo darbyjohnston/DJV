@@ -204,11 +204,11 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         Core::Animation,
         Type,
-        DJV_TEXT("Linear"),
-        DJV_TEXT("EaseIn"),
-        DJV_TEXT("EaseOut"),
-        DJV_TEXT("SmoothStep"),
-        DJV_TEXT("Sine"));
+        DJV_TEXT("filter_linear"),
+        DJV_TEXT("easein"),
+        DJV_TEXT("easeout"),
+        DJV_TEXT("smoothstep"),
+        DJV_TEXT("sine"));
 
 } // namespace djv
 

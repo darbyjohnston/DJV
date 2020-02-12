@@ -1,0 +1,170 @@
+[
+    {
+        "source": "Nothing to convert",
+        "description": "",
+        "id": "Nothing to convert",
+        "text": "Τίποτα δεν μετατρέπεται"
+    },
+    {
+        "source": "Cannot parse the option '-resize'",
+        "description": "",
+        "id": "Cannot parse the option '-resize'",
+        "text": "Δεν είναι δυνατή η ανάλυση της επιλογής &#39;-resize&#39;"
+    },
+    {
+        "source": "Usage: djv_convert (input) (output)",
+        "description": "",
+        "id": "Usage: djv_convert (input) (output)",
+        "text": "Χρήση: djv_convert (είσοδος) (έξοδος)"
+    },
+    {
+        "source": " Usage:",
+        "description": "",
+        "id": " Usage:",
+        "text": "Χρήση:"
+    },
+    {
+        "source": "   djv_convert (input) (output) [option, ...]",
+        "description": "",
+        "id": "   djv_convert (input) (output) [option, ...]",
+        "text": "djv_convert (είσοδος) (έξοδος) [επιλογή, ...]"
+    },
+    {
+        "source": " Options:",
+        "description": "",
+        "id": " Options:",
+        "text": "Επιλογές:"
+    },
+    {
+        "source": "   -resize '(width) (height)'",
+        "description": "",
+        "id": "   -resize '(width) (height)'",
+        "text": "&quot;(πλάτος) (ύψος)&quot;"
+    },
+    {
+        "source": "     Resize the image.",
+        "description": "",
+        "id": "     Resize the image.",
+        "text": "Αλλάξτε το μέγεθος της εικόνας."
+    },
+    {
+        "source": "   -readSeq",
+        "description": "",
+        "id": "   -readSeq",
+        "text": "-readSeq"
+    },
+    {
+        "source": "     Interpret the input file name as a sequence.",
+        "description": "",
+        "id": "     Interpret the input file name as a sequence.",
+        "text": "Ερμηνεύστε το όνομα του αρχείου εισόδου ως ακολουθία."
+    },
+    {
+        "source": "   -writeSeq",
+        "description": "",
+        "id": "   -writeSeq",
+        "text": "-writeSeq"
+    },
+    {
+        "source": "     Interpret the output file name as a sequence.",
+        "description": "",
+        "id": "     Interpret the output file name as a sequence.",
+        "text": "Ερμηνεύστε το όνομα του αρχείου εξόδου ως ακολουθία."
+    },
+    {
+        "source": "   -readQueue (value)",
+        "description": "",
+        "id": "   -readQueue (value)",
+        "text": "-readQueue (τιμή)"
+    },
+    {
+        "source": "     Set the size of the read queue.",
+        "description": "",
+        "id": "     Set the size of the read queue.",
+        "text": "Ορίστε το μέγεθος της ουράς ανάγνωσης."
+    },
+    {
+        "source": "   -writeQueue (value)",
+        "description": "",
+        "id": "   -writeQueue (value)",
+        "text": "-writeQueue (τιμή)"
+    },
+    {
+        "source": "     Set the size of the write queue.",
+        "description": "",
+        "id": "     Set the size of the write queue.",
+        "text": "Ορίστε το μέγεθος της ουράς εγγραφής."
+    },
+    {
+        "source": "   -readThreads (value)",
+        "description": "",
+        "id": "   -readThreads (value)",
+        "text": "-readThreads (τιμή)"
+    },
+    {
+        "source": "     Set the number of threads for reading.",
+        "description": "",
+        "id": "     Set the number of threads for reading.",
+        "text": "Ορίστε τον αριθμό των νημάτων για ανάγνωση."
+    },
+    {
+        "source": "   -writeThreads (value)",
+        "description": "",
+        "id": "   -writeThreads (value)",
+        "text": "-writeThreads (τιμή)"
+    },
+    {
+        "source": "     Set the number of threads for writing.",
+        "description": "",
+        "id": "     Set the number of threads for writing.",
+        "text": "Ορίστε τον αριθμό των κλωστών για εγγραφή."
+    },
+    {
+        "source": "   -resize \\\"(width) (height)\\\"",
+        "text": "-resize \\ &quot;(πλάτος) (ύψος) \\&quot;",
+        "id": "   -resize \\\"(width) (height)\\\"",
+        "description": ""
+    },
+    {
+        "source": "   Resize the image.",
+        "text": "Αλλάξτε το μέγεθος της εικόνας.",
+        "id": "   Resize the image.",
+        "description": ""
+    },
+    {
+        "source": "   Interpret the input file name as a sequence.",
+        "text": "Ερμηνεύστε το όνομα του αρχείου εισόδου ως ακολουθία.",
+        "id": "   Interpret the input file name as a sequence.",
+        "description": ""
+    },
+    {
+        "source": "   Interpret the output file name as a sequence.",
+        "text": "Ερμηνεύστε το όνομα του αρχείου εξόδου ως ακολουθία.",
+        "id": "   Interpret the output file name as a sequence.",
+        "description": ""
+    },
+    {
+        "source": "   Set the size of the read queue.",
+        "text": "Ορίστε το μέγεθος της ουράς ανάγνωσης.",
+        "id": "   Set the size of the read queue.",
+        "description": ""
+    },
+    {
+        "source": "   Set the size of the write queue.",
+        "text": "Ορίστε το μέγεθος της ουράς εγγραφής.",
+        "id": "   Set the size of the write queue.",
+        "description": ""
+    },
+    {
+        "source": "   Set the number of threads for reading.",
+        "text": "Ορίστε τον αριθμό των νημάτων για ανάγνωση.",
+        "id": "   Set the number of threads for reading.",
+        "description": ""
+    },
+    {
+        "source": "   Set the number of threads for writing.",
+        "text": "Ορίστε τον αριθμό των κλωστών για εγγραφή.",
+        "id": "   Set the number of threads for writing.",
+        "description": ""
+    }
+]

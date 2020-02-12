@@ -111,12 +111,12 @@ namespace djv
 
         std::string IOThreadsSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("Threads");
+            return DJV_TEXT("settings_io_section_threads");
         }
 
         std::string IOThreadsSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("I/O");
+            return DJV_TEXT("settings_title_io");
         }
 
         std::string IOThreadsSettingsWidget::getSettingsSortKey() const
@@ -128,7 +128,7 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.layout->setText(p.threadCountSlider, _getText(DJV_TEXT("Thread count")) + ":");
+            p.layout->setText(p.threadCountSlider, _getText(DJV_TEXT("thread_count")) + ":");
         }
 
     } // namespace UI

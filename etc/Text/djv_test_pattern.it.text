@@ -1,86 +1,16 @@
-[
-    {
-        "source": " Usage:",
-        "text": "Uso:",
-        "id": " Usage:",
-        "description": ""
-    },
-    {
-        "source": "   djv_test_pattern (output) [option, ...]",
-        "text": "djv_test_pattern (output) [opzione, ...]",
-        "id": "   djv_test_pattern (output) [option, ...]",
-        "description": ""
-    },
-    {
-        "source": " Options:",
-        "text": "Opzioni:",
-        "id": " Options:",
-        "description": ""
-    },
-    {
-        "source": "   -frameCount (value)",
-        "text": "-frameCount (valore)",
-        "id": "   -frameCount (value)",
-        "description": ""
-    },
-    {
-        "source": "   The number of frames to render. Default: ",
-        "text": "Il numero di frame da renderizzare. Predefinito:",
-        "id": "   The number of frames to render. Default: ",
-        "description": ""
-    },
-    {
-        "source": "   -size \\\"(width) (height)\\\"",
-        "text": "-size \\ &quot;(larghezza) (altezza) \\&quot;",
-        "id": "   -size \\\"(width) (height)\\\"",
-        "description": ""
-    },
-    {
-        "source": "   The image resolution. Default: ",
-        "text": "La risoluzione dell&#39;immagine Predefinito:",
-        "id": "   The image resolution. Default: ",
-        "description": ""
-    },
-    {
-        "source": "   -type (value)",
-        "text": "-tipo (valore)",
-        "id": "   -type (value)",
-        "description": ""
-    },
-    {
-        "source": "   The image type. Default: ",
-        "text": "Il tipo di immagine. Predefinito:",
-        "id": "   The image type. Default: ",
-        "description": ""
-    },
-    {
-        "source": " Examples:",
-        "text": "Esempi:",
-        "id": " Examples:",
-        "description": ""
-    },
-    {
-        "source": "   > djv_test_pattern test.1.dpx",
-        "text": "&gt; djv_test_pattern test.1.dpx",
-        "id": "   > djv_test_pattern test.1.dpx",
-        "description": ""
-    },
-    {
-        "source": "   Render a test pattern with the default values.",
-        "text": "Rendering di un modello di test con i valori predefiniti.",
-        "id": "   Render a test pattern with the default values.",
-        "description": ""
-    },
-    {
-        "source": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16",
-        "text": "&gt; djv_test_pattern test.1.tif -size &#39;3840 2160&#39; -type RGB_U16",
-        "id": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16",
-        "description": ""
-    },
-    {
-        "source": "   Render a UHD resolution test pattern with a RGB 16-bit image type.",
-        "text": "Rendering di un modello di test di risoluzione UHD con un tipo di immagine RGB a 16 bit.",
-        "id": "   Render a UHD resolution test pattern with a RGB 16-bit image type.",
-        "description": ""
-    }
-]
+{
+    "cli_usage": "Uso:",
+    "cli_djv_test_pattern_output_option": "djv_test_pattern (output) [opzione, ...]",
+    "cli_options": "Opzioni:",
+    "cli_option_frame_number": "-frameCount (valore)",
+    "cli_description_frame_number": "Il numero di frame da renderizzare. Predefinito:",
+    "cli_option_resolution": "-size \\ &quot;(larghezza) (altezza) \\&quot;",
+    "cli_description_resolution": "La risoluzione dell&#39;immagine Predefinito:",
+    "cli_option_type": "-tipo (valore)",
+    "cli_description_type": "Il tipo di immagine. Predefinito:",
+    "cli_examples": "Esempi:",
+    "cli_djv_test_pattern_test_1_dpx": "&gt; djv_test_pattern test.1.dpx",
+    "cli_render_a_test_pattern_with_the_default_values": "Rendering di un modello di test con i valori predefiniti.",
+    "cli_djv_test_pattern_test_1_tif_-size_3840_2160_-type_rgb_u16": "&gt; djv_test_pattern test.1.tif -size &#39;3840 2160&#39; -type RGB_U16",
+    "cli_render_a_uhd_resolution_test_pattern_with_a_rgb_16-bit_image_type": "Rendering di un modello di test di risoluzione UHD con un tipo di immagine RGB a 16 bit."
+}

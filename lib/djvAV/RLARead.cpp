@@ -264,15 +264,15 @@ namespace djv
                     // Get file information.
                     if (header.matteChannels > 1)
                     {
-                        throw FileSystem::Error(DJV_TEXT("File not supported."));
+                        throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
                     }
                     if (header.matteChannelType != header.colorChannelType)
                     {
-                        throw FileSystem::Error(DJV_TEXT("File not supported."));
+                        throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
                     }
                     if (header.matteBitDepth != header.colorBitDepth)
                     {
-                        throw FileSystem::Error(DJV_TEXT("File not supported."));
+                        throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
                     }
                     Image::Type type = Image::Type::None;
                     if (3 == header.colorChannelType)
@@ -284,16 +284,16 @@ namespace djv
                         type = Image::getIntType(header.colorChannels + header.matteChannels, header.colorBitDepth);
                         if (Image::DataType::U32 == Image::getDataType(type))
                         {
-                            throw FileSystem::Error(DJV_TEXT("File not supported."));
+                            throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
                         }
                     }
                     if (Image::Type::None == type)
                     {
-                        throw FileSystem::Error(DJV_TEXT("File not supported."));
+                        throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
                     }
                     if (header.field)
                     {
-                        throw FileSystem::Error(DJV_TEXT("File not supported."));
+                        throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
                     }
 
                     auto imageInfo = Image::Info(w, h, type, Image::Mirror(false, true));

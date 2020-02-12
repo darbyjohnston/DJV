@@ -1,0 +1,86 @@
+[
+    {
+        "source": " Usage:",
+        "text": "Notkun:",
+        "id": " Usage:",
+        "description": ""
+    },
+    {
+        "source": "   djv_test_pattern (output) [option, ...]",
+        "text": "djv_test_pattern (framleiðsla) [valkostur, ...]",
+        "id": "   djv_test_pattern (output) [option, ...]",
+        "description": ""
+    },
+    {
+        "source": " Options:",
+        "text": "Valkostir:",
+        "id": " Options:",
+        "description": ""
+    },
+    {
+        "source": "   -frameCount (value)",
+        "text": "-frameCount (gildi)",
+        "id": "   -frameCount (value)",
+        "description": ""
+    },
+    {
+        "source": "   The number of frames to render. Default: ",
+        "text": "Fjöldi ramma sem á að skila. Sjálfgefið:",
+        "id": "   The number of frames to render. Default: ",
+        "description": ""
+    },
+    {
+        "source": "   -size \\\"(width) (height)\\\"",
+        "text": "-stærð \\ &quot;(breidd) (hæð) \\&quot;",
+        "id": "   -size \\\"(width) (height)\\\"",
+        "description": ""
+    },
+    {
+        "source": "   The image resolution. Default: ",
+        "text": "Upplausn myndarinnar. Sjálfgefið:",
+        "id": "   The image resolution. Default: ",
+        "description": ""
+    },
+    {
+        "source": "   -type (value)",
+        "text": "-gerð (gildi)",
+        "id": "   -type (value)",
+        "description": ""
+    },
+    {
+        "source": "   The image type. Default: ",
+        "text": "Gerð myndarinnar. Sjálfgefið:",
+        "id": "   The image type. Default: ",
+        "description": ""
+    },
+    {
+        "source": " Examples:",
+        "text": "Dæmi:",
+        "id": " Examples:",
+        "description": ""
+    },
+    {
+        "source": "   > djv_test_pattern test.1.dpx",
+        "text": "&gt; djv_test_pattern test.1.dpx",
+        "id": "   > djv_test_pattern test.1.dpx",
+        "description": ""
+    },
+    {
+        "source": "   Render a test pattern with the default values.",
+        "text": "Skilið prófmynstri með sjálfgefnum gildum.",
+        "id": "   Render a test pattern with the default values.",
+        "description": ""
+    },
+    {
+        "source": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16",
+        "text": "&gt; djv_test_pattern test.1.tif-stærð &#39;3840 2160&#39; -gerð RGB_U16",
+        "id": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16",
+        "description": ""
+    },
+    {
+        "source": "   Render a UHD resolution test pattern with a RGB 16-bit image type.",
+        "text": "Gerðu UHD prófunarmynstur með RGB 16 bita gerð.",
+        "id": "   Render a UHD resolution test pattern with a RGB 16-bit image type.",
+        "description": ""
+    }
+]

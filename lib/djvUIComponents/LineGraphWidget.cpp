@@ -205,7 +205,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             {
                 std::stringstream ss;
-                ss << _getText(DJV_TEXT("Current")) << ", " <<
+                ss << _getText(DJV_TEXT("current")) << ", " <<
                     _getText(DJV_TEXT("min")) << ", " <<
                     _getText(DJV_TEXT("max")) << ": ";
                 p.label->setText(ss.str());

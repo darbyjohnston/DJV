@@ -162,7 +162,7 @@ namespace djv
             {
                 Widget::_initEvent(event);
                 DJV_PRIVATE_PTR();
-                p.titleLabel->setText(_getText(DJV_TEXT("Drives")));
+                p.titleLabel->setText(_getText(DJV_TEXT("file_browser_drives")));
             }
 
         } // namespace FileBrowser

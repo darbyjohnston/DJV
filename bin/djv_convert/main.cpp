@@ -79,7 +79,7 @@ namespace djv
                 auto & video = info.video;
                 if (!video.size())
                 {
-                    throw std::invalid_argument(DJV_TEXT("Nothing to convert"));
+                    throw std::invalid_argument(DJV_TEXT("djv_convert_nothing_convert"));
                 }
                 auto & videoInfo = video[0];
                 if (_resize)
@@ -248,32 +248,32 @@ namespace djv
             void _printUsage()
             {
                 std::cout << std::endl;
-                std::cout << DJV_TEXT(" Usage:") << std::endl;
+                std::cout << DJV_TEXT("cli_usage") << std::endl;
                 std::cout << std::endl;
-                std::cout << DJV_TEXT("   djv_convert (input) (output) [option, ...]") << std::endl;
+                std::cout << DJV_TEXT("djv_convert_usage") << std::endl;
                 std::cout << std::endl;
-                std::cout << DJV_TEXT(" Options:") << std::endl;
+                std::cout << DJV_TEXT("cli_options") << std::endl;
                 std::cout << std::endl;
-                std::cout << DJV_TEXT("   -resize \"(width) (height)\"") << std::endl;
-                std::cout << DJV_TEXT("   Resize the image.") << std::endl;
+                std::cout << DJV_TEXT("djv_convert_option_resize") << std::endl;
+                std::cout << DJV_TEXT("djv_convert_option_resize_description") << std::endl;
                 std::cout << std::endl;
-                std::cout << DJV_TEXT("   -readSeq") << std::endl;
-                std::cout << DJV_TEXT("   Interpret the input file name as a sequence.") << std::endl;
+                std::cout << DJV_TEXT("djv_convert_option_readseq") << std::endl;
+                std::cout << DJV_TEXT("djv_convert_option_readseq_description") << std::endl;
                 std::cout << std::endl;
-                std::cout << DJV_TEXT("   -writeSeq") << std::endl;
-                std::cout << DJV_TEXT("   Interpret the output file name as a sequence.") << std::endl;
+                std::cout << DJV_TEXT("djv_convert_option_writeseq") << std::endl;
+                std::cout << DJV_TEXT("djv_convert_option_writeseq_description") << std::endl;
                 std::cout << std::endl;
-                std::cout << DJV_TEXT("   -readQueue (value)") << std::endl;
-                std::cout << DJV_TEXT("   Set the size of the read queue.") << std::endl;
+                std::cout << DJV_TEXT("djv_convert_option_readqueue") << std::endl;
+                std::cout << DJV_TEXT("djv_convert_option_readqueue_description") << std::endl;
                 std::cout << std::endl;
-                std::cout << DJV_TEXT("   -writeQueue (value)") << std::endl;
-                std::cout << DJV_TEXT("   Set the size of the write queue.") << std::endl;
+                std::cout << DJV_TEXT("djv_convert_option_writequeue") << std::endl;
+                std::cout << DJV_TEXT("djv_convert_option_writequeue_description") << std::endl;
                 std::cout << std::endl;
-                std::cout << DJV_TEXT("   -readThreads (value)") << std::endl;
-                std::cout << DJV_TEXT("   Set the number of threads for reading.") << std::endl;
+                std::cout << DJV_TEXT("djv_convert_option_readthreads") << std::endl;
+                std::cout << DJV_TEXT("djv_convert_option_readthreads_description") << std::endl;
                 std::cout << std::endl;
-                std::cout << DJV_TEXT("   -writeThreads (value)") << std::endl;
-                std::cout << DJV_TEXT("   Set the number of threads for writing.") << std::endl;
+                std::cout << DJV_TEXT("djv_convert_option_writethreads") << std::endl;
+                std::cout << DJV_TEXT("djv_convert_option_writethreads_description") << std::endl;
                 std::cout << std::endl;
             }
 

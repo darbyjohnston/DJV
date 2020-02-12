@@ -212,10 +212,10 @@ namespace djv
         void MemoryCacheWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.titleLabel->setText(_getText(DJV_TEXT("Memory Cache")));
-            p.enabledCheckBox->setText(_getText(DJV_TEXT("Enable")));
-            p.maxGBLabel->setText(_getText(DJV_TEXT("GB")));
-            p.percentageLabel->setText(_getText(DJV_TEXT("Used")) + ":");
+            p.titleLabel->setText(_getText(DJV_TEXT("memory_cache")));
+            p.enabledCheckBox->setText(_getText(DJV_TEXT("enable")));
+            p.maxGBLabel->setText(_getText(DJV_TEXT("gb")));
+            p.percentageLabel->setText(_getText(DJV_TEXT("used")) + ":");
             std::stringstream ss;
             ss << static_cast<int>(p.percentageUsed) << "%";
             p.percentageLabel2->setText(ss.str());

@@ -1,0 +1,3132 @@
+[
+    {
+        "source": "cannot create OpenAL source",
+        "description": "",
+        "id": "cannot create OpenAL source",
+        "text": "kan inte skapa OpenAL-källan"
+    },
+    {
+        "source": "cannot create OpenAL buffers",
+        "description": "",
+        "id": "cannot create OpenAL buffers",
+        "text": "kan inte skapa OpenAL buffertar"
+    },
+    {
+        "source": "cannot open",
+        "description": "",
+        "id": "cannot open",
+        "text": "kan inte öppna"
+    },
+    {
+        "source": "Annotate",
+        "description": "",
+        "id": "Annotate",
+        "text": "Kommentera"
+    },
+    {
+        "source": "Increase Volume",
+        "description": "",
+        "id": "Increase Volume",
+        "text": "Öka volymen"
+    },
+    {
+        "source": "Increase the audio volume",
+        "description": "",
+        "id": "Increase volume tooltip",
+        "text": "Öka ljudvolymen"
+    },
+    {
+        "source": "Decrease Volume",
+        "description": "",
+        "id": "Decrease Volume",
+        "text": "Minska volymen"
+    },
+    {
+        "source": "Decrease the audio volume",
+        "description": "",
+        "id": "Decrease volume tooltip",
+        "text": "Minska ljudvolymen"
+    },
+    {
+        "source": "Mute",
+        "description": "",
+        "id": "Mute",
+        "text": "Stum"
+    },
+    {
+        "source": "Mute the audio",
+        "description": "",
+        "id": "Mute tooltip",
+        "text": "Stäng av ljudet"
+    },
+    {
+        "source": "Audio",
+        "description": "",
+        "id": "Audio",
+        "text": "Audio"
+    },
+    {
+        "source": "Color Picker",
+        "description": "",
+        "id": "Color Picker",
+        "text": "Färgväljare"
+    },
+    {
+        "source": "Activate the color picker tool",
+        "description": "",
+        "id": "Color picker tooltip",
+        "text": "Aktivera färgväljaren"
+    },
+    {
+        "source": "Lock Color Type",
+        "description": "",
+        "id": "Lock Color Type",
+        "text": "Lås färgtyp"
+    },
+    {
+        "source": "Don't change the color type to match the image",
+        "description": "",
+        "id": "Color picker lock color type tooltip",
+        "text": "Ändra inte färgtypen för att matcha bilden"
+    },
+    {
+        "source": "RGB",
+        "description": "",
+        "id": "RGB",
+        "text": "RGB"
+    },
+    {
+        "source": "HSV",
+        "description": "",
+        "id": "HSV",
+        "text": "HSV"
+    },
+    {
+        "source": "Set the color picker sample size",
+        "description": "",
+        "id": "Color picker sample size tooltip",
+        "text": "Ställ in färgväljarens provstorlek"
+    },
+    {
+        "source": "FPS",
+        "description": "",
+        "id": "FPS",
+        "text": "FPS"
+    },
+    {
+        "source": "Object count",
+        "description": "",
+        "id": "Object count",
+        "text": "Objekträkning"
+    },
+    {
+        "source": "Widget count",
+        "description": "",
+        "id": "Widget count",
+        "text": "Widgeträkning"
+    },
+    {
+        "source": "Hover",
+        "description": "",
+        "id": "Hover",
+        "text": "Sväva"
+    },
+    {
+        "source": "None",
+        "description": "",
+        "id": "None",
+        "text": "Ingen"
+    },
+    {
+        "source": "Grab",
+        "description": "",
+        "id": "Grab",
+        "text": "Hugg"
+    },
+    {
+        "source": "Key grab",
+        "description": "",
+        "id": "Key grab",
+        "text": "Viktig grepp"
+    },
+    {
+        "source": "Font system glyph cache",
+        "description": "",
+        "id": "Font system glyph cache",
+        "text": "Teckensystems glyph cache"
+    },
+    {
+        "source": "Thumbnail system information cache",
+        "description": "",
+        "id": "Thumbnail system information cache",
+        "text": "Miniatyrsysteminformation cache"
+    },
+    {
+        "source": "Thumbnail system image cache",
+        "description": "",
+        "id": "Thumbnail system image cache",
+        "text": "Miniatyrsystemets bildcache"
+    },
+    {
+        "source": "Icon system cache",
+        "description": "",
+        "id": "Icon system cache",
+        "text": "Ikonsystem cache"
+    },
+    {
+        "source": "Texture atlas",
+        "description": "",
+        "id": "Texture atlas",
+        "text": "Textureatlas"
+    },
+    {
+        "source": "Dynamic texture count",
+        "description": "",
+        "id": "Dynamic texture count",
+        "text": "Dynamisk strukturräkning"
+    },
+    {
+        "source": "VBO size",
+        "description": "",
+        "id": "VBO size",
+        "text": "VBO-storlek"
+    },
+    {
+        "source": "Video queue",
+        "description": "",
+        "id": "Video queue",
+        "text": "Videokö"
+    },
+    {
+        "source": "Audio queue",
+        "description": "",
+        "id": "Audio queue",
+        "text": "Ljudsvans"
+    },
+    {
+        "source": "OpenAL queue",
+        "description": "",
+        "id": "OpenAL queue",
+        "text": "OpenAL kö"
+    },
+    {
+        "source": "Current time",
+        "description": "",
+        "id": "Current time",
+        "text": "Aktuell tid"
+    },
+    {
+        "source": "Debug",
+        "description": "",
+        "id": "Debug",
+        "text": "debug"
+    },
+    {
+        "source": "General",
+        "description": "",
+        "id": "General",
+        "text": "Allmän"
+    },
+    {
+        "source": "Render",
+        "description": "",
+        "id": "Render",
+        "text": "Göra"
+    },
+    {
+        "source": "Media",
+        "description": "",
+        "id": "Media",
+        "text": "Media"
+    },
+    {
+        "source": "Sequences",
+        "description": "",
+        "id": "Sequences",
+        "text": "sekvenser"
+    },
+    {
+        "source": "File",
+        "description": "",
+        "id": "File",
+        "text": "Fil"
+    },
+    {
+        "source": "Auto-detect file sequences",
+        "description": "",
+        "id": "Auto-detect file sequences",
+        "text": "Autodetektera filsekvenser"
+    },
+    {
+        "source": "Memory Cache",
+        "description": "",
+        "id": "Memory Cache",
+        "text": "Minne cache"
+    },
+    {
+        "source": "Enabled",
+        "description": "",
+        "id": "Enabled",
+        "text": "Aktiverad"
+    },
+    {
+        "source": "Gigabytes",
+        "description": "",
+        "id": "Gigabytes",
+        "text": "gigabyte"
+    },
+    {
+        "source": "Documentation",
+        "description": "",
+        "id": "Documentation",
+        "text": "Dokumentation"
+    },
+    {
+        "source": "About",
+        "description": "",
+        "id": "About",
+        "text": "Handla om"
+    },
+    {
+        "source": "System Log",
+        "description": "",
+        "id": "System Log",
+        "text": "System-logg"
+    },
+    {
+        "source": "Debug Widget",
+        "description": "",
+        "id": "Debug Widget",
+        "text": "Debug Widget"
+    },
+    {
+        "source": "Help",
+        "description": "",
+        "id": "Help",
+        "text": "Hjälp"
+    },
+    {
+        "source": "Forward",
+        "description": "",
+        "id": "Forward",
+        "text": "Framåt"
+    },
+    {
+        "source": "Start forward playback",
+        "description": "",
+        "id": "Forward tooltip",
+        "text": "Starta uppspelning framåt"
+    },
+    {
+        "source": "Reverse",
+        "description": "",
+        "id": "Reverse",
+        "text": "Omvänd"
+    },
+    {
+        "source": "Start reverse playback",
+        "description": "",
+        "id": "Reverse tooltip",
+        "text": "Starta omvänd uppspelning"
+    },
+    {
+        "source": "Play Once",
+        "description": "",
+        "id": "Play Once",
+        "text": "Spela en gång"
+    },
+    {
+        "source": "Play the file once and then stop playback",
+        "description": "",
+        "id": "Play once tooltip",
+        "text": "Spela upp filen en gång och stoppa uppspelningen"
+    },
+    {
+        "source": "Loop",
+        "description": "",
+        "id": "Loop",
+        "text": "Slinga"
+    },
+    {
+        "source": "Play the file over and over again",
+        "description": "",
+        "id": "Loop tooltip",
+        "text": "Spela upp filen om och om igen"
+    },
+    {
+        "source": "Ping Pong",
+        "description": "",
+        "id": "Ping Pong",
+        "text": "Pingis"
+    },
+    {
+        "source": "Play the file forwards and then backwards",
+        "description": "",
+        "id": "Ping pong tooltip",
+        "text": "Spela upp filen framåt och bakåt"
+    },
+    {
+        "source": "Play Every Frame",
+        "description": "",
+        "id": "Play Every Frame",
+        "text": "Spela varje ram"
+    },
+    {
+        "source": "Play every frame even if the proper speed cannot be maintained",
+        "description": "",
+        "id": "Play every frame tooltip",
+        "text": "Spela varje ram även om rätt hastighet inte kan bibehållas"
+    },
+    {
+        "source": "Go to In Point",
+        "description": "",
+        "id": "Go to In Point",
+        "text": "Gå till In Point"
+    },
+    {
+        "source": "Go to the playback in point",
+        "description": "",
+        "id": "Go to in point tooltip",
+        "text": "Gå till uppspelningen i punkten"
+    },
+    {
+        "source": "Go to Out Point",
+        "description": "",
+        "id": "Go to Out Point",
+        "text": "Gå till Out Point"
+    },
+    {
+        "source": "Go to the playback out point",
+        "description": "",
+        "id": "Go to out point tooltip",
+        "text": "Gå till uppspelningsutgångspunkten"
+    },
+    {
+        "source": "Go to Start Frame",
+        "description": "",
+        "id": "Go to Start Frame",
+        "text": "Gå till Startram"
+    },
+    {
+        "source": "Go to the start frame",
+        "description": "",
+        "id": "Go to start frame tooltip",
+        "text": "Gå till startramen"
+    },
+    {
+        "source": "Go to End Frame",
+        "description": "",
+        "id": "Go to End Frame",
+        "text": "Gå till Slutramen"
+    },
+    {
+        "source": "Go to the end frame",
+        "description": "",
+        "id": "Go to end frame tooltip",
+        "text": "Gå till ändramen"
+    },
+    {
+        "source": "Next Frame",
+        "description": "",
+        "id": "Next Frame",
+        "text": "Nästa ram"
+    },
+    {
+        "source": "Go to the next frame",
+        "description": "",
+        "id": "Next frame tooltip",
+        "text": "Gå till nästa ram"
+    },
+    {
+        "source": "Next Frame X10",
+        "description": "",
+        "id": "Next Frame X10",
+        "text": "Nästa ram X10"
+    },
+    {
+        "source": "Skip forward 10 frames",
+        "description": "",
+        "id": "Next frame X10 tooltip",
+        "text": "Hoppa över 10 ramar framåt"
+    },
+    {
+        "source": "Next Frame X100",
+        "description": "",
+        "id": "Next Frame X100",
+        "text": "Nästa ram X100"
+    },
+    {
+        "source": "Skip forward 100 frames",
+        "description": "",
+        "id": "Next frame X100 tooltip",
+        "text": "Hoppa över 100 ramar"
+    },
+    {
+        "source": "Previous Frame",
+        "description": "",
+        "id": "Previous Frame",
+        "text": "Föregående ram"
+    },
+    {
+        "source": "Go to the previous frame",
+        "description": "",
+        "id": "Previous frame tooltip",
+        "text": "Gå till föregående ram"
+    },
+    {
+        "source": "Previous Frame X10",
+        "description": "",
+        "id": "Previous Frame X10",
+        "text": "Föregående bild X10"
+    },
+    {
+        "source": "Skip backwards 10 frames",
+        "description": "",
+        "id": "Previous frame X10 tooltip",
+        "text": "Hoppa bakåt 10 ramar"
+    },
+    {
+        "source": "Previous Frame X100",
+        "description": "",
+        "id": "Previous Frame X100",
+        "text": "Föregående bild X100"
+    },
+    {
+        "source": "Skip backwards 100 frames",
+        "description": "",
+        "id": "Previous frame X100 tooltip",
+        "text": "Hoppa bakåt 100 ramar"
+    },
+    {
+        "source": "Enable In/Out Points",
+        "description": "",
+        "id": "Enable In/Out Points",
+        "text": "Aktivera in / ut-poäng"
+    },
+    {
+        "source": "Enable the in/out points",
+        "description": "",
+        "id": "Enable in/out points tooltip",
+        "text": "Aktivera in / ut-punkterna"
+    },
+    {
+        "source": "Set In Point",
+        "description": "",
+        "id": "Set In Point",
+        "text": "Ställ in punkt"
+    },
+    {
+        "source": "Set the playback in point",
+        "description": "",
+        "id": "Set in point tooltip",
+        "text": "Ställ in uppspelningen i punkt"
+    },
+    {
+        "source": "Set Out Point",
+        "description": "",
+        "id": "Set Out Point",
+        "text": "Utgångspunkt"
+    },
+    {
+        "source": "Set the playback out point",
+        "description": "",
+        "id": "Set out point tooltip",
+        "text": "Ställ in uppspelningsutgångspunkten"
+    },
+    {
+        "source": "Reset In Point",
+        "description": "",
+        "id": "Reset In Point",
+        "text": "Återställ i punkt"
+    },
+    {
+        "source": "Reset the playback in point",
+        "description": "",
+        "id": "Reset in point tooltip",
+        "text": "Återställ uppspelningen i punkt"
+    },
+    {
+        "source": "Reset Out Point",
+        "description": "",
+        "id": "Reset Out Point",
+        "text": "Återställ Out Point"
+    },
+    {
+        "source": "Reset the playback out point",
+        "description": "",
+        "id": "Reset out point tooltip",
+        "text": "Återställ uppspelningsutgångspunkten"
+    },
+    {
+        "source": "Playback",
+        "description": "",
+        "id": "Playback",
+        "text": "Uppspelning"
+    },
+    {
+        "source": "Histogram",
+        "description": "",
+        "id": "Histogram",
+        "text": "Histogram"
+    },
+    {
+        "source": "Open",
+        "description": "",
+        "id": "Open",
+        "text": "Öppna"
+    },
+    {
+        "source": "Open a new file",
+        "description": "",
+        "id": "Open tooltip",
+        "text": "Öppna en ny fil"
+    },
+    {
+        "source": "Recent",
+        "description": "",
+        "id": "Recent",
+        "text": "Nyligen"
+    },
+    {
+        "source": "Show the recently opened files",
+        "description": "",
+        "id": "Recent tooltip",
+        "text": "Visa de nyligen öppnade filerna"
+    },
+    {
+        "source": "Reload",
+        "description": "",
+        "id": "Reload",
+        "text": "Ladda om"
+    },
+    {
+        "source": "Reload the current file",
+        "description": "",
+        "id": "Reload tooltip",
+        "text": "Ladda om aktuell fil"
+    },
+    {
+        "source": "Close",
+        "description": "",
+        "id": "Close",
+        "text": "Stänga"
+    },
+    {
+        "source": "Close the current file",
+        "description": "",
+        "id": "Close tooltip",
+        "text": "Stäng den aktuella filen"
+    },
+    {
+        "source": "Close All",
+        "description": "",
+        "id": "Close All",
+        "text": "Stäng alla"
+    },
+    {
+        "source": "Close all open files",
+        "description": "",
+        "id": "Close all tooltip",
+        "text": "Stäng alla öppna filer"
+    },
+    {
+        "source": "Export",
+        "description": "",
+        "id": "Export",
+        "text": "Exportera"
+    },
+    {
+        "source": "Export the file",
+        "description": "",
+        "id": "Export tooltip",
+        "text": "Exportera filen"
+    },
+    {
+        "source": "Next",
+        "description": "",
+        "id": "Next",
+        "text": "Nästa"
+    },
+    {
+        "source": "Go to the next file",
+        "description": "",
+        "id": "Next tooltip",
+        "text": "Gå till nästa fil"
+    },
+    {
+        "source": "Previous",
+        "description": "",
+        "id": "Previous",
+        "text": "Tidigare"
+    },
+    {
+        "source": "Go to the previous file",
+        "description": "",
+        "id": "Prev tooltip",
+        "text": "Gå till föregående fil"
+    },
+    {
+        "source": "Layers Widget",
+        "description": "",
+        "id": "Layers Widget",
+        "text": "Lag Widget"
+    },
+    {
+        "source": "Show the layers widget",
+        "description": "",
+        "id": "Layers widget tooltip",
+        "text": "Visa lag widgeten"
+    },
+    {
+        "source": "Next layer",
+        "description": "",
+        "id": "Next layer",
+        "text": "Nästa lager"
+    },
+    {
+        "source": "Go to the next layer",
+        "description": "",
+        "id": "Next layer tooltip",
+        "text": "Gå till nästa lager"
+    },
+    {
+        "source": "Previous Layer",
+        "description": "",
+        "id": "Previous Layer",
+        "text": "Föregående lager"
+    },
+    {
+        "source": "Go to the previous layer",
+        "description": "",
+        "id": "Previous layer tooltip",
+        "text": "Gå till föregående lager"
+    },
+    {
+        "source": "8-Bit Conversion",
+        "description": "",
+        "id": "8-Bit Conversion",
+        "text": "8-bitars konvertering"
+    },
+    {
+        "source": "Down convert files to 8-bits to conserve memory",
+        "description": "",
+        "id": "8-bit conversion tooltip",
+        "text": "Ned konvertera filer till 8 bitar för att spara minne"
+    },
+    {
+        "source": "Show the memory cache settings",
+        "description": "",
+        "id": "Memory cache tooltip",
+        "text": "Visa inställningarna för minnescache"
+    },
+    {
+        "source": "Exit",
+        "description": "",
+        "id": "Exit",
+        "text": "Utgång"
+    },
+    {
+        "source": "Exit the application",
+        "description": "",
+        "id": "Exit tooltip",
+        "text": "Avsluta ansökan"
+    },
+    {
+        "source": "Aspect Ratio",
+        "description": "",
+        "id": "Aspect Ratio",
+        "text": "Bildförhållande"
+    },
+    {
+        "source": "Image",
+        "description": "",
+        "id": "Image",
+        "text": "Bild"
+    },
+    {
+        "source": "Rotate",
+        "description": "",
+        "id": "Rotate",
+        "text": "Rotera"
+    },
+    {
+        "source": "Maximize the current window",
+        "description": "",
+        "id": "Maximize tooltip",
+        "text": "Maximera det aktuella fönstret"
+    },
+    {
+        "source": "Show the playback speed settings",
+        "description": "",
+        "id": "Speed popup tooltip",
+        "text": "Visa inställningarna för uppspelningshastighet"
+    },
+    {
+        "source": "The actual playback speed",
+        "description": "",
+        "id": "Real speed tooltip",
+        "text": "Den faktiska uppspelningshastigheten"
+    },
+    {
+        "source": "The current time",
+        "description": "",
+        "id": "Current time tooltip",
+        "text": "Den aktuella tiden"
+    },
+    {
+        "source": "The playback duration",
+        "description": "",
+        "id": "Duration tooltip",
+        "text": "Uppspelningstiden"
+    },
+    {
+        "source": "Set the audio volume",
+        "description": "",
+        "id": "Volume tooltip",
+        "text": "Ställ in ljudvolymen"
+    },
+    {
+        "source": "Show the audio settings",
+        "description": "",
+        "id": "Audio popup tooltip",
+        "text": "Visa ljudinställningarna"
+    },
+    {
+        "source": "Set the memory cache size in gigabytes",
+        "description": "",
+        "id": "Memory cache maximum tooltip",
+        "text": "Ställ in minnesbuffertstorleken i gigabyte"
+    },
+    {
+        "source": "Enable the memory cache",
+        "description": "",
+        "id": "Memory cache enabled tooltip",
+        "text": "Aktivera minnescachen"
+    },
+    {
+        "source": "Default",
+        "description": "",
+        "id": "Default",
+        "text": "Standard"
+    },
+    {
+        "source": "Play every frame",
+        "description": "",
+        "id": "Play every frame",
+        "text": "Spela varje ram"
+    },
+    {
+        "source": "Background Color",
+        "description": "",
+        "id": "Background Color",
+        "text": "Bakgrundsfärg"
+    },
+    {
+        "source": "View",
+        "description": "",
+        "id": "View",
+        "text": "Se"
+    },
+    {
+        "source": "Information",
+        "description": "",
+        "id": "Information",
+        "text": "Information"
+    },
+    {
+        "source": "File name",
+        "description": "",
+        "id": "File name",
+        "text": "Filnamn"
+    },
+    {
+        "source": "Name",
+        "description": "",
+        "id": "Name",
+        "text": "namn"
+    },
+    {
+        "source": "Size",
+        "description": "",
+        "id": "Size",
+        "text": "Storlek"
+    },
+    {
+        "source": "Type",
+        "description": "",
+        "id": "Type",
+        "text": "Typ"
+    },
+    {
+        "source": "Speed",
+        "description": "",
+        "id": "Speed",
+        "text": "Fart"
+    },
+    {
+        "source": "Duration",
+        "description": "",
+        "id": "Duration",
+        "text": "Varaktighet"
+    },
+    {
+        "source": "Codec",
+        "description": "",
+        "id": "Codec",
+        "text": "codec"
+    },
+    {
+        "source": "Video track",
+        "description": "",
+        "id": "Video track",
+        "text": "Videospår"
+    },
+    {
+        "source": "Channels",
+        "description": "",
+        "id": "Channels",
+        "text": "kanaler"
+    },
+    {
+        "source": "kHz",
+        "description": "",
+        "id": "kHz",
+        "text": "kHz"
+    },
+    {
+        "source": "Sample rate",
+        "description": "",
+        "id": "Sample rate",
+        "text": "Samplingshastighet"
+    },
+    {
+        "source": "Audio track",
+        "description": "",
+        "id": "Audio track",
+        "text": "Ljudspår"
+    },
+    {
+        "source": "Tags",
+        "description": "",
+        "id": "Tags",
+        "text": "Tags"
+    },
+    {
+        "source": "Layers",
+        "description": "",
+        "id": "Layers",
+        "text": "Skikten"
+    },
+    {
+        "source": "Magnify",
+        "description": "",
+        "id": "Magnify",
+        "text": "Förstora"
+    },
+    {
+        "source": "Activate the magnify tool",
+        "description": "",
+        "id": "Magnify tooltip",
+        "text": "Aktivera förstoringsverktyget"
+    },
+    {
+        "source": "Zoom into the image",
+        "description": "",
+        "id": "Magnify zoom in tooltip",
+        "text": "Zooma in i bilden"
+    },
+    {
+        "source": "Zoom out of the image",
+        "description": "",
+        "id": "Magnify zoom out tooltip",
+        "text": "Zooma ut ur bilden"
+    },
+    {
+        "source": "NUX",
+        "description": "",
+        "id": "NUX",
+        "text": "NUX"
+    },
+    {
+        "source": "Enable new-user experience on startup",
+        "description": "",
+        "id": "Enable new-user experience on startup",
+        "text": "Aktivera nyanvändarupplevelse vid uppstart"
+    },
+    {
+        "source": "Choose your language",
+        "description": "",
+        "id": "Choose your language",
+        "text": "Välj ditt språk"
+    },
+    {
+        "source": "Choose a user interface size",
+        "description": "",
+        "id": "Choose a user interface size",
+        "text": "Välj en användargränssnittstorlek"
+    },
+    {
+        "source": "Choose a palette",
+        "description": "",
+        "id": "Choose a palette",
+        "text": "Välj en palett"
+    },
+    {
+        "source": "Finish",
+        "description": "",
+        "id": "Finish",
+        "text": "Avsluta"
+    },
+    {
+        "source": "Show timeline PIP",
+        "description": "",
+        "id": "Show timeline PIP",
+        "text": "Visa tidslinje PIP"
+    },
+    {
+        "source": "Recent Files",
+        "description": "",
+        "id": "Recent Files",
+        "text": "Senaste filer"
+    },
+    {
+        "source": "Increase Thumbnail Size",
+        "description": "",
+        "id": "Increase Thumbnail Size",
+        "text": "Öka miniatyrstorlek"
+    },
+    {
+        "source": "Increase the size of the thumbnails",
+        "description": "",
+        "id": "Recent files increase thumbnail size tooltip",
+        "text": "Öka storleken på miniatyrerna"
+    },
+    {
+        "source": "Decrease Thumbnail Size",
+        "description": "",
+        "id": "Decrease Thumbnail Size",
+        "text": "Minska miniatyrstorlek"
+    },
+    {
+        "source": "Decrease the size of the thumbnails",
+        "description": "",
+        "id": "Recent files decrease thumbnail size tooltip",
+        "text": "Minska storleken på miniatyrerna"
+    },
+    {
+        "source": "Search the recent files",
+        "description": "",
+        "id": "Recent files search tooltip",
+        "text": "Sök de senaste filerna"
+    },
+    {
+        "source": "Show the recent files settings",
+        "description": "",
+        "id": "Recent files settings tooltip",
+        "text": "Visa de senaste filinställningarna"
+    },
+    {
+        "source": "Items",
+        "description": "",
+        "id": "Items",
+        "text": "artiklar"
+    },
+    {
+        "source": "Settings",
+        "description": "",
+        "id": "Settings",
+        "text": "inställningar"
+    },
+    {
+        "source": "Copy",
+        "description": "",
+        "id": "Copy",
+        "text": "Kopia"
+    },
+    {
+        "source": "Clear",
+        "description": "",
+        "id": "Clear",
+        "text": "Klar"
+    },
+    {
+        "source": "Tools",
+        "description": "",
+        "id": "Tools",
+        "text": "Verktyg"
+    },
+    {
+        "source": "Information Widget",
+        "description": "",
+        "id": "Information Widget",
+        "text": "Information Widget"
+    },
+    {
+        "source": "Show the information widget",
+        "description": "",
+        "id": "Information widget tooltip",
+        "text": "Visa informations widgeten"
+    },
+    {
+        "source": "Auto Hide",
+        "description": "",
+        "id": "Auto Hide",
+        "text": "Automatisk döljning"
+    },
+    {
+        "source": "Automatically hide the user interface",
+        "description": "",
+        "id": "Automatically hide the user interface",
+        "text": "Göm automatiskt användargränssnittet"
+    },
+    {
+        "source": "Background Image",
+        "description": "",
+        "id": "Background Image",
+        "text": "Bakgrundsbild"
+    },
+    {
+        "source": "Window",
+        "description": "",
+        "id": "Window",
+        "text": "Fönster"
+    },
+    {
+        "source": "Open the file browser",
+        "description": "",
+        "id": "Open the file browser",
+        "text": "Öppna filbläddraren"
+    },
+    {
+        "source": "Clear the background image",
+        "description": "",
+        "id": "Clear the background image",
+        "text": "Rensa bakgrundsbilden"
+    },
+    {
+        "source": "Colorize with the UI style",
+        "description": "",
+        "id": "Colorize with the UI style",
+        "text": "Färglägg med UI-stilen"
+    },
+    {
+        "source": "Full Screen",
+        "description": "",
+        "id": "Full Screen",
+        "text": "Fullskärm"
+    },
+    {
+        "source": "Toggle full screen mode",
+        "description": "",
+        "id": "Full screen tooltip",
+        "text": "Växla helskärmsläge"
+    },
+    {
+        "source": "Maximized",
+        "description": "",
+        "id": "Maximized",
+        "text": "Maximerad"
+    },
+    {
+        "source": "Maximize the window",
+        "description": "",
+        "id": "Maximized tooltip",
+        "text": "Maximera fönstret"
+    },
+    {
+        "source": "DJV Imaging",
+        "description": "",
+        "id": "About Title",
+        "text": "DJV Imaging"
+    },
+    {
+        "source": "Credits",
+        "description": "",
+        "id": "Credits",
+        "text": "Credits"
+    },
+    {
+        "source": "Sponsors",
+        "description": "",
+        "id": "Sponsors",
+        "text": "sponsorer"
+    },
+    {
+        "source": "License",
+        "description": "",
+        "id": "License",
+        "text": "Licens"
+    },
+    {
+        "source": "Copyright",
+        "description": "",
+        "id": "Copyright",
+        "text": "upphovsrätt"
+    },
+    {
+        "source": "Third Party Software",
+        "description": "",
+        "id": "Third Party",
+        "text": "Tredjeparts programvara"
+    },
+    {
+        "source": "Trademarks",
+        "description": "",
+        "id": "Trademarks",
+        "text": "varumärken"
+    },
+    {
+        "source": "Darby Johnston",
+        "description": "",
+        "id": "Credits Darby Johnston",
+        "language": "en",
+        "text": "Darby Johnston"
+    },
+    {
+        "source": "Principal author",
+        "description": "",
+        "id": "Credits Darby Johnston Text",
+        "text": "Huvudförfattare"
+    },
+    {
+        "source": "Kent Oberheu, https://semafore.com",
+        "description": "",
+        "id": "Credits Kent Oberheu",
+        "language": "en",
+        "text": "Kent Oberheu, https://semafore.com"
+    },
+    {
+        "source": "Identity, iconography, UI / UX design",
+        "description": "",
+        "id": "Credits Kent Oberheu Text",
+        "text": "Identitet, ikonografi, UI / UX-design"
+    },
+    {
+        "source": "Siciliana Johnston",
+        "description": "",
+        "id": "Credits Siciliana Johnston",
+        "language": "en",
+        "text": "Siciliana Johnston"
+    },
+    {
+        "source": "Web design, social media",
+        "description": "",
+        "id": "Credits Siciliana Johnston Text",
+        "text": "Webbdesign, sociala medier"
+    },
+    {
+        "source": "Mikael Sundell",
+        "description": "",
+        "id": "Credits Mikael Sundell",
+        "language": "en",
+        "text": "Mikael Sundell"
+    },
+    {
+        "source": "IFF image file format support, example images",
+        "description": "",
+        "id": "Credits Mikael Sundell Text",
+        "text": "IFF-bildformatstöd, exempelbilder"
+    },
+    {
+        "source": "unexpected GmbH, https://www.unexpected.de",
+        "description": "",
+        "id": "Sponsors unexpected",
+        "language": "en",
+        "text": "unexpected GmbH, https://www.unexpected.de"
+    },
+    {
+        "source": "Copyright (c) 2004-2020 Darby Johnston, All rights reserved",
+        "description": "",
+        "id": "License 1",
+        "language": "en",
+        "text": "Copyright (c) 2004-2020 Darby Johnston, All rights reserved"
+    },
+    {
+        "source": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:",
+        "description": "",
+        "id": "License 2",
+        "language": "en",
+        "text": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:"
+    },
+    {
+        "source": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.",
+        "description": "",
+        "id": "License 3",
+        "language": "en",
+        "text": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer."
+    },
+    {
+        "source": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.",
+        "description": "",
+        "id": "License 4",
+        "language": "en",
+        "text": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution."
+    },
+    {
+        "source": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.",
+        "description": "",
+        "id": "License 5",
+        "language": "en",
+        "text": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission."
+    },
+    {
+        "source": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.",
+        "description": "",
+        "id": "License 6",
+        "language": "en",
+        "text": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+    },
+    {
+        "source": "Portions of this software are copyright (in alphabetical order):",
+        "description": "",
+        "id": "Copyright Text",
+        "text": "Delar av denna programvara är upphovsrätt (i alfabetisk ordning):"
+    },
+    {
+        "source": "* Copyright (c) 2004-2020 Darby Johnston, All rights reserved",
+        "description": "",
+        "id": "Copyright Darby Johnston",
+        "language": "en",
+        "text": "* Copyright (c) 2004-2020 Darby Johnston, All rights reserved"
+    },
+    {
+        "source": "* Copyright (c) 2019 Kent Oberheu, All rights reserved",
+        "description": "",
+        "id": "Copyright Kent Oberheu",
+        "language": "en",
+        "text": "* Copyright (c) 2019 Kent Oberheu, All rights reserved"
+    },
+    {
+        "source": "* Copyright (c) 2008-2009 Mikael Sundell, All rights reserved",
+        "description": "",
+        "id": "Copyright Mikael Sundell",
+        "language": "en",
+        "text": "* Copyright (c) 2008-2009 Mikael Sundell, All rights reserved"
+    },
+    {
+        "source": "This software is based in part on the works of (in alphabetical order):",
+        "description": "",
+        "id": "Third Party Text",
+        "text": "Denna programvara är delvis baserad på verk av (i alfabetisk ordning):"
+    },
+    {
+        "source": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium, All rights reserved",
+        "description": "",
+        "id": "Third Party CMake",
+        "language": "en",
+        "text": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium, All rights reserved"
+    },
+    {
+        "source": "* FFMpeg, http://www.ffmpeg.org, Licensed under the LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html",
+        "description": "",
+        "id": "Third Party FFMpeg",
+        "language": "en",
+        "text": "* FFMpeg, http://www.ffmpeg.org, Licensed under the LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html"
+    },
+    {
+        "source": "* FreeType, http://www.freetype.org, Copyright (c) 2018, The FreeType Project",
+        "description": "",
+        "id": "Third Party FreeType",
+        "language": "en",
+        "text": "* FreeType, http://www.freetype.org, Copyright (c) 2018, The FreeType Project"
+    },
+    {
+        "source": "* GLFW, http://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla Löwy <elmindreda@glfw.org>",
+        "description": "",
+        "id": "Third Party GLFW",
+        "language": "en",
+        "text": "* GLFW, http://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla Löwy <elmindreda@glfw.org>"
+    },
+    {
+        "source": "* GLM, http://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation",
+        "description": "",
+        "id": "Third Party GLM",
+        "language": "en",
+        "text": "* GLM, http://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation"
+    },
+    {
+        "source": "* MbedTLS, http://tls.mbed.org, Copyright © 2008 - 2016 ARM Limited, All rights reserved",
+        "description": "",
+        "id": "Third Party MbedTLS",
+        "language": "en",
+        "text": "* MbedTLS, http://tls.mbed.org, Copyright © 2008 - 2016 ARM Limited, All rights reserved"
+    },
+    {
+        "source": "* OpenAL, http://www.openal.org, Copyright (C) 1999-2000 by Loki Software",
+        "description": "",
+        "id": "Third Party OpenAL",
+        "language": "en",
+        "text": "* OpenAL, http://www.openal.org, Copyright (C) 1999-2000 by Loki Software"
+    },
+    {
+        "source": "* OpenColorIO, http://opencolorio.org, Copyright (c) 2003-2010 Sony Pictures Imageworks Inc., et al., All rights reserved",
+        "description": "",
+        "id": "Third Party OpenColorIO",
+        "language": "en",
+        "text": "* OpenColorIO, http://opencolorio.org, Copyright (c) 2003-2010 Sony Pictures Imageworks Inc., et al., All rights reserved"
+    },
+    {
+        "source": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd.",
+        "description": "",
+        "id": "Third Party OpenEXR",
+        "language": "en",
+        "text": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd."
+    },
+    {
+        "source": "* curl, http://curl.haxx.se/libcurl, Copyright (c) 1996 - 2019, Daniel Stenberg, <daniel@haxx.se>, and many contributors, see the THANKS file",
+        "description": "",
+        "id": "Third Party curl",
+        "language": "en",
+        "text": "* curl, http://curl.haxx.se/libcurl, Copyright (c) 1996 - 2019, Daniel Stenberg, <daniel@haxx.se>, and many contributors, see the THANKS file"
+    },
+    {
+        "source": "* dr_libs, http://github.com/mackron/dr_libs, David Reid",
+        "description": "",
+        "id": "Third Party dr_libs",
+        "language": "en",
+        "text": "* dr_libs, http://github.com/mackron/dr_libs, David Reid"
+    },
+    {
+        "source": "* glad, http://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth",
+        "description": "",
+        "id": "Third Party glad",
+        "language": "en",
+        "text": "* glad, http://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth"
+    },
+    {
+        "source": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding",
+        "description": "",
+        "id": "Third Party libjpeg",
+        "language": "en",
+        "text": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding"
+    },
+    {
+        "source": "* libjpeg-turbo, http://libjpeg-turbo.org, Copyright (C)2009-2019 D. R. Commander, All Rights Reserved, Copyright (C)2015 Viktor Szathmáry, All Rights Reserved",
+        "description": "",
+        "id": "Third Party libjpeg-turbo",
+        "language": "en",
+        "text": "* libjpeg-turbo, http://libjpeg-turbo.org, Copyright (C)2009-2019 D. R. Commander, All Rights Reserved, Copyright (C)2015 Viktor Szathmáry, All Rights Reserved"
+    },
+    {
+        "source": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson",
+        "description": "",
+        "id": "Third Party libpng",
+        "language": "en",
+        "text": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson"
+    },
+    {
+        "source": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc",
+        "description": "",
+        "id": "Third Party libtiff",
+        "language": "en",
+        "text": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc"
+    },
+    {
+        "source": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler",
+        "description": "",
+        "id": "Third Party zlib",
+        "language": "en",
+        "text": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler"
+    },
+    {
+        "source": "Trademarks named in the documentation (in alphabetical order):",
+        "description": "",
+        "id": "Trademarks Text",
+        "text": "Varumärken som anges i dokumentationen (i alfabetisk ordning):"
+    },
+    {
+        "source": "* Apple, OS X, ProRes, and QuickTime are registered trademarks of Apple, Inc.",
+        "description": "",
+        "id": "Trademarks Apple",
+        "language": "en",
+        "text": "* Apple, OS X, ProRes, and QuickTime are registered trademarks of Apple, Inc."
+    },
+    {
+        "source": "* AMD and ATI are registered trademarks of Advanced Micro Devices, Inc.",
+        "description": "",
+        "id": "Trademarks AMD",
+        "language": "en",
+        "text": "* AMD and ATI are registered trademarks of Advanced Micro Devices, Inc."
+    },
+    {
+        "source": "* Autodesk, Inferno, Maya, Softimage, and XSI are registered trademarks of Autodesk, Inc.",
+        "description": "",
+        "id": "Trademarks Autodesk",
+        "language": "en",
+        "text": "* Autodesk, Inferno, Maya, Softimage, and XSI are registered trademarks of Autodesk, Inc."
+    },
+    {
+        "source": "* Debian is a registered trademark of Software in the Public Interest, Inc.",
+        "description": "",
+        "id": "Trademarks Debian",
+        "language": "en",
+        "text": "* Debian is a registered trademark of Software in the Public Interest, Inc."
+    },
+    {
+        "source": "* FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project",
+        "description": "",
+        "id": "Trademarks FFmpeg",
+        "language": "en",
+        "text": "* FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project"
+    },
+    {
+        "source": "* FreeBSD is a registered trademark of The FreeBSD Foundation",
+        "description": "",
+        "id": "Trademarks FreeBSD",
+        "language": "en",
+        "text": "* FreeBSD is a registered trademark of The FreeBSD Foundation"
+    },
+    {
+        "source": "* Intel is a registered trademark of Intel Corporation",
+        "description": "",
+        "id": "Trademarks Intel",
+        "language": "en",
+        "text": "* Intel is a registered trademark of Intel Corporation"
+    },
+    {
+        "source": "* Industrial Light and Magic and ILM are registered trademarks of Lucasfilm Ltd.",
+        "description": "",
+        "id": "Trademarks Lucasfilm",
+        "language": "en",
+        "text": "* Industrial Light and Magic and ILM are registered trademarks of Lucasfilm Ltd."
+    },
+    {
+        "source": "* Kodak and Cineon are a registered trademarks of the Eastman Kodak Company",
+        "description": "",
+        "id": "Trademarks Kodak",
+        "language": "en",
+        "text": "* Kodak and Cineon are a registered trademarks of the Eastman Kodak Company"
+    },
+    {
+        "source": "* Linux is a registered trademark of Linus Torvalds",
+        "description": "",
+        "id": "Trademarks Linux",
+        "language": "en",
+        "text": "* Linux is a registered trademark of Linus Torvalds"
+    },
+    {
+        "source": "* Microsoft, Microsoft Windows, and Azure are registered trademarks of Microsoft, Inc.",
+        "description": "",
+        "id": "Trademarks Microsoft",
+        "language": "en",
+        "text": "* Microsoft, Microsoft Windows, and Azure are registered trademarks of Microsoft, Inc."
+    },
+    {
+        "source": "* MIPS is a registered trademark of MIPS Technologies, Inc.",
+        "description": "",
+        "id": "Trademarks MIPS",
+        "language": "en",
+        "text": "* MIPS is a registered trademark of MIPS Technologies, Inc."
+    },
+    {
+        "source": "* NVIDIA is a registered trademark of NVIDIA Corporation",
+        "description": "",
+        "id": "Trademarks NVIDIA",
+        "language": "en",
+        "text": "* NVIDIA is a registered trademark of NVIDIA Corporation"
+    },
+    {
+        "source": "* Red Hat and Fedora are registered trademarks of Red Hat, Inc.",
+        "description": "",
+        "id": "Trademarks Red Hat",
+        "language": "en",
+        "text": "* Red Hat and Fedora are registered trademarks of Red Hat, Inc."
+    },
+    {
+        "source": "* Silicon Graphics, SGI, IRIX, and OpenGL are registered trademarks of Silicon Graphics International Corp.",
+        "description": "",
+        "id": "Trademarks SGI",
+        "language": "en",
+        "text": "* Silicon Graphics, SGI, IRIX, and OpenGL are registered trademarks of Silicon Graphics International Corp."
+    },
+    {
+        "source": "* SMPTE is a registered trademark of the Society of Motion Picture and Television Engineers",
+        "description": "",
+        "id": "Trademarks SMPTE",
+        "language": "en",
+        "text": "* SMPTE is a registered trademark of the Society of Motion Picture and Television Engineers"
+    },
+    {
+        "source": "* SourceForge.net is a registered trademark of VA Software Corporation",
+        "description": "",
+        "id": "Trademarks SourceForge",
+        "language": "en",
+        "text": "* SourceForge.net is a registered trademark of VA Software Corporation"
+    },
+    {
+        "source": "* SuSE is a registered trademark of Novell, Inc.",
+        "description": "",
+        "id": "Trademarks SuSE",
+        "language": "en",
+        "text": "* SuSE is a registered trademark of Novell, Inc."
+    },
+    {
+        "source": "* Ubuntu is a registered trademark of Canonical Ltd.",
+        "description": "",
+        "id": "Trademarks Ubuntu",
+        "language": "en",
+        "text": "* Ubuntu is a registered trademark of Canonical Ltd."
+    },
+    {
+        "source": "* UNIX is a registered trademark of The Open Group",
+        "description": "",
+        "id": "Trademarks UNIX",
+        "language": "en",
+        "text": "* UNIX is a registered trademark of The Open Group"
+    },
+    {
+        "source": "All other products named in the documentation are trademarks of their respective owners.",
+        "description": "",
+        "id": "Trademarks End",
+        "text": "Alla andra produkter som nämns i dokumentationen är varumärken som tillhör respektive ägare."
+    },
+    {
+        "source": "Made in Berkeley, CA, USA",
+        "description": "",
+        "id": "Made In",
+        "text": "Gjord i Berkeley, CA, USA"
+    },
+    {
+        "source": "Cannot parse the value.",
+        "description": "",
+        "id": "Cannot parse the value.",
+        "text": "Kan inte analysera värdet."
+    },
+    {
+        "source": "Fit",
+        "description": "",
+        "id": "Fit",
+        "text": "Passa"
+    },
+    {
+        "source": "Center",
+        "description": "",
+        "id": "Center",
+        "text": "Centrum"
+    },
+    {
+        "source": "0",
+        "description": "",
+        "id": "0",
+        "text": "0"
+    },
+    {
+        "source": "90",
+        "description": "",
+        "id": "90",
+        "text": "90"
+    },
+    {
+        "source": "180",
+        "description": "",
+        "id": "180",
+        "text": "180"
+    },
+    {
+        "source": "270",
+        "description": "",
+        "id": "270",
+        "text": "270"
+    },
+    {
+        "source": "Native",
+        "description": "",
+        "id": "Native",
+        "text": "Inföding"
+    },
+    {
+        "source": "16:9",
+        "description": "",
+        "id": "16:9",
+        "text": "16: 9"
+    },
+    {
+        "source": "1.85",
+        "description": "",
+        "id": "1.85",
+        "text": "1,85"
+    },
+    {
+        "source": "2.35",
+        "description": "",
+        "id": "2.35",
+        "text": "2,35"
+    },
+    {
+        "source": "Stop",
+        "description": "",
+        "id": "Stop",
+        "text": "Sluta"
+    },
+    {
+        "source": "Once",
+        "description": "",
+        "id": "Once",
+        "text": "En gång"
+    },
+    {
+        "source": "Ping Pong",
+        "description": "",
+        "id": "PingPong",
+        "text": "Pingis"
+    },
+    {
+        "source": "Color Space Widget",
+        "description": "",
+        "id": "Color Space Widget",
+        "text": "Color Space Widget"
+    },
+    {
+        "source": "Show the color space widget",
+        "description": "",
+        "id": "Color space widget tooltip",
+        "text": "Visa widgeten för färgutrymme"
+    },
+    {
+        "source": "Red Channel",
+        "description": "",
+        "id": "Red Channel",
+        "text": "Red Channel"
+    },
+    {
+        "source": "Show the red channel",
+        "description": "",
+        "id": "Red channel tooltip",
+        "text": "Visa den röda kanalen"
+    },
+    {
+        "source": "Green Channel",
+        "description": "",
+        "id": "Green Channel",
+        "text": "Green Channel"
+    },
+    {
+        "source": "Show the green channel",
+        "description": "",
+        "id": "Green channel tooltip",
+        "text": "Visa den gröna kanalen"
+    },
+    {
+        "source": "Blue Channel",
+        "description": "",
+        "id": "Blue Channel",
+        "text": "Blå kanal"
+    },
+    {
+        "source": "Show the blue channel",
+        "description": "",
+        "id": "Blue channel tooltip",
+        "text": "Visa den blå kanalen"
+    },
+    {
+        "source": "Alpha Channel",
+        "description": "",
+        "id": "Alpha Channel",
+        "text": "Alpha Channel"
+    },
+    {
+        "source": "Show the alpha channel",
+        "description": "",
+        "id": "Alpha channel tooltip",
+        "text": "Visa alfakanalen"
+    },
+    {
+        "source": "Premultiplied Alpha",
+        "description": "",
+        "id": "Premultiplied Alpha",
+        "text": "Premultiplied Alpha"
+    },
+    {
+        "source": "Premultiply the color channels by the alpha channel",
+        "description": "",
+        "id": "Premultiplied alpha tooltip",
+        "text": "Premultiply färgkanalerna genom alfakanalen"
+    },
+    {
+        "source": "Mirror Horizontal",
+        "description": "",
+        "id": "Mirror Horizontal",
+        "text": "Spegel Horisontell"
+    },
+    {
+        "source": "Mirror the image horizontally",
+        "description": "",
+        "id": "Mirror horizontal tooltip",
+        "text": "Mirror bilden horisontellt"
+    },
+    {
+        "source": "Mirror Vertical",
+        "description": "",
+        "id": "Mirror Vertical",
+        "text": "Spegel Vertikal"
+    },
+    {
+        "source": "Mirror the image vertically",
+        "description": "",
+        "id": "Mirror vertical tooltip",
+        "text": "Spegla bilden vertikalt"
+    },
+    {
+        "source": "Rotate 0",
+        "description": "",
+        "id": "Rotate 0",
+        "text": "Rotera 0"
+    },
+    {
+        "source": "Rotate the image 0 degrees",
+        "description": "",
+        "id": "Rotate 0 tooltip",
+        "text": "Rotera bilden 0 grader"
+    },
+    {
+        "source": "Rotate 90",
+        "description": "",
+        "id": "Rotate 90",
+        "text": "Rotera 90"
+    },
+    {
+        "source": "Rotate the image 90 degrees",
+        "description": "",
+        "id": "Rotate 90 tooltip",
+        "text": "Rotera bilden 90 grader"
+    },
+    {
+        "source": "Rotate 180",
+        "description": "",
+        "id": "Rotate 180",
+        "text": "Rotera 180"
+    },
+    {
+        "source": "Rotate the image 180 degrees",
+        "description": "",
+        "id": "Rotate 180 tooltip",
+        "text": "Rotera bilden 180 grader"
+    },
+    {
+        "source": "Rotate 270",
+        "description": "",
+        "id": "Rotate 270",
+        "text": "Rotera 270"
+    },
+    {
+        "source": "Rotate the image 270 degrees",
+        "description": "",
+        "id": "Rotate 270 tooltip",
+        "text": "Rotera bilden 270 grader"
+    },
+    {
+        "source": "Native Aspect Ratio",
+        "description": "",
+        "id": "Native Aspect Ratio",
+        "text": "Native Aspect Ratio"
+    },
+    {
+        "source": "Show the image at it's native resolution",
+        "description": "",
+        "id": "Native aspect ratio tooltip",
+        "text": "Visa bilden vid den ursprungliga upplösningen"
+    },
+    {
+        "source": "Default Aspect Ratio",
+        "description": "",
+        "id": "Default Aspect Ratio",
+        "text": "Standard bildförhållande"
+    },
+    {
+        "source": "Show the image at it's intended resolution",
+        "description": "",
+        "id": "Default aspect ratio tooltip",
+        "text": "Visa bilden med den avsedda upplösningen"
+    },
+    {
+        "source": "Show the image with a 16:9 aspect ratio",
+        "description": "",
+        "id": "16:9 aspect ratio tooltip",
+        "text": "Visa bilden med ett 16: 9-bildförhållande"
+    },
+    {
+        "source": "Show the image with a 1.85 aspect ratio",
+        "description": "",
+        "id": "1.85 aspect ratio tooltip",
+        "text": "Visa bilden med ett 1,85 bildförhållande"
+    },
+    {
+        "source": "Show the image with a 2.35 aspect ratio",
+        "description": "",
+        "id": "2.35 aspect ratio tooltip",
+        "text": "Visa bilden med ett 2,35 bildförhållande"
+    },
+    {
+        "source": "Frame Store",
+        "description": "",
+        "id": "Frame Store",
+        "text": "Ramlager"
+    },
+    {
+        "source": "Show the frame store",
+        "description": "",
+        "id": "Frame store tooltip",
+        "text": "Visa rambutiken"
+    },
+    {
+        "source": "Load Frame Store",
+        "description": "",
+        "id": "Load Frame Store",
+        "text": "Ladda ramlager"
+    },
+    {
+        "source": "Load the current frame into the frame store",
+        "description": "",
+        "id": "Load frame store tooltip",
+        "text": "Ladda den aktuella ramen i ramverkan"
+    },
+    {
+        "source": "Pan View",
+        "description": "",
+        "id": "Pan View",
+        "text": "Pan View"
+    },
+    {
+        "source": "Activate the pan view tool",
+        "description": "",
+        "id": "Pan view tooltip",
+        "text": "Aktivera pan view-verktyget"
+    },
+    {
+        "source": "Left",
+        "description": "",
+        "id": "Left",
+        "text": "Vänster"
+    },
+    {
+        "source": "Move the view left",
+        "description": "",
+        "id": "Left tooltip",
+        "text": "Flytta visningen till vänster"
+    },
+    {
+        "source": "Right",
+        "description": "",
+        "id": "Right",
+        "text": "Höger"
+    },
+    {
+        "source": "Move the view right",
+        "description": "",
+        "id": "Right tooltip",
+        "text": "Flytta vyn rätt"
+    },
+    {
+        "source": "Up",
+        "description": "",
+        "id": "Up",
+        "text": "Upp"
+    },
+    {
+        "source": "Move the view up",
+        "description": "",
+        "id": "Up tooltip",
+        "text": "Flytta upp vyn"
+    },
+    {
+        "source": "Down",
+        "description": "",
+        "id": "Down",
+        "text": "Ner"
+    },
+    {
+        "source": "Move the view down",
+        "description": "",
+        "id": "Down tooltip",
+        "text": "Flytta vyn nedåt"
+    },
+    {
+        "source": "North West",
+        "description": "",
+        "id": "North West",
+        "text": "nordväst"
+    },
+    {
+        "source": "Move the view Northwest",
+        "description": "",
+        "id": "North west tooltip",
+        "text": "Flytta vyn Northwest"
+    },
+    {
+        "source": "North East",
+        "description": "",
+        "id": "North East",
+        "text": "Nordöstra"
+    },
+    {
+        "source": "North the view Northeast",
+        "description": "",
+        "id": "North east tooltip",
+        "text": "Norr sikten nordöstra"
+    },
+    {
+        "source": "South east",
+        "description": "",
+        "id": "South east",
+        "text": "Sydost"
+    },
+    {
+        "source": "Move the view Southeast",
+        "description": "",
+        "id": "South east tooltip",
+        "text": "Flytta utsikten Southeast"
+    },
+    {
+        "source": "South West",
+        "description": "",
+        "id": "South West",
+        "text": "South West"
+    },
+    {
+        "source": "Move the view Southwest",
+        "description": "",
+        "id": "South west tooltip",
+        "text": "Flytta vyn Southwest"
+    },
+    {
+        "source": "Zoom In",
+        "description": "",
+        "id": "Zoom In",
+        "text": "Zooma in"
+    },
+    {
+        "source": "Zoom the view in",
+        "description": "",
+        "id": "Zoom in tooltip",
+        "text": "Zooma in vyn"
+    },
+    {
+        "source": "Zoom Out",
+        "description": "",
+        "id": "Zoom Out",
+        "text": "Zooma ut"
+    },
+    {
+        "source": "Zoom the view out",
+        "description": "",
+        "id": "Zoom out tooltip",
+        "text": "Zooma ut vyn"
+    },
+    {
+        "source": "Fit To Image",
+        "description": "",
+        "id": "Fit To Image",
+        "text": "Passa till bild"
+    },
+    {
+        "source": "Fit the image to the window",
+        "description": "",
+        "id": "Fit to image tooltip",
+        "text": "Montera bilden i fönstret"
+    },
+    {
+        "source": "Center the image in the window with a 1:1 zoom",
+        "description": "",
+        "id": "Center image tooltip",
+        "text": "Centrera bilden i fönstret med en 1: 1 zoom"
+    },
+    {
+        "source": "Lock Fit To Image",
+        "description": "",
+        "id": "Lock Fit To Image",
+        "text": "Låsa passa till bild"
+    },
+    {
+        "source": "Lock the image fitted to the window",
+        "description": "",
+        "id": "Lock fit to image tooltip",
+        "text": "Låsa bilden monterad i fönstret"
+    },
+    {
+        "source": "Lock Center",
+        "description": "",
+        "id": "Lock Center",
+        "text": "Låscenter"
+    },
+    {
+        "source": "Lock the image centered in the window with a 1:1 zoom",
+        "description": "",
+        "id": "Lock center image tooltip",
+        "text": "Låsa bilden centrerad i fönstret med en 1: 1 zoom"
+    },
+    {
+        "source": "Grid",
+        "description": "",
+        "id": "Grid",
+        "text": "Rutnät"
+    },
+    {
+        "source": "Show a grid",
+        "description": "",
+        "id": "Grid tooltip",
+        "text": "Visa ett rutnät"
+    },
+    {
+        "source": "HUD",
+        "description": "",
+        "id": "HUD",
+        "text": "HUD"
+    },
+    {
+        "source": "Show the heads up display",
+        "description": "",
+        "id": "HUD tooltip",
+        "text": "Visa huvuddisplayen"
+    },
+    {
+        "source": "Show the opened files",
+        "description": "",
+        "id": "Media popup tooltip",
+        "text": "Visa de öppna filerna"
+    },
+    {
+        "source": "Automatically hide the user interface when the mouse doesn't move",
+        "description": "",
+        "id": "Auto hide tooltip",
+        "text": "Göm automatiskt användargränssnittet när musen inte rör sig"
+    },
+    {
+        "source": "Show the settings",
+        "description": "",
+        "id": "Settings tooltip",
+        "text": "Visa inställningarna"
+    },
+    {
+        "source": "Activate the annotation tool",
+        "description": "",
+        "id": "Annotate tooltip",
+        "text": "Aktivera anteckningsverktyget"
+    },
+    {
+        "source": "Color Space",
+        "description": "",
+        "id": "Color Space",
+        "text": "Färg rymd"
+    },
+    {
+        "source": "(empty)",
+        "description": "",
+        "id": "(empty)",
+        "text": "(tömma)"
+    },
+    {
+        "source": "Input:",
+        "description": "",
+        "id": "Input:",
+        "text": "Inmatning:"
+    },
+    {
+        "source": "Display:",
+        "description": "",
+        "id": "Display:",
+        "text": "Visa:"
+    },
+    {
+        "source": "View:",
+        "description": "",
+        "id": "View:",
+        "text": "Se:"
+    },
+    {
+        "source": "Automatically hide the user interface",
+        "text": "Göm automatiskt användargränssnittet",
+        "id": "Auto-hide tooltip",
+        "description": ""
+    },
+    {
+        "source": "Auto-Hide",
+        "text": "Auto-Hide",
+        "id": "Auto-Hide",
+        "description": ""
+    },
+    {
+        "id": "Fullscreen",
+        "source": "Fullscreen",
+        "description": "",
+        "text": "Fullskärm"
+    },
+    {
+        "id": "Monitor",
+        "source": "Monitor",
+        "description": "",
+        "text": "Övervaka"
+    },
+    {
+        "id": "frames",
+        "source": "frames",
+        "description": "",
+        "text": "ramar"
+    },
+    {
+        "id": "Zoom Reset",
+        "source": "Zoom Reset",
+        "description": "",
+        "text": "Zooma återställ"
+    },
+    {
+        "id": "Zoom reset tooltip",
+        "source": "Reset the zoom to 1.0",
+        "description": "",
+        "text": "Återställ zoomningen till 1.0"
+    },
+    {
+        "id": "Full",
+        "source": "Full",
+        "description": "",
+        "text": "Full"
+    },
+    {
+        "id": "Full view tooltip",
+        "source": "Set the view so the image fills the window",
+        "description": "",
+        "text": "Ställ in vyn så att bilden fyller fönstret"
+    },
+    {
+        "id": "Frame",
+        "source": "Frame",
+        "description": "",
+        "text": "Ram"
+    },
+    {
+        "id": "Frame view tooltip",
+        "source": "Frame the image within the view",
+        "description": "",
+        "text": "Rama in bilden i vyn"
+    },
+    {
+        "id": "Center view tooltip",
+        "source": "Center the view and set the zoom to 1.0",
+        "description": "",
+        "text": "Centrera vyn och ställ in zoomningen till 1.0"
+    },
+    {
+        "id": "Lock Full",
+        "source": "Lock Full",
+        "description": "",
+        "text": "Lås full"
+    },
+    {
+        "id": "Lock full view tooltip",
+        "source": "Lock the view so the image fills the window",
+        "description": "",
+        "text": "Lås vyn så att bilden fyller fönstret"
+    },
+    {
+        "id": "Lock Frame",
+        "source": "Lock Frame",
+        "description": "",
+        "text": "Låsram"
+    },
+    {
+        "id": "Lock frame view tooltip",
+        "source": "Lock the view so the image fills the window without being obscured by the user interface",
+        "description": "",
+        "text": "Lås vyn så att bilden fyller fönstret utan att döljas av användargränssnittet"
+    },
+    {
+        "id": "Lock center view tooltip",
+        "source": "Lock the view so the image is centered and the zoom is 1:1",
+        "description": "",
+        "text": "Lås vyn så att bilden är centrerad och zoomen är 1: 1"
+    },
+    {
+        "source": "Maximize",
+        "text": "Maximera",
+        "description": "",
+        "id": "Maximize"
+    },
+    {
+        "source": "Fit the window to the image",
+        "text": "Montera fönstret på bilden",
+        "description": "",
+        "id": "Fit tooltip"
+    },
+    {
+        "source": "The file",
+        "description": "",
+        "id": "The file",
+        "text": "Filen"
+    },
+    {
+        "source": "cannot be read",
+        "description": "",
+        "id": "cannot be read",
+        "text": "kan inte läsas"
+    },
+    {
+        "source": "Config",
+        "description": "",
+        "id": "Config",
+        "text": "config"
+    },
+    {
+        "source": "Display",
+        "description": "",
+        "id": "Display",
+        "text": "Visa"
+    },
+    {
+        "source": "Add a new OpenColorIO configuration",
+        "description": "",
+        "id": "Color space add config tooltip",
+        "text": "Lägg till en ny OpenColorIO-konfiguration"
+    },
+    {
+        "source": "Edit the list of OpenColorIO configurations",
+        "description": "",
+        "id": "Color space edit configs tooltip",
+        "text": "Redigera listan med OpenColorIO-konfigurationer"
+    },
+    {
+        "source": "Assign a color space to a file format",
+        "description": "",
+        "id": "Color space add image tooltip",
+        "text": "Tilldela ett färgutrymme till ett filformat"
+    },
+    {
+        "source": "Edit the list of color spaces",
+        "description": "",
+        "id": "Color space edit images tooltip",
+        "text": "Redigera listan med färgavstånd"
+    },
+    {
+        "source": "Fill",
+        "description": "",
+        "id": "Fill",
+        "text": "Fylla"
+    },
+    {
+        "source": "Errors",
+        "description": "",
+        "id": "Errors",
+        "text": "fel"
+    },
+    {
+        "source": "Popup",
+        "description": "",
+        "id": "Popup",
+        "text": "Dyka upp"
+    },
+    {
+        "source": "Show this window when there are errors",
+        "description": "",
+        "id": "Errors widget popup tooltip",
+        "text": "Visa det här fönstret när det finns fel"
+    },
+    {
+        "source": "Copy the errors to the clipboard",
+        "description": "",
+        "id": "Errors widget copy tooltip",
+        "text": "Kopiera felen till urklippet"
+    },
+    {
+        "source": "Clear the errors",
+        "description": "",
+        "id": "Errors widget clear tooltip",
+        "text": "Rensa felen"
+    },
+    {
+        "source": "Show the layers widget",
+        "description": "",
+        "id": "Layers tooltip",
+        "text": "Visa lagerns widget"
+    },
+    {
+        "source": "Alpha Blend",
+        "description": "",
+        "id": "Alpha Blend",
+        "text": "Alpha Blend"
+    },
+    {
+        "source": "No Alpha",
+        "description": "",
+        "id": "No Alpha",
+        "text": "Ingen alfa"
+    },
+    {
+        "source": "No alpha blending",
+        "description": "",
+        "id": "No alpha tooltip",
+        "text": "Ingen alfablandning"
+    },
+    {
+        "source": "Straight Alpha",
+        "description": "",
+        "id": "Straight Alpha",
+        "text": "Rätt alfa"
+    },
+    {
+        "source": "Straight alpha blending",
+        "description": "",
+        "id": "Straight alpha blend tooltip",
+        "text": "Rak alfablandning"
+    },
+    {
+        "source": "Premultiplied alpha blending",
+        "description": "",
+        "id": "Premultiplied alpha blend tooltip",
+        "text": "Förväxlad alfablandning"
+    },
+    {
+        "source": "Fill the view with the image",
+        "description": "",
+        "id": "Fill view tooltip",
+        "text": "Fyll vyn med bilden"
+    },
+    {
+        "source": "Memory cache usage",
+        "description": "",
+        "id": "Memory cache thermometer tooltip",
+        "text": "Användning av minnescache"
+    },
+    {
+        "source": "The current frame",
+        "description": "",
+        "id": "Current frame tooltip",
+        "text": "Den nuvarande ramen"
+    },
+    {
+        "source": "The playback in point",
+        "description": "",
+        "id": "In point tooltip",
+        "text": "Uppspelningen i punkt"
+    },
+    {
+        "source": "The playback out point",
+        "description": "",
+        "id": "Out point tooltip",
+        "text": "Uppspelningspunkten"
+    },
+    {
+        "source": "Enable",
+        "description": "",
+        "id": "Enable",
+        "text": "Gör det möjligt"
+    },
+    {
+        "source": "GB",
+        "description": "",
+        "id": "GB",
+        "text": "GB"
+    },
+    {
+        "source": "Used",
+        "description": "",
+        "id": "Used",
+        "text": "Begagnade"
+    },
+    {
+        "source": "Automatically start playback",
+        "description": "",
+        "id": "Automatically start playback",
+        "text": "Starta uppspelningen automatiskt"
+    },
+    {
+        "source": "Playback Speed",
+        "description": "",
+        "id": "Playback Speed",
+        "text": "Uppspelningshastighet"
+    },
+    {
+        "source": "Playback every frame",
+        "description": "",
+        "id": "Playback every frame",
+        "text": "Spela upp varje ram"
+    },
+    {
+        "source": "Default speed",
+        "description": "",
+        "id": "Default speed",
+        "text": "Standardhastighet"
+    },
+    {
+        "source": "Timeline",
+        "description": "",
+        "id": "Timeline",
+        "text": "tidslinje"
+    },
+    {
+        "source": "Show PIP (picture in picture)",
+        "description": "",
+        "id": "Show PIP (picture in picture)",
+        "text": "Visa PIP (bild på bild)"
+    },
+    {
+        "source": "Reset speed",
+        "description": "",
+        "id": "Reset speed",
+        "text": "Återställ hastighet"
+    },
+    {
+        "source": "Reset speed tooltip",
+        "description": "",
+        "id": "Reset speed tooltip",
+        "text": "Återställ verktygstips för hastighet"
+    },
+    {
+        "source": "Increase",
+        "description": "",
+        "id": "Increase",
+        "text": "Öka"
+    },
+    {
+        "source": "Decrease",
+        "description": "",
+        "id": "Decrease",
+        "text": "Minska"
+    },
+    {
+        "source": "Thumbnail Size",
+        "description": "",
+        "id": "Thumbnail Size",
+        "text": "Tumnagelsstorlek"
+    },
+    {
+        "source": "Copy the system log to the clipboard",
+        "description": "",
+        "id": "System log copy tooltip",
+        "text": "Kopiera systemloggen till urklipp"
+    },
+    {
+        "source": "Reload the system log",
+        "description": "",
+        "id": "System log reload tooltip",
+        "text": "Ladda om systemloggen"
+    },
+    {
+        "source": "Clear the system log",
+        "description": "",
+        "id": "System log clear tooltip",
+        "text": "Rensa systemloggen"
+    },
+    {
+        "source": "Warning",
+        "description": "",
+        "id": "Warning",
+        "text": "Varning"
+    },
+    {
+        "source": "ERROR",
+        "description": "",
+        "id": "ERROR",
+        "text": "FEL"
+    },
+    {
+        "source": "Show the errors widget",
+        "description": "",
+        "id": "Errors widget tooltip",
+        "text": "Visa fel widgeten"
+    },
+    {
+        "source": "Show the system log widget",
+        "description": "",
+        "id": "System log widget tooltip",
+        "text": "Visa systemloggwidgeten"
+    },
+    {
+        "source": "Debugging",
+        "description": "",
+        "id": "Debugging",
+        "text": "felsökning"
+    },
+    {
+        "source": "Show the debugging widget",
+        "description": "",
+        "id": "Debugging widget tooltip",
+        "text": "Visa felsökningswidget"
+    },
+    {
+        "source": "Scale to fit",
+        "description": "",
+        "id": "Scale to fit",
+        "text": "Skala för att passa"
+    },
+    {
+        "source": "Color picker RGB tooltip",
+        "description": "",
+        "id": "Color picker RGB tooltip",
+        "text": "Färgväljare RGB verktygstips"
+    },
+    {
+        "source": "Color picker HSV tooltip",
+        "description": "",
+        "id": "Color picker HSV tooltip",
+        "text": "Färgväljare HSV-verktygstips"
+    },
+    {
+        "source": "Audio cannot be initialized",
+        "description": "",
+        "id": "Audio cannot be initialized",
+        "text": "Ljudet kan inte initialiseras"
+    },
+    {
+        "source": "The audio stream cannot be opened",
+        "description": "",
+        "id": "The audio stream cannot be opened",
+        "text": "Ljudströmmen kan inte öppnas"
+    },
+    {
+        "source": "Cannot start audio stream",
+        "description": "",
+        "id": "Cannot start audio stream",
+        "text": "Det går inte att starta ljudströmmen"
+    },
+    {
+        "source": "Cannot stop audio stream",
+        "description": "",
+        "id": "Cannot stop audio stream",
+        "text": "Det går inte att stoppa ljudströmmen"
+    },
+    {
+        "source": "Third Party RtAudio",
+        "description": "",
+        "id": "Third Party RtAudio",
+        "language": "en",
+        "text": "Third Party RtAudio"
+    },
+    {
+        "source": "Lock color type",
+        "text": "Lås färgtyp",
+        "id": "Lock color type",
+        "description": ""
+    },
+    {
+        "source": "Copy the values to the clipboard",
+        "text": "Kopiera värdena till urklipp",
+        "id": "Color picker copy tooltip",
+        "description": ""
+    },
+    {
+        "source": "Cannot sample color",
+        "text": "Kan inte ta prov på färg",
+        "id": "Cannot sample color",
+        "description": ""
+    },
+    {
+        "source": "Playback once",
+        "text": "Uppspelning en gång",
+        "id": "Playback mode once tooltip",
+        "description": ""
+    },
+    {
+        "source": "Playback in a loop",
+        "text": "Uppspelning i en slinga",
+        "id": "Playback mode loop tooltip",
+        "description": ""
+    },
+    {
+        "source": "Playback ping-pong",
+        "text": "Uppspelning ping-pong",
+        "id": "Playback mode ping-pong tooltip",
+        "description": ""
+    },
+    {
+        "source": "View Controls",
+        "text": "Visa kontroller",
+        "id": "View Controls",
+        "description": ""
+    },
+    {
+        "source": "Show the view controls widget",
+        "text": "Visa wiew-kontrollwidget",
+        "id": "View controls widget tooltip",
+        "description": ""
+    },
+    {
+        "source": "Lock Fill",
+        "text": "Låsfyllning",
+        "id": "Lock Fill",
+        "description": ""
+    },
+    {
+        "source": "Fill the view with the image (locked)",
+        "text": "Fyll vyn med bilden (låst)",
+        "id": "Fill lock view tooltip",
+        "description": ""
+    },
+    {
+        "source": "Frame the image within the view (locked)",
+        "text": "Rama in bilden i vyn (låst)",
+        "id": "Frame lock view tooltip",
+        "description": ""
+    },
+    {
+        "source": "Center the view and set the zoom to 1.0 (locked)",
+        "text": "Centrera vyn och ställ in zoomningen till 1.0 (låst)",
+        "id": "Center lock view tooltip",
+        "description": ""
+    },
+    {
+        "source": "Show the grid",
+        "text": "Visa rutnätet",
+        "id": "Grid enabled tooltip",
+        "description": ""
+    },
+    {
+        "source": "Image Controls",
+        "text": "Bildkontroller",
+        "id": "Image Controls",
+        "description": ""
+    },
+    {
+        "source": "Show the image controls widget",
+        "text": "Visa widgetkontrollen",
+        "id": "Image controls widget tooltip",
+        "description": ""
+    },
+    {
+        "source": "Alpha blend",
+        "text": "Alfa-blandning",
+        "id": "Alpha blend",
+        "description": ""
+    },
+    {
+        "source": "Mirror horizontal",
+        "text": "Spegel horisontellt",
+        "id": "Mirror horizontal",
+        "description": ""
+    },
+    {
+        "source": "Mirror vertical",
+        "text": "Spegel vertikalt",
+        "id": "Mirror vertical",
+        "description": ""
+    },
+    {
+        "source": "Aspect ratio",
+        "text": "Bildförhållande",
+        "id": "Aspect ratio",
+        "description": ""
+    },
+    {
+        "source": "Brightness",
+        "text": "ljusstyrka",
+        "id": "Brightness",
+        "description": ""
+    },
+    {
+        "source": "Contrast",
+        "text": "Kontrast",
+        "id": "Contrast",
+        "description": ""
+    },
+    {
+        "source": "Saturation",
+        "text": "Mättnad",
+        "id": "Saturation",
+        "description": ""
+    },
+    {
+        "source": "Invert",
+        "text": "Invertera",
+        "id": "Invert",
+        "description": ""
+    },
+    {
+        "source": "In Low",
+        "text": "Lågt",
+        "id": "In Low",
+        "description": ""
+    },
+    {
+        "source": "In High",
+        "text": "I hög",
+        "id": "In High",
+        "description": ""
+    },
+    {
+        "source": "Gamma",
+        "text": "Gamma",
+        "id": "Gamma",
+        "description": ""
+    },
+    {
+        "source": "Out Low",
+        "text": "Ut låg",
+        "id": "Out Low",
+        "description": ""
+    },
+    {
+        "source": "Out High",
+        "text": "Ut högt",
+        "id": "Out High",
+        "description": ""
+    },
+    {
+        "source": "Exposure",
+        "text": "Exponering",
+        "id": "Exposure",
+        "description": ""
+    },
+    {
+        "source": "Defog",
+        "text": "Avdimma",
+        "id": "Defog",
+        "description": ""
+    },
+    {
+        "source": "Knee Low",
+        "text": "Knä låg",
+        "id": "Knee Low",
+        "description": ""
+    },
+    {
+        "source": "Knee High",
+        "text": "Knähög",
+        "id": "Knee High",
+        "description": ""
+    },
+    {
+        "source": "Load",
+        "text": "Ladda",
+        "id": "Load",
+        "description": ""
+    },
+    {
+        "source": "Transform",
+        "text": "Omvandla",
+        "id": "Transform",
+        "description": ""
+    },
+    {
+        "source": "Color",
+        "text": "Färg",
+        "id": "Color",
+        "description": ""
+    },
+    {
+        "source": "Levels",
+        "text": "nivåer",
+        "id": "Levels",
+        "description": ""
+    },
+    {
+        "source": "Soft Clip",
+        "text": "Mjuk klämma",
+        "id": "Soft Clip",
+        "description": ""
+    },
+    {
+        "source": "Set the magnification",
+        "text": "Ställ in förstoringen",
+        "id": "Magnify slider tooltip",
+        "description": ""
+    },
+    {
+        "source": "Set as Default",
+        "text": "Ange som standard",
+        "id": "Set as Default",
+        "description": ""
+    },
+    {
+        "source": "Reset the value.",
+        "text": "Återställ värdet.",
+        "id": "Reset the value.",
+        "description": ""
+    },
+    {
+        "source": "Position",
+        "text": "Placera",
+        "id": "Position",
+        "description": ""
+    },
+    {
+        "source": "Zoom",
+        "text": "Zoom",
+        "id": "Zoom",
+        "description": ""
+    },
+    {
+        "source": "Labels",
+        "text": "Etiketter",
+        "id": "Labels",
+        "description": ""
+    },
+    {
+        "source": "Background",
+        "text": "Bakgrund",
+        "id": "Background",
+        "description": ""
+    },
+    {
+        "id": "Text focus",
+        "source": "Text focus",
+        "description": "",
+        "text": "Textfokus"
+    },
+    {
+        "source": "Annotate polyline tooltip",
+        "text": "Kommentera verktygstips för polyline",
+        "description": "",
+        "id": "Annotate polyline tooltip"
+    },
+    {
+        "source": "Annotate line tooltip",
+        "text": "Kommentera radverktygstips",
+        "description": "",
+        "id": "Annotate line tooltip"
+    },
+    {
+        "source": "Annotate rectangle tooltip",
+        "text": "Kommentera verktygstips för rektangel",
+        "description": "",
+        "id": "Annotate rectangle tooltip"
+    },
+    {
+        "source": "Annotate ellipse tooltip",
+        "text": "Kommentera verktygstips för ellips",
+        "description": "",
+        "id": "Annotate ellipse tooltip"
+    },
+    {
+        "source": "Annotate color picker tooltip",
+        "text": "Kommentera verktygstips för färgväljaren",
+        "description": "",
+        "id": "Annotate color picker tooltip"
+    },
+    {
+        "source": "Annotate line width tooltip",
+        "text": "Kommentera verktygstips för radbredd",
+        "description": "",
+        "id": "Annotate line width tooltip"
+    },
+    {
+        "source": "Annotate clear tooltip",
+        "text": "Kommentera tydligt verktygstips",
+        "description": "",
+        "id": "Annotate clear tooltip"
+    },
+    {
+        "source": "Annotate add tooltip",
+        "text": "Kommentera lägg till verktygstips",
+        "description": "",
+        "id": "Annotate add tooltip"
+    },
+    {
+        "source": "Annotate delete tooltip",
+        "text": "Kommentera radera verktygstips",
+        "description": "",
+        "id": "Annotate delete tooltip"
+    },
+    {
+        "source": "Annotate previous tooltip",
+        "text": "Kommentera föregående verktygstips",
+        "description": "",
+        "id": "Annotate previous tooltip"
+    },
+    {
+        "source": "Annotate next tooltip",
+        "text": "Kommentera nästa verktygstips",
+        "description": "",
+        "id": "Annotate next tooltip"
+    },
+    {
+        "source": "Annotate list toggle tooltip",
+        "text": "Annotera listan för att växla verktygstips",
+        "description": "",
+        "id": "Annotate list toggle tooltip"
+    },
+    {
+        "source": "Edit",
+        "text": "Redigera",
+        "description": "",
+        "id": "Edit"
+    },
+    {
+        "source": "Summary",
+        "text": "Sammanfattning",
+        "description": "",
+        "id": "Summary"
+    },
+    {
+        "source": "I/O threads",
+        "text": "I / O-trådar",
+        "description": "",
+        "id": "I/O threads popup tooltip"
+    },
+    {
+        "source": "Polyline",
+        "text": "polyline",
+        "description": "",
+        "id": "Polyline"
+    },
+    {
+        "source": "Line",
+        "text": "Linje",
+        "description": "",
+        "id": "Line"
+    },
+    {
+        "source": "Rectangle",
+        "text": "Rektangel",
+        "description": "",
+        "id": "Rectangle"
+    },
+    {
+        "source": "Ellipse",
+        "text": "Ellips",
+        "description": "",
+        "id": "Ellipse"
+    },
+    {
+        "source": "DJV 2.0.4",
+        "description": "",
+        "id": "DJV 2.0.4",
+        "text": "DJV 2.0.4"
+    },
+    {
+        "source": "Auto-Hide Interface",
+        "description": "",
+        "id": "Auto-Hide Interface",
+        "text": "Auto-Hide Interface"
+    },
+    {
+        "source": "Pixel",
+        "description": "",
+        "id": "Pixel",
+        "text": "pixel"
+    },
+    {
+        "source": "Color label tooltip",
+        "description": "",
+        "id": "Color label tooltip",
+        "text": "Färgsetikett verktygstips"
+    },
+    {
+        "source": "Pixel label tooltip",
+        "description": "",
+        "id": "Pixel label tooltip",
+        "text": "Verktygstips för pixeletikett"
+    },
+    {
+        "source": "Slow",
+        "text": "Långsam",
+        "id": "Slow",
+        "description": ""
+    },
+    {
+        "source": "Medium",
+        "text": "Medium",
+        "id": "Medium",
+        "description": ""
+    },
+    {
+        "source": "Fast",
+        "text": "Snabb",
+        "id": "Fast",
+        "description": ""
+    },
+    {
+        "source": "Cannot open more than",
+        "text": "Kan inte öppna mer än",
+        "id": "Cannot open more than",
+        "description": ""
+    },
+    {
+        "source": "files at once.",
+        "text": "filer på en gång.",
+        "id": "files at once.",
+        "description": ""
+    },
+    {
+        "source": "CansecoGPC",
+        "text": "CansecoGPC",
+        "id": "Credits CansecoGPC",
+        "language": "en",
+        "description": ""
+    },
+    {
+        "source": "Spanish translation updates",
+        "text": "Spanska översättningsuppdateringar",
+        "id": "Credits CansecoGPC Text",
+        "description": ""
+    },
+    {
+        "source": "Jean-Francois Panisset",
+        "text": "Jean-Francois Panisset",
+        "id": "Credits Jean-Francois Panisset",
+        "language": "en",
+        "description": ""
+    },
+    {
+        "source": "Azure Pipelines CI integration",
+        "text": "Azure Pipelines CI-integration",
+        "id": "Credits Jean-Francois Panisset Text",
+        "description": ""
+    },
+    {
+        "source": "Haryo Sukmawanto",
+        "text": "Haryo Sukmawanto",
+        "id": "Credits Haryo Sukmawanto",
+        "language": "en",
+        "description": ""
+    },
+    {
+        "source": "Custom playback frame rate UI",
+        "text": "Anpassad bildfrekvensgränssnitt UI",
+        "id": "Credits Haryo Sukmawanto Text",
+        "description": ""
+    },
+    {
+        "source": "* GITHUB®, the GITHUB® logo design, OCTOCAT® and the OCTOCAT® logo design are exclusive trademarks registered in the United States by GitHub, Inc.",
+        "text": "* GITHUB®, the GITHUB® logo design, OCTOCAT® and the OCTOCAT® logo design are exclusive trademarks registered in the United States by GitHub, Inc.",
+        "id": "Trademarks GitHub",
+        "language": "en",
+        "description": ""
+    },
+    {
+        "source": "Total system time",
+        "text": "Total systemtid",
+        "id": "Total system time",
+        "description": ""
+    },
+    {
+        "source": "Top system time",
+        "text": "Topp systemtid",
+        "id": "Top system time",
+        "description": ""
+    },
+    {
+        "source": "Custom playback speed",
+        "text": "Anpassad uppspelningshastighet",
+        "id": "Custom playback speed",
+        "description": ""
+    },
+    {
+        "source": "Custom playback speed tooltip",
+        "text": "Anpassat verktygstips för uppspelningshastighet",
+        "id": "Custom playback speed tooltip",
+        "description": ""
+    },
+    {
+        "source": "DJV 2.0.5",
+        "text": "DJV 2.0.5",
+        "id": "DJV 2.0.5",
+        "language": "en",
+        "description": ""
+    },
+    {
+        "source": "Scroll wheel zoom speed",
+        "text": "Rullehjuls zoomhastighet",
+        "id": "Scroll wheel zoom speed",
+        "description": ""
+    },
+    {
+        "text": "Damien Picard",
+        "id": "Credits Damien Picard",
+        "description": "",
+        "language": "en",
+        "source": "Damien Picard"
+    },
+    {
+        "text": "Franska översättningsuppdateringar",
+        "id": "Credits Damien Picard Text",
+        "description": "",
+        "source": "French translation updates"
+    }
+]

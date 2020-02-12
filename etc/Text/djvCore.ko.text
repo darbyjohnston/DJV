@@ -1,1730 +1,268 @@
-[
-    {
-        "source": "Parent Changed",
-        "description": "",
-        "id": "ParentChanged",
-        "text": "부모 변경됨"
-    },
-    {
-        "source": "Child Added",
-        "description": "",
-        "id": "ChildAdded",
-        "text": "하위 추가됨"
-    },
-    {
-        "source": "Child Removed",
-        "description": "",
-        "id": "ChildRemoved",
-        "text": "아동 삭제됨"
-    },
-    {
-        "source": "Child Order",
-        "description": "",
-        "id": "ChildOrder",
-        "text": "어린이 주문"
-    },
-    {
-        "source": "Locale",
-        "description": "",
-        "id": "Locale",
-        "text": "지방의"
-    },
-    {
-        "source": "Update",
-        "description": "",
-        "id": "Update",
-        "text": "최신 정보"
-    },
-    {
-        "source": "Style",
-        "description": "",
-        "id": "Style",
-        "text": "스타일"
-    },
-    {
-        "source": "Pre Layout",
-        "description": "",
-        "id": "PreLayout",
-        "text": "사전 레이아웃"
-    },
-    {
-        "source": "Layout",
-        "description": "",
-        "id": "Layout",
-        "text": "형세"
-    },
-    {
-        "source": "Clip",
-        "description": "",
-        "id": "Clip",
-        "text": "클립"
-    },
-    {
-        "source": "Paint",
-        "description": "",
-        "id": "Paint",
-        "text": "페인트"
-    },
-    {
-        "source": "Paint Overlay",
-        "description": "",
-        "id": "PaintOverlay",
-        "text": "페인트 오버레이"
-    },
-    {
-        "source": "Pointer Enter",
-        "description": "",
-        "id": "PointerEnter",
-        "text": "포인터 입력"
-    },
-    {
-        "source": "Pointer Leave",
-        "description": "",
-        "id": "PointerLeave",
-        "text": "포인터 이탈"
-    },
-    {
-        "source": "Pointer Move",
-        "description": "",
-        "id": "PointerMove",
-        "text": "포인터 이동"
-    },
-    {
-        "source": "Button Press",
-        "description": "",
-        "id": "ButtonPress",
-        "text": "버튼 프레스"
-    },
-    {
-        "source": "Button Release",
-        "description": "",
-        "id": "ButtonRelease",
-        "text": "버튼 릴리즈"
-    },
-    {
-        "source": "Scroll",
-        "description": "",
-        "id": "Scroll",
-        "text": "스크롤"
-    },
-    {
-        "source": "Drop",
-        "description": "",
-        "id": "Drop",
-        "text": "하락"
-    },
-    {
-        "source": "Key Press",
-        "description": "",
-        "id": "KeyPress",
-        "text": "키 누름"
-    },
-    {
-        "source": "Key Release",
-        "description": "",
-        "id": "KeyRelease",
-        "text": "키 릴리스"
-    },
-    {
-        "source": "Text Focus",
-        "description": "",
-        "id": "TextFocus",
-        "text": "텍스트 포커스"
-    },
-    {
-        "source": "Text Focus Lost",
-        "description": "",
-        "id": "TextFocusLost",
-        "text": "텍스트 포커스 손실"
-    },
-    {
-        "source": "Text",
-        "description": "",
-        "id": "Text",
-        "text": "본문"
-    },
-    {
-        "source": "The file",
-        "description": "",
-        "id": "The file",
-        "text": "파일"
-    },
-    {
-        "source": "cannot be opened",
-        "description": "",
-        "id": "cannot be opened",
-        "text": "열 수 없다."
-    },
-    {
-        "source": "cannot be closed",
-        "description": "",
-        "id": "cannot be closed",
-        "text": "닫을 수 없다."
-    },
-    {
-        "source": "cannot be mapped",
-        "description": "",
-        "id": "cannot be mapped",
-        "text": "매핑 할 수 없습니다."
-    },
-    {
-        "source": "cannot be unmapped",
-        "description": "",
-        "id": "cannot be unmapped",
-        "text": "지도에 표시 할 수 없습니다."
-    },
-    {
-        "source": "cannot be read",
-        "description": "",
-        "id": "cannot be read",
-        "text": "읽을 수 없다."
-    },
-    {
-        "source": "cannot be written",
-        "description": "",
-        "id": "cannot be written",
-        "text": "쓸 수 없다."
-    },
-    {
-        "source": "Error reading the text file",
-        "description": "",
-        "id": "Error reading the text file",
-        "text": "텍스트 파일을 읽는 중 오류가 발생했습니다."
-    },
-    {
-        "source": "MSB",
-        "description": "",
-        "id": "MSB",
-        "text": "MSB"
-    },
-    {
-        "source": "LSB",
-        "description": "",
-        "id": "LSB",
-        "text": "LSB"
-    },
-    {
-        "source": "Home",
-        "description": "",
-        "id": "Home",
-        "text": "집"
-    },
-    {
-        "source": "Desktop",
-        "description": "",
-        "id": "Desktop",
-        "text": "데스크톱"
-    },
-    {
-        "source": "Documents",
-        "description": "",
-        "id": "Documents",
-        "text": "서류"
-    },
-    {
-        "source": "Downloads",
-        "description": "",
-        "id": "Downloads",
-        "text": "다운로드"
-    },
-    {
-        "source": "The directory",
-        "description": "",
-        "id": "The directory",
-        "text": "디렉토리"
-    },
-    {
-        "source": "cannot be created",
-        "description": "",
-        "id": "cannot be created",
-        "text": "만들 수 없습니다."
-    },
-    {
-        "source": "Cannot parse the value",
-        "description": "",
-        "id": "Cannot parse the value",
-        "text": "값을 구문 분석 할 수 없습니다."
-    },
-    {
-        "source": "Cannot parse the value.",
-        "description": "",
-        "id": "Cannot parse the value.",
-        "text": "값을 구문 분석 할 수 없습니다."
-    },
-    {
-        "source": "cannot be queried",
-        "description": "",
-        "id": "cannot be queried",
-        "text": "질문을 할 수 없다."
-    },
-    {
-        "source": "Application",
-        "description": "",
-        "id": "Application",
-        "text": "신청"
-    },
-    {
-        "source": "Log File",
-        "description": "",
-        "id": "LogFile",
-        "text": "로그 파일"
-    },
-    {
-        "source": "Settings File",
-        "description": "",
-        "id": "SettingsFile",
-        "text": "설정 파일"
-    },
-    {
-        "source": "Audio Directory",
-        "description": "",
-        "id": "AudioDirectory",
-        "text": "오디오 디렉토리"
-    },
-    {
-        "source": "Fonts Directory",
-        "description": "",
-        "id": "FontsDirectory",
-        "text": "글꼴 디렉토리"
-    },
-    {
-        "source": "Icons Directory",
-        "description": "",
-        "id": "IconsDirectory",
-        "text": "아이콘 디렉토리"
-    },
-    {
-        "source": "Images Directory",
-        "description": "",
-        "id": "ImagesDirectory",
-        "text": "이미지 디렉토리"
-    },
-    {
-        "source": "Models Directory",
-        "description": "",
-        "id": "ModelsDirectory",
-        "text": "모델 디렉토리"
-    },
-    {
-        "source": "Shaders Directory",
-        "description": "",
-        "id": "ShadersDirectory",
-        "text": "셰이더 디렉토리"
-    },
-    {
-        "source": "Text Directory",
-        "description": "",
-        "id": "TextDirectory",
-        "text": "텍스트 디렉토리"
-    },
-    {
-        "source": "File",
-        "description": "",
-        "id": "File",
-        "text": "파일"
-    },
-    {
-        "source": "Sequence",
-        "description": "",
-        "id": "Sequence",
-        "text": "순서"
-    },
-    {
-        "source": "Directory",
-        "description": "",
-        "id": "Directory",
-        "text": "예배 규칙서"
-    },
-    {
-        "source": "Name",
-        "description": "",
-        "id": "Name",
-        "text": "이름"
-    },
-    {
-        "source": "Size",
-        "description": "",
-        "id": "Size",
-        "text": "크기"
-    },
-    {
-        "source": "Type",
-        "description": "",
-        "id": "Type",
-        "text": "유형"
-    },
-    {
-        "source": "Linear",
-        "description": "",
-        "id": "Linear",
-        "text": "선의"
-    },
-    {
-        "source": "Ease In",
-        "description": "",
-        "id": "EaseIn",
-        "text": "편안하게"
-    },
-    {
-        "source": "Ease Out",
-        "description": "",
-        "id": "EaseOut",
-        "text": "편안함"
-    },
-    {
-        "source": "Smooth Step",
-        "description": "",
-        "id": "SmoothStep",
-        "text": "원활한 단계"
-    },
-    {
-        "source": "Sine",
-        "description": "",
-        "id": "Sine",
-        "text": "그것의"
-    },
-    {
-        "source": "Error finding the change notification for",
-        "description": "",
-        "id": "Error finding the change notification for",
-        "text": "에 대한 변경 알림을 찾는 동안 오류가 발생했습니다."
-    },
-    {
-        "source": "Error watching the directory",
-        "description": "",
-        "id": "Error watching the directory",
-        "text": "디렉토리를 보는 중 오류가 발생했습니다."
-    },
-    {
-        "source": "Amargosa Canyon Speckled Dace",
-        "description": "",
-        "id": "Amargosa Canyon Speckled Dace",
-        "text": "아마 조사 협곡 얼룩덜룩 한 Dace"
-    },
-    {
-        "source": "Amargosa River Pupfish",
-        "description": "",
-        "id": "Amargosa River Pupfish",
-        "text": "아마 고사 강 어류"
-    },
-    {
-        "source": "American Shad",
-        "description": "",
-        "id": "American Shad",
-        "text": "아메리칸 쉐이드"
-    },
-    {
-        "source": "Arroyo Chub",
-        "description": "",
-        "id": "Arroyo Chub",
-        "text": "아로요 챈"
-    },
-    {
-        "source": "Bigeye Marbled Sculpin",
-        "description": "",
-        "id": "Bigeye Marbled Sculpin",
-        "text": "Bigeye Marbled Sculpin"
-    },
-    {
-        "source": "Bigscale Logperch",
-        "description": "",
-        "id": "Bigscale Logperch",
-        "text": "Bigscale Logperch"
-    },
-    {
-        "source": "Black Bullhead",
-        "description": "",
-        "id": "Black Bullhead",
-        "text": "검은 머리"
-    },
-    {
-        "source": "Black Crappie",
-        "description": "",
-        "id": "Black Crappie",
-        "text": "블랙 크 래피"
-    },
-    {
-        "source": "Blue Catfish",
-        "description": "",
-        "id": "Blue Catfish",
-        "text": "블루 메기"
-    },
-    {
-        "source": "Blue Chub",
-        "description": "",
-        "id": "Blue Chub",
-        "text": "블루 찬"
-    },
-    {
-        "source": "Bluefin Killifish",
-        "description": "",
-        "id": "Bluefin Killifish",
-        "text": "참 다랑어"
-    },
-    {
-        "source": "Bluegill",
-        "description": "",
-        "id": "Bluegill",
-        "text": "Bluegill"
-    },
-    {
-        "source": "Lepomis macrochirus",
-        "description": "",
-        "id": "Lepomis macrochirus",
-        "text": "Lepomis macrochirus"
-    },
-    {
-        "source": "Bonytail",
-        "description": "",
-        "id": "Bonytail",
-        "text": "Bonytail"
-    },
-    {
-        "source": "Brook Stickleback",
-        "description": "",
-        "id": "Brook Stickleback",
-        "text": "Brook Stickleback"
-    },
-    {
-        "source": "Brook Trout",
-        "description": "",
-        "id": "Brook Trout",
-        "text": "브룩 송어"
-    },
-    {
-        "source": "Brown Bullhead",
-        "description": "",
-        "id": "Brown Bullhead",
-        "text": "갈색 머리"
-    },
-    {
-        "source": "Brown Trout",
-        "description": "",
-        "id": "Brown Trout",
-        "text": "갈색 송어"
-    },
-    {
-        "source": "Bull Trout",
-        "description": "",
-        "id": "Bull Trout",
-        "text": "불 트라우트"
-    },
-    {
-        "source": "California Coast Fall Chinook Salmon",
-        "description": "",
-        "id": "California Coast Fall Chinook Salmon",
-        "text": "캘리포니아 해안 가을 치누크 연어"
-    },
-    {
-        "source": "California Golden Trout",
-        "description": "",
-        "id": "California Golden Trout",
-        "text": "캘리포니아 골든 트롯"
-    },
-    {
-        "source": "California Killifish",
-        "description": "",
-        "id": "California Killifish",
-        "text": "캘리포니아 킬리시"
-    },
-    {
-        "source": "California Tilapia",
-        "description": "",
-        "id": "California Tilapia",
-        "text": "캘리포니아 틸라피아"
-    },
-    {
-        "source": "Central California Coast Winter Steelhead",
-        "description": "",
-        "id": "Central California Coast Winter Steelhead",
-        "text": "중앙 캘리포니아 해안 겨울 강철 머리"
-    },
-    {
-        "source": "Central California Roach",
-        "description": "",
-        "id": "Central California Roach",
-        "text": "중앙 캘리포니아 바퀴벌레"
-    },
-    {
-        "source": "Central Coast Coho Salmon",
-        "description": "",
-        "id": "Central Coast Coho Salmon",
-        "text": "센트럴 코스트 코호 연어"
-    },
-    {
-        "source": "Central Valley Fall Chinook Salmon",
-        "description": "",
-        "id": "Central Valley Fall Chinook Salmon",
-        "text": "센트럴 밸리 가을 치누크 연어"
-    },
-    {
-        "source": "Central Valley late Fall Chinook Salmon",
-        "description": "",
-        "id": "Central Valley late Fall Chinook Salmon",
-        "text": "센트럴 밸리 늦은 가을 치누크 연어"
-    },
-    {
-        "source": "Oncorhynchus tshawytscha",
-        "description": "",
-        "id": "Oncorhynchus tshawytscha",
-        "text": "Oncorhynchus tshawytscha"
-    },
-    {
-        "source": "Central Valley spring Chinook Salmon",
-        "description": "",
-        "id": "Central Valley spring Chinook Salmon",
-        "text": "센트럴 밸리 봄 치누크 연어"
-    },
-    {
-        "source": "Central Valley Steelhead",
-        "description": "",
-        "id": "Central Valley Steelhead",
-        "text": "센트럴 밸리 스틸 헤드"
-    },
-    {
-        "source": "Central Valley Winter Chinook Salmon",
-        "description": "",
-        "id": "Central Valley Winter Chinook Salmon",
-        "text": "센트럴 밸리 겨울 치누크 연어"
-    },
-    {
-        "source": "Channel Catfish",
-        "description": "",
-        "id": "Channel Catfish",
-        "text": "채널 메기"
-    },
-    {
-        "source": "Chum Salmon",
-        "description": "",
-        "id": "Chum Salmon",
-        "text": "미끼 연어"
-    },
-    {
-        "source": "Clear Lake Hitch",
-        "description": "",
-        "id": "Clear Lake Hitch",
-        "text": "클리어 레이크 히치"
-    },
-    {
-        "source": "Clear Lake Prickly Sculpin",
-        "description": "",
-        "id": "Clear Lake Prickly Sculpin",
-        "text": "클리어 레이크 스티키 스컬 핀"
-    },
-    {
-        "source": "Clear Lake Roach",
-        "description": "",
-        "id": "Clear Lake Roach",
-        "text": "맑은 호수 바퀴벌레"
-    },
-    {
-        "source": "Clear Lake Splittail",
-        "description": "",
-        "id": "Clear Lake Splittail",
-        "text": "맑은 호수 Splittail"
-    },
-    {
-        "source": "Clear Lake Tule Perch",
-        "description": "",
-        "id": "Clear Lake Tule Perch",
-        "text": "클리어 레이크 툴레 퍼치"
-    },
-    {
-        "source": "Coastal Cutthroat Trout",
-        "description": "",
-        "id": "Coastal Cutthroat Trout",
-        "text": "해안 자지 트롯"
-    },
-    {
-        "source": "Coastal Rainbow Trout",
-        "description": "",
-        "id": "Coastal Rainbow Trout",
-        "text": "해안 무지개 송어"
-    },
-    {
-        "source": "Coastal Threespine Stickleback",
-        "description": "",
-        "id": "Coastal Threespine Stickleback",
-        "text": "해안 삼나무 고착 고리"
-    },
-    {
-        "source": "Coastrange Sculpin",
-        "description": "",
-        "id": "Coastrange Sculpin",
-        "text": "해안 범위 스컬 핀"
-    },
-    {
-        "source": "Colorado Pikeminnow",
-        "description": "",
-        "id": "Colorado Pikeminnow",
-        "text": "콜로라도 Pikeminnow"
-    },
-    {
-        "source": "Colorado River Cutthroat Trout",
-        "description": "",
-        "id": "Colorado River Cutthroat Trout",
-        "text": "콜로라도 강 컷 트로트 트롯"
-    },
-    {
-        "source": "Common Carp",
-        "description": "",
-        "id": "Common Carp",
-        "text": "일반적인 잉어"
-    },
-    {
-        "source": "Cottonball Marsh Pupfish",
-        "description": "",
-        "id": "Cottonball Marsh Pupfish",
-        "text": "코튼 볼 습지 피쉬 피"
-    },
-    {
-        "source": "Cow Head Tui Chub",
-        "description": "",
-        "id": "Cow Head Tui Chub",
-        "text": "암소 머리 Tui Chub"
-    },
-    {
-        "source": "Delta Smelt",
-        "description": "",
-        "id": "Delta Smelt",
-        "text": "델타 용해"
-    },
-    {
-        "source": "Desert Pupfish",
-        "description": "",
-        "id": "Desert Pupfish",
-        "text": "사막 어피 피"
-    },
-    {
-        "source": "Eagle Lake Rainbow Trout",
-        "description": "",
-        "id": "Eagle Lake Rainbow Trout",
-        "text": "이글 레이크 무지개 송어"
-    },
-    {
-        "source": "Eagle Lake Tui Chub",
-        "description": "",
-        "id": "Eagle Lake Tui Chub",
-        "text": "독수리 호수 Tui Chub"
-    },
-    {
-        "source": "Eulachon",
-        "description": "",
-        "id": "Eulachon",
-        "text": "율촌"
-    },
-    {
-        "source": "Fathead Minnow",
-        "description": "",
-        "id": "Fathead Minnow",
-        "text": "팻 헤드 미노우"
-    },
-    {
-        "source": "Flannelmouth Sucker",
-        "description": "",
-        "id": "Flannelmouth Sucker",
-        "text": "플란넬 마우스 빨판"
-    },
-    {
-        "source": "Flathead Catfish",
-        "description": "",
-        "id": "Flathead Catfish",
-        "text": "납작한 메기"
-    },
-    {
-        "source": "Golden Shiner",
-        "description": "",
-        "id": "Golden Shiner",
-        "text": "골든 샤이 너"
-    },
-    {
-        "source": "Goldfish",
-        "description": "",
-        "id": "Goldfish",
-        "text": "금붕어"
-    },
-    {
-        "source": "Goose Lake Lamprey",
-        "description": "",
-        "id": "Goose Lake Lamprey",
-        "text": "구스 레이크 램 프레이"
-    },
-    {
-        "source": "Goose Lake Redband Trout",
-        "description": "",
-        "id": "Goose Lake Redband Trout",
-        "text": "거위 호수 Redband Trout"
-    },
-    {
-        "source": "Goose Lake Sucker",
-        "description": "",
-        "id": "Goose Lake Sucker",
-        "text": "거위 호수 서커"
-    },
-    {
-        "source": "Goose Lake Tui Chub",
-        "description": "",
-        "id": "Goose Lake Tui Chub",
-        "text": "거위 호수 Tui Chub"
-    },
-    {
-        "source": "Grass Carp",
-        "description": "",
-        "id": "Grass Carp",
-        "text": "잔디 잉어"
-    },
-    {
-        "source": "Green Sunfish",
-        "description": "",
-        "id": "Green Sunfish",
-        "text": "녹색 해파리"
-    },
-    {
-        "source": "Gualala Roach",
-        "description": "",
-        "id": "Gualala Roach",
-        "text": "구 알라 로치"
-    },
-    {
-        "source": "Hardhead",
-        "description": "",
-        "id": "Hardhead",
-        "text": "하드 헤드"
-    },
-    {
-        "source": "High Rock Springs Tui Chub",
-        "description": "",
-        "id": "High Rock Springs Tui Chub",
-        "text": "하이 락 스프링스 투이 츄브"
-    },
-    {
-        "source": "Humboldt Sucker",
-        "description": "",
-        "id": "Humboldt Sucker",
-        "text": "훔볼트 서커"
-    },
-    {
-        "source": "Inland Threespine Stickleback",
-        "description": "",
-        "id": "Inland Threespine Stickleback",
-        "text": "내륙 Threespine Stickleback"
-    },
-    {
-        "source": "Kern Brook Lamprey",
-        "description": "",
-        "id": "Kern Brook Lamprey",
-        "text": "컨 브룩 Lamprey"
-    },
-    {
-        "source": "Kern River Rainbow Trout",
-        "description": "",
-        "id": "Kern River Rainbow Trout",
-        "text": "컨 강 레인보우 트롯"
-    },
-    {
-        "source": "Klamath Largescale Sucker",
-        "description": "",
-        "id": "Klamath Largescale Sucker",
-        "text": "클라 머스 레 가르 스 칼 서커"
-    },
-    {
-        "source": "Klamath Mountains Province Summer Steelhead",
-        "description": "",
-        "id": "Klamath Mountains Province Summer Steelhead",
-        "text": "Klamath Mountains Province 여름철 스틸 헤드"
-    },
-    {
-        "source": "Klamath Mountains Province Winter Steelhead",
-        "description": "",
-        "id": "Klamath Mountains Province Winter Steelhead",
-        "text": "클라 마트 마운틴 주 윈터 스틸 헤드"
-    },
-    {
-        "source": "Klamath River Lamprey",
-        "description": "",
-        "id": "Klamath River Lamprey",
-        "text": "클래 머스 강 람 프리"
-    },
-    {
-        "source": "Klamath Smallscale Sucker",
-        "description": "",
-        "id": "Klamath Smallscale Sucker",
-        "text": "클라 마스 스몰 스케일 서커"
-    },
-    {
-        "source": "Klamath Speckled Dace",
-        "description": "",
-        "id": "Klamath Speckled Dace",
-        "text": "클라 수스 얼룩덜룩 한 땅"
-    },
-    {
-        "source": "Klamath Tui Chub",
-        "description": "",
-        "id": "Klamath Tui Chub",
-        "text": "클라 머스 투이 츄브"
-    },
-    {
-        "source": "Lahontan Cutthroat Trout",
-        "description": "",
-        "id": "Lahontan Cutthroat Trout",
-        "text": "Lahontan Cutthroat Trout"
-    },
-    {
-        "source": "Lahontan Lake Tui Chub",
-        "description": "",
-        "id": "Lahontan Lake Tui Chub",
-        "text": "Lahontan Lake Tui Chub"
-    },
-    {
-        "source": "Lahontan Mountain Sucker",
-        "description": "",
-        "id": "Lahontan Mountain Sucker",
-        "text": "Lahontan Mountain Sucker"
-    },
-    {
-        "source": "Lahontan Redside",
-        "description": "",
-        "id": "Lahontan Redside",
-        "text": "Lahontan Redside"
-    },
-    {
-        "source": "Lahontan Speckled Dace",
-        "description": "",
-        "id": "Lahontan Speckled Dace",
-        "text": "라 혼단 얼룩덜룩 한 어깨"
-    },
-    {
-        "source": "Lahontan Stream Tui Chub",
-        "description": "",
-        "id": "Lahontan Stream Tui Chub",
-        "text": "Lahontan Stream Tui Chub"
-    },
-    {
-        "source": "Lake Trout",
-        "description": "",
-        "id": "Lake Trout",
-        "text": "호수 송어"
-    },
-    {
-        "source": "Largemouth Bass",
-        "description": "",
-        "id": "Largemouth Bass",
-        "text": "Largemouth Bass"
-    },
-    {
-        "source": "Little Kern Golden Trout",
-        "description": "",
-        "id": "Little Kern Golden Trout",
-        "text": "리틀 컨 골든 트롯"
-    },
-    {
-        "source": "Long Valley Speckled Dace",
-        "description": "",
-        "id": "Long Valley Speckled Dace",
-        "text": "롱 밸리 얼룩덜룩 한 Dace"
-    },
-    {
-        "source": "Longfin Smelt",
-        "description": "",
-        "id": "Longfin Smelt",
-        "text": "롱 핀 제련"
-    },
-    {
-        "source": "Longjaw Mudsucker",
-        "description": "",
-        "id": "Longjaw Mudsucker",
-        "text": "Longjaw Mudsucker"
-    },
-    {
-        "source": "Lost River Sucker",
-        "description": "",
-        "id": "Lost River Sucker",
-        "text": "잃어버린 강 빠커"
-    },
-    {
-        "source": "Lower Klamath Marbled Sculpin",
-        "description": "",
-        "id": "Lower Klamath Marbled Sculpin",
-        "text": "낮은 클래 머스 차돌박이 스컬 핀"
-    },
-    {
-        "source": "McCloud River Redband Trout",
-        "description": "",
-        "id": "McCloud River Redband Trout",
-        "text": "McCloud River Redband Trout"
-    },
-    {
-        "source": "Mississippi Silversides",
-        "description": "",
-        "id": "Mississippi Silversides",
-        "text": "미시시피 Silversides"
-    },
-    {
-        "source": "Modoc Sucker",
-        "description": "",
-        "id": "Modoc Sucker",
-        "text": "Modoc 빨판"
-    },
-    {
-        "source": "Mojave Tui Chub",
-        "description": "",
-        "id": "Mojave Tui Chub",
-        "text": "모하비 투이 츄브"
-    },
-    {
-        "source": "Monterey Hitch",
-        "description": "",
-        "id": "Monterey Hitch",
-        "text": "몬테레이 히치"
-    },
-    {
-        "source": "Monterey Roach",
-        "description": "",
-        "id": "Monterey Roach",
-        "text": "몬테레이 바퀴벌레"
-    },
-    {
-        "source": "Monterey Sucker",
-        "description": "",
-        "id": "Monterey Sucker",
-        "text": "몬테레이 서커"
-    },
-    {
-        "source": "Mountain Whitefish",
-        "description": "",
-        "id": "Mountain Whitefish",
-        "text": "마운틴 화이트 피쉬"
-    },
-    {
-        "source": "Navarro Roach",
-        "description": "",
-        "id": "Navarro Roach",
-        "text": "나 바로 로치"
-    },
-    {
-        "source": "Northern (Pit) Roach",
-        "description": "",
-        "id": "Northern (Pit) Roach",
-        "text": "북부 (구덩이) 바퀴벌레"
-    },
-    {
-        "source": "Northern California Brook Lamprey",
-        "description": "",
-        "id": "Northern California Brook Lamprey",
-        "text": "북부 캘리포니아 브룩 Lamprey"
-    },
-    {
-        "source": "Northern California Coast Summer Steelhead",
-        "description": "",
-        "id": "Northern California Coast Summer Steelhead",
-        "text": "북부 캘리포니아 해안 여름 강철 머리"
-    },
-    {
-        "source": "Northern California Coast Winter Steelhead",
-        "description": "",
-        "id": "Northern California Coast Winter Steelhead",
-        "text": "북부 캘리포니아 해안 겨울 강철 머리"
-    },
-    {
-        "source": "Northern Green Sturgeon",
-        "description": "",
-        "id": "Northern Green Sturgeon",
-        "text": "북부 그린 철갑 상어"
-    },
-    {
-        "source": "Owens Pupfish",
-        "description": "",
-        "id": "Owens Pupfish",
-        "text": "Owens Pupfish"
-    },
-    {
-        "source": "Owens Speckled Dace",
-        "description": "",
-        "id": "Owens Speckled Dace",
-        "text": "Owens Speckled Dace"
-    },
-    {
-        "source": "Owens Sucker",
-        "description": "",
-        "id": "Owens Sucker",
-        "text": "Owens Sucker"
-    },
-    {
-        "source": "Owens Tui Chub",
-        "description": "",
-        "id": "Owens Tui Chub",
-        "text": "Owens Tui Chub"
-    },
-    {
-        "source": "Pacific Lamprey",
-        "description": "",
-        "id": "Pacific Lamprey",
-        "text": "태평양 전복"
-    },
-    {
-        "source": "Paiute Cutthroat Trout",
-        "description": "",
-        "id": "Paiute Cutthroat Trout",
-        "text": "Paiute Cutthroat Trout"
-    },
-    {
-        "source": "Paiute Sculpin",
-        "description": "",
-        "id": "Paiute Sculpin",
-        "text": "Paiute Sculpin"
-    },
-    {
-        "source": "Pink Salmon",
-        "description": "",
-        "id": "Pink Salmon",
-        "text": "핑크 연어"
-    },
-    {
-        "source": "Pit River Tui Chub",
-        "description": "",
-        "id": "Pit River Tui Chub",
-        "text": "구덩이 강 Tui Chub"
-    },
-    {
-        "source": "Pit Sculpin",
-        "description": "",
-        "id": "Pit Sculpin",
-        "text": "핏 스쿨 핀"
-    },
-    {
-        "source": "Pit-Klamath Brook Lamprey",
-        "description": "",
-        "id": "Pit-Klamath Brook Lamprey",
-        "text": "핏 - 클라 머스 브룩 벼룩"
-    },
-    {
-        "source": "Porthole Livebearer",
-        "description": "",
-        "id": "Porthole Livebearer",
-        "text": "현창의 생방송 자"
-    },
-    {
-        "source": "Prickly Sculpin",
-        "description": "",
-        "id": "Prickly Sculpin",
-        "text": "의욕적 인 스컬 핀"
-    },
-    {
-        "source": "Pumpkinseed",
-        "description": "",
-        "id": "Pumpkinseed",
-        "text": "호박씨"
-    },
-    {
-        "source": "Rainwater Killifish",
-        "description": "",
-        "id": "Rainwater Killifish",
-        "text": "빗물 킬 피시 스"
-    },
-    {
-        "source": "Razorback Sucker",
-        "description": "",
-        "id": "Razorback Sucker",
-        "text": "Razorback Sucker"
-    },
-    {
-        "source": "Red Hills Roach",
-        "description": "",
-        "id": "Red Hills Roach",
-        "text": "레드 힐스 바퀴벌레"
-    },
-    {
-        "source": "Red Shiner",
-        "description": "",
-        "id": "Red Shiner",
-        "text": "레드 샤이 너"
-    },
-    {
-        "source": "Redear Sunfish",
-        "description": "",
-        "id": "Redear Sunfish",
-        "text": "해파리 Redear"
-    },
-    {
-        "source": "Redeye Bass",
-        "description": "",
-        "id": "Redeye Bass",
-        "text": "레드 아이베이스"
-    },
-    {
-        "source": "Reticulate Sculpin",
-        "description": "",
-        "id": "Reticulate Sculpin",
-        "text": "레티 레이트 스컬 핀"
-    },
-    {
-        "source": "Riffle Sculpin",
-        "description": "",
-        "id": "Riffle Sculpin",
-        "text": "리플 스컬 핀"
-    },
-    {
-        "source": "River Lamprey",
-        "description": "",
-        "id": "River Lamprey",
-        "text": "강 Lamprey"
-    },
-    {
-        "source": "Rough Sculpin",
-        "description": "",
-        "id": "Rough Sculpin",
-        "text": "러프 스컬 핀"
-    },
-    {
-        "source": "Russian River Roach",
-        "description": "",
-        "id": "Russian River Roach",
-        "text": "러시아 강 로치"
-    },
-    {
-        "source": "Russian River Tule Perch",
-        "description": "",
-        "id": "Russian River Tule Perch",
-        "text": "러시아 강 Tule Perch"
-    },
-    {
-        "source": "Sacramento Blackfish",
-        "description": "",
-        "id": "Sacramento Blackfish",
-        "text": "새크라멘토 블랙 피쉬"
-    },
-    {
-        "source": "Sacramento Hitch",
-        "description": "",
-        "id": "Sacramento Hitch",
-        "text": "새크라멘토 히치"
-    },
-    {
-        "source": "Sacramento Perch",
-        "description": "",
-        "id": "Sacramento Perch",
-        "text": "새크라멘토 퍼치"
-    },
-    {
-        "source": "Sacramento Pikeminnow",
-        "description": "",
-        "id": "Sacramento Pikeminnow",
-        "text": "Sacramento Pikeminnow"
-    },
-    {
-        "source": "Sacramento Speckled Dace",
-        "description": "",
-        "id": "Sacramento Speckled Dace",
-        "text": "새크라멘토 얼룩덜룩 한 Dace"
-    },
-    {
-        "source": "Sacramento Splittail",
-        "description": "",
-        "id": "Sacramento Splittail",
-        "text": "Sacramento Splittail"
-    },
-    {
-        "source": "Sacramento Sucker",
-        "description": "",
-        "id": "Sacramento Sucker",
-        "text": "새크라멘토 서커"
-    },
-    {
-        "source": "Sacramento Tule Perch",
-        "description": "",
-        "id": "Sacramento Tule Perch",
-        "text": "새크라멘토 툴레 퍼치"
-    },
-    {
-        "source": "Sailfin Molly",
-        "description": "",
-        "id": "Sailfin Molly",
-        "text": "Sailfin Molly"
-    },
-    {
-        "source": "Salt Creek Pupfish",
-        "description": "",
-        "id": "Salt Creek Pupfish",
-        "text": "솔트 크릭 푸 피쉬"
-    },
-    {
-        "source": "Santa Ana Speckled Dace",
-        "description": "",
-        "id": "Santa Ana Speckled Dace",
-        "text": "산타 아나 얼룩덜룩 한 Dace"
-    },
-    {
-        "source": "Santa Ana Sucker",
-        "description": "",
-        "id": "Santa Ana Sucker",
-        "text": "산타 아나 서커"
-    },
-    {
-        "source": "Saratoga Springs Pupfish",
-        "description": "",
-        "id": "Saratoga Springs Pupfish",
-        "text": "Saratoga Springs Pupfish"
-    },
-    {
-        "source": "Shay Creek Stickleback",
-        "description": "",
-        "id": "Shay Creek Stickleback",
-        "text": "셰이 크릭 Stickleback"
-    },
-    {
-        "source": "Shimofuri Goby",
-        "description": "",
-        "id": "Shimofuri Goby",
-        "text": "Shimofuri Goby"
-    },
-    {
-        "source": "Shiner Perch",
-        "description": "",
-        "id": "Shiner Perch",
-        "text": "샤이니 퍼치"
-    },
-    {
-        "source": "Shortfin Molly",
-        "description": "",
-        "id": "Shortfin Molly",
-        "text": "쇼트 핀 몰리"
-    },
-    {
-        "source": "Shortnose Sucker",
-        "description": "",
-        "id": "Shortnose Sucker",
-        "text": "Shortnose 빨판"
-    },
-    {
-        "source": "Shoshone Pupfish",
-        "description": "",
-        "id": "Shoshone Pupfish",
-        "text": "쇼 쇼네 푸 피쉬"
-    },
-    {
-        "source": "Smallmouth Bass",
-        "description": "",
-        "id": "Smallmouth Bass",
-        "text": "스몰 마우스 저음"
-    },
-    {
-        "source": "Sockeye (Kokanee) Salmon",
-        "description": "",
-        "id": "Sockeye (Kokanee) Salmon",
-        "text": "Sockeye (코 카니) 연어"
-    },
-    {
-        "source": "South Central California Coast Steelhead",
-        "description": "",
-        "id": "South Central California Coast Steelhead",
-        "text": "사우스 센트럴 캘리포니아 해안 스틸 헤드"
-    },
-    {
-        "source": "Southern California Steelhead",
-        "description": "",
-        "id": "Southern California Steelhead",
-        "text": "남부 캘리포니아 스틸 헤드"
-    },
-    {
-        "source": "Southern Green Sturgeon",
-        "description": "",
-        "id": "Southern Green Sturgeon",
-        "text": "남부 그린 철갑 상어"
-    },
-    {
-        "source": "Southern Oregon Northern California Coast Coho Salmon",
-        "description": "",
-        "id": "Southern Oregon Northern California Coast Coho Salmon",
-        "text": "남부 오레곤 북부 캘리포니아 해안 코호 연어"
-    },
-    {
-        "source": "Southern Oregon Northern California Coast Fall Chinook Salmon",
-        "description": "",
-        "id": "Southern Oregon Northern California Coast Fall Chinook Salmon",
-        "text": "남부 오레곤 북부 캘리포니아 해안 가을 치누크 연어"
-    },
-    {
-        "source": "Spotted Bass",
-        "description": "",
-        "id": "Spotted Bass",
-        "text": "Spotted Bass"
-    },
-    {
-        "source": "Staghorn Sculpin",
-        "description": "",
-        "id": "Staghorn Sculpin",
-        "text": "Staghorn Sculpin"
-    },
-    {
-        "source": "Starry Flounder",
-        "description": "",
-        "id": "Starry Flounder",
-        "text": "별이 빛나는 넙치"
-    },
-    {
-        "source": "Striped Bass",
-        "description": "",
-        "id": "Striped Bass",
-        "text": "줄무늬 농어"
-    },
-    {
-        "source": "Striped Mullet",
-        "description": "",
-        "id": "Striped Mullet",
-        "text": "줄무늬 숭어"
-    },
-    {
-        "source": "Surf Smelt",
-        "description": "",
-        "id": "Surf Smelt",
-        "text": "서핑 제련"
-    },
-    {
-        "source": "Tahoe Sucker",
-        "description": "",
-        "id": "Tahoe Sucker",
-        "text": "타호 빨판"
-    },
-    {
-        "source": "Tecopa Pupfish",
-        "description": "",
-        "id": "Tecopa Pupfish",
-        "text": "Tecopa Pupfish"
-    },
-    {
-        "source": "Tench",
-        "description": "",
-        "id": "Tench",
-        "text": "텐치"
-    },
-    {
-        "source": "Thicktail Chub",
-        "description": "",
-        "id": "Thicktail Chub",
-        "text": "두꺼운 꼬리 Chub"
-    },
-    {
-        "source": "Threadfin Shad",
-        "description": "",
-        "id": "Threadfin Shad",
-        "text": "실밥 파우더"
-    },
-    {
-        "source": "Tidewater Goby",
-        "description": "",
-        "id": "Tidewater Goby",
-        "text": "Tidewater Goby"
-    },
-    {
-        "source": "Tomales Roach",
-        "description": "",
-        "id": "Tomales Roach",
-        "text": "토일 레스 바퀴벌레"
-    },
-    {
-        "source": "Topsmelt",
-        "description": "",
-        "id": "Topsmelt",
-        "text": "Topsmelt"
-    },
-    {
-        "source": "Unarmored Threespine Stickleback",
-        "description": "",
-        "id": "Unarmored Threespine Stickleback",
-        "text": "비무장 된 삼실물 Stickleback"
-    },
-    {
-        "source": "Upper Klamath Marbled Sculpin",
-        "description": "",
-        "id": "Upper Klamath Marbled Sculpin",
-        "text": "어퍼 클래 머스 차돌박이 스컬 핀"
-    },
-    {
-        "source": "Upper Klamath-Trinity Fall Chinook Salmon",
-        "description": "",
-        "id": "Upper Klamath-Trinity Fall Chinook Salmon",
-        "text": "어퍼 클래 머스 트리니티 가을 치누크 연어"
-    },
-    {
-        "source": "Upper Klamath-Trinity Spring Chinook Salmon",
-        "description": "",
-        "id": "Upper Klamath-Trinity Spring Chinook Salmon",
-        "text": "어퍼 클래 머스 트리니티 봄 치누크 연어"
-    },
-    {
-        "source": "Wakasagi",
-        "description": "",
-        "id": "Wakasagi",
-        "text": "Wakasagi"
-    },
-    {
-        "source": "Warmouth",
-        "description": "",
-        "id": "Warmouth",
-        "text": "와 머스"
-    },
-    {
-        "source": "Western Brook Lamprey",
-        "description": "",
-        "id": "Western Brook Lamprey",
-        "text": "서부 브룩 람 프리"
-    },
-    {
-        "source": "Western Mosquitofish",
-        "description": "",
-        "id": "Western Mosquitofish",
-        "text": "서양 모기 피쉬"
-    },
-    {
-        "source": "White Bass",
-        "description": "",
-        "id": "White Bass",
-        "text": "화이트베이스"
-    },
-    {
-        "source": "White Catfish",
-        "description": "",
-        "id": "White Catfish",
-        "text": "화이트 메기"
-    },
-    {
-        "source": "White Crappie",
-        "description": "",
-        "id": "White Crappie",
-        "text": "화이트 크 래피"
-    },
-    {
-        "source": "White Sturgeon",
-        "description": "",
-        "id": "White Sturgeon",
-        "text": "흰 철갑 상어"
-    },
-    {
-        "source": "Yellow Bullhead",
-        "description": "",
-        "id": "Yellow Bullhead",
-        "text": "노란 머리"
-    },
-    {
-        "source": "Yellow Perch",
-        "description": "",
-        "id": "Yellow Perch",
-        "text": "옐로우 퍼치"
-    },
-    {
-        "source": "Yellowfin Goby",
-        "description": "",
-        "id": "Yellowfin Goby",
-        "text": "옐로 핀 고비"
-    },
-    {
-        "source": "Speckled Dace are capable of living in an array of habitats from small springs or streams to large rivers and deep lakes.",
-        "description": "",
-        "id": "Speckled Dace are capable of living in an array of habitats from small springs or streams to large rivers and deep lakes.",
-        "text": "얼룩덜룩 한 Dace는 작은 샘이나 개울에서부터 큰 강, 깊은 호수에 이르기까지 다양한 서식처에서 생활 할 수 있습니다."
-    },
-    {
-        "source": "Speckled Dace prefer habitat that includes clear, well oxygenated water, with movement due to a current or waves.",
-        "description": "",
-        "id": "Speckled Dace prefer habitat that includes clear, well oxygenated water, with movement due to a current or waves.",
-        "text": "얼룩덜룩 한 Dace는 현재 또는 파도로 인해 움직임이있는 맑은 산소 처리 된 물을 포함하는 서식지를 선호합니다."
-    },
-    {
-        "source": "In addition the fish thrive in areas with deep cover or overhead protection from vegetation or woody debris.",
-        "description": "",
-        "id": "In addition the fish thrive in areas with deep cover or overhead protection from vegetation or woody debris.",
-        "text": "또한 물고기는 식물이나 나무가 우거진 파편으로부터 깊은 보호 또는 간접비 보호 구역으로 번창합니다."
-    },
-    {
-        "source": "Speckled Dace predominantly occupy small streams of the second to third order where they feed and forage for aquatic insects.",
-        "description": "",
-        "id": "Speckled Dace predominantly occupy small streams of the second to third order where they feed and forage for aquatic insects.",
-        "text": "얼룩덜룩 한 Dace는 주로 수생 곤충을 먹이로 먹거나 먹이를 먹는 2 ~ 3 번째 작은 물줄기를 차지합니다."
-    },
-    {
-        "source": "The species is very adaptable and is found in cold alpine lakes such as Lake Tahoe, but has also been able to survive adversity in temperatures at or above 31\\u2103 with a dissolved oxygen concentration of 1 mg / L.",
-        "description": "",
-        "id": "The species is very adaptable and is found in cold alpine lakes such as Lake Tahoe, but has also been able to survive adversity in temperatures at or above 31\\u2103 with a dissolved oxygen concentration of 1 mg / L.",
-        "text": "이 종은 매우 적응력이 좋으며 타호 호수와 같은 차가운 고산 호수에서 발견되지만 용존 산소 농도가 1mg / L 인 31uU 이상의 온도에서 역경을 견뎌 낼 수 있습니다."
-    },
-    {
-        "source": "In streams speckled dace swim along the bottom looking for small invertebrates while in lakes they are opportunistic feeders that may feed on zooplankton, algae, nymphs, or the resulting flying insects.",
-        "description": "",
-        "id": "In streams speckled dace swim along the bottom looking for small invertebrates while in lakes they are opportunistic feeders that may feed on zooplankton, algae, nymphs, or the resulting flying insects.",
-        "text": "개울에서 얼룩덜룩 한 dace는 작은 무척추 동물을 찾기 위해 바닥을 따라 헤엄을 치며, 호수에서는 동물 플랑크톤, 조류, 약충 또는 그로 인한 날아 다니는 곤충을 먹을 수있는 기회를 제공합니다."
-    },
-    {
-        "source": "Speckled Dace typically have a life span of three years, but may live 6 or more years, during which time females typically grow more rapidly than males.",
-        "description": "",
-        "id": "Speckled Dace typically have a life span of three years, but may live 6 or more years, during which time females typically grow more rapidly than males.",
-        "text": "얼룩덜룩 한 Dace의 수명은 일반적으로 3 년이지만 6 년 또는 그 이상이 될 수 있으며, 그 기간 동안 여성은 일반적으로 남성보다 더 빠르게 성장합니다."
-    },
-    {
-        "source": "The fish become sexually mature in their second year and during the summer months the dace spawn.",
-        "description": "",
-        "id": "The fish become sexually mature in their second year and during the summer months the dace spawn.",
-        "text": "물고기는 2 학년에 성적으로 성숙 해지고 여름에는 달걀이 산란합니다."
-    },
-    {
-        "source": "Stream dwellers spawn in riffles or gravely areas, while the lake inhabitants spawn in tributaries or in shallow shoreline regions.",
-        "description": "",
-        "id": "Stream dwellers spawn in riffles or gravely areas, while the lake inhabitants spawn in tributaries or in shallow shoreline regions.",
-        "text": "호수 주민들이 속국이나 얕은 해안 지역에서 산란하는 동안, 시내 거주자는 잔인한 곳이나 중대한 지역에서 산란한다."
-    },
-    {
-        "source": "The embryos hatch in 6 days, and the larvae remain in the safety of the gravel for 7 - 8 days.",
-        "description": "",
-        "id": "The embryos hatch in 6 days, and the larvae remain in the safety of the gravel for 7 - 8 days.",
-        "text": "배아는 6 일 안에 부화하고, 유충은 7-8 일 동안 자갈의 안전에 남아 있습니다."
-    },
-    {
-        "source": "The young fry then spend the early part of their lives in the shallow warm areas of the stream or lake where they hatched.",
-        "description": "",
-        "id": "The young fry then spend the early part of their lives in the shallow warm areas of the stream or lake where they hatched.",
-        "text": "어린 새끼들은 부화 한 하천이나 호수의 얕은 따뜻한 지역에서 일찍 삶의 일부를 보냅니다."
-    },
-    {
-        "source": "False",
-        "description": "",
-        "id": "False",
-        "text": "그릇된"
-    },
-    {
-        "source": "True",
-        "description": "",
-        "id": "True",
-        "text": "참된"
-    },
-    {
-        "source": "Slow",
-        "description": "",
-        "id": "Slow",
-        "text": "느린"
-    },
-    {
-        "source": "Medium",
-        "description": "",
-        "id": "Medium",
-        "text": "매질"
-    },
-    {
-        "source": "Fast",
-        "description": "",
-        "id": "Fast",
-        "text": "빠른"
-    },
-    {
-        "source": "Very Fast",
-        "description": "",
-        "id": "VeryFast",
-        "text": "매우 빠름"
-    },
-    {
-        "id": "cannot be seeked",
-        "source": "cannot be seeked",
-        "description": "",
-        "text": "찾지 못한다."
-    },
-    {
-        "id": "The temporary file cannot be opened",
-        "source": "The temporary file cannot be opened",
-        "description": "",
-        "text": "임시 파일을 열 수 없습니다."
-    },
-    {
-        "source": "TextUpdate",
-        "description": "",
-        "id": "TextUpdate",
-        "text": "TextUpdate"
-    },
-    {
-        "source": "TextInput",
-        "description": "",
-        "id": "TextInput",
-        "text": "텍스트 입력"
-    },
-    {
-        "source": "Time",
-        "description": "",
-        "id": "Time",
-        "text": "시각"
-    },
-    {
-        "source": "Cannot open the URL",
-        "description": "",
-        "id": "Cannot open the URL",
-        "text": "URL을 열 수 없습니다"
-    },
-    {
-        "source": "the return code was",
-        "description": "",
-        "id": "the return code was",
-        "text": "리턴 코드는"
-    },
-    {
-        "source": "Audio",
-        "description": "",
-        "id": "Audio",
-        "text": "오디오"
-    },
-    {
-        "source": "Fonts",
-        "description": "",
-        "id": "Fonts",
-        "text": "폰트"
-    },
-    {
-        "source": "Icons",
-        "description": "",
-        "id": "Icons",
-        "text": "아이콘"
-    },
-    {
-        "source": "Images",
-        "description": "",
-        "id": "Images",
-        "text": "이미지"
-    },
-    {
-        "source": "Models",
-        "description": "",
-        "id": "Models",
-        "text": "모형"
-    },
-    {
-        "source": "Shaders",
-        "description": "",
-        "id": "Shaders",
-        "text": "셰이더"
-    },
-    {
-        "source": "Color",
-        "description": "",
-        "id": "Color",
-        "text": "색깔"
-    },
-    {
-        "source": "Documentation",
-        "description": "",
-        "id": "Documentation",
-        "text": "문서"
-    },
-    {
-        "source": "cannot be removed",
-        "description": "",
-        "id": "cannot be removed",
-        "text": "제거 할 수 없습니다"
-    },
-    {
-        "source": "Error reading the environment varible",
-        "description": "",
-        "id": "Error reading the environment varible",
-        "text": "환경 변수 읽기 오류"
-    },
-    {
-        "source": "Init",
-        "text": "초기화",
-        "description": "",
-        "id": "Init"
-    }
-]
+{
+    "error_finding_the_change_notification_for": "에 대한 변경 알림을 찾는 동안 오류가 발생했습니다.",
+    "error_watching_the_directory": "디렉토리를 보는 중 오류가 발생했습니다.",
+    "error_the_file": "파일",
+    "error_cannot_be_opened": "열 수 없다.",
+    "error_cannot_be_queried": "질문을 할 수 없다.",
+    "error_cannot_be_mapped": "매핑 할 수 없습니다.",
+    "error_cannot_be_unmapped": "지도에 표시 할 수 없습니다.",
+    "error_cannot_be_closed": "닫을 수 없다.",
+    "error_cannot_be_read": "읽을 수 없다.",
+    "error_cannot_be_written": "쓸 수 없다.",
+    "error_cannot_be_seeked": "찾지 못한다.",
+    "error_the_temporary_file_cannot_be_opened": "임시 파일을 열 수 없습니다.",
+    "error_cannot_parse_the_value": "값을 구문 분석 할 수 없습니다.",
+    "error_reading_the_environment_varible": "환경 변수 읽기 오류",
+    "error_reading_the_text_file": "텍스트 파일을 읽는 중 오류가 발생했습니다.",
+    "error_the_directory": "디렉토리",
+    "error_cannot_be_created": "만들 수 없습니다.",
+    "error_cannot_be_removed": "제거 할 수 없습니다",
+    "error_cannot_open_the_url": "URL을 열 수 없습니다",
+    "error_the_return_code_was": "리턴 코드는",
+    "file": "파일",
+    "sequence": "순서",
+    "directory": "예배 규칙서",
+    "name": "이름",
+    "size": "크기",
+    "time": "시각",
+    "parentchanged": "부모 변경됨",
+    "childadded": "하위 추가됨",
+    "childremoved": "아동 삭제됨",
+    "childorder": "어린이 주문",
+    "init": "초기화",
+    "update": "최신 정보",
+    "prelayout": "사전 레이아웃",
+    "layout": "형세",
+    "clip": "클립",
+    "paint": "페인트",
+    "paintoverlay": "페인트 오버레이",
+    "pointerenter": "포인터 입력",
+    "pointerleave": "포인터 이탈",
+    "pointermove": "포인터 이동",
+    "buttonpress": "버튼 프레스",
+    "buttonrelease": "버튼 릴리즈",
+    "scroll": "스크롤",
+    "drop": "하락",
+    "keypress": "키 누름",
+    "keyrelease": "키 릴리스",
+    "textfocus": "텍스트 포커스",
+    "textfocuslost": "텍스트 포커스 손실",
+    "textinput": "텍스트 입력",
+    "msb": "MSB",
+    "lsb": "LSB",
+    "logfile": "로그 파일",
+    "settingsfile": "설정 파일",
+    "audio": "오디오",
+    "fonts": "폰트",
+    "icons": "아이콘",
+    "images": "이미지",
+    "models": "모형",
+    "shaders": "셰이더",
+    "text": "본문",
+    "color": "색깔",
+    "documentation": "문서",
+    "value_false": "그릇된",
+    "value_true": "참된",
+    "file_browser_shortcut_application": "신청",
+    "file_browser_shortcut_documents": "서류",
+    "file_browser_shortcut_home": "집",
+    "file_browser_shortcut_desktop": "데스크톱",
+    "file_browser_shortcut_downloads": "다운로드",
+    "linear": "선의",
+    "easein": "편안하게",
+    "easeout": "편안함",
+    "smoothstep": "원활한 단계",
+    "sine": "그것의",
+    "slow": "느린",
+    "medium": "매질",
+    "fast": "빠른",
+    "veryfast": "매우 빠름",
+    "locale": "지방의",
+    "amargosa_canyon_speckled_dace": "아마 조사 협곡 얼룩덜룩 한 Dace",
+    "amargosa_river_pupfish": "아마 고사 강 어류",
+    "american_shad": "아메리칸 쉐이드",
+    "arroyo_chub": "아로요 챈",
+    "bigeye_marbled_sculpin": "Bigeye Marbled Sculpin",
+    "bigscale_logperch": "Bigscale Logperch",
+    "black_bullhead": "검은 머리",
+    "black_crappie": "블랙 크 래피",
+    "blue_catfish": "블루 메기",
+    "blue_chub": "블루 찬",
+    "bluefin_killifish": "참 다랑어",
+    "bluegill": "Bluegill",
+    "lepomis_macrochirus": "Lepomis macrochirus",
+    "bonytail": "Bonytail",
+    "brook_stickleback": "Brook Stickleback",
+    "brook_trout": "브룩 송어",
+    "brown_bullhead": "갈색 머리",
+    "brown_trout": "갈색 송어",
+    "bull_trout": "불 트라우트",
+    "california_coast_fall_chinook_salmon": "캘리포니아 해안 가을 치누크 연어",
+    "california_golden_trout": "캘리포니아 골든 트롯",
+    "california_killifish": "캘리포니아 킬리시",
+    "california_tilapia": "캘리포니아 틸라피아",
+    "central_california_coast_winter_steelhead": "중앙 캘리포니아 해안 겨울 강철 머리",
+    "central_california_roach": "중앙 캘리포니아 바퀴벌레",
+    "central_coast_coho_salmon": "센트럴 코스트 코호 연어",
+    "central_valley_fall_chinook_salmon": "센트럴 밸리 가을 치누크 연어",
+    "central_valley_late_fall_chinook_salmon": "센트럴 밸리 늦은 가을 치누크 연어",
+    "oncorhynchus_tshawytscha": "Oncorhynchus tshawytscha",
+    "central_valley_spring_chinook_salmon": "센트럴 밸리 봄 치누크 연어",
+    "central_valley_steelhead": "센트럴 밸리 스틸 헤드",
+    "central_valley_winter_chinook_salmon": "센트럴 밸리 겨울 치누크 연어",
+    "channel_catfish": "채널 메기",
+    "chum_salmon": "미끼 연어",
+    "clear_lake_hitch": "클리어 레이크 히치",
+    "clear_lake_prickly_sculpin": "클리어 레이크 스티키 스컬 핀",
+    "clear_lake_roach": "맑은 호수 바퀴벌레",
+    "clear_lake_splittail": "맑은 호수 Splittail",
+    "clear_lake_tule_perch": "클리어 레이크 툴레 퍼치",
+    "coastal_cutthroat_trout": "해안 자지 트롯",
+    "coastal_rainbow_trout": "해안 무지개 송어",
+    "coastal_threespine_stickleback": "해안 삼나무 고착 고리",
+    "coastrange_sculpin": "해안 범위 스컬 핀",
+    "colorado_pikeminnow": "콜로라도 Pikeminnow",
+    "colorado_river_cutthroat_trout": "콜로라도 강 컷 트로트 트롯",
+    "common_carp": "일반적인 잉어",
+    "cottonball_marsh_pupfish": "코튼 볼 습지 피쉬 피",
+    "cow_head_tui_chub": "암소 머리 Tui Chub",
+    "delta_smelt": "델타 용해",
+    "desert_pupfish": "사막 어피 피",
+    "eagle_lake_rainbow_trout": "이글 레이크 무지개 송어",
+    "eagle_lake_tui_chub": "독수리 호수 Tui Chub",
+    "eulachon": "율촌",
+    "fathead_minnow": "팻 헤드 미노우",
+    "flannelmouth_sucker": "플란넬 마우스 빨판",
+    "flathead_catfish": "납작한 메기",
+    "golden_shiner": "골든 샤이 너",
+    "goldfish": "금붕어",
+    "goose_lake_lamprey": "구스 레이크 램 프레이",
+    "goose_lake_redband_trout": "거위 호수 Redband Trout",
+    "goose_lake_sucker": "거위 호수 서커",
+    "goose_lake_tui_chub": "거위 호수 Tui Chub",
+    "grass_carp": "잔디 잉어",
+    "green_sunfish": "녹색 해파리",
+    "gualala_roach": "구 알라 로치",
+    "hardhead": "하드 헤드",
+    "high_rock_springs_tui_chub": "하이 락 스프링스 투이 츄브",
+    "humboldt_sucker": "훔볼트 서커",
+    "inland_threespine_stickleback": "내륙 Threespine Stickleback",
+    "kern_brook_lamprey": "컨 브룩 Lamprey",
+    "kern_river_rainbow_trout": "컨 강 레인보우 트롯",
+    "klamath_largescale_sucker": "클라 머스 레 가르 스 칼 서커",
+    "klamath_mountains_province_summer_steelhead": "Klamath Mountains Province 여름철 스틸 헤드",
+    "klamath_mountains_province_winter_steelhead": "클라 마트 마운틴 주 윈터 스틸 헤드",
+    "klamath_river_lamprey": "클래 머스 강 람 프리",
+    "klamath_smallscale_sucker": "클라 마스 스몰 스케일 서커",
+    "klamath_speckled_dace": "클라 수스 얼룩덜룩 한 땅",
+    "klamath_tui_chub": "클라 머스 투이 츄브",
+    "lahontan_cutthroat_trout": "Lahontan Cutthroat Trout",
+    "lahontan_lake_tui_chub": "Lahontan Lake Tui Chub",
+    "lahontan_mountain_sucker": "Lahontan Mountain Sucker",
+    "lahontan_redside": "Lahontan Redside",
+    "lahontan_speckled_dace": "라 혼단 얼룩덜룩 한 어깨",
+    "lahontan_stream_tui_chub": "Lahontan Stream Tui Chub",
+    "lake_trout": "호수 송어",
+    "largemouth_bass": "Largemouth Bass",
+    "little_kern_golden_trout": "리틀 컨 골든 트롯",
+    "long_valley_speckled_dace": "롱 밸리 얼룩덜룩 한 Dace",
+    "longfin_smelt": "롱 핀 제련",
+    "longjaw_mudsucker": "Longjaw Mudsucker",
+    "lost_river_sucker": "잃어버린 강 빠커",
+    "lower_klamath_marbled_sculpin": "낮은 클래 머스 차돌박이 스컬 핀",
+    "mccloud_river_redband_trout": "McCloud River Redband Trout",
+    "mississippi_silversides": "미시시피 Silversides",
+    "modoc_sucker": "Modoc 빨판",
+    "mojave_tui_chub": "모하비 투이 츄브",
+    "monterey_hitch": "몬테레이 히치",
+    "monterey_roach": "몬테레이 바퀴벌레",
+    "monterey_sucker": "몬테레이 서커",
+    "mountain_whitefish": "마운틴 화이트 피쉬",
+    "navarro_roach": "나 바로 로치",
+    "northern_pit_roach": "북부 (구덩이) 바퀴벌레",
+    "northern_california_brook_lamprey": "북부 캘리포니아 브룩 Lamprey",
+    "northern_california_coast_summer_steelhead": "북부 캘리포니아 해안 여름 강철 머리",
+    "northern_california_coast_winter_steelhead": "북부 캘리포니아 해안 겨울 강철 머리",
+    "northern_green_sturgeon": "북부 그린 철갑 상어",
+    "owens_pupfish": "Owens Pupfish",
+    "owens_speckled_dace": "Owens Speckled Dace",
+    "owens_sucker": "Owens Sucker",
+    "owens_tui_chub": "Owens Tui Chub",
+    "pacific_lamprey": "태평양 전복",
+    "paiute_cutthroat_trout": "Paiute Cutthroat Trout",
+    "paiute_sculpin": "Paiute Sculpin",
+    "pink_salmon": "핑크 연어",
+    "pit_river_tui_chub": "구덩이 강 Tui Chub",
+    "pit_sculpin": "핏 스쿨 핀",
+    "pit-klamath_brook_lamprey": "핏 - 클라 머스 브룩 벼룩",
+    "porthole_livebearer": "현창의 생방송 자",
+    "prickly_sculpin": "의욕적 인 스컬 핀",
+    "pumpkinseed": "호박씨",
+    "rainwater_killifish": "빗물 킬 피시 스",
+    "razorback_sucker": "Razorback Sucker",
+    "red_hills_roach": "레드 힐스 바퀴벌레",
+    "red_shiner": "레드 샤이 너",
+    "redear_sunfish": "해파리 Redear",
+    "redeye_bass": "레드 아이베이스",
+    "reticulate_sculpin": "레티 레이트 스컬 핀",
+    "riffle_sculpin": "리플 스컬 핀",
+    "river_lamprey": "강 Lamprey",
+    "rough_sculpin": "러프 스컬 핀",
+    "russian_river_roach": "러시아 강 로치",
+    "russian_river_tule_perch": "러시아 강 Tule Perch",
+    "sacramento_blackfish": "새크라멘토 블랙 피쉬",
+    "sacramento_hitch": "새크라멘토 히치",
+    "sacramento_perch": "새크라멘토 퍼치",
+    "sacramento_pikeminnow": "Sacramento Pikeminnow",
+    "sacramento_speckled_dace": "새크라멘토 얼룩덜룩 한 Dace",
+    "sacramento_splittail": "Sacramento Splittail",
+    "sacramento_sucker": "새크라멘토 서커",
+    "sacramento_tule_perch": "새크라멘토 툴레 퍼치",
+    "sailfin_molly": "Sailfin Molly",
+    "salt_creek_pupfish": "솔트 크릭 푸 피쉬",
+    "santa_ana_speckled_dace": "산타 아나 얼룩덜룩 한 Dace",
+    "santa_ana_sucker": "산타 아나 서커",
+    "saratoga_springs_pupfish": "Saratoga Springs Pupfish",
+    "shay_creek_stickleback": "셰이 크릭 Stickleback",
+    "shimofuri_goby": "Shimofuri Goby",
+    "shiner_perch": "샤이니 퍼치",
+    "shortfin_molly": "쇼트 핀 몰리",
+    "shortnose_sucker": "Shortnose 빨판",
+    "shoshone_pupfish": "쇼 쇼네 푸 피쉬",
+    "smallmouth_bass": "스몰 마우스 저음",
+    "sockeye_kokanee_salmon": "Sockeye (코 카니) 연어",
+    "south_central_california_coast_steelhead": "사우스 센트럴 캘리포니아 해안 스틸 헤드",
+    "southern_california_steelhead": "남부 캘리포니아 스틸 헤드",
+    "southern_green_sturgeon": "남부 그린 철갑 상어",
+    "southern_oregon_northern_california_coast_coho_salmon": "남부 오레곤 북부 캘리포니아 해안 코호 연어",
+    "southern_oregon_northern_california_coast_fall_chinook_salmon": "남부 오레곤 북부 캘리포니아 해안 가을 치누크 연어",
+    "spotted_bass": "Spotted Bass",
+    "staghorn_sculpin": "Staghorn Sculpin",
+    "starry_flounder": "별이 빛나는 넙치",
+    "striped_bass": "줄무늬 농어",
+    "striped_mullet": "줄무늬 숭어",
+    "surf_smelt": "서핑 제련",
+    "tahoe_sucker": "타호 빨판",
+    "tecopa_pupfish": "Tecopa Pupfish",
+    "tench": "텐치",
+    "thicktail_chub": "두꺼운 꼬리 Chub",
+    "threadfin_shad": "실밥 파우더",
+    "tidewater_goby": "Tidewater Goby",
+    "tomales_roach": "토일 레스 바퀴벌레",
+    "topsmelt": "Topsmelt",
+    "unarmored_threespine_stickleback": "비무장 된 삼실물 Stickleback",
+    "upper_klamath_marbled_sculpin": "어퍼 클래 머스 차돌박이 스컬 핀",
+    "upper_klamath-trinity_fall_chinook_salmon": "어퍼 클래 머스 트리니티 가을 치누크 연어",
+    "upper_klamath-trinity_spring_chinook_salmon": "어퍼 클래 머스 트리니티 봄 치누크 연어",
+    "wakasagi": "Wakasagi",
+    "warmouth": "와 머스",
+    "western_brook_lamprey": "서부 브룩 람 프리",
+    "western_mosquitofish": "서양 모기 피쉬",
+    "white_bass": "화이트베이스",
+    "white_catfish": "화이트 메기",
+    "white_crappie": "화이트 크 래피",
+    "white_sturgeon": "흰 철갑 상어",
+    "yellow_bullhead": "노란 머리",
+    "yellow_perch": "옐로우 퍼치",
+    "yellowfin_goby": "옐로 핀 고비"
+}

@@ -110,7 +110,7 @@ namespace djv
             void Dialog::_initEvent(Event::Init& event)
             {
                 IDialog::_initEvent(event);
-                setTitle(_getText(DJV_TEXT("File Browser")));
+                setTitle(_getText(DJV_TEXT("file_browser")));
             }
 
         } // namespace FileBrowser

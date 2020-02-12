@@ -571,47 +571,47 @@ namespace djv
         AV::Image,
         Type,
         DJV_TEXT("None"),
-        DJV_TEXT("L_U8"),
-        DJV_TEXT("L_U16"),
-        DJV_TEXT("L_U32"),
-        DJV_TEXT("L_F16"),
-        DJV_TEXT("L_F32"),
-        DJV_TEXT("LA_U8"),
-        DJV_TEXT("LA_U16"),
-        DJV_TEXT("LA_U32"),
-        DJV_TEXT("LA_F16"),
-        DJV_TEXT("LA_F32"),
-        DJV_TEXT("RGB_U8"),
-        DJV_TEXT("RGB_U10"),
-        DJV_TEXT("RGB_U16"),
-        DJV_TEXT("RGB_U32"),
-        DJV_TEXT("RGB_F16"),
-        DJV_TEXT("RGB_F32"),
-        DJV_TEXT("RGBA_U8"),
-        DJV_TEXT("RGBA_U16"),
-        DJV_TEXT("RGBA_U32"),
-        DJV_TEXT("RGBA_F16"),
-        DJV_TEXT("RGBA_F32"));
+        DJV_TEXT("channel_type_l_u8"),
+        DJV_TEXT("channel_type_l_u16"),
+        DJV_TEXT("channel_type_l_u32"),
+        DJV_TEXT("channel_type_l_f16"),
+        DJV_TEXT("channel_type_l_f32"),
+        DJV_TEXT("channel_type_la_u8"),
+        DJV_TEXT("channel_type_la_u16"),
+        DJV_TEXT("channel_type_la_u32"),
+        DJV_TEXT("channel_type_la_f16"),
+        DJV_TEXT("channel_type_la_f32"),
+        DJV_TEXT("channel_type_rgb_u8"),
+        DJV_TEXT("channel_type_rgb_u10"),
+        DJV_TEXT("channel_type_rgb_u16"),
+        DJV_TEXT("channel_type_rgb_u32"),
+        DJV_TEXT("channel_type_rgb_f16"),
+        DJV_TEXT("channel_type_rgb_f32"),
+        DJV_TEXT("channel_type_rgba_u8"),
+        DJV_TEXT("channel_type_rgba_u16"),
+        DJV_TEXT("channel_type_rgba_u32"),
+        DJV_TEXT("channel_type_rgba_f16"),
+        DJV_TEXT("channel_type_rgba_f32"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::Image,
         Channels,
         DJV_TEXT("None"),
-        DJV_TEXT("L"),
-        DJV_TEXT("LA"),
-        DJV_TEXT("RGB"),
-        DJV_TEXT("RGBA"));
+        DJV_TEXT("key_l"),
+        DJV_TEXT("channel_type_la"),
+        DJV_TEXT("channel_type_rgb"),
+        DJV_TEXT("channel_type_rgba"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::Image,
         DataType,
         DJV_TEXT("None"),
-        DJV_TEXT("U8"),
-        DJV_TEXT("U10"),
-        DJV_TEXT("U16"),
-        DJV_TEXT("U32"),
-        DJV_TEXT("F16"),
-        DJV_TEXT("F32"));
+        DJV_TEXT("u8"),
+        DJV_TEXT("channel_type_u10"),
+        DJV_TEXT("channel_type_u16"),
+        DJV_TEXT("channel_type_u32"),
+        DJV_TEXT("key_f16"),
+        DJV_TEXT("f32"));
 
     picojson::value toJSON(AV::Image::Type value)
     {
@@ -629,7 +629,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
     }
 

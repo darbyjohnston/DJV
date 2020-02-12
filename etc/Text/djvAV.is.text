@@ -1,824 +1,135 @@
-[
-    {
-        "source": "Cannot parse the value.",
-        "description": "",
-        "id": "Cannot parse the value.",
-        "text": "Ekki er hægt að flokka gildi."
-    },
-    {
-        "source": "The file",
-        "description": "",
-        "id": "The file",
-        "text": "Skráin"
-    },
-    {
-        "source": "cannot be opened",
-        "description": "",
-        "id": "cannot be opened",
-        "text": "Ekki er hægt að opna"
-    },
-    {
-        "source": "does not have any video or audio streams",
-        "description": "",
-        "id": "does not have any video or audio streams",
-        "text": "Hefur engar vídeó- eða hljóðstrauma"
-    },
-    {
-        "source": "does not match any video codecs",
-        "description": "",
-        "id": "does not match any video codecs",
-        "text": "Samsvarar ekki vídeókóða"
-    },
-    {
-        "source": "The audio format ",
-        "description": "",
-        "id": "The audio format ",
-        "text": "Hljóðformið"
-    },
-    {
-        "source": "is not supported",
-        "description": "",
-        "id": "is not supported",
-        "text": "er ekki studd"
-    },
-    {
-        "source": "does not match any audio codecs",
-        "description": "",
-        "id": "does not match any audio codecs",
-        "text": "passar ekki allir hljóðkóðar"
-    },
-    {
-        "source": "None",
-        "description": "",
-        "id": "None",
-        "text": "Enginn"
-    },
-    {
-        "source": "Left",
-        "description": "",
-        "id": "Left",
-        "text": "Vinstri"
-    },
-    {
-        "source": "Top",
-        "description": "",
-        "id": "Top",
-        "text": "Efst"
-    },
-    {
-        "source": "Right",
-        "description": "",
-        "id": "Right",
-        "text": "Hægri"
-    },
-    {
-        "source": "Bottom",
-        "description": "",
-        "id": "Bottom",
-        "text": "Neðst"
-    },
-    {
-        "source": "Timecode",
-        "description": "",
-        "id": "Timecode",
-        "text": "Tímakóði"
-    },
-    {
-        "source": "Frames",
-        "description": "",
-        "id": "Frames",
-        "text": "Rammar"
-    },
-    {
-        "source": "Bad magic number.",
-        "description": "",
-        "id": "Bad magic number.",
-        "text": "Slæmt galdur númer."
-    },
-    {
-        "source": "Unsupported file.",
-        "description": "",
-        "id": "Unsupported file.",
-        "text": "Óstudd skrá."
-    },
-    {
-        "source": "Incomplete file.",
-        "description": "",
-        "id": "Incomplete file.",
-        "text": "Ófullnægjandi skrá."
-    },
-    {
-        "source": "This plugin provides DPX image I/O.",
-        "description": "",
-        "id": "This plugin provides DPX image I/O.",
-        "text": "Þessi viðbót veitir DPX mynd I / O."
-    },
-    {
-        "source": "1.0",
-        "description": "",
-        "id": "1.0",
-        "text": "1,0"
-    },
-    {
-        "source": "2.0",
-        "description": "",
-        "id": "2.0",
-        "text": "2.0"
-    },
-    {
-        "source": "Auto",
-        "description": "",
-        "id": "Auto",
-        "text": "Sjálfvirk"
-    },
-    {
-        "source": "MSB",
-        "description": "",
-        "id": "MSB",
-        "text": "MSB"
-    },
-    {
-        "source": "LSB",
-        "description": "",
-        "id": "LSB",
-        "text": "LSB"
-    },
-    {
-        "source": "Cannot open file.",
-        "description": "",
-        "id": "Cannot open file.",
-        "text": "Ekki er hægt að opna skrá."
-    },
-    {
-        "source": "This plugin provides Portable Network Graphics (PNG) image I/O.",
-        "description": "",
-        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.",
-        "text": "Þessi tappi býður upp á I / O myndavél (Portable Network Graphics)."
-    },
-    {
-        "source": "This plugin provides NetPBM image I/O.",
-        "description": "",
-        "id": "This plugin provides NetPBM image I/O.",
-        "text": "Þessi viðbót veitir NetPBM mynd I / O."
-    },
-    {
-        "source": "ASCII",
-        "description": "",
-        "id": "ASCII",
-        "text": "ASCII"
-    },
-    {
-        "source": "Binary",
-        "description": "",
-        "id": "Binary",
-        "text": "Tvöfaldur"
-    },
-    {
-        "source": "Error reading scanline.",
-        "description": "",
-        "id": "Error reading scanline.",
-        "text": "Villa við að lesa skönnun."
-    },
-    {
-        "source": "Unsupported image type.",
-        "description": "",
-        "id": "Unsupported image type.",
-        "text": "Óstudd myndgerð."
-    },
-    {
-        "source": "Unknown",
-        "description": "",
-        "id": "Unknown",
-        "text": "Óþekktur"
-    },
-    {
-        "source": "Out of memory",
-        "description": "",
-        "id": "Out of memory",
-        "text": "Búinn með minni"
-    },
-    {
-        "source": "Invalid value",
-        "description": "",
-        "id": "Invalid value",
-        "text": "Ógilt gildi"
-    },
-    {
-        "source": "Invalid enum",
-        "description": "",
-        "id": "Invalid enum",
-        "text": "Ógilt enum"
-    },
-    {
-        "source": "U8",
-        "description": "",
-        "id": "U8",
-        "text": "U8"
-    },
-    {
-        "source": "S16",
-        "description": "",
-        "id": "S16",
-        "text": "S16"
-    },
-    {
-        "source": "S32",
-        "description": "",
-        "id": "S32",
-        "text": "S32"
-    },
-    {
-        "source": "F32",
-        "description": "",
-        "id": "F32",
-        "text": "F32"
-    },
-    {
-        "source": "Unsupported color components.",
-        "description": "",
-        "id": "Unsupported color components.",
-        "text": "Óstudd litareiningar."
-    },
-    {
-        "source": "This plugin provides Tagged Image File Format (TIFF) image I/O.",
-        "description": "",
-        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.",
-        "text": "Þessi tappi býður upp á Tagged Image File Format (TIFF) mynd I / O."
-    },
-    {
-        "source": "RLE",
-        "description": "",
-        "id": "RLE",
-        "text": "RLE"
-    },
-    {
-        "source": "LZW",
-        "description": "",
-        "id": "LZW",
-        "text": "LZW"
-    },
-    {
-        "source": "The OpenGL texture cannot be created.",
-        "description": "",
-        "id": "The OpenGL texture cannot be created.",
-        "text": "Ekki er hægt að búa til OpenGL áferðina."
-    },
-    {
-        "source": "The OpenGL frame buffer cannot be created.",
-        "description": "",
-        "id": "The OpenGL frame buffer cannot be created.",
-        "text": "Ekki er hægt að búa til OpenGL ramma biðminni."
-    },
-    {
-        "source": "The OpenGL frame buffer cannot be initialized.",
-        "description": "",
-        "id": "The OpenGL frame buffer cannot be initialized.",
-        "text": "The OpenGL ramma biðminni er ekki hægt að frumstilla."
-    },
-    {
-        "source": "Error writing scanline.",
-        "description": "",
-        "id": "Error writing scanline.",
-        "text": "Villa við að skrifa scanline."
-    },
-    {
-        "source": "The OpenGL vertex shader cannot be created.",
-        "description": "",
-        "id": "The OpenGL vertex shader cannot be created.",
-        "text": "Ekki er hægt að búa til Opentex skygginguna."
-    },
-    {
-        "source": "The OpenGL vertex shader",
-        "description": "",
-        "id": "The OpenGL vertex shader",
-        "text": "The OpenGL hornpunktur shader"
-    },
-    {
-        "source": "cannot be compiled",
-        "description": "",
-        "id": "cannot be compiled",
-        "text": "Ekki er hægt að safna saman"
-    },
-    {
-        "source": "The OpenGL fragment shader cannot be created.",
-        "description": "",
-        "id": "The OpenGL fragment shader cannot be created.",
-        "text": "Ekki er hægt að búa til OpenGL brotskjáinn."
-    },
-    {
-        "source": "The OpenGL fragment shader",
-        "description": "",
-        "id": "The OpenGL fragment shader",
-        "text": "The OpenGL áfram shader"
-    },
-    {
-        "source": "The program",
-        "description": "",
-        "id": "The program",
-        "text": "Forritið"
-    },
-    {
-        "source": "cannot be linked",
-        "description": "",
-        "id": "cannot be linked",
-        "text": "Ekki er hægt að tengja það"
-    },
-    {
-        "source": "L U8",
-        "description": "",
-        "id": "L_U8",
-        "text": "50 U8"
-    },
-    {
-        "source": "L U16",
-        "description": "",
-        "id": "L_U16",
-        "text": "L U16"
-    },
-    {
-        "source": "L U32",
-        "description": "",
-        "id": "L_U32",
-        "text": "L U32"
-    },
-    {
-        "source": "L F16",
-        "description": "",
-        "id": "L_F16",
-        "text": "L F16"
-    },
-    {
-        "source": "L F32",
-        "description": "",
-        "id": "L_F32",
-        "text": "L F32"
-    },
-    {
-        "source": "LA U8",
-        "description": "",
-        "id": "LA_U8",
-        "text": "The U8"
-    },
-    {
-        "source": "LA U16",
-        "description": "",
-        "id": "LA_U16",
-        "text": "THE U16"
-    },
-    {
-        "source": "LA U32",
-        "description": "",
-        "id": "LA_U32",
-        "text": "U32"
-    },
-    {
-        "source": "LA F16",
-        "description": "",
-        "id": "LA_F16",
-        "text": "F16"
-    },
-    {
-        "source": "LA F32",
-        "description": "",
-        "id": "LA_F32",
-        "text": "LA F32"
-    },
-    {
-        "source": "RGB U8",
-        "description": "",
-        "id": "RGB_U8",
-        "text": "RGB U8"
-    },
-    {
-        "source": "RGB U10",
-        "description": "",
-        "id": "RGB_U10",
-        "text": "RGB U10"
-    },
-    {
-        "source": "RGB U16",
-        "description": "",
-        "id": "RGB_U16",
-        "text": "RGB U16"
-    },
-    {
-        "source": "RGB U32",
-        "description": "",
-        "id": "RGB_U32",
-        "text": "RGB U32"
-    },
-    {
-        "source": "RGB F16",
-        "description": "",
-        "id": "RGB_F16",
-        "text": "RGB F16"
-    },
-    {
-        "source": "RGB F32",
-        "description": "",
-        "id": "RGB_F32",
-        "text": "RGB F32"
-    },
-    {
-        "source": "RGBA U8",
-        "description": "",
-        "id": "RGBA_U8",
-        "text": "RGBA U8"
-    },
-    {
-        "source": "RGBA U16",
-        "description": "",
-        "id": "RGBA_U16",
-        "text": "RGBA U16"
-    },
-    {
-        "source": "RGBA U32",
-        "description": "",
-        "id": "RGBA_U32",
-        "text": "RGBA U32"
-    },
-    {
-        "source": "RGBA F16",
-        "description": "",
-        "id": "RGBA_F16",
-        "text": "RGBA F16"
-    },
-    {
-        "source": "RGBA F32",
-        "description": "",
-        "id": "RGBA_F32",
-        "text": "RGBA F32"
-    },
-    {
-        "source": "L",
-        "description": "",
-        "id": "L",
-        "text": "The"
-    },
-    {
-        "source": "LA",
-        "description": "",
-        "id": "LA",
-        "text": "LA"
-    },
-    {
-        "source": "RGB",
-        "description": "",
-        "id": "RGB",
-        "text": "RGB"
-    },
-    {
-        "source": "RGBA",
-        "description": "",
-        "id": "RGBA",
-        "text": "RGBA"
-    },
-    {
-        "source": "U10",
-        "description": "",
-        "id": "U10",
-        "text": "U10"
-    },
-    {
-        "source": "U16",
-        "description": "",
-        "id": "U16",
-        "text": "U16"
-    },
-    {
-        "source": "U32",
-        "description": "",
-        "id": "U32",
-        "text": "U32"
-    },
-    {
-        "source": "F16",
-        "description": "",
-        "id": "F16",
-        "text": "F16"
-    },
-    {
-        "source": "The shader cannot be created",
-        "description": "",
-        "id": "The shader cannot be created",
-        "text": "Ekki er hægt að búa til skyggnið"
-    },
-    {
-        "source": "Cannot create GLFW window.",
-        "description": "",
-        "id": "Cannot create GLFW window.",
-        "text": "Ekki er hægt að búa til GLFW glugga."
-    },
-    {
-        "source": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.",
-        "description": "",
-        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.",
-        "text": "Þessi tappi býður upp á sameiginlega ljósmyndagagnrýnihóp (JPEG) mynd I / O."
-    },
-    {
-        "source": "This plugin provides OpenEXR file I/O.",
-        "description": "",
-        "id": "This plugin provides OpenEXR file I/O.",
-        "text": "Þessi tappi býður upp á OpenEXR skrá I / O."
-    },
-    {
-        "source": "Known",
-        "description": "",
-        "id": "Known",
-        "text": "Þekkt"
-    },
-    {
-        "source": "All",
-        "description": "",
-        "id": "All",
-        "text": "Allt"
-    },
-    {
-        "source": "ZIPS",
-        "description": "",
-        "id": "ZIPS",
-        "text": "þjappaðar"
-    },
-    {
-        "source": "ZIP",
-        "description": "",
-        "id": "ZIP",
-        "text": "ZIP"
-    },
-    {
-        "source": "PIZ",
-        "description": "",
-        "id": "PIZ",
-        "text": "Piz"
-    },
-    {
-        "source": "PXR24",
-        "description": "",
-        "id": "PXR24",
-        "text": "PXR24"
-    },
-    {
-        "source": "B44",
-        "description": "",
-        "id": "B44",
-        "text": "B44"
-    },
-    {
-        "source": "B44A",
-        "description": "",
-        "id": "B44A",
-        "text": "B44A"
-    },
-    {
-        "source": "DWAA",
-        "description": "",
-        "id": "DWAA",
-        "text": "DWAA"
-    },
-    {
-        "source": "DWAB",
-        "description": "",
-        "id": "DWAB",
-        "text": "DWAB"
-    },
-    {
-        "source": "cannot be read",
-        "description": "",
-        "id": "cannot be read",
-        "text": "ekki hægt að lesa"
-    },
-    {
-        "source": "cannot be written",
-        "description": "",
-        "id": "cannot be written",
-        "text": "Ekki er hægt að skrifa"
-    },
-    {
-        "source": "Float",
-        "description": "",
-        "id": "Float",
-        "text": "Fljóta"
-    },
-    {
-        "source": "Double",
-        "description": "",
-        "id": "Double",
-        "text": "Tvöfalt"
-    },
-    {
-        "source": "U8 Planar",
-        "description": "",
-        "id": "U8 Planar",
-        "text": "U8 Planar"
-    },
-    {
-        "source": "S16 Planar",
-        "description": "",
-        "id": "S16 Planar",
-        "text": "S16 Planar"
-    },
-    {
-        "source": "S32 Planar",
-        "description": "",
-        "id": "S32 Planar",
-        "text": "S32 Planar"
-    },
-    {
-        "source": "Float Planar",
-        "description": "",
-        "id": "Float Planar",
-        "text": "Fljóta Planar"
-    },
-    {
-        "source": "Double Planar",
-        "description": "",
-        "id": "Double Planar",
-        "text": "Double Planar"
-    },
-    {
-        "source": "This plugin provides FFmpeg image and audio I/O.",
-        "description": "",
-        "id": "This plugin provides FFmpeg image and audio I/O.",
-        "text": "Þessi tappi veitir FFmpeg mynd og hljóð I / O."
-    },
-    {
-        "source": "The file cannot be opened.",
-        "description": "",
-        "id": "The file cannot be opened.",
-        "text": "Ekki er hægt að opna skrána."
-    },
-    {
-        "source": "No image channels.",
-        "description": "",
-        "id": "No image channels.",
-        "text": "Engin myndrásir."
-    },
-    {
-        "source": "Image channels must have the same size and bit depth.",
-        "description": "",
-        "id": "Image channels must have the same size and bit depth.",
-        "text": "Myndrásir verða að vera með sömu stærð og smádýpt."
-    },
-    {
-        "source": "Unsupported bit depth.",
-        "description": "",
-        "id": "Unsupported bit depth.",
-        "text": "Óstudd bitdýpt."
-    },
-    {
-        "source": "Line padding is unsupported.",
-        "description": "",
-        "id": "Line padding is unsupported.",
-        "text": "Line padding er ekki studd."
-    },
-    {
-        "source": "Channel padding is unsupported.",
-        "description": "",
-        "id": "Channel padding is unsupported.",
-        "text": "Ekki er hægt að styðja við rásir."
-    },
-    {
-        "source": "This plugin provides Cineon image I/O.",
-        "description": "",
-        "id": "This plugin provides Cineon image I/O.",
-        "text": "Þessi tappi veitir Cineon mynd I / O."
-    },
-    {
-        "source": "Default",
-        "description": "",
-        "id": "Default",
-        "text": "Sjálfgefið"
-    },
-    {
-        "id": "The audio format",
-        "source": "The audio format",
-        "description": "",
-        "text": "Hljóðsniðið"
-    },
-    {
-        "source": "F64",
-        "description": "",
-        "id": "F64",
-        "text": "F64"
-    },
-    {
-        "source": "RtAudio cannot be initialized",
-        "description": "",
-        "id": "RtAudio cannot be initialized",
-        "text": "Ekki er hægt að frumstilla RtAudio"
-    },
-    {
-        "source": "File not supported.",
-        "description": "",
-        "id": "File not supported.",
-        "text": "Skráin er ekki studd."
-    },
-    {
-        "source": "Error reading header.",
-        "description": "",
-        "id": "Error reading header.",
-        "text": "Villa við lestur haus."
-    },
-    {
-        "source": "Straight",
-        "description": "",
-        "id": "Straight",
-        "text": "Beint"
-    },
-    {
-        "source": "Premultiplied",
-        "description": "",
-        "id": "Premultiplied",
-        "text": "Fyrirfram"
-    },
-    {
-        "source": "This plugin provides IFF image I/O.",
-        "description": "",
-        "id": "This plugin provides IFF image I/O.",
-        "text": "Þessi tappi veitir IFF mynd IFF."
-    },
-    {
-        "source": "Cannot initialize GLFW.",
-        "description": "",
-        "id": "Cannot initialize GLFW.",
-        "text": "Ekki hægt að frumstilla GLFW."
-    },
-    {
-        "source": "Cannot initialize GLAD.",
-        "description": "",
-        "id": "Cannot initialize GLAD.",
-        "text": "Ekki hægt að frumstilla GLAD."
-    },
-    {
-        "source": "This plugin provides RLA image I/O.",
-        "description": "",
-        "id": "This plugin provides RLA image I/O.",
-        "text": "Þessi viðbót býður upp á RLA mynd I / O."
-    },
-    {
-        "source": "This plugin provides SGI image I/O.",
-        "description": "",
-        "id": "This plugin provides SGI image I/O.",
-        "text": "Þessi tappi veitir SGI mynd I / O."
-    },
-    {
-        "source": "Read error.",
-        "description": "",
-        "id": "Read error.",
-        "text": "Lesa villu."
-    },
-    {
-        "source": "This plugin provides Targa image I/O.",
-        "description": "",
-        "id": "This plugin provides Targa image I/O.",
-        "text": "Þessi viðbót býður upp á Targa mynd I / O."
-    },
-    {
-        "source": "Red",
-        "text": "Rauður",
-        "id": "Red",
-        "description": ""
-    },
-    {
-        "source": "Green",
-        "text": "Grænt",
-        "id": "Green",
-        "description": ""
-    },
-    {
-        "source": "Blue",
-        "text": "Blátt",
-        "id": "Blue",
-        "description": ""
-    },
-    {
-        "source": "Alpha",
-        "text": "Alfa",
-        "id": "Alpha",
-        "description": ""
-    },
-    {
-        "source": "Atlas",
-        "text": "Atlas",
-        "id": "Atlas",
-        "description": ""
-    },
-    {
-        "source": "Dynamic",
-        "text": "Dynamískt",
-        "id": "Dynamic",
-        "description": ""
-    },
-    {
-        "source": "Nearest",
-        "text": "Næst",
-        "id": "Nearest",
-        "description": ""
-    },
-    {
-        "source": "Linear",
-        "text": "Línuleg",
-        "id": "Linear",
-        "description": ""
-    }
-]
+{
+    "error_unknown": "Óþekktur",
+    "error_out_of_memory": "Búinn með minni",
+    "error_invalid_value": "Ógilt gildi",
+    "error_invalid_enum": "Ógilt enum",
+    "error_rtaudio_init": "Ekki er hægt að frumstilla RtAudio",
+    "error_the_file": "Skráin",
+    "error_openion": "Ekki er hægt að opna",
+    "error_no_streams": "Hefur engar vídeó- eða hljóðstrauma",
+    "error_codec_match": "Samsvarar ekki vídeókóða",
+    "error_the_audio_format": "Hljóðsniðið",
+    "error_unsupported": "er ekki studd",
+    "error_no_audio_codecs": "passar ekki allir hljóðkóðar",
+    "error_file_not_supported": "Skráin er ekki studd.",
+    "error_reading_header": "Villa við lestur haus.",
+    "error_cannot_be_read": "ekki hægt að lesa",
+    "error_cannot_be_written": "Ekki er hægt að skrifa",
+    "error_cannot_parse_value": "Ekki er hægt að flokka gildi.",
+    "error_opengl_vertex_shader_creation": "Ekki er hægt að búa til Opentex skygginguna.",
+    "error_the_opengl_vertex_shader": "The OpenGL hornpunktur shader",
+    "error_compilion": "Ekki er hægt að safna saman",
+    "error_opengl_fragment_shader_creation": "Ekki er hægt að búa til OpenGL brotskjáinn.",
+    "error_the_opengl_fragment_shader": "The OpenGL áfram shader",
+    "error_the_program": "Forritið",
+    "error_link": "Ekki er hægt að tengja það",
+    "error_glfw_init": "Ekki hægt að frumstilla GLFW.",
+    "error_glfw_window_creation": "Ekki er hægt að búa til GLFW glugga.",
+    "error_glad_init": "Ekki hægt að frumstilla GLAD.",
+    "error_file_open": "Ekki er hægt að opna skrána.",
+    "error_unsupported_color_components": "Óstudd litareiningar.",
+    "error_opengl_texture_creation": "Ekki er hægt að búa til OpenGL áferðina.",
+    "error_opengl_frame_buffer_creation": "Ekki er hægt að búa til OpenGL ramma biðminni.",
+    "error_opengl_frame_buffer_init": "The OpenGL ramma biðminni er ekki hægt að frumstilla.",
+    "error_bad_magic_number": "Slæmt galdur númer.",
+    "error_unsupported_image_type": "Óstudd myndgerð.",
+    "error_incomplete_file": "Ófullnægjandi skrá.",
+    "error_no_image_channels": "Engin myndrásir.",
+    "error_image_channels_same_size_and_bit_depth": "Myndrásir verða að vera með sömu stærð og smádýpt.",
+    "error_unsupported_bit_depth": "Óstudd bitdýpt.",
+    "error_line_padding_unsupported": "Line padding er ekki studd.",
+    "error_channel_padding_unsupported": "Ekki er hægt að styðja við rásir.",
+    "error_unsupported_file": "Óstudd skrá.",
+    "error_read": "Lesa villu.",
+    "error_read_scanline": "Villa við að lesa skönnun.",
+    "error_write_scanline": "Villa við að skrifa scanline.",
+    "error_the_shader_creation": "Ekki er hægt að búa til skyggnið",
+    "u8": "U8",
+    "s16": "S16",
+    "s32": "S32",
+    "f32": "F32",
+    "f64": "F64",
+    "direction_left": "Vinstri",
+    "direction_top": "Efst",
+    "direction_right": "Hægri",
+    "direction_bottom": "Neðst",
+    "unit_time_timecode": "Tímakóði",
+    "unit_time_frames": "Rammar",
+    "alpha_straight": "Beint",
+    "alpha_premultiplied": "Fyrirfram",
+    "plugin_iff_io": "Þessi tappi veitir IFF mynd IFF.",
+    "plugin_jpeg_io": "Þessi tappi býður upp á sameiginlega ljósmyndagagnrýnihóp (JPEG) mynd I / O.",
+    "plugin_openexr_io": "Þessi tappi býður upp á OpenEXR skrá I / O.",
+    "plugin_rla_io": "Þessi viðbót býður upp á RLA mynd I / O.",
+    "plugin_png_i_o": "Þessi tappi býður upp á I / O myndavél (Portable Network Graphics).",
+    "plugin_netpbm_io": "Þessi viðbót veitir NetPBM mynd I / O.",
+    "plugin_cineon_io": "Þessi tappi veitir Cineon mynd I / O.",
+    "plugin_dpx_io": "Þessi viðbót veitir DPX mynd I / O.",
+    "plugin_sgi_io": "Þessi tappi veitir SGI mynd I / O.",
+    "plugin_tiff_io": "Þessi tappi býður upp á Tagged Image File Format (TIFF) mynd I / O.",
+    "plugin_targa_io": "Þessi viðbót býður upp á Targa mynd I / O.",
+    "plugin_ffmpeg_io": "Þessi tappi veitir FFmpeg mynd og hljóð I / O.",
+    "format_exr_channel_grouping_none": "Enginn",
+    "format_exr_channel_grouping_known": "Þekkt",
+    "format_exr_channel_grouping_all": "Allt",
+    "format_tiff_compression_rle": "RLE",
+    "format_exr_compression_zips": "þjappaðar",
+    "format_exr_compression_zip": "ZIP",
+    "format_exr_compression_piz": "Piz",
+    "format_exr_compression_pxr24": "PXR24",
+    "format_exr_compression_b44": "B44",
+    "format_exr_compression_b44a": "B44A",
+    "format_exr_compression_dwaa": "DWAA",
+    "format_exr_compression_dwab": "DWAB",
+    "format_tiff_compression_lzw": "LZW",
+    "format_ppm_type_ascii": "ASCII",
+    "format_ppm_type_binary": "Tvöfaldur",
+    "channel_type_l_u8": "50 U8",
+    "channel_type_l_u16": "L U16",
+    "channel_type_l_u32": "L U32",
+    "channel_type_l_f16": "L F16",
+    "channel_type_l_f32": "L F32",
+    "channel_type_la_u8": "The U8",
+    "channel_type_la_u16": "THE U16",
+    "channel_type_la_u32": "U32",
+    "channel_type_la_f16": "F16",
+    "channel_type_la_f32": "LA F32",
+    "channel_type_rgb_u8": "RGB U8",
+    "channel_type_rgb_u10": "RGB U10",
+    "channel_type_rgb_u16": "RGB U16",
+    "channel_type_rgb_u32": "RGB U32",
+    "channel_type_rgb_f16": "RGB F16",
+    "channel_type_rgb_f32": "RGB F32",
+    "channel_type_rgba_u8": "RGBA U8",
+    "channel_type_rgba_u16": "RGBA U16",
+    "channel_type_rgba_u32": "RGBA U32",
+    "channel_type_rgba_f16": "RGBA F16",
+    "channel_type_rgba_f32": "RGBA F32",
+    "channel_type_l": "The",
+    "channel_type_la": "LA",
+    "channel_type_rgb": "RGB",
+    "channel_type_rgba": "RGBA",
+    "channel_type_u10": "U10",
+    "channel_type_u16": "U16",
+    "channel_type_u32": "U32",
+    "channel_type_f16": "F16",
+    "1_0": "1,0",
+    "2_0": "2.0",
+    "auto": "Sjálfvirk",
+    "msb": "MSB",
+    "lsb": "LSB",
+    "channel_red": "Rauður",
+    "channel_green": "Grænt",
+    "channel_blue": "Blátt",
+    "channel_alpha": "Alfa",
+    "atlas": "Atlas",
+    "dynamic": "Dynamískt",
+    "filter_nearest": "Næst",
+    "filter_linear": "Línuleg",
+    "type_float": "Fljóta",
+    "type_double": "Tvöfalt",
+    "type_s16_planar": "S16 Planar",
+    "type_s32_planar": "S32 Planar",
+    "type_float_planar": "Fljóta Planar",
+    "type_double_planar": "Double Planar"
+}

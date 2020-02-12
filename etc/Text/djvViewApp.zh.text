@@ -1,3132 +1,435 @@
-[
-    {
-        "source": "cannot create OpenAL source",
-        "description": "",
-        "id": "cannot create OpenAL source",
-        "text": "无法创建OpenAL源"
-    },
-    {
-        "source": "cannot create OpenAL buffers",
-        "description": "",
-        "id": "cannot create OpenAL buffers",
-        "text": "无法创建OpenAL缓冲区"
-    },
-    {
-        "source": "cannot open",
-        "description": "",
-        "id": "cannot open",
-        "text": "不能打开"
-    },
-    {
-        "source": "Annotate",
-        "description": "",
-        "id": "Annotate",
-        "text": "注释"
-    },
-    {
-        "source": "Increase Volume",
-        "description": "",
-        "id": "Increase Volume",
-        "text": "增加音量"
-    },
-    {
-        "source": "Increase the audio volume",
-        "description": "",
-        "id": "Increase volume tooltip",
-        "text": "增加音量"
-    },
-    {
-        "source": "Decrease Volume",
-        "description": "",
-        "id": "Decrease Volume",
-        "text": "减少音量"
-    },
-    {
-        "source": "Decrease the audio volume",
-        "description": "",
-        "id": "Decrease volume tooltip",
-        "text": "降低音量"
-    },
-    {
-        "source": "Mute",
-        "description": "",
-        "id": "Mute",
-        "text": "静音"
-    },
-    {
-        "source": "Mute the audio",
-        "description": "",
-        "id": "Mute tooltip",
-        "text": "将音频静音"
-    },
-    {
-        "source": "Audio",
-        "description": "",
-        "id": "Audio",
-        "text": "音频"
-    },
-    {
-        "source": "Color Picker",
-        "description": "",
-        "id": "Color Picker",
-        "text": "颜色选择器"
-    },
-    {
-        "source": "Activate the color picker tool",
-        "description": "",
-        "id": "Color picker tooltip",
-        "text": "激活颜色选择器工具"
-    },
-    {
-        "source": "Lock Color Type",
-        "description": "",
-        "id": "Lock Color Type",
-        "text": "锁定颜色类型"
-    },
-    {
-        "source": "Don't change the color type to match the image",
-        "description": "",
-        "id": "Color picker lock color type tooltip",
-        "text": "请勿更改颜色类型以匹配图像"
-    },
-    {
-        "source": "RGB",
-        "description": "",
-        "id": "RGB",
-        "text": "RGB"
-    },
-    {
-        "source": "HSV",
-        "description": "",
-        "id": "HSV",
-        "text": "HSV"
-    },
-    {
-        "source": "Set the color picker sample size",
-        "description": "",
-        "id": "Color picker sample size tooltip",
-        "text": "设置颜色选择器样本大小"
-    },
-    {
-        "source": "FPS",
-        "description": "",
-        "id": "FPS",
-        "text": "FPS"
-    },
-    {
-        "source": "Object count",
-        "description": "",
-        "id": "Object count",
-        "text": "对象数"
-    },
-    {
-        "source": "Widget count",
-        "description": "",
-        "id": "Widget count",
-        "text": "小工具数量"
-    },
-    {
-        "source": "Hover",
-        "description": "",
-        "id": "Hover",
-        "text": "徘徊"
-    },
-    {
-        "source": "None",
-        "description": "",
-        "id": "None",
-        "text": "没有"
-    },
-    {
-        "source": "Grab",
-        "description": "",
-        "id": "Grab",
-        "text": "抓"
-    },
-    {
-        "source": "Key grab",
-        "description": "",
-        "id": "Key grab",
-        "text": "抓住钥匙"
-    },
-    {
-        "source": "Font system glyph cache",
-        "description": "",
-        "id": "Font system glyph cache",
-        "text": "字体系统字形缓存"
-    },
-    {
-        "source": "Thumbnail system information cache",
-        "description": "",
-        "id": "Thumbnail system information cache",
-        "text": "缩略图系统信息缓存"
-    },
-    {
-        "source": "Thumbnail system image cache",
-        "description": "",
-        "id": "Thumbnail system image cache",
-        "text": "缩略图系统图像缓存"
-    },
-    {
-        "source": "Icon system cache",
-        "description": "",
-        "id": "Icon system cache",
-        "text": "图标系统缓存"
-    },
-    {
-        "source": "Texture atlas",
-        "description": "",
-        "id": "Texture atlas",
-        "text": "纹理图集"
-    },
-    {
-        "source": "Dynamic texture count",
-        "description": "",
-        "id": "Dynamic texture count",
-        "text": "动态纹理计数"
-    },
-    {
-        "source": "VBO size",
-        "description": "",
-        "id": "VBO size",
-        "text": "VBO大小"
-    },
-    {
-        "source": "Video queue",
-        "description": "",
-        "id": "Video queue",
-        "text": "视频队列"
-    },
-    {
-        "source": "Audio queue",
-        "description": "",
-        "id": "Audio queue",
-        "text": "音频尾巴"
-    },
-    {
-        "source": "OpenAL queue",
-        "description": "",
-        "id": "OpenAL queue",
-        "text": "OpenAL队列"
-    },
-    {
-        "source": "Current time",
-        "description": "",
-        "id": "Current time",
-        "text": "当前时间"
-    },
-    {
-        "source": "Debug",
-        "description": "",
-        "id": "Debug",
-        "text": "调试"
-    },
-    {
-        "source": "General",
-        "description": "",
-        "id": "General",
-        "text": "一般"
-    },
-    {
-        "source": "Render",
-        "description": "",
-        "id": "Render",
-        "text": "给予"
-    },
-    {
-        "source": "Media",
-        "description": "",
-        "id": "Media",
-        "text": "媒体"
-    },
-    {
-        "source": "Sequences",
-        "description": "",
-        "id": "Sequences",
-        "text": "序列"
-    },
-    {
-        "source": "File",
-        "description": "",
-        "id": "File",
-        "text": "文件"
-    },
-    {
-        "source": "Auto-detect file sequences",
-        "description": "",
-        "id": "Auto-detect file sequences",
-        "text": "自动检测文件序列"
-    },
-    {
-        "source": "Memory Cache",
-        "description": "",
-        "id": "Memory Cache",
-        "text": "内存缓存"
-    },
-    {
-        "source": "Enabled",
-        "description": "",
-        "id": "Enabled",
-        "text": "启用"
-    },
-    {
-        "source": "Gigabytes",
-        "description": "",
-        "id": "Gigabytes",
-        "text": "千兆字节"
-    },
-    {
-        "source": "Documentation",
-        "description": "",
-        "id": "Documentation",
-        "text": "文档"
-    },
-    {
-        "source": "About",
-        "description": "",
-        "id": "About",
-        "text": "关于"
-    },
-    {
-        "source": "System Log",
-        "description": "",
-        "id": "System Log",
-        "text": "系统日志"
-    },
-    {
-        "source": "Debug Widget",
-        "description": "",
-        "id": "Debug Widget",
-        "text": "调试小部件"
-    },
-    {
-        "source": "Help",
-        "description": "",
-        "id": "Help",
-        "text": "救命"
-    },
-    {
-        "source": "Forward",
-        "description": "",
-        "id": "Forward",
-        "text": "向前"
-    },
-    {
-        "source": "Start forward playback",
-        "description": "",
-        "id": "Forward tooltip",
-        "text": "开始向前播放"
-    },
-    {
-        "source": "Reverse",
-        "description": "",
-        "id": "Reverse",
-        "text": "相反"
-    },
-    {
-        "source": "Start reverse playback",
-        "description": "",
-        "id": "Reverse tooltip",
-        "text": "开始反向播放"
-    },
-    {
-        "source": "Play Once",
-        "description": "",
-        "id": "Play Once",
-        "text": "玩一次"
-    },
-    {
-        "source": "Play the file once and then stop playback",
-        "description": "",
-        "id": "Play once tooltip",
-        "text": "播放文件一次然后停止播放"
-    },
-    {
-        "source": "Loop",
-        "description": "",
-        "id": "Loop",
-        "text": "环"
-    },
-    {
-        "source": "Play the file over and over again",
-        "description": "",
-        "id": "Loop tooltip",
-        "text": "一遍又一遍地播放文件"
-    },
-    {
-        "source": "Ping Pong",
-        "description": "",
-        "id": "Ping Pong",
-        "text": "乒乓"
-    },
-    {
-        "source": "Play the file forwards and then backwards",
-        "description": "",
-        "id": "Ping pong tooltip",
-        "text": "向前播放文件然后向后播放"
-    },
-    {
-        "source": "Play Every Frame",
-        "description": "",
-        "id": "Play Every Frame",
-        "text": "播放每一帧"
-    },
-    {
-        "source": "Play every frame even if the proper speed cannot be maintained",
-        "description": "",
-        "id": "Play every frame tooltip",
-        "text": "即使无法保持适当的速度，也要播放每一帧"
-    },
-    {
-        "source": "Go to In Point",
-        "description": "",
-        "id": "Go to In Point",
-        "text": "转到In Point"
-    },
-    {
-        "source": "Go to the playback in point",
-        "description": "",
-        "id": "Go to in point tooltip",
-        "text": "转到回放点"
-    },
-    {
-        "source": "Go to Out Point",
-        "description": "",
-        "id": "Go to Out Point",
-        "text": "转到Out Point"
-    },
-    {
-        "source": "Go to the playback out point",
-        "description": "",
-        "id": "Go to out point tooltip",
-        "text": "转到播放点"
-    },
-    {
-        "source": "Go to Start Frame",
-        "description": "",
-        "id": "Go to Start Frame",
-        "text": "转到“开始帧”"
-    },
-    {
-        "source": "Go to the start frame",
-        "description": "",
-        "id": "Go to start frame tooltip",
-        "text": "转到开始框架"
-    },
-    {
-        "source": "Go to End Frame",
-        "description": "",
-        "id": "Go to End Frame",
-        "text": "转到结束帧"
-    },
-    {
-        "source": "Go to the end frame",
-        "description": "",
-        "id": "Go to end frame tooltip",
-        "text": "转到结束帧"
-    },
-    {
-        "source": "Next Frame",
-        "description": "",
-        "id": "Next Frame",
-        "text": "下一帧"
-    },
-    {
-        "source": "Go to the next frame",
-        "description": "",
-        "id": "Next frame tooltip",
-        "text": "转到下一帧"
-    },
-    {
-        "source": "Next Frame X10",
-        "description": "",
-        "id": "Next Frame X10",
-        "text": "下一帧X10"
-    },
-    {
-        "source": "Skip forward 10 frames",
-        "description": "",
-        "id": "Next frame X10 tooltip",
-        "text": "向前跳过10帧"
-    },
-    {
-        "source": "Next Frame X100",
-        "description": "",
-        "id": "Next Frame X100",
-        "text": "下一帧X100"
-    },
-    {
-        "source": "Skip forward 100 frames",
-        "description": "",
-        "id": "Next frame X100 tooltip",
-        "text": "向前跳过100帧"
-    },
-    {
-        "source": "Previous Frame",
-        "description": "",
-        "id": "Previous Frame",
-        "text": "上一帧"
-    },
-    {
-        "source": "Go to the previous frame",
-        "description": "",
-        "id": "Previous frame tooltip",
-        "text": "转到上一帧"
-    },
-    {
-        "source": "Previous Frame X10",
-        "description": "",
-        "id": "Previous Frame X10",
-        "text": "上一帧X10"
-    },
-    {
-        "source": "Skip backwards 10 frames",
-        "description": "",
-        "id": "Previous frame X10 tooltip",
-        "text": "向后跳过10帧"
-    },
-    {
-        "source": "Previous Frame X100",
-        "description": "",
-        "id": "Previous Frame X100",
-        "text": "上一帧X100"
-    },
-    {
-        "source": "Skip backwards 100 frames",
-        "description": "",
-        "id": "Previous frame X100 tooltip",
-        "text": "向后跳过100帧"
-    },
-    {
-        "source": "Enable In/Out Points",
-        "description": "",
-        "id": "Enable In/Out Points",
-        "text": "启用输入/输出点"
-    },
-    {
-        "source": "Enable the in/out points",
-        "description": "",
-        "id": "Enable in/out points tooltip",
-        "text": "启用输入/输出点"
-    },
-    {
-        "source": "Set In Point",
-        "description": "",
-        "id": "Set In Point",
-        "text": "设置点"
-    },
-    {
-        "source": "Set the playback in point",
-        "description": "",
-        "id": "Set in point tooltip",
-        "text": "设置播放点"
-    },
-    {
-        "source": "Set Out Point",
-        "description": "",
-        "id": "Set Out Point",
-        "text": "设定点"
-    },
-    {
-        "source": "Set the playback out point",
-        "description": "",
-        "id": "Set out point tooltip",
-        "text": "设置播放输出点"
-    },
-    {
-        "source": "Reset In Point",
-        "description": "",
-        "id": "Reset In Point",
-        "text": "重置点"
-    },
-    {
-        "source": "Reset the playback in point",
-        "description": "",
-        "id": "Reset in point tooltip",
-        "text": "重置播放点"
-    },
-    {
-        "source": "Reset Out Point",
-        "description": "",
-        "id": "Reset Out Point",
-        "text": "重置点"
-    },
-    {
-        "source": "Reset the playback out point",
-        "description": "",
-        "id": "Reset out point tooltip",
-        "text": "重置播放输出点"
-    },
-    {
-        "source": "Playback",
-        "description": "",
-        "id": "Playback",
-        "text": "回放"
-    },
-    {
-        "source": "Histogram",
-        "description": "",
-        "id": "Histogram",
-        "text": "直方图"
-    },
-    {
-        "source": "Open",
-        "description": "",
-        "id": "Open",
-        "text": "打开"
-    },
-    {
-        "source": "Open a new file",
-        "description": "",
-        "id": "Open tooltip",
-        "text": "打开一个新文件"
-    },
-    {
-        "source": "Recent",
-        "description": "",
-        "id": "Recent",
-        "text": "最近"
-    },
-    {
-        "source": "Show the recently opened files",
-        "description": "",
-        "id": "Recent tooltip",
-        "text": "显示最近打开的文件"
-    },
-    {
-        "source": "Reload",
-        "description": "",
-        "id": "Reload",
-        "text": "刷新"
-    },
-    {
-        "source": "Reload the current file",
-        "description": "",
-        "id": "Reload tooltip",
-        "text": "重新加载当前文件"
-    },
-    {
-        "source": "Close",
-        "description": "",
-        "id": "Close",
-        "text": "关"
-    },
-    {
-        "source": "Close the current file",
-        "description": "",
-        "id": "Close tooltip",
-        "text": "关闭当前文件"
-    },
-    {
-        "source": "Close All",
-        "description": "",
-        "id": "Close All",
-        "text": "关闭所有"
-    },
-    {
-        "source": "Close all open files",
-        "description": "",
-        "id": "Close all tooltip",
-        "text": "关闭所有打开的文件"
-    },
-    {
-        "source": "Export",
-        "description": "",
-        "id": "Export",
-        "text": "出口"
-    },
-    {
-        "source": "Export the file",
-        "description": "",
-        "id": "Export tooltip",
-        "text": "导出文件"
-    },
-    {
-        "source": "Next",
-        "description": "",
-        "id": "Next",
-        "text": "下一个"
-    },
-    {
-        "source": "Go to the next file",
-        "description": "",
-        "id": "Next tooltip",
-        "text": "转到下一个文件"
-    },
-    {
-        "source": "Previous",
-        "description": "",
-        "id": "Previous",
-        "text": "以前"
-    },
-    {
-        "source": "Go to the previous file",
-        "description": "",
-        "id": "Prev tooltip",
-        "text": "转到上一个文件"
-    },
-    {
-        "source": "Layers Widget",
-        "description": "",
-        "id": "Layers Widget",
-        "text": "图层小工具"
-    },
-    {
-        "source": "Show the layers widget",
-        "description": "",
-        "id": "Layers widget tooltip",
-        "text": "显示图层小部件"
-    },
-    {
-        "source": "Next layer",
-        "description": "",
-        "id": "Next layer",
-        "text": "下一层"
-    },
-    {
-        "source": "Go to the next layer",
-        "description": "",
-        "id": "Next layer tooltip",
-        "text": "转到下一层"
-    },
-    {
-        "source": "Previous Layer",
-        "description": "",
-        "id": "Previous Layer",
-        "text": "上一层"
-    },
-    {
-        "source": "Go to the previous layer",
-        "description": "",
-        "id": "Previous layer tooltip",
-        "text": "转到上一层"
-    },
-    {
-        "source": "8-Bit Conversion",
-        "description": "",
-        "id": "8-Bit Conversion",
-        "text": "8位转换"
-    },
-    {
-        "source": "Down convert files to 8-bits to conserve memory",
-        "description": "",
-        "id": "8-bit conversion tooltip",
-        "text": "将文件向下转换为8位以节省内存"
-    },
-    {
-        "source": "Show the memory cache settings",
-        "description": "",
-        "id": "Memory cache tooltip",
-        "text": "显示内存缓存设置"
-    },
-    {
-        "source": "Exit",
-        "description": "",
-        "id": "Exit",
-        "text": "出口"
-    },
-    {
-        "source": "Exit the application",
-        "description": "",
-        "id": "Exit tooltip",
-        "text": "退出应用程序"
-    },
-    {
-        "source": "Aspect Ratio",
-        "description": "",
-        "id": "Aspect Ratio",
-        "text": "宽高比"
-    },
-    {
-        "source": "Image",
-        "description": "",
-        "id": "Image",
-        "text": "图片"
-    },
-    {
-        "source": "Rotate",
-        "description": "",
-        "id": "Rotate",
-        "text": "旋转"
-    },
-    {
-        "source": "Maximize the current window",
-        "description": "",
-        "id": "Maximize tooltip",
-        "text": "最大化当前窗口"
-    },
-    {
-        "source": "Show the playback speed settings",
-        "description": "",
-        "id": "Speed popup tooltip",
-        "text": "显示播放速度设置"
-    },
-    {
-        "source": "The actual playback speed",
-        "description": "",
-        "id": "Real speed tooltip",
-        "text": "实际播放速度"
-    },
-    {
-        "source": "The current time",
-        "description": "",
-        "id": "Current time tooltip",
-        "text": "现在的时间"
-    },
-    {
-        "source": "The playback duration",
-        "description": "",
-        "id": "Duration tooltip",
-        "text": "播放持续时间"
-    },
-    {
-        "source": "Set the audio volume",
-        "description": "",
-        "id": "Volume tooltip",
-        "text": "设置音量"
-    },
-    {
-        "source": "Show the audio settings",
-        "description": "",
-        "id": "Audio popup tooltip",
-        "text": "显示音频设置"
-    },
-    {
-        "source": "Set the memory cache size in gigabytes",
-        "description": "",
-        "id": "Memory cache maximum tooltip",
-        "text": "将内存高速缓存大小设置为千兆字节"
-    },
-    {
-        "source": "Enable the memory cache",
-        "description": "",
-        "id": "Memory cache enabled tooltip",
-        "text": "启用内存缓存"
-    },
-    {
-        "source": "Default",
-        "description": "",
-        "id": "Default",
-        "text": "默认"
-    },
-    {
-        "source": "Play every frame",
-        "description": "",
-        "id": "Play every frame",
-        "text": "播放每一帧"
-    },
-    {
-        "source": "Background Color",
-        "description": "",
-        "id": "Background Color",
-        "text": "背景颜色"
-    },
-    {
-        "source": "View",
-        "description": "",
-        "id": "View",
-        "text": "视图"
-    },
-    {
-        "source": "Information",
-        "description": "",
-        "id": "Information",
-        "text": "信息"
-    },
-    {
-        "source": "File name",
-        "description": "",
-        "id": "File name",
-        "text": "文件名"
-    },
-    {
-        "source": "Name",
-        "description": "",
-        "id": "Name",
-        "text": "名称"
-    },
-    {
-        "source": "Size",
-        "description": "",
-        "id": "Size",
-        "text": "尺寸"
-    },
-    {
-        "source": "Type",
-        "description": "",
-        "id": "Type",
-        "text": "类型"
-    },
-    {
-        "source": "Speed",
-        "description": "",
-        "id": "Speed",
-        "text": "速度"
-    },
-    {
-        "source": "Duration",
-        "description": "",
-        "id": "Duration",
-        "text": "持续时间"
-    },
-    {
-        "source": "Codec",
-        "description": "",
-        "id": "Codec",
-        "text": "编解码器"
-    },
-    {
-        "source": "Video track",
-        "description": "",
-        "id": "Video track",
-        "text": "视频轨道"
-    },
-    {
-        "source": "Channels",
-        "description": "",
-        "id": "Channels",
-        "text": "通道"
-    },
-    {
-        "source": "kHz",
-        "description": "",
-        "id": "kHz",
-        "text": "千赫"
-    },
-    {
-        "source": "Sample rate",
-        "description": "",
-        "id": "Sample rate",
-        "text": "采样率"
-    },
-    {
-        "source": "Audio track",
-        "description": "",
-        "id": "Audio track",
-        "text": "音轨"
-    },
-    {
-        "source": "Tags",
-        "description": "",
-        "id": "Tags",
-        "text": "标签"
-    },
-    {
-        "source": "Layers",
-        "description": "",
-        "id": "Layers",
-        "text": "图层"
-    },
-    {
-        "source": "Magnify",
-        "description": "",
-        "id": "Magnify",
-        "text": "放大"
-    },
-    {
-        "source": "Activate the magnify tool",
-        "description": "",
-        "id": "Magnify tooltip",
-        "text": "激活放大工具"
-    },
-    {
-        "source": "Zoom into the image",
-        "description": "",
-        "id": "Magnify zoom in tooltip",
-        "text": "放大图像"
-    },
-    {
-        "source": "Zoom out of the image",
-        "description": "",
-        "id": "Magnify zoom out tooltip",
-        "text": "缩小图像"
-    },
-    {
-        "source": "NUX",
-        "description": "",
-        "id": "NUX",
-        "text": "NUX"
-    },
-    {
-        "source": "Enable new-user experience on startup",
-        "description": "",
-        "id": "Enable new-user experience on startup",
-        "text": "启动时启用新用户体验"
-    },
-    {
-        "source": "Choose your language",
-        "description": "",
-        "id": "Choose your language",
-        "text": "选择你的语言"
-    },
-    {
-        "source": "Choose a user interface size",
-        "description": "",
-        "id": "Choose a user interface size",
-        "text": "选择用户界面大小"
-    },
-    {
-        "source": "Choose a palette",
-        "description": "",
-        "id": "Choose a palette",
-        "text": "选择一个调色板"
-    },
-    {
-        "source": "Finish",
-        "description": "",
-        "id": "Finish",
-        "text": "完"
-    },
-    {
-        "source": "Show timeline PIP",
-        "description": "",
-        "id": "Show timeline PIP",
-        "text": "显示时间线PIP"
-    },
-    {
-        "source": "Recent Files",
-        "description": "",
-        "id": "Recent Files",
-        "text": "最近的文件"
-    },
-    {
-        "source": "Increase Thumbnail Size",
-        "description": "",
-        "id": "Increase Thumbnail Size",
-        "text": "增加缩略图大小"
-    },
-    {
-        "source": "Increase the size of the thumbnails",
-        "description": "",
-        "id": "Recent files increase thumbnail size tooltip",
-        "text": "增加缩略图的大小"
-    },
-    {
-        "source": "Decrease Thumbnail Size",
-        "description": "",
-        "id": "Decrease Thumbnail Size",
-        "text": "减少缩略图大小"
-    },
-    {
-        "source": "Decrease the size of the thumbnails",
-        "description": "",
-        "id": "Recent files decrease thumbnail size tooltip",
-        "text": "减小缩略图的大小"
-    },
-    {
-        "source": "Search the recent files",
-        "description": "",
-        "id": "Recent files search tooltip",
-        "text": "搜索最近的文件"
-    },
-    {
-        "source": "Show the recent files settings",
-        "description": "",
-        "id": "Recent files settings tooltip",
-        "text": "显示最近的文件设置"
-    },
-    {
-        "source": "Items",
-        "description": "",
-        "id": "Items",
-        "text": "项目"
-    },
-    {
-        "source": "Settings",
-        "description": "",
-        "id": "Settings",
-        "text": "设置"
-    },
-    {
-        "source": "Copy",
-        "description": "",
-        "id": "Copy",
-        "text": "复制"
-    },
-    {
-        "source": "Clear",
-        "description": "",
-        "id": "Clear",
-        "text": "明确"
-    },
-    {
-        "source": "Tools",
-        "description": "",
-        "id": "Tools",
-        "text": "工具"
-    },
-    {
-        "source": "Information Widget",
-        "description": "",
-        "id": "Information Widget",
-        "text": "信息小工具"
-    },
-    {
-        "source": "Show the information widget",
-        "description": "",
-        "id": "Information widget tooltip",
-        "text": "显示信息小部件"
-    },
-    {
-        "source": "Auto Hide",
-        "description": "",
-        "id": "Auto Hide",
-        "text": "自动隐藏"
-    },
-    {
-        "source": "Automatically hide the user interface",
-        "description": "",
-        "id": "Automatically hide the user interface",
-        "text": "自动隐藏用户界面"
-    },
-    {
-        "source": "Background Image",
-        "description": "",
-        "id": "Background Image",
-        "text": "背景图片"
-    },
-    {
-        "source": "Window",
-        "description": "",
-        "id": "Window",
-        "text": "窗口"
-    },
-    {
-        "source": "Open the file browser",
-        "description": "",
-        "id": "Open the file browser",
-        "text": "打开文件浏览器"
-    },
-    {
-        "source": "Clear the background image",
-        "description": "",
-        "id": "Clear the background image",
-        "text": "清除背景图像"
-    },
-    {
-        "source": "Colorize with the UI style",
-        "description": "",
-        "id": "Colorize with the UI style",
-        "text": "使用UI样式着色"
-    },
-    {
-        "source": "Full Screen",
-        "description": "",
-        "id": "Full Screen",
-        "text": "全屏"
-    },
-    {
-        "source": "Toggle full screen mode",
-        "description": "",
-        "id": "Full screen tooltip",
-        "text": "切换全屏模式"
-    },
-    {
-        "source": "Maximized",
-        "description": "",
-        "id": "Maximized",
-        "text": "最大化"
-    },
-    {
-        "source": "Maximize the window",
-        "description": "",
-        "id": "Maximized tooltip",
-        "text": "最大化窗口"
-    },
-    {
-        "source": "DJV Imaging",
-        "description": "",
-        "id": "About Title",
-        "text": "DJV成像"
-    },
-    {
-        "source": "Credits",
-        "description": "",
-        "id": "Credits",
-        "text": "积分"
-    },
-    {
-        "source": "Sponsors",
-        "description": "",
-        "id": "Sponsors",
-        "text": "赞助商"
-    },
-    {
-        "source": "License",
-        "description": "",
-        "id": "License",
-        "text": "执照"
-    },
-    {
-        "source": "Copyright",
-        "description": "",
-        "id": "Copyright",
-        "text": "版权"
-    },
-    {
-        "source": "Third Party Software",
-        "description": "",
-        "id": "Third Party",
-        "text": "第三方软件"
-    },
-    {
-        "source": "Trademarks",
-        "description": "",
-        "id": "Trademarks",
-        "text": "商标"
-    },
-    {
-        "source": "Darby Johnston",
-        "description": "",
-        "id": "Credits Darby Johnston",
-        "language": "en",
-        "text": "Darby Johnston"
-    },
-    {
-        "source": "Principal author",
-        "description": "",
-        "id": "Credits Darby Johnston Text",
-        "text": "主要作者"
-    },
-    {
-        "source": "Kent Oberheu, https://semafore.com",
-        "description": "",
-        "id": "Credits Kent Oberheu",
-        "language": "en",
-        "text": "Kent Oberheu, https://semafore.com"
-    },
-    {
-        "source": "Identity, iconography, UI / UX design",
-        "description": "",
-        "id": "Credits Kent Oberheu Text",
-        "text": "身份，图标，UI / UX设计"
-    },
-    {
-        "source": "Siciliana Johnston",
-        "description": "",
-        "id": "Credits Siciliana Johnston",
-        "language": "en",
-        "text": "Siciliana Johnston"
-    },
-    {
-        "source": "Web design, social media",
-        "description": "",
-        "id": "Credits Siciliana Johnston Text",
-        "text": "网页设计，社交媒体"
-    },
-    {
-        "source": "Mikael Sundell",
-        "description": "",
-        "id": "Credits Mikael Sundell",
-        "language": "en",
-        "text": "Mikael Sundell"
-    },
-    {
-        "source": "IFF image file format support, example images",
-        "description": "",
-        "id": "Credits Mikael Sundell Text",
-        "text": "IFF图像文件格式支持，示例图像"
-    },
-    {
-        "source": "unexpected GmbH, https://www.unexpected.de",
-        "description": "",
-        "id": "Sponsors unexpected",
-        "language": "en",
-        "text": "unexpected GmbH, https://www.unexpected.de"
-    },
-    {
-        "source": "Copyright (c) 2004-2020 Darby Johnston, All rights reserved",
-        "description": "",
-        "id": "License 1",
-        "language": "en",
-        "text": "Copyright (c) 2004-2020 Darby Johnston, All rights reserved"
-    },
-    {
-        "source": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:",
-        "description": "",
-        "id": "License 2",
-        "language": "en",
-        "text": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:"
-    },
-    {
-        "source": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.",
-        "description": "",
-        "id": "License 3",
-        "language": "en",
-        "text": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer."
-    },
-    {
-        "source": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.",
-        "description": "",
-        "id": "License 4",
-        "language": "en",
-        "text": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution."
-    },
-    {
-        "source": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.",
-        "description": "",
-        "id": "License 5",
-        "language": "en",
-        "text": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission."
-    },
-    {
-        "source": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.",
-        "description": "",
-        "id": "License 6",
-        "language": "en",
-        "text": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
-    },
-    {
-        "source": "Portions of this software are copyright (in alphabetical order):",
-        "description": "",
-        "id": "Copyright Text",
-        "text": "本软件的部分版权（按字母顺序排列）："
-    },
-    {
-        "source": "* Copyright (c) 2004-2020 Darby Johnston, All rights reserved",
-        "description": "",
-        "id": "Copyright Darby Johnston",
-        "language": "en",
-        "text": "* Copyright (c) 2004-2020 Darby Johnston, All rights reserved"
-    },
-    {
-        "source": "* Copyright (c) 2019 Kent Oberheu, All rights reserved",
-        "description": "",
-        "id": "Copyright Kent Oberheu",
-        "language": "en",
-        "text": "* Copyright (c) 2019 Kent Oberheu, All rights reserved"
-    },
-    {
-        "source": "* Copyright (c) 2008-2009 Mikael Sundell, All rights reserved",
-        "description": "",
-        "id": "Copyright Mikael Sundell",
-        "language": "en",
-        "text": "* Copyright (c) 2008-2009 Mikael Sundell, All rights reserved"
-    },
-    {
-        "source": "This software is based in part on the works of (in alphabetical order):",
-        "description": "",
-        "id": "Third Party Text",
-        "text": "该软件部分基于（按字母顺序）的作品："
-    },
-    {
-        "source": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium, All rights reserved",
-        "description": "",
-        "id": "Third Party CMake",
-        "language": "en",
-        "text": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium, All rights reserved"
-    },
-    {
-        "source": "* FFMpeg, http://www.ffmpeg.org, Licensed under the LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html",
-        "description": "",
-        "id": "Third Party FFMpeg",
-        "language": "en",
-        "text": "* FFMpeg, http://www.ffmpeg.org, Licensed under the LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html"
-    },
-    {
-        "source": "* FreeType, http://www.freetype.org, Copyright (c) 2018, The FreeType Project",
-        "description": "",
-        "id": "Third Party FreeType",
-        "language": "en",
-        "text": "* FreeType, http://www.freetype.org, Copyright (c) 2018, The FreeType Project"
-    },
-    {
-        "source": "* GLFW, http://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla Löwy <elmindreda@glfw.org>",
-        "description": "",
-        "id": "Third Party GLFW",
-        "language": "en",
-        "text": "* GLFW, http://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla Löwy <elmindreda@glfw.org>"
-    },
-    {
-        "source": "* GLM, http://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation",
-        "description": "",
-        "id": "Third Party GLM",
-        "language": "en",
-        "text": "* GLM, http://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation"
-    },
-    {
-        "source": "* MbedTLS, http://tls.mbed.org, Copyright © 2008 - 2016 ARM Limited, All rights reserved",
-        "description": "",
-        "id": "Third Party MbedTLS",
-        "language": "en",
-        "text": "* MbedTLS, http://tls.mbed.org, Copyright © 2008 - 2016 ARM Limited, All rights reserved"
-    },
-    {
-        "source": "* OpenAL, http://www.openal.org, Copyright (C) 1999-2000 by Loki Software",
-        "description": "",
-        "id": "Third Party OpenAL",
-        "language": "en",
-        "text": "* OpenAL, http://www.openal.org, Copyright (C) 1999-2000 by Loki Software"
-    },
-    {
-        "source": "* OpenColorIO, http://opencolorio.org, Copyright (c) 2003-2010 Sony Pictures Imageworks Inc., et al., All rights reserved",
-        "description": "",
-        "id": "Third Party OpenColorIO",
-        "language": "en",
-        "text": "* OpenColorIO, http://opencolorio.org, Copyright (c) 2003-2010 Sony Pictures Imageworks Inc., et al., All rights reserved"
-    },
-    {
-        "source": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd.",
-        "description": "",
-        "id": "Third Party OpenEXR",
-        "language": "en",
-        "text": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd."
-    },
-    {
-        "source": "* curl, http://curl.haxx.se/libcurl, Copyright (c) 1996 - 2019, Daniel Stenberg, <daniel@haxx.se>, and many contributors, see the THANKS file",
-        "description": "",
-        "id": "Third Party curl",
-        "language": "en",
-        "text": "* curl, http://curl.haxx.se/libcurl, Copyright (c) 1996 - 2019, Daniel Stenberg, <daniel@haxx.se>, and many contributors, see the THANKS file"
-    },
-    {
-        "source": "* dr_libs, http://github.com/mackron/dr_libs, David Reid",
-        "description": "",
-        "id": "Third Party dr_libs",
-        "language": "en",
-        "text": "* dr_libs, http://github.com/mackron/dr_libs, David Reid"
-    },
-    {
-        "source": "* glad, http://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth",
-        "description": "",
-        "id": "Third Party glad",
-        "language": "en",
-        "text": "* glad, http://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth"
-    },
-    {
-        "source": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding",
-        "description": "",
-        "id": "Third Party libjpeg",
-        "language": "en",
-        "text": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding"
-    },
-    {
-        "source": "* libjpeg-turbo, http://libjpeg-turbo.org, Copyright (C)2009-2019 D. R. Commander, All Rights Reserved, Copyright (C)2015 Viktor Szathmáry, All Rights Reserved",
-        "description": "",
-        "id": "Third Party libjpeg-turbo",
-        "language": "en",
-        "text": "* libjpeg-turbo, http://libjpeg-turbo.org, Copyright (C)2009-2019 D. R. Commander, All Rights Reserved, Copyright (C)2015 Viktor Szathmáry, All Rights Reserved"
-    },
-    {
-        "source": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson",
-        "description": "",
-        "id": "Third Party libpng",
-        "language": "en",
-        "text": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson"
-    },
-    {
-        "source": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc",
-        "description": "",
-        "id": "Third Party libtiff",
-        "language": "en",
-        "text": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc"
-    },
-    {
-        "source": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler",
-        "description": "",
-        "id": "Third Party zlib",
-        "language": "en",
-        "text": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler"
-    },
-    {
-        "source": "Trademarks named in the documentation (in alphabetical order):",
-        "description": "",
-        "id": "Trademarks Text",
-        "text": "文档中命名的商标（按字母顺序排列）："
-    },
-    {
-        "source": "* Apple, OS X, ProRes, and QuickTime are registered trademarks of Apple, Inc.",
-        "description": "",
-        "id": "Trademarks Apple",
-        "language": "en",
-        "text": "* Apple, OS X, ProRes, and QuickTime are registered trademarks of Apple, Inc."
-    },
-    {
-        "source": "* AMD and ATI are registered trademarks of Advanced Micro Devices, Inc.",
-        "description": "",
-        "id": "Trademarks AMD",
-        "language": "en",
-        "text": "* AMD and ATI are registered trademarks of Advanced Micro Devices, Inc."
-    },
-    {
-        "source": "* Autodesk, Inferno, Maya, Softimage, and XSI are registered trademarks of Autodesk, Inc.",
-        "description": "",
-        "id": "Trademarks Autodesk",
-        "language": "en",
-        "text": "* Autodesk, Inferno, Maya, Softimage, and XSI are registered trademarks of Autodesk, Inc."
-    },
-    {
-        "source": "* Debian is a registered trademark of Software in the Public Interest, Inc.",
-        "description": "",
-        "id": "Trademarks Debian",
-        "language": "en",
-        "text": "* Debian is a registered trademark of Software in the Public Interest, Inc."
-    },
-    {
-        "source": "* FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project",
-        "description": "",
-        "id": "Trademarks FFmpeg",
-        "language": "en",
-        "text": "* FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project"
-    },
-    {
-        "source": "* FreeBSD is a registered trademark of The FreeBSD Foundation",
-        "description": "",
-        "id": "Trademarks FreeBSD",
-        "language": "en",
-        "text": "* FreeBSD is a registered trademark of The FreeBSD Foundation"
-    },
-    {
-        "source": "* Intel is a registered trademark of Intel Corporation",
-        "description": "",
-        "id": "Trademarks Intel",
-        "language": "en",
-        "text": "* Intel is a registered trademark of Intel Corporation"
-    },
-    {
-        "source": "* Industrial Light and Magic and ILM are registered trademarks of Lucasfilm Ltd.",
-        "description": "",
-        "id": "Trademarks Lucasfilm",
-        "language": "en",
-        "text": "* Industrial Light and Magic and ILM are registered trademarks of Lucasfilm Ltd."
-    },
-    {
-        "source": "* Kodak and Cineon are a registered trademarks of the Eastman Kodak Company",
-        "description": "",
-        "id": "Trademarks Kodak",
-        "language": "en",
-        "text": "* Kodak and Cineon are a registered trademarks of the Eastman Kodak Company"
-    },
-    {
-        "source": "* Linux is a registered trademark of Linus Torvalds",
-        "description": "",
-        "id": "Trademarks Linux",
-        "language": "en",
-        "text": "* Linux is a registered trademark of Linus Torvalds"
-    },
-    {
-        "source": "* Microsoft, Microsoft Windows, and Azure are registered trademarks of Microsoft, Inc.",
-        "description": "",
-        "id": "Trademarks Microsoft",
-        "language": "en",
-        "text": "* Microsoft, Microsoft Windows, and Azure are registered trademarks of Microsoft, Inc."
-    },
-    {
-        "source": "* MIPS is a registered trademark of MIPS Technologies, Inc.",
-        "description": "",
-        "id": "Trademarks MIPS",
-        "language": "en",
-        "text": "* MIPS is a registered trademark of MIPS Technologies, Inc."
-    },
-    {
-        "source": "* NVIDIA is a registered trademark of NVIDIA Corporation",
-        "description": "",
-        "id": "Trademarks NVIDIA",
-        "language": "en",
-        "text": "* NVIDIA is a registered trademark of NVIDIA Corporation"
-    },
-    {
-        "source": "* Red Hat and Fedora are registered trademarks of Red Hat, Inc.",
-        "description": "",
-        "id": "Trademarks Red Hat",
-        "language": "en",
-        "text": "* Red Hat and Fedora are registered trademarks of Red Hat, Inc."
-    },
-    {
-        "source": "* Silicon Graphics, SGI, IRIX, and OpenGL are registered trademarks of Silicon Graphics International Corp.",
-        "description": "",
-        "id": "Trademarks SGI",
-        "language": "en",
-        "text": "* Silicon Graphics, SGI, IRIX, and OpenGL are registered trademarks of Silicon Graphics International Corp."
-    },
-    {
-        "source": "* SMPTE is a registered trademark of the Society of Motion Picture and Television Engineers",
-        "description": "",
-        "id": "Trademarks SMPTE",
-        "language": "en",
-        "text": "* SMPTE is a registered trademark of the Society of Motion Picture and Television Engineers"
-    },
-    {
-        "source": "* SourceForge.net is a registered trademark of VA Software Corporation",
-        "description": "",
-        "id": "Trademarks SourceForge",
-        "language": "en",
-        "text": "* SourceForge.net is a registered trademark of VA Software Corporation"
-    },
-    {
-        "source": "* SuSE is a registered trademark of Novell, Inc.",
-        "description": "",
-        "id": "Trademarks SuSE",
-        "language": "en",
-        "text": "* SuSE is a registered trademark of Novell, Inc."
-    },
-    {
-        "source": "* Ubuntu is a registered trademark of Canonical Ltd.",
-        "description": "",
-        "id": "Trademarks Ubuntu",
-        "language": "en",
-        "text": "* Ubuntu is a registered trademark of Canonical Ltd."
-    },
-    {
-        "source": "* UNIX is a registered trademark of The Open Group",
-        "description": "",
-        "id": "Trademarks UNIX",
-        "language": "en",
-        "text": "* UNIX is a registered trademark of The Open Group"
-    },
-    {
-        "source": "All other products named in the documentation are trademarks of their respective owners.",
-        "description": "",
-        "id": "Trademarks End",
-        "text": "文档中指定的所有其他产品均为其各自所有者的商标。"
-    },
-    {
-        "source": "Made in Berkeley, CA, USA",
-        "description": "",
-        "id": "Made In",
-        "text": "美国加利福尼亚州伯克利制造"
-    },
-    {
-        "source": "Cannot parse the value.",
-        "description": "",
-        "id": "Cannot parse the value.",
-        "text": "无法解析该值。"
-    },
-    {
-        "source": "Fit",
-        "description": "",
-        "id": "Fit",
-        "text": "适合"
-    },
-    {
-        "source": "Center",
-        "description": "",
-        "id": "Center",
-        "text": "中央"
-    },
-    {
-        "source": "0",
-        "description": "",
-        "id": "0",
-        "text": "0"
-    },
-    {
-        "source": "90",
-        "description": "",
-        "id": "90",
-        "text": "90"
-    },
-    {
-        "source": "180",
-        "description": "",
-        "id": "180",
-        "text": "180"
-    },
-    {
-        "source": "270",
-        "description": "",
-        "id": "270",
-        "text": "270"
-    },
-    {
-        "source": "Native",
-        "description": "",
-        "id": "Native",
-        "text": "本地人"
-    },
-    {
-        "source": "16:9",
-        "description": "",
-        "id": "16:9",
-        "text": "16：9"
-    },
-    {
-        "source": "1.85",
-        "description": "",
-        "id": "1.85",
-        "text": "1.85"
-    },
-    {
-        "source": "2.35",
-        "description": "",
-        "id": "2.35",
-        "text": "2.35"
-    },
-    {
-        "source": "Stop",
-        "description": "",
-        "id": "Stop",
-        "text": "停止"
-    },
-    {
-        "source": "Once",
-        "description": "",
-        "id": "Once",
-        "text": "一旦"
-    },
-    {
-        "source": "Ping Pong",
-        "description": "",
-        "id": "PingPong",
-        "text": "乒乓"
-    },
-    {
-        "source": "Color Space Widget",
-        "description": "",
-        "id": "Color Space Widget",
-        "text": "色彩空间小工具"
-    },
-    {
-        "source": "Show the color space widget",
-        "description": "",
-        "id": "Color space widget tooltip",
-        "text": "显示颜色空间小部件"
-    },
-    {
-        "source": "Red Channel",
-        "description": "",
-        "id": "Red Channel",
-        "text": "红色通道"
-    },
-    {
-        "source": "Show the red channel",
-        "description": "",
-        "id": "Red channel tooltip",
-        "text": "显示红色频道"
-    },
-    {
-        "source": "Green Channel",
-        "description": "",
-        "id": "Green Channel",
-        "text": "绿色通道"
-    },
-    {
-        "source": "Show the green channel",
-        "description": "",
-        "id": "Green channel tooltip",
-        "text": "显示绿色通道"
-    },
-    {
-        "source": "Blue Channel",
-        "description": "",
-        "id": "Blue Channel",
-        "text": "蓝色通道"
-    },
-    {
-        "source": "Show the blue channel",
-        "description": "",
-        "id": "Blue channel tooltip",
-        "text": "显示蓝色频道"
-    },
-    {
-        "source": "Alpha Channel",
-        "description": "",
-        "id": "Alpha Channel",
-        "text": "Alpha通道"
-    },
-    {
-        "source": "Show the alpha channel",
-        "description": "",
-        "id": "Alpha channel tooltip",
-        "text": "显示Alpha通道"
-    },
-    {
-        "source": "Premultiplied Alpha",
-        "description": "",
-        "id": "Premultiplied Alpha",
-        "text": "预乘Alpha"
-    },
-    {
-        "source": "Premultiply the color channels by the alpha channel",
-        "description": "",
-        "id": "Premultiplied alpha tooltip",
-        "text": "通过alpha通道预乘颜色通道"
-    },
-    {
-        "source": "Mirror Horizontal",
-        "description": "",
-        "id": "Mirror Horizontal",
-        "text": "镜面水平"
-    },
-    {
-        "source": "Mirror the image horizontally",
-        "description": "",
-        "id": "Mirror horizontal tooltip",
-        "text": "水平镜像图像"
-    },
-    {
-        "source": "Mirror Vertical",
-        "description": "",
-        "id": "Mirror Vertical",
-        "text": "镜面垂直"
-    },
-    {
-        "source": "Mirror the image vertically",
-        "description": "",
-        "id": "Mirror vertical tooltip",
-        "text": "垂直镜像图像"
-    },
-    {
-        "source": "Rotate 0",
-        "description": "",
-        "id": "Rotate 0",
-        "text": "旋转0"
-    },
-    {
-        "source": "Rotate the image 0 degrees",
-        "description": "",
-        "id": "Rotate 0 tooltip",
-        "text": "将图像旋转0度"
-    },
-    {
-        "source": "Rotate 90",
-        "description": "",
-        "id": "Rotate 90",
-        "text": "旋转90"
-    },
-    {
-        "source": "Rotate the image 90 degrees",
-        "description": "",
-        "id": "Rotate 90 tooltip",
-        "text": "将图像旋转90度"
-    },
-    {
-        "source": "Rotate 180",
-        "description": "",
-        "id": "Rotate 180",
-        "text": "旋转180"
-    },
-    {
-        "source": "Rotate the image 180 degrees",
-        "description": "",
-        "id": "Rotate 180 tooltip",
-        "text": "将图像旋转180度"
-    },
-    {
-        "source": "Rotate 270",
-        "description": "",
-        "id": "Rotate 270",
-        "text": "旋转270"
-    },
-    {
-        "source": "Rotate the image 270 degrees",
-        "description": "",
-        "id": "Rotate 270 tooltip",
-        "text": "将图像旋转270度"
-    },
-    {
-        "source": "Native Aspect Ratio",
-        "description": "",
-        "id": "Native Aspect Ratio",
-        "text": "原生宽高比"
-    },
-    {
-        "source": "Show the image at it's native resolution",
-        "description": "",
-        "id": "Native aspect ratio tooltip",
-        "text": "以原始分辨率显示图像"
-    },
-    {
-        "source": "Default Aspect Ratio",
-        "description": "",
-        "id": "Default Aspect Ratio",
-        "text": "默认纵横比"
-    },
-    {
-        "source": "Show the image at it's intended resolution",
-        "description": "",
-        "id": "Default aspect ratio tooltip",
-        "text": "以图像的预期分辨率显示图像"
-    },
-    {
-        "source": "Show the image with a 16:9 aspect ratio",
-        "description": "",
-        "id": "16:9 aspect ratio tooltip",
-        "text": "以16：9的宽高比显示图像"
-    },
-    {
-        "source": "Show the image with a 1.85 aspect ratio",
-        "description": "",
-        "id": "1.85 aspect ratio tooltip",
-        "text": "以1.85宽高比显示图像"
-    },
-    {
-        "source": "Show the image with a 2.35 aspect ratio",
-        "description": "",
-        "id": "2.35 aspect ratio tooltip",
-        "text": "以2.35宽高比显示图像"
-    },
-    {
-        "source": "Frame Store",
-        "description": "",
-        "id": "Frame Store",
-        "text": "框架商店"
-    },
-    {
-        "source": "Show the frame store",
-        "description": "",
-        "id": "Frame store tooltip",
-        "text": "显示框架商店"
-    },
-    {
-        "source": "Load Frame Store",
-        "description": "",
-        "id": "Load Frame Store",
-        "text": "加载框架存储"
-    },
-    {
-        "source": "Load the current frame into the frame store",
-        "description": "",
-        "id": "Load frame store tooltip",
-        "text": "将当前帧加载到帧存储中"
-    },
-    {
-        "source": "Pan View",
-        "description": "",
-        "id": "Pan View",
-        "text": "潘视图"
-    },
-    {
-        "source": "Activate the pan view tool",
-        "description": "",
-        "id": "Pan view tooltip",
-        "text": "激活平移视图工具"
-    },
-    {
-        "source": "Left",
-        "description": "",
-        "id": "Left",
-        "text": "剩下"
-    },
-    {
-        "source": "Move the view left",
-        "description": "",
-        "id": "Left tooltip",
-        "text": "向左移动视图"
-    },
-    {
-        "source": "Right",
-        "description": "",
-        "id": "Right",
-        "text": "对"
-    },
-    {
-        "source": "Move the view right",
-        "description": "",
-        "id": "Right tooltip",
-        "text": "向右移动视图"
-    },
-    {
-        "source": "Up",
-        "description": "",
-        "id": "Up",
-        "text": "向上"
-    },
-    {
-        "source": "Move the view up",
-        "description": "",
-        "id": "Up tooltip",
-        "text": "向上移动视图"
-    },
-    {
-        "source": "Down",
-        "description": "",
-        "id": "Down",
-        "text": "下"
-    },
-    {
-        "source": "Move the view down",
-        "description": "",
-        "id": "Down tooltip",
-        "text": "向下移动视图"
-    },
-    {
-        "source": "North West",
-        "description": "",
-        "id": "North West",
-        "text": "西北"
-    },
-    {
-        "source": "Move the view Northwest",
-        "description": "",
-        "id": "North west tooltip",
-        "text": "移动视图西北"
-    },
-    {
-        "source": "North East",
-        "description": "",
-        "id": "North East",
-        "text": "东北"
-    },
-    {
-        "source": "North the view Northeast",
-        "description": "",
-        "id": "North east tooltip",
-        "text": "北视东北"
-    },
-    {
-        "source": "South east",
-        "description": "",
-        "id": "South east",
-        "text": "东南"
-    },
-    {
-        "source": "Move the view Southeast",
-        "description": "",
-        "id": "South east tooltip",
-        "text": "移动视图东南"
-    },
-    {
-        "source": "South West",
-        "description": "",
-        "id": "South West",
-        "text": "西南"
-    },
-    {
-        "source": "Move the view Southwest",
-        "description": "",
-        "id": "South west tooltip",
-        "text": "将视图移动到西南"
-    },
-    {
-        "source": "Zoom In",
-        "description": "",
-        "id": "Zoom In",
-        "text": "放大"
-    },
-    {
-        "source": "Zoom the view in",
-        "description": "",
-        "id": "Zoom in tooltip",
-        "text": "放大视图"
-    },
-    {
-        "source": "Zoom Out",
-        "description": "",
-        "id": "Zoom Out",
-        "text": "缩小"
-    },
-    {
-        "source": "Zoom the view out",
-        "description": "",
-        "id": "Zoom out tooltip",
-        "text": "缩小视图"
-    },
-    {
-        "source": "Fit To Image",
-        "description": "",
-        "id": "Fit To Image",
-        "text": "适合图像"
-    },
-    {
-        "source": "Fit the image to the window",
-        "description": "",
-        "id": "Fit to image tooltip",
-        "text": "使图像适合窗口"
-    },
-    {
-        "source": "Center the image in the window with a 1:1 zoom",
-        "description": "",
-        "id": "Center image tooltip",
-        "text": "使用1：1缩放将图像置于窗口中心"
-    },
-    {
-        "source": "Lock Fit To Image",
-        "description": "",
-        "id": "Lock Fit To Image",
-        "text": "锁定适合图像"
-    },
-    {
-        "source": "Lock the image fitted to the window",
-        "description": "",
-        "id": "Lock fit to image tooltip",
-        "text": "锁定适合窗口的图像"
-    },
-    {
-        "source": "Lock Center",
-        "description": "",
-        "id": "Lock Center",
-        "text": "锁中心"
-    },
-    {
-        "source": "Lock the image centered in the window with a 1:1 zoom",
-        "description": "",
-        "id": "Lock center image tooltip",
-        "text": "使用1：1缩放锁定窗口中心的图像"
-    },
-    {
-        "source": "Grid",
-        "description": "",
-        "id": "Grid",
-        "text": "格"
-    },
-    {
-        "source": "Show a grid",
-        "description": "",
-        "id": "Grid tooltip",
-        "text": "显示网格"
-    },
-    {
-        "source": "HUD",
-        "description": "",
-        "id": "HUD",
-        "text": "HUD"
-    },
-    {
-        "source": "Show the heads up display",
-        "description": "",
-        "id": "HUD tooltip",
-        "text": "显示抬头显示"
-    },
-    {
-        "source": "Show the opened files",
-        "description": "",
-        "id": "Media popup tooltip",
-        "text": "显示打开的文件"
-    },
-    {
-        "source": "Automatically hide the user interface when the mouse doesn't move",
-        "description": "",
-        "id": "Auto hide tooltip",
-        "text": "鼠标不移动时自动隐藏用户界面"
-    },
-    {
-        "source": "Show the settings",
-        "description": "",
-        "id": "Settings tooltip",
-        "text": "显示设置"
-    },
-    {
-        "source": "Activate the annotation tool",
-        "description": "",
-        "id": "Annotate tooltip",
-        "text": "激活注释工具"
-    },
-    {
-        "source": "Color Space",
-        "description": "",
-        "id": "Color Space",
-        "text": "色彩空间"
-    },
-    {
-        "source": "(empty)",
-        "description": "",
-        "id": "(empty)",
-        "text": "（空）"
-    },
-    {
-        "source": "Input:",
-        "description": "",
-        "id": "Input:",
-        "text": "输入："
-    },
-    {
-        "source": "Display:",
-        "description": "",
-        "id": "Display:",
-        "text": "显示："
-    },
-    {
-        "source": "View:",
-        "description": "",
-        "id": "View:",
-        "text": "视图："
-    },
-    {
-        "source": "Automatically hide the user interface",
-        "text": "自动隐藏用户界面",
-        "id": "Auto-hide tooltip",
-        "description": ""
-    },
-    {
-        "source": "Auto-Hide",
-        "text": "自动隐藏",
-        "id": "Auto-Hide",
-        "description": ""
-    },
-    {
-        "id": "Fullscreen",
-        "source": "Fullscreen",
-        "description": "",
-        "text": "全屏"
-    },
-    {
-        "id": "Monitor",
-        "source": "Monitor",
-        "description": "",
-        "text": "监控"
-    },
-    {
-        "id": "frames",
-        "source": "frames",
-        "description": "",
-        "text": "帧"
-    },
-    {
-        "id": "Zoom Reset",
-        "source": "Zoom Reset",
-        "description": "",
-        "text": "缩放重置"
-    },
-    {
-        "id": "Zoom reset tooltip",
-        "source": "Reset the zoom to 1.0",
-        "description": "",
-        "text": "将缩放重置为1.0"
-    },
-    {
-        "id": "Full",
-        "source": "Full",
-        "description": "",
-        "text": "充分"
-    },
-    {
-        "id": "Full view tooltip",
-        "source": "Set the view so the image fills the window",
-        "description": "",
-        "text": "设置视图以使图像填充窗口"
-    },
-    {
-        "id": "Frame",
-        "source": "Frame",
-        "description": "",
-        "text": "帧"
-    },
-    {
-        "id": "Frame view tooltip",
-        "source": "Frame the image within the view",
-        "description": "",
-        "text": "在视图中构图"
-    },
-    {
-        "id": "Center view tooltip",
-        "source": "Center the view and set the zoom to 1.0",
-        "description": "",
-        "text": "将视图居中并将缩放比例设置为1.0"
-    },
-    {
-        "id": "Lock Full",
-        "source": "Lock Full",
-        "description": "",
-        "text": "完全锁定"
-    },
-    {
-        "id": "Lock full view tooltip",
-        "source": "Lock the view so the image fills the window",
-        "description": "",
-        "text": "锁定视图以使图像填充窗口"
-    },
-    {
-        "id": "Lock Frame",
-        "source": "Lock Frame",
-        "description": "",
-        "text": "锁框架"
-    },
-    {
-        "id": "Lock frame view tooltip",
-        "source": "Lock the view so the image fills the window without being obscured by the user interface",
-        "description": "",
-        "text": "锁定视图，使图像填充窗口，而不会被用户界面遮挡"
-    },
-    {
-        "id": "Lock center view tooltip",
-        "source": "Lock the view so the image is centered and the zoom is 1:1",
-        "description": "",
-        "text": "锁定视图，使图像居中，缩放比例为1：1"
-    },
-    {
-        "source": "Maximize",
-        "text": "最大化",
-        "description": "",
-        "id": "Maximize"
-    },
-    {
-        "source": "Fit the window to the image",
-        "text": "使窗口适合图像",
-        "description": "",
-        "id": "Fit tooltip"
-    },
-    {
-        "source": "The file",
-        "description": "",
-        "id": "The file",
-        "text": "文件"
-    },
-    {
-        "source": "cannot be read",
-        "description": "",
-        "id": "cannot be read",
-        "text": "无法读取"
-    },
-    {
-        "source": "Config",
-        "description": "",
-        "id": "Config",
-        "text": "设定档"
-    },
-    {
-        "source": "Display",
-        "description": "",
-        "id": "Display",
-        "text": "显示"
-    },
-    {
-        "source": "Add a new OpenColorIO configuration",
-        "description": "",
-        "id": "Color space add config tooltip",
-        "text": "添加新的OpenColorIO配置"
-    },
-    {
-        "source": "Edit the list of OpenColorIO configurations",
-        "description": "",
-        "id": "Color space edit configs tooltip",
-        "text": "编辑OpenColorIO配置列表"
-    },
-    {
-        "source": "Assign a color space to a file format",
-        "description": "",
-        "id": "Color space add image tooltip",
-        "text": "为文件格式分配色彩空间"
-    },
-    {
-        "source": "Edit the list of color spaces",
-        "description": "",
-        "id": "Color space edit images tooltip",
-        "text": "编辑色彩空间列表"
-    },
-    {
-        "source": "Fill",
-        "description": "",
-        "id": "Fill",
-        "text": "填"
-    },
-    {
-        "source": "Errors",
-        "description": "",
-        "id": "Errors",
-        "text": "失误"
-    },
-    {
-        "source": "Popup",
-        "description": "",
-        "id": "Popup",
-        "text": "弹出"
-    },
-    {
-        "source": "Show this window when there are errors",
-        "description": "",
-        "id": "Errors widget popup tooltip",
-        "text": "出现错误时显示此窗口"
-    },
-    {
-        "source": "Copy the errors to the clipboard",
-        "description": "",
-        "id": "Errors widget copy tooltip",
-        "text": "将错误复制到剪贴板"
-    },
-    {
-        "source": "Clear the errors",
-        "description": "",
-        "id": "Errors widget clear tooltip",
-        "text": "清除错误"
-    },
-    {
-        "source": "Show the layers widget",
-        "description": "",
-        "id": "Layers tooltip",
-        "text": "显示图层小部件"
-    },
-    {
-        "source": "Alpha Blend",
-        "description": "",
-        "id": "Alpha Blend",
-        "text": "阿尔法混合"
-    },
-    {
-        "source": "No Alpha",
-        "description": "",
-        "id": "No Alpha",
-        "text": "没有Alpha"
-    },
-    {
-        "source": "No alpha blending",
-        "description": "",
-        "id": "No alpha tooltip",
-        "text": "没有Alpha混合"
-    },
-    {
-        "source": "Straight Alpha",
-        "description": "",
-        "id": "Straight Alpha",
-        "text": "直字母"
-    },
-    {
-        "source": "Straight alpha blending",
-        "description": "",
-        "id": "Straight alpha blend tooltip",
-        "text": "直线Alpha混合"
-    },
-    {
-        "source": "Premultiplied alpha blending",
-        "description": "",
-        "id": "Premultiplied alpha blend tooltip",
-        "text": "预乘alpha混合"
-    },
-    {
-        "source": "Fill the view with the image",
-        "description": "",
-        "id": "Fill view tooltip",
-        "text": "用图像填充视图"
-    },
-    {
-        "source": "Memory cache usage",
-        "description": "",
-        "id": "Memory cache thermometer tooltip",
-        "text": "内存缓存使用率"
-    },
-    {
-        "source": "The current frame",
-        "description": "",
-        "id": "Current frame tooltip",
-        "text": "当前帧"
-    },
-    {
-        "source": "The playback in point",
-        "description": "",
-        "id": "In point tooltip",
-        "text": "点播"
-    },
-    {
-        "source": "The playback out point",
-        "description": "",
-        "id": "Out point tooltip",
-        "text": "播放点"
-    },
-    {
-        "source": "Enable",
-        "description": "",
-        "id": "Enable",
-        "text": "启用"
-    },
-    {
-        "source": "GB",
-        "description": "",
-        "id": "GB",
-        "text": "国标"
-    },
-    {
-        "source": "Used",
-        "description": "",
-        "id": "Used",
-        "text": "用过的"
-    },
-    {
-        "source": "Automatically start playback",
-        "description": "",
-        "id": "Automatically start playback",
-        "text": "自动开始播放"
-    },
-    {
-        "source": "Playback Speed",
-        "description": "",
-        "id": "Playback Speed",
-        "text": "播放速度"
-    },
-    {
-        "source": "Playback every frame",
-        "description": "",
-        "id": "Playback every frame",
-        "text": "播放每一帧"
-    },
-    {
-        "source": "Default speed",
-        "description": "",
-        "id": "Default speed",
-        "text": "预设速度"
-    },
-    {
-        "source": "Timeline",
-        "description": "",
-        "id": "Timeline",
-        "text": "时间线"
-    },
-    {
-        "source": "Show PIP (picture in picture)",
-        "description": "",
-        "id": "Show PIP (picture in picture)",
-        "text": "显示画中画（画中画）"
-    },
-    {
-        "source": "Reset speed",
-        "description": "",
-        "id": "Reset speed",
-        "text": "重置速度"
-    },
-    {
-        "source": "Reset speed tooltip",
-        "description": "",
-        "id": "Reset speed tooltip",
-        "text": "重置速度工具提示"
-    },
-    {
-        "source": "Increase",
-        "description": "",
-        "id": "Increase",
-        "text": "增加"
-    },
-    {
-        "source": "Decrease",
-        "description": "",
-        "id": "Decrease",
-        "text": "减少"
-    },
-    {
-        "source": "Thumbnail Size",
-        "description": "",
-        "id": "Thumbnail Size",
-        "text": "缩图大小"
-    },
-    {
-        "source": "Copy the system log to the clipboard",
-        "description": "",
-        "id": "System log copy tooltip",
-        "text": "将系统日志复制到剪贴板"
-    },
-    {
-        "source": "Reload the system log",
-        "description": "",
-        "id": "System log reload tooltip",
-        "text": "重新加载系统日志"
-    },
-    {
-        "source": "Clear the system log",
-        "description": "",
-        "id": "System log clear tooltip",
-        "text": "清除系统日志"
-    },
-    {
-        "source": "Warning",
-        "description": "",
-        "id": "Warning",
-        "text": "警告"
-    },
-    {
-        "source": "ERROR",
-        "description": "",
-        "id": "ERROR",
-        "text": "错误"
-    },
-    {
-        "source": "Show the errors widget",
-        "description": "",
-        "id": "Errors widget tooltip",
-        "text": "显示错误小部件"
-    },
-    {
-        "source": "Show the system log widget",
-        "description": "",
-        "id": "System log widget tooltip",
-        "text": "显示系统日志小部件"
-    },
-    {
-        "source": "Debugging",
-        "description": "",
-        "id": "Debugging",
-        "text": "调试"
-    },
-    {
-        "source": "Show the debugging widget",
-        "description": "",
-        "id": "Debugging widget tooltip",
-        "text": "显示调试小部件"
-    },
-    {
-        "source": "Scale to fit",
-        "description": "",
-        "id": "Scale to fit",
-        "text": "缩放以适合"
-    },
-    {
-        "source": "Color picker RGB tooltip",
-        "description": "",
-        "id": "Color picker RGB tooltip",
-        "text": "拾色器RGB工具提示"
-    },
-    {
-        "source": "Color picker HSV tooltip",
-        "description": "",
-        "id": "Color picker HSV tooltip",
-        "text": "HSV拾色器工具提示"
-    },
-    {
-        "source": "Audio cannot be initialized",
-        "description": "",
-        "id": "Audio cannot be initialized",
-        "text": "音频无法初始化"
-    },
-    {
-        "source": "The audio stream cannot be opened",
-        "description": "",
-        "id": "The audio stream cannot be opened",
-        "text": "音频流无法打开"
-    },
-    {
-        "source": "Cannot start audio stream",
-        "description": "",
-        "id": "Cannot start audio stream",
-        "text": "无法启动音频流"
-    },
-    {
-        "source": "Cannot stop audio stream",
-        "description": "",
-        "id": "Cannot stop audio stream",
-        "text": "无法停止音频流"
-    },
-    {
-        "source": "Third Party RtAudio",
-        "description": "",
-        "id": "Third Party RtAudio",
-        "language": "en",
-        "text": "Third Party RtAudio"
-    },
-    {
-        "source": "Lock color type",
-        "text": "锁色类型",
-        "id": "Lock color type",
-        "description": ""
-    },
-    {
-        "source": "Copy the values to the clipboard",
-        "text": "将值复制到剪贴板",
-        "id": "Color picker copy tooltip",
-        "description": ""
-    },
-    {
-        "source": "Cannot sample color",
-        "text": "无法采样颜色",
-        "id": "Cannot sample color",
-        "description": ""
-    },
-    {
-        "source": "Playback once",
-        "text": "播放一次",
-        "id": "Playback mode once tooltip",
-        "description": ""
-    },
-    {
-        "source": "Playback in a loop",
-        "text": "循环播放",
-        "id": "Playback mode loop tooltip",
-        "description": ""
-    },
-    {
-        "source": "Playback ping-pong",
-        "text": "播放乒乓球",
-        "id": "Playback mode ping-pong tooltip",
-        "description": ""
-    },
-    {
-        "source": "View Controls",
-        "text": "查看控件",
-        "id": "View Controls",
-        "description": ""
-    },
-    {
-        "source": "Show the view controls widget",
-        "text": "显示wiew控件小部件",
-        "id": "View controls widget tooltip",
-        "description": ""
-    },
-    {
-        "source": "Lock Fill",
-        "text": "锁定填充",
-        "id": "Lock Fill",
-        "description": ""
-    },
-    {
-        "source": "Fill the view with the image (locked)",
-        "text": "用图像填充视图（锁定）",
-        "id": "Fill lock view tooltip",
-        "description": ""
-    },
-    {
-        "source": "Frame the image within the view (locked)",
-        "text": "在视图中构图（锁定）",
-        "id": "Frame lock view tooltip",
-        "description": ""
-    },
-    {
-        "source": "Center the view and set the zoom to 1.0 (locked)",
-        "text": "将视图居中并将缩放比例设置为1.0（锁定）",
-        "id": "Center lock view tooltip",
-        "description": ""
-    },
-    {
-        "source": "Show the grid",
-        "text": "显示网格",
-        "id": "Grid enabled tooltip",
-        "description": ""
-    },
-    {
-        "source": "Image Controls",
-        "text": "影像控制",
-        "id": "Image Controls",
-        "description": ""
-    },
-    {
-        "source": "Show the image controls widget",
-        "text": "显示图像控件小部件",
-        "id": "Image controls widget tooltip",
-        "description": ""
-    },
-    {
-        "source": "Alpha blend",
-        "text": "阿尔法混合",
-        "id": "Alpha blend",
-        "description": ""
-    },
-    {
-        "source": "Mirror horizontal",
-        "text": "水平镜",
-        "id": "Mirror horizontal",
-        "description": ""
-    },
-    {
-        "source": "Mirror vertical",
-        "text": "垂直镜",
-        "id": "Mirror vertical",
-        "description": ""
-    },
-    {
-        "source": "Aspect ratio",
-        "text": "长宽比",
-        "id": "Aspect ratio",
-        "description": ""
-    },
-    {
-        "source": "Brightness",
-        "text": "亮度",
-        "id": "Brightness",
-        "description": ""
-    },
-    {
-        "source": "Contrast",
-        "text": "对比",
-        "id": "Contrast",
-        "description": ""
-    },
-    {
-        "source": "Saturation",
-        "text": "饱和",
-        "id": "Saturation",
-        "description": ""
-    },
-    {
-        "source": "Invert",
-        "text": "倒置",
-        "id": "Invert",
-        "description": ""
-    },
-    {
-        "source": "In Low",
-        "text": "在低",
-        "id": "In Low",
-        "description": ""
-    },
-    {
-        "source": "In High",
-        "text": "在高",
-        "id": "In High",
-        "description": ""
-    },
-    {
-        "source": "Gamma",
-        "text": "伽玛",
-        "id": "Gamma",
-        "description": ""
-    },
-    {
-        "source": "Out Low",
-        "text": "低出",
-        "id": "Out Low",
-        "description": ""
-    },
-    {
-        "source": "Out High",
-        "text": "高出",
-        "id": "Out High",
-        "description": ""
-    },
-    {
-        "source": "Exposure",
-        "text": "曝光",
-        "id": "Exposure",
-        "description": ""
-    },
-    {
-        "source": "Defog",
-        "text": "除雾",
-        "id": "Defog",
-        "description": ""
-    },
-    {
-        "source": "Knee Low",
-        "text": "膝盖低",
-        "id": "Knee Low",
-        "description": ""
-    },
-    {
-        "source": "Knee High",
-        "text": "膝盖高",
-        "id": "Knee High",
-        "description": ""
-    },
-    {
-        "source": "Load",
-        "text": "加载",
-        "id": "Load",
-        "description": ""
-    },
-    {
-        "source": "Transform",
-        "text": "转变",
-        "id": "Transform",
-        "description": ""
-    },
-    {
-        "source": "Color",
-        "text": "颜色",
-        "id": "Color",
-        "description": ""
-    },
-    {
-        "source": "Levels",
-        "text": "等级",
-        "id": "Levels",
-        "description": ""
-    },
-    {
-        "source": "Soft Clip",
-        "text": "软夹",
-        "id": "Soft Clip",
-        "description": ""
-    },
-    {
-        "source": "Set the magnification",
-        "text": "设定倍率",
-        "id": "Magnify slider tooltip",
-        "description": ""
-    },
-    {
-        "source": "Set as Default",
-        "text": "设为默认",
-        "id": "Set as Default",
-        "description": ""
-    },
-    {
-        "source": "Reset the value.",
-        "text": "重置值。",
-        "id": "Reset the value.",
-        "description": ""
-    },
-    {
-        "source": "Position",
-        "text": "位置",
-        "id": "Position",
-        "description": ""
-    },
-    {
-        "source": "Zoom",
-        "text": "放大",
-        "id": "Zoom",
-        "description": ""
-    },
-    {
-        "source": "Labels",
-        "text": "标签",
-        "id": "Labels",
-        "description": ""
-    },
-    {
-        "source": "Background",
-        "text": "背景",
-        "id": "Background",
-        "description": ""
-    },
-    {
-        "id": "Text focus",
-        "source": "Text focus",
-        "description": "",
-        "text": "文字重点"
-    },
-    {
-        "source": "Annotate polyline tooltip",
-        "text": "注释折线工具提示",
-        "description": "",
-        "id": "Annotate polyline tooltip"
-    },
-    {
-        "source": "Annotate line tooltip",
-        "text": "注释线工具提示",
-        "description": "",
-        "id": "Annotate line tooltip"
-    },
-    {
-        "source": "Annotate rectangle tooltip",
-        "text": "注释矩形工具提示",
-        "description": "",
-        "id": "Annotate rectangle tooltip"
-    },
-    {
-        "source": "Annotate ellipse tooltip",
-        "text": "注释椭圆工具提示",
-        "description": "",
-        "id": "Annotate ellipse tooltip"
-    },
-    {
-        "source": "Annotate color picker tooltip",
-        "text": "注释颜色选择器工具提示",
-        "description": "",
-        "id": "Annotate color picker tooltip"
-    },
-    {
-        "source": "Annotate line width tooltip",
-        "text": "注释线宽工具提示",
-        "description": "",
-        "id": "Annotate line width tooltip"
-    },
-    {
-        "source": "Annotate clear tooltip",
-        "text": "注释清晰的工具提示",
-        "description": "",
-        "id": "Annotate clear tooltip"
-    },
-    {
-        "source": "Annotate add tooltip",
-        "text": "注释添加工具提示",
-        "description": "",
-        "id": "Annotate add tooltip"
-    },
-    {
-        "source": "Annotate delete tooltip",
-        "text": "注释删除工具提示",
-        "description": "",
-        "id": "Annotate delete tooltip"
-    },
-    {
-        "source": "Annotate previous tooltip",
-        "text": "注释先前的工具提示",
-        "description": "",
-        "id": "Annotate previous tooltip"
-    },
-    {
-        "source": "Annotate next tooltip",
-        "text": "注释下一个工具提示",
-        "description": "",
-        "id": "Annotate next tooltip"
-    },
-    {
-        "source": "Annotate list toggle tooltip",
-        "text": "注释列表切换工具提示",
-        "description": "",
-        "id": "Annotate list toggle tooltip"
-    },
-    {
-        "source": "Edit",
-        "text": "编辑",
-        "description": "",
-        "id": "Edit"
-    },
-    {
-        "source": "Summary",
-        "text": "摘要",
-        "description": "",
-        "id": "Summary"
-    },
-    {
-        "source": "I/O threads",
-        "text": "I / O线程",
-        "description": "",
-        "id": "I/O threads popup tooltip"
-    },
-    {
-        "source": "Polyline",
-        "text": "折线",
-        "description": "",
-        "id": "Polyline"
-    },
-    {
-        "source": "Line",
-        "text": "线",
-        "description": "",
-        "id": "Line"
-    },
-    {
-        "source": "Rectangle",
-        "text": "长方形",
-        "description": "",
-        "id": "Rectangle"
-    },
-    {
-        "source": "Ellipse",
-        "text": "椭圆",
-        "description": "",
-        "id": "Ellipse"
-    },
-    {
-        "source": "DJV 2.0.4",
-        "description": "",
-        "id": "DJV 2.0.4",
-        "text": "DJV 2.0.4"
-    },
-    {
-        "source": "Auto-Hide Interface",
-        "description": "",
-        "id": "Auto-Hide Interface",
-        "text": "自动隐藏介面"
-    },
-    {
-        "source": "Pixel",
-        "description": "",
-        "id": "Pixel",
-        "text": "像素点"
-    },
-    {
-        "source": "Color label tooltip",
-        "description": "",
-        "id": "Color label tooltip",
-        "text": "颜色标签工具提示"
-    },
-    {
-        "source": "Pixel label tooltip",
-        "description": "",
-        "id": "Pixel label tooltip",
-        "text": "像素标签工具提示"
-    },
-    {
-        "source": "Slow",
-        "text": "慢",
-        "id": "Slow",
-        "description": ""
-    },
-    {
-        "source": "Medium",
-        "text": "介质",
-        "id": "Medium",
-        "description": ""
-    },
-    {
-        "source": "Fast",
-        "text": "快速",
-        "id": "Fast",
-        "description": ""
-    },
-    {
-        "source": "Cannot open more than",
-        "text": "不能打开超过",
-        "id": "Cannot open more than",
-        "description": ""
-    },
-    {
-        "source": "files at once.",
-        "text": "文件一次。",
-        "id": "files at once.",
-        "description": ""
-    },
-    {
-        "source": "CansecoGPC",
-        "text": "CansecoGPC",
-        "id": "Credits CansecoGPC",
-        "language": "en",
-        "description": ""
-    },
-    {
-        "source": "Spanish translation updates",
-        "text": "西班牙语翻译更新",
-        "id": "Credits CansecoGPC Text",
-        "description": ""
-    },
-    {
-        "source": "Jean-Francois Panisset",
-        "text": "Jean-Francois Panisset",
-        "id": "Credits Jean-Francois Panisset",
-        "language": "en",
-        "description": ""
-    },
-    {
-        "source": "Azure Pipelines CI integration",
-        "text": "Azure Pipelines CI集成",
-        "id": "Credits Jean-Francois Panisset Text",
-        "description": ""
-    },
-    {
-        "source": "Haryo Sukmawanto",
-        "text": "Haryo Sukmawanto",
-        "id": "Credits Haryo Sukmawanto",
-        "language": "en",
-        "description": ""
-    },
-    {
-        "source": "Custom playback frame rate UI",
-        "text": "自定义播放帧率用户界面",
-        "id": "Credits Haryo Sukmawanto Text",
-        "description": ""
-    },
-    {
-        "source": "* GITHUB®, the GITHUB® logo design, OCTOCAT® and the OCTOCAT® logo design are exclusive trademarks registered in the United States by GitHub, Inc.",
-        "text": "* GITHUB®, the GITHUB® logo design, OCTOCAT® and the OCTOCAT® logo design are exclusive trademarks registered in the United States by GitHub, Inc.",
-        "id": "Trademarks GitHub",
-        "language": "en",
-        "description": ""
-    },
-    {
-        "source": "Total system time",
-        "text": "系统总时间",
-        "id": "Total system time",
-        "description": ""
-    },
-    {
-        "source": "Top system time",
-        "text": "最高系统时间",
-        "id": "Top system time",
-        "description": ""
-    },
-    {
-        "source": "Custom playback speed",
-        "text": "自定义播放速度",
-        "id": "Custom playback speed",
-        "description": ""
-    },
-    {
-        "source": "Custom playback speed tooltip",
-        "text": "自定义播放速度工具提示",
-        "id": "Custom playback speed tooltip",
-        "description": ""
-    },
-    {
-        "source": "DJV 2.0.5",
-        "text": "DJV 2.0.5",
-        "id": "DJV 2.0.5",
-        "language": "en",
-        "description": ""
-    },
-    {
-        "source": "Scroll wheel zoom speed",
-        "text": "滚轮缩放速度",
-        "id": "Scroll wheel zoom speed",
-        "description": ""
-    },
-    {
-        "text": "Damien Picard",
-        "id": "Credits Damien Picard",
-        "description": "",
-        "language": "en",
-        "source": "Damien Picard"
-    },
-    {
-        "text": "法语翻译更新",
-        "id": "Credits Damien Picard Text",
-        "description": "",
-        "source": "French translation updates"
-    }
-]
+{
+    "annotate": "注释",
+    "annotate_polyline_tooltip": "注释折线工具提示",
+    "annotate_line_tooltip": "注释线工具提示",
+    "annotate_rectangle_tooltip": "注释矩形工具提示",
+    "annotate_ellipse_tooltip": "注释椭圆工具提示",
+    "annotate_color_picker_tooltip": "注释颜色选择器工具提示",
+    "annotate_line_width_tooltip": "注释线宽工具提示",
+    "annotate_clear_tooltip": "注释清晰的工具提示",
+    "annotate_add_tooltip": "注释添加工具提示",
+    "annotate_delete_tooltip": "注释删除工具提示",
+    "annotate_previous_tooltip": "注释先前的工具提示",
+    "annotate_next_tooltip": "注释下一个工具提示",
+    "annotate_list_toggle_tooltip": "注释列表切换工具提示",
+    "menu_edit": "编辑",
+    "menu_summary": "摘要",
+    "menu_export": "出口",
+    "menu_window": "窗口",
+    "menu_window_full_screen": "全屏",
+    "menu_window_full_screen_tooltip": "切换全屏模式",
+    "menu_window_maximize": "最大化",
+    "menu_window_maximize_tooltip": "最大化当前窗口",
+    "menu_window_fit": "适合",
+    "menu_window_fit_tooltip": "使窗口适合图像",
+    "menu_window_auto_hide_interface": "自动隐藏介面",
+    "menu_window_auto_hide_tooltip": "自动隐藏用户界面",
+    "error_the_file": "文件",
+    "error_cannot_be_read": "无法读取",
+    "error_cannot_parse_the_value": "无法解析该值。",
+    "widget_color_space": "色彩空间",
+    "widget_color_space_add_config_tooltip": "添加新的OpenColorIO配置",
+    "widget_color_space_edit_configs_tooltip": "编辑OpenColorIO配置列表",
+    "widget_color_space_display_name": "名称",
+    "widget_color_space_display_view": "视图",
+    "widget_color_space_add_format_tooltip": "为文件格式分配色彩空间",
+    "widget_color_space_edit_format_tooltip": "编辑色彩空间列表",
+    "widget_color_space_config": "设定档",
+    "widget_color_space_display": "显示",
+    "menu_image": "图片",
+    "None": "没有",
+    "widget_color_space_display_name_default": "默认",
+    "settings_scroll_wheel_slow": "慢",
+    "settings_scroll_wheel_medium": "介质",
+    "settings_scroll_wheel_fast": "快速",
+    "image_controls_transform_rotate_0": "0",
+    "image_controls_transform_rotate_90": "90",
+    "image_controls_transform_rotate_180": "180",
+    "image_controls_transform_rotate_270": "270",
+    "stop": "停止",
+    "menu_playback_forward": "向前",
+    "menu_playback_reverse": "相反",
+    "once": "一旦",
+    "loop": "环",
+    "pingpong": "乒乓",
+    "histogram": "直方图",
+    "menu_tools_errors": "失误",
+    "widget_errors_popup": "弹出",
+    "widget_errors_popup_tooltip": "出现错误时显示此窗口",
+    "widget_errors_copy": "复制",
+    "widget_errors_copy_tooltip": "将错误复制到剪贴板",
+    "widget_errors_clear": "明确",
+    "widget_errors_clear_tooltip": "清除错误",
+    "menu_file": "文件",
+    "menu_file_open": "打开",
+    "menu_file_open_tooltip": "打开一个新文件",
+    "menu_file_recent": "最近",
+    "menu_file_recent_tooltip": "显示最近打开的文件",
+    "menu_file_reload": "刷新",
+    "menu_file_reload_tooltip": "重新加载当前文件",
+    "menu_file_close": "关",
+    "menu_file_close_tooltip": "关闭当前文件",
+    "menu_file_close_all": "关闭所有",
+    "menu_file_close_all_tooltip": "关闭所有打开的文件",
+    "menu_file_export_tooltip": "导出文件",
+    "startup_next": "下一个",
+    "menu_file_next_tooltip": "转到下一个文件",
+    "startup_previous": "以前",
+    "menu_file_prev_tooltip": "转到上一个文件",
+    "menu_file_layers": "图层",
+    "menu_file_layers_tooltip": "显示图层小部件",
+    "menu_file_next_layer": "下一层",
+    "menu_file_next_layer_tooltip": "转到下一层",
+    "menu_file_previous_layer": "上一层",
+    "menu_file_previous_layer_tooltip": "转到上一层",
+    "menu_file_exit": "出口",
+    "menu_file_exit_tooltip": "退出应用程序",
+    "8-bit_conversion": "8位转换",
+    "8-bit_conversion_tooltip": "将文件向下转换为8位以节省内存",
+    "error_cannot_open_more_than": "不能打开超过",
+    "error_files_at_once": "文件一次。",
+    "settings_file_sequences": "序列",
+    "settings_file_auto-detect_file_sequences": "自动检测文件序列",
+    "playback_forward_tooltip": "开始向前播放",
+    "playback_reverse_tooltip": "开始反向播放",
+    "playback_go_to_in_point_tooltip": "转到回放点",
+    "playback_next_frame_tooltip": "转到下一帧",
+    "playback_previous_frame_tooltip": "转到上一帧",
+    "playback_go_to_out_point_tooltip": "转到播放点",
+    "playback_speed_popup_tooltip": "显示播放速度设置",
+    "playback_real_speed_tooltip": "实际播放速度",
+    "playback_current_frame_tooltip": "当前帧",
+    "playback_in_point_tooltip": "点播",
+    "playback_set_in_point_tooltip": "设置播放点",
+    "playback_reset_in_point_tooltip": "重置播放点",
+    "playback_out_point_tooltip": "播放点",
+    "playback_set_out_point_tooltip": "设置播放输出点",
+    "playback_reset_out_point_tooltip": "重置播放输出点",
+    "playback_duration_tooltip": "播放持续时间",
+    "menu_audio": "音频",
+    "audio_volume_tooltip": "设置音量",
+    "audio_mute_tooltip": "将音频静音",
+    "audio_popup_tooltip": "显示音频设置",
+    "io_threads_popup_tooltip": "I / O线程",
+    "playback_mode_once_tooltip": "播放一次",
+    "playback_mode_loop_tooltip": "循环播放",
+    "playback_mode_ping-pong_tooltip": "播放乒乓球",
+    "menu_image_controls_widget": "影像控制",
+    "menu_image_controls_widget_tooltip": "显示图像控件小部件",
+    "menu_image_color_space_widget_tooltip": "显示颜色空间小部件",
+    "menu_image_red_channel": "红色通道",
+    "menu_image_red_channel_tooltip": "显示红色频道",
+    "menu_image_green_channel": "绿色通道",
+    "menu_image_green_channel_tooltip": "显示绿色通道",
+    "menu_image_blue_channel": "蓝色通道",
+    "menu_image_blue_channel_tooltip": "显示蓝色频道",
+    "menu_image_alpha_channel": "Alpha通道",
+    "menu_image_alpha_channel_tooltip": "显示Alpha通道",
+    "image_controls_transform_mirror_horizontal": "水平镜",
+    "image_controls_transform_mirror_horizontal_tooltip": "水平镜像图像",
+    "image_controls_transform_mirror_vertical": "垂直镜",
+    "image_controls_transform_mirror_vertical_tooltip": "垂直镜像图像",
+    "menu_image_load_frame_store": "加载框架存储",
+    "menu_image_load_frame_store_tooltip": "将当前帧加载到帧存储中",
+    "menu_image_frame_store": "框架商店",
+    "menu_image_frame_store_tooltip": "显示框架商店",
+    "about_title": "DJV成像",
+    "about_section_credits": "积分",
+    "about_section_sponsors": "赞助商",
+    "about_section_license": "执照",
+    "about_section_copyright": "版权",
+    "about_section_third_party": "第三方软件",
+    "about_section_trademarks": "商标",
+    "about_credits_darby_johnston": "Darby Johnston",
+    "about_credits_darby_johnston_text": "主要作者",
+    "about_credits_kent_oberheu": "Kent Oberheu, https://semafore.com",
+    "about_credits_kent_oberheu_text": "身份，图标，UI / UX设计",
+    "about_credits_siciliana_johnston": "Siciliana Johnston",
+    "about_credits_siciliana_johnston_text": "网页设计，社交媒体",
+    "about_credits_mikael_sundell": "Mikael Sundell",
+    "about_credits_mikael_sundell_text": "IFF图像文件格式支持，示例图像",
+    "about_credits_cansecogpc": "CansecoGPC",
+    "about_credits_cansecogpc_text": "西班牙语翻译更新",
+    "about_credits_jean-francois_panisset": "Jean-Francois Panisset",
+    "about_credits_jean-francois_panisset_text": "Azure Pipelines CI集成",
+    "about_credits_haryo_sukmawanto": "Haryo Sukmawanto",
+    "about_credits_haryo_sukmawanto_text": "自定义播放帧率用户界面",
+    "about_credits_damien_picard": "Damien Picard",
+    "about_credits_damien_picard_text": "法语翻译更新",
+    "about_sponsors_unexpected": "unexpected GmbH, https://www.unexpected.de",
+    "about_license_1": "Copyright (c) 2004-2020 Darby Johnston, All rights reserved",
+    "about_license_2": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:",
+    "about_license_3": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.",
+    "about_license_4": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.",
+    "about_license_5": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.",
+    "about_license_6": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.",
+    "about_copyright_text": "本软件的部分版权（按字母顺序排列）：",
+    "about_copyright_darby_johnston": "* Copyright (c) 2004-2020 Darby Johnston, All rights reserved",
+    "about_copyright_kent_oberheu": "* Copyright (c) 2019 Kent Oberheu, All rights reserved",
+    "about_copyright_mikael_sundell": "* Copyright (c) 2008-2009 Mikael Sundell, All rights reserved",
+    "about_third_party_text": "该软件部分基于（按字母顺序）的作品：",
+    "about_third_party_cmake": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium, All rights reserved",
+    "about_third_party_ffmpeg": "* FFMpeg, http://www.ffmpeg.org, Licensed under the LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html",
+    "about_third_party_freetype": "* FreeType, http://www.freetype.org, Copyright (c) 2018, The FreeType Project",
+    "about_third_party_glfw": "* GLFW, http://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla Löwy <elmindreda@glfw.org>",
+    "about_third_party_glm": "* GLM, http://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation",
+    "about_third_party_mbedtls": "* MbedTLS, http://tls.mbed.org, Copyright © 2008 - 2016 ARM Limited, All rights reserved",
+    "about_third_party_openal": "* OpenAL, http://www.openal.org, Copyright (C) 1999-2000 by Loki Software",
+    "about_third_party_opencolorio": "* OpenColorIO, http://opencolorio.org, Copyright (c) 2003-2010 Sony Pictures Imageworks Inc., et al., All rights reserved",
+    "about_third_party_openexr": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd.",
+    "about_third_party_rtaudio": "Third Party RtAudio",
+    "about_third_party_curl": "* curl, http://curl.haxx.se/libcurl, Copyright (c) 1996 - 2019, Daniel Stenberg, <daniel@haxx.se>, and many contributors, see the THANKS file",
+    "about_third_party_dr_libs": "* dr_libs, http://github.com/mackron/dr_libs, David Reid",
+    "about_third_party_glad": "* glad, http://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth",
+    "about_third_party_libjpeg": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding",
+    "about_third_party_libjpeg-turbo": "* libjpeg-turbo, http://libjpeg-turbo.org, Copyright (C)2009-2019 D. R. Commander, All Rights Reserved, Copyright (C)2015 Viktor Szathmáry, All Rights Reserved",
+    "about_third_party_libpng": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson",
+    "about_third_party_libtiff": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc",
+    "about_third_party_zlib": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler",
+    "about_trademarks_text": "文档中命名的商标（按字母顺序排列）：",
+    "about_trademarks_apple": "* Apple, OS X, ProRes, and QuickTime are registered trademarks of Apple, Inc.",
+    "about_trademarks_amd": "* AMD and ATI are registered trademarks of Advanced Micro Devices, Inc.",
+    "about_trademarks_autodesk": "* Autodesk, Inferno, Maya, Softimage, and XSI are registered trademarks of Autodesk, Inc.",
+    "about_trademarks_debian": "* Debian is a registered trademark of Software in the Public Interest, Inc.",
+    "about_trademarks_ffmpeg": "* FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project",
+    "about_trademarks_freebsd": "* FreeBSD is a registered trademark of The FreeBSD Foundation",
+    "about_trademarks_github": "* GITHUB®, the GITHUB® logo design, OCTOCAT® and the OCTOCAT® logo design are exclusive trademarks registered in the United States by GitHub, Inc.",
+    "about_trademarks_intel": "* Intel is a registered trademark of Intel Corporation",
+    "about_trademarks_lucasfilm": "* Industrial Light and Magic and ILM are registered trademarks of Lucasfilm Ltd.",
+    "about_trademarks_kodak": "* Kodak and Cineon are a registered trademarks of the Eastman Kodak Company",
+    "about_trademarks_linux": "* Linux is a registered trademark of Linus Torvalds",
+    "about_trademarks_microsoft": "* Microsoft, Microsoft Windows, and Azure are registered trademarks of Microsoft, Inc.",
+    "about_trademarks_mips": "* MIPS is a registered trademark of MIPS Technologies, Inc.",
+    "about_trademarks_nvidia": "* NVIDIA is a registered trademark of NVIDIA Corporation",
+    "about_trademarks_red_hat": "* Red Hat and Fedora are registered trademarks of Red Hat, Inc.",
+    "about_trademarks_sgi": "* Silicon Graphics, SGI, IRIX, and OpenGL are registered trademarks of Silicon Graphics International Corp.",
+    "about_trademarks_smpte": "* SMPTE is a registered trademark of the Society of Motion Picture and Television Engineers",
+    "about_trademarks_sourceforge": "* SourceForge.net is a registered trademark of VA Software Corporation",
+    "about_trademarks_suse": "* SuSE is a registered trademark of Novell, Inc.",
+    "about_trademarks_ubuntu": "* Ubuntu is a registered trademark of Canonical Ltd.",
+    "about_trademarks_unix": "* UNIX is a registered trademark of The Open Group",
+    "about_trademarks_end": "文档中指定的所有其他产品均为其各自所有者的商标。",
+    "about_made_in": "美国加利福尼亚州伯克利制造",
+    "annotate_tooltip": "激活注释工具",
+    "menu_audio_increase_volume": "增加音量",
+    "menu_audio_increase_volume_tooltip": "增加音量",
+    "menu_audio_decrease_volume": "减少音量",
+    "menu_audio_decrease_volume_tooltip": "降低音量",
+    "menu_audio_mute": "静音",
+    "image_controls_channels_alpha_blend": "阿尔法混合",
+    "image_controls_transform_rotate": "旋转",
+    "image_controls_transform_aspect_ratio": "长宽比",
+    "image_controls_color_brightness": "亮度",
+    "image_controls_color_contrast": "对比",
+    "image_controls_color_saturation": "饱和",
+    "image_controls_color_invert": "倒置",
+    "image_controls_levels_in_low": "在低",
+    "image_controls_levels_in_high": "在高",
+    "image_controls_levels_gamma": "伽玛",
+    "image_controls_levels_out_low": "低出",
+    "image_controls_levels_out_high": "高出",
+    "image_controls_exposure_enabled": "启用",
+    "image_controls_exposure_exposure": "曝光",
+    "image_controls_exposure_defog": "除雾",
+    "image_controls_exposure_knee_low": "膝盖低",
+    "image_controls_exposure_knee_high": "膝盖高",
+    "load": "加载",
+    "image_controls_section_channels": "通道",
+    "image_controls_section_transform": "转变",
+    "image_controls_section_color": "颜色",
+    "image_controls_section_levels": "等级",
+    "image_controls_section_soft_clip": "软夹",
+    "menu_view_controls": "查看控件",
+    "menu_view_controls_widget_tooltip": "显示wiew控件小部件",
+    "menu_tools_pan_view": "潘视图",
+    "menu_tools_pan_view_tooltip": "激活平移视图工具",
+    "menu_view_left": "剩下",
+    "menu_view_left_tooltip": "向左移动视图",
+    "menu_view_right": "对",
+    "menu_view_right_tooltip": "向右移动视图",
+    "menu_view_up": "向上",
+    "menu_view_up_tooltip": "向上移动视图",
+    "menu_view_down": "下",
+    "menu_view_down_tooltip": "向下移动视图",
+    "north_west": "西北",
+    "north_west_tooltip": "移动视图西北",
+    "north_east": "东北",
+    "north_east_tooltip": "北视东北",
+    "south_east": "东南",
+    "south_east_tooltip": "移动视图东南",
+    "south_west": "西南",
+    "south_west_tooltip": "将视图移动到西南",
+    "menu_view_zoom_in": "放大",
+    "menu_view_zoom_in_tooltip": "放大视图",
+    "menu_view_zoom_out": "缩小",
+    "menu_view_zoom_out_tooltip": "缩小视图",
+    "menu_view_zoom_reset": "缩放重置",
+    "menu_view_zoom_reset_tooltip": "将缩放重置为1.0",
+    "menu_view_fill": "填",
+    "menu_view_fill_tooltip": "用图像填充视图",
+    "menu_view_lock_fill": "锁定填充",
+    "menu_view_lock_fill_tooltip": "用图像填充视图（锁定）",
+    "menu_view_frame": "帧",
+    "menu_view_frame_tooltip": "在视图中构图",
+    "menu_view_lock_frame": "锁框架",
+    "menu_view_lock_frame_tooltip": "在视图中构图（锁定）",
+    "menu_view_center": "中央",
+    "menu_view_center_tooltip": "将视图居中并将缩放比例设置为1.0",
+    "menu_view_lock_center": "锁中心",
+    "menu_view_lock_center_tooltip": "将视图居中并将缩放比例设置为1.0（锁定）",
+    "menu_view_grid": "格",
+    "menu_view_grid_tooltip": "显示网格",
+    "hud": "HUD",
+    "hud_tooltip": "显示抬头显示",
+    "polyline": "折线",
+    "line": "线",
+    "rectangle": "长方形",
+    "ellipse": "椭圆",
+    "menu_tools_magnify": "放大",
+    "menu_tools_magnify_slider_tooltip": "设定倍率",
+    "debug_general_fps": "FPS",
+    "debug_general_total_system_time": "系统总时间",
+    "debug_general_top_system_time": "最高系统时间",
+    "debug_general_object_count": "对象数",
+    "debug_general_widget_count": "小工具数量",
+    "debug_general_hover": "徘徊",
+    "debug_general_grab": "抓",
+    "debug_general_key_grab": "抓住钥匙",
+    "debug_general_text_focus": "文字重点",
+    "debug_general_font_system_glyph_cache": "字体系统字形缓存",
+    "debug_general_thumbnail_system_information_cache": "缩略图系统信息缓存",
+    "debug_general_thumbnail_system_image_cache": "缩略图系统图像缓存",
+    "debug_general_icon_system_cache": "图标系统缓存",
+    "debug_render_texture_atlas": "纹理图集",
+    "debug_render_dynamic_texture_count": "动态纹理计数",
+    "debug_render_vbo_size": "VBO大小",
+    "debug_media_video_queue": "视频队列",
+    "debug_media_audio_queue": "音频尾巴",
+    "debug_media_current_time": "当前时间",
+    "debug_title": "调试",
+    "debug_section_general": "一般",
+    "debug_section_render": "给予",
+    "debug_section_media": "媒体",
+    "memory_cache": "内存缓存",
+    "enable": "启用",
+    "gb": "国标",
+    "used": "用过的",
+    "nux": "NUX",
+    "settings_new_user_ux_startup": "启动时启用新用户体验",
+    "startup_choose_language": "选择你的语言",
+    "startup_choose_ui_size": "选择用户界面大小",
+    "startup_choose_palette": "选择一个调色板",
+    "startup_finish": "完",
+    "settings_window_section_fullscreen": "全屏",
+    "menu_playback": "回放",
+    "automatically_start_playback": "自动开始播放",
+    "timeline": "时间线",
+    "show_pip_picture_in_picture": "显示画中画（画中画）",
+    "playback_speed": "播放速度",
+    "playback_reset_speed": "重置速度",
+    "playback_reset_speed_tooltip": "重置速度工具提示",
+    "playback_play_every_frame": "播放每一帧",
+    "playback_play_every_frame_tooltip": "即使无法保持适当的速度，也要播放每一帧",
+    "playback_custom_playback_speed": "自定义播放速度",
+    "playback_custom_playback_speed_tooltip": "自定义播放速度工具提示",
+    "widget_recent_files_title": "最近的文件",
+    "widget_recent_increase_thumbnail_size": "增加",
+    "recent_files_increase_thumbnail_size_tooltip": "增加缩略图的大小",
+    "widget_recent_decrease_thumbnail_size": "减少",
+    "recent_files_decrease_thumbnail_size_tooltip": "减小缩略图的大小",
+    "recent_files_thumbnail_size": "缩图大小",
+    "recent_files_search_tooltip": "搜索最近的文件",
+    "recent_files_settings_tooltip": "显示最近的文件设置",
+    "recent_files_label_items": "项目",
+    "recent_files_label_warning": "警告",
+    "recent_files_label_error": "错误",
+    "menu_tools_information": "信息",
+    "menu_tools_information_widget_tooltip": "显示信息小部件",
+    "menu_tools_errors_widget_tooltip": "显示错误小部件",
+    "menu_tools_system_log": "系统日志",
+    "menu_tools_system_log_widget_tooltip": "显示系统日志小部件",
+    "menu_tools_debugging": "调试",
+    "menu_tools_debugging_widget_tooltip": "显示调试小部件",
+    "menu_tools_settings": "设置",
+    "menu_tools_settings_tooltip": "显示设置",
+    "menu_tools": "工具",
+    "menu_tools_color_picker": "颜色选择器",
+    "widget_color_picker_lock_color_type": "锁色类型",
+    "widget_color_picker_color_picker_lock_color_type_tooltip": "请勿更改颜色类型以匹配图像",
+    "widget_color_picker_sample_size_tooltip": "设置颜色选择器样本大小",
+    "widget_color_picker_copy_tooltip": "将值复制到剪贴板",
+    "widget_color_picker_pixel": "像素点",
+    "error_cannot_sample_color": "无法采样颜色",
+    "color_label_tooltip": "颜色标签工具提示",
+    "pixel_label_tooltip": "像素标签工具提示",
+    "error_audio_cannot_be_initialized": "音频无法初始化",
+    "error_the_audio_stream_cannot_be_opened": "音频流无法打开",
+    "error_cannot_start_audio_stream": "无法启动音频流",
+    "error_cannot_stop_audio_stream": "无法停止音频流",
+    "settings_window_auto-hide": "自动隐藏",
+    "settings_window_automatically_hide_the_user_interface": "自动隐藏用户界面",
+    "settings_window_section_monitor": "监控",
+    "settings_window_section_background_image": "背景图片",
+    "settings_window_open_file_browser": "打开文件浏览器",
+    "settings_window_clear_background_image": "清除背景图像",
+    "settings_window_scale_to_fit": "缩放以适合",
+    "settings_window_colorize_with_the_ui_style": "使用UI样式着色",
+    "menu_magnify_tooltip": "激活放大工具",
+    "menu_help": "救命",
+    "menu_help_documentation": "文档",
+    "menu_help_about": "关于",
+    "file_name": "文件名",
+    "size": "尺寸",
+    "type": "类型",
+    "speed": "速度",
+    "frames": "帧",
+    "duration": "持续时间",
+    "codec": "编解码器",
+    "video_track": "视频轨道",
+    "khz": "千赫",
+    "sample_rate": "采样率",
+    "audio_track": "音轨",
+    "tags": "标签",
+    "menu_playback_play_once": "玩一次",
+    "menu_playback_play_once_tooltip": "播放文件一次然后停止播放",
+    "menu_playback_loop_tooltip": "一遍又一遍地播放文件",
+    "menu_playback_ping_pong": "乒乓",
+    "menu_playback_ping_pong_tooltip": "向前播放文件然后向后播放",
+    "menu_playback_go_to_in_point": "转到In Point",
+    "menu_playback_go_to_out_point": "转到Out Point",
+    "menu_playback_go_to_start_frame": "转到“开始帧”",
+    "menu_playback_go_to_start_frame_tooltip": "转到开始框架",
+    "menu_playback_go_to_end_frame": "转到结束帧",
+    "menu_playback_go_to_end_frame_tooltip": "转到结束帧",
+    "menu_playback_next_frame": "下一帧",
+    "menu_playback_next_frame_x10": "下一帧X10",
+    "menu_playback_next_frame_x10_tooltip": "向前跳过10帧",
+    "menu_playback_next_frame_x100": "下一帧X100",
+    "menu_playback_next_frame_x100_tooltip": "向前跳过100帧",
+    "menu_playback_previous_frame": "上一帧",
+    "menu_playback_previous_frame_x10": "上一帧X10",
+    "menu_playback_previous_frame_x10_tooltip": "向后跳过10帧",
+    "menu_playback_previous_frame_x100": "上一帧X100",
+    "menu_playback_previous_frame_x100_tooltip": "向后跳过100帧",
+    "menu_playback_enable_in_out_points": "启用输入/输出点",
+    "menu_playback_enable_in_out_points_tooltip": "启用输入/输出点",
+    "menu_playback_set_in_point": "设置点",
+    "menu_playback_set_out_point": "设定点",
+    "menu_playback_reset_in_point": "重置点",
+    "menu_playback_reset_out_point": "重置点",
+    "system_log_copy_tooltip": "将系统日志复制到剪贴板",
+    "system_log_reload_tooltip": "重新加载系统日志",
+    "system_log_clear_tooltip": "清除系统日志",
+    "djv_2_0_4": "DJV 2.0.4",
+    "menu_media_popup_tooltip": "显示打开的文件",
+    "menu_memory_cache_tooltip": "显示内存缓存设置",
+    "menu_memory_cache_thermometer_tooltip": "内存缓存使用率",
+    "menu_color_picker_tooltip": "激活颜色选择器工具",
+    "set_as_default": "设为默认",
+    "reset_the_value": "重置值。",
+    "position": "位置",
+    "zoom": "放大",
+    "widget_view_grid_labels": "标签",
+    "Background": "背景",
+    "scroll_wheel_zoom_speed": "滚轮缩放速度"
+}

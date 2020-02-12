@@ -192,7 +192,7 @@ namespace djv
                     else
                     {
                         std::stringstream ss;
-                        ss << DJV_TEXT("Bad magic number.");
+                        ss << DJV_TEXT("error_bad_magic_number");
                         throw FileSystem::Error(ss.str());
                     }
 
@@ -214,7 +214,7 @@ namespace djv
                     if (out.image.elemSize != 1)
                     {
                         std::stringstream ss;
-                        ss << DJV_TEXT("Unsupported file.");
+                        ss << DJV_TEXT("error_unsupported_file");
                         throw FileSystem::Error(ss.str());
                     }
                     info.video[0].info.size.w = out.image.size[0];
@@ -282,27 +282,27 @@ namespace djv
                     if (Image::Type::None == info.video[0].info.type)
                     {
                         std::stringstream ss;
-                        ss << DJV_TEXT("Unsupported file.");
+                        ss << DJV_TEXT("error_unsupported_file");
                         throw FileSystem::Error(ss.str());
                     }
                     if (io.getSize() - out.file.imageOffset != info.video[0].info.getDataByteCount())
                     {
                         std::stringstream ss;
-                        ss << DJV_TEXT("Incomplete file.");
+                        ss << DJV_TEXT("error_incomplete_file");
                         throw FileSystem::Error(ss.str());
                     }
 
                     if (out.image.elem[0].encoding)
                     {
                         std::stringstream ss;
-                        ss << DJV_TEXT("Unsupported file.");
+                        ss << DJV_TEXT("error_unsupported_file");
                         throw FileSystem::Error(ss.str());
                     }
 
                     if (isValid(&out.image.elem[0].linePadding) && out.image.elem[0].linePadding)
                     {
                         std::stringstream ss;
-                        ss << DJV_TEXT("Unsupported file.");
+                        ss << DJV_TEXT("error_unsupported_file");
                         throw FileSystem::Error(ss.str());
                     }
 
@@ -873,7 +873,7 @@ namespace djv
                     auto out = std::shared_ptr<Plugin>(new Plugin);
                     out->_init(
                         pluginName,
-                        DJV_TEXT("This plugin provides DPX image I/O."),
+                        DJV_TEXT("plugin_dpx_io"),
                         fileExtensions,
                         context);
                     return out;
@@ -906,15 +906,15 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::IO::DPX,
         Version,
-        DJV_TEXT("1.0"),
-        DJV_TEXT("2.0"));
+        DJV_TEXT("1_0"),
+        DJV_TEXT("2_0"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::IO::DPX,
         Endian,
-        DJV_TEXT("Auto"),
-        DJV_TEXT("MSB"),
-        DJV_TEXT("LSB"));
+        DJV_TEXT("auto"),
+        DJV_TEXT("msb"),
+        DJV_TEXT("lsb"));
 
     picojson::value toJSON(const AV::IO::DPX::Options& value)
     {
@@ -955,7 +955,7 @@ namespace djv
         else
         {
             
- std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+ std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
     }
 

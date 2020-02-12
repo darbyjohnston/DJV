@@ -1,848 +1,114 @@
-[
-    {
-        "source": "Cineon",
-        "description": "",
-        "id": "Cineon",
-        "text": "Cineon"
-    },
-    {
-        "source": "I/O",
-        "description": "",
-        "id": "I/O",
-        "text": "I / O"
-    },
-    {
-        "source": "Color space",
-        "description": "",
-        "id": "Color space",
-        "text": "Barevný prostor"
-    },
-    {
-        "source": "Color Space",
-        "description": "",
-        "id": "Color Space",
-        "text": "Barevný prostor"
-    },
-    {
-        "source": "General",
-        "description": "",
-        "id": "General",
-        "text": "Všeobecné"
-    },
-    {
-        "source": "Input",
-        "description": "",
-        "id": "Input",
-        "text": "Vstup"
-    },
-    {
-        "source": "Display",
-        "description": "",
-        "id": "Display",
-        "text": "Zobrazit"
-    },
-    {
-        "source": "View",
-        "description": "",
-        "id": "View",
-        "text": "Pohled"
-    },
-    {
-        "source": "DPX",
-        "description": "",
-        "id": "DPX",
-        "text": "DPX"
-    },
-    {
-        "source": "TIFF",
-        "description": "",
-        "id": "TIFF",
-        "text": "TIFF"
-    },
-    {
-        "source": "File compression",
-        "description": "",
-        "id": "File compression",
-        "text": "Komprese souborů"
-    },
-    {
-        "source": "The file",
-        "description": "",
-        "id": "The file",
-        "text": "Soubor"
-    },
-    {
-        "source": "cannot be read",
-        "description": "",
-        "id": "cannot be read",
-        "text": "nelze číst"
-    },
-    {
-        "source": "Size",
-        "description": "",
-        "id": "Size",
-        "text": "Velikost"
-    },
-    {
-        "source": "Last modification time",
-        "description": "",
-        "id": "Last modification time",
-        "text": "Čas poslední úpravy"
-    },
-    {
-        "source": "Video track",
-        "description": "",
-        "id": "Video track",
-        "text": "Video stopa"
-    },
-    {
-        "source": "Name",
-        "description": "",
-        "id": "Name",
-        "text": "název"
-    },
-    {
-        "source": "Type",
-        "description": "",
-        "id": "Type",
-        "text": "Typ"
-    },
-    {
-        "source": "Speed",
-        "description": "",
-        "id": "Speed",
-        "text": "Rychlost"
-    },
-    {
-        "source": "FPS",
-        "description": "",
-        "id": "FPS",
-        "text": "FPS"
-    },
-    {
-        "source": "Duration",
-        "description": "",
-        "id": "Duration",
-        "text": "Doba trvání"
-    },
-    {
-        "source": "Audio track",
-        "description": "",
-        "id": "Audio track",
-        "text": "Zvuková stopa"
-    },
-    {
-        "source": "Channels",
-        "description": "",
-        "id": "Channels",
-        "text": "Kanály"
-    },
-    {
-        "source": "Sample rate",
-        "description": "",
-        "id": "Sample rate",
-        "text": "Vzorkovací frekvence"
-    },
-    {
-        "source": "kHz",
-        "description": "",
-        "id": "kHz",
-        "text": "kHz"
-    },
-    {
-        "source": "OpenEXR",
-        "description": "",
-        "id": "OpenEXR",
-        "text": "OpenEXR"
-    },
-    {
-        "source": "Thread count",
-        "description": "",
-        "id": "Thread count",
-        "text": "Počet vláken"
-    },
-    {
-        "source": "Channel grouping",
-        "description": "",
-        "id": "Channel grouping",
-        "text": "Seskupení kanálů"
-    },
-    {
-        "source": "DWA compression level",
-        "description": "",
-        "id": "DWA compression level",
-        "text": "Úroveň komprese DWA"
-    },
-    {
-        "source": "Color profile",
-        "description": "",
-        "id": "Color profile",
-        "text": "Barevný profil"
-    },
-    {
-        "source": "PPM",
-        "description": "",
-        "id": "PPM",
-        "text": "PPM"
-    },
-    {
-        "source": "Data type",
-        "description": "",
-        "id": "Data type",
-        "text": "Datový typ"
-    },
-    {
-        "source": "Time",
-        "description": "",
-        "id": "Time",
-        "text": "Čas"
-    },
-    {
-        "source": "Units",
-        "description": "",
-        "id": "Units",
-        "text": "Jednotky"
-    },
-    {
-        "source": "Tooltips",
-        "description": "",
-        "id": "Tooltips",
-        "text": "Popisky"
-    },
-    {
-        "source": "Enable tooltips",
-        "description": "",
-        "id": "Enable tooltips",
-        "text": "Povolit popisky"
-    },
-    {
-        "source": "Set the color type",
-        "description": "",
-        "id": "Color type widget tooltip",
-        "text": "Nastavte typ barvy"
-    },
-    {
-        "source": "L",
-        "description": "",
-        "id": "L",
-        "text": ""
-    },
-    {
-        "source": "Set the luminance value",
-        "description": "",
-        "id": "RGB color sliders luminance tooltip",
-        "text": "Nastavte hodnotu jasu"
-    },
-    {
-        "source": "A",
-        "description": "",
-        "id": "A",
-        "text": "A"
-    },
-    {
-        "source": "Set the alpha value",
-        "description": "",
-        "id": "RGB color sliders alpha tooltip",
-        "text": "Nastavte hodnotu alfa"
-    },
-    {
-        "source": "R",
-        "description": "",
-        "id": "R",
-        "text": "R"
-    },
-    {
-        "source": "G",
-        "description": "",
-        "id": "G",
-        "text": "G"
-    },
-    {
-        "source": "B",
-        "description": "",
-        "id": "B",
-        "text": "B"
-    },
-    {
-        "source": "Set the red value",
-        "description": "",
-        "id": "RGB color sliders red tooltip",
-        "text": "Nastavte červenou hodnotu"
-    },
-    {
-        "source": "Set the green value",
-        "description": "",
-        "id": "RGB color sliders green tooltip",
-        "text": "Nastavte zelenou hodnotu"
-    },
-    {
-        "source": "Set the blue value",
-        "description": "",
-        "id": "RGB color sliders blue tooltip",
-        "text": "Nastavte modrou hodnotu"
-    },
-    {
-        "source": "V",
-        "description": "",
-        "id": "V",
-        "text": "V"
-    },
-    {
-        "source": "Set the value",
-        "description": "",
-        "id": "HSV color sliders value tooltip",
-        "text": "Nastavte hodnotu"
-    },
-    {
-        "source": "Set the alpha value",
-        "description": "",
-        "id": "HSV color sliders alpha tooltip",
-        "text": "Nastavte hodnotu alfa"
-    },
-    {
-        "source": "H",
-        "description": "",
-        "id": "H",
-        "text": "H"
-    },
-    {
-        "source": "S",
-        "description": "",
-        "id": "S",
-        "text": "S"
-    },
-    {
-        "source": "Set the hue",
-        "description": "",
-        "id": "HSV color sliders hue tooltip",
-        "text": "Nastavte odstín"
-    },
-    {
-        "source": "Set the saturation",
-        "description": "",
-        "id": "HSV color sliders saturation tooltip",
-        "text": "Nastavte nasycení"
-    },
-    {
-        "source": "Add the current directory to the list of shortcuts",
-        "description": "",
-        "id": "Add shortcut tooltip",
-        "text": "Do seznamu zkratek přidejte aktuální adresář"
-    },
-    {
-        "source": "Edit the list of shortcuts",
-        "description": "",
-        "id": "Edit shortcuts tooltip",
-        "text": "Upravte seznam zkratek"
-    },
-    {
-        "source": "Back",
-        "description": "",
-        "id": "Back",
-        "text": "Zadní"
-    },
-    {
-        "source": "Go back a directory",
-        "description": "",
-        "id": "File browser back tooltip",
-        "text": "Přejít zpět do adresáře"
-    },
-    {
-        "source": "Forward",
-        "description": "",
-        "id": "Forward",
-        "text": "Vpřed"
-    },
-    {
-        "source": "Go forward a directory",
-        "description": "",
-        "id": "File browser forward tooltip",
-        "text": "Jděte vpřed do adresáře"
-    },
-    {
-        "source": "Up",
-        "description": "",
-        "id": "Up",
-        "text": "Nahoru"
-    },
-    {
-        "source": "Go up a directory",
-        "description": "",
-        "id": "File browser up tooltip",
-        "text": "Přejít nahoru do adresáře"
-    },
-    {
-        "source": "Tile View",
-        "description": "",
-        "id": "Tile View",
-        "text": "Dlaždice"
-    },
-    {
-        "source": "Show directory items as tiles",
-        "description": "",
-        "id": "File browser tile view tooltip",
-        "text": "Zobrazit položky adresáře jako dlaždice"
-    },
-    {
-        "source": "List View",
-        "description": "",
-        "id": "List View",
-        "text": "Zobrazení seznamu"
-    },
-    {
-        "source": "Show directory items as a list",
-        "description": "",
-        "id": "File browser list view tooltip",
-        "text": "Zobrazit položky adresáře jako seznam"
-    },
-    {
-        "source": "Increase Thumbnail Size",
-        "description": "",
-        "id": "Increase Thumbnail Size",
-        "text": "Zvětšete velikost miniatur"
-    },
-    {
-        "source": "Increase the size of the thumbnails",
-        "description": "",
-        "id": "File browser increase thumbnail size tooltip",
-        "text": "Zvětšete velikost miniatur"
-    },
-    {
-        "source": "Decrease Thumbnail Size",
-        "description": "",
-        "id": "Decrease Thumbnail Size",
-        "text": "Zmenšit velikost miniatury"
-    },
-    {
-        "source": "Decrease the size of the thumbnails",
-        "description": "",
-        "id": "File browser decrease thumbnail size tooltip",
-        "text": "Snižte velikost miniatur"
-    },
-    {
-        "source": "Enable File Sequences",
-        "description": "",
-        "id": "Enable File Sequences",
-        "text": "Povolit sekvence souborů"
-    },
-    {
-        "source": "Show sequences of files as a single item",
-        "description": "",
-        "id": "File browser file sequences tooltip",
-        "text": "Zobrazit sekvence souborů jako jednu položku"
-    },
-    {
-        "source": "Show Hidden Files",
-        "description": "",
-        "id": "Show Hidden Files",
-        "text": "Zobrazit skryté soubory"
-    },
-    {
-        "source": "Show directory items that begin with a '.'",
-        "description": "",
-        "id": "File browser show hidden tooltip",
-        "text": "Zobrazit položky adresáře, které začínají znakem „.“"
-    },
-    {
-        "source": "Sort By Name",
-        "description": "",
-        "id": "Sort By Name",
-        "text": "Seřaď dle jména"
-    },
-    {
-        "source": "Sort directory items by name",
-        "description": "",
-        "id": "File browser sort by name tooltip",
-        "text": "Seřadit položky adresáře podle názvu"
-    },
-    {
-        "source": "Sort By Size",
-        "description": "",
-        "id": "Sort By Size",
-        "text": "Seřadit podle velikosti"
-    },
-    {
-        "source": "Sort directory items by size",
-        "description": "",
-        "id": "File browser sort by size tooltip",
-        "text": "Seřadit položky adresáře podle velikosti"
-    },
-    {
-        "source": "Sort By Time",
-        "description": "",
-        "id": "Sort By Time",
-        "text": "Seřadit podle času"
-    },
-    {
-        "source": "Sort directory items by time",
-        "description": "",
-        "id": "File browser sort by time tooltip",
-        "text": "Seřadit položky adresáře podle času"
-    },
-    {
-        "source": "Reverse Sort",
-        "description": "",
-        "id": "Reverse Sort",
-        "text": "Zpětné řazení"
-    },
-    {
-        "source": "Reverse the sort direction",
-        "description": "",
-        "id": "File browser reverse sort tooltip",
-        "text": "Obrátit směr řazení"
-    },
-    {
-        "source": "Sort Directories First",
-        "description": "",
-        "id": "Sort Directories First",
-        "text": "Třídit adresáře jako první"
-    },
-    {
-        "source": "Show directories before files",
-        "description": "",
-        "id": "File browser sort directories first tooltip",
-        "text": "Zobrazit adresáře před soubory"
-    },
-    {
-        "source": "Name",
-        "description": "",
-        "id": "File browser name column",
-        "text": "název"
-    },
-    {
-        "source": "Size",
-        "description": "",
-        "id": "File browse size column",
-        "text": "Velikost"
-    },
-    {
-        "source": "Time",
-        "description": "",
-        "id": "File browser time column",
-        "text": "Čas"
-    },
-    {
-        "source": "Show the shortcuts",
-        "description": "",
-        "id": "File browser shortcuts tooltip",
-        "text": "Zobrazit zkratky"
-    },
-    {
-        "source": "Show the recently used directories",
-        "description": "",
-        "id": "File browser recent paths tooltip",
-        "text": "Zobrazit naposledy použité adresáře"
-    },
-    {
-        "source": "Show the drives",
-        "description": "",
-        "id": "File browser drives tooltip",
-        "text": "Ukaž jednotky"
-    },
-    {
-        "source": "Show the file browser sorting options",
-        "description": "",
-        "id": "File browser sort tooltip",
-        "text": "Zobrazit možnosti třídění v prohlížeči souborů"
-    },
-    {
-        "source": "Show the file browser settings",
-        "description": "",
-        "id": "File browser settings tooltip",
-        "text": "Zobrazit nastavení prohlížeče souborů"
-    },
-    {
-        "source": "Search for items in the directory",
-        "description": "",
-        "id": "File browser search tooltip",
-        "text": "Vyhledejte položky v adresáři"
-    },
-    {
-        "source": "Items",
-        "description": "",
-        "id": "Items",
-        "text": "Položky"
-    },
-    {
-        "source": "File Browser",
-        "description": "",
-        "id": "File Browser",
-        "text": "Prohlížeč souborů"
-    },
-    {
-        "source": "Show the file browser history",
-        "description": "",
-        "id": "File browser history tooltip",
-        "text": "Zobrazit historii prohlížeče souborů"
-    },
-    {
-        "source": "JPEG",
-        "description": "",
-        "id": "JPEG",
-        "text": "JPEG"
-    },
-    {
-        "source": "Compression quality",
-        "description": "",
-        "id": "Compression quality",
-        "text": "Kvalita komprese"
-    },
-    {
-        "source": "Language",
-        "description": "",
-        "id": "Language",
-        "text": "Jazyk"
-    },
-    {
-        "source": "Min",
-        "description": "",
-        "id": "Min",
-        "text": "Min"
-    },
-    {
-        "source": "Max",
-        "description": "",
-        "id": "Max",
-        "text": "Max"
-    },
-    {
-        "source": "Current",
-        "description": "",
-        "id": "Current",
-        "text": "Proud"
-    },
-    {
-        "source": "Palette",
-        "description": "",
-        "id": "Palette",
-        "text": "Paleta"
-    },
-    {
-        "id": "FFmpeg",
-        "source": "FFmpeg",
-        "description": "",
-        "text": "FFmpeg"
-    },
-    {
-        "id": "Threads",
-        "source": "Threads",
-        "description": "",
-        "text": "Vlákna"
-    },
-    {
-        "id": "frames",
-        "source": "frames",
-        "description": "",
-        "text": "rámy"
-    },
-    {
-        "id": "seconds",
-        "source": "seconds",
-        "description": "",
-        "text": "sekundy"
-    },
-    {
-        "source": "Recent Paths",
-        "description": "",
-        "id": "Recent Paths",
-        "text": "Poslední cesty"
-    },
-    {
-        "source": "Shortcuts",
-        "description": "",
-        "id": "Shortcuts",
-        "text": "Klávesové zkratky"
-    },
-    {
-        "source": "Color sliders luminance tooltip",
-        "description": "",
-        "id": "Color sliders luminance tooltip",
-        "text": "Popisek barev posuvníků jasu"
-    },
-    {
-        "source": "Color sliders alpha tooltip",
-        "description": "",
-        "id": "Color sliders alpha tooltip",
-        "text": "Barevné posuvníky alfa popis"
-    },
-    {
-        "source": "Color sliders hue tooltip",
-        "description": "",
-        "id": "Color sliders hue tooltip",
-        "text": "Popis barvy odstínů posuvníků"
-    },
-    {
-        "source": "Color sliders saturation tooltip",
-        "description": "",
-        "id": "Color sliders saturation tooltip",
-        "text": "Popisek saturace barevných posuvníků"
-    },
-    {
-        "source": "Color sliders value tooltip",
-        "description": "",
-        "id": "Color sliders value tooltip",
-        "text": "Popisky hodnot barvy posuvníků"
-    },
-    {
-        "source": "Color sliders red tooltip",
-        "description": "",
-        "id": "Color sliders red tooltip",
-        "text": "Barevné posuvníky červený popis"
-    },
-    {
-        "source": "Color sliders green tooltip",
-        "description": "",
-        "id": "Color sliders green tooltip",
-        "text": "Barevné posuvníky zelený popis"
-    },
-    {
-        "source": "Color sliders blue tooltip",
-        "description": "",
-        "id": "Color sliders blue tooltip",
-        "text": "Barevné posuvníky modrý popis"
-    },
-    {
-        "source": "Tiles",
-        "description": "",
-        "id": "Tiles",
-        "text": "Dlaždice"
-    },
-    {
-        "source": "List",
-        "description": "",
-        "id": "List",
-        "text": "Seznam"
-    },
-    {
-        "source": "Increase",
-        "description": "",
-        "id": "Increase",
-        "text": "Zvýšit"
-    },
-    {
-        "source": "Decrease",
-        "description": "",
-        "id": "Decrease",
-        "text": "Pokles"
-    },
-    {
-        "source": "Enable file sequences",
-        "description": "",
-        "id": "Enable file sequences",
-        "text": "Povolit sekvence souborů"
-    },
-    {
-        "source": "Show hidden files",
-        "description": "",
-        "id": "Show hidden files",
-        "text": "Zobrazit skryté soubory"
-    },
-    {
-        "source": "Sort by name",
-        "description": "",
-        "id": "Sort by name",
-        "text": "Seřadit podle jména"
-    },
-    {
-        "source": "Sort by size",
-        "description": "",
-        "id": "Sort by size",
-        "text": "Seřadit podle velikosti"
-    },
-    {
-        "source": "Sort by time",
-        "description": "",
-        "id": "Sort by time",
-        "text": "Seřadit podle času"
-    },
-    {
-        "source": "Reverse sort",
-        "description": "",
-        "id": "Reverse sort",
-        "text": "Zpětné řazení"
-    },
-    {
-        "source": "Sort directories first",
-        "description": "",
-        "id": "Sort directories first",
-        "text": "Nejprve seřaďte adresáře"
-    },
-    {
-        "source": "Sorting",
-        "description": "",
-        "id": "Sorting",
-        "text": "Třídění"
-    },
-    {
-        "source": "Thumbnail Size",
-        "description": "",
-        "id": "Thumbnail Size",
-        "text": "Velikost miniatury"
-    },
-    {
-        "source": "Miscellaneous",
-        "description": "",
-        "id": "Miscellaneous",
-        "text": "Smíšený"
-    },
-    {
-        "source": "Drives",
-        "description": "",
-        "id": "Drives",
-        "text": "Disky"
-    },
-    {
-        "source": "Text",
-        "description": "",
-        "id": "Text",
-        "text": "Text"
-    },
-    {
-        "source": "Render 2D",
-        "description": "",
-        "id": "Render 2D",
-        "text": "Vykreslení 2D"
-    },
-    {
-        "source": "Enable LCD text rendering",
-        "description": "",
-        "id": "Enable LCD text rendering",
-        "text": "Povolit vykreslování textu na LCD"
-    },
-    {
-        "source": "Cannot set the path",
-        "text": "Cesta nelze nastavit",
-        "id": "Cannot set the path",
-        "description": ""
-    },
-    {
-        "id": "min",
-        "source": "min",
-        "description": "",
-        "text": "min"
-    },
-    {
-        "id": "max",
-        "source": "max",
-        "description": "",
-        "text": "max"
-    },
-    {
-        "source": "Image",
-        "text": "obraz",
-        "id": "Image",
-        "description": ""
-    },
-    {
-        "source": "Minify filter",
-        "text": "Minifikujte filtr",
-        "id": "Minify filter",
-        "description": ""
-    },
-    {
-        "source": "Magnify filter",
-        "text": "Zvětšit filtr",
-        "id": "Magnify filter",
-        "description": ""
-    }
-]
+{
+    "settings_title_general": "Všeobecné",
+    "settings_title_io": "I / O",
+    "settings_general_section_palette": "Paleta",
+    "settings_general_section_size": "Velikost",
+    "settings_io_section_tiff": "TIFF",
+    "settings_io_file_compression": "Komprese souborů",
+    "settings_general_section_time": "Čas",
+    "settings_general_time_units": "Jednotky",
+    "error_the_file": "Soubor",
+    "error_cannot_be_read": "nelze číst",
+    "file_browser_file_tooltip_last_modification_time": "Čas poslední úpravy",
+    "file_browser_file_tooltip_video_track": "Video stopa",
+    "file_browser_file_tooltip_name": "název",
+    "file_browser_file_tooltip_type": "Typ",
+    "file_browser_file_tooltip_speed": "Rychlost",
+    "file_browser_file_tooltip_fps": "FPS",
+    "file_browser_file_tooltip_duration": "Doba trvání",
+    "file_browser_file_tooltip_unit_frames": "rámy",
+    "file_browser_file_tooltip_audio_track": "Zvuková stopa",
+    "file_browser_file_tooltip_channels": "Kanály",
+    "file_browser_file_tooltip_sample_rate": "Vzorkovací frekvence",
+    "file_browser_file_tooltip_unit_khz": "kHz",
+    "file_browser_file_tooltip_unit_seconds": "sekundy",
+    "file_browser_file_tooltip_ffmpeg": "FFmpeg",
+    "thread_count": "Počet vláken",
+    "file_browser_history_tooltip": "Zobrazit historii prohlížeče souborů",
+    "file_browser_file_browser_show_shortcuts": "Klávesové zkratky",
+    "file_browser_add_shortcut_tooltip": "Do seznamu zkratek přidejte aktuální adresář",
+    "file_browser_edit_shortcuts_tooltip": "Upravte seznam zkratek",
+    "settings_general_section_tooltips": "Popisky",
+    "settings_general_enable_tooltips": "Povolit popisky",
+    "current": "Proud",
+    "min": "min",
+    "max": "max",
+    "settings_io_section_threads": "Vlákna",
+    "settings_io_section_jpeg": "JPEG",
+    "settings_io_jpeg_compression_quality": "Kvalita komprese",
+    "settings_io_title_openexr": "OpenEXR",
+    "settings_io_exr_channel_grouping": "Seskupení kanálů",
+    "settings_io_exr_dwa_compression_level": "Úroveň komprese DWA",
+    "error_file_browser_cannot_set_the_path": "Cesta nelze nastavit",
+    "file_browser_back": "Zadní",
+    "file_browser_back_tooltip": "Přejít zpět do adresáře",
+    "file_browser_forward": "Vpřed",
+    "file_browser_forward_tooltip": "Jděte vpřed do adresáře",
+    "file_browser_up": "Nahoru",
+    "file_browser_up_tooltip": "Přejít nahoru do adresáře",
+    "file_browser_settings_tiles": "Dlaždice",
+    "file_browser_settings_tile_view_tooltip": "Zobrazit položky adresáře jako dlaždice",
+    "file_browser_settings_list": "Seznam",
+    "file_browser_settings_list_view_tooltip": "Zobrazit položky adresáře jako seznam",
+    "file_browser_settings_increase_thumbnail": "Zvýšit",
+    "file_browser_settings_increase_thumbnail_tooltip": "Zvětšete velikost miniatur",
+    "file_browser_settings_decrease_thumbnail": "Pokles",
+    "file_browser_settings_decrease_thumbnail_tooltip": "Snižte velikost miniatur",
+    "file_browser_settings_enable_file_sequences": "Povolit sekvence souborů",
+    "file_browser_settings_file_sequences_tooltip": "Zobrazit sekvence souborů jako jednu položku",
+    "file_browser_settings_show_hidden_files": "Zobrazit skryté soubory",
+    "file_browser_settings_show_hidden_tooltip": "Zobrazit položky adresáře, které začínají znakem „.“",
+    "file_browser_sort_name": "Seřadit podle jména",
+    "file_browser_sort_name_tooltip": "Seřadit položky adresáře podle názvu",
+    "file_browser_sort_size": "Seřadit podle velikosti",
+    "file_browser_sort_size_tooltip": "Seřadit položky adresáře podle velikosti",
+    "file_browser_sort_time": "Seřadit podle času",
+    "file_browser_sort_time_tooltip": "Seřadit položky adresáře podle času",
+    "file_browser_reverse_sort": "Zpětné řazení",
+    "file_browser_reverse_sort_tooltip": "Obrátit směr řazení",
+    "file_browser_sort_directories_first": "Nejprve seřaďte adresáře",
+    "file_browser_sort_directories_first_tooltip": "Zobrazit adresáře před soubory",
+    "file_browser_sorting": "Třídění",
+    "file_browser_view": "Pohled",
+    "file_browser_thumbnail_size": "Velikost miniatury",
+    "file_browser_miscellaneous": "Smíšený",
+    "file_browser_column_name": "název",
+    "file_browser_column_size": "Velikost",
+    "file_browser_column_time": "Čas",
+    "file_browser_shortcuts_tooltip": "Zobrazit zkratky",
+    "file_browser_recent_paths_tooltip": "Zobrazit naposledy použité adresáře",
+    "file_browser_drives_tooltip": "Ukaž jednotky",
+    "file_browser_sort_tooltip": "Zobrazit možnosti třídění v prohlížeči souborů",
+    "file_browser_settings_tooltip": "Zobrazit nastavení prohlížeče souborů",
+    "file_browser_search_tooltip": "Vyhledejte položky v adresáři",
+    "file_browser_items": "Položky",
+    "file_browser": "Prohlížeč souborů",
+    "file_browser_drives": "Disky",
+    "file_browser_recent_paths": "Poslední cesty",
+    "settings_general_section_language": "Jazyk",
+    "settings_io_section_ppm": "PPM",
+    "settings_io_data_type": "Datový typ",
+    "color_type_widget_tooltip": "Nastavte typ barvy",
+    "color_sliders_luminance": "",
+    "color_sliders_luminance_tooltip": "Popisek barev posuvníků jasu",
+    "color_sliders_alpha": "A",
+    "color_sliders_alpha_tooltip": "Barevné posuvníky alfa popis",
+    "color_sliders_hue": "H",
+    "color_sliders_saturation": "S",
+    "color_sliders_value": "V",
+    "color_sliders_hue_tooltip": "Popis barvy odstínů posuvníků",
+    "color_sliders_saturation_tooltip": "Popisek saturace barevných posuvníků",
+    "color_sliders_value_tooltip": "Popisky hodnot barvy posuvníků",
+    "color_sliders_red": "R",
+    "color_sliders_green": "G",
+    "color_sliders_blue": "B",
+    "color_sliders_red_tooltip": "Barevné posuvníky červený popis",
+    "color_sliders_green_tooltip": "Barevné posuvníky zelený popis",
+    "color_sliders_blue_tooltip": "Barevné posuvníky modrý popis",
+    "settings_image": "obraz",
+    "settings_render2d": "Vykreslení 2D",
+    "settings_render2d_minify_filter": "Minifikujte filtr",
+    "settings_render2d_magnify_filter": "Zvětšit filtr",
+    "settings_render_2d_section_text": "Text",
+    "settings_render_2d_text_lcd_rendering": "Povolit vykreslování textu na LCD"
+}

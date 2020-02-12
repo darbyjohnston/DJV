@@ -1,0 +1,98 @@
+[
+    {
+        "text": "\u010de\u0161tina", 
+        "id": "cs", 
+        "language": "cs", 
+        "description": "This is a locale label."
+    }, 
+    {
+        "text": "dansk", 
+        "id": "da", 
+        "language": "da", 
+        "description": "This is a locale label."
+    }, 
+    {
+        "text": "Deutsche", 
+        "id": "de", 
+        "language": "de", 
+        "description": "This is a locale label."
+    }, 
+    {
+        "text": "\u0395\u03bb\u03bb\u03b7\u03bd\u03b9\u03ba\u03ac", 
+        "id": "el", 
+        "language": "el", 
+        "description": "This is a locale label."
+    }, 
+    {
+        "text": "English", 
+        "id": "en", 
+        "language": "en", 
+        "description": "This is a locale label."
+    }, 
+    {
+        "text": "Espa\u00f1ol", 
+        "id": "es", 
+        "language": "es", 
+        "description": "This is a locale label."
+    }, 
+    {
+        "text": "fran\u00e7ais", 
+        "id": "fr", 
+        "language": "fr", 
+        "description": "This is a locale label."
+    }, 
+    {
+        "text": "italiano", 
+        "id": "it", 
+        "language": "it", 
+        "description": "This is a locale label."
+    }, 
+    {
+        "text": "\u00cdslensku", 
+        "id": "is", 
+        "language": "is", 
+        "description": "This is a locale label."
+    }, 
+    {
+        "text": "\u65e5\u672c\u4eba", 
+        "id": "ja", 
+        "language": "ja", 
+        "description": "This is a locale label."
+    }, 
+    {
+        "text": "\ud55c\uad6d\uc5b4", 
+        "id": "ko", 
+        "language": "ko", 
+        "description": "This is a locale label."
+    }, 
+    {
+        "text": "Polskie", 
+        "id": "pl", 
+        "language": "pl", 
+        "description": "This is a locale label."
+    }, 
+    {
+        "text": "Portugu\u00eas", 
+        "id": "pt", 
+        "language": "pt", 
+        "description": "This is a locale label."
+    }, 
+    {
+        "text": "\u0440\u0443\u0441\u0441\u043a\u0438\u0439", 
+        "id": "ru", 
+        "language": "ru", 
+        "description": "This is a locale label."
+    }, 
+    {
+        "text": "svenska", 
+        "id": "sv", 
+        "language": "sv", 
+        "description": "This is a locale label."
+    }, 
+    {
+        "text": "\u4e2d\u56fd", 
+        "id": "zh", 
+        "language": "zh", 
+        "description": "This is a locale label."
+    }
+]

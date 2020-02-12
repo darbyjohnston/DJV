@@ -213,7 +213,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
     }
 
@@ -226,19 +226,19 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         Core::FileSystem,
         ResourcePath,
-        DJV_TEXT("Application"),
-        DJV_TEXT("Documents"),
-        DJV_TEXT("LogFile"),
-        DJV_TEXT("SettingsFile"),
-        DJV_TEXT("Audio"),
-        DJV_TEXT("Fonts"),
-        DJV_TEXT("Icons"),
-        DJV_TEXT("Images"),
-        DJV_TEXT("Models"),
-        DJV_TEXT("Shaders"),
-        DJV_TEXT("Text"),
-        DJV_TEXT("Color"),
-        DJV_TEXT("Documentation"));
+        DJV_TEXT("file_browser_shortcut_application"),
+        DJV_TEXT("file_browser_shortcut_documents"),
+        DJV_TEXT("logfile"),
+        DJV_TEXT("settingsfile"),
+        DJV_TEXT("menu_audio"),
+        DJV_TEXT("fonts"),
+        DJV_TEXT("icons"),
+        DJV_TEXT("images"),
+        DJV_TEXT("models"),
+        DJV_TEXT("shaders"),
+        DJV_TEXT("settings_render_2d_section_text"),
+        DJV_TEXT("image_controls_section_color"),
+        DJV_TEXT("menu_help_documentation"));
 
 } // namespace djv
 

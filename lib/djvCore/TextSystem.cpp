@@ -390,7 +390,7 @@ namespace djv
             catch (const std::exception& e)
             {
                 std::stringstream ss;
-                ss << DJV_TEXT("Error reading the environment varible") << " 'DJV_TEXT_PATH'. " << e.what();
+                ss << DJV_TEXT("error_reading_the_environment_varible") << " 'DJV_TEXT_PATH'. " << e.what();
                 p.logSystem->log(getSystemName(), ss.str(), LogLevel::Error);
             }
 
@@ -455,39 +455,22 @@ namespace djv
                 if (!error.empty())
                 {
                     std::stringstream ss;
-                    ss << DJV_TEXT("Error reading the text file") << " '" << path << "'. " << error;
+                    ss << DJV_TEXT("error_reading_the_text_file") << " '" << path << "'. " << error;
                     throw FileSystem::Error(ss.str());
                 }
 
-                if (v.is<picojson::array>())
+                if (v.is<picojson::object>())
                 {
-                    for (const auto& item : v.get<picojson::array>())
+                    std::string id;
+                    std::string text;
+                    const auto& obj = v.get<picojson::object>();
+                    for (auto i = obj.begin(); i != obj.end(); ++i)
                     {
-                        if (item.is<picojson::object>())
+                        id = i->first;
+                        text = i->second.to_str();
+                        if (!id.empty())
                         {
-                            std::string id;
-                            std::string text;
-                            std::string description;
-                            const auto& obj = item.get<picojson::object>();
-                            for (auto i = obj.begin(); i != obj.end(); ++i)
-                            {
-                                if ("id" == i->first)
-                                {
-                                    id = i->second.to_str();
-                                }
-                                else if ("text" == i->first)
-                                {
-                                    text = i->second.to_str();
-                                }
-                                else if ("description" == i->first)
-                                {
-                                    description = i->second.to_str();
-                                }
-                            }
-                            if (!id.empty())
-                            {
-                                out[locale][id] = text;
-                            }
+                            out[locale][id] = text;
                         }
                     }
                 }

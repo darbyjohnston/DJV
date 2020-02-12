@@ -143,8 +143,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.actions.size())
             {
-                p.actions["Magnify"]->setText(_getText(DJV_TEXT("Magnify")));
-                p.actions["Magnify"]->setTooltip(_getText(DJV_TEXT("Magnify tooltip")));
+                p.actions["Magnify"]->setText(_getText(DJV_TEXT("menu_tools_magnify")));
+                p.actions["Magnify"]->setTooltip(_getText(DJV_TEXT("menu_magnify_tooltip")));
             }
         }
 

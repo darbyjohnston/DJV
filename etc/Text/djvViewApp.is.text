@@ -1,3132 +1,435 @@
-[
-    {
-        "source": "cannot create OpenAL source",
-        "description": "",
-        "id": "cannot create OpenAL source",
-        "text": "Ekki er hægt að búa til Open Source"
-    },
-    {
-        "source": "cannot create OpenAL buffers",
-        "description": "",
-        "id": "cannot create OpenAL buffers",
-        "text": "Ekki er hægt að búa til OpenAL biðminni"
-    },
-    {
-        "source": "cannot open",
-        "description": "",
-        "id": "cannot open",
-        "text": "Ekki er hægt að opna"
-    },
-    {
-        "source": "Annotate",
-        "description": "",
-        "id": "Annotate",
-        "text": "Tilkynna"
-    },
-    {
-        "source": "Increase Volume",
-        "description": "",
-        "id": "Increase Volume",
-        "text": "Auka hljóðstyrk"
-    },
-    {
-        "source": "Increase the audio volume",
-        "description": "",
-        "id": "Increase volume tooltip",
-        "text": "Auka hljóðstyrkinn"
-    },
-    {
-        "source": "Decrease Volume",
-        "description": "",
-        "id": "Decrease Volume",
-        "text": "Minnka hljóðstyrk"
-    },
-    {
-        "source": "Decrease the audio volume",
-        "description": "",
-        "id": "Decrease volume tooltip",
-        "text": "Minnka hljóðstyrkinn"
-    },
-    {
-        "source": "Mute",
-        "description": "",
-        "id": "Mute",
-        "text": "Slökktu á"
-    },
-    {
-        "source": "Mute the audio",
-        "description": "",
-        "id": "Mute tooltip",
-        "text": "Slökktu á hljóðinu"
-    },
-    {
-        "source": "Audio",
-        "description": "",
-        "id": "Audio",
-        "text": "Hljóð"
-    },
-    {
-        "source": "Color Picker",
-        "description": "",
-        "id": "Color Picker",
-        "text": "Litaplokkari"
-    },
-    {
-        "source": "Activate the color picker tool",
-        "description": "",
-        "id": "Color picker tooltip",
-        "text": "Virkjaðu litavalstækið"
-    },
-    {
-        "source": "Lock Color Type",
-        "description": "",
-        "id": "Lock Color Type",
-        "text": "Læsa litategund"
-    },
-    {
-        "source": "Don't change the color type to match the image",
-        "description": "",
-        "id": "Color picker lock color type tooltip",
-        "text": "Ekki breyta litategundinni til að passa við myndina"
-    },
-    {
-        "source": "RGB",
-        "description": "",
-        "id": "RGB",
-        "text": "RGB"
-    },
-    {
-        "source": "HSV",
-        "description": "",
-        "id": "HSV",
-        "text": "HSV"
-    },
-    {
-        "source": "Set the color picker sample size",
-        "description": "",
-        "id": "Color picker sample size tooltip",
-        "text": "Stilltu sýnishornastærðina fyrir litapakkann"
-    },
-    {
-        "source": "FPS",
-        "description": "",
-        "id": "FPS",
-        "text": "FPS"
-    },
-    {
-        "source": "Object count",
-        "description": "",
-        "id": "Object count",
-        "text": "Hlutatölur"
-    },
-    {
-        "source": "Widget count",
-        "description": "",
-        "id": "Widget count",
-        "text": "Búnaður telja"
-    },
-    {
-        "source": "Hover",
-        "description": "",
-        "id": "Hover",
-        "text": "Sveima"
-    },
-    {
-        "source": "None",
-        "description": "",
-        "id": "None",
-        "text": "Enginn"
-    },
-    {
-        "source": "Grab",
-        "description": "",
-        "id": "Grab",
-        "text": "Grípa"
-    },
-    {
-        "source": "Key grab",
-        "description": "",
-        "id": "Key grab",
-        "text": "Lykill grípa"
-    },
-    {
-        "source": "Font system glyph cache",
-        "description": "",
-        "id": "Font system glyph cache",
-        "text": "Leturkerfi gluggaskyndiminni"
-    },
-    {
-        "source": "Thumbnail system information cache",
-        "description": "",
-        "id": "Thumbnail system information cache",
-        "text": "Skyndiminni kerfisupplýsinga"
-    },
-    {
-        "source": "Thumbnail system image cache",
-        "description": "",
-        "id": "Thumbnail system image cache",
-        "text": "Skyndiminni kerfis myndaskyndiminni"
-    },
-    {
-        "source": "Icon system cache",
-        "description": "",
-        "id": "Icon system cache",
-        "text": "Táknmynd kerfis skyndiminni"
-    },
-    {
-        "source": "Texture atlas",
-        "description": "",
-        "id": "Texture atlas",
-        "text": "Áferðarsvæði"
-    },
-    {
-        "source": "Dynamic texture count",
-        "description": "",
-        "id": "Dynamic texture count",
-        "text": "Dynamic texture count"
-    },
-    {
-        "source": "VBO size",
-        "description": "",
-        "id": "VBO size",
-        "text": "VBO stærð"
-    },
-    {
-        "source": "Video queue",
-        "description": "",
-        "id": "Video queue",
-        "text": "Video biðröð"
-    },
-    {
-        "source": "Audio queue",
-        "description": "",
-        "id": "Audio queue",
-        "text": "Audio hala"
-    },
-    {
-        "source": "OpenAL queue",
-        "description": "",
-        "id": "OpenAL queue",
-        "text": "OpenAL biðröð"
-    },
-    {
-        "source": "Current time",
-        "description": "",
-        "id": "Current time",
-        "text": "Núverandi tími"
-    },
-    {
-        "source": "Debug",
-        "description": "",
-        "id": "Debug",
-        "text": "Kemba"
-    },
-    {
-        "source": "General",
-        "description": "",
-        "id": "General",
-        "text": "Almennt"
-    },
-    {
-        "source": "Render",
-        "description": "",
-        "id": "Render",
-        "text": "Render"
-    },
-    {
-        "source": "Media",
-        "description": "",
-        "id": "Media",
-        "text": "Media"
-    },
-    {
-        "source": "Sequences",
-        "description": "",
-        "id": "Sequences",
-        "text": "Sequences"
-    },
-    {
-        "source": "File",
-        "description": "",
-        "id": "File",
-        "text": "Skrá"
-    },
-    {
-        "source": "Auto-detect file sequences",
-        "description": "",
-        "id": "Auto-detect file sequences",
-        "text": "Sjálfvirk uppgötvun skrárnar"
-    },
-    {
-        "source": "Memory Cache",
-        "description": "",
-        "id": "Memory Cache",
-        "text": "Minnisskyndiminni"
-    },
-    {
-        "source": "Enabled",
-        "description": "",
-        "id": "Enabled",
-        "text": "Virkja"
-    },
-    {
-        "source": "Gigabytes",
-        "description": "",
-        "id": "Gigabytes",
-        "text": "Gígabæta"
-    },
-    {
-        "source": "Documentation",
-        "description": "",
-        "id": "Documentation",
-        "text": "Skjalfesting"
-    },
-    {
-        "source": "About",
-        "description": "",
-        "id": "About",
-        "text": "Um"
-    },
-    {
-        "source": "System Log",
-        "description": "",
-        "id": "System Log",
-        "text": "Kerfisskrá"
-    },
-    {
-        "source": "Debug Widget",
-        "description": "",
-        "id": "Debug Widget",
-        "text": "Debug Widget"
-    },
-    {
-        "source": "Help",
-        "description": "",
-        "id": "Help",
-        "text": "Hjálp"
-    },
-    {
-        "source": "Forward",
-        "description": "",
-        "id": "Forward",
-        "text": "Áfram"
-    },
-    {
-        "source": "Start forward playback",
-        "description": "",
-        "id": "Forward tooltip",
-        "text": "Hefja spilun áfram"
-    },
-    {
-        "source": "Reverse",
-        "description": "",
-        "id": "Reverse",
-        "text": "Aftur"
-    },
-    {
-        "source": "Start reverse playback",
-        "description": "",
-        "id": "Reverse tooltip",
-        "text": "Byrjaðu afturspilun"
-    },
-    {
-        "source": "Play Once",
-        "description": "",
-        "id": "Play Once",
-        "text": "Spila einu sinni"
-    },
-    {
-        "source": "Play the file once and then stop playback",
-        "description": "",
-        "id": "Play once tooltip",
-        "text": "Spila skrána einu sinni og þá hætta að spila"
-    },
-    {
-        "source": "Loop",
-        "description": "",
-        "id": "Loop",
-        "text": "Loop"
-    },
-    {
-        "source": "Play the file over and over again",
-        "description": "",
-        "id": "Loop tooltip",
-        "text": "Spila skrána aftur og aftur"
-    },
-    {
-        "source": "Ping Pong",
-        "description": "",
-        "id": "Ping Pong",
-        "text": "Borðtennis"
-    },
-    {
-        "source": "Play the file forwards and then backwards",
-        "description": "",
-        "id": "Ping pong tooltip",
-        "text": "Spila skráin áfram og síðan aftur á bak"
-    },
-    {
-        "source": "Play Every Frame",
-        "description": "",
-        "id": "Play Every Frame",
-        "text": "Spila hvert ramma"
-    },
-    {
-        "source": "Play every frame even if the proper speed cannot be maintained",
-        "description": "",
-        "id": "Play every frame tooltip",
-        "text": "Spila hvert ramma, jafnvel þó að ekki sé hægt að viðhalda réttum hraða"
-    },
-    {
-        "source": "Go to In Point",
-        "description": "",
-        "id": "Go to In Point",
-        "text": "Farðu í punkt"
-    },
-    {
-        "source": "Go to the playback in point",
-        "description": "",
-        "id": "Go to in point tooltip",
-        "text": "Farðu í spilunina í punktinum"
-    },
-    {
-        "source": "Go to Out Point",
-        "description": "",
-        "id": "Go to Out Point",
-        "text": "Fara í útpunkt"
-    },
-    {
-        "source": "Go to the playback out point",
-        "description": "",
-        "id": "Go to out point tooltip",
-        "text": "Fara á spilun út lið"
-    },
-    {
-        "source": "Go to Start Frame",
-        "description": "",
-        "id": "Go to Start Frame",
-        "text": "Farðu í Start Frame"
-    },
-    {
-        "source": "Go to the start frame",
-        "description": "",
-        "id": "Go to start frame tooltip",
-        "text": "Fara í upphafsramma"
-    },
-    {
-        "source": "Go to End Frame",
-        "description": "",
-        "id": "Go to End Frame",
-        "text": "Farið í Loka ramma"
-    },
-    {
-        "source": "Go to the end frame",
-        "description": "",
-        "id": "Go to end frame tooltip",
-        "text": "Farðu í lokaramma"
-    },
-    {
-        "source": "Next Frame",
-        "description": "",
-        "id": "Next Frame",
-        "text": "Næsta ramma"
-    },
-    {
-        "source": "Go to the next frame",
-        "description": "",
-        "id": "Next frame tooltip",
-        "text": "Fara í næstu ramma"
-    },
-    {
-        "source": "Next Frame X10",
-        "description": "",
-        "id": "Next Frame X10",
-        "text": "Næsta rammi X10"
-    },
-    {
-        "source": "Skip forward 10 frames",
-        "description": "",
-        "id": "Next frame X10 tooltip",
-        "text": "Slepptu áfram 10 rammar"
-    },
-    {
-        "source": "Next Frame X100",
-        "description": "",
-        "id": "Next Frame X100",
-        "text": "Næsta ramma X100"
-    },
-    {
-        "source": "Skip forward 100 frames",
-        "description": "",
-        "id": "Next frame X100 tooltip",
-        "text": "Hoppa fram 100 rammar"
-    },
-    {
-        "source": "Previous Frame",
-        "description": "",
-        "id": "Previous Frame",
-        "text": "Fyrri ramma"
-    },
-    {
-        "source": "Go to the previous frame",
-        "description": "",
-        "id": "Previous frame tooltip",
-        "text": "Fara í fyrri ramma"
-    },
-    {
-        "source": "Previous Frame X10",
-        "description": "",
-        "id": "Previous Frame X10",
-        "text": "Fyrri ramma X10"
-    },
-    {
-        "source": "Skip backwards 10 frames",
-        "description": "",
-        "id": "Previous frame X10 tooltip",
-        "text": "Hoppa til baka 10 rammar"
-    },
-    {
-        "source": "Previous Frame X100",
-        "description": "",
-        "id": "Previous Frame X100",
-        "text": "Fyrri ramma X100"
-    },
-    {
-        "source": "Skip backwards 100 frames",
-        "description": "",
-        "id": "Previous frame X100 tooltip",
-        "text": "Hoppa til baka 100 rammar"
-    },
-    {
-        "source": "Enable In/Out Points",
-        "description": "",
-        "id": "Enable In/Out Points",
-        "text": "Virkja inn / út stig"
-    },
-    {
-        "source": "Enable the in/out points",
-        "description": "",
-        "id": "Enable in/out points tooltip",
-        "text": "Virkja inn / út stig"
-    },
-    {
-        "source": "Set In Point",
-        "description": "",
-        "id": "Set In Point",
-        "text": "Setja í punkt"
-    },
-    {
-        "source": "Set the playback in point",
-        "description": "",
-        "id": "Set in point tooltip",
-        "text": "Stilltu spilunina á sinn stað"
-    },
-    {
-        "source": "Set Out Point",
-        "description": "",
-        "id": "Set Out Point",
-        "text": "Setja út punkt"
-    },
-    {
-        "source": "Set the playback out point",
-        "description": "",
-        "id": "Set out point tooltip",
-        "text": "Stilltu spilunarpunktinn"
-    },
-    {
-        "source": "Reset In Point",
-        "description": "",
-        "id": "Reset In Point",
-        "text": "Endurstilla í punkti"
-    },
-    {
-        "source": "Reset the playback in point",
-        "description": "",
-        "id": "Reset in point tooltip",
-        "text": "Endurstilla spilunina í punkti"
-    },
-    {
-        "source": "Reset Out Point",
-        "description": "",
-        "id": "Reset Out Point",
-        "text": "Endurstilla útpunkt"
-    },
-    {
-        "source": "Reset the playback out point",
-        "description": "",
-        "id": "Reset out point tooltip",
-        "text": "Endurstilla spilunarpunktinn"
-    },
-    {
-        "source": "Playback",
-        "description": "",
-        "id": "Playback",
-        "text": "Spilun"
-    },
-    {
-        "source": "Histogram",
-        "description": "",
-        "id": "Histogram",
-        "text": "Histogram"
-    },
-    {
-        "source": "Open",
-        "description": "",
-        "id": "Open",
-        "text": "Opna"
-    },
-    {
-        "source": "Open a new file",
-        "description": "",
-        "id": "Open tooltip",
-        "text": "Opnaðu nýja skrá"
-    },
-    {
-        "source": "Recent",
-        "description": "",
-        "id": "Recent",
-        "text": "Nýleg"
-    },
-    {
-        "source": "Show the recently opened files",
-        "description": "",
-        "id": "Recent tooltip",
-        "text": "Sýna nýlega opnaða skrár"
-    },
-    {
-        "source": "Reload",
-        "description": "",
-        "id": "Reload",
-        "text": "Endurhlaða"
-    },
-    {
-        "source": "Reload the current file",
-        "description": "",
-        "id": "Reload tooltip",
-        "text": "Endurnýja núverandi skrá"
-    },
-    {
-        "source": "Close",
-        "description": "",
-        "id": "Close",
-        "text": "Loka"
-    },
-    {
-        "source": "Close the current file",
-        "description": "",
-        "id": "Close tooltip",
-        "text": "Lokaðu núverandi skrá"
-    },
-    {
-        "source": "Close All",
-        "description": "",
-        "id": "Close All",
-        "text": "Lokaðu öllum"
-    },
-    {
-        "source": "Close all open files",
-        "description": "",
-        "id": "Close all tooltip",
-        "text": "Lokaðu öllum opnum skrám"
-    },
-    {
-        "source": "Export",
-        "description": "",
-        "id": "Export",
-        "text": "Útflutningur"
-    },
-    {
-        "source": "Export the file",
-        "description": "",
-        "id": "Export tooltip",
-        "text": "Flytja út skrána"
-    },
-    {
-        "source": "Next",
-        "description": "",
-        "id": "Next",
-        "text": "Næst"
-    },
-    {
-        "source": "Go to the next file",
-        "description": "",
-        "id": "Next tooltip",
-        "text": "Farðu í næstu skrá"
-    },
-    {
-        "source": "Previous",
-        "description": "",
-        "id": "Previous",
-        "text": "Fyrri"
-    },
-    {
-        "source": "Go to the previous file",
-        "description": "",
-        "id": "Prev tooltip",
-        "text": "Farðu í fyrri skrána"
-    },
-    {
-        "source": "Layers Widget",
-        "description": "",
-        "id": "Layers Widget",
-        "text": "Layer Búnaður"
-    },
-    {
-        "source": "Show the layers widget",
-        "description": "",
-        "id": "Layers widget tooltip",
-        "text": "Sýna lagagræju"
-    },
-    {
-        "source": "Next layer",
-        "description": "",
-        "id": "Next layer",
-        "text": "Næsta lag"
-    },
-    {
-        "source": "Go to the next layer",
-        "description": "",
-        "id": "Next layer tooltip",
-        "text": "Fara á næsta lag"
-    },
-    {
-        "source": "Previous Layer",
-        "description": "",
-        "id": "Previous Layer",
-        "text": "Fyrri lag"
-    },
-    {
-        "source": "Go to the previous layer",
-        "description": "",
-        "id": "Previous layer tooltip",
-        "text": "Farið í fyrri lagið"
-    },
-    {
-        "source": "8-Bit Conversion",
-        "description": "",
-        "id": "8-Bit Conversion",
-        "text": "8-bita viðskipta"
-    },
-    {
-        "source": "Down convert files to 8-bits to conserve memory",
-        "description": "",
-        "id": "8-bit conversion tooltip",
-        "text": "Niður umbreyta skrá til 8-bits til að varðveita minni"
-    },
-    {
-        "source": "Show the memory cache settings",
-        "description": "",
-        "id": "Memory cache tooltip",
-        "text": "Sýna stillingar minni skyndiminni"
-    },
-    {
-        "source": "Exit",
-        "description": "",
-        "id": "Exit",
-        "text": "Hætta"
-    },
-    {
-        "source": "Exit the application",
-        "description": "",
-        "id": "Exit tooltip",
-        "text": "Hætta umsókninni"
-    },
-    {
-        "source": "Aspect Ratio",
-        "description": "",
-        "id": "Aspect Ratio",
-        "text": "Stærðarhlutföll"
-    },
-    {
-        "source": "Image",
-        "description": "",
-        "id": "Image",
-        "text": "Mynd"
-    },
-    {
-        "source": "Rotate",
-        "description": "",
-        "id": "Rotate",
-        "text": "Snúa"
-    },
-    {
-        "source": "Maximize the current window",
-        "description": "",
-        "id": "Maximize tooltip",
-        "text": "Hámarka núverandi glugga"
-    },
-    {
-        "source": "Show the playback speed settings",
-        "description": "",
-        "id": "Speed popup tooltip",
-        "text": "Sýna stillingar fyrir spilunarhraða"
-    },
-    {
-        "source": "The actual playback speed",
-        "description": "",
-        "id": "Real speed tooltip",
-        "text": "Raunverulegur spilunarhraði"
-    },
-    {
-        "source": "The current time",
-        "description": "",
-        "id": "Current time tooltip",
-        "text": "Núverandi tími"
-    },
-    {
-        "source": "The playback duration",
-        "description": "",
-        "id": "Duration tooltip",
-        "text": "Spilunartími"
-    },
-    {
-        "source": "Set the audio volume",
-        "description": "",
-        "id": "Volume tooltip",
-        "text": "Stilltu hljóðstyrkinn"
-    },
-    {
-        "source": "Show the audio settings",
-        "description": "",
-        "id": "Audio popup tooltip",
-        "text": "Sýna hljóðstillingar"
-    },
-    {
-        "source": "Set the memory cache size in gigabytes",
-        "description": "",
-        "id": "Memory cache maximum tooltip",
-        "text": "Stilltu minni skyndiminni í gígabæta"
-    },
-    {
-        "source": "Enable the memory cache",
-        "description": "",
-        "id": "Memory cache enabled tooltip",
-        "text": "Virkja minnisskyndiminnið"
-    },
-    {
-        "source": "Default",
-        "description": "",
-        "id": "Default",
-        "text": "Sjálfgefið"
-    },
-    {
-        "source": "Play every frame",
-        "description": "",
-        "id": "Play every frame",
-        "text": "Spila hvert ramma"
-    },
-    {
-        "source": "Background Color",
-        "description": "",
-        "id": "Background Color",
-        "text": "Bakgrunns litur"
-    },
-    {
-        "source": "View",
-        "description": "",
-        "id": "View",
-        "text": "Útsýni"
-    },
-    {
-        "source": "Information",
-        "description": "",
-        "id": "Information",
-        "text": "Upplýsingar"
-    },
-    {
-        "source": "File name",
-        "description": "",
-        "id": "File name",
-        "text": "Skráarnafn"
-    },
-    {
-        "source": "Name",
-        "description": "",
-        "id": "Name",
-        "text": "Nafn"
-    },
-    {
-        "source": "Size",
-        "description": "",
-        "id": "Size",
-        "text": "Stærð"
-    },
-    {
-        "source": "Type",
-        "description": "",
-        "id": "Type",
-        "text": "Tegund"
-    },
-    {
-        "source": "Speed",
-        "description": "",
-        "id": "Speed",
-        "text": "Hraði"
-    },
-    {
-        "source": "Duration",
-        "description": "",
-        "id": "Duration",
-        "text": "Lengd"
-    },
-    {
-        "source": "Codec",
-        "description": "",
-        "id": "Codec",
-        "text": "Codec"
-    },
-    {
-        "source": "Video track",
-        "description": "",
-        "id": "Video track",
-        "text": "Video lag"
-    },
-    {
-        "source": "Channels",
-        "description": "",
-        "id": "Channels",
-        "text": "Rásir"
-    },
-    {
-        "source": "kHz",
-        "description": "",
-        "id": "kHz",
-        "text": "kHz"
-    },
-    {
-        "source": "Sample rate",
-        "description": "",
-        "id": "Sample rate",
-        "text": "Sýnishorn"
-    },
-    {
-        "source": "Audio track",
-        "description": "",
-        "id": "Audio track",
-        "text": "Hljóðskrá"
-    },
-    {
-        "source": "Tags",
-        "description": "",
-        "id": "Tags",
-        "text": "Tags"
-    },
-    {
-        "source": "Layers",
-        "description": "",
-        "id": "Layers",
-        "text": "Lag"
-    },
-    {
-        "source": "Magnify",
-        "description": "",
-        "id": "Magnify",
-        "text": "Stækka"
-    },
-    {
-        "source": "Activate the magnify tool",
-        "description": "",
-        "id": "Magnify tooltip",
-        "text": "Virkjaðu stækkunar tólið"
-    },
-    {
-        "source": "Zoom into the image",
-        "description": "",
-        "id": "Magnify zoom in tooltip",
-        "text": "Skoðuð inn í myndina"
-    },
-    {
-        "source": "Zoom out of the image",
-        "description": "",
-        "id": "Magnify zoom out tooltip",
-        "text": "Zoomaðu út úr myndinni"
-    },
-    {
-        "source": "NUX",
-        "description": "",
-        "id": "NUX",
-        "text": "NUX"
-    },
-    {
-        "source": "Enable new-user experience on startup",
-        "description": "",
-        "id": "Enable new-user experience on startup",
-        "text": "Gera kleift nýtt notandi reynsla við ræsingu"
-    },
-    {
-        "source": "Choose your language",
-        "description": "",
-        "id": "Choose your language",
-        "text": "Veldu tungumálið þitt"
-    },
-    {
-        "source": "Choose a user interface size",
-        "description": "",
-        "id": "Choose a user interface size",
-        "text": "Veldu stærð notendaviðmóts"
-    },
-    {
-        "source": "Choose a palette",
-        "description": "",
-        "id": "Choose a palette",
-        "text": "Veldu stiku"
-    },
-    {
-        "source": "Finish",
-        "description": "",
-        "id": "Finish",
-        "text": "Klára"
-    },
-    {
-        "source": "Show timeline PIP",
-        "description": "",
-        "id": "Show timeline PIP",
-        "text": "Sýna tímalínu PIP"
-    },
-    {
-        "source": "Recent Files",
-        "description": "",
-        "id": "Recent Files",
-        "text": "Nýlegar skrár"
-    },
-    {
-        "source": "Increase Thumbnail Size",
-        "description": "",
-        "id": "Increase Thumbnail Size",
-        "text": "Auka smámyndir Stærð"
-    },
-    {
-        "source": "Increase the size of the thumbnails",
-        "description": "",
-        "id": "Recent files increase thumbnail size tooltip",
-        "text": "Stækka stærð smámyndirnar"
-    },
-    {
-        "source": "Decrease Thumbnail Size",
-        "description": "",
-        "id": "Decrease Thumbnail Size",
-        "text": "Minnkaðu smámyndir stærð"
-    },
-    {
-        "source": "Decrease the size of the thumbnails",
-        "description": "",
-        "id": "Recent files decrease thumbnail size tooltip",
-        "text": "Minnka stærð smámyndirnar"
-    },
-    {
-        "source": "Search the recent files",
-        "description": "",
-        "id": "Recent files search tooltip",
-        "text": "Leitaðu að nýlegum skrám"
-    },
-    {
-        "source": "Show the recent files settings",
-        "description": "",
-        "id": "Recent files settings tooltip",
-        "text": "Sýna nýlegar skráarstillingar"
-    },
-    {
-        "source": "Items",
-        "description": "",
-        "id": "Items",
-        "text": "Hlutir"
-    },
-    {
-        "source": "Settings",
-        "description": "",
-        "id": "Settings",
-        "text": "Stillingar"
-    },
-    {
-        "source": "Copy",
-        "description": "",
-        "id": "Copy",
-        "text": "Afrita"
-    },
-    {
-        "source": "Clear",
-        "description": "",
-        "id": "Clear",
-        "text": "Hreinsa"
-    },
-    {
-        "source": "Tools",
-        "description": "",
-        "id": "Tools",
-        "text": "Verkfæri"
-    },
-    {
-        "source": "Information Widget",
-        "description": "",
-        "id": "Information Widget",
-        "text": "Upplýsingar Widget"
-    },
-    {
-        "source": "Show the information widget",
-        "description": "",
-        "id": "Information widget tooltip",
-        "text": "Sýna upplýsingagræju"
-    },
-    {
-        "source": "Auto Hide",
-        "description": "",
-        "id": "Auto Hide",
-        "text": "Auto Fela"
-    },
-    {
-        "source": "Automatically hide the user interface",
-        "description": "",
-        "id": "Automatically hide the user interface",
-        "text": "Fela sjálfkrafa notendaviðmótið"
-    },
-    {
-        "source": "Background Image",
-        "description": "",
-        "id": "Background Image",
-        "text": "Bakgrunnsmynd"
-    },
-    {
-        "source": "Window",
-        "description": "",
-        "id": "Window",
-        "text": "Gluggi"
-    },
-    {
-        "source": "Open the file browser",
-        "description": "",
-        "id": "Open the file browser",
-        "text": "Opnaðu vafrann"
-    },
-    {
-        "source": "Clear the background image",
-        "description": "",
-        "id": "Clear the background image",
-        "text": "Hreinsaðu bakgrunnsmyndina"
-    },
-    {
-        "source": "Colorize with the UI style",
-        "description": "",
-        "id": "Colorize with the UI style",
-        "text": "Litaðu með UI stíl"
-    },
-    {
-        "source": "Full Screen",
-        "description": "",
-        "id": "Full Screen",
-        "text": "Fullskjár"
-    },
-    {
-        "source": "Toggle full screen mode",
-        "description": "",
-        "id": "Full screen tooltip",
-        "text": "Skiptu um allan skjástillingu"
-    },
-    {
-        "source": "Maximized",
-        "description": "",
-        "id": "Maximized",
-        "text": "Hámarkað"
-    },
-    {
-        "source": "Maximize the window",
-        "description": "",
-        "id": "Maximized tooltip",
-        "text": "Hámarkaðu gluggann"
-    },
-    {
-        "source": "DJV Imaging",
-        "description": "",
-        "id": "About Title",
-        "text": "DJV Imaging"
-    },
-    {
-        "source": "Credits",
-        "description": "",
-        "id": "Credits",
-        "text": "Credits"
-    },
-    {
-        "source": "Sponsors",
-        "description": "",
-        "id": "Sponsors",
-        "text": "Styrktaraðilar"
-    },
-    {
-        "source": "License",
-        "description": "",
-        "id": "License",
-        "text": "Leyfi"
-    },
-    {
-        "source": "Copyright",
-        "description": "",
-        "id": "Copyright",
-        "text": "Höfundarréttur"
-    },
-    {
-        "source": "Third Party Software",
-        "description": "",
-        "id": "Third Party",
-        "text": "Hugbúnaður þriðja aðila"
-    },
-    {
-        "source": "Trademarks",
-        "description": "",
-        "id": "Trademarks",
-        "text": "Vörumerki"
-    },
-    {
-        "source": "Darby Johnston",
-        "description": "",
-        "id": "Credits Darby Johnston",
-        "language": "en",
-        "text": "Darby Johnston"
-    },
-    {
-        "source": "Principal author",
-        "description": "",
-        "id": "Credits Darby Johnston Text",
-        "text": "Höfundur höfundar"
-    },
-    {
-        "source": "Kent Oberheu, https://semafore.com",
-        "description": "",
-        "id": "Credits Kent Oberheu",
-        "language": "en",
-        "text": "Kent Oberheu, https://semafore.com"
-    },
-    {
-        "source": "Identity, iconography, UI / UX design",
-        "description": "",
-        "id": "Credits Kent Oberheu Text",
-        "text": "Auðkenni, helgimynd, hönnun HÍ / UX"
-    },
-    {
-        "source": "Siciliana Johnston",
-        "description": "",
-        "id": "Credits Siciliana Johnston",
-        "language": "en",
-        "text": "Siciliana Johnston"
-    },
-    {
-        "source": "Web design, social media",
-        "description": "",
-        "id": "Credits Siciliana Johnston Text",
-        "text": "Vefhönnun, samfélagsmiðlar"
-    },
-    {
-        "source": "Mikael Sundell",
-        "description": "",
-        "id": "Credits Mikael Sundell",
-        "language": "en",
-        "text": "Mikael Sundell"
-    },
-    {
-        "source": "IFF image file format support, example images",
-        "description": "",
-        "id": "Credits Mikael Sundell Text",
-        "text": "IFF ímynd skráarsniðs stuðnings, dæmi um myndir"
-    },
-    {
-        "source": "unexpected GmbH, https://www.unexpected.de",
-        "description": "",
-        "id": "Sponsors unexpected",
-        "language": "en",
-        "text": "unexpected GmbH, https://www.unexpected.de"
-    },
-    {
-        "source": "Copyright (c) 2004-2020 Darby Johnston, All rights reserved",
-        "description": "",
-        "id": "License 1",
-        "language": "en",
-        "text": "Copyright (c) 2004-2020 Darby Johnston, All rights reserved"
-    },
-    {
-        "source": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:",
-        "description": "",
-        "id": "License 2",
-        "language": "en",
-        "text": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:"
-    },
-    {
-        "source": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.",
-        "description": "",
-        "id": "License 3",
-        "language": "en",
-        "text": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer."
-    },
-    {
-        "source": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.",
-        "description": "",
-        "id": "License 4",
-        "language": "en",
-        "text": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution."
-    },
-    {
-        "source": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.",
-        "description": "",
-        "id": "License 5",
-        "language": "en",
-        "text": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission."
-    },
-    {
-        "source": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.",
-        "description": "",
-        "id": "License 6",
-        "language": "en",
-        "text": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
-    },
-    {
-        "source": "Portions of this software are copyright (in alphabetical order):",
-        "description": "",
-        "id": "Copyright Text",
-        "text": "Hlutar af þessari hugbúnaði eru höfundarréttur (í stafrófsröð):"
-    },
-    {
-        "source": "* Copyright (c) 2004-2020 Darby Johnston, All rights reserved",
-        "description": "",
-        "id": "Copyright Darby Johnston",
-        "language": "en",
-        "text": "* Copyright (c) 2004-2020 Darby Johnston, All rights reserved"
-    },
-    {
-        "source": "* Copyright (c) 2019 Kent Oberheu, All rights reserved",
-        "description": "",
-        "id": "Copyright Kent Oberheu",
-        "language": "en",
-        "text": "* Copyright (c) 2019 Kent Oberheu, All rights reserved"
-    },
-    {
-        "source": "* Copyright (c) 2008-2009 Mikael Sundell, All rights reserved",
-        "description": "",
-        "id": "Copyright Mikael Sundell",
-        "language": "en",
-        "text": "* Copyright (c) 2008-2009 Mikael Sundell, All rights reserved"
-    },
-    {
-        "source": "This software is based in part on the works of (in alphabetical order):",
-        "description": "",
-        "id": "Third Party Text",
-        "text": "Þessi hugbúnaður er að hluta til byggður á verkum (í stafrófsröð):"
-    },
-    {
-        "source": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium, All rights reserved",
-        "description": "",
-        "id": "Third Party CMake",
-        "language": "en",
-        "text": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium, All rights reserved"
-    },
-    {
-        "source": "* FFMpeg, http://www.ffmpeg.org, Licensed under the LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html",
-        "description": "",
-        "id": "Third Party FFMpeg",
-        "language": "en",
-        "text": "* FFMpeg, http://www.ffmpeg.org, Licensed under the LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html"
-    },
-    {
-        "source": "* FreeType, http://www.freetype.org, Copyright (c) 2018, The FreeType Project",
-        "description": "",
-        "id": "Third Party FreeType",
-        "language": "en",
-        "text": "* FreeType, http://www.freetype.org, Copyright (c) 2018, The FreeType Project"
-    },
-    {
-        "source": "* GLFW, http://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla Löwy <elmindreda@glfw.org>",
-        "description": "",
-        "id": "Third Party GLFW",
-        "language": "en",
-        "text": "* GLFW, http://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla Löwy <elmindreda@glfw.org>"
-    },
-    {
-        "source": "* GLM, http://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation",
-        "description": "",
-        "id": "Third Party GLM",
-        "language": "en",
-        "text": "* GLM, http://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation"
-    },
-    {
-        "source": "* MbedTLS, http://tls.mbed.org, Copyright © 2008 - 2016 ARM Limited, All rights reserved",
-        "description": "",
-        "id": "Third Party MbedTLS",
-        "language": "en",
-        "text": "* MbedTLS, http://tls.mbed.org, Copyright © 2008 - 2016 ARM Limited, All rights reserved"
-    },
-    {
-        "source": "* OpenAL, http://www.openal.org, Copyright (C) 1999-2000 by Loki Software",
-        "description": "",
-        "id": "Third Party OpenAL",
-        "language": "en",
-        "text": "* OpenAL, http://www.openal.org, Copyright (C) 1999-2000 by Loki Software"
-    },
-    {
-        "source": "* OpenColorIO, http://opencolorio.org, Copyright (c) 2003-2010 Sony Pictures Imageworks Inc., et al., All rights reserved",
-        "description": "",
-        "id": "Third Party OpenColorIO",
-        "language": "en",
-        "text": "* OpenColorIO, http://opencolorio.org, Copyright (c) 2003-2010 Sony Pictures Imageworks Inc., et al., All rights reserved"
-    },
-    {
-        "source": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd.",
-        "description": "",
-        "id": "Third Party OpenEXR",
-        "language": "en",
-        "text": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd."
-    },
-    {
-        "source": "* curl, http://curl.haxx.se/libcurl, Copyright (c) 1996 - 2019, Daniel Stenberg, <daniel@haxx.se>, and many contributors, see the THANKS file",
-        "description": "",
-        "id": "Third Party curl",
-        "language": "en",
-        "text": "* curl, http://curl.haxx.se/libcurl, Copyright (c) 1996 - 2019, Daniel Stenberg, <daniel@haxx.se>, and many contributors, see the THANKS file"
-    },
-    {
-        "source": "* dr_libs, http://github.com/mackron/dr_libs, David Reid",
-        "description": "",
-        "id": "Third Party dr_libs",
-        "language": "en",
-        "text": "* dr_libs, http://github.com/mackron/dr_libs, David Reid"
-    },
-    {
-        "source": "* glad, http://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth",
-        "description": "",
-        "id": "Third Party glad",
-        "language": "en",
-        "text": "* glad, http://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth"
-    },
-    {
-        "source": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding",
-        "description": "",
-        "id": "Third Party libjpeg",
-        "language": "en",
-        "text": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding"
-    },
-    {
-        "source": "* libjpeg-turbo, http://libjpeg-turbo.org, Copyright (C)2009-2019 D. R. Commander, All Rights Reserved, Copyright (C)2015 Viktor Szathmáry, All Rights Reserved",
-        "description": "",
-        "id": "Third Party libjpeg-turbo",
-        "language": "en",
-        "text": "* libjpeg-turbo, http://libjpeg-turbo.org, Copyright (C)2009-2019 D. R. Commander, All Rights Reserved, Copyright (C)2015 Viktor Szathmáry, All Rights Reserved"
-    },
-    {
-        "source": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson",
-        "description": "",
-        "id": "Third Party libpng",
-        "language": "en",
-        "text": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson"
-    },
-    {
-        "source": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc",
-        "description": "",
-        "id": "Third Party libtiff",
-        "language": "en",
-        "text": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc"
-    },
-    {
-        "source": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler",
-        "description": "",
-        "id": "Third Party zlib",
-        "language": "en",
-        "text": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler"
-    },
-    {
-        "source": "Trademarks named in the documentation (in alphabetical order):",
-        "description": "",
-        "id": "Trademarks Text",
-        "text": "Vörumerki heitir í skjölunum (í stafrófsröð):"
-    },
-    {
-        "source": "* Apple, OS X, ProRes, and QuickTime are registered trademarks of Apple, Inc.",
-        "description": "",
-        "id": "Trademarks Apple",
-        "language": "en",
-        "text": "* Apple, OS X, ProRes, and QuickTime are registered trademarks of Apple, Inc."
-    },
-    {
-        "source": "* AMD and ATI are registered trademarks of Advanced Micro Devices, Inc.",
-        "description": "",
-        "id": "Trademarks AMD",
-        "language": "en",
-        "text": "* AMD and ATI are registered trademarks of Advanced Micro Devices, Inc."
-    },
-    {
-        "source": "* Autodesk, Inferno, Maya, Softimage, and XSI are registered trademarks of Autodesk, Inc.",
-        "description": "",
-        "id": "Trademarks Autodesk",
-        "language": "en",
-        "text": "* Autodesk, Inferno, Maya, Softimage, and XSI are registered trademarks of Autodesk, Inc."
-    },
-    {
-        "source": "* Debian is a registered trademark of Software in the Public Interest, Inc.",
-        "description": "",
-        "id": "Trademarks Debian",
-        "language": "en",
-        "text": "* Debian is a registered trademark of Software in the Public Interest, Inc."
-    },
-    {
-        "source": "* FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project",
-        "description": "",
-        "id": "Trademarks FFmpeg",
-        "language": "en",
-        "text": "* FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project"
-    },
-    {
-        "source": "* FreeBSD is a registered trademark of The FreeBSD Foundation",
-        "description": "",
-        "id": "Trademarks FreeBSD",
-        "language": "en",
-        "text": "* FreeBSD is a registered trademark of The FreeBSD Foundation"
-    },
-    {
-        "source": "* Intel is a registered trademark of Intel Corporation",
-        "description": "",
-        "id": "Trademarks Intel",
-        "language": "en",
-        "text": "* Intel is a registered trademark of Intel Corporation"
-    },
-    {
-        "source": "* Industrial Light and Magic and ILM are registered trademarks of Lucasfilm Ltd.",
-        "description": "",
-        "id": "Trademarks Lucasfilm",
-        "language": "en",
-        "text": "* Industrial Light and Magic and ILM are registered trademarks of Lucasfilm Ltd."
-    },
-    {
-        "source": "* Kodak and Cineon are a registered trademarks of the Eastman Kodak Company",
-        "description": "",
-        "id": "Trademarks Kodak",
-        "language": "en",
-        "text": "* Kodak and Cineon are a registered trademarks of the Eastman Kodak Company"
-    },
-    {
-        "source": "* Linux is a registered trademark of Linus Torvalds",
-        "description": "",
-        "id": "Trademarks Linux",
-        "language": "en",
-        "text": "* Linux is a registered trademark of Linus Torvalds"
-    },
-    {
-        "source": "* Microsoft, Microsoft Windows, and Azure are registered trademarks of Microsoft, Inc.",
-        "description": "",
-        "id": "Trademarks Microsoft",
-        "language": "en",
-        "text": "* Microsoft, Microsoft Windows, and Azure are registered trademarks of Microsoft, Inc."
-    },
-    {
-        "source": "* MIPS is a registered trademark of MIPS Technologies, Inc.",
-        "description": "",
-        "id": "Trademarks MIPS",
-        "language": "en",
-        "text": "* MIPS is a registered trademark of MIPS Technologies, Inc."
-    },
-    {
-        "source": "* NVIDIA is a registered trademark of NVIDIA Corporation",
-        "description": "",
-        "id": "Trademarks NVIDIA",
-        "language": "en",
-        "text": "* NVIDIA is a registered trademark of NVIDIA Corporation"
-    },
-    {
-        "source": "* Red Hat and Fedora are registered trademarks of Red Hat, Inc.",
-        "description": "",
-        "id": "Trademarks Red Hat",
-        "language": "en",
-        "text": "* Red Hat and Fedora are registered trademarks of Red Hat, Inc."
-    },
-    {
-        "source": "* Silicon Graphics, SGI, IRIX, and OpenGL are registered trademarks of Silicon Graphics International Corp.",
-        "description": "",
-        "id": "Trademarks SGI",
-        "language": "en",
-        "text": "* Silicon Graphics, SGI, IRIX, and OpenGL are registered trademarks of Silicon Graphics International Corp."
-    },
-    {
-        "source": "* SMPTE is a registered trademark of the Society of Motion Picture and Television Engineers",
-        "description": "",
-        "id": "Trademarks SMPTE",
-        "language": "en",
-        "text": "* SMPTE is a registered trademark of the Society of Motion Picture and Television Engineers"
-    },
-    {
-        "source": "* SourceForge.net is a registered trademark of VA Software Corporation",
-        "description": "",
-        "id": "Trademarks SourceForge",
-        "language": "en",
-        "text": "* SourceForge.net is a registered trademark of VA Software Corporation"
-    },
-    {
-        "source": "* SuSE is a registered trademark of Novell, Inc.",
-        "description": "",
-        "id": "Trademarks SuSE",
-        "language": "en",
-        "text": "* SuSE is a registered trademark of Novell, Inc."
-    },
-    {
-        "source": "* Ubuntu is a registered trademark of Canonical Ltd.",
-        "description": "",
-        "id": "Trademarks Ubuntu",
-        "language": "en",
-        "text": "* Ubuntu is a registered trademark of Canonical Ltd."
-    },
-    {
-        "source": "* UNIX is a registered trademark of The Open Group",
-        "description": "",
-        "id": "Trademarks UNIX",
-        "language": "en",
-        "text": "* UNIX is a registered trademark of The Open Group"
-    },
-    {
-        "source": "All other products named in the documentation are trademarks of their respective owners.",
-        "description": "",
-        "id": "Trademarks End",
-        "text": "Allar aðrar vörur sem nefndar eru í skjölunum eru vörumerki viðkomandi eigenda."
-    },
-    {
-        "source": "Made in Berkeley, CA, USA",
-        "description": "",
-        "id": "Made In",
-        "text": "Made in Berkeley, CA, USA"
-    },
-    {
-        "source": "Cannot parse the value.",
-        "description": "",
-        "id": "Cannot parse the value.",
-        "text": "Ekki er hægt að flokka gildi."
-    },
-    {
-        "source": "Fit",
-        "description": "",
-        "id": "Fit",
-        "text": "Passa"
-    },
-    {
-        "source": "Center",
-        "description": "",
-        "id": "Center",
-        "text": "Miðstöð"
-    },
-    {
-        "source": "0",
-        "description": "",
-        "id": "0",
-        "text": "0"
-    },
-    {
-        "source": "90",
-        "description": "",
-        "id": "90",
-        "text": "90"
-    },
-    {
-        "source": "180",
-        "description": "",
-        "id": "180",
-        "text": "180"
-    },
-    {
-        "source": "270",
-        "description": "",
-        "id": "270",
-        "text": "270"
-    },
-    {
-        "source": "Native",
-        "description": "",
-        "id": "Native",
-        "text": "Native"
-    },
-    {
-        "source": "16:9",
-        "description": "",
-        "id": "16:9",
-        "text": "16: 9"
-    },
-    {
-        "source": "1.85",
-        "description": "",
-        "id": "1.85",
-        "text": "1,85"
-    },
-    {
-        "source": "2.35",
-        "description": "",
-        "id": "2.35",
-        "text": "2,35"
-    },
-    {
-        "source": "Stop",
-        "description": "",
-        "id": "Stop",
-        "text": "Hættu"
-    },
-    {
-        "source": "Once",
-        "description": "",
-        "id": "Once",
-        "text": "Einu sinni"
-    },
-    {
-        "source": "Ping Pong",
-        "description": "",
-        "id": "PingPong",
-        "text": "Borðtennis"
-    },
-    {
-        "source": "Color Space Widget",
-        "description": "",
-        "id": "Color Space Widget",
-        "text": "Litur rúm búnaður"
-    },
-    {
-        "source": "Show the color space widget",
-        "description": "",
-        "id": "Color space widget tooltip",
-        "text": "Sýna litavalbúnaðinn"
-    },
-    {
-        "source": "Red Channel",
-        "description": "",
-        "id": "Red Channel",
-        "text": "Red Channel"
-    },
-    {
-        "source": "Show the red channel",
-        "description": "",
-        "id": "Red channel tooltip",
-        "text": "Sýna rauðu rásina"
-    },
-    {
-        "source": "Green Channel",
-        "description": "",
-        "id": "Green Channel",
-        "text": "Grænn rás"
-    },
-    {
-        "source": "Show the green channel",
-        "description": "",
-        "id": "Green channel tooltip",
-        "text": "Sýna græna rásina"
-    },
-    {
-        "source": "Blue Channel",
-        "description": "",
-        "id": "Blue Channel",
-        "text": "Blue Channel"
-    },
-    {
-        "source": "Show the blue channel",
-        "description": "",
-        "id": "Blue channel tooltip",
-        "text": "Sýna bláu rásina"
-    },
-    {
-        "source": "Alpha Channel",
-        "description": "",
-        "id": "Alpha Channel",
-        "text": "Alpha Channel"
-    },
-    {
-        "source": "Show the alpha channel",
-        "description": "",
-        "id": "Alpha channel tooltip",
-        "text": "Sýna alfa rásina"
-    },
-    {
-        "source": "Premultiplied Alpha",
-        "description": "",
-        "id": "Premultiplied Alpha",
-        "text": "Premultiplied Alpha"
-    },
-    {
-        "source": "Premultiply the color channels by the alpha channel",
-        "description": "",
-        "id": "Premultiplied alpha tooltip",
-        "text": "Fyrst er litastöðvarnar með alfa rásinni"
-    },
-    {
-        "source": "Mirror Horizontal",
-        "description": "",
-        "id": "Mirror Horizontal",
-        "text": "Mirror Lárétt"
-    },
-    {
-        "source": "Mirror the image horizontally",
-        "description": "",
-        "id": "Mirror horizontal tooltip",
-        "text": "Spegla myndina lárétt"
-    },
-    {
-        "source": "Mirror Vertical",
-        "description": "",
-        "id": "Mirror Vertical",
-        "text": "Spegill lóðrétt"
-    },
-    {
-        "source": "Mirror the image vertically",
-        "description": "",
-        "id": "Mirror vertical tooltip",
-        "text": "Spegla myndina lóðrétt"
-    },
-    {
-        "source": "Rotate 0",
-        "description": "",
-        "id": "Rotate 0",
-        "text": "Snúðu 0"
-    },
-    {
-        "source": "Rotate the image 0 degrees",
-        "description": "",
-        "id": "Rotate 0 tooltip",
-        "text": "Snúðu myndinni 0 gráður"
-    },
-    {
-        "source": "Rotate 90",
-        "description": "",
-        "id": "Rotate 90",
-        "text": "Snúa 90"
-    },
-    {
-        "source": "Rotate the image 90 degrees",
-        "description": "",
-        "id": "Rotate 90 tooltip",
-        "text": "Snúðu myndinni 90 gráður"
-    },
-    {
-        "source": "Rotate 180",
-        "description": "",
-        "id": "Rotate 180",
-        "text": "Snúa 180"
-    },
-    {
-        "source": "Rotate the image 180 degrees",
-        "description": "",
-        "id": "Rotate 180 tooltip",
-        "text": "Snúðu myndinni 180 gráður"
-    },
-    {
-        "source": "Rotate 270",
-        "description": "",
-        "id": "Rotate 270",
-        "text": "Snúa 270"
-    },
-    {
-        "source": "Rotate the image 270 degrees",
-        "description": "",
-        "id": "Rotate 270 tooltip",
-        "text": "Snúðu myndinni 270 gráður"
-    },
-    {
-        "source": "Native Aspect Ratio",
-        "description": "",
-        "id": "Native Aspect Ratio",
-        "text": "Native aspect ratio"
-    },
-    {
-        "source": "Show the image at it's native resolution",
-        "description": "",
-        "id": "Native aspect ratio tooltip",
-        "text": "Sýna myndina með eigin upplausn"
-    },
-    {
-        "source": "Default Aspect Ratio",
-        "description": "",
-        "id": "Default Aspect Ratio",
-        "text": "Sjálfgefið hlutföll"
-    },
-    {
-        "source": "Show the image at it's intended resolution",
-        "description": "",
-        "id": "Default aspect ratio tooltip",
-        "text": "Sýnið myndina með fyrirhuguðum upplausn"
-    },
-    {
-        "source": "Show the image with a 16:9 aspect ratio",
-        "description": "",
-        "id": "16:9 aspect ratio tooltip",
-        "text": "Sýnið myndina með 16: 9 hlutföllum"
-    },
-    {
-        "source": "Show the image with a 1.85 aspect ratio",
-        "description": "",
-        "id": "1.85 aspect ratio tooltip",
-        "text": "Sýnið myndina með 1,85 hlutföllum"
-    },
-    {
-        "source": "Show the image with a 2.35 aspect ratio",
-        "description": "",
-        "id": "2.35 aspect ratio tooltip",
-        "text": "Sýnið myndina með 2,35 hlutföllum"
-    },
-    {
-        "source": "Frame Store",
-        "description": "",
-        "id": "Frame Store",
-        "text": "Frame Store"
-    },
-    {
-        "source": "Show the frame store",
-        "description": "",
-        "id": "Frame store tooltip",
-        "text": "Sýna rammaverslunina"
-    },
-    {
-        "source": "Load Frame Store",
-        "description": "",
-        "id": "Load Frame Store",
-        "text": "Hlaða rammaverslun"
-    },
-    {
-        "source": "Load the current frame into the frame store",
-        "description": "",
-        "id": "Load frame store tooltip",
-        "text": "Hlaða núverandi ramma inn í rammaverslunina"
-    },
-    {
-        "source": "Pan View",
-        "description": "",
-        "id": "Pan View",
-        "text": "Pan View"
-    },
-    {
-        "source": "Activate the pan view tool",
-        "description": "",
-        "id": "Pan view tooltip",
-        "text": "Virkjaðu pökkunarvélin"
-    },
-    {
-        "source": "Left",
-        "description": "",
-        "id": "Left",
-        "text": "Vinstri"
-    },
-    {
-        "source": "Move the view left",
-        "description": "",
-        "id": "Left tooltip",
-        "text": "Færðu myndina til vinstri"
-    },
-    {
-        "source": "Right",
-        "description": "",
-        "id": "Right",
-        "text": "Hægri"
-    },
-    {
-        "source": "Move the view right",
-        "description": "",
-        "id": "Right tooltip",
-        "text": "Færðu sýnin rétt"
-    },
-    {
-        "source": "Up",
-        "description": "",
-        "id": "Up",
-        "text": "Upp"
-    },
-    {
-        "source": "Move the view up",
-        "description": "",
-        "id": "Up tooltip",
-        "text": "Færðu sýnina upp"
-    },
-    {
-        "source": "Down",
-        "description": "",
-        "id": "Down",
-        "text": "Niður"
-    },
-    {
-        "source": "Move the view down",
-        "description": "",
-        "id": "Down tooltip",
-        "text": "Færðu skjáinn niður"
-    },
-    {
-        "source": "North West",
-        "description": "",
-        "id": "North West",
-        "text": "norðvestur"
-    },
-    {
-        "source": "Move the view Northwest",
-        "description": "",
-        "id": "North west tooltip",
-        "text": "Færðu útsýni norður vestur"
-    },
-    {
-        "source": "North East",
-        "description": "",
-        "id": "North East",
-        "text": "Norður-Austurlöndum"
-    },
-    {
-        "source": "North the view Northeast",
-        "description": "",
-        "id": "North east tooltip",
-        "text": "Norður útsýni norðaustur"
-    },
-    {
-        "source": "South east",
-        "description": "",
-        "id": "South east",
-        "text": "Suður austur"
-    },
-    {
-        "source": "Move the view Southeast",
-        "description": "",
-        "id": "South east tooltip",
-        "text": "Færðu sýnina Suðaustur"
-    },
-    {
-        "source": "South West",
-        "description": "",
-        "id": "South West",
-        "text": "South West"
-    },
-    {
-        "source": "Move the view Southwest",
-        "description": "",
-        "id": "South west tooltip",
-        "text": "Færðu sýnin Southwest"
-    },
-    {
-        "source": "Zoom In",
-        "description": "",
-        "id": "Zoom In",
-        "text": "Zoom inn"
-    },
-    {
-        "source": "Zoom the view in",
-        "description": "",
-        "id": "Zoom in tooltip",
-        "text": "Stækka aðdráttinn"
-    },
-    {
-        "source": "Zoom Out",
-        "description": "",
-        "id": "Zoom Out",
-        "text": "Zoom út"
-    },
-    {
-        "source": "Zoom the view out",
-        "description": "",
-        "id": "Zoom out tooltip",
-        "text": "Aðdráttur útsýnið"
-    },
-    {
-        "source": "Fit To Image",
-        "description": "",
-        "id": "Fit To Image",
-        "text": "Passa við myndina"
-    },
-    {
-        "source": "Fit the image to the window",
-        "description": "",
-        "id": "Fit to image tooltip",
-        "text": "Passaðu myndina í glugganum"
-    },
-    {
-        "source": "Center the image in the window with a 1:1 zoom",
-        "description": "",
-        "id": "Center image tooltip",
-        "text": "Miðjaðu myndina í glugganum með 1: 1 aðdrátt"
-    },
-    {
-        "source": "Lock Fit To Image",
-        "description": "",
-        "id": "Lock Fit To Image",
-        "text": "Læsa passa við mynd"
-    },
-    {
-        "source": "Lock the image fitted to the window",
-        "description": "",
-        "id": "Lock fit to image tooltip",
-        "text": "Læsa myndinni sem er komið fyrir í glugganum"
-    },
-    {
-        "source": "Lock Center",
-        "description": "",
-        "id": "Lock Center",
-        "text": "Lock Center"
-    },
-    {
-        "source": "Lock the image centered in the window with a 1:1 zoom",
-        "description": "",
-        "id": "Lock center image tooltip",
-        "text": "Læstu myndinni miðju í glugganum með 1: 1 aðdrátt"
-    },
-    {
-        "source": "Grid",
-        "description": "",
-        "id": "Grid",
-        "text": "Rist"
-    },
-    {
-        "source": "Show a grid",
-        "description": "",
-        "id": "Grid tooltip",
-        "text": "Sýna rist"
-    },
-    {
-        "source": "HUD",
-        "description": "",
-        "id": "HUD",
-        "text": "HUD"
-    },
-    {
-        "source": "Show the heads up display",
-        "description": "",
-        "id": "HUD tooltip",
-        "text": "Sýna höfuð upp skjánum"
-    },
-    {
-        "source": "Show the opened files",
-        "description": "",
-        "id": "Media popup tooltip",
-        "text": "Sýna opna skrárnar"
-    },
-    {
-        "source": "Automatically hide the user interface when the mouse doesn't move",
-        "description": "",
-        "id": "Auto hide tooltip",
-        "text": "Fela notendaviðmótið sjálfkrafa þegar músin hreyfist ekki"
-    },
-    {
-        "source": "Show the settings",
-        "description": "",
-        "id": "Settings tooltip",
-        "text": "Sýna stillingarnar"
-    },
-    {
-        "source": "Activate the annotation tool",
-        "description": "",
-        "id": "Annotate tooltip",
-        "text": "Virkja annotation tól"
-    },
-    {
-        "source": "Color Space",
-        "description": "",
-        "id": "Color Space",
-        "text": "Litur rúm"
-    },
-    {
-        "source": "(empty)",
-        "description": "",
-        "id": "(empty)",
-        "text": "(tómt)"
-    },
-    {
-        "source": "Input:",
-        "description": "",
-        "id": "Input:",
-        "text": "Input:"
-    },
-    {
-        "source": "Display:",
-        "description": "",
-        "id": "Display:",
-        "text": "Sýna:"
-    },
-    {
-        "source": "View:",
-        "description": "",
-        "id": "View:",
-        "text": "Útsýni:"
-    },
-    {
-        "source": "Automatically hide the user interface",
-        "text": "Fela notendaviðmótið sjálfkrafa",
-        "id": "Auto-hide tooltip",
-        "description": ""
-    },
-    {
-        "source": "Auto-Hide",
-        "text": "Auto-Fela",
-        "id": "Auto-Hide",
-        "description": ""
-    },
-    {
-        "id": "Fullscreen",
-        "source": "Fullscreen",
-        "description": "",
-        "text": "Fullskjár"
-    },
-    {
-        "id": "Monitor",
-        "source": "Monitor",
-        "description": "",
-        "text": "Skjár"
-    },
-    {
-        "id": "frames",
-        "source": "frames",
-        "description": "",
-        "text": "rammar"
-    },
-    {
-        "id": "Zoom Reset",
-        "source": "Zoom Reset",
-        "description": "",
-        "text": "Aðdráttur endurstilltur"
-    },
-    {
-        "id": "Zoom reset tooltip",
-        "source": "Reset the zoom to 1.0",
-        "description": "",
-        "text": "Núllstilla aðdráttinn á 1.0"
-    },
-    {
-        "id": "Full",
-        "source": "Full",
-        "description": "",
-        "text": "Fullt"
-    },
-    {
-        "id": "Full view tooltip",
-        "source": "Set the view so the image fills the window",
-        "description": "",
-        "text": "Stilltu skjáinn svo að myndin fylli gluggann"
-    },
-    {
-        "id": "Frame",
-        "source": "Frame",
-        "description": "",
-        "text": "Rammi"
-    },
-    {
-        "id": "Frame view tooltip",
-        "source": "Frame the image within the view",
-        "description": "",
-        "text": "Rammaðu myndina inn á skjáinn"
-    },
-    {
-        "id": "Center view tooltip",
-        "source": "Center the view and set the zoom to 1.0",
-        "description": "",
-        "text": "Settu miðju á skjáinn og stilltu aðdráttinn á 1.0"
-    },
-    {
-        "id": "Lock Full",
-        "source": "Lock Full",
-        "description": "",
-        "text": "Læsa fullu"
-    },
-    {
-        "id": "Lock full view tooltip",
-        "source": "Lock the view so the image fills the window",
-        "description": "",
-        "text": "Læstu skjánum svo að myndin fylli gluggann"
-    },
-    {
-        "id": "Lock Frame",
-        "source": "Lock Frame",
-        "description": "",
-        "text": "Læsa ramma"
-    },
-    {
-        "id": "Lock frame view tooltip",
-        "source": "Lock the view so the image fills the window without being obscured by the user interface",
-        "description": "",
-        "text": "Læstu skjánum svo að myndin fylli gluggann án þess að hylja notendaviðmótið"
-    },
-    {
-        "id": "Lock center view tooltip",
-        "source": "Lock the view so the image is centered and the zoom is 1:1",
-        "description": "",
-        "text": "Læstu skjánum þannig að myndin sé miðju og aðdrátturinn sé 1: 1"
-    },
-    {
-        "source": "Maximize",
-        "text": "Hámarka",
-        "description": "",
-        "id": "Maximize"
-    },
-    {
-        "source": "Fit the window to the image",
-        "text": "Settu gluggann á myndina",
-        "description": "",
-        "id": "Fit tooltip"
-    },
-    {
-        "source": "The file",
-        "description": "",
-        "id": "The file",
-        "text": "Skráin"
-    },
-    {
-        "source": "cannot be read",
-        "description": "",
-        "id": "cannot be read",
-        "text": "ekki hægt að lesa"
-    },
-    {
-        "source": "Config",
-        "description": "",
-        "id": "Config",
-        "text": "Stilla"
-    },
-    {
-        "source": "Display",
-        "description": "",
-        "id": "Display",
-        "text": "Sýna"
-    },
-    {
-        "source": "Add a new OpenColorIO configuration",
-        "description": "",
-        "id": "Color space add config tooltip",
-        "text": "Bættu við nýrri OpenColorIO stillingu"
-    },
-    {
-        "source": "Edit the list of OpenColorIO configurations",
-        "description": "",
-        "id": "Color space edit configs tooltip",
-        "text": "Breyttu listanum yfir OpenColorIO stillingar"
-    },
-    {
-        "source": "Assign a color space to a file format",
-        "description": "",
-        "id": "Color space add image tooltip",
-        "text": "Úthlutaðu litarými á skráarsnið"
-    },
-    {
-        "source": "Edit the list of color spaces",
-        "description": "",
-        "id": "Color space edit images tooltip",
-        "text": "Breyta listanum yfir litrými"
-    },
-    {
-        "source": "Fill",
-        "description": "",
-        "id": "Fill",
-        "text": "Fylla"
-    },
-    {
-        "source": "Errors",
-        "description": "",
-        "id": "Errors",
-        "text": "Villur"
-    },
-    {
-        "source": "Popup",
-        "description": "",
-        "id": "Popup",
-        "text": "Skjóta upp kollinum"
-    },
-    {
-        "source": "Show this window when there are errors",
-        "description": "",
-        "id": "Errors widget popup tooltip",
-        "text": "Sýna þennan glugga þegar það eru villur"
-    },
-    {
-        "source": "Copy the errors to the clipboard",
-        "description": "",
-        "id": "Errors widget copy tooltip",
-        "text": "Afritaðu villurnar á klemmuspjaldið"
-    },
-    {
-        "source": "Clear the errors",
-        "description": "",
-        "id": "Errors widget clear tooltip",
-        "text": "Hreinsaðu villurnar"
-    },
-    {
-        "source": "Show the layers widget",
-        "description": "",
-        "id": "Layers tooltip",
-        "text": "Sýna laggræjuna"
-    },
-    {
-        "source": "Alpha Blend",
-        "description": "",
-        "id": "Alpha Blend",
-        "text": "Alfa blanda"
-    },
-    {
-        "source": "No Alpha",
-        "description": "",
-        "id": "No Alpha",
-        "text": "Engin alfa"
-    },
-    {
-        "source": "No alpha blending",
-        "description": "",
-        "id": "No alpha tooltip",
-        "text": "Engin alfa blanda"
-    },
-    {
-        "source": "Straight Alpha",
-        "description": "",
-        "id": "Straight Alpha",
-        "text": "Beint alfa"
-    },
-    {
-        "source": "Straight alpha blending",
-        "description": "",
-        "id": "Straight alpha blend tooltip",
-        "text": "Bein alfa blanda"
-    },
-    {
-        "source": "Premultiplied alpha blending",
-        "description": "",
-        "id": "Premultiplied alpha blend tooltip",
-        "text": "Fyrirfram fjölgreidd alfa blanda"
-    },
-    {
-        "source": "Fill the view with the image",
-        "description": "",
-        "id": "Fill view tooltip",
-        "text": "Fylltu útsýnið með myndinni"
-    },
-    {
-        "source": "Memory cache usage",
-        "description": "",
-        "id": "Memory cache thermometer tooltip",
-        "text": "Minni skyndiminni notkun"
-    },
-    {
-        "source": "The current frame",
-        "description": "",
-        "id": "Current frame tooltip",
-        "text": "Núverandi ramma"
-    },
-    {
-        "source": "The playback in point",
-        "description": "",
-        "id": "In point tooltip",
-        "text": "Spilunin í lið"
-    },
-    {
-        "source": "The playback out point",
-        "description": "",
-        "id": "Out point tooltip",
-        "text": "Punktur spilunar"
-    },
-    {
-        "source": "Enable",
-        "description": "",
-        "id": "Enable",
-        "text": "Virkja"
-    },
-    {
-        "source": "GB",
-        "description": "",
-        "id": "GB",
-        "text": "GB"
-    },
-    {
-        "source": "Used",
-        "description": "",
-        "id": "Used",
-        "text": "Notað"
-    },
-    {
-        "source": "Automatically start playback",
-        "description": "",
-        "id": "Automatically start playback",
-        "text": "Hefja spilun sjálfkrafa"
-    },
-    {
-        "source": "Playback Speed",
-        "description": "",
-        "id": "Playback Speed",
-        "text": "Spilunarhraði"
-    },
-    {
-        "source": "Playback every frame",
-        "description": "",
-        "id": "Playback every frame",
-        "text": "Spilun allra ramma"
-    },
-    {
-        "source": "Default speed",
-        "description": "",
-        "id": "Default speed",
-        "text": "Sjálfgefinn hraði"
-    },
-    {
-        "source": "Timeline",
-        "description": "",
-        "id": "Timeline",
-        "text": "Tímalína"
-    },
-    {
-        "source": "Show PIP (picture in picture)",
-        "description": "",
-        "id": "Show PIP (picture in picture)",
-        "text": "Sýna PIP (mynd á mynd)"
-    },
-    {
-        "source": "Reset speed",
-        "description": "",
-        "id": "Reset speed",
-        "text": "Endurstilla hraða"
-    },
-    {
-        "source": "Reset speed tooltip",
-        "description": "",
-        "id": "Reset speed tooltip",
-        "text": "Núllstilla hraðatæki"
-    },
-    {
-        "source": "Increase",
-        "description": "",
-        "id": "Increase",
-        "text": "Auka"
-    },
-    {
-        "source": "Decrease",
-        "description": "",
-        "id": "Decrease",
-        "text": "Fækka"
-    },
-    {
-        "source": "Thumbnail Size",
-        "description": "",
-        "id": "Thumbnail Size",
-        "text": "Smámyndastærð"
-    },
-    {
-        "source": "Copy the system log to the clipboard",
-        "description": "",
-        "id": "System log copy tooltip",
-        "text": "Afritaðu kerfisskrána á klemmuspjaldið"
-    },
-    {
-        "source": "Reload the system log",
-        "description": "",
-        "id": "System log reload tooltip",
-        "text": "Endurnýjaðu kerfisskrána"
-    },
-    {
-        "source": "Clear the system log",
-        "description": "",
-        "id": "System log clear tooltip",
-        "text": "Hreinsaðu kerfisskrána"
-    },
-    {
-        "source": "Warning",
-        "description": "",
-        "id": "Warning",
-        "text": "Viðvörun"
-    },
-    {
-        "source": "ERROR",
-        "description": "",
-        "id": "ERROR",
-        "text": "VILLA"
-    },
-    {
-        "source": "Show the errors widget",
-        "description": "",
-        "id": "Errors widget tooltip",
-        "text": "Sýna villugræjuna"
-    },
-    {
-        "source": "Show the system log widget",
-        "description": "",
-        "id": "System log widget tooltip",
-        "text": "Sýna búnað til kerfisskrár"
-    },
-    {
-        "source": "Debugging",
-        "description": "",
-        "id": "Debugging",
-        "text": "Kembiforrit"
-    },
-    {
-        "source": "Show the debugging widget",
-        "description": "",
-        "id": "Debugging widget tooltip",
-        "text": "Sýna kembiforrit"
-    },
-    {
-        "source": "Scale to fit",
-        "description": "",
-        "id": "Scale to fit",
-        "text": "Mælikvarði til að passa"
-    },
-    {
-        "source": "Color picker RGB tooltip",
-        "description": "",
-        "id": "Color picker RGB tooltip",
-        "text": "RGB tól fyrir litaval"
-    },
-    {
-        "source": "Color picker HSV tooltip",
-        "description": "",
-        "id": "Color picker HSV tooltip",
-        "text": "Litaplokkari HSV verkfæri"
-    },
-    {
-        "source": "Audio cannot be initialized",
-        "description": "",
-        "id": "Audio cannot be initialized",
-        "text": "Ekki er hægt að frumstilla hljóð"
-    },
-    {
-        "source": "The audio stream cannot be opened",
-        "description": "",
-        "id": "The audio stream cannot be opened",
-        "text": "Ekki er hægt að opna hljóðstrauminn"
-    },
-    {
-        "source": "Cannot start audio stream",
-        "description": "",
-        "id": "Cannot start audio stream",
-        "text": "Ekki hægt að ræsa hljóðstrauminn"
-    },
-    {
-        "source": "Cannot stop audio stream",
-        "description": "",
-        "id": "Cannot stop audio stream",
-        "text": "Get ekki stöðvað hljóðstraum"
-    },
-    {
-        "source": "Third Party RtAudio",
-        "description": "",
-        "id": "Third Party RtAudio",
-        "language": "en",
-        "text": "Third Party RtAudio"
-    },
-    {
-        "source": "Lock color type",
-        "text": "Læsa litategund",
-        "id": "Lock color type",
-        "description": ""
-    },
-    {
-        "source": "Copy the values to the clipboard",
-        "text": "Afritaðu gildin á klemmuspjaldið",
-        "id": "Color picker copy tooltip",
-        "description": ""
-    },
-    {
-        "source": "Cannot sample color",
-        "text": "Get ekki sýni lit.",
-        "id": "Cannot sample color",
-        "description": ""
-    },
-    {
-        "source": "Playback once",
-        "text": "Spilun einu sinni",
-        "id": "Playback mode once tooltip",
-        "description": ""
-    },
-    {
-        "source": "Playback in a loop",
-        "text": "Spilun í lykkju",
-        "id": "Playback mode loop tooltip",
-        "description": ""
-    },
-    {
-        "source": "Playback ping-pong",
-        "text": "Spilun ping-pong",
-        "id": "Playback mode ping-pong tooltip",
-        "description": ""
-    },
-    {
-        "source": "View Controls",
-        "text": "Skoða stýringar",
-        "id": "View Controls",
-        "description": ""
-    },
-    {
-        "source": "Show the view controls widget",
-        "text": "Sýna búnað til að stjórna skjánum",
-        "id": "View controls widget tooltip",
-        "description": ""
-    },
-    {
-        "source": "Lock Fill",
-        "text": "Læsa fyllingu",
-        "id": "Lock Fill",
-        "description": ""
-    },
-    {
-        "source": "Fill the view with the image (locked)",
-        "text": "Fylltu útsýnið með myndinni (læst)",
-        "id": "Fill lock view tooltip",
-        "description": ""
-    },
-    {
-        "source": "Frame the image within the view (locked)",
-        "text": "Rammaðu myndina inn á skjáinn (læst)",
-        "id": "Frame lock view tooltip",
-        "description": ""
-    },
-    {
-        "source": "Center the view and set the zoom to 1.0 (locked)",
-        "text": "Settu miðju á skjáinn og stilltu aðdráttinn á 1.0 (læst)",
-        "id": "Center lock view tooltip",
-        "description": ""
-    },
-    {
-        "source": "Show the grid",
-        "text": "Sýnið ristina",
-        "id": "Grid enabled tooltip",
-        "description": ""
-    },
-    {
-        "source": "Image Controls",
-        "text": "Myndstýringar",
-        "id": "Image Controls",
-        "description": ""
-    },
-    {
-        "source": "Show the image controls widget",
-        "text": "Sýna myndastýringargræjuna",
-        "id": "Image controls widget tooltip",
-        "description": ""
-    },
-    {
-        "source": "Alpha blend",
-        "text": "Alfa blanda",
-        "id": "Alpha blend",
-        "description": ""
-    },
-    {
-        "source": "Mirror horizontal",
-        "text": "Spegill lárétt",
-        "id": "Mirror horizontal",
-        "description": ""
-    },
-    {
-        "source": "Mirror vertical",
-        "text": "Spegill lóðréttur",
-        "id": "Mirror vertical",
-        "description": ""
-    },
-    {
-        "source": "Aspect ratio",
-        "text": "Stærðarhlutföll",
-        "id": "Aspect ratio",
-        "description": ""
-    },
-    {
-        "source": "Brightness",
-        "text": "Birtustig",
-        "id": "Brightness",
-        "description": ""
-    },
-    {
-        "source": "Contrast",
-        "text": "Andstæða",
-        "id": "Contrast",
-        "description": ""
-    },
-    {
-        "source": "Saturation",
-        "text": "Mettun",
-        "id": "Saturation",
-        "description": ""
-    },
-    {
-        "source": "Invert",
-        "text": "Hvolfið",
-        "id": "Invert",
-        "description": ""
-    },
-    {
-        "source": "In Low",
-        "text": "Í lágum",
-        "id": "In Low",
-        "description": ""
-    },
-    {
-        "source": "In High",
-        "text": "Í háu",
-        "id": "In High",
-        "description": ""
-    },
-    {
-        "source": "Gamma",
-        "text": "Gamma",
-        "id": "Gamma",
-        "description": ""
-    },
-    {
-        "source": "Out Low",
-        "text": "Út lágt",
-        "id": "Out Low",
-        "description": ""
-    },
-    {
-        "source": "Out High",
-        "text": "Út hátt",
-        "id": "Out High",
-        "description": ""
-    },
-    {
-        "source": "Exposure",
-        "text": "Útsetning",
-        "id": "Exposure",
-        "description": ""
-    },
-    {
-        "source": "Defog",
-        "text": "Defog",
-        "id": "Defog",
-        "description": ""
-    },
-    {
-        "source": "Knee Low",
-        "text": "Hné lágt",
-        "id": "Knee Low",
-        "description": ""
-    },
-    {
-        "source": "Knee High",
-        "text": "Hné hátt",
-        "id": "Knee High",
-        "description": ""
-    },
-    {
-        "source": "Load",
-        "text": "Hlaða",
-        "id": "Load",
-        "description": ""
-    },
-    {
-        "source": "Transform",
-        "text": "Breyta",
-        "id": "Transform",
-        "description": ""
-    },
-    {
-        "source": "Color",
-        "text": "Litur",
-        "id": "Color",
-        "description": ""
-    },
-    {
-        "source": "Levels",
-        "text": "Stig",
-        "id": "Levels",
-        "description": ""
-    },
-    {
-        "source": "Soft Clip",
-        "text": "Mjúk klemma",
-        "id": "Soft Clip",
-        "description": ""
-    },
-    {
-        "source": "Set the magnification",
-        "text": "Stilltu stækkunina",
-        "id": "Magnify slider tooltip",
-        "description": ""
-    },
-    {
-        "source": "Set as Default",
-        "text": "Stilltu sem sjálfgefið",
-        "id": "Set as Default",
-        "description": ""
-    },
-    {
-        "source": "Reset the value.",
-        "text": "Endurstilla gildi.",
-        "id": "Reset the value.",
-        "description": ""
-    },
-    {
-        "source": "Position",
-        "text": "Staða",
-        "id": "Position",
-        "description": ""
-    },
-    {
-        "source": "Zoom",
-        "text": "Aðdráttur",
-        "id": "Zoom",
-        "description": ""
-    },
-    {
-        "source": "Labels",
-        "text": "Merki",
-        "id": "Labels",
-        "description": ""
-    },
-    {
-        "source": "Background",
-        "text": "Bakgrunnur",
-        "id": "Background",
-        "description": ""
-    },
-    {
-        "id": "Text focus",
-        "source": "Text focus",
-        "description": "",
-        "text": "Fókus textans"
-    },
-    {
-        "source": "Annotate polyline tooltip",
-        "text": "Tilgreindu pólýlínutæki",
-        "description": "",
-        "id": "Annotate polyline tooltip"
-    },
-    {
-        "source": "Annotate line tooltip",
-        "text": "Tilgreindu verkfæratöflu lína",
-        "description": "",
-        "id": "Annotate line tooltip"
-    },
-    {
-        "source": "Annotate rectangle tooltip",
-        "text": "Tilgreindu rétthyrningstæki",
-        "description": "",
-        "id": "Annotate rectangle tooltip"
-    },
-    {
-        "source": "Annotate ellipse tooltip",
-        "text": "Tilgreina sporbaug á sporbaug",
-        "description": "",
-        "id": "Annotate ellipse tooltip"
-    },
-    {
-        "source": "Annotate color picker tooltip",
-        "text": "Tilgreindu tól fyrir litaval",
-        "description": "",
-        "id": "Annotate color picker tooltip"
-    },
-    {
-        "source": "Annotate line width tooltip",
-        "text": "Tilgreindu verkfærið á breidd línunnar",
-        "description": "",
-        "id": "Annotate line width tooltip"
-    },
-    {
-        "source": "Annotate clear tooltip",
-        "text": "Tilgreindu skýrt verkfæri",
-        "description": "",
-        "id": "Annotate clear tooltip"
-    },
-    {
-        "source": "Annotate add tooltip",
-        "text": "Tilgreindu viðbótartól",
-        "description": "",
-        "id": "Annotate add tooltip"
-    },
-    {
-        "source": "Annotate delete tooltip",
-        "text": "Tilgreina eyðingu tólstipunnar",
-        "description": "",
-        "id": "Annotate delete tooltip"
-    },
-    {
-        "source": "Annotate previous tooltip",
-        "text": "Tilgreindu fyrri verkfæri",
-        "description": "",
-        "id": "Annotate previous tooltip"
-    },
-    {
-        "source": "Annotate next tooltip",
-        "text": "Tilgreindu næsta verkfæri",
-        "description": "",
-        "id": "Annotate next tooltip"
-    },
-    {
-        "source": "Annotate list toggle tooltip",
-        "text": "Tilgreindu listann til að skipta um verkfærið",
-        "description": "",
-        "id": "Annotate list toggle tooltip"
-    },
-    {
-        "source": "Edit",
-        "text": "Breyta",
-        "description": "",
-        "id": "Edit"
-    },
-    {
-        "source": "Summary",
-        "text": "Yfirlit",
-        "description": "",
-        "id": "Summary"
-    },
-    {
-        "source": "I/O threads",
-        "text": "I / O þræðir",
-        "description": "",
-        "id": "I/O threads popup tooltip"
-    },
-    {
-        "source": "Polyline",
-        "text": "Polyline",
-        "description": "",
-        "id": "Polyline"
-    },
-    {
-        "source": "Line",
-        "text": "Lína",
-        "description": "",
-        "id": "Line"
-    },
-    {
-        "source": "Rectangle",
-        "text": "Rétthyrningur",
-        "description": "",
-        "id": "Rectangle"
-    },
-    {
-        "source": "Ellipse",
-        "text": "Ellipse",
-        "description": "",
-        "id": "Ellipse"
-    },
-    {
-        "source": "DJV 2.0.4",
-        "description": "",
-        "id": "DJV 2.0.4",
-        "text": "DJV 2.0.4"
-    },
-    {
-        "source": "Auto-Hide Interface",
-        "description": "",
-        "id": "Auto-Hide Interface",
-        "text": "Sjálfvirkt fela tengi"
-    },
-    {
-        "source": "Pixel",
-        "description": "",
-        "id": "Pixel",
-        "text": "Pixel"
-    },
-    {
-        "source": "Color label tooltip",
-        "description": "",
-        "id": "Color label tooltip",
-        "text": "Verkfæri fyrir litamerki"
-    },
-    {
-        "source": "Pixel label tooltip",
-        "description": "",
-        "id": "Pixel label tooltip",
-        "text": "Verkfæri Pixel merkimiða"
-    },
-    {
-        "source": "Slow",
-        "text": "Hæg",
-        "id": "Slow",
-        "description": ""
-    },
-    {
-        "source": "Medium",
-        "text": "Miðlungs",
-        "id": "Medium",
-        "description": ""
-    },
-    {
-        "source": "Fast",
-        "text": "Hratt",
-        "id": "Fast",
-        "description": ""
-    },
-    {
-        "source": "Cannot open more than",
-        "text": "Get ekki opnað meira en",
-        "id": "Cannot open more than",
-        "description": ""
-    },
-    {
-        "source": "files at once.",
-        "text": "skrár í einu.",
-        "id": "files at once.",
-        "description": ""
-    },
-    {
-        "source": "CansecoGPC",
-        "text": "CansecoGPC",
-        "id": "Credits CansecoGPC",
-        "language": "en",
-        "description": ""
-    },
-    {
-        "source": "Spanish translation updates",
-        "text": "Spænsk þýðing uppfærsla",
-        "id": "Credits CansecoGPC Text",
-        "description": ""
-    },
-    {
-        "source": "Jean-Francois Panisset",
-        "text": "Jean-Francois Panisset",
-        "id": "Credits Jean-Francois Panisset",
-        "language": "en",
-        "description": ""
-    },
-    {
-        "source": "Azure Pipelines CI integration",
-        "text": "Azure Pipelines CI sameining",
-        "id": "Credits Jean-Francois Panisset Text",
-        "description": ""
-    },
-    {
-        "source": "Haryo Sukmawanto",
-        "text": "Haryo Sukmawanto",
-        "id": "Credits Haryo Sukmawanto",
-        "language": "en",
-        "description": ""
-    },
-    {
-        "source": "Custom playback frame rate UI",
-        "text": "Sérsniðið spilunargrind HÍ",
-        "id": "Credits Haryo Sukmawanto Text",
-        "description": ""
-    },
-    {
-        "source": "* GITHUB®, the GITHUB® logo design, OCTOCAT® and the OCTOCAT® logo design are exclusive trademarks registered in the United States by GitHub, Inc.",
-        "text": "* GITHUB®, the GITHUB® logo design, OCTOCAT® and the OCTOCAT® logo design are exclusive trademarks registered in the United States by GitHub, Inc.",
-        "id": "Trademarks GitHub",
-        "language": "en",
-        "description": ""
-    },
-    {
-        "source": "Total system time",
-        "text": "Heildarkerfistími",
-        "id": "Total system time",
-        "description": ""
-    },
-    {
-        "source": "Top system time",
-        "text": "Topp kerfistími",
-        "id": "Top system time",
-        "description": ""
-    },
-    {
-        "source": "Custom playback speed",
-        "text": "Sérsniðinn spilunarhraði",
-        "id": "Custom playback speed",
-        "description": ""
-    },
-    {
-        "source": "Custom playback speed tooltip",
-        "text": "Sérsniðin tól fyrir spilunarhraða",
-        "id": "Custom playback speed tooltip",
-        "description": ""
-    },
-    {
-        "source": "DJV 2.0.5",
-        "text": "DJV 2.0.5",
-        "id": "DJV 2.0.5",
-        "language": "en",
-        "description": ""
-    },
-    {
-        "source": "Scroll wheel zoom speed",
-        "text": "Aðdráttarhraði skrunhjóls",
-        "id": "Scroll wheel zoom speed",
-        "description": ""
-    },
-    {
-        "text": "Damien Picard",
-        "id": "Credits Damien Picard",
-        "description": "",
-        "language": "en",
-        "source": "Damien Picard"
-    },
-    {
-        "text": "Franskar þýðingar uppfærslur",
-        "id": "Credits Damien Picard Text",
-        "description": "",
-        "source": "French translation updates"
-    }
-]
+{
+    "annotate": "Tilkynna",
+    "annotate_polyline_tooltip": "Tilgreindu pólýlínutæki",
+    "annotate_line_tooltip": "Tilgreindu verkfæratöflu lína",
+    "annotate_rectangle_tooltip": "Tilgreindu rétthyrningstæki",
+    "annotate_ellipse_tooltip": "Tilgreina sporbaug á sporbaug",
+    "annotate_color_picker_tooltip": "Tilgreindu tól fyrir litaval",
+    "annotate_line_width_tooltip": "Tilgreindu verkfærið á breidd línunnar",
+    "annotate_clear_tooltip": "Tilgreindu skýrt verkfæri",
+    "annotate_add_tooltip": "Tilgreindu viðbótartól",
+    "annotate_delete_tooltip": "Tilgreina eyðingu tólstipunnar",
+    "annotate_previous_tooltip": "Tilgreindu fyrri verkfæri",
+    "annotate_next_tooltip": "Tilgreindu næsta verkfæri",
+    "annotate_list_toggle_tooltip": "Tilgreindu listann til að skipta um verkfærið",
+    "menu_edit": "Breyta",
+    "menu_summary": "Yfirlit",
+    "menu_export": "Útflutningur",
+    "menu_window": "Gluggi",
+    "menu_window_full_screen": "Fullskjár",
+    "menu_window_full_screen_tooltip": "Skiptu um allan skjástillingu",
+    "menu_window_maximize": "Hámarka",
+    "menu_window_maximize_tooltip": "Hámarka núverandi glugga",
+    "menu_window_fit": "Passa",
+    "menu_window_fit_tooltip": "Settu gluggann á myndina",
+    "menu_window_auto_hide_interface": "Sjálfvirkt fela tengi",
+    "menu_window_auto_hide_tooltip": "Fela notendaviðmótið sjálfkrafa",
+    "error_the_file": "Skráin",
+    "error_cannot_be_read": "ekki hægt að lesa",
+    "error_cannot_parse_the_value": "Ekki er hægt að flokka gildi.",
+    "widget_color_space": "Litur rúm",
+    "widget_color_space_add_config_tooltip": "Bættu við nýrri OpenColorIO stillingu",
+    "widget_color_space_edit_configs_tooltip": "Breyttu listanum yfir OpenColorIO stillingar",
+    "widget_color_space_display_name": "Nafn",
+    "widget_color_space_display_view": "Útsýni",
+    "widget_color_space_add_format_tooltip": "Úthlutaðu litarými á skráarsnið",
+    "widget_color_space_edit_format_tooltip": "Breyta listanum yfir litrými",
+    "widget_color_space_config": "Stilla",
+    "widget_color_space_display": "Sýna",
+    "menu_image": "Mynd",
+    "None": "Enginn",
+    "widget_color_space_display_name_default": "Sjálfgefið",
+    "settings_scroll_wheel_slow": "Hæg",
+    "settings_scroll_wheel_medium": "Miðlungs",
+    "settings_scroll_wheel_fast": "Hratt",
+    "image_controls_transform_rotate_0": "0",
+    "image_controls_transform_rotate_90": "90",
+    "image_controls_transform_rotate_180": "180",
+    "image_controls_transform_rotate_270": "270",
+    "stop": "Hættu",
+    "menu_playback_forward": "Áfram",
+    "menu_playback_reverse": "Aftur",
+    "once": "Einu sinni",
+    "loop": "Loop",
+    "pingpong": "Borðtennis",
+    "histogram": "Histogram",
+    "menu_tools_errors": "Villur",
+    "widget_errors_popup": "Skjóta upp kollinum",
+    "widget_errors_popup_tooltip": "Sýna þennan glugga þegar það eru villur",
+    "widget_errors_copy": "Afrita",
+    "widget_errors_copy_tooltip": "Afritaðu villurnar á klemmuspjaldið",
+    "widget_errors_clear": "Hreinsa",
+    "widget_errors_clear_tooltip": "Hreinsaðu villurnar",
+    "menu_file": "Skrá",
+    "menu_file_open": "Opna",
+    "menu_file_open_tooltip": "Opnaðu nýja skrá",
+    "menu_file_recent": "Nýleg",
+    "menu_file_recent_tooltip": "Sýna nýlega opnaða skrár",
+    "menu_file_reload": "Endurhlaða",
+    "menu_file_reload_tooltip": "Endurnýja núverandi skrá",
+    "menu_file_close": "Loka",
+    "menu_file_close_tooltip": "Lokaðu núverandi skrá",
+    "menu_file_close_all": "Lokaðu öllum",
+    "menu_file_close_all_tooltip": "Lokaðu öllum opnum skrám",
+    "menu_file_export_tooltip": "Flytja út skrána",
+    "startup_next": "Næst",
+    "menu_file_next_tooltip": "Farðu í næstu skrá",
+    "startup_previous": "Fyrri",
+    "menu_file_prev_tooltip": "Farðu í fyrri skrána",
+    "menu_file_layers": "Lag",
+    "menu_file_layers_tooltip": "Sýna laggræjuna",
+    "menu_file_next_layer": "Næsta lag",
+    "menu_file_next_layer_tooltip": "Fara á næsta lag",
+    "menu_file_previous_layer": "Fyrri lag",
+    "menu_file_previous_layer_tooltip": "Farið í fyrri lagið",
+    "menu_file_exit": "Hætta",
+    "menu_file_exit_tooltip": "Hætta umsókninni",
+    "8-bit_conversion": "8-bita viðskipta",
+    "8-bit_conversion_tooltip": "Niður umbreyta skrá til 8-bits til að varðveita minni",
+    "error_cannot_open_more_than": "Get ekki opnað meira en",
+    "error_files_at_once": "skrár í einu.",
+    "settings_file_sequences": "Sequences",
+    "settings_file_auto-detect_file_sequences": "Sjálfvirk uppgötvun skrárnar",
+    "playback_forward_tooltip": "Hefja spilun áfram",
+    "playback_reverse_tooltip": "Byrjaðu afturspilun",
+    "playback_go_to_in_point_tooltip": "Farðu í spilunina í punktinum",
+    "playback_next_frame_tooltip": "Fara í næstu ramma",
+    "playback_previous_frame_tooltip": "Fara í fyrri ramma",
+    "playback_go_to_out_point_tooltip": "Fara á spilun út lið",
+    "playback_speed_popup_tooltip": "Sýna stillingar fyrir spilunarhraða",
+    "playback_real_speed_tooltip": "Raunverulegur spilunarhraði",
+    "playback_current_frame_tooltip": "Núverandi ramma",
+    "playback_in_point_tooltip": "Spilunin í lið",
+    "playback_set_in_point_tooltip": "Stilltu spilunina á sinn stað",
+    "playback_reset_in_point_tooltip": "Endurstilla spilunina í punkti",
+    "playback_out_point_tooltip": "Punktur spilunar",
+    "playback_set_out_point_tooltip": "Stilltu spilunarpunktinn",
+    "playback_reset_out_point_tooltip": "Endurstilla spilunarpunktinn",
+    "playback_duration_tooltip": "Spilunartími",
+    "menu_audio": "Hljóð",
+    "audio_volume_tooltip": "Stilltu hljóðstyrkinn",
+    "audio_mute_tooltip": "Slökktu á hljóðinu",
+    "audio_popup_tooltip": "Sýna hljóðstillingar",
+    "io_threads_popup_tooltip": "I / O þræðir",
+    "playback_mode_once_tooltip": "Spilun einu sinni",
+    "playback_mode_loop_tooltip": "Spilun í lykkju",
+    "playback_mode_ping-pong_tooltip": "Spilun ping-pong",
+    "menu_image_controls_widget": "Myndstýringar",
+    "menu_image_controls_widget_tooltip": "Sýna myndastýringargræjuna",
+    "menu_image_color_space_widget_tooltip": "Sýna litavalbúnaðinn",
+    "menu_image_red_channel": "Red Channel",
+    "menu_image_red_channel_tooltip": "Sýna rauðu rásina",
+    "menu_image_green_channel": "Grænn rás",
+    "menu_image_green_channel_tooltip": "Sýna græna rásina",
+    "menu_image_blue_channel": "Blue Channel",
+    "menu_image_blue_channel_tooltip": "Sýna bláu rásina",
+    "menu_image_alpha_channel": "Alpha Channel",
+    "menu_image_alpha_channel_tooltip": "Sýna alfa rásina",
+    "image_controls_transform_mirror_horizontal": "Spegill lárétt",
+    "image_controls_transform_mirror_horizontal_tooltip": "Spegla myndina lárétt",
+    "image_controls_transform_mirror_vertical": "Spegill lóðréttur",
+    "image_controls_transform_mirror_vertical_tooltip": "Spegla myndina lóðrétt",
+    "menu_image_load_frame_store": "Hlaða rammaverslun",
+    "menu_image_load_frame_store_tooltip": "Hlaða núverandi ramma inn í rammaverslunina",
+    "menu_image_frame_store": "Frame Store",
+    "menu_image_frame_store_tooltip": "Sýna rammaverslunina",
+    "about_title": "DJV Imaging",
+    "about_section_credits": "Credits",
+    "about_section_sponsors": "Styrktaraðilar",
+    "about_section_license": "Leyfi",
+    "about_section_copyright": "Höfundarréttur",
+    "about_section_third_party": "Hugbúnaður þriðja aðila",
+    "about_section_trademarks": "Vörumerki",
+    "about_credits_darby_johnston": "Darby Johnston",
+    "about_credits_darby_johnston_text": "Höfundur höfundar",
+    "about_credits_kent_oberheu": "Kent Oberheu, https://semafore.com",
+    "about_credits_kent_oberheu_text": "Auðkenni, helgimynd, hönnun HÍ / UX",
+    "about_credits_siciliana_johnston": "Siciliana Johnston",
+    "about_credits_siciliana_johnston_text": "Vefhönnun, samfélagsmiðlar",
+    "about_credits_mikael_sundell": "Mikael Sundell",
+    "about_credits_mikael_sundell_text": "IFF ímynd skráarsniðs stuðnings, dæmi um myndir",
+    "about_credits_cansecogpc": "CansecoGPC",
+    "about_credits_cansecogpc_text": "Spænsk þýðing uppfærsla",
+    "about_credits_jean-francois_panisset": "Jean-Francois Panisset",
+    "about_credits_jean-francois_panisset_text": "Azure Pipelines CI sameining",
+    "about_credits_haryo_sukmawanto": "Haryo Sukmawanto",
+    "about_credits_haryo_sukmawanto_text": "Sérsniðið spilunargrind HÍ",
+    "about_credits_damien_picard": "Damien Picard",
+    "about_credits_damien_picard_text": "Franskar þýðingar uppfærslur",
+    "about_sponsors_unexpected": "unexpected GmbH, https://www.unexpected.de",
+    "about_license_1": "Copyright (c) 2004-2020 Darby Johnston, All rights reserved",
+    "about_license_2": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:",
+    "about_license_3": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.",
+    "about_license_4": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.",
+    "about_license_5": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.",
+    "about_license_6": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.",
+    "about_copyright_text": "Hlutar af þessari hugbúnaði eru höfundarréttur (í stafrófsröð):",
+    "about_copyright_darby_johnston": "* Copyright (c) 2004-2020 Darby Johnston, All rights reserved",
+    "about_copyright_kent_oberheu": "* Copyright (c) 2019 Kent Oberheu, All rights reserved",
+    "about_copyright_mikael_sundell": "* Copyright (c) 2008-2009 Mikael Sundell, All rights reserved",
+    "about_third_party_text": "Þessi hugbúnaður er að hluta til byggður á verkum (í stafrófsröð):",
+    "about_third_party_cmake": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium, All rights reserved",
+    "about_third_party_ffmpeg": "* FFMpeg, http://www.ffmpeg.org, Licensed under the LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html",
+    "about_third_party_freetype": "* FreeType, http://www.freetype.org, Copyright (c) 2018, The FreeType Project",
+    "about_third_party_glfw": "* GLFW, http://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla Löwy <elmindreda@glfw.org>",
+    "about_third_party_glm": "* GLM, http://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation",
+    "about_third_party_mbedtls": "* MbedTLS, http://tls.mbed.org, Copyright © 2008 - 2016 ARM Limited, All rights reserved",
+    "about_third_party_openal": "* OpenAL, http://www.openal.org, Copyright (C) 1999-2000 by Loki Software",
+    "about_third_party_opencolorio": "* OpenColorIO, http://opencolorio.org, Copyright (c) 2003-2010 Sony Pictures Imageworks Inc., et al., All rights reserved",
+    "about_third_party_openexr": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd.",
+    "about_third_party_rtaudio": "Third Party RtAudio",
+    "about_third_party_curl": "* curl, http://curl.haxx.se/libcurl, Copyright (c) 1996 - 2019, Daniel Stenberg, <daniel@haxx.se>, and many contributors, see the THANKS file",
+    "about_third_party_dr_libs": "* dr_libs, http://github.com/mackron/dr_libs, David Reid",
+    "about_third_party_glad": "* glad, http://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth",
+    "about_third_party_libjpeg": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding",
+    "about_third_party_libjpeg-turbo": "* libjpeg-turbo, http://libjpeg-turbo.org, Copyright (C)2009-2019 D. R. Commander, All Rights Reserved, Copyright (C)2015 Viktor Szathmáry, All Rights Reserved",
+    "about_third_party_libpng": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson",
+    "about_third_party_libtiff": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc",
+    "about_third_party_zlib": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler",
+    "about_trademarks_text": "Vörumerki heitir í skjölunum (í stafrófsröð):",
+    "about_trademarks_apple": "* Apple, OS X, ProRes, and QuickTime are registered trademarks of Apple, Inc.",
+    "about_trademarks_amd": "* AMD and ATI are registered trademarks of Advanced Micro Devices, Inc.",
+    "about_trademarks_autodesk": "* Autodesk, Inferno, Maya, Softimage, and XSI are registered trademarks of Autodesk, Inc.",
+    "about_trademarks_debian": "* Debian is a registered trademark of Software in the Public Interest, Inc.",
+    "about_trademarks_ffmpeg": "* FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project",
+    "about_trademarks_freebsd": "* FreeBSD is a registered trademark of The FreeBSD Foundation",
+    "about_trademarks_github": "* GITHUB®, the GITHUB® logo design, OCTOCAT® and the OCTOCAT® logo design are exclusive trademarks registered in the United States by GitHub, Inc.",
+    "about_trademarks_intel": "* Intel is a registered trademark of Intel Corporation",
+    "about_trademarks_lucasfilm": "* Industrial Light and Magic and ILM are registered trademarks of Lucasfilm Ltd.",
+    "about_trademarks_kodak": "* Kodak and Cineon are a registered trademarks of the Eastman Kodak Company",
+    "about_trademarks_linux": "* Linux is a registered trademark of Linus Torvalds",
+    "about_trademarks_microsoft": "* Microsoft, Microsoft Windows, and Azure are registered trademarks of Microsoft, Inc.",
+    "about_trademarks_mips": "* MIPS is a registered trademark of MIPS Technologies, Inc.",
+    "about_trademarks_nvidia": "* NVIDIA is a registered trademark of NVIDIA Corporation",
+    "about_trademarks_red_hat": "* Red Hat and Fedora are registered trademarks of Red Hat, Inc.",
+    "about_trademarks_sgi": "* Silicon Graphics, SGI, IRIX, and OpenGL are registered trademarks of Silicon Graphics International Corp.",
+    "about_trademarks_smpte": "* SMPTE is a registered trademark of the Society of Motion Picture and Television Engineers",
+    "about_trademarks_sourceforge": "* SourceForge.net is a registered trademark of VA Software Corporation",
+    "about_trademarks_suse": "* SuSE is a registered trademark of Novell, Inc.",
+    "about_trademarks_ubuntu": "* Ubuntu is a registered trademark of Canonical Ltd.",
+    "about_trademarks_unix": "* UNIX is a registered trademark of The Open Group",
+    "about_trademarks_end": "Allar aðrar vörur sem nefndar eru í skjölunum eru vörumerki viðkomandi eigenda.",
+    "about_made_in": "Made in Berkeley, CA, USA",
+    "annotate_tooltip": "Virkja annotation tól",
+    "menu_audio_increase_volume": "Auka hljóðstyrk",
+    "menu_audio_increase_volume_tooltip": "Auka hljóðstyrkinn",
+    "menu_audio_decrease_volume": "Minnka hljóðstyrk",
+    "menu_audio_decrease_volume_tooltip": "Minnka hljóðstyrkinn",
+    "menu_audio_mute": "Slökktu á",
+    "image_controls_channels_alpha_blend": "Alfa blanda",
+    "image_controls_transform_rotate": "Snúa",
+    "image_controls_transform_aspect_ratio": "Stærðarhlutföll",
+    "image_controls_color_brightness": "Birtustig",
+    "image_controls_color_contrast": "Andstæða",
+    "image_controls_color_saturation": "Mettun",
+    "image_controls_color_invert": "Hvolfið",
+    "image_controls_levels_in_low": "Í lágum",
+    "image_controls_levels_in_high": "Í háu",
+    "image_controls_levels_gamma": "Gamma",
+    "image_controls_levels_out_low": "Út lágt",
+    "image_controls_levels_out_high": "Út hátt",
+    "image_controls_exposure_enabled": "Virkja",
+    "image_controls_exposure_exposure": "Útsetning",
+    "image_controls_exposure_defog": "Defog",
+    "image_controls_exposure_knee_low": "Hné lágt",
+    "image_controls_exposure_knee_high": "Hné hátt",
+    "load": "Hlaða",
+    "image_controls_section_channels": "Rásir",
+    "image_controls_section_transform": "Breyta",
+    "image_controls_section_color": "Litur",
+    "image_controls_section_levels": "Stig",
+    "image_controls_section_soft_clip": "Mjúk klemma",
+    "menu_view_controls": "Skoða stýringar",
+    "menu_view_controls_widget_tooltip": "Sýna búnað til að stjórna skjánum",
+    "menu_tools_pan_view": "Pan View",
+    "menu_tools_pan_view_tooltip": "Virkjaðu pökkunarvélin",
+    "menu_view_left": "Vinstri",
+    "menu_view_left_tooltip": "Færðu myndina til vinstri",
+    "menu_view_right": "Hægri",
+    "menu_view_right_tooltip": "Færðu sýnin rétt",
+    "menu_view_up": "Upp",
+    "menu_view_up_tooltip": "Færðu sýnina upp",
+    "menu_view_down": "Niður",
+    "menu_view_down_tooltip": "Færðu skjáinn niður",
+    "north_west": "norðvestur",
+    "north_west_tooltip": "Færðu útsýni norður vestur",
+    "north_east": "Norður-Austurlöndum",
+    "north_east_tooltip": "Norður útsýni norðaustur",
+    "south_east": "Suður austur",
+    "south_east_tooltip": "Færðu sýnina Suðaustur",
+    "south_west": "South West",
+    "south_west_tooltip": "Færðu sýnin Southwest",
+    "menu_view_zoom_in": "Zoom inn",
+    "menu_view_zoom_in_tooltip": "Stækka aðdráttinn",
+    "menu_view_zoom_out": "Zoom út",
+    "menu_view_zoom_out_tooltip": "Aðdráttur útsýnið",
+    "menu_view_zoom_reset": "Aðdráttur endurstilltur",
+    "menu_view_zoom_reset_tooltip": "Núllstilla aðdráttinn á 1.0",
+    "menu_view_fill": "Fylla",
+    "menu_view_fill_tooltip": "Fylltu útsýnið með myndinni",
+    "menu_view_lock_fill": "Læsa fyllingu",
+    "menu_view_lock_fill_tooltip": "Fylltu útsýnið með myndinni (læst)",
+    "menu_view_frame": "Rammi",
+    "menu_view_frame_tooltip": "Rammaðu myndina inn á skjáinn",
+    "menu_view_lock_frame": "Læsa ramma",
+    "menu_view_lock_frame_tooltip": "Rammaðu myndina inn á skjáinn (læst)",
+    "menu_view_center": "Miðstöð",
+    "menu_view_center_tooltip": "Settu miðju á skjáinn og stilltu aðdráttinn á 1.0",
+    "menu_view_lock_center": "Lock Center",
+    "menu_view_lock_center_tooltip": "Settu miðju á skjáinn og stilltu aðdráttinn á 1.0 (læst)",
+    "menu_view_grid": "Rist",
+    "menu_view_grid_tooltip": "Sýnið ristina",
+    "hud": "HUD",
+    "hud_tooltip": "Sýna höfuð upp skjánum",
+    "polyline": "Polyline",
+    "line": "Lína",
+    "rectangle": "Rétthyrningur",
+    "ellipse": "Ellipse",
+    "menu_tools_magnify": "Stækka",
+    "menu_tools_magnify_slider_tooltip": "Stilltu stækkunina",
+    "debug_general_fps": "FPS",
+    "debug_general_total_system_time": "Heildarkerfistími",
+    "debug_general_top_system_time": "Topp kerfistími",
+    "debug_general_object_count": "Hlutatölur",
+    "debug_general_widget_count": "Búnaður telja",
+    "debug_general_hover": "Sveima",
+    "debug_general_grab": "Grípa",
+    "debug_general_key_grab": "Lykill grípa",
+    "debug_general_text_focus": "Fókus textans",
+    "debug_general_font_system_glyph_cache": "Leturkerfi gluggaskyndiminni",
+    "debug_general_thumbnail_system_information_cache": "Skyndiminni kerfisupplýsinga",
+    "debug_general_thumbnail_system_image_cache": "Skyndiminni kerfis myndaskyndiminni",
+    "debug_general_icon_system_cache": "Táknmynd kerfis skyndiminni",
+    "debug_render_texture_atlas": "Áferðarsvæði",
+    "debug_render_dynamic_texture_count": "Dynamic texture count",
+    "debug_render_vbo_size": "VBO stærð",
+    "debug_media_video_queue": "Video biðröð",
+    "debug_media_audio_queue": "Audio hala",
+    "debug_media_current_time": "Núverandi tími",
+    "debug_title": "Kemba",
+    "debug_section_general": "Almennt",
+    "debug_section_render": "Render",
+    "debug_section_media": "Media",
+    "memory_cache": "Minnisskyndiminni",
+    "enable": "Virkja",
+    "gb": "GB",
+    "used": "Notað",
+    "nux": "NUX",
+    "settings_new_user_ux_startup": "Gera kleift nýtt notandi reynsla við ræsingu",
+    "startup_choose_language": "Veldu tungumálið þitt",
+    "startup_choose_ui_size": "Veldu stærð notendaviðmóts",
+    "startup_choose_palette": "Veldu stiku",
+    "startup_finish": "Klára",
+    "settings_window_section_fullscreen": "Fullskjár",
+    "menu_playback": "Spilun",
+    "automatically_start_playback": "Hefja spilun sjálfkrafa",
+    "timeline": "Tímalína",
+    "show_pip_picture_in_picture": "Sýna PIP (mynd á mynd)",
+    "playback_speed": "Spilunarhraði",
+    "playback_reset_speed": "Endurstilla hraða",
+    "playback_reset_speed_tooltip": "Núllstilla hraðatæki",
+    "playback_play_every_frame": "Spila hvert ramma",
+    "playback_play_every_frame_tooltip": "Spila hvert ramma, jafnvel þó að ekki sé hægt að viðhalda réttum hraða",
+    "playback_custom_playback_speed": "Sérsniðinn spilunarhraði",
+    "playback_custom_playback_speed_tooltip": "Sérsniðin tól fyrir spilunarhraða",
+    "widget_recent_files_title": "Nýlegar skrár",
+    "widget_recent_increase_thumbnail_size": "Auka",
+    "recent_files_increase_thumbnail_size_tooltip": "Stækka stærð smámyndirnar",
+    "widget_recent_decrease_thumbnail_size": "Fækka",
+    "recent_files_decrease_thumbnail_size_tooltip": "Minnka stærð smámyndirnar",
+    "recent_files_thumbnail_size": "Smámyndastærð",
+    "recent_files_search_tooltip": "Leitaðu að nýlegum skrám",
+    "recent_files_settings_tooltip": "Sýna nýlegar skráarstillingar",
+    "recent_files_label_items": "Hlutir",
+    "recent_files_label_warning": "Viðvörun",
+    "recent_files_label_error": "VILLA",
+    "menu_tools_information": "Upplýsingar",
+    "menu_tools_information_widget_tooltip": "Sýna upplýsingagræju",
+    "menu_tools_errors_widget_tooltip": "Sýna villugræjuna",
+    "menu_tools_system_log": "Kerfisskrá",
+    "menu_tools_system_log_widget_tooltip": "Sýna búnað til kerfisskrár",
+    "menu_tools_debugging": "Kembiforrit",
+    "menu_tools_debugging_widget_tooltip": "Sýna kembiforrit",
+    "menu_tools_settings": "Stillingar",
+    "menu_tools_settings_tooltip": "Sýna stillingarnar",
+    "menu_tools": "Verkfæri",
+    "menu_tools_color_picker": "Litaplokkari",
+    "widget_color_picker_lock_color_type": "Læsa litategund",
+    "widget_color_picker_color_picker_lock_color_type_tooltip": "Ekki breyta litategundinni til að passa við myndina",
+    "widget_color_picker_sample_size_tooltip": "Stilltu sýnishornastærðina fyrir litapakkann",
+    "widget_color_picker_copy_tooltip": "Afritaðu gildin á klemmuspjaldið",
+    "widget_color_picker_pixel": "Pixel",
+    "error_cannot_sample_color": "Get ekki sýni lit.",
+    "color_label_tooltip": "Verkfæri fyrir litamerki",
+    "pixel_label_tooltip": "Verkfæri Pixel merkimiða",
+    "error_audio_cannot_be_initialized": "Ekki er hægt að frumstilla hljóð",
+    "error_the_audio_stream_cannot_be_opened": "Ekki er hægt að opna hljóðstrauminn",
+    "error_cannot_start_audio_stream": "Ekki hægt að ræsa hljóðstrauminn",
+    "error_cannot_stop_audio_stream": "Get ekki stöðvað hljóðstraum",
+    "settings_window_auto-hide": "Auto-Fela",
+    "settings_window_automatically_hide_the_user_interface": "Fela sjálfkrafa notendaviðmótið",
+    "settings_window_section_monitor": "Skjár",
+    "settings_window_section_background_image": "Bakgrunnsmynd",
+    "settings_window_open_file_browser": "Opnaðu vafrann",
+    "settings_window_clear_background_image": "Hreinsaðu bakgrunnsmyndina",
+    "settings_window_scale_to_fit": "Mælikvarði til að passa",
+    "settings_window_colorize_with_the_ui_style": "Litaðu með UI stíl",
+    "menu_magnify_tooltip": "Virkjaðu stækkunar tólið",
+    "menu_help": "Hjálp",
+    "menu_help_documentation": "Skjalfesting",
+    "menu_help_about": "Um",
+    "file_name": "Skráarnafn",
+    "size": "Stærð",
+    "type": "Tegund",
+    "speed": "Hraði",
+    "frames": "rammar",
+    "duration": "Lengd",
+    "codec": "Codec",
+    "video_track": "Video lag",
+    "khz": "kHz",
+    "sample_rate": "Sýnishorn",
+    "audio_track": "Hljóðskrá",
+    "tags": "Tags",
+    "menu_playback_play_once": "Spila einu sinni",
+    "menu_playback_play_once_tooltip": "Spila skrána einu sinni og þá hætta að spila",
+    "menu_playback_loop_tooltip": "Spila skrána aftur og aftur",
+    "menu_playback_ping_pong": "Borðtennis",
+    "menu_playback_ping_pong_tooltip": "Spila skráin áfram og síðan aftur á bak",
+    "menu_playback_go_to_in_point": "Farðu í punkt",
+    "menu_playback_go_to_out_point": "Fara í útpunkt",
+    "menu_playback_go_to_start_frame": "Farðu í Start Frame",
+    "menu_playback_go_to_start_frame_tooltip": "Fara í upphafsramma",
+    "menu_playback_go_to_end_frame": "Farið í Loka ramma",
+    "menu_playback_go_to_end_frame_tooltip": "Farðu í lokaramma",
+    "menu_playback_next_frame": "Næsta ramma",
+    "menu_playback_next_frame_x10": "Næsta rammi X10",
+    "menu_playback_next_frame_x10_tooltip": "Slepptu áfram 10 rammar",
+    "menu_playback_next_frame_x100": "Næsta ramma X100",
+    "menu_playback_next_frame_x100_tooltip": "Hoppa fram 100 rammar",
+    "menu_playback_previous_frame": "Fyrri ramma",
+    "menu_playback_previous_frame_x10": "Fyrri ramma X10",
+    "menu_playback_previous_frame_x10_tooltip": "Hoppa til baka 10 rammar",
+    "menu_playback_previous_frame_x100": "Fyrri ramma X100",
+    "menu_playback_previous_frame_x100_tooltip": "Hoppa til baka 100 rammar",
+    "menu_playback_enable_in_out_points": "Virkja inn / út stig",
+    "menu_playback_enable_in_out_points_tooltip": "Virkja inn / út stig",
+    "menu_playback_set_in_point": "Setja í punkt",
+    "menu_playback_set_out_point": "Setja út punkt",
+    "menu_playback_reset_in_point": "Endurstilla í punkti",
+    "menu_playback_reset_out_point": "Endurstilla útpunkt",
+    "system_log_copy_tooltip": "Afritaðu kerfisskrána á klemmuspjaldið",
+    "system_log_reload_tooltip": "Endurnýjaðu kerfisskrána",
+    "system_log_clear_tooltip": "Hreinsaðu kerfisskrána",
+    "djv_2_0_4": "DJV 2.0.4",
+    "menu_media_popup_tooltip": "Sýna opna skrárnar",
+    "menu_memory_cache_tooltip": "Sýna stillingar minni skyndiminni",
+    "menu_memory_cache_thermometer_tooltip": "Minni skyndiminni notkun",
+    "menu_color_picker_tooltip": "Virkjaðu litavalstækið",
+    "set_as_default": "Stilltu sem sjálfgefið",
+    "reset_the_value": "Endurstilla gildi.",
+    "position": "Staða",
+    "zoom": "Aðdráttur",
+    "widget_view_grid_labels": "Merki",
+    "Background": "Bakgrunnur",
+    "scroll_wheel_zoom_speed": "Aðdráttarhraði skrunhjóls"
+}

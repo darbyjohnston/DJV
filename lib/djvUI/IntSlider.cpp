@@ -345,7 +345,7 @@ namespace djv
         {
             Widget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.resetButton->setTooltip(_getText(DJV_TEXT("Reset the value.")));
+            p.resetButton->setTooltip(_getText(DJV_TEXT("reset_the_value")));
         }
 
         void IntSlider::_modelUpdate()

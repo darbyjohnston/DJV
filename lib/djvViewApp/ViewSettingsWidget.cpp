@@ -111,12 +111,12 @@ namespace djv
 
         std::string ViewSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("View");
+            return DJV_TEXT("widget_color_space_display_view");
         }
 
         std::string ViewSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("View");
+            return DJV_TEXT("widget_color_space_display_view");
         }
 
         std::string ViewSettingsWidget::getSettingsSortKey() const
@@ -128,7 +128,7 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.layout->setText(p.scrollWheelZoomSpeedComboBox, _getText(DJV_TEXT("Scroll wheel zoom speed")) + ":");
+            p.layout->setText(p.scrollWheelZoomSpeedComboBox, _getText(DJV_TEXT("scroll_wheel_zoom_speed")) + ":");
             _widgetUpdate();
         }
 

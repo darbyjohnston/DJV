@@ -1229,34 +1229,34 @@ namespace djv
             IWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             
-            p.actions["Forward"]->setTooltip(_getText(DJV_TEXT("Forward tooltip")));
-            p.actions["Reverse"]->setTooltip(_getText(DJV_TEXT("Reverse tooltip")));
-            p.actions["InPoint"]->setTooltip(_getText(DJV_TEXT("Go to in point tooltip")));
-            p.actions["NextFrame"]->setTooltip(_getText(DJV_TEXT("Next frame tooltip")));
-            p.actions["PrevFrame"]->setTooltip(_getText(DJV_TEXT("Previous frame tooltip")));
-            p.actions["OutPoint"]->setTooltip(_getText(DJV_TEXT("Go to out point tooltip")));
+            p.actions["Forward"]->setTooltip(_getText(DJV_TEXT("playback_forward_tooltip")));
+            p.actions["Reverse"]->setTooltip(_getText(DJV_TEXT("playback_reverse_tooltip")));
+            p.actions["InPoint"]->setTooltip(_getText(DJV_TEXT("playback_go_to_in_point_tooltip")));
+            p.actions["NextFrame"]->setTooltip(_getText(DJV_TEXT("playback_next_frame_tooltip")));
+            p.actions["PrevFrame"]->setTooltip(_getText(DJV_TEXT("playback_previous_frame_tooltip")));
+            p.actions["OutPoint"]->setTooltip(_getText(DJV_TEXT("playback_go_to_out_point_tooltip")));
 
-            p.maximizeButton->setTooltip(_getText(DJV_TEXT("Maximize tooltip")));
-            p.closeButton->setTooltip(_getText(DJV_TEXT("Close tooltip")));
+            p.maximizeButton->setTooltip(_getText(DJV_TEXT("menu_window_maximize_tooltip")));
+            p.closeButton->setTooltip(_getText(DJV_TEXT("menu_file_close_tooltip")));
 
-            p.speedPopupWidget->setTooltip(_getText(DJV_TEXT("Speed popup tooltip")));
-            p.realSpeedLabel->setTooltip(_getText(DJV_TEXT("Real speed tooltip")));
-            p.currentFrameWidget->setTooltip(_getText(DJV_TEXT("Current frame tooltip")));
-            p.inPointWidget->setTooltip(_getText(DJV_TEXT("In point tooltip")));
-            p.inPointSetButton->setTooltip(_getText(DJV_TEXT("Set in point tooltip")));
-            p.inPointResetButton->setTooltip(_getText(DJV_TEXT("Reset in point tooltip")));
-            p.outPointWidget->setTooltip(_getText(DJV_TEXT("Out point tooltip")));
-            p.outPointSetButton->setTooltip(_getText(DJV_TEXT("Set out point tooltip")));
-            p.outPointResetButton->setTooltip(_getText(DJV_TEXT("Reset out point tooltip")));
-            p.durationLabel->setTooltip(_getText(DJV_TEXT("Duration tooltip")));
+            p.speedPopupWidget->setTooltip(_getText(DJV_TEXT("playback_speed_popup_tooltip")));
+            p.realSpeedLabel->setTooltip(_getText(DJV_TEXT("playback_real_speed_tooltip")));
+            p.currentFrameWidget->setTooltip(_getText(DJV_TEXT("playback_current_frame_tooltip")));
+            p.inPointWidget->setTooltip(_getText(DJV_TEXT("playback_in_point_tooltip")));
+            p.inPointSetButton->setTooltip(_getText(DJV_TEXT("playback_set_in_point_tooltip")));
+            p.inPointResetButton->setTooltip(_getText(DJV_TEXT("playback_reset_in_point_tooltip")));
+            p.outPointWidget->setTooltip(_getText(DJV_TEXT("playback_out_point_tooltip")));
+            p.outPointSetButton->setTooltip(_getText(DJV_TEXT("playback_set_out_point_tooltip")));
+            p.outPointResetButton->setTooltip(_getText(DJV_TEXT("playback_reset_out_point_tooltip")));
+            p.durationLabel->setTooltip(_getText(DJV_TEXT("playback_duration_tooltip")));
 
-            p.audioLabel->setText(_getText(DJV_TEXT("Audio")));
-            p.audioVolumeSlider->setTooltip(_getText(DJV_TEXT("Volume tooltip")));
-            p.audioMuteButton->setTooltip(_getText(DJV_TEXT("Mute tooltip")));
-            p.audioPopupWidget->setTooltip(_getText(DJV_TEXT("Audio popup tooltip")));
+            p.audioLabel->setText(_getText(DJV_TEXT("menu_audio")));
+            p.audioVolumeSlider->setTooltip(_getText(DJV_TEXT("audio_volume_tooltip")));
+            p.audioMuteButton->setTooltip(_getText(DJV_TEXT("audio_mute_tooltip")));
+            p.audioPopupWidget->setTooltip(_getText(DJV_TEXT("audio_popup_tooltip")));
             
 #ifdef DJV_DEMO_THREADS
-            p.ioThreadsPopupWidget->setTooltip(_getText(DJV_TEXT("I/O threads popup tooltip")));
+            p.ioThreadsPopupWidget->setTooltip(_getText(DJV_TEXT("io_threads_popup_tooltip")));
 #endif // DJV_DEMO_THREADS
 
             _widgetUpdate();
@@ -1285,13 +1285,13 @@ namespace djv
                 switch (p.playbackMode)
                 {
                 case PlaybackMode::Once:
-                    p.playbackModeButton->setTooltip(_getText(DJV_TEXT("Playback mode once tooltip")));
+                    p.playbackModeButton->setTooltip(_getText(DJV_TEXT("playback_mode_once_tooltip")));
                     break;
                 case PlaybackMode::Loop:
-                    p.playbackModeButton->setTooltip(_getText(DJV_TEXT("Playback mode loop tooltip")));
+                    p.playbackModeButton->setTooltip(_getText(DJV_TEXT("playback_mode_loop_tooltip")));
                     break;
                 case PlaybackMode::PingPong:
-                    p.playbackModeButton->setTooltip(_getText(DJV_TEXT("Playback mode ping-pong tooltip")));
+                    p.playbackModeButton->setTooltip(_getText(DJV_TEXT("playback_mode_ping-pong_tooltip")));
                     break;
                 default: break;
                 }
@@ -1342,7 +1342,7 @@ namespace djv
 
             std::stringstream ss;
             ss.precision(2);
-            ss << _getText(DJV_TEXT("FPS")) << ": " << std::fixed << p.speed.toFloat();
+            ss << _getText(DJV_TEXT("debug_general_fps")) << ": " << std::fixed << p.speed.toFloat();
             p.speedPopupWidget->setText(ss.str());
         }
 

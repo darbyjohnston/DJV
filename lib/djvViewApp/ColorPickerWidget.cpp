@@ -467,17 +467,17 @@ namespace djv
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
 
-            setTitle(_getText(DJV_TEXT("Color Picker")));
+            setTitle(_getText(DJV_TEXT("menu_tools_color_picker")));
 
-            p.actions["Lock"]->setText(_getText(DJV_TEXT("Lock color type")));
-            p.actions["Lock"]->setTooltip(_getText(DJV_TEXT("Color picker lock color type tooltip")));
+            p.actions["Lock"]->setText(_getText(DJV_TEXT("widget_color_picker_lock_color_type")));
+            p.actions["Lock"]->setTooltip(_getText(DJV_TEXT("widget_color_picker_color_picker_lock_color_type_tooltip")));
 
-            p.sampleSizeSlider->setTooltip(_getText(DJV_TEXT("Color picker sample size tooltip")));
+            p.sampleSizeSlider->setTooltip(_getText(DJV_TEXT("widget_color_picker_sample_size_tooltip")));
 
-            p.copyButton->setTooltip(_getText(DJV_TEXT("Color picker copy tooltip")));
+            p.copyButton->setTooltip(_getText(DJV_TEXT("widget_color_picker_copy_tooltip")));
             
-            p.formLayout->setText(p.colorLabel, _getText(DJV_TEXT("Color")) + ":");
-            p.formLayout->setText(p.pixelLabel, _getText(DJV_TEXT("Pixel")) + ":");
+            p.formLayout->setText(p.colorLabel, _getText(DJV_TEXT("image_controls_section_color")) + ":");
+            p.formLayout->setText(p.pixelLabel, _getText(DJV_TEXT("widget_color_picker_pixel")) + ":");
         }
         
         void ColorPickerWidget::_sampleUpdate()
@@ -552,7 +552,7 @@ namespace djv
                 catch (const std::exception& e)
                 {
                     std::stringstream ss;
-                    ss << _getText(DJV_TEXT("Cannot sample color")) << ". " << e.what();
+                    ss << _getText(DJV_TEXT("error_cannot_sample_color")) << ". " << e.what();
                     _log(ss.str(), LogLevel::Error);
                 }
             }
@@ -576,13 +576,13 @@ namespace djv
 
             p.colorSwatch->setColor(p.color);
             p.colorLabel->setText(AV::Image::Color::getLabel(p.color, 2, false));
-            p.colorLabel->setTooltip(_getText(DJV_TEXT("Color label tooltip")));
+            p.colorLabel->setTooltip(_getText(DJV_TEXT("color_label_tooltip")));
             {
                 std::stringstream ss;
                 ss << floorf(p.pixelPos.x) << " " << floorf(p.pixelPos.y);
                 p.pixelLabel->setText(ss.str());
             }
-            p.pixelLabel->setTooltip(_getText(DJV_TEXT("Pixel label tooltip")));
+            p.pixelLabel->setTooltip(_getText(DJV_TEXT("pixel_label_tooltip")));
             p.sampleSizeSlider->setValue(p.sampleSize);
         }
 

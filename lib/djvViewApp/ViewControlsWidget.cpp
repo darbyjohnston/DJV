@@ -430,25 +430,25 @@ namespace djv
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
 
-            setTitle(_getText(DJV_TEXT("View Controls")));
+            setTitle(_getText(DJV_TEXT("menu_view_controls")));
             
-            p.actions["GridSettings"]->setText(_getText(DJV_TEXT("Set as Default")));
-            p.actions["BackgroundSettings"]->setText(_getText(DJV_TEXT("Set as Default")));
+            p.actions["GridSettings"]->setText(_getText(DJV_TEXT("set_as_default")));
+            p.actions["BackgroundSettings"]->setText(_getText(DJV_TEXT("set_as_default")));
 
-            p.viewPosResetButton->setTooltip(_getText(DJV_TEXT("Reset the value.")));
-            p.viewZoomResetButton->setTooltip(_getText(DJV_TEXT("Reset the value.")));
-            p.viewFormLayout->setText(p.viewPosLayout, _getText(DJV_TEXT("Position")) + ":");
-            p.viewFormLayout->setText(p.viewZoomLayout, _getText(DJV_TEXT("Zoom")) + ":");
+            p.viewPosResetButton->setTooltip(_getText(DJV_TEXT("reset_the_value")));
+            p.viewZoomResetButton->setTooltip(_getText(DJV_TEXT("reset_the_value")));
+            p.viewFormLayout->setText(p.viewPosLayout, _getText(DJV_TEXT("position")) + ":");
+            p.viewFormLayout->setText(p.viewZoomLayout, _getText(DJV_TEXT("zoom")) + ":");
 
-            p.gridFormLayout->setText(p.gridEnabledButton, _getText(DJV_TEXT("Enabled")) + ":");
-            p.gridFormLayout->setText(p.gridSizeSlider, _getText(DJV_TEXT("Size")) + ":");
-            p.gridFormLayout->setText(p.gridColorPickerSwatch, _getText(DJV_TEXT("Color")) + ":");
-            p.gridFormLayout->setText(p.gridLabelsButton, _getText(DJV_TEXT("Labels")) + ":");
+            p.gridFormLayout->setText(p.gridEnabledButton, _getText(DJV_TEXT("image_controls_exposure_enabled")) + ":");
+            p.gridFormLayout->setText(p.gridSizeSlider, _getText(DJV_TEXT("size")) + ":");
+            p.gridFormLayout->setText(p.gridColorPickerSwatch, _getText(DJV_TEXT("image_controls_section_color")) + ":");
+            p.gridFormLayout->setText(p.gridLabelsButton, _getText(DJV_TEXT("widget_view_grid_labels")) + ":");
 
-            p.backgroundFormLayout->setText(p.backgroundColorPickerSwatch, _getText(DJV_TEXT("Color")) + ":");
+            p.backgroundFormLayout->setText(p.backgroundColorPickerSwatch, _getText(DJV_TEXT("image_controls_section_color")) + ":");
             
-            p.tabWidget->setText(p.viewScrollWidget, _getText(DJV_TEXT("View")));
-            p.tabWidget->setText(p.gridScrollWidget, _getText(DJV_TEXT("Grid")));
+            p.tabWidget->setText(p.viewScrollWidget, _getText(DJV_TEXT("widget_color_space_display_view")));
+            p.tabWidget->setText(p.gridScrollWidget, _getText(DJV_TEXT("menu_view_grid")));
             p.tabWidget->setText(p.backgroundScrollWidget, _getText(DJV_TEXT("Background")));
             
             _widgetUpdate();

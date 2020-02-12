@@ -113,12 +113,12 @@ namespace djv
 
         std::string NUXSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("NUX");
+            return DJV_TEXT("nux");
         }
 
         std::string NUXSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("General");
+            return DJV_TEXT("debug_section_general");
         }
 
         std::string NUXSettingsWidget::getSettingsSortKey() const
@@ -130,7 +130,7 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.nuxCheckBox->setText(_getText(DJV_TEXT("Enable new-user experience on startup")));
+            p.nuxCheckBox->setText(_getText(DJV_TEXT("settings_new_user_ux_startup")));
         }
 
     } // namespace ViewApp

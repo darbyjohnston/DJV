@@ -1,114 +1,18 @@
-[
-    {
-        "source": "čeština",
-        "text": "čeština",
-        "description": "This is a locale label.",
-        "language": "cs",
-        "id": "cs"
-    },
-    {
-        "source": "dansk",
-        "text": "dansk",
-        "description": "This is a locale label.",
-        "language": "da",
-        "id": "da"
-    },
-    {
-        "source": "Deutsche",
-        "text": "Deutsche",
-        "description": "This is a locale label.",
-        "language": "de",
-        "id": "de"
-    },
-    {
-        "source": "Ελληνικά",
-        "text": "Ελληνικά",
-        "description": "This is a locale label.",
-        "language": "el",
-        "id": "el"
-    },
-    {
-        "source": "English",
-        "text": "English",
-        "description": "This is a locale label.",
-        "language": "en",
-        "id": "en"
-    },
-    {
-        "source": "Español",
-        "text": "Español",
-        "description": "This is a locale label.",
-        "language": "es",
-        "id": "es"
-    },
-    {
-        "source": "français",
-        "text": "français",
-        "description": "This is a locale label.",
-        "language": "fr",
-        "id": "fr"
-    },
-    {
-        "source": "italiano",
-        "text": "italiano",
-        "description": "This is a locale label.",
-        "language": "it",
-        "id": "it"
-    },
-    {
-        "source": "Íslensku",
-        "text": "Íslensku",
-        "description": "This is a locale label.",
-        "language": "is",
-        "id": "is"
-    },
-    {
-        "source": "日本人",
-        "text": "日本人",
-        "description": "This is a locale label.",
-        "language": "ja",
-        "id": "ja"
-    },
-    {
-        "source": "한국어",
-        "text": "한국어",
-        "description": "This is a locale label.",
-        "language": "ko",
-        "id": "ko"
-    },
-    {
-        "source": "Polskie",
-        "text": "Polskie",
-        "description": "This is a locale label.",
-        "language": "pl",
-        "id": "pl"
-    },
-    {
-        "source": "Português",
-        "text": "Português",
-        "description": "This is a locale label.",
-        "language": "pt",
-        "id": "pt"
-    },
-    {
-        "source": "русский",
-        "text": "русский",
-        "description": "This is a locale label.",
-        "language": "ru",
-        "id": "ru"
-    },
-    {
-        "source": "svenska",
-        "text": "svenska",
-        "description": "This is a locale label.",
-        "language": "sv",
-        "id": "sv"
-    },
-    {
-        "source": "中国",
-        "text": "中国",
-        "description": "This is a locale label.",
-        "language": "zh",
-        "id": "zh"
-    }
-]
+{
+    "cs": "čeština",
+    "da": "dansk",
+    "de": "Deutsche",
+    "el": "Ελληνικά",
+    "en": "English",
+    "es": "Español",
+    "fr": "français",
+    "it": "italiano",
+    "is": "Íslensku",
+    "ja": "日本人",
+    "ko": "한국어",
+    "pl": "Polskie",
+    "pt": "Português",
+    "ru": "русский",
+    "sv": "svenska",
+    "zh": "中国"
+}

@@ -95,7 +95,7 @@ namespace djv
                     {
                         if (TIFFReadScanline(f.f, (tdata_t *)out->getData(y), y) == -1)
                         {
-                            throw FileSystem::Error(DJV_TEXT("Error reading scanline."));
+                            throw FileSystem::Error(DJV_TEXT("error_read_scanline"));
                         }
                         if (f.palette)
                         {
@@ -118,7 +118,7 @@ namespace djv
 #endif // DJV_WINDOWS
                     if (!f.f)
                     {
-                        throw FileSystem::Error(DJV_TEXT("Cannot open file."));
+                        throw FileSystem::Error(DJV_TEXT("error_file_open"));
                     }
 
                     uint32   width            = 0;
@@ -167,7 +167,7 @@ namespace djv
                     }
                     if (Image::Type::None == imageType)
                     {
-                        throw FileSystem::Error(DJV_TEXT("Unsupported image type."));
+                        throw FileSystem::Error(DJV_TEXT("error_unsupported_image_type"));
                     }
 
                     Image::Layout layout;

@@ -97,13 +97,13 @@ namespace djv
                 switch (error)
                 {
                 case ErrorString::Init:
-                    ss << DJV_TEXT("Cannot initialize GLFW.");
+                    ss << DJV_TEXT("error_glfw_init");
                     break;
                 case ErrorString::Window:
-                    ss << DJV_TEXT("Cannot create GLFW window.");
+                    ss << DJV_TEXT("error_glfw_window_creation");
                     break;
                 case ErrorString::GLAD:
-                    ss << DJV_TEXT("Cannot initialize GLAD.");
+                    ss << DJV_TEXT("error_glad_init");
                     break;
                 default: break;
                 }

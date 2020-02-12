@@ -223,7 +223,7 @@ namespace djv
             catch (const std::exception& e)
             {
                 std::stringstream ss;
-                ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be read") << ". " << e.what();
+                ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_cannot_be_read") << ". " << e.what();
                 auto logSystem = getSystemT<LogSystem>();
                 logSystem->log("djv::ViewApp::Application", ss.str(), LogLevel::Error);
             }

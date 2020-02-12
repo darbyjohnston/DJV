@@ -1,824 +1,135 @@
-[
-    {
-        "source": "Cannot parse the value.",
-        "description": "",
-        "id": "Cannot parse the value.",
-        "text": "Nelze analyzovat hodnotu."
-    },
-    {
-        "source": "The file",
-        "description": "",
-        "id": "The file",
-        "text": "Soubor"
-    },
-    {
-        "source": "cannot be opened",
-        "description": "",
-        "id": "cannot be opened",
-        "text": "nelze otevřít"
-    },
-    {
-        "source": "does not have any video or audio streams",
-        "description": "",
-        "id": "does not have any video or audio streams",
-        "text": "nemá žádné video ani audio streamy"
-    },
-    {
-        "source": "does not match any video codecs",
-        "description": "",
-        "id": "does not match any video codecs",
-        "text": "neodpovídá žádným videokodekům"
-    },
-    {
-        "source": "The audio format ",
-        "description": "",
-        "id": "The audio format ",
-        "text": "Zvukový formát"
-    },
-    {
-        "source": "is not supported",
-        "description": "",
-        "id": "is not supported",
-        "text": "není podporováno"
-    },
-    {
-        "source": "does not match any audio codecs",
-        "description": "",
-        "id": "does not match any audio codecs",
-        "text": "neodpovídá žádným zvukovým kodekům"
-    },
-    {
-        "source": "None",
-        "description": "",
-        "id": "None",
-        "text": "Žádný"
-    },
-    {
-        "source": "Left",
-        "description": "",
-        "id": "Left",
-        "text": "Vlevo, odjet"
-    },
-    {
-        "source": "Top",
-        "description": "",
-        "id": "Top",
-        "text": "Horní"
-    },
-    {
-        "source": "Right",
-        "description": "",
-        "id": "Right",
-        "text": "Že jo"
-    },
-    {
-        "source": "Bottom",
-        "description": "",
-        "id": "Bottom",
-        "text": "Dno"
-    },
-    {
-        "source": "Timecode",
-        "description": "",
-        "id": "Timecode",
-        "text": "Časový kód"
-    },
-    {
-        "source": "Frames",
-        "description": "",
-        "id": "Frames",
-        "text": "Rámy"
-    },
-    {
-        "source": "Bad magic number.",
-        "description": "",
-        "id": "Bad magic number.",
-        "text": "Špatné magické číslo."
-    },
-    {
-        "source": "Unsupported file.",
-        "description": "",
-        "id": "Unsupported file.",
-        "text": "Nepodporovaný soubor."
-    },
-    {
-        "source": "Incomplete file.",
-        "description": "",
-        "id": "Incomplete file.",
-        "text": "Neúplný soubor."
-    },
-    {
-        "source": "This plugin provides DPX image I/O.",
-        "description": "",
-        "id": "This plugin provides DPX image I/O.",
-        "text": "Tento plugin poskytuje DPX image I / O."
-    },
-    {
-        "source": "1.0",
-        "description": "",
-        "id": "1.0",
-        "text": "1,0"
-    },
-    {
-        "source": "2.0",
-        "description": "",
-        "id": "2.0",
-        "text": "2,0"
-    },
-    {
-        "source": "Auto",
-        "description": "",
-        "id": "Auto",
-        "text": "Auto"
-    },
-    {
-        "source": "MSB",
-        "description": "",
-        "id": "MSB",
-        "text": "MSB"
-    },
-    {
-        "source": "LSB",
-        "description": "",
-        "id": "LSB",
-        "text": "LSB"
-    },
-    {
-        "source": "Cannot open file.",
-        "description": "",
-        "id": "Cannot open file.",
-        "text": "Nelze otevřít soubor."
-    },
-    {
-        "source": "This plugin provides Portable Network Graphics (PNG) image I/O.",
-        "description": "",
-        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.",
-        "text": "Tento plugin poskytuje I / O obraz Portable Network Graphics (PNG)."
-    },
-    {
-        "source": "This plugin provides NetPBM image I/O.",
-        "description": "",
-        "id": "This plugin provides NetPBM image I/O.",
-        "text": "Tento plugin poskytuje I / O obraz NetPBM."
-    },
-    {
-        "source": "ASCII",
-        "description": "",
-        "id": "ASCII",
-        "text": "ASCII"
-    },
-    {
-        "source": "Binary",
-        "description": "",
-        "id": "Binary",
-        "text": "Binární"
-    },
-    {
-        "source": "Error reading scanline.",
-        "description": "",
-        "id": "Error reading scanline.",
-        "text": "Chyba při čtení scanline."
-    },
-    {
-        "source": "Unsupported image type.",
-        "description": "",
-        "id": "Unsupported image type.",
-        "text": "Nepodporovaný typ obrázku."
-    },
-    {
-        "source": "Unknown",
-        "description": "",
-        "id": "Unknown",
-        "text": "Neznámý"
-    },
-    {
-        "source": "Out of memory",
-        "description": "",
-        "id": "Out of memory",
-        "text": "Nedostatek paměti"
-    },
-    {
-        "source": "Invalid value",
-        "description": "",
-        "id": "Invalid value",
-        "text": "neplatná hodnota"
-    },
-    {
-        "source": "Invalid enum",
-        "description": "",
-        "id": "Invalid enum",
-        "text": "Neplatné výčet"
-    },
-    {
-        "source": "U8",
-        "description": "",
-        "id": "U8",
-        "text": "U8"
-    },
-    {
-        "source": "S16",
-        "description": "",
-        "id": "S16",
-        "text": "S16"
-    },
-    {
-        "source": "S32",
-        "description": "",
-        "id": "S32",
-        "text": "S32"
-    },
-    {
-        "source": "F32",
-        "description": "",
-        "id": "F32",
-        "text": "F32"
-    },
-    {
-        "source": "Unsupported color components.",
-        "description": "",
-        "id": "Unsupported color components.",
-        "text": "Nepodporované barevné komponenty."
-    },
-    {
-        "source": "This plugin provides Tagged Image File Format (TIFF) image I/O.",
-        "description": "",
-        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.",
-        "text": "Tento plugin poskytuje I / O obrazový formát obrazového souboru (TIFF)."
-    },
-    {
-        "source": "RLE",
-        "description": "",
-        "id": "RLE",
-        "text": "RLE"
-    },
-    {
-        "source": "LZW",
-        "description": "",
-        "id": "LZW",
-        "text": "LZW"
-    },
-    {
-        "source": "The OpenGL texture cannot be created.",
-        "description": "",
-        "id": "The OpenGL texture cannot be created.",
-        "text": "Texturu OpenGL nelze vytvořit."
-    },
-    {
-        "source": "The OpenGL frame buffer cannot be created.",
-        "description": "",
-        "id": "The OpenGL frame buffer cannot be created.",
-        "text": "Nelze vytvořit vyrovnávací paměť rámců OpenGL."
-    },
-    {
-        "source": "The OpenGL frame buffer cannot be initialized.",
-        "description": "",
-        "id": "The OpenGL frame buffer cannot be initialized.",
-        "text": "Vyrovnávací paměť rámců OpenGL nelze inicializovat."
-    },
-    {
-        "source": "Error writing scanline.",
-        "description": "",
-        "id": "Error writing scanline.",
-        "text": "Chyba při zápisu scanline."
-    },
-    {
-        "source": "The OpenGL vertex shader cannot be created.",
-        "description": "",
-        "id": "The OpenGL vertex shader cannot be created.",
-        "text": "Nelze vytvořit vertex shaderu OpenGL."
-    },
-    {
-        "source": "The OpenGL vertex shader",
-        "description": "",
-        "id": "The OpenGL vertex shader",
-        "text": "OpenGL vertex shader"
-    },
-    {
-        "source": "cannot be compiled",
-        "description": "",
-        "id": "cannot be compiled",
-        "text": "nelze zkompilovat"
-    },
-    {
-        "source": "The OpenGL fragment shader cannot be created.",
-        "description": "",
-        "id": "The OpenGL fragment shader cannot be created.",
-        "text": "Shader fragmentů OpenGL nelze vytvořit."
-    },
-    {
-        "source": "The OpenGL fragment shader",
-        "description": "",
-        "id": "The OpenGL fragment shader",
-        "text": "Přední shader OpenGL"
-    },
-    {
-        "source": "The program",
-        "description": "",
-        "id": "The program",
-        "text": "Program"
-    },
-    {
-        "source": "cannot be linked",
-        "description": "",
-        "id": "cannot be linked",
-        "text": "nelze propojit"
-    },
-    {
-        "source": "L U8",
-        "description": "",
-        "id": "L_U8",
-        "text": "50 U8"
-    },
-    {
-        "source": "L U16",
-        "description": "",
-        "id": "L_U16",
-        "text": "L U16"
-    },
-    {
-        "source": "L U32",
-        "description": "",
-        "id": "L_U32",
-        "text": "L U32"
-    },
-    {
-        "source": "L F16",
-        "description": "",
-        "id": "L_F16",
-        "text": "L F16"
-    },
-    {
-        "source": "L F32",
-        "description": "",
-        "id": "L_F32",
-        "text": "L F32"
-    },
-    {
-        "source": "LA U8",
-        "description": "",
-        "id": "LA_U8",
-        "text": "U8"
-    },
-    {
-        "source": "LA U16",
-        "description": "",
-        "id": "LA_U16",
-        "text": "THE U16"
-    },
-    {
-        "source": "LA U32",
-        "description": "",
-        "id": "LA_U32",
-        "text": "THE U32"
-    },
-    {
-        "source": "LA F16",
-        "description": "",
-        "id": "LA_F16",
-        "text": "THE F16"
-    },
-    {
-        "source": "LA F32",
-        "description": "",
-        "id": "LA_F32",
-        "text": "LA F32"
-    },
-    {
-        "source": "RGB U8",
-        "description": "",
-        "id": "RGB_U8",
-        "text": "RGB U8"
-    },
-    {
-        "source": "RGB U10",
-        "description": "",
-        "id": "RGB_U10",
-        "text": "RGB U10"
-    },
-    {
-        "source": "RGB U16",
-        "description": "",
-        "id": "RGB_U16",
-        "text": "RGB U16"
-    },
-    {
-        "source": "RGB U32",
-        "description": "",
-        "id": "RGB_U32",
-        "text": "RGB U32"
-    },
-    {
-        "source": "RGB F16",
-        "description": "",
-        "id": "RGB_F16",
-        "text": "RGB F16"
-    },
-    {
-        "source": "RGB F32",
-        "description": "",
-        "id": "RGB_F32",
-        "text": "RGB F32"
-    },
-    {
-        "source": "RGBA U8",
-        "description": "",
-        "id": "RGBA_U8",
-        "text": "RGBA U8"
-    },
-    {
-        "source": "RGBA U16",
-        "description": "",
-        "id": "RGBA_U16",
-        "text": "RGBA U16"
-    },
-    {
-        "source": "RGBA U32",
-        "description": "",
-        "id": "RGBA_U32",
-        "text": "RGBA U32"
-    },
-    {
-        "source": "RGBA F16",
-        "description": "",
-        "id": "RGBA_F16",
-        "text": "RGBA F16"
-    },
-    {
-        "source": "RGBA F32",
-        "description": "",
-        "id": "RGBA_F32",
-        "text": "RGBA F32"
-    },
-    {
-        "source": "L",
-        "description": "",
-        "id": "L",
-        "text": ""
-    },
-    {
-        "source": "LA",
-        "description": "",
-        "id": "LA",
-        "text": "LA"
-    },
-    {
-        "source": "RGB",
-        "description": "",
-        "id": "RGB",
-        "text": "RGB"
-    },
-    {
-        "source": "RGBA",
-        "description": "",
-        "id": "RGBA",
-        "text": "RGBA"
-    },
-    {
-        "source": "U10",
-        "description": "",
-        "id": "U10",
-        "text": "U10"
-    },
-    {
-        "source": "U16",
-        "description": "",
-        "id": "U16",
-        "text": "U16"
-    },
-    {
-        "source": "U32",
-        "description": "",
-        "id": "U32",
-        "text": "U32"
-    },
-    {
-        "source": "F16",
-        "description": "",
-        "id": "F16",
-        "text": "F16"
-    },
-    {
-        "source": "The shader cannot be created",
-        "description": "",
-        "id": "The shader cannot be created",
-        "text": "Shader nelze vytvořit"
-    },
-    {
-        "source": "Cannot create GLFW window.",
-        "description": "",
-        "id": "Cannot create GLFW window.",
-        "text": "Nelze vytvořit okno GLFW."
-    },
-    {
-        "source": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.",
-        "description": "",
-        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.",
-        "text": "Tento plugin poskytuje I / O obrazové skupiny Joint Photographic Experts Group (JPEG)."
-    },
-    {
-        "source": "This plugin provides OpenEXR file I/O.",
-        "description": "",
-        "id": "This plugin provides OpenEXR file I/O.",
-        "text": "Tento plugin poskytuje I / O soubor OpenEXR."
-    },
-    {
-        "source": "Known",
-        "description": "",
-        "id": "Known",
-        "text": "Známý"
-    },
-    {
-        "source": "All",
-        "description": "",
-        "id": "All",
-        "text": "Všechno"
-    },
-    {
-        "source": "ZIPS",
-        "description": "",
-        "id": "ZIPS",
-        "text": "ZIP"
-    },
-    {
-        "source": "ZIP",
-        "description": "",
-        "id": "ZIP",
-        "text": "ZIP"
-    },
-    {
-        "source": "PIZ",
-        "description": "",
-        "id": "PIZ",
-        "text": "PIZ"
-    },
-    {
-        "source": "PXR24",
-        "description": "",
-        "id": "PXR24",
-        "text": "PXR24"
-    },
-    {
-        "source": "B44",
-        "description": "",
-        "id": "B44",
-        "text": "B44"
-    },
-    {
-        "source": "B44A",
-        "description": "",
-        "id": "B44A",
-        "text": "B44A"
-    },
-    {
-        "source": "DWAA",
-        "description": "",
-        "id": "DWAA",
-        "text": "DWAA"
-    },
-    {
-        "source": "DWAB",
-        "description": "",
-        "id": "DWAB",
-        "text": "DWAB"
-    },
-    {
-        "source": "cannot be read",
-        "description": "",
-        "id": "cannot be read",
-        "text": "nelze číst"
-    },
-    {
-        "source": "cannot be written",
-        "description": "",
-        "id": "cannot be written",
-        "text": "nelze psát"
-    },
-    {
-        "source": "Float",
-        "description": "",
-        "id": "Float",
-        "text": "Plovák"
-    },
-    {
-        "source": "Double",
-        "description": "",
-        "id": "Double",
-        "text": "Dvojnásobek"
-    },
-    {
-        "source": "U8 Planar",
-        "description": "",
-        "id": "U8 Planar",
-        "text": "U8 Planar"
-    },
-    {
-        "source": "S16 Planar",
-        "description": "",
-        "id": "S16 Planar",
-        "text": "S16 Planar"
-    },
-    {
-        "source": "S32 Planar",
-        "description": "",
-        "id": "S32 Planar",
-        "text": "S32 Planar"
-    },
-    {
-        "source": "Float Planar",
-        "description": "",
-        "id": "Float Planar",
-        "text": "Plovákový planár"
-    },
-    {
-        "source": "Double Planar",
-        "description": "",
-        "id": "Double Planar",
-        "text": "Double Planar"
-    },
-    {
-        "source": "This plugin provides FFmpeg image and audio I/O.",
-        "description": "",
-        "id": "This plugin provides FFmpeg image and audio I/O.",
-        "text": "Tento plugin poskytuje obrazové a zvukové I / O soubory FFmpeg."
-    },
-    {
-        "source": "The file cannot be opened.",
-        "description": "",
-        "id": "The file cannot be opened.",
-        "text": "Soubor nelze otevřít."
-    },
-    {
-        "source": "No image channels.",
-        "description": "",
-        "id": "No image channels.",
-        "text": "Žádné obrazové kanály."
-    },
-    {
-        "source": "Image channels must have the same size and bit depth.",
-        "description": "",
-        "id": "Image channels must have the same size and bit depth.",
-        "text": "Obrazové kanály musí mít stejnou velikost a bitovou hloubku."
-    },
-    {
-        "source": "Unsupported bit depth.",
-        "description": "",
-        "id": "Unsupported bit depth.",
-        "text": "Nepodporovaná bitová hloubka."
-    },
-    {
-        "source": "Line padding is unsupported.",
-        "description": "",
-        "id": "Line padding is unsupported.",
-        "text": "Čalounění linky není podporováno."
-    },
-    {
-        "source": "Channel padding is unsupported.",
-        "description": "",
-        "id": "Channel padding is unsupported.",
-        "text": "Výplň kanálu není podporována."
-    },
-    {
-        "source": "This plugin provides Cineon image I/O.",
-        "description": "",
-        "id": "This plugin provides Cineon image I/O.",
-        "text": "Tento plugin poskytuje Cineon image I / O."
-    },
-    {
-        "source": "Default",
-        "description": "",
-        "id": "Default",
-        "text": "Výchozí"
-    },
-    {
-        "id": "The audio format",
-        "source": "The audio format",
-        "description": "",
-        "text": "Zvukový formát"
-    },
-    {
-        "source": "F64",
-        "description": "",
-        "id": "F64",
-        "text": "F64"
-    },
-    {
-        "source": "RtAudio cannot be initialized",
-        "description": "",
-        "id": "RtAudio cannot be initialized",
-        "text": "RtAudio nelze inicializovat"
-    },
-    {
-        "source": "File not supported.",
-        "description": "",
-        "id": "File not supported.",
-        "text": "Soubor není podporován."
-    },
-    {
-        "source": "Error reading header.",
-        "description": "",
-        "id": "Error reading header.",
-        "text": "Chyba při čtení záhlaví."
-    },
-    {
-        "source": "Straight",
-        "description": "",
-        "id": "Straight",
-        "text": "Rovný"
-    },
-    {
-        "source": "Premultiplied",
-        "description": "",
-        "id": "Premultiplied",
-        "text": "Předběžné použití"
-    },
-    {
-        "source": "This plugin provides IFF image I/O.",
-        "description": "",
-        "id": "This plugin provides IFF image I/O.",
-        "text": "Tento plugin poskytuje I / O obraz IFF."
-    },
-    {
-        "source": "Cannot initialize GLFW.",
-        "description": "",
-        "id": "Cannot initialize GLFW.",
-        "text": "Nelze inicializovat GLFW."
-    },
-    {
-        "source": "Cannot initialize GLAD.",
-        "description": "",
-        "id": "Cannot initialize GLAD.",
-        "text": "GLAD nelze inicializovat."
-    },
-    {
-        "source": "This plugin provides RLA image I/O.",
-        "description": "",
-        "id": "This plugin provides RLA image I/O.",
-        "text": "Tento plugin poskytuje I / O obraz RLA."
-    },
-    {
-        "source": "This plugin provides SGI image I/O.",
-        "description": "",
-        "id": "This plugin provides SGI image I/O.",
-        "text": "Tento plugin poskytuje I / O obraz SGI."
-    },
-    {
-        "source": "Read error.",
-        "description": "",
-        "id": "Read error.",
-        "text": "Chyba čtení."
-    },
-    {
-        "source": "This plugin provides Targa image I/O.",
-        "description": "",
-        "id": "This plugin provides Targa image I/O.",
-        "text": "Tento plugin poskytuje Targa image I / O."
-    },
-    {
-        "source": "Red",
-        "text": "Červené",
-        "id": "Red",
-        "description": ""
-    },
-    {
-        "source": "Green",
-        "text": "Zelený",
-        "id": "Green",
-        "description": ""
-    },
-    {
-        "source": "Blue",
-        "text": "Modrý",
-        "id": "Blue",
-        "description": ""
-    },
-    {
-        "source": "Alpha",
-        "text": "Alfa",
-        "id": "Alpha",
-        "description": ""
-    },
-    {
-        "source": "Atlas",
-        "text": "Atlas",
-        "id": "Atlas",
-        "description": ""
-    },
-    {
-        "source": "Dynamic",
-        "text": "Dynamický",
-        "id": "Dynamic",
-        "description": ""
-    },
-    {
-        "source": "Nearest",
-        "text": "Nejbližší",
-        "id": "Nearest",
-        "description": ""
-    },
-    {
-        "source": "Linear",
-        "text": "Lineární",
-        "id": "Linear",
-        "description": ""
-    }
-]
+{
+    "error_unknown": "Neznámý",
+    "error_out_of_memory": "Nedostatek paměti",
+    "error_invalid_value": "neplatná hodnota",
+    "error_invalid_enum": "Neplatné výčet",
+    "error_rtaudio_init": "RtAudio nelze inicializovat",
+    "error_the_file": "Soubor",
+    "error_openion": "nelze otevřít",
+    "error_no_streams": "nemá žádné video ani audio streamy",
+    "error_codec_match": "neodpovídá žádným videokodekům",
+    "error_the_audio_format": "Zvukový formát",
+    "error_unsupported": "není podporováno",
+    "error_no_audio_codecs": "neodpovídá žádným zvukovým kodekům",
+    "error_file_not_supported": "Soubor není podporován.",
+    "error_reading_header": "Chyba při čtení záhlaví.",
+    "error_cannot_be_read": "nelze číst",
+    "error_cannot_be_written": "nelze psát",
+    "error_cannot_parse_value": "Nelze analyzovat hodnotu.",
+    "error_opengl_vertex_shader_creation": "Nelze vytvořit vertex shaderu OpenGL.",
+    "error_the_opengl_vertex_shader": "OpenGL vertex shader",
+    "error_compilion": "nelze zkompilovat",
+    "error_opengl_fragment_shader_creation": "Shader fragmentů OpenGL nelze vytvořit.",
+    "error_the_opengl_fragment_shader": "Přední shader OpenGL",
+    "error_the_program": "Program",
+    "error_link": "nelze propojit",
+    "error_glfw_init": "Nelze inicializovat GLFW.",
+    "error_glfw_window_creation": "Nelze vytvořit okno GLFW.",
+    "error_glad_init": "GLAD nelze inicializovat.",
+    "error_file_open": "Soubor nelze otevřít.",
+    "error_unsupported_color_components": "Nepodporované barevné komponenty.",
+    "error_opengl_texture_creation": "Texturu OpenGL nelze vytvořit.",
+    "error_opengl_frame_buffer_creation": "Nelze vytvořit vyrovnávací paměť rámců OpenGL.",
+    "error_opengl_frame_buffer_init": "Vyrovnávací paměť rámců OpenGL nelze inicializovat.",
+    "error_bad_magic_number": "Špatné magické číslo.",
+    "error_unsupported_image_type": "Nepodporovaný typ obrázku.",
+    "error_incomplete_file": "Neúplný soubor.",
+    "error_no_image_channels": "Žádné obrazové kanály.",
+    "error_image_channels_same_size_and_bit_depth": "Obrazové kanály musí mít stejnou velikost a bitovou hloubku.",
+    "error_unsupported_bit_depth": "Nepodporovaná bitová hloubka.",
+    "error_line_padding_unsupported": "Čalounění linky není podporováno.",
+    "error_channel_padding_unsupported": "Výplň kanálu není podporována.",
+    "error_unsupported_file": "Nepodporovaný soubor.",
+    "error_read": "Chyba čtení.",
+    "error_read_scanline": "Chyba při čtení scanline.",
+    "error_write_scanline": "Chyba při zápisu scanline.",
+    "error_the_shader_creation": "Shader nelze vytvořit",
+    "u8": "U8",
+    "s16": "S16",
+    "s32": "S32",
+    "f32": "F32",
+    "f64": "F64",
+    "direction_left": "Vlevo, odjet",
+    "direction_top": "Horní",
+    "direction_right": "Že jo",
+    "direction_bottom": "Dno",
+    "unit_time_timecode": "Časový kód",
+    "unit_time_frames": "Rámy",
+    "alpha_straight": "Rovný",
+    "alpha_premultiplied": "Předběžné použití",
+    "plugin_iff_io": "Tento plugin poskytuje I / O obraz IFF.",
+    "plugin_jpeg_io": "Tento plugin poskytuje I / O obrazové skupiny Joint Photographic Experts Group (JPEG).",
+    "plugin_openexr_io": "Tento plugin poskytuje I / O soubor OpenEXR.",
+    "plugin_rla_io": "Tento plugin poskytuje I / O obraz RLA.",
+    "plugin_png_i_o": "Tento plugin poskytuje I / O obraz Portable Network Graphics (PNG).",
+    "plugin_netpbm_io": "Tento plugin poskytuje I / O obraz NetPBM.",
+    "plugin_cineon_io": "Tento plugin poskytuje Cineon image I / O.",
+    "plugin_dpx_io": "Tento plugin poskytuje DPX image I / O.",
+    "plugin_sgi_io": "Tento plugin poskytuje I / O obraz SGI.",
+    "plugin_tiff_io": "Tento plugin poskytuje I / O obrazový formát obrazového souboru (TIFF).",
+    "plugin_targa_io": "Tento plugin poskytuje Targa image I / O.",
+    "plugin_ffmpeg_io": "Tento plugin poskytuje obrazové a zvukové I / O soubory FFmpeg.",
+    "format_exr_channel_grouping_none": "Žádný",
+    "format_exr_channel_grouping_known": "Známý",
+    "format_exr_channel_grouping_all": "Všechno",
+    "format_tiff_compression_rle": "RLE",
+    "format_exr_compression_zips": "ZIP",
+    "format_exr_compression_zip": "ZIP",
+    "format_exr_compression_piz": "PIZ",
+    "format_exr_compression_pxr24": "PXR24",
+    "format_exr_compression_b44": "B44",
+    "format_exr_compression_b44a": "B44A",
+    "format_exr_compression_dwaa": "DWAA",
+    "format_exr_compression_dwab": "DWAB",
+    "format_tiff_compression_lzw": "LZW",
+    "format_ppm_type_ascii": "ASCII",
+    "format_ppm_type_binary": "Binární",
+    "channel_type_l_u8": "50 U8",
+    "channel_type_l_u16": "L U16",
+    "channel_type_l_u32": "L U32",
+    "channel_type_l_f16": "L F16",
+    "channel_type_l_f32": "L F32",
+    "channel_type_la_u8": "U8",
+    "channel_type_la_u16": "THE U16",
+    "channel_type_la_u32": "THE U32",
+    "channel_type_la_f16": "THE F16",
+    "channel_type_la_f32": "LA F32",
+    "channel_type_rgb_u8": "RGB U8",
+    "channel_type_rgb_u10": "RGB U10",
+    "channel_type_rgb_u16": "RGB U16",
+    "channel_type_rgb_u32": "RGB U32",
+    "channel_type_rgb_f16": "RGB F16",
+    "channel_type_rgb_f32": "RGB F32",
+    "channel_type_rgba_u8": "RGBA U8",
+    "channel_type_rgba_u16": "RGBA U16",
+    "channel_type_rgba_u32": "RGBA U32",
+    "channel_type_rgba_f16": "RGBA F16",
+    "channel_type_rgba_f32": "RGBA F32",
+    "channel_type_l": "",
+    "channel_type_la": "LA",
+    "channel_type_rgb": "RGB",
+    "channel_type_rgba": "RGBA",
+    "channel_type_u10": "U10",
+    "channel_type_u16": "U16",
+    "channel_type_u32": "U32",
+    "channel_type_f16": "F16",
+    "1_0": "1,0",
+    "2_0": "2,0",
+    "auto": "Auto",
+    "msb": "MSB",
+    "lsb": "LSB",
+    "channel_red": "Červené",
+    "channel_green": "Zelený",
+    "channel_blue": "Modrý",
+    "channel_alpha": "Alfa",
+    "atlas": "Atlas",
+    "dynamic": "Dynamický",
+    "filter_nearest": "Nejbližší",
+    "filter_linear": "Lineární",
+    "type_float": "Plovák",
+    "type_double": "Dvojnásobek",
+    "type_s16_planar": "S16 Planar",
+    "type_s32_planar": "S32 Planar",
+    "type_float_planar": "Plovákový planár",
+    "type_double_planar": "Double Planar"
+}

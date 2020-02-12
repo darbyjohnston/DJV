@@ -1,0 +1,12 @@
+[
+    {
+        "text": "Cannot initialize GLFW.", 
+        "id": "Cannot initialize GLFW.", 
+        "description": ""
+    }, 
+    {
+        "text": "Cannot create GLFW window.", 
+        "id": "Cannot create GLFW window.", 
+        "description": ""
+    }
+]

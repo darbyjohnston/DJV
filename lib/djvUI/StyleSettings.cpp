@@ -94,7 +94,7 @@ namespace djv
                 
                 std::map<std::string, UI::Style::Metrics> metricsList;
                 UI::Style::Metrics metrics;
-                metricsList[DJV_TEXT("Medium")] = metrics;
+                metricsList[DJV_TEXT("settings_scroll_wheel_medium")] = metrics;
 
                 UI::Style::Metrics smallMetrics;
                 UI::Style::Metrics largeMetrics;
@@ -109,7 +109,7 @@ namespace djv
                 }
                 metricsList[DJV_TEXT("Small")] = smallMetrics;
                 metricsList[DJV_TEXT("Large")] = largeMetrics;
-                metricsList[DJV_TEXT("ExtraLarge")] = extraLargeMetrics;
+                metricsList[DJV_TEXT("size_extralarge")] = extraLargeMetrics;
 
                 DJV_PRIVATE_PTR();
                 p.palettes = MapSubject<std::string, UI::Style::Palette>::create(palettes);
@@ -117,8 +117,8 @@ namespace djv
                 p.currentPaletteName = ValueSubject<std::string>::create("Dark");
                 p.metrics = MapSubject<std::string, UI::Style::Metrics>::create(metricsList);
                 p.currentMetrics = ValueSubject<UI::Style::Metrics>::create(metricsList["Medium"]);
-                p.currentMetricsName = ValueSubject<std::string>::create(DJV_TEXT("Medium"));
-                p.currentFont = ValueSubject<std::string>::create(DJV_TEXT("Default"));
+                p.currentMetricsName = ValueSubject<std::string>::create(DJV_TEXT("settings_scroll_wheel_medium"));
+                p.currentFont = ValueSubject<std::string>::create(DJV_TEXT("widget_color_space_display_name_default"));
 
                 _load();
 

@@ -1752,22 +1752,22 @@ namespace djv
         AV::Render,
         ImageChannel,
         DJV_TEXT("None"),
-        DJV_TEXT("Red"),
-        DJV_TEXT("Green"),
-        DJV_TEXT("Blue"),
-        DJV_TEXT("Alpha"));
+        DJV_TEXT("channel_red"),
+        DJV_TEXT("channel_green"),
+        DJV_TEXT("channel_blue"),
+        DJV_TEXT("channel_alpha"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::Render,
         ImageCache,
-        DJV_TEXT("Atlas"),
-        DJV_TEXT("Dynamic"));
+        DJV_TEXT("atlas"),
+        DJV_TEXT("dynamic"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::Render,
         ImageFilter,
-        DJV_TEXT("Nearest"),
-        DJV_TEXT("Linear"));
+        DJV_TEXT("filter_nearest"),
+        DJV_TEXT("filter_linear"));
 
     picojson::value toJSON(AV::Render::ImageFilter value)
     {
@@ -1796,7 +1796,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
     }
 
@@ -1820,7 +1820,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
     }
 

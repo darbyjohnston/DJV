@@ -295,7 +295,7 @@ namespace djv
 
                     {
                         std::stringstream ss;
-                        ss << _getText(DJV_TEXT("FPS")) << ":";
+                        ss << _getText(DJV_TEXT("debug_general_fps")) << ":";
                         _labels["FPS"]->setText(ss.str());
                     }
                     {
@@ -306,7 +306,7 @@ namespace djv
                     }
                     {
                         std::stringstream ss;
-                        ss << _getText(DJV_TEXT("Total system time")) << ":";
+                        ss << _getText(DJV_TEXT("debug_general_total_system_time")) << ":";
                         _labels["TotalSystemTime"]->setText(ss.str());
                     }
                     {
@@ -316,7 +316,7 @@ namespace djv
                     }
                     {
                         std::stringstream ss;
-                        ss << _getText(DJV_TEXT("Top system time")) << ":";
+                        ss << _getText(DJV_TEXT("debug_general_top_system_time")) << ":";
                         _labels["TopSystemTime"]->setText(ss.str());
                     }
                     {
@@ -326,7 +326,7 @@ namespace djv
                     }
                     {
                         std::stringstream ss;
-                        ss << _getText(DJV_TEXT("Object count")) << ":";
+                        ss << _getText(DJV_TEXT("debug_general_object_count")) << ":";
                         _labels["ObjectCount"]->setText(ss.str());
                     }
                     {
@@ -336,7 +336,7 @@ namespace djv
                     }
                     {
                         std::stringstream ss;
-                        ss << _getText(DJV_TEXT("Widget count")) << ":";
+                        ss << _getText(DJV_TEXT("debug_general_widget_count")) << ":";
                         _labels["WidgetCount"]->setText(ss.str());
                     }
                     {
@@ -347,19 +347,19 @@ namespace djv
                     {
                         std::stringstream ss;
                         auto object = eventSystem->observeHover()->get();
-                        ss << _getText(DJV_TEXT("Hover")) << ": " << (object ? object->getClassName() : _getText(DJV_TEXT("None")));
+                        ss << _getText(DJV_TEXT("debug_general_hover")) << ": " << (object ? object->getClassName() : _getText(DJV_TEXT("None")));
                         _labels["Hover"]->setText(ss.str());
                     }
                     {
                         std::stringstream ss;
                         auto object = eventSystem->observeGrab()->get();
-                        ss << _getText(DJV_TEXT("Grab")) << ": " << (object ? object->getClassName() : _getText(DJV_TEXT("None")));
+                        ss << _getText(DJV_TEXT("debug_general_grab")) << ": " << (object ? object->getClassName() : _getText(DJV_TEXT("None")));
                         _labels["Grab"]->setText(ss.str());
                     }
                     {
                         std::stringstream ss;
                         auto object = eventSystem->observeKeyGrab()->get();
-                        ss << _getText(DJV_TEXT("Key grab")) << ": " << (object ? object->getClassName() : _getText(DJV_TEXT("None")));
+                        ss << _getText(DJV_TEXT("debug_general_key_grab")) << ": " << (object ? object->getClassName() : _getText(DJV_TEXT("None")));
                         _labels["KeyGrab"]->setText(ss.str());
                     }
                     {
@@ -373,12 +373,12 @@ namespace djv
                         {
                             name = _getText(DJV_TEXT("None"));
                         }
-                        ss << _getText(DJV_TEXT("Text focus")) << ": " << name;
+                        ss << _getText(DJV_TEXT("debug_general_text_focus")) << ": " << name;
                         _labels["TextFocus"]->setText(ss.str());
                     }
                     {
                         std::stringstream ss;
-                        ss << _getText(DJV_TEXT("Font system glyph cache")) << ":";
+                        ss << _getText(DJV_TEXT("debug_general_font_system_glyph_cache")) << ":";
                         _labels["GlyphCache"]->setText(ss.str());
                     }
                     {
@@ -389,7 +389,7 @@ namespace djv
                     }
                     {
                         std::stringstream ss;
-                        ss << _getText(DJV_TEXT("Thumbnail system information cache")) << ":";
+                        ss << _getText(DJV_TEXT("debug_general_thumbnail_system_information_cache")) << ":";
                         _labels["ThumbnailInfoCache"]->setText(ss.str());
                     }
                     {
@@ -400,7 +400,7 @@ namespace djv
                     }
                     {
                         std::stringstream ss;
-                        ss << _getText(DJV_TEXT("Thumbnail system image cache")) << ":";
+                        ss << _getText(DJV_TEXT("debug_general_thumbnail_system_image_cache")) << ":";
                         _labels["ThumbnailImageCache"]->setText(ss.str());
                     }
                     {
@@ -411,7 +411,7 @@ namespace djv
                     }
                     {
                         std::stringstream ss;
-                        ss << _getText(DJV_TEXT("Icon system cache")) << ":";
+                        ss << _getText(DJV_TEXT("debug_general_icon_system_cache")) << ":";
                         _labels["IconCache"]->setText(ss.str());
                     }
                     {
@@ -522,7 +522,7 @@ namespace djv
 
                 {
                     std::stringstream ss;
-                    ss << _getText(DJV_TEXT("Texture atlas")) << ":";
+                    ss << _getText(DJV_TEXT("debug_render_texture_atlas")) << ":";
                     _labels["TextureAtlas"]->setText(ss.str());
                 }
                 {
@@ -533,7 +533,7 @@ namespace djv
                 }
                 {
                     std::stringstream ss;
-                    ss << _getText(DJV_TEXT("Dynamic texture count")) << ":";
+                    ss << _getText(DJV_TEXT("debug_render_dynamic_texture_count")) << ":";
                     _labels["DynamicTextureCount"]->setText(ss.str());
                 }
                 {
@@ -543,7 +543,7 @@ namespace djv
                 }
                 {
                     std::stringstream ss;
-                    ss << _getText(DJV_TEXT("VBO size")) << ":";
+                    ss << _getText(DJV_TEXT("debug_render_vbo_size")) << ":";
                     _labels["VBOSize"]->setText(ss.str());
                 }
                 {
@@ -751,12 +751,12 @@ namespace djv
                 Widget::_initEvent(event);
                 {
                     std::stringstream ss;
-                    ss << _getText(DJV_TEXT("Video queue")) << ":";
+                    ss << _getText(DJV_TEXT("debug_media_video_queue")) << ":";
                     _labels["VideoQueue"]->setText(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << _getText(DJV_TEXT("Audio queue")) << ":";
+                    ss << _getText(DJV_TEXT("debug_media_audio_queue")) << ":";
                     _labels["AudioQueue"]->setText(ss.str());
                 }
                 _widgetUpdate();
@@ -766,7 +766,7 @@ namespace djv
             {
                 {
                     std::stringstream ss;
-                    ss << _getText(DJV_TEXT("Current time")) << ":";
+                    ss << _getText(DJV_TEXT("debug_media_current_time")) << ":";
                     _labels["CurrentFrame"]->setText(ss.str());
                 }
                 {
@@ -860,10 +860,10 @@ namespace djv
         {
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            setTitle(_getText(DJV_TEXT("Debug")));
-            p.bellows["General"]->setText(_getText(DJV_TEXT("General")));
-            p.bellows["Render"]->setText(_getText(DJV_TEXT("Render")));
-            p.bellows["Media"]->setText(_getText(DJV_TEXT("Media")));
+            setTitle(_getText(DJV_TEXT("debug_title")));
+            p.bellows["General"]->setText(_getText(DJV_TEXT("debug_section_general")));
+            p.bellows["Render"]->setText(_getText(DJV_TEXT("debug_section_render")));
+            p.bellows["Media"]->setText(_getText(DJV_TEXT("debug_section_media")));
         }
 
     } // namespace ViewApp

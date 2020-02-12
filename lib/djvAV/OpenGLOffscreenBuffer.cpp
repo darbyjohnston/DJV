@@ -61,13 +61,13 @@ namespace djv
                     switch (error)
                     {
                     case Error::Texture:
-                        ss << DJV_TEXT("The OpenGL texture cannot be created.");
+                        ss << DJV_TEXT("error_opengl_texture_creation");
                         break;
                     case Error::Create:
-                        ss << DJV_TEXT("The OpenGL frame buffer cannot be created.");
+                        ss << DJV_TEXT("error_opengl_frame_buffer_creation");
                         break;
                     case Error::Init:
-                        ss << DJV_TEXT("The OpenGL frame buffer cannot be initialized.");
+                        ss << DJV_TEXT("error_opengl_frame_buffer_init");
                         break;
                     default: break;
                     }

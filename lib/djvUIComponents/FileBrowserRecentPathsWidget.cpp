@@ -160,7 +160,7 @@ namespace djv
             {
                 Widget::_initEvent(event);
                 DJV_PRIVATE_PTR();
-                p.titleLabel->setText(_getText(DJV_TEXT("Recent Paths")));
+                p.titleLabel->setText(_getText(DJV_TEXT("file_browser_recent_paths")));
             }
 
         } // namespace FileBrowser

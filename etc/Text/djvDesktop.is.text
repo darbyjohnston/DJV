@@ -1,14 +1,4 @@
-[
-    {
-        "source": "Cannot initialize GLFW.",
-        "description": "",
-        "id": "Cannot initialize GLFW.",
-        "text": "Ekki er hægt að frumstilla GLFW."
-    },
-    {
-        "source": "Cannot create GLFW window.",
-        "description": "",
-        "id": "Cannot create GLFW window.",
-        "text": "Ekki er hægt að búa til GLFW glugga."
-    }
-]
+{
+    "error_glfw_init": "Ekki er hægt að frumstilla GLFW.",
+    "error_glfw_window_creation": "Ekki er hægt að búa til GLFW glugga."
+}

@@ -315,7 +315,7 @@ namespace djv
                         catch (const std::exception& e)
                         {
                             std::stringstream ss;
-                            ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be read") << ". " << e.what();
+                            ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_cannot_be_read") << ". " << e.what();
                             _logSystem->log("djv::AV::ISequenceRead", ss.str(), LogLevel::Error);
                         }
                         return out;
@@ -576,7 +576,7 @@ namespace djv
                 if (!p.glfwWindow)
                 {
                     std::stringstream ss;
-                    ss << DJV_TEXT("Cannot create GLFW window.");
+                    ss << DJV_TEXT("error_glfw_window_creation");
                     throw FileSystem::Error(ss.str());
                 }
 
@@ -646,7 +646,7 @@ namespace djv
                                     if (Image::Type::None == imageType)
                                     {
                                         std::stringstream ss;
-                                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be written") << ".";
+                                        ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_cannot_be_written") << ".";
                                         throw FileSystem::Error(ss.str());
                                     }
                                     const Image::Layout imageLayout = _getImageLayout();
@@ -682,8 +682,8 @@ namespace djv
                                     if (result.error)
                                     {
                                         std::stringstream ss;
-                                        ss << DJV_TEXT("The file") << " '" << result.fileName << "' " <<
-                                            DJV_TEXT("cannot be written") << ". " << result.errorString;
+                                        ss << DJV_TEXT("error_the_file") << " '" << result.fileName << "' " <<
+                                            DJV_TEXT("error_cannot_be_written") << ". " << result.errorString;
                                         _logSystem->log("djv::AV::ISequenceWrite", ss.str(), LogLevel::Error);
                                         p.running = false;
                                     }

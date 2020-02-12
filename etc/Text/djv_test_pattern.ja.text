@@ -1,86 +1,16 @@
-[
-    {
-        "source": " Usage:",
-        "text": "使用法：",
-        "id": " Usage:",
-        "description": ""
-    },
-    {
-        "source": "   djv_test_pattern (output) [option, ...]",
-        "text": "djv_test_pattern（出力）[オプション、...]",
-        "id": "   djv_test_pattern (output) [option, ...]",
-        "description": ""
-    },
-    {
-        "source": " Options:",
-        "text": "オプション：",
-        "id": " Options:",
-        "description": ""
-    },
-    {
-        "source": "   -frameCount (value)",
-        "text": "-frameCount（値）",
-        "id": "   -frameCount (value)",
-        "description": ""
-    },
-    {
-        "source": "   The number of frames to render. Default: ",
-        "text": "レンダリングするフレームの数。デフォルト：",
-        "id": "   The number of frames to render. Default: ",
-        "description": ""
-    },
-    {
-        "source": "   -size \\\"(width) (height)\\\"",
-        "text": "-size \\ &quot;（width）（height）\\&quot;",
-        "id": "   -size \\\"(width) (height)\\\"",
-        "description": ""
-    },
-    {
-        "source": "   The image resolution. Default: ",
-        "text": "画像の解像度。デフォルト：",
-        "id": "   The image resolution. Default: ",
-        "description": ""
-    },
-    {
-        "source": "   -type (value)",
-        "text": "-type（値）",
-        "id": "   -type (value)",
-        "description": ""
-    },
-    {
-        "source": "   The image type. Default: ",
-        "text": "画像タイプ。デフォルト：",
-        "id": "   The image type. Default: ",
-        "description": ""
-    },
-    {
-        "source": " Examples:",
-        "text": "例：",
-        "id": " Examples:",
-        "description": ""
-    },
-    {
-        "source": "   > djv_test_pattern test.1.dpx",
-        "text": "&gt; djv_test_pattern test.1.dpx",
-        "id": "   > djv_test_pattern test.1.dpx",
-        "description": ""
-    },
-    {
-        "source": "   Render a test pattern with the default values.",
-        "text": "デフォルト値でテストパターンをレンダリングします。",
-        "id": "   Render a test pattern with the default values.",
-        "description": ""
-    },
-    {
-        "source": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16",
-        "text": "&gt; djv_test_pattern test.1.tif -size &#39;3840 2160&#39; -type RGB_U16",
-        "id": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16",
-        "description": ""
-    },
-    {
-        "source": "   Render a UHD resolution test pattern with a RGB 16-bit image type.",
-        "text": "RGB 16ビット画像タイプでUHD解像度のテストパターンをレンダリングします。",
-        "id": "   Render a UHD resolution test pattern with a RGB 16-bit image type.",
-        "description": ""
-    }
-]
+{
+    "cli_usage": "使用法：",
+    "cli_djv_test_pattern_output_option": "djv_test_pattern（出力）[オプション、...]",
+    "cli_options": "オプション：",
+    "cli_option_frame_number": "-frameCount（値）",
+    "cli_description_frame_number": "レンダリングするフレームの数。デフォルト：",
+    "cli_option_resolution": "-size \\ &quot;（width）（height）\\&quot;",
+    "cli_description_resolution": "画像の解像度。デフォルト：",
+    "cli_option_type": "-type（値）",
+    "cli_description_type": "画像タイプ。デフォルト：",
+    "cli_examples": "例：",
+    "cli_djv_test_pattern_test_1_dpx": "&gt; djv_test_pattern test.1.dpx",
+    "cli_render_a_test_pattern_with_the_default_values": "デフォルト値でテストパターンをレンダリングします。",
+    "cli_djv_test_pattern_test_1_tif_-size_3840_2160_-type_rgb_u16": "&gt; djv_test_pattern test.1.tif -size &#39;3840 2160&#39; -type RGB_U16",
+    "cli_render_a_uhd_resolution_test_pattern_with_a_rgb_16-bit_image_type": "RGB 16ビット画像タイプでUHD解像度のテストパターンをレンダリングします。"
+}

@@ -70,34 +70,34 @@ namespace djv
                     switch (type)
                     {
                     case ErrorType::Open:
-                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << Core::Error::getLastError();
+                        ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_openion") << ". " << Core::Error::getLastError();
                         break;
                     case ErrorType::OpenTemp:
-                        ss << DJV_TEXT("The temporary file cannot be opened") << ". " << Core::Error::getLastError();
+                        ss << DJV_TEXT("error_the_temporary_file_cannot_be_opened") << ". " << Core::Error::getLastError();
                         break;
                     case ErrorType::MemoryMap:
-                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be mapped") << ". " << Core::Error::getLastError();
+                        ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_cannot_be_mapped") << ". " << Core::Error::getLastError();
                         break;
                     case ErrorType::Close:
-                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be closed") << ". " << Core::Error::getLastError();
+                        ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_cannot_be_closed") << ". " << Core::Error::getLastError();
                         break;
                     case ErrorType::CloseMemoryMap:
-                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be unmapped") << ". " << Core::Error::getLastError();
+                        ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_cannot_be_unmapped") << ". " << Core::Error::getLastError();
                         break;
                     case ErrorType::Read:
-                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be read") << ". " << Core::Error::getLastError();
+                        ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_cannot_be_read") << ". " << Core::Error::getLastError();
                         break;
                     case ErrorType::ReadMemoryMap:
-                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be read") << ".";
+                        ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_cannot_be_read") << ".";
                         break;
                     case ErrorType::Write:
-                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be written") << ". " << Core::Error::getLastError();
+                        ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_cannot_be_written") << ". " << Core::Error::getLastError();
                         break;
                     case ErrorType::Seek:
-                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be seeked") << ". " << Core::Error::getLastError();
+                        ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_cannot_be_seeked") << ". " << Core::Error::getLastError();
                         break;
                     case ErrorType::SeekMemoryMap:
-                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be seeked") << ".";
+                        ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_cannot_be_seeked") << ".";
                         break;
                     default: break;
                     }

@@ -236,7 +236,7 @@ namespace djv
             if (!p.glfwWindow)
             {
                 std::stringstream ss;
-                ss << DJV_TEXT("Cannot create GLFW window.");
+                ss << DJV_TEXT("error_glfw_window_creation");
                 throw ThumbnailError(ss.str());
             }
 
@@ -272,7 +272,7 @@ namespace djv
 #endif // DJV_OPENGL_ES2
                     {
                         std::stringstream ss;
-                        ss << DJV_TEXT("Cannot initialize GLAD.");
+                        ss << DJV_TEXT("error_glad_init");
                         throw ThumbnailError(ss.str());
                     }
 

@@ -1,0 +1,92 @@
+[
+    {
+        "text": "Nothing to convert",
+        "id": "Nothing to convert",
+        "description": ""
+    },
+    {
+        "text": " Usage:",
+        "id": " Usage:",
+        "description": ""
+    },
+    {
+        "text": "   djv_convert (input) (output) [option, ...]",
+        "id": "   djv_convert (input) (output) [option, ...]",
+        "description": ""
+    },
+    {
+        "text": " Options:",
+        "id": " Options:",
+        "description": ""
+    },
+    {
+        "text": "   -resize \\\"(width) (height)\\\"",
+        "id": "   -resize \\\"(width) (height)\\\"",
+        "description": ""
+    },
+    {
+        "text": "   Resize the image.",
+        "id": "   Resize the image.",
+        "description": ""
+    },
+    {
+        "text": "   -readSeq",
+        "id": "   -readSeq",
+        "description": ""
+    },
+    {
+        "text": "   Interpret the input file name as a sequence.",
+        "id": "   Interpret the input file name as a sequence.",
+        "description": ""
+    },
+    {
+        "text": "   -writeSeq",
+        "id": "   -writeSeq",
+        "description": ""
+    },
+    {
+        "text": "   Interpret the output file name as a sequence.",
+        "id": "   Interpret the output file name as a sequence.",
+        "description": ""
+    },
+    {
+        "text": "   -readQueue (value)",
+        "id": "   -readQueue (value)",
+        "description": ""
+    },
+    {
+        "text": "   Set the size of the read queue.",
+        "id": "   Set the size of the read queue.",
+        "description": ""
+    },
+    {
+        "text": "   -writeQueue (value)",
+        "id": "   -writeQueue (value)",
+        "description": ""
+    },
+    {
+        "text": "   Set the size of the write queue.",
+        "id": "   Set the size of the write queue.",
+        "description": ""
+    },
+    {
+        "text": "   -readThreads (value)",
+        "id": "   -readThreads (value)",
+        "description": ""
+    },
+    {
+        "text": "   Set the number of threads for reading.",
+        "id": "   Set the number of threads for reading.",
+        "description": ""
+    },
+    {
+        "text": "   -writeThreads (value)",
+        "id": "   -writeThreads (value)",
+        "description": ""
+    },
+    {
+        "text": "   Set the number of threads for writing.",
+        "id": "   Set the number of threads for writing.",
+        "description": ""
+    }
+]

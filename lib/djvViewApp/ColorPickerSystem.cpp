@@ -146,8 +146,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.actions.size())
             {
-                p.actions["ColorPicker"]->setText(_getText(DJV_TEXT("Color Picker")));
-                p.actions["ColorPicker"]->setTooltip(_getText(DJV_TEXT("Color picker tooltip")));
+                p.actions["ColorPicker"]->setText(_getText(DJV_TEXT("menu_tools_color_picker")));
+                p.actions["ColorPicker"]->setTooltip(_getText(DJV_TEXT("menu_color_picker_tooltip")));
             }
         }
         
