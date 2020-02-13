@@ -948,14 +948,14 @@ namespace djv
                 
                 p.actions["Back"]->setText(_getText(DJV_TEXT("file_browser_back")));
                 p.actions["Back"]->setTooltip(_getText(DJV_TEXT("file_browser_back_tooltip")));
-                p.actions["Forward"]->setText(_getText(DJV_TEXT("file_browser_playback_forward")));
+                p.actions["Forward"]->setText(_getText(DJV_TEXT("file_browser_forward")));
                 p.actions["Forward"]->setTooltip(_getText(DJV_TEXT("file_browser_forward_tooltip")));
                 p.actions["Up"]->setText(_getText(DJV_TEXT("file_browser_up")));
                 p.actions["Up"]->setTooltip(_getText(DJV_TEXT("file_browser_up_tooltip")));
 
-                p.actions["Tiles"]->setText(_getText(DJV_TEXT("file_browser_settings_tile")));
+                p.actions["Tiles"]->setText(_getText(DJV_TEXT("file_browser_settings_tile_view")));
                 p.actions["Tiles"]->setTooltip(_getText(DJV_TEXT("file_browser_settings_tile_view_tooltip")));
-                p.actions["List"]->setText(_getText(DJV_TEXT("file_browser_settings_list")));
+                p.actions["List"]->setText(_getText(DJV_TEXT("file_browser_settings_list_view")));
                 p.actions["List"]->setTooltip(_getText(DJV_TEXT("file_browser_settings_list_view_tooltip")));
                 p.actions["IncreaseThumbnailSize"]->setText(_getText(DJV_TEXT("file_browser_settings_increase_thumbnail")));
                 p.actions["IncreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("file_browser_settings_increase_thumbnail_tooltip")));
