@@ -734,7 +734,7 @@ namespace djv
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
 
-            setTitle(_getText(DJV_TEXT("menu_image_controls_widget")));
+            setTitle(_getText(DJV_TEXT("image_controls_title")));
             
             const auto& channelButtons = p.channelButtonGroup->getButtons();
             const auto& channelEnums = AV::Render::getImageChannelEnums();
@@ -792,15 +792,15 @@ namespace djv
             p.exposureLayout->setText(p.exposureSliders["KneeHigh"], _getText(DJV_TEXT("image_controls_exposure_knee_high")) + ":");
 
             p.loadFrameStoreButton->setText(_getText(DJV_TEXT("load")));
-            p.frameStoreCheckBox->setText(_getText(DJV_TEXT("image_controls_exposure_enabled")));
+            p.frameStoreCheckBox->setText(_getText(DJV_TEXT("image_controls_frame_store_enabled")));
 
             p.tabWidget->setText(p.channelsScrollWidget, _getText(DJV_TEXT("image_controls_section_channels")));
             p.tabWidget->setText(p.transformScrollWidget, _getText(DJV_TEXT("image_controls_section_transform")));
             p.tabWidget->setText(p.colorScrollWidget, _getText(DJV_TEXT("image_controls_section_color")));
             p.tabWidget->setText(p.levelsScrollWidget, _getText(DJV_TEXT("image_controls_section_levels")));
-            p.tabWidget->setText(p.exposureScrollWidget, _getText(DJV_TEXT("image_controls_exposure_exposure")));
+            p.tabWidget->setText(p.exposureScrollWidget, _getText(DJV_TEXT("image_controls_section_exposure")));
             p.tabWidget->setText(p.softClipScrollWidget, _getText(DJV_TEXT("image_controls_section_soft_clip")));
-            p.tabWidget->setText(p.frameStoreScrollWidget, _getText(DJV_TEXT("menu_image_frame_store")));
+            p.tabWidget->setText(p.frameStoreScrollWidget, _getText(DJV_TEXT("image_controls_section_frame_store")));
 
             _widgetUpdate();
         }

@@ -248,11 +248,11 @@ namespace djv
             void _printUsage()
             {
                 std::cout << std::endl;
-                std::cout << DJV_TEXT("cli_usage") << std::endl;
+                std::cout << DJV_TEXT("djv_convert_cli_usage") << std::endl;
                 std::cout << std::endl;
                 std::cout << DJV_TEXT("djv_convert_usage") << std::endl;
                 std::cout << std::endl;
-                std::cout << DJV_TEXT("cli_options") << std::endl;
+                std::cout << DJV_TEXT("djv_convert_cli_options") << std::endl;
                 std::cout << std::endl;
                 std::cout << DJV_TEXT("djv_convert_option_resize") << std::endl;
                 std::cout << DJV_TEXT("djv_convert_option_resize_description") << std::endl;

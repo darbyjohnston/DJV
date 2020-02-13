@@ -123,7 +123,7 @@ namespace djv
 
         std::string Render2DImageSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("menu_image");
+            return DJV_TEXT("settings_render2d_section_image");
         }
 
         std::string Render2DImageSettingsWidget::getSettingsGroup() const

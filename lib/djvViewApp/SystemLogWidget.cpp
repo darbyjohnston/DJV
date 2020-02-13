@@ -211,13 +211,13 @@ namespace djv
         {
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            setTitle(_getText(DJV_TEXT("menu_tools_system_log")));
-            p.copyButton->setText(_getText(DJV_TEXT("widget_errors_copy")));
-            p.copyButton->setTooltip(_getText(DJV_TEXT("system_log_copy_tooltip")));
-            p.reloadButton->setText(_getText(DJV_TEXT("menu_file_reload")));
-            p.reloadButton->setTooltip(_getText(DJV_TEXT("system_log_reload_tooltip")));
-            p.clearButton->setText(_getText(DJV_TEXT("widget_errors_clear")));
-            p.clearButton->setTooltip(_getText(DJV_TEXT("system_log_clear_tooltip")));
+            setTitle(_getText(DJV_TEXT("widget_log")));
+            p.copyButton->setText(_getText(DJV_TEXT("widget_log_copy")));
+            p.copyButton->setTooltip(_getText(DJV_TEXT("widget_log_copy_tooltip")));
+            p.reloadButton->setText(_getText(DJV_TEXT("widget_log_reload")));
+            p.reloadButton->setTooltip(_getText(DJV_TEXT("widget_log_reload_tooltip")));
+            p.clearButton->setText(_getText(DJV_TEXT("widget_log_clear")));
+            p.clearButton->setTooltip(_getText(DJV_TEXT("widget_log_clear_tooltip")));
         }
 
     } // namespace ViewApp

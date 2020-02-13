@@ -61,10 +61,10 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         ViewApp,
         ImageViewLock,
-        DJV_TEXT("None"),
-        DJV_TEXT("menu_view_fill"),
-        DJV_TEXT("menu_view_frame"),
-        DJV_TEXT("menu_view_center"));
+        DJV_TEXT("view_lock_none"),
+        DJV_TEXT("view_lock_fill"),
+        DJV_TEXT("view_lock_frame"),
+        DJV_TEXT("view_lock_center"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         ViewApp,
@@ -84,16 +84,16 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         ViewApp,
         Playback,
-        DJV_TEXT("stop"),
-        DJV_TEXT("menu_playback_forward"),
-        DJV_TEXT("menu_playback_reverse"));
+        DJV_TEXT("playback_stop"),
+        DJV_TEXT("playback_forward"),
+        DJV_TEXT("playback_reverse"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         ViewApp,
         PlaybackMode,
-        DJV_TEXT("once"),
-        DJV_TEXT("loop"),
-        DJV_TEXT("pingpong"));
+        DJV_TEXT("playback_once"),
+        DJV_TEXT("playback_loop"),
+        DJV_TEXT("playback_pingpong"));
 
     picojson::value toJSON(ViewApp::ImageViewLock value)
     {

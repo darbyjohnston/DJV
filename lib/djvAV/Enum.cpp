@@ -38,24 +38,24 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV,
         Side,
-        DJV_TEXT("None"),
-        DJV_TEXT("menu_view_left"),
-        DJV_TEXT("direction_top"),
-        DJV_TEXT("menu_view_right"),
-        DJV_TEXT("direction_bottom"));
+        DJV_TEXT("av_side_none"),
+        DJV_TEXT("av_side_left"),
+        DJV_TEXT("av_side_top"),
+        DJV_TEXT("av_side_right"),
+        DJV_TEXT("av_side_bottom"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV,
         TimeUnits,
-        DJV_TEXT("unit_time_timecode"),
-        DJV_TEXT("unit_time_frames"));
+        DJV_TEXT("av_time_unit_timecode"),
+        DJV_TEXT("av_time_unit_frames"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV,
         AlphaBlend,
-        DJV_TEXT("None"),
-        DJV_TEXT("alpha_straight"),
-        DJV_TEXT("alpha_premultiplied"));
+        DJV_TEXT("av_alpha_none"),
+        DJV_TEXT("av_alpha_straight"),
+        DJV_TEXT("av_alpha_premultiplied"));
 
     picojson::value toJSON(AV::AlphaBlend value)
     {

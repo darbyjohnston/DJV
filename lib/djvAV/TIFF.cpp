@@ -155,9 +155,9 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::IO::TIFF,
         Compression,
-        DJV_TEXT("None"),
-        DJV_TEXT("format_tiff_compression_rle"),
-        DJV_TEXT("format_tiff_compression_lzw"));
+        DJV_TEXT("tiff_compression_none"),
+        DJV_TEXT("tiff_compression_rle"),
+        DJV_TEXT("tiff_compression_lzw"));
 
 } // namespace djv
 

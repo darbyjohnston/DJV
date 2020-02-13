@@ -671,7 +671,7 @@ namespace djv
                 //p.actions["HUD"]->setText(_getText(DJV_TEXT("hud")));
                 //p.actions["HUD"]->setTooltip(_getText(DJV_TEXT("hud_tooltip")));
 
-                p.menu->setText(_getText(DJV_TEXT("widget_color_space_display_view")));
+                p.menu->setText(_getText(DJV_TEXT("menu_view")));
             }
         }
 

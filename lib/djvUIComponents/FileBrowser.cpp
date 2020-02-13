@@ -948,18 +948,18 @@ namespace djv
                 
                 p.actions["Back"]->setText(_getText(DJV_TEXT("file_browser_back")));
                 p.actions["Back"]->setTooltip(_getText(DJV_TEXT("file_browser_back_tooltip")));
-                p.actions["Forward"]->setText(_getText(DJV_TEXT("menu_playback_forward")));
+                p.actions["Forward"]->setText(_getText(DJV_TEXT("file_browser_playback_forward")));
                 p.actions["Forward"]->setTooltip(_getText(DJV_TEXT("file_browser_forward_tooltip")));
-                p.actions["Up"]->setText(_getText(DJV_TEXT("menu_view_up")));
+                p.actions["Up"]->setText(_getText(DJV_TEXT("file_browser_up")));
                 p.actions["Up"]->setTooltip(_getText(DJV_TEXT("file_browser_up_tooltip")));
 
-                p.actions["Tiles"]->setText(_getText(DJV_TEXT("Tiles")));
+                p.actions["Tiles"]->setText(_getText(DJV_TEXT("file_browser_settings_tile")));
                 p.actions["Tiles"]->setTooltip(_getText(DJV_TEXT("file_browser_settings_tile_view_tooltip")));
-                p.actions["List"]->setText(_getText(DJV_TEXT("List")));
+                p.actions["List"]->setText(_getText(DJV_TEXT("file_browser_settings_list")));
                 p.actions["List"]->setTooltip(_getText(DJV_TEXT("file_browser_settings_list_view_tooltip")));
-                p.actions["IncreaseThumbnailSize"]->setText(_getText(DJV_TEXT("widget_recent_increase_thumbnail_size")));
+                p.actions["IncreaseThumbnailSize"]->setText(_getText(DJV_TEXT("file_browser_settings_increase_thumbnail")));
                 p.actions["IncreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("file_browser_settings_increase_thumbnail_tooltip")));
-                p.actions["DecreaseThumbnailSize"]->setText(_getText(DJV_TEXT("widget_recent_decrease_thumbnail_size")));
+                p.actions["DecreaseThumbnailSize"]->setText(_getText(DJV_TEXT("file_browser_settings_decrease_thumbnail")));
                 p.actions["DecreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("file_browser_settings_decrease_thumbnail_tooltip")));
 
                 p.actions["FileSequences"]->setText(_getText(DJV_TEXT("file_browser_settings_enable_file_sequences")));
@@ -979,8 +979,8 @@ namespace djv
                 p.actions["SortDirectoriesFirst"]->setTooltip(_getText(DJV_TEXT("file_browser_sort_directories_first_tooltip")));
 
                 p.sortTitleLabel->setText(_getText(DJV_TEXT("file_browser_sorting")));
-                p.viewTypeLabel->setText(_getText(DJV_TEXT("widget_color_space_display_view")));
-                p.thumbnailSizeLabel->setText(_getText(DJV_TEXT("recent_files_thumbnail_size")));
+                p.viewTypeLabel->setText(_getText(DJV_TEXT("file_browser_view")));
+                p.thumbnailSizeLabel->setText(_getText(DJV_TEXT("file_browser_thumbnail_size")));
                 p.miscSettingsLabel->setText(_getText(DJV_TEXT("file_browser_miscellaneous")));
 
                 p.listViewHeader->setText(
@@ -1005,7 +1005,7 @@ namespace djv
             std::string FileBrowser::_getItemCountLabel(size_t size) const
             {
                 std::stringstream ss;
-                ss << size << " " << _getText(DJV_TEXT("recent_files_label_items"));
+                ss << size << " " << _getText(DJV_TEXT("file_browser_items"));
                 return ss.str();
             }
 

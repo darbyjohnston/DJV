@@ -480,9 +480,9 @@ namespace djv
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
 
-            setTitle(_getText(DJV_TEXT("menu_tools_magnify")));
+            setTitle(_getText(DJV_TEXT("widget_magnify_title")));
 
-            p.magnifySlider->setTooltip(_getText(DJV_TEXT("menu_tools_magnify_slider_tooltip")));
+            p.magnifySlider->setTooltip(_getText(DJV_TEXT("widget_magnify_slider_tooltip")));
         }
 
         void MagnifyWidget::_widgetUpdate()

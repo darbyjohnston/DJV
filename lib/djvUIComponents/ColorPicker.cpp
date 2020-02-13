@@ -426,7 +426,7 @@ namespace djv
             {
                 const std::vector<std::string> text =
                 {
-                    _getText(DJV_TEXT("key_l"))
+                   _getText(DJV_TEXT("color_sliders_luminance"))
                 };
                 const std::vector<std::string> tooltips =
                 {
@@ -452,8 +452,8 @@ namespace djv
             {
                 const std::vector<std::string> text =
                 {
-                    _getText(DJV_TEXT("key_l")),
-                    _getText(DJV_TEXT("key_a"))
+                 _getText(DJV_TEXT("color_sliders_luminance")),
+                    _getText(DJV_TEXT("color_sliders_alpha"))
                 };
                 const std::vector<std::string> tooltips =
                 {
@@ -496,9 +496,9 @@ namespace djv
                 {
                     text =
                     {
-                        _getText(DJV_TEXT("key_h")),
-                        _getText(DJV_TEXT("key_s")),
-                        _getText(DJV_TEXT("key_v"))
+                        _getText(DJV_TEXT("color_sliders_hue")),
+                        _getText(DJV_TEXT("color_sliders_saturation")),
+                        _getText(DJV_TEXT("color_sliders_value"))
                     };
                     tooltips =
                     {
@@ -511,9 +511,9 @@ namespace djv
                 {
                     text =
                     {
-                        _getText(DJV_TEXT("key_r")),
-                        _getText(DJV_TEXT("key_g")),
-                        _getText(DJV_TEXT("key_b"))
+                        _getText(DJV_TEXT("color_sliders_red")),
+                        _getText(DJV_TEXT("color_sliders_green")),
+                        _getText(DJV_TEXT("color_sliders_blue"))
                     };
                     tooltips =
                     {
@@ -558,10 +558,10 @@ namespace djv
                 {
                     text =
                     {
-                        _getText(DJV_TEXT("key_h")),
-                        _getText(DJV_TEXT("key_s")),
-                        _getText(DJV_TEXT("key_v")),
-                        _getText(DJV_TEXT("key_a"))
+                        _getText(DJV_TEXT("color_sliders_hue")),
+                        _getText(DJV_TEXT("color_sliders_saturation")),
+                        _getText(DJV_TEXT("color_sliders_value")),
+                        _getText(DJV_TEXT("color_sliders_alpha"))
                     };
                     tooltips =
                     {
@@ -575,10 +575,10 @@ namespace djv
                 {
                     text =
                     {
-                        _getText(DJV_TEXT("key_r")),
-                        _getText(DJV_TEXT("key_g")),
-                        _getText(DJV_TEXT("key_b")),
-                        _getText(DJV_TEXT("key_a"))
+                        _getText(DJV_TEXT("color_sliders_red")),
+                        _getText(DJV_TEXT("color_sliders_green")),
+                        _getText(DJV_TEXT("color_sliders_blue")),
+                        _getText(DJV_TEXT("color_sliders_alpha"))
                     };
                     tooltips =
                     {

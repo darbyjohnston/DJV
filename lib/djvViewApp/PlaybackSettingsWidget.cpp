@@ -113,12 +113,12 @@ namespace djv
 
         std::string PlaybackSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("menu_playback");
+            return DJV_TEXT("settings_playback_section_playback");
         }
 
         std::string PlaybackSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("menu_playback");
+            return DJV_TEXT("settings_title_playback");
         }
 
         std::string PlaybackSettingsWidget::getSettingsSortKey() const
@@ -199,12 +199,12 @@ namespace djv
 
         std::string TimelineSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("timeline");
+            return DJV_TEXT("settings_playback_section_timeline");
         }
 
         std::string TimelineSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("menu_playback");
+            return DJV_TEXT("settings_title_playback");
         }
 
         std::string TimelineSettingsWidget::getSettingsSortKey() const

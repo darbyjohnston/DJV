@@ -347,19 +347,19 @@ namespace djv
                     {
                         std::stringstream ss;
                         auto object = eventSystem->observeHover()->get();
-                        ss << _getText(DJV_TEXT("debug_general_hover")) << ": " << (object ? object->getClassName() : _getText(DJV_TEXT("None")));
+                        ss << _getText(DJV_TEXT("debug_general_hover")) << ": " << (object ? object->getClassName() : _getText(DJV_TEXT("debug_general_hover_none")));
                         _labels["Hover"]->setText(ss.str());
                     }
                     {
                         std::stringstream ss;
                         auto object = eventSystem->observeGrab()->get();
-                        ss << _getText(DJV_TEXT("debug_general_grab")) << ": " << (object ? object->getClassName() : _getText(DJV_TEXT("None")));
+                        ss << _getText(DJV_TEXT("debug_general_grab")) << ": " << (object ? object->getClassName() : _getText(DJV_TEXT("debug_general_grab_none")));
                         _labels["Grab"]->setText(ss.str());
                     }
                     {
                         std::stringstream ss;
                         auto object = eventSystem->observeKeyGrab()->get();
-                        ss << _getText(DJV_TEXT("debug_general_key_grab")) << ": " << (object ? object->getClassName() : _getText(DJV_TEXT("None")));
+                        ss << _getText(DJV_TEXT("debug_general_key_grab")) << ": " << (object ? object->getClassName() : _getText(DJV_TEXT("debug_general_key_grab_none")));
                         _labels["KeyGrab"]->setText(ss.str());
                     }
                     {
@@ -371,7 +371,7 @@ namespace djv
                         }
                         else
                         {
-                            name = _getText(DJV_TEXT("None"));
+                            name = _getText(DJV_TEXT("debug_general_text_focus_none"));
                         }
                         ss << _getText(DJV_TEXT("debug_general_text_focus")) << ": " << name;
                         _labels["TextFocus"]->setText(ss.str());
