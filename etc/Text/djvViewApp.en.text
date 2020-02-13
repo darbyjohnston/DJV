@@ -429,7 +429,9 @@
     "reset_the_value": "Reset the value.",
     "position": "Position",
     "zoom": "Zoom",
+    "widget_view_grid_size": "Size",
     "widget_view_grid_labels": "Labels",
     "Background": "Background",
-    "scroll_wheel_zoom_speed": "Scroll wheel zoom speed"
+    "scroll_wheel_zoom_speed": "Scroll wheel zoom speed",
+    "widget_info_size": "Size"
 }

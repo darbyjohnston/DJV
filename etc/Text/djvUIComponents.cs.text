@@ -12,6 +12,7 @@
     "file_browser_file_tooltip_last_modification_time": "Čas poslední úpravy",
     "file_browser_file_tooltip_video_track": "Video stopa",
     "file_browser_file_tooltip_name": "název",
+    "file_browser_file_tooltip_size": "Velikost",
     "file_browser_file_tooltip_type": "Typ",
     "file_browser_file_tooltip_speed": "Rychlost",
     "file_browser_file_tooltip_fps": "FPS",

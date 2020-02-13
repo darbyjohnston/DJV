@@ -12,6 +12,7 @@
     "file_browser_file_tooltip_last_modification_time": "最后修改时间",
     "file_browser_file_tooltip_video_track": "视频轨道",
     "file_browser_file_tooltip_name": "名称",
+    "file_browser_file_tooltip_size": "尺寸",
     "file_browser_file_tooltip_type": "类型",
     "file_browser_file_tooltip_speed": "速度",
     "file_browser_file_tooltip_fps": "FPS",

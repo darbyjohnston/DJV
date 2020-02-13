@@ -429,7 +429,9 @@
     "reset_the_value": "Restablecer el valor.",
     "position": "Posición",
     "zoom": "Enfocar",
+    "widget_view_grid_size": "Tamaño",
     "widget_view_grid_labels": "Etiquetas",
     "Background": "Fondo",
-    "scroll_wheel_zoom_speed": "Velocidad de zoom de la rueda de desplazamiento"
+    "scroll_wheel_zoom_speed": "Velocidad de zoom de la rueda de desplazamiento",
+    "widget_info_size": "Tamaño"
 }

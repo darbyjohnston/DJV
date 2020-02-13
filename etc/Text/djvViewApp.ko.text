@@ -429,7 +429,9 @@
     "reset_the_value": "값을 재설정하십시오.",
     "position": "위치",
     "zoom": "줌",
+    "widget_view_grid_size": "크기",
     "widget_view_grid_labels": "라벨",
     "Background": "배경",
-    "scroll_wheel_zoom_speed": "스크롤 휠 줌 속도"
+    "scroll_wheel_zoom_speed": "스크롤 휠 줌 속도",
+    "widget_info_size": "크기"
 }

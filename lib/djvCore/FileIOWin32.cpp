@@ -70,7 +70,7 @@ namespace djv
                     switch (type)
                     {
                     case ErrorType::Open:
-                        ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_openion") << ". " << Core::Error::getLastError();
+                        ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_cannot_be_opened") << ". " << Core::Error::getLastError();
                         break;
                     case ErrorType::OpenTemp:
                         ss << DJV_TEXT("error_the_temporary_file_cannot_be_opened") << ". " << Core::Error::getLastError();

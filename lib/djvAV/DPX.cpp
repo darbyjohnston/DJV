@@ -912,9 +912,9 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::IO::DPX,
         Endian,
-        DJV_TEXT("auto"),
-        DJV_TEXT("msb"),
-        DJV_TEXT("lsb"));
+        DJV_TEXT("dpx_endian_auto"),
+        DJV_TEXT("dpx_endian_msb"),
+        DJV_TEXT("dpx_endian_lsb"));
 
     picojson::value toJSON(const AV::IO::DPX::Options& value)
     {

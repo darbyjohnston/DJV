@@ -12,6 +12,7 @@
     "file_browser_file_tooltip_last_modification_time": "Hora de ultima modificacion",
     "file_browser_file_tooltip_video_track": "Pista de video",
     "file_browser_file_tooltip_name": "Nombre",
+    "file_browser_file_tooltip_size": "Tamaño",
     "file_browser_file_tooltip_type": "Tipo",
     "file_browser_file_tooltip_speed": "Velocidad",
     "file_browser_file_tooltip_fps": "FPS",

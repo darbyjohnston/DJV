@@ -12,6 +12,7 @@
     "file_browser_file_tooltip_last_modification_time": "Letzte Änderungszeit",
     "file_browser_file_tooltip_video_track": "Videospur",
     "file_browser_file_tooltip_name": "Name",
+    "file_browser_file_tooltip_size": "Größe",
     "file_browser_file_tooltip_type": "Art",
     "file_browser_file_tooltip_speed": "Geschwindigkeit",
     "file_browser_file_tooltip_fps": "FPS",

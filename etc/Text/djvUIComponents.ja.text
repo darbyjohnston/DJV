@@ -12,6 +12,7 @@
     "file_browser_file_tooltip_last_modification_time": "最終修正時刻",
     "file_browser_file_tooltip_video_track": "ビデオトラック",
     "file_browser_file_tooltip_name": "名",
+    "file_browser_file_tooltip_size": "サイズ",
     "file_browser_file_tooltip_type": "タイプ",
     "file_browser_file_tooltip_speed": "速度",
     "file_browser_file_tooltip_fps": "FPS",

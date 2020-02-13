@@ -429,7 +429,9 @@
     "reset_the_value": "Setzen Sie den Wert zurück.",
     "position": "Position",
     "zoom": "Zoomen",
+    "widget_view_grid_size": "Größe",
     "widget_view_grid_labels": "Etiketten",
     "Background": "Hintergrund",
-    "scroll_wheel_zoom_speed": "Zoomgeschwindigkeit mit dem Mausrad"
+    "scroll_wheel_zoom_speed": "Zoomgeschwindigkeit mit dem Mausrad",
+    "widget_info_size": "Größe"
 }

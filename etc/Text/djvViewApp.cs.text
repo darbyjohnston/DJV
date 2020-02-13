@@ -429,7 +429,9 @@
     "reset_the_value": "Resetujte hodnotu.",
     "position": "Pozice",
     "zoom": "Zoom",
+    "widget_view_grid_size": "Velikost",
     "widget_view_grid_labels": "Štítky",
     "Background": "Pozadí",
-    "scroll_wheel_zoom_speed": "Rychlost zoomu rolovacího kolečka"
+    "scroll_wheel_zoom_speed": "Rychlost zoomu rolovacího kolečka",
+    "widget_info_size": "Velikost"
 }

@@ -441,7 +441,7 @@ namespace djv
             p.viewFormLayout->setText(p.viewZoomLayout, _getText(DJV_TEXT("zoom")) + ":");
 
             p.gridFormLayout->setText(p.gridEnabledButton, _getText(DJV_TEXT("image_controls_exposure_enabled")) + ":");
-            p.gridFormLayout->setText(p.gridSizeSlider, _getText(DJV_TEXT("size")) + ":");
+            p.gridFormLayout->setText(p.gridSizeSlider, _getText(DJV_TEXT("widget_view_grid_size")) + ":");
             p.gridFormLayout->setText(p.gridColorPickerSwatch, _getText(DJV_TEXT("image_controls_section_color")) + ":");
             p.gridFormLayout->setText(p.gridLabelsButton, _getText(DJV_TEXT("widget_view_grid_labels")) + ":");
 

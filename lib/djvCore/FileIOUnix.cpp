@@ -80,7 +80,7 @@ namespace djv
                     switch (type)
                     {
                     case ErrorType::Open:
-                        ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_openion") << ". ";
+                        ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_cannot_be_opened") << ". ";
 #if defined(DJV_PLATFORM_LINUX)
                         ss << strerror_r(errno, buf, String::cStringLength);
 #else // DJV_PLATFORM_LINUX

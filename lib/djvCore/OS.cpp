@@ -72,9 +72,9 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         Core::OS,
         DirectoryShortcut,
-        DJV_TEXT("key_home"),
-        DJV_TEXT("file_browser_shortcut_desktop"),
-        DJV_TEXT("file_browser_shortcut_documents"),
-        DJV_TEXT("file_browser_shortcut_downloads"));
+        DJV_TEXT("directory_shortcut_home"),
+        DJV_TEXT("directory_shortcut_desktop"),
+        DJV_TEXT("directory_shortcut_documents"),
+        DJV_TEXT("directory_shortcut_downloads"));
 
 } // namespace djv

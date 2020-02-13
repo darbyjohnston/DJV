@@ -429,7 +429,9 @@
     "reset_the_value": "Reimposta il valore.",
     "position": "Posizione",
     "zoom": "Zoom",
+    "widget_view_grid_size": "Taglia",
     "widget_view_grid_labels": "etichette",
     "Background": "sfondo",
-    "scroll_wheel_zoom_speed": "Velocità dello zoom della rotellina di scorrimento"
+    "scroll_wheel_zoom_speed": "Velocità dello zoom della rotellina di scorrimento",
+    "widget_info_size": "Taglia"
 }

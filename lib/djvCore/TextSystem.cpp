@@ -433,7 +433,7 @@ namespace djv
                 {
                     locale.insert(locale.begin(), *j);
                 }
-
+                
                 FileSystem::FileIO fileIO;
                 fileIO.open(std::string(path), FileSystem::FileIO::Mode::Read);
 #if defined(DJV_MMAP)
@@ -458,7 +458,7 @@ namespace djv
                     ss << DJV_TEXT("error_reading_the_text_file") << " '" << path << "'. " << error;
                     throw FileSystem::Error(ss.str());
                 }
-
+                    
                 if (v.is<picojson::object>())
                 {
                     std::string id;

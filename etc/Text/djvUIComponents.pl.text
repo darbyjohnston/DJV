@@ -12,6 +12,7 @@
     "file_browser_file_tooltip_last_modification_time": "Czas ostatniej modyfikacji",
     "file_browser_file_tooltip_video_track": "Ścieżka wideo",
     "file_browser_file_tooltip_name": "Imię",
+    "file_browser_file_tooltip_size": "Rozmiar",
     "file_browser_file_tooltip_type": "Rodzaj",
     "file_browser_file_tooltip_speed": "Prędkość",
     "file_browser_file_tooltip_fps": "FPS",

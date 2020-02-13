@@ -226,19 +226,19 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         Core::FileSystem,
         ResourcePath,
-        DJV_TEXT("file_browser_shortcut_application"),
-        DJV_TEXT("file_browser_shortcut_documents"),
-        DJV_TEXT("logfile"),
-        DJV_TEXT("settingsfile"),
-        DJV_TEXT("menu_audio"),
-        DJV_TEXT("fonts"),
-        DJV_TEXT("icons"),
-        DJV_TEXT("images"),
-        DJV_TEXT("models"),
-        DJV_TEXT("shaders"),
-        DJV_TEXT("settings_render_2d_section_text"),
-        DJV_TEXT("image_controls_section_color"),
-        DJV_TEXT("menu_help_documentation"));
+        DJV_TEXT("resource_path_application"),
+        DJV_TEXT("resource_path_documents"),
+        DJV_TEXT("resource_path_log_file"),
+        DJV_TEXT("resource_path_settings_file"),
+        DJV_TEXT("resource_path_audio"),
+        DJV_TEXT("resource_path_fonts"),
+        DJV_TEXT("resource_path_icons"),
+        DJV_TEXT("resource_path_images"),
+        DJV_TEXT("resource_path_models"),
+        DJV_TEXT("resource_path_shaders"),
+        DJV_TEXT("resource_path_text"),
+        DJV_TEXT("resource_path_color"),
+        DJV_TEXT("resource_path_documentation"));
 
 } // namespace djv
 

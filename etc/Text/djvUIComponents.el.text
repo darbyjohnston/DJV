@@ -12,6 +12,7 @@
     "file_browser_file_tooltip_last_modification_time": "Τελευταία ώρα τροποποίησης",
     "file_browser_file_tooltip_video_track": "Βίντεο κομματιού",
     "file_browser_file_tooltip_name": "Ονομα",
+    "file_browser_file_tooltip_size": "Μέγεθος",
     "file_browser_file_tooltip_type": "Τύπος",
     "file_browser_file_tooltip_speed": "Ταχύτητα",
     "file_browser_file_tooltip_fps": "FPS",

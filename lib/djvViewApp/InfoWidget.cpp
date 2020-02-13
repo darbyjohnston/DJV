@@ -173,7 +173,7 @@ namespace djv
                     }
                     label->setHAlign(UI::HAlign::Left);
                     formLayout->addChild(label);
-                    formLayout->setText(label, _getText(DJV_TEXT("size")) + ":");
+                    formLayout->setText(label, _getText(DJV_TEXT("widget_info_size")) + ":");
 
                     label = UI::Label::create(context);
                     {

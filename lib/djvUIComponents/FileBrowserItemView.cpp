@@ -965,7 +965,7 @@ namespace djv
                 std::stringstream ss;
                 ss << fileInfo << '\n';
                 ss << '\n';
-                ss << _getText(DJV_TEXT("size")) << ": " << Memory::getSizeLabel(fileInfo.getSize()) << '\n';
+                ss << _getText(DJV_TEXT("file_browser_file_tooltip_size")) << ": " << Memory::getSizeLabel(fileInfo.getSize()) << '\n';
                 ss << _getText(DJV_TEXT("file_browser_file_tooltip_last_modification_time")) << ": " << Time::getLabel(fileInfo.getTime());
                 return ss.str();
             }
@@ -981,21 +981,21 @@ namespace djv
                     for (const auto& videoInfo : avInfo.video)
                     {
                         ss << '\n' << '\n';
-                        ss << _getText(DJV_TEXT("video_track")) << " #" << track << '\n';
-                        ss << _getText(DJV_TEXT("widget_color_space_display_name")) << ": " << videoInfo.info.name << '\n';
+                        ss << _getText(DJV_TEXT("file_browser_file_tooltip_video_track")) << " #" << track << '\n';
+                        ss << _getText(DJV_TEXT("file_browser_file_tooltip_name")) << ": " << videoInfo.info.name << '\n';
                         ss.precision(2);
-                        ss << _getText(DJV_TEXT("size")) << ": " << videoInfo.info.size << " " << std::fixed << videoInfo.info.size.getAspectRatio() << '\n';
-                        ss << _getText(DJV_TEXT("type")) << ": " << videoInfo.info.type << '\n';
-                        ss << _getText(DJV_TEXT("speed")) << ": " <<
+                        ss << _getText(DJV_TEXT("file_browser_file_tooltip_size")) << ": " << videoInfo.info.size << " " << std::fixed << videoInfo.info.size.getAspectRatio() << '\n';
+                        ss << _getText(DJV_TEXT("file_browser_file_tooltip_type")) << ": " << videoInfo.info.type << '\n';
+                        ss << _getText(DJV_TEXT("file_browser_file_tooltip_speed")) << ": " <<
                             std::fixed << videoInfo.speed.toFloat() <<
-                            _getText(DJV_TEXT("debug_general_fps")) << '\n';
+                            _getText(DJV_TEXT("file_browser_file_tooltip_fps")) << '\n';
                         auto avSystem = context->getSystemT<AV::AVSystem>();
-                        ss << _getText(DJV_TEXT("duration")) << ": " <<
+                        ss << _getText(DJV_TEXT("file_browser_file_tooltip_duration")) << ": " <<
                             avSystem->getLabel(videoInfo.sequence.getSize(), videoInfo.speed);
                         switch (avSystem->observeTimeUnits()->get())
                         {
                         case AV::TimeUnits::Frames:
-                            ss << " " << _getText(DJV_TEXT("frames"));
+                            ss << " " << _getText(DJV_TEXT("file_browser_file_tooltip_unit_frames"));
                             break;
                         default: break;
                         }
@@ -1005,12 +1005,12 @@ namespace djv
                     for (const auto& audioInfo : avInfo.audio)
                     {
                         ss << '\n' << '\n';
-                        ss << _getText(DJV_TEXT("audio_track")) << " #" << track << '\n';
-                        ss << _getText(DJV_TEXT("image_controls_section_channels")) << ": " << static_cast<int>(audioInfo.info.channelCount) << '\n';
-                        ss << _getText(DJV_TEXT("type")) << ": " << audioInfo.info.type << '\n';
-                        ss << _getText(DJV_TEXT("sample_rate")) << ": " <<
-                            audioInfo.info.sampleRate / 1000.F << _getText(DJV_TEXT("khz")) << '\n';
-                        ss << _getText(DJV_TEXT("duration")) << ": " <<
+                        ss << _getText(DJV_TEXT("file_browser_file_tooltip_audio_track")) << " #" << track << '\n';
+                        ss << _getText(DJV_TEXT("file_browser_file_tooltip_channels")) << ": " << static_cast<int>(audioInfo.info.channelCount) << '\n';
+                        ss << _getText(DJV_TEXT("file_browser_file_tooltip_type")) << ": " << audioInfo.info.type << '\n';
+                        ss << _getText(DJV_TEXT("file_browser_file_tooltip_sample_rate")) << ": " <<
+                            audioInfo.info.sampleRate / 1000.F << _getText(DJV_TEXT("file_browser_file_tooltip_unit_khz")) << '\n';
+                        ss << _getText(DJV_TEXT("file_browser_file_tooltip_duration")) << ": " <<
                             (audioInfo.info.sampleRate > 0 ? (audioInfo.sampleCount / static_cast<float>(audioInfo.info.sampleRate)) : 0.F) <<
                             " " << _getText(DJV_TEXT("file_browser_file_tooltip_unit_seconds"));
                         ++track;

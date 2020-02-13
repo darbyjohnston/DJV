@@ -429,7 +429,9 @@
     "reset_the_value": "重置值。",
     "position": "位置",
     "zoom": "放大",
+    "widget_view_grid_size": "尺寸",
     "widget_view_grid_labels": "标签",
     "Background": "背景",
-    "scroll_wheel_zoom_speed": "滚轮缩放速度"
+    "scroll_wheel_zoom_speed": "滚轮缩放速度",
+    "widget_info_size": "尺寸"
 }

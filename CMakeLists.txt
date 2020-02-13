@@ -244,7 +244,7 @@ endif()
 #-------------------------------------------------------------------------------
 
 # Text files (translations).
-file(GLOB_RECURSE DJV_TEXT_FILES ${CMAKE_SOURCE_DIR}/etc/Text/*.text)
+file(GLOB DJV_TEXT_FILES ${CMAKE_SOURCE_DIR}/etc/Text/*.text)
 file(COPY ${DJV_TEXT_FILES} DESTINATION ${DJV_BUILD_DIR}/etc/Text)
 install(FILES ${DJV_TEXT_FILES} DESTINATION etc/Text)
 

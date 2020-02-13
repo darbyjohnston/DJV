@@ -429,7 +429,9 @@
     "reset_the_value": "Επαναφέρετε την τιμή.",
     "position": "Θέση",
     "zoom": "Ανίπταμαι διαγωνίως",
+    "widget_view_grid_size": "Μέγεθος",
     "widget_view_grid_labels": "Ετικέτες",
     "Background": "Ιστορικό",
-    "scroll_wheel_zoom_speed": "Κύλιση κύλισης ταχύτητα ζουμ"
+    "scroll_wheel_zoom_speed": "Κύλιση κύλισης ταχύτητα ζουμ",
+    "widget_info_size": "Μέγεθος"
 }

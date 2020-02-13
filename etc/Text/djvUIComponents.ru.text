@@ -12,6 +12,7 @@
     "file_browser_file_tooltip_last_modification_time": "Время последней модификации",
     "file_browser_file_tooltip_video_track": "Видеодорожка",
     "file_browser_file_tooltip_name": "название",
+    "file_browser_file_tooltip_size": "Размер",
     "file_browser_file_tooltip_type": "Тип",
     "file_browser_file_tooltip_speed": "скорость",
     "file_browser_file_tooltip_fps": "FPS",

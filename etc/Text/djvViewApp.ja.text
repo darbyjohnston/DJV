@@ -429,7 +429,9 @@
     "reset_the_value": "値をリセットします。",
     "position": "ポジション",
     "zoom": "ズーム",
+    "widget_view_grid_size": "サイズ",
     "widget_view_grid_labels": "ラベル",
     "Background": "バックグラウンド",
-    "scroll_wheel_zoom_speed": "スクロールホイールのズーム速度"
+    "scroll_wheel_zoom_speed": "スクロールホイールのズーム速度",
+    "widget_info_size": "サイズ"
 }

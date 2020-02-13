@@ -12,6 +12,7 @@
     "file_browser_file_tooltip_last_modification_time": "Sidste modifikationstid",
     "file_browser_file_tooltip_video_track": "Videospor",
     "file_browser_file_tooltip_name": "Navn",
+    "file_browser_file_tooltip_size": "Størrelse",
     "file_browser_file_tooltip_type": "Type",
     "file_browser_file_tooltip_speed": "Hastighed",
     "file_browser_file_tooltip_fps": "FPS",

@@ -429,7 +429,9 @@
     "reset_the_value": "Сбросить значение",
     "position": "Позиция",
     "zoom": "Увеличить",
+    "widget_view_grid_size": "Размер",
     "widget_view_grid_labels": "Этикетки",
     "Background": "Фон",
-    "scroll_wheel_zoom_speed": "Скорость масштабирования колеса прокрутки"
+    "scroll_wheel_zoom_speed": "Скорость масштабирования колеса прокрутки",
+    "widget_info_size": "Размер"
 }

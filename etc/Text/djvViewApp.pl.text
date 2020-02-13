@@ -429,7 +429,9 @@
     "reset_the_value": "Zresetuj wartość.",
     "position": "Pozycja",
     "zoom": "Powiększenie",
+    "widget_view_grid_size": "Rozmiar",
     "widget_view_grid_labels": "Etykiety",
     "Background": "tło",
-    "scroll_wheel_zoom_speed": "Przewiń prędkość powiększania kółka"
+    "scroll_wheel_zoom_speed": "Przewiń prędkość powiększania kółka",
+    "widget_info_size": "Rozmiar"
 }

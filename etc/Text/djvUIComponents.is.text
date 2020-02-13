@@ -12,6 +12,7 @@
     "file_browser_file_tooltip_last_modification_time": "Síðasti breytingartími",
     "file_browser_file_tooltip_video_track": "Video lag",
     "file_browser_file_tooltip_name": "Nafn",
+    "file_browser_file_tooltip_size": "Stærð",
     "file_browser_file_tooltip_type": "Tegund",
     "file_browser_file_tooltip_speed": "Hraði",
     "file_browser_file_tooltip_fps": "FPS",

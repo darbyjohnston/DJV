@@ -362,15 +362,15 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         Core::FileSystem,
         FileType,
-        DJV_TEXT("menu_file"),
-        DJV_TEXT("sequence"),
-        DJV_TEXT("directory"));
+        DJV_TEXT("file_type_file"),
+        DJV_TEXT("file_type_sequence"),
+        DJV_TEXT("file_type_directory"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         Core::FileSystem,
         DirectoryListSort,
-        DJV_TEXT("widget_color_space_display_name"),
-        DJV_TEXT("size"),
-        DJV_TEXT("settings_general_section_time"));
+        DJV_TEXT("directory_list_sort_name"),
+        DJV_TEXT("directory_list_sort_size"),
+        DJV_TEXT("directory_list_sort_time"));
 
 } // namespace djv

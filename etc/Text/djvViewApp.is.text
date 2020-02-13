@@ -429,7 +429,9 @@
     "reset_the_value": "Endurstilla gildi.",
     "position": "Staða",
     "zoom": "Aðdráttur",
+    "widget_view_grid_size": "Stærð",
     "widget_view_grid_labels": "Merki",
     "Background": "Bakgrunnur",
-    "scroll_wheel_zoom_speed": "Aðdráttarhraði skrunhjóls"
+    "scroll_wheel_zoom_speed": "Aðdráttarhraði skrunhjóls",
+    "widget_info_size": "Stærð"
 }

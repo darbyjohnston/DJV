@@ -429,7 +429,9 @@
     "reset_the_value": "Nulstil værdien.",
     "position": "Position",
     "zoom": "Zoom",
+    "widget_view_grid_size": "Størrelse",
     "widget_view_grid_labels": "Etiketter",
     "Background": "Baggrund",
-    "scroll_wheel_zoom_speed": "Zoomhastighed til rullehjul"
+    "scroll_wheel_zoom_speed": "Zoomhastighed til rullehjul",
+    "widget_info_size": "Størrelse"
 }

@@ -430,6 +430,8 @@
     "position": "Placera",
     "zoom": "Zoom",
     "widget_view_grid_labels": "Etiketter",
+    "widget_view_grid_size": "Storlek",
     "Background": "Bakgrund",
-    "scroll_wheel_zoom_speed": "Rullehjuls zoomhastighet"
+    "scroll_wheel_zoom_speed": "Rullehjuls zoomhastighet",
+    "widget_info_size": "Storlek"
 }

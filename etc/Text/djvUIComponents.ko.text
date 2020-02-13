@@ -12,6 +12,7 @@
     "file_browser_file_tooltip_last_modification_time": "최종 수정 시간",
     "file_browser_file_tooltip_video_track": "비디오 트랙",
     "file_browser_file_tooltip_name": "이름",
+    "file_browser_file_tooltip_size": "크기",
     "file_browser_file_tooltip_type": "유형",
     "file_browser_file_tooltip_speed": "속도",
     "file_browser_file_tooltip_fps": "FPS",
