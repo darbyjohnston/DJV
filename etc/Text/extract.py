@@ -5,11 +5,11 @@ import sys
 from collections import OrderedDict 
 
 def run():
-    
+
     inDir = sys.argv[1]
     outFile = sys.argv[2]
-    
-    # Extract the strings from the source files.    
+
+    # Extract the strings from the source files.
     strings = []
     sourceFiles = glob.glob(inDir + "/*.cpp")
     sourceFiles.extend(glob.glob(inDir + "/*.h"))
@@ -20,30 +20,30 @@ def run():
                 for m in match:
                     if m not in strings:
                         strings.append(m)
-    
+
     if len(strings):
-    
+
         # Read the existing .text file.
         try:
             with open(outFile, 'r') as f:
                 existing = json.load(f, object_pairs_hook=OrderedDict)
         except IOError:
             existing = []
-        
+
         # Create the new .text file.
-        data = []
+        data = {}
         for string in strings:
             found = False
-            for item in existing:
-                if item['id'] == string:
+            for id, existing_string in existing.items():
+                if id == string:
                     found = True
-                    data.append(item)
+                    data[id] = existing_string
                     break
             if not found:
-                data.append({'id' : string, 'text': string, 'description': ''})
+                data[string] = string
         with open(outFile, 'w') as f:
             json.dump(data, f, indent = 4, ensure_ascii=False)
-    
+
 if __name__ == '__main__':
     run()
 
