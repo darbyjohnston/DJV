@@ -266,6 +266,6 @@
     "resource_path_text": "Texte",
     "timer_fast": "Vite",
     "timer_medium": "Moyen",
-    "timer_very_fast": "Très vite",
-    "timer_slow": "Lent"
+    "timer_slow": "Lent",
+    "timer_very_fast": "Très vite"
 }
