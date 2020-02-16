@@ -32,13 +32,22 @@ def run():
     translateClient = translate_v2.Client()
     
     # Only translate strings that not already in the output file.
-    for inItem in inData:
-        if not inItem in outData:
-            outData[inItem] = getTranslation(translateClient, inData[inItem], language)
+    for key in inData:
+        if not key in outData:
+            outData[key] = getTranslation(translateClient, inData[key], language)
+
+    # Sort the output data.
+    keys = []
+    for key in outData:
+        keys.append(key)
+    sortedKeys = sorted(keys)
+    sortedData = OrderedDict()
+    for key in sortedKeys:
+        sortedData[key] = outData[key]
 
     # Write the output file.
     with open(outFile, 'w') as f:
-        json.dump(outData, f, indent = 4, ensure_ascii=False)
+        json.dump(sortedData, f, indent = 4, ensure_ascii=False)
     
 if __name__ == '__main__':
     run()
