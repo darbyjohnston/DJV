@@ -41,9 +41,19 @@ def run():
                     break
             if not found:
                 data[string] = string
+        
+        # Sort the data.
+        sortedKeys = []
+        for i in data:
+            sortedKeys.append(i)
+        sortedKeys = sorted(sortedKeys)
+        sortedData = OrderedDict()
+        for i in sortedKeys:
+            sortedData[i] = data[i]
+        
         with open(outFile, 'w') as f:
-            json.dump(data, f, indent = 4, ensure_ascii=False)
-
+            json.dump(sortedData, f, indent = 4, ensure_ascii=False)
+        
 if __name__ == '__main__':
     run()
 

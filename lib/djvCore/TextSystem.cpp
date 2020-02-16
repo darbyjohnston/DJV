@@ -344,9 +344,10 @@ namespace djv
             }
         }
         
-        const std::string & TextSystem::getText(const std::string & id) const
+        const std::string & TextSystem::getText(const std::string & id)
         {
             DJV_PRIVATE_PTR();
+            _readAllFutures();
             const auto i = p.text.find(p.currentLocale->get());
             if (i != p.text.end())
             {
@@ -480,6 +481,37 @@ namespace djv
                 p.logSystem->log(getSystemName(), e.what(), LogLevel::Error);
             }
             return out;
+        }
+        
+        void TextSystem::_readAllFutures()
+        {
+            DJV_PRIVATE_PTR();
+            bool textChanged = false;
+            auto j = p.readFutures.begin();
+            while (j != p.readFutures.end())
+            {
+                if (j->valid() &&
+                    j->wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                {
+                    for (const auto& k : j->get())
+                    {
+                        for (const auto& l : k.second)
+                        {
+                            p.text[k.first][l.first] = l.second;
+                            textChanged = true;
+                        }
+                    }
+                    j = p.readFutures.erase(j);
+                }
+                else
+                {
+                    ++j;
+                }
+            }
+            if (textChanged)
+            {
+                p.textChanged->setAlways(true);
+            }
         }
 
     } // namespace Core

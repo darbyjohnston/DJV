@@ -906,8 +906,8 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::IO::DPX,
         Version,
-        DJV_TEXT("1_0"),
-        DJV_TEXT("2_0"));
+        DJV_TEXT("dpx_version_1_0"),
+        DJV_TEXT("dpx_version_2_0"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::IO::DPX,

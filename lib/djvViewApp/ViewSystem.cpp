@@ -668,8 +668,8 @@ namespace djv
                 p.actions["CenterLock"]->setTooltip(_getText(DJV_TEXT("menu_view_lock_center_tooltip")));
                 p.actions["GridEnabled"]->setText(_getText(DJV_TEXT("menu_view_grid")));
                 p.actions["GridEnabled"]->setTooltip(_getText(DJV_TEXT("menu_view_grid_tooltip")));
-                //p.actions["HUD"]->setText(_getText(DJV_TEXT("hud")));
-                //p.actions["HUD"]->setTooltip(_getText(DJV_TEXT("hud_tooltip")));
+                //p.actions["HUD"]->setText(_getText(DJV_TEXT("view_hud")));
+                //p.actions["HUD"]->setTooltip(_getText(DJV_TEXT("view_hud_tooltip")));
 
                 p.menu->setText(_getText(DJV_TEXT("menu_view")));
             }

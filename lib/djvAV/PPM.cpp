@@ -196,8 +196,8 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::IO::PPM,
         Data,
-        DJV_TEXT("format_ppm_type_ascii"),
-        DJV_TEXT("format_ppm_type_binary"));
+        DJV_TEXT("ppm_type_ascii"),
+        DJV_TEXT("ppm_type_binary"));
 
 } // namespace djv
 

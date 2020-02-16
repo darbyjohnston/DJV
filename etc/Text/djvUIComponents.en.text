@@ -16,13 +16,9 @@
     "color_sliders_value": "V",
     "color_sliders_value_tooltip": "Color sliders value tooltip",
     "color_type_widget_tooltip": "Set the color type",
-
-    "current": "Current",
-
     "error_cannot_be_read": "cannot be read",
     "error_file_browser_cannot_set_the_path": "Cannot set the path",
     "error_the_file": "The file",
-
     "file_browser": "File Browser",
     "file_browser_add_shortcut_tooltip": "Add the current directory to the list of shortcuts",
     "file_browser_back": "Back",
@@ -89,10 +85,9 @@
     "file_browser_up": "Up",
     "file_browser_up_tooltip": "Go up a directory",
     "file_browser_view": "View",
-
-    "max": "max",
-    "min": "min",
-
+    "line_graph_current": "Current",
+    "line_graph_max": "max",
+    "line_graph_min": "min",
     "settings_general_enable_tooltips": "Enable tooltips",
     "settings_general_section_language": "Language",
     "settings_general_section_palette": "Palette",

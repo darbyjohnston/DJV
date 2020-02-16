@@ -448,8 +448,8 @@ namespace djv
             p.backgroundFormLayout->setText(p.backgroundColorPickerSwatch, _getText(DJV_TEXT("widget_view_background_color")) + ":");
             
             p.tabWidget->setText(p.viewScrollWidget, _getText(DJV_TEXT("view")));
-            p.tabWidget->setText(p.gridScrollWidget, _getText(DJV_TEXT("grid")));
-            p.tabWidget->setText(p.backgroundScrollWidget, _getText(DJV_TEXT("background")));
+            p.tabWidget->setText(p.gridScrollWidget, _getText(DJV_TEXT("view_grid")));
+            p.tabWidget->setText(p.backgroundScrollWidget, _getText(DJV_TEXT("view_background")));
             
             _widgetUpdate();
         }

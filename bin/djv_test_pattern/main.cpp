@@ -37,6 +37,7 @@
 #include <djvCore/Context.h>
 #include <djvCore/Error.h>
 #include <djvCore/FileInfo.h>
+#include <djvCore/TextSystem.h>
 #include <djvCore/Timer.h>
 #include <djvCore/Vector.h>
 
@@ -261,29 +262,30 @@ namespace djv
 
         void Application::_printUsage()
         {
+            auto textSystem = getSystemT<Core::TextSystem>();
             std::cout << std::endl;
-            std::cout << DJV_TEXT("djv_test_pattern_cli_usage") << std::endl;
+            std::cout << " " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_usage")) << std::endl;
             std::cout << std::endl;
-            std::cout << DJV_TEXT("djv_test_pattern_cli_output_option") << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_output_option")) << std::endl;
             std::cout << std::endl;
-            std::cout << DJV_TEXT("djv_test_pattern_cli_options") << std::endl;
+            std::cout << " " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_options")) << std::endl;
             std::cout << std::endl;
-            std::cout << DJV_TEXT("djv_test_pattern_cli_option_frame_number") << std::endl;
-            std::cout << DJV_TEXT("djv_test_pattern_cli_description_frame_number") << frameCountDefault << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_option_frame_number")) << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_description_frame_number")) << frameCountDefault << std::endl;
             std::cout << std::endl;
-            std::cout << DJV_TEXT("djv_test_pattern_cli_option_resolution") << std::endl;
-            std::cout << DJV_TEXT("djv_test_pattern_cli_description_resolution") << sizeDefault << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_option_resolution")) << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_description_resolution")) << sizeDefault << std::endl;
             std::cout << std::endl;
-            std::cout << DJV_TEXT("djv_test_pattern_cli_option_type") << std::endl;
-            std::cout << DJV_TEXT("djv_test_pattern_cli_description_type") << typeDefault << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_option_type")) << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_description_type")) << typeDefault << std::endl;
             std::cout << std::endl;
-            std::cout << DJV_TEXT("djv_test_pattern_cli_examples") << std::endl;
+            std::cout << " " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_examples")) << std::endl;
             std::cout << std::endl;
-            std::cout << DJV_TEXT("djv_test_pattern_cli_test_1_dpx") << std::endl;
-            std::cout << DJV_TEXT("djv_test_pattern_cli_render_a_test_pattern_with_the_default_values") << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_test_1_dpx")) << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_render_a_test_pattern_with_the_default_values")) << std::endl;
             std::cout << std::endl;
-            std::cout << DJV_TEXT("djv_test_pattern_cli_test_1_tif_-size_3840_2160_-type_rgb_u16") << std::endl;
-            std::cout << DJV_TEXT("djv_test_pattern_cli_render_a_uhd_resolution_test_pattern_with_a_rgb_16-bit_image_type") << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_test_1_tif_-size_3840_2160_-type_rgb_u16")) << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_render_a_uhd_resolution_test_pattern_with_a_rgb_16-bit_image_type")) << std::endl;
             std::cout << std::endl;
         }
 

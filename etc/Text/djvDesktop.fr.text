@@ -1,4 +1,4 @@
 {
-    "error_glfw_init": "Impossible d’initialiser GLFW.",
+    "error_glfw_init": "Impossible d&#39;initialiser GLFW.",
     "error_glfw_window_creation": "Impossible de créer une fenêtre GLFW."
 }

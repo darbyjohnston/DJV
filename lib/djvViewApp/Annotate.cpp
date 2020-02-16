@@ -110,10 +110,10 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         ViewApp,
         AnnotateType,
-        DJV_TEXT("polyline"),
-        DJV_TEXT("line"),
-        DJV_TEXT("rectangle"),
-        DJV_TEXT("ellipse"));
+        DJV_TEXT("annotate_type_polyline"),
+        DJV_TEXT("annotate_type_line"),
+        DJV_TEXT("annotate_type_rectangle"),
+        DJV_TEXT("annotate_type_ellipse"));
 
     picojson::value toJSON(ViewApp::AnnotateType value)
     {

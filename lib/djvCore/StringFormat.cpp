@@ -80,12 +80,12 @@ namespace djv
                             }
                             else
                             {
-                                throw std::runtime_error(DJV_TEXT("Duplicate argument."));
+                                throw std::runtime_error(DJV_TEXT("error_duplicate_argument"));
                             }
                         }
                         else
                         {
-                            throw std::runtime_error(DJV_TEXT("Cannot parse the argument."));
+                            throw std::runtime_error(DJV_TEXT("error_cannot_parse_argument"));
                         }
                         subject = m.suffix().str();
                     }
@@ -95,7 +95,7 @@ namespace djv
                     }
                     else
                     {
-                        throw std::runtime_error(DJV_TEXT("Argument not found."));
+                        throw std::runtime_error(DJV_TEXT("error_argument_not_found"));
                     }
                 }
                 catch (const std::exception& e)

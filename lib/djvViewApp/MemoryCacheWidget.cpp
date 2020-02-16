@@ -213,9 +213,9 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.titleLabel->setText(_getText(DJV_TEXT("memory_cache")));
-            p.enabledCheckBox->setText(_getText(DJV_TEXT("enable")));
-            p.maxGBLabel->setText(_getText(DJV_TEXT("gb")));
-            p.percentageLabel->setText(_getText(DJV_TEXT("used")) + ":");
+            p.enabledCheckBox->setText(_getText(DJV_TEXT("memory_cache_enable")));
+            p.maxGBLabel->setText(_getText(DJV_TEXT("memory_cache_gigabytes_label")));
+            p.percentageLabel->setText(_getText(DJV_TEXT("memory_cache_used")) + ":");
             std::stringstream ss;
             ss << static_cast<int>(p.percentageUsed) << "%";
             p.percentageLabel2->setText(ss.str());
