@@ -154,8 +154,8 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << i;
-                p.filterComboBox[0]->addItem(ss.str());
-                p.filterComboBox[1]->addItem(ss.str());
+                p.filterComboBox[0]->addItem(_getText(ss.str()));
+                p.filterComboBox[1]->addItem(_getText(ss.str()));
             }
             p.filterComboBox[0]->setCurrentItem(static_cast<int>(p.filterOptions.min));
             p.filterComboBox[1]->setCurrentItem(static_cast<int>(p.filterOptions.mag));

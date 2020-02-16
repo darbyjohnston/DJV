@@ -624,9 +624,9 @@ namespace djv
             p.displayLayout->setText(p.viewPopupWidget, _getText(DJV_TEXT("widget_color_space_display_view")) + ":");
             p.addImagePopupWidget->setTooltip(_getText(DJV_TEXT("widget_color_space_add_format_tooltip")));
             p.editImageButton->setTooltip(_getText(DJV_TEXT("widget_color_space_edit_format_tooltip")));
-            p.tabWidget->setText(p.configLayout, DJV_TEXT("widget_color_space_config"));
-            p.tabWidget->setText(p.displayLayout, DJV_TEXT("widget_color_space_display"));
-            p.tabWidget->setText(p.imageLayout, DJV_TEXT("widget_color_space_image"));
+            p.tabWidget->setText(p.configLayout, _getText(DJV_TEXT("widget_color_space_config")));
+            p.tabWidget->setText(p.displayLayout, _getText(DJV_TEXT("widget_color_space_display")));
+            p.tabWidget->setText(p.imageLayout, _getText(DJV_TEXT("widget_color_space_image")));
             _widgetUpdate();
         }
 

@@ -307,17 +307,17 @@ namespace djv
 
                 p.defaultSpeedButton->setEnabled(p.speed != p.defaultSpeed);
                 std::stringstream ss;
-                ss << DJV_TEXT("playback_reset_speed") << " (";
+                ss << _getText(DJV_TEXT("playback_reset_speed")) << " (";
                 ss.precision(2);
                 ss << std::fixed << p.defaultSpeed.toFloat() << ")";
                 p.defaultSpeedButton->setText(ss.str());
                 p.defaultSpeedButton->setTooltip(_getText(DJV_TEXT("playback_reset_speed_tooltip")));
 
                 p.playEveryFrameCheckBox->setChecked(p.playEveryFrame);
-                p.playEveryFrameCheckBox->setText(DJV_TEXT("playback_play_every_frame"));
+                p.playEveryFrameCheckBox->setText(_getText(DJV_TEXT("playback_play_every_frame")));
                 p.playEveryFrameCheckBox->setTooltip(_getText(DJV_TEXT("playback_play_every_frame_tooltip")));
 
-                p.useCustomSpeedButton->setText(DJV_TEXT("playback_custom_playback_speed"));
+                p.useCustomSpeedButton->setText(_getText(DJV_TEXT("playback_custom_playback_speed")));
                 p.useCustomSpeedButton->setTooltip(_getText(DJV_TEXT("playback_custom_playback_speed_tooltip")));
                 std::stringstream cs;
                 cs.precision(2);
