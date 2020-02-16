@@ -626,7 +626,7 @@ namespace djv
             p.editImageButton->setTooltip(_getText(DJV_TEXT("widget_color_space_edit_format_tooltip")));
             p.tabWidget->setText(p.configLayout, DJV_TEXT("widget_color_space_config"));
             p.tabWidget->setText(p.displayLayout, DJV_TEXT("widget_color_space_display"));
-            p.tabWidget->setText(p.imageLayout, DJV_TEXT("menu_image"));
+            p.tabWidget->setText(p.imageLayout, DJV_TEXT("widget_color_space_image"));
             _widgetUpdate();
         }
 
@@ -660,7 +660,7 @@ namespace djv
                     std::string s = i.name;
                     if (s.empty())
                     {
-                        s = _getText(DJV_TEXT("None"));
+                        s = _getText(DJV_TEXT("widget_color_space_config_none"));
                     }
                     button->setText(s);
                     p.configButtonGroup->addButton(button);
@@ -701,7 +701,7 @@ namespace djv
                     std::string s = i.name;
                     if (s.empty())
                     {
-                        s = _getText(DJV_TEXT("None"));
+                        s = _getText(DJV_TEXT("widget_color_space_display_name_none"));
                     }
                     displays.push_back(s);
                 }
@@ -731,7 +731,7 @@ namespace djv
                     std::string s = i;
                     if (s.empty())
                     {
-                        s = _getText(DJV_TEXT("None"));
+                        s = _getText(DJV_TEXT("widget_color_space_color_views_none"));
                     }
                     views.push_back(s);
                 }
@@ -764,7 +764,7 @@ namespace djv
                         std::string s = j;
                         if (s.empty())
                         {
-                            s = _getText(DJV_TEXT("None"));
+                            s = _getText(DJV_TEXT("color_space_none"));
                         }
                         colorSpaces.push_back(s);
                     }
@@ -805,7 +805,7 @@ namespace djv
                     std::string s = i.first;
                     if (s.empty())
                     {
-                        s = _getText(DJV_TEXT("widget_color_space_display_name_default"));
+                        s = _getText(DJV_TEXT("color_space_display_default"));
                     }
                     p.imageItemLayout->setText(hLayout, s + ":");
 
@@ -923,7 +923,7 @@ namespace djv
                     std::string s = i;
                     if (s.empty())
                     {
-                        s = _getText(DJV_TEXT("None"));
+                        s = _getText(DJV_TEXT("widget_color_space_none"));
                     }
                     colorSpaces.push_back(s);
                 }

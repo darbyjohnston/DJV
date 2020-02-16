@@ -775,9 +775,9 @@ namespace djv
                 p.actions["CloseAll"]->setTooltip(_getText(DJV_TEXT("menu_file_close_all_tooltip")));
                 //p.actions["Export"]->setText(_getText(DJV_TEXT("menu_export")));
                 //p.actions["Export"]->setTooltip(_getText(DJV_TEXT("menu_file_export_tooltip")));
-                p.actions["Next"]->setText(_getText(DJV_TEXT("startup_next")));
+                p.actions["Next"]->setText(_getText(DJV_TEXT("menu_file_next")));
                 p.actions["Next"]->setTooltip(_getText(DJV_TEXT("menu_file_next_tooltip")));
-                p.actions["Prev"]->setText(_getText(DJV_TEXT("startup_previous")));
+                p.actions["Prev"]->setText(_getText(DJV_TEXT("menu_file_previous")));
                 p.actions["Prev"]->setTooltip(_getText(DJV_TEXT("menu_file_prev_tooltip")));
                 p.actions["Layers"]->setText(_getText(DJV_TEXT("menu_file_layers")));
                 p.actions["Layers"]->setTooltip(_getText(DJV_TEXT("menu_file_layers_tooltip")));

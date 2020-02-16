@@ -69,7 +69,7 @@ namespace djv
                     glGetShaderInfoLog(_vertex, String::cStringLength, NULL, infoLog);
                     std::stringstream ss;
                     ss << DJV_TEXT("error_the_opengl_vertex_shader") << " '" << _shader->getVertexName() << "' " <<
-                        DJV_TEXT("error_compilion") << ". " << infoLog;
+                        DJV_TEXT("error_compilation") << ". " << infoLog;
                     throw ShaderError(ss.str());
                 }
 
@@ -89,7 +89,7 @@ namespace djv
                     glGetShaderInfoLog(_fragment, String::cStringLength, NULL, infoLog);
                     std::stringstream ss;
                     ss << DJV_TEXT("error_the_opengl_fragment_shader") << " '" << _shader->getFragmentName() << "' " <<
-                        DJV_TEXT("error_compilion") << ". " << infoLog;
+                        DJV_TEXT("error_compilation") << ". " << infoLog;
                     throw ShaderError(ss.str());
                 }
 

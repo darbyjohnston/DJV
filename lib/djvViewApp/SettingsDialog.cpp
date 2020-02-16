@@ -129,7 +129,7 @@ namespace djv
         {
             IDialog::_initEvent(event);
             DJV_PRIVATE_PTR();
-            setTitle(_getText(DJV_TEXT("menu_tools_settings")));
+            setTitle(_getText(DJV_TEXT("dialog_settings_title")));
             for (const auto& i : p.scrollToWidget)
             {
                 p.tabWidget->setText(i.first, _getText(i.second->getSettingsGroup()));

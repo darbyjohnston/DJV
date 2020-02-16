@@ -111,12 +111,12 @@ namespace djv
 
         std::string ViewSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("widget_color_space_display_view");
+            return DJV_TEXT("settings_view_section_view");
         }
 
         std::string ViewSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("widget_color_space_display_view");
+            return DJV_TEXT("settings_title_view");
         }
 
         std::string ViewSettingsWidget::getSettingsSortKey() const

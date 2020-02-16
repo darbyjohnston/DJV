@@ -141,7 +141,7 @@ namespace djv
                 { GLFW_KEY_MINUS, DJV_TEXT("key_minus") },
                 { GLFW_KEY_PERIOD, DJV_TEXT("key_period") },
                 { GLFW_KEY_SLASH, DJV_TEXT("key_slash") },
-                { GLFW_KEY_0, DJV_TEXT("image_controls_transform_rotate_0") },
+                { GLFW_KEY_0, DJV_TEXT("key_0") },
                 { GLFW_KEY_1, DJV_TEXT("key_1") },
                 { GLFW_KEY_2, DJV_TEXT("key_2") },
                 { GLFW_KEY_3, DJV_TEXT("key_3") },
@@ -253,7 +253,7 @@ namespace djv
                 { GLFW_KEY_RIGHT_CONTROL, DJV_TEXT("key_rightcontrol") },
                 { GLFW_KEY_RIGHT_ALT, DJV_TEXT("key_rightalt") },
                 { GLFW_KEY_RIGHT_SUPER, DJV_TEXT("key_rightcommand") },
-                { GLFW_KEY_MENU, DJV_TEXT("Menu") },
+                { GLFW_KEY_MENU, DJV_TEXT("key_menu") },
             };
             const auto i = data.find(key);
             return i != data.end() ? i->second : std::string();

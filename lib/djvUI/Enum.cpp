@@ -135,165 +135,165 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         Orientation,
-        DJV_TEXT("direction_horizontal"),
-        DJV_TEXT("direction_vertical"));
+        DJV_TEXT("ui_orientation_horizontal"),
+        DJV_TEXT("ui_orientation_vertical"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         Side,
-        DJV_TEXT("menu_view_left"),
-        DJV_TEXT("direction_top"),
-        DJV_TEXT("menu_view_right"),
-        DJV_TEXT("direction_bottom"));
+        DJV_TEXT("ui_side_left"),
+        DJV_TEXT("ui_side_top"),
+        DJV_TEXT("ui_side_right"),
+        DJV_TEXT("ui_side_bottom"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         Expand,
-        DJV_TEXT("None"),
-        DJV_TEXT("direction_horizontal"),
-        DJV_TEXT("direction_vertical"),
-        DJV_TEXT("Both"));
+        DJV_TEXT("ui_expand_none"),
+        DJV_TEXT("ui_expand_horizontal"),
+        DJV_TEXT("ui_expand_vertical"),
+        DJV_TEXT("ui_expand_both"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         HAlign,
-        DJV_TEXT("menu_view_center"),
-        DJV_TEXT("menu_view_left"),
-        DJV_TEXT("menu_view_right"),
-        DJV_TEXT("menu_view_fill"));
+        DJV_TEXT("ui_h_align_center"),
+        DJV_TEXT("ui_h_align_left"),
+        DJV_TEXT("ui_h_align_right"),
+        DJV_TEXT("ui_h_align_fill"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         VAlign,
-        DJV_TEXT("menu_view_center"),
-        DJV_TEXT("direction_top"),
-        DJV_TEXT("direction_bottom"),
-        DJV_TEXT("menu_view_fill"));
+        DJV_TEXT("ui_v_align_center"),
+        DJV_TEXT("ui_v_align_top"),
+        DJV_TEXT("ui_v_align_bottom"),
+        DJV_TEXT("ui_v_align_fill"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         TextHAlign,
-        DJV_TEXT("menu_view_center"),
-        DJV_TEXT("menu_view_left"),
-        DJV_TEXT("menu_view_right"));
+        DJV_TEXT("ui_text_v_align_center"),
+        DJV_TEXT("ui_text_v_align_left"),
+        DJV_TEXT("ui_text_v_align_right"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         TextVAlign,
-        DJV_TEXT("menu_view_center"),
-        DJV_TEXT("direction_top"),
-        DJV_TEXT("direction_bottom"),
-        DJV_TEXT("Baseline"));
+        DJV_TEXT("ui_text_v_align_center"),
+        DJV_TEXT("ui_text_v_align_top"),
+        DJV_TEXT("ui_text_v_align_bottom"),
+        DJV_TEXT("ui_text_v_align_baseline"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         SelectionType,
-        DJV_TEXT("None"),
-        DJV_TEXT("Single"),
-        DJV_TEXT("Radio"),
-        DJV_TEXT("Multiple"));
+        DJV_TEXT("ui_selection_type_none"),
+        DJV_TEXT("ui_selection_type_single"),
+        DJV_TEXT("ui_selection_type_radio"),
+        DJV_TEXT("ui_selection_type_multiple"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         SortOrder,
-        DJV_TEXT("menu_playback_forward"),
-        DJV_TEXT("menu_playback_reverse"));
+        DJV_TEXT("ui_sort_order_forward"),
+        DJV_TEXT("ui_sort_order_reverse"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         ButtonType,
-        DJV_TEXT("Push"),
-        DJV_TEXT("Toggle"),
-        DJV_TEXT("Radio"),
-        DJV_TEXT("Exclusive"));
+        DJV_TEXT("ui_button_type_push"),
+        DJV_TEXT("ui_button_type_toggle"),
+        DJV_TEXT("ui_button_type_radio"),
+        DJV_TEXT("ui_button_type_exclusive"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         ViewType,
-        DJV_TEXT("Tiles"),
-        DJV_TEXT("List"));
+        DJV_TEXT("ui_view_type_tiles"),
+        DJV_TEXT("ui_view_type_list"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         ColorRole,
-        DJV_TEXT("None"),
-        DJV_TEXT("Background"),
-        DJV_TEXT("BackgroundHeader"),
-        DJV_TEXT("BackgroundBellows"),
-        DJV_TEXT("BackgroundToolBar"),
-        DJV_TEXT("Foreground"),
-        DJV_TEXT("ForegroundDim"),
-        DJV_TEXT("Border"),
-        DJV_TEXT("BorderButton"),
-        DJV_TEXT("Trough"),
-        DJV_TEXT("Button"),
-        DJV_TEXT("Hovered"),
-        DJV_TEXT("Pressed"),
-        DJV_TEXT("Checked"),
-        DJV_TEXT("TextFocus"),
-        DJV_TEXT("TooltipBackground"),
-        DJV_TEXT("TooltipForeground"),
-        DJV_TEXT("Overlay"),
-        DJV_TEXT("OverlayLight"),
-        DJV_TEXT("Shadow"),
-        DJV_TEXT("Handle"),
-        DJV_TEXT("Cached"));
+        DJV_TEXT("ui_color_role_none"),
+        DJV_TEXT("ui_color_role_background"),
+        DJV_TEXT("ui_color_role_background_header"),
+        DJV_TEXT("ui_color_role_background_bellows"),
+        DJV_TEXT("ui_color_role_background_tool_bar"),
+        DJV_TEXT("ui_color_role_foreground"),
+        DJV_TEXT("ui_color_role_foreground_dim"),
+        DJV_TEXT("ui_color_role_border"),
+        DJV_TEXT("ui_color_role_border_button"),
+        DJV_TEXT("ui_color_role_trough"),
+        DJV_TEXT("ui_color_role_button"),
+        DJV_TEXT("ui_color_role_hovered"),
+        DJV_TEXT("ui_color_role_pressed"),
+        DJV_TEXT("ui_color_role_checked"),
+        DJV_TEXT("ui_color_role_text_focus"),
+        DJV_TEXT("ui_color_role_tooltip_background"),
+        DJV_TEXT("ui_color_role_tooltip_foreground"),
+        DJV_TEXT("ui_color_role_overlay"),
+        DJV_TEXT("ui_color_role_overlay_light"),
+        DJV_TEXT("ui_color_role_shadow"),
+        DJV_TEXT("ui_color_role_handle"),
+        DJV_TEXT("ui_color_role_cached"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         MetricsRole,
-        DJV_TEXT("None"),
-        DJV_TEXT("Border"),
-        DJV_TEXT("Margin"),
-        DJV_TEXT("MarginSmall"),
-        DJV_TEXT("MarginLarge"),
-        DJV_TEXT("MarginDialog"),
-        DJV_TEXT("Spacing"),
-        DJV_TEXT("SpacingSmall"),
-        DJV_TEXT("SpacingLarge"),
-        DJV_TEXT("Drag"),
-        DJV_TEXT("Icon"),
-        DJV_TEXT("IconSmall"),
-        DJV_TEXT("IconMini"),
-        DJV_TEXT("FontSmall"),
-        DJV_TEXT("FontMedium"),
-        DJV_TEXT("FontLarge"),
-        DJV_TEXT("FontHeader"),
-        DJV_TEXT("FontTitle"),
-        DJV_TEXT("Swatch"),
-        DJV_TEXT("SwatchSmall"),
-        DJV_TEXT("Slider"),
-        DJV_TEXT("ScrollArea"),
-        DJV_TEXT("ScrollBar"),
-        DJV_TEXT("ScrollBarSmall"),
-        DJV_TEXT("Menu"),
-        DJV_TEXT("TextColumn"),
-        DJV_TEXT("TextColumnLarge"),
-        DJV_TEXT("SearchBox"),
-        DJV_TEXT("Dialog"),
-        DJV_TEXT("Shadow"),
-        DJV_TEXT("ShadowSmall"),
-        DJV_TEXT("TooltipOffset"),
-        DJV_TEXT("Handle"),
-        DJV_TEXT("Move"),
-        DJV_TEXT("Scrub"));
+        DJV_TEXT("ui_metrics_role_none"),
+        DJV_TEXT("ui_metrics_role_border"),
+        DJV_TEXT("ui_metrics_role_margin"),
+        DJV_TEXT("ui_metrics_role_margin_small"),
+        DJV_TEXT("ui_metrics_role_margin_large"),
+        DJV_TEXT("ui_metrics_role_margin_dialog"),
+        DJV_TEXT("ui_metrics_role_spacing"),
+        DJV_TEXT("ui_metrics_role_spacing_small"),
+        DJV_TEXT("ui_metrics_role_spacing_large"),
+        DJV_TEXT("ui_metrics_role_drag"),
+        DJV_TEXT("ui_metrics_role_icon"),
+        DJV_TEXT("ui_metrics_role_icon_small"),
+        DJV_TEXT("ui_metrics_role_icon_mini"),
+        DJV_TEXT("ui_metrics_role_font_small"),
+        DJV_TEXT("ui_metrics_role_font_medium"),
+        DJV_TEXT("ui_metrics_role_font_large"),
+        DJV_TEXT("ui_metrics_role_font_header"),
+        DJV_TEXT("ui_metrics_role_font_title"),
+        DJV_TEXT("ui_metrics_role_swatch"),
+        DJV_TEXT("ui_metrics_role_swatch_small"),
+        DJV_TEXT("ui_metrics_role_slider"),
+        DJV_TEXT("ui_metrics_role_scroll_area"),
+        DJV_TEXT("ui_metrics_role_scroll_bar"),
+        DJV_TEXT("ui_metrics_role_scroll_bar_small"),
+        DJV_TEXT("ui_metrics_role_menu"),
+        DJV_TEXT("ui_metrics_role_text_column"),
+        DJV_TEXT("ui_metrics_role_text_column_large"),
+        DJV_TEXT("ui_metrics_role_search_box"),
+        DJV_TEXT("ui_metrics_role_dialog"),
+        DJV_TEXT("ui_metrics_role_shadow"),
+        DJV_TEXT("ui_metrics_role_shadow_small"),
+        DJV_TEXT("ui_metrics_role_tooltip_offset"),
+        DJV_TEXT("ui_metrics_role_handle"),
+        DJV_TEXT("ui_metrics_role_move"),
+        DJV_TEXT("ui_metrics_role_scrub"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         ImageAspectRatio,
-        DJV_TEXT("aspect_ratio_native"),
-        DJV_TEXT("widget_color_space_display_name_default"),
-        DJV_TEXT("aspect_ratio_16_9"),
-        DJV_TEXT("aspect_ratio_1_85"),
-        DJV_TEXT("aspect_ratio_2_35"));
+        DJV_TEXT("ui_aspect_ratio_native"),
+        DJV_TEXT("ui_aspect_ratio_default"),
+        DJV_TEXT("ui_aspect_ratio_16_9"),
+        DJV_TEXT("ui_aspect_ratio_1_85"),
+        DJV_TEXT("ui_aspect_ratio_2_35"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         Popup,
-        DJV_TEXT("belowright"),
-        DJV_TEXT("belowleft"),
-        DJV_TEXT("aboveright"),
-        DJV_TEXT("aboveleft"));
+        DJV_TEXT("popup_below_right"),
+        DJV_TEXT("popup_below_left"),
+        DJV_TEXT("popup_above_right"),
+        DJV_TEXT("popup_above_left"));
 
 } // namespace djv
 

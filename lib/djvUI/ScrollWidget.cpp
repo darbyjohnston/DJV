@@ -1205,8 +1205,8 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         ScrollType,
-        DJV_TEXT("Both"),
-        DJV_TEXT("direction_horizontal"),
-        DJV_TEXT("direction_vertical"));
+        DJV_TEXT("ui_scroll_type_both"),
+        DJV_TEXT("ui_scroll_type_horizontal"),
+        DJV_TEXT("ui_scroll_type_vertical"));
 
 } // namespace djv

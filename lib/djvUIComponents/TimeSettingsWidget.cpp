@@ -211,7 +211,7 @@ namespace djv
 
         std::string TimeSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("debug_section_general");
+            return DJV_TEXT("settings_title_general");
         }
 
         std::string TimeSettingsWidget::getSettingsSortKey() const

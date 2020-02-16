@@ -71,15 +71,15 @@ namespace djv
                 {
                     std::map<AVSampleFormat, std::string> data =
                     {
-                        { AV_SAMPLE_FMT_NONE, DJV_TEXT("None") },
-                        { AV_SAMPLE_FMT_S16, DJV_TEXT("s16") },
-                        { AV_SAMPLE_FMT_S32, DJV_TEXT("s32") },
-                        { AV_SAMPLE_FMT_FLT, DJV_TEXT("type_float") },
-                        { AV_SAMPLE_FMT_DBL, DJV_TEXT("type_double") },
-                        { AV_SAMPLE_FMT_S16P, DJV_TEXT("type_s16_planar") },
-                        { AV_SAMPLE_FMT_S32P, DJV_TEXT("type_s32_planar") },
-                        { AV_SAMPLE_FMT_FLTP, DJV_TEXT("type_float_planar") },
-                        { AV_SAMPLE_FMT_DBLP, DJV_TEXT("type_double_planar") }
+                        { AV_SAMPLE_FMT_NONE, DJV_TEXT("av_sample_format_None") },
+                        { AV_SAMPLE_FMT_S16, DJV_TEXT("av_sample_format_s16") },
+                        { AV_SAMPLE_FMT_S32, DJV_TEXT("av_sample_format_s32") },
+                        { AV_SAMPLE_FMT_FLT, DJV_TEXT("av_sample_format_float") },
+                        { AV_SAMPLE_FMT_DBL, DJV_TEXT("av_sample_format_double") },
+                        { AV_SAMPLE_FMT_S16P, DJV_TEXT("av_sample_format_s16_planar") },
+                        { AV_SAMPLE_FMT_S32P, DJV_TEXT("av_sample_format_s32_planar") },
+                        { AV_SAMPLE_FMT_FLTP, DJV_TEXT("av_sample_format_float_planar") },
+                        { AV_SAMPLE_FMT_DBLP, DJV_TEXT("av_sample_format_double_planar") }
                     };
                     const auto i = data.find(value);
                     return i != data.end() ? i->second : DJV_TEXT("error_unknown");

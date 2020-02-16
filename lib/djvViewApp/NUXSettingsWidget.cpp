@@ -113,12 +113,12 @@ namespace djv
 
         std::string NUXSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("nux");
+            return DJV_TEXT("settings_general_section_nux");
         }
 
         std::string NUXSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("debug_section_general");
+            return DJV_TEXT("settings_title_general");
         }
 
         std::string NUXSettingsWidget::getSettingsSortKey() const

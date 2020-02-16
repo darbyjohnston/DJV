@@ -114,7 +114,7 @@ namespace djv
 
         std::string SequenceSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("menu_file");
+            return DJV_TEXT("settings_title_file");
         }
 
         std::string SequenceSettingsWidget::getSettingsSortKey() const

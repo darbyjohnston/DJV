@@ -109,7 +109,7 @@ namespace djv
 
         std::string TooltipsSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("debug_section_general");
+            return DJV_TEXT("settings_title_general");
         }
 
         std::string TooltipsSettingsWidget::getSettingsSortKey() const

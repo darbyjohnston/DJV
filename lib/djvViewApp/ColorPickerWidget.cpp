@@ -467,7 +467,7 @@ namespace djv
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
 
-            setTitle(_getText(DJV_TEXT("menu_tools_color_picker")));
+            setTitle(_getText(DJV_TEXT("widget_color_picker")));
 
             p.actions["Lock"]->setText(_getText(DJV_TEXT("widget_color_picker_lock_color_type")));
             p.actions["Lock"]->setTooltip(_getText(DJV_TEXT("widget_color_picker_color_picker_lock_color_type_tooltip")));
@@ -476,7 +476,7 @@ namespace djv
 
             p.copyButton->setTooltip(_getText(DJV_TEXT("widget_color_picker_copy_tooltip")));
             
-            p.formLayout->setText(p.colorLabel, _getText(DJV_TEXT("image_controls_section_color")) + ":");
+            p.formLayout->setText(p.colorLabel, _getText(DJV_TEXT("widget_color_picker_color")) + ":");
             p.formLayout->setText(p.pixelLabel, _getText(DJV_TEXT("widget_color_picker_pixel")) + ":");
         }
         

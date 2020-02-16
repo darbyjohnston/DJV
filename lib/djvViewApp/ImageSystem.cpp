@@ -414,7 +414,7 @@ namespace djv
             {
                 p.actions["ImageControls"]->setText(_getText(DJV_TEXT("menu_image_controls_widget")));
                 p.actions["ImageControls"]->setTooltip(_getText(DJV_TEXT("menu_image_controls_widget_tooltip")));
-                p.actions["ColorSpace"]->setText(_getText(DJV_TEXT("widget_color_space")));
+                p.actions["ColorSpace"]->setText(_getText(DJV_TEXT("menu_image_color_space")));
                 p.actions["ColorSpace"]->setTooltip(_getText(DJV_TEXT("menu_image_color_space_widget_tooltip")));
                 p.actions["RedChannel"]->setText(_getText(DJV_TEXT("menu_image_red_channel")));
                 p.actions["RedChannel"]->setTooltip(_getText(DJV_TEXT("menu_image_red_channel_tooltip")));
@@ -424,10 +424,10 @@ namespace djv
                 p.actions["BlueChannel"]->setTooltip(_getText(DJV_TEXT("menu_image_blue_channel_tooltip")));
                 p.actions["AlphaChannel"]->setText(_getText(DJV_TEXT("menu_image_alpha_channel")));
                 p.actions["AlphaChannel"]->setTooltip(_getText(DJV_TEXT("menu_image_alpha_channel_tooltip")));
-                p.actions["MirrorH"]->setText(_getText(DJV_TEXT("image_controls_transform_mirror_horizontal")));
-                p.actions["MirrorH"]->setTooltip(_getText(DJV_TEXT("image_controls_transform_mirror_horizontal_tooltip")));
-                p.actions["MirrorV"]->setText(_getText(DJV_TEXT("image_controls_transform_mirror_vertical")));
-                p.actions["MirrorV"]->setTooltip(_getText(DJV_TEXT("image_controls_transform_mirror_vertical_tooltip")));
+                p.actions["MirrorH"]->setText(_getText(DJV_TEXT("menu_image_mirror_horizontal")));
+                p.actions["MirrorH"]->setTooltip(_getText(DJV_TEXT("menu_image_mirror_horizontal_tooltip")));
+                p.actions["MirrorV"]->setText(_getText(DJV_TEXT("menu_image_mirror_vertical")));
+                p.actions["MirrorV"]->setTooltip(_getText(DJV_TEXT("menu_image_mirror_vertical_tooltip")));
                 p.actions["LoadFrameStore"]->setText(_getText(DJV_TEXT("menu_image_load_frame_store")));
                 p.actions["LoadFrameStore"]->setTooltip(_getText(DJV_TEXT("menu_image_load_frame_store_tooltip")));
                 p.actions["FrameStoreEnabled"]->setText(_getText(DJV_TEXT("menu_image_frame_store")));

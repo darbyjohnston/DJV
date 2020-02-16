@@ -140,7 +140,7 @@ namespace djv
         void LayersWidget::_initEvent(Event::Init & event)
         {
             MDIWidget::_initEvent(event);
-            setTitle(_getText(DJV_TEXT("menu_file_layers")));
+            setTitle(_getText(DJV_TEXT("layers_title")));
             _widgetUpdate();
         }
 

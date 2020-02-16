@@ -1236,8 +1236,8 @@ namespace djv
             p.actions["PrevFrame"]->setTooltip(_getText(DJV_TEXT("playback_previous_frame_tooltip")));
             p.actions["OutPoint"]->setTooltip(_getText(DJV_TEXT("playback_go_to_out_point_tooltip")));
 
-            p.maximizeButton->setTooltip(_getText(DJV_TEXT("menu_window_maximize_tooltip")));
-            p.closeButton->setTooltip(_getText(DJV_TEXT("menu_file_close_tooltip")));
+            p.maximizeButton->setTooltip(_getText(DJV_TEXT("widget_media_maximize_tooltip")));
+            p.closeButton->setTooltip(_getText(DJV_TEXT("widget_media_close_tooltip")));
 
             p.speedPopupWidget->setTooltip(_getText(DJV_TEXT("playback_speed_popup_tooltip")));
             p.realSpeedLabel->setTooltip(_getText(DJV_TEXT("playback_real_speed_tooltip")));
@@ -1250,7 +1250,7 @@ namespace djv
             p.outPointResetButton->setTooltip(_getText(DJV_TEXT("playback_reset_out_point_tooltip")));
             p.durationLabel->setTooltip(_getText(DJV_TEXT("playback_duration_tooltip")));
 
-            p.audioLabel->setText(_getText(DJV_TEXT("menu_audio")));
+            p.audioLabel->setText(_getText(DJV_TEXT("playback_menu_audio")));
             p.audioVolumeSlider->setTooltip(_getText(DJV_TEXT("audio_volume_tooltip")));
             p.audioMuteButton->setTooltip(_getText(DJV_TEXT("audio_mute_tooltip")));
             p.audioPopupWidget->setTooltip(_getText(DJV_TEXT("audio_popup_tooltip")));
@@ -1342,7 +1342,7 @@ namespace djv
 
             std::stringstream ss;
             ss.precision(2);
-            ss << _getText(DJV_TEXT("debug_general_fps")) << ": " << std::fixed << p.speed.toFloat();
+            ss << _getText(DJV_TEXT("playback_fps")) << ": " << std::fixed << p.speed.toFloat();
             p.speedPopupWidget->setText(ss.str());
         }
 

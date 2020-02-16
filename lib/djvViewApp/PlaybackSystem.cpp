@@ -741,33 +741,33 @@ namespace djv
             if (p.actions.size())
             {
                 p.actions["Forward"]->setText(_getText(DJV_TEXT("menu_playback_forward")));
-                p.actions["Forward"]->setTooltip(_getText(DJV_TEXT("playback_forward_tooltip")));
+                p.actions["Forward"]->setTooltip(_getText(DJV_TEXT("menu_playback_forward_tooltip")));
                 p.actions["Reverse"]->setText(_getText(DJV_TEXT("menu_playback_reverse")));
-                p.actions["Reverse"]->setTooltip(_getText(DJV_TEXT("playback_reverse_tooltip")));
+                p.actions["Reverse"]->setTooltip(_getText(DJV_TEXT("menu_playback_reverse_tooltip")));
                 p.actions["PlayOnce"]->setText(_getText(DJV_TEXT("menu_playback_play_once")));
                 p.actions["PlayOnce"]->setTooltip(_getText(DJV_TEXT("menu_playback_play_once_tooltip")));
                 p.actions["PlayLoop"]->setText(_getText(DJV_TEXT("loop")));
                 p.actions["PlayLoop"]->setTooltip(_getText(DJV_TEXT("menu_playback_loop_tooltip")));
                 p.actions["PlayPingPong"]->setText(_getText(DJV_TEXT("menu_playback_ping_pong")));
                 p.actions["PlayPingPong"]->setTooltip(_getText(DJV_TEXT("menu_playback_ping_pong_tooltip")));
-                p.actions["PlayEveryFrame"]->setText(_getText(DJV_TEXT("playback_play_every_frame")));
-                p.actions["PlayEveryFrame"]->setTooltip(_getText(DJV_TEXT("playback_play_every_frame_tooltip")));
+                p.actions["PlayEveryFrame"]->setText(_getText(DJV_TEXT("menu_playback_play_every_frame")));
+                p.actions["PlayEveryFrame"]->setTooltip(_getText(DJV_TEXT("menu_playback_play_every_frame_tooltip")));
                 p.actions["InPoint"]->setText(_getText(DJV_TEXT("menu_playback_go_to_in_point")));
-                p.actions["InPoint"]->setTooltip(_getText(DJV_TEXT("playback_go_to_in_point_tooltip")));
+                p.actions["InPoint"]->setTooltip(_getText(DJV_TEXT("menu_playback_go_to_in_point_tooltip")));
                 p.actions["OutPoint"]->setText(_getText(DJV_TEXT("menu_playback_go_to_out_point")));
-                p.actions["OutPoint"]->setTooltip(_getText(DJV_TEXT("playback_go_to_out_point_tooltip")));
+                p.actions["OutPoint"]->setTooltip(_getText(DJV_TEXT("menu_playback_go_to_out_point_tooltip")));
                 p.actions["StartFrame"]->setText(_getText(DJV_TEXT("menu_playback_go_to_start_frame")));
                 p.actions["StartFrame"]->setTooltip(_getText(DJV_TEXT("menu_playback_go_to_start_frame_tooltip")));
                 p.actions["EndFrame"]->setText(_getText(DJV_TEXT("menu_playback_go_to_end_frame")));
                 p.actions["EndFrame"]->setTooltip(_getText(DJV_TEXT("menu_playback_go_to_end_frame_tooltip")));
                 p.actions["NextFrame"]->setText(_getText(DJV_TEXT("menu_playback_next_frame")));
-                p.actions["NextFrame"]->setTooltip(_getText(DJV_TEXT("playback_next_frame_tooltip")));
+                p.actions["NextFrame"]->setTooltip(_getText(DJV_TEXT("menu_playback_next_frame_tooltip")));
                 p.actions["NextFrame10"]->setText(_getText(DJV_TEXT("menu_playback_next_frame_x10")));
                 p.actions["NextFrame10"]->setTooltip(_getText(DJV_TEXT("menu_playback_next_frame_x10_tooltip")));
                 p.actions["NextFrame100"]->setText(_getText(DJV_TEXT("menu_playback_next_frame_x100")));
                 p.actions["NextFrame100"]->setTooltip(_getText(DJV_TEXT("menu_playback_next_frame_x100_tooltip")));
                 p.actions["PrevFrame"]->setText(_getText(DJV_TEXT("menu_playback_previous_frame")));
-                p.actions["PrevFrame"]->setTooltip(_getText(DJV_TEXT("playback_previous_frame_tooltip")));
+                p.actions["PrevFrame"]->setTooltip(_getText(DJV_TEXT("menu_playback_previous_frame_tooltip")));
                 p.actions["PrevFrame10"]->setText(_getText(DJV_TEXT("menu_playback_previous_frame_x10")));
                 p.actions["PrevFrame10"]->setTooltip(_getText(DJV_TEXT("menu_playback_previous_frame_x10_tooltip")));
                 p.actions["PrevFrame100"]->setText(_getText(DJV_TEXT("menu_playback_previous_frame_x100")));
@@ -775,13 +775,13 @@ namespace djv
                 p.actions["InOutPoints"]->setText(_getText(DJV_TEXT("menu_playback_enable_in_out_points")));
                 p.actions["InOutPoints"]->setTooltip(_getText(DJV_TEXT("menu_playback_enable_in_out_points_tooltip")));
                 p.actions["SetInPoint"]->setText(_getText(DJV_TEXT("menu_playback_set_in_point")));
-                p.actions["SetInPoint"]->setTooltip(_getText(DJV_TEXT("playback_set_in_point_tooltip")));
+                p.actions["SetInPoint"]->setTooltip(_getText(DJV_TEXT("menu_playback_set_in_point_tooltip")));
                 p.actions["SetOutPoint"]->setText(_getText(DJV_TEXT("menu_playback_set_out_point")));
-                p.actions["SetOutPoint"]->setTooltip(_getText(DJV_TEXT("playback_set_out_point_tooltip")));
+                p.actions["SetOutPoint"]->setTooltip(_getText(DJV_TEXT("menu_playback_set_out_point_tooltip")));
                 p.actions["ResetInPoint"]->setText(_getText(DJV_TEXT("menu_playback_reset_in_point")));
-                p.actions["ResetInPoint"]->setTooltip(_getText(DJV_TEXT("playback_reset_in_point_tooltip")));
+                p.actions["ResetInPoint"]->setTooltip(_getText(DJV_TEXT("menu_playback_reset_in_point_tooltip")));
                 p.actions["ResetOutPoint"]->setText(_getText(DJV_TEXT("menu_playback_reset_out_point")));
-                p.actions["ResetOutPoint"]->setTooltip(_getText(DJV_TEXT("playback_reset_out_point_tooltip")));
+                p.actions["ResetOutPoint"]->setTooltip(_getText(DJV_TEXT("menu_playback_reset_out_point_tooltip")));
 
                 p.menu->setText(_getText(DJV_TEXT("menu_playback")));
             }

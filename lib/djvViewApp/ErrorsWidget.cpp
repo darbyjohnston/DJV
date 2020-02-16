@@ -190,7 +190,7 @@ namespace djv
         {
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            setTitle(_getText(DJV_TEXT("menu_tools_errors")));
+            setTitle(_getText(DJV_TEXT("widget_errors")));
             p.popupCheckBox->setText(_getText(DJV_TEXT("widget_errors_popup")));
             p.popupCheckBox->setTooltip(_getText(DJV_TEXT("widget_errors_popup_tooltip")));
             p.copyButton->setText(_getText(DJV_TEXT("widget_errors_copy")));

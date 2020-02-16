@@ -268,10 +268,10 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.actions.size())
             {
-                p.actions["Annotate"]->setText(_getText(DJV_TEXT("annotate")));
-                p.actions["Annotate"]->setTooltip(_getText(DJV_TEXT("annotate_tooltip")));
+                p.actions["Annotate"]->setText(_getText(DJV_TEXT("menu_annotate")));
+                p.actions["Annotate"]->setTooltip(_getText(DJV_TEXT("menu_annotate_tooltip")));
             
-                p.menu->setText(_getText(DJV_TEXT("annotate")));
+                p.menu->setText(_getText(DJV_TEXT("menu_annotate")));
             }
         }
         

@@ -1751,23 +1751,23 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::Render,
         ImageChannel,
-        DJV_TEXT("None"),
-        DJV_TEXT("channel_red"),
-        DJV_TEXT("channel_green"),
-        DJV_TEXT("channel_blue"),
-        DJV_TEXT("channel_alpha"));
+        DJV_TEXT("render_image_channel_none"),
+        DJV_TEXT("render_image_channel_red"),
+        DJV_TEXT("render_image_channel_green"),
+        DJV_TEXT("render_image_channel_blue"),
+        DJV_TEXT("render_image_channel_alpha"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::Render,
         ImageCache,
-        DJV_TEXT("atlas"),
-        DJV_TEXT("dynamic"));
+        DJV_TEXT("render_image_cache_atlas"),
+        DJV_TEXT("render_image_cache_dynamic"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::Render,
         ImageFilter,
-        DJV_TEXT("filter_nearest"),
-        DJV_TEXT("filter_linear"));
+        DJV_TEXT("render_filter_nearest"),
+        DJV_TEXT("render_filter_linear"));
 
     picojson::value toJSON(AV::Render::ImageFilter value)
     {

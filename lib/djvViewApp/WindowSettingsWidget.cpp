@@ -124,7 +124,7 @@ namespace djv
 
         std::string AutoHideSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("menu_window");
+            return DJV_TEXT("settings_title_window");
         }
 
         std::string AutoHideSettingsWidget::getSettingsSortKey() const
@@ -233,7 +233,7 @@ namespace djv
 
         std::string FullscreenMonitorSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("menu_window");
+            return DJV_TEXT("settings_window_title");
         }
 
         std::string FullscreenMonitorSettingsWidget::getSettingsSortKey() const
@@ -491,7 +491,7 @@ namespace djv
 
         std::string BackgroundImageSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("menu_window");
+            return DJV_TEXT("settings_window_title");
         }
 
         std::string BackgroundImageSettingsWidget::getSettingsSortKey() const

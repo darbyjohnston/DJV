@@ -244,7 +244,7 @@ namespace djv
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             
-            setTitle(_getText(DJV_TEXT("annotate")));
+            setTitle(_getText(DJV_TEXT("widget_annotate")));
             
             const std::vector<std::string> typeTooltips =
             {
@@ -274,9 +274,9 @@ namespace djv
 
             p.listButton->setTooltip(_getText(DJV_TEXT("annotate_list_toggle_tooltip")));
             
-            p.tabWidget->setText(p.editLayout, _getText(DJV_TEXT("menu_edit")));
-            p.tabWidget->setText(p.summaryLayout, _getText(DJV_TEXT("menu_summary")));
-            p.tabWidget->setText(p.exportLayout, _getText(DJV_TEXT("menu_export")));
+            p.tabWidget->setText(p.editLayout, _getText(DJV_TEXT("menu_annotate_edit")));
+            p.tabWidget->setText(p.summaryLayout, _getText(DJV_TEXT("menu_annotate_summary")));
+            p.tabWidget->setText(p.exportLayout, _getText(DJV_TEXT("menu_annotate_export")));
         }
 
     } // namespace ViewApp

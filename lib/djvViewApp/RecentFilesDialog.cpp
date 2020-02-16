@@ -289,9 +289,9 @@ namespace djv
             setTitle(_getText(DJV_TEXT("widget_recent_files_title")));
 
             p.actions["IncreaseThumbnailSize"]->setText(_getText(DJV_TEXT("widget_recent_increase_thumbnail_size")));
-            p.actions["IncreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("recent_files_increase_thumbnail_size_tooltip")));
+            p.actions["IncreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("widget_recent_increase_thumbnail_size_tooltip")));
             p.actions["DecreaseThumbnailSize"]->setText(_getText(DJV_TEXT("widget_recent_decrease_thumbnail_size")));
-            p.actions["DecreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("recent_files_decrease_thumbnail_size_tooltip")));
+            p.actions["DecreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("widget_recent_decrease_thumbnail_size_tooltip")));
 
             p.thumbnailSizeLabel->setText(_getText(DJV_TEXT("recent_files_thumbnail_size")));
 

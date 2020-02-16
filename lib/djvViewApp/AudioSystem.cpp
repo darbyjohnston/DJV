@@ -231,7 +231,7 @@ namespace djv
                 p.actions["DecreaseVolume"]->setText(_getText(DJV_TEXT("menu_audio_decrease_volume")));
                 p.actions["DecreaseVolume"]->setTooltip(_getText(DJV_TEXT("menu_audio_decrease_volume_tooltip")));
                 p.actions["Mute"]->setText(_getText(DJV_TEXT("menu_audio_mute")));
-                p.actions["Mute"]->setTooltip(_getText(DJV_TEXT("audio_mute_tooltip")));
+                p.actions["Mute"]->setTooltip(_getText(DJV_TEXT("menu_audio_mute_tooltip")));
 
                 p.menu->setText(_getText(DJV_TEXT("menu_audio")));
             }
