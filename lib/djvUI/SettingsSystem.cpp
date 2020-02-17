@@ -49,7 +49,7 @@ namespace djv
         {
             namespace
             {
-                const size_t settingsVersion = 19;
+                const size_t settingsVersion = 20;
 
             } // namespace
 
