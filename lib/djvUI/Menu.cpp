@@ -508,6 +508,7 @@ namespace djv
                         try
                         {
                             i.first->icon = i.second.get();
+                            _resize();
                         }
                         catch (const std::exception & e)
                         {
@@ -523,6 +524,7 @@ namespace djv
                         try
                         {
                             i.first->fontMetrics = i.second.get();
+                            _resize();
                         }
                         catch (const std::exception & e)
                         {
@@ -538,6 +540,7 @@ namespace djv
                         try
                         {
                             i.first->textSize = i.second.get();
+                            _resize();
                         }
                         catch (const std::exception & e)
                         {
@@ -553,6 +556,7 @@ namespace djv
                         try
                         {
                             i.first->textGlyphs = i.second.get();
+                            _resize();
                         }
                         catch (const std::exception & e)
                         {
@@ -568,6 +572,7 @@ namespace djv
                         try
                         {
                             i.first->shortcutSize = i.second.get();
+                            _resize();
                         }
                         catch (const std::exception & e)
                         {
@@ -583,6 +588,7 @@ namespace djv
                         try
                         {
                             i.first->shortcutGlyphs = i.second.get();
+                            _resize();
                         }
                         catch (const std::exception & e)
                         {
