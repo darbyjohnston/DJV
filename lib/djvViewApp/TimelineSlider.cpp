@@ -290,6 +290,16 @@ namespace djv
             _redraw();
         }
 
+        void TimelineSlider::setImageOptions(const AV::Render::ImageOptions& value)
+        {
+            _p->pipWidget->setImageOptions(value);
+        }
+
+        void TimelineSlider::setImageRotate(UI::ImageRotate value)
+        {
+            _p->pipWidget->setImageRotate(value);
+        }
+
         void TimelineSlider::setImageAspectRatio(UI::ImageAspectRatio value)
         {
             _p->pipWidget->setImageAspectRatio(value);
@@ -617,6 +627,7 @@ namespace djv
                 try
                 {
                     p.fontMetrics = p.fontMetricsFuture.get();
+                    p.sizePrev = glm::vec2(0.F, 0.F);
                     _resize();
                 }
                 catch (const std::exception & e)
@@ -630,6 +641,7 @@ namespace djv
                 try
                 {
                     p.currentFrameLength = p.currentFrameSizeFuture.get().x;
+                    p.sizePrev = glm::vec2(0.F, 0.F);
                     _resize();
                 }
                 catch (const std::exception & e)
@@ -643,7 +655,8 @@ namespace djv
                 try
                 {
                     p.currentFrameGlyphs = p.currentFrameGlyphsFuture.get();
-                    _redraw();
+                    p.sizePrev = glm::vec2(0.F, 0.F);
+                    _resize();
                 }
                 catch (const std::exception & e)
                 {
@@ -656,6 +669,7 @@ namespace djv
                 try
                 {
                     p.maxFrameLength = p.maxFrameSizeFuture.get().x;
+                    p.sizePrev = glm::vec2(0.F, 0.F);
                     _resize();
                 }
                 catch (const std::exception & e)
@@ -671,6 +685,7 @@ namespace djv
                     try
                     {
                         i->glyphs = i->glyphsFuture.get();
+                        p.sizePrev = glm::vec2(0.F, 0.F);
                         _resize();
                     }
                     catch (const std::exception & e)

@@ -95,7 +95,7 @@ namespace djv
             AV::Render::ImageOptions imageOptions;
             glm::vec2 imagePos = glm::vec2(0.F, 0.F);
             float imageZoom = 1.F;
-            ImageRotate imageRotate = ImageRotate::First;
+            UI::ImageRotate imageRotate = UI::ImageRotate::First;
             UI::ImageAspectRatio imageAspectRatio = UI::ImageAspectRatio::First;
             glm::vec2 pixelPos = glm::vec2(0.F, 0.F);
             AV::OCIO::Config ocioConfig;
@@ -125,7 +125,7 @@ namespace djv
             std::shared_ptr<ValueObserver<AV::Render::ImageOptions> > imageOptionsObserver;
             std::shared_ptr<ValueObserver<glm::vec2> > imagePosObserver;
             std::shared_ptr<ValueObserver<float> > imageZoomObserver;
-            std::shared_ptr<ValueObserver<ImageRotate> > imageRotateObserver;
+            std::shared_ptr<ValueObserver<UI::ImageRotate> > imageRotateObserver;
             std::shared_ptr<ValueObserver<UI::ImageAspectRatio> > imageAspectRatioObserver;
             std::shared_ptr<ValueObserver<AV::OCIO::Config> > ocioConfigObserver;
             std::shared_ptr<ValueObserver<PointerData> > dragObserver;
@@ -320,9 +320,9 @@ namespace djv
                                         }
                                     });
 
-                                widget->_p->imageRotateObserver = ValueObserver<ImageRotate>::create(
+                                widget->_p->imageRotateObserver = ValueObserver<UI::ImageRotate>::create(
                                     widget->_p->activeWidget->getImageView()->observeImageRotate(),
-                                    [weak](ImageRotate value)
+                                    [weak](UI::ImageRotate value)
                                     {
                                         if (auto widget = weak.lock())
                                         {
@@ -593,7 +593,7 @@ namespace djv
             const float z = sampleSize / 2.F;
             m = glm::translate(m, glm::vec2(z, z));
             m = glm::translate(m, imagePos / imageZoom);
-            m = glm::rotate(m, Math::deg2rad(getImageRotate(imageRotate)));
+            m = glm::rotate(m, Math::deg2rad(UI::getImageRotate(imageRotate)));
             m = glm::scale(m, glm::vec2(
                 UI::getPixelAspectRatio(imageAspectRatio, image->getInfo().pixelAspectRatio),
                 UI::getAspectRatioScale(imageAspectRatio, image->getAspectRatio())));

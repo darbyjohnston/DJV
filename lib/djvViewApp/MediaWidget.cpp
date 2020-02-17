@@ -185,6 +185,8 @@ namespace djv
             std::shared_ptr<ValueObserver<ImageViewLock> > viewLockObserver;
             std::shared_ptr<ValueObserver<bool> > frameStoreEnabledObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > frameStoreObserver;
+            std::shared_ptr<ValueObserver<AV::Render::ImageOptions> > imageOptionsObserver;
+            std::shared_ptr<ValueObserver<UI::ImageRotate> > imageRotateObserver;
             std::shared_ptr<ValueObserver<UI::ImageAspectRatio> > imageAspectRatioObserver;
         };
 
@@ -1067,6 +1069,26 @@ namespace djv
                         }
                     });
             }
+
+            p.imageOptionsObserver = ValueObserver<AV::Render::ImageOptions>::create(
+                p.imageView->observeImageOptions(),
+                [weak](const AV::Render::ImageOptions& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->timelineSlider->setImageOptions(value);
+                    }
+                });
+
+            p.imageRotateObserver = ValueObserver<UI::ImageRotate>::create(
+                p.imageView->observeImageRotate(),
+                [weak](UI::ImageRotate value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->timelineSlider->setImageRotate(value);
+                    }
+                });
 
             p.imageAspectRatioObserver = ValueObserver<UI::ImageAspectRatio>::create(
                 p.imageView->observeImageAspectRatio(),

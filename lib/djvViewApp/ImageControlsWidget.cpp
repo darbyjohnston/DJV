@@ -62,7 +62,7 @@ namespace djv
         struct ImageControlsWidget::Private
         {
             AV::Render::ImageOptions imageOptions;
-            ImageRotate rotate = ImageRotate::First;
+            UI::ImageRotate rotate = UI::ImageRotate::First;
             UI::ImageAspectRatio aspectRatio = UI::ImageAspectRatio::First;
             bool frameStoreEnabled = false;
             std::shared_ptr<AV::Image::Image> frameStore;
@@ -107,7 +107,7 @@ namespace djv
 
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<ValueObserver<AV::Render::ImageOptions> > imageOptionsObserver;
-            std::shared_ptr<ValueObserver<ImageRotate> > rotateObserver;
+            std::shared_ptr<ValueObserver<UI::ImageRotate> > rotateObserver;
             std::shared_ptr<ValueObserver<UI::ImageAspectRatio> > aspectRatioObserver;
             std::shared_ptr<ValueObserver<bool> > frameStoreEnabledObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > frameStoreObserver;
@@ -363,7 +363,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->rotate = static_cast<ImageRotate>(value);
+                            widget->_p->rotate = static_cast<UI::ImageRotate>(value);
                             widget->_widgetUpdate();
                             if (widget->_p->activeWidget)
                             {
@@ -650,9 +650,9 @@ namespace djv
                                             widget->_widgetUpdate();
                                         }
                                     });
-                                widget->_p->rotateObserver = ValueObserver<ImageRotate>::create(
+                                widget->_p->rotateObserver = ValueObserver<UI::ImageRotate>::create(
                                     widget->_p->activeWidget->getImageView()->observeImageRotate(),
-                                    [weak](ImageRotate value)
+                                    [weak](UI::ImageRotate value)
                                     {
                                         if (auto widget = weak.lock())
                                         {
@@ -758,7 +758,7 @@ namespace djv
             p.transformLayout->setText(p.mirrorCheckBoxes[0], _getText(DJV_TEXT("image_controls_transform_mirror_horizontal")) + ":");
             p.transformLayout->setText(p.mirrorCheckBoxes[1], _getText(DJV_TEXT("image_controls_transform_mirror_vertical")) + ":");
             p.rotateComboBox->clearItems();
-            for (auto i : getImageRotateEnums())
+            for (auto i : UI::getImageRotateEnums())
             {
                 std::stringstream ss;
                 ss << i;

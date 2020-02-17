@@ -60,19 +60,6 @@ namespace djv
         DJV_ENUM_HELPERS(ScrollWheelZoomSpeed);
         float getScrollWheelZoomSpeed(ScrollWheelZoomSpeed);
 
-        enum class ImageRotate
-        {
-            _0,
-            _90,
-            _180,
-            _270,
-
-            Count,
-            First = _0
-        };
-        DJV_ENUM_HELPERS(ImageRotate);
-        float getImageRotate(ImageRotate);
-
         enum class Playback
         {
             Stop,
@@ -99,20 +86,17 @@ namespace djv
 
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ImageViewLock);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ScrollWheelZoomSpeed);
-    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ImageRotate);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::Playback);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::PlaybackMode);
 
     picojson::value toJSON(ViewApp::ImageViewLock);
     picojson::value toJSON(ViewApp::ScrollWheelZoomSpeed);
-    picojson::value toJSON(ViewApp::ImageRotate);
     picojson::value toJSON(ViewApp::PlaybackMode);
 
     //! Throws:
     //! - std::exception
     void fromJSON(const picojson::value&, ViewApp::ImageViewLock&);
     void fromJSON(const picojson::value&, ViewApp::ScrollWheelZoomSpeed&);
-    void fromJSON(const picojson::value&, ViewApp::ImageRotate&);
     void fromJSON(const picojson::value&, ViewApp::PlaybackMode&);
 
 } // namespace djv

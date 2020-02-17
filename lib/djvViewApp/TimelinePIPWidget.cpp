@@ -197,6 +197,18 @@ namespace djv
             _resize();
         }
 
+        void TimelinePIPWidget::setImageOptions(const AV::Render::ImageOptions& value)
+        {
+            DJV_PRIVATE_PTR();
+            p.imageWidget->setImageOptions(value);
+        }
+
+        void TimelinePIPWidget::setImageRotate(UI::ImageRotate value)
+        {
+            DJV_PRIVATE_PTR();
+            p.imageWidget->setImageRotate(value);
+        }
+
         void TimelinePIPWidget::setImageAspectRatio(UI::ImageAspectRatio value)
         {
             DJV_PRIVATE_PTR();

@@ -29,8 +29,6 @@
 
 #pragma once
 
-#include <djvViewApp/Enum.h>
-
 #include <djvUI/Widget.h>
 
 #include <djvCore/Frame.h>
@@ -47,6 +45,15 @@ namespace djv
 
         } // namespace FileSystem
     } // namespace Core
+
+    namespace AV
+    {
+        namespace Render
+        {
+            class ImageOptions;
+
+        } // namespace Render
+    } // namespace AV
 
     namespace ViewApp
     {
@@ -67,6 +74,9 @@ namespace djv
 
             void setFileInfo(const Core::FileSystem::FileInfo&);
             void setPos(const glm::vec2&, Core::Frame::Index, const Core::BBox2f&);
+
+            void setImageOptions(const AV::Render::ImageOptions&);
+            void setImageRotate(UI::ImageRotate);
             void setImageAspectRatio(UI::ImageAspectRatio);
 
         protected:

@@ -47,7 +47,7 @@ namespace djv
         {
             int colorSpaceCurrentTab = 0;
             int colorCurrentTab = 0;
-            std::shared_ptr<ValueSubject<ImageRotate> > rotate;
+            std::shared_ptr<ValueSubject<UI::ImageRotate> > rotate;
             std::shared_ptr<ValueSubject<UI::ImageAspectRatio> > aspectRatio;
             std::map<std::string, BBox2f> widgetGeom;
         };
@@ -57,7 +57,7 @@ namespace djv
             ISettings::_init("djv::ViewApp::ImageSettings", context);
 
             DJV_PRIVATE_PTR();
-            p.rotate = ValueSubject<ImageRotate>::create(ImageRotate::_0);
+            p.rotate = ValueSubject<UI::ImageRotate>::create(UI::ImageRotate::_0);
             p.aspectRatio = ValueSubject<UI::ImageAspectRatio>::create(UI::ImageAspectRatio::FromSource);
             _load();
         }
@@ -93,7 +93,7 @@ namespace djv
             _p->colorCurrentTab = value;
         }
 
-        std::shared_ptr<IValueSubject<ImageRotate> > ImageSettings::observeRotate() const
+        std::shared_ptr<IValueSubject<UI::ImageRotate> > ImageSettings::observeRotate() const
         {
             return _p->rotate;
         }
@@ -103,7 +103,7 @@ namespace djv
             return _p->aspectRatio;
         }
 
-        void ImageSettings::setRotate(ImageRotate value)
+        void ImageSettings::setRotate(UI::ImageRotate value)
         {
             _p->rotate->setIfChanged(value);
         }
