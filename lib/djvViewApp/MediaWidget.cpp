@@ -266,7 +266,7 @@ namespace djv
             p.currentFrameWidget = FrameWidget::create(context);
             p.inPointWidget = FrameWidget::create(context);
             p.inPointSetButton = UI::ToolButton::create(context);
-            p.inPointSetButton->setIcon("djvIconFrameStartSmall");
+            p.inPointSetButton->setIcon("djvIconFrameSetStartSmall");
             p.inPointSetButton->setInsideMargin(UI::MetricsRole::None);
             p.inPointSetButton->setVAlign(UI::VAlign::Center);
             p.inPointResetButton = UI::ToolButton::create(context);
@@ -275,7 +275,7 @@ namespace djv
             p.inPointResetButton->setVAlign(UI::VAlign::Center);
             p.outPointWidget = FrameWidget::create(context);
             p.outPointSetButton = UI::ToolButton::create(context);
-            p.outPointSetButton->setIcon("djvIconFrameEndSmall");
+            p.outPointSetButton->setIcon("djvIconFrameSetEndSmall");
             p.outPointSetButton->setInsideMargin(UI::MetricsRole::None);
             p.outPointSetButton->setVAlign(UI::VAlign::Center);
             p.outPointResetButton = UI::ToolButton::create(context);
