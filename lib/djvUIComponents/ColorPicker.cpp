@@ -150,7 +150,7 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << static_cast<AV::Image::Type>(i);
-                p.comboBox->addItem(ss.str());
+                p.comboBox->addItem(_getText(ss.str()));
             }
             p.comboBox->setCurrentItem(static_cast<int>(p.type) - 1);
         }

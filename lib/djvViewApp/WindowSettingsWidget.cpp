@@ -45,6 +45,7 @@
 #include <djvUI/ToolButton.h>
 
 #include <djvAV/IO.h>
+#include <djvAV/Render2D.h>
 #include <djvAV/ThumbnailSystem.h>
 
 #include <djvCore/Context.h>
@@ -286,7 +287,9 @@ namespace djv
             setClassName("djv::ViewApp::BackgroundImageSettingsWidget");
 
             p.imageWidget = UI::ImageWidget::create(context);
-            p.imageWidget->setImageAlphaBlend(AV::AlphaBlend::Straight);
+            AV::Render::ImageOptions options;
+            options.alphaBlend = AV::AlphaBlend::Straight;
+            p.imageWidget->setImageOptions(options);
             p.imageWidget->setSizeRole(UI::MetricsRole::TextColumn);
             p.imageWidget->setHAlign(UI::HAlign::Center);
             p.imageWidget->setVAlign(UI::VAlign::Center);

@@ -49,6 +49,18 @@ namespace djv
             return out;
         }
 
+        float getImageRotate(ImageRotate value)
+        {
+            const float values[] =
+            {
+                0.F,
+                90.F,
+                180.F,
+                270.F
+            };
+            return values[static_cast<size_t>(value)];
+        }
+
         float getImageAspectRatio(ImageAspectRatio value)
         {
             const float values[] =
@@ -101,6 +113,13 @@ namespace djv
         return picojson::value(ss.str());
     }
 
+    picojson::value toJSON(UI::ImageRotate value)
+    {
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
+    }
+
     picojson::value toJSON(UI::ImageAspectRatio value)
     {
         std::stringstream ss;
@@ -109,6 +128,19 @@ namespace djv
     }
 
     void fromJSON(const picojson::value & value, UI::ViewType & out)
+    {
+        if (value.is<std::string>())
+        {
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
+        }
+    }
+
+    void fromJSON(const picojson::value& value, UI::ImageRotate& out)
     {
         if (value.is<std::string>())
         {
@@ -279,6 +311,14 @@ namespace djv
         DJV_TEXT("ui_metrics_role_handle"),
         DJV_TEXT("ui_metrics_role_move"),
         DJV_TEXT("ui_metrics_role_scrub"));
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        UI,
+        ImageRotate,
+        DJV_TEXT("ui_image_rotate_0"),
+        DJV_TEXT("ui_image_rotate_90"),
+        DJV_TEXT("ui_image_rotate_180"),
+        DJV_TEXT("ui_image_rotate_270"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,

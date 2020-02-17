@@ -44,18 +44,6 @@ namespace djv
             return values[static_cast<size_t>(value)];
         }
 
-        float getImageRotate(ImageRotate value)
-        {
-            const float values[] =
-            {
-                0.F,
-                90.F,
-                180.F,
-                270.F
-            };
-            return values[static_cast<size_t>(value)];
-        }
-
     } // namespace ViewApp
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
@@ -72,14 +60,6 @@ namespace djv
         DJV_TEXT("settings_scroll_wheel_slow"),
         DJV_TEXT("settings_scroll_wheel_medium"),
         DJV_TEXT("settings_scroll_wheel_fast"));
-
-    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        ViewApp,
-        ImageRotate,
-        DJV_TEXT("image_controls_transform_rotate_0"),
-        DJV_TEXT("image_controls_transform_rotate_90"),
-        DJV_TEXT("image_controls_transform_rotate_180"),
-        DJV_TEXT("image_controls_transform_rotate_270"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         ViewApp,
@@ -109,13 +89,6 @@ namespace djv
         return picojson::value(ss.str());
     }
 
-    picojson::value toJSON(ViewApp::ImageRotate value)
-    {
-        std::stringstream ss;
-        ss << value;
-        return picojson::value(ss.str());
-    }
-
     picojson::value toJSON(ViewApp::PlaybackMode value)
     {
         std::stringstream ss;
@@ -137,19 +110,6 @@ namespace djv
     }
 
     void fromJSON(const picojson::value& value, ViewApp::ScrollWheelZoomSpeed& out)
-    {
-        if (value.is<std::string>())
-        {
-            std::stringstream ss(value.get<std::string>());
-            ss >> out;
-        }
-        else
-        {
-            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
-        }
-    }
-
-    void fromJSON(const picojson::value& value, ViewApp::ImageRotate& out)
     {
         if (value.is<std::string>())
         {

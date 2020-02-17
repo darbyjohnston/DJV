@@ -59,9 +59,9 @@ namespace djv
             void setColorSpaceCurrentTab(int);
             void setColorCurrentTab(int);
 
-            std::shared_ptr<Core::IValueSubject<ImageRotate> > observeRotate() const;
+            std::shared_ptr<Core::IValueSubject<UI::ImageRotate> > observeRotate() const;
             std::shared_ptr<Core::IValueSubject<UI::ImageAspectRatio> > observeAspectRatio() const;
-            void setRotate(ImageRotate);
+            void setRotate(UI::ImageRotate);
             void setAspectRatio(UI::ImageAspectRatio);
 
             const std::map<std::string, Core::BBox2f>& getWidgetGeom() const;

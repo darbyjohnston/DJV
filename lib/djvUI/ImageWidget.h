@@ -40,6 +40,12 @@ namespace djv
             class Image;
 
         } // namespace Image
+
+        namespace Render
+        {
+            class ImageOptions;
+
+        } // namespace Render
     } // namespace AV
 
     namespace UI
@@ -60,8 +66,9 @@ namespace djv
 
             const std::shared_ptr<AV::Image::Image> & getImage() const;
             void setImage(const std::shared_ptr<AV::Image::Image> &);
+            void setImageOptions(const AV::Render::ImageOptions&);
+            void setImageRotate(ImageRotate);
             void setImageAspectRatio(ImageAspectRatio);
-            void setImageAlphaBlend(AV::AlphaBlend);
 
             ColorRole getImageColorRole() const;
             void setImageColorRole(ColorRole);
