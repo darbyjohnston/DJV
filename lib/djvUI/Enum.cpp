@@ -57,7 +57,8 @@ namespace djv
                 1.F,
                 1.78F,
                 1.85F,
-                2.35F
+                2.35F,
+                2.39F
             };
             return values[static_cast<size_t>(value)];
         }
@@ -67,7 +68,7 @@ namespace djv
             float out = 1.F;
             switch (value)
             {
-            case UI::ImageAspectRatio::Default:
+            case UI::ImageAspectRatio::FromSource:
                 out = pixelAspectRatio;
                 break;
             default: break;
@@ -83,6 +84,7 @@ namespace djv
             case UI::ImageAspectRatio::_16_9:
             case UI::ImageAspectRatio::_1_85:
             case UI::ImageAspectRatio::_2_35:
+            case UI::ImageAspectRatio::_2_39:
                 out = aspectRatio / UI::getImageAspectRatio(value);
                 break;
             default: break;
@@ -281,11 +283,12 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         ImageAspectRatio,
-        DJV_TEXT("ui_aspect_ratio_native"),
-        DJV_TEXT("ui_aspect_ratio_default"),
+        DJV_TEXT("ui_aspect_ratio_unscaled"),
+        DJV_TEXT("ui_aspect_ratio_from_source"),
         DJV_TEXT("ui_aspect_ratio_16_9"),
         DJV_TEXT("ui_aspect_ratio_1_85"),
-        DJV_TEXT("ui_aspect_ratio_2_35"));
+        DJV_TEXT("ui_aspect_ratio_2_35"),
+        DJV_TEXT("ui_aspect_ratio_2_39"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,

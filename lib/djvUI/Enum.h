@@ -273,14 +273,15 @@ namespace djv
         //! This enumeration provides image aspect ratios.
         enum class ImageAspectRatio
         {
-            Native,
-            Default,
+            Unscaled,
+            FromSource,
             _16_9,
             _1_85,
             _2_35,
+            _2_39,
 
             Count,
-            First = Native
+            First = Unscaled
         };
         DJV_ENUM_HELPERS(ImageAspectRatio);
         float getImageAspectRatio(ImageAspectRatio);

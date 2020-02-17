@@ -58,7 +58,7 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             p.rotate = ValueSubject<ImageRotate>::create(ImageRotate::_0);
-            p.aspectRatio = ValueSubject<UI::ImageAspectRatio>::create(UI::ImageAspectRatio::Default);
+            p.aspectRatio = ValueSubject<UI::ImageAspectRatio>::create(UI::ImageAspectRatio::FromSource);
             _load();
         }
 

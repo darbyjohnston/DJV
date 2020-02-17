@@ -49,7 +49,7 @@ namespace djv
         struct ImageWidget::Private
         {
             std::shared_ptr<AV::Image::Image> image;
-            ImageAspectRatio imageAspectRatio = ImageAspectRatio::Default;
+            ImageAspectRatio imageAspectRatio = ImageAspectRatio::FromSource;
             AV::AlphaBlend imageAlphaBlend = AV::AlphaBlend::None;
             ColorRole imageColorRole = ColorRole::None;
             MetricsRole sizeRole = MetricsRole::None;
