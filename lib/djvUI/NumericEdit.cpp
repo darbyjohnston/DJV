@@ -76,7 +76,6 @@ namespace djv
                 p.incButtons[i]->setIconSizeRole(MetricsRole::IconMini);
                 p.incButtons[i]->setInsideMargin(MetricsRole::Border);
                 p.incButtons[i]->setAutoRepeat(true);
-                p.incButtons[i]->setVAlign(VAlign::Fill);
                 addChild(p.incButtons[i]);
             }
 
@@ -159,7 +158,7 @@ namespace djv
             float x = g.min.x;
             float y = g.min.y;
             float w = g.w();
-            float h = floorf(g.h() / 2.F);
+            float h = ceilf(g.h() / 2.F);
             p.incButtons[0]->setGeometry(BBox2f(x, y, w, h));
             y = g.max.y - h;
             p.incButtons[1]->setGeometry(BBox2f(x, y, w, h));

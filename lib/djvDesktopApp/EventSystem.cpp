@@ -289,7 +289,6 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 p.contentScale = value;
-                auto system = context->getSystemT<UI::UISystem>();
                 const glm::vec2 dpi(AV::dpiDefault * p.contentScale.x, AV::dpiDefault * p.contentScale.y);
                 {
                     std::stringstream ss;
@@ -297,7 +296,8 @@ namespace djv
                     ss << "DPI: " << dpi << std::endl;
                     _log(ss.str());
                 }
-                system->getStyle()->setDPI(dpi);
+                auto uiSystem = context->getSystemT<UI::UISystem>();
+                uiSystem->getStyle()->setDPI(dpi);
             }
         }
 

@@ -173,13 +173,13 @@ namespace djv
                     }
                     label->setHAlign(UI::HAlign::Left);
                     formLayout->addChild(label);
-                    formLayout->setText(label, _getText(DJV_TEXT("widget_info_size")) + ":");
+                    formLayout->setText(label, _getText(DJV_TEXT("widget_info_dimensions")) + ":");
 
                     label = UI::Label::create(context);
                     {
                         std::stringstream ss;
                         ss << i.info.type;
-                        label->setText(ss.str());
+                        label->setText(_getText(ss.str()));
                     }
                     label->setHAlign(UI::HAlign::Left);
                     formLayout->addChild(label);
@@ -253,7 +253,7 @@ namespace djv
                     {
                         std::stringstream ss;
                         ss << i.info.type;
-                        label->setText(ss.str());
+                        label->setText(_getText(ss.str()));
                     }
                     label->setHAlign(UI::HAlign::Left);
                     formLayout->addChild(label);

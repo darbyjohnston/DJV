@@ -57,12 +57,21 @@ namespace djv
 
             struct ImageRequest
             {
-                ImageRequest()
-                {}
+                ImageRequest(const std::string& name, uint16_t size) :
+                    name(name),
+                    size(size)
+                {
+                    key = 0;
+                    Memory::hashCombine(key, name);
+                    Memory::hashCombine(key, size);
+                }
 
                 ImageRequest(ImageRequest && other) :
-                    path(other.path),
-                    read(std::move(other.read)),
+                    name   (std::move(other.name)),
+                    size   (std::move(other.size)),
+                    key    (std::move(other.key)),
+                    path   (std::move(other.path)),
+                    read   (std::move(other.read)),
                     promise(std::move(other.promise))
                 {}
 
@@ -73,32 +82,31 @@ namespace djv
                 {
                     if (this != &other)
                     {
-                        path = other.path;
-                        read = std::move(other.read);
+                        name    = std::move(other.name);
+                        size    = std::move(other.size);
+                        key     = std::move(other.key);
+                        path    = std::move(other.path);
+                        read    = std::move(other.read);
                         promise = std::move(other.promise);
                     }
                     return *this;
                 }
 
+                std::string name;
+                uint16_t size;
+                size_t key;
                 FileSystem::Path path;
                 std::shared_ptr<AV::IO::IRead> read;
                 std::promise<std::shared_ptr<AV::Image::Image> > promise;
             };
 
-            size_t getImageCacheKey(const FileSystem::Path & path)
-            {
-                size_t out = 0;
-                Memory::hashCombine(out, path.get());
-                return out;
-            }
-
         } // namespace
 
         struct IconSystem::Private
         {
-            std::shared_ptr<ResourceSystem> resourceSystem;
-            std::shared_ptr<AV::IO::System> io;
+            FileSystem::Path iconPath;
             std::vector<uint16_t> dpiList;
+            std::shared_ptr<AV::IO::System> io;
             std::list<ImageRequest> imageQueue;
             std::condition_variable requestCV;
             std::mutex requestMutex;
@@ -112,7 +120,7 @@ namespace djv
             std::thread thread;
             std::atomic<bool> running;
 
-            FileSystem::Path getPath(const std::string & name, uint16_t dpi, const std::shared_ptr<ResourceSystem>&) const;
+            FileSystem::Path getPath(const std::string & name, uint16_t dpi) const;
             uint16_t findClosestDPI(uint16_t) const;
         };
 
@@ -124,8 +132,9 @@ namespace djv
 
             addDependency(context->getSystemT<AV::AVSystem>());
 
+            p.iconPath = context->getSystemT<ResourceSystem>()->getPath(FileSystem::ResourcePath::Icons);
+                        
             p.io = context->getSystemT<AV::IO::System>();
-            p.resourceSystem = context->getSystemT<ResourceSystem>();
 
             p.imageCache.setMax(imageCacheMax);
             p.imageCachePercentage = 0.F;
@@ -152,7 +161,7 @@ namespace djv
                 try
                 {
                     // Find the DPI values.
-                    for (const auto & i : FileSystem::FileInfo::directoryList(p.resourceSystem->getPath(FileSystem::ResourcePath::Icons)))
+                    for (const auto & i : FileSystem::FileInfo::directoryList(p.iconPath))
                     {
                         const std::string fileName = i.getFileName(Frame::invalid, false);
                         const size_t size = fileName.size();
@@ -223,11 +232,10 @@ namespace djv
             return out;
         }
 
-        std::future<std::shared_ptr<AV::Image::Image> > IconSystem::getIcon(const std::string & name, int size)
+        std::future<std::shared_ptr<AV::Image::Image> > IconSystem::getIcon(const std::string & name, float size)
         {
             DJV_PRIVATE_PTR();
-            ImageRequest request;
-            request.path = p.getPath(name, p.findClosestDPI(size), p.resourceSystem);
+            ImageRequest request(name, static_cast<uint16_t>(Math::clamp(size, 0.F, 65535.F)));
             auto future = request.promise.get_future();
             {
                 std::unique_lock<std::mutex> lock(p.requestMutex);
@@ -249,13 +257,13 @@ namespace djv
             // Process new requests.
             for (auto & i : p.newImageRequests)
             {
-                const auto key = getImageCacheKey(i.path);
                 std::shared_ptr<AV::Image::Image> image;
-                p.imageCache.get(key, image);
+                p.imageCache.get(i.key, image);
                 if (!image)
                 {
                     try
                     {
+                        i.path = p.getPath(i.name, p.findClosestDPI(i.size));
                         i.read = p.io->read(i.path);
                         p.pendingImageRequests.push_back(std::move(i));
                     }
@@ -299,7 +307,7 @@ namespace djv
                 }
                 if (image)
                 {
-                    p.imageCache.add(getImageCacheKey(i->path), image);
+                    p.imageCache.add(i->key, image);
                     p.imageCachePercentage = p.imageCache.getPercentageUsed();
                     i->promise.set_value(image);
                     i = p.pendingImageRequests.erase(i);
@@ -333,9 +341,9 @@ namespace djv
             }
         }
 
-        FileSystem::Path IconSystem::Private::getPath(const std::string & name, uint16_t dpi, const std::shared_ptr<ResourceSystem>& resourceSystem) const
+        FileSystem::Path IconSystem::Private::getPath(const std::string & name, uint16_t dpi) const
         {
-            FileSystem::Path out = resourceSystem->getPath(FileSystem::ResourcePath::Icons);
+            FileSystem::Path out = iconPath;
             {
                 std::stringstream ss;
                 ss << dpi << "DPI";

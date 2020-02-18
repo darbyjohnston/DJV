@@ -93,7 +93,7 @@ namespace djv
                 {
                     auto iconSystem = context->getSystemT<IconSystem>();
                     const auto& style = _getStyle();
-                    p.imageFuture = iconSystem->getIcon(p.name, static_cast<int>(style->getMetric(p.iconSizeRole)));
+                    p.imageFuture = iconSystem->getIcon(p.name, style->getMetric(MetricsRole::Icon));
                 }
                 _resize();
             }
@@ -132,21 +132,6 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const float i = style->getMetric(p.iconSizeRole);
-
-            if (p.imageFuture.valid())
-            {
-                try
-                {
-                    p.image = p.imageFuture.get();
-                }
-                catch (const std::exception & e)
-                {
-                    p.image = nullptr;
-                    _log(e.what(), LogLevel::Error);
-                }
-                _resize();
-            }
-
             glm::vec2 size(0.F, 0.F);
             if (p.image)
             {
@@ -216,10 +201,29 @@ namespace djv
                 {
                     auto iconSystem = context->getSystemT<IconSystem>();
                     const auto& style = _getStyle();
-                    p.imageFuture = iconSystem->getIcon(p.name, static_cast<int>(style->getMetric(p.iconSizeRole)));
+                    p.imageFuture = iconSystem->getIcon(p.name, style->getMetric(MetricsRole::Icon));
                 }
             }
         }
 
+        void Icon::_updateEvent(Core::Event::Update&)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.imageFuture.valid() &&
+                p.imageFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+            {
+                try
+                {
+                    p.image = p.imageFuture.get();
+                }
+                catch (const std::exception & e)
+                {
+                    p.image = nullptr;
+                    _log(e.what(), LogLevel::Error);
+                }
+                _resize();
+            }
+        }
+            
     } // namespace UI
 } // namespace djv
