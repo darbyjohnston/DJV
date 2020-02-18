@@ -1,0 +1,4 @@
+{
+    "obj_plugin_description": "该插件提供OBJ文件I / O。",
+    "opennurbs_plugin_description": "该插件提供OpenNURBS文件I / O。"
+}

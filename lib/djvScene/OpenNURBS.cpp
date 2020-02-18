@@ -361,7 +361,7 @@ namespace djv
                             if (!onModel.Read(onFile, &onErrorLog))
                             {
                                 std::stringstream ss;
-                                ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". ";
+                                ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_cannot_be_opened") << ". ";
                                 throw std::runtime_error(ss.str());
                             }
                             ON::CloseFile(f);
@@ -628,7 +628,7 @@ namespace djv
                     auto out = std::shared_ptr<Plugin>(new Plugin);
                     out->_init(
                         pluginName,
-                        DJV_TEXT("This plugin provides OpenNURBS file I/O."),
+                        DJV_TEXT("opennurbs_plugin_description"),
                         fileExtensions,
                         context);
                     return out;
@@ -671,7 +671,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value");
         }
     }
 

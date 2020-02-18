@@ -34,10 +34,10 @@ def run():
         data = {}
         for string in strings:
             found = False
-            for id, existing_string in existing.items():
-                if id == string:
+            for i in existing:
+                if i == string:
                     found = True
-                    data[id] = existing_string
+                    data[i] = existing[i]
                     break
             if not found:
                 data[string] = string

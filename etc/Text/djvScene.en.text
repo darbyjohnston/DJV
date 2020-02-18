@@ -1,0 +1,4 @@
+{
+    "obj_plugin_description": "This plugin provides OBJ file I/O.",
+    "opennurbs_plugin_description": "This plugin provides OpenNURBS file I/O."
+}

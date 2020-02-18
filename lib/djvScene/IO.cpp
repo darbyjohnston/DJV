@@ -280,7 +280,7 @@ namespace djv
                 if (!out)
                 {
                     std::stringstream ss;
-                    ss << DJV_TEXT("The file") << " '" << fileInfo << "' " << DJV_TEXT("cannot be read") << ".";
+                    ss << DJV_TEXT("error_the_file") << " '" << fileInfo << "' " << DJV_TEXT("error_cannot_be_read") << ".";
                     throw FileSystem::Error(ss.str());
                 }
                 return out;
@@ -301,7 +301,7 @@ namespace djv
                 if (!out)
                 {
                     std::stringstream ss;
-                    ss << DJV_TEXT("The file") << " '" << fileInfo << "' " << DJV_TEXT("cannot be written") << ".";
+                    ss << DJV_TEXT("error_the_file") << " '" << fileInfo << "' " << DJV_TEXT("error_cannot_be_written") << ".";
                     throw FileSystem::Error(ss.str());
                 }
                 return out;

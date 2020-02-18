@@ -1,0 +1,4 @@
+{
+    "obj_plugin_description": "Этот плагин обеспечивает ввод-вывод файла OBJ.",
+    "opennurbs_plugin_description": "Этот плагин обеспечивает файловый ввод / вывод OpenNURBS."
+}

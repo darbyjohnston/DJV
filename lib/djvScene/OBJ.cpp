@@ -391,7 +391,7 @@ namespace djv
                             catch (const std::exception& e)
                             {
                                 std::stringstream ss;
-                                ss << DJV_TEXT("The file") << " '" << _fileInfo << "' " << DJV_TEXT("cannot be read") << ". " << e.what();
+                                ss << DJV_TEXT("error_the_file") << " '" << _fileInfo << "' " << DJV_TEXT("error_cannot_be_read") << ". " << e.what();
                                 _logSystem->log("djv::Scene::OBJ", ss.str(), LogLevel::Error);
                             }
                             return out;
@@ -415,7 +415,7 @@ namespace djv
                     auto out = std::shared_ptr<Plugin>(new Plugin);
                     out->_init(
                         pluginName,
-                        DJV_TEXT("This plugin provides OBJ file I/O."),
+                        DJV_TEXT("obj_plugin_description"),
                         fileExtensions,
                         context);
                     return out;
@@ -458,7 +458,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
     }
 
