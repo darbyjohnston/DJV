@@ -285,8 +285,8 @@ namespace djv
                             popup->installEventFilter(shared_from_this());
                             p.menuOpen = i.first;
                             p.menuOpen->setOpen(true);
-                            break;
                         }
+                        break;
                     }
                 }
                 break;
