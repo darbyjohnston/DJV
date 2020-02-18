@@ -90,7 +90,7 @@ namespace djv
                 palette.setColor(ColorRole::Trough, AV::Image::Color(.95F, .95F, .95F, 1.F));
                 palette.setColor(ColorRole::Cached, AV::Image::Color(.69F, .89F, .76F, 1.F));
                 palette.setDisabledMult(.5F);
-                palettes["style_palette_light"] = palette;
+                palettes[DJV_TEXT("style_palette_light")] = palette;
                 
                 std::map<std::string, UI::Style::Metrics> metricsList;
                 UI::Style::Metrics metrics;

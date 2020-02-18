@@ -985,7 +985,9 @@ namespace djv
                         ss << _getText(DJV_TEXT("file_browser_file_tooltip_video_name")) << ": " << videoInfo.info.name << '\n';
                         ss.precision(2);
                         ss << _getText(DJV_TEXT("file_browser_file_tooltip_video_dimensions")) << ": " << videoInfo.info.size << " " << std::fixed << videoInfo.info.size.getAspectRatio() << '\n';
-                        ss << _getText(DJV_TEXT("file_browser_file_tooltip_video_type")) << ": " << videoInfo.info.type << '\n';
+                        std::stringstream ss2;
+                        ss2 << videoInfo.info.type;
+                        ss << _getText(DJV_TEXT("file_browser_file_tooltip_video_type")) << ": " << _getText(ss2.str()) << '\n';
                         ss << _getText(DJV_TEXT("file_browser_file_tooltip_video_speed")) << ": " <<
                             std::fixed << videoInfo.speed.toFloat() <<
                           _getText(DJV_TEXT("file_browser_file_tooltip_video_fps")) << '\n';
@@ -1007,7 +1009,9 @@ namespace djv
                         ss << '\n' << '\n';
                         ss << _getText(DJV_TEXT("file_browser_file_tooltip_audio_track")) << " #" << track << '\n';
                         ss << _getText(DJV_TEXT("file_browser_file_tooltip_audio_channels")) << ": " << static_cast<int>(audioInfo.info.channelCount) << '\n';
-                        ss << _getText(DJV_TEXT("file_browser_file_tooltip_audio_type")) << ": " << audioInfo.info.type << '\n';
+                        std::stringstream ss2;
+                        ss2 << audioInfo.info.type;
+                        ss << _getText(DJV_TEXT("file_browser_file_tooltip_audio_type")) << ": " << _getText(ss2.str()) << '\n';
                         ss << _getText(DJV_TEXT("file_browser_file_tooltip_audio_sample_rate")) << ": " <<
                           audioInfo.info.sampleRate / 1000.F << _getText(DJV_TEXT("file_browser_file_tooltip_audio_unit_khz")) << '\n';
                         ss << _getText(DJV_TEXT("file_browser_file_tooltip_audio_duration")) << ": " <<
