@@ -197,7 +197,7 @@ namespace djv
             _resize();
         }
 
-        void TimelinePIPWidget::setImageOptions(const AV::Render::ImageOptions& value)
+        void TimelinePIPWidget::setImageOptions(const AV::Render2D::ImageOptions& value)
         {
             DJV_PRIVATE_PTR();
             p.imageWidget->setImageOptions(value);

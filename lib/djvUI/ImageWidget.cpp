@@ -49,7 +49,7 @@ namespace djv
         struct ImageWidget::Private
         {
             std::shared_ptr<AV::Image::Image> image;
-            AV::Render::ImageOptions imageOptions;
+            AV::Render2D::ImageOptions imageOptions;
             ImageRotate imageRotate = ImageRotate::_0;
             ImageAspectRatio imageAspectRatio = ImageAspectRatio::FromSource;
             ColorRole imageColorRole = ColorRole::None;
@@ -113,7 +113,7 @@ namespace djv
             _resize();
         }
 
-        void ImageWidget::setImageOptions(const AV::Render::ImageOptions& value)
+        void ImageWidget::setImageOptions(const AV::Render2D::ImageOptions& value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.imageOptions)
@@ -285,8 +285,8 @@ namespace djv
                     break;
                 }
 
-                AV::Render::ImageOptions options = p.imageOptions;
-                options.cache = AV::Render::ImageCache::Dynamic;
+                AV::Render2D::ImageOptions options = p.imageOptions;
+                options.cache = AV::Render2D::ImageCache::Dynamic;
                 glm::mat3x3 m(1.F);
                 m = glm::translate(m, pos);
                 m = glm::rotate(m, Math::deg2rad(UI::getImageRotate(p.imageRotate)));

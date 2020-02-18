@@ -290,7 +290,7 @@ namespace djv
             _redraw();
         }
 
-        void TimelineSlider::setImageOptions(const AV::Render::ImageOptions& value)
+        void TimelineSlider::setImageOptions(const AV::Render2D::ImageOptions& value)
         {
             _p->pipWidget->setImageOptions(value);
         }

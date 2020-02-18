@@ -48,11 +48,11 @@ namespace djv
 
     namespace AV
     {
-        namespace Render
+        namespace Render2D
         {
             class ImageOptions;
 
-        } // namespace Render
+        } // namespace Render2D
     } // namespace AV
 
     namespace ViewApp
@@ -75,7 +75,7 @@ namespace djv
             void setFileInfo(const Core::FileSystem::FileInfo&);
             void setPos(const glm::vec2&, Core::Frame::Index, const Core::BBox2f&);
 
-            void setImageOptions(const AV::Render::ImageOptions&);
+            void setImageOptions(const AV::Render2D::ImageOptions&);
             void setImageRotate(UI::ImageRotate);
             void setImageAspectRatio(UI::ImageAspectRatio);
 

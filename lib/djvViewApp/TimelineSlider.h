@@ -40,11 +40,11 @@ namespace djv
 {
     namespace AV
     {
-        namespace Render
+        namespace Render2D
         {
             class ImageOptions;
     
-        } // namespace Render
+        } // namespace Render2D
     } // namespace AV
 
     namespace ViewApp
@@ -72,7 +72,7 @@ namespace djv
             void setCacheEnabled(bool);
             void setCacheSequence(const Core::Frame::Sequence&);
             void setCachedFrames(const Core::Frame::Sequence&);
-            void setImageOptions(const AV::Render::ImageOptions&);
+            void setImageOptions(const AV::Render2D::ImageOptions&);
             void setImageRotate(UI::ImageRotate);
             void setImageAspectRatio(UI::ImageAspectRatio);
 

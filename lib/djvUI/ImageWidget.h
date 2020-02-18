@@ -41,11 +41,11 @@ namespace djv
 
         } // namespace Image
 
-        namespace Render
+        namespace Render2D
         {
             class ImageOptions;
 
-        } // namespace Render
+        } // namespace Render2D
     } // namespace AV
 
     namespace UI
@@ -66,7 +66,7 @@ namespace djv
 
             const std::shared_ptr<AV::Image::Image> & getImage() const;
             void setImage(const std::shared_ptr<AV::Image::Image> &);
-            void setImageOptions(const AV::Render::ImageOptions&);
+            void setImageOptions(const AV::Render2D::ImageOptions&);
             void setImageRotate(ImageRotate);
             void setImageAspectRatio(ImageAspectRatio);
 

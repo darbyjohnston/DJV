@@ -287,7 +287,7 @@ namespace djv
             setClassName("djv::ViewApp::BackgroundImageSettingsWidget");
 
             p.imageWidget = UI::ImageWidget::create(context);
-            AV::Render::ImageOptions options;
+            AV::Render2D::ImageOptions options;
             options.alphaBlend = AV::AlphaBlend::Straight;
             p.imageWidget->setImageOptions(options);
             p.imageWidget->setSizeRole(UI::MetricsRole::TextColumn);
