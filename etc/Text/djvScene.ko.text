@@ -1,4 +1,9 @@
 {
+    "error_cannot_be_opened": "열 수 없습니다",
+    "error_cannot_be_read": "읽을 수 없습니다",
+    "error_cannot_be_written": "쓸 수 없다",
+    "error_cannot_parse_the_value": "값을 파싱 할 수 없습니다",
+    "error_the_file": "파일",
     "obj_plugin_description": "이 플러그인은 OBJ 파일 I / O를 제공합니다.",
     "opennurbs_plugin_description": "이 플러그인은 OpenNURBS 파일 I / O를 제공합니다."
 }

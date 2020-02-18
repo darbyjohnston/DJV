@@ -167,7 +167,7 @@ void InfoWidget::_initEvent(Core::Event::Init&)
 
 void InfoWidget::_textUpdate()
 {
-    setTitle(_getText(DJV_TEXT("Information")));
+    setTitle(_getText(DJV_TEXT("widget_info")));
     {
         std::stringstream ss;
         ss << _bbox.w();
@@ -229,20 +229,20 @@ void InfoWidget::_textUpdate()
         _labels["FPS"]->setText(ss.str());
     }
 
-    _layouts["SceneSize"]->setText(_labels["SceneSizeW"], _getText(DJV_TEXT("Width")) + ":");
-    _layouts["SceneSize"]->setText(_labels["SceneSizeH"], _getText(DJV_TEXT("Height")) + ":");
-    _layouts["SceneSize"]->setText(_labels["SceneSizeD"], _getText(DJV_TEXT("Depth")) + ":");
-    _layouts["SceneRange"]->setText(_labels["SceneRangeMinX"], _getText(DJV_TEXT("Min X")) + ":");
-    _layouts["SceneRange"]->setText(_labels["SceneRangeMaxX"], _getText(DJV_TEXT("Max X")) + ":");
-    _layouts["SceneRange"]->setText(_labels["SceneRangeMinY"], _getText(DJV_TEXT("Min Y")) + ":");
-    _layouts["SceneRange"]->setText(_labels["SceneRangeMaxY"], _getText(DJV_TEXT("Max Y")) + ":");
-    _layouts["SceneRange"]->setText(_labels["SceneRangeMinZ"], _getText(DJV_TEXT("Min Z")) + ":");
-    _layouts["SceneRange"]->setText(_labels["SceneRangeMaxZ"], _getText(DJV_TEXT("Max Z")) + ":");
-    _layouts["Stats"]->setText(_labels["Primitives"], _getText(DJV_TEXT("Primitives")) + ":");
-    _layouts["Stats"]->setText(_labels["PointCount"], _getText(DJV_TEXT("Point count")) + ":");
-    _layouts["Stats"]->setText(_labels["FPS"], _getText(DJV_TEXT("FPS")) + ":");
+    _layouts["SceneSize"]->setText(_labels["SceneSizeW"], _getText(DJV_TEXT("widget_info_width")) + ":");
+    _layouts["SceneSize"]->setText(_labels["SceneSizeH"], _getText(DJV_TEXT("widget_info_height")) + ":");
+    _layouts["SceneSize"]->setText(_labels["SceneSizeD"], _getText(DJV_TEXT("widget_info_depth")) + ":");
+    _layouts["SceneRange"]->setText(_labels["SceneRangeMinX"], _getText(DJV_TEXT("widget_info_min_x")) + ":");
+    _layouts["SceneRange"]->setText(_labels["SceneRangeMaxX"], _getText(DJV_TEXT("widget_info_max_x")) + ":");
+    _layouts["SceneRange"]->setText(_labels["SceneRangeMinY"], _getText(DJV_TEXT("widget_info_min_y")) + ":");
+    _layouts["SceneRange"]->setText(_labels["SceneRangeMaxY"], _getText(DJV_TEXT("widget_info_max_y")) + ":");
+    _layouts["SceneRange"]->setText(_labels["SceneRangeMinZ"], _getText(DJV_TEXT("widget_info_min_z")) + ":");
+    _layouts["SceneRange"]->setText(_labels["SceneRangeMaxZ"], _getText(DJV_TEXT("widget_info_max_z")) + ":");
+    _layouts["Stats"]->setText(_labels["Primitives"], _getText(DJV_TEXT("widget_info_primitives")) + ":");
+    _layouts["Stats"]->setText(_labels["PointCount"], _getText(DJV_TEXT("widget_info_point_count")) + ":");
+    _layouts["Stats"]->setText(_labels["FPS"], _getText(DJV_TEXT("widget_info_fps")) + ":");
 
-    _bellows["SceneSize"]->setText(_getText(DJV_TEXT("Scene Size")));
-    _bellows["SceneRange"]->setText(_getText(DJV_TEXT("Scene Range")));
-    _bellows["Stats"]->setText(_getText(DJV_TEXT("Stats")));
+    _bellows["SceneSize"]->setText(_getText(DJV_TEXT("widget_info_scene_size")));
+    _bellows["SceneRange"]->setText(_getText(DJV_TEXT("widget_info_scene_range")));
+    _bellows["Stats"]->setText(_getText(DJV_TEXT("widget_info_stats")));
 }

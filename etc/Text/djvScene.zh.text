@@ -1,4 +1,9 @@
 {
+    "error_cannot_be_opened": "无法打开",
+    "error_cannot_be_read": "无法读取",
+    "error_cannot_be_written": "不能写",
+    "error_cannot_parse_the_value": "无法解析值",
+    "error_the_file": "文件",
     "obj_plugin_description": "该插件提供OBJ文件I / O。",
     "opennurbs_plugin_description": "该插件提供OpenNURBS文件I / O。"
 }

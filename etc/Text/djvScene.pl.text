@@ -1,4 +1,9 @@
 {
+    "error_cannot_be_opened": "nie można otworzyć",
+    "error_cannot_be_read": "nie można odczytać",
+    "error_cannot_be_written": "nie można napisać",
+    "error_cannot_parse_the_value": "nie można przeanalizować wartości",
+    "error_the_file": "Plik",
     "obj_plugin_description": "Ta wtyczka zapewnia we / wy pliku OBJ.",
     "opennurbs_plugin_description": "Ta wtyczka zapewnia we / wy pliku OpenNURBS."
 }

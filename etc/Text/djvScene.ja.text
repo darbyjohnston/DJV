@@ -1,4 +1,9 @@
 {
+    "error_cannot_be_opened": "開けられない",
+    "error_cannot_be_read": "読めない",
+    "error_cannot_be_written": "書けない",
+    "error_cannot_parse_the_value": "値を解析できません",
+    "error_the_file": "ファイル",
     "obj_plugin_description": "このプラグインは、OBJファイルI / Oを提供します。",
     "opennurbs_plugin_description": "このプラグインは、OpenNURBSファイルI / Oを提供します。"
 }

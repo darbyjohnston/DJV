@@ -396,33 +396,33 @@ std::shared_ptr<MainWindow> MainWindow::create(const std::shared_ptr<Core::Conte
 
 void MainWindow::_initEvent(Core::Event::Init&)
 {
-    _actions["File"]["Open"]->setText(_getText(DJV_TEXT("Open")));
-    _actions["File"]["Open"]->setTooltip(_getText(DJV_TEXT("Open a file")));
-    _actions["File"]["Reload"]->setText(_getText(DJV_TEXT("Reload")));
-    _actions["File"]["Reload"]->setTooltip(_getText(DJV_TEXT("Reload the current file")));
-    _actions["File"]["Close"]->setText(_getText(DJV_TEXT("Close")));
-    _actions["File"]["Close"]->setTooltip(_getText(DJV_TEXT("Close the current file")));
-    _actions["File"]["Exit"]->setText(_getText(DJV_TEXT("Exit")));
-    _actions["File"]["Exit"]->setTooltip(_getText(DJV_TEXT("Exit the application")));
+    _actions["File"]["Open"]->setText(_getText(DJV_TEXT("action_file_open")));
+    _actions["File"]["Open"]->setTooltip(_getText(DJV_TEXT("action_file_open_tooltip")));
+    _actions["File"]["Reload"]->setText(_getText(DJV_TEXT("action_file_reload")));
+    _actions["File"]["Reload"]->setTooltip(_getText(DJV_TEXT("action_file_reload_tooltip")));
+    _actions["File"]["Close"]->setText(_getText(DJV_TEXT("action_file_close")));
+    _actions["File"]["Close"]->setTooltip(_getText(DJV_TEXT("action_file_close_tooltip")));
+    _actions["File"]["Exit"]->setText(_getText(DJV_TEXT("action_file_exit")));
+    _actions["File"]["Exit"]->setTooltip(_getText(DJV_TEXT("action_file_exit_tooltip")));
 
-    _actions["View"]["Frame"]->setText(_getText(DJV_TEXT("Frame")));
-    _actions["View"]["Frame"]->setTooltip(_getText(DJV_TEXT("Frame the view")));
+    _actions["View"]["Frame"]->setText(_getText(DJV_TEXT("action_view_frame")));
+    _actions["View"]["Frame"]->setTooltip(_getText(DJV_TEXT("action_view_frame_tooltip")));
 
-    _actions["Scene"]["Rotate+X"]->setText(_getText(DJV_TEXT("Rotate X 90")));
-    _actions["Scene"]["Rotate+X"]->setTooltip(_getText(DJV_TEXT("Rotate the scene +90 degrees in X")));
-    _actions["Scene"]["Rotate-X"]->setText(_getText(DJV_TEXT("Rotate X -90")));
-    _actions["Scene"]["Rotate-X"]->setTooltip(_getText(DJV_TEXT("Rotate the scene -90 degrees in X")));
-    _actions["Scene"]["Rotate+Y"]->setText(_getText(DJV_TEXT("Rotate Y 90")));
-    _actions["Scene"]["Rotate+Y"]->setTooltip(_getText(DJV_TEXT("Rotate the scene +90 degrees in Y")));
-    _actions["Scene"]["Rotate-Y"]->setText(_getText(DJV_TEXT("Rotate Y -90")));
-    _actions["Scene"]["Rotate-Y"]->setTooltip(_getText(DJV_TEXT("Rotate the scene -90 degrees in Y")));
-    _actions["Scene"]["Rotate+Z"]->setText(_getText(DJV_TEXT("Rotate Z 90")));
-    _actions["Scene"]["Rotate+Z"]->setTooltip(_getText(DJV_TEXT("Rotate the scene +90 degrees in Z")));
-    _actions["Scene"]["Rotate-Z"]->setText(_getText(DJV_TEXT("Rotate Z -90")));
-    _actions["Scene"]["Rotate+Z"]->setTooltip(_getText(DJV_TEXT("Rotate the scene -90 degrees in Z")));
+    _actions["Scene"]["Rotate+X"]->setText(_getText(DJV_TEXT("action_scene_rotate_x_90")));
+    _actions["Scene"]["Rotate+X"]->setTooltip(_getText(DJV_TEXT("action_scene_rotate_x_90_tooltip")));
+    _actions["Scene"]["Rotate-X"]->setText(_getText(DJV_TEXT("action_scene_rotate_x_-90")));
+    _actions["Scene"]["Rotate-X"]->setTooltip(_getText(DJV_TEXT("action_scene_rotate_x_-90_tooltip")));
+    _actions["Scene"]["Rotate+Y"]->setText(_getText(DJV_TEXT("action_scene_rotate_y_90")));
+    _actions["Scene"]["Rotate+Y"]->setTooltip(_getText(DJV_TEXT("action_scene_rotate_y_90_tooltip")));
+    _actions["Scene"]["Rotate-Y"]->setText(_getText(DJV_TEXT("action_scene_rotate_y_-90")));
+    _actions["Scene"]["Rotate-Y"]->setTooltip(_getText(DJV_TEXT("action_scene_rotate_y_-90_tooltip")));
+    _actions["Scene"]["Rotate+Z"]->setText(_getText(DJV_TEXT("action_scene_rotate_z_90")));
+    _actions["Scene"]["Rotate+Z"]->setTooltip(_getText(DJV_TEXT("action_scene_rotate_z_90_tooltip")));
+    _actions["Scene"]["Rotate-Z"]->setText(_getText(DJV_TEXT("action_scene_rotate_z_-90")));
+    _actions["Scene"]["Rotate+Z"]->setTooltip(_getText(DJV_TEXT("action_scene_rotate_z_-90_tooltip")));
 
-    _actions["Tools"]["Settings"]->setText(_getText(DJV_TEXT("Settings")));
-    _actions["Tools"]["Settings"]->setTooltip(_getText(DJV_TEXT("Show the settings")));
+    _actions["Tools"]["Settings"]->setText(_getText(DJV_TEXT("action_tool_settings")));
+    _actions["Tools"]["Settings"]->setTooltip(_getText(DJV_TEXT("action_tool_settings_tooltip")));
 }
 
 void MainWindow::_open()

@@ -1,4 +1,9 @@
 {
+    "error_cannot_be_opened": "nelze otevřít",
+    "error_cannot_be_read": "nelze číst",
+    "error_cannot_be_written": "nelze psát",
+    "error_cannot_parse_the_value": "nelze analyzovat hodnotu",
+    "error_the_file": "Soubor",
     "obj_plugin_description": "Tento plugin poskytuje I / O soubor OBJ.",
     "opennurbs_plugin_description": "Tento plugin poskytuje I / O soubor OpenNURBS."
 }

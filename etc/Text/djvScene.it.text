@@ -1,4 +1,9 @@
 {
+    "error_cannot_be_opened": "non può essere aperto",
+    "error_cannot_be_read": "non può essere letto",
+    "error_cannot_be_written": "non può essere scritto",
+    "error_cannot_parse_the_value": "impossibile analizzare il valore",
+    "error_the_file": "Il file",
     "obj_plugin_description": "Questo plugin fornisce I / O per file OBJ.",
     "opennurbs_plugin_description": "Questo plugin fornisce I / O per i file OpenNURBS."
 }

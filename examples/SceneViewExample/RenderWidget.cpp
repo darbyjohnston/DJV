@@ -157,14 +157,14 @@ void RenderWidget::setRenderOptionsCallback(const std::function<void(const UI::S
 
 void RenderWidget::_initEvent(Core::Event::Init&)
 {
-    setTitle(_getText(DJV_TEXT("Render")));
-    _layouts["Shader"]->setText(_shaderModeComboBox, _getText(DJV_TEXT("Mode")) + ":");
-    _layouts["DepthBuffer"]->setText(_depthBufferModeComboBox, _getText(DJV_TEXT("Mode")) + ":");
-    _layouts["DepthBuffer"]->setText(_depthBufferTypeComboBox, _getText(DJV_TEXT("Type")) + ":");
-    _layouts["Multisampling"]->setText(_multiSamplingComboBox, _getText(DJV_TEXT("Samples")) + ":");
-    _bellows["Shader"]->setText(_getText(DJV_TEXT("Shader")));
-    _bellows["DepthBuffer"]->setText(_getText(DJV_TEXT("Depth Buffer")));
-    _bellows["Multisampling"]->setText(_getText(DJV_TEXT("Multisampling")));
+    setTitle(_getText(DJV_TEXT("widget_render")));
+    _layouts["Shader"]->setText(_shaderModeComboBox, _getText(DJV_TEXT("widget_render_mode")) + ":");
+    _layouts["DepthBuffer"]->setText(_depthBufferModeComboBox, _getText(DJV_TEXT("widget_render_mode")) + ":");
+    _layouts["DepthBuffer"]->setText(_depthBufferTypeComboBox, _getText(DJV_TEXT("widget_render_type")) + ":");
+    _layouts["Multisampling"]->setText(_multiSamplingComboBox, _getText(DJV_TEXT("widget_render_samples")) + ":");
+    _bellows["Shader"]->setText(_getText(DJV_TEXT("widget_render_shader")));
+    _bellows["DepthBuffer"]->setText(_getText(DJV_TEXT("widget_render_depth_buffer")));
+    _bellows["Multisampling"]->setText(_getText(DJV_TEXT("widget_render_multisampling")));
     _widgetUpdate();
 }
 
@@ -175,7 +175,7 @@ void RenderWidget::_widgetUpdate()
     {
         std::stringstream ss;
         ss << i;
-        _shaderModeComboBox->addItem(ss.str());
+        _shaderModeComboBox->addItem(_getText(ss.str()));
     }
     _shaderModeComboBox->setCurrentItem(static_cast<int>(_renderOptions.shaderMode));
 
@@ -184,7 +184,7 @@ void RenderWidget::_widgetUpdate()
     {
         std::stringstream ss;
         ss << i;
-        _depthBufferModeComboBox->addItem(ss.str());
+        _depthBufferModeComboBox->addItem(_getText(ss.str()));
     }
     _depthBufferModeComboBox->setCurrentItem(static_cast<int>(_renderOptions.depthBufferMode));
 
@@ -193,7 +193,7 @@ void RenderWidget::_widgetUpdate()
     {
         std::stringstream ss;
         ss << i;
-        _depthBufferTypeComboBox->addItem(ss.str());
+        _depthBufferTypeComboBox->addItem(_getText(ss.str()));
     }
     _depthBufferTypeComboBox->setCurrentItem(static_cast<int>(_renderOptions.depthBufferType));
 
@@ -202,7 +202,7 @@ void RenderWidget::_widgetUpdate()
     {
         std::stringstream ss;
         ss << i;
-        _multiSamplingComboBox->addItem(ss.str());
+        _multiSamplingComboBox->addItem(_getText(ss.str()));
     }
     _multiSamplingComboBox->setCurrentItem(static_cast<int>(_renderOptions.multiSampling));
 }

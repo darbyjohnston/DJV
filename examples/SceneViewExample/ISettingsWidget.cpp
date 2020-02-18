@@ -145,5 +145,5 @@ void ISettingsWidget::_layoutEvent(Core::Event::Layout&)
 
 void ISettingsWidget::_initEvent(Core::Event::Init&)
 {
-    _backButton->setTooltip(_getText(DJV_TEXT("Go to the previous page")));
+    _backButton->setTooltip(_getText(DJV_TEXT("settings_back_tooltip")));
 }
