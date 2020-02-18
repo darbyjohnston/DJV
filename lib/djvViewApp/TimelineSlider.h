@@ -34,11 +34,19 @@
 #include <djvUI/Widget.h>
 
 #include <djvCore/Frame.h>
-
 #include <djvCore/ValueObserver.h>
 
 namespace djv
 {
+    namespace AV
+    {
+        namespace Render
+        {
+            class ImageOptions;
+    
+        } // namespace Render
+    } // namespace AV
+
     namespace ViewApp
     {
         class Media;
@@ -64,6 +72,8 @@ namespace djv
             void setCacheEnabled(bool);
             void setCacheSequence(const Core::Frame::Sequence&);
             void setCachedFrames(const Core::Frame::Sequence&);
+            void setImageOptions(const AV::Render::ImageOptions&);
+            void setImageRotate(UI::ImageRotate);
             void setImageAspectRatio(UI::ImageAspectRatio);
 
             void setCurrentFrameCallback(const std::function<void(Core::Frame::Index)>&);

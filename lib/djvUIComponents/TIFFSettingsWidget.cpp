@@ -92,12 +92,12 @@ namespace djv
 
         std::string TIFFSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("TIFF");
+            return DJV_TEXT("settings_io_section_tiff");
         }
 
         std::string TIFFSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("I/O");
+            return DJV_TEXT("settings_title_io");
         }
 
         std::string TIFFSettingsWidget::getSettingsSortKey() const
@@ -109,7 +109,7 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.layout->setText(p.compressionComboBox, _getText(DJV_TEXT("File compression")) + ":");
+            p.layout->setText(p.compressionComboBox, _getText(DJV_TEXT("settings_io_tiff_compression")) + ":");
             _widgetUpdate();
         }
 

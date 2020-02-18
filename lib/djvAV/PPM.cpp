@@ -133,7 +133,7 @@ namespace djv
                     auto out = std::shared_ptr<Plugin>(new Plugin);
                     out->_init(
                         pluginName,
-                        DJV_TEXT("This plugin provides NetPBM image I/O."),
+                        DJV_TEXT("plugin_netpbm_io"),
                         fileExtensions,
                         context);
                     return out;
@@ -189,15 +189,15 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
     }
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::IO::PPM,
         Data,
-        DJV_TEXT("ASCII"),
-        DJV_TEXT("Binary"));
+        DJV_TEXT("ppm_type_ascii"),
+        DJV_TEXT("ppm_type_binary"));
 
 } // namespace djv
 

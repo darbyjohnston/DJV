@@ -97,12 +97,12 @@ namespace djv
 
         std::string JPEGSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("JPEG");
+            return DJV_TEXT("settings_io_section_jpeg");
         }
 
         std::string JPEGSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("I/O");
+            return DJV_TEXT("settings_title_io");
         }
 
         std::string JPEGSettingsWidget::getSettingsSortKey() const
@@ -114,7 +114,7 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.layout->setText(p.qualitySlider, _getText(DJV_TEXT("Compression quality")) + ":");
+            p.layout->setText(p.qualitySlider, _getText(DJV_TEXT("settings_io_jpeg_compression_quality")) + ":");
         }
 
         void JPEGSettingsWidget::_widgetUpdate()

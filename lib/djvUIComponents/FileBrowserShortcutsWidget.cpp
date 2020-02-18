@@ -224,9 +224,9 @@ namespace djv
             {
                 Widget::_initEvent(event);
                 DJV_PRIVATE_PTR();
-                p.titleLabel->setText(_getText(DJV_TEXT("Shortcuts")));
-                p.addButton->setTooltip(_getText(DJV_TEXT("Add shortcut tooltip")));
-                p.editButton->setTooltip(_getText(DJV_TEXT("Edit shortcuts tooltip")));
+                p.titleLabel->setText(_getText(DJV_TEXT("file_browser_file_browser_show_shortcuts")));
+                p.addButton->setTooltip(_getText(DJV_TEXT("file_browser_add_shortcut_tooltip")));
+                p.editButton->setTooltip(_getText(DJV_TEXT("file_browser_edit_shortcuts_tooltip")));
             }
 
         } // namespace FileBrowser

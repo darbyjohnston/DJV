@@ -1,848 +1,121 @@
-[
-    {
-        "source": "Cineon",
-        "description": "",
-        "id": "Cineon",
-        "text": "Cineon"
-    },
-    {
-        "source": "I/O",
-        "description": "",
-        "id": "I/O",
-        "text": "Ввод / вывод"
-    },
-    {
-        "source": "Color space",
-        "description": "",
-        "id": "Color space",
-        "text": "Цветовое пространство"
-    },
-    {
-        "source": "Color Space",
-        "description": "",
-        "id": "Color Space",
-        "text": "Цветовое пространство"
-    },
-    {
-        "source": "General",
-        "description": "",
-        "id": "General",
-        "text": "генеральный"
-    },
-    {
-        "source": "Input",
-        "description": "",
-        "id": "Input",
-        "text": "вход"
-    },
-    {
-        "source": "Display",
-        "description": "",
-        "id": "Display",
-        "text": "дисплей"
-    },
-    {
-        "source": "View",
-        "description": "",
-        "id": "View",
-        "text": "Посмотреть"
-    },
-    {
-        "source": "DPX",
-        "description": "",
-        "id": "DPX",
-        "text": "DPX"
-    },
-    {
-        "source": "TIFF",
-        "description": "",
-        "id": "TIFF",
-        "text": "TIFF"
-    },
-    {
-        "source": "File compression",
-        "description": "",
-        "id": "File compression",
-        "text": "Сжатие файлов"
-    },
-    {
-        "source": "The file",
-        "description": "",
-        "id": "The file",
-        "text": "Файл"
-    },
-    {
-        "source": "cannot be read",
-        "description": "",
-        "id": "cannot be read",
-        "text": "не может быть прочитано"
-    },
-    {
-        "source": "Size",
-        "description": "",
-        "id": "Size",
-        "text": "Размер"
-    },
-    {
-        "source": "Last modification time",
-        "description": "",
-        "id": "Last modification time",
-        "text": "Время последней модификации"
-    },
-    {
-        "source": "Video track",
-        "description": "",
-        "id": "Video track",
-        "text": "Видеодорожка"
-    },
-    {
-        "source": "Name",
-        "description": "",
-        "id": "Name",
-        "text": "название"
-    },
-    {
-        "source": "Type",
-        "description": "",
-        "id": "Type",
-        "text": "Тип"
-    },
-    {
-        "source": "Speed",
-        "description": "",
-        "id": "Speed",
-        "text": "скорость"
-    },
-    {
-        "source": "FPS",
-        "description": "",
-        "id": "FPS",
-        "text": "FPS"
-    },
-    {
-        "source": "Duration",
-        "description": "",
-        "id": "Duration",
-        "text": "продолжительность"
-    },
-    {
-        "source": "Audio track",
-        "description": "",
-        "id": "Audio track",
-        "text": "Звуковая дорожка"
-    },
-    {
-        "source": "Channels",
-        "description": "",
-        "id": "Channels",
-        "text": "каналы"
-    },
-    {
-        "source": "Sample rate",
-        "description": "",
-        "id": "Sample rate",
-        "text": "Частота дискретизации"
-    },
-    {
-        "source": "kHz",
-        "description": "",
-        "id": "kHz",
-        "text": "кГц"
-    },
-    {
-        "source": "OpenEXR",
-        "description": "",
-        "id": "OpenEXR",
-        "text": "OpenEXR"
-    },
-    {
-        "source": "Thread count",
-        "description": "",
-        "id": "Thread count",
-        "text": "Число потоков"
-    },
-    {
-        "source": "Channel grouping",
-        "description": "",
-        "id": "Channel grouping",
-        "text": "Группировка каналов"
-    },
-    {
-        "source": "DWA compression level",
-        "description": "",
-        "id": "DWA compression level",
-        "text": "Уровень сжатия DWA"
-    },
-    {
-        "source": "Color profile",
-        "description": "",
-        "id": "Color profile",
-        "text": "Цветовой профиль"
-    },
-    {
-        "source": "PPM",
-        "description": "",
-        "id": "PPM",
-        "text": "PPM"
-    },
-    {
-        "source": "Data type",
-        "description": "",
-        "id": "Data type",
-        "text": "Тип данных"
-    },
-    {
-        "source": "Time",
-        "description": "",
-        "id": "Time",
-        "text": "Время"
-    },
-    {
-        "source": "Units",
-        "description": "",
-        "id": "Units",
-        "text": "Единицы"
-    },
-    {
-        "source": "Tooltips",
-        "description": "",
-        "id": "Tooltips",
-        "text": "Всплывающие"
-    },
-    {
-        "source": "Enable tooltips",
-        "description": "",
-        "id": "Enable tooltips",
-        "text": "Включить подсказки"
-    },
-    {
-        "source": "Set the color type",
-        "description": "",
-        "id": "Color type widget tooltip",
-        "text": "Установите тип цвета"
-    },
-    {
-        "source": "L",
-        "description": "",
-        "id": "L",
-        "text": ""
-    },
-    {
-        "source": "Set the luminance value",
-        "description": "",
-        "id": "RGB color sliders luminance tooltip",
-        "text": "Установите значение яркости"
-    },
-    {
-        "source": "A",
-        "description": "",
-        "id": "A",
-        "text": ""
-    },
-    {
-        "source": "Set the alpha value",
-        "description": "",
-        "id": "RGB color sliders alpha tooltip",
-        "text": "Установите значение альфа"
-    },
-    {
-        "source": "R",
-        "description": "",
-        "id": "R",
-        "text": "р"
-    },
-    {
-        "source": "G",
-        "description": "",
-        "id": "G",
-        "text": "г"
-    },
-    {
-        "source": "B",
-        "description": "",
-        "id": "B",
-        "text": "В"
-    },
-    {
-        "source": "Set the red value",
-        "description": "",
-        "id": "RGB color sliders red tooltip",
-        "text": "Установите значение красного"
-    },
-    {
-        "source": "Set the green value",
-        "description": "",
-        "id": "RGB color sliders green tooltip",
-        "text": "Установите значение зеленого"
-    },
-    {
-        "source": "Set the blue value",
-        "description": "",
-        "id": "RGB color sliders blue tooltip",
-        "text": "Установите значение синего"
-    },
-    {
-        "source": "V",
-        "description": "",
-        "id": "V",
-        "text": "V"
-    },
-    {
-        "source": "Set the value",
-        "description": "",
-        "id": "HSV color sliders value tooltip",
-        "text": "Установите значение"
-    },
-    {
-        "source": "Set the alpha value",
-        "description": "",
-        "id": "HSV color sliders alpha tooltip",
-        "text": "Установите значение альфа"
-    },
-    {
-        "source": "H",
-        "description": "",
-        "id": "H",
-        "text": "ЧАС"
-    },
-    {
-        "source": "S",
-        "description": "",
-        "id": "S",
-        "text": "S"
-    },
-    {
-        "source": "Set the hue",
-        "description": "",
-        "id": "HSV color sliders hue tooltip",
-        "text": "Установить оттенок"
-    },
-    {
-        "source": "Set the saturation",
-        "description": "",
-        "id": "HSV color sliders saturation tooltip",
-        "text": "Установите насыщенность"
-    },
-    {
-        "source": "Add the current directory to the list of shortcuts",
-        "description": "",
-        "id": "Add shortcut tooltip",
-        "text": "Добавить текущий каталог в список ярлыков"
-    },
-    {
-        "source": "Edit the list of shortcuts",
-        "description": "",
-        "id": "Edit shortcuts tooltip",
-        "text": "Изменить список ярлыков"
-    },
-    {
-        "source": "Back",
-        "description": "",
-        "id": "Back",
-        "text": "назад"
-    },
-    {
-        "source": "Go back a directory",
-        "description": "",
-        "id": "File browser back tooltip",
-        "text": "Вернуться в каталог"
-    },
-    {
-        "source": "Forward",
-        "description": "",
-        "id": "Forward",
-        "text": "Вперед"
-    },
-    {
-        "source": "Go forward a directory",
-        "description": "",
-        "id": "File browser forward tooltip",
-        "text": "Перейти вперед каталог"
-    },
-    {
-        "source": "Up",
-        "description": "",
-        "id": "Up",
-        "text": "вверх"
-    },
-    {
-        "source": "Go up a directory",
-        "description": "",
-        "id": "File browser up tooltip",
-        "text": "Перейти в каталог"
-    },
-    {
-        "source": "Tile View",
-        "description": "",
-        "id": "Tile View",
-        "text": "Плитка Вид"
-    },
-    {
-        "source": "Show directory items as tiles",
-        "description": "",
-        "id": "File browser tile view tooltip",
-        "text": "Показать элементы каталога в виде плиток"
-    },
-    {
-        "source": "List View",
-        "description": "",
-        "id": "List View",
-        "text": "Посмотреть список"
-    },
-    {
-        "source": "Show directory items as a list",
-        "description": "",
-        "id": "File browser list view tooltip",
-        "text": "Показать элементы каталога в виде списка"
-    },
-    {
-        "source": "Increase Thumbnail Size",
-        "description": "",
-        "id": "Increase Thumbnail Size",
-        "text": "Увеличить размер миниатюры"
-    },
-    {
-        "source": "Increase the size of the thumbnails",
-        "description": "",
-        "id": "File browser increase thumbnail size tooltip",
-        "text": "Увеличить размер миниатюр"
-    },
-    {
-        "source": "Decrease Thumbnail Size",
-        "description": "",
-        "id": "Decrease Thumbnail Size",
-        "text": "Уменьшить размер миниатюры"
-    },
-    {
-        "source": "Decrease the size of the thumbnails",
-        "description": "",
-        "id": "File browser decrease thumbnail size tooltip",
-        "text": "Уменьшить размер миниатюр"
-    },
-    {
-        "source": "Enable File Sequences",
-        "description": "",
-        "id": "Enable File Sequences",
-        "text": "Включить последовательности файлов"
-    },
-    {
-        "source": "Show sequences of files as a single item",
-        "description": "",
-        "id": "File browser file sequences tooltip",
-        "text": "Показывать последовательности файлов как один элемент"
-    },
-    {
-        "source": "Show Hidden Files",
-        "description": "",
-        "id": "Show Hidden Files",
-        "text": "Показать скрытые файлы"
-    },
-    {
-        "source": "Show directory items that begin with a '.'",
-        "description": "",
-        "id": "File browser show hidden tooltip",
-        "text": "Показать элементы каталога, которые начинаются с &#39;.&#39;"
-    },
-    {
-        "source": "Sort By Name",
-        "description": "",
-        "id": "Sort By Name",
-        "text": "Сортировать по имени"
-    },
-    {
-        "source": "Sort directory items by name",
-        "description": "",
-        "id": "File browser sort by name tooltip",
-        "text": "Сортировать элементы каталога по имени"
-    },
-    {
-        "source": "Sort By Size",
-        "description": "",
-        "id": "Sort By Size",
-        "text": "Сортировать по размеру"
-    },
-    {
-        "source": "Sort directory items by size",
-        "description": "",
-        "id": "File browser sort by size tooltip",
-        "text": "Сортировать элементы каталога по размеру"
-    },
-    {
-        "source": "Sort By Time",
-        "description": "",
-        "id": "Sort By Time",
-        "text": "Сортировать по времени"
-    },
-    {
-        "source": "Sort directory items by time",
-        "description": "",
-        "id": "File browser sort by time tooltip",
-        "text": "Сортировать элементы каталога по времени"
-    },
-    {
-        "source": "Reverse Sort",
-        "description": "",
-        "id": "Reverse Sort",
-        "text": "Обратная сортировка"
-    },
-    {
-        "source": "Reverse the sort direction",
-        "description": "",
-        "id": "File browser reverse sort tooltip",
-        "text": "Обратное направление сортировки"
-    },
-    {
-        "source": "Sort Directories First",
-        "description": "",
-        "id": "Sort Directories First",
-        "text": "Сортировка каталогов в первую очередь"
-    },
-    {
-        "source": "Show directories before files",
-        "description": "",
-        "id": "File browser sort directories first tooltip",
-        "text": "Показать каталоги перед файлами"
-    },
-    {
-        "source": "Name",
-        "description": "",
-        "id": "File browser name column",
-        "text": "название"
-    },
-    {
-        "source": "Size",
-        "description": "",
-        "id": "File browse size column",
-        "text": "Размер"
-    },
-    {
-        "source": "Time",
-        "description": "",
-        "id": "File browser time column",
-        "text": "Время"
-    },
-    {
-        "source": "Show the shortcuts",
-        "description": "",
-        "id": "File browser shortcuts tooltip",
-        "text": "Показать ярлыки"
-    },
-    {
-        "source": "Show the recently used directories",
-        "description": "",
-        "id": "File browser recent paths tooltip",
-        "text": "Показать недавно использованные каталоги"
-    },
-    {
-        "source": "Show the drives",
-        "description": "",
-        "id": "File browser drives tooltip",
-        "text": "Показать диски"
-    },
-    {
-        "source": "Show the file browser sorting options",
-        "description": "",
-        "id": "File browser sort tooltip",
-        "text": "Показать параметры сортировки в браузере файлов"
-    },
-    {
-        "source": "Show the file browser settings",
-        "description": "",
-        "id": "File browser settings tooltip",
-        "text": "Показать настройки файлового браузера"
-    },
-    {
-        "source": "Search for items in the directory",
-        "description": "",
-        "id": "File browser search tooltip",
-        "text": "Поиск предметов в каталоге"
-    },
-    {
-        "source": "Items",
-        "description": "",
-        "id": "Items",
-        "text": "Предметы"
-    },
-    {
-        "source": "File Browser",
-        "description": "",
-        "id": "File Browser",
-        "text": "Браузер файлов"
-    },
-    {
-        "source": "Show the file browser history",
-        "description": "",
-        "id": "File browser history tooltip",
-        "text": "Показать историю файлового браузера"
-    },
-    {
-        "source": "JPEG",
-        "description": "",
-        "id": "JPEG",
-        "text": "JPEG"
-    },
-    {
-        "source": "Compression quality",
-        "description": "",
-        "id": "Compression quality",
-        "text": "Качество сжатия"
-    },
-    {
-        "source": "Language",
-        "description": "",
-        "id": "Language",
-        "text": "язык"
-    },
-    {
-        "source": "Min",
-        "description": "",
-        "id": "Min",
-        "text": "мне"
-    },
-    {
-        "source": "Max",
-        "description": "",
-        "id": "Max",
-        "text": "Максимум"
-    },
-    {
-        "source": "Current",
-        "description": "",
-        "id": "Current",
-        "text": "Текущий"
-    },
-    {
-        "source": "Palette",
-        "description": "",
-        "id": "Palette",
-        "text": "палитра"
-    },
-    {
-        "id": "FFmpeg",
-        "source": "FFmpeg",
-        "description": "",
-        "text": "FFmpeg"
-    },
-    {
-        "id": "Threads",
-        "source": "Threads",
-        "description": "",
-        "text": "Потоки"
-    },
-    {
-        "id": "frames",
-        "source": "frames",
-        "description": "",
-        "text": "кадры"
-    },
-    {
-        "id": "seconds",
-        "source": "seconds",
-        "description": "",
-        "text": "секунд"
-    },
-    {
-        "source": "Recent Paths",
-        "description": "",
-        "id": "Recent Paths",
-        "text": "Недавние Пути"
-    },
-    {
-        "source": "Shortcuts",
-        "description": "",
-        "id": "Shortcuts",
-        "text": "Ярлыки"
-    },
-    {
-        "source": "Color sliders luminance tooltip",
-        "description": "",
-        "id": "Color sliders luminance tooltip",
-        "text": "Цветные ползунки яркости всплывающей подсказки"
-    },
-    {
-        "source": "Color sliders alpha tooltip",
-        "description": "",
-        "id": "Color sliders alpha tooltip",
-        "text": "Цветные ползунки альфа-подсказка"
-    },
-    {
-        "source": "Color sliders hue tooltip",
-        "description": "",
-        "id": "Color sliders hue tooltip",
-        "text": "Цвет ползунков подсказки оттенка"
-    },
-    {
-        "source": "Color sliders saturation tooltip",
-        "description": "",
-        "id": "Color sliders saturation tooltip",
-        "text": "Подсказка насыщенности ползунков цвета"
-    },
-    {
-        "source": "Color sliders value tooltip",
-        "description": "",
-        "id": "Color sliders value tooltip",
-        "text": "Подсказка значения цветных ползунков"
-    },
-    {
-        "source": "Color sliders red tooltip",
-        "description": "",
-        "id": "Color sliders red tooltip",
-        "text": "Цветные ползунки красная подсказка"
-    },
-    {
-        "source": "Color sliders green tooltip",
-        "description": "",
-        "id": "Color sliders green tooltip",
-        "text": "Цвет ползунков зеленой подсказки"
-    },
-    {
-        "source": "Color sliders blue tooltip",
-        "description": "",
-        "id": "Color sliders blue tooltip",
-        "text": "Цветные ползунки синей подсказки"
-    },
-    {
-        "source": "Tiles",
-        "description": "",
-        "id": "Tiles",
-        "text": "плитки"
-    },
-    {
-        "source": "List",
-        "description": "",
-        "id": "List",
-        "text": "Список"
-    },
-    {
-        "source": "Increase",
-        "description": "",
-        "id": "Increase",
-        "text": "Увеличение"
-    },
-    {
-        "source": "Decrease",
-        "description": "",
-        "id": "Decrease",
-        "text": "Уменьшить"
-    },
-    {
-        "source": "Enable file sequences",
-        "description": "",
-        "id": "Enable file sequences",
-        "text": "Включить последовательности файлов"
-    },
-    {
-        "source": "Show hidden files",
-        "description": "",
-        "id": "Show hidden files",
-        "text": "Показать скрытые файлы"
-    },
-    {
-        "source": "Sort by name",
-        "description": "",
-        "id": "Sort by name",
-        "text": "Сортировать по имени"
-    },
-    {
-        "source": "Sort by size",
-        "description": "",
-        "id": "Sort by size",
-        "text": "Сортировать по размеру"
-    },
-    {
-        "source": "Sort by time",
-        "description": "",
-        "id": "Sort by time",
-        "text": "Сортировать по времени"
-    },
-    {
-        "source": "Reverse sort",
-        "description": "",
-        "id": "Reverse sort",
-        "text": "Обратная сортировка"
-    },
-    {
-        "source": "Sort directories first",
-        "description": "",
-        "id": "Sort directories first",
-        "text": "Сортировать каталоги в первую очередь"
-    },
-    {
-        "source": "Sorting",
-        "description": "",
-        "id": "Sorting",
-        "text": "Сортировка"
-    },
-    {
-        "source": "Thumbnail Size",
-        "description": "",
-        "id": "Thumbnail Size",
-        "text": "Размер миниатюры"
-    },
-    {
-        "source": "Miscellaneous",
-        "description": "",
-        "id": "Miscellaneous",
-        "text": "Разнообразный"
-    },
-    {
-        "source": "Drives",
-        "description": "",
-        "id": "Drives",
-        "text": "приводы"
-    },
-    {
-        "source": "Text",
-        "description": "",
-        "id": "Text",
-        "text": "Текст"
-    },
-    {
-        "source": "Render 2D",
-        "description": "",
-        "id": "Render 2D",
-        "text": "Render 2D"
-    },
-    {
-        "source": "Enable LCD text rendering",
-        "description": "",
-        "id": "Enable LCD text rendering",
-        "text": "Включить рендеринг текста на ЖК-дисплее"
-    },
-    {
-        "source": "Cannot set the path",
-        "text": "Невозможно установить путь",
-        "id": "Cannot set the path",
-        "description": ""
-    },
-    {
-        "id": "min",
-        "source": "min",
-        "description": "",
-        "text": "мне"
-    },
-    {
-        "id": "max",
-        "source": "max",
-        "description": "",
-        "text": "Максимум"
-    },
-    {
-        "source": "Image",
-        "text": "Образ",
-        "id": "Image",
-        "description": ""
-    },
-    {
-        "source": "Minify filter",
-        "text": "Минимизировать фильтр",
-        "id": "Minify filter",
-        "description": ""
-    },
-    {
-        "source": "Magnify filter",
-        "text": "Увеличить фильтр",
-        "id": "Magnify filter",
-        "description": ""
-    }
-]
+{
+    "color_sliders_alpha": "",
+    "color_sliders_alpha_tooltip": "Цветные ползунки альфа всплывающей подсказки",
+    "color_sliders_blue": "В",
+    "color_sliders_blue_tooltip": "Цветные ползунки синей подсказки",
+    "color_sliders_green": "грамм",
+    "color_sliders_green_tooltip": "Цвет ползунков зеленой подсказки",
+    "color_sliders_hue": "ЧАС",
+    "color_sliders_hue_tooltip": "Цвет ползунков подсказки оттенка",
+    "color_sliders_luminance": "",
+    "color_sliders_luminance_tooltip": "Цветные ползунки яркости всплывающей подсказки",
+    "color_sliders_red": "р",
+    "color_sliders_red_tooltip": "Цветные ползунки красная подсказка",
+    "color_sliders_saturation": "S",
+    "color_sliders_saturation_tooltip": "Подсказка насыщенности ползунков цвета",
+    "color_sliders_value": "V",
+    "color_sliders_value_tooltip": "Подсказка значения цветных ползунков",
+    "color_type_widget_tooltip": "Установите тип цвета",
+    "error_cannot_be_read": "не может быть прочитано",
+    "error_file_browser_cannot_set_the_path": "Невозможно установить путь",
+    "error_the_file": "Файл",
+    "file_browser": "Браузер файлов",
+    "file_browser_add_shortcut_tooltip": "Добавить текущий каталог в список ярлыков",
+    "file_browser_back": "назад",
+    "file_browser_back_tooltip": "Вернуться каталог",
+    "file_browser_column_name": "имя",
+    "file_browser_column_size": "Размер",
+    "file_browser_column_time": "Время",
+    "file_browser_drives": "приводы",
+    "file_browser_drives_tooltip": "Показать диски",
+    "file_browser_edit_shortcuts_tooltip": "Изменить список ярлыков",
+    "file_browser_file_browser_show_shortcuts": "Ярлыки",
+    "file_browser_file_tooltip_audio_channels": "каналы",
+    "file_browser_file_tooltip_audio_duration": "продолжительность",
+    "file_browser_file_tooltip_audio_sample_rate": "Частота дискретизации",
+    "file_browser_file_tooltip_audio_track": "Звуковая дорожка",
+    "file_browser_file_tooltip_audio_type": "Тип",
+    "file_browser_file_tooltip_audio_unit_khz": "кГц",
+    "file_browser_file_tooltip_audio_unit_seconds": "секунд",
+    "file_browser_file_tooltip_last_modification_time": "Время последней модификации",
+    "file_browser_file_tooltip_size": "Размер",
+    "file_browser_file_tooltip_video_dimensions": "Размер",
+    "file_browser_file_tooltip_video_duration": "продолжительность",
+    "file_browser_file_tooltip_video_fps": "FPS",
+    "file_browser_file_tooltip_video_name": "имя",
+    "file_browser_file_tooltip_video_speed": "скорость",
+    "file_browser_file_tooltip_video_track": "Видеодорожка",
+    "file_browser_file_tooltip_video_type": "Тип",
+    "file_browser_file_tooltip_video_unit_frames": "кадры",
+    "file_browser_forward": "Вперед",
+    "file_browser_forward_tooltip": "Перейти вперед каталог",
+    "file_browser_history_tooltip": "Показать историю файлового браузера",
+    "file_browser_items": "Предметы",
+    "file_browser_miscellaneous": "Разнообразный",
+    "file_browser_recent_paths": "Недавние Пути",
+    "file_browser_recent_paths_tooltip": "Показать недавно использованные каталоги",
+    "file_browser_reverse_sort": "Обратная сортировка",
+    "file_browser_reverse_sort_tooltip": "Обратное направление сортировки",
+    "file_browser_search_tooltip": "Поиск предметов в каталоге",
+    "file_browser_settings_decrease_thumbnail": "Уменьшить",
+    "file_browser_settings_decrease_thumbnail_tooltip": "Уменьшить размер миниатюр",
+    "file_browser_settings_enable_file_sequences": "Включить последовательности файлов",
+    "file_browser_settings_file_sequences_tooltip": "Показывать последовательности файлов как один элемент",
+    "file_browser_settings_increase_thumbnail": "Увеличение",
+    "file_browser_settings_increase_thumbnail_tooltip": "Увеличить размер миниатюр",
+    "file_browser_settings_list_view": "Список",
+    "file_browser_settings_list_view_tooltip": "Показать элементы каталога в виде списка",
+    "file_browser_settings_show_hidden_files": "Показать скрытые файлы",
+    "file_browser_settings_show_hidden_tooltip": "Показать элементы каталога, которые начинаются с &#39;.&#39;",
+    "file_browser_settings_tile_view": "плитки",
+    "file_browser_settings_tile_view_tooltip": "Показать элементы каталога в виде плиток",
+    "file_browser_settings_tooltip": "Показать настройки файлового браузера",
+    "file_browser_shortcuts_tooltip": "Показать ярлыки",
+    "file_browser_sort_directories_first": "Сортировать каталоги в первую очередь",
+    "file_browser_sort_directories_first_tooltip": "Показать каталоги перед файлами",
+    "file_browser_sort_name": "Сортировать по имени",
+    "file_browser_sort_name_tooltip": "Сортировать элементы каталога по имени",
+    "file_browser_sort_size": "Сортировать по размеру",
+    "file_browser_sort_size_tooltip": "Сортировать элементы каталога по размеру",
+    "file_browser_sort_time": "Сортировать по времени",
+    "file_browser_sort_time_tooltip": "Сортировать элементы каталога по времени",
+    "file_browser_sort_tooltip": "Показать параметры сортировки в браузере файлов",
+    "file_browser_sorting": "Сортировка",
+    "file_browser_thumbnail_size": "Размер миниатюры",
+    "file_browser_up": "вверх",
+    "file_browser_up_tooltip": "Перейти в каталог",
+    "file_browser_view": "Посмотреть",
+    "line_graph_current": "Текущий",
+    "line_graph_max": "Максимум",
+    "line_graph_min": "мне",
+    "settings_general_enable_tooltips": "Включить подсказки",
+    "settings_general_section_language": "язык",
+    "settings_general_section_palette": "палитра",
+    "settings_general_section_size": "Размер",
+    "settings_general_section_time": "Время",
+    "settings_general_section_tooltips": "Всплывающие",
+    "settings_general_time_units": "Единицы измерения",
+    "settings_io_data_type": "Тип данных",
+    "settings_io_exr_channel_grouping": "Группировка каналов",
+    "settings_io_exr_compression": "Сжатие файлов",
+    "settings_io_exr_dwa_compression_level": "Уровень сжатия DWA",
+    "settings_io_exr_thread_count": "Число потоков",
+    "settings_io_ffmpeg_thread_count": "Число потоков",
+    "settings_io_jpeg_compression_quality": "Качество сжатия",
+    "settings_io_section_ffmpeg": "FFmpeg",
+    "settings_io_section_jpeg": "JPEG",
+    "settings_io_section_openexr": "OpenEXR",
+    "settings_io_section_ppm": "PPM",
+    "settings_io_section_threads": "Потоки",
+    "settings_io_section_tiff": "TIFF",
+    "settings_io_thread_count": "Число потоков",
+    "settings_io_tiff_compression": "Сжатие файлов",
+    "settings_render2d": "Render 2D",
+    "settings_render2d_magnify_filter": "Увеличить фильтр",
+    "settings_render2d_minify_filter": "Минимизировать фильтр",
+    "settings_render2d_section_image": "Образ",
+    "settings_render_2d_section_text": "Текст",
+    "settings_render_2d_text_lcd_rendering": "Включить рендеринг текста на ЖК-дисплее",
+    "settings_title_general": "Общая",
+    "settings_title_io": "Ввод / вывод"
+}

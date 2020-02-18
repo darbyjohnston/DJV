@@ -225,7 +225,7 @@ namespace djv
                     f.f = FileSystem::fopen(fileName.c_str(), "wb");
                     if (!f.f)
                     {
-                        throw FileSystem::Error(DJV_TEXT("Cannot open file."));
+                        throw FileSystem::Error(DJV_TEXT("error_file_open"));
                     }
 
                     const auto& info = image->getInfo();

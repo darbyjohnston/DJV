@@ -113,12 +113,12 @@ namespace djv
 
         std::string PlaybackSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("Playback");
+            return DJV_TEXT("settings_playback_section_playback");
         }
 
         std::string PlaybackSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("Playback");
+            return DJV_TEXT("settings_title_playback");
         }
 
         std::string PlaybackSettingsWidget::getSettingsSortKey() const
@@ -130,7 +130,7 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.startPlaybackButton->setText(_getText(DJV_TEXT("Automatically start playback")));
+            p.startPlaybackButton->setText(_getText(DJV_TEXT("automatically_start_playback")));
         }
 
         struct TimelineSettingsWidget::Private
@@ -199,12 +199,12 @@ namespace djv
 
         std::string TimelineSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("Timeline");
+            return DJV_TEXT("settings_playback_section_timeline");
         }
 
         std::string TimelineSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("Playback");
+            return DJV_TEXT("settings_title_playback");
         }
 
         std::string TimelineSettingsWidget::getSettingsSortKey() const
@@ -216,7 +216,7 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.pipButton->setText(_getText(DJV_TEXT("Show PIP (picture in picture)")));
+            p.pipButton->setText(_getText(DJV_TEXT("show_pip_picture_in_picture")));
         }
 
     } // namespace ViewApp

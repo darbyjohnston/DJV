@@ -244,14 +244,14 @@ namespace djv
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             
-            setTitle(_getText(DJV_TEXT("Annotate")));
+            setTitle(_getText(DJV_TEXT("widget_annotate")));
             
             const std::vector<std::string> typeTooltips =
             {
-                DJV_TEXT("Annotate polyline tooltip"),
-                DJV_TEXT("Annotate line tooltip"),
-                DJV_TEXT("Annotate rectangle tooltip"),
-                DJV_TEXT("Annotate ellipse tooltip")
+                DJV_TEXT("annotate_polyline_tooltip"),
+                DJV_TEXT("annotate_line_tooltip"),
+                DJV_TEXT("annotate_rectangle_tooltip"),
+                DJV_TEXT("annotate_ellipse_tooltip")
             };
             const auto& typeEnums = getAnnotateTypeEnums();
             auto buttons = p.typeButtonGroup->getButtons();
@@ -260,23 +260,23 @@ namespace djv
                 buttons[i]->setTooltip(_getText(typeTooltips[i]));
             }
             
-            p.colorPickerSwatch->setTooltip(_getText(DJV_TEXT("Annotate color picker tooltip")));
+            p.colorPickerSwatch->setTooltip(_getText(DJV_TEXT("annotate_color_picker_tooltip")));
 
-            p.lineWidthEdit->setTooltip(_getText(DJV_TEXT("Annotate line width tooltip")));
+            p.lineWidthEdit->setTooltip(_getText(DJV_TEXT("annotate_line_width_tooltip")));
 
-            p.clearButton->setTooltip(_getText(DJV_TEXT("Annotate clear tooltip")));
+            p.clearButton->setTooltip(_getText(DJV_TEXT("annotate_clear_tooltip")));
 
-            p.addButton->setTooltip(_getText(DJV_TEXT("Annotate add tooltip")));
-            p.deleteButton->setTooltip(_getText(DJV_TEXT("Annotate delete tooltip")));
+            p.addButton->setTooltip(_getText(DJV_TEXT("annotate_add_tooltip")));
+            p.deleteButton->setTooltip(_getText(DJV_TEXT("annotate_delete_tooltip")));
 
-            p.prevButton->setTooltip(_getText(DJV_TEXT("Annotate previous tooltip")));
-            p.nextButton->setTooltip(_getText(DJV_TEXT("Annotate next tooltip")));
+            p.prevButton->setTooltip(_getText(DJV_TEXT("annotate_previous_tooltip")));
+            p.nextButton->setTooltip(_getText(DJV_TEXT("annotate_next_tooltip")));
 
-            p.listButton->setTooltip(_getText(DJV_TEXT("Annotate list toggle tooltip")));
+            p.listButton->setTooltip(_getText(DJV_TEXT("annotate_list_toggle_tooltip")));
             
-            p.tabWidget->setText(p.editLayout, _getText(DJV_TEXT("Edit")));
-            p.tabWidget->setText(p.summaryLayout, _getText(DJV_TEXT("Summary")));
-            p.tabWidget->setText(p.exportLayout, _getText(DJV_TEXT("Export")));
+            p.tabWidget->setText(p.editLayout, _getText(DJV_TEXT("menu_annotate_edit")));
+            p.tabWidget->setText(p.summaryLayout, _getText(DJV_TEXT("menu_annotate_summary")));
+            p.tabWidget->setText(p.exportLayout, _getText(DJV_TEXT("menu_annotate_export")));
         }
 
     } // namespace ViewApp

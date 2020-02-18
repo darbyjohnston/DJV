@@ -507,7 +507,7 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::Render3D,
         DepthBufferMode,
-        DJV_TEXT("Standard"),
-        DJV_TEXT("Reverse"));
+        DJV_TEXT("depth_buffer_mode_standard"),
+        DJV_TEXT("depth_buffer_mode_reverse"));
 
 } // namespace djv

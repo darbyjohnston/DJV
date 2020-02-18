@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2019 Darby Johnston
+// Copyright (c) 2019-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -143,8 +143,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.actions.size())
             {
-                p.actions["Magnify"]->setText(_getText(DJV_TEXT("Magnify")));
-                p.actions["Magnify"]->setTooltip(_getText(DJV_TEXT("Magnify tooltip")));
+                p.actions["Magnify"]->setText(_getText(DJV_TEXT("menu_tools_magnify")));
+                p.actions["Magnify"]->setTooltip(_getText(DJV_TEXT("menu_magnify_tooltip")));
             }
         }
 

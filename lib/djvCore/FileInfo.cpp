@@ -311,7 +311,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
     }
 
@@ -324,7 +324,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
     }
 
@@ -349,7 +349,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
     }
 
@@ -362,15 +362,15 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         Core::FileSystem,
         FileType,
-        DJV_TEXT("File"),
-        DJV_TEXT("Sequence"),
-        DJV_TEXT("Directory"));
+        DJV_TEXT("file_type_file"),
+        DJV_TEXT("file_type_sequence"),
+        DJV_TEXT("file_type_directory"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         Core::FileSystem,
         DirectoryListSort,
-        DJV_TEXT("Name"),
-        DJV_TEXT("Size"),
-        DJV_TEXT("Time"));
+        DJV_TEXT("directory_list_sort_name"),
+        DJV_TEXT("directory_list_sort_size"),
+        DJV_TEXT("directory_list_sort_time"));
 
 } // namespace djv

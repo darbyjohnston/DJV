@@ -286,24 +286,24 @@ namespace djv
         {
             IDialog::_initEvent(event);
             DJV_PRIVATE_PTR();
-            setTitle(_getText(DJV_TEXT("Recent Files")));
+            setTitle(_getText(DJV_TEXT("widget_recent_files_title")));
 
-            p.actions["IncreaseThumbnailSize"]->setText(_getText(DJV_TEXT("Increase")));
-            p.actions["IncreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("Recent files increase thumbnail size tooltip")));
-            p.actions["DecreaseThumbnailSize"]->setText(_getText(DJV_TEXT("Decrease")));
-            p.actions["DecreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("Recent files decrease thumbnail size tooltip")));
+            p.actions["IncreaseThumbnailSize"]->setText(_getText(DJV_TEXT("widget_recent_increase_thumbnail_size")));
+            p.actions["IncreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("widget_recent_increase_thumbnail_size_tooltip")));
+            p.actions["DecreaseThumbnailSize"]->setText(_getText(DJV_TEXT("widget_recent_decrease_thumbnail_size")));
+            p.actions["DecreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("widget_recent_decrease_thumbnail_size_tooltip")));
 
-            p.thumbnailSizeLabel->setText(_getText(DJV_TEXT("Thumbnail Size")));
+            p.thumbnailSizeLabel->setText(_getText(DJV_TEXT("recent_files_thumbnail_size")));
 
             p.itemCountLabel->setText(_getItemCountLabel(p.itemCount));
-            p.searchBox->setTooltip(_getText(DJV_TEXT("Recent files search tooltip")));
-            p.settingsPopupWidget->setTooltip(_getText(DJV_TEXT("Recent files settings tooltip")));
+            p.searchBox->setTooltip(_getText(DJV_TEXT("recent_files_search_tooltip")));
+            p.settingsPopupWidget->setTooltip(_getText(DJV_TEXT("recent_files_settings_tooltip")));
         }
 
         std::string RecentFilesDialog::_getItemCountLabel(size_t size) const
         {
             std::stringstream ss;
-            ss << size << " " << _getText(DJV_TEXT("Items"));
+            ss << size << " " << _getText(DJV_TEXT("recent_files_label_items"));
             return ss.str();
         }
 

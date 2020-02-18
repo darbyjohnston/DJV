@@ -344,9 +344,10 @@ namespace djv
             }
         }
         
-        const std::string & TextSystem::getText(const std::string & id) const
+        const std::string & TextSystem::getText(const std::string & id)
         {
             DJV_PRIVATE_PTR();
+            _readAllFutures();
             const auto i = p.text.find(p.currentLocale->get());
             if (i != p.text.end())
             {
@@ -390,7 +391,7 @@ namespace djv
             catch (const std::exception& e)
             {
                 std::stringstream ss;
-                ss << DJV_TEXT("Error reading the environment varible") << " 'DJV_TEXT_PATH'. " << e.what();
+                ss << DJV_TEXT("error_reading_the_environment_varible") << " 'DJV_TEXT_PATH'. " << e.what();
                 p.logSystem->log(getSystemName(), ss.str(), LogLevel::Error);
             }
 
@@ -433,7 +434,7 @@ namespace djv
                 {
                     locale.insert(locale.begin(), *j);
                 }
-
+                
                 FileSystem::FileIO fileIO;
                 fileIO.open(std::string(path), FileSystem::FileIO::Mode::Read);
 #if defined(DJV_MMAP)
@@ -455,39 +456,22 @@ namespace djv
                 if (!error.empty())
                 {
                     std::stringstream ss;
-                    ss << DJV_TEXT("Error reading the text file") << " '" << path << "'. " << error;
+                    ss << DJV_TEXT("error_reading_the_text_file") << " '" << path << "'. " << error;
                     throw FileSystem::Error(ss.str());
                 }
-
-                if (v.is<picojson::array>())
+                    
+                if (v.is<picojson::object>())
                 {
-                    for (const auto& item : v.get<picojson::array>())
+                    std::string id;
+                    std::string text;
+                    const auto& obj = v.get<picojson::object>();
+                    for (auto i = obj.begin(); i != obj.end(); ++i)
                     {
-                        if (item.is<picojson::object>())
+                        id = i->first;
+                        text = i->second.to_str();
+                        if (!id.empty())
                         {
-                            std::string id;
-                            std::string text;
-                            std::string description;
-                            const auto& obj = item.get<picojson::object>();
-                            for (auto i = obj.begin(); i != obj.end(); ++i)
-                            {
-                                if ("id" == i->first)
-                                {
-                                    id = i->second.to_str();
-                                }
-                                else if ("text" == i->first)
-                                {
-                                    text = i->second.to_str();
-                                }
-                                else if ("description" == i->first)
-                                {
-                                    description = i->second.to_str();
-                                }
-                            }
-                            if (!id.empty())
-                            {
-                                out[locale][id] = text;
-                            }
+                            out[locale][id] = text;
                         }
                     }
                 }
@@ -497,6 +481,37 @@ namespace djv
                 p.logSystem->log(getSystemName(), e.what(), LogLevel::Error);
             }
             return out;
+        }
+        
+        void TextSystem::_readAllFutures()
+        {
+            DJV_PRIVATE_PTR();
+            bool textChanged = false;
+            auto j = p.readFutures.begin();
+            while (j != p.readFutures.end())
+            {
+                if (j->valid() &&
+                    j->wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                {
+                    for (const auto& k : j->get())
+                    {
+                        for (const auto& l : k.second)
+                        {
+                            p.text[k.first][l.first] = l.second;
+                            textChanged = true;
+                        }
+                    }
+                    j = p.readFutures.erase(j);
+                }
+                else
+                {
+                    ++j;
+                }
+            }
+            if (textChanged)
+            {
+                p.textChanged->setAlways(true);
+            }
         }
 
     } // namespace Core

@@ -226,14 +226,14 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.actions.size())
             {
-                p.actions["IncreaseVolume"]->setText(_getText(DJV_TEXT("Increase Volume")));
-                p.actions["IncreaseVolume"]->setTooltip(_getText(DJV_TEXT("Increase volume tooltip")));
-                p.actions["DecreaseVolume"]->setText(_getText(DJV_TEXT("Decrease Volume")));
-                p.actions["DecreaseVolume"]->setTooltip(_getText(DJV_TEXT("Decrease volume tooltip")));
-                p.actions["Mute"]->setText(_getText(DJV_TEXT("Mute")));
-                p.actions["Mute"]->setTooltip(_getText(DJV_TEXT("Mute tooltip")));
+                p.actions["IncreaseVolume"]->setText(_getText(DJV_TEXT("menu_audio_increase_volume")));
+                p.actions["IncreaseVolume"]->setTooltip(_getText(DJV_TEXT("menu_audio_increase_volume_tooltip")));
+                p.actions["DecreaseVolume"]->setText(_getText(DJV_TEXT("menu_audio_decrease_volume")));
+                p.actions["DecreaseVolume"]->setTooltip(_getText(DJV_TEXT("menu_audio_decrease_volume_tooltip")));
+                p.actions["Mute"]->setText(_getText(DJV_TEXT("menu_audio_mute")));
+                p.actions["Mute"]->setTooltip(_getText(DJV_TEXT("menu_audio_mute_tooltip")));
 
-                p.menu->setText(_getText(DJV_TEXT("Audio")));
+                p.menu->setText(_getText(DJV_TEXT("menu_audio")));
             }
         }
 

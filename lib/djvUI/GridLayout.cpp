@@ -583,10 +583,10 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI::Layout,
         GridStretch,
-        DJV_TEXT("None"),
-        DJV_TEXT("Horizontal"),
-        DJV_TEXT("Vertical"),
-        DJV_TEXT("Both"));
+        DJV_TEXT("layout_grid_stretch_none"),
+        DJV_TEXT("layout_grid_stretch_horizontal"),
+        DJV_TEXT("layout_grid_stretch_vertical"),
+        DJV_TEXT("layout_grid_stretch_both"));
 
 } // namespace djv
 

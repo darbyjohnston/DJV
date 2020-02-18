@@ -226,10 +226,10 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::Render3D,
         DefaultMaterialMode,
-        DJV_TEXT("Default"),
-        DJV_TEXT("Unlit"),
-        DJV_TEXT("Normals"),
-        DJV_TEXT("UVs"));
+        DJV_TEXT("default_material_mode_default"),
+        DJV_TEXT("default_material_mode_unlit"),
+        DJV_TEXT("default_material_mode_normals"),
+        DJV_TEXT("default_material_mode_uvs"));
 
 
 } // namespace djv

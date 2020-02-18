@@ -79,7 +79,6 @@ namespace djv
             p.titleBar->addChild(p.closeButton);
 
             p.childLayout = UI::VerticalLayout::create(context);
-            p.childLayout->setPointerEnabled(true);
 
             auto layout = UI::VerticalLayout::create(context);
             layout->setBackgroundRole(UI::ColorRole::OverlayLight);
@@ -206,7 +205,7 @@ namespace djv
         {
             IWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.closeButton->setTooltip(_getText(DJV_TEXT("Close tooltip")));
+            p.closeButton->setTooltip(_getText(DJV_TEXT("widget_mdi_close_tooltip")));
         }
 
     } // namespace ViewApp

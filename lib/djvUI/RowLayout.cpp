@@ -442,8 +442,8 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI::Layout,
         RowStretch,
-        DJV_TEXT("None"),
-        DJV_TEXT("Expand"));
+        DJV_TEXT("layout_row_stretch_none"),
+        DJV_TEXT("layout_row_stretch_expand"));
 
 } // namespace ddjv
 

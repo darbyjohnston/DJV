@@ -173,9 +173,9 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         Core::Time,
         TimerValue,
-        DJV_TEXT("Slow"),
-        DJV_TEXT("Medium"),
-        DJV_TEXT("Fast"),
-        DJV_TEXT("VeryFast"));
+        DJV_TEXT("timer_slow"),
+        DJV_TEXT("timer_medium"),
+        DJV_TEXT("timer_fast"),
+        DJV_TEXT("timer_very_fast"));
 
 } // namespace djv

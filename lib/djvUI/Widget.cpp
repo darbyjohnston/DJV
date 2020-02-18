@@ -929,8 +929,8 @@ namespace djv
                     out << "\n\n";
                     out << "(";
                     out << _getText(1 == shortcutsSize ?
-                        DJV_TEXT("Keyboard shortcut") :
-                        DJV_TEXT("Keyboard shortcuts"));
+                        DJV_TEXT("keyboard_shortcut") :
+                        DJV_TEXT("keyboard_shortcuts"));
                     out << ": ";
                     std::vector<std::string> shortcutsText;
                     const auto& textSystem = _getTextSystem();

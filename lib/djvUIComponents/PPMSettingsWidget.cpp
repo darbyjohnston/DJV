@@ -93,12 +93,12 @@ namespace djv
 
         std::string PPMSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("PPM");
+            return DJV_TEXT("settings_io_section_ppm");
         }
 
         std::string PPMSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("I/O");
+            return DJV_TEXT("settings_title_io");
         }
 
         std::string PPMSettingsWidget::getSettingsSortKey() const
@@ -110,7 +110,7 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.layout->setText(p.comboBox, _getText(DJV_TEXT("Data type")) + ":");
+            p.layout->setText(p.comboBox, _getText(DJV_TEXT("settings_io_data_type")) + ":");
             _widgetUpdate();
         }
 

@@ -59,7 +59,7 @@ namespace djv
                     auto out = std::shared_ptr<Plugin>(new Plugin);
                     out->_init(
                         pluginName,
-                        DJV_TEXT("This plugin provides Joint Photographic Experts Group (JPEG) image I/O."),
+                        DJV_TEXT("plugin_jpeg_io"),
                         fileExtensions,
                         context);
                     return out;
@@ -138,7 +138,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
     }
 } // namespace djv

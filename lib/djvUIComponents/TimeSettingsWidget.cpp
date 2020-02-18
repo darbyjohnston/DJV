@@ -206,12 +206,12 @@ namespace djv
 
         std::string TimeSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("Time");
+            return DJV_TEXT("settings_general_section_time");
         }
 
         std::string TimeSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("General");
+            return DJV_TEXT("settings_title_general");
         }
 
         std::string TimeSettingsWidget::getSettingsSortKey() const
@@ -223,7 +223,7 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.layout->setText(p.timeUnitsWidget, _getText(DJV_TEXT("Units")) + ":");
+            p.layout->setText(p.timeUnitsWidget, _getText(DJV_TEXT("settings_general_time_units")) + ":");
         }
 
     } // namespace UI

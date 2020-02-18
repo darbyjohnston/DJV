@@ -123,12 +123,12 @@ namespace djv
 
         std::string Render2DImageSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("Image");
+            return DJV_TEXT("settings_render2d_section_image");
         }
 
         std::string Render2DImageSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("Render 2D");
+            return DJV_TEXT("settings_render2d");
         }
 
         std::string Render2DImageSettingsWidget::getSettingsSortKey() const
@@ -140,8 +140,8 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.layout->setText(p.filterComboBox[0], _getText(DJV_TEXT("Minify filter")) + ":");
-            p.layout->setText(p.filterComboBox[1], _getText(DJV_TEXT("Magnify filter")) + ":");
+            p.layout->setText(p.filterComboBox[0], _getText(DJV_TEXT("settings_render2d_minify_filter")) + ":");
+            p.layout->setText(p.filterComboBox[1], _getText(DJV_TEXT("settings_render2d_magnify_filter")) + ":");
             _widgetUpdate();
         }
 
@@ -154,8 +154,8 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << i;
-                p.filterComboBox[0]->addItem(ss.str());
-                p.filterComboBox[1]->addItem(ss.str());
+                p.filterComboBox[0]->addItem(_getText(ss.str()));
+                p.filterComboBox[1]->addItem(_getText(ss.str()));
             }
             p.filterComboBox[0]->setCurrentItem(static_cast<int>(p.filterOptions.min));
             p.filterComboBox[1]->setCurrentItem(static_cast<int>(p.filterOptions.mag));
@@ -218,12 +218,12 @@ namespace djv
 
         std::string Render2DTextSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("Text");
+            return DJV_TEXT("settings_render_2d_section_text");
         }
 
         std::string Render2DTextSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("Render 2D");
+            return DJV_TEXT("settings_render2d");
         }
 
         std::string Render2DTextSettingsWidget::getSettingsSortKey() const
@@ -235,7 +235,7 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.lcdCheckBox->setText(_getText(DJV_TEXT("Enable LCD text rendering")));
+            p.lcdCheckBox->setText(_getText(DJV_TEXT("settings_render_2d_text_lcd_rendering")));
         }
 
     } // namespace UI

@@ -439,10 +439,10 @@ namespace djv
         {
             Window::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.mediaButton->setTooltip(_getText(DJV_TEXT("Media popup tooltip")));
-            p.cachePopupWidget->setTooltip(_getText(DJV_TEXT("Memory cache tooltip")));
+            p.mediaButton->setTooltip(_getText(DJV_TEXT("menu_media_popup_tooltip")));
+            p.cachePopupWidget->setTooltip(_getText(DJV_TEXT("menu_memory_cache_tooltip")));
 #ifdef DJV_DEMO
-            p.titleLabel->setText(_getText(DJV_TEXT("DJV 2.0.4")));
+            p.titleLabel->setText(_getText(DJV_TEXT("djv_2_0_4")));
 #endif // DJV_DEMO
             _cacheUpdate();
         }
@@ -457,7 +457,7 @@ namespace djv
                     const float percentage = fileSystem->observeCachePercentage()->get();
                     p.cacheThermometerWidget->setPercentage(percentage);
                     std::stringstream ss;
-                    ss << _getText(DJV_TEXT("Memory cache thermometer tooltip")) << ": " <<
+                    ss << _getText(DJV_TEXT("menu_memory_cache_thermometer_tooltip")) << ": " <<
                         static_cast<int>(percentage) << "%";
                     p.cacheThermometerWidget->setTooltip(ss.str());
                 }

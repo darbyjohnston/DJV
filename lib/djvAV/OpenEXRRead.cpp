@@ -284,7 +284,7 @@ namespace djv
                         }
                         if (Image::Type::None == info.type)
                         {
-                            throw FileSystem::Error(DJV_TEXT("Unsupported image type."));
+                            throw FileSystem::Error(DJV_TEXT("error_unsupported_image_type"));
                         }
                         out.video[i].sequence = _sequence;
                         out.video[i].speed = _speed;

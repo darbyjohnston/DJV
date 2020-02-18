@@ -1,1292 +1,251 @@
-[
-    {
-        "source": "Cannot parse the value.",
-        "description": "",
-        "id": "Cannot parse the value.",
-        "text": "Δεν είναι δυνατή η ανάλυση της τιμής."
-    },
-    {
-        "source": "Horizontal",
-        "description": "",
-        "id": "Horizontal",
-        "text": "Οριζόντιος"
-    },
-    {
-        "source": "Vertical",
-        "description": "",
-        "id": "Vertical",
-        "text": "Κατακόρυφος"
-    },
-    {
-        "source": "Left",
-        "description": "",
-        "id": "Left",
-        "text": "Αριστερά"
-    },
-    {
-        "source": "Top",
-        "description": "",
-        "id": "Top",
-        "text": "Μπλουζα"
-    },
-    {
-        "source": "Right",
-        "description": "",
-        "id": "Right",
-        "text": "σωστά"
-    },
-    {
-        "source": "Bottom",
-        "description": "",
-        "id": "Bottom",
-        "text": "Κάτω μέρος"
-    },
-    {
-        "source": "None",
-        "description": "",
-        "id": "None",
-        "text": "Κανένας"
-    },
-    {
-        "source": "Both",
-        "description": "",
-        "id": "Both",
-        "text": "Και τα δυο"
-    },
-    {
-        "source": "Center",
-        "description": "",
-        "id": "Center",
-        "text": "Κέντρο"
-    },
-    {
-        "source": "Fill",
-        "description": "",
-        "id": "Fill",
-        "text": "Γέμισμα"
-    },
-    {
-        "source": "Baseline",
-        "description": "",
-        "id": "Baseline",
-        "text": "Βασική γραμμή"
-    },
-    {
-        "source": "Single",
-        "description": "",
-        "id": "Single",
-        "text": "Μονόκλινο"
-    },
-    {
-        "source": "Radio",
-        "description": "",
-        "id": "Radio",
-        "text": "Ραδιόφωνο"
-    },
-    {
-        "source": "Multiple",
-        "description": "",
-        "id": "Multiple",
-        "text": "Πολλαπλούς"
-    },
-    {
-        "source": "Forward",
-        "description": "",
-        "id": "Forward",
-        "text": "Προς τα εμπρός"
-    },
-    {
-        "source": "Reverse",
-        "description": "",
-        "id": "Reverse",
-        "text": "ΑΝΤΙΣΤΡΟΦΗ"
-    },
-    {
-        "source": "Push",
-        "description": "",
-        "id": "Push",
-        "text": "Σπρώξτε"
-    },
-    {
-        "source": "Toggle",
-        "description": "",
-        "id": "Toggle",
-        "text": "Μεταβάλλω"
-    },
-    {
-        "source": "Exclusive",
-        "description": "",
-        "id": "Exclusive",
-        "text": "Αποκλειστικός"
-    },
-    {
-        "source": "Tiles",
-        "description": "",
-        "id": "Tiles",
-        "text": "Πλακάκια"
-    },
-    {
-        "source": "List",
-        "description": "",
-        "id": "List",
-        "text": "Λίστα"
-    },
-    {
-        "source": "Background",
-        "description": "",
-        "id": "Background",
-        "text": "Ιστορικό"
-    },
-    {
-        "source": "Background Header",
-        "description": "",
-        "id": "BackgroundHeader",
-        "text": "Κεφαλίδα φόντου"
-    },
-    {
-        "source": "Background Bellows",
-        "description": "",
-        "id": "BackgroundBellows",
-        "text": "Ιστορικό Μπάλες"
-    },
-    {
-        "source": "Background ToolBar",
-        "description": "",
-        "id": "BackgroundToolBar",
-        "text": "BackgroundBar Toolbar"
-    },
-    {
-        "source": "Foreground",
-        "description": "",
-        "id": "Foreground",
-        "text": "Σε πρώτο πλάνο"
-    },
-    {
-        "source": "Foreground Dim",
-        "description": "",
-        "id": "ForegroundDim",
-        "text": "Νέο μέτωπο Dim"
-    },
-    {
-        "source": "Border",
-        "description": "",
-        "id": "Border",
-        "text": "Σύνορο"
-    },
-    {
-        "source": "Border Button",
-        "description": "",
-        "id": "BorderButton",
-        "text": "Κουμπί οριοθέτησης"
-    },
-    {
-        "source": "Trough",
-        "description": "",
-        "id": "Trough",
-        "text": "Σκάφη"
-    },
-    {
-        "source": "Button",
-        "description": "",
-        "id": "Button",
-        "text": "Κουμπί"
-    },
-    {
-        "source": "Hovered",
-        "description": "",
-        "id": "Hovered",
-        "text": "Καλύπτεται"
-    },
-    {
-        "source": "Pressed",
-        "description": "",
-        "id": "Pressed",
-        "text": "Πατημένο"
-    },
-    {
-        "source": "Checked",
-        "description": "",
-        "id": "Checked",
-        "text": "Τετραγωνισμένος"
-    },
-    {
-        "source": "Text Focus",
-        "description": "",
-        "id": "TextFocus",
-        "text": "Κείμενο Focus"
-    },
-    {
-        "source": "Tooltip Background",
-        "description": "",
-        "id": "TooltipBackground",
-        "text": "Υπόβαθρο εργαλείου"
-    },
-    {
-        "source": "Tooltip Foreground",
-        "description": "",
-        "id": "TooltipForeground",
-        "text": "Προειδοποίηση εργαλείου"
-    },
-    {
-        "source": "Overlay",
-        "description": "",
-        "id": "Overlay",
-        "text": "Επικάλυμμα"
-    },
-    {
-        "source": "Overlay Light",
-        "description": "",
-        "id": "OverlayLight",
-        "text": "Φως επικάλυψης"
-    },
-    {
-        "source": "Shadow",
-        "description": "",
-        "id": "Shadow",
-        "text": "Σκιά"
-    },
-    {
-        "source": "Handle",
-        "description": "",
-        "id": "Handle",
-        "text": "Λαβή"
-    },
-    {
-        "source": "Margin",
-        "description": "",
-        "id": "Margin",
-        "text": "Περιθώριο"
-    },
-    {
-        "source": "Margin Small",
-        "description": "",
-        "id": "MarginSmall",
-        "text": "Περιθώριο μικρό"
-    },
-    {
-        "source": "Margin Large",
-        "description": "",
-        "id": "MarginLarge",
-        "text": "Περιθώριο μεγάλο"
-    },
-    {
-        "source": "Margin Dialog",
-        "description": "",
-        "id": "MarginDialog",
-        "text": "Διάλογος περιθωρίου"
-    },
-    {
-        "source": "Spacing",
-        "description": "",
-        "id": "Spacing",
-        "text": "Διαχωρισμός"
-    },
-    {
-        "source": "Spacing Small",
-        "description": "",
-        "id": "SpacingSmall",
-        "text": "Διαφορά μικρού μεγέθους"
-    },
-    {
-        "source": "Spacing Large",
-        "description": "",
-        "id": "SpacingLarge",
-        "text": "Διαχωρισμός μεγάλου μεγέθους"
-    },
-    {
-        "source": "Drag",
-        "description": "",
-        "id": "Drag",
-        "text": "Σέρνω"
-    },
-    {
-        "source": "Icon",
-        "description": "",
-        "id": "Icon",
-        "text": "Εικόνισμα"
-    },
-    {
-        "source": "Icon Small",
-        "description": "",
-        "id": "IconSmall",
-        "text": "Εικονίδιο Μικρό"
-    },
-    {
-        "source": "Font Small",
-        "description": "",
-        "id": "FontSmall",
-        "text": "Μικρή γραμματοσειρά"
-    },
-    {
-        "source": "Font Medium",
-        "description": "",
-        "id": "FontMedium",
-        "text": "Μέσο γραμματοσειράς"
-    },
-    {
-        "source": "Font Large",
-        "description": "",
-        "id": "FontLarge",
-        "text": "Μεγάλες γραμματοσειρές"
-    },
-    {
-        "source": "Font Header",
-        "description": "",
-        "id": "FontHeader",
-        "text": "Κεφαλίδα γραμματοσειράς"
-    },
-    {
-        "source": "Font Title",
-        "description": "",
-        "id": "FontTitle",
-        "text": "Τίτλος γραμματοσειράς"
-    },
-    {
-        "source": "Swatch",
-        "description": "",
-        "id": "Swatch",
-        "text": "Δείγμα υφάσματος"
-    },
-    {
-        "source": "Slider",
-        "description": "",
-        "id": "Slider",
-        "text": "Ολισθητής"
-    },
-    {
-        "source": "Scroll Area",
-        "description": "",
-        "id": "ScrollArea",
-        "text": "Περιοχή κύλισης"
-    },
-    {
-        "source": "Menu",
-        "description": "",
-        "id": "Menu",
-        "text": "Μενού"
-    },
-    {
-        "source": "Text Column",
-        "description": "",
-        "id": "TextColumn",
-        "text": "Κώδικας κειμένου"
-    },
-    {
-        "source": "Text Column Large",
-        "description": "",
-        "id": "TextColumnLarge",
-        "text": "Μεγάλη στήλη κειμένου"
-    },
-    {
-        "source": "Search Box",
-        "description": "",
-        "id": "SearchBox",
-        "text": "Κουτί αναζήτησης"
-    },
-    {
-        "source": "Dialog",
-        "description": "",
-        "id": "Dialog",
-        "text": "Διάλογος"
-    },
-    {
-        "source": "Shadow Small",
-        "description": "",
-        "id": "ShadowSmall",
-        "text": "Σκιά Μικρή"
-    },
-    {
-        "source": "Tooltip Offset",
-        "description": "",
-        "id": "TooltipOffset",
-        "text": "Εξέλιξη εργαλείου"
-    },
-    {
-        "source": "Move",
-        "description": "",
-        "id": "Move",
-        "text": "Κίνηση"
-    },
-    {
-        "source": "Dark",
-        "description": "",
-        "id": "Dark",
-        "text": "Σκοτάδι"
-    },
-    {
-        "source": "Light",
-        "description": "",
-        "id": "Light",
-        "text": "Φως"
-    },
-    {
-        "source": "Medium",
-        "description": "",
-        "id": "Medium",
-        "text": "Μεσαίο"
-    },
-    {
-        "source": "Small",
-        "description": "",
-        "id": "Small",
-        "text": "Μικρό"
-    },
-    {
-        "source": "Large",
-        "description": "",
-        "id": "Large",
-        "text": "Μεγάλο"
-    },
-    {
-        "source": "Extra Large",
-        "description": "",
-        "id": "ExtraLarge",
-        "text": "Πολύ μεγάλο"
-    },
-    {
-        "source": "Default",
-        "description": "",
-        "id": "Default",
-        "text": "Προκαθορισμένο"
-    },
-    {
-        "source": "Expand",
-        "description": "",
-        "id": "Expand",
-        "text": "Επεκτείνουν"
-    },
-    {
-        "source": "Space",
-        "description": "",
-        "id": "Space",
-        "text": "Χώρος"
-    },
-    {
-        "source": "Apostrophe",
-        "description": "",
-        "id": "Apostrophe",
-        "text": "Απόστροφος"
-    },
-    {
-        "source": "Comma",
-        "description": "",
-        "id": "Comma",
-        "text": "κόμμα"
-    },
-    {
-        "source": "Minus",
-        "description": "",
-        "id": "Minus",
-        "text": "Μείον"
-    },
-    {
-        "source": "Period",
-        "description": "",
-        "id": "Period",
-        "text": "Περίοδος"
-    },
-    {
-        "source": "Slash",
-        "description": "",
-        "id": "Slash",
-        "text": "Εγκοπή"
-    },
-    {
-        "source": "0",
-        "description": "",
-        "id": "0",
-        "text": "0"
-    },
-    {
-        "source": "1",
-        "description": "",
-        "id": "1",
-        "text": "1"
-    },
-    {
-        "source": "2",
-        "description": "",
-        "id": "2",
-        "text": "2"
-    },
-    {
-        "source": "3",
-        "description": "",
-        "id": "3",
-        "text": "3"
-    },
-    {
-        "source": "4",
-        "description": "",
-        "id": "4",
-        "text": "4"
-    },
-    {
-        "source": "5",
-        "description": "",
-        "id": "5",
-        "text": "5"
-    },
-    {
-        "source": "6",
-        "description": "",
-        "id": "6",
-        "text": "6"
-    },
-    {
-        "source": "7",
-        "description": "",
-        "id": "7",
-        "text": "7"
-    },
-    {
-        "source": "8",
-        "description": "",
-        "id": "8",
-        "text": "8"
-    },
-    {
-        "source": "9",
-        "description": "",
-        "id": "9",
-        "text": "9"
-    },
-    {
-        "source": "Semicolon",
-        "description": "",
-        "id": "Semicolon",
-        "text": "Ανω τελεία"
-    },
-    {
-        "source": "Equal",
-        "description": "",
-        "id": "Equal",
-        "text": "Ισος"
-    },
-    {
-        "source": "A",
-        "description": "",
-        "id": "A",
-        "text": "ΕΝΑ"
-    },
-    {
-        "source": "B",
-        "description": "",
-        "id": "B",
-        "text": "σι"
-    },
-    {
-        "source": "C",
-        "description": "",
-        "id": "C",
-        "text": "ντο"
-    },
-    {
-        "source": "D",
-        "description": "",
-        "id": "D",
-        "text": "ρε"
-    },
-    {
-        "source": "E",
-        "description": "",
-        "id": "E",
-        "text": "και"
-    },
-    {
-        "source": "F",
-        "description": "",
-        "id": "F",
-        "text": "φά"
-    },
-    {
-        "source": "G",
-        "description": "",
-        "id": "G",
-        "text": "σολ"
-    },
-    {
-        "source": "H",
-        "description": "",
-        "id": "H",
-        "text": "H"
-    },
-    {
-        "source": "I",
-        "description": "",
-        "id": "I",
-        "text": "Εγώ"
-    },
-    {
-        "source": "J",
-        "description": "",
-        "id": "J",
-        "text": "J"
-    },
-    {
-        "source": "K",
-        "description": "",
-        "id": "K",
-        "text": "Κ"
-    },
-    {
-        "source": "L",
-        "description": "",
-        "id": "L",
-        "text": "ο"
-    },
-    {
-        "source": "M",
-        "description": "",
-        "id": "M",
-        "text": "Μ"
-    },
-    {
-        "source": "N",
-        "description": "",
-        "id": "N",
-        "text": "Ν"
-    },
-    {
-        "source": "O",
-        "description": "",
-        "id": "O",
-        "text": "Ο"
-    },
-    {
-        "source": "P",
-        "description": "",
-        "id": "P",
-        "text": "Π"
-    },
-    {
-        "source": "Q",
-        "description": "",
-        "id": "Q",
-        "text": "Q"
-    },
-    {
-        "source": "R",
-        "description": "",
-        "id": "R",
-        "text": "R"
-    },
-    {
-        "source": "S",
-        "description": "",
-        "id": "S",
-        "text": "μικρό"
-    },
-    {
-        "source": "T",
-        "description": "",
-        "id": "T",
-        "text": "Τ"
-    },
-    {
-        "source": "U",
-        "description": "",
-        "id": "U",
-        "text": "U"
-    },
-    {
-        "source": "V",
-        "description": "",
-        "id": "V",
-        "text": "V"
-    },
-    {
-        "source": "W",
-        "description": "",
-        "id": "W",
-        "text": "ο"
-    },
-    {
-        "source": "X",
-        "description": "",
-        "id": "X",
-        "text": "Χ"
-    },
-    {
-        "source": "Y",
-        "description": "",
-        "id": "Y",
-        "text": "Υ"
-    },
-    {
-        "source": "Z",
-        "description": "",
-        "id": "Z",
-        "text": "με"
-    },
-    {
-        "source": "Left Bracket",
-        "description": "",
-        "id": "LeftBracket",
-        "text": "Αριστερό βραχίονα"
-    },
-    {
-        "source": "Backslash",
-        "description": "",
-        "id": "Backslash",
-        "text": "Αντίστροφη κάθετο"
-    },
-    {
-        "source": "Right Bracket",
-        "description": "",
-        "id": "RightBracket",
-        "text": "Δεξιά βάση"
-    },
-    {
-        "source": "Grave Accent",
-        "description": "",
-        "id": "GraveAccent",
-        "text": "Σοβαρή έμφαση"
-    },
-    {
-        "source": "World 1",
-        "description": "",
-        "id": "World1",
-        "text": "Κόσμος 1"
-    },
-    {
-        "source": "World 2",
-        "description": "",
-        "id": "World2",
-        "text": "Κόσμος 2"
-    },
-    {
-        "source": "Escape",
-        "description": "",
-        "id": "Escape",
-        "text": "Διαφυγή"
-    },
-    {
-        "source": "Enter",
-        "description": "",
-        "id": "Enter",
-        "text": "Εισαγω"
-    },
-    {
-        "source": "Tab",
-        "description": "",
-        "id": "Tab",
-        "text": "Αυτί"
-    },
-    {
-        "source": "Backspace",
-        "description": "",
-        "id": "Backspace",
-        "text": "Backspace"
-    },
-    {
-        "source": "Insert",
-        "description": "",
-        "id": "Insert",
-        "text": "Εισάγετε"
-    },
-    {
-        "source": "Delete",
-        "description": "",
-        "id": "Delete",
-        "text": "Διαγράφω"
-    },
-    {
-        "source": "Right Arrow",
-        "description": "",
-        "id": "RightArrow",
-        "text": "Δεξί βέλος"
-    },
-    {
-        "source": "Left Arrow",
-        "description": "",
-        "id": "LeftArrow",
-        "text": "Αριστερό βέλος"
-    },
-    {
-        "source": "Down Arrow",
-        "description": "",
-        "id": "DownArrow",
-        "text": "Κάτω βελάκι"
-    },
-    {
-        "source": "Up Arrow",
-        "description": "",
-        "id": "UpArrow",
-        "text": "Επάνω βέλος"
-    },
-    {
-        "source": "Page Up",
-        "description": "",
-        "id": "PageUp",
-        "text": "Σελίδα προς τα πάνω"
-    },
-    {
-        "source": "Page Down",
-        "description": "",
-        "id": "PageDown",
-        "text": "Σελίδα προς τα κάτω"
-    },
-    {
-        "source": "Home",
-        "description": "",
-        "id": "Home",
-        "text": "Σπίτι"
-    },
-    {
-        "source": "End",
-        "description": "",
-        "id": "End",
-        "text": "Τέλος"
-    },
-    {
-        "source": "Caps Lock",
-        "description": "",
-        "id": "CapsLock",
-        "text": "κεφαλαία"
-    },
-    {
-        "source": "Scroll Lock",
-        "description": "",
-        "id": "ScrollLock",
-        "text": "Κλείδωμα κύλισης"
-    },
-    {
-        "source": "Num Lock",
-        "description": "",
-        "id": "NumLock",
-        "text": "Num Lock"
-    },
-    {
-        "source": "Print Screen",
-        "description": "",
-        "id": "PrintScreen",
-        "text": "Οθόνη εκτύπωσης"
-    },
-    {
-        "source": "F1",
-        "description": "",
-        "id": "F1",
-        "text": "F1"
-    },
-    {
-        "source": "F2",
-        "description": "",
-        "id": "F2",
-        "text": "F2"
-    },
-    {
-        "source": "F3",
-        "description": "",
-        "id": "F3",
-        "text": "F3"
-    },
-    {
-        "source": "F4",
-        "description": "",
-        "id": "F4",
-        "text": "F4"
-    },
-    {
-        "source": "F5",
-        "description": "",
-        "id": "F5",
-        "text": "F5"
-    },
-    {
-        "source": "F6",
-        "description": "",
-        "id": "F6",
-        "text": "F6"
-    },
-    {
-        "source": "F7",
-        "description": "",
-        "id": "F7",
-        "text": "F7"
-    },
-    {
-        "source": "F8",
-        "description": "",
-        "id": "F8",
-        "text": "F8"
-    },
-    {
-        "source": "F9",
-        "description": "",
-        "id": "F9",
-        "text": "F9"
-    },
-    {
-        "source": "F10",
-        "description": "",
-        "id": "F10",
-        "text": "F10"
-    },
-    {
-        "source": "F11",
-        "description": "",
-        "id": "F11",
-        "text": "F11"
-    },
-    {
-        "source": "F12",
-        "description": "",
-        "id": "F12",
-        "text": "F12"
-    },
-    {
-        "source": "F13",
-        "description": "",
-        "id": "F13",
-        "text": "F13"
-    },
-    {
-        "source": "F14",
-        "description": "",
-        "id": "F14",
-        "text": "F14"
-    },
-    {
-        "source": "F15",
-        "description": "",
-        "id": "F15",
-        "text": "F15"
-    },
-    {
-        "source": "F16",
-        "description": "",
-        "id": "F16",
-        "text": "F16"
-    },
-    {
-        "source": "F17",
-        "description": "",
-        "id": "F17",
-        "text": "F17"
-    },
-    {
-        "source": "F18",
-        "description": "",
-        "id": "F18",
-        "text": "F18"
-    },
-    {
-        "source": "F19",
-        "description": "",
-        "id": "F19",
-        "text": "F19"
-    },
-    {
-        "source": "F20",
-        "description": "",
-        "id": "F20",
-        "text": "F20"
-    },
-    {
-        "source": "F21",
-        "description": "",
-        "id": "F21",
-        "text": "F21"
-    },
-    {
-        "source": "F22",
-        "description": "",
-        "id": "F22",
-        "text": "F22"
-    },
-    {
-        "source": "F23",
-        "description": "",
-        "id": "F23",
-        "text": "F23"
-    },
-    {
-        "source": "F24",
-        "description": "",
-        "id": "F24",
-        "text": "F24"
-    },
-    {
-        "source": "F25",
-        "description": "",
-        "id": "F25",
-        "text": "F25"
-    },
-    {
-        "source": "Key Pad 0",
-        "description": "",
-        "id": "KeyPad0",
-        "text": "Πληκτρολόγιο 0"
-    },
-    {
-        "source": "Key Pad 1",
-        "description": "",
-        "id": "KeyPad1",
-        "text": "Πληκτρολόγιο 1"
-    },
-    {
-        "source": "Key Pad 2",
-        "description": "",
-        "id": "KeyPad2",
-        "text": "Πληκτρολόγιο 2"
-    },
-    {
-        "source": "Key Pad 3",
-        "description": "",
-        "id": "KeyPad3",
-        "text": "Πληκτρολόγιο 3"
-    },
-    {
-        "source": "Key Pad 4",
-        "description": "",
-        "id": "KeyPad4",
-        "text": "Πληκτρολόγιο 4"
-    },
-    {
-        "source": "Key Pad 5",
-        "description": "",
-        "id": "KeyPad5",
-        "text": "Πληκτρολόγιο 5"
-    },
-    {
-        "source": "Key Pad 6",
-        "description": "",
-        "id": "KeyPad6",
-        "text": "Πληκτρολόγιο 6"
-    },
-    {
-        "source": "Key Pad 7",
-        "description": "",
-        "id": "KeyPad7",
-        "text": "Πληκτρολόγιο 7"
-    },
-    {
-        "source": "Key Pad 8",
-        "description": "",
-        "id": "KeyPad8",
-        "text": "Πληκτρολόγιο 8"
-    },
-    {
-        "source": "Key Pad 9",
-        "description": "",
-        "id": "KeyPad9",
-        "text": "Πληκτρολόγιο 9"
-    },
-    {
-        "source": "Key Pad Decimal",
-        "description": "",
-        "id": "KeyPadDecimal",
-        "text": "Δεκαδικό ψηφιακό πληκτρολόγιο"
-    },
-    {
-        "source": "Key Pad Divide",
-        "description": "",
-        "id": "KeyPadDivide",
-        "text": "Διαχωρισμός πληκτρολογίου"
-    },
-    {
-        "source": "Key Pad Multiply",
-        "description": "",
-        "id": "KeyPadMultiply",
-        "text": "Πληκτρολόγιο Πολλαπλασιασμός"
-    },
-    {
-        "source": "Key Pad Substract",
-        "description": "",
-        "id": "KeyPadSubstract",
-        "text": "Υποβάθμιση πληκτρολογίου"
-    },
-    {
-        "source": "Key Pad Add",
-        "description": "",
-        "id": "KeyPadAdd",
-        "text": "Προσθήκη πληκτρολογίου"
-    },
-    {
-        "source": "Key Pad Enter",
-        "description": "",
-        "id": "KeyPadEnter",
-        "text": "Πληκτρολογείστε πληκτρολόγιο"
-    },
-    {
-        "source": "Key Pad Equal",
-        "description": "",
-        "id": "KeyPadEqual",
-        "text": "Key Pad Equal"
-    },
-    {
-        "source": "Left Shift",
-        "description": "",
-        "id": "LeftShift",
-        "text": "Αριστερή μετατόπιση"
-    },
-    {
-        "source": "Left Control",
-        "description": "",
-        "id": "LeftControl",
-        "text": "Αριστερός έλεγχος"
-    },
-    {
-        "source": "Left Alt",
-        "description": "",
-        "id": "LeftAlt",
-        "text": "Αριστερά Alt"
-    },
-    {
-        "source": "Left Command",
-        "description": "",
-        "id": "LeftCommand",
-        "text": "Αριστερά εντολή"
-    },
-    {
-        "source": "Right Shift",
-        "description": "",
-        "id": "RightShift",
-        "text": "Δεξιά μετατόπιση"
-    },
-    {
-        "source": "Right Control",
-        "description": "",
-        "id": "RightControl",
-        "text": "Δεξί έλεγχος"
-    },
-    {
-        "source": "Right Alt",
-        "description": "",
-        "id": "RightAlt",
-        "text": "Δεξιά Alt"
-    },
-    {
-        "source": "Right Command",
-        "description": "",
-        "id": "RightCommand",
-        "text": "Δεξιά εντολή"
-    },
-    {
-        "source": "Shift",
-        "description": "",
-        "id": "Shift",
-        "text": "Βάρδια"
-    },
-    {
-        "source": "Ctrl",
-        "description": "",
-        "id": "Ctrl",
-        "text": "Ctrl"
-    },
-    {
-        "source": "Alt",
-        "description": "",
-        "id": "Alt",
-        "text": "πάντα"
-    },
-    {
-        "source": "Command",
-        "description": "",
-        "id": "Command",
-        "text": "Εντολή"
-    },
-    {
-        "source": "Cached",
-        "description": "",
-        "id": "Cached",
-        "text": "Αποθηκεύεται προσωρινά"
-    },
-    {
-        "source": "Scrub",
-        "description": "",
-        "id": "Scrub",
-        "text": "Σφουγγάρισμα"
-    },
-    {
-        "source": "Keyboard shortcut",
-        "description": "",
-        "id": "Keyboard shortcut",
-        "text": "Συντόμευση πληκτρολογίου"
-    },
-    {
-        "source": "Keyboard shortcuts",
-        "description": "",
-        "id": "Keyboard shortcuts",
-        "text": "Συντομεύσεις πληκτρολογίου"
-    },
-    {
-        "source": "IconMini",
-        "text": "IconMini",
-        "id": "IconMini",
-        "description": ""
-    },
-    {
-        "source": "SwatchSmall",
-        "text": "SwatchSmall",
-        "id": "SwatchSmall",
-        "description": ""
-    },
-    {
-        "source": "ScrollBar",
-        "text": "Γραμμή κύλισης",
-        "id": "ScrollBar",
-        "description": ""
-    },
-    {
-        "source": "ScrollBarSmall",
-        "text": "ScrollBarSmall",
-        "id": "ScrollBarSmall",
-        "description": ""
-    },
-    {
-        "source": "Native",
-        "text": "Ντόπιος",
-        "id": "Native",
-        "description": ""
-    },
-    {
-        "source": "16:9",
-        "text": "16: 9",
-        "id": "16:9",
-        "description": ""
-    },
-    {
-        "source": "1.85",
-        "text": "1.85",
-        "id": "1.85",
-        "description": ""
-    },
-    {
-        "source": "2.35",
-        "text": "2.35",
-        "id": "2.35",
-        "description": ""
-    },
-    {
-        "source": "Reset the value.",
-        "text": "Επαναφέρετε την τιμή.",
-        "id": "Reset the value.",
-        "description": ""
-    },
-    {
-        "source": "BelowRight",
-        "text": "BelowRight",
-        "description": "",
-        "id": "BelowRight"
-    },
-    {
-        "source": "BelowLeft",
-        "text": "BelowLeft",
-        "description": "",
-        "id": "BelowLeft"
-    },
-    {
-        "source": "AboveRight",
-        "text": "πάνω δεξιά",
-        "description": "",
-        "id": "AboveRight"
-    },
-    {
-        "source": "AboveLeft",
-        "text": "AboveLeft",
-        "description": "",
-        "id": "AboveLeft"
-    }
-]
+{
+    "error_cannot_parse_the_value": "Δεν είναι δυνατή η ανάλυση της τιμής.",
+    "key_0": "0",
+    "key_1": "1",
+    "key_2": "2",
+    "key_3": "3",
+    "key_4": "4",
+    "key_5": "5",
+    "key_6": "6",
+    "key_7": "7",
+    "key_8": "8",
+    "key_9": "9",
+    "key_a": "A",
+    "key_alt": "πάντα",
+    "key_apostrophe": "Απόστροφος",
+    "key_b": "B",
+    "key_backslash": "Αντίστροφη κάθετο",
+    "key_backspace": "Backspace",
+    "key_c": "C",
+    "key_capslock": "κεφαλαία",
+    "key_comma": "κόμμα",
+    "key_command": "Εντολή",
+    "key_ctrl": "Ctrl",
+    "key_d": "D",
+    "key_delete": "Διαγράφω",
+    "key_downarrow": "Κάτω βελάκι",
+    "key_e": "E",
+    "key_end": "Τέλος",
+    "key_enter": "Εισαγω",
+    "key_equal": "Ισος",
+    "key_escape": "Διαφυγή",
+    "key_f": "F",
+    "key_f1": "F1",
+    "key_f10": "F10",
+    "key_f11": "F11",
+    "key_f12": "F12",
+    "key_f13": "F13",
+    "key_f14": "F14",
+    "key_f15": "F15",
+    "key_f16": "F16",
+    "key_f17": "F17",
+    "key_f18": "F18",
+    "key_f19": "F19",
+    "key_f2": "F2",
+    "key_f20": "F20",
+    "key_f21": "F21",
+    "key_f22": "F22",
+    "key_f23": "F23",
+    "key_f24": "F24",
+    "key_f25": "F25",
+    "key_f3": "F3",
+    "key_f4": "F4",
+    "key_f5": "F5",
+    "key_f6": "F6",
+    "key_f7": "F7",
+    "key_f8": "F8",
+    "key_f9": "F9",
+    "key_g": "G",
+    "key_graveaccent": "Μεγάλη έμφαση",
+    "key_h": "H",
+    "key_home": "Σπίτι",
+    "key_i": "I",
+    "key_insert": "Εισάγετε",
+    "key_j": "J",
+    "key_k": "Κ",
+    "key_keypad0": "Πληκτρολόγιο 0",
+    "key_keypad1": "Πληκτρολόγιο 1",
+    "key_keypad2": "Πληκτρολόγιο 2",
+    "key_keypad3": "Πληκτρολόγιο 3",
+    "key_keypad4": "Πληκτρολόγιο 4",
+    "key_keypad5": "Πληκτρολόγιο 5",
+    "key_keypad6": "Πληκτρολόγιο 6",
+    "key_keypad7": "Πληκτρολόγιο 7",
+    "key_keypad8": "Πληκτρολόγιο 8",
+    "key_keypad9": "Πληκτρολόγιο 9",
+    "key_keypadadd": "Προσθήκη πληκτρολογίου",
+    "key_keypaddecimal": "Δεκαδικό ψηφιακό πληκτρολόγιο",
+    "key_keypaddivide": "Διαχωρισμός πληκτρολογίου",
+    "key_keypadenter": "Πληκτρολογείστε πληκτρολόγιο",
+    "key_keypadequal": "Key Pad Equal",
+    "key_keypadmultiply": "Πληκτρολόγιο Πολλαπλασιασμός",
+    "key_keypadsubstract": "Υποβάθμιση πληκτρολογίου",
+    "key_l": "L",
+    "key_leftalt": "Αριστερά Alt",
+    "key_leftarrow": "Αριστερό βέλος",
+    "key_leftbracket": "Αριστερό βραχίονα",
+    "key_leftcommand": "Αριστερά εντολή",
+    "key_leftcontrol": "Αριστερός έλεγχος",
+    "key_leftshift": "Αριστερή μετατόπιση",
+    "key_m": "Μ",
+    "key_menu": "Μενού",
+    "key_minus": "Μείον",
+    "key_n": "Ν",
+    "key_numlock": "Num Lock",
+    "key_o": "O",
+    "key_p": "P",
+    "key_pagedown": "Σελίδα προς τα κάτω",
+    "key_pageup": "Σελίδα προς τα πάνω",
+    "key_period": "Περίοδος",
+    "key_printscreen": "Οθόνη εκτύπωσης",
+    "key_q": "Q",
+    "key_r": "R",
+    "key_rightalt": "Δεξιά Alt",
+    "key_rightarrow": "Δεξί βέλος",
+    "key_rightbracket": "Δεξιά βάση",
+    "key_rightcommand": "Δεξιά εντολή",
+    "key_rightcontrol": "Δεξί έλεγχος",
+    "key_rightshift": "Δεξιά μετατόπιση",
+    "key_s": "S",
+    "key_scrolllock": "Κλείδωμα κύλισης",
+    "key_semicolon": "Ανω τελεία",
+    "key_shift": "Βάρδια",
+    "key_slash": "Εγκοπή",
+    "key_space": "Χώρος",
+    "key_t": "Τ",
+    "key_tab": "Αυτί",
+    "key_u": "U",
+    "key_uparrow": "Επάνω βέλος",
+    "key_v": "V",
+    "key_w": "W",
+    "key_world1": "Κόσμος 1",
+    "key_world2": "Κόσμος 2",
+    "key_x": "Χ",
+    "key_y": "Y",
+    "key_z": "Z",
+    "keyboard_shortcut": "Συντόμευση πληκτρολογίου",
+    "keyboard_shortcuts": "Συντομεύσεις πληκτρολογίου",
+    "layout_grid_stretch_both": "Και τα δυο",
+    "layout_grid_stretch_horizontal": "Οριζόντιος",
+    "layout_grid_stretch_none": "Κανένας",
+    "layout_grid_stretch_vertical": "Κατακόρυφος",
+    "layout_row_stretch_expand": "Επεκτείνουν",
+    "layout_row_stretch_none": "Κανένας",
+    "popup_above_left": "AboveLeft",
+    "popup_above_right": "πάνω δεξιά",
+    "popup_below_left": "BelowLeft",
+    "popup_below_right": "BelowRight",
+    "reset_the_value": "Επαναφέρετε την τιμή.",
+    "style_font_default": "Προκαθορισμένο",
+    "style_metrics_extra_large": "Πολύ μεγάλο",
+    "style_metrics_large": "Μεγάλο",
+    "style_metrics_medium": "Μεσαίο",
+    "style_metrics_small": "Μικρό",
+    "style_palette_dark": "Σκοτάδι",
+    "ui_image_rotate_0": "0°",
+    "ui_image_rotate_180": "180°",
+    "ui_image_rotate_270": "270°",
+    "ui_image_rotate_90": "90°",
+    "ui_aspect_ratio_16_9": "16:9",
+    "ui_aspect_ratio_1_85": "1.85:1",
+    "ui_aspect_ratio_2_35": "2.35:1",
+    "ui_aspect_ratio_2_39": "2.39:1",
+    "ui_aspect_ratio_from_source": "Από την πηγή",
+    "ui_aspect_ratio_unscaled": "Απεικονισμένο",
+    "ui_button_type_exclusive": "Αποκλειστικός",
+    "ui_button_type_push": "Σπρώξτε",
+    "ui_button_type_radio": "Ραδιόφωνο",
+    "ui_button_type_toggle": "Μεταβάλλω",
+    "ui_color_role_background": "Ιστορικό",
+    "ui_color_role_background_bellows": "Ιστορικό Μπάλες",
+    "ui_color_role_background_header": "Κεφαλίδα φόντου",
+    "ui_color_role_background_tool_bar": "BackgroundBar Toolbar",
+    "ui_color_role_border": "Σύνορο",
+    "ui_color_role_border_button": "Border_button",
+    "ui_color_role_button": "Κουμπί",
+    "ui_color_role_cached": "Αποθηκεύεται προσωρινά",
+    "ui_color_role_checked": "Τετραγωνισμένος",
+    "ui_color_role_foreground": "Σε πρώτο πλάνο",
+    "ui_color_role_foreground_dim": "Νέο μέτωπο Dim",
+    "ui_color_role_handle": "Λαβή",
+    "ui_color_role_hovered": "Καλύπτεται",
+    "ui_color_role_none": "Κανένας",
+    "ui_color_role_overlay": "Επικάλυμμα",
+    "ui_color_role_overlay_light": "Φως επικάλυψης",
+    "ui_color_role_pressed": "Πατημένο",
+    "ui_color_role_shadow": "Σκιά",
+    "ui_color_role_text_focus": "Κείμενο Focus",
+    "ui_color_role_tooltip_background": "Υπόβαθρο εργαλείου",
+    "ui_color_role_tooltip_foreground": "Προειδοποίηση εργαλείου",
+    "ui_color_role_trough": "Σκάφη",
+    "ui_expand_both": "Και τα δυο",
+    "ui_expand_horizontal": "Οριζόντιος",
+    "ui_expand_none": "Κανένας",
+    "ui_expand_vertical": "Κατακόρυφος",
+    "ui_h_align_center": "Κέντρο",
+    "ui_h_align_fill": "Γέμισμα",
+    "ui_h_align_left": "Αριστερά",
+    "ui_h_align_right": "σωστά",
+    "ui_metrics_role_border": "Σύνορο",
+    "ui_metrics_role_dialog": "Διάλογος",
+    "ui_metrics_role_drag": "Σέρνω",
+    "ui_metrics_role_font_header": "Κεφαλίδα γραμματοσειράς",
+    "ui_metrics_role_font_large": "Μεγάλες γραμματοσειρές",
+    "ui_metrics_role_font_medium": "Μέσο γραμματοσειράς",
+    "ui_metrics_role_font_small": "Μικρή γραμματοσειρά",
+    "ui_metrics_role_font_title": "Τίτλος γραμματοσειράς",
+    "ui_metrics_role_handle": "Λαβή",
+    "ui_metrics_role_icon": "Εικόνισμα",
+    "ui_metrics_role_icon_mini": "Εικονίδιο Μίνι",
+    "ui_metrics_role_icon_small": "Εικονίδιο Μικρό",
+    "ui_metrics_role_margin": "Περιθώριο",
+    "ui_metrics_role_margin_dialog": "Διάλογος περιθωρίου",
+    "ui_metrics_role_margin_large": "Περιθώριο μεγάλο",
+    "ui_metrics_role_margin_small": "Περιθώριο μικρό",
+    "ui_metrics_role_menu": "Μενού",
+    "ui_metrics_role_move": "Κίνηση",
+    "ui_metrics_role_none": "Κανένας",
+    "ui_metrics_role_scroll_area": "Περιοχή κύλισης",
+    "ui_metrics_role_scroll_bar": "Γραμμή κύλισης",
+    "ui_metrics_role_scroll_bar_small": "ScrollBarSmall",
+    "ui_metrics_role_scrub": "Σφουγγάρισμα",
+    "ui_metrics_role_search_box": "Κουτί αναζήτησης",
+    "ui_metrics_role_shadow": "Σκιά",
+    "ui_metrics_role_shadow_small": "Σκιά Μικρή",
+    "ui_metrics_role_slider": "Ολισθητής",
+    "ui_metrics_role_spacing": "Διαχωρισμός",
+    "ui_metrics_role_spacing_large": "Μεγάλο",
+    "ui_metrics_role_spacing_small": "Μικρό",
+    "ui_metrics_role_swatch": "Δείγμα υφάσματος",
+    "ui_metrics_role_swatch_small": "SwatchSmall",
+    "ui_metrics_role_text_column": "Κώδικας κειμένου",
+    "ui_metrics_role_text_column_large": "Μεγάλη στήλη κειμένου",
+    "ui_metrics_role_tooltip_offset": "Εξέλιξη εργαλείου",
+    "ui_orientation_horizontal": "Οριζόντιος",
+    "ui_orientation_vertical": "Κατακόρυφος",
+    "ui_scroll_type_both": "Και τα δυο",
+    "ui_scroll_type_horizontal": "Οριζόντιος",
+    "ui_scroll_type_vertical": "Κατακόρυφος",
+    "ui_selection_type_multiple": "Πολλαπλούς",
+    "ui_selection_type_none": "Κανένας",
+    "ui_selection_type_radio": "Ραδιόφωνο",
+    "ui_selection_type_single": "Μονόκλινο",
+    "ui_side_bottom": "Κάτω μέρος",
+    "ui_side_left": "Αριστερά",
+    "ui_side_right": "σωστά",
+    "ui_side_top": "Μπλουζα",
+    "ui_sort_order_forward": "Προς τα εμπρός",
+    "ui_sort_order_reverse": "ΑΝΤΙΣΤΡΟΦΗ",
+    "ui_text_v_align_baseline": "Βασική γραμμή",
+    "ui_text_v_align_bottom": "Κάτω μέρος",
+    "ui_text_v_align_center": "Κέντρο",
+    "ui_text_v_align_left": "Αριστερά",
+    "ui_text_v_align_right": "σωστά",
+    "ui_text_v_align_top": "Μπλουζα",
+    "ui_v_align_bottom": "Κάτω μέρος",
+    "ui_v_align_center": "Κέντρο",
+    "ui_v_align_fill": "Γέμισμα",
+    "ui_v_align_top": "Μπλουζα",
+    "ui_view_type_list": "Λίστα",
+    "ui_view_type_tiles": "Πλακάκια"
+}

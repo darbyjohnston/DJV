@@ -190,12 +190,12 @@ namespace djv
 
         std::string SizeSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("Size");
+            return DJV_TEXT("settings_general_section_size");
         }
 
         std::string SizeSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("General");
+            return DJV_TEXT("settings_title_general");
         }
 
         std::string SizeSettingsWidget::getSettingsSortKey() const

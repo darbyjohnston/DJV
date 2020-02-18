@@ -96,7 +96,7 @@ namespace djv
 
             std::shared_ptr<Core::IValueSubject<glm::vec2> > observeImagePos() const;
             std::shared_ptr<Core::IValueSubject<float> > observeImageZoom() const;
-            std::shared_ptr<Core::IValueSubject<ImageRotate> > observeImageRotate() const;
+            std::shared_ptr<Core::IValueSubject<UI::ImageRotate> > observeImageRotate() const;
             std::shared_ptr<Core::IValueSubject<UI::ImageAspectRatio> > observeImageAspectRatio() const;
             Core::BBox2f getImageBBox() const;
             void setImagePos(const glm::vec2&, bool animate = false);
@@ -104,7 +104,7 @@ namespace djv
             void setImageZoomFocus(float, const glm::vec2&, bool animate = false);
             void setImageZoomFocus(float, bool animate = false);
             void setImagePosAndZoom(const glm::vec2&, float, bool animate = false);
-            void setImageRotate(ImageRotate);
+            void setImageRotate(UI::ImageRotate);
             void setImageAspectRatio(UI::ImageAspectRatio);
 
             void imageFill(bool animate = false);

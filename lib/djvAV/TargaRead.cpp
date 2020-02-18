@@ -188,7 +188,7 @@ namespace djv
                                 channels);
                             if (!p)
                             {
-                                throw FileSystem::Error(DJV_TEXT("Read error."));
+                                throw FileSystem::Error(DJV_TEXT("error_read"));
                             }
                         }
                     }
@@ -282,7 +282,7 @@ namespace djv
                         case 0:
                         case 8: break;
                         default:
-                            throw FileSystem::Error(DJV_TEXT("File not supported."));
+                            throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
                         }
                         switch (_data.imageType)
                         {
@@ -314,12 +314,12 @@ namespace djv
                         }
                         if (Image::Type::None == info.type)
                         {
-                            throw FileSystem::Error(DJV_TEXT("File not supported."));
+                            throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
                         }
                         const int bits = _data.pixelBits + alphaBits;
                         if (bits < (Image::getChannelCount(info.type) * 8) || (bits % 8) != 0)
                         {
-                            throw FileSystem::Error(DJV_TEXT("File not supported."));
+                            throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
                         }
                         compression =
                             10 == _data.imageType ||

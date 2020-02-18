@@ -72,7 +72,7 @@ namespace djv
                 void setImageOptions(const AV::Render2D::ImageOptions&);
                 void setImagePos(const glm::vec2&);
                 void setImageZoom(float);
-                void setImageRotate(ImageRotate);
+                void setImageRotate(UI::ImageRotate);
                 void setImageAspectRatio(UI::ImageAspectRatio);
                 void setBackgroundColor(const AV::Image::Color&);
                 void setMagnify(int);
@@ -87,7 +87,7 @@ namespace djv
                 AV::Render2D::ImageOptions _imageOptions;
                 glm::vec2 _imagePos = glm::vec2(0.F, 0.F);
                 float _imageZoom = 0.F;
-                ImageRotate _imageRotate = ImageRotate::First;
+                UI::ImageRotate _imageRotate = UI::ImageRotate::First;
                 UI::ImageAspectRatio _imageAspectRatio = UI::ImageAspectRatio::First;
                 AV::OCIO::Config _ocioConfig;
                 std::string _outputColorSpace;
@@ -166,7 +166,7 @@ namespace djv
                 _redraw();
             }
 
-            void ImageWidget::setImageRotate(ImageRotate value)
+            void ImageWidget::setImageRotate(UI::ImageRotate value)
             {
                 if (value == _imageRotate)
                     return;
@@ -229,7 +229,7 @@ namespace djv
                     glm::mat3x3 m(1.F);
                     m = glm::translate(m, glm::vec2(g.w() / 2.F, g.h() / 2.F) - glm::vec2(_magnifyPos.x * magnify, _magnifyPos.y * magnify));
                     m = glm::translate(m, g.min + glm::vec2(_imagePos.x * magnify, _imagePos.y * magnify));
-                    m = glm::rotate(m, Math::deg2rad(getImageRotate(_imageRotate)));
+                    m = glm::rotate(m, Math::deg2rad(UI::getImageRotate(_imageRotate)));
                     m = glm::scale(m, glm::vec2(
                         _imageZoom * UI::getPixelAspectRatio(_imageAspectRatio, _image->getInfo().pixelAspectRatio) * magnify,
                         _imageZoom * UI::getAspectRatioScale(_imageAspectRatio, _image->getAspectRatio()) * magnify));
@@ -274,7 +274,7 @@ namespace djv
             std::shared_ptr<ValueObserver<AV::Render2D::ImageOptions> > imageOptionsObserver;
             std::shared_ptr<ValueObserver<glm::vec2> > imagePosObserver;
             std::shared_ptr<ValueObserver<float> > imageZoomObserver;
-            std::shared_ptr<ValueObserver<ImageRotate> > imageRotateObserver;
+            std::shared_ptr<ValueObserver<UI::ImageRotate> > imageRotateObserver;
             std::shared_ptr<ValueObserver<UI::ImageAspectRatio> > imageAspectRatioObserver;
             std::shared_ptr<ValueObserver<AV::Image::Color> > backgroundColorObserver;
             std::shared_ptr<ValueObserver<PointerData> > dragObserver;
@@ -366,9 +366,9 @@ namespace djv
                                         }
                                     });
 
-                                widget->_p->imageRotateObserver = ValueObserver<ImageRotate>::create(
+                                widget->_p->imageRotateObserver = ValueObserver<UI::ImageRotate>::create(
                                     widget->_p->activeWidget->getImageView()->observeImageRotate(),
-                                    [weak](ImageRotate value)
+                                    [weak](UI::ImageRotate value)
                                     {
                                         if (auto widget = weak.lock())
                                         {
@@ -480,9 +480,9 @@ namespace djv
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
 
-            setTitle(_getText(DJV_TEXT("Magnify")));
+            setTitle(_getText(DJV_TEXT("widget_magnify_title")));
 
-            p.magnifySlider->setTooltip(_getText(DJV_TEXT("Magnify slider tooltip")));
+            p.magnifySlider->setTooltip(_getText(DJV_TEXT("widget_magnify_slider_tooltip")));
         }
 
         void MagnifyWidget::_widgetUpdate()

@@ -1,1292 +1,251 @@
-[
-    {
-        "source": "Cannot parse the value.",
-        "description": "",
-        "id": "Cannot parse the value.",
-        "text": "値を解析できません。"
-    },
-    {
-        "source": "Horizontal",
-        "description": "",
-        "id": "Horizontal",
-        "text": "水平"
-    },
-    {
-        "source": "Vertical",
-        "description": "",
-        "id": "Vertical",
-        "text": "垂直"
-    },
-    {
-        "source": "Left",
-        "description": "",
-        "id": "Left",
-        "text": "左"
-    },
-    {
-        "source": "Top",
-        "description": "",
-        "id": "Top",
-        "text": "上"
-    },
-    {
-        "source": "Right",
-        "description": "",
-        "id": "Right",
-        "text": "右"
-    },
-    {
-        "source": "Bottom",
-        "description": "",
-        "id": "Bottom",
-        "text": "底"
-    },
-    {
-        "source": "None",
-        "description": "",
-        "id": "None",
-        "text": "無し"
-    },
-    {
-        "source": "Both",
-        "description": "",
-        "id": "Both",
-        "text": "両方"
-    },
-    {
-        "source": "Center",
-        "description": "",
-        "id": "Center",
-        "text": "センター"
-    },
-    {
-        "source": "Fill",
-        "description": "",
-        "id": "Fill",
-        "text": "塗りつぶし"
-    },
-    {
-        "source": "Baseline",
-        "description": "",
-        "id": "Baseline",
-        "text": "ベースライン"
-    },
-    {
-        "source": "Single",
-        "description": "",
-        "id": "Single",
-        "text": "シングル"
-    },
-    {
-        "source": "Radio",
-        "description": "",
-        "id": "Radio",
-        "text": "無線"
-    },
-    {
-        "source": "Multiple",
-        "description": "",
-        "id": "Multiple",
-        "text": "複数"
-    },
-    {
-        "source": "Forward",
-        "description": "",
-        "id": "Forward",
-        "text": "進む"
-    },
-    {
-        "source": "Reverse",
-        "description": "",
-        "id": "Reverse",
-        "text": "逆"
-    },
-    {
-        "source": "Push",
-        "description": "",
-        "id": "Push",
-        "text": "押す"
-    },
-    {
-        "source": "Toggle",
-        "description": "",
-        "id": "Toggle",
-        "text": "トグル"
-    },
-    {
-        "source": "Exclusive",
-        "description": "",
-        "id": "Exclusive",
-        "text": "独占"
-    },
-    {
-        "source": "Tiles",
-        "description": "",
-        "id": "Tiles",
-        "text": "タイル"
-    },
-    {
-        "source": "List",
-        "description": "",
-        "id": "List",
-        "text": "リスト"
-    },
-    {
-        "source": "Background",
-        "description": "",
-        "id": "Background",
-        "text": "バックグラウンド"
-    },
-    {
-        "source": "Background Header",
-        "description": "",
-        "id": "BackgroundHeader",
-        "text": "バックグラウンドヘッダ"
-    },
-    {
-        "source": "Background Bellows",
-        "description": "",
-        "id": "BackgroundBellows",
-        "text": "バックグラウンドベローズ"
-    },
-    {
-        "source": "Background ToolBar",
-        "description": "",
-        "id": "BackgroundToolBar",
-        "text": "背景ツールバー"
-    },
-    {
-        "source": "Foreground",
-        "description": "",
-        "id": "Foreground",
-        "text": "前景"
-    },
-    {
-        "source": "Foreground Dim",
-        "description": "",
-        "id": "ForegroundDim",
-        "text": "前景の暗さ"
-    },
-    {
-        "source": "Border",
-        "description": "",
-        "id": "Border",
-        "text": "境界"
-    },
-    {
-        "source": "Border Button",
-        "description": "",
-        "id": "BorderButton",
-        "text": "枠ボタン"
-    },
-    {
-        "source": "Trough",
-        "description": "",
-        "id": "Trough",
-        "text": "トラフ"
-    },
-    {
-        "source": "Button",
-        "description": "",
-        "id": "Button",
-        "text": "ボタン"
-    },
-    {
-        "source": "Hovered",
-        "description": "",
-        "id": "Hovered",
-        "text": "ホバー"
-    },
-    {
-        "source": "Pressed",
-        "description": "",
-        "id": "Pressed",
-        "text": "押された"
-    },
-    {
-        "source": "Checked",
-        "description": "",
-        "id": "Checked",
-        "text": "チェックあり"
-    },
-    {
-        "source": "Text Focus",
-        "description": "",
-        "id": "TextFocus",
-        "text": "テキストフォーカス"
-    },
-    {
-        "source": "Tooltip Background",
-        "description": "",
-        "id": "TooltipBackground",
-        "text": "ツールチップの背景"
-    },
-    {
-        "source": "Tooltip Foreground",
-        "description": "",
-        "id": "TooltipForeground",
-        "text": "ツールチップ前景"
-    },
-    {
-        "source": "Overlay",
-        "description": "",
-        "id": "Overlay",
-        "text": "オーバーレイ"
-    },
-    {
-        "source": "Overlay Light",
-        "description": "",
-        "id": "OverlayLight",
-        "text": "オーバーレイライト"
-    },
-    {
-        "source": "Shadow",
-        "description": "",
-        "id": "Shadow",
-        "text": "影"
-    },
-    {
-        "source": "Handle",
-        "description": "",
-        "id": "Handle",
-        "text": "ハンドル"
-    },
-    {
-        "source": "Margin",
-        "description": "",
-        "id": "Margin",
-        "text": "マージン"
-    },
-    {
-        "source": "Margin Small",
-        "description": "",
-        "id": "MarginSmall",
-        "text": "マージン小"
-    },
-    {
-        "source": "Margin Large",
-        "description": "",
-        "id": "MarginLarge",
-        "text": "マージン大"
-    },
-    {
-        "source": "Margin Dialog",
-        "description": "",
-        "id": "MarginDialog",
-        "text": "マージンダイアログ"
-    },
-    {
-        "source": "Spacing",
-        "description": "",
-        "id": "Spacing",
-        "text": "間隔"
-    },
-    {
-        "source": "Spacing Small",
-        "description": "",
-        "id": "SpacingSmall",
-        "text": "スペーシングスモール"
-    },
-    {
-        "source": "Spacing Large",
-        "description": "",
-        "id": "SpacingLarge",
-        "text": "大きい間隔"
-    },
-    {
-        "source": "Drag",
-        "description": "",
-        "id": "Drag",
-        "text": "ドラッグ"
-    },
-    {
-        "source": "Icon",
-        "description": "",
-        "id": "Icon",
-        "text": "アイコン"
-    },
-    {
-        "source": "Icon Small",
-        "description": "",
-        "id": "IconSmall",
-        "text": "アイコン小"
-    },
-    {
-        "source": "Font Small",
-        "description": "",
-        "id": "FontSmall",
-        "text": "小さいフォント"
-    },
-    {
-        "source": "Font Medium",
-        "description": "",
-        "id": "FontMedium",
-        "text": "フォント媒体"
-    },
-    {
-        "source": "Font Large",
-        "description": "",
-        "id": "FontLarge",
-        "text": "フォント大"
-    },
-    {
-        "source": "Font Header",
-        "description": "",
-        "id": "FontHeader",
-        "text": "フォントヘッダ"
-    },
-    {
-        "source": "Font Title",
-        "description": "",
-        "id": "FontTitle",
-        "text": "フォントのタイトル"
-    },
-    {
-        "source": "Swatch",
-        "description": "",
-        "id": "Swatch",
-        "text": "見本"
-    },
-    {
-        "source": "Slider",
-        "description": "",
-        "id": "Slider",
-        "text": "スライダー"
-    },
-    {
-        "source": "Scroll Area",
-        "description": "",
-        "id": "ScrollArea",
-        "text": "スクロール領域"
-    },
-    {
-        "source": "Menu",
-        "description": "",
-        "id": "Menu",
-        "text": "メニュー"
-    },
-    {
-        "source": "Text Column",
-        "description": "",
-        "id": "TextColumn",
-        "text": "テキスト列"
-    },
-    {
-        "source": "Text Column Large",
-        "description": "",
-        "id": "TextColumnLarge",
-        "text": "テキスト列大"
-    },
-    {
-        "source": "Search Box",
-        "description": "",
-        "id": "SearchBox",
-        "text": "検索ボックス"
-    },
-    {
-        "source": "Dialog",
-        "description": "",
-        "id": "Dialog",
-        "text": "ダイアログ"
-    },
-    {
-        "source": "Shadow Small",
-        "description": "",
-        "id": "ShadowSmall",
-        "text": "シャドースモール"
-    },
-    {
-        "source": "Tooltip Offset",
-        "description": "",
-        "id": "TooltipOffset",
-        "text": "ツールチップオフセット"
-    },
-    {
-        "source": "Move",
-        "description": "",
-        "id": "Move",
-        "text": "移動する"
-    },
-    {
-        "source": "Dark",
-        "description": "",
-        "id": "Dark",
-        "text": "ダーク"
-    },
-    {
-        "source": "Light",
-        "description": "",
-        "id": "Light",
-        "text": "光"
-    },
-    {
-        "source": "Medium",
-        "description": "",
-        "id": "Medium",
-        "text": "中"
-    },
-    {
-        "source": "Small",
-        "description": "",
-        "id": "Small",
-        "text": "小さい"
-    },
-    {
-        "source": "Large",
-        "description": "",
-        "id": "Large",
-        "text": "大"
-    },
-    {
-        "source": "Extra Large",
-        "description": "",
-        "id": "ExtraLarge",
-        "text": "特大"
-    },
-    {
-        "source": "Default",
-        "description": "",
-        "id": "Default",
-        "text": "デフォルト"
-    },
-    {
-        "source": "Expand",
-        "description": "",
-        "id": "Expand",
-        "text": "展開する"
-    },
-    {
-        "source": "Space",
-        "description": "",
-        "id": "Space",
-        "text": "スペース"
-    },
-    {
-        "source": "Apostrophe",
-        "description": "",
-        "id": "Apostrophe",
-        "text": "アポストロフィ"
-    },
-    {
-        "source": "Comma",
-        "description": "",
-        "id": "Comma",
-        "text": "コンマ"
-    },
-    {
-        "source": "Minus",
-        "description": "",
-        "id": "Minus",
-        "text": "マイナス"
-    },
-    {
-        "source": "Period",
-        "description": "",
-        "id": "Period",
-        "text": "期間"
-    },
-    {
-        "source": "Slash",
-        "description": "",
-        "id": "Slash",
-        "text": "スラッシュ"
-    },
-    {
-        "source": "0",
-        "description": "",
-        "id": "0",
-        "text": "0"
-    },
-    {
-        "source": "1",
-        "description": "",
-        "id": "1",
-        "text": "1"
-    },
-    {
-        "source": "2",
-        "description": "",
-        "id": "2",
-        "text": "2"
-    },
-    {
-        "source": "3",
-        "description": "",
-        "id": "3",
-        "text": "3"
-    },
-    {
-        "source": "4",
-        "description": "",
-        "id": "4",
-        "text": "4"
-    },
-    {
-        "source": "5",
-        "description": "",
-        "id": "5",
-        "text": "5"
-    },
-    {
-        "source": "6",
-        "description": "",
-        "id": "6",
-        "text": "6"
-    },
-    {
-        "source": "7",
-        "description": "",
-        "id": "7",
-        "text": "7"
-    },
-    {
-        "source": "8",
-        "description": "",
-        "id": "8",
-        "text": "8"
-    },
-    {
-        "source": "9",
-        "description": "",
-        "id": "9",
-        "text": "9"
-    },
-    {
-        "source": "Semicolon",
-        "description": "",
-        "id": "Semicolon",
-        "text": "セミコロン"
-    },
-    {
-        "source": "Equal",
-        "description": "",
-        "id": "Equal",
-        "text": "等しい"
-    },
-    {
-        "source": "A",
-        "description": "",
-        "id": "A",
-        "text": "A"
-    },
-    {
-        "source": "B",
-        "description": "",
-        "id": "B",
-        "text": "B"
-    },
-    {
-        "source": "C",
-        "description": "",
-        "id": "C",
-        "text": "C"
-    },
-    {
-        "source": "D",
-        "description": "",
-        "id": "D",
-        "text": "D"
-    },
-    {
-        "source": "E",
-        "description": "",
-        "id": "E",
-        "text": "と"
-    },
-    {
-        "source": "F",
-        "description": "",
-        "id": "F",
-        "text": "F"
-    },
-    {
-        "source": "G",
-        "description": "",
-        "id": "G",
-        "text": "G"
-    },
-    {
-        "source": "H",
-        "description": "",
-        "id": "H",
-        "text": "H"
-    },
-    {
-        "source": "I",
-        "description": "",
-        "id": "I",
-        "text": "私"
-    },
-    {
-        "source": "J",
-        "description": "",
-        "id": "J",
-        "text": "J"
-    },
-    {
-        "source": "K",
-        "description": "",
-        "id": "K",
-        "text": "K"
-    },
-    {
-        "source": "L",
-        "description": "",
-        "id": "L",
-        "text": "ザ・"
-    },
-    {
-        "source": "M",
-        "description": "",
-        "id": "M",
-        "text": "M"
-    },
-    {
-        "source": "N",
-        "description": "",
-        "id": "N",
-        "text": "N"
-    },
-    {
-        "source": "O",
-        "description": "",
-        "id": "O",
-        "text": "○"
-    },
-    {
-        "source": "P",
-        "description": "",
-        "id": "P",
-        "text": "P"
-    },
-    {
-        "source": "Q",
-        "description": "",
-        "id": "Q",
-        "text": "Q"
-    },
-    {
-        "source": "R",
-        "description": "",
-        "id": "R",
-        "text": "R"
-    },
-    {
-        "source": "S",
-        "description": "",
-        "id": "S",
-        "text": "S"
-    },
-    {
-        "source": "T",
-        "description": "",
-        "id": "T",
-        "text": "T"
-    },
-    {
-        "source": "U",
-        "description": "",
-        "id": "U",
-        "text": "U"
-    },
-    {
-        "source": "V",
-        "description": "",
-        "id": "V",
-        "text": "V"
-    },
-    {
-        "source": "W",
-        "description": "",
-        "id": "W",
-        "text": "ザ・"
-    },
-    {
-        "source": "X",
-        "description": "",
-        "id": "X",
-        "text": "バツ"
-    },
-    {
-        "source": "Y",
-        "description": "",
-        "id": "Y",
-        "text": "Y"
-    },
-    {
-        "source": "Z",
-        "description": "",
-        "id": "Z",
-        "text": "とともに"
-    },
-    {
-        "source": "Left Bracket",
-        "description": "",
-        "id": "LeftBracket",
-        "text": "左ブラケット"
-    },
-    {
-        "source": "Backslash",
-        "description": "",
-        "id": "Backslash",
-        "text": "バックスラッシュ"
-    },
-    {
-        "source": "Right Bracket",
-        "description": "",
-        "id": "RightBracket",
-        "text": "右ブラケット"
-    },
-    {
-        "source": "Grave Accent",
-        "description": "",
-        "id": "GraveAccent",
-        "text": "深刻なアクセント"
-    },
-    {
-        "source": "World 1",
-        "description": "",
-        "id": "World1",
-        "text": "ワールド1"
-    },
-    {
-        "source": "World 2",
-        "description": "",
-        "id": "World2",
-        "text": "ワールド2"
-    },
-    {
-        "source": "Escape",
-        "description": "",
-        "id": "Escape",
-        "text": "エスケープ"
-    },
-    {
-        "source": "Enter",
-        "description": "",
-        "id": "Enter",
-        "text": "入る"
-    },
-    {
-        "source": "Tab",
-        "description": "",
-        "id": "Tab",
-        "text": "タブ"
-    },
-    {
-        "source": "Backspace",
-        "description": "",
-        "id": "Backspace",
-        "text": "バックスペース"
-    },
-    {
-        "source": "Insert",
-        "description": "",
-        "id": "Insert",
-        "text": "インサート"
-    },
-    {
-        "source": "Delete",
-        "description": "",
-        "id": "Delete",
-        "text": "削除する"
-    },
-    {
-        "source": "Right Arrow",
-        "description": "",
-        "id": "RightArrow",
-        "text": "右矢印"
-    },
-    {
-        "source": "Left Arrow",
-        "description": "",
-        "id": "LeftArrow",
-        "text": "左矢印"
-    },
-    {
-        "source": "Down Arrow",
-        "description": "",
-        "id": "DownArrow",
-        "text": "下矢印"
-    },
-    {
-        "source": "Up Arrow",
-        "description": "",
-        "id": "UpArrow",
-        "text": "上矢印"
-    },
-    {
-        "source": "Page Up",
-        "description": "",
-        "id": "PageUp",
-        "text": "ページアップ"
-    },
-    {
-        "source": "Page Down",
-        "description": "",
-        "id": "PageDown",
-        "text": "ページダウン"
-    },
-    {
-        "source": "Home",
-        "description": "",
-        "id": "Home",
-        "text": "ホーム"
-    },
-    {
-        "source": "End",
-        "description": "",
-        "id": "End",
-        "text": "終わり"
-    },
-    {
-        "source": "Caps Lock",
-        "description": "",
-        "id": "CapsLock",
-        "text": "キャップスロック"
-    },
-    {
-        "source": "Scroll Lock",
-        "description": "",
-        "id": "ScrollLock",
-        "text": "スクロールロック"
-    },
-    {
-        "source": "Num Lock",
-        "description": "",
-        "id": "NumLock",
-        "text": "Num Lock"
-    },
-    {
-        "source": "Print Screen",
-        "description": "",
-        "id": "PrintScreen",
-        "text": "印刷画面"
-    },
-    {
-        "source": "F1",
-        "description": "",
-        "id": "F1",
-        "text": "F1"
-    },
-    {
-        "source": "F2",
-        "description": "",
-        "id": "F2",
-        "text": "F2"
-    },
-    {
-        "source": "F3",
-        "description": "",
-        "id": "F3",
-        "text": "F3"
-    },
-    {
-        "source": "F4",
-        "description": "",
-        "id": "F4",
-        "text": "F4"
-    },
-    {
-        "source": "F5",
-        "description": "",
-        "id": "F5",
-        "text": "F5"
-    },
-    {
-        "source": "F6",
-        "description": "",
-        "id": "F6",
-        "text": "F6"
-    },
-    {
-        "source": "F7",
-        "description": "",
-        "id": "F7",
-        "text": "F7"
-    },
-    {
-        "source": "F8",
-        "description": "",
-        "id": "F8",
-        "text": "F8"
-    },
-    {
-        "source": "F9",
-        "description": "",
-        "id": "F9",
-        "text": "F9"
-    },
-    {
-        "source": "F10",
-        "description": "",
-        "id": "F10",
-        "text": "F10"
-    },
-    {
-        "source": "F11",
-        "description": "",
-        "id": "F11",
-        "text": "F11"
-    },
-    {
-        "source": "F12",
-        "description": "",
-        "id": "F12",
-        "text": "F12"
-    },
-    {
-        "source": "F13",
-        "description": "",
-        "id": "F13",
-        "text": "F13"
-    },
-    {
-        "source": "F14",
-        "description": "",
-        "id": "F14",
-        "text": "F14"
-    },
-    {
-        "source": "F15",
-        "description": "",
-        "id": "F15",
-        "text": "F15"
-    },
-    {
-        "source": "F16",
-        "description": "",
-        "id": "F16",
-        "text": "F16"
-    },
-    {
-        "source": "F17",
-        "description": "",
-        "id": "F17",
-        "text": "F17"
-    },
-    {
-        "source": "F18",
-        "description": "",
-        "id": "F18",
-        "text": "F18"
-    },
-    {
-        "source": "F19",
-        "description": "",
-        "id": "F19",
-        "text": "F19"
-    },
-    {
-        "source": "F20",
-        "description": "",
-        "id": "F20",
-        "text": "F20"
-    },
-    {
-        "source": "F21",
-        "description": "",
-        "id": "F21",
-        "text": "F21"
-    },
-    {
-        "source": "F22",
-        "description": "",
-        "id": "F22",
-        "text": "F22"
-    },
-    {
-        "source": "F23",
-        "description": "",
-        "id": "F23",
-        "text": "F23"
-    },
-    {
-        "source": "F24",
-        "description": "",
-        "id": "F24",
-        "text": "F24"
-    },
-    {
-        "source": "F25",
-        "description": "",
-        "id": "F25",
-        "text": "F25"
-    },
-    {
-        "source": "Key Pad 0",
-        "description": "",
-        "id": "KeyPad0",
-        "text": "キーパッド0"
-    },
-    {
-        "source": "Key Pad 1",
-        "description": "",
-        "id": "KeyPad1",
-        "text": "キーパッド1"
-    },
-    {
-        "source": "Key Pad 2",
-        "description": "",
-        "id": "KeyPad2",
-        "text": "キーパッド2"
-    },
-    {
-        "source": "Key Pad 3",
-        "description": "",
-        "id": "KeyPad3",
-        "text": "キーパッド3"
-    },
-    {
-        "source": "Key Pad 4",
-        "description": "",
-        "id": "KeyPad4",
-        "text": "キーパッド4"
-    },
-    {
-        "source": "Key Pad 5",
-        "description": "",
-        "id": "KeyPad5",
-        "text": "キーパッド5"
-    },
-    {
-        "source": "Key Pad 6",
-        "description": "",
-        "id": "KeyPad6",
-        "text": "キーパッド6"
-    },
-    {
-        "source": "Key Pad 7",
-        "description": "",
-        "id": "KeyPad7",
-        "text": "キーパッド7"
-    },
-    {
-        "source": "Key Pad 8",
-        "description": "",
-        "id": "KeyPad8",
-        "text": "キーパッド8"
-    },
-    {
-        "source": "Key Pad 9",
-        "description": "",
-        "id": "KeyPad9",
-        "text": "キーパッド9"
-    },
-    {
-        "source": "Key Pad Decimal",
-        "description": "",
-        "id": "KeyPadDecimal",
-        "text": "キーパッド10進数"
-    },
-    {
-        "source": "Key Pad Divide",
-        "description": "",
-        "id": "KeyPadDivide",
-        "text": "キーパッド分割"
-    },
-    {
-        "source": "Key Pad Multiply",
-        "description": "",
-        "id": "KeyPadMultiply",
-        "text": "キーパッド乗算"
-    },
-    {
-        "source": "Key Pad Substract",
-        "description": "",
-        "id": "KeyPadSubstract",
-        "text": "キーパッド"
-    },
-    {
-        "source": "Key Pad Add",
-        "description": "",
-        "id": "KeyPadAdd",
-        "text": "キーパッド追加"
-    },
-    {
-        "source": "Key Pad Enter",
-        "description": "",
-        "id": "KeyPadEnter",
-        "text": "キーパッド"
-    },
-    {
-        "source": "Key Pad Equal",
-        "description": "",
-        "id": "KeyPadEqual",
-        "text": "等しいキーパッド"
-    },
-    {
-        "source": "Left Shift",
-        "description": "",
-        "id": "LeftShift",
-        "text": "左方移動"
-    },
-    {
-        "source": "Left Control",
-        "description": "",
-        "id": "LeftControl",
-        "text": "左コントロール"
-    },
-    {
-        "source": "Left Alt",
-        "description": "",
-        "id": "LeftAlt",
-        "text": "左Alt"
-    },
-    {
-        "source": "Left Command",
-        "description": "",
-        "id": "LeftCommand",
-        "text": "左のコマンド"
-    },
-    {
-        "source": "Right Shift",
-        "description": "",
-        "id": "RightShift",
-        "text": "右シフト"
-    },
-    {
-        "source": "Right Control",
-        "description": "",
-        "id": "RightControl",
-        "text": "正しい管理"
-    },
-    {
-        "source": "Right Alt",
-        "description": "",
-        "id": "RightAlt",
-        "text": "右Alt"
-    },
-    {
-        "source": "Right Command",
-        "description": "",
-        "id": "RightCommand",
-        "text": "正しいコマンド"
-    },
-    {
-        "source": "Shift",
-        "description": "",
-        "id": "Shift",
-        "text": "シフト"
-    },
-    {
-        "source": "Ctrl",
-        "description": "",
-        "id": "Ctrl",
-        "text": "Ctrl"
-    },
-    {
-        "source": "Alt",
-        "description": "",
-        "id": "Alt",
-        "text": "すべて"
-    },
-    {
-        "source": "Command",
-        "description": "",
-        "id": "Command",
-        "text": "コマンド"
-    },
-    {
-        "source": "Cached",
-        "description": "",
-        "id": "Cached",
-        "text": "キャッシュ済み"
-    },
-    {
-        "source": "Scrub",
-        "description": "",
-        "id": "Scrub",
-        "text": "スクラブ"
-    },
-    {
-        "source": "Keyboard shortcut",
-        "description": "",
-        "id": "Keyboard shortcut",
-        "text": "キーボードショートカット"
-    },
-    {
-        "source": "Keyboard shortcuts",
-        "description": "",
-        "id": "Keyboard shortcuts",
-        "text": "キーボードショートカット"
-    },
-    {
-        "source": "IconMini",
-        "text": "IconMini",
-        "id": "IconMini",
-        "description": ""
-    },
-    {
-        "source": "SwatchSmall",
-        "text": "スウォッチスモール",
-        "id": "SwatchSmall",
-        "description": ""
-    },
-    {
-        "source": "ScrollBar",
-        "text": "スクロール・バー",
-        "id": "ScrollBar",
-        "description": ""
-    },
-    {
-        "source": "ScrollBarSmall",
-        "text": "ScrollBarSmall",
-        "id": "ScrollBarSmall",
-        "description": ""
-    },
-    {
-        "source": "Native",
-        "text": "ネイティブ",
-        "id": "Native",
-        "description": ""
-    },
-    {
-        "source": "16:9",
-        "text": "16：9",
-        "id": "16:9",
-        "description": ""
-    },
-    {
-        "source": "1.85",
-        "text": "1.85",
-        "id": "1.85",
-        "description": ""
-    },
-    {
-        "source": "2.35",
-        "text": "2.35",
-        "id": "2.35",
-        "description": ""
-    },
-    {
-        "source": "Reset the value.",
-        "text": "値をリセットします。",
-        "id": "Reset the value.",
-        "description": ""
-    },
-    {
-        "source": "BelowRight",
-        "text": "BelowRight",
-        "description": "",
-        "id": "BelowRight"
-    },
-    {
-        "source": "BelowLeft",
-        "text": "下左",
-        "description": "",
-        "id": "BelowLeft"
-    },
-    {
-        "source": "AboveRight",
-        "text": "上記右",
-        "description": "",
-        "id": "AboveRight"
-    },
-    {
-        "source": "AboveLeft",
-        "text": "上左",
-        "description": "",
-        "id": "AboveLeft"
-    }
-]
+{
+    "error_cannot_parse_the_value": "値を解析できません。",
+    "key_0": "0",
+    "key_1": "1",
+    "key_2": "2",
+    "key_3": "3",
+    "key_4": "4",
+    "key_5": "5",
+    "key_6": "6",
+    "key_7": "7",
+    "key_8": "8",
+    "key_9": "9",
+    "key_a": "A",
+    "key_alt": "すべて",
+    "key_apostrophe": "アポストロフィ",
+    "key_b": "B",
+    "key_backslash": "バックスラッシュ",
+    "key_backspace": "バックスペース",
+    "key_c": "C",
+    "key_capslock": "キャップスロック",
+    "key_comma": "コンマ",
+    "key_command": "コマンド",
+    "key_ctrl": "Ctrl",
+    "key_d": "D",
+    "key_delete": "削除する",
+    "key_downarrow": "下矢印",
+    "key_e": "E",
+    "key_end": "終わり",
+    "key_enter": "入る",
+    "key_equal": "等しい",
+    "key_escape": "逃れる",
+    "key_f": "F",
+    "key_f1": "F1",
+    "key_f10": "F10",
+    "key_f11": "F11",
+    "key_f12": "F12",
+    "key_f13": "F13",
+    "key_f14": "F14",
+    "key_f15": "F15",
+    "key_f16": "F16",
+    "key_f17": "F17",
+    "key_f18": "F18",
+    "key_f19": "F19",
+    "key_f2": "F2",
+    "key_f20": "F20",
+    "key_f21": "F21",
+    "key_f22": "F22",
+    "key_f23": "F23",
+    "key_f24": "F24",
+    "key_f25": "F25",
+    "key_f3": "F3",
+    "key_f4": "F4",
+    "key_f5": "F5",
+    "key_f6": "F6",
+    "key_f7": "F7",
+    "key_f8": "F8",
+    "key_f9": "F9",
+    "key_g": "G",
+    "key_graveaccent": "墓のアクセント",
+    "key_h": "H",
+    "key_home": "ホーム",
+    "key_i": "I",
+    "key_insert": "インサート",
+    "key_j": "J",
+    "key_k": "K",
+    "key_keypad0": "キーパッド0",
+    "key_keypad1": "キーパッド1",
+    "key_keypad2": "キーパッド2",
+    "key_keypad3": "キーパッド3",
+    "key_keypad4": "キーパッド4",
+    "key_keypad5": "キーパッド5",
+    "key_keypad6": "キーパッド6",
+    "key_keypad7": "キーパッド7",
+    "key_keypad8": "キーパッド8",
+    "key_keypad9": "キーパッド9",
+    "key_keypadadd": "キーパッド追加",
+    "key_keypaddecimal": "キーパッド10進数",
+    "key_keypaddivide": "キーパッド分割",
+    "key_keypadenter": "キーパッドEnter",
+    "key_keypadequal": "キーパッドが等しい",
+    "key_keypadmultiply": "キーパッド乗算",
+    "key_keypadsubstract": "キーパッド減算",
+    "key_l": "L",
+    "key_leftalt": "左Alt",
+    "key_leftarrow": "左矢印",
+    "key_leftbracket": "左ブラケット",
+    "key_leftcommand": "左コマンド",
+    "key_leftcontrol": "左コントロール",
+    "key_leftshift": "左方移動",
+    "key_m": "M",
+    "key_menu": "メニュー",
+    "key_minus": "マイナス",
+    "key_n": "N",
+    "key_numlock": "Num Lock",
+    "key_o": "O",
+    "key_p": "P",
+    "key_pagedown": "ページダウン",
+    "key_pageup": "ページアップ",
+    "key_period": "限目",
+    "key_printscreen": "印刷画面",
+    "key_q": "Q",
+    "key_r": "R",
+    "key_rightalt": "右Alt",
+    "key_rightarrow": "右矢印",
+    "key_rightbracket": "右ブラケット",
+    "key_rightcommand": "正しいコマンド",
+    "key_rightcontrol": "正しいコントロール",
+    "key_rightshift": "右シフト",
+    "key_s": "S",
+    "key_scrolllock": "スクロールロック",
+    "key_semicolon": "セミコロン",
+    "key_shift": "シフト",
+    "key_slash": "スラッシュ",
+    "key_space": "スペース",
+    "key_t": "T",
+    "key_tab": "タブ",
+    "key_u": "U",
+    "key_uparrow": "上矢印",
+    "key_v": "V",
+    "key_w": "W",
+    "key_world1": "ワールド1",
+    "key_world2": "ワールド2",
+    "key_x": "X",
+    "key_y": "Y",
+    "key_z": "Z",
+    "keyboard_shortcut": "キーボードショートカット",
+    "keyboard_shortcuts": "キーボードショートカット",
+    "layout_grid_stretch_both": "どちらも",
+    "layout_grid_stretch_horizontal": "横",
+    "layout_grid_stretch_none": "なし",
+    "layout_grid_stretch_vertical": "垂直",
+    "layout_row_stretch_expand": "展開する",
+    "layout_row_stretch_none": "なし",
+    "popup_above_left": "上左",
+    "popup_above_right": "上記右",
+    "popup_below_left": "下左",
+    "popup_below_right": "BelowRight",
+    "reset_the_value": "値をリセットします。",
+    "style_font_default": "デフォルト",
+    "style_metrics_extra_large": "特大",
+    "style_metrics_large": "大",
+    "style_metrics_medium": "中",
+    "style_metrics_small": "小さい",
+    "style_palette_dark": "闇",
+    "ui_image_rotate_0": "0°",
+    "ui_image_rotate_180": "180°",
+    "ui_image_rotate_270": "270°",
+    "ui_image_rotate_90": "90°",
+    "ui_aspect_ratio_16_9": "16:9",
+    "ui_aspect_ratio_1_85": "1.85:1",
+    "ui_aspect_ratio_2_35": "2.35:1",
+    "ui_aspect_ratio_2_39": "2.39:1",
+    "ui_aspect_ratio_from_source": "ソースから",
+    "ui_aspect_ratio_unscaled": "スケールなし",
+    "ui_button_type_exclusive": "排他的",
+    "ui_button_type_push": "押す",
+    "ui_button_type_radio": "無線",
+    "ui_button_type_toggle": "トグル",
+    "ui_color_role_background": "バックグラウンド",
+    "ui_color_role_background_bellows": "背景ベローズ",
+    "ui_color_role_background_header": "背景ヘッダー",
+    "ui_color_role_background_tool_bar": "背景ツールバー",
+    "ui_color_role_border": "境界",
+    "ui_color_role_border_button": "Border_button",
+    "ui_color_role_button": "ボタン",
+    "ui_color_role_cached": "キャッシュ済み",
+    "ui_color_role_checked": "チェック済み",
+    "ui_color_role_foreground": "前景",
+    "ui_color_role_foreground_dim": "前景の薄暗い",
+    "ui_color_role_handle": "扱う",
+    "ui_color_role_hovered": "ホバリング",
+    "ui_color_role_none": "なし",
+    "ui_color_role_overlay": "オーバーレイ",
+    "ui_color_role_overlay_light": "オーバーレイライト",
+    "ui_color_role_pressed": "押された",
+    "ui_color_role_shadow": "影",
+    "ui_color_role_text_focus": "テキストフォーカス",
+    "ui_color_role_tooltip_background": "ツールチップの背景",
+    "ui_color_role_tooltip_foreground": "ツールチップの前景",
+    "ui_color_role_trough": "トラフ",
+    "ui_expand_both": "どちらも",
+    "ui_expand_horizontal": "横",
+    "ui_expand_none": "なし",
+    "ui_expand_vertical": "垂直",
+    "ui_h_align_center": "センター",
+    "ui_h_align_fill": "塗りつぶし",
+    "ui_h_align_left": "左",
+    "ui_h_align_right": "正しい",
+    "ui_metrics_role_border": "境界",
+    "ui_metrics_role_dialog": "ダイアログ",
+    "ui_metrics_role_drag": "引っ張る",
+    "ui_metrics_role_font_header": "フォントヘッダー",
+    "ui_metrics_role_font_large": "フォント大",
+    "ui_metrics_role_font_medium": "フォント媒体",
+    "ui_metrics_role_font_small": "フォント小",
+    "ui_metrics_role_font_title": "フォントタイトル",
+    "ui_metrics_role_handle": "扱う",
+    "ui_metrics_role_icon": "アイコン",
+    "ui_metrics_role_icon_mini": "アイコンミニ",
+    "ui_metrics_role_icon_small": "アイコン小",
+    "ui_metrics_role_margin": "マージン",
+    "ui_metrics_role_margin_dialog": "マージンダイアログ",
+    "ui_metrics_role_margin_large": "マージン大",
+    "ui_metrics_role_margin_small": "マージン小",
+    "ui_metrics_role_menu": "メニュー",
+    "ui_metrics_role_move": "移動する",
+    "ui_metrics_role_none": "なし",
+    "ui_metrics_role_scroll_area": "スクロール領域",
+    "ui_metrics_role_scroll_bar": "スクロール・バー",
+    "ui_metrics_role_scroll_bar_small": "ScrollBarSmall",
+    "ui_metrics_role_scrub": "スクラブ",
+    "ui_metrics_role_search_box": "検索ボックス",
+    "ui_metrics_role_shadow": "影",
+    "ui_metrics_role_shadow_small": "シャドースモール",
+    "ui_metrics_role_slider": "スライダー",
+    "ui_metrics_role_spacing": "間隔",
+    "ui_metrics_role_spacing_large": "大",
+    "ui_metrics_role_spacing_small": "小さい",
+    "ui_metrics_role_swatch": "スウォッチ",
+    "ui_metrics_role_swatch_small": "スウォッチスモール",
+    "ui_metrics_role_text_column": "テキスト列",
+    "ui_metrics_role_text_column_large": "テキスト列大",
+    "ui_metrics_role_tooltip_offset": "ツールチップオフセット",
+    "ui_orientation_horizontal": "横",
+    "ui_orientation_vertical": "垂直",
+    "ui_scroll_type_both": "どちらも",
+    "ui_scroll_type_horizontal": "横",
+    "ui_scroll_type_vertical": "垂直",
+    "ui_selection_type_multiple": "複数",
+    "ui_selection_type_none": "なし",
+    "ui_selection_type_radio": "無線",
+    "ui_selection_type_single": "シングル",
+    "ui_side_bottom": "底",
+    "ui_side_left": "左",
+    "ui_side_right": "正しい",
+    "ui_side_top": "上",
+    "ui_sort_order_forward": "進む",
+    "ui_sort_order_reverse": "逆",
+    "ui_text_v_align_baseline": "ベースライン",
+    "ui_text_v_align_bottom": "底",
+    "ui_text_v_align_center": "センター",
+    "ui_text_v_align_left": "左",
+    "ui_text_v_align_right": "正しい",
+    "ui_text_v_align_top": "上",
+    "ui_v_align_bottom": "底",
+    "ui_v_align_center": "センター",
+    "ui_v_align_fill": "塗りつぶし",
+    "ui_v_align_top": "上",
+    "ui_view_type_list": "リスト",
+    "ui_view_type_tiles": "タイル"
+}

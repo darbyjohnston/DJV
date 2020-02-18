@@ -1,3132 +1,506 @@
-[
-    {
-        "source": "cannot create OpenAL source",
-        "description": "",
-        "id": "cannot create OpenAL source",
-        "text": "не может создать исходный код OpenAL"
-    },
-    {
-        "source": "cannot create OpenAL buffers",
-        "description": "",
-        "id": "cannot create OpenAL buffers",
-        "text": "не может создавать буферы OpenAL"
-    },
-    {
-        "source": "cannot open",
-        "description": "",
-        "id": "cannot open",
-        "text": "не могу открыть"
-    },
-    {
-        "source": "Annotate",
-        "description": "",
-        "id": "Annotate",
-        "text": "аннотировать"
-    },
-    {
-        "source": "Increase Volume",
-        "description": "",
-        "id": "Increase Volume",
-        "text": "Увеличить громкость"
-    },
-    {
-        "source": "Increase the audio volume",
-        "description": "",
-        "id": "Increase volume tooltip",
-        "text": "Увеличьте громкость звука"
-    },
-    {
-        "source": "Decrease Volume",
-        "description": "",
-        "id": "Decrease Volume",
-        "text": "Уменьшить громкость"
-    },
-    {
-        "source": "Decrease the audio volume",
-        "description": "",
-        "id": "Decrease volume tooltip",
-        "text": "Уменьшить громкость звука"
-    },
-    {
-        "source": "Mute",
-        "description": "",
-        "id": "Mute",
-        "text": "безгласный"
-    },
-    {
-        "source": "Mute the audio",
-        "description": "",
-        "id": "Mute tooltip",
-        "text": "Отключить звук"
-    },
-    {
-        "source": "Audio",
-        "description": "",
-        "id": "Audio",
-        "text": "аудио"
-    },
-    {
-        "source": "Color Picker",
-        "description": "",
-        "id": "Color Picker",
-        "text": "Палитра цветов"
-    },
-    {
-        "source": "Activate the color picker tool",
-        "description": "",
-        "id": "Color picker tooltip",
-        "text": "Активировать инструмент выбора цвета"
-    },
-    {
-        "source": "Lock Color Type",
-        "description": "",
-        "id": "Lock Color Type",
-        "text": "Тип блокировки цвета"
-    },
-    {
-        "source": "Don't change the color type to match the image",
-        "description": "",
-        "id": "Color picker lock color type tooltip",
-        "text": "Не меняйте тип цвета в соответствии с изображением"
-    },
-    {
-        "source": "RGB",
-        "description": "",
-        "id": "RGB",
-        "text": "RGB"
-    },
-    {
-        "source": "HSV",
-        "description": "",
-        "id": "HSV",
-        "text": "HSV"
-    },
-    {
-        "source": "Set the color picker sample size",
-        "description": "",
-        "id": "Color picker sample size tooltip",
-        "text": "Установите размер выборки палитры цветов"
-    },
-    {
-        "source": "FPS",
-        "description": "",
-        "id": "FPS",
-        "text": "FPS"
-    },
-    {
-        "source": "Object count",
-        "description": "",
-        "id": "Object count",
-        "text": "Количество объектов"
-    },
-    {
-        "source": "Widget count",
-        "description": "",
-        "id": "Widget count",
-        "text": "Количество виджетов"
-    },
-    {
-        "source": "Hover",
-        "description": "",
-        "id": "Hover",
-        "text": "зависать"
-    },
-    {
-        "source": "None",
-        "description": "",
-        "id": "None",
-        "text": "Никто"
-    },
-    {
-        "source": "Grab",
-        "description": "",
-        "id": "Grab",
-        "text": "грейфер"
-    },
-    {
-        "source": "Key grab",
-        "description": "",
-        "id": "Key grab",
-        "text": "Захват ключа"
-    },
-    {
-        "source": "Font system glyph cache",
-        "description": "",
-        "id": "Font system glyph cache",
-        "text": "Системный шрифт глифа кеша"
-    },
-    {
-        "source": "Thumbnail system information cache",
-        "description": "",
-        "id": "Thumbnail system information cache",
-        "text": "Миниатюрный системный информационный кеш"
-    },
-    {
-        "source": "Thumbnail system image cache",
-        "description": "",
-        "id": "Thumbnail system image cache",
-        "text": "Миниатюра системного кеша изображений"
-    },
-    {
-        "source": "Icon system cache",
-        "description": "",
-        "id": "Icon system cache",
-        "text": "Кеш системы иконок"
-    },
-    {
-        "source": "Texture atlas",
-        "description": "",
-        "id": "Texture atlas",
-        "text": "Текстурный атлас"
-    },
-    {
-        "source": "Dynamic texture count",
-        "description": "",
-        "id": "Dynamic texture count",
-        "text": "Динамическое количество текстур"
-    },
-    {
-        "source": "VBO size",
-        "description": "",
-        "id": "VBO size",
-        "text": "Размер VBO"
-    },
-    {
-        "source": "Video queue",
-        "description": "",
-        "id": "Video queue",
-        "text": "Видео-очередь"
-    },
-    {
-        "source": "Audio queue",
-        "description": "",
-        "id": "Audio queue",
-        "text": "Аудио хвост"
-    },
-    {
-        "source": "OpenAL queue",
-        "description": "",
-        "id": "OpenAL queue",
-        "text": "OpenAL очередь"
-    },
-    {
-        "source": "Current time",
-        "description": "",
-        "id": "Current time",
-        "text": "Текущее время"
-    },
-    {
-        "source": "Debug",
-        "description": "",
-        "id": "Debug",
-        "text": "отлаживать"
-    },
-    {
-        "source": "General",
-        "description": "",
-        "id": "General",
-        "text": "генеральный"
-    },
-    {
-        "source": "Render",
-        "description": "",
-        "id": "Render",
-        "text": "оказывать"
-    },
-    {
-        "source": "Media",
-        "description": "",
-        "id": "Media",
-        "text": "Средства массовой информации"
-    },
-    {
-        "source": "Sequences",
-        "description": "",
-        "id": "Sequences",
-        "text": "Последовательности"
-    },
-    {
-        "source": "File",
-        "description": "",
-        "id": "File",
-        "text": "файл"
-    },
-    {
-        "source": "Auto-detect file sequences",
-        "description": "",
-        "id": "Auto-detect file sequences",
-        "text": "Автоопределение файловых последовательностей"
-    },
-    {
-        "source": "Memory Cache",
-        "description": "",
-        "id": "Memory Cache",
-        "text": "Кэш памяти"
-    },
-    {
-        "source": "Enabled",
-        "description": "",
-        "id": "Enabled",
-        "text": "Включено"
-    },
-    {
-        "source": "Gigabytes",
-        "description": "",
-        "id": "Gigabytes",
-        "text": "гигабайт"
-    },
-    {
-        "source": "Documentation",
-        "description": "",
-        "id": "Documentation",
-        "text": "Документация"
-    },
-    {
-        "source": "About",
-        "description": "",
-        "id": "About",
-        "text": "Около"
-    },
-    {
-        "source": "System Log",
-        "description": "",
-        "id": "System Log",
-        "text": "Системный журнал"
-    },
-    {
-        "source": "Debug Widget",
-        "description": "",
-        "id": "Debug Widget",
-        "text": "Отладочный виджет"
-    },
-    {
-        "source": "Help",
-        "description": "",
-        "id": "Help",
-        "text": "Помогите"
-    },
-    {
-        "source": "Forward",
-        "description": "",
-        "id": "Forward",
-        "text": "Вперед"
-    },
-    {
-        "source": "Start forward playback",
-        "description": "",
-        "id": "Forward tooltip",
-        "text": "Начать воспроизведение вперед"
-    },
-    {
-        "source": "Reverse",
-        "description": "",
-        "id": "Reverse",
-        "text": "Задний ход"
-    },
-    {
-        "source": "Start reverse playback",
-        "description": "",
-        "id": "Reverse tooltip",
-        "text": "Начать обратное воспроизведение"
-    },
-    {
-        "source": "Play Once",
-        "description": "",
-        "id": "Play Once",
-        "text": "Играть один раз"
-    },
-    {
-        "source": "Play the file once and then stop playback",
-        "description": "",
-        "id": "Play once tooltip",
-        "text": "Воспроизведите файл один раз, а затем остановите воспроизведение"
-    },
-    {
-        "source": "Loop",
-        "description": "",
-        "id": "Loop",
-        "text": "петля"
-    },
-    {
-        "source": "Play the file over and over again",
-        "description": "",
-        "id": "Loop tooltip",
-        "text": "Воспроизведение файла снова и снова"
-    },
-    {
-        "source": "Ping Pong",
-        "description": "",
-        "id": "Ping Pong",
-        "text": "Пинг-понг"
-    },
-    {
-        "source": "Play the file forwards and then backwards",
-        "description": "",
-        "id": "Ping pong tooltip",
-        "text": "Воспроизведите файл вперед и затем назад"
-    },
-    {
-        "source": "Play Every Frame",
-        "description": "",
-        "id": "Play Every Frame",
-        "text": "Воспроизвести каждый кадр"
-    },
-    {
-        "source": "Play every frame even if the proper speed cannot be maintained",
-        "description": "",
-        "id": "Play every frame tooltip",
-        "text": "Проигрывайте каждый кадр, даже если правильная скорость не поддерживается"
-    },
-    {
-        "source": "Go to In Point",
-        "description": "",
-        "id": "Go to In Point",
-        "text": "Перейти к точке"
-    },
-    {
-        "source": "Go to the playback in point",
-        "description": "",
-        "id": "Go to in point tooltip",
-        "text": "Перейти к воспроизведению в точке"
-    },
-    {
-        "source": "Go to Out Point",
-        "description": "",
-        "id": "Go to Out Point",
-        "text": "Перейти к Out Point"
-    },
-    {
-        "source": "Go to the playback out point",
-        "description": "",
-        "id": "Go to out point tooltip",
-        "text": "Перейти к точке воспроизведения"
-    },
-    {
-        "source": "Go to Start Frame",
-        "description": "",
-        "id": "Go to Start Frame",
-        "text": "Перейти к началу кадра"
-    },
-    {
-        "source": "Go to the start frame",
-        "description": "",
-        "id": "Go to start frame tooltip",
-        "text": "Перейти к стартовой рамке"
-    },
-    {
-        "source": "Go to End Frame",
-        "description": "",
-        "id": "Go to End Frame",
-        "text": "Перейти к концу кадра"
-    },
-    {
-        "source": "Go to the end frame",
-        "description": "",
-        "id": "Go to end frame tooltip",
-        "text": "Перейти к концу кадра"
-    },
-    {
-        "source": "Next Frame",
-        "description": "",
-        "id": "Next Frame",
-        "text": "Следующий кадр"
-    },
-    {
-        "source": "Go to the next frame",
-        "description": "",
-        "id": "Next frame tooltip",
-        "text": "Перейти к следующему кадру"
-    },
-    {
-        "source": "Next Frame X10",
-        "description": "",
-        "id": "Next Frame X10",
-        "text": "Следующий кадр X10"
-    },
-    {
-        "source": "Skip forward 10 frames",
-        "description": "",
-        "id": "Next frame X10 tooltip",
-        "text": "Пропустить 10 кадров вперед"
-    },
-    {
-        "source": "Next Frame X100",
-        "description": "",
-        "id": "Next Frame X100",
-        "text": "Следующий кадр X100"
-    },
-    {
-        "source": "Skip forward 100 frames",
-        "description": "",
-        "id": "Next frame X100 tooltip",
-        "text": "Пропустить вперед 100 кадров"
-    },
-    {
-        "source": "Previous Frame",
-        "description": "",
-        "id": "Previous Frame",
-        "text": "Предыдущий кадр"
-    },
-    {
-        "source": "Go to the previous frame",
-        "description": "",
-        "id": "Previous frame tooltip",
-        "text": "Перейти к предыдущему кадру"
-    },
-    {
-        "source": "Previous Frame X10",
-        "description": "",
-        "id": "Previous Frame X10",
-        "text": "Предыдущая рамка X10"
-    },
-    {
-        "source": "Skip backwards 10 frames",
-        "description": "",
-        "id": "Previous frame X10 tooltip",
-        "text": "Пропустить назад 10 кадров"
-    },
-    {
-        "source": "Previous Frame X100",
-        "description": "",
-        "id": "Previous Frame X100",
-        "text": "Предыдущая рамка X100"
-    },
-    {
-        "source": "Skip backwards 100 frames",
-        "description": "",
-        "id": "Previous frame X100 tooltip",
-        "text": "Пропустить назад 100 кадров"
-    },
-    {
-        "source": "Enable In/Out Points",
-        "description": "",
-        "id": "Enable In/Out Points",
-        "text": "Включить точки входа / выхода"
-    },
-    {
-        "source": "Enable the in/out points",
-        "description": "",
-        "id": "Enable in/out points tooltip",
-        "text": "Включить точки входа / выхода"
-    },
-    {
-        "source": "Set In Point",
-        "description": "",
-        "id": "Set In Point",
-        "text": "Установить в точке"
-    },
-    {
-        "source": "Set the playback in point",
-        "description": "",
-        "id": "Set in point tooltip",
-        "text": "Установите воспроизведение в точку"
-    },
-    {
-        "source": "Set Out Point",
-        "description": "",
-        "id": "Set Out Point",
-        "text": "Установить точку"
-    },
-    {
-        "source": "Set the playback out point",
-        "description": "",
-        "id": "Set out point tooltip",
-        "text": "Установите точку воспроизведения"
-    },
-    {
-        "source": "Reset In Point",
-        "description": "",
-        "id": "Reset In Point",
-        "text": "Сбросить в точке"
-    },
-    {
-        "source": "Reset the playback in point",
-        "description": "",
-        "id": "Reset in point tooltip",
-        "text": "Сброс воспроизведения в точке"
-    },
-    {
-        "source": "Reset Out Point",
-        "description": "",
-        "id": "Reset Out Point",
-        "text": "Reset Out Point"
-    },
-    {
-        "source": "Reset the playback out point",
-        "description": "",
-        "id": "Reset out point tooltip",
-        "text": "Сброс точки воспроизведения"
-    },
-    {
-        "source": "Playback",
-        "description": "",
-        "id": "Playback",
-        "text": "воспроизведение"
-    },
-    {
-        "source": "Histogram",
-        "description": "",
-        "id": "Histogram",
-        "text": "Гистограмма"
-    },
-    {
-        "source": "Open",
-        "description": "",
-        "id": "Open",
-        "text": "открыто"
-    },
-    {
-        "source": "Open a new file",
-        "description": "",
-        "id": "Open tooltip",
-        "text": "Открыть новый файл"
-    },
-    {
-        "source": "Recent",
-        "description": "",
-        "id": "Recent",
-        "text": "последний"
-    },
-    {
-        "source": "Show the recently opened files",
-        "description": "",
-        "id": "Recent tooltip",
-        "text": "Показать недавно открытые файлы"
-    },
-    {
-        "source": "Reload",
-        "description": "",
-        "id": "Reload",
-        "text": "перезагружать"
-    },
-    {
-        "source": "Reload the current file",
-        "description": "",
-        "id": "Reload tooltip",
-        "text": "Перезагрузить текущий файл"
-    },
-    {
-        "source": "Close",
-        "description": "",
-        "id": "Close",
-        "text": "близко"
-    },
-    {
-        "source": "Close the current file",
-        "description": "",
-        "id": "Close tooltip",
-        "text": "Закрыть текущий файл"
-    },
-    {
-        "source": "Close All",
-        "description": "",
-        "id": "Close All",
-        "text": "Закрыть все"
-    },
-    {
-        "source": "Close all open files",
-        "description": "",
-        "id": "Close all tooltip",
-        "text": "Закройте все открытые файлы"
-    },
-    {
-        "source": "Export",
-        "description": "",
-        "id": "Export",
-        "text": "экспорт"
-    },
-    {
-        "source": "Export the file",
-        "description": "",
-        "id": "Export tooltip",
-        "text": "Экспортировать файл"
-    },
-    {
-        "source": "Next",
-        "description": "",
-        "id": "Next",
-        "text": "следующий"
-    },
-    {
-        "source": "Go to the next file",
-        "description": "",
-        "id": "Next tooltip",
-        "text": "Перейти к следующему файлу"
-    },
-    {
-        "source": "Previous",
-        "description": "",
-        "id": "Previous",
-        "text": "предыдущий"
-    },
-    {
-        "source": "Go to the previous file",
-        "description": "",
-        "id": "Prev tooltip",
-        "text": "Перейти к предыдущему файлу"
-    },
-    {
-        "source": "Layers Widget",
-        "description": "",
-        "id": "Layers Widget",
-        "text": "Виджет слоев"
-    },
-    {
-        "source": "Show the layers widget",
-        "description": "",
-        "id": "Layers widget tooltip",
-        "text": "Показать виджет слоев"
-    },
-    {
-        "source": "Next layer",
-        "description": "",
-        "id": "Next layer",
-        "text": "Следующий слой"
-    },
-    {
-        "source": "Go to the next layer",
-        "description": "",
-        "id": "Next layer tooltip",
-        "text": "Перейти к следующему слою"
-    },
-    {
-        "source": "Previous Layer",
-        "description": "",
-        "id": "Previous Layer",
-        "text": "Предыдущий слой"
-    },
-    {
-        "source": "Go to the previous layer",
-        "description": "",
-        "id": "Previous layer tooltip",
-        "text": "Перейти к предыдущему слою"
-    },
-    {
-        "source": "8-Bit Conversion",
-        "description": "",
-        "id": "8-Bit Conversion",
-        "text": "8-битное преобразование"
-    },
-    {
-        "source": "Down convert files to 8-bits to conserve memory",
-        "description": "",
-        "id": "8-bit conversion tooltip",
-        "text": "Преобразование файлов в 8 бит для экономии памяти"
-    },
-    {
-        "source": "Show the memory cache settings",
-        "description": "",
-        "id": "Memory cache tooltip",
-        "text": "Показать настройки кеша памяти"
-    },
-    {
-        "source": "Exit",
-        "description": "",
-        "id": "Exit",
-        "text": "Выход"
-    },
-    {
-        "source": "Exit the application",
-        "description": "",
-        "id": "Exit tooltip",
-        "text": "Выйдите из приложения"
-    },
-    {
-        "source": "Aspect Ratio",
-        "description": "",
-        "id": "Aspect Ratio",
-        "text": "Соотношение сторон"
-    },
-    {
-        "source": "Image",
-        "description": "",
-        "id": "Image",
-        "text": "Образ"
-    },
-    {
-        "source": "Rotate",
-        "description": "",
-        "id": "Rotate",
-        "text": "Поворот"
-    },
-    {
-        "source": "Maximize the current window",
-        "description": "",
-        "id": "Maximize tooltip",
-        "text": "Развернуть текущее окно"
-    },
-    {
-        "source": "Show the playback speed settings",
-        "description": "",
-        "id": "Speed popup tooltip",
-        "text": "Показать настройки скорости воспроизведения"
-    },
-    {
-        "source": "The actual playback speed",
-        "description": "",
-        "id": "Real speed tooltip",
-        "text": "Фактическая скорость воспроизведения"
-    },
-    {
-        "source": "The current time",
-        "description": "",
-        "id": "Current time tooltip",
-        "text": "Текущее время"
-    },
-    {
-        "source": "The playback duration",
-        "description": "",
-        "id": "Duration tooltip",
-        "text": "Продолжительность воспроизведения"
-    },
-    {
-        "source": "Set the audio volume",
-        "description": "",
-        "id": "Volume tooltip",
-        "text": "Установите громкость звука"
-    },
-    {
-        "source": "Show the audio settings",
-        "description": "",
-        "id": "Audio popup tooltip",
-        "text": "Показать настройки звука"
-    },
-    {
-        "source": "Set the memory cache size in gigabytes",
-        "description": "",
-        "id": "Memory cache maximum tooltip",
-        "text": "Установите размер кеша памяти в гигабайтах"
-    },
-    {
-        "source": "Enable the memory cache",
-        "description": "",
-        "id": "Memory cache enabled tooltip",
-        "text": "Включить кеш памяти"
-    },
-    {
-        "source": "Default",
-        "description": "",
-        "id": "Default",
-        "text": "По умолчанию"
-    },
-    {
-        "source": "Play every frame",
-        "description": "",
-        "id": "Play every frame",
-        "text": "Играть каждый кадр"
-    },
-    {
-        "source": "Background Color",
-        "description": "",
-        "id": "Background Color",
-        "text": "Фоновый цвет"
-    },
-    {
-        "source": "View",
-        "description": "",
-        "id": "View",
-        "text": "Посмотреть"
-    },
-    {
-        "source": "Information",
-        "description": "",
-        "id": "Information",
-        "text": "Информация"
-    },
-    {
-        "source": "File name",
-        "description": "",
-        "id": "File name",
-        "text": "Имя файла"
-    },
-    {
-        "source": "Name",
-        "description": "",
-        "id": "Name",
-        "text": "название"
-    },
-    {
-        "source": "Size",
-        "description": "",
-        "id": "Size",
-        "text": "Размер"
-    },
-    {
-        "source": "Type",
-        "description": "",
-        "id": "Type",
-        "text": "Тип"
-    },
-    {
-        "source": "Speed",
-        "description": "",
-        "id": "Speed",
-        "text": "скорость"
-    },
-    {
-        "source": "Duration",
-        "description": "",
-        "id": "Duration",
-        "text": "продолжительность"
-    },
-    {
-        "source": "Codec",
-        "description": "",
-        "id": "Codec",
-        "text": "кодер-декодер"
-    },
-    {
-        "source": "Video track",
-        "description": "",
-        "id": "Video track",
-        "text": "Видеодорожка"
-    },
-    {
-        "source": "Channels",
-        "description": "",
-        "id": "Channels",
-        "text": "каналы"
-    },
-    {
-        "source": "kHz",
-        "description": "",
-        "id": "kHz",
-        "text": "кГц"
-    },
-    {
-        "source": "Sample rate",
-        "description": "",
-        "id": "Sample rate",
-        "text": "Частота дискретизации"
-    },
-    {
-        "source": "Audio track",
-        "description": "",
-        "id": "Audio track",
-        "text": "Звуковая дорожка"
-    },
-    {
-        "source": "Tags",
-        "description": "",
-        "id": "Tags",
-        "text": "Теги"
-    },
-    {
-        "source": "Layers",
-        "description": "",
-        "id": "Layers",
-        "text": "Слои"
-    },
-    {
-        "source": "Magnify",
-        "description": "",
-        "id": "Magnify",
-        "text": "преувеличивать"
-    },
-    {
-        "source": "Activate the magnify tool",
-        "description": "",
-        "id": "Magnify tooltip",
-        "text": "Активировать инструмент увеличения"
-    },
-    {
-        "source": "Zoom into the image",
-        "description": "",
-        "id": "Magnify zoom in tooltip",
-        "text": "Увеличьте изображение"
-    },
-    {
-        "source": "Zoom out of the image",
-        "description": "",
-        "id": "Magnify zoom out tooltip",
-        "text": "Уменьшить изображение"
-    },
-    {
-        "source": "NUX",
-        "description": "",
-        "id": "NUX",
-        "text": "NUX"
-    },
-    {
-        "source": "Enable new-user experience on startup",
-        "description": "",
-        "id": "Enable new-user experience on startup",
-        "text": "Включить новый пользовательский опыт при запуске"
-    },
-    {
-        "source": "Choose your language",
-        "description": "",
-        "id": "Choose your language",
-        "text": "Выберите свой язык"
-    },
-    {
-        "source": "Choose a user interface size",
-        "description": "",
-        "id": "Choose a user interface size",
-        "text": "Выберите размер пользовательского интерфейса"
-    },
-    {
-        "source": "Choose a palette",
-        "description": "",
-        "id": "Choose a palette",
-        "text": "Выберите палитру"
-    },
-    {
-        "source": "Finish",
-        "description": "",
-        "id": "Finish",
-        "text": "Конец"
-    },
-    {
-        "source": "Show timeline PIP",
-        "description": "",
-        "id": "Show timeline PIP",
-        "text": "Показать график PIP"
-    },
-    {
-        "source": "Recent Files",
-        "description": "",
-        "id": "Recent Files",
-        "text": "Недавние файлы"
-    },
-    {
-        "source": "Increase Thumbnail Size",
-        "description": "",
-        "id": "Increase Thumbnail Size",
-        "text": "Увеличить размер миниатюры"
-    },
-    {
-        "source": "Increase the size of the thumbnails",
-        "description": "",
-        "id": "Recent files increase thumbnail size tooltip",
-        "text": "Увеличить размер миниатюр"
-    },
-    {
-        "source": "Decrease Thumbnail Size",
-        "description": "",
-        "id": "Decrease Thumbnail Size",
-        "text": "Уменьшить размер миниатюры"
-    },
-    {
-        "source": "Decrease the size of the thumbnails",
-        "description": "",
-        "id": "Recent files decrease thumbnail size tooltip",
-        "text": "Уменьшить размер миниатюр"
-    },
-    {
-        "source": "Search the recent files",
-        "description": "",
-        "id": "Recent files search tooltip",
-        "text": "Поиск последних файлов"
-    },
-    {
-        "source": "Show the recent files settings",
-        "description": "",
-        "id": "Recent files settings tooltip",
-        "text": "Показать последние настройки файлов"
-    },
-    {
-        "source": "Items",
-        "description": "",
-        "id": "Items",
-        "text": "Предметы"
-    },
-    {
-        "source": "Settings",
-        "description": "",
-        "id": "Settings",
-        "text": "настройки"
-    },
-    {
-        "source": "Copy",
-        "description": "",
-        "id": "Copy",
-        "text": "копия"
-    },
-    {
-        "source": "Clear",
-        "description": "",
-        "id": "Clear",
-        "text": "Очистить"
-    },
-    {
-        "source": "Tools",
-        "description": "",
-        "id": "Tools",
-        "text": "инструменты"
-    },
-    {
-        "source": "Information Widget",
-        "description": "",
-        "id": "Information Widget",
-        "text": "Информационный виджет"
-    },
-    {
-        "source": "Show the information widget",
-        "description": "",
-        "id": "Information widget tooltip",
-        "text": "Показать информационный виджет"
-    },
-    {
-        "source": "Auto Hide",
-        "description": "",
-        "id": "Auto Hide",
-        "text": "Авто Скрыть"
-    },
-    {
-        "source": "Automatically hide the user interface",
-        "description": "",
-        "id": "Automatically hide the user interface",
-        "text": "Автоматически скрывать пользовательский интерфейс"
-    },
-    {
-        "source": "Background Image",
-        "description": "",
-        "id": "Background Image",
-        "text": "Изображение на заднем плане"
-    },
-    {
-        "source": "Window",
-        "description": "",
-        "id": "Window",
-        "text": "Окно"
-    },
-    {
-        "source": "Open the file browser",
-        "description": "",
-        "id": "Open the file browser",
-        "text": "Откройте браузер файлов"
-    },
-    {
-        "source": "Clear the background image",
-        "description": "",
-        "id": "Clear the background image",
-        "text": "Очистить фоновое изображение"
-    },
-    {
-        "source": "Colorize with the UI style",
-        "description": "",
-        "id": "Colorize with the UI style",
-        "text": "Раскрасить с помощью стиля пользовательского интерфейса"
-    },
-    {
-        "source": "Full Screen",
-        "description": "",
-        "id": "Full Screen",
-        "text": "Полноэкранный"
-    },
-    {
-        "source": "Toggle full screen mode",
-        "description": "",
-        "id": "Full screen tooltip",
-        "text": "Переключить полноэкранный режим"
-    },
-    {
-        "source": "Maximized",
-        "description": "",
-        "id": "Maximized",
-        "text": "Развернутое"
-    },
-    {
-        "source": "Maximize the window",
-        "description": "",
-        "id": "Maximized tooltip",
-        "text": "Развернуть окно"
-    },
-    {
-        "source": "DJV Imaging",
-        "description": "",
-        "id": "About Title",
-        "text": "DJV Imaging"
-    },
-    {
-        "source": "Credits",
-        "description": "",
-        "id": "Credits",
-        "text": "кредиты"
-    },
-    {
-        "source": "Sponsors",
-        "description": "",
-        "id": "Sponsors",
-        "text": "Спонсоры"
-    },
-    {
-        "source": "License",
-        "description": "",
-        "id": "License",
-        "text": "Лицензия"
-    },
-    {
-        "source": "Copyright",
-        "description": "",
-        "id": "Copyright",
-        "text": "авторское право"
-    },
-    {
-        "source": "Third Party Software",
-        "description": "",
-        "id": "Third Party",
-        "text": "Программное обеспечение сторонних производителей"
-    },
-    {
-        "source": "Trademarks",
-        "description": "",
-        "id": "Trademarks",
-        "text": "Торговая марка"
-    },
-    {
-        "source": "Darby Johnston",
-        "description": "",
-        "id": "Credits Darby Johnston",
-        "language": "en",
-        "text": "Darby Johnston"
-    },
-    {
-        "source": "Principal author",
-        "description": "",
-        "id": "Credits Darby Johnston Text",
-        "text": "Основной автор"
-    },
-    {
-        "source": "Kent Oberheu, https://semafore.com",
-        "description": "",
-        "id": "Credits Kent Oberheu",
-        "language": "en",
-        "text": "Kent Oberheu, https://semafore.com"
-    },
-    {
-        "source": "Identity, iconography, UI / UX design",
-        "description": "",
-        "id": "Credits Kent Oberheu Text",
-        "text": "Фирменный стиль, иконография, UI / UX дизайн"
-    },
-    {
-        "source": "Siciliana Johnston",
-        "description": "",
-        "id": "Credits Siciliana Johnston",
-        "language": "en",
-        "text": "Siciliana Johnston"
-    },
-    {
-        "source": "Web design, social media",
-        "description": "",
-        "id": "Credits Siciliana Johnston Text",
-        "text": "Веб-дизайн, социальные сети"
-    },
-    {
-        "source": "Mikael Sundell",
-        "description": "",
-        "id": "Credits Mikael Sundell",
-        "language": "en",
-        "text": "Mikael Sundell"
-    },
-    {
-        "source": "IFF image file format support, example images",
-        "description": "",
-        "id": "Credits Mikael Sundell Text",
-        "text": "Поддержка формата файлов изображений IFF, примеры изображений"
-    },
-    {
-        "source": "unexpected GmbH, https://www.unexpected.de",
-        "description": "",
-        "id": "Sponsors unexpected",
-        "language": "en",
-        "text": "unexpected GmbH, https://www.unexpected.de"
-    },
-    {
-        "source": "Copyright (c) 2004-2020 Darby Johnston, All rights reserved",
-        "description": "",
-        "id": "License 1",
-        "language": "en",
-        "text": "Copyright (c) 2004-2020 Darby Johnston, All rights reserved"
-    },
-    {
-        "source": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:",
-        "description": "",
-        "id": "License 2",
-        "language": "en",
-        "text": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:"
-    },
-    {
-        "source": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.",
-        "description": "",
-        "id": "License 3",
-        "language": "en",
-        "text": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer."
-    },
-    {
-        "source": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.",
-        "description": "",
-        "id": "License 4",
-        "language": "en",
-        "text": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution."
-    },
-    {
-        "source": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.",
-        "description": "",
-        "id": "License 5",
-        "language": "en",
-        "text": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission."
-    },
-    {
-        "source": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.",
-        "description": "",
-        "id": "License 6",
-        "language": "en",
-        "text": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
-    },
-    {
-        "source": "Portions of this software are copyright (in alphabetical order):",
-        "description": "",
-        "id": "Copyright Text",
-        "text": "На некоторые части данного программного обеспечения распространяется авторское право (в алфавитном порядке):"
-    },
-    {
-        "source": "* Copyright (c) 2004-2020 Darby Johnston, All rights reserved",
-        "description": "",
-        "id": "Copyright Darby Johnston",
-        "language": "en",
-        "text": "* Copyright (c) 2004-2020 Darby Johnston, All rights reserved"
-    },
-    {
-        "source": "* Copyright (c) 2019 Kent Oberheu, All rights reserved",
-        "description": "",
-        "id": "Copyright Kent Oberheu",
-        "language": "en",
-        "text": "* Copyright (c) 2019 Kent Oberheu, All rights reserved"
-    },
-    {
-        "source": "* Copyright (c) 2008-2009 Mikael Sundell, All rights reserved",
-        "description": "",
-        "id": "Copyright Mikael Sundell",
-        "language": "en",
-        "text": "* Copyright (c) 2008-2009 Mikael Sundell, All rights reserved"
-    },
-    {
-        "source": "This software is based in part on the works of (in alphabetical order):",
-        "description": "",
-        "id": "Third Party Text",
-        "text": "Это программное обеспечение частично основано на работах (в алфавитном порядке):"
-    },
-    {
-        "source": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium, All rights reserved",
-        "description": "",
-        "id": "Third Party CMake",
-        "language": "en",
-        "text": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium, All rights reserved"
-    },
-    {
-        "source": "* FFMpeg, http://www.ffmpeg.org, Licensed under the LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html",
-        "description": "",
-        "id": "Third Party FFMpeg",
-        "language": "en",
-        "text": "* FFMpeg, http://www.ffmpeg.org, Licensed under the LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html"
-    },
-    {
-        "source": "* FreeType, http://www.freetype.org, Copyright (c) 2018, The FreeType Project",
-        "description": "",
-        "id": "Third Party FreeType",
-        "language": "en",
-        "text": "* FreeType, http://www.freetype.org, Copyright (c) 2018, The FreeType Project"
-    },
-    {
-        "source": "* GLFW, http://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla Löwy <elmindreda@glfw.org>",
-        "description": "",
-        "id": "Third Party GLFW",
-        "language": "en",
-        "text": "* GLFW, http://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla Löwy <elmindreda@glfw.org>"
-    },
-    {
-        "source": "* GLM, http://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation",
-        "description": "",
-        "id": "Third Party GLM",
-        "language": "en",
-        "text": "* GLM, http://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation"
-    },
-    {
-        "source": "* MbedTLS, http://tls.mbed.org, Copyright © 2008 - 2016 ARM Limited, All rights reserved",
-        "description": "",
-        "id": "Third Party MbedTLS",
-        "language": "en",
-        "text": "* MbedTLS, http://tls.mbed.org, Copyright © 2008 - 2016 ARM Limited, All rights reserved"
-    },
-    {
-        "source": "* OpenAL, http://www.openal.org, Copyright (C) 1999-2000 by Loki Software",
-        "description": "",
-        "id": "Third Party OpenAL",
-        "language": "en",
-        "text": "* OpenAL, http://www.openal.org, Copyright (C) 1999-2000 by Loki Software"
-    },
-    {
-        "source": "* OpenColorIO, http://opencolorio.org, Copyright (c) 2003-2010 Sony Pictures Imageworks Inc., et al., All rights reserved",
-        "description": "",
-        "id": "Third Party OpenColorIO",
-        "language": "en",
-        "text": "* OpenColorIO, http://opencolorio.org, Copyright (c) 2003-2010 Sony Pictures Imageworks Inc., et al., All rights reserved"
-    },
-    {
-        "source": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd.",
-        "description": "",
-        "id": "Third Party OpenEXR",
-        "language": "en",
-        "text": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd."
-    },
-    {
-        "source": "* curl, http://curl.haxx.se/libcurl, Copyright (c) 1996 - 2019, Daniel Stenberg, <daniel@haxx.se>, and many contributors, see the THANKS file",
-        "description": "",
-        "id": "Third Party curl",
-        "language": "en",
-        "text": "* curl, http://curl.haxx.se/libcurl, Copyright (c) 1996 - 2019, Daniel Stenberg, <daniel@haxx.se>, and many contributors, see the THANKS file"
-    },
-    {
-        "source": "* dr_libs, http://github.com/mackron/dr_libs, David Reid",
-        "description": "",
-        "id": "Third Party dr_libs",
-        "language": "en",
-        "text": "* dr_libs, http://github.com/mackron/dr_libs, David Reid"
-    },
-    {
-        "source": "* glad, http://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth",
-        "description": "",
-        "id": "Third Party glad",
-        "language": "en",
-        "text": "* glad, http://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth"
-    },
-    {
-        "source": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding",
-        "description": "",
-        "id": "Third Party libjpeg",
-        "language": "en",
-        "text": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding"
-    },
-    {
-        "source": "* libjpeg-turbo, http://libjpeg-turbo.org, Copyright (C)2009-2019 D. R. Commander, All Rights Reserved, Copyright (C)2015 Viktor Szathmáry, All Rights Reserved",
-        "description": "",
-        "id": "Third Party libjpeg-turbo",
-        "language": "en",
-        "text": "* libjpeg-turbo, http://libjpeg-turbo.org, Copyright (C)2009-2019 D. R. Commander, All Rights Reserved, Copyright (C)2015 Viktor Szathmáry, All Rights Reserved"
-    },
-    {
-        "source": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson",
-        "description": "",
-        "id": "Third Party libpng",
-        "language": "en",
-        "text": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson"
-    },
-    {
-        "source": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc",
-        "description": "",
-        "id": "Third Party libtiff",
-        "language": "en",
-        "text": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc"
-    },
-    {
-        "source": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler",
-        "description": "",
-        "id": "Third Party zlib",
-        "language": "en",
-        "text": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler"
-    },
-    {
-        "source": "Trademarks named in the documentation (in alphabetical order):",
-        "description": "",
-        "id": "Trademarks Text",
-        "text": "Торговые марки, названные в документации (в алфавитном порядке):"
-    },
-    {
-        "source": "* Apple, OS X, ProRes, and QuickTime are registered trademarks of Apple, Inc.",
-        "description": "",
-        "id": "Trademarks Apple",
-        "language": "en",
-        "text": "* Apple, OS X, ProRes, and QuickTime are registered trademarks of Apple, Inc."
-    },
-    {
-        "source": "* AMD and ATI are registered trademarks of Advanced Micro Devices, Inc.",
-        "description": "",
-        "id": "Trademarks AMD",
-        "language": "en",
-        "text": "* AMD and ATI are registered trademarks of Advanced Micro Devices, Inc."
-    },
-    {
-        "source": "* Autodesk, Inferno, Maya, Softimage, and XSI are registered trademarks of Autodesk, Inc.",
-        "description": "",
-        "id": "Trademarks Autodesk",
-        "language": "en",
-        "text": "* Autodesk, Inferno, Maya, Softimage, and XSI are registered trademarks of Autodesk, Inc."
-    },
-    {
-        "source": "* Debian is a registered trademark of Software in the Public Interest, Inc.",
-        "description": "",
-        "id": "Trademarks Debian",
-        "language": "en",
-        "text": "* Debian is a registered trademark of Software in the Public Interest, Inc."
-    },
-    {
-        "source": "* FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project",
-        "description": "",
-        "id": "Trademarks FFmpeg",
-        "language": "en",
-        "text": "* FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project"
-    },
-    {
-        "source": "* FreeBSD is a registered trademark of The FreeBSD Foundation",
-        "description": "",
-        "id": "Trademarks FreeBSD",
-        "language": "en",
-        "text": "* FreeBSD is a registered trademark of The FreeBSD Foundation"
-    },
-    {
-        "source": "* Intel is a registered trademark of Intel Corporation",
-        "description": "",
-        "id": "Trademarks Intel",
-        "language": "en",
-        "text": "* Intel is a registered trademark of Intel Corporation"
-    },
-    {
-        "source": "* Industrial Light and Magic and ILM are registered trademarks of Lucasfilm Ltd.",
-        "description": "",
-        "id": "Trademarks Lucasfilm",
-        "language": "en",
-        "text": "* Industrial Light and Magic and ILM are registered trademarks of Lucasfilm Ltd."
-    },
-    {
-        "source": "* Kodak and Cineon are a registered trademarks of the Eastman Kodak Company",
-        "description": "",
-        "id": "Trademarks Kodak",
-        "language": "en",
-        "text": "* Kodak and Cineon are a registered trademarks of the Eastman Kodak Company"
-    },
-    {
-        "source": "* Linux is a registered trademark of Linus Torvalds",
-        "description": "",
-        "id": "Trademarks Linux",
-        "language": "en",
-        "text": "* Linux is a registered trademark of Linus Torvalds"
-    },
-    {
-        "source": "* Microsoft, Microsoft Windows, and Azure are registered trademarks of Microsoft, Inc.",
-        "description": "",
-        "id": "Trademarks Microsoft",
-        "language": "en",
-        "text": "* Microsoft, Microsoft Windows, and Azure are registered trademarks of Microsoft, Inc."
-    },
-    {
-        "source": "* MIPS is a registered trademark of MIPS Technologies, Inc.",
-        "description": "",
-        "id": "Trademarks MIPS",
-        "language": "en",
-        "text": "* MIPS is a registered trademark of MIPS Technologies, Inc."
-    },
-    {
-        "source": "* NVIDIA is a registered trademark of NVIDIA Corporation",
-        "description": "",
-        "id": "Trademarks NVIDIA",
-        "language": "en",
-        "text": "* NVIDIA is a registered trademark of NVIDIA Corporation"
-    },
-    {
-        "source": "* Red Hat and Fedora are registered trademarks of Red Hat, Inc.",
-        "description": "",
-        "id": "Trademarks Red Hat",
-        "language": "en",
-        "text": "* Red Hat and Fedora are registered trademarks of Red Hat, Inc."
-    },
-    {
-        "source": "* Silicon Graphics, SGI, IRIX, and OpenGL are registered trademarks of Silicon Graphics International Corp.",
-        "description": "",
-        "id": "Trademarks SGI",
-        "language": "en",
-        "text": "* Silicon Graphics, SGI, IRIX, and OpenGL are registered trademarks of Silicon Graphics International Corp."
-    },
-    {
-        "source": "* SMPTE is a registered trademark of the Society of Motion Picture and Television Engineers",
-        "description": "",
-        "id": "Trademarks SMPTE",
-        "language": "en",
-        "text": "* SMPTE is a registered trademark of the Society of Motion Picture and Television Engineers"
-    },
-    {
-        "source": "* SourceForge.net is a registered trademark of VA Software Corporation",
-        "description": "",
-        "id": "Trademarks SourceForge",
-        "language": "en",
-        "text": "* SourceForge.net is a registered trademark of VA Software Corporation"
-    },
-    {
-        "source": "* SuSE is a registered trademark of Novell, Inc.",
-        "description": "",
-        "id": "Trademarks SuSE",
-        "language": "en",
-        "text": "* SuSE is a registered trademark of Novell, Inc."
-    },
-    {
-        "source": "* Ubuntu is a registered trademark of Canonical Ltd.",
-        "description": "",
-        "id": "Trademarks Ubuntu",
-        "language": "en",
-        "text": "* Ubuntu is a registered trademark of Canonical Ltd."
-    },
-    {
-        "source": "* UNIX is a registered trademark of The Open Group",
-        "description": "",
-        "id": "Trademarks UNIX",
-        "language": "en",
-        "text": "* UNIX is a registered trademark of The Open Group"
-    },
-    {
-        "source": "All other products named in the documentation are trademarks of their respective owners.",
-        "description": "",
-        "id": "Trademarks End",
-        "text": "Все остальные продукты, указанные в документации, являются товарными знаками соответствующих владельцев."
-    },
-    {
-        "source": "Made in Berkeley, CA, USA",
-        "description": "",
-        "id": "Made In",
-        "text": "Сделано в Беркли, Калифорния, США"
-    },
-    {
-        "source": "Cannot parse the value.",
-        "description": "",
-        "id": "Cannot parse the value.",
-        "text": "Невозможно проанализировать значение."
-    },
-    {
-        "source": "Fit",
-        "description": "",
-        "id": "Fit",
-        "text": "Поместиться"
-    },
-    {
-        "source": "Center",
-        "description": "",
-        "id": "Center",
-        "text": "Центр"
-    },
-    {
-        "source": "0",
-        "description": "",
-        "id": "0",
-        "text": "0"
-    },
-    {
-        "source": "90",
-        "description": "",
-        "id": "90",
-        "text": "90"
-    },
-    {
-        "source": "180",
-        "description": "",
-        "id": "180",
-        "text": "180"
-    },
-    {
-        "source": "270",
-        "description": "",
-        "id": "270",
-        "text": "270"
-    },
-    {
-        "source": "Native",
-        "description": "",
-        "id": "Native",
-        "text": "Родные"
-    },
-    {
-        "source": "16:9",
-        "description": "",
-        "id": "16:9",
-        "text": "16: 9"
-    },
-    {
-        "source": "1.85",
-        "description": "",
-        "id": "1.85",
-        "text": "1,85"
-    },
-    {
-        "source": "2.35",
-        "description": "",
-        "id": "2.35",
-        "text": "2,35"
-    },
-    {
-        "source": "Stop",
-        "description": "",
-        "id": "Stop",
-        "text": "Стоп"
-    },
-    {
-        "source": "Once",
-        "description": "",
-        "id": "Once",
-        "text": "однажды"
-    },
-    {
-        "source": "Ping Pong",
-        "description": "",
-        "id": "PingPong",
-        "text": "Пинг-понг"
-    },
-    {
-        "source": "Color Space Widget",
-        "description": "",
-        "id": "Color Space Widget",
-        "text": "Виджет Цветового Пространства"
-    },
-    {
-        "source": "Show the color space widget",
-        "description": "",
-        "id": "Color space widget tooltip",
-        "text": "Показать виджет цветового пространства"
-    },
-    {
-        "source": "Red Channel",
-        "description": "",
-        "id": "Red Channel",
-        "text": "Красный канал"
-    },
-    {
-        "source": "Show the red channel",
-        "description": "",
-        "id": "Red channel tooltip",
-        "text": "Показать красный канал"
-    },
-    {
-        "source": "Green Channel",
-        "description": "",
-        "id": "Green Channel",
-        "text": "Зеленый коридор"
-    },
-    {
-        "source": "Show the green channel",
-        "description": "",
-        "id": "Green channel tooltip",
-        "text": "Показать зеленый канал"
-    },
-    {
-        "source": "Blue Channel",
-        "description": "",
-        "id": "Blue Channel",
-        "text": "Голубой канал"
-    },
-    {
-        "source": "Show the blue channel",
-        "description": "",
-        "id": "Blue channel tooltip",
-        "text": "Показать синий канал"
-    },
-    {
-        "source": "Alpha Channel",
-        "description": "",
-        "id": "Alpha Channel",
-        "text": "Альфа-канал"
-    },
-    {
-        "source": "Show the alpha channel",
-        "description": "",
-        "id": "Alpha channel tooltip",
-        "text": "Показать альфа-канал"
-    },
-    {
-        "source": "Premultiplied Alpha",
-        "description": "",
-        "id": "Premultiplied Alpha",
-        "text": "Предварительно умноженная Альфа"
-    },
-    {
-        "source": "Premultiply the color channels by the alpha channel",
-        "description": "",
-        "id": "Premultiplied alpha tooltip",
-        "text": "Предварительно умножьте цветовые каналы на альфа-канал"
-    },
-    {
-        "source": "Mirror Horizontal",
-        "description": "",
-        "id": "Mirror Horizontal",
-        "text": "Зеркало Горизонтальное"
-    },
-    {
-        "source": "Mirror the image horizontally",
-        "description": "",
-        "id": "Mirror horizontal tooltip",
-        "text": "Зеркальное отображение изображения по горизонтали"
-    },
-    {
-        "source": "Mirror Vertical",
-        "description": "",
-        "id": "Mirror Vertical",
-        "text": "Зеркало Вертикальное"
-    },
-    {
-        "source": "Mirror the image vertically",
-        "description": "",
-        "id": "Mirror vertical tooltip",
-        "text": "Зеркальное отображение изображения по вертикали"
-    },
-    {
-        "source": "Rotate 0",
-        "description": "",
-        "id": "Rotate 0",
-        "text": "Повернуть 0"
-    },
-    {
-        "source": "Rotate the image 0 degrees",
-        "description": "",
-        "id": "Rotate 0 tooltip",
-        "text": "Повернуть изображение на 0 градусов"
-    },
-    {
-        "source": "Rotate 90",
-        "description": "",
-        "id": "Rotate 90",
-        "text": "Повернуть на 90"
-    },
-    {
-        "source": "Rotate the image 90 degrees",
-        "description": "",
-        "id": "Rotate 90 tooltip",
-        "text": "Повернуть изображение на 90 градусов"
-    },
-    {
-        "source": "Rotate 180",
-        "description": "",
-        "id": "Rotate 180",
-        "text": "Повернуть на 180"
-    },
-    {
-        "source": "Rotate the image 180 degrees",
-        "description": "",
-        "id": "Rotate 180 tooltip",
-        "text": "Повернуть изображение на 180 градусов"
-    },
-    {
-        "source": "Rotate 270",
-        "description": "",
-        "id": "Rotate 270",
-        "text": "Поворот 270"
-    },
-    {
-        "source": "Rotate the image 270 degrees",
-        "description": "",
-        "id": "Rotate 270 tooltip",
-        "text": "Повернуть изображение на 270 градусов"
-    },
-    {
-        "source": "Native Aspect Ratio",
-        "description": "",
-        "id": "Native Aspect Ratio",
-        "text": "Родное соотношение сторон"
-    },
-    {
-        "source": "Show the image at it's native resolution",
-        "description": "",
-        "id": "Native aspect ratio tooltip",
-        "text": "Показать изображение в собственном разрешении"
-    },
-    {
-        "source": "Default Aspect Ratio",
-        "description": "",
-        "id": "Default Aspect Ratio",
-        "text": "Соотношение сторон по умолчанию"
-    },
-    {
-        "source": "Show the image at it's intended resolution",
-        "description": "",
-        "id": "Default aspect ratio tooltip",
-        "text": "Показать изображение в предполагаемом разрешении"
-    },
-    {
-        "source": "Show the image with a 16:9 aspect ratio",
-        "description": "",
-        "id": "16:9 aspect ratio tooltip",
-        "text": "Показать изображение с соотношением сторон 16: 9"
-    },
-    {
-        "source": "Show the image with a 1.85 aspect ratio",
-        "description": "",
-        "id": "1.85 aspect ratio tooltip",
-        "text": "Показать изображение с соотношением сторон 1,85"
-    },
-    {
-        "source": "Show the image with a 2.35 aspect ratio",
-        "description": "",
-        "id": "2.35 aspect ratio tooltip",
-        "text": "Показать изображение с соотношением сторон 2,35"
-    },
-    {
-        "source": "Frame Store",
-        "description": "",
-        "id": "Frame Store",
-        "text": "Frame Store"
-    },
-    {
-        "source": "Show the frame store",
-        "description": "",
-        "id": "Frame store tooltip",
-        "text": "Показать магазин кадров"
-    },
-    {
-        "source": "Load Frame Store",
-        "description": "",
-        "id": "Load Frame Store",
-        "text": "Загрузить магазин кадров"
-    },
-    {
-        "source": "Load the current frame into the frame store",
-        "description": "",
-        "id": "Load frame store tooltip",
-        "text": "Загрузить текущий кадр в хранилище кадров"
-    },
-    {
-        "source": "Pan View",
-        "description": "",
-        "id": "Pan View",
-        "text": "Панорамирование"
-    },
-    {
-        "source": "Activate the pan view tool",
-        "description": "",
-        "id": "Pan view tooltip",
-        "text": "Активируйте инструмент панорамирования"
-    },
-    {
-        "source": "Left",
-        "description": "",
-        "id": "Left",
-        "text": "Оставил"
-    },
-    {
-        "source": "Move the view left",
-        "description": "",
-        "id": "Left tooltip",
-        "text": "Переместить вид влево"
-    },
-    {
-        "source": "Right",
-        "description": "",
-        "id": "Right",
-        "text": "Правильно"
-    },
-    {
-        "source": "Move the view right",
-        "description": "",
-        "id": "Right tooltip",
-        "text": "Переместить вид вправо"
-    },
-    {
-        "source": "Up",
-        "description": "",
-        "id": "Up",
-        "text": "вверх"
-    },
-    {
-        "source": "Move the view up",
-        "description": "",
-        "id": "Up tooltip",
-        "text": "Переместить вид вверх"
-    },
-    {
-        "source": "Down",
-        "description": "",
-        "id": "Down",
-        "text": "вниз"
-    },
-    {
-        "source": "Move the view down",
-        "description": "",
-        "id": "Down tooltip",
-        "text": "Переместить вид вниз"
-    },
-    {
-        "source": "North West",
-        "description": "",
-        "id": "North West",
-        "text": "северо-Запад"
-    },
-    {
-        "source": "Move the view Northwest",
-        "description": "",
-        "id": "North west tooltip",
-        "text": "Переместить вид на северо-запад"
-    },
-    {
-        "source": "North East",
-        "description": "",
-        "id": "North East",
-        "text": "к северо-востоку"
-    },
-    {
-        "source": "North the view Northeast",
-        "description": "",
-        "id": "North east tooltip",
-        "text": "Север вид северо-восток"
-    },
-    {
-        "source": "South east",
-        "description": "",
-        "id": "South east",
-        "text": "Юго восток"
-    },
-    {
-        "source": "Move the view Southeast",
-        "description": "",
-        "id": "South east tooltip",
-        "text": "Переместить вид на юго-восток"
-    },
-    {
-        "source": "South West",
-        "description": "",
-        "id": "South West",
-        "text": "Юго-запад"
-    },
-    {
-        "source": "Move the view Southwest",
-        "description": "",
-        "id": "South west tooltip",
-        "text": "Переместить вид на юго-запад"
-    },
-    {
-        "source": "Zoom In",
-        "description": "",
-        "id": "Zoom In",
-        "text": "Приблизить"
-    },
-    {
-        "source": "Zoom the view in",
-        "description": "",
-        "id": "Zoom in tooltip",
-        "text": "Увеличить вид в"
-    },
-    {
-        "source": "Zoom Out",
-        "description": "",
-        "id": "Zoom Out",
-        "text": "Уменьшить"
-    },
-    {
-        "source": "Zoom the view out",
-        "description": "",
-        "id": "Zoom out tooltip",
-        "text": "Уменьшить вид"
-    },
-    {
-        "source": "Fit To Image",
-        "description": "",
-        "id": "Fit To Image",
-        "text": "Подходит для изображения"
-    },
-    {
-        "source": "Fit the image to the window",
-        "description": "",
-        "id": "Fit to image tooltip",
-        "text": "Подогнать изображение к окну"
-    },
-    {
-        "source": "Center the image in the window with a 1:1 zoom",
-        "description": "",
-        "id": "Center image tooltip",
-        "text": "Сосредоточьте изображение в окне с масштабом 1: 1"
-    },
-    {
-        "source": "Lock Fit To Image",
-        "description": "",
-        "id": "Lock Fit To Image",
-        "text": "Lock Fit To Image"
-    },
-    {
-        "source": "Lock the image fitted to the window",
-        "description": "",
-        "id": "Lock fit to image tooltip",
-        "text": "Блокировка изображения, вписанного в окно"
-    },
-    {
-        "source": "Lock Center",
-        "description": "",
-        "id": "Lock Center",
-        "text": "Замок Центр"
-    },
-    {
-        "source": "Lock the image centered in the window with a 1:1 zoom",
-        "description": "",
-        "id": "Lock center image tooltip",
-        "text": "Заблокируйте изображение по центру окна с масштабированием 1: 1"
-    },
-    {
-        "source": "Grid",
-        "description": "",
-        "id": "Grid",
-        "text": "сетка"
-    },
-    {
-        "source": "Show a grid",
-        "description": "",
-        "id": "Grid tooltip",
-        "text": "Показать сетку"
-    },
-    {
-        "source": "HUD",
-        "description": "",
-        "id": "HUD",
-        "text": "HUD"
-    },
-    {
-        "source": "Show the heads up display",
-        "description": "",
-        "id": "HUD tooltip",
-        "text": "Показать заголовок дисплея"
-    },
-    {
-        "source": "Show the opened files",
-        "description": "",
-        "id": "Media popup tooltip",
-        "text": "Показать открытые файлы"
-    },
-    {
-        "source": "Automatically hide the user interface when the mouse doesn't move",
-        "description": "",
-        "id": "Auto hide tooltip",
-        "text": "Автоматически скрывать пользовательский интерфейс, когда мышь не двигается"
-    },
-    {
-        "source": "Show the settings",
-        "description": "",
-        "id": "Settings tooltip",
-        "text": "Показать настройки"
-    },
-    {
-        "source": "Activate the annotation tool",
-        "description": "",
-        "id": "Annotate tooltip",
-        "text": "Активировать инструмент аннотации"
-    },
-    {
-        "source": "Color Space",
-        "description": "",
-        "id": "Color Space",
-        "text": "Цветовое пространство"
-    },
-    {
-        "source": "(empty)",
-        "description": "",
-        "id": "(empty)",
-        "text": "(Пусто)"
-    },
-    {
-        "source": "Input:",
-        "description": "",
-        "id": "Input:",
-        "text": "Входные данные:"
-    },
-    {
-        "source": "Display:",
-        "description": "",
-        "id": "Display:",
-        "text": "Дисплей:"
-    },
-    {
-        "source": "View:",
-        "description": "",
-        "id": "View:",
-        "text": "Посмотреть:"
-    },
-    {
-        "source": "Automatically hide the user interface",
-        "text": "Автоматически скрывать пользовательский интерфейс",
-        "id": "Auto-hide tooltip",
-        "description": ""
-    },
-    {
-        "source": "Auto-Hide",
-        "text": "Авто-Скрыть",
-        "id": "Auto-Hide",
-        "description": ""
-    },
-    {
-        "id": "Fullscreen",
-        "source": "Fullscreen",
-        "description": "",
-        "text": "Полноэкранный"
-    },
-    {
-        "id": "Monitor",
-        "source": "Monitor",
-        "description": "",
-        "text": "монитор"
-    },
-    {
-        "id": "frames",
-        "source": "frames",
-        "description": "",
-        "text": "кадры"
-    },
-    {
-        "id": "Zoom Reset",
-        "source": "Zoom Reset",
-        "description": "",
-        "text": "Zoom Reset"
-    },
-    {
-        "id": "Zoom reset tooltip",
-        "source": "Reset the zoom to 1.0",
-        "description": "",
-        "text": "Сбросить масштаб до 1,0"
-    },
-    {
-        "id": "Full",
-        "source": "Full",
-        "description": "",
-        "text": "Полный"
-    },
-    {
-        "id": "Full view tooltip",
-        "source": "Set the view so the image fills the window",
-        "description": "",
-        "text": "Установите вид так, чтобы изображение заполняло окно"
-    },
-    {
-        "id": "Frame",
-        "source": "Frame",
-        "description": "",
-        "text": "Рамка"
-    },
-    {
-        "id": "Frame view tooltip",
-        "source": "Frame the image within the view",
-        "description": "",
-        "text": "Рамка изображения в представлении"
-    },
-    {
-        "id": "Center view tooltip",
-        "source": "Center the view and set the zoom to 1.0",
-        "description": "",
-        "text": "Отцентрируйте вид и установите масштаб 1,0"
-    },
-    {
-        "id": "Lock Full",
-        "source": "Lock Full",
-        "description": "",
-        "text": "Блокировка полная"
-    },
-    {
-        "id": "Lock full view tooltip",
-        "source": "Lock the view so the image fills the window",
-        "description": "",
-        "text": "Заблокируйте вид, чтобы изображение заполняло окно"
-    },
-    {
-        "id": "Lock Frame",
-        "source": "Lock Frame",
-        "description": "",
-        "text": "Блокировка кадра"
-    },
-    {
-        "id": "Lock frame view tooltip",
-        "source": "Lock the view so the image fills the window without being obscured by the user interface",
-        "description": "",
-        "text": "Заблокируйте вид, чтобы изображение заполняло окно, не закрываясь пользовательским интерфейсом."
-    },
-    {
-        "id": "Lock center view tooltip",
-        "source": "Lock the view so the image is centered and the zoom is 1:1",
-        "description": "",
-        "text": "Заблокируйте вид, чтобы изображение находилось по центру, а масштаб был 1: 1."
-    },
-    {
-        "source": "Maximize",
-        "text": "максимизировать",
-        "description": "",
-        "id": "Maximize"
-    },
-    {
-        "source": "Fit the window to the image",
-        "text": "Подогнать окно к изображению",
-        "description": "",
-        "id": "Fit tooltip"
-    },
-    {
-        "source": "The file",
-        "description": "",
-        "id": "The file",
-        "text": "Файл"
-    },
-    {
-        "source": "cannot be read",
-        "description": "",
-        "id": "cannot be read",
-        "text": "не может быть прочитано"
-    },
-    {
-        "source": "Config",
-        "description": "",
-        "id": "Config",
-        "text": "конфиг"
-    },
-    {
-        "source": "Display",
-        "description": "",
-        "id": "Display",
-        "text": "дисплей"
-    },
-    {
-        "source": "Add a new OpenColorIO configuration",
-        "description": "",
-        "id": "Color space add config tooltip",
-        "text": "Добавить новую конфигурацию OpenColorIO"
-    },
-    {
-        "source": "Edit the list of OpenColorIO configurations",
-        "description": "",
-        "id": "Color space edit configs tooltip",
-        "text": "Редактировать список конфигураций OpenColorIO"
-    },
-    {
-        "source": "Assign a color space to a file format",
-        "description": "",
-        "id": "Color space add image tooltip",
-        "text": "Назначьте цветовое пространство для формата файла"
-    },
-    {
-        "source": "Edit the list of color spaces",
-        "description": "",
-        "id": "Color space edit images tooltip",
-        "text": "Редактировать список цветовых пространств"
-    },
-    {
-        "source": "Fill",
-        "description": "",
-        "id": "Fill",
-        "text": "заполнить"
-    },
-    {
-        "source": "Errors",
-        "description": "",
-        "id": "Errors",
-        "text": "ошибки"
-    },
-    {
-        "source": "Popup",
-        "description": "",
-        "id": "Popup",
-        "text": "Выскакивать"
-    },
-    {
-        "source": "Show this window when there are errors",
-        "description": "",
-        "id": "Errors widget popup tooltip",
-        "text": "Показывать это окно при наличии ошибок"
-    },
-    {
-        "source": "Copy the errors to the clipboard",
-        "description": "",
-        "id": "Errors widget copy tooltip",
-        "text": "Скопируйте ошибки в буфер обмена"
-    },
-    {
-        "source": "Clear the errors",
-        "description": "",
-        "id": "Errors widget clear tooltip",
-        "text": "Очистить ошибки"
-    },
-    {
-        "source": "Show the layers widget",
-        "description": "",
-        "id": "Layers tooltip",
-        "text": "Показать виджет слоев"
-    },
-    {
-        "source": "Alpha Blend",
-        "description": "",
-        "id": "Alpha Blend",
-        "text": "Альфа-смесь"
-    },
-    {
-        "source": "No Alpha",
-        "description": "",
-        "id": "No Alpha",
-        "text": "Нет альфа"
-    },
-    {
-        "source": "No alpha blending",
-        "description": "",
-        "id": "No alpha tooltip",
-        "text": "Без альфа-смешивания"
-    },
-    {
-        "source": "Straight Alpha",
-        "description": "",
-        "id": "Straight Alpha",
-        "text": "Прямой Альфа"
-    },
-    {
-        "source": "Straight alpha blending",
-        "description": "",
-        "id": "Straight alpha blend tooltip",
-        "text": "Прямое альфа-смешение"
-    },
-    {
-        "source": "Premultiplied alpha blending",
-        "description": "",
-        "id": "Premultiplied alpha blend tooltip",
-        "text": "Предварительно умноженное альфа-смешение"
-    },
-    {
-        "source": "Fill the view with the image",
-        "description": "",
-        "id": "Fill view tooltip",
-        "text": "Заполните вид с изображением"
-    },
-    {
-        "source": "Memory cache usage",
-        "description": "",
-        "id": "Memory cache thermometer tooltip",
-        "text": "Использование кеша памяти"
-    },
-    {
-        "source": "The current frame",
-        "description": "",
-        "id": "Current frame tooltip",
-        "text": "Текущий кадр"
-    },
-    {
-        "source": "The playback in point",
-        "description": "",
-        "id": "In point tooltip",
-        "text": "Воспроизведение в точке"
-    },
-    {
-        "source": "The playback out point",
-        "description": "",
-        "id": "Out point tooltip",
-        "text": "Точка воспроизведения"
-    },
-    {
-        "source": "Enable",
-        "description": "",
-        "id": "Enable",
-        "text": "включить"
-    },
-    {
-        "source": "GB",
-        "description": "",
-        "id": "GB",
-        "text": "гигабайт"
-    },
-    {
-        "source": "Used",
-        "description": "",
-        "id": "Used",
-        "text": "Используемый"
-    },
-    {
-        "source": "Automatically start playback",
-        "description": "",
-        "id": "Automatically start playback",
-        "text": "Автоматически начать воспроизведение"
-    },
-    {
-        "source": "Playback Speed",
-        "description": "",
-        "id": "Playback Speed",
-        "text": "Скорость воспроизведения"
-    },
-    {
-        "source": "Playback every frame",
-        "description": "",
-        "id": "Playback every frame",
-        "text": "Воспроизведение каждого кадра"
-    },
-    {
-        "source": "Default speed",
-        "description": "",
-        "id": "Default speed",
-        "text": "Скорость по умолчанию"
-    },
-    {
-        "source": "Timeline",
-        "description": "",
-        "id": "Timeline",
-        "text": "Лента новостей"
-    },
-    {
-        "source": "Show PIP (picture in picture)",
-        "description": "",
-        "id": "Show PIP (picture in picture)",
-        "text": "Показать PIP (картинка в картинке)"
-    },
-    {
-        "source": "Reset speed",
-        "description": "",
-        "id": "Reset speed",
-        "text": "Сбросить скорость"
-    },
-    {
-        "source": "Reset speed tooltip",
-        "description": "",
-        "id": "Reset speed tooltip",
-        "text": "Сброс всплывающей подсказки"
-    },
-    {
-        "source": "Increase",
-        "description": "",
-        "id": "Increase",
-        "text": "Увеличение"
-    },
-    {
-        "source": "Decrease",
-        "description": "",
-        "id": "Decrease",
-        "text": "Уменьшить"
-    },
-    {
-        "source": "Thumbnail Size",
-        "description": "",
-        "id": "Thumbnail Size",
-        "text": "Размер миниатюры"
-    },
-    {
-        "source": "Copy the system log to the clipboard",
-        "description": "",
-        "id": "System log copy tooltip",
-        "text": "Скопируйте системный журнал в буфер обмена"
-    },
-    {
-        "source": "Reload the system log",
-        "description": "",
-        "id": "System log reload tooltip",
-        "text": "Перезагрузите системный журнал"
-    },
-    {
-        "source": "Clear the system log",
-        "description": "",
-        "id": "System log clear tooltip",
-        "text": "Очистить системный журнал"
-    },
-    {
-        "source": "Warning",
-        "description": "",
-        "id": "Warning",
-        "text": "Предупреждение"
-    },
-    {
-        "source": "ERROR",
-        "description": "",
-        "id": "ERROR",
-        "text": "ОШИБКА"
-    },
-    {
-        "source": "Show the errors widget",
-        "description": "",
-        "id": "Errors widget tooltip",
-        "text": "Показать виджет ошибок"
-    },
-    {
-        "source": "Show the system log widget",
-        "description": "",
-        "id": "System log widget tooltip",
-        "text": "Показать виджет системного журнала"
-    },
-    {
-        "source": "Debugging",
-        "description": "",
-        "id": "Debugging",
-        "text": "отладка"
-    },
-    {
-        "source": "Show the debugging widget",
-        "description": "",
-        "id": "Debugging widget tooltip",
-        "text": "Показать отладочный виджет"
-    },
-    {
-        "source": "Scale to fit",
-        "description": "",
-        "id": "Scale to fit",
-        "text": "Масштабироваться в соответствии"
-    },
-    {
-        "source": "Color picker RGB tooltip",
-        "description": "",
-        "id": "Color picker RGB tooltip",
-        "text": "Выбор цвета RGB всплывающая подсказка"
-    },
-    {
-        "source": "Color picker HSV tooltip",
-        "description": "",
-        "id": "Color picker HSV tooltip",
-        "text": "Выбор цвета HSV подсказка"
-    },
-    {
-        "source": "Audio cannot be initialized",
-        "description": "",
-        "id": "Audio cannot be initialized",
-        "text": "Аудио не может быть инициализировано"
-    },
-    {
-        "source": "The audio stream cannot be opened",
-        "description": "",
-        "id": "The audio stream cannot be opened",
-        "text": "Аудио поток не может быть открыт"
-    },
-    {
-        "source": "Cannot start audio stream",
-        "description": "",
-        "id": "Cannot start audio stream",
-        "text": "Не удается запустить аудиопоток"
-    },
-    {
-        "source": "Cannot stop audio stream",
-        "description": "",
-        "id": "Cannot stop audio stream",
-        "text": "Не удается остановить аудиопоток"
-    },
-    {
-        "source": "Third Party RtAudio",
-        "description": "",
-        "id": "Third Party RtAudio",
-        "language": "en",
-        "text": "Third Party RtAudio"
-    },
-    {
-        "source": "Lock color type",
-        "text": "Блокировка типа цвета",
-        "id": "Lock color type",
-        "description": ""
-    },
-    {
-        "source": "Copy the values to the clipboard",
-        "text": "Скопируйте значения в буфер обмена",
-        "id": "Color picker copy tooltip",
-        "description": ""
-    },
-    {
-        "source": "Cannot sample color",
-        "text": "Невозможно определить цвет",
-        "id": "Cannot sample color",
-        "description": ""
-    },
-    {
-        "source": "Playback once",
-        "text": "Воспроизвести один раз",
-        "id": "Playback mode once tooltip",
-        "description": ""
-    },
-    {
-        "source": "Playback in a loop",
-        "text": "Воспроизведение в цикле",
-        "id": "Playback mode loop tooltip",
-        "description": ""
-    },
-    {
-        "source": "Playback ping-pong",
-        "text": "Пинг-понг воспроизведения",
-        "id": "Playback mode ping-pong tooltip",
-        "description": ""
-    },
-    {
-        "source": "View Controls",
-        "text": "Посмотреть элементы управления",
-        "id": "View Controls",
-        "description": ""
-    },
-    {
-        "source": "Show the view controls widget",
-        "text": "Показать виджет элементов управления wiew",
-        "id": "View controls widget tooltip",
-        "description": ""
-    },
-    {
-        "source": "Lock Fill",
-        "text": "Блокировка заполнения",
-        "id": "Lock Fill",
-        "description": ""
-    },
-    {
-        "source": "Fill the view with the image (locked)",
-        "text": "Заполните вид с изображением (заблокировано)",
-        "id": "Fill lock view tooltip",
-        "description": ""
-    },
-    {
-        "source": "Frame the image within the view (locked)",
-        "text": "Рамка изображения в представлении (заблокировано)",
-        "id": "Frame lock view tooltip",
-        "description": ""
-    },
-    {
-        "source": "Center the view and set the zoom to 1.0 (locked)",
-        "text": "Отцентрируйте вид и установите масштаб 1,0 (заблокировано)",
-        "id": "Center lock view tooltip",
-        "description": ""
-    },
-    {
-        "source": "Show the grid",
-        "text": "Показать сетку",
-        "id": "Grid enabled tooltip",
-        "description": ""
-    },
-    {
-        "source": "Image Controls",
-        "text": "Управление изображениями",
-        "id": "Image Controls",
-        "description": ""
-    },
-    {
-        "source": "Show the image controls widget",
-        "text": "Показать виджет управления изображением",
-        "id": "Image controls widget tooltip",
-        "description": ""
-    },
-    {
-        "source": "Alpha blend",
-        "text": "Альфа-смесь",
-        "id": "Alpha blend",
-        "description": ""
-    },
-    {
-        "source": "Mirror horizontal",
-        "text": "Зеркало горизонтальное",
-        "id": "Mirror horizontal",
-        "description": ""
-    },
-    {
-        "source": "Mirror vertical",
-        "text": "Зеркало вертикальное",
-        "id": "Mirror vertical",
-        "description": ""
-    },
-    {
-        "source": "Aspect ratio",
-        "text": "Соотношение сторон",
-        "id": "Aspect ratio",
-        "description": ""
-    },
-    {
-        "source": "Brightness",
-        "text": "яркость",
-        "id": "Brightness",
-        "description": ""
-    },
-    {
-        "source": "Contrast",
-        "text": "контрастировать",
-        "id": "Contrast",
-        "description": ""
-    },
-    {
-        "source": "Saturation",
-        "text": "насыщение",
-        "id": "Saturation",
-        "description": ""
-    },
-    {
-        "source": "Invert",
-        "text": "инвертировать",
-        "id": "Invert",
-        "description": ""
-    },
-    {
-        "source": "In Low",
-        "text": "В малом",
-        "id": "In Low",
-        "description": ""
-    },
-    {
-        "source": "In High",
-        "text": "В высоком",
-        "id": "In High",
-        "description": ""
-    },
-    {
-        "source": "Gamma",
-        "text": "Гамма",
-        "id": "Gamma",
-        "description": ""
-    },
-    {
-        "source": "Out Low",
-        "text": "Out Low",
-        "id": "Out Low",
-        "description": ""
-    },
-    {
-        "source": "Out High",
-        "text": "Out High",
-        "id": "Out High",
-        "description": ""
-    },
-    {
-        "source": "Exposure",
-        "text": "Воздействие",
-        "id": "Exposure",
-        "description": ""
-    },
-    {
-        "source": "Defog",
-        "text": "предотвращение запотевания",
-        "id": "Defog",
-        "description": ""
-    },
-    {
-        "source": "Knee Low",
-        "text": "Колено Низкое",
-        "id": "Knee Low",
-        "description": ""
-    },
-    {
-        "source": "Knee High",
-        "text": "Колено высоко",
-        "id": "Knee High",
-        "description": ""
-    },
-    {
-        "source": "Load",
-        "text": "нагрузка",
-        "id": "Load",
-        "description": ""
-    },
-    {
-        "source": "Transform",
-        "text": "преобразование",
-        "id": "Transform",
-        "description": ""
-    },
-    {
-        "source": "Color",
-        "text": "цвет",
-        "id": "Color",
-        "description": ""
-    },
-    {
-        "source": "Levels",
-        "text": "Уровни",
-        "id": "Levels",
-        "description": ""
-    },
-    {
-        "source": "Soft Clip",
-        "text": "Мягкий клип",
-        "id": "Soft Clip",
-        "description": ""
-    },
-    {
-        "source": "Set the magnification",
-        "text": "Установите увеличение",
-        "id": "Magnify slider tooltip",
-        "description": ""
-    },
-    {
-        "source": "Set as Default",
-        "text": "Установить по умолчанию",
-        "id": "Set as Default",
-        "description": ""
-    },
-    {
-        "source": "Reset the value.",
-        "text": "Сбросить значение",
-        "id": "Reset the value.",
-        "description": ""
-    },
-    {
-        "source": "Position",
-        "text": "Позиция",
-        "id": "Position",
-        "description": ""
-    },
-    {
-        "source": "Zoom",
-        "text": "Увеличить",
-        "id": "Zoom",
-        "description": ""
-    },
-    {
-        "source": "Labels",
-        "text": "Этикетки",
-        "id": "Labels",
-        "description": ""
-    },
-    {
-        "source": "Background",
-        "text": "Фон",
-        "id": "Background",
-        "description": ""
-    },
-    {
-        "id": "Text focus",
-        "source": "Text focus",
-        "description": "",
-        "text": "Фокус текста"
-    },
-    {
-        "source": "Annotate polyline tooltip",
-        "text": "Всплывающая подсказка Annotate",
-        "description": "",
-        "id": "Annotate polyline tooltip"
-    },
-    {
-        "source": "Annotate line tooltip",
-        "text": "Всплывающая подсказка Annotate line",
-        "description": "",
-        "id": "Annotate line tooltip"
-    },
-    {
-        "source": "Annotate rectangle tooltip",
-        "text": "Всплывающая подсказка «Аннотировать прямоугольник»",
-        "description": "",
-        "id": "Annotate rectangle tooltip"
-    },
-    {
-        "source": "Annotate ellipse tooltip",
-        "text": "Подсказка для аннотированного эллипса",
-        "description": "",
-        "id": "Annotate ellipse tooltip"
-    },
-    {
-        "source": "Annotate color picker tooltip",
-        "text": "Подсказка Annotate color picker",
-        "description": "",
-        "id": "Annotate color picker tooltip"
-    },
-    {
-        "source": "Annotate line width tooltip",
-        "text": "Подсказка для аннотирования ширины линии",
-        "description": "",
-        "id": "Annotate line width tooltip"
-    },
-    {
-        "source": "Annotate clear tooltip",
-        "text": "Annotate clear tooltip",
-        "description": "",
-        "id": "Annotate clear tooltip"
-    },
-    {
-        "source": "Annotate add tooltip",
-        "text": "Annotate добавить всплывающую подсказку",
-        "description": "",
-        "id": "Annotate add tooltip"
-    },
-    {
-        "source": "Annotate delete tooltip",
-        "text": "Подсказка удаления аннотации",
-        "description": "",
-        "id": "Annotate delete tooltip"
-    },
-    {
-        "source": "Annotate previous tooltip",
-        "text": "Аннотировать предыдущую подсказку",
-        "description": "",
-        "id": "Annotate previous tooltip"
-    },
-    {
-        "source": "Annotate next tooltip",
-        "text": "Аннотировать следующую подсказку",
-        "description": "",
-        "id": "Annotate next tooltip"
-    },
-    {
-        "source": "Annotate list toggle tooltip",
-        "text": "Всплывающая подсказка для списка аннотаций",
-        "description": "",
-        "id": "Annotate list toggle tooltip"
-    },
-    {
-        "source": "Edit",
-        "text": "редактировать",
-        "description": "",
-        "id": "Edit"
-    },
-    {
-        "source": "Summary",
-        "text": "Резюме",
-        "description": "",
-        "id": "Summary"
-    },
-    {
-        "source": "I/O threads",
-        "text": "Потоки ввода / вывода",
-        "description": "",
-        "id": "I/O threads popup tooltip"
-    },
-    {
-        "source": "Polyline",
-        "text": "Ломаная",
-        "description": "",
-        "id": "Polyline"
-    },
-    {
-        "source": "Line",
-        "text": "Линия",
-        "description": "",
-        "id": "Line"
-    },
-    {
-        "source": "Rectangle",
-        "text": "Прямоугольник",
-        "description": "",
-        "id": "Rectangle"
-    },
-    {
-        "source": "Ellipse",
-        "text": "Эллипс",
-        "description": "",
-        "id": "Ellipse"
-    },
-    {
-        "source": "DJV 2.0.4",
-        "description": "",
-        "id": "DJV 2.0.4",
-        "text": "DJV 2.0.4"
-    },
-    {
-        "source": "Auto-Hide Interface",
-        "description": "",
-        "id": "Auto-Hide Interface",
-        "text": "Авто-скрытый интерфейс"
-    },
-    {
-        "source": "Pixel",
-        "description": "",
-        "id": "Pixel",
-        "text": "пиксель"
-    },
-    {
-        "source": "Color label tooltip",
-        "description": "",
-        "id": "Color label tooltip",
-        "text": "Подсказка к цветовой метке"
-    },
-    {
-        "source": "Pixel label tooltip",
-        "description": "",
-        "id": "Pixel label tooltip",
-        "text": "Всплывающая подсказка"
-    },
-    {
-        "source": "Slow",
-        "text": "Медленный",
-        "id": "Slow",
-        "description": ""
-    },
-    {
-        "source": "Medium",
-        "text": "средний",
-        "id": "Medium",
-        "description": ""
-    },
-    {
-        "source": "Fast",
-        "text": "Быстро",
-        "id": "Fast",
-        "description": ""
-    },
-    {
-        "source": "Cannot open more than",
-        "text": "Не могу открыть больше чем",
-        "id": "Cannot open more than",
-        "description": ""
-    },
-    {
-        "source": "files at once.",
-        "text": "файлы сразу.",
-        "id": "files at once.",
-        "description": ""
-    },
-    {
-        "source": "CansecoGPC",
-        "text": "CansecoGPC",
-        "id": "Credits CansecoGPC",
-        "language": "en",
-        "description": ""
-    },
-    {
-        "source": "Spanish translation updates",
-        "text": "Обновления испанского перевода",
-        "id": "Credits CansecoGPC Text",
-        "description": ""
-    },
-    {
-        "source": "Jean-Francois Panisset",
-        "text": "Jean-Francois Panisset",
-        "id": "Credits Jean-Francois Panisset",
-        "language": "en",
-        "description": ""
-    },
-    {
-        "source": "Azure Pipelines CI integration",
-        "text": "Интеграция Azure Pipelines CI",
-        "id": "Credits Jean-Francois Panisset Text",
-        "description": ""
-    },
-    {
-        "source": "Haryo Sukmawanto",
-        "text": "Haryo Sukmawanto",
-        "id": "Credits Haryo Sukmawanto",
-        "language": "en",
-        "description": ""
-    },
-    {
-        "source": "Custom playback frame rate UI",
-        "text": "Пользовательский интерфейс воспроизведения частоты кадров",
-        "id": "Credits Haryo Sukmawanto Text",
-        "description": ""
-    },
-    {
-        "source": "* GITHUB®, the GITHUB® logo design, OCTOCAT® and the OCTOCAT® logo design are exclusive trademarks registered in the United States by GitHub, Inc.",
-        "text": "* GITHUB®, the GITHUB® logo design, OCTOCAT® and the OCTOCAT® logo design are exclusive trademarks registered in the United States by GitHub, Inc.",
-        "id": "Trademarks GitHub",
-        "language": "en",
-        "description": ""
-    },
-    {
-        "source": "Total system time",
-        "text": "Общее системное время",
-        "id": "Total system time",
-        "description": ""
-    },
-    {
-        "source": "Top system time",
-        "text": "Топ системного времени",
-        "id": "Top system time",
-        "description": ""
-    },
-    {
-        "source": "Custom playback speed",
-        "text": "Пользовательская скорость воспроизведения",
-        "id": "Custom playback speed",
-        "description": ""
-    },
-    {
-        "source": "Custom playback speed tooltip",
-        "text": "Пользовательская подсказка скорости воспроизведения",
-        "id": "Custom playback speed tooltip",
-        "description": ""
-    },
-    {
-        "source": "DJV 2.0.5",
-        "text": "DJV 2.0.5",
-        "id": "DJV 2.0.5",
-        "language": "en",
-        "description": ""
-    },
-    {
-        "source": "Scroll wheel zoom speed",
-        "text": "Скорость масштабирования колеса прокрутки",
-        "id": "Scroll wheel zoom speed",
-        "description": ""
-    },
-    {
-        "text": "Damien Picard",
-        "id": "Credits Damien Picard",
-        "description": "",
-        "language": "en",
-        "source": "Damien Picard"
-    },
-    {
-        "text": "Обновления французского перевода",
-        "id": "Credits Damien Picard Text",
-        "description": "",
-        "source": "French translation updates"
-    }
-]
+{
+    "8-bit_conversion": "8-битное преобразование",
+    "8-bit_conversion_tooltip": "Преобразование файлов в 8 бит для экономии памяти",
+    "about_copyright_darby_johnston": "* Copyright (c) 2004-2020 Darby Johnston, All rights reserved",
+    "about_copyright_kent_oberheu": "* Copyright (c) 2019 Kent Oberheu, All rights reserved",
+    "about_copyright_mikael_sundell": "* Copyright (c) 2008-2009 Mikael Sundell, All rights reserved",
+    "about_copyright_text": "На некоторые части данного программного обеспечения распространяется авторское право (в алфавитном порядке):",
+    "about_credits_cansecogpc": "CansecoGPC",
+    "about_credits_cansecogpc_text": "Обновления испанского перевода",
+    "about_credits_damien_picard": "Damien Picard",
+    "about_credits_damien_picard_text": "Обновления французского перевода",
+    "about_credits_darby_johnston": "Darby Johnston",
+    "about_credits_darby_johnston_text": "Основной автор",
+    "about_credits_haryo_sukmawanto": "Haryo Sukmawanto",
+    "about_credits_haryo_sukmawanto_text": "Пользовательский интерфейс воспроизведения частоты кадров",
+    "about_credits_jean-francois_panisset": "Jean-Francois Panisset",
+    "about_credits_jean-francois_panisset_text": "Интеграция Azure Pipelines CI",
+    "about_credits_kent_oberheu": "Kent Oberheu, https://semafore.com",
+    "about_credits_kent_oberheu_text": "Фирменный стиль, иконография, UI / UX дизайн",
+    "about_credits_mikael_sundell": "Mikael Sundell",
+    "about_credits_mikael_sundell_text": "Поддержка формата файлов изображений IFF, примеры изображений",
+    "about_credits_siciliana_johnston": "Siciliana Johnston",
+    "about_credits_siciliana_johnston_text": "Веб дизайн, социальные сети",
+    "about_license_1": "Copyright (c) 2004-2020 Darby Johnston, All rights reserved",
+    "about_license_2": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:",
+    "about_license_3": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.",
+    "about_license_4": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.",
+    "about_license_5": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.",
+    "about_license_6": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.",
+    "about_made_in": "Сделано в Беркли, Калифорния, США",
+    "about_section_copyright": "авторское право",
+    "about_section_credits": "кредиты",
+    "about_section_license": "Лицензия",
+    "about_section_sponsors": "Спонсоры",
+    "about_section_third_party": "Программное обеспечение сторонних производителей",
+    "about_section_trademarks": "Торговая марка",
+    "about_sponsors_unexpected": "unexpected GmbH, https://www.unexpected.de",
+    "about_third_party_cmake": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium, All rights reserved",
+    "about_third_party_curl": "* curl, http://curl.haxx.se/libcurl, Copyright (c) 1996 - 2019, Daniel Stenberg, <daniel@haxx.se>, and many contributors, see the THANKS file",
+    "about_third_party_dr_libs": "* dr_libs, http://github.com/mackron/dr_libs, David Reid",
+    "about_third_party_ffmpeg": "* FFMpeg, http://www.ffmpeg.org, Licensed under the LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html",
+    "about_third_party_freetype": "* FreeType, http://www.freetype.org, Copyright (c) 2018, The FreeType Project",
+    "about_third_party_glad": "* glad, http://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth",
+    "about_third_party_glfw": "* GLFW, http://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla Löwy <elmindreda@glfw.org>",
+    "about_third_party_glm": "* GLM, http://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation",
+    "about_third_party_libjpeg": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding",
+    "about_third_party_libjpeg-turbo": "* libjpeg-turbo, http://libjpeg-turbo.org, Copyright (C)2009-2019 D. R. Commander, All Rights Reserved, Copyright (C)2015 Viktor Szathmáry, All Rights Reserved",
+    "about_third_party_libpng": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson",
+    "about_third_party_libtiff": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc",
+    "about_third_party_mbedtls": "* MbedTLS, http://tls.mbed.org, Copyright © 2008 - 2016 ARM Limited, All rights reserved",
+    "about_third_party_openal": "* OpenAL, http://www.openal.org, Copyright (C) 1999-2000 by Loki Software",
+    "about_third_party_opencolorio": "* OpenColorIO, http://opencolorio.org, Copyright (c) 2003-2010 Sony Pictures Imageworks Inc., et al., All rights reserved",
+    "about_third_party_openexr": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd.",
+    "about_third_party_rtaudio": "Third Party RtAudio",
+    "about_third_party_text": "Это программное обеспечение частично основано на работах (в алфавитном порядке):",
+    "about_third_party_zlib": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler",
+    "about_title": "DJV Imaging",
+    "about_trademarks_amd": "* AMD and ATI are registered trademarks of Advanced Micro Devices, Inc.",
+    "about_trademarks_apple": "* Apple, OS X, ProRes, and QuickTime are registered trademarks of Apple, Inc.",
+    "about_trademarks_autodesk": "* Autodesk, Inferno, Maya, Softimage, and XSI are registered trademarks of Autodesk, Inc.",
+    "about_trademarks_debian": "* Debian is a registered trademark of Software in the Public Interest, Inc.",
+    "about_trademarks_end": "Все остальные продукты, указанные в документации, являются товарными знаками соответствующих владельцев.",
+    "about_trademarks_ffmpeg": "* FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project",
+    "about_trademarks_freebsd": "* FreeBSD is a registered trademark of The FreeBSD Foundation",
+    "about_trademarks_github": "* GITHUB®, the GITHUB® logo design, OCTOCAT® and the OCTOCAT® logo design are exclusive trademarks registered in the United States by GitHub, Inc.",
+    "about_trademarks_intel": "* Intel is a registered trademark of Intel Corporation",
+    "about_trademarks_kodak": "* Kodak and Cineon are a registered trademarks of the Eastman Kodak Company",
+    "about_trademarks_linux": "* Linux is a registered trademark of Linus Torvalds",
+    "about_trademarks_lucasfilm": "* Industrial Light and Magic and ILM are registered trademarks of Lucasfilm Ltd.",
+    "about_trademarks_microsoft": "* Microsoft, Microsoft Windows, and Azure are registered trademarks of Microsoft, Inc.",
+    "about_trademarks_mips": "* MIPS is a registered trademark of MIPS Technologies, Inc.",
+    "about_trademarks_nvidia": "* NVIDIA is a registered trademark of NVIDIA Corporation",
+    "about_trademarks_red_hat": "* Red Hat and Fedora are registered trademarks of Red Hat, Inc.",
+    "about_trademarks_sgi": "* Silicon Graphics, SGI, IRIX, and OpenGL are registered trademarks of Silicon Graphics International Corp.",
+    "about_trademarks_smpte": "* SMPTE is a registered trademark of the Society of Motion Picture and Television Engineers",
+    "about_trademarks_sourceforge": "* SourceForge.net is a registered trademark of VA Software Corporation",
+    "about_trademarks_suse": "* SuSE is a registered trademark of Novell, Inc.",
+    "about_trademarks_text": "Торговые марки, названные в документации (в алфавитном порядке):",
+    "about_trademarks_ubuntu": "* Ubuntu is a registered trademark of Canonical Ltd.",
+    "about_trademarks_unix": "* UNIX is a registered trademark of The Open Group",
+    "annotate_add_tooltip": "Annotate добавить всплывающую подсказку",
+    "annotate_clear_tooltip": "Annotate clear tooltip",
+    "annotate_color_picker_tooltip": "Всплывающая подсказка Annotate color picker",
+    "annotate_delete_tooltip": "Подсказка удаления аннотации",
+    "annotate_ellipse_tooltip": "Подсказка для аннотированного эллипса",
+    "annotate_line_tooltip": "Всплывающая подсказка Annotate line",
+    "annotate_line_width_tooltip": "Подсказка для аннотирования ширины линии",
+    "annotate_list_toggle_tooltip": "Всплывающая подсказка для списка аннотаций",
+    "annotate_next_tooltip": "Аннотировать следующую подсказку",
+    "annotate_polyline_tooltip": "Всплывающая подсказка Annotate",
+    "annotate_previous_tooltip": "Аннотировать предыдущую подсказку",
+    "annotate_rectangle_tooltip": "Всплывающая подсказка «Аннотировать прямоугольник»",
+    "annotate_type_ellipse": "Эллипс",
+    "annotate_type_line": "Линия",
+    "annotate_type_polyline": "Ломаная",
+    "annotate_type_rectangle": "Прямоугольник",
+    "audio_mute_tooltip": "Отключить звук",
+    "audio_popup_tooltip": "Показать настройки звука",
+    "audio_volume_tooltip": "Установите громкость звука",
+    "automatically_start_playback": "Автоматически начать воспроизведение",
+    "color_label_tooltip": "Подсказка для цветной метки",
+    "color_space_display_default": "По умолчанию",
+    "color_space_none": "Никто",
+    "debug_general_font_system_glyph_cache": "Системный шрифт глифа кеша",
+    "debug_general_fps": "FPS",
+    "debug_general_grab": "грейфер",
+    "debug_general_grab_none": "Никто",
+    "debug_general_hover": "зависать",
+    "debug_general_hover_none": "Никто",
+    "debug_general_icon_system_cache": "Кеш системы иконок",
+    "debug_general_key_grab": "Захват ключа",
+    "debug_general_key_grab_none": "Никто",
+    "debug_general_object_count": "Количество объектов",
+    "debug_general_text_focus": "Фокус текста",
+    "debug_general_text_focus_none": "Никто",
+    "debug_general_thumbnail_system_image_cache": "Миниатюра системного кеша изображений",
+    "debug_general_thumbnail_system_information_cache": "Миниатюра системной информации кеша",
+    "debug_general_top_system_time": "Топ системного времени",
+    "debug_general_total_system_time": "Общее системное время",
+    "debug_general_widget_count": "Количество виджетов",
+    "debug_media_audio_queue": "Аудио-очередь",
+    "debug_media_current_time": "Текущее время",
+    "debug_media_video_queue": "Видео-очередь",
+    "debug_render_dynamic_texture_count": "Динамическое количество текстур",
+    "debug_render_texture_atlas": "Текстурный атлас",
+    "debug_render_vbo_size": "Размер VBO",
+    "debug_section_general": "Общая",
+    "debug_section_media": "СМИ",
+    "debug_section_render": "оказывать",
+    "debug_title": "отлаживать",
+    "dialog_settings_title": "настройки",
+    "djv_2_0_4": "DJV 2.0.4",
+    "error_audio_cannot_be_initialized": "Аудио не может быть инициализировано",
+    "error_cannot_be_read": "не может быть прочитано",
+    "error_cannot_open_more_than": "Не могу открыть больше чем",
+    "error_cannot_parse_the_value": "Невозможно проанализировать значение.",
+    "error_cannot_sample_color": "Невозможно определить цвет",
+    "error_cannot_start_audio_stream": "Не удается запустить аудиопоток",
+    "error_cannot_stop_audio_stream": "Не удается остановить аудиопоток",
+    "error_files_at_once": "файлы сразу.",
+    "error_the_audio_stream_cannot_be_opened": "Аудио поток не может быть открыт",
+    "error_the_file": "Файл",
+    "histogram": "Гистограмма",
+    "image_controls_channels_alpha_blend": "Альфа-смесь",
+    "image_controls_color_brightness": "яркость",
+    "image_controls_color_contrast": "Контраст",
+    "image_controls_color_invert": "инвертировать",
+    "image_controls_color_saturation": "насыщение",
+    "image_controls_exposure_defog": "предотвращение запотевания",
+    "image_controls_exposure_enabled": "Включено",
+    "image_controls_exposure_exposure": "Экспозиция",
+    "image_controls_exposure_knee_high": "Колено высоко",
+    "image_controls_exposure_knee_low": "Колено Низкое",
+    "image_controls_frame_store_enabled": "Включено",
+    "image_controls_levels_gamma": "Гамма",
+    "image_controls_levels_in_high": "В высоком",
+    "image_controls_levels_in_low": "В малом",
+    "image_controls_levels_out_high": "Out High",
+    "image_controls_levels_out_low": "Out Low",
+    "image_controls_section_channels": "каналы",
+    "image_controls_section_color": "цвет",
+    "image_controls_section_exposure": "Экспозиция",
+    "image_controls_section_frame_store": "Frame Store",
+    "image_controls_section_levels": "Уровни",
+    "image_controls_section_soft_clip": "Мягкий клип",
+    "image_controls_section_transform": "преобразование",
+    "image_controls_title": "Управление изображениями",
+    "image_controls_transform_aspect_ratio": "Соотношение сторон",
+    "image_controls_transform_mirror_horizontal": "Зеркало горизонтальное",
+    "image_controls_transform_mirror_vertical": "Зеркало вертикальное",
+    "image_controls_transform_rotate": "Поворот",
+    "io_threads_popup_tooltip": "Потоки ввода / вывода",
+    "layers_title": "Слои",
+    "load": "нагрузка",
+    "loop": "петля",
+    "memory_cache": "Кэш памяти",
+    "memory_cache_enable": "включить",
+    "memory_cache_gigabytes_label": "гигабайт",
+    "memory_cache_used": "Используемый",
+    "menu_annotate": "Пометки",
+    "menu_annotate_edit": "редактировать",
+    "menu_annotate_export": "экспорт",
+    "menu_annotate_summary": "Резюме",
+    "menu_annotate_tooltip": "Активировать инструмент аннотации",
+    "menu_audio": "аудио",
+    "menu_audio_decrease_volume": "Уменьшить громкость",
+    "menu_audio_decrease_volume_tooltip": "Уменьшить громкость звука",
+    "menu_audio_increase_volume": "Увеличить громкость",
+    "menu_audio_increase_volume_tooltip": "Увеличьте громкость звука",
+    "menu_audio_mute": "безгласный",
+    "menu_audio_mute_tooltip": "Отключить звук",
+    "menu_color_picker_tooltip": "Активировать инструмент выбора цвета",
+    "menu_export": "экспорт",
+    "menu_file": "файл",
+    "menu_file_close": "близко",
+    "menu_file_close_all": "Закрыть все",
+    "menu_file_close_all_tooltip": "Закройте все открытые файлы",
+    "menu_file_close_tooltip": "Закрыть текущий файл",
+    "menu_file_exit": "Выход",
+    "menu_file_exit_tooltip": "Выйти из приложения",
+    "menu_file_export_tooltip": "Экспортировать файл",
+    "menu_file_layers": "Слои",
+    "menu_file_layers_tooltip": "Показать виджет слоев",
+    "menu_file_next": "следующий",
+    "menu_file_next_layer": "Следующий слой",
+    "menu_file_next_layer_tooltip": "Перейти к следующему слою",
+    "menu_file_next_tooltip": "Перейти к следующему файлу",
+    "menu_file_open": "открыто",
+    "menu_file_open_tooltip": "Открыть новый файл",
+    "menu_file_prev_tooltip": "Перейти к предыдущему файлу",
+    "menu_file_previous": "предыдущий",
+    "menu_file_previous_layer": "Предыдущий слой",
+    "menu_file_previous_layer_tooltip": "Перейти к предыдущему слою",
+    "menu_file_recent": "последний",
+    "menu_file_recent_tooltip": "Показать недавно открытые файлы",
+    "menu_file_reload": "Reload",
+    "menu_file_reload_tooltip": "Перезагрузить текущий файл",
+    "menu_help": "Помогите",
+    "menu_help_about": "Около",
+    "menu_help_documentation": "Документация",
+    "menu_image": "Образ",
+    "menu_image_alpha_channel": "Альфа-канал",
+    "menu_image_alpha_channel_tooltip": "Показать альфа-канал",
+    "menu_image_blue_channel": "Голубой канал",
+    "menu_image_blue_channel_tooltip": "Показать синий канал",
+    "menu_image_color_space": "Цветовое пространство",
+    "menu_image_color_space_widget_tooltip": "Показать виджет цветового пространства",
+    "menu_image_controls_widget": "Управление изображениями",
+    "menu_image_controls_widget_tooltip": "Показать виджет управления изображением",
+    "menu_image_frame_store": "Frame Store",
+    "menu_image_frame_store_tooltip": "Показать магазин кадров",
+    "menu_image_green_channel": "Зеленый коридор",
+    "menu_image_green_channel_tooltip": "Показать зеленый канал",
+    "menu_image_load_frame_store": "Загрузить магазин кадров",
+    "menu_image_load_frame_store_tooltip": "Загрузить текущий кадр в хранилище кадров",
+    "menu_image_mirror_horizontal": "Зеркало горизонтальное",
+    "menu_image_mirror_horizontal_tooltip": "Зеркальное отражение изображения по горизонтали",
+    "menu_image_mirror_vertical": "Зеркало вертикальное",
+    "menu_image_mirror_vertical_tooltip": "Зеркальное отображение изображения по вертикали",
+    "menu_image_red_channel": "Красный канал",
+    "menu_image_red_channel_tooltip": "Показать красный канал",
+    "menu_magnify_tooltip": "Активировать инструмент увеличения",
+    "menu_media_popup_tooltip": "Показать открытые файлы",
+    "menu_memory_cache_thermometer_tooltip": "Использование кеша памяти",
+    "menu_memory_cache_tooltip": "Показать настройки кеша памяти",
+    "menu_playback": "воспроизведение",
+    "menu_playback_enable_in_out_points": "Включить точки входа / выхода",
+    "menu_playback_enable_in_out_points_tooltip": "Включить точки входа / выхода",
+    "menu_playback_forward": "Вперед",
+    "menu_playback_forward_tooltip": "Начать воспроизведение вперед",
+    "menu_playback_go_to_end_frame": "Перейти к концу кадра",
+    "menu_playback_go_to_end_frame_tooltip": "Перейти к концу кадра",
+    "menu_playback_go_to_in_point": "Перейти к точке",
+    "menu_playback_go_to_in_point_tooltip": "Перейти к воспроизведению в точке",
+    "menu_playback_go_to_out_point": "Перейти к Out Point",
+    "menu_playback_go_to_out_point_tooltip": "Перейти к точке воспроизведения",
+    "menu_playback_go_to_start_frame": "Перейти к началу кадра",
+    "menu_playback_go_to_start_frame_tooltip": "Перейти к стартовой рамке",
+    "menu_playback_loop_tooltip": "Воспроизведение файла снова и снова",
+    "menu_playback_next_frame": "Следующий кадр",
+    "menu_playback_next_frame_tooltip": "Перейти к следующему кадру",
+    "menu_playback_next_frame_x10": "Следующий кадр X10",
+    "menu_playback_next_frame_x100": "Следующий кадр X100",
+    "menu_playback_next_frame_x100_tooltip": "Пропустить вперед 100 кадров",
+    "menu_playback_next_frame_x10_tooltip": "Пропустить 10 кадров вперед",
+    "menu_playback_ping_pong": "Пинг-понг",
+    "menu_playback_ping_pong_tooltip": "Воспроизведите файл вперед и затем назад",
+    "menu_playback_play_every_frame": "Проигрывайте каждый кадр, даже если правильная скорость не поддерживается",
+    "menu_playback_play_every_frame_tooltip": "Проигрывайте каждый кадр, даже если правильная скорость не поддерживается",
+    "menu_playback_play_once": "Играть один раз",
+    "menu_playback_play_once_tooltip": "Воспроизведите файл один раз, а затем остановите воспроизведение",
+    "menu_playback_previous_frame": "Предыдущий кадр",
+    "menu_playback_previous_frame_tooltip": "Перейти к предыдущему кадру",
+    "menu_playback_previous_frame_x10": "Предыдущая рамка X10",
+    "menu_playback_previous_frame_x100": "Предыдущая рамка X100",
+    "menu_playback_previous_frame_x100_tooltip": "Пропустить назад 100 кадров",
+    "menu_playback_previous_frame_x10_tooltip": "Пропустить назад 10 кадров",
+    "menu_playback_reset_in_point": "Сбросить в точке",
+    "menu_playback_reset_in_point_tooltip": "Сброс воспроизведения в точке",
+    "menu_playback_reset_out_point": "Сбросить точку",
+    "menu_playback_reset_out_point_tooltip": "Сброс точки воспроизведения",
+    "menu_playback_reverse": "Задний ход",
+    "menu_playback_reverse_tooltip": "Начать обратное воспроизведение",
+    "menu_playback_set_in_point": "Установить в точке",
+    "menu_playback_set_in_point_tooltip": "Установите воспроизведение в точку",
+    "menu_playback_set_out_point": "Установить точку",
+    "menu_playback_set_out_point_tooltip": "Установите точку воспроизведения",
+    "menu_tools": "инструменты",
+    "menu_tools_color_picker": "Палитра цветов",
+    "menu_tools_debugging": "Отладка",
+    "menu_tools_debugging_widget_tooltip": "Показать отладочный виджет",
+    "menu_tools_errors": "ошибки",
+    "menu_tools_errors_widget_tooltip": "Показать виджет ошибок",
+    "menu_tools_information": "Информация",
+    "menu_tools_information_widget_tooltip": "Показать информационный виджет",
+    "menu_tools_magnify": "Magnify",
+    "menu_tools_pan_view": "Панорамирование",
+    "menu_tools_pan_view_tooltip": "Активируйте инструмент панорамирования",
+    "menu_tools_settings": "настройки",
+    "menu_tools_settings_tooltip": "Показать настройки",
+    "menu_tools_system_log": "Системный журнал",
+    "menu_tools_system_log_widget_tooltip": "Показать виджет системного журнала",
+    "menu_view": "Посмотреть",
+    "menu_view_center": "Центр",
+    "menu_view_center_tooltip": "Отцентрируйте вид и установите масштаб 1,0",
+    "menu_view_controls": "Посмотреть элементы управления",
+    "menu_view_controls_widget_tooltip": "Показать виджет управления виджетом",
+    "menu_view_down": "вниз",
+    "menu_view_down_tooltip": "Переместить вид вниз",
+    "menu_view_fill": "Заливка",
+    "menu_view_fill_tooltip": "Заполните вид с изображением",
+    "menu_view_frame": "Рамка",
+    "menu_view_frame_tooltip": "Рамка изображения в представлении",
+    "menu_view_grid": "сетка",
+    "menu_view_grid_tooltip": "Показать сетку",
+    "menu_view_left": "Осталось",
+    "menu_view_left_tooltip": "Переместить вид влево",
+    "menu_view_lock_center": "Замок Центр",
+    "menu_view_lock_center_tooltip": "Отцентрируйте вид и установите масштаб 1,0 (заблокировано)",
+    "menu_view_lock_fill": "Блокировка заполнения",
+    "menu_view_lock_fill_tooltip": "Заполните вид с изображением (заблокировано)",
+    "menu_view_lock_frame": "Блокировка кадра",
+    "menu_view_lock_frame_tooltip": "Рамка изображения в представлении (заблокировано)",
+    "menu_view_right": "Правильно",
+    "menu_view_right_tooltip": "Переместить взгляд вправо",
+    "menu_view_up": "вверх",
+    "menu_view_up_tooltip": "Переместить вид вверх",
+    "menu_view_zoom_in": "Приблизить",
+    "menu_view_zoom_in_tooltip": "Увеличить вид в",
+    "menu_view_zoom_out": "Уменьшить",
+    "menu_view_zoom_out_tooltip": "Уменьшить вид",
+    "menu_view_zoom_reset": "Zoom Reset",
+    "menu_view_zoom_reset_tooltip": "Сбросить масштаб до 1,0",
+    "menu_window": "Окно",
+    "menu_window_auto_hide_interface": "Интерфейс автоматического скрытия",
+    "menu_window_auto_hide_tooltip": "Автоматически скрывать пользовательский интерфейс",
+    "menu_window_fit": "Поместиться",
+    "menu_window_fit_tooltip": "Подогнать окно к изображению",
+    "menu_window_full_screen": "Полноэкранный",
+    "menu_window_full_screen_tooltip": "Переключить полноэкранный режим",
+    "menu_window_maximize": "Максимизация",
+    "menu_window_maximize_tooltip": "Развернуть текущее окно",
+    "north_east": "к северо-востоку",
+    "north_east_tooltip": "Север вид северо-восток",
+    "north_west": "северо-Запад",
+    "north_west_tooltip": "Переместить вид на северо-запад",
+    "pixel_label_tooltip": "Всплывающая подсказка",
+    "playback_current_frame_tooltip": "Текущий кадр",
+    "playback_custom_playback_speed": "Пользовательская скорость воспроизведения",
+    "playback_custom_playback_speed_tooltip": "Пользовательская подсказка скорости воспроизведения",
+    "playback_duration_tooltip": "Продолжительность воспроизведения",
+    "playback_forward": "Вперед",
+    "playback_forward_tooltip": "Начать воспроизведение вперед",
+    "playback_fps": "FPS",
+    "playback_go_to_in_point_tooltip": "Перейти к воспроизведению в точке",
+    "playback_go_to_out_point_tooltip": "Перейти к точке воспроизведения",
+    "playback_in_point_tooltip": "Воспроизведение в точке",
+    "playback_loop": "петля",
+    "playback_menu_audio": "аудио",
+    "playback_mode_loop_tooltip": "Воспроизведение в цикле",
+    "playback_mode_once_tooltip": "Воспроизвести один раз",
+    "playback_mode_ping-pong_tooltip": "Пинг-понг воспроизведения",
+    "playback_next_frame_tooltip": "Перейти к следующему кадру",
+    "playback_once": "однажды",
+    "playback_out_point_tooltip": "Точка воспроизведения",
+    "playback_pingpong": "Пинг-понг",
+    "playback_play_every_frame": "Воспроизвести каждый кадр",
+    "playback_play_every_frame_tooltip": "Проигрывайте каждый кадр, даже если правильная скорость не поддерживается",
+    "playback_previous_frame_tooltip": "Перейти к предыдущему кадру",
+    "playback_real_speed_tooltip": "Фактическая скорость воспроизведения",
+    "playback_reset_in_point_tooltip": "Сброс воспроизведения в точке",
+    "playback_reset_out_point_tooltip": "Сброс точки воспроизведения",
+    "playback_reset_speed": "Сбросить скорость",
+    "playback_reset_speed_tooltip": "Сбросить подсказку скорости",
+    "playback_reverse": "Задний ход",
+    "playback_reverse_tooltip": "Начать обратное воспроизведение",
+    "playback_set_in_point_tooltip": "Установите воспроизведение в точку",
+    "playback_set_out_point_tooltip": "Установите точку воспроизведения",
+    "playback_speed": "Скорость воспроизведения",
+    "playback_speed_popup_tooltip": "Показать настройки скорости воспроизведения",
+    "playback_stop": "Стоп",
+    "position": "Позиция",
+    "recent_files_label_error": "ОШИБКА",
+    "recent_files_label_items": "Предметы",
+    "recent_files_label_warning": "Предупреждение",
+    "recent_files_search_tooltip": "Поиск последних файлов",
+    "recent_files_settings_tooltip": "Показать последние настройки файлов",
+    "recent_files_thumbnail_size": "Размер миниатюры",
+    "reset_the_value": "Сбросить значение",
+    "scroll_wheel_zoom_speed": "Скорость масштабирования колеса прокрутки",
+    "settings_file_auto-detect_file_sequences": "Автоопределение файловых последовательностей",
+    "settings_file_sequences": "Последовательности",
+    "settings_general_section_nux": "NUX",
+    "settings_new_user_ux_startup": "Включить новый пользовательский опыт при запуске",
+    "settings_playback_section_playback": "воспроизведение",
+    "settings_playback_section_timeline": "График",
+    "settings_scroll_wheel_fast": "Быстро",
+    "settings_scroll_wheel_medium": "средний",
+    "settings_scroll_wheel_slow": "Медленный",
+    "settings_title_file": "файл",
+    "settings_title_general": "Общая",
+    "settings_title_playback": "воспроизведение",
+    "settings_title_view": "Посмотреть",
+    "settings_title_window": "Окно",
+    "settings_view_section_view": "Посмотреть",
+    "settings_window_auto-hide": "Авто-Скрыть",
+    "settings_window_automatically_hide_the_user_interface": "Автоматически скрывать пользовательский интерфейс",
+    "settings_window_clear_background_image": "Очистить фоновое изображение",
+    "settings_window_colorize_with_the_ui_style": "Раскрасить с помощью стиля пользовательского интерфейса",
+    "settings_window_open_file_browser": "Откройте браузер файлов",
+    "settings_window_scale_to_fit": "Масштабироваться в соответствии",
+    "settings_window_section_background_image": "Фоновая картинка",
+    "settings_window_section_fullscreen": "Полноэкранный",
+    "settings_window_section_monitor": "монитор",
+    "settings_window_title": "Окно",
+    "show_pip_picture_in_picture": "Показать PIP (картинка в картинке)",
+    "south_east": "Юго восток",
+    "south_east_tooltip": "Переместить вид на юго-восток",
+    "south_west": "Юго-запад",
+    "south_west_tooltip": "Переместить вид на юго-запад",
+    "startup_choose_language": "Выберите ваш язык",
+    "startup_choose_palette": "Выберите палитру",
+    "startup_choose_ui_size": "Выберите размер пользовательского интерфейса",
+    "startup_finish": "Конец",
+    "startup_next": "следующий",
+    "startup_previous": "предыдущий",
+    "view": "Посмотреть",
+    "view_background": "Фон",
+    "view_controls": "Посмотреть элементы управления",
+    "view_grid": "сетка",
+    "view_hud": "HUD",
+    "view_hud_tooltip": "Показать заголовок дисплея",
+    "view_lock_center": "Замок Центр",
+    "view_lock_fill": "Блокировка заполнения",
+    "view_lock_frame": "Блокировка кадра",
+    "view_lock_none": "Никто",
+    "widget_annotate": "Пометки",
+    "widget_color_picker": "Палитра цветов",
+    "widget_color_picker_color": "цвет",
+    "widget_color_picker_color_picker_lock_color_type_tooltip": "Не меняйте тип цвета в соответствии с изображением",
+    "widget_color_picker_copy_tooltip": "Скопируйте значения в буфер обмена",
+    "widget_color_picker_lock_color_type": "Блокировка типа цвета",
+    "widget_color_picker_pixel": "пиксель",
+    "widget_color_picker_sample_size_tooltip": "Установите размер образца палитры цветов",
+    "widget_color_space": "Цветовое пространство",
+    "widget_color_space_add_config_tooltip": "Добавить новую конфигурацию OpenColorIO",
+    "widget_color_space_add_format_tooltip": "Назначьте цветовое пространство для формата файла",
+    "widget_color_space_color_views_none": "Никто",
+    "widget_color_space_config": "конфиг",
+    "widget_color_space_config_none": "Никто",
+    "widget_color_space_display": "дисплей",
+    "widget_color_space_display_name": "имя",
+    "widget_color_space_display_name_none": "Никто",
+    "widget_color_space_display_view": "Посмотреть",
+    "widget_color_space_edit_configs_tooltip": "Изменить список конфигураций OpenColorIO",
+    "widget_color_space_edit_format_tooltip": "Редактировать список цветовых пространств",
+    "widget_color_space_image": "Образ",
+    "widget_color_space_none": "Никто",
+    "widget_errors": "ошибки",
+    "widget_errors_clear": "ясно",
+    "widget_errors_clear_tooltip": "Очистить ошибки",
+    "widget_errors_copy": "копия",
+    "widget_errors_copy_tooltip": "Скопируйте ошибки в буфер обмена",
+    "widget_errors_popup": "Неожиданно возникнуть",
+    "widget_errors_popup_tooltip": "Показать это окно при наличии ошибок",
+    "widget_info_audio_track": "Звуковая дорожка",
+    "widget_info_channels": "каналы",
+    "widget_info_codec": "кодер-декодер",
+    "widget_info_duration": "продолжительность",
+    "widget_info_file_name": "Имя файла",
+    "widget_info_frames": "кадры",
+    "widget_info_khz": "кГц",
+    "widget_info_name": "имя",
+    "widget_info_sample_rate": "Частота дискретизации",
+    "widget_info_size": "Размер",
+    "widget_info_speed": "скорость",
+    "widget_info_tags": "Теги",
+    "widget_info_title": "Информация",
+    "widget_info_type": "Тип",
+    "widget_info_video_track": "Видеодорожка",
+    "widget_log": "Системный журнал",
+    "widget_log_clear": "ясно",
+    "widget_log_clear_tooltip": "Очистить системный журнал",
+    "widget_log_copy": "копия",
+    "widget_log_copy_tooltip": "Скопируйте системный журнал в буфер обмена",
+    "widget_log_reload": "Reload",
+    "widget_log_reload_tooltip": "Перезагрузите системный журнал",
+    "widget_magnify_slider_tooltip": "Установите увеличение",
+    "widget_magnify_title": "Magnify",
+    "widget_mdi_close_tooltip": "Закрыть текущий файл",
+    "widget_media_close_tooltip": "Закрыть текущий файл",
+    "widget_media_maximize_tooltip": "Развернуть текущее окно",
+    "widget_recent_decrease_thumbnail_size": "Уменьшить",
+    "widget_recent_decrease_thumbnail_size_tooltip": "Уменьшить размер миниатюр",
+    "widget_recent_files_title": "Недавние файлы",
+    "widget_recent_increase_thumbnail_size": "Увеличение",
+    "widget_recent_increase_thumbnail_size_tooltip": "Увеличить размер миниатюр",
+    "widget_view_background_color": "цвет",
+    "widget_view_background_set_as_default": "Установить по умолчанию",
+    "widget_view_grid_color": "цвет",
+    "widget_view_grid_enabled": "Включено",
+    "widget_view_grid_labels": "Этикетки",
+    "widget_view_grid_set_as_default": "Установить по умолчанию",
+    "widget_view_grid_size": "Размер",
+    "zoom": "Увеличить"
+}

@@ -81,7 +81,7 @@ namespace djv
             std::string outputColorSpace;
             std::shared_ptr<ValueSubject<glm::vec2> > imagePos;
             std::shared_ptr<ValueSubject<float> > imageZoom;
-            std::shared_ptr<ValueSubject<ImageRotate> > imageRotate;
+            std::shared_ptr<ValueSubject<UI::ImageRotate> > imageRotate;
             std::shared_ptr<ValueSubject<UI::ImageAspectRatio> > imageAspectRatio;
             ImageViewLock lock = ImageViewLock::None;
             BBox2f lockFrame = BBox2f(0.F, 0.F, 0.F, 0.F);
@@ -126,7 +126,7 @@ namespace djv
             p.imageOptions = ValueSubject<AV::Render2D::ImageOptions>::create(imageOptions);
             p.imagePos = ValueSubject<glm::vec2>::create();
             p.imageZoom = ValueSubject<float>::create(1.F);
-            p.imageRotate = ValueSubject<ImageRotate>::create(imageSettings->observeRotate()->get());
+            p.imageRotate = ValueSubject<UI::ImageRotate>::create(imageSettings->observeRotate()->get());
             p.imageAspectRatio = ValueSubject<UI::ImageAspectRatio>::create(imageSettings->observeAspectRatio()->get());
             p.gridOptions = ValueSubject<GridOptions>::create(viewSettings->observeGridOptions()->get());
             p.backgroundColor = ValueSubject<AV::Image::Color>::create(viewSettings->observeBackgroundColor()->get());
@@ -226,7 +226,7 @@ namespace djv
             return _p->imageZoom;
         }
 
-        std::shared_ptr<IValueSubject<ImageRotate> > ImageView::observeImageRotate() const
+        std::shared_ptr<IValueSubject<UI::ImageRotate> > ImageView::observeImageRotate() const
         {
             return _p->imageRotate;
         }
@@ -281,7 +281,7 @@ namespace djv
             }
         }
 
-        void ImageView::setImageRotate(ImageRotate value)
+        void ImageView::setImageRotate(UI::ImageRotate value)
         {
             DJV_PRIVATE_PTR();
             if (p.imageRotate->setIfChanged(value))
@@ -447,7 +447,7 @@ namespace djv
 
                 glm::mat3x3 m(1.F);
                 m = glm::translate(m, g.min + pos);
-                m = glm::rotate(m, Math::deg2rad(getImageRotate(p.imageRotate->get())));
+                m = glm::rotate(m, Math::deg2rad(UI::getImageRotate(p.imageRotate->get())));
                 m = glm::scale(m, glm::vec2(
                     zoom * UI::getPixelAspectRatio(p.imageAspectRatio->get(), image->getInfo().pixelAspectRatio),
                     zoom * UI::getAspectRatioScale(p.imageAspectRatio->get(), image->getAspectRatio())));
@@ -577,7 +577,7 @@ namespace djv
             {
                 const AV::Image::Size& imageSize = image->getSize();
                 glm::mat3x3 m(1.F);
-                m = glm::rotate(m, Math::deg2rad(getImageRotate(p.imageRotate->get())));
+                m = glm::rotate(m, Math::deg2rad(UI::getImageRotate(p.imageRotate->get())));
                 m = glm::scale(m, glm::vec2(
                     getPixelAspectRatio(p.imageAspectRatio->get(), image->getInfo().pixelAspectRatio),
                     getAspectRatioScale(p.imageAspectRatio->get(), image->getAspectRatio())));
@@ -859,7 +859,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
     }
 

@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2019 Darby Johnston
+// Copyright (c) 2019-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -62,7 +62,7 @@ namespace djv
         struct ImageControlsWidget::Private
         {
             AV::Render2D::ImageOptions imageOptions;
-            ImageRotate rotate = ImageRotate::First;
+            UI::ImageRotate rotate = UI::ImageRotate::First;
             UI::ImageAspectRatio aspectRatio = UI::ImageAspectRatio::First;
             bool frameStoreEnabled = false;
             std::shared_ptr<AV::Image::Image> frameStore;
@@ -107,7 +107,7 @@ namespace djv
 
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<ValueObserver<AV::Render2D::ImageOptions> > imageOptionsObserver;
-            std::shared_ptr<ValueObserver<ImageRotate> > rotateObserver;
+            std::shared_ptr<ValueObserver<UI::ImageRotate> > rotateObserver;
             std::shared_ptr<ValueObserver<UI::ImageAspectRatio> > aspectRatioObserver;
             std::shared_ptr<ValueObserver<bool> > frameStoreEnabledObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > frameStoreObserver;
@@ -363,7 +363,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->rotate = static_cast<ImageRotate>(value);
+                            widget->_p->rotate = static_cast<UI::ImageRotate>(value);
                             widget->_widgetUpdate();
                             if (widget->_p->activeWidget)
                             {
@@ -650,9 +650,9 @@ namespace djv
                                             widget->_widgetUpdate();
                                         }
                                     });
-                                widget->_p->rotateObserver = ValueObserver<ImageRotate>::create(
+                                widget->_p->rotateObserver = ValueObserver<UI::ImageRotate>::create(
                                     widget->_p->activeWidget->getImageView()->observeImageRotate(),
-                                    [weak](ImageRotate value)
+                                    [weak](UI::ImageRotate value)
                                     {
                                         if (auto widget = weak.lock())
                                         {
@@ -734,7 +734,7 @@ namespace djv
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
 
-            setTitle(_getText(DJV_TEXT("Image Controls")));
+            setTitle(_getText(DJV_TEXT("image_controls_title")));
             
             const auto& channelButtons = p.channelButtonGroup->getButtons();
             const auto& channelEnums = AV::Render2D::getImageChannelEnums();
@@ -753,18 +753,18 @@ namespace djv
                 ss << i;
                 p.alphaComboBox->addItem(_getText(ss.str()));
             }
-            p.channelsLayout->setText(p.alphaComboBox, _getText(DJV_TEXT("Alpha blend")) + ":");
+            p.channelsLayout->setText(p.alphaComboBox, _getText(DJV_TEXT("image_controls_channels_alpha_blend")) + ":");
 
-            p.transformLayout->setText(p.mirrorCheckBoxes[0], _getText(DJV_TEXT("Mirror horizontal")) + ":");
-            p.transformLayout->setText(p.mirrorCheckBoxes[1], _getText(DJV_TEXT("Mirror vertical")) + ":");
+            p.transformLayout->setText(p.mirrorCheckBoxes[0], _getText(DJV_TEXT("image_controls_transform_mirror_horizontal")) + ":");
+            p.transformLayout->setText(p.mirrorCheckBoxes[1], _getText(DJV_TEXT("image_controls_transform_mirror_vertical")) + ":");
             p.rotateComboBox->clearItems();
-            for (auto i : getImageRotateEnums())
+            for (auto i : UI::getImageRotateEnums())
             {
                 std::stringstream ss;
                 ss << i;
                 p.rotateComboBox->addItem(_getText(ss.str()));
             }
-            p.transformLayout->setText(p.rotateComboBox, _getText(DJV_TEXT("Rotate")) + ":");
+            p.transformLayout->setText(p.rotateComboBox, _getText(DJV_TEXT("image_controls_transform_rotate")) + ":");
             p.aspectRatioComboBox->clearItems();
             for (auto i : UI::getImageAspectRatioEnums())
             {
@@ -772,35 +772,35 @@ namespace djv
                 ss << i;
                 p.aspectRatioComboBox->addItem(_getText(ss.str()));
             }
-            p.transformLayout->setText(p.aspectRatioComboBox, _getText(DJV_TEXT("Aspect ratio")) + ":");
+            p.transformLayout->setText(p.aspectRatioComboBox, _getText(DJV_TEXT("image_controls_transform_aspect_ratio")) + ":");
 
-            p.colorLayout->setText(p.colorSliders["Brightness"], _getText(DJV_TEXT("Brightness")) + ":");
-            p.colorLayout->setText(p.colorSliders["Contrast"], _getText(DJV_TEXT("Contrast")) + ":");
-            p.colorLayout->setText(p.colorSliders["Saturation"], _getText(DJV_TEXT("Saturation")) + ":");
-            p.colorLayout->setText(p.colorInvertCheckBox, _getText(DJV_TEXT("Invert")) + ":");
+            p.colorLayout->setText(p.colorSliders["Brightness"], _getText(DJV_TEXT("image_controls_color_brightness")) + ":");
+            p.colorLayout->setText(p.colorSliders["Contrast"], _getText(DJV_TEXT("image_controls_color_contrast")) + ":");
+            p.colorLayout->setText(p.colorSliders["Saturation"], _getText(DJV_TEXT("image_controls_color_saturation")) + ":");
+            p.colorLayout->setText(p.colorInvertCheckBox, _getText(DJV_TEXT("image_controls_color_invert")) + ":");
 
-            p.levelsLayout->setText(p.levelsSliders["InLow"], _getText(DJV_TEXT("In Low")) + ":");
-            p.levelsLayout->setText(p.levelsSliders["InHigh"], _getText(DJV_TEXT("In High")) + ":");
-            p.levelsLayout->setText(p.levelsSliders["Gamma"], _getText(DJV_TEXT("Gamma")) + ":");
-            p.levelsLayout->setText(p.levelsSliders["OutLow"], _getText(DJV_TEXT("Out Low")) + ":");
-            p.levelsLayout->setText(p.levelsSliders["OutHigh"], _getText(DJV_TEXT("Out High")) + ":");
+            p.levelsLayout->setText(p.levelsSliders["InLow"], _getText(DJV_TEXT("image_controls_levels_in_low")) + ":");
+            p.levelsLayout->setText(p.levelsSliders["InHigh"], _getText(DJV_TEXT("image_controls_levels_in_high")) + ":");
+            p.levelsLayout->setText(p.levelsSliders["Gamma"], _getText(DJV_TEXT("image_controls_levels_gamma")) + ":");
+            p.levelsLayout->setText(p.levelsSliders["OutLow"], _getText(DJV_TEXT("image_controls_levels_out_low")) + ":");
+            p.levelsLayout->setText(p.levelsSliders["OutHigh"], _getText(DJV_TEXT("image_controls_levels_out_high")) + ":");
 
-            p.exposureLayout->setText(p.exposureButton, _getText(DJV_TEXT("Enabled")) + ":");
-            p.exposureLayout->setText(p.exposureSliders["Exposure"], _getText(DJV_TEXT("Exposure")) + ":");
-            p.exposureLayout->setText(p.exposureSliders["Defog"], _getText(DJV_TEXT("Defog")) + ":");
-            p.exposureLayout->setText(p.exposureSliders["KneeLow"], _getText(DJV_TEXT("Knee Low")) + ":");
-            p.exposureLayout->setText(p.exposureSliders["KneeHigh"], _getText(DJV_TEXT("Knee High")) + ":");
+            p.exposureLayout->setText(p.exposureButton, _getText(DJV_TEXT("image_controls_exposure_enabled")) + ":");
+            p.exposureLayout->setText(p.exposureSliders["Exposure"], _getText(DJV_TEXT("image_controls_exposure_exposure")) + ":");
+            p.exposureLayout->setText(p.exposureSliders["Defog"], _getText(DJV_TEXT("image_controls_exposure_defog")) + ":");
+            p.exposureLayout->setText(p.exposureSliders["KneeLow"], _getText(DJV_TEXT("image_controls_exposure_knee_low")) + ":");
+            p.exposureLayout->setText(p.exposureSliders["KneeHigh"], _getText(DJV_TEXT("image_controls_exposure_knee_high")) + ":");
 
-            p.loadFrameStoreButton->setText(_getText(DJV_TEXT("Load")));
-            p.frameStoreCheckBox->setText(_getText(DJV_TEXT("Enabled")));
+            p.loadFrameStoreButton->setText(_getText(DJV_TEXT("load")));
+            p.frameStoreCheckBox->setText(_getText(DJV_TEXT("image_controls_frame_store_enabled")));
 
-            p.tabWidget->setText(p.channelsScrollWidget, _getText(DJV_TEXT("Channels")));
-            p.tabWidget->setText(p.transformScrollWidget, _getText(DJV_TEXT("Transform")));
-            p.tabWidget->setText(p.colorScrollWidget, _getText(DJV_TEXT("Color")));
-            p.tabWidget->setText(p.levelsScrollWidget, _getText(DJV_TEXT("Levels")));
-            p.tabWidget->setText(p.exposureScrollWidget, _getText(DJV_TEXT("Exposure")));
-            p.tabWidget->setText(p.softClipScrollWidget, _getText(DJV_TEXT("Soft Clip")));
-            p.tabWidget->setText(p.frameStoreScrollWidget, _getText(DJV_TEXT("Frame Store")));
+            p.tabWidget->setText(p.channelsScrollWidget, _getText(DJV_TEXT("image_controls_section_channels")));
+            p.tabWidget->setText(p.transformScrollWidget, _getText(DJV_TEXT("image_controls_section_transform")));
+            p.tabWidget->setText(p.colorScrollWidget, _getText(DJV_TEXT("image_controls_section_color")));
+            p.tabWidget->setText(p.levelsScrollWidget, _getText(DJV_TEXT("image_controls_section_levels")));
+            p.tabWidget->setText(p.exposureScrollWidget, _getText(DJV_TEXT("image_controls_section_exposure")));
+            p.tabWidget->setText(p.softClipScrollWidget, _getText(DJV_TEXT("image_controls_section_soft_clip")));
+            p.tabWidget->setText(p.frameStoreScrollWidget, _getText(DJV_TEXT("image_controls_section_frame_store")));
 
             _widgetUpdate();
         }
@@ -836,6 +836,7 @@ namespace djv
 
             p.softClipSlider->setValue(p.imageOptions.softClip);
 
+            p.frameStoreCheckBox->setChecked(p.frameStoreEnabled);
             p.frameStoreWidget->setImage(p.frameStore);
         }
 

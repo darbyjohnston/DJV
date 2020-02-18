@@ -270,17 +270,32 @@ namespace djv
             Prev
         };
 
+        //! This enumeration provides image rotations.
+        enum class ImageRotate
+        {
+            _0,
+            _90,
+            _180,
+            _270,
+
+            Count,
+            First = _0
+        };
+        DJV_ENUM_HELPERS(ImageRotate);
+        float getImageRotate(ImageRotate);
+
         //! This enumeration provides image aspect ratios.
         enum class ImageAspectRatio
         {
-            Native,
-            Default,
+            Unscaled,
+            FromSource,
             _16_9,
             _1_85,
             _2_35,
+            _2_39,
 
             Count,
-            First = Native
+            First = Unscaled
         };
         DJV_ENUM_HELPERS(ImageAspectRatio);
         float getImageAspectRatio(ImageAspectRatio);
@@ -303,11 +318,13 @@ namespace djv
     } // namespace UI
 
     picojson::value toJSON(UI::ViewType);
+    picojson::value toJSON(UI::ImageRotate);
     picojson::value toJSON(UI::ImageAspectRatio);
 
     //! Throws:
     //! - std::exception
     void fromJSON(const picojson::value&, UI::ViewType&);
+    void fromJSON(const picojson::value&, UI::ImageRotate&);
     void fromJSON(const picojson::value&, UI::ImageAspectRatio&);
 
     DJV_ENUM_SERIALIZE_HELPERS(UI::Orientation);
@@ -323,6 +340,7 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS(UI::ViewType);
     DJV_ENUM_SERIALIZE_HELPERS(UI::ColorRole);
     DJV_ENUM_SERIALIZE_HELPERS(UI::MetricsRole);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::ImageRotate);
     DJV_ENUM_SERIALIZE_HELPERS(UI::ImageAspectRatio);
     DJV_ENUM_SERIALIZE_HELPERS(UI::Popup);
 

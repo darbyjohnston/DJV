@@ -55,7 +55,7 @@ namespace djv
                 if (!_vertex)
                 {
                     std::stringstream ss;
-                    ss << DJV_TEXT("The OpenGL vertex shader cannot be created.");
+                    ss << DJV_TEXT("error_opengl_vertex_shader_creation");
                     throw ShaderError(ss.str());
                 }
                 const char * src = _shader->getVertexSource().c_str();
@@ -68,8 +68,8 @@ namespace djv
                 {
                     glGetShaderInfoLog(_vertex, String::cStringLength, NULL, infoLog);
                     std::stringstream ss;
-                    ss << DJV_TEXT("The OpenGL vertex shader") << " '" << _shader->getVertexName() << "' " <<
-                        DJV_TEXT("cannot be compiled") << ". " << infoLog;
+                    ss << DJV_TEXT("error_the_opengl_vertex_shader") << " '" << _shader->getVertexName() << "' " <<
+                        DJV_TEXT("error_compilation") << ". " << infoLog;
                     throw ShaderError(ss.str());
                 }
 
@@ -77,7 +77,7 @@ namespace djv
                 if (!_fragment)
                 {
                     std::stringstream ss;
-                    ss << DJV_TEXT("The OpenGL fragment shader cannot be created.");
+                    ss << DJV_TEXT("error_opengl_fragment_shader_creation");
                     throw ShaderError(ss.str());
                 }
                 src = _shader->getFragmentSource().c_str();
@@ -88,8 +88,8 @@ namespace djv
                 {
                     glGetShaderInfoLog(_fragment, String::cStringLength, NULL, infoLog);
                     std::stringstream ss;
-                    ss << DJV_TEXT("The OpenGL fragment shader") << " '" << _shader->getFragmentName() << "' " <<
-                        DJV_TEXT("cannot be compiled") << ". " << infoLog;
+                    ss << DJV_TEXT("error_the_opengl_fragment_shader") << " '" << _shader->getFragmentName() << "' " <<
+                        DJV_TEXT("error_compilation") << ". " << infoLog;
                     throw ShaderError(ss.str());
                 }
 
@@ -102,8 +102,8 @@ namespace djv
                 {
                     glGetProgramInfoLog(_program, String::cStringLength, NULL, infoLog);
                     std::stringstream ss;
-                    ss << DJV_TEXT("The program") << " '" << _shader->getVertexName() << "' " <<
-                        DJV_TEXT("cannot be linked") << ". " << infoLog;
+                    ss << DJV_TEXT("error_the_program") << " '" << _shader->getVertexName() << "' " <<
+                        DJV_TEXT("error_link") << ". " << infoLog;
                     throw std::invalid_argument(ss.str());
                 }
             }

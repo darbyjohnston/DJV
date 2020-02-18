@@ -205,7 +205,7 @@ namespace djv
                     f.f = FileSystem::fopen(fileName, "rb");
                     if (!f.f)
                     {
-                        throw FileSystem::Error(DJV_TEXT("Cannot open file."));
+                        throw FileSystem::Error(DJV_TEXT("error_file_open"));
                     }
                     if (!jpegOpen(f.f, &f.jpeg, &f.jpegError))
                     {
@@ -215,7 +215,7 @@ namespace djv
                     Image::Type imageType = Image::getIntType(f.jpeg.out_color_components, 8);
                     if (Image::Type::None == imageType)
                     {
-                        throw FileSystem::Error(DJV_TEXT("Unsupported color components."));
+                        throw FileSystem::Error(DJV_TEXT("error_unsupported_color_components"));
                     }
                     auto info = Info(fileName, VideoInfo(Image::Info(f.jpeg.output_width, f.jpeg.output_height, imageType), _speed, _sequence));
 

@@ -111,7 +111,7 @@ namespace djv
                                     {
                                         auto logSystem = context->getSystemT<LogSystem>();
                                         std::stringstream ss;
-                                        ss << DJV_TEXT("Error finding the change notification for") <<
+                                        ss << DJV_TEXT("error_finding_the_change_notification_for") <<
                                             " '" << path << "'. " << Error::getLastError();
                                         logSystem->log("djv::Core::FileSystem::DirectoryWatcher", ss.str(), LogLevel::Error);
                                     }
@@ -123,7 +123,7 @@ namespace djv
                                 {
                                     auto logSystem = context->getSystemT<LogSystem>();
                                     std::stringstream ss;
-                                    ss << DJV_TEXT("Error watching the directory") <<
+                                    ss << DJV_TEXT("error_watching_the_directory") <<
                                         " '" << path << "'. " << e.what();
                                     logSystem->log("djv::Core::FileSystem::DirectoryWatcher", ss.str(), LogLevel::Error);
                                 }

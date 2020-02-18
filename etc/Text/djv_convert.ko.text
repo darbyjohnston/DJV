@@ -1,170 +1,20 @@
-[
-    {
-        "source": "Nothing to convert",
-        "description": "",
-        "id": "Nothing to convert",
-        "text": "변환 할 내용이 없습니다."
-    },
-    {
-        "source": "Cannot parse the option '-resize'",
-        "description": "",
-        "id": "Cannot parse the option '-resize'",
-        "text": "&#39;-resize&#39;옵션을 구문 분석 할 수 없습니다."
-    },
-    {
-        "source": "Usage: djv_convert (input) (output)",
-        "description": "",
-        "id": "Usage: djv_convert (input) (output)",
-        "text": "사용법 : djv_convert (입력) (출력)"
-    },
-    {
-        "source": " Usage:",
-        "description": "",
-        "id": " Usage:",
-        "text": "용법:"
-    },
-    {
-        "source": "   djv_convert (input) (output) [option, ...]",
-        "description": "",
-        "id": "   djv_convert (input) (output) [option, ...]",
-        "text": "djv_convert (입력) (출력) [옵션, ...]"
-    },
-    {
-        "source": " Options:",
-        "description": "",
-        "id": " Options:",
-        "text": "옵션 :"
-    },
-    {
-        "source": "   -resize '(width) (height)'",
-        "description": "",
-        "id": "   -resize '(width) (height)'",
-        "text": "크기 조정 &#39;(폭) (높이)&#39;"
-    },
-    {
-        "source": "     Resize the image.",
-        "description": "",
-        "id": "     Resize the image.",
-        "text": "이미지 크기를 조정하십시오."
-    },
-    {
-        "source": "   -readSeq",
-        "description": "",
-        "id": "   -readSeq",
-        "text": "-readSeq"
-    },
-    {
-        "source": "     Interpret the input file name as a sequence.",
-        "description": "",
-        "id": "     Interpret the input file name as a sequence.",
-        "text": "입력 파일 이름을 시퀀스로 해석하십시오."
-    },
-    {
-        "source": "   -writeSeq",
-        "description": "",
-        "id": "   -writeSeq",
-        "text": "-writeSeq"
-    },
-    {
-        "source": "     Interpret the output file name as a sequence.",
-        "description": "",
-        "id": "     Interpret the output file name as a sequence.",
-        "text": "출력 파일 이름을 시퀀스로 해석하십시오."
-    },
-    {
-        "source": "   -readQueue (value)",
-        "description": "",
-        "id": "   -readQueue (value)",
-        "text": "-readQueue (값)"
-    },
-    {
-        "source": "     Set the size of the read queue.",
-        "description": "",
-        "id": "     Set the size of the read queue.",
-        "text": "읽기 대기열의 크기를 설정하십시오."
-    },
-    {
-        "source": "   -writeQueue (value)",
-        "description": "",
-        "id": "   -writeQueue (value)",
-        "text": "-writeQueue (값)"
-    },
-    {
-        "source": "     Set the size of the write queue.",
-        "description": "",
-        "id": "     Set the size of the write queue.",
-        "text": "쓰기 대기열의 크기를 설정하십시오."
-    },
-    {
-        "source": "   -readThreads (value)",
-        "description": "",
-        "id": "   -readThreads (value)",
-        "text": "-readThreads (값)"
-    },
-    {
-        "source": "     Set the number of threads for reading.",
-        "description": "",
-        "id": "     Set the number of threads for reading.",
-        "text": "읽을 스레드 수를 설정하십시오."
-    },
-    {
-        "source": "   -writeThreads (value)",
-        "description": "",
-        "id": "   -writeThreads (value)",
-        "text": "-writeThreads (값)"
-    },
-    {
-        "source": "     Set the number of threads for writing.",
-        "description": "",
-        "id": "     Set the number of threads for writing.",
-        "text": "쓰려는 스레드 수를 설정하십시오."
-    },
-    {
-        "source": "   -resize \\\"(width) (height)\\\"",
-        "text": "크기 조정 \\ &quot;(폭) (높이) \\&quot;",
-        "id": "   -resize \\\"(width) (height)\\\"",
-        "description": ""
-    },
-    {
-        "source": "   Resize the image.",
-        "text": "이미지 크기를 조정하십시오.",
-        "id": "   Resize the image.",
-        "description": ""
-    },
-    {
-        "source": "   Interpret the input file name as a sequence.",
-        "text": "입력 파일 이름을 시퀀스로 해석하십시오.",
-        "id": "   Interpret the input file name as a sequence.",
-        "description": ""
-    },
-    {
-        "source": "   Interpret the output file name as a sequence.",
-        "text": "출력 파일 이름을 시퀀스로 해석하십시오.",
-        "id": "   Interpret the output file name as a sequence.",
-        "description": ""
-    },
-    {
-        "source": "   Set the size of the read queue.",
-        "text": "읽기 대기열의 크기를 설정하십시오.",
-        "id": "   Set the size of the read queue.",
-        "description": ""
-    },
-    {
-        "source": "   Set the size of the write queue.",
-        "text": "쓰기 대기열의 크기를 설정하십시오.",
-        "id": "   Set the size of the write queue.",
-        "description": ""
-    },
-    {
-        "source": "   Set the number of threads for reading.",
-        "text": "읽을 스레드 수를 설정하십시오.",
-        "id": "   Set the number of threads for reading.",
-        "description": ""
-    },
-    {
-        "source": "   Set the number of threads for writing.",
-        "text": "쓰려는 스레드 수를 설정하십시오.",
-        "id": "   Set the number of threads for writing.",
-        "description": ""
-    }
-]
+{
+    "djv_convert_cli_options": "옵션 :",
+    "djv_convert_cli_usage": "용법:",
+    "djv_convert_nothing_convert": "변환 할 것이 없습니다",
+    "djv_convert_option_readqueue": "-readQueue (값)",
+    "djv_convert_option_readqueue_description": "읽기 대기열의 크기를 설정하십시오.",
+    "djv_convert_option_readseq": "-readSeq",
+    "djv_convert_option_readseq_description": "입력 파일 이름을 시퀀스로 해석하십시오.",
+    "djv_convert_option_readthreads": "-readThreads (값)",
+    "djv_convert_option_readthreads_description": "읽을 스레드 수를 설정하십시오.",
+    "djv_convert_option_resize": "-크기 &quot;(너비) (높이)&quot;",
+    "djv_convert_option_resize_description": "이미지 크기를 조정하십시오.",
+    "djv_convert_option_writequeue": "-writeQueue (값)",
+    "djv_convert_option_writequeue_description": "쓰기 대기열의 크기를 설정하십시오.",
+    "djv_convert_option_writeseq": "-writeSeq",
+    "djv_convert_option_writeseq_description": "출력 파일 이름을 시퀀스로 해석하십시오.",
+    "djv_convert_option_writethreads": "-writeThreads (값)",
+    "djv_convert_option_writethreads_description": "쓰려는 스레드 수를 설정하십시오.",
+    "djv_convert_usage": "djv_convert (입력) (출력) [옵션, ...]"
+}

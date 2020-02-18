@@ -121,7 +121,7 @@ namespace djv
                                     catch (const std::exception& e)
                                     {
                                         std::stringstream ss;
-                                        ss << DJV_TEXT("The file") << " '" << value << "' " << DJV_TEXT("cannot be read") << ". " << e.what();
+                                        ss << DJV_TEXT("error_the_file") << " '" << value << "' " << DJV_TEXT("error_cannot_be_read") << ". " << e.what();
                                         auto logSystem = context->getSystemT<LogSystem>();
                                         logSystem->log("djv::ViewApp::BackgroundImageWidget", ss.str(), LogLevel::Error);
                                     }

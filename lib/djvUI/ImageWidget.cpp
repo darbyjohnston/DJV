@@ -49,8 +49,9 @@ namespace djv
         struct ImageWidget::Private
         {
             std::shared_ptr<AV::Image::Image> image;
-            ImageAspectRatio imageAspectRatio = ImageAspectRatio::Default;
-            AV::AlphaBlend imageAlphaBlend = AV::AlphaBlend::None;
+            AV::Render::ImageOptions imageOptions;
+            ImageRotate imageRotate = ImageRotate::_0;
+            ImageAspectRatio imageAspectRatio = ImageAspectRatio::FromSource;
             ColorRole imageColorRole = ColorRole::None;
             MetricsRole sizeRole = MetricsRole::None;
             AV::OCIO::Config ocioConfig;
@@ -62,7 +63,6 @@ namespace djv
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
-
             setClassName("djv::UI::ImageWidget");
 
             auto ocioSystem = context->getSystemT<AV::OCIO::System>();
@@ -113,6 +113,24 @@ namespace djv
             _resize();
         }
 
+        void ImageWidget::setImageOptions(const AV::Render::ImageOptions& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.imageOptions)
+                return;
+            p.imageOptions = value;
+            _redraw();
+        }
+
+        void ImageWidget::setImageRotate(ImageRotate value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.imageRotate)
+                return;
+            p.imageRotate = value;
+            _resize();
+        }
+
         void ImageWidget::setImageAspectRatio(ImageAspectRatio value)
         {
             DJV_PRIVATE_PTR();
@@ -120,15 +138,6 @@ namespace djv
                 return;
             p.imageAspectRatio = value;
             _resize();
-        }
-
-        void ImageWidget::setImageAlphaBlend(AV::AlphaBlend value)
-        {
-            DJV_PRIVATE_PTR();
-            if (value == p.imageAlphaBlend)
-                return;
-            p.imageAlphaBlend = value;
-            _redraw();
         }
 
         ColorRole ImageWidget::getImageColorRole() const
@@ -183,6 +192,18 @@ namespace djv
                 size.x = ceilf(size.x * UI::getPixelAspectRatio(p.imageAspectRatio, p.image->getInfo().pixelAspectRatio));
                 size.y = ceilf(size.y * UI::getAspectRatioScale(p.imageAspectRatio, p.image->getAspectRatio()));
             }
+            switch (p.imageRotate)
+            {
+            case ImageRotate::_90:
+            case ImageRotate::_270:
+            {
+                const float tmp = size.x;
+                size.x = size.y;
+                size.y = tmp;
+                break;
+            }
+            default: break;
+            }
             _setMinimumSize(size + getMargin().getSize(style));
         }
 
@@ -209,39 +230,66 @@ namespace djv
                 }
                 size.x = ceilf(size.x * UI::getPixelAspectRatio(p.imageAspectRatio, p.image->getInfo().pixelAspectRatio));
                 size.y = ceilf(size.y * UI::getAspectRatioScale(p.imageAspectRatio, p.image->getAspectRatio()));
+                glm::vec2 sizeRotated = size;
+                switch (p.imageRotate)
+                {
+                case ImageRotate::_90:
+                case ImageRotate::_270:
+                {
+                    const float tmp = sizeRotated.x;
+                    sizeRotated.x = sizeRotated.y;
+                    sizeRotated.y = tmp;
+                    break;
+                }
+                default: break;
+                }
                 glm::vec2 pos = glm::vec2(0.F, 0.F);
                 switch (getHAlign())
                 {
                 case HAlign::Center:
-                    pos.x = ceilf(c.x - size.x / 2.F);
+                    pos.x = ceilf(c.x - sizeRotated.x / 2.F);
                     break;
                 case HAlign::Fill:
                     pos.x = g.min.x;
-                    size.x = g.w();
+                    sizeRotated.x = g.w();
                     break;
                 case HAlign::Left:   pos.x = g.min.x; break;
-                case HAlign::Right:  pos.x = g.max.x - size.x; break;
+                case HAlign::Right:  pos.x = g.max.x - sizeRotated.x; break;
                 default: break;
                 }
                 switch (getVAlign())
                 {
                 case VAlign::Center:
-                    pos.y = ceilf(c.y - size.y / 2.F);
+                    pos.y = ceilf(c.y - sizeRotated.y / 2.F);
                     break;
                 case VAlign::Fill:
                     pos.y = g.min.y;
-                    size.y = g.h();
+                    sizeRotated.y = g.h();
                     break;
                 case VAlign::Top:    pos.y = g.min.y; break;
-                case VAlign::Bottom: pos.y = g.max.y - size.y; break;
+                case VAlign::Bottom: pos.y = g.max.y - sizeRotated.y; break;
                 default: break;
                 }
+                switch (p.imageRotate)
+                {
+                case ImageRotate::_90:
+                    pos.x += sizeRotated.x;
+                    break;
+                case ImageRotate::_180:
+                    pos.x += sizeRotated.x;
+                    pos.y += sizeRotated.y;
+                    break;
+                default: break;
+                case ImageRotate::_270:
+                    pos.y += sizeRotated.y;
+                    break;
+                }
 
-                AV::Render2D::ImageOptions options;
-                options.alphaBlend = p.imageAlphaBlend;
-                options.cache = AV::Render2D::ImageCache::Dynamic;
+                AV::Render::ImageOptions options = p.imageOptions;
+                options.cache = AV::Render::ImageCache::Dynamic;
                 glm::mat3x3 m(1.F);
                 m = glm::translate(m, pos);
+                m = glm::rotate(m, Math::deg2rad(UI::getImageRotate(p.imageRotate)));
                 m = glm::scale(m, glm::vec2(size.x / static_cast<float>(info.size.w), size.y / static_cast<float>(info.size.h)));
                 auto i = p.ocioConfig.fileColorSpaces.find(p.image->getPluginName());
                 if (i != p.ocioConfig.fileColorSpaces.end())

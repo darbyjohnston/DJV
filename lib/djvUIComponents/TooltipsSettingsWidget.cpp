@@ -104,12 +104,12 @@ namespace djv
 
         std::string TooltipsSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("Tooltips");
+            return DJV_TEXT("settings_general_section_tooltips");
         }
 
         std::string TooltipsSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("General");
+            return DJV_TEXT("settings_title_general");
         }
 
         std::string TooltipsSettingsWidget::getSettingsSortKey() const
@@ -121,7 +121,7 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.tooltipsCheckBox->setText(_getText(DJV_TEXT("Enable tooltips")));
+            p.tooltipsCheckBox->setText(_getText(DJV_TEXT("settings_general_enable_tooltips")));
         }
 
     } // namespace UI

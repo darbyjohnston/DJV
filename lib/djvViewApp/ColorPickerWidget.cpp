@@ -95,7 +95,7 @@ namespace djv
             AV::Render2D::ImageOptions imageOptions;
             glm::vec2 imagePos = glm::vec2(0.F, 0.F);
             float imageZoom = 1.F;
-            ImageRotate imageRotate = ImageRotate::First;
+            UI::ImageRotate imageRotate = UI::ImageRotate::First;
             UI::ImageAspectRatio imageAspectRatio = UI::ImageAspectRatio::First;
             glm::vec2 pixelPos = glm::vec2(0.F, 0.F);
             AV::OCIO::Config ocioConfig;
@@ -125,7 +125,7 @@ namespace djv
             std::shared_ptr<ValueObserver<AV::Render2D::ImageOptions> > imageOptionsObserver;
             std::shared_ptr<ValueObserver<glm::vec2> > imagePosObserver;
             std::shared_ptr<ValueObserver<float> > imageZoomObserver;
-            std::shared_ptr<ValueObserver<ImageRotate> > imageRotateObserver;
+            std::shared_ptr<ValueObserver<UI::ImageRotate> > imageRotateObserver;
             std::shared_ptr<ValueObserver<UI::ImageAspectRatio> > imageAspectRatioObserver;
             std::shared_ptr<ValueObserver<AV::OCIO::Config> > ocioConfigObserver;
             std::shared_ptr<ValueObserver<PointerData> > dragObserver;
@@ -320,9 +320,9 @@ namespace djv
                                         }
                                     });
 
-                                widget->_p->imageRotateObserver = ValueObserver<ImageRotate>::create(
+                                widget->_p->imageRotateObserver = ValueObserver<UI::ImageRotate>::create(
                                     widget->_p->activeWidget->getImageView()->observeImageRotate(),
-                                    [weak](ImageRotate value)
+                                    [weak](UI::ImageRotate value)
                                     {
                                         if (auto widget = weak.lock())
                                         {
@@ -467,17 +467,17 @@ namespace djv
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
 
-            setTitle(_getText(DJV_TEXT("Color Picker")));
+            setTitle(_getText(DJV_TEXT("widget_color_picker")));
 
-            p.actions["Lock"]->setText(_getText(DJV_TEXT("Lock color type")));
-            p.actions["Lock"]->setTooltip(_getText(DJV_TEXT("Color picker lock color type tooltip")));
+            p.actions["Lock"]->setText(_getText(DJV_TEXT("widget_color_picker_lock_color_type")));
+            p.actions["Lock"]->setTooltip(_getText(DJV_TEXT("widget_color_picker_color_picker_lock_color_type_tooltip")));
 
-            p.sampleSizeSlider->setTooltip(_getText(DJV_TEXT("Color picker sample size tooltip")));
+            p.sampleSizeSlider->setTooltip(_getText(DJV_TEXT("widget_color_picker_sample_size_tooltip")));
 
-            p.copyButton->setTooltip(_getText(DJV_TEXT("Color picker copy tooltip")));
+            p.copyButton->setTooltip(_getText(DJV_TEXT("widget_color_picker_copy_tooltip")));
             
-            p.formLayout->setText(p.colorLabel, _getText(DJV_TEXT("Color")) + ":");
-            p.formLayout->setText(p.pixelLabel, _getText(DJV_TEXT("Pixel")) + ":");
+            p.formLayout->setText(p.colorLabel, _getText(DJV_TEXT("widget_color_picker_color")) + ":");
+            p.formLayout->setText(p.pixelLabel, _getText(DJV_TEXT("widget_color_picker_pixel")) + ":");
         }
         
         void ColorPickerWidget::_sampleUpdate()
@@ -550,7 +550,7 @@ namespace djv
                 catch (const std::exception& e)
                 {
                     std::stringstream ss;
-                    ss << _getText(DJV_TEXT("Cannot sample color")) << ". " << e.what();
+                    ss << _getText(DJV_TEXT("error_cannot_sample_color")) << ". " << e.what();
                     _log(ss.str(), LogLevel::Error);
                 }
             }
@@ -574,13 +574,13 @@ namespace djv
 
             p.colorSwatch->setColor(p.color);
             p.colorLabel->setText(AV::Image::Color::getLabel(p.color, 2, false));
-            p.colorLabel->setTooltip(_getText(DJV_TEXT("Color label tooltip")));
+            p.colorLabel->setTooltip(_getText(DJV_TEXT("color_label_tooltip")));
             {
                 std::stringstream ss;
                 ss << floorf(p.pixelPos.x) << " " << floorf(p.pixelPos.y);
                 p.pixelLabel->setText(ss.str());
             }
-            p.pixelLabel->setTooltip(_getText(DJV_TEXT("Pixel label tooltip")));
+            p.pixelLabel->setTooltip(_getText(DJV_TEXT("pixel_label_tooltip")));
             p.sampleSizeSlider->setValue(p.sampleSize);
         }
 
@@ -591,7 +591,7 @@ namespace djv
             const float z = sampleSize / 2.F;
             m = glm::translate(m, glm::vec2(z, z));
             m = glm::translate(m, imagePos / imageZoom);
-            m = glm::rotate(m, Math::deg2rad(getImageRotate(imageRotate)));
+            m = glm::rotate(m, Math::deg2rad(UI::getImageRotate(imageRotate)));
             m = glm::scale(m, glm::vec2(
                 UI::getPixelAspectRatio(imageAspectRatio, image->getInfo().pixelAspectRatio),
                 UI::getAspectRatioScale(imageAspectRatio, image->getAspectRatio())));

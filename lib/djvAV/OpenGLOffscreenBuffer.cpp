@@ -59,16 +59,16 @@ namespace djv
                     switch (error)
                     {
                     case Error::ColorTexture:
-                        ss << DJV_TEXT("The OpenGL color texture cannot be created.");
+                        ss << DJV_TEXT("error_opengl_color_texture_creation");
                         break;
                     case Error::DepthTexture:
-                        ss << DJV_TEXT("The OpenGL depth texture cannot be created.");
+                        ss << DJV_TEXT("error_opengl_depth_texture_creation");
                         break;
                     case Error::Create:
-                        ss << DJV_TEXT("The OpenGL frame buffer cannot be created.");
+                        ss << DJV_TEXT("error_opengl_frame_buffer_creation");
                         break;
                     case Error::Init:
-                        ss << DJV_TEXT("The OpenGL frame buffer cannot be initialized.");
+                        ss << DJV_TEXT("error_opengl_frame_buffer_init");
                         break;
                     default: break;
                     }
@@ -355,17 +355,17 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::OpenGL,
         OffscreenDepthType,
-        DJV_TEXT("None"),
-        DJV_TEXT("24"),
-        DJV_TEXT("32"));
+        DJV_TEXT("offscreen_depth_type_none"),
+        DJV_TEXT("offscreen_depth_type_24"),
+        DJV_TEXT("offscreen_depth_type_32"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::OpenGL,
         OffscreenSampling,
-        DJV_TEXT("None"),
-        DJV_TEXT("2"),
-        DJV_TEXT("4"),
-        DJV_TEXT("8"),
-        DJV_TEXT("16"));
+        DJV_TEXT("offscreen_sampling_none"),
+        DJV_TEXT("offscreen_sampling_2"),
+        DJV_TEXT("offscreen_sampling_4"),
+        DJV_TEXT("offscreen_sampling_8"),
+        DJV_TEXT("offscreen_sampling_16"));
 
 } // namespace djv

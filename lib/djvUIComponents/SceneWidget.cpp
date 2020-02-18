@@ -424,12 +424,12 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         SceneRotate,
-        DJV_TEXT("None"),
-        DJV_TEXT("X+90"),
-        DJV_TEXT("X-90"),
-        DJV_TEXT("Y+90"),
-        DJV_TEXT("Y-90"),
-        DJV_TEXT("Z+90"),
-        DJV_TEXT("Z-90"));
+        DJV_TEXT("scene_rotate_none"),
+        DJV_TEXT("scene_rotate_x_+90"),
+        DJV_TEXT("scene_rotate_x_-90"),
+        DJV_TEXT("scene_rotate_y_+90"),
+        DJV_TEXT("scene_rotate_y-90"),
+        DJV_TEXT("scene_rotate_z+90"),
+        DJV_TEXT("scene_rotate_z-90"));
 
 } // namespace djv

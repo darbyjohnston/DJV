@@ -242,7 +242,7 @@ namespace djv
                     else
                     {
                         std::stringstream ss;
-                        ss << DJV_TEXT("Bad magic number.");
+                        ss << DJV_TEXT("error_bad_magic_number");
                         throw FileSystem::Error(ss.str());
                     }
 
@@ -263,7 +263,7 @@ namespace djv
                     if (!out.image.channels)
                     {
                         std::stringstream ss;
-                        ss << DJV_TEXT("No image channels.");
+                        ss << DJV_TEXT("error_no_image_channels");
                         throw FileSystem::Error(ss.str());
                     }
                     uint8_t i = 1;
@@ -282,7 +282,7 @@ namespace djv
                     if (i < out.image.channels)
                     {
                         std::stringstream ss;
-                        ss << DJV_TEXT("Image channels must have the same size and bit depth.");
+                        ss << DJV_TEXT("error_image_channels_same_size_and_bit_depth");
                         throw FileSystem::Error(ss.str());
                     }
                     Image::Type imageType = Image::Type::None;
@@ -302,19 +302,19 @@ namespace djv
                     if (Image::Type::None == imageType)
                     {
                         std::stringstream ss;
-                        ss << DJV_TEXT("Unsupported bit depth.");
+                        ss << DJV_TEXT("error_unsupported_bit_depth");
                         throw FileSystem::Error(ss.str());
                     }
                     if (isValid(&out.image.linePadding) && out.image.linePadding)
                     {
                         std::stringstream ss;
-                        ss << DJV_TEXT("Line padding is unsupported.");
+                        ss << DJV_TEXT("error_line_padding_unsupported");
                         throw FileSystem::Error(ss.str());
                     }
                     if (isValid(&out.image.channelPadding) && out.image.channelPadding)
                     {
                         std::stringstream ss;
-                        ss << DJV_TEXT("Channel padding is unsupported.");
+                        ss << DJV_TEXT("error_channel_padding_unsupported");
                         throw FileSystem::Error(ss.str());
                     }
 
@@ -325,7 +325,7 @@ namespace djv
                     if (io.getSize() - out.file.imageOffset != info.video[0].info.getDataByteCount())
                     {
                         std::stringstream ss;
-                        ss << DJV_TEXT("Incomplete file.");
+                        ss << DJV_TEXT("error_incomplete_file");
                         throw FileSystem::Error(ss.str());
                     }
                     switch (static_cast<Orient>(out.image.orient))
@@ -609,7 +609,7 @@ namespace djv
                     auto out = std::shared_ptr<Plugin>(new Plugin);
                     out->_init(
                         pluginName,
-                        DJV_TEXT("This plugin provides Cineon image I/O."),
+                        DJV_TEXT("plugin_cineon_io"),
                         fileExtensions,
                         context);
                     return out;

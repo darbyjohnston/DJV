@@ -1,170 +1,20 @@
-[
-    {
-        "source": "Nothing to convert",
-        "description": "",
-        "id": "Nothing to convert",
-        "text": "Нечего конвертировать"
-    },
-    {
-        "source": "Cannot parse the option '-resize'",
-        "description": "",
-        "id": "Cannot parse the option '-resize'",
-        "text": "Не удается разобрать опцию -resize"
-    },
-    {
-        "source": "Usage: djv_convert (input) (output)",
-        "description": "",
-        "id": "Usage: djv_convert (input) (output)",
-        "text": "Использование: djv_convert (входной) (выходной)"
-    },
-    {
-        "source": " Usage:",
-        "description": "",
-        "id": " Usage:",
-        "text": "Использование:"
-    },
-    {
-        "source": "   djv_convert (input) (output) [option, ...]",
-        "description": "",
-        "id": "   djv_convert (input) (output) [option, ...]",
-        "text": "djv_convert (входной) (выходной) [опция, ...]"
-    },
-    {
-        "source": " Options:",
-        "description": "",
-        "id": " Options:",
-        "text": "Параметры:"
-    },
-    {
-        "source": "   -resize '(width) (height)'",
-        "description": "",
-        "id": "   -resize '(width) (height)'",
-        "text": "-resize &#39;(ширина) (высота)&#39;"
-    },
-    {
-        "source": "     Resize the image.",
-        "description": "",
-        "id": "     Resize the image.",
-        "text": "Изменить размер изображения."
-    },
-    {
-        "source": "   -readSeq",
-        "description": "",
-        "id": "   -readSeq",
-        "text": "-readSeq"
-    },
-    {
-        "source": "     Interpret the input file name as a sequence.",
-        "description": "",
-        "id": "     Interpret the input file name as a sequence.",
-        "text": "Интерпретировать имя входного файла как последовательность."
-    },
-    {
-        "source": "   -writeSeq",
-        "description": "",
-        "id": "   -writeSeq",
-        "text": "-writeSeq"
-    },
-    {
-        "source": "     Interpret the output file name as a sequence.",
-        "description": "",
-        "id": "     Interpret the output file name as a sequence.",
-        "text": "Интерпретировать имя выходного файла как последовательность."
-    },
-    {
-        "source": "   -readQueue (value)",
-        "description": "",
-        "id": "   -readQueue (value)",
-        "text": "-readQueue (значение)"
-    },
-    {
-        "source": "     Set the size of the read queue.",
-        "description": "",
-        "id": "     Set the size of the read queue.",
-        "text": "Установите размер очереди чтения."
-    },
-    {
-        "source": "   -writeQueue (value)",
-        "description": "",
-        "id": "   -writeQueue (value)",
-        "text": "-writeQueue (значение)"
-    },
-    {
-        "source": "     Set the size of the write queue.",
-        "description": "",
-        "id": "     Set the size of the write queue.",
-        "text": "Установите размер очереди записи."
-    },
-    {
-        "source": "   -readThreads (value)",
-        "description": "",
-        "id": "   -readThreads (value)",
-        "text": "-readThreads (значение)"
-    },
-    {
-        "source": "     Set the number of threads for reading.",
-        "description": "",
-        "id": "     Set the number of threads for reading.",
-        "text": "Установите количество тем для чтения."
-    },
-    {
-        "source": "   -writeThreads (value)",
-        "description": "",
-        "id": "   -writeThreads (value)",
-        "text": "-writeThreads (значение)"
-    },
-    {
-        "source": "     Set the number of threads for writing.",
-        "description": "",
-        "id": "     Set the number of threads for writing.",
-        "text": "Установите количество потоков для записи."
-    },
-    {
-        "source": "   -resize \\\"(width) (height)\\\"",
-        "text": "-resize \\ &quot;(ширина) (высота) \\&quot;",
-        "id": "   -resize \\\"(width) (height)\\\"",
-        "description": ""
-    },
-    {
-        "source": "   Resize the image.",
-        "text": "Изменить размер изображения.",
-        "id": "   Resize the image.",
-        "description": ""
-    },
-    {
-        "source": "   Interpret the input file name as a sequence.",
-        "text": "Интерпретировать имя входного файла как последовательность.",
-        "id": "   Interpret the input file name as a sequence.",
-        "description": ""
-    },
-    {
-        "source": "   Interpret the output file name as a sequence.",
-        "text": "Интерпретировать имя выходного файла как последовательность.",
-        "id": "   Interpret the output file name as a sequence.",
-        "description": ""
-    },
-    {
-        "source": "   Set the size of the read queue.",
-        "text": "Установите размер очереди чтения.",
-        "id": "   Set the size of the read queue.",
-        "description": ""
-    },
-    {
-        "source": "   Set the size of the write queue.",
-        "text": "Установите размер очереди записи.",
-        "id": "   Set the size of the write queue.",
-        "description": ""
-    },
-    {
-        "source": "   Set the number of threads for reading.",
-        "text": "Установите количество тем для чтения.",
-        "id": "   Set the number of threads for reading.",
-        "description": ""
-    },
-    {
-        "source": "   Set the number of threads for writing.",
-        "text": "Установите количество потоков для записи.",
-        "id": "   Set the number of threads for writing.",
-        "description": ""
-    }
-]
+{
+    "djv_convert_cli_options": "Параметры:",
+    "djv_convert_cli_usage": "Использование:",
+    "djv_convert_nothing_convert": "Нечего конвертировать",
+    "djv_convert_option_readqueue": "-readQueue (значение)",
+    "djv_convert_option_readqueue_description": "Установите размер очереди чтения.",
+    "djv_convert_option_readseq": "-readSeq",
+    "djv_convert_option_readseq_description": "Интерпретировать имя входного файла как последовательность.",
+    "djv_convert_option_readthreads": "-readThreads (значение)",
+    "djv_convert_option_readthreads_description": "Установите количество тем для чтения.",
+    "djv_convert_option_resize": "-resize &quot;(ширина) (высота)&quot;",
+    "djv_convert_option_resize_description": "Изменить размер изображения.",
+    "djv_convert_option_writequeue": "-writeQueue (значение)",
+    "djv_convert_option_writequeue_description": "Установите размер очереди записи.",
+    "djv_convert_option_writeseq": "-writeSeq",
+    "djv_convert_option_writeseq_description": "Интерпретировать имя выходного файла как последовательность.",
+    "djv_convert_option_writethreads": "-writeThreads (значение)",
+    "djv_convert_option_writethreads_description": "Установите количество потоков для записи.",
+    "djv_convert_usage": "djv_convert (вход) (выход) [опция, ...]"
+}

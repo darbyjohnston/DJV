@@ -212,12 +212,12 @@ namespace djv
 
         std::string LanguageSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("Language");
+            return DJV_TEXT("settings_general_section_language");
         }
 
         std::string LanguageSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("General");
+            return DJV_TEXT("settings_title_general");
         }
 
         std::string LanguageSettingsWidget::getSettingsSortKey() const

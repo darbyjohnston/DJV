@@ -518,16 +518,16 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.actions.size())
             {
-                p.actions["FullScreen"]->setText(_getText(DJV_TEXT("Full Screen")));
-                p.actions["FullScreen"]->setTooltip(_getText(DJV_TEXT("Full screen tooltip")));
-                p.actions["Maximize"]->setText(_getText(DJV_TEXT("Maximize")));
-                p.actions["Maximize"]->setTooltip(_getText(DJV_TEXT("Maximize tooltip")));
-                p.actions["Fit"]->setText(_getText(DJV_TEXT("Fit")));
-                p.actions["Fit"]->setTooltip(_getText(DJV_TEXT("Fit tooltip")));
-                p.actions["AutoHide"]->setText(_getText(DJV_TEXT("Auto-Hide Interface")));
-                p.actions["AutoHide"]->setTooltip(_getText(DJV_TEXT("Auto-hide tooltip")));
+                p.actions["FullScreen"]->setText(_getText(DJV_TEXT("menu_window_full_screen")));
+                p.actions["FullScreen"]->setTooltip(_getText(DJV_TEXT("menu_window_full_screen_tooltip")));
+                p.actions["Maximize"]->setText(_getText(DJV_TEXT("menu_window_maximize")));
+                p.actions["Maximize"]->setTooltip(_getText(DJV_TEXT("menu_window_maximize_tooltip")));
+                p.actions["Fit"]->setText(_getText(DJV_TEXT("menu_window_fit")));
+                p.actions["Fit"]->setTooltip(_getText(DJV_TEXT("menu_window_fit_tooltip")));
+                p.actions["AutoHide"]->setText(_getText(DJV_TEXT("menu_window_auto_hide_interface")));
+                p.actions["AutoHide"]->setTooltip(_getText(DJV_TEXT("menu_window_auto_hide_tooltip")));
 
-                p.menu->setText(_getText(DJV_TEXT("Window")));
+                p.menu->setText(_getText(DJV_TEXT("menu_window")));
             }
         }
 

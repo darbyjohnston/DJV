@@ -123,7 +123,7 @@ namespace djv
                 const auto pieces = String::split(string, ':');
                 if (pieces.size() != 5)
                 {
-                    throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+                    throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
                 }
                 id     = std::stoi(pieces[0]);
                 type   = std::stoi(pieces[1]);
@@ -191,7 +191,7 @@ namespace djv
                     frame = std::stoi(pieces[i]);
                     break;
                 default:
-                    throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+                    throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
                 }
                 out = timeToTimecode(hour, minute, second, frame);
             }

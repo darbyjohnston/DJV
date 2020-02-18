@@ -1,170 +1,20 @@
-[
-    {
-        "source": "Nothing to convert",
-        "description": "",
-        "id": "Nothing to convert",
-        "text": "Nada para convertir"
-    },
-    {
-        "source": "Cannot parse the option '-resize'",
-        "description": "",
-        "id": "Cannot parse the option '-resize'",
-        "text": "No se puede analizar la opción &#39;-resize&#39;"
-    },
-    {
-        "source": "Usage: djv_convert (input) (output)",
-        "description": "",
-        "id": "Usage: djv_convert (input) (output)",
-        "text": "Uso: djv_convert (entrada) (salida)"
-    },
-    {
-        "source": " Usage:",
-        "description": "",
-        "id": " Usage:",
-        "text": "Uso:"
-    },
-    {
-        "source": "   djv_convert (input) (output) [option, ...]",
-        "description": "",
-        "id": "   djv_convert (input) (output) [option, ...]",
-        "text": "djv_convert (entrada) (salida) [opción, ...]"
-    },
-    {
-        "source": " Options:",
-        "description": "",
-        "id": " Options:",
-        "text": "Opciones:"
-    },
-    {
-        "source": "   -resize '(width) (height)'",
-        "description": "",
-        "id": "   -resize '(width) (height)'",
-        "text": "-resize &#39;(ancho) (alto)&#39;"
-    },
-    {
-        "source": "     Resize the image.",
-        "description": "",
-        "id": "     Resize the image.",
-        "text": "Cambiar el tamaño de la imagen."
-    },
-    {
-        "source": "   -readSeq",
-        "description": "",
-        "id": "   -readSeq",
-        "text": "-readSeq"
-    },
-    {
-        "source": "     Interpret the input file name as a sequence.",
-        "description": "",
-        "id": "     Interpret the input file name as a sequence.",
-        "text": "Interprete el nombre del archivo de entrada como una secuencia."
-    },
-    {
-        "source": "   -writeSeq",
-        "description": "",
-        "id": "   -writeSeq",
-        "text": "-writeSeq"
-    },
-    {
-        "source": "     Interpret the output file name as a sequence.",
-        "description": "",
-        "id": "     Interpret the output file name as a sequence.",
-        "text": "Interprete el nombre del archivo de salida como una secuencia."
-    },
-    {
-        "source": "   -readQueue (value)",
-        "description": "",
-        "id": "   -readQueue (value)",
-        "text": "-readQueue (valor)"
-    },
-    {
-        "source": "     Set the size of the read queue.",
-        "description": "",
-        "id": "     Set the size of the read queue.",
-        "text": "Establece el tamaño de la cola de lectura."
-    },
-    {
-        "source": "   -writeQueue (value)",
-        "description": "",
-        "id": "   -writeQueue (value)",
-        "text": "-writeQueue (valor)"
-    },
-    {
-        "source": "     Set the size of the write queue.",
-        "description": "",
-        "id": "     Set the size of the write queue.",
-        "text": "Establece el tamaño de la cola de escritura."
-    },
-    {
-        "source": "   -readThreads (value)",
-        "description": "",
-        "id": "   -readThreads (value)",
-        "text": "-readThreads (valor)"
-    },
-    {
-        "source": "     Set the number of threads for reading.",
-        "description": "",
-        "id": "     Set the number of threads for reading.",
-        "text": "Establece el número de hilos para leer."
-    },
-    {
-        "source": "   -writeThreads (value)",
-        "description": "",
-        "id": "   -writeThreads (value)",
-        "text": "-writeThreads (valor)"
-    },
-    {
-        "source": "     Set the number of threads for writing.",
-        "description": "",
-        "id": "     Set the number of threads for writing.",
-        "text": "Establece el número de hilos para escribir."
-    },
-    {
-        "source": "   -resize \\\"(width) (height)\\\"",
-        "text": "-resize \\ &quot;(ancho) (alto) \\&quot;",
-        "id": "   -resize \\\"(width) (height)\\\"",
-        "description": ""
-    },
-    {
-        "source": "   Resize the image.",
-        "text": "Cambiar el tamaño de la imagen.",
-        "id": "   Resize the image.",
-        "description": ""
-    },
-    {
-        "source": "   Interpret the input file name as a sequence.",
-        "text": "Interprete el nombre del archivo de entrada como una secuencia.",
-        "id": "   Interpret the input file name as a sequence.",
-        "description": ""
-    },
-    {
-        "source": "   Interpret the output file name as a sequence.",
-        "text": "Interprete el nombre del archivo de salida como una secuencia.",
-        "id": "   Interpret the output file name as a sequence.",
-        "description": ""
-    },
-    {
-        "source": "   Set the size of the read queue.",
-        "text": "Establece el tamaño de la cola de lectura.",
-        "id": "   Set the size of the read queue.",
-        "description": ""
-    },
-    {
-        "source": "   Set the size of the write queue.",
-        "text": "Establece el tamaño de la cola de escritura.",
-        "id": "   Set the size of the write queue.",
-        "description": ""
-    },
-    {
-        "source": "   Set the number of threads for reading.",
-        "text": "Establece el número de hilos para leer.",
-        "id": "   Set the number of threads for reading.",
-        "description": ""
-    },
-    {
-        "source": "   Set the number of threads for writing.",
-        "text": "Establece el número de hilos para escribir.",
-        "id": "   Set the number of threads for writing.",
-        "description": ""
-    }
-]
+{
+    "djv_convert_cli_options": "Opciones:",
+    "djv_convert_cli_usage": "Uso:",
+    "djv_convert_nothing_convert": "Nada para convertir",
+    "djv_convert_option_readqueue": "-readQueue (valor)",
+    "djv_convert_option_readqueue_description": "Establece el tamaño de la cola de lectura.",
+    "djv_convert_option_readseq": "-readSeq",
+    "djv_convert_option_readseq_description": "Interprete el nombre del archivo de entrada como una secuencia.",
+    "djv_convert_option_readthreads": "-readThreads (valor)",
+    "djv_convert_option_readthreads_description": "Establece el número de hilos para leer.",
+    "djv_convert_option_resize": "-resize &quot;(ancho) (alto)&quot;",
+    "djv_convert_option_resize_description": "Cambiar el tamaño de la imagen.",
+    "djv_convert_option_writequeue": "-writeQueue (valor)",
+    "djv_convert_option_writequeue_description": "Establece el tamaño de la cola de escritura.",
+    "djv_convert_option_writeseq": "-writeSeq",
+    "djv_convert_option_writeseq_description": "Interprete el nombre del archivo de salida como una secuencia.",
+    "djv_convert_option_writethreads": "-writeThreads (valor)",
+    "djv_convert_option_writethreads_description": "Establece el número de hilos para escribir.",
+    "djv_convert_usage": "djv_convert (input) (output) [opción, ...]"
+}

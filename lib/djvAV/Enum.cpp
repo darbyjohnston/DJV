@@ -38,24 +38,24 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV,
         Side,
-        DJV_TEXT("None"),
-        DJV_TEXT("Left"),
-        DJV_TEXT("Top"),
-        DJV_TEXT("Right"),
-        DJV_TEXT("Bottom"));
+        DJV_TEXT("av_side_none"),
+        DJV_TEXT("av_side_left"),
+        DJV_TEXT("av_side_top"),
+        DJV_TEXT("av_side_right"),
+        DJV_TEXT("av_side_bottom"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV,
         TimeUnits,
-        DJV_TEXT("Timecode"),
-        DJV_TEXT("Frames"));
+        DJV_TEXT("av_time_unit_timecode"),
+        DJV_TEXT("av_time_unit_frames"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV,
         AlphaBlend,
-        DJV_TEXT("None"),
-        DJV_TEXT("Straight"),
-        DJV_TEXT("Premultiplied"));
+        DJV_TEXT("av_alpha_none"),
+        DJV_TEXT("av_alpha_straight"),
+        DJV_TEXT("av_alpha_premultiplied"));
 
     picojson::value toJSON(AV::AlphaBlend value)
     {
@@ -73,7 +73,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
     }
 

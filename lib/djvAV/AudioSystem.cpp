@@ -154,7 +154,7 @@ namespace djv
                 catch (const std::exception& e)
                 {
                     std::stringstream ss;
-                    ss << DJV_TEXT("RtAudio cannot be initialized") << ". " << e.what();
+                    ss << DJV_TEXT("error_rtaudio_init") << ". " << e.what();
                     _log(ss.str(), LogLevel::Error);
                 }
             }

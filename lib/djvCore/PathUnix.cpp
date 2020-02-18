@@ -55,7 +55,7 @@ namespace djv
                 if (::mkdir(value.get().c_str(), S_IRWXU) != 0)
                 {
                     std::stringstream s;
-                    s << DJV_TEXT("The directory") << " '" << value << "' " << DJV_TEXT("cannot be created") << ".";
+                    s << DJV_TEXT("error_the_directory") << " '" << value << "' " << DJV_TEXT("error_cannot_be_created") << ".";
                     throw Error(s.str());
                 }
             }
@@ -65,7 +65,7 @@ namespace djv
                 if (::rmdir(value.get().c_str()) != 0)
                 {
                     std::stringstream s;
-                    s << DJV_TEXT("The directory") << " '" << value << "' " << DJV_TEXT("cannot be removed") << ".";
+                    s << DJV_TEXT("error_the_directory") << " '" << value << "' " << DJV_TEXT("error_cannot_be_removed") << ".";
                     throw Error(s.str());
                 }
             }

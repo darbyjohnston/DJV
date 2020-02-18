@@ -190,13 +190,13 @@ namespace djv
         {
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            setTitle(_getText(DJV_TEXT("Errors")));
-            p.popupCheckBox->setText(_getText(DJV_TEXT("Popup")));
-            p.popupCheckBox->setTooltip(_getText(DJV_TEXT("Errors widget popup tooltip")));
-            p.copyButton->setText(_getText(DJV_TEXT("Copy")));
-            p.copyButton->setTooltip(_getText(DJV_TEXT("Errors widget copy tooltip")));
-            p.clearButton->setText(_getText(DJV_TEXT("Clear")));
-            p.clearButton->setTooltip(_getText(DJV_TEXT("Errors widget clear tooltip")));
+            setTitle(_getText(DJV_TEXT("widget_errors")));
+            p.popupCheckBox->setText(_getText(DJV_TEXT("widget_errors_popup")));
+            p.popupCheckBox->setTooltip(_getText(DJV_TEXT("widget_errors_popup_tooltip")));
+            p.copyButton->setText(_getText(DJV_TEXT("widget_errors_copy")));
+            p.copyButton->setTooltip(_getText(DJV_TEXT("widget_errors_copy_tooltip")));
+            p.clearButton->setText(_getText(DJV_TEXT("widget_errors_clear")));
+            p.clearButton->setTooltip(_getText(DJV_TEXT("widget_errors_clear_tooltip")));
         }
 
         void ErrorsWidget::setText(const std::string& value)

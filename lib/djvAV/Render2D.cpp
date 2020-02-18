@@ -549,9 +549,9 @@ namespace djv
                 {
                     auto logSystem = context->getSystemT<LogSystem>();
                     std::stringstream ss;
-                    ss << "Texture atlas count: " << _textureAtlasCount << "\n";
-                    ss << "Texture atlas size: " << _textureAtlasSize;
-                    logSystem->log("djv::AV::Render2D::Render", ss.str());
+                    ss << "Texture atlas count: " << static_cast<size_t>(_textureAtlasCount) << "\n";
+                    ss << "Texture atlas size: " << static_cast<size_t>(_textureAtlasSize);
+                    logSystem->log("djv::AV::Render::Render2D", ss.str());
                 }
                 p.textureAtlas.reset(new OpenGL::TextureAtlas(
                     _textureAtlasCount,
@@ -1811,23 +1811,23 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::Render2D,
         ImageChannel,
-        DJV_TEXT("None"),
-        DJV_TEXT("Red"),
-        DJV_TEXT("Green"),
-        DJV_TEXT("Blue"),
-        DJV_TEXT("Alpha"));
+        DJV_TEXT("render_image_channel_none"),
+        DJV_TEXT("render_image_channel_red"),
+        DJV_TEXT("render_image_channel_green"),
+        DJV_TEXT("render_image_channel_blue"),
+        DJV_TEXT("render_image_channel_alpha"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::Render2D,
         ImageCache,
-        DJV_TEXT("Atlas"),
-        DJV_TEXT("Dynamic"));
+        DJV_TEXT("render_image_cache_atlas"),
+        DJV_TEXT("render_image_cache_dynamic"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::Render2D,
         ImageFilter,
-        DJV_TEXT("Nearest"),
-        DJV_TEXT("Linear"));
+        DJV_TEXT("render_filter_nearest"),
+        DJV_TEXT("render_filter_linear"));
 
     picojson::value toJSON(AV::Render2D::ImageFilter value)
     {
@@ -1856,7 +1856,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
     }
 
@@ -1880,7 +1880,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
     }
 

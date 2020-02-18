@@ -1,86 +1,16 @@
-[
-    {
-        "source": " Usage:",
-        "text": "Использование:",
-        "id": " Usage:",
-        "description": ""
-    },
-    {
-        "source": "   djv_test_pattern (output) [option, ...]",
-        "text": "djv_test_pattern (выход) [опция, ...]",
-        "id": "   djv_test_pattern (output) [option, ...]",
-        "description": ""
-    },
-    {
-        "source": " Options:",
-        "text": "Параметры:",
-        "id": " Options:",
-        "description": ""
-    },
-    {
-        "source": "   -frameCount (value)",
-        "text": "-frameCount (значение)",
-        "id": "   -frameCount (value)",
-        "description": ""
-    },
-    {
-        "source": "   The number of frames to render. Default: ",
-        "text": "Количество кадров для визуализации. По умолчанию:",
-        "id": "   The number of frames to render. Default: ",
-        "description": ""
-    },
-    {
-        "source": "   -size \\\"(width) (height)\\\"",
-        "text": "размер \\ &quot;(ширина) (высота) \\&quot;",
-        "id": "   -size \\\"(width) (height)\\\"",
-        "description": ""
-    },
-    {
-        "source": "   The image resolution. Default: ",
-        "text": "Разрешение изображения. По умолчанию:",
-        "id": "   The image resolution. Default: ",
-        "description": ""
-    },
-    {
-        "source": "   -type (value)",
-        "text": "тип (значение)",
-        "id": "   -type (value)",
-        "description": ""
-    },
-    {
-        "source": "   The image type. Default: ",
-        "text": "Тип изображения. По умолчанию:",
-        "id": "   The image type. Default: ",
-        "description": ""
-    },
-    {
-        "source": " Examples:",
-        "text": "Примеры:",
-        "id": " Examples:",
-        "description": ""
-    },
-    {
-        "source": "   > djv_test_pattern test.1.dpx",
-        "text": "&gt; djv_test_pattern test.1.dpx",
-        "id": "   > djv_test_pattern test.1.dpx",
-        "description": ""
-    },
-    {
-        "source": "   Render a test pattern with the default values.",
-        "text": "Визуализируйте тестовый шаблон со значениями по умолчанию.",
-        "id": "   Render a test pattern with the default values.",
-        "description": ""
-    },
-    {
-        "source": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16",
-        "text": "&gt; djv_test_pattern test.1.tif -size &#39;3840 2160&#39; -типа RGB_U16",
-        "id": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16",
-        "description": ""
-    },
-    {
-        "source": "   Render a UHD resolution test pattern with a RGB 16-bit image type.",
-        "text": "Визуализируйте тестовый шаблон разрешения UHD с 16-битным типом изображения RGB.",
-        "id": "   Render a UHD resolution test pattern with a RGB 16-bit image type.",
-        "description": ""
-    }
-]
+{
+    "djv_test_pattern_cli_description_frame_number": "Количество кадров для визуализации. По умолчанию:",
+    "djv_test_pattern_cli_description_resolution": "Разрешение изображения. По умолчанию:",
+    "djv_test_pattern_cli_description_type": "Тип изображения. По умолчанию:",
+    "djv_test_pattern_cli_examples": "Примеры:",
+    "djv_test_pattern_cli_option_frame_number": "-frameCount (значение)",
+    "djv_test_pattern_cli_option_resolution": "размер &quot;(ширина) (высота)&quot;",
+    "djv_test_pattern_cli_option_type": "тип (значение)",
+    "djv_test_pattern_cli_options": "Параметры:",
+    "djv_test_pattern_cli_output_option": "djv_test_pattern (выход) [опция, ...]",
+    "djv_test_pattern_cli_render_a_test_pattern_with_the_default_values": "Визуализируйте тестовый шаблон со значениями по умолчанию.",
+    "djv_test_pattern_cli_render_a_uhd_resolution_test_pattern_with_a_rgb_16-bit_image_type": "Визуализируйте тестовый шаблон с разрешением UHD с 16-битным типом изображения RGB.",
+    "djv_test_pattern_cli_test_1_dpx": "&gt; djv_test_pattern test.1.dpx",
+    "djv_test_pattern_cli_test_1_tif_-size_3840_2160_-type_rgb_u16": "&gt; djv_test_pattern test.1.tif -size &#39;3840 2160&#39; -типа RGB_U16",
+    "djv_test_pattern_cli_usage": "Использование:"
+}

@@ -51,7 +51,7 @@ namespace djv
                     auto out = std::shared_ptr<Plugin>(new Plugin);
                     out->_init(
                         pluginName,
-                        DJV_TEXT("This plugin provides RLA image I/O."),
+                        DJV_TEXT("plugin_rla_io"),
                         fileExtensions,
                         context);
                     return out;

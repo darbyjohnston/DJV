@@ -1,14 +1,4 @@
-[
-    {
-        "source": "Cannot initialize GLFW.",
-        "description": "",
-        "id": "Cannot initialize GLFW.",
-        "text": "Kan inte initiera GLFW."
-    },
-    {
-        "source": "Cannot create GLFW window.",
-        "description": "",
-        "id": "Cannot create GLFW window.",
-        "text": "Kan inte skapa GLFW-fönster."
-    }
-]
+{
+    "error_glfw_init": "Det går inte att initiera GLFW.",
+    "error_glfw_window_creation": "Det går inte att skapa GLFW-fönster."
+}

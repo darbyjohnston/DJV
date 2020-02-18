@@ -1,1730 +1,271 @@
-[
-    {
-        "source": "Parent Changed",
-        "description": "",
-        "id": "ParentChanged",
-        "text": "家长改变了"
-    },
-    {
-        "source": "Child Added",
-        "description": "",
-        "id": "ChildAdded",
-        "text": "加了孩子"
-    },
-    {
-        "source": "Child Removed",
-        "description": "",
-        "id": "ChildRemoved",
-        "text": "孩子被删除了"
-    },
-    {
-        "source": "Child Order",
-        "description": "",
-        "id": "ChildOrder",
-        "text": "儿童订单"
-    },
-    {
-        "source": "Locale",
-        "description": "",
-        "id": "Locale",
-        "text": "当地"
-    },
-    {
-        "source": "Update",
-        "description": "",
-        "id": "Update",
-        "text": "更新"
-    },
-    {
-        "source": "Style",
-        "description": "",
-        "id": "Style",
-        "text": "样式"
-    },
-    {
-        "source": "Pre Layout",
-        "description": "",
-        "id": "PreLayout",
-        "text": "预布局"
-    },
-    {
-        "source": "Layout",
-        "description": "",
-        "id": "Layout",
-        "text": "布局"
-    },
-    {
-        "source": "Clip",
-        "description": "",
-        "id": "Clip",
-        "text": "夹"
-    },
-    {
-        "source": "Paint",
-        "description": "",
-        "id": "Paint",
-        "text": "涂料"
-    },
-    {
-        "source": "Paint Overlay",
-        "description": "",
-        "id": "PaintOverlay",
-        "text": "油漆覆盖"
-    },
-    {
-        "source": "Pointer Enter",
-        "description": "",
-        "id": "PointerEnter",
-        "text": "指针输入"
-    },
-    {
-        "source": "Pointer Leave",
-        "description": "",
-        "id": "PointerLeave",
-        "text": "指针离开"
-    },
-    {
-        "source": "Pointer Move",
-        "description": "",
-        "id": "PointerMove",
-        "text": "指针移动"
-    },
-    {
-        "source": "Button Press",
-        "description": "",
-        "id": "ButtonPress",
-        "text": "按下按钮"
-    },
-    {
-        "source": "Button Release",
-        "description": "",
-        "id": "ButtonRelease",
-        "text": "按钮发布"
-    },
-    {
-        "source": "Scroll",
-        "description": "",
-        "id": "Scroll",
-        "text": "滚动"
-    },
-    {
-        "source": "Drop",
-        "description": "",
-        "id": "Drop",
-        "text": "下降"
-    },
-    {
-        "source": "Key Press",
-        "description": "",
-        "id": "KeyPress",
-        "text": "按键"
-    },
-    {
-        "source": "Key Release",
-        "description": "",
-        "id": "KeyRelease",
-        "text": "密钥发布"
-    },
-    {
-        "source": "Text Focus",
-        "description": "",
-        "id": "TextFocus",
-        "text": "文字焦点"
-    },
-    {
-        "source": "Text Focus Lost",
-        "description": "",
-        "id": "TextFocusLost",
-        "text": "文字焦点丢失"
-    },
-    {
-        "source": "Text",
-        "description": "",
-        "id": "Text",
-        "text": "文本"
-    },
-    {
-        "source": "The file",
-        "description": "",
-        "id": "The file",
-        "text": "文件"
-    },
-    {
-        "source": "cannot be opened",
-        "description": "",
-        "id": "cannot be opened",
-        "text": "无法打开"
-    },
-    {
-        "source": "cannot be closed",
-        "description": "",
-        "id": "cannot be closed",
-        "text": "无法关闭"
-    },
-    {
-        "source": "cannot be mapped",
-        "description": "",
-        "id": "cannot be mapped",
-        "text": "无法映射"
-    },
-    {
-        "source": "cannot be unmapped",
-        "description": "",
-        "id": "cannot be unmapped",
-        "text": "无法取消映射"
-    },
-    {
-        "source": "cannot be read",
-        "description": "",
-        "id": "cannot be read",
-        "text": "无法阅读"
-    },
-    {
-        "source": "cannot be written",
-        "description": "",
-        "id": "cannot be written",
-        "text": "不能写"
-    },
-    {
-        "source": "Error reading the text file",
-        "description": "",
-        "id": "Error reading the text file",
-        "text": "读取文本文件时出错"
-    },
-    {
-        "source": "MSB",
-        "description": "",
-        "id": "MSB",
-        "text": "MSB"
-    },
-    {
-        "source": "LSB",
-        "description": "",
-        "id": "LSB",
-        "text": "LSB"
-    },
-    {
-        "source": "Home",
-        "description": "",
-        "id": "Home",
-        "text": "家"
-    },
-    {
-        "source": "Desktop",
-        "description": "",
-        "id": "Desktop",
-        "text": "桌面"
-    },
-    {
-        "source": "Documents",
-        "description": "",
-        "id": "Documents",
-        "text": "文件"
-    },
-    {
-        "source": "Downloads",
-        "description": "",
-        "id": "Downloads",
-        "text": "下载"
-    },
-    {
-        "source": "The directory",
-        "description": "",
-        "id": "The directory",
-        "text": "目录"
-    },
-    {
-        "source": "cannot be created",
-        "description": "",
-        "id": "cannot be created",
-        "text": "无法创建"
-    },
-    {
-        "source": "Cannot parse the value",
-        "description": "",
-        "id": "Cannot parse the value",
-        "text": "无法解析该值"
-    },
-    {
-        "source": "Cannot parse the value.",
-        "description": "",
-        "id": "Cannot parse the value.",
-        "text": "无法解析该值。"
-    },
-    {
-        "source": "cannot be queried",
-        "description": "",
-        "id": "cannot be queried",
-        "text": "无法查询"
-    },
-    {
-        "source": "Application",
-        "description": "",
-        "id": "Application",
-        "text": "应用"
-    },
-    {
-        "source": "Log File",
-        "description": "",
-        "id": "LogFile",
-        "text": "日志文件"
-    },
-    {
-        "source": "Settings File",
-        "description": "",
-        "id": "SettingsFile",
-        "text": "设置文件"
-    },
-    {
-        "source": "Audio Directory",
-        "description": "",
-        "id": "AudioDirectory",
-        "text": "音频目录"
-    },
-    {
-        "source": "Fonts Directory",
-        "description": "",
-        "id": "FontsDirectory",
-        "text": "字体目录"
-    },
-    {
-        "source": "Icons Directory",
-        "description": "",
-        "id": "IconsDirectory",
-        "text": "图标目录"
-    },
-    {
-        "source": "Images Directory",
-        "description": "",
-        "id": "ImagesDirectory",
-        "text": "图像目录"
-    },
-    {
-        "source": "Models Directory",
-        "description": "",
-        "id": "ModelsDirectory",
-        "text": "型号目录"
-    },
-    {
-        "source": "Shaders Directory",
-        "description": "",
-        "id": "ShadersDirectory",
-        "text": "着色器目录"
-    },
-    {
-        "source": "Text Directory",
-        "description": "",
-        "id": "TextDirectory",
-        "text": "文本目录"
-    },
-    {
-        "source": "File",
-        "description": "",
-        "id": "File",
-        "text": "文件"
-    },
-    {
-        "source": "Sequence",
-        "description": "",
-        "id": "Sequence",
-        "text": "序列"
-    },
-    {
-        "source": "Directory",
-        "description": "",
-        "id": "Directory",
-        "text": "目录"
-    },
-    {
-        "source": "Name",
-        "description": "",
-        "id": "Name",
-        "text": "名称"
-    },
-    {
-        "source": "Size",
-        "description": "",
-        "id": "Size",
-        "text": "尺寸"
-    },
-    {
-        "source": "Type",
-        "description": "",
-        "id": "Type",
-        "text": "类型"
-    },
-    {
-        "source": "Linear",
-        "description": "",
-        "id": "Linear",
-        "text": "线性"
-    },
-    {
-        "source": "Ease In",
-        "description": "",
-        "id": "EaseIn",
-        "text": "缓和"
-    },
-    {
-        "source": "Ease Out",
-        "description": "",
-        "id": "EaseOut",
-        "text": "缓解"
-    },
-    {
-        "source": "Smooth Step",
-        "description": "",
-        "id": "SmoothStep",
-        "text": "顺利一步"
-    },
-    {
-        "source": "Sine",
-        "description": "",
-        "id": "Sine",
-        "text": "其"
-    },
-    {
-        "source": "Error finding the change notification for",
-        "description": "",
-        "id": "Error finding the change notification for",
-        "text": "找到更改通知时出错"
-    },
-    {
-        "source": "Error watching the directory",
-        "description": "",
-        "id": "Error watching the directory",
-        "text": "观看目录时出错"
-    },
-    {
-        "source": "Amargosa Canyon Speckled Dace",
-        "description": "",
-        "id": "Amargosa Canyon Speckled Dace",
-        "text": "Amargosa峡谷有斑点的D鱼"
-    },
-    {
-        "source": "Amargosa River Pupfish",
-        "description": "",
-        "id": "Amargosa River Pupfish",
-        "text": "Amargosa河鲟鱼"
-    },
-    {
-        "source": "American Shad",
-        "description": "",
-        "id": "American Shad",
-        "text": "美国鲥鱼"
-    },
-    {
-        "source": "Arroyo Chub",
-        "description": "",
-        "id": "Arroyo Chub",
-        "text": "阿罗约丘"
-    },
-    {
-        "source": "Bigeye Marbled Sculpin",
-        "description": "",
-        "id": "Bigeye Marbled Sculpin",
-        "text": "Bigeye Marbled Sculpin"
-    },
-    {
-        "source": "Bigscale Logperch",
-        "description": "",
-        "id": "Bigscale Logperch",
-        "text": "Bigscale Logperch"
-    },
-    {
-        "source": "Black Bullhead",
-        "description": "",
-        "id": "Black Bullhead",
-        "text": "黑头颅"
-    },
-    {
-        "source": "Black Crappie",
-        "description": "",
-        "id": "Black Crappie",
-        "text": "黑克拉皮"
-    },
-    {
-        "source": "Blue Catfish",
-        "description": "",
-        "id": "Blue Catfish",
-        "text": "蓝鲶鱼"
-    },
-    {
-        "source": "Blue Chub",
-        "description": "",
-        "id": "Blue Chub",
-        "text": "蓝鲢鱼"
-    },
-    {
-        "source": "Bluefin Killifish",
-        "description": "",
-        "id": "Bluefin Killifish",
-        "text": "蓝鳍金枪鱼"
-    },
-    {
-        "source": "Bluegill",
-        "description": "",
-        "id": "Bluegill",
-        "text": "翻车鱼"
-    },
-    {
-        "source": "Lepomis macrochirus",
-        "description": "",
-        "id": "Lepomis macrochirus",
-        "text": "Lepomis macrochirus"
-    },
-    {
-        "source": "Bonytail",
-        "description": "",
-        "id": "Bonytail",
-        "text": "Bonytail"
-    },
-    {
-        "source": "Brook Stickleback",
-        "description": "",
-        "id": "Brook Stickleback",
-        "text": "Brook Stickleback"
-    },
-    {
-        "source": "Brook Trout",
-        "description": "",
-        "id": "Brook Trout",
-        "text": "布鲁克特劳特"
-    },
-    {
-        "source": "Brown Bullhead",
-        "description": "",
-        "id": "Brown Bullhead",
-        "text": "布朗顽固分子"
-    },
-    {
-        "source": "Brown Trout",
-        "description": "",
-        "id": "Brown Trout",
-        "text": "棕色鳟鱼"
-    },
-    {
-        "source": "Bull Trout",
-        "description": "",
-        "id": "Bull Trout",
-        "text": "公牛鳟鱼"
-    },
-    {
-        "source": "California Coast Fall Chinook Salmon",
-        "description": "",
-        "id": "California Coast Fall Chinook Salmon",
-        "text": "加州海岸秋天契努克族三文鱼"
-    },
-    {
-        "source": "California Golden Trout",
-        "description": "",
-        "id": "California Golden Trout",
-        "text": "加州金鳟鱼"
-    },
-    {
-        "source": "California Killifish",
-        "description": "",
-        "id": "California Killifish",
-        "text": "加州Killifish"
-    },
-    {
-        "source": "California Tilapia",
-        "description": "",
-        "id": "California Tilapia",
-        "text": "加州罗非鱼"
-    },
-    {
-        "source": "Central California Coast Winter Steelhead",
-        "description": "",
-        "id": "Central California Coast Winter Steelhead",
-        "text": "加州中部海岸冬季Steelhead"
-    },
-    {
-        "source": "Central California Roach",
-        "description": "",
-        "id": "Central California Roach",
-        "text": "加州中部蟑螂"
-    },
-    {
-        "source": "Central Coast Coho Salmon",
-        "description": "",
-        "id": "Central Coast Coho Salmon",
-        "text": "中央海岸Coho三文鱼"
-    },
-    {
-        "source": "Central Valley Fall Chinook Salmon",
-        "description": "",
-        "id": "Central Valley Fall Chinook Salmon",
-        "text": "中央谷秋天奇努克三文鱼"
-    },
-    {
-        "source": "Central Valley late Fall Chinook Salmon",
-        "description": "",
-        "id": "Central Valley late Fall Chinook Salmon",
-        "text": "中央谷晚秋天奇努克三文鱼"
-    },
-    {
-        "source": "Oncorhynchus tshawytscha",
-        "description": "",
-        "id": "Oncorhynchus tshawytscha",
-        "text": "Oncorhynchus tshawytscha"
-    },
-    {
-        "source": "Central Valley spring Chinook Salmon",
-        "description": "",
-        "id": "Central Valley spring Chinook Salmon",
-        "text": "中央谷春天契努克族三文鱼"
-    },
-    {
-        "source": "Central Valley Steelhead",
-        "description": "",
-        "id": "Central Valley Steelhead",
-        "text": "Central Valley Steelhead"
-    },
-    {
-        "source": "Central Valley Winter Chinook Salmon",
-        "description": "",
-        "id": "Central Valley Winter Chinook Salmon",
-        "text": "中央谷冬季奇努克三文鱼"
-    },
-    {
-        "source": "Channel Catfish",
-        "description": "",
-        "id": "Channel Catfish",
-        "text": "通道鲶鱼"
-    },
-    {
-        "source": "Chum Salmon",
-        "description": "",
-        "id": "Chum Salmon",
-        "text": "鲑鱼"
-    },
-    {
-        "source": "Clear Lake Hitch",
-        "description": "",
-        "id": "Clear Lake Hitch",
-        "text": "清湖Hitch"
-    },
-    {
-        "source": "Clear Lake Prickly Sculpin",
-        "description": "",
-        "id": "Clear Lake Prickly Sculpin",
-        "text": "Clear Lake Prickly Sculpin"
-    },
-    {
-        "source": "Clear Lake Roach",
-        "description": "",
-        "id": "Clear Lake Roach",
-        "text": "清澈的罗奇湖"
-    },
-    {
-        "source": "Clear Lake Splittail",
-        "description": "",
-        "id": "Clear Lake Splittail",
-        "text": "Clear Lake Splittail"
-    },
-    {
-        "source": "Clear Lake Tule Perch",
-        "description": "",
-        "id": "Clear Lake Tule Perch",
-        "text": "Clear Lake Tule Perch"
-    },
-    {
-        "source": "Coastal Cutthroat Trout",
-        "description": "",
-        "id": "Coastal Cutthroat Trout",
-        "text": "沿海的割喉鳟鱼"
-    },
-    {
-        "source": "Coastal Rainbow Trout",
-        "description": "",
-        "id": "Coastal Rainbow Trout",
-        "text": "沿海彩虹鳟鱼"
-    },
-    {
-        "source": "Coastal Threespine Stickleback",
-        "description": "",
-        "id": "Coastal Threespine Stickleback",
-        "text": "沿海Threespine Stickleback"
-    },
-    {
-        "source": "Coastrange Sculpin",
-        "description": "",
-        "id": "Coastrange Sculpin",
-        "text": "Coastrange Sculpin"
-    },
-    {
-        "source": "Colorado Pikeminnow",
-        "description": "",
-        "id": "Colorado Pikeminnow",
-        "text": "科罗拉多Pikeminnow"
-    },
-    {
-        "source": "Colorado River Cutthroat Trout",
-        "description": "",
-        "id": "Colorado River Cutthroat Trout",
-        "text": "科罗拉多河残酷的鳟鱼"
-    },
-    {
-        "source": "Common Carp",
-        "description": "",
-        "id": "Common Carp",
-        "text": "鲤鱼"
-    },
-    {
-        "source": "Cottonball Marsh Pupfish",
-        "description": "",
-        "id": "Cottonball Marsh Pupfish",
-        "text": "Cottonball Marsh Pupfish"
-    },
-    {
-        "source": "Cow Head Tui Chub",
-        "description": "",
-        "id": "Cow Head Tui Chub",
-        "text": "牛头Tui Chub"
-    },
-    {
-        "source": "Delta Smelt",
-        "description": "",
-        "id": "Delta Smelt",
-        "text": "Delta Melt"
-    },
-    {
-        "source": "Desert Pupfish",
-        "description": "",
-        "id": "Desert Pupfish",
-        "text": "沙漠P鱼"
-    },
-    {
-        "source": "Eagle Lake Rainbow Trout",
-        "description": "",
-        "id": "Eagle Lake Rainbow Trout",
-        "text": "鹰湖彩虹鳟鱼"
-    },
-    {
-        "source": "Eagle Lake Tui Chub",
-        "description": "",
-        "id": "Eagle Lake Tui Chub",
-        "text": "Eagle Lake Tui Chub"
-    },
-    {
-        "source": "Eulachon",
-        "description": "",
-        "id": "Eulachon",
-        "text": "太平洋细齿鲑"
-    },
-    {
-        "source": "Fathead Minnow",
-        "description": "",
-        "id": "Fathead Minnow",
-        "text": "Fathead Minnow"
-    },
-    {
-        "source": "Flannelmouth Sucker",
-        "description": "",
-        "id": "Flannelmouth Sucker",
-        "text": "法兰绒斯吸盘"
-    },
-    {
-        "source": "Flathead Catfish",
-        "description": "",
-        "id": "Flathead Catfish",
-        "text": "扁头鲶鱼"
-    },
-    {
-        "source": "Golden Shiner",
-        "description": "",
-        "id": "Golden Shiner",
-        "text": "金色的Shiner"
-    },
-    {
-        "source": "Goldfish",
-        "description": "",
-        "id": "Goldfish",
-        "text": "金鱼"
-    },
-    {
-        "source": "Goose Lake Lamprey",
-        "description": "",
-        "id": "Goose Lake Lamprey",
-        "text": "鹅湖七鳃鳗"
-    },
-    {
-        "source": "Goose Lake Redband Trout",
-        "description": "",
-        "id": "Goose Lake Redband Trout",
-        "text": "鹅湖Redband鳟鱼"
-    },
-    {
-        "source": "Goose Lake Sucker",
-        "description": "",
-        "id": "Goose Lake Sucker",
-        "text": "鹅湖吸盘"
-    },
-    {
-        "source": "Goose Lake Tui Chub",
-        "description": "",
-        "id": "Goose Lake Tui Chub",
-        "text": "Goose Lake Tui Chub"
-    },
-    {
-        "source": "Grass Carp",
-        "description": "",
-        "id": "Grass Carp",
-        "text": "草鱼"
-    },
-    {
-        "source": "Green Sunfish",
-        "description": "",
-        "id": "Green Sunfish",
-        "text": "绿色翻车鱼"
-    },
-    {
-        "source": "Gualala Roach",
-        "description": "",
-        "id": "Gualala Roach",
-        "text": "瓜拉拉罗奇"
-    },
-    {
-        "source": "Hardhead",
-        "description": "",
-        "id": "Hardhead",
-        "text": "硬头"
-    },
-    {
-        "source": "High Rock Springs Tui Chub",
-        "description": "",
-        "id": "High Rock Springs Tui Chub",
-        "text": "High Rock Springs Tui Chub"
-    },
-    {
-        "source": "Humboldt Sucker",
-        "description": "",
-        "id": "Humboldt Sucker",
-        "text": "洪堡吸盘"
-    },
-    {
-        "source": "Inland Threespine Stickleback",
-        "description": "",
-        "id": "Inland Threespine Stickleback",
-        "text": "内陆Threespine Stickleback"
-    },
-    {
-        "source": "Kern Brook Lamprey",
-        "description": "",
-        "id": "Kern Brook Lamprey",
-        "text": "Kern Brook Lamprey"
-    },
-    {
-        "source": "Kern River Rainbow Trout",
-        "description": "",
-        "id": "Kern River Rainbow Trout",
-        "text": "克恩河彩虹鳟鱼"
-    },
-    {
-        "source": "Klamath Largescale Sucker",
-        "description": "",
-        "id": "Klamath Largescale Sucker",
-        "text": "Klamath Largescale Sucker"
-    },
-    {
-        "source": "Klamath Mountains Province Summer Steelhead",
-        "description": "",
-        "id": "Klamath Mountains Province Summer Steelhead",
-        "text": "克拉马斯山脉夏季Steelhead"
-    },
-    {
-        "source": "Klamath Mountains Province Winter Steelhead",
-        "description": "",
-        "id": "Klamath Mountains Province Winter Steelhead",
-        "text": "克拉马斯山省冬季Steelhead"
-    },
-    {
-        "source": "Klamath River Lamprey",
-        "description": "",
-        "id": "Klamath River Lamprey",
-        "text": "克拉马斯河七鳃鳗"
-    },
-    {
-        "source": "Klamath Smallscale Sucker",
-        "description": "",
-        "id": "Klamath Smallscale Sucker",
-        "text": "Klamath Smallscale Sucker"
-    },
-    {
-        "source": "Klamath Speckled Dace",
-        "description": "",
-        "id": "Klamath Speckled Dace",
-        "text": "克拉玛斯有斑点的D鱼"
-    },
-    {
-        "source": "Klamath Tui Chub",
-        "description": "",
-        "id": "Klamath Tui Chub",
-        "text": "Klamath Tui Chub"
-    },
-    {
-        "source": "Lahontan Cutthroat Trout",
-        "description": "",
-        "id": "Lahontan Cutthroat Trout",
-        "text": "Lahontan Cutthroat鳟鱼"
-    },
-    {
-        "source": "Lahontan Lake Tui Chub",
-        "description": "",
-        "id": "Lahontan Lake Tui Chub",
-        "text": "Lahontan Lake Tui Chub"
-    },
-    {
-        "source": "Lahontan Mountain Sucker",
-        "description": "",
-        "id": "Lahontan Mountain Sucker",
-        "text": "Lahontan Mountain Sucker"
-    },
-    {
-        "source": "Lahontan Redside",
-        "description": "",
-        "id": "Lahontan Redside",
-        "text": "Lahontan Redside"
-    },
-    {
-        "source": "Lahontan Speckled Dace",
-        "description": "",
-        "id": "Lahontan Speckled Dace",
-        "text": "Lahontan有斑点的Dace"
-    },
-    {
-        "source": "Lahontan Stream Tui Chub",
-        "description": "",
-        "id": "Lahontan Stream Tui Chub",
-        "text": "Lahontan Stream Tui Chub"
-    },
-    {
-        "source": "Lake Trout",
-        "description": "",
-        "id": "Lake Trout",
-        "text": "湖鳟"
-    },
-    {
-        "source": "Largemouth Bass",
-        "description": "",
-        "id": "Largemouth Bass",
-        "text": "大嘴鲈鱼"
-    },
-    {
-        "source": "Little Kern Golden Trout",
-        "description": "",
-        "id": "Little Kern Golden Trout",
-        "text": "小克恩金鳟鱼"
-    },
-    {
-        "source": "Long Valley Speckled Dace",
-        "description": "",
-        "id": "Long Valley Speckled Dace",
-        "text": "长谷有斑点的D鱼"
-    },
-    {
-        "source": "Longfin Smelt",
-        "description": "",
-        "id": "Longfin Smelt",
-        "text": "Longfin Smelt"
-    },
-    {
-        "source": "Longjaw Mudsucker",
-        "description": "",
-        "id": "Longjaw Mudsucker",
-        "text": "Longjaw Mudsucker"
-    },
-    {
-        "source": "Lost River Sucker",
-        "description": "",
-        "id": "Lost River Sucker",
-        "text": "失落的河吸盘"
-    },
-    {
-        "source": "Lower Klamath Marbled Sculpin",
-        "description": "",
-        "id": "Lower Klamath Marbled Sculpin",
-        "text": "降低Klamath Marbled Sculpin"
-    },
-    {
-        "source": "McCloud River Redband Trout",
-        "description": "",
-        "id": "McCloud River Redband Trout",
-        "text": "麦克劳德河红带鳟鱼"
-    },
-    {
-        "source": "Mississippi Silversides",
-        "description": "",
-        "id": "Mississippi Silversides",
-        "text": "Mississippi Silversides"
-    },
-    {
-        "source": "Modoc Sucker",
-        "description": "",
-        "id": "Modoc Sucker",
-        "text": "Modoc Sucker"
-    },
-    {
-        "source": "Mojave Tui Chub",
-        "description": "",
-        "id": "Mojave Tui Chub",
-        "text": "Mojave Tui Chub"
-    },
-    {
-        "source": "Monterey Hitch",
-        "description": "",
-        "id": "Monterey Hitch",
-        "text": "蒙特利希奇"
-    },
-    {
-        "source": "Monterey Roach",
-        "description": "",
-        "id": "Monterey Roach",
-        "text": "蒙特利罗奇"
-    },
-    {
-        "source": "Monterey Sucker",
-        "description": "",
-        "id": "Monterey Sucker",
-        "text": "蒙特利吮吸者"
-    },
-    {
-        "source": "Mountain Whitefish",
-        "description": "",
-        "id": "Mountain Whitefish",
-        "text": "山白鲑"
-    },
-    {
-        "source": "Navarro Roach",
-        "description": "",
-        "id": "Navarro Roach",
-        "text": "纳瓦罗罗奇"
-    },
-    {
-        "source": "Northern (Pit) Roach",
-        "description": "",
-        "id": "Northern (Pit) Roach",
-        "text": "北（坑）蟑螂"
-    },
-    {
-        "source": "Northern California Brook Lamprey",
-        "description": "",
-        "id": "Northern California Brook Lamprey",
-        "text": "北加州Brook Lamprey"
-    },
-    {
-        "source": "Northern California Coast Summer Steelhead",
-        "description": "",
-        "id": "Northern California Coast Summer Steelhead",
-        "text": "北加州海岸夏季Steelhead"
-    },
-    {
-        "source": "Northern California Coast Winter Steelhead",
-        "description": "",
-        "id": "Northern California Coast Winter Steelhead",
-        "text": "北加州海岸冬季Steelhead"
-    },
-    {
-        "source": "Northern Green Sturgeon",
-        "description": "",
-        "id": "Northern Green Sturgeon",
-        "text": "北绿鲟"
-    },
-    {
-        "source": "Owens Pupfish",
-        "description": "",
-        "id": "Owens Pupfish",
-        "text": "欧文斯Pupfish"
-    },
-    {
-        "source": "Owens Speckled Dace",
-        "description": "",
-        "id": "Owens Speckled Dace",
-        "text": "欧文斯有斑点的D鱼"
-    },
-    {
-        "source": "Owens Sucker",
-        "description": "",
-        "id": "Owens Sucker",
-        "text": "欧文斯吸盘"
-    },
-    {
-        "source": "Owens Tui Chub",
-        "description": "",
-        "id": "Owens Tui Chub",
-        "text": "Owens Tui Chub"
-    },
-    {
-        "source": "Pacific Lamprey",
-        "description": "",
-        "id": "Pacific Lamprey",
-        "text": "Pacific Lamprey"
-    },
-    {
-        "source": "Paiute Cutthroat Trout",
-        "description": "",
-        "id": "Paiute Cutthroat Trout",
-        "text": "Paiute割喉鳟鱼"
-    },
-    {
-        "source": "Paiute Sculpin",
-        "description": "",
-        "id": "Paiute Sculpin",
-        "text": "Paiute Sculpin"
-    },
-    {
-        "source": "Pink Salmon",
-        "description": "",
-        "id": "Pink Salmon",
-        "text": "粉红鲑鱼"
-    },
-    {
-        "source": "Pit River Tui Chub",
-        "description": "",
-        "id": "Pit River Tui Chub",
-        "text": "Pit River Tui Chub"
-    },
-    {
-        "source": "Pit Sculpin",
-        "description": "",
-        "id": "Pit Sculpin",
-        "text": "Pit Sculpin"
-    },
-    {
-        "source": "Pit-Klamath Brook Lamprey",
-        "description": "",
-        "id": "Pit-Klamath Brook Lamprey",
-        "text": "Pit-Klamath Brook Lamprey"
-    },
-    {
-        "source": "Porthole Livebearer",
-        "description": "",
-        "id": "Porthole Livebearer",
-        "text": "舷窗Livebearer"
-    },
-    {
-        "source": "Prickly Sculpin",
-        "description": "",
-        "id": "Prickly Sculpin",
-        "text": "多刺的Sculpin"
-    },
-    {
-        "source": "Pumpkinseed",
-        "description": "",
-        "id": "Pumpkinseed",
-        "text": "南瓜种子"
-    },
-    {
-        "source": "Rainwater Killifish",
-        "description": "",
-        "id": "Rainwater Killifish",
-        "text": "雨水杀戮"
-    },
-    {
-        "source": "Razorback Sucker",
-        "description": "",
-        "id": "Razorback Sucker",
-        "text": "Razorback Sucker"
-    },
-    {
-        "source": "Red Hills Roach",
-        "description": "",
-        "id": "Red Hills Roach",
-        "text": "红山蟑螂"
-    },
-    {
-        "source": "Red Shiner",
-        "description": "",
-        "id": "Red Shiner",
-        "text": "红色Shiner"
-    },
-    {
-        "source": "Redear Sunfish",
-        "description": "",
-        "id": "Redear Sunfish",
-        "text": "Redear Sunfish"
-    },
-    {
-        "source": "Redeye Bass",
-        "description": "",
-        "id": "Redeye Bass",
-        "text": "Redeye Bass"
-    },
-    {
-        "source": "Reticulate Sculpin",
-        "description": "",
-        "id": "Reticulate Sculpin",
-        "text": "网纹Sculpin"
-    },
-    {
-        "source": "Riffle Sculpin",
-        "description": "",
-        "id": "Riffle Sculpin",
-        "text": "Riffle Sculpin"
-    },
-    {
-        "source": "River Lamprey",
-        "description": "",
-        "id": "River Lamprey",
-        "text": "River Lamprey"
-    },
-    {
-        "source": "Rough Sculpin",
-        "description": "",
-        "id": "Rough Sculpin",
-        "text": "粗糙的Sculpin"
-    },
-    {
-        "source": "Russian River Roach",
-        "description": "",
-        "id": "Russian River Roach",
-        "text": "俄罗斯河罗奇"
-    },
-    {
-        "source": "Russian River Tule Perch",
-        "description": "",
-        "id": "Russian River Tule Perch",
-        "text": "俄罗斯河Tule Perch"
-    },
-    {
-        "source": "Sacramento Blackfish",
-        "description": "",
-        "id": "Sacramento Blackfish",
-        "text": "萨克拉门托黑鱼"
-    },
-    {
-        "source": "Sacramento Hitch",
-        "description": "",
-        "id": "Sacramento Hitch",
-        "text": "萨克拉门托搭便车"
-    },
-    {
-        "source": "Sacramento Perch",
-        "description": "",
-        "id": "Sacramento Perch",
-        "text": "萨克拉门托鲈鱼"
-    },
-    {
-        "source": "Sacramento Pikeminnow",
-        "description": "",
-        "id": "Sacramento Pikeminnow",
-        "text": "萨克拉门托Pikeminnow"
-    },
-    {
-        "source": "Sacramento Speckled Dace",
-        "description": "",
-        "id": "Sacramento Speckled Dace",
-        "text": "萨克拉门托有斑点的D鱼"
-    },
-    {
-        "source": "Sacramento Splittail",
-        "description": "",
-        "id": "Sacramento Splittail",
-        "text": "萨克拉门托Splittail"
-    },
-    {
-        "source": "Sacramento Sucker",
-        "description": "",
-        "id": "Sacramento Sucker",
-        "text": "萨克拉门托傻瓜"
-    },
-    {
-        "source": "Sacramento Tule Perch",
-        "description": "",
-        "id": "Sacramento Tule Perch",
-        "text": "萨克拉门托Tule Perch"
-    },
-    {
-        "source": "Sailfin Molly",
-        "description": "",
-        "id": "Sailfin Molly",
-        "text": "Sailfin Molly"
-    },
-    {
-        "source": "Salt Creek Pupfish",
-        "description": "",
-        "id": "Salt Creek Pupfish",
-        "text": "盐溪Pupfish"
-    },
-    {
-        "source": "Santa Ana Speckled Dace",
-        "description": "",
-        "id": "Santa Ana Speckled Dace",
-        "text": "圣安娜有斑点的D鱼"
-    },
-    {
-        "source": "Santa Ana Sucker",
-        "description": "",
-        "id": "Santa Ana Sucker",
-        "text": "圣安娜吮吸者"
-    },
-    {
-        "source": "Saratoga Springs Pupfish",
-        "description": "",
-        "id": "Saratoga Springs Pupfish",
-        "text": "萨拉托加温泉Pupfish"
-    },
-    {
-        "source": "Shay Creek Stickleback",
-        "description": "",
-        "id": "Shay Creek Stickleback",
-        "text": "Shay Creek Stickleback"
-    },
-    {
-        "source": "Shimofuri Goby",
-        "description": "",
-        "id": "Shimofuri Goby",
-        "text": "Shimofuri Goby"
-    },
-    {
-        "source": "Shiner Perch",
-        "description": "",
-        "id": "Shiner Perch",
-        "text": "Shiner Perch"
-    },
-    {
-        "source": "Shortfin Molly",
-        "description": "",
-        "id": "Shortfin Molly",
-        "text": "Shortfin Molly"
-    },
-    {
-        "source": "Shortnose Sucker",
-        "description": "",
-        "id": "Shortnose Sucker",
-        "text": "Shortnose Sucker"
-    },
-    {
-        "source": "Shoshone Pupfish",
-        "description": "",
-        "id": "Shoshone Pupfish",
-        "text": "肖肖尼P鱼"
-    },
-    {
-        "source": "Smallmouth Bass",
-        "description": "",
-        "id": "Smallmouth Bass",
-        "text": "小嘴巴斯"
-    },
-    {
-        "source": "Sockeye (Kokanee) Salmon",
-        "description": "",
-        "id": "Sockeye (Kokanee) Salmon",
-        "text": "Sockeye（Kokanee）三文鱼"
-    },
-    {
-        "source": "South Central California Coast Steelhead",
-        "description": "",
-        "id": "South Central California Coast Steelhead",
-        "text": "加州中南部海岸Steelhead"
-    },
-    {
-        "source": "Southern California Steelhead",
-        "description": "",
-        "id": "Southern California Steelhead",
-        "text": "南加州Steelhead"
-    },
-    {
-        "source": "Southern Green Sturgeon",
-        "description": "",
-        "id": "Southern Green Sturgeon",
-        "text": "南方绿鲟"
-    },
-    {
-        "source": "Southern Oregon Northern California Coast Coho Salmon",
-        "description": "",
-        "id": "Southern Oregon Northern California Coast Coho Salmon",
-        "text": "南俄勒冈州北加州海岸Coho三文鱼"
-    },
-    {
-        "source": "Southern Oregon Northern California Coast Fall Chinook Salmon",
-        "description": "",
-        "id": "Southern Oregon Northern California Coast Fall Chinook Salmon",
-        "text": "南俄勒冈州北加州海岸秋天契努克族三文鱼"
-    },
-    {
-        "source": "Spotted Bass",
-        "description": "",
-        "id": "Spotted Bass",
-        "text": "斑点低音"
-    },
-    {
-        "source": "Staghorn Sculpin",
-        "description": "",
-        "id": "Staghorn Sculpin",
-        "text": "Staghorn Sculpin"
-    },
-    {
-        "source": "Starry Flounder",
-        "description": "",
-        "id": "Starry Flounder",
-        "text": "满天星斗的比目鱼"
-    },
-    {
-        "source": "Striped Bass",
-        "description": "",
-        "id": "Striped Bass",
-        "text": "鲈鱼"
-    },
-    {
-        "source": "Striped Mullet",
-        "description": "",
-        "id": "Striped Mullet",
-        "text": "条纹Mul鱼"
-    },
-    {
-        "source": "Surf Smelt",
-        "description": "",
-        "id": "Surf Smelt",
-        "text": "Surf Smelt"
-    },
-    {
-        "source": "Tahoe Sucker",
-        "description": "",
-        "id": "Tahoe Sucker",
-        "text": "Tahoe Sucker"
-    },
-    {
-        "source": "Tecopa Pupfish",
-        "description": "",
-        "id": "Tecopa Pupfish",
-        "text": "Tecopa Pupfish"
-    },
-    {
-        "source": "Tench",
-        "description": "",
-        "id": "Tench",
-        "text": "坦奇"
-    },
-    {
-        "source": "Thicktail Chub",
-        "description": "",
-        "id": "Thicktail Chub",
-        "text": "厚尾鲢"
-    },
-    {
-        "source": "Threadfin Shad",
-        "description": "",
-        "id": "Threadfin Shad",
-        "text": "Threadfin Shad"
-    },
-    {
-        "source": "Tidewater Goby",
-        "description": "",
-        "id": "Tidewater Goby",
-        "text": "潮水虾虎鱼"
-    },
-    {
-        "source": "Tomales Roach",
-        "description": "",
-        "id": "Tomales Roach",
-        "text": "Tomales Roach"
-    },
-    {
-        "source": "Topsmelt",
-        "description": "",
-        "id": "Topsmelt",
-        "text": "Topsmelt"
-    },
-    {
-        "source": "Unarmored Threespine Stickleback",
-        "description": "",
-        "id": "Unarmored Threespine Stickleback",
-        "text": "无装甲的Threespine Stickleback"
-    },
-    {
-        "source": "Upper Klamath Marbled Sculpin",
-        "description": "",
-        "id": "Upper Klamath Marbled Sculpin",
-        "text": "Upper Klamath Marbled Sculpin"
-    },
-    {
-        "source": "Upper Klamath-Trinity Fall Chinook Salmon",
-        "description": "",
-        "id": "Upper Klamath-Trinity Fall Chinook Salmon",
-        "text": "上克拉马斯三位一体秋天奇努克三文鱼"
-    },
-    {
-        "source": "Upper Klamath-Trinity Spring Chinook Salmon",
-        "description": "",
-        "id": "Upper Klamath-Trinity Spring Chinook Salmon",
-        "text": "上克拉马斯 - 三位一体春天契努克族三文鱼"
-    },
-    {
-        "source": "Wakasagi",
-        "description": "",
-        "id": "Wakasagi",
-        "text": "Wakasagi"
-    },
-    {
-        "source": "Warmouth",
-        "description": "",
-        "id": "Warmouth",
-        "text": "Warmouth"
-    },
-    {
-        "source": "Western Brook Lamprey",
-        "description": "",
-        "id": "Western Brook Lamprey",
-        "text": "Western Brook Lamprey"
-    },
-    {
-        "source": "Western Mosquitofish",
-        "description": "",
-        "id": "Western Mosquitofish",
-        "text": "Western Mosquitofish"
-    },
-    {
-        "source": "White Bass",
-        "description": "",
-        "id": "White Bass",
-        "text": "白鲈鱼"
-    },
-    {
-        "source": "White Catfish",
-        "description": "",
-        "id": "White Catfish",
-        "text": "白鲶鱼"
-    },
-    {
-        "source": "White Crappie",
-        "description": "",
-        "id": "White Crappie",
-        "text": "白克拉皮"
-    },
-    {
-        "source": "White Sturgeon",
-        "description": "",
-        "id": "White Sturgeon",
-        "text": "白鲟"
-    },
-    {
-        "source": "Yellow Bullhead",
-        "description": "",
-        "id": "Yellow Bullhead",
-        "text": "黄牛头"
-    },
-    {
-        "source": "Yellow Perch",
-        "description": "",
-        "id": "Yellow Perch",
-        "text": "黄鲈鱼"
-    },
-    {
-        "source": "Yellowfin Goby",
-        "description": "",
-        "id": "Yellowfin Goby",
-        "text": "黄鳍金枪鱼"
-    },
-    {
-        "source": "Speckled Dace are capable of living in an array of habitats from small springs or streams to large rivers and deep lakes.",
-        "description": "",
-        "id": "Speckled Dace are capable of living in an array of habitats from small springs or streams to large rivers and deep lakes.",
-        "text": "有斑点的D鱼能够生活在一系列栖息地中，从小泉水或溪流到大型河流和深湖。"
-    },
-    {
-        "source": "Speckled Dace prefer habitat that includes clear, well oxygenated water, with movement due to a current or waves.",
-        "description": "",
-        "id": "Speckled Dace prefer habitat that includes clear, well oxygenated water, with movement due to a current or waves.",
-        "text": "有斑点的Dace更喜欢栖息地，其中包括清澈的，充满氧气的水，由于电流或波浪而移动。"
-    },
-    {
-        "source": "In addition the fish thrive in areas with deep cover or overhead protection from vegetation or woody debris.",
-        "description": "",
-        "id": "In addition the fish thrive in areas with deep cover or overhead protection from vegetation or woody debris.",
-        "text": "此外，鱼类在有深层覆盖或顶部保护的区域茁壮成长，不受植被或木质碎片的影响。"
-    },
-    {
-        "source": "Speckled Dace predominantly occupy small streams of the second to third order where they feed and forage for aquatic insects.",
-        "description": "",
-        "id": "Speckled Dace predominantly occupy small streams of the second to third order where they feed and forage for aquatic insects.",
-        "text": "有斑点的Dace主要占据二至三级的小溪流，在那里它们为水生昆虫喂食和觅食。"
-    },
-    {
-        "source": "The species is very adaptable and is found in cold alpine lakes such as Lake Tahoe, but has also been able to survive adversity in temperatures at or above 31\\u2103 with a dissolved oxygen concentration of 1 mg / L.",
-        "description": "",
-        "id": "The species is very adaptable and is found in cold alpine lakes such as Lake Tahoe, but has also been able to survive adversity in temperatures at or above 31\\u2103 with a dissolved oxygen concentration of 1 mg / L.",
-        "text": "该物种具有很强的适应性，可以在太浩湖等寒冷的高山湖泊中找到，但在溶解氧浓度为1 mg / L的温度下也可以在31或以上的温度下逆境而下。"
-    },
-    {
-        "source": "In streams speckled dace swim along the bottom looking for small invertebrates while in lakes they are opportunistic feeders that may feed on zooplankton, algae, nymphs, or the resulting flying insects.",
-        "description": "",
-        "id": "In streams speckled dace swim along the bottom looking for small invertebrates while in lakes they are opportunistic feeders that may feed on zooplankton, algae, nymphs, or the resulting flying insects.",
-        "text": "在溪流中，有斑点的d鱼沿着底部游动，寻找小型无脊椎动物，而在湖泊中，它们是可能以浮游动物，藻类，若虫或由此产生的飞虫为食的机会性饲养者。"
-    },
-    {
-        "source": "Speckled Dace typically have a life span of three years, but may live 6 or more years, during which time females typically grow more rapidly than males.",
-        "description": "",
-        "id": "Speckled Dace typically have a life span of three years, but may live 6 or more years, during which time females typically grow more rapidly than males.",
-        "text": "有斑点的Dace通常具有三年的寿命，但可能存活6年或更长时间，在此期间雌性通常比雄性生长更快。"
-    },
-    {
-        "source": "The fish become sexually mature in their second year and during the summer months the dace spawn.",
-        "description": "",
-        "id": "The fish become sexually mature in their second year and during the summer months the dace spawn.",
-        "text": "鱼类在第二年变得性成熟，在夏季的几个月里，鱼类会产卵。"
-    },
-    {
-        "source": "Stream dwellers spawn in riffles or gravely areas, while the lake inhabitants spawn in tributaries or in shallow shoreline regions.",
-        "description": "",
-        "id": "Stream dwellers spawn in riffles or gravely areas, while the lake inhabitants spawn in tributaries or in shallow shoreline regions.",
-        "text": "溪流居民在浅滩或严重地区产卵，而湖泊居民则在支流或浅海岸线地区产卵。"
-    },
-    {
-        "source": "The embryos hatch in 6 days, and the larvae remain in the safety of the gravel for 7 - 8 days.",
-        "description": "",
-        "id": "The embryos hatch in 6 days, and the larvae remain in the safety of the gravel for 7 - 8 days.",
-        "text": "胚胎在6天内孵化，幼虫在砾石的安全范围内保持7-8天。"
-    },
-    {
-        "source": "The young fry then spend the early part of their lives in the shallow warm areas of the stream or lake where they hatched.",
-        "description": "",
-        "id": "The young fry then spend the early part of their lives in the shallow warm areas of the stream or lake where they hatched.",
-        "text": "然后，年轻的鱼苗将他们生命的早期部分花在他们孵化的溪流或湖泊的浅温区域。"
-    },
-    {
-        "source": "False",
-        "description": "",
-        "id": "False",
-        "text": "假"
-    },
-    {
-        "source": "True",
-        "description": "",
-        "id": "True",
-        "text": "真正"
-    },
-    {
-        "source": "Slow",
-        "description": "",
-        "id": "Slow",
-        "text": "慢"
-    },
-    {
-        "source": "Medium",
-        "description": "",
-        "id": "Medium",
-        "text": "介质"
-    },
-    {
-        "source": "Fast",
-        "description": "",
-        "id": "Fast",
-        "text": "快速"
-    },
-    {
-        "source": "Very Fast",
-        "description": "",
-        "id": "VeryFast",
-        "text": "非常快"
-    },
-    {
-        "id": "cannot be seeked",
-        "source": "cannot be seeked",
-        "description": "",
-        "text": "无法寻求"
-    },
-    {
-        "id": "The temporary file cannot be opened",
-        "source": "The temporary file cannot be opened",
-        "description": "",
-        "text": "无法打开临时文件"
-    },
-    {
-        "source": "TextUpdate",
-        "description": "",
-        "id": "TextUpdate",
-        "text": "文字更新"
-    },
-    {
-        "source": "TextInput",
-        "description": "",
-        "id": "TextInput",
-        "text": "文字输入"
-    },
-    {
-        "source": "Time",
-        "description": "",
-        "id": "Time",
-        "text": "时间"
-    },
-    {
-        "source": "Cannot open the URL",
-        "description": "",
-        "id": "Cannot open the URL",
-        "text": "无法打开URL"
-    },
-    {
-        "source": "the return code was",
-        "description": "",
-        "id": "the return code was",
-        "text": "返回码是"
-    },
-    {
-        "source": "Audio",
-        "description": "",
-        "id": "Audio",
-        "text": "音讯"
-    },
-    {
-        "source": "Fonts",
-        "description": "",
-        "id": "Fonts",
-        "text": "字型"
-    },
-    {
-        "source": "Icons",
-        "description": "",
-        "id": "Icons",
-        "text": "图示"
-    },
-    {
-        "source": "Images",
-        "description": "",
-        "id": "Images",
-        "text": "图片"
-    },
-    {
-        "source": "Models",
-        "description": "",
-        "id": "Models",
-        "text": "楷模"
-    },
-    {
-        "source": "Shaders",
-        "description": "",
-        "id": "Shaders",
-        "text": "着色器"
-    },
-    {
-        "source": "Color",
-        "description": "",
-        "id": "Color",
-        "text": "颜色"
-    },
-    {
-        "source": "Documentation",
-        "description": "",
-        "id": "Documentation",
-        "text": "文献资料"
-    },
-    {
-        "source": "cannot be removed",
-        "description": "",
-        "id": "cannot be removed",
-        "text": "无法删除"
-    },
-    {
-        "source": "Error reading the environment varible",
-        "description": "",
-        "id": "Error reading the environment varible",
-        "text": "读取环境变量时出错"
-    },
-    {
-        "source": "Init",
-        "text": "在里面",
-        "description": "",
-        "id": "Init"
-    }
-]
+{
+    "animation_type_ease_in": "缓入",
+    "animation_type_ease_out": "缓出",
+    "animation_type_linear": "线性的",
+    "animation_type_sine": "其",
+    "animation_type_smooth_step": "平稳步伐",
+    "boolean_false": "假",
+    "boolean_true": "真正",
+    "directory_list_sort_name": "名称",
+    "directory_list_sort_size": "尺寸",
+    "directory_list_sort_time": "时间",
+    "directory_shortcut_desktop": "桌面",
+    "directory_shortcut_documents": "文件资料",
+    "directory_shortcut_downloads": "资料下载",
+    "directory_shortcut_home": "家",
+    "endian_lsb": "最低位",
+    "endian_msb": "MSB",
+    "error_argument_not_found": "找不到参数。",
+    "error_cannot_be_closed": "无法关闭",
+    "error_cannot_be_created": "无法创建",
+    "error_cannot_be_mapped": "无法映射",
+    "error_cannot_be_opened": "无法打开",
+    "error_cannot_be_queried": "无法查询",
+    "error_cannot_be_read": "无法读取",
+    "error_cannot_be_removed": "无法删除",
+    "error_cannot_be_seeked": "找不到",
+    "error_cannot_be_unmapped": "不能被映射",
+    "error_cannot_be_written": "不能写",
+    "error_cannot_open_the_url": "无法打开URL",
+    "error_cannot_parse_argument": "无法解析参数。",
+    "error_cannot_parse_the_value": "无法解析值",
+    "error_duplicate_argument": "参数重复。",
+    "error_finding_the_change_notification_for": "查找以下项的更改通知时出错",
+    "error_reading_the_environment_varible": "读取环境变量时出错",
+    "error_reading_the_text_file": "读取文本文件时出错",
+    "error_the_directory": "目录",
+    "error_the_file": "文件",
+    "error_the_return_code_was": "返回码是",
+    "error_the_temporary_file_cannot_be_opened": "临时文件无法打开",
+    "error_watching_the_directory": "观看目录时出错",
+    "event_button_press": "按下按钮",
+    "event_button_release": "按钮释放",
+    "event_child_added": "子级已添加",
+    "event_child_order": "子订单",
+    "event_child_removed": "子项已删除",
+    "event_clip": "夹",
+    "event_drop": "下降",
+    "event_init": "在里面",
+    "event_key_press": "按键",
+    "event_key_release": "密钥发布",
+    "event_layout": "布局",
+    "event_paint": "涂料",
+    "event_paint_overlay": "油漆覆盖",
+    "event_parent_changed": "父母改变了",
+    "event_pointer_enter": "指针输入",
+    "event_pointer_leave": "指针离开",
+    "event_pointer_move": "指针移动",
+    "event_pre_layout": "预布局",
+    "event_scroll": "滚动",
+    "event_text_focus": "文字焦点",
+    "event_text_focus_lost": "文字焦点丢失",
+    "event_text_input": "文字输入",
+    "event_update": "更新资料",
+    "file_type_directory": "目录",
+    "file_type_file": "文件",
+    "file_type_sequence": "顺序",
+    "fish_amargosa_canyon_speckled_dace": "Amargosa峡谷斑点的王牌",
+    "fish_amargosa_river_pupfish": "Amargosa河osa鱼",
+    "fish_american_shad": "美国Sha鱼",
+    "fish_arroyo_chub": "流",
+    "fish_bigeye_marbled_sculpin": "大眼石大理石花纹",
+    "fish_bigscale_logperch": "大型伐木机",
+    "fish_black_bullhead": "黑头",
+    "fish_black_crappie": "黑色薄饼",
+    "fish_blue_catfish": "蓝Cat鱼",
+    "fish_blue_chub": "蓝丘",
+    "fish_bluefin_killifish": "蓝鳍K鱼",
+    "fish_bluegill": "蓝g",
+    "fish_bonytail": "凤尾鱼",
+    "fish_brook_stickleback": "布鲁克·斯蒂克贝克",
+    "fish_brook_trout": "布鲁克鳟鱼",
+    "fish_brown_bullhead": "棕头",
+    "fish_brown_trout": "褐鳟",
+    "fish_bull_trout": "鳟鱼",
+    "fish_california_coast_fall_chinook_salmon": "加州海岸秋努克鲑鱼",
+    "fish_california_golden_trout": "加州金鳟",
+    "fish_california_killifish": "加州K鱼",
+    "fish_california_tilapia": "加利福尼亚罗非鱼",
+    "fish_central_california_coast_winter_steelhead": "中加州海岸冬季Steelhead",
+    "fish_central_california_roach": "中加州蟑螂",
+    "fish_central_coast_coho_salmon": "中央海岸银鲑鱼",
+    "fish_central_valley_fall_chinook_salmon": "中央谷秋天奇努克鲑鱼",
+    "fish_central_valley_late_fall_chinook_salmon": "中央谷地秋末奇努克鲑鱼",
+    "fish_central_valley_spring_chinook_salmon": "中央谷春季奇努克鲑鱼",
+    "fish_central_valley_steelhead": "中央谷钢头",
+    "fish_central_valley_winter_chinook_salmon": "中央谷冬季奇努克鲑鱼",
+    "fish_channel_catfish": "鱼",
+    "fish_chum_salmon": "鲑鱼",
+    "fish_clear_lake_hitch": "清除希治湖",
+    "fish_clear_lake_prickly_sculpin": "清除湖刺S",
+    "fish_clear_lake_roach": "清除湖蟑螂",
+    "fish_clear_lake_splittail": "清澈的斯普利特湖",
+    "fish_clear_lake_tule_perch": "清除图勒湖鲈鱼",
+    "fish_coastal_cutthroat_trout": "沿海割喉鳟鱼",
+    "fish_coastal_rainbow_trout": "沿海虹鳟",
+    "fish_coastal_threespine_stickleback": "沿海Threespine棘背鱼",
+    "fish_coastrange_sculpin": "海岸斯库平",
+    "fish_colorado_pikeminnow": "科罗拉多派克明诺",
+    "fish_colorado_river_cutthroat_trout": "科罗拉多河残酷鳟鱼",
+    "fish_common_carp": "鲤鱼",
+    "fish_cottonball_marsh_pupfish": "棉球沼泽P鱼",
+    "fish_cow_head_tui_chub": "牛头推宝",
+    "fish_delta_smelt": "三角洲熔体",
+    "fish_desert_pupfish": "沙漠P鱼",
+    "fish_eagle_lake_rainbow_trout": "鹰湖虹鳟",
+    "fish_eagle_lake_tui_chub": "鹰湖推丘",
+    "fish_eulachon": "Eulachon",
+    "fish_fathead_minnow": "Fathead Minnow",
+    "fish_flannelmouth_sucker": "法兰妮茅斯吸盘",
+    "fish_flathead_catfish": "head鱼",
+    "fish_golden_shiner": "金色光芒",
+    "fish_goldfish": "金鱼",
+    "fish_goose_lake_lamprey": "鹅兰佩湖",
+    "fish_goose_lake_redband_trout": "鹅湖红带鳟鱼",
+    "fish_goose_lake_sucker": "鹅湖吸盘",
+    "fish_goose_lake_tui_chub": "鹅湖翠珠",
+    "fish_grass_carp": "草鱼",
+    "fish_green_sunfish": "绿色翻车鱼",
+    "fish_gualala_roach": "古拉拉罗奇",
+    "fish_hardhead": "硬头",
+    "fish_high_rock_springs_tui_chub": "高岩泉翠丘",
+    "fish_humboldt_sucker": "洪堡吸盘",
+    "fish_inland_threespine_stickleback": "内陆Threespine棘背鱼",
+    "fish_kern_brook_lamprey": "肯恩·布鲁克·兰佩里",
+    "fish_kern_river_rainbow_trout": "克恩河虹鳟鱼",
+    "fish_klamath_largescale_sucker": "克拉马斯大型吸盘",
+    "fish_klamath_mountains_province_summer_steelhead": "克拉马斯山省夏季斯蒂尔黑德",
+    "fish_klamath_mountains_province_winter_steelhead": "克拉马斯山省冬季Steelhead",
+    "fish_klamath_river_lamprey": "克拉马斯河南美洲",
+    "fish_klamath_smallscale_sucker": "克拉马斯小吸盘",
+    "fish_klamath_speckled_dace": "克拉马斯斑点D子",
+    "fish_klamath_tui_chub": "克拉马斯·崔丘（Klamath Tui Chub）",
+    "fish_lahontan_cutthroat_trout": "Lahontan残酷鳟鱼",
+    "fish_lahontan_lake_tui_chub": "Lahontan Lake Tui Chub",
+    "fish_lahontan_mountain_sucker": "拉洪坦山吸盘",
+    "fish_lahontan_redside": "Lahontan Redside",
+    "fish_lahontan_speckled_dace": "Lahontan斑点Dace",
+    "fish_lahontan_stream_tui_chub": "Lahontan流翠丘",
+    "fish_lake_trout": "湖鳟",
+    "fish_largemouth_bass": "大嘴鲈鱼",
+    "fish_lepomis_macrochirus": "巨脂猴",
+    "fish_little_kern_golden_trout": "小克恩金鳟鱼",
+    "fish_long_valley_speckled_dace": "Valley河谷斑点D",
+    "fish_longfin_smelt": "龙鳍熔炼",
+    "fish_longjaw_mudsucker": "长爪泥uck",
+    "fish_lost_river_sucker": "迷失的河吸盘",
+    "fish_lower_klamath_marbled_sculpin": "下克拉马斯大理石纹的Sculpin",
+    "fish_mccloud_river_redband_trout": "麦克云河红带鳟鱼",
+    "fish_mississippi_silversides": "密西西比州Silversides",
+    "fish_modoc_sucker": "莫多克·萨克（Modoc Sucker）",
+    "fish_mojave_tui_chub": "Mojave Tui Chub",
+    "fish_monterey_hitch": "蒙特利·希治",
+    "fish_monterey_roach": "蒙特利罗奇",
+    "fish_monterey_sucker": "蒙特里·萨克",
+    "fish_mountain_whitefish": "山白鱼",
+    "fish_navarro_roach": "纳瓦罗罗奇",
+    "fish_northern_california_brook_lamprey": "北加州布鲁克·兰普里",
+    "fish_northern_california_coast_summer_steelhead": "北加州海岸夏季斯蒂尔黑德",
+    "fish_northern_california_coast_winter_steelhead": "北加利福尼亚海岸冬季Steelhead",
+    "fish_northern_green_sturgeon": "北方绿St鱼",
+    "fish_northern_pit_roach": "北部（坑）蟑螂",
+    "fish_oncorhynchus_tshawytscha": "Oncorhynchus tshawytscha",
+    "fish_owens_pupfish": "欧文斯P鱼",
+    "fish_owens_speckled_dace": "欧文斯·斑点斑点",
+    "fish_owens_sucker": "欧文斯·萨克（Owens Sucker）",
+    "fish_owens_tui_chub": "欧文斯·崔丘（Owens Tui Chub）",
+    "fish_pacific_lamprey": "太平洋南Lamp",
+    "fish_paiute_cutthroat_trout": "腰肉鳟鱼",
+    "fish_paiute_sculpin": "Paiute Sculpin",
+    "fish_pink_salmon": "粉红鲑鱼",
+    "fish_pit-klamath_brook_lamprey": "坑克拉马斯布鲁克·兰佩雷",
+    "fish_pit_river_tui_chub": "Pit River Tui Chub",
+    "fish_pit_sculpin": "坑斯卡平",
+    "fish_porthole_livebearer": "舷窗活人",
+    "fish_prickly_sculpin": "刺S",
+    "fish_pumpkinseed": "南瓜种子",
+    "fish_rainwater_killifish": "雨水K鱼",
+    "fish_razorback_sucker": "剃刀背吸盘",
+    "fish_red_hills_roach": "红山蟑螂",
+    "fish_red_shiner": "红光",
+    "fish_redear_sunfish": "红耳翻车鱼",
+    "fish_redeye_bass": "红眼低音",
+    "fish_reticulate_sculpin": "fish_reticulate_sculpin",
+    "fish_riffle_sculpin": "里弗·斯卡平",
+    "fish_river_lamprey": "兰普里河",
+    "fish_rough_sculpin": "粗糙的斯库平",
+    "fish_russian_river_roach": "俄罗斯河蟑螂",
+    "fish_russian_river_tule_perch": "俄罗斯图勒河鲈鱼",
+    "fish_sacramento_blackfish": "萨克拉曼多黑鱼",
+    "fish_sacramento_hitch": "萨克拉曼多·希区",
+    "fish_sacramento_perch": "萨克拉曼多鲈鱼",
+    "fish_sacramento_pikeminnow": "萨克拉曼多派克明诺",
+    "fish_sacramento_speckled_dace": "萨克拉曼多斑点的王牌",
+    "fish_sacramento_splittail": "萨克拉曼多Splittail",
+    "fish_sacramento_sucker": "萨克拉曼多吸盘",
+    "fish_sacramento_tule_perch": "萨克拉曼多图勒鲈鱼",
+    "fish_sailfin_molly": "赛芬·莫莉",
+    "fish_salt_creek_pupfish": "盐溪P鱼",
+    "fish_santa_ana_speckled_dace": "圣安娜斑点的ace子",
+    "fish_santa_ana_sucker": "圣安娜吸盘",
+    "fish_saratoga_springs_pupfish": "萨拉托加温泉P鱼",
+    "fish_shay_creek_stickleback": "谢伊克里克棘背",
+    "fish_shimofuri_goby": "Shimofuri虾虎鱼",
+    "fish_shiner_perch": "光泽鲈鱼",
+    "fish_shortfin_molly": "短鳍茉莉",
+    "fish_shortnose_sucker": "短鼻吸盘",
+    "fish_shoshone_pupfish": "肖肖尼P鱼",
+    "fish_smallmouth_bass": "小嘴鲈鱼",
+    "fish_sockeye_kokanee_salmon": "红鲑鱼",
+    "fish_south_central_california_coast_steelhead": "加利福尼亚中南部海岸斯蒂尔黑德",
+    "fish_southern_california_steelhead": "南加州斯蒂尔黑德",
+    "fish_southern_green_sturgeon": "南方绿St鱼",
+    "fish_southern_oregon_northern_california_coast_coho_salmon": "俄勒冈州南部北加州海岸Coho鲑鱼",
+    "fish_southern_oregon_northern_california_coast_fall_chinook_salmon": "俄勒冈州南部北加州海岸奇努克鲑鱼",
+    "fish_spotted_bass": "斑点的低音",
+    "fish_staghorn_sculpin": "鹿角S",
+    "fish_starry_flounder": "比目鱼",
+    "fish_striped_bass": "鲈鱼",
+    "fish_striped_mullet": "Mul鱼",
+    "fish_surf_smelt": "冲浪融化",
+    "fish_tahoe_sucker": "塔霍·萨克（Tahoe Sucker）",
+    "fish_tecopa_pupfish": "特科帕P鱼",
+    "fish_tench": "ench",
+    "fish_thicktail_chub": "厚尾Chu",
+    "fish_threadfin_shad": "fin鳍",
+    "fish_tidewater_goby": "潮水虾虎鱼",
+    "fish_tomales_roach": "托马斯罗奇",
+    "fish_topsmelt": "Topsmelt",
+    "fish_unarmored_threespine_stickleback": "无装甲三脊刺背",
+    "fish_upper_klamath-trinity_fall_chinook_salmon": "上克拉马斯三一秋天奇努克鲑鱼",
+    "fish_upper_klamath-trinity_spring_chinook_salmon": "上克拉玛斯三位一体奇努克鲑鱼",
+    "fish_upper_klamath_marbled_sculpin": "上克拉马斯大理石纹的Sculpin",
+    "fish_wakasagi": "若杉",
+    "fish_warmouth": "沃茅斯",
+    "fish_western_brook_lamprey": "Western Brook Lamprey",
+    "fish_western_mosquitofish": "西部蚊子",
+    "fish_white_bass": "白低音",
+    "fish_white_catfish": "白Cat鱼",
+    "fish_white_crappie": "白薄饼",
+    "fish_white_sturgeon": "白St鱼",
+    "fish_yellow_bullhead": "黄牛头",
+    "fish_yellow_perch": "黄鲈",
+    "fish_yellowfin_goby": "黄鳍金枪鱼",
+    "resource_path_application": "应用",
+    "resource_path_audio": "音讯",
+    "resource_path_color": "颜色",
+    "resource_path_documentation": "文献资料",
+    "resource_path_documents": "文件资料",
+    "resource_path_fonts": "字型",
+    "resource_path_icons": "图示",
+    "resource_path_images": "图片",
+    "resource_path_log_file": "日志文件",
+    "resource_path_models": "楷模",
+    "resource_path_settings_file": "设定文件",
+    "resource_path_shaders": "着色器",
+    "resource_path_text": "文本",
+    "timer_fast": "快速",
+    "timer_medium": "介质",
+    "timer_slow": "慢",
+    "timer_very_fast": "非常快"
+}

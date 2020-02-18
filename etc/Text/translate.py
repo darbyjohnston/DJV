@@ -22,7 +22,7 @@ def run():
     
     # Read the input and output files.
     inData = json.load(open(inFile), object_pairs_hook=OrderedDict)
-    outData = []
+    outData = OrderedDict()
     try:
         outData = json.load(open(outFile), object_pairs_hook=OrderedDict)
     except:
@@ -31,53 +31,23 @@ def run():
     # Create the translation client.
     translateClient = translate_v2.Client()
     
-    for inItem in inData:
+    # Only translate strings that not already in the output file.
+    for key in inData:
+        if not key in outData:
+            outData[key] = getTranslation(translateClient, inData[key], language)
 
-        # The language passed on the command-line is used by default,
-        # but this may be over-ridden by the input file.
-        itemLanguage = language
-        if 'language' in inItem:
-            itemLanguage = inItem['language']
+    # Sort the output data.
+    keys = []
+    for key in outData:
+        keys.append(key)
+    sortedKeys = sorted(keys)
+    sortedData = OrderedDict()
+    for key in sortedKeys:
+        sortedData[key] = outData[key]
 
-        # Check if the item exists in the output file.
-        i = None
-        for outItem in outData:
-            if outItem['id'] == inItem['id']:
-                i = outItem
-                break
-
-        if None == i:
-
-            # The item doesn't exist in the output file, add it.
-            i = OrderedDict(inItem)
-            if itemLanguage != 'en':
-                i['text'] = getTranslation(translateClient, inItem['text'], itemLanguage)
-            else:
-                i['text'] = inItem['text']
-            i['source'] = inItem['text']
-            outData.append(i)
-            
-        else:
-
-            # The item exists in the output file, only translate
-            # it if the text or input language has changed.
-            textChanged = i['source'] != inItem['text']
-            languageChanged = False
-            if 'language' in inItem:
-                if 'language' in i:
-                    languageChanged = inItem['language'] != i['language']
-                else:
-                    languageChanged = True
-                i['language'] = itemLanguage
-            if textChanged or languageChanged:
-                if itemLanguage != 'en':
-                    i['text'] = getTranslation(translateClient, inItem['text'], itemLanguage)
-                else:
-                    i['text'] = inItem['text']
-                i['source'] = inItem['text']
-
+    # Write the output file.
     with open(outFile, 'w') as f:
-        json.dump(outData, f, indent = 4, ensure_ascii=False)
+        json.dump(sortedData, f, indent = 4, ensure_ascii=False)
     
 if __name__ == '__main__':
     run()

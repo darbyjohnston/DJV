@@ -87,7 +87,7 @@ namespace djv
             ///@{
 
             //! Get the text for the given ID.
-            const std::string & getText(const std::string& id) const;
+            const std::string & getText(const std::string& id);
 
             //! Observe whether the text has changed.
             std::shared_ptr<IValueSubject<bool> > observeTextChanged() const;
@@ -99,6 +99,7 @@ namespace djv
             void _reload(const FileSystem::FileInfo&);
             typedef std::map<std::string, std::map<std::string, std::string> > TextMap;
             TextMap _readText(const FileSystem::FileInfo&);
+            void _readAllFutures();
 
             DJV_PRIVATE();
         };

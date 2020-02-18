@@ -67,7 +67,7 @@ namespace djv
                 ISettings::_init("djv::UI::Settings::Style", context);
 
                 std::map<std::string, UI::Style::Palette> palettes;
-                palettes[DJV_TEXT("Dark")] = UI::Style::Palette();
+                palettes[DJV_TEXT("style_palette_dark")] = UI::Style::Palette();
 
                 UI::Style::Palette palette;
                 palette.setColor(ColorRole::Background, AV::Image::Color(.92F, .92F, .92F, 1.F));
@@ -90,11 +90,11 @@ namespace djv
                 palette.setColor(ColorRole::Trough, AV::Image::Color(.95F, .95F, .95F, 1.F));
                 palette.setColor(ColorRole::Cached, AV::Image::Color(.69F, .89F, .76F, 1.F));
                 palette.setDisabledMult(.5F);
-                palettes[DJV_TEXT("Light")] = palette;
+                palettes["style_palette_light"] = palette;
                 
                 std::map<std::string, UI::Style::Metrics> metricsList;
                 UI::Style::Metrics metrics;
-                metricsList[DJV_TEXT("Medium")] = metrics;
+                metricsList[DJV_TEXT("style_metrics_medium")] = metrics;
 
                 UI::Style::Metrics smallMetrics;
                 UI::Style::Metrics largeMetrics;
@@ -107,18 +107,18 @@ namespace djv
                     largeMetrics.setMetric(m, ceilf(v * 1.5F));
                     extraLargeMetrics.setMetric(m, ceilf(v * 2.F));
                 }
-                metricsList[DJV_TEXT("Small")] = smallMetrics;
-                metricsList[DJV_TEXT("Large")] = largeMetrics;
-                metricsList[DJV_TEXT("ExtraLarge")] = extraLargeMetrics;
+                metricsList[DJV_TEXT("style_metrics_small")] = smallMetrics;
+                metricsList[DJV_TEXT("style_metrics_large")] = largeMetrics;
+                metricsList[DJV_TEXT("style_metrics_extra_large")] = extraLargeMetrics;
 
                 DJV_PRIVATE_PTR();
                 p.palettes = MapSubject<std::string, UI::Style::Palette>::create(palettes);
-                p.currentPalette = ValueSubject<UI::Style::Palette>::create(palettes["Dark"]);
-                p.currentPaletteName = ValueSubject<std::string>::create("Dark");
+                p.currentPalette = ValueSubject<UI::Style::Palette>::create(palettes["style_palette_dark"]);
+                p.currentPaletteName = ValueSubject<std::string>::create("style_palette_dark");
                 p.metrics = MapSubject<std::string, UI::Style::Metrics>::create(metricsList);
-                p.currentMetrics = ValueSubject<UI::Style::Metrics>::create(metricsList["Medium"]);
-                p.currentMetricsName = ValueSubject<std::string>::create(DJV_TEXT("Medium"));
-                p.currentFont = ValueSubject<std::string>::create(DJV_TEXT("Default"));
+                p.currentMetrics = ValueSubject<UI::Style::Metrics>::create(metricsList["style_metrics_medium"]);
+                p.currentMetricsName = ValueSubject<std::string>::create(("style_metrics_medium"));
+                p.currentFont = ValueSubject<std::string>::create(DJV_TEXT("style_font_default"));
 
                 _load();
 
