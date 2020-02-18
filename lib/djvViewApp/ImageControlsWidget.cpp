@@ -791,7 +791,7 @@ namespace djv
             p.exposureLayout->setText(p.exposureSliders["KneeLow"], _getText(DJV_TEXT("image_controls_exposure_knee_low")) + ":");
             p.exposureLayout->setText(p.exposureSliders["KneeHigh"], _getText(DJV_TEXT("image_controls_exposure_knee_high")) + ":");
 
-            p.loadFrameStoreButton->setText(_getText(DJV_TEXT("load")));
+            p.loadFrameStoreButton->setText(_getText(DJV_TEXT("image_controls_frame_store_load")));
             p.frameStoreCheckBox->setText(_getText(DJV_TEXT("image_controls_frame_store_enabled")));
 
             p.tabWidget->setText(p.channelsScrollWidget, _getText(DJV_TEXT("image_controls_section_channels")));
