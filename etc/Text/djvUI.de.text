@@ -142,6 +142,7 @@
     "style_metrics_medium": "Mittel",
     "style_metrics_small": "Klein",
     "style_palette_dark": "Dunkel",
+    "style_palette_light": "Licht",
     "ui_image_rotate_0": "0°",
     "ui_image_rotate_180": "180°",
     "ui_image_rotate_270": "270°",
