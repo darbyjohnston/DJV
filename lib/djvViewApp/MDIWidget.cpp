@@ -79,7 +79,6 @@ namespace djv
             p.titleBar->addChild(p.closeButton);
 
             p.childLayout = UI::VerticalLayout::create(context);
-            p.childLayout->setPointerEnabled(true);
 
             auto layout = UI::VerticalLayout::create(context);
             layout->setBackgroundRole(UI::ColorRole::OverlayLight);

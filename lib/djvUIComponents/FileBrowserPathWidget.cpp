@@ -317,6 +317,8 @@ namespace djv
                     switch (event.getEventType())
                     {
                     case Event::Type::ButtonPress:
+
+                        event.accept();
                         setEdit(true);
                         break;
                     default: break;

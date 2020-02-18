@@ -329,6 +329,7 @@ namespace djv
                     {
                         if (object->isEnabled(true))
                         {
+                            setTextFocus(nullptr);
                             object->event(event);
                             if (event.isAccepted())
                             {
@@ -392,19 +393,29 @@ namespace djv
                 if (textFocus || hover)
                 {
                     KeyPress event(key, modifiers, p.pointerInfo);
-                    auto object = textFocus ? textFocus : hover;
-                    while (object)
+                    if (textFocus && textFocus->isEnabled(true))
                     {
-                        if (object->isEnabled(true))
+                        textFocus->event(event);
+                        if (event.isAccepted())
                         {
-                            object->event(event);
-                            if (event.isAccepted())
-                            {
-                                p.keyGrab->setIfChanged(object);
-                                break;
-                            }
+                            p.keyGrab->setIfChanged(textFocus);
                         }
-                        object = object->getParent().lock();
+                    }
+                    if (!event.isAccepted() && hover)
+                    {
+                        while (hover)
+                        {
+                            if (hover->isEnabled(true))
+                            {
+                                hover->event(event);
+                                if (event.isAccepted())
+                                {
+                                    p.keyGrab->setIfChanged(hover);
+                                    break;
+                                }
+                            }
+                            hover = hover->getParent().lock();
+                        }
                     }
                 }
             }
