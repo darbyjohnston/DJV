@@ -678,7 +678,7 @@ namespace djv
                                         {
                                             auto iconSystem = context->getSystemT<IconSystem>();
                                             auto style = widget->_getStyle();
-                                            widget->_iconFutures[item] = iconSystem->getIcon(value, static_cast<int>(style->getMetric(MetricsRole::Icon)));
+                                            widget->_iconFutures[item] = iconSystem->getIcon(value, style->getMetric(MetricsRole::Icon));
                                             widget->_resize();
                                         }
                                     }
