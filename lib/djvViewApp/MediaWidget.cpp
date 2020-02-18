@@ -1382,7 +1382,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.audioVolumeSlider->setValue(p.audioVolume * 100.F);
             p.audioMuteButton->setChecked(p.audioMute);
-            if (!p.audioEnabled || p.audioMute)
+            p.audioPopupWidget->setVisible(p.audioEnabled);
+            if (p.audioMute)
             {
                 p.audioPopupWidget->setIcon("djvIconAudioMute");
             }
