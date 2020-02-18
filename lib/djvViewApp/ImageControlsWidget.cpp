@@ -836,6 +836,7 @@ namespace djv
 
             p.softClipSlider->setValue(p.imageOptions.softClip);
 
+            p.frameStoreCheckBox->setChecked(p.frameStoreEnabled);
             p.frameStoreWidget->setImage(p.frameStore);
         }
 
