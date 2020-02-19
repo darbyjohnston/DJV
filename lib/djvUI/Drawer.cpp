@@ -279,7 +279,7 @@ namespace djv
                 {
                 case Event::Type::PointerEnter:
                 {
-                    Event::PointerEnter& pointerEnterEvent = static_cast<Event::PointerEnter&>(event);
+                    auto& pointerEnterEvent = static_cast<Event::PointerEnter&>(event);
                     const auto& pointerInfo = pointerEnterEvent.getPointerInfo();
                     if (auto widget = std::dynamic_pointer_cast<Widget>(object))
                     {
@@ -295,7 +295,7 @@ namespace djv
                 }
                 case Event::Type::PointerLeave:
                 {
-                    Event::PointerLeave& pointerLeaveEvent = static_cast<Event::PointerLeave&>(event);
+                    auto& pointerLeaveEvent = static_cast<Event::PointerLeave&>(event);
                     const auto& pointerInfo = pointerLeaveEvent.getPointerInfo();
                     if (auto widget = std::dynamic_pointer_cast<Widget>(object))
                     {
@@ -311,7 +311,7 @@ namespace djv
                 }
                 case Event::Type::PointerMove:
                 {
-                    Event::PointerMove& pointerMoveEvent = static_cast<Event::PointerMove&>(event);
+                    auto& pointerMoveEvent = static_cast<Event::PointerMove&>(event);
                     const auto& pointerInfo = pointerMoveEvent.getPointerInfo();
                     if (auto widget = std::dynamic_pointer_cast<Widget>(object))
                     {
@@ -343,7 +343,7 @@ namespace djv
                 }
                 case Event::Type::ButtonPress:
                 {
-                    Event::ButtonPress& buttonPressEvent = static_cast<Event::ButtonPress&>(event);
+                    auto& buttonPressEvent = static_cast<Event::ButtonPress&>(event);
                     const auto& pointerInfo = buttonPressEvent.getPointerInfo();
                     if (auto widget = std::dynamic_pointer_cast<Widget>(object))
                     {
