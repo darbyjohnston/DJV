@@ -79,6 +79,8 @@ namespace djv
             std::shared_ptr<ValueSubject<size_t> > threadCount;
             std::shared_ptr<ValueSubject<Frame::Sequence> > cacheSequence;
             std::shared_ptr<ValueSubject<Frame::Sequence> > cachedFrames;
+            bool cacheEnabled = false;
+            size_t cacheMaxByteCount = 0;
             std::shared_ptr<ListSubject<std::shared_ptr<AnnotatePrimitive> > > annotations;
 
             std::shared_ptr<ValueSubject<size_t> > videoQueueMax;
@@ -556,8 +558,7 @@ namespace djv
 
         size_t Media::getCacheMaxByteCount() const
         {
-            DJV_PRIVATE_PTR();
-            return p.read ? p.read->getCacheMaxByteCount() : 0;
+            return _p->cacheMaxByteCount;
         }
 
         size_t Media::getCacheByteCount() const
@@ -579,18 +580,20 @@ namespace djv
         void Media::setCacheEnabled(bool value)
         {
             DJV_PRIVATE_PTR();
+            p.cacheEnabled = value;
             if (p.read)
             {
-                p.read->setCacheEnabled(value);
+                p.read->setCacheEnabled(p.cacheEnabled);
             }
         }
 
         void Media::setCacheMaxByteCount(size_t value)
         {
             DJV_PRIVATE_PTR();
+            p.cacheMaxByteCount = value;
             if (p.read)
             {
-                p.read->setCacheMaxByteCount(value);
+                p.read->setCacheMaxByteCount(p.cacheMaxByteCount);
             }
         }
             
@@ -663,7 +666,9 @@ namespace djv
                     auto io = context->getSystemT<AV::IO::System>();
                     p.read = io->read(p.fileInfo, options);
                     p.read->setThreadCount(p.threadCount->get());
-                    
+                    p.read->setCacheEnabled(p.cacheEnabled);
+                    p.read->setCacheMaxByteCount(p.cacheMaxByteCount);
+
                     const auto info = p.read->getInfo().get();
                     p.info->setIfChanged(info);
                     Time::Speed speed;
