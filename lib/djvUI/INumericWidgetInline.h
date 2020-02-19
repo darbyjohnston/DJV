@@ -162,6 +162,25 @@ namespace djv
         template<typename T>
         inline INumericEdit<T>::~INumericEdit()
         {}
+        
+        template<typename T>
+        inline bool INumericEdit<T>::_keyPress(NumericWidgetKey key)
+        {
+            bool out = false;
+            switch (key)
+            {
+            case NumericWidgetKey::Home:
+            case NumericWidgetKey::End:
+            case NumericWidgetKey::Up:
+            case NumericWidgetKey::Down:
+            case NumericWidgetKey::PageUp:
+            case NumericWidgetKey::PageDown:
+                out = INumericWidget<T>::_keyPress(key);
+                break;
+            default: break;
+            }
+            return out;
+        }
 
         template<typename T>
         inline INumericSlider<T>::~INumericSlider()
