@@ -284,6 +284,7 @@ namespace djv
 
         void ColorSwatch::_keyPressEvent(Event::KeyPress& event)
         {
+            Widget::_keyPressEvent(event);
             DJV_PRIVATE_PTR();
             if (p.clickedCallback)
             {

@@ -89,6 +89,7 @@ namespace djv
             private:
                 void _updateRecursive(const std::shared_ptr<IObject> &, Update &);
                 void _setHover(const std::shared_ptr<IObject> &);
+                void _keyPress(std::shared_ptr<IObject>, KeyPress&);
 
                 DJV_PRIVATE();
 

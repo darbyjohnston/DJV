@@ -393,29 +393,13 @@ namespace djv
                 if (textFocus || hover)
                 {
                     KeyPress event(key, modifiers, p.pointerInfo);
-                    if (textFocus && textFocus->isEnabled(true))
+                    if (textFocus)
                     {
-                        textFocus->event(event);
-                        if (event.isAccepted())
-                        {
-                            p.keyGrab->setIfChanged(textFocus);
-                        }
+                        _keyPress(textFocus, event);
                     }
                     if (!event.isAccepted() && hover)
                     {
-                        while (hover)
-                        {
-                            if (hover->isEnabled(true))
-                            {
-                                hover->event(event);
-                                if (event.isAccepted())
-                                {
-                                    p.keyGrab->setIfChanged(hover);
-                                    break;
-                                }
-                            }
-                            hover = hover->getParent().lock();
-                        }
+                        _keyPress(hover, event);
                     }
                 }
             }
@@ -496,6 +480,24 @@ namespace djv
                         PointerEnter enterEvent(p.pointerInfo);
                         value->event(enterEvent);
                     }
+                }
+            }
+
+            void IEventSystem::_keyPress(std::shared_ptr<IObject> object, KeyPress& event)
+            {
+                DJV_PRIVATE_PTR();
+                while (object)
+                {
+                    if (object->isEnabled(true))
+                    {
+                        object->event(event);
+                        if (event.isAccepted())
+                        {
+                            p.keyGrab->setIfChanged(object);
+                            break;
+                        }
+                    }
+                    object = object->getParent().lock();
                 }
             }
 
