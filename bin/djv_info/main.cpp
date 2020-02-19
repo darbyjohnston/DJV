@@ -133,7 +133,7 @@ namespace djv
                             std::cout << "        Channels: " << static_cast<int>(audio.info.channelCount) << std::endl;
                             std::cout << "        Type: " << audio.info.type << std::endl;
                             std::cout << "        Sample rate: " << audio.info.sampleRate << std::endl;
-                            std::cout << "        Duration: " << (audio.info.sampleRate > 0 ? (audio.sampleCount / static_cast<float>(audio.info.sampleRate)) : 0.F) << " seconds" << std::endl;
+                            std::cout << "        Duration: " << (audio.info.sampleRate > 0 ? (audio.info.sampleCount / static_cast<float>(audio.info.sampleRate)) : 0.F) << " seconds" << std::endl;
                             ++i;
                         }
                     }

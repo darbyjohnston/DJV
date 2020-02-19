@@ -86,7 +86,6 @@ namespace djv
                 AudioInfo(const Audio::Info &, size_t sampleCount = 0);
 
                 Audio::Info info;
-                size_t sampleCount = 0;
                 std::string codec;
 
                 bool operator == (const AudioInfo &) const;

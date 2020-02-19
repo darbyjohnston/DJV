@@ -473,6 +473,7 @@
     "widget_info_name": "Name",
     "widget_info_sample_rate": "Sample rate",
     "widget_info_dimensions": "Dimensions",
+    "widget_info_seconds": "seconds",
     "widget_info_speed": "Speed",
     "widget_info_tags": "Tags",
     "widget_info_title": "Information",

@@ -203,7 +203,7 @@ namespace djv
                         switch (avSystem->observeTimeUnits()->get())
                         {
                         case AV::TimeUnits::Frames:
-                          ss << " " << _getText(DJV_TEXT("widget_info_frames"));
+                            ss << " " << _getText(DJV_TEXT("widget_info_frames"));
                             break;
                         default: break;
                         }
@@ -272,7 +272,7 @@ namespace djv
                     label = UI::Label::create(context);
                     {
                         std::stringstream ss;
-                        ss << (i.info.sampleRate > 0 ? (i.sampleCount / i.info.sampleRate) : 0);
+                        ss << (i.info.sampleRate > 0 ? (i.info.sampleCount / i.info.sampleRate) : 0) << " " << _getText(DJV_TEXT("widget_info_seconds"));
                         label->setText(ss.str());
                     }
                     label->setHAlign(UI::HAlign::Left);

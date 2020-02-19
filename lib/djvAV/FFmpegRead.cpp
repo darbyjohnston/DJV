@@ -326,7 +326,7 @@ namespace djv
                                         audioType,
                                         p.avCodecParameters[p.avAudioStream]->sample_rate,
                                         sampleCount));
-                                p.videoInfo.codec = std::string(avAudioCodec->long_name);
+                                p.audioInfo.codec = std::string(avAudioCodec->long_name);
                                 info.audio.push_back(p.audioInfo);
                             }
 
