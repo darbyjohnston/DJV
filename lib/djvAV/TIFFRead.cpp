@@ -31,6 +31,7 @@
 
 #include <djvCore/FileIO.h>
 #include <djvCore/FileSystem.h>
+#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -70,11 +71,12 @@ namespace djv
                 std::shared_ptr<Read> Read::create(
                     const FileSystem::FileInfo& fileInfo,
                     const ReadOptions& readOptions,
+                    const std::shared_ptr<TextSystem>& textSystem,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
-                    out->_init(fileInfo, readOptions, resourceSystem, logSystem);
+                    out->_init(fileInfo, readOptions, textSystem, resourceSystem, logSystem);
                     return out;
                 }
 
@@ -95,7 +97,7 @@ namespace djv
                     {
                         if (TIFFReadScanline(f.f, (tdata_t *)out->getData(y), y) == -1)
                         {
-                            throw FileSystem::Error(DJV_TEXT("error_read_scanline"));
+                            throw FileSystem::Error(_textSystem->getText(_textSystem->getText(("error_read_scanline"))));
                         }
                         if (f.palette)
                         {
@@ -118,7 +120,7 @@ namespace djv
 #endif // DJV_WINDOWS
                     if (!f.f)
                     {
-                        throw FileSystem::Error(DJV_TEXT("error_file_open"));
+                        throw FileSystem::Error(_textSystem->getText(("error_file_open")));
                     }
 
                     uint32   width            = 0;
@@ -167,7 +169,7 @@ namespace djv
                     }
                     if (Image::Type::None == imageType)
                     {
-                        throw FileSystem::Error(DJV_TEXT("error_unsupported_image_type"));
+                        throw FileSystem::Error(_textSystem->getText(("error_unsupported_image_type")));
                     }
 
                     Image::Layout layout;

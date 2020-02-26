@@ -187,6 +187,7 @@ namespace djv
                         const Core::FileSystem::FileInfo&,
                         const ReadOptions&,
                         const Options&,
+                        const std::shared_ptr<Core::TextSystem>&,
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
 
@@ -217,6 +218,7 @@ namespace djv
                         const Info&,
                         const WriteOptions&,
                         const Options&,
+                        const std::shared_ptr<Core::TextSystem>&,
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
 

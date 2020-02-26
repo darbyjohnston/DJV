@@ -39,6 +39,7 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/LogSystem.h>
+#include <djvCore/TextSystem.h>
 #include <djvCore/Timer.h>
 
 #define GLM_ENABLE_EXPERIMENTAL
@@ -121,7 +122,11 @@ namespace djv
                                     catch (const std::exception& e)
                                     {
                                         std::stringstream ss;
-                                        ss << DJV_TEXT("error_the_file") << " '" << value << "' " << DJV_TEXT("error_cannot_be_read") << ". " << e.what();
+                                        auto textSystem = context->getSystemT<TextSystem>();
+                                        ss << textSystem->getText(DJV_TEXT("error_the_file"));
+                                        ss << " '" << value << "' ";
+                                        ss << textSystem->getText(DJV_TEXT("error_cannot_be_read")) << ". ";
+                                        ss << e.what();
                                         auto logSystem = context->getSystemT<LogSystem>();
                                         logSystem->log("djv::ViewApp::BackgroundImageWidget", ss.str(), LogLevel::Error);
                                     }

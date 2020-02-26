@@ -33,6 +33,7 @@
 #include <djvCore/FileSystem.h>
 #include <djvCore/Memory.h>
 #include <djvCore/String.h>
+#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -169,7 +170,11 @@ namespace djv
 
                 } // namespace
 
-                Header read(FileSystem::FileIO& io, Info& info, Cineon::ColorProfile& colorProfile)
+                Header read(
+                    FileSystem::FileIO& io,
+                    Info& info,
+                    Cineon::ColorProfile& colorProfile,
+                    const std::shared_ptr<Core::TextSystem>& textSystem)
                 {
                     Header out;
                     zero(out);
@@ -192,7 +197,7 @@ namespace djv
                     else
                     {
                         std::stringstream ss;
-                        ss << DJV_TEXT("error_bad_magic_number");
+                        ss << textSystem->getText(DJV_TEXT("error_bad_magic_number"));
                         throw FileSystem::Error(ss.str());
                     }
 
@@ -214,7 +219,7 @@ namespace djv
                     if (out.image.elemSize != 1)
                     {
                         std::stringstream ss;
-                        ss << DJV_TEXT("error_unsupported_file");
+                        ss << textSystem->getText(DJV_TEXT("error_unsupported_file"));
                         throw FileSystem::Error(ss.str());
                     }
                     info.video[0].info.size.w = out.image.size[0];
@@ -282,27 +287,27 @@ namespace djv
                     if (Image::Type::None == info.video[0].info.type)
                     {
                         std::stringstream ss;
-                        ss << DJV_TEXT("error_unsupported_file");
+                        ss << textSystem->getText(DJV_TEXT("error_unsupported_file"));
                         throw FileSystem::Error(ss.str());
                     }
                     if (io.getSize() - out.file.imageOffset != info.video[0].info.getDataByteCount())
                     {
                         std::stringstream ss;
-                        ss << DJV_TEXT("error_incomplete_file");
+                        ss << textSystem->getText(DJV_TEXT("error_incomplete_file"));
                         throw FileSystem::Error(ss.str());
                     }
 
                     if (out.image.elem[0].encoding)
                     {
                         std::stringstream ss;
-                        ss << DJV_TEXT("error_unsupported_file");
+                        ss << textSystem->getText(DJV_TEXT("error_unsupported_file"));
                         throw FileSystem::Error(ss.str());
                     }
 
                     if (isValid(&out.image.elem[0].linePadding) && out.image.elem[0].linePadding)
                     {
                         std::stringstream ss;
-                        ss << DJV_TEXT("error_unsupported_file");
+                        ss << textSystem->getText(DJV_TEXT("error_unsupported_file"));
                         throw FileSystem::Error(ss.str());
                     }
 
@@ -527,7 +532,12 @@ namespace djv
                     return out;
                 }
 
-                void write(FileSystem::FileIO& io, const Info& info, Version version, Endian endian, Cineon::ColorProfile colorProfile)
+                void write(
+                    FileSystem::FileIO& io,
+                    const Info& info,
+                    Version version,
+                    Endian endian,
+                    Cineon::ColorProfile colorProfile)
                 {
                     Header header;
                     zero(header);
@@ -891,12 +901,12 @@ namespace djv
 
                 std::shared_ptr<IRead> Plugin::read(const FileSystem::FileInfo& fileInfo, const ReadOptions& options) const
                 {
-                    return Read::create(fileInfo, options, _p->options, _resourceSystem, _logSystem);
+                    return Read::create(fileInfo, options, _p->options, _textSystem, _resourceSystem, _logSystem);
                 }
 
                 std::shared_ptr<IWrite> Plugin::write(const FileSystem::FileInfo& fileInfo, const Info & info, const WriteOptions& options) const
                 {
-                    return Write::create(fileInfo, info, options, _p->options, _resourceSystem, _logSystem);
+                    return Write::create(fileInfo, info, options, _p->options, _textSystem, _resourceSystem, _logSystem);
                 }
 
             } // namespace DPX
@@ -954,8 +964,7 @@ namespace djv
         }
         else
         {
-            
- std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
     }
 

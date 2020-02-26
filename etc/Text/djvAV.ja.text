@@ -42,7 +42,7 @@
     "av_image_type_rgba_u16": "RGBA U16",
     "av_image_type_rgba_u32": "RGBA U32",
     "av_image_type_rgba_u8": "RGBA U8",
-    "av_sample_format_None": "なし",
+    "av_sample_format_none": "なし",
     "av_sample_format_double": "ダブル",
     "av_sample_format_double_planar": "ダブルプレーナー",
     "av_sample_format_float": "浮く",

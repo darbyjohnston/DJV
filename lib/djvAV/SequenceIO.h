@@ -48,6 +48,7 @@ namespace djv
                 void _init(
                     const Core::FileSystem::FileInfo&,
                     const ReadOptions&,
+                    const std::shared_ptr<Core::TextSystem>&,
                     const std::shared_ptr<Core::ResourceSystem>&,
                     const std::shared_ptr<Core::LogSystem>&);
                 ISequenceRead();
@@ -89,6 +90,7 @@ namespace djv
                     const Core::FileSystem::FileInfo&,
                     const Info &,
                     const WriteOptions&,
+                    const std::shared_ptr<Core::TextSystem>&,
                     const std::shared_ptr<Core::ResourceSystem>&,
                     const std::shared_ptr<Core::LogSystem>&);
                 ISequenceWrite();

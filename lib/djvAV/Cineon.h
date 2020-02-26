@@ -193,13 +193,21 @@ namespace djv
                 //!
                 //! Throws:
                 //! - Core::FileSystem::Error
-                Header read(Core::FileSystem::FileIO&, Info&, ColorProfile&);
+                Header read(
+                    Core::FileSystem::FileIO&,
+                    Info&,
+                    ColorProfile&,
+                    const std::shared_ptr<Core::TextSystem>&);
                 
                 //! Write a Cineon file header.
                 //!
                 //! Throws:
                 //! - Core::FileSystem::Error
-                void write(Core::FileSystem::FileIO&, const Info& info, ColorProfile);
+                void write(
+                    Core::FileSystem::FileIO&,
+                    const Info& info,
+                    ColorProfile,
+                    const std::shared_ptr<Core::TextSystem>&);
 
                 //! Finish writing the Cineon file header after image data is written.
                 void writeFinish(Core::FileSystem::FileIO&);
@@ -218,6 +226,7 @@ namespace djv
                     static std::shared_ptr<Read> create(
                         const Core::FileSystem::FileInfo&,
                         const ReadOptions&,
+                        const std::shared_ptr<Core::TextSystem>&,
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
 
@@ -250,6 +259,7 @@ namespace djv
                         const Core::FileSystem::FileInfo&,
                         const Info &,
                         const WriteOptions&,
+                        const std::shared_ptr<Core::TextSystem>&,
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
 

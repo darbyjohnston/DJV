@@ -42,6 +42,7 @@
 
 #include <future>
 #include <locale>
+#include <mutex>
 #include <set>
 
 //#pragma optimize("", off)
@@ -63,6 +64,7 @@ namespace djv
             TextMap text;
             std::shared_ptr<ValueSubject<bool> > textChanged;
 
+            mutable std::mutex mutex;
             std::vector<std::future<TextMap> > readFutures;
             std::future<std::vector<FileSystem::FileInfo> > statFuture;
             std::shared_ptr<Time::Timer> timer;
@@ -251,6 +253,7 @@ namespace djv
                             {
                                 for (const auto& k : j->get())
                                 {
+                                    std::unique_lock<std::mutex> lock(system->_p->mutex);
                                     for (const auto& l : k.second)
                                     {
                                         system->_p->text[k.first][l.first] = l.second;
@@ -348,13 +351,16 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             _readAllFutures();
-            const auto i = p.text.find(p.currentLocale->get());
-            if (i != p.text.end())
             {
-                const auto j = i->second.find(id);
-                if (j != i->second.end())
+                std::unique_lock<std::mutex> lock(p.mutex);
+                const auto i = p.text.find(p.currentLocale->get());
+                if (i != p.text.end())
                 {
-                    return j->second;
+                    const auto j = i->second.find(id);
+                    if (j != i->second.end())
+                    {
+                        return j->second;
+                    }
                 }
             }
             return id;
@@ -495,6 +501,7 @@ namespace djv
                 {
                     for (const auto& k : j->get())
                     {
+                        std::unique_lock<std::mutex> lock(p.mutex);
                         for (const auto& l : k.second)
                         {
                             p.text[k.first][l.first] = l.second;

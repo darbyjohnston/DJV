@@ -60,6 +60,7 @@
 #include <djvCore/Path.h>
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/String.h>
+#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -140,10 +141,12 @@ namespace djv
             void IIO::_init(
                 const FileSystem::FileInfo& fileInfo,
                 const IOOptions& options,
+                const std::shared_ptr<TextSystem>& textSystem,
                 const std::shared_ptr<ResourceSystem>& resourceSystem,
                 const std::shared_ptr<LogSystem>& logSystem)
             {
                 _logSystem      = logSystem;
+                _textSystem     = textSystem;
                 _resourceSystem = resourceSystem;
                 _fileInfo       = fileInfo;
                 _videoQueue.setMax(options.videoQueueSize);
@@ -332,10 +335,11 @@ namespace djv
             void IRead::_init(
                 const FileSystem::FileInfo & fileInfo,
                 const ReadOptions& options,
+                const std::shared_ptr<TextSystem>& textSystem,
                 const std::shared_ptr<ResourceSystem>& resourceSystem,
                 const std::shared_ptr<LogSystem>& logSystem)
             {
-                IIO::_init(fileInfo, options, resourceSystem, logSystem);
+                IIO::_init(fileInfo, options, textSystem, resourceSystem, logSystem);
                 _options = options;
             }
 
@@ -398,10 +402,11 @@ namespace djv
                 const FileSystem::FileInfo& fileInfo,
                 const Info & info,
                 const WriteOptions& options,
+                const std::shared_ptr<TextSystem>& textSystem,
                 const std::shared_ptr<ResourceSystem>& resourceSystem,
                 const std::shared_ptr<LogSystem>& logSystem)
             {
-                IIO::_init(fileInfo, options, resourceSystem, logSystem);
+                IIO::_init(fileInfo, options, textSystem, resourceSystem, logSystem);
                 _info = info;
             }
 
@@ -417,6 +422,7 @@ namespace djv
                 _context        = context;
                 _logSystem      = context->getSystemT<LogSystem>();
                 _resourceSystem = context->getSystemT<ResourceSystem>();
+                _textSystem     = context->getSystemT<TextSystem>();
                 _pluginName     = pluginName;
                 _pluginInfo     = pluginInfo;
                 _fileExtensions = fileExtensions;
@@ -473,6 +479,7 @@ namespace djv
 
             struct System::Private
             {
+                std::shared_ptr<TextSystem> textSystem;
                 std::shared_ptr<ValueSubject<bool> > optionsChanged;
                 std::map<std::string, std::shared_ptr<IPlugin> > plugins;
                 std::set<std::string> sequenceExtensions;
@@ -485,6 +492,8 @@ namespace djv
                 DJV_PRIVATE_PTR();
 
                 addDependency(context->getSystemT<GLFW::System>());
+
+                p.textSystem = context->getSystemT<TextSystem>();
 
                 p.optionsChanged = ValueSubject<bool>::create();
 
@@ -646,7 +655,9 @@ namespace djv
                 if (!out)
                 {
                     std::stringstream ss;
-                    ss << DJV_TEXT("error_the_file") << " '" << fileInfo << "' " << DJV_TEXT("error_cannot_be_read") << ".";
+                    ss << p.textSystem->getText(DJV_TEXT("error_the_file"));
+                    ss << " '" << fileInfo << "' ";
+                    ss << p.textSystem->getText(DJV_TEXT("error_cannot_be_read")) << ".";
                     throw FileSystem::Error(ss.str());
                 }
                 return out;
@@ -667,7 +678,9 @@ namespace djv
                 if (!out)
                 {
                     std::stringstream ss;
-                    ss << DJV_TEXT("error_the_file") << " '" << fileInfo << "' " << DJV_TEXT("error_cannot_be_written") << ".";
+                    ss << p.textSystem->getText(DJV_TEXT("error_the_file"));
+                    ss << " '" << fileInfo << "' ";
+                    ss << p.textSystem->getText(DJV_TEXT("error_cannot_be_written")) << ".";
                     throw FileSystem::Error(ss.str());
                 }
                 return out;

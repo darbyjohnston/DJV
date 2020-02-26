@@ -42,7 +42,7 @@
     "av_image_type_rgba_u16": "RGBA U16",
     "av_image_type_rgba_u32": "RGBA U32",
     "av_image_type_rgba_u8": "RGBA U8",
-    "av_sample_format_None": "Ingen",
+    "av_sample_format_none": "Ingen",
     "av_sample_format_double": "Dubbel",
     "av_sample_format_double_planar": "Dubbel plan",
     "av_sample_format_float": "Flyta",

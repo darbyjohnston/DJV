@@ -38,6 +38,7 @@
 #include <djvCore/LogSystem.h>
 #include <djvCore/OS.h>
 #include <djvCore/ResourceSystem.h>
+#include <djvCore/TextSystem.h>
 #include <djvCore/Timer.h>
 
 #define GLFW_INCLUDE_NONE
@@ -179,6 +180,7 @@ namespace djv
         
         struct ThumbnailSystem::Private
         {
+            std::shared_ptr<TextSystem> textSystem;
             std::shared_ptr<IO::System> io;
 
             std::list<InfoRequest> infoRequests;
@@ -207,10 +209,10 @@ namespace djv
 
             DJV_PRIVATE_PTR();
 
-            auto io = context->getSystemT<IO::System>();
-            addDependency(io);
+            p.textSystem = context->getSystemT<TextSystem>();
+            p.io = context->getSystemT<IO::System>();
+            addDependency(p.io);
 
-            p.io = io;
             p.infoCache.setMax(infoCacheMax);
             p.infoCachePercentage = 0.F;
             p.imageCache.setMax(imageCacheMax);
@@ -236,7 +238,7 @@ namespace djv
             if (!p.glfwWindow)
             {
                 std::stringstream ss;
-                ss << DJV_TEXT("error_glfw_window_creation");
+                ss << p.textSystem->getText(DJV_TEXT("error_glfw_window_creation"));
                 throw ThumbnailError(ss.str());
             }
 
@@ -272,7 +274,7 @@ namespace djv
 #endif // DJV_OPENGL_ES2
                     {
                         std::stringstream ss;
-                        ss << DJV_TEXT("error_glad_init");
+                        ss << p.textSystem->getText(DJV_TEXT("error_glad_init"));
                         throw ThumbnailError(ss.str());
                     }
 
@@ -325,7 +327,7 @@ namespace djv
 
             auto weak = std::weak_ptr<ThumbnailSystem>(std::dynamic_pointer_cast<ThumbnailSystem>(shared_from_this()));
             p.ioOptionsObserver = ValueObserver<bool>::create(
-                io->observeOptionsChanged(),
+                p.io->observeOptionsChanged(),
                 [weak](bool value)
                 {
                     if (auto system = weak.lock())

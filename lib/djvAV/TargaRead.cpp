@@ -31,6 +31,7 @@
 
 #include <djvCore/FileIO.h>
 #include <djvCore/FileSystem.h>
+#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -53,11 +54,12 @@ namespace djv
                 std::shared_ptr<Read> Read::create(
                     const FileSystem::FileInfo& fileInfo,
                     const ReadOptions& readOptions,
+                    const std::shared_ptr<TextSystem>& textSystem,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
-                    out->_init(fileInfo, readOptions, resourceSystem, logSystem);
+                    out->_init(fileInfo, readOptions, textSystem, resourceSystem, logSystem);
                     return out;
                 }
 
@@ -188,7 +190,7 @@ namespace djv
                                 channels);
                             if (!p)
                             {
-                                throw FileSystem::Error(DJV_TEXT("error_read"));
+                                throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_read")));
                             }
                         }
                     }
@@ -217,7 +219,12 @@ namespace djv
                     public:
                         Header();
 
-                        void read(FileSystem::FileIO&, Image::Info&, bool& bgr, bool& compression);
+                        void read(
+                            FileSystem::FileIO&,
+                            Image::Info&,
+                            bool& bgr,
+                            bool& compression,
+                            const std::shared_ptr<TextSystem>&);
 
                     private:
                         struct Data
@@ -254,7 +261,12 @@ namespace djv
                         _data.descriptor = 0;
                     }
 
-                    void Header::read(FileSystem::FileIO& io, Image::Info& info, bool& bgr, bool& compression)
+                    void Header::read(
+                        FileSystem::FileIO& io,
+                        Image::Info& info,
+                        bool& bgr,
+                        bool& compression,
+                        const std::shared_ptr<TextSystem>& textSystem)
                     {
                         // Read.
                         io.readU8(&_data.idSize);
@@ -282,7 +294,7 @@ namespace djv
                         case 0:
                         case 8: break;
                         default:
-                            throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
+                            throw FileSystem::Error(textSystem->getText(DJV_TEXT("error_file_not_supported")));
                         }
                         switch (_data.imageType)
                         {
@@ -314,12 +326,12 @@ namespace djv
                         }
                         if (Image::Type::None == info.type)
                         {
-                            throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
+                            throw FileSystem::Error(textSystem->getText(DJV_TEXT("error_file_not_supported")));
                         }
                         const int bits = _data.pixelBits + alphaBits;
                         if (bits < (Image::getChannelCount(info.type) * 8) || (bits % 8) != 0)
                         {
-                            throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
+                            throw FileSystem::Error(textSystem->getText(DJV_TEXT("error_file_not_supported")));
                         }
                         compression =
                             10 == _data.imageType ||
@@ -334,7 +346,7 @@ namespace djv
                     io.setEndianConversion(Memory::getEndian() != Memory::Endian::LSB);
                     io.open(fileName, FileSystem::FileIO::Mode::Read);
                     Image::Info imageInfo;
-                    Header().read(io, imageInfo, _bgr, _compression);
+                    Header().read(io, imageInfo, _bgr, _compression, _textSystem);
                     auto info = Info(fileName, VideoInfo(imageInfo, _speed, _sequence));
                     return info;
                 }

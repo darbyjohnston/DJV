@@ -802,7 +802,10 @@ namespace djv
                             {
                                 p.ioInfo[i->first] = AV::IO::Info();
                                 std::stringstream ss;
-                                ss << DJV_TEXT("error_the_file") << " '" << p.names[i->first] << "' " << DJV_TEXT("error_cannot_be_read") << ". " << e.what();
+                                ss << _getText(DJV_TEXT("error_the_file"));
+                                ss << " '" << p.names[i->first] << "' ";
+                                ss << _getText(DJV_TEXT("error_cannot_be_read")) << ". ";
+                                ss << e.what();
                                 _log(ss.str(), LogLevel::Error);
                             }
                             i = p.ioInfoFutures.erase(i);
@@ -833,7 +836,10 @@ namespace djv
                             catch (const std::exception & e)
                             {
                                 std::stringstream ss;
-                                ss << DJV_TEXT("error_the_file") << " '" << p.names[i->first] << "' " << DJV_TEXT("error_cannot_be_read") << ". " << e.what();
+                                ss << _getText(DJV_TEXT("error_the_file"));
+                                ss << " '" << p.names[i->first] << "' ";
+                                ss << _getText(DJV_TEXT("error_cannot_be_read")) << ". ";
+                                ss << e.what();
                                 _log(ss.str(), LogLevel::Error);
                             }
                             i = p.thumbnailFutures.erase(i);

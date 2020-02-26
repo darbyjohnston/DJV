@@ -30,6 +30,7 @@
 #include <djvAV/TIFF.h>
 
 #include <djvCore/FileSystem.h>
+#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -60,12 +61,13 @@ namespace djv
                     const Info & info,
                     const WriteOptions& writeOptions,
                     const Options& options,
+                    const std::shared_ptr<TextSystem>& textSystem,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Write>(new Write);
                     out->_p->options = options;
-                    out->_init(fileInfo, info, writeOptions, resourceSystem, logSystem);
+                    out->_init(fileInfo, info, writeOptions, textSystem, resourceSystem, logSystem);
                     return out;
                 }
 
@@ -134,7 +136,7 @@ namespace djv
 #endif // DJV_WINDOWS
                     if (!f.f)
                     {
-                        throw FileSystem::Error(DJV_TEXT("error_file_open"));
+                        throw FileSystem::Error(_textSystem->getText(("error_file_open")));
                     }
 
                     const auto& info = image->getInfo();
@@ -236,7 +238,7 @@ namespace djv
                     {
                         if (TIFFWriteScanline(f.f, (tdata_t *)image->getData(y), y) == -1)
                         {
-                            throw FileSystem::Error(DJV_TEXT("error_write_scanline"));
+                            throw FileSystem::Error(_textSystem->getText(("error_write_scanline")));
                         }
                     }
                 }

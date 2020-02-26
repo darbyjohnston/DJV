@@ -33,6 +33,7 @@
 #include <djvCore/FileSystem.h>
 #include <djvCore/Memory.h>
 #include <djvCore/String.h>
+#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -221,7 +222,11 @@ namespace djv
 
                 } // namespace
 
-                Header read(FileSystem::FileIO& io, Info& info, ColorProfile& colorProfile)
+                Header read(
+                    FileSystem::FileIO& io,
+                    Info& info,
+                    ColorProfile& colorProfile,
+                    const std::shared_ptr<TextSystem>& textSystem)
                 {
                     Header out;
                     zero(out);
@@ -242,7 +247,7 @@ namespace djv
                     else
                     {
                         std::stringstream ss;
-                        ss << DJV_TEXT("error_bad_magic_number");
+                        ss << textSystem->getText(DJV_TEXT("error_bad_magic_number"));
                         throw FileSystem::Error(ss.str());
                     }
 
@@ -263,7 +268,7 @@ namespace djv
                     if (!out.image.channels)
                     {
                         std::stringstream ss;
-                        ss << DJV_TEXT("error_no_image_channels");
+                        ss << textSystem->getText(DJV_TEXT("error_no_image_channels"));
                         throw FileSystem::Error(ss.str());
                     }
                     uint8_t i = 1;
@@ -282,7 +287,7 @@ namespace djv
                     if (i < out.image.channels)
                     {
                         std::stringstream ss;
-                        ss << DJV_TEXT("error_image_channels_same_size_and_bit_depth");
+                        ss << textSystem->getText(DJV_TEXT("error_image_channels_same_size_and_bit_depth"));
                         throw FileSystem::Error(ss.str());
                     }
                     Image::Type imageType = Image::Type::None;
@@ -302,19 +307,19 @@ namespace djv
                     if (Image::Type::None == imageType)
                     {
                         std::stringstream ss;
-                        ss << DJV_TEXT("error_unsupported_bit_depth");
+                        ss << textSystem->getText(DJV_TEXT("error_unsupported_bit_depth"));
                         throw FileSystem::Error(ss.str());
                     }
                     if (isValid(&out.image.linePadding) && out.image.linePadding)
                     {
                         std::stringstream ss;
-                        ss << DJV_TEXT("error_line_padding_unsupported");
+                        ss << textSystem->getText(DJV_TEXT("error_line_padding_unsupported"));
                         throw FileSystem::Error(ss.str());
                     }
                     if (isValid(&out.image.channelPadding) && out.image.channelPadding)
                     {
                         std::stringstream ss;
-                        ss << DJV_TEXT("error_channel_padding_unsupported");
+                        ss << textSystem->getText(DJV_TEXT("error_channel_padding_unsupported"));
                         throw FileSystem::Error(ss.str());
                     }
 
@@ -325,7 +330,7 @@ namespace djv
                     if (io.getSize() - out.file.imageOffset != info.video[0].info.getDataByteCount())
                     {
                         std::stringstream ss;
-                        ss << DJV_TEXT("error_incomplete_file");
+                        ss << textSystem->getText(DJV_TEXT("error_incomplete_file"));
                         throw FileSystem::Error(ss.str());
                     }
                     switch (static_cast<Orient>(out.image.orient))
@@ -439,7 +444,11 @@ namespace djv
                     return out;
                 }
 
-                void write(FileSystem::FileIO& io, const Info& info, ColorProfile colorProfile)
+                void write(
+                    FileSystem::FileIO& io,
+                    const Info& info,
+                    ColorProfile colorProfile,
+                    const std::shared_ptr<TextSystem>& textSystem)
                 {
                     Header header;
                     zero(header);
@@ -617,12 +626,12 @@ namespace djv
 
                 std::shared_ptr<IRead> Plugin::read(const FileSystem::FileInfo & fileInfo, const ReadOptions& options) const
                 {
-                    return Read::create(fileInfo, options, _resourceSystem, _logSystem);
+                    return Read::create(fileInfo, options, _textSystem, _resourceSystem, _logSystem);
                 }
 
                 std::shared_ptr<IWrite> Plugin::write(const FileSystem::FileInfo& fileInfo, const Info & info, const WriteOptions& options) const
                 {
-                    return Write::create(fileInfo, info, options, _resourceSystem, _logSystem);
+                    return Write::create(fileInfo, info, options, _textSystem, _resourceSystem, _logSystem);
                 }
 
             } // namespace Cineon

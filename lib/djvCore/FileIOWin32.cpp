@@ -66,6 +66,7 @@ namespace djv
                 
                 std::string getErrorMessage(ErrorType type, const std::string& fileName)
                 {
+                    //! \todo How can we translate these?
                     std::stringstream ss;
                     switch (type)
                     {

@@ -38,6 +38,7 @@
 #include <djvCore/OS.h>
 #include <djvCore/Path.h>
 #include <djvCore/String.h>
+#include <djvCore/TextSystem.h>
 #include <djvCore/Timer.h>
 
 #define GLFW_INCLUDE_NONE
@@ -82,10 +83,11 @@ namespace djv
             void ISequenceRead::_init(
                 const FileSystem::FileInfo & fileInfo,
                 const ReadOptions& options,
+                const std::shared_ptr<TextSystem>& textSystem,
                 const std::shared_ptr<ResourceSystem>& resourceSystem,
                 const std::shared_ptr<LogSystem>& logSystem)
             {
-                IRead::_init(fileInfo, options, resourceSystem, logSystem);
+                IRead::_init(fileInfo, options, textSystem, resourceSystem, logSystem);
                 _speed = Time::Speed();
                 _p->running = true;
                 _p->thread = std::thread(
@@ -315,7 +317,9 @@ namespace djv
                         catch (const std::exception& e)
                         {
                             std::stringstream ss;
-                            ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_cannot_be_read") << ". " << e.what();
+                            ss << _textSystem->getText(DJV_TEXT("error_the_file"));
+                            ss << " '" << fileName << "' ";
+                            ss << _textSystem->getText(DJV_TEXT("error_cannot_be_read")) << ". " << e.what();
                             _logSystem->log("djv::AV::ISequenceRead", ss.str(), LogLevel::Error);
                         }
                         return out;
@@ -533,10 +537,11 @@ namespace djv
                 const FileSystem::FileInfo& fileInfo,
                 const Info& info,
                 const WriteOptions& options,
+                const std::shared_ptr<TextSystem>& textSystem,
                 const std::shared_ptr<ResourceSystem>& resourceSystem,
                 const std::shared_ptr<LogSystem>& logSystem)
             {
-                IWrite::_init(fileInfo, info, options, resourceSystem, logSystem);
+                IWrite::_init(fileInfo, info, options, textSystem, resourceSystem, logSystem);
 
                 DJV_PRIVATE_PTR();
 
@@ -576,7 +581,7 @@ namespace djv
                 if (!p.glfwWindow)
                 {
                     std::stringstream ss;
-                    ss << DJV_TEXT("error_glfw_window_creation");
+                    ss << _textSystem->getText(DJV_TEXT("error_glfw_window_creation"));
                     throw FileSystem::Error(ss.str());
                 }
 
@@ -646,7 +651,9 @@ namespace djv
                                     if (Image::Type::None == imageType)
                                     {
                                         std::stringstream ss;
-                                        ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_cannot_be_written") << ".";
+                                        ss << _textSystem->getText(DJV_TEXT("error_the_file"));
+                                        ss << " '" << fileName << "' ";
+                                        ss << _textSystem->getText(DJV_TEXT("error_cannot_be_written")) << ".";
                                         throw FileSystem::Error(ss.str());
                                     }
                                     const Image::Layout imageLayout = _getImageLayout();
@@ -682,8 +689,10 @@ namespace djv
                                     if (result.error)
                                     {
                                         std::stringstream ss;
-                                        ss << DJV_TEXT("error_the_file") << " '" << result.fileName << "' " <<
-                                            DJV_TEXT("error_cannot_be_written") << ". " << result.errorString;
+                                        ss << _textSystem->getText(DJV_TEXT("error_the_file"));
+                                        ss << " '" << result.fileName << "' ";
+                                        ss << _textSystem->getText(DJV_TEXT("error_cannot_be_written")) << ". ";
+                                        ss << result.errorString;
                                         _logSystem->log("djv::AV::ISequenceWrite", ss.str(), LogLevel::Error);
                                         p.running = false;
                                     }

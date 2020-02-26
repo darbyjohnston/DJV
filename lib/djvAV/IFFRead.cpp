@@ -32,6 +32,7 @@
 
 #include <djvCore/FileIO.h>
 #include <djvCore/FileSystem.h>
+#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -102,11 +103,12 @@ namespace djv
                 std::shared_ptr<Read> Read::create(
                     const FileSystem::FileInfo& fileInfo,
                     const ReadOptions& readOptions,
+                    const std::shared_ptr<TextSystem>& textSystem,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
-                    out->_init(fileInfo, readOptions, resourceSystem, logSystem);
+                    out->_init(fileInfo, readOptions, textSystem, resourceSystem, logSystem);
                     return out;
                 }
 
@@ -212,7 +214,7 @@ namespace djv
                                             xmax >= info.video[0].info.size.w ||
                                             ymax >= info.video[0].info.size.h)
                                         {
-                                            throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
+                                            throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_file_not_supported")));
                                         }
 
                                         // NOTE: tile w = xmax - xmin + 1
@@ -223,7 +225,7 @@ namespace djv
 
                                         if (!tw || !th)
                                         {
-                                            throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
+                                            throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_file_not_supported")));
                                         }
 
                                         bool tile_compress = false;
@@ -283,7 +285,7 @@ namespace djv
                                                 // Test.
                                                 if (p != imageSize - 8)
                                                 {
-                                                    throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
+                                                    throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_file_not_supported")));
                                                 }
                                             }
                                             else
@@ -304,7 +306,7 @@ namespace djv
 
                                                         if (size < static_cast<uint32_t>(byteCount))
                                                         {
-                                                            throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
+                                                            throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_file_not_supported")));
                                                         }
 
                                                         size -= byteCount;
@@ -392,7 +394,7 @@ namespace djv
                                                 // Test.
                                                 if (p != imageSize - 8)
                                                 {
-                                                    throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
+                                                    throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_file_not_supported")));
                                                 }
                                             }
                                             else
@@ -413,7 +415,7 @@ namespace djv
 
                                                         if (size < static_cast<uint32_t>(byteCount))
                                                         {
-                                                            throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
+                                                            throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_file_not_supported")));
                                                         }
 
                                                         size -= byteCount;
@@ -494,7 +496,12 @@ namespace djv
                     class Header
                     {
                     public:
-                        void read(FileSystem::FileIO&, Image::Info&, int& tiles, bool& compression);
+                        void read(
+                            FileSystem::FileIO&,
+                            Image::Info&,
+                            int& tiles,
+                            bool& compression,
+                            const std::shared_ptr<TextSystem>&);
 
                     private:
                         struct Data
@@ -514,7 +521,8 @@ namespace djv
                         FileSystem::FileIO& io,
                         Image::Info& info,
                         int& tiles,
-                        bool& compression)
+                        bool& compression,
+                        const std::shared_ptr<TextSystem>& textSystem)
                     {
                         uint8_t  type[4];
                         uint32_t size;
@@ -570,7 +578,7 @@ namespace djv
                                             // Test if size if correct.
                                             if (tbhdsize != 24 && tbhdsize != 32)
                                             {
-                                                throw FileSystem::Error(DJV_TEXT("error_reading_header"));
+                                                throw FileSystem::Error(textSystem->getText(DJV_TEXT("error_reading_header")));
                                             }
 
                                             // Set data.
@@ -604,7 +612,7 @@ namespace djv
                                             {
                                                 // no compression or non-rle compression not
                                                 // supported
-                                                throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
+                                                throw FileSystem::Error(textSystem->getText(DJV_TEXT("error_file_not_supported")));
                                             }
 
                                             // Get compressed.
@@ -742,7 +750,7 @@ namespace djv
                     io.setEndianConversion(Memory::getEndian() != Memory::Endian::MSB);
                     io.open(fileName, FileSystem::FileIO::Mode::Read);
                     Image::Info imageInfo;
-                    Header().read(io, imageInfo, _tiles, _compression);
+                    Header().read(io, imageInfo, _tiles, _compression, _textSystem);
                     auto info = Info(fileName, VideoInfo(imageInfo, _speed, _sequence));
                     return info;
                 }

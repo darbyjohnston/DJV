@@ -31,6 +31,7 @@
 
 #include <djvCore/FileIO.h>
 #include <djvCore/FileSystem.h>
+#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -59,11 +60,12 @@ namespace djv
                     const FileSystem::FileInfo& fileInfo,
                     const Info & info,
                     const WriteOptions& writeOptions,
+                    const std::shared_ptr<TextSystem>& textSystem,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Write>(new Write);
-                    out->_init(fileInfo, info, writeOptions, resourceSystem, logSystem);
+                    out->_init(fileInfo, info, writeOptions, textSystem, resourceSystem, logSystem);
                     return out;
                 }
 
@@ -234,7 +236,7 @@ namespace djv
                     }
                     if (!f.open(fileName))
                     {
-                        throw FileSystem::Error(DJV_TEXT("error_file_open"));
+                        throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_file_open")));
                     }
                     const auto& info = image->getInfo();
                     if (!pngOpen(f.f, f.png, &f.pngInfo, info))
