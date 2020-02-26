@@ -1,5 +1,5 @@
 {
-    "audio_type_None": "Žádný",
+    "audio_type_none": "Žádný",
     "audio_type_f32": "F32",
     "audio_type_f64": "F64",
     "audio_type_s16": "S16",
