@@ -131,7 +131,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const float b = style->getMetric(UI::MetricsRole::Border);
+            const float b = style->getMetric(MetricsRole::Border);
             const float sw = style->getMetric(p.swatchSizeRole);
             glm::vec2 size = glm::vec2(sw, sw);
             if (p.clickedCallback)
@@ -150,7 +150,7 @@ namespace djv
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const float b = style->getMetric(UI::MetricsRole::Border);
+            const float b = style->getMetric(MetricsRole::Border);
             const BBox2f & g = getGeometry();
 
             BBox2f g2 = g;
@@ -159,7 +159,7 @@ namespace djv
             {
                 if (hasTextFocus())
                 {
-                    render->setFillColor(style->getColor(UI::ColorRole::TextFocus));
+                    render->setFillColor(style->getColor(ColorRole::TextFocus));
                     drawBorder(render, g, b * 2.F);
                 }
                 g2 = g2.margin(-b * 2.F);
@@ -167,9 +167,32 @@ namespace djv
 
             if (p.border)
             {
-                render->setFillColor(style->getColor(UI::ColorRole::Border));
+                render->setFillColor(style->getColor(ColorRole::Border));
                 drawBorder(render, g2, b);
                 g2 = g2.margin(-b);
+            }
+
+            const float checkerSize = style->getMetric(MetricsRole::Swatch) / 5.F;
+            size_t i = 0;
+            for (float y = g2.min.y; y < g2.max.y; y += checkerSize, ++i)
+            {
+                size_t j = i % 2;
+                for (float x = g2.min.x; x < g2.max.x; x += checkerSize, ++j)
+                {
+                    if (0 == (j % 2))
+                    {
+                        render->setFillColor(AV::Image::Color(.6F, .6F, .6F));
+                    }
+                    else
+                    {
+                        render->setFillColor(AV::Image::Color(.4F, .4F, .4F));
+                    }
+                    render->drawRect(BBox2f(
+                        floorf(x),
+                        floorf(y),
+                        ceilf(checkerSize),
+                        ceilf(checkerSize)).intersect(g2));
+                }
             }
             
             render->setFillColor(p.color);

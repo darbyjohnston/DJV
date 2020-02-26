@@ -51,13 +51,12 @@ namespace djv
             {}
 
             inline AudioInfo::AudioInfo(const Audio::Info & info, size_t sampleCount) :
-                info(info),
-                sampleCount(sampleCount)
+                info(info)
             {}
 
             inline bool AudioInfo::operator == (const AudioInfo & other) const
             {
-                return info == other.info && sampleCount == other.sampleCount;
+                return info == other.info;
             }
 
             inline Info::Info()

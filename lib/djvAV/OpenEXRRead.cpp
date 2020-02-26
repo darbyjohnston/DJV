@@ -31,6 +31,7 @@
 
 #include <djvCore/FileIO.h>
 #include <djvCore/FileSystem.h>
+#include <djvCore/TextSystem.h>
 
 #include <ImfChannelList.h>
 #include <ImfHeader.h>
@@ -142,12 +143,13 @@ namespace djv
                     const FileSystem::FileInfo& fileInfo,
                     const ReadOptions& readOptions,
                     const Options& options,
+                    const std::shared_ptr<TextSystem>& textSystem,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
                     out->_p->options = options;
-                    out->_init(fileInfo, readOptions, resourceSystem, logSystem);
+                    out->_init(fileInfo, readOptions, textSystem, resourceSystem, logSystem);
                     return out;
                 }
 
@@ -284,7 +286,7 @@ namespace djv
                         }
                         if (Image::Type::None == info.type)
                         {
-                            throw FileSystem::Error(DJV_TEXT("error_unsupported_image_type"));
+                            throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_unsupported_image_type")));
                         }
                         out.video[i].sequence = _sequence;
                         out.video[i].speed = _speed;

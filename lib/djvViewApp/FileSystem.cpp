@@ -217,7 +217,6 @@ namespace djv
                             if (auto media = system->_p->currentMedia->get())
                             {
                                 media->reload();
-                                system->_cacheUpdate();
                             }
                         }
                     }

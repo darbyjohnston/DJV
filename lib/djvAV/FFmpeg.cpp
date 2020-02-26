@@ -71,7 +71,7 @@ namespace djv
                 {
                     std::map<AVSampleFormat, std::string> data =
                     {
-                        { AV_SAMPLE_FMT_NONE, DJV_TEXT("av_sample_format_None") },
+                        { AV_SAMPLE_FMT_NONE, DJV_TEXT("av_sample_format_none") },
                         { AV_SAMPLE_FMT_S16, DJV_TEXT("av_sample_format_s16") },
                         { AV_SAMPLE_FMT_S32, DJV_TEXT("av_sample_format_s32") },
                         { AV_SAMPLE_FMT_FLT, DJV_TEXT("av_sample_format_float") },
@@ -154,7 +154,7 @@ namespace djv
                 std::shared_ptr<IRead> Plugin::read(const FileSystem::FileInfo& fileInfo, const ReadOptions& options) const
                 {
                     DJV_PRIVATE_PTR();
-                    return Read::create(fileInfo, options, p.options, _resourceSystem, _logSystem);
+                    return Read::create(fileInfo, options, p.options, _textSystem, _resourceSystem, _logSystem);
                 }
 
             } // namespace FFmpeg

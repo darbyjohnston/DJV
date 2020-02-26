@@ -31,6 +31,7 @@
 
 #include <djvCore/FileIO.h>
 #include <djvCore/FileSystem.h>
+#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -53,11 +54,12 @@ namespace djv
                 std::shared_ptr<Read> Read::create(
                     const FileSystem::FileInfo& fileInfo,
                     const ReadOptions& readOptions,
+                    const std::shared_ptr<TextSystem>& textSystem,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
-                    out->_init(fileInfo, readOptions, resourceSystem, logSystem);
+                    out->_init(fileInfo, readOptions, textSystem, resourceSystem, logSystem);
                     return out;
                 }
 
@@ -133,7 +135,7 @@ namespace djv
                     io.read(magic, 2);
                     if (magic[0] != 'P')
                     {
-                        throw FileSystem::Error(DJV_TEXT("error_bad_magic_number"));
+                        throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_bad_magic_number")));
                     }
                     switch (magic[1])
                     {
@@ -143,7 +145,7 @@ namespace djv
                     case '6': break;
                     default:
                     {
-                        throw FileSystem::Error(DJV_TEXT("error_bad_magic_number"));
+                        throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_bad_magic_number")));
                     }
                     }
                     const int ppmType = magic[1] - '0';
@@ -169,14 +171,14 @@ namespace djv
                     const auto imageType = Image::getIntType(channelCount, bitDepth);
                     if (Image::Type::None == imageType)
                     {
-                        throw FileSystem::Error(DJV_TEXT("error_unsupported_image_type"));
+                        throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_unsupported_image_type")));
                     }
                     Image::Layout layout;
                     layout.endian = data != Data::ASCII ? Memory::Endian::MSB : Memory::getEndian();
                     auto info = Image::Info(w, h, imageType, layout);
                     if (Data::Binary == data && io.getSize() - io.getPos() != info.getDataByteCount())
                     {
-                        throw FileSystem::Error(DJV_TEXT("error_incomplete_file"));
+                        throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_incomplete_file")));
                     }
                     return Info(fileName, VideoInfo(info, _speed, _sequence));
                 }

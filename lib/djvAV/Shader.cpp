@@ -73,6 +73,7 @@ namespace djv
                 }
                 catch (const std::exception & e)
                 {
+                    //! \todo How can we translate these?
                     std::stringstream ss;
                     ss << DJV_TEXT("error_the_shader_creation") << ". " << e.what();
                     throw ShaderError(ss.str());

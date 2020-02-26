@@ -87,13 +87,16 @@ namespace djv
                 if (value == p.name)
                     return;
                 p.imageFuture = std::future<std::shared_ptr<AV::Image::Image> >();
-                p.image.reset();
                 p.name = value;
                 if (!p.name.empty())
                 {
                     auto iconSystem = context->getSystemT<IconSystem>();
                     const auto& style = _getStyle();
                     p.imageFuture = iconSystem->getIcon(p.name, style->getMetric(MetricsRole::Icon));
+                }
+                else
+                {
+                    p.image.reset();
                 }
                 _resize();
             }
@@ -218,7 +221,7 @@ namespace djv
                 }
                 catch (const std::exception & e)
                 {
-                    p.image = nullptr;
+                    p.image.reset();
                     _log(e.what(), LogLevel::Error);
                 }
                 _resize();

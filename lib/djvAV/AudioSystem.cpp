@@ -33,6 +33,7 @@
 #include <djvCore/CoreSystem.h>
 #include <djvCore/Error.h>
 #include <djvCore/OS.h>
+#include <djvCore/TextSystem.h>
 
 #include <RtAudio.h>
 
@@ -46,6 +47,7 @@ namespace djv
         {
             struct System::Private
             {
+                std::shared_ptr<TextSystem> textSystem;
                 std::unique_ptr<RtAudio> rtAudio;
             };
 
@@ -55,6 +57,8 @@ namespace djv
                 DJV_PRIVATE_PTR();
 
                 addDependency(context->getSystemT<CoreSystem>());
+
+                p.textSystem = context->getSystemT<TextSystem>();
 
                 {
                     std::stringstream ss;
@@ -154,7 +158,7 @@ namespace djv
                 catch (const std::exception& e)
                 {
                     std::stringstream ss;
-                    ss << DJV_TEXT("error_rtaudio_init") << ". " << e.what();
+                    ss << p.textSystem->getText(DJV_TEXT("error_rtaudio_init")) << ". " << e.what();
                     _log(ss.str(), LogLevel::Error);
                 }
             }

@@ -180,6 +180,7 @@ namespace djv
 
             p.lineEditBase = LineEditBase::create(context);
             p.lineEditBase->setFont(AV::Font::familyMono);
+            p.lineEditBase->installEventFilter(shared_from_this());
             addChild(p.lineEditBase);
 
             p.buttons = NumericEditButtons::create(context);
@@ -298,29 +299,33 @@ namespace djv
             drawBorder(render, g2, b);
         }
 
-        void NumericEdit::_keyPressEvent(Event::KeyPress& event)
+        bool NumericEdit::_eventFilter(const std::shared_ptr<IObject>& object, Event::Event& event)
         {
-            Widget::_keyPressEvent(event);
             DJV_PRIVATE_PTR();
-            if (!event.isAccepted() && p.lineEditBase->hasTextFocus())
+            switch (event.getEventType())
             {
-                if (_keyPress(event.getKey()))
+            case Event::Type::KeyPress:
+            {
+                auto& keyPressEvent = static_cast<Event::KeyPress&>(event);
+                if (_keyPress(keyPressEvent.getKey()))
                 {
-                    event.accept();
+                    keyPressEvent.accept();
+                    return true;
                 }
+                break;
             }
-        }
-
-        void NumericEdit::_scrollEvent(Event::Scroll& event)
-        {
-            DJV_PRIVATE_PTR();
-            if (isEnabled(true))
+            case Event::Type::Scroll:
             {
-                event.accept();
+                auto& scrollEvent = static_cast<Event::Scroll&>(event);
+                scrollEvent.accept();
                 p.lineEditBase->takeTextFocus();
-                _scroll(event.getScrollDelta().y);
+                _scroll(scrollEvent.getScrollDelta().y);
+                return true;
             }
-        }
+            default: break;
+            }
+            return false;
+         }
 
     } // namespace UI
 } // namespace djv

@@ -58,12 +58,13 @@ namespace djv
                     const Info & info,
                     const WriteOptions& writeOptions,
                     const Options& options,
+                    const std::shared_ptr<TextSystem>& textSystem,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Write>(new Write);
                     out->_p->options = options;
-                    out->_init(fileInfo, info, writeOptions, resourceSystem, logSystem);
+                    out->_init(fileInfo, info, writeOptions, textSystem, resourceSystem, logSystem);
                     return out;
                 }
 

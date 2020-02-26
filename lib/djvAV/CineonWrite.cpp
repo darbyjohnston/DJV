@@ -57,11 +57,12 @@ namespace djv
                     const FileSystem::FileInfo& fileInfo,
                     const Info & info,
                     const WriteOptions& writeOptions,
+                    const std::shared_ptr<TextSystem>& textSystem,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Write>(new Write);
-                    out->_init(fileInfo, info, writeOptions, resourceSystem, logSystem);
+                    out->_init(fileInfo, info, writeOptions, textSystem, resourceSystem, logSystem);
                     return out;
                 }
 
@@ -85,7 +86,7 @@ namespace djv
                     Info info;
                     info.video.push_back(image->getInfo());
                     info.tags = image->getTags();
-                    write(io, info, _options.colorSpace.empty() ? ColorProfile::Raw : ColorProfile::FilmPrint);
+                    write(io, info, _options.colorSpace.empty() ? ColorProfile::Raw : ColorProfile::FilmPrint, _textSystem);
                     io.write(image->getData(), image->getDataByteCount());
                     writeFinish(io);
                 }

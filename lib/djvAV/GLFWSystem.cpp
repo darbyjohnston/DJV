@@ -35,6 +35,7 @@
 #include <djvCore/CoreSystem.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/OS.h>
+#include <djvCore/TextSystem.h>
 #include <djvCore/Vector.h>
 
 #define GLFW_INCLUDE_NONE
@@ -91,19 +92,19 @@ namespace djv
 
             } // namespace
 
-            std::string getErrorMessage(ErrorString error)
+            std::string getErrorMessage(ErrorString error, const std::shared_ptr<TextSystem>& textSystem)
             {
                 std::stringstream ss;
                 switch (error)
                 {
                 case ErrorString::Init:
-                    ss << DJV_TEXT("error_glfw_init");
+                    ss << textSystem->getText(DJV_TEXT("error_glfw_init"));
                     break;
                 case ErrorString::Window:
-                    ss << DJV_TEXT("error_glfw_window_creation");
+                    ss << textSystem->getText(DJV_TEXT("error_glfw_window_creation"));
                     break;
                 case ErrorString::GLAD:
-                    ss << DJV_TEXT("error_glad_init");
+                    ss << textSystem->getText(DJV_TEXT("error_glad_init"));
                     break;
                 default: break;
                 }
@@ -116,6 +117,7 @@ namespace djv
 
             struct System::Private
             {
+                std::shared_ptr<TextSystem> textSystem;
                 GLFWwindow* glfwWindow = nullptr;
             };
 
@@ -126,6 +128,8 @@ namespace djv
                 DJV_PRIVATE_PTR();
 
                 addDependency(context->getSystemT<CoreSystem>());
+
+                p.textSystem = context->getSystemT<TextSystem>();
 
                 // Initialize GLFW.
                 glfwSetErrorCallback(glfwErrorCallback);
@@ -140,7 +144,7 @@ namespace djv
                 }
                 if (!glfwInit())
                 {
-                    throw Error(getErrorMessage(ErrorString::Init));
+                    throw Error(getErrorMessage(ErrorString::Init, p.textSystem));
                 }
 
                 // Create a window.
@@ -167,7 +171,7 @@ namespace djv
                     context->getName().c_str(), NULL, NULL);
                 if (!p.glfwWindow)
                 {
-                    throw Error(AV::GLFW::getErrorMessage(ErrorString::Window));
+                    throw Error(AV::GLFW::getErrorMessage(ErrorString::Window, p.textSystem));
                 }
                 {
                     int glMajor = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_VERSION_MAJOR);
@@ -185,7 +189,7 @@ namespace djv
                 if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 #endif
                 {
-                    throw Error(AV::GLFW::getErrorMessage(ErrorString::GLAD));
+                    throw Error(AV::GLFW::getErrorMessage(ErrorString::GLAD, p.textSystem));
                 }
 #if defined(DJV_OPENGL_ES2)
 #else // DJV_OPENGL_ES2

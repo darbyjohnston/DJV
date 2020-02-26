@@ -58,7 +58,7 @@ namespace djv
 
                 std::shared_ptr<IRead> Plugin::read(const FileSystem::FileInfo& fileInfo, const ReadOptions& options) const
                 {
-                    return Read::create(fileInfo, options, _resourceSystem, _logSystem);
+                    return Read::create(fileInfo, options, _textSystem, _resourceSystem, _logSystem);
                 }
 
             } // namespace IFF

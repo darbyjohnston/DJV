@@ -52,6 +52,7 @@ namespace djv
     {
         class LogSystem;
         class ResourceSystem;
+        class TextSystem;
 
     } // namespace Core
 
@@ -86,7 +87,6 @@ namespace djv
                 AudioInfo(const Audio::Info &, size_t sampleCount = 0);
 
                 Audio::Info info;
-                size_t sampleCount = 0;
                 std::string codec;
 
                 bool operator == (const AudioInfo &) const;
@@ -205,6 +205,7 @@ namespace djv
                 void _init(
                     const Core::FileSystem::FileInfo&,
                     const IOOptions&,
+                    const std::shared_ptr<Core::TextSystem>&,
                     const std::shared_ptr<Core::ResourceSystem>&,
                     const std::shared_ptr<Core::LogSystem>&);
 
@@ -223,6 +224,7 @@ namespace djv
             protected:
                 std::shared_ptr<Core::LogSystem> _logSystem;
                 std::shared_ptr<Core::ResourceSystem> _resourceSystem;
+                std::shared_ptr<Core::TextSystem> _textSystem;
                 Core::FileSystem::FileInfo _fileInfo;
                 std::mutex _mutex;
                 VideoQueue _videoQueue;
@@ -309,6 +311,7 @@ namespace djv
                 void _init(
                     const Core::FileSystem::FileInfo&,
                     const ReadOptions&,
+                    const std::shared_ptr<Core::TextSystem>&,
                     const std::shared_ptr<Core::ResourceSystem>&,
                     const std::shared_ptr<Core::LogSystem>&);
 
@@ -360,6 +363,7 @@ namespace djv
                     const Core::FileSystem::FileInfo &,
                     const Info &,
                     const WriteOptions&,
+                    const std::shared_ptr<Core::TextSystem>&,
                     const std::shared_ptr<Core::ResourceSystem>&,
                     const std::shared_ptr<Core::LogSystem>&);
 
@@ -410,6 +414,7 @@ namespace djv
                 std::weak_ptr<Core::Context> _context;
                 std::shared_ptr<Core::LogSystem> _logSystem;
                 std::shared_ptr<Core::ResourceSystem> _resourceSystem;
+                std::shared_ptr<Core::TextSystem> _textSystem;
                 std::string _pluginName;
                 std::string _pluginInfo;
                 std::set<std::string> _fileExtensions;

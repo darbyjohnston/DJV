@@ -300,6 +300,8 @@ namespace djv
             p.audioVolumeSlider = UI::FloatSlider::create(context);
             p.audioVolumeSlider->setRange(FloatRange(0.F, 100.F));
             p.audioVolumeSlider->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            p.audioVolumeSlider->getModel()->setSmallIncrement(1.F);
+            p.audioVolumeSlider->getModel()->setLargeIncrement(10.F);
             p.audioMuteButton = UI::ToolButton::create(context);
             p.audioMuteButton->setIcon("djvIconAudioMute");
             p.audioMuteButton->setButtonType(UI::ButtonType::Toggle);
@@ -1382,7 +1384,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.audioVolumeSlider->setValue(p.audioVolume * 100.F);
             p.audioMuteButton->setChecked(p.audioMute);
-            if (!p.audioEnabled || p.audioMute)
+            p.audioPopupWidget->setVisible(p.audioEnabled);
+            if (p.audioMute)
             {
                 p.audioPopupWidget->setIcon("djvIconAudioMute");
             }

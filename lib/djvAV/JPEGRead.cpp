@@ -32,6 +32,7 @@
 #include <djvCore/Context.h>
 #include <djvCore/FileIO.h>
 #include <djvCore/FileSystem.h>
+#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -81,11 +82,12 @@ namespace djv
                 std::shared_ptr<Read> Read::create(
                     const FileSystem::FileInfo& fileInfo,
                     const ReadOptions& readOptions,
+                    const std::shared_ptr<TextSystem>& textSystem,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
-                    out->_init(fileInfo, readOptions, resourceSystem, logSystem);
+                    out->_init(fileInfo, readOptions, textSystem, resourceSystem, logSystem);
                     return out;
                 }
 
@@ -205,7 +207,7 @@ namespace djv
                     f.f = FileSystem::fopen(fileName, "rb");
                     if (!f.f)
                     {
-                        throw FileSystem::Error(DJV_TEXT("error_file_open"));
+                        throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_file_open")));
                     }
                     if (!jpegOpen(f.f, &f.jpeg, &f.jpegError))
                     {
@@ -215,7 +217,7 @@ namespace djv
                     Image::Type imageType = Image::getIntType(f.jpeg.out_color_components, 8);
                     if (Image::Type::None == imageType)
                     {
-                        throw FileSystem::Error(DJV_TEXT("error_unsupported_color_components"));
+                        throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_unsupported_color_components")));
                     }
                     auto info = Info(fileName, VideoInfo(Image::Info(f.jpeg.output_width, f.jpeg.output_height, imageType), _speed, _sequence));
 
