@@ -121,7 +121,8 @@ if (WIN32)
         FileInfoWin32.cpp
         FileSystemWin32.cpp
         OSWin32.cpp
-        PathWin32.cpp)
+        PathWin32.cpp
+        TimeWin32.cpp)
 else()
     set(source
         ${source}
@@ -131,7 +132,8 @@ else()
         FileInfoUnix.cpp
         FileSystemUnix.cpp
         OSUnix.cpp
-        PathUnix.cpp)
+        PathUnix.cpp
+        TimeUnix.cpp)
 endif()
 
 add_library(djvCore ${header} ${source})

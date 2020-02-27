@@ -44,6 +44,13 @@ namespace djv
             //! This typedef provides the time units.
             typedef std::chrono::microseconds Unit;
 
+            //! \name Time Utilities
+            ///@{
+
+            void nanosleep(const Unit&);
+
+            ///@}
+
             //! \name Time Conversion
             ///@{
 

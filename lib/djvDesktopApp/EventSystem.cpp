@@ -393,6 +393,7 @@ namespace djv
                     GL_COLOR_BUFFER_BIT,
                     GL_NEAREST);
 #endif // DJV_OPENGL_ES2
+                glfwSwapBuffers(p.glfwWindow);
             }
         }
 
