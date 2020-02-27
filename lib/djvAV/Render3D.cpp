@@ -184,6 +184,7 @@ namespace djv
                     cameraP[2][2] = p.options.clip.min / (p.options.clip.min - p.options.clip.max);
                     cameraP[3][2] = (p.options.clip.max * p.options.clip.min) / (p.options.clip.min - p.options.clip.max);
                     break;
+                default: break;
                 }
                 glDisable(GL_BLEND);
                 //glEnable(GL_POINT_SMOOTH);
