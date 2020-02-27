@@ -232,6 +232,9 @@ namespace djv
                     {
                         i->resize(glm::vec2(size.w, size.h));
 
+                        Event::InitLayout initLayout;
+                        _initLayoutRecursive(i, initLayout);
+
                         Event::PreLayout preLayout;
                         _preLayoutRecursive(i, preLayout);
 

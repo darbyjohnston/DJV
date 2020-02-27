@@ -498,7 +498,6 @@ namespace djv
                         }
                         {
                             render->setFillColor(style->getColor(ColorRole::Foreground));
-                            render->setCurrentFont(style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium));
                             switch (p.viewType)
                             {
                             case ViewType::Tiles:

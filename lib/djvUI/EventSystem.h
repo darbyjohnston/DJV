@@ -60,7 +60,8 @@ namespace djv
             bool _resizeRequest(const std::shared_ptr<Widget> &) const;
             bool _redrawRequest(const std::shared_ptr<Widget> &) const;
 
-            void _preLayoutRecursive(const std::shared_ptr<Widget> &, Core::Event::PreLayout &);
+            void _initLayoutRecursive(const std::shared_ptr<Widget>&, Core::Event::InitLayout&);
+            void _preLayoutRecursive(const std::shared_ptr<Widget>&, Core::Event::PreLayout&);
             void _layoutRecursive(const std::shared_ptr<Widget> &, Core::Event::Layout &);
             void _clipRecursive(const std::shared_ptr<Widget> &, Core::Event::Clip &);
             void _paintRecursive(

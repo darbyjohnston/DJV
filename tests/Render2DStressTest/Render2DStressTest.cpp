@@ -315,9 +315,8 @@ void Application::_drawRandomCircle()
 void Application::_drawRandomText()
 {
     _render2D->setFillColor(_currentColor->c);
-    const AV::Font::Info fontInfo(1, 1, _currentText->size, AV::dpiDefault);
-    _render2D->setCurrentFont(fontInfo);
     auto fontSystem = getSystemT<AV::Font::System>();
+    const AV::Font::Info fontInfo(1, 1, _currentText->size, AV::dpiDefault);
     _render2D->drawText(fontSystem->getGlyphs(_currentText->s, fontInfo).get(), _currentPos->v);
     _currentColor = _currentColor->next;
     _currentPos = _currentPos->next;

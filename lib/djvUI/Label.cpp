@@ -52,7 +52,7 @@ namespace djv
             TextVAlign textVAlign = TextVAlign::Center;
             ColorRole textColorRole = ColorRole::Foreground;
             std::string font;
-            std::string fontFace = AV::Font::faceDefault;
+            std::string fontFace;
             MetricsRole fontSizeRole = MetricsRole::FontMedium;
             AV::Font::Info fontInfo;
             AV::Font::Metrics fontMetrics;
@@ -64,6 +64,8 @@ namespace djv
             std::future<glm::vec2> sizeStringFuture;
             std::vector<std::shared_ptr<AV::Font::Glyph> > glyphs;
             std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > glyphsFuture;
+            glm::vec2 minimumSize = glm::vec2(0.F, 0.F);
+            std::weak_ptr<LabelSizeGroup> sizeGroup;
         };
 
         void Label::_init(const std::shared_ptr<Context>& context)
@@ -200,12 +202,38 @@ namespace djv
             _sizeStringUpdate();
         }
 
-        void Label::_preLayoutEvent(Event::PreLayout &)
+        void Label::setSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)
+        {
+            auto label = std::dynamic_pointer_cast<Label>(shared_from_this());
+            if (auto sizeGroup = _p->sizeGroup.lock())
+            {
+                sizeGroup->removeLabel(label);
+            }
+            _p->sizeGroup = value;
+            if (auto sizeGroup = _p->sizeGroup.lock())
+            {
+                sizeGroup->addLabel(label);
+            }
+        }
+
+        void Label::_initLayoutEvent(Event::InitLayout&)
         {
             DJV_PRIVATE_PTR();
             const glm::vec2 size(glm::max(p.textSize.x, p.sizeStringSize.x), p.fontMetrics.lineHeight);
             const auto& style = _getStyle();
-            _setMinimumSize(size + getMargin().getSize(style));
+            p.minimumSize = size + getMargin().getSize(style);
+            _setMinimumSize(p.minimumSize);
+        }
+
+        void Label::_preLayoutEvent(Event::PreLayout&)
+        {
+            DJV_PRIVATE_PTR();
+            glm::vec2 minimumSize = p.minimumSize;
+            if (auto sizeGroup = p.sizeGroup.lock())
+            {
+                minimumSize = sizeGroup->getMinimumSize();
+            }
+            _setMinimumSize(minimumSize);
         }
 
         void Label::_paintEvent(Event::Paint & event)
@@ -222,7 +250,6 @@ namespace djv
                 //render->setFillColor(AV::Image::Color(1.F, 0.F, 0.F, .5F));
                 //render->drawRect(g);
 
-                render->setCurrentFont(p.fontInfo);
                 glm::vec2 pos = g.min;
                 switch (p.textHAlign)
                 {
@@ -354,6 +381,79 @@ namespace djv
             p.fontMetricsFuture = p.fontSystem->getMetrics(p.fontInfo);
             _textUpdate();
             _sizeStringUpdate();
+        }
+
+        struct LabelSizeGroup::Private
+        {
+            std::vector<std::weak_ptr<Label> > labels;
+            glm::vec2 minimumSize = glm::vec2(0.F, 0.F);
+        };
+
+        LabelSizeGroup::LabelSizeGroup() :
+            _p(new Private)
+        {}
+
+        LabelSizeGroup::~LabelSizeGroup()
+        {}
+
+        std::shared_ptr<LabelSizeGroup> LabelSizeGroup::create()
+        {
+            return std::shared_ptr<LabelSizeGroup>(new LabelSizeGroup);
+        }
+
+        void LabelSizeGroup::addLabel(const std::weak_ptr<Label>& value)
+        {
+            DJV_PRIVATE_PTR();
+            p.labels.push_back(value);
+        }
+
+        void LabelSizeGroup::removeLabel(const std::weak_ptr<Label>& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (auto label = value.lock())
+            {
+                for (auto i = p.labels.begin(); i != p.labels.end(); ++i)
+                {
+                    if (auto otherLabel = i->lock())
+                    {
+                        if (label == otherLabel)
+                        {
+                            p.labels.erase(i);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        void LabelSizeGroup::clearLabels()
+        {
+            DJV_PRIVATE_PTR();
+            p.labels.clear();
+        }
+
+        const glm::vec2& LabelSizeGroup::getMinimumSize() const
+        {
+            return _p->minimumSize;
+        }
+
+        void LabelSizeGroup::calcMinimumSize()
+        {
+            DJV_PRIVATE_PTR();
+            p.minimumSize = glm::vec2(0.F, 0.F);
+            auto i = p.labels.begin();
+            while (i != p.labels.end())
+            {
+                if (auto label = i->lock())
+                {
+                    p.minimumSize = glm::max(p.minimumSize, label->getMinimumSize());
+                    ++i;
+                }
+                else
+                {
+                    i = p.labels.erase(i);
+                }
+            }
         }
 
     } // namespace UI

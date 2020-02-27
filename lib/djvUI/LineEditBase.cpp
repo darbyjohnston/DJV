@@ -68,7 +68,7 @@ namespace djv
             ColorRole textColorRole = ColorRole::Foreground;
             MetricsRole textSizeRole = MetricsRole::TextColumn;
             std::string font;
-            std::string fontFace = AV::Font::faceDefault;
+            std::string fontFace;
             MetricsRole fontSizeRole = MetricsRole::FontMedium;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
@@ -78,6 +78,7 @@ namespace djv
             std::string sizeString;
             glm::vec2 sizeStringSize = glm::vec2(0.F, 0.F);
             std::future<glm::vec2> sizeStringFuture;
+            glm::vec2 widgetSize = glm::vec2(0.F, 0.F);
             float viewOffset = 0.F;
             size_t cursorPos = 0;
             size_t selectionAnchor = std::string::npos;
@@ -275,6 +276,14 @@ namespace djv
 
         void LineEditBase::_layoutEvent(Event::Layout&)
         {
+            DJV_PRIVATE_PTR();
+            const BBox2f& g = getGeometry();
+            const glm::vec2 size = g.getSize();
+            if (size != p.widgetSize)
+            {
+                p.widgetSize = size;
+                p.viewOffset = 0.F;
+            }
             _viewUpdate();
         }
 
@@ -342,10 +351,6 @@ namespace djv
             // Draw the text.
             if (p.glyphs.size())
             {
-                auto fontInfo = p.font.empty() ?
-                    style->getFontInfo(p.fontFace, p.fontSizeRole) :
-                    style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
-                render->setCurrentFont(fontInfo);
                 render->setFillColor(style->getColor(p.textColorRole));
                 glm::vec2 pos = g.min;
                 pos += m;

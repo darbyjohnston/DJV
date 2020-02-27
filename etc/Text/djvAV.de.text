@@ -128,7 +128,6 @@
     "exr_compression_rle": "RLE",
     "exr_compression_zip": "ZIP",
     "exr_compression_zips": "ZIPS",
-<<<<<<< HEAD
     "offscreen_depth_type_24": "24",
     "offscreen_depth_type_32": "32",
     "offscreen_depth_type_none": "Keiner",
@@ -137,19 +136,6 @@
     "offscreen_sampling_4": "4",
     "offscreen_sampling_8": "8",
     "offscreen_sampling_none": "Keiner",
-    "plugin_cineon_io": "Dieses Plugin bietet Cineon Image I / O.",
-    "plugin_dpx_io": "Dieses Plugin bietet DPX-Image-E / A.",
-    "plugin_ffmpeg_io": "Dieses Plugin bietet FFmpeg-Bild- und Audio-E / A.",
-    "plugin_iff_io": "Dieses Plugin bietet IFF-Image-E / A.",
-    "plugin_jpeg_io": "Dieses Plugin bietet JPEG-Bild-E / A (Joint Photographic Experts Group).",
-    "plugin_netpbm_io": "Dieses Plugin bietet NetPBM-Image-E / A.",
-    "plugin_openexr_io": "Dieses Plugin bietet OpenEXR-Datei-E / A.",
-    "plugin_png_i_o": "Dieses Plugin bietet PNG-Image-E / A (Portable Network Graphics).",
-    "plugin_rla_io": "Dieses Plugin bietet RLA-Image-E / A.",
-    "plugin_sgi_io": "Dieses Plugin bietet SGI-Image-E / A.",
-    "plugin_targa_io": "Dieses Plugin bietet Targa Image I / O.",
-    "plugin_tiff_io": "Dieses Plugin bietet TIFF-Bild-E / A (Tagged Image File Format).",
-=======
     "plugin_cineon_io": "Dieses Plugin bietet Cineon Image I/O",
     "plugin_dpx_io": "Dieses Plugin bietet DPX-Image-I/O",
     "plugin_ffmpeg_io": "Dieses Plugin bietet FFmpeg-Bild- und Audio-I/O",
@@ -162,7 +148,6 @@
     "plugin_sgi_io": "Dieses Plugin bietet SGI-Image-I/O",
     "plugin_targa_io": "Dieses Plugin bietet Targa Image I/O",
     "plugin_tiff_io": "Dieses Plugin bietet TIFF-Bild-I/O (Tagged Image File Format).",
->>>>>>> master
     "ppm_type_ascii": "ASCII",
     "ppm_type_binary": "Binär",
     "render_filter_linear": "Linear",
@@ -175,8 +160,7 @@
     "render_image_channel_none": "Alpha",
     "render_image_channel_red": "Rot",
     "tiff_compression_lzw": "LZW",
-<<<<<<< HEAD
-    "tiff_compression_none": "Keiner",
+    "tiff_compression_none": "Keine",
     "tiff_compression_rle": "RLE",
     "vbo_type_pos2_f32_uv_u16": "Pos2_F32_UV_U16",
     "vbo_type_pos3_f32": "Pos3_F32",
@@ -184,8 +168,4 @@
     "vbo_type_pos3_f32_uv_f32_normal_f32_color_f32": "Pos3_F32_UV_F32_Normal_F32_Color_F32",
     "vbo_type_pos3_f32_uv_u16_normal_u10": "Pos3_F32_UV_U16_Normal_U10",
     "vbo_type_pos3_f32_uv_u16_normal_u10_color_u8": "Pos3_F32_UV_U16_Normal_U10_Color_U8"
-=======
-    "tiff_compression_none": "Keine",
-    "tiff_compression_rle": "RLE"
->>>>>>> master
 }

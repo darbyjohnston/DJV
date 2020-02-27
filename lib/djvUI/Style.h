@@ -139,7 +139,10 @@ namespace djv
                 std::string _font = AV::Font::familyDefault;
                 std::map<AV::Font::FamilyID, std::string> _fontNames;
                 std::map<std::string, AV::Font::FamilyID> _fontNameToId;
+                std::map<AV::Font::FamilyID, std::map<AV::Font::FaceID, std::string> > _fontFaces;
+                std::map<std::pair<AV::Font::FamilyID, std::string>, AV::Font::FaceID> _fontFaceToId;
                 std::shared_ptr<Core::MapObserver<AV::Font::FamilyID, std::string> > _fontNamesObserver;
+                std::shared_ptr<Core::MapObserver<AV::Font::FamilyID, std::map<AV::Font::FaceID, std::string> > > _fontFacesObserver;
                 bool _dirty = true;
             };
 

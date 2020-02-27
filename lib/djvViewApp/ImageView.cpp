@@ -739,7 +739,6 @@ namespace djv
                     }
 
                     render->setFillColor(style->getColor(UI::ColorRole::Foreground));
-                    render->setCurrentFont(style->getFontInfo(AV::Font::familyMono, AV::Font::faceDefault, UI::MetricsRole::FontSmall));
                     x = g.min.x + imagePos.x + m;
                     y = p.lockFrame.min.y + m;
                     for (size_t i = 0; i < p.text[UI::Orientation::Horizontal].size(); ++i)

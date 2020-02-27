@@ -42,6 +42,7 @@ namespace djv
         DJV_TEXT("event_child_order"),
         DJV_TEXT("event_init"),
         DJV_TEXT("event_update"),
+        DJV_TEXT("event_init_layout"),
         DJV_TEXT("event_pre_layout"),
         DJV_TEXT("event_layout"),
         DJV_TEXT("event_clip"),

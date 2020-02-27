@@ -162,6 +162,9 @@ namespace djv
                 //! Observe the font names.
                 std::shared_ptr<Core::IMapSubject<FamilyID, std::string> > observeFontNames() const;
 
+                //! Observe the font faces.
+                std::shared_ptr<Core::IMapSubject<FamilyID, std::map<FaceID, std::string> > > observeFontFaces() const;
+
                 //! Get font metrics.
                 std::future<Metrics> getMetrics(const Info &);
 

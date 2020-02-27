@@ -327,7 +327,6 @@ namespace djv
                     if (j != _itemToAction.end() && j->second)
                     {
                         y = i.second->geom.min.y + ceilf(i.second->size.y / 2.F) - ceilf(i.second->fontMetrics.lineHeight / 2.F) + i.second->fontMetrics.ascender;
-                        render->setCurrentFont(i.second->fontInfo);
                         render->drawText(i.second->textGlyphs, glm::vec2(x + m, y));
                         x += i.second->textSize.x + m * 2.F;
 

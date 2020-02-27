@@ -43,27 +43,14 @@ void SettingsWidget::_init(const std::shared_ptr<Core::Context>& context)
 
     setBackgroundRole(UI::ColorRole::Background);
 
-    _buttonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
-    _buttonLayout = UI::VerticalLayout::create(context);
-    _buttonLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+    _sizeGroup = UI::LabelSizeGroup::create();
+
+    _childLayout = UI::VerticalLayout::create(context);
+    _childLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
     _scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
     _scrollWidget->setBorder(false);
-    _scrollWidget->addChild(_buttonLayout);
-
-    _layout = UI::SoloLayout::create(context);
-    _layout->addChild(_scrollWidget);
-    _layout->setCurrentWidget(_scrollWidget);
-    Widget::addChild(_layout);
-
-    auto weak = std::weak_ptr<SettingsWidget>(std::dynamic_pointer_cast<SettingsWidget>(shared_from_this()));
-    _buttonGroup->setPushCallback(
-        [weak](int index)
-        {
-            if (auto widget = weak.lock())
-            {
-                widget->_layout->setCurrentIndex(index + 1);
-            }
-        });
+    _scrollWidget->addChild(_childLayout);
+    Widget::addChild(_scrollWidget);
 }
 
 SettingsWidget::SettingsWidget()
@@ -81,64 +68,50 @@ std::shared_ptr<SettingsWidget> SettingsWidget::create(const std::shared_ptr<Cor
 
 float SettingsWidget::getHeightForWidth(float value) const
 {
-    return _layout->getHeightForWidth(value);
+    return _scrollWidget->getHeightForWidth(value);
 }
 
 void SettingsWidget::addChild(const std::shared_ptr<IObject>& value)
 {
-    if (auto context = getContext().lock())
+    if (auto widget = std::dynamic_pointer_cast<ISettingsWidget>(value))
     {
-        if (auto widget = std::dynamic_pointer_cast<ISettingsWidget>(value))
-        {
-            _layout->addChild(value);
-            
-            auto button = UI::ListButton::create(context);
-            button->setInsideMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
-            _buttons[widget] = button;
-            _buttonGroup->addButton(button);
-            _buttonLayout->addChild(button);
-            _titleObservers[widget] = Core::ValueObserver<std::string>::create(
-                widget->observeTitle(),
-                [button](const std::string& value)
-                {
-                    button->setText(value);
-                });
-
-            auto weak = std::weak_ptr<SettingsWidget>(std::dynamic_pointer_cast<SettingsWidget>(shared_from_this()));
-            widget->setBackCallback(
-                [weak]
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_layout->setCurrentWidget(widget->_scrollWidget);
-                    }
-                });
-        }
+        widget->setSizeGroup(_sizeGroup);
     }
+    _childLayout->addChild(value);
 }
 
 void SettingsWidget::removeChild(const std::shared_ptr<IObject>& value)
 {
-    _layout->removeChild(value);
-    auto i = _buttons.find(std::dynamic_pointer_cast<ISettingsWidget>(value));
-    if (i != _buttons.end())
+    if (auto widget = std::dynamic_pointer_cast<ISettingsWidget>(value))
     {
-        _buttonLayout->removeChild(i->second);
+        widget->setSizeGroup(std::weak_ptr<UI::LabelSizeGroup>());
     }
+    _childLayout->removeChild(value);
 }
 
 void SettingsWidget::clearChildren()
 {
-    _layout->clearChildren();
-    _buttonLayout->clearChildren();
+    for (auto i : getChildWidgets())
+    {
+        if (auto widget = std::dynamic_pointer_cast<ISettingsWidget>(i))
+        {
+            widget->setSizeGroup(std::weak_ptr<UI::LabelSizeGroup>());
+        }
+    }
+    _childLayout->clearChildren();
+}
+
+void SettingsWidget::_initLayoutEvent(Core::Event::InitLayout& event)
+{
+    _sizeGroup->calcMinimumSize();
 }
 
 void SettingsWidget::_preLayoutEvent(Core::Event::PreLayout& event)
 {
-    _setMinimumSize(_layout->getMinimumSize());
+    _setMinimumSize(_scrollWidget->getMinimumSize());
 }
 
 void SettingsWidget::_layoutEvent(Core::Event::Layout&)
 {
-    _layout->setGeometry(getGeometry());
+    _scrollWidget->setGeometry(getGeometry());
 }

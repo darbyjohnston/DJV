@@ -179,7 +179,10 @@ namespace djv
                 std::mutex fontNamesMutex;
                 std::shared_ptr<Time::Timer> fontNamesTimer;
                 std::map<FamilyID, std::map<FaceID, std::string> > fontFaceNames;
+                std::shared_ptr<MapSubject<FamilyID, std::map<FaceID, std::string> > > fontFaceNamesSubject;
                 std::map<FamilyID, std::map<FaceID, FT_Face> > fontFaces;
+                std::map<std::string, FamilyID> fontNameToID;
+                std::map<std::pair<FamilyID, std::string>, FamilyID> fontFaceNameToID;
 
                 std::list<MetricsRequest> metricsQueue;
                 std::list<MeasureRequest> measureQueue;
@@ -224,6 +227,7 @@ namespace djv
 
                 p.fontPath = _getResourceSystem()->getPath(FileSystem::ResourcePath::Fonts);
                 p.fontNamesSubject = MapSubject<FamilyID, std::string>::create();
+                p.fontFaceNamesSubject = MapSubject<FamilyID, std::map<FaceID, std::string> >::create();
                 p.glyphCache.setMax(glyphCacheMax);
                 p.glyphCacheSize = 0;
                 p.glyphCachePercentageUsed = 0.F;
@@ -233,15 +237,18 @@ namespace djv
                 p.fontNamesTimer->start(
                     Time::getTime(Time::TimerValue::Medium),
                     [this](const std::chrono::steady_clock::time_point&, const Time::Unit&)
-                {
-                    DJV_PRIVATE_PTR();
-                    std::map<FamilyID, std::string> fontNames;
                     {
-                        std::unique_lock<std::mutex> lock(p.fontNamesMutex);
-                        fontNames = p.fontNames;
-                    }
-                    p.fontNamesSubject->setIfChanged(fontNames);
-                });
+                        DJV_PRIVATE_PTR();
+                        std::map<FamilyID, std::string> fontNames;
+                        std::map<FamilyID, std::map<FaceID, std::string> > fontFaceNames;
+                        {
+                            std::unique_lock<std::mutex> lock(p.fontNamesMutex);
+                            fontNames = p.fontNames;
+                            fontFaceNames = p.fontFaceNames;
+                        }
+                        p.fontNamesSubject->setIfChanged(fontNames);
+                        p.fontFaceNamesSubject->setIfChanged(fontFaceNames);
+                    });
 
                 p.statsTimer = Time::Timer::create(context);
                 p.statsTimer->setRepeating(true);
@@ -332,6 +339,11 @@ namespace djv
             std::shared_ptr<Core::IMapSubject<FamilyID, std::string> > System::observeFontNames() const
             {
                 return _p->fontNamesSubject;
+            }
+
+            std::shared_ptr<Core::IMapSubject<FamilyID, std::map<FaceID, std::string> > > System::observeFontFaces() const
+            {
+                return _p->fontFaceNamesSubject;
             }
 
             std::future<Metrics> System::getMetrics(const Info & info)
@@ -478,9 +490,39 @@ namespace djv
                             ss << "    Scalable: " << (FT_IS_SCALABLE(ftFace) ? "true" : "false") << '\n';
                             ss << "    Kerning: " << (FT_HAS_KERNING(ftFace) ? "true" : "false");
                             _log(ss.str());
-                            static FamilyID familyID = 0;
-                            static FaceID faceID = 1;
-                            ++familyID;
+
+                            FamilyID familyID = 0;
+                            auto j = p.fontNameToID.find(ftFace->family_name);
+                            if (j != p.fontNameToID.end())
+                            {
+                                familyID = j->second;
+                            }
+                            else
+                            {
+                                for (auto k : p.fontNameToID)
+                                {
+                                    familyID = std::max(familyID, k.second);
+                                }
+                                ++familyID;
+                                p.fontNameToID[ftFace->family_name] = familyID;
+                            }
+
+                            FaceID faceID = 0;
+                            auto k = p.fontFaceNameToID.find(std::make_pair(familyID, ftFace->style_name));
+                            if (k != p.fontFaceNameToID.end())
+                            {
+                                faceID = k->second;
+                            }
+                            else
+                            {
+                                for (auto l : p.fontFaceNameToID)
+                                {
+                                    faceID = std::max(faceID, l.second);
+                                }
+                                ++faceID;
+                                p.fontFaceNameToID[std::make_pair(familyID, ftFace->style_name)] = faceID;
+                            }
+
                             p.fontFileNames[familyID] = fileName;
                             p.fontNames[familyID] = ftFace->family_name;
                             p.fontFaceNames[familyID][faceID] = ftFace->style_name;

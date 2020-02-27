@@ -35,6 +35,8 @@ namespace djv
 {
     namespace UI
     {
+        class LabelSizeGroup;
+
         //! This class provides a label.
         //!
         //! \todo Add an option for eliding.
@@ -82,8 +84,11 @@ namespace djv
 
             ///@}
 
+            void setSizeGroup(const std::weak_ptr<LabelSizeGroup>&);
+
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _initLayoutEvent(Core::Event::InitLayout&) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _paintEvent(Core::Event::Paint &) override;
 
             void _initEvent(Core::Event::Init&) override;
@@ -94,6 +99,29 @@ namespace djv
             void _sizeStringUpdate();
             void _fontUpdate();
 
+            DJV_PRIVATE();
+        };
+
+        class LabelSizeGroup : public std::enable_shared_from_this<LabelSizeGroup>
+        {
+            DJV_NON_COPYABLE(LabelSizeGroup);
+
+        protected:
+            LabelSizeGroup();
+
+        public:
+            virtual ~LabelSizeGroup();
+
+            static std::shared_ptr<LabelSizeGroup> create();
+
+            void addLabel(const std::weak_ptr<Label>&);
+            void removeLabel(const std::weak_ptr<Label>&);
+            void clearLabels();
+
+            const glm::vec2& getMinimumSize() const;
+            void calcMinimumSize();
+
+        private:
             DJV_PRIVATE();
         };
 

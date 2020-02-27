@@ -31,7 +31,6 @@
 
 #include "ISettingsWidget.h"
 
-#include <djvUI/Bellows.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/GroupBox.h>
 #include <djvUI/Label.h>
@@ -54,6 +53,8 @@ public:
     void setPointCount(size_t);
     void setFPS(float);
 
+    void setSizeGroup(const std::weak_ptr<djv::UI::LabelSizeGroup>&) override;
+
 protected:
     void _initEvent(djv::Core::Event::Init&) override;
 
@@ -66,5 +67,5 @@ private:
     float _fps = 0.F;
     std::map<std::string, std::shared_ptr<djv::UI::Label> > _labels;
     std::map<std::string, std::shared_ptr<djv::UI::FormLayout> > _layouts;
-    std::map<std::string, std::shared_ptr<djv::UI::Bellows> > _bellows;
+    std::map<std::string, std::shared_ptr<djv::UI::GroupBox> > _groupBoxes;
 };

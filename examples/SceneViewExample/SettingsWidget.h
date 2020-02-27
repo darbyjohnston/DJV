@@ -29,8 +29,7 @@
 
 #pragma once
 
-#include <djvUI/ButtonGroup.h>
-#include <djvUI/ListButton.h>
+#include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SoloLayout.h>
@@ -60,14 +59,12 @@ public:
     void clearChildren() override;
 
 protected:
+    void _initLayoutEvent(djv::Core::Event::InitLayout&) override;
     void _preLayoutEvent(djv::Core::Event::PreLayout&) override;
     void _layoutEvent(djv::Core::Event::Layout&) override;
 
 private:
-    std::shared_ptr<djv::UI::ButtonGroup> _buttonGroup;
-    std::map<std::shared_ptr<ISettingsWidget>, std::shared_ptr<djv::UI::ListButton> > _buttons;
-    std::map<std::shared_ptr<ISettingsWidget>, std::shared_ptr<djv::Core::ValueObserver<std::string> > > _titleObservers;
-    std::shared_ptr<djv::UI::VerticalLayout> _buttonLayout;
+    std::shared_ptr<djv::UI::LabelSizeGroup> _sizeGroup;
+    std::shared_ptr<djv::UI::VerticalLayout> _childLayout;
     std::shared_ptr<djv::UI::ScrollWidget> _scrollWidget;
-    std::shared_ptr<djv::UI::SoloLayout> _layout;
 };

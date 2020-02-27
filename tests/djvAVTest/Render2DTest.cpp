@@ -107,7 +107,6 @@ namespace djv
                 render->drawFilledImage(image, glm::vec2(600.f, 200.f));
                 
                 Font::Info fontInfo(1, 1, 64, AV::dpiDefault);
-                render->setCurrentFont(fontInfo);
                 auto fontSystem = context->getSystemT<Font::System>();
                 render->drawText(fontSystem->getGlyphs(String::getRandomText(5), fontInfo).get(), glm::vec2(200.F, 200.F));
                 

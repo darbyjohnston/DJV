@@ -417,7 +417,6 @@ namespace djv
                 color.setF32(color.getF32(3) * .4F, 3);
                 auto render = _getRender();
                 render->setFillColor(color);
-                render->setCurrentFont(p.fontInfo);
                 std::vector<BBox2f> boxes;
                 for (const auto& tick : p.timeTicks)
                 {

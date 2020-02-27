@@ -606,8 +606,11 @@ namespace djv
                     }
                     break;
                 }
-                case Event::Type::PreLayout:
+                case Event::Type::InitLayout:
                     _visibleInit = false;
+                    _initLayoutEvent(static_cast<Event::InitLayout&>(event));
+                    break;
+                case Event::Type::PreLayout:
                     _preLayoutEvent(static_cast<Event::PreLayout &>(event));
                     break;
                 case Event::Type::Layout:

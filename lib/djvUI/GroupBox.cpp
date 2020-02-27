@@ -53,17 +53,21 @@ namespace djv
             void GroupBox::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
+                DJV_PRIVATE_PTR();
 
                 setClassName("djv::UI::Layout::GroupBox");
                 setVAlign(VAlign::Top);
 
-                DJV_PRIVATE_PTR();
                 p.titleLabel = Label::create(context);
                 p.titleLabel->setTextHAlign(TextHAlign::Left);
-                p.titleLabel->setFontSizeRole(MetricsRole::FontHeader);
+                p.titleLabel->setFontFace("Bold");
+                p.titleLabel->setMargin(Layout::Margin(MetricsRole::MarginSmall));
+
                 p.childLayout = StackLayout::create(context);
+                p.childLayout->setMargin(Layout::Margin(MetricsRole::MarginSmall));
 
                 p.layout = VerticalLayout::create(context);
+                p.layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
                 p.layout->addChild(p.titleLabel);
                 p.layout->addSeparator();
                 p.layout->addChild(p.childLayout);

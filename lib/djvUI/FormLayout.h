@@ -36,6 +36,8 @@ namespace djv
 {
     namespace UI
     {
+        class LabelSizeGroup;
+
         namespace Layout
         {
             //! This class provides a form layout.
@@ -58,6 +60,8 @@ namespace djv
                 void setSpacing(const Spacing&);
 
                 void setAlternateRowsRoles(ColorRole, ColorRole);
+
+                void setSizeGroup(const std::weak_ptr<LabelSizeGroup>&);
 
                 float getHeightForWidth(float) const override;
 

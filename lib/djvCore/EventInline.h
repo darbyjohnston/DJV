@@ -120,6 +120,10 @@ namespace djv
                 return _dt;
             }
 
+            inline InitLayout::InitLayout() :
+                Event(Type::InitLayout)
+            {}
+
             inline PreLayout::PreLayout() :
                 Event(Type::PreLayout)
             {}

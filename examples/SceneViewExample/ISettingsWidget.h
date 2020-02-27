@@ -29,9 +29,9 @@
 
 #pragma once
 
+#include <djvUI/Bellows.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ToolButton.h>
 
 #include <djvCore/ValueObserver.h>
 
@@ -49,7 +49,7 @@ public:
     std::shared_ptr<djv::Core::IValueSubject<std::string> > observeTitle() const;
     void setTitle(const std::string&);
 
-    void setBackCallback(const std::function<void(void)>&);
+    virtual void setSizeGroup(const std::weak_ptr<djv::UI::LabelSizeGroup>&) {}
 
     float getHeightForWidth(float) const override;
 
@@ -61,14 +61,9 @@ protected:
     void _preLayoutEvent(djv::Core::Event::PreLayout&) override;
     void _layoutEvent(djv::Core::Event::Layout&) override;
 
-    void _initEvent(djv::Core::Event::Init&) override;
-
 private:
+    std::weak_ptr<djv::UI::LabelSizeGroup> _sizeGroup;
     std::shared_ptr<djv::Core::ValueSubject<std::string> > _title;
-    std::shared_ptr<djv::UI::Label> _titleLabel;
-    std::shared_ptr<djv::UI::ToolButton> _backButton;
-    std::shared_ptr<djv::UI::HorizontalLayout> _titleBar;
     std::shared_ptr<djv::UI::VerticalLayout> _childLayout;
-    std::shared_ptr<djv::UI::VerticalLayout> _layout;
-    std::function<void(void)> _backCallback;
+    std::shared_ptr<djv::UI::Layout::Bellows> _bellows;
 };

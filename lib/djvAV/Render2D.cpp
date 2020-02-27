@@ -483,7 +483,6 @@ namespace djv
             {
                 Render* system = nullptr;
 
-                Font::Info                              currentFont;
                 ImageFilterOptions                      imageFilterOptions  = ImageFilterOptions(ImageFilter::Linear, ImageFilter::Nearest);
                 bool                                    lcdText             = true;
 
@@ -1037,11 +1036,6 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 p.drawImage(image, pos, options, ColorMode::ColorWithTextureAlpha, _getCurrentTransform(), _currentClipRect, _finalColor);
-            }
-
-            void Render::setCurrentFont(const Font::Info & value)
-            {
-                _p->currentFont = value;
             }
 
             void Render::setLCDText(bool value)

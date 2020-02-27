@@ -155,9 +155,27 @@ namespace djv
                         if (auto style = weak.lock())
                         {
                             style->_fontNames = value;
-                            for (const auto & i : style->_fontNames)
+                            for (const auto& i : style->_fontNames)
                             {
                                 style->_fontNameToId[i.second] = i.first;
+                            }
+                            style->_dirty = true;
+                        }
+                    });
+
+                _fontFacesObserver = MapObserver<AV::Font::FamilyID, std::map<AV::Font::FaceID, std::string> >::create(
+                    fontSystem->observeFontFaces(),
+                    [weak](const std::map<AV::Font::FamilyID, std::map<AV::Font::FaceID, std::string> >& value)
+                    {
+                        if (auto style = weak.lock())
+                        {
+                            style->_fontFaces = value;
+                            for (const auto& i : style->_fontFaces)
+                            {
+                                for (const auto& j : i.second)
+                                {
+                                    style->_fontFaceToId[std::make_pair(i.first, j.second)] = j.first;
+                                }
                             }
                             style->_dirty = true;
                         }
@@ -208,10 +226,12 @@ namespace djv
 
             AV::Font::Info Style::getFontInfo(const std::string & family, const std::string & face, MetricsRole role) const
             {
-                const auto i = _fontNameToId.find(family);
+                const auto i = _fontNameToId.find(family.empty() ? AV::Font::familyDefault : family);
+                const AV::Font::FamilyID familyID = i != _fontNameToId.end() ? i->second : 1;
+                const auto j = _fontFaceToId.find(std::make_pair(familyID, face.empty() ? AV::Font::faceDefault : face));
                 return AV::Font::Info(
-                    i != _fontNameToId.end() ? i->second : 1,
-                    1,
+                    familyID,
+                    j != _fontFaceToId.end() ? j->second : 1,
                     ceilf(getMetric(role)),
                     static_cast<uint16_t>(_dpi.x));
             }
@@ -219,9 +239,11 @@ namespace djv
             AV::Font::Info Style::getFontInfo(const std::string & face, MetricsRole role) const
             {
                 const auto i = _fontNameToId.find(_font);
+                const AV::Font::FamilyID familyID = i != _fontNameToId.end() ? i->second : 1;
+                const auto j = _fontFaceToId.find(std::make_pair(familyID, face.empty() ? AV::Font::faceDefault : face));
                 return AV::Font::Info(
-                    i != _fontNameToId.end() ? i->second : 1,
-                    1,
+                    familyID,
+                    j != _fontFaceToId.end() ? j->second : 1,
                     ceilf(getMetric(role)),
                     static_cast<uint16_t>(_dpi.x));
             }

@@ -58,6 +58,7 @@ namespace djv
                 ChildOrder,
                 Init,
                 Update,
+                InitLayout,
                 PreLayout,
                 Layout,
                 Clip,
@@ -165,6 +166,13 @@ namespace djv
             private:
                 std::chrono::steady_clock::time_point _t;
                 Time::Unit _dt;
+            };
+
+            //! This class provides an event to initialize user interface layout.
+            class InitLayout : public Event
+            {
+            public:
+                InitLayout();
             };
 
             //! This class provides an event to prepare for user interface layout.

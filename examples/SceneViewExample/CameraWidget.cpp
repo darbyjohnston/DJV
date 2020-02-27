@@ -48,11 +48,10 @@ void CameraWidget::_init(const std::shared_ptr<Core::Context>& context)
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
     _layouts["Lens"] = UI::FormLayout::create(context);
-    _layouts["Lens"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
     _layouts["Lens"]->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
     _layouts["Lens"]->addChild(_floatEdits["FOV"]);
-    _bellows["Lens"] = UI::Bellows::create(context);
-    _bellows["Lens"]->addChild(_layouts["Lens"]);
+    _groupBoxes["Lens"] = UI::GroupBox::create(context);
+    _groupBoxes["Lens"]->addChild(_layouts["Lens"]);
 
     _floatEdits["ClippingNear"] = UI::FloatEdit::create(context);
     _floatEdits["ClippingNear"]->setRange(Core::FloatRange(.001F, posMax));
@@ -67,12 +66,11 @@ void CameraWidget::_init(const std::shared_ptr<Core::Context>& context)
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
     _layouts["Clipping"] = UI::FormLayout::create(context);
-    _layouts["Clipping"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
     _layouts["Clipping"]->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
     _layouts["Clipping"]->addChild(_floatEdits["ClippingNear"]);
     _layouts["Clipping"]->addChild(_floatEdits["ClippingFar"]);
-    _bellows["Clipping"] = UI::Bellows::create(context);
-    _bellows["Clipping"]->addChild(_layouts["Clipping"]);
+    _groupBoxes["Clipping"] = UI::GroupBox::create(context);
+    _groupBoxes["Clipping"]->addChild(_layouts["Clipping"]);
 
     _floatEdits["TargetX"] = UI::FloatEdit::create(context);
     _floatEdits["TargetX"]->setRange(Core::FloatRange(-posMax, posMax));
@@ -90,13 +88,12 @@ void CameraWidget::_init(const std::shared_ptr<Core::Context>& context)
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
     _layouts["Target"] = UI::FormLayout::create(context);
-    _layouts["Target"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
     _layouts["Target"]->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
     _layouts["Target"]->addChild(_floatEdits["TargetX"]);
     _layouts["Target"]->addChild(_floatEdits["TargetY"]);
     _layouts["Target"]->addChild(_floatEdits["TargetZ"]);
-    _bellows["Target"] = UI::Bellows::create(context);
-    _bellows["Target"]->addChild(_layouts["Target"]);
+    _groupBoxes["Target"] = UI::GroupBox::create(context);
+    _groupBoxes["Target"]->addChild(_layouts["Target"]);
 
     _floatEdits["PositionDistance"] = UI::FloatEdit::create(context);
     _floatEdits["PositionDistance"]->setRange(Core::FloatRange(1.F, posMax));
@@ -114,20 +111,19 @@ void CameraWidget::_init(const std::shared_ptr<Core::Context>& context)
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
     _layouts["Position"] = UI::FormLayout::create(context);
-    _layouts["Position"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
     _layouts["Position"]->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
     _layouts["Position"]->addChild(_floatEdits["PositionDistance"]);
     _layouts["Position"]->addChild(_floatEdits["PositionLatitude"]);
     _layouts["Position"]->addChild(_floatEdits["PositionLongitude"]);
-    _bellows["Position"] = UI::Bellows::create(context);
-    _bellows["Position"]->addChild(_layouts["Position"]);
+    _groupBoxes["Position"] = UI::GroupBox::create(context);
+    _groupBoxes["Position"]->addChild(_layouts["Position"]);
 
     auto layout = UI::VerticalLayout::create(context);
-    layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
-    layout->addChild(_bellows["Lens"]);
-    layout->addChild(_bellows["Clipping"]);
-    layout->addChild(_bellows["Target"]);
-    layout->addChild(_bellows["Position"]);
+    layout->addChild(_groupBoxes["Lens"]);
+    layout->addChild(_groupBoxes["Clipping"]);
+    layout->addChild(_groupBoxes["Target"]);
+    layout->addChild(_groupBoxes["Position"]);
+    layout->addSpacer();
     addChild(layout);
 
     _widgetUpdate();
@@ -274,6 +270,14 @@ void CameraWidget::setCameraDataCallback(const std::function<void(const Scene::P
     _cameraDataCallback = value;
 }
 
+void CameraWidget::setSizeGroup(const std::weak_ptr<djv::UI::LabelSizeGroup>& value)
+{
+    for (auto i : _layouts)
+    {
+        i.second->setSizeGroup(value);
+    }
+}
+
 void CameraWidget::_initEvent(Core::Event::Init&)
 {
     setTitle(_getText(DJV_TEXT("widget_camera")));
@@ -286,10 +290,10 @@ void CameraWidget::_initEvent(Core::Event::Init&)
     _layouts["Position"]->setText(_floatEdits["PositionDistance"], _getText(DJV_TEXT("widget_camera_distance")) + ":");
     _layouts["Position"]->setText(_floatEdits["PositionLatitude"], _getText(DJV_TEXT("widget_camera_latitude")) + ":");
     _layouts["Position"]->setText(_floatEdits["PositionLongitude"], _getText(DJV_TEXT("widget_camera_longitude")) + ":");
-    _bellows["Lens"]->setText(_getText(DJV_TEXT("widget_camera_lens")));
-    _bellows["Clipping"]->setText(_getText(DJV_TEXT("widget_camera_clipping")));
-    _bellows["Target"]->setText(_getText(DJV_TEXT("widget_camera_target")));
-    _bellows["Position"]->setText(_getText(DJV_TEXT("widget_camera_position")));
+    _groupBoxes["Lens"]->setText(_getText(DJV_TEXT("widget_camera_lens")));
+    _groupBoxes["Clipping"]->setText(_getText(DJV_TEXT("widget_camera_clipping")));
+    _groupBoxes["Target"]->setText(_getText(DJV_TEXT("widget_camera_target")));
+    _groupBoxes["Position"]->setText(_getText(DJV_TEXT("widget_camera_position")));
 }
 
 void CameraWidget::_widgetUpdate()

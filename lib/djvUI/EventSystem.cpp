@@ -180,9 +180,18 @@ namespace djv
             return out;
         }
 
-        void EventSystem::_preLayoutRecursive(const std::shared_ptr<Widget> & widget, Event::PreLayout & event)
+        void EventSystem::_initLayoutRecursive(const std::shared_ptr<Widget>& widget, Event::InitLayout& event)
         {
-            for (const auto & child : widget->getChildWidgets())
+            for (const auto& child : widget->getChildWidgets())
+            {
+                _initLayoutRecursive(child, event);
+            }
+            widget->event(event);
+        }
+
+        void EventSystem::_preLayoutRecursive(const std::shared_ptr<Widget>& widget, Event::PreLayout& event)
+        {
+            for (const auto& child : widget->getChildWidgets())
             {
                 _preLayoutRecursive(child, event);
             }

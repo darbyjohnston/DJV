@@ -271,7 +271,6 @@ namespace djv
                 //! \name Text
                 ///@{
 
-                void setCurrentFont(const Font::Info &);
                 void setLCDText(bool);
 
                 void drawText(const std::vector<std::shared_ptr<Font::Glyph> >& glyphs, const glm::vec2& position);

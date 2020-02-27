@@ -29,8 +29,6 @@
 
 #include "ISettingsWidget.h"
 
-#include <djvUI/ScrollWidget.h>
-
 #include <djvCore/Context.h>
 
 using namespace djv;
@@ -40,49 +38,14 @@ void ISettingsWidget::_init(const std::shared_ptr<Core::Context>& context)
     Widget::_init(context);
 
     _title = Core::ValueSubject<std::string>::create();
-
-    _titleLabel = UI::Label::create(context);
-    _titleLabel->setTextHAlign(UI::TextHAlign::Left);
-    _titleLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin, UI::MetricsRole::Margin, UI::MetricsRole::None, UI::MetricsRole::None));
-
-    _backButton = UI::ToolButton::create(context);
-    _backButton->setIcon("djvIconArrowLeft");
-    _backButton->setInsideMargin(UI::MetricsRole::MarginSmall);
     
-    _titleBar = UI::HorizontalLayout::create(context);
-    _titleBar->setBackgroundRole(UI::ColorRole::BackgroundHeader);
-    _titleBar->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
-    _titleBar->addChild(_titleLabel);
-    _titleBar->setStretch(_titleLabel, UI::RowStretch::Expand);
-    _titleBar->addChild(_backButton);
-
     _childLayout = UI::VerticalLayout::create(context);
-    _childLayout->setPointerEnabled(true);
+    //_childLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
 
-    _layout = UI::VerticalLayout::create(context);
-    _layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
-    _layout->addChild(_titleBar);
-    _layout->addSeparator();
-    auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-    scrollWidget->setShadowOverlay({ UI::Side::Top });
-    scrollWidget->setBorder(false);
-    scrollWidget->addChild(_childLayout);
-    _layout->addChild(scrollWidget);
-    _layout->setStretch(scrollWidget, UI::RowStretch::Expand);
-    Widget::addChild(_layout);
-
-    auto weak = std::weak_ptr<ISettingsWidget>(std::dynamic_pointer_cast<ISettingsWidget>(shared_from_this()));
-    _backButton->setClickedCallback(
-        [weak]
-        {
-            if (auto widget = weak.lock())
-            {
-                if (widget->_backCallback)
-                {
-                    widget->_backCallback();
-                }
-            }
-        });
+    _bellows = UI::Bellows::create(context);
+    _bellows->close();
+    _bellows->addChild(_childLayout);
+    Widget::addChild(_bellows);
 }
 
 ISettingsWidget::ISettingsWidget()
@@ -100,18 +63,13 @@ void ISettingsWidget::setTitle(const std::string& text)
 {
     if (_title->setIfChanged(text))
     {
-        _titleLabel->setText(text);
+        _bellows->setText(text);
     }
-}
-
-void ISettingsWidget::setBackCallback(const std::function<void(void)>& value)
-{
-    _backCallback = value;
 }
 
 float ISettingsWidget::getHeightForWidth(float value) const
 {
-    return _layout->getHeightForWidth(value);
+    return _bellows->getHeightForWidth(value);
 }
 
 void ISettingsWidget::addChild(const std::shared_ptr<IObject>& value)
@@ -135,15 +93,10 @@ void ISettingsWidget::clearChildren()
 
 void ISettingsWidget::_preLayoutEvent(Core::Event::PreLayout& event)
 {
-    _setMinimumSize(_layout->getMinimumSize());
+    _setMinimumSize(_bellows->getMinimumSize());
 }
 
 void ISettingsWidget::_layoutEvent(Core::Event::Layout&)
 {
-    _layout->setGeometry(getGeometry());
-}
-
-void ISettingsWidget::_initEvent(Core::Event::Init&)
-{
-    _backButton->setTooltip(_getText(DJV_TEXT("settings_back_tooltip")));
+    _bellows->setGeometry(getGeometry());
 }

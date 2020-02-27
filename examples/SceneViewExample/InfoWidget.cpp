@@ -48,13 +48,12 @@ void InfoWidget::_init(const std::shared_ptr<Core::Context>& context)
     _labels["SceneSizeD"]->setTextHAlign(UI::TextHAlign::Left);
     _labels["SceneSizeD"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
     _layouts["SceneSize"] = UI::FormLayout::create(context);
-    _layouts["SceneSize"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
     _layouts["SceneSize"]->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
     _layouts["SceneSize"]->addChild(_labels["SceneSizeW"]);
     _layouts["SceneSize"]->addChild(_labels["SceneSizeH"]);
     _layouts["SceneSize"]->addChild(_labels["SceneSizeD"]);
-    _bellows["SceneSize"] = UI::Bellows::create(context);
-    _bellows["SceneSize"]->addChild(_layouts["SceneSize"]);
+    _groupBoxes["SceneSize"] = UI::GroupBox::create(context);
+    _groupBoxes["SceneSize"]->addChild(_layouts["SceneSize"]);
 
     _labels["SceneRangeMinX"] = UI::Label::create(context);
     _labels["SceneRangeMinX"]->setFont(AV::Font::familyMono);
@@ -81,7 +80,6 @@ void InfoWidget::_init(const std::shared_ptr<Core::Context>& context)
     _labels["SceneRangeMaxZ"]->setTextHAlign(UI::TextHAlign::Left);
     _labels["SceneRangeMaxZ"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
     _layouts["SceneRange"] = UI::FormLayout::create(context);
-    _layouts["SceneRange"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
     _layouts["SceneRange"]->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
     _layouts["SceneRange"]->addChild(_labels["SceneRangeMinX"]);
     _layouts["SceneRange"]->addChild(_labels["SceneRangeMaxX"]);
@@ -89,8 +87,8 @@ void InfoWidget::_init(const std::shared_ptr<Core::Context>& context)
     _layouts["SceneRange"]->addChild(_labels["SceneRangeMaxY"]);
     _layouts["SceneRange"]->addChild(_labels["SceneRangeMinZ"]);
     _layouts["SceneRange"]->addChild(_labels["SceneRangeMaxZ"]);
-    _bellows["SceneRange"] = UI::Bellows::create(context);
-    _bellows["SceneRange"]->addChild(_layouts["SceneRange"]);
+    _groupBoxes["SceneRange"] = UI::GroupBox::create(context);
+    _groupBoxes["SceneRange"]->addChild(_layouts["SceneRange"]);
 
     _labels["Primitives"] = UI::Label::create(context);
     _labels["Primitives"]->setFont(AV::Font::familyMono);
@@ -105,19 +103,18 @@ void InfoWidget::_init(const std::shared_ptr<Core::Context>& context)
     _labels["FPS"]->setTextHAlign(UI::TextHAlign::Left);
     _labels["FPS"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
     _layouts["Stats"] = UI::FormLayout::create(context);
-    _layouts["Stats"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
     _layouts["Stats"]->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
     _layouts["Stats"]->addChild(_labels["Primitives"]);
     _layouts["Stats"]->addChild(_labels["PointCount"]);
     _layouts["Stats"]->addChild(_labels["FPS"]);
-    _bellows["Stats"] = UI::Bellows::create(context);
-    _bellows["Stats"]->addChild(_layouts["Stats"]);
+    _groupBoxes["Stats"] = UI::GroupBox::create(context);
+    _groupBoxes["Stats"]->addChild(_layouts["Stats"]);
 
     auto layout = UI::VerticalLayout::create(context);
-    layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
-    layout->addChild(_bellows["SceneSize"]);
-    layout->addChild(_bellows["SceneRange"]);
-    layout->addChild(_bellows["Stats"]);
+    layout->addChild(_groupBoxes["SceneSize"]);
+    layout->addChild(_groupBoxes["SceneRange"]);
+    layout->addChild(_groupBoxes["Stats"]);
+    layout->addSpacer();
     addChild(layout);
 
     auto weak = std::weak_ptr<InfoWidget>(std::dynamic_pointer_cast<InfoWidget>(shared_from_this()));
@@ -158,6 +155,14 @@ void InfoWidget::setFPS(float value)
 {
     _fps = value;
     _textUpdate();
+}
+
+void InfoWidget::setSizeGroup(const std::weak_ptr<djv::UI::LabelSizeGroup>& value)
+{
+    for (auto i : _layouts)
+    {
+        i.second->setSizeGroup(value);
+    }
 }
 
 void InfoWidget::_initEvent(Core::Event::Init&)
@@ -242,7 +247,7 @@ void InfoWidget::_textUpdate()
     _layouts["Stats"]->setText(_labels["PointCount"], _getText(DJV_TEXT("widget_info_point_count")) + ":");
     _layouts["Stats"]->setText(_labels["FPS"], _getText(DJV_TEXT("widget_info_fps")) + ":");
 
-    _bellows["SceneSize"]->setText(_getText(DJV_TEXT("widget_info_scene_size")));
-    _bellows["SceneRange"]->setText(_getText(DJV_TEXT("widget_info_scene_range")));
-    _bellows["Stats"]->setText(_getText(DJV_TEXT("widget_info_stats")));
+    _groupBoxes["SceneSize"]->setText(_getText(DJV_TEXT("widget_info_scene_size")));
+    _groupBoxes["SceneRange"]->setText(_getText(DJV_TEXT("widget_info_scene_range")));
+    _groupBoxes["Stats"]->setText(_getText(DJV_TEXT("widget_info_stats")));
 }

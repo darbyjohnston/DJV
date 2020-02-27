@@ -195,7 +195,8 @@ namespace djv
             //! \name Events
             ///@{
 
-            virtual void _preLayoutEvent(Core::Event::PreLayout &) {}
+            virtual void _initLayoutEvent(Core::Event::InitLayout&) {}
+            virtual void _preLayoutEvent(Core::Event::PreLayout&) {}
             virtual void _layoutEvent(Core::Event::Layout &) {}
             virtual void _clipEvent(Core::Event::Clip &) {}
             virtual void _paintEvent(Core::Event::Paint &);

@@ -54,7 +54,7 @@ namespace djv
             TextHAlign textHAlign = TextHAlign::Left;
             ColorRole textColorRole = ColorRole::Foreground;
             MetricsRole textSizeRole = MetricsRole::TextColumn;
-            std::string fontFace = AV::Font::faceDefault;
+            std::string fontFace;
             std::string fontFamily;
             MetricsRole fontSizeRole = MetricsRole::FontMedium;
             AV::Font::Info fontInfo;
@@ -248,7 +248,6 @@ namespace djv
                 const glm::vec2 c = g.getCenter();
                 glm::vec2 pos = g.min;
                 auto render = _getRender();
-                render->setCurrentFont(p.fontInfo);
                 render->setFillColor(style->getColor(p.textColorRole));
                 for (const auto & line : cacheValue.first)
                 {

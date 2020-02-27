@@ -45,6 +45,7 @@ namespace djv
                 std::vector<ColorRole> alternateRowsRoles = { ColorRole::None, ColorRole::None };
                 std::shared_ptr<Grid> layout;
                 std::map<std::shared_ptr<Widget>, std::shared_ptr<Label>> widgetToLabel;
+                std::weak_ptr<LabelSizeGroup> sizeGroup;
             };
 
             void Form::_init(const std::shared_ptr<Context>& context)
@@ -86,6 +87,7 @@ namespace djv
                     label->setText(text);
                     label->setTextHAlign(TextHAlign::Left);
                     label->setMargin(Margin(MetricsRole::MarginSmall));
+                    label->setSizeGroup(p.sizeGroup);
                     glm::ivec2 gridPos = p.layout->getGridPos(value);
                     p.layout->addChild(label);
                     p.layout->setGridPos(label, glm::ivec2(0, gridPos.y));
@@ -113,6 +115,20 @@ namespace djv
                 _widgetUpdate();
             }
 
+            void Form::setSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)
+            {
+                DJV_PRIVATE_PTR();
+                for (auto i : p.widgetToLabel)
+                {
+                    i.second->setSizeGroup(std::weak_ptr<LabelSizeGroup>());
+                }
+                p.sizeGroup = value;
+                for (auto i : p.widgetToLabel)
+                {
+                    i.second->setSizeGroup(p.sizeGroup);
+                }
+            }
+
             float Form::getHeightForWidth(float value) const
             {
                 const auto& style = _getStyle();
@@ -135,13 +151,14 @@ namespace djv
 
             void Form::removeChild(const std::shared_ptr<IObject> & value)
             {
-                _p->layout->removeChild(value);
-                if (auto label = std::dynamic_pointer_cast<Label>(value))
+                DJV_PRIVATE_PTR();
+                p.layout->removeChild(value);
+                if (auto widget = std::dynamic_pointer_cast<Widget>(value))
                 {
-                    auto i = _p->widgetToLabel.find(label);
-                    if (i != _p->widgetToLabel.end())
+                    const auto i = p.widgetToLabel.find(widget);
+                    if (i != p.widgetToLabel.end())
                     {
-                        _p->widgetToLabel.erase(i);
+                        p.widgetToLabel.erase(i);
                     }
                 }
                 _widgetUpdate();
@@ -149,8 +166,9 @@ namespace djv
 
             void Form::clearChildren()
             {
-                _p->layout->clearChildren();
-                _p->widgetToLabel.clear();
+                DJV_PRIVATE_PTR();
+                p.layout->clearChildren();
+                p.widgetToLabel.clear();
                 _widgetUpdate();
             }
 
