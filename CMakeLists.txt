@@ -188,7 +188,7 @@ endif()
 set(DJV_THIRD_PARTY_OPTIONAL_DEPS
     ${DJV_THIRD_PARTY_OPTIONAL_DEPS}
     #curl
-    #FFmpeg
+    FFmpeg
     JPEGTurbo
     TIFF
     OpenEXR)
