@@ -332,7 +332,7 @@ namespace djv
                 p.shader->setUniform("transform.mvp", viewMatrix);
                 
                 glActiveTexture(GL_TEXTURE0);
-                glBindTexture(GL_TEXTURE_2D, p.offscreenBuffer->getTextureID());
+                glBindTexture(GL_TEXTURE_2D, p.offscreenBuffer->getColorID());
                 
                 p.shader->setUniform("transform.mvp", viewMatrix);
                 p.shader->setUniform("imageFormat", 3);
