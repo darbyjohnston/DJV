@@ -104,7 +104,7 @@ int main(int argc, char ** argv)
         auto uiSystem = UI::UISystem::create(context);
         
         std::vector<std::shared_ptr<Test::ITest> > tests;
-        /*tests.emplace_back(new CoreTest::AnimationTest(context));
+        tests.emplace_back(new CoreTest::AnimationTest(context));
         tests.emplace_back(new CoreTest::BBoxTest(context));
         tests.emplace_back(new CoreTest::CacheTest(context));
         tests.emplace_back(new CoreTest::DirectoryModelTest(context));
@@ -134,9 +134,9 @@ int main(int argc, char ** argv)
         tests.emplace_back(new CoreTest::TextSystemTest(context));
         tests.emplace_back(new CoreTest::TimeTest(context));
         tests.emplace_back(new CoreTest::ValueObserverTest(context));
-        tests.emplace_back(new CoreTest::VectorTest(context));*/
+        tests.emplace_back(new CoreTest::VectorTest(context));
 
-        /*tests.emplace_back(new AVTest::AVSystemTest(context));
+        tests.emplace_back(new AVTest::AVSystemTest(context));
         tests.emplace_back(new AVTest::AudioDataTest(context));
         tests.emplace_back(new AVTest::AudioTest(context));
         tests.emplace_back(new AVTest::ColorTest(context));
@@ -151,10 +151,10 @@ int main(int argc, char ** argv)
         tests.emplace_back(new AVTest::PixelTest(context));
         tests.emplace_back(new AVTest::Render2DTest(context));
         tests.emplace_back(new AVTest::ThumbnailSystemTest(context));
-        tests.emplace_back(new AVTest::TagsTest(context));*/
+        tests.emplace_back(new AVTest::TagsTest(context));
 
         tests.emplace_back(new UITest::EnumTest(context));
-        //tests.emplace_back(new UITest::WidgetTest(context));
+        tests.emplace_back(new UITest::WidgetTest(context));
         
         std::vector<std::shared_ptr<Test::ITest> > testsToRun;
         if (1 == argc)

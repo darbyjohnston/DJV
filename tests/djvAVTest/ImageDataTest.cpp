@@ -163,7 +163,19 @@ namespace djv
                 const Image::Info info(1, 2, Image::Type::RGB_U8);
                 {
                     std::stringstream ss;
-                    ss << "info: " << info.size << ", " << info.type;
+                    ss << "info";
+                    _print(ss.str());
+                }
+                {
+                    std::stringstream ss;
+                    ss << "    size: " << info.size;
+                    _print(ss.str());
+                }
+                {
+                    std::stringstream ss;
+                    ss << info.type;
+                    std::stringstream ss2;
+                    ss << "    type: " << _getText(ss.str());
                     _print(ss.str());
                 }
                 {

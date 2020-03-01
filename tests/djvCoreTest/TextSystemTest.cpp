@@ -68,13 +68,7 @@ namespace djv
                     system->setCurrentLocale("zh");
                     system->setCurrentLocale("zh");
                     DJV_ASSERT("zh" == system->observeCurrentLocale()->get());
-                }
-                
-                for (const std::string& i : { "File", "Window", "Image" })
-                {
-                    std::stringstream ss;
-                    ss << i << ": " << system->getText(i);
-                    _print(ss.str());
+                    system->setCurrentLocale("en");
                 }
             }
         }
