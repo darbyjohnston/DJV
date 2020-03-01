@@ -124,7 +124,7 @@ namespace djv
                 "ThirdParty5", "ThirdParty6", "ThirdParty7", "ThirdParty8",
                 "ThirdParty9", "ThirdParty10", "ThirdParty11", "ThirdParty12",
                 "ThirdParty13", "ThirdParty14", "ThirdParty15", "ThirdParty16",
-                "ThirdParty17", "ThirdParty18"
+                "ThirdParty17", "ThirdParty18", "ThirdParty19"
             };
             for (const auto& i : thirdPartyText)
             {
@@ -139,7 +139,7 @@ namespace djv
                 "Trademarks9", "Trademarks10", "Trademarks11", "Trademarks12",
                 "Trademarks13", "Trademarks14", "Trademarks15", "Trademarks16",
                 "Trademarks17", "Trademarks18", "Trademarks19", "Trademarks20",
-                "Trademarks21"
+                "Trademarks21", "Trademarks22"
             };
             for (const auto& i : trademarksText)
             {
@@ -373,7 +373,8 @@ namespace djv
             p.textBlocks["ThirdParty15"]->setText(_getText(DJV_TEXT("about_third_party_libjpeg-turbo")));
             p.textBlocks["ThirdParty16"]->setText(_getText(DJV_TEXT("about_third_party_libpng")));
             p.textBlocks["ThirdParty17"]->setText(_getText(DJV_TEXT("about_third_party_libtiff")));
-            p.textBlocks["ThirdParty18"]->setText(_getText(DJV_TEXT("about_third_party_zlib")));
+            p.textBlocks["ThirdParty18"]->setText(_getText(DJV_TEXT("about_third_party_opennurbs")));
+            p.textBlocks["ThirdParty19"]->setText(_getText(DJV_TEXT("about_third_party_zlib")));
             p.textBlocks["TrademarksText"]->setText(_getText(DJV_TEXT("about_trademarks_text")));
             p.textBlocks["Trademarks1"]->setText(_getText(DJV_TEXT("about_trademarks_apple")));
             p.textBlocks["Trademarks2"]->setText(_getText(DJV_TEXT("about_trademarks_amd")));
@@ -390,12 +391,13 @@ namespace djv
             p.textBlocks["Trademarks13"]->setText(_getText(DJV_TEXT("about_trademarks_mips")));
             p.textBlocks["Trademarks14"]->setText(_getText(DJV_TEXT("about_trademarks_nvidia")));
             p.textBlocks["Trademarks15"]->setText(_getText(DJV_TEXT("about_trademarks_red_hat")));
-            p.textBlocks["Trademarks16"]->setText(_getText(DJV_TEXT("about_trademarks_sgi")));
-            p.textBlocks["Trademarks17"]->setText(_getText(DJV_TEXT("about_trademarks_smpte")));
-            p.textBlocks["Trademarks18"]->setText(_getText(DJV_TEXT("about_trademarks_sourceforge")));
-            p.textBlocks["Trademarks19"]->setText(_getText(DJV_TEXT("about_trademarks_suse")));
-            p.textBlocks["Trademarks20"]->setText(_getText(DJV_TEXT("about_trademarks_ubuntu")));
-            p.textBlocks["Trademarks21"]->setText(_getText(DJV_TEXT("about_trademarks_unix")));
+            p.textBlocks["Trademarks16"]->setText(_getText(DJV_TEXT("about_trademarks_rhino")));
+            p.textBlocks["Trademarks17"]->setText(_getText(DJV_TEXT("about_trademarks_sgi")));
+            p.textBlocks["Trademarks18"]->setText(_getText(DJV_TEXT("about_trademarks_smpte")));
+            p.textBlocks["Trademarks19"]->setText(_getText(DJV_TEXT("about_trademarks_sourceforge")));
+            p.textBlocks["Trademarks20"]->setText(_getText(DJV_TEXT("about_trademarks_suse")));
+            p.textBlocks["Trademarks21"]->setText(_getText(DJV_TEXT("about_trademarks_ubuntu")));
+            p.textBlocks["Trademarks22"]->setText(_getText(DJV_TEXT("about_trademarks_unix")));
             p.textBlocks["TrademarksEnd"]->setText(_getText(DJV_TEXT("about_trademarks_end")));
             p.textBlocks["MadeIn"]->setText(_getText(DJV_TEXT("about_made_in")));
         }
