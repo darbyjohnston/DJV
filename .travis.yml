@@ -30,7 +30,7 @@ before_script:
 - export wrapperdir=`dirname $wrapperscript`
 - cp $wrapperdir/libinterceptor-x86_64.so $wrapperdir/libinterceptor-haswell.so
 - build-wrapper-linux-x86-64 --out-dir ../bw-output make -j 4
-- build/bin/djvTest
+#- build/bin/djvTest
 - make test
 - cat Testing/Temporary/LastTest.log
 - sh ../etc/Util/gcov.sh ..
