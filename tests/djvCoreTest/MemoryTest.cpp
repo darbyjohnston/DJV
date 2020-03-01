@@ -72,8 +72,10 @@ namespace djv
             for (auto i : Memory::getEndianEnums())
             {
                 std::stringstream ss;
-                ss << "endian string: " << i;
-                _print(ss.str());
+                ss << i;
+                std::stringstream ss2;
+                ss2 << "endian string: " << _getText(ss.str());
+                _print(ss2.str());
             }
         }
         
@@ -81,14 +83,18 @@ namespace djv
         {
             {
                 std::stringstream ss;
-                ss << "current endian: " << Memory::getEndian();
-                _print(ss.str());
+                ss << Memory::getEndian();
+                std::stringstream ss2;
+                ss2 << "current endian: " << _getText(ss.str());
+                _print(ss2.str());
             }
             
             {
                 std::stringstream ss;
-                ss << "opposite endian: " << Memory::opposite(Memory::getEndian());
-                _print(ss.str());
+                ss << Memory::opposite(Memory::getEndian());
+                std::stringstream ss2;
+                ss2 << "opposite endian: " << _getText(ss.str());
+                _print(ss2.str());
             }
             
             {

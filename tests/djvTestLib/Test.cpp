@@ -30,6 +30,7 @@
 #include <djvTestLib/Test.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/TextSystem.h>
 
 namespace djv
 {
@@ -38,6 +39,7 @@ namespace djv
         struct ITest::Private
         {
             std::weak_ptr<Core::Context> context;
+            std::shared_ptr<Core::TextSystem> textSystem;
             std::string name;
         };
         
@@ -45,6 +47,7 @@ namespace djv
             _p(new Private)
         {
             _p->context = context;
+            _p->textSystem = context->getSystemT<Core::TextSystem>();
             _p->name = name;
         }
         
@@ -59,6 +62,12 @@ namespace djv
         const std::string & ITest::getName() const
         {
             return _p->name;
+        }
+
+        std::string ITest::_getText(const std::string& id) const
+        {
+            DJV_PRIVATE_PTR();
+            return p.textSystem ? p.textSystem->getText(id) : id;
         }
 
         void ITest::_print(const std::string & value)

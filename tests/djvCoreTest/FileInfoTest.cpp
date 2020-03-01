@@ -60,8 +60,10 @@ namespace djv
             for (auto i : FileSystem::getFileTypeEnums())
             {
                 std::stringstream ss;
-                ss << "file type string: " << i;
-                _print(ss.str());
+                ss << i;
+                std::stringstream ss2;
+                ss2 << "file type string: " << _getText(ss.str());
+                _print(ss2.str());
             }
             
             for (auto i :
@@ -79,8 +81,10 @@ namespace djv
             for (auto i : FileSystem::getDirectoryListSortEnums())
             {
                 std::stringstream ss;
-                ss << "directory list sort string: " << i;
-                _print(ss.str());
+                ss << i;
+                std::stringstream ss2;
+                ss2 << "directory list sort string: " << _getText(ss.str());
+                _print(ss2.str());
             }
         }
 

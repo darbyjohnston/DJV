@@ -65,8 +65,10 @@ namespace djv
             for (auto i : Audio::getTypeEnums())
             {
                 std::stringstream ss;
-                ss << "type string: " << i;
-                _print(ss.str());
+                ss << i;
+                std::stringstream ss2;
+                ss2 << "type string: " << _getText(ss.str());
+                _print(ss2.str());
             }
         }
         

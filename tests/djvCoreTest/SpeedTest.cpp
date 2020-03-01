@@ -49,7 +49,9 @@ namespace djv
             for (auto i : Time::getFPSEnums())
             {
                 std::stringstream ss;
-                ss << "fps string: " << i;
+                ss << i;
+                std::stringstream ss2;
+                ss2 << "fps string: " << _getText(ss.str());
                 _print(ss.str());
             }
         

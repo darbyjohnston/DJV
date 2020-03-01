@@ -46,8 +46,10 @@ namespace djv
             for (auto i : Memory::getEndianEnums())
             {
                 std::stringstream ss;
-                ss << "endian string: " << i;
-                _print(ss.str());
+                ss << i;
+                std::stringstream ss2;
+                ss2 << "endian string: " << _getText(ss.str());
+                _print(ss2.str());
             }
             
             for (auto i : Memory::getEndianEnums())

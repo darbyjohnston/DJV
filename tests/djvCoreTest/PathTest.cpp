@@ -57,8 +57,10 @@ namespace djv
             for (auto i : FileSystem::getResourcePathEnums())
             {
                 std::stringstream ss;
-                ss << "resource path string: " << i;
-                _print(ss.str());
+                ss << i;
+                std::stringstream ss2;
+                ss2 << "resource path string: " << _getText(ss.str());
+                _print(ss2.str());
             }
         }
                

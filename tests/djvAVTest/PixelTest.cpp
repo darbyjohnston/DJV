@@ -65,22 +65,28 @@ namespace djv
             for (auto i : Image::getTypeEnums())
             {
                 std::stringstream ss;
-                ss << "type string: " << i;
-                _print(ss.str());
+                ss << i;
+                std::stringstream ss2;
+                ss2 << "type string: " << _getText(ss.str());
+                _print(ss2.str());
             }
             
             for (auto i : Image::getChannelsEnums())
             {
                 std::stringstream ss;
-                ss << "channels string: " << i;
-                _print(ss.str());
+                ss << i;
+                std::stringstream ss2;
+                ss2 << "channels string: " << _getText(ss.str());
+                _print(ss2.str());
             }
             
             for (auto i : Image::getDataTypeEnums())
             {
                 std::stringstream ss;
-                ss << "data type string: " << i;
-                _print(ss.str());
+                ss << i;
+                std::stringstream ss2;
+                ss2 << "data type string: " << _getText(ss.str());
+                _print(ss2.str());
             }
         }
         

@@ -47,22 +47,28 @@ namespace djv
             for (auto i : getSideEnums())
             {
                 std::stringstream ss;
-                ss << "side string: " << i;
-                _print(ss.str());
+                ss << i;
+                std::stringstream ss2;
+                ss2 << "side string: " << _getText(ss.str());
+                _print(ss2.str());
             }
 
             for (auto i : getTimeUnitsEnums())
             {
                 std::stringstream ss;
-                ss << "time units string: " << i;
-                _print(ss.str());
+                ss << i;
+                std::stringstream ss2;
+                ss2 << "time units string: " << _getText(ss.str());
+                _print(ss2.str());
             }
 
             for (auto i : getAlphaBlendEnums())
             {
                 std::stringstream ss;
-                ss << "alpha blend string: " << i;
-                _print(ss.str());
+                ss << i;
+                std::stringstream ss2;
+                ss2 << "alpha blend string: " << _getText(ss.str());
+                _print(ss2.str());
             }
             
             {

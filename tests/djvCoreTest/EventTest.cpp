@@ -60,8 +60,10 @@ namespace djv
             for (auto i : Event::getTypeEnums())
             {
                 std::stringstream ss;
-                ss << "event type string: " << i;
-                _print(ss.str());
+                ss << i;
+                std::stringstream ss2;
+                ss2 << "event type string: " << _getText(ss.str());
+                _print(ss2.str());
             }
             
             for (auto i : Event::getTypeEnums())

@@ -59,6 +59,7 @@ namespace djv
             virtual void run(const std::vector<std::string>&) = 0;
 
         protected:
+            std::string _getText(const std::string&) const;
             void _print(const std::string &);
 
         private:
