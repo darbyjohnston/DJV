@@ -92,6 +92,7 @@ namespace djv
             p.settings = ViewSettings::create(context);
             _setWidgetGeom(p.settings->getWidgetGeom());
 
+            p.gridOptions = p.settings->observeGridOptions()->get();
             p.lock = ValueSubject<ImageViewLock>::create();
 
             p.actions["ViewControls"] = UI::Action::create();
@@ -435,6 +436,7 @@ namespace djv
                     if (auto system = weak.lock())
                     {
                         system->_p->gridOptions.enabled = value;
+                        system->_p->settings->setGridOptions(system->_p->gridOptions);
                         if (system->_p->activeWidget)
                         {
                             system->_p->activeWidget->getImageView()->setGridOptions(system->_p->gridOptions);
