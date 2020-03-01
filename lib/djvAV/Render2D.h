@@ -176,6 +176,7 @@ namespace djv
             {
             public:
                 ImageFilterOptions();
+                ImageFilterOptions(ImageFilter minMag);
                 ImageFilterOptions(ImageFilter min, ImageFilter mag);
 
                 ImageFilter min = ImageFilter::Linear;
@@ -252,6 +253,8 @@ namespace djv
 
                 //! \name Images
                 ///@{
+
+                const ImageFilterOptions& getImageFilterOptions() const;
 
                 //! This function should only be called outside of beginFrame()/endFrame().
                 void setImageFilterOptions(const ImageFilterOptions&);

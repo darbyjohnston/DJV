@@ -168,6 +168,34 @@ namespace djv
             _resize();
         }
 
+        glm::mat3x3 ImageWidget::getXForm(
+            const std::shared_ptr<AV::Image::Image>& image,
+            UI::ImageRotate rotate,
+            const glm::vec2& scale,
+            UI::ImageAspectRatio imageAspectRatio)
+        {
+            glm::mat3x3 m(1.F);
+            m = glm::rotate(m, Math::deg2rad(UI::getImageRotate(rotate)));
+            const auto& info = image->getInfo();
+            m = glm::scale(m, glm::vec2(
+                scale.x * UI::getPixelAspectRatio(imageAspectRatio, info.pixelAspectRatio),
+                scale.y * UI::getAspectRatioScale(imageAspectRatio, image->getAspectRatio())));
+            switch (rotate)
+            {
+            case ImageRotate::_90:
+                m = glm::translate(m, -glm::vec2(0.F, info.size.h));
+                break;
+            case ImageRotate::_180:
+                m = glm::translate(m, -glm::vec2(info.size.w, info.size.h));
+                break;
+            case ImageRotate::_270:
+                m = glm::translate(m, -glm::vec2(info.size.w, 0.F));
+                break;
+            default: break;
+            }
+            return m;
+        }
+
         void ImageWidget::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
@@ -230,67 +258,34 @@ namespace djv
                 }
                 size.x = ceilf(size.x * UI::getPixelAspectRatio(p.imageAspectRatio, p.image->getInfo().pixelAspectRatio));
                 size.y = ceilf(size.y * UI::getAspectRatioScale(p.imageAspectRatio, p.image->getAspectRatio()));
-                glm::vec2 sizeRotated = size;
-                switch (p.imageRotate)
-                {
-                case ImageRotate::_90:
-                case ImageRotate::_270:
-                {
-                    const float tmp = sizeRotated.x;
-                    sizeRotated.x = sizeRotated.y;
-                    sizeRotated.y = tmp;
-                    break;
-                }
-                default: break;
-                }
                 glm::vec2 pos = glm::vec2(0.F, 0.F);
                 switch (getHAlign())
                 {
-                case HAlign::Center:
-                    pos.x = ceilf(c.x - sizeRotated.x / 2.F);
-                    break;
-                case HAlign::Fill:
-                    pos.x = g.min.x;
-                    sizeRotated.x = g.w();
-                    break;
+                case HAlign::Center: pos.x = ceilf(c.x - size.x / 2.F); break;
+                case HAlign::Fill:   pos.x = g.min.x; break;
                 case HAlign::Left:   pos.x = g.min.x; break;
-                case HAlign::Right:  pos.x = g.max.x - sizeRotated.x; break;
+                case HAlign::Right:  pos.x = g.max.x - size.x; break;
                 default: break;
                 }
                 switch (getVAlign())
                 {
-                case VAlign::Center:
-                    pos.y = ceilf(c.y - sizeRotated.y / 2.F);
-                    break;
-                case VAlign::Fill:
-                    pos.y = g.min.y;
-                    sizeRotated.y = g.h();
-                    break;
+                case VAlign::Center: pos.y = ceilf(c.y - size.y / 2.F); break;
+                case VAlign::Fill:   pos.y = g.min.y; break;
                 case VAlign::Top:    pos.y = g.min.y; break;
-                case VAlign::Bottom: pos.y = g.max.y - sizeRotated.y; break;
+                case VAlign::Bottom: pos.y = g.max.y - size.y; break;
                 default: break;
-                }
-                switch (p.imageRotate)
-                {
-                case ImageRotate::_90:
-                    pos.x += sizeRotated.x;
-                    break;
-                case ImageRotate::_180:
-                    pos.x += sizeRotated.x;
-                    pos.y += sizeRotated.y;
-                    break;
-                default: break;
-                case ImageRotate::_270:
-                    pos.y += sizeRotated.y;
-                    break;
                 }
 
                 AV::Render::ImageOptions options = p.imageOptions;
                 options.cache = AV::Render::ImageCache::Dynamic;
                 glm::mat3x3 m(1.F);
                 m = glm::translate(m, pos);
-                m = glm::rotate(m, Math::deg2rad(UI::getImageRotate(p.imageRotate)));
-                m = glm::scale(m, glm::vec2(size.x / static_cast<float>(info.size.w), size.y / static_cast<float>(info.size.h)));
+                m *= getXForm(
+                    p.image,
+                    p.imageRotate,
+                    glm::vec2(size.x / static_cast<float>(info.size.w), size.y / static_cast<float>(info.size.h)),
+                    UI::ImageAspectRatio::Unscaled);
+
                 auto i = p.ocioConfig.fileColorSpaces.find(p.image->getPluginName());
                 if (i != p.ocioConfig.fileColorSpaces.end())
                 {

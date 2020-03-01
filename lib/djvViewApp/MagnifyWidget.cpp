@@ -35,6 +35,7 @@
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/ImageWidget.h>
 #include <djvUI/IntSlider.h>
 #include <djvUI/RowLayout.h>
 
@@ -229,11 +230,7 @@ namespace djv
                     glm::mat3x3 m(1.F);
                     m = glm::translate(m, glm::vec2(g.w() / 2.F, g.h() / 2.F) - glm::vec2(_magnifyPos.x * magnify, _magnifyPos.y * magnify));
                     m = glm::translate(m, g.min + glm::vec2(_imagePos.x * magnify, _imagePos.y * magnify));
-                    m = glm::rotate(m, Math::deg2rad(UI::getImageRotate(_imageRotate)));
-                    m = glm::scale(m, glm::vec2(
-                        _imageZoom * UI::getPixelAspectRatio(_imageAspectRatio, _image->getInfo().pixelAspectRatio) * magnify,
-                        _imageZoom * UI::getAspectRatioScale(_imageAspectRatio, _image->getAspectRatio()) * magnify));
-
+                    m *= UI::ImageWidget::getXForm(_image, _imageRotate, glm::vec2(_imageZoom * magnify, _imageZoom * magnify), _imageAspectRatio);
                     render->pushTransform(m);
                     AV::Render::ImageOptions options(_imageOptions);
                     auto i = _ocioConfig.fileColorSpaces.find(_image->getPluginName());

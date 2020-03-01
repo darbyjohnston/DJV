@@ -746,32 +746,35 @@ namespace djv
                 p.channelsLayout->setText(channelButtons[j], _getText(ss.str()) + ":");
             }
 
-            p.alphaComboBox->clearItems();
+            std::vector<std::string> items;
             for (auto i : AV::getAlphaBlendEnums())
             {
                 std::stringstream ss;
                 ss << i;
-                p.alphaComboBox->addItem(_getText(ss.str()));
+                items.push_back(_getText(ss.str()));
             }
+            p.alphaComboBox->setItems(items);
             p.channelsLayout->setText(p.alphaComboBox, _getText(DJV_TEXT("image_controls_channels_alpha_blend")) + ":");
 
             p.transformLayout->setText(p.mirrorCheckBoxes[0], _getText(DJV_TEXT("image_controls_transform_mirror_horizontal")) + ":");
             p.transformLayout->setText(p.mirrorCheckBoxes[1], _getText(DJV_TEXT("image_controls_transform_mirror_vertical")) + ":");
-            p.rotateComboBox->clearItems();
+            items.clear();
             for (auto i : UI::getImageRotateEnums())
             {
                 std::stringstream ss;
                 ss << i;
-                p.rotateComboBox->addItem(_getText(ss.str()));
+                items.push_back(_getText(ss.str()));
             }
+            p.rotateComboBox->setItems(items);
             p.transformLayout->setText(p.rotateComboBox, _getText(DJV_TEXT("image_controls_transform_rotate")) + ":");
-            p.aspectRatioComboBox->clearItems();
+            items.clear();
             for (auto i : UI::getImageAspectRatioEnums())
             {
                 std::stringstream ss;
                 ss << i;
-                p.aspectRatioComboBox->addItem(_getText(ss.str()));
+                items.push_back(_getText(ss.str()));
             }
+            p.aspectRatioComboBox->setItems(items);
             p.transformLayout->setText(p.aspectRatioComboBox, _getText(DJV_TEXT("image_controls_transform_aspect_ratio")) + ":");
 
             p.colorLayout->setText(p.colorSliders["Brightness"], _getText(DJV_TEXT("image_controls_color_brightness")) + ":");

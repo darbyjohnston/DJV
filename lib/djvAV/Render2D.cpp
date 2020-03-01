@@ -995,6 +995,11 @@ namespace djv
                 }
             }
 
+            const ImageFilterOptions& Render2D::getImageFilterOptions() const
+            {
+                return _p->imageFilterOptions;
+            }
+
             void Render2D::setImageFilterOptions(const ImageFilterOptions& value)
             {
                 DJV_PRIVATE_PTR();

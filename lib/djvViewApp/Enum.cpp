@@ -56,6 +56,13 @@ namespace djv
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         ViewApp,
+        ImageViewGridLabels,
+        DJV_TEXT("view_grid_labels_none"),
+        DJV_TEXT("view_grid_labels_x_y"),
+        DJV_TEXT("view_grid_labels_a_y"));
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        ViewApp,
         ScrollWheelZoomSpeed,
         DJV_TEXT("settings_scroll_wheel_slow"),
         DJV_TEXT("settings_scroll_wheel_medium"),
@@ -82,6 +89,13 @@ namespace djv
         return picojson::value(ss.str());
     }
 
+    picojson::value toJSON(ViewApp::ImageViewGridLabels value)
+    {
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
+    }
+
     picojson::value toJSON(ViewApp::ScrollWheelZoomSpeed value)
     {
         std::stringstream ss;
@@ -97,6 +111,19 @@ namespace djv
     }
 
     void fromJSON(const picojson::value& value, ViewApp::ImageViewLock& out)
+    {
+        if (value.is<std::string>())
+        {
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
+        }
+    }
+
+    void fromJSON(const picojson::value& value, ViewApp::ImageViewGridLabels& out)
     {
         if (value.is<std::string>())
         {

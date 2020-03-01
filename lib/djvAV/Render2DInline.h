@@ -115,6 +115,11 @@ namespace djv
             inline ImageFilterOptions::ImageFilterOptions()
             {}
 
+            inline ImageFilterOptions::ImageFilterOptions(ImageFilter minMag) :
+                min(minMag),
+                mag(minMag)
+            {}
+
             inline ImageFilterOptions::ImageFilterOptions(ImageFilter min, ImageFilter mag) :
                 min(min),
                 mag(mag)
