@@ -36,6 +36,7 @@
 #include <djvUIComponents/ColorPicker.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/ComboBox.h>
 #include <djvUI/FloatEdit.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/IntSlider.h>
@@ -78,7 +79,8 @@ namespace djv
             std::shared_ptr<UI::ToggleButton> gridEnabledButton;
             std::shared_ptr<UI::IntSlider> gridSizeSlider;
             std::shared_ptr<UI::ColorPickerSwatch> gridColorPickerSwatch;
-            std::shared_ptr<UI::ToggleButton> gridLabelsButton;
+            std::shared_ptr<UI::ComboBox> gridLabelsComboBox;
+            std::shared_ptr<UI::ColorPickerSwatch> gridLabelsColorPickerSwatch;
             std::shared_ptr<UI::FormLayout> gridFormLayout;
             std::shared_ptr<UI::ScrollWidget> gridScrollWidget;
 
@@ -130,7 +132,9 @@ namespace djv
             p.gridSizeSlider->setRange(IntRange(1, 500));
             p.gridColorPickerSwatch = UI::ColorPickerSwatch::create(context);
             p.gridColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
-            p.gridLabelsButton = UI::ToggleButton::create(context);
+            p.gridLabelsComboBox = UI::ComboBox::create(context);
+            p.gridLabelsColorPickerSwatch = UI::ColorPickerSwatch::create(context);
+            p.gridLabelsColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
 
             p.backgroundColorPickerSwatch = UI::ColorPickerSwatch::create(context);
             p.backgroundColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
@@ -167,7 +171,8 @@ namespace djv
             p.gridFormLayout->addChild(p.gridEnabledButton);
             p.gridFormLayout->addChild(p.gridSizeSlider);
             p.gridFormLayout->addChild(p.gridColorPickerSwatch);
-            p.gridFormLayout->addChild(p.gridLabelsButton);
+            p.gridFormLayout->addChild(p.gridLabelsComboBox);
+            p.gridFormLayout->addChild(p.gridLabelsColorPickerSwatch);
             p.gridScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             p.gridScrollWidget->setBorder(false);
             p.gridScrollWidget->addChild(p.gridFormLayout);
@@ -297,14 +302,34 @@ namespace djv
                     }
                 });
 
-            p.gridLabelsButton->setCheckedCallback(
-                [weak, contextWeak](bool value)
+            p.gridLabelsComboBox->setCallback(
+                [weak, contextWeak](int value)
                 {
                     if (auto context = contextWeak.lock())
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->gridOptions.labels = value;
+                            widget->_p->gridOptions.labels = static_cast<ImageViewGridLabels>(value);
+                            widget->_widgetUpdate();
+                            if (widget->_p->activeWidget)
+                            {
+                                widget->_p->activeWidget->getImageView()->setGridOptions(widget->_p->gridOptions);
+                            }
+                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                            viewSettings->setGridOptions(widget->_p->gridOptions);
+                        }
+                    }
+                });
+
+            p.gridLabelsColorPickerSwatch->setColorCallback(
+                [weak, contextWeak](const AV::Image::Color& value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->gridOptions.labelsColor = value;
                             widget->_widgetUpdate();
                             if (widget->_p->activeWidget)
                             {
@@ -443,7 +468,8 @@ namespace djv
             p.gridFormLayout->setText(p.gridEnabledButton, _getText(DJV_TEXT("widget_view_grid_enabled")) + ":");
             p.gridFormLayout->setText(p.gridSizeSlider, _getText(DJV_TEXT("widget_view_grid_size")) + ":");
             p.gridFormLayout->setText(p.gridColorPickerSwatch, _getText(DJV_TEXT("widget_view_grid_color")) + ":");
-            p.gridFormLayout->setText(p.gridLabelsButton, _getText(DJV_TEXT("widget_view_grid_labels")) + ":");
+            p.gridFormLayout->setText(p.gridLabelsComboBox, _getText(DJV_TEXT("widget_view_grid_labels")) + ":");
+            p.gridFormLayout->setText(p.gridLabelsColorPickerSwatch, _getText(DJV_TEXT("widget_view_grid_labels_color")) + ":");
 
             p.backgroundFormLayout->setText(p.backgroundColorPickerSwatch, _getText(DJV_TEXT("widget_view_background_color")) + ":");
             
@@ -501,8 +527,17 @@ namespace djv
             p.gridEnabledButton->setChecked(p.gridOptions.enabled);
             p.gridSizeSlider->setValue(p.gridOptions.size);
             p.gridColorPickerSwatch->setColor(p.gridOptions.color);
-            p.gridLabelsButton->setChecked(p.gridOptions.labels);
-            
+            std::vector<std::string> items;
+            for (auto i : getImageViewGridLabelsEnums())
+            {
+                std::stringstream ss;
+                ss << i;
+                items.push_back(_getText(ss.str()));
+            }
+            p.gridLabelsComboBox->setItems(items);
+            p.gridLabelsComboBox->setCurrentItem(static_cast<int>(p.gridOptions.labels));
+            p.gridLabelsColorPickerSwatch->setColor(p.gridOptions.labelsColor);
+
             p.backgroundColorPickerSwatch->setColor(p.backgroundColor);
         }
 

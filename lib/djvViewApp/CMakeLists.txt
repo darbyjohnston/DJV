@@ -25,6 +25,7 @@ set(header
 	ImageSettings.h
     ImageSystem.h
     ImageView.h
+    ImageViewPrivate.h
     InfoWidget.h
 	LayersWidget.h
 	MDIWidget.h
@@ -87,6 +88,7 @@ set(source
 	ImageSettings.cpp
     ImageSystem.cpp
     ImageView.cpp
+    ImageViewPrivate.cpp
     InfoWidget.cpp
 	LayersWidget.cpp
 	MDIWidget.cpp

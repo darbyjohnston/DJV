@@ -31,9 +31,11 @@
 
 #include <djvViewApp/Annotate.h>
 #include <djvViewApp/ImageSettings.h>
+#include <djvViewApp/ImageViewPrivate.h>
 #include <djvViewApp/ViewSettings.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/ImageWidget.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Style.h>
 
@@ -69,12 +71,12 @@ namespace djv
             return enabled == other.enabled &&
                 size == other.size &&
                 color == other.color &&
-                labels == other.labels;
+                labels == other.labels &&
+                labelsColor == other.labelsColor;
         }
 
         struct ImageView::Private
         {
-            std::shared_ptr<AV::Font::System> fontSystem;
             std::shared_ptr<ValueSubject<std::shared_ptr<AV::Image::Image> > > image;
             std::shared_ptr<ValueSubject<AV::Render2D::ImageOptions> > imageOptions;
             AV::OCIO::Config ocioConfig;
@@ -90,31 +92,18 @@ namespace djv
             std::vector<std::shared_ptr<AnnotatePrimitive> > annotations;
             glm::vec2 pressedImagePos = glm::vec2(0.F, 0.F);
             bool viewInit = true;
-            AV::Font::Metrics fontMetrics;
-            std::future<AV::Font::Metrics> fontMetricsFuture;
-            struct Text
-            {
-                std::string text;
-                glm::vec2 size = glm::vec2(0.F, 0.F);
-                std::vector<std::shared_ptr<AV::Font::Glyph> > glyphs;
-            };
-            std::map<UI::Orientation, std::vector<Text> > text;
-            std::map<UI::Orientation, std::vector<std::pair<size_t, std::future<glm::vec2> > > > textSizeFutures;
-            std::map<UI::Orientation, std::vector<std::pair<size_t, std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > > > > textGlyphsFutures;
-            float textWidthMax = 0.F;
+            std::shared_ptr<GridWidget> gridWidget;
             std::shared_ptr<ValueObserver<ImageViewLock> > lockObserver;
             std::shared_ptr<ValueObserver<AV::OCIO::Config> > ocioConfigObserver;
             std::shared_ptr<Animation::Animation> zoomAnimation;
         };
 
-        void ImageView::_init(const std::shared_ptr<Core::Context>& context)
+        void ImageView::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
 
             setClassName("djv::ViewApp::ImageView");
-
-            p.fontSystem = context->getSystemT<AV::Font::System>();
 
             auto avSystem = context->getSystemT<AV::AVSystem>();
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
@@ -131,7 +120,14 @@ namespace djv
             p.gridOptions = ValueSubject<GridOptions>::create(viewSettings->observeGridOptions()->get());
             p.backgroundColor = ValueSubject<AV::Image::Color>::create(viewSettings->observeBackgroundColor()->get());
 
-            _textUpdate();
+            p.gridWidget = GridWidget::create(context);
+            p.gridWidget->setOptions(p.gridOptions->get());
+            p.gridWidget->setImagePosAndZoom(p.imagePos->get(), p.imageZoom->get());
+            p.gridWidget->setImageRotate(p.imageRotate->get());
+            p.gridWidget->setImageAspectRatio(p.imageAspectRatio->get(), 1.F, 1.F);
+            p.gridWidget->setImageBBox(getImageBBox());
+            p.gridWidget->setImageFrame(p.lockFrame);
+            addChild(p.gridWidget);
 
             auto weak = std::weak_ptr<ImageView>(std::dynamic_pointer_cast<ImageView>(shared_from_this()));
             p.lockObserver = ValueObserver<ImageViewLock>::create(
@@ -177,14 +173,14 @@ namespace djv
         ImageView::~ImageView()
         {}
 
-        std::shared_ptr<ImageView> ImageView::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<ImageView> ImageView::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<ImageView>(new ImageView);
             out->_init(context);
             return out;
         }
 
-        std::shared_ptr<Core::IValueSubject<std::shared_ptr<AV::Image::Image> > > ImageView::observeImage() const
+        std::shared_ptr<IValueSubject<std::shared_ptr<AV::Image::Image> > > ImageView::observeImage() const
         {
             return _p->image;
         }
@@ -194,8 +190,13 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.image->setIfChanged(value))
             {
+                p.gridWidget->setImageAspectRatio(
+                    p.imageAspectRatio->get(),
+                    p.image ? p.image->get()->getAspectRatio() : 1.F,
+                    p.image ? p.image->get()->getInfo().pixelAspectRatio : 1.F);
+                p.gridWidget->setImageBBox(getImageBBox());
+                p.gridWidget->setImageFrame(p.lockFrame);
                 _resize();
-                _textUpdate();
             }
         }
 
@@ -273,11 +274,11 @@ namespace djv
         {
             if (animate)
             {
-                _animate(pos, zoom);
+                _animatePosAndZoom(pos, zoom);
             }
             else
             {
-                _posAndZoom(pos, zoom);
+                _setPosAndZoom(pos, zoom);
             }
         }
 
@@ -286,6 +287,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.imageRotate->setIfChanged(value))
             {
+                p.gridWidget->setImageRotate(value);
+                p.gridWidget->setImageBBox(getImageBBox());
+                p.gridWidget->setImageFrame(p.lockFrame);
                 _resize();
             }
         }
@@ -295,6 +299,12 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.imageAspectRatio->setIfChanged(value))
             {
+                p.gridWidget->setImageAspectRatio(
+                    p.imageAspectRatio->get(),
+                    p.image ? p.image->get()->getAspectRatio() : 1.F,
+                    p.image ? p.image->get()->getInfo().pixelAspectRatio : 1.F);
+                p.gridWidget->setImageBBox(getImageBBox());
+                p.gridWidget->setImageFrame(p.lockFrame);
                 _resize();
             }
         }
@@ -366,7 +376,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<Core::IValueSubject<GridOptions> > ImageView::observeGridOptions() const
+        std::shared_ptr<IValueSubject<GridOptions> > ImageView::observeGridOptions() const
         {
             return _p->gridOptions;
         }
@@ -376,11 +386,11 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.gridOptions->setIfChanged(value))
             {
-                _textUpdate();
+                p.gridWidget->setOptions(value);
             }
         }
 
-        std::shared_ptr<Core::IValueSubject<AV::Image::Color> > ImageView::observeBackgroundColor() const
+        std::shared_ptr<IValueSubject<AV::Image::Color> > ImageView::observeBackgroundColor() const
         {
             return _p->backgroundColor;
         }
@@ -427,6 +437,9 @@ namespace djv
             {
                 p.viewInit = false;
             }
+            p.gridWidget->setGeometry(getGeometry());
+            p.gridWidget->setImageBBox(getImageBBox());
+            p.gridWidget->setImageFrame(p.lockFrame);
         }
 
         void ImageView::_paintEvent(Event::Paint &)
@@ -440,18 +453,13 @@ namespace djv
             render->drawRect(g);
 
             const float zoom = p.imageZoom->get();
-            const glm::vec2& pos = p.imagePos->get();
             if (auto image = p.image->get())
             {
-                render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F));
-
                 glm::mat3x3 m(1.F);
-                m = glm::translate(m, g.min + pos);
-                m = glm::rotate(m, Math::deg2rad(UI::getImageRotate(p.imageRotate->get())));
-                m = glm::scale(m, glm::vec2(
-                    zoom * UI::getPixelAspectRatio(p.imageAspectRatio->get(), image->getInfo().pixelAspectRatio),
-                    zoom * UI::getAspectRatioScale(p.imageAspectRatio->get(), image->getAspectRatio())));
+                m = glm::translate(m, g.min + p.imagePos->get());
+                m *= UI::ImageWidget::getXForm(image, p.imageRotate->get(), glm::vec2(zoom, zoom), p.imageAspectRatio->get());
                 render->pushTransform(m);
+                render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F));
                 AV::Render2D::ImageOptions options(p.imageOptions->get());
                 auto i = p.ocioConfig.fileColorSpaces.find(image->getPluginName());
                 if (i != p.ocioConfig.fileColorSpaces.end())
@@ -471,15 +479,10 @@ namespace djv
                 render->drawImage(image, glm::vec2(0.F, 0.F), options);
                 render->popTransform();
             }
-            
-            const auto& gridOptions = p.gridOptions->get();
-            if (gridOptions.enabled)
-            {
-                _drawGrid(gridOptions.size);
-            }
 
             if (p.annotations.size())
             {
+                const glm::vec2& pos = p.imagePos->get();
                 glm::mat3x3 m(1.F);
                 m = glm::translate(m, g.min + pos);
                 m = glm::scale(m, glm::vec2(zoom, zoom));
@@ -492,108 +495,28 @@ namespace djv
             }
         }
 
-        void ImageView::_initEvent(Event::Init& event)
-        {
-            Widget::_initEvent(event);
-            _textUpdate();
-        }
-
-        void ImageView::_updateEvent(Event::Update& event)
-        {
-            Widget::_updateEvent(event);
-            DJV_PRIVATE_PTR();
-            if (p.fontMetricsFuture.valid() &&
-                p.fontMetricsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
-            {
-                try
-                {
-                    p.fontMetrics = p.fontMetricsFuture.get();
-                    _redraw();
-                }
-                catch (const std::exception & e)
-                {
-                    _log(e.what(), LogLevel::Error);
-                }
-            }
-            for (auto& i : p.textSizeFutures)
-            {
-                auto j = i.second.begin();
-                while (j != i.second.end())
-                {
-                    if (j->second.valid() &&
-                        j->second.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
-                    {
-                        try
-                        {
-                            const glm::vec2 size = j->second.get();
-                            p.text[i.first][j->first].size = size;
-                            p.textWidthMax = std::max(p.textWidthMax, size.x);
-                            _redraw();
-                        }
-                        catch (const std::exception & e)
-                        {
-                            _log(e.what(), LogLevel::Error);
-                        }
-                        j = i.second.erase(j);
-                    }
-                    else
-                    {
-                        ++j;
-                    }
-                }
-            }
-            for (auto& i : p.textGlyphsFutures)
-            {
-                auto j = i.second.begin();
-                while (j != i.second.end())
-                {
-                    if (j->second.valid() &&
-                        j->second.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
-                    {
-                        try
-                        {
-                            p.text[i.first][j->first].glyphs = j->second.get();
-                            _redraw();
-                        }
-                        catch (const std::exception & e)
-                        {
-                            _log(e.what(), LogLevel::Error);
-                        }
-                        j = i.second.erase(j);
-                    }
-                    else
-                    {
-                        ++j;
-                    }
-                }
-            }
-        }
-
         std::vector<glm::vec3> ImageView::_getImagePoints() const
         {
             DJV_PRIVATE_PTR();
             std::vector<glm::vec3> out;
             if (auto image = p.image->get())
             {
-                const AV::Image::Size& imageSize = image->getSize();
-                glm::mat3x3 m(1.F);
-                m = glm::rotate(m, Math::deg2rad(UI::getImageRotate(p.imageRotate->get())));
-                m = glm::scale(m, glm::vec2(
-                    getPixelAspectRatio(p.imageAspectRatio->get(), image->getInfo().pixelAspectRatio),
-                    getAspectRatioScale(p.imageAspectRatio->get(), image->getAspectRatio())));
+                const AV::Image::Size& size = image->getSize();
                 out.resize(4);
                 out[0].x = 0.F;
                 out[0].y = 0.F;
                 out[0].z = 1.F;
-                out[1].x = 0.F + imageSize.w;
+                out[1].x = 0.F + size.w;
                 out[1].y = 0.F;
                 out[1].z = 1.F;
-                out[2].x = 0.F + imageSize.w;
-                out[2].y = 0.F + imageSize.h;
+                out[2].x = 0.F + size.w;
+                out[2].y = 0.F + size.h;
                 out[2].z = 1.F;
                 out[3].x = 0.F;
-                out[3].y = 0.F + imageSize.h;
+                out[3].y = 0.F + size.h;
                 out[3].z = 1.F;
+                glm::mat3x3 m(1.F);
+                m *= UI::ImageWidget::getXForm(image, p.imageRotate->get(), glm::vec2(1.F, 1.F), p.imageAspectRatio->get());
                 for (auto& i : out)
                 {
                     i = m * i;
@@ -635,7 +558,7 @@ namespace djv
             return out;
         }
 
-        void ImageView::_animate(const glm::vec2& pos, float zoom)
+        void ImageView::_animatePosAndZoom(const glm::vec2& pos, float zoom)
         {
             DJV_PRIVATE_PTR();
             const glm::vec2 posPrev = p.imagePos->get();
@@ -653,19 +576,19 @@ namespace djv
                             Math::lerp(value, posPrev.x, pos.x),
                             Math::lerp(value, posPrev.y, pos.y));
                         const float zoomTmp = Math::lerp(value, zoomPrev, zoom);
-                        widget->_posAndZoom(posTmp, zoomTmp);
+                        widget->_setPosAndZoom(posTmp, zoomTmp);
                     }
                 },
                 [weak, pos, zoom](float)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_posAndZoom(pos, zoom);
+                        widget->_setPosAndZoom(pos, zoom);
                     }
                 });
         }
 
-        void ImageView::_posAndZoom(const glm::vec2& pos, float zoom)
+        void ImageView::_setPosAndZoom(const glm::vec2& pos, float zoom)
         {
             DJV_PRIVATE_PTR();
             if (p.imagePos->setIfChanged(pos))
@@ -674,150 +597,11 @@ namespace djv
             }
             if (p.imageZoom->setIfChanged(std::max(0.F, zoom)))
             {
-                _textUpdate();
+                _resize();
             }
-        }
-
-        void ImageView::_drawGrid(float gridSize)
-        {
-            DJV_PRIVATE_PTR();
-            const float zoom = _p->imageZoom->get();
-            const float gridSizeZoom = gridSize * zoom;
-            if (gridSizeZoom > 2.f)
-            {
-                const glm::vec2& imagePos = p.imagePos->get();
-
-                const auto& style = _getStyle();
-                const float m = style->getMetric(UI::MetricsRole::MarginSmall);
-                const float b = style->getMetric(UI::MetricsRole::Border);
-                const BBox2f& g = getMargin().bbox(getGeometry(), style);
-                const BBox2f area(
-                    (floorf(-imagePos.x / zoom / gridSize) - 1.F) * gridSize,
-                    (floorf(-imagePos.y / zoom / gridSize) - 1.F) * gridSize,
-                    (ceilf(g.w() / zoom / gridSize) + 2.F) * gridSize,
-                    (ceilf(g.h() / zoom / gridSize) + 2.F) * gridSize);
-
-                auto render = _getRender();
-                const auto& gridOptions = p.gridOptions->get();
-                const float opacity = Math::clamp((gridSizeZoom - 2.F) / 10.F, 0.F, 1.F);
-                auto gridColor = gridOptions.color.convert(AV::Image::Type::RGBA_F32);
-                gridColor.setF32(gridColor.getF32(3) * opacity, 3);
-                render->setFillColor(gridColor);
-                for (float y = 0; y < area.h(); y += gridSize)
-                {
-                    render->drawRect(BBox2f(
-                        g.min.x + floorf(area.min.x * zoom + imagePos.x),
-                        g.min.y + floorf((area.min.y + y) * zoom + imagePos.y),
-                        ceilf(area.w() * zoom),
-                        b));
-                }
-                for (float x = 0; x < area.w(); x += gridSize)
-                {
-                    render->drawRect(BBox2f(
-                        g.min.x + floorf((area.min.x + x) * zoom + imagePos.x),
-                        g.min.y + floorf(area.min.y * zoom + imagePos.y),
-                        b,
-                        ceilf(area.h() * zoom)));
-                }
-
-                if (gridOptions.labels && (p.textWidthMax + m * 2.F) < gridSizeZoom)
-                {
-                    render->setFillColor(style->getColor(UI::ColorRole::OverlayLight));
-                    float x = g.min.x + imagePos.x;
-                    float y = p.lockFrame.min.y;
-                    for (size_t i = 0; i < p.text[UI::Orientation::Horizontal].size(); ++i)
-                    {
-                        render->drawRect(BBox2f(x, y, p.text[UI::Orientation::Horizontal][i].size.x + m * 2.F, p.fontMetrics.lineHeight + m * 2.f));
-                        x += gridSizeZoom;
-                    }
-                    x = p.lockFrame.min.x;
-                    y = g.min.y + imagePos.y;
-                    for (size_t i = 0; i < p.text[UI::Orientation::Vertical].size(); ++i)
-                    {
-                        render->drawRect(BBox2f(x, y, p.text[UI::Orientation::Vertical][i].size.x + m * 2.F, p.fontMetrics.lineHeight + m * 2.f));
-                        y += gridSizeZoom;
-                    }
-
-                    render->setFillColor(style->getColor(UI::ColorRole::Foreground));
-                    x = g.min.x + imagePos.x + m;
-                    y = p.lockFrame.min.y + m;
-                    for (size_t i = 0; i < p.text[UI::Orientation::Horizontal].size(); ++i)
-                    {
-                        render->drawText(p.text[UI::Orientation::Horizontal][i].glyphs, glm::vec2(floorf(x), floorf(y + p.fontMetrics.ascender - 1.F)));
-                        x += gridSizeZoom;
-                    }
-                    x = p.lockFrame.min.x + m;
-                    y = g.min.y + imagePos.y + m;
-                    for (size_t i = 0; i < p.text[UI::Orientation::Vertical].size(); ++i)
-                    {
-                        render->drawText(p.text[UI::Orientation::Vertical][i].glyphs, glm::vec2(floorf(x), floorf(y + p.fontMetrics.ascender - 1.F)));
-                        y += gridSizeZoom;
-                    }
-                }
-            }
-        }
-
-        namespace
-        {
-            std::string getColumnLabel(size_t value)
-            {
-                std::stringstream ss;
-                ss << "X" << value;
-                return ss.str();
-            }
-
-            std::string getRowLabel(size_t value)
-            {
-                std::stringstream ss;
-                ss << "Y" << value;
-                return ss.str();
-            }
-
-        } // namespace
-
-        void ImageView::_textUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            p.textSizeFutures.clear();
-            p.textGlyphsFutures.clear();
-            const auto& gridOptions = p.gridOptions->get();
-            if (gridOptions.enabled)
-            {
-                if (auto image = p.image->get())
-                {
-                    const float gridSize = gridOptions.size;
-                    if (gridOptions.labels && (gridSize * _p->imageZoom->get()) > 2.f)
-                    {
-                        for (auto i : UI::getOrientationEnums())
-                        {
-                            p.textSizeFutures[i] = std::vector<std::pair<size_t, std::future<glm::vec2> > >();
-                            p.textGlyphsFutures[i] = std::vector< std::pair<size_t, std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > > >();
-                        }
-                        const auto& style = _getStyle();
-                        const auto fontInfo = style->getFontInfo(AV::Font::familyMono, AV::Font::faceDefault, UI::MetricsRole::FontSmall);
-                        p.fontMetricsFuture = p.fontSystem->getMetrics(fontInfo);
-                        const AV::Image::Size& imageSize = image->getSize();
-                        size_t cells = static_cast<size_t>(imageSize.w / gridSize + 1);
-                        p.text[UI::Orientation::Horizontal].resize(cells);
-                        for (size_t i = 0; i < cells; ++i)
-                        {
-                            const std::string label = getColumnLabel(i);
-                            p.text[UI::Orientation::Horizontal][i].text = label;
-                            p.textSizeFutures[UI::Orientation::Horizontal].push_back(std::make_pair(i, p.fontSystem->measure(label, fontInfo)));
-                            p.textGlyphsFutures[UI::Orientation::Horizontal].push_back(std::make_pair(i, p.fontSystem->getGlyphs(label, fontInfo)));
-                        }
-                        cells = static_cast<size_t>(imageSize.h / gridSize + 1);
-                        p.text[UI::Orientation::Vertical].resize(cells);
-                        for (size_t i = 0; i < cells; ++i)
-                        {
-                            const std::string label = getRowLabel(i);
-                            p.text[UI::Orientation::Vertical][i].text = label;
-                            p.textSizeFutures[UI::Orientation::Vertical].push_back(std::make_pair(i, p.fontSystem->measure(label, fontInfo)));
-                            p.textGlyphsFutures[UI::Orientation::Vertical].push_back(std::make_pair(i, p.fontSystem->getGlyphs(label, fontInfo)));
-                        }
-                    }
-                }
-            }
+            p.gridWidget->setImagePosAndZoom(p.imagePos->get(), p.imageZoom->get());
+            p.gridWidget->setImageBBox(getImageBBox());
+            p.gridWidget->setImageFrame(p.lockFrame);
         }
 
     } // namespace ViewApp
@@ -829,6 +613,7 @@ namespace djv
         out.get<picojson::object>()["Size"] = toJSON(value.size);
         out.get<picojson::object>()["Color"] = toJSON(value.color);
         out.get<picojson::object>()["Labels"] = toJSON(value.labels);
+        out.get<picojson::object>()["LabelsColor"] = toJSON(value.labelsColor);
         return out;
     }
 
@@ -853,6 +638,10 @@ namespace djv
                 else if ("Labels" == i.first)
                 {
                     fromJSON(i.second, out.labels);
+                }
+                else if ("LabelsColor" == i.first)
+                {
+                    fromJSON(i.second, out.labelsColor);
                 }
             }
         }

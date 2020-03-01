@@ -64,8 +64,8 @@ namespace djv
 
             static std::shared_ptr<ImageWidget> create(const std::shared_ptr<Core::Context>&);
 
-            const std::shared_ptr<AV::Image::Image> & getImage() const;
-            void setImage(const std::shared_ptr<AV::Image::Image> &);
+            const std::shared_ptr<AV::Image::Image>& getImage() const;
+            void setImage(const std::shared_ptr<AV::Image::Image>&);
             void setImageOptions(const AV::Render2D::ImageOptions&);
             void setImageRotate(ImageRotate);
             void setImageAspectRatio(ImageAspectRatio);
@@ -75,6 +75,12 @@ namespace djv
 
             MetricsRole getSizeRole() const;
             void setSizeRole(MetricsRole);
+
+            static glm::mat3x3 getXForm(
+                const std::shared_ptr<AV::Image::Image>&,
+                UI::ImageRotate,
+                const glm::vec2& scale,
+                UI::ImageAspectRatio);
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;

@@ -428,6 +428,9 @@
     "view_background": "Background",
     "view_controls": "View Controls",
     "view_grid": "Grid",
+	"view_grid_labels_none": "None",
+	"view_grid_labels_x_y": "X, Y",
+	"view_grid_labels_a_y": "A, Y",
     "view_hud": "HUD",
     "view_hud_tooltip": "Show the heads up display",
     "view_lock_center": "Lock Center",
@@ -501,6 +504,7 @@
     "widget_view_grid_color": "Color",
     "widget_view_grid_enabled": "Enabled",
     "widget_view_grid_labels": "Labels",
+    "widget_view_grid_labels_color": "Labels color",
     "widget_view_grid_set_as_default": "Set as Default",
     "widget_view_grid_size": "Size",
     "zoom": "Zoom"

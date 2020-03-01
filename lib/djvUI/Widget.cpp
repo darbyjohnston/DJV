@@ -341,6 +341,7 @@ namespace djv
 
         void Widget::nextTextFocus(const std::shared_ptr<Widget>& widget)
         {
+            // Find the next sibling that can accept focus.
             const auto& childWidgets = getChildWidgets();
             const int size = static_cast<int>(childWidgets.size());
             bool accepted = false;
@@ -362,14 +363,17 @@ namespace djv
                     }
                 }
             }
+
             if (!accepted)
             {
                 if (auto parent = std::dynamic_pointer_cast<Widget>(getParent().lock()))
                 {
-                    parent->nextTextFocus(getFocusWidget());
+                    // Try the parent widget.
+                    parent->nextTextFocus(std::dynamic_pointer_cast<Widget>(shared_from_this()));
                 }
                 else
                 {
+                    // Try the child widgets.
                     for (int j = 0; j < size; ++j)
                     {
                         if (childWidgets[j]->getFocusWidget()->acceptFocus(TextFocusDirection::Next))
@@ -383,6 +387,7 @@ namespace djv
 
         void Widget::prevTextFocus(const std::shared_ptr<Widget>& widget)
         {
+            // Find the previous sibling that can accept focus.
             const auto& childWidgets = getChildWidgets();
             const int size = static_cast<int>(childWidgets.size());
             bool accepted = false;
@@ -408,10 +413,12 @@ namespace djv
             {
                 if (auto parent = std::dynamic_pointer_cast<Widget>(getParent().lock()))
                 {
-                    parent->prevTextFocus(getFocusWidget());
+                    // Try the parent widget.
+                    parent->prevTextFocus(std::dynamic_pointer_cast<Widget>(shared_from_this()));
                 }
                 else
                 {
+                    // Try the child widgets.
                     for (int j = size - 1; j >= 0; --j)
                     {
                         if (childWidgets[j]->getFocusWidget()->acceptFocus(TextFocusDirection::Prev))

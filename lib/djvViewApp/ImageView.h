@@ -66,10 +66,11 @@ namespace djv
         public:
             GridOptions();
 
-            bool                enabled = false;
-            float               size    = 100.F;
-            AV::Image::Color    color   = AV::Image::Color(0.F, 0.F, 0.F);
-            bool                labels  = true;
+            bool                enabled     = false;
+            float               size        = 100.F;
+            AV::Image::Color    color       = AV::Image::Color(0.F, 0.F, 0.F, .5F);
+            ImageViewGridLabels labels      = ImageViewGridLabels::X_Y;
+            AV::Image::Color    labelsColor = AV::Image::Color(1.F, 1.F, 1.F, .65F);
 
             bool operator == (const GridOptions&) const;
         };
@@ -125,17 +126,13 @@ namespace djv
             void _layoutEvent(Core::Event::Layout &) override;
             void _paintEvent(Core::Event::Paint &) override;
 
-            void _initEvent(Core::Event::Init&) override;
-            void _updateEvent(Core::Event::Update&) override;
-
         private:
             std::vector<glm::vec3> _getImagePoints() const;
             static glm::vec2 _getCenter(const std::vector<glm::vec3>&);
             static Core::BBox2f _getBBox(const std::vector<glm::vec3>&);
-            void _animate(const glm::vec2&, float);
-            void _posAndZoom(const glm::vec2&, float);
-            void _drawGrid(float gridSize);
-            void _textUpdate();
+
+            void _animatePosAndZoom(const glm::vec2&, float);
+            void _setPosAndZoom(const glm::vec2&, float);
 
             DJV_PRIVATE();
         };

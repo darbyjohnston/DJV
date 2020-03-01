@@ -147,11 +147,12 @@ namespace djv
         void LayersWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.listWidget->clearItems();
+            std::vector<std::string> items;
             for (const auto& i : p.info.video)
             {
-                p.listWidget->addItem(_getText(i.info.name));
+                items.push_back(_getText(i.info.name));
             }
+            p.listWidget->setItems(items);
             p.listWidget->setCurrentItem(p.layer);
         }
 

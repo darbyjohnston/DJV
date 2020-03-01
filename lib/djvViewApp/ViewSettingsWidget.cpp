@@ -137,13 +137,14 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                p.scrollWheelZoomSpeedComboBox->clearItems();
+                std::vector<std::string> items;
                 for (auto i : getScrollWheelZoomSpeedEnums())
                 {
                     std::stringstream ss;
                     ss << i;
-                    p.scrollWheelZoomSpeedComboBox->addItem(_getText(ss.str()));
+                    items.push_back(_getText(ss.str()));
                 }
+                p.scrollWheelZoomSpeedComboBox->setItems(items);
                 auto settingsSystem = context->getSystemT<UI::Settings::System>();
                 if (auto viewSettings = settingsSystem->getSettingsT<ViewSettings>())
                 {
