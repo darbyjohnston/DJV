@@ -349,6 +349,7 @@ namespace djv
             if (p.offscreenBuffer && p.offscreenBuffer2)
             {
                 const AV::OpenGL::OffscreenBufferBinding binding(p.offscreenBuffer);
+#if !defined(DJV_OPENGL_ES2)
                 switch (renderOptions.multiSampling)
                 {
                 case AV::OpenGL::OffscreenSampling::None:
@@ -362,6 +363,7 @@ namespace djv
                     break;
                 default: break;
                 }
+#endif // DJV_OPENGL_ES2
                 Scene::RenderOptions options;
                 options.size = p.size;
                 options.camera = p.camera;
@@ -369,6 +371,7 @@ namespace djv
                 options.shaderMode = renderOptions.shaderMode;
                 options.depthBufferMode = renderOptions.depthBufferMode;
                 p.render->render(p.render3D, options);
+#if !defined(DJV_OPENGL_ES2)
                 glBindFramebuffer(GL_READ_FRAMEBUFFER, p.offscreenBuffer->getID());
                 glBindFramebuffer(GL_DRAW_FRAMEBUFFER, p.offscreenBuffer2->getID());
                 glBlitFramebuffer(
@@ -376,6 +379,9 @@ namespace djv
                     0, 0, p.size.w, p.size.h,
                     GL_COLOR_BUFFER_BIT,
                     GL_NEAREST);
+#else // DJV_OPENGL_ES2
+                //! \todo
+#endif // DJV_OPENGL_ES2
                 glBindFramebuffer(GL_FRAMEBUFFER, 0);
             }
         }

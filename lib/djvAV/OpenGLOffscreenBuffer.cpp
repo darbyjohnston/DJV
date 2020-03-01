@@ -83,16 +83,16 @@ namespace djv
                 const std::vector<GLenum> data =
                 {
                     GL_NONE,
-#if defined(GL_DEPTH_COMPONENT24)
+#if !defined(DJV_OPENGL_ES2)
                     GL_DEPTH_COMPONENT24,
-#else
+#else // DJV_OPENGL_ES2
                     GL_DEPTH_COMPONENT,
-#endif // GL_DEPTH_COMPONENT24
-#if defined(GL_DEPTH_COMPONENT32F)
+#endif // DJV_OPENGL_ES2
+#if !defined(DJV_OPENGL_ES2)
                     GL_DEPTH_COMPONENT32F
-#else
+#else // DJV_OPENGL_ES2
                     GL_DEPTH_COMPONENT
-#endif // GL_DEPTH_COMPONENT32F
+#endif // DJV_OPENGL_ES2
                 };
                 DJV_ASSERT(data.size() == static_cast<size_t>(OffscreenDepthType::Count));
                 return data[static_cast<size_t>(value)];
