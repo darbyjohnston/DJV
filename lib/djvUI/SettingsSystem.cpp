@@ -190,7 +190,7 @@ namespace djv
                                     break;
                                 }
                             }
-                            if (readSettingsVersion >= settingsVersion)
+                            if (settingsVersion == readSettingsVersion)
                             {
                                 for (const auto& value : object)
                                 {

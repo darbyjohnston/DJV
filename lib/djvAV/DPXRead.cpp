@@ -60,12 +60,13 @@ namespace djv
                     const FileSystem::FileInfo& fileInfo,
                     const ReadOptions& readOptions,
                     const Options& options,
+                    const std::shared_ptr<TextSystem>& textSystem,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
                     out->_p->options = options;
-                    out->_init(fileInfo, readOptions, resourceSystem, logSystem);
+                    out->_init(fileInfo, readOptions, textSystem, resourceSystem, logSystem);
                     return out;
                 }
 
@@ -90,7 +91,7 @@ namespace djv
                     io.open(fileName, FileSystem::FileIO::Mode::Read);
                     Info info;
                     info.video.resize(1);
-                    DPX::read(io, info, p.colorProfile);
+                    DPX::read(io, info, p.colorProfile, _textSystem);
                     info.video[0].sequence = _sequence;
                     return info;
                 }

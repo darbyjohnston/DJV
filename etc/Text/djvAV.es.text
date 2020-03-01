@@ -1,5 +1,5 @@
 {
-    "audio_type_None": "Ninguna",
+    "audio_type_none": "Ninguna",
     "audio_type_f32": "F32",
     "audio_type_f64": "F64",
     "audio_type_s16": "S16",
@@ -42,7 +42,7 @@
     "av_image_type_rgba_u16": "RGBA U16",
     "av_image_type_rgba_u32": "RGBA U32",
     "av_image_type_rgba_u8": "RGBA U8",
-    "av_sample_format_None": "Ninguna",
+    "av_sample_format_none": "Ninguna",
     "av_sample_format_double": "Doble",
     "av_sample_format_double_planar": "Doble plano",
     "av_sample_format_float": "Flotador",

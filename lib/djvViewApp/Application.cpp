@@ -57,6 +57,7 @@
 
 #include <djvCore/LogSystem.h>
 #include <djvCore/ResourceSystem.h>
+#include <djvCore/TextSystem.h>
 #include <djvCore/Timer.h>
 
 #define GLFW_INCLUDE_NONE
@@ -223,7 +224,11 @@ namespace djv
             catch (const std::exception& e)
             {
                 std::stringstream ss;
-                ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_cannot_be_read") << ". " << e.what();
+                auto textSystem = getSystemT<TextSystem>();
+                ss << textSystem->getText(DJV_TEXT("error_the_file"));
+                ss << " '" << fileName << "' ";
+                ss << textSystem->getText(DJV_TEXT("error_cannot_be_read")) << ". ";
+                ss << e.what();
                 auto logSystem = getSystemT<LogSystem>();
                 logSystem->log("djv::ViewApp::Application", ss.str(), LogLevel::Error);
             }

@@ -31,6 +31,7 @@
 
 #include <djvCore/FileIO.h>
 #include <djvCore/FileSystem.h>
+#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -53,11 +54,12 @@ namespace djv
                 std::shared_ptr<Read> Read::create(
                     const FileSystem::FileInfo& fileInfo,
                     const ReadOptions& readOptions,
+                    const std::shared_ptr<TextSystem>& textSystem,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
-                    out->_init(fileInfo, readOptions, resourceSystem, logSystem);
+                    out->_init(fileInfo, readOptions, textSystem, resourceSystem, logSystem);
                     return out;
                 }
 
@@ -254,7 +256,7 @@ namespace djv
                                     bytes,
                                     io.hasEndianConversion()))
                                 {
-                                    throw FileSystem::Error(DJV_TEXT("error_read"));
+                                    throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_read")));
                                 }
                             }
                         }
@@ -273,7 +275,7 @@ namespace djv
                     public:
                         Header();
 
-                        void read(FileSystem::FileIO&, Image::Info&, bool& compression);
+                        void read(FileSystem::FileIO&, Image::Info&, bool& compression, const std::shared_ptr<TextSystem>&);
 
                     private:
                         struct Data
@@ -304,13 +306,13 @@ namespace djv
                         _data.pixelMax = 0;
                     }
 
-                    void Header::read(FileSystem::FileIO& io, Image::Info& info, bool& compression)
+                    void Header::read(FileSystem::FileIO& io, Image::Info& info, bool& compression, const std::shared_ptr<TextSystem>& textSystem)
                     {
                         // Read.
                         io.readU16(&_data.magic);
                         if (_data.magic != 474)
                         {
-                            throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
+                            throw FileSystem::Error(textSystem->getText(DJV_TEXT("error_file_not_supported")));
                         }
                         io.readU8(&_data.storage);
                         io.readU8(&_data.bytes);
@@ -328,7 +330,7 @@ namespace djv
                         info.type = Image::getIntType(_data.channels, 1 == _data.bytes ? 8 : 16);
                         if (Image::Type::None == info.type)
                         {
-                            throw FileSystem::Error(DJV_TEXT("error_file_not_supported"));
+                            throw FileSystem::Error(textSystem->getText(DJV_TEXT("error_file_not_supported")));
                         }
                         info.layout.mirror.y = true;
                         info.layout.endian = Memory::Endian::MSB;
@@ -343,7 +345,7 @@ namespace djv
                     io.setEndianConversion(Memory::getEndian() != Memory::Endian::MSB);
                     io.open(fileName, FileSystem::FileIO::Mode::Read);
                     Image::Info imageInfo;
-                    Header().read(io, imageInfo, _compression);
+                    Header().read(io, imageInfo, _compression, _textSystem);
                     auto info = Info(fileName, VideoInfo(imageInfo, _speed, _sequence));
                     return info;
                 }

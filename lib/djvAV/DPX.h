@@ -293,13 +293,22 @@ namespace djv
                 //!
                 //! Throws:
                 //! - Core::FileSystem::Error
-                Header read(Core::FileSystem::FileIO&, Info&, Cineon::ColorProfile&);
+                Header read(
+                    Core::FileSystem::FileIO&,
+                    Info&,
+                    Cineon::ColorProfile&,
+                    const std::shared_ptr<Core::TextSystem>&);
                 
                 //! Write a DPX file header.
                 //!
                 //! Throws:
                 //! - Core::FileSystem::Error
-                void write(Core::FileSystem::FileIO&, const Info& info, Version, Endian, Cineon::ColorProfile);
+                void write(
+                    Core::FileSystem::FileIO&,
+                    const Info&,
+                    Version,
+                    Endian,
+                    Cineon::ColorProfile);
 
                 //! Finish writing the DPX file header after image data is written.
                 void writeFinish(Core::FileSystem::FileIO&);
@@ -326,6 +335,7 @@ namespace djv
                         const Core::FileSystem::FileInfo&,
                         const ReadOptions&,
                         const Options&,
+                        const std::shared_ptr<Core::TextSystem>&,
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
 
@@ -355,6 +365,7 @@ namespace djv
                         const Info &,
                         const WriteOptions&,
                         const Options&,
+                        const std::shared_ptr<Core::TextSystem>&,
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
 

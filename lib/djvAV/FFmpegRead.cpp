@@ -31,6 +31,7 @@
 
 #include <djvCore/FileSystem.h>
 #include <djvCore/LogSystem.h>
+#include <djvCore/TextSystem.h>
 #include <djvCore/Timer.h>
 #include <djvCore/Vector.h>
 
@@ -80,10 +81,11 @@ namespace djv
                     const FileSystem::FileInfo& fileInfo,
                     const ReadOptions& readOptions,
                     const Options& options,
+                    const std::shared_ptr<TextSystem>& textSystem,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
-                    IRead::_init(fileInfo, readOptions, resourceSystem, logSystem);
+                    IRead::_init(fileInfo, readOptions, textSystem, resourceSystem, logSystem);
                     DJV_PRIVATE_PTR();
                     p.options = options;
                     p.running = true;
@@ -107,16 +109,16 @@ namespace djv
                             if (r < 0)
                             {
                                 std::stringstream ss;
-                                ss << DJV_TEXT("error_the_file") << " '" << _fileInfo << "' " <<
-                                    DJV_TEXT("error_cannot_be_opened") << ". " << FFmpeg::getErrorString(r);
+                                ss << _textSystem->getText(DJV_TEXT("error_the_file")) << " '" << _fileInfo << "' " <<
+                                    _textSystem->getText(DJV_TEXT("error_cannot_be_opened")) << ". " << FFmpeg::getErrorString(r);
                                 throw FileSystem::Error(ss.str());
                             }
                             r = avformat_find_stream_info(p.avFormatContext, 0);
                             if (r < 0)
                             {
                                 std::stringstream ss;
-                                ss << DJV_TEXT("error_the_file") << " '" << _fileInfo << "' " <<
-                                    DJV_TEXT("error_cannot_be_opened") << ". " << FFmpeg::getErrorString(r);
+                                ss << _textSystem->getText(DJV_TEXT("error_the_file")) << " '" << _fileInfo << "' " <<
+                                    _textSystem->getText(DJV_TEXT("error_cannot_be_opened")) << ". " << FFmpeg::getErrorString(r);
                                 throw FileSystem::Error(ss.str());
                             }
                             av_dump_format(p.avFormatContext, 0, _fileInfo.getFileName().c_str(), 0);
@@ -136,8 +138,8 @@ namespace djv
                             if (-1 == p.avVideoStream && -1 == p.avAudioStream)
                             {
                                 std::stringstream ss;
-                                ss << DJV_TEXT("error_the_file") << " '" << _fileInfo << "' " <<
-                                    DJV_TEXT("error_no_streams") << ".";
+                                ss << _textSystem->getText(DJV_TEXT("error_the_file")) << " '" << _fileInfo << "' " <<
+                                    _textSystem->getText(DJV_TEXT("error_no_streams")) << ".";
                                 throw FileSystem::Error(ss.str());
                             }
 
@@ -160,8 +162,8 @@ namespace djv
                                 if (!avVideoCodec)
                                 {
                                     std::stringstream ss;
-                                    ss << DJV_TEXT("error_the_file") << " '" << _fileInfo << "' " <<
-                                        DJV_TEXT("error_codec_match") << ".";
+                                    ss << _textSystem->getText(DJV_TEXT("error_the_file")) << " '" << _fileInfo << "' " <<
+                                        _textSystem->getText(DJV_TEXT("error_codec_match")) << ".";
                                     throw FileSystem::Error(ss.str());
                                 }
                                 p.avCodecParameters[p.avVideoStream] = avcodec_parameters_alloc();
@@ -169,8 +171,8 @@ namespace djv
                                 if (r < 0)
                                 {
                                     std::stringstream ss;
-                                    ss << DJV_TEXT("error_the_file") << " '" << _fileInfo << "' " <<
-                                        DJV_TEXT("error_cannot_be_opened") << ". " << FFmpeg::getErrorString(r);
+                                    ss << _textSystem->getText(DJV_TEXT("error_the_file")) << " '" << _fileInfo << "' " <<
+                                        _textSystem->getText(DJV_TEXT("error_cannot_be_opened")) << ". " << FFmpeg::getErrorString(r);
                                     throw FileSystem::Error(ss.str());
                                 }
                                 p.avCodecContext[p.avVideoStream] = avcodec_alloc_context3(avVideoCodec);
@@ -178,8 +180,8 @@ namespace djv
                                 if (r < 0)
                                 {
                                     std::stringstream ss;
-                                    ss << DJV_TEXT("error_the_file") << " '" << _fileInfo << "' " <<
-                                        DJV_TEXT("error_cannot_be_opened") << ". " << FFmpeg::getErrorString(r);
+                                    ss << _textSystem->getText(DJV_TEXT("error_the_file")) << " '" << _fileInfo << "' " <<
+                                        _textSystem->getText(DJV_TEXT("error_cannot_be_opened")) << ". " << FFmpeg::getErrorString(r);
                                     throw FileSystem::Error(ss.str());
                                 }
                                 p.avCodecContext[p.avVideoStream]->thread_count = p.options.threadCount;
@@ -188,8 +190,8 @@ namespace djv
                                 if (r < 0)
                                 {
                                     std::stringstream ss;
-                                    ss << DJV_TEXT("error_the_file") << " '" << _fileInfo << "' " <<
-                                        DJV_TEXT("error_cannot_be_opened") << ". " << FFmpeg::getErrorString(r);
+                                    ss << _textSystem->getText(DJV_TEXT("error_the_file")) << " '" << _fileInfo << "' " <<
+                                        _textSystem->getText(DJV_TEXT("error_cannot_be_opened")) << ". " << FFmpeg::getErrorString(r);
                                     throw FileSystem::Error(ss.str());
                                 }
 
@@ -257,17 +259,17 @@ namespace djv
                                 if (Audio::Type::None == audioType)
                                 {
                                     std::stringstream ss;
-                                    ss << DJV_TEXT("error_the_audio_format") <<
+                                    ss << _textSystem->getText(DJV_TEXT("error_the_audio_format")) <<
                                         " '" << FFmpeg::toString(static_cast<AVSampleFormat>(avAudioCodecParameters->format)) << "' " <<
-                                        DJV_TEXT("error_unsupported") << ".";
+                                        _textSystem->getText(DJV_TEXT("error_unsupported")) << ".";
                                     throw FileSystem::Error(ss.str());
                                 }
                                 auto avAudioCodec = avcodec_find_decoder(avAudioCodecParameters->codec_id);
                                 if (!avAudioCodec)
                                 {
                                     std::stringstream ss;
-                                    ss << DJV_TEXT("error_the_file") << " '" << _fileInfo << "' " <<
-                                        DJV_TEXT("error_no_audio_codecs") << ".";
+                                    ss << _textSystem->getText(DJV_TEXT("error_the_file")) << " '" << _fileInfo << "' " <<
+                                        _textSystem->getText(DJV_TEXT("error_no_audio_codecs")) << ".";
                                     throw FileSystem::Error(ss.str());
                                 }
                                 p.avCodecParameters[p.avAudioStream] = avcodec_parameters_alloc();
@@ -275,8 +277,8 @@ namespace djv
                                 if (r < 0)
                                 {
                                     std::stringstream ss;
-                                    ss << DJV_TEXT("error_the_file") << " '" << _fileInfo << "' " <<
-                                        DJV_TEXT("error_cannot_be_opened") << ". " << FFmpeg::getErrorString(r);
+                                    ss << _textSystem->getText(DJV_TEXT("error_the_file")) << " '" << _fileInfo << "' " <<
+                                        _textSystem->getText(DJV_TEXT("error_cannot_be_opened")) << ". " << FFmpeg::getErrorString(r);
                                     throw FileSystem::Error(ss.str());
                                 }
                                 p.avCodecContext[p.avAudioStream] = avcodec_alloc_context3(avAudioCodec);
@@ -284,16 +286,16 @@ namespace djv
                                 if (r < 0)
                                 {
                                     std::stringstream ss;
-                                    ss << DJV_TEXT("error_the_file") << " '" << _fileInfo << "' " <<
-                                        DJV_TEXT("error_cannot_be_opened") << ". " << FFmpeg::getErrorString(r);
+                                    ss << _textSystem->getText(DJV_TEXT("error_the_file")) << " '" << _fileInfo << "' " <<
+                                        _textSystem->getText(DJV_TEXT("error_cannot_be_opened")) << ". " << FFmpeg::getErrorString(r);
                                     throw FileSystem::Error(ss.str());
                                 }
                                 r = avcodec_open2(p.avCodecContext[p.avAudioStream], avAudioCodec, 0);
                                 if (r < 0)
                                 {
                                     std::stringstream ss;
-                                    ss << DJV_TEXT("error_the_file") << " '" << _fileInfo << "' " <<
-                                        DJV_TEXT("error_cannot_be_opened") << ". " << FFmpeg::getErrorString(r);
+                                    ss << _textSystem->getText(DJV_TEXT("error_the_file")) << " '" << _fileInfo << "' " <<
+                                        _textSystem->getText(DJV_TEXT("error_cannot_be_opened")) << ". " << FFmpeg::getErrorString(r);
                                     throw FileSystem::Error(ss.str());
                                 }
 
@@ -621,11 +623,12 @@ namespace djv
                     const FileSystem::FileInfo& fileInfo,
                     const ReadOptions& readOptions,
                     const Options& options,
+                    const std::shared_ptr<TextSystem>& textSystem,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
-                    out->_init(fileInfo, readOptions, options, resourceSystem, logSystem);
+                    out->_init(fileInfo, readOptions, options, textSystem, resourceSystem, logSystem);
                     return out;
                 }
 

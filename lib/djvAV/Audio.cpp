@@ -56,7 +56,7 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::Audio,
         Type,
-        DJV_TEXT("audio_type_None"),
+        DJV_TEXT("audio_type_none"),
         DJV_TEXT("audio_type_u8"),
         DJV_TEXT("audio_type_s16"),
         DJV_TEXT("audio_type_s32"),
