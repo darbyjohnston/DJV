@@ -203,13 +203,13 @@ std::shared_ptr<Application> Application::create(int argc, char ** argv)
 
 int Application::run()
 {
-    auto time = std::chrono::system_clock::now();
+    auto time = std::chrono::steady_clock::now();
     while (!glfwWindowShouldClose(_glfwWindow))
     {
         glfwPollEvents();
         _render();
         glfwSwapBuffers(_glfwWindow);
-        auto now = std::chrono::system_clock::now();
+        auto now = std::chrono::steady_clock::now();
         std::chrono::duration<float> delta = now - time;
         time = now;
         const float dt = delta.count();

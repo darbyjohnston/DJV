@@ -77,7 +77,7 @@ namespace djv
                 Frame::Number seek = Frame::invalid;
                 std::thread thread;
                 std::atomic<bool> running;
-                std::chrono::system_clock::time_point infoTimer;
+                std::chrono::steady_clock::time_point infoTimer;
             };
 
             void ISequenceRead::_init(
@@ -141,7 +141,7 @@ namespace djv
                     }
 
                     // Start looping...
-                    p.infoTimer = std::chrono::system_clock::now();
+                    p.infoTimer = std::chrono::steady_clock::now();
                     const auto timeout = Time::getValue(Time::TimerValue::VeryFast);
                     while (p.running)
                     {
@@ -228,7 +228,7 @@ namespace djv
                         }
 
                         // Update information.
-                        const auto now = std::chrono::system_clock::now();
+                        const auto now = std::chrono::steady_clock::now();
                         std::chrono::duration<double> delta = now - p.infoTimer;
                         if (delta.count() > infoTimeout)
                         {

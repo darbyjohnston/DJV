@@ -51,6 +51,7 @@ namespace djv
             //! \todo Should this be configurable?
             const size_t audioBufferFrameCount = 256;
             const size_t videoQueueSize        = 10;
+            const size_t realSpeedFrameCount   = 30;
             
         } // namespace
 
@@ -66,7 +67,8 @@ namespace djv
             std::shared_ptr<ValueSubject<size_t> > layer;
             std::shared_ptr<ValueSubject<Time::Speed> > speed;
             std::shared_ptr<ValueSubject<Time::Speed> > defaultSpeed;
-            std::shared_ptr<ValueSubject<float> > realSpeed;
+            float realSpeed = 0.F;
+            std::shared_ptr<ValueSubject<float> > realSpeedSubject;
             std::shared_ptr<ValueSubject<bool> > playEveryFrame;
             std::shared_ptr<ValueSubject<Frame::Sequence> > sequence;
             std::shared_ptr<ValueSubject<Frame::Index> > currentFrame;
@@ -95,9 +97,10 @@ namespace djv
             std::shared_ptr<AV::Audio::Data> audioData;
             size_t audioDataSamplesOffset = 0;
             size_t audioDataSamplesCount = 0;
-            Time::Unit audioDataSamplesTime = Time::Unit::zero();
             Frame::Index frameOffset = 0;
             Time::Unit currentTime = Time::Unit::zero();
+            std::chrono::steady_clock::time_point playbackTime;
+            std::chrono::steady_clock::time_point realSpeedTime;
             size_t realSpeedFrameCount = 0;
             Time::Unit playEveryFrameTime = Time::Unit::zero();
             std::shared_ptr<Time::Timer> playbackTimer;
@@ -120,7 +123,7 @@ namespace djv
             p.layer = ValueSubject<size_t>::create(0);
             p.speed = ValueSubject<Time::Speed>::create();
             p.defaultSpeed = ValueSubject<Time::Speed>::create();
-            p.realSpeed = ValueSubject<float>::create(0.F);
+            p.realSpeedSubject = ValueSubject<float>::create(p.realSpeed);
             p.playEveryFrame = ValueSubject<bool>::create(false);
             p.sequence = ValueSubject<Frame::Sequence>::create();
             p.currentFrame = ValueSubject<Frame::Index>::create(Frame::invalid);
@@ -277,7 +280,7 @@ namespace djv
 
         std::shared_ptr<IValueSubject<float> > Media::observeRealSpeed() const
         {
-            return _p->realSpeed;
+            return _p->realSpeedSubject;
         }
 
         std::shared_ptr<IValueSubject<bool> > Media::observePlayEveryFrame() const
@@ -906,9 +909,9 @@ namespace djv
                 p.audioData.reset();
                 p.audioDataSamplesOffset = 0;
                 p.audioDataSamplesCount = 0;
-                p.audioDataSamplesTime = Time::Unit::zero();
                 p.frameOffset = p.currentFrame->get();
                 p.currentTime = Time::Unit::zero();
+                p.realSpeedTime = std::chrono::steady_clock::now();
                 p.realSpeedFrameCount = 0;
                 p.playEveryFrameTime = Time::Unit::zero();
                 _stopAudioStream();
@@ -946,9 +949,9 @@ namespace djv
                     p.audioData.reset();
                     p.audioDataSamplesOffset = 0;
                     p.audioDataSamplesCount = 0;
-                    p.audioDataSamplesTime = Time::Unit::zero();
                     p.frameOffset = p.currentFrame->get();
                     p.currentTime = Time::Unit::zero();
+                    p.realSpeedTime = std::chrono::steady_clock::now();
                     p.realSpeedFrameCount = 0;
                     p.playEveryFrameTime = Time::Unit::zero();
                     if (_hasAudioSyncPlayback())
@@ -958,25 +961,25 @@ namespace djv
                     auto weak = std::weak_ptr<Media>(std::dynamic_pointer_cast<Media>(shared_from_this()));
                     p.playbackTimer->start(
                         Time::getTime(Time::TimerValue::VeryFast),
-                        [weak](const std::chrono::steady_clock::time_point&, const Time::Unit& dt)
+                        [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                     {
                         if (auto media = weak.lock())
                         {
-                            media->_p->currentTime += dt;
-                            media->_p->playEveryFrameTime += dt;
+                            auto now = std::chrono::steady_clock::now();
+                            auto delta = std::chrono::duration_cast<Time::Unit>(now - media->_p->playbackTime);
+                            media->_p->playbackTime = now;
+                            media->_p->currentTime += delta;
+                            media->_p->playEveryFrameTime += delta;
                             media->_playbackTick();
                         }
                     });
                     p.realSpeedTimer->start(
                         Time::getTime(Time::TimerValue::Slow),
-                        [weak](const std::chrono::steady_clock::time_point&, const Time::Unit& dt)
+                        [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                         {
                             if (auto media = weak.lock())
                             {
-                                const auto delta = std::chrono::duration<float>(dt).count();
-                                media->_p->realSpeed->setIfChanged(delta > 0.F ? (media->_p->realSpeedFrameCount / delta) : 0.F);
-                                //std::cout << dt.count() << ", " << media->_p->realSpeedFrameCount << std::endl;
-                                media->_p->realSpeedFrameCount = 0;
+                                media->_p->realSpeedSubject->setIfChanged(media->_p->realSpeed);
                             }
                         });
                     break;
@@ -1004,8 +1007,7 @@ namespace djv
                             Time::scale(
                                 p.audioDataSamplesCount,
                                 Math::Rational(1, static_cast<int>(p.audioInfo.info.sampleRate)),
-                                speed.swap()) +
-                            std::chrono::duration<float>(p.audioDataSamplesTime).count() * speed.toFloat();
+                                speed.swap());
                         _setCurrentFrame(frame);
                     }
                 }
@@ -1115,6 +1117,14 @@ namespace djv
                         frame = queue.getFrame();
                     }
                 }
+                if (gotFrame && p.realSpeedFrameCount >= realSpeedFrameCount)
+                {
+                    auto now = std::chrono::steady_clock::now();
+                    auto delta = std::chrono::duration<float>(now - p.realSpeedTime);
+                    p.realSpeed = p.realSpeedFrameCount / delta.count();
+                    p.realSpeedTime = now;
+                    p.realSpeedFrameCount = 0;
+                }
                 if (frame.image)
                 {
                     p.currentImage->setIfChanged(frame.image);
@@ -1193,7 +1203,6 @@ namespace djv
                 p += size * sampleByteCount;
                 media->_p->audioDataSamplesOffset += size;
                 media->_p->audioDataSamplesCount += size;
-                media->_p->audioDataSamplesTime = Time::Unit::zero();
                 outputSampleCount -= size;
                 if (media->_p->audioDataSamplesOffset >= media->_p->audioData->getSampleCount())
                 {
@@ -1221,7 +1230,6 @@ namespace djv
                 p += size * sampleByteCount;
                 media->_p->audioDataSamplesOffset = size;
                 media->_p->audioDataSamplesCount += size;
-                media->_p->audioDataSamplesTime = Time::Unit::zero();
                 outputSampleCount -= size;
             }
 
