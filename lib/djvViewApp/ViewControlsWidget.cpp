@@ -104,6 +104,11 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::ViewControlsWidget");
 
+            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+            p.gridOptions = viewSettings->observeGridOptions()->get();
+            p.backgroundColor = viewSettings->observeBackgroundColor()->get();
+
             p.actions["GridSettings"] = UI::Action::create();
             p.actions["BackgroundSettings"] = UI::Action::create();
 
