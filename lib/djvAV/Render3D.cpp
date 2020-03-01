@@ -188,8 +188,8 @@ namespace djv
                 }
                 glDisable(GL_BLEND);
                 //glEnable(GL_POINT_SMOOTH);
-                glPointSize(2.0);
-                glEnable(GL_LINE_SMOOTH);
+                //glPointSize(2.0);
+                //glEnable(GL_LINE_SMOOTH);
                 glLineWidth(1.0);
 
                 glViewport(
