@@ -134,7 +134,7 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << Image::Type::RGBA_U8;
-                DJV_ASSERT("RGBA_U8" == ss.str());
+                DJV_ASSERT("av_image_type_rgba_u8" == ss.str());
                 Image::Type type;
                 ss >> type;
                 DJV_ASSERT(Image::Type::RGBA_U8 == type);
