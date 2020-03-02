@@ -111,6 +111,7 @@ namespace djv
                 auto weak = std::weak_ptr<Drawer>(std::dynamic_pointer_cast<Drawer>(shared_from_this()));
                 if (p.open)
                 {
+                    _openStart();
                     p.openAnimation->start(
                         0.F,
                         1.F,
@@ -128,12 +129,14 @@ namespace djv
                             if (auto widget = weak.lock())
                             {
                                 widget->_p->openAmount = value;
+                                widget->_openEnd();
                                 widget->_resize();
                             }
                         });
                 }
                 else
                 {
+                    _closeStart();
                     p.openAnimation->start(
                         1.F,
                         0.F,
@@ -151,6 +154,7 @@ namespace djv
                             if (auto widget = weak.lock())
                             {
                                 widget->_p->openAmount = value;
+                                widget->_closeEnd();
                                 widget->_resize();
                             }
                         });

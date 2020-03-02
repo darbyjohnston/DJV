@@ -5,6 +5,7 @@ set(header
 	AnnotateSystem.h
 	AnnotateWidget.h
     Application.h
+	ApplicationSettings.h
 	AudioSystem.h
 	BackgroundImageWidget.h
     ColorPickerSettings.h
@@ -46,7 +47,7 @@ set(header
     PlaybackSpeedWidget.h
     PlaybackSystem.h
     RecentFilesDialog.h
-    SettingsDialog.h
+    SettingsDrawer.h
     SettingsSystem.h
     SystemLogWidget.h
     TimelinePIPWidget.h
@@ -68,6 +69,7 @@ set(source
 	AnnotateSystem.cpp
 	AnnotateWidget.cpp
     Application.cpp
+	ApplicationSettings.cpp
 	AudioSystem.cpp
 	BackgroundImageWidget.cpp
     ColorPickerSettings.cpp
@@ -109,7 +111,7 @@ set(source
     PlaybackSpeedWidget.cpp
     PlaybackSystem.cpp
     RecentFilesDialog.cpp
-    SettingsDialog.cpp
+    SettingsDrawer.cpp
     SettingsSystem.cpp
     SystemLogWidget.cpp
     TimelinePIPWidget.cpp

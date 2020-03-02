@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2020 Darby Johnston
+// Copyright (c) 2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -29,57 +29,38 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvUI/Drawer.h>
 
 namespace djv
 {
-    namespace UI
+    namespace ViewApp
     {
-        namespace Layout
+        //! This class provides the settings drawer.
+        class SettingsDrawer : public UI::Drawer
         {
-            //! This class provides a drawer widget.
-            class Drawer : public Widget
-            {
-                DJV_NON_COPYABLE(Drawer);
+            DJV_NON_COPYABLE(SettingsDrawer);
 
-            protected:
-                void _init(Side, const std::shared_ptr<Core::Context>&);
-                Drawer();
+        protected:
+            void _init(const std::shared_ptr<Core::Context>&);
+            SettingsDrawer();
 
-            public:
-                virtual ~Drawer();
+        public:
+            ~SettingsDrawer() override;
 
-                static std::shared_ptr<Drawer> create(Side, const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<SettingsDrawer> create(const std::shared_ptr<Core::Context>&);
 
-                Side getSide() const;
+        protected:
+            void _openStart(void) override;
+            void _closeEnd(void) override;
 
-                bool isOpen() const;
-                void setOpen(bool);
-                void open();
-                void close();
+            void _initEvent(Core::Event::Init &) override;
 
-                void addChild(const std::shared_ptr<IObject> &) override;
-                void removeChild(const std::shared_ptr<IObject> &) override;
-                void clearChildren() override;
+        private:
+            void _textUpdate();
 
-            protected:
-                virtual void _openStart(void) {}
-                virtual void _openEnd(void) {}
-                virtual void _closeStart(void) {}
-                virtual void _closeEnd(void) {}
+            DJV_PRIVATE();
+        };
 
-                void _preLayoutEvent(Core::Event::PreLayout &) override;
-                void _layoutEvent(Core::Event::Layout &) override;
-                void _paintEvent(Core::Event::Paint&) override;
-
-            private:
-                DJV_PRIVATE();
-            };
-
-        } // namespace Layout
-
-        typedef Layout::Drawer Drawer;
-
-    } // namespace UI
+    } // namespace ViewApp
 } // namespace djv
 

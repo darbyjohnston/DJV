@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2020 Darby Johnston
+// Copyright (c) 2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -29,31 +29,34 @@
 
 #pragma once
 
-#include <djvUI/IDialog.h>
+#include <djvViewApp/ViewApp.h>
+
+#include <djvUI/ISettings.h>
+
+#include <djvCore/MapObserver.h>
 
 namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the settings dialog.
-        class SettingsDialog : public UI::IDialog
+        //! This class provides the application settings.
+        class ApplicationSettings : public UI::Settings::ISettings
         {
-            DJV_NON_COPYABLE(SettingsDialog);
+            DJV_NON_COPYABLE(ApplicationSettings);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
-            SettingsDialog();
+            void _init(const std::shared_ptr<Core::Context>& context);
+
+            ApplicationSettings();
 
         public:
-            ~SettingsDialog() override;
+            static std::shared_ptr<ApplicationSettings> create(const std::shared_ptr<Core::Context>&);
 
-            static std::shared_ptr<SettingsDialog> create(const std::shared_ptr<Core::Context>&);
+            std::shared_ptr<Core::IMapSubject<std::string, bool> > observeSettingsBellows() const;
+            void setSettingsBellows(const std::map<std::string, bool>&);
 
-            int getCurrentTab() const;
-            void setCurrentTab(int);
-
-        protected:
-            void _initEvent(Core::Event::Init &) override;
+            void load(const picojson::value &) override;
+            picojson::value save() override;
 
         private:
             DJV_PRIVATE();

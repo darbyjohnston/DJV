@@ -108,13 +108,8 @@ namespace djv
                     auto end = std::chrono::steady_clock::now();
                     delta = std::chrono::duration_cast<Time::Unit>(end - start);
                     Time::nanosleep(frameTime - delta);
-                    //while (delta < frameTime)
-                    //{
-                    //    end = std::chrono::steady_clock::now();
-                    //    delta = std::chrono::duration_cast<Time::Unit>(end - start);
-                    //}
                     end = std::chrono::steady_clock::now();
-                    delta = std::chrono::duration_cast<Time::Unit>(end - start);
+                    //delta = std::chrono::duration_cast<Time::Unit>(end - start);
                     //std::cout << "frame: " <<
                     //    std::chrono::duration_cast<Time::Unit>(systemTime - start).count() << "/" <<
                     //    delta.count() << "/" <<

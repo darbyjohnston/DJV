@@ -271,7 +271,7 @@ namespace djv
             std::shared_ptr<UI::ToolButton> closeButton;
             std::shared_ptr<UI::CheckBox> scaleCheckBox;
             std::shared_ptr<UI::CheckBox> colorizeCheckBox;
-            std::shared_ptr<UI::HorizontalLayout> layout;
+            std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
 
             std::shared_ptr<ValueObserver<std::string> > backgroundImageObserver;
@@ -304,20 +304,17 @@ namespace djv
             p.scaleCheckBox = UI::CheckBox::create(context);
             p.colorizeCheckBox = UI::CheckBox::create(context);
 
-            p.layout = UI::HorizontalLayout::create(context);
+            p.layout = UI::VerticalLayout::create(context);
             p.layout->addChild(p.imageWidget);
-            auto vLayout = UI::VerticalLayout::create(context);
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             hLayout ->addChild(p.lineEdit);
             hLayout->setStretch(p.lineEdit, UI::RowStretch::Expand);
             hLayout->addChild(p.openButton);
             hLayout->addChild(p.closeButton);
-            vLayout->addChild(hLayout);
-            vLayout->addChild(p.scaleCheckBox);
-            vLayout->addChild(p.colorizeCheckBox);
-            p.layout->addChild(vLayout);
-            p.layout->setStretch(vLayout, UI::RowStretch::Expand);
+            p.layout->addChild(hLayout);
+            p.layout->addChild(p.scaleCheckBox);
+            p.layout->addChild(p.colorizeCheckBox);
             addChild(p.layout);
 
             _widgetUpdate();

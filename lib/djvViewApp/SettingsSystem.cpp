@@ -32,7 +32,6 @@
 #include <djvViewApp/FileSettingsWidget.h>
 #include <djvViewApp/NUXSettingsWidget.h>
 #include <djvViewApp/PlaybackSettingsWidget.h>
-#include <djvViewApp/SettingsDialog.h>
 #include <djvViewApp/ViewSettingsWidget.h>
 #include <djvViewApp/WindowSettingsWidget.h>
 
@@ -58,10 +57,6 @@
 #endif
 
 #include <djvUI/Action.h>
-#include <djvUI/ButtonGroup.h>
-#include <djvUI/RowLayout.h>
-#include <djvUI/SoloLayout.h>
-#include <djvUI/ScrollWidget.h>
 
 #include <djvCore/Context.h>
 
@@ -74,7 +69,6 @@ namespace djv
         struct SettingsSystem::Private
         {
             int currentTab = 0;
-            std::shared_ptr<SettingsDialog> settingsDialog;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
         };
@@ -89,45 +83,13 @@ namespace djv
         {}
 
         SettingsSystem::~SettingsSystem()
-        {
-            DJV_PRIVATE_PTR();
-            if (p.settingsDialog)
-            {
-                p.settingsDialog->close();
-            }
-        }
+        {}
 
         std::shared_ptr<SettingsSystem> SettingsSystem::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<SettingsSystem>(new SettingsSystem);
             out->_init(context);
             return out;
-        }
-
-        void SettingsSystem::showSettingsDialog()
-        {
-            DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
-            {
-                if (p.settingsDialog)
-                {
-                    p.settingsDialog->close();
-                }
-                p.settingsDialog = SettingsDialog::create(context);
-                p.settingsDialog->setCurrentTab(p.currentTab);
-                auto weak = std::weak_ptr<SettingsSystem>(std::dynamic_pointer_cast<SettingsSystem>(shared_from_this()));
-                p.settingsDialog->setCloseCallback(
-                    [weak]
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->currentTab = widget->_p->settingsDialog->getCurrentTab();
-                            widget->_p->settingsDialog->close();
-                            widget->_p->settingsDialog.reset();
-                        }
-                    });
-                p.settingsDialog->show();
-            }
         }
         
         std::map<std::string, std::shared_ptr<UI::Action> > SettingsSystem::getActions() const

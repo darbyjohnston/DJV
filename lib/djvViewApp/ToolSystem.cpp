@@ -124,6 +124,7 @@ namespace djv
             p.actions["Debug"]->setShortcut(GLFW_KEY_D, UI::Shortcut::getSystemModifier());
             p.actions["Settings"] = UI::Action::create();
             p.actions["Settings"]->setIcon("djvIconSettings");
+            p.actions["Settings"]->setButtonType(UI::ButtonType::Toggle);
 
             p.menu = UI::Menu::create(context);
             for (const auto& i : toolActions)
@@ -239,20 +240,6 @@ namespace djv
                             {
                                 system->_closeWidget("Debug");
                             }
-                        }
-                    }
-                });
-
-            p.actionObservers["Settings"] = ValueObserver<bool>::create(
-                p.actions["Settings"]->observeClicked(),
-                [weak, contextWeak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto context = contextWeak.lock())
-                        {
-                            auto settingsSystem = context->getSystemT<SettingsSystem>();
-                            settingsSystem->showSettingsDialog();
                         }
                     }
                 });

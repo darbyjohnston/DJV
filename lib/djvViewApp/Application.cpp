@@ -29,6 +29,7 @@
 
 #include <djvViewApp/Application.h>
 
+#include <djvViewApp/ApplicationSettings.h>
 #include <djvViewApp/AnnotateSystem.h>
 #include <djvViewApp/AudioSystem.h>
 #include <djvViewApp/ColorPickerSystem.h>
@@ -73,6 +74,8 @@ namespace djv
         {
             std::vector<std::shared_ptr<ISystem> > systems;
 
+            std::shared_ptr<ApplicationSettings> settings;
+
             std::vector<std::shared_ptr<AV::IO::IRead> > read;
             std::vector<std::shared_ptr<AV::Image::Image> > icons;
             std::shared_ptr<Time::Timer> timer;
@@ -114,6 +117,9 @@ namespace djv
             auto nuxSystem = NUXSystem::create(shared_from_this());
             p.systems.push_back(nuxSystem);
             p.systems.push_back(SettingsSystem::create(shared_from_this()));
+
+            // Create settings.
+            p.settings = ApplicationSettings::create(shared_from_this());
 
             // Create the main window.
             p.mainWindow = MainWindow::create(shared_from_this());
