@@ -127,7 +127,7 @@ namespace djv
             _widgetUpdate();
 
             p.scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            p.scrollWidget->setMinimumSizeRole(UI::MetricsRole::Menu);
+            p.scrollWidget->setMinimumSizeRole(UI::MetricsRole::None);
             p.scrollWidget->setBorder(false);
             p.scrollWidget->addChild(layout);
             addChild(p.scrollWidget);

@@ -126,7 +126,7 @@ namespace djv
             vLayout->addChild(vLayout2);
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->setBorder(false);
-            scrollWidget->setMinimumSizeRole(UI::MetricsRole::Menu);
+            scrollWidget->setMinimumSizeRole(UI::MetricsRole::None);
             scrollWidget->addChild(vLayout);
             p.settingsPopupWidget = UI::PopupWidget::create(context);
             p.settingsPopupWidget->setIcon("djvIconSettings");

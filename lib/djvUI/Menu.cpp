@@ -822,7 +822,7 @@ namespace djv
 
             MetricsRole MenuPopupWidget::getMinimumSizeRole() const
             {
-                return  _scrollWidget->getMinimumSizeRole();
+                return _scrollWidget->getMinimumSizeRole();
             }
 
             void MenuPopupWidget::setMinimumSizeRole(MetricsRole value)
@@ -867,8 +867,8 @@ namespace djv
             public:
                 static std::shared_ptr<MenuLayout> create(const std::shared_ptr<Context>&);
 
-                void setPos(const std::shared_ptr<Widget> &, const glm::vec2 &);
-                void setButton(const std::shared_ptr<Widget> &, const std::weak_ptr<Button::Menu> &);
+                void setPos(const std::shared_ptr<MenuPopupWidget> &, const glm::vec2 &);
+                void setButton(const std::shared_ptr<MenuPopupWidget> &, const std::weak_ptr<Button::Menu> &);
 
                 void removeChild(const std::shared_ptr<IObject> &) override;
 
@@ -877,9 +877,9 @@ namespace djv
                 void _paintEvent(Event::Paint &) override;
 
             private:
-                std::map<std::shared_ptr<Widget>, glm::vec2> _widgetToPos;
-                std::map<std::shared_ptr<Widget>, std::weak_ptr<Button::Menu> > _widgetToButton;
-                std::map< std::shared_ptr<Widget>, Popup> _widgetToPopup;
+                std::map<std::shared_ptr<MenuPopupWidget>, glm::vec2> _widgetToPos;
+                std::map<std::shared_ptr<MenuPopupWidget>, std::weak_ptr<Button::Menu> > _widgetToButton;
+                std::map<std::shared_ptr<MenuPopupWidget>, Popup> _widgetToPopup;
             };
 
             void MenuLayout::_init(const std::shared_ptr<Context>& context)
@@ -898,12 +898,12 @@ namespace djv
                 return out;
             }
 
-            void MenuLayout::setPos(const std::shared_ptr<Widget> & widget, const glm::vec2 & pos)
+            void MenuLayout::setPos(const std::shared_ptr<MenuPopupWidget> & widget, const glm::vec2 & pos)
             {
                 _widgetToPos[widget] = pos;
             }
 
-            void MenuLayout::setButton(const std::shared_ptr<Widget> & widget, const std::weak_ptr<Button::Menu> & button)
+            void MenuLayout::setButton(const std::shared_ptr<MenuPopupWidget> & widget, const std::weak_ptr<Button::Menu> & button)
             {
                 _widgetToButton[widget] = button;
             }
@@ -911,7 +911,7 @@ namespace djv
             void MenuLayout::removeChild(const std::shared_ptr<IObject> & value)
             {
                 Widget::removeChild(value);
-                if (auto widget = std::dynamic_pointer_cast<Widget>(value))
+                if (auto widget = std::dynamic_pointer_cast<MenuPopupWidget>(value))
                 {
                     const auto i = _widgetToPos.find(widget);
                     if (i != _widgetToPos.end())
@@ -933,7 +933,7 @@ namespace djv
                 for (const auto & i : _widgetToPos)
                 {
                     const auto & pos = i.second;
-                    const auto & minimumSize = i.first->getMinimumSize();
+                    const auto& minimumSize = i.first->getMinimumSize();
                     Popup popup = Popup::BelowRight;
                     auto j = _widgetToPopup.find(i.first);
                     if (j != _widgetToPopup.end())
@@ -952,8 +952,8 @@ namespace djv
                 {
                     if (auto button = i.second.lock())
                     {
-                        const auto & buttonBBox = button->getGeometry();
-                        const auto & minimumSize = i.first->getMinimumSize();
+                        const auto& buttonBBox = button->getGeometry();
+                        const auto& minimumSize = i.first->getMinimumSize();
                         Popup popup = Popup::BelowRight;
                         auto j = _widgetToPopup.find(i.first);
                         if (j != _widgetToPopup.end())

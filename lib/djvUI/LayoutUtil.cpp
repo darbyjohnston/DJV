@@ -191,14 +191,13 @@ namespace djv
                     Popup popup = popupList[j];
                     const BBox2f g = getPopupGeometry(popup, button, minimumSize);
                     const BBox2f clipped = g.intersect(area);
-                    if (g == clipped)
+                    const float area = clipped.getArea();
+                    if (popupAreas.find(area) == popupAreas.end())
                     {
-                        out = popup;
-                        break;
+                        popupAreas[area] = popup;
                     }
-                    popupAreas[clipped.getArea()] = popup;
                 }
-                if (popupListSize == j)
+                if (popupAreas.size())
                 {
                     out = popupAreas.rbegin()->second;
                 }

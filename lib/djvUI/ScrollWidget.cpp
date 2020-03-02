@@ -490,7 +490,23 @@ namespace djv
                     }
                 }
                 const auto& style = _getStyle();
-                const glm::vec2 minimumSize = glm::vec2(style->getMetric(MetricsRole::ScrollArea), style->getMetric(_minimumSizeRole));
+                glm::vec2 minimumSize = glm::vec2(0.F, 0.F);
+                switch (_scrollType)
+                {
+                case ScrollType::Horizontal:
+                    minimumSize.x = _minimumSizeRole != MetricsRole::None ? style->getMetric(_minimumSizeRole) : childrenMinimumSize.x;
+                    minimumSize.y = style->getMetric(MetricsRole::ScrollArea);
+                    break;
+                case ScrollType::Vertical:
+                    minimumSize.x = style->getMetric(MetricsRole::ScrollArea);
+                    minimumSize.y = _minimumSizeRole != MetricsRole::None ? style->getMetric(_minimumSizeRole) : childrenMinimumSize.y;
+                    break;
+                case ScrollType::Both:
+                    minimumSize.x = _minimumSizeRole != MetricsRole::None ? style->getMetric(_minimumSizeRole) : childrenMinimumSize.x;
+                    minimumSize.y = _minimumSizeRole != MetricsRole::None ? style->getMetric(_minimumSizeRole) : childrenMinimumSize.y;
+                    break;
+                default: break;
+                }
                 glm::vec2 size = minimumSize;
                 switch (_scrollType)
                 {

@@ -97,7 +97,7 @@ namespace djv
                 vLayout->addChild(p.itemLayout);
                 layout->addChild(vLayout);
                 p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
-                p.scrollWidget->setMinimumSizeRole(MetricsRole::Menu);
+                p.scrollWidget->setMinimumSizeRole(MetricsRole::None);
                 p.scrollWidget->setBorder(false);
                 p.scrollWidget->addChild(layout);
                 addChild(p.scrollWidget);
