@@ -30,6 +30,7 @@
 #include <djvUIComponents/TIFFSettingsWidget.h>
 
 #include <djvUI/ComboBox.h>
+#include <djvUI/Label.h>
 #include <djvUI/FormLayout.h>
 
 #include <djvAV/TIFF.h>
@@ -103,6 +104,11 @@ namespace djv
         std::string TIFFSettingsWidget::getSettingsSortKey() const
         {
             return "Z";
+        }
+
+        void TIFFSettingsWidget::setSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)
+        {
+            _p->layout->setSizeGroup(value);
         }
 
         void TIFFSettingsWidget::_initEvent(Event::Init & event)

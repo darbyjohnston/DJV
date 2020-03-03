@@ -173,6 +173,11 @@ namespace djv
             return "Z";
         }
 
+        void OpenEXRSettingsWidget::setSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)
+        {
+            _p->layout->setSizeGroup(value);
+        }
+
         void OpenEXRSettingsWidget::_initEvent(Event::Init& event)
         {
             ISettingsWidget::_initEvent(event);

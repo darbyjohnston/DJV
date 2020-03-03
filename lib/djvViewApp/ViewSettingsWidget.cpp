@@ -124,6 +124,11 @@ namespace djv
             return "C";
         }
 
+        void ViewSettingsWidget::setSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
+        {
+            _p->layout->setSizeGroup(value);
+        }
+
         void ViewSettingsWidget::_initEvent(Event::Init& event)
         {
             ISettingsWidget::_initEvent(event);

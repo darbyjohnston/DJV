@@ -37,6 +37,8 @@ namespace djv
 {
     namespace UI
     {
+        class LabelSizeGroup;
+
         //! This class provides the base functionality for settings widgets.
         class ISettingsWidget : public Widget
         {
@@ -53,6 +55,8 @@ namespace djv
             virtual std::string getSettingsSortKey() const = 0;
             virtual std::string getSettingsGroup() const = 0;
 
+            virtual void setSizeGroup(const std::weak_ptr<LabelSizeGroup>&) {}
+
             float getHeightForWidth(float) const override;
 
             void addChild(const std::shared_ptr<IObject> &) override;
@@ -60,7 +64,7 @@ namespace djv
             void clearChildren() override;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _layoutEvent(Core::Event::Layout &) override;
 
         private:

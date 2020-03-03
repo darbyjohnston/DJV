@@ -30,7 +30,6 @@
 #include <djvUIComponents/SizeSettingsWidget.h>
 
 #include <djvUI/ComboBox.h>
-#include <djvUI/FormLayout.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/StyleSettings.h>

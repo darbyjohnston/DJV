@@ -242,6 +242,11 @@ namespace djv
             return "B";
         }
 
+        void FullscreenMonitorSettingsWidget::setSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
+        {
+            _p->formLayout->setSizeGroup(value);
+        }
+
         void FullscreenMonitorSettingsWidget::_initEvent(Event::Init& event)
         {
             ISettingsWidget::_initEvent(event);

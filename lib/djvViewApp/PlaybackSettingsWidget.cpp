@@ -32,7 +32,6 @@
 #include <djvViewApp/PlaybackSettings.h>
 
 #include <djvUI/CheckBox.h>
-#include <djvUI/FormLayout.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 

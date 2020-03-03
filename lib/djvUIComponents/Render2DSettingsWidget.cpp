@@ -136,6 +136,11 @@ namespace djv
             return "ZZ";
         }
 
+        void Render2DImageSettingsWidget::setSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
+        {
+            _p->layout->setSizeGroup(value);
+        }
+
         void Render2DImageSettingsWidget::_initEvent(Event::Init& event)
         {
             ISettingsWidget::_initEvent(event);

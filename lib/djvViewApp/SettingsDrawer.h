@@ -53,6 +53,8 @@ namespace djv
             void _openStart(void) override;
             void _closeEnd(void) override;
 
+            void _initLayoutEvent(Core::Event::InitLayout&) override;
+
             void _initEvent(Core::Event::Init &) override;
 
         private:

@@ -36,6 +36,7 @@
 
 #include <djvUI/Bellows.h>
 #include <djvUI/GroupBox.h>
+#include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SettingsSystem.h>
@@ -53,6 +54,7 @@ namespace djv
             std::map<std::string, std::vector<std::shared_ptr<UI::ISettingsWidget> > > widgets;
             std::map<std::shared_ptr<UI::ISettingsWidget>, std::shared_ptr<UI::Bellows> > bellows;
             std::map<std::shared_ptr<UI::ISettingsWidget>, std::shared_ptr<UI::GroupBox> > groupBoxes;
+            std::shared_ptr<UI::LabelSizeGroup> sizeGroup;
             std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<UI::ScrollWidget> scrollWidget;
         };
@@ -63,6 +65,8 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::SettingsDrawer");
+
+            p.sizeGroup = UI::LabelSizeGroup::create();
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
@@ -97,6 +101,7 @@ namespace djv
                 {
                     for (auto widget : system->createSettingsWidgets())
                     {
+                        widget->setSizeGroup(p.sizeGroup);
                         p.widgets[widget->getSettingsSortKey()].push_back(widget);
                     }
                 };
@@ -153,6 +158,12 @@ namespace djv
             p.bellows.clear();
             p.groupBoxes.clear();
             p.layout->clearChildren();
+        }
+
+        void SettingsDrawer::_initLayoutEvent(Event::InitLayout& event)
+        {
+            Drawer::_initLayoutEvent(event);
+            _p->sizeGroup->calcMinimumSize();
         }
 
         void SettingsDrawer::_initEvent(Event::Init& event)
