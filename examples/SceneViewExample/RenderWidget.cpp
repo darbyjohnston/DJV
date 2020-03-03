@@ -66,10 +66,10 @@ void RenderWidget::_init(const std::shared_ptr<Core::Context>& context)
     _groupBoxes["Multisampling"]->addChild(_layouts["Multisampling"]);
 
     auto layout = UI::VerticalLayout::create(context);
+    layout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
     layout->addChild(_groupBoxes["Shader"]);
     layout->addChild(_groupBoxes["DepthBuffer"]);
     layout->addChild(_groupBoxes["Multisampling"]);
-    layout->addSpacer();
     addChild(layout);
 
     _widgetUpdate();

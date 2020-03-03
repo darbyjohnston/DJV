@@ -111,10 +111,10 @@ void InfoWidget::_init(const std::shared_ptr<Core::Context>& context)
     _groupBoxes["Stats"]->addChild(_layouts["Stats"]);
 
     auto layout = UI::VerticalLayout::create(context);
+    layout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
     layout->addChild(_groupBoxes["SceneSize"]);
     layout->addChild(_groupBoxes["SceneRange"]);
     layout->addChild(_groupBoxes["Stats"]);
-    layout->addSpacer();
     addChild(layout);
 
     auto weak = std::weak_ptr<InfoWidget>(std::dynamic_pointer_cast<InfoWidget>(shared_from_this()));

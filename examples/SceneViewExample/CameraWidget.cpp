@@ -119,11 +119,11 @@ void CameraWidget::_init(const std::shared_ptr<Core::Context>& context)
     _groupBoxes["Position"]->addChild(_layouts["Position"]);
 
     auto layout = UI::VerticalLayout::create(context);
+    layout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
     layout->addChild(_groupBoxes["Lens"]);
     layout->addChild(_groupBoxes["Clipping"]);
     layout->addChild(_groupBoxes["Target"]);
     layout->addChild(_groupBoxes["Position"]);
-    layout->addSpacer();
     addChild(layout);
 
     _widgetUpdate();
