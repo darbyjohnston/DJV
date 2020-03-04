@@ -47,7 +47,7 @@ namespace djv
             //! \name Time Utilities
             ///@{
 
-            void nanosleep(const Unit&);
+            void sleep(const Unit&);
 
             ///@}
 
