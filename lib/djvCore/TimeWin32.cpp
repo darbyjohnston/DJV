@@ -44,7 +44,6 @@ namespace djv
         {
             void nanosleep(const Unit& value)
             {
-                HANDLE h;
                 if (HANDLE h = CreateWaitableTimer(NULL, TRUE, NULL))
                 {
                     LARGE_INTEGER l;
