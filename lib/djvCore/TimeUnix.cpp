@@ -37,11 +37,11 @@ namespace djv
         {
             void sleep(const Unit& value)
             {
-                const auto nanoseconds = value.count();
-                const auto seconds = nanoseconds % 1000000;
+                const auto microseconds = value.count();
+                const auto seconds = microseconds / 1000000;
                 struct timespec t;
-                t.tv_sec = seconds;
-                t.tv_nsec = nanoseconds - (seconds * 1000000);
+                t.tv_sec  = seconds;
+                t.tv_nsec = (microseconds - (seconds * 1000000)) * 1000;
                 struct timespec out;
                 nanosleep(&t, &out);
             }
@@ -49,3 +49,4 @@ namespace djv
         } // namespace Time
     } // namespace Core
 } // namespace djv
+
