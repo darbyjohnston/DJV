@@ -28,7 +28,7 @@ if(NOT DJV_THIRD_PARTY_DISABLE_BUILD)
             FFmpegThirdParty
             PREFIX ${CMAKE_CURRENT_BINARY_DIR}/FFmpeg
             DEPENDS ZLIBThirdParty
-            URL http://ffmpeg.org/releases/ffmpeg-4.2.tar.bz2
+            URL http://ffmpeg.org/releases/ffmpeg-4.2.2.tar.bz2
             BUILD_IN_SOURCE 1
             CONFIGURE_COMMAND ./configure ${FFmpeg_CONFIGURE_ARGS}
             BUILD_COMMAND $(MAKE)
