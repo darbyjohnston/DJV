@@ -861,7 +861,9 @@ namespace djv
                 if (exceededMax)
                 {
                     std::stringstream ss;
-                    ss << DJV_TEXT("error_cannot_open_more_than") << " " << openMax << " " << DJV_TEXT("error_files_at_once");
+                    ss << _getText(DJV_TEXT("error_cannot_open_more_than")) << " "
+                        << openMax << " "
+                        << _getText(DJV_TEXT("error_files_at_once"));
                     _log(ss.str(), LogLevel::Error);
                 }
             }
