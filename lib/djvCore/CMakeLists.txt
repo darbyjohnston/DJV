@@ -51,8 +51,8 @@ set(header
     PicoJSONTemplatesInline.h
     Range.h
     RangeInline.h
-	Rational.h
-	RationalInline.h
+    Rational.h
+    RationalInline.h
     Ray.h
     RayInline.h
     RecentFilesModel.h
@@ -97,7 +97,7 @@ set(source
     Memory.cpp
     NumericValueModels.cpp
     OS.cpp
-	Rational.cpp
+    Rational.cpp
     RecentFilesModel.cpp
     ResourceSystem.cpp
     Path.cpp

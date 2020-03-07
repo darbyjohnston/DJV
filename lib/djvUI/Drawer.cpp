@@ -206,6 +206,7 @@ namespace djv
                         size.x = minimumSize.x;
                         size.y = minimumSize.y * p.openAmount;
                         break;
+                    default: break;
                     }
                 }
                 _setMinimumSize(size);

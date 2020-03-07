@@ -250,6 +250,7 @@ namespace djv
             case ColorAssignment::Primitive:
                 out = primitive->getColor();
                 break;
+            default: break;
             }
             return out;
         }
@@ -274,6 +275,7 @@ namespace djv
             case MaterialAssignment::Primitive:
                 out = primitive->getMaterial();
                 break;
+            default: break;
             }
             return out;
         }
