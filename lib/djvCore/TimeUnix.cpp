@@ -35,7 +35,7 @@ namespace djv
     {
         namespace Time
         {
-            void nanosleep(const Unit& value)
+            void sleep(const Unit& value)
             {
                 const auto nanoseconds = value.count();
                 const auto seconds = nanoseconds % 1000000;
