@@ -203,10 +203,10 @@ namespace djv
                 return std::string();
             }
 
-            void IEventSystem::tick(const std::chrono::steady_clock::time_point&, const Time::Unit& dt)
+            void IEventSystem::tick(const std::chrono::steady_clock::time_point& t, const Time::Unit& dt)
             {
                 DJV_PRIVATE_PTR();
-                p.t += dt;
+                p.t = t;
 
                 auto objectsCreated = std::move(p.objectsCreated);
                 for (const auto & i : objectsCreated)
