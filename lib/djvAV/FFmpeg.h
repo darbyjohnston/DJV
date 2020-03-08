@@ -58,7 +58,24 @@ namespace djv
                 static const std::string pluginName = "FFmpeg";
                 static const std::set<std::string> fileExtensions =
                 {
-                    ".avi", ".dv", ".gif", ".flv", ".mkv", ".mov", ".mpg", ".mpeg", ".mp3", ".mp4", ".m4v", ".mxf", ".wav", ".webp"
+                    ".avi",
+                    ".dv",
+                    ".gif",
+                    ".flv",
+                    ".m2v",
+                    ".mkv",
+                    ".mov",
+                    ".mpg",
+                    ".mpeg",
+                    ".mp3",
+                    ".mp4",
+                    ".m4v",
+                    ".mxf",
+                    ".ps",
+                    ".ts",
+                    ".vob",
+                    ".wav",
+                    ".webp"
                 };
 
                 Audio::Type toAudioType(AVSampleFormat);
