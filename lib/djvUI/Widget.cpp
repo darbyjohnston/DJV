@@ -722,8 +722,8 @@ namespace djv
                         const float l = glm::length(delta);
                         if (l > tooltipHideDelta)
                         {
-                            i->second.tooltip = nullptr;
-                            i->second.timer   = _updateTime;
+                            i->second.tooltip.reset();
+                            i->second.timer = _updateTime;
                         }
                     }
                     _pointerHover[id] = info.projectedPos;
