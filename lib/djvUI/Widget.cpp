@@ -114,9 +114,9 @@ namespace djv
         } // namespace
 
         std::chrono::steady_clock::time_point Widget::_updateTime;
-        bool  Widget::_tooltipsEnabled = true;
-        bool  Widget::_resizeRequest   = true;
-        bool  Widget::_redrawRequest   = true;
+        bool Widget::_tooltipsEnabled = true;
+        bool Widget::_resizeRequest   = true;
+        bool Widget::_redrawRequest   = true;
 
         void Widget::_init(const std::shared_ptr<Context>& context)
         {
