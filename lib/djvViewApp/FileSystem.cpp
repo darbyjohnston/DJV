@@ -40,9 +40,7 @@
 #include <djvUIComponents/IOSettings.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/GroupBox.h>
 #include <djvUI/Menu.h>
-#include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Shortcut.h>
 
@@ -692,10 +690,13 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            system->_p->fileBrowserPath = system->_p->fileBrowserDialog->getPath();
-                            system->_p->fileBrowserDialog->close();
-                            system->_p->fileBrowserDialog.reset();
-                            system->open(value);
+                            if (system->_p->fileBrowserDialog)
+                            {
+                                system->_p->fileBrowserPath = system->_p->fileBrowserDialog->getPath();
+                                system->_p->fileBrowserDialog->close();
+                                system->_p->fileBrowserDialog.reset();
+                                system->open(value);
+                            }
                         }
                     });
                 p.fileBrowserDialog->setCloseCallback(
@@ -703,9 +704,12 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            system->_p->fileBrowserPath = system->_p->fileBrowserDialog->getPath();
-                            system->_p->fileBrowserDialog->close();
-                            system->_p->fileBrowserDialog.reset();
+                            if (system->_p->fileBrowserDialog)
+                            {
+                                system->_p->fileBrowserPath = system->_p->fileBrowserDialog->getPath();
+                                system->_p->fileBrowserDialog->close();
+                                system->_p->fileBrowserDialog.reset();
+                            }
                         }
                     });
                 p.fileBrowserDialog->show();
@@ -728,9 +732,12 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            system->_p->recentFilesDialog->close();
-                            system->_p->recentFilesDialog.reset();
-                            system->open(value);
+                            if (system->_p->recentFilesDialog)
+                            {
+                                system->_p->recentFilesDialog->close();
+                                system->_p->recentFilesDialog.reset();
+                                system->open(value);
+                            }
                         }
                     });
                 p.recentFilesDialog->setCloseCallback(
@@ -738,8 +745,11 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            system->_p->recentFilesDialog->close();
-                            system->_p->recentFilesDialog.reset();
+                            if (system->_p->recentFilesDialog)
+                            {
+                                system->_p->recentFilesDialog->close();
+                                system->_p->recentFilesDialog.reset();
+                            }
                         }
                     });
                 p.recentFilesDialog->show();

@@ -67,7 +67,9 @@ namespace djv
             void setOpenMax(size_t);
 
             std::shared_ptr<Core::IListSubject<Core::FileSystem::FileInfo> > observeRecentFiles() const;
+            std::shared_ptr<Core::IValueSubject<size_t> > observeRecentFilesMax() const;
             void setRecentFiles(const std::vector<Core::FileSystem::FileInfo>&);
+            void setRecentFilesMax(size_t);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeAutoDetectSequences() const;
             void setAutoDetectSequences(bool);
@@ -80,7 +82,7 @@ namespace djv
             const std::map<std::string, Core::BBox2f>& getWidgetGeom() const;
             void setWidgetGeom(const std::map<std::string, Core::BBox2f>&);
 
-            void load(const picojson::value &) override;
+            void load(const picojson::value&) override;
             picojson::value save() override;
 
         private:

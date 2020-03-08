@@ -71,6 +71,8 @@ namespace djv
 
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::SearchBox> searchBox;
+            std::shared_ptr<UI::Label> maxLabel;
+            std::shared_ptr<UI::IntSlider> maxSlider;
             std::shared_ptr<UI::Label> thumbnailSizeLabel;
             std::shared_ptr<UI::IntSlider> thumbnailSizeSlider;
             std::shared_ptr<UI::PopupWidget> settingsPopupWidget;
@@ -78,9 +80,10 @@ namespace djv
             std::shared_ptr<UI::Label> itemCountLabel;
             std::shared_ptr<UI::StackLayout> layout;
 
-            std::function<void(const Core::FileSystem::FileInfo &)> callback;
+            std::function<void(const Core::FileSystem::FileInfo&)> callback;
 
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver;
+            std::shared_ptr<ValueObserver<size_t> > recentFilesMaxObserver;
             std::shared_ptr<ValueObserver<bool> > increaseThumbnailSizeObserver;
             std::shared_ptr<ValueObserver<bool> > decreaseThumbnailSizeObserver;
             std::shared_ptr<ValueObserver<AV::Image::Size> > thumbnailSizeSettingsObserver;
@@ -106,6 +109,15 @@ namespace djv
             auto decreaseThumbnailSizeButton = UI::ActionButton::create(context);
             decreaseThumbnailSizeButton->addAction(p.actions["DecreaseThumbnailSize"]);
 
+            p.maxLabel = UI::Label::create(context);
+            p.maxLabel->setTextHAlign(UI::TextHAlign::Left);
+            p.maxLabel->setBackgroundRole(UI::ColorRole::Trough);
+            p.maxLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            p.maxSlider = UI::IntSlider::create(context);
+            p.maxSlider->setRange(IntRange(5, 100));
+            p.maxSlider->setDelay(Time::getTime(Time::TimerValue::Medium));
+            p.maxSlider->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+
             p.thumbnailSizeLabel = UI::Label::create(context);
             p.thumbnailSizeLabel->setTextHAlign(UI::TextHAlign::Left);
             p.thumbnailSizeLabel->setBackgroundRole(UI::ColorRole::Trough);
@@ -114,8 +126,13 @@ namespace djv
             p.thumbnailSizeSlider->setRange(UI::FileBrowser::thumbnailSizeRange);
             p.thumbnailSizeSlider->setDelay(Time::getTime(Time::TimerValue::Medium));
             p.thumbnailSizeSlider->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            vLayout->addChild(p.maxLabel);
+            vLayout->addSeparator();
+            vLayout->addChild(p.maxSlider);
+            vLayout->addSeparator();
             vLayout->addChild(p.thumbnailSizeLabel);
             vLayout->addSeparator();
             auto vLayout2 = UI::VerticalLayout::create(context);
@@ -168,7 +185,7 @@ namespace djv
 
             auto weak = std::weak_ptr<RecentFilesDialog>(std::dynamic_pointer_cast<RecentFilesDialog>(shared_from_this()));
             p.itemView->setCallback(
-                [weak](const Core::FileSystem::FileInfo & value)
+                [weak](const Core::FileSystem::FileInfo& value)
             {
                 if (auto widget = weak.lock())
                 {
@@ -180,7 +197,7 @@ namespace djv
             });
 
             p.searchBox->setFilterCallback(
-                [weak](const std::string & value)
+                [weak](const std::string& value)
             {
                 if (auto widget = weak.lock())
                 {
@@ -193,7 +210,7 @@ namespace djv
             auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
             p.recentFilesObserver = ListObserver<Core::FileSystem::FileInfo>::create(
                 fileSettings->observeRecentFiles(),
-                [weak](const std::vector<Core::FileSystem::FileInfo> & value)
+                [weak](const std::vector<Core::FileSystem::FileInfo>& value)
             {
                 if (auto widget = weak.lock())
                 {
@@ -201,6 +218,28 @@ namespace djv
                     widget->_recentFilesUpdate();
                 }
             });
+
+            auto contextWeak = std::weak_ptr<Context>(context);
+            p.recentFilesMaxObserver = ValueObserver<size_t>::create(
+                fileSettings->observeRecentFilesMax(),
+                [weak](size_t value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->maxSlider->setValue(value);
+                    }
+                });
+
+            p.maxSlider->setValueCallback(
+                [contextWeak](int value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
+                        fileSettings->setRecentFilesMax(value);
+                    }
+                });
 
             auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
             p.thumbnailSizeSettingsObserver = ValueObserver<AV::Image::Size>::create(
@@ -214,7 +253,6 @@ namespace djv
                 }
             });
 
-            auto contextWeak = std::weak_ptr<Context>(context);
             p.thumbnailSizeSlider->setValueCallback(
                 [contextWeak](int value)
                 {
@@ -277,12 +315,12 @@ namespace djv
             return out;
         }
 
-        void RecentFilesDialog::setCallback(const std::function<void(const Core::FileSystem::FileInfo &)> & value)
+        void RecentFilesDialog::setCallback(const std::function<void(const Core::FileSystem::FileInfo&)>& value)
         {
             _p->callback = value;
         }
 
-        void RecentFilesDialog::_initEvent(Event::Init & event)
+        void RecentFilesDialog::_initEvent(Event::Init& event)
         {
             IDialog::_initEvent(event);
             DJV_PRIVATE_PTR();
@@ -293,8 +331,8 @@ namespace djv
             p.actions["DecreaseThumbnailSize"]->setText(_getText(DJV_TEXT("widget_recent_decrease_thumbnail_size")));
             p.actions["DecreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("widget_recent_decrease_thumbnail_size_tooltip")));
 
+            p.maxLabel->setText(_getText(DJV_TEXT("recent_files_max")));
             p.thumbnailSizeLabel->setText(_getText(DJV_TEXT("recent_files_thumbnail_size")));
-
             p.itemCountLabel->setText(_getItemCountLabel(p.itemCount));
             p.searchBox->setTooltip(_getText(DJV_TEXT("recent_files_search_tooltip")));
             p.settingsPopupWidget->setTooltip(_getText(DJV_TEXT("recent_files_settings_tooltip")));
@@ -312,7 +350,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             std::vector<Core::FileSystem::FileInfo> recentFiles;
             std::regex r(p.filter);
-            for (const auto & i : p.recentFiles)
+            for (const auto& i : p.recentFiles)
             {
                 if (String::match(i.getFileName(), p.filter))
                 {

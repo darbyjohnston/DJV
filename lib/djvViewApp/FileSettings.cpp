@@ -48,18 +48,20 @@ namespace djv
         {
             std::shared_ptr<ValueSubject<size_t> > openMax;
             std::shared_ptr<ListSubject<Core::FileSystem::FileInfo> > recentFiles;
+            std::shared_ptr<ValueSubject<size_t> > recentFilesMax;
             std::shared_ptr<ValueSubject<bool> > autoDetectSequences;
             std::shared_ptr<ValueSubject<bool> > cacheEnabled;
             std::shared_ptr<ValueSubject<int> > cacheMaxGB;
             std::map<std::string, BBox2f> widgetGeom;
         };
 
-        void FileSettings::_init(const std::shared_ptr<Core::Context>& context)
+        void FileSettings::_init(const std::shared_ptr<Context>& context)
         {
             ISettings::_init("djv::ViewApp::FileSettings", context);
             DJV_PRIVATE_PTR();
             p.openMax = ValueSubject<size_t>::create(16);
             p.recentFiles = ListSubject<Core::FileSystem::FileInfo>::create();
+            p.recentFilesMax = ValueSubject<size_t>::create(10);
             p.autoDetectSequences = ValueSubject<bool>::create(true);
             p.cacheEnabled = ValueSubject<bool>::create(true);
             p.cacheMaxGB = ValueSubject<int>::create(4);
@@ -73,7 +75,7 @@ namespace djv
         FileSettings::~FileSettings()
         {}
 
-        std::shared_ptr<FileSettings> FileSettings::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<FileSettings> FileSettings::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<FileSettings>(new FileSettings);
             out->_init(context);
@@ -95,9 +97,33 @@ namespace djv
             return _p->recentFiles;
         }
 
-        void FileSettings::setRecentFiles(const std::vector<Core::FileSystem::FileInfo> & value)
+        std::shared_ptr<IValueSubject<size_t> > FileSettings::observeRecentFilesMax() const
         {
-            _p->recentFiles->setIfChanged(value);
+            return _p->recentFilesMax;
+        }
+
+        void FileSettings::setRecentFiles(const std::vector<Core::FileSystem::FileInfo>& value)
+        {
+            DJV_PRIVATE_PTR();
+            std::vector<Core::FileSystem::FileInfo> files;
+            for (size_t i = 0; i < value.size() && i < p.recentFilesMax->get(); ++i)
+            {
+                files.push_back(value[i]);
+            }
+            p.recentFiles->setIfChanged(files);
+        }
+
+        void FileSettings::setRecentFilesMax(size_t value)
+        {
+            DJV_PRIVATE_PTR();
+            p.recentFilesMax->setIfChanged(value);
+            const auto& files = _p->recentFiles->get();
+            std::vector<Core::FileSystem::FileInfo> filesMax;
+            for (size_t i = 0; i < files.size() && i < value; ++i)
+            {
+                filesMax.push_back(files[i]);
+            }
+            setRecentFiles(filesMax);
         }
 
         std::shared_ptr<IValueSubject<bool> > FileSettings::observeAutoDetectSequences() const
@@ -148,6 +174,7 @@ namespace djv
                 const auto & object = value.get<picojson::object>();
                 UI::Settings::read("OpenMax", object, p.openMax);
                 UI::Settings::read("RecentFiles", object, p.recentFiles);
+                UI::Settings::read("RecentFilesMax", object, p.recentFilesMax);
                 UI::Settings::read("AutoDetectSequences", object, p.autoDetectSequences);
                 UI::Settings::read("CacheEnabled", object, p.cacheEnabled);
                 UI::Settings::read("CacheMax", object, p.cacheMaxGB);
@@ -162,6 +189,7 @@ namespace djv
             auto & object = out.get<picojson::object>();
             UI::Settings::write("OpenMax", p.openMax->get(), object);
             UI::Settings::write("RecentFiles", p.recentFiles->get(), object);
+            UI::Settings::write("RecentFilesMax", p.recentFilesMax->get(), object);
             UI::Settings::write("AutoDetectSequences", p.autoDetectSequences->get(), object);
             UI::Settings::write("CacheEnabled", p.cacheEnabled->get(), object);
             UI::Settings::write("CacheMax", p.cacheMaxGB->get(), object);

@@ -60,10 +60,10 @@ namespace djv
 
             static std::shared_ptr<RecentFilesDialog> create(const std::shared_ptr<Core::Context>&);
 
-            void setCallback(const std::function<void(const Core::FileSystem::FileInfo &)> &);
+            void setCallback(const std::function<void(const Core::FileSystem::FileInfo&)>&);
 
         protected:
-            void _initEvent(Core::Event::Init &) override;
+            void _initEvent(Core::Event::Init&) override;
 
         private:
             std::string _getItemCountLabel(size_t) const;

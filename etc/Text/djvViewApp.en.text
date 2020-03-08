@@ -387,6 +387,7 @@
     "recent_files_label_error": "ERROR",
     "recent_files_label_items": "Items",
     "recent_files_label_warning": "Warning",
+    "recent_files_max": "Maximum Files",
     "recent_files_search_tooltip": "Search the recent files",
     "recent_files_settings_tooltip": "Show the recent files settings",
     "recent_files_thumbnail_size": "Thumbnail Size",
