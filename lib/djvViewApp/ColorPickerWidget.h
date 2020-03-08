@@ -53,8 +53,8 @@ namespace djv
 
             void setCurrent(bool);
             
-            int getSampleSize() const;
-            void setSampleSize(int);
+            size_t getSampleSize() const;
+            void setSampleSize(size_t);
 
             AV::Image::Type getTypeLock() const;
             void setTypeLock(AV::Image::Type);

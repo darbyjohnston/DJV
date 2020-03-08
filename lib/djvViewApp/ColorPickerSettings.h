@@ -55,10 +55,10 @@ namespace djv
 
             static std::shared_ptr<ColorPickerSettings> create(const std::shared_ptr<Core::Context>&);
 
-            int getSampleSize() const;
+            size_t getSampleSize() const;
             AV::Image::Type getTypeLock() const;
             const glm::vec2& getPickerPos() const;
-            void setSampleSize(int);
+            void setSampleSize(size_t);
             void setTypeLock(AV::Image::Type);
             void setPickerPos(const glm::vec2&);
 

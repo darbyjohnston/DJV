@@ -88,7 +88,7 @@ namespace djv
         struct ColorPickerWidget::Private
         {
             bool current = false;
-            int sampleSize = 1;
+            size_t sampleSize = 1;
             AV::Image::Type typeLock = AV::Image::Type::None;
             AV::Image::Color color = AV::Image::Color(0.F, 0.F, 0.F);
             glm::vec2 pickerPos = glm::vec2(0.F, 0.F);
@@ -179,8 +179,8 @@ namespace djv
             p.formLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
             p.formLayout->addChild(p.colorLabel);
             p.formLayout->addChild(p.pixelLabel);
+            p.formLayout->addChild(p.sampleSizeSlider);
             p.layout->addChild(p.formLayout);
-            p.layout->addChild(p.sampleSizeSlider);
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             hLayout->addChild(p.typeWidget);
@@ -411,12 +411,12 @@ namespace djv
             _p->current = value;
         }
 
-        int ColorPickerWidget::getSampleSize() const
+        size_t ColorPickerWidget::getSampleSize() const
         {
             return _p->sampleSize;
         }
 
-        void ColorPickerWidget::setSampleSize(int value)
+        void ColorPickerWidget::setSampleSize(size_t value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.sampleSize)
@@ -477,6 +477,7 @@ namespace djv
             
             p.formLayout->setText(p.colorLabel, _getText(DJV_TEXT("widget_color_picker_color")) + ":");
             p.formLayout->setText(p.pixelLabel, _getText(DJV_TEXT("widget_color_picker_pixel")) + ":");
+            p.formLayout->setText(p.sampleSizeSlider, _getText(DJV_TEXT("widget_color_picker_sample_size")) + ":");
         }
         
         void ColorPickerWidget::_sampleUpdate()
@@ -499,7 +500,7 @@ namespace djv
                         p.imageAspectRatio);
                     pixelPos = glm::inverse(glm::translate(m, glm::vec2(-.5F, -.5F))) * pixelPos;
 
-                    const size_t sampleSize = std::max(static_cast<size_t>(p.sampleSize), bufferSizeMin);
+                    const size_t sampleSize = std::max(p.sampleSize, bufferSizeMin);
                     const AV::Image::Size size(sampleSize, sampleSize);
                     const AV::Image::Type type = p.typeLock != AV::Image::Type::None ? p.typeLock : p.image->getType();
                     

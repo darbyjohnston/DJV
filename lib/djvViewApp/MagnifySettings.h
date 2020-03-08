@@ -53,9 +53,9 @@ namespace djv
 
             static std::shared_ptr<MagnifySettings> create(const std::shared_ptr<Core::Context>&);
 
-            int getMagnify() const;
+            size_t getMagnify() const;
             const glm::vec2& getMagnifyPos() const;
-            void setMagnify(int);
+            void setMagnify(size_t);
             void setMagnifyPos(const glm::vec2&);
 
             const std::map<std::string, Core::BBox2f>& getWidgetGeom() const;

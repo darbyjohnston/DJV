@@ -449,7 +449,7 @@
     "widget_color_picker_copy_tooltip": "Copy the values to the clipboard",
     "widget_color_picker_lock_color_type": "Lock color type",
     "widget_color_picker_pixel": "Pixel",
-    "widget_color_picker_sample_size_tooltip": "Set the color picker sample size",
+    "widget_color_picker_sample_size": "Size",
     "widget_color_space": "Color Space",
     "widget_color_space_add_config_tooltip": "Add a new OpenColorIO configuration",
     "widget_color_space_add_format_tooltip": "Assign a color space to a file format",

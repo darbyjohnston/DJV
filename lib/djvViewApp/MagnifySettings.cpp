@@ -41,7 +41,7 @@ namespace djv
     {
         struct MagnifySettings::Private
         {
-            int magnify = 1;
+            size_t magnify = 1;
             glm::vec2 magnifyPos = glm::vec2(0.F, 0.F);
             std::map<std::string, BBox2f> widgetGeom;
         };
@@ -66,12 +66,12 @@ namespace djv
             return out;
         }
 
-        int MagnifySettings::getMagnify() const
+        size_t MagnifySettings::getMagnify() const
         {
             return _p->magnify;
         }
 
-        void MagnifySettings::setMagnify(int value)
+        void MagnifySettings::setMagnify(size_t value)
         {
             _p->magnify = value;
         }

@@ -41,7 +41,7 @@ namespace djv
     {
         struct ColorPickerSettings::Private
         {
-            int sampleSize = 1;
+            size_t sampleSize = 1;
             AV::Image::Type typeLock = AV::Image::Type::None;
             glm::vec2 pickerPos = glm::vec2(0.F, 0.F);
             std::map<std::string, BBox2f> widgetGeom;
@@ -67,7 +67,7 @@ namespace djv
             return out;
         }
 
-        int ColorPickerSettings::getSampleSize() const
+        size_t ColorPickerSettings::getSampleSize() const
         {
             return _p->sampleSize;
         }
@@ -82,7 +82,7 @@ namespace djv
             return _p->pickerPos;
         }
 
-        void ColorPickerSettings::setSampleSize(int value)
+        void ColorPickerSettings::setSampleSize(size_t value)
         {
             _p->sampleSize = value;
         }
