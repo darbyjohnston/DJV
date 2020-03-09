@@ -110,8 +110,8 @@ namespace djv
             std::shared_ptr<UI::IntSlider> sampleSizeSlider;
             std::shared_ptr<UI::ColorTypeWidget> typeWidget;
             std::shared_ptr<UI::ToolButton> copyButton;
-            std::shared_ptr<UI::Menu> menu;
-            std::shared_ptr<UI::PopupMenu> popupMenu;
+            std::shared_ptr<UI::Menu> settingsMenu;
+            std::shared_ptr<UI::PopupMenu> settingsPopupMenu;
             std::shared_ptr<UI::FormLayout> formLayout;
             std::shared_ptr<UI::VerticalLayout> layout;
 
@@ -162,11 +162,11 @@ namespace djv
             p.copyButton = UI::ToolButton::create(context);
             p.copyButton->setIcon("djvIconShare");
 
-            p.menu = UI::Menu::create(context);
-            p.menu->setIcon("djvIconSettings");
-            p.menu->addAction(p.actions["Lock"]);
-            p.popupMenu = UI::PopupMenu::create(context);
-            p.popupMenu->setMenu(p.menu);
+            p.settingsMenu = UI::Menu::create(context);
+            p.settingsMenu->setIcon("djvIconSettings");
+            p.settingsMenu->addAction(p.actions["Lock"]);
+            p.settingsPopupMenu = UI::PopupMenu::create(context);
+            p.settingsPopupMenu->setMenu(p.settingsMenu);
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
@@ -186,7 +186,7 @@ namespace djv
             hLayout->addChild(p.typeWidget);
             hLayout->addChild(p.copyButton);
             hLayout->addExpander();
-            hLayout->addChild(p.popupMenu);
+            hLayout->addChild(p.settingsPopupMenu);
             p.layout->addChild(hLayout);
             addChild(p.layout);
 
@@ -474,7 +474,9 @@ namespace djv
             p.sampleSizeSlider->setTooltip(_getText(DJV_TEXT("widget_color_picker_sample_size_tooltip")));
 
             p.copyButton->setTooltip(_getText(DJV_TEXT("widget_color_picker_copy_tooltip")));
-            
+
+            p.settingsPopupMenu->setTooltip(_getText(DJV_TEXT("widget_color_picker_settings_tooltip")));
+
             p.formLayout->setText(p.colorLabel, _getText(DJV_TEXT("widget_color_picker_color")) + ":");
             p.formLayout->setText(p.pixelLabel, _getText(DJV_TEXT("widget_color_picker_pixel")) + ":");
             p.formLayout->setText(p.sampleSizeSlider, _getText(DJV_TEXT("widget_color_picker_sample_size")) + ":");

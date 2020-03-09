@@ -102,38 +102,6 @@ namespace djv
             float _textWidthMax = 0.F;
         };
 
-        class ImageViewColorPickerOverlay : public UI::Widget
-        {
-            DJV_NON_COPYABLE(ImageViewColorPickerOverlay);
-
-        protected:
-            void _init(const std::shared_ptr<Core::Context>&);
-            ImageViewColorPickerOverlay();
-
-        public:
-            static std::shared_ptr<ImageViewColorPickerOverlay> create(const std::shared_ptr<Core::Context>&);
-
-            void setActive(bool);
-            void setSampleSize(size_t);
-
-            void setImagePosAndZoom(const glm::vec2&, float);
-            void setImageRotate(UI::ImageRotate);
-            void setImageAspectRatio(UI::ImageAspectRatio, float aspectRatio, float pixelAspectRatio);
-
-        protected:
-            void _paintEvent(Core::Event::Paint&) override;
-
-        private:
-            bool _active = false;
-            size_t _sampleSize = 0;
-            glm::vec2 _imagePos = glm::vec2(0.F, 0.F);
-            float _imageZoom = 1.F;
-            UI::ImageRotate _imageRotate = UI::ImageRotate::First;
-            UI::ImageAspectRatio _imageAspectRatio = UI::ImageAspectRatio::First;
-            float _aspectRatio = 1.F;
-            float _pixelAspectRatio = 1.F;
-        };
-
     } // namespace ViewApp
 } // namespace djv
 

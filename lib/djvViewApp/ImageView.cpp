@@ -93,7 +93,6 @@ namespace djv
             glm::vec2 pressedImagePos = glm::vec2(0.F, 0.F);
             bool viewInit = true;
             std::shared_ptr<ImageViewGridOverlay> gridOverlay;
-            std::shared_ptr<ImageViewColorPickerOverlay> colorPickerOverlay;
             std::shared_ptr<ValueObserver<ImageViewLock> > lockObserver;
             std::shared_ptr<ValueObserver<AV::OCIO::Config> > ocioConfigObserver;
             std::shared_ptr<Animation::Animation> zoomAnimation;
@@ -129,12 +128,6 @@ namespace djv
             p.gridOverlay->setImageBBox(getImageBBox());
             p.gridOverlay->setImageFrame(p.lockFrame);
             addChild(p.gridOverlay);
-
-            p.colorPickerOverlay = ImageViewColorPickerOverlay::create(context);
-            p.colorPickerOverlay->setImagePosAndZoom(p.imagePos->get(), p.imageZoom->get());
-            p.colorPickerOverlay->setImageRotate(p.imageRotate->get());
-            p.colorPickerOverlay->setImageAspectRatio(p.imageAspectRatio->get(), 1.F, 1.F);
-            addChild(p.colorPickerOverlay);
 
             auto weak = std::weak_ptr<ImageView>(std::dynamic_pointer_cast<ImageView>(shared_from_this()));
             p.lockObserver = ValueObserver<ImageViewLock>::create(
@@ -203,10 +196,6 @@ namespace djv
                     p.image ? p.image->get()->getInfo().pixelAspectRatio : 1.F);
                 p.gridOverlay->setImageBBox(getImageBBox());
                 p.gridOverlay->setImageFrame(p.lockFrame);
-                p.colorPickerOverlay->setImageAspectRatio(
-                    p.imageAspectRatio->get(),
-                    p.image ? p.image->get()->getAspectRatio() : 1.F,
-                    p.image ? p.image->get()->getInfo().pixelAspectRatio : 1.F);
                 _resize();
             }
         }
@@ -301,7 +290,6 @@ namespace djv
                 p.gridOverlay->setImageRotate(value);
                 p.gridOverlay->setImageBBox(getImageBBox());
                 p.gridOverlay->setImageFrame(p.lockFrame);
-                p.colorPickerOverlay->setImageRotate(value);
                 _resize();
             }
         }
@@ -317,10 +305,6 @@ namespace djv
                     p.image ? p.image->get()->getInfo().pixelAspectRatio : 1.F);
                 p.gridOverlay->setImageBBox(getImageBBox());
                 p.gridOverlay->setImageFrame(p.lockFrame);
-                p.colorPickerOverlay->setImageAspectRatio(
-                    p.imageAspectRatio->get(),
-                    p.image ? p.image->get()->getAspectRatio() : 1.F,
-                    p.image ? p.image->get()->getInfo().pixelAspectRatio : 1.F);
                 _resize();
             }
         }
@@ -456,7 +440,6 @@ namespace djv
             p.gridOverlay->setGeometry(getGeometry());
             p.gridOverlay->setImageBBox(getImageBBox());
             p.gridOverlay->setImageFrame(p.lockFrame);
-            p.colorPickerOverlay->setGeometry(getGeometry());
         }
 
         void ImageView::_paintEvent(Event::Paint &)
@@ -619,7 +602,6 @@ namespace djv
             p.gridOverlay->setImagePosAndZoom(p.imagePos->get(), p.imageZoom->get());
             p.gridOverlay->setImageBBox(getImageBBox());
             p.gridOverlay->setImageFrame(p.lockFrame);
-            p.colorPickerOverlay->setImagePosAndZoom(p.imagePos->get(), p.imageZoom->get());
         }
 
     } // namespace ViewApp
