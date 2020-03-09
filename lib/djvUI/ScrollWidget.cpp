@@ -495,10 +495,10 @@ namespace djv
                 {
                 case ScrollType::Horizontal:
                     minimumSize.x = _minimumSizeRole != MetricsRole::None ? style->getMetric(_minimumSizeRole) : childrenMinimumSize.x;
-                    minimumSize.y = style->getMetric(MetricsRole::ScrollArea);
+                    minimumSize.y = childrenMinimumSize.y;
                     break;
                 case ScrollType::Vertical:
-                    minimumSize.x = style->getMetric(MetricsRole::ScrollArea);
+                    minimumSize.x = childrenMinimumSize.x;
                     minimumSize.y = _minimumSizeRole != MetricsRole::None ? style->getMetric(_minimumSizeRole) : childrenMinimumSize.y;
                     break;
                 case ScrollType::Both:

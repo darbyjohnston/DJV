@@ -177,7 +177,6 @@ namespace djv
 
             p.scrollWidget = ScrollWidget::create(ScrollType::Horizontal, context);
             p.scrollWidget->setBorder(false);
-            p.scrollWidget->setMinimumSizeRole(UI::MetricsRole::None);
             p.scrollWidget->setScrollBarSizeRole(UI::MetricsRole::ScrollBarSmall);
             p.scrollWidget->addChild(p.layout);
             addChild(p.scrollWidget);
