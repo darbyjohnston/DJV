@@ -51,6 +51,7 @@ namespace djv
         struct InfoWidget::Private
         {
             AV::IO::Info info;
+            std::shared_ptr<UI::LabelSizeGroup> sizeGroup;
             std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
@@ -62,6 +63,8 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             setClassName("djv::ViewApp::InfoWidget");
+
+            p.sizeGroup = UI::LabelSizeGroup::create();
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
@@ -122,6 +125,11 @@ namespace djv
             return out;
         }
 
+        void InfoWidget::_initLayoutEvent(Event::InitLayout&)
+        {
+            _p->sizeGroup->calcMinimumSize();
+        }
+
         void InfoWidget::_initEvent(Event::Init & event)
         {
             MDIWidget::_initEvent(event);
@@ -134,6 +142,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
+                p.sizeGroup->clearLabels();
                 p.layout->clearChildren();
 
                 if (!p.info.fileName.empty())
@@ -143,6 +152,7 @@ namespace djv
                     label->setHAlign(UI::HAlign::Left);
                     auto formLayout = UI::FormLayout::create(context);
                     formLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
+                    formLayout->setSizeGroup(p.sizeGroup);
                     formLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
                     formLayout->addChild(label);
                     formLayout->setText(label, _getText(DJV_TEXT("widget_info_file_name")) + ":");
@@ -154,6 +164,7 @@ namespace djv
                 {
                     auto formLayout = UI::FormLayout::create(context);
                     formLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
+                    formLayout->setSizeGroup(p.sizeGroup);
                     formLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
                     formLayout->setShadowOverlay({ UI::Side::Top });
 
@@ -236,6 +247,7 @@ namespace djv
                 {
                     auto formLayout = UI::FormLayout::create(context);
                     formLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
+                    formLayout->setSizeGroup(p.sizeGroup);
                     formLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
                     formLayout->setShadowOverlay({ UI::Side::Top });
 
@@ -301,6 +313,7 @@ namespace djv
                 {
                     auto formLayout = UI::FormLayout::create(context);
                     formLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
+                    formLayout->setSizeGroup(p.sizeGroup);
                     formLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
                     formLayout->setShadowOverlay({ UI::Side::Top });
 

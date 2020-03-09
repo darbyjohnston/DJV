@@ -35,18 +35,19 @@
 #include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/WindowSystem.h>
 
+#include <djvUI/Bellows.h>
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/CheckBox.h>
 #include <djvUI/ComboBox.h>
 #include <djvUI/FloatSlider.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/ImageWidget.h>
+#include <djvUI/Label.h>
 #include <djvUI/PushButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/TabWidget.h>
-#include <djvUI/ToggleButton.h>
 
 #include <djvAV/AVSystem.h>
 #include <djvAV/Render2D.h>
@@ -83,20 +84,14 @@ namespace djv
 
             std::map<std::string, std::shared_ptr<UI::FloatSlider> > colorSliders;
             std::shared_ptr<UI::CheckBox> colorInvertCheckBox;
-            std::shared_ptr<UI::FormLayout> colorLayout;
-            std::shared_ptr<UI::ScrollWidget> colorScrollWidget;
-
             std::map<std::string, std::shared_ptr<UI::FloatSlider> > levelsSliders;
-            std::shared_ptr<UI::FormLayout> levelsLayout;
-            std::shared_ptr<UI::ScrollWidget> levelsScrollWidget;
-
-            std::shared_ptr<UI::ToggleButton> exposureButton;
+            std::shared_ptr<UI::CheckBox> exposureCheckBox;
             std::map<std::string, std::shared_ptr<UI::FloatSlider> > exposureSliders;
-            std::shared_ptr<UI::FormLayout> exposureLayout;
-            std::shared_ptr<UI::ScrollWidget> exposureScrollWidget;
-
             std::shared_ptr<UI::FloatSlider> softClipSlider;
-            std::shared_ptr<UI::ScrollWidget> softClipScrollWidget;
+            std::shared_ptr<UI::LabelSizeGroup> colorSizeGroup;
+            std::map<std::string, std::shared_ptr<UI::FormLayout> > colorLayouts;
+            std::map<std::string, std::shared_ptr<UI::Bellows> > colorBellows;
+            std::shared_ptr<UI::ScrollWidget> colorScrollWidget;
 
             std::shared_ptr<UI::PushButton> loadFrameStoreButton;
             std::shared_ptr<UI::CheckBox> frameStoreCheckBox;
@@ -109,6 +104,7 @@ namespace djv
             std::shared_ptr<ValueObserver<AV::Render2D::ImageOptions> > imageOptionsObserver;
             std::shared_ptr<ValueObserver<UI::ImageRotate> > rotateObserver;
             std::shared_ptr<ValueObserver<UI::ImageAspectRatio> > aspectRatioObserver;
+            std::shared_ptr<MapObserver<std::string, bool> > colorControlsBellowsObserver;
             std::shared_ptr<ValueObserver<bool> > frameStoreEnabledObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > frameStoreObserver;
         };
@@ -168,7 +164,7 @@ namespace djv
                 slider.second->setDefaultVisible(true);
             }
 
-            p.exposureButton = UI::ToggleButton::create(context);
+            p.exposureCheckBox = UI::CheckBox::create(context);
             p.exposureSliders["Exposure"] = UI::FloatSlider::create(context);
             p.exposureSliders["Exposure"]->setRange(FloatRange(-10.F, 10.F));
             const AV::Render2D::ImageExposure exposure;
@@ -223,56 +219,64 @@ namespace djv
             p.transformScrollWidget->setBorder(false);
             p.transformScrollWidget->addChild(p.transformLayout);
 
-            p.colorLayout = UI::FormLayout::create(context);
-            p.colorLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-            p.colorLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
-            p.colorLayout->setShadowOverlay({ UI::Side::Top });
+            p.colorSizeGroup = UI::LabelSizeGroup::create();
+
+            p.colorLayouts["Adjustments"] = UI::FormLayout::create(context);
+            p.colorLayouts["Adjustments"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            p.colorLayouts["Adjustments"]->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
             for (const auto& i : { "Brightness", "Contrast", "Saturation" })
             {
-                p.colorLayout->addChild(p.colorSliders[i]);
+                p.colorLayouts["Adjustments"]->addChild(p.colorSliders[i]);
             }
-            p.colorLayout->addChild(p.colorInvertCheckBox);
-            p.colorScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            p.colorScrollWidget->setBorder(false);
-            p.colorScrollWidget->addChild(p.colorLayout);
+            p.colorLayouts["Adjustments"]->addChild(p.colorInvertCheckBox);
+            p.colorLayouts["Adjustments"]->setSizeGroup(p.colorSizeGroup);
+            p.colorBellows["Adjustments"] = UI::Bellows::create(context);
+            p.colorBellows["Adjustments"]->addChild(p.colorLayouts["Adjustments"]);
 
-            p.levelsLayout = UI::FormLayout::create(context);
-            p.levelsLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-            p.levelsLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
-            p.levelsLayout->setShadowOverlay({ UI::Side::Top });
+            p.colorLayouts["Levels"] = UI::FormLayout::create(context);
+            p.colorLayouts["Levels"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            p.colorLayouts["Levels"]->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            p.colorLayouts["Levels"]->setSizeGroup(p.colorSizeGroup);
             for (const auto& i : { "InLow", "InHigh", "Gamma", "OutLow", "OutHigh" })
             {
-                p.levelsLayout->addChild(p.levelsSliders[i]);
+                p.colorLayouts["Levels"]->addChild(p.levelsSliders[i]);
             }
-            p.levelsScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            p.levelsScrollWidget->setBorder(false);
-            p.levelsScrollWidget->addChild(p.levelsLayout);
+            p.colorBellows["Levels"] = UI::Bellows::create(context);
+            p.colorBellows["Levels"]->addChild(p.colorLayouts["Levels"]);
 
-            p.exposureLayout = UI::FormLayout::create(context);
-            p.exposureLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-            p.exposureLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
-            p.exposureLayout->addChild(p.exposureButton);
-            p.exposureLayout->setShadowOverlay({ UI::Side::Top });
+            p.colorLayouts["Exposure"] = UI::FormLayout::create(context);
+            p.colorLayouts["Exposure"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            p.colorLayouts["Exposure"]->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            p.colorLayouts["Exposure"]->setSizeGroup(p.colorSizeGroup);
+            p.colorLayouts["Exposure"]->addChild(p.exposureCheckBox);
             for (const auto& i : { "Exposure", "Defog", "KneeLow", "KneeHigh" })
             {
-                p.exposureLayout->addChild(p.exposureSliders[i]);
+                p.colorLayouts["Exposure"]->addChild(p.exposureSliders[i]);
             }
-            p.exposureScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            p.exposureScrollWidget->setBorder(false);
-            p.exposureScrollWidget->addChild(p.exposureLayout);
+            p.colorBellows["Exposure"] = UI::Bellows::create(context);
+            p.colorBellows["Exposure"]->addChild(p.colorLayouts["Exposure"]);
+
+            auto softClipLayout = UI::VerticalLayout::create(context);
+            softClipLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            softClipLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            softClipLayout->addChild(p.softClipSlider);
+            p.colorBellows["SoftClip"] = UI::Bellows::create(context);
+            p.colorBellows["SoftClip"]->addChild(softClipLayout);
 
             auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-            vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
-            vLayout->setShadowOverlay({ UI::Side::Top });
-            vLayout->addChild(p.softClipSlider);
-            p.softClipScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            p.softClipScrollWidget->setBorder(false);
-            p.softClipScrollWidget->addChild(vLayout);
+            vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            vLayout->addChild(p.colorBellows["Adjustments"]);
+            vLayout->addChild(p.colorBellows["Levels"]);
+            vLayout->addChild(p.colorBellows["Exposure"]);
+            vLayout->addChild(p.colorBellows["SoftClip"]);
+            p.colorScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            p.colorScrollWidget->setBorder(false);
+            p.colorScrollWidget->addChild(vLayout);
 
             vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
             vLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            vLayout->setShadowOverlay({ UI::Side::Top });
             vLayout->addChild(p.loadFrameStoreButton);
             vLayout->addChild(p.frameStoreCheckBox);
             vLayout->addChild(p.frameStoreWidget);
@@ -286,9 +290,6 @@ namespace djv
             p.tabWidget->addChild(p.channelsScrollWidget);
             p.tabWidget->addChild(p.transformScrollWidget);
             p.tabWidget->addChild(p.colorScrollWidget);
-            p.tabWidget->addChild(p.levelsScrollWidget);
-            p.tabWidget->addChild(p.exposureScrollWidget);
-            p.tabWidget->addChild(p.softClipScrollWidget);
             p.tabWidget->addChild(p.frameStoreScrollWidget);
             addChild(p.tabWidget);
 
@@ -524,7 +525,7 @@ namespace djv
                     }
                 });
 
-            p.exposureButton->setCheckedCallback(
+            p.exposureCheckBox->setCheckedCallback(
                 [weak](bool value)
                 {
                     if (auto widget = weak.lock())
@@ -609,6 +610,23 @@ namespace djv
                     }
                 });
 
+            for (const auto& i : p.colorBellows)
+            {
+                const std::string name = i.first;
+                i.second->setOpenCallback(
+                    [name, contextWeak](bool value)
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto appSettings = settingsSystem->getSettingsT<ImageSettings>();
+                            auto settingsBellows = appSettings->observeColorControlsBellows()->get();
+                            settingsBellows[name] = value;
+                            appSettings->setColorControlsBellows(settingsBellows);
+                        }
+                    });
+            }
+
             p.loadFrameStoreButton->setClickedCallback(
                 [contextWeak]
                 {
@@ -681,6 +699,25 @@ namespace djv
                     });
             }
 
+            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+            p.colorControlsBellowsObserver = MapObserver<std::string, bool>::create(
+                imageSettings->observeColorControlsBellows(),
+                [weak](const std::map<std::string, bool>& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        for (const auto& i : value)
+                        {
+                            const auto j = widget->_p->colorBellows.find(i.first);
+                            if (j != widget->_p->colorBellows.end())
+                            {
+                                j->second->setOpen(i.second);
+                            }
+                        }
+                    }
+                });
+
             auto imageSystem = context->getSystemT<ImageSystem>();
             p.frameStoreEnabledObserver = ValueObserver<bool>::create(
                 imageSystem->observeFrameStoreEnabled(),
@@ -727,6 +764,11 @@ namespace djv
         void ImageControlsWidget::setCurrentTab(int value)
         {
             _p->tabWidget->setCurrentTab(value);
+        }
+
+        void ImageControlsWidget::_initLayoutEvent(Event::InitLayout&)
+        {
+            _p->colorSizeGroup->calcMinimumSize();
         }
         
         void ImageControlsWidget::_initEvent(Event::Init & event)
@@ -777,22 +819,27 @@ namespace djv
             p.aspectRatioComboBox->setItems(items);
             p.transformLayout->setText(p.aspectRatioComboBox, _getText(DJV_TEXT("image_controls_transform_aspect_ratio")) + ":");
 
-            p.colorLayout->setText(p.colorSliders["Brightness"], _getText(DJV_TEXT("image_controls_color_brightness")) + ":");
-            p.colorLayout->setText(p.colorSliders["Contrast"], _getText(DJV_TEXT("image_controls_color_contrast")) + ":");
-            p.colorLayout->setText(p.colorSliders["Saturation"], _getText(DJV_TEXT("image_controls_color_saturation")) + ":");
-            p.colorLayout->setText(p.colorInvertCheckBox, _getText(DJV_TEXT("image_controls_color_invert")) + ":");
+            p.colorLayouts["Adjustments"]->setText(p.colorSliders["Brightness"], _getText(DJV_TEXT("image_controls_adjustments_brightness")) + ":");
+            p.colorLayouts["Adjustments"]->setText(p.colorSliders["Contrast"], _getText(DJV_TEXT("image_controls_adjustments_contrast")) + ":");
+            p.colorLayouts["Adjustments"]->setText(p.colorSliders["Saturation"], _getText(DJV_TEXT("image_controls_adjustments_saturation")) + ":");
+            p.colorLayouts["Adjustments"]->setText(p.colorInvertCheckBox, _getText(DJV_TEXT("image_controls_adjustments_invert")) + ":");
 
-            p.levelsLayout->setText(p.levelsSliders["InLow"], _getText(DJV_TEXT("image_controls_levels_in_low")) + ":");
-            p.levelsLayout->setText(p.levelsSliders["InHigh"], _getText(DJV_TEXT("image_controls_levels_in_high")) + ":");
-            p.levelsLayout->setText(p.levelsSliders["Gamma"], _getText(DJV_TEXT("image_controls_levels_gamma")) + ":");
-            p.levelsLayout->setText(p.levelsSliders["OutLow"], _getText(DJV_TEXT("image_controls_levels_out_low")) + ":");
-            p.levelsLayout->setText(p.levelsSliders["OutHigh"], _getText(DJV_TEXT("image_controls_levels_out_high")) + ":");
+            p.colorLayouts["Levels"]->setText(p.levelsSliders["InLow"], _getText(DJV_TEXT("image_controls_levels_in_low")) + ":");
+            p.colorLayouts["Levels"]->setText(p.levelsSliders["InHigh"], _getText(DJV_TEXT("image_controls_levels_in_high")) + ":");
+            p.colorLayouts["Levels"]->setText(p.levelsSliders["Gamma"], _getText(DJV_TEXT("image_controls_levels_gamma")) + ":");
+            p.colorLayouts["Levels"]->setText(p.levelsSliders["OutLow"], _getText(DJV_TEXT("image_controls_levels_out_low")) + ":");
+            p.colorLayouts["Levels"]->setText(p.levelsSliders["OutHigh"], _getText(DJV_TEXT("image_controls_levels_out_high")) + ":");
 
-            p.exposureLayout->setText(p.exposureButton, _getText(DJV_TEXT("image_controls_exposure_enabled")) + ":");
-            p.exposureLayout->setText(p.exposureSliders["Exposure"], _getText(DJV_TEXT("image_controls_exposure_exposure")) + ":");
-            p.exposureLayout->setText(p.exposureSliders["Defog"], _getText(DJV_TEXT("image_controls_exposure_defog")) + ":");
-            p.exposureLayout->setText(p.exposureSliders["KneeLow"], _getText(DJV_TEXT("image_controls_exposure_knee_low")) + ":");
-            p.exposureLayout->setText(p.exposureSliders["KneeHigh"], _getText(DJV_TEXT("image_controls_exposure_knee_high")) + ":");
+            p.colorLayouts["Exposure"]->setText(p.exposureCheckBox, _getText(DJV_TEXT("image_controls_exposure_enabled")) + ":");
+            p.colorLayouts["Exposure"]->setText(p.exposureSliders["Exposure"], _getText(DJV_TEXT("image_controls_exposure_exposure")) + ":");
+            p.colorLayouts["Exposure"]->setText(p.exposureSliders["Defog"], _getText(DJV_TEXT("image_controls_exposure_defog")) + ":");
+            p.colorLayouts["Exposure"]->setText(p.exposureSliders["KneeLow"], _getText(DJV_TEXT("image_controls_exposure_knee_low")) + ":");
+            p.colorLayouts["Exposure"]->setText(p.exposureSliders["KneeHigh"], _getText(DJV_TEXT("image_controls_exposure_knee_high")) + ":");
+
+            p.colorBellows["Adjustments"]->setText(_getText(DJV_TEXT("image_controls_adjustments")));
+            p.colorBellows["Levels"]->setText(_getText(DJV_TEXT("image_controls_levels")));
+            p.colorBellows["Exposure"]->setText(_getText(DJV_TEXT("image_controls_exposure")));
+            p.colorBellows["SoftClip"]->setText(_getText(DJV_TEXT("image_controls_soft_clip")));
 
             p.loadFrameStoreButton->setText(_getText(DJV_TEXT("image_controls_frame_store_load")));
             p.frameStoreCheckBox->setText(_getText(DJV_TEXT("image_controls_frame_store_enabled")));
@@ -800,9 +847,6 @@ namespace djv
             p.tabWidget->setText(p.channelsScrollWidget, _getText(DJV_TEXT("image_controls_section_channels")));
             p.tabWidget->setText(p.transformScrollWidget, _getText(DJV_TEXT("image_controls_section_transform")));
             p.tabWidget->setText(p.colorScrollWidget, _getText(DJV_TEXT("image_controls_section_color")));
-            p.tabWidget->setText(p.levelsScrollWidget, _getText(DJV_TEXT("image_controls_section_levels")));
-            p.tabWidget->setText(p.exposureScrollWidget, _getText(DJV_TEXT("image_controls_section_exposure")));
-            p.tabWidget->setText(p.softClipScrollWidget, _getText(DJV_TEXT("image_controls_section_soft_clip")));
             p.tabWidget->setText(p.frameStoreScrollWidget, _getText(DJV_TEXT("image_controls_section_frame_store")));
 
             _widgetUpdate();
@@ -831,7 +875,7 @@ namespace djv
             p.levelsSliders["OutLow"]->setValue(p.imageOptions.levels.outLow);
             p.levelsSliders["OutHigh"]->setValue(p.imageOptions.levels.outHigh);
 
-            p.exposureButton->setChecked(p.imageOptions.exposureEnabled);
+            p.exposureCheckBox->setChecked(p.imageOptions.exposureEnabled);
             p.exposureSliders["Exposure"]->setValue(p.imageOptions.exposure.exposure);
             p.exposureSliders["Defog"]->setValue(p.imageOptions.exposure.defog);
             p.exposureSliders["KneeLow"]->setValue(p.imageOptions.exposure.kneeLow);

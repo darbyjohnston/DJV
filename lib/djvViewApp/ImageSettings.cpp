@@ -45,6 +45,7 @@ namespace djv
     {
         struct ImageSettings::Private
         {
+            std::shared_ptr<MapSubject<std::string, bool> > controlControlsBellows;
             int colorSpaceCurrentTab = 0;
             int colorCurrentTab = 0;
             std::shared_ptr<ValueSubject<UI::ImageRotate> > rotate;
@@ -57,6 +58,7 @@ namespace djv
             ISettings::_init("djv::ViewApp::ImageSettings", context);
 
             DJV_PRIVATE_PTR();
+            p.controlControlsBellows = MapSubject<std::string, bool>::create({ { "Adjustments", true } });
             p.rotate = ValueSubject<UI::ImageRotate>::create(UI::ImageRotate::_0);
             p.aspectRatio = ValueSubject<UI::ImageAspectRatio>::create(UI::ImageAspectRatio::FromSource);
             _load();
@@ -71,6 +73,16 @@ namespace djv
             auto out = std::shared_ptr<ImageSettings>(new ImageSettings);
             out->_init(context);
             return out;
+        }
+
+        std::shared_ptr<IMapSubject<std::string, bool> > ImageSettings::observeColorControlsBellows() const
+        {
+            return _p->controlControlsBellows;
+        }
+
+        void ImageSettings::setColorControlsBellows(const std::map<std::string, bool>& value)
+        {
+            _p->controlControlsBellows->setIfChanged(value);
         }
 
         int ImageSettings::getColorSpaceCurrentTab() const
@@ -129,6 +141,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
+                UI::Settings::read("ColorControlsBellows", object, p.controlControlsBellows);
                 UI::Settings::read("ColorSpaceCurrentTab", object, p.colorSpaceCurrentTab);
                 UI::Settings::read("ColorCurrentTab", object, p.colorCurrentTab);
                 UI::Settings::read("Rotate", object, p.rotate);
@@ -142,6 +155,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             picojson::value out(picojson::object_type, true);
             auto & object = out.get<picojson::object>();
+            UI::Settings::write("ColorControlsBellows", p.controlControlsBellows->get(), object);
             UI::Settings::write("ColorSpaceCurrentTab", p.colorSpaceCurrentTab, object);
             UI::Settings::write("ColorCurrentTab", p.colorCurrentTab, object);
             UI::Settings::write("Rotate", p.rotate->get(), object);

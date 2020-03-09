@@ -50,6 +50,8 @@ namespace djv
             static std::shared_ptr<InfoWidget> create(const std::shared_ptr<Core::Context>&);
 
         protected:
+            void _initLayoutEvent(djv::Core::Event::InitLayout&) override;
+
             void _initEvent(Core::Event::Init &) override;
 
         private:

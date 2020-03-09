@@ -64,7 +64,9 @@ namespace djv
             void setCurrentTab(int);            
 
         protected:
-            void _initEvent(Core::Event::Init &) override;
+            void _initLayoutEvent(Core::Event::InitLayout&) override;
+
+            void _initEvent(Core::Event::Init&) override;
 
         private:
             void _widgetUpdate();

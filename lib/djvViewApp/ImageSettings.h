@@ -35,6 +35,7 @@
 #include <djvUI/ISettings.h>
 
 #include <djvCore/BBox.h>
+#include <djvCore/MapObserver.h>
 #include <djvCore/ValueObserver.h>
 
 namespace djv
@@ -53,6 +54,9 @@ namespace djv
 
         public:
             static std::shared_ptr<ImageSettings> create(const std::shared_ptr<Core::Context>&);
+
+            std::shared_ptr<Core::IMapSubject<std::string, bool> > observeColorControlsBellows() const;
+            void setColorControlsBellows(const std::map<std::string, bool>&);
 
             int getColorSpaceCurrentTab() const;
             int getColorCurrentTab() const;
