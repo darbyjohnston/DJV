@@ -238,7 +238,7 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            system->_panImage(glm::vec2(1.F, 0.F));
+                            system->_panImage(glm::vec2(-1.F, 0.F));
                         }
                     }
                 });
@@ -252,7 +252,7 @@ namespace djv
                         if (auto system = weak.lock())
                         {
                             system->_p->settings->setLock(ImageViewLock::None);
-                            system->_panImage(glm::vec2(-1.F, 0.F));
+                            system->_panImage(glm::vec2(1.F, 0.F));
                         }
                     }
                 });
@@ -266,7 +266,7 @@ namespace djv
                         if (auto system = weak.lock())
                         {
                             system->_p->settings->setLock(ImageViewLock::None);
-                            system->_panImage(glm::vec2(0.F, 1.F));
+                            system->_panImage(glm::vec2(0.F, -1.F));
                         }
                     }
                 });
@@ -280,7 +280,7 @@ namespace djv
                         if (auto system = weak.lock())
                         {
                             system->_p->settings->setLock(ImageViewLock::None);
-                            system->_panImage(glm::vec2(0.F, -1.F));
+                            system->_panImage(glm::vec2(0.F, 1.F));
                         }
                     }
                 });
@@ -294,7 +294,7 @@ namespace djv
                         if (auto system = weak.lock())
                         {
                             system->_p->settings->setLock(ImageViewLock::None);
-                            system->_panImage(glm::vec2(1.F, 1.F));
+                            system->_panImage(glm::vec2(-1.F, -1.F));
                         }
                     }
                 });
@@ -308,7 +308,7 @@ namespace djv
                         if (auto system = weak.lock())
                         {
                             system->_p->settings->setLock(ImageViewLock::None);
-                            system->_panImage(glm::vec2(-1.F, 1.F));
+                            system->_panImage(glm::vec2(1.F, -1.F));
                         }
                     }
                 });
@@ -322,7 +322,7 @@ namespace djv
                         if (auto system = weak.lock())
                         {
                             system->_p->settings->setLock(ImageViewLock::None);
-                            system->_panImage(glm::vec2(-1.F, -1.F));
+                            system->_panImage(glm::vec2(1.F, 1.F));
                         }
                     }
                 });
@@ -336,7 +336,7 @@ namespace djv
                         if (auto system = weak.lock())
                         {
                             system->_p->settings->setLock(ImageViewLock::None);
-                            system->_panImage(glm::vec2(1.F, -1.F));
+                            system->_panImage(glm::vec2(-1.F, 1.F));
                         }
                     }
                 });
