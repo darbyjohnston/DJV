@@ -809,67 +809,123 @@ namespace djv
             std::vector<Core::FileSystem::FileInfo> fileInfos;
             if (auto context = getContext().lock())
             {
-                const size_t openMax = p.settings->observeOpenMax()->get();
-                bool exceededMax = false;
+                auto io = context->getSystemT<AV::IO::System>();
+
+                // Find arguments that are sequences.
+                auto i = fileNames.begin();
+                while (i != fileNames.end())
+                {
+                    Core::FileSystem::FileInfo fileInfo(*i);
+                    fileInfo.evalSequence();
+                    if (fileInfo.isSequenceValid() &&
+                        fileInfo.getSequence().getSize() > 1 &&
+                        io->canSequence(fileInfo))
+                    {
+                        fileInfos.push_back(fileInfo);
+                        i = fileNames.erase(i);
+                    }
+                    else
+                    {
+                        ++i;
+                    }
+                }
+            
+                // Find arguments that belong to the same sequence (for
+                // example when a shell wildcard is used).
+                i = fileNames.begin();
+                while (i != fileNames.end())
+                {
+                    Core::FileSystem::FileInfo fileInfo(*i);
+                    fileInfo.evalSequence();
+                    if (fileInfo.isSequenceValid() &&
+                        1 == fileInfo.getSequence().getSize() &&
+                        io->canSequence(fileInfo))
+                    {
+                        auto j = i + 1;
+                        while (j != fileNames.end())
+                        {
+                            Core::FileSystem::FileInfo fileInfo2(*j);
+                            fileInfo2.evalSequence();
+                            if (fileInfo2.isSequenceValid() &&
+                                1 == fileInfo2.getSequence().getSize() &&
+                                io->canSequence(fileInfo2) &&
+                                fileInfo.addToSequence(fileInfo2))
+                            {
+                                j = fileNames.erase(j);
+                            }
+                            else
+                            {
+                                ++j;
+                            }
+                        }
+                    }
+                    ++i;
+                }
+            
+                // Auto-detect sequences.
                 if (p.settings->observeAutoDetectSequences()->get())
                 {
-                    auto io = context->getSystemT<AV::IO::System>();
-                    auto i = fileNames.begin();
+                    i = fileNames.begin();
                     while (i != fileNames.end())
                     {
-                        if (fileInfos.size() < openMax)
+                        Core::FileSystem::FileInfo fileInfo(*i);
+                        fileInfo.evalSequence();
+                        if (fileInfo.isSequenceValid() &&
+                            1 == fileInfo.getSequence().getSize() &&
+                            io->canSequence(fileInfo))
                         {
-                            Core::FileSystem::FileInfo fileInfo(*i);
-                            fileInfo.evalSequence();
-                            if (fileInfo.isSequenceValid() &&
-                                1 == fileInfo.getSequence().getSize() &&
-                                io->canSequence(fileInfo))
-                            {
-                                auto j = i + 1;
-                                while (j != fileNames.end())
-                                {
-                                    if (fileInfo.addToSequence(*j))
-                                    {
-                                        j = fileNames.erase(j);
-                                    }
-                                    else
-                                    {
-                                        ++j;
-                                    }
-                                }
-                                fileInfo = Core::FileSystem::FileInfo::getFileSequence(
-                                    Core::FileSystem::Path(*i),
-                                    io->getSequenceExtensions());
-                            }
-                            fileInfos.push_back(fileInfo);
+                            fileInfos.push_back(Core::FileSystem::FileInfo::getFileSequence(
+                                Core::FileSystem::Path(*i),
+                                io->getSequenceExtensions()));
+                            i = fileNames.erase(i);
+                        }
+                        else
+                        {
                             ++i;
                         }
-                        else
-                        {
-                            exceededMax = true;
-                            break;
-                        }
                     }
                 }
-                else
+                
+                // Check the directory for wildcards.
+                i = fileNames.begin();
+                while (i != fileNames.end())
                 {
-                    for (const auto& i : fileNames)
+                    Core::FileSystem::FileInfo fileInfo(*i);
+                    const std::string& number = fileInfo.getPath().getNumber();
+                    const bool wildcard = Core::FileSystem::FileInfo::isSequenceWildcard(number);
+                    Core::FileSystem::FileInfo fileSequence;
+                    if (wildcard)
                     {
-                        if (fileInfos.size() < openMax)
-                        {
-                            Core::FileSystem::FileInfo fileInfo(i);
-                            fileInfo.evalSequence();
-                            fileInfos.push_back(fileInfo);
-                        }
-                        else
-                        {
-                            exceededMax = true;
-                            break;
-                        }
+                        fileSequence = Core::FileSystem::FileInfo::getFileSequence(
+                            Core::FileSystem::Path(*i),
+                            io->getSequenceExtensions());
+                    }
+                    if (wildcard && number.size() == fileSequence.getSequence().pad)
+                    {
+                        fileInfos.push_back(fileSequence);
+                        i = fileNames.erase(i);
+                    }
+                    else
+                    {
+                        ++i;
                     }
                 }
-                if (exceededMax)
+                
+                // Add the remaining file names.
+                for (const auto& i : fileNames)
                 {
+                    Core::FileSystem::FileInfo fileInfo(i);
+                    fileInfo.evalSequence();
+                    fileInfos.push_back(fileInfo);
+                }
+                
+                const size_t openMax = p.settings->observeOpenMax()->get();
+                if (fileInfos.size() > openMax)
+                {
+                    while (fileInfos.size() > openMax)
+                    {
+                        fileInfos.pop_back();
+                    }
                     std::stringstream ss;
                     ss << _getText(DJV_TEXT("error_cannot_open_more_than")) << " "
                         << openMax << " "

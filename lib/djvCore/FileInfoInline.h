@@ -104,14 +104,7 @@ namespace djv
                     _sequence.ranges.size();
             }
 
-            inline bool FileInfo::isSequenceWildcard() const
-            {
-                return
-                    _type != FileType::Directory &&
-                    "#" == _path.getNumber();
-            }
-
-            inline bool FileInfo::isCompatible(const FileInfo & value) const
+            inline bool FileInfo::isCompatible(const FileInfo& value) const
             {
                 if (!isSequenceValid())
                     return false;
@@ -149,6 +142,15 @@ namespace djv
                     return true;
                 }
                 return false;
+            }
+            
+            inline bool FileInfo::isSequenceWildcard(const std::string& value)
+            {
+                auto i = value.begin();
+                auto end = value.end();
+                for (; i != end && '#' == *i; ++i)
+                    ;
+                return !value.empty() && i == end;
             }
 
             inline bool FileInfo::operator == (const FileInfo & in) const

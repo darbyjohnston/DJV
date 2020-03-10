@@ -204,7 +204,6 @@ namespace djv
             {
                 FileSystem::FileInfo fileInfo(_sequenceName);
                 DJV_ASSERT(!fileInfo.isSequenceValid());
-                DJV_ASSERT(!fileInfo.isSequenceWildcard());
                 DJV_ASSERT(!fileInfo.isCompatible(fileInfo));
                 fileInfo.evalSequence();
                 Frame::Sequence sequence(1, 100);
@@ -240,6 +239,13 @@ namespace djv
 
         void FileInfoTest::_util()
         {
+            {
+                DJV_ASSERT(!FileSystem::FileInfo::isSequenceWildcard(std::string()));
+                DJV_ASSERT(FileSystem::FileInfo::isSequenceWildcard("#"));
+                DJV_ASSERT(FileSystem::FileInfo::isSequenceWildcard("####"));
+                DJV_ASSERT(!FileSystem::FileInfo::isSequenceWildcard("#0"));
+            }
+            
             {
                 std::vector<FileSystem::DirectoryListOptions> optionsList;
                 for (auto i : FileSystem::getDirectoryListSortEnums())

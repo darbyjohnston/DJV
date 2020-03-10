@@ -159,14 +159,16 @@ namespace djv
                 void evalSequence();
                 void sortSequence();
                 bool isSequenceValid() const;
-                bool isSequenceWildcard() const;
                 bool isCompatible(const FileInfo &) const;
                 bool addToSequence(const FileInfo &);
-
+                
                 ///@}
 
                 //! \name Utilities
                 ///@{
+
+                //! Test whether the string contains all '#' characters.
+                static bool isSequenceWildcard(const std::string&);
 
                 //! Get the contents of the given directory.
                 static std::vector<FileInfo> directoryList(const Path& path, const DirectoryListOptions& options = DirectoryListOptions());
