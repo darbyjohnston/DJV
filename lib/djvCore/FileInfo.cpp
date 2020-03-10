@@ -172,20 +172,27 @@ namespace djv
                 _path.setNumber(s.str());
             }
 
-            FileInfo FileInfo::getFileSequence(const Path & path, const std::set<std::string>& extensions)
+            FileInfo FileInfo::getFileSequence(const Path& path, const std::set<std::string>& extensions)
             {
+                FileInfo out(path);
                 DirectoryListOptions options;
                 options.fileSequences = true;
                 options.fileSequenceExtensions = extensions;
-                for (const auto & fileInfo : directoryList(Path(path.getDirectoryName()), options))
+                std::string dir = path.getDirectoryName();
+                if (dir.empty())
+                {
+                    dir = ".";
+                }
+                for (const auto& fileInfo : directoryList(Path(dir), options))
                 {
                     if (fileInfo.getSequence().getSize() > 1 &&
                         fileInfo.isCompatible(path))
                     {
-                        return fileInfo;
+                        out = fileInfo;
+                        break;
                     }
                 }
-                return FileInfo(path);
+                return out;
             }
 
             void FileInfo::_fileSequence(FileInfo& fileInfo, const DirectoryListOptions& options, std::vector<FileInfo>& out)

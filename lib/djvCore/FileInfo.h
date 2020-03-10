@@ -172,7 +172,7 @@ namespace djv
                 static std::vector<FileInfo> directoryList(const Path& path, const DirectoryListOptions& options = DirectoryListOptions());
 
                 //! Get the file sequence for the given file.
-                static FileInfo getFileSequence(const Path &, const std::set<std::string>& extensions);
+                static FileInfo getFileSequence(const Path&, const std::set<std::string>& extensions);
 
                 ///@}
 
