@@ -15,6 +15,5 @@
     "djv_convert_option_writeseq": "-writeSeq",
     "djv_convert_option_writeseq_description": "Tolk utdatafilnamnet som en sekvens.",
     "djv_convert_option_writethreads": "-writeThreads (värde)",
-    "djv_convert_option_writethreads_description": "Ställ in antalet trådar som ska skrivas.",
-    "djv_convert_usage": "djv_convert (input) (output) [alternativ, ...]"
+    "djv_convert_option_writethreads_description": "Ställ in antalet trådar som ska skrivas."
 }

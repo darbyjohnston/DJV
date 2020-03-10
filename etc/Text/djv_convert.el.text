@@ -15,6 +15,5 @@
     "djv_convert_option_writeseq": "-writeSeq",
     "djv_convert_option_writeseq_description": "Ερμηνεύστε το όνομα του αρχείου εξόδου ως ακολουθία.",
     "djv_convert_option_writethreads": "-writeThreads (τιμή)",
-    "djv_convert_option_writethreads_description": "Ορίστε τον αριθμό των κλωστών για εγγραφή.",
-    "djv_convert_usage": "djv_convert (είσοδος) (έξοδος) [επιλογή, ...]"
+    "djv_convert_option_writethreads_description": "Ορίστε τον αριθμό των κλωστών για εγγραφή."
 }

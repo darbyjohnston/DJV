@@ -76,6 +76,8 @@ namespace djv
 
             std::shared_ptr<ApplicationSettings> settings;
 
+            std::vector<std::string> cmdlinePaths;
+
             std::vector<std::shared_ptr<AV::IO::IRead> > read;
             std::vector<std::shared_ptr<AV::Image::Image> > icons;
             std::shared_ptr<Time::Timer> timer;
@@ -88,16 +90,6 @@ namespace djv
         {
             Desktop::Application::_init(args);
             DJV_PRIVATE_PTR();
-
-            // Parse the command line.
-            auto arg = args.begin();
-            ++arg;
-            std::vector<std::string> cmdlinePaths;
-            while (arg != args.end())
-            {
-                cmdlinePaths.push_back(*arg);
-                ++arg;
-            }
 
             // Create the systems.
             UI::UIComponentsSystem::create(shared_from_this());
@@ -121,6 +113,13 @@ namespace djv
             // Create settings.
             p.settings = ApplicationSettings::create(shared_from_this());
 
+            // Parse the command line.
+            if (!_parseArgs(args))
+            {
+                exit(1);
+                return;
+            }
+            
             // Create the main window.
             p.mainWindow = MainWindow::create(shared_from_this());
             windowSystem->setMediaCanvas(p.mainWindow->getMediaCanvas());
@@ -141,7 +140,7 @@ namespace djv
                         }
                     });
             }
-
+            
             // Read the application icons.
             _readIcon("djv-reel-16.png");
             _readIcon("djv-reel-32.png");
@@ -197,7 +196,7 @@ namespace djv
                 });
 
             // Open command-line files.
-            fileSystem->open(cmdlinePaths);
+            fileSystem->open(p.cmdlinePaths);
 
             // Show the main window.
             p.mainWindow->show();
@@ -217,6 +216,85 @@ namespace djv
             return out;
         }
 
+        bool Application::_parseArgs(const std::vector<std::string>& args)
+        {
+            DJV_PRIVATE_PTR();
+            bool out = true;
+            auto arg = args.begin();
+            ++arg;
+            while (arg != args.end())
+            {
+                if ("-h" == *arg || "-help" == *arg || "--help" == *arg)
+                {
+                    out = false;
+                    _printUsage();
+                    break;
+                }
+                if ("-full_screen" == *arg)
+                {
+                }
+                if ("-screen" == *arg)
+                {
+                }
+                if ("-cs_config" == *arg)
+                {
+                }
+                if ("-cs_input" == *arg)
+                {
+                }
+                if ("-cs_display" == *arg)
+                {
+                }
+                if ("-cs_view" == *arg)
+                {
+                }
+                if ("-pixel_aspect" == *arg)
+                {
+                }
+                if ("-frame_start" == *arg)
+                {
+                }
+                if ("-frame_end" == *arg)
+                {
+                }
+                if ("-fps" == *arg)
+                {
+                }
+                if ("-version" == *arg)
+                {
+                }
+                if ("-log_console" == *arg)
+                {
+                }
+                if ("-init_settings" == *arg)
+                {
+                }
+                else
+                {
+                    p.cmdlinePaths.push_back(*arg);
+                    ++arg;
+                }
+            }
+            return out;
+        }
+        
+        void Application::_printUsage()
+        {
+            auto textSystem = getSystemT<Core::TextSystem>();
+            std::cout << std::endl;
+            std::cout << " " << textSystem->getText(DJV_TEXT("djv_cli_description")) << std::endl;
+            std::cout << std::endl;
+            std::cout << " " << textSystem->getText(DJV_TEXT("djv_cli_usage")) << std::endl;
+            std::cout << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_usage_format")) << std::endl;
+            std::cout << std::endl;
+            std::cout << " " << textSystem->getText(DJV_TEXT("djv_cli_options")) << std::endl;
+            std::cout << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_option_help")) << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_option_help_description")) << std::endl;
+            std::cout << std::endl;
+        }
+        
         void Application::_readIcon(const std::string& fileName)
         {
             DJV_PRIVATE_PTR();

@@ -61,6 +61,7 @@ namespace djv
         struct Application::Private
         {
             bool running = false;
+            int exit = 0;
         };
 
         void Application::_init(const std::vector<std::string>& args)
@@ -91,38 +92,42 @@ namespace djv
         int Application::run()
         {
             DJV_PRIVATE_PTR();
-            auto avGLFWSystem = getSystemT<AV::GLFW::System>();
-            if (auto glfwWindow = avGLFWSystem->getGLFWWindow())
+            if (0 == p.exit)
             {
-                glfwShowWindow(glfwWindow);
-                p.running = true;
-                auto start = std::chrono::steady_clock::now();
-                auto delta = Time::Unit::zero();
-                auto frameTime = std::chrono::microseconds(1000000 / frameRate);
-                while (p.running && glfwWindow && !glfwWindowShouldClose(glfwWindow))
+                auto avGLFWSystem = getSystemT<AV::GLFW::System>();
+                if (auto glfwWindow = avGLFWSystem->getGLFWWindow())
                 {
-                    glfwPollEvents();
-                    tick(start, delta);
-                    const auto systemTime = std::chrono::steady_clock::now();
+                    glfwShowWindow(glfwWindow);
+                    p.running = true;
+                    auto start = std::chrono::steady_clock::now();
+                    auto delta = Time::Unit::zero();
+                    auto frameTime = std::chrono::microseconds(1000000 / frameRate);
+                    while (p.running && glfwWindow && !glfwWindowShouldClose(glfwWindow))
+                    {
+                        glfwPollEvents();
+                        tick(start, delta);
+                        const auto systemTime = std::chrono::steady_clock::now();
 
-                    auto end = std::chrono::steady_clock::now();
-                    delta = std::chrono::duration_cast<Time::Unit>(end - start);
-                    Time::sleep(frameTime - delta);
-                    end = std::chrono::steady_clock::now();
-                    //delta = std::chrono::duration_cast<Time::Unit>(end - start);
-                    //std::cout << "frame: " <<
-                    //    std::chrono::duration_cast<Time::Unit>(systemTime - start).count() << "/" <<
-                    //    delta.count() << "/" <<
-                    //    (1000000 / frameRate) << std::endl;
-                    start = end;
+                        auto end = std::chrono::steady_clock::now();
+                        delta = std::chrono::duration_cast<Time::Unit>(end - start);
+                        Time::sleep(frameTime - delta);
+                        end = std::chrono::steady_clock::now();
+                        //delta = std::chrono::duration_cast<Time::Unit>(end - start);
+                        //std::cout << "frame: " <<
+                        //    std::chrono::duration_cast<Time::Unit>(systemTime - start).count() << "/" <<
+                        //    delta.count() << "/" <<
+                        //    (1000000 / frameRate) << std::endl;
+                        start = end;
+                    }
                 }
             }
-            return 0;
+            return _p->exit;
         }
 
-        void Application::exit()
+        void Application::exit(int exit)
         {
             _p->running = false;
+            _p->exit = exit;
         }
 
     } // namespace Desktop

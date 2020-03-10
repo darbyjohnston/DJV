@@ -15,6 +15,5 @@
     "djv_convert_option_writeseq": "-writeSeq",
     "djv_convert_option_writeseq_description": "将输出文件名解释为一个序列。",
     "djv_convert_option_writethreads": "-writeThreads（值）",
-    "djv_convert_option_writethreads_description": "设置要写入的线程数。",
-    "djv_convert_usage": "djv_convert（输入）（输出）[选项，...]"
+    "djv_convert_option_writethreads_description": "设置要写入的线程数。"
 }

@@ -15,6 +15,5 @@
     "djv_convert_option_writeseq": "-writeSeq",
     "djv_convert_option_writeseq_description": "出力ファイル名をシーケンスとして解釈します。",
     "djv_convert_option_writethreads": "-writeThreads（値）",
-    "djv_convert_option_writethreads_description": "書き込むスレッドの数を設定します。",
-    "djv_convert_usage": "djv_convert（入力）（出力）[オプション、...]"
+    "djv_convert_option_writethreads_description": "書き込むスレッドの数を設定します。"
 }

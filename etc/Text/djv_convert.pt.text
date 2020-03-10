@@ -15,6 +15,5 @@
     "djv_convert_option_writeseq": "-writeSeq",
     "djv_convert_option_writeseq_description": "Interprete o nome do arquivo de saída como uma sequência.",
     "djv_convert_option_writethreads": "-writeThreads (valor)",
-    "djv_convert_option_writethreads_description": "Defina o número de threads para gravação.",
-    "djv_convert_usage": "djv_convert (entrada) (saída) [opção, ...]"
+    "djv_convert_option_writethreads_description": "Defina o número de threads para gravação."
 }

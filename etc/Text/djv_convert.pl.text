@@ -15,6 +15,5 @@
     "djv_convert_option_writeseq": "-writeSeq",
     "djv_convert_option_writeseq_description": "Interpretuj nazwę pliku wyjściowego jako sekwencję.",
     "djv_convert_option_writethreads": "-writeThreads (wartość)",
-    "djv_convert_option_writethreads_description": "Ustaw liczbę wątków do pisania.",
-    "djv_convert_usage": "djv_convert (wejście) (wyjście) [opcja, ...]"
+    "djv_convert_option_writethreads_description": "Ustaw liczbę wątków do pisania."
 }

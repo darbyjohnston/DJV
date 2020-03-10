@@ -168,10 +168,9 @@ namespace djv
                 auto i = args.begin();
                 while (i != args.end())
                 {
-                    if ("-h" == *i || "-help" == *i)
+                    if ("-h" == *i || "-help" == *i || "--help" == *i)
                     {
                         out = false;
-                        _printUsage();
                         break;
                     }
                     else if ("-resize" == *i)
@@ -242,6 +241,9 @@ namespace djv
                 else
                 {
                     out = false;
+                }
+                if (!out)
+                {
                     _printUsage();
                 }
                 return out;
@@ -251,9 +253,11 @@ namespace djv
             {
                 auto textSystem = getSystemT<Core::TextSystem>();
                 std::cout << std::endl;
+                std::cout << " " << textSystem->getText(DJV_TEXT("djv_convert_cli_description")) << std::endl;
+                std::cout << std::endl;
                 std::cout << " " << textSystem->getText(DJV_TEXT("djv_convert_cli_usage")) << std::endl;
                 std::cout << std::endl;
-                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_usage")) << std::endl;
+                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_cli_usage_format")) << std::endl;
                 std::cout << std::endl;
                 std::cout << " " << textSystem->getText(DJV_TEXT("djv_convert_cli_options")) << std::endl;
                 std::cout << std::endl;
@@ -277,6 +281,9 @@ namespace djv
                 std::cout << std::endl;
                 std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_writethreads")) << std::endl;
                 std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_writethreads_description")) << std::endl;
+                std::cout << std::endl;
+                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_help")) << std::endl;
+                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_help_description")) << std::endl;
                 std::cout << std::endl;
             }
 

@@ -15,6 +15,5 @@
     "djv_convert_option_writeseq": "-writeSeq",
     "djv_convert_option_writeseq_description": "Interpretiert die Ausgabedatei als BildSequenz.",
     "djv_convert_option_writethreads": "-writeThreads (Wert)",
-    "djv_convert_option_writethreads_description": "Legt die Anzahl der Schreibe-Threads fest.",
-    "djv_convert_usage": "djv_convert (Eingabe) (Ausgabe) [Option, ...]"
+    "djv_convert_option_writethreads_description": "Legt die Anzahl der Schreibe-Threads fest."
 }

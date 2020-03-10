@@ -50,6 +50,8 @@ namespace djv
             static std::shared_ptr<Application> create(const std::vector<std::string>&);
 
         private:
+            bool _parseArgs(const std::vector<std::string>&);
+            void _printUsage();
             void _readIcon(const std::string&);
 
             DJV_PRIVATE();

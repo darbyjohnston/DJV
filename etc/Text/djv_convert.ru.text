@@ -15,6 +15,5 @@
     "djv_convert_option_writeseq": "-writeSeq",
     "djv_convert_option_writeseq_description": "Интерпретировать имя выходного файла как последовательность.",
     "djv_convert_option_writethreads": "-writeThreads (значение)",
-    "djv_convert_option_writethreads_description": "Установите количество потоков для записи.",
-    "djv_convert_usage": "djv_convert (вход) (выход) [опция, ...]"
+    "djv_convert_option_writethreads_description": "Установите количество потоков для записи."
 }
