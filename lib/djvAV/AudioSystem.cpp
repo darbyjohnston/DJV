@@ -47,8 +47,9 @@ namespace djv
         {
             struct System::Private
             {
-                std::shared_ptr<TextSystem> textSystem;
                 std::unique_ptr<RtAudio> rtAudio;
+                std::vector<std::string> apis;
+                std::vector<Device> devices;
             };
 
             void System::_init(const std::shared_ptr<Core::Context>& context)
@@ -58,60 +59,84 @@ namespace djv
 
                 addDependency(context->getSystemT<CoreSystem>());
 
-                p.textSystem = context->getSystemT<TextSystem>();
-
                 {
                     std::stringstream ss;
                     ss << "RtAudio version: " << RtAudio::getVersion();
                     _log(ss.str());
                 }
+
                 std::vector<RtAudio::Api> rtAudioApis;
                 RtAudio::getCompiledApi(rtAudioApis);
                 for (auto i : rtAudioApis)
                 {
+                    p.apis.push_back(RtAudio::getApiDisplayName(i));
+
                     std::stringstream ss;
-                    ss << "RtAudio API: " << RtAudio::getApiDisplayName(i);
+                    ss << "Audio API: " << RtAudio::getApiDisplayName(i);
                     _log(ss.str());
                 }
 
                 try
                 {
                     p.rtAudio.reset(new RtAudio);
-                    const unsigned int deviceCount = p.rtAudio->getDeviceCount();
+                    const unsigned int rtDeviceCount = p.rtAudio->getDeviceCount();
+                    for (unsigned int i = 0; i < rtDeviceCount; ++i)
                     {
-                        std::stringstream ss;
-                        ss << "Device count: " << deviceCount;
-                        _log(ss.str());
-                    }
-                    for (unsigned int i = 0; i < deviceCount; ++i)
-                    {
-                        const RtAudio::DeviceInfo info = p.rtAudio->getDeviceInfo(i);
-                        if (info.probed)
+                        const RtAudio::DeviceInfo rtInfo = p.rtAudio->getDeviceInfo(i);
+                        if (rtInfo.probed)
                         {
+                            Device device;
+                            device.name = rtInfo.name;
+                            device.outputChannels = rtInfo.outputChannels;
+                            device.inputChannels  = rtInfo.inputChannels;
+                            device.duplexChannels = rtInfo.duplexChannels;
+                            for (auto j : rtInfo.sampleRates)
+                            {
+                                device.sampleRates.push_back(j);
+                            }
+                            device.preferredSampleRate = rtInfo.preferredSampleRate;
+                            if (rtInfo.nativeFormats & RTAUDIO_SINT8)
+                            {
+                                device.nativeFormats.push_back(DeviceFormat::S8);
+                            }
+                            if (rtInfo.nativeFormats & RTAUDIO_SINT8)
+                            {
+                                device.nativeFormats.push_back(DeviceFormat::S16);
+                            }
+                            if (rtInfo.nativeFormats & RTAUDIO_SINT16)
+                            {
+                                device.nativeFormats.push_back(DeviceFormat::S24);
+                            }
+                            if (rtInfo.nativeFormats & RTAUDIO_SINT24)
+                            {
+                                device.nativeFormats.push_back(DeviceFormat::S32);
+                            }
+                            if (rtInfo.nativeFormats & RTAUDIO_FLOAT32)
+                            {
+                                device.nativeFormats.push_back(DeviceFormat::F32);
+                            }
+                            if (rtInfo.nativeFormats & RTAUDIO_FLOAT64)
+                            {
+                                device.nativeFormats.push_back(DeviceFormat::F64);
+                            }
+                            p.devices.push_back(device);
                             {
                                 std::stringstream ss;
-                                ss << "Device " << i << " name: " << info.name;
+                                ss << "Device: " << device.name;
                                 _log(ss.str());
                             }
                             {
                                 std::stringstream ss;
-                                ss << "Device " << i << " output channels: " << info.outputChannels;
+                                ss << "    Channels (output, input, duplex): " <<
+                                    size_t(device.outputChannels) << ", " <<
+                                    size_t(device.inputChannels) << ", " <<
+                                    size_t(device.duplexChannels);
                                 _log(ss.str());
                             }
                             {
                                 std::stringstream ss;
-                                ss << "Device " << i << " inuput channels: " << info.inputChannels;
-                                _log(ss.str());
-                            }
-                            {
-                                std::stringstream ss;
-                                ss << "Device " << i << " duplex channels: " << info.duplexChannels;
-                                _log(ss.str());
-                            }
-                            {
-                                std::stringstream ss;
-                                ss << "Device " << i << " sample rates: ";
-                                for (auto j : info.sampleRates)
+                                ss << "    Sample rates: ";
+                                for (auto j : device.sampleRates)
                                 {
                                     ss << j << " ";
                                 }
@@ -119,37 +144,19 @@ namespace djv
                             }
                             {
                                 std::stringstream ss;
-                                ss << "Device " << i << " preferred sample rate: " << info.preferredSampleRate;
+                                ss << "    Preferred sample rate: " << device.preferredSampleRate;
                                 _log(ss.str());
                             }
                             {
                                 std::stringstream ss;
-                                ss << "Device " << i << " SINT8: " << static_cast<bool>(info.nativeFormats & RTAUDIO_SINT8);
-                                _log(ss.str());
-                            }
-                            {
-                                std::stringstream ss;
-                                ss << "Device " << i << " SINT16: " << static_cast<bool>(info.nativeFormats & RTAUDIO_SINT16);
-                                _log(ss.str());
-                            }
-                            {
-                                std::stringstream ss;
-                                ss << "Device " << i << " SINT24: " << static_cast<bool>(info.nativeFormats & RTAUDIO_SINT24);
-                                _log(ss.str());
-                            }
-                            {
-                                std::stringstream ss;
-                                ss << "Device " << i << " SINT32: " << static_cast<bool>(info.nativeFormats & RTAUDIO_SINT32);
-                                _log(ss.str());
-                            }
-                            {
-                                std::stringstream ss;
-                                ss << "Device " << i << " FLOAT32: " << static_cast<bool>(info.nativeFormats & RTAUDIO_FLOAT32);
-                                _log(ss.str());
-                            }
-                            {
-                                std::stringstream ss;
-                                ss << "Device " << i << " FLOAT64: " << static_cast<bool>(info.nativeFormats & RTAUDIO_FLOAT64);
+                                ss << "    Native formats: ";
+                                auto textSystem = context->getSystemT<TextSystem>();
+                                for (auto j : device.nativeFormats)
+                                {
+                                    std::stringstream ss2;
+                                    ss2 << j;
+                                    ss << textSystem->getText(ss2.str()) << " ";
+                                }
                                 _log(ss.str());
                             }
                         }
@@ -158,7 +165,8 @@ namespace djv
                 catch (const std::exception& e)
                 {
                     std::stringstream ss;
-                    ss << p.textSystem->getText(DJV_TEXT("error_rtaudio_init")) << ". " << e.what();
+                    auto textSystem = context->getSystemT<TextSystem>();
+                    ss << textSystem->getText(DJV_TEXT("error_rtaudio_init")) << ". " << e.what();
                     _log(ss.str(), LogLevel::Error);
                 }
             }
@@ -177,7 +185,28 @@ namespace djv
                 return out;
             }
 
+            const std::vector<std::string>& System::getAPIs() const
+            {
+                return _p->apis;
+            }
+
+            const std::vector<Device>& System::getDevices() const
+            {
+                return _p->devices;
+            }
+
         } // namespace Audio
     } // namespace AV
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        AV::Audio,
+        DeviceFormat,
+        DJV_TEXT("av_audio_device_format_s8"),
+        DJV_TEXT("av_audio_device_format_s16"),
+        DJV_TEXT("av_audio_device_format_s24"),
+        DJV_TEXT("av_audio_device_format_s32"),
+        DJV_TEXT("av_audio_device_format_f32"),
+        DJV_TEXT("av_audio_device_format_f64"));
+
 } // namespace djv
 

@@ -62,7 +62,7 @@ namespace djv
                 })
             {
                 std::stringstream ss;
-                ss << "size label: " << Memory::getSizeLabel(i);
+                ss << "size label: " << _getText(Memory::getSizeLabel(i));
                 _print(ss.str());                
             }
         }

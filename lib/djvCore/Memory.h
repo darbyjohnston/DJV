@@ -38,13 +38,29 @@ namespace djv
         //! This namespace provides memory functionality.
         namespace Memory
         {
+            //! \name Units
+            ///@{
+
             const uint64_t kilobyte = 1024; //!< The number of bytes in a kilobyte
             const uint64_t megabyte = kilobyte * 1024; //!< The number of bytes in a megabyte
             const uint64_t gigabyte = megabyte * 1024; //!< The number of bytes in a gigabyte
             const uint64_t terabyte = gigabyte * 1024; //!< The number of bytes in a terabyte
 
-            //! Convert a byte count to a human readable string.
+            enum class Unit
+            {
+                KB,
+                MB,
+                GB,
+                TB,
+
+                Count,
+                First = KB
+            };
+            DJV_ENUM_HELPERS(Unit);
             std::string getSizeLabel(uint64_t);
+            std::string getUnitLabel(uint64_t);
+
+            ///@}
 
             //! \name Endian
             ///@{
@@ -90,6 +106,7 @@ namespace djv
         } // namespace Memory
     } // namespace Core
 
+    DJV_ENUM_SERIALIZE_HELPERS(Core::Memory::Unit);
     DJV_ENUM_SERIALIZE_HELPERS(Core::Memory::Endian);
 
 } // namespace djv

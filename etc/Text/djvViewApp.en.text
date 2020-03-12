@@ -186,7 +186,6 @@
     "loop": "Loop",
     "memory_cache": "Memory Cache",
     "memory_cache_enable": "Enable",
-    "memory_cache_gigabytes_label": "GB",
     "memory_cache_used": "Used",
     "menu_annotate": "Annotate",
     "menu_annotate_edit": "Edit",

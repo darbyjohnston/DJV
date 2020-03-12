@@ -174,9 +174,9 @@ namespace djv
                     throw Error(AV::GLFW::getErrorMessage(ErrorString::Window, p.textSystem));
                 }
                 {
-                    int glMajor = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_VERSION_MAJOR);
-                    int glMinor = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_VERSION_MINOR);
-                    int glRevision = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_REVISION);
+                    const int glMajor = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_VERSION_MAJOR);
+                    const int glMinor = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_VERSION_MINOR);
+                    const int glRevision = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_REVISION);
                     std::stringstream ss;
                     ss << "OpenGL version: " << glMajor << "." << glMinor << "." << glRevision;
                     _log(ss.str());

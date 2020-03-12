@@ -39,34 +39,59 @@ namespace djv
         {
             std::string getSizeLabel(uint64_t value)
             {
-                const std::vector<std::string> data = { "TB", "GB", "MB", "KB" };
                 std::stringstream ss;
                 ss.precision(2);
                 if (value >= terabyte)
                 {
                     ss << std::fixed << value / static_cast<double>(terabyte);
-                    ss << data[0];
                 }
                 else if (value >= gigabyte)
                 {
                     ss << std::fixed << value / static_cast<double>(gigabyte);
-                    ss << data[1];
                 }
                 else if (value >= megabyte)
                 {
                     ss << std::fixed << value / static_cast<double>(megabyte);
-                    ss << data[2];
                 }
                 else
                 {
                     ss << std::fixed << value / static_cast<double>(kilobyte);
-                    ss << data[3];
+                }
+                return ss.str();
+            }
+
+            std::string getUnitLabel(uint64_t value)
+            {
+                std::stringstream ss;
+                if (value >= terabyte)
+                {
+                    ss << Unit::TB;
+                }
+                else if (value >= gigabyte)
+                {
+                    ss << Unit::GB;
+                }
+                else if (value >= megabyte)
+                {
+                    ss << Unit::MB;
+                }
+                else
+                {
+                    ss << Unit::KB;
                 }
                 return ss.str();
             }
 
         } // namespace Memory
     } // namespace Core
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        Core::Memory,
+        Unit,
+        DJV_TEXT("memory_unit_kilobyte"),
+        DJV_TEXT("memory_unit_megabyte"),
+        DJV_TEXT("memory_unit_gigabyte"),
+        DJV_TEXT("memory_unit_terabyte"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         Core::Memory,

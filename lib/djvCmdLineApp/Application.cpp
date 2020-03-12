@@ -29,14 +29,23 @@
 
 #include <djvCmdLineApp/Application.h>
 
+#include <djvScene/IO.h>
+#include <djvScene/SceneSystem.h>
+
 #include <djvAV/AVSystem.h>
+#include <djvAV/AudioSystem.h>
+#include <djvAV/FontSystem.h>
+#include <djvAV/GLFWSystem.h>
 #include <djvAV/IO.h>
 #include <djvAV/OpenGL.h>
 #include <djvAV/Render2D.h>
+#include <djvAV/OCIOSystem.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/Error.h>
 #include <djvCore/LogSystem.h>
+#include <djvCore/OS.h>
+#include <djvCore/ResourceSystem.h>
 #include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
@@ -68,16 +77,19 @@ namespace djv
             }
             Context::_init(argv0);
 
+            // Create the systems.
+            auto avSystem = AV::AVSystem::create(shared_from_this());
+            auto sceneSystem = Scene::SceneSystem::create(shared_from_this());
+
             // Parse the command-line arguments.
             auto i = args.begin();
             while (i != args.end())
             {
-                if ("-h" == *i || "-help" == *i || "--help" == *i)
+                if ("-log_console" == *i)
                 {
                     i = args.erase(i);
-                    printUsage();
-                    exit(1);
-                    break;
+                    auto logSystem = getSystemT<LogSystem>();
+                    logSystem->setConsoleOutput(true);
                 }
                 else if ("-version" == *i)
                 {
@@ -86,20 +98,18 @@ namespace djv
                     exit(1);
                     break;
                 }
-                else if ("-log_console" == *i)
+                else if ("-h" == *i || "-help" == *i || "--help" == *i)
                 {
                     i = args.erase(i);
-                    auto logSystem = getSystemT<LogSystem>();
-                    logSystem->setConsoleOutput(true);
+                    printUsage();
+                    exit(1);
+                    break;
                 }
                 else
                 {
                     ++i;
                 }
             }
-
-            // Create the systems.
-            auto avSystem = AV::AVSystem::create(shared_from_this());
         }
 
         Application::Application() :
@@ -121,11 +131,11 @@ namespace djv
             auto textSystem = getSystemT<Core::TextSystem>();
             std::cout << " " << textSystem->getText(DJV_TEXT("cli_general_options")) << std::endl;
             std::cout << std::endl;
-            std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_version")) << std::endl;
-            std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_version_description")) << std::endl;
-            std::cout << std::endl;
             std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_log_console")) << std::endl;
             std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_log_console_description")) << std::endl;
+            std::cout << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_version")) << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_version_description")) << std::endl;
             std::cout << std::endl;
             std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_help")) << std::endl;
             std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_help_description")) << std::endl;

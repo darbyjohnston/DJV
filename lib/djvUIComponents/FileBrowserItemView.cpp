@@ -346,9 +346,14 @@ namespace djv
                             {
                                 if (p.sizeGlyphsFutures.find(i.first) == p.sizeGlyphsFutures.end())
                                 {
-                                    const std::string& label = Memory::getSizeLabel(fileInfo.getSize());
+                                    std::stringstream ss;
+                                    const uint64_t size = fileInfo.getSize();
+                                    ss << Memory::getSizeLabel(size);
+                                    std::stringstream ss2;
+                                    ss2 << Memory::getSizeLabel(size);
+                                    ss << _getText(ss2.str());
                                     const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium);
-                                    p.sizeGlyphsFutures[i.first] = p.fontSystem->getGlyphs(label, fontInfo);
+                                    p.sizeGlyphsFutures[i.first] = p.fontSystem->getGlyphs(ss.str(), fontInfo);
                                 }
                             }
                             if (p.timeGlyphs.find(i.first) == p.timeGlyphs.end())
@@ -970,7 +975,11 @@ namespace djv
                 std::stringstream ss;
                 ss << fileInfo << '\n';
                 ss << '\n';
-                ss << _getText(DJV_TEXT("file_browser_file_tooltip_size")) << ": " << Memory::getSizeLabel(fileInfo.getSize()) << '\n';
+                std::stringstream ss2;
+                const size_t size = fileInfo.getSize();
+                ss2 << Memory::getUnitLabel(size);
+                ss << _getText(DJV_TEXT("file_browser_file_tooltip_size")) << ": " <<
+                    Memory::getSizeLabel(size) << _getText(ss2.str()) << '\n';
                 ss << _getText(DJV_TEXT("file_browser_file_tooltip_last_modification_time")) << ": " << Time::getLabel(fileInfo.getTime());
                 return ss.str();
             }

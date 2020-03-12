@@ -69,6 +69,7 @@ namespace djv
 
         private:
             void _printVersion();
+            void _printInfo();
 
             DJV_PRIVATE();
         };

@@ -72,14 +72,20 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << "Application: " << _name << '\n';
-                ss << "System information: " << OS::getInformation() << '\n';
+                ss << "System: " << OS::getInformation() << '\n';
                 ss << "Hardware concurrency: " << std::thread::hardware_concurrency() << '\n';
-                ss << "System RAM: " << (OS::getRAMSize() / Memory::gigabyte) << "GB" << '\n';
+                {
+                    std::stringstream ss2;
+                    ss2 << Memory::Unit::GB;
+                    ss << "RAM: " << (OS::getRAMSize() / Memory::gigabyte) << _textSystem->getText(ss2.str()) << '\n';
+                }
                 ss << "argv0: " << argv0 << '\n';
                 ss << "Resource paths:" << '\n';
                 for (auto path : FileSystem::getResourcePathEnums())
                 {
-                    ss << "    " << path << ": " << _resourceSystem->getPath(path) << '\n';
+                    std::stringstream ss2;
+                    ss2 << path;
+                    ss << "    " << _textSystem->getText(ss2.str()) << ": " << _resourceSystem->getPath(path) << '\n';
                 }
                 _logSystem->log("djv::Core::Context", ss.str());
             }

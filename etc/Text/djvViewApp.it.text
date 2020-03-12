@@ -169,7 +169,6 @@
     "loop": "Ciclo continuo",
     "memory_cache": "Cache di memoria",
     "memory_cache_enable": "Abilitare",
-    "memory_cache_gigabytes_label": "GB",
     "memory_cache_used": "Usato",
     "menu_annotate": "Annotare",
     "menu_annotate_edit": "modificare",

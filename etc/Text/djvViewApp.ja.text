@@ -169,7 +169,6 @@
     "loop": "ループ",
     "memory_cache": "メモリキャッシュ",
     "memory_cache_enable": "有効にする",
-    "memory_cache_gigabytes_label": "GB",
     "memory_cache_used": "中古",
     "menu_annotate": "注釈を付ける",
     "menu_annotate_edit": "編集",
