@@ -33,6 +33,7 @@
 
 #include <picojson/picojson.h>
 
+#include <memory>
 #include <string>
 
 namespace djv
