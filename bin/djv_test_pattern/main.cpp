@@ -63,17 +63,16 @@ namespace djv
             DJV_NON_COPYABLE(Application);
 
         protected:
+            void _init(std::list<std::string>&);
+
             Application();
 
         public:
-            static std::shared_ptr<Application> create(const std::string&);
+            static std::shared_ptr<Application> create(std::list<std::string>&);
 
             void printUsage() override;
             void run() override;
             void tick(const std::chrono::steady_clock::time_point&, const Core::Time::Unit&) override;
-
-        protected:
-            void _parseArgs(std::list<std::string>&) override;
 
         private:
             Core::FileSystem::FileInfo _output;
@@ -90,13 +89,64 @@ namespace djv
             std::shared_ptr<Core::Time::Timer> _statsTimer;
         };
 
+        void Application::_init(std::list<std::string>& args)
+        {
+            CmdLine::Application::_init(args);
+
+            auto i = args.begin();
+            while (i != args.end())
+            {
+                if ("-frameCount" == *i)
+                {
+                    i = args.erase(i);
+                    size_t value = 0;
+                    std::stringstream ss(*i);
+                    ss >> value;
+                    i = args.erase(i);
+                    _frameCount.reset(new size_t(value));
+                }
+                else if ("-size" == *i)
+                {
+                    i = args.erase(i);
+                    AV::Image::Size value;
+                    std::stringstream ss(*i);
+                    ss >> value;
+                    i = args.erase(i);
+                    _size.reset(new AV::Image::Size(value));
+                }
+                else if ("-type" == *i)
+                {
+                    i = args.erase(i);
+                    AV::Image::Type value = AV::Image::Type::None;
+                    std::stringstream ss(*i);
+                    ss >> value;
+                    i = args.erase(i);
+                    _type.reset(new AV::Image::Type(value));
+                }
+                else
+                {
+                    ++i;
+                }
+            }
+            if (!args.size())
+            {
+                std::stringstream ss;
+                auto textSystem = getSystemT<Core::TextSystem>();
+                ss << textSystem->getText(DJV_TEXT("djv_test_pattern_output_error"));
+                throw std::runtime_error(ss.str());
+            }
+            _output = args.front();
+            _output.evalSequence();
+            args.pop_front();
+        }
+
         Application::Application()
         {}
 
-        std::shared_ptr<Application> Application::create(const std::string& argv0)
+        std::shared_ptr<Application> Application::create(std::list<std::string>& args)
         {
             auto out = std::shared_ptr<Application>(new Application);
-            out->_init(argv0);
+            out->_init(args);
             return out;
         }
 
@@ -223,59 +273,6 @@ namespace djv
             }
         }
 
-        void Application::_parseArgs(std::list<std::string>& args)
-        {
-            CmdLine::Application::_parseArgs(args);
-            if (0 == getExitCode())
-            {
-                auto i = args.begin();
-                while (i != args.end())
-                {
-                    if ("-frameCount" == *i)
-                    {
-                        i = args.erase(i);
-                        size_t value = 0;
-                        std::stringstream ss(*i);
-                        ss >> value;
-                        i = args.erase(i);
-                        _frameCount.reset(new size_t(value));
-                    }
-                    else if ("-size" == *i)
-                    {
-                        i = args.erase(i);
-                        AV::Image::Size value;
-                        std::stringstream ss(*i);
-                        ss >> value;
-                        i = args.erase(i);
-                        _size.reset(new AV::Image::Size(value));
-                    }
-                    else if ("-type" == *i)
-                    {
-                        i = args.erase(i);
-                        AV::Image::Type value = AV::Image::Type::None;
-                        std::stringstream ss(*i);
-                        ss >> value;
-                        i = args.erase(i);
-                        _type.reset(new AV::Image::Type(value));
-                    }
-                    else
-                    {
-                        ++i;
-                    }
-                }
-                if (!args.size())
-                {
-                    std::stringstream ss;
-                    auto textSystem = getSystemT<Core::TextSystem>();
-                    ss << textSystem->getText(DJV_TEXT("djv_test_pattern_output_error"));
-                    throw std::runtime_error(ss.str());
-                }
-                _output = args.front();
-                _output.evalSequence();
-                args.pop_front();
-            }
-        }
-
     } // namespace TestPattern
 } // namespace djv
 
@@ -284,8 +281,7 @@ int main(int argc, char** argv)
     int r = 1;
     try
     {
-        auto app = TestPattern::Application::create(argv[0]);
-        app->parseArgs(argc, argv);
+        auto app = TestPattern::Application::create(TestPattern::Application::args(argc, argv));
         if (0 == app->getExitCode())
         {
             app->run();

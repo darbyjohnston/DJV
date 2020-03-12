@@ -110,12 +110,12 @@ class Application : public CmdLine::Application
     DJV_NON_COPYABLE(Application);
 
 protected:
-    void _init(const std::string&);
+    void _init(std::list<std::string>&);
     
     Application();
 
 public:
-    static std::shared_ptr<Application> create(const std::string&);
+    static std::shared_ptr<Application> create(std::list<std::string>&);
 
     void run() override;
 
@@ -144,9 +144,9 @@ private:
     std::vector<std::shared_ptr<AV::Image::Image> > _images;
 };
 
-void Application::_init(const std::string& argv0)
+void Application::_init(std::list<std::string>& args)
 {
-    CmdLine::Application::_init(argv0);
+    CmdLine::Application::_init(args);
 
     _glfwWindow = getSystemT<AV::GLFW::System>()->getGLFWWindow();
     //glfwSetWindowSize(_glfwWindow, 1280, 720);
@@ -190,10 +190,10 @@ void Application::_init(const std::string& argv0)
 Application::Application()
 {}
 
-std::shared_ptr<Application> Application::create(const std::string& argv0)
+std::shared_ptr<Application> Application::create(std::list<std::string>& args)
 {
     auto out = std::shared_ptr<Application>(new Application);
-    out->_init(argv0);
+    out->_init(args);
     return out;
 }
 
@@ -357,7 +357,7 @@ int main(int argc, char ** argv)
     int r = 1;
     try
     {
-        auto app = Application::create(argv[0]);
+        auto app = Application::create(Application::args(argc, argv));
         app->run();
         r = app->getExitCode();
     }

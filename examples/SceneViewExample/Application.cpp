@@ -42,9 +42,16 @@
 
 using namespace djv;
 
-void Application::_init(const std::string& argv0)
+void Application::_init(std::list<std::string>& args)
 {
-    Desktop::Application::_init(argv0);
+    Desktop::Application::_init(args);
+    
+    while (args.size())
+    {
+        _inputs.push_back(args.front());
+        args.pop_front();
+    }
+
     Scene::SceneSystem::create(shared_from_this());
     UI::UIComponentsSystem::create(shared_from_this());
 }
@@ -55,10 +62,10 @@ Application::Application()
 Application::~Application()
 {}
 
-std::shared_ptr<Application> Application::create(const std::string& argv0)
+std::shared_ptr<Application> Application::create(std::list<std::string>& args)
 {
     auto out = std::shared_ptr<Application>(new Application);
-    out->_init(argv0);
+    out->_init(args);
     return out;
 }
 
@@ -103,19 +110,6 @@ void Application::run()
     _mainWindow->show();
 
     Desktop::Application::run();
-}
-
-void Application::_parseArgs(std::list<std::string>& args)
-{
-    Desktop::Application::_parseArgs(args);
-    if (0 == getExitCode())
-    {
-        while (args.size())
-        {
-            _inputs.push_back(args.front());
-            args.pop_front();
-        }
-    }
 }
 
 void Application::_open(const Core::FileSystem::FileInfo& fileInfo)

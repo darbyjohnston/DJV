@@ -46,8 +46,7 @@ int main(int argc, char ** argv)
     int r = 1;
     try
     {
-        auto app = ViewApp::Application::create(argv[0]);
-        app->parseArgs(argc, argv);
+        auto app = ViewApp::Application::create(ViewApp::Application::args(argc, argv));
         if (0 == app->getExitCode())
         {
             app->run();

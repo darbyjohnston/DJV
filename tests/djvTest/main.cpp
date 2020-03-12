@@ -97,7 +97,7 @@ int main(int argc, char ** argv)
         auto context = Core::Context::create(argv[0]);
 
         auto avSystem = AV::AVSystem::create(context);
-        auto uiSystem = UI::UISystem::create(context);
+        auto uiSystem = UI::UISystem::create(true, context);
         
         std::vector<std::shared_ptr<Test::ITest> > tests;
         tests.emplace_back(new CoreTest::AnimationTest(context));

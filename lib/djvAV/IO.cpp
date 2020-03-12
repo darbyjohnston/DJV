@@ -351,6 +351,12 @@ namespace djv
                 std::lock_guard<std::mutex> lock(_mutex);
                 _playback = value;
             }
+
+            void IRead::setLoop(bool value)
+            {
+                std::lock_guard<std::mutex> lock(_mutex);
+                _loop = value;
+            }
             
             void IRead::setInOutPoints(const InOutPoints& value)
             {

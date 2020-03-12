@@ -50,6 +50,36 @@ namespace djv
             DJV_NON_COPYABLE(Application);
 
         protected:
+            void _init(std::list<std::string>& args)
+            {
+                CmdLine::Application::_init(args);
+
+                bool hasInputs = args.size();
+                while (args.size())
+                {
+                    Core::FileSystem::FileInfo fileInfo(args.front());
+                    if (fileInfo.doesExist())
+                    {
+                        fileInfo.evalSequence();
+                        _inputs.push_back(fileInfo);
+                    }
+                    else
+                    {
+                        std::stringstream ss;
+                        auto textSystem = getSystemT<Core::TextSystem>();
+                        ss << textSystem->getText(DJV_TEXT("error_the_file"));
+                        ss << " '" << fileInfo << "' ";
+                        ss << textSystem->getText(DJV_TEXT("error_cannot_be_opened")) << ".";
+                        std::cout << Core::Error::format(ss.str()) << std::endl;
+                    }
+                    args.pop_front();
+                }
+                if (!_inputs.size() && !hasInputs)
+                {
+                    _inputs.push_back(Core::FileSystem::FileInfo("."));
+                }
+            }
+
             Application()
             {}
 
@@ -57,10 +87,10 @@ namespace djv
             virtual ~Application()
             {}
 
-            static std::shared_ptr<Application> create(const std::string& argv0)
+            static std::shared_ptr<Application> create(std::list<std::string>& args)
             {
                 auto out = std::shared_ptr<Application>(new Application);
-                out->_init(argv0);
+                out->_init(args);
                 return out;
             }
 
@@ -103,39 +133,6 @@ namespace djv
                         break;
                     }
                     default: break;
-                    }
-                }
-            }
-
-        protected:
-            void _parseArgs(std::list<std::string>& args) override
-            {
-                CmdLine::Application::_parseArgs(args);
-                if (0 == getExitCode())
-                {
-                    bool hasInputs = args.size();
-                    while (args.size())
-                    {
-                        Core::FileSystem::FileInfo fileInfo(args.front());
-                        if (fileInfo.doesExist())
-                        {
-                            fileInfo.evalSequence();
-                            _inputs.push_back(fileInfo);
-                        }
-                        else
-                        {
-                            std::stringstream ss;
-                            auto textSystem = getSystemT<Core::TextSystem>();
-                            ss << textSystem->getText(DJV_TEXT("error_the_file"));
-                            ss << " '" << fileInfo << "' ";
-                            ss << textSystem->getText(DJV_TEXT("error_cannot_be_opened")) << ".";
-                            std::cout << Core::Error::format(ss.str()) << std::endl;
-                        }
-                        args.pop_front();
-                    }
-                    if (!_inputs.size() && !hasInputs)
-                    {
-                        _inputs.push_back(Core::FileSystem::FileInfo("."));
                     }
                 }
             }
@@ -196,8 +193,7 @@ int main(int argc, char ** argv)
     int r = 1;
     try
     {
-        auto app = info::Application::create(argv[0]);
-        app->parseArgs(argc, argv);
+        auto app = info::Application::create(info::Application::args(argc, argv));
         if (0 == app->getExitCode())
         {
             app->run();

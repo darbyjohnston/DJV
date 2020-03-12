@@ -60,7 +60,7 @@ namespace djv
             std::shared_ptr<ValueObserver<std::string> > fontObserver;
         };
 
-        void UISystem::_init(const std::shared_ptr<Core::Context>& context)
+        void UISystem::_init(bool resetSettings, const std::shared_ptr<Core::Context>& context)
         {
             ISystem::_init("djv::UI::UISystem", context);
 
@@ -68,7 +68,7 @@ namespace djv
 
             addDependency(context->getSystemT<AV::AVSystem>());
 
-            auto settingsSystem = Settings::System::create(context);
+            auto settingsSystem = Settings::System::create(resetSettings, context);
             Settings::AV::create(context);
             Settings::ColorSpace::create(context);
             Settings::General::create(context);
@@ -125,10 +125,10 @@ namespace djv
         UISystem::~UISystem()
         {}
 
-        std::shared_ptr<UISystem> UISystem::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<UISystem> UISystem::create(bool resetSettings, const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<UISystem>(new UISystem);
-            out->_init(context);
+            out->_init(resetSettings, context);
             return out;
         }
 

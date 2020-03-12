@@ -41,21 +41,19 @@ namespace djv
             DJV_NON_COPYABLE(Application);
 
         protected:
-            void _init(const std::string&);
+            void _init(std::list<std::string>&);
             Application();
 
         public:
             ~Application() override;
 
-            static std::shared_ptr<Application> create(const std::string&);
+            static std::shared_ptr<Application> create(std::list<std::string>&);
 
             void printUsage() override;
             void run() override;
 
         private:
             void _readIcon(const std::string&);
-
-            void _parseArgs(std::list<std::string>&) override;
 
             DJV_PRIVATE();
         };

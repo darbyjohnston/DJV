@@ -86,10 +86,54 @@ namespace djv
             std::shared_ptr<NUXWidget> nuxWidget;
         };
         
-        void Application::_init(const std::string& argv0)
+        void Application::_init(std::list<std::string>& args)
         {
-            Desktop::Application::_init(argv0);
+            Desktop::Application::_init(args);
             DJV_PRIVATE_PTR();
+
+            // Parse the command-line arguments.
+            auto arg = args.begin();
+            while (arg != args.end())
+            {
+                if ("-full_screen" == *arg)
+                {
+                }
+                else if ("-screen" == *arg)
+                {
+                }
+                else if ("-cs_config" == *arg)
+                {
+                }
+                else if ("-cs_input" == *arg)
+                {
+                }
+                else if ("-cs_display" == *arg)
+                {
+                }
+                else if ("-cs_view" == *arg)
+                {
+                }
+                else if ("-pixel_aspect" == *arg)
+                {
+                }
+                else if ("-frame_start" == *arg)
+                {
+                }
+                else if ("-frame_end" == *arg)
+                {
+                }
+                else if ("-fps" == *arg)
+                {
+                }
+                else if ("-init_settings" == *arg)
+                {
+                }
+                else
+                {
+                    p.cmdlinePaths.push_back(*arg);
+                    arg = args.erase(arg);
+                }
+            }
 
             // Create the systems.
             UI::UIComponentsSystem::create(shared_from_this());
@@ -118,10 +162,10 @@ namespace djv
         Application::~Application()
         {}
 
-        std::shared_ptr<Application> Application::create(const std::string& argv0)
+        std::shared_ptr<Application> Application::create(std::list<std::string>& args)
         {
             auto out = std::shared_ptr<Application>(new Application);
-            out->_init(argv0);
+            out->_init(args);
             return out;
         }
 
@@ -233,63 +277,6 @@ namespace djv
             p.mainWindow->show();
 
             Desktop::Application::run();
-        }
-
-        void Application::_parseArgs(std::list<std::string>& args)
-        {
-            Desktop::Application::_parseArgs(args);
-            DJV_PRIVATE_PTR();
-            if (0 == getExitCode())
-            {
-                auto arg = args.begin();
-                while (arg != args.end())
-                {
-                    if ("-full_screen" == *arg)
-                    {
-                    }
-                    else if ("-screen" == *arg)
-                    {
-                    }
-                    else if ("-cs_config" == *arg)
-                    {
-                    }
-                    else if ("-cs_input" == *arg)
-                    {
-                    }
-                    else if ("-cs_display" == *arg)
-                    {
-                    }
-                    else if ("-cs_view" == *arg)
-                    {
-                    }
-                    else if ("-pixel_aspect" == *arg)
-                    {
-                    }
-                    else if ("-frame_start" == *arg)
-                    {
-                    }
-                    else if ("-frame_end" == *arg)
-                    {
-                    }
-                    else if ("-fps" == *arg)
-                    {
-                    }
-                    else if ("-version" == *arg)
-                    {
-                    }
-                    else if ("-log_console" == *arg)
-                    {
-                    }
-                    else if ("-init_settings" == *arg)
-                    {
-                    }
-                    else
-                    {
-                        p.cmdlinePaths.push_back(*arg);
-                        arg = args.erase(arg);
-                    }
-                }
-            }
         }
         
         void Application::_readIcon(const std::string& fileName)

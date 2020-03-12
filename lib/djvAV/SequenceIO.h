@@ -74,7 +74,7 @@ namespace djv
                 size_t _getQueueCount(size_t threadCount) const;
                 struct Future;
                 std::future<Future> _getFuture(Core::Frame::Number, std::string fileName);
-                size_t _readQueue(size_t count, bool cacheEnabled);
+                size_t _readQueue(size_t count, bool loop, bool cacheEnabled);
                 void _readCache(size_t count, const AV::IO::InOutPoints&);
 
                 DJV_PRIVATE();

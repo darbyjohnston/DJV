@@ -36,6 +36,7 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/Error.h>
+#include <djvCore/LogSystem.h>
 #include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
@@ -57,9 +58,47 @@ namespace djv
             int exit = 0;
         };
 
-        void Application::_init(const std::string& argv0)
+        void Application::_init(std::list<std::string>& args)
         {
+            std::string argv0;
+            if (args.size())
+            {
+                argv0 = args.front();
+                args.pop_front();
+            }
             Context::_init(argv0);
+
+            // Parse the command-line arguments.
+            auto i = args.begin();
+            while (i != args.end())
+            {
+                if ("-h" == *i || "-help" == *i || "--help" == *i)
+                {
+                    i = args.erase(i);
+                    printUsage();
+                    exit(1);
+                    break;
+                }
+                else if ("-version" == *i)
+                {
+                    i = args.erase(i);
+                    _printVersion();
+                    exit(1);
+                    break;
+                }
+                else if ("-log_console" == *i)
+                {
+                    i = args.erase(i);
+                    auto logSystem = getSystemT<LogSystem>();
+                    logSystem->setConsoleOutput(true);
+                }
+                else
+                {
+                    ++i;
+                }
+            }
+
+            // Create the systems.
             auto avSystem = AV::AVSystem::create(shared_from_this());
         }
 
@@ -70,27 +109,23 @@ namespace djv
         Application::~Application()
         {}
 
-        std::shared_ptr<Application> Application::create(const std::string& argv0)
+        std::shared_ptr<Application> Application::create(std::list<std::string>& args)
         {
             auto out = std::shared_ptr<Application>(new Application);
-            out->_init(argv0);
+            out->_init(args);
             return out;
-        }
-
-        void Application::parseArgs(int argc, char** argv)
-        {
-            std::list<std::string> args;
-            for (int i = 1; i < argc; ++i)
-            {
-                args.push_back(argv[i]);
-            }
-            _parseArgs(args);
         }
 
         void Application::printUsage()
         {
             auto textSystem = getSystemT<Core::TextSystem>();
             std::cout << " " << textSystem->getText(DJV_TEXT("cli_general_options")) << std::endl;
+            std::cout << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_version")) << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_version_description")) << std::endl;
+            std::cout << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_log_console")) << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_log_console_description")) << std::endl;
             std::cout << std::endl;
             std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_help")) << std::endl;
             std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_help_description")) << std::endl;
@@ -130,23 +165,14 @@ namespace djv
             p.exit = value;
         }
 
-        void Application::_parseArgs(std::list<std::string>& args)
+        std::list<std::string> Application::args(int argc, char** argv)
         {
-            auto i = args.begin();
-            while (i != args.end())
+            std::list<std::string> out;
+            for (int i = 0; i < argc; ++i)
             {
-                if ("-h" == *i || "-help" == *i || "--help" == *i)
-                {
-                    i = args.erase(i);
-                    printUsage();
-                    exit(1);
-                    break;
-                }
-                else
-                {
-                    ++i;
-                }
+                out.push_back(argv[i]);
             }
+            return out;
         }
 
         bool Application::_isRunning() const
@@ -157,6 +183,11 @@ namespace djv
         void Application::_setRunning(bool value)
         {
             _p->running = value;
+        }
+
+        void Application::_printVersion()
+        {
+            std::cout << DJV_VERSION << std::endl;
         }
 
     } // namespace CmdLine

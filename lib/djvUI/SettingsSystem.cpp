@@ -53,7 +53,7 @@ namespace djv
 
             } // namespace
 
-            void System::_init(const std::shared_ptr<Core::Context>& context)
+            void System::_init(bool reset, const std::shared_ptr<Core::Context>& context)
             {
                 ISystem::_init("djv::UI::Settings::System", context);
                 
@@ -69,7 +69,11 @@ namespace djv
                 {
                     _settingsPath = resourceSystem->getPath(FileSystem::ResourcePath::SettingsFile);
                 }
-                _readSettingsFile(_settingsPath, _json);
+
+                if (!reset)
+                {
+                    _readSettingsFile(_settingsPath, _json);
+                }
             }
 
             System::System()
@@ -80,10 +84,10 @@ namespace djv
                 _saveSettings();
             }
 
-            std::shared_ptr<System> System::create(const std::shared_ptr<Core::Context>& context)
+            std::shared_ptr<System> System::create(bool reset, const std::shared_ptr<Core::Context>& context)
             {
                 auto out = std::shared_ptr<System>(new System);
-                out->_init(context);
+                out->_init(reset, context);
                 return out;
             }
 

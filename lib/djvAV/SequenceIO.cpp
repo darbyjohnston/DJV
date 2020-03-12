@@ -148,6 +148,7 @@ namespace djv
                         // Update the options.
                         size_t threadCount = 4;
                         bool playback = false;
+                        bool loop = false;
                         InOutPoints inOutPoints;
                         bool cacheEnabled = false;
                         size_t cacheMaxByteCount = 0;
@@ -155,6 +156,7 @@ namespace djv
                             std::lock_guard<std::mutex> lock(_mutex);
                             threadCount = _threadCount;
                             playback = _playback;
+                            loop = _loop;
                             inOutPoints = _inOutPoints;
                             cacheEnabled = _cacheEnabled;
                             cacheMaxByteCount = _cacheMaxByteCount;
@@ -218,7 +220,7 @@ namespace djv
                         size_t read = 0;
                         if (queueCount > 0)
                         {
-                            read = _readQueue(queueCount, cacheEnabled);
+                            read = _readQueue(queueCount, loop, cacheEnabled);
                         }
 
                         // Fill the cache.
@@ -326,7 +328,7 @@ namespace djv
                     });
             }
 
-            size_t ISequenceRead::_readQueue(size_t count, bool cacheEnabled)
+            size_t ISequenceRead::_readQueue(size_t count, bool loop, bool cacheEnabled)
             {
                 DJV_PRIVATE_PTR();
 
@@ -365,14 +367,14 @@ namespace djv
                         {
                         case Direction::Forward:
                             ++p.frame;
-                            if (p.frame >= sequenceSize)
+                            if (loop && p.frame >= sequenceSize)
                             {
                                 p.frame = 0;
                             }
                             break;
                         case Direction::Reverse:
                             --p.frame;
-                            if (p.frame < 0)
+                            if (loop && p.frame < 0)
                             {
                                 p.frame = sequenceSize - 1;
                             }

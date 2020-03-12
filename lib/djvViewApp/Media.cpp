@@ -671,6 +671,7 @@ namespace djv
                     auto io = context->getSystemT<AV::IO::System>();
                     p.read = io->read(p.fileInfo, options);
                     p.read->setThreadCount(p.threadCount->get());
+                    p.read->setLoop(true);
                     p.read->setCacheEnabled(p.cacheEnabled);
                     p.read->setCacheMaxByteCount(p.cacheMaxByteCount);
 
@@ -953,7 +954,8 @@ namespace djv
                     p.audioDataSamplesCount = 0;
                     p.frameOffset = p.currentFrame->get();
                     p.currentTime = Time::Unit::zero();
-                    p.realSpeedTime = std::chrono::steady_clock::now();
+                    p.playbackTime = std::chrono::steady_clock::now();
+                    p.realSpeedTime = p.playbackTime;
                     p.realSpeedFrameCount = 0;
                     p.playEveryFrameTime = Time::Unit::zero();
                     if (_hasAudioSyncPlayback())

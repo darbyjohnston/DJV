@@ -48,14 +48,14 @@ namespace djv
             class System : public Core::ISystem
             {
                 DJV_NON_COPYABLE(System);
-                void _init(const std::shared_ptr<Core::Context>&);
+                void _init(bool reset, const std::shared_ptr<Core::Context>&);
                 System();
 
             public:
                 virtual ~System();
 
                 //! Create a new settings system.
-                static std::shared_ptr<System> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<System> create(bool reset, const std::shared_ptr<Core::Context>&);
 
                 //! Get the list of settings.
                 const std::vector<std::shared_ptr<ISettings> > & getSettings() const;
@@ -74,6 +74,7 @@ namespace djv
                 void _readSettingsFile(const Core::FileSystem::Path &, std::map<std::string, picojson::value> &);
                 void _writeSettingsFile(const Core::FileSystem::Path &, const picojson::value &);
 
+                bool _reset = false;
                 std::map<std::string, picojson::value> _json;
                 std::vector<std::shared_ptr<ISettings> > _settings;
                 Core::FileSystem::Path _settingsPath;

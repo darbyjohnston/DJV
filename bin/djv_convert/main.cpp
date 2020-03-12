@@ -51,14 +51,103 @@ namespace djv
             DJV_NON_COPYABLE(Application);
 
         protected:
+            void _init(std::list<std::string>& args)
+            {
+                CmdLine::Application::_init(args);
+
+                auto i = args.begin();
+                while (i != args.end())
+                {
+                    if ("-resize" == *i)
+                    {
+                        i = args.erase(i);
+                        AV::Image::Size resize;
+                        std::stringstream ss(*i);
+                        ss >> resize;
+                        i = args.erase(i);
+                        _resize.reset(new AV::Image::Size(resize));
+                    }
+                    else if ("-readSeq" == *i)
+                    {
+                        i = args.erase(i);
+                        _readSeq = true;
+                    }
+                    else if ("-writeSeq" == *i)
+                    {
+                        i = args.erase(i);
+                        _writeSeq = true;
+                    }
+                    else if ("-readQueue" == *i)
+                    {
+                        i = args.erase(i);
+                        int value = 0;
+                        std::stringstream ss(*i);
+                        ss >> value;
+                        i = args.erase(i);
+                        _readQueueSize = std::max(value, 1);
+                    }
+                    else if ("-writeQueue" == *i)
+                    {
+                        i = args.erase(i);
+                        int value = 0;
+                        std::stringstream ss(*i);
+                        ss >> value;
+                        i = args.erase(i);
+                        _writeQueueSize = std::max(value, 1);
+                    }
+                    else if ("-readThreads" == *i)
+                    {
+                        i = args.erase(i);
+                        int value = 0;
+                        std::stringstream ss(*i);
+                        ss >> value;
+                        i = args.erase(i);
+                        _readThreadCount = std::max(value, 1);
+                    }
+                    else if ("-writeThreads" == *i)
+                    {
+                        i = args.erase(i);
+                        int value = 0;
+                        std::stringstream ss(*i);
+                        ss >> value;
+                        i = args.erase(i);
+                        _writeThreadCount = std::max(value, 1);
+                    }
+                    else
+                    {
+                        ++i;
+                    }
+                }
+
+                if (!args.size())
+                {
+                    std::stringstream ss;
+                    auto textSystem = getSystemT<Core::TextSystem>();
+                    ss << textSystem->getText(DJV_TEXT("djv_convert_input_error"));
+                    throw std::runtime_error(ss.str());
+                }
+                _input = args.front();
+                args.pop_front();
+
+                if (!args.size())
+                {
+                    std::stringstream ss;
+                    auto textSystem = getSystemT<Core::TextSystem>();
+                    ss << textSystem->getText(DJV_TEXT("djv_convert_output_error"));
+                    throw std::runtime_error(ss.str());
+                }
+                _output = args.front();
+                args.pop_front();
+            }
+
             Application()
             {}
 
         public:
-            static std::shared_ptr<Application> create(const std::string& name)
+            static std::shared_ptr<Application> create(std::list<std::string>& args)
             {
                 auto out = std::shared_ptr<Application>(new Application);
-                out->_init(name);
+                out->_init(args);
                 return out;
             }
 
@@ -187,98 +276,6 @@ namespace djv
                 }
             }
 
-          protected:
-              void _parseArgs(std::list<std::string>& args) override
-              {
-                  CmdLine::Application::_parseArgs(args);
-                  if (0 == getExitCode())
-                  {
-                      auto i = args.begin();
-                      while (i != args.end())
-                      {
-                          if ("-resize" == *i)
-                          {
-                              i = args.erase(i);
-                              AV::Image::Size resize;
-                              std::stringstream ss(*i);
-                              ss >> resize;
-                              i = args.erase(i);
-                              _resize.reset(new AV::Image::Size(resize));
-                          }
-                          else if ("-readSeq" == *i)
-                          {
-                              i = args.erase(i);
-                              _readSeq = true;
-                          }
-                          else if ("-writeSeq" == *i)
-                          {
-                              i = args.erase(i);
-                              _writeSeq = true;
-                          }
-                          else if ("-readQueue" == *i)
-                          {
-                              i = args.erase(i);
-                              int value = 0;
-                              std::stringstream ss(*i);
-                              ss >> value;
-                              i = args.erase(i);
-                              _readQueueSize = std::max(value, 1);
-                          }
-                          else if ("-writeQueue" == *i)
-                          {
-                              i = args.erase(i);
-                              int value = 0;
-                              std::stringstream ss(*i);
-                              ss >> value;
-                              i = args.erase(i);
-                              _writeQueueSize = std::max(value, 1);
-                          }
-                          else if ("-readThreads" == *i)
-                          {
-                              i = args.erase(i);
-                              int value = 0;
-                              std::stringstream ss(*i);
-                              ss >> value;
-                              i = args.erase(i);
-                              _readThreadCount = std::max(value, 1);
-                          }
-                          else if ("-writeThreads" == *i)
-                          {
-                              i = args.erase(i);
-                              int value = 0;
-                              std::stringstream ss(*i);
-                              ss >> value;
-                              i = args.erase(i);
-                              _writeThreadCount = std::max(value, 1);
-                          }
-                          else
-                          {
-                              ++i;
-                          }
-                      }
-
-                      if (!args.size())
-                      {
-                          std::stringstream ss;
-                          auto textSystem = getSystemT<Core::TextSystem>();
-                          ss << textSystem->getText(DJV_TEXT("djv_convert_input_error"));
-                          throw std::runtime_error(ss.str());
-                      }
-                      _input = args.front();
-                      args.pop_front();
-                      
-                      if (!args.size())
-                      {
-                          std::stringstream ss;
-                          auto textSystem = getSystemT<Core::TextSystem>();
-                          ss << textSystem->getText(DJV_TEXT("djv_convert_output_error"));
-                          throw std::runtime_error(ss.str());
-                      }
-                      _output = args.front();
-                      args.pop_front();
-                  }
-              }
-            
         private:
             Core::FileSystem::FileInfo _input;
             Core::FileSystem::FileInfo _output;
@@ -303,8 +300,7 @@ int main(int argc, char ** argv)
     int r = 1;
     try
     {
-        auto app = convert::Application::create(argv[0]);
-        app->parseArgs(argc, argv);
+        auto app = convert::Application::create(convert::Application::args(argc, argv));
         if (0 == app->getExitCode())
         {
             app->run();

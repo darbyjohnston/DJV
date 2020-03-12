@@ -45,19 +45,13 @@ namespace djv
             DJV_NON_COPYABLE(Application);
 
         protected:
-            void _init(const std::string&);
+            void _init(std::list<std::string>&);
             Application();
 
         public:
             ~Application() override;
 
-            static std::shared_ptr<Application> create(const std::string&);
-
-            //! Parse command-line arguments.
-            //!
-            //! Throws:
-            //! - std::exception
-            void parseArgs(int argc, char** argv);
+            static std::shared_ptr<Application> create(std::list<std::string>&);
 
             //! Print command-line usage.
             virtual void printUsage();
@@ -67,15 +61,15 @@ namespace djv
             int getExitCode() const;
             void exit(int);
 
-        protected:
-            //! Throws:
-            //! - std::exception
-            virtual void _parseArgs(std::list<std::string>&);
+            static std::list<std::string> args(int, char**);
 
+        protected:
             bool _isRunning() const;
             void _setRunning(bool);
 
         private:
+            void _printVersion();
+
             DJV_PRIVATE();
         };
 

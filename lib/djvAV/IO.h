@@ -321,6 +321,7 @@ namespace djv
                 virtual std::future<Info> getInfo() = 0;
 
                 void setPlayback(bool);
+                void setLoop(bool);
                 void setInOutPoints(const InOutPoints&);
 
                 //! \param value For video files this value represents the
@@ -341,6 +342,7 @@ namespace djv
                 InOutPoints _inOutPoints;
                 Direction _direction = Direction::Forward;
                 bool _playback = false;
+                bool _loop = false;
                 bool _cacheEnabled = false;
                 size_t _cacheMaxByteCount = 0;
                 size_t _cacheByteCount = 0;

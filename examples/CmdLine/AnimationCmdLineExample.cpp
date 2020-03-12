@@ -41,7 +41,7 @@ int main(int argc, char ** argv)
     try
     {
         // Create an application.
-        auto app = CmdLine::Application::create(argv[0]);
+        auto app = CmdLine::Application::create(CmdLine::Application::args(argc, argv));
 
         // Create an animation.
         auto animation = Core::Animation::Animation::create(app);

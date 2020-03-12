@@ -45,7 +45,7 @@ int main(int argc, char ** argv)
     try
     {
         // Create an application.
-        auto app = Desktop::Application::create(argv[0]);
+        auto app = Desktop::Application::create(Desktop::Application::args(argc, argv));
 
         // Create a splitter.
         auto splitter = UI::Layout::Splitter::create(UI::Orientation::Horizontal, app);
