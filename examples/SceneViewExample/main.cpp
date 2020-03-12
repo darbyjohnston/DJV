@@ -38,7 +38,8 @@ int main(int argc, char ** argv)
     int r = 1;
     try
     {
-        auto app = Application::create(Application::args(argc, argv));
+        auto args = Application::args(argc, argv);
+        auto app = Application::create(args);
         if (0 == app->getExitCode())
         {
             app->run();

@@ -281,7 +281,8 @@ int main(int argc, char** argv)
     int r = 1;
     try
     {
-        auto app = TestPattern::Application::create(TestPattern::Application::args(argc, argv));
+        auto args = TestPattern::Application::args(argc, argv);
+        auto app = TestPattern::Application::create(args);
         if (0 == app->getExitCode())
         {
             app->run();

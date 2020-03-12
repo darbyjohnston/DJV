@@ -300,7 +300,8 @@ int main(int argc, char ** argv)
     int r = 1;
     try
     {
-        auto app = convert::Application::create(convert::Application::args(argc, argv));
+        auto args = convert::Application::args(argc, argv);
+        auto app = convert::Application::create(args);
         if (0 == app->getExitCode())
         {
             app->run();

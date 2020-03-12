@@ -44,7 +44,8 @@ int main(int argc, char ** argv)
     try
     {
         // Create an application.
-        auto app = Desktop::Application::create(Desktop::Application::args(argc, argv));
+        auto args = Desktop::Application::args(argc, argv);
+        auto app = Desktop::Application::create(args);
 
         // Create some combo box widgets.
         auto comboBox0 = UI::ComboBox::create(app);
