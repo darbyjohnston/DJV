@@ -94,12 +94,8 @@ int main(int argc, char ** argv)
     int r = 0;
     try
     {
-        std::vector<std::string> args;
-        for (int i = 0; i < argc; ++i)
-        {
-            args.push_back(argv[i]);
-        }
-        auto context = Core::Context::create(args);
+        auto context = Core::Context::create(argv[0]);
+
         auto avSystem = AV::AVSystem::create(context);
         auto uiSystem = UI::UISystem::create(context);
         
@@ -179,9 +175,10 @@ int main(int argc, char ** argv)
                 }
             }
         }
+
         for (const auto& i : testsToRun)
         {
-            i->run(args);
+            i->run();
         }
     }
     catch (const std::exception & error)

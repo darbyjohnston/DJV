@@ -43,7 +43,7 @@ namespace djv
             ITest("djv::CoreTest::MemoryTest", context)
         {}
         
-        void MemoryTest::run(const std::vector<std::string>& args)
+        void MemoryTest::run()
         {
             _label();
             _enum();

@@ -38,7 +38,7 @@ namespace djv
         public:
             ImageTest(const std::shared_ptr<Core::Context>&);
             
-            void run(const std::vector<std::string>&) override;
+            void run() override;
         };
         
     } // namespace AVTest

@@ -41,7 +41,7 @@ namespace djv
             ITest("djv::CoreTest::ListObserverTest", context)
         {}
         
-        void ListObserverTest::run(const std::vector<std::string>& args)
+        void ListObserverTest::run()
         {
             std::vector<int> value;
             auto subject = ListSubject<int>::create(value);

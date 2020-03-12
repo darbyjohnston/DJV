@@ -31,6 +31,8 @@
 
 #include <djvCore/String.h>
 
+#include <memory>
+
 #if defined(DJV_PLATFORM_WINDOWS)
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
@@ -52,11 +54,13 @@ namespace djv
             {
                 DJV_NON_COPYABLE(FileIO);
 
-            public:
+            protected:
                 FileIO();
-                FileIO(FileIO &&);
+
+            public:
                 ~FileIO();
-                FileIO & operator = (FileIO &&);
+
+                static std::shared_ptr<FileIO> create();
 
                 enum class Mode
                 {
@@ -179,18 +183,18 @@ namespace djv
                 //! Read the contents from a file.
                 //! Throws:
                 //! - IOError
-                static std::string readContents(FileIO &);
+                static std::string readContents(const std::shared_ptr<FileIO>&);
 
                 //! Read a word from a file.
                 //! Throws:
                 //! - IOError
-                static void readWord(FileIO &, char *, size_t maxLen = String::cStringLength);
+                static void readWord(const std::shared_ptr<FileIO>&, char *, size_t maxLen = String::cStringLength);
 
                 //! Read a line from a file.
                 //! Throws:
                 //! - IOError
                 //! \todo Should we handle comments like readWord()?
-                static void readLine(FileIO &, char *, size_t maxLen = String::cStringLength);
+                static void readLine(const std::shared_ptr<FileIO>&, char *, size_t maxLen = String::cStringLength);
 
                 //! Read all the lines from a file.
                 //! Throws:

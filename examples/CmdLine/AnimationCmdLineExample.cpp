@@ -37,16 +37,11 @@ using namespace djv;
 
 int main(int argc, char ** argv)
 {
-    int r = 0;
+    int r = 1;
     try
     {
         // Create an application.
-        std::vector<std::string> args;
-        for (int i = 0; i < argc; ++i)
-        {
-            args.push_back(argv[i]);
-        }
-        auto app = CmdLine::Application::create(args);
+        auto app = CmdLine::Application::create(argv[0]);
 
         // Create an animation.
         auto animation = Core::Animation::Animation::create(app);
@@ -71,7 +66,8 @@ int main(int argc, char ** argv)
             });
 
         // Run the application.
-        r = app->run();
+        app->run();
+        r = app->getExitCode();
     }
     catch (const std::exception & e)
     {

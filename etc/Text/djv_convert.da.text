@@ -1,7 +1,6 @@
 {
-    "djv_convert_cli_options": "Muligheder:",
-    "djv_convert_cli_usage": "Anvendelse:",
     "djv_convert_nothing_convert": "Intet at konvertere",
+    "djv_convert_options": "Muligheder",
     "djv_convert_option_readqueue": "-readQueue (værdi)",
     "djv_convert_option_readqueue_description": "Indstil størrelsen på læsekøen.",
     "djv_convert_option_readseq": "-readSeq",
@@ -15,5 +14,6 @@
     "djv_convert_option_writeseq": "-writeSeq",
     "djv_convert_option_writeseq_description": "Fortolk outputfilnavnet som en sekvens.",
     "djv_convert_option_writethreads": "-writeThreads (værdi)",
-    "djv_convert_option_writethreads_description": "Indstil antallet af tråde til skrivning."
+    "djv_convert_option_writethreads_description": "Indstil antallet af tråde til skrivning.",
+    "djv_convert_usage": "Anvendelse"
 }

@@ -42,7 +42,7 @@ namespace djv
             ITest("djv::CoreTest::VectorTest", context)
         {}
         
-        void VectorTest::run(const std::vector<std::string>& args)
+        void VectorTest::run()
         {
             _compare();
             _serialize();

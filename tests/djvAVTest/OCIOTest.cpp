@@ -42,7 +42,7 @@ namespace djv
             ITest("djv::AVTest::OCIOTest", context)
         {}
         
-        void OCIOTest::run(const std::vector<std::string>& args)
+        void OCIOTest::run()
         {
             _convert();
             _view();

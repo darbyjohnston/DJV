@@ -49,7 +49,7 @@ namespace djv
             ITest("djv::AVTest::Render2DTest", context)
         {}
         
-        void Render2DTest::run(const std::vector<std::string>& args)
+        void Render2DTest::run()
         {
             _operators();
             _system();

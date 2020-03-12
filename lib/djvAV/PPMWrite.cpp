@@ -121,20 +121,20 @@ namespace djv
                     }
                     char magic[] = "P \n";
                     magic[1] = '0' + ppmType;
-                    FileSystem::FileIO io;
-                    io.open(fileName, FileSystem::FileIO::Mode::Write);
-                    io.write(magic, 3);
+                    auto io = FileSystem::FileIO::create();
+                    io->open(fileName, FileSystem::FileIO::Mode::Write);
+                    io->write(magic, 3);
 
                     std::stringstream ss;
                     ss << info.size.w << ' ' << info.size.h;
-                    io.write(ss.str());
-                    io.writeU8('\n');
+                    io->write(ss.str());
+                    io->writeU8('\n');
                     const size_t bitDepth = Image::getBitDepth(info.type);
                     const int maxValue = 8 == bitDepth ? 255 : 65535;
                     ss = std::stringstream();
                     ss << maxValue;
-                    io.write(ss.str());
-                    io.writeU8('\n');
+                    io->write(ss.str());
+                    io->writeU8('\n');
 
                     switch (p.options.data)
                     {
@@ -148,12 +148,12 @@ namespace djv
                                 reinterpret_cast<char *>(scanline.data()),
                                 static_cast<size_t>(info.size.w) * channelCount,
                                 bitDepth);
-                            io.write(scanline.data(), size);
+                            io->write(scanline.data(), size);
                         }
                         break;
                     }
                     case Data::Binary:
-                        io.write(image->getData(), info.getDataByteCount());
+                        io->write(image->getData(), info.getDataByteCount());
                         break;
                     default: break;
                     }

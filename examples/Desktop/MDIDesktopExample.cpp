@@ -148,15 +148,10 @@ void MDIWidget::_layoutEvent(Core::Event::Layout &)
 
 int main(int argc, char ** argv)
 {
-    int r = 0;
+    int r = 1;
     try
     {
-        std::vector<std::string> args;
-        for (int i = 0; i < argc; ++i)
-        {
-            args.push_back(argv[i]);
-        }
-        auto app = Desktop::Application::create(args);
+        auto app = Desktop::Application::create(argv[0]);
 
         auto canvas = UI::MDI::Canvas::create(app);
         glm::vec2 pos(50.f, 50.f);
@@ -189,7 +184,8 @@ int main(int argc, char ** argv)
         window->show();
 
         // Run the application.
-        return app->run();
+        app->run();
+        r = app->getExitCode();
     }
     catch (const std::exception & e)
     {

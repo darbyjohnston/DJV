@@ -194,7 +194,7 @@ namespace djv
                 //! Throws:
                 //! - Core::FileSystem::Error
                 Header read(
-                    Core::FileSystem::FileIO&,
+                    const std::shared_ptr<Core::FileSystem::FileIO>&,
                     Info&,
                     ColorProfile&,
                     const std::shared_ptr<Core::TextSystem>&);
@@ -204,13 +204,13 @@ namespace djv
                 //! Throws:
                 //! - Core::FileSystem::Error
                 void write(
-                    Core::FileSystem::FileIO&,
+                    const std::shared_ptr<Core::FileSystem::FileIO>&,
                     const Info& info,
                     ColorProfile,
                     const std::shared_ptr<Core::TextSystem>&);
 
                 //! Finish writing the Cineon file header after image data is written.
-                void writeFinish(Core::FileSystem::FileIO&);
+                void writeFinish(const std::shared_ptr<Core::FileSystem::FileIO>&);
 
                 //! This class provides the Cineon file reader.
                 class Read : public ISequenceRead
@@ -232,14 +232,14 @@ namespace djv
 
                     static std::shared_ptr<Image::Image> readImage(
                         const Info&,
-                        Core::FileSystem::FileIO&);
+                        const std::shared_ptr<Core::FileSystem::FileIO>&);
 
                 protected:
                     Info _readInfo(const std::string &) override;
                     std::shared_ptr<Image::Image> _readImage(const std::string &) override;
 
                 private:
-                    Info _open(const std::string&, Core::FileSystem::FileIO&);
+                    Info _open(const std::string&, const std::shared_ptr<Core::FileSystem::FileIO>&);
 
                     DJV_PRIVATE();
                 };

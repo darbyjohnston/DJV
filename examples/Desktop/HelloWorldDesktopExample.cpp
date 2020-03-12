@@ -38,16 +38,11 @@ using namespace djv;
 
 int main(int argc, char ** argv)
 {
-    int r = 0;
+    int r = 1;
     try
     {
         // Create an application.
-        std::vector<std::string> args;
-        for (int i = 0; i < argc; ++i)
-        {
-            args.push_back(argv[i]);
-        }
-        auto app = Desktop::Application::create(args);
+        auto app = Desktop::Application::create(argv[0]);
 
         // Create a label.
         auto label = UI::Label::create(app);
@@ -62,7 +57,8 @@ int main(int argc, char ** argv)
         window->show();
 
         // Run the application.
-        r = app->run();
+        app->run();
+        r = app->getExitCode();
     }
     catch (const std::exception & e)
     {

@@ -1,0 +1,5 @@
+{
+    "djv_ls_description": "djv_ls is a command-line tool for listing image sequences.",
+    "djv_ls_usage": "Usage",
+    "djv_ls_usage_format": "djv_ls [input, ...]"
+}

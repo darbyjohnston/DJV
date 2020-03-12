@@ -61,7 +61,7 @@ namespace djv
             DJV_NON_COPYABLE(Context);
 
         protected:
-            void _init(const std::vector<std::string>&);
+            void _init(const std::string& argv0);
             Context();
 
         public:
@@ -69,11 +69,8 @@ namespace djv
 
             //! Throws:
             //! - std::exception
-            static std::shared_ptr<Context> create(const std::vector<std::string>& args);
+            static std::shared_ptr<Context> create(const std::string& argv0);
 
-            //! Get the command line arguments.
-            const std::vector<std::string> & getArgs() const;
-            
             //! Get the context name.
             const std::string & getName() const;
 
@@ -95,8 +92,10 @@ namespace djv
             //! Remove a system.
             void removeSystem(const std::shared_ptr<ISystemBase>&);
 
+            ///@}
+
             //! This function is called by the application event loop.
-            virtual void tick(const std::chrono::steady_clock::time_point&, const Time::Unit&);
+            virtual void tick(const std::chrono::steady_clock::time_point& t, const Time::Unit& dt);
 
             //! Get the average tick FPS.
             float getFPSAverage() const;
@@ -108,7 +107,6 @@ namespace djv
             void _addSystem(const std::shared_ptr<ISystemBase> &);
 
         private:
-            std::vector<std::string> _args;
             std::string _name;
             std::shared_ptr<Time::TimerSystem> _timerSystem;
             std::shared_ptr<ResourceSystem> _resourceSystem;

@@ -42,7 +42,7 @@ namespace djv
             ITest("djv::CoreTest::OSTest", context)
         {}
         
-        void OSTest::run(const std::vector<std::string>& args)
+        void OSTest::run()
         {
             for (auto i : OS::getDirectoryShortcutEnums())
             {

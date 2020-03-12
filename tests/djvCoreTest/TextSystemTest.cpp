@@ -42,7 +42,7 @@ namespace djv
             ITickTest("djv::CoreTest::TextSystemTest", context)
         {}
                 
-        void TextSystemTest::run(const std::vector<std::string>&)
+        void TextSystemTest::run()
         {
             if (auto context = getContext().lock())
             {

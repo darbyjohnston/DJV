@@ -44,7 +44,7 @@ namespace djv
             ITest("djv::AVTest::ImageDataTest", context)
         {}
         
-        void ImageDataTest::run(const std::vector<std::string>& args)
+        void ImageDataTest::run()
         {
             _mirror();
             _layout();

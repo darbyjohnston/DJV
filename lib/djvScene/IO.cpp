@@ -38,6 +38,7 @@
 #include <djvCore/FileSystem.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/ResourceSystem.h>
+#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -49,11 +50,13 @@ namespace djv
         {
             void IIO::_init(
                 const FileSystem::FileInfo& fileInfo,
+                const std::shared_ptr<Core::TextSystem>& textSystem,
                 const std::shared_ptr<ResourceSystem>& resourceSystem,
                 const std::shared_ptr<LogSystem>& logSystem)
             {
                 _logSystem = logSystem;
                 _resourceSystem = resourceSystem;
+                _textSystem = textSystem;
                 _fileInfo = fileInfo;
             }
 
@@ -62,10 +65,11 @@ namespace djv
 
             void IRead::_init(
                 const FileSystem::FileInfo & fileInfo,
+                const std::shared_ptr<Core::TextSystem>& textSystem,
                 const std::shared_ptr<ResourceSystem> & resourceSystem,
                 const std::shared_ptr<LogSystem> & logSystem)
             {
-                IIO::_init(fileInfo, resourceSystem, logSystem);
+                IIO::_init(fileInfo, textSystem, resourceSystem, logSystem);
             }
 
             IRead::~IRead()
@@ -73,10 +77,11 @@ namespace djv
 
             void IWrite::_init(
                 const FileSystem::FileInfo & fileInfo,
+                const std::shared_ptr<Core::TextSystem>& textSystem,
                 const std::shared_ptr<ResourceSystem> & resourceSystem,
                 const std::shared_ptr<LogSystem> & logSystem)
             {
-                IIO::_init(fileInfo, resourceSystem, logSystem);
+                IIO::_init(fileInfo, textSystem, resourceSystem, logSystem);
             }
 
             IWrite::~IWrite()
@@ -91,6 +96,7 @@ namespace djv
                 _context = context;
                 _logSystem = context->getSystemT<LogSystem>();
                 _resourceSystem = context->getSystemT<ResourceSystem>();
+                _textSystem = context->getSystemT<TextSystem>();
                 _pluginName = pluginName;
                 _pluginInfo = pluginInfo;
                 _fileExtensions = fileExtensions;
@@ -279,9 +285,15 @@ namespace djv
                 }
                 if (!out)
                 {
-                    std::stringstream ss;
-                    ss << DJV_TEXT("error_the_file") << " '" << fileInfo << "' " << DJV_TEXT("error_cannot_be_read") << ".";
-                    throw FileSystem::Error(ss.str());
+                    if (auto context = getContext().lock())
+                    {
+                        std::stringstream ss;
+                        auto textSystem = context->getSystemT<TextSystem>();
+                        ss << textSystem->getText(DJV_TEXT("error_the_file"));
+                        ss << " '" << fileInfo << "' ";
+                        ss << textSystem->getText(DJV_TEXT("error_cannot_be_read")) << ".";
+                        throw FileSystem::Error(ss.str());
+                    }
                 }
                 return out;
             }
@@ -300,9 +312,15 @@ namespace djv
                 }
                 if (!out)
                 {
-                    std::stringstream ss;
-                    ss << DJV_TEXT("error_the_file") << " '" << fileInfo << "' " << DJV_TEXT("error_cannot_be_written") << ".";
-                    throw FileSystem::Error(ss.str());
+                    if (auto context = getContext().lock())
+                    {
+                        std::stringstream ss;
+                        auto textSystem = context->getSystemT<TextSystem>();
+                        ss << textSystem->getText(DJV_TEXT("error_the_file"));
+                        ss << " '" << fileInfo << "' ";
+                        ss << textSystem->getText(DJV_TEXT("error_cannot_be_written")) << ".";
+                        throw FileSystem::Error(ss.str());
+                    }
                 }
                 return out;
             }

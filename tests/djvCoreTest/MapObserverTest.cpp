@@ -41,7 +41,7 @@ namespace djv
             ITest("djv::CoreTest::MapObserverTest", context)
         {}
         
-        void MapObserverTest::run(const std::vector<std::string>& args)
+        void MapObserverTest::run()
         {
             std::map<int, std::string> value;
             auto subject = MapSubject<int, std::string>::create(value);

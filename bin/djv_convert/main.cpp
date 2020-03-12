@@ -51,215 +51,28 @@ namespace djv
             DJV_NON_COPYABLE(Application);
 
         protected:
-            void _init(int & argc, char ** argv)
-            {
-                std::vector<std::string> args;
-                for (int i = 0; i < argc; ++i)
-                {
-                    args.push_back(argv[i]);
-                }
-                CmdLine::Application::_init(args);
-
-                if (!_parseArgs())
-                {
-                    exit(1);
-                    return;
-                }
-
-                auto io = getSystemT<AV::IO::System>();
-                Core::FileSystem::FileInfo readFileInfo(argv[1]);
-                if (_readSeq)
-                {
-                    readFileInfo.evalSequence();
-                }
-                AV::IO::ReadOptions readOptions;
-                readOptions.videoQueueSize = _readQueueSize;
-                _read = io->read(readFileInfo, readOptions);
-                _read->setThreadCount(_readThreadCount);
-                auto info = _read->getInfo().get();
-                auto & video = info.video;
-                auto textSystem = getSystemT<Core::TextSystem>();
-                if (!video.size())
-                {
-                    throw std::invalid_argument(textSystem->getText(DJV_TEXT("djv_convert_nothing_convert")));
-                }
-                auto & videoInfo = video[0];
-                if (_resize)
-                {
-                    video[0].info.size = *_resize;
-                }
-                const size_t size = videoInfo.sequence.getSize();
-                Core::FileSystem::FileInfo writeFileInfo(argv[2]);
-                if (_writeSeq)
-                {
-                    writeFileInfo.evalSequence();
-                }
-                AV::IO::WriteOptions writeOptions;
-                writeOptions.videoQueueSize = _writeQueueSize;
-                _write = io->write(writeFileInfo, info, writeOptions);
-                _write->setThreadCount(_writeThreadCount);
-                
-                _statsTimer = Core::Time::Timer::create(shared_from_this());
-                _statsTimer->setRepeating(true);
-                _statsTimer->start(
-                    Core::Time::getTime(Core::Time::TimerValue::Slow),
-                    [this, size](const std::chrono::steady_clock::time_point&, const Core::Time::Unit&)
-                {
-                    Core::Frame::Number frame = 0;
-                    {
-                        std::lock_guard<std::mutex> lock(_read->getMutex());
-                        auto& queue = _read->getVideoQueue();
-                        if (!queue.isEmpty())
-                        {
-                            frame = queue.getFrame().frame;
-                        }
-                    }
-                    if (frame && size)
-                    {
-                        std::cout << static_cast<size_t>(frame / static_cast<float>(size - 1) * 100.F) << "%" << std::endl;
-                    }
-                });
-            }
-
             Application()
             {}
 
         public:
-            static std::shared_ptr<Application> create(int & argc, char ** argv)
+            static std::shared_ptr<Application> create(const std::string& name)
             {
                 auto out = std::shared_ptr<Application>(new Application);
-                out->_init(argc, argv);
+                out->_init(name);
                 return out;
             }
 
-            void tick(const std::chrono::steady_clock::time_point& t, const Core::Time::Unit& dt) override
-            {
-                CmdLine::Application::tick(t, dt);
-                if (_read && _write)
-                {
-                    std::unique_lock<std::mutex> readLock(_read->getMutex(), std::try_to_lock);
-                    if (readLock.owns_lock())
-                    {
-                        std::lock_guard<std::mutex> writeLock(_write->getMutex());
-                        auto& readQueue = _read->getVideoQueue();
-                        auto& writeQueue = _write->getVideoQueue();
-                        if (!readQueue.isEmpty() && writeQueue.getCount() < writeQueue.getMax())
-                        {
-                            auto frame = readQueue.popFrame();
-                            writeQueue.addFrame(frame);
-                        }
-                        else if (readQueue.isFinished())
-                        {
-                            writeQueue.setFinished(true);
-                        }
-                    }
-                }
-                if (_write && !_write->isRunning())
-                {
-                    exit(0);
-                }
-            }
-
-        private:
-            bool _parseArgs()
-            {
-                bool out = true;
-                auto args = getArgs();
-                auto i = args.begin();
-                while (i != args.end())
-                {
-                    if ("-h" == *i || "-help" == *i || "--help" == *i)
-                    {
-                        out = false;
-                        break;
-                    }
-                    else if ("-resize" == *i)
-                    {
-                        i = args.erase(i);
-                        AV::Image::Size resize;
-                        std::stringstream ss(*i);
-                        ss >> resize;
-                        i = args.erase(i);
-                        _resize.reset(new AV::Image::Size(resize));
-                    }
-                    else if ("-readSeq" == *i)
-                    {
-                        i = args.erase(i);
-                        _readSeq = true;
-                    }
-                    else if ("-writeSeq" == *i)
-                    {
-                        i = args.erase(i);
-                        _writeSeq = true;
-                    }
-                    else if ("-readQueue" == *i)
-                    {
-                        i = args.erase(i);
-                        int value = 0;
-                        std::stringstream ss(*i);
-                        ss >> value;
-                        i = args.erase(i);
-                        _readQueueSize = std::max(value, 1);
-                    }
-                    else if ("-writeQueue" == *i)
-                    {
-                        i = args.erase(i);
-                        int value = 0;
-                        std::stringstream ss(*i);
-                        ss >> value;
-                        i = args.erase(i);
-                        _writeQueueSize = std::max(value, 1);
-                    }
-                    else if ("-readThreads" == *i)
-                    {
-                        i = args.erase(i);
-                        int value = 0;
-                        std::stringstream ss(*i);
-                        ss >> value;
-                        i = args.erase(i);
-                        _readThreadCount = std::max(value, 1);
-                    }
-                    else if ("-writeThreads" == *i)
-                    {
-                        i = args.erase(i);
-                        int value = 0;
-                        std::stringstream ss(*i);
-                        ss >> value;
-                        i = args.erase(i);
-                        _writeThreadCount = std::max(value, 1);
-                    }
-                    else
-                    {
-                        ++i;
-                    }
-                }
-                if (3 == args.size())
-                {
-                    _input = args[1];
-                    _output = args[2];
-                }
-                else
-                {
-                    out = false;
-                }
-                if (!out)
-                {
-                    _printUsage();
-                }
-                return out;
-            }
-            
-            void _printUsage()
+            void printUsage() override
             {
                 auto textSystem = getSystemT<Core::TextSystem>();
                 std::cout << std::endl;
-                std::cout << " " << textSystem->getText(DJV_TEXT("djv_convert_cli_description")) << std::endl;
+                std::cout << " " << textSystem->getText(DJV_TEXT("djv_convert_description")) << std::endl;
                 std::cout << std::endl;
-                std::cout << " " << textSystem->getText(DJV_TEXT("djv_convert_cli_usage")) << std::endl;
+                std::cout << " " << textSystem->getText(DJV_TEXT("djv_convert_usage")) << std::endl;
                 std::cout << std::endl;
-                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_cli_usage_format")) << std::endl;
+                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_usage_format")) << std::endl;
                 std::cout << std::endl;
-                std::cout << " " << textSystem->getText(DJV_TEXT("djv_convert_cli_options")) << std::endl;
+                std::cout << " " << textSystem->getText(DJV_TEXT("djv_convert_options")) << std::endl;
                 std::cout << std::endl;
                 std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_resize")) << std::endl;
                 std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_resize_description")) << std::endl;
@@ -285,10 +98,190 @@ namespace djv
                 std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_help")) << std::endl;
                 std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_help_description")) << std::endl;
                 std::cout << std::endl;
+
+                CmdLine::Application::printUsage();
             }
 
-            std::string _input;
-            std::string _output;
+            void run() override
+            {
+                auto io = getSystemT<AV::IO::System>();
+                if (_readSeq)
+                {
+                    _input.evalSequence();
+                }
+                AV::IO::ReadOptions readOptions;
+                readOptions.videoQueueSize = _readQueueSize;
+                _read = io->read(_input, readOptions);
+                _read->setThreadCount(_readThreadCount);
+                auto info = _read->getInfo().get();
+                auto& video = info.video;
+                auto textSystem = getSystemT<Core::TextSystem>();
+                if (!video.size())
+                {
+                    throw std::invalid_argument(textSystem->getText(DJV_TEXT("djv_convert_nothing_convert")));
+                }
+                auto& videoInfo = video[0];
+                if (_resize)
+                {
+                    video[0].info.size = *_resize;
+                }
+                const size_t size = videoInfo.sequence.getSize();
+                if (_writeSeq)
+                {
+                    _output.evalSequence();
+                }
+                AV::IO::WriteOptions writeOptions;
+                writeOptions.videoQueueSize = _writeQueueSize;
+                _write = io->write(_output, info, writeOptions);
+                _write->setThreadCount(_writeThreadCount);
+
+                _statsTimer = Core::Time::Timer::create(shared_from_this());
+                _statsTimer->setRepeating(true);
+                _statsTimer->start(
+                    Core::Time::getTime(Core::Time::TimerValue::Slow),
+                    [this, size](const std::chrono::steady_clock::time_point&, const Core::Time::Unit&)
+                    {
+                        Core::Frame::Number frame = 0;
+                        {
+                            std::lock_guard<std::mutex> lock(_read->getMutex());
+                            auto& queue = _read->getVideoQueue();
+                            if (!queue.isEmpty())
+                            {
+                                frame = queue.getFrame().frame;
+                            }
+                        }
+                        if (frame && size)
+                        {
+                            std::cout << static_cast<size_t>(frame / static_cast<float>(size - 1) * 100.F) << "%" << std::endl;
+                        }
+                    });
+
+                CmdLine::Application::run();
+            }
+
+            void tick(const std::chrono::steady_clock::time_point& t, const Core::Time::Unit& dt) override
+            {
+                CmdLine::Application::tick(t, dt);
+                if (_read && _write)
+                {
+                    std::unique_lock<std::mutex> readLock(_read->getMutex(), std::try_to_lock);
+                    if (readLock.owns_lock())
+                    {
+                        std::lock_guard<std::mutex> writeLock(_write->getMutex());
+                        auto& readQueue = _read->getVideoQueue();
+                        auto& writeQueue = _write->getVideoQueue();
+                        if (!readQueue.isEmpty() && writeQueue.getCount() < writeQueue.getMax())
+                        {
+                            auto frame = readQueue.popFrame();
+                            writeQueue.addFrame(frame);
+                        } 
+                        else if (readQueue.isFinished())
+                        {
+                            writeQueue.setFinished(true);
+                        }
+                    }
+                }
+                if (_write && !_write->isRunning())
+                {
+                    exit(0);
+                }
+            }
+
+          protected:
+              void _parseArgs(std::list<std::string>& args) override
+              {
+                  CmdLine::Application::_parseArgs(args);
+                  if (0 == getExitCode())
+                  {
+                      auto i = args.begin();
+                      while (i != args.end())
+                      {
+                          if ("-resize" == *i)
+                          {
+                              i = args.erase(i);
+                              AV::Image::Size resize;
+                              std::stringstream ss(*i);
+                              ss >> resize;
+                              i = args.erase(i);
+                              _resize.reset(new AV::Image::Size(resize));
+                          }
+                          else if ("-readSeq" == *i)
+                          {
+                              i = args.erase(i);
+                              _readSeq = true;
+                          }
+                          else if ("-writeSeq" == *i)
+                          {
+                              i = args.erase(i);
+                              _writeSeq = true;
+                          }
+                          else if ("-readQueue" == *i)
+                          {
+                              i = args.erase(i);
+                              int value = 0;
+                              std::stringstream ss(*i);
+                              ss >> value;
+                              i = args.erase(i);
+                              _readQueueSize = std::max(value, 1);
+                          }
+                          else if ("-writeQueue" == *i)
+                          {
+                              i = args.erase(i);
+                              int value = 0;
+                              std::stringstream ss(*i);
+                              ss >> value;
+                              i = args.erase(i);
+                              _writeQueueSize = std::max(value, 1);
+                          }
+                          else if ("-readThreads" == *i)
+                          {
+                              i = args.erase(i);
+                              int value = 0;
+                              std::stringstream ss(*i);
+                              ss >> value;
+                              i = args.erase(i);
+                              _readThreadCount = std::max(value, 1);
+                          }
+                          else if ("-writeThreads" == *i)
+                          {
+                              i = args.erase(i);
+                              int value = 0;
+                              std::stringstream ss(*i);
+                              ss >> value;
+                              i = args.erase(i);
+                              _writeThreadCount = std::max(value, 1);
+                          }
+                          else
+                          {
+                              ++i;
+                          }
+                      }
+
+                      if (!args.size())
+                      {
+                          std::stringstream ss;
+                          auto textSystem = getSystemT<Core::TextSystem>();
+                          ss << textSystem->getText(DJV_TEXT("djv_convert_input_error"));
+                          throw std::runtime_error(ss.str());
+                      }
+                      _input = args.front();
+                      args.pop_front();
+                      
+                      if (!args.size())
+                      {
+                          std::stringstream ss;
+                          auto textSystem = getSystemT<Core::TextSystem>();
+                          ss << textSystem->getText(DJV_TEXT("djv_convert_output_error"));
+                          throw std::runtime_error(ss.str());
+                      }
+                      _output = args.front();
+                      args.pop_front();
+                  }
+              }
+            
+        private:
+            Core::FileSystem::FileInfo _input;
+            Core::FileSystem::FileInfo _output;
             std::unique_ptr<AV::Image::Size> _resize;
             bool _readSeq = false;
             bool _writeSeq = false;
@@ -307,10 +300,16 @@ namespace djv
 
 int main(int argc, char ** argv)
 {
-    int r = 0;
+    int r = 1;
     try
     {
-        return convert::Application::create(argc, argv)->run();
+        auto app = convert::Application::create(argv[0]);
+        app->parseArgs(argc, argv);
+        if (0 == app->getExitCode())
+        {
+            app->run();
+        }
+        r = app->getExitCode();
     }
     catch (const std::exception & e)
     {

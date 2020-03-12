@@ -53,7 +53,7 @@ namespace djv
             ITest("djv::AVTest::AudioTest", context)
         {}
         
-        void AudioTest::run(const std::vector<std::string>& args)
+        void AudioTest::run()
         {
             _enum();
             _constants();

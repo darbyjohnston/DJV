@@ -88,13 +88,13 @@ namespace djv
                         auto resourceSystem = context->getSystemT<ResourceSystem>();
                         const FileSystem::Path shaderPath = resourceSystem->getPath(FileSystem::ResourcePath::Shaders);
 
-                        FileSystem::FileIO io;
+                        auto io = FileSystem::FileIO::create();
                         std::string vertexFileName = std::string(FileSystem::Path(shaderPath, vertex));
-                        io.open(vertexFileName, FileSystem::FileIO::Mode::Read);
+                        io->open(vertexFileName, FileSystem::FileIO::Mode::Read);
                         std::string vertexSource = FileSystem::FileIO::readContents(io);
 
                         std::string fragmentFileName = std::string(FileSystem::Path(shaderPath, fragment));
-                        io.open(fragmentFileName, FileSystem::FileIO::Mode::Read);
+                        io->open(fragmentFileName, FileSystem::FileIO::Mode::Read);
                         std::string fragmentSource = FileSystem::FileIO::readContents(io);
 
                         auto shader = AV::Render::Shader::create(vertexSource, fragmentSource);

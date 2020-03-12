@@ -42,7 +42,7 @@ namespace djv
             ITest("djv::AVTest::AudioDataTest", context)
         {}
         
-        void AudioDataTest::run(const std::vector<std::string>& args)
+        void AudioDataTest::run()
         {
             _info();
             _data();

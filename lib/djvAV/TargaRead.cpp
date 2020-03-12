@@ -65,7 +65,7 @@ namespace djv
 
                 Info Read::_readInfo(const std::string & fileName)
                 {
-                    FileSystem::FileIO io;
+                    auto io = FileSystem::FileIO::create();
                     return _open(fileName, io);
                 }
 
@@ -162,7 +162,7 @@ namespace djv
                 std::shared_ptr<Image::Image> Read::_readImage(const std::string & fileName)
                 {
                     std::shared_ptr<Image::Image> out;
-                    FileSystem::FileIO io;
+                    auto io = FileSystem::FileIO::create();
                     const auto info = _open(fileName, io);
                     out = Image::Image::create(info.video[0].info);
                     out->setPluginName(pluginName);
@@ -171,13 +171,13 @@ namespace djv
                     const size_t channels = Image::getChannelCount(imageInfo.type);
                     if (!_compression)
                     {
-                        io.read(out->getData(), out->getDataByteCount());
+                        io->read(out->getData(), out->getDataByteCount());
                     }
                     else
                     {
-                        const size_t tmpSize = io.getSize() - io.getPos();
+                        const size_t tmpSize = io->getSize() - io->getPos();
                         std::vector<uint8_t> tmp(tmpSize);
-                        io.read(tmp.data(), tmpSize);
+                        io->read(tmp.data(), tmpSize);
                         const uint8_t* p = tmp.data();
                         const uint8_t* const end = p + tmpSize;
                         for (uint16_t y = 0; y < imageInfo.size.h; ++y)
@@ -220,7 +220,7 @@ namespace djv
                         Header();
 
                         void read(
-                            FileSystem::FileIO&,
+                            const std::shared_ptr<FileSystem::FileIO>&,
                             Image::Info&,
                             bool& bgr,
                             bool& compression,
@@ -262,26 +262,26 @@ namespace djv
                     }
 
                     void Header::read(
-                        FileSystem::FileIO& io,
+                        const std::shared_ptr<FileSystem::FileIO>& io,
                         Image::Info& info,
                         bool& bgr,
                         bool& compression,
                         const std::shared_ptr<TextSystem>& textSystem)
                     {
                         // Read.
-                        io.readU8(&_data.idSize);
-                        io.readU8(&_data.cmapType);
-                        io.readU8(&_data.imageType);
-                        io.readU16(&_data.cmapStart);
-                        io.readU16(&_data.cmapSize);
-                        io.readU8(&_data.cmapBits);
-                        io.readU16(&_data.x);
-                        io.readU16(&_data.y);
-                        io.readU16(&_data.width);
-                        io.readU16(&_data.height);
-                        io.readU8(&_data.pixelBits);
-                        io.readU8(&_data.descriptor);
-                        io.seek(_data.idSize);
+                        io->readU8(&_data.idSize);
+                        io->readU8(&_data.cmapType);
+                        io->readU8(&_data.imageType);
+                        io->readU16(&_data.cmapStart);
+                        io->readU16(&_data.cmapSize);
+                        io->readU8(&_data.cmapBits);
+                        io->readU16(&_data.x);
+                        io->readU16(&_data.y);
+                        io->readU16(&_data.width);
+                        io->readU16(&_data.height);
+                        io->readU8(&_data.pixelBits);
+                        io->readU8(&_data.descriptor);
+                        io->seek(_data.idSize);
 
                         // Information.
                         info.size.w = _data.width;
@@ -341,10 +341,10 @@ namespace djv
 
                 } // namespace
 
-                Info Read::_open(const std::string & fileName, FileSystem::FileIO& io)
+                Info Read::_open(const std::string & fileName, const std::shared_ptr<FileSystem::FileIO>& io)
                 {
-                    io.setEndianConversion(Memory::getEndian() != Memory::Endian::LSB);
-                    io.open(fileName, FileSystem::FileIO::Mode::Read);
+                    io->setEndianConversion(Memory::getEndian() != Memory::Endian::LSB);
+                    io->open(fileName, FileSystem::FileIO::Mode::Read);
                     Image::Info imageInfo;
                     Header().read(io, imageInfo, _bgr, _compression, _textSystem);
                     auto info = Info(fileName, VideoInfo(imageInfo, _speed, _sequence));

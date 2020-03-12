@@ -42,7 +42,7 @@ namespace djv
             ITickTest("djv::CoreTest::DirectoryModelTest", context)
         {}
         
-        void DirectoryModelTest::run(const std::vector<std::string>& args)
+        void DirectoryModelTest::run()
         {
             if (auto context = getContext().lock())
             {
@@ -127,9 +127,9 @@ namespace djv
                 
                 _tickFor(std::chrono::milliseconds(1000));
 
-                FileSystem::FileIO io;
-                io.open("DirectoryModelTest", FileSystem::FileIO::Mode::Write);
-                io.close();                
+                auto io = FileSystem::FileIO::create();
+                io->open("DirectoryModelTest", FileSystem::FileIO::Mode::Write);
+                io->close();
 
                 _tickFor(std::chrono::milliseconds(1000));
             }

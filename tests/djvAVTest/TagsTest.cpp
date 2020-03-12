@@ -42,7 +42,7 @@ namespace djv
             ITest("djv::AVTest::TagsTest", context)
         {}
         
-        void TagsTest::run(const std::vector<std::string>& args)
+        void TagsTest::run()
         {
             {
                 const Tags tags;

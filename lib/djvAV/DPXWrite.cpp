@@ -86,8 +86,8 @@ namespace djv
                 void Write::_write(const std::string & fileName, const std::shared_ptr<Image::Image> & image)
                 {
                     DJV_PRIVATE_PTR();
-                    FileSystem::FileIO io;
-                    io.open(fileName, FileSystem::FileIO::Mode::Write);
+                    auto io = FileSystem::FileIO::create();
+                    io->open(fileName, FileSystem::FileIO::Mode::Write);
                     Info info;
                     info.video.push_back(image->getInfo());
                     info.tags = image->getTags();
@@ -97,7 +97,7 @@ namespace djv
                         p.options.version,
                         p.options.endian,
                         _options.colorSpace.empty() ? Cineon::ColorProfile::Raw : Cineon::ColorProfile::FilmPrint);
-                    io.write(image->getData(), image->getDataByteCount());
+                    io->write(image->getData(), image->getDataByteCount());
                     writeFinish(io);
                 }
 

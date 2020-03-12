@@ -63,11 +63,11 @@ namespace djv
                 auto out = std::shared_ptr<Shader>(new Shader);
                 try
                 {
-                    FileSystem::FileIO fileIO;
-                    fileIO.open(std::string(vertex), FileSystem::FileIO::Mode::Read);
+                    auto fileIO = FileSystem::FileIO::create();
+                    fileIO->open(std::string(vertex), FileSystem::FileIO::Mode::Read);
                     out->_vertex.second = FileSystem::FileIO::readContents(fileIO);
                     out->_vertex.first = vertex.get();
-                    fileIO.open(std::string(fragment), FileSystem::FileIO::Mode::Read);
+                    fileIO->open(std::string(fragment), FileSystem::FileIO::Mode::Read);
                     out->_fragment.second = FileSystem::FileIO::readContents(fileIO);
                     out->_fragment.first = fragment.get();
                 }

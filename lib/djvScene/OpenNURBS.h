@@ -61,6 +61,7 @@ namespace djv
 
                     static std::shared_ptr<Read> create(
                         const Core::FileSystem::FileInfo&,
+                        const std::shared_ptr<Core::TextSystem>&,
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
 

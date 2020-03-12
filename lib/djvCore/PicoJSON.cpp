@@ -40,7 +40,11 @@ namespace djv
     {
         namespace PicoJSON
         {
-            void write(const picojson::value & value, FileSystem::FileIO & fileIO, size_t indent, bool continueLine)
+            void write(
+                const picojson::value& value,
+                const std::shared_ptr<FileSystem::FileIO>& fileIO,
+                size_t indent,
+                bool continueLine)
             {
                 if (value.is<picojson::object>())
                 {
@@ -49,7 +53,7 @@ namespace djv
                     {
                         s = String::indent(indent) + s;
                     }
-                    fileIO.write(s);
+                    fileIO->write(s);
                     ++indent;
                     const auto & object = value.get<picojson::object>();
                     size_t i = 0;
@@ -57,17 +61,17 @@ namespace djv
                     {
                         std::stringstream ss;
                         ss << "\"" << key.first << "\": ";
-                        fileIO.write(String::indent(indent) + ss.str());
+                        fileIO->write(String::indent(indent) + ss.str());
                         write(key.second, fileIO, indent, true);
                         if (i < object.size() - 1)
                         {
-                            fileIO.write(", ");
+                            fileIO->write(", ");
                         }
-                        fileIO.write("\n");
+                        fileIO->write("\n");
                         ++i;
                     }
                     --indent;
-                    fileIO.write(String::indent(indent) + "}");
+                    fileIO->write(String::indent(indent) + "}");
                 }
                 else if (value.is<picojson::array>())
                 {
@@ -76,7 +80,7 @@ namespace djv
                     {
                         s = String::indent(indent) + s;
                     }
-                    fileIO.write(s);
+                    fileIO->write(s);
                     ++indent;
                     const auto & array = value.get<picojson::array>();
                     for (size_t i = 0; i < array.size(); ++i)
@@ -84,12 +88,12 @@ namespace djv
                         write(array[i], fileIO, indent);
                         if (i < array.size() - 1)
                         {
-                            fileIO.write(", ");
+                            fileIO->write(", ");
                         }
-                        fileIO.write("\n");
+                        fileIO->write("\n");
                     }
                     --indent;
-                    fileIO.write(String::indent(indent) + "]");
+                    fileIO->write(String::indent(indent) + "]");
                 }
                 else if (value.is<double>())
                 {
@@ -100,7 +104,7 @@ namespace djv
                     {
                         tmp = String::indent(indent) + tmp;
                     }
-                    fileIO.write(tmp);
+                    fileIO->write(tmp);
                 }
                 else if (value.is<std::string>())
                 {
@@ -111,7 +115,7 @@ namespace djv
                     {
                         tmp = String::indent(indent) + tmp;
                     }
-                    fileIO.write(tmp);
+                    fileIO->write(tmp);
                 }
             }
 

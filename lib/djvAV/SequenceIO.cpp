@@ -600,7 +600,7 @@ namespace djv
 #endif
                         {
                             std::stringstream ss;
-                            ss << "Cannot initialize GLAD.";
+                            ss << _textSystem->getText(DJV_TEXT("Cannot initialize GLAD."));
                             throw FileSystem::Error(ss.str());
                         }
 

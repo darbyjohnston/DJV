@@ -94,7 +94,7 @@ namespace djv
         
         } // namespace
 
-        void ObjectTest::run(const std::vector<std::string>& args)
+        void ObjectTest::run()
         {
             if (auto context = getContext().lock())
             {

@@ -53,7 +53,7 @@ namespace djv
             ITest("djv::AVTest::PixelTest", context)
         {}
         
-        void PixelTest::run(const std::vector<std::string>& args)
+        void PixelTest::run()
         {
             _enum();
             _constants();

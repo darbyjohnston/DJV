@@ -86,17 +86,15 @@ namespace djv
             std::shared_ptr<NUXWidget> nuxWidget;
         };
         
-        void Application::_init(const std::vector<std::string>& args)
+        void Application::_init(const std::string& argv0)
         {
-            Desktop::Application::_init(args);
+            Desktop::Application::_init(argv0);
             DJV_PRIVATE_PTR();
 
             // Create the systems.
             UI::UIComponentsSystem::create(shared_from_this());
-            auto fileSystem = FileSystem::create(shared_from_this());
-            p.systems.push_back(fileSystem);
-            auto windowSystem = WindowSystem::create(shared_from_this());
-            p.systems.push_back(windowSystem);
+            p.systems.push_back(FileSystem::create(shared_from_this()));
+            p.systems.push_back(WindowSystem::create(shared_from_this()));
             p.systems.push_back(ViewSystem::create(shared_from_this()));
             p.systems.push_back(ImageSystem::create(shared_from_this()));
             p.systems.push_back(PlaybackSystem::create(shared_from_this()));
@@ -106,25 +104,57 @@ namespace djv
             //p.systems.push_back(AnnotateSystem::create(shared_from_this()));
             p.systems.push_back(ToolSystem::create(shared_from_this()));
             p.systems.push_back(HelpSystem::create(shared_from_this()));
-            auto nuxSystem = NUXSystem::create(shared_from_this());
-            p.systems.push_back(nuxSystem);
+            p.systems.push_back(NUXSystem::create(shared_from_this()));
             p.systems.push_back(SettingsSystem::create(shared_from_this()));
 
             // Create settings.
             p.settings = ApplicationSettings::create(shared_from_this());
+        }
 
-            // Parse the command line.
-            if (!_parseArgs(args))
-            {
-                exit(1);
-                return;
-            }
-            
+        Application::Application() :
+            _p(new Private)
+        {}
+
+        Application::~Application()
+        {}
+
+        std::shared_ptr<Application> Application::create(const std::string& argv0)
+        {
+            auto out = std::shared_ptr<Application>(new Application);
+            out->_init(argv0);
+            return out;
+        }
+
+        void Application::printUsage()
+        {
+            auto textSystem = getSystemT<Core::TextSystem>();
+            std::cout << std::endl;
+            std::cout << " " << textSystem->getText(DJV_TEXT("djv_cli_description")) << std::endl;
+            std::cout << std::endl;
+            std::cout << " " << textSystem->getText(DJV_TEXT("djv_cli_usage")) << std::endl;
+            std::cout << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_usage_format")) << std::endl;
+            std::cout << std::endl;
+            std::cout << " " << textSystem->getText(DJV_TEXT("djv_cli_options")) << std::endl;
+            std::cout << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_option_full_screen")) << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_option_full_screen_description")) << std::endl;
+            std::cout << std::endl;
+
+            Desktop::Application::printUsage();
+        }
+
+        void Application::run()
+        {
+            DJV_PRIVATE_PTR();
+
             // Create the main window.
             p.mainWindow = MainWindow::create(shared_from_this());
+            auto windowSystem = getSystemT<WindowSystem>();
             windowSystem->setMediaCanvas(p.mainWindow->getMediaCanvas());
 
             // NUX.
+            auto nuxSystem = getSystemT<NUXSystem>();
             p.nuxWidget = nuxSystem->createNUXWidget();
             if (p.nuxWidget)
             {
@@ -140,7 +170,7 @@ namespace djv
                         }
                     });
             }
-            
+
             // Read the application icons.
             _readIcon("djv-reel-16.png");
             _readIcon("djv-reel-32.png");
@@ -196,103 +226,70 @@ namespace djv
                 });
 
             // Open command-line files.
+            auto fileSystem = getSystemT<FileSystem>();
             fileSystem->open(p.cmdlinePaths);
 
             // Show the main window.
             p.mainWindow->show();
+
+            Desktop::Application::run();
         }
 
-        Application::Application() :
-            _p(new Private)
-        {}
-
-        Application::~Application()
-        {}
-
-        std::shared_ptr<Application> Application::create(const std::vector<std::string>& args)
+        void Application::_parseArgs(std::list<std::string>& args)
         {
-            auto out = std::shared_ptr<Application>(new Application);
-            out->_init(args);
-            return out;
-        }
-
-        bool Application::_parseArgs(const std::vector<std::string>& args)
-        {
+            Desktop::Application::_parseArgs(args);
             DJV_PRIVATE_PTR();
-            bool out = true;
-            auto arg = args.begin();
-            ++arg;
-            while (arg != args.end())
+            if (0 == getExitCode())
             {
-                if ("-h" == *arg || "-help" == *arg || "--help" == *arg)
+                auto arg = args.begin();
+                while (arg != args.end())
                 {
-                    out = false;
-                    _printUsage();
-                    break;
-                }
-                if ("-full_screen" == *arg)
-                {
-                }
-                if ("-screen" == *arg)
-                {
-                }
-                if ("-cs_config" == *arg)
-                {
-                }
-                if ("-cs_input" == *arg)
-                {
-                }
-                if ("-cs_display" == *arg)
-                {
-                }
-                if ("-cs_view" == *arg)
-                {
-                }
-                if ("-pixel_aspect" == *arg)
-                {
-                }
-                if ("-frame_start" == *arg)
-                {
-                }
-                if ("-frame_end" == *arg)
-                {
-                }
-                if ("-fps" == *arg)
-                {
-                }
-                if ("-version" == *arg)
-                {
-                }
-                if ("-log_console" == *arg)
-                {
-                }
-                if ("-init_settings" == *arg)
-                {
-                }
-                else
-                {
-                    p.cmdlinePaths.push_back(*arg);
-                    ++arg;
+                    if ("-full_screen" == *arg)
+                    {
+                    }
+                    else if ("-screen" == *arg)
+                    {
+                    }
+                    else if ("-cs_config" == *arg)
+                    {
+                    }
+                    else if ("-cs_input" == *arg)
+                    {
+                    }
+                    else if ("-cs_display" == *arg)
+                    {
+                    }
+                    else if ("-cs_view" == *arg)
+                    {
+                    }
+                    else if ("-pixel_aspect" == *arg)
+                    {
+                    }
+                    else if ("-frame_start" == *arg)
+                    {
+                    }
+                    else if ("-frame_end" == *arg)
+                    {
+                    }
+                    else if ("-fps" == *arg)
+                    {
+                    }
+                    else if ("-version" == *arg)
+                    {
+                    }
+                    else if ("-log_console" == *arg)
+                    {
+                    }
+                    else if ("-init_settings" == *arg)
+                    {
+                    }
+                    else
+                    {
+                        p.cmdlinePaths.push_back(*arg);
+                        arg = args.erase(arg);
+                    }
                 }
             }
-            return out;
-        }
-        
-        void Application::_printUsage()
-        {
-            auto textSystem = getSystemT<Core::TextSystem>();
-            std::cout << std::endl;
-            std::cout << " " << textSystem->getText(DJV_TEXT("djv_cli_description")) << std::endl;
-            std::cout << std::endl;
-            std::cout << " " << textSystem->getText(DJV_TEXT("djv_cli_usage")) << std::endl;
-            std::cout << std::endl;
-            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_usage_format")) << std::endl;
-            std::cout << std::endl;
-            std::cout << " " << textSystem->getText(DJV_TEXT("djv_cli_options")) << std::endl;
-            std::cout << std::endl;
-            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_option_help")) << std::endl;
-            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_option_help_description")) << std::endl;
-            std::cout << std::endl;
         }
         
         void Application::_readIcon(const std::string& fileName)

@@ -1,7 +1,6 @@
 {
-    "djv_convert_cli_options": "Valkostir:",
-    "djv_convert_cli_usage": "Notkun:",
     "djv_convert_nothing_convert": "Ekkert að breyta",
+    "djv_convert_options": "Valkostir",
     "djv_convert_option_readqueue": "-readQueue (gildi)",
     "djv_convert_option_readqueue_description": "Stilltu stærð lestrar biðröð.",
     "djv_convert_option_readseq": "-readSeq",
@@ -15,5 +14,6 @@
     "djv_convert_option_writeseq": "-SkrifaSeq",
     "djv_convert_option_writeseq_description": "Túlkaðu framleiðsluskráheitið sem röð.",
     "djv_convert_option_writethreads": "-Skrifa þræði (gildi)",
-    "djv_convert_option_writethreads_description": "Stilltu fjölda þráða til að skrifa."
+    "djv_convert_option_writethreads_description": "Stilltu fjölda þráða til að skrifa.",
+    "djv_convert_usage": "Notkun"
 }

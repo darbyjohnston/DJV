@@ -37,45 +37,14 @@ namespace djv
     {
         namespace FileSystem
         {
-            FileIO::FileIO(FileIO && other) :
-                _fileName(std::move(other._fileName)),
-                _mode(other._mode),
-                _pos(other._pos),
-                _size(other._size),
-                _endianConversion(other._endianConversion),
-                _f(other._f)
-#if defined(DJV_MMAP)
-                ,
-                _mmap(other._mmap),
-                _mmapStart(other._mmapStart),
-                _mmapEnd(other._mmapEnd),
-                _mmapP(other._mmapP)
-#endif // DJV_MMAP
-            {}
-
             FileIO::~FileIO()
             {
                 close();
             }
 
-            FileIO& FileIO::operator = (FileIO&& other)
+            std::shared_ptr<FileIO> FileIO::create()
             {
-                if (this != &other)
-                {
-                    _fileName = std::move(other._fileName);
-                    _mode = other._mode;
-                    _pos = other._pos;
-                    _size = other._size;
-                    _endianConversion = other._endianConversion;
-                    _f = other._f;
-#if defined(DJV_MMAP)
-                    _mmap = other._mmap;
-                    _mmapStart = other._mmapStart;
-                    _mmapEnd = other._mmapEnd;
-                    _mmapP = other._mmapP;
-#endif // DJV_MMAP
-                }
-                return *this;
+                return std::shared_ptr<FileIO>(new FileIO);
             }
 
             void FileIO::setPos(size_t in)
@@ -93,22 +62,22 @@ namespace djv
                 _endianConversion = in;
             }
 
-            std::string FileIO::readContents(FileIO & fileIO)
+            std::string FileIO::readContents(const std::shared_ptr<FileIO>& io)
             {
 #ifdef DJV_MMAP
-                const uint8_t * p = fileIO.mmapP();
-                const uint8_t * end = fileIO.mmapEnd();
+                const uint8_t * p = io->mmapP();
+                const uint8_t * end = io->mmapEnd();
                 return std::string(reinterpret_cast<const char *>(p), end - p);
 #else // DJV_MMAP
-                const size_t fileSize = fileIO.getSize();
+                const size_t fileSize = io->getSize();
                 std::string out;
                 out.resize(fileSize);
-                fileIO.read(reinterpret_cast<void*>(&out[0]), fileSize);
+                io->read(reinterpret_cast<void*>(&out[0]), fileSize);
                 return out;
 #endif // DJV_MMAP
             }
 
-            void FileIO::readWord(FileIO & io, char * out, size_t maxLen)
+            void FileIO::readWord(const std::shared_ptr<FileIO>& io, char * out, size_t maxLen)
             {
                 DJV_ASSERT(maxLen);
                 out[0] = 0;
@@ -124,7 +93,7 @@ namespace djv
                 {
                     // Get the next character.
                     uint8_t c = 0;
-                    io.read(&c, 1);
+                    io->read(&c, 1);
 
                     switch (c)
                     {
@@ -156,16 +125,16 @@ namespace djv
                 out[i] = 0;
             }
 
-            void FileIO::readLine(FileIO & io, char * out, size_t maxLen)
+            void FileIO::readLine(const std::shared_ptr<FileIO>& io, char * out, size_t maxLen)
             {
                 DJV_ASSERT(maxLen);
                 size_t i = 0;
-                if (!io.isEOF())
+                if (!io->isEOF())
                 {
                     char c = 0;
                     do
                     {
-                        io.read(&c, 1);
+                        io->read(&c, 1);
                         if (
                             c != '\n' &&
                             c != '\r')
@@ -175,7 +144,7 @@ namespace djv
                     } while (
                         c != '\n' &&
                         c != '\r' &&
-                        !io.isEOF() &&
+                        !io->isEOF() &&
                         i < (maxLen - 1));
                 }
                 out[i] = 0;
@@ -184,9 +153,9 @@ namespace djv
             std::vector<std::string> FileIO::readLines(const std::string & fileName)
             {
                 std::vector<std::string> out;
-                FileIO io;
-                io.open(fileName, FileIO::Mode::Read);
-                while (!io.isEOF())
+                auto io = FileIO::create();
+                io->open(fileName, FileIO::Mode::Read);
+                while (!io->isEOF())
                 {
                     char buf[String::cStringLength] = "";
                     readLine(io, buf, String::cStringLength);
@@ -197,12 +166,12 @@ namespace djv
 
             void FileIO::writeLines(const std::string & fileName, const std::vector<std::string> & lines)
             {
-                FileIO io;
-                io.open(fileName, FileIO::Mode::Write);
+                auto io = FileIO::create();
+                io->open(fileName, FileIO::Mode::Write);
                 for (const auto & line : lines)
                 {
-                    io.write(line);
-                    io.write8('\n');
+                    io->write(line);
+                    io->write8('\n');
                 }
             }
 

@@ -65,7 +65,7 @@ namespace djv
 
                 Info Read::_readInfo(const std::string & fileName)
                 {
-                    FileSystem::FileIO io;
+                    auto io = FileSystem::FileIO::create();
                     return _open(fileName, io);
                 }
 
@@ -214,13 +214,13 @@ namespace djv
                 std::shared_ptr<Image::Image> Read::_readImage(const std::string & fileName)
                 {
                     std::shared_ptr<Image::Image> out;
-                    FileSystem::FileIO io;
+                    auto io = FileSystem::FileIO::create();
                     const auto info = _open(fileName, io);
                     out = Image::Image::create(info.video[0].info);
                     out->setPluginName(pluginName);
 
-                    const size_t pos = io.getPos();
-                    const size_t size = io.getSize() - pos;
+                    const size_t pos = io->getPos();
+                    const size_t size = io->getSize() - pos;
                     const Image::Info& imageInfo = info.video[0].info;
                     const size_t channels = Image::getChannelCount(imageInfo.type);
                     const size_t bytes = Image::getByteCount(Image::getDataType(imageInfo.type));
@@ -230,17 +230,17 @@ namespace djv
                     {
                         if (1 == bytes)
                         {
-                            io.readU8(tmp->getData(), dataByteCount);
+                            io->readU8(tmp->getData(), dataByteCount);
                         }
                         else
                         {
-                            io.read(tmp->getData(), size / bytes, bytes);
+                            io->read(tmp->getData(), size / bytes, bytes);
                         }
                     }
                     else
                     {
                         std::vector<uint8_t> rleData(size);
-                        io.read(rleData.data(), size / bytes, bytes);
+                        io->read(rleData.data(), size / bytes, bytes);
                         const uint8_t* inP = rleData.data();
                         const uint8_t* end = inP + size;
                         uint8_t* outP = tmp->getData();
@@ -254,7 +254,7 @@ namespace djv
                                     outP,
                                     imageInfo.size.w,
                                     bytes,
-                                    io.hasEndianConversion()))
+                                    io->hasEndianConversion()))
                                 {
                                     throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_read")));
                                 }
@@ -275,7 +275,11 @@ namespace djv
                     public:
                         Header();
 
-                        void read(FileSystem::FileIO&, Image::Info&, bool& compression, const std::shared_ptr<TextSystem>&);
+                        void read(
+                            const std::shared_ptr<FileSystem::FileIO>&,
+                            Image::Info&,
+                            bool& compression,
+                            const std::shared_ptr<TextSystem>&);
 
                     private:
                         struct Data
@@ -306,23 +310,27 @@ namespace djv
                         _data.pixelMax = 0;
                     }
 
-                    void Header::read(FileSystem::FileIO& io, Image::Info& info, bool& compression, const std::shared_ptr<TextSystem>& textSystem)
+                    void Header::read(
+                        const std::shared_ptr<FileSystem::FileIO>& io,
+                        Image::Info& info,
+                        bool& compression,
+                        const std::shared_ptr<TextSystem>& textSystem)
                     {
                         // Read.
-                        io.readU16(&_data.magic);
+                        io->readU16(&_data.magic);
                         if (_data.magic != 474)
                         {
                             throw FileSystem::Error(textSystem->getText(DJV_TEXT("error_file_not_supported")));
                         }
-                        io.readU8(&_data.storage);
-                        io.readU8(&_data.bytes);
-                        io.readU16(&_data.dimension);
-                        io.readU16(&_data.width);
-                        io.readU16(&_data.height);
-                        io.readU16(&_data.channels);
-                        io.readU32(&_data.pixelMin);
-                        io.readU32(&_data.pixelMax);
-                        io.setPos(512);
+                        io->readU8(&_data.storage);
+                        io->readU8(&_data.bytes);
+                        io->readU16(&_data.dimension);
+                        io->readU16(&_data.width);
+                        io->readU16(&_data.height);
+                        io->readU16(&_data.channels);
+                        io->readU32(&_data.pixelMin);
+                        io->readU32(&_data.pixelMax);
+                        io->setPos(512);
 
                         // Information.
                         info.size.w = _data.width;
@@ -340,10 +348,10 @@ namespace djv
                 
                 } // namespace
 
-                Info Read::_open(const std::string & fileName, FileSystem::FileIO& io)
+                Info Read::_open(const std::string & fileName, const std::shared_ptr<FileSystem::FileIO>& io)
                 {
-                    io.setEndianConversion(Memory::getEndian() != Memory::Endian::MSB);
-                    io.open(fileName, FileSystem::FileIO::Mode::Read);
+                    io->setEndianConversion(Memory::getEndian() != Memory::Endian::MSB);
+                    io->open(fileName, FileSystem::FileIO::Mode::Read);
                     Image::Info imageInfo;
                     Header().read(io, imageInfo, _compression, _textSystem);
                     auto info = Info(fileName, VideoInfo(imageInfo, _speed, _sequence));

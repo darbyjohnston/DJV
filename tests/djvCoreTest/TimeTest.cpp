@@ -44,7 +44,7 @@ namespace djv
             ITest("djv::CoreTest::TimeTest", context)
         {}
         
-        void TimeTest::run(const std::vector<std::string>& args)
+        void TimeTest::run()
         {
             {
                 std::stringstream ss;

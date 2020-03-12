@@ -1,7 +1,6 @@
 {
-    "djv_convert_cli_options": "オプション：",
-    "djv_convert_cli_usage": "使用法：",
     "djv_convert_nothing_convert": "変換するものはありません",
+    "djv_convert_options": "オプション",
     "djv_convert_option_readqueue": "-readQueue（値）",
     "djv_convert_option_readqueue_description": "読み取りキューのサイズを設定します。",
     "djv_convert_option_readseq": "-readSeq",
@@ -15,5 +14,6 @@
     "djv_convert_option_writeseq": "-writeSeq",
     "djv_convert_option_writeseq_description": "出力ファイル名をシーケンスとして解釈します。",
     "djv_convert_option_writethreads": "-writeThreads（値）",
-    "djv_convert_option_writethreads_description": "書き込むスレッドの数を設定します。"
+    "djv_convert_option_writethreads_description": "書き込むスレッドの数を設定します。",
+    "djv_convert_usage": "使用法"
 }

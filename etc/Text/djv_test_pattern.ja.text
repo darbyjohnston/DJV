@@ -2,15 +2,15 @@
     "djv_test_pattern_cli_description_frame_number": "レンダリングするフレームの数。デフォルト：",
     "djv_test_pattern_cli_description_resolution": "画像の解像度。デフォルト：",
     "djv_test_pattern_cli_description_type": "画像タイプ。デフォルト：",
-    "djv_test_pattern_cli_examples": "例：",
+    "djv_test_pattern_cli_examples": "例",
     "djv_test_pattern_cli_option_frame_number": "-frameCount（値）",
     "djv_test_pattern_cli_option_resolution": "-size &quot;（幅）（高さ）&quot;",
     "djv_test_pattern_cli_option_type": "-type（値）",
-    "djv_test_pattern_cli_options": "オプション：",
+    "djv_test_pattern_cli_options": "オプション",
     "djv_test_pattern_cli_output_option": "djv_test_pattern（出力）[オプション、...]",
     "djv_test_pattern_cli_render_a_test_pattern_with_the_default_values": "デフォルト値でテストパターンをレンダリングします。",
     "djv_test_pattern_cli_render_a_uhd_resolution_test_pattern_with_a_rgb_16-bit_image_type": "RGB 16ビット画像タイプでUHD解像度のテストパターンをレンダリングします。",
     "djv_test_pattern_cli_test_1_dpx": "&gt; djv_test_pattern test.1.dpx",
     "djv_test_pattern_cli_test_1_tif_-size_3840_2160_-type_rgb_u16": "&gt; djv_test_pattern test.1.tif -size &#39;3840 2160&#39; -type RGB_U16",
-    "djv_test_pattern_cli_usage": "使用法："
+    "djv_test_pattern_cli_usage": "使用法"
 }

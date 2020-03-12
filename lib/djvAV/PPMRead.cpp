@@ -65,16 +65,16 @@ namespace djv
 
                 Info Read::_readInfo(const std::string & fileName)
                 {
-                    FileSystem::FileIO io;
+                    auto io = FileSystem::FileIO::create();
                     Data data = Data::First;
                     return _open(fileName, io, data);
                 }
 
                 std::shared_ptr<Image::Image> Read::_readImage(const std::string & fileName)
                 {
-                    auto io = std::shared_ptr<FileSystem::FileIO>(new FileSystem::FileIO);
+                    auto io = FileSystem::FileIO::create();
                     Data data = Data::First;
-                    const auto info = _open(fileName, *io, data);
+                    const auto info = _open(fileName, io, data);
                     auto imageInfo = info.video[0].info;
                     std::shared_ptr<Image::Image> out;
                     switch (data)
@@ -87,7 +87,7 @@ namespace djv
                         const size_t bitDepth = Image::getBitDepth(imageInfo.type);
                         for (uint16_t y = 0; y < imageInfo.size.h; ++y)
                         {
-                            readASCII(*io, out->getData(y), imageInfo.size.w * channelCount, bitDepth);
+                            readASCII(io, out->getData(y), imageInfo.size.w * channelCount, bitDepth);
                         }
                         break;
                     }
@@ -127,12 +127,12 @@ namespace djv
                     return out;
                 }
 
-                Info Read::_open(const std::string & fileName, FileSystem::FileIO & io, Data & data)
+                Info Read::_open(const std::string& fileName, const std::shared_ptr<FileSystem::FileIO>& io, Data& data)
                 {
-                    io.open(fileName, FileSystem::FileIO::Mode::Read);
+                    io->open(fileName, FileSystem::FileIO::Mode::Read);
 
                     char magic[] = { 0, 0, 0 };
-                    io.read(magic, 2);
+                    io->read(magic, 2);
                     if (magic[0] != 'P')
                     {
                         throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_bad_magic_number")));
@@ -176,7 +176,7 @@ namespace djv
                     Image::Layout layout;
                     layout.endian = data != Data::ASCII ? Memory::Endian::MSB : Memory::getEndian();
                     auto info = Image::Info(w, h, imageType, layout);
-                    if (Data::Binary == data && io.getSize() - io.getPos() != info.getDataByteCount())
+                    if (Data::Binary == data && io->getSize() - io->getPos() != info.getDataByteCount())
                     {
                         throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_incomplete_file")));
                     }

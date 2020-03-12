@@ -1,7 +1,6 @@
 {
-    "djv_convert_cli_options": "옵션 :",
-    "djv_convert_cli_usage": "용법:",
     "djv_convert_nothing_convert": "변환 할 것이 없습니다",
+    "djv_convert_options": "옵션",
     "djv_convert_option_readqueue": "-readQueue (값)",
     "djv_convert_option_readqueue_description": "읽기 대기열의 크기를 설정하십시오.",
     "djv_convert_option_readseq": "-readSeq",
@@ -15,5 +14,6 @@
     "djv_convert_option_writeseq": "-writeSeq",
     "djv_convert_option_writeseq_description": "출력 파일 이름을 시퀀스로 해석하십시오.",
     "djv_convert_option_writethreads": "-writeThreads (값)",
-    "djv_convert_option_writethreads_description": "쓰려는 스레드 수를 설정하십시오."
+    "djv_convert_option_writethreads_description": "쓰려는 스레드 수를 설정하십시오.",
+    "djv_convert_usage": "용법"
 }

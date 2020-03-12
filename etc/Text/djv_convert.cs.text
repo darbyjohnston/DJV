@@ -1,7 +1,6 @@
 {
-    "djv_convert_cli_options": "Možnosti:",
-    "djv_convert_cli_usage": "Používání:",
     "djv_convert_nothing_convert": "Nic převést",
+    "djv_convert_options": "Možnosti",
     "djv_convert_option_readqueue": "-readQueue (value)",
     "djv_convert_option_readqueue_description": "Nastavte velikost čtecí fronty.",
     "djv_convert_option_readseq": "-readSeq",
@@ -15,5 +14,6 @@
     "djv_convert_option_writeseq": "-writeSeq",
     "djv_convert_option_writeseq_description": "Interpretovat název výstupního souboru jako posloupnost.",
     "djv_convert_option_writethreads": "-writeThreads (hodnota)",
-    "djv_convert_option_writethreads_description": "Nastavte počet vláken pro zápis."
+    "djv_convert_option_writethreads_description": "Nastavte počet vláken pro zápis.",
+    "djv_convert_usage": "Používání"
 }

@@ -156,16 +156,16 @@ namespace djv
                         ss << "Reading settings: " << path;
                         _log(ss.str());
 
-                        FileSystem::FileIO fileIO;
-                        fileIO.open(std::string(path), FileSystem::FileIO::Mode::Read);
+                        auto fileIO = FileSystem::FileIO::create();
+                        fileIO->open(std::string(path), FileSystem::FileIO::Mode::Read);
 #if defined(DJV_MMAP)
-                        const char * bufP = reinterpret_cast<const char *>(fileIO.mmapP());
-                        const char * bufEnd = reinterpret_cast<const char *>(fileIO.mmapEnd());
+                        const char * bufP = reinterpret_cast<const char *>(fileIO->mmapP());
+                        const char * bufEnd = reinterpret_cast<const char *>(fileIO->mmapEnd());
 #else // DJV_MMAP
                         std::vector<char> buf;
-                        const size_t fileSize = fileIO.getSize();
+                        const size_t fileSize = fileIO->getSize();
                         buf.resize(fileSize);
-                        fileIO.read(buf.data(), fileSize);
+                        fileIO->read(buf.data(), fileSize);
                         const char* bufP = buf.data();
                         const char* bufEnd = bufP + fileSize;
 #endif // DJV_MMAP
@@ -216,10 +216,10 @@ namespace djv
                     ss << "Writing settings: " << path;
                     _log(ss.str());
 
-                    FileSystem::FileIO fileIO;
-                    fileIO.open(std::string(path), FileSystem::FileIO::Mode::Write);
+                    auto fileIO = FileSystem::FileIO::create();
+                    fileIO->open(std::string(path), FileSystem::FileIO::Mode::Write);
                     PicoJSON::write(value, fileIO);
-                    fileIO.write("\n");
+                    fileIO->write("\n");
                 }
                 catch (const std::exception & e)
                 {

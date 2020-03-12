@@ -36,6 +36,7 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/Error.h>
+#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -52,13 +53,13 @@ namespace djv
 
         struct Application::Private
         {
-            bool running = true;
+            bool running = false;
             int exit = 0;
         };
 
-        void Application::_init(const std::vector<std::string>& args)
+        void Application::_init(const std::string& argv0)
         {
-            Context::_init(args);
+            Context::_init(argv0);
             auto avSystem = AV::AVSystem::create(shared_from_this());
         }
 
@@ -69,18 +70,39 @@ namespace djv
         Application::~Application()
         {}
 
-        std::shared_ptr<Application> Application::create(const std::vector<std::string>& args)
+        std::shared_ptr<Application> Application::create(const std::string& argv0)
         {
             auto out = std::shared_ptr<Application>(new Application);
-            out->_init(args);
+            out->_init(argv0);
             return out;
         }
 
-        int Application::run()
+        void Application::parseArgs(int argc, char** argv)
+        {
+            std::list<std::string> args;
+            for (int i = 1; i < argc; ++i)
+            {
+                args.push_back(argv[i]);
+            }
+            _parseArgs(args);
+        }
+
+        void Application::printUsage()
+        {
+            auto textSystem = getSystemT<Core::TextSystem>();
+            std::cout << " " << textSystem->getText(DJV_TEXT("cli_general_options")) << std::endl;
+            std::cout << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_help")) << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_help_description")) << std::endl;
+            std::cout << std::endl;
+        }
+
+        void Application::run()
         {
             DJV_PRIVATE_PTR();
             auto time = std::chrono::steady_clock::now();
             Time::Unit delta = Time::Unit::zero();
+            p.running = true;
             while (p.running)
             {
                 tick(time, delta);
@@ -94,6 +116,10 @@ namespace djv
                 }
                 time = end;
             }
+        }
+
+        int Application::getExitCode() const
+        {
             return _p->exit;
         }
 
@@ -102,6 +128,35 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.running = false;
             p.exit = value;
+        }
+
+        void Application::_parseArgs(std::list<std::string>& args)
+        {
+            auto i = args.begin();
+            while (i != args.end())
+            {
+                if ("-h" == *i || "-help" == *i || "--help" == *i)
+                {
+                    i = args.erase(i);
+                    printUsage();
+                    exit(1);
+                    break;
+                }
+                else
+                {
+                    ++i;
+                }
+            }
+        }
+
+        bool Application::_isRunning() const
+        {
+            return _p->running;
+        }
+
+        void Application::_setRunning(bool value)
+        {
+            _p->running = value;
         }
 
     } // namespace CmdLine

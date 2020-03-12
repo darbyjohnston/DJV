@@ -294,7 +294,7 @@ namespace djv
                 //! Throws:
                 //! - Core::FileSystem::Error
                 Header read(
-                    Core::FileSystem::FileIO&,
+                    const std::shared_ptr<Core::FileSystem::FileIO>&,
                     Info&,
                     Cineon::ColorProfile&,
                     const std::shared_ptr<Core::TextSystem>&);
@@ -304,14 +304,14 @@ namespace djv
                 //! Throws:
                 //! - Core::FileSystem::Error
                 void write(
-                    Core::FileSystem::FileIO&,
+                    const std::shared_ptr<Core::FileSystem::FileIO>&,
                     const Info&,
                     Version,
                     Endian,
                     Cineon::ColorProfile);
 
                 //! Finish writing the DPX file header after image data is written.
-                void writeFinish(Core::FileSystem::FileIO&);
+                void writeFinish(const std::shared_ptr<Core::FileSystem::FileIO>&);
 
                 //! This struct provides the DPX file I/O options.
                 struct Options
@@ -344,7 +344,7 @@ namespace djv
                     std::shared_ptr<Image::Image> _readImage(const std::string &) override;
 
                 private:
-                    Info _open(const std::string &, Core::FileSystem::FileIO &);
+                    Info _open(const std::string &, const std::shared_ptr<Core::FileSystem::FileIO>&);
 
                     DJV_PRIVATE();
                 };

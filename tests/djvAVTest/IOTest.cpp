@@ -46,7 +46,7 @@ namespace djv
             ITest("djv::AVTest::IOTest", context)
         {}
         
-        void IOTest::run(const std::vector<std::string>& args)
+        void IOTest::run()
         {
             _videoInfo();
             _audioInfo();

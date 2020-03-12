@@ -49,16 +49,10 @@ namespace djv
         
         } // namespace
         
-        void ContextTest::run(const std::vector<std::string>& args)
+        void ContextTest::run()
         {
             if (auto context = getContext().lock())
             {
-                {
-                    std::stringstream ss;
-                    ss << "args: " << String::join(context->getArgs(), ", ");
-                    _print(ss.str());
-                }
-                
                 {
                     std::stringstream ss;
                     ss << "name: " << context->getName();

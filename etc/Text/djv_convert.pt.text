@@ -1,7 +1,6 @@
 {
-    "djv_convert_cli_options": "Opções:",
-    "djv_convert_cli_usage": "Uso:",
     "djv_convert_nothing_convert": "Nada para converter",
+    "djv_convert_options": "Opções",
     "djv_convert_option_readqueue": "-readQueue (value)",
     "djv_convert_option_readqueue_description": "Defina o tamanho da fila de leitura.",
     "djv_convert_option_readseq": "-readSeq",
@@ -15,5 +14,6 @@
     "djv_convert_option_writeseq": "-writeSeq",
     "djv_convert_option_writeseq_description": "Interprete o nome do arquivo de saída como uma sequência.",
     "djv_convert_option_writethreads": "-writeThreads (valor)",
-    "djv_convert_option_writethreads_description": "Defina o número de threads para gravação."
+    "djv_convert_option_writethreads_description": "Defina o número de threads para gravação.",
+    "djv_convert_usage": "Uso"
 }

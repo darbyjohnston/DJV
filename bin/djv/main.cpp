@@ -43,15 +43,16 @@ using namespace djv;
 
 int main(int argc, char ** argv)
 {
-    int r = 0;
+    int r = 1;
     try
     {
-        std::vector<std::string> args;
-        for (int i = 0; i < argc; ++i)
+        auto app = ViewApp::Application::create(argv[0]);
+        app->parseArgs(argc, argv);
+        if (0 == app->getExitCode())
         {
-            args.push_back(argv[i]);
+            app->run();
         }
-        r = ViewApp::Application::create(args)->run();
+        r = app->getExitCode();
     }
     catch (const std::exception & error)
     {

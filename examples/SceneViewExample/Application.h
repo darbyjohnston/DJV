@@ -43,18 +43,24 @@ class Application : public djv::Desktop::Application
     DJV_NON_COPYABLE(Application);
 
 protected:
-    void _init(const std::vector<std::string>&);
+    void _init(const std::string&);
     Application();
 
 public:
     virtual ~Application();
 
-    static std::shared_ptr<Application> create(const std::vector<std::string>&);
+    static std::shared_ptr<Application> create(const std::string&);
+
+    void run() override;
+
+protected:
+    void _parseArgs(std::list<std::string>&) override;
 
 private:
     void _open(const djv::Core::FileSystem::FileInfo&);
     void _close();
 
+    std::vector< djv::Core::FileSystem::FileInfo> _inputs;
     djv::Core::FileSystem::FileInfo _fileInfo;
     std::shared_ptr<djv::Scene::Scene> _scene;
     std::shared_ptr<djv::Scene::IO::IRead> _sceneRead;

@@ -45,7 +45,7 @@ namespace djv
             ITickTest("djv::CoreTest::DrivesModelTest", context)
         {}
         
-        void DrivesModelTest::run(const std::vector<std::string>& args)
+        void DrivesModelTest::run()
         {
             if (auto context = getContext().lock())
             {

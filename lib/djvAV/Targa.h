@@ -70,7 +70,7 @@ namespace djv
                     std::shared_ptr<Image::Image> _readImage(const std::string & fileName) override;
 
                 private:
-                    Info _open(const std::string &, Core::FileSystem::FileIO&);
+                    Info _open(const std::string &, const std::shared_ptr<Core::FileSystem::FileIO>&);
 
                     bool _bgr = false;
                     bool _compression = false;

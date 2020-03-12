@@ -44,7 +44,7 @@ namespace djv
             ITest("djv::CoreTest::FrameTest", context)
         {}
         
-        void FrameTest::run(const std::vector<std::string>& args)
+        void FrameTest::run()
         {
             _sequence();
             _util();

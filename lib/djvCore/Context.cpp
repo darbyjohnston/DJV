@@ -55,10 +55,8 @@ namespace djv
 {
     namespace Core
     {
-        void Context::_init(const std::vector<std::string>& args)
+        void Context::_init(const std::string& argv0)
         {
-            _args = args;
-            const std::string argv0 = _args.size() > 0 ? _args[0] : std::string();
             _name = FileSystem::Path(argv0).getBaseName();
 
 #if defined(DJV_PLATFORM_WINDOWS)
@@ -105,10 +103,10 @@ namespace djv
         Context::~Context()
         {}
 
-        std::shared_ptr<Context> Context::create(const std::vector<std::string>& args)
+        std::shared_ptr<Context> Context::create(const std::string& argv0)
         {
             auto out = std::shared_ptr<Context>(new Context);
-            out->_init(args);
+            out->_init(argv0);
             return out;
         }
 

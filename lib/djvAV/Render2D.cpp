@@ -567,11 +567,11 @@ namespace djv
                 try
                 {
                     p.vertexFileName = std::string(FileSystem::Path(shaderPath, "djvAVRender2DVertex.glsl"));
-                    FileSystem::FileIO io;
-                    io.open(p.vertexFileName, FileSystem::FileIO::Mode::Read);
+                    auto io = FileSystem::FileIO::create();
+                    io->open(p.vertexFileName, FileSystem::FileIO::Mode::Read);
                     p.vertexSource = FileSystem::FileIO::readContents(io);
                     p.fragmentFileName = std::string(FileSystem::Path(shaderPath, "djvAVRender2DFragment.glsl"));
-                    io.open(p.fragmentFileName, FileSystem::FileIO::Mode::Read);
+                    io->open(p.fragmentFileName, FileSystem::FileIO::Mode::Read);
                     p.fragmentSource = FileSystem::FileIO::readContents(io);
                 }
                 catch (const std::exception& e)

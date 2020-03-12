@@ -188,7 +188,7 @@ namespace djv
             ITickTest("djv::UITest::WidgetTest", context)
         {}
         
-        void WidgetTest::run(const std::vector<std::string>& args)
+        void WidgetTest::run()
         {
             if (auto context = getContext().lock())
             {

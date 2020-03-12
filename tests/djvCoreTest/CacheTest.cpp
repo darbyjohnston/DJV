@@ -41,7 +41,7 @@ namespace djv
             ITest("djv::CoreTest::CacheTest", context)
         {}
         
-        void CacheTest::run(const std::vector<std::string>& args)
+        void CacheTest::run()
         {
             {
                 Memory::Cache<int, std::string> cache;

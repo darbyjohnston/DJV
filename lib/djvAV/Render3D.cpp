@@ -111,8 +111,8 @@ namespace djv
                 {
                     auto logSystem = context->getSystemT<LogSystem>();
                     std::stringstream ss;
-                    ss << "Texture atlas count: " << _textureAtlasCount << "\n";
-                    ss << "Texture atlas size: " << _textureAtlasSize;
+                    ss << "Texture atlas count: " << static_cast<size_t>(_textureAtlasCount) << "\n";
+                    ss << "Texture atlas size: " << static_cast<size_t>(_textureAtlasSize);
                     logSystem->log("djv::AV::Render3D::Render", ss.str());
                 }
                 p.textureAtlas.reset(new OpenGL::TextureAtlas(

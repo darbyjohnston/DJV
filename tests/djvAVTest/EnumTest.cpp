@@ -42,7 +42,7 @@ namespace djv
             ITest("djv::AVTest::EnumTest", context)
         {}
         
-        void EnumTest::run(const std::vector<std::string>& args)
+        void EnumTest::run()
         {
             for (auto i : getSideEnums())
             {

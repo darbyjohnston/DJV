@@ -1,7 +1,6 @@
 {
-    "djv_convert_cli_options": "选项：",
-    "djv_convert_cli_usage": "用法：",
     "djv_convert_nothing_convert": "没什么可转换的",
+    "djv_convert_options": "选项",
     "djv_convert_option_readqueue": "-readQueue（值）",
     "djv_convert_option_readqueue_description": "设置读取队列的大小。",
     "djv_convert_option_readseq": "-readSeq",
@@ -15,5 +14,6 @@
     "djv_convert_option_writeseq": "-writeSeq",
     "djv_convert_option_writeseq_description": "将输出文件名解释为一个序列。",
     "djv_convert_option_writethreads": "-writeThreads（值）",
-    "djv_convert_option_writethreads_description": "设置要写入的线程数。"
+    "djv_convert_option_writethreads_description": "设置要写入的线程数。",
+    "djv_convert_usage": "用法"
 }

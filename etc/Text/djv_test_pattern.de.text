@@ -2,15 +2,15 @@
     "djv_test_pattern_cli_description_frame_number": "Die Anzahl der zu rendernden Frames. Standard:",
     "djv_test_pattern_cli_description_resolution": "Die Bildauflösung. Standard:",
     "djv_test_pattern_cli_description_type": "Der Bildtyp. Standard:",
-    "djv_test_pattern_cli_examples": "Beispiele:",
+    "djv_test_pattern_cli_examples": "Beispiele",
     "djv_test_pattern_cli_option_frame_number": "-frameCount (Wert)",
     "djv_test_pattern_cli_option_resolution": "-size \"(Breite) (Höhe)\"",
     "djv_test_pattern_cli_option_type": "-type (Wert)",
-    "djv_test_pattern_cli_options": "Optionen:",
+    "djv_test_pattern_cli_options": "Optionen",
     "djv_test_pattern_cli_output_option": "djv_test_pattern (Ausgabe) [Option, ...]",
     "djv_test_pattern_cli_render_a_test_pattern_with_the_default_values": "Rendert ein Testmuster mit den Standardwerten.",
     "djv_test_pattern_cli_render_a_uhd_resolution_test_pattern_with_a_rgb_16-bit_image_type": "Rendert ein Testmuster in UHD-Auflösung mit einem 16-Bit-RGB-Bildtyp.",
     "djv_test_pattern_cli_test_1_dpx": "> djv_test_pattern test.1.dpx",
     "djv_test_pattern_cli_test_1_tif_-size_3840_2160_-type_rgb_u16": "> djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16",
-    "djv_test_pattern_cli_usage": "Verwendung:"
+    "djv_test_pattern_cli_usage": "Verwendung"
 }

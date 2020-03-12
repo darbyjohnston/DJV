@@ -42,7 +42,7 @@ namespace djv
             ITest("djv::AVTest::ColorTest", context)
         {}
         
-        void ColorTest::run(const std::vector<std::string>& args)
+        void ColorTest::run()
         {
             _ctor();
             _getSet();

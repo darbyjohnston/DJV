@@ -45,7 +45,7 @@ namespace djv
             ITickTest("djv::AVTest::FontSystemTest", context)
         {}
         
-        void FontSystemTest::run(const std::vector<std::string>& args)
+        void FontSystemTest::run()
         {
             _info();
             _metrics();

@@ -62,6 +62,7 @@ namespace djv
             protected:
                 void _init(
                     const Core::FileSystem::FileInfo&,
+                    const std::shared_ptr<Core::TextSystem>&,
                     const std::shared_ptr<Core::ResourceSystem>&,
                     const std::shared_ptr<Core::LogSystem>&);
 
@@ -71,6 +72,7 @@ namespace djv
             protected:
                 std::shared_ptr<Core::LogSystem> _logSystem;
                 std::shared_ptr<Core::ResourceSystem> _resourceSystem;
+                std::shared_ptr<Core::TextSystem> _textSystem;
                 Core::FileSystem::FileInfo _fileInfo;
             };
 
@@ -80,6 +82,7 @@ namespace djv
             protected:
                 void _init(
                     const Core::FileSystem::FileInfo&,
+                    const std::shared_ptr<Core::TextSystem>&,
                     const std::shared_ptr<Core::ResourceSystem>&,
                     const std::shared_ptr<Core::LogSystem>&);
 
@@ -96,6 +99,7 @@ namespace djv
             protected:
                 void _init(
                     const Core::FileSystem::FileInfo&,
+                    const std::shared_ptr<Core::TextSystem>&,
                     const std::shared_ptr<Core::ResourceSystem>&,
                     const std::shared_ptr<Core::LogSystem>&);
 
@@ -143,6 +147,7 @@ namespace djv
                 std::weak_ptr<Core::Context> _context;
                 std::shared_ptr<Core::LogSystem> _logSystem;
                 std::shared_ptr<Core::ResourceSystem> _resourceSystem;
+                std::shared_ptr<Core::TextSystem> _textSystem;
                 std::string _pluginName;
                 std::string _pluginInfo;
                 std::set<std::string> _fileExtensions;

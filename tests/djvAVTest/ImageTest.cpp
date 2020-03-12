@@ -42,7 +42,7 @@ namespace djv
             ITest("djv::AVTest::ImageTest", context)
         {}
         
-        void ImageTest::run(const std::vector<std::string>& args)
+        void ImageTest::run()
         {
             {
                 auto image = Image::Image::create(Image::Info(1, 2, Image::Type::RGB_U8));

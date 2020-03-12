@@ -253,7 +253,7 @@ namespace djv
             ITickTest("djv::CoreTest::IEventSystemTest", context)
         {}
                 
-        void IEventSystemTest::run(const std::vector<std::string>& args)
+        void IEventSystemTest::run()
         {
             if (auto context = getContext().lock())
             {

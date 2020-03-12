@@ -45,7 +45,7 @@ namespace djv
             ITest("djv::CoreTest::EventTest", context)
         {}
         
-        void EventTest::run(const std::vector<std::string>& args)
+        void EventTest::run()
         {
             _enum();
             _event();

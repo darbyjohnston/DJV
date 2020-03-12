@@ -41,7 +41,7 @@ namespace djv
             ITest("djv::CoreTest::RangeTest", context)
         {}
         
-        void RangeTest::run(const std::vector<std::string>& args)
+        void RangeTest::run()
         {
             _ctor();
             _util();

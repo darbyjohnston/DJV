@@ -60,7 +60,7 @@ namespace djv
                 namespace
                 {
                     template<typename T>
-                    void _readASCII(FileSystem::FileIO & io, uint8_t * out, size_t size)
+                    void _readASCII(const std::shared_ptr<FileSystem::FileIO>& io, uint8_t * out, size_t size)
                     {
                         char tmp[String::cStringLength] = "";
                         T* outP = reinterpret_cast<T*>(out);
@@ -75,7 +75,7 @@ namespace djv
 
                 } // namespace
 
-                void readASCII(FileSystem::FileIO & io, uint8_t * out, size_t size, size_t bitDepth)
+                void readASCII(const std::shared_ptr<FileSystem::FileIO>& io, uint8_t* out, size_t size, size_t bitDepth)
                 {
                     switch (bitDepth)
                     {

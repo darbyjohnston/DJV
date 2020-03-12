@@ -42,19 +42,28 @@
 
 using namespace djv;
 
-void Application::_init(const std::vector<std::string>& args)
+void Application::_init(const std::string& argv0)
 {
-    Desktop::Application::_init(args);
-
-    std::vector<Core::FileSystem::Path> cmdlinePaths;
-    for (auto arg = args.begin() + 1; arg != args.end(); ++arg)
-    {
-        cmdlinePaths.push_back(Core::FileSystem::Path(*arg));
-    }
-
+    Desktop::Application::_init(argv0);
     Scene::SceneSystem::create(shared_from_this());
     UI::UIComponentsSystem::create(shared_from_this());
+}
 
+Application::Application()
+{}
+
+Application::~Application()
+{}
+
+std::shared_ptr<Application> Application::create(const std::string& argv0)
+{
+    auto out = std::shared_ptr<Application>(new Application);
+    out->_init(argv0);
+    return out;
+}
+
+void Application::run()
+{
     _futureTimer = Core::Time::Timer::create(shared_from_this());
     _futureTimer->setRepeating(true);
 
@@ -82,29 +91,31 @@ void Application::_init(const std::vector<std::string>& args)
         {
             if (auto app = weak.lock())
             {
-                app->exit();
+                app->exit(0);
             }
         });
 
-    for (const auto& i : cmdlinePaths)
+    for (const auto& i : _inputs)
     {
         _open(i);
     }
 
     _mainWindow->show();
+
+    Desktop::Application::run();
 }
 
-Application::Application()
-{}
-
-Application::~Application()
-{}
-
-std::shared_ptr<Application> Application::create(const std::vector<std::string>& args)
+void Application::_parseArgs(std::list<std::string>& args)
 {
-    auto out = std::shared_ptr<Application>(new Application);
-    out->_init(args);
-    return out;
+    Desktop::Application::_parseArgs(args);
+    if (0 == getExitCode())
+    {
+        while (args.size())
+        {
+            _inputs.push_back(args.front());
+            args.pop_front();
+        }
+    }
 }
 
 void Application::_open(const Core::FileSystem::FileInfo& fileInfo)

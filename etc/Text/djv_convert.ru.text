@@ -1,7 +1,6 @@
 {
-    "djv_convert_cli_options": "Параметры:",
-    "djv_convert_cli_usage": "Использование:",
     "djv_convert_nothing_convert": "Нечего конвертировать",
+    "djv_convert_options": "Параметры",
     "djv_convert_option_readqueue": "-readQueue (значение)",
     "djv_convert_option_readqueue_description": "Установите размер очереди чтения.",
     "djv_convert_option_readseq": "-readSeq",
@@ -15,5 +14,6 @@
     "djv_convert_option_writeseq": "-writeSeq",
     "djv_convert_option_writeseq_description": "Интерпретировать имя выходного файла как последовательность.",
     "djv_convert_option_writethreads": "-writeThreads (значение)",
-    "djv_convert_option_writethreads_description": "Установите количество потоков для записи."
+    "djv_convert_option_writethreads_description": "Установите количество потоков для записи.",
+    "djv_convert_usage": "Использование"
 }

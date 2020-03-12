@@ -42,7 +42,7 @@ namespace djv
             ITest("djv::CoreTest::PicoJSONTest", context)
         {}
         
-        void PicoJSONTest::run(const std::vector<std::string>& args)
+        void PicoJSONTest::run()
         {
             _io();
             _conversion();
@@ -71,15 +71,15 @@ namespace djv
             {
                 for (bool j : { false, true })
                 {
-                    FileSystem::FileIO io;
-                    io.open("PicoJSONTest.json", FileSystem::FileIO::Mode::Write);
+                    auto io = FileSystem::FileIO::create();
+                    io->open("PicoJSONTest.json", FileSystem::FileIO::Mode::Write);
                     PicoJSON::write(json, io, i, j);
                     
-                    io.open("PicoJSONTest.json", FileSystem::FileIO::Mode::Read);
+                    io->open("PicoJSONTest.json", FileSystem::FileIO::Mode::Read);
                     std::vector<char> buf;
-                    const size_t fileSize = io.getSize();
+                    const size_t fileSize = io->getSize();
                     buf.resize(fileSize);
-                    io.read(buf.data(), fileSize);
+                    io->read(buf.data(), fileSize);
                     const char* bufP = buf.data();
                     const char* bufEnd = bufP + fileSize;
                     picojson::value json2;

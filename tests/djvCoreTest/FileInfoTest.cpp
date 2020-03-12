@@ -44,7 +44,7 @@ namespace djv
             _sequenceName("/tmp/render.1-100.exr")
         {}
         
-        void FileInfoTest::run(const std::vector<std::string>& args)
+        void FileInfoTest::run()
         {
             _enum();
             _ctor();
@@ -119,9 +119,8 @@ namespace djv
         void FileInfoTest::_path()
         {
             {
-                FileSystem::FileIO io;
-                io.open(_fileName, FileSystem::FileIO::Mode::Write);
-                io.close();
+                auto io = FileSystem::FileIO::create();
+                io->open(_fileName, FileSystem::FileIO::Mode::Write);
             }
             
             {
@@ -270,8 +269,8 @@ namespace djv
                 };
                 for (const auto& i : fileNames)
                 {
-                    FileSystem::FileIO io;
-                    io.open(i, FileSystem::FileIO::Mode::Write);
+                    auto io = FileSystem::FileIO::create();
+                    io->open(i, FileSystem::FileIO::Mode::Write);
                 }
                 const FileSystem::FileInfo fileInfo = FileSystem::FileInfo::getFileSequence(
                     FileSystem::Path(".", fileNames[0]),

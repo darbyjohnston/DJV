@@ -33,11 +33,6 @@ namespace djv
     {
         inline Context::Context()
         {}
-
-        inline const std::vector<std::string> & Context::getArgs() const
-        {
-            return _args;
-        }
            
         inline const std::string & Context::getName() const
         {

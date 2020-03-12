@@ -45,7 +45,7 @@ namespace djv
             ITest("djv::AVTest::AVSystemTest", context)
         {}
         
-        void AVSystemTest::run(const std::vector<std::string>& args)
+        void AVSystemTest::run()
         {
             if (auto context = getContext().lock())
             {

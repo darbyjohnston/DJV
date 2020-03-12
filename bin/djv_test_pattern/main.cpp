@@ -63,20 +63,20 @@ namespace djv
             DJV_NON_COPYABLE(Application);
 
         protected:
-            void _init(int& argc, char** argv);
-
             Application();
 
         public:
-            static std::shared_ptr<Application> create(int& argc, char** argv);
+            static std::shared_ptr<Application> create(const std::string&);
 
+            void printUsage() override;
+            void run() override;
             void tick(const std::chrono::steady_clock::time_point&, const Core::Time::Unit&) override;
 
-        private:
-            bool _parseArgs();
-            void _printUsage();
+        protected:
+            void _parseArgs(std::list<std::string>&) override;
 
-            std::string _output;
+        private:
+            Core::FileSystem::FileInfo _output;
             std::unique_ptr<size_t> _frameCount;
             std::unique_ptr<AV::Image::Size> _size;
             std::unique_ptr<AV::Image::Type> _type;
@@ -90,21 +90,51 @@ namespace djv
             std::shared_ptr<Core::Time::Timer> _statsTimer;
         };
 
-        void Application::_init(int& argc, char** argv)
+        Application::Application()
+        {}
+
+        std::shared_ptr<Application> Application::create(const std::string& argv0)
         {
-            std::vector<std::string> args;
-            for (int i = 0; i < argc; ++i)
-            {
-                args.push_back(argv[i]);
-            }
-            CmdLine::Application::_init(args);
+            auto out = std::shared_ptr<Application>(new Application);
+            out->_init(argv0);
+            return out;
+        }
 
-            if (!_parseArgs())
-            {
-                exit(1);
-                return;
-            }
+        void Application::printUsage()
+        {
+            auto textSystem = getSystemT<Core::TextSystem>();
+            std::cout << std::endl;
+            std::cout << " " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_description")) << std::endl;
+            std::cout << std::endl;
+            std::cout << " " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_usage")) << std::endl;
+            std::cout << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_output_option")) << std::endl;
+            std::cout << std::endl;
+            std::cout << " " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_options")) << std::endl;
+            std::cout << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_option_frame_number")) << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_description_frame_number")) << frameCountDefault << std::endl;
+            std::cout << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_option_resolution")) << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_description_resolution")) << sizeDefault << std::endl;
+            std::cout << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_option_type")) << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_description_type")) << typeDefault << std::endl;
+            std::cout << std::endl;
+            std::cout << " " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_examples")) << std::endl;
+            std::cout << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_test_1_dpx")) << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_render_a_test_pattern_with_the_default_values")) << std::endl;
+            std::cout << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_test_1_tif_-size_3840_2160_-type_rgb_u16")) << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_render_a_uhd_resolution_test_pattern_with_a_rgb_16-bit_image_type")) << std::endl;
+            std::cout << std::endl;
 
+            CmdLine::Application::printUsage();
+        }
+
+        void Application::run()
+        {
             if (!_frameCount)
             {
                 _frameCount.reset(new size_t(frameCountDefault));
@@ -123,12 +153,10 @@ namespace djv
             _render = getSystemT<AV::Render2D::Render>();
 
             auto io = getSystemT<AV::IO::System>();
-            Core::FileSystem::FileInfo writeFileInfo(argv[1]);
-            writeFileInfo.evalSequence();
             AV::IO::WriteOptions writeOptions;
             AV::IO::Info ioInfo;
             ioInfo.video.push_back(_info);
-            _write = io->write(writeFileInfo, ioInfo, writeOptions);
+            _write = io->write(_output, ioInfo, writeOptions);
 
             _statsTimer = Core::Time::Timer::create(shared_from_this());
             _statsTimer->setRepeating(true);
@@ -138,16 +166,8 @@ namespace djv
                 {
                     std::cout << static_cast<size_t>(_frame / static_cast<float>(*_frameCount - 1) * 100.F) << "%" << std::endl;
                 });
-        }
 
-        Application::Application()
-        {}
-
-        std::shared_ptr<Application> Application::create(int& argc, char** argv)
-        {
-            auto out = std::shared_ptr<Application>(new Application);
-            out->_init(argc, argv);
-            return out;
+            CmdLine::Application::run();
         }
 
         void Application::tick(const std::chrono::steady_clock::time_point& t, const Core::Time::Unit& dt)
@@ -203,90 +223,57 @@ namespace djv
             }
         }
 
-        bool Application::_parseArgs()
+        void Application::_parseArgs(std::list<std::string>& args)
         {
-            bool out = true;
-            auto args = getArgs();
-            auto i = args.begin();
-            while (i != args.end())
+            CmdLine::Application::_parseArgs(args);
+            if (0 == getExitCode())
             {
-                if ("-h" == *i || "-help" == *i)
+                auto i = args.begin();
+                while (i != args.end())
                 {
-                    out = false;
-                    _printUsage();
-                    break;
+                    if ("-frameCount" == *i)
+                    {
+                        i = args.erase(i);
+                        size_t value = 0;
+                        std::stringstream ss(*i);
+                        ss >> value;
+                        i = args.erase(i);
+                        _frameCount.reset(new size_t(value));
+                    }
+                    else if ("-size" == *i)
+                    {
+                        i = args.erase(i);
+                        AV::Image::Size value;
+                        std::stringstream ss(*i);
+                        ss >> value;
+                        i = args.erase(i);
+                        _size.reset(new AV::Image::Size(value));
+                    }
+                    else if ("-type" == *i)
+                    {
+                        i = args.erase(i);
+                        AV::Image::Type value = AV::Image::Type::None;
+                        std::stringstream ss(*i);
+                        ss >> value;
+                        i = args.erase(i);
+                        _type.reset(new AV::Image::Type(value));
+                    }
+                    else
+                    {
+                        ++i;
+                    }
                 }
-                else if ("-frameCount" == *i)
+                if (!args.size())
                 {
-                    i = args.erase(i);
-                    size_t value = 0;
-                    std::stringstream ss(*i);
-                    ss >> value;
-                    i = args.erase(i);
-                    _frameCount.reset(new size_t(value));
+                    std::stringstream ss;
+                    auto textSystem = getSystemT<Core::TextSystem>();
+                    ss << textSystem->getText(DJV_TEXT("djv_test_pattern_output_error"));
+                    throw std::runtime_error(ss.str());
                 }
-                else if ("-size" == *i)
-                {
-                    i = args.erase(i);
-                    AV::Image::Size value;
-                    std::stringstream ss(*i);
-                    ss >> value;
-                    i = args.erase(i);
-                    _size.reset(new AV::Image::Size(value));
-                }
-                else if ("-type" == *i)
-                {
-                    i = args.erase(i);
-                    AV::Image::Type value = AV::Image::Type::None;
-                    std::stringstream ss(*i);
-                    ss >> value;
-                    i = args.erase(i);
-                    _type.reset(new AV::Image::Type(value));
-                }
-                else
-                {
-                    ++i;
-                }
+                _output = args.front();
+                _output.evalSequence();
+                args.pop_front();
             }
-            if (2 == args.size())
-            {
-                _output = args[1];
-            }
-            else
-            {
-                out = false;
-                _printUsage();
-            }
-            return out;
-        }
-
-        void Application::_printUsage()
-        {
-            auto textSystem = getSystemT<Core::TextSystem>();
-            std::cout << std::endl;
-            std::cout << " " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_usage")) << std::endl;
-            std::cout << std::endl;
-            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_output_option")) << std::endl;
-            std::cout << std::endl;
-            std::cout << " " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_options")) << std::endl;
-            std::cout << std::endl;
-            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_option_frame_number")) << std::endl;
-            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_description_frame_number")) << frameCountDefault << std::endl;
-            std::cout << std::endl;
-            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_option_resolution")) << std::endl;
-            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_description_resolution")) << sizeDefault << std::endl;
-            std::cout << std::endl;
-            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_option_type")) << std::endl;
-            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_description_type")) << typeDefault << std::endl;
-            std::cout << std::endl;
-            std::cout << " " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_examples")) << std::endl;
-            std::cout << std::endl;
-            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_test_1_dpx")) << std::endl;
-            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_render_a_test_pattern_with_the_default_values")) << std::endl;
-            std::cout << std::endl;
-            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_test_1_tif_-size_3840_2160_-type_rgb_u16")) << std::endl;
-            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_render_a_uhd_resolution_test_pattern_with_a_rgb_16-bit_image_type")) << std::endl;
-            std::cout << std::endl;
         }
 
     } // namespace TestPattern
@@ -294,10 +281,16 @@ namespace djv
 
 int main(int argc, char** argv)
 {
-    int r = 0;
+    int r = 1;
     try
     {
-        return TestPattern::Application::create(argc, argv)->run();
+        auto app = TestPattern::Application::create(argv[0]);
+        app->parseArgs(argc, argv);
+        if (0 == app->getExitCode())
+        {
+            app->run();
+        }
+        r = app->getExitCode();
     }
     catch (const std::exception & e)
     {

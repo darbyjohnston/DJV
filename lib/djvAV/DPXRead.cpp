@@ -72,23 +72,23 @@ namespace djv
 
                 Info Read::_readInfo(const std::string & fileName)
                 {
-                    FileSystem::FileIO io;
+                    auto io = FileSystem::FileIO::create();
                     return _open(fileName, io);
                 }
 
                 std::shared_ptr<Image::Image> Read::_readImage(const std::string & fileName)
                 {
-                    FileSystem::FileIO io;
+                    auto io = FileSystem::FileIO::create();
                     const auto info = _open(fileName, io);
                     auto out = Cineon::Read::readImage(info, io);
                     out->setPluginName(pluginName);
                     return out;
                 }
 
-                Info Read::_open(const std::string & fileName, FileSystem::FileIO & io)
+                Info Read::_open(const std::string & fileName, const std::shared_ptr<FileSystem::FileIO>& io)
                 {
                     DJV_PRIVATE_PTR();
-                    io.open(fileName, FileSystem::FileIO::Mode::Read);
+                    io->open(fileName, FileSystem::FileIO::Mode::Read);
                     Info info;
                     info.video.resize(1);
                     DPX::read(io, info, p.colorProfile, _textSystem);

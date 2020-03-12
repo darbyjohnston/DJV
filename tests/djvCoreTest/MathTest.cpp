@@ -42,7 +42,7 @@ namespace djv
             ITest("djv::CoreTest::MathTest", context)
         {}
         
-        void MathTest::run(const std::vector<std::string>& args)
+        void MathTest::run()
         {
             _rational();
             _random();

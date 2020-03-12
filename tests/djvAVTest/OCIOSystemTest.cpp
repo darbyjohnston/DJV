@@ -45,7 +45,7 @@ namespace djv
             ITest("djv::AVTest::OCIOSystemTest", context)
         {}
         
-        void OCIOSystemTest::run(const std::vector<std::string>& args)
+        void OCIOSystemTest::run()
         {
             _config();
             _system();

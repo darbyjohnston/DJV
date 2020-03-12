@@ -37,6 +37,7 @@
 
 #include <djvCore/FileIO.h>
 #include <djvCore/LogSystem.h>
+#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -132,13 +133,13 @@ namespace djv
                     void read(const std::string& fileName, AV::Geom::TriangleMesh& mesh, size_t threads)
                     {
                         // Open the file.
-                        FileSystem::FileIO f;
-                        f.open(fileName, FileSystem::FileIO::Mode::Read);
-                        const size_t fileSize = f.getSize();
+                        auto io = FileSystem::FileIO::create();
+                        io->open(fileName, FileSystem::FileIO::Mode::Read);
+                        const size_t fileSize = io->getSize();
                         std::vector<char> data(fileSize);
                         char* fileStart = data.data();
                         const char* fileEnd = fileStart + fileSize;
-                        f.read(fileStart, fileSize);
+                        io->read(fileStart, fileSize);
 
                         // Divide up the file for each thread.
                         threads = std::max(threads, size_t(1));
@@ -352,11 +353,12 @@ namespace djv
 
                 std::shared_ptr<Read> Read::create(
                     const Core::FileSystem::FileInfo& fileInfo,
+                    const std::shared_ptr<Core::TextSystem>& textSystem,
                     const std::shared_ptr<Core::ResourceSystem>& resourceSystem,
                     const std::shared_ptr<Core::LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
-                    out->_init(fileInfo, resourceSystem, logSystem);
+                    out->_init(fileInfo, textSystem, resourceSystem, logSystem);
                     return out;
                 }
 
@@ -391,7 +393,10 @@ namespace djv
                             catch (const std::exception& e)
                             {
                                 std::stringstream ss;
-                                ss << DJV_TEXT("error_the_file") << " '" << _fileInfo << "' " << DJV_TEXT("error_cannot_be_read") << ". " << e.what();
+                                ss << _textSystem->getText(DJV_TEXT("error_the_file"));
+                                ss << " '" << _fileInfo << "' ";
+                                ss << _textSystem->getText(DJV_TEXT("error_cannot_be_read")) << ". ";
+                                ss << e.what();
                                 _logSystem->log("djv::Scene::OBJ", ss.str(), LogLevel::Error);
                             }
                             return out;
@@ -433,7 +438,7 @@ namespace djv
 
                 std::shared_ptr<IRead> Plugin::read(const FileSystem::FileInfo& fileInfo) const
                 {
-                    return Read::create(fileInfo, _resourceSystem, _logSystem);
+                    return Read::create(fileInfo, _textSystem, _resourceSystem, _logSystem);
                 }
 
             } // namespace OBJ

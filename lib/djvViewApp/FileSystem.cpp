@@ -391,7 +391,7 @@ namespace djv
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            std::dynamic_pointer_cast<Application>(context)->exit();
+                            std::dynamic_pointer_cast<Application>(context)->exit(0);
                         }
                     }
                 });

@@ -1,7 +1,6 @@
 {
-    "djv_convert_cli_options": "Opcje:",
-    "djv_convert_cli_usage": "Stosowanie:",
     "djv_convert_nothing_convert": "Nic do konwersji",
+    "djv_convert_options": "Opcje",
     "djv_convert_option_readqueue": "-readQueue (wartość)",
     "djv_convert_option_readqueue_description": "Ustaw rozmiar kolejki odczytu.",
     "djv_convert_option_readseq": "-readSeq",
@@ -15,5 +14,6 @@
     "djv_convert_option_writeseq": "-writeSeq",
     "djv_convert_option_writeseq_description": "Interpretuj nazwę pliku wyjściowego jako sekwencję.",
     "djv_convert_option_writethreads": "-writeThreads (wartość)",
-    "djv_convert_option_writethreads_description": "Ustaw liczbę wątków do pisania."
+    "djv_convert_option_writethreads_description": "Ustaw liczbę wątków do pisania.",
+    "djv_convert_usage": "Stosowanie"
 }

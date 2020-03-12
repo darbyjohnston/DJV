@@ -42,7 +42,7 @@ namespace djv
             ITest("djv::CoreTest::PathTest", context)
         {}
         
-        void PathTest::run(const std::vector<std::string>& args)
+        void PathTest::run()
         {
             _enum();
             _path();

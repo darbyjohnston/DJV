@@ -70,7 +70,7 @@ namespace djv
             ITest("djv::CoreTest::ISystemTest", context)
         {}
                 
-        void ISystemTest::run(const std::vector<std::string>&)
+        void ISystemTest::run()
         {
             if (auto context = getContext().lock())
             {

@@ -42,7 +42,7 @@ namespace djv
             ITickTest("djv::CoreTest::AnimationTest", context)
         {}
         
-        void AnimationTest::run(const std::vector<std::string>& args)
+        void AnimationTest::run()
         {
             for (auto i : Animation::getTypeEnums())
             {

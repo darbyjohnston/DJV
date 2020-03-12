@@ -65,24 +65,24 @@ namespace djv
 
                 Info Read::_readInfo(const std::string & fileName)
                 {
-                    FileSystem::FileIO io;
+                    auto io = FileSystem::FileIO::create();
                     return _open(fileName, io);
                 }
 
                 namespace
                 {
                     void readRle(
-                        FileSystem::FileIO& io,
-                        uint8_t*            out,
-                        size_t              size,
-                        size_t              channels,
-                        size_t              bytes)
+                        const std::shared_ptr<FileSystem::FileIO>& io,
+                        uint8_t* out,
+                        size_t size,
+                        size_t channels,
+                        size_t bytes)
                     {
                         int16_t _size = 0;
-                        io.read16(&_size);
+                        io->read16(&_size);
                         std::vector<uint8_t> buf;
                         buf.resize(_size);
-                        io.read(buf.data(), _size);
+                        io->read(buf.data(), _size);
                         const uint8_t* p = buf.data();
                         for (size_t b = 0; b < bytes; ++b)
                         {
@@ -115,15 +115,15 @@ namespace djv
                     }
 
                     void readFloat(
-                        FileSystem::FileIO& io,
-                        uint8_t*            out,
-                        size_t              size,
-                        size_t              channels)
+                        const std::shared_ptr<FileSystem::FileIO>& io,
+                        uint8_t* out,
+                        size_t size,
+                        size_t channels)
                     {
                         int16_t _size = 0;
-                        io.read16(&_size);
+                        io->read16(&_size);
                         std::vector<uint8_t> buf(_size);
-                        io.read(buf.data(), _size);
+                        io->read(buf.data(), _size);
                         const uint8_t* p = buf.data();
                         const size_t outInc = channels * 4;
                         if (Memory::Endian::LSB == Memory::getEndian())
@@ -153,7 +153,7 @@ namespace djv
                 std::shared_ptr<Image::Image> Read::_readImage(const std::string & fileName)
                 {
                     std::shared_ptr<Image::Image> out;
-                    FileSystem::FileIO io;
+                    auto io = FileSystem::FileIO::create();
                     const auto info = _open(fileName, io);
                     out = Image::Image::create(info.video[0].info);
                     out->setPluginName(pluginName);
@@ -166,7 +166,7 @@ namespace djv
                     uint8_t* dataP = out->getData();
                     for (uint16_t y = 0; y < h; ++y, dataP += w * channels * bytes)
                     {
-                        io.setPos(_rleOffset[y]);
+                        io->setPos(_rleOffset[y]);
                         for (int c = 0; c < channels; ++c)
                         {
                             if (Image::DataType::F32 == dataType)
@@ -243,16 +243,16 @@ namespace djv
 
                 } // namespace
 
-                Info Read::_open(const std::string & fileName, FileSystem::FileIO& io)
+                Info Read::_open(const std::string & fileName, const std::shared_ptr<FileSystem::FileIO>& io)
                 {
                     // Open the file.
-                    io.setEndianConversion(Memory::getEndian() != Memory::Endian::MSB);
-                    io.open(fileName, FileSystem::FileIO::Mode::Read);
+                    io->setEndianConversion(Memory::getEndian() != Memory::Endian::MSB);
+                    io->open(fileName, FileSystem::FileIO::Mode::Read);
 
                     // Read the header.
                     Header header;
-                    io.read(&header, sizeof(Header));
-                    if (io.hasEndianConversion())
+                    io->read(&header, sizeof(Header));
+                    if (io->hasEndianConversion())
                     {
                         endian(&header);
                     }
@@ -261,7 +261,7 @@ namespace djv
 
                     // Read the scanline table.
                     _rleOffset.resize(h);
-                    io.read32(_rleOffset.data(), h);
+                    io->read32(_rleOffset.data(), h);
 
                     // Get file information.
                     if (header.matteChannels > 1)

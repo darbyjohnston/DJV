@@ -44,7 +44,7 @@ namespace djv
             ITest("djv::CoreTest::StringFormatTest", context)
         {}
         
-        void StringFormatTest::run(const std::vector<std::string>& args)
+        void StringFormatTest::run()
         {
             {
                 std::stringstream ss;

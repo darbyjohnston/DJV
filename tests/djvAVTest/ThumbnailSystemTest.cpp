@@ -47,7 +47,7 @@ namespace djv
             ITickTest("djv::AVTest::ThumbnailSystemTest", context)
         {}
         
-        void ThumbnailSystemTest::run(const std::vector<std::string>& args)
+        void ThumbnailSystemTest::run()
         {
             if (auto context = getContext().lock())
             {

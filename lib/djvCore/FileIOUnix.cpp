@@ -75,12 +75,13 @@ namespace djv
                 
                 std::string getErrorMessage(ErrorType type, const std::string& fileName)
                 {
+                    //! \todo How can we translate these?
                     std::stringstream ss;
                     char buf[String::cStringLength] = "";
                     switch (type)
                     {
                     case ErrorType::Open:
-                        ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_cannot_be_opened") << ". ";
+                        ss << "The file" << " '" << fileName << "' " << "cannot be opened" << ". ";
 #if defined(DJV_PLATFORM_LINUX)
                         ss << strerror_r(errno, buf, String::cStringLength);
 #else // DJV_PLATFORM_LINUX
@@ -89,7 +90,7 @@ namespace djv
 #endif // DJV_PLATFORM_LINUX
                         break;
                     case ErrorType::Stat:
-                        ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_cannot_be_queried") << ". ";
+                        ss << "The file" << " '" << fileName << "' " << "cannot be queried" << ". ";
 #if defined(DJV_PLATFORM_LINUX)
                         ss << strerror_r(errno, buf, String::cStringLength);
 #else // DJV_PLATFORM_LINUX
@@ -98,7 +99,7 @@ namespace djv
 #endif // DJV_PLATFORM_LINUX
                         break;
                     case ErrorType::MemoryMap:
-                        ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_cannot_be_mapped") << ". ";
+                        ss << "The file" << " '" << fileName << "' " << "cannot be mapped" << ". ";
 #if defined(DJV_PLATFORM_LINUX)
                         ss << strerror_r(errno, buf, String::cStringLength);
 #else // DJV_PLATFORM_LINUX
@@ -107,7 +108,7 @@ namespace djv
 #endif // DJV_PLATFORM_LINUX
                         break;
                     case ErrorType::Close:
-                        ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_cannot_be_unmapped") << ". ";
+                        ss << "The file" << " '" << fileName << "' " << "cannot be unmapped" << ". ";
 #if defined(DJV_PLATFORM_LINUX)
                         ss << strerror_r(errno, buf, String::cStringLength);
 #else // DJV_PLATFORM_LINUX
@@ -116,7 +117,7 @@ namespace djv
 #endif // DJV_PLATFORM_LINUX
                         break;
                     case ErrorType::CloseMemoryMap:
-                        ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_cannot_be_closed") << ". ";
+                        ss << "The file" << " '" << fileName << "' " << "cannot be closed" << ". ";
 #if defined(DJV_PLATFORM_LINUX)
                         ss << strerror_r(errno, buf, String::cStringLength);
 #else // DJV_PLATFORM_LINUX
@@ -125,7 +126,7 @@ namespace djv
 #endif // DJV_PLATFORM_LINUX
                         break;
                     case ErrorType::Read:
-                        ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_cannot_be_read") << ". ";
+                        ss << "The file" << " '" << fileName << "' " << "cannot be read" << ". ";
 #if defined(DJV_PLATFORM_LINUX)
                         ss << strerror_r(errno, buf, String::cStringLength);
 #else // DJV_PLATFORM_LINUX
@@ -134,10 +135,10 @@ namespace djv
 #endif // DJV_PLATFORM_LINUX
                         break;
                     case ErrorType::ReadMemoryMap:
-                        ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_cannot_be_read") << ".";
+                        ss << "The file" << " '" << fileName << "' " << "cannot be read" << ".";
                         break;
                     case ErrorType::Write:
-                        ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_cannot_be_written") << ". ";
+                        ss << "The file" << " '" << fileName << "' " << "cannot be written" << ". ";
 #if defined(DJV_PLATFORM_LINUX)
                         ss << strerror_r(errno, buf, String::cStringLength);
 #else // DJV_PLATFORM_LINUX
@@ -146,7 +147,7 @@ namespace djv
 #endif // DJV_PLATFORM_LINUX
                         break;
                     case ErrorType::Seek:
-                        ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_cannot_be_seeked") << ". ";
+                        ss << "The file" << " '" << fileName << "' " << "cannot be seeked" << ". ";
 #if defined(DJV_PLATFORM_LINUX)
                         ss << strerror_r(errno, buf, String::cStringLength);
 #else // DJV_PLATFORM_LINUX
@@ -155,7 +156,7 @@ namespace djv
 #endif // DJV_PLATFORM_LINUX
                         break;
                     case ErrorType::SeekMemoryMap:
-                        ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_cannot_be_seeked") << ".";
+                        ss << "The file" << " '" << fileName << "' " << "cannot be seeked" << ".";
                         break;
                     default: break;
                     }

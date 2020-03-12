@@ -44,7 +44,7 @@ namespace djv
             ITest("djv::CoreTest::SpeedTest", context)
         {}
         
-        void SpeedTest::run(const std::vector<std::string>& args)
+        void SpeedTest::run()
         {
             for (auto i : Time::getFPSEnums())
             {

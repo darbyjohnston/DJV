@@ -41,7 +41,7 @@ namespace djv
             ITest("djv::CoreTest::ValueObserverTest", context)
         {}
         
-        void ValueObserverTest::run(const std::vector<std::string>& args)
+        void ValueObserverTest::run()
         {
             int value = 0;
             auto subject = ValueSubject<int>::create(value);

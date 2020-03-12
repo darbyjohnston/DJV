@@ -42,6 +42,8 @@
 #include <djvAV/Color.h>
 #include <djvAV/TriangleMesh.h>
 
+#include <djvCore/TextSystem.h>
+
 #include <opennurbs.h>
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -349,7 +351,11 @@ namespace djv
                         return out;
                     }
 
-                    void read(const std::string& fileName, ReadData& data, const std::shared_ptr<IPrimitive>& parent = nullptr)
+                    void read(
+                        const std::string& fileName,
+                        ReadData& data,
+                        const std::shared_ptr<TextSystem>& textSystem,
+                        const std::shared_ptr<IPrimitive>& parent = nullptr)
                     {
                         // Open the file.
                         ONX_Model onModel;
@@ -361,7 +367,9 @@ namespace djv
                             if (!onModel.Read(onFile, &onErrorLog))
                             {
                                 std::stringstream ss;
-                                ss << DJV_TEXT("error_the_file") << " '" << fileName << "' " << DJV_TEXT("error_cannot_be_opened") << ". ";
+                                ss << textSystem->getText(DJV_TEXT("error_the_file"));
+                                ss << " '" << fileName << "' ";
+                                ss << textSystem->getText(DJV_TEXT("error_cannot_be_opened")) << ".";
                                 throw std::runtime_error(ss.str());
                             }
                             ON::CloseFile(f);
@@ -442,7 +450,7 @@ namespace djv
                                     //primitive->setName(fileName);
                                     ReadData data2;
                                     data2.scene = data.scene;
-                                    read(fileName, data2, primitive);
+                                    read(fileName, data2, textSystem, primitive);
                                 }
                                 data.onInstanceDefToInstance[onInstanceDef] = primitive;
                                 data.scene->addDefinition(primitive);
@@ -578,11 +586,12 @@ namespace djv
 
                 std::shared_ptr<Read> Read::create(
                     const Core::FileSystem::FileInfo& fileInfo,
+                    const std::shared_ptr<Core::TextSystem>& textSystem,
                     const std::shared_ptr<Core::ResourceSystem>& resourceSystem,
                     const std::shared_ptr<Core::LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
-                    out->_init(fileInfo, resourceSystem, logSystem);
+                    out->_init(fileInfo, textSystem, resourceSystem, logSystem);
                     return out;
                 }
 
@@ -606,7 +615,7 @@ namespace djv
                             auto scene = Scene::create();
                             scene->setSceneOrient(SceneOrient::ZUp);
                             data.scene = scene;
-                            read(_fileInfo.getFileName(), data);
+                            read(_fileInfo.getFileName(), data, _textSystem);
                             return scene;
                         });
                 }
@@ -646,7 +655,7 @@ namespace djv
 
                 std::shared_ptr<IRead> Plugin::read(const FileSystem::FileInfo& fileInfo) const
                 {
-                    return Read::create(fileInfo, _resourceSystem, _logSystem);
+                    return Read::create(fileInfo, _textSystem, _resourceSystem, _logSystem);
                 }
 
             } // namespace OpenNURBS

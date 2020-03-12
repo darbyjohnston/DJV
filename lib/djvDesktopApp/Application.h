@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvCore/Context.h>
+#include <djvCmdlineApp/Application.h>
 
 struct GLFWwindow;
 
@@ -39,21 +39,25 @@ namespace djv
     namespace Desktop
     {
         //! This class provides a desktop application.
-        class Application : public Core::Context
+        class Application : public CmdLine::Application
         {
             DJV_NON_COPYABLE(Application);
             
         protected:
-            void _init(const std::vector<std::string>&);
+            void _init(const std::string&);
             Application();
 
         public:
             virtual ~Application();
 
-            static std::shared_ptr<Application> create(const std::vector<std::string>&);
+            static std::shared_ptr<Application> create(const std::string&);
 
-            int run();
-            void exit(int = 0);
+            void printUsage() override;
+
+            void run() override;
+
+        protected:
+            void _parseArgs(std::list<std::string>&) override;
 
         private:
             DJV_PRIVATE();

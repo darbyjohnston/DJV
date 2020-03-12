@@ -35,6 +35,7 @@
 #include <djvCore/Context.h>
 #include <djvCore/Error.h>
 #include <djvCore/FileInfo.h>
+#include <djvCore/TextSystem.h>
 #include <djvCore/Vector.h>
 
 using namespace djv;
@@ -49,32 +50,53 @@ namespace djv
             DJV_NON_COPYABLE(Application);
 
         protected:
-            void _init(int & argc, char ** argv)
-            {
-                std::vector<std::string> args;
-                for (int i = 0; i < argc; ++i)
-                {
-                    args.push_back(argv[i]);
-                }
-                CmdLine::Application::_init(args);
+            Application()
+            {}
 
+        public:
+            virtual ~Application()
+            {}
+
+            static std::shared_ptr<Application> create(const std::string& argv0)
+            {
+                auto out = std::shared_ptr<Application>(new Application);
+                out->_init(argv0);
+                return out;
+            }
+
+            void printUsage() override
+            {
+                auto textSystem = getSystemT<Core::TextSystem>();
+                std::cout << std::endl;
+                std::cout << " " << textSystem->getText(DJV_TEXT("djv_info_description")) << std::endl;
+                std::cout << std::endl;
+                std::cout << " " << textSystem->getText(DJV_TEXT("djv_info_usage")) << std::endl;
+                std::cout << std::endl;
+                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_info_usage_format")) << std::endl;
+                std::cout << std::endl;
+
+                CmdLine::Application::printUsage();
+            }
+
+            void run() override
+            {
                 auto io = getSystemT<AV::IO::System>();
                 auto avSystem = getSystemT<AV::AVSystem>();
-                for (int i = 1; i < argc; ++i)
+                for (const auto& i : _inputs)
                 {
-                    const Core::FileSystem::FileInfo fileInfo(argv[i]);
-                    switch (fileInfo.getType())
+                    switch (i.getType())
                     {
                     case Core::FileSystem::FileType::File:
-                        _print(fileInfo, io, avSystem);
+                    case Core::FileSystem::FileType::Sequence:
+                        _print(i, io, avSystem);
                         break;
                     case Core::FileSystem::FileType::Directory:
                     {
-                        std::cout << fileInfo.getPath() << ":" << std::endl;
+                        std::cout << i.getPath() << ":" << std::endl;
                         Core::FileSystem::DirectoryListOptions options;
                         options.fileSequences = true;
                         options.fileSequenceExtensions = io->getSequenceExtensions();
-                        for (const auto & j : Core::FileSystem::FileInfo::directoryList(fileInfo.getPath(), options))
+                        for (const auto& j : Core::FileSystem::FileInfo::directoryList(i.getPath(), options))
                         {
                             _print(j, io, avSystem);
                         }
@@ -85,18 +107,37 @@ namespace djv
                 }
             }
 
-            Application()
-            {}
-
-        public:
-            virtual ~Application()
-            {}
-
-            static std::shared_ptr<Application> create(int & argc, char ** argv)
+        protected:
+            void _parseArgs(std::list<std::string>& args) override
             {
-                auto out = std::shared_ptr<Application>(new Application);
-                out->_init(argc, argv);
-                return out;
+                CmdLine::Application::_parseArgs(args);
+                if (0 == getExitCode())
+                {
+                    bool hasInputs = args.size();
+                    while (args.size())
+                    {
+                        Core::FileSystem::FileInfo fileInfo(args.front());
+                        if (fileInfo.doesExist())
+                        {
+                            fileInfo.evalSequence();
+                            _inputs.push_back(fileInfo);
+                        }
+                        else
+                        {
+                            std::stringstream ss;
+                            auto textSystem = getSystemT<Core::TextSystem>();
+                            ss << textSystem->getText(DJV_TEXT("error_the_file"));
+                            ss << " '" << fileInfo << "' ";
+                            ss << textSystem->getText(DJV_TEXT("error_cannot_be_opened")) << ".";
+                            std::cout << Core::Error::format(ss.str()) << std::endl;
+                        }
+                        args.pop_front();
+                    }
+                    if (!_inputs.size() && !hasInputs)
+                    {
+                        _inputs.push_back(Core::FileSystem::FileInfo("."));
+                    }
+                }
             }
 
         private:
@@ -143,6 +184,8 @@ namespace djv
                     }
                 }
             }
+
+            std::vector<Core::FileSystem::FileInfo> _inputs;
         };
 
     } // namespace info
@@ -150,10 +193,16 @@ namespace djv
 
 int main(int argc, char ** argv)
 {
-    int r = 0;
+    int r = 1;
     try
     {
-        info::Application::create(argc, argv);
+        auto app = info::Application::create(argv[0]);
+        app->parseArgs(argc, argv);
+        if (0 == app->getExitCode())
+        {
+            app->run();
+        }
+        r = app->getExitCode();
     }
     catch (const std::exception & error)
     {

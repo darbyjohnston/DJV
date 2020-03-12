@@ -44,7 +44,7 @@ namespace djv
             ITest("djv::CoreTest::ErrorTest", context)
         {}
         
-        void ErrorTest::run(const std::vector<std::string>& args)
+        void ErrorTest::run()
         {
             {
                 std::stringstream ss;

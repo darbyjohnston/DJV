@@ -44,7 +44,7 @@ namespace djv
             ITest("djv::CoreTest::StringTest", context)
         {}
         
-        void StringTest::run(const std::vector<std::string>& args)
+        void StringTest::run()
         {
             {
                 std::vector<std::pair<std::string, std::vector<std::string> > > data =

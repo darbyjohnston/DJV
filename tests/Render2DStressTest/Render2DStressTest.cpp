@@ -110,14 +110,14 @@ class Application : public CmdLine::Application
     DJV_NON_COPYABLE(Application);
 
 protected:
-    void _init(int argc, char ** argv);
+    void _init(const std::string&);
     
     Application();
 
 public:
-    static std::shared_ptr<Application> create(int argc, char ** argv);
+    static std::shared_ptr<Application> create(const std::string&);
 
-    int run();
+    void run() override;
 
 private:
     void _generateRandomNumbers();
@@ -144,14 +144,10 @@ private:
     std::vector<std::shared_ptr<AV::Image::Image> > _images;
 };
 
-void Application::_init(int argc, char ** argv)
+void Application::_init(const std::string& argv0)
 {
-    std::vector<std::string> args;
-    for (int i = 0; i < argc; ++i)
-    {
-        args.push_back(argv[i]);
-    }
-    CmdLine::Application::_init(args);
+    CmdLine::Application::_init(argv0);
+
     _glfwWindow = getSystemT<AV::GLFW::System>()->getGLFWWindow();
     //glfwSetWindowSize(_glfwWindow, 1280, 720);
     glfwShowWindow(_glfwWindow);
@@ -194,14 +190,14 @@ void Application::_init(int argc, char ** argv)
 Application::Application()
 {}
 
-std::shared_ptr<Application> Application::create(int argc, char ** argv)
+std::shared_ptr<Application> Application::create(const std::string& argv0)
 {
     auto out = std::shared_ptr<Application>(new Application);
-    out->_init(argc, argv);
+    out->_init(argv0);
     return out;
 }
 
-int Application::run()
+void Application::run()
 {
     auto time = std::chrono::steady_clock::now();
     while (!glfwWindowShouldClose(_glfwWindow))
@@ -215,7 +211,6 @@ int Application::run()
         const float dt = delta.count();
         std::cout << "FPS: " << (dt > 0.f ? 1.f / dt : 0.f) << std::endl;
     }
-    return 0;
 }
 
 void Application::_generateRandomNumbers()
@@ -359,10 +354,12 @@ void Application::_render()
 
 int main(int argc, char ** argv)
 {
-    int r = 0;
+    int r = 1;
     try
     {
-        r = Application::create(argc, argv)->run();
+        auto app = Application::create(argv[0]);
+        app->run();
+        r = app->getExitCode();
     }
     catch (const std::exception & e)
     {

@@ -45,7 +45,7 @@ namespace djv
             ITest("djv::AVTest::ImageConvertTest", context)
         {}
         
-        void ImageConvertTest::run(const std::vector<std::string>& args)
+        void ImageConvertTest::run()
         {
             if (auto context = getContext().lock())
             {

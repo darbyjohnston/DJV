@@ -69,7 +69,7 @@ namespace djv
                 
                 std::shared_ptr<Image::Image> Read::readImage(
                     const Info& info,
-                    FileSystem::FileIO& io)
+                    const std::shared_ptr<FileSystem::FileIO>& io)
                 {
 #if defined(DJV_MMAP)
                     auto out = Image::Image::create(info.video[0].info, io);
@@ -82,7 +82,7 @@ namespace djv
                         infoTmp.video[0].info.layout.endian = Memory::getEndian();
                     }
                     auto out = Image::Image::create(infoTmp.video[0].info);
-                    io.read(out->getData(), io.getSize() - io.getPos());
+                    io->read(out->getData(), io->getSize() - io->getPos());
                     if (convertEndian)
                     {
                         const size_t dataByteCount = out->getDataByteCount();
@@ -104,23 +104,23 @@ namespace djv
 
                 Info Read::_readInfo(const std::string & fileName)
                 {
-                    FileSystem::FileIO io;
+                    auto io = FileSystem::FileIO::create();
                     return _open(fileName, io);
                 }
 
                 std::shared_ptr<Image::Image> Read::_readImage(const std::string & fileName)
                 {
-                    FileSystem::FileIO io;
+                    auto io = FileSystem::FileIO::create();
                     const auto info = _open(fileName, io);
                     auto out = readImage(info, io);
                     out->setPluginName(pluginName);
                     return out;
                 }
 
-                Info Read::_open(const std::string & fileName, FileSystem::FileIO & io)
+                Info Read::_open(const std::string & fileName, const std::shared_ptr<FileSystem::FileIO>& io)
                 {
                     DJV_PRIVATE_PTR();
-                    io.open(fileName, FileSystem::FileIO::Mode::Read);
+                    io->open(fileName, FileSystem::FileIO::Mode::Read);
                     Info info;
                     info.video.resize(1);
                     read(io, info, p.colorProfile, _textSystem);

@@ -223,7 +223,7 @@ namespace djv
                 } // namespace
 
                 Header read(
-                    FileSystem::FileIO& io,
+                    const std::shared_ptr<FileSystem::FileIO>& io,
                     Info& info,
                     ColorProfile& colorProfile,
                     const std::shared_ptr<TextSystem>& textSystem)
@@ -231,10 +231,10 @@ namespace djv
                     Header out;
                     zero(out);
 
-                    info.fileName = io.getFileName();
+                    info.fileName = io->getFileName();
 
                     // Read the file section of the header.
-                    io.read(&out.file, sizeof(Header::File));
+                    io->read(&out.file, sizeof(Header::File));
 
                     // Check the magic number.
                     bool flipEndian = false;
@@ -252,14 +252,14 @@ namespace djv
                     }
 
                     // Read the rest of the header.
-                    io.read(&out.image, sizeof(Header::Image));
-                    io.read(&out.source, sizeof(Header::Source));
-                    io.read(&out.film, sizeof(Header::Film));
+                    io->read(&out.image, sizeof(Header::Image));
+                    io->read(&out.source, sizeof(Header::Source));
+                    io->read(&out.film, sizeof(Header::Film));
 
                     // Flip the endian of the data if necessary.
                     if (flipEndian)
                     {
-                        io.setEndianConversion(true);
+                        io->setEndianConversion(true);
                         convertEndian(out);
                         info.video[0].info.layout.endian = Memory::opposite(Memory::getEndian());
                     }
@@ -327,7 +327,7 @@ namespace djv
                     info.video[0].info.type = imageType;
                     info.video[0].info.size.w = out.image.channel[0].size[0];
                     info.video[0].info.size.h = out.image.channel[0].size[1];
-                    if (io.getSize() - out.file.imageOffset != info.video[0].info.getDataByteCount())
+                    if (io->getSize() - out.file.imageOffset != info.video[0].info.getDataByteCount())
                     {
                         std::stringstream ss;
                         ss << textSystem->getText(DJV_TEXT("error_incomplete_file"));
@@ -438,14 +438,14 @@ namespace djv
                     // Set the file position.
                     if (out.file.imageOffset)
                     {
-                        io.setPos(out.file.imageOffset);
+                        io->setPos(out.file.imageOffset);
                     }
 
                     return out;
                 }
 
                 void write(
-                    FileSystem::FileIO& io,
+                    const std::shared_ptr<FileSystem::FileIO>& io,
                     const Info& info,
                     ColorProfile colorProfile,
                     const std::shared_ptr<TextSystem>& textSystem)
@@ -582,7 +582,7 @@ namespace djv
 
                     // Write the header.
                     const bool flipEndian = Memory::getEndian() != Memory::Endian::MSB;
-                    io.setEndianConversion(flipEndian);
+                    io->setEndianConversion(flipEndian);
                     if (flipEndian)
                     {
                         convertEndian(header);
@@ -592,17 +592,17 @@ namespace djv
                     {
                         header.file.magic = magic[0];
                     }
-                    io.write(&header.file, sizeof(Header::File));
-                    io.write(&header.image, sizeof(Header::Image));
-                    io.write(&header.source, sizeof(Header::Source));
-                    io.write(&header.film, sizeof(Header::Film));
+                    io->write(&header.file, sizeof(Header::File));
+                    io->write(&header.image, sizeof(Header::Image));
+                    io->write(&header.source, sizeof(Header::Source));
+                    io->write(&header.film, sizeof(Header::Film));
                 }
 
-                void writeFinish(FileSystem::FileIO& io)
+                void writeFinish(const std::shared_ptr<FileSystem::FileIO>& io)
                 {
-                    const uint32_t size = static_cast<uint32_t>(io.getPos());
-                    io.setPos(20);
-                    io.writeU32(size);
+                    const uint32_t size = static_cast<uint32_t>(io->getPos());
+                    io->setPos(20);
+                    io->writeU32(size);
                 }
 
                 struct Plugin::Private

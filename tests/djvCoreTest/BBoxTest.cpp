@@ -41,7 +41,7 @@ namespace djv
             ITest("djv::CoreTest::BBoxTest", context)
         {}
         
-        void BBoxTest::run(const std::vector<std::string>& args)
+        void BBoxTest::run()
         {
             _ctor();
             _components();

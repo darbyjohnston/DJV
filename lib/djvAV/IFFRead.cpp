@@ -57,15 +57,15 @@ namespace djv
                         return size;
                     }
 
-                    size_t readRle(FileSystem::FileIO& io, uint8_t* out, size_t size)
+                    size_t readRle(const std::shared_ptr<FileSystem::FileIO>& io, uint8_t* out, size_t size)
                     {
-                        const size_t pos = io.getPos();
+                        const size_t pos = io->getPos();
                         const uint8_t* const end = out + size;
                         while (out < end)
                         {
                             // Information.
                             uint8_t in = 0;
-                            io.readU8(&in);
+                            io->readU8(&in);
                             const uint8_t count = (in & 0x7f) + 1;
                             const bool run = (in & 0x80) ? true : false;
 
@@ -73,13 +73,13 @@ namespace djv
                             if (!run)
                             {
                                 // Verbatim.
-                                io.readU8(out, count);
+                                io->readU8(out, count);
                                 out += count;
                             }
                             else
                             {
                                 // Duplicate.
-                                io.readU8(&in);
+                                io->readU8(&in);
                                 const uint8_t p = in;
                                 for (int i = 0; i < count; i++)
                                 {
@@ -87,7 +87,7 @@ namespace djv
                                 }
                             }
                         }
-                        return io.getPos() - pos;
+                        return io->getPos() - pos;
                     }
 
                 } // namespace
@@ -114,14 +114,14 @@ namespace djv
 
                 Info Read::_readInfo(const std::string & fileName)
                 {
-                    FileSystem::FileIO io;
+                    auto io = FileSystem::FileIO::create();
                     return _open(fileName, io);
                 }
 
                 std::shared_ptr<Image::Image> Read::_readImage(const std::string & fileName)
                 {
                     std::shared_ptr<Image::Image> out;
-                    FileSystem::FileIO io;
+                    auto io = FileSystem::FileIO::create();
                     const auto info = _open(fileName, io);
                     out = Image::Image::create(info.video[0].info);
                     out->setPluginName(pluginName);
@@ -136,13 +136,13 @@ namespace djv
                     const size_t byteCount = Image::getByteCount(info.video[0].info.type);
 
                     // Read FOR4 <size> TBMP block
-                    while (!io.isEOF())
+                    while (!io->isEOF())
                     {
                         // Get type.
-                        io.read(&type, 4);
+                        io->read(&type, 4);
 
                         // Get length.
-                        io.readU32(&size, 1);
+                        io->readU32(&size, 1);
                         chunkSize = getAlignSize(size, 4);
 
                         if (type[0] == 'A' &&
@@ -151,7 +151,7 @@ namespace djv
                             type[3] == 'H')
                         {
                             std::vector<uint8_t> buf(chunkSize);
-                            io.readU8(buf.data(), chunkSize);
+                            io->readU8(buf.data(), chunkSize);
                             std::string s;
                             for (const auto& i : buf)
                             {
@@ -171,7 +171,7 @@ namespace djv
                             type[3] == '4')
                         {
                             // Get type.
-                            io.read(&type, 4);
+                            io->read(&type, 4);
 
                             // Check if TBMP.
                             if (type[0] == 'T' &&
@@ -180,13 +180,13 @@ namespace djv
                                 type[3] == 'P')
                             {
                                 // Read RGBA and ZBUF block.
-                                while (!io.isEOF())
+                                while (!io->isEOF())
                                 {
                                     // Get type.
-                                    io.read(&type, 4);
+                                    io->read(&type, 4);
 
                                     // Get length.
-                                    io.readU32(&size, 1);
+                                    io->readU32(&size, 1);
                                     chunkSize = getAlignSize(size, 4);
 
                                     // Tiles and RGBA.
@@ -204,10 +204,10 @@ namespace djv
                                         uint16_t xmax;
                                         uint16_t ymin;
                                         uint16_t ymax;
-                                        io.readU16(&xmin, 1);
-                                        io.readU16(&ymin, 1);
-                                        io.readU16(&xmax, 1);
-                                        io.readU16(&ymax, 1);
+                                        io->readU16(&xmin, 1);
+                                        io->readU16(&ymin, 1);
+                                        io->readU16(&xmax, 1);
+                                        io->readU16(&ymax, 1);
 
                                         if (xmin > xmax ||
                                             ymin > ymax ||
@@ -302,7 +302,7 @@ namespace djv
                                                     for (uint16_t px = xmin; px <= xmax; px++)
                                                     {
                                                         // Get pixels.
-                                                        io.read(&pixels, byteCount);
+                                                        io->read(&pixels, byteCount);
 
                                                         if (size < static_cast<uint32_t>(byteCount))
                                                         {
@@ -411,7 +411,7 @@ namespace djv
                                                     for (uint16_t px = xmin; px <= xmax; px++)
                                                     {
                                                         // Get pixels.
-                                                        io.read(&pixels, byteCount);
+                                                        io->read(&pixels, byteCount);
 
                                                         if (size < static_cast<uint32_t>(byteCount))
                                                         {
@@ -447,7 +447,7 @@ namespace djv
                                         }
                                         else
                                         {
-                                            io.seek(chunkSize);
+                                            io->seek(chunkSize);
                                         }
 
                                         // Seek to align to chunksize.
@@ -455,14 +455,14 @@ namespace djv
 
                                         if (size)
                                         {
-                                            io.seek(size);
+                                            io->seek(size);
                                         }
 
                                         tilesRgba--;
                                     }
                                     else
                                     {
-                                        io.seek(chunkSize);
+                                        io->seek(chunkSize);
                                     }
 
                                     if (tilesRgba)
@@ -484,7 +484,7 @@ namespace djv
                         else
                         {
                             // Skip to the next block.
-                            io.seek(chunkSize);
+                            io->seek(chunkSize);
                         }
                     }
 
@@ -497,7 +497,7 @@ namespace djv
                     {
                     public:
                         void read(
-                            FileSystem::FileIO&,
+                            const std::shared_ptr<FileSystem::FileIO>&,
                             Image::Info&,
                             int& tiles,
                             bool& compression,
@@ -518,7 +518,7 @@ namespace djv
                     };
 
                     void Header::read(
-                        FileSystem::FileIO& io,
+                        const std::shared_ptr<FileSystem::FileIO>& io,
                         Image::Info& info,
                         int& tiles,
                         bool& compression,
@@ -535,13 +535,13 @@ namespace djv
                         uint16_t prden;
 
                         // Read FOR4 <size> CIMG.
-                        while (!io.isEOF())
+                        while (!io->isEOF())
                         {
                             // Get type.
-                            io.read(&type, 4);
+                            io->read(&type, 4);
 
                             // Get length.
-                            io.readU32(&size, 1);
+                            io->readU32(&size, 1);
                             chunksize = getAlignSize(size, 4);
 
                             if (type[0] == 'F' &&
@@ -550,7 +550,7 @@ namespace djv
                                 type[3] == '4')
                             {
                                 // Get type
-                                io.read(&type, 4);
+                                io->read(&type, 4);
 
                                 // Check if CIMG.
                                 if (type[0] == 'C' &&
@@ -559,13 +559,13 @@ namespace djv
                                     type[3] == 'G')
                                 {
                                     // Read TBHD.
-                                    while (!io.isEOF())
+                                    while (!io->isEOF())
                                     {
                                         // Get type
-                                        io.read(&type, 4);
+                                        io->read(&type, 4);
 
                                         // Get length
-                                        io.readU32(&size, 1);
+                                        io->readU32(&size, 1);
                                         chunksize = getAlignSize(size, 4);
 
                                         if (type[0] == 'T' &&
@@ -585,24 +585,24 @@ namespace djv
                                             Data data;
 
                                             // Get width and height.
-                                            io.readU32(&data.width, 1);
-                                            io.readU32(&data.height, 1);
+                                            io->readU32(&data.width, 1);
+                                            io->readU32(&data.height, 1);
                                             info.size = Image::Size(data.width, data.height);
 
                                             // Get prnum and prdeb
-                                            io.readU16(&prnum, 1);
-                                            io.readU16(&prden, 1);
+                                            io->readU16(&prnum, 1);
+                                            io->readU16(&prden, 1);
 
                                             // Get flags, bytes, tiles and compressed.
-                                            io.readU32(&flags, 1);
-                                            io.readU16(&bytes, 1);
+                                            io->readU32(&flags, 1);
+                                            io->readU16(&bytes, 1);
 
                                             // Get tiles.
-                                            io.readU16(&data.tiles, 1);
+                                            io->readU16(&data.tiles, 1);
                                             tiles = data.tiles;
 
                                             // Get compressed.
-                                            io.readU32(&compressed, 1);
+                                            io->readU32(&compressed, 1);
 
                                             // 0 no compression
                                             // 1 RLE compression
@@ -621,8 +621,8 @@ namespace djv
                                             // Set XY.
                                             if (tbhdsize == 32)
                                             {
-                                                io.readU32(&data.x, 1);
-                                                io.readU32(&data.y, 1);
+                                                io->readU32(&data.x, 1);
+                                                io->readU32(&data.y, 1);
                                             }
                                             else
                                             {
@@ -722,7 +722,7 @@ namespace djv
                                         }
 
                                         // Skip to the next block.
-                                        io.seek(chunksize);
+                                        io->seek(chunksize);
                                     }
 
                                     // Test if supported else skip to next block.
@@ -737,7 +737,7 @@ namespace djv
                             }
 
                             // Skip to the next block.
-                            io.seek(chunksize);
+                            io->seek(chunksize);
                         }
 
                         info.layout.mirror.y = true;
@@ -745,10 +745,10 @@ namespace djv
 
                 } // namespace
 
-                Info Read::_open(const std::string & fileName, FileSystem::FileIO & io)
+                Info Read::_open(const std::string & fileName, const std::shared_ptr<FileSystem::FileIO>& io)
                 {
-                    io.setEndianConversion(Memory::getEndian() != Memory::Endian::MSB);
-                    io.open(fileName, FileSystem::FileIO::Mode::Read);
+                    io->setEndianConversion(Memory::getEndian() != Memory::Endian::MSB);
+                    io->open(fileName, FileSystem::FileIO::Mode::Read);
                     Image::Info imageInfo;
                     Header().read(io, imageInfo, _tiles, _compression, _textSystem);
                     auto info = Info(fileName, VideoInfo(imageInfo, _speed, _sequence));

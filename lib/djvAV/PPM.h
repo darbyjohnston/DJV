@@ -72,10 +72,10 @@ namespace djv
 
                 //! Read PPM file ASCII data.
                 void readASCII(
-                    Core::FileSystem::FileIO & io,
-                    uint8_t *                  out,
-                    size_t                     size,
-                    size_t                     componentSize);
+                    const std::shared_ptr<Core::FileSystem::FileIO>& io,
+                    uint8_t* out,
+                    size_t size,
+                    size_t componentSize);
 
                 //! Save PPM file ASCII data.
                 size_t writeASCII(
@@ -107,7 +107,7 @@ namespace djv
                     std::shared_ptr<Image::Image> _readImage(const std::string &) override;
 
                 private:
-                    Info _open(const std::string &, Core::FileSystem::FileIO &, Data &);
+                    Info _open(const std::string&, const std::shared_ptr<Core::FileSystem::FileIO>&, Data&);
                 };
                 
                 //! This class provides the PPM file writer.
