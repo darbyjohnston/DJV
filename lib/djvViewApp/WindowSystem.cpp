@@ -83,7 +83,7 @@ namespace djv
             std::shared_ptr<ValueSubject<float> > fade;
             bool fadeEnabled = false;
             Event::PointerInfo pointerInfo;
-            std::map<Core::Event::PointerID, glm::vec2> pointerMotion;
+            std::map<Event::PointerID, glm::vec2> pointerMotion;
             std::shared_ptr<Time::Timer> pointerMotionTimer;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
@@ -98,10 +98,10 @@ namespace djv
 
             std::shared_ptr<Animation::Animation> fadeAnimation;
 
-            void setFullScreen(bool, const std::shared_ptr<Core::Context>& context);
+            void setFullScreen(bool, const std::shared_ptr<Context>& context);
         };
 
-        void WindowSystem::_init(const std::shared_ptr<Core::Context>& context)
+        void WindowSystem::_init(const std::shared_ptr<Context>& context)
         {
             IViewSystem::_init("djv::ViewApp::WindowSystem", context);
 
@@ -152,6 +152,7 @@ namespace djv
             p.menu->addAction(p.actions["AutoHide"]);
 
             _actionsUpdate();
+            _textUpdate();
 
             auto weak = std::weak_ptr<WindowSystem>(std::dynamic_pointer_cast<WindowSystem>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
@@ -194,25 +195,6 @@ namespace djv
                     }
                 });
 
-            p.fadeObserver = ValueObserver<bool>::create(
-                p.settings->observeAutoHide(),
-                [weak](bool value)
-            {
-                if (auto system = weak.lock())
-                {
-                    if (!value)
-                    {
-                        system->_p->fade->setIfChanged(1.F);
-                    }
-                    system->_p->fadeEnabled = value;
-                    system->_p->fadeAnimation->stop();
-                    system->_p->pointerMotion.clear();
-                    system->_p->pointerMotionTimer->stop();
-                    system->_pointerUpdate();
-                    system->_actionsUpdate();
-                }
-            });
-
             p.actionObservers["AutoHide"] = ValueObserver<bool>::create(
                 p.actions["AutoHide"]->observeChecked(),
                 [weak, contextWeak](bool value)
@@ -223,6 +205,25 @@ namespace djv
                         {
                             system->_p->settings->setAutoHide(value);
                         }
+                    }
+                });
+
+            p.fadeObserver = ValueObserver<bool>::create(
+                p.settings->observeAutoHide(),
+                [weak](bool value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        if (!value)
+                        {
+                            system->_p->fade->setIfChanged(1.F);
+                        }
+                        system->_p->fadeEnabled = value;
+                        system->_p->fadeAnimation->stop();
+                        system->_p->pointerMotion.clear();
+                        system->_p->pointerMotionTimer->stop();
+                        system->_pointerUpdate();
+                        system->_actionsUpdate();
                     }
                 });
 
@@ -262,7 +263,7 @@ namespace djv
             p.settings->setWindowSize(windowSize);
         }
 
-        std::shared_ptr<WindowSystem> WindowSystem::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<WindowSystem> WindowSystem::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<WindowSystem>(new WindowSystem);
             out->_init(context);
@@ -294,75 +295,14 @@ namespace djv
             }
         }
 
-        std::shared_ptr<Core::IValueSubject<std::shared_ptr<MediaWidget> > > WindowSystem::observeActiveWidget() const
+        std::shared_ptr<IValueSubject<std::shared_ptr<MediaWidget> > > WindowSystem::observeActiveWidget() const
         {
             return _p->activeWidget;
         }
 
-        std::shared_ptr<Core::IValueSubject<bool> > WindowSystem::observeFullScreen() const
+        std::shared_ptr<IValueSubject<bool> > WindowSystem::observeFullScreen() const
         {
             return _p->fullScreen;
-        }
-
-        void WindowSystem::Private::setFullScreen(bool value, const std::shared_ptr<Core::Context>& context)
-        {
-            auto avGLFWSystem = context->getSystemT<AV::GLFW::System>();
-            auto glfwWindow = avGLFWSystem->getGLFWWindow();
-            auto glfwMonitor = glfwGetWindowMonitor(glfwWindow);
-            if (value && !glfwMonitor)
-            {
-                int monitor = settings->observeFullscreenMonitor()->get();
-                int monitorsCount = 0;
-                GLFWmonitor** monitors = glfwGetMonitors(&monitorsCount);
-                if (monitor >= 0 && monitor < monitorsCount)
-                {
-                    glfwMonitor = monitors[monitor];
-                }
-                else
-                {
-                    glfwMonitor = glfwGetPrimaryMonitor();
-                }
-                auto glfwMonitorMode = glfwGetVideoMode(glfwMonitor);
-                monitorSize.x = glfwMonitorMode->width;
-                monitorSize.y = glfwMonitorMode->height;
-                monitorRefresh = glfwMonitorMode->refreshRate;
-
-                int x = 0;
-                int y = 0;
-                int w = 0;
-                int h = 0;
-                glfwGetWindowPos(glfwWindow, &x, &y);
-                glfwGetWindowSize(glfwWindow, &w, &h);
-                windowGeom = BBox2i(x, y, w, h);
-
-                glfwSetWindowAttrib(glfwWindow, GLFW_AUTO_ICONIFY, glfwMonitor == glfwGetPrimaryMonitor());
-                glfwSetWindowMonitor(
-                    glfwWindow,
-                    glfwMonitor,
-                    0,
-                    0,
-                    glfwMonitorMode->width,
-                    glfwMonitorMode->height,
-                    glfwMonitorMode->refreshRate);
-            }
-            else if (!value && glfwMonitor)
-            {
-                glfwSetWindowMonitor(
-                    glfwWindow,
-                    NULL,
-                    windowGeom.x(),
-                    windowGeom.y(),
-                    windowGeom.w(),
-                    windowGeom.h(),
-                    0);
-
-                //! \bug Why is it neccessary to resize the window to get the correct geometry
-                //! when restoring full screen from a different monitor?
-                glfwSetWindowSize(
-                    glfwWindow,
-                    static_cast<int>(windowGeom.w()),
-                    static_cast<int>(windowGeom.h()));
-            }
         }
 
         void WindowSystem::setFullScreen(bool value)
@@ -378,7 +318,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<Core::IValueSubject<bool> > WindowSystem::observeMaximize() const
+        std::shared_ptr<IValueSubject<bool> > WindowSystem::observeMaximize() const
         {
             return _p->maximize;
         }
@@ -393,7 +333,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<Core::IValueSubject<float> > WindowSystem::observeFade() const
+        std::shared_ptr<IValueSubject<float> > WindowSystem::observeFade() const
         {
             return _p->fade;
         }
@@ -528,6 +468,69 @@ namespace djv
                 p.actions["AutoHide"]->setTooltip(_getText(DJV_TEXT("menu_window_auto_hide_tooltip")));
 
                 p.menu->setText(_getText(DJV_TEXT("menu_window")));
+            }
+        }
+
+        void WindowSystem::Private::setFullScreen(bool value, const std::shared_ptr<Context>& context)
+        {
+            auto avGLFWSystem = context->getSystemT<AV::GLFW::System>();
+            auto glfwWindow = avGLFWSystem->getGLFWWindow();
+            auto glfwMonitor = glfwGetWindowMonitor(glfwWindow);
+            if (value && !glfwMonitor)
+            {
+                int monitor = settings->observeFullscreenMonitor()->get();
+                int monitorsCount = 0;
+                GLFWmonitor** monitors = glfwGetMonitors(&monitorsCount);
+                if (monitor >= 0 && monitor < monitorsCount)
+                {
+                    glfwMonitor = monitors[monitor];
+                }
+                else
+                {
+                    glfwMonitor = glfwGetPrimaryMonitor();
+                }
+                auto glfwMonitorMode = glfwGetVideoMode(glfwMonitor);
+                monitorSize.x = glfwMonitorMode->width;
+                monitorSize.y = glfwMonitorMode->height;
+                monitorRefresh = glfwMonitorMode->refreshRate;
+
+                int x = 0;
+                int y = 0;
+                int w = 0;
+                int h = 0;
+                glfwGetWindowPos(glfwWindow, &x, &y);
+                glfwGetWindowSize(glfwWindow, &w, &h);
+                windowGeom = BBox2i(x, y, w, h);
+
+                glfwSetWindowAttrib(glfwWindow, GLFW_AUTO_ICONIFY, glfwMonitor == glfwGetPrimaryMonitor());
+                glfwSetWindowMonitor(
+                    glfwWindow,
+                    glfwMonitor,
+                    0,
+                    0,
+                    glfwMonitorMode->width,
+                    glfwMonitorMode->height,
+                    glfwMonitorMode->refreshRate);
+                glfwFocusWindow(glfwWindow);
+            }
+            else if (!value && glfwMonitor)
+            {
+                glfwSetWindowMonitor(
+                    glfwWindow,
+                    NULL,
+                    windowGeom.x(),
+                    windowGeom.y(),
+                    windowGeom.w(),
+                    windowGeom.h(),
+                    0);
+                glfwFocusWindow(glfwWindow);
+
+                //! \bug Why is it neccessary to resize the window to get the correct geometry
+                //! when restoring full screen from a different monitor?
+                glfwSetWindowSize(
+                    glfwWindow,
+                    static_cast<int>(windowGeom.w()),
+                    static_cast<int>(windowGeom.h()));
             }
         }
 

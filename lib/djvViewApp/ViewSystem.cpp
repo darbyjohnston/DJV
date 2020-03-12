@@ -188,6 +188,7 @@ namespace djv
             //p.menu->addAction(p.actions["HUD"]);
 
             _actionsUpdate();
+            _textUpdate();
 
             auto weak = std::weak_ptr<ViewSystem>(std::dynamic_pointer_cast<ViewSystem>(shared_from_this()));
             p.lockActionGroup->setExclusiveCallback(

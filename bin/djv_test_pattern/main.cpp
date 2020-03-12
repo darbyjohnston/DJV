@@ -99,11 +99,11 @@ namespace djv
                 if ("-frameCount" == *i)
                 {
                     i = args.erase(i);
-                    size_t value = 0;
+                    int value = 0;
                     std::stringstream ss(*i);
                     ss >> value;
                     i = args.erase(i);
-                    _frameCount.reset(new size_t(value));
+                    _frameCount.reset(new size_t(std::max(value, 0)));
                 }
                 else if ("-size" == *i)
                 {
@@ -130,14 +130,22 @@ namespace djv
             }
             if (!args.size())
             {
+                printUsage();
+                exit(1);
+            }
+            else if (1 == args.size())
+            {
+                _output = args.front();
+                _output.evalSequence();
+                args.pop_front();
+            }
+            else
+            {
                 std::stringstream ss;
                 auto textSystem = getSystemT<Core::TextSystem>();
-                ss << textSystem->getText(DJV_TEXT("djv_test_pattern_output_error"));
+                ss << textSystem->getText(DJV_TEXT("djv_test_pattern_output_error")) << ".";
                 throw std::runtime_error(ss.str());
             }
-            _output = args.front();
-            _output.evalSequence();
-            args.pop_front();
         }
 
         Application::Application()

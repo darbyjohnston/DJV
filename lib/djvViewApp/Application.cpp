@@ -45,6 +45,7 @@
 #include <djvViewApp/SettingsSystem.h>
 #include <djvViewApp/ToolSystem.h>
 #include <djvViewApp/ViewSystem.h>
+#include <djvViewApp/WindowSettings.h>
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUIComponents/UIComponentsSystem.h>
@@ -74,6 +75,17 @@ namespace djv
         {
             std::vector<std::shared_ptr<ISystem> > systems;
 
+            std::unique_ptr<bool> fullScreenCmdLine;
+            std::unique_ptr<int> fullScreenMonitorCmdLine;
+            std::unique_ptr<std::string> ocioConfigCmdLine;
+            std::unique_ptr<std::string> ocioImageCmdLine;
+            std::unique_ptr<std::string> ocioDisplayCmdLine;
+            std::unique_ptr<std::string> ocioViewCmdLine;
+            std::unique_ptr<std::string> pixelAspectCmdLine;
+            std::unique_ptr<Frame::Index> frameStartCmdLine;
+            std::unique_ptr<Frame::Index> frameEndCmdLine;
+            std::unique_ptr<Time::Speed> fpsCmdLine;
+
             std::shared_ptr<ApplicationSettings> settings;
 
             std::vector<std::string> cmdlinePaths;
@@ -97,23 +109,31 @@ namespace djv
             {
                 if ("-full_screen" == *arg)
                 {
+                    arg = args.erase(arg);
+                    p.fullScreenCmdLine.reset(new bool(true));
                 }
-                else if ("-screen" == *arg)
+                else if ("-full_screen_monitor" == *arg)
                 {
-                }
-                else if ("-cs_config" == *arg)
-                {
-                }
-                else if ("-cs_input" == *arg)
-                {
-                }
-                else if ("-cs_display" == *arg)
-                {
-                }
-                else if ("-cs_view" == *arg)
-                {
+                    arg = args.erase(arg);
+                    int value = 0;
+                    std::stringstream ss(*arg);
+                    ss >> value;
+                    arg = args.erase(arg);
+                    p.fullScreenMonitorCmdLine.reset(new int(std::max(value, 0)));
                 }
                 else if ("-pixel_aspect" == *arg)
+                {
+                }
+                else if ("-ocio_config" == *arg)
+                {
+                }
+                else if ("-ocio_input" == *arg)
+                {
+                }
+                else if ("-ocio_display" == *arg)
+                {
+                }
+                else if ("-ocio_view" == *arg)
                 {
                 }
                 else if ("-frame_start" == *arg)
@@ -123,9 +143,6 @@ namespace djv
                 {
                 }
                 else if ("-fps" == *arg)
-                {
-                }
-                else if ("-init_settings" == *arg)
                 {
                 }
                 else
@@ -183,6 +200,9 @@ namespace djv
             std::cout << std::endl;
             std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_option_full_screen")) << std::endl;
             std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_option_full_screen_description")) << std::endl;
+            std::cout << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_option_full_screen_monitor")) << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_option_full_screen_monitor_description")) << std::endl;
             std::cout << std::endl;
 
             Desktop::Application::printUsage();
@@ -272,6 +292,18 @@ namespace djv
             // Open command-line files.
             auto fileSystem = getSystemT<FileSystem>();
             fileSystem->open(p.cmdlinePaths);
+
+            // Apply command-line arguments.
+            if (p.fullScreenMonitorCmdLine && windowSystem)
+            {
+                auto settingsSystem = getSystemT<UI::Settings::System>();
+                auto windowSettings = settingsSystem->getSettingsT<WindowSettings>();
+                windowSettings->setFullscreenMonitor(*(p.fullScreenMonitorCmdLine));
+            }
+            if (p.fullScreenCmdLine && windowSystem)
+            {
+                windowSystem->setFullScreen(*(p.fullScreenCmdLine));
+            }
 
             // Show the main window.
             p.mainWindow->show();

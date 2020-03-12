@@ -156,6 +156,7 @@ namespace djv
             p.recentFilesModel = Core::FileSystem::RecentFilesModel::create(context);
 
             _actionsUpdate();
+            _textUpdate();
 
             auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
             p.recentFilesObserver = ListObserver<Core::FileSystem::FileInfo>::create(

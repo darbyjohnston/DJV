@@ -66,6 +66,8 @@ namespace djv
             p.actions["Magnify"] = UI::Action::create();
             p.actions["Magnify"]->setIcon("djvIconMagnify");
             p.actions["Magnify"]->setShortcut(GLFW_KEY_Y, UI::Shortcut::getSystemModifier());
+
+            _textUpdate();
         }
 
         MagnifySystem::MagnifySystem() :

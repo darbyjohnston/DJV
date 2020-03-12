@@ -94,6 +94,8 @@ namespace djv
 
             p.menu = UI::Menu::create(context);
 
+            _textUpdate();
+
             auto weak = std::weak_ptr<AnnotateSystem>(std::dynamic_pointer_cast<AnnotateSystem>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
             if (auto windowSystem = context->getSystemT<WindowSystem>())

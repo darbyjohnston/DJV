@@ -121,23 +121,23 @@ namespace djv
 
                 if (!args.size())
                 {
-                    std::stringstream ss;
-                    auto textSystem = getSystemT<Core::TextSystem>();
-                    ss << textSystem->getText(DJV_TEXT("djv_convert_input_error"));
-                    throw std::runtime_error(ss.str());
+                    printUsage();
+                    exit(1);
                 }
-                _input = args.front();
-                args.pop_front();
-
-                if (!args.size())
+                else if (2 == args.size())
+                {
+                    _input = args.front();
+                    args.pop_front();
+                    _output = args.front();
+                    args.pop_front();
+                }
+                else
                 {
                     std::stringstream ss;
                     auto textSystem = getSystemT<Core::TextSystem>();
-                    ss << textSystem->getText(DJV_TEXT("djv_convert_output_error"));
+                    ss << textSystem->getText(DJV_TEXT("djv_convert_output_error")) << ".";
                     throw std::runtime_error(ss.str());
                 }
-                _output = args.front();
-                args.pop_front();
             }
 
             Application()
@@ -183,9 +183,6 @@ namespace djv
                 std::cout << std::endl;
                 std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_writethreads")) << std::endl;
                 std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_writethreads_description")) << std::endl;
-                std::cout << std::endl;
-                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_help")) << std::endl;
-                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_help_description")) << std::endl;
                 std::cout << std::endl;
 
                 CmdLine::Application::printUsage();

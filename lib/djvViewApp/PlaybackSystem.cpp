@@ -188,6 +188,7 @@ namespace djv
             p.menu->addAction(p.actions["ResetOutPoint"]);
 
             _actionsUpdate();
+            _textUpdate();
 
             auto weak = std::weak_ptr<PlaybackSystem>(std::dynamic_pointer_cast<PlaybackSystem>(shared_from_this()));
             p.playbackActionGroup->setExclusiveCallback(

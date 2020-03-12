@@ -146,6 +146,7 @@ namespace djv
             p.menu->addAction(p.actions["FrameStoreEnabled"]);
 
             _actionsUpdate();
+            _textUpdate();
 
             auto weak = std::weak_ptr<ImageSystem>(std::dynamic_pointer_cast<ImageSystem>(shared_from_this()));
             p.channelActionGroup->setExclusiveCallback(

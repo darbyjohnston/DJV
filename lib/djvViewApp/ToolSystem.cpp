@@ -140,6 +140,8 @@ namespace djv
             p.menu->addSeparator();
             p.menu->addAction(p.actions["Settings"]);
 
+            _textUpdate();
+
             auto weak = std::weak_ptr<ToolSystem>(std::dynamic_pointer_cast<ToolSystem>(shared_from_this()));
             p.toolActionGroup->setExclusiveCallback(
                 [weak](int value)
