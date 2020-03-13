@@ -622,13 +622,14 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const size_t size = p.media->getSize();
-            p.actions["NextLayer"]->setEnabled(size);
-            p.actions["PrevLayer"]->setEnabled(size);
-            p.actions["Close"]->setEnabled(size);
-            p.actions["CloseAll"]->setEnabled(size);
-            //p.actions["Export"]->setEnabled(size);
+            p.actions["Reload"]->setEnabled(size > 0);
+            p.actions["Close"]->setEnabled(size > 0);
+            p.actions["CloseAll"]->setEnabled(size > 0);
+            //p.actions["Export"]->setEnabled(size > 0);
             p.actions["Next"]->setEnabled(size > 1);
             p.actions["Prev"]->setEnabled(size > 1);
+            p.actions["NextLayer"]->setEnabled(size > 0);
+            p.actions["PrevLayer"]->setEnabled(size > 0);
         }
 
         void FileSystem::_cacheUpdate()
