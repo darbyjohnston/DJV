@@ -437,7 +437,6 @@
     "widget_color_space_add_format_tooltip": "Назначьте цветовое пространство для формата файла",
     "widget_color_space_color_views_none": "Никто",
     "widget_color_space_config": "конфиг",
-    "widget_color_space_config_none": "Никто",
     "widget_color_space_display": "дисплей",
     "widget_color_space_display_name": "имя",
     "widget_color_space_display_name_none": "Никто",

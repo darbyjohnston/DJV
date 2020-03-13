@@ -657,12 +657,8 @@ namespace djv
                 for (const auto& i : p.configs)
                 {
                     auto button = UI::CheckBox::create(context);
-                    std::string s = i.name;
-                    if (s.empty())
-                    {
-                        s = _getText(DJV_TEXT("widget_color_space_config_none"));
-                    }
-                    button->setText(s);
+                    button->setText(i.name);
+                    button->setTooltip(i.fileName);
                     p.configButtonGroup->addButton(button);
                     p.textFocusWidgets[button->getFocusWidget()] = id++;
 

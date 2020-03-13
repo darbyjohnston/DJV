@@ -437,7 +437,6 @@
     "widget_color_space_add_format_tooltip": "ファイル形式に色空間を割り当てる",
     "widget_color_space_color_views_none": "なし",
     "widget_color_space_config": "構成",
-    "widget_color_space_config_none": "なし",
     "widget_color_space_display": "表示",
     "widget_color_space_display_name": "名前",
     "widget_color_space_display_name_none": "なし",

@@ -437,7 +437,6 @@
     "widget_color_space_add_format_tooltip": "Asignar un espacio de color a un formato de archivo",
     "widget_color_space_color_views_none": "Ninguna",
     "widget_color_space_config": "Config",
-    "widget_color_space_config_none": "Ninguna",
     "widget_color_space_display": "Monitor",
     "widget_color_space_display_name": "Nombre",
     "widget_color_space_display_name_none": "Ninguna",

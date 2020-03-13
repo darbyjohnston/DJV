@@ -437,7 +437,6 @@
     "widget_color_space_add_format_tooltip": "Attribuer un espace colorimétrique à un format de fichier",
     "widget_color_space_color_views_none": "Aucune",
     "widget_color_space_config": "Config",
-    "widget_color_space_config_none": "Aucun",
     "widget_color_space_display": "Affichage",
     "widget_color_space_display_name": "Nom",
     "widget_color_space_display_name_none": "Aucun",
