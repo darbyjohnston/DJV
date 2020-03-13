@@ -339,8 +339,6 @@
     "north_west_tooltip": "Sposta la vista Nord-Ovest",
     "pixel_label_tooltip": "Descrizione comando etichetta pixel",
     "playback_current_frame_tooltip": "Il frame corrente",
-    "playback_custom_playback_speed": "Velocità di riproduzione personalizzata",
-    "playback_custom_playback_speed_tooltip": "Descrizione comando velocità di riproduzione personalizzata",
     "playback_duration_tooltip": "La durata della riproduzione",
     "playback_forward": "Inoltrare",
     "playback_forward_tooltip": "Inizia la riproduzione in avanti",

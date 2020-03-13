@@ -34,6 +34,15 @@
 
 namespace djv
 {
+    namespace Core
+    {
+        namespace Time
+        {
+            class Speed;
+
+        } // namespace Time
+    } // namespace Core
+
     namespace ViewApp
     {
         enum class ImageViewLock
@@ -82,6 +91,32 @@ namespace djv
         };
         DJV_ENUM_HELPERS(Playback);
 
+        enum class PlaybackSpeed
+        {
+            Default,
+            Custom,
+            _6,
+            _8,
+            _12,
+            _16,
+            _23_98,
+            _24,
+            _25,
+            _29_97,
+            _30,
+            _48,
+            _50,
+            _59_94,
+            _60,
+            _120,
+            _240,
+
+            Count,
+            First = Default
+        };
+        DJV_ENUM_HELPERS(PlaybackSpeed);
+        Core::Time::Speed getPlaybackSpeed(PlaybackSpeed);
+
         enum class PlaybackMode
         {
             Once,
@@ -99,11 +134,13 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ImageViewGridLabels);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ScrollWheelZoomSpeed);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::Playback);
+    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::PlaybackSpeed);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::PlaybackMode);
 
     picojson::value toJSON(ViewApp::ImageViewLock);
     picojson::value toJSON(ViewApp::ImageViewGridLabels);
     picojson::value toJSON(ViewApp::ScrollWheelZoomSpeed);
+    picojson::value toJSON(ViewApp::PlaybackSpeed);
     picojson::value toJSON(ViewApp::PlaybackMode);
 
     //! Throws:
@@ -111,6 +148,7 @@ namespace djv
     void fromJSON(const picojson::value&, ViewApp::ImageViewLock&);
     void fromJSON(const picojson::value&, ViewApp::ImageViewGridLabels&);
     void fromJSON(const picojson::value&, ViewApp::ScrollWheelZoomSpeed&);
+    void fromJSON(const picojson::value&, ViewApp::PlaybackSpeed&);
     void fromJSON(const picojson::value&, ViewApp::PlaybackMode&);
 
 } // namespace djv

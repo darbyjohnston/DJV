@@ -339,8 +339,6 @@
     "north_west_tooltip": "Μετακινήστε τη θέα Βορειοδυτικά",
     "pixel_label_tooltip": "Ετικέτα ετικέτας ετικέτας Pixel",
     "playback_current_frame_tooltip": "Το τρέχον πλαίσιο",
-    "playback_custom_playback_speed": "Προσαρμοσμένη ταχύτητα αναπαραγωγής",
-    "playback_custom_playback_speed_tooltip": "Ετικέτα εργαλείων ταχύτητας προσαρμοσμένης αναπαραγωγής",
     "playback_duration_tooltip": "Η διάρκεια αναπαραγωγής",
     "playback_forward": "Προς τα εμπρός",
     "playback_forward_tooltip": "Αρχίστε την αναπαραγωγή προς τα εμπρός",

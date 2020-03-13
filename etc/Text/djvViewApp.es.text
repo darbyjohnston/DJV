@@ -339,8 +339,6 @@
     "north_west_tooltip": "Mueve la vista Noroeste",
     "pixel_label_tooltip": "Información sobre herramientas de etiqueta de píxeles",
     "playback_current_frame_tooltip": "El fotograma actual",
-    "playback_custom_playback_speed": "Velocidad de reproducción personalizada",
-    "playback_custom_playback_speed_tooltip": "Información sobre herramientas de velocidad de reproducción personalizada",
     "playback_duration_tooltip": "La duración de la reproducción",
     "playback_forward": "Adelante",
     "playback_forward_tooltip": "Iniciar reproducción hacia adelante",

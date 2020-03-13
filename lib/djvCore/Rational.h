@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
+#include <djvCore/PicoJSON.h>
 
 #include <sstream>
 
@@ -65,6 +65,12 @@ namespace djv
 
         } // namespace Math
     } // namespace Core
+
+    picojson::value toJSON(const Core::Math::Rational&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const picojson::value&, Core::Math::Rational&);
 
     std::ostream & operator << (std::ostream &, const Core::Math::Rational&);
     std::istream & operator >> (std::istream &, Core::Math::Rational&);

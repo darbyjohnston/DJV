@@ -339,8 +339,6 @@
     "north_west_tooltip": "向西北移动视图",
     "pixel_label_tooltip": "像素标签工具提示",
     "playback_current_frame_tooltip": "当前帧",
-    "playback_custom_playback_speed": "自定义播放速度",
-    "playback_custom_playback_speed_tooltip": "自定义播放速度工具提示",
     "playback_duration_tooltip": "播放时间",
     "playback_forward": "向前",
     "playback_forward_tooltip": "开始向前播放",

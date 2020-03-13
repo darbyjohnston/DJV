@@ -340,8 +340,6 @@
     "north_west_tooltip": "Verschiebt die Ansicht nach Nordwesten",
     "pixel_label_tooltip": "Tooltip für Pixel-Etiketten",
     "playback_current_frame_tooltip": "Der aktuelle Frame",
-    "playback_custom_playback_speed": "Benutzerdefinierte Wiedergabegeschwindigkeit",
-    "playback_custom_playback_speed_tooltip": "Tooltip für benutzerdefinierte Wiedergabegeschwindigkeit",
     "playback_duration_tooltip": "Die Wiedergabedauer",
     "playback_forward": "Vorwärts",
     "playback_forward_tooltip": "Startet die Vorwärtswiedergabe",

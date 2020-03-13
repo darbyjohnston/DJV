@@ -339,8 +339,6 @@
     "north_west_tooltip": "뷰를 북서쪽으로 이동",
     "pixel_label_tooltip": "픽셀 라벨 툴팁",
     "playback_current_frame_tooltip": "현재 프레임",
-    "playback_custom_playback_speed": "맞춤형 재생 속도",
-    "playback_custom_playback_speed_tooltip": "맞춤형 재생 속도 툴팁",
     "playback_duration_tooltip": "재생 시간",
     "playback_forward": "앞으로",
     "playback_forward_tooltip": "앞으로 재생 시작",

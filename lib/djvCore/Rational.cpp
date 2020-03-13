@@ -72,6 +72,26 @@ namespace djv
         } // namespace Math
     } // namespace Core
 
+    picojson::value toJSON(const Core::Math::Rational& value)
+    {
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
+    }
+
+    void fromJSON(const picojson::value& value, Core::Math::Rational& out)
+    {
+        if (value.is<std::string>())
+        {
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
+        }
+    }
+
     std::ostream & operator << (std::ostream & os, const Core::Math::Rational& value)
     {
         os << value.getNum() << '/' << value.getDen();

@@ -339,8 +339,6 @@
     "north_west_tooltip": "Færðu útsýnið norðvestur",
     "pixel_label_tooltip": "Verkfæri Pixel merkimiða",
     "playback_current_frame_tooltip": "Núverandi ramma",
-    "playback_custom_playback_speed": "Sérsniðinn spilunarhraði",
-    "playback_custom_playback_speed_tooltip": "Sérsniðin tól spilunarhraða",
     "playback_duration_tooltip": "Lengd spilunar",
     "playback_forward": "Áfram",
     "playback_forward_tooltip": "Hefja spilun áfram",

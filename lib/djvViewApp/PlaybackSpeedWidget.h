@@ -29,6 +29,8 @@
 
 #pragma once
 
+#include <djvViewApp/Enum.h>
+
 #include <djvUI/Widget.h>
 
 namespace djv
@@ -44,6 +46,7 @@ namespace djv
 
     namespace ViewApp
     {
+
         //! This class provides a playback speed widget.
         class PlaybackSpeedWidget : public UI::Widget
         {
@@ -58,15 +61,16 @@ namespace djv
 
             static std::shared_ptr<PlaybackSpeedWidget> create(const std::shared_ptr<Core::Context>&);
 
-            void setSpeed(const Core::Time::Speed&);
+            void setPlaybackSpeed(PlaybackSpeed);
             void setDefaultSpeed(const Core::Time::Speed&);
+            void setCustomSpeed(const Core::Time::Speed&);
+            void setSpeed(const Core::Time::Speed&);
             void setPlayEveryFrame(bool);
             
-            void setSpeedCallback(const std::function<void(const Core::Time::Speed&)>&);
-            void setPlayEveryFrameCallback(const std::function<void(bool)>&);
-            void setUseCustomSpeedCallback(const std::function<void(bool)>&);
+            void setPlaybackSpeedCallback(const std::function<void(PlaybackSpeed)>&);
             void setCustomSpeedCallback(const std::function<void(const Core::Time::Speed&)>&);
-        
+            void setPlayEveryFrameCallback(const std::function<void(bool)>&);
+
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _layoutEvent(Core::Event::Layout&) override;
@@ -74,9 +78,8 @@ namespace djv
             void _initEvent(Core::Event::Init &) override;
 
         private:
+            void _textUpdate();
             void _widgetUpdate();
-
-            void _doSpeedCallback(const Core::Time::Speed&);
 
             DJV_PRIVATE();
         };

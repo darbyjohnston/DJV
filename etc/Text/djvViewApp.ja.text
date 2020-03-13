@@ -339,8 +339,6 @@
     "north_west_tooltip": "ビューを北西に移動する",
     "pixel_label_tooltip": "ピクセルラベルのツールチップ",
     "playback_current_frame_tooltip": "現在のフレーム",
-    "playback_custom_playback_speed": "カスタム再生速度",
-    "playback_custom_playback_speed_tooltip": "カスタム再生速度のツールチップ",
     "playback_duration_tooltip": "再生時間",
     "playback_forward": "進む",
     "playback_forward_tooltip": "順方向再生を開始",

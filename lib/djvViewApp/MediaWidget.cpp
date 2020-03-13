@@ -102,7 +102,9 @@ namespace djv
             std::shared_ptr<Media> media;
             AV::IO::Info ioInfo;
             std::shared_ptr<AV::Image::Image> image;
+            PlaybackSpeed playbackSpeed = PlaybackSpeed::First;
             Time::Speed defaultSpeed;
+            Time::Speed customSpeed;
             Time::Speed speed;
             float realSpeed = 0.F;
             bool playEveryFrame = false;
@@ -202,6 +204,13 @@ namespace djv
             p.scroll = ValueSubject<glm::vec2>::create();
 
             p.media = media;
+
+            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
+            {
+                p.playbackSpeed = playbackSettings->observePlaybackSpeed()->get();
+                p.customSpeed = playbackSettings->observeCustomSpeed()->get();
+            }
 
             p.actions["Forward"] = UI::Action::create();
             p.actions["Forward"]->setIcon("djvIconPlaybackForward");
@@ -406,6 +415,21 @@ namespace djv
 #endif // DJV_DEMO_THREADS
             addChild(p.layout);
 
+            if (p.media)
+            {
+                switch (p.playbackSpeed)
+                {
+                case PlaybackSpeed::Default:
+                    break;
+                case PlaybackSpeed::Custom:
+                    p.media->setSpeed(p.customSpeed);
+                    break;
+                default:
+                    p.media->setSpeed(getPlaybackSpeed(p.playbackSpeed));
+                    break;
+                }
+            }
+
             _widgetUpdate();
             _speedUpdate();
             _realSpeedUpdate();
@@ -461,20 +485,62 @@ namespace djv
                 });
 
             auto contextWeak = std::weak_ptr<Context>(context);
-            p.speedWidget->setSpeedCallback(
+            p.speedWidget->setPlaybackSpeedCallback(
+                [weak, contextWeak](PlaybackSpeed value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->playbackSpeed = value;
+
+                            Time::Speed speed;
+                            switch (widget->_p->playbackSpeed)
+                            {
+                            case PlaybackSpeed::Default: speed = widget->_p->defaultSpeed; break;
+                            case PlaybackSpeed::Custom: speed = widget->_p->customSpeed; break;
+                            default: speed = getPlaybackSpeed(widget->_p->playbackSpeed); break;
+                            }
+                            if (auto media = widget->_p->media)
+                            {
+                                media->setSpeed(speed);
+                            }
+
+                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
+                            {
+                                playbackSettings->setPlaybackSpeed(value);
+                            }
+
+                            widget->_speedUpdate();
+                        }
+                    }
+                });
+
+            p.speedWidget->setCustomSpeedCallback(
                 [weak, contextWeak](const Time::Speed& value)
                 {
                     if (auto context = contextWeak.lock())
                     {
                         if (auto widget = weak.lock())
                         {
-                            if (auto media = widget->_p->media)
+                            widget->_p->customSpeed = value;
+
+                            if (PlaybackSpeed::Custom == widget->_p->playbackSpeed)
                             {
-                                media->setSpeed(value);
+                                if (auto media = widget->_p->media)
+                                {
+                                    media->setSpeed(widget->_p->customSpeed);
+                                }
                             }
-                            auto avSystem = context->getSystemT<AV::AVSystem>();
-                            avSystem->setDefaultSpeed(Time::fromRational(value));
-                            widget->_p->speedPopupWidget->close();
+
+                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
+                            {
+                                playbackSettings->setCustomSpeed(value);
+                            }
+
+                            widget->_speedUpdate();
                         }
                     }
                 });
@@ -966,7 +1032,6 @@ namespace djv
                 });
 #endif // DJV_DEMO_THREADS
 
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
             if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
             {
                 p.cacheEnabledObserver = ValueObserver<bool>::create(
@@ -1360,14 +1425,18 @@ namespace djv
         void MediaWidget::_speedUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.speedWidget->setSpeed(p.speed);
-            p.speedWidget->setDefaultSpeed(p.defaultSpeed);
-            p.speedWidget->setPlayEveryFrame(p.playEveryFrame);
-
-            std::stringstream ss;
-            ss.precision(2);
-            ss << _getText(DJV_TEXT("playback_fps")) << ": " << std::fixed << p.speed.toFloat();
-            p.speedPopupWidget->setText(ss.str());
+            if (auto context = getContext().lock())
+            {
+                p.speedWidget->setPlaybackSpeed(p.playbackSpeed);
+                p.speedWidget->setDefaultSpeed(p.defaultSpeed);
+                p.speedWidget->setCustomSpeed(p.customSpeed);
+                p.speedWidget->setSpeed(p.speed);
+                p.speedWidget->setPlayEveryFrame(p.playEveryFrame);
+                std::stringstream ss;
+                ss.precision(2);
+                ss << _getText(DJV_TEXT("playback_fps")) << ": " << std::fixed << p.speed.toFloat();
+                p.speedPopupWidget->setText(ss.str());
+            }
         }
 
         void MediaWidget::_realSpeedUpdate()

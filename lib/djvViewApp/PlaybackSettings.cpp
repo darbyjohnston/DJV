@@ -30,6 +30,7 @@
 #include <djvViewApp/PlaybackSettings.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/Speed.h>
 
 // These need to be included last on OSX.
 #include <djvCore/PicoJSONTemplates.h>
@@ -44,6 +45,8 @@ namespace djv
         struct PlaybackSettings::Private
         {
             std::shared_ptr<ValueSubject<bool> > startPlayback;
+            std::shared_ptr<ValueSubject<PlaybackSpeed> > playbackSpeed;
+            std::shared_ptr<ValueSubject<Time::Speed> > customSpeed;
             std::shared_ptr<ValueSubject<bool> > playEveryFrame;
             std::shared_ptr<ValueSubject<PlaybackMode> > playbackMode;
             std::shared_ptr<ValueSubject<bool> > pip;
@@ -55,6 +58,8 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             p.startPlayback = ValueSubject<bool>::create(false);
+            p.playbackSpeed = ValueSubject<PlaybackSpeed>::create(PlaybackSpeed::Default);
+            p.customSpeed = ValueSubject<Time::Speed>::create(Time::Speed(1));
             p.playEveryFrame = ValueSubject<bool>::create(false);
             p.playbackMode = ValueSubject<PlaybackMode>::create(PlaybackMode::Loop);
             p.pip = ValueSubject<bool>::create(true);
@@ -80,6 +85,26 @@ namespace djv
         void PlaybackSettings::setStartPlayback(bool value)
         {
             _p->startPlayback->setIfChanged(value);
+        }
+
+        std::shared_ptr<IValueSubject<PlaybackSpeed> > PlaybackSettings::observePlaybackSpeed() const
+        {
+            return _p->playbackSpeed;
+        }
+
+        void PlaybackSettings::setPlaybackSpeed(PlaybackSpeed value)
+        {
+            _p->playbackSpeed->setIfChanged(value);
+        }
+
+        std::shared_ptr<IValueSubject<Time::Speed> > PlaybackSettings::observeCustomSpeed() const
+        {
+            return _p->customSpeed;
+        }
+
+        void PlaybackSettings::setCustomSpeed(const Time::Speed& value)
+        {
+            _p->customSpeed->setIfChanged(value);
         }
 
         std::shared_ptr<IValueSubject<bool> > PlaybackSettings::observePlayEveryFrame() const
@@ -119,6 +144,8 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
                 UI::Settings::read("StartPlayback", object, p.startPlayback);
+                UI::Settings::read("PlaybackSpeed", object, p.playbackSpeed);
+                UI::Settings::read("CustomSpeed", object, p.customSpeed);
                 UI::Settings::read("PlayEveryFrame", object, p.playEveryFrame);
                 UI::Settings::read("PlaybackMode", object, p.playbackMode);
                 UI::Settings::read("PIP", object, p.pip);
@@ -131,6 +158,8 @@ namespace djv
             picojson::value out(picojson::object_type, true);
             auto & object = out.get<picojson::object>();
             UI::Settings::write("StartPlayback", p.startPlayback->get(), object);
+            UI::Settings::write("PlaybackSpeed", p.playbackSpeed->get(), object);
+            UI::Settings::write("CustomSpeed", p.customSpeed->get(), object);
             UI::Settings::write("PlayEveryFrame", p.playEveryFrame->get(), object);
             UI::Settings::write("PlaybackMode", p.playbackMode->get(), object);
             UI::Settings::write("PIP", p.pip->get(), object);

@@ -37,6 +37,15 @@
 
 namespace djv
 {
+    namespace Core
+    {
+        namespace Time
+        {
+            class Speed;
+
+        } // namespace Time
+    } // namespace Core
+
     namespace ViewApp
     {
         //! This class provides the playback settings.
@@ -54,6 +63,12 @@ namespace djv
 
             std::shared_ptr<Core::IValueSubject<bool> > observeStartPlayback() const;
             void setStartPlayback(bool);
+
+            std::shared_ptr<Core::IValueSubject<PlaybackSpeed> > observePlaybackSpeed() const;
+            void setPlaybackSpeed(PlaybackSpeed);
+
+            std::shared_ptr<Core::IValueSubject<Core::Time::Speed> > observeCustomSpeed() const;
+            void setCustomSpeed(const Core::Time::Speed&);
 
             std::shared_ptr<Core::IValueSubject<bool> > observePlayEveryFrame() const;
             void setPlayEveryFrame(bool);

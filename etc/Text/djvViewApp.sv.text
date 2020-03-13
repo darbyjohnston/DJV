@@ -339,8 +339,6 @@
     "north_west_tooltip": "Flytta vyn nordväst",
     "pixel_label_tooltip": "Verktygstips för pixeletikett",
     "playback_current_frame_tooltip": "Den nuvarande ramen",
-    "playback_custom_playback_speed": "Anpassad uppspelningshastighet",
-    "playback_custom_playback_speed_tooltip": "Anpassad verktygstips för uppspelningshastighet",
     "playback_duration_tooltip": "Uppspelningens varaktighet",
     "playback_forward": "Framåt",
     "playback_forward_tooltip": "Starta uppspelning framåt",

@@ -339,8 +339,6 @@
     "north_west_tooltip": "Przenieś widok na północny zachód",
     "pixel_label_tooltip": "Etykietka etykiety piksela",
     "playback_current_frame_tooltip": "Bieżąca ramka",
-    "playback_custom_playback_speed": "Niestandardowa prędkość odtwarzania",
-    "playback_custom_playback_speed_tooltip": "Etykietka niestandardowej prędkości odtwarzania",
     "playback_duration_tooltip": "Czas odtwarzania",
     "playback_forward": "Naprzód",
     "playback_forward_tooltip": "Rozpocznij odtwarzanie do przodu",

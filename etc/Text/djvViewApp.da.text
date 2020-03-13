@@ -339,8 +339,6 @@
     "north_west_tooltip": "Flyt udsigten nordvest",
     "pixel_label_tooltip": "Værktøjstip til pixelmærkning",
     "playback_current_frame_tooltip": "Den aktuelle ramme",
-    "playback_custom_playback_speed": "Tilpasset afspilningshastighed",
-    "playback_custom_playback_speed_tooltip": "Tilpasset afspilningshastighed værktøjstip",
     "playback_duration_tooltip": "Afspilningens varighed",
     "playback_forward": "Frem",
     "playback_forward_tooltip": "Start afspilning fremad",

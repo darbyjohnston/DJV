@@ -339,8 +339,6 @@
     "north_west_tooltip": "Přesuňte pohled na severozápad",
     "pixel_label_tooltip": "Popisek pixelů",
     "playback_current_frame_tooltip": "Aktuální snímek",
-    "playback_custom_playback_speed": "Vlastní rychlost přehrávání",
-    "playback_custom_playback_speed_tooltip": "Vlastní popis rychlosti přehrávání",
     "playback_duration_tooltip": "Doba přehrávání",
     "playback_forward": "Vpřed",
     "playback_forward_tooltip": "Zahajte přehrávání vpřed",
