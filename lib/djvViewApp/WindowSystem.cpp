@@ -195,19 +195,6 @@ namespace djv
                     }
                 });
 
-            p.actionObservers["AutoHide"] = ValueObserver<bool>::create(
-                p.actions["AutoHide"]->observeChecked(),
-                [weak, contextWeak](bool value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            system->_p->settings->setAutoHide(value);
-                        }
-                    }
-                });
-
             p.fadeObserver = ValueObserver<bool>::create(
                 p.settings->observeAutoHide(),
                 [weak](bool value)
@@ -224,6 +211,19 @@ namespace djv
                         system->_p->pointerMotionTimer->stop();
                         system->_pointerUpdate();
                         system->_actionsUpdate();
+                    }
+                });
+
+            p.actionObservers["AutoHide"] = ValueObserver<bool>::create(
+                p.actions["AutoHide"]->observeChecked(),
+                [weak, contextWeak](bool value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            system->_p->settings->setAutoHide(value);
+                        }
                     }
                 });
 
