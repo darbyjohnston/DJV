@@ -32,6 +32,7 @@
 #include <djvCore/Context.h>
 #include <djvCore/Error.h>
 #include <djvCore/LogSystem.h>
+#include <djvCore/StringFormat.h>
 #include <djvCore/Timer.h>
 
 #include <atomic>
@@ -110,10 +111,10 @@ namespace djv
                                     if (auto context = contextWeak.lock())
                                     {
                                         auto logSystem = context->getSystemT<LogSystem>();
-                                        std::stringstream ss;
-                                        ss << DJV_TEXT("error_finding_the_change_notification_for") <<
-                                            " '" << path << "'. " << Error::getLastError();
-                                        logSystem->log("djv::Core::FileSystem::DirectoryWatcher", ss.str(), LogLevel::Error);
+                                        logSystem->log(
+                                            "djv::Core::FileSystem::DirectoryWatcher",
+                                            String::Format("'{0}': {1}").arg(path.get()).arg(Error::getLastError()),
+                                            LogLevel::Error);
                                     }
                                 }
                             }
@@ -122,10 +123,10 @@ namespace djv
                                 if (auto context = contextWeak.lock())
                                 {
                                     auto logSystem = context->getSystemT<LogSystem>();
-                                    std::stringstream ss;
-                                    ss << DJV_TEXT("error_watching_the_directory") <<
-                                        " '" << path << "'. " << e.what();
-                                    logSystem->log("djv::Core::FileSystem::DirectoryWatcher", ss.str(), LogLevel::Error);
+                                    logSystem->log(
+                                        "djv::Core::FileSystem::DirectoryWatcher",
+                                        String::Format("'{0}': {1}").arg(path.get()).arg(e.what()),
+                                        LogLevel::Error);
                                 }
                             }
                         }

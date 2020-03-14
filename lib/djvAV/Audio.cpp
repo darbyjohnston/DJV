@@ -42,9 +42,9 @@ namespace djv
                 std::string out = DJV_TEXT("error_unknown");
                 switch (value)
                 {
-                case AL_OUT_OF_MEMORY: out = DJV_TEXT("error_out_of_memory"); break;
-                case AL_INVALID_VALUE: out = DJV_TEXT("error_invalid_value"); break;
-                case AL_INVALID_ENUM:  out = DJV_TEXT("error_invalid_enum");  break;
+                case AL_OUT_OF_MEMORY: out = DJV_TEXT("error_al_out_of_memory"); break;
+                case AL_INVALID_VALUE: out = DJV_TEXT("error_al_invalid_value"); break;
+                case AL_INVALID_ENUM:  out = DJV_TEXT("error_al_invalid_enum");  break;
                 default: break;
                 }
                 return out;

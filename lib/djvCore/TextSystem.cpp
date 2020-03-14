@@ -38,6 +38,7 @@
 #include <djvCore/PicoJSON.h>
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/String.h>
+#include <djvCore/StringFormat.h>
 #include <djvCore/Timer.h>
 
 #include <future>
@@ -396,9 +397,12 @@ namespace djv
             }
             catch (const std::exception& e)
             {
-                std::stringstream ss;
-                ss << DJV_TEXT("error_reading_the_environment_varible") << " 'DJV_TEXT_PATH'. " << e.what();
-                p.logSystem->log(getSystemName(), ss.str(), LogLevel::Error);
+                p.logSystem->log(
+                    getSystemName(),
+                    String::Format("'{0}': {1}").
+                        arg("DJV_TEXT_PATH").
+                        arg(e.what()),
+                    LogLevel::Error);
             }
 
             return out;
@@ -461,9 +465,9 @@ namespace djv
                 picojson::parse(v, bufP, bufEnd, &error);
                 if (!error.empty())
                 {
-                    std::stringstream ss;
-                    ss << DJV_TEXT("error_reading_the_text_file") << " '" << path << "'. " << error;
-                    throw FileSystem::Error(ss.str());
+                    throw FileSystem::Error(String::Format("'{0}': {1}").
+                        arg(path.get()).
+                        arg(error));
                 }
                     
                 if (v.is<picojson::object>())

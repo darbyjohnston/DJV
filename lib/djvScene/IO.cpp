@@ -38,6 +38,7 @@
 #include <djvCore/FileSystem.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/ResourceSystem.h>
+#include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
@@ -287,12 +288,10 @@ namespace djv
                 {
                     if (auto context = getContext().lock())
                     {
-                        std::stringstream ss;
                         auto textSystem = context->getSystemT<TextSystem>();
-                        ss << textSystem->getText(DJV_TEXT("error_the_file"));
-                        ss << " '" << fileInfo << "' ";
-                        ss << textSystem->getText(DJV_TEXT("error_cannot_be_read")) << ".";
-                        throw FileSystem::Error(ss.str());
+                        throw FileSystem::Error(String::Format("'{0}': {1}").
+                            arg(fileInfo.getFileName()).
+                            arg(textSystem->getText(DJV_TEXT("error_file_read"))));
                     }
                 }
                 return out;
@@ -314,12 +313,10 @@ namespace djv
                 {
                     if (auto context = getContext().lock())
                     {
-                        std::stringstream ss;
                         auto textSystem = context->getSystemT<TextSystem>();
-                        ss << textSystem->getText(DJV_TEXT("error_the_file"));
-                        ss << " '" << fileInfo << "' ";
-                        ss << textSystem->getText(DJV_TEXT("error_cannot_be_written")) << ".";
-                        throw FileSystem::Error(ss.str());
+                        throw FileSystem::Error(String::Format("'{0}': {1}").
+                            arg(fileInfo.getFileName()).
+                            arg(textSystem->getText(DJV_TEXT("error_file_write"))));
                     }
                 }
                 return out;

@@ -30,6 +30,7 @@
 #include <djvCore/Path.h>
 
 #include <djvCore/FileInfo.h>
+#include <djvCore/StringFormat.h>
 
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
@@ -54,9 +55,10 @@ namespace djv
                 std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
                 if (_wmkdir(utf16.from_bytes(value.get()).c_str()) != 0)
                 {
-                    std::stringstream ss;
-                    ss << DJV_TEXT("error_the_directory") << " '" << value << "' " << DJV_TEXT("error_cannot_be_created") << ".";
-                    throw std::invalid_argument(ss.str());
+                    //! \todo How can we translate these?
+                    throw std::invalid_argument(String::Format("'{0}': {1}").
+                        arg(value.get()).
+                        arg(DJV_TEXT("error_cannot_be_created")));
                 }
             }
 
@@ -65,9 +67,10 @@ namespace djv
                 std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
                 if (_wrmdir(utf16.from_bytes(value.get()).c_str()) != 0)
                 {
-                    std::stringstream ss;
-                    ss << DJV_TEXT("error_the_directory") << " '" << value << "' " << DJV_TEXT("error_cannot_be_removed") << ".";
-                    throw std::invalid_argument(ss.str());
+                    //! \todo How can we translate these?
+                    throw std::invalid_argument(String::Format("'{0}': {1}").
+                        arg(value.get()).
+                        arg(DJV_TEXT("error_cannot_be_removed")));
                 }
             }
 

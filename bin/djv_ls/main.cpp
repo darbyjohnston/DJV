@@ -34,6 +34,7 @@
 #include <djvCore/Context.h>
 #include <djvCore/Error.h>
 #include <djvCore/FileInfo.h>
+#include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 #include <djvCore/Vector.h>
 
@@ -63,12 +64,11 @@ namespace djv
                     }
                     else
                     {
-                        std::stringstream ss;
                         auto textSystem = getSystemT<Core::TextSystem>();
-                        ss << textSystem->getText(DJV_TEXT("error_the_file"));
-                        ss << " '" << fileInfo << "' ";
-                        ss << textSystem->getText(DJV_TEXT("error_cannot_be_opened")) << ".";
-                        std::cout << Core::Error::format(ss.str()) << std::endl;
+                        const std::string s = Core::String::Format("'{0}': {1}").
+                            arg(fileInfo.getFileName()).
+                            arg(textSystem->getText(DJV_TEXT("error_file_open")));
+                        std::cout << s << std::endl;
                     }
                     args.pop_front();
                 }

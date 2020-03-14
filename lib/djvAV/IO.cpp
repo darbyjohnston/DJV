@@ -60,6 +60,7 @@
 #include <djvCore/Path.h>
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/String.h>
+#include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
@@ -660,11 +661,9 @@ namespace djv
                 }
                 if (!out)
                 {
-                    std::stringstream ss;
-                    ss << p.textSystem->getText(DJV_TEXT("error_the_file"));
-                    ss << " '" << fileInfo << "' ";
-                    ss << p.textSystem->getText(DJV_TEXT("error_cannot_be_read")) << ".";
-                    throw FileSystem::Error(ss.str());
+                    throw FileSystem::Error(String::Format("'{0}': {1}").
+                        arg(fileInfo.getFileName()).
+                        arg(p.textSystem->getText(DJV_TEXT("error_file_read"))));
                 }
                 return out;
             }
@@ -683,11 +682,9 @@ namespace djv
                 }
                 if (!out)
                 {
-                    std::stringstream ss;
-                    ss << p.textSystem->getText(DJV_TEXT("error_the_file"));
-                    ss << " '" << fileInfo << "' ";
-                    ss << p.textSystem->getText(DJV_TEXT("error_cannot_be_written")) << ".";
-                    throw FileSystem::Error(ss.str());
+                    throw FileSystem::Error(String::Format("'{0}': {1}").
+                        arg(fileInfo.getFileName()).
+                        arg(p.textSystem->getText(DJV_TEXT("error_file_write"))));
                 }
                 return out;
             }

@@ -34,6 +34,7 @@
 #include <djvAV/Shader.h>
 
 #include <djvCore/String.h>
+#include <djvCore/StringFormat.h>
 
 using namespace djv::Core;
 
@@ -68,10 +69,9 @@ namespace djv
                 if (!success)
                 {
                     glGetShaderInfoLog(_vertex, String::cStringLength, NULL, infoLog);
-                    std::stringstream ss;
-                    ss << DJV_TEXT("error_the_opengl_vertex_shader") << " '" << _shader->getVertexName() << "' " <<
-                        DJV_TEXT("error_compilation") << ". " << infoLog;
-                    throw ShaderError(ss.str());
+                    throw ShaderError(String::Format("'{0}': {1}").
+                        arg(_shader->getVertexName()).
+                        arg(infoLog));
                 }
 
                 _fragment = glCreateShader(GL_FRAGMENT_SHADER);
@@ -88,10 +88,9 @@ namespace djv
                 if (!success)
                 {
                     glGetShaderInfoLog(_fragment, String::cStringLength, NULL, infoLog);
-                    std::stringstream ss;
-                    ss << DJV_TEXT("error_the_opengl_fragment_shader") << " '" << _shader->getFragmentName() << "' " <<
-                        DJV_TEXT("error_compilation") << ". " << infoLog;
-                    throw ShaderError(ss.str());
+                    throw ShaderError(String::Format("'{0}': {1}").
+                        arg(_shader->getFragmentName()).
+                        arg(infoLog));
                 }
 
                 _program = glCreateProgram();
@@ -102,10 +101,9 @@ namespace djv
                 if (!success)
                 {
                     glGetProgramInfoLog(_program, String::cStringLength, NULL, infoLog);
-                    std::stringstream ss;
-                    ss << DJV_TEXT("error_the_program") << " '" << _shader->getVertexName() << "' " <<
-                        DJV_TEXT("error_link") << ". " << infoLog;
-                    throw std::invalid_argument(ss.str());
+                    throw ShaderError(String::Format("'{0}': {1}").
+                        arg(_shader->getVertexName()).
+                        arg(infoLog));
                 }
             }
 

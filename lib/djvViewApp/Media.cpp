@@ -35,6 +35,7 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/LogSystem.h>
+#include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 #include <djvCore/Timer.h>
 
@@ -804,14 +805,13 @@ namespace djv
                 }
                 catch (const std::exception& e)
                 {
-                    std::stringstream ss;
-                    auto textSystem = context->getSystemT<TextSystem>();
-                    ss << textSystem->getText(DJV_TEXT("error_the_file"));
-                    ss << " '" << p.fileInfo << "' ";
-                    ss << textSystem->getText(DJV_TEXT("error_cannot_be_read")) << ". ";
-                    ss << e.what();
                     auto logSystem = context->getSystemT<LogSystem>();
-                    logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
+                    logSystem->log(
+                        "djv::ViewApp::Media",
+                        String::Format("'{0}': {1}").
+                            arg(p.fileInfo.getFileName()).
+                            arg(e.what()),
+                        LogLevel::Error);
                 }
                 
                 _seek(p.currentFrame->get());

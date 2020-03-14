@@ -42,6 +42,7 @@
 #include <djvAV/Color.h>
 #include <djvAV/TriangleMesh.h>
 
+#include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 
 #include <opennurbs.h>
@@ -366,11 +367,9 @@ namespace djv
                             ON_TextLog onErrorLog(onErrorLogString);
                             if (!onModel.Read(onFile, &onErrorLog))
                             {
-                                std::stringstream ss;
-                                ss << textSystem->getText(DJV_TEXT("error_the_file"));
-                                ss << " '" << fileName << "' ";
-                                ss << textSystem->getText(DJV_TEXT("error_cannot_be_opened")) << ".";
-                                throw std::runtime_error(ss.str());
+                                throw std::runtime_error(String::Format("'{0}': {1}").
+                                    arg(fileName).
+                                    arg(textSystem->getText(DJV_TEXT("error_file_open"))));
                             }
                             ON::CloseFile(f);
                         }
