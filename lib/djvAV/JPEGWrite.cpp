@@ -32,6 +32,9 @@
 #include <djvCore/Context.h>
 #include <djvCore/FileIO.h>
 #include <djvCore/FileSystem.h>
+#include <djvCore/LogSystem.h>
+#include <djvCore/StringFormat.h>
+#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -74,13 +77,16 @@ namespace djv
 
                 namespace
                 {
-                    struct File
+                    class File
                     {
+                        DJV_NON_COPYABLE(File);
+
                         File()
                         {
                             memset(&jpeg, 0, sizeof(jpeg_compress_struct));
                         }
 
+                    public:
                         ~File()
                         {
                             if (jpegInit)
@@ -95,9 +101,14 @@ namespace djv
                             }
                         }
 
-                        FILE* f = nullptr;
+                        static std::shared_ptr<File> create()
+                        {
+                            return std::shared_ptr<File>(new File);
+                        }
+
+                        FILE*                f          = nullptr;
                         jpeg_compress_struct jpeg;
-                        bool                 jpegInit = false;
+                        bool                 jpegInit   = false;
                         JPEGErrorStruct      jpegError;
                     };
 
@@ -210,43 +221,60 @@ namespace djv
                     return out;
                 }
 
-                void Write::_write(const std::string & fileName, const std::shared_ptr<Image::Image> & image)
+                void Write::_write(const std::string& fileName, const std::shared_ptr<Image::Image>& image)
                 {
-                    File f;
-                    f.jpeg.err = jpeg_std_error(&f.jpegError.pub);
-                    f.jpegError.pub.error_exit = djvJPEGError;
-                    f.jpegError.pub.emit_message = djvJPEGWarning;
-                    f.jpegError.msg[0] = 0;
-                    if (!jpegInit(&f.jpeg, &f.jpegError))
+                    // Open the file.
+                    auto f = File::create();
+                    f->jpeg.err = jpeg_std_error(&f->jpegError.pub);
+                    f->jpegError.pub.error_exit = djvJPEGError;
+                    f->jpegError.pub.emit_message = djvJPEGWarning;
+                    if (!jpegInit(&f->jpeg, &f->jpegError))
                     {
-                        throw FileSystem::Error(f.jpegError.msg);
+                        throw FileSystem::Error(f->jpegError.messages.size() ?
+                            f->jpegError.messages.back() :
+                            _textSystem->getText(DJV_TEXT("error_file_open")));
                     }
-                    f.jpegInit = true;
-
-                    f.f = FileSystem::fopen(fileName.c_str(), "wb");
-                    if (!f.f)
+                    f->jpegInit = true;
+                    f->f = FileSystem::fopen(fileName.c_str(), "wb");
+                    if (!f->f)
                     {
                         throw FileSystem::Error(DJV_TEXT("error_file_open"));
                     }
-
                     const auto& info = image->getInfo();
-                    if (!jpegOpen(f.f, &f.jpeg, info, _info.tags, _p->options, &f.jpegError))
+                    if (!jpegOpen(f->f, &f->jpeg, info, _info.tags, _p->options, &f->jpegError))
                     {
-                        throw FileSystem::Error(f.jpegError.msg);
+                        throw FileSystem::Error(f->jpegError.messages.size() ?
+                            f->jpegError.messages.back() :
+                            _textSystem->getText(DJV_TEXT("error_file_open")));
                     }
 
+                    // Write the file.
                     const uint16_t h = image->getHeight();
                     for (uint16_t y = 0; y < h; ++y)
                     {
-                        if (!jpegScanline(&f.jpeg, image->getData(y), &f.jpegError))
+                        if (!jpegScanline(&f->jpeg, image->getData(y), &f->jpegError))
                         {
-                            throw FileSystem::Error(f.jpegError.msg);
+                            throw FileSystem::Error(f->jpegError.messages.size() ?
+                                f->jpegError.messages.back() :
+                                _textSystem->getText(DJV_TEXT("error_write_scanline")));
                         }
                     }
-
-                    if (!jpeg_end(&f.jpeg, &f.jpegError))
+                    if (!jpeg_end(&f->jpeg, &f->jpegError))
                     {
-                        throw FileSystem::Error(f.jpegError.msg);
+                        throw FileSystem::Error(f->jpegError.messages.size() ?
+                            f->jpegError.messages.back() :
+                            _textSystem->getText(DJV_TEXT("error_file_close")));
+                    }
+
+                    // Log any warnings.
+                    for (const auto& i : f->jpegError.messages)
+                    {
+                        _logSystem->log(
+                            pluginName,
+                            String::Format("'{0}': {1}").
+                            arg(fileName).
+                            arg(i),
+                            LogLevel::Warning);
                     }
                 }
 

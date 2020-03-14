@@ -31,6 +31,8 @@
 
 #include <djvCore/FileIO.h>
 #include <djvCore/FileSystem.h>
+#include <djvCore/LogSystem.h>
+#include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
@@ -45,7 +47,8 @@ namespace djv
             {
                 class Read::File
                 {
-                public:
+                    DJV_NON_COPYABLE(File);
+
                     File()
                     {
                         memset(&pngError, 0, sizeof(ErrorStruct));
@@ -56,14 +59,7 @@ namespace djv
                             djvPngWarning);
                     }
 
-                    File(File&& other) noexcept :
-                        f(other.f),
-                        png(other.png),
-                        pngInfo(other.pngInfo),
-                        pngInfoEnd(other.pngInfoEnd),
-                        pngError(std::move(other.pngError))
-                    {}
-
+                public:
                     ~File()
                     {
                         if (f)
@@ -83,17 +79,9 @@ namespace djv
                         }
                     }
 
-                    File& operator = (File&& other) noexcept
+                    static std::shared_ptr<File> create()
                     {
-                        if (this != &other)
-                        {
-                            f = other.f;
-                            png = other.png;
-                            pngInfo = other.pngInfo;
-                            pngInfoEnd = other.pngInfoEnd;
-                            pngError = std::move(other.pngError);
-                        }
-                        return *this;
+                        return std::shared_ptr<File>(new File);
                     }
 
                     bool open(const std::string& fileName)
@@ -134,23 +122,30 @@ namespace djv
                     bool pngOpen(
                         FILE*       f,
                         png_structp png,
-                        png_infop *  pngInfo,
-                        png_infop *  pngInfoEnd)
+                        png_infop*  pngInfo,
+                        png_infop*  pngInfoEnd,
+                        uint16_t&   width,
+                        uint16_t&   height,
+                        uint8_t&    channels,
+                        uint8_t&    bitDepth)
                     {
                         if (setjmp(png_jmpbuf(png)))
                         {
                             return false;
                         }
+
                         *pngInfo = png_create_info_struct(png);
                         if (!*pngInfo)
                         {
                             return false;
                         }
+
                         *pngInfoEnd = png_create_info_struct(png);
                         if (!*pngInfoEnd)
                         {
                             return false;
                         }
+
                         uint8_t tmp[8];
                         if (fread(tmp, 8, 1, f) != 1)
                         {
@@ -160,25 +155,52 @@ namespace djv
                         {
                             return false;
                         }
+
                         png_init_io(png, f);
                         png_set_sig_bytes(png, 8);
                         png_read_info(png, *pngInfo);
+
                         if (png_get_interlace_type(png, *pngInfo) != PNG_INTERLACE_NONE)
                         {
                             return false;
                         }
+
                         png_set_expand(png);
                         //png_set_gray_1_2_4_to_8(png);
                         png_set_palette_to_rgb(png);
                         png_set_tRNS_to_alpha(png);
+
+                        width = png_get_image_width(png, *pngInfo);
+                        height = png_get_image_height(png, *pngInfo);
+
+                        channels = png_get_channels(png, *pngInfo);
+                        if (png_get_color_type(png, *pngInfo) == PNG_COLOR_TYPE_PALETTE)
+                        {
+                            channels = 3;
+                        }
+                        if (png_get_valid(png, *pngInfo, PNG_INFO_tRNS))
+                        {
+                            ++channels;
+                        }
+                        bitDepth = png_get_bit_depth(png, *pngInfo);
+                        if (bitDepth < 8)
+                        {
+                            bitDepth = 8;
+                        }
+
+                        if (bitDepth >= 16 && Memory::Endian::LSB == Memory::getEndian())
+                        {
+                            png_set_swap(png);
+                        }
+
                         return true;
                     }
 
                 } // namespace
 
-                Info Read::_readInfo(const std::string & fileName)
+                Info Read::_readInfo(const std::string& fileName)
                 {
-                    File f;
+                    auto f = File::create();
                     return _open(fileName, f);
                 }
 
@@ -206,65 +228,69 @@ namespace djv
 
                 } // namespace
 
-                std::shared_ptr<Image::Image> Read::_readImage(const std::string & fileName)
+                std::shared_ptr<Image::Image> Read::_readImage(const std::string& fileName)
                 {
-                    std::shared_ptr<Image::Image> out;
-                    File f;
+                    // Open the file.
+                    auto f = File::create();
                     const auto info = _open(fileName, f);
-                    out = Image::Image::create(info.video[0].info);
 
+                    // Read the file.
+                    auto out = Image::Image::create(info.video[0].info);
                     out->setPluginName(pluginName);
                     for (uint16_t y = 0; y < info.video[0].info.size.h; ++y)
                     {
-                        if (!pngScanline(f.png, out->getData(y)))
+                        if (!pngScanline(f->png, out->getData(y)))
                         {
-                            throw FileSystem::Error(f.pngError.msg);
+                            throw FileSystem::Error(f->pngError.messages.size() ?
+                                f->pngError.messages.back() :
+                                _textSystem->getText(DJV_TEXT("error_read_scanline")));
                         }
                     }
-                    pngEnd(f.png, f.pngInfoEnd);
+                    pngEnd(f->png, f->pngInfoEnd);
+
+                    // Log any warnings.
+                    for (const auto& i : f->pngError.messages)
+                    {
+                        _logSystem->log(
+                            pluginName,
+                            String::Format("'{0}': {1}").
+                                arg(fileName).
+                                arg(i),
+                            LogLevel::Warning);
+                    }
+
                     return out;
                 }
 
-                Info Read::_open(const std::string & fileName, File & f)
+                Info Read::_open(const std::string& fileName, const std::shared_ptr<File>& f)
                 {
-                    if (!f.png)
+                    if (!f->png)
                     {
-                        throw FileSystem::Error(f.pngError.msg);
+                        throw FileSystem::Error(f->pngError.messages.size() ?
+                            f->pngError.messages.back() :
+                            _textSystem->getText(DJV_TEXT("error_file_open")));
                     }
-                    if (!f.open(fileName))
+                    if (!f->open(fileName))
                     {
                         throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_file_open")));
                     }
-                    if (!pngOpen(f.f, f.png, &f.pngInfo, &f.pngInfoEnd))
+                    uint16_t width    = 0;
+                    uint16_t height   = 0;
+                    uint8_t  channels = 0;
+                    uint8_t  bitDepth = 0;
+                    if (!pngOpen(f->f, f->png, &f->pngInfo, &f->pngInfoEnd, width, height, channels, bitDepth))
                     {
-                        throw FileSystem::Error(f.pngError.msg);
+                        throw FileSystem::Error(f->pngError.messages.size() ?
+                            f->pngError.messages.back() :
+                            _textSystem->getText(DJV_TEXT("error_file_open")));
                     }
 
-                    int channels = png_get_channels(f.png, f.pngInfo);
-                    if (png_get_color_type(f.png, f.pngInfo) == PNG_COLOR_TYPE_PALETTE)
-                    {
-                        channels = 3;
-                    }
-                    if (png_get_valid(f.png, f.pngInfo, PNG_INFO_tRNS))
-                    {
-                        ++channels;
-                    }
-                    int bitDepth = png_get_bit_depth(f.png, f.pngInfo);
-                    if (bitDepth < 8)
-                    {
-                        bitDepth = 8;
-                    }
                     Image::Type imageType = Image::getIntType(channels, bitDepth);
                     if (Image::Type::None == imageType)
                     {
-                        throw FileSystem::Error("Unsupported image type.");
+                        throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_unsupported_image_type")));
                     }
-                    auto info = Image::Info(png_get_image_width(f.png, f.pngInfo), png_get_image_height(f.png, f.pngInfo), imageType);
-
-                    if (bitDepth >= 16 && Memory::Endian::LSB == Memory::getEndian())
-                    {
-                        png_set_swap(f.png);
-                    }
+                    auto info = Image::Info(width, height, imageType);
 
                     return Info(fileName, VideoInfo(info, _speed, _sequence));
                 }

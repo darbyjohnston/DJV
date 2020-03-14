@@ -31,6 +31,8 @@
 
 #include <djvCore/FileIO.h>
 #include <djvCore/FileSystem.h>
+#include <djvCore/LogSystem.h>
+#include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
@@ -73,7 +75,8 @@ namespace djv
                 {
                     class File
                     {
-                    public:
+                        DJV_NON_COPYABLE(File);
+
                         File()
                         {
                             memset(&pngError, 0, sizeof(ErrorStruct));
@@ -84,13 +87,7 @@ namespace djv
                                 djvPngWarning);
                         }
 
-                        File(File&& other) noexcept :
-                            f(other.f),
-                            png(other.png),
-                            pngInfo(other.pngInfo),
-                            pngError(std::move(other.pngError))
-                        {}
-
+                    public:
                         ~File()
                         {
                             if (f)
@@ -108,16 +105,9 @@ namespace djv
                             }
                         }
 
-                        File& operator = (File&& other) noexcept
+                        static std::shared_ptr<File> create()
                         {
-                            if (this != &other)
-                            {
-                                f = other.f;
-                                png = other.png;
-                                pngInfo = other.pngInfo;
-                                pngError = std::move(other.pngError);
-                            }
-                            return *this;
+                            return std::shared_ptr<File>(new File);
                         }
 
                         bool open(const std::string& fileName)
@@ -175,6 +165,12 @@ namespace djv
                             PNG_COMPRESSION_TYPE_DEFAULT,
                             PNG_FILTER_TYPE_DEFAULT);
                         png_write_info(png, *pngInfo);
+
+                        if (Image::getBitDepth(info.type) > 8 && Memory::Endian::LSB == Memory::getEndian())
+                        {
+                            png_set_swap(png);
+                        }
+
                         return true;
                     }
 
@@ -229,35 +225,52 @@ namespace djv
 
                 void Write::_write(const std::string & fileName, const std::shared_ptr<Image::Image> & image)
                 {
-                    File f;
-                    if (!f.png)
+                    // Open the file.
+                    auto f = File::create();
+                    if (!f->png)
                     {
-                        throw FileSystem::Error(f.pngError.msg);
+                        throw FileSystem::Error(f->pngError.messages.size() ?
+                            f->pngError.messages.back() :
+                            _textSystem->getText(DJV_TEXT("error_file_open")));
                     }
-                    if (!f.open(fileName))
+                    if (!f->open(fileName))
                     {
                         throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_file_open")));
                     }
                     const auto& info = image->getInfo();
-                    if (!pngOpen(f.f, f.png, &f.pngInfo, info))
+                    if (!pngOpen(f->f, f->png, &f->pngInfo, info))
                     {
-                        throw FileSystem::Error(f.pngError.msg);
-                    }
-                    if (Image::getBitDepth(info.type) > 8 && Memory::Endian::LSB == Memory::getEndian())
-                    {
-                        png_set_swap(f.png);
+                        throw FileSystem::Error(f->pngError.messages.size() ?
+                            f->pngError.messages.back() :
+                            _textSystem->getText(DJV_TEXT("error_file_open")));
                     }
 
+                    // Write the file.
                     for (uint16_t y = 0; y < info.size.h; ++y)
                     {
-                        if (!pngScanline(f.png, image->getData(y)))
+                        if (!pngScanline(f->png, image->getData(y)))
                         {
-                            throw FileSystem::Error(f.pngError.msg);
+                            throw FileSystem::Error(f->pngError.messages.size() ?
+                                f->pngError.messages.back() :
+                                _textSystem->getText(DJV_TEXT("error_write_scanline")));
                         }
                     }
-                    if (!pngEnd(f.png, f.pngInfo))
+                    if (!pngEnd(f->png, f->pngInfo))
                     {
-                        throw FileSystem::Error(f.pngError.msg);
+                        throw FileSystem::Error(f->pngError.messages.size() ?
+                            f->pngError.messages.back() :
+                            _textSystem->getText(DJV_TEXT("error_file_close")));
+                    }
+
+                    // Log any warnings.
+                    for (const auto& i : f->pngError.messages)
+                    {
+                        _logSystem->log(
+                            pluginName,
+                            String::Format("'{0}': {1}").
+                                arg(fileName).
+                                arg(i),
+                            LogLevel::Warning);
                     }
                 }
 

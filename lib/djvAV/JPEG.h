@@ -67,7 +67,7 @@ namespace djv
                 struct JPEGErrorStruct
                 {
                     struct jpeg_error_mgr pub;
-                    char msg[JMSG_LENGTH_MAX] = "";
+                    std::vector<std::string> messages;
                     jmp_buf jump;
                 };
 
@@ -90,12 +90,12 @@ namespace djv
                         const std::shared_ptr<Core::LogSystem>&);
 
                 protected:
-                    Info _readInfo(const std::string & fileName) override;
-                    std::shared_ptr<Image::Image> _readImage(const std::string & fileName) override;
+                    Info _readInfo(const std::string& fileName) override;
+                    std::shared_ptr<Image::Image> _readImage(const std::string& fileName) override;
 
                 private:
                     struct File;
-                    Info _open(const std::string &, File &);
+                    Info _open(const std::string&, const std::shared_ptr<File>&);
                 };
                 
                 //! This class provides the JPEG file writer.
@@ -111,7 +111,7 @@ namespace djv
 
                     static std::shared_ptr<Write> create(
                         const Core::FileSystem::FileInfo&,
-                        const Info &,
+                        const Info&,
                         const WriteOptions&,
                         const Options&,
                         const std::shared_ptr<Core::TextSystem>&,
@@ -120,7 +120,7 @@ namespace djv
 
                 protected:
                     Image::Type _getImageType(Image::Type) const override;
-                    void _write(const std::string & fileName, const std::shared_ptr<Image::Image> &) override;
+                    void _write(const std::string& fileName, const std::shared_ptr<Image::Image>&) override;
 
                 private:
                     DJV_PRIVATE();
@@ -140,10 +140,10 @@ namespace djv
                     static std::shared_ptr<Plugin> create(const std::shared_ptr<Core::Context>&);
 
                     picojson::value getOptions() const override;
-                    void setOptions(const picojson::value &) override;
+                    void setOptions(const picojson::value&) override;
 
                     std::shared_ptr<IRead> read(const Core::FileSystem::FileInfo&, const ReadOptions&) const override;
-                    std::shared_ptr<IWrite> write(const Core::FileSystem::FileInfo&, const Info &, const WriteOptions&) const override;
+                    std::shared_ptr<IWrite> write(const Core::FileSystem::FileInfo&, const Info&, const WriteOptions&) const override;
 
                 private:
                     DJV_PRIVATE();
@@ -164,6 +164,6 @@ namespace djv
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value &, AV::IO::JPEG::Options&);
+    void fromJSON(const picojson::value&, AV::IO::JPEG::Options&);
 
 } // namespace djv

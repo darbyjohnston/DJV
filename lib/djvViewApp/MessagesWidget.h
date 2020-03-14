@@ -35,19 +35,19 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the errors and warnings widget.
-        class ErrorsWidget : public MDIWidget
+        //! This class provides a widget for displaying messages.
+        class MessagesWidget : public MDIWidget
         {
-            DJV_NON_COPYABLE(ErrorsWidget);
+            DJV_NON_COPYABLE(MessagesWidget);
 
         protected:
             void _init(const std::shared_ptr<Core::Context>&);
-            ErrorsWidget();
+            MessagesWidget();
 
         public:
-            ~ErrorsWidget() override;
+            ~MessagesWidget() override;
 
-            static std::shared_ptr<ErrorsWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<MessagesWidget> create(const std::shared_ptr<Core::Context>&);
 
             void setText(const std::string&);
             void setPopup(bool);

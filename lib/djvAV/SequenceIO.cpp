@@ -38,6 +38,7 @@
 #include <djvCore/OS.h>
 #include <djvCore/Path.h>
 #include <djvCore/String.h>
+#include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 #include <djvCore/Timer.h>
 
@@ -318,11 +319,12 @@ namespace djv
                         }
                         catch (const std::exception& e)
                         {
-                            std::stringstream ss;
-                            ss << _textSystem->getText(DJV_TEXT("error_the_file"));
-                            ss << " '" << fileName << "' ";
-                            ss << _textSystem->getText(DJV_TEXT("error_cannot_be_read")) << ". " << e.what();
-                            _logSystem->log("djv::AV::ISequenceRead", ss.str(), LogLevel::Error);
+                            _logSystem->log(
+                                "djv::AV::ISequenceRead",
+                                String::Format("'{0}': {1}").
+                                    arg(fileName).
+                                    arg(e.what()),
+                                LogLevel::Error);
                         }
                         return out;
                     });
@@ -602,7 +604,7 @@ namespace djv
 #endif
                         {
                             std::stringstream ss;
-                            ss << _textSystem->getText(DJV_TEXT("Cannot initialize GLAD."));
+                            ss << _textSystem->getText(DJV_TEXT("error_glad_init"));
                             throw FileSystem::Error(ss.str());
                         }
 
@@ -652,11 +654,9 @@ namespace djv
                                     const Image::Type imageType = _getImageType(image->getType());
                                     if (Image::Type::None == imageType)
                                     {
-                                        std::stringstream ss;
-                                        ss << _textSystem->getText(DJV_TEXT("error_the_file"));
-                                        ss << " '" << fileName << "' ";
-                                        ss << _textSystem->getText(DJV_TEXT("error_cannot_be_written")) << ".";
-                                        throw FileSystem::Error(ss.str());
+                                        throw FileSystem::Error(String::Format("'{0}': {1}").
+                                            arg(fileName).
+                                            arg(_textSystem->getText(DJV_TEXT("error_unsupported_image_type"))));
                                     }
                                     const Image::Layout imageLayout = _getImageLayout();
                                     if (imageType != image->getType() || imageLayout != image->getLayout())
@@ -690,12 +690,12 @@ namespace djv
                                     const auto result = future.get();
                                     if (result.error)
                                     {
-                                        std::stringstream ss;
-                                        ss << _textSystem->getText(DJV_TEXT("error_the_file"));
-                                        ss << " '" << result.fileName << "' ";
-                                        ss << _textSystem->getText(DJV_TEXT("error_cannot_be_written")) << ". ";
-                                        ss << result.errorString;
-                                        _logSystem->log("djv::AV::ISequenceWrite", ss.str(), LogLevel::Error);
+                                        _logSystem->log(
+                                            "djv::AV::ISequenceWrite",
+                                            String::Format("'{0}': {1}").
+                                                arg(result.fileName).
+                                                arg(result.errorString),
+                                            LogLevel::Error);
                                         p.running = false;
                                     }
                                 }

@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewApp/ErrorsWidget.h>
+#include <djvViewApp/MessagesWidget.h>
 
 #include <djvUI/CheckBox.h>
 #include <djvUI/PushButton.h>
@@ -83,7 +83,7 @@ namespace djv
 
         } // namespace
 
-        struct ErrorsWidget::Private
+        struct MessagesWidget::Private
         {
             std::shared_ptr<UI::TextBlock> textBlock;
             std::shared_ptr<UI::CheckBox> popupCheckBox;
@@ -94,12 +94,12 @@ namespace djv
             std::function<void(void)> clearCallback;
         };
 
-        void ErrorsWidget::_init(const std::shared_ptr<Core::Context>& context)
+        void MessagesWidget::_init(const std::shared_ptr<Core::Context>& context)
         {
             MDIWidget::_init(context);
             DJV_PRIVATE_PTR();
 
-            setClassName("djv::ViewApp::ErrorsWidget");
+            setClassName("djv::ViewApp::MessagesWidget");
 
             p.textBlock = UI::TextBlock::create(context);
             p.textBlock->setFontFamily(AV::Font::familyMono);
@@ -134,7 +134,7 @@ namespace djv
             stackLayout->addChild(layout);
             addChild(stackLayout);
 
-            auto weak = std::weak_ptr<ErrorsWidget>(std::dynamic_pointer_cast<ErrorsWidget>(shared_from_this()));
+            auto weak = std::weak_ptr<MessagesWidget>(std::dynamic_pointer_cast<MessagesWidget>(shared_from_this()));
             p.popupCheckBox->setCheckedCallback(
                 [weak](bool value)
                 {
@@ -172,54 +172,54 @@ namespace djv
                 });
         }
 
-        ErrorsWidget::ErrorsWidget() :
+        MessagesWidget::MessagesWidget() :
             _p(new Private)
         {}
 
-        ErrorsWidget::~ErrorsWidget()
+        MessagesWidget::~MessagesWidget()
         {}
 
-        std::shared_ptr<ErrorsWidget> ErrorsWidget::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<MessagesWidget> MessagesWidget::create(const std::shared_ptr<Core::Context>& context)
         {
-            auto out = std::shared_ptr<ErrorsWidget>(new ErrorsWidget);
+            auto out = std::shared_ptr<MessagesWidget>(new MessagesWidget);
             out->_init(context);
             return out;
         }
 
-        void ErrorsWidget::_initEvent(Event::Init & event)
+        void MessagesWidget::_initEvent(Event::Init & event)
         {
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            setTitle(_getText(DJV_TEXT("widget_errors")));
-            p.popupCheckBox->setText(_getText(DJV_TEXT("widget_errors_popup")));
-            p.popupCheckBox->setTooltip(_getText(DJV_TEXT("widget_errors_popup_tooltip")));
-            p.copyButton->setText(_getText(DJV_TEXT("widget_errors_copy")));
-            p.copyButton->setTooltip(_getText(DJV_TEXT("widget_errors_copy_tooltip")));
-            p.clearButton->setText(_getText(DJV_TEXT("widget_errors_clear")));
-            p.clearButton->setTooltip(_getText(DJV_TEXT("widget_errors_clear_tooltip")));
+            setTitle(_getText(DJV_TEXT("widget_messages")));
+            p.popupCheckBox->setText(_getText(DJV_TEXT("widget_messages_popup")));
+            p.popupCheckBox->setTooltip(_getText(DJV_TEXT("widget_messages_popup_tooltip")));
+            p.copyButton->setText(_getText(DJV_TEXT("widget_messages_copy")));
+            p.copyButton->setTooltip(_getText(DJV_TEXT("widget_messages_copy_tooltip")));
+            p.clearButton->setText(_getText(DJV_TEXT("widget_messages_clear")));
+            p.clearButton->setTooltip(_getText(DJV_TEXT("widget_messages_clear_tooltip")));
         }
 
-        void ErrorsWidget::setText(const std::string& value)
+        void MessagesWidget::setText(const std::string& value)
         {
             _p->textBlock->setText(value);
         }
 
-        void ErrorsWidget::setPopup(bool value)
+        void MessagesWidget::setPopup(bool value)
         {
             _p->popupCheckBox->setChecked(value);
         }
 
-        void ErrorsWidget::setPopupCallback(const std::function<void(bool)>& value)
+        void MessagesWidget::setPopupCallback(const std::function<void(bool)>& value)
         {
             _p->popupCallback = value;
         }
 
-        void ErrorsWidget::setCopyCallback(const std::function<void(void)>& value)
+        void MessagesWidget::setCopyCallback(const std::function<void(void)>& value)
         {
             _p->copyCallback = value;
         }
 
-        void ErrorsWidget::setClearCallback(const std::function<void(void)>& value)
+        void MessagesWidget::setClearCallback(const std::function<void(void)>& value)
         {
             _p->clearCallback = value;
         }

@@ -14,7 +14,6 @@ set(header
 	ColorSpaceWidget.h
     DebugWidget.h
     Enum.h
-    ErrorsWidget.h
     FileSystem.h
     FileSettings.h
     FileSettingsWidget.h
@@ -39,6 +38,7 @@ set(header
 	MediaWidget.h
 	MediaWidgetPrivate.h
 	MemoryCacheWidget.h
+    MessagesWidget.h
 	NUXSettings.h
     NUXSettingsWidget.h
 	NUXSystem.h
@@ -78,7 +78,6 @@ set(source
 	ColorSpaceWidget.cpp
     DebugWidget.cpp
     Enum.cpp
-    ErrorsWidget.cpp
     FileSettings.cpp
     FileSettingsWidget.cpp
     FileSystem.cpp
@@ -103,6 +102,7 @@ set(source
 	MediaWidget.cpp
 	MediaWidgetPrivate.cpp
 	MemoryCacheWidget.cpp
+    MessagesWidget.cpp
 	NUXSettings.cpp
     NUXSettingsWidget.cpp
 	NUXSystem.cpp

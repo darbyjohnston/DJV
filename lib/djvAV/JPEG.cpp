@@ -70,7 +70,7 @@ namespace djv
                     return toJSON(_p->options);
                 }
 
-                void Plugin::setOptions(const picojson::value & value)
+                void Plugin::setOptions(const picojson::value& value)
                 {
                     fromJSON(value, _p->options);
                 }
@@ -80,7 +80,7 @@ namespace djv
                     return Read::create(fileInfo, options, _textSystem, _resourceSystem, _logSystem);
                 }
 
-                std::shared_ptr<IWrite> Plugin::write(const FileSystem::FileInfo& fileInfo, const Info & info, const WriteOptions& options) const
+                std::shared_ptr<IWrite> Plugin::write(const FileSystem::FileInfo& fileInfo, const Info& info, const WriteOptions& options) const
                 {
                     return Write::create(fileInfo, info, options, _p->options, _textSystem, _resourceSystem, _logSystem);
                 }
@@ -90,7 +90,9 @@ namespace djv
                     void djvJPEGError(j_common_ptr in)
                     {
                         auto error = reinterpret_cast<JPEGErrorStruct *>(in->err);
-                        in->err->format_message(in, error->msg);
+                        char message[JMSG_LENGTH_MAX] = "";
+                        in->err->format_message(in, message);
+                        error->messages.push_back(message);
                         ::longjmp(error->jump, 1);
                     }
 
@@ -102,8 +104,9 @@ namespace djv
                             return;
                         }
                         auto error = reinterpret_cast<JPEGErrorStruct *>(in->err);
-                        in->err->format_message(in, error->msg);
-                        ::longjmp(error->jump, 1);
+                        char message[JMSG_LENGTH_MAX] = "";
+                        in->err->format_message(in, message);
+                        error->messages.push_back(message);
                     }
 
                 } // extern "C"
@@ -112,7 +115,7 @@ namespace djv
         } // namespace IO
     } // namespace AV
     
-    picojson::value toJSON(const AV::IO::JPEG::Options & value)
+    picojson::value toJSON(const AV::IO::JPEG::Options& value)
     {
         picojson::value out(picojson::object_type, true);
         {
@@ -123,11 +126,11 @@ namespace djv
         return out;
     }
 
-    void fromJSON(const picojson::value & value, AV::IO::JPEG::Options & out)
+    void fromJSON(const picojson::value& value, AV::IO::JPEG::Options& out)
     {
         if (value.is<picojson::object>())
         {
-            for (const auto & i : value.get<picojson::object>())
+            for (const auto& i : value.get<picojson::object>())
             {
                 if ("Quality" == i.first)
                 {

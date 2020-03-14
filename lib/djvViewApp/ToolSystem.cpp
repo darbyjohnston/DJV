@@ -30,9 +30,9 @@
 #include <djvViewApp/ToolSystem.h>
 
 #include <djvViewApp/DebugWidget.h>
-#include <djvViewApp/ErrorsWidget.h>
 #include <djvViewApp/IToolSystem.h>
 #include <djvViewApp/InfoWidget.h>
+#include <djvViewApp/MessagesWidget.h>
 #include <djvViewApp/SettingsSystem.h>
 #include <djvViewApp/SystemLogWidget.h>
 #include <djvViewApp/ToolSettings.h>
@@ -61,7 +61,7 @@ namespace djv
         namespace
         {
             //! \todo Should this be configurable?
-            const size_t errorsMax = 100;
+            const size_t messagesMax = 100;
             
         } // namespace
         
@@ -69,19 +69,19 @@ namespace djv
         {
             std::shared_ptr<ToolSettings> settings;
             int currentToolSystem = -1;
-            std::list<std::string> errorsText;
-            bool errorsPopup = false;
+            std::list<std::string> messages;
+            bool messagesPopup = false;
             std::map<std::string, bool> debugBellowsState;
             std::vector<std::shared_ptr<IToolSystem> > toolSystems;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> toolActionGroup;
             std::shared_ptr<UI::Menu> menu;
-            std::weak_ptr<ErrorsWidget> errorsWidget;
+            std::weak_ptr<MessagesWidget> messagesWidget;
             std::weak_ptr<DebugWidget> debugWidget;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ListObserver<std::string> > warningsObserver;
             std::shared_ptr<ListObserver<std::string> > errorsObserver;
-            std::shared_ptr<ValueObserver<bool> > errorsPopupObserver;
+            std::shared_ptr<ValueObserver<bool> > messagesPopupObserver;
         };
 
         void ToolSystem::_init(const std::shared_ptr<Core::Context>& context)
@@ -115,8 +115,8 @@ namespace djv
             p.actions["Info"] = UI::Action::create();
             p.actions["Info"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["Info"]->setShortcut(GLFW_KEY_I, UI::Shortcut::getSystemModifier());
-            p.actions["Errors"] = UI::Action::create();
-            p.actions["Errors"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["Messages"] = UI::Action::create();
+            p.actions["Messages"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["SystemLog"] = UI::Action::create();
             p.actions["SystemLog"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["Debug"] = UI::Action::create();
@@ -134,7 +134,7 @@ namespace djv
             p.menu->addSeparator();
             p.menu->addAction(p.actions["Info"]);
             p.menu->addSeparator();
-            p.menu->addAction(p.actions["Errors"]);
+            p.menu->addAction(p.actions["Messages"]);
             p.menu->addAction(p.actions["SystemLog"]);
             p.menu->addAction(p.actions["Debug"]);
             p.menu->addSeparator();
@@ -181,8 +181,8 @@ namespace djv
                     }
                 });
 
-            p.actionObservers["Errors"] = ValueObserver<bool>::create(
-                p.actions["Errors"]->observeChecked(),
+            p.actionObservers["Messages"] = ValueObserver<bool>::create(
+                p.actions["Messages"]->observeChecked(),
                 [weak, contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -191,11 +191,11 @@ namespace djv
                         {
                             if (value)
                             {
-                                system->_errorsPopup();
+                                system->_messagesPopup();
                             }
                             else
                             {
-                                system->_closeWidget("Errors");
+                                system->_closeWidget("Messages");
                             }
                         }
                     }
@@ -258,19 +258,19 @@ namespace djv
                             std::stringstream ss;
                             ss << system->_getText(DJV_TEXT("recent_files_label_warning")) << ": ";
                             ss << i;
-                            system->_p->errorsText.push_back(ss.str());
-                            while (system->_p->errorsText.size() > errorsMax)
+                            system->_p->messages.push_back(ss.str());
+                            while (system->_p->messages.size() > messagesMax)
                             {
-                                system->_p->errorsText.pop_front();
+                                system->_p->messages.pop_front();
                             }
                         }
-                        if (auto errorsWidget = system->_p->errorsWidget.lock())
+                        if (auto messagesWidget = system->_p->messagesWidget.lock())
                         {
-                            errorsWidget->setText(system->_getErrorsString());
+                            messagesWidget->setText(system->_getMessagesString());
                         }
-                        if (system->_p->errorsPopup)
+                        if (system->_p->messagesPopup)
                         {
-                            system->_errorsPopup();
+                            system->_messagesPopup();
                         }
                     }
                 });
@@ -286,33 +286,33 @@ namespace djv
                             std::stringstream ss;
                             ss << system->_getText(DJV_TEXT("recent_files_label_error")) << ": ";
                             ss << i;
-                            system->_p->errorsText.push_back(ss.str());
-                            while (system->_p->errorsText.size() > errorsMax)
+                            system->_p->messages.push_back(ss.str());
+                            while (system->_p->messages.size() > messagesMax)
                             {
-                                system->_p->errorsText.pop_front();
+                                system->_p->messages.pop_front();
                             }
                         }
-                        if (auto errorsWidget = system->_p->errorsWidget.lock())
+                        if (auto messagesWidget = system->_p->messagesWidget.lock())
                         {
-                            errorsWidget->setText(system->_getErrorsString());
+                            messagesWidget->setText(system->_getMessagesString());
                         }
-                        if (system->_p->errorsPopup)
+                        if (system->_p->messagesPopup)
                         {
-                            system->_errorsPopup();
+                            system->_messagesPopup();
                         }
                     }
                 });
 
-            p.errorsPopupObserver = ValueObserver<bool>::create(
-                p.settings->observeErrorsPopup(),
+            p.messagesPopupObserver = ValueObserver<bool>::create(
+                p.settings->observeMessagesPopup(),
                 [weak](bool value)
                 {
                     if (auto system = weak.lock())
                     {
-                        system->_p->errorsPopup = value;
-                        if (auto errorsWidget = system->_p->errorsWidget.lock())
+                        system->_p->messagesPopup = value;
+                        if (auto messagesWidget = system->_p->messagesWidget.lock())
                         {
-                            errorsWidget->setPopup(value);
+                            messagesWidget->setPopup(value);
                         }
                     }
                 });
@@ -326,7 +326,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             _closeWidget("Info");
-            _closeWidget("Errors");
+            _closeWidget("Messages");
             _closeWidget("SystemLog");
             _closeWidget("Debug");
             p.settings->setDebugBellowsState(p.debugBellowsState);
@@ -357,9 +357,9 @@ namespace djv
         void ToolSystem::_closeWidget(const std::string& value)
         {
             DJV_PRIVATE_PTR();
-            if ("Errors" == value)
+            if ("Messages" == value)
             {
-                p.errorsWidget.reset();
+                p.messagesWidget.reset();
             }
             else if ("Debug" == value)
             {
@@ -384,8 +384,8 @@ namespace djv
             {
                 p.actions["Info"]->setText(_getText(DJV_TEXT("menu_tools_information")));
                 p.actions["Info"]->setTooltip(_getText(DJV_TEXT("menu_tools_information_widget_tooltip")));
-                p.actions["Errors"]->setText(_getText(DJV_TEXT("menu_tools_errors")));
-                p.actions["Errors"]->setTooltip(_getText(DJV_TEXT("menu_tools_errors_widget_tooltip")));
+                p.actions["Messages"]->setText(_getText(DJV_TEXT("menu_tools_messages")));
+                p.actions["Messages"]->setTooltip(_getText(DJV_TEXT("menu_tools_messages_widget_tooltip")));
                 p.actions["SystemLog"]->setText(_getText(DJV_TEXT("menu_tools_system_log")));
                 p.actions["SystemLog"]->setTooltip(_getText(DJV_TEXT("menu_tools_system_log_widget_tooltip")));
                 p.actions["Debug"]->setText(_getText(DJV_TEXT("menu_tools_debugging")));
@@ -397,29 +397,29 @@ namespace djv
             }
         }
 
-        std::string ToolSystem::_getErrorsString() const
+        std::string ToolSystem::_getMessagesString() const
         {
-            return String::joinList(_p->errorsText, '\n');
+            return String::joinList(_p->messages, '\n');
         }
 
-        void ToolSystem::_errorsPopup()
+        void ToolSystem::_messagesPopup()
         {
             DJV_PRIVATE_PTR();
             auto contextWeak = getContext();
             if (auto context = contextWeak.lock())
             {
-                if (!p.errorsWidget.lock())
+                if (!p.messagesWidget.lock())
                 {
-                    auto widget = ErrorsWidget::create(context);
-                    widget->setPopup(p.errorsPopup);
-                    widget->setText(_getErrorsString());
+                    auto widget = MessagesWidget::create(context);
+                    widget->setPopup(p.messagesPopup);
+                    widget->setText(_getMessagesString());
                     auto weak = std::weak_ptr<ToolSystem>(std::dynamic_pointer_cast<ToolSystem>(shared_from_this()));
                     widget->setPopupCallback(
                         [weak](bool value)
                         {
                             if (auto system = weak.lock())
                             {
-                                system->_p->settings->setErrorsPopup(value);
+                                system->_p->settings->setMessagesPopup(value);
                             }
                         });
                     widget->setCopyCallback(
@@ -430,7 +430,7 @@ namespace djv
                                 if (auto system = weak.lock())
                                 {
                                     auto eventSystem = context->getSystemT<Event::IEventSystem>();
-                                    eventSystem->setClipboard(system->_getErrorsString().c_str());
+                                    eventSystem->setClipboard(system->_getMessagesString().c_str());
                                 }
                             }
                         });
@@ -439,15 +439,16 @@ namespace djv
                         {
                             if (auto system = weak.lock())
                             {
-                                system->_p->errorsText.clear();
-                                if (auto errorsWidget = system->_p->errorsWidget.lock())
+                                system->_p->messages.clear();
+                                if (auto messagesWidget = system->_p->messagesWidget.lock())
                                 {
-                                    errorsWidget->setText(std::string());
+                                    messagesWidget->setText(std::string());
                                 }
                             }
                         });
-                    p.errorsWidget = widget;
-                    _openWidget("Errors", widget);
+                    p.messagesWidget = widget;
+                    p.actions["Messages"]->setChecked(true);
+                    _openWidget("Messages", widget);
                 }
             }
         }

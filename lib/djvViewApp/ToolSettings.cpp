@@ -41,10 +41,8 @@ namespace djv
     {
         struct ToolSettings::Private
         {
-            std::shared_ptr<ValueSubject<bool> > errorsPopup;
-
+            std::shared_ptr<ValueSubject<bool> > messagesPopup;
             std::map<std::string, bool> debugBellowsState;
-
             std::map<std::string, BBox2f> widgetGeom;
         };
 
@@ -52,7 +50,7 @@ namespace djv
         {
             ISettings::_init("djv::ViewApp::ToolSettings", context);
             DJV_PRIVATE_PTR();
-            p.errorsPopup = ValueSubject<bool>::create(true);
+            p.messagesPopup = ValueSubject<bool>::create(true);
             _load();
         }
 
@@ -70,14 +68,14 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<IValueSubject<bool> > ToolSettings::observeErrorsPopup() const
+        std::shared_ptr<IValueSubject<bool> > ToolSettings::observeMessagesPopup() const
         {
-            return _p->errorsPopup;
+            return _p->messagesPopup;
         }
 
-        void ToolSettings::setErrorsPopup(bool value)
+        void ToolSettings::setMessagesPopup(bool value)
         {
-            _p->errorsPopup->setIfChanged(value);
+            _p->messagesPopup->setIfChanged(value);
         }
 
         std::map<std::string, bool> ToolSettings::getDebugBellowsState() const
@@ -106,7 +104,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
-                UI::Settings::read("ErrorsPopup", object, p.errorsPopup);
+                UI::Settings::read("MessagesPopup", object, p.messagesPopup);
                 UI::Settings::read("DebugBellowsState", object, p.debugBellowsState);
                 UI::Settings::read("WidgetGeom", object, p.widgetGeom);
             }
@@ -117,7 +115,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             picojson::value out(picojson::object_type, true);
             auto & object = out.get<picojson::object>();
-            UI::Settings::write("ErrorsPopup", p.errorsPopup->get(), object);
+            UI::Settings::write("MessagesPopup", p.messagesPopup->get(), object);
             UI::Settings::write("DebugBellowsState", p.debugBellowsState, object);
             UI::Settings::write("WidgetGeom", p.widgetGeom, object);
             return out;

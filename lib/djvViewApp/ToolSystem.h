@@ -58,8 +58,8 @@ namespace djv
             void _textUpdate() override;
 
         private:
-            std::string _getErrorsString() const;
-            void _errorsPopup();
+            std::string _getMessagesString() const;
+            void _messagesPopup();
 
             DJV_PRIVATE();
         };
