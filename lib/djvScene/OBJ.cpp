@@ -395,7 +395,7 @@ namespace djv
                             {
                                 _logSystem->log(
                                     "djv::Scene::OBJ",
-                                    String::Format("'{0}': {1}").
+                                    String::Format("{0}: {1}").
                                         arg(_fileInfo.getFileName()).
                                         arg(_textSystem->getText(DJV_TEXT("error_file_write"))),
                                     LogLevel::Error);

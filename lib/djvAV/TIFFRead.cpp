@@ -31,6 +31,7 @@
 
 #include <djvCore/FileIO.h>
 #include <djvCore/FileSystem.h>
+#include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
@@ -97,7 +98,9 @@ namespace djv
                     {
                         if (TIFFReadScanline(f.f, (tdata_t *)out->getData(y), y) == -1)
                         {
-                            throw FileSystem::Error(_textSystem->getText(_textSystem->getText(("error_read_scanline"))));
+                            throw FileSystem::Error(String::Format("{0}: {1}").
+                                arg(fileName).
+                                arg(_textSystem->getText(DJV_TEXT("error_read_scanline"))));
                         }
                         if (f.palette)
                         {
@@ -120,7 +123,9 @@ namespace djv
 #endif // DJV_WINDOWS
                     if (!f.f)
                     {
-                        throw FileSystem::Error(_textSystem->getText(("error_file_open")));
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(fileName).
+                            arg(_textSystem->getText(DJV_TEXT("error_file_open"))));
                     }
 
                     uint32   width            = 0;
@@ -169,7 +174,9 @@ namespace djv
                     }
                     if (Image::Type::None == imageType)
                     {
-                        throw FileSystem::Error(_textSystem->getText(("error_unsupported_image_type")));
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(fileName).
+                            arg(_textSystem->getText(DJV_TEXT("error_unsupported_image_type"))));
                     }
 
                     Image::Layout layout;

@@ -31,6 +31,7 @@
 
 #include <djvCore/FileIO.h>
 #include <djvCore/FileSystem.h>
+#include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
@@ -135,7 +136,9 @@ namespace djv
                     io->read(magic, 2);
                     if (magic[0] != 'P')
                     {
-                        throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_bad_magic_number")));
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(fileName).
+                            arg(_textSystem->getText(DJV_TEXT("error_bad_magic_number"))));
                     }
                     switch (magic[1])
                     {
@@ -145,7 +148,9 @@ namespace djv
                     case '6': break;
                     default:
                     {
-                        throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_bad_magic_number")));
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(fileName).
+                            arg(_textSystem->getText(DJV_TEXT("error_bad_magic_number"))));
                     }
                     }
                     const int ppmType = magic[1] - '0';
@@ -171,14 +176,18 @@ namespace djv
                     const auto imageType = Image::getIntType(channelCount, bitDepth);
                     if (Image::Type::None == imageType)
                     {
-                        throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_unsupported_image_type")));
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(fileName).
+                            arg(_textSystem->getText(DJV_TEXT("error_unsupported_image_type"))));
                     }
                     Image::Layout layout;
                     layout.endian = data != Data::ASCII ? Memory::Endian::MSB : Memory::getEndian();
                     auto info = Image::Info(w, h, imageType, layout);
                     if (Data::Binary == data && io->getSize() - io->getPos() != info.getDataByteCount())
                     {
-                        throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_incomplete_file")));
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(fileName).
+                            arg(_textSystem->getText(DJV_TEXT("error_incomplete_file"))));
                     }
                     return Info(fileName, VideoInfo(info, _speed, _sequence));
                 }

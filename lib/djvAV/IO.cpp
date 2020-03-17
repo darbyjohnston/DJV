@@ -661,7 +661,7 @@ namespace djv
                 }
                 if (!out)
                 {
-                    throw FileSystem::Error(String::Format("'{0}': {1}").
+                    throw FileSystem::Error(String::Format("{0}: {1}").
                         arg(fileInfo.getFileName()).
                         arg(p.textSystem->getText(DJV_TEXT("error_file_read"))));
                 }
@@ -682,7 +682,7 @@ namespace djv
                 }
                 if (!out)
                 {
-                    throw FileSystem::Error(String::Format("'{0}': {1}").
+                    throw FileSystem::Error(String::Format("{0}: {1}").
                         arg(fileInfo.getFileName()).
                         arg(p.textSystem->getText(DJV_TEXT("error_file_write"))));
                 }

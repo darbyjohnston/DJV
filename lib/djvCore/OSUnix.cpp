@@ -31,6 +31,8 @@
 
 #include <djvCore/Error.h>
 #include <djvCore/Path.h>
+#include <djvCore/String.h>
+#include <djvCore/StringFormat.h>
 
 #if defined(DJV_PLATFORM_OSX)
 #include <ApplicationServices/ApplicationServices.h>
@@ -191,9 +193,14 @@ namespace djv
                 int r = system(ss.str().c_str());
                 if (r != 0)
                 {
-                    std::stringstream s;
-                    s << DJV_TEXT("error_cannot_open_the_url") << " '" << value << "', " << DJV_TEXT("error_the_return_code_was") << " " << r << ".";
-                    throw std::runtime_error(s.str());
+                    std::vector<std::string> messages;
+                    //! \todo How can we translate this?
+                    messages.push_back(String::Format("{0}: {1}").
+                        arg(value).
+                        arg(DJV_TEXT("error_url_cannot_open")));
+                    messages.push_back(String::Format(DJV_TEXT("error_url_code")).
+                        arg(value));
+                    throw std::runtime_error(String::join(messages, ' '));
                 }
 #endif // DJV_PLATFORM_OSX
             }

@@ -31,6 +31,7 @@
 
 #include <djvCore/FileIO.h>
 #include <djvCore/FileSystem.h>
+#include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
@@ -190,7 +191,9 @@ namespace djv
                                 channels);
                             if (!p)
                             {
-                                throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_read")));
+                                throw FileSystem::Error(String::Format("{0}: {1}").
+                                    arg(fileName).
+                                    arg(_textSystem->getText(DJV_TEXT("error_read_scanline"))));
                             }
                         }
                     }
@@ -294,7 +297,9 @@ namespace djv
                         case 0:
                         case 8: break;
                         default:
-                            throw FileSystem::Error(textSystem->getText(DJV_TEXT("error_file_not_supported")));
+                            throw FileSystem::Error(String::Format("{0}: {1}").
+                                arg(io->getFileName()).
+                                arg(textSystem->getText(DJV_TEXT("error_file_not_supported"))));
                         }
                         switch (_data.imageType)
                         {
@@ -326,12 +331,16 @@ namespace djv
                         }
                         if (Image::Type::None == info.type)
                         {
-                            throw FileSystem::Error(textSystem->getText(DJV_TEXT("error_file_not_supported")));
+                            throw FileSystem::Error(String::Format("{0}: {1}").
+                                arg(io->getFileName()).
+                                arg(textSystem->getText(DJV_TEXT("error_file_not_supported"))));
                         }
                         const int bits = _data.pixelBits + alphaBits;
                         if (bits < (Image::getChannelCount(info.type) * 8) || (bits % 8) != 0)
                         {
-                            throw FileSystem::Error(textSystem->getText(DJV_TEXT("error_file_not_supported")));
+                            throw FileSystem::Error(String::Format("{0}: {1}").
+                                arg(io->getFileName()).
+                                arg(textSystem->getText(DJV_TEXT("error_file_not_supported"))));
                         }
                         compression =
                             10 == _data.imageType ||

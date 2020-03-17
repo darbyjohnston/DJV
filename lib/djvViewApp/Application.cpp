@@ -337,9 +337,9 @@ namespace djv
                     arg = args.erase(arg);
                     if (args.end() == arg)
                     {
-                        std::stringstream ss;
-                        ss << textSystem->getText(DJV_TEXT("error_cannot_parse_argument"));
-                        throw std::runtime_error(ss.str());
+                        throw std::runtime_error(textSystem->getText(String::Format("{0}: {1}").
+                            arg("-full_screen_monitor").
+                            arg(DJV_TEXT("error_cannot_parse_argument"))));
                     }
                     int value = 0;
                     std::stringstream ss(*arg);
@@ -352,9 +352,9 @@ namespace djv
                     arg = args.erase(arg);
                     if (args.end() == arg)
                     {
-                        std::stringstream ss;
-                        ss << textSystem->getText(DJV_TEXT("error_cannot_parse_argument"));
-                        throw std::runtime_error(ss.str());
+                        throw std::runtime_error(textSystem->getText(String::Format("{0}: {1}").
+                            arg("-ocio_config").
+                            arg(DJV_TEXT("error_cannot_parse_argument"))));
                     }
                     p.ocioConfigCmdLine.reset(new std::string(*arg));
                     arg = args.erase(arg);
@@ -364,9 +364,9 @@ namespace djv
                     arg = args.erase(arg);
                     if (args.end() == arg)
                     {
-                        std::stringstream ss;
-                        ss << textSystem->getText(DJV_TEXT("error_cannot_parse_argument"));
-                        throw std::runtime_error(ss.str());
+                        throw std::runtime_error(textSystem->getText(String::Format("{0}: {1}").
+                            arg("-ocio_display").
+                            arg(DJV_TEXT("error_cannot_parse_argument"))));
                     }
                     if (textSystem->getText(DJV_TEXT("av_ocio_display_none")) == *arg)
                     {
@@ -383,9 +383,9 @@ namespace djv
                     arg = args.erase(arg);
                     if (args.end() == arg)
                     {
-                        std::stringstream ss;
-                        ss << textSystem->getText(DJV_TEXT("error_cannot_parse_argument"));
-                        throw std::runtime_error(ss.str());
+                        throw std::runtime_error(textSystem->getText(String::Format("{0}: {1}").
+                            arg("-ocio_view").
+                            arg(DJV_TEXT("error_cannot_parse_argument"))));
                     }
                     if (textSystem->getText(DJV_TEXT("av_ocio_view_none")) == *arg)
                     {
@@ -402,9 +402,9 @@ namespace djv
                     arg = args.erase(arg);
                     if (args.end() == arg)
                     {
-                        std::stringstream ss;
-                        ss << textSystem->getText(DJV_TEXT("error_cannot_parse_argument"));
-                        throw std::runtime_error(ss.str());
+                        throw std::runtime_error(textSystem->getText(String::Format("{0}: {1}").
+                            arg("-ocio_image").
+                            arg(DJV_TEXT("error_cannot_parse_argument"))));
                     }
                     if (textSystem->getText(DJV_TEXT("av_ocio_image_none")) == *arg)
                     {
@@ -421,9 +421,9 @@ namespace djv
                     arg = args.erase(arg);
                     if (args.end() == arg)
                     {
-                        std::stringstream ss;
-                        ss << textSystem->getText(DJV_TEXT("error_cannot_parse_argument"));
-                        throw std::runtime_error(ss.str());
+                        throw std::runtime_error(textSystem->getText(String::Format("{0}: {1}").
+                            arg("-speed").
+                            arg(DJV_TEXT("error_cannot_parse_argument"))));
                     }
                     float value = 0.F;
                     std::stringstream ss(*arg);
@@ -445,17 +445,17 @@ namespace djv
                     arg = args.erase(arg);
                     if (args.end() == arg)
                     {
-                        std::stringstream ss;
-                        ss << textSystem->getText(DJV_TEXT("error_cannot_parse_argument"));
-                        throw std::runtime_error(ss.str());
+                        throw std::runtime_error(textSystem->getText(String::Format("{0}: {1}").
+                            arg("-in_out").
+                            arg(DJV_TEXT("error_cannot_parse_argument"))));
                     }
                     p.inPointCmdLine.reset(new std::string(*arg));
                     arg = args.erase(arg);
                     if (args.end() == arg)
                     {
-                        std::stringstream ss;
-                        ss << textSystem->getText(DJV_TEXT("error_cannot_parse_argument"));
-                        throw std::runtime_error(ss.str());
+                        throw std::runtime_error(textSystem->getText(String::Format("{0}: {1}").
+                            arg("-in_out").
+                            arg(DJV_TEXT("error_cannot_parse_argument"))));
                     }
                     p.outPointCmdLine.reset(new std::string(*arg));
                     arg = args.erase(arg);
@@ -465,9 +465,9 @@ namespace djv
                     arg = args.erase(arg);
                     if (args.end() == arg)
                     {
-                        std::stringstream ss;
-                        ss << textSystem->getText(DJV_TEXT("error_cannot_parse_argument"));
-                        throw std::runtime_error(ss.str());
+                        throw std::runtime_error(textSystem->getText(String::Format("{0}: {1}").
+                            arg("-frame").
+                            arg(DJV_TEXT("error_cannot_parse_argument"))));
                     }
                     p.frameCmdLine.reset(new std::string(*arg));
                     arg = args.erase(arg);
@@ -495,9 +495,7 @@ namespace djv
                 auto logSystem = getSystemT<LogSystem>();
                 logSystem->log(
                     "djv::ViewApp::Application",
-                    String::Format("'{0}': {1}").
-                        arg(fileName).
-                        arg(e.what()),
+                    String::Format("{0}: {1}").arg(fileName).arg(e.what()),
                     LogLevel::Error);
             }
         }

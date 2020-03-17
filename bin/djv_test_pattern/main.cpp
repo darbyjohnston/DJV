@@ -37,6 +37,7 @@
 #include <djvCore/Context.h>
 #include <djvCore/Error.h>
 #include <djvCore/FileInfo.h>
+#include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 #include <djvCore/Timer.h>
 #include <djvCore/Vector.h>
@@ -102,9 +103,9 @@ namespace djv
                     i = args.erase(i);
                     if (args.end() == i)
                     {
-                        std::stringstream ss;
-                        ss << textSystem->getText(DJV_TEXT("error_cannot_parse_argument"));
-                        throw std::runtime_error(ss.str());
+                        throw std::runtime_error(textSystem->getText(Core::String::Format("{0}: {1}").
+                            arg("-frameCount").
+                            arg(DJV_TEXT("error_cannot_parse_argument"))));
                     }
                     int value = 0;
                     std::stringstream ss(*i);
@@ -117,9 +118,9 @@ namespace djv
                     i = args.erase(i);
                     if (args.end() == i)
                     {
-                        std::stringstream ss;
-                        ss << textSystem->getText(DJV_TEXT("error_cannot_parse_argument"));
-                        throw std::runtime_error(ss.str());
+                        throw std::runtime_error(textSystem->getText(Core::String::Format("{0}: {1}").
+                            arg("-size").
+                            arg(DJV_TEXT("error_cannot_parse_argument"))));
                     }
                     AV::Image::Size value;
                     std::stringstream ss(*i);
@@ -132,9 +133,9 @@ namespace djv
                     i = args.erase(i);
                     if (args.end() == i)
                     {
-                        std::stringstream ss;
-                        ss << textSystem->getText(DJV_TEXT("error_cannot_parse_argument"));
-                        throw std::runtime_error(ss.str());
+                        throw std::runtime_error(textSystem->getText(Core::String::Format("{0}: {1}").
+                            arg("-type").
+                            arg(DJV_TEXT("error_cannot_parse_argument"))));
                     }
                     AV::Image::Type value = AV::Image::Type::None;
                     std::stringstream ss(*i);

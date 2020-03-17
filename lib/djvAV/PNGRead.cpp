@@ -241,9 +241,15 @@ namespace djv
                     {
                         if (!pngScanline(f->png, out->getData(y)))
                         {
-                            throw FileSystem::Error(f->pngError.messages.size() ?
-                                f->pngError.messages.back() :
-                                _textSystem->getText(DJV_TEXT("error_read_scanline")));
+                            std::vector<std::string> messages;
+                            messages.push_back(String::Format("{0}: {1}").
+                                arg(fileName).
+                                arg(_textSystem->getText(DJV_TEXT("error_read_scanline"))));
+                            for (const auto& i : f->pngError.messages)
+                            {
+                                messages.push_back(i);
+                            }
+                            throw FileSystem::Error(String::join(messages, ' '));
                         }
                     }
                     pngEnd(f->png, f->pngInfoEnd);
@@ -253,9 +259,7 @@ namespace djv
                     {
                         _logSystem->log(
                             pluginName,
-                            String::Format("'{0}': {1}").
-                                arg(fileName).
-                                arg(i),
+                            String::Format("{0}: {1}").arg(fileName).arg(i),
                             LogLevel::Warning);
                     }
 
@@ -266,13 +270,21 @@ namespace djv
                 {
                     if (!f->png)
                     {
-                        throw FileSystem::Error(f->pngError.messages.size() ?
-                            f->pngError.messages.back() :
-                            _textSystem->getText(DJV_TEXT("error_file_open")));
+                        std::vector<std::string> messages;
+                        messages.push_back(String::Format("{0}: {1}").
+                            arg(fileName).
+                            arg(_textSystem->getText(DJV_TEXT("error_file_open"))));
+                        for (const auto& i : f->pngError.messages)
+                        {
+                            messages.push_back(i);
+                        }
+                        throw FileSystem::Error(String::join(messages, ' '));
                     }
                     if (!f->open(fileName))
                     {
-                        throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_file_open")));
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(fileName).
+                            arg(_textSystem->getText(DJV_TEXT("error_file_open"))));
                     }
                     uint16_t width    = 0;
                     uint16_t height   = 0;
@@ -280,15 +292,23 @@ namespace djv
                     uint8_t  bitDepth = 0;
                     if (!pngOpen(f->f, f->png, &f->pngInfo, &f->pngInfoEnd, width, height, channels, bitDepth))
                     {
-                        throw FileSystem::Error(f->pngError.messages.size() ?
-                            f->pngError.messages.back() :
-                            _textSystem->getText(DJV_TEXT("error_file_open")));
+                        std::vector<std::string> messages;
+                        messages.push_back(String::Format("{0}: {1}").
+                            arg(fileName).
+                            arg(_textSystem->getText(DJV_TEXT("error_file_open"))));
+                        for (const auto& i : f->pngError.messages)
+                        {
+                            messages.push_back(i);
+                        }
+                        throw FileSystem::Error(String::join(messages, ' '));
                     }
 
                     Image::Type imageType = Image::getIntType(channels, bitDepth);
                     if (Image::Type::None == imageType)
                     {
-                        throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_unsupported_image_type")));
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(fileName).
+                            arg(_textSystem->getText(DJV_TEXT("error_unsupported_image_type"))));
                     }
                     auto info = Image::Info(width, height, imageType);
 

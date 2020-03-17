@@ -56,9 +56,7 @@ namespace djv
                 if (!_vertex)
                 {
                     //! \todo How can we translate this?
-                    std::stringstream ss;
-                    ss << DJV_TEXT("error_opengl_vertex_shader_creation");
-                    throw ShaderError(ss.str());
+                    throw ShaderError(DJV_TEXT("error_opengl_vertex_shader_creation"));
                 }
                 const char * src = _shader->getVertexSource().c_str();
                 glShaderSource(_vertex, 1, &src, NULL);
@@ -69,7 +67,7 @@ namespace djv
                 if (!success)
                 {
                     glGetShaderInfoLog(_vertex, String::cStringLength, NULL, infoLog);
-                    throw ShaderError(String::Format("'{0}': {1}").
+                    throw ShaderError(String::Format("{0}: {1}").
                         arg(_shader->getVertexName()).
                         arg(infoLog));
                 }
@@ -77,9 +75,8 @@ namespace djv
                 _fragment = glCreateShader(GL_FRAGMENT_SHADER);
                 if (!_fragment)
                 {
-                    std::stringstream ss;
-                    ss << DJV_TEXT("error_opengl_fragment_shader_creation");
-                    throw ShaderError(ss.str());
+                    //! \todo How can we translate this?
+                    throw ShaderError(DJV_TEXT("error_opengl_fragment_shader_creation"));
                 }
                 src = _shader->getFragmentSource().c_str();
                 glShaderSource(_fragment, 1, &src, NULL);
@@ -88,7 +85,7 @@ namespace djv
                 if (!success)
                 {
                     glGetShaderInfoLog(_fragment, String::cStringLength, NULL, infoLog);
-                    throw ShaderError(String::Format("'{0}': {1}").
+                    throw ShaderError(String::Format("{0}: {1}").
                         arg(_shader->getFragmentName()).
                         arg(infoLog));
                 }
@@ -101,7 +98,7 @@ namespace djv
                 if (!success)
                 {
                     glGetProgramInfoLog(_program, String::cStringLength, NULL, infoLog);
-                    throw ShaderError(String::Format("'{0}': {1}").
+                    throw ShaderError(String::Format("{0}: {1}").
                         arg(_shader->getVertexName()).
                         arg(infoLog));
                 }

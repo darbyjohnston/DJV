@@ -113,7 +113,7 @@ namespace djv
                                         auto logSystem = context->getSystemT<LogSystem>();
                                         logSystem->log(
                                             "djv::Core::FileSystem::DirectoryWatcher",
-                                            String::Format("'{0}': {1}").arg(path.get()).arg(Error::getLastError()),
+                                            String::Format("{0}: {1}").arg(path.get()).arg(Error::getLastError()),
                                             LogLevel::Error);
                                     }
                                 }
@@ -125,7 +125,7 @@ namespace djv
                                     auto logSystem = context->getSystemT<LogSystem>();
                                     logSystem->log(
                                         "djv::Core::FileSystem::DirectoryWatcher",
-                                        String::Format("'{0}': {1}").arg(path.get()).arg(e.what()),
+                                        String::Format("{0}: {1}").arg(path.get()).arg(e.what()),
                                         LogLevel::Error);
                                 }
                             }

@@ -31,6 +31,7 @@
 
 #include <djvCore/FileIO.h>
 #include <djvCore/FileSystem.h>
+#include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
@@ -243,7 +244,7 @@ namespace djv
 
                 } // namespace
 
-                Info Read::_open(const std::string & fileName, const std::shared_ptr<FileSystem::FileIO>& io)
+                Info Read::_open(const std::string& fileName, const std::shared_ptr<FileSystem::FileIO>& io)
                 {
                     // Open the file.
                     io->setEndianConversion(Memory::getEndian() != Memory::Endian::MSB);
@@ -266,15 +267,21 @@ namespace djv
                     // Get file information.
                     if (header.matteChannels > 1)
                     {
-                        throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_file_not_supported")));
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(fileName).
+                            arg(_textSystem->getText(DJV_TEXT("error_file_not_supported"))));
                     }
                     if (header.matteChannelType != header.colorChannelType)
                     {
-                        throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_file_not_supported")));
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(fileName).
+                            arg(_textSystem->getText(DJV_TEXT("error_file_not_supported"))));
                     }
                     if (header.matteBitDepth != header.colorBitDepth)
                     {
-                        throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_file_not_supported")));
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(fileName).
+                            arg(_textSystem->getText(DJV_TEXT("error_file_not_supported"))));
                     }
                     Image::Type type = Image::Type::None;
                     if (3 == header.colorChannelType)
@@ -286,16 +293,22 @@ namespace djv
                         type = Image::getIntType(header.colorChannels + header.matteChannels, header.colorBitDepth);
                         if (Image::DataType::U32 == Image::getDataType(type))
                         {
-                            throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_file_not_supported")));
+                            throw FileSystem::Error(String::Format("{0}: {1}").
+                                arg(fileName).
+                                arg(_textSystem->getText(DJV_TEXT("error_file_not_supported"))));
                         }
                     }
                     if (Image::Type::None == type)
                     {
-                        throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_file_not_supported")));
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(fileName).
+                            arg(_textSystem->getText(DJV_TEXT("error_file_not_supported"))));
                     }
                     if (header.field)
                     {
-                        throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_file_not_supported")));
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(fileName).
+                            arg(_textSystem->getText(DJV_TEXT("error_file_not_supported"))));
                     }
 
                     auto imageInfo = Image::Info(w, h, type, Image::Mirror(false, true));

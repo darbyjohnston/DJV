@@ -289,7 +289,7 @@ namespace djv
                     if (auto context = getContext().lock())
                     {
                         auto textSystem = context->getSystemT<TextSystem>();
-                        throw FileSystem::Error(String::Format("'{0}': {1}").
+                        throw FileSystem::Error(String::Format("{0}: {1}").
                             arg(fileInfo.getFileName()).
                             arg(textSystem->getText(DJV_TEXT("error_file_read"))));
                     }
@@ -314,7 +314,7 @@ namespace djv
                     if (auto context = getContext().lock())
                     {
                         auto textSystem = context->getSystemT<TextSystem>();
-                        throw FileSystem::Error(String::Format("'{0}': {1}").
+                        throw FileSystem::Error(String::Format("{0}: {1}").
                             arg(fileInfo.getFileName()).
                             arg(textSystem->getText(DJV_TEXT("error_file_write"))));
                     }

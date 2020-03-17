@@ -562,9 +562,10 @@ namespace djv
                 }
                 catch (const std::exception& e)
                 {
-                    std::stringstream ss;
-                    ss << _getText(DJV_TEXT("error_cannot_sample_color")) << ". " << e.what();
-                    _log(ss.str(), LogLevel::Error);
+                    std::vector<std::string> messages;
+                    messages.push_back(_getText(DJV_TEXT("error_cannot_sample_color")));
+                    messages.push_back(e.what());
+                    _log(String::join(messages, ' '), LogLevel::Error);
                 }
             }
             else if (p.offscreenBuffer)

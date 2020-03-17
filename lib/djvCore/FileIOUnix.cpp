@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2018 Darby Johnston
+// Copyright (c) 2018-2020 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,7 @@
 #include <djvCore/FileSystem.h>
 #include <djvCore/Math.h>
 #include <djvCore/Memory.h>
+#include <djvCore/StringFormat.h>
 
 #include <iostream>
 #include <sstream>
@@ -76,20 +77,18 @@ namespace djv
                 std::string getErrorMessage(ErrorType type, const std::string& fileName)
                 {
                     //! \todo How can we translate these?
-                    std::stringstream ss;
+                    std::string s;
+                    std::string error;
                     char buf[String::cStringLength] = "";
                     switch (type)
                     {
                     case ErrorType::Open:
-                        ss << "The file" << " '" << fileName << "' " << "cannot be opened" << ". ";
-#if defined(DJV_PLATFORM_LINUX)
-                        ss << strerror_r(errno, buf, String::cStringLength);
-#else // DJV_PLATFORM_LINUX
                         strerror_r(errno, buf, String::cStringLength);
-                        ss << buf;
-#endif // DJV_PLATFORM_LINUX
+                        s = String::Format("'{0}' cannot be opened: {1}").
+                            arg(fileName).
+                            arg(buf);
                         break;
-                    case ErrorType::Stat:
+                    /*case ErrorType::Stat:
                         ss << "The file" << " '" << fileName << "' " << "cannot be queried" << ". ";
 #if defined(DJV_PLATFORM_LINUX)
                         ss << strerror_r(errno, buf, String::cStringLength);
@@ -157,10 +156,10 @@ namespace djv
                         break;
                     case ErrorType::SeekMemoryMap:
                         ss << "The file" << " '" << fileName << "' " << "cannot be seeked" << ".";
-                        break;
+                        break;*/
                     default: break;
                     }
-                    return ss.str();
+                    return s;
                 }
             
             } // namespace

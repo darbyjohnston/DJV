@@ -237,9 +237,7 @@ namespace djv
             p.glfwWindow = glfwCreateWindow(100, 100, context->getName().c_str(), NULL, NULL);
             if (!p.glfwWindow)
             {
-                std::stringstream ss;
-                ss << p.textSystem->getText(DJV_TEXT("error_glfw_window_creation"));
-                throw ThumbnailError(ss.str());
+                throw ThumbnailError(p.textSystem->getText(DJV_TEXT("error_glfw_window_creation")));
             }
 
             p.statsTimer = Time::Timer::create(context);
@@ -273,9 +271,7 @@ namespace djv
                     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 #endif // DJV_OPENGL_ES2
                     {
-                        std::stringstream ss;
-                        ss << p.textSystem->getText(DJV_TEXT("error_glad_init"));
-                        throw ThumbnailError(ss.str());
+                        throw ThumbnailError(p.textSystem->getText(DJV_TEXT("error_glad_init")));
                     }
 
                     auto convert = Image::Convert::create(resourceSystem);

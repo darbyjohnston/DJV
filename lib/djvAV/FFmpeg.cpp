@@ -69,6 +69,7 @@ namespace djv
 
                 std::string toString(AVSampleFormat value)
                 {
+                    //! \todo How can we translate this?
                     std::map<AVSampleFormat, std::string> data =
                     {
                         { AV_SAMPLE_FMT_NONE, DJV_TEXT("av_sample_format_none") },

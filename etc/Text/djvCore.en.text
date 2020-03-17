@@ -21,6 +21,8 @@
     "error_cannot_parse_argument": "Cannot parse the argument.",
     "error_cannot_parse_the_value": "Cannot parse the value.",
     "error_duplicate_argument": "Duplicate argument.",
+    "error_url_cannot_open": "Cannot open URL.",
+    "error_url_code": "The error code is {0}.",
     "event_button_press": "Button Press",
     "event_button_release": "Button Release",
     "event_child_added": "Child Added",

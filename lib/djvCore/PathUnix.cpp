@@ -32,6 +32,7 @@
 #include <djvCore/Error.h>
 #include <djvCore/FileInfo.h>
 #include <djvCore/FileSystem.h>
+#include <djvCore/StringFormat.h>
 
 #include <sstream>
 
@@ -54,9 +55,10 @@ namespace djv
             {
                 if (::mkdir(value.get().c_str(), S_IRWXU) != 0)
                 {
-                    std::stringstream s;
-                    s << DJV_TEXT("error_the_directory") << " '" << value << "' " << DJV_TEXT("error_cannot_be_created") << ".";
-                    throw Error(s.str());
+                    //! \todo How can we translate this?
+                    throw std::invalid_argument(String::Format("{0}: {1}").
+                        arg(value.get()).
+                        arg(DJV_TEXT("error_cannot_be_created")));
                 }
             }
             
@@ -64,9 +66,10 @@ namespace djv
             {
                 if (::rmdir(value.get().c_str()) != 0)
                 {
-                    std::stringstream s;
-                    s << DJV_TEXT("error_the_directory") << " '" << value << "' " << DJV_TEXT("error_cannot_be_removed") << ".";
-                    throw Error(s.str());
+                    //! \todo How can we translate this?
+                    throw std::invalid_argument(String::Format("{0}: {1}").
+                        arg(value.get()).
+                        arg(DJV_TEXT("error_cannot_be_removed")));
                 }
             }
             
