@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvCmdlineApp/Application.h>
+#include <djvCmdLineApp/Application.h>
 
 struct GLFWwindow;
 

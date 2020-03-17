@@ -35,7 +35,7 @@ namespace djv
     {
         namespace Time
         {
-            void sleep(const Unit& value)
+            void sleep(const Duration& value)
             {
                 const auto microseconds = value.count();
                 const auto seconds = microseconds / 1000000;
