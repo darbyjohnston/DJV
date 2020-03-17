@@ -103,9 +103,9 @@ namespace djv
                     i = args.erase(i);
                     if (args.end() == i)
                     {
-                        throw std::runtime_error(textSystem->getText(Core::String::Format("{0}: {1}").
+                        throw std::runtime_error(Core::String::Format("{0}: {1}").
                             arg("-frameCount").
-                            arg(DJV_TEXT("error_cannot_parse_argument"))));
+                            arg(textSystem->getText(DJV_TEXT("error_cannot_parse_argument"))));
                     }
                     int value = 0;
                     std::stringstream ss(*i);
@@ -118,9 +118,9 @@ namespace djv
                     i = args.erase(i);
                     if (args.end() == i)
                     {
-                        throw std::runtime_error(textSystem->getText(Core::String::Format("{0}: {1}").
+                        throw std::runtime_error(Core::String::Format("{0}: {1}").
                             arg("-size").
-                            arg(DJV_TEXT("error_cannot_parse_argument"))));
+                            arg(textSystem->getText(DJV_TEXT("error_cannot_parse_argument"))));
                     }
                     AV::Image::Size value;
                     std::stringstream ss(*i);
@@ -133,9 +133,9 @@ namespace djv
                     i = args.erase(i);
                     if (args.end() == i)
                     {
-                        throw std::runtime_error(textSystem->getText(Core::String::Format("{0}: {1}").
+                        throw std::runtime_error(Core::String::Format("{0}: {1}").
                             arg("-type").
-                            arg(DJV_TEXT("error_cannot_parse_argument"))));
+                            arg(textSystem->getText(DJV_TEXT("error_cannot_parse_argument"))));
                     }
                     AV::Image::Type value = AV::Image::Type::None;
                     std::stringstream ss(*i);
@@ -161,9 +161,7 @@ namespace djv
             }
             else
             {
-                std::stringstream ss;
-                ss << textSystem->getText(DJV_TEXT("djv_test_pattern_output_error"));
-                throw std::runtime_error(ss.str());
+                throw std::runtime_error(textSystem->getText(DJV_TEXT("djv_test_pattern_output_error")));
             }
         }
 

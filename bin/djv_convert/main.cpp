@@ -65,9 +65,9 @@ namespace djv
                         i = args.erase(i);
                         if (args.end() == i)
                         {
-                            throw std::runtime_error(textSystem->getText(Core::String::Format("{0}: {1}").
+                            throw std::runtime_error(Core::String::Format("{0}: {1}").
                                 arg("-resize").
-                                arg(DJV_TEXT("error_cannot_parse_argument"))));
+                                arg(textSystem->getText(DJV_TEXT("error_cannot_parse_argument"))));
                         }
                         AV::Image::Size resize;
                         std::stringstream ss(*i);
@@ -90,9 +90,9 @@ namespace djv
                         i = args.erase(i);
                         if (args.end() == i)
                         {
-                            throw std::runtime_error(textSystem->getText(Core::String::Format("{0}: {1}").
+                            throw std::runtime_error(Core::String::Format("{0}: {1}").
                                 arg("-readQueue").
-                                arg(DJV_TEXT("error_cannot_parse_argument"))));
+                                arg(textSystem->getText(DJV_TEXT("error_cannot_parse_argument"))));
                         }
                         int value = 0;
                         std::stringstream ss(*i);
@@ -105,9 +105,9 @@ namespace djv
                         i = args.erase(i);
                         if (args.end() == i)
                         {
-                            throw std::runtime_error(textSystem->getText(Core::String::Format("{0}: {1}").
+                            throw std::runtime_error(Core::String::Format("{0}: {1}").
                                 arg("-writeQueue").
-                                arg(DJV_TEXT("error_cannot_parse_argument"))));
+                                arg(textSystem->getText(DJV_TEXT("error_cannot_parse_argument"))));
                         }
                         int value = 0;
                         std::stringstream ss(*i);
@@ -120,9 +120,9 @@ namespace djv
                         i = args.erase(i);
                         if (args.end() == i)
                         {
-                            throw std::runtime_error(textSystem->getText(Core::String::Format("{0}: {1}").
+                            throw std::runtime_error(Core::String::Format("{0}: {1}").
                                 arg("-readThreads").
-                                arg(DJV_TEXT("error_cannot_parse_argument"))));
+                                arg(textSystem->getText(DJV_TEXT("error_cannot_parse_argument"))));
                         }
                         int value = 0;
                         std::stringstream ss(*i);
@@ -135,9 +135,9 @@ namespace djv
                         i = args.erase(i);
                         if (args.end() == i)
                         {
-                            throw std::runtime_error(textSystem->getText(Core::String::Format("{0}: {1}").
+                            throw std::runtime_error(Core::String::Format("{0}: {1}").
                                 arg("-writeThreads").
-                                arg(DJV_TEXT("error_cannot_parse_argument"))));
+                                arg(textSystem->getText(DJV_TEXT("error_cannot_parse_argument"))));
                         }
                         int value = 0;
                         std::stringstream ss(*i);
