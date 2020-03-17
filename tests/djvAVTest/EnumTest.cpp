@@ -53,15 +53,6 @@ namespace djv
                 _print(ss2.str());
             }
 
-            for (auto i : getTimeUnitsEnums())
-            {
-                std::stringstream ss;
-                ss << i;
-                std::stringstream ss2;
-                ss2 << "time units string: " << _getText(ss.str());
-                _print(ss2.str());
-            }
-
             for (auto i : getAlphaBlendEnums())
             {
                 std::stringstream ss;

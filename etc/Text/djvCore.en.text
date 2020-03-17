@@ -251,6 +251,8 @@
     "resource_path_settings_file": "Settings File",
     "resource_path_shaders": "Shaders",
     "resource_path_text": "Text",
+    "time_units_frames": "Frames",
+    "time_units_timecode": "Timecode",
     "timer_fast": "Fast",
     "timer_medium": "Medium",
     "timer_slow": "Slow",

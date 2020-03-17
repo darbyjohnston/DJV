@@ -44,6 +44,8 @@
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Shortcut.h>
 
+#include <djvAV/AVSystem.h>
+
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
 #include <djvCore/RecentFilesModel.h>
@@ -418,7 +420,7 @@ namespace djv
             p.cacheTimer->setRepeating(true);
             p.cacheTimer->start(
                 Time::getTime(Time::TimerValue::Medium),
-                [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
                 {
                     if (auto system = weak.lock())
                     {
@@ -501,58 +503,108 @@ namespace djv
             _showFileBrowserDialog();
         }
 
-        void FileSystem::open(const Core::FileSystem::FileInfo& fileInfo)
+        void FileSystem::open(const Core::FileSystem::FileInfo& fileInfo, const OpenOptions& options)
         {
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
                 auto media = Media::create(fileInfo, context);
-                _mediaInit(media);
+                media->setThreadCount(p.threadCount);
+                if (options.speed)
+                {
+                    media->setPlaybackSpeed(PlaybackSpeed::Custom);
+                    media->setCustomSpeed(*options.speed);
+                }
+                else
+                {
+                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                    if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
+                    {
+                        media->setPlaybackSpeed(playbackSettings->observePlaybackSpeed()->get());
+                        media->setCustomSpeed(playbackSettings->observeCustomSpeed()->get());
+                    }
+                }
+                if (options.inPoint || options.outPoint || options.frame)
+                {
+                    auto avSystem = context->getSystemT<AV::AVSystem>();
+                    const Time::Units timeUnits = avSystem->observeTimeUnits()->get();
+                    const auto& speed = media->observeDefaultSpeed()->get();
+                    const auto& sequence = media->observeSequence()->get();
+                    const Frame::Index start = 0;
+                    const Frame::Index end = sequence.getLastIndex();
+                    bool inOutEnabled = false;
+                    Frame::Index inPoint = start;
+                    Frame::Index outPoint = end;
+                    Frame::Index frame = start;
+                    if (options.inPoint)
+                    {
+                        inOutEnabled = true;
+                        inPoint = Math::clamp(
+                            sequence.getIndex(Time::fromString(*options.inPoint, speed, timeUnits)),
+                            start,
+                            end);
+                        frame = inPoint;
+                    }
+                    if (options.outPoint)
+                    {
+                        inOutEnabled = true;
+                        outPoint = Math::clamp(
+                            sequence.getIndex(Time::fromString(*options.outPoint, speed, timeUnits)),
+                            start,
+                            end);
+                    }
+                    if (options.frame)
+                    {
+                        //frame = Math::clamp(
+                        //    sequence.getIndex(Time::fromString(*options.frame, speed, timeUnits)),
+                        //    inPoint,
+                        //    outPoint);
+                        frame = sequence.getIndex(Time::fromString(*options.frame, speed, timeUnits));
+                    }
+                    media->setInOutPoints(AV::IO::InOutPoints(inOutEnabled, inPoint, outPoint));
+                    media->setCurrentFrame(frame);
+                }
+                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
+                {
+                    media->setPlayEveryFrame(playbackSettings->observePlayEveryFrame()->get());
+                    media->setPlaybackMode(playbackSettings->observePlaybackMode()->get());
+                    if (playbackSettings->observeStartPlayback()->get())
+                    {
+                        media->setPlayback(Playback::Forward);
+                    }
+                }
                 p.media->pushBack(media);
-                p.opened->setIfChanged(media);
-                // Reset the observer so we don't have an extra shared_ptr holding
-                // onto the media object.
-                p.opened->setIfChanged(nullptr);
+                if (options.pos)
+                {
+                    p.opened2->setIfChanged(std::make_pair(media, *options.pos));
+                    // Reset the observer so we don't have an extra shared_ptr holding
+                    // onto the media object.
+                    p.opened2->setIfChanged(std::make_pair(nullptr, glm::ivec2(0, 0)));
+                }
+                else
+                {
+                    p.opened->setIfChanged(media);
+                    // Reset the observer so we don't have an extra shared_ptr holding
+                    // onto the media object.
+                    p.opened->setIfChanged(nullptr);
+                }
                 setCurrentMedia(media);
                 p.recentFilesModel->addFile(fileInfo);
                 _cacheUpdate();
             }
         }
 
-        void FileSystem::open(const Core::FileSystem::FileInfo& fileInfo, const glm::vec2& pos)
-        {
-            DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
-            {
-                auto media = Media::create(fileInfo, context);
-                _mediaInit(media);
-                p.media->pushBack(media);
-                p.opened2->setIfChanged(std::make_pair(media, pos));
-                // Reset the observer so we don't have an extra shared_ptr holding
-                // onto the media object.
-                p.opened2->setIfChanged(std::make_pair(nullptr, glm::ivec2(0, 0)));
-                setCurrentMedia(media);
-                p.recentFilesModel->addFile(fileInfo);
-                _cacheUpdate();
-            }
-        }
-
-        void FileSystem::open(const std::vector<std::string>& fileNames)
+        void FileSystem::open(const std::vector<std::string>& fileNames, OpenOptions options)
         {
             for (const auto& i : _processFileNames(fileNames))
             {
-                open(i);
-            }
-        }
-        
-        void FileSystem::open(const std::vector<std::string>& fileNames, const glm::vec2& pos, float spacing)
-        {
-            glm::vec2 tmp = pos;
-            for (const auto& i : _processFileNames(fileNames))
-            {
-                open(i, tmp);
-                tmp.x += spacing;
-                tmp.y += spacing;
+                open(i, options);
+                if (options.pos && options.spacing)
+                {
+                    options.pos->x += *options.spacing;
+                    options.pos->y += *options.spacing;
+                }
             }
         }
 
@@ -651,25 +703,6 @@ namespace djv
             {
                 i->setCacheEnabled(cacheEnabled);
                 i->setCacheMaxByteCount(mediaCacheSizeByteCount);
-            }
-        }
-
-        void FileSystem::_mediaInit(const std::shared_ptr<Media>& value)
-        {
-            DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
-            {
-                value->setThreadCount(p.threadCount);
-                auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
-                {
-                    value->setPlayEveryFrame(playbackSettings->observePlayEveryFrame()->get());
-                    value->setPlaybackMode(playbackSettings->observePlaybackMode()->get());
-                    if (playbackSettings->observeStartPlayback()->get())
-                    {
-                        value->setPlayback(Playback::Forward);
-                    }
-                }
             }
         }
 

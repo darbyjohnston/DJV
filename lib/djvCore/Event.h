@@ -158,14 +158,14 @@ namespace djv
             class Update : public Event
             {
             public:
-                Update(const std::chrono::steady_clock::time_point&, const Time::Unit&);
+                Update(const std::chrono::steady_clock::time_point&, const Time::Duration&);
 
                 const std::chrono::steady_clock::time_point& getTime() const;
-                const Time::Unit& getDeltaTime() const;
+                const Time::Duration& getDeltaTime() const;
 
             private:
                 std::chrono::steady_clock::time_point _t;
-                Time::Unit _dt;
+                Time::Duration _dt;
             };
 
             //! This class provides an event to initialize user interface layout.

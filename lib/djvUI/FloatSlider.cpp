@@ -313,12 +313,12 @@ namespace djv
             setValue(_p->defaultValue);
         }
 
-        const Time::Unit& FloatSlider::getDelay() const
+        const Time::Duration& FloatSlider::getDelay() const
         {
             return _p->slider->getDelay();
         }
 
-        void FloatSlider::setDelay(const Time::Unit& value)
+        void FloatSlider::setDelay(const Time::Duration& value)
         {
             _p->slider->setDelay(value);
         }

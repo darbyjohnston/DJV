@@ -55,7 +55,7 @@ namespace djv
                 std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
                 if (_wmkdir(utf16.from_bytes(value.get()).c_str()) != 0)
                 {
-                    //! \todo How can we translate these?
+                    //! \todo How can we translate this?
                     throw std::invalid_argument(String::Format("'{0}': {1}").
                         arg(value.get()).
                         arg(DJV_TEXT("error_cannot_be_created")));
@@ -67,7 +67,7 @@ namespace djv
                 std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
                 if (_wrmdir(utf16.from_bytes(value.get()).c_str()) != 0)
                 {
-                    //! \todo How can we translate these?
+                    //! \todo How can we translate this?
                     throw std::invalid_argument(String::Format("'{0}': {1}").
                         arg(value.get()).
                         arg(DJV_TEXT("error_cannot_be_removed")));

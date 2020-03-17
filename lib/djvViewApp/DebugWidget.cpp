@@ -234,7 +234,7 @@ namespace djv
                 auto weak = std::weak_ptr<GeneralDebugWidget>(std::dynamic_pointer_cast<GeneralDebugWidget>(shared_from_this()));
                 _timer->start(
                     Core::Time::getTime(Core::Time::TimerValue::Medium),
-                    [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
+                    [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -259,13 +259,13 @@ namespace djv
                 {
                     const float fps = context->getFPSAverage();
                     const auto& systemTickTimes = context->getSystemTickTimes();
-                    Time::Unit totalSystemTime = Time::Unit::zero();
+                    Time::Duration totalSystemTime = Time::Duration::zero();
                     for (const auto& i : systemTickTimes)
                     {
                         totalSystemTime += i.second;
                     }
                     std::string topSystemTime;
-                    Time::Unit topSystemTimeValue = Time::Unit::zero();
+                    Time::Duration topSystemTimeValue = Time::Duration::zero();
                     if (systemTickTimes.size())
                     {
                         auto i = systemTickTimes.begin();
@@ -490,7 +490,7 @@ namespace djv
                 auto weak = std::weak_ptr<RenderDebugWidget>(std::dynamic_pointer_cast<RenderDebugWidget>(shared_from_this()));
                 _timer->start(
                     Core::Time::getTime(Core::Time::TimerValue::Medium),
-                    [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
+                    [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
                 {
                     if (auto widget = weak.lock())
                     {

@@ -195,41 +195,14 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         Frame::Index index = Frame::invalidIndex;
-                        switch (widget->_timeUnits)
+                        try
                         {
-                        case AV::TimeUnits::Timecode:
-                        {
-                            uint32_t timecode = 0;
-                            try
-                            {
-                                Time::stringToTimecode(value, timecode);
-                                const Frame::Number frame = Time::timecodeToFrame(timecode, widget->_speed);
-                                index = widget->_sequence.getIndex(frame);
-                            }
-                            catch (const std::exception&)
-                            {
-                                std::stringstream ss;
-                                ss << "Cannot parse the value.";
-                                widget->_log(ss.str(), LogLevel::Error);
-                            }
-                            break;
+                            index = widget->_sequence.getIndex(Time::fromString(value, widget->_speed, widget->_timeUnits));
                         }
-                        case AV::TimeUnits::Frames:
+                        catch (const std::exception&)
                         {
-                            try
-                            {
-                                const Frame::Number frame = std::stoi(value);
-                                index = widget->_sequence.getIndex(frame);
-                            }
-                            catch (const std::exception&)
-                            {
-                                std::stringstream ss;
-                                ss << "Cannot parse the value.";
-                                widget->_log(ss.str(), LogLevel::Error);
-                            }
-                            break;
-                        }
-                        default: break;
+                            //! \todo How can we translate this?
+                            widget->_log(widget->_getText(DJV_TEXT("error_cannot_parse_the_value")), LogLevel::Error);
                         }
                         widget->_setFrame(index);
                     }
@@ -299,9 +272,9 @@ namespace djv
                 });
 
             auto avSystem = context->getSystemT<AV::AVSystem>();
-            _timeUnitsObserver = ValueObserver<AV::TimeUnits>::create(
+            _timeUnitsObserver = ValueObserver<Time::Units>::create(
                 avSystem->observeTimeUnits(),
-                [weak](AV::TimeUnits value)
+                [weak](Time::Units value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -393,27 +366,15 @@ namespace djv
 
         void FrameWidget::_widgetUpdate()
         {
+            std::string sizeString;
             switch (_timeUnits)
             {
-            case AV::TimeUnits::Timecode:
-            {
-                _lineEditBase->setSizeString("00:00:00:00");
-                const uint32_t timecode = Time::frameToTimecode(_sequence.getFrame(_index), _speed);
-                const std::string s = Time::timecodeToString(timecode);
-                _lineEditBase->setText(s);
-                break;
-            }
-            case AV::TimeUnits::Frames:
-            {
-                _lineEditBase->setSizeString("00000");
-                const Frame::Number frame = _sequence.getFrame(_index);
-                std::stringstream ss;
-                ss << frame;
-                _lineEditBase->setText(ss.str());
-                break;
-            }
+            case Time::Units::Timecode: sizeString = "00:00:00:00"; break;
+            case Time::Units::Frames:   sizeString = "00000"; break;
             default: break;
             }
+            _lineEditBase->setSizeString(sizeString);
+            _lineEditBase->setText(Time::toString(_sequence.getFrame(_index), _speed, _timeUnits));
         }
 
     } // namespace ViewApp

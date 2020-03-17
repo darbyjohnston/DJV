@@ -143,7 +143,7 @@ namespace djv
             p.statsTimer->setRepeating(true);
             p.statsTimer->start(
                 Time::getTime(Time::TimerValue::VerySlow),
-                [this](const std::chrono::steady_clock::time_point&, const Time::Unit&)
+                [this](const std::chrono::steady_clock::time_point&, const Time::Duration&)
             {
                 DJV_PRIVATE_PTR();
                 std::stringstream ss;

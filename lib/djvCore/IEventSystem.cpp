@@ -126,7 +126,7 @@ namespace djv
                 p.statsTimer->setRepeating(true);
                 p.statsTimer->start(
                     Time::getTime(Time::TimerValue::VerySlow),
-                    [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
+                    [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
                 {
                     if (auto system = weak.lock())
                     {
@@ -203,7 +203,7 @@ namespace djv
                 return std::string();
             }
 
-            void IEventSystem::tick(const std::chrono::steady_clock::time_point& t, const Time::Unit& dt)
+            void IEventSystem::tick(const std::chrono::steady_clock::time_point& t, const Time::Duration& dt)
             {
                 DJV_PRIVATE_PTR();
                 p.t = t;

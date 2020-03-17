@@ -152,7 +152,7 @@ namespace djv
             auto weak = std::weak_ptr<LogSystem>(std::dynamic_pointer_cast<LogSystem>(shared_from_this()));
             p.warningsAndErrorsTimer->start(
                 Time::getTime(Time::TimerValue::Medium),
-                [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
                 {
                     if (auto system = weak.lock())
                     {

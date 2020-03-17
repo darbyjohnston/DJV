@@ -45,7 +45,7 @@ namespace djv
             virtual ~ITickTest() = 0;
 
         protected:
-            void _tickFor(const Core::Time::Unit&);
+            void _tickFor(const Core::Time::Duration&);
         };
         
     } // namespace Test

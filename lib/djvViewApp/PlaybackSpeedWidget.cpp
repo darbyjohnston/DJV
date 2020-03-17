@@ -183,7 +183,7 @@ namespace djv
                         }
                         else if (value > 0.F && value < 1.F)
                         {
-                            customSpeed = Time::Speed(std::floor(value * 1000), 1000);
+                            customSpeed = Time::Speed(static_cast<int>(std::floor(value * 1000.F)), 1000);
                         }
                         if (widget->_p->customSpeedCallback)
                         {

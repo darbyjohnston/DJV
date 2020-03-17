@@ -56,8 +56,6 @@
     "av_side_none": "没有",
     "av_side_right": "对",
     "av_side_top": "最佳",
-    "av_time_unit_frames": "镜框",
-    "av_time_unit_timecode": "时间码",
     "default_material_mode_default": "默认",
     "default_material_mode_normals": "法线",
     "default_material_mode_unlit": "熄灭",

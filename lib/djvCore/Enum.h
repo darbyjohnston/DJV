@@ -57,6 +57,7 @@
 //! - sstream
 //! Throws:
 //! - std::invalid_argument
+//! \todo How can we translate this?
 #define DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(prefix, name, ...) \
     \
     std::ostream & operator << (std::ostream & os, prefix::name value) \
@@ -83,7 +84,7 @@
         if (i == data.end()) \
         { \
             std::stringstream ss; \
-            ss << DJV_TEXT("error_cannot_parse_the_value") << " '" << s << "'."; \
+            ss << DJV_TEXT("error_cannot_parse_the_value"); \
             throw std::invalid_argument(ss.str()); \
         } \
         value = static_cast<prefix::name>(i - data.begin()); \

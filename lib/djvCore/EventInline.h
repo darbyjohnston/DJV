@@ -104,7 +104,7 @@ namespace djv
                 Event(Type::Init)
             {}
 
-            inline Update::Update(const std::chrono::steady_clock::time_point& t, const Time::Unit& dt) :
+            inline Update::Update(const std::chrono::steady_clock::time_point& t, const Time::Duration& dt) :
                 Event(Type::Update),
                 _t(t),
                 _dt(dt)
@@ -115,7 +115,7 @@ namespace djv
                 return _t;
             }
 
-            inline const Time::Unit& Update::getDeltaTime() const
+            inline const Time::Duration& Update::getDeltaTime() const
             {
                 return _dt;
             }

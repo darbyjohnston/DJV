@@ -86,7 +86,7 @@ namespace djv
             std::future<glm::vec2> maxFrameSizeFuture;
             uint32_t pressedID = Event::invalidID;
             bool pip = true;
-            AV::TimeUnits timeUnits = AV::TimeUnits::First;
+            Time::Units timeUnits = Time::Units::First;
             std::shared_ptr<TimelinePIPWidget> pipWidget;
             std::shared_ptr<UI::Layout::Overlay> overlay;
             std::function<void(Frame::Index)> currentFrameCallback;
@@ -96,7 +96,7 @@ namespace djv
             std::shared_ptr<ValueObserver<Frame::Sequence> > sequenceObserver;
             std::shared_ptr<ValueObserver<Frame::Index> > currentFrameObserver;
             std::shared_ptr<ValueObserver<bool> > pipObserver;
-            std::shared_ptr<ValueObserver<AV::TimeUnits> > timeUnitsObserver;
+            std::shared_ptr<ValueObserver<Time::Units> > timeUnitsObserver;
             glm::vec2 sizePrev = glm::vec2(0.F, 0.F);
             struct TimeTick
             {
@@ -142,9 +142,9 @@ namespace djv
             }
 
             auto avSystem = context->getSystemT<AV::AVSystem>();
-            p.timeUnitsObserver = ValueObserver<AV::TimeUnits>::create(
+            p.timeUnitsObserver = ValueObserver<Time::Units>::create(
                 avSystem->observeTimeUnits(),
-                [weak](AV::TimeUnits value)
+                [weak](Time::Units value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -379,12 +379,8 @@ namespace djv
                                     tick->pos.y = size.y - b * 6.F - p.fontMetrics.lineHeight;
                                     tick->size.x = b;
                                     tick->size.y = p.fontMetrics.lineHeight;
-                                    const std::string text = avSystem->getLabel(p.sequence.getFrame(i.second(unit, speedF)), p.speed);
-                                    if (text != tick->text)
-                                    {
-                                        tick->text = text;
-                                        tick->glyphsFuture = p.fontSystem->getGlyphs(tick->text, p.fontInfo);
-                                    }
+                                    tick->text = Time::toString(p.sequence.getFrame(i.second(unit, speedF)), p.speed, p.timeUnits);
+                                    tick->glyphsFuture = p.fontSystem->getGlyphs(tick->text, p.fontInfo);
                                     tick->textPos = glm::vec2(x + m - g.min.x, textY);
                                     x2 = x + p.maxFrameLength + m * 2.F;
                                     ++timeTicksCount;
@@ -776,10 +772,10 @@ namespace djv
                 std::string maxFrameText;
                 switch (p.timeUnits)
                 {
-                case AV::TimeUnits::Timecode:
+                case Time::Units::Timecode:
                     maxFrameText = "00:00:00:00";
                     break;
-                case AV::TimeUnits::Frames:
+                case Time::Units::Frames:
                 {
                     const size_t rangesSize = p.sequence.ranges.size();
                     if (rangesSize > 0)
@@ -792,6 +788,7 @@ namespace djv
                 }
                 p.maxFrameSizeFuture = p.fontSystem->measure(maxFrameText, p.fontInfo);
                 p.sizePrev = glm::vec2(0.F, 0.F);
+                _resize();
             }
         }
 
@@ -800,9 +797,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                const auto& style = _getStyle();
-                auto avSystem = context->getSystemT<AV::AVSystem>();
-                p.currentFrameText = avSystem->getLabel(p.sequence.getFrame(p.currentFrame), p.speed);
+                p.currentFrameText = Time::toString(p.sequence.getFrame(p.currentFrame), p.speed, p.timeUnits);
                 p.currentFrameSizeFuture = p.fontSystem->measure(p.currentFrameText, p.fontInfo);
                 p.currentFrameGlyphsFuture = p.fontSystem->getGlyphs(p.currentFrameText, p.fontInfo);
             }

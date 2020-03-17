@@ -29,6 +29,7 @@
 
 #include <djvCore/Time.h>
 
+#include <djvCore/Speed.h>
 #include <djvCore/String.h>
 
 #include <climits>
@@ -123,6 +124,7 @@ namespace djv
                 const auto pieces = String::split(string, ':');
                 if (pieces.size() != 5)
                 {
+                    //! \todo How can we translate this?
                     throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
                 }
                 id     = std::stoi(pieces[0]);
@@ -191,11 +193,83 @@ namespace djv
                     frame = std::stoi(pieces[i]);
                     break;
                 default:
+                    //! \todo How can we translate this?
                     throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
                 }
                 out = timeToTimecode(hour, minute, second, frame);
             }
 
+            std::string toString(Frame::Number value, const Speed& speed, Units units)
+            {
+                std::string out;
+                switch (units)
+                {
+                case Units::Timecode:
+                {
+                    const uint32_t timecode = frameToTimecode(value, speed);
+                    out = timecodeToString(timecode);
+                    break;
+                }
+                case Units::Frames:
+                {
+                    std::stringstream ss;
+                    ss << value;
+                    out = ss.str();
+                    break;
+                }
+                default: break;
+                }
+                return out;
+            }
+
+            Frame::Number fromString(const std::string& value, const Time::Speed& speed, Units units)
+            {
+                Frame::Number out = Frame::invalid;
+                switch (units)
+                {
+                case Units::Timecode:
+                {
+                    uint32_t timecode = 0;
+                    Time::stringToTimecode(value, timecode);
+                    out = Time::timecodeToFrame(timecode, speed);
+                    break;
+                }
+                case Units::Frames:
+                    out = std::stoi(value);
+                    break;
+                default: break;
+                }
+                return out;
+            }
+
         } // namespace Time
     } // namespace Core
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        Core::Time,
+        Units,
+        DJV_TEXT("time_units_timecode"),
+        DJV_TEXT("time_units_frames"));
+
+    picojson::value toJSON(Core::Time::Units value)
+    {
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
+    }
+
+    void fromJSON(const picojson::value& value, Core::Time::Units& out)
+    {
+        if (value.is<std::string>())
+        {
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            //! \todo How can we translate this?
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
+        }
+    }
+
 } // namespace djv

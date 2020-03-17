@@ -67,7 +67,9 @@ namespace djv
             std::shared_ptr<ValueSubject<bool> > reload;
             std::shared_ptr<ValueSubject<size_t> > layer;
             std::shared_ptr<ValueSubject<Time::Speed> > speed;
+            std::shared_ptr<ValueSubject<PlaybackSpeed> > playbackSpeed;
             std::shared_ptr<ValueSubject<Time::Speed> > defaultSpeed;
+            std::shared_ptr<ValueSubject<Time::Speed> > customSpeed;
             float realSpeed = 0.F;
             std::shared_ptr<ValueSubject<float> > realSpeedSubject;
             std::shared_ptr<ValueSubject<bool> > playEveryFrame;
@@ -99,11 +101,11 @@ namespace djv
             size_t audioDataSamplesOffset = 0;
             size_t audioDataSamplesCount = 0;
             Frame::Index frameOffset = 0;
-            Time::Unit currentTime = Time::Unit::zero();
+            Time::Duration currentTime = Time::Duration::zero();
             std::chrono::steady_clock::time_point playbackTime;
             std::chrono::steady_clock::time_point realSpeedTime;
             size_t realSpeedFrameCount = 0;
-            Time::Unit playEveryFrameTime = Time::Unit::zero();
+            Time::Duration playEveryFrameTime = Time::Duration::zero();
             std::shared_ptr<Time::Timer> playbackTimer;
             std::shared_ptr<Time::Timer> queueTimer;
             std::shared_ptr<Time::Timer> realSpeedTimer;
@@ -123,7 +125,9 @@ namespace djv
             p.reload = ValueSubject<bool>::create(false);
             p.layer = ValueSubject<size_t>::create(0);
             p.speed = ValueSubject<Time::Speed>::create();
+            p.playbackSpeed = ValueSubject<PlaybackSpeed>::create();
             p.defaultSpeed = ValueSubject<Time::Speed>::create();
+            p.customSpeed = ValueSubject<Time::Speed>::create();
             p.realSpeedSubject = ValueSubject<float>::create(p.realSpeed);
             p.playEveryFrame = ValueSubject<bool>::create(false);
             p.sequence = ValueSubject<Frame::Sequence>::create();
@@ -174,7 +178,7 @@ namespace djv
             auto weak = std::weak_ptr<Media>(std::dynamic_pointer_cast<Media>(shared_from_this()));
             p.queueTimer->start(
                 Time::getTime(Time::TimerValue::VeryFast),
-                [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
                 {
                     if (auto media = weak.lock())
                     {
@@ -275,6 +279,16 @@ namespace djv
             return _p->speed;
         }
 
+        std::shared_ptr<IValueSubject<PlaybackSpeed> > Media::observePlaybackSpeed() const
+        {
+            return _p->playbackSpeed;
+        }
+
+        std::shared_ptr<IValueSubject<Time::Speed> > Media::observeCustomSpeed() const
+        {
+            return _p->customSpeed;
+        }
+
         std::shared_ptr<IValueSubject<Time::Speed> > Media::observeDefaultSpeed() const
         {
             return _p->defaultSpeed;
@@ -315,16 +329,30 @@ namespace djv
             return _p->inOutPoints;
         }
 
-        void Media::setSpeed(const Time::Speed& value)
+        void Media::setPlaybackSpeed(PlaybackSpeed value)
         {
             DJV_PRIVATE_PTR();
-            if (p.speed->setIfChanged(value))
+            if (p.playbackSpeed->setIfChanged(value))
             {
-                _seek(p.currentFrame->get());
-                p.audioEnabled->setIfChanged(_isAudioEnabled());
-                if (_hasAudioSyncPlayback())
+                Time::Speed speed;
+                switch (value)
                 {
-                    _startAudioStream();
+                case PlaybackSpeed::Default: speed = p.defaultSpeed->get(); break;
+                case PlaybackSpeed::Custom:  speed = p.customSpeed->get(); break;
+                default: speed = getPlaybackSpeed(value); break;
+                }
+                _setSpeed(speed);
+            }
+        }
+
+        void Media::setCustomSpeed(const Time::Speed& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.customSpeed->setIfChanged(value))
+            {
+                if (PlaybackSpeed::Custom == p.playbackSpeed->get())
+                {
+                    _setSpeed(value);
                 }
             }
         }
@@ -347,17 +375,17 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             Range::Range<Frame::Index> range;
-            const size_t size = p.sequence->get().getSize();
             if (inOutPoints)
             {
-                range = p.inOutPoints->get().getRange(size);
+                range = p.inOutPoints->get().getRange(p.sequence->get().getSize());
             }
             else
             {
                 range.min = 0;
-                range.max = size > 0 ? (static_cast<Frame::Index>(size) - 1) : 0;
+                range.max = p.sequence->get().getLastIndex();
             }
             Frame::Index tmp = value;
+            const size_t size = range.max - range.min + 1;
             if (size)
             {
                 while (tmp > range.max)
@@ -702,17 +730,17 @@ namespace djv
                     p.speed->setIfChanged(speed);
                     p.defaultSpeed->setIfChanged(speed);
                     p.sequence->setIfChanged(sequence);
-                    const size_t sequenceSize = sequence.getSize();
-                    p.inOutPoints->setIfChanged(AV::IO::InOutPoints(false, 0, sequenceSize > 0 ? (static_cast<Frame::Index>(sequenceSize) - 1) : 0));
+                    const Frame::Index end = sequence.getLastIndex();
+                    p.inOutPoints->setIfChanged(AV::IO::InOutPoints(false, 0, end));
                     const Frame::Index currentFrame = p.currentFrame->get();
                     Frame::Index frame = Frame::invalid;
                     if (Frame::invalid == currentFrame)
                     {
                         frame = p.sequence->get().getSize() > 0 ? 0 : Frame::invalid;
                     }
-                    else if (sequenceSize > 0)
+                    else
                     {
-                        frame = Math::clamp(currentFrame, static_cast<Frame::Index>(0), static_cast<Frame::Index>(sequenceSize) - 1);
+                        frame = Math::clamp(currentFrame, static_cast<Frame::Index>(0), end);
                     }
                     p.currentFrame->setIfChanged(frame);
                     if (_hasAudio())
@@ -752,7 +780,7 @@ namespace djv
                     auto weak = std::weak_ptr<Media>(std::dynamic_pointer_cast<Media>(shared_from_this()));
                     p.cacheTimer->start(
                         Time::getTime(Time::TimerValue::Fast),
-                        [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
+                        [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
                         {
                             if (auto media = weak.lock())
                             {
@@ -768,7 +796,7 @@ namespace djv
 
                     p.debugTimer->start(
                         Time::getTime(Time::TimerValue::Medium),
-                        [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
+                        [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
                         {
                             if (auto media = weak.lock())
                             {
@@ -817,6 +845,20 @@ namespace djv
                 _seek(p.currentFrame->get());
 
                 p.reload->setAlways(true);
+            }
+        }
+
+        void Media::_setSpeed(const Core::Time::Speed& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.speed->setIfChanged(value))
+            {
+                _seek(p.currentFrame->get());
+                p.audioEnabled->setIfChanged(_isAudioEnabled());
+                if (_hasAudioSyncPlayback())
+                {
+                    _startAudioStream();
+                }
             }
         }
 
@@ -913,10 +955,10 @@ namespace djv
                 p.audioDataSamplesOffset = 0;
                 p.audioDataSamplesCount = 0;
                 p.frameOffset = p.currentFrame->get();
-                p.currentTime = Time::Unit::zero();
+                p.currentTime = Time::Duration::zero();
                 p.realSpeedTime = std::chrono::steady_clock::now();
                 p.realSpeedFrameCount = 0;
-                p.playEveryFrameTime = Time::Unit::zero();
+                p.playEveryFrameTime = Time::Duration::zero();
                 _stopAudioStream();
             }
         }
@@ -953,11 +995,11 @@ namespace djv
                     p.audioDataSamplesOffset = 0;
                     p.audioDataSamplesCount = 0;
                     p.frameOffset = p.currentFrame->get();
-                    p.currentTime = Time::Unit::zero();
+                    p.currentTime = Time::Duration::zero();
                     p.playbackTime = std::chrono::steady_clock::now();
                     p.realSpeedTime = p.playbackTime;
                     p.realSpeedFrameCount = 0;
-                    p.playEveryFrameTime = Time::Unit::zero();
+                    p.playEveryFrameTime = Time::Duration::zero();
                     if (_hasAudioSyncPlayback())
                     {
                         _startAudioStream();
@@ -965,12 +1007,12 @@ namespace djv
                     auto weak = std::weak_ptr<Media>(std::dynamic_pointer_cast<Media>(shared_from_this()));
                     p.playbackTimer->start(
                         Time::getTime(Time::TimerValue::VeryFast),
-                        [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
+                        [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
                     {
                         if (auto media = weak.lock())
                         {
                             auto now = std::chrono::steady_clock::now();
-                            auto delta = std::chrono::duration_cast<Time::Unit>(now - media->_p->playbackTime);
+                            auto delta = std::chrono::duration_cast<Time::Duration>(now - media->_p->playbackTime);
                             media->_p->playbackTime = now;
                             media->_p->currentTime += delta;
                             media->_p->playEveryFrameTime += delta;
@@ -979,7 +1021,7 @@ namespace djv
                     });
                     p.realSpeedTimer->start(
                         Time::getTime(Time::TimerValue::Slow),
-                        [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
+                        [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
                         {
                             if (auto media = weak.lock())
                             {
@@ -1103,7 +1145,7 @@ namespace djv
                             frame = queue.popFrame();
                             gotFrame = true;
                             p.realSpeedFrameCount = p.realSpeedFrameCount + 1;
-                            p.playEveryFrameTime = p.playEveryFrameTime - std::chrono::duration_cast<Time::Unit>(frameTime);
+                            p.playEveryFrameTime = p.playEveryFrameTime - std::chrono::duration_cast<Time::Duration>(frameTime);
                         }
                     }
                     else

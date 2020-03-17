@@ -31,9 +31,9 @@
 
 #include <djvAV/Enum.h>
 
-#include <djvCore/Frame.h>
 #include <djvCore/ISystem.h>
 #include <djvCore/Speed.h>
+#include <djvCore/Time.h>
 #include <djvCore/ValueObserver.h>
 
 namespace djv
@@ -60,8 +60,8 @@ namespace djv
 
             static std::shared_ptr<AVSystem> create(const std::shared_ptr<Core::Context>&);
 
-            std::shared_ptr<Core::IValueSubject<TimeUnits> > observeTimeUnits() const;
-            void setTimeUnits(TimeUnits);
+            std::shared_ptr<Core::IValueSubject<Core::Time::Units> > observeTimeUnits() const;
+            void setTimeUnits(Core::Time::Units);
 
             std::shared_ptr<Core::IValueSubject<AlphaBlend> > observeAlphaBlend() const;
             void setAlphaBlend(AlphaBlend);
@@ -74,8 +74,6 @@ namespace djv
 
             std::shared_ptr<Core::IValueSubject<bool> > observeLCDText() const;
             void setLCDText(bool);
-
-            std::string getLabel(Core::Frame::Number, const Core::Time::Speed&) const;
 
         private:
             DJV_PRIVATE();

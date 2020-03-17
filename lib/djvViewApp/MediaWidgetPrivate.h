@@ -105,7 +105,7 @@ namespace djv
             void _setFrame(Core::Frame::Index);
             void _widgetUpdate();
 
-            AV::TimeUnits _timeUnits = AV::TimeUnits::First;
+            Core::Time::Units _timeUnits = Core::Time::Units::First;
             Core::Frame::Sequence _sequence;
             Core::Time::Speed _speed;
             Core::Frame::Index _index = 0;
@@ -114,7 +114,7 @@ namespace djv
             std::shared_ptr<UI::HorizontalLayout> _layout;
             std::function<void(Core::Frame::Index)> _callback;
             std::map<std::string, std::shared_ptr<Core::ValueObserver<bool> > > _actionObservers;
-            std::shared_ptr<Core::ValueObserver<AV::TimeUnits> > _timeUnitsObserver;
+            std::shared_ptr<Core::ValueObserver<Core::Time::Units> > _timeUnitsObserver;
         };
 
     } // namespace ViewApp

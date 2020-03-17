@@ -56,8 +56,6 @@
     "av_side_none": "Никто",
     "av_side_right": "Правильно",
     "av_side_top": "верхний",
-    "av_time_unit_frames": "Рамки",
-    "av_time_unit_timecode": "Timecode",
     "default_material_mode_default": "По умолчанию",
     "default_material_mode_normals": "нормативы",
     "default_material_mode_unlit": "незажженный",

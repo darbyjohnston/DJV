@@ -410,7 +410,7 @@ namespace djv
                 {
                     p.pointerMotionTimer->start(
                         std::chrono::milliseconds(fadeTimeout),
-                        [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
+                        [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
                         {
                             if (auto system = weak.lock())
                             {

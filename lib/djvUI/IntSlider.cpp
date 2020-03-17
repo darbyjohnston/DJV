@@ -314,12 +314,12 @@ namespace djv
             setValue(_p->defaultValue);
         }
 
-        const Time::Unit& IntSlider::getDelay() const
+        const Time::Duration& IntSlider::getDelay() const
         {
             return _p->slider->getDelay();
         }
 
-        void IntSlider::setDelay(const Time::Unit& value)
+        void IntSlider::setDelay(const Time::Duration& value)
         {
             _p->slider->setDelay(value);
         }

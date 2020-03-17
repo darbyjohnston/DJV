@@ -107,9 +107,9 @@ namespace djv
             virtual ~INumericSlider() = 0;
 
         protected:
-            void _pointerMove(float, const Core::Time::Unit&);
-            void _buttonPress(float, const Core::Time::Unit&);
-            void _buttonRelease(const Core::Time::Unit&);
+            void _pointerMove(float, const Core::Time::Duration&);
+            void _buttonPress(float, const Core::Time::Duration&);
+            void _buttonRelease(const Core::Time::Duration&);
             void _valueUpdate();
 
             virtual float _valueToPos(T) const = 0;

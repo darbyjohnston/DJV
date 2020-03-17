@@ -241,7 +241,7 @@ namespace djv
             auto weak = std::weak_ptr<TextSystem>(std::dynamic_pointer_cast<TextSystem>(shared_from_this()));
             p.timer->start(
                 Time::getTime(Time::TimerValue::Slow),
-                [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
                 {
                     if (auto system = weak.lock())
                     {

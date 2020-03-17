@@ -98,7 +98,7 @@ namespace djv
                                         widget->_p->read = io->read(value);
                                         widget->_p->timer->start(
                                             Time::getTime(Time::TimerValue::Fast),
-                                            [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
+                                            [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
                                             {
                                                 if (auto widget = weak.lock())
                                                 {

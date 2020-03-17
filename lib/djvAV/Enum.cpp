@@ -46,12 +46,6 @@ namespace djv
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV,
-        TimeUnits,
-        DJV_TEXT("av_time_unit_timecode"),
-        DJV_TEXT("av_time_unit_frames"));
-
-    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        AV,
         AlphaBlend,
         DJV_TEXT("av_alpha_none"),
         DJV_TEXT("av_alpha_straight"),
@@ -73,6 +67,7 @@ namespace djv
         }
         else
         {
+            //! \todo How can we translate this?
             throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
     }

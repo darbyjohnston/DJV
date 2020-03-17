@@ -55,6 +55,7 @@
 #include <djvAV/AVSystem.h>
 #include <djvAV/GLFWSystem.h>
 #include <djvAV/IO.h>
+#include <djvAV/OCIOSystem.h>
 #include <djvAV/Render2D.h>
 
 #include <djvCore/LogSystem.h>
@@ -76,16 +77,16 @@ namespace djv
         {
             std::vector<std::shared_ptr<ISystem> > systems;
 
-            std::unique_ptr<bool> fullScreenCmdLine;
-            std::unique_ptr<int> fullScreenMonitorCmdLine;
-            std::unique_ptr<std::string> ocioConfigCmdLine;
-            std::unique_ptr<std::string> ocioImageCmdLine;
-            std::unique_ptr<std::string> ocioDisplayCmdLine;
-            std::unique_ptr<std::string> ocioViewCmdLine;
-            std::unique_ptr<std::string> pixelAspectCmdLine;
-            std::unique_ptr<Frame::Index> frameStartCmdLine;
-            std::unique_ptr<Frame::Index> frameEndCmdLine;
-            std::unique_ptr<Time::Speed> fpsCmdLine;
+            std::shared_ptr<bool> fullScreenCmdLine;
+            std::shared_ptr<int> fullScreenMonitorCmdLine;
+            std::shared_ptr<std::string> ocioConfigCmdLine;
+            std::shared_ptr<std::string> ocioDisplayCmdLine;
+            std::shared_ptr<std::string> ocioViewCmdLine;
+            std::shared_ptr<std::string> ocioImageCmdLine;
+            std::shared_ptr<Time::Speed> speedCmdLine;
+            std::shared_ptr<std::string> inPointCmdLine;
+            std::shared_ptr<std::string> outPointCmdLine;
+            std::shared_ptr<std::string> frameCmdLine;
 
             std::shared_ptr<ApplicationSettings> settings;
 
@@ -104,54 +105,8 @@ namespace djv
             Desktop::Application::_init(args);
             DJV_PRIVATE_PTR();
 
-            // Parse the command-line arguments.
-            auto arg = args.begin();
-            while (arg != args.end())
-            {
-                if ("-full_screen" == *arg)
-                {
-                    arg = args.erase(arg);
-                    p.fullScreenCmdLine.reset(new bool(true));
-                }
-                else if ("-full_screen_monitor" == *arg)
-                {
-                    arg = args.erase(arg);
-                    int value = 0;
-                    std::stringstream ss(*arg);
-                    ss >> value;
-                    arg = args.erase(arg);
-                    p.fullScreenMonitorCmdLine.reset(new int(std::max(value, 0)));
-                }
-                else if ("-pixel_aspect" == *arg)
-                {
-                }
-                else if ("-ocio_config" == *arg)
-                {
-                }
-                else if ("-ocio_input" == *arg)
-                {
-                }
-                else if ("-ocio_display" == *arg)
-                {
-                }
-                else if ("-ocio_view" == *arg)
-                {
-                }
-                else if ("-frame_start" == *arg)
-                {
-                }
-                else if ("-frame_end" == *arg)
-                {
-                }
-                else if ("-fps" == *arg)
-                {
-                }
-                else
-                {
-                    p.cmdlinePaths.push_back(*arg);
-                    arg = args.erase(arg);
-                }
-            }
+            // Parse the command-line.
+            _parseCmdLine(args);
 
             // Create the systems.
             UI::UIComponentsSystem::create(shared_from_this());
@@ -197,13 +152,38 @@ namespace djv
             std::cout << std::endl;
             std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_usage_format")) << std::endl;
             std::cout << std::endl;
-            std::cout << " " << textSystem->getText(DJV_TEXT("djv_cli_options")) << std::endl;
+            std::cout << " " << textSystem->getText(DJV_TEXT("djv_cli_options_window")) << std::endl;
             std::cout << std::endl;
             std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_option_full_screen")) << std::endl;
             std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_option_full_screen_description")) << std::endl;
             std::cout << std::endl;
             std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_option_full_screen_monitor")) << std::endl;
             std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_option_full_screen_monitor_description")) << std::endl;
+            std::cout << std::endl;
+            std::cout << " " << textSystem->getText(DJV_TEXT("djv_cli_options_ocio")) << std::endl;
+            std::cout << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_option_ocio_config")) << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_option_ocio_config_description")) << std::endl;
+            std::cout << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_option_ocio_display")) << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_option_ocio_display_description")) << std::endl;
+            std::cout << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_option_ocio_view")) << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_option_ocio_view_description")) << std::endl;
+            std::cout << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_option_ocio_image")) << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_option_ocio_image_description")) << std::endl;
+            std::cout << std::endl;
+            std::cout << " " << textSystem->getText(DJV_TEXT("djv_cli_options_playback")) << std::endl;
+            std::cout << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_option_speed")) << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_option_speed_description")) << std::endl;
+            std::cout << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_option_in_out_points")) << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_option_in_out_points_description")) << std::endl;
+            std::cout << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_option_frame")) << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_option_frame_description")) << std::endl;
             std::cout << std::endl;
 
             Desktop::Application::printUsage();
@@ -247,7 +227,7 @@ namespace djv
             p.timer->setRepeating(true);
             p.timer->start(
                 Time::getTime(Time::TimerValue::Fast),
-                [this](const std::chrono::steady_clock::time_point&, const Time::Unit&)
+                [this](const std::chrono::steady_clock::time_point&, const Time::Duration&)
                 {
                     DJV_PRIVATE_PTR();
                     auto i = p.read.begin();
@@ -292,7 +272,12 @@ namespace djv
 
             // Open command-line files.
             auto fileSystem = getSystemT<FileSystem>();
-            fileSystem->open(p.cmdlinePaths);
+            OpenOptions openOptions;
+            openOptions.speed = p.speedCmdLine;
+            openOptions.inPoint = p.inPointCmdLine;
+            openOptions.outPoint = p.outPointCmdLine;
+            openOptions.frame = p.frameCmdLine;
+            fileSystem->open(p.cmdlinePaths, openOptions);
 
             // Apply command-line arguments.
             if (p.fullScreenMonitorCmdLine && windowSystem)
@@ -305,11 +290,194 @@ namespace djv
             {
                 windowSystem->setFullScreen(*(p.fullScreenCmdLine));
             }
+            if (p.ocioConfigCmdLine)
+            {
+                auto ocioSystem = getSystemT<AV::OCIO::System>();
+                ocioSystem->addConfig(*p.ocioConfigCmdLine);
+            }
+            if (p.ocioDisplayCmdLine || p.ocioViewCmdLine || p.ocioImageCmdLine)
+            {
+                auto ocioSystem = getSystemT<AV::OCIO::System>();
+                auto config = ocioSystem->observeCurrentConfig()->get();
+                if (p.ocioDisplayCmdLine)
+                {
+                    config.display = *p.ocioDisplayCmdLine;
+                }
+                if (p.ocioViewCmdLine)
+                {
+                    config.view = *p.ocioViewCmdLine;
+                }
+                if (p.ocioImageCmdLine)
+                {
+                    config.fileColorSpaces[std::string()] = *p.ocioImageCmdLine;
+                }
+                ocioSystem->setCurrentConfig(config);
+            }
 
             // Show the main window.
             p.mainWindow->show();
 
             Desktop::Application::run();
+        }
+
+        void Application::_parseCmdLine(std::list<std::string>& args)
+        {
+            DJV_PRIVATE_PTR();
+            auto textSystem = getSystemT<Core::TextSystem>();
+            auto arg = args.begin();
+            while (arg != args.end())
+            {
+                if ("-full_screen" == *arg)
+                {
+                    arg = args.erase(arg);
+                    p.fullScreenCmdLine.reset(new bool(true));
+                }
+                else if ("-full_screen_monitor" == *arg)
+                {
+                    arg = args.erase(arg);
+                    if (args.end() == arg)
+                    {
+                        std::stringstream ss;
+                        ss << textSystem->getText(DJV_TEXT("error_cannot_parse_argument"));
+                        throw std::runtime_error(ss.str());
+                    }
+                    int value = 0;
+                    std::stringstream ss(*arg);
+                    ss >> value;
+                    arg = args.erase(arg);
+                    p.fullScreenMonitorCmdLine.reset(new int(std::max(value, 0)));
+                }
+                else if ("-ocio_config" == *arg)
+                {
+                    arg = args.erase(arg);
+                    if (args.end() == arg)
+                    {
+                        std::stringstream ss;
+                        ss << textSystem->getText(DJV_TEXT("error_cannot_parse_argument"));
+                        throw std::runtime_error(ss.str());
+                    }
+                    p.ocioConfigCmdLine.reset(new std::string(*arg));
+                    arg = args.erase(arg);
+                }
+                else if ("-ocio_display" == *arg)
+                {
+                    arg = args.erase(arg);
+                    if (args.end() == arg)
+                    {
+                        std::stringstream ss;
+                        ss << textSystem->getText(DJV_TEXT("error_cannot_parse_argument"));
+                        throw std::runtime_error(ss.str());
+                    }
+                    if (textSystem->getText(DJV_TEXT("av_ocio_display_none")) == *arg)
+                    {
+                        p.ocioDisplayCmdLine.reset(new std::string());
+                    }
+                    else
+                    {
+                        p.ocioDisplayCmdLine.reset(new std::string(*arg));
+                    }
+                    arg = args.erase(arg);
+                }
+                else if ("-ocio_view" == *arg)
+                {
+                    arg = args.erase(arg);
+                    if (args.end() == arg)
+                    {
+                        std::stringstream ss;
+                        ss << textSystem->getText(DJV_TEXT("error_cannot_parse_argument"));
+                        throw std::runtime_error(ss.str());
+                    }
+                    if (textSystem->getText(DJV_TEXT("av_ocio_view_none")) == *arg)
+                    {
+                        p.ocioViewCmdLine.reset(new std::string());
+                    }
+                    else
+                    {
+                        p.ocioViewCmdLine.reset(new std::string(*arg));
+                    }
+                    arg = args.erase(arg);
+                }
+                else if ("-ocio_image" == *arg)
+                {
+                    arg = args.erase(arg);
+                    if (args.end() == arg)
+                    {
+                        std::stringstream ss;
+                        ss << textSystem->getText(DJV_TEXT("error_cannot_parse_argument"));
+                        throw std::runtime_error(ss.str());
+                    }
+                    if (textSystem->getText(DJV_TEXT("av_ocio_image_none")) == *arg)
+                    {
+                        p.ocioImageCmdLine.reset(new std::string());
+                    }
+                    else
+                    {
+                        p.ocioImageCmdLine.reset(new std::string(*arg));
+                    }
+                    arg = args.erase(arg);
+                }
+                else if ("-speed" == *arg)
+                {
+                    arg = args.erase(arg);
+                    if (args.end() == arg)
+                    {
+                        std::stringstream ss;
+                        ss << textSystem->getText(DJV_TEXT("error_cannot_parse_argument"));
+                        throw std::runtime_error(ss.str());
+                    }
+                    float value = 0.F;
+                    std::stringstream ss(*arg);
+                    ss >> value;
+                    arg = args.erase(arg);
+                    Time::Speed speed;
+                    if (value >= 1.F)
+                    {
+                        speed = Time::Speed(value);
+                    }
+                    else if (value > 0.F && value < 1.F)
+                    {
+                        speed = Time::Speed(static_cast<int>(std::floor(value * 1000.F)), 1000);
+                    }
+                    p.speedCmdLine.reset(new Time::Speed(speed));
+                }
+                else if ("-in_out" == *arg)
+                {
+                    arg = args.erase(arg);
+                    if (args.end() == arg)
+                    {
+                        std::stringstream ss;
+                        ss << textSystem->getText(DJV_TEXT("error_cannot_parse_argument"));
+                        throw std::runtime_error(ss.str());
+                    }
+                    p.inPointCmdLine.reset(new std::string(*arg));
+                    arg = args.erase(arg);
+                    if (args.end() == arg)
+                    {
+                        std::stringstream ss;
+                        ss << textSystem->getText(DJV_TEXT("error_cannot_parse_argument"));
+                        throw std::runtime_error(ss.str());
+                    }
+                    p.outPointCmdLine.reset(new std::string(*arg));
+                    arg = args.erase(arg);
+                }
+                else if ("-frame" == *arg)
+                {
+                    arg = args.erase(arg);
+                    if (args.end() == arg)
+                    {
+                        std::stringstream ss;
+                        ss << textSystem->getText(DJV_TEXT("error_cannot_parse_argument"));
+                        throw std::runtime_error(ss.str());
+                    }
+                    p.frameCmdLine.reset(new std::string(*arg));
+                    arg = args.erase(arg);
+                }
+                else
+                {
+                    p.cmdlinePaths.push_back(*arg);
+                    arg = args.erase(arg);
+                }
+            }
         }
         
         void Application::_readIcon(const std::string& fileName)

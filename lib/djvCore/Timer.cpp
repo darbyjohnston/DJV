@@ -53,9 +53,9 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
-            Unit getTime(TimerValue value)
+            Duration getTime(TimerValue value)
             {
-                return Unit(std::chrono::duration_cast<Unit>(std::chrono::milliseconds(getValue(value))));
+                return Duration(std::chrono::duration_cast<Duration>(std::chrono::milliseconds(getValue(value))));
             }
 
             void Timer::_init(const std::shared_ptr<Context>& context)
@@ -79,8 +79,8 @@ namespace djv
             }
 
             void Timer::start(
-                const Unit& value,
-                const std::function<void(const std::chrono::steady_clock::time_point&, const Unit&)> & callback)
+                const Duration& value,
+                const std::function<void(const std::chrono::steady_clock::time_point&, const Duration&)> & callback)
             {
                 _active   = true;
                 _timeout  = value;
@@ -93,7 +93,7 @@ namespace djv
                 _active = false;
             }
 
-            void Timer::_tick(const std::chrono::steady_clock::time_point& t, const Unit& dt)
+            void Timer::_tick(const std::chrono::steady_clock::time_point& t, const Duration& dt)
             {
                 _time = t;
                 if (_active)
@@ -102,7 +102,7 @@ namespace djv
                     {
                         if (_callback)
                         {
-                            const auto v = std::chrono::duration_cast<Unit>(_time - _start);
+                            const auto v = std::chrono::duration_cast<Duration>(_time - _start);
                             _callback(_time, v);
                         }
                         if (_repeating)
@@ -142,7 +142,7 @@ namespace djv
                 return out;
             }
 
-            void TimerSystem::tick(const std::chrono::steady_clock::time_point& t, const Unit& dt)
+            void TimerSystem::tick(const std::chrono::steady_clock::time_point& t, const Duration& dt)
             {
                 DJV_PRIVATE_PTR();
                 p.timers.insert(p.timers.end(), p.newTimers.begin(), p.newTimers.end());

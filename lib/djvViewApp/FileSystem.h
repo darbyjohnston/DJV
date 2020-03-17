@@ -51,6 +51,17 @@ namespace djv
     {
         class Media;
 
+        //! This struct provides options for opening files.
+        struct OpenOptions
+        {
+            std::shared_ptr<glm::vec2>           pos;
+            std::shared_ptr<float>               spacing;
+            std::shared_ptr<Core::Time::Speed>   speed;
+            std::shared_ptr<std::string>         inPoint;
+            std::shared_ptr<std::string>         outPoint;
+            std::shared_ptr<std::string>         frame;
+        };
+
         //! This class provides the file system.
         class FileSystem : public IViewSystem
         {
@@ -73,10 +84,8 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<float> > observeCachePercentage() const;
 
             void open();
-            void open(const Core::FileSystem::FileInfo&);
-            void open(const Core::FileSystem::FileInfo&, const glm::vec2& pos);
-            void open(const std::vector<std::string>&);
-            void open(const std::vector<std::string>&, const glm::vec2& pos, float spacing);
+            void open(const Core::FileSystem::FileInfo&, const OpenOptions& = OpenOptions());
+            void open(const std::vector<std::string>&, OpenOptions = OpenOptions());
             void close(const std::shared_ptr<Media> &);
             void closeAll();
             void setCurrentMedia(const std::shared_ptr<Media> &);
@@ -85,7 +94,6 @@ namespace djv
             MenuData getMenu() const override;
 
         protected:
-            void _mediaInit(const std::shared_ptr<Media>&);
             void _actionsUpdate();
             void _cacheUpdate();
             void _showFileBrowserDialog();

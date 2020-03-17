@@ -51,9 +51,9 @@ namespace djv
             {
                 auto system = context->getSystemT<AVSystem>();
                 
-                auto timeUnitsObserver = ValueObserver<TimeUnits>::create(
+                auto timeUnitsObserver = ValueObserver<Time::Units>::create(
                     system->observeTimeUnits(),
-                    [this](TimeUnits value)
+                    [this](Time::Units value)
                     {
                         std::stringstream ss;
                         ss << "time units: " << value;
@@ -76,21 +76,9 @@ namespace djv
                         _print(ss.str());
                     });
 
-                {
-                    std::stringstream ss;
-                    ss << "frame number label: " << system->getLabel(100, Time::Speed());
-                    _print(ss.str());
-                }
-
-                system->setTimeUnits(TimeUnits::Frames);
+                system->setTimeUnits(Time::Units::Frames);
                 system->setAlphaBlend(AlphaBlend::Premultiplied);
                 system->setDefaultSpeed(Time::FPS::_60);
-
-                {
-                    std::stringstream ss;
-                    ss << "frame number label: " << system->getLabel(100, Time::Speed());
-                    _print(ss.str());
-                }
             }
         }
 

@@ -81,7 +81,7 @@ namespace djv
             auto avSystem = AV::AVSystem::create(shared_from_this());
             auto sceneSystem = Scene::SceneSystem::create(shared_from_this());
 
-            // Parse the command-line arguments.
+            // Parse the command-line.
             auto i = args.begin();
             while (i != args.end())
             {
@@ -146,18 +146,18 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto time = std::chrono::steady_clock::now();
-            Time::Unit delta = Time::Unit::zero();
+            Time::Duration delta = Time::Duration::zero();
             p.running = true;
             while (p.running)
             {
                 tick(time, delta);
 
                 auto end = std::chrono::steady_clock::now();
-                delta = std::chrono::duration_cast<Time::Unit>(end - time);
+                delta = std::chrono::duration_cast<Time::Duration>(end - time);
                 while (delta < std::chrono::microseconds(1000000 / frameRate))
                 {
                     end = std::chrono::steady_clock::now();
-                    delta = std::chrono::duration_cast<Time::Unit>(end - time);
+                    delta = std::chrono::duration_cast<Time::Duration>(end - time);
                 }
                 time = end;
             }

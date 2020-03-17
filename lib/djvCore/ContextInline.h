@@ -78,7 +78,7 @@ namespace djv
             return _fpsAverage;
         }
 
-        inline const std::vector<std::pair<std::string, Time::Unit> >& Context::getSystemTickTimes() const
+        inline const std::vector<std::pair<std::string, Time::Duration> >& Context::getSystemTickTimes() const
         {
             return _systemTickTimes;
         }

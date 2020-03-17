@@ -697,7 +697,7 @@ namespace djv
                     std::string s = i.name;
                     if (s.empty())
                     {
-                        s = _getText(DJV_TEXT("widget_color_space_display_name_none"));
+                        s = _getText(DJV_TEXT("av_ocio_display_none"));
                     }
                     displays.push_back(s);
                 }
@@ -727,7 +727,7 @@ namespace djv
                     std::string s = i;
                     if (s.empty())
                     {
-                        s = _getText(DJV_TEXT("widget_color_space_color_views_none"));
+                        s = _getText(DJV_TEXT("av_ocio_view_none"));
                     }
                     views.push_back(s);
                 }
@@ -760,7 +760,7 @@ namespace djv
                         std::string s = j;
                         if (s.empty())
                         {
-                            s = _getText(DJV_TEXT("color_space_none"));
+                            s = _getText(DJV_TEXT("av_ocio_image_none"));
                         }
                         colorSpaces.push_back(s);
                     }
@@ -801,7 +801,7 @@ namespace djv
                     std::string s = i.first;
                     if (s.empty())
                     {
-                        s = _getText(DJV_TEXT("color_space_display_default"));
+                        s = _getText(DJV_TEXT("widget_color_space_display_default"));
                     }
                     p.imageItemLayout->setText(hLayout, s + ":");
 
@@ -919,7 +919,7 @@ namespace djv
                     std::string s = i;
                     if (s.empty())
                     {
-                        s = _getText(DJV_TEXT("widget_color_space_none"));
+                        s = _getText(DJV_TEXT("av_ocio_image_none"));
                     }
                     colorSpaces.push_back(s);
                 }

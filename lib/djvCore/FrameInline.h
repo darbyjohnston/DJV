@@ -138,6 +138,23 @@ namespace djv
                 return out;
             }
 
+            inline Index Sequence::getLastIndex() const
+            {
+                Index out = 0;
+                for (const auto& i : ranges)
+                {
+                    if (i.min < i.max)
+                    {
+                        out += i.max - i.min + 1;
+                    }
+                    else
+                    {
+                        out += i.min - i.max + 1;
+                    }
+                }
+                return out > 0 ? (out - 1) : 0;
+            }
+
             inline bool Sequence::operator == (const Sequence & value) const
             {
                 return ranges == value.ranges && pad == value.pad;

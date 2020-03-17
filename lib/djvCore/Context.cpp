@@ -95,7 +95,7 @@ namespace djv
             auto weak = std::weak_ptr<Context>(shared_from_this());
             _fpsTimer->start(
                 Time::getTime(Time::TimerValue::VerySlow),
-                [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
             {
                 if (auto context = weak.lock())
                 {
@@ -132,7 +132,7 @@ namespace djv
             }
         }
         
-        void Context::tick(const std::chrono::steady_clock::time_point& t, const Time::Unit& dt)
+        void Context::tick(const std::chrono::steady_clock::time_point& t, const Time::Duration& dt)
         {
             std::chrono::duration<float> delta = t - _fpsTime;
             _fpsTime = t;
@@ -176,7 +176,7 @@ namespace djv
                 //FileSystem::FileIO::writeLines("systems.dot", dot);
             }
 
-            Time::Unit total = Time::Unit::zero();
+            Time::Duration total = Time::Duration::zero();
             _systemTickTimesTemp.resize(_systems.size());
             auto sytemTime = t;
             size_t i = 0;
@@ -184,7 +184,7 @@ namespace djv
             {
                 system->tick(t, dt);
                 auto end = std::chrono::steady_clock::now();
-                const auto diff = std::chrono::duration_cast<Time::Unit>(end - sytemTime);
+                const auto diff = std::chrono::duration_cast<Time::Duration>(end - sytemTime);
                 sytemTime = end;
                 auto& tickTimes = _systemTickTimesTemp[i];
                 tickTimes.first = system->getSystemName();
@@ -195,7 +195,7 @@ namespace djv
             std::sort(
                 _systemTickTimesTemp.begin(),
                 _systemTickTimesTemp.end(),
-                [](const std::pair<std::string, Time::Unit>& a, const std::pair<std::string, Time::Unit>& b)
+                [](const std::pair<std::string, Time::Duration>& a, const std::pair<std::string, Time::Duration>& b)
                 {
                     return a.second > b.second;
                 });

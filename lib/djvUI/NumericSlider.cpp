@@ -50,7 +50,7 @@ namespace djv
         {
             Orientation orientation = Orientation::First;
             float handleWidth = 0.F;
-            Time::Unit delay = Time::Unit::zero();
+            Time::Duration delay = Time::Duration::zero();
             std::shared_ptr<Time::Timer> delayTimer;
             Event::PointerID pressedID = Event::invalidID;
             glm::vec2 pressedPos = glm::vec2(0.F, 0.F);
@@ -84,12 +84,12 @@ namespace djv
             return _p->orientation;
         }
 
-        const Time::Unit& NumericSlider::getDelay() const
+        const Time::Duration& NumericSlider::getDelay() const
         {
             return _p->delay;
         }
 
-        void NumericSlider::setDelay(const Time::Unit& value)
+        void NumericSlider::setDelay(const Time::Duration& value)
         {
             _p->delay = value;
         }
@@ -274,7 +274,7 @@ namespace djv
                 default: break;
                 }
                 _pointerMove(v);
-                if (p.delay > Time::Unit::zero() && glm::length(pointerInfo.projectedPos - p.prevPos) > 0.F)
+                if (p.delay > Time::Duration::zero() && glm::length(pointerInfo.projectedPos - p.prevPos) > 0.F)
                 {
                     _resetTimer();
                 }
@@ -306,7 +306,7 @@ namespace djv
             default: break;
             }
             _buttonPress(v);
-            if (p.delay > Time::Unit::zero())
+            if (p.delay > Time::Duration::zero())
             {
                 _resetTimer();
             }
@@ -388,7 +388,7 @@ namespace djv
             auto weak = std::weak_ptr<NumericSlider>(std::dynamic_pointer_cast<NumericSlider>(shared_from_this()));
             p.delayTimer->start(
                 p.delay,
-                [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
             {
                 if (auto widget = weak.lock())
                 {

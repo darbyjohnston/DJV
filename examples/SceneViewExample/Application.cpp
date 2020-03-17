@@ -130,7 +130,7 @@ void Application::_open(const Core::FileSystem::FileInfo& fileInfo)
             auto weak = std::weak_ptr<Application>(std::dynamic_pointer_cast<Application>(shared_from_this()));
             _futureTimer->start(
                 Core::Time::getTime(Core::Time::TimerValue::Medium),
-                [weak, fileInfo](const std::chrono::steady_clock::time_point&, const Core::Time::Unit&)
+                [weak, fileInfo](const std::chrono::steady_clock::time_point&, const Core::Time::Duration&)
                 {
                     if (auto app = weak.lock())
                     {

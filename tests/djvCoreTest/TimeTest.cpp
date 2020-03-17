@@ -159,6 +159,27 @@ namespace djv
                 int64_t f = Time::timecodeToFrame(0, Time::Speed(0, 0));
                 DJV_ASSERT(0 == f);
             }
+
+            for (auto i : Time::getUnitsEnums())
+            {
+                std::stringstream ss;
+                ss << i;
+                std::stringstream ss2;
+                ss2 << "time units string: " << _getText(ss.str());
+                _print(ss2.str());
+            }
+
+            {
+                std::stringstream ss;
+                ss << "frames label: " << Time::toString(100, Time::Speed(), Time::Units::Frames);
+                _print(ss.str());
+            }
+
+            {
+                std::stringstream ss;
+                ss << "timecode label: " << Time::toString(100, Time::Speed(), Time::Units::Frames);
+                _print(ss.str());
+            }
         }
         
     } // namespace CoreTest

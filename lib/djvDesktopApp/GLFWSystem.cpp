@@ -91,7 +91,7 @@ namespace djv
             auto weak = std::weak_ptr<GLFWSystem>(std::dynamic_pointer_cast<GLFWSystem>(shared_from_this()));
             p.monitorTimer->start(
                 Time::getTime(Time::TimerValue::Slow),
-                [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
                 {
                     if (auto system = weak.lock())
                     {

@@ -96,7 +96,7 @@ void Application::_init(std::list<std::string>& args)
     _timer->setRepeating(true);
     _timer->start(
         std::chrono::milliseconds(10),
-        [this](const std::chrono::steady_clock::time_point&, const Core::Time::Unit&)
+        [this](const std::chrono::steady_clock::time_point&, const Core::Time::Duration&)
     {
         while (_circles.size() < circleCount)
         {

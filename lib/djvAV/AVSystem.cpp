@@ -55,7 +55,7 @@ namespace djv
     {
         struct AVSystem::Private
         {
-            std::shared_ptr<ValueSubject<TimeUnits> > timeUnits;
+            std::shared_ptr<ValueSubject<Time::Units> > timeUnits;
             std::shared_ptr<ValueSubject<AlphaBlend> > alphaBlend;
             std::shared_ptr<ValueSubject<Time::FPS> > defaultSpeed;
             std::shared_ptr<ValueSubject<Render2D::ImageFilterOptions> > imageFilterOptions;
@@ -69,7 +69,7 @@ namespace djv
             ISystem::_init("djv::AV::AVSystem", context);
 
             DJV_PRIVATE_PTR();
-            p.timeUnits = ValueSubject<TimeUnits>::create(TimeUnits::First);
+            p.timeUnits = ValueSubject<Time::Units>::create(Time::Units::First);
             p.alphaBlend = ValueSubject<AlphaBlend>::create(AlphaBlend::First);
             p.defaultSpeed = ValueSubject<Time::FPS>::create(Time::getDefaultSpeed());
             p.imageFilterOptions = ValueSubject<Render2D::ImageFilterOptions>::create();
@@ -110,12 +110,12 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<IValueSubject<TimeUnits> > AVSystem::observeTimeUnits() const
+        std::shared_ptr<IValueSubject<Time::Units> > AVSystem::observeTimeUnits() const
         {
             return _p->timeUnits;
         }
 
-        void AVSystem::setTimeUnits(TimeUnits value)
+        void AVSystem::setTimeUnits(Time::Units value)
         {
             _p->timeUnits->setIfChanged(value);
         }
@@ -171,30 +171,6 @@ namespace djv
             {
                 p.render2D->setLCDText(value);
             }
-        }
-
-        std::string AVSystem::getLabel(Frame::Number value, const Time::Speed& speed) const
-        {
-            DJV_PRIVATE_PTR();
-            std::string out;
-            switch (p.timeUnits->get())
-            {
-            case TimeUnits::Timecode:
-            {
-                const uint32_t timecode = Time::frameToTimecode(value, speed);
-                out = Time::timecodeToString(timecode);
-                break;
-            }
-            case TimeUnits::Frames:
-            {
-                std::stringstream ss;
-                ss << value;
-                out = ss.str();
-                break;
-            }
-            default: break;
-            }
-            return out;
         }
 
     } // namespace AV

@@ -58,7 +58,7 @@ namespace djv
             };
             DJV_ENUM_HELPERS(TimerValue);
             size_t getValue(TimerValue);
-            Unit getTime(TimerValue);
+            Duration getTime(TimerValue);
 
             //! This class provides a timer.
             class Timer : public std::enable_shared_from_this<Timer>
@@ -84,19 +84,19 @@ namespace djv
 
                 //! Start the timer.
                 void start(
-                    const Unit&,
-                    const std::function<void(const std::chrono::steady_clock::time_point&, const Unit&)> &);
+                    const Duration&,
+                    const std::function<void(const std::chrono::steady_clock::time_point&, const Duration&)> &);
 
                 //! Stop the timer.
                 void stop();
 
             private:
-                void _tick(const std::chrono::steady_clock::time_point&, const Unit&);
+                void _tick(const std::chrono::steady_clock::time_point&, const Duration&);
 
                 bool _repeating = false;
                 bool _active = false;
-                Unit _timeout = Unit::zero();
-                std::function<void(const std::chrono::steady_clock::time_point&, const Unit&)> _callback;
+                Duration _timeout = Duration::zero();
+                std::function<void(const std::chrono::steady_clock::time_point&, const Duration&)> _callback;
                 std::chrono::time_point<std::chrono::steady_clock> _time;
                 std::chrono::time_point<std::chrono::steady_clock> _start;
 
@@ -116,7 +116,7 @@ namespace djv
                 //! Create a new timer system.
                 static std::shared_ptr<TimerSystem> create(const std::shared_ptr<Context>&);
 
-                void tick(const std::chrono::steady_clock::time_point&, const Unit&) override;
+                void tick(const std::chrono::steady_clock::time_point&, const Duration&) override;
 
             private:
                 void _addTimer(const std::weak_ptr<Timer> &);

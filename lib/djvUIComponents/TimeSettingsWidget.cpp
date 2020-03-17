@@ -74,9 +74,9 @@ namespace djv
 
             struct TimeUnitsWidget::Private
             {
-                AV::TimeUnits timeUnits = AV::TimeUnits::First;
+                Time::Units timeUnits = Time::Units::First;
                 std::shared_ptr<ComboBox> comboBox;
-                std::shared_ptr<ValueObserver<AV::TimeUnits> > timeUnitsObserver;
+                std::shared_ptr<ValueObserver<Time::Units> > timeUnitsObserver;
             };
 
             void TimeUnitsWidget::_init(const std::shared_ptr<Context>& context)
@@ -100,16 +100,16 @@ namespace djv
                         {
                             if (auto system = context->getSystemT<AV::AVSystem>())
                             {
-                                system->setTimeUnits(static_cast<AV::TimeUnits>(value));
+                                system->setTimeUnits(static_cast<Time::Units>(value));
                             }
                         }
                     });
 
                 if (auto avSystem = context->getSystemT<AV::AVSystem>())
                 {
-                    p.timeUnitsObserver = ValueObserver<AV::TimeUnits>::create(
+                    p.timeUnitsObserver = ValueObserver<Time::Units>::create(
                         avSystem->observeTimeUnits(),
-                        [weak](AV::TimeUnits value)
+                        [weak](Time::Units value)
                     {
                         if (auto widget = weak.lock())
                         {
@@ -156,7 +156,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 p.comboBox->clearItems();
-                for (auto i : AV::getTimeUnitsEnums())
+                for (auto i : Time::getUnitsEnums())
                 {
                     std::stringstream ss;
                     ss << i;

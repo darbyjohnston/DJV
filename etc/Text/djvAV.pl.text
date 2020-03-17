@@ -56,8 +56,6 @@
     "av_side_none": "Żaden",
     "av_side_right": "Dobrze",
     "av_side_top": "Top",
-    "av_time_unit_frames": "Ramki",
-    "av_time_unit_timecode": "Kod czasowy",
     "default_material_mode_default": "Domyślna",
     "default_material_mode_normals": "Normalne",
     "default_material_mode_unlit": "Nie oświetlony",

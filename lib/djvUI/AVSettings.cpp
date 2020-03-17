@@ -84,38 +84,16 @@ namespace djv
                 if (value.is<picojson::object>())
                 {
                     const auto & object = value.get<picojson::object>();
-                    djv::AV::TimeUnits timeUnits = djv::AV::TimeUnits::First;
+                    djv::Core::Time::Units timeUnits = djv::Core::Time::Units::First;
                     djv::AV::AlphaBlend alphaBlend = djv::AV::AlphaBlend::Straight;
                     Time::FPS defaultSpeed = Time::getDefaultSpeed();
                     djv::AV::Render2D::ImageFilterOptions imageFilterOptions;
                     bool lcdText = false;
-                    for (const auto & i : object)
-                    {
-                        if ("TimeUnits" == i.first)
-                        {
-                            std::stringstream ss(i.second.get<std::string>());
-                            ss >> timeUnits;
-                        }
-                        else if ("AlphaBlend" == i.first)
-                        {
-                            std::stringstream ss(i.second.get<std::string>());
-                            ss >> alphaBlend;
-                        }
-                        else if ("DefaultSpeed" == i.first)
-                        {
-                            std::stringstream ss(i.second.get<std::string>());
-                            ss >> defaultSpeed;
-                        }
-                        else if ("ImageFilterOptions" == i.first)
-                        {
-                            fromJSON(i.second, imageFilterOptions);
-                        }
-                        else if ("LCDText" == i.first)
-                        {
-                            std::stringstream ss(i.second.get<std::string>());
-                            ss >> lcdText;
-                        }
-                    }
+                    read("TimeUnits", object, timeUnits);
+                    read("AlphaBlend", object, alphaBlend);
+                    read("DefaultSpeed", object, defaultSpeed);
+                    read("ImageFilterOptions", object, imageFilterOptions);
+                    read("LCDText", object, lcdText);
                     p.avSystem->setTimeUnits(timeUnits);
                     p.avSystem->setAlphaBlend(alphaBlend);
                     p.avSystem->setDefaultSpeed(defaultSpeed);
@@ -137,30 +115,11 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 picojson::value out(picojson::object_type, true);
                 auto & object = out.get<picojson::object>();
-                {
-                    std::stringstream ss;
-                    ss << p.avSystem->observeTimeUnits()->get();
-                    object["TimeUnits"] = picojson::value(ss.str());
-                }
-                {
-                    std::stringstream ss;
-                    ss << p.avSystem->observeAlphaBlend()->get();
-                    object["AlphaBlend"] = picojson::value(ss.str());
-                }
-                {
-                    std::stringstream ss;
-                    ss << p.avSystem->observeDefaultSpeed()->get();
-                    object["DefaultSpeed"] = picojson::value(ss.str());
-                }
-                {
-                    auto value = p.avSystem->observeImageFilterOptions()->get();
-                    object["ImageFilterOptions"] = toJSON(value);
-                }
-                {
-                    std::stringstream ss;
-                    ss << p.avSystem->observeLCDText()->get();
-                    object["LCDText"] = picojson::value(ss.str());
-                }
+                write("TimeUnits", p.avSystem->observeTimeUnits()->get(), object);
+                write("AlphaBlend", p.avSystem->observeAlphaBlend()->get(), object);
+                write("DefaultSpeed", p.avSystem->observeDefaultSpeed()->get(), object);
+                write("ImageFilterOptions", p.avSystem->observeImageFilterOptions()->get(), object);
+                write("LCDText", p.avSystem->observeLCDText()->get(), object);
                 for (const auto & i : p.ioSystem->getPluginNames())
                 {
                     object[i] = p.ioSystem->getOptions(i);

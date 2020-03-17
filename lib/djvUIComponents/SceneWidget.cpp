@@ -111,7 +111,7 @@ namespace djv
             auto weak = std::weak_ptr<SceneWidget>(std::dynamic_pointer_cast<SceneWidget>(shared_from_this()));
             p.statsTimer->start(
                 Core::Time::getTime(Core::Time::TimerValue::Slow),
-                [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
                 {
                     if (auto widget = weak.lock())
                     {

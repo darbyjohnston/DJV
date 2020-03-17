@@ -164,7 +164,7 @@ namespace djv
             
             {
                 const auto t = std::chrono::steady_clock::now();
-                const Time::Unit dt = Time::Unit::zero();
+                const Time::Duration dt = Time::Duration::zero();
                 const Event::Update event(t, dt);
                 DJV_ASSERT(event.getEventType() == Event::Type::Update);
                 DJV_ASSERT(event.getTime() == t);

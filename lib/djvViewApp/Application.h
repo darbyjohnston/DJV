@@ -53,6 +53,7 @@ namespace djv
             void run() override;
 
         private:
+            void _parseCmdLine(std::list<std::string>&);
             void _readIcon(const std::string&);
 
             DJV_PRIVATE();

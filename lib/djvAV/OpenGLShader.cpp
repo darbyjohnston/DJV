@@ -55,7 +55,7 @@ namespace djv
                 _vertex = glCreateShader(GL_VERTEX_SHADER);
                 if (!_vertex)
                 {
-                    //! \todo How can we translate these?
+                    //! \todo How can we translate this?
                     std::stringstream ss;
                     ss << DJV_TEXT("error_opengl_vertex_shader_creation");
                     throw ShaderError(ss.str());

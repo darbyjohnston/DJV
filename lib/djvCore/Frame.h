@@ -75,6 +75,7 @@ namespace djv
                 size_t getSize() const;
                 Number getFrame(Index) const;
                 Index getIndex(Number) const;
+                Index getLastIndex() const;
 
                 //! \name Utilities
                 ///@{

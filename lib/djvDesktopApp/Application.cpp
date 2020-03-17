@@ -71,7 +71,7 @@ namespace djv
             CmdLine::Application::_init(args);
             DJV_PRIVATE_PTR();
 
-            // Parse the command-line arguments.
+            // Parse the command-line.
             auto arg = args.begin();
             while (arg != args.end())
             {
@@ -128,7 +128,7 @@ namespace djv
             {
                 glfwShowWindow(glfwWindow);
                 auto start = std::chrono::steady_clock::now();
-                auto delta = Time::Unit::zero();
+                auto delta = Time::Duration::zero();
                 auto frameTime = std::chrono::microseconds(1000000 / frameRate);
                 _setRunning(true);
                 while (_isRunning() && glfwWindow && !glfwWindowShouldClose(glfwWindow))
@@ -138,7 +138,7 @@ namespace djv
                     const auto systemTime = std::chrono::steady_clock::now();
 
                     auto end = std::chrono::steady_clock::now();
-                    delta = std::chrono::duration_cast<Time::Unit>(end - start);
+                    delta = std::chrono::duration_cast<Time::Duration>(end - start);
                     Time::sleep(frameTime - delta);
                     end = std::chrono::steady_clock::now();
                     //delta = std::chrono::duration_cast<Time::Unit>(end - start);

@@ -56,8 +56,6 @@
     "av_side_none": "Enginn",
     "av_side_right": "Rétt",
     "av_side_top": "Efst",
-    "av_time_unit_frames": "Rammar",
-    "av_time_unit_timecode": "Tímakóða",
     "default_material_mode_default": "Sjálfgefið",
     "default_material_mode_normals": "Venjuleg",
     "default_material_mode_unlit": "Óupplýst",

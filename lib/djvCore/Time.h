@@ -29,6 +29,8 @@
 
 #pragma once
 
+#include <djvCore/Enum.h>
+#include <djvCore/Frame.h>
 #include <djvCore/Rational.h>
 
 #include <chrono>
@@ -41,13 +43,15 @@ namespace djv
         //! This namespace provides time functionality.
         namespace Time
         {
-            //! This typedef provides the time units.
-            typedef std::chrono::microseconds Unit;
+            class Speed;
+
+            //! This typedef provides the default time duration.
+            typedef std::chrono::microseconds Duration;
 
             //! \name Time Utilities
             ///@{
 
-            void sleep(const Unit&);
+            void sleep(const Duration&);
 
             ///@}
 
@@ -111,8 +115,8 @@ namespace djv
                 int second,
                 int frame);
 
-            int64_t timecodeToFrame(uint32_t timecode, const Math::Rational&);
-            uint32_t frameToTimecode(int64_t frame, const Math::Rational&);
+            Frame::Number timecodeToFrame(uint32_t timecode, const Math::Rational&);
+            uint32_t frameToTimecode(Frame::Number, const Math::Rational&);
 
             std::string timecodeToString(uint32_t);
 
@@ -122,8 +126,39 @@ namespace djv
 
             ///@}
 
+            //! \name Time Units
+            ///@{
+
+            //! This enumeration provides time units.
+            enum class Units
+            {
+                Timecode,
+                Frames,
+
+                Count,
+                First = Timecode
+            };
+            DJV_ENUM_HELPERS(Units);
+            
+            std::string toString(Frame::Number, const Time::Speed&, Units);
+
+            //! Throws:
+            //! - std::exception
+            Frame::Number fromString(const std::string&, const Time::Speed&, Units);
+
+            ///@}
+
         } // namespace Time
     } // namespace Core
+
+    DJV_ENUM_SERIALIZE_HELPERS(Core::Time::Units);
+
+    picojson::value toJSON(Core::Time::Units);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const picojson::value&, Core::Time::Units&);
+
 } // namespace djv
 
 #include <djvCore/TimeInline.h>

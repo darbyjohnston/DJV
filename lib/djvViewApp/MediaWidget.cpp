@@ -113,7 +113,7 @@ namespace djv
             Frame::Index currentFrame = Frame::invalidIndex;
             AV::IO::InOutPoints inOutPoints;
             Playback playbackPrev = Playback::Count;
-            AV::TimeUnits timeUnits = AV::TimeUnits::First;
+            Time::Units timeUnits = Time::Units::First;
             ImageViewLock viewLock = ImageViewLock::First;
             bool frameStoreEnabled = false;
             std::shared_ptr<AV::Image::Image> frameStore;
@@ -162,10 +162,12 @@ namespace djv
             std::shared_ptr<ValueObserver<AV::IO::Info> > ioInfoObserver;
             std::shared_ptr<ValueObserver<Frame::Index> > currentFrameObserver;
             std::shared_ptr<ValueObserver<bool> > currentFrameChangeObserver;
-            std::shared_ptr<ValueObserver<AV::TimeUnits> > timeUnitsObserver;
+            std::shared_ptr<ValueObserver<Time::Units> > timeUnitsObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
             std::shared_ptr<ValueObserver<Time::Speed> > speedObserver;
+            std::shared_ptr<ValueObserver<PlaybackSpeed> > playbackSpeedObserver;
             std::shared_ptr<ValueObserver<Time::Speed> > defaultSpeedObserver;
+            std::shared_ptr<ValueObserver<Time::Speed> > customSpeedObserver;
             std::shared_ptr<ValueObserver<float> > realSpeedObserver;
             std::shared_ptr<ValueObserver<bool> > playEveryFrameObserver;
             std::shared_ptr<ValueObserver<PlaybackMode> > playbackModeObserver;
@@ -204,13 +206,6 @@ namespace djv
             p.scroll = ValueSubject<glm::vec2>::create();
 
             p.media = media;
-
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
-            if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
-            {
-                p.playbackSpeed = playbackSettings->observePlaybackSpeed()->get();
-                p.customSpeed = playbackSettings->observeCustomSpeed()->get();
-            }
 
             p.actions["Forward"] = UI::Action::create();
             p.actions["Forward"]->setIcon("djvIconPlaybackForward");
@@ -415,21 +410,6 @@ namespace djv
 #endif // DJV_DEMO_THREADS
             addChild(p.layout);
 
-            if (p.media)
-            {
-                switch (p.playbackSpeed)
-                {
-                case PlaybackSpeed::Default:
-                    break;
-                case PlaybackSpeed::Custom:
-                    p.media->setSpeed(p.customSpeed);
-                    break;
-                default:
-                    p.media->setSpeed(getPlaybackSpeed(p.playbackSpeed));
-                    break;
-                }
-            }
-
             _widgetUpdate();
             _speedUpdate();
             _realSpeedUpdate();
@@ -494,16 +474,9 @@ namespace djv
                         {
                             widget->_p->playbackSpeed = value;
 
-                            Time::Speed speed;
-                            switch (widget->_p->playbackSpeed)
-                            {
-                            case PlaybackSpeed::Default: speed = widget->_p->defaultSpeed; break;
-                            case PlaybackSpeed::Custom: speed = widget->_p->customSpeed; break;
-                            default: speed = getPlaybackSpeed(widget->_p->playbackSpeed); break;
-                            }
                             if (auto media = widget->_p->media)
                             {
-                                media->setSpeed(speed);
+                                media->setPlaybackSpeed(widget->_p->playbackSpeed);
                             }
 
                             auto settingsSystem = context->getSystemT<UI::Settings::System>();
@@ -526,12 +499,9 @@ namespace djv
                         {
                             widget->_p->customSpeed = value;
 
-                            if (PlaybackSpeed::Custom == widget->_p->playbackSpeed)
+                            if (auto media = widget->_p->media)
                             {
-                                if (auto media = widget->_p->media)
-                                {
-                                    media->setSpeed(widget->_p->customSpeed);
-                                }
+                                media->setCustomSpeed(widget->_p->customSpeed);
                             }
 
                             auto settingsSystem = context->getSystemT<UI::Settings::System>();
@@ -840,9 +810,9 @@ namespace djv
                 });
 
             auto avSystem = context->getSystemT<AV::AVSystem>();
-            p.timeUnitsObserver = ValueObserver<AV::TimeUnits>::create(
+            p.timeUnitsObserver = ValueObserver<Time::Units>::create(
                 avSystem->observeTimeUnits(),
-                [weak](AV::TimeUnits value)
+                [weak](Time::Units value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -881,6 +851,30 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->speed = value;
+                        widget->_widgetUpdate();
+                        widget->_speedUpdate();
+                    }
+                });
+
+            p.playbackSpeedObserver = ValueObserver<PlaybackSpeed>::create(
+                p.media->observePlaybackSpeed(),
+                [weak](PlaybackSpeed value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->playbackSpeed = value;
+                        widget->_widgetUpdate();
+                        widget->_speedUpdate();
+                    }
+                });
+
+            p.customSpeedObserver = ValueObserver<Time::Speed>::create(
+                p.media->observeCustomSpeed(),
+                [weak](const Time::Speed& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->customSpeed = value;
                         widget->_widgetUpdate();
                         widget->_speedUpdate();
                     }
@@ -1032,6 +1026,7 @@ namespace djv
                 });
 #endif // DJV_DEMO_THREADS
 
+            auto settingsSystem = context->getSystemT<UI::Settings::System>();
             if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
             {
                 p.cacheEnabledObserver = ValueObserver<bool>::create(
@@ -1405,8 +1400,7 @@ namespace djv
                     sequenceSize > 0 &&
                     p.inOutPoints.getOut() != (sequenceSize - 1));
 
-                auto avSystem = context->getSystemT<AV::AVSystem>();
-                p.durationLabel->setText(avSystem->getLabel(p.sequence.getSize(), p.defaultSpeed));
+                p.durationLabel->setText(Time::toString(p.sequence.getSize(), p.defaultSpeed, p.timeUnits));
 
                 p.timelineSlider->setInOutPointsEnabled(p.inOutPoints.isEnabled());
                 p.timelineSlider->setInPoint(p.inOutPoints.getIn());

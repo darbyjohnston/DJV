@@ -56,8 +56,6 @@
     "av_side_none": "Nessuna",
     "av_side_right": "Giusto",
     "av_side_top": "Superiore",
-    "av_time_unit_frames": "montatura",
-    "av_time_unit_timecode": "timecode",
     "default_material_mode_default": "Predefinito",
     "default_material_mode_normals": "normali",
     "default_material_mode_unlit": "spento",

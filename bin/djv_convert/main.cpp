@@ -55,12 +55,19 @@ namespace djv
             {
                 CmdLine::Application::_init(args);
 
+                auto textSystem = getSystemT<Core::TextSystem>();
                 auto i = args.begin();
                 while (i != args.end())
                 {
                     if ("-resize" == *i)
                     {
                         i = args.erase(i);
+                        if (args.end() == i)
+                        {
+                            std::stringstream ss;
+                            ss << textSystem->getText(DJV_TEXT("error_cannot_parse_argument"));
+                            throw std::runtime_error(ss.str());
+                        }
                         AV::Image::Size resize;
                         std::stringstream ss(*i);
                         ss >> resize;
@@ -80,6 +87,12 @@ namespace djv
                     else if ("-readQueue" == *i)
                     {
                         i = args.erase(i);
+                        if (args.end() == i)
+                        {
+                            std::stringstream ss;
+                            ss << textSystem->getText(DJV_TEXT("error_cannot_parse_argument"));
+                            throw std::runtime_error(ss.str());
+                        }
                         int value = 0;
                         std::stringstream ss(*i);
                         ss >> value;
@@ -89,6 +102,12 @@ namespace djv
                     else if ("-writeQueue" == *i)
                     {
                         i = args.erase(i);
+                        if (args.end() == i)
+                        {
+                            std::stringstream ss;
+                            ss << textSystem->getText(DJV_TEXT("error_cannot_parse_argument"));
+                            throw std::runtime_error(ss.str());
+                        }
                         int value = 0;
                         std::stringstream ss(*i);
                         ss >> value;
@@ -98,6 +117,12 @@ namespace djv
                     else if ("-readThreads" == *i)
                     {
                         i = args.erase(i);
+                        if (args.end() == i)
+                        {
+                            std::stringstream ss;
+                            ss << textSystem->getText(DJV_TEXT("error_cannot_parse_argument"));
+                            throw std::runtime_error(ss.str());
+                        }
                         int value = 0;
                         std::stringstream ss(*i);
                         ss >> value;
@@ -107,6 +132,12 @@ namespace djv
                     else if ("-writeThreads" == *i)
                     {
                         i = args.erase(i);
+                        if (args.end() == i)
+                        {
+                            std::stringstream ss;
+                            ss << textSystem->getText(DJV_TEXT("error_cannot_parse_argument"));
+                            throw std::runtime_error(ss.str());
+                        }
                         int value = 0;
                         std::stringstream ss(*i);
                         ss >> value;
@@ -134,8 +165,7 @@ namespace djv
                 else
                 {
                     std::stringstream ss;
-                    auto textSystem = getSystemT<Core::TextSystem>();
-                    ss << textSystem->getText(DJV_TEXT("djv_convert_output_error")) << ".";
+                    ss << textSystem->getText(DJV_TEXT("djv_convert_output_error"));
                     throw std::runtime_error(ss.str());
                 }
             }
@@ -225,7 +255,7 @@ namespace djv
                 _statsTimer->setRepeating(true);
                 _statsTimer->start(
                     Core::Time::getTime(Core::Time::TimerValue::Slow),
-                    [this, size](const std::chrono::steady_clock::time_point&, const Core::Time::Unit&)
+                    [this, size](const std::chrono::steady_clock::time_point&, const Core::Time::Duration&)
                     {
                         Core::Frame::Number frame = 0;
                         {
@@ -245,7 +275,7 @@ namespace djv
                 CmdLine::Application::run();
             }
 
-            void tick(const std::chrono::steady_clock::time_point& t, const Core::Time::Unit& dt) override
+            void tick(const std::chrono::steady_clock::time_point& t, const Core::Time::Duration& dt) override
             {
                 CmdLine::Application::tick(t, dt);
                 if (_read && _write)

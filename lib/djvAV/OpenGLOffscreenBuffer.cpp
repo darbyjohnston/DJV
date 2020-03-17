@@ -55,7 +55,7 @@ namespace djv
                 
                 std::string getErrorMessage(Error error)
                 {
-                    //! \todo How can we translate these?
+                    //! \todo How can we translate this?
                     std::stringstream ss;
                     switch (error)
                     {

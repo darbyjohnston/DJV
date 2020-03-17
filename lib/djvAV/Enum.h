@@ -52,17 +52,6 @@ namespace djv
         };
         DJV_ENUM_HELPERS(Side);
 
-        //! This enumeration provides time units.
-        enum class TimeUnits
-        {
-            Timecode,
-            Frames,
-
-            Count,
-            First = Timecode
-        };
-        DJV_ENUM_HELPERS(TimeUnits);
-
         //! This enumeration provides how the alpha channel is used for blending.
         //!
         //! References:
@@ -81,7 +70,6 @@ namespace djv
     } // namespace UI
 
     DJV_ENUM_SERIALIZE_HELPERS(AV::Side);
-    DJV_ENUM_SERIALIZE_HELPERS(AV::TimeUnits);
     DJV_ENUM_SERIALIZE_HELPERS(AV::AlphaBlend);
 
     picojson::value toJSON(AV::AlphaBlend);

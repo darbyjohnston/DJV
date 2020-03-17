@@ -17,7 +17,7 @@
     "djv_convert_option_writeseq_description": "Interpret the output file name as a sequence.",
     "djv_convert_option_writethreads": "-writeThreads (value)",
     "djv_convert_option_writethreads_description": "Set the number of threads for writing.",
-	"djv_convert_output_error": "Cannot parse the output file",
+	"djv_convert_output_error": "Cannot parse the output file.",
     "djv_convert_usage": "Usage",
     "djv_convert_usage_format": "djv_convert (input) (output) [option, ...]"
 }

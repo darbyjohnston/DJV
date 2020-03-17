@@ -63,6 +63,7 @@ namespace djv
             AV::IO::Info info;
             Frame::Sequence sequence;
             Time::Speed speed;
+            Time::Units timeUnits = Time::Units::First;
             glm::vec2 pipPos = glm::vec2(0.F, 0.F);
             BBox2f timelineGeometry;
             Frame::Index currentFrame = 0;
@@ -71,6 +72,7 @@ namespace djv
             std::shared_ptr<UI::Label> timeLabel;
             std::shared_ptr<UI::StackLayout> layout;
             std::shared_ptr<Time::Timer> timer;
+            std::shared_ptr<ValueObserver<Time::Units> > timeUnitsObserver;
         };
 
         void TimelinePIPWidget::_init(const std::shared_ptr<Context>& context)
@@ -84,6 +86,7 @@ namespace djv
             p.imageWidget->setSizeRole(UI::MetricsRole::TextColumn);
 
             p.timeLabel = UI::Label::create(context);
+            p.timeLabel->setFont(AV::Font::familyMono);
             p.timeLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
             p.timeLabel->setBackgroundRole(UI::ColorRole::OverlayLight);
             p.timeLabel->setVAlign(UI::VAlign::Bottom);
@@ -100,7 +103,7 @@ namespace djv
             p.timer->setRepeating(true);
             p.timer->start(
                 Time::getTime(Time::TimerValue::VeryFast),
-                [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -128,6 +131,18 @@ namespace djv
                             widget->_p->imageWidget->setImage(nullptr);
                             widget->_textUpdate();
                         }
+                    }
+                });
+
+            auto avSystem = context->getSystemT<AV::AVSystem>();
+            p.timeUnitsObserver = ValueObserver<Time::Units>::create(
+                avSystem->observeTimeUnits(),
+                [weak](Time::Units value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->timeUnits = value;
+                        widget->_textUpdate();
                     }
                 });
         }
@@ -253,8 +268,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                auto avSystem = context->getSystemT<AV::AVSystem>();
-                p.timeLabel->setText(avSystem->getLabel(p.sequence.getFrame(p.currentFrame), p.speed));
+                p.timeLabel->setText(toString(p.sequence.getFrame(p.currentFrame), p.speed, p.timeUnits));
             }
         }
 

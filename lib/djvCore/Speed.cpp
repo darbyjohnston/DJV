@@ -155,4 +155,25 @@ namespace djv
         "60",
         "120");
 
+    picojson::value toJSON(Core::Time::FPS value)
+    {
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
+    }
+
+    void fromJSON(const picojson::value& value, Core::Time::FPS& out)
+    {
+        if (value.is<std::string>())
+        {
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            //! \todo How can we translate this?
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
+        }
+    }
+
 } // namespace djv

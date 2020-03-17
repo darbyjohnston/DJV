@@ -156,8 +156,9 @@ namespace djv
                             std::cout << "        Size: " << video.info.size << " " << std::fixed << video.info.getAspectRatio() << std::endl;
                             std::cout << "        Type: " << video.info.type << std::endl;
                             std::cout << "        Speed: " << video.speed.toFloat() << std::endl;
-                            std::cout << "        Duration: " << avSystem->getLabel(video.sequence.getSize(), video.speed);
-                            if (AV::TimeUnits::Frames == avSystem->observeTimeUnits()->get())
+                            const Core::Time::Units timeUnits = avSystem->observeTimeUnits()->get();
+                            std::cout << "        Duration: " << Core::Time::toString(video.sequence.getSize(), video.speed, timeUnits);
+                            if (Core::Time::Units::Frames == timeUnits)
                             {
                                 std::cout << " " << "frames";
                             }

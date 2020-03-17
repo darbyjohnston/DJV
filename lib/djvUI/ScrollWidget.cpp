@@ -718,7 +718,7 @@ namespace djv
             p.pointerAverageTimer->setRepeating(true);
             p.pointerAverageTimer->start(
                 std::chrono::milliseconds(pointerAverageDecayTimeout),
-                [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
             {
                 if (auto widget = weak.lock())
                 {
@@ -748,7 +748,7 @@ namespace djv
             p.swipeTimer->setRepeating(true);
             p.swipeTimer->start(
                 Time::getTime(Time::TimerValue::Fast),
-                [weak](const std::chrono::steady_clock::time_point&, const Time::Unit& value)
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Duration& value)
             {
                 if (auto widget = weak.lock())
                 {

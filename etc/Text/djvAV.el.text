@@ -56,8 +56,6 @@
     "av_side_none": "Κανένας",
     "av_side_right": "σωστά",
     "av_side_top": "Μπλουζα",
-    "av_time_unit_frames": "Κορνίζες",
-    "av_time_unit_timecode": "Timecode",
     "default_material_mode_default": "Προκαθορισμένο",
     "default_material_mode_normals": "Κανονικά",
     "default_material_mode_unlit": "Μη φωτισμένη",

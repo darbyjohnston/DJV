@@ -56,8 +56,6 @@
     "av_side_none": "Ninguna",
     "av_side_right": "Derecho",
     "av_side_top": "Parte superior",
-    "av_time_unit_frames": "Fotogramas",
-    "av_time_unit_timecode": "Código de tiempo",
     "default_material_mode_default": "Defecto",
     "default_material_mode_normals": "Normales",
     "default_material_mode_unlit": "Apagada",

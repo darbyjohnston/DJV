@@ -109,8 +109,8 @@ namespace djv
                     { MetricsRole::Icon, static_cast<float>(iconSizeDefault) },
                     { MetricsRole::IconSmall, 16.F },
                     { MetricsRole::IconMini, 8.F },
-                    { MetricsRole::FontSmall, 12.F },
-                    { MetricsRole::FontMedium, 14.F },
+                    { MetricsRole::FontSmall, 10.F },
+                    { MetricsRole::FontMedium, 12.F },
                     { MetricsRole::FontLarge, 18.F },
                     { MetricsRole::FontHeader, 22.F },
                     { MetricsRole::FontTitle, 32.F },
@@ -284,7 +284,7 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << role;
-                object.get<picojson::object>()[ss.str()] = picojson::value(std::to_string(value.getMetric(role)));
+                object.get<picojson::object>()[ss.str()] = toJSON(value.getMetric(role));
             }
             out.get<picojson::object>()["Roles"] = object;
         }
@@ -316,12 +316,14 @@ namespace djv
                             }
                             else
                             {
+                                //! \todo How can we translate this?
                                 throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
                             }
                         }
                     }
                     else
                     {
+                        //! \todo How can we translate this?
                         throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
                     }
                 }
@@ -335,6 +337,7 @@ namespace djv
         }
         else
         {
+            //! \todo How can we translate this?
             throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
     }
@@ -356,16 +359,20 @@ namespace djv
                             ss >> role;
                             if (j.second.is<std::string>())
                             {
-                                out.setMetric(role, std::stof(j.second.get<std::string>()));
+                                float v = 0.F;
+                                fromJSON(j.second, v);
+                                out.setMetric(role, v);
                             }
                             else
                             {
+                                //! \todo How can we translate this?
                                 throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
                             }
                         }
                     }
                     else
                     {
+                        //! \todo How can we translate this?
                         throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
                     }
                 }
@@ -373,6 +380,7 @@ namespace djv
         }
         else
         {
+            //! \todo How can we translate this?
             throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
     }

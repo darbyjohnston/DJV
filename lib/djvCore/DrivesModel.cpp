@@ -81,7 +81,7 @@ namespace djv
                 p.timer->setRepeating(true);
                 p.timer->start(
                     timeout,
-                    [this](const std::chrono::steady_clock::time_point&, const Time::Unit&)
+                    [this](const std::chrono::steady_clock::time_point&, const Time::Duration&)
                 {
                     DJV_PRIVATE_PTR();
                     std::vector<Path> drives;

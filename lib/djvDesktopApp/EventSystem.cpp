@@ -143,7 +143,7 @@ namespace djv
             auto weak = std::weak_ptr<EventSystem>(std::dynamic_pointer_cast<EventSystem>(shared_from_this()));
             p.statsTimer->start(
                 Time::getTime(Time::TimerValue::VerySlow),
-                [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
             {
                 if (auto system = weak.lock())
                 {
@@ -180,7 +180,7 @@ namespace djv
             return glfwGetClipboardString(p.glfwWindow);
         }
 
-        void EventSystem::tick(const std::chrono::steady_clock::time_point& t, const Time::Unit& dt)
+        void EventSystem::tick(const std::chrono::steady_clock::time_point& t, const Time::Duration& dt)
         {
             UI::EventSystem::tick(t, dt);
 

@@ -88,7 +88,7 @@ namespace djv
                 void _paintEvent(Event::Paint&) override;
 
             private:
-                void _primitivesUpdate(const Time::Unit&);
+                void _primitivesUpdate(const Time::Duration&);
 
                 std::vector<std::shared_ptr<AV::IO::IRead> > _read;
                 std::vector<std::shared_ptr<AV::Image::Image> > _images;
@@ -129,7 +129,7 @@ namespace djv
                 auto weak = std::weak_ptr<BackgroundWidget>(std::dynamic_pointer_cast<BackgroundWidget>(shared_from_this()));
                 _timer->start(
                     Time::getTime(Time::TimerValue::Fast),
-                    [weak](const std::chrono::steady_clock::time_point&, const Time::Unit& dt)
+                    [weak](const std::chrono::steady_clock::time_point&, const Time::Duration& dt)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -188,7 +188,7 @@ namespace djv
                 }
             }
 
-            void BackgroundWidget::_primitivesUpdate(const Time::Unit& value)
+            void BackgroundWidget::_primitivesUpdate(const Time::Duration& value)
             {
                 std::vector<std::vector<Primitive>::iterator> dead;
                 for (auto i = _primitives.begin(); i != _primitives.end(); ++i)

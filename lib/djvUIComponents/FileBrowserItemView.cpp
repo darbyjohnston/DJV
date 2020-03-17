@@ -1003,11 +1003,12 @@ namespace djv
                             std::fixed << videoInfo.speed.toFloat() <<
                           _getText(DJV_TEXT("file_browser_file_tooltip_video_fps")) << '\n';
                         auto avSystem = context->getSystemT<AV::AVSystem>();
+                        const Time::Units timeUnits = avSystem->observeTimeUnits()->get();
                         ss << _getText(DJV_TEXT("file_browser_file_tooltip_video_duration")) << ": " <<
-                            avSystem->getLabel(videoInfo.sequence.getSize(), videoInfo.speed);
-                        switch (avSystem->observeTimeUnits()->get())
+                            Time::toString(videoInfo.sequence.getSize(), videoInfo.speed, timeUnits);
+                        switch (timeUnits)
                         {
-                        case AV::TimeUnits::Frames:
+                        case Time::Units::Frames:
                           ss << " " << _getText(DJV_TEXT("file_browser_file_tooltip_video_unit_frames"));
                             break;
                         default: break;

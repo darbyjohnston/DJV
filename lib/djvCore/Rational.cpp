@@ -88,6 +88,7 @@ namespace djv
         }
         else
         {
+            //! \todo How can we translate this?
             throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
     }
@@ -110,9 +111,8 @@ namespace djv
         }
         else
         {
-            std::stringstream ss;
-            ss << DJV_TEXT("error_cannot_parse_the_value") << " '" << s << "'.";
-            throw std::invalid_argument(ss.str());
+            //! \todo How can we translate this?
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
         return is;
     }

@@ -440,15 +440,16 @@ namespace djv
             if (auto context = getContext().lock())
             {
                 const auto& style = _getStyle();
-                const float s = style->getMetric(UI::MetricsRole::SpacingLarge);
-                glm::vec2 pos = event.getPointerInfo().projectedPos;
+                OpenOptions openOptions;
+                openOptions.pos.reset(new glm::vec2(event.getPointerInfo().projectedPos));
+                openOptions.spacing.reset(new float(style->getMetric(UI::MetricsRole::SpacingLarge)));
                 std::vector<std::string> fileNames;
                 for (const auto& i : event.getDropPaths())
                 {
                     fileNames.push_back(i);
                 }
                 auto fileSystem = context->getSystemT<FileSystem>();
-                fileSystem->open(fileNames, pos, s);
+                fileSystem->open(fileNames, openOptions);
             }
         }
 

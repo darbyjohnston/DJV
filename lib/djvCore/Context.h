@@ -95,13 +95,13 @@ namespace djv
             ///@}
 
             //! This function is called by the application event loop.
-            virtual void tick(const std::chrono::steady_clock::time_point& t, const Time::Unit& dt);
+            virtual void tick(const std::chrono::steady_clock::time_point& t, const Time::Duration& dt);
 
             //! Get the average tick FPS.
             float getFPSAverage() const;
 
             //! Get the system tick times.
-            const std::vector<std::pair<std::string, Time::Unit> >& getSystemTickTimes() const;
+            const std::vector<std::pair<std::string, Time::Duration> >& getSystemTickTimes() const;
 
         protected:
             void _addSystem(const std::shared_ptr<ISystemBase> &);
@@ -113,8 +113,8 @@ namespace djv
             std::shared_ptr<LogSystem> _logSystem;
             std::shared_ptr<TextSystem> _textSystem;
             std::vector<std::shared_ptr<ISystemBase> > _systems;
-            std::vector<std::pair<std::string, Time::Unit> > _systemTickTimes;
-            std::vector<std::pair<std::string, Time::Unit> > _systemTickTimesTemp;
+            std::vector<std::pair<std::string, Time::Duration> > _systemTickTimes;
+            std::vector<std::pair<std::string, Time::Duration> > _systemTickTimesTemp;
             std::chrono::time_point<std::chrono::steady_clock> _fpsTime = std::chrono::steady_clock::now();
             std::list<float> _fpsSamples;
             float _fpsAverage = 0.F;

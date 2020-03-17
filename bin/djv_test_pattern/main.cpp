@@ -72,7 +72,7 @@ namespace djv
 
             void printUsage() override;
             void run() override;
-            void tick(const std::chrono::steady_clock::time_point&, const Core::Time::Unit&) override;
+            void tick(const std::chrono::steady_clock::time_point&, const Core::Time::Duration&) override;
 
         private:
             Core::FileSystem::FileInfo _output;
@@ -93,12 +93,19 @@ namespace djv
         {
             CmdLine::Application::_init(args);
 
+            auto textSystem = getSystemT<Core::TextSystem>();
             auto i = args.begin();
             while (i != args.end())
             {
                 if ("-frameCount" == *i)
                 {
                     i = args.erase(i);
+                    if (args.end() == i)
+                    {
+                        std::stringstream ss;
+                        ss << textSystem->getText(DJV_TEXT("error_cannot_parse_argument"));
+                        throw std::runtime_error(ss.str());
+                    }
                     int value = 0;
                     std::stringstream ss(*i);
                     ss >> value;
@@ -108,6 +115,12 @@ namespace djv
                 else if ("-size" == *i)
                 {
                     i = args.erase(i);
+                    if (args.end() == i)
+                    {
+                        std::stringstream ss;
+                        ss << textSystem->getText(DJV_TEXT("error_cannot_parse_argument"));
+                        throw std::runtime_error(ss.str());
+                    }
                     AV::Image::Size value;
                     std::stringstream ss(*i);
                     ss >> value;
@@ -117,6 +130,12 @@ namespace djv
                 else if ("-type" == *i)
                 {
                     i = args.erase(i);
+                    if (args.end() == i)
+                    {
+                        std::stringstream ss;
+                        ss << textSystem->getText(DJV_TEXT("error_cannot_parse_argument"));
+                        throw std::runtime_error(ss.str());
+                    }
                     AV::Image::Type value = AV::Image::Type::None;
                     std::stringstream ss(*i);
                     ss >> value;
@@ -142,8 +161,7 @@ namespace djv
             else
             {
                 std::stringstream ss;
-                auto textSystem = getSystemT<Core::TextSystem>();
-                ss << textSystem->getText(DJV_TEXT("djv_test_pattern_output_error")) << ".";
+                ss << textSystem->getText(DJV_TEXT("djv_test_pattern_output_error"));
                 throw std::runtime_error(ss.str());
             }
         }
@@ -220,7 +238,7 @@ namespace djv
             _statsTimer->setRepeating(true);
             _statsTimer->start(
                 Core::Time::getTime(Core::Time::TimerValue::Slow),
-                [this](const std::chrono::steady_clock::time_point&, const Core::Time::Unit&)
+                [this](const std::chrono::steady_clock::time_point&, const Core::Time::Duration&)
                 {
                     std::cout << static_cast<size_t>(_frame / static_cast<float>(*_frameCount - 1) * 100.F) << "%" << std::endl;
                 });
@@ -228,7 +246,7 @@ namespace djv
             CmdLine::Application::run();
         }
 
-        void Application::tick(const std::chrono::steady_clock::time_point& t, const Core::Time::Unit& dt)
+        void Application::tick(const std::chrono::steady_clock::time_point& t, const Core::Time::Duration& dt)
         {
             CmdLine::Application::tick(t, dt);
             {

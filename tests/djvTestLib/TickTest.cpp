@@ -51,13 +51,13 @@ namespace djv
         ITickTest::~ITickTest()
         {}
 
-        void ITickTest::_tickFor(const Core::Time::Unit& value)
+        void ITickTest::_tickFor(const Core::Time::Duration& value)
         {
             if (auto context = getContext().lock())
             {
                 auto time = std::chrono::steady_clock::now();
                 auto timeout = time + value;
-                Core::Time::Unit delta;
+                Core::Time::Duration delta;
                 while (time < timeout)
                 {
                     context->tick(time, delta);

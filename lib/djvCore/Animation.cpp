@@ -88,7 +88,7 @@ namespace djv
             void Animation::start(
                 float            begin,
                 float            end,
-                Time::Unit       duration,
+                Time::Duration       duration,
                 const Callback & callback,
                 const Callback & endCallback)
             {
@@ -111,7 +111,7 @@ namespace djv
                 _active = false;
             }
 
-            void Animation::_tick(const std::chrono::steady_clock::time_point& tp, const Time::Unit&)
+            void Animation::_tick(const std::chrono::steady_clock::time_point& tp, const Time::Duration&)
             {
                 _time = tp;
                 if (_active)
@@ -175,7 +175,7 @@ namespace djv
                 return out;
             }
 
-            void System::tick(const std::chrono::steady_clock::time_point& tp, const Time::Unit& dt)
+            void System::tick(const std::chrono::steady_clock::time_point& tp, const Time::Duration& dt)
             {
                 DJV_PRIVATE_PTR();
                 auto i = p.animations.begin();

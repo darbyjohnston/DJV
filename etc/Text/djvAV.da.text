@@ -56,8 +56,6 @@
     "av_side_none": "Ingen",
     "av_side_right": "Ret",
     "av_side_top": "Top",
-    "av_time_unit_frames": "Rammer",
-    "av_time_unit_timecode": "tidskode",
     "default_material_mode_default": "Standard",
     "default_material_mode_normals": "Normals",
     "default_material_mode_unlit": "unlit",

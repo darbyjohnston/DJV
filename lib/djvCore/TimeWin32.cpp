@@ -42,7 +42,7 @@ namespace djv
     {
         namespace Time
         {
-            void sleep(const Unit& value)
+            void sleep(const Duration& value)
             {
                 if (HANDLE h = CreateWaitableTimer(NULL, TRUE, NULL))
                 {

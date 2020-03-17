@@ -56,8 +56,6 @@
     "av_side_none": "Nenhum",
     "av_side_right": "Certo",
     "av_side_top": "Topo",
-    "av_time_unit_frames": "Molduras",
-    "av_time_unit_timecode": "Código de tempo",
     "default_material_mode_default": "Padrão",
     "default_material_mode_normals": "Normais",
     "default_material_mode_unlit": "Apagado",

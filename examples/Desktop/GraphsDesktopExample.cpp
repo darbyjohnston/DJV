@@ -74,12 +74,12 @@ int main(int argc, char ** argv)
         window->show();
 
         // Start a timer to drive the line graphs.
-        Core::Time::Unit t = Core::Time::Unit::zero();
+        Core::Time::Duration t = Core::Time::Duration::zero();
         auto timer = Core::Time::Timer::create(app);
         timer->setRepeating(true);
         timer->start(
             std::chrono::milliseconds(30),
-            [lineGraphWidgets, &t](const std::chrono::steady_clock::time_point&, const Core::Time::Unit& value)
+            [lineGraphWidgets, &t](const std::chrono::steady_clock::time_point&, const Core::Time::Duration& value)
         {
             float f = 5.f;
             for (size_t i = 0; i < lineGraphWidgets.size(); ++i)

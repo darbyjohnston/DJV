@@ -166,7 +166,7 @@ namespace djv
                 return out;
             }
             
-            void tick(const std::chrono::steady_clock::time_point& t, const Time::Unit& dt) override
+            void tick(const std::chrono::steady_clock::time_point& t, const Time::Duration& dt) override
             {
                 IEventSystem::tick(t, dt);
                 _pointerMove(_pointerInfo);

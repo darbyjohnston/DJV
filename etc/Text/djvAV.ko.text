@@ -56,8 +56,6 @@
     "av_side_none": "없음",
     "av_side_right": "권리",
     "av_side_top": "상단",
-    "av_time_unit_frames": "프레임",
-    "av_time_unit_timecode": "시간 코드",
     "default_material_mode_default": "기본",
     "default_material_mode_normals": "법선",
     "default_material_mode_unlit": "소등",

@@ -345,7 +345,7 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
     auto contextWeak = std::weak_ptr<Core::Context>(context);
     _statsTimer->start(
         Core::Time::getTime(Core::Time::TimerValue::Slow),
-        [weak, contextWeak](const std::chrono::steady_clock::time_point&, const Core::Time::Unit&)
+        [weak, contextWeak](const std::chrono::steady_clock::time_point&, const Core::Time::Duration&)
         {
             if (auto context = contextWeak.lock())
             {

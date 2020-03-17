@@ -210,10 +210,11 @@ namespace djv
                     {
                         std::stringstream ss;
                         auto avSystem = context->getSystemT<AV::AVSystem>();
-                        ss << avSystem->getLabel(i.sequence.getSize(), i.speed);
-                        switch (avSystem->observeTimeUnits()->get())
+                        const Time::Units timeUnits = avSystem->observeTimeUnits()->get();
+                        ss << Time::toString(i.sequence.getSize(), i.speed, timeUnits);
+                        switch (timeUnits)
                         {
-                        case AV::TimeUnits::Frames:
+                        case Time::Units::Frames:
                             ss << " " << _getText(DJV_TEXT("widget_info_frames"));
                             break;
                         default: break;
