@@ -369,7 +369,7 @@ namespace djv
                             {
                                 throw std::runtime_error(String::Format("{0}: {1}").
                                     arg(fileName).
-                                    arg(textSystem->getText(DJV_TEXT("error_file_open")));
+                                    arg(textSystem->getText(DJV_TEXT("error_file_open"))));
                             }
                             ON::CloseFile(f);
                         }

@@ -80,35 +80,35 @@ namespace djv
                         out.push_back(Core::Error::getLastError());
                         break;
                     case ErrorType::MemoryMap:
-                        out.push_back(String::Format("Cannot memory map '{0}'.").arg(fileName);
+                        out.push_back(String::Format("Cannot memory map '{0}'.").arg(fileName));
                         out.push_back(Core::Error::getLastError());
                         break;
                     case ErrorType::Close:
-                        out.push_back(String::Format("Cannot close '{0}'.").arg(fileName);
+                        out.push_back(String::Format("Cannot close '{0}'.").arg(fileName));
                         out.push_back(Core::Error::getLastError());
                         break;
                     case ErrorType::CloseMemoryMap:
-                        out.push_back(String::Format("Cannot unmap '{0}'.").arg(fileName);
+                        out.push_back(String::Format("Cannot unmap '{0}'.").arg(fileName));
                         out.push_back(Core::Error::getLastError());
                         break;
                     case ErrorType::Read:
-                        out.push_back(String::Format("Cannot read '{0}'.").arg(fileName);
+                        out.push_back(String::Format("Cannot read '{0}'.").arg(fileName));
                         out.push_back(Core::Error::getLastError());
                         break;
                     case ErrorType::ReadMemoryMap:
-                        out.push_back(String::Format("Cannot read memory map '{0}'.").arg(fileName);
+                        out.push_back(String::Format("Cannot read memory map '{0}'.").arg(fileName));
                         out.push_back(Core::Error::getLastError());
                         break;
                     case ErrorType::Write:
-                        out.push_back(String::Format("Cannot write '{0}'.").arg(fileName);
+                        out.push_back(String::Format("Cannot write '{0}'.").arg(fileName));
                         out.push_back(Core::Error::getLastError());
                         break;
                     case ErrorType::Seek:
-                        out.push_back(String::Format("Cannot seek '{0}'.").arg(fileName);
+                        out.push_back(String::Format("Cannot seek '{0}'.").arg(fileName));
                         out.push_back(Core::Error::getLastError());
                         break;
                     case ErrorType::SeekMemoryMap:
-                        out.push_back(String::Format("Cannot seek memory map '{0}'.").arg(fileName);
+                        out.push_back(String::Format("Cannot seek memory map '{0}'.").arg(fileName));
                         out.push_back(Core::Error::getLastError());
                         break;
                     default: break;

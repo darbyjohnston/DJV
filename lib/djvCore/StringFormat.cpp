@@ -31,6 +31,7 @@
 
 #include <map>
 #include <regex>
+#include <sstream>
 
 namespace djv
 {
