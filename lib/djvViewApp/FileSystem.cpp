@@ -540,23 +540,20 @@ namespace djv
                     if (options.inPoint)
                     {
                         inOutEnabled = true;
-                        inPoint = Math::clamp(
-                            sequence.getIndex(Time::fromString(*options.inPoint, speed, timeUnits)),
-                            start,
-                            end);
+                        const Frame::Index i = sequence.getIndex(Time::fromString(*options.inPoint, speed, timeUnits));
+                        inPoint = i != Frame::invalidIndex ? i : start;
                         frame = inPoint;
                     }
                     if (options.outPoint)
                     {
                         inOutEnabled = true;
-                        outPoint = Math::clamp(
-                            sequence.getIndex(Time::fromString(*options.outPoint, speed, timeUnits)),
-                            start,
-                            end);
+                        const Frame::Index i = sequence.getIndex(Time::fromString(*options.outPoint, speed, timeUnits));
+                        outPoint = i != Frame::invalidIndex ? i : end;
                     }
                     if (options.frame)
                     {
-                        frame = sequence.getIndex(Time::fromString(*options.frame, speed, timeUnits));
+                        const Frame::Index i = sequence.getIndex(Time::fromString(*options.frame, speed, timeUnits));
+                        frame = i != Frame::invalid ? i : inPoint;
                     }
                     media->setInOutPoints(AV::IO::InOutPoints(inOutEnabled, inPoint, outPoint));
                     media->setCurrentFrame(frame);
