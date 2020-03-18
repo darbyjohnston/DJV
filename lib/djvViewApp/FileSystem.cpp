@@ -553,7 +553,7 @@ namespace djv
                     if (options.frame)
                     {
                         const Frame::Index i = sequence.getIndex(Time::fromString(*options.frame, speed, timeUnits));
-                        frame = i != Frame::invalid ? i : inPoint;
+                        frame = i != Frame::invalid ? Math::clamp(i, inPoint, outPoint) : inPoint;
                     }
                     media->setInOutPoints(AV::IO::InOutPoints(inOutEnabled, inPoint, outPoint));
                     media->setCurrentFrame(frame);
