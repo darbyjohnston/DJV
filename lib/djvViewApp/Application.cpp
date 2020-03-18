@@ -152,6 +152,8 @@ namespace djv
             std::cout << std::endl;
             std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_usage_format")) << std::endl;
             std::cout << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_usage_format_input_description")) << std::endl;
+            std::cout << std::endl;
             std::cout << " " << textSystem->getText(DJV_TEXT("djv_cli_options_window")) << std::endl;
             std::cout << std::endl;
             std::cout << "   " << textSystem->getText(DJV_TEXT("djv_cli_option_full_screen")) << std::endl;
