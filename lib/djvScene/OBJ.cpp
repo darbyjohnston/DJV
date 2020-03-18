@@ -105,7 +105,7 @@ namespace djv
                         int slashPos[2] = { 0, 0 };
                         int slashIndex = 0;
                         size_t i = 0;
-                        for (; i < size; ++i)
+                        for (; i < size && slashIndex < 2; ++i)
                         {
                             if ('/' == s[i])
                             {

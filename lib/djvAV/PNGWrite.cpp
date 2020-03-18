@@ -79,7 +79,6 @@ namespace djv
 
                         File()
                         {
-                            memset(&pngError, 0, sizeof(ErrorStruct));
                             png = png_create_write_struct(
                                 PNG_LIBPNG_VER_STRING,
                                 &pngError,
