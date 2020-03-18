@@ -556,10 +556,6 @@ namespace djv
                     }
                     if (options.frame)
                     {
-                        //frame = Math::clamp(
-                        //    sequence.getIndex(Time::fromString(*options.frame, speed, timeUnits)),
-                        //    inPoint,
-                        //    outPoint);
                         frame = sequence.getIndex(Time::fromString(*options.frame, speed, timeUnits));
                     }
                     media->setInOutPoints(AV::IO::InOutPoints(inOutEnabled, inPoint, outPoint));
@@ -839,17 +835,23 @@ namespace djv
             }
         }
 
-        std::vector<Core::FileSystem::FileInfo> FileSystem::_processFileNames(std::vector<std::string> fileNames)
+        std::vector<Core::FileSystem::FileInfo> FileSystem::_processFileNames(const std::vector<std::string>& fileNames)
         {
             DJV_PRIVATE_PTR();
             std::vector<Core::FileSystem::FileInfo> fileInfos;
             if (auto context = getContext().lock())
             {
+                std::vector<Core::FileSystem::Path> paths;
+                for (const auto& i : fileNames)
+                {
+                    paths.push_back(Core::FileSystem::Path::getAbsolute(Core::FileSystem::Path(i)));
+                }
+
                 auto io = context->getSystemT<AV::IO::System>();
 
                 // Find arguments that are sequences.
-                auto i = fileNames.begin();
-                while (i != fileNames.end())
+                auto i = paths.begin();
+                while (i != paths.end())
                 {
                     Core::FileSystem::FileInfo fileInfo(*i);
                     fileInfo.evalSequence();
@@ -858,7 +860,7 @@ namespace djv
                         io->canSequence(fileInfo))
                     {
                         fileInfos.push_back(fileInfo);
-                        i = fileNames.erase(i);
+                        i = paths.erase(i);
                     }
                     else
                     {
@@ -868,8 +870,8 @@ namespace djv
             
                 // Find arguments that belong to the same sequence (for
                 // example when a shell wildcard is used).
-                i = fileNames.begin();
-                while (i != fileNames.end())
+                i = paths.begin();
+                while (i != paths.end())
                 {
                     Core::FileSystem::FileInfo fileInfo(*i);
                     fileInfo.evalSequence();
@@ -878,7 +880,7 @@ namespace djv
                         io->canSequence(fileInfo))
                     {
                         auto j = i + 1;
-                        while (j != fileNames.end())
+                        while (j != paths.end())
                         {
                             Core::FileSystem::FileInfo fileInfo2(*j);
                             fileInfo2.evalSequence();
@@ -887,7 +889,7 @@ namespace djv
                                 io->canSequence(fileInfo2) &&
                                 fileInfo.addToSequence(fileInfo2))
                             {
-                                j = fileNames.erase(j);
+                                j = paths.erase(j);
                             }
                             else
                             {
@@ -901,8 +903,8 @@ namespace djv
                 // Auto-detect sequences.
                 if (p.settings->observeAutoDetectSequences()->get())
                 {
-                    i = fileNames.begin();
-                    while (i != fileNames.end())
+                    i = paths.begin();
+                    while (i != paths.end())
                     {
                         Core::FileSystem::FileInfo fileInfo(*i);
                         fileInfo.evalSequence();
@@ -910,10 +912,8 @@ namespace djv
                             1 == fileInfo.getSequence().getSize() &&
                             io->canSequence(fileInfo))
                         {
-                            fileInfos.push_back(Core::FileSystem::FileInfo::getFileSequence(
-                                Core::FileSystem::Path(*i),
-                                io->getSequenceExtensions()));
-                            i = fileNames.erase(i);
+                            fileInfos.push_back(Core::FileSystem::FileInfo::getFileSequence(*i, io->getSequenceExtensions()));
+                            i = paths.erase(i);
                         }
                         else
                         {
@@ -923,8 +923,8 @@ namespace djv
                 }
                 
                 // Check the directory for wildcards.
-                i = fileNames.begin();
-                while (i != fileNames.end())
+                i = paths.begin();
+                while (i != paths.end())
                 {
                     Core::FileSystem::FileInfo fileInfo(*i);
                     const std::string& number = fileInfo.getPath().getNumber();
@@ -932,14 +932,12 @@ namespace djv
                     Core::FileSystem::FileInfo fileSequence;
                     if (wildcard)
                     {
-                        fileSequence = Core::FileSystem::FileInfo::getFileSequence(
-                            Core::FileSystem::Path(*i),
-                            io->getSequenceExtensions());
+                        fileSequence = Core::FileSystem::FileInfo::getFileSequence(*i, io->getSequenceExtensions());
                     }
                     if (wildcard && number.size() == fileSequence.getSequence().pad)
                     {
                         fileInfos.push_back(fileSequence);
-                        i = fileNames.erase(i);
+                        i = paths.erase(i);
                     }
                     else
                     {
@@ -948,7 +946,7 @@ namespace djv
                 }
                 
                 // Add the remaining file names.
-                for (const auto& i : fileNames)
+                for (const auto& i : paths)
                 {
                     Core::FileSystem::FileInfo fileInfo(i);
                     fileInfo.evalSequence();

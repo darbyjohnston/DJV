@@ -130,6 +130,7 @@ namespace djv
                 const std::string& getBaseName() const;
                 const std::string& getNumber() const;
                 const std::string& getExtension() const;
+
                 void setDirectoryName(const std::string &);
                 void setFileName(const std::string &);
                 void setBaseName(const std::string &);

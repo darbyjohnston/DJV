@@ -443,13 +443,8 @@ namespace djv
                 OpenOptions openOptions;
                 openOptions.pos.reset(new glm::vec2(event.getPointerInfo().projectedPos));
                 openOptions.spacing.reset(new float(style->getMetric(UI::MetricsRole::SpacingLarge)));
-                std::vector<std::string> fileNames;
-                for (const auto& i : event.getDropPaths())
-                {
-                    fileNames.push_back(i);
-                }
                 auto fileSystem = context->getSystemT<FileSystem>();
-                fileSystem->open(fileNames, openOptions);
+                fileSystem->open(event.getDropPaths(), openOptions);
             }
         }
 
