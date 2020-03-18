@@ -75,7 +75,7 @@ namespace djv
 
                 std::list<glm::mat4x4>                  transforms;
                 std::list<glm::mat4x4>                  inverseTransforms;
-                const glm::mat4x4                       identity            = glm::mat4x4(1.f);
+                const glm::mat4x4                       identity            = glm::mat4x4(1.F);
                 AV::Image::Color                        currentColor;
                 std::shared_ptr<IMaterial>              currentMaterial;
                 std::vector<std::shared_ptr<ILight> >   lights;

@@ -448,8 +448,7 @@ namespace djv
                 void write(
                     const std::shared_ptr<FileSystem::FileIO>& io,
                     const Info& info,
-                    ColorProfile colorProfile,
-                    const std::shared_ptr<TextSystem>& textSystem)
+                    ColorProfile colorProfile)
                 {
                     Header header;
                     zero(header);

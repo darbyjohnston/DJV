@@ -206,8 +206,7 @@ namespace djv
                 void write(
                     const std::shared_ptr<Core::FileSystem::FileIO>&,
                     const Info& info,
-                    ColorProfile,
-                    const std::shared_ptr<Core::TextSystem>&);
+                    ColorProfile);
 
                 //! Finish writing the Cineon file header after image data is written.
                 void writeFinish(const std::shared_ptr<Core::FileSystem::FileIO>&);

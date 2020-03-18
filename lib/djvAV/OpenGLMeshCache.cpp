@@ -119,7 +119,8 @@ namespace djv
                     const UID uid = createUID();
                     p.ranges[out] = uid;
                     p.uids[uid] = out;
-                    p.timestamps[++_timestamp] = uid;
+                    ++_timestamp;
+                    p.timestamps[_timestamp] = uid;
                     p.vbo->copy(data, out.min * vertexByteCount);
                     return uid;
                 }
@@ -160,7 +161,8 @@ namespace djv
                         const UID uid = createUID();
                         p.ranges[out] = uid;
                         p.uids[uid] = out;
-                        p.timestamps[++_timestamp] = uid;
+                        ++_timestamp;
+                        p.timestamps[_timestamp] = uid;
                         p.vbo->copy(data, out.min * vertexByteCount);
                         return uid;
                     }
@@ -172,7 +174,6 @@ namespace djv
             float MeshCache::getPercentageUsed() const
             {
                 DJV_PRIVATE_PTR();
-                float out = 0.F;
                 size_t used = 0;
                 for (const auto& i : p.ranges)
                 {

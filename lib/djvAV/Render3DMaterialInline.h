@@ -40,10 +40,14 @@ namespace djv
             {}
 
             inline void IMaterial::bind(const BindData&)
-            {}
+            {
+                // Default implementation does nothing.
+            }
 
             inline void IMaterial::primitiveBind(const PrimitiveBindData&)
-            {}
+            {
+                // Default implementation does nothing.
+            }
 
             inline const std::shared_ptr<OpenGL::Shader>& IMaterial::getShader() const
             {
