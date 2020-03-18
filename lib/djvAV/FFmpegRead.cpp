@@ -109,14 +109,14 @@ namespace djv
                                 nullptr);
                             if (r < 0)
                             {
-                                throw FileSystem::Error(String::Format("'{0}': {1}").
+                                throw FileSystem::Error(String::Format("{0}: {1}").
                                     arg(_fileInfo.getFileName()).
                                     arg(FFmpeg::getErrorString(r)));
                             }
                             r = avformat_find_stream_info(p.avFormatContext, 0);
                             if (r < 0)
                             {
-                                throw FileSystem::Error(String::Format("'{0}': {1}").
+                                throw FileSystem::Error(String::Format("{0}: {1}").
                                     arg(_fileInfo.getFileName()).
                                     arg(FFmpeg::getErrorString(r)));
                             }
@@ -136,7 +136,7 @@ namespace djv
                             }
                             if (-1 == p.avVideoStream && -1 == p.avAudioStream)
                             {
-                                throw FileSystem::Error(String::Format("'{0}': {1}").
+                                throw FileSystem::Error(String::Format("{0}: {1}").
                                     arg(_fileInfo.getFileName()).
                                     arg(_textSystem->getText(DJV_TEXT("error_no_streams"))));
                             }
@@ -159,7 +159,7 @@ namespace djv
                                 auto avVideoCodec = avcodec_find_decoder(avVideoCodecParameters->codec_id);
                                 if (!avVideoCodec)
                                 {
-                                    throw FileSystem::Error(String::Format("'{0}': {1}").
+                                    throw FileSystem::Error(String::Format("{0}: {1}").
                                         arg(_fileInfo.getFileName()).
                                         arg(_textSystem->getText(DJV_TEXT("error_no_video_codecs"))));
                                 }
@@ -167,7 +167,7 @@ namespace djv
                                 r = avcodec_parameters_copy(p.avCodecParameters[p.avVideoStream], avVideoCodecParameters);
                                 if (r < 0)
                                 {
-                                    throw FileSystem::Error(String::Format("'{0}': {1}").
+                                    throw FileSystem::Error(String::Format("{0}: {1}").
                                         arg(_fileInfo.getFileName()).
                                         arg(FFmpeg::getErrorString(r)));
                                 }
@@ -175,7 +175,7 @@ namespace djv
                                 r = avcodec_parameters_to_context(p.avCodecContext[p.avVideoStream], p.avCodecParameters[p.avVideoStream]);
                                 if (r < 0)
                                 {
-                                    throw FileSystem::Error(String::Format("'{0}': {1}").
+                                    throw FileSystem::Error(String::Format("{0}: {1}").
                                         arg(_fileInfo.getFileName()).
                                         arg(FFmpeg::getErrorString(r)));
                                 }
@@ -184,7 +184,7 @@ namespace djv
                                 r = avcodec_open2(p.avCodecContext[p.avVideoStream], avVideoCodec, 0);
                                 if (r < 0)
                                 {
-                                    throw FileSystem::Error(String::Format("'{0}': {1}").
+                                    throw FileSystem::Error(String::Format("{0}: {1}").
                                         arg(_fileInfo.getFileName()).
                                         arg(FFmpeg::getErrorString(r)));
                                 }
@@ -252,14 +252,14 @@ namespace djv
                                 Audio::Type audioType = FFmpeg::toAudioType(static_cast<AVSampleFormat>(avAudioCodecParameters->format));
                                 if (Audio::Type::None == audioType)
                                 {
-                                    throw FileSystem::Error(String::Format("'{0}': {1}").
+                                    throw FileSystem::Error(String::Format("{0}: {1}").
                                         arg(_fileInfo.getFileName()).
                                         arg(_textSystem->getText(DJV_TEXT("error_unsupported_audio_format"))));
                                 }
                                 auto avAudioCodec = avcodec_find_decoder(avAudioCodecParameters->codec_id);
                                 if (!avAudioCodec)
                                 {
-                                    throw FileSystem::Error(String::Format("'{0}': {1}").
+                                    throw FileSystem::Error(String::Format("{0}: {1}").
                                         arg(_fileInfo.getFileName()).
                                         arg(_textSystem->getText(DJV_TEXT("error_no_audio_codecs"))));
                                 }
@@ -267,7 +267,7 @@ namespace djv
                                 r = avcodec_parameters_copy(p.avCodecParameters[p.avAudioStream], avAudioCodecParameters);
                                 if (r < 0)
                                 {
-                                    throw FileSystem::Error(String::Format("'{0}': {1}").
+                                    throw FileSystem::Error(String::Format("{0}: {1}").
                                         arg(_fileInfo.getFileName()).
                                         arg(FFmpeg::getErrorString(r)));
                                 }
@@ -275,14 +275,14 @@ namespace djv
                                 r = avcodec_parameters_to_context(p.avCodecContext[p.avAudioStream], p.avCodecParameters[p.avAudioStream]);
                                 if (r < 0)
                                 {
-                                    throw FileSystem::Error(String::Format("'{0}': {1}").
+                                    throw FileSystem::Error(String::Format("{0}: {1}").
                                         arg(_fileInfo.getFileName()).
                                         arg(FFmpeg::getErrorString(r)));
                                 }
                                 r = avcodec_open2(p.avCodecContext[p.avAudioStream], avAudioCodec, 0);
                                 if (r < 0)
                                 {
-                                    throw FileSystem::Error(String::Format("'{0}': {1}").
+                                    throw FileSystem::Error(String::Format("{0}: {1}").
                                         arg(_fileInfo.getFileName()).
                                         arg(FFmpeg::getErrorString(r)));
                                 }

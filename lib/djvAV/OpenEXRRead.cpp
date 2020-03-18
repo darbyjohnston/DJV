@@ -31,6 +31,7 @@
 
 #include <djvCore/FileIO.h>
 #include <djvCore/FileSystem.h>
+#include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 
 #include <ImfChannelList.h>
@@ -286,7 +287,9 @@ namespace djv
                         }
                         if (Image::Type::None == info.type)
                         {
-                            throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_unsupported_image_type")));
+                            throw FileSystem::Error(String::Format("{0}: {1}").
+                                arg(fileName).
+                                arg(_textSystem->getText(DJV_TEXT("error_unsupported_image_type"))));
                         }
                         out.video[i].sequence = _sequence;
                         out.video[i].speed = _speed;

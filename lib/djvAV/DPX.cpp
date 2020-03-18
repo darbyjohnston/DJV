@@ -33,6 +33,7 @@
 #include <djvCore/FileSystem.h>
 #include <djvCore/Memory.h>
 #include <djvCore/String.h>
+#include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
@@ -196,9 +197,9 @@ namespace djv
                     }
                     else
                     {
-                        std::stringstream ss;
-                        ss << textSystem->getText(DJV_TEXT("error_bad_magic_number"));
-                        throw FileSystem::Error(ss.str());
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(io->getFileName()).
+                            arg(textSystem->getText(DJV_TEXT("error_bad_magic_number"))));
                     }
 
                     // Read the reset of the header.
@@ -218,9 +219,9 @@ namespace djv
                     // Collect information.
                     if (out.image.elemSize != 1)
                     {
-                        std::stringstream ss;
-                        ss << textSystem->getText(DJV_TEXT("error_unsupported_file"));
-                        throw FileSystem::Error(ss.str());
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(io->getFileName()).
+                            arg(textSystem->getText(DJV_TEXT("error_unsupported_file"))));
                     }
                     info.video[0].info.size.w = out.image.size[0];
                     info.video[0].info.size.h = out.image.size[1];
@@ -286,29 +287,29 @@ namespace djv
                     }
                     if (Image::Type::None == info.video[0].info.type)
                     {
-                        std::stringstream ss;
-                        ss << textSystem->getText(DJV_TEXT("error_unsupported_file"));
-                        throw FileSystem::Error(ss.str());
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(io->getFileName()).
+                            arg(textSystem->getText(DJV_TEXT("error_unsupported_file"))));
                     }
                     if (io->getSize() - out.file.imageOffset != info.video[0].info.getDataByteCount())
                     {
-                        std::stringstream ss;
-                        ss << textSystem->getText(DJV_TEXT("error_incomplete_file"));
-                        throw FileSystem::Error(ss.str());
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(io->getFileName()).
+                            arg(textSystem->getText(DJV_TEXT("error_incomplete_file"))));
                     }
 
                     if (out.image.elem[0].encoding)
                     {
-                        std::stringstream ss;
-                        ss << textSystem->getText(DJV_TEXT("error_unsupported_file"));
-                        throw FileSystem::Error(ss.str());
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(io->getFileName()).
+                            arg(textSystem->getText(DJV_TEXT("error_unsupported_file"))));
                     }
 
                     if (isValid(&out.image.elem[0].linePadding) && out.image.elem[0].linePadding)
                     {
-                        std::stringstream ss;
-                        ss << textSystem->getText(DJV_TEXT("error_unsupported_file"));
-                        throw FileSystem::Error(ss.str());
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(io->getFileName()).
+                            arg(textSystem->getText(DJV_TEXT("error_unsupported_file"))));
                     }
 
                     if (Transfer::FilmPrint == static_cast<Transfer>(out.image.elem[0].transfer))

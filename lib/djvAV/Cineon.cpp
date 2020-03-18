@@ -33,6 +33,7 @@
 #include <djvCore/FileSystem.h>
 #include <djvCore/Memory.h>
 #include <djvCore/String.h>
+#include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
@@ -246,9 +247,9 @@ namespace djv
                     }
                     else
                     {
-                        std::stringstream ss;
-                        ss << textSystem->getText(DJV_TEXT("error_bad_magic_number"));
-                        throw FileSystem::Error(ss.str());
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(io->getFileName()).
+                            arg(textSystem->getText(DJV_TEXT("error_bad_magic_number"))));
                     }
 
                     // Read the rest of the header.
@@ -267,9 +268,9 @@ namespace djv
                     // Read the image section of the header.
                     if (!out.image.channels)
                     {
-                        std::stringstream ss;
-                        ss << textSystem->getText(DJV_TEXT("error_no_image_channels"));
-                        throw FileSystem::Error(ss.str());
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(io->getFileName()).
+                            arg(textSystem->getText(DJV_TEXT("error_no_image_channels"))));
                     }
                     uint8_t i = 1;
                     for (; i < out.image.channels; ++i)
@@ -286,9 +287,9 @@ namespace djv
                     }
                     if (i < out.image.channels)
                     {
-                        std::stringstream ss;
-                        ss << textSystem->getText(DJV_TEXT("error_image_channels_same_size_and_bit_depth"));
-                        throw FileSystem::Error(ss.str());
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(io->getFileName()).
+                            arg(textSystem->getText(DJV_TEXT("error_image_channels_same_size_and_bit_depth"))));
                     }
                     Image::Type imageType = Image::Type::None;
                     switch (out.image.channels)
@@ -306,21 +307,21 @@ namespace djv
                     }
                     if (Image::Type::None == imageType)
                     {
-                        std::stringstream ss;
-                        ss << textSystem->getText(DJV_TEXT("error_unsupported_bit_depth"));
-                        throw FileSystem::Error(ss.str());
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(io->getFileName()).
+                            arg(textSystem->getText(DJV_TEXT("error_unsupported_bit_depth"))));
                     }
                     if (isValid(&out.image.linePadding) && out.image.linePadding)
                     {
-                        std::stringstream ss;
-                        ss << textSystem->getText(DJV_TEXT("error_line_padding_unsupported"));
-                        throw FileSystem::Error(ss.str());
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(io->getFileName()).
+                            arg(textSystem->getText(DJV_TEXT("error_line_padding_unsupported"))));
                     }
                     if (isValid(&out.image.channelPadding) && out.image.channelPadding)
                     {
-                        std::stringstream ss;
-                        ss << textSystem->getText(DJV_TEXT("error_channel_padding_unsupported"));
-                        throw FileSystem::Error(ss.str());
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(io->getFileName()).
+                            arg(textSystem->getText(DJV_TEXT("error_channel_padding_unsupported"))));
                     }
 
                     // Collect information.
@@ -329,9 +330,9 @@ namespace djv
                     info.video[0].info.size.h = out.image.channel[0].size[1];
                     if (io->getSize() - out.file.imageOffset != info.video[0].info.getDataByteCount())
                     {
-                        std::stringstream ss;
-                        ss << textSystem->getText(DJV_TEXT("error_incomplete_file"));
-                        throw FileSystem::Error(ss.str());
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(io->getFileName()).
+                            arg(textSystem->getText(DJV_TEXT("error_incomplete_file"))));
                     }
                     switch (static_cast<Orient>(out.image.orient))
                     {

@@ -399,9 +399,7 @@ namespace djv
             {
                 p.logSystem->log(
                     getSystemName(),
-                    String::Format("'{0}': {1}").
-                        arg("DJV_TEXT_PATH").
-                        arg(e.what()),
+                    String::Format("{0}: {1}").arg("DJV_TEXT_PATH").arg(e.what()),
                     LogLevel::Error);
             }
 
@@ -465,9 +463,7 @@ namespace djv
                 picojson::parse(v, bufP, bufEnd, &error);
                 if (!error.empty())
                 {
-                    throw FileSystem::Error(String::Format("'{0}': {1}").
-                        arg(path.get()).
-                        arg(error));
+                    throw FileSystem::Error(String::Format("{0}: {1}").arg(path.get()).arg(error));
                 }
                     
                 if (v.is<picojson::object>())

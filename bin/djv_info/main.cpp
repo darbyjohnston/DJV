@@ -67,10 +67,9 @@ namespace djv
                     else
                     {
                         auto textSystem = getSystemT<Core::TextSystem>();
-                        const std::string s = Core::String::Format("'{0}': {1}").
+                        std::cout << Core::Error::format(Core::String::Format("{0}: {1}").
                             arg(fileInfo.getFileName()).
-                            arg(textSystem->getText(DJV_TEXT("error_file_open")));
-                        std::cout << s << std::endl;
+                            arg(textSystem->getText(DJV_TEXT("error_file_open")))) << std::endl;
                     }
                     args.pop_front();
                 }

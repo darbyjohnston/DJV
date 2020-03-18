@@ -166,11 +166,14 @@ namespace djv
             }
             catch (const std::exception& e)
             {
-                std::stringstream ss;
+                std::vector<std::string> messages;
                 auto textSystem = context->getSystemT<TextSystem>();
-                ss << textSystem->getText(DJV_TEXT("error_audio_cannot_be_initialized")) << ". " << e.what();
+                messages.push_back(String::Format("{0}: {1}").
+                    arg(p.fileInfo.getFileName()).
+                    arg(textSystem->getText(DJV_TEXT("error_audio_cannot_be_initialized"))));
+                messages.push_back(e.what());
                 auto logSystem = context->getSystemT<LogSystem>();
-                logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
+                logSystem->log("djv::ViewApp::Media", String::join(messages, ' '), LogLevel::Error);
             }
 
             _open();
@@ -768,11 +771,14 @@ namespace djv
                         }
                         catch (const std::exception& e)
                         {
-                            std::stringstream ss;
+                            std::vector<std::string> messages;
                             auto textSystem = context->getSystemT<TextSystem>();
-                            ss << textSystem->getText(DJV_TEXT("error_the_audio_stream_cannot_be_opened")) << ". " << e.what();
+                            messages.push_back(String::Format("{0}: {1}").
+                                arg(p.fileInfo.getFileName()).
+                                arg(textSystem->getText(DJV_TEXT("error_the_audio_stream_cannot_be_opened"))));
+                            messages.push_back(e.what());
                             auto logSystem = context->getSystemT<LogSystem>();
-                            logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
+                            logSystem->log("djv::ViewApp::Media", String::join(messages, ' '), LogLevel::Error);
                         }
                     }
                     p.audioEnabled->setIfChanged(_isAudioEnabled());
@@ -836,9 +842,7 @@ namespace djv
                     auto logSystem = context->getSystemT<LogSystem>();
                     logSystem->log(
                         "djv::ViewApp::Media",
-                        String::Format("'{0}': {1}").
-                            arg(p.fileInfo.getFileName()).
-                            arg(e.what()),
+                        String::Format("{0}: {1}").arg(p.fileInfo.getFileName()).arg(e.what()),
                         LogLevel::Error);
                 }
                 
@@ -1089,11 +1093,14 @@ namespace djv
                 }
                 catch (const std::exception& e)
                 {
-                    std::stringstream ss;
+                    std::vector<std::string> messages;
                     auto textSystem = context->getSystemT<TextSystem>();
-                    ss << textSystem->getText(DJV_TEXT("error_cannot_start_audio_stream")) << ". " << e.what();
+                    messages.push_back(String::Format("{0}: {1}").
+                        arg(p.fileInfo.getFileName()).
+                        arg(textSystem->getText(DJV_TEXT("error_cannot_start_audio_stream"))));
+                    messages.push_back(e.what());
                     auto logSystem = context->getSystemT<LogSystem>();
-                    logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
+                    logSystem->log("djv::ViewApp::Media", String::join(messages, ' '), LogLevel::Error);
                 }
             }
         }
@@ -1112,11 +1119,14 @@ namespace djv
                     }
                     catch (const std::exception& e)
                     {
-                        std::stringstream ss;
+                        std::vector<std::string> messages;
                         auto textSystem = context->getSystemT<TextSystem>();
-                        ss << textSystem->getText(DJV_TEXT("error_cannot_stop_audio_stream")) << ". " << e.what();
+                        messages.push_back(String::Format("{0}: {1}").
+                            arg(p.fileInfo.getFileName()).
+                            arg(textSystem->getText(DJV_TEXT("error_cannot_stop_audio_stream"))));
+                        messages.push_back(e.what());
                         auto logSystem = context->getSystemT<LogSystem>();
-                        logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
+                        logSystem->log("djv::ViewApp::Media", String::join(messages, ' '), LogLevel::Error);
                     }
                 }
             }

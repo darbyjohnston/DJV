@@ -30,6 +30,7 @@
 #include <djvAV/TIFF.h>
 
 #include <djvCore/FileSystem.h>
+#include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
@@ -136,7 +137,9 @@ namespace djv
 #endif // DJV_WINDOWS
                     if (!f.f)
                     {
-                        throw FileSystem::Error(_textSystem->getText(("error_file_open")));
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(fileName).
+                            arg(_textSystem->getText(DJV_TEXT("error_file_open"))));
                     }
 
                     const auto& info = image->getInfo();
@@ -238,7 +241,9 @@ namespace djv
                     {
                         if (TIFFWriteScanline(f.f, (tdata_t *)image->getData(y), y) == -1)
                         {
-                            throw FileSystem::Error(_textSystem->getText(("error_write_scanline")));
+                            throw FileSystem::Error(String::Format("{0}: {1}").
+                                arg(fileName).
+                                arg(_textSystem->getText(DJV_TEXT("error_write_scanline"))));
                         }
                     }
                 }

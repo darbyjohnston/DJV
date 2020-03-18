@@ -321,9 +321,7 @@ namespace djv
                         {
                             _logSystem->log(
                                 "djv::AV::ISequenceRead",
-                                String::Format("'{0}': {1}").
-                                    arg(fileName).
-                                    arg(e.what()),
+                                String::Format("{0}: {1}").arg(fileName).arg(e.what()),
                                 LogLevel::Error);
                         }
                         return out;
@@ -584,9 +582,7 @@ namespace djv
                 p.glfwWindow = glfwCreateWindow(100, 100, "djv::IO::ISequenceWrite", NULL, NULL);
                 if (!p.glfwWindow)
                 {
-                    std::stringstream ss;
-                    ss << _textSystem->getText(DJV_TEXT("error_glfw_window_creation"));
-                    throw FileSystem::Error(ss.str());
+                    throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_glfw_window_creation")));
                 }
 
                 p.running = true;
@@ -603,9 +599,7 @@ namespace djv
                         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 #endif
                         {
-                            std::stringstream ss;
-                            ss << _textSystem->getText(DJV_TEXT("error_glad_init"));
-                            throw FileSystem::Error(ss.str());
+                            throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_glad_init")));
                         }
 
                         p.convert = Image::Convert::create(_resourceSystem);
@@ -654,7 +648,7 @@ namespace djv
                                     const Image::Type imageType = _getImageType(image->getType());
                                     if (Image::Type::None == imageType)
                                     {
-                                        throw FileSystem::Error(String::Format("'{0}': {1}").
+                                        throw FileSystem::Error(String::Format("{0}: {1}").
                                             arg(fileName).
                                             arg(_textSystem->getText(DJV_TEXT("error_unsupported_image_type"))));
                                     }
@@ -692,9 +686,7 @@ namespace djv
                                     {
                                         _logSystem->log(
                                             "djv::AV::ISequenceWrite",
-                                            String::Format("'{0}': {1}").
-                                                arg(result.fileName).
-                                                arg(result.errorString),
+                                            String::Format("{0}: {1}").arg(result.fileName).arg(result.errorString),
                                             LogLevel::Error);
                                         p.running = false;
                                     }

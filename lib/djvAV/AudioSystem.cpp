@@ -33,6 +33,7 @@
 #include <djvCore/CoreSystem.h>
 #include <djvCore/Error.h>
 #include <djvCore/OS.h>
+#include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 
 #include <RtAudio.h>
@@ -164,10 +165,11 @@ namespace djv
                 }
                 catch (const std::exception& e)
                 {
-                    std::stringstream ss;
+                    std::vector<std::string> messages;
                     auto textSystem = context->getSystemT<TextSystem>();
-                    ss << textSystem->getText(DJV_TEXT("error_rtaudio_init")) << ". " << e.what();
-                    _log(ss.str(), LogLevel::Error);
+                    messages.push_back(textSystem->getText(DJV_TEXT("error_rtaudio_init")));
+                    messages.push_back(e.what());
+                    _log(String::join(messages, ' '), LogLevel::Error);
                 }
             }
 

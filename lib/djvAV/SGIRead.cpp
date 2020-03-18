@@ -31,6 +31,7 @@
 
 #include <djvCore/FileIO.h>
 #include <djvCore/FileSystem.h>
+#include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
@@ -256,7 +257,9 @@ namespace djv
                                     bytes,
                                     io->hasEndianConversion()))
                                 {
-                                    throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_read")));
+                                    throw FileSystem::Error(String::Format("{0}: {1}").
+                                        arg(fileName).
+                                        arg(_textSystem->getText(DJV_TEXT("error_read_scanline"))));
                                 }
                             }
                         }
@@ -320,7 +323,9 @@ namespace djv
                         io->readU16(&_data.magic);
                         if (_data.magic != 474)
                         {
-                            throw FileSystem::Error(textSystem->getText(DJV_TEXT("error_file_not_supported")));
+                            throw FileSystem::Error(String::Format("{0}: {1}").
+                                arg(io->getFileName()).
+                                arg(textSystem->getText(DJV_TEXT("error_file_not_supported"))));
                         }
                         io->readU8(&_data.storage);
                         io->readU8(&_data.bytes);
@@ -338,7 +343,9 @@ namespace djv
                         info.type = Image::getIntType(_data.channels, 1 == _data.bytes ? 8 : 16);
                         if (Image::Type::None == info.type)
                         {
-                            throw FileSystem::Error(textSystem->getText(DJV_TEXT("error_file_not_supported")));
+                            throw FileSystem::Error(String::Format("{0}: {1}").
+                                arg(io->getFileName()).
+                                arg(textSystem->getText(DJV_TEXT("error_file_not_supported"))));
                         }
                         info.layout.mirror.y = true;
                         info.layout.endian = Memory::Endian::MSB;

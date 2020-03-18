@@ -63,6 +63,7 @@
 #include <djvCore/DrivesModel.h>
 #include <djvCore/FileInfo.h>
 #include <djvCore/RecentFilesModel.h>
+#include <djvCore/StringFormat.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -379,9 +380,12 @@ namespace djv
                         }
                         catch (const std::exception& e)
                         {
-                            std::stringstream ss;
-                            ss << widget->_getText(DJV_TEXT("error_file_browser_cannot_set_the_path")) << " '" << value << "'. " << e.what();
-                            widget->_log(ss.str(), LogLevel::Error);
+                            std::vector<std::string> messages;
+                            messages.push_back(String::Format("{0}: {1}").
+                                arg(value.get()).
+                                arg(widget->_getText(DJV_TEXT("error_file_browser_cannot_set_the_path"))));
+                            messages.push_back(e.what());
+                            widget->_log(String::join(messages, ' '), LogLevel::Error);
                         }
                     }
                 });

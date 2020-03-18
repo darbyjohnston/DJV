@@ -229,20 +229,34 @@ namespace djv
                     auto f = File::create();
                     if (!f->png)
                     {
-                        throw FileSystem::Error(f->pngError.messages.size() ?
-                            f->pngError.messages.back() :
-                            _textSystem->getText(DJV_TEXT("error_file_open")));
+                        std::vector<std::string> messages;
+                        messages.push_back(String::Format("{0}: {1}").
+                            arg(fileName).
+                            arg(_textSystem->getText(DJV_TEXT("error_file_open"))));
+                        for (const auto& i : f->pngError.messages)
+                        {
+                            messages.push_back(i);
+                        }
+                        throw FileSystem::Error(String::join(messages, ' '));
                     }
                     if (!f->open(fileName))
                     {
-                        throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_file_open")));
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(fileName).
+                            arg(_textSystem->getText(DJV_TEXT("error_file_open"))));
                     }
                     const auto& info = image->getInfo();
                     if (!pngOpen(f->f, f->png, &f->pngInfo, info))
                     {
-                        throw FileSystem::Error(f->pngError.messages.size() ?
-                            f->pngError.messages.back() :
-                            _textSystem->getText(DJV_TEXT("error_file_open")));
+                        std::vector<std::string> messages;
+                        messages.push_back(String::Format("{0}: {1}").
+                            arg(fileName).
+                            arg(_textSystem->getText(DJV_TEXT("error_file_open"))));
+                        for (const auto& i : f->pngError.messages)
+                        {
+                            messages.push_back(i);
+                        }
+                        throw FileSystem::Error(String::join(messages, ' '));
                     }
 
                     // Write the file.
@@ -250,16 +264,28 @@ namespace djv
                     {
                         if (!pngScanline(f->png, image->getData(y)))
                         {
-                            throw FileSystem::Error(f->pngError.messages.size() ?
-                                f->pngError.messages.back() :
-                                _textSystem->getText(DJV_TEXT("error_write_scanline")));
+                            std::vector<std::string> messages;
+                            messages.push_back(String::Format("{0}: {1}").
+                                arg(fileName).
+                                arg(_textSystem->getText(DJV_TEXT("error_write_scanline"))));
+                            for (const auto& i : f->pngError.messages)
+                            {
+                                messages.push_back(i);
+                            }
+                            throw FileSystem::Error(String::join(messages, ' '));
                         }
                     }
                     if (!pngEnd(f->png, f->pngInfo))
                     {
-                        throw FileSystem::Error(f->pngError.messages.size() ?
-                            f->pngError.messages.back() :
-                            _textSystem->getText(DJV_TEXT("error_file_close")));
+                        std::vector<std::string> messages;
+                        messages.push_back(String::Format("{0}: {1}").
+                            arg(fileName).
+                            arg(_textSystem->getText(DJV_TEXT("error_file_close"))));
+                        for (const auto& i : f->pngError.messages)
+                        {
+                            messages.push_back(i);
+                        }
+                        throw FileSystem::Error(String::join(messages, ' '));
                     }
 
                     // Log any warnings.
@@ -267,9 +293,7 @@ namespace djv
                     {
                         _logSystem->log(
                             pluginName,
-                            String::Format("'{0}': {1}").
-                                arg(fileName).
-                                arg(i),
+                            String::Format("{0}: {1}").arg(fileName).arg(i),
                             LogLevel::Warning);
                     }
                 }

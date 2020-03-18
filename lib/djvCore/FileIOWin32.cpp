@@ -68,61 +68,52 @@ namespace djv
                 std::string getErrorMessage(ErrorType type, const std::string& fileName)
                 {
                     //! \todo How can we translate this?
-                    std::string s;
+                    std::vector<std::string> out;
                     switch (type)
                     {
                     case ErrorType::Open:
-                        s = String::Format("'{0}' cannot be opened: {1}").
-                            arg(fileName).
-                            arg(Core::Error::getLastError());
+                        out.push_back(String::Format("Cannot open file '{0}'.").arg(fileName));
+                        out.push_back(Core::Error::getLastError());
                         break;
                     case ErrorType::OpenTemp:
-                        s = String::Format("The temporary file cannot be opened: {0}").
-                            arg(Core::Error::getLastError());
+                        out.push_back("Cannot open temporary file.");
+                        out.push_back(Core::Error::getLastError());
                         break;
                     case ErrorType::MemoryMap:
-                        s = String::Format("'{0}' cannot be mapped: {1}").
-                            arg(fileName).
-                            arg(Core::Error::getLastError());
+                        out.push_back(String::Format("Cannot memory map '{0}'.").arg(fileName);
+                        out.push_back(Core::Error::getLastError());
                         break;
                     case ErrorType::Close:
-                        s = String::Format("'{0}' cannot be closed: {1}").
-                            arg(fileName).
-                            arg(Core::Error::getLastError());
+                        out.push_back(String::Format("Cannot close '{0}'.").arg(fileName);
+                        out.push_back(Core::Error::getLastError());
                         break;
                     case ErrorType::CloseMemoryMap:
-                        s = String::Format("'{0}' cannot be unmapped: {1}").
-                            arg(fileName).
-                            arg(Core::Error::getLastError());
+                        out.push_back(String::Format("Cannot unmap '{0}'.").arg(fileName);
+                        out.push_back(Core::Error::getLastError());
                         break;
                     case ErrorType::Read:
-                        s = String::Format("'{0}' cannot be read: {1}").
-                            arg(fileName).
-                            arg(Core::Error::getLastError());
+                        out.push_back(String::Format("Cannot read '{0}'.").arg(fileName);
+                        out.push_back(Core::Error::getLastError());
                         break;
                     case ErrorType::ReadMemoryMap:
-                        s = String::Format("'{0}' memory map cannot be read: {1}").
-                            arg(fileName).
-                            arg(Core::Error::getLastError());
+                        out.push_back(String::Format("Cannot read memory map '{0}'.").arg(fileName);
+                        out.push_back(Core::Error::getLastError());
                         break;
                     case ErrorType::Write:
-                        s = String::Format("'{0}' cannot be written: {1}").
-                            arg(fileName).
-                            arg(Core::Error::getLastError());
+                        out.push_back(String::Format("Cannot write '{0}'.").arg(fileName);
+                        out.push_back(Core::Error::getLastError());
                         break;
                     case ErrorType::Seek:
-                        s = String::Format("'{0}' cannot be seeked: {1}").
-                            arg(fileName).
-                            arg(Core::Error::getLastError());
+                        out.push_back(String::Format("Cannot seek '{0}'.").arg(fileName);
+                        out.push_back(Core::Error::getLastError());
                         break;
                     case ErrorType::SeekMemoryMap:
-                        s = String::Format("'{0}' memory map cannot be seeked: {1}").
-                            arg(fileName).
-                            arg(Core::Error::getLastError());
+                        out.push_back(String::Format("Cannot seek memory map '{0}'.").arg(fileName);
+                        out.push_back(Core::Error::getLastError());
                         break;
                     default: break;
                     }
-                    return s;
+                    return String::join(out, ' ');
                 }
                 
             } // namespace

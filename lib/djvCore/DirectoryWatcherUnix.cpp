@@ -270,7 +270,7 @@ namespace djv
                 _p->timer->setRepeating(true);
                 _p->timer->start(
                     timeout,
-                    [weak, timeout](const std::chrono::steady_clock::time_point&, const Time::Unit&)
+                    [weak, timeout](const std::chrono::steady_clock::time_point&, const Time::Duration&)
                 {
                     if (auto watcher = weak.lock())
                     {

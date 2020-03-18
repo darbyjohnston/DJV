@@ -1,9 +1,4 @@
 {
-    "error_cannot_be_opened": "не может быть открыт",
-    "error_cannot_be_read": "не может быть прочитано",
-    "error_cannot_be_written": "не может быть написано",
-    "error_cannot_parse_the_value": "не может разобрать значение",
-    "error_the_file": "Файл",
     "obj_plugin_description": "Этот плагин обеспечивает ввод-вывод файла OBJ.",
     "opennurbs_plugin_description": "Этот плагин обеспечивает файловый ввод / вывод OpenNURBS."
 }

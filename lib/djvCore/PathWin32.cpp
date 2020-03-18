@@ -56,7 +56,7 @@ namespace djv
                 if (_wmkdir(utf16.from_bytes(value.get()).c_str()) != 0)
                 {
                     //! \todo How can we translate this?
-                    throw std::invalid_argument(String::Format("'{0}': {1}").
+                    throw std::invalid_argument(String::Format("{0}: {1}").
                         arg(value.get()).
                         arg(DJV_TEXT("error_cannot_be_created")));
                 }
@@ -68,7 +68,7 @@ namespace djv
                 if (_wrmdir(utf16.from_bytes(value.get()).c_str()) != 0)
                 {
                     //! \todo How can we translate this?
-                    throw std::invalid_argument(String::Format("'{0}': {1}").
+                    throw std::invalid_argument(String::Format("{0}: {1}").
                         arg(value.get()).
                         arg(DJV_TEXT("error_cannot_be_removed")));
                 }

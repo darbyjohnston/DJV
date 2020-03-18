@@ -152,16 +152,28 @@ namespace djv
                     {
                         if (!jpegScanline(&f->jpeg, out->getData(y), &f->jpegError))
                         {
-                            throw FileSystem::Error(f->jpegError.messages.size() ?
-                                f->jpegError.messages.back() :
-                                _textSystem->getText(DJV_TEXT("error_read_scanline")));
+                            std::vector<std::string> messages;
+                            messages.push_back(String::Format("{0}: {1}").
+                                arg(fileName).
+                                arg(_textSystem->getText(DJV_TEXT("error_read_scanline"))));
+                            for (const auto& i : f->jpegError.messages)
+                            {
+                                messages.push_back(i);
+                            }
+                            throw FileSystem::Error(String::join(messages, ' '));
                         }
                     }
                     if (!jpegEnd(&f->jpeg, &f->jpegError))
                     {
-                        throw FileSystem::Error(f->jpegError.messages.size() ?
-                            f->jpegError.messages.back() :
-                            _textSystem->getText(DJV_TEXT("error_file_close")));
+                        std::vector<std::string> messages;
+                        messages.push_back(String::Format("{0}: {1}").
+                            arg(fileName).
+                            arg(_textSystem->getText(DJV_TEXT("error_file_close"))));
+                        for (const auto& i : f->jpegError.messages)
+                        {
+                            messages.push_back(i);
+                        }
+                        throw FileSystem::Error(String::join(messages, ' '));
                     }
 
                     // Log any warnings.
@@ -169,9 +181,7 @@ namespace djv
                     {
                         _logSystem->log(
                             pluginName,
-                            String::Format("'{0}': {1}").
-                            arg(fileName).
-                            arg(i),
+                            String::Format("{0}: {1}").arg(fileName).arg(i),
                             LogLevel::Warning);
                     }
 
@@ -223,27 +233,43 @@ namespace djv
                     f->jpegError.pub.emit_message = djvJPEGWarning;
                     if (!jpegInit(&f->jpeg, &f->jpegError))
                     {
-                        throw FileSystem::Error(f->jpegError.messages.size() ?
-                            f->jpegError.messages.back() :
-                            _textSystem->getText(DJV_TEXT("error_file_open")));
+                        std::vector<std::string> messages;
+                        messages.push_back(String::Format("{0}: {1}").
+                            arg(fileName).
+                            arg(_textSystem->getText(DJV_TEXT("error_file_open"))));
+                        for (const auto& i : f->jpegError.messages)
+                        {
+                            messages.push_back(i);
+                        }
+                        throw FileSystem::Error(String::join(messages, ' '));
                     }
                     f->jpegInit = true;
                     f->f = FileSystem::fopen(fileName, "rb");
                     if (!f->f)
                     {
-                        throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_file_open")));
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(fileName).
+                            arg(_textSystem->getText(DJV_TEXT("error_file_open"))));
                     }
                     if (!jpegOpen(f->f, &f->jpeg, &f->jpegError))
                     {
-                        throw FileSystem::Error(f->jpegError.messages.size() ?
-                            f->jpegError.messages.back() :
-                            _textSystem->getText(DJV_TEXT("error_file_open")));
+                        std::vector<std::string> messages;
+                        messages.push_back(String::Format("{0}: {1}").
+                            arg(fileName).
+                            arg(_textSystem->getText(DJV_TEXT("error_file_open"))));
+                        for (const auto& i : f->jpegError.messages)
+                        {
+                            messages.push_back(i);
+                        }
+                        throw FileSystem::Error(String::join(messages, ' '));
                     }
 
                     Image::Type imageType = Image::getIntType(f->jpeg.out_color_components, 8);
                     if (Image::Type::None == imageType)
                     {
-                        throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_unsupported_color_components")));
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(fileName).
+                            arg(_textSystem->getText(DJV_TEXT("error_unsupported_color_components"))));
                     }
                     auto info = Info(fileName, VideoInfo(Image::Info(f->jpeg.output_width, f->jpeg.output_height, imageType), _speed, _sequence));
 

@@ -367,9 +367,9 @@ namespace djv
                             ON_TextLog onErrorLog(onErrorLogString);
                             if (!onModel.Read(onFile, &onErrorLog))
                             {
-                                throw std::runtime_error(String::Format("'{0}': {1}").
+                                throw std::runtime_error(String::Format("{0}: {1}").
                                     arg(fileName).
-                                    arg(textSystem->getText(DJV_TEXT("error_file_open"))));
+                                    arg(textSystem->getText(DJV_TEXT("error_file_open")));
                             }
                             ON::CloseFile(f);
                         }

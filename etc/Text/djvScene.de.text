@@ -1,9 +1,4 @@
 {
-    "error_cannot_be_opened": "Kann nicht geöffnet werden",
-    "error_cannot_be_read": "kann nicht gelesen werden",
-    "error_cannot_be_written": "kann nicht geschrieben werden",
-    "error_cannot_parse_the_value": "kann den Wert nicht analysieren",
-    "error_the_file": "Die Datei",
     "obj_plugin_description": "Dieses Plugin bietet OBJ-Datei-E / A.",
     "opennurbs_plugin_description": "Dieses Plugin bietet OpenNURBS-Datei-E / A."
 }

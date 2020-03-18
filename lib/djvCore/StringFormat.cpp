@@ -105,6 +105,27 @@ namespace djv
                 return *this;
             }
 
+            Format& Format::arg(int value)
+            {
+                std::stringstream ss;
+                ss << value;
+                return arg(ss.str());
+            }
+
+            Format& Format::arg(float value)
+            {
+                std::stringstream ss;
+                ss << value;
+                return arg(ss.str());
+            }
+
+            Format& Format::arg(size_t value)
+            {
+                std::stringstream ss;
+                ss << value;
+                return arg(ss.str());
+            }
+
         } // namespace String
     } // namespace Core
 } // namespace djv

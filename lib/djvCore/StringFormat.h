@@ -55,6 +55,9 @@ namespace djv
                 //! The argument with the smallest integer will be replaced. The
                 //! object is returned so that you can chain calls together.
                 Format& arg(const std::string&);
+                Format& arg(int);
+                Format& arg(float);
+                Format& arg(size_t);
 
                 bool hasError() const;
                 const std::string& getError() const;

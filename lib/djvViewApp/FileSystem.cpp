@@ -49,6 +49,7 @@
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
 #include <djvCore/RecentFilesModel.h>
+#include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 #include <djvCore/Timer.h>
 
@@ -961,11 +962,7 @@ namespace djv
                     {
                         fileInfos.pop_back();
                     }
-                    std::stringstream ss;
-                    ss << _getText(DJV_TEXT("error_cannot_open_more_than")) << " "
-                        << openMax << " "
-                        << _getText(DJV_TEXT("error_files_at_once"));
-                    _log(ss.str(), LogLevel::Error);
+                    _log(String::Format(_getText(DJV_TEXT("error_max_files"))).arg(openMax), LogLevel::Error);
                 }
             }
             return fileInfos;
