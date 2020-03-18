@@ -86,7 +86,7 @@ namespace djv
                     Info info;
                     info.video.push_back(image->getInfo());
                     info.tags = image->getTags();
-                    write(io, info, _options.colorSpace.empty() ? ColorProfile::Raw : ColorProfile::FilmPrint, _textSystem);
+                    write(io, info, _options.colorSpace.empty() ? ColorProfile::Raw : ColorProfile::FilmPrint);
                     io->write(image->getData(), image->getDataByteCount());
                     writeFinish(io);
                 }
