@@ -1394,11 +1394,9 @@ namespace djv
                 p.outPointWidget->setSpeed(p.defaultSpeed);
                 p.outPointWidget->setFrame(p.inOutPoints.getOut());
                 p.outPointWidget->setEnabled(p.inOutPoints.isEnabled());
-                const size_t sequenceSize = p.sequence.getSize();
                 p.outPointResetButton->setEnabled(
                     p.inOutPoints.isEnabled() &&
-                    sequenceSize > 0 &&
-                    p.inOutPoints.getOut() != (sequenceSize - 1));
+                    p.inOutPoints.getOut() != p.sequence.getLastIndex());
 
                 p.durationLabel->setText(Time::toString(p.sequence.getSize(), p.defaultSpeed, p.timeUnits));
 
