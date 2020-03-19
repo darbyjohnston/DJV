@@ -76,22 +76,23 @@ namespace djv
             Path Path::getAbsolute(const Path& value)
             {
                 char buf[PATH_MAX];
-                if (!realpath(value.get().c_str(), buf))
+                if (!realpath(value.getDirectoryName().c_str(), buf))
                 {
                     buf[0] = 0;
+                    //! \todo How can we translate this?
                     switch (errno)
                     {
-                    case EACCES:       throw Error("Permission denied");
-                    case EINVAL:       throw Error("Invalid path");
-                    case EIO:          throw Error("File system I/O error");
-                    case ELOOP:        throw Error("Too many sumbolic links");
-                    case ENAMETOOLONG: throw Error("Path too long");
-                    case ENOENT:       throw Error("Path does not exist");
-                    case ENOTDIR:      throw Error("Path is not a directory");
+                    case EACCES:       throw Error("Permission denied.");
+                    case EINVAL:       throw Error("Invalid path.");
+                    case EIO:          throw Error("File system I/O error.");
+                    case ELOOP:        throw Error("Too many sumbolic links.");
+                    case ENAMETOOLONG: throw Error("Path too long.");
+                    case ENOENT:       throw Error("Path does not exist.");
+                    case ENOTDIR:      throw Error("Path is not a directory.");
                     default: break;
                     }
                 }
-                return Path(buf);
+                return Path(buf, value.getFileName());
             }
 
             Path Path::getCWD()
