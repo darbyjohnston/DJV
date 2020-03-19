@@ -257,18 +257,12 @@ namespace djv
                 _print(ss.str());
             }
             
-            //! \todo On Windows this returns the absolute path of the current directory; is that OK?
-#if !defined(DJV_PLATFORM_WINDOWS)
-            try
             {
                 const FileSystem::Path path = FileSystem::Path::getAbsolute(FileSystem::Path());
-                DJV_ASSERT(false);
+                std::stringstream ss;
+                ss << "absolute: " << path;
+                _print(ss.str());
             }
-            catch (const std::exception & e)
-            {
-                _print(Error::format(e));
-            }
-#endif
 
             {
                 const FileSystem::Path path = FileSystem::Path::getCWD();
