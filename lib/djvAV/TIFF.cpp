@@ -83,6 +83,17 @@ namespace djv
                     Options options;
                 };
 
+                void Plugin::_init(const std::shared_ptr<Context>& context)
+                {
+                    ISequencePlugin::_init(
+                        pluginName,
+                        DJV_TEXT("plugin_tiff_io"),
+                        fileExtensions,
+                        context);
+                    TIFFSetErrorHandler(nullptr);
+                    TIFFSetWarningHandler(nullptr);
+                }
+
                 Plugin::Plugin() :
                     _p(new Private)
                 {}
@@ -90,11 +101,7 @@ namespace djv
                 std::shared_ptr<Plugin> Plugin::create(const std::shared_ptr<Context>& context)
                 {
                     auto out = std::shared_ptr<Plugin>(new Plugin);
-                    out->_init(
-                        pluginName,
-                        DJV_TEXT("plugin_tiff_io"),
-                        fileExtensions,
-                        context);
+                    out->_init(context);
                     return out;
                 }
 

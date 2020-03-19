@@ -137,6 +137,7 @@ namespace djv
                     DJV_NON_COPYABLE(Plugin);
 
                 protected:
+                    void _init(const std::shared_ptr<Core::Context>&);
                     Plugin();
 
                 public:
