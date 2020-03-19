@@ -76,90 +76,64 @@ namespace djv
                 
                 std::string getErrorMessage(ErrorType type, const std::string& fileName)
                 {
-                    //! \todo How can we translate these?
-                    std::string s;
-                    std::string error;
+                    //! \todo How can we translate this?
+                    std::vector<std::string> out;
                     char buf[String::cStringLength] = "";
                     switch (type)
                     {
                     case ErrorType::Open:
+                        out.push_back(String::Format("{0}: Cannot open file.").arg(fileName));
                         strerror_r(errno, buf, String::cStringLength);
-                        s = String::Format("'{0}' cannot be opened: {1}").
-                            arg(fileName).
-                            arg(buf);
+                        out.push_back(buf);
                         break;
-                    /*case ErrorType::Stat:
-                        ss << "The file" << " '" << fileName << "' " << "cannot be queried" << ". ";
-#if defined(DJV_PLATFORM_LINUX)
-                        ss << strerror_r(errno, buf, String::cStringLength);
-#else // DJV_PLATFORM_LINUX
+                    case ErrorType::Stat:
+                        out.push_back(String::Format("{0}: Cannot stat file.").arg(fileName));
                         strerror_r(errno, buf, String::cStringLength);
-                        ss << buf;
-#endif // DJV_PLATFORM_LINUX
+                        out.push_back(buf);
                         break;
                     case ErrorType::MemoryMap:
-                        ss << "The file" << " '" << fileName << "' " << "cannot be mapped" << ". ";
-#if defined(DJV_PLATFORM_LINUX)
-                        ss << strerror_r(errno, buf, String::cStringLength);
-#else // DJV_PLATFORM_LINUX
+                        out.push_back(String::Format("{0}: Cannot memory map.").arg(fileName));
                         strerror_r(errno, buf, String::cStringLength);
-                        ss << buf;
-#endif // DJV_PLATFORM_LINUX
+                        out.push_back(buf);
                         break;
                     case ErrorType::Close:
-                        ss << "The file" << " '" << fileName << "' " << "cannot be unmapped" << ". ";
-#if defined(DJV_PLATFORM_LINUX)
-                        ss << strerror_r(errno, buf, String::cStringLength);
-#else // DJV_PLATFORM_LINUX
+                        out.push_back(String::Format("{0}: Cannot close.").arg(fileName));
                         strerror_r(errno, buf, String::cStringLength);
-                        ss << buf;
-#endif // DJV_PLATFORM_LINUX
+                        out.push_back(buf);
                         break;
                     case ErrorType::CloseMemoryMap:
-                        ss << "The file" << " '" << fileName << "' " << "cannot be closed" << ". ";
-#if defined(DJV_PLATFORM_LINUX)
-                        ss << strerror_r(errno, buf, String::cStringLength);
-#else // DJV_PLATFORM_LINUX
+                        out.push_back(String::Format("{0}: Cannot unmap.").arg(fileName));
                         strerror_r(errno, buf, String::cStringLength);
-                        ss << buf;
-#endif // DJV_PLATFORM_LINUX
+                        out.push_back(buf);
                         break;
                     case ErrorType::Read:
-                        ss << "The file" << " '" << fileName << "' " << "cannot be read" << ". ";
-#if defined(DJV_PLATFORM_LINUX)
-                        ss << strerror_r(errno, buf, String::cStringLength);
-#else // DJV_PLATFORM_LINUX
+                        out.push_back(String::Format("{0}: Cannot read.").arg(fileName));
                         strerror_r(errno, buf, String::cStringLength);
-                        ss << buf;
-#endif // DJV_PLATFORM_LINUX
+                        out.push_back(buf);
                         break;
                     case ErrorType::ReadMemoryMap:
-                        ss << "The file" << " '" << fileName << "' " << "cannot be read" << ".";
+                        out.push_back(String::Format("{0}: Cannot read memory map.").arg(fileName));
+                        strerror_r(errno, buf, String::cStringLength);
+                        out.push_back(buf);
                         break;
                     case ErrorType::Write:
-                        ss << "The file" << " '" << fileName << "' " << "cannot be written" << ". ";
-#if defined(DJV_PLATFORM_LINUX)
-                        ss << strerror_r(errno, buf, String::cStringLength);
-#else // DJV_PLATFORM_LINUX
+                        out.push_back(String::Format("{0}: Cannot write.").arg(fileName));
                         strerror_r(errno, buf, String::cStringLength);
-                        ss << buf;
-#endif // DJV_PLATFORM_LINUX
+                        out.push_back(buf);
                         break;
                     case ErrorType::Seek:
-                        ss << "The file" << " '" << fileName << "' " << "cannot be seeked" << ". ";
-#if defined(DJV_PLATFORM_LINUX)
-                        ss << strerror_r(errno, buf, String::cStringLength);
-#else // DJV_PLATFORM_LINUX
+                        out.push_back(String::Format("{0}: Cannot seek.").arg(fileName));
                         strerror_r(errno, buf, String::cStringLength);
-                        ss << buf;
-#endif // DJV_PLATFORM_LINUX
+                        out.push_back(buf);
                         break;
                     case ErrorType::SeekMemoryMap:
-                        ss << "The file" << " '" << fileName << "' " << "cannot be seeked" << ".";
-                        break;*/
+                        out.push_back(String::Format("{0}: Cannot seek memory map.").arg(fileName));
+                        strerror_r(errno, buf, String::cStringLength);
+                        out.push_back(buf);
+                        break;
                     default: break;
                     }
-                    return s;
+                    return String::join(out, ' ');
                 }
             
             } // namespace
