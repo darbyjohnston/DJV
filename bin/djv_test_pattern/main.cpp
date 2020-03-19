@@ -270,15 +270,16 @@ namespace djv
                 _render->setFillColor(AV::Image::Color(.5F, .5F, .5F));
                 _render->drawRect(Core::BBox2f(0.F, 0.F, static_cast<float>(_size->w), static_cast<float>(_size->h)));
                 _render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F));
-                for (float x = 0.F; x < static_cast<float>(_size->w - 1); x = x + 100.F)
+                const float rectWidth = 10.F;
+                const float rectSpacing = 100.F;
+                for (float x = _x - (static_cast<int>(_x / rectSpacing) * rectSpacing) - rectWidth;
+                    x < static_cast<float>(_size->w - 1 + rectWidth);
+                    x = x + rectSpacing)
                 {
-                    _render->drawRect(Core::BBox2f(x + _x, 0.F, 10.F, static_cast<float>(_size->h - 1)));
+                    _render->drawRect(Core::BBox2f(x, 0.F, rectWidth, static_cast<float>(_size->h - 1)));
                 }
+                std::cout << std::endl;
                 _x = _x + 1.F;
-                if (_x >= 100.F)
-                {
-                    _x = 0.F;
-                }
                 _render->endFrame();
                 auto image = AV::Image::Image::create(_info);
                 glPixelStorei(GL_PACK_ALIGNMENT, 1);
