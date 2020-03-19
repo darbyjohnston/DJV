@@ -441,6 +441,16 @@ namespace djv
                     {
                         io->setPos(out.file.imageOffset);
                     }
+                    const size_t ioSize = io->getSize();
+                    const size_t ioPos = io->getPos();
+                    const size_t fileDataByteCount = ioSize > 0 ? (ioSize - ioPos) : 0;
+                    const size_t dataByteCount = info.video[0].info.getDataByteCount();
+                    if (dataByteCount > fileDataByteCount)
+                    {
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(io->getFileName()).
+                            arg(textSystem->getText(DJV_TEXT("error_incomplete_file"))));
+                    }
 
                     return out;
                 }

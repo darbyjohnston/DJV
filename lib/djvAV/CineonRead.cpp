@@ -82,7 +82,7 @@ namespace djv
                         infoTmp.video[0].info.layout.endian = Memory::getEndian();
                     }
                     auto out = Image::Image::create(infoTmp.video[0].info);
-                    io->read(out->getData(), io->getSize() - io->getPos());
+                    io->read(out->getData(), out->getDataByteCount());
                     if (convertEndian)
                     {
                         const size_t dataByteCount = out->getDataByteCount();

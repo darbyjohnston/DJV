@@ -291,7 +291,9 @@ namespace djv
                             arg(io->getFileName()).
                             arg(textSystem->getText(DJV_TEXT("error_unsupported_file"))));
                     }
-                    if (io->getSize() - out.file.imageOffset != info.video[0].info.getDataByteCount())
+                    const size_t dataByteCount = info.video[0].info.getDataByteCount();
+                    const size_t ioSize = io->getSize();
+                    if (dataByteCount > ioSize - out.file.imageOffset)
                     {
                         throw FileSystem::Error(String::Format("{0}: {1}").
                             arg(io->getFileName()).
@@ -528,6 +530,14 @@ namespace djv
                     if (out.file.imageOffset)
                     {
                         io->setPos(out.file.imageOffset);
+                    }
+                    const size_t ioPos = io->getPos();
+                    const size_t fileDataByteCount = ioSize > 0 ? (ioSize - ioPos) : 0;
+                    if (dataByteCount > fileDataByteCount)
+                    {
+                        throw FileSystem::Error(String::Format("{0}: {1}").
+                            arg(io->getFileName()).
+                            arg(textSystem->getText(DJV_TEXT("error_incomplete_file"))));
                     }
 
                     return out;

@@ -176,7 +176,7 @@ namespace djv
                     }
                     else
                     {
-                        const size_t tmpSize = io->getSize() - io->getPos();
+                        const size_t tmpSize = out->getDataByteCount();
                         std::vector<uint8_t> tmp(tmpSize);
                         io->read(tmp.data(), tmpSize);
                         const uint8_t* p = tmp.data();
@@ -346,6 +346,17 @@ namespace djv
                             10 == _data.imageType ||
                             11 == _data.imageType;
                         info.layout.endian = Memory::Endian::LSB;
+
+                        const size_t ioSize = io->getSize();
+                        const size_t ioPos = io->getPos();
+                        const size_t fileDataByteCount = ioSize > 0 ? (ioSize - ioPos) : 0;
+                        const size_t dataByteCount = info.getDataByteCount();
+                        if (dataByteCount > fileDataByteCount)
+                        {
+                            throw FileSystem::Error(String::Format("{0}: {1}").
+                                arg(io->getFileName()).
+                                arg(textSystem->getText(DJV_TEXT("error_incomplete_file"))));
+                        }
                     }
 
                 } // namespace

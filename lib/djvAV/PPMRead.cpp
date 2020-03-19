@@ -105,7 +105,7 @@ namespace djv
                         }
                         out = Image::Image::create(imageInfo);
                         out->setPluginName(pluginName);
-                        io->read(out->getData(), io->getSize() - io->getPos());
+                        io->read(out->getData(), out->getDataByteCount());
                         if (convertEndian)
                         {
                             const size_t dataByteCount = out->getDataByteCount();
@@ -183,12 +183,18 @@ namespace djv
                     Image::Layout layout;
                     layout.endian = data != Data::ASCII ? Memory::Endian::MSB : Memory::getEndian();
                     auto info = Image::Info(w, h, imageType, layout);
-                    if (Data::Binary == data && io->getSize() - io->getPos() != info.getDataByteCount())
+
+                    const size_t ioSize = io->getSize();
+                    const size_t ioPos = io->getPos();
+                    const size_t fileDataByteCount = ioSize > 0 ? (ioSize - ioPos) : 0;
+                    const size_t dataByteCount = info.getDataByteCount();
+                    if (Data::Binary == data && dataByteCount > fileDataByteCount)
                     {
                         throw FileSystem::Error(String::Format("{0}: {1}").
                             arg(fileName).
                             arg(_textSystem->getText(DJV_TEXT("error_incomplete_file"))));
                     }
+
                     return Info(fileName, VideoInfo(info, _speed, _sequence));
                 }
 
