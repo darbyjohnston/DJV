@@ -98,13 +98,13 @@ namespace djv
             auto i = args.begin();
             while (i != args.end())
             {
-                if ("-frameCount" == *i)
+                if ("-frame_count" == *i)
                 {
                     i = args.erase(i);
                     if (args.end() == i)
                     {
                         throw std::runtime_error(Core::String::Format("{0}: {1}").
-                            arg("-frameCount").
+                            arg("-frame_count").
                             arg(textSystem->getText(DJV_TEXT("error_cannot_parse_argument"))));
                     }
                     int value = 0;

@@ -4,7 +4,7 @@
     "djv_test_pattern_cli_description_resolution": "The image resolution. Default: ",
     "djv_test_pattern_cli_description_type": "The image type. Default: ",
     "djv_test_pattern_cli_examples": "Examples",
-    "djv_test_pattern_cli_option_frame_number": "-frameCount (value)",
+    "djv_test_pattern_cli_option_frame_number": "-frame_count (value)",
     "djv_test_pattern_cli_option_resolution": "-size \"(width) (height)\"",
     "djv_test_pattern_cli_option_type": "-type (value)",
     "djv_test_pattern_cli_options": "Options",
