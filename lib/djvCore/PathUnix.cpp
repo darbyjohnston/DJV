@@ -75,8 +75,18 @@ namespace djv
             
             Path Path::getAbsolute(const Path& value)
             {
+                std::string directoryName = value.getDirectoryName();
+                std::string fileName = value.getFileName();
+                if (directoryName.empty())
+                {
+                    directoryName = ".";
+                }
+                if ("." == fileName)
+                {
+                    fileName = std::string();
+                }
                 char buf[PATH_MAX];
-                if (!realpath(value.getDirectoryName().c_str(), buf))
+                if (!realpath(directoryName.c_str(), buf))
                 {
                     buf[0] = 0;
                     //! \todo How can we translate this?
@@ -89,10 +99,9 @@ namespace djv
                     case ENAMETOOLONG: throw Error("Path too long.");
                     case ENOENT:       throw Error("Path does not exist.");
                     case ENOTDIR:      throw Error("Path is not a directory.");
-                    default: break;
                     }
                 }
-                return Path(buf, value.getFileName());
+                return Path(buf, fileName);
             }
 
             Path Path::getCWD()

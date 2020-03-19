@@ -261,7 +261,7 @@ namespace djv
 #if !defined(DJV_PLATFORM_WINDOWS)
             try
             {
-                const FileSystem::Path path = FileSystem::Path::getAbsolute(FileSystem::Path(std::string()));
+                const FileSystem::Path path = FileSystem::Path::getAbsolute(FileSystem::Path());
                 DJV_ASSERT(false);
             }
             catch (const std::exception & e)
