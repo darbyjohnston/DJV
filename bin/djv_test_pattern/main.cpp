@@ -278,7 +278,6 @@ namespace djv
                 {
                     _render->drawRect(Core::BBox2f(x, 0.F, rectWidth, static_cast<float>(_size->h - 1)));
                 }
-                std::cout << std::endl;
                 _x = _x + 1.F;
                 _render->endFrame();
                 auto image = AV::Image::Image::create(_info);
