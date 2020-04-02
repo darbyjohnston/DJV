@@ -62,23 +62,21 @@ namespace djv
         } // namespace
 
         struct Application::Private
-        {
-            bool resetSettings = false;
-        };
+        {};
 
         void Application::_init(std::list<std::string>& args)
         {
             CmdLine::Application::_init(args);
             DJV_PRIVATE_PTR();
 
-            // Parse the command-line.
+            bool resetSettings = false;
             auto arg = args.begin();
             while (arg != args.end())
             {
                 if ("-init_settings" == *arg)
                 {
                     arg = args.erase(arg);
-                    p.resetSettings = true;
+                    resetSettings = true;
                 }
                 else
                 {
@@ -88,7 +86,7 @@ namespace djv
 
             // Create the systems.
             auto glfwSystem = GLFWSystem::create(shared_from_this());
-            auto uiSystem = UI::UISystem::create(p.resetSettings, shared_from_this());
+            auto uiSystem = UI::UISystem::create(resetSettings, shared_from_this());
             auto avGLFWSystem = getSystemT<AV::GLFW::System>();
             auto glfwWindow = avGLFWSystem->getGLFWWindow();
             auto eventSystem = EventSystem::create(glfwWindow, shared_from_this());
@@ -106,18 +104,6 @@ namespace djv
             auto out = std::shared_ptr<Application>(new Application);
             out->_init(args);
             return out;
-        }
-
-        void Application::printUsage()
-        {
-            auto textSystem = getSystemT<Core::TextSystem>();
-            std::cout << " " << textSystem->getText(DJV_TEXT("cli_ui_options")) << std::endl;
-            std::cout << std::endl;
-            std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_init_settings")) << std::endl;
-            std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_init_settings_description")) << std::endl;
-            std::cout << std::endl;
-
-            CmdLine::Application::printUsage();
         }
 
         void Application::run()
@@ -149,6 +135,18 @@ namespace djv
                     start = end;
                 }
             }
+        }
+
+        void Application::_printUsage()
+        {
+            auto textSystem = getSystemT<Core::TextSystem>();
+            std::cout << " " << textSystem->getText(DJV_TEXT("cli_ui_options")) << std::endl;
+            std::cout << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_init_settings")) << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_init_settings_description")) << std::endl;
+            std::cout << std::endl;
+
+            CmdLine::Application::_printUsage();
         }
 
     } // namespace Desktop

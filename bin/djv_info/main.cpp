@@ -55,6 +55,8 @@ namespace djv
             {
                 CmdLine::Application::_init(args);
 
+                _parseCmdLine(args);
+
                 bool hasInputs = args.size();
                 while (args.size())
                 {
@@ -93,20 +95,6 @@ namespace djv
                 return out;
             }
 
-            void printUsage() override
-            {
-                auto textSystem = getSystemT<Core::TextSystem>();
-                std::cout << std::endl;
-                std::cout << " " << textSystem->getText(DJV_TEXT("djv_info_description")) << std::endl;
-                std::cout << std::endl;
-                std::cout << " " << textSystem->getText(DJV_TEXT("djv_info_usage")) << std::endl;
-                std::cout << std::endl;
-                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_info_usage_format")) << std::endl;
-                std::cout << std::endl;
-
-                CmdLine::Application::printUsage();
-            }
-
             void run() override
             {
                 auto io = getSystemT<AV::IO::System>();
@@ -134,6 +122,21 @@ namespace djv
                     default: break;
                     }
                 }
+            }
+
+        protected:
+            void _printUsage() override
+            {
+                auto textSystem = getSystemT<Core::TextSystem>();
+                std::cout << std::endl;
+                std::cout << " " << textSystem->getText(DJV_TEXT("djv_info_description")) << std::endl;
+                std::cout << std::endl;
+                std::cout << " " << textSystem->getText(DJV_TEXT("djv_info_usage")) << std::endl;
+                std::cout << std::endl;
+                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_info_usage_format")) << std::endl;
+                std::cout << std::endl;
+
+                CmdLine::Application::_printUsage();
             }
 
         private:

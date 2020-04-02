@@ -54,6 +54,8 @@ namespace djv
             {
                 CmdLine::Application::_init(args);
 
+                _parseCmdLine(args);
+
                 bool hasInputs = args.size();
                 while (args.size())
                 {
@@ -89,20 +91,6 @@ namespace djv
                 return out;
             }
 
-            void printUsage() override
-            {
-                auto textSystem = getSystemT<Core::TextSystem>();
-                std::cout << std::endl;
-                std::cout << " " << textSystem->getText(DJV_TEXT("djv_ls_description")) << std::endl;
-                std::cout << std::endl;
-                std::cout << " " << textSystem->getText(DJV_TEXT("djv_ls_usage")) << std::endl;
-                std::cout << std::endl;
-                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_ls_usage_format")) << std::endl;
-                std::cout << std::endl;
-
-                CmdLine::Application::printUsage();
-            }
-
             void run() override
             {
                 auto io = getSystemT<AV::IO::System>();
@@ -130,13 +118,28 @@ namespace djv
                 }
             }
 
+        protected:
+            void _printUsage() override
+            {
+                auto textSystem = getSystemT<Core::TextSystem>();
+                std::cout << std::endl;
+                std::cout << " " << textSystem->getText(DJV_TEXT("djv_ls_description")) << std::endl;
+                std::cout << std::endl;
+                std::cout << " " << textSystem->getText(DJV_TEXT("djv_ls_usage")) << std::endl;
+                std::cout << std::endl;
+                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_ls_usage_format")) << std::endl;
+                std::cout << std::endl;
+
+                CmdLine::Application::_printUsage();
+            }
+
+            std::vector<Core::FileSystem::FileInfo> _inputs;
+
         private:
             void _print(const std::string & fileName)
             {
                 std::cout << fileName << std::endl;
             }
-
-            std::vector<Core::FileSystem::FileInfo> _inputs;
         };
 
     } // namespace ls

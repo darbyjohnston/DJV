@@ -56,117 +56,7 @@ namespace djv
             {
                 CmdLine::Application::_init(args);
 
-                auto textSystem = getSystemT<Core::TextSystem>();
-                auto i = args.begin();
-                while (i != args.end())
-                {
-                    if ("-resize" == *i)
-                    {
-                        i = args.erase(i);
-                        if (args.end() == i)
-                        {
-                            throw std::runtime_error(Core::String::Format("{0}: {1}").
-                                arg("-resize").
-                                arg(textSystem->getText(DJV_TEXT("error_cannot_parse_argument"))));
-                        }
-                        AV::Image::Size resize;
-                        std::stringstream ss(*i);
-                        ss >> resize;
-                        i = args.erase(i);
-                        _resize.reset(new AV::Image::Size(resize));
-                    }
-                    else if ("-readSeq" == *i)
-                    {
-                        i = args.erase(i);
-                        _readSeq = true;
-                    }
-                    else if ("-writeSeq" == *i)
-                    {
-                        i = args.erase(i);
-                        _writeSeq = true;
-                    }
-                    else if ("-readQueue" == *i)
-                    {
-                        i = args.erase(i);
-                        if (args.end() == i)
-                        {
-                            throw std::runtime_error(Core::String::Format("{0}: {1}").
-                                arg("-readQueue").
-                                arg(textSystem->getText(DJV_TEXT("error_cannot_parse_argument"))));
-                        }
-                        int value = 0;
-                        std::stringstream ss(*i);
-                        ss >> value;
-                        i = args.erase(i);
-                        _readQueueSize = std::max(value, 1);
-                    }
-                    else if ("-writeQueue" == *i)
-                    {
-                        i = args.erase(i);
-                        if (args.end() == i)
-                        {
-                            throw std::runtime_error(Core::String::Format("{0}: {1}").
-                                arg("-writeQueue").
-                                arg(textSystem->getText(DJV_TEXT("error_cannot_parse_argument"))));
-                        }
-                        int value = 0;
-                        std::stringstream ss(*i);
-                        ss >> value;
-                        i = args.erase(i);
-                        _writeQueueSize = std::max(value, 1);
-                    }
-                    else if ("-readThreads" == *i)
-                    {
-                        i = args.erase(i);
-                        if (args.end() == i)
-                        {
-                            throw std::runtime_error(Core::String::Format("{0}: {1}").
-                                arg("-readThreads").
-                                arg(textSystem->getText(DJV_TEXT("error_cannot_parse_argument"))));
-                        }
-                        int value = 0;
-                        std::stringstream ss(*i);
-                        ss >> value;
-                        i = args.erase(i);
-                        _readThreadCount = std::max(value, 1);
-                    }
-                    else if ("-writeThreads" == *i)
-                    {
-                        i = args.erase(i);
-                        if (args.end() == i)
-                        {
-                            throw std::runtime_error(Core::String::Format("{0}: {1}").
-                                arg("-writeThreads").
-                                arg(textSystem->getText(DJV_TEXT("error_cannot_parse_argument"))));
-                        }
-                        int value = 0;
-                        std::stringstream ss(*i);
-                        ss >> value;
-                        i = args.erase(i);
-                        _writeThreadCount = std::max(value, 1);
-                    }
-                    else
-                    {
-                        ++i;
-                    }
-                }
-
-                if (!args.size())
-                {
-                    printUsage();
-                    exit(1);
-                }
-                else if (2 == args.size())
-                {
-                    _input = args.front();
-                    args.pop_front();
-                    _output = args.front();
-                    args.pop_front();
-                }
-                else
-                {
-                    throw std::runtime_error(textSystem->getText(DJV_TEXT("djv_convert_output_error")));
-                }
+                _parseCmdLine(args);
             }
 
             Application()
@@ -178,43 +68,6 @@ namespace djv
                 auto out = std::shared_ptr<Application>(new Application);
                 out->_init(args);
                 return out;
-            }
-
-            void printUsage() override
-            {
-                auto textSystem = getSystemT<Core::TextSystem>();
-                std::cout << std::endl;
-                std::cout << " " << textSystem->getText(DJV_TEXT("djv_convert_description")) << std::endl;
-                std::cout << std::endl;
-                std::cout << " " << textSystem->getText(DJV_TEXT("djv_convert_usage")) << std::endl;
-                std::cout << std::endl;
-                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_usage_format")) << std::endl;
-                std::cout << std::endl;
-                std::cout << " " << textSystem->getText(DJV_TEXT("djv_convert_options")) << std::endl;
-                std::cout << std::endl;
-                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_resize")) << std::endl;
-                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_resize_description")) << std::endl;
-                std::cout << std::endl;
-                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_readseq")) << std::endl;
-                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_readseq_description")) << std::endl;
-                std::cout << std::endl;
-                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_writeseq")) << std::endl;
-                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_writeseq_description")) << std::endl;
-                std::cout << std::endl;
-                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_readqueue")) << std::endl;
-                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_readqueue_description")) << std::endl;
-                std::cout << std::endl;
-                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_writequeue")) << std::endl;
-                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_writequeue_description")) << std::endl;
-                std::cout << std::endl;
-                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_readthreads")) << std::endl;
-                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_readthreads_description")) << std::endl;
-                std::cout << std::endl;
-                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_writethreads")) << std::endl;
-                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_writethreads_description")) << std::endl;
-                std::cout << std::endl;
-
-                CmdLine::Application::printUsage();
             }
 
             void run() override
@@ -300,6 +153,163 @@ namespace djv
                 {
                     exit(0);
                 }
+            }
+
+        protected:
+            void _parseCmdLine(std::list<std::string>& args) override
+            {
+                CmdLine::Application::_parseCmdLine(args);
+                if (0 == getExitCode())
+                {
+                    auto textSystem = getSystemT<Core::TextSystem>();
+                    auto i = args.begin();
+                    while (i != args.end())
+                    {
+                        if ("-resize" == *i)
+                        {
+                            i = args.erase(i);
+                            if (args.end() == i)
+                            {
+                                throw std::runtime_error(Core::String::Format("{0}: {1}").
+                                    arg("-resize").
+                                    arg(textSystem->getText(DJV_TEXT("error_cannot_parse_argument"))));
+                            }
+                            AV::Image::Size resize;
+                            std::stringstream ss(*i);
+                            ss >> resize;
+                            i = args.erase(i);
+                            _resize.reset(new AV::Image::Size(resize));
+                        }
+                        else if ("-readSeq" == *i)
+                        {
+                            i = args.erase(i);
+                            _readSeq = true;
+                        }
+                        else if ("-writeSeq" == *i)
+                        {
+                            i = args.erase(i);
+                            _writeSeq = true;
+                        }
+                        else if ("-readQueue" == *i)
+                        {
+                            i = args.erase(i);
+                            if (args.end() == i)
+                            {
+                                throw std::runtime_error(Core::String::Format("{0}: {1}").
+                                    arg("-readQueue").
+                                    arg(textSystem->getText(DJV_TEXT("error_cannot_parse_argument"))));
+                            }
+                            int value = 0;
+                            std::stringstream ss(*i);
+                            ss >> value;
+                            i = args.erase(i);
+                            _readQueueSize = std::max(value, 1);
+                        }
+                        else if ("-writeQueue" == *i)
+                        {
+                            i = args.erase(i);
+                            if (args.end() == i)
+                            {
+                                throw std::runtime_error(Core::String::Format("{0}: {1}").
+                                    arg("-writeQueue").
+                                    arg(textSystem->getText(DJV_TEXT("error_cannot_parse_argument"))));
+                            }
+                            int value = 0;
+                            std::stringstream ss(*i);
+                            ss >> value;
+                            i = args.erase(i);
+                            _writeQueueSize = std::max(value, 1);
+                        }
+                        else if ("-readThreads" == *i)
+                        {
+                            i = args.erase(i);
+                            if (args.end() == i)
+                            {
+                                throw std::runtime_error(Core::String::Format("{0}: {1}").
+                                    arg("-readThreads").
+                                    arg(textSystem->getText(DJV_TEXT("error_cannot_parse_argument"))));
+                            }
+                            int value = 0;
+                            std::stringstream ss(*i);
+                            ss >> value;
+                            i = args.erase(i);
+                            _readThreadCount = std::max(value, 1);
+                        }
+                        else if ("-writeThreads" == *i)
+                        {
+                            i = args.erase(i);
+                            if (args.end() == i)
+                            {
+                                throw std::runtime_error(Core::String::Format("{0}: {1}").
+                                    arg("-writeThreads").
+                                    arg(textSystem->getText(DJV_TEXT("error_cannot_parse_argument"))));
+                            }
+                            int value = 0;
+                            std::stringstream ss(*i);
+                            ss >> value;
+                            i = args.erase(i);
+                            _writeThreadCount = std::max(value, 1);
+                        }
+                        else
+                        {
+                            ++i;
+                        }
+                    }
+
+                    if (!args.size())
+                    {
+                        _printUsage();
+                        exit(1);
+                    }
+                    else if (2 == args.size())
+                    {
+                        _input = args.front();
+                        args.pop_front();
+                        _output = args.front();
+                        args.pop_front();
+                    }
+                    else
+                    {
+                        throw std::runtime_error(textSystem->getText(DJV_TEXT("djv_convert_output_error")));
+                    }
+                }
+            }
+
+            void _printUsage() override
+            {
+                auto textSystem = getSystemT<Core::TextSystem>();
+                std::cout << std::endl;
+                std::cout << " " << textSystem->getText(DJV_TEXT("djv_convert_description")) << std::endl;
+                std::cout << std::endl;
+                std::cout << " " << textSystem->getText(DJV_TEXT("djv_convert_usage")) << std::endl;
+                std::cout << std::endl;
+                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_usage_format")) << std::endl;
+                std::cout << std::endl;
+                std::cout << " " << textSystem->getText(DJV_TEXT("djv_convert_options")) << std::endl;
+                std::cout << std::endl;
+                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_resize")) << std::endl;
+                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_resize_description")) << std::endl;
+                std::cout << std::endl;
+                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_readseq")) << std::endl;
+                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_readseq_description")) << std::endl;
+                std::cout << std::endl;
+                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_writeseq")) << std::endl;
+                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_writeseq_description")) << std::endl;
+                std::cout << std::endl;
+                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_readqueue")) << std::endl;
+                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_readqueue_description")) << std::endl;
+                std::cout << std::endl;
+                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_writequeue")) << std::endl;
+                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_writequeue_description")) << std::endl;
+                std::cout << std::endl;
+                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_readthreads")) << std::endl;
+                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_readthreads_description")) << std::endl;
+                std::cout << std::endl;
+                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_writethreads")) << std::endl;
+                std::cout << "   " << textSystem->getText(DJV_TEXT("djv_convert_option_writethreads_description")) << std::endl;
+                std::cout << std::endl;
+
+                CmdLine::Application::_printUsage();
             }
 
         private:

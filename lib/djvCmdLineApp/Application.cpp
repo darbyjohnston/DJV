@@ -46,6 +46,7 @@
 #include <djvCore/LogSystem.h>
 #include <djvCore/OS.h>
 #include <djvCore/ResourceSystem.h>
+#include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
@@ -77,39 +78,31 @@ namespace djv
             }
             Context::_init(argv0);
 
-            // Create the systems.
-            auto avSystem = AV::AVSystem::create(shared_from_this());
-            auto sceneSystem = Scene::SceneSystem::create(shared_from_this());
-
-            // Parse the command-line.
-            auto i = args.begin();
-            while (i != args.end())
+            auto arg = args.begin();
+            while (arg != args.end())
             {
-                if ("-log_console" == *i)
+                if ("-log_console" == *arg)
                 {
-                    i = args.erase(i);
+                    arg = args.erase(arg);
                     auto logSystem = getSystemT<LogSystem>();
                     logSystem->setConsoleOutput(true);
                 }
-                else if ("-version" == *i)
+                else if ("-version" == *arg)
                 {
-                    i = args.erase(i);
+                    arg = args.erase(arg);
                     _printVersion();
-                    exit(1);
-                    break;
-                }
-                else if ("-h" == *i || "-help" == *i || "--help" == *i)
-                {
-                    i = args.erase(i);
-                    printUsage();
                     exit(1);
                     break;
                 }
                 else
                 {
-                    ++i;
+                    ++arg;
                 }
             }
+
+            // Create the systems.
+            auto avSystem = AV::AVSystem::create(shared_from_this());
+            auto sceneSystem = Scene::SceneSystem::create(shared_from_this());
         }
 
         Application::Application() :
@@ -124,22 +117,6 @@ namespace djv
             auto out = std::shared_ptr<Application>(new Application);
             out->_init(args);
             return out;
-        }
-
-        void Application::printUsage()
-        {
-            auto textSystem = getSystemT<Core::TextSystem>();
-            std::cout << " " << textSystem->getText(DJV_TEXT("cli_general_options")) << std::endl;
-            std::cout << std::endl;
-            std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_log_console")) << std::endl;
-            std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_log_console_description")) << std::endl;
-            std::cout << std::endl;
-            std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_version")) << std::endl;
-            std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_version_description")) << std::endl;
-            std::cout << std::endl;
-            std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_help")) << std::endl;
-            std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_help_description")) << std::endl;
-            std::cout << std::endl;
         }
 
         void Application::run()
@@ -183,6 +160,81 @@ namespace djv
                 out.push_back(argv[i]);
             }
             return out;
+        }
+
+        void Application::_parseCmdLine(std::list<std::string>& args)
+        {
+            auto textSystem = getSystemT<Core::TextSystem>();
+            auto arg = args.begin();
+            while (arg != args.end())
+            {
+                if ("-time_units" == *arg)
+                {
+                    arg = args.erase(arg);
+                    if (args.end() == arg)
+                    {
+                        throw std::runtime_error(String::Format("{0}: {1}").
+                            arg("-time_units").
+                            arg(textSystem->getText(DJV_TEXT("error_cannot_parse_argument"))));
+                    }
+                    Time::Units value = Time::Units::First;
+                    std::string s = textSystem->getID(*arg);
+                    std::stringstream ss(s);
+                    ss >> value;
+                    arg = args.erase(arg);
+                    auto avSystem = getSystemT<AV::AVSystem>();
+                    avSystem->setTimeUnits(value);
+                }
+                else if ("-h" == *arg || "-help" == *arg || "--help" == *arg)
+                {
+                    arg = args.erase(arg);
+                    _printUsage();
+                    exit(1);
+                    break;
+                }
+                else
+                {
+                    ++arg;
+                }
+            }
+        }
+
+        void Application::_printUsage()
+        {
+            auto textSystem = getSystemT<Core::TextSystem>();
+            std::cout << " " << textSystem->getText(DJV_TEXT("cli_general_options")) << std::endl;
+            std::cout << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_time_units")) << std::endl;
+            {
+                std::vector<std::string> options;
+                std::string value;
+                for (auto i : Time::getUnitsEnums())
+                {
+                    std::stringstream ss;
+                    ss << i;
+                    options.push_back("\"" + textSystem->getText(ss.str()) + "\"");
+                }
+                {
+                    std::stringstream ss;
+                    auto avSystem = getSystemT<AV::AVSystem>();
+                    ss << avSystem->observeTimeUnits()->get();
+                    value = "\"" + textSystem->getText(ss.str()) + "\"";
+                }
+                const std::string s = String::Format(textSystem->getText(DJV_TEXT("cli_option_time_units_description"))).
+                    arg(String::join(options, ", ")).
+                    arg(value);
+                std::cout << "   " << s << std::endl;
+            }
+            std::cout << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_log_console")) << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_log_console_description")) << std::endl;
+            std::cout << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_version")) << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_version_description")) << std::endl;
+            std::cout << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_help")) << std::endl;
+            std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_help_description")) << std::endl;
+            std::cout << std::endl;
         }
 
         bool Application::_isRunning() const

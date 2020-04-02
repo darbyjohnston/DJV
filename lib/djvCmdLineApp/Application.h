@@ -39,6 +39,12 @@ namespace djv
 {
     namespace CmdLine
     {
+        struct Arguments
+        {
+            std::unique_ptr<Core::Time::Units> timeUnits;
+            std::unique_ptr<bool> logConsole;
+        };
+
         //! This class provides a command-line application.
         class Application : public Core::Context
         {
@@ -53,9 +59,6 @@ namespace djv
 
             static std::shared_ptr<Application> create(std::list<std::string>&);
 
-            //! Print command-line usage.
-            virtual void printUsage();
-
             virtual void run();
 
             int getExitCode() const;
@@ -64,12 +67,16 @@ namespace djv
             static std::list<std::string> args(int, char**);
 
         protected:
+            //! Throws:
+            //! - std::runtime_error
+            virtual void _parseCmdLine(std::list<std::string>&);
+            virtual void _printUsage();
+
             bool _isRunning() const;
             void _setRunning(bool);
 
         private:
             void _printVersion();
-            void _printInfo();
 
             DJV_PRIVATE();
         };

@@ -37,7 +37,7 @@
 //#include <AL/al.h>
 //#include <AL/alc.h>
 //#include <AL/alext.h>
-#include <RtAudio.h>
+#include <rtaudio/RtAudio.h>
 
 #include <limits>
 

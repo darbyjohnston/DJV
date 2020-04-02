@@ -54,6 +54,7 @@ namespace djv
                 ISettings::_init("djv::UI::Settings::General", context);
                 DJV_PRIVATE_PTR();
                 p.textSystem = context->getSystemT<TextSystem>();
+                p.textSystem->setCurrentLocale(p.textSystem->getSystemLocale());
                 _load();
             }
 
@@ -71,7 +72,7 @@ namespace djv
                 return out;
             }
 
-            void General::load(const picojson::value & value)
+            void General::load(const picojson::value& value)
             {
                 DJV_PRIVATE_PTR();
                 if (value.is<picojson::object>())

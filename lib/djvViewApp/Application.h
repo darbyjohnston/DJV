@@ -49,11 +49,11 @@ namespace djv
 
             static std::shared_ptr<Application> create(std::list<std::string>&);
 
-            void printUsage() override;
             void run() override;
 
         private:
-            void _parseCmdLine(std::list<std::string>&);
+            void _parseCmdLine(std::list<std::string>&) override;
+            void _printUsage() override;
             void _readIcon(const std::string&);
 
             DJV_PRIVATE();

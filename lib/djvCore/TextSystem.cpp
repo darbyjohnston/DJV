@@ -60,6 +60,7 @@ namespace djv
             std::vector<FileSystem::FileInfo> textFiles;
 
             std::vector<std::string> locales;
+            std::string systemLocale;
             std::shared_ptr<ValueSubject<std::string> > currentLocale;
 
             TextMap text;
@@ -152,37 +153,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.resourceSystem = resourceSystem;
             p.logSystem = logSystem;
+            p.currentLocale = ValueSubject<std::string>::create("en");
             p.textChanged = ValueSubject<bool>::create();
-
-            std::string currentLocale;
-            std::string djvLang = OS::getEnv("DJV_LANG");
-            std::stringstream ss;
-            if (djvLang.size())
-            {
-                currentLocale = djvLang;
-            }
-            else
-            {
-                try
-                {
-                    std::locale locale("");
-                    std::string localeName = locale.name();
-                    ss << "Current std::locale: " << localeName;
-                    p.logSystem->log(getSystemName(), ss.str());
-                    std::string cppLocale = parseLocale(localeName);
-                    if (cppLocale.size())
-                    {
-                        currentLocale = cppLocale;
-                    }
-                }
-                catch (const std::exception& e)
-                {
-                    p.logSystem->log(getSystemName(), e.what(), LogLevel::Error);
-                }
-            }
-            ss.str(std::string());
-            ss << "Found locale: " << currentLocale;
-            p.logSystem->log(getSystemName(), ss.str());
 
             // Find the .text files.
             p.textFiles = _getTextFiles();
@@ -205,29 +177,56 @@ namespace djv
             {
                 p.locales.push_back(locale);
             }
+            std::stringstream ss;
             ss.str(std::string());
             ss << "Found text files: " << String::join(p.locales, ", ");
             p.logSystem->log(getSystemName(), ss.str());
 
-            // Check that the current locale is valid.
-            const auto i = localeSet.find(currentLocale);
+            // Get the system locale.
+            std::string djvLang = OS::getEnv("DJV_LANG");
+            if (djvLang.size())
+            {
+                ss << "DJV_LANG: " << djvLang;
+                p.systemLocale = djvLang;
+            }
+            else
+            {
+                try
+                {
+                    std::locale locale("");
+                    std::string localeName = locale.name();
+                    ss << "std::locale: " << localeName;
+                    p.logSystem->log(getSystemName(), ss.str());
+                    std::string cppLocale = parseLocale(localeName);
+                    if (cppLocale.size())
+                    {
+                        p.systemLocale = cppLocale;
+                    }
+                }
+                catch (const std::exception& e)
+                {
+                    p.logSystem->log(getSystemName(), e.what(), LogLevel::Error);
+                }
+            }
+
+            // Check that the system locale is valid.
+            const auto i = localeSet.find(p.systemLocale);
             if (i == localeSet.end())
             {
                 // Fall back to using English.
                 const auto j = localeSet.find("en");
                 if (j != localeSet.end())
                 {
-                    currentLocale = *j;
+                    p.systemLocale = *j;
                 }
                 else if (localeSet.size())
                 {
                     // Fall back to using the first one in the list.
-                    currentLocale = *localeSet.begin();
+                    p.systemLocale = *localeSet.begin();
                 }
             }
-            p.currentLocale = ValueSubject<std::string>::create(currentLocale);
             ss.str(std::string());
-            ss << "Current locale: " << currentLocale;
+            ss << "System locale: " << p.systemLocale;
             p.logSystem->log(getSystemName(), ss.str());
 
             // Load the text.
@@ -334,6 +333,11 @@ namespace djv
             return _p->locales;
         }
 
+        const std::string& TextSystem::getSystemLocale() const
+        {
+            return _p->systemLocale;
+        }
+
         std::shared_ptr<IValueSubject<std::string> > TextSystem::observeCurrentLocale() const
         {
             return _p->currentLocale;
@@ -347,8 +351,8 @@ namespace djv
                 p.textChanged->setAlways(true);
             }
         }
-        
-        const std::string & TextSystem::getText(const std::string & id)
+
+        const std::string& TextSystem::getText(const std::string& id)
         {
             DJV_PRIVATE_PTR();
             _readAllFutures();
@@ -365,6 +369,27 @@ namespace djv
                 }
             }
             return id;
+        }
+
+        const std::string& TextSystem::getID(const std::string& text)
+        {
+            DJV_PRIVATE_PTR();
+            _readAllFutures();
+            {
+                std::unique_lock<std::mutex> lock(p.mutex);
+                const auto i = p.text.find(p.currentLocale->get());
+                if (i != p.text.end())
+                {
+                    for (const auto& j : i->second)
+                    {
+                        if (text == j.second)
+                        {
+                            return j.first;
+                        }
+                    }
+                }
+            }
+            return text;
         }
 
         std::shared_ptr<IValueSubject<bool> > TextSystem::observeTextChanged() const

@@ -36,7 +36,7 @@
 #include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 
-#include <RtAudio.h>
+#include <rtaudio/RtAudio.h>
 
 using namespace djv::Core;
 

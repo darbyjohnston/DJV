@@ -39,8 +39,6 @@
 #include <djvCore/TextSystem.h>
 #include <djvCore/Timer.h>
 
-#include <RtAudio.h>
-
 using namespace djv::Core;
 
 namespace djv

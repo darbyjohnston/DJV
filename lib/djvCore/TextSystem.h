@@ -46,15 +46,11 @@ namespace djv
 
         //! This class provides text and translations.
         //!
-        //! The current locale is determined in this order:
-        //! - DJV_LANG environment variable
-        //! - std::locale("")
-        //!
         //! Text files are searched for in this order:
         //! - FileSystem::ResourcePath::Text
         //! - FileSystem::ResourcePath::Documents
-        //! - DJV_TEXT environment variable, a list of colon (Linux/OSX) or
-        //!   semicolon (Windows) separated paths to search
+        //! - DJV_TEXT environment variable, a list of colon (Linux/OSX)
+        //!   or semicolon (Windows) separated paths to search
         class TextSystem : public ISystemBase
         {
             DJV_NON_COPYABLE(TextSystem);
@@ -69,11 +65,16 @@ namespace djv
             //! Create a new text system.
             static std::shared_ptr<TextSystem> create(const std::shared_ptr<Context>&);
 
-            //! \name Language Locale
+            //! \name Locale
             ///@{
 
             //! Get the list of locales.
             const std::vector<std::string> & getLocales() const;
+
+            //! Get the system locale which is determined in this order:
+            //! - DJV_LANG environment variable
+            //! - std::locale("")
+            const std::string& getSystemLocale() const;
 
             //! Observe the current locale.
             std::shared_ptr<IValueSubject<std::string> > observeCurrentLocale() const;
@@ -87,7 +88,10 @@ namespace djv
             ///@{
 
             //! Get the text for the given ID.
-            const std::string & getText(const std::string& id);
+            const std::string& getText(const std::string&);
+
+            //! Get the ID for the given text.
+            const std::string& getID(const std::string&);
 
             //! Observe whether the text has changed.
             std::shared_ptr<IValueSubject<bool> > observeTextChanged() const;

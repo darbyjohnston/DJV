@@ -52,9 +52,10 @@ namespace djv
 
             static std::shared_ptr<Application> create(std::list<std::string>&);
 
-            void printUsage() override;
-
             void run() override;
+
+        protected:
+            void _printUsage() override;
 
         private:
             DJV_PRIVATE();
