@@ -1,14 +1,21 @@
 ---
 layout: page
-title: Installation
+title: DJV Installation
 ---
 
 <div class="nav">
     <p><a class="text" href="index.html">Home</a> |
     <a class="text" href="documentation.html">Documentation</a> |
     {{ page.title }}</p>
+</div>
+
+<div class="separator"></div>
+
+<div class="block">
+	<p class="header">{{ page.title }}</p>
 	<ul>
-	    <li><a class="text" href="#Linux">Linux</a></li>
+	    <li><a class="text" href="#LinuxRPM">Linux RPM</a></li>
+	    <li><a class="text" href="#LinuxDEB">Linux DEB</a></li>
 	    <li><a class="text" href="#macOS">Apple macOS</a></li>
 	    <li><a class="text" href="#Windows">Microsoft Windows</a></li>
 	</ul>
@@ -17,9 +24,8 @@ title: Installation
 <div class="separator"></div>
 
 <div class="block">
-	<p class="header"><a name="Linux">Linux</a></p>
-	<p class="subHeader">RPM</p>
-	<p>Installing a RPM package:</p>
+	<p class="header"><a name="LinuxRPM">Linux RPM</a></p>
+	<p>Installing the RPM package:</p>
 	<pre>
 sudo rpm -i DJV2-2.0.5-1.x86_64.rpm
 </pre>
@@ -28,14 +34,17 @@ sudo rpm -i DJV2-2.0.5-1.x86_64.rpm
     <pre>
 /usr/local/DJV2/bin/djv.sh
 </pre>
-    <p>Uninstalling the RPM package:</p>
+    <p>To uninstall the RPM package:</p>
 	<pre>
 sudo rpm -e DJV2
 </pre>
 </div>
+
+<div class="separator"></div>
+
 <div class="block">
-	<p class="subHeader">DEB</p>
-	<p>Installing a Debian package:</p>
+	<p class="header"><a name="LinuxDEB">Linux DEB</a></p>
+	<p>Installing the Debian package:</p>
     <pre>
 sudo dpkg -i DJV2_2.0.5_amd64.deb
 </pre>
@@ -44,7 +53,7 @@ sudo dpkg -i DJV2_2.0.5_amd64.deb
     <pre>
 /usr/local/DJV2/bin/djv.sh
 </pre>
-	<p>Uninstalling the Debian package:</p>
+	<p>To uninstall the Debian package:</p>
 <pre>
 sudo dpkg --remove DJV2
 </pre>
