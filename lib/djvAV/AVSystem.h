@@ -42,7 +42,7 @@ namespace djv
     {
         namespace Render2D
         {
-            struct ImageFilterOptions;
+            class ImageFilterOptions;
 
         } // namespace Render2D
 
