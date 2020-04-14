@@ -17,9 +17,10 @@ title: Building on Apple macOS
 	<p class="header"><a name="Building">Building</a></p>
 	<p>Required build tools:</p>
 	<ul>
-		<li>C++11 compiler</li>
+		<li><a class="text" href="https://developer.apple.com/xcode">Xcode</a></li>
 		<li><a class="text" href="https://cmake.org">CMake 3.12</a></li>
 		<li><a class="text" href="https://git-scm.com">git</a></li>
+        <li><a class="text" href="https://www.nasm.us">NASM</a></li>
 	</ul>
 	<p>Required libraries:</p>
 	<ul>
@@ -27,26 +28,34 @@ title: Building on Apple macOS
 	</ul>
 </div>
 <div class="block">
-	<p>The following steps describe how to
-	compile the DJV source code and the third party libraries that it depends on.</p>
+	<p>The following steps describe how to compile the DJV source code and the
+    third party libraries that it depends on.</p>
+    <p>MacPorts:</p>
+    <pre>
+> brew install nasm
+> brew install cmake
+    </pre>
+    <pre>
+> sudo xcode-select --reset
+    </pre>
 	<p>Clone the repository:</p>
 	<pre>
-git clone https://github.com/darbyjohnston/DJV.git djv-git</pre>
+> git clone https://github.com/darbyjohnston/DJV.git</pre>
 	<p>Create a new sub-directory and start the build:</p>
 	<pre>
-mkdir djv-git-Debug
-cd djv-git-Debug
-cmake ../djv-git -DCMAKE_BUILD_TYPE=Debug -DCMAKE_FIND_FRAMEWORK="LAST"
-make -j</pre>
+> mkdir djv-Debug
+> cd djv-Debug
+> cmake ../djv -DCMAKE_BUILD_TYPE=Debug -DCMAKE_FIND_FRAMEWORK="LAST"
+> make -j</pre>
 	<p>Add the install path to your DYLD_LIBRARY_PATH:</pre>
 	<pre>
-export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$PWD/install/lib</pre>
+> export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$PWD/install/lib</pre>
 	<p>Run the confidence tests:</p>
 	<pre>
-make test</pre>
+> make test</pre>
 	<p>Run the djv player application:</p>
 	<pre>
-./build/bin/djv</pre>
+> ./build/bin/djv</pre>
 </div>
 
 <div class="separator"></div>
@@ -55,11 +64,11 @@ make test</pre>
     <p class="header"><a name="Packaging">Packaging</a></p>
 	<p>Building a DMG package:</p>
 	<pre>
-mkdir djv-git-Release
-cd djv-git-Release
-cmake ../djv-git -DCMAKE_BUILD_TYPE=Release -DDJV_BUILD_PACKAGE=TRUE -DCMAKE_FIND_FRAMEWORK="LAST"
+mkdir djv-Release
+cd djv-Release
+cmake ../djv -DCMAKE_BUILD_TYPE=Release -DDJV_BUILD_PACKAGE=TRUE -DCMAKE_FIND_FRAMEWORK="LAST"
 make -j
-cmake ../djv-git -DDJV_THIRD_PARTY_DISABLE_BUILD=TRUE
+cmake ../djv -DDJV_THIRD_PARTY_DISABLE_BUILD=TRUE
 make package</pre>
 </div>
 
