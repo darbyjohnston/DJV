@@ -2,3 +2,5 @@ build/
 doc/doxygen/
 *~
 .git
+.vscode
+
