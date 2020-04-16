@@ -33,7 +33,7 @@ jobs:
         cd build &&
         mkdir DJV-third-party-Debug &&
         cd DJV-third-party-Debug &&
-        cmake ..\..\third-party
+        cmake ../../third-party
           -DCMAKE_BUILD_TYPE=Debug
           -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug
           -DDJV_BUILD_TINY=TRUE
@@ -51,7 +51,7 @@ jobs:
         cd build &&
         mkdir DJV-Debug &&
         cd DJV-Debug &&
-        cmake ..\..
+        cmake ../..
           -DCMAKE_BUILD_TYPE=Debug
           -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug
           -DCMAKE_PREFIX_PATH=../DJV-install-Debug
