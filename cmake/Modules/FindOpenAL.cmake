@@ -56,3 +56,27 @@ if(OPENAL_FOUND AND NOT TARGET OpenAL)
     add_library(OpenAL INTERFACE)
     target_link_libraries(OpenAL INTERFACE OpenAL::OpenAL)
 endif()
+
+if(OPENAL_FOUND)
+    if(WIN32)
+        install(
+            FILES
+            ${CMAKE_PREFIX_PATH}/bin/OpenAL32.dll
+            DESTINATION bin)
+    elseif(APPLE)
+        install(
+            FILES
+            ${OPENAL_LIBRARY}
+            ${CMAKE_PREFIX_PATH}/lib/libopenal.1.dylib
+            ${CMAKE_PREFIX_PATH}/lib/libopenal.1.19.1.dylib
+            DESTINATION lib)
+    else()
+        install(
+            FILES
+            ${OPENAL_LIBRARY}
+            ${OPENAL_LIBRARY}.1
+            ${OPENAL_LIBRARY}.1.19.1
+            DESTINATION lib)
+    endif()
+endif()
+
