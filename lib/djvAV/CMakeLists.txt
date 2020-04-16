@@ -195,10 +195,10 @@ set_target_properties(
     FOLDER lib
     CXX_STANDARD 11)
 
-install(
-    TARGETS djvAV
-    RUNTIME DESTINATION bin
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib)
-install(FILES ${header} DESTINATION include/djvAV)
+#install(
+#    TARGETS djvAV
+#    RUNTIME DESTINATION bin
+#    LIBRARY DESTINATION lib
+#    ARCHIVE DESTINATION lib)
+#install(FILES ${header} DESTINATION include/djvAV)
 

@@ -4,6 +4,8 @@ project(DJV-third-party)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/../cmake/Modules)
 
+set(DJV_OPTIONAL CACHE BOOL "Build optional dependencies")
+
 find_package(Threads REQUIRED)
 find_package(OpenGL REQUIRED)
 
@@ -31,10 +33,10 @@ if(DJV_PYTHON)
 	endif()
 endif()
 
-# Set the list of required packages.
-set(DJV_REQUIRED ZLIB)
-set(DJV_REQUIRED
-    ${DJV_REQUIRED}
+# Set the list of required dependencies.
+set(DJV_REQUIRED_DEPS ZLIB)
+set(DJV_REQUIRED_DEPS
+    ${DJV_REQUIRED_DEPS}
 	FSeq
     GLM
     GLFW
@@ -47,25 +49,25 @@ set(DJV_REQUIRED
     #OTIO
     FreeType)
 
-# Set the list of optional packages.
+# Set the list of optional dependencies.
 if(WIN32)
 else()
-    set(DJV_OPTIONAL
-        ${DJV_OPTIONAL}
+    set(DJV_OPTIONAL_DEPS
+        ${DJV_OPTIONAL_DEPS}
+		NASM
         #MbedTLS
         )
 endif()
-set(DJV_OPTIONAL
-    ${DJV_OPTIONAL}
+set(DJV_OPTIONAL_DEPS
+    ${DJV_OPTIONAL_DEPS}
     #curl
-    NASM
     FFmpeg
     JPEGTurbo
     TIFF
     OpenEXR)
 if(WIN32)
-    set(DJV_OPTIONAL
-        ${DJV_OPTIONAL}
+    set(DJV_OPTIONAL_DEPS
+        ${DJV_OPTIONAL_DEPS}
         OpenNURBS)
 else()
 endif()
@@ -83,12 +85,12 @@ set(OCIO_SHARED_LIBS ${BUILD_SHARED_LIBS})
 set(OTIO_SHARED_LIBS ${BUILD_SHARED_LIBS})
 set(FFmpeg_SHARED_LIBS ON)
 
-# Build the packages.
-foreach(PACKAGE ${DJV_REQUIRED})
-	include(Build${PACKAGE})
+# Build the dependencies.
+foreach(DEP ${DJV_REQUIRED_DEPS})
+	include(Build${DEP})
 endforeach()
 if(DJV_OPTIONAL)
-	foreach(PACKAGE ${DJV_OPTIONAL})
-		include(Build${PACKAGE})
+	foreach(DEP ${DJV_OPTIONAL_DEPS})
+		include(Build${DEP})
 	endforeach()
 endif()

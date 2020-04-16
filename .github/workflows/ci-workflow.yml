@@ -15,9 +15,6 @@ jobs:
     - name: Install lcov
       run: sudo apt-get install lcov
 
-    - name: Install NASM
-      run: sudo apt-get install nasm
-
     - name: Install OpenGL dev
       run: sudo apt-get install xorg-dev libglu1-mesa-dev mesa-common-dev
 
@@ -30,12 +27,49 @@ jobs:
     - name: Install Python dev
       run: sudo apt-get install python3.7-dev
 
-    - name: Run CMake
-      run: mkdir build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_BUILD_TINY=TRUE -DDJV_GCOV=TRUE -DDJV_PYTHON=FALSE -DDJV_OPENGL_ES2=TRUE -DDJV_BUILD_BIN=FALSE -DDJV_BUILD_DOC=FALSE -DDJV_BUILD_EXAMPLES=FALSE -DDJV_BUILD_EXPERIMENTS=FALSE
+    - name: Build Third Party Dependencies
+      run: >
+        mkdir build &&
+        cd build &&
+        mkdir DJV-third-party-Debug &&
+        cd DJV-third-party-Debug &&
+        cmake ..\..\third-party
+          -DCMAKE_BUILD_TYPE=Debug
+          -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug
+          -DDJV_BUILD_TINY=TRUE
+          -DDJV_GCOV=TRUE
+          -DDJV_PYTHON=FALSE
+          -DDJV_OPENGL_ES2=TRUE
+          -DDJV_BUILD_BIN=FALSE
+          -DDJV_BUILD_DOC=FALSE
+          -DDJV_BUILD_EXAMPLES=FALSE
+          -DDJV_BUILD_EXPERIMENTS=FALSE &&
+        make
 
-    - name: Run make
-      run: cd build && make
+    - name: Build DJV
+      run: >
+        cd build &&
+        mkdir DJV-Debug &&
+        cd DJV-Debug &&
+        cmake ..\..
+          -DCMAKE_BUILD_TYPE=Debug
+          -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug
+          -DCMAKE_PREFIX_PATH=../DJV-install-Debug
+          -DDJV_THIRD_PARTY_OPTIONAL=FALSE
+          -DDJV_BUILD_TINY=TRUE
+          -DDJV_GCOV=TRUE
+          -DDJV_PYTHON=FALSE
+          -DDJV_OPENGL_ES2=TRUE
+          -DDJV_BUILD_BIN=FALSE
+          -DDJV_BUILD_DOC=FALSE
+          -DDJV_BUILD_EXAMPLES=FALSE
+          -DDJV_BUILD_EXPERIMENTS=FALSE
 
     - name: Run tests
-      run: cd build && export PYTHONPATH=$PWD/build/lib:$PYTHONPATH && ./build/bin/djvTest && make test
+      run: >
+        cd build &&
+        cd DJV-Debug &&
+        export PYTHONPATH=$PWD/build/lib:$PYTHONPATH &&
+        ./build/bin/djvTest &&
+        make test
 

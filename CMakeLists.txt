@@ -31,6 +31,7 @@ set(DJV_BUILD_TINY FALSE CACHE BOOL "Enable a 'tiny' build (only build core libr
 if(DJV_BUILD_TINY)
     add_definitions(-DDJV_BUILD_TINY)
 endif()
+set(DJV_THIRD_PARTY_OPTIONAL CACHE BOOL "Build optional third party dependencies")
 
 # Test options.
 enable_testing()
@@ -191,9 +192,11 @@ set(FFmpeg_SHARED_LIBS ON)
 foreach(PACKAGE ${DJV_THIRD_PARTY_REQUIRED_DEPS})
 	find_package(${PACKAGE} REQUIRED)
 endforeach()
-foreach(PACKAGE ${DJV_THIRD_PARTY_OPTIONAL_DEPS})
-	find_package(${PACKAGE})
-endforeach()
+if(DJV_THIRD_PARTY_OPTIONAL)
+	foreach(PACKAGE ${DJV_THIRD_PARTY_OPTIONAL_DEPS})
+		find_package(${PACKAGE})
+	endforeach()
+endif()
 
 #-------------------------------------------------------------------------------
 # Resources

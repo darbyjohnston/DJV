@@ -134,10 +134,10 @@ set_target_properties(
     FOLDER lib
     CXX_STANDARD 11)
 
-install(
-    TARGETS djvViewApp
-    RUNTIME DESTINATION bin
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib)
-install(FILES ${header} DESTINATION include/djvViewApp)
+#install(
+#    TARGETS djvViewApp
+#    RUNTIME DESTINATION bin
+#    LIBRARY DESTINATION lib
+#    ARCHIVE DESTINATION lib)
+#install(FILES ${header} DESTINATION include/djvViewApp)
 
