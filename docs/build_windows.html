@@ -11,31 +11,26 @@ title: Building on Microsoft Windows
 
 <div class="block">
 	<p class="header">{{ page.title }}</p>
-	<ul>
-	    <li><a class="text" href="#Requirements">Requirements</a></li>
-	    <li><a class="text" href="#FFmpeg">Building FFmpeg</a></li>
-	    <li><a class="text" href="#Building">Building DJV</a></li>
-	    <li><a class="text" href="#Packaging">Packaging DJV</a></li>
-	</ul>
-</div>
 
-<div class="separator"></div>
-
-<div class="block">
-	<p class="header"><a name="FFmpeg">Requirements</a></p>
+	<p class="subHeader"><a name="Requirements">Requirements</a></p>
 	<ul>
-	    <li>Windows 10</li>
+	    <li><a class="text" href="https://www.microsoft.com/en-us/windows/get-windows-10">Windows 10</a></li>
 		<li><a class="text" href="https://visualstudio.microsoft.com">Visual Studio</a> (version 2017 or later)</li>
 		<li><a class="text" href="https://cmake.org">CMake</a> (version 3.12 or later)</li>
 		<li><a class="text" href="https://git-scm.com">git</a></li>
-        <li><a class="text" href="https://www.nasm.us">NASM</a></li>
 	</ul>
-</div>
 
-<div class="separator"></div>
+	<p class="subHeader"><a name="Preparation">Preparation</a></p>
+    <p>First choose a directory to work in, this is where the code will be
+    checked out and built. This directory will be referred to as $DJV_BUILD
+    in the rest of the documentation.</p>
+	<p>Append this to your PATH environment variable in the Windows control
+	panel:</p>
+	<pre>
+$DJV_BUILD/DJV-install-Debug/bin
+</pre>
 
-<div class="block">
-	<p class="header"><a name="FFmpeg">Building FFmpeg</a></p>
+	<p class="subHeader"><a name="FFmpeg">Building FFmpeg</a></p>
 	<p>The following steps describe how to use the Windows Subsystem for
 	Linux to cross-compile FFmpeg for Windows.</p>
 	<p>Enable the Windows Subsystem for Linux:</p>
@@ -48,12 +43,15 @@ title: Building on Microsoft Windows
 	</ul>
 	<p>Start an Ubuntu shell and setup the environment:</p>
 	<pre>
-> sudo apt update
-> sudo apt install mingw-w64 yasm make unzip
+$ sudo apt update
+$ sudo apt install mingw-w64 yasm make unzip
 </pre>
 	<p>Build FFmpeg:</p>
 	<pre>
-> ./configure \
+$ wget https://ffmpeg.org/releases/ffmpeg-4.2.2.tar.bz2
+$ tar xvf ffmpeg-4.2.2.tar.bz2
+$ cd ffmpeg-4.2.2
+$ ./configure \
       --disable-programs \
       --disable-doc \
       --disable-bzlib \
@@ -64,46 +62,35 @@ title: Building on Microsoft Windows
       --cross-prefix=x86_64-w64-mingw32- \
       --target-os=mingw32 \
       --enable-cross-compile \
-      --prefix=$CMAKE_BINARY_DIR/install \
+      --prefix=$DJV_BUILD \
       --enable-shared
-> make
-> make install
+$ make
+$ make install
 </pre>
-</div>
 
-<div class="separator"></div>
-
-<div class="block">
-	<p class="header"><a name="Building">Building DJV</a></p>
-	<p>Open a command prompt and clone the DJV repository:</p>
+	<p class="subHeader"><a name="BuildingDJV">Building DJV</a></p>
+	<p>Open a Visual Studio x64 command prompt, go to the build directory,
+	and clone the DJV repository:</p>
 	<pre>
+> cd $BUILD_DIR
 > git clone https://github.com/darbyjohnston/DJV.git
 </pre>
 	<p>Create a new directory for the build and run CMake:</p>
 	<pre>
 > mkdir djv-Debug
 > cd djv-Debug
-> cmake ..\djv -DCMAKE_BUILD_TYPE=Debug
-</pre>
-	<p>Add the install path to your PATH environment
-	variable in the Windows control panel:</p>
-	<pre>
-$CMAKE_BINARY_DIR\install\bin
+> cmake ..\DJV -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/DJV-install-Debug
 </pre>
 	<p>Open "DJV.sln" in Visual Studio and build the solution.</p>
 	<p>Try runing the confidence tests to make sure eveything works
 	by building the RUN_TESTS target.</p>
-</div>
 
-<div class="separator"></div>
-
-<div class="block">
-	<p class="header"><a name="Packaging">Packaging DJV</a></p>
+	<p class="subHeader"><a name="Packaging">Packaging DJV</a></p>
 	<p>Create a new directory for a release build and run CMake:</p>
 	<pre>
 > mkdir djv-Release
 > cd djv-Release
-> cmake ..\djv -DCMAKE_BUILD_TYPE=Release
+> cmake ..\DJV -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/DJV-install-Release
 </pre>
 	<p>Open "DJV.sln" in Visual Studio and build the solution.</p>
 	<p>Create the packages by building the PACKAGE target.</p>

@@ -89,3 +89,11 @@ set_target_properties(
     PROPERTIES
     FOLDER lib
     CXX_STANDARD 11)
+
+install(
+    TARGETS djvUIComponents
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib)
+install(FILES ${header} DESTINATION include/djvUIComponents)
+

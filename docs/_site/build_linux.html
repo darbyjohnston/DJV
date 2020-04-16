@@ -17,100 +17,101 @@
 
 <div class="block">
 	<p class="header">Building on Linux</p>
-	<ul>
-	    <li><a class="text" href="#Requirements">Requirements</a></li>
-	    <li><a class="text" href="#BuildingDJV">Building DJV</a></li>
-	    <li><a class="text" href="#PackagingDJV">Packaging DJV</a></li>
-	</ul>
-</div>
 
-<div class="separator"></div>
-
-<div class="block">
-	<p class="header"><a name="Requirements">Requirements</a></p>
+	<p class="subHeader"><a name="Requirements">Requirements</a></p>
 	<ul>
 		<li>C++11 compiler</li>
 		<li><a class="text" href="https://cmake.org">CMake</a> (version 3.12 or later)</li>
 		<li><a class="text" href="https://git-scm.com">git</a></li>
-		<li><a class="text" href="https://www.nasm.us">NASM</a></li>
 		<li><a class="text" href="http://www.opengl.org">OpenGL</a> (version 4.1 or later)</li>
 	</ul>
-</div>
 
-<div class="separator"></div>
+	<p class="subHeader"><a name="Preparation">Preparation</a></p>
+    <p>First choose a directory to work in, this is where the code will be
+    checked out and built. This directory will be referred to as $DJV_BUILD
+    in the rest of the documentation.</p>
+	<p>Append your PATH and LD_LIBRARY_PATH environment variables:</p>
+	<pre>
+$ export PATH=$PATH:$DJV_BUILD/DJV-install-Debug/bin
+$ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$DJV_BUILD/DJV-install-Debug/lib
+</pre>
 
-<div class="block">
-	<p class="header"><a name="BuildingDJV">Building DJV</a></p>
-	<p>First pick a directory and clone the repository:</p>
+	<p class="subHeader"><a name="BuildingDJV">Building DJV</a></p>
+	<p>Open a shell, go to the build directory, and clone the DJV repository:</p>
 	<pre>
-git clone https://github.com/darbyjohnston/DJV.git djv-git
+$ cd $BUILD_DIR
+$ git clone https://github.com/darbyjohnston/DJV.git
 </pre>
-	<p>Create a new sub-directory for the build:</p>
+	<p>Build the third party dependencies:</p>
 	<pre>
-mkdir djv-Debug
-cd djv-Debug
+$ mkdir DJV-third-party-Debug
+$ cd DJV-third-party-Debug
+$ cmake ../DJV/third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug
+$ make
+$ make install
+$ cd ..
 </pre>
-	<p>Run CMake and start the build:</p>
+	<p>Build DJV:</p>
 	<pre>
-cmake ../djv-git -DCMAKE_BUILD_TYPE=Debug
-make -j
-</pre>
-	<p>To use the build add the install path to your LD_LIBRARY_PATH:</p>
-	<pre>
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/install/lib
+$ mkdir djv-Debug
+$ cd djv-Debug
+$ cmake ../DJV -DCMAKE_BUILD_TYPE=Debug -DCMAKE_PREFIX_PATH=../DJV-install-Debug
+$ make
 </pre>
 	<p>Try running the confidence tests to make sure everything is working OK:</p>
 	<pre>
-make test
+$ make test
 </pre>
 	<p>Run the djv player application:</p>
 	<pre>
-./build/bin/djv
+$ ./build/bin/djv
 </pre>
-</div>
 
-<div class="separator"></div>
-
-<div class="block">
-	<p class="header"><a name="PackagingDJV">Packaging DJV</a></p>
+	<p class="subHeader"><a name="PackagingDJV">Packaging DJV</a></p>
 	<p>Update the download information with the new version in "docs/index.html"
 	and "docs/djv_install.html".</p>
 	<p>Build the static web site:</p>
     <pre>
-> cd docs
-> bundle exec jekyll serve
+$ cd docs
+$ bundle exec jekyll serve
 </pre>
 	<p>Tag the git repository with the new version:</p>
 	<pre>
 git tag -a 2.0.0 -m "Version 2.0.0"
 git push origin 2.0.0
 </pre>
-    <p>Create a new sub-directory for a release build:</p>
+    <p>Create a release build:</p>
 	<pre>
-mkdir djv-Release
-cd djv-Release
-</pre>
-    <p>Run CMake and start the build:</p>
-	<pre>
-cmake ../djv-git -DCMAKE_BUILD_TYPE=Release -DDJV_BUILD_PACKAGE=TRUE
-make -j
+$ export PATH=$PATH:$PWD/DJV-install-Release/bin
+$ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/DJV-install-Release/lib
+$ mkdir DJV-third-party-Release
+$ cd DJV-third-party-Release
+$ cmake ../DJV/third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../DJV-install-Release
+$ make
+$ make install
+$ cd ..
+$ mkdir DJV-Release
+$ cd DJV-Release
+$ cmake ../DJV -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=../DJV-install-Release
+$ make
 </pre>
 	<p>Create an RPM package:</p>
 	<pre>
-cmake ../djv-git -DCPACK_GENERATOR=RPM -DCPACK_PACKAGING_INSTALL_PREFIX=/usr/local/DJV2 -DDJV_THIRD_PARTY_DISABLE_BUILD=TRUE
-make package
+$ cmake ../DJV -DCPACK_GENERATOR=RPM -DCPACK_PACKAGING_INSTALL_PREFIX=/usr/local/DJV2
+$ make package
 </pre>
 	<p>Create a Debian package:</p>
 	<pre>
-cmake ../djv-git -DCPACK_GENERATOR=DEB -DCPACK_PACKAGING_INSTALL_PREFIX=/usr/local/DJV2 -DDJV_THIRD_PARTY_DISABLE_BUILD=TRUE
-make package
+$ cmake ../DJV -DCPACK_GENERATOR=DEB -DCPACK_PACKAGING_INSTALL_PREFIX=/usr/local/DJV2
+$ make package
 </pre>
 	<p>Create a TGZ package:</p>
 	<pre>
-cmake ../djv-git -DCPACK_GENERATOR=TGZ -DCPACK_PACKAGING_INSTALL_PREFIX= -DDJV_THIRD_PARTY_DISABLE_BUILD=TRUE
-make package
+$ cmake ../DJV -DCPACK_GENERATOR=TGZ -DCPACK_PACKAGING_INSTALL_PREFIX=
+$ make package
 </pre>
 	<p>Bump the version number in "CMakeLists.txt", "Doxyfile", and "sonar-project.properties".</p>
+
 </div>
 
 

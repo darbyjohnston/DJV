@@ -58,6 +58,7 @@ endif()
 set(DJV_OPTIONAL
     ${DJV_OPTIONAL}
     #curl
+    NASM
     FFmpeg
     JPEGTurbo
     TIFF

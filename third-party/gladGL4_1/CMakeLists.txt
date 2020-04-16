@@ -9,6 +9,5 @@ install(
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib)
-
 install(FILES glad/glad.h DESTINATION include)
 install(FILES KHR/khrplatform.h DESTINATION include/KHR)
