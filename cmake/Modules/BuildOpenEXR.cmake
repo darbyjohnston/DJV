@@ -27,9 +27,9 @@ if(NOT OPENEXR_SHARED_LIBS)
     set(OpenEXR_ARGS ${OpenEXR_ARGS} -DOPENEXR_BUILD_STATIC=1)
 endif()
 ExternalProject_Add(
-    OpenEXRThirdParty
+    OpenEXR
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/OpenEXR
-    DEPENDS IlmBaseThirdParty ZLIBThirdParty
+    DEPENDS IlmBase ZLIB
     URL http://github.com/openexr/openexr/releases/download/v2.3.0/openexr-2.3.0.tar.gz
     PATCH_COMMAND
         ${CMAKE_COMMAND} -E tar xf

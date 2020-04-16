@@ -1,9 +1,9 @@
 include(ExternalProject)
 
 ExternalProject_Add(
-    OpenNURBSThirdParty
+    OpenNURBS
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/OpenNURBS
-    DEPENDS ZLIBThirdParty
+    DEPENDS ZLIB
     GIT_REPOSITORY https://github.com/darbyjohnston/opennurbs
     GIT_TAG origin/zlib
     CMAKE_ARGS

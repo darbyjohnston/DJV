@@ -15,7 +15,7 @@ if(DJV_BUILD_PACKAGE)
     set(RtAudio_ARGS ${RtAudio_ARGS} -DRTAUDIO_API_JACK=FALSE)
 endif()
 ExternalProject_Add(
-    RtAudioThirdParty
+    RtAudio
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/RtAudio
     GIT_REPOSITORY https://github.com/thestk/rtaudio.git
     CMAKE_ARGS ${RtAudio_ARGS})

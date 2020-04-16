@@ -16,7 +16,7 @@ if(NOT OPENAL_SHARED_LIBS)
     set(OPENAL_CMAKE_ARGS ${OPENAL_CMAKE_ARGS} -DLIBTYPE=STATIC)
 endif()
 ExternalProject_Add(
-    OpenALThirdParty
+    OpenAL
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/OpenAL
     URL http://github.com/kcat/openal-soft/archive/openal-soft-1.19.1.tar.gz
     CMAKE_ARGS ${OPENAL_CMAKE_ARGS})

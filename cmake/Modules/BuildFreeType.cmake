@@ -1,9 +1,9 @@
 include(ExternalProject)
 
 ExternalProject_Add(
-    FreeTypeThirdParty
+    FreeType
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/FreeType
-    DEPENDS ZLIBThirdParty
+    DEPENDS ZLIB
     URL http://download.savannah.gnu.org/releases/freetype/freetype-2.10.0.tar.gz
     CMAKE_ARGS
         -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}

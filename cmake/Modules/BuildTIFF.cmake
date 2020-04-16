@@ -1,14 +1,14 @@
 include(ExternalProject)
 
 ExternalProject_Add(
-    TIFFThirdParty
+    TIFF
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/TIFF
-    DEPENDS ZLIBThirdParty JPEGThirdParty
+    DEPENDS ZLIB JPEG
     URL http://download.osgeo.org/libtiff/tiff-4.0.10.tar.gz
     PATCH_COMMAND
         ${CMAKE_COMMAND} -E copy
         ${CMAKE_SOURCE_DIR}/tiff-patch/CMakeLists.txt
-        ${CMAKE_CURRENT_BINARY_DIR}/TIFF/src/TIFFThirdParty/CMakeLists.txt
+        ${CMAKE_CURRENT_BINARY_DIR}/TIFF/src/TIFF/CMakeLists.txt
     CMAKE_ARGS
         -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}

@@ -10,7 +10,7 @@ set(OTIO_ARGS
     -DBUILD_SHARED_LIBS=${OTIO_SHARED_LIBS})
 set(OTIO_DEPENDS ${OTIO_DEPENDS})
 ExternalProject_Add(
-    OTIOThirdParty
+    OTIO
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/OTIO
     DEPENDS ${OTIO_DEPENDS}
     GIT_REPOSITORY https://github.com/PixarAnimationStudios/OpenTimelineIO.git

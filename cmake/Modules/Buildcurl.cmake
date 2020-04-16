@@ -16,15 +16,15 @@ elseif (APPLE)
     #set(curl_ARGS ${curl_ARGS} -DCMAKE_USE_SECTRANSP=TRUE)
     set(curl_ARGS ${curl_ARGS} -DCMAKE_INSTALL_LIBDIR=lib)
     set(curl_ARGS ${curl_ARGS} -DCMAKE_USE_MBEDTLS=TRUE)
-    set(curl_DEPENDS ${curl_DEPENDS} MbedTLSThirdParty)
+    set(curl_DEPENDS ${curl_DEPENDS} MbedTLS)
 else()
     set(curl_ARGS ${curl_ARGS} -DCMAKE_INSTALL_LIBDIR=lib)
     set(curl_ARGS ${curl_ARGS} -DCMAKE_USE_MBEDTLS=TRUE)
-    set(curl_DEPENDS ${curl_DEPENDS} MbedTLSThirdParty)
+    set(curl_DEPENDS ${curl_DEPENDS} MbedTLS)
 endif()
-set(curl_DEPENDS ${curl_DEPENDS} ZLIBThirdParty)
+set(curl_DEPENDS ${curl_DEPENDS} ZLIB)
 ExternalProject_Add(
-    curlThirdParty
+    curl
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/curl
     DEPENDS ${curl_DEPENDS}
     URL https://github.com/curl/curl/releases/download/curl-7_65_1/curl-7.65.1.tar.bz2

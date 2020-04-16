@@ -24,9 +24,9 @@ else()
         set(FFmpeg_CONFIGURE_ARGS ${FFmpeg_CONFIGURE_ARGS} --disable-static --enable-shared)
     endif()
     ExternalProject_Add(
-        FFmpegThirdParty
+        FFmpeg
         PREFIX ${CMAKE_CURRENT_BINARY_DIR}/FFmpeg
-        DEPENDS ZLIBThirdParty
+        DEPENDS ZLIB
         URL http://ffmpeg.org/releases/ffmpeg-4.2.2.tar.bz2
         BUILD_IN_SOURCE 1
         CONFIGURE_COMMAND ./configure ${FFmpeg_CONFIGURE_ARGS}

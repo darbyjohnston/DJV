@@ -1,9 +1,9 @@
 include(ExternalProject)
 
 ExternalProject_Add(
-    PNGThirdParty
+    PNG
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/PNG
-    DEPENDS ZLIBThirdParty
+    DEPENDS ZLIB
     URL "http://prdownloads.sourceforge.net/libpng/libpng-1.6.37.tar.gz?download"
     CMAKE_ARGS
         -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}

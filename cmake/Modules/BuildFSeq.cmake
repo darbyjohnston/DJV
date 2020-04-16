@@ -1,7 +1,7 @@
 include(ExternalProject)
 
 ExternalProject_Add(
-	FSeqThirdParty
+	FSeq
 	PREFIX ${CMAKE_CURRENT_BINARY_DIR}/FSeq
 	GIT_REPOSITORY https://github.com/darbyjohnston/FSeq.git
 	CMAKE_ARGS

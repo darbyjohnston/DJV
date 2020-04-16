@@ -1,7 +1,7 @@
 include(ExternalProject)
 
 ExternalProject_Add(
-    GLFWThirdParty
+    GLFW
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/GLFW
     URL http://github.com/glfw/glfw/releases/download/3.3.2/glfw-3.3.2.zip
     CMAKE_ARGS

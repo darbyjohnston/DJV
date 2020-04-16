@@ -24,12 +24,12 @@ if(WIN32 OR NOT ILMBASE_SHARED_LIBS)
     set(IlmBase_ARGS ${IlmBase_ARGS} -DBUILD_ILMBASE_STATIC=1)
 endif()
 ExternalProject_Add(
-    IlmBaseThirdParty
+    IlmBase
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/IlmBase
     URL http://github.com/openexr/openexr/releases/download/v2.3.0/ilmbase-2.3.0.tar.gz
     PATCH_COMMAND
         ${CMAKE_COMMAND} -E copy
         ${CMAKE_SOURCE_DIR}/ilmbase-patch/CMakeLists.txt
-        ${CMAKE_CURRENT_BINARY_DIR}/IlmBase/src/IlmBaseThirdParty/CMakeLists.txt
+        ${CMAKE_CURRENT_BINARY_DIR}/IlmBase/src/IlmBase/CMakeLists.txt
     CMAKE_ARGS ${IlmBase_ARGS})
 

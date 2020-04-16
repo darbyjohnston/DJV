@@ -1,9 +1,9 @@
 include(ExternalProject)
 
 ExternalProject_Add(
-    MbedTLSThirdParty
+    MbedTLS
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/MbedTLS
-    DEPENDS ZLIBThirdParty
+    DEPENDS ZLIB
     URL https://github.com/ARMmbed/mbedtls/archive/mbedtls-2.16.2.tar.gz
     CMAKE_ARGS
         -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}

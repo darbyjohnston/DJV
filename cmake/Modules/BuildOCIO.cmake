@@ -25,13 +25,13 @@ else()
 endif()
 cmake_host_system_information(RESULT HAS_SSE2 QUERY HAS_SSE2)
 set(OCIO_ARGS ${OCIO_ARGS} -DOCIO_USE_SSE=${HAS_SSE2})
-file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/OCIO/src/OCIOThirdParty-build/ext)
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/OCIO/src/OCIO-build/ext)
 ExternalProject_Add(
-    OCIOThirdParty
+    OCIO
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/OCIO
     URL "http://github.com/imageworks/OpenColorIO/archive/v1.1.1.tar.gz"
     PATCH_COMMAND ${CMAKE_COMMAND} -E copy
         ${CMAKE_SOURCE_DIR}/ocio-patch/src/core/CMakeLists.txt
-        ${CMAKE_CURRENT_BINARY_DIR}/OCIO/src/OCIOThirdParty/src/core/CMakeLists.txt
+        ${CMAKE_CURRENT_BINARY_DIR}/OCIO/src/OCIO/src/core/CMakeLists.txt
     CMAKE_ARGS ${OCIO_ARGS})
 
