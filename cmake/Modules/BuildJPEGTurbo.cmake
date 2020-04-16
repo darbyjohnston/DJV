@@ -1,6 +1,6 @@
 include(ExternalProject)
 
-if(NOT DJV_THIRD_PARTY_DISABLE_BUILD)
+if(NOT JPEGThirdParty)
     ExternalProject_Add(
         JPEGThirdParty
         PREFIX ${CMAKE_CURRENT_BINARY_DIR}/JPEG

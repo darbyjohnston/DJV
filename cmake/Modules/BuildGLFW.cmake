@@ -1,6 +1,6 @@
 include(ExternalProject)
 
-if(NOT DJV_THIRD_PARTY_DISABLE_BUILD)
+if(NOT GLFWThirdParty)
     ExternalProject_Add(
         GLFWThirdParty
         PREFIX ${CMAKE_CURRENT_BINARY_DIR}/GLFW

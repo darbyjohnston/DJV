@@ -1,13 +1,13 @@
 include(ExternalProject)
 
-if(NOT DJV_THIRD_PARTY_DISABLE_BUILD)
+if(NOT PicoJSONThirdParty)
     ExternalProject_Add(
         PicoJSONThirdParty
         PREFIX ${CMAKE_CURRENT_BINARY_DIR}/PicoJSON
         URL http://github.com/kazuho/picojson/archive/master.zip
         PATCH_COMMAND
             ${CMAKE_COMMAND} -E copy
-                ${CMAKE_SOURCE_DIR}/third-party/picojson-patch/CMakeLists.txt
+                ${CMAKE_SOURCE_DIR}/picojson-patch/CMakeLists.txt
                 ${CMAKE_CURRENT_BINARY_DIR}/PicoJSON/src/PicoJSONThirdParty/CMakeLists.txt
         CMAKE_ARGS
             -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}

@@ -1,6 +1,6 @@
 include(ExternalProject)
 
-if(NOT DJV_THIRD_PARTY_DISABLE_BUILD)
+if(NOT IlmBaseThirdParty)
     set(ILMBASE_RUNTIME_DIR lib)
     if(WIN32)
         set(ILMBASE_RUNTIME_DIR bin)
@@ -30,7 +30,7 @@ if(NOT DJV_THIRD_PARTY_DISABLE_BUILD)
         URL http://github.com/openexr/openexr/releases/download/v2.3.0/ilmbase-2.3.0.tar.gz
         PATCH_COMMAND
             ${CMAKE_COMMAND} -E copy
-            ${CMAKE_SOURCE_DIR}/third-party/ilmbase-patch/CMakeLists.txt
+            ${CMAKE_SOURCE_DIR}/ilmbase-patch/CMakeLists.txt
             ${CMAKE_CURRENT_BINARY_DIR}/IlmBase/src/IlmBaseThirdParty/CMakeLists.txt
         CMAKE_ARGS ${IlmBase_ARGS})
 endif()

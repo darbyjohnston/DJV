@@ -1,6 +1,6 @@
 include(ExternalProject)
 
-if(NOT DJV_THIRD_PARTY_DISABLE_BUILD)
+if(NOT RtAudioThirdParty)
     set(RtAudio_ARGS
         -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}

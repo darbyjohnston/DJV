@@ -1,6 +1,6 @@
 include(ExternalProject)
 
-if(NOT DJV_THIRD_PARTY_DISABLE_BUILD)
+if(NOT OCIOThirdParty)
     set(OCIO_ARGS
         -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
@@ -32,7 +32,7 @@ if(NOT DJV_THIRD_PARTY_DISABLE_BUILD)
         PREFIX ${CMAKE_CURRENT_BINARY_DIR}/OCIO
         URL "http://github.com/imageworks/OpenColorIO/archive/v1.1.1.tar.gz"
         PATCH_COMMAND ${CMAKE_COMMAND} -E copy
-            ${CMAKE_SOURCE_DIR}/third-party/ocio-patch/src/core/CMakeLists.txt
+            ${CMAKE_SOURCE_DIR}/ocio-patch/src/core/CMakeLists.txt
             ${CMAKE_CURRENT_BINARY_DIR}/OCIO/src/OCIOThirdParty/src/core/CMakeLists.txt
         CMAKE_ARGS ${OCIO_ARGS})
 endif()

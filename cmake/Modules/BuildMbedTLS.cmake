@@ -1,6 +1,6 @@
 include(ExternalProject)
 
-if(NOT DJV_THIRD_PARTY_DISABLE_BUILD)
+if(NOT MbedTLSThirdParty)
     ExternalProject_Add(
         MbedTLSThirdParty
         PREFIX ${CMAKE_CURRENT_BINARY_DIR}/MbedTLS

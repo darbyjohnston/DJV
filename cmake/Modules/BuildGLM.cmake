@@ -1,13 +1,13 @@
 include(ExternalProject)
 
-if(NOT DJV_THIRD_PARTY_DISABLE_BUILD)
+if(NOT GLMThirdParty)
     ExternalProject_Add(
         GLMThirdParty
         PREFIX ${CMAKE_CURRENT_BINARY_DIR}/GLM
         URL http://github.com/g-truc/glm/releases/download/0.9.9.5/glm-0.9.9.5.zip
         PATCH_COMMAND
             ${CMAKE_COMMAND} -E copy
-            ${CMAKE_SOURCE_DIR}/third-party/glm-patch/CMakeLists.txt
+            ${CMAKE_SOURCE_DIR}/glm-patch/CMakeLists.txt
             ${CMAKE_CURRENT_BINARY_DIR}/GLM/src/GLMThirdParty/CMakeLists.txt
         CMAKE_ARGS
             -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}

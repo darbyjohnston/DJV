@@ -138,3 +138,67 @@ if(FFmpeg_FOUND AND NOT TARGET FFmpeg)
     target_link_libraries(FFmpeg INTERFACE ZLIB::ZLIB)
 endif()
 
+if(FFmpeg_FOUND)
+	if(WIN32)
+		install(
+			FILES
+			${CMAKE_PREFIX_PATH}/bin/avcodec-58.dll
+			${CMAKE_PREFIX_PATH}/bin/avdevice-58.dll
+			${CMAKE_PREFIX_PATH}/bin/avfilter-7.dll
+			${CMAKE_PREFIX_PATH}/bin/avformat-58.dll
+			${CMAKE_PREFIX_PATH}/bin/avutil-56.dll
+			${CMAKE_PREFIX_PATH}/bin/swresample-3.dll
+			${CMAKE_PREFIX_PATH}/bin/swscale-5.dll
+			DESTINATION bin)
+	elseif(APPLE)
+		install(
+			FILES
+			${FFmpeg_LIBAVCODEC}
+			${CMAKE_PREFIX_PATH}/lib/libavcodec.58.dylib
+			${CMAKE_PREFIX_PATH}/lib/libavcodec.58.54.100.dylib
+			${FFmpeg_LIBAVDEVICE}
+			${CMAKE_PREFIX_PATH}/lib/libavdevice.58.dylib
+			${CMAKE_PREFIX_PATH}/lib/libavdevice.58.8.100.dylib
+			${FFmpeg_LIBAVFILTER}
+			${CMAKE_PREFIX_PATH}/lib/libavfilter.7.dylib
+			${CMAKE_PREFIX_PATH}/lib/libavfilter.7.57.100.dylib
+			${FFmpeg_LIBAVFORMAT}
+			${CMAKE_PREFIX_PATH}/lib/libavformat.58.dylib
+			${CMAKE_PREFIX_PATH}/lib/libavformat.58.29.100.dylib
+			${FFmpeg_LIBAVUTIL}
+			${CMAKE_PREFIX_PATH}/lib/libavutil.56.dylib
+			${CMAKE_PREFIX_PATH}/lib/libavutil.56.31.100.dylib
+			${FFmpeg_LIBSWRESAMPLE}
+			${CMAKE_PREFIX_PATH}/lib/libswresample.3.dylib
+			${CMAKE_PREFIX_PATH}/lib/libswresample.3.5.100.dylib
+			${FFmpeg_LIBSWSCALE}
+			${CMAKE_PREFIX_PATH}/lib/libswscale.5.dylib
+			${CMAKE_PREFIX_PATH}/lib/libswscale.5.5.100.dylib
+			DESTINATION lib)
+	else()
+		install(
+			FILES
+			${FFmpeg_LIBAVCODEC}
+			${FFmpeg_LIBAVCODEC}.58
+			${FFmpeg_LIBAVCODEC}.58.54.100
+			${FFmpeg_LIBAVDEVICE}
+			${FFmpeg_LIBAVDEVICE}.58
+			${FFmpeg_LIBAVDEVICE}.58.8.100
+			${FFmpeg_LIBAVFILTER}
+			${FFmpeg_LIBAVFILTER}.7
+			${FFmpeg_LIBAVFILTER}.7.57.100
+			${FFmpeg_LIBAVFORMAT}
+			${FFmpeg_LIBAVFORMAT}.58
+			${FFmpeg_LIBAVFORMAT}.58.29.100
+			${FFmpeg_LIBAVUTIL}
+			${FFmpeg_LIBAVUTIL}.56
+			${FFmpeg_LIBAVUTIL}.56.31.100
+			${FFmpeg_LIBSWRESAMPLE}
+			${FFmpeg_LIBSWRESAMPLE}.3
+			${FFmpeg_LIBSWRESAMPLE}.3.5.100
+			${FFmpeg_LIBSWSCALE}
+			${FFmpeg_LIBSWSCALE}.5
+			${FFmpeg_LIBSWSCALE}.5.5.100
+			DESTINATION lib)
+	endif()
+endif()

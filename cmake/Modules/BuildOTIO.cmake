@@ -1,6 +1,6 @@
 include(ExternalProject)
 
-if(NOT DJV_THIRD_PARTY_DISABLE_BUILD)
+if(NOT OTIOThirdParty)
     set(OTIO_ARGS
         -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
@@ -17,7 +17,7 @@ if(NOT DJV_THIRD_PARTY_DISABLE_BUILD)
         GIT_REPOSITORY https://github.com/PixarAnimationStudios/OpenTimelineIO.git
         PATCH_COMMAND
             ${CMAKE_COMMAND} -E tar xf
-            ${CMAKE_SOURCE_DIR}/third-party/otio-patch.tar.gz
+            ${CMAKE_SOURCE_DIR}/otio-patch.tar.gz
         CMAKE_ARGS ${OTIO_ARGS})
 endif()
 

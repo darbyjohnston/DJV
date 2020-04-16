@@ -1,6 +1,6 @@
 include(ExternalProject)
 
-if(NOT DJV_THIRD_PARTY_DISABLE_BUILD)
+if(NOT FreeTypeThirdParty)
     ExternalProject_Add(
         FreeTypeThirdParty
         PREFIX ${CMAKE_CURRENT_BINARY_DIR}/FreeType

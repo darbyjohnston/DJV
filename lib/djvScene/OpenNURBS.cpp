@@ -45,7 +45,7 @@
 #include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 
-#include <opennurbs.h>
+#include <opennurbs/opennurbs.h>
 
 #include <glm/gtc/matrix_transform.hpp>
 

@@ -56,4 +56,3 @@ if(OPENAL_FOUND AND NOT TARGET OpenAL)
     add_library(OpenAL INTERFACE)
     target_link_libraries(OpenAL INTERFACE OpenAL::OpenAL)
 endif()
-

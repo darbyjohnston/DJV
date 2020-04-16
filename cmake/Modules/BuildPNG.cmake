@@ -1,6 +1,6 @@
 include(ExternalProject)
 
-if(NOT DJV_THIRD_PARTY_DISABLE_BUILD)
+if(NOT PNGThirdParty)
     ExternalProject_Add(
         PNGThirdParty
         PREFIX ${CMAKE_CURRENT_BINARY_DIR}/PNG

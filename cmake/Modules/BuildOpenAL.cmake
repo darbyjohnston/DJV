@@ -1,6 +1,6 @@
 include(ExternalProject)
 
-if(NOT DJV_THIRD_PARTY_DISABLE_BUILD)
+if(NOT OpenALThirdParty)
     set(OPENAL_CMAKE_ARGS
         -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
@@ -58,25 +58,3 @@ if(OPENAL_FOUND AND NOT TARGET OpenAL)
     add_library(OpenAL INTERFACE)
     target_link_libraries(OpenAL INTERFACE OpenAL::OpenAL)
 endif()
-
-if(WIN32)
-    install(
-        FILES
-        ${CMAKE_INSTALL_PREFIX}/bin/OpenAL32.dll
-        DESTINATION ${DJV_INSTALL_BIN})
-elseif(APPLE)
-    install(
-        FILES
-        ${OPENAL_LIBRARY}
-        ${CMAKE_INSTALL_PREFIX}/lib/libopenal.1.dylib
-        ${CMAKE_INSTALL_PREFIX}/lib/libopenal.1.19.1.dylib
-        DESTINATION ${DJV_INSTALL_LIB})
-else()
-    install(
-        FILES
-        ${OPENAL_LIBRARY}
-        ${OPENAL_LIBRARY}.1
-        ${OPENAL_LIBRARY}.1.19.1
-        DESTINATION ${DJV_INSTALL_LIB})
-endif()
-

@@ -140,7 +140,7 @@ add_library(djvCore ${header} ${source})
 set(LIBRARIES
     GLM
     PicoJSON
-    fseq
+    FSeq
     Threads::Threads
     ${CMAKE_DL_LIBS})
 if (WIN32)

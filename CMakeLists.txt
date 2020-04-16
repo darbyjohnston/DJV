@@ -37,15 +37,6 @@ enable_testing()
 set(DJV_GPROF FALSE CACHE BOOL "Enable gprof profiling")
 set(DJV_GCOV FALSE CACHE BOOL "Enable gcov code coverage")
 
-# Third party options.
-set(DJV_THIRD_PARTY TRUE CACHE BOOL "Build third party dependencies")
-set(DJV_THIRD_PARTY_OPTIONAL TRUE CACHE BOOL "Build optional third party dependencies")
-
-# This is used to disable ExternalProject_Add() for third party dependencies. This
-# can be helpful for speeding up compile iterations after the third party
-# dependencies have been built.
-set(DJV_THIRD_PARTY_DISABLE_BUILD FALSE CACHE BOOL "Disable building third party dependencies")
-
 # Experimental options.
 set(DJV_OPENGL_ES2 FALSE CACHE BOOL "OpenGL ES 2.0 rendering (experiemental)")
 if(DJV_OPENGL_ES2)
@@ -94,8 +85,7 @@ set(DJV_INSTALL_DOCS docs)
 set(INCLUDE_DIRS
     ${CMAKE_SOURCE_DIR}/lib
     ${CMAKE_SOURCE_DIR}/bin
-    ${CMAKE_SOURCE_DIR}/tests
-    ${CMAKE_SOURCE_DIR}/third-party)
+    ${CMAKE_SOURCE_DIR}/tests)
 if(DJV_PYTHON)
     set(INCLUDE_DIRS
         ${INCLUDE_DIRS}
@@ -139,33 +129,16 @@ endif()
 find_package(Threads REQUIRED)
 find_package(OpenGL REQUIRED)
 
-# Select the GLAD OpenGL version.
-if(DJV_OPENGL_ES2)
-    include_directories(${CMAKE_SOURCE_DIR}/third-party/gladGL2ES)
-    add_subdirectory(third-party/gladGL2ES)
-else()
-    include_directories(${CMAKE_SOURCE_DIR}/third-party/gladGL4_1)
-    add_subdirectory(third-party/gladGL4_1)
-endif()
-
 # Add Python dependency.
 if(DJV_PYTHON)
 	find_package(Python)
 endif()
 
-# Add FSeq dependency.
-add_subdirectory(third-party/fseq)
-
-# If we are building third party dependencies setup the install paths.
-if(DJV_THIRD_PARTY)
-    set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/install)
-    set(CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR}/install)
-endif()
-
 # Set the list of required third party dependencies.
-set(DJV_THIRD_PARTY_REQUIRED_DEPS ZLIB)
 set(DJV_THIRD_PARTY_REQUIRED_DEPS
-    ${DJV_THIRD_PARTY_REQUIRED_DEPS}
+	glad
+	FSeq
+	ZLIB
     GLM
     GLFW
     PicoJSON
@@ -189,7 +162,7 @@ set(DJV_THIRD_PARTY_OPTIONAL_DEPS
     ${DJV_THIRD_PARTY_OPTIONAL_DEPS}
     #curl
     FFmpeg
-    JPEGTurbo
+    JPEG
     TIFF
     OpenEXR)
 if(WIN32)
@@ -199,51 +172,28 @@ if(WIN32)
 else()
 endif()
 
-# Set whether shared libraries are used for dependencies.
-if(DJV_THIRD_PARTY)
-    set(ZLIB_SHARED_LIBS ${BUILD_SHARED_LIBS})
-    #set(OPENAL_SHARED_LIBS ON)
-    set(RtAudio_SHARED_LIBS ${BUILD_SHARED_LIBS})
-    set(JPEG_SHARED_LIBS ${BUILD_SHARED_LIBS})
-    set(TIFF_SHARED_LIBS ${BUILD_SHARED_LIBS})
-    set(PNG_SHARED_LIBS ${BUILD_SHARED_LIBS})
-    set(ILMBASE_SHARED_LIBS ${BUILD_SHARED_LIBS})
-    set(OPENEXR_SHARED_LIBS ${BUILD_SHARED_LIBS})
-	set(OCIO_SHARED_LIBS ${BUILD_SHARED_LIBS})
-	set(OTIO_SHARED_LIBS ${BUILD_SHARED_LIBS})
-    set(FFmpeg_SHARED_LIBS ON)
-else()
-    set(ZLIB_SHARED_LIBS ON)
-    #set(OPENAL_SHARED_LIBS ON)
-    set(RtAudio_SHARED_LIBS ON)
-    set(JPEG_SHARED_LIBS ON)
-    set(TIFF_SHARED_LIBS ON)
-    set(PNG_SHARED_LIBS ON)
-    set(ILMBASE_SHARED_LIBS ON)
-    set(OPENEXR_SHARED_LIBS ON)
-	set(OCIO_SHARED_LIBS ON)
-	set(OTIO_SHARED_LIBS ON)
-    set(FFmpeg_SHARED_LIBS ON)
-endif()
+# Set whether shared libraries are used for the dependencies.
+set(glad_SHARED_LIBS ${BUILD_SHARED_LIBS})
+set(FSeq_SHARED_LIBS ${BUILD_SHARED_LIBS})
+set(ZLIB_SHARED_LIBS ${BUILD_SHARED_LIBS})
+#set(OPENAL_SHARED_LIBS ON)
+set(RtAudio_SHARED_LIBS ${BUILD_SHARED_LIBS})
+set(JPEG_SHARED_LIBS ${BUILD_SHARED_LIBS})
+set(TIFF_SHARED_LIBS ${BUILD_SHARED_LIBS})
+set(PNG_SHARED_LIBS ${BUILD_SHARED_LIBS})
+set(ILMBASE_SHARED_LIBS ${BUILD_SHARED_LIBS})
+set(OPENEXR_SHARED_LIBS ${BUILD_SHARED_LIBS})
+set(OCIO_SHARED_LIBS ${BUILD_SHARED_LIBS})
+set(OTIO_SHARED_LIBS ${BUILD_SHARED_LIBS})
+set(FFmpeg_SHARED_LIBS ON)
 
 # Add the third party dependencies.
-if(DJV_THIRD_PARTY)
-    foreach(PACKAGE ${DJV_THIRD_PARTY_REQUIRED_DEPS})
-        include(Build${PACKAGE})
-    endforeach()
-    if(DJV_THIRD_PARTY_OPTIONAL)
-        foreach(PACKAGE ${DJV_THIRD_PARTY_OPTIONAL_DEPS})
-            include(Build${PACKAGE})
-        endforeach()
-    endif()
-else()
-    foreach(PACKAGE ${DJV_THIRD_PARTY_REQUIRED_DEPS})
-        find_package(${PACKAGE} REQUIRED)
-    endforeach()
-    foreach(PACKAGE ${DJV_THIRD_PARTY_OPTIONAL_DEPS})
-        find_package(${PACKAGE})
-    endforeach()
-endif()
+foreach(PACKAGE ${DJV_THIRD_PARTY_REQUIRED_DEPS})
+	find_package(${PACKAGE} REQUIRED)
+endforeach()
+foreach(PACKAGE ${DJV_THIRD_PARTY_OPTIONAL_DEPS})
+	find_package(${PACKAGE})
+endforeach()
 
 #-------------------------------------------------------------------------------
 # Resources
@@ -348,7 +298,6 @@ set(DJV_RESOURCE_FILES
 
 include(djvPackage)
 
-add_subdirectory(third-party)
 add_subdirectory(lib)
 add_subdirectory(tests)
 if(NOT DJV_BUILD_TINY)

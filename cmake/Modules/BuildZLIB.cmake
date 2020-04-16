@@ -1,12 +1,12 @@
 include(ExternalProject)
 
-if(NOT DJV_THIRD_PARTY_DISABLE_BUILD)
+if(NOT ZLIBThirdParty)
     ExternalProject_Add(
         ZLIBThirdParty
         PREFIX ${CMAKE_CURRENT_BINARY_DIR}/ZLIB
         URL http://www.zlib.net/zlib-1.2.11.tar.gz
         PATCH_COMMAND ${CMAKE_COMMAND} -E copy
-            ${CMAKE_SOURCE_DIR}/third-party/zlib-patch/CMakeLists.txt
+            ${CMAKE_SOURCE_DIR}/zlib-patch/CMakeLists.txt
             ${CMAKE_CURRENT_BINARY_DIR}/ZLIB/src/ZLIBThirdParty/CMakeLists.txt
         CMAKE_ARGS
             -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}

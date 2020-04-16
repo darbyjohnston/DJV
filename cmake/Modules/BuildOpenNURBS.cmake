@@ -1,6 +1,6 @@
 include(ExternalProject)
 
-if(NOT DJV_THIRD_PARTY_DISABLE_BUILD)
+if(NOT OpenNURBSThirdParty)
     ExternalProject_Add(
         OpenNURBSThirdParty
         PREFIX ${CMAKE_CURRENT_BINARY_DIR}/OpenNURBS

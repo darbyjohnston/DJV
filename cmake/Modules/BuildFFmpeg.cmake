@@ -1,6 +1,6 @@
 include(ExternalProject)
 
-if(NOT DJV_THIRD_PARTY_DISABLE_BUILD)
+if(NOT FFmpegThirdParty)
     if(WIN32)
         # See the directions for building FFmpeg on Windows in "docs/build_windows.html".
     else()
@@ -141,67 +141,3 @@ if(FFmpeg_FOUND AND NOT TARGET FFmpeg)
     target_link_libraries(FFmpeg INTERFACE FFmpeg::swresample)
     target_link_libraries(FFmpeg INTERFACE ZLIB::ZLIB)
 endif()
-
-if(WIN32)
-    install(
-        FILES
-        ${CMAKE_INSTALL_PREFIX}/bin/avcodec-58.dll
-        ${CMAKE_INSTALL_PREFIX}/bin/avdevice-58.dll
-        ${CMAKE_INSTALL_PREFIX}/bin/avfilter-7.dll
-        ${CMAKE_INSTALL_PREFIX}/bin/avformat-58.dll
-        ${CMAKE_INSTALL_PREFIX}/bin/avutil-56.dll
-        ${CMAKE_INSTALL_PREFIX}/bin/swresample-3.dll
-        ${CMAKE_INSTALL_PREFIX}/bin/swscale-5.dll
-        DESTINATION ${DJV_INSTALL_BIN})
-elseif(APPLE)
-    install(
-        FILES
-        ${FFmpeg_LIBAVCODEC}
-        ${CMAKE_INSTALL_PREFIX}/lib/libavcodec.58.dylib
-        ${CMAKE_INSTALL_PREFIX}/lib/libavcodec.58.54.100.dylib
-        ${FFmpeg_LIBAVDEVICE}
-        ${CMAKE_INSTALL_PREFIX}/lib/libavdevice.58.dylib
-        ${CMAKE_INSTALL_PREFIX}/lib/libavdevice.58.8.100.dylib
-        ${FFmpeg_LIBAVFILTER}
-        ${CMAKE_INSTALL_PREFIX}/lib/libavfilter.7.dylib
-        ${CMAKE_INSTALL_PREFIX}/lib/libavfilter.7.57.100.dylib
-        ${FFmpeg_LIBAVFORMAT}
-        ${CMAKE_INSTALL_PREFIX}/lib/libavformat.58.dylib
-        ${CMAKE_INSTALL_PREFIX}/lib/libavformat.58.29.100.dylib
-        ${FFmpeg_LIBAVUTIL}
-        ${CMAKE_INSTALL_PREFIX}/lib/libavutil.56.dylib
-        ${CMAKE_INSTALL_PREFIX}/lib/libavutil.56.31.100.dylib
-        ${FFmpeg_LIBSWRESAMPLE}
-        ${CMAKE_INSTALL_PREFIX}/lib/libswresample.3.dylib
-        ${CMAKE_INSTALL_PREFIX}/lib/libswresample.3.5.100.dylib
-        ${FFmpeg_LIBSWSCALE}
-        ${CMAKE_INSTALL_PREFIX}/lib/libswscale.5.dylib
-        ${CMAKE_INSTALL_PREFIX}/lib/libswscale.5.5.100.dylib
-        DESTINATION ${DJV_INSTALL_LIB})
-else()
-    install(
-        FILES
-        ${FFmpeg_LIBAVCODEC}
-        ${FFmpeg_LIBAVCODEC}.58
-        ${FFmpeg_LIBAVCODEC}.58.54.100
-        ${FFmpeg_LIBAVDEVICE}
-        ${FFmpeg_LIBAVDEVICE}.58
-        ${FFmpeg_LIBAVDEVICE}.58.8.100
-        ${FFmpeg_LIBAVFILTER}
-        ${FFmpeg_LIBAVFILTER}.7
-        ${FFmpeg_LIBAVFILTER}.7.57.100
-        ${FFmpeg_LIBAVFORMAT}
-        ${FFmpeg_LIBAVFORMAT}.58
-        ${FFmpeg_LIBAVFORMAT}.58.29.100
-        ${FFmpeg_LIBAVUTIL}
-        ${FFmpeg_LIBAVUTIL}.56
-        ${FFmpeg_LIBAVUTIL}.56.31.100
-        ${FFmpeg_LIBSWRESAMPLE}
-        ${FFmpeg_LIBSWRESAMPLE}.3
-        ${FFmpeg_LIBSWRESAMPLE}.3.5.100
-        ${FFmpeg_LIBSWSCALE}
-        ${FFmpeg_LIBSWSCALE}.5
-        ${FFmpeg_LIBSWSCALE}.5.5.100
-        DESTINATION ${DJV_INSTALL_LIB})
-endif()
-

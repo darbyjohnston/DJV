@@ -35,7 +35,7 @@
 
 extern "C"
 {
-#include <fseq/fseq.h>
+#include <fseq.h>
 
 } // extern "C"
 

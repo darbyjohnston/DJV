@@ -1,6 +1,6 @@
 include(ExternalProject)
 
-if(NOT DJV_THIRD_PARTY_DISABLE_BUILD)
+if(NOT OpenEXRThirdParty)
     set(OPENEXR_RUNTIME_DIR lib)
     if(WIN32)
         set(OPENEXR_RUNTIME_DIR bin)
@@ -34,7 +34,7 @@ if(NOT DJV_THIRD_PARTY_DISABLE_BUILD)
         URL http://github.com/openexr/openexr/releases/download/v2.3.0/openexr-2.3.0.tar.gz
         PATCH_COMMAND
             ${CMAKE_COMMAND} -E tar xf
-            ${CMAKE_SOURCE_DIR}/third-party/openexr-patch.tar.gz
+            ${CMAKE_SOURCE_DIR}/openexr-patch.tar.gz
         CMAKE_ARGS ${OpenEXR_ARGS})
 endif()
 

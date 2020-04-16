@@ -1,6 +1,6 @@
 include(ExternalProject)
 
-if(NOT DJV_THIRD_PARTY_DISABLE_BUILD)
+if(NOT TIFFThirdParty)
     ExternalProject_Add(
         TIFFThirdParty
         PREFIX ${CMAKE_CURRENT_BINARY_DIR}/TIFF
@@ -8,7 +8,7 @@ if(NOT DJV_THIRD_PARTY_DISABLE_BUILD)
         URL http://download.osgeo.org/libtiff/tiff-4.0.10.tar.gz
         PATCH_COMMAND
             ${CMAKE_COMMAND} -E copy
-            ${CMAKE_SOURCE_DIR}/third-party/tiff-patch/CMakeLists.txt
+            ${CMAKE_SOURCE_DIR}/tiff-patch/CMakeLists.txt
             ${CMAKE_CURRENT_BINARY_DIR}/TIFF/src/TIFFThirdParty/CMakeLists.txt
         CMAKE_ARGS
             -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}

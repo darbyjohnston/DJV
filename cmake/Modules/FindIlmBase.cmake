@@ -55,7 +55,7 @@ endif()
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(
-    ILMBASE
+    IlmBase
     REQUIRED_VARS
 		ILMBASE_INCLUDE_DIR
 		ILMBASE_HALF_LIBRARY

@@ -37,7 +37,7 @@ set(OPENEXR_LIBRARIES
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(
-    OPENEXR
+    OpenEXR
     REQUIRED_VARS OPENEXR_INCLUDE_DIR OPENEXR_LIBRARY)
 mark_as_advanced(OPENEXR_INCLUDE_DIR OPENEXR_LIBRARY)
 
