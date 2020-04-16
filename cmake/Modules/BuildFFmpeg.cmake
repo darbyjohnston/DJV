@@ -1,5 +1,11 @@
 include(ExternalProject)
 
+set(FFmpeg_DEPS ZLIB)
+if(WIN32)
+else()
+    set(FFmpeg_DEPS ${FFmpeg_DEPS} NASM)
+endif()
+
 if(WIN32)
     # See the directions for building FFmpeg on Windows in "docs/build_windows.html".
 else()
@@ -26,7 +32,7 @@ else()
     ExternalProject_Add(
         FFmpeg
         PREFIX ${CMAKE_CURRENT_BINARY_DIR}/FFmpeg
-        DEPENDS ZLIB
+        DEPENDS ${FFmpeg_DEPS}
         URL http://ffmpeg.org/releases/ffmpeg-4.2.2.tar.bz2
         BUILD_IN_SOURCE 1
         CONFIGURE_COMMAND ./configure ${FFmpeg_CONFIGURE_ARGS}

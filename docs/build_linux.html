@@ -26,8 +26,9 @@ title: Building on Linux
     in the rest of the documentation.</p>
 	<p>Append your PATH and LD_LIBRARY_PATH environment variables:</p>
 	<pre>
-$ export PATH=$PATH:$DJV_BUILD/DJV-install-Debug/bin
-$ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$DJV_BUILD/DJV-install-Debug/lib
+$ cd $BUILD_DIR
+$ export PATH=$PATH:$PWD/DJV-install-Debug/bin
+$ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/DJV-install-Debug/lib
 </pre>
 
 	<p class="subHeader"><a name="BuildingDJV">Building DJV</a></p>
@@ -47,9 +48,9 @@ $ cd ..
 </pre>
 	<p>Build DJV:</p>
 	<pre>
-$ mkdir djv-Debug
-$ cd djv-Debug
-$ cmake ../DJV -DCMAKE_BUILD_TYPE=Debug -DCMAKE_PREFIX_PATH=../DJV-install-Debug
+$ mkdir DJV-Debug
+$ cd DJV-Debug
+$ cmake ../DJV -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug -DCMAKE_PREFIX_PATH=../DJV-install-Debug
 $ make
 </pre>
 	<p>Try running the confidence tests to make sure everything is working OK:</p>
@@ -86,7 +87,7 @@ $ make install
 $ cd ..
 $ mkdir DJV-Release
 $ cd DJV-Release
-$ cmake ../DJV -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=../DJV-install-Release
+$ cmake ../DJV -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../DJV-install-Release -DCMAKE_PREFIX_PATH=../DJV-install-Release
 $ make
 </pre>
 	<p>Create an RPM package:</p>

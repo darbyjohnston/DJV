@@ -24,6 +24,7 @@
 		<li><a class="text" href="https://visualstudio.microsoft.com">Visual Studio</a> (version 2017 or later)</li>
 		<li><a class="text" href="https://cmake.org">CMake</a> (version 3.12 or later)</li>
 		<li><a class="text" href="https://git-scm.com">git</a></li>
+		<li><a class="text" href="https://www.nasm.us">NASM</a></li>
 	</ul>
 
 	<p class="subHeader"><a name="Preparation">Preparation</a></p>
@@ -81,25 +82,49 @@ $ make install
 > cd $BUILD_DIR
 > git clone https://github.com/darbyjohnston/DJV.git
 </pre>
-	<p>Create a new directory for the build and run CMake:</p>
+	<p>Build the third party dependencies:</p>
 	<pre>
-> mkdir djv-Debug
-> cd djv-Debug
-> cmake ..\DJV -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/DJV-install-Debug
+> mkdir DJV-third-party-Debug
+> cd DJV-third-party-Debug
+> cmake ..\DJV\third-party -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=..\DJV-install-Debug
+> nmake
+> nmake install
+> cd ..
 </pre>
-	<p>Open "DJV.sln" in Visual Studio and build the solution.</p>
-	<p>Try runing the confidence tests to make sure eveything works
-	by building the RUN_TESTS target.</p>
+	<p>Build DJV:</p>
+	<pre>
+> mkdir DJV-Debug
+> cd DJV-Debug
+> cmake ..\DJV -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_PREFIX_PATH=..\DJV-install-Debug -DCMAKE_INSTALL_PREFIX=..\DJV-install-Debug
+> nmake
+</pre>
+<p>Try running the confidence tests to make sure everything is working OK:</p>
+<pre>
+> nmake test
+</pre>
+<p>Run the djv player application:</p>
+<pre>
+> build\bin\djv
+</pre>
 
 	<p class="subHeader"><a name="Packaging">Packaging DJV</a></p>
-	<p>Create a new directory for a release build and run CMake:</p>
+	<p>Create a release build:</p>
 	<pre>
-> mkdir djv-Release
-> cd djv-Release
-> cmake ..\DJV -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/DJV-install-Release
+> mkdir DJV-third-party-Release
+> cd DJV-third-party-Release
+> cmake ..\DJV\third-party -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=..\DJV-install-Release
+> nmake
+> nmake install
+> cd ..
+> mkdir DJV-Release
+> cd DJV-Release
+> cmake ..\DJV -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=..\DJV-install-Release -DCMAKE_INSTALL_PREFIX=..\DJV-install-Release
+> nmake
 </pre>
-	<p>Open "DJV.sln" in Visual Studio and build the solution.</p>
-	<p>Create the packages by building the PACKAGE target.</p>
+	<p>Build the packages:</p>
+<pre>
+> nmake package
+</pre>
 </div>
 
 

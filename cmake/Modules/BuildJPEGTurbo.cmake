@@ -1,9 +1,15 @@
 include(ExternalProject)
 
+set(JPEG_DEPS ZLIB)
+if(WIN32)
+else()
+    set(JPEG_DEPS ${JPEG_DEPS} NASM)
+endif()
+
 ExternalProject_Add(
     JPEG
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/JPEG
-    DEPENDS ZLIB
+    DEPENDS ${JPEG_DEPS}
     URL "http://sourceforge.net/projects/libjpeg-turbo/files/2.0.2/libjpeg-turbo-2.0.2.tar.gz?download"
     CMAKE_ARGS
         -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}

@@ -4,7 +4,7 @@ project(DJV-third-party)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/../cmake/Modules)
 
-set(DJV_OPTIONAL CACHE BOOL "Build optional dependencies")
+set(DJV_OPTIONAL TRUE CACHE BOOL "Build optional dependencies")
 
 find_package(Threads REQUIRED)
 find_package(OpenGL REQUIRED)
