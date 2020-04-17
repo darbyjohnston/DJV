@@ -1,3 +1,7 @@
+# SPDX-License-Identifier: BSD-3-Clause
+# Copyright (c) 2020 Darby Johnston
+# All rights reserved.
+
 import djvCorePy.FileSystem as fs
 
 import unittest
