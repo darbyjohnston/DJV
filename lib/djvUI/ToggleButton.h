@@ -1,7 +1,6 @@
-// Copyright (c) 2017-2018 Darby Johnston
+// SPDX-License-Identifier: BSD-3-Clause
+// Copyright (c) 2017-2020 Darby Johnston
 // All rights reserved.
-//
-// See LICENSE.txt for licensing information.
 
 #pragma once
 
