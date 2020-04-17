@@ -134,7 +134,19 @@ namespace djv
         {}
 
         EventSystem::~EventSystem()
-        {}
+        {
+            DJV_PRIVATE_PTR();
+            glfwSetFramebufferSizeCallback(p.glfwWindow, nullptr);
+            glfwSetWindowContentScaleCallback(p.glfwWindow, nullptr);
+            glfwSetWindowRefreshCallback(p.glfwWindow, nullptr);
+            glfwSetCursorEnterCallback(p.glfwWindow, nullptr);
+            glfwSetCursorPosCallback(p.glfwWindow, nullptr);
+            glfwSetMouseButtonCallback(p.glfwWindow, nullptr);
+            glfwSetDropCallback(p.glfwWindow, nullptr);
+            glfwSetKeyCallback(p.glfwWindow, nullptr);
+            glfwSetCharModsCallback(p.glfwWindow, nullptr);
+            glfwSetScrollCallback(p.glfwWindow, nullptr);
+        }
 
         std::shared_ptr<EventSystem> EventSystem::create(GLFWwindow * glfwWindow, const std::shared_ptr<Context>& context)
         {
@@ -418,42 +430,74 @@ namespace djv
 
         void EventSystem::_resizeCallback(GLFWwindow * window, int width, int height)
         {
-            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
-            if (auto system = context->getSystemT<EventSystem>())
+            if (Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window)))
             {
-                system->_resize(glm::ivec2(width, height));
+                if (auto system = context->getSystemT<EventSystem>())
+                {
+                    system->_resize(glm::ivec2(width, height));
+                }
             }
         }
 
         void EventSystem::_contentScaleCallback(GLFWwindow* window, float scaleX, float scaleY)
         {
-            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
-            if (auto system = context->getSystemT<EventSystem>())
+            if (Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window)))
             {
-                system->_contentScale(glm::vec2(scaleX, scaleY));
+                if (auto system = context->getSystemT<EventSystem>())
+                {
+                    system->_contentScale(glm::vec2(scaleX, scaleY));
+                }
             }
         }
 
         void EventSystem::_redrawCallback(GLFWwindow * window)
         {
-            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
-            if (auto system = context->getSystemT<EventSystem>())
+            if (Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window)))
             {
-                system->_redraw();
+                if (auto system = context->getSystemT<EventSystem>())
+                {
+                    system->_redraw();
+                }
             }
         }
 
         void EventSystem::_pointerEnterCallback(GLFWwindow* window, int value)
         {
-            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
-            if (auto system = context->getSystemT<EventSystem>())
+            if (Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window)))
             {
-                if (GLFW_FALSE == value)
+                if (auto system = context->getSystemT<EventSystem>())
+                {
+                    if (GLFW_FALSE == value)
+                    {
+                        Event::PointerInfo info;
+                        info.id = pointerID;
+                        info.pos.x = -1.F;
+                        info.pos.y = -1.F;
+                        info.pos.z = 0.F;
+                        info.dir.x = 0.F;
+                        info.dir.y = 0.F;
+                        info.dir.z = 1.F;
+                        info.projectedPos = info.pos;
+                        system->_pointerMove(info);
+                    }
+                }
+            }
+        }
+
+        void EventSystem::_pointerCallback(GLFWwindow * window, double x, double y)
+        {
+            if (Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window)))
+            {
+                if (auto system = context->getSystemT<EventSystem>())
                 {
                     Event::PointerInfo info;
                     info.id = pointerID;
-                    info.pos.x = -1.F;
-                    info.pos.y = -1.F;
+                    info.pos.x = static_cast<float>(x);
+                    info.pos.y = static_cast<float>(y);
+#if defined(DJV_PLATFORM_OSX)
+                    info.pos.x *= system->_p->contentScale.x;
+                    info.pos.y *= system->_p->contentScale.y;
+#endif // DJV_PLATFORM_OSX
                     info.pos.z = 0.F;
                     info.dir.x = 0.F;
                     info.dir.y = 0.F;
@@ -464,88 +508,76 @@ namespace djv
             }
         }
 
-        void EventSystem::_pointerCallback(GLFWwindow * window, double x, double y)
-        {
-            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
-            if (auto system = context->getSystemT<EventSystem>())
-            {
-                Event::PointerInfo info;
-                info.id = pointerID;
-                info.pos.x = static_cast<float>(x);
-                info.pos.y = static_cast<float>(y);
-#if defined(DJV_PLATFORM_OSX)
-                info.pos.x *= system->_p->contentScale.x;
-                info.pos.y *= system->_p->contentScale.y;
-#endif // DJV_PLATFORM_OSX
-                info.pos.z = 0.F;
-                info.dir.x = 0.F;
-                info.dir.y = 0.F;
-                info.dir.z = 1.F;
-                info.projectedPos = info.pos;
-                system->_pointerMove(info);
-            }
-        }
-
         void EventSystem::_buttonCallback(GLFWwindow * window, int button, int action, int modifiers)
         {
-            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
-            if (auto system = context->getSystemT<EventSystem>())
+            if (Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window)))
             {
-                switch (action)
+                if (auto system = context->getSystemT<EventSystem>())
                 {
-                case GLFW_PRESS:   system->_buttonPress  (fromGLFWPointerButton(button)); break;
-                case GLFW_RELEASE: system->_buttonRelease(fromGLFWPointerButton(button)); break;
-                default: break;
+                    switch (action)
+                    {
+                    case GLFW_PRESS:   system->_buttonPress  (fromGLFWPointerButton(button)); break;
+                    case GLFW_RELEASE: system->_buttonRelease(fromGLFWPointerButton(button)); break;
+                    default: break;
+                    }
                 }
             }
         }
 
         void EventSystem::_dropCallback(GLFWwindow * window, int count, const char ** paths)
         {
-            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
-            if (auto system = context->getSystemT<EventSystem>())
+            if (Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window)))
             {
-                std::vector<std::string> list;
-                for (int i = 0; i < count; ++i)
+                if (auto system = context->getSystemT<EventSystem>())
                 {
-                    list.push_back(paths[i]);
+                    std::vector<std::string> list;
+                    for (int i = 0; i < count; ++i)
+                    {
+                        list.push_back(paths[i]);
+                    }
+                    system->_drop(list);
                 }
-                system->_drop(list);
             }
         }
 
         void EventSystem::_keyCallback(GLFWwindow * window, int key, int scancode, int action, int modifiers)
         {
-            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
-            if (auto system = context->getSystemT<EventSystem>())
+            if (Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window)))
             {
-                switch (action)
+                if (auto system = context->getSystemT<EventSystem>())
                 {
-                case GLFW_PRESS:   system->_keyPress  (key, modifiers); break;
-                case GLFW_REPEAT:  system->_keyPress  (key, modifiers); break;
-                case GLFW_RELEASE: system->_keyRelease(key, modifiers); break;
-                default: break;
+                    switch (action)
+                    {
+                    case GLFW_PRESS:   system->_keyPress  (key, modifiers); break;
+                    case GLFW_REPEAT:  system->_keyPress  (key, modifiers); break;
+                    case GLFW_RELEASE: system->_keyRelease(key, modifiers); break;
+                    default: break;
+                    }
                 }
             }
         }
 
         void EventSystem::_charCallback(GLFWwindow * window, unsigned int character, int modifiers)
         {
-            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
-            if (auto system = context->getSystemT<EventSystem>())
+            if (Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window)))
             {
-                std::basic_string<djv_char_t> utf32;
-                utf32.push_back(character);
-                system->_text(utf32, modifiers);
+                if (auto system = context->getSystemT<EventSystem>())
+                {
+                    std::basic_string<djv_char_t> utf32;
+                    utf32.push_back(character);
+                    system->_text(utf32, modifiers);
+                }
             }
         }
 
         void EventSystem::_scrollCallback(GLFWwindow * window, double x, double y)
         {
-            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
-            if (auto system = context->getSystemT<EventSystem>())
+            if (Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window)))
             {
-                system->_scroll(x, y);
+                if (auto system = context->getSystemT<EventSystem>())
+                {
+                    system->_scroll(x, y);
+                }
             }
         }
 
