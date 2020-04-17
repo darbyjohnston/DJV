@@ -31,7 +31,7 @@ before_script:
 - cd DJV-third-party-Debug
 - cmake ../../third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_PYTHON=FALSE -DDJV_OPENGL_ES2=TRUE
 - cmake --build .
-- cmake --install .
+- cmake --build . --target install
 - cd ..
 - echo "Building DJV..."
 - mkdir DJV-Debug
