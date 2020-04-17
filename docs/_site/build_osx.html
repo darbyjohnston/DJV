@@ -55,8 +55,8 @@ $ git clone https://github.com/darbyjohnston/DJV.git
 $ mkdir DJV-third-party-Debug
 $ cd DJV-third-party-Debug
 $ cmake ../DJV/third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug -DCMAKE_FIND_FRAMEWORK="LAST"
-$ make
-$ make install
+$ cmake --build .
+$ cmake --build . --target install
 $ cd ..
 </pre>
 	<p>Build DJV:</p>
@@ -64,11 +64,11 @@ $ cd ..
 $ mkdir DJV-Debug
 $ cd DJV-Debug
 $ cmake ../DJV -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug -DCMAKE_PREFIX_PATH=../DJV-install-Debug -DCMAKE_FIND_FRAMEWORK="LAST"
-$ make
+$ cmake --build .
 </pre>
 	<p>Try running the confidence tests to make sure everything is working OK:</p>
 	<pre>
-$ make test
+$ cmake --build . --target test
 </pre>
 	<p>Run the djv player application:</p>
 	<pre>
@@ -85,17 +85,17 @@ $ export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$PWD/DJV-install-Release/lib
 $ mkdir DJV-third-party-Release
 $ cd DJV-third-party-Release
 $ cmake ../DJV/third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../DJV-install-Release -DCMAKE_FIND_FRAMEWORK="LAST"
-$ make
-$ make install
+$ cmake --build .
+$ cmake --build . --target install
 $ cd ..
 $ mkdir DJV-Release
 $ cd DJV-Release
 $ cmake ../DJV -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../DJV-install-Release -DCMAKE_PREFIX_PATH=../DJV-install-Release -DCMAKE_FIND_FRAMEWORK="LAST"
-$ make
+$ cmake --build .
 </pre>
 <p>Build the package:</p>
 <pre>
-$ make package
+$ cmake --build . --target package
 </pre>
 
 </div>
