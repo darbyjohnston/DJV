@@ -117,7 +117,6 @@ namespace djv
             if (_options.enabled && gridCellSizeZoom > 2.f)
             {
                 const auto& style = _getStyle();
-                const float s = style->getMetric(UI::MetricsRole::SpacingSmall);
                 const float b = style->getMetric(UI::MetricsRole::Border);
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
 
@@ -376,7 +375,6 @@ namespace djv
                 _options.size * _imageZoom > _fontMetrics.ascender * 2.F)
             {
                 const BBox2f viewportWorld = _getViewportWorld();
-                const BBox2f viewport = _getViewport();
                 std::set<ImageViewGridPos> erase;
                 for (const auto& i : _text)
                 {

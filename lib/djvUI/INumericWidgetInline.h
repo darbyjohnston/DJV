@@ -74,7 +74,7 @@ namespace djv
         }
 
         template<typename T>
-        inline bool INumericWidget<T>::_keyPress(NumericWidgetKey key)
+        inline bool INumericWidget<T>::_doKeyPress(NumericWidgetKey key)
         {
             bool out = false;
             switch (key)
@@ -139,7 +139,7 @@ namespace djv
         {}
         
         template<typename T>
-        inline bool INumericEdit<T>::_keyPress(NumericWidgetKey key)
+        inline bool INumericEdit<T>::_doKeyPress(NumericWidgetKey key)
         {
             bool out = false;
             switch (key)
@@ -150,7 +150,7 @@ namespace djv
             case NumericWidgetKey::Down:
             case NumericWidgetKey::PageUp:
             case NumericWidgetKey::PageDown:
-                out = INumericWidget<T>::_keyPress(key);
+                out = INumericWidget<T>::_doKeyPress(key);
                 break;
             default: break;
             }

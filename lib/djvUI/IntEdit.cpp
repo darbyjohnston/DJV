@@ -104,7 +104,7 @@ namespace djv
 
         bool IntEdit::_keyPress(int value)
         {
-            return INumericEdit<int>::_keyPress(fromGLFWKey(value));
+            return INumericEdit<int>::_doKeyPress(fromGLFWKey(value));
         }
 
         void IntEdit::_scroll(float value)

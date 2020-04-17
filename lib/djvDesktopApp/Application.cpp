@@ -42,7 +42,6 @@ namespace djv
         void Application::_init(std::list<std::string>& args)
         {
             CmdLine::Application::_init(args);
-            DJV_PRIVATE_PTR();
 
             bool resetSettings = false;
             auto arg = args.begin();
@@ -83,7 +82,6 @@ namespace djv
 
         void Application::run()
         {
-            DJV_PRIVATE_PTR();
             auto avGLFWSystem = getSystemT<AV::GLFW::System>();
             if (auto glfwWindow = avGLFWSystem->getGLFWWindow())
             {
@@ -96,7 +94,7 @@ namespace djv
                 {
                     glfwPollEvents();
                     tick(start, delta);
-                    const auto systemTime = std::chrono::steady_clock::now();
+                    //const auto systemTime = std::chrono::steady_clock::now();
 
                     auto end = std::chrono::steady_clock::now();
                     delta = std::chrono::duration_cast<Time::Duration>(end - start);

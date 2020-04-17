@@ -51,7 +51,7 @@ namespace djv
 
         protected:
             void _doCallback(TextEditReason);
-            virtual bool _keyPress(NumericWidgetKey);
+            virtual bool _doKeyPress(NumericWidgetKey);
             virtual void _setIsMin(bool) {}
             virtual void _setIsMax(bool) {}
 
@@ -71,7 +71,7 @@ namespace djv
             virtual ~INumericEdit() = 0;
             
         protected:
-            bool _keyPress(NumericWidgetKey) override;
+            bool _doKeyPress(NumericWidgetKey) override;
         };
 
         //! This class provides an interface for numeric slider widgets.

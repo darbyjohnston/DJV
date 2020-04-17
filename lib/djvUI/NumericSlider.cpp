@@ -337,7 +337,6 @@ namespace djv
 
         void NumericSlider::_scrollEvent(Event::Scroll& event)
         {
-            DJV_PRIVATE_PTR();
             if (isEnabled(true))
             {
                 event.accept();

@@ -69,7 +69,7 @@ namespace djv
                     std::shared_ptr<Image::Image> _readImage(const std::string& fileName) override;
 
                 private:
-                    struct File;
+                    class File;
                     Info _open(const std::string&, const std::shared_ptr<File>&);
                 };
                 

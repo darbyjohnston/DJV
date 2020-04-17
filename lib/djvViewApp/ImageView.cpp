@@ -387,7 +387,6 @@ namespace djv
 
         void ImageView::_preLayoutEvent(Event::PreLayout & event)
         {
-            DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const float sa = style->getMetric(UI::MetricsRole::ScrollArea);
             _setMinimumSize(glm::vec2(sa, sa));

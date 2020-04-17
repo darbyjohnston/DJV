@@ -201,7 +201,6 @@ namespace djv
                                         else if (lineSize >= 1 && 'v' == line[0])
                                         {
                                             // Read a vertex.
-                                            const char* lineBegin = line;
                                             ++line;
                                             int component = 0;
                                             for (; component < 3 && line < lineEnd; ++component)
@@ -433,9 +432,6 @@ namespace djv
     {
         if (value.is<picojson::object>())
         {
-            for (const auto& i : value.get<picojson::object>())
-            {
-            }
         }
         else
         {

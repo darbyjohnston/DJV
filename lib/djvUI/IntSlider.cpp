@@ -85,7 +85,7 @@ namespace djv
         
         bool BasicIntSlider::_keyPress(int key)
         {
-            return INumericSlider<int>::_keyPress(fromGLFWKey(key));
+            return INumericSlider<int>::_doKeyPress(fromGLFWKey(key));
         }
 
         void BasicIntSlider::_scroll(float value)
