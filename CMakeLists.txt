@@ -31,7 +31,7 @@ set(DJV_BUILD_TINY FALSE CACHE BOOL "Enable a 'tiny' build (only build core libr
 if(DJV_BUILD_TINY)
     add_definitions(-DDJV_BUILD_TINY)
 endif()
-set(DJV_THIRD_PARTY_OPTIONAL CACHE BOOL "Build optional third party dependencies")
+set(DJV_THIRD_PARTY_OPTIONAL TRUE CACHE BOOL "Build optional third party dependencies")
 
 # Test options.
 enable_testing()

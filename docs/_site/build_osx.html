@@ -79,8 +79,9 @@ $ ./build/bin/djv
 	<p>The following steps describe how to pacakge DJV.</p>
     <p>Create a release build:</p>
 	<pre>
+$ cd $BUILD_DIR
 $ export PATH=$PATH:$PWD/DJV-install-Release/bin
-$ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/DJV-install-Release/lib
+$ export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$PWD/DJV-install-Release/lib
 $ mkdir DJV-third-party-Release
 $ cd DJV-third-party-Release
 $ cmake ../DJV/third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../DJV-install-Release -DCMAKE_FIND_FRAMEWORK="LAST"
