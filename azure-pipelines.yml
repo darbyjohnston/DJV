@@ -28,7 +28,7 @@ jobs:
       cd DJV-third-party-Debug
       cmake ../../third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_PYTHON=FALSE -DDJV_OPENGL_ES2=TRUE
       cmake --build .
-      make install
+      cmake --install .
       cd ..
       echo "Building DJV..."
       mkdir DJV-Debug
@@ -57,7 +57,7 @@ jobs:
       cd DJV-third-party-Debug
       cmake ..\..\third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_PYTHON=FALSE -DDJV_OPENGL_ES2=TRUE
       cmake --build . -j 4
-      nmake install
+      cmake --install .
       cd ..
       echo "Building DJV..."
       mkdir DJV-Debug
@@ -81,7 +81,7 @@ jobs:
       cd DJV-third-party-Debug
       cmake ../../third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_PYTHON=FALSE -DDJV_OPENGL_ES2=TRUE
       cmake --build . -j 4
-      make install
+      cmake --install .
       cd ..
       echo "Building DJV..."
       mkdir DJV-Debug
