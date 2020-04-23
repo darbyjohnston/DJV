@@ -46,8 +46,8 @@ before_script:
 - make test
 - cat Testing/Temporary/LastTest.log
 #- cppcheck --enable=all --xml-version=2 -I${PWD}/lib -UDJV_ASSERT -UDJV_ENDIAN_MSB -UDJV_MMAP -UDJV_OPENGL_ES2 -UDJV_PLATFORM_WINDOWS -UGLM_PRECISION_LOWP_FLOAT -UGLM_PRECISION_LOWP_INT -UGLM_PRECISION_MEDIUMP_FLOAT -UGLM_PRECISION_MEDIUMP_INT -UDJV_OPENGL_PBO -Umax -Umin lib bin examples 2> report.xml
+- sh ../../etc/Util/gcov.sh ../..
 - cd ../..
-- sh etc/Util/gcov.sh $PWD
 script:
 - sonar-scanner
 
