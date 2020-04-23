@@ -35,8 +35,6 @@ else()
         DEPENDS ${FFmpeg_DEPS}
         URL http://ffmpeg.org/releases/ffmpeg-4.2.2.tar.bz2
         BUILD_IN_SOURCE 1
-        CONFIGURE_COMMAND ./configure ${FFmpeg_CONFIGURE_ARGS}
-        BUILD_COMMAND $(MAKE)
-        INSTALL_COMMAND $(MAKE) install)
+        CONFIGURE_COMMAND ./configure ${FFmpeg_CONFIGURE_ARGS})
 endif()
 
