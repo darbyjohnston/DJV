@@ -1814,7 +1814,6 @@ namespace djv
     {
         picojson::value out(picojson::object_type, true);
         {
-            picojson::value object(picojson::object_type, true);
             out.get<picojson::object>()["Min"] = toJSON(value.min);
             out.get<picojson::object>()["Mag"] = toJSON(value.mag);
         }
