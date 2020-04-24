@@ -14,7 +14,6 @@ namespace djv
 {
     namespace Core
     {
-        class Context;
         class ICommand;
 
         //! This class provides an undo stack.
@@ -28,7 +27,7 @@ namespace djv
         public:
             ~UndoStack();
 
-            static std::shared_ptr<UndoStack> create(const std::shared_ptr<Context>&);
+            static std::shared_ptr<UndoStack> create();
 
             const std::vector<std::shared_ptr<ICommand> > & getCommands() const;
             size_t getSize() const;

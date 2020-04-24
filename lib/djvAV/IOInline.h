@@ -25,7 +25,7 @@ namespace djv
             inline AudioInfo::AudioInfo()
             {}
 
-            inline AudioInfo::AudioInfo(const Audio::Info & info, size_t sampleCount) :
+            inline AudioInfo::AudioInfo(const Audio::Info & info) :
                 info(info)
             {}
 

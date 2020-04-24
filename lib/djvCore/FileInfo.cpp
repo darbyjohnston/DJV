@@ -184,15 +184,15 @@ namespace djv
                     if (fileInfo.isSequenceValid())
                     {
                         const size_t size = out.size();
-                        size_t i = 0;
-                        for (; i < size; ++i)
+                        size_t j = 0;
+                        for (; j < size; ++j)
                         {
-                            if (out[i].addToSequence(fileInfo))
+                            if (out[j].addToSequence(fileInfo))
                             {
                                 break;
                             }
                         }
-                        if (size == i)
+                        if (size == j)
                         {
                             out.push_back(fileInfo);
                         }

@@ -83,7 +83,7 @@ namespace djv
                 Info(const Size&, Type, const Layout& = Layout());
                 Info(uint16_t width, uint16_t height, Type, const Layout& = Layout());
 
-                std::string name;
+                std::string name = nameDefault;
                 Size size;
                 float pixelAspectRatio = 1.F;
                 Type type = Type::None;

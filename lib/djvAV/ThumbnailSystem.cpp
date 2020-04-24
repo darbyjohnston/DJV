@@ -51,9 +51,6 @@ namespace djv
                     promise(std::move(other.promise))
                 {}
 
-                ~InfoRequest()
-                {}
-
                 InfoRequest& operator = (InfoRequest&& other) noexcept
                 {
                     if (this != &other)
@@ -301,9 +298,12 @@ namespace djv
                 p.io->observeOptionsChanged(),
                 [weak](bool value)
                 {
-                    if (auto system = weak.lock())
+                    if (value)
                     {
-                        system->clearCache();
+                        if (auto system = weak.lock())
+                        {
+                            system->clearCache();
+                        }
                     }
                 });
         }

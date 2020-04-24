@@ -239,23 +239,23 @@ namespace djv
                         }
                         old->uid = 0;
                         old->timestamp = ++_timestamp;
-                        if (auto node = old->insert(data))
+                        if (auto node2 = old->insert(data))
                         {
-                            node->uid = ++_uid;
+                            node2->uid = ++_uid;
 
                             //! \todo Do we need to zero out the old data?
                             //auto zero = Image::Data::create(Image::Info(data->getSize() + p.border * 2, p.textureType));
                             //zero->zero();
-                            //p.textures[node->texture]->copy(zero, node->bbox.min);
+                            //p.textures[node2->texture]->copy(zero, node2->bbox.min);
 
-                            p.textures[node->textureIndex]->copy(
+                            p.textures[node2->textureIndex]->copy(
                                 *data,
-                                static_cast<uint16_t>(node->bbox.min.x + p.border),
-                                static_cast<uint16_t>(node->bbox.min.y + p.border));
-                            p.cache[node->uid] = node;
-                            _toTextureAtlasItem(node, out);
+                                static_cast<uint16_t>(node2->bbox.min.x + p.border),
+                                static_cast<uint16_t>(node2->bbox.min.y + p.border));
+                            p.cache[node2->uid] = node2;
+                            _toTextureAtlasItem(node2, out);
 
-                            return node->uid;
+                            return node2->uid;
                         }
                     }
                 }
@@ -271,11 +271,11 @@ namespace djv
                     size_t used = 0;
                     std::vector<std::shared_ptr<BoxPackingNode> > leafs;
                     _getLeafNodes(p.boxPackingNodes[i], leafs);
-                    for (const auto & i : leafs)
+                    for (const auto & j : leafs)
                     {
-                        if (i->isOccupied())
+                        if (j->isOccupied())
                         {
-                            used += i->bbox.getArea();
+                            used += j->bbox.getArea();
                         }
                     }
                     out += used;

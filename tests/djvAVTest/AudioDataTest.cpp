@@ -64,7 +64,6 @@ namespace djv
                 DJV_ASSERT(data->isValid());
                 DJV_ASSERT(info.getByteCount() == data->getByteCount());
                 DJV_ASSERT(data->getData());
-                DJV_ASSERT(data->getData(0));
             }
         }
         

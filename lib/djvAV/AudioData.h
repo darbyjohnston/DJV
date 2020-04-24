@@ -59,8 +59,6 @@ namespace djv
 
                 uint8_t * getData();
                 const uint8_t * getData() const;
-                uint8_t * getData(size_t offset);
-                const uint8_t * getData(size_t offset) const;
 
                 void zero();
 

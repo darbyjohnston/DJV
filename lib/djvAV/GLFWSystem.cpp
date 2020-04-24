@@ -32,7 +32,7 @@ namespace djv
                 //! \todo Should this be configurable?
                 std::weak_ptr<LogSystem> logSystemWeak;
 
-                void glfwErrorCallback(int error, const char * description)
+                void glfwErrorCallback(int, const char * description)
                 {
                     if (auto logSystem = logSystemWeak.lock())
                     {

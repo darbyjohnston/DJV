@@ -4,7 +4,6 @@
 
 #include <djvCore/UndoStack.h>
 
-#include <djvCore/Context.h>
 #include <djvCore/ICommand.h>
 
 #include <vector>
@@ -27,7 +26,7 @@ namespace djv
         UndoStack::~UndoStack()
         {}
 
-        std::shared_ptr<UndoStack> UndoStack::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<UndoStack> UndoStack::create()
         {
             auto out = std::shared_ptr<UndoStack>(new UndoStack);
             return out;

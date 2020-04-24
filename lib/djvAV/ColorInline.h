@@ -8,8 +8,7 @@ namespace djv
     {
         namespace Image
         {
-            inline Color::Color() :
-                _type(Type::None)
+            inline Color::Color()
             {}
 
             inline Color::Color(Type type) :

@@ -70,19 +70,16 @@ namespace djv
                 return !(*this == other);
             }
 
-            inline Info::Info() :
-                name(DJV_TEXT(nameDefault))
+            inline Info::Info()
             {}
 
             inline Info::Info(const Size& size, Type type, const Layout& layout) :
-                name(DJV_TEXT(nameDefault)),
                 size(size),
                 type(type),
                 layout(layout)
             {}
 
             inline Info::Info(uint16_t width, uint16_t height, Type type, const Layout& layout) :
-                name(DJV_TEXT(nameDefault)),
                 size(width, height),
                 type(type),
                 layout(layout)

@@ -62,9 +62,7 @@ namespace djv
                             ::close(_fd);
                         }
                     }
-                    
-                    const FileSystem::Path& getPath() const { return _path; }
-                    
+                                        
                     ::time_t poll()
                     {
                         struct kevent eventData[1];
@@ -134,9 +132,7 @@ namespace djv
                         }
                         return *this;
                     }
-                    
-                    const Path& getPath() const { return _path; }
-                    
+                                        
                     ::time_t poll()
                     {
                         if (_fd && _wd)

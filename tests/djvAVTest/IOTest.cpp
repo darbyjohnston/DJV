@@ -66,8 +66,7 @@ namespace djv
             
             {
                 const Audio::Info audioInfo(1, Audio::Type::S16, 2, 3);
-                const size_t sampleCount = 4;
-                const AV::IO::AudioInfo info(audioInfo, sampleCount);
+                const AV::IO::AudioInfo info(audioInfo);
                 DJV_ASSERT(info.info == audioInfo);
             }
         }
@@ -435,8 +434,7 @@ namespace djv
 
             {
                 const IO::AudioInfo info(
-                    Audio::Info(1, Audio::Type::S16, 2, 3),
-                    4);
+                    Audio::Info(1, Audio::Type::S16, 2, 3));
                 DJV_ASSERT(info == info);
             }
             

@@ -79,7 +79,7 @@ namespace djv
                 {
                     p.localeObserver = ValueObserver<std::string>::create(
                         textSystem->observeCurrentLocale(),
-                        [weak](const std::string& value)
+                        [weak](const std::string&)
                         {
                             if (auto system = weak.lock())
                             {

@@ -126,7 +126,7 @@ namespace djv
                 auto io = context->getSystemT<AV::IO::System>();
                 p.directoryModel->setFileSequenceExtensions(io->getSequenceExtensions());
                 p.shortcutsModel = ShortcutsModel::create(context);
-                p.recentPathsModel = FileSystem::RecentFilesModel::create(context);
+                p.recentPathsModel = FileSystem::RecentFilesModel::create();
                 p.recentPathsModel->setFilesMax(10);
                 p.drivesModel = FileSystem::DrivesModel::create(context);
 

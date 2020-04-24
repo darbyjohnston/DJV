@@ -19,6 +19,7 @@ namespace djv
         
         void MathTest::run()
         {
+            _misc();
             _rational();
             _random();
         }
@@ -28,6 +29,17 @@ namespace djv
             {
                 DJV_ASSERT(Math::clamp(0, 1, 2) == 1);
                 DJV_ASSERT(Math::clamp(3, 1, 2) == 2);
+            }
+            {
+                DJV_ASSERT(Math::getNumDigits(1) == 1);
+                DJV_ASSERT(Math::getNumDigits(10) == 2);
+                DJV_ASSERT(Math::getNumDigits(100) == 3);
+                DJV_ASSERT(Math::getNumDigits(1000) == 4);
+                DJV_ASSERT(Math::getNumDigits(10000) == 5);
+                DJV_ASSERT(Math::getNumDigits(100000) == 6);
+                DJV_ASSERT(Math::getNumDigits(1000000) == 7);
+                DJV_ASSERT(Math::getNumDigits(10000000) == 8);
+                DJV_ASSERT(Math::getNumDigits(100000000) == 9);
             }
         }
         

@@ -151,7 +151,7 @@ namespace djv
             {
             public:
                 ImageFilterOptions();
-                ImageFilterOptions(ImageFilter minMag);
+                explicit ImageFilterOptions(ImageFilter minMag);
                 ImageFilterOptions(ImageFilter min, ImageFilter mag);
 
                 ImageFilter min = ImageFilter::Linear;

@@ -630,10 +630,10 @@ namespace djv
                                     const Image::Layout imageLayout = _getImageLayout();
                                     if (imageType != image->getType() || imageLayout != image->getLayout())
                                     {
-                                        const Image::Info info(image->getSize(), imageType, imageLayout);
-                                        auto tmp = Image::Image::create(info);
+                                        const Image::Info imageInfo(image->getSize(), imageType, imageLayout);
+                                        auto tmp = Image::Image::create(imageInfo);
                                         tmp->setTags(image->getTags());
-                                        p.convert->process(*image, info, *tmp);
+                                        p.convert->process(*image, imageInfo, *tmp);
                                         image = tmp;
                                     }
                                     futures.push_back(std::async(

@@ -68,7 +68,7 @@ namespace djv
                 _active = false;
             }
 
-            void Timer::_tick(const std::chrono::steady_clock::time_point& t, const Duration& dt)
+            void Timer::_tick(const std::chrono::steady_clock::time_point& t, const Duration&)
             {
                 _time = t;
                 if (_active)

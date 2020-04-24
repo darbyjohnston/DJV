@@ -129,7 +129,10 @@ namespace djv
             //! This struct provides 10-bit LSB pixel data.
             struct U10_S_LSB
             {
-                uint32_t pad : 2, b : 10, g : 10, r : 10;
+                uint32_t pad : 2;
+                uint32_t b   : 10;
+                uint32_t g   : 10;
+                uint32_t r   : 10;
 
                 constexpr bool operator == (const U10_S_LSB &) const;
                 constexpr bool operator != (const U10_S_LSB &) const;

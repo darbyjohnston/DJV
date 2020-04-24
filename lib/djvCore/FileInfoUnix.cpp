@@ -84,33 +84,11 @@ namespace djv
                 std::vector<FileInfo> out;
                 
                 // List the directory contents.
-                /*if (auto dir = opendir(path.c_str()))
-                {
-                    dirent* de = nullptr;
-                    while ((de = readdir(dir)))
-                    {
-                        if (1 == de->d_namlen && '.' == de->d_name[0])
-                            ;
-                        else if (2 == de->d_namlen && '.' == de->d_name[0] && '.' == de->d_name[1])
-                            ;
-                        else
-                        {
-                            out.emplace_back(Path(value, std::string(de->d_name, de->d_namlen)));
-                        }
-                    }
-                    closedir(dir);
-                }*/
-
-                //glob_t g;
-                //if (::glob(Path(value, options.glob).get().c_str(), 0, nullptr, &g) == 0)
-                //{
-                //    for (size_t i = 0; i < g.gl_pathc; ++i)
                 if (auto dir = opendir(value.get().c_str()))
                 {
                     dirent* de = nullptr;
                     while ((de = readdir(dir)))
                     {
-                        //FileInfo fileInfo(Path(g.gl_pathv[i]));
                         FileInfo fileInfo(Path(value, de->d_name));
                         
                         const std::string fileName = fileInfo.getFileName(-1, false);
@@ -156,7 +134,6 @@ namespace djv
                     }
                     closedir(dir);
                 }
-                //globfree(&g);
                     
                 // Sort the items.
                 _sort(options, out);

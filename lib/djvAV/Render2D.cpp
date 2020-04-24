@@ -807,10 +807,10 @@ namespace djv
                         primitive->vaoSize = ptsSize;
                         p.primitives.push_back(primitive);
 
-                        const size_t vboDataSize = p.vboDataSize;
+                        const size_t vboDataOffset = p.vboDataSize;
                         p.updateVBODataSize(ptsSize);
                         const glm::vec2* pPts = pts.data();
-                        VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataSize]);
+                        VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataOffset]);
                         for (size_t i = 0; i < size; ++i, pPts += 2)
                         {
                             pData->vx = pPts[0].x;
@@ -848,9 +848,9 @@ namespace djv
                     {
                         primitive->vaoSize += 6;
 
-                        const size_t vboDataSize = p.vboDataSize;
+                        const size_t vboDataOffset = p.vboDataSize;
                         p.updateVBODataSize(6);
-                        VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataSize]);
+                        VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataOffset]);
                         pData->vx = i.min.x;
                         pData->vy = i.min.y;
                         ++pData;
@@ -888,11 +888,11 @@ namespace djv
                     primitive->vaoSize = 3 * 2 + facets * 2 * 3;
                     p.primitives.push_back(primitive);
 
-                    const size_t vboDataSize = p.vboDataSize;
+                    const size_t vboDataOffset = p.vboDataSize;
                     p.updateVBODataSize(primitive->vaoSize);
                     const float h = rect.h();
                     const float radius = h / 2.F;
-                    VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataSize]);
+                    VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataOffset]);
                     pData->vx = rect.min.x + radius;
                     pData->vy = rect.min.y;
                     ++pData;
@@ -966,9 +966,9 @@ namespace djv
                     primitive->vaoSize = 3 * facets;
                     p.primitives.push_back(primitive);
 
-                    const size_t vboDataSize = p.vboDataSize;
+                    const size_t vboDataOffset = p.vboDataSize;
                     p.updateVBODataSize(3 * facets);
-                    VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataSize]);
+                    VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataOffset]);
                     for (size_t i = 0; i < facets * 3; i += 3)
                     {
                         pData->vx = pos.x;
@@ -1082,9 +1082,9 @@ namespace djv
                             }
                             
                             primitive->vaoSize += 6;
-                            const size_t vboDataSize = p.vboDataSize;
+                            const size_t vboDataOffset = p.vboDataSize;
                             p.updateVBODataSize(6);
-                            VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataSize]);
+                            VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataOffset]);
                             pData->vx = bbox.min.x;
                             pData->vy = bbox.min.y;
                             pData->tx = static_cast<uint16_t>(item.textureU.min * 65535.F);
@@ -1146,9 +1146,9 @@ namespace djv
                         { 65535, 65535,     0,     0 }
                     };
 
-                    const size_t vboDataSize = p.vboDataSize;
+                    const size_t vboDataOffset = p.vboDataSize;
                     p.updateVBODataSize(4);
-                    VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataSize]);
+                    VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataOffset]);
                     pData->vx = value.min.x;
                     pData->vy = value.min.y;
                     pData->tx = u[static_cast<size_t>(side)][0];
@@ -1182,9 +1182,9 @@ namespace djv
                     primitive->vaoSize = 5 * 2 * 3 + 4 * facets * 3;
                     p.primitives.push_back(primitive);
 
-                    const size_t vboDataSize = p.vboDataSize;
+                    const size_t vboDataOffset = p.vboDataSize;
                     p.updateVBODataSize(primitive->vaoSize);
-                    VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataSize]);
+                    VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataOffset]);
 
                     // Center.
                     pData->vx = value.min.x + radius;
@@ -1420,9 +1420,9 @@ namespace djv
                     primitive->textureID = textureID;
                     primitive->target = target;
 
-                    const size_t vboDataSize = p.vboDataSize;
+                    const size_t vboDataOffset = p.vboDataSize;
                     p.updateVBODataSize(4);
-                    VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataSize]);
+                    VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataOffset]);
                     pData->vx = value.min.x;
                     pData->vy = value.min.y;
                     pData->tx = 0;
@@ -1708,9 +1708,9 @@ namespace djv
                     primitive->vaoOffset = vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
                     primitive->vaoSize = 4;
 
-                    const size_t vboDataSize = this->vboDataSize;
+                    const size_t vboDataOffset = vboDataSize;
                     updateVBODataSize(4);
-                    VBOVertex* pData = reinterpret_cast<VBOVertex*>(&vboData[vboDataSize]);
+                    VBOVertex* pData = reinterpret_cast<VBOVertex*>(&vboData[vboDataOffset]);
                     pData->vx = pts[0].x;
                     pData->vy = pts[0].y;
                     pData->tx = static_cast<uint16_t>(textureU.min * 65535.F);

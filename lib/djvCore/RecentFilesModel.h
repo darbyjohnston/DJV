@@ -11,8 +11,6 @@ namespace djv
 {
     namespace Core
     {
-        class Context;
-
         namespace FileSystem
         {
             class FileInfo;
@@ -20,11 +18,11 @@ namespace djv
             //! This class provides a model for keeping a list of recently used files.
             class RecentFilesModel : public std::enable_shared_from_this<RecentFilesModel>
             {
-                void _init(const std::shared_ptr<Context>&);
+                void _init();
                 RecentFilesModel();
 
             public:
-                static std::shared_ptr<RecentFilesModel> create(const std::shared_ptr<Context>&);
+                static std::shared_ptr<RecentFilesModel> create();
 
                 std::shared_ptr<IListSubject<FileInfo> > observeFiles() const;
                 void setFiles(std::vector<FileInfo>);

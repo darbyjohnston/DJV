@@ -74,12 +74,12 @@ namespace djv
                             category = pieces[0];
                             pieces.erase(pieces.begin());
                         }
-                        std::string value;
+                        std::string value2;
                         if (piecesSize > 0)
                         {
-                            value = String::join(pieces, '=');
+                            value2 = String::join(pieces, '=');
                         }
-                        keyValues[category] = value;
+                        keyValues[category] = value2;
                     }
                     
                     // Try using LC_MESSAGES.
@@ -253,14 +253,14 @@ namespace djv
                             if (system->_p->statFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                             {
                                 auto textFiles = system->_p->statFuture.get();
-                                for (auto j = system->_p->textFiles.begin(), k = textFiles.begin();
-                                    j != system->_p->textFiles.end() && k != textFiles.end();
-                                    ++j, ++k)
+                                for (auto k = system->_p->textFiles.begin(), l = textFiles.begin();
+                                    k != system->_p->textFiles.end() && l != textFiles.end();
+                                    ++k, ++l)
                                 {
-                                    if (k->getTime() > j->getTime())
+                                    if (l->getTime() > k->getTime())
                                     {
-                                        system->_reload(*k);
-                                        *j = *k;
+                                        system->_reload(*l);
+                                        *k = *l;
                                     }
                                 }
                                 stat = true;
@@ -278,9 +278,9 @@ namespace djv
                                 [textFiles]
                                 {
                                     std::vector<FileSystem::FileInfo> out;
-                                    for (const auto& i : textFiles)
+                                    for (const auto& textFile : textFiles)
                                     {
-                                        out.push_back(FileSystem::FileInfo(i.getPath()));
+                                        out.push_back(FileSystem::FileInfo(textFile.getPath()));
                                     }
                                     return out;
                                 });
@@ -391,7 +391,7 @@ namespace djv
                 const auto envPaths = OS::getStringListEnv("DJV_TEXT_PATH");
                 for (const auto& path : envPaths)
                 {
-                    auto list = FileSystem::FileInfo::directoryList(FileSystem::Path(path), options);
+                    list = FileSystem::FileInfo::directoryList(FileSystem::Path(path), options);
                     out.insert(out.end(), list.begin(), list.end());
                 }
             }

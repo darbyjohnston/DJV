@@ -24,7 +24,7 @@ namespace djv
                 std::shared_ptr<ValueSubject<size_t> > filesMax;
             };
 
-            void RecentFilesModel::_init(const std::shared_ptr<Context>& context)
+            void RecentFilesModel::_init()
             {
                 DJV_PRIVATE_PTR();
                 p.files = ListSubject<FileInfo>::create();
@@ -35,10 +35,10 @@ namespace djv
                 _p(new Private)
             {}
 
-            std::shared_ptr<RecentFilesModel> RecentFilesModel::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<RecentFilesModel> RecentFilesModel::create()
             {
                 auto out = std::shared_ptr<RecentFilesModel>(new RecentFilesModel);
-                out->_init(context);
+                out->_init();
                 return out;
             }
 

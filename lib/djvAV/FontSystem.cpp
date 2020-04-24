@@ -43,7 +43,6 @@ namespace djv
                 public:
                     MetricsRequest() {}
                     MetricsRequest(MetricsRequest && other) = default;
-                    MetricsRequest & operator = (MetricsRequest &&) = default;
 
                     Info info;
                     std::promise<Metrics> promise;
@@ -54,7 +53,6 @@ namespace djv
                 public:
                     MeasureRequest() {}
                     MeasureRequest(MeasureRequest&&) = default;
-                    MeasureRequest& operator = (MeasureRequest&& other) = default;
 
                     std::string text;
                     Info info;
@@ -67,7 +65,6 @@ namespace djv
                 public:
                     MeasureGlyphsRequest() {}
                     MeasureGlyphsRequest(MeasureGlyphsRequest&&) = default;
-                    MeasureGlyphsRequest& operator = (MeasureGlyphsRequest&& other) = default;
 
                     std::string text;
                     Info info;
@@ -80,7 +77,6 @@ namespace djv
                 public:
                     GlyphsRequest() {}
                     GlyphsRequest(GlyphsRequest &&) = default;
-                    GlyphsRequest & operator = (GlyphsRequest &&) = default;
 
                     std::string text;
                     Info info;
@@ -93,7 +89,6 @@ namespace djv
                 public:
                     TextLinesRequest() {}
                     TextLinesRequest(TextLinesRequest&&) = default;
-                    TextLinesRequest& operator = (TextLinesRequest&&) = default;
 
                     std::string text;
                     Info info;

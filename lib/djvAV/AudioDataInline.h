@@ -78,16 +78,6 @@ namespace djv
                 return _data.data();
             }
 
-            inline uint8_t * Data::getData(size_t offset)
-            {
-                return _data.data();
-            }
-
-            inline const uint8_t * Data::getData(size_t offset) const
-            {
-                return _data.data();
-            }
-
             template<typename T>
             inline void Data::extract(const T* value, T* out, size_t sampleCount, uint8_t inChannelCount, uint8_t outChannelCount)
             {

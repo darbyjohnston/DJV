@@ -31,8 +31,6 @@ namespace djv
 
             struct Message
             {
-                Message()
-                {}
                 Message(
                     const std::string & prefix,
                     const std::string & text,
@@ -41,6 +39,7 @@ namespace djv
                     text(text),
                     level(level)
                 {}
+
                 std::string prefix;
                 std::string text;
                 LogLevel level = LogLevel::Information;

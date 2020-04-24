@@ -139,17 +139,45 @@ namespace djv
             template<typename T>
             inline size_t getNumDigits(T value)
             {
+                size_t out = 0;
                 value = abs(value);
-                return
-                    (value < T(10) ? 1 :
-                    (value < T(100) ? 2 :
-                    (value < T(1000) ? 3 :
-                    (value < T(10000) ? 4 :
-                    (value < T(100000) ? 5 :
-                    (value < T(1000000) ? 6 :
-                    (value < T(10000000) ? 7 :
-                    (value < T(100000000) ? 8 :
-                    (value < T(1000000000) ? 9 : 10)))))))));
+                if (value < T(10))
+                {
+                    out = 1;
+                }
+                else if (value < T(100))
+                {
+                    out = 2;
+                }
+                else if (value < T(1000))
+                {
+                    out = 3;
+                }
+                else if (value < T(10000))
+                {
+                    out = 4;
+                }
+                else if (value < T(100000))
+                {
+                    out = 5;
+                }
+                else if (value < T(1000000))
+                {
+                    out = 6;
+                }
+                else if (value < T(10000000))
+                {
+                    out = 7;
+                }
+                else if (value < T(100000000))
+                {
+                    out = 8;
+                }
+                else if (value < T(1000000000))
+                {
+                    out = 9;
+                }
+                return out;
             }
 
             template<typename T>

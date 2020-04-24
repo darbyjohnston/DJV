@@ -131,7 +131,7 @@ namespace djv
             //p.menu->addSeparator();
             p.menu->addAction(p.actions["Exit"]);
 
-            p.recentFilesModel = Core::FileSystem::RecentFilesModel::create(context);
+            p.recentFilesModel = Core::FileSystem::RecentFilesModel::create();
 
             _actionsUpdate();
             _textUpdate();
