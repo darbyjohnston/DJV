@@ -23,6 +23,8 @@ namespace djv
         {
             bool border = true;
             std::shared_ptr<LineEditBase> lineEditBase;
+            std::shared_ptr<Icon> searchIcon;
+            std::shared_ptr<ToolButton> clearButton;
             std::shared_ptr<SoloLayout> soloLayout;
             std::shared_ptr<HorizontalLayout> layout;
             std::function<void(const std::string &)> filterCallback;
@@ -39,15 +41,15 @@ namespace djv
             p.lineEditBase = LineEditBase::create(context);
             p.lineEditBase->setTextSizeRole(MetricsRole::SearchBox);
             
-            auto searchIcon = Icon::create(context);
-            searchIcon->setIcon("djvIconSearch");
-            searchIcon->setIconColorRole(ColorRole::Foreground);
+            p.searchIcon = Icon::create(context);
+            p.searchIcon->setIcon("djvIconSearch");
+            p.searchIcon->setIconColorRole(ColorRole::Foreground);
             
-            auto clearButton = ToolButton::create(context);
-            clearButton->setIcon("djvIconClear");
-            clearButton->setTextFocusEnabled(false);
-            clearButton->setBackgroundRole(ColorRole::None);
-            clearButton->setInsideMargin(MetricsRole::None);
+            p.clearButton = ToolButton::create(context);
+            p.clearButton->setIcon("djvIconClear");
+            p.clearButton->setTextFocusEnabled(false);
+            p.clearButton->setBackgroundRole(ColorRole::None);
+            p.clearButton->setInsideMargin(MetricsRole::None);
             
             p.layout = HorizontalLayout::create(context);
             p.layout->setSpacing(Layout::Spacing(MetricsRole::None));
@@ -55,10 +57,12 @@ namespace djv
             p.layout->addChild(p.lineEditBase);
             p.layout->setStretch(p.lineEditBase, RowStretch::Expand);
             p.soloLayout = SoloLayout::create(context);
-            p.soloLayout->addChild(searchIcon);
-            p.soloLayout->addChild(clearButton);
+            p.soloLayout->addChild(p.searchIcon);
+            p.soloLayout->addChild(p.clearButton);
             p.layout->addChild(p.soloLayout);
             addChild(p.layout);
+
+            _widgetUpdate();
 
             auto weak = std::weak_ptr<SearchBox>(std::dynamic_pointer_cast<SearchBox>(shared_from_this()));
             p.lineEditBase->setFocusCallback(
@@ -71,27 +75,23 @@ namespace djv
             });
 
             p.lineEditBase->setTextChangedCallback(
-                [weak, searchIcon, clearButton](const std::string & value)
+                [weak](const std::string & value)
             {
                 if (auto widget = weak.lock())
                 {
-                    std::shared_ptr<Widget> currentWidget = searchIcon;
-                    if (!value.empty())
-                    {
-                        currentWidget = clearButton;
-                    }
-                    widget->_p->soloLayout->setCurrentWidget(currentWidget);
                     widget->_doFilterCallback();
+                    widget->_widgetUpdate();
                 }
             });
 
-            clearButton->setClickedCallback(
+            p.clearButton->setClickedCallback(
                 [weak]
             {
                 if (auto widget = weak.lock())
                 {
                     widget->clearFilter();
                     widget->_doFilterCallback();
+                    widget->_widgetUpdate();
                 }
             });
         }
@@ -191,9 +191,6 @@ namespace djv
                 render->setFillColor(style->getColor(UI::ColorRole::TextFocus));
                 drawBorder(render, g, b * 2.F);
             }
-            render->setFillColor(style->getColor(UI::ColorRole::Border));
-            const BBox2f g2 = g.margin(-b * 2.F);
-            drawBorder(render, g2, b);
         }
 
         void SearchBox::_doFilterCallback()
@@ -203,6 +200,17 @@ namespace djv
             {
                 p.filterCallback(p.lineEditBase->getText());
             }
+        }
+
+        void SearchBox::_widgetUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            std::shared_ptr<Widget> currentWidget = p.searchIcon;
+            if (!p.lineEditBase->getText().empty())
+            {
+                currentWidget = p.clearButton;
+            }
+            p.soloLayout->setCurrentWidget(currentWidget);
         }
 
     } // namespace UI

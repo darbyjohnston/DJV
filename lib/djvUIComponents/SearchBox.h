@@ -40,6 +40,7 @@ namespace djv
 
         private:
             void _doFilterCallback();
+            void _widgetUpdate();
 
             DJV_PRIVATE();
         };
