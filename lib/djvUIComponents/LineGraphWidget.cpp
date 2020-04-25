@@ -95,7 +95,7 @@ namespace djv
                 p.samplesRange.min = std::min(p.samplesRange.min, *i);
                 p.samplesRange.max = std::max(p.samplesRange.max, *i);
             }
-            _updateWidget();
+            _widgetUpdate();
             _redraw();
         }
 
@@ -104,7 +104,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.samples.clear();
             p.samplesRange.zero();
-            _updateWidget();
+            _widgetUpdate();
             _redraw();
         }
 
@@ -114,7 +114,7 @@ namespace djv
             if (value == p.precision)
                 return;
             p.precision = value;
-            _updateWidget();
+            _widgetUpdate();
             _redraw();
         }
 
@@ -172,10 +172,10 @@ namespace djv
         void LineGraphWidget::_initEvent(Event::Init& event)
         {
             Widget::_initEvent(event);
-            _updateWidget();
+            _widgetUpdate();
         }
 
-        void LineGraphWidget::_updateWidget()
+        void LineGraphWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
             {
