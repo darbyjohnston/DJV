@@ -282,7 +282,7 @@ namespace djv
                         if (frame < range.min)
                         {
                             frame = range.max;
-                            if (frame != _sequence.ranges.back().max)
+                            if (frame != _sequence.ranges.back().min)
                             {
                                 _sequence.ranges.push_back(Frame::Range(frame));
                             }
