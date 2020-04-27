@@ -27,8 +27,8 @@ title: Building on Linux
 	<p>Append your PATH and LD_LIBRARY_PATH environment variables:</p>
 	<pre>
 $ cd $BUILD_DIR
-$ export PATH=$PATH:$PWD/DJV-install-Debug/bin
-$ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/DJV-install-Debug/lib
+$ export PATH=$PWD/DJV-install-Debug/bin:$PATH
+$ export LD_LIBRARY_PATH=$PWD/DJV-install-Debug/lib:$LD_LIBRARY_PATH
 </pre>
 
 	<p class="subHeader"><a name="BuildingDJV">Building DJV</a></p>
@@ -78,8 +78,8 @@ git push origin 2.0.0
     <p>Create a release build:</p>
 	<pre>
 $ cd $BUILD_DIR
-$ export PATH=$PATH:$PWD/DJV-install-Release/bin
-$ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/DJV-install-Release/lib
+$ export PATH=$PWD/DJV-install-Release/bin:$PATH
+$ export LD_LIBRARY_PATH=$PWD/DJV-install-Release/lib:$LD_LIBRARY_PATH
 $ mkdir DJV-third-party-Release
 $ cd DJV-third-party-Release
 $ cmake ../DJV/third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../DJV-install-Release
@@ -109,4 +109,3 @@ $ cmake --build . --target package
 	<p>Bump the version number in "CMakeLists.txt", "Doxyfile", and "sonar-project.properties".</p>
 
 </div>
-
