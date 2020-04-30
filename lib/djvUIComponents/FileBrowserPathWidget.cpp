@@ -140,10 +140,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            if (!value)
-                            {
-                                widget->setEdit(false);
-                            }
+                            widget->setEdit(value);
                         }
                     });
             }
