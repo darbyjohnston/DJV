@@ -39,6 +39,11 @@ namespace djv
                 _permissions = 0;
                 if (FileType::Sequence == _type)
                 {
+                    bool     exists      = false;
+                    uint64_t size        = 0;
+                    uid_t    user        = 0;
+                    int      permissions = 0;
+                    time_t   time        = 0;
                     for (auto i : Frame::toFrames(_sequence))
                     {
                         _STAT info;
@@ -53,14 +58,19 @@ namespace djv
                             }
                             return false;
                         }
-                        _exists = true;
-                        _size   += info.st_size;
-                        _user   = std::min(_user, static_cast<uid_t>(info.st_uid));
-                        _time   = std::max(_time, info.st_mtime);
-                        _permissions |= (info.st_mode & _S_IREAD)  ? static_cast<int>(FilePermissions::Read)  : 0;
-                        _permissions |= (info.st_mode & _S_IWRITE) ? static_cast<int>(FilePermissions::Write) : 0;
-                        _permissions |= (info.st_mode & _S_IEXEC)  ? static_cast<int>(FilePermissions::Exec)  : 0;
+                        exists       = true;
+                        size        += info.st_size;
+                        user         = std::min(_user, static_cast<uid_t>(info.st_uid));
+                        permissions |= (info.st_mode & _S_IREAD)  ? static_cast<int>(FilePermissions::Read)  : 0;
+                        permissions |= (info.st_mode & _S_IWRITE) ? static_cast<int>(FilePermissions::Write) : 0;
+                        permissions |= (info.st_mode & _S_IEXEC)  ? static_cast<int>(FilePermissions::Exec)  : 0;
+                        time         = std::max(_time, info.st_mtime);
                     }
+                    _exists      = exists;
+                    _size        = size;
+                    _user        = user;
+                    _permissions = permissions;
+                    _time        = time;
                 }
                 else
                 {
@@ -76,17 +86,17 @@ namespace djv
                         }
                         return false;
                     }
-                    _exists = true;
-                    _size   = info.st_size;
-                    _user   = info.st_uid;
-                    _time   = info.st_mtime;
+                    _exists       = true;
                     if (info.st_mode & _S_IFDIR)
                     {
-                        _type = FileType::Directory;
+                        _type     = FileType::Directory;
                     }
-                    _permissions |= (info.st_mode & _S_IREAD)  ? static_cast<int>(FilePermissions::Read) : 0;
+                    _size         = info.st_size;
+                    _user         = info.st_uid;
+                    _permissions |= (info.st_mode & _S_IREAD)  ? static_cast<int>(FilePermissions::Read)  : 0;
                     _permissions |= (info.st_mode & _S_IWRITE) ? static_cast<int>(FilePermissions::Write) : 0;
-                    _permissions |= (info.st_mode & _S_IEXEC)  ? static_cast<int>(FilePermissions::Exec) : 0;
+                    _permissions |= (info.st_mode & _S_IEXEC)  ? static_cast<int>(FilePermissions::Exec)  : 0;
+                    _time         = info.st_mtime;
                 }
                 return true;
             }

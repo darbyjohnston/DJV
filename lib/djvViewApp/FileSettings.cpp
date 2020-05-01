@@ -148,7 +148,21 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
                 UI::Settings::read("OpenMax", object, p.openMax);
-                UI::Settings::read("RecentFiles", object, p.recentFiles);
+                std::vector< Core::FileSystem::FileInfo> recentFiles;
+                UI::Settings::read("RecentFiles", object, recentFiles);
+                auto i = recentFiles.begin();
+                while (i != recentFiles.end())
+                {
+                    if (!i->doesExist())
+                    {
+                        i = recentFiles.erase(i);
+                    }
+                    else
+                    {
+                        ++i;
+                    }
+                }
+                p.recentFiles->setIfChanged(recentFiles);
                 UI::Settings::read("RecentFilesMax", object, p.recentFilesMax);
                 UI::Settings::read("AutoDetectSequences", object, p.autoDetectSequences);
                 UI::Settings::read("CacheEnabled", object, p.cacheEnabled);
