@@ -1146,18 +1146,19 @@ namespace djv
                     if (!gotFrame && !queue.isEmpty())
                     {
                         frame = queue.getFrame();
+                        gotFrame = true;
                     }
                 }
-                if (gotFrame && p.realSpeedFrameCount >= realSpeedFrameCount)
+                if (gotFrame)
                 {
-                    auto now = std::chrono::steady_clock::now();
-                    auto delta = std::chrono::duration<float>(now - p.realSpeedTime);
-                    p.realSpeed = p.realSpeedFrameCount / delta.count();
-                    p.realSpeedTime = now;
-                    p.realSpeedFrameCount = 0;
-                }
-                if (frame.image)
-                {
+                    if (p.realSpeedFrameCount >= realSpeedFrameCount)
+                    {
+                        auto now = std::chrono::steady_clock::now();
+                        auto delta = std::chrono::duration<float>(now - p.realSpeedTime);
+                        p.realSpeed = p.realSpeedFrameCount / delta.count();
+                        p.realSpeedTime = now;
+                        p.realSpeedFrameCount = 0;
+                    }
                     p.currentImage->setIfChanged(frame.image);
                     if (p.playEveryFrame->get())
                     {

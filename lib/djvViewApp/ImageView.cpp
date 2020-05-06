@@ -165,10 +165,11 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.image->setIfChanged(value))
             {
+                auto image = p.image->get();
                 p.gridOverlay->setImageAspectRatio(
                     p.imageAspectRatio->get(),
-                    p.image ? p.image->get()->getAspectRatio() : 1.F,
-                    p.image ? p.image->get()->getInfo().pixelAspectRatio : 1.F);
+                    image ? image->getAspectRatio() : 1.F,
+                    image ? image->getInfo().pixelAspectRatio : 1.F);
                 p.gridOverlay->setImageBBox(getImageBBox());
                 p.gridOverlay->setImageFrame(p.lockFrame);
                 _resize();

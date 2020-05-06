@@ -240,7 +240,10 @@ namespace djv
                 size_t out = 0;
                 for (const auto& i : _cache)
                 {
-                    out += i.second->getDataByteCount();
+                    if (i.second)
+                    {
+                        out += i.second->getDataByteCount();
+                    }
                 }
                 return out;
             }

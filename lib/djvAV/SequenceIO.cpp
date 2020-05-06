@@ -363,16 +363,13 @@ namespace djv
                 for (auto& future : futures)
                 {
                     const auto result = future.get();
-                    if (result.image)
+                    images.push_back(std::make_pair(result.frame, result.image));
+                    if (cacheEnabled)
                     {
-                        images.push_back(std::make_pair(result.frame, result.image));
-                        if (cacheEnabled)
-                        {
 #if defined(DJV_MMAP)
-                            result.image->detach();
+                        result.image->detach();
 #endif // DJV_MMAP
-                            _cache.add(result.frame, result.image);
-                        }
+                        _cache.add(result.frame, result.image);
                     }
                 }
 
@@ -484,13 +481,10 @@ namespace djv
                         i->wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                     {
                         const auto result = i->get();
-                        if (result.image)
-                        {
 #if defined(DJV_MMAP)
-                            result.image->detach();
+                        result.image->detach();
 #endif // DJV_MMAP
-                            _cache.add(result.frame, result.image);
-                        }
+                        _cache.add(result.frame, result.image);
                         i = p.cacheFutures.erase(i);
                     }
                     else
