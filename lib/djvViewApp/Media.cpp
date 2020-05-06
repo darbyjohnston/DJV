@@ -426,28 +426,70 @@ namespace djv
         void Media::setPlayback(Playback value)
         {
             DJV_PRIVATE_PTR();
+            const auto& sequence = p.sequence->get();
+            const size_t sequenceSize = sequence.getSize();
+            const auto& range = p.inOutPoints->get().getRange(sequenceSize);
+            const auto currentFrame = p.currentFrame->get();
             switch (value)
             {
             case Playback::Forward:
-                if (PlaybackMode::Once == p.playbackMode->get())
+                switch (p.playbackMode->get())
                 {
-                    const auto& sequence = p.sequence->get();
-                    const size_t sequenceSize = sequence.getSize();
-                    if (sequenceSize && p.currentFrame->get() == (sequenceSize - 1))
+                case PlaybackMode::Once:
+                    if (currentFrame >= range.max ||
+                        currentFrame < range.min)
                     {
-                        setCurrentFrame(0);
+                        setCurrentFrame(range.min);
                     }
+                    break;
+                case PlaybackMode::Loop:
+                    if (currentFrame > range.max ||
+                        currentFrame < range.min)
+                    {
+                        setCurrentFrame(range.min);
+                    }
+                    break;
+                case PlaybackMode::PingPong:
+                    if (currentFrame > range.max)
+                    {
+                        setCurrentFrame(range.max);
+                    }
+                    else if (currentFrame < range.min)
+                    {
+                        setCurrentFrame(range.min);
+                    }
+                    break;
+                default: break;
                 }
                 break;
             case Playback::Reverse:
-                if (PlaybackMode::Once == p.playbackMode->get())
+                switch (p.playbackMode->get())
                 {
-                    const auto& sequence = p.sequence->get();
-                    const size_t sequenceSize = sequence.getSize();
-                    if (sequenceSize && 0 == p.currentFrame->get())
+                case PlaybackMode::Once:
+                    if (currentFrame <= range.min ||
+                        currentFrame > range.max)
                     {
-                        setCurrentFrame(sequenceSize - 1);
+                        setCurrentFrame(range.max);
                     }
+                    break;
+                case PlaybackMode::Loop:
+                    if (currentFrame < range.min ||
+                        currentFrame > range.max)
+                    {
+                        setCurrentFrame(range.max);
+                    }
+                    break;
+                case PlaybackMode::PingPong:
+                    if (currentFrame > range.max)
+                    {
+                        setCurrentFrame(range.max);
+                    }
+                    else if (currentFrame < range.min)
+                    {
+                        setCurrentFrame(range.min);
+                    }
+                    break;
+                default: break;
                 }
                 break;
             default: break;
@@ -843,79 +885,62 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const Frame::Sequence& sequence = p.sequence->get();
-            const size_t size = sequence.getSize();
-            const auto& range = p.inOutPoints->get().getRange(size);
-            switch (p.playback->get())
+            const size_t sequenceSize = sequence.getSize();
+            const auto& range = p.inOutPoints->get().getRange(sequenceSize);
+            if (p.currentFrame->setIfChanged(value))
             {
-            case Playback::Forward:
-                if (value > range.max)
+                switch (p.playback->get())
                 {
-                    switch (p.playbackMode->get())
+                case Playback::Forward:
+                    if (value >= range.max)
                     {
-                    case PlaybackMode::Once:
-                        setPlayback(Playback::Stop);
-                        break;
-                    case PlaybackMode::Loop:
+                        switch (p.playbackMode->get())
+                        {
+                        case PlaybackMode::Once:
+                            setPlayback(Playback::Stop);
+                            break;
+                        case PlaybackMode::Loop:
+                        {
+                            setPlayback(Playback::Stop);
+                            setPlayback(Playback::Forward);
+                            break;
+                        }
+                        case PlaybackMode::PingPong:
+                        {
+                            setPlayback(Playback::Stop);
+                            setPlayback(Playback::Reverse);
+                            break;
+                        }
+                        default: break;
+                        }
+                    }
+                    break;
+                case Playback::Reverse:
+                    if (value <= range.min)
                     {
-                        setPlayback(Playback::Stop);
-                        setCurrentFrame(range.min);
-                        setPlayback(Playback::Forward);
-                        break;
+                        switch (p.playbackMode->get())
+                        {
+                        case PlaybackMode::Once:
+                            setPlayback(Playback::Stop);
+                            break;
+                        case PlaybackMode::Loop:
+                        {
+                            setPlayback(Playback::Stop);
+                            setPlayback(Playback::Reverse);
+                            break;
+                        }
+                        case PlaybackMode::PingPong:
+                        {
+                            setPlayback(Playback::Stop);
+                            setPlayback(Playback::Forward);
+                            break;
+                        }
+                        default: break;
+                        }
                     }
-                    case PlaybackMode::PingPong:
-                    {
-                        setPlayback(Playback::Stop);
-                        setPlayback(Playback::Reverse);
-                        break;
-                    }
-                    default: break;
-                    }
+                    break;
+                default: break;
                 }
-                else if (value < range.min)
-                {
-                    setCurrentFrame(range.min);
-                    setPlayback(Playback::Forward);
-                }
-                else
-                {
-                    p.currentFrame->setIfChanged(value);
-                }
-                break;
-            case Playback::Reverse:
-                if (value < range.min)
-                {
-                    switch (p.playbackMode->get())
-                    {
-                    case PlaybackMode::Once:
-                        setPlayback(Playback::Stop);
-                        break;
-                    case PlaybackMode::Loop:
-                    {
-                        setPlayback(Playback::Stop);
-                        setCurrentFrame(range.max);
-                        setPlayback(Playback::Reverse);
-                        break;
-                    }
-                    case PlaybackMode::PingPong:
-                    {
-                        setPlayback(Playback::Stop);
-                        setPlayback(Playback::Forward);
-                        break;
-                    }
-                    default: break;
-                    }
-                }
-                else if (value > range.max)
-                {
-                    setCurrentFrame(range.max);
-                    setPlayback(Playback::Reverse);
-                }
-                else
-                {
-                    p.currentFrame->setIfChanged(value);
-                }
-                break;
-            default: break;
             }
         }
 
