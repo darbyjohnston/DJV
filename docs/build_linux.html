@@ -98,17 +98,20 @@ $ cmake --build .
 </pre>
 	<p>Create an RPM package:</p>
 	<pre>
-$ cmake ../DJV -DCPACK_GENERATOR=RPM -DCPACK_PACKAGING_INSTALL_PREFIX=/usr/local/DJV2
+$ cmake ../DJV -DCPACK_GENERATOR=RPM -DCPACK_PACKAGING_INSTALL_PREFIX=/usr/local/DJV2 -DDJV_THIRD_PARTY=TRUE
+$ cmake --build .
 $ cmake --build . --target package
 </pre>
 	<p>Create a Debian package:</p>
 	<pre>
-$ cmake ../DJV -DCPACK_GENERATOR=DEB -DCPACK_PACKAGING_INSTALL_PREFIX=/usr/local/DJV2
+$ cmake ../DJV -DCPACK_GENERATOR=DEB -DCPACK_PACKAGING_INSTALL_PREFIX=/usr/local/DJV2 -DDJV_THIRD_PARTY=TRUE
+$ cmake --build .
 $ cmake --build . --target package
 </pre>
 	<p>Create a TGZ package:</p>
 	<pre>
-$ cmake ../DJV -DCPACK_GENERATOR=TGZ -DCPACK_PACKAGING_INSTALL_PREFIX=
+$ cmake ../DJV -DCPACK_GENERATOR=TGZ -DCPACK_PACKAGING_INSTALL_PREFIX= -DDJV_THIRD_PARTY=TRUE
+$ cmake --build .
 $ cmake --build . --target package
 </pre>
 	<p>Bump the version number in "CMakeLists.txt", "Doxyfile", and "sonar-project.properties".</p>
