@@ -1,7 +1,4 @@
 {
-	"cli_ui_options": "UI Options",
-	"cli_option_init_settings": "-init_settings",
-	"cli_option_init_settings_description": "Initialize to factory settings.",
     "error_cannot_parse_the_value": "Cannot parse the value.",
     "key_0": "0",
     "key_1": "1",
@@ -146,10 +143,6 @@
     "style_metrics_small": "Small",
     "style_palette_dark": "Dark",
     "style_palette_light": "Light",
-    "ui_image_rotate_0": "0°",
-    "ui_image_rotate_180": "180°",
-    "ui_image_rotate_270": "270°",
-    "ui_image_rotate_90": "90°",
     "ui_aspect_ratio_16_9": "16:9",
     "ui_aspect_ratio_1_85": "1.85:1",
     "ui_aspect_ratio_2_35": "2.35:1",

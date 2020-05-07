@@ -1,6 +1,6 @@
 {
+    "djv_convert_description": "djv_convert är ett kommandoradsverktyg för att konvertera bilder och bildsekvenser.",
     "djv_convert_nothing_convert": "Inget att konvertera",
-    "djv_convert_options": "Alternativ",
     "djv_convert_option_readqueue": "-readQueue (värde)",
     "djv_convert_option_readqueue_description": "Ställ in storleken på läskön.",
     "djv_convert_option_readseq": "-readSeq",
@@ -15,5 +15,9 @@
     "djv_convert_option_writeseq_description": "Tolk utdatafilnamnet som en sekvens.",
     "djv_convert_option_writethreads": "-writeThreads (värde)",
     "djv_convert_option_writethreads_description": "Ställ in antalet trådar som ska skrivas.",
-    "djv_convert_usage": "Användande"
+    "djv_convert_options": "Alternativ",
+    "djv_convert_output_error": "Det går inte att analysera utdatafilen.",
+    "djv_convert_usage": "Användande",
+    "djv_convert_usage_format": "djv_convert (input) (output) [alternativ, ...]",
+    "error_cannot_parse_argument": "error_cannot_parse_argument"
 }

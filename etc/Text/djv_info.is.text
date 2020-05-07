@@ -1,0 +1,6 @@
+{
+    "djv_info_description": "djv_info er skipanalína til að birta upplýsingar um myndir og myndaraðir.",
+    "djv_info_usage": "Notkun",
+    "djv_info_usage_format": "djv_info [inntak, ...]",
+    "error_file_open": "error_file_open"
+}

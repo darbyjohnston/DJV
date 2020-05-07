@@ -1,0 +1,6 @@
+{
+    "djv_ls_description": "djv_ls는 이미지 시퀀스를 나열하기위한 명령 줄 도구입니다.",
+    "djv_ls_usage": "용법",
+    "djv_ls_usage_format": "djv_ls [입력, ...]",
+    "error_file_open": "error_file_open"
+}

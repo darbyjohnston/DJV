@@ -1,5 +1,6 @@
 {
     "djv_info_description": "djv_info is a command-line tool for displaying information about images and image sequences.",
     "djv_info_usage": "Usage",
-    "djv_info_usage_format": "djv_info [input, ...]"
+    "djv_info_usage_format": "djv_info [input, ...]",
+    "error_file_open": "error_file_open"
 }

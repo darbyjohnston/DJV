@@ -16,6 +16,7 @@
     "color_sliders_value": "V.",
     "color_sliders_value_tooltip": "Etykieta wartości suwaków kolorów",
     "color_type_widget_tooltip": "Ustaw typ koloru",
+    "error_file_browser_cannot_set_the_path": "Nie można ustawić ścieżki.",
     "file_browser": "Przeglądarka plików",
     "file_browser_add_shortcut_tooltip": "Dodaj bieżący katalog do listy skrótów",
     "file_browser_back": "Plecy",

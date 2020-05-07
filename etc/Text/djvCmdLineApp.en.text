@@ -1,13 +1,12 @@
 {
-	"cli_general_options": "General Options",
+    "cli_general_options": "General Options",
     "cli_option_help": "-help, --help, -h",
     "cli_option_help_description": "Print this message and exit.",
-    "cli_option_info": "-info",
-    "cli_option_info_description": "Print information about the application and exit.",
-    "cli_option_version": "-version",
-    "cli_option_version_description": "Print the version and exit.",
     "cli_option_log_console": "-log_console",
     "cli_option_log_console_description": "Print the log to the console.",
     "cli_option_time_units": "-time_units",
-    "cli_option_time_units_description": "Set the time units. Options: {0}. Current value: {1}."
+    "cli_option_time_units_description": "Set the time units. Options: {0}. Current value: {1}.",
+    "cli_option_version": "-version",
+    "cli_option_version_description": "Print the version and exit.",
+    "error_cannot_parse_argument": "error_cannot_parse_argument"
 }

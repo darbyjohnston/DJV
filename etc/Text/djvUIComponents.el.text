@@ -16,6 +16,7 @@
     "color_sliders_value": "V",
     "color_sliders_value_tooltip": "Έγχρωμη εργαλειομηχανή αξίας ρυθμιστικών τιμών",
     "color_type_widget_tooltip": "Ορίστε τον τύπο χρώματος",
+    "error_file_browser_cannot_set_the_path": "Δεν είναι δυνατή η ρύθμιση της διαδρομής.",
     "file_browser": "Αρχείο περιήγησης αρχείων",
     "file_browser_add_shortcut_tooltip": "Προσθέστε τον τρέχοντα κατάλογο στη λίστα συντομεύσεων",
     "file_browser_back": "Πίσω",

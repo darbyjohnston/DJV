@@ -1,0 +1,12 @@
+{
+    "cli_general_options": "一般的なオプション",
+    "cli_option_help": "-help、-help、-h",
+    "cli_option_help_description": "このメッセージを出力して終了します。",
+    "cli_option_log_console": "-log_console",
+    "cli_option_log_console_description": "ログをコンソールに出力します。",
+    "cli_option_time_units": "-time_units",
+    "cli_option_time_units_description": "時間単位を設定します。オプション：{0}。現在の値：{1}。",
+    "cli_option_version": "-バージョン",
+    "cli_option_version_description": "バージョンを印刷して終了します。",
+    "error_cannot_parse_argument": "error_cannot_parse_argument"
+}

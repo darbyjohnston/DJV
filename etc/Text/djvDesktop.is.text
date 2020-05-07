@@ -1,4 +1,0 @@
-{
-    "error_glfw_init": "Ekki hægt að frumstilla GLFW.",
-    "error_glfw_window_creation": "Ekki hægt að búa til GLFW glugga."
-}

@@ -1,6 +1,6 @@
 {
+    "djv_convert_description": "O djv_convert é uma ferramenta de linha de comando para converter imagens e seqüências de imagens.",
     "djv_convert_nothing_convert": "Nada para converter",
-    "djv_convert_options": "Opções",
     "djv_convert_option_readqueue": "-readQueue (value)",
     "djv_convert_option_readqueue_description": "Defina o tamanho da fila de leitura.",
     "djv_convert_option_readseq": "-readSeq",
@@ -15,5 +15,9 @@
     "djv_convert_option_writeseq_description": "Interprete o nome do arquivo de saída como uma sequência.",
     "djv_convert_option_writethreads": "-writeThreads (valor)",
     "djv_convert_option_writethreads_description": "Defina o número de threads para gravação.",
-    "djv_convert_usage": "Uso"
+    "djv_convert_options": "Opções",
+    "djv_convert_output_error": "Não é possível analisar o arquivo de saída.",
+    "djv_convert_usage": "Uso",
+    "djv_convert_usage_format": "djv_convert (entrada) (saída) [opção, ...]",
+    "error_cannot_parse_argument": "error_cannot_parse_argument"
 }

@@ -1,4 +1,5 @@
 {
+    "djv_test_pattern_cli_description": "djv_test_pattern은 일련의 테스트 이미지를 생성하기위한 명령 줄 도구입니다.",
     "djv_test_pattern_cli_description_frame_number": "렌더링 할 프레임 수입니다. 기본:",
     "djv_test_pattern_cli_description_resolution": "이미지 해상도. 기본:",
     "djv_test_pattern_cli_description_type": "이미지 타입. 기본:",
@@ -12,5 +13,7 @@
     "djv_test_pattern_cli_render_a_uhd_resolution_test_pattern_with_a_rgb_16-bit_image_type": "RGB 16 비트 이미지 유형으로 UHD 해상도 테스트 패턴을 렌더링하십시오.",
     "djv_test_pattern_cli_test_1_dpx": "&gt; djv_test_pattern test.1.dpx",
     "djv_test_pattern_cli_test_1_tif_-size_3840_2160_-type_rgb_u16": "&gt; djv_test_pattern test.1.tif -size &#39;3840 2160&#39;-유형 RGB_U16",
-    "djv_test_pattern_cli_usage": "용법"
+    "djv_test_pattern_cli_usage": "용법",
+    "djv_test_pattern_output_error": "출력 파일을 구문 분석 할 수 없습니다.",
+    "error_cannot_parse_argument": "error_cannot_parse_argument"
 }

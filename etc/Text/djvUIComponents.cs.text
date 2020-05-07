@@ -16,6 +16,7 @@
     "color_sliders_value": "V",
     "color_sliders_value_tooltip": "Popisek hodnot barevných posuvníků",
     "color_type_widget_tooltip": "Nastavte typ barvy",
+    "error_file_browser_cannot_set_the_path": "Cestu nelze nastavit.",
     "file_browser": "Prohlížeč souborů",
     "file_browser_add_shortcut_tooltip": "Do seznamu zkratek přidejte aktuální adresář",
     "file_browser_back": "Zadní",

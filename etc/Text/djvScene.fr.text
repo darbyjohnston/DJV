@@ -1,4 +1,8 @@
 {
+    "error_cannot_parse_the_value": "Impossible d&#39;analyser la valeur.",
+    "error_file_open": "error_file_open",
+    "error_file_read": "error_file_read",
+    "error_file_write": "error_file_write",
     "obj_plugin_description": "Ce plugin fournit des E / S de fichiers OBJ.",
     "opennurbs_plugin_description": "Ce plugin fournit des E / S de fichiers OpenNURBS."
 }

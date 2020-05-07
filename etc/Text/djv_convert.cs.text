@@ -1,6 +1,6 @@
 {
+    "djv_convert_description": "djv_convert je nástroj příkazového řádku pro převod obrázků a sekvencí obrázků.",
     "djv_convert_nothing_convert": "Nic převést",
-    "djv_convert_options": "Možnosti",
     "djv_convert_option_readqueue": "-readQueue (value)",
     "djv_convert_option_readqueue_description": "Nastavte velikost čtecí fronty.",
     "djv_convert_option_readseq": "-readSeq",
@@ -15,5 +15,9 @@
     "djv_convert_option_writeseq_description": "Interpretovat název výstupního souboru jako posloupnost.",
     "djv_convert_option_writethreads": "-writeThreads (hodnota)",
     "djv_convert_option_writethreads_description": "Nastavte počet vláken pro zápis.",
-    "djv_convert_usage": "Používání"
+    "djv_convert_options": "Možnosti",
+    "djv_convert_output_error": "Nelze analyzovat výstupní soubor.",
+    "djv_convert_usage": "Používání",
+    "djv_convert_usage_format": "djv_convert (vstup) (výstup) [možnost, ...]",
+    "error_cannot_parse_argument": "error_cannot_parse_argument"
 }

@@ -16,6 +16,7 @@
     "color_sliders_value": "V",
     "color_sliders_value_tooltip": "Descrizione comando valore cursori colore",
     "color_type_widget_tooltip": "Imposta il tipo di colore",
+    "error_file_browser_cannot_set_the_path": "Impossibile impostare il percorso.",
     "file_browser": "Browser dei file",
     "file_browser_add_shortcut_tooltip": "Aggiungi la directory corrente all&#39;elenco delle scorciatoie",
     "file_browser_back": "Indietro",

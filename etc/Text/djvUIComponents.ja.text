@@ -16,6 +16,7 @@
     "color_sliders_value": "V",
     "color_sliders_value_tooltip": "カラースライダー値のツールチップ",
     "color_type_widget_tooltip": "色の種類を設定する",
+    "error_file_browser_cannot_set_the_path": "パスを設定できません。",
     "file_browser": "ファイルブラウザ",
     "file_browser_add_shortcut_tooltip": "現在のディレクトリをショートカットのリストに追加します",
     "file_browser_back": "バック",

@@ -1,0 +1,6 @@
+{
+    "djv_ls_description": "djv_ls é uma ferramenta de linha de comando para listar seqüências de imagens.",
+    "djv_ls_usage": "Uso",
+    "djv_ls_usage_format": "djv_ls [entrada, ...]",
+    "error_file_open": "error_file_open"
+}

@@ -1,0 +1,6 @@
+{
+    "djv_info_description": "djv_info - это инструмент командной строки для отображения информации об изображениях и последовательностях изображений.",
+    "djv_info_usage": "Применение",
+    "djv_info_usage_format": "djv_info [вход, ...]",
+    "error_file_open": "error_file_open"
+}

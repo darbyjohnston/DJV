@@ -1,0 +1,6 @@
+{
+    "djv_ls_description": "djv_ls - это инструмент командной строки для вывода списка последовательностей изображений.",
+    "djv_ls_usage": "Применение",
+    "djv_ls_usage_format": "djv_ls [вход, ...]",
+    "error_file_open": "error_file_open"
+}

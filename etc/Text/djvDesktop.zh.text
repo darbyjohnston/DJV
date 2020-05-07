@@ -1,4 +1,0 @@
-{
-    "error_glfw_init": "无法初始化GLFW。",
-    "error_glfw_window_creation": "无法创建GLFW窗口。"
-}

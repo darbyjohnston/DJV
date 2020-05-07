@@ -1,0 +1,12 @@
+{
+    "cli_general_options": "Generelle indstillinger",
+    "cli_option_help": "-hjælp, -hjælp, -h",
+    "cli_option_help_description": "Udskriv denne meddelelse, og luk.",
+    "cli_option_log_console": "-log_console",
+    "cli_option_log_console_description": "Udskriv loggen til konsollen.",
+    "cli_option_time_units": "-time_units",
+    "cli_option_time_units_description": "Indstil tidsenheder. Valgmuligheder: {0}. Nuværende værdi: {1}.",
+    "cli_option_version": "-version",
+    "cli_option_version_description": "Udskriv versionen og afslutte.",
+    "error_cannot_parse_argument": "error_cannot_parse_argument"
+}

@@ -16,6 +16,7 @@
     "color_sliders_value": "V",
     "color_sliders_value_tooltip": "Información sobre herramientas de valor de controles deslizantes de color",
     "color_type_widget_tooltip": "Establecer el tipo de color",
+    "error_file_browser_cannot_set_the_path": "No se puede establecer el camino.",
     "file_browser": "Explorador de archivos",
     "file_browser_add_shortcut_tooltip": "Agregar el directorio actual a la lista de accesos directos",
     "file_browser_back": "atrás",

@@ -1,6 +1,6 @@
 {
+    "djv_convert_description": "djv_convert - инструмент командной строки для преобразования изображений и последовательностей изображений.",
     "djv_convert_nothing_convert": "Нечего конвертировать",
-    "djv_convert_options": "Параметры",
     "djv_convert_option_readqueue": "-readQueue (значение)",
     "djv_convert_option_readqueue_description": "Установите размер очереди чтения.",
     "djv_convert_option_readseq": "-readSeq",
@@ -15,5 +15,9 @@
     "djv_convert_option_writeseq_description": "Интерпретировать имя выходного файла как последовательность.",
     "djv_convert_option_writethreads": "-writeThreads (значение)",
     "djv_convert_option_writethreads_description": "Установите количество потоков для записи.",
-    "djv_convert_usage": "Использование"
+    "djv_convert_options": "Параметры",
+    "djv_convert_output_error": "Невозможно проанализировать выходной файл.",
+    "djv_convert_usage": "Использование",
+    "djv_convert_usage_format": "djv_convert (вход) (выход) [опция, ...]",
+    "error_cannot_parse_argument": "error_cannot_parse_argument"
 }

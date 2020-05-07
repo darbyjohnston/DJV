@@ -16,6 +16,7 @@
     "color_sliders_value": "V",
     "color_sliders_value_tooltip": "Tooltip für Farbschieberegler",
     "color_type_widget_tooltip": "Stellt den Farbtyp ein",
+    "error_file_browser_cannot_set_the_path": "Der Pfad kann nicht festgelegt werden.",
     "file_browser": "Dateibrowser",
     "file_browser_add_shortcut_tooltip": "Fügt das aktuelle Verzeichnis zur Liste der Shortcuts hinzu",
     "file_browser_back": "Zurück",

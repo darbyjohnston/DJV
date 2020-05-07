@@ -1,6 +1,6 @@
 {
+    "djv_convert_description": "djv_convert er skipanalína til að umbreyta myndum og myndaraðir.",
     "djv_convert_nothing_convert": "Ekkert að breyta",
-    "djv_convert_options": "Valkostir",
     "djv_convert_option_readqueue": "-readQueue (gildi)",
     "djv_convert_option_readqueue_description": "Stilltu stærð lestrar biðröð.",
     "djv_convert_option_readseq": "-readSeq",
@@ -15,5 +15,9 @@
     "djv_convert_option_writeseq_description": "Túlkaðu framleiðsluskráheitið sem röð.",
     "djv_convert_option_writethreads": "-Skrifa þræði (gildi)",
     "djv_convert_option_writethreads_description": "Stilltu fjölda þráða til að skrifa.",
-    "djv_convert_usage": "Notkun"
+    "djv_convert_options": "Valkostir",
+    "djv_convert_output_error": "Ekki hægt að greina framleiðsluskrána.",
+    "djv_convert_usage": "Notkun",
+    "djv_convert_usage_format": "djv_convert (inntak) (framleiðsla) [valkostur, ...]",
+    "error_cannot_parse_argument": "error_cannot_parse_argument"
 }

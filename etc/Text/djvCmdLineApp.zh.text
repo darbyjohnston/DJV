@@ -1,0 +1,12 @@
+{
+    "cli_general_options": "常规选项",
+    "cli_option_help": "-帮助，-帮助，-h",
+    "cli_option_help_description": "打印此消息并退出。",
+    "cli_option_log_console": "-log_console",
+    "cli_option_log_console_description": "将日志打印到控制台。",
+    "cli_option_time_units": "-time_units",
+    "cli_option_time_units_description": "设置时间单位。选项：{0}。当前值：{1}。",
+    "cli_option_version": "-版",
+    "cli_option_version_description": "打印版本并退出。",
+    "error_cannot_parse_argument": "error_cannot_parse_argument"
+}

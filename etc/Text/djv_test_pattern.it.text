@@ -1,4 +1,5 @@
 {
+    "djv_test_pattern_cli_description": "djv_test_pattern è uno strumento da riga di comando per generare una sequenza di immagini di prova.",
     "djv_test_pattern_cli_description_frame_number": "Il numero di frame da renderizzare. Predefinito:",
     "djv_test_pattern_cli_description_resolution": "La risoluzione dell&#39;immagine Predefinito:",
     "djv_test_pattern_cli_description_type": "Il tipo di immagine. Predefinito:",
@@ -12,5 +13,7 @@
     "djv_test_pattern_cli_render_a_uhd_resolution_test_pattern_with_a_rgb_16-bit_image_type": "Rendering di un modello di test di risoluzione UHD con un tipo di immagine RGB a 16 bit.",
     "djv_test_pattern_cli_test_1_dpx": "&gt; djv_test_pattern test.1.dpx",
     "djv_test_pattern_cli_test_1_tif_-size_3840_2160_-type_rgb_u16": "&gt; djv_test_pattern test.1.tif -size &#39;3840 2160&#39; -type RGB_U16",
-    "djv_test_pattern_cli_usage": "Uso"
+    "djv_test_pattern_cli_usage": "Uso",
+    "djv_test_pattern_output_error": "Impossibile analizzare il file di output.",
+    "error_cannot_parse_argument": "error_cannot_parse_argument"
 }

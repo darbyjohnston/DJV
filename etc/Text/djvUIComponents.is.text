@@ -16,6 +16,7 @@
     "color_sliders_value": "V",
     "color_sliders_value_tooltip": "Gildi tippatafla fyrir litrennibrautir",
     "color_type_widget_tooltip": "Stilltu litategundina",
+    "error_file_browser_cannot_set_the_path": "Ekki hægt að stilla slóðina.",
     "file_browser": "File Browser",
     "file_browser_add_shortcut_tooltip": "Bættu núverandi skrá við lista yfir flýtileiðir",
     "file_browser_back": "Aftur",

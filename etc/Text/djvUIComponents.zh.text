@@ -16,6 +16,7 @@
     "color_sliders_value": "V",
     "color_sliders_value_tooltip": "颜色滑块值工具提示",
     "color_type_widget_tooltip": "设置颜色类型",
+    "error_file_browser_cannot_set_the_path": "无法设置路径。",
     "file_browser": "文件浏览器",
     "file_browser_add_shortcut_tooltip": "将当前目录添加到快捷方式列表中",
     "file_browser_back": "背部",

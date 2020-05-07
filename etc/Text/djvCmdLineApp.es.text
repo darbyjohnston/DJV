@@ -1,0 +1,12 @@
+{
+    "cli_general_options": "Opciones generales",
+    "cli_option_help": "-help, --help, -h",
+    "cli_option_help_description": "Imprima este mensaje y salga.",
+    "cli_option_log_console": "-log_console",
+    "cli_option_log_console_description": "Imprima el registro en la consola.",
+    "cli_option_time_units": "-time_units",
+    "cli_option_time_units_description": "Establecer las unidades de tiempo. Opciones: {0}. Valor actual: {1}.",
+    "cli_option_version": "-versión",
+    "cli_option_version_description": "Imprima la versión y salga.",
+    "error_cannot_parse_argument": "error_cannot_parse_argument"
+}

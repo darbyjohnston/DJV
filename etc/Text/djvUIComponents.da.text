@@ -16,6 +16,7 @@
     "color_sliders_value": "V",
     "color_sliders_value_tooltip": "Værktøjstip værktøjstip for farveskyder",
     "color_type_widget_tooltip": "Indstil farvetype",
+    "error_file_browser_cannot_set_the_path": "Stien kan ikke indstilles.",
     "file_browser": "Filbrowser",
     "file_browser_add_shortcut_tooltip": "Føj det aktuelle bibliotek til listen over genveje",
     "file_browser_back": "Tilbage",

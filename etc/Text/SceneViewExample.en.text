@@ -23,7 +23,6 @@
     "action_tool_settings_tooltip": "Show the settings",
     "action_view_frame": "Frame",
     "action_view_frame_tooltip": "Frame the view",
-    "settings_back_tooltip": "Go to the previous page",
     "widget_camera": "Camera",
     "widget_camera_clipping": "Clipping",
     "widget_camera_distance": "Distance",

@@ -16,6 +16,7 @@
     "color_sliders_value": "V",
     "color_sliders_value_tooltip": "Подсказка значения цветных ползунков",
     "color_type_widget_tooltip": "Установите тип цвета",
+    "error_file_browser_cannot_set_the_path": "Невозможно установить путь.",
     "file_browser": "Браузер файлов",
     "file_browser_add_shortcut_tooltip": "Добавить текущий каталог в список ярлыков",
     "file_browser_back": "назад",

@@ -16,6 +16,7 @@
     "color_sliders_value": "V",
     "color_sliders_value_tooltip": "Deslizadores de cores valorizam a dica de ferramenta",
     "color_type_widget_tooltip": "Defina o tipo de cor",
+    "error_file_browser_cannot_set_the_path": "Não é possível definir o caminho.",
     "file_browser": "Navegador de arquivos",
     "file_browser_add_shortcut_tooltip": "Adicione o diretório atual à lista de atalhos",
     "file_browser_back": "Costas",
