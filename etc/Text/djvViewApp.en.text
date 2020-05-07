@@ -229,7 +229,7 @@
     "menu_file_layers": "Layers",
     "menu_file_layers_tooltip": "Show the layers widget",
     "menu_file_next": "Next",
-    "menu_file_next_layer": "Next layer",
+    "menu_file_next_layer": "Next Layer",
     "menu_file_next_layer_tooltip": "Go to the next layer",
     "menu_file_next_tooltip": "Go to the next file",
     "menu_file_open": "Open",
