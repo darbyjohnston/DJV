@@ -12,7 +12,7 @@
 //#include <AL/al.h>
 //#include <AL/alc.h>
 //#include <AL/alext.h>
-#include <rtaudio/RtAudio.h>
+#include <RtAudio.h>
 
 #include <limits>
 

@@ -11,7 +11,7 @@
 #include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 
-#include <rtaudio/RtAudio.h>
+#include <RtAudio.h>
 
 using namespace djv::Core;
 

@@ -24,7 +24,7 @@ namespace djv
         {
             namespace
             {
-                const size_t settingsVersion = 24;
+                const size_t settingsVersion = 25;
 
             } // namespace
 

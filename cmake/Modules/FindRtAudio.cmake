@@ -14,7 +14,7 @@
 #
 # * RtAudio
 
-find_path(RtAudio_INCLUDE_DIR NAMES rtaudio/RtAudio.h)
+find_path(RtAudio_INCLUDE_DIR NAMES RtAudio.h)
 set(RtAudio_INCLUDE_DIRS ${RtAudio_INCLUDE_DIR})
 
 if(WIN32)

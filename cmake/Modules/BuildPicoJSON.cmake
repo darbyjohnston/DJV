@@ -1,9 +1,13 @@
 include(ExternalProject)
 
+# Tag: v1.3.0
+set(PicoJSON_GIT_TAG 25fc213cca61ea22b3c2e4db8def9927562ba5f7)
+
 ExternalProject_Add(
     PicoJSON
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/PicoJSON
-    URL http://github.com/kazuho/picojson/archive/master.zip
+    GIT_REPOSITORY https://github.com/kazuho/picojson.git
+    GIT_TAG ${PicoJSON_GIT_TAG}
     PATCH_COMMAND
         ${CMAKE_COMMAND} -E copy
             ${CMAKE_SOURCE_DIR}/picojson-patch/CMakeLists.txt

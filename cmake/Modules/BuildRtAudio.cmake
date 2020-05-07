@@ -1,5 +1,8 @@
 include(ExternalProject)
 
+# Tag: 5.1.0
+set(RtAudio_GIT_TAG d27f257b4bc827e4152cdc4d69a2e22084204afd)
+
 set(RtAudio_ARGS
     -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
     -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
@@ -15,5 +18,5 @@ ExternalProject_Add(
     RtAudio
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/RtAudio
     GIT_REPOSITORY https://github.com/thestk/rtaudio.git
+    GIT_TAG ${RtAudio_GIT_TAG}
     CMAKE_ARGS ${RtAudio_ARGS})
-
