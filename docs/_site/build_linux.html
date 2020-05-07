@@ -25,6 +25,11 @@
 		<li><a class="text" href="https://git-scm.com">git</a></li>
 		<li><a class="text" href="http://www.opengl.org">OpenGL</a> (version 4.1 or later)</li>
 	</ul>
+	<p>On Debian based systems you can install the requirements with the
+	following command:</p>
+	<pre>
+$ sudo apt-get install git cmake build-essential libgl1-mesa-dev xorg-dev libasound2-dev
+</pre>
 
 	<p class="subHeader"><a name="Preparation">Preparation</a></p>
     <p>First choose a directory to work in, this is where the code will be
@@ -33,8 +38,8 @@
 	<p>Append your PATH and LD_LIBRARY_PATH environment variables:</p>
 	<pre>
 $ cd $BUILD_DIR
-$ export PATH=$PATH:$PWD/DJV-install-Debug/bin
-$ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/DJV-install-Debug/lib
+$ export PATH=$PWD/DJV-install-Debug/bin:$PATH
+$ export LD_LIBRARY_PATH=$PWD/DJV-install-Debug/lib:$LD_LIBRARY_PATH
 </pre>
 
 	<p class="subHeader"><a name="BuildingDJV">Building DJV</a></p>
@@ -84,8 +89,8 @@ git push origin 2.0.0
     <p>Create a release build:</p>
 	<pre>
 $ cd $BUILD_DIR
-$ export PATH=$PATH:$PWD/DJV-install-Release/bin
-$ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/DJV-install-Release/lib
+$ export PATH=$PWD/DJV-install-Release/bin:$PATH
+$ export LD_LIBRARY_PATH=$PWD/DJV-install-Release/lib:$LD_LIBRARY_PATH
 $ mkdir DJV-third-party-Release
 $ cd DJV-third-party-Release
 $ cmake ../DJV/third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../DJV-install-Release
@@ -115,7 +120,6 @@ $ cmake --build . --target package
 	<p>Bump the version number in "CMakeLists.txt", "Doxyfile", and "sonar-project.properties".</p>
 
 </div>
-
 
 
 

@@ -87,8 +87,8 @@ $ make install
 > mkdir DJV-third-party-Debug
 > cd DJV-third-party-Debug
 > cmake ..\DJV\third-party -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug
-> nmake
-> nmake install
+> cmake --build .
+> cmake --build . --target install
 > cd ..
 </pre>
 	<p>Build DJV:</p>
@@ -96,11 +96,11 @@ $ make install
 > mkdir DJV-Debug
 > cd DJV-Debug
 > cmake ..\DJV -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_PREFIX_PATH=../DJV-install-Debug -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug
-> nmake
+> cmake --build .
 </pre>
 <p>Try running the confidence tests to make sure everything is working OK:</p>
 <pre>
-> nmake test
+> cmake --build . --target test
 </pre>
 <p>Run the djv player application:</p>
 <pre>
@@ -113,17 +113,17 @@ $ make install
 > mkdir DJV-third-party-Release
 > cd DJV-third-party-Release
 > cmake ..\DJV\third-party -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../DJV-install-Release
-> nmake
-> nmake install
+> cmake --build .
+> cmake --build . --target install
 > cd ..
 > mkdir DJV-Release
 > cd DJV-Release
 > cmake ..\DJV -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=../DJV-install-Release -DCMAKE_INSTALL_PREFIX=../DJV-install-Release
-> nmake
+> cmake --build .
 </pre>
 	<p>Build the packages:</p>
 <pre>
-> nmake package
+> cmake --build . --target package
 </pre>
 </div>
 

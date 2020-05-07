@@ -40,8 +40,8 @@ $ brew install cmake
 	<p>Append your PATH and DYLD_LIBRARY_PATH environment variables:</p>
 	<pre>
 $ cd $DJV_BUILD
-$ export PATH=$PATH:$PWD/DJV-install-Debug/bin
-$ export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$PWD/DJV-install-Debug/lib
+$ export PATH=$PWD/DJV-install-Debug/bin:$PATH
+$ export DYLD_LIBRARY_PATH=$PWD/DJV-install-Debug/lib:$DYLD_LIBRARY_PATH
 </pre>
 
 	<p class="subHeader"><a name="BuildingDJV">Building DJV</a></p>
@@ -80,8 +80,8 @@ $ ./build/bin/djv
     <p>Create a release build:</p>
 	<pre>
 $ cd $BUILD_DIR
-$ export PATH=$PATH:$PWD/DJV-install-Release/bin
-$ export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$PWD/DJV-install-Release/lib
+$ export PATH=$PWD/DJV-install-Release/bin:$PATH
+$ export DYLD_LIBRARY_PATH=$PWD/DJV-install-Release/lib:$DYLD_LIBRARY_PATH
 $ mkdir DJV-third-party-Release
 $ cd DJV-third-party-Release
 $ cmake ../DJV/third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../DJV-install-Release -DCMAKE_FIND_FRAMEWORK="LAST"
@@ -99,7 +99,6 @@ $ cmake --build . --target package
 </pre>
 
 </div>
-
 
 
 
