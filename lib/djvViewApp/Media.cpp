@@ -7,6 +7,7 @@
 #include <djvViewApp/Annotate.h>
 
 #include <djvAV/AVSystem.h>
+#include <djvAV/AudioSystem.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/LogSystem.h>
@@ -768,7 +769,8 @@ namespace djv
                             p.rtAudio->closeStream();
                         }
                         RtAudio::StreamParameters rtParameters;
-                        rtParameters.deviceId = p.rtAudio->getDefaultOutputDevice();
+                        auto audioSystem = context->getSystemT<AV::Audio::System>();
+                        rtParameters.deviceId = audioSystem->getDefaultOutputDevice();
                         rtParameters.nChannels = p.audioInfo.info.channelCount;
                         unsigned int rtBufferFrames = audioBufferFrameCount;
                         try

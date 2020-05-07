@@ -55,6 +55,9 @@ namespace djv
 
                 const std::vector<std::string>& getAPIs() const;
                 const std::vector<Device>& getDevices() const;
+                
+                unsigned int getDefaultInputDevice();
+                unsigned int getDefaultOutputDevice();
 
             private:
                 DJV_PRIVATE();

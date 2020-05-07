@@ -137,6 +137,16 @@ namespace djv
                             }
                         }
                     }
+                    {
+                        std::stringstream ss;
+                        ss << "    Default input device: " << p.rtAudio->getDefaultInputDevice();
+                        _log(ss.str());
+                    }
+                    {
+                        std::stringstream ss;
+                        ss << "    Default output device: " << p.rtAudio->getDefaultOutputDevice();
+                        _log(ss.str());
+                    }
                 }
                 catch (const std::exception& e)
                 {
@@ -170,6 +180,60 @@ namespace djv
             const std::vector<Device>& System::getDevices() const
             {
                 return _p->devices;
+            }
+                
+            unsigned int System::getDefaultInputDevice()
+            {
+                DJV_PRIVATE_PTR();
+                unsigned int out = p.rtAudio->getDefaultInputDevice();
+                const unsigned int rtDeviceCount = p.rtAudio->getDeviceCount();
+                std::vector<uint8_t> inputChannels;
+                for (unsigned int i = 0; i < rtDeviceCount; ++i)
+                {
+                    const RtAudio::DeviceInfo rtInfo = p.rtAudio->getDeviceInfo(i);
+                    inputChannels.push_back(rtInfo.inputChannels);
+                }
+                if (out < inputChannels.size())
+                {
+                    if (0 == inputChannels[out])
+                    {
+                        for (out = 0; out < rtDeviceCount; ++out)
+                        {
+                            if (inputChannels[out] > 0)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+                return out;
+            }
+            
+            unsigned int System::getDefaultOutputDevice()
+            {
+                DJV_PRIVATE_PTR();
+                unsigned int out = p.rtAudio->getDefaultOutputDevice();
+                const unsigned int rtDeviceCount = p.rtAudio->getDeviceCount();
+                std::vector<uint8_t> outputChannels;
+                for (unsigned int i = 0; i < rtDeviceCount; ++i)
+                {
+                    const RtAudio::DeviceInfo rtInfo = p.rtAudio->getDeviceInfo(i);
+                    outputChannels.push_back(rtInfo.outputChannels);
+                }
+                if (out < outputChannels.size())
+                {
+                    if (0 == outputChannels[out])
+                    {
+                        for (out = 0; out < rtDeviceCount; ++out)
+                        {
+                            if (outputChannels[out] > 0)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+                return out;
             }
 
         } // namespace Audio
