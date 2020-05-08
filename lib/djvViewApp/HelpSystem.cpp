@@ -49,6 +49,8 @@ namespace djv
             p.menu->addSeparator();
             p.menu->addAction(p.actions["About"]);
 
+            _textUpdate();
+            
             auto weak = std::weak_ptr<HelpSystem>(std::dynamic_pointer_cast<HelpSystem>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
             p.actionObservers["Documentation"] = ValueObserver<bool>::create(
