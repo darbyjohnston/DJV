@@ -48,63 +48,65 @@ namespace djv
                     Seek,
                     SeekMemoryMap
                 };
+
+                std::string getErrorString()
+                {
+                    std::string out;
+                    char buf[String::cStringLength] = "";
+#if defined(_GNU_SOURCE)
+                    out = strerror_r(errno, buf, String::cStringLength);
+#else // _GNU_SOURCE
+                    strerror_r(errno, buf, String::cStringLength);
+                    out = buf;
+#endif // _GNU_SOURCE
+                    return out;
+                }
                 
                 std::string getErrorMessage(ErrorType type, const std::string& fileName)
                 {
                     //! \todo How can we translate this?
                     std::vector<std::string> out;
-                    char buf[String::cStringLength] = "";
                     switch (type)
                     {
                     case ErrorType::Open:
                         out.push_back(String::Format("{0}: Cannot open file.").arg(fileName));
-                        strerror_r(errno, buf, String::cStringLength);
-                        out.push_back(buf);
+                        out.push_back(getErrorString());
                         break;
                     case ErrorType::Stat:
                         out.push_back(String::Format("{0}: Cannot stat file.").arg(fileName));
-                        strerror_r(errno, buf, String::cStringLength);
-                        out.push_back(buf);
+                        out.push_back(getErrorString());
                         break;
                     case ErrorType::MemoryMap:
                         out.push_back(String::Format("{0}: Cannot memory map.").arg(fileName));
-                        strerror_r(errno, buf, String::cStringLength);
-                        out.push_back(buf);
+                        out.push_back(getErrorString());
                         break;
                     case ErrorType::Close:
                         out.push_back(String::Format("{0}: Cannot close.").arg(fileName));
-                        strerror_r(errno, buf, String::cStringLength);
-                        out.push_back(buf);
+                        out.push_back(getErrorString());
                         break;
                     case ErrorType::CloseMemoryMap:
                         out.push_back(String::Format("{0}: Cannot unmap.").arg(fileName));
-                        strerror_r(errno, buf, String::cStringLength);
-                        out.push_back(buf);
+                        out.push_back(getErrorString());
                         break;
                     case ErrorType::Read:
                         out.push_back(String::Format("{0}: Cannot read.").arg(fileName));
-                        strerror_r(errno, buf, String::cStringLength);
-                        out.push_back(buf);
+                        out.push_back(getErrorString());
                         break;
                     case ErrorType::ReadMemoryMap:
                         out.push_back(String::Format("{0}: Cannot read memory map.").arg(fileName));
-                        strerror_r(errno, buf, String::cStringLength);
-                        out.push_back(buf);
+                        out.push_back(getErrorString());
                         break;
                     case ErrorType::Write:
                         out.push_back(String::Format("{0}: Cannot write.").arg(fileName));
-                        strerror_r(errno, buf, String::cStringLength);
-                        out.push_back(buf);
+                        out.push_back(getErrorString());
                         break;
                     case ErrorType::Seek:
                         out.push_back(String::Format("{0}: Cannot seek.").arg(fileName));
-                        strerror_r(errno, buf, String::cStringLength);
-                        out.push_back(buf);
+                        out.push_back(getErrorString());
                         break;
                     case ErrorType::SeekMemoryMap:
                         out.push_back(String::Format("{0}: Cannot seek memory map.").arg(fileName));
-                        strerror_r(errno, buf, String::cStringLength);
-                        out.push_back(buf);
+                        out.push_back(getErrorString());
                         break;
                     default: break;
                     }
