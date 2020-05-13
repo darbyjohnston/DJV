@@ -15,42 +15,9 @@ Microsoft Windows. Source code is provided under a BSD style open source license
 * [Documentation](https://darbyjohnston.github.io/DJV/documentation.html)
 
 
-Building on Linux
+Building the Code
 -----------------
 
-Required build tools:
-* C++11 compiler
-* [CMake 3.12](https://cmake.org)
-* [git](https://git-scm.com)
-* [NASM](https://www.nasm.us)
-
-Required libraries:
-* [OpenGL 4.1](https://www.opengl.org)
-
-Clone the repository:
-
-    > git clone https://github.com/darbyjohnston/DJV.git djv-git
-
-Create a new sub-directory and start the build:
-
-    > mkdir djv-git-Debug
-    > cd djv-git-Debug
-    > cmake ../djv-git -DCMAKE_BUILD_TYPE=Debug
-    > make -j
-
-Add the install path to your LD_LIBRARY_PATH: 
-
-    > export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/install/lib
-
-Run the confidence tests:
-
-    > make test
-
-Run the djv player application:
-
-    > ./build/bin/djv
-
-Additional information on building DJV can be found here:
 * [Building on Linux](https://darbyjohnston.github.io/DJV/build_linux.html)
 * [Building on OS X](https://darbyjohnston.github.io/DJV/build_osx.html)
 * [Building on Windows](https://darbyjohnston.github.io/DJV/build_windows.html)
@@ -67,4 +34,3 @@ Contributing
 ------------
 
 See this [page](https://darbyjohnston.github.io/DJV/contributing.html) for information on contributing to DJV.
-
