@@ -64,8 +64,8 @@ elseif(UNIX)
 elseif(WIN32)
     set(DJV_PLATFORM_WINDOWS TRUE)
     add_definitions(-DDJV_PLATFORM_WINDOWS)
-	set(CMAKE_C_FLAGS "/MP /EHsc")
-	set(CMAKE_CXX_FLAGS "/MP /EHsc")
+    set(CMAKE_C_FLAGS "/MP /EHsc")
+    set(CMAKE_CXX_FLAGS "/MP /EHsc")
 endif()
 
 # Set the output directories for the build.
@@ -129,14 +129,14 @@ find_package(OpenGL REQUIRED)
 
 # Add Python dependency.
 if(DJV_PYTHON)
-	find_package(Python)
+    find_package(Python)
 endif()
 
 # Set the list of required third party dependencies.
 set(DJV_THIRD_PARTY_REQUIRED_DEPS
-	glad
-	FSeq
-	ZLIB
+    glad
+    FSeq
+    ZLIB
     GLM
     GLFW
     PicoJSON
@@ -187,12 +187,12 @@ set(FFmpeg_SHARED_LIBS ON)
 
 # Add the third party dependencies.
 foreach(PACKAGE ${DJV_THIRD_PARTY_REQUIRED_DEPS})
-	find_package(${PACKAGE} REQUIRED)
+    find_package(${PACKAGE} REQUIRED)
 endforeach()
 if(DJV_THIRD_PARTY_OPTIONAL)
-	foreach(PACKAGE ${DJV_THIRD_PARTY_OPTIONAL_DEPS})
-		find_package(${PACKAGE})
-	endforeach()
+    foreach(PACKAGE ${DJV_THIRD_PARTY_OPTIONAL_DEPS})
+        find_package(${PACKAGE})
+    endforeach()
 endif()
 
 #-------------------------------------------------------------------------------
@@ -211,8 +211,8 @@ install(FILES ${DJV_FONT_FILES} DESTINATION etc/Fonts)
 
 # Icons.
 file(GLOB DJV_ICON_FILES
-	${CMAKE_SOURCE_DIR}/etc/Icons/*.ppm
-	${CMAKE_SOURCE_DIR}/etc/Icons/*.png)
+    ${CMAKE_SOURCE_DIR}/etc/Icons/*.ppm
+    ${CMAKE_SOURCE_DIR}/etc/Icons/*.png)
 file(COPY ${DJV_ICON_FILES} DESTINATION ${DJV_BUILD_DIR}/etc/Icons)
 install(FILES ${DJV_ICON_FILES} DESTINATION etc/Icons)
 foreach(DPI 32 48 64 96 120 144 168 192 216 240 264 288)
@@ -301,9 +301,9 @@ include(djvPackage)
 add_subdirectory(lib)
 add_subdirectory(tests)
 if(NOT DJV_BUILD_TINY)
-	add_subdirectory(bin)
-	add_subdirectory(docs)
-	add_subdirectory(examples)
+    add_subdirectory(bin)
+    add_subdirectory(docs)
+    add_subdirectory(examples)
 endif()
 
 include(CPack)

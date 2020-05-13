@@ -20,24 +20,24 @@ endif()
 
 # Add Python dependency.
 if(DJV_PYTHON)
-	find_package(Python)
-	include(FetchContent)
-	FetchContent_Declare(
-		pybind11
-		GIT_REPOSITORY https://github.com/pybind/pybind11
-		GIT_TAG v2.3.0)
-	FetchContent_GetProperties(pybind11)
-	if(NOT pybind11_POPULATED)
-		FetchContent_Populate(pybind11)
-		add_subdirectory(${pybind11_SOURCE_DIR} ${pybind11_BINARY_DIR})
-	endif()
+    find_package(Python)
+    include(FetchContent)
+    FetchContent_Declare(
+        pybind11
+        GIT_REPOSITORY https://github.com/pybind/pybind11
+        GIT_TAG v2.3.0)
+    FetchContent_GetProperties(pybind11)
+    if(NOT pybind11_POPULATED)
+        FetchContent_Populate(pybind11)
+        add_subdirectory(${pybind11_SOURCE_DIR} ${pybind11_BINARY_DIR})
+    endif()
 endif()
 
 # Set the list of required dependencies.
 set(DJV_THIRD_PARTY_REQUIRED_DEPS ZLIB)
 set(DJV_THIRD_PARTY_REQUIRED_DEPS
     ${DJV_THIRD_PARTY_REQUIRED_DEPS}
-	FSeq
+    FSeq
     GLM
     GLFW
     PicoJSON
@@ -54,7 +54,7 @@ if(WIN32)
 else()
     set(DJV_THIRD_PARTY_OPTIONAL_DEPS
         ${DJV_THIRD_PARTY_OPTIONAL_DEPS}
-		NASM
+        NASM
         #MbedTLS
         )
 endif()
@@ -86,10 +86,10 @@ set(FFmpeg_SHARED_LIBS ON)
 
 # Build the dependencies.
 foreach(DEP ${DJV_THIRD_PARTY_REQUIRED_DEPS})
-	include(Build${DEP})
+    include(Build${DEP})
 endforeach()
 if(DJV_THIRD_PARTY_OPTIONAL)
-	foreach(DEP ${DJV_THIRD_PARTY_OPTIONAL_DEPS})
-		include(Build${DEP})
-	endforeach()
+    foreach(DEP ${DJV_THIRD_PARTY_OPTIONAL_DEPS})
+        include(Build${DEP})
+    endforeach()
 endif()
