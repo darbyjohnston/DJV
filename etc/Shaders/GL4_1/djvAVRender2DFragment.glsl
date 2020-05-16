@@ -188,8 +188,7 @@ void main()
             t.a = 1.0;
         }
         
-//$colorSpaceBody
-
+		// Apply color transformations.
         if (colorMatrixEnabled)
         {
             t = colorMatrixFunc(t, colorMatrix);
@@ -212,6 +211,9 @@ void main()
         {
             t = softClipFunc(t, softClip);
         }
+
+		// Apply color management.
+		//$colorSpaceBody
 
         // Swizzle the channels for the given image channel configuration.
         if (IMAGE_CHANNEL_RED == imageChannel)
