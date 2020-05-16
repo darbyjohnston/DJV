@@ -105,6 +105,7 @@ namespace djv
             glfwSetFramebufferSizeCallback(glfwWindow, _resizeCallback);
             glfwSetWindowContentScaleCallback(glfwWindow, _contentScaleCallback);
             glfwSetWindowRefreshCallback(glfwWindow, _redrawCallback);
+            glfwSetWindowFocusCallback(p.glfwWindow, _focusCallback);
             glfwSetCursorEnterCallback(glfwWindow, _pointerEnterCallback);
             glfwSetCursorPosCallback(glfwWindow, _pointerCallback);
             glfwSetMouseButtonCallback(glfwWindow, _buttonCallback);
@@ -139,6 +140,7 @@ namespace djv
             glfwSetFramebufferSizeCallback(p.glfwWindow, nullptr);
             glfwSetWindowContentScaleCallback(p.glfwWindow, nullptr);
             glfwSetWindowRefreshCallback(p.glfwWindow, nullptr);
+            glfwSetWindowFocusCallback(p.glfwWindow, nullptr);
             glfwSetCursorEnterCallback(p.glfwWindow, nullptr);
             glfwSetCursorPosCallback(p.glfwWindow, nullptr);
             glfwSetMouseButtonCallback(p.glfwWindow, nullptr);
@@ -264,6 +266,14 @@ namespace djv
         void EventSystem::_popClipRect()
         {
             _p->render->popClipRect();
+        }
+
+        void EventSystem::_focus(bool value)
+        {
+            if (!value)
+            {
+                setTextFocus(nullptr);
+            }
         }
 
         void EventSystem::_resize(const glm::ivec2 & size)
@@ -424,6 +434,17 @@ namespace djv
                 if (event.isAccepted())
                 {
                     hover = widget;
+                }
+            }
+        }
+
+        void EventSystem::_focusCallback(GLFWwindow* window, int value)
+        {
+            if (Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window)))
+            {
+                if (auto system = context->getSystemT<EventSystem>())
+                {
+                    system->_focus(GL_TRUE == value);
                 }
             }
         }

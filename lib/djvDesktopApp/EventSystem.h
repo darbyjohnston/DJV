@@ -46,11 +46,13 @@ namespace djv
             void _hover(Core::Event::PointerMove &, std::shared_ptr<Core::IObject> &) override;
 
         private:
+            void _focus(bool);
             void _resize(const glm::ivec2&);
             void _contentScale(const glm::vec2&);
             void _redraw();
             void _hover(const std::shared_ptr<UI::Widget> &, Core::Event::PointerMove &, std::shared_ptr<Core::IObject> &);
 
+            static void _focusCallback(GLFWwindow*, int);
             static void _resizeCallback(GLFWwindow*, int, int);
             static void _contentScaleCallback(GLFWwindow*, float, float);
             static void _redrawCallback(GLFWwindow *);

@@ -60,7 +60,7 @@ namespace djv
             auto avGLFWSystem = context->getSystemT<AV::GLFW::System>();
             addDependency(avGLFWSystem);
 
-            // Get monitor information.
+            // Poll for monitor information.
             p.monitorTimer = Time::Timer::create(context);
             p.monitorTimer->setRepeating(true);
             auto weak = std::weak_ptr<GLFWSystem>(std::dynamic_pointer_cast<GLFWSystem>(shared_from_this()));
@@ -102,8 +102,8 @@ namespace djv
                 static_cast<int>(windowSize.y * contentScale.y));
             glfwSetWindowUserPointer(glfwWindow, context.get());
 
+            // Create cursors.
             p.arrowCursor = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
-
             GLFWimage image;
             image.width = 1;
             image.height = 1;
