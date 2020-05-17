@@ -7,13 +7,12 @@
 #include <djvCore/Context.h>
 #include <djvCore/Error.h>
 #include <djvCore/LogSystem.h>
+#include <djvCore/String.h>
 #include <djvCore/StringFormat.h>
 #include <djvCore/Timer.h>
 
 #include <atomic>
-#include <codecvt>
 #include <condition_variable>
-#include <locale>
 #include <mutex>
 #include <thread>
 
@@ -53,7 +52,7 @@ namespace djv
                 {
                     DJV_PRIVATE_PTR();
                     Path path;
-                    HANDLE changeHandle = 0;
+                    HANDLE changeHandle = INVALID_HANDLE_VALUE;
                     while (p.running)
                     {
                         bool pathChanged = false;
@@ -67,41 +66,45 @@ namespace djv
                         }
                         if (pathChanged)
                         {
-                            if (changeHandle)
+                            if (changeHandle && changeHandle != INVALID_HANDLE_VALUE)
                             {
                                 FindCloseChangeNotification(changeHandle);
+                                changeHandle = INVALID_HANDLE_VALUE;
                             }
-                            try
+                            //! \todo What about servers?
+                            if (!path.isServer())
                             {
-                                std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
-                                changeHandle = FindFirstChangeNotificationW(
-                                    utf16.from_bytes(path.get()).c_str(),
-                                    FALSE,
-                                    FILE_NOTIFY_CHANGE_FILE_NAME |
-                                    FILE_NOTIFY_CHANGE_DIR_NAME |
-                                    FILE_NOTIFY_CHANGE_SIZE |
-                                    FILE_NOTIFY_CHANGE_LAST_WRITE);
-                                if (INVALID_HANDLE_VALUE == changeHandle)
+                                try
+                                {
+                                    changeHandle = FindFirstChangeNotificationW(
+                                        String::toWide(path.get()).c_str(),
+                                        FALSE,
+                                        FILE_NOTIFY_CHANGE_FILE_NAME |
+                                        FILE_NOTIFY_CHANGE_DIR_NAME |
+                                        FILE_NOTIFY_CHANGE_SIZE |
+                                        FILE_NOTIFY_CHANGE_LAST_WRITE);
+                                    if (INVALID_HANDLE_VALUE == changeHandle)
+                                    {
+                                        if (auto context = contextWeak.lock())
+                                        {
+                                            auto logSystem = context->getSystemT<LogSystem>();
+                                            logSystem->log(
+                                                "djv::Core::FileSystem::DirectoryWatcher",
+                                                String::Format("{0}: {1}").arg(path.get()).arg(Error::getLastError()),
+                                                LogLevel::Error);
+                                        }
+                                    }
+                                }
+                                catch (const std::exception& e)
                                 {
                                     if (auto context = contextWeak.lock())
                                     {
                                         auto logSystem = context->getSystemT<LogSystem>();
                                         logSystem->log(
                                             "djv::Core::FileSystem::DirectoryWatcher",
-                                            String::Format("{0}: {1}").arg(path.get()).arg(Error::getLastError()),
+                                            String::Format("{0}: {1}").arg(path.get()).arg(e.what()),
                                             LogLevel::Error);
                                     }
-                                }
-                            }
-                            catch (const std::exception & e)
-                            {
-                                if (auto context = contextWeak.lock())
-                                {
-                                    auto logSystem = context->getSystemT<LogSystem>();
-                                    logSystem->log(
-                                        "djv::Core::FileSystem::DirectoryWatcher",
-                                        String::Format("{0}: {1}").arg(path.get()).arg(e.what()),
-                                        LogLevel::Error);
                                 }
                             }
                         }
@@ -124,9 +127,10 @@ namespace djv
                         std::this_thread::sleep_for(timeout);
                     }
 
-                    if (changeHandle)
+                    if (changeHandle && changeHandle != INVALID_HANDLE_VALUE)
                     {
                         FindCloseChangeNotification(changeHandle);
+                        changeHandle = INVALID_HANDLE_VALUE;
                     }
                 });
 

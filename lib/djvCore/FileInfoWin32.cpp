@@ -72,6 +72,11 @@ namespace djv
                     _permissions = permissions;
                     _time        = time;
                 }
+                else if (_path.isServer())
+                {
+                    //! \todo What about servers?
+                    _exists = true;
+                }
                 else
                 {
                     _STAT info;
@@ -101,6 +106,95 @@ namespace djv
                 return true;
             }
 
+            namespace
+            {
+                class NetOpenEnum
+                {
+                public:
+                    NetOpenEnum(LPNETRESOURCE lpnr)
+                    {
+                        dwResult = WNetOpenEnum(RESOURCE_GLOBALNET, RESOURCETYPE_ANY, 0, lpnr, &hEnum);
+                    }
+
+                    ~NetOpenEnum()
+                    {
+                        if (hEnum)
+                        {
+                            WNetCloseEnum(hEnum);
+                        }
+                    }
+
+                    HANDLE hEnum = NULL;
+                    DWORD dwResult = NO_ERROR;
+                };
+
+                class NetResource
+                {
+                public:
+                    NetResource(DWORD size)
+                    {
+                        p = (LPNETRESOURCE)GlobalAlloc(GPTR, size);
+                    }
+
+                    ~NetResource()
+                    {
+                        if (p != NULL)
+                        {
+                            GlobalFree((HGLOBAL)p);
+                        }
+                    }
+
+                    LPNETRESOURCE p = NULL;
+                };
+
+                bool EnumerateFunc(LPNETRESOURCE lpnr, std::vector<std::string>& out)
+                {
+                    NetOpenEnum netOpenEnum(lpnr);
+                    if (netOpenEnum.dwResult != NO_ERROR)
+                    {
+                        return false;
+                    }
+
+                    DWORD cbBuffer = 16384;
+                    NetResource netResource(cbBuffer);
+                    if (NULL == netResource.p)
+                    {
+                        return false;
+                    }
+
+                    bool r = true;
+                    DWORD dwResultEnum = 0;
+                    do
+                    {
+                        ZeroMemory(netResource.p, cbBuffer);
+                        DWORD cEntries = -1;
+                        dwResultEnum = WNetEnumResource(netOpenEnum.hEnum, &cEntries, netResource.p, &cbBuffer);
+                        if (dwResultEnum == NO_ERROR)
+                        {
+                            for (DWORD i = 0; i < cEntries; i++)
+                            {
+                                switch (netResource.p[i].dwDisplayType)
+                                {
+                                case RESOURCEDISPLAYTYPE_SHARE:
+                                    if (netResource.p[i].lpRemoteName)
+                                    {
+                                        out.push_back(netResource.p[i].lpRemoteName);
+                                    }
+                                    break;
+                                default: break;
+                                }
+                                if (RESOURCEUSAGE_CONTAINER == (netResource.p[i].dwUsage & RESOURCEUSAGE_CONTAINER))
+                                {
+                                    r |= EnumerateFunc(&netResource.p[i], out);
+                                }
+                            }
+                        }
+                    } while (dwResultEnum != ERROR_NO_MORE_ITEMS);
+                    return r;
+                }
+
+            } // namespace
+
             std::vector<FileInfo> FileInfo::directoryList(const Path & value, const DirectoryListOptions & options)
             {
                 std::vector<FileInfo> out;
@@ -119,51 +213,73 @@ namespace djv
                     HANDLE hFind = FindFirstFileW(pathBuf, &ffd);
                     if (hFind != INVALID_HANDLE_VALUE)
                     {
-                        do
+                        try
                         {
-                            const std::string fileName = utf16.to_bytes(ffd.cFileName);
+                            do
+                            {
+                                const std::string fileName = utf16.to_bytes(ffd.cFileName);
 
-                            bool filter = false;
-                            if (ffd.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN)
-                            {
-                                filter = !options.showHidden;
-                            }
-                            if (fileName.size() == 1 && '.' == fileName[0])
-                            {
-                                filter = true;
-                            }
-                            if (fileName.size() == 2 && '.' == fileName[0] && '.' == fileName[1])
-                            {
-                                filter = true;
-                            }
-                            if (options.filter.size() && !String::match(fileName, options.filter))
-                            {
-                                filter = true;
-                            }
-                            if (!filter &&!(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && options.fileExtensions.size())
-                            {
-                                bool match = false;
-                                for (const auto& i : options.fileExtensions)
+                                bool filter = false;
+                                if (ffd.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN)
                                 {
-                                    if (String::match(fileName, '\\' + i + '$'))
-                                    {
-                                        match = true;
-                                        break;
-                                    }
+                                    filter = !options.showHidden;
                                 }
-                                if (!match)
+                                if (fileName.size() == 1 && '.' == fileName[0])
                                 {
                                     filter = true;
                                 }
-                            }
+                                if (fileName.size() == 2 && '.' == fileName[0] && '.' == fileName[1])
+                                {
+                                    filter = true;
+                                }
+                                if (options.filter.size() && !String::match(fileName, options.filter))
+                                {
+                                    filter = true;
+                                }
+                                if (!filter && !(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && options.fileExtensions.size())
+                                {
+                                    bool match = false;
+                                    for (const auto& i : options.fileExtensions)
+                                    {
+                                        if (String::match(fileName, '\\' + i + '$'))
+                                        {
+                                            match = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!match)
+                                    {
+                                        filter = true;
+                                    }
+                                }
 
-                            if (!filter)
-                            {
-                                FileInfo fileInfo(Path(value, fileName));
-                                _fileSequence(fileInfo, options, out);
-                            }
-                        } while (FindNextFileW(hFind, &ffd) != 0);
+                                if (!filter)
+                                {
+                                    FileInfo fileInfo(Path(value, fileName));
+                                    _fileSequence(fileInfo, options, out);
+                                }
+                            } while (FindNextFileW(hFind, &ffd) != 0);
+                        }
+                        catch (const std::exception&)
+                        {
+                            //! \bug How should we handle this error?
+                        }
                         FindClose(hFind);
+                    }
+                    else if ("\\\\" == value.getDirectoryName())
+                    {
+                        const std::string path = value.get();
+                        const size_t bufSize = path.size() + 1;
+                        std::vector<char> buf(bufSize);
+                        strcpy_s(buf.data(), bufSize, path.c_str());
+                        NetResource netResource(16384);
+                        netResource.p->lpRemoteName = buf.data();
+                        std::vector<std::string> shares;
+                        EnumerateFunc(netResource.p, shares);
+                        for (const auto& i : shares)
+                        {
+                            out.push_back(i);
+                        }
                     }
                     
                     // Sort the items.

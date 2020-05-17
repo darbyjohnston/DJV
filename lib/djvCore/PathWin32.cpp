@@ -5,6 +5,7 @@
 #include <djvCore/Path.h>
 
 #include <djvCore/FileInfo.h>
+#include <djvCore/String.h>
 #include <djvCore/StringFormat.h>
 
 #ifndef WIN32_LEAN_AND_MEAN
@@ -27,8 +28,7 @@ namespace djv
         {
             void Path::mkdir(const Path & value)
             {
-                std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
-                if (_wmkdir(utf16.from_bytes(value.get()).c_str()) != 0)
+                if (_wmkdir(String::toWide(value.get()).c_str()) != 0)
                 {
                     //! \todo How can we translate this?
                     throw std::invalid_argument(String::Format("{0}: {1}").
@@ -39,8 +39,7 @@ namespace djv
 
             void Path::rmdir(const Path & value)
             {
-                std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
-                if (_wrmdir(utf16.from_bytes(value.get()).c_str()) != 0)
+                if (_wrmdir(String::toWide(value.get()).c_str()) != 0)
                 {
                     //! \todo How can we translate this?
                     throw std::invalid_argument(String::Format("{0}: {1}").
@@ -67,8 +66,7 @@ namespace djv
                 {
                     buf[0] = 0;
                 }
-                std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
-                return Path(utf16.to_bytes(buf));
+                return Path(String::fromWide(buf));
             }
 
             Path Path::getTemp()
@@ -78,8 +76,7 @@ namespace djv
                 DWORD r = GetTempPathW(MAX_PATH, buf);
                 if (r && r < MAX_PATH)
                 {
-                    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
-                    out.set(utf16.to_bytes(buf));
+                    out.set(String::fromWide(buf));
                 }
                 return out;
             }

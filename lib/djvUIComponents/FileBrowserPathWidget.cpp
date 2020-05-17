@@ -183,7 +183,7 @@ namespace djv
                         if (j < paths.size() - 1)
                         {
                             auto button = ListButton::create(context);
-                            button->setText(i->isRoot() ? i->get() : i->getFileName());
+                            button->setText(_getLabel(*i));
                             button->setForegroundColorRole(ColorRole::ForegroundDim);
                             button->setShadowOverlay({ Side::Left });
 
@@ -206,7 +206,7 @@ namespace djv
                         else
                         {
                             auto label = Label::create(context);
-                            label->setText(i->isRoot() ? i->get() : i->getFileName());
+                            label->setText(_getLabel(*i));
                             label->setVAlign(VAlign::Fill);
                             label->setMargin(Layout::Margin(MetricsRole::MarginSmall));
                             label->setShadowOverlay({ Side::Left });
@@ -298,6 +298,11 @@ namespace djv
                     }
                 }
                 return false;
+            }
+
+            std::string PathWidget::_getLabel(const Core::FileSystem::Path& value)
+            {
+                return (value.isRoot() || value.isServer()) ? value.get() : value.getFileName();
             }
 
         } // namespace FileBrowser

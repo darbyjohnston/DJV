@@ -49,12 +49,30 @@ namespace djv
 
             bool Path::isRoot() const
             {
-                const std::string path = get();
-                const bool unixStyle = path.size() == 1 ? '/' == path[0] : false;
-                //! \todo This is buggy.
-                const bool windowsStyle1 = path.size() == 3 ? (':' == path[1] && '\\' == path[2]) : false;
-                const bool windowsStyle2 = path.size() == 3 ? (':' == path[1] && '/' == path[2]) : false;
-                return unixStyle || windowsStyle1 || windowsStyle2;
+                bool out = false;
+                if (1 == _directoryName.size() &&
+                    '/' == _directoryName[0] &&
+                    _baseName.empty() &&
+                    _number.empty() &&
+                    _extension.empty())
+                {
+                    // UNIX style: "/"
+                    out = true;
+                }
+                else if (
+                    3 == _directoryName.size() &&
+                    (_directoryName[0] >= 'A' || _directoryName[0] <= 'Z') &&
+                    (_directoryName[0] >= 'a' || _directoryName[0] <= 'z') &&
+                    ':' == _directoryName[1] &&
+                    ('\\' == _directoryName[2] || '/' == _directoryName[2]) &&
+                    _baseName.empty() &&
+                    _number.empty() &&
+                    _extension.empty())
+                {
+                    // Windows style: "C:\"
+                    out = true;
+                }
+                return out;
             }
 
             bool Path::cdUp(char separator)
@@ -127,17 +145,31 @@ namespace djv
             {
                 std::vector<std::string> out;
 
-                // Save the root path.
+                // Handle the root path.
                 std::string tmp = value;
-                if (tmp.size() > 1 && isSeparator(tmp[0]) && isSeparator(tmp[1]))
+                if (tmp.size() > 0 &&
+                    '/' == tmp[0])
                 {
-                    out.push_back(std::string(2, tmp[0]));
-                    tmp.erase(tmp.begin(), tmp.begin() + 1);
+                    out.push_back("/");
+                    tmp.erase(0, 1);
                 }
-                else if (tmp.size() > 0 && isSeparator(tmp[0]))
+                else if (
+                    tmp.size() > 1 &&
+                    '\\' == tmp[0] &&
+                    '\\' == tmp[1])
                 {
-                    out.push_back(std::string(1, tmp[0]));
-                    tmp.erase(tmp.begin());
+                    size_t i = 2;
+                    for (; i < tmp.size() && tmp[i] != '\\'; ++i)
+                        ;
+                    out.push_back(tmp.substr(0, i));
+                    tmp.erase(0, i);
+                }
+                else if (
+                    tmp.size() > 0 &&
+                    '\\' == tmp[0])
+                {
+                    out.push_back("\\");
+                    tmp.erase(0, 1);
                 }
 
                 for (const auto & i : String::split(tmp, { '/', '\\' }))
@@ -152,20 +184,23 @@ namespace djv
             {
                 std::string out;
 
-                // Restore the root path.
+                // Handle the root path.
                 std::vector<std::string> tmp = value;
-                if (tmp.size() && tmp[0].size() == 2 && isSeparator(tmp[0][0]) && isSeparator(tmp[0][1]))
+                if (tmp.size() && tmp[0].size() == 1 && '/' == tmp[0][0])
                 {
-                    out += std::string(2, separator);
+                    out += tmp[0];
                     tmp.erase(tmp.begin());
                 }
-                else if (tmp.size() && tmp[0].size() == 1 && isSeparator(tmp[0][0]))
+                else if (tmp.size() && tmp[0].size() == 1 && '\\' == tmp[0][0])
                 {
-                    out += std::string(1, separator);
+                    out += tmp[0];
                     tmp.erase(tmp.begin());
                 }
 
-                out += String::join(tmp, separator);
+                if (tmp.size())
+                {
+                    out += String::join(tmp, separator);
+                }
 
                 return out;
             }

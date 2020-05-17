@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: BSD-3-Clause
-// Copyright (c) 2004-2020 Darby Johnston
+// Copyright (c) 2004-2020 Darby Johnsn
 // All rights reserved.
 
 #include <djvCore/DirectoryModel.h>

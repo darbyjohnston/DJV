@@ -64,6 +64,8 @@ namespace djv
                 bool _eventFilter(const std::shared_ptr<Core::IObject> &, Core::Event::Event &) override;
 
             private:
+                static std::string _getLabel(const Core::FileSystem::Path&);
+
                 DJV_PRIVATE();
             };
 

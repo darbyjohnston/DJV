@@ -50,12 +50,12 @@ namespace djv
 
                 //! Open the file.
                 //! Throws:
-                //! - IOError
+                //! - Error
                 void open(const std::string & fileName, Mode);
 
                 //! Open a temporary file.
                 //! Throws:
-                //! - IOError
+                //! - Error
                 void openTemp();
 
                 //! Close the file.
@@ -86,7 +86,7 @@ namespace djv
 
                 //! \name Reading
                 //! Throws:
-                //! - IOError
+                //! - Error
                 ///@{
 
                 void read(void *, size_t, size_t wordSize = 1);
@@ -103,7 +103,7 @@ namespace djv
 
                 //! \name Writing
                 //! Throws:
-                //! - IOError
+                //! - Error
                 ///@{
 
                 void write(const void *, size_t, size_t wordSize = 1);
@@ -157,28 +157,28 @@ namespace djv
 
                 //! Read the contents from a file.
                 //! Throws:
-                //! - IOError
+                //! - Error
                 static std::string readContents(const std::shared_ptr<FileIO>&);
 
                 //! Read a word from a file.
                 //! Throws:
-                //! - IOError
+                //! - Error
                 static void readWord(const std::shared_ptr<FileIO>&, char *, size_t maxLen = String::cStringLength);
 
                 //! Read a line from a file.
                 //! Throws:
-                //! - IOError
+                //! - Error
                 //! \todo Should we handle comments like readWord()?
                 static void readLine(const std::shared_ptr<FileIO>&, char *, size_t maxLen = String::cStringLength);
 
                 //! Read all the lines from a file.
                 //! Throws:
-                //! - IOError
+                //! - Error
                 static std::vector<std::string> readLines(const std::string & fileName);
 
                 //! Write lines to a file.
                 //! Throws:
-                //! - IOError
+                //! - Error
                 static void writeLines(const std::string & fileName, const std::vector<std::string> &);
 
                 ///@}

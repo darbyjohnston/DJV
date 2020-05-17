@@ -89,8 +89,14 @@ namespace djv
                 void set(std::string);
                 void append(const std::string &, char separator = getCurrentSeparator());
 
+                //! Is the path empty?
                 bool isEmpty() const;
+
+                //! Is this a root path?
                 bool isRoot() const;
+
+                //! Is the path a server name? (e.g., "//server"; this is Windows specific.)
+                bool isServer() const;
 
                 //! Go up a directory.
                 bool cdUp(char separator = getCurrentSeparator());
@@ -147,27 +153,27 @@ namespace djv
 
                 //! Create a directory.
                 //! Throws:
-                //! - Error
+                //! - std::exception
                 static void mkdir(const Path&);
 
                 //! Remove a directory. The directory must be empty.
                 //! Throws:
-                //! - Error
+                //! - std::exception
                 static void rmdir(const Path&);
 
                 //! Get the absolute path.
                 //! Throws:
-                //! - Error
+                //! - std::exception
                 static Path getAbsolute(const Path &);
 
                 //! Get the current working directory path.
                 //! Throws:
-                //! - Error
+                //! - std::exception
                 static Path getCWD();
 
                 //! Get the temp file path.
                 //! Throws:
-                //! - Error
+                //! - std::exception
                 static Path getTemp();
 
                 ///@}

@@ -40,6 +40,11 @@ namespace djv
                 return get().empty();
             }
 
+            inline bool Path::isServer() const
+            {
+                return "\\\\" == _directoryName && !_baseName.empty();
+            }
+
             inline const std::string& Path::getDirectoryName() const
             {
                 return _directoryName;

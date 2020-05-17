@@ -127,8 +127,15 @@ namespace djv
                     break;
                 default: break;
                 }
-                std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
-                _f = CreateFileW(utf16.from_bytes(fileName).c_str(), desiredAccess, shareMode, 0, disposition, flags, 0);
+                try
+                {
+                    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
+                    _f = CreateFileW(utf16.from_bytes(fileName).c_str(), desiredAccess, shareMode, 0, disposition, flags, 0);
+                }
+                catch (const std::exception&)
+                {
+                    _f = INVALID_HANDLE_VALUE;
+                }
                 if (INVALID_HANDLE_VALUE == _f)
                 {
                     throw Error(getErrorMessage(ErrorType::Open, fileName));
@@ -203,14 +210,23 @@ namespace djv
                     throw Error(getErrorMessage(ErrorType::OpenTemp, std::string()));
                 }
                 WCHAR buf[MAX_PATH];
-                std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
                 if (GetTempFileNameW(path, L"", 0, buf))
                 {
-                    open(utf16.to_bytes(buf), Mode::ReadWrite);
+                    std::string fileName;
+                    try
+                    {
+                        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
+                        fileName = utf16.to_bytes(buf);
+                    }
+                    catch (const std::exception&)
+                    {
+                        throw Error(getErrorMessage(ErrorType::OpenTemp, fileName));
+                    }
+                    open(fileName, Mode::ReadWrite);
                 }
                 else
                 {
-                    throw Error(getErrorMessage(ErrorType::OpenTemp, _fileName));
+                    throw Error(getErrorMessage(ErrorType::OpenTemp, std::string()));
                 }
             }
 

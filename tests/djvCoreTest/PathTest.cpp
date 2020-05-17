@@ -45,11 +45,10 @@ namespace djv
                 const FileSystem::Path path;
                 DJV_ASSERT(path.isEmpty());
             }
-            
+
             {
                 FileSystem::Path path("/a/b");
                 DJV_ASSERT(!path.isEmpty());
-                DJV_ASSERT(!path.isRoot());
                 DJV_ASSERT(path.cdUp('/'));
                 DJV_ASSERT("/a" == path.get());
                 DJV_ASSERT(path.cdUp('/'));
@@ -58,8 +57,6 @@ namespace djv
                 path.append("a", '/');
                 path.append("b", '/');
                 DJV_ASSERT("/a/b" == path.get());
-                path.set("/");
-                DJV_ASSERT(path.isRoot());
                 path.setDirectoryName("/a/");
                 path.setFileName("b");
                 DJV_ASSERT("/a/b" == path.get());
@@ -69,6 +66,21 @@ namespace djv
                 DJV_ASSERT("/a/b0001.ext" == path.get());
                 path.setBaseName("c");
                 DJV_ASSERT("/a/c0001.ext" == path.get());
+            }
+
+            {
+                DJV_ASSERT(!FileSystem::Path().isRoot());
+                DJV_ASSERT(FileSystem::Path("/").isRoot());
+                DJV_ASSERT(!FileSystem::Path("/tmp").isRoot());
+                DJV_ASSERT(FileSystem::Path("C:\\").isRoot());
+                DJV_ASSERT(!FileSystem::Path("C:\\tmp").isRoot());
+            }
+
+            {
+                DJV_ASSERT(!FileSystem::Path().isServer());
+                DJV_ASSERT(!FileSystem::Path("\\\\").isServer());
+                DJV_ASSERT(FileSystem::Path("\\\\server").isServer());
+                DJV_ASSERT(!FileSystem::Path("\\\\server\\share").isServer());
             }
         }
         
@@ -170,25 +182,27 @@ namespace djv
             {
                 struct Data
                 {
-                    std::string path;
-                    char        seperator;
+                    std::string              path;
+                    char                     seperator;
+                    std::vector<std::string> pieces;
                 };
                 std::vector<Data> data =
                 {
-                    { "a", '/' },
-                    { "a/b", '/' },
-                    { "/a/b", '/' },
-                    { "/", '/' },
-                    { "a\\b", '\\' },
-                    { "\\a\\b", '\\' },
-                    { "a:\\b", '\\' },
-                    { "\\", '\\' },
-                    { "\\\\a", '\\' },
-                    { "\\\\a\\b", '\\' }
+                    { "a", '/', { "a" } },
+                    { "a/b", '/', { "a", "b" } },
+                    { "/a/b", '/', { "/", "a", "b" } },
+                    { "/", '/', { "/" } },
+                    { "a\\b", '\\', { "a", "b" } },
+                    { "\\a\\b", '\\', { "\\", "a", "b" } },
+                    { "a:\\b", '\\', { "a:", "b" } },
+                    { "\\", '\\', { "\\" } },
+                    { "\\\\a", '\\', { "\\\\a" } },
+                    { "\\\\a\\b", '\\', { "\\\\a", "b" } }
                 };
                 for (const auto & d : data)
                 {
                     const auto pieces = FileSystem::Path::splitDir(d.path);
+                    DJV_ASSERT(pieces == d.pieces);
                     const std::string path = FileSystem::Path::joinDirs(pieces, d.seperator);
                     std::stringstream ss;
                     ss << "split/join: " << d.path << " = " << path;
@@ -198,13 +212,13 @@ namespace djv
             }
             
             {
-                const FileSystem::Path path("PathTestMkdir");
+                const FileSystem::Path path("foo");
                 FileSystem::Path::mkdir(path);
                 FileSystem::Path::rmdir(path);
             }
 
             {            
-                const FileSystem::Path path("PathTestMkdir");
+                const FileSystem::Path path("foo");
                 try
                 {
                     FileSystem::Path::mkdir(path);
