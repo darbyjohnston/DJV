@@ -71,8 +71,13 @@ namespace djv
             template<typename T>
             T softClip(T value, T softClip);
 
+            //! Get the number of digits.
             template<typename T>
             size_t getNumDigits(T);
+
+            //! Find the closest value. The index of the result is returned.
+            template<typename T>
+            size_t closest(T, const std::vector<T>&);
 
             //! \name Random Numbers
             ///@{

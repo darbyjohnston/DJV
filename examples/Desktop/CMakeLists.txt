@@ -4,6 +4,7 @@ set(examples
     FileBrowserDesktopExample
     GraphsDesktopExample
     HelloWorldDesktopExample
+	ListWidgetDesktopExample
     MDIDesktopExample
     SliderDesktopExample
     SplitterDesktopExample)

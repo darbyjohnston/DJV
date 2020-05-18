@@ -41,6 +41,15 @@ namespace djv
                 DJV_ASSERT(Math::getNumDigits(10000000) == 8);
                 DJV_ASSERT(Math::getNumDigits(100000000) == 9);
             }
+            {
+                DJV_ASSERT(0 == Math::closest(0, {}));
+                DJV_ASSERT(0 == Math::closest(0, { 0 }));
+                DJV_ASSERT(0 == Math::closest(0, { 0, 1, 2 }));
+                DJV_ASSERT(1 == Math::closest(1, { 0, 1, 2 }));
+                DJV_ASSERT(2 == Math::closest(2, { 0, 1, 2 }));
+                DJV_ASSERT(1 == Math::closest(2, { 0, 1, 4 }));
+                DJV_ASSERT(2 == Math::closest(3, { 0, 1, 4 }));
+            }
         }
         
         void MathTest::_rational()

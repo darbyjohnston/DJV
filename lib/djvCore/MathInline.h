@@ -181,6 +181,24 @@ namespace djv
             }
 
             template<typename T>
+            size_t closest(T value, const std::vector<T>& list)
+            {
+                size_t out = 0;
+                T minAbs = std::numeric_limits<T>::max();
+                const size_t size = list.size();
+                for (size_t i = 0; i < size; ++i)
+                {
+                    const T abs = Math::abs(list[i] - value);
+                    if (abs < minAbs)
+                    {
+                        out = i;
+                        minAbs = abs;
+                    }
+                }
+                return out;
+            }
+
+            template<typename T>
             inline const T & getRandom(const std::vector<T> & value)
             {
                 return value[getRandom(0, static_cast<int>(value.size()) - 1)];

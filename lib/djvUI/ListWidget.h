@@ -27,18 +27,12 @@ namespace djv
 
             static std::shared_ptr<ListWidget> create(const std::shared_ptr<Core::Context>&);
 
-            const std::vector<std::string> & getItems() const;
             void setItems(const std::vector<std::string> &);
             void addItem(const std::string &);
-            void clearItems(Callback = Callback::Suppress);
+            void clearItems();
 
-            int getCurrentItem() const;
-            void setCurrentItem(int, Callback = Callback::Suppress);
-            void firstItem(Callback = Callback::Suppress);
-            void lastItem(Callback = Callback::Suppress);
-            void prevItem(Callback = Callback::Suppress);
-            void nextItem(Callback = Callback::Suppress);
-            void setCallback(const std::function<void(int)> &);
+            void setCurrentItem(int);
+            void setCurrentItemCallback(const std::function<void(int)>&);
 
             void setBorder(bool);
 
@@ -49,7 +43,7 @@ namespace djv
 
         private:
             void _updateItems();
-            void _updateCurrentItem(Callback);
+            void _updateCurrentItem();
 
             DJV_PRIVATE();
         };

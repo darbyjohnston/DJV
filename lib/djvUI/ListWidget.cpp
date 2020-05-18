@@ -25,7 +25,7 @@ namespace djv
             std::shared_ptr<ButtonGroup> buttonGroup;
             std::shared_ptr<VerticalLayout> layout;
             std::shared_ptr<ScrollWidget> scrollWidget;
-            std::function<void(int)> callback;
+            std::function<void(int)> currentItemCallback;
         };
 
         void ListWidget::_init(const std::shared_ptr<Context>& context)
@@ -34,6 +34,7 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             setClassName("djv::UI::ListWidget");
+            setPointerEnabled(true);
 
             p.buttonGroup = ButtonGroup::create(ButtonType::Radio);
 
@@ -44,7 +45,8 @@ namespace djv
             p.scrollWidget->addChild(p.layout);
             addChild(p.scrollWidget);
 
-            _updateCurrentItem(Callback::Suppress);
+            _updateItems();
+            _updateCurrentItem();
 
             auto weak = std::weak_ptr<ListWidget>(std::dynamic_pointer_cast<ListWidget>(shared_from_this()));
             p.buttonGroup->setRadioCallback(
@@ -52,10 +54,9 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    widget->setCurrentItem(value);
-                    if (widget->_p->callback)
+                    if (widget->_p->currentItemCallback)
                     {
-                        widget->_p->callback(value);
+                        widget->_p->currentItemCallback(value);
                     }
                 }
             });
@@ -73,11 +74,6 @@ namespace djv
             auto out = std::shared_ptr<ListWidget>(new ListWidget);
             out->_init(context);
             return out;
-        }
-
-        const std::vector<std::string> & ListWidget::getItems() const
-        {
-            return _p->items;
         }
 
         void ListWidget::setItems(const std::vector<std::string> & value)
@@ -102,80 +98,26 @@ namespace djv
             }
         }
 
-        void ListWidget::clearItems(Callback callback)
+        void ListWidget::clearItems()
         {
             DJV_PRIVATE_PTR();
             if (p.items.size())
             {
                 p.items.clear();
                 _updateItems();
-                p.currentItem = -1;
-                _updateCurrentItem(callback);
             }
         }
 
-        int ListWidget::getCurrentItem() const
-        {
-            return _p->currentItem;
-        }
-
-        void ListWidget::setCurrentItem(int value, Callback callback)
+        void ListWidget::setCurrentItem(int value)
         {
             DJV_PRIVATE_PTR();
-            int tmp = -1;
-            if (value >= 0 && value < static_cast<int>(p.items.size()))
-            {
-                tmp = value;
-            }
-            if (tmp == p.currentItem)
-                return;
-            p.currentItem = tmp;
-            _updateCurrentItem(callback);
+            p.currentItem = value;
+            _updateCurrentItem();
         }
 
-        void ListWidget::firstItem(Callback callback)
+        void ListWidget::setCurrentItemCallback(const std::function<void(int)> & value)
         {
-            DJV_PRIVATE_PTR();
-            const size_t size = p.items.size();
-            if (size)
-            {
-                setCurrentItem(0, callback);
-            }
-        }
-
-        void ListWidget::lastItem(Callback callback)
-        {
-            DJV_PRIVATE_PTR();
-            const size_t size = p.items.size();
-            if (size)
-            {
-                setCurrentItem(size - 1, callback);
-            }
-        }
-
-        void ListWidget::prevItem(Callback callback)
-        {
-            DJV_PRIVATE_PTR();
-            const size_t size = p.items.size();
-            if (size && p.currentItem > 0)
-            {
-                setCurrentItem(p.currentItem - 1, callback);
-            }
-        }
-
-        void ListWidget::nextItem(Callback callback)
-        {
-            DJV_PRIVATE_PTR();
-            const size_t size = p.items.size();
-            if (size && p.currentItem >= 0 && p.currentItem < size - 1)
-            {
-                setCurrentItem(p.currentItem + 1, callback);
-            }
-        }
-
-        void ListWidget::setCallback(const std::function<void(int)> & value)
-        {
-            _p->callback = value;
+            _p->currentItemCallback = value;
         }
 
         void ListWidget::setBorder(bool value)
@@ -204,29 +146,40 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (!event.isAccepted())
             {
-                const int currentItem = p.currentItem;
-                switch (event.getKey())
+                const size_t size = p.items.size();
+                if (size > 0)
                 {
-                case GLFW_KEY_HOME:
-                    event.accept();
-                    firstItem(Callback::Trigger);
-                    break;
-                case GLFW_KEY_END:
-                    event.accept();
-                    lastItem(Callback::Trigger);
-                    break;
-                case GLFW_KEY_UP:
-                    event.accept();
-                    prevItem(Callback::Trigger);
-                    break;
-                case GLFW_KEY_DOWN:
-                    event.accept();
-                    nextItem(Callback::Trigger);
-                    break;
-                }
-                if (currentItem != p.currentItem && p.callback)
-                {
-                    p.callback(p.currentItem);
+                    switch (event.getKey())
+                    {
+                    case GLFW_KEY_HOME:
+                        event.accept();
+                        if (p.currentItemCallback)
+                        {
+                            p.currentItemCallback(0);
+                        }
+                        break;
+                    case GLFW_KEY_END:
+                        event.accept();
+                        if (p.currentItemCallback)
+                        {
+                            p.currentItemCallback(size - 1);
+                        }
+                        break;
+                    case GLFW_KEY_UP:
+                        event.accept();
+                        if (p.currentItem > 0 && p.currentItemCallback)
+                        {
+                            p.currentItemCallback(p.currentItem - 1);
+                        }
+                        break;
+                    case GLFW_KEY_DOWN:
+                        event.accept();
+                        if (p.currentItem < size - 1 && p.currentItemCallback)
+                        {
+                            p.currentItemCallback(p.currentItem + 1);
+                        }
+                        break;
+                    }
                 }
             }
         }
@@ -248,16 +201,16 @@ namespace djv
             }
         }
 
-        void ListWidget::_updateCurrentItem(Callback callback)
+        void ListWidget::_updateCurrentItem()
         {
             DJV_PRIVATE_PTR();
             if (p.currentItem >= 0 && p.currentItem < p.items.size())
             {
-                p.buttonGroup->setChecked(p.currentItem, true, callback);
+                p.buttonGroup->setChecked(p.currentItem, true);
             }
             else
             {
-                p.buttonGroup->setChecked(-1, true, callback);
+                p.buttonGroup->setChecked(-1, true);
             }
         }
 

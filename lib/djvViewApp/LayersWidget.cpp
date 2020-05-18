@@ -7,7 +7,10 @@
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/Media.h>
 
+#include <djvUIComponents/SearchBox.h>
+
 #include <djvUI/ListWidget.h>
+#include <djvUI/RowLayout.h>
 
 #include <djvCore/Context.h>
 
@@ -22,7 +25,10 @@ namespace djv
             std::shared_ptr<Media> currentMedia;
             AV::IO::Info info;
             size_t layer = 0;
+            std::string filter;
             std::shared_ptr<UI::ListWidget> listWidget;
+            std::shared_ptr<UI::SearchBox> searchBox;
+            std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
             std::shared_ptr<ValueObserver<size_t> > layerObserver;
@@ -38,20 +44,40 @@ namespace djv
             p.listWidget->setBorder(false);
             p.listWidget->setShadowOverlay({ UI::Side::Top });
             p.listWidget->setBackgroundRole(UI::ColorRole::Background);
-            addChild(p.listWidget);
+
+            p.searchBox = UI::SearchBox::create(context);
+
+            p.layout = UI::VerticalLayout::create(context);
+            p.layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            p.layout->setBackgroundRole(UI::ColorRole::Background);
+            p.layout->addChild(p.listWidget);
+            p.layout->setStretch(p.listWidget, UI::Layout::RowStretch::Expand);
+            p.layout->addSeparator();
+            p.layout->addChild(p.searchBox);
+            addChild(p.layout);
 
             auto weak = std::weak_ptr<LayersWidget>(std::dynamic_pointer_cast<LayersWidget>(shared_from_this()));
-            p.listWidget->setCallback(
+            p.listWidget->setCurrentItemCallback(
                 [weak](int value)
                 {
-                    if (auto system = weak.lock())
+                    if (auto widget = weak.lock())
                     {
-                        if (auto media = system->_p->currentMedia)
+                        if (auto media = widget->_p->currentMedia)
                         {
                             media->setLayer(static_cast<size_t>(std::max(value, 0)));
                         }
                     }
                 });
+
+            p.searchBox->setFilterCallback(
+                [weak](const std::string& value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->_p->filter = value;
+                    widget->_widgetUpdate();
+                }
+            });
 
             if (auto fileSystem = context->getSystemT<FileSystem>())
             {
@@ -59,39 +85,39 @@ namespace djv
                     fileSystem->observeCurrentMedia(),
                     [weak](const std::shared_ptr<Media>& value)
                     {
-                        if (auto system = weak.lock())
+                        if (auto widget = weak.lock())
                         {
-                            system->_p->currentMedia = value;
+                            widget->_p->currentMedia = value;
                             if (value)
                             {
-                                system->_p->infoObserver = ValueObserver<AV::IO::Info>::create(
+                                widget->_p->infoObserver = ValueObserver<AV::IO::Info>::create(
                                     value->observeInfo(),
                                     [weak](const AV::IO::Info& value)
                                     {
-                                        if (auto system = weak.lock())
+                                        if (auto widget = weak.lock())
                                         {
-                                            system->_p->info = value;
-                                            system->_widgetUpdate();
+                                            widget->_p->info = value;
+                                            widget->_widgetUpdate();
                                         }
                                     });
-                                system->_p->layerObserver = ValueObserver<size_t>::create(
+                                widget->_p->layerObserver = ValueObserver<size_t>::create(
                                     value->observeLayer(),
                                     [weak](size_t value)
                                     {
-                                        if (auto system = weak.lock())
+                                        if (auto widget = weak.lock())
                                         {
-                                            system->_p->layer = value;
-                                            system->_widgetUpdate();
+                                            widget->_p->layer = value;
+                                            widget->_widgetUpdate();
                                         }
                                     });
                             }
                             else
                             {
-                                system->_p->info = AV::IO::Info();
-                                system->_p->layer = 0;
-                                system->_p->infoObserver.reset();
-                                system->_p->layerObserver.reset();
-                                system->_widgetUpdate();
+                                widget->_p->info = AV::IO::Info();
+                                widget->_p->layer = 0;
+                                widget->_p->infoObserver.reset();
+                                widget->_p->layerObserver.reset();
+                                widget->_widgetUpdate();
                             }
                         }
                     });
@@ -122,13 +148,31 @@ namespace djv
         void LayersWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
+
             std::vector<std::string> items;
-            for (const auto& i : p.info.video)
+            std::vector<size_t> indices;
+            for (size_t i = 0; i < p.info.video.size(); ++i)
             {
-                items.push_back(_getText(i.info.name));
+                const auto& video = p.info.video[i];
+                if (String::match(video.info.name, p.filter))
+                {
+                    items.push_back(_getText(video.info.name));
+                    indices.push_back(i);
+                }
             }
             p.listWidget->setItems(items);
-            p.listWidget->setCurrentItem(p.layer);
+
+            size_t item = 0;
+            if (indices.size())
+            {
+                item = Math::closest(p.layer, indices);
+                p.layer = indices[item];
+            }
+            if (p.currentMedia)
+            {
+                p.currentMedia->setLayer(p.layer);
+            }
+            p.listWidget->setCurrentItem(item);
         }
 
     } // namespace ViewApp
