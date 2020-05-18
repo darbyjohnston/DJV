@@ -183,7 +183,7 @@ namespace djv
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const BBox2f& g = getGeometry();
+            const BBox2f g = getMargin().bbox(getGeometry(), style);
             const float b = style->getMetric(UI::MetricsRole::Border);
             auto render = _getRender();
             if (p.lineEditBase->hasTextFocus())

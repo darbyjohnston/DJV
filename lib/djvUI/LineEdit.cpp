@@ -158,18 +158,18 @@ namespace djv
         void LineEdit::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
-            glm::vec2 size = p.lineEditBase->getMinimumSize();
             const auto& style = _getStyle();
             const float b = style->getMetric(MetricsRole::Border);
+            glm::vec2 size = p.lineEditBase->getMinimumSize();
             _setMinimumSize(size + b * 6.F + getMargin().getSize(style));
         }
 
         void LineEdit::_layoutEvent(Event::Layout & event)
         {
             DJV_PRIVATE_PTR();
-            const BBox2f g = getGeometry();
             const auto& style = _getStyle();
             const float b = style->getMetric(MetricsRole::Border);
+            const BBox2f g = getMargin().bbox(getGeometry(), style);
             p.lineEditBase->setGeometry(g.margin(-b * 3.F));
         }
 
@@ -178,8 +178,8 @@ namespace djv
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const BBox2f& g = getGeometry();
             const float b = style->getMetric(UI::MetricsRole::Border);
+            const BBox2f g = getMargin().bbox(getGeometry(), style);
             auto render = _getRender();
             if (p.lineEditBase->hasTextFocus())
             {
