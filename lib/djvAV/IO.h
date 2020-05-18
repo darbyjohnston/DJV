@@ -59,7 +59,7 @@ namespace djv
             {
             public:
                 AudioInfo();
-                AudioInfo(const Audio::Info &);
+                explicit AudioInfo(const Audio::Info &);
 
                 Audio::Info info;
                 std::string codec;

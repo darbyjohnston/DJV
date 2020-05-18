@@ -51,6 +51,9 @@ namespace djv
                     promise(std::move(other.promise))
                 {}
 
+                ~InfoRequest()
+                {}
+
                 InfoRequest& operator = (InfoRequest&& other) noexcept
                 {
                     if (this != &other)
