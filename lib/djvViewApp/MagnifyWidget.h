@@ -24,8 +24,6 @@ namespace djv
 
             static std::shared_ptr<MagnifyWidget> create(const std::shared_ptr<Core::Context>&);
 
-            void setCurrent(bool);
-
             size_t getMagnify() const;
             void setMagnify(size_t);
 

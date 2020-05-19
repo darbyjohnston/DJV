@@ -184,7 +184,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.currentTool = value;
-            if (value && p.widget.expired())
+            if (value)
             {
                 if (auto context = getContext().lock())
                 {
@@ -211,6 +211,10 @@ namespace djv
                     p.widget = widget;
                     _openWidget("Annotate", widget);
                 }
+            }
+            else
+            {
+                _closeWidget("Annotate");
             }
         }
 

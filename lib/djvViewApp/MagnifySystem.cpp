@@ -25,7 +25,6 @@ namespace djv
         struct MagnifySystem::Private
         {
             std::shared_ptr<MagnifySettings> settings;
-            bool currentTool = false;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::weak_ptr<MagnifyWidget> widget;
         };
@@ -75,8 +74,7 @@ namespace djv
         void MagnifySystem::setCurrentTool(bool value)
         {
             DJV_PRIVATE_PTR();
-            p.currentTool = value;
-            if (value && p.widget.expired())
+            if (value)
             {
                 if (auto context = getContext().lock())
                 {
@@ -87,9 +85,9 @@ namespace djv
                     _openWidget("Magnify", widget);
                 }
             }
-            if (auto widget = p.widget.lock())
+            else
             {
-                widget->setCurrent(value);
+                _closeWidget("Magnify");
             }
         }
 
