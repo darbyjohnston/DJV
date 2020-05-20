@@ -59,7 +59,7 @@ jobs:
       echo "Building third party dependencies..."
       mkdir DJV-third-party-Release
       cd DJV-third-party-Release
-      cmake ../../third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../DJV-install-Release -DDJV_THIRD_PARTY_OPTIONAL=FALSE
+      cmake ../../third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../DJV-install-Release
       cmake --build .
       cmake --build . --target install
       cd ..
