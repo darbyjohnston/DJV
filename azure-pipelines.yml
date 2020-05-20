@@ -95,5 +95,5 @@ jobs:
       # Core Image is now using the software OpenGL renderer. This will be slow.
       # ERROR: Cannot create GLFW window.
       #cmake --build . --target test
-      cat Testing/Temporary/LastTest.log
+      #cat Testing/Temporary/LastTest.log
       cd ../..
