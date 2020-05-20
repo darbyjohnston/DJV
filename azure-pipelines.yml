@@ -25,14 +25,14 @@ jobs:
       echo "Building third party dependencies..."
       mkdir DJV-third-party-Debug
       cd DJV-third-party-Debug
-      cmake ../../third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_PYTHON=FALSE -DDJV_OPENGL_ES2=TRUE
+      cmake ../../third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_OPENGL_ES2=TRUE
       cmake --build .
       cmake --build . --target install
       cd ..
       echo "Building DJV..."
       mkdir DJV-Debug
       cd DJV-Debug
-      cmake ../.. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug -DCMAKE_PREFIX_PATH=../DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_BUILD_TINY=TRUE -DDJV_GCOV=TRUE -DDJV_PYTHON=FALSE -DDJV_OPENGL_ES2=TRUE
+      cmake ../.. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug -DCMAKE_PREFIX_PATH=../DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_BUILD_TINY=TRUE -DDJV_GCOV=TRUE -DDJV_OPENGL_ES2=TRUE
       # ASWF ci-base image already contains the SonarCloud tools in /usr/bin
       build-wrapper-linux-x86-64 --out-dir ../bw-output cmake --build . -j 4
       # Need to request 24bit visual to get OpenGL
@@ -59,14 +59,14 @@ jobs:
       echo "Building third party dependencies..."
       mkdir DJV-third-party-Release
       cd DJV-third-party-Release
-      cmake ../../third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../DJV-install-Release -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_PYTHON=FALSE
+      cmake ../../third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../DJV-install-Release -DDJV_THIRD_PARTY_OPTIONAL=FALSE
       cmake --build .
       cmake --build . --target install
       cd ..
       echo "Building DJV..."
       mkdir DJV-Release
       cd DJV-Release
-      cmake ../.. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../DJV-install-Release -DCMAKE_PREFIX_PATH=../DJV-install-Release -DDJV_PYTHON=FALSE
+      cmake ../.. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../DJV-install-Release -DCMAKE_PREFIX_PATH=../DJV-install-Release
       cmake --build . -j 4
       echo "Packaging DJV..."
       sudo apt-get install rpm-build
@@ -93,14 +93,14 @@ jobs:
       echo "Building third party dependencies..."
       mkdir DJV-third-party-Debug
       cd DJV-third-party-Debug
-      cmake ..\..\third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_PYTHON=FALSE -DDJV_OPENGL_ES2=TRUE
+      cmake ..\..\third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_OPENGL_ES2=TRUE
       cmake --build . -j 4
       cmake --build . --target install
       cd ..
       echo "Building DJV..."
       mkdir DJV-Debug
       cd DJV-Debug
-      cmake ..\.. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug -DCMAKE_PREFIX_PATH=../DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_BUILD_TINY=TRUE -DDJV_PYTHON=FALSE -DDJV_OPENGL_ES2=TRUE
+      cmake ..\.. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug -DCMAKE_PREFIX_PATH=../DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_BUILD_TINY=TRUE -DDJV_OPENGL_ES2=TRUE
       cmake --build . -j 4
       rem Fails with:
       rem MSBUILD : error MSB1009: Project file does not exist.
@@ -121,14 +121,14 @@ jobs:
       echo "Building third party dependencies..."
       mkdir DJV-third-party-Debug
       cd DJV-third-party-Debug
-      cmake ../../third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_PYTHON=FALSE -DDJV_OPENGL_ES2=TRUE -DCMAKE_FIND_FRAMEWORK="LAST"
+      cmake ../../third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_OPENGL_ES2=TRUE -DCMAKE_FIND_FRAMEWORK="LAST"
       cmake --build . -j 4
       cmake --build . --target install
       cd ..
       echo "Building DJV..."
       mkdir DJV-Debug
       cd DJV-Debug
-      cmake ../.. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug -DCMAKE_PREFIX_PATH=../DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_BUILD_TINY=TRUE -DDJV_PYTHON=FALSE -DDJV_OPENGL_ES2=TRUE -DCMAKE_FIND_FRAMEWORK="LAST"
+      cmake ../.. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug -DCMAKE_PREFIX_PATH=../DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_BUILD_TINY=TRUE -DDJV_OPENGL_ES2=TRUE -DCMAKE_FIND_FRAMEWORK="LAST"
       cmake --build . -j 4
       # Fails with:
       # Unable to create basic Accelerated OpenGL renderer.
@@ -151,14 +151,14 @@ jobs:
       echo "Building third party dependencies..."
       mkdir DJV-third-party-Release
       cd DJV-third-party-Release
-      cmake ../../third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../DJV-install-Release -DDJV_PYTHON=FALSE -DCMAKE_FIND_FRAMEWORK="LAST"
+      cmake ../../third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../DJV-install-Release -DCMAKE_FIND_FRAMEWORK="LAST"
       cmake --build . -j 4
       cmake --build . --target install
       cd ..
       echo "Building DJV..."
       mkdir DJV-Release
       cd DJV-Release
-      cmake ../.. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../DJV-install-Release -DCMAKE_PREFIX_PATH=../DJV-install-Release -DDJV_PYTHON=FALSE -DCMAKE_FIND_FRAMEWORK="LAST"
+      cmake ../.. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../DJV-install-Release -DCMAKE_PREFIX_PATH=../DJV-install-Release -DCMAKE_FIND_FRAMEWORK="LAST"
       cmake --build . -j 4
       echo "Packaging DJV..."
       cmake ../DJV -DDJV_THIRD_PARTY=TRUE
