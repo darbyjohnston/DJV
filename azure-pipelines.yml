@@ -161,7 +161,8 @@ jobs:
       cmake ../.. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../DJV-install-Release -DCMAKE_PREFIX_PATH=../DJV-install-Release -DCMAKE_FIND_FRAMEWORK="LAST"
       cmake --build . -j 4
       echo "Packaging DJV..."
-      cmake ../DJV -DDJV_THIRD_PARTY=TRUE
+      cmake ../.. -DDJV_THIRD_PARTY=TRUE
       cmake --build . -j 4
       cmake --build . --target package
       cd ../..
+
