@@ -129,6 +129,16 @@ namespace djv
             p.queueTimer->setRepeating(true);
             p.realSpeedTimer = Time::Timer::create(context);
             p.realSpeedTimer->setRepeating(true);
+            auto weak = std::weak_ptr<Media>(std::dynamic_pointer_cast<Media>(shared_from_this()));
+            p.realSpeedTimer->start(
+                Time::getTime(Time::TimerValue::Slow),
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
+            {
+                if (auto media = weak.lock())
+                {
+                    media->_p->realSpeedSubject->setIfChanged(media->_p->realSpeed);
+                }
+            });
             p.cacheTimer = Time::Timer::create(context);
             p.cacheTimer->setRepeating(true);
             p.debugTimer = Time::Timer::create(context);
@@ -152,7 +162,6 @@ namespace djv
 
             _open();
 
-            auto weak = std::weak_ptr<Media>(std::dynamic_pointer_cast<Media>(shared_from_this()));
             p.queueTimer->start(
                 Time::getTime(Time::TimerValue::VeryFast),
                 [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
@@ -982,7 +991,6 @@ namespace djv
                     }
                     _stopAudioStream();
                     p.playbackTimer->stop();
-                    p.realSpeedTimer->stop();
                     _seek(p.currentFrame->get());
                     break;
                 case Playback::Forward:
@@ -1023,15 +1031,6 @@ namespace djv
                             media->_playbackTick();
                         }
                     });
-                    p.realSpeedTimer->start(
-                        Time::getTime(Time::TimerValue::Slow),
-                        [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
-                        {
-                            if (auto media = weak.lock())
-                            {
-                                media->_p->realSpeedSubject->setIfChanged(media->_p->realSpeed);
-                            }
-                        });
                     break;
                 }
                 default: break;
