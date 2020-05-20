@@ -41,7 +41,6 @@ jobs:
       sh ../../etc/Util/gcov.sh ../..
       #- cppcheck --enable=all --xml-version=2 -I${PWD}/lib -UDJV_ASSERT -UDJV_ENDIAN_MSB -UDJV_MMAP -UDJV_OPENGL_ES2 -UDJV_PLATFORM_WINDOWS -UGLM_PRECISION_LOWP_FLOAT -UGLM_PRECISION_LOWP_INT -UGLM_PRECISION_MEDIUMP_FLOAT -UGLM_PRECISION_MEDIUMP_INT -UDJV_OPENGL_PBO -Umax -Umin lib bin examples 2> report.xml
       cd ../..
-    failOnStderr: true
 
 - job: Linux_Packaging
   pool:
@@ -81,7 +80,6 @@ jobs:
       cmake --build . -j 4
       cmake --build . --target package
       cd ../..
-    failOnStderr: true
 
 - job: Windows
   pool:
@@ -109,7 +107,6 @@ jobs:
       rem cmake --build . --target test
       rem type Testing/Temporary/LastTest.log
       cd ..\..
-    failOnStderr: true
 
 - job: macOS
   pool:
@@ -140,4 +137,3 @@ jobs:
       #cmake --build . --target test
       #cat Testing/Temporary/LastTest.log
       cd ../..
-    failOnStderr: true
