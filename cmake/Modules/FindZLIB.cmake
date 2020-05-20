@@ -24,12 +24,6 @@ else()
 endif()
 set(ZLIB_LIBRARIES ${ZLIB_LIBRARY})
 
-message("ZLIB_INCLUDE_DIRS=" ${ZLIB_INCLUDE_DIRS})
-message("ZLIB_LIBRARY=" ${ZLIB_LIBRARY})
-message("CMAKE_MODULE_PATH=" ${CMAKE_MODULE_PATH})
-message("CMAKE_INSTALL_PREFIX=" ${CMAKE_INSTALL_PREFIX})
-message("CMAKE_PREFIX_PATH=" ${CMAKE_PREFIX_PATH})
-
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(
     ZLIB
