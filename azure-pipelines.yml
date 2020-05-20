@@ -7,7 +7,6 @@ jobs:
     vmImage: 'ubuntu-18.04'
   container:
     image: aswftesting/ci-base:2020.1
-
   steps:
   - script: |
       mkdir build
@@ -41,6 +40,44 @@ jobs:
       cat Testing/Temporary/LastTest.log
       sh ../../etc/Util/gcov.sh ../..
       #- cppcheck --enable=all --xml-version=2 -I${PWD}/lib -UDJV_ASSERT -UDJV_ENDIAN_MSB -UDJV_MMAP -UDJV_OPENGL_ES2 -UDJV_PLATFORM_WINDOWS -UGLM_PRECISION_LOWP_FLOAT -UGLM_PRECISION_LOWP_INT -UGLM_PRECISION_MEDIUMP_FLOAT -UGLM_PRECISION_MEDIUMP_INT -UDJV_OPENGL_PBO -Umax -Umin lib bin examples 2> report.xml
+      cd ../..
+
+- job: Linux Packaging
+  pool:
+    vmImage: 'ubuntu-latest'
+  steps:
+  - script: |
+      mkdir build
+      cd build
+      # OTIO build needs a git user
+      git config --global user.email "you@example.com"
+      git config --global user.name "Your Name"
+      export PATH=$PATH:$PWD/DJV-install-Release/bin
+      export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/DJV-install-Release/lib
+      export PYTHONPATH=$PWD/DJV-install-Release/lib:$PYTHONPATH
+      echo "Building third party dependencies..."
+      mkdir DJV-third-party-Release
+      cd DJV-third-party-Release
+      cmake ../../third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../DJV-install-Release -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_PYTHON=FALSE
+      cmake --build .
+      cmake --build . --target install
+      cd ..
+      echo "Building DJV..."
+      mkdir DJV-Release
+      cd DJV-Release
+      cmake ../.. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../DJV-install-Release -DCMAKE_PREFIX_PATH=../DJV-install-Release -DDJV_PYTHON=FALSE
+      cmake --build . -j 4
+      echo "Packaging DJV..."
+      sudo apt-get install rpm-build
+      cmake ../.. -DCPACK_GENERATOR=RPM -DCPACK_PACKAGING_INSTALL_PREFIX=/usr/local/DJV2 -DDJV_THIRD_PARTY=TRUE
+      cmake --build . -j 4
+      cmake --build . --target package
+      cmake ../.. -DCPACK_GENERATOR=DEB -DCPACK_PACKAGING_INSTALL_PREFIX=/usr/local/DJV2 -DDJV_THIRD_PARTY=TRUE
+      cmake --build . -j 4
+      cmake --build . --target package
+      cmake ../.. -DCPACK_GENERATOR=TGZ  -DCPACK_PACKAGING_INSTALL_PREFIX= -DDJV_THIRD_PARTY=TRUE
+      cmake --build . -j 4
+      cmake --build . --target package
       cd ../..
 
 - job: Windows
