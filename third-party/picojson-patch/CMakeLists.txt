@@ -1,3 +1,5 @@
+project(PicoJSON)
+
 set(header
 	picojson.h)
 
