@@ -41,6 +41,8 @@ namespace djv
             void _textUpdate() override;
 
         private:
+            static float _getScrollWheelSpeed(ScrollWheelSpeed);
+
             void _panImage(const glm::vec2&);
             void _zoomImage(float);
             void _zoomAction(float);

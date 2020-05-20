@@ -6,6 +6,7 @@
 
 #include <djvViewApp/Application.h>
 #include <djvViewApp/FileSystem.h>
+#include <djvViewApp/InputSettings.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/PlaybackSettings.h>
@@ -16,6 +17,7 @@
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Shortcut.h>
+#include <djvUI/SettingsSystem.h>
 #include <djvUI/Style.h>
 #include <djvUI/UISystem.h>
 
@@ -59,6 +61,10 @@ namespace djv
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<ValueObserver<PointerData> > hoverObserver;
             std::shared_ptr<ValueObserver<PointerData> > dragObserver;
+            std::shared_ptr<ValueObserver<ScrollData> > scrollObserver;
+
+            void drag(const PointerData&, const std::weak_ptr<Context>&);
+            void scroll(const ScrollData&, const std::weak_ptr<Context>&);
         };
 
         void PlaybackSystem::_init(const std::shared_ptr<Core::Context>& context)
@@ -598,49 +604,24 @@ namespace djv
                                             system->_p->hoverPos = value.pos;
                                         }
                                     });
-                                auto widgetWeak = std::weak_ptr<MediaWidget>(std::dynamic_pointer_cast<MediaWidget>(value));
                                 system->_p->dragObserver = ValueObserver<PointerData>::create(
                                     value->observeDrag(),
-                                    [weak, widgetWeak](const PointerData& value)
+                                    [weak](const PointerData& value)
+                                {
+                                    if (auto system = weak.lock())
                                     {
-                                        if (auto system = weak.lock())
-                                        {
-                                            if (auto widget = widgetWeak.lock())
-                                            {
-                                                if (auto media = system->_p->currentMedia)
-                                                {
-                                                    const auto i = value.buttons.find(3);
-                                                    if (i != value.buttons.end())
-                                                    {
-                                                        switch (value.state)
-                                                        {
-                                                        case PointerState::Start:
-                                                            system->_p->dragStart = value.pos;
-                                                            system->_p->dragStartFrame = media->observeCurrentFrame()->get();
-                                                            system->_p->dragStartPlayback = media->observePlayback()->get();
-                                                            break;
-                                                        case PointerState::Move:
-                                                        {
-                                                            if (auto context = system->getContext().lock())
-                                                            {
-                                                                auto uiSystem = context->getSystemT<UI::UISystem>();
-                                                                auto style = uiSystem->getStyle();
-                                                                const Frame::Index offset =
-                                                                    (value.pos.x - system->_p->dragStart.x) / style->getMetric(UI::MetricsRole::Scrub);
-                                                                media->setCurrentFrame(system->_p->dragStartFrame + offset);
-                                                            }
-                                                            break;
-                                                        }
-                                                        case PointerState::End:
-                                                            media->setPlayback(system->_p->dragStartPlayback);
-                                                            break;
-                                                        default: break;
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    });
+                                        system->_p->drag(value, system->getContext());
+                                    }
+                                });
+                                system->_p->scrollObserver = ValueObserver<ScrollData>::create(
+                                    value->observeScroll(),
+                                    [weak](const ScrollData& value)
+                                {
+                                    if (auto system = weak.lock())
+                                    {
+                                        system->_p->scroll(value, system->getContext());
+                                    }
+                                });
                             }
                             else
                             {
@@ -760,6 +741,85 @@ namespace djv
                 p.actions["ResetOutPoint"]->setTooltip(_getText(DJV_TEXT("menu_playback_reset_out_point_tooltip")));
 
                 p.menu->setText(_getText(DJV_TEXT("menu_playback")));
+            }
+        }
+
+        float PlaybackSystem::_getScrollWheelSpeed(ScrollWheelSpeed value)
+        {
+            const float values[] =
+            {
+                1.F,
+                2.F,
+                5.F
+            };
+            return values[static_cast<size_t>(value)];
+        }
+
+        void PlaybackSystem::Private::drag(const PointerData& value, const std::weak_ptr<Context>& contextWeak)
+        {
+            if (auto media = currentMedia)
+            {
+                bool scrub = false;
+                auto i = value.buttons.find(1);
+                scrub |=
+                    1 == value.buttons.size() &&
+                    i != value.buttons.end() &&
+                    (GLFW_KEY_LEFT_CONTROL == value.key || GLFW_KEY_RIGHT_CONTROL == value.key ) &&
+                    value.keyModifiers & GLFW_MOD_CONTROL;
+                i = value.buttons.find(3);
+                scrub |=
+                    1 == value.buttons.size() &&
+                    i != value.buttons.end() &&
+                    0 == value.key &&
+                    0 == value.keyModifiers;
+                if (scrub)
+                {
+                    switch (value.state)
+                    {
+                    case PointerState::Start:
+                        dragStart = value.pos;
+                        dragStartFrame = media->observeCurrentFrame()->get();
+                        dragStartPlayback = media->observePlayback()->get();
+                        break;
+                    case PointerState::Move:
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            auto uiSystem = context->getSystemT<UI::UISystem>();
+                            auto style = uiSystem->getStyle();
+                            const Frame::Index offset =
+                                (value.pos.x - dragStart.x) / style->getMetric(UI::MetricsRole::Scrub);
+                            media->setCurrentFrame(dragStartFrame + offset);
+                        }
+                        break;
+                    }
+                    case PointerState::End:
+                        media->setPlayback(dragStartPlayback);
+                        break;
+                    default: break;
+                    }
+                }
+            }
+        }
+
+        void PlaybackSystem::Private::scroll(const ScrollData& value, const std::weak_ptr<Context>& contextWeak)
+        {
+            if (auto media = currentMedia)
+            {
+                bool scrub =
+                    (GLFW_KEY_LEFT_CONTROL == value.key || GLFW_KEY_RIGHT_CONTROL == value.key) &&
+                    value.keyModifiers & GLFW_MOD_CONTROL;
+                if (scrub)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        Frame::Index frame = media->observeCurrentFrame()->get();
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto inputSettings = settingsSystem->getSettingsT<InputSettings>();
+                        const float speed = _getScrollWheelSpeed(inputSettings->observeScrollWheelSpeed()->get());
+                        media->setCurrentFrame(frame + value.delta.y * speed);
+                    }
+                }
             }
         }
 

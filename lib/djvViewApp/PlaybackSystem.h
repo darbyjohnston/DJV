@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <djvViewApp/Enum.h>
 #include <djvViewApp/IViewSystem.h>
 
 #include <djvCore/Time.h>
@@ -35,6 +36,8 @@ namespace djv
             void _textUpdate() override;
 
         private:
+            static float _getScrollWheelSpeed(ScrollWheelSpeed);
+
             DJV_PRIVATE();
         };
 

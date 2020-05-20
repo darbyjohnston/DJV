@@ -26,17 +26,40 @@ namespace djv
             End
         };
 
-        //! This truct provides pointer information.
+        //! This struct provides pointer data.
         struct PointerData
         {
             PointerData();
-            PointerData(PointerState, const glm::vec2&, const std::map<int, bool>& buttons);
+            PointerData(
+                PointerState               state,
+                const glm::vec2&           pos,
+                const std::map<int, bool>& buttons,
+                int                        key,
+                int                        keyModifiers);
 
-            PointerState state = PointerState::None;
-            glm::vec2 pos = glm::vec2(0.F, 0.F);
+            PointerState        state        = PointerState::None;
+            glm::vec2           pos          = glm::vec2(0.F, 0.F);
             std::map<int, bool> buttons;
+            int                 key          = 0;
+            int                 keyModifiers = 0;
 
             bool operator == (const PointerData&) const;
+        };
+
+        //! This struct provides scroll data.
+        struct ScrollData
+        {
+            ScrollData();
+            ScrollData(
+                const glm::vec2& delta,
+                int              key,
+                int              keyModifiers);
+
+            glm::vec2           delta = glm::vec2(0.F, 0.F);
+            int                 key = 0;
+            int                 keyModifiers = 0;
+
+            bool operator == (const ScrollData&) const;
         };
 
         //! This class provides a media widget.
@@ -61,7 +84,7 @@ namespace djv
 
             std::shared_ptr<Core::IValueSubject<PointerData> > observeHover() const;
             std::shared_ptr<Core::IValueSubject<PointerData> > observeDrag() const;
-            std::shared_ptr<Core::IValueSubject<glm::vec2> > observeScroll() const;
+            std::shared_ptr<Core::IValueSubject<ScrollData> > observeScroll() const;
 
         protected:
             float _getTitleBarHeight() const;

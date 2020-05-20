@@ -31,9 +31,9 @@ namespace djv
         public:
             static std::shared_ptr<PointerWidget> create(const std::shared_ptr<Core::Context>&);
 
-            void setHoverCallback(const std::function<void(PointerData)>&);
-            void setDragCallback(const std::function<void(PointerData)>&);
-            void setScrollCallback(const std::function<void(const glm::vec2&)>&);
+            void setHoverCallback(const std::function<void(const PointerData&)>&);
+            void setDragCallback(const std::function<void(const PointerData&)>&);
+            void setScrollCallback(const std::function<void(const ScrollData&)>&);
 
         protected:
             void _pointerEnterEvent(Core::Event::PointerEnter&) override;
@@ -41,6 +41,8 @@ namespace djv
             void _pointerMoveEvent(Core::Event::PointerMove&) override;
             void _buttonPressEvent(Core::Event::ButtonPress&) override;
             void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
+            void _keyPressEvent(Core::Event::KeyPress&) override;
+            void _keyReleaseEvent(Core::Event::KeyRelease&) override;
             void _scrollEvent(Core::Event::Scroll&) override;
 
         private:
@@ -49,9 +51,11 @@ namespace djv
 
             uint32_t _pressedID = Core::Event::invalidID;
             std::map<int, bool> _buttons;
-            std::function<void(PointerData)> _hoverCallback;
-            std::function<void(PointerData)> _dragCallback;
-            std::function<void(const glm::vec2&)> _scrollCallback;
+            int _key = 0;
+            int _keyModifiers = 0;
+            std::function<void(const PointerData&)> _hoverCallback;
+            std::function<void(const PointerData&)> _dragCallback;
+            std::function<void(const ScrollData&)> _scrollCallback;
         };
 
         class FrameWidget : public UI::Widget

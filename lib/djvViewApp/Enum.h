@@ -43,7 +43,7 @@ namespace djv
         };
         DJV_ENUM_HELPERS(ImageViewGridLabels);
 
-        enum class ScrollWheelZoomSpeed
+        enum class ScrollWheelSpeed
         {
             Slow,
             Medium,
@@ -52,8 +52,7 @@ namespace djv
             Count,
             First = Slow
         };
-        DJV_ENUM_HELPERS(ScrollWheelZoomSpeed);
-        float getScrollWheelZoomSpeed(ScrollWheelZoomSpeed);
+        DJV_ENUM_HELPERS(ScrollWheelSpeed);
 
         enum class Playback
         {
@@ -107,14 +106,14 @@ namespace djv
 
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ImageViewLock);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ImageViewGridLabels);
-    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ScrollWheelZoomSpeed);
+    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ScrollWheelSpeed);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::Playback);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::PlaybackSpeed);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::PlaybackMode);
 
     picojson::value toJSON(ViewApp::ImageViewLock);
     picojson::value toJSON(ViewApp::ImageViewGridLabels);
-    picojson::value toJSON(ViewApp::ScrollWheelZoomSpeed);
+    picojson::value toJSON(ViewApp::ScrollWheelSpeed);
     picojson::value toJSON(ViewApp::PlaybackSpeed);
     picojson::value toJSON(ViewApp::PlaybackMode);
 
@@ -122,7 +121,7 @@ namespace djv
     //! - std::exception
     void fromJSON(const picojson::value&, ViewApp::ImageViewLock&);
     void fromJSON(const picojson::value&, ViewApp::ImageViewGridLabels&);
-    void fromJSON(const picojson::value&, ViewApp::ScrollWheelZoomSpeed&);
+    void fromJSON(const picojson::value&, ViewApp::ScrollWheelSpeed&);
     void fromJSON(const picojson::value&, ViewApp::PlaybackSpeed&);
     void fromJSON(const picojson::value&, ViewApp::PlaybackMode&);
 

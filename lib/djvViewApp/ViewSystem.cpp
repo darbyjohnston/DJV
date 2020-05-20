@@ -5,6 +5,7 @@
 #include <djvViewApp/ViewSystem.h>
 
 #include <djvViewApp/ImageView.h>
+#include <djvViewApp/InputSettings.h>
 #include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/ViewControlsWidget.h>
 #include <djvViewApp/ViewSettings.h>
@@ -55,7 +56,10 @@ namespace djv
             std::shared_ptr<ValueObserver<GridOptions> > gridOptionsObserver;
             std::shared_ptr<ValueObserver<PointerData> > hoverObserver;
             std::shared_ptr<ValueObserver<PointerData> > dragObserver;
-            std::shared_ptr<ValueObserver<glm::vec2> > scrollObserver;
+            std::shared_ptr<ValueObserver<ScrollData> > scrollObserver;
+
+            void drag(const PointerData&);
+            void scroll(const ScrollData&, const std::weak_ptr<Context>&);
         };
 
         void ViewSystem::_init(const std::shared_ptr<Context>& context)
@@ -456,43 +460,16 @@ namespace djv
                                     {
                                         if (auto system = weak.lock())
                                         {
-                                            const auto i = value.buttons.find(1);
-                                            const auto j = value.buttons.find(2);
-                                            if ((i != value.buttons.end() && system->_p->currentTool) ||
-                                                j != value.buttons.end())
-                                            {
-                                                system->_p->settings->setLock(ImageViewLock::None);
-                                                auto imageView = system->_p->activeWidget->getImageView();
-                                                switch (value.state)
-                                                {
-                                                case PointerState::Start:
-                                                    system->_p->dragStart = value.pos;
-                                                    system->_p->dragImagePos = imageView->observeImagePos()->get();
-                                                    break;
-                                                case PointerState::Move:
-                                                    imageView->setImagePos(system->_p->dragImagePos + (value.pos - system->_p->dragStart));
-                                                    break;
-                                                default: break;
-                                                }
-                                            }
+                                            system->_p->drag(value);
                                         }
                                     });
-                                system->_p->scrollObserver = ValueObserver<glm::vec2>::create(
+                                system->_p->scrollObserver = ValueObserver<ScrollData>::create(
                                     system->_p->activeWidget->observeScroll(),
-                                    [weak](const glm::vec2& value)
+                                    [weak](const ScrollData& value)
                                     {
                                         if (auto system = weak.lock())
                                         {
-                                            if (value.x != 0.F || value.y != 0.F)
-                                            {
-                                                system->_p->settings->setLock(ImageViewLock::None);
-                                                auto imageView = system->_p->activeWidget->getImageView();
-                                                const float zoom = imageView->observeImageZoom()->get();
-                                                const float speed = getScrollWheelZoomSpeed(system->_p->settings->observeScrollWheelZoomSpeed()->get());
-                                                imageView->setImageZoomFocus(
-                                                    zoom * (1.F + value.y * speed),
-                                                    system->_p->hoverPos);
-                                            }
+                                            system->_p->scroll(value, system->getContext());
                                         }
                                     });
                             }
@@ -653,6 +630,17 @@ namespace djv
             }
         }
 
+        float ViewSystem::_getScrollWheelSpeed(ScrollWheelSpeed value)
+        {
+            const float values[] =
+            {
+                .1,
+                .25,
+                .5
+            };
+            return values[static_cast<size_t>(value)];
+        }
+
         void ViewSystem::_panImage(const glm::vec2& value)
         {
             DJV_PRIVATE_PTR();
@@ -719,6 +707,65 @@ namespace djv
             p.actions["ZoomOut"]->setEnabled(activeWidget);
             p.actions["ZoomReset"]->setEnabled(activeWidget);
             p.actions["GridEnabled"]->setChecked(p.gridOptions.enabled);
+        }
+
+        void ViewSystem::Private::drag(const PointerData& value)
+        {
+            if (auto imageView = activeWidget->getImageView())
+            {
+                bool pan = false;
+                auto i = value.buttons.find(1);
+                pan |=
+                    1 == value.buttons.size() &&
+                    i != value.buttons.end() &&
+                    currentTool;
+                i = value.buttons.find(2);
+                pan |=
+                    1 == value.buttons.size() &&
+                    i != value.buttons.end() &&
+                    0 == value.key &&
+                    0 == value.keyModifiers;
+                if (pan)
+                {
+                    settings->setLock(ImageViewLock::None);
+                    auto imageView = activeWidget->getImageView();
+                    switch (value.state)
+                    {
+                    case PointerState::Start:
+                        dragStart = value.pos;
+                        dragImagePos = imageView->observeImagePos()->get();
+                        break;
+                    case PointerState::Move:
+                        imageView->setImagePos(dragImagePos + (value.pos - dragStart));
+                        break;
+                    default: break;
+                    }
+                }
+            }
+        }
+
+        void ViewSystem::Private::scroll(const ScrollData& value, const std::weak_ptr<Context>& contextWeak)
+        {
+            if (auto imageView = activeWidget->getImageView())
+            {
+                bool zoom = false;
+                zoom |=
+                    (value.delta.x != 0.F || value.delta.y != 0.F) &&
+                    0 == value.key &&
+                    0 == value.keyModifiers;
+                if (zoom)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        settings->setLock(ImageViewLock::None);
+                        const float zoom = imageView->observeImageZoom()->get();
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto inputSettings = settingsSystem->getSettingsT<InputSettings>();
+                        const float speed = _getScrollWheelSpeed(inputSettings->observeScrollWheelSpeed()->get());
+                        imageView->setImageZoomFocus(zoom * (1.F + value.delta.y * speed), hoverPos);
+                    }
+                }
+            }
         }
 
     } // namespace ViewApp

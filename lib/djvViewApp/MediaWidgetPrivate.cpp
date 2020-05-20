@@ -34,17 +34,17 @@ namespace djv
             return out;
         }
 
-        void PointerWidget::setHoverCallback(const std::function<void(PointerData)>& callback)
+        void PointerWidget::setHoverCallback(const std::function<void(const PointerData&)>& callback)
         {
             _hoverCallback = callback;
         }
 
-        void PointerWidget::setDragCallback(const std::function<void(PointerData)>& callback)
+        void PointerWidget::setDragCallback(const std::function<void(const PointerData&)>& callback)
         {
             _dragCallback = callback;
         }
 
-        void PointerWidget::setScrollCallback(const std::function<void(const glm::vec2&)>& callback)
+        void PointerWidget::setScrollCallback(const std::function<void(const ScrollData&)>& callback)
         {
             _scrollCallback = callback;
         }
@@ -55,7 +55,7 @@ namespace djv
             {
                 event.accept();
                 const auto& pos = event.getPointerInfo().projectedPos;
-                _doHoverCallback(PointerData(PointerState::Start, pos, std::map<int, bool>()));
+                _doHoverCallback(PointerData(PointerState::Start, pos, std::map<int, bool>(), _key, _keyModifiers));
             }
         }
 
@@ -63,7 +63,7 @@ namespace djv
         {
             event.accept();
             const auto& pos = event.getPointerInfo().projectedPos;
-            _doHoverCallback(PointerData(PointerState::End, pos, std::map<int, bool>()));
+            _doHoverCallback(PointerData(PointerState::End, pos, std::map<int, bool>(), _key, _keyModifiers));
         }
 
         void PointerWidget::_pointerMoveEvent(Event::PointerMove& event)
@@ -72,11 +72,11 @@ namespace djv
             const auto& pos = event.getPointerInfo().projectedPos;
             if (_pressedID)
             {
-                _doDragCallback(PointerData(PointerState::Move, pos, _buttons));
+                _doDragCallback(PointerData(PointerState::Move, pos, _buttons, _key, _keyModifiers));
             }
             else
             {
-                _doHoverCallback(PointerData(PointerState::Move, pos, std::map<int, bool>()));
+                _doHoverCallback(PointerData(PointerState::Move, pos, std::map<int, bool>(), _key, _keyModifiers));
             }
         }
 
@@ -88,7 +88,7 @@ namespace djv
             const auto& info = event.getPointerInfo();
             _pressedID = info.id;
             _buttons = info.buttons;
-            _doDragCallback(PointerData(PointerState::Start, info.pos, info.buttons));
+            _doDragCallback(PointerData(PointerState::Start, info.pos, info.buttons, _key, _keyModifiers));
         }
 
         void PointerWidget::_buttonReleaseEvent(Event::ButtonRelease& event)
@@ -99,7 +99,34 @@ namespace djv
             const auto& info = event.getPointerInfo();
             _pressedID = Event::invalidID;
             _buttons = std::map<int, bool>();
-            _doDragCallback(PointerData(PointerState::End, info.pos, info.buttons));
+            _doDragCallback(PointerData(PointerState::End, info.pos, info.buttons, _key, _keyModifiers));
+        }
+
+        void PointerWidget::_keyPressEvent(Event::KeyPress& event)
+        {
+            if (!event.isAccepted())
+            {
+                const int key = event.getKey();
+                const int keyModifiers = event.getKeyModifiers();
+                if ((GLFW_KEY_LEFT_CONTROL == key || GLFW_KEY_RIGHT_CONTROL == key) &&
+                    keyModifiers & GLFW_MOD_CONTROL)
+                {
+                    event.accept();
+                    _key = event.getKey();
+                    _keyModifiers = event.getKeyModifiers();
+                }
+                else
+                {
+                    _key = 0;
+                    _keyModifiers = 0;
+                }
+            }
+        }
+
+        void PointerWidget::_keyReleaseEvent(Event::KeyRelease& event)
+        {
+            _key = 0;
+            _keyModifiers = 0;
         }
 
         void PointerWidget::_scrollEvent(Event::Scroll& event)
@@ -107,7 +134,7 @@ namespace djv
             event.accept();
             if (_scrollCallback)
             {
-                _scrollCallback(event.getScrollDelta());
+                _scrollCallback(ScrollData(event.getScrollDelta(), _key, _keyModifiers));
             }
         }
 

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: BSD-3-Clause
-// Copyright (c) 2004-2020 Darby Johnston
+// Copyright (c) 2020 Darby Johnston
 // All rights reserved.
 
 #pragma once
@@ -10,17 +10,17 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the view settings widget.
-        class ViewSettingsWidget : public UI::ISettingsWidget
+        //! This class provides the input settings widget.
+        class InputSettingsWidget : public UI::ISettingsWidget
         {
-            DJV_NON_COPYABLE(ViewSettingsWidget);
+            DJV_NON_COPYABLE(InputSettingsWidget);
 
         protected:
             void _init(const std::shared_ptr<Core::Context>&);
-            ViewSettingsWidget();
+            InputSettingsWidget();
 
         public:
-            static std::shared_ptr<ViewSettingsWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<InputSettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
             std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;

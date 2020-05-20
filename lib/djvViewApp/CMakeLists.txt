@@ -27,6 +27,9 @@ set(header
     ImageView.h
     ImageViewPrivate.h
     InfoWidget.h
+	InputSettings.h
+	InputSettingsWidget.h
+	InputSystem.h
 	LayersWidget.h
 	MDIWidget.h
     MagnifySettings.h
@@ -57,7 +60,6 @@ set(header
     ViewApp.h
     ViewControlsWidget.h
 	ViewSettings.h
-	ViewSettingsWidget.h
     ViewSystem.h
 	WindowSettings.h
 	WindowSettingsWidget.h
@@ -91,6 +93,9 @@ set(source
     ImageView.cpp
     ImageViewPrivate.cpp
     InfoWidget.cpp
+	InputSettings.cpp
+	InputSettingsWidget.cpp
+	InputSystem.cpp
 	LayersWidget.cpp
 	MDIWidget.cpp
     MagnifySettings.cpp
@@ -120,7 +125,6 @@ set(source
     ToolSystem.cpp
     ViewControlsWidget.cpp
 	ViewSettings.cpp
-	ViewSettingsWidget.cpp
     ViewSystem.cpp
 	WindowSettings.cpp
 	WindowSettingsWidget.cpp

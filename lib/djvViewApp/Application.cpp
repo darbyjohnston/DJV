@@ -12,6 +12,7 @@
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/HelpSystem.h>
 #include <djvViewApp/ImageSystem.h>
+#include <djvViewApp/InputSystem.h>
 #include <djvViewApp/MagnifySystem.h>
 #include <djvViewApp/MainWindow.h>
 #include <djvViewApp/Media.h>
@@ -106,6 +107,7 @@ namespace djv
 
             // Create the systems.
             UI::UIComponentsSystem::create(shared_from_this());
+            p.systems.push_back(InputSystem::create(shared_from_this()));
             p.systems.push_back(FileSystem::create(shared_from_this()));
             p.systems.push_back(WindowSystem::create(shared_from_this()));
             p.systems.push_back(ViewSystem::create(shared_from_this()));

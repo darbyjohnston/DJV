@@ -57,22 +57,54 @@ namespace djv
         PointerData::PointerData()
         {}
 
-        PointerData::PointerData(PointerState state, const glm::vec2& pos, const std::map<int, bool>& buttons) :
+        PointerData::PointerData(
+            PointerState state,
+            const glm::vec2& pos,
+            const std::map<int, bool>& buttons,
+            int key,
+            int keyModifiers) :
             state(state),
             pos(pos),
-            buttons(buttons)
+            buttons(buttons),
+            key(key),
+            keyModifiers(keyModifiers)
         {}
 
         bool PointerData::operator == (const PointerData& other) const
         {
-            return state == other.state && pos == other.pos;
+            return
+                state        == other.state &&
+                pos          == other.pos &&
+                buttons      == other.buttons &&
+                key          == other.key &&
+                keyModifiers == other.keyModifiers;
+        }
+
+        ScrollData::ScrollData()
+        {}
+
+        ScrollData::ScrollData(
+            const glm::vec2& delta,
+            int key,
+            int keyModifiers) :
+            delta(delta),
+            key(key),
+            keyModifiers(keyModifiers)
+        {}
+
+        bool ScrollData::operator == (const ScrollData& other) const
+        {
+            return
+                delta == other.delta &&
+                key == other.key &&
+                keyModifiers == other.keyModifiers;
         }
 
         struct MediaWidget::Private
         {
             std::shared_ptr<ValueSubject<PointerData> > hover;
             std::shared_ptr<ValueSubject<PointerData> > drag;
-            std::shared_ptr<ValueSubject<glm::vec2> > scroll;
+            std::shared_ptr<ValueSubject<ScrollData> > scroll;
 
             std::shared_ptr<Media> media;
             AV::IO::Info ioInfo;
@@ -178,7 +210,7 @@ namespace djv
 
             p.hover = ValueSubject<PointerData>::create();
             p.drag = ValueSubject<PointerData>::create();
-            p.scroll = ValueSubject<glm::vec2>::create();
+            p.scroll = ValueSubject<ScrollData>::create();
 
             p.media = media;
 
@@ -416,7 +448,8 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         const BBox2f& g = widget->_p->imageView->getGeometry();
-                        widget->_p->hover->setIfChanged(PointerData(data.state, data.pos - g.min, data.buttons));
+                        widget->_p->hover->setIfChanged(
+                            PointerData(data.state, data.pos - g.min, data.buttons, data.key, data.keyModifiers));
                     }
                 });
             p.pointerWidget->setDragCallback(
@@ -426,11 +459,12 @@ namespace djv
                     {
                         widget->moveToFront();
                         const BBox2f& g = widget->_p->imageView->getGeometry();
-                        widget->_p->drag->setIfChanged(PointerData(data.state, data.pos - g.min, data.buttons));
+                        widget->_p->drag->setIfChanged(
+                            PointerData(data.state, data.pos - g.min, data.buttons, data.key, data.keyModifiers));
                     }
                 });
             p.pointerWidget->setScrollCallback(
-                [weak](const glm::vec2& value)
+                [weak](const ScrollData& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -1191,7 +1225,7 @@ namespace djv
             return _p->drag;
         }
 
-        std::shared_ptr<IValueSubject<glm::vec2> > MediaWidget::observeScroll() const
+        std::shared_ptr<IValueSubject<ScrollData> > MediaWidget::observeScroll() const
         {
             return _p->scroll;
         }

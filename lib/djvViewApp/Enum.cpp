@@ -12,17 +12,6 @@ namespace djv
 {
     namespace ViewApp
     {
-        float getScrollWheelZoomSpeed(ScrollWheelZoomSpeed value)
-        {
-            const float values[] =
-            {
-                .1,
-                .25,
-                .5
-            };
-            return values[static_cast<size_t>(value)];
-        }
-
         Time::Speed getPlaybackSpeed(PlaybackSpeed value)
         {
             const Time::Speed values[] =
@@ -67,7 +56,7 @@ namespace djv
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         ViewApp,
-        ScrollWheelZoomSpeed,
+        ScrollWheelSpeed,
         DJV_TEXT("settings_scroll_wheel_slow"),
         DJV_TEXT("settings_scroll_wheel_medium"),
         DJV_TEXT("settings_scroll_wheel_fast"));
@@ -121,7 +110,7 @@ namespace djv
         return picojson::value(ss.str());
     }
 
-    picojson::value toJSON(ViewApp::ScrollWheelZoomSpeed value)
+    picojson::value toJSON(ViewApp::ScrollWheelSpeed value)
     {
         std::stringstream ss;
         ss << value;
@@ -170,7 +159,7 @@ namespace djv
         }
     }
 
-    void fromJSON(const picojson::value& value, ViewApp::ScrollWheelZoomSpeed& out)
+    void fromJSON(const picojson::value& value, ViewApp::ScrollWheelSpeed& out)
     {
         if (value.is<std::string>())
         {
