@@ -107,8 +107,8 @@ jobs:
       cmake --build . -j 4
       rem Fails with:
       rem MSBUILD : error MSB1009: Project file does not exist.
-      rem cmake --build . --target test
-      rem type Testing/Temporary/LastTest.log
+      cmake --build . --target test
+      type Testing/Temporary/LastTest.log
       cd ..\..
 
 - job: macOS
