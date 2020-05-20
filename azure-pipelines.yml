@@ -50,6 +50,7 @@ jobs:
   - script: |
       mkdir build
       cd build
+      sudo apt-get install libgl1-mesa-dev xorg-dev libasound2-dev
       # OTIO build needs a git user
       git config --global user.email "you@example.com"
       git config --global user.name "Your Name"
