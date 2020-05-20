@@ -17,7 +17,7 @@ project(
     HOMEPAGE_URL "http://djv.sourceforge.net"
     LANGUAGES C CXX)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake/Modules)
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules ${CMAKE_MODULE_PATH})
 
 #-------------------------------------------------------------------------------
 # Options
