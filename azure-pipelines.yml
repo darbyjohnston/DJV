@@ -45,6 +45,7 @@ jobs:
 - job: Linux_Packaging
   pool:
     vmImage: 'ubuntu-latest'
+  failOnStderr: true
   steps:
   - script: |
       mkdir build
