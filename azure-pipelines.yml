@@ -19,21 +19,21 @@ jobs:
       # OTIO build needs a git user
       git config --global user.email "you@example.com"
       git config --global user.name "Your Name"
-      export BUILD_DIR=$PWD
-      export PATH=$PATH:$BUILD_DIR/DJV-install-Debug/bin
-      export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BUILD_DIR/DJV-install-Debug/lib
-      export PYTHONPATH=$BUILD_DIR/DJV-install-Debug/lib:$PYTHONPATH
+      export DJV_BUILD=$PWD
+      export PATH=$PATH:$DJV_BUILD/DJV-install-Debug/bin
+      export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$DJV_BUILD/DJV-install-Debug/lib
+      export PYTHONPATH=$DJV_BUILD/DJV-install-Debug/lib:$PYTHONPATH
       echo "Building third party dependencies..."
       mkdir DJV-third-party-Debug
       cd DJV-third-party-Debug
-      cmake ../../third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_OPENGL_ES2=TRUE
+      cmake ../../third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_OPENGL_ES2=TRUE
       cmake --build .
       cmake --build . --target install
       cd ..
       echo "Building DJV..."
       mkdir DJV-Debug
       cd DJV-Debug
-      cmake ../.. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/DJV-install-Debug -DCMAKE_PREFIX_PATH=$BUILD_DIR/DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_BUILD_TINY=TRUE -DDJV_GCOV=TRUE -DDJV_OPENGL_ES2=TRUE
+      cmake ../.. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Debug -DCMAKE_PREFIX_PATH=$DJV_BUILD/DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_BUILD_TINY=TRUE -DDJV_GCOV=TRUE -DDJV_OPENGL_ES2=TRUE
       # ASWF ci-base image already contains the SonarCloud tools in /usr/bin
       build-wrapper-linux-x86-64 --out-dir ../bw-output cmake --build . -j 4
       # Need to request 24bit visual to get OpenGL
@@ -54,21 +54,21 @@ jobs:
       # OTIO build needs a git user
       git config --global user.email "you@example.com"
       git config --global user.name "Your Name"
-      export BUILD_DIR=$PWD
-      export PATH=$PATH:$BUILD_DIR/DJV-install-Release/bin
-      export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BUILD_DIR/DJV-install-Release/lib
-      export PYTHONPATH=$BUILD_DIR/DJV-install-Release/lib:$PYTHONPATH
+      export DJV_BUILD=$PWD
+      export PATH=$PATH:$DJV_BUILD/DJV-install-Release/bin
+      export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$DJV_BUILD/DJV-install-Release/lib
+      export PYTHONPATH=$DJV_BUILD/DJV-install-Release/lib:$PYTHONPATH
       echo "Building third party dependencies..."
       mkdir DJV-third-party-Release
       cd DJV-third-party-Release
-      cmake ../../third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/DJV-install-Release
+      cmake ../../third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Release
       cmake --build .
       cmake --build . --target install
       cd ..
       echo "Building DJV..."
       mkdir DJV-Release
       cd DJV-Release
-      cmake ../.. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/DJV-install-Release -DCMAKE_PREFIX_PATH=$BUILD_DIR/DJV-install-Release
+      cmake ../.. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Release -DCMAKE_PREFIX_PATH=$DJV_BUILD/DJV-install-Release
       cmake --build . -j 4
       echo "Packaging DJV..."
       sudo apt-get install rpm-build
@@ -90,20 +90,20 @@ jobs:
   - script: |
       mkdir build
       cd build
-      set BUILD_DIR=%CD%
-      set PATH=%PATH%;%BUILD_DIR%\DJV-install-Debug\bin
-      set PYTHONPATH=%BUILD_DIR%\DJV-install-Debug\lib;%PYTHONPATH%
+      set DJV_BUILD=%CD%
+      set PATH=%PATH%;%DJV_BUILD%\DJV-install-Debug\bin
+      set PYTHONPATH=%DJV_BUILD%\DJV-install-Debug\lib;%PYTHONPATH%
       echo "Building third party dependencies..."
       mkdir DJV-third-party-Debug
       cd DJV-third-party-Debug
-      cmake ..\..\third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=%BUILD_DIR%/DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_OPENGL_ES2=TRUE
+      cmake ..\..\third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_OPENGL_ES2=TRUE
       cmake --build . -j 4
       cmake --build . --target install
       cd ..
       echo "Building DJV..."
       mkdir DJV-Debug
       cd DJV-Debug
-      cmake ..\.. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=%BUILD_DIR%/DJV-install-Debug -DCMAKE_PREFIX_PATH=%BUILD_DIR%/DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_BUILD_TINY=TRUE -DDJV_OPENGL_ES2=TRUE
+      cmake ..\.. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Debug -DCMAKE_PREFIX_PATH=%DJV_BUILD%/DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_BUILD_TINY=TRUE -DDJV_OPENGL_ES2=TRUE
       cmake --build . -j 4
       rem Fails with:
       rem MSBUILD : error MSB1009: Project file does not exist.
@@ -118,21 +118,21 @@ jobs:
   - script: |
       mkdir build
       cd build
-      export BUILD_DIR=$PWD
-      export PATH=$PATH:$BUILD_DIR/DJV-install-Debug/bin
-      export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$BUILD_DIR/DJV-install-Debug/lib
-      export PYTHONPATH=$BUILD_DIR/DJV-install-Debug/lib:$PYTHONPATH
+      export DJV_BUILD=$PWD
+      export PATH=$PATH:$DJV_BUILD/DJV-install-Debug/bin
+      export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$DJV_BUILD/DJV-install-Debug/lib
+      export PYTHONPATH=$DJV_BUILD/DJV-install-Debug/lib:$PYTHONPATH
       echo "Building third party dependencies..."
       mkdir DJV-third-party-Debug
       cd DJV-third-party-Debug
-      cmake ../../third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_OPENGL_ES2=TRUE -DCMAKE_FIND_FRAMEWORK="LAST"
+      cmake ../../third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_OPENGL_ES2=TRUE -DCMAKE_FIND_FRAMEWORK="LAST"
       cmake --build . -j 4
       cmake --build . --target install
       cd ..
       echo "Building DJV..."
       mkdir DJV-Debug
       cd DJV-Debug
-      cmake ../.. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/DJV-install-Debug -DCMAKE_PREFIX_PATH=$BUILD_DIR/DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_BUILD_TINY=TRUE -DDJV_OPENGL_ES2=TRUE -DCMAKE_FIND_FRAMEWORK="LAST"
+      cmake ../.. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Debug -DCMAKE_PREFIX_PATH=$DJV_BUILD/DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_BUILD_TINY=TRUE -DDJV_OPENGL_ES2=TRUE -DCMAKE_FIND_FRAMEWORK="LAST"
       cmake --build . -j 4
       # Fails with:
       # Unable to create basic Accelerated OpenGL renderer.
@@ -149,21 +149,21 @@ jobs:
   - script: |
       mkdir build
       cd build
-      export BUILD_DIR=$PWD
-      export PATH=$PATH:$BUILD_DIR/DJV-install-Release/bin
-      export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$BUILD_DIR/DJV-install-Release/lib
-      export PYTHONPATH=$BUILD_DIR/DJV-install-Release/lib:$PYTHONPATH
+      export DJV_BUILD=$PWD
+      export PATH=$PATH:$DJV_BUILD/DJV-install-Release/bin
+      export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$DJV_BUILD/DJV-install-Release/lib
+      export PYTHONPATH=$DJV_BUILD/DJV-install-Release/lib:$PYTHONPATH
       echo "Building third party dependencies..."
       mkdir DJV-third-party-Release
       cd DJV-third-party-Release
-      cmake ../../third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/DJV-install-Release -DCMAKE_FIND_FRAMEWORK="LAST"
+      cmake ../../third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Release -DCMAKE_FIND_FRAMEWORK="LAST"
       cmake --build . -j 4
       cmake --build . --target install
       cd ..
       echo "Building DJV..."
       mkdir DJV-Release
       cd DJV-Release
-      cmake ../.. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/DJV-install-Release -DCMAKE_PREFIX_PATH=$BUILD_DIR/DJV-install-Release -DCMAKE_FIND_FRAMEWORK="LAST"
+      cmake ../.. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Release -DCMAKE_PREFIX_PATH=$DJV_BUILD/DJV-install-Release -DCMAKE_FIND_FRAMEWORK="LAST"
       cmake --build . -j 4
       echo "Packaging DJV..."
       cmake ../.. -DDJV_THIRD_PARTY=TRUE
