@@ -186,7 +186,6 @@ namespace djv
                         GLFW_TRUE);
                 }
 #endif // DJV_OPENGL_ES2
-                glfwSwapInterval(1);
             }
 
             System::System() :
