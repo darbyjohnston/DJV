@@ -195,10 +195,11 @@ namespace djv
             
             p.resetButton = ToolButton::create(context);
             p.resetButton->setIcon("djvIconCloseSmall");
+            p.resetButton->setInsideMargin(MetricsRole::None);
             p.resetButton->hide();
 
             p.layout = HorizontalLayout::create(context);
-            p.layout->setSpacing(Layout::Spacing(MetricsRole::SpacingSmall));
+            p.layout->setSpacing(Layout::Spacing(MetricsRole::None));
             p.layout->addChild(p.edit);
             p.layout->addChild(p.slider);
             p.layout->setStretch(p.slider, RowStretch::Expand);

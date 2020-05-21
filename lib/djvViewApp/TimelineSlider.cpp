@@ -294,11 +294,9 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const float m = style->getMetric(UI::MetricsRole::MarginSmall);
             const float b = style->getMetric(UI::MetricsRole::Border);
             glm::vec2 size = glm::vec2(0.F, 0.F);
-            size.x = style->getMetric(UI::MetricsRole::TextColumn);
-            size.y = p.fontMetrics.lineHeight * 2.F + b * 6.F + m * 2.F;
+            size.y = p.fontMetrics.lineHeight * 2.F + b * 6.F;
             _setMinimumSize(size);
         }
 
@@ -316,10 +314,10 @@ namespace djv
                     const auto& style = _getStyle();
                     const float m = style->getMetric(UI::MetricsRole::MarginSmall);
                     const float b = style->getMetric(UI::MetricsRole::Border);
-                    float x = g.min.x + m;
+                    float x = g.min.x;
                     float x2 = x;
                     //! \bug Why the extra subtract by one here?
-                    const float textY = size.y - m - b * 6.F - p.fontMetrics.lineHeight + p.fontMetrics.ascender - 1.F;
+                    const float textY = size.y - b * 6.F - p.fontMetrics.lineHeight + p.fontMetrics.ascender - 1.F;
                     const float speedF = p.speed.toFloat();
                     auto avSystem = context->getSystemT<AV::AVSystem>();
                     const std::vector<std::pair<float, std::function<Frame::Index(size_t, float)> > > units =
@@ -414,7 +412,7 @@ namespace djv
                     const float x1 = _frameToPos(p.outPoint + 1);
                     render->drawRect(BBox2f(
                         x0,
-                        g.max.y - m - b * 6.F,
+                        g.max.y - b * 6.F,
                         x1 - x0,
                         b * 2.F));
                 }
@@ -431,7 +429,7 @@ namespace djv
                         const float x1 = _frameToPos(i.max + 1);
                         boxes.push_back(BBox2f(
                             x0,
-                            g.max.y - m - b * 2.F,
+                            g.max.y - b * 2.F,
                             x1 - x0,
                             b * 2.F));
                     }
@@ -445,7 +443,7 @@ namespace djv
                         const float x1 = _frameToPos(i.max + 1);
                         boxes.push_back(BBox2f(
                             x0,
-                            g.max.y - m - b * 2.F,
+                            g.max.y - b * 2.F,
                             x1 - x0,
                             b * 2.F));
                     }
@@ -465,7 +463,7 @@ namespace djv
                         const float x = _frameToPos(f2);
                         boxes.push_back(BBox2f(
                             x,
-                            g.max.y - m - b * 6.F,
+                            g.max.y - b * 6.F,
                             b,
                             b * 6.F));
                     }
@@ -533,8 +531,7 @@ namespace djv
             const auto & pos = event.getPointerInfo().projectedPos;
             const BBox2f & g = getGeometry();
             const auto& style = _getStyle();
-            const float m = style->getMetric(UI::MetricsRole::MarginSmall);
-            const Frame::Index frame = _posToFrame(static_cast<int>(pos.x - g.min.x - m));
+            const Frame::Index frame = _posToFrame(static_cast<int>(pos.x - g.min.x));
             if (p.pipWidget)
             {
                 if (auto parent = getParentRecursiveT<MediaWidget>())
@@ -561,10 +558,9 @@ namespace djv
             const auto & pos = event.getPointerInfo().projectedPos;
             const BBox2f & g = getGeometry();
             const auto& style = _getStyle();
-            const float m = style->getMetric(UI::MetricsRole::MarginSmall);
             event.accept();
             p.pressedID = id;
-            p.currentFrame = _posToFrame(static_cast<int>(pos.x - g.min.x - m));
+            p.currentFrame = _posToFrame(static_cast<int>(pos.x - g.min.x));
             _currentFrameUpdate();
             _doCurrentFrameDragCallback(true);
             _doCurrentFrameCallback();
@@ -671,8 +667,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const BBox2f& g = getGeometry();
-            const float m = style->getMetric(UI::MetricsRole::MarginSmall);
-            const float v = value / (g.w() - m * 2.F);
+            const float v = value / g.w();
             const size_t sequenceSize = p.sequence.getSize();
             Frame::Index out = sequenceSize ?
                 Math::clamp(
@@ -688,10 +683,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const BBox2f& g = getGeometry();
-            const float m = style->getMetric(UI::MetricsRole::MarginSmall);
             const size_t sequenceSize = p.sequence.getSize();
             const float v = sequenceSize ? (value / static_cast<float>(sequenceSize)) : 0.F;
-            float out = g.min.x + m + v * (g.w() - m * 2.F);
+            float out = g.min.x + v * g.w();
             return out;
         }
 
@@ -724,15 +718,14 @@ namespace djv
             DJV_PRIVATE_PTR();
             const BBox2f & g = getGeometry();
             const auto& style = _getStyle();
-            const float m = style->getMetric(UI::MetricsRole::MarginSmall);
             const float b = style->getMetric(UI::MetricsRole::Border);
             const float x0 = _frameToPos(p.currentFrame);
             const float x1 = _frameToPos(p.currentFrame + 1);
             BBox2f out = BBox2f(
                 floorf(x0),
-                g.min.y + m,
+                g.min.y,
                 ceilf(std::max(x1 - x0, b)),
-                g.h() - m * 2.F);
+                g.h());
             return out;
         }
 

@@ -89,10 +89,10 @@ namespace djv
         void ToolBar::addAction(const std::shared_ptr<Action> & action)
         {
             Widget::addAction(action);
+            DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
                 auto button = ToolButton::create(context);
-                DJV_PRIVATE_PTR();
                 p.layout->addChild(button);
                 button->setClickedCallback(
                     [action]

@@ -242,12 +242,12 @@ namespace djv
             p.titleLabel->setTooltip(std::string(media->getFileInfo()));
 
             p.maximizeButton = UI::ToolButton::create(context);
-            p.maximizeButton->setIcon("djvIconSDI");
-            p.maximizeButton->setInsideMargin(UI::MetricsRole::MarginSmall);
+            p.maximizeButton->setIcon("djvIconSDISmall");
+            p.maximizeButton->setInsideMargin(UI::MetricsRole::None);
 
             p.closeButton = UI::ToolButton::create(context);
-            p.closeButton->setIcon("djvIconClose");
-            p.closeButton->setInsideMargin(UI::MetricsRole::MarginSmall);
+            p.closeButton->setIcon("djvIconCloseSmall");
+            p.closeButton->setInsideMargin(UI::MetricsRole::None);
 
             p.titleBar = UI::HorizontalLayout::create(context);
             p.titleBar->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
@@ -270,8 +270,9 @@ namespace djv
             p.realSpeedLabel = UI::Label::create(context);
             p.realSpeedLabel->setFont(AV::Font::familyMono);
             p.realSpeedLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
-
+            p.realSpeedLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
             p.playbackModeButton = UI::MultiStateButton::create(context);
+            p.playbackModeButton->setInsideMargin(UI::MetricsRole::None);
             p.playbackModeButton->addIcon("djvIconPlayOnce");
             p.playbackModeButton->addIcon("djvIconPlayLoop");
             p.playbackModeButton->addIcon("djvIconPlayPingPong");
@@ -358,7 +359,7 @@ namespace djv
             
             p.playbackLayout = UI::GridLayout::create(context);
             p.playbackLayout->setBackgroundRole(UI::ColorRole::OverlayLight);
-            p.playbackLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall, UI::MetricsRole::None));
+            p.playbackLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             p.playbackLayout->addChild(toolBar);
             p.playbackLayout->setGridPos(toolBar, 0, 0);
             p.playbackLayout->addChild(p.timelineSlider);
@@ -371,12 +372,14 @@ namespace djv
             p.playbackLayout->setGridPos(p.ioThreadsPopupWidget, 2, 1);
 #endif // DJV_DEMO_THREADS
             hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             hLayout->addChild(p.speedPopupWidget);
             hLayout->addChild(p.realSpeedLabel);
             hLayout->addChild(p.playbackModeButton);
             p.playbackLayout->addChild(hLayout);
             p.playbackLayout->setGridPos(hLayout, 0, 1);
             hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             hLayout->addChild(p.currentFrameWidget);
             auto hLayout2 = UI::HorizontalLayout::create(context);
             hLayout2->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
