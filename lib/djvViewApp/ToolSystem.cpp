@@ -92,6 +92,7 @@ namespace djv
             p.actions["Info"]->setShortcut(GLFW_KEY_I, UI::Shortcut::getSystemModifier());
             p.actions["Messages"] = UI::Action::create();
             p.actions["Messages"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["Messages"]->setShortcut(GLFW_KEY_S, UI::Shortcut::getSystemModifier());
             p.actions["SystemLog"] = UI::Action::create();
             p.actions["SystemLog"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["Debug"] = UI::Action::create();
