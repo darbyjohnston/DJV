@@ -27,26 +27,25 @@ $ sudo apt-get install git cmake build-essential libgl1-mesa-dev xorg-dev libaso
 
 	<p class="subHeader"><a name="Preparation">Preparation</a></p>
     <p>First choose a directory to work in, this is where the code will be
-    checked out and built. This directory will be referred to as $DJV_BUILD
+    checked out and built. This directory will be referred to as DJV_BUILD
     in the rest of the documentation.</p>
 	<p>Append your PATH and LD_LIBRARY_PATH environment variables:</p>
 	<pre>
-$ cd $BUILD_DIR
-$ export PATH=$PWD/DJV-install-Debug/bin:$PATH
-$ export LD_LIBRARY_PATH=$PWD/DJV-install-Debug/lib:$LD_LIBRARY_PATH
+$ export DJV_BUILD=$PWD
+$ export PATH=$DJV_BUILD/DJV-install-Debug/bin:$PATH
+$ export LD_LIBRARY_PATH=$DJV_BUILD/DJV-install-Debug/lib:$LD_LIBRARY_PATH
 </pre>
 
 	<p class="subHeader"><a name="BuildingDJV">Building DJV</a></p>
 	<p>Open a shell, go to the build directory, and clone the DJV repository:</p>
 	<pre>
-$ cd $BUILD_DIR
 $ git clone https://github.com/darbyjohnston/DJV.git
 </pre>
 	<p>Build the third party dependencies:</p>
 	<pre>
 $ mkdir DJV-third-party-Debug
 $ cd DJV-third-party-Debug
-$ cmake ../DJV/third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug
+$ cmake ../DJV/third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Debug
 $ cmake --build .
 $ cmake --build . --target install
 $ cd ..
@@ -55,7 +54,7 @@ $ cd ..
 	<pre>
 $ mkdir DJV-Debug
 $ cd DJV-Debug
-$ cmake ../DJV -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug -DCMAKE_PREFIX_PATH=../DJV-install-Debug
+$ cmake ../DJV -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Debug -DCMAKE_PREFIX_PATH=$DJV_BUILD/DJV-install-Debug
 $ cmake --build .
 </pre>
 	<p>Try running the confidence tests to make sure everything is working OK:</p>
@@ -81,18 +80,18 @@ git push origin 2.0.0
 </pre>
     <p>Create a release build:</p>
 	<pre>
-$ cd $BUILD_DIR
-$ export PATH=$PWD/DJV-install-Release/bin:$PATH
-$ export LD_LIBRARY_PATH=$PWD/DJV-install-Release/lib:$LD_LIBRARY_PATH
+$ export DJV_BUILD=$PWD
+$ export PATH=$DJV_BUILD/DJV-install-Release/bin:$PATH
+$ export LD_LIBRARY_PATH=$DJV_BUILD/DJV-install-Release/lib:$LD_LIBRARY_PATH
 $ mkdir DJV-third-party-Release
 $ cd DJV-third-party-Release
-$ cmake ../DJV/third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../DJV-install-Release
+$ cmake ../DJV/third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Release
 $ cmake --build .
 $ cmake --build . --target install
 $ cd ..
 $ mkdir DJV-Release
 $ cd DJV-Release
-$ cmake ../DJV -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../DJV-install-Release -DCMAKE_PREFIX_PATH=../DJV-install-Release
+$ cmake ../DJV -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Release -DCMAKE_PREFIX_PATH=$DJV_BUILD/DJV-install-Release
 $ cmake --build .
 </pre>
 	<p>Create an RPM package:</p>

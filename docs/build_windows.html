@@ -23,13 +23,8 @@ title: Building on Microsoft Windows
 
 	<p class="subHeader"><a name="Preparation">Preparation</a></p>
     <p>First choose a directory to work in, this is where the code will be
-    checked out and built. This directory will be referred to as $DJV_BUILD
+    checked out and built. This directory will be referred to as DJV_BUILD
     in the rest of the documentation.</p>
-	<p>Append this to your PATH environment variable in the Windows control
-	panel:</p>
-	<pre>
-$DJV_BUILD/DJV-install-Debug/bin
-</pre>
 
 	<p class="subHeader"><a name="FFmpeg">Building FFmpeg</a></p>
 	<p>The following steps describe how to use the Windows Subsystem for
@@ -63,7 +58,7 @@ $ ./configure \
       --cross-prefix=x86_64-w64-mingw32- \
       --target-os=mingw32 \
       --enable-cross-compile \
-      --prefix=$DJV_BUILD \
+      --prefix=DJV_BUILD \
       --enable-shared
 $ make
 $ make install
@@ -73,14 +68,15 @@ $ make install
 	<p>Open a Visual Studio x64 command prompt, go to the build directory,
 	and clone the DJV repository:</p>
 	<pre>
-> cd $BUILD_DIR
 > git clone https://github.com/darbyjohnston/DJV.git
 </pre>
 	<p>Build the third party dependencies:</p>
 	<pre>
+> set DJV_BUILD=%CD%
+> set PATH=%PATH%;%DJV_BUILD%\DJV-install-Debug\bin
 > mkdir DJV-third-party-Debug
 > cd DJV-third-party-Debug
-> cmake ..\DJV\third-party -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug
+> cmake ..\DJV\third-party -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Debug
 > cmake --build .
 > cmake --build . --target install
 > cd ..
@@ -89,7 +85,7 @@ $ make install
 	<pre>
 > mkdir DJV-Debug
 > cd DJV-Debug
-> cmake ..\DJV -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_PREFIX_PATH=../DJV-install-Debug -DCMAKE_INSTALL_PREFIX=../DJV-install-Debug
+> cmake ..\DJV -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_PREFIX_PATH=%DJV_BUILD%/DJV-install-Debug -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Debug
 > cmake --build .
 </pre>
 <p>Try running the confidence tests to make sure everything is working OK:</p>
@@ -98,21 +94,23 @@ $ make install
 </pre>
 <p>Run the djv player application:</p>
 <pre>
-> build\bin\djv
+> build\bin\Debug\djv
 </pre>
 
 	<p class="subHeader"><a name="Packaging">Packaging DJV</a></p>
 	<p>Create a release build:</p>
 	<pre>
+> set DJV_BUILD=%CD%
+> set PATH=%PATH%;%DJV_BUILD%\DJV-install-Release\bin
 > mkdir DJV-third-party-Release
 > cd DJV-third-party-Release
-> cmake ..\DJV\third-party -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../DJV-install-Release
+> cmake ..\DJV\third-party -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release
 > cmake --build .
 > cmake --build . --target install
 > cd ..
 > mkdir DJV-Release
 > cd DJV-Release
-> cmake ..\DJV -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=../DJV-install-Release -DCMAKE_INSTALL_PREFIX=../DJV-install-Release
+> cmake ..\DJV -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=%DJV_BUILD%/DJV-install-Release -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release
 > cmake --build .
 </pre>
 	<p>Build the packages:</p>
