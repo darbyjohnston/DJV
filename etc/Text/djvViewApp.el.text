@@ -480,7 +480,7 @@
     "widget_annotate": "Σχολιάζω",
     "widget_color_picker": "Επιλογέας χρώματος",
     "widget_color_picker_color": "Χρώμα",
-    "widget_color_picker_color_picker_lock_color_type_tooltip": "Μην αλλάξετε τον τύπο χρώματος για να ταιριάζει με την εικόνα",
+    "widget_color_picker_lock_color_type_tooltip": "Μην αλλάξετε τον τύπο χρώματος για να ταιριάζει με την εικόνα",
     "widget_color_picker_copy_tooltip": "Αντιγράψτε τις τιμές στο πρόχειρο",
     "widget_color_picker_lock_color_type": "Κλείδωμα χρώματος",
     "widget_color_picker_pixel": "Εικονοκύτταρο",

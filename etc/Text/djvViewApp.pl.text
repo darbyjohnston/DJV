@@ -480,7 +480,7 @@
     "widget_annotate": "Komentować",
     "widget_color_picker": "Narzędzie do wybierania kolorów",
     "widget_color_picker_color": "Kolor",
-    "widget_color_picker_color_picker_lock_color_type_tooltip": "Nie zmieniaj koloru w celu dopasowania do obrazu",
+    "widget_color_picker_lock_color_type_tooltip": "Nie zmieniaj koloru w celu dopasowania do obrazu",
     "widget_color_picker_copy_tooltip": "Skopiuj wartości do schowka",
     "widget_color_picker_lock_color_type": "Zablokuj typ koloru",
     "widget_color_picker_pixel": "Piksel",

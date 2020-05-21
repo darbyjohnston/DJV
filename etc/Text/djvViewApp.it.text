@@ -480,7 +480,7 @@
     "widget_annotate": "Annotare",
     "widget_color_picker": "Color Picker",
     "widget_color_picker_color": "Colore",
-    "widget_color_picker_color_picker_lock_color_type_tooltip": "Non modificare il tipo di colore in base all&#39;immagine",
+    "widget_color_picker_lock_color_type_tooltip": "Non modificare il tipo di colore in base all&#39;immagine",
     "widget_color_picker_copy_tooltip": "Copia i valori negli Appunti",
     "widget_color_picker_lock_color_type": "Blocca il tipo di colore",
     "widget_color_picker_pixel": "Pixel",

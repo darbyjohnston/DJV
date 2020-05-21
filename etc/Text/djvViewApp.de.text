@@ -481,7 +481,7 @@
     "widget_annotate": "Anmerkungen",
     "widget_color_picker": "Farbwähler",
     "widget_color_picker_color": "Farbe",
-    "widget_color_picker_color_picker_lock_color_type_tooltip": "Ändert den Farbtyp nicht entsprechend dem Bild",
+    "widget_color_picker_lock_color_type_tooltip": "Ändert den Farbtyp nicht entsprechend dem Bild",
     "widget_color_picker_copy_tooltip": "Kopiert die Werte in die Zwischenablage",
     "widget_color_picker_lock_color_type": "Farbtyp sperren",
     "widget_color_picker_pixel": "Pixel",

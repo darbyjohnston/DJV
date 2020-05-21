@@ -17,7 +17,8 @@ namespace djv
         struct ColorPickerSettings::Private
         {
             size_t sampleSize = 1;
-            AV::Image::Type typeLock = AV::Image::Type::None;
+            AV::Image::Type lockType = AV::Image::Type::None;
+            bool applyColorSpace = true;
             glm::vec2 pickerPos = glm::vec2(0.F, 0.F);
             std::map<std::string, BBox2f> widgetGeom;
         };
@@ -47,24 +48,34 @@ namespace djv
             return _p->sampleSize;
         }
 
-        AV::Image::Type ColorPickerSettings::getTypeLock() const
-        {
-            return _p->typeLock;
-        }
-
-        const glm::vec2& ColorPickerSettings::getPickerPos() const
-        {
-            return _p->pickerPos;
-        }
-
         void ColorPickerSettings::setSampleSize(size_t value)
         {
             _p->sampleSize = value;
         }
 
-        void ColorPickerSettings::setTypeLock(AV::Image::Type value)
+        AV::Image::Type ColorPickerSettings::getLockType() const
         {
-            _p->typeLock = value;
+            return _p->lockType;
+        }
+
+        void ColorPickerSettings::setLockType(AV::Image::Type value)
+        {
+            _p->lockType = value;
+        }
+
+        bool ColorPickerSettings::getApplyColorSpace() const
+        {
+            return _p->applyColorSpace;
+        }
+
+        void ColorPickerSettings::setApplyColorSpace(bool value)
+        {
+            _p->applyColorSpace = value;
+        }
+
+        const glm::vec2& ColorPickerSettings::getPickerPos() const
+        {
+            return _p->pickerPos;
         }
 
         void ColorPickerSettings::setPickerPos(const glm::vec2& value)
@@ -89,7 +100,8 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
                 UI::Settings::read("sampleSize", object, p.sampleSize);
-                UI::Settings::read("typeLock", object, p.typeLock);
+                UI::Settings::read("lockType", object, p.lockType);
+                UI::Settings::read("applyColorSpace", object, p.applyColorSpace);
                 UI::Settings::read("pickerPos", object, p.pickerPos);
                 UI::Settings::read("WidgetGeom", object, p.widgetGeom);
             }
@@ -101,7 +113,8 @@ namespace djv
             picojson::value out(picojson::object_type, true);
             auto & object = out.get<picojson::object>();
             UI::Settings::write("sampleSize", p.sampleSize, object);
-            UI::Settings::write("typeLock", p.typeLock, object);
+            UI::Settings::write("lockType", p.lockType, object);
+            UI::Settings::write("applyColorSpace", p.applyColorSpace, object);
             UI::Settings::write("pickerPos", p.pickerPos, object);
             UI::Settings::write("WidgetGeom", p.widgetGeom, object);
             return out;

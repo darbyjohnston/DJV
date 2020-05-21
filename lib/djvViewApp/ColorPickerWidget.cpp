@@ -63,7 +63,8 @@ namespace djv
         struct ColorPickerWidget::Private
         {
             size_t sampleSize = 1;
-            AV::Image::Type typeLock = AV::Image::Type::None;
+            AV::Image::Type lockType = AV::Image::Type::None;
+            bool applyColorSpace = true;
             AV::Image::Color color = AV::Image::Color(0.F, 0.F, 0.F);
             glm::vec2 pickerPos = glm::vec2(0.F, 0.F);
             std::shared_ptr<AV::Image::Image> image;
@@ -94,7 +95,8 @@ namespace djv
             std::shared_ptr<AV::OpenGL::Shader> shader;
 #endif // DJV_OPENGL_ES2
 
-            std::shared_ptr<ValueObserver<bool> > lockObserver;
+            std::shared_ptr<ValueObserver<bool> > lockTypeObserver;
+            std::shared_ptr<ValueObserver<bool> > applyColorSpaceObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
             std::shared_ptr<ValueObserver<AV::Render2D::ImageOptions> > imageOptionsObserver;
@@ -113,8 +115,10 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::ColorPickerWidget");
             
-            p.actions["Lock"] = UI::Action::create();
-            p.actions["Lock"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["LockType"] = UI::Action::create();
+            p.actions["LockType"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["ApplyColorSpace"] = UI::Action::create();
+            p.actions["ApplyColorSpace"]->setButtonType(UI::ButtonType::Toggle);
 
             p.colorSwatch = UI::ColorSwatch::create(context);
             p.colorSwatch->setBorder(false);
@@ -138,7 +142,8 @@ namespace djv
 
             p.settingsMenu = UI::Menu::create(context);
             p.settingsMenu->setIcon("djvIconSettings");
-            p.settingsMenu->addAction(p.actions["Lock"]);
+            p.settingsMenu->addAction(p.actions["LockType"]);
+            p.settingsMenu->addAction(p.actions["ApplyColorSpace"]);
             p.settingsPopupMenu = UI::PopupMenu::create(context);
             p.settingsPopupMenu->setMenu(p.settingsMenu);
 
@@ -209,30 +214,42 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->color = widget->_p->color.convert(value);
-                        if (widget->_p->typeLock != AV::Image::Type::None)
+                        if (widget->_p->lockType != AV::Image::Type::None)
                         {
-                            widget->_p->typeLock = value;
+                            widget->_p->lockType = value;
                         }
                         widget->_widgetUpdate();
                     }
                 });
 
-            p.lockObserver = ValueObserver<bool>::create(
-                p.actions["Lock"]->observeChecked(),
+            p.lockTypeObserver = ValueObserver<bool>::create(
+                p.actions["LockType"]->observeChecked(),
                 [weak](bool value)
+            {
+                if (auto widget = weak.lock())
                 {
-                    if (auto widget = weak.lock())
+                    if (value)
                     {
-                        if (value)
-                        {
-                            widget->_p->typeLock = widget->_p->typeWidget->getType();
-                        }
-                        else
-                        {
-                            widget->_p->typeLock = AV::Image::Type::None;
-                        }
+                        widget->_p->lockType = widget->_p->typeWidget->getType();
                     }
-                });
+                    else
+                    {
+                        widget->_p->lockType = AV::Image::Type::None;
+                    }
+                }
+            });
+
+            p.applyColorSpaceObserver = ValueObserver<bool>::create(
+                p.actions["ApplyColorSpace"]->observeChecked(),
+                [weak](bool value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->_p->applyColorSpace = value;
+                    widget->_sampleUpdate();
+                    widget->_widgetUpdate();
+                }
+            });
         
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
@@ -389,26 +406,39 @@ namespace djv
                 return;
             p.sampleSize = value;
             _widgetUpdate();
-            _redraw();
         }
 
-        AV::Image::Type ColorPickerWidget::getTypeLock() const
+        AV::Image::Type ColorPickerWidget::getLockType() const
         {
-            return _p->typeLock;
+            return _p->lockType;
         }
 
-        void ColorPickerWidget::setTypeLock(AV::Image::Type value)
+        void ColorPickerWidget::setLockType(AV::Image::Type value)
         {
             DJV_PRIVATE_PTR();
-            if (value == p.typeLock)
+            if (value == p.lockType)
                 return;
-            p.typeLock = value;
-            if (p.typeLock != AV::Image::Type::None)
+            p.lockType = value;
+            if (p.lockType != AV::Image::Type::None)
             {
-                p.color = p.color.convert(p.typeLock);
+                p.color = p.color.convert(p.lockType);
             }
             _widgetUpdate();
-            _redraw();
+        }
+
+        bool ColorPickerWidget::getApplyColorSpace() const
+        {
+            return _p->applyColorSpace;
+        }
+
+        void ColorPickerWidget::setApplyColorSpace(bool value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.applyColorSpace)
+                return;
+            p.applyColorSpace = value;
+            _sampleUpdate();
+            _widgetUpdate();
         }
 
         const glm::vec2& ColorPickerWidget::getPickerPos() const
@@ -424,7 +454,6 @@ namespace djv
             p.pickerPos = value;
             _sampleUpdate();
             _widgetUpdate();
-            _redraw();
         }
 
         void ColorPickerWidget::_initEvent(Event::Init & event)
@@ -434,8 +463,10 @@ namespace djv
 
             setTitle(_getText(DJV_TEXT("widget_color_picker")));
 
-            p.actions["Lock"]->setText(_getText(DJV_TEXT("widget_color_picker_lock_color_type")));
-            p.actions["Lock"]->setTooltip(_getText(DJV_TEXT("widget_color_picker_color_picker_lock_color_type_tooltip")));
+            p.actions["LockType"]->setText(_getText(DJV_TEXT("widget_color_picker_lock_color_type")));
+            p.actions["LockType"]->setTooltip(_getText(DJV_TEXT("widget_color_picker_lock_color_type_tooltip")));
+            p.actions["ApplyColorSpace"]->setText(_getText(DJV_TEXT("widget_color_picker_apply_color_space")));
+            p.actions["ApplyColorSpace"]->setTooltip(_getText(DJV_TEXT("widget_color_picker_apply_color_space_tooltip")));
 
             p.sampleSizeSlider->setTooltip(_getText(DJV_TEXT("widget_color_picker_sample_size_tooltip")));
 
@@ -470,7 +501,7 @@ namespace djv
 
                     const size_t sampleSize = std::max(p.sampleSize, bufferSizeMin);
                     const AV::Image::Size size(sampleSize, sampleSize);
-                    const AV::Image::Type type = p.typeLock != AV::Image::Type::None ? p.typeLock : p.image->getType();
+                    const AV::Image::Type type = p.lockType != AV::Image::Type::None ? p.lockType : p.image->getType();
                     
                     bool create = !p.offscreenBuffer;
                     create |= p.offscreenBuffer && size != p.offscreenBuffer->getSize();
@@ -490,20 +521,23 @@ namespace djv
                     render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F));
                     render->pushTransform(m);
                     AV::Render2D::ImageOptions options(p.imageOptions);
-                    auto i = p.ocioConfig.fileColorSpaces.find(p.image->getPluginName());
-                    if (i != p.ocioConfig.fileColorSpaces.end())
+                    if (p.applyColorSpace)
                     {
-                        options.colorSpace.input = i->second;
-                    }
-                    else
-                    {
-                        i = p.ocioConfig.fileColorSpaces.find(std::string());
+                        auto i = p.ocioConfig.fileColorSpaces.find(p.image->getPluginName());
                         if (i != p.ocioConfig.fileColorSpaces.end())
                         {
                             options.colorSpace.input = i->second;
                         }
+                        else
+                        {
+                            i = p.ocioConfig.fileColorSpaces.find(std::string());
+                            if (i != p.ocioConfig.fileColorSpaces.end())
+                            {
+                                options.colorSpace.input = i->second;
+                            }
+                        }
+                        options.colorSpace.output = p.outputColorSpace;
                     }
-                    options.colorSpace.output = p.outputColorSpace;
                     options.cache = AV::Render2D::ImageCache::Dynamic;
                     render->drawImage(p.image, glm::vec2(0.F, 0.F), options);
                     render->popTransform();
@@ -561,8 +595,9 @@ namespace djv
             const AV::Image::Type type = p.color.getType();
             p.typeWidget->setType(type);
 
-            const bool lock = p.typeLock != AV::Image::Type::None;
-            p.actions["Lock"]->setChecked(lock);
+            const bool lockType = p.lockType != AV::Image::Type::None;
+            p.actions["LockType"]->setChecked(lockType);
+            p.actions["ApplyColorSpace"]->setChecked(p.applyColorSpace);
 
             p.colorSwatch->setColor(p.color);
             p.colorLabel->setText(AV::Image::Color::getLabel(p.color, 2, false));

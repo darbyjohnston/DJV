@@ -480,7 +480,7 @@
     "widget_annotate": "注釈を付ける",
     "widget_color_picker": "カラーピッカー",
     "widget_color_picker_color": "色",
-    "widget_color_picker_color_picker_lock_color_type_tooltip": "画像に合わせて色の種類を変更しないでください",
+    "widget_color_picker_lock_color_type_tooltip": "画像に合わせて色の種類を変更しないでください",
     "widget_color_picker_copy_tooltip": "値をクリップボードにコピーします",
     "widget_color_picker_lock_color_type": "ロックカラータイプ",
     "widget_color_picker_pixel": "ピクセル",

@@ -480,7 +480,7 @@
     "widget_annotate": "주석 달기",
     "widget_color_picker": "색상 선택기",
     "widget_color_picker_color": "색깔",
-    "widget_color_picker_color_picker_lock_color_type_tooltip": "이미지와 일치하도록 색상 유형을 변경하지 마십시오",
+    "widget_color_picker_lock_color_type_tooltip": "이미지와 일치하도록 색상 유형을 변경하지 마십시오",
     "widget_color_picker_copy_tooltip": "값을 클립 보드에 복사",
     "widget_color_picker_lock_color_type": "잠금 색상 유형",
     "widget_color_picker_pixel": "픽셀",

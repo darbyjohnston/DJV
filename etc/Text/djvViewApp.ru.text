@@ -480,7 +480,7 @@
     "widget_annotate": "Пометки",
     "widget_color_picker": "Палитра цветов",
     "widget_color_picker_color": "цвет",
-    "widget_color_picker_color_picker_lock_color_type_tooltip": "Не меняйте тип цвета в соответствии с изображением",
+    "widget_color_picker_lock_color_type_tooltip": "Не меняйте тип цвета в соответствии с изображением",
     "widget_color_picker_copy_tooltip": "Скопируйте значения в буфер обмена",
     "widget_color_picker_lock_color_type": "Блокировка типа цвета",
     "widget_color_picker_pixel": "пиксель",
