@@ -28,7 +28,8 @@ namespace djv
             void _initEvent(Core::Event::Init &) override;
 
         private:
-            void _widgetUpdate();
+            void _layersUpdate();
+            void _currentLayerUpdate();
 
             DJV_PRIVATE();
         };

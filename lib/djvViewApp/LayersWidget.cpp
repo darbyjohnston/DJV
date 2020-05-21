@@ -75,7 +75,8 @@ namespace djv
                 if (auto widget = weak.lock())
                 {
                     widget->_p->filter = value;
-                    widget->_widgetUpdate();
+                    widget->_layersUpdate();
+                    widget->_currentLayerUpdate();
                 }
             });
 
@@ -97,7 +98,7 @@ namespace djv
                                         if (auto widget = weak.lock())
                                         {
                                             widget->_p->info = value;
-                                            widget->_widgetUpdate();
+                                            widget->_layersUpdate();
                                         }
                                     });
                                 widget->_p->layerObserver = ValueObserver<size_t>::create(
@@ -107,7 +108,7 @@ namespace djv
                                         if (auto widget = weak.lock())
                                         {
                                             widget->_p->layer = value;
-                                            widget->_widgetUpdate();
+                                            widget->_currentLayerUpdate();
                                         }
                                     });
                             }
@@ -117,7 +118,8 @@ namespace djv
                                 widget->_p->layer = 0;
                                 widget->_p->infoObserver.reset();
                                 widget->_p->layerObserver.reset();
-                                widget->_widgetUpdate();
+                                widget->_layersUpdate();
+                                widget->_currentLayerUpdate();
                             }
                         }
                     });
@@ -142,13 +144,12 @@ namespace djv
         {
             MDIWidget::_initEvent(event);
             setTitle(_getText(DJV_TEXT("layers_title")));
-            _widgetUpdate();
+            _layersUpdate();
         }
 
-        void LayersWidget::_widgetUpdate()
+        void LayersWidget::_layersUpdate()
         {
             DJV_PRIVATE_PTR();
-
             std::vector<std::string> items;
             std::vector<size_t> indices;
             for (size_t i = 0; i < p.info.video.size(); ++i)
@@ -161,7 +162,20 @@ namespace djv
                 }
             }
             p.listWidget->setItems(items);
+        }
 
+        void LayersWidget::_currentLayerUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            std::vector<size_t> indices;
+            for (size_t i = 0; i < p.info.video.size(); ++i)
+            {
+                const auto& video = p.info.video[i];
+                if (String::match(video.info.name, p.filter))
+                {
+                    indices.push_back(i);
+                }
+            }
             size_t item = 0;
             if (indices.size())
             {
