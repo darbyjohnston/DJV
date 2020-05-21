@@ -480,6 +480,8 @@
     "view_lock_none": "None",
     "widget_annotate": "Annotate",
     "widget_color_picker": "Color Picker",
+	"widget_color_picker_apply_color_operations": "Apply color operations",
+	"widget_color_picker_apply_color_operations_tooltip": "Apply the image color operations when sampling the color",
 	"widget_color_picker_apply_color_space": "Apply color space",
 	"widget_color_picker_apply_color_space_tooltip": "Apply the image color space when sampling the color",
     "widget_color_picker_color": "Color",

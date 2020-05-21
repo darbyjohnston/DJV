@@ -64,6 +64,7 @@ namespace djv
         {
             size_t sampleSize = 1;
             AV::Image::Type lockType = AV::Image::Type::None;
+            bool applyColorOperations = true;
             bool applyColorSpace = true;
             AV::Image::Color color = AV::Image::Color(0.F, 0.F, 0.F);
             glm::vec2 pickerPos = glm::vec2(0.F, 0.F);
@@ -95,8 +96,7 @@ namespace djv
             std::shared_ptr<AV::OpenGL::Shader> shader;
 #endif // DJV_OPENGL_ES2
 
-            std::shared_ptr<ValueObserver<bool> > lockTypeObserver;
-            std::shared_ptr<ValueObserver<bool> > applyColorSpaceObserver;
+            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
             std::shared_ptr<ValueObserver<AV::Render2D::ImageOptions> > imageOptionsObserver;
@@ -117,6 +117,8 @@ namespace djv
             
             p.actions["LockType"] = UI::Action::create();
             p.actions["LockType"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["ApplyColorOperations"] = UI::Action::create();
+            p.actions["ApplyColorOperations"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["ApplyColorSpace"] = UI::Action::create();
             p.actions["ApplyColorSpace"]->setButtonType(UI::ButtonType::Toggle);
 
@@ -143,6 +145,7 @@ namespace djv
             p.settingsMenu = UI::Menu::create(context);
             p.settingsMenu->setIcon("djvIconSettings");
             p.settingsMenu->addAction(p.actions["LockType"]);
+            p.settingsMenu->addAction(p.actions["ApplyColorOperations"]);
             p.settingsMenu->addAction(p.actions["ApplyColorSpace"]);
             p.settingsPopupMenu = UI::PopupMenu::create(context);
             p.settingsPopupMenu->setMenu(p.settingsMenu);
@@ -222,7 +225,7 @@ namespace djv
                     }
                 });
 
-            p.lockTypeObserver = ValueObserver<bool>::create(
+            p.actionObservers["LockType"] = ValueObserver<bool>::create(
                 p.actions["LockType"]->observeChecked(),
                 [weak](bool value)
             {
@@ -239,7 +242,19 @@ namespace djv
                 }
             });
 
-            p.applyColorSpaceObserver = ValueObserver<bool>::create(
+            p.actionObservers["ApplyColorOperations"] = ValueObserver<bool>::create(
+                p.actions["ApplyColorOperations"]->observeChecked(),
+                [weak](bool value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->_p->applyColorOperations = value;
+                    widget->_sampleUpdate();
+                    widget->_widgetUpdate();
+                }
+            });
+
+            p.actionObservers["ApplyColorSpace"] = ValueObserver<bool>::create(
                 p.actions["ApplyColorSpace"]->observeChecked(),
                 [weak](bool value)
             {
@@ -426,6 +441,21 @@ namespace djv
             _widgetUpdate();
         }
 
+        bool ColorPickerWidget::getApplyColorOperations() const
+        {
+            return _p->applyColorOperations;
+        }
+
+        void ColorPickerWidget::setApplyColorOperations(bool value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.applyColorOperations)
+                return;
+            p.applyColorOperations = value;
+            _sampleUpdate();
+            _widgetUpdate();
+        }
+
         bool ColorPickerWidget::getApplyColorSpace() const
         {
             return _p->applyColorSpace;
@@ -465,6 +495,8 @@ namespace djv
 
             p.actions["LockType"]->setText(_getText(DJV_TEXT("widget_color_picker_lock_color_type")));
             p.actions["LockType"]->setTooltip(_getText(DJV_TEXT("widget_color_picker_lock_color_type_tooltip")));
+            p.actions["ApplyColorOperations"]->setText(_getText(DJV_TEXT("widget_color_picker_apply_color_operations")));
+            p.actions["ApplyColorOperations"]->setTooltip(_getText(DJV_TEXT("widget_color_picker_apply_color_operations_tooltip")));
             p.actions["ApplyColorSpace"]->setText(_getText(DJV_TEXT("widget_color_picker_apply_color_space")));
             p.actions["ApplyColorSpace"]->setTooltip(_getText(DJV_TEXT("widget_color_picker_apply_color_space_tooltip")));
 
@@ -520,7 +552,14 @@ namespace djv
                     render->drawRect(BBox2f(0.F, 0.F, sampleSize, sampleSize));
                     render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F));
                     render->pushTransform(m);
-                    AV::Render2D::ImageOptions options(p.imageOptions);
+                    auto options = p.imageOptions;
+                    if (!p.applyColorOperations)
+                    {
+                        options.colorEnabled    = false;
+                        options.levelsEnabled   = false;
+                        options.exposureEnabled = false;
+                        options.softClip        = 0.F;
+                    }
                     if (p.applyColorSpace)
                     {
                         auto i = p.ocioConfig.fileColorSpaces.find(p.image->getPluginName());
@@ -597,6 +636,7 @@ namespace djv
 
             const bool lockType = p.lockType != AV::Image::Type::None;
             p.actions["LockType"]->setChecked(lockType);
+            p.actions["ApplyColorOperations"]->setChecked(p.applyColorOperations);
             p.actions["ApplyColorSpace"]->setChecked(p.applyColorSpace);
 
             p.colorSwatch->setColor(p.color);

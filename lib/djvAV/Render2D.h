@@ -126,9 +126,9 @@ namespace djv
                 bool              colorEnabled      = false;
                 ImageLevels       levels;
                 bool              levelsEnabled     = false;
-                float             softClip          = 0.F;
                 ImageExposure     exposure;
                 bool              exposureEnabled   = false;
+                float             softClip          = 0.F;
                 ImageCache        cache             = ImageCache::Atlas;
 
                 bool operator == (const ImageOptions&) const;

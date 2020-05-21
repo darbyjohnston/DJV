@@ -18,6 +18,7 @@ namespace djv
         {
             size_t sampleSize = 1;
             AV::Image::Type lockType = AV::Image::Type::None;
+            bool applyColorOperations = true;
             bool applyColorSpace = true;
             glm::vec2 pickerPos = glm::vec2(0.F, 0.F);
             std::map<std::string, BBox2f> widgetGeom;
@@ -63,6 +64,16 @@ namespace djv
             _p->lockType = value;
         }
 
+        bool ColorPickerSettings::getApplyColorOperations() const
+        {
+            return _p->applyColorOperations;
+        }
+
+        void ColorPickerSettings::setApplyColorOperations(bool value)
+        {
+            _p->applyColorOperations = value;
+        }
+
         bool ColorPickerSettings::getApplyColorSpace() const
         {
             return _p->applyColorSpace;
@@ -101,6 +112,7 @@ namespace djv
                 const auto & object = value.get<picojson::object>();
                 UI::Settings::read("sampleSize", object, p.sampleSize);
                 UI::Settings::read("lockType", object, p.lockType);
+                UI::Settings::read("applyColorOperations", object, p.applyColorOperations);
                 UI::Settings::read("applyColorSpace", object, p.applyColorSpace);
                 UI::Settings::read("pickerPos", object, p.pickerPos);
                 UI::Settings::read("WidgetGeom", object, p.widgetGeom);
@@ -114,6 +126,7 @@ namespace djv
             auto & object = out.get<picojson::object>();
             UI::Settings::write("sampleSize", p.sampleSize, object);
             UI::Settings::write("lockType", p.lockType, object);
+            UI::Settings::write("applyColorOperations", p.applyColorOperations, object);
             UI::Settings::write("applyColorSpace", p.applyColorSpace, object);
             UI::Settings::write("pickerPos", p.pickerPos, object);
             UI::Settings::write("WidgetGeom", p.widgetGeom, object);

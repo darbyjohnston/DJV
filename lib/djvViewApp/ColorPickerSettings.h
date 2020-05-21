@@ -36,6 +36,9 @@ namespace djv
             AV::Image::Type getLockType() const;
             void setLockType(AV::Image::Type);
 
+            bool getApplyColorOperations() const;
+            void setApplyColorOperations(bool);
+
             bool getApplyColorSpace() const;
             void setApplyColorSpace(bool);
 

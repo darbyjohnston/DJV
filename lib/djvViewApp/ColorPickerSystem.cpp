@@ -81,6 +81,7 @@ namespace djv
                     auto widget = ColorPickerWidget::create(context);
                     widget->setSampleSize(p.settings->getSampleSize());
                     widget->setLockType(p.settings->getLockType());
+                    widget->setApplyColorOperations(p.settings->getApplyColorOperations());
                     widget->setApplyColorSpace(p.settings->getApplyColorSpace());
                     widget->setPickerPos(p.settings->getPickerPos());
                     auto weak = std::weak_ptr<ColorPickerSystem>(std::dynamic_pointer_cast<ColorPickerSystem>(shared_from_this()));
@@ -111,6 +112,7 @@ namespace djv
             {
                 p.settings->setSampleSize(widget->getSampleSize());
                 p.settings->setLockType(widget->getLockType());
+                p.settings->setApplyColorOperations(widget->getApplyColorOperations());
                 p.settings->setApplyColorSpace(widget->getApplyColorSpace());
                 p.settings->setPickerPos(widget->getPickerPos());
                 p.widget.reset();

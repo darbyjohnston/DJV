@@ -1543,7 +1543,7 @@ namespace djv
                     {
                         primitive->colorMatrix = colorMatrix(options.color);
                     }
-                    primitive->colorInvert = options.color.invert;
+                    primitive->colorInvert = options.color.invert && options.colorEnabled;
                     primitive->levels = options.levels;
                     primitive->levelsEnabled = options.levelsEnabled;
                     primitive->exposureEnabled = options.exposureEnabled;
