@@ -38,6 +38,7 @@ namespace djv
 
             int widgetCurrentTab = 0;
             GridOptions gridOptions;
+            HUDOptions hudOptions;
             bool currentTool = false;
             glm::vec2 hoverPos = glm::vec2(0.F, 0.F);
             glm::vec2 dragStart = glm::vec2(0.F, 0.F);
@@ -54,6 +55,7 @@ namespace djv
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<ValueObserver<ImageViewLock> > lockObserver;
             std::shared_ptr<ValueObserver<GridOptions> > gridOptionsObserver;
+            std::shared_ptr<ValueObserver<HUDOptions> > hudOptionsObserver;
             std::shared_ptr<ValueObserver<PointerData> > hoverObserver;
             std::shared_ptr<ValueObserver<PointerData> > dragObserver;
             std::shared_ptr<ValueObserver<ScrollData> > scrollObserver;
@@ -72,6 +74,7 @@ namespace djv
             _setWidgetGeom(p.settings->getWidgetGeom());
 
             p.gridOptions = p.settings->observeGridOptions()->get();
+            p.hudOptions = p.settings->observeHUDOptions()->get();
             p.lock = ValueSubject<ImageViewLock>::create();
 
             p.actions["ViewControls"] = UI::Action::create();
@@ -136,13 +139,12 @@ namespace djv
             p.lockActionGroup->addAction(p.actions["FillLock"]);
             p.lockActionGroup->addAction(p.actions["FrameLock"]);
             p.lockActionGroup->addAction(p.actions["CenterLock"]);
-            p.actions["GridEnabled"] = UI::Action::create();
-            p.actions["GridEnabled"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["GridEnabled"]->addShortcut(GLFW_KEY_G, GLFW_MOD_CONTROL);
-            //! \todo Implement me!
-            //p.actions["HUD"] = UI::Action::create();
-            //p.actions["HUD"]->setShortcut(GLFW_KEY_H);
-            //p.actions["HUD"]->setEnabled(false);
+            p.actions["Grid"] = UI::Action::create();
+            p.actions["Grid"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["Grid"]->addShortcut(GLFW_KEY_G, UI::Shortcut::getSystemModifier());
+            p.actions["HUD"] = UI::Action::create();
+            p.actions["HUD"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["HUD"]->setShortcut(GLFW_KEY_U, UI::Shortcut::getSystemModifier());
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["ViewControls"]);
@@ -163,8 +165,8 @@ namespace djv
             p.menu->addAction(p.actions["Center"]);
             p.menu->addAction(p.actions["CenterLock"]);
             p.menu->addSeparator();
-            p.menu->addAction(p.actions["GridEnabled"]);
-            //p.menu->addAction(p.actions["HUD"]);
+            p.menu->addAction(p.actions["Grid"]);
+            p.menu->addAction(p.actions["HUD"]);
 
             _actionsUpdate();
             _textUpdate();
@@ -409,20 +411,35 @@ namespace djv
                     }
                 });
 
-            p.actionObservers["GridEnabled"] = ValueObserver<bool>::create(
-                p.actions["GridEnabled"]->observeChecked(),
+            p.actionObservers["Grid"] = ValueObserver<bool>::create(
+                p.actions["Grid"]->observeChecked(),
                 [weak](bool value)
+            {
+                if (auto system = weak.lock())
                 {
-                    if (auto system = weak.lock())
+                    system->_p->gridOptions.enabled = value;
+                    system->_p->settings->setGridOptions(system->_p->gridOptions);
+                    if (system->_p->activeWidget)
                     {
-                        system->_p->gridOptions.enabled = value;
-                        system->_p->settings->setGridOptions(system->_p->gridOptions);
-                        if (system->_p->activeWidget)
-                        {
-                            system->_p->activeWidget->getImageView()->setGridOptions(system->_p->gridOptions);
-                        }
+                        system->_p->activeWidget->getImageView()->setGridOptions(system->_p->gridOptions);
                     }
-                });
+                }
+            });
+
+            p.actionObservers["HUD"] = ValueObserver<bool>::create(
+                p.actions["HUD"]->observeChecked(),
+                [weak](bool value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_p->hudOptions.enabled = value;
+                    system->_p->settings->setHUDOptions(system->_p->hudOptions);
+                    if (system->_p->activeWidget)
+                    {
+                        system->_p->activeWidget->setHUDOptions(system->_p->hudOptions);
+                    }
+                }
+            });
 
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
@@ -438,13 +455,23 @@ namespace djv
                                 system->_p->gridOptionsObserver = ValueObserver<GridOptions>::create(
                                     system->_p->activeWidget->getImageView()->observeGridOptions(),
                                     [weak](const GridOptions& value)
+                                {
+                                    if (auto system = weak.lock())
                                     {
-                                        if (auto system = weak.lock())
-                                        {
-                                            system->_p->gridOptions = value;
-                                            system->_actionsUpdate();
-                                        }
-                                    });
+                                        system->_p->gridOptions = value;
+                                        system->_actionsUpdate();
+                                    }
+                                });
+                                system->_p->hudOptionsObserver = ValueObserver<HUDOptions>::create(
+                                    system->_p->activeWidget->observeHUDOptions(),
+                                    [weak](const HUDOptions& value)
+                                {
+                                    if (auto system = weak.lock())
+                                    {
+                                        system->_p->hudOptions = value;
+                                        system->_actionsUpdate();
+                                    }
+                                });
                                 system->_p->hoverObserver = ValueObserver<PointerData>::create(
                                     system->_p->activeWidget->observeHover(),
                                     [weak](const PointerData& value)
@@ -476,6 +503,7 @@ namespace djv
                             else
                             {
                                 system->_p->gridOptionsObserver.reset();
+                                system->_p->hudOptionsObserver.reset();
                                 system->_p->hoverObserver.reset();
                                 system->_p->dragObserver.reset();
                                 system->_p->scrollObserver.reset();
@@ -621,10 +649,10 @@ namespace djv
                 p.actions["Center"]->setTooltip(_getText(DJV_TEXT("menu_view_center_tooltip")));
                 p.actions["CenterLock"]->setText(_getText(DJV_TEXT("menu_view_lock_center")));
                 p.actions["CenterLock"]->setTooltip(_getText(DJV_TEXT("menu_view_lock_center_tooltip")));
-                p.actions["GridEnabled"]->setText(_getText(DJV_TEXT("menu_view_grid")));
-                p.actions["GridEnabled"]->setTooltip(_getText(DJV_TEXT("menu_view_grid_tooltip")));
-                //p.actions["HUD"]->setText(_getText(DJV_TEXT("view_hud")));
-                //p.actions["HUD"]->setTooltip(_getText(DJV_TEXT("view_hud_tooltip")));
+                p.actions["Grid"]->setText(_getText(DJV_TEXT("menu_view_grid")));
+                p.actions["Grid"]->setTooltip(_getText(DJV_TEXT("menu_view_grid_tooltip")));
+                p.actions["HUD"]->setText(_getText(DJV_TEXT("menu_view_hud")));
+                p.actions["HUD"]->setTooltip(_getText(DJV_TEXT("menu_view_hud_tooltip")));
 
                 p.menu->setText(_getText(DJV_TEXT("menu_view")));
             }
@@ -706,7 +734,8 @@ namespace djv
             p.actions["ZoomIn"]->setEnabled(activeWidget);
             p.actions["ZoomOut"]->setEnabled(activeWidget);
             p.actions["ZoomReset"]->setEnabled(activeWidget);
-            p.actions["GridEnabled"]->setChecked(p.gridOptions.enabled);
+            p.actions["Grid"]->setChecked(p.gridOptions.enabled);
+            p.actions["HUD"]->setChecked(p.hudOptions.enabled);
         }
 
         void ViewSystem::Private::drag(const PointerData& value)

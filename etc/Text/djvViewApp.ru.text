@@ -541,12 +541,10 @@
     "widget_recent_increase_thumbnail_size": "Увеличение",
     "widget_recent_increase_thumbnail_size_tooltip": "Увеличить размер миниатюр",
     "widget_view_background_color": "цвет",
-    "widget_view_background_set_as_default": "Установить по умолчанию",
     "widget_view_grid_color": "цвет",
     "widget_view_grid_enabled": "Включено",
     "widget_view_grid_labels": "Этикетки",
     "widget_view_grid_labels_color": "Цвет ярлыков",
-    "widget_view_grid_set_as_default": "Установить по умолчанию",
     "widget_view_grid_size": "Размер",
     "zoom": "Увеличить"
 }

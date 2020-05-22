@@ -541,12 +541,10 @@
     "widget_recent_increase_thumbnail_size": "Auka",
     "widget_recent_increase_thumbnail_size_tooltip": "Stækkaðu smámyndirnar",
     "widget_view_background_color": "Litur",
-    "widget_view_background_set_as_default": "Stilltu sem sjálfgefið",
     "widget_view_grid_color": "Litur",
     "widget_view_grid_enabled": "Virkt",
     "widget_view_grid_labels": "Merki",
     "widget_view_grid_labels_color": "Litur merkimiða",
-    "widget_view_grid_set_as_default": "Stilltu sem sjálfgefið",
     "widget_view_grid_size": "Stærð",
     "zoom": "Aðdráttur"
 }

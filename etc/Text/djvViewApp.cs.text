@@ -541,12 +541,10 @@
     "widget_recent_increase_thumbnail_size": "Zvýšit",
     "widget_recent_increase_thumbnail_size_tooltip": "Zvětšete velikost miniatur",
     "widget_view_background_color": "Barva",
-    "widget_view_background_set_as_default": "Nastavit jako výchozí",
     "widget_view_grid_color": "Barva",
     "widget_view_grid_enabled": "Povoleno",
     "widget_view_grid_labels": "Štítky",
     "widget_view_grid_labels_color": "Štítky barva",
-    "widget_view_grid_set_as_default": "Nastavit jako výchozí",
     "widget_view_grid_size": "Velikost",
     "zoom": "Zvětšení"
 }

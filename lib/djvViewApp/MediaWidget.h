@@ -5,6 +5,7 @@
 #pragma once
 
 #include <djvViewApp/Enum.h>
+#include <djvViewApp/HUD.h>
 
 #include <djvUI/MDIWidget.h>
 
@@ -68,19 +69,26 @@ namespace djv
             DJV_NON_COPYABLE(MediaWidget);
 
         protected:
-            void _init(const std::shared_ptr<Media>&, const std::shared_ptr<Core::Context>&);
+            void _init(
+                const std::shared_ptr<Media>&,
+                const std::shared_ptr<Core::Context>&);
             MediaWidget();
 
         public:
             ~MediaWidget() override;
 
-            static std::shared_ptr<MediaWidget> create(const std::shared_ptr<Media>&, const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<MediaWidget> create(
+                const std::shared_ptr<Media>&,
+                const std::shared_ptr<Core::Context>&);
 
             const std::shared_ptr<Media>& getMedia() const;
 
             const std::shared_ptr<ImageView>& getImageView() const;
 
             void fitWindow();
+
+            std::shared_ptr<Core::IValueSubject<HUDOptions> > observeHUDOptions() const;
+            void setHUDOptions(const HUDOptions&);
 
             std::shared_ptr<Core::IValueSubject<PointerData> > observeHover() const;
             std::shared_ptr<Core::IValueSubject<PointerData> > observeDrag() const;
@@ -106,6 +114,7 @@ namespace djv
             void _realSpeedUpdate();
             void _audioUpdate();
             void _opacityUpdate();
+            void _hudUpdate();
 
             DJV_PRIVATE();
         };

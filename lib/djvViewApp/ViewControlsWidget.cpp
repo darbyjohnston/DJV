@@ -10,7 +10,7 @@
 
 #include <djvUIComponents/ColorPicker.h>
 
-#include <djvUI/Action.h>
+#include <djvUI/CheckBox.h>
 #include <djvUI/ComboBox.h>
 #include <djvUI/FloatEdit.h>
 #include <djvUI/FormLayout.h>
@@ -20,7 +20,6 @@
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/TabWidget.h>
 #include <djvUI/ToolButton.h>
-#include <djvUI/ToggleButton.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/NumericValueModels.h>
@@ -36,11 +35,10 @@ namespace djv
             glm::vec2 viewPos = glm::vec2(0.F, 0.F);
             float viewZoom = 1.F;
             GridOptions gridOptions;
+            HUDOptions hudOptions;
             AV::Image::Color backgroundColor;
 
             std::shared_ptr<MediaWidget> activeWidget;
-
-            std::map<std::string, std::shared_ptr<UI::Action> > actions;
 
             std::shared_ptr<UI::FloatEdit> viewPosEdit[2];
             std::shared_ptr<UI::ToolButton> viewPosResetButton;
@@ -51,13 +49,19 @@ namespace djv
             std::shared_ptr<UI::HorizontalLayout> viewZoomLayout;
             std::shared_ptr<UI::ScrollWidget> viewScrollWidget;
 
-            std::shared_ptr<UI::ToggleButton> gridEnabledButton;
+            std::shared_ptr<UI::CheckBox> gridEnabledCheckBox;
             std::shared_ptr<UI::IntSlider> gridSizeSlider;
             std::shared_ptr<UI::ColorPickerSwatch> gridColorPickerSwatch;
             std::shared_ptr<UI::ComboBox> gridLabelsComboBox;
             std::shared_ptr<UI::ColorPickerSwatch> gridLabelsColorPickerSwatch;
             std::shared_ptr<UI::FormLayout> gridFormLayout;
             std::shared_ptr<UI::ScrollWidget> gridScrollWidget;
+
+            std::shared_ptr<UI::CheckBox> hudEnabledCheckBox;
+            std::shared_ptr<UI::ColorPickerSwatch> hudColorPickerSwatch;
+            std::shared_ptr<UI::ComboBox> hudBackgroundComboBox;
+            std::shared_ptr<UI::FormLayout> hudFormLayout;
+            std::shared_ptr<UI::ScrollWidget> hudScrollWidget;
 
             std::shared_ptr<UI::ColorPickerSwatch> backgroundColorPickerSwatch;
             std::shared_ptr<UI::FormLayout> backgroundFormLayout;
@@ -69,6 +73,7 @@ namespace djv
             std::shared_ptr<ValueObserver<glm::vec2> > viewPosObserver;
             std::shared_ptr<ValueObserver<float> > viewZoomObserver;
             std::shared_ptr<ValueObserver<GridOptions> > gridOptionsObserver;
+            std::shared_ptr<ValueObserver<HUDOptions> > hudOptionsObserver;
             std::shared_ptr<ValueObserver<AV::Image::Color> > backgroundColorObserver;
         };
 
@@ -82,10 +87,8 @@ namespace djv
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
             p.gridOptions = viewSettings->observeGridOptions()->get();
+            p.hudOptions = viewSettings->observeHUDOptions()->get();
             p.backgroundColor = viewSettings->observeBackgroundColor()->get();
-
-            p.actions["GridSettings"] = UI::Action::create();
-            p.actions["BackgroundSettings"] = UI::Action::create();
 
             for (size_t i = 0; i < 2; ++i)
             {
@@ -107,7 +110,7 @@ namespace djv
             p.viewZoomResetButton = UI::ToolButton::create(context);
             p.viewZoomResetButton->setIcon("djvIconCloseSmall");
 
-            p.gridEnabledButton = UI::ToggleButton::create(context);
+            p.gridEnabledCheckBox = UI::CheckBox::create(context);
             p.gridSizeSlider = UI::IntSlider::create(context);
             p.gridSizeSlider->setRange(IntRange(1, 500));
             p.gridColorPickerSwatch = UI::ColorPickerSwatch::create(context);
@@ -115,6 +118,11 @@ namespace djv
             p.gridLabelsComboBox = UI::ComboBox::create(context);
             p.gridLabelsColorPickerSwatch = UI::ColorPickerSwatch::create(context);
             p.gridLabelsColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
+
+            p.hudEnabledCheckBox = UI::CheckBox::create(context);
+            p.hudColorPickerSwatch = UI::ColorPickerSwatch::create(context);
+            p.hudColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
+            p.hudBackgroundComboBox = UI::ComboBox::create(context);
 
             p.backgroundColorPickerSwatch = UI::ColorPickerSwatch::create(context);
             p.backgroundColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
@@ -148,7 +156,7 @@ namespace djv
             p.gridFormLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
             p.gridFormLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
             p.gridFormLayout->setShadowOverlay({ UI::Side::Top });
-            p.gridFormLayout->addChild(p.gridEnabledButton);
+            p.gridFormLayout->addChild(p.gridEnabledCheckBox);
             p.gridFormLayout->addChild(p.gridSizeSlider);
             p.gridFormLayout->addChild(p.gridColorPickerSwatch);
             p.gridFormLayout->addChild(p.gridLabelsComboBox);
@@ -156,6 +164,17 @@ namespace djv
             p.gridScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             p.gridScrollWidget->setBorder(false);
             p.gridScrollWidget->addChild(p.gridFormLayout);
+
+            p.hudFormLayout = UI::FormLayout::create(context);
+            p.hudFormLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            p.hudFormLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            p.hudFormLayout->setShadowOverlay({ UI::Side::Top });
+            p.hudFormLayout->addChild(p.hudEnabledCheckBox);
+            p.hudFormLayout->addChild(p.hudColorPickerSwatch);
+            p.hudFormLayout->addChild(p.hudBackgroundComboBox);
+            p.hudScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            p.hudScrollWidget->setBorder(false);
+            p.hudScrollWidget->addChild(p.hudFormLayout);
 
             p.backgroundFormLayout = UI::FormLayout::create(context);
             p.backgroundFormLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
@@ -171,6 +190,7 @@ namespace djv
             p.tabWidget->setShadowOverlay({ UI::Side::Top });
             p.tabWidget->addChild(p.viewScrollWidget);
             p.tabWidget->addChild(p.gridScrollWidget);
+            p.tabWidget->addChild(p.hudScrollWidget);
             p.tabWidget->addChild(p.backgroundScrollWidget);
             addChild(p.tabWidget);
 
@@ -222,7 +242,7 @@ namespace djv
                 });
 
             auto contextWeak = std::weak_ptr<Context>(context);
-            p.gridEnabledButton->setCheckedCallback(
+            p.gridEnabledCheckBox->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -241,7 +261,6 @@ namespace djv
                         }
                     }
                 });
-
             p.gridSizeSlider->setValueCallback(
                 [weak, contextWeak](int value)
                 {
@@ -261,7 +280,6 @@ namespace djv
                         }
                     }
                 });
-
             p.gridColorPickerSwatch->setColorCallback(
                 [weak, contextWeak](const AV::Image::Color& value)
                 {
@@ -281,7 +299,6 @@ namespace djv
                         }
                     }
                 });
-
             p.gridLabelsComboBox->setCallback(
                 [weak, contextWeak](int value)
                 {
@@ -301,7 +318,6 @@ namespace djv
                         }
                     }
                 });
-
             p.gridLabelsColorPickerSwatch->setColorCallback(
                 [weak, contextWeak](const AV::Image::Color& value)
                 {
@@ -321,6 +337,64 @@ namespace djv
                         }
                     }
                 });
+
+            p.hudEnabledCheckBox->setCheckedCallback(
+                [weak, contextWeak](bool value)
+            {
+                if (auto context = contextWeak.lock())
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->hudOptions.enabled = value;
+                        widget->_widgetUpdate();
+                        if (widget->_p->activeWidget)
+                        {
+                            widget->_p->activeWidget->setHUDOptions(widget->_p->hudOptions);
+                        }
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                        viewSettings->setHUDOptions(widget->_p->hudOptions);
+                    }
+                }
+            });
+            p.hudColorPickerSwatch->setColorCallback(
+                [weak, contextWeak](const AV::Image::Color& value)
+            {
+                if (auto context = contextWeak.lock())
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->hudOptions.color = value;
+                        widget->_widgetUpdate();
+                        if (widget->_p->activeWidget)
+                        {
+                            widget->_p->activeWidget->setHUDOptions(widget->_p->hudOptions);
+                        }
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                        viewSettings->setHUDOptions(widget->_p->hudOptions);
+                    }
+                }
+            });
+            p.hudBackgroundComboBox->setCallback(
+                [weak, contextWeak](int value)
+            {
+                if (auto context = contextWeak.lock())
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->hudOptions.background = static_cast<HUDBackground>(value);
+                        widget->_widgetUpdate();
+                        if (widget->_p->activeWidget)
+                        {
+                            widget->_p->activeWidget->setHUDOptions(widget->_p->hudOptions);
+                        }
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                        viewSettings->setHUDOptions(widget->_p->hudOptions);
+                    }
+                }
+            });
 
             p.backgroundColorPickerSwatch->setColorCallback(
                 [weak, contextWeak](const AV::Image::Color& value)
@@ -376,13 +450,23 @@ namespace djv
                                 widget->_p->gridOptionsObserver = ValueObserver<GridOptions>::create(
                                     widget->_p->activeWidget->getImageView()->observeGridOptions(),
                                     [weak](const GridOptions& value)
+                                {
+                                    if (auto widget = weak.lock())
                                     {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->gridOptions = value;
-                                            widget->_widgetUpdate();
-                                        }
-                                    });
+                                        widget->_p->gridOptions = value;
+                                        widget->_widgetUpdate();
+                                    }
+                                });
+                                widget->_p->hudOptionsObserver = ValueObserver<HUDOptions>::create(
+                                    widget->_p->activeWidget->observeHUDOptions(),
+                                    [weak](const HUDOptions& value)
+                                {
+                                    if (auto widget = weak.lock())
+                                    {
+                                        widget->_p->hudOptions = value;
+                                        widget->_widgetUpdate();
+                                    }
+                                });
                                 widget->_p->backgroundColorObserver = ValueObserver<AV::Image::Color>::create(
                                     widget->_p->activeWidget->getImageView()->observeBackgroundColor(),
                                     [weak](const AV::Image::Color& value)
@@ -399,6 +483,7 @@ namespace djv
                                 widget->_p->viewPosObserver.reset();
                                 widget->_p->viewZoomObserver.reset();
                                 widget->_p->gridOptionsObserver.reset();
+                                widget->_p->hudOptionsObserver.reset();
                                 widget->_p->backgroundColorObserver.reset();
                             }
                         }
@@ -437,24 +522,26 @@ namespace djv
 
             setTitle(_getText(DJV_TEXT("view_controls")));
             
-            p.actions["GridSettings"]->setText(_getText(DJV_TEXT("widget_view_grid_set_as_default")));
-            p.actions["BackgroundSettings"]->setText(_getText(DJV_TEXT("widget_view_background_set_as_default")));
-
             p.viewPosResetButton->setTooltip(_getText(DJV_TEXT("reset_the_value")));
             p.viewZoomResetButton->setTooltip(_getText(DJV_TEXT("reset_the_value")));
             p.viewFormLayout->setText(p.viewPosLayout, _getText(DJV_TEXT("position")) + ":");
             p.viewFormLayout->setText(p.viewZoomLayout, _getText(DJV_TEXT("zoom")) + ":");
 
-            p.gridFormLayout->setText(p.gridEnabledButton, _getText(DJV_TEXT("widget_view_grid_enabled")) + ":");
+            p.gridFormLayout->setText(p.gridEnabledCheckBox, _getText(DJV_TEXT("widget_view_grid_enabled")) + ":");
             p.gridFormLayout->setText(p.gridSizeSlider, _getText(DJV_TEXT("widget_view_grid_size")) + ":");
             p.gridFormLayout->setText(p.gridColorPickerSwatch, _getText(DJV_TEXT("widget_view_grid_color")) + ":");
             p.gridFormLayout->setText(p.gridLabelsComboBox, _getText(DJV_TEXT("widget_view_grid_labels")) + ":");
             p.gridFormLayout->setText(p.gridLabelsColorPickerSwatch, _getText(DJV_TEXT("widget_view_grid_labels_color")) + ":");
 
+            p.hudFormLayout->setText(p.hudEnabledCheckBox, _getText(DJV_TEXT("widget_view_hud_enabled")) + ":");
+            p.hudFormLayout->setText(p.hudColorPickerSwatch, _getText(DJV_TEXT("widget_view_hud_color")) + ":");
+            p.hudFormLayout->setText(p.hudBackgroundComboBox, _getText(DJV_TEXT("widget_view_hud_background")) + ":");
+
             p.backgroundFormLayout->setText(p.backgroundColorPickerSwatch, _getText(DJV_TEXT("widget_view_background_color")) + ":");
             
             p.tabWidget->setText(p.viewScrollWidget, _getText(DJV_TEXT("view")));
             p.tabWidget->setText(p.gridScrollWidget, _getText(DJV_TEXT("view_grid")));
+            p.tabWidget->setText(p.hudScrollWidget, _getText(DJV_TEXT("view_hud")));
             p.tabWidget->setText(p.backgroundScrollWidget, _getText(DJV_TEXT("view_background")));
             
             _widgetUpdate();
@@ -504,7 +591,7 @@ namespace djv
             p.viewZoomEdit->setValue(p.viewZoom);
             p.viewZoomResetButton->setEnabled(p.viewZoom != 1.F);
 
-            p.gridEnabledButton->setChecked(p.gridOptions.enabled);
+            p.gridEnabledCheckBox->setChecked(p.gridOptions.enabled);
             p.gridSizeSlider->setValue(p.gridOptions.size);
             p.gridColorPickerSwatch->setColor(p.gridOptions.color);
             std::vector<std::string> items;
@@ -517,6 +604,18 @@ namespace djv
             p.gridLabelsComboBox->setItems(items);
             p.gridLabelsComboBox->setCurrentItem(static_cast<int>(p.gridOptions.labels));
             p.gridLabelsColorPickerSwatch->setColor(p.gridOptions.labelsColor);
+
+            p.hudEnabledCheckBox->setChecked(p.hudOptions.enabled);
+            p.hudColorPickerSwatch->setColor(p.hudOptions.color);
+            items.clear();
+            for (auto i : getHUDBackgroundEnums())
+            {
+                std::stringstream ss;
+                ss << i;
+                items.push_back(_getText(ss.str()));
+            }
+            p.hudBackgroundComboBox->setItems(items);
+            p.hudBackgroundComboBox->setCurrentItem(static_cast<int>(p.hudOptions.background));
 
             p.backgroundColorPickerSwatch->setColor(p.backgroundColor);
         }

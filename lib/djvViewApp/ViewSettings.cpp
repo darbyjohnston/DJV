@@ -23,6 +23,7 @@ namespace djv
             int widgetCurrentTab = 0;
             std::shared_ptr<ValueSubject<ImageViewLock> > lock;
             std::shared_ptr<ValueSubject<GridOptions> > gridOptions;
+            std::shared_ptr<ValueSubject<HUDOptions> > hudOptions;
             std::shared_ptr<ValueSubject<AV::Image::Color> > backgroundColor;
             std::map<std::string, BBox2f> widgetGeom;
         };
@@ -34,6 +35,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.lock = ValueSubject<ImageViewLock>::create(ImageViewLock::Fill);
             p.gridOptions = ValueSubject<GridOptions>::create();
+            p.hudOptions = ValueSubject<HUDOptions>::create();
             p.backgroundColor = ValueSubject<AV::Image::Color>::create(AV::Image::Color(0.F, 0.F, 0.F));
             _load();
         }
@@ -79,6 +81,16 @@ namespace djv
             _p->gridOptions->setIfChanged(value);
         }
 
+        std::shared_ptr<Core::IValueSubject<HUDOptions> > ViewSettings::observeHUDOptions() const
+        {
+            return _p->hudOptions;
+        }
+
+        void ViewSettings::setHUDOptions(const HUDOptions& value)
+        {
+            _p->hudOptions->setIfChanged(value);
+        }
+
         std::shared_ptr<IValueSubject<AV::Image::Color> > ViewSettings::observeBackgroundColor() const
         {
             return _p->backgroundColor;
@@ -108,6 +120,7 @@ namespace djv
                 UI::Settings::read("WidgetCurrentTab", object, p.widgetCurrentTab);
                 UI::Settings::read("Lock", object, p.lock);
                 UI::Settings::read("GridOptions", object, p.gridOptions);
+                UI::Settings::read("HUDOptions", object, p.hudOptions);
                 UI::Settings::read("BackgroundColor", object, p.backgroundColor);
                 UI::Settings::read("WidgetGeom", object, p.widgetGeom);
             }
@@ -121,6 +134,7 @@ namespace djv
             UI::Settings::write("WidgetCurrentTab", p.widgetCurrentTab, object);
             UI::Settings::write("Lock", p.lock->get(), object);
             UI::Settings::write("GridOptions", p.gridOptions->get(), object);
+            UI::Settings::write("HUDOptions", p.hudOptions->get(), object);
             UI::Settings::write("BackgroundColor", p.backgroundColor->get(), object);
             UI::Settings::write("WidgetGeom", p.widgetGeom, object);
             return out;

@@ -541,12 +541,10 @@
     "widget_recent_increase_thumbnail_size": "增加",
     "widget_recent_increase_thumbnail_size_tooltip": "增加缩略图的大小",
     "widget_view_background_color": "颜色",
-    "widget_view_background_set_as_default": "设为默认",
     "widget_view_grid_color": "颜色",
     "widget_view_grid_enabled": "已启用",
     "widget_view_grid_labels": "标签",
     "widget_view_grid_labels_color": "标签颜色",
-    "widget_view_grid_set_as_default": "设为默认",
     "widget_view_grid_size": "尺寸",
     "zoom": "放大"
 }

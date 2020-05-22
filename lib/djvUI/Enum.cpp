@@ -160,6 +160,14 @@ namespace djv
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
+        Corner,
+        DJV_TEXT("ui_corner_upper_left"),
+        DJV_TEXT("ui_corner_upper_right"),
+        DJV_TEXT("ui_corner_lower_right"),
+        DJV_TEXT("ui_corner_lower_left"));
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        UI,
         Expand,
         DJV_TEXT("ui_expand_none"),
         DJV_TEXT("ui_expand_horizontal"),

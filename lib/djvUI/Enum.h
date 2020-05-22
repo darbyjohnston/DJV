@@ -38,6 +38,19 @@ namespace djv
         };
         DJV_ENUM_HELPERS(Side);
 
+        //! This enumeration provides corners.
+        enum class Corner
+        {
+            UpperLeft,
+            UpperRight,
+            LowerRight,
+            LowerLeft,
+
+            Count,
+            First = UpperLeft
+        };
+        DJV_ENUM_HELPERS(Corner);
+
         //! This enumeration provides layout expansion directions.
         enum class Expand
         {
@@ -304,6 +317,7 @@ namespace djv
 
     DJV_ENUM_SERIALIZE_HELPERS(UI::Orientation);
     DJV_ENUM_SERIALIZE_HELPERS(UI::Side);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::Corner);
     DJV_ENUM_SERIALIZE_HELPERS(UI::Expand);
     DJV_ENUM_SERIALIZE_HELPERS(UI::HAlign);
     DJV_ENUM_SERIALIZE_HELPERS(UI::VAlign);

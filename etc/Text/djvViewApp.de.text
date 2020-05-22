@@ -542,12 +542,10 @@
     "widget_recent_increase_thumbnail_size": "Größer",
     "widget_recent_increase_thumbnail_size_tooltip": "Erhöhr die Größe der Thumbnails",
     "widget_view_background_color": "Farbe",
-    "widget_view_background_set_as_default": "Als Standard einstellen",
     "widget_view_grid_color": "Farbe",
     "widget_view_grid_enabled": "aktiviert",
     "widget_view_grid_labels": "Etiketten",
     "widget_view_grid_labels_color": "Beschriftet Farbe",
-    "widget_view_grid_set_as_default": "Als Standard einstellen",
     "widget_view_grid_size": "Größe",
     "zoom": "Zoomen"
 }

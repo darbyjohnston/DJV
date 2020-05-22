@@ -5,6 +5,7 @@
 #pragma once
 
 #include <djvViewApp/Enum.h>
+#include <djvViewApp/HUD.h>
 #include <djvViewApp/ImageView.h>
 
 #include <djvUI/ISettings.h>
@@ -47,6 +48,9 @@ namespace djv
 
             std::shared_ptr<Core::IValueSubject<GridOptions> > observeGridOptions() const;
             void setGridOptions(const GridOptions&);
+
+            std::shared_ptr<Core::IValueSubject<HUDOptions> > observeHUDOptions() const;
+            void setHUDOptions(const HUDOptions&);
 
             std::shared_ptr<Core::IValueSubject<AV::Image::Color> > observeBackgroundColor() const;
             void setBackgroundColor(const AV::Image::Color&);

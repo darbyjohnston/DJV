@@ -541,12 +541,10 @@
     "widget_recent_increase_thumbnail_size": "Øge",
     "widget_recent_increase_thumbnail_size_tooltip": "Forøg størrelsen på miniaturebillederne",
     "widget_view_background_color": "Farve",
-    "widget_view_background_set_as_default": "Indstillet som standard",
     "widget_view_grid_color": "Farve",
     "widget_view_grid_enabled": "Aktiveret",
     "widget_view_grid_labels": "Etiketter",
     "widget_view_grid_labels_color": "Etiketter farve",
-    "widget_view_grid_set_as_default": "Indstillet som standard",
     "widget_view_grid_size": "Størrelse",
     "zoom": "Zoom"
 }

@@ -541,12 +541,10 @@
     "widget_recent_increase_thumbnail_size": "Agrandir",
     "widget_recent_increase_thumbnail_size_tooltip": "Agrandir la taille des vignettes",
     "widget_view_background_color": "Couleur",
-    "widget_view_background_set_as_default": "Définir par défaut",
     "widget_view_grid_color": "Couleur",
     "widget_view_grid_enabled": "Activée",
     "widget_view_grid_labels": "Graduations",
     "widget_view_grid_labels_color": "Couleur des étiquettes",
-    "widget_view_grid_set_as_default": "Définir par défaut",
     "widget_view_grid_size": "Taille",
     "zoom": "Zoom"
 }

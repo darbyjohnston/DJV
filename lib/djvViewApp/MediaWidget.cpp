@@ -6,6 +6,7 @@
 
 #include <djvViewApp/FileSettings.h>
 #include <djvViewApp/FileSystem.h>
+#include <djvViewApp/HUDWidget.h>
 #include <djvViewApp/ImageSystem.h>
 #include <djvViewApp/ImageView.h>
 #include <djvViewApp/Media.h>
@@ -45,8 +46,6 @@
 #include <djvCore/Timer.h>
 
 #include <iomanip>
-
-//#define DJV_DEMO_THREADS
 
 using namespace djv::Core;
 
@@ -102,12 +101,9 @@ namespace djv
 
         struct MediaWidget::Private
         {
-            std::shared_ptr<ValueSubject<PointerData> > hover;
-            std::shared_ptr<ValueSubject<PointerData> > drag;
-            std::shared_ptr<ValueSubject<ScrollData> > scroll;
-
             std::shared_ptr<Media> media;
             AV::IO::Info ioInfo;
+            size_t layer = 0;
             std::shared_ptr<AV::Image::Image> image;
             PlaybackSpeed playbackSpeed = PlaybackSpeed::First;
             Time::Speed defaultSpeed;
@@ -122,6 +118,7 @@ namespace djv
             Playback playbackPrev = Playback::Count;
             Time::Units timeUnits = Time::Units::First;
             ImageViewLock viewLock = ImageViewLock::First;
+            std::shared_ptr<ValueSubject<HUDOptions> > hudOptions;
             bool frameStoreEnabled = false;
             std::shared_ptr<AV::Image::Image> frameStore;
             bool audioEnabled = false;
@@ -129,6 +126,9 @@ namespace djv
             bool audioMute = false;
             bool active = false;
             float fade = 1.F;
+            std::shared_ptr<ValueSubject<PointerData> > hover;
+            std::shared_ptr<ValueSubject<PointerData> > drag;
+            std::shared_ptr<ValueSubject<ScrollData> > scroll;
 
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> playbackActionGroup;
@@ -139,6 +139,7 @@ namespace djv
             std::shared_ptr<UI::HorizontalLayout> titleBar;
             std::shared_ptr<PointerWidget> pointerWidget;
             std::shared_ptr<ImageView> imageView;
+            std::shared_ptr<HUDWidget> hud;
             std::shared_ptr<PlaybackSpeedWidget> speedWidget;
             std::shared_ptr<UI::PopupWidget> speedPopupWidget;
             std::shared_ptr<UI::Label> realSpeedLabel;
@@ -156,20 +157,13 @@ namespace djv
             std::shared_ptr<UI::FloatSlider> audioVolumeSlider;
             std::shared_ptr<UI::ToolButton> audioMuteButton;
             std::shared_ptr<UI::PopupWidget> audioPopupWidget;
-#ifdef DJV_DEMO_THREADS
-            std::shared_ptr<UI::IntSlider> ioThreadsSlider;
-            std::shared_ptr<UI::PopupWidget> ioThreadsPopupWidget;
-            std::shared_ptr<UI::Label> ioThreadsLabel;
-            std::shared_ptr<UI::Label> cachePercentageLabel;
-#endif // DJV_DEMO_THREADS
             std::shared_ptr<UI::GridLayout> playbackLayout;
             std::shared_ptr<UI::StackLayout> layout;
 
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
-            std::shared_ptr<ValueObserver<AV::IO::Info> > ioInfoObserver;
-            std::shared_ptr<ValueObserver<Frame::Index> > currentFrameObserver;
-            std::shared_ptr<ValueObserver<bool> > currentFrameChangeObserver;
             std::shared_ptr<ValueObserver<Time::Units> > timeUnitsObserver;
+            std::shared_ptr<ValueObserver<AV::IO::Info> > ioInfoObserver;
+            std::shared_ptr<ValueObserver<size_t> > layerObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
             std::shared_ptr<ValueObserver<Time::Speed> > speedObserver;
             std::shared_ptr<ValueObserver<PlaybackSpeed> > playbackSpeedObserver;
@@ -179,15 +173,12 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > playEveryFrameObserver;
             std::shared_ptr<ValueObserver<PlaybackMode> > playbackModeObserver;
             std::shared_ptr<ValueObserver<Frame::Sequence> > sequenceObserver;
-            std::shared_ptr<ValueObserver<Frame::Index> > currentFrameObserver2;
+            std::shared_ptr<ValueObserver<Frame::Index> > currentFrameObserver;
             std::shared_ptr<ValueObserver<AV::IO::InOutPoints> > inOutPointsObserver;
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
             std::shared_ptr<ValueObserver<bool> > audioEnabledObserver;
             std::shared_ptr<ValueObserver<float> > volumeObserver;
             std::shared_ptr<ValueObserver<bool> > muteObserver;
-#ifdef DJV_DEMO_THREADS
-            std::shared_ptr<ValueObserver<size_t> > ioThreadsObserver;
-#endif // DJV_DEMO_THREADS
             std::shared_ptr<ValueObserver<bool> > cacheEnabledObserver;
             std::shared_ptr<ValueObserver<Frame::Sequence> > cacheSequenceObserver;
             std::shared_ptr<ValueObserver<Frame::Sequence> > cachedFramesObserver;
@@ -208,11 +199,13 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::MediaWidget");
 
+            p.media = media;
+            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+            p.hudOptions = ValueSubject<HUDOptions>::create(viewSettings->observeHUDOptions()->get());
             p.hover = ValueSubject<PointerData>::create();
             p.drag = ValueSubject<PointerData>::create();
             p.scroll = ValueSubject<ScrollData>::create();
-
-            p.media = media;
 
             p.actions["Forward"] = UI::Action::create();
             p.actions["Forward"]->setIcon("djvIconPlaybackForward");
@@ -242,12 +235,10 @@ namespace djv
             p.titleLabel->setTooltip(std::string(media->getFileInfo()));
 
             p.maximizeButton = UI::ToolButton::create(context);
-            p.maximizeButton->setIcon("djvIconSDISmall");
-            p.maximizeButton->setInsideMargin(UI::MetricsRole::None);
+            p.maximizeButton->setIcon("djvIconSDI");
 
             p.closeButton = UI::ToolButton::create(context);
-            p.closeButton->setIcon("djvIconCloseSmall");
-            p.closeButton->setInsideMargin(UI::MetricsRole::None);
+            p.closeButton->setIcon("djvIconClose");
 
             p.titleBar = UI::HorizontalLayout::create(context);
             p.titleBar->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
@@ -260,6 +251,9 @@ namespace djv
             p.pointerWidget = PointerWidget::create(context);
 
             p.imageView = ImageView::create(context);
+
+            p.hud = HUDWidget::create(context);
+            p.hud->setHUDOptions(p.hudOptions->get());
 
             p.speedWidget = PlaybackSpeedWidget::create(context);
             p.speedPopupWidget = UI::PopupWidget::create(context);
@@ -340,23 +334,7 @@ namespace djv
             toolBar->addAction(p.actions["Forward"]);
             toolBar->addAction(p.actions["NextFrame"]);
             toolBar->addAction(p.actions["OutPoint"]);
-            
-#ifdef DJV_DEMO_THREADS
-            p.ioThreadsSlider = UI::IntSlider::create(context);
-            p.ioThreadsSlider->setRange(IntRange(2, 64));
-            p.ioThreadsPopupWidget = UI::PopupWidget::create(context);
-            p.ioThreadsPopupWidget->setIcon("djvIconPopupMenu");
-            p.ioThreadsPopupWidget->setVAlign(UI::VAlign::Center);
-            p.ioThreadsPopupWidget->addChild(p.ioThreadsSlider);
-
-            p.ioThreadsLabel = UI::Label::create(context);
-            p.ioThreadsLabel->setFontSizeRole(UI::MetricsRole::Swatch);
-
-            p.cachePercentageLabel = UI::Label::create(context);
-            p.cachePercentageLabel->setFont(AV::Font::familyMono);
-            p.cachePercentageLabel->setFontSizeRole(UI::MetricsRole::Slider);
-#endif // DJV_DEMO_THREADS
-            
+                        
             p.playbackLayout = UI::GridLayout::create(context);
             p.playbackLayout->setBackgroundRole(UI::ColorRole::OverlayLight);
             p.playbackLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
@@ -367,10 +345,6 @@ namespace djv
             p.playbackLayout->setStretch(p.timelineSlider, UI::GridStretch::Horizontal);
             p.playbackLayout->addChild(p.audioPopupWidget);
             p.playbackLayout->setGridPos(p.audioPopupWidget, 2, 0);
-#ifdef DJV_DEMO_THREADS
-            p.playbackLayout->addChild(p.ioThreadsPopupWidget);
-            p.playbackLayout->setGridPos(p.ioThreadsPopupWidget, 2, 1);
-#endif // DJV_DEMO_THREADS
             hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             hLayout->addChild(p.speedPopupWidget);
@@ -401,23 +375,13 @@ namespace djv
             p.layout = UI::StackLayout::create(context);
             p.layout->setBackgroundRole(UI::ColorRole::OverlayLight);
             p.layout->addChild(p.imageView);
+            p.layout->addChild(p.hud);
             p.layout->addChild(p.pointerWidget);
             vLayout = UI::VerticalLayout::create(context);
             vLayout->addChild(p.titleBar);
             vLayout->addExpander();
             vLayout->addChild(p.playbackLayout);
             p.layout->addChild(vLayout);
-#ifdef DJV_DEMO_THREADS
-            vLayout = UI::VerticalLayout::create(context);
-            vLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginLarge));
-            vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingLarge));
-            vLayout->setBackgroundRole(UI::ColorRole::OverlayLight);
-            vLayout->setHAlign(UI::HAlign::Center);
-            vLayout->setVAlign(UI::VAlign::Center);
-            vLayout->addChild(p.ioThreadsLabel);
-            vLayout->addChild(p.cachePercentageLabel);
-            p.layout->addChild(vLayout);
-#endif // DJV_DEMO_THREADS
             addChild(p.layout);
 
             _widgetUpdate();
@@ -425,6 +389,7 @@ namespace djv
             _realSpeedUpdate();
             _audioUpdate();
             _opacityUpdate();
+            _hudUpdate();
 
             auto weak = std::weak_ptr<MediaWidget>(std::dynamic_pointer_cast<MediaWidget>(shared_from_this()));
             p.playbackActionGroup->setExclusiveCallback(
@@ -501,7 +466,6 @@ namespace djv
                         }
                     }
                 });
-
             p.speedWidget->setCustomSpeedCallback(
                 [weak, contextWeak](const Time::Speed& value)
                 {
@@ -526,7 +490,6 @@ namespace djv
                         }
                     }
                 });
-
             p.speedWidget->setPlayEveryFrameCallback(
                 [weak, contextWeak](bool value)
                 {
@@ -720,20 +683,6 @@ namespace djv
                     }
                 });
 
-#ifdef DJV_DEMO_THREADS
-            p.ioThreadsSlider->setValueCallback(
-                [weak](int value)
-            {
-                if (auto widget = weak.lock())
-                {
-                    if (auto media = widget->_p->media)
-                    {
-                        media->setThreadCount(value);
-                    }
-                }
-            });
-#endif // DJV_DEMO_THREADS
-            
             p.maximizeButton->setClickedCallback(
                 [weak]
                 {
@@ -830,6 +779,7 @@ namespace djv
                     {
                         widget->_p->timeUnits = value;
                         widget->_widgetUpdate();
+                        widget->_hudUpdate();
                     }
                 });
 
@@ -842,8 +792,20 @@ namespace djv
                         widget->_p->ioInfo = value;
                         widget->_widgetUpdate();
                         widget->_audioUpdate();
+                        widget->_hudUpdate();
                     }
                 });
+
+            p.layerObserver = ValueObserver<size_t>::create(
+                p.media->observeLayer(),
+                [weak](size_t value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->_p->layer = value;
+                    widget->_hudUpdate();
+                }
+            });
 
             p.imageObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
                 p.media->observeCurrentImage(),
@@ -865,6 +827,7 @@ namespace djv
                         widget->_p->speed = value;
                         widget->_widgetUpdate();
                         widget->_speedUpdate();
+                        widget->_hudUpdate();
                     }
                 });
 
@@ -912,6 +875,7 @@ namespace djv
                     {
                         widget->_p->realSpeed = value;
                         widget->_realSpeedUpdate();
+                        widget->_hudUpdate();
                     }
                 });
 
@@ -950,7 +914,7 @@ namespace djv
                     }
                 });
 
-            p.currentFrameObserver2 = ValueObserver<Frame::Index>::create(
+            p.currentFrameObserver = ValueObserver<Frame::Index>::create(
                 p.media->observeCurrentFrame(),
                 [weak](Frame::Index value)
                 {
@@ -958,6 +922,7 @@ namespace djv
                     {
                         widget->_p->currentFrame = value;
                         widget->_widgetUpdate();
+                        widget->_hudUpdate();
                     }
                 });
 
@@ -1022,23 +987,6 @@ namespace djv
                     }
                 });
 
-#ifdef DJV_DEMO_THREADS
-            p.ioThreadsObserver = ValueObserver<size_t>::create(
-                p.media->observeThreadCount(),
-                [weak](size_t value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->ioThreadsSlider->setValue(value);
-                        
-                        std::stringstream ss;
-                        ss << value << " " << "threads";
-                        widget->_p->ioThreadsLabel->setText(ss.str());
-                    }
-                });
-#endif // DJV_DEMO_THREADS
-
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
             if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
             {
                 p.cacheEnabledObserver = ValueObserver<bool>::create(
@@ -1069,17 +1017,6 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->timelineSlider->setCachedFrames(value);
-                        
-#ifdef DJV_DEMO_THREADS
-                        const size_t sequenceSize = widget->_p->sequence.getSize();
-                        const size_t cacheSize = value.getSize();
-                        const int cachePercentage = sequenceSize > 0 ?
-                            static_cast<int>(cacheSize / static_cast<float>(sequenceSize) * 100.F) :
-                            0;
-                        std::stringstream ss;
-                        ss << std::setw(3) << cachePercentage << "%";
-                        widget->_p->cachePercentageLabel->setText(ss.str());
-#endif // DJV_DEMO_THREADS
                     }
                 });
 
@@ -1218,6 +1155,20 @@ namespace djv
             resize(size + sh * 2.F);
         }
 
+        std::shared_ptr<Core::IValueSubject<HUDOptions> > MediaWidget::observeHUDOptions() const
+        {
+            return _p->hudOptions;
+        }
+
+        void MediaWidget::setHUDOptions(const HUDOptions& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.hudOptions->setIfChanged(value))
+            {
+                p.hud->setHUDOptions(value);
+            }
+        }
+
         std::shared_ptr<IValueSubject<PointerData> > MediaWidget::observeHover() const
         {
             return _p->hover;
@@ -1310,14 +1261,15 @@ namespace djv
             const float sh = style->getMetric(UI::MetricsRole::Shadow);
             const BBox2f g = getGeometry().margin(-sh);
             p.layout->setGeometry(g);
-            const BBox2f imageFrame = BBox2f(
+            const BBox2f frame = BBox2f(
                 glm::vec2(
                     g.min.x,
                     g.min.y + _getTitleBarHeight()),
                 glm::vec2(
                     g.max.x,
                     g.max.y - _getPlaybackHeight()));
-            p.imageView->setImageFrame(imageFrame);
+            p.imageView->setImageFrame(frame);
+            p.hud->setHUDFrame(frame);
         }
 
         void MediaWidget::_initEvent(Event::Init& event)
@@ -1351,10 +1303,6 @@ namespace djv
             p.audioMuteButton->setTooltip(_getText(DJV_TEXT("audio_mute_tooltip")));
             p.audioPopupWidget->setTooltip(_getText(DJV_TEXT("audio_popup_tooltip")));
             
-#ifdef DJV_DEMO_THREADS
-            p.ioThreadsPopupWidget->setTooltip(_getText(DJV_TEXT("io_threads_popup_tooltip")));
-#endif // DJV_DEMO_THREADS
-
             _widgetUpdate();
             _speedUpdate();
         }
@@ -1365,10 +1313,7 @@ namespace djv
             if (auto context = getContext().lock())
             {
                 auto playback = Playback::Stop;
-                if (p.media)
-                {
-                    playback = p.media->observePlayback()->get();
-                }
+                playback = p.media->observePlayback()->get();
                 switch (playback)
                 {
                 case Playback::Stop:    p.playbackActionGroup->setChecked(-1); break;
@@ -1486,6 +1431,25 @@ namespace djv
             const float maximize = 1.F - _getMaximize();
             p.titleBar->setOpacity(p.fade * maximize);
             p.playbackLayout->setOpacity(p.fade);
+        }
+
+        void MediaWidget::_hudUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            HUDData data;
+            data.fileName = p.media->getFileInfo().getFileName(Frame::invalid, false);
+            if (p.layer < p.ioInfo.video.size())
+            {
+                const auto& layer = p.ioInfo.video[p.layer];
+                data.layer = layer.info.name;
+                data.size = layer.info.size;
+                data.type = layer.info.type;
+            }
+            data.isSequence = p.sequence.getSize() > 1;
+            data.currentFrame = Time::toString(p.sequence.getFrame(p.currentFrame), p.speed, p.timeUnits);
+            data.speed = p.speed;
+            data.realSpeed = p.realSpeed;
+            p.hud->setHUDData(data);
         }
 
     } // namespace ViewApp

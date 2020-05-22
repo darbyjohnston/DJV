@@ -19,6 +19,8 @@ set(header
     FileSettingsWidget.h
     HelpSystem.h
     HistogramWidget.h
+	HUD.h
+	HUDWidget.h
     IToolSystem.h
     IViewSystem.h
     ImageControlsWidget.h
@@ -85,6 +87,8 @@ set(source
     FileSystem.cpp
     HelpSystem.cpp
     HistogramWidget.cpp
+	HUD.cpp
+	HUDWidget.cpp
     IToolSystem.cpp
     IViewSystem.cpp
     ImageControlsWidget.cpp

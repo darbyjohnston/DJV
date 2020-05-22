@@ -152,9 +152,9 @@ namespace djv
                     label = UI::Label::create(context);
                     {
                         std::stringstream ss;
-                        ss << i.info.size;
+                        ss << i.info.size.w << "x" << i.info.size.h;
                         ss.precision(2);
-                        ss << " " << std::fixed << i.info.size.getAspectRatio();
+                        ss << ":" << std::fixed << i.info.size.getAspectRatio();
                         label->setText(ss.str());
                     }
                     label->setHAlign(UI::HAlign::Left);
@@ -174,7 +174,8 @@ namespace djv
                     label = UI::Label::create(context);
                     {
                         std::stringstream ss;
-                        ss << i.speed.toFloat();
+                        ss.precision(2);
+                        ss << std::fixed << i.speed.toFloat();
                         label->setText(ss.str());
                     }
                     label->setHAlign(UI::HAlign::Left);

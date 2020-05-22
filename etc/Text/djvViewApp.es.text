@@ -541,12 +541,10 @@
     "widget_recent_increase_thumbnail_size": "Incrementar",
     "widget_recent_increase_thumbnail_size_tooltip": "Aumentar el tamaño de las miniaturas.",
     "widget_view_background_color": "Color",
-    "widget_view_background_set_as_default": "Establecer por defecto",
     "widget_view_grid_color": "Color",
     "widget_view_grid_enabled": "Habilitado",
     "widget_view_grid_labels": "Etiquetas",
     "widget_view_grid_labels_color": "Color de las etiquetas",
-    "widget_view_grid_set_as_default": "Establecer por defecto",
     "widget_view_grid_size": "Talla",
     "zoom": "Enfocar"
 }
