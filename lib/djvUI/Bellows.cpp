@@ -65,7 +65,6 @@ namespace djv
 
                     setClassName("djv::UI::Layout::Bellows::Button");
                     setButtonType(ButtonType::Toggle);
-                    setBackgroundRole(ColorRole::BackgroundBellows);
 
                     _icon = Icon::create(context);
                     _icon->setIcon("djvIconArrowSmallRight");
@@ -76,11 +75,15 @@ namespace djv
                     _label->setTextHAlign(TextHAlign::Left);
 
                     _layout = HorizontalLayout::create(context);
-                    _layout->setMargin(Margin(MetricsRole::MarginSmall));
-                    _layout->setSpacing(Spacing(MetricsRole::SpacingSmall));
-                    _layout->addChild(_icon);
-                    _layout->addChild(_label);
-                    _layout->setStretch(_label, RowStretch::Expand);
+                    _layout->setSpacing(Spacing(MetricsRole::None));
+                    auto hLayout = HorizontalLayout::create(context);
+                    hLayout->setMargin(Margin(MetricsRole::MarginSmall));
+                    hLayout->setSpacing(Spacing(MetricsRole::SpacingSmall));
+                    hLayout->addChild(_icon);
+                    hLayout->addChild(_label);
+                    hLayout->setStretch(_label, RowStretch::Expand);
+                    _layout->addChild(hLayout);
+                    _layout->setStretch(hLayout, RowStretch::Expand);
                     addChild(_layout);
                 }
 
@@ -236,6 +239,7 @@ namespace djv
             {
                 std::shared_ptr<Button> button;
                 std::shared_ptr<Layout::Spacer> spacer;
+                std::shared_ptr<HorizontalLayout> buttonLayout;
                 std::shared_ptr<ChildLayout> childLayout;
                 std::shared_ptr<VerticalLayout> layout;
                 bool open = true;
@@ -257,13 +261,19 @@ namespace djv
 
                 p.spacer = Layout::Spacer::create(Orientation::Vertical, context);
                 
+                p.buttonLayout = HorizontalLayout::create(context);
+                p.buttonLayout->setSpacing(Layout::Spacing(MetricsRole::None));
+                p.buttonLayout->setBackgroundRole(ColorRole::BackgroundBellows);
+                p.buttonLayout->addChild(p.button);
+                p.buttonLayout->setStretch(p.button, RowStretch::Expand);
+
                 p.childLayout = ChildLayout::create(context);
                 p.childLayout->setShadowOverlay({ Side::Top });
                 p.childLayout->addChild(p.spacer);
 
                 p.layout = VerticalLayout::create(context);
                 p.layout->setSpacing(Layout::Spacing(MetricsRole::None));
-                p.layout->addChild(p.button);
+                p.layout->addChild(p.buttonLayout);
                 p.layout->addSeparator();
                 p.layout->addChild(p.childLayout);
                 p.layout->setStretch(p.childLayout, RowStretch::Expand);
@@ -385,6 +395,26 @@ namespace djv
                 _p->openCallback = callback;
             }
 
+            void Bellows::addWidget(const std::shared_ptr<IObject>& value)
+            {
+                _p->buttonLayout->addChild(value);
+            }
+
+            void Bellows::removeWidget(const std::shared_ptr<IObject>& value)
+            {
+                _p->buttonLayout->removeChild(value);
+            }
+
+            void Bellows::clearWidgets()
+            {
+                _p->buttonLayout->clearChildren();
+            }
+
+            float Bellows::getHeightForWidth(float value) const
+            {
+                return _p->layout->getHeightForWidth(value);
+            }
+
             void Bellows::addChild(const std::shared_ptr<IObject> & value)
             {
                 _p->childLayout->addChild(value);
@@ -401,11 +431,6 @@ namespace djv
             {
                 _p->childLayout->clearChildren();
                 _childrenUpdate();
-            }
-
-            float Bellows::getHeightForWidth(float value) const
-            {
-                return _p->layout->getHeightForWidth(value);
             }
 
             void Bellows::_preLayoutEvent(Event::PreLayout & event)

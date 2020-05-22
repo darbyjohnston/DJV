@@ -87,6 +87,9 @@ namespace djv
             p.image = ValueSubject<std::shared_ptr<AV::Image::Image> >::create();
             AV::Render2D::ImageOptions imageOptions;
             imageOptions.alphaBlend = avSystem->observeAlphaBlend()->get();
+            imageOptions.colorEnabled = true;
+            imageOptions.levelsEnabled = true;
+            imageOptions.softClipEnabled = true;
             p.imageOptions = ValueSubject<AV::Render2D::ImageOptions>::create(imageOptions);
             p.imagePos = ValueSubject<glm::vec2>::create();
             p.imageZoom = ValueSubject<float>::create(1.F);

@@ -1538,14 +1538,14 @@ namespace djv
                     primitive->color[3] = finalColor[3];
                     primitive->imageChannel = options.channel;
                     primitive->alphaBlend = options.alphaBlend;
-                    primitive->colorMatrixEnabled = options.colorEnabled;
+                    primitive->colorMatrixEnabled = options.colorEnabled && options.color != ImageColor();
                     if (primitive->colorMatrixEnabled)
                     {
                         primitive->colorMatrix = colorMatrix(options.color);
                     }
-                    primitive->colorInvert = options.color.invert && options.colorEnabled;
+                    primitive->colorInvert = options.colorEnabled && options.color.invert;
                     primitive->levels = options.levels;
-                    primitive->levelsEnabled = options.levelsEnabled;
+                    primitive->levelsEnabled = options.levelsEnabled && options.levels != ImageLevels();
                     primitive->exposureEnabled = options.exposureEnabled;
                     if (primitive->exposureEnabled)
                     {
@@ -1561,7 +1561,7 @@ namespace djv
                             primitive->exposureK,
                             powf(2.F, 3.5F) - primitive->exposureK);
                     }
-                    primitive->softClip = options.softClip;
+                    primitive->softClip = options.softClipEnabled ? options.softClip : 0.F;
                     primitive->imageCache = options.cache;
                     FloatRange textureU;
                     FloatRange textureV;

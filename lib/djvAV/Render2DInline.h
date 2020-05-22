@@ -79,6 +79,7 @@ namespace djv
                     exposure        == other.exposure        &&
                     exposureEnabled == other.exposureEnabled &&
                     softClip        == other.softClip        &&
+                    softClipEnabled == other.softClipEnabled &&
                     cache           == other.cache;
             }
 

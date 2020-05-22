@@ -129,6 +129,7 @@ namespace djv
                 ImageExposure     exposure;
                 bool              exposureEnabled   = false;
                 float             softClip          = 0.F;
+                bool              softClipEnabled   = false;
                 ImageCache        cache             = ImageCache::Atlas;
 
                 bool operator == (const ImageOptions&) const;

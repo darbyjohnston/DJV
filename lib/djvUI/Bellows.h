@@ -35,6 +35,10 @@ namespace djv
                 void close();
                 void setOpenCallback(const std::function<void(bool)> &);
 
+                void addWidget(const std::shared_ptr<IObject>&);
+                void removeWidget(const std::shared_ptr<IObject>&);
+                void clearWidgets();
+
                 float getHeightForWidth(float) const override;
 
                 void addChild(const std::shared_ptr<IObject> &) override;

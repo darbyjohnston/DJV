@@ -558,7 +558,7 @@ namespace djv
                         options.colorEnabled    = false;
                         options.levelsEnabled   = false;
                         options.exposureEnabled = false;
-                        options.softClip        = 0.F;
+                        options.softClipEnabled = false;
                     }
                     if (p.applyColorSpace)
                     {
