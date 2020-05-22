@@ -152,7 +152,7 @@ namespace djv
                 }
 
                 _layout = UI::VerticalLayout::create(context);
-                _layout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
+                _layout->setMargin(UI::MetricsRole::Margin);
                 auto hLayout = UI::HorizontalLayout::create(context);
                 hLayout->addChild(_labels["FPS"]);
                 hLayout->addChild(_labels["FPSValue"]);
@@ -442,7 +442,7 @@ namespace djv
                 }
 
                 _layout = UI::VerticalLayout::create(context);
-                _layout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
+                _layout->setMargin(UI::MetricsRole::Margin);
                 auto hLayout = UI::HorizontalLayout::create(context);
                 hLayout->addChild(_labels["TextureAtlas"]);
                 hLayout->addChild(_labels["TextureAtlasValue"]);
@@ -590,7 +590,7 @@ namespace djv
                 }
 
                 _layout = UI::VerticalLayout::create(context);
-                _layout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
+                _layout->setMargin(UI::MetricsRole::Margin);
                 auto hLayout = UI::HorizontalLayout::create(context);
                 hLayout->addChild(_labels["CurrentFrame"]);
                 hLayout->addChild(_labels["CurrentFrameValue"]);
@@ -766,7 +766,7 @@ namespace djv
             setClassName("djv::ViewApp::DebugWidget");
 
             auto layout = UI::VerticalLayout::create(context);
-            layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            layout->setSpacing(UI::MetricsRole::None);
 
             auto generalDebugWidget = GeneralDebugWidget::create(context);
             p.bellows["General"] = UI::Bellows::create(context);

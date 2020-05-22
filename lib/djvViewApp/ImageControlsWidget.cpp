@@ -192,8 +192,8 @@ namespace djv
             p.frameStoreWidget->setVAlign(UI::VAlign::Center);
 
             p.channelsLayout = UI::FormLayout::create(context);
-            p.channelsLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-            p.channelsLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            p.channelsLayout->setMargin(UI::MetricsRole::MarginSmall);
+            p.channelsLayout->setSpacing(UI::MetricsRole::SpacingSmall);
             p.channelsLayout->setShadowOverlay({ UI::Side::Top });
             for (const auto& i : p.channelButtonGroup->getButtons())
             {
@@ -205,8 +205,8 @@ namespace djv
             p.channelsScrollWidget->addChild(p.channelsLayout);
 
             p.transformLayout = UI::FormLayout::create(context);
-            p.transformLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-            p.transformLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            p.transformLayout->setMargin(UI::MetricsRole::MarginSmall);
+            p.transformLayout->setSpacing(UI::MetricsRole::SpacingSmall);
             for (size_t i = 0; i < 2; ++i)
             {
                 p.transformLayout->addChild(p.mirrorCheckBoxes[i]);
@@ -220,8 +220,8 @@ namespace djv
             p.colorSizeGroup = UI::LabelSizeGroup::create();
 
             p.colorLayouts["Adjustments"] = UI::FormLayout::create(context);
-            p.colorLayouts["Adjustments"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-            p.colorLayouts["Adjustments"]->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            p.colorLayouts["Adjustments"]->setMargin(UI::MetricsRole::MarginSmall);
+            p.colorLayouts["Adjustments"]->setSpacing(UI::MetricsRole::SpacingSmall);
             for (const auto& i : { "Brightness", "Contrast", "Saturation" })
             {
                 p.colorLayouts["Adjustments"]->addChild(p.colorSliders[i]);
@@ -233,8 +233,8 @@ namespace djv
             p.colorBellows["Adjustments"]->addChild(p.colorLayouts["Adjustments"]);
 
             p.colorLayouts["Levels"] = UI::FormLayout::create(context);
-            p.colorLayouts["Levels"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-            p.colorLayouts["Levels"]->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            p.colorLayouts["Levels"]->setMargin(UI::MetricsRole::MarginSmall);
+            p.colorLayouts["Levels"]->setSpacing(UI::MetricsRole::SpacingSmall);
             p.colorLayouts["Levels"]->setSizeGroup(p.colorSizeGroup);
             for (const auto& i : { "InLow", "InHigh", "Gamma", "OutLow", "OutHigh" })
             {
@@ -245,8 +245,8 @@ namespace djv
             p.colorBellows["Levels"]->addChild(p.colorLayouts["Levels"]);
 
             p.colorLayouts["Exposure"] = UI::FormLayout::create(context);
-            p.colorLayouts["Exposure"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-            p.colorLayouts["Exposure"]->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            p.colorLayouts["Exposure"]->setMargin(UI::MetricsRole::MarginSmall);
+            p.colorLayouts["Exposure"]->setSpacing(UI::MetricsRole::SpacingSmall);
             p.colorLayouts["Exposure"]->setSizeGroup(p.colorSizeGroup);
             for (const auto& i : { "Exposure", "Defog", "KneeLow", "KneeHigh" })
             {
@@ -257,15 +257,15 @@ namespace djv
             p.colorBellows["Exposure"]->addChild(p.colorLayouts["Exposure"]);
 
             auto softClipLayout = UI::VerticalLayout::create(context);
-            softClipLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-            softClipLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            softClipLayout->setMargin(UI::MetricsRole::MarginSmall);
+            softClipLayout->setSpacing(UI::MetricsRole::SpacingSmall);
             softClipLayout->addChild(p.softClipSlider);
             p.colorBellows["SoftClip"] = UI::Bellows::create(context);
             p.colorBellows["SoftClip"]->addWidget(p.softClipEnabledButton);
             p.colorBellows["SoftClip"]->addChild(softClipLayout);
 
             auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(p.colorBellows["Adjustments"]);
             vLayout->addChild(p.colorBellows["Levels"]);
             vLayout->addChild(p.colorBellows["Exposure"]);
@@ -275,8 +275,8 @@ namespace djv
             p.colorScrollWidget->addChild(vLayout);
 
             vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
-            vLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            vLayout->setSpacing(UI::MetricsRole::SpacingSmall);
+            vLayout->setMargin(UI::MetricsRole::MarginSmall);
             vLayout->setShadowOverlay({ UI::Side::Top });
             vLayout->addChild(p.loadFrameStoreButton);
             vLayout->addChild(p.frameStoreCheckBox);

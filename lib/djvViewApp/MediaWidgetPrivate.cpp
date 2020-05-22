@@ -182,7 +182,7 @@ namespace djv
             _buttons->setBackgroundRole(UI::ColorRole::None);
 
             _layout = UI::HorizontalLayout::create(context);
-            _layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            _layout->setSpacing(UI::MetricsRole::None);
             _layout->addChild(_lineEditBase);
             _layout->setStretch(_lineEditBase, UI::RowStretch::Expand);
             _layout->addChild(_buttons);

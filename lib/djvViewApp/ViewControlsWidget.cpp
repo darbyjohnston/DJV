@@ -128,11 +128,11 @@ namespace djv
             p.backgroundColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
 
             p.viewFormLayout = UI::FormLayout::create(context);
-            p.viewFormLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-            p.viewFormLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            p.viewFormLayout->setMargin(UI::MetricsRole::MarginSmall);
+            p.viewFormLayout->setSpacing(UI::MetricsRole::SpacingSmall);
             p.viewFormLayout->setShadowOverlay({ UI::Side::Top });
             p.viewPosLayout = UI::HorizontalLayout::create(context);
-            p.viewPosLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            p.viewPosLayout->setSpacing(UI::MetricsRole::SpacingSmall);
             for (size_t i = 0; i < 2; ++i)
             {
                 p.viewPosLayout->addChild(p.viewPosEdit[i]);
@@ -140,12 +140,12 @@ namespace djv
             p.viewPosLayout->addChild(p.viewPosResetButton);
             p.viewFormLayout->addChild(p.viewPosLayout);
             p.viewZoomLayout = UI::HorizontalLayout::create(context);
-            p.viewZoomLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            p.viewZoomLayout->setSpacing(UI::MetricsRole::SpacingSmall);
             p.viewZoomLayout->addChild(p.viewZoomEdit);
             p.viewZoomLayout->addChild(p.viewZoomResetButton);
             p.viewFormLayout->addChild(p.viewZoomLayout);
             auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(p.viewFormLayout);
             vLayout->setStretch(p.viewFormLayout, UI::RowStretch::Expand);
             p.viewScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
@@ -153,8 +153,8 @@ namespace djv
             p.viewScrollWidget->addChild(vLayout);
 
             p.gridFormLayout = UI::FormLayout::create(context);
-            p.gridFormLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-            p.gridFormLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            p.gridFormLayout->setMargin(UI::MetricsRole::MarginSmall);
+            p.gridFormLayout->setSpacing(UI::MetricsRole::SpacingSmall);
             p.gridFormLayout->setShadowOverlay({ UI::Side::Top });
             p.gridFormLayout->addChild(p.gridEnabledCheckBox);
             p.gridFormLayout->addChild(p.gridSizeSlider);
@@ -166,8 +166,8 @@ namespace djv
             p.gridScrollWidget->addChild(p.gridFormLayout);
 
             p.hudFormLayout = UI::FormLayout::create(context);
-            p.hudFormLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-            p.hudFormLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            p.hudFormLayout->setMargin(UI::MetricsRole::MarginSmall);
+            p.hudFormLayout->setSpacing(UI::MetricsRole::SpacingSmall);
             p.hudFormLayout->setShadowOverlay({ UI::Side::Top });
             p.hudFormLayout->addChild(p.hudEnabledCheckBox);
             p.hudFormLayout->addChild(p.hudColorPickerSwatch);
@@ -177,8 +177,8 @@ namespace djv
             p.hudScrollWidget->addChild(p.hudFormLayout);
 
             p.backgroundFormLayout = UI::FormLayout::create(context);
-            p.backgroundFormLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-            p.backgroundFormLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            p.backgroundFormLayout->setMargin(UI::MetricsRole::MarginSmall);
+            p.backgroundFormLayout->setSpacing(UI::MetricsRole::SpacingSmall);
             p.backgroundFormLayout->setShadowOverlay({ UI::Side::Top });
             p.backgroundFormLayout->addChild(p.backgroundColorPickerSwatch);
             p.backgroundScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);

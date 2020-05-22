@@ -54,7 +54,7 @@ void MDIWidget::_init(const std::string & title, const std::shared_ptr<Core::Con
 
     auto titleLabel = UI::Label::create(context);
     titleLabel->setText(title);
-    titleLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
+    titleLabel->setMargin(UI::MetricsRole::Margin);
 
     _closeButton = UI::ToolButton::create(context);
     _closeButton->setIcon("djvIconCloseSmall");
@@ -69,21 +69,21 @@ void MDIWidget::_init(const std::string & title, const std::shared_ptr<Core::Con
 
     auto textBlock = UI::TextBlock::create(context);
     textBlock->setText(Core::String::getRandomText(20));
-    textBlock->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
+    textBlock->setMargin(UI::MetricsRole::Margin);
 
     auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
     scrollWidget->setBorder(false);
     scrollWidget->addChild(textBlock);
 
     auto layout = UI::VerticalLayout::create(context);
-    layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+    layout->setSpacing(UI::MetricsRole::None);
     layout->setBackgroundRole(UI::ColorRole::Background);
     layout->addChild(titleBar);
     layout->addChild(scrollWidget);
     layout->setStretch(scrollWidget, UI::RowStretch::Expand);
 
     _border = UI::Border::create(context);
-    _border->setMargin(UI::Layout::Margin(UI::MetricsRole::Shadow));
+    _border->setMargin(UI::MetricsRole::Shadow);
     _border->addChild(layout);
     addChild(_border);
 }

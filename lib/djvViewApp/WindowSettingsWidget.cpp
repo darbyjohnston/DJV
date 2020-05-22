@@ -287,7 +287,7 @@ namespace djv
             p.layout = UI::VerticalLayout::create(context);
             p.layout->addChild(p.imageWidget);
             auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            hLayout->setSpacing(UI::MetricsRole::None);
             hLayout ->addChild(p.lineEdit);
             hLayout->setStretch(p.lineEdit, UI::RowStretch::Expand);
             hLayout->addChild(p.openButton);

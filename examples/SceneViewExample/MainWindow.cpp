@@ -140,9 +140,9 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
 
     addChild(_sceneWidget);
     auto vLayout = UI::VerticalLayout::create(context);
-    vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+    vLayout->setSpacing(UI::MetricsRole::None);
     auto hLayout = UI::HorizontalLayout::create(context);
-    hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+    hLayout->setSpacing(UI::MetricsRole::None);
     hLayout->addChild(menuBar);
     hLayout->addSeparator();
     hLayout->addChild(toolBar);

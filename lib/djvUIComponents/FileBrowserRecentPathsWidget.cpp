@@ -40,17 +40,17 @@ namespace djv
 
                 p.titleLabel = Label::create(context);
                 p.titleLabel->setTextHAlign(TextHAlign::Left);
-                p.titleLabel->setMargin(Layout::Margin(MetricsRole::MarginSmall));
+                p.titleLabel->setMargin(MetricsRole::MarginSmall);
                 p.titleLabel->setBackgroundRole(ColorRole::Trough);
 
                 auto layout = VerticalLayout::create(context);
-                layout->setSpacing(Layout::Spacing(MetricsRole::None));
+                layout->setSpacing(MetricsRole::None);
                 layout->addChild(p.titleLabel);
                 layout->addSeparator();
                 auto vLayout = VerticalLayout::create(context);
-                vLayout->setSpacing(Layout::Spacing(MetricsRole::None));
+                vLayout->setSpacing(MetricsRole::None);
                 p.itemLayout = VerticalLayout::create(context);
-                p.itemLayout->setSpacing(Layout::Spacing(MetricsRole::None));
+                p.itemLayout->setSpacing(MetricsRole::None);
                 vLayout->addChild(p.itemLayout);
                 layout->addChild(vLayout);
                 p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
@@ -80,7 +80,7 @@ namespace djv
                                         s = std::string(i);
                                     }
                                     button->setText(s);
-                                    button->setInsideMargin(Layout::Margin(MetricsRole::Margin));
+                                    button->setInsideMargin(MetricsRole::Margin);
                                     button->setTooltip(std::string(i));
 
                                     widget->_p->itemLayout->addChild(button);

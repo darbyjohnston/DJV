@@ -148,7 +148,7 @@ namespace djv
             p.buttonGroup = ButtonGroup::create(ButtonType::Radio);
 
             p.layout = HorizontalLayout::create(context);
-            p.layout->setSpacing(Layout::Spacing(MetricsRole::None));
+            p.layout->setSpacing(MetricsRole::None);
 
             p.scrollWidget = ScrollWidget::create(ScrollType::Horizontal, context);
             p.scrollWidget->setBorder(false);

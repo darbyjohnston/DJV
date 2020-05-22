@@ -49,7 +49,7 @@ namespace djv
                     _textBlock = TextBlock::create(context);
                     _textBlock->setTextColorRole(ColorRole::TooltipForeground);
                     _textBlock->setBackgroundRole(ColorRole::TooltipBackground);
-                    _textBlock->setMargin(Layout::Margin(MetricsRole::Margin));
+                    _textBlock->setMargin(MetricsRole::Margin);
                     addChild(_textBlock);
                 }
 

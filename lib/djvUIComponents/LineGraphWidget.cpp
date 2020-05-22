@@ -46,8 +46,8 @@ namespace djv
             p.labelValue->setFontSizeRole(MetricsRole::FontSmall);
             
             p.layout = HorizontalLayout::create(context);
-            p.layout->setMargin(Layout::Margin(MetricsRole::Border));
-            p.layout->setSpacing(Layout::Spacing(MetricsRole::SpacingSmall));
+            p.layout->setMargin(MetricsRole::Border);
+            p.layout->setSpacing(MetricsRole::SpacingSmall);
             p.layout->setBackgroundRole(ColorRole::OverlayLight);
             p.layout->addChild(p.label);
             p.layout->addChild(p.labelValue);

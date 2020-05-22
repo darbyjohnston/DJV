@@ -65,7 +65,7 @@ namespace djv
             p.timeLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
             p.timeLabel->setBackgroundRole(UI::ColorRole::OverlayLight);
             p.timeLabel->setVAlign(UI::VAlign::Bottom);
-            p.timeLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::Border));
+            p.timeLabel->setMargin(UI::MetricsRole::Border);
 
             p.layout = UI::StackLayout::create(context);
             p.layout->setBackgroundRole(UI::ColorRole::OverlayLight);

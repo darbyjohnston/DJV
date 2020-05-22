@@ -78,7 +78,7 @@ namespace djv
             p.titleLabel = Label::create(context);
             p.titleLabel->setFontSizeRole(MetricsRole::FontHeader);
             p.titleLabel->setTextHAlign(TextHAlign::Left);
-            p.titleLabel->setMargin(Layout::Margin(MetricsRole::Margin));
+            p.titleLabel->setMargin(MetricsRole::Margin);
             p.titleLabel->hide();
 
             p.closeButton = ToolButton::create(context);
@@ -86,18 +86,18 @@ namespace djv
             p.closeButton->setInsideMargin(MetricsRole::MarginSmall);
 
             p.titleBarLayout = HorizontalLayout::create(context);
-            p.titleBarLayout->setSpacing(Layout::Spacing(MetricsRole::None));
+            p.titleBarLayout->setSpacing(MetricsRole::None);
 
             p.childLayout = VerticalLayout::create(context);
-            p.childLayout->setSpacing(Layout::Spacing(MetricsRole::None));
+            p.childLayout->setSpacing(MetricsRole::None);
 
             p.layout = VerticalLayout::create(context);
-            p.layout->setMargin(Layout::Margin(MetricsRole::MarginDialog));
+            p.layout->setMargin(MetricsRole::MarginDialog);
             auto layout = DialogLayout::create(context);
-            layout->setSpacing(Layout::Spacing(MetricsRole::None));
+            layout->setSpacing(MetricsRole::None);
             layout->setBackgroundRole(ColorRole::Background);
             auto hLayout = HorizontalLayout::create(context);
-            hLayout->setSpacing(Layout::Spacing(MetricsRole::None));
+            hLayout->setSpacing(MetricsRole::None);
             hLayout->setBackgroundRole(ColorRole::BackgroundHeader);
             hLayout->addChild(p.titleLabel);
             hLayout->addExpander();

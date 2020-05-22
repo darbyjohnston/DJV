@@ -39,7 +39,7 @@ namespace djv
                 p.label = Label::create(context);
                 p.label->setTextHAlign(TextHAlign::Left);
                 p.label->setTextColorRole(getForegroundColorRole());
-                p.label->setMargin(Layout::Margin(MetricsRole::MarginSmall));
+                p.label->setMargin(MetricsRole::MarginSmall);
                 addChild(p.label);
             }
 

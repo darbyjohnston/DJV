@@ -72,7 +72,7 @@ namespace djv
                 _buttonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
 
                 _buttonLayout = UI::VerticalLayout::create(context);
-                _buttonLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+                _buttonLayout->setSpacing(UI::MetricsRole::None);
 
                 auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
                 scrollWidget->setBorder(false);
@@ -82,7 +82,7 @@ namespace djv
                 _searchBox->setBorder(false);
 
                 _layout = UI::VerticalLayout::create(context);
-                _layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+                _layout->setSpacing(UI::MetricsRole::None);
                 _layout->addChild(scrollWidget);
                 _layout->addSeparator();
                 _layout->addChild(_searchBox);
@@ -283,7 +283,7 @@ namespace djv
 
             p.editImageButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
             p.addImageLayout = UI::VerticalLayout::create(context);
-            p.addImageLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            p.addImageLayout->setSpacing(UI::MetricsRole::None);
             p.addImagePopupWidget = UI::PopupWidget::create(context);
             p.addImagePopupWidget->setIcon("djvIconAddSmall");
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
@@ -295,9 +295,9 @@ namespace djv
             p.editImageButton->setIcon("djvIconEditSmall");
 
             p.configLayout = UI::VerticalLayout::create(context);
-            p.configLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            p.configLayout->setSpacing(UI::MetricsRole::None);
             p.configItemLayout = UI::FormLayout::create(context);
-            p.configItemLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            p.configItemLayout->setSpacing(UI::MetricsRole::None);
             p.configItemLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
             scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->setBorder(false);
@@ -307,7 +307,7 @@ namespace djv
             p.configLayout->setStretch(scrollWidget, UI::RowStretch::Expand);
             p.configLayout->addSeparator();
             auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            hLayout->setSpacing(UI::MetricsRole::None);
             hLayout->addExpander();
             hLayout->addChild(p.addConfigButton);
             hLayout->addChild(p.editConfigButton);
@@ -315,15 +315,15 @@ namespace djv
 
             p.displayLayout = UI::FormLayout::create(context);
             p.displayLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
-            p.displayLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            p.displayLayout->setSpacing(UI::MetricsRole::None);
             p.displayLayout->setShadowOverlay({ UI::Side::Top });
             p.displayLayout->addChild(p.displayPopupWidget);
             p.displayLayout->addChild(p.viewPopupWidget);
 
             p.imageLayout = UI::VerticalLayout::create(context);
-            p.imageLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            p.imageLayout->setSpacing(UI::MetricsRole::None);
             p.imageItemLayout = UI::FormLayout::create(context);
-            p.imageItemLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            p.imageItemLayout->setSpacing(UI::MetricsRole::None);
             p.imageItemLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
             scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->setBorder(false);
@@ -333,7 +333,7 @@ namespace djv
             p.imageLayout->setStretch(scrollWidget, UI::RowStretch::Expand);
             p.imageLayout->addSeparator();
             hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            hLayout->setSpacing(UI::MetricsRole::None);
             hLayout->addExpander();
             hLayout->addChild(p.addImagePopupWidget);
             hLayout->addChild(p.editImageButton);
@@ -645,7 +645,7 @@ namespace djv
                     p.textFocusWidgets[deleteButton->getFocusWidget()] = id++;
 
                     auto hLayout = UI::HorizontalLayout::create(context);
-                    hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+                    hLayout->setSpacing(UI::MetricsRole::None);
                     hLayout->addChild(button);
                     hLayout->setStretch(button, UI::RowStretch::Expand);
                     hLayout->addChild(deleteButton);
@@ -768,7 +768,7 @@ namespace djv
                     p.textFocusWidgets[deleteButton->getFocusWidget()] = id++;
 
                     auto hLayout = UI::HorizontalLayout::create(context);
-                    hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+                    hLayout->setSpacing(UI::MetricsRole::None);
                     hLayout->addChild(popupWidget);
                     hLayout->setStretch(popupWidget, UI::RowStretch::Expand);
                     hLayout->addChild(deleteButton);
@@ -838,7 +838,7 @@ namespace djv
                             s = _getText("Default");
                         }
                         button->setText(s);
-                        button->setInsideMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
+                        button->setInsideMargin(UI::MetricsRole::Margin);
                         p.addImageLayout->addChild(button);
                         std::string pluginName = i;
                         button->setClickedCallback(

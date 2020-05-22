@@ -139,7 +139,7 @@ namespace djv
                             p.label->setFont(p.font);
                             p.label->setFontFace(p.fontFace);
                             p.label->setFontSizeRole(p.fontSizeRole);
-                            p.label->setMargin(Layout::Margin(MetricsRole::MarginSmall));
+                            p.label->setMargin(MetricsRole::MarginSmall);
                             addChild(p.label);
                         }
                     }

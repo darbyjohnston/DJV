@@ -252,8 +252,8 @@ namespace djv
             p.settingsPopupWidget->addChild(p.fullscreenButton);
 
             auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginDialog));
-            vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingLarge));
+            vLayout->setMargin(UI::MetricsRole::MarginDialog);
+            vLayout->setSpacing(UI::MetricsRole::SpacingLarge);
             vLayout->setHAlign(UI::HAlign::Center);
             vLayout->addChild(p.logoIcon);
             vLayout->addSeparator();

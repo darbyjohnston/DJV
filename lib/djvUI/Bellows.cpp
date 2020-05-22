@@ -262,7 +262,7 @@ namespace djv
                 p.spacer = Layout::Spacer::create(Orientation::Vertical, context);
                 
                 p.buttonLayout = HorizontalLayout::create(context);
-                p.buttonLayout->setSpacing(Layout::Spacing(MetricsRole::None));
+                p.buttonLayout->setSpacing(MetricsRole::None);
                 p.buttonLayout->setBackgroundRole(ColorRole::BackgroundBellows);
                 p.buttonLayout->addChild(p.button);
                 p.buttonLayout->setStretch(p.button, RowStretch::Expand);
@@ -272,7 +272,7 @@ namespace djv
                 p.childLayout->addChild(p.spacer);
 
                 p.layout = VerticalLayout::create(context);
-                p.layout->setSpacing(Layout::Spacing(MetricsRole::None));
+                p.layout->setSpacing(MetricsRole::None);
                 p.layout->addChild(p.buttonLayout);
                 p.layout->addSeparator();
                 p.layout->addChild(p.childLayout);

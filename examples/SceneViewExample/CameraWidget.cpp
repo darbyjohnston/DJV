@@ -23,7 +23,7 @@ void CameraWidget::_init(const std::shared_ptr<Core::Context>& context)
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
     _layouts["Lens"] = UI::FormLayout::create(context);
-    _layouts["Lens"]->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+    _layouts["Lens"]->setSpacing(UI::MetricsRole::SpacingSmall);
     _layouts["Lens"]->addChild(_floatEdits["FOV"]);
     _groupBoxes["Lens"] = UI::GroupBox::create(context);
     _groupBoxes["Lens"]->addChild(_layouts["Lens"]);
@@ -41,7 +41,7 @@ void CameraWidget::_init(const std::shared_ptr<Core::Context>& context)
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
     _layouts["Clipping"] = UI::FormLayout::create(context);
-    _layouts["Clipping"]->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+    _layouts["Clipping"]->setSpacing(UI::MetricsRole::SpacingSmall);
     _layouts["Clipping"]->addChild(_floatEdits["ClippingNear"]);
     _layouts["Clipping"]->addChild(_floatEdits["ClippingFar"]);
     _groupBoxes["Clipping"] = UI::GroupBox::create(context);
@@ -63,7 +63,7 @@ void CameraWidget::_init(const std::shared_ptr<Core::Context>& context)
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
     _layouts["Target"] = UI::FormLayout::create(context);
-    _layouts["Target"]->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+    _layouts["Target"]->setSpacing(UI::MetricsRole::SpacingSmall);
     _layouts["Target"]->addChild(_floatEdits["TargetX"]);
     _layouts["Target"]->addChild(_floatEdits["TargetY"]);
     _layouts["Target"]->addChild(_floatEdits["TargetZ"]);
@@ -86,7 +86,7 @@ void CameraWidget::_init(const std::shared_ptr<Core::Context>& context)
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
     _layouts["Position"] = UI::FormLayout::create(context);
-    _layouts["Position"]->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+    _layouts["Position"]->setSpacing(UI::MetricsRole::SpacingSmall);
     _layouts["Position"]->addChild(_floatEdits["PositionDistance"]);
     _layouts["Position"]->addChild(_floatEdits["PositionLatitude"]);
     _layouts["Position"]->addChild(_floatEdits["PositionLongitude"]);
@@ -94,7 +94,7 @@ void CameraWidget::_init(const std::shared_ptr<Core::Context>& context)
     _groupBoxes["Position"]->addChild(_layouts["Position"]);
 
     auto layout = UI::VerticalLayout::create(context);
-    layout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
+    layout->setMargin(UI::MetricsRole::Margin);
     layout->addChild(_groupBoxes["Lens"]);
     layout->addChild(_groupBoxes["Clipping"]);
     layout->addChild(_groupBoxes["Target"]);

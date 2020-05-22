@@ -79,7 +79,7 @@ namespace djv
             p.textBlock = UI::TextBlock::create(context);
             p.textBlock->setFontFamily(AV::Font::familyMono);
             p.textBlock->setFontSizeRole(UI::MetricsRole::FontSmall);
-            p.textBlock->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
+            p.textBlock->setMargin(UI::MetricsRole::Margin);
 
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->setBorder(false);
@@ -91,13 +91,13 @@ namespace djv
             p.clearButton = UI::PushButton::create(context);
 
             auto layout = UI::VerticalLayout::create(context);
-            layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            layout->setSpacing(UI::MetricsRole::None);
             layout->addChild(scrollWidget);
             layout->setStretch(scrollWidget, UI::RowStretch::Expand);
             layout->addSeparator();
             auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            hLayout->setMargin(UI::MetricsRole::MarginSmall);
+            hLayout->setSpacing(UI::MetricsRole::SpacingSmall);
             hLayout->addChild(p.popupCheckBox);
             hLayout->addExpander();
             hLayout->addChild(p.copyButton);

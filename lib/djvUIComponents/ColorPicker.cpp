@@ -154,7 +154,7 @@ namespace djv
             setClassName("djv::UI::ColorSliders");
 
             p.layout = GridLayout::create(context);
-            p.layout->setSpacing(Layout::Spacing(MetricsRole::SpacingSmall));
+            p.layout->setSpacing(MetricsRole::SpacingSmall);
             addChild(p.layout);
 
             _widgetUpdate();
@@ -618,10 +618,10 @@ namespace djv
             p.typeWidget = ColorTypeWidget::create(context);
 
             p.layout = HorizontalLayout::create(context);
-            p.layout->setSpacing(Layout::Spacing(MetricsRole::SpacingSmall));
+            p.layout->setSpacing(MetricsRole::SpacingSmall);
             p.layout->addChild(p.colorSwatch);
             auto vLayout = VerticalLayout::create(context);
-            vLayout->setSpacing(Layout::Spacing(MetricsRole::SpacingSmall));
+            vLayout->setSpacing(MetricsRole::SpacingSmall);
             vLayout->addChild(p.sliders);
             vLayout->addChild(p.typeWidget);
             p.layout->addChild(vLayout);
@@ -907,7 +907,7 @@ namespace djv
 
                     auto colorPicker = ColorPicker::create(context);
                     colorPicker->setColor(p.color);
-                    colorPicker->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+                    colorPicker->setMargin(UI::MetricsRole::MarginSmall);
                     auto border = Layout::Border::create(context);
                     border->setBackgroundRole(UI::ColorRole::Background);
                     border->addChild(colorPicker);

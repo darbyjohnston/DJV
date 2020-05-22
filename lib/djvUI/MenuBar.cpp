@@ -44,15 +44,15 @@ namespace djv
             setClassName("djv::UI::MenuBar");
 
             p.menuLayout = HorizontalLayout::create(context);
-            p.menuLayout->setSpacing(Layout::Spacing(MetricsRole::None));
+            p.menuLayout->setSpacing(MetricsRole::None);
 
             p.widgetLayout[Side::Left] = HorizontalLayout::create(context);
-            p.widgetLayout[Side::Left]->setSpacing(Layout::Spacing(MetricsRole::None));
+            p.widgetLayout[Side::Left]->setSpacing(MetricsRole::None);
             p.widgetLayout[Side::Right] = HorizontalLayout::create(context);
-            p.widgetLayout[Side::Right]->setSpacing(Layout::Spacing(MetricsRole::None));
+            p.widgetLayout[Side::Right]->setSpacing(MetricsRole::None);
 
             p.layout = HorizontalLayout::create(context);
-            p.layout->setSpacing(Layout::Spacing(MetricsRole::None));
+            p.layout->setSpacing(MetricsRole::None);
             p.layout->addChild(p.widgetLayout[Side::Left]);
             p.layout->addChild(p.menuLayout);
             p.layout->addChild(p.widgetLayout[Side::Right]);

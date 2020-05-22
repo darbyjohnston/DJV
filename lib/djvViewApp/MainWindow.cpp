@@ -181,14 +181,14 @@ namespace djv
             p.menuBar->addChild(autoHideButton);
             p.menuBar->addSeparator(UI::Side::Right);
             auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            hLayout->setSpacing(UI::MetricsRole::None);
             hLayout->addChild(viewFillButton);
             hLayout->addChild(viewFrameButton);
             hLayout->addChild(viewCenterButton);
             p.menuBar->addChild(hLayout);
             p.menuBar->addSeparator(UI::Side::Right);
             hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            hLayout->setSpacing(UI::MetricsRole::None);
             for (const auto& i : toolButtons)
             {
                 hLayout->addChild(i.second);
@@ -220,15 +220,15 @@ namespace djv
             stackLayout->addChild(p.canvas);
             p.layout->addChild(stackLayout);
             auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(p.menuBar);
             vLayout->addChild(p.settingsDrawer);
             vLayout->setStretch(p.settingsDrawer, UI::Layout::RowStretch::Expand);
             p.layout->addChild(vLayout);
 #ifdef DJV_DEMO
             vLayout = UI::VerticalLayout::create(context);
-            vLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginDialog));
-            vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingLarge));
+            vLayout->setMargin(UI::MetricsRole::MarginDialog);
+            vLayout->setSpacing(UI::MetricsRole::SpacingLarge);
             vLayout->addChild(p.titleLabel);
             p.layout->addChild(vLayout);
 #endif // DJV_DEMO

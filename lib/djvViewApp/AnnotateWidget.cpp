@@ -111,9 +111,9 @@ namespace djv
             p.listButton->addIcon("djvIconArrowSmallDown");
             
             p.editLayout = UI::VerticalLayout::create(context);
-            p.editLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            p.editLayout->setSpacing(UI::MetricsRole::None);
             auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            hLayout->setSpacing(UI::MetricsRole::None);
             for (const auto& i : p.typeButtonGroup->getButtons())
             {
                 hLayout->addChild(i);
@@ -130,7 +130,7 @@ namespace djv
             p.editLayout->setStretch(p.listWidget, UI::RowStretch::Expand);
             p.editLayout->addSeparator();
             hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            hLayout->setSpacing(UI::MetricsRole::None);
             hLayout->addChild(p.addButton);
             hLayout->addChild(p.deleteButton);
             hLayout->addChild(p.prevButton);
@@ -140,12 +140,12 @@ namespace djv
             p.editLayout->addChild(hLayout);
             
             p.summaryLayout = UI::VerticalLayout::create(context);
-            p.summaryLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-            p.summaryLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            p.summaryLayout->setMargin(UI::MetricsRole::MarginSmall);
+            p.summaryLayout->setSpacing(UI::MetricsRole::SpacingSmall);
 
             p.exportLayout = UI::VerticalLayout::create(context);
-            p.exportLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-            p.exportLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            p.exportLayout->setMargin(UI::MetricsRole::MarginSmall);
+            p.exportLayout->setSpacing(UI::MetricsRole::SpacingSmall);
             
             p.tabWidget = UI::TabWidget::create(context);
             p.tabWidget->setBackgroundRole(UI::ColorRole::Background);

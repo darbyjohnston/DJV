@@ -132,8 +132,8 @@ namespace djv
             }
                     
             auto textLayout = UI::VerticalLayout::create(context);
-            textLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
-            textLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingLarge));
+            textLayout->setMargin(UI::MetricsRole::Margin);
+            textLayout->setSpacing(UI::MetricsRole::SpacingLarge);
             
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->addChild(p.headers["Credits"]);
@@ -198,7 +198,7 @@ namespace djv
                 vLayout->addChild(p.textBlocks[ss.str()]);
             }
             auto vLayout2 = UI::VerticalLayout::create(context);
-            vLayout2->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            vLayout2->setSpacing(UI::MetricsRole::None);
             for (size_t i = 3; i <= 5; ++i)
             {
                 std::stringstream ss;
@@ -214,7 +214,7 @@ namespace djv
             vLayout->addSeparator();
             vLayout->addChild(p.textBlocks["CopyrightText"]);
             vLayout2 = UI::VerticalLayout::create(context);
-            vLayout2->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            vLayout2->setSpacing(UI::MetricsRole::None);
             for (size_t i = 1; i <= copyrightText.size(); ++i)
             {
                 std::stringstream ss;
@@ -229,7 +229,7 @@ namespace djv
             vLayout->addSeparator();
             vLayout->addChild(p.textBlocks["ThirdPartyText"]);
             vLayout2 = UI::VerticalLayout::create(context);
-            vLayout2->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            vLayout2->setSpacing(UI::MetricsRole::None);
             for (size_t i = 1; i <= thirdPartyText.size(); ++i)
             {
                 std::stringstream ss;
@@ -244,7 +244,7 @@ namespace djv
             vLayout->addSeparator();
             vLayout->addChild(p.textBlocks["TrademarksText"]);
             vLayout2 = UI::VerticalLayout::create(context);
-            vLayout2->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            vLayout2->setSpacing(UI::MetricsRole::None);
             for (size_t i = 1; i <= trademarksText.size(); ++i)
             {
                 std::stringstream ss;

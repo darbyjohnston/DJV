@@ -43,7 +43,7 @@ namespace djv
 
                 p.titleLabel = Label::create(context);
                 p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
-                p.titleLabel->setMargin(Layout::Margin(UI::MetricsRole::MarginSmall));
+                p.titleLabel->setMargin(UI::MetricsRole::MarginSmall);
 
                 p.addButton = ToolButton::create(context);
                 p.addButton->setIcon("djvIconAddSmall");
@@ -55,10 +55,10 @@ namespace djv
                 p.removeButtonGroup = ButtonGroup::create(ButtonType::Push);
                 
                 auto layout = VerticalLayout::create(context);
-                layout->setSpacing(Layout::Spacing(MetricsRole::None));
+                layout->setSpacing(MetricsRole::None);
                 auto hLayout = HorizontalLayout::create(context);
                 hLayout->setBackgroundRole(UI::ColorRole::Trough);
-                hLayout->setSpacing(Layout::Spacing(MetricsRole::None));
+                hLayout->setSpacing(MetricsRole::None);
                 hLayout->addChild(p.titleLabel);
                 hLayout->addExpander();
                 hLayout->addChild(p.addButton);
@@ -66,9 +66,9 @@ namespace djv
                 layout->addChild(hLayout);
                 layout->addSeparator();
                 auto vLayout = VerticalLayout::create(context);
-                vLayout->setSpacing(Layout::Spacing(MetricsRole::None));
+                vLayout->setSpacing(MetricsRole::None);
                 p.itemLayout = GridLayout::create(context);
-                p.itemLayout->setSpacing(Layout::Spacing(MetricsRole::None));
+                p.itemLayout->setSpacing(MetricsRole::None);
                 vLayout->addChild(p.itemLayout);
                 layout->addChild(vLayout);
                 p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
@@ -127,7 +127,7 @@ namespace djv
                                         s = std::string(i);
                                     }
                                     button->setText(s);
-                                    button->setInsideMargin(Layout::Margin(MetricsRole::Margin));
+                                    button->setInsideMargin(MetricsRole::Margin);
                                     button->setTooltip(std::string(i));
 
                                     auto removeButton = ToolButton::create(context);

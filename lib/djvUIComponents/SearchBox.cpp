@@ -52,7 +52,7 @@ namespace djv
             p.clearButton->setInsideMargin(MetricsRole::None);
             
             p.layout = HorizontalLayout::create(context);
-            p.layout->setSpacing(Layout::Spacing(MetricsRole::None));
+            p.layout->setSpacing(MetricsRole::None);
             p.layout->setBackgroundRole(ColorRole::Trough);
             p.layout->addChild(p.lineEditBase);
             p.layout->setStretch(p.lineEditBase, RowStretch::Expand);

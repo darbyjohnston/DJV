@@ -61,10 +61,10 @@ void Application::_init(std::list<std::string>& args)
 
     // Layout the widgets.
     auto layout = UI::VerticalLayout::create(shared_from_this());
-    layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+    layout->setSpacing(UI::MetricsRole::None);
     auto hLayout = UI::HorizontalLayout::create(shared_from_this());
-    hLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-    hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+    hLayout->setMargin(UI::MetricsRole::MarginSmall);
+    hLayout->setSpacing(UI::MetricsRole::SpacingSmall);
     hLayout->addChild(_countSlider);
     hLayout->setStretch(_countSlider, UI::Layout::RowStretch::Expand);
     hLayout->addChild(newButton);

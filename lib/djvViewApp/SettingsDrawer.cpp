@@ -44,7 +44,7 @@ namespace djv
             p.sizeGroup = UI::LabelSizeGroup::create();
 
             p.layout = UI::VerticalLayout::create(context);
-            p.layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            p.layout->setSpacing(UI::MetricsRole::None);
 
             p.scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             p.scrollWidget->setBackgroundRole(UI::ColorRole::Background);
@@ -89,7 +89,7 @@ namespace djv
                     if (i.second.size())
                     {
                         auto layout = UI::VerticalLayout::create(context);
-                        layout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
+                        layout->setMargin(UI::MetricsRole::Margin);
                         for (const auto& j : i.second)
                         {
                             auto groupBox = UI::GroupBox::create(context);

@@ -130,13 +130,13 @@ namespace djv
                 p.icon = Icon::create(context);
                 p.textLabel = Label::create(context);
                 p.textLabel->setTextHAlign(TextHAlign::Left);
-                p.textLabel->setMargin(Layout::Margin(MetricsRole::MarginSmall));
+                p.textLabel->setMargin(MetricsRole::MarginSmall);
                 p.shortcutsLabel = Label::create(context);
-                p.shortcutsLabel->setMargin(Layout::Margin(MetricsRole::MarginSmall));
+                p.shortcutsLabel->setMargin(MetricsRole::MarginSmall);
 
                 p.layout = HorizontalLayout::create(context);
-                p.layout->setMargin(Layout::Margin(MetricsRole::MarginSmall));
-                p.layout->setSpacing(Layout::Spacing(MetricsRole::None));
+                p.layout->setMargin(MetricsRole::MarginSmall);
+                p.layout->setSpacing(MetricsRole::None);
                 p.layout->addChild(p.checkBox);
                 p.layout->addChild(p.icon);
                 p.layout->addChild(p.textLabel);

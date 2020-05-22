@@ -87,23 +87,23 @@ namespace djv
             p.maxLabel = UI::Label::create(context);
             p.maxLabel->setTextHAlign(UI::TextHAlign::Left);
             p.maxLabel->setBackgroundRole(UI::ColorRole::Trough);
-            p.maxLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            p.maxLabel->setMargin(UI::MetricsRole::MarginSmall);
             p.maxSlider = UI::IntSlider::create(context);
             p.maxSlider->setRange(IntRange(5, 100));
             p.maxSlider->setDelay(Time::getTime(Time::TimerValue::Medium));
-            p.maxSlider->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            p.maxSlider->setMargin(UI::MetricsRole::MarginSmall);
 
             p.thumbnailSizeLabel = UI::Label::create(context);
             p.thumbnailSizeLabel->setTextHAlign(UI::TextHAlign::Left);
             p.thumbnailSizeLabel->setBackgroundRole(UI::ColorRole::Trough);
-            p.thumbnailSizeLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            p.thumbnailSizeLabel->setMargin(UI::MetricsRole::MarginSmall);
             p.thumbnailSizeSlider = UI::IntSlider::create(context);
             p.thumbnailSizeSlider->setRange(UI::FileBrowser::thumbnailSizeRange);
             p.thumbnailSizeSlider->setDelay(Time::getTime(Time::TimerValue::Medium));
-            p.thumbnailSizeSlider->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            p.thumbnailSizeSlider->setMargin(UI::MetricsRole::MarginSmall);
 
             auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(p.maxLabel);
             vLayout->addSeparator();
             vLayout->addChild(p.maxSlider);
@@ -111,7 +111,7 @@ namespace djv
             vLayout->addChild(p.thumbnailSizeLabel);
             vLayout->addSeparator();
             auto vLayout2 = UI::VerticalLayout::create(context);
-            vLayout2->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            vLayout2->setSpacing(UI::MetricsRole::SpacingSmall);
             vLayout2->addChild(increaseThumbnailSizeButton);
             vLayout2->addChild(decreaseThumbnailSizeButton);
             vLayout2->addChild(p.thumbnailSizeSlider);
@@ -138,7 +138,7 @@ namespace djv
             p.itemCountLabel = UI::Label::create(context);
             p.itemCountLabel->setHAlign(UI::HAlign::Right);
             p.itemCountLabel->setVAlign(UI::VAlign::Bottom);
-            p.itemCountLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
+            p.itemCountLabel->setMargin(UI::MetricsRole::Margin);
 
             p.layout = UI::StackLayout::create(context);
             for (auto action : p.actions)
@@ -146,7 +146,7 @@ namespace djv
                 p.layout->addAction(action.second);
             }
             vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(toolBar);
             vLayout->addSeparator();
             vLayout->addChild(scrollWidget);

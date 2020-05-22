@@ -68,8 +68,8 @@ namespace djv
                 _icon->setVAlign(VAlign::Center);
 
                 _layout = HorizontalLayout::create(context);
-                _layout->setMargin(Layout::Margin(MetricsRole::MarginSmall));
-                _layout->setSpacing(Layout::Spacing(MetricsRole::SpacingSmall));
+                _layout->setMargin(MetricsRole::MarginSmall);
+                _layout->setSpacing(MetricsRole::SpacingSmall);
                 _layout->addChild(_label);
                 _layout->setStretch(_label, RowStretch::Expand);
                 _layout->addChild(_icon);

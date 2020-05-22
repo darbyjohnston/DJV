@@ -265,7 +265,7 @@ namespace djv
             p.magnifySlider->setRange(IntRange(1, 10));
 
             auto layout = UI::VerticalLayout::create(context);
-            layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            layout->setSpacing(UI::MetricsRole::None);
             layout->setBackgroundRole(UI::ColorRole::Background);
             layout->addChild(p.imageWidget);
             layout->setStretch(p.imageWidget, UI::RowStretch::Expand);

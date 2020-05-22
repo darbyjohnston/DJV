@@ -199,7 +199,7 @@ namespace djv
             p.resetButton->hide();
 
             p.layout = HorizontalLayout::create(context);
-            p.layout->setSpacing(Layout::Spacing(MetricsRole::None));
+            p.layout->setSpacing(MetricsRole::None);
             p.layout->addChild(p.edit);
             p.layout->addChild(p.slider);
             p.layout->setStretch(p.slider, RowStretch::Expand);

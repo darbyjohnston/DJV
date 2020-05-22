@@ -21,7 +21,7 @@ void SettingsWidget::_init(const std::shared_ptr<Core::Context>& context)
     _sizeGroup = UI::LabelSizeGroup::create();
 
     _childLayout = UI::VerticalLayout::create(context);
-    _childLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+    _childLayout->setSpacing(UI::MetricsRole::None);
     _scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
     _scrollWidget->setBorder(false);
     _scrollWidget->addChild(_childLayout);

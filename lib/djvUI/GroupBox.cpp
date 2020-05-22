@@ -36,13 +36,13 @@ namespace djv
                 p.titleLabel = Label::create(context);
                 p.titleLabel->setTextHAlign(TextHAlign::Left);
                 p.titleLabel->setFontFace("Bold");
-                p.titleLabel->setMargin(Layout::Margin(MetricsRole::MarginSmall));
+                p.titleLabel->setMargin(MetricsRole::MarginSmall);
 
                 p.childLayout = StackLayout::create(context);
-                p.childLayout->setMargin(Layout::Margin(MetricsRole::MarginSmall));
+                p.childLayout->setMargin(MetricsRole::MarginSmall);
 
                 p.layout = VerticalLayout::create(context);
-                p.layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+                p.layout->setSpacing(UI::MetricsRole::None);
                 p.layout->addChild(p.titleLabel);
                 p.layout->addSeparator();
                 p.layout->addChild(p.childLayout);

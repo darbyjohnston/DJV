@@ -49,7 +49,7 @@ namespace djv
 
             p.titleLabel = UI::Label::create(context);
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
-            p.titleLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            p.titleLabel->setMargin(UI::MetricsRole::MarginSmall);
             p.titleLabel->setBackgroundRole(UI::ColorRole::Trough);
 
             p.customSpeedFloatEdit = UI::FloatEdit::create(context);
@@ -58,7 +58,7 @@ namespace djv
             p.customSpeedFloatEdit->getModel()->setLargeIncrement(10.F);
 
             p.defaultSpeedLabel = UI::Label::create(context);
-            p.defaultSpeedLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            p.defaultSpeedLabel->setMargin(UI::MetricsRole::MarginSmall);
 
             p.speedButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
             std::vector<std::shared_ptr<UI::Widget> > widgets;
@@ -93,7 +93,7 @@ namespace djv
                 p.checkBoxes[i] = checkBox;
             }
             p.speedButtonLayout = UI::VerticalLayout::create(context);
-            p.speedButtonLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            p.speedButtonLayout->setSpacing(UI::MetricsRole::None);
             for (auto i = widgets.rbegin(); i != widgets.rend(); ++i)
             {
                 p.speedButtonLayout->addChild(*i);
@@ -102,7 +102,7 @@ namespace djv
             p.playEveryFrameCheckBox = UI::CheckBox::create(context);
 
             auto layout = UI::VerticalLayout::create(context);
-            layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            layout->setSpacing(UI::MetricsRole::None);
             layout->addChild(p.titleLabel);
             layout->addSeparator();
 

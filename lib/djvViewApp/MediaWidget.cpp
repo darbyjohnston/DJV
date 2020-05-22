@@ -241,7 +241,7 @@ namespace djv
             p.closeButton->setIcon("djvIconClose");
 
             p.titleBar = UI::HorizontalLayout::create(context);
-            p.titleBar->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            p.titleBar->setSpacing(UI::MetricsRole::None);
             p.titleBar->setBackgroundRole(UI::ColorRole::OverlayLight);
             p.titleBar->addChild(p.titleLabel);
             p.titleBar->setStretch(p.titleLabel, UI::RowStretch::Expand);
@@ -264,7 +264,7 @@ namespace djv
             p.realSpeedLabel = UI::Label::create(context);
             p.realSpeedLabel->setFont(AV::Font::familyMono);
             p.realSpeedLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
-            p.realSpeedLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            p.realSpeedLabel->setMargin(UI::MetricsRole::MarginSmall);
             p.playbackModeButton = UI::MultiStateButton::create(context);
             p.playbackModeButton->setInsideMargin(UI::MetricsRole::None);
             p.playbackModeButton->addIcon("djvIconPlayOnce");
@@ -294,18 +294,18 @@ namespace djv
             p.durationLabel = UI::Label::create(context);
             p.durationLabel->setFont(AV::Font::familyMono);
             p.durationLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
-            p.durationLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            p.durationLabel->setMargin(UI::MetricsRole::MarginSmall);
 
             p.timelineSlider = TimelineSlider::create(context);
             p.timelineSlider->setMedia(p.media);
 
             p.audioLabel = UI::Label::create(context);
             p.audioLabel->setTextHAlign(UI::TextHAlign::Left);
-            p.audioLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            p.audioLabel->setMargin(UI::MetricsRole::MarginSmall);
             p.audioLabel->setBackgroundRole(UI::ColorRole::Trough);
             p.audioVolumeSlider = UI::FloatSlider::create(context);
             p.audioVolumeSlider->setRange(FloatRange(0.F, 100.F));
-            p.audioVolumeSlider->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            p.audioVolumeSlider->setMargin(UI::MetricsRole::MarginSmall);
             p.audioVolumeSlider->getModel()->setSmallIncrement(1.F);
             p.audioVolumeSlider->getModel()->setLargeIncrement(10.F);
             p.audioMuteButton = UI::ToolButton::create(context);
@@ -313,11 +313,11 @@ namespace djv
             p.audioMuteButton->setButtonType(UI::ButtonType::Toggle);
             p.audioMuteButton->setVAlign(UI::VAlign::Fill);
             auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(p.audioLabel);
             vLayout->addSeparator();
             auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            hLayout->setSpacing(UI::MetricsRole::None);
             hLayout->addChild(p.audioVolumeSlider);
             hLayout->addChild(p.audioMuteButton);
             vLayout->addChild(hLayout);
@@ -337,7 +337,7 @@ namespace djv
                         
             p.playbackLayout = UI::GridLayout::create(context);
             p.playbackLayout->setBackgroundRole(UI::ColorRole::OverlayLight);
-            p.playbackLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            p.playbackLayout->setSpacing(UI::MetricsRole::None);
             p.playbackLayout->addChild(toolBar);
             p.playbackLayout->setGridPos(toolBar, 0, 0);
             p.playbackLayout->addChild(p.timelineSlider);
@@ -346,24 +346,24 @@ namespace djv
             p.playbackLayout->addChild(p.audioPopupWidget);
             p.playbackLayout->setGridPos(p.audioPopupWidget, 2, 0);
             hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            hLayout->setSpacing(UI::MetricsRole::None);
             hLayout->addChild(p.speedPopupWidget);
             hLayout->addChild(p.realSpeedLabel);
             hLayout->addChild(p.playbackModeButton);
             p.playbackLayout->addChild(hLayout);
             p.playbackLayout->setGridPos(hLayout, 0, 1);
             hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            hLayout->setSpacing(UI::MetricsRole::None);
             hLayout->addChild(p.currentFrameWidget);
             auto hLayout2 = UI::HorizontalLayout::create(context);
-            hLayout2->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            hLayout2->setSpacing(UI::MetricsRole::None);
             hLayout2->addChild(p.inPointWidget);
             hLayout2->addChild(p.inPointSetButton);
             hLayout2->addChild(p.inPointResetButton);
             hLayout->addChild(hLayout2);
             hLayout->addExpander();
             hLayout2 = UI::HorizontalLayout::create(context);
-            hLayout2->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            hLayout2->setSpacing(UI::MetricsRole::None);
             hLayout2->addChild(p.outPointResetButton);
             hLayout2->addChild(p.outPointSetButton);
             hLayout2->addChild(p.outPointWidget);

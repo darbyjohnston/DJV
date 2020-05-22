@@ -45,7 +45,7 @@ namespace djv
                 setVAlign(VAlign::Center);
 
                 p.layout = HorizontalLayout::create(context);
-                p.layout->setMargin(Layout::Margin(MetricsRole::MarginSmall));
+                p.layout->setMargin(MetricsRole::MarginSmall);
                 addChild(p.layout);
             }
 

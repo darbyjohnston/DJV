@@ -46,7 +46,7 @@ int main(int argc, char ** argv)
 
         // Create a layout for the widgets.
         auto layout = UI::GridLayout::create(app);
-        layout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginLarge));
+        layout->setMargin(UI::MetricsRole::MarginLarge);
         layout->addChild(comboBox0);
         layout->setGridPos(comboBox0, glm::ivec2(0, 0));
         layout->setStretch(comboBox0, UI::GridStretch::Both);

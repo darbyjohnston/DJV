@@ -15,7 +15,7 @@ void ISettingsWidget::_init(const std::shared_ptr<Core::Context>& context)
     _title = Core::ValueSubject<std::string>::create();
     
     _childLayout = UI::VerticalLayout::create(context);
-    //_childLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
+    //_childLayout->setMargin(UI::MetricsRole::Margin);
 
     _bellows = UI::Bellows::create(context);
     _bellows->close();
