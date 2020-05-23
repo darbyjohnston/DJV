@@ -141,7 +141,7 @@ if(PNG_FOUND)
         PNGRead.cpp
         PNGWrite.cpp)
 endif()
-if(OPENEXR_FOUND)
+if(OpenEXR_FOUND)
     set(header
         ${header}
         OpenEXR.h)
@@ -168,7 +168,6 @@ set(LIBRARIES
     GLFW
     FreeType
 	OCIO
-    IlmBase
     #OpenAL
     RtAudio
     OpenGL::GL
@@ -182,8 +181,9 @@ endif()
 if(PNG_FOUND)
     set(LIBRARIES ${LIBRARIES} PNG)
 endif()
-if(OPENEXR_FOUND)
-    set(LIBRARIES ${LIBRARIES} OpenEXR)
+if(OpenEXR_FOUND)
+    set(LIBRARIES ${LIBRARIES} OpenEXR::IlmImf)
+    target_compile_definitions(djvAV PUBLIC OPENEXR_FOUND)
 endif()
 if(TIFF_FOUND)
     set(LIBRARIES ${LIBRARIES} TIFF)
