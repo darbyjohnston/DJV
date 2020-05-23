@@ -115,11 +115,17 @@ jobs:
   pool:
     vmImage: 'windows-latest'
   steps:
+  - powershell: |
+      $ErrorActionPreference = "Stop"
+      $url = "https://www.nasm.us/pub/nasm/releasebuilds/2.14.02/win64/nasm-2.14.02-win64.zip"
+      Invoke-WebRequest -Uri $url -UserAgent "NativeClient"
+      Expand-Archive nasm-2.14.02-win64.zip
+    displayName: 'Download NASM'
   - script: |
       mkdir build
       cd build
       set DJV_BUILD=%CD%
-      set PATH=%PATH%;%DJV_BUILD%\DJV-install-Release\bin
+      set PATH=%DJV_BUILD%\DJV-install-Release\bin;%DJV_BUILD%\..\nasm-2.14.02;%PATH%
       set PYTHONPATH=%DJV_BUILD%\DJV-install-Release\lib;%PYTHONPATH%
       echo "Building third party dependencies..."
       mkdir DJV-third-party-Release
