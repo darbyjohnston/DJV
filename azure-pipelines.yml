@@ -111,6 +111,33 @@ jobs:
       rem type Testing/Temporary/LastTest.log
       cd ..\..
 
+- job: Windows_Packaging
+  pool:
+    vmImage: 'windows-latest'
+  steps:
+  - script: |
+      mkdir build
+      cd build
+      set DJV_BUILD=%CD%
+      set PATH=%PATH%;%DJV_BUILD%\DJV-install-Release\bin
+      set PYTHONPATH=%DJV_BUILD%\DJV-install-Release\lib;%PYTHONPATH%
+      echo "Building third party dependencies..."
+      mkdir DJV-third-party-Release
+      cd DJV-third-party-Release
+      cmake ..\..\third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_OPENGL_ES2=TRUE
+      cmake --build . -j 4
+      cmake --build . --target install
+      cd ..
+      echo "Building DJV..."
+      mkdir DJV-Release
+      cd DJV-Release
+      cmake ..\.. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release -DCMAKE_PREFIX_PATH=%DJV_BUILD%/DJV-install-Release -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_BUILD_TINY=TRUE -DDJV_OPENGL_ES2=TRUE
+      cmake --build . -j 4
+      cmake ..\.. -DDJV_THIRD_PARTY=TRUE
+      cmake --build . -j 4
+      cmake --build . --target package
+      cd ..\..
+
 - job: macOS
   pool:
     vmImage: 'macOS-latest'
