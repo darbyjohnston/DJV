@@ -65,7 +65,7 @@ if(JPEG_FOUND)
         ${source}
         JPEGSettingsWidget.cpp)
 endif()
-if(OPENEXR_FOUND)
+if(OpenEXR_FOUND)
     set(header
         ${header}
     	OpenEXRSettingsWidget.h)

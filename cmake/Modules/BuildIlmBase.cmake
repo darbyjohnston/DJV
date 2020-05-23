@@ -12,24 +12,14 @@ set(IlmBase_ARGS
     -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
     -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
     -DCMAKE_CXX_STANDARD=11
-    -DOPENEXR_VERSION_MAJOR=2
-    -DOPENEXR_VERSION_MINOR=3
-    -DOPENEXR_VERSION_PATCH=0
-    -DOPENEXR_VERSION=2.3.0
-    -DOPENEXR_SOVERSION=24
-    -DOPENEXR_BUILD_SHARED=${ILMBASE_SHARED_LIBS}
     -DBUILD_SHARED_LIBS=${ILMBASE_SHARED_LIBS}
+    -DBUILD_TESTING=OFF
     -DRUNTIME_DIR=${ILMBASE_RUNTIME_DIR})
-if(WIN32 OR NOT ILMBASE_SHARED_LIBS)
-    set(IlmBase_ARGS ${IlmBase_ARGS} -DBUILD_ILMBASE_STATIC=1)
-endif()
 ExternalProject_Add(
     IlmBase
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/IlmBase
-    URL http://github.com/openexr/openexr/releases/download/v2.3.0/ilmbase-2.3.0.tar.gz
-    PATCH_COMMAND
-        ${CMAKE_COMMAND} -E copy
-        ${CMAKE_SOURCE_DIR}/ilmbase-patch/CMakeLists.txt
-        ${CMAKE_CURRENT_BINARY_DIR}/IlmBase/src/IlmBase/CMakeLists.txt
+    GIT_REPOSITORY https://github.com/AcademySoftwareFoundation/openexr
+    GIT_TAG v2.5.1
+    SOURCE_SUBDIR IlmBase
     CMAKE_ARGS ${IlmBase_ARGS})
 
