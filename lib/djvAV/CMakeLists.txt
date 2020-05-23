@@ -167,7 +167,9 @@ set(LIBRARIES
     glad
     GLFW
     FreeType
-	OCIO
+    IlmBase::Imath
+    IlmBase::IlmThread
+    OCIO
     #OpenAL
     RtAudio
     OpenGL::GL
