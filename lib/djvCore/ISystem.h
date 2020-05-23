@@ -45,7 +45,7 @@ namespace djv
             void addDependency(const std::shared_ptr<ISystemBase>&);
 
             //! Override this function to do work each frame.
-            virtual void tick(const std::chrono::steady_clock::time_point&, const Time::Duration&);
+            virtual void tick();
 
         private:
             std::string _name;

@@ -102,7 +102,7 @@ namespace djv
             p.running = true;
             while (p.running)
             {
-                tick(time, delta);
+                tick();
 
                 auto end = std::chrono::steady_clock::now();
                 delta = std::chrono::duration_cast<Time::Duration>(end - time);

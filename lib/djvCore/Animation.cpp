@@ -86,12 +86,13 @@ namespace djv
                 _active = false;
             }
 
-            void Animation::_tick(const std::chrono::steady_clock::time_point& tp, const Time::Duration&)
+            void Animation::_tick()
             {
-                _time = tp;
+                const auto now = std::chrono::steady_clock::now();
+                _time = now;
                 if (_active)
                 {
-                    const auto diff = std::chrono::duration<float>(tp - _start);
+                    const auto diff = std::chrono::duration<float>(_time - _start);
                     const float t = Math::clamp(diff.count() / std::chrono::duration<float>(_duration).count(), 0.F, 1.F);
 
                     float v = 0.F;
@@ -105,7 +106,7 @@ namespace djv
                     }
                     _callback(v);
 
-                    if (tp > (_start + _duration))
+                    if (_time > (_start + _duration))
                     {
                         if (_callback)
                         {
@@ -119,7 +120,7 @@ namespace djv
                         if (_repeating)
                         {
                             _active = true;
-                            _start = tp;
+                            _start = now;
                         }
                     }
                 }
@@ -150,7 +151,7 @@ namespace djv
                 return out;
             }
 
-            void System::tick(const std::chrono::steady_clock::time_point& tp, const Time::Duration& dt)
+            void System::tick()
             {
                 DJV_PRIVATE_PTR();
                 auto i = p.animations.begin();
@@ -158,7 +159,7 @@ namespace djv
                 {
                     if (auto animation = i->lock())
                     {
-                        animation->_tick(tp, dt);
+                        animation->_tick();
                         ++i;
                     }
                     else

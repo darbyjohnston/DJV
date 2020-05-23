@@ -47,7 +47,7 @@ namespace djv
             static std::shared_ptr<Application> create(std::list<std::string>&);
 
             void run() override;
-            void tick(const std::chrono::steady_clock::time_point&, const Core::Time::Duration&) override;
+            void tick() override;
 
         protected:
             void _parseCmdLine(std::list<std::string>&) override;
@@ -122,9 +122,9 @@ namespace djv
             CmdLine::Application::run();
         }
 
-        void Application::tick(const std::chrono::steady_clock::time_point& t, const Core::Time::Duration& dt)
+        void Application::tick()
         {
-            CmdLine::Application::tick(t, dt);
+            CmdLine::Application::tick();
             {
                 std::lock_guard<std::mutex> writeLock(_write->getMutex());
                 auto& writeQueue = _write->getVideoQueue();

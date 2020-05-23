@@ -83,9 +83,9 @@ namespace djv
         EventSystem::~EventSystem()
         {}
 
-        void EventSystem::tick(const std::chrono::steady_clock::time_point& t, const Time::Duration& dt)
+        void EventSystem::tick()
         {
-            IEventSystem::tick(t, dt);
+            IEventSystem::tick();
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {

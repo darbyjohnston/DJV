@@ -35,7 +35,7 @@ namespace djv
                 Core::Time::Duration delta;
                 while (time < timeout)
                 {
-                    context->tick(time, delta);
+                    context->tick();
 
                     auto t = std::chrono::steady_clock::now();
                     delta = std::chrono::duration_cast<std::chrono::milliseconds>(t - time);

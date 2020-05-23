@@ -68,9 +68,9 @@ namespace djv
                 _active = false;
             }
 
-            void Timer::_tick(const std::chrono::steady_clock::time_point& t, const Duration&)
+            void Timer::_tick()
             {
-                _time = t;
+                _time = std::chrono::steady_clock::now();
                 if (_active)
                 {
                     if (_time >= (_start + _timeout))
@@ -117,7 +117,7 @@ namespace djv
                 return out;
             }
 
-            void TimerSystem::tick(const std::chrono::steady_clock::time_point& t, const Duration& dt)
+            void TimerSystem::tick()
             {
                 DJV_PRIVATE_PTR();
                 p.timers.insert(p.timers.end(), p.newTimers.begin(), p.newTimers.end());
@@ -127,7 +127,7 @@ namespace djv
                 {
                     if (auto timer = i->lock())
                     {
-                        timer->_tick(t, dt);
+                        timer->_tick();
                         ++i;
                     }
                     else

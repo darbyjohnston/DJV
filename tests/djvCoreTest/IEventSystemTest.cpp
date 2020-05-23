@@ -141,9 +141,9 @@ namespace djv
                 return out;
             }
             
-            void tick(const std::chrono::steady_clock::time_point& t, const Time::Duration& dt) override
+            void tick() override
             {
-                IEventSystem::tick(t, dt);
+                IEventSystem::tick();
                 _pointerMove(_pointerInfo);
                 _pointerInfo.projectedPos.x += Math::getRandom(1.f);
                 _pointerInfo.projectedPos.y += Math::getRandom(1.f);

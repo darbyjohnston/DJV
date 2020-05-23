@@ -93,12 +93,18 @@ namespace djv
                 while (_isRunning() && glfwWindow && !glfwWindowShouldClose(glfwWindow))
                 {
                     glfwPollEvents();
-                    tick(start, delta);
+                    tick();
                     //const auto systemTime = std::chrono::steady_clock::now();
 
                     auto end = std::chrono::steady_clock::now();
                     delta = std::chrono::duration_cast<Time::Duration>(end - start);
-                    Time::sleep(frameTime - delta);
+                    //Time::sleep(frameTime - delta);
+                    while (delta < frameTime)
+                    {
+                        tickTimers();
+                        end = std::chrono::steady_clock::now();
+                        delta = std::chrono::duration_cast<Time::Duration>(end - start);
+                    }
                     end = std::chrono::steady_clock::now();
                     //delta = std::chrono::duration_cast<Time::Unit>(end - start);
                     //std::cout << "frame: " <<

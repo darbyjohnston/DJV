@@ -26,7 +26,7 @@ namespace djv
         public:
             virtual ~EventSystem() = 0;
 
-            void tick(const std::chrono::steady_clock::time_point&, const Core::Time::Duration& dt) override;
+            void tick() override;
 
         protected:
             virtual void _pushClipRect(const Core::BBox2f &);

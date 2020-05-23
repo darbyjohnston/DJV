@@ -111,16 +111,11 @@ std::shared_ptr<Application> Application::create(std::list<std::string>& args)
 
 void Application::run()
 {
-    auto time = std::chrono::steady_clock::now();
     auto glfwWindow = getSystemT<AV::GLFW::System>()->getGLFWWindow();
     while (!glfwWindowShouldClose(glfwWindow))
     {
-        auto now = std::chrono::steady_clock::now();
-        auto delta = std::chrono::duration_cast<std::chrono::milliseconds>(now - time);
-        time = now;
-
         glfwPollEvents();
-        tick(time, delta);
+        tick();
         _render();
         glfwSwapBuffers(glfwWindow);
     }

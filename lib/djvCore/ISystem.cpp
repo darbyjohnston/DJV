@@ -41,7 +41,7 @@ namespace djv
             _dependencies.push_back(value);
         }
         
-        void ISystemBase::tick(const std::chrono::steady_clock::time_point&, const Time::Duration&)
+        void ISystemBase::tick()
         {
             // Default implementation does nothing.
         }

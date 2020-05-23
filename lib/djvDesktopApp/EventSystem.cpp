@@ -169,9 +169,9 @@ namespace djv
             return glfwGetClipboardString(p.glfwWindow);
         }
 
-        void EventSystem::tick(const std::chrono::steady_clock::time_point& t, const Time::Duration& dt)
+        void EventSystem::tick()
         {
-            UI::EventSystem::tick(t, dt);
+            UI::EventSystem::tick();
 
             DJV_PRIVATE_PTR();
             if (p.resizeRequest)

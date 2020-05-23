@@ -53,9 +53,9 @@ namespace djv
                 return out;
             }
             
-            void tick(const std::chrono::steady_clock::time_point& t, const Time::Duration& dt) override
+            void tick() override
             {
-                EventSystem::tick(t, dt);
+                EventSystem::tick();
                 
                 const glm::vec2 size(1280, 720);
                 

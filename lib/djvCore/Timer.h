@@ -66,7 +66,7 @@ namespace djv
                 void stop();
 
             private:
-                void _tick(const std::chrono::steady_clock::time_point&, const Duration&);
+                void _tick();
 
                 bool _repeating = false;
                 bool _active = false;
@@ -91,7 +91,7 @@ namespace djv
                 //! Create a new timer system.
                 static std::shared_ptr<TimerSystem> create(const std::shared_ptr<Context>&);
 
-                void tick(const std::chrono::steady_clock::time_point&, const Duration&) override;
+                void tick() override;
 
             private:
                 void _addTimer(const std::weak_ptr<Timer> &);

@@ -77,7 +77,7 @@ namespace djv
                 void start(
                     float            begin,
                     float            end,
-                    Time::Duration       duration,
+                    Time::Duration   duration,
                     const Callback & callback,
                     const Callback & endCallback = nullptr);
 
@@ -85,7 +85,7 @@ namespace djv
                 void stop();
 
             private:
-                void _tick(const std::chrono::steady_clock::time_point&, const Time::Duration&);
+                void _tick();
 
                 Type                      _type        = Type::Linear;
                 Function                  _function;
@@ -93,7 +93,7 @@ namespace djv
                 bool                      _active      = false;
                 float                     _begin       = 0.F;
                 float                     _end         = 0.F;
-                Time::Duration                _duration    = Time::Duration::zero();
+                Time::Duration            _duration    = Time::Duration::zero();
                 Callback                  _callback;
                 Callback                  _endCallback;
                 std::chrono::time_point<std::chrono::steady_clock> _time;
@@ -114,7 +114,7 @@ namespace djv
 
                 static std::shared_ptr<System> create(const std::shared_ptr<Context>&);
 
-                void tick(const std::chrono::steady_clock::time_point&, const Time::Duration&) override;
+                void tick() override;
 
             private:
                 void _addAnimation(const std::weak_ptr<Animation> &);

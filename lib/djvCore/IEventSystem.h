@@ -41,7 +41,7 @@ namespace djv
                 virtual void setClipboard(const std::string&);
                 virtual std::string getClipboard() const;
 
-                void tick(const std::chrono::steady_clock::time_point&, const Time::Duration&) override;
+                void tick() override;
 
                 //! \todo How can we make this function protected?
                 void _objectCreated(const std::shared_ptr<IObject> &);

@@ -107,10 +107,11 @@ namespace djv
             }
         }
         
-        void Context::tick(const std::chrono::steady_clock::time_point& t, const Time::Duration& dt)
+        void Context::tick()
         {
-            std::chrono::duration<float> delta = t - _fpsTime;
-            _fpsTime = t;
+            const auto now = std::chrono::steady_clock::now();
+            std::chrono::duration<float> delta = now - _fpsTime;
+            _fpsTime = now;
             _fpsSamples.push_front(1.F / delta.count());
             while (_fpsSamples.size() > fpsSamplesCount)
             {
@@ -153,11 +154,11 @@ namespace djv
 
             Time::Duration total = Time::Duration::zero();
             _systemTickTimesTemp.resize(_systems.size());
-            auto sytemTime = t;
+            auto sytemTime = now;
             size_t i = 0;
             for (const auto & system : _systems)
             {
-                system->tick(t, dt);
+                system->tick();
                 auto end = std::chrono::steady_clock::now();
                 const auto diff = std::chrono::duration_cast<Time::Duration>(end - sytemTime);
                 sytemTime = end;
@@ -186,6 +187,11 @@ namespace djv
             }
             std::cout << "total: " << total.count() << std::endl << std::endl;*/
             _systemTickTimes = _systemTickTimesTemp;
+        }
+
+        void Context::tickTimers()
+        {
+            _timerSystem->tick();
         }
 
         void Context::_addSystem(const std::shared_ptr<ISystemBase> & system)

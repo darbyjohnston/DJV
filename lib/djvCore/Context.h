@@ -70,7 +70,12 @@ namespace djv
             ///@}
 
             //! This function is called by the application event loop.
-            virtual void tick(const std::chrono::steady_clock::time_point& t, const Time::Duration& dt);
+            virtual void tick();
+
+            //! This function is called by the application event loop. This can
+            //! be called in addition to tick() to increase the accuracy of the
+            //! timers.
+            void tickTimers();
 
             //! Get the average tick FPS.
             float getFPSAverage() const;
