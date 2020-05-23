@@ -19,8 +19,20 @@ namespace djv
         {
             struct HUDLabel
             {
+                HUDLabel()
+                {}
+                
+                HUDLabel(
+                    const std::string& text,
+                    UI::Corner         corner,
+                    const std::string& sortKey) :
+                    text(text),
+                    corner(corner),
+                    sortKey(sortKey)
+                {}
+                
                 std::string text;
-                UI::Corner corner = UI::Corner::First;
+                UI::Corner  corner  = UI::Corner::First;
                 std::string sortKey;
             };
 
@@ -292,13 +304,13 @@ namespace djv
                 std::stringstream ss;
                 ss << _getText(DJV_TEXT("hud_file_name")) << ": ";
                 ss << p.data.fileName;
-                p.labels["FileName"] = { ss.str(), UI::Corner::UpperLeft, "A" };
+                p.labels["FileName"] = HUDLabel(ss.str(), UI::Corner::UpperLeft, "A");
             }
             {
                 std::stringstream ss;
                 ss << _getText(DJV_TEXT("hud_layer")) << ": ";
                 ss << p.data.layer;
-                p.labels["Layer"] = { ss.str(), UI::Corner::UpperLeft, "B" };
+                p.labels["Layer"] = HUDLabel(ss.str(), UI::Corner::UpperLeft, "B");
             }
             {
                 std::stringstream ss;
@@ -306,7 +318,7 @@ namespace djv
                 ss << p.data.size.w << "x" << p.data.size.h << ":";
                 ss.precision(2);
                 ss << p.data.size.getAspectRatio();
-                p.labels["Size"] = { ss.str(), UI::Corner::UpperRight, "A" };
+                p.labels["Size"] = HUDLabel(ss.str(), UI::Corner::UpperRight, "A");
             }
             {
                 std::stringstream ss;
@@ -314,7 +326,7 @@ namespace djv
                 std::stringstream ss2;
                 ss2 << p.data.type;
                 ss << _getText(ss2.str());
-                p.labels["Type"] = { ss.str(), UI::Corner::UpperRight, "B" };
+                p.labels["Type"] = HUDLabel(ss.str(), UI::Corner::UpperRight, "B");
             }
             if (p.data.isSequence)
             {
@@ -322,14 +334,14 @@ namespace djv
                     std::stringstream ss;
                     ss << _getText(DJV_TEXT("hud_frame")) << ": ";
                     ss << p.data.currentFrame;
-                    p.labels["CurrentFrame"] = { ss.str(), UI::Corner::LowerLeft, "B" };
+                    p.labels["CurrentFrame"] = HUDLabel(ss.str(), UI::Corner::LowerLeft, "B");
                 }
                 {
                     std::stringstream ss;
                     ss << _getText(DJV_TEXT("hud_speed")) << ": ";
                     ss.precision(2);
                     ss << std::fixed << p.data.speed.toFloat() << "/" << p.data.realSpeed;
-                    p.labels["Speed"] = { ss.str(), UI::Corner::LowerLeft, "A" };
+                    p.labels["Speed"] = HUDLabel(ss.str(), UI::Corner::LowerLeft, "A");
                 }
             }
             else
