@@ -118,7 +118,7 @@ jobs:
   - powershell: |
       $ErrorActionPreference = "Stop"
       $url = "https://www.nasm.us/pub/nasm/releasebuilds/2.14.02/win64/nasm-2.14.02-win64.zip"
-      Invoke-WebRequest -Uri $url -UserAgent "NativeClient"
+      Invoke-WebRequest -Uri $url -OutFile nasm-2.14.02-win64.zip -UserAgent "NativeClient"
       Expand-Archive nasm-2.14.02-win64.zip
     displayName: 'Download NASM'
   - script: |
