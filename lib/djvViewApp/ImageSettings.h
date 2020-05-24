@@ -30,13 +30,11 @@ namespace djv
         public:
             static std::shared_ptr<ImageSettings> create(const std::shared_ptr<Core::Context>&);
 
-            std::shared_ptr<Core::IMapSubject<std::string, bool> > observeColorControlsBellows() const;
-            void setColorControlsBellows(const std::map<std::string, bool>&);
+            std::map<std::string, bool> getControlsBellowsState() const;
+            void setControlsBellowsState(const std::map<std::string, bool>&);
 
-            int getColorSpaceCurrentTab() const;
-            int getColorCurrentTab() const;
-            void setColorSpaceCurrentTab(int);
-            void setColorCurrentTab(int);
+            std::map<std::string, bool> getColorSpaceBellowsState() const;
+            void setColorSpaceBellowsState(const std::map<std::string, bool>&);
 
             std::shared_ptr<Core::IValueSubject<UI::ImageRotate> > observeRotate() const;
             std::shared_ptr<Core::IValueSubject<UI::ImageAspectRatio> > observeAspectRatio() const;

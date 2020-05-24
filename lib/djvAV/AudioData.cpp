@@ -36,6 +36,7 @@ namespace djv
             bool Info::operator == (const Info & other) const
             {
                 return
+                    name == other.name &&
                     channelCount == other.channelCount &&
                     type == other.type &&
                     sampleRate == other.sampleRate &&

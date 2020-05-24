@@ -35,8 +35,8 @@ namespace djv
 
             static std::shared_ptr<ImageControlsWidget> create(const std::shared_ptr<Core::Context>&);
 
-            int getCurrentTab() const;
-            void setCurrentTab(int);            
+            std::map<std::string, bool> getBellowsState() const;
+            void setBellowsState(const std::map<std::string, bool>&);
 
         protected:
             void _initLayoutEvent(Core::Event::InitLayout&) override;

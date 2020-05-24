@@ -27,7 +27,7 @@ namespace djv
     {
         namespace Image
         {
-            //! This struct provides information about mirroring the image.
+            //! This class provides information about mirroring the image.
             class Mirror
             {
             public:
@@ -41,22 +41,22 @@ namespace djv
                 constexpr bool operator != (const Mirror&) const;
             };
 
-            //! This struct provides information about the data layout.
+            //! This class provides information about the data layout.
             class Layout
             {
             public:
                 Layout();
                 constexpr Layout(const Mirror&, GLint alignment = 1, Core::Memory::Endian = Core::Memory::getEndian());
 
-                Mirror mirror;
-                GLint alignment = 1;
-                Core::Memory::Endian endian = Core::Memory::getEndian();
+                Mirror                  mirror;
+                GLint                   alignment   = 1;
+                Core::Memory::Endian    endian      = Core::Memory::getEndian();
 
                 constexpr bool operator == (const Layout&) const;
                 constexpr bool operator != (const Layout&) const;
             };
 
-            //! This struct provides the image size.
+            //! This class provides the image size.
             class Size
             {
             public:
@@ -73,9 +73,9 @@ namespace djv
             };
 
             //! This constant provides the default name.
-            const std::string nameDefault = "Default";
+            const std::string defaultName = "Video";
             
-            //! This struct provides image data information.
+            //! This class provides image data information.
             class Info
             {
             public:
@@ -83,11 +83,11 @@ namespace djv
                 Info(const Size&, Type, const Layout& = Layout());
                 Info(uint16_t width, uint16_t height, Type, const Layout& = Layout());
 
-                std::string name = nameDefault;
-                Size size;
-                float pixelAspectRatio = 1.F;
-                Type type = Type::None;
-                Layout layout;
+                std::string name                = defaultName;
+                Size        size;
+                float       pixelAspectRatio    = 1.F;
+                Type        type                = Type::None;
+                Layout      layout;
 
                 float getAspectRatio() const;
                 GLenum getGLFormat() const;
@@ -101,7 +101,7 @@ namespace djv
                 bool operator != (const Info&) const;
             };
 
-            //! This struct provides image data.
+            //! This class provides image data.
             class Data
             {
                 DJV_NON_COPYABLE(Data);

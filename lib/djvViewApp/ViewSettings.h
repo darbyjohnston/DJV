@@ -40,8 +40,8 @@ namespace djv
         public:
             static std::shared_ptr<ViewSettings> create(const std::shared_ptr<Core::Context>&);
 
-            int getWidgetCurrentTab() const;
-            void setWidgetCurrentTab(int);
+            const std::map<std::string, bool> getBellowsState() const;
+            void setBellowsState(const std::map<std::string, bool>&);
 
             std::shared_ptr<Core::IValueSubject<ImageViewLock> > observeLock() const;
             void setLock(ImageViewLock);

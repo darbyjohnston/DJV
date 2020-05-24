@@ -37,8 +37,9 @@ namespace djv
 
             std::shared_ptr<Core::IValueSubject<bool> > observeFrameStoreEnabled() const;
             std::shared_ptr<Core::IValueSubject<std::shared_ptr<AV::Image::Image> > > observeFrameStore() const;
-            void loadFrameStore();
             void setFrameStoreEnabled(bool);
+            void loadFrameStore();
+            void clearFrameStore();
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
             MenuData getMenu() const override;

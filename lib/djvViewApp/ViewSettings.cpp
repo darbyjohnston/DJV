@@ -20,7 +20,7 @@ namespace djv
     {
         struct ViewSettings::Private
         {
-            int widgetCurrentTab = 0;
+            std::map<std::string, bool> bellowsState;
             std::shared_ptr<ValueSubject<ImageViewLock> > lock;
             std::shared_ptr<ValueSubject<GridOptions> > gridOptions;
             std::shared_ptr<ValueSubject<HUDOptions> > hudOptions;
@@ -51,14 +51,14 @@ namespace djv
             return out;
         }
 
-        int ViewSettings::getWidgetCurrentTab() const
+        const std::map<std::string, bool> ViewSettings::getBellowsState() const
         {
-            return _p->widgetCurrentTab;
+            return _p->bellowsState;
         }
 
-        void ViewSettings::setWidgetCurrentTab(int value)
+        void ViewSettings::setBellowsState(const std::map<std::string, bool>& value)
         {
-            _p->widgetCurrentTab = value;
+            _p->bellowsState = value;
         }
 
         std::shared_ptr<IValueSubject<ImageViewLock> > ViewSettings::observeLock() const
@@ -117,7 +117,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
-                UI::Settings::read("WidgetCurrentTab", object, p.widgetCurrentTab);
+                UI::Settings::read("BellowsState", object, p.bellowsState);
                 UI::Settings::read("Lock", object, p.lock);
                 UI::Settings::read("GridOptions", object, p.gridOptions);
                 UI::Settings::read("HUDOptions", object, p.hudOptions);
@@ -131,7 +131,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             picojson::value out(picojson::object_type, true);
             auto & object = out.get<picojson::object>();
-            UI::Settings::write("WidgetCurrentTab", p.widgetCurrentTab, object);
+            UI::Settings::write("BellowsState", p.bellowsState, object);
             UI::Settings::write("Lock", p.lock->get(), object);
             UI::Settings::write("GridOptions", p.gridOptions->get(), object);
             UI::Settings::write("HUDOptions", p.hudOptions->get(), object);

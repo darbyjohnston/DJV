@@ -10,15 +10,16 @@
 
 #include <djvUIComponents/ColorPicker.h>
 
+#include <djvUI/Bellows.h>
 #include <djvUI/CheckBox.h>
 #include <djvUI/ComboBox.h>
 #include <djvUI/FloatEdit.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/IntSlider.h>
+#include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/TabWidget.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvCore/Context.h>
@@ -41,33 +42,27 @@ namespace djv
             std::shared_ptr<MediaWidget> activeWidget;
 
             std::shared_ptr<UI::FloatEdit> viewPosEdit[2];
-            std::shared_ptr<UI::ToolButton> viewPosResetButton;
+            std::shared_ptr<UI::ToolButton> viewPosResetButton[2];
             std::shared_ptr<UI::FloatEdit> viewZoomEdit;
             std::shared_ptr<UI::ToolButton> viewZoomResetButton;
-            std::shared_ptr<UI::FormLayout> viewFormLayout;
-            std::shared_ptr<UI::HorizontalLayout> viewPosLayout;
+            std::shared_ptr<UI::HorizontalLayout> viewPosLayout[2];
             std::shared_ptr<UI::HorizontalLayout> viewZoomLayout;
-            std::shared_ptr<UI::ScrollWidget> viewScrollWidget;
 
             std::shared_ptr<UI::CheckBox> gridEnabledCheckBox;
             std::shared_ptr<UI::IntSlider> gridSizeSlider;
             std::shared_ptr<UI::ColorPickerSwatch> gridColorPickerSwatch;
             std::shared_ptr<UI::ComboBox> gridLabelsComboBox;
             std::shared_ptr<UI::ColorPickerSwatch> gridLabelsColorPickerSwatch;
-            std::shared_ptr<UI::FormLayout> gridFormLayout;
-            std::shared_ptr<UI::ScrollWidget> gridScrollWidget;
 
             std::shared_ptr<UI::CheckBox> hudEnabledCheckBox;
             std::shared_ptr<UI::ColorPickerSwatch> hudColorPickerSwatch;
             std::shared_ptr<UI::ComboBox> hudBackgroundComboBox;
-            std::shared_ptr<UI::FormLayout> hudFormLayout;
-            std::shared_ptr<UI::ScrollWidget> hudScrollWidget;
 
             std::shared_ptr<UI::ColorPickerSwatch> backgroundColorPickerSwatch;
-            std::shared_ptr<UI::FormLayout> backgroundFormLayout;
-            std::shared_ptr<UI::ScrollWidget> backgroundScrollWidget;
 
-            std::shared_ptr<UI::TabWidget> tabWidget;
+            std::shared_ptr<UI::LabelSizeGroup> sizeGroup;
+            std::map<std::string, std::shared_ptr<UI::FormLayout> > formLayouts;
+            std::map<std::string, std::shared_ptr<UI::Bellows> > bellows;
 
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<ValueObserver<glm::vec2> > viewPosObserver;
@@ -98,9 +93,11 @@ namespace djv
                 model->setSmallIncrement(1.F);
                 model->setLargeIncrement(10.F);
                 p.viewPosEdit[i]->setModel(model);
+
+                p.viewPosResetButton[i] = UI::ToolButton::create(context);
+                p.viewPosResetButton[i]->setIcon("djvIconCloseSmall");
+                p.viewPosResetButton[i]->setInsideMargin(UI::MetricsRole::None);
             }
-            p.viewPosResetButton = UI::ToolButton::create(context);
-            p.viewPosResetButton->setIcon("djvIconCloseSmall");
             p.viewZoomEdit = UI::FloatEdit::create(context);
             auto model = FloatValueModel::create();
             model->setRange(FloatRange(.1F, 1000.F));
@@ -109,6 +106,7 @@ namespace djv
             p.viewZoomEdit->setModel(model);
             p.viewZoomResetButton = UI::ToolButton::create(context);
             p.viewZoomResetButton->setIcon("djvIconCloseSmall");
+            p.viewZoomResetButton->setInsideMargin(UI::MetricsRole::None);
 
             p.gridEnabledCheckBox = UI::CheckBox::create(context);
             p.gridSizeSlider = UI::IntSlider::create(context);
@@ -127,72 +125,68 @@ namespace djv
             p.backgroundColorPickerSwatch = UI::ColorPickerSwatch::create(context);
             p.backgroundColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
 
-            p.viewFormLayout = UI::FormLayout::create(context);
-            p.viewFormLayout->setMargin(UI::MetricsRole::MarginSmall);
-            p.viewFormLayout->setSpacing(UI::MetricsRole::SpacingSmall);
-            p.viewFormLayout->setShadowOverlay({ UI::Side::Top });
-            p.viewPosLayout = UI::HorizontalLayout::create(context);
-            p.viewPosLayout->setSpacing(UI::MetricsRole::SpacingSmall);
+            p.sizeGroup = UI::LabelSizeGroup::create();
+
+            p.formLayouts["View"] = UI::FormLayout::create(context);
             for (size_t i = 0; i < 2; ++i)
             {
-                p.viewPosLayout->addChild(p.viewPosEdit[i]);
+                p.viewPosLayout[i] = UI::HorizontalLayout::create(context);
+                p.viewPosLayout[i]->setSpacing(UI::MetricsRole::None);
+                p.viewPosLayout[i]->addChild(p.viewPosEdit[i]);
+                p.viewPosLayout[i]->addChild(p.viewPosResetButton[i]);
+                p.formLayouts["View"]->addChild(p.viewPosLayout[i]);
             }
-            p.viewPosLayout->addChild(p.viewPosResetButton);
-            p.viewFormLayout->addChild(p.viewPosLayout);
             p.viewZoomLayout = UI::HorizontalLayout::create(context);
-            p.viewZoomLayout->setSpacing(UI::MetricsRole::SpacingSmall);
+            p.viewZoomLayout->setSpacing(UI::MetricsRole::None);
             p.viewZoomLayout->addChild(p.viewZoomEdit);
             p.viewZoomLayout->addChild(p.viewZoomResetButton);
-            p.viewFormLayout->addChild(p.viewZoomLayout);
+            p.formLayouts["View"]->addChild(p.viewZoomLayout);
+            p.bellows["View"] = UI::Bellows::create(context);
+            p.bellows["View"]->addChild(p.formLayouts["View"]);
+
+            p.formLayouts["Grid"] = UI::FormLayout::create(context);
+            p.formLayouts["Grid"]->addChild(p.gridEnabledCheckBox);
+            p.formLayouts["Grid"]->addChild(p.gridSizeSlider);
+            p.formLayouts["Grid"]->addChild(p.gridColorPickerSwatch);
+            p.formLayouts["Grid"]->addChild(p.gridLabelsComboBox);
+            p.formLayouts["Grid"]->addChild(p.gridLabelsColorPickerSwatch);
+            p.bellows["Grid"] = UI::Bellows::create(context);
+            p.bellows["Grid"]->addChild(p.formLayouts["Grid"]);
+
+            p.formLayouts["HUD"] = UI::FormLayout::create(context);
+            p.formLayouts["HUD"]->addChild(p.hudEnabledCheckBox);
+            p.formLayouts["HUD"]->addChild(p.hudColorPickerSwatch);
+            p.formLayouts["HUD"]->addChild(p.hudBackgroundComboBox);
+            p.bellows["HUD"] = UI::Bellows::create(context);
+            p.bellows["HUD"]->addChild(p.formLayouts["HUD"]);
+
+            p.formLayouts["Background"] = UI::FormLayout::create(context);
+            p.formLayouts["Background"]->addChild(p.backgroundColorPickerSwatch);
+            p.bellows["Background"] = UI::Bellows::create(context);
+            p.bellows["Background"]->addChild(p.formLayouts["Background"]);
+            
+            for (const auto& i : p.formLayouts)
+            {
+                i.second->setMargin(UI::MetricsRole::MarginSmall);
+                i.second->setSpacing(UI::MetricsRole::SpacingSmall);
+                i.second->setSizeGroup(p.sizeGroup);
+            }
+            for (const auto& i : p.bellows)
+            {
+                i.second->close();
+            }
+
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
-            vLayout->addChild(p.viewFormLayout);
-            vLayout->setStretch(p.viewFormLayout, UI::RowStretch::Expand);
-            p.viewScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            p.viewScrollWidget->setBorder(false);
-            p.viewScrollWidget->addChild(vLayout);
-
-            p.gridFormLayout = UI::FormLayout::create(context);
-            p.gridFormLayout->setMargin(UI::MetricsRole::MarginSmall);
-            p.gridFormLayout->setSpacing(UI::MetricsRole::SpacingSmall);
-            p.gridFormLayout->setShadowOverlay({ UI::Side::Top });
-            p.gridFormLayout->addChild(p.gridEnabledCheckBox);
-            p.gridFormLayout->addChild(p.gridSizeSlider);
-            p.gridFormLayout->addChild(p.gridColorPickerSwatch);
-            p.gridFormLayout->addChild(p.gridLabelsComboBox);
-            p.gridFormLayout->addChild(p.gridLabelsColorPickerSwatch);
-            p.gridScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            p.gridScrollWidget->setBorder(false);
-            p.gridScrollWidget->addChild(p.gridFormLayout);
-
-            p.hudFormLayout = UI::FormLayout::create(context);
-            p.hudFormLayout->setMargin(UI::MetricsRole::MarginSmall);
-            p.hudFormLayout->setSpacing(UI::MetricsRole::SpacingSmall);
-            p.hudFormLayout->setShadowOverlay({ UI::Side::Top });
-            p.hudFormLayout->addChild(p.hudEnabledCheckBox);
-            p.hudFormLayout->addChild(p.hudColorPickerSwatch);
-            p.hudFormLayout->addChild(p.hudBackgroundComboBox);
-            p.hudScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            p.hudScrollWidget->setBorder(false);
-            p.hudScrollWidget->addChild(p.hudFormLayout);
-
-            p.backgroundFormLayout = UI::FormLayout::create(context);
-            p.backgroundFormLayout->setMargin(UI::MetricsRole::MarginSmall);
-            p.backgroundFormLayout->setSpacing(UI::MetricsRole::SpacingSmall);
-            p.backgroundFormLayout->setShadowOverlay({ UI::Side::Top });
-            p.backgroundFormLayout->addChild(p.backgroundColorPickerSwatch);
-            p.backgroundScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            p.backgroundScrollWidget->setBorder(false);
-            p.backgroundScrollWidget->addChild(p.backgroundFormLayout);
-
-            p.tabWidget = UI::TabWidget::create(context);
-            p.tabWidget->setBackgroundRole(UI::ColorRole::Background);
-            p.tabWidget->setShadowOverlay({ UI::Side::Top });
-            p.tabWidget->addChild(p.viewScrollWidget);
-            p.tabWidget->addChild(p.gridScrollWidget);
-            p.tabWidget->addChild(p.hudScrollWidget);
-            p.tabWidget->addChild(p.backgroundScrollWidget);
-            addChild(p.tabWidget);
+            vLayout->addChild(p.bellows["View"]);
+            vLayout->addChild(p.bellows["Grid"]);
+            vLayout->addChild(p.bellows["HUD"]);
+            vLayout->addChild(p.bellows["Background"]);
+            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            scrollWidget->setBackgroundRole(UI::ColorRole::Background);
+            scrollWidget->setShadowOverlay({ UI::Side::Top });
+            scrollWidget->addChild(vLayout);
+            addChild(scrollWidget);
 
             _widgetUpdate();
 
@@ -214,14 +208,26 @@ namespace djv
                     }
                 });
 
-            p.viewPosResetButton->setClickedCallback(
+            p.viewPosResetButton[0]->setClickedCallback(
                 [weak]
+            {
+                if (auto widget = weak.lock())
                 {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_setPos(glm::vec2(0.F, 0.F));
-                    }
-                });
+                    glm::vec2 pos = widget->_p->viewPos;
+                    pos.x = 0.F;
+                    widget->_setPos(pos);
+                }
+            });
+            p.viewPosResetButton[1]->setClickedCallback(
+                [weak]
+            {
+                if (auto widget = weak.lock())
+                {
+                    glm::vec2 pos = widget->_p->viewPos;
+                    pos.y = 0.F;
+                    widget->_setPos(pos);
+                }
+            });
 
             p.viewZoomEdit->setValueCallback(
                 [weak](float value, UI::TextEditReason)
@@ -504,17 +510,36 @@ namespace djv
             out->_init(context);
             return out;
         }
-        
-        int ViewControlsWidget::getCurrentTab() const
+
+        std::map<std::string, bool> ViewControlsWidget::getBellowsState() const
         {
-            return _p->tabWidget->getCurrentTab();
+            DJV_PRIVATE_PTR();
+            std::map<std::string, bool> out;
+            for (const auto& i : p.bellows)
+            {
+                out[i.first] = i.second->isOpen();
+            }
+            return out;
         }
 
-        void ViewControlsWidget::setCurrentTab(int value)
+        void ViewControlsWidget::setBellowsState(const std::map<std::string, bool>& value)
         {
-            _p->tabWidget->setCurrentTab(value);
+            DJV_PRIVATE_PTR();
+            for (const auto& i : value)
+            {
+                const auto j = p.bellows.find(i.first);
+                if (j != p.bellows.end())
+                {
+                    j->second->setOpen(i.second);
+                }
+            }
         }
-        
+
+        void ViewControlsWidget::_initLayoutEvent(Event::InitLayout&)
+        {
+            _p->sizeGroup->calcMinimumSize();
+        }
+
         void ViewControlsWidget::_initEvent(Event::Init & event)
         {
             MDIWidget::_initEvent(event);
@@ -522,27 +547,31 @@ namespace djv
 
             setTitle(_getText(DJV_TEXT("view_controls")));
             
-            p.viewPosResetButton->setTooltip(_getText(DJV_TEXT("reset_the_value")));
+            for (size_t i = 0; i < 2; ++i)
+            {
+                p.viewPosResetButton[i]->setTooltip(_getText(DJV_TEXT("reset_the_value")));
+            }
             p.viewZoomResetButton->setTooltip(_getText(DJV_TEXT("reset_the_value")));
-            p.viewFormLayout->setText(p.viewPosLayout, _getText(DJV_TEXT("position")) + ":");
-            p.viewFormLayout->setText(p.viewZoomLayout, _getText(DJV_TEXT("zoom")) + ":");
+            p.formLayouts["View"]->setText(p.viewPosLayout[0], _getText(DJV_TEXT("position_x")) + ":");
+            p.formLayouts["View"]->setText(p.viewPosLayout[1], _getText(DJV_TEXT("position_y")) + ":");
+            p.formLayouts["View"]->setText(p.viewZoomLayout, _getText(DJV_TEXT("zoom")) + ":");
 
-            p.gridFormLayout->setText(p.gridEnabledCheckBox, _getText(DJV_TEXT("widget_view_grid_enabled")) + ":");
-            p.gridFormLayout->setText(p.gridSizeSlider, _getText(DJV_TEXT("widget_view_grid_size")) + ":");
-            p.gridFormLayout->setText(p.gridColorPickerSwatch, _getText(DJV_TEXT("widget_view_grid_color")) + ":");
-            p.gridFormLayout->setText(p.gridLabelsComboBox, _getText(DJV_TEXT("widget_view_grid_labels")) + ":");
-            p.gridFormLayout->setText(p.gridLabelsColorPickerSwatch, _getText(DJV_TEXT("widget_view_grid_labels_color")) + ":");
+            p.formLayouts["Grid"]->setText(p.gridEnabledCheckBox, _getText(DJV_TEXT("widget_view_grid_enabled")) + ":");
+            p.formLayouts["Grid"]->setText(p.gridSizeSlider, _getText(DJV_TEXT("widget_view_grid_size")) + ":");
+            p.formLayouts["Grid"]->setText(p.gridColorPickerSwatch, _getText(DJV_TEXT("widget_view_grid_color")) + ":");
+            p.formLayouts["Grid"]->setText(p.gridLabelsComboBox, _getText(DJV_TEXT("widget_view_grid_labels")) + ":");
+            p.formLayouts["Grid"]->setText(p.gridLabelsColorPickerSwatch, _getText(DJV_TEXT("widget_view_grid_labels_color")) + ":");
 
-            p.hudFormLayout->setText(p.hudEnabledCheckBox, _getText(DJV_TEXT("widget_view_hud_enabled")) + ":");
-            p.hudFormLayout->setText(p.hudColorPickerSwatch, _getText(DJV_TEXT("widget_view_hud_color")) + ":");
-            p.hudFormLayout->setText(p.hudBackgroundComboBox, _getText(DJV_TEXT("widget_view_hud_background")) + ":");
+            p.formLayouts["HUD"]->setText(p.hudEnabledCheckBox, _getText(DJV_TEXT("widget_view_hud_enabled")) + ":");
+            p.formLayouts["HUD"]->setText(p.hudColorPickerSwatch, _getText(DJV_TEXT("widget_view_hud_color")) + ":");
+            p.formLayouts["HUD"]->setText(p.hudBackgroundComboBox, _getText(DJV_TEXT("widget_view_hud_background")) + ":");
 
-            p.backgroundFormLayout->setText(p.backgroundColorPickerSwatch, _getText(DJV_TEXT("widget_view_background_color")) + ":");
+            p.formLayouts["Background"]->setText(p.backgroundColorPickerSwatch, _getText(DJV_TEXT("widget_view_background_color")) + ":");
             
-            p.tabWidget->setText(p.viewScrollWidget, _getText(DJV_TEXT("view")));
-            p.tabWidget->setText(p.gridScrollWidget, _getText(DJV_TEXT("view_grid")));
-            p.tabWidget->setText(p.hudScrollWidget, _getText(DJV_TEXT("view_hud")));
-            p.tabWidget->setText(p.backgroundScrollWidget, _getText(DJV_TEXT("view_background")));
+            p.bellows["View"]->setText(_getText(DJV_TEXT("view")));
+            p.bellows["Grid"]->setText(_getText(DJV_TEXT("view_grid")));
+            p.bellows["HUD"]->setText(_getText(DJV_TEXT("view_hud")));
+            p.bellows["Background"]->setText(_getText(DJV_TEXT("view_background")));
             
             _widgetUpdate();
         }
@@ -587,7 +616,8 @@ namespace djv
 
             p.viewPosEdit[0]->setValue(p.viewPos.x);
             p.viewPosEdit[1]->setValue(p.viewPos.y);
-            p.viewPosResetButton->setEnabled(p.viewPos != glm::vec2(0.F, 0.F));
+            p.viewPosResetButton[0]->setEnabled(p.viewPos.x != 0.F);
+            p.viewPosResetButton[1]->setEnabled(p.viewPos.y != 0.F);
             p.viewZoomEdit->setValue(p.viewZoom);
             p.viewZoomResetButton->setEnabled(p.viewZoom != 1.F);
 

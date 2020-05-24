@@ -7,6 +7,7 @@
 #include <djvUIComponents/FileBrowserDialog.h>
 #include <djvUIComponents/SearchBox.h>
 
+#include <djvUI/Bellows.h>
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/CheckBox.h>
 #include <djvUI/EventSystem.h>
@@ -16,7 +17,6 @@
 #include <djvUI/PopupWidget.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
-#include <djvUI/TabWidget.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvAV/IO.h>
@@ -245,7 +245,8 @@ namespace djv
             std::shared_ptr<UI::VerticalLayout> imageLayout;
             std::vector<std::shared_ptr<UI::PopupWidget> > imagePopupWidgets;
 
-            std::shared_ptr<UI::TabWidget> tabWidget;
+            std::shared_ptr<UI::LabelSizeGroup> sizeGroup;
+            std::map<std::string, std::shared_ptr<UI::Bellows> > bellows;
             std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
             std::map<std::shared_ptr<UI::Widget>, int> textFocusWidgets;
 
@@ -294,17 +295,16 @@ namespace djv
             p.editImageButton->setButtonType(UI::ButtonType::Toggle);
             p.editImageButton->setIcon("djvIconEditSmall");
 
+            p.sizeGroup = UI::LabelSizeGroup::create();
+
             p.configLayout = UI::VerticalLayout::create(context);
             p.configLayout->setSpacing(UI::MetricsRole::None);
             p.configItemLayout = UI::FormLayout::create(context);
             p.configItemLayout->setSpacing(UI::MetricsRole::None);
             p.configItemLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
-            scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            scrollWidget->setBorder(false);
-            scrollWidget->setShadowOverlay({ UI::Side::Top });
-            scrollWidget->addChild(p.configItemLayout);
-            p.configLayout->addChild(scrollWidget);
-            p.configLayout->setStretch(scrollWidget, UI::RowStretch::Expand);
+            p.configItemLayout->setSizeGroup(p.sizeGroup);
+            p.configLayout->addChild(p.configItemLayout);
+            p.configLayout->setStretch(p.configItemLayout, UI::RowStretch::Expand);
             p.configLayout->addSeparator();
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::MetricsRole::None);
@@ -312,25 +312,26 @@ namespace djv
             hLayout->addChild(p.addConfigButton);
             hLayout->addChild(p.editConfigButton);
             p.configLayout->addChild(hLayout);
+            p.bellows["Config"] = UI::Bellows::create(context);
+            p.bellows["Config"]->addChild(p.configLayout);
 
             p.displayLayout = UI::FormLayout::create(context);
-            p.displayLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
             p.displayLayout->setSpacing(UI::MetricsRole::None);
-            p.displayLayout->setShadowOverlay({ UI::Side::Top });
+            p.displayLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
+            p.displayLayout->setSizeGroup(p.sizeGroup);
             p.displayLayout->addChild(p.displayPopupWidget);
             p.displayLayout->addChild(p.viewPopupWidget);
+            p.bellows["Display"] = UI::Bellows::create(context);
+            p.bellows["Display"]->addChild(p.displayLayout);
 
             p.imageLayout = UI::VerticalLayout::create(context);
             p.imageLayout->setSpacing(UI::MetricsRole::None);
             p.imageItemLayout = UI::FormLayout::create(context);
             p.imageItemLayout->setSpacing(UI::MetricsRole::None);
             p.imageItemLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
-            scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            scrollWidget->setBorder(false);
-            scrollWidget->setShadowOverlay({ UI::Side::Top });
-            scrollWidget->addChild(p.imageItemLayout);
-            p.imageLayout->addChild(scrollWidget);
-            p.imageLayout->setStretch(scrollWidget, UI::RowStretch::Expand);
+            p.imageItemLayout->setSizeGroup(p.sizeGroup);
+            p.imageLayout->addChild(p.imageItemLayout);
+            p.imageLayout->setStretch(p.imageItemLayout, UI::RowStretch::Expand);
             p.imageLayout->addSeparator();
             hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::MetricsRole::None);
@@ -338,14 +339,24 @@ namespace djv
             hLayout->addChild(p.addImagePopupWidget);
             hLayout->addChild(p.editImageButton);
             p.imageLayout->addChild(hLayout);
+            p.bellows["Image"] = UI::Bellows::create(context);
+            p.bellows["Image"]->addChild(p.imageLayout);
 
-            p.tabWidget = UI::TabWidget::create(context);
-            p.tabWidget->setBackgroundRole(UI::ColorRole::Background);
-            p.tabWidget->setShadowOverlay({ UI::Side::Top });
-            p.tabWidget->addChild(p.configLayout);
-            p.tabWidget->addChild(p.displayLayout);
-            p.tabWidget->addChild(p.imageLayout);
-            addChild(p.tabWidget);
+            for (const auto& i : p.bellows)
+            {
+                i.second->close();
+            }
+
+            auto vLayout = UI::VerticalLayout::create(context);
+            vLayout->setSpacing(UI::MetricsRole::None);
+            vLayout->addChild(p.bellows["Config"]);
+            vLayout->addChild(p.bellows["Display"]);
+            vLayout->addChild(p.bellows["Image"]);
+            scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            scrollWidget->setBackgroundRole(UI::ColorRole::Background);
+            scrollWidget->setShadowOverlay({ UI::Side::Top });
+            scrollWidget->addChild(vLayout);
+            addChild(scrollWidget);
 
             _widgetUpdate();
 
@@ -578,30 +589,55 @@ namespace djv
             return out;
         }
 
-        int ColorSpaceWidget::getCurrentTab() const
+        std::map<std::string, bool> ColorSpaceWidget::getBellowsState() const
         {
-            return _p->tabWidget->getCurrentTab();
+            DJV_PRIVATE_PTR();
+            std::map<std::string, bool> out;
+            for (const auto& i : p.bellows)
+            {
+                out[i.first] = i.second->isOpen();
+            }
+            return out;
         }
 
-        void ColorSpaceWidget::setCurrentTab(int value)
+        void ColorSpaceWidget::setBellowsState(const std::map<std::string, bool>& value)
         {
-            _p->tabWidget->setCurrentTab(value);
+            DJV_PRIVATE_PTR();
+            for (const auto& i : value)
+            {
+                const auto j = p.bellows.find(i.first);
+                if (j != p.bellows.end())
+                {
+                    j->second->setOpen(i.second);
+                }
+            }
+        }
+
+        void ColorSpaceWidget::_initLayoutEvent(Event::InitLayout&)
+        {
+            _p->sizeGroup->calcMinimumSize();
         }
 
         void ColorSpaceWidget::_initEvent(Event::Init & event)
         {
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
+
             setTitle(_getText(DJV_TEXT("widget_color_space")));
+
             p.addConfigButton->setTooltip(_getText(DJV_TEXT("widget_color_space_add_config_tooltip")));
             p.editConfigButton->setTooltip(_getText(DJV_TEXT("widget_color_space_edit_configs_tooltip")));
+            
             p.displayLayout->setText(p.displayPopupWidget, _getText(DJV_TEXT("widget_color_space_display_name")) + ":");
             p.displayLayout->setText(p.viewPopupWidget, _getText(DJV_TEXT("widget_color_space_display_view")) + ":");
+            
             p.addImagePopupWidget->setTooltip(_getText(DJV_TEXT("widget_color_space_add_format_tooltip")));
             p.editImageButton->setTooltip(_getText(DJV_TEXT("widget_color_space_edit_format_tooltip")));
-            p.tabWidget->setText(p.configLayout, _getText(DJV_TEXT("widget_color_space_config")));
-            p.tabWidget->setText(p.displayLayout, _getText(DJV_TEXT("widget_color_space_display")));
-            p.tabWidget->setText(p.imageLayout, _getText(DJV_TEXT("widget_color_space_image")));
+
+            p.bellows["Config"]->setText(_getText(DJV_TEXT("widget_color_space_config")));
+            p.bellows["Display"]->setText(_getText(DJV_TEXT("widget_color_space_display")));
+            p.bellows["Image"]->setText(_getText(DJV_TEXT("widget_color_space_image")));
+
             _widgetUpdate();
         }
 

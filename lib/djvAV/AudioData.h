@@ -14,21 +14,25 @@ namespace djv
     {
         namespace Audio
         {
-            //! This struct provides audio data information.
+            //! This constant provides the default name.
+            const std::string defaultName = "Audio";
+
+            //! This class provides audio data information.
             class Info
             {
             public:
-                constexpr Info();
-                constexpr Info(
+                Info();
+                Info(
                     uint8_t channelCount,
                     Type    type,
                     size_t  sampleRate,
                     size_t  sampleCount);
 
-                uint8_t channelCount = 0;
-                Type    type         = Audio::Type::None;
-                size_t  sampleRate   = 0;
-                size_t  sampleCount  = 0;
+                std::string name            = defaultName;
+                uint8_t     channelCount    = 0;
+                Type        type            = Audio::Type::None;
+                size_t      sampleRate      = 0;
+                size_t      sampleCount     = 0;
                 
                 constexpr bool isValid() const;
                 size_t getByteCount() const;
@@ -37,7 +41,7 @@ namespace djv
                 bool operator != (const Info&) const;
             };
 
-            //! This struct provides audio data.
+            //! This class provides audio data.
             class Data
             {
                 DJV_NON_COPYABLE(Data);

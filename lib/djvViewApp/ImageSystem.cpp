@@ -38,8 +38,8 @@ namespace djv
         {
             std::shared_ptr<ImageSettings> settings;
 
-            int colorSpaceCurrentTab = 0;
-            int colorCurrentTab = 0;
+            std::map<std::string, bool> controlsBellowsState;
+            std::map<std::string, bool> colorSpaceBellowsState;
             std::shared_ptr<ValueSubject<bool> > frameStoreEnabled;
             std::shared_ptr<ValueSubject<std::shared_ptr<AV::Image::Image> > > frameStore;
             std::shared_ptr<AV::Image::Image> currentImage;
@@ -66,8 +66,8 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             p.settings = ImageSettings::create(context);
-            p.colorSpaceCurrentTab = p.settings->getColorSpaceCurrentTab();
-            p.colorCurrentTab = p.settings->getColorCurrentTab();
+            p.controlsBellowsState = p.settings->getControlsBellowsState();
+            p.colorSpaceBellowsState = p.settings->getColorSpaceBellowsState();
             _setWidgetGeom(p.settings->getWidgetGeom());
 
             p.frameStoreEnabled = ValueSubject<bool>::create();
@@ -98,12 +98,13 @@ namespace djv
             p.actions["MirrorV"] = UI::Action::create();
             p.actions["MirrorV"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["MirrorV"]->setShortcut(GLFW_KEY_V);
-            p.actions["LoadFrameStore"] = UI::Action::create();
-            p.actions["LoadFrameStore"]->setShortcut(GLFW_KEY_F, GLFW_MOD_SHIFT);
             p.actions["FrameStoreEnabled"] = UI::Action::create();
             p.actions["FrameStoreEnabled"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["FrameStoreEnabled"]->setShortcut(GLFW_KEY_F);
             p.actions["FrameStoreEnabled"]->setEnabled(false);
+            p.actions["LoadFrameStore"] = UI::Action::create();
+            p.actions["LoadFrameStore"]->setShortcut(GLFW_KEY_F, GLFW_MOD_SHIFT);
+            p.actions["ClearFrameStore"] = UI::Action::create();
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["ImageControls"]);
@@ -117,8 +118,9 @@ namespace djv
             p.menu->addAction(p.actions["MirrorH"]);
             p.menu->addAction(p.actions["MirrorV"]);
             p.menu->addSeparator();
-            p.menu->addAction(p.actions["LoadFrameStore"]);
             p.menu->addAction(p.actions["FrameStoreEnabled"]);
+            p.menu->addAction(p.actions["LoadFrameStore"]);
+            p.menu->addAction(p.actions["ClearFrameStore"]);
 
             _actionsUpdate();
             _textUpdate();
@@ -149,7 +151,7 @@ namespace djv
                             if (value)
                             {
                                 auto widget = ImageControlsWidget::create(context);
-                                widget->setCurrentTab(system->_p->colorCurrentTab);
+                                widget->setBellowsState(system->_p->controlsBellowsState);
                                 system->_p->imageControlsWidget = widget;
                                 system->_openWidget("ImageControls", widget);
                             }
@@ -172,7 +174,7 @@ namespace djv
                             if (value)
                             {
                                 auto colorSpaceWidget = ColorSpaceWidget::create(context);
-                                colorSpaceWidget->setCurrentTab(system->_p->colorSpaceCurrentTab);
+                                colorSpaceWidget->setBellowsState(system->_p->colorSpaceBellowsState);
                                 system->_p->colorSpaceWidget = colorSpaceWidget;
                                 system->_openWidget("ColorSpace", colorSpaceWidget);
                             }
@@ -212,19 +214,6 @@ namespace djv
                     }
                 });
 
-            p.actionObservers["LoadFrameStore"] = ValueObserver<bool>::create(
-                p.actions["LoadFrameStore"]->observeClicked(),
-                [weak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            system->loadFrameStore();
-                        }
-                    }
-                });
-
             p.actionObservers["FrameStoreEnabled"] = ValueObserver<bool>::create(
                 p.actions["FrameStoreEnabled"]->observeChecked(),
                 [weak](bool value)
@@ -234,6 +223,32 @@ namespace djv
                         system->setFrameStoreEnabled(value);
                     }
                 });
+
+            p.actionObservers["LoadFrameStore"] = ValueObserver<bool>::create(
+                p.actions["LoadFrameStore"]->observeClicked(),
+                [weak](bool value)
+            {
+                if (value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->loadFrameStore();
+                    }
+                }
+            });
+
+            p.actionObservers["ClearFrameStore"] = ValueObserver<bool>::create(
+                p.actions["ClearFrameStore"]->observeClicked(),
+                [weak](bool value)
+            {
+                if (value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->clearFrameStore();
+                    }
+                }
+            });
 
             if (auto fileSystem = context->getSystemT<FileSystem>())
             {
@@ -307,8 +322,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             _closeWidget("ImageControls");
             _closeWidget("ColorSpace");
-            p.settings->setColorSpaceCurrentTab(p.colorSpaceCurrentTab);
-            p.settings->setColorCurrentTab(p.colorCurrentTab);
+            p.settings->setControlsBellowsState(p.controlsBellowsState);
+            p.settings->setColorSpaceBellowsState(p.colorSpaceBellowsState);
             p.settings->setWidgetGeom(_getWidgetGeom());
         }
 
@@ -329,6 +344,12 @@ namespace djv
             return _p->frameStore;
         }
 
+        void ImageSystem::setFrameStoreEnabled(bool value)
+        {
+            DJV_PRIVATE_PTR();
+            p.frameStoreEnabled->setIfChanged(value);
+        }
+
         void ImageSystem::loadFrameStore()
         {
             DJV_PRIVATE_PTR();
@@ -336,10 +357,11 @@ namespace djv
             p.frameStore->setIfChanged(p.currentImage);
         }
 
-        void ImageSystem::setFrameStoreEnabled(bool value)
+        void ImageSystem::clearFrameStore()
         {
             DJV_PRIVATE_PTR();
-            p.frameStoreEnabled->setIfChanged(value);
+            p.actions["FrameStoreEnabled"]->setEnabled(p.currentImage ? true : false);
+            p.frameStore->setIfChanged(nullptr);
         }
 
         std::map<std::string, std::shared_ptr<UI::Action> > ImageSystem::getActions() const
@@ -363,7 +385,7 @@ namespace djv
             {
                 if (auto imageControlsWidget = p.imageControlsWidget.lock())
                 {
-                    p.colorCurrentTab = imageControlsWidget->getCurrentTab();
+                    p.controlsBellowsState = imageControlsWidget->getBellowsState();
                 }
                 p.imageControlsWidget.reset();
             }
@@ -371,7 +393,7 @@ namespace djv
             {
                 if (auto colorSpaceWidget = p.colorSpaceWidget.lock())
                 {
-                    p.colorSpaceCurrentTab = colorSpaceWidget->getCurrentTab();
+                    p.colorSpaceBellowsState = colorSpaceWidget->getBellowsState();
                 }
                 p.colorSpaceWidget.reset();
             }
@@ -404,10 +426,12 @@ namespace djv
                 p.actions["MirrorH"]->setTooltip(_getText(DJV_TEXT("menu_image_mirror_horizontal_tooltip")));
                 p.actions["MirrorV"]->setText(_getText(DJV_TEXT("menu_image_mirror_vertical")));
                 p.actions["MirrorV"]->setTooltip(_getText(DJV_TEXT("menu_image_mirror_vertical_tooltip")));
-                p.actions["LoadFrameStore"]->setText(_getText(DJV_TEXT("menu_image_load_frame_store")));
-                p.actions["LoadFrameStore"]->setTooltip(_getText(DJV_TEXT("menu_image_load_frame_store_tooltip")));
                 p.actions["FrameStoreEnabled"]->setText(_getText(DJV_TEXT("menu_image_frame_store")));
                 p.actions["FrameStoreEnabled"]->setTooltip(_getText(DJV_TEXT("menu_image_frame_store_tooltip")));
+                p.actions["LoadFrameStore"]->setText(_getText(DJV_TEXT("menu_image_load_frame_store")));
+                p.actions["LoadFrameStore"]->setTooltip(_getText(DJV_TEXT("menu_image_load_frame_store_tooltip")));
+                p.actions["ClearFrameStore"]->setText(_getText(DJV_TEXT("menu_image_clear_frame_store")));
+                p.actions["ClearFrameStore"]->setTooltip(_getText(DJV_TEXT("menu_image_clear_frame_store_tooltip")));
 
                 p.menu->setText(_getText(DJV_TEXT("menu_image")));
             }

@@ -118,6 +118,7 @@ namespace djv
                 p.layout->addChild(value);
                 if (auto widget = std::dynamic_pointer_cast<Widget>(value))
                 {
+                    widget->setHAlign(HAlign::Fill);
                     p.layout->setGridPos(widget, glm::ivec2(1, gridSize.y));
                     p.layout->setStretch(widget, GridStretch::Horizontal);
                 }

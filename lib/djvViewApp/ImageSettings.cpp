@@ -20,9 +20,8 @@ namespace djv
     {
         struct ImageSettings::Private
         {
-            std::shared_ptr<MapSubject<std::string, bool> > controlControlsBellows;
-            int colorSpaceCurrentTab = 0;
-            int colorCurrentTab = 0;
+            std::map<std::string, bool> controlsBellowsState;
+            std::map<std::string, bool> colorSpaceBellowsState;
             std::shared_ptr<ValueSubject<UI::ImageRotate> > rotate;
             std::shared_ptr<ValueSubject<UI::ImageAspectRatio> > aspectRatio;
             std::map<std::string, BBox2f> widgetGeom;
@@ -33,7 +32,6 @@ namespace djv
             ISettings::_init("djv::ViewApp::ImageSettings", context);
 
             DJV_PRIVATE_PTR();
-            p.controlControlsBellows = MapSubject<std::string, bool>::create({ { "Adjustments", true } });
             p.rotate = ValueSubject<UI::ImageRotate>::create(UI::ImageRotate::_0);
             p.aspectRatio = ValueSubject<UI::ImageAspectRatio>::create(UI::ImageAspectRatio::FromSource);
             _load();
@@ -50,34 +48,24 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<IMapSubject<std::string, bool> > ImageSettings::observeColorControlsBellows() const
+        std::map<std::string, bool> ImageSettings::getControlsBellowsState() const
         {
-            return _p->controlControlsBellows;
+            return _p->controlsBellowsState;
         }
 
-        void ImageSettings::setColorControlsBellows(const std::map<std::string, bool>& value)
+        void ImageSettings::setControlsBellowsState(const std::map<std::string, bool>& value)
         {
-            _p->controlControlsBellows->setIfChanged(value);
+            _p->controlsBellowsState = value;
         }
 
-        int ImageSettings::getColorSpaceCurrentTab() const
+        std::map<std::string, bool> ImageSettings::getColorSpaceBellowsState() const
         {
-            return _p->colorSpaceCurrentTab;
+            return _p->colorSpaceBellowsState;
         }
 
-        int ImageSettings::getColorCurrentTab() const
+        void ImageSettings::setColorSpaceBellowsState(const std::map<std::string, bool>& value)
         {
-            return _p->colorCurrentTab;
-        }
-
-        void ImageSettings::setColorSpaceCurrentTab(int value)
-        {
-            _p->colorSpaceCurrentTab = value;
-        }
-
-        void ImageSettings::setColorCurrentTab(int value)
-        {
-            _p->colorCurrentTab = value;
+            _p->colorSpaceBellowsState = value;
         }
 
         std::shared_ptr<IValueSubject<UI::ImageRotate> > ImageSettings::observeRotate() const
@@ -116,9 +104,8 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
-                UI::Settings::read("ColorControlsBellows", object, p.controlControlsBellows);
-                UI::Settings::read("ColorSpaceCurrentTab", object, p.colorSpaceCurrentTab);
-                UI::Settings::read("ColorCurrentTab", object, p.colorCurrentTab);
+                UI::Settings::read("ControlsBellows", object, p.controlsBellowsState);
+                UI::Settings::read("ColorSpaceBellows", object, p.colorSpaceBellowsState);
                 UI::Settings::read("Rotate", object, p.rotate);
                 UI::Settings::read("AspectRatio", object, p.aspectRatio);
                 UI::Settings::read("WidgetGeom", object, p.widgetGeom);
@@ -130,9 +117,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             picojson::value out(picojson::object_type, true);
             auto & object = out.get<picojson::object>();
-            UI::Settings::write("ColorControlsBellows", p.controlControlsBellows->get(), object);
-            UI::Settings::write("ColorSpaceCurrentTab", p.colorSpaceCurrentTab, object);
-            UI::Settings::write("ColorCurrentTab", p.colorCurrentTab, object);
+            UI::Settings::write("ControlsBellows", p.controlsBellowsState, object);
+            UI::Settings::write("ColorSpaceBellows", p.colorSpaceBellowsState, object);
             UI::Settings::write("Rotate", p.rotate->get(), object);
             UI::Settings::write("AspectRatio", p.aspectRatio->get(), object);
             UI::Settings::write("WidgetGeom", p.widgetGeom, object);

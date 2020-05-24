@@ -36,7 +36,7 @@ namespace djv
         {
             std::shared_ptr<ViewSettings> settings;
 
-            int widgetCurrentTab = 0;
+            std::map<std::string, bool> bellowsState;
             GridOptions gridOptions;
             HUDOptions hudOptions;
             bool currentTool = false;
@@ -71,6 +71,7 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             p.settings = ViewSettings::create(context);
+            p.bellowsState = p.settings->getBellowsState();
             _setWidgetGeom(p.settings->getWidgetGeom());
 
             p.gridOptions = p.settings->observeGridOptions()->get();
@@ -200,7 +201,7 @@ namespace djv
                             if (value)
                             {
                                 auto widget = ViewControlsWidget::create(context);
-                                widget->setCurrentTab(system->_p->widgetCurrentTab);
+                                widget->setBellowsState(system->_p->bellowsState);
                                 system->_p->viewControlsWidget = widget;
                                 system->_openWidget("ViewControls", widget);
                             }
@@ -548,7 +549,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             _closeWidget("ViewControls");
-            p.settings->setWidgetCurrentTab(p.widgetCurrentTab);
+            p.settings->setBellowsState(p.bellowsState);
             p.settings->setWidgetGeom(_getWidgetGeom());
         }
 
@@ -594,7 +595,7 @@ namespace djv
             {
                 if (auto widget = p.viewControlsWidget.lock())
                 {
-                    p.widgetCurrentTab = widget->getCurrentTab();
+                    p.bellowsState = widget->getBellowsState();
                 }
                 p.viewControlsWidget.reset();
             }

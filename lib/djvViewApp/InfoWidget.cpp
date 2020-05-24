@@ -7,11 +7,13 @@
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/Media.h>
 
+#include <djvUI/Action.h>
 #include <djvUI/Bellows.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
+#include <djvUI/ToolBar.h>
 
 #include <djvAV/AVSystem.h>
 
@@ -26,10 +28,15 @@ namespace djv
         struct InfoWidget::Private
         {
             AV::IO::Info info;
+            bool bellowsState = true;
+            std::map<std::string, std::shared_ptr<UI::Action> > actions;
+            std::vector<std::shared_ptr<UI::Bellows> > bellows;
+            std::shared_ptr<UI::ToolBar> toolBar;
             std::shared_ptr<UI::LabelSizeGroup> sizeGroup;
             std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
+            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
         };
 
         void InfoWidget::_init(const std::shared_ptr<Core::Context>& context)
@@ -38,6 +45,15 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             setClassName("djv::ViewApp::InfoWidget");
+
+            p.actions["ExpandAll"] = UI::Action::create();
+            p.actions["ExpandAll"]->setIcon("djvIconArrowSmallDown");
+            p.actions["CollapseAll"] = UI::Action::create();
+            p.actions["CollapseAll"]->setIcon("djvIconArrowSmallRight");
+
+            p.toolBar = UI::ToolBar::create(context);
+            p.toolBar->addAction(p.actions["ExpandAll"]);
+            p.toolBar->addAction(p.actions["CollapseAll"]);
 
             p.sizeGroup = UI::LabelSizeGroup::create();
 
@@ -49,7 +65,13 @@ namespace djv
             scrollWidget->setShadowOverlay({ UI::Side::Top });
             scrollWidget->setBackgroundRole(UI::ColorRole::Background);
             scrollWidget->addChild(p.layout);
-            addChild(scrollWidget);
+
+            auto vLayout = UI::VerticalLayout::create(context);
+            vLayout->setSpacing(UI::MetricsRole::None);
+            vLayout->addChild(scrollWidget);
+            vLayout->setStretch(scrollWidget, UI::RowStretch::Expand);
+            vLayout->addChild(p.toolBar);
+            addChild(vLayout);
 
             _widgetUpdate();
 
@@ -84,6 +106,34 @@ namespace djv
                         }
                     });
             }
+
+            p.actionObservers["ExpandAll"] = ValueObserver<bool>::create(
+                p.actions["ExpandAll"]->observeClicked(),
+                [weak](bool value)
+            {
+                if (value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->bellowsState = true;
+                        widget->_expandAll();
+                    }
+                }
+            });
+
+            p.actionObservers["CollapseAll"] = ValueObserver<bool>::create(
+                p.actions["CollapseAll"]->observeClicked(),
+                [weak](bool value)
+            {
+                if (value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->bellowsState = false;
+                        widget->_collapseAll();
+                    }
+                }
+            });
         }
 
         InfoWidget::InfoWidget() :
@@ -100,6 +150,27 @@ namespace djv
             return out;
         }
 
+        bool InfoWidget::getBellowsState() const
+        {
+            return _p->bellowsState;
+        }
+
+        void InfoWidget::setBellowsState(bool value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.bellowsState)
+                return;
+            p.bellowsState = value;
+            if (p.bellowsState)
+            {
+                _expandAll();
+            }
+            else
+            {
+                _collapseAll();
+            }
+        }
+
         void InfoWidget::_initLayoutEvent(Event::InitLayout&)
         {
             _p->sizeGroup->calcMinimumSize();
@@ -108,8 +179,32 @@ namespace djv
         void InfoWidget::_initEvent(Event::Init & event)
         {
             MDIWidget::_initEvent(event);
+            DJV_PRIVATE_PTR();
+
             setTitle(_getText(DJV_TEXT("widget_info_title")));
+
+            p.actions["ExpandAll"]->setTooltip(_getText(DJV_TEXT("widget_info_expand_all_tooltip")));
+            p.actions["CollapseAll"]->setTooltip(_getText(DJV_TEXT("widget_info_collapse_all_tooltip")));
+
             _widgetUpdate();
+        }
+
+        void InfoWidget::_expandAll()
+        {
+            DJV_PRIVATE_PTR();
+            for (const auto& i : p.bellows)
+            {
+                i->open();
+            }
+        }
+
+        void InfoWidget::_collapseAll()
+        {
+            DJV_PRIVATE_PTR();
+            for (const auto& i : p.bellows)
+            {
+                i->close();
+            }
         }
 
         void InfoWidget::_widgetUpdate()
@@ -117,6 +212,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
+                p.bellows.clear();
                 p.sizeGroup->clearLabels();
                 p.layout->clearChildren();
 
@@ -124,14 +220,24 @@ namespace djv
                 {
                     auto label = UI::Label::create(context);
                     label->setText(p.info.fileName);
-                    label->setHAlign(UI::HAlign::Left);
+                    label->setTextHAlign(UI::TextHAlign::Left);
+                    label->setFont(AV::Font::familyMono);
                     auto formLayout = UI::FormLayout::create(context);
                     formLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
                     formLayout->setSizeGroup(p.sizeGroup);
                     formLayout->setSpacing(UI::MetricsRole::None);
                     formLayout->addChild(label);
                     formLayout->setText(label, _getText(DJV_TEXT("widget_info_file_name")) + ":");
-                    p.layout->addChild(formLayout);
+
+                    auto bellows = UI::Bellows::create(context);
+                    {
+                        std::stringstream ss;
+                        ss << _getText(DJV_TEXT("widget_info_general"));
+                        bellows->setText(ss.str());
+                    }
+                    bellows->addChild(formLayout);
+                    p.bellows.push_back(bellows);
+                    p.layout->addChild(bellows);
                 }
 
                 size_t j = 0;
@@ -144,12 +250,6 @@ namespace djv
                     formLayout->setShadowOverlay({ UI::Side::Top });
 
                     auto label = UI::Label::create(context);
-                    label->setText(i.info.name);
-                    label->setHAlign(UI::HAlign::Left);
-                    formLayout->addChild(label);
-                    formLayout->setText(label, _getText(DJV_TEXT("widget_info_name")) + ":");
-
-                    label = UI::Label::create(context);
                     {
                         std::stringstream ss;
                         ss << i.info.size.w << "x" << i.info.size.h;
@@ -157,7 +257,8 @@ namespace djv
                         ss << ":" << std::fixed << i.info.size.getAspectRatio();
                         label->setText(ss.str());
                     }
-                    label->setHAlign(UI::HAlign::Left);
+                    label->setTextHAlign(UI::TextHAlign::Left);
+                    label->setFont(AV::Font::familyMono);
                     formLayout->addChild(label);
                     formLayout->setText(label, _getText(DJV_TEXT("widget_info_dimensions")) + ":");
 
@@ -167,53 +268,60 @@ namespace djv
                         ss << i.info.type;
                         label->setText(_getText(ss.str()));
                     }
-                    label->setHAlign(UI::HAlign::Left);
+                    label->setTextHAlign(UI::TextHAlign::Left);
+                    label->setFont(AV::Font::familyMono);
                     formLayout->addChild(label);
                     formLayout->setText(label, _getText(DJV_TEXT("widget_info_type")) + ":");
 
-                    label = UI::Label::create(context);
+                    if (i.sequence.getSize() > 0)
                     {
-                        std::stringstream ss;
-                        ss.precision(2);
-                        ss << std::fixed << i.speed.toFloat();
-                        label->setText(ss.str());
-                    }
-                    label->setHAlign(UI::HAlign::Left);
-                    formLayout->addChild(label);
-                    formLayout->setText(label, _getText(DJV_TEXT("widget_info_speed")) + ":");
-
-                    label = UI::Label::create(context);
-                    {
-                        std::stringstream ss;
-                        auto avSystem = context->getSystemT<AV::AVSystem>();
-                        const Time::Units timeUnits = avSystem->observeTimeUnits()->get();
-                        ss << Time::toString(i.sequence.getSize(), i.speed, timeUnits);
-                        switch (timeUnits)
+                        label = UI::Label::create(context);
                         {
-                        case Time::Units::Frames:
-                            ss << " " << _getText(DJV_TEXT("widget_info_frames"));
-                            break;
-                        default: break;
+                            std::stringstream ss;
+                            ss.precision(2);
+                            ss << std::fixed << i.speed.toFloat();
+                            label->setText(ss.str());
                         }
-                        label->setText(ss.str());
-                    }
-                    label->setHAlign(UI::HAlign::Left);
-                    formLayout->addChild(label);
-                    formLayout->setText(label, _getText(DJV_TEXT("widget_info_duration")) + ":");
+                        label->setTextHAlign(UI::TextHAlign::Left);
+                        label->setFont(AV::Font::familyMono);
+                        formLayout->addChild(label);
+                        formLayout->setText(label, _getText(DJV_TEXT("widget_info_speed")) + ":");
 
-                    label = UI::Label::create(context);
-                    label->setText(i.codec);
-                    label->setHAlign(UI::HAlign::Left);
-                    formLayout->addChild(label);
-                    formLayout->setText(label, _getText(DJV_TEXT("widget_info_codec")) + ":");
+                        label = UI::Label::create(context);
+                        {
+                            std::stringstream ss;
+                            auto avSystem = context->getSystemT<AV::AVSystem>();
+                            const Time::Units timeUnits = avSystem->observeTimeUnits()->get();
+                            ss << Time::toString(i.sequence.getSize(), i.speed, timeUnits);
+                            switch (timeUnits)
+                            {
+                            case Time::Units::Frames:
+                                ss << " " << _getText(DJV_TEXT("widget_info_frames"));
+                                break;
+                            default: break;
+                            }
+                            label->setText(ss.str());
+                        }
+                        label->setTextHAlign(UI::TextHAlign::Left);
+                        label->setFont(AV::Font::familyMono);
+                        formLayout->addChild(label);
+                        formLayout->setText(label, _getText(DJV_TEXT("widget_info_duration")) + ":");
+                    }
+
+                    if (!i.codec.empty())
+                    {
+                        label = UI::Label::create(context);
+                        label->setText(i.codec);
+                        label->setTextHAlign(UI::TextHAlign::Left);
+                        label->setFont(AV::Font::familyMono);
+                        formLayout->addChild(label);
+                        formLayout->setText(label, _getText(DJV_TEXT("widget_info_codec")) + ":");
+                    }
 
                     auto bellows = UI::Bellows::create(context);
-                    {
-                        std::stringstream ss;
-                        ss << _getText(DJV_TEXT("widget_info_video_track")) << " #" << j << ":";
-                        bellows->setText(ss.str());
-                    }
+                    bellows->setText(i.info.name);
                     bellows->addChild(formLayout);
+                    p.bellows.push_back(bellows);
                     p.layout->addChild(bellows);
 
                     ++j;
@@ -234,7 +342,8 @@ namespace djv
                         ss << static_cast<int>(i.info.channelCount);
                         label->setText(ss.str());
                     }
-                    label->setHAlign(UI::HAlign::Left);
+                    label->setTextHAlign(UI::TextHAlign::Left);
+                    label->setFont(AV::Font::familyMono);
                     formLayout->addChild(label);
                     formLayout->setText(label, _getText(DJV_TEXT("widget_info_channels")) + ":");
 
@@ -244,7 +353,8 @@ namespace djv
                         ss << i.info.type;
                         label->setText(_getText(ss.str()));
                     }
-                    label->setHAlign(UI::HAlign::Left);
+                    label->setTextHAlign(UI::TextHAlign::Left);
+                    label->setFont(AV::Font::familyMono);
                     formLayout->addChild(label);
                     formLayout->setText(label, _getText(DJV_TEXT("widget_info_type")) + ":");
 
@@ -254,7 +364,8 @@ namespace djv
                         ss << i.info.sampleRate / 1000.F << _getText(DJV_TEXT("widget_info_khz"));
                         label->setText(ss.str());
                     }
-                    label->setHAlign(UI::HAlign::Left);
+                    label->setTextHAlign(UI::TextHAlign::Left);
+                    label->setFont(AV::Font::familyMono);
                     formLayout->addChild(label);
                     formLayout->setText(label, _getText(DJV_TEXT("widget_info_sample_rate")) + ":");
 
@@ -264,23 +375,25 @@ namespace djv
                         ss << (i.info.sampleRate > 0 ? (i.info.sampleCount / i.info.sampleRate) : 0) << " " << _getText(DJV_TEXT("widget_info_seconds"));
                         label->setText(ss.str());
                     }
-                    label->setHAlign(UI::HAlign::Left);
+                    label->setTextHAlign(UI::TextHAlign::Left);
+                    label->setFont(AV::Font::familyMono);
                     formLayout->addChild(label);
                     formLayout->setText(label, _getText(DJV_TEXT("widget_info_duration")) + ":");
 
-                    label = UI::Label::create(context);
-                    label->setText(i.codec);
-                    label->setHAlign(UI::HAlign::Left);
-                    formLayout->addChild(label);
-                    formLayout->setText(label, _getText(DJV_TEXT("widget_info_codec")) + ":");
+                    if (!i.codec.empty())
+                    {
+                        label = UI::Label::create(context);
+                        label->setText(i.codec);
+                        label->setTextHAlign(UI::TextHAlign::Left);
+                        label->setFont(AV::Font::familyMono);
+                        formLayout->addChild(label);
+                        formLayout->setText(label, _getText(DJV_TEXT("widget_info_codec")) + ":");
+                    }
 
                     auto bellows = UI::Bellows::create(context);
-                    {
-                        std::stringstream ss;
-                        ss << _getText(DJV_TEXT("widget_info_audio_track")) << " #" << j << ":";
-                        bellows->setText(ss.str());
-                    }
+                    bellows->setText(i.info.name);
                     bellows->addChild(formLayout);
+                    p.bellows.push_back(bellows);
                     p.layout->addChild(bellows);
 
                     ++j;
@@ -298,7 +411,8 @@ namespace djv
                     {
                         auto label = UI::Label::create(context);
                         label->setText(i.second);
-                        label->setHAlign(UI::HAlign::Left);
+                        label->setTextHAlign(UI::TextHAlign::Left);
+                        label->setFont(AV::Font::familyMono);
                         formLayout->addChild(label);
                         std::stringstream ss;
                         ss << i.first << ":";
@@ -312,7 +426,17 @@ namespace djv
                         bellows->setText(ss.str());
                     }
                     bellows->addChild(formLayout);
+                    p.bellows.push_back(bellows);
                     p.layout->addChild(bellows);
+                }
+
+                if (p.bellowsState)
+                {
+                    _expandAll();
+                }
+                else
+                {
+                    _collapseAll();
                 }
             }
         }

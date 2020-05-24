@@ -22,7 +22,6 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/TabWidget.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvAV/AVSystem.h>
@@ -49,14 +48,10 @@ namespace djv
             std::vector<std::shared_ptr<UI::CheckBox> > channelCheckBoxes;
             std::shared_ptr<UI::ButtonGroup> channelButtonGroup;
             std::shared_ptr<UI::ComboBox> alphaComboBox;
-            std::shared_ptr<UI::FormLayout> channelsLayout;
-            std::shared_ptr<UI::ScrollWidget> channelsScrollWidget;
 
             std::shared_ptr<UI::CheckBox> mirrorCheckBoxes[2];
             std::shared_ptr<UI::ComboBox> rotateComboBox;
             std::shared_ptr<UI::ComboBox> aspectRatioComboBox;
-            std::shared_ptr<UI::FormLayout> transformLayout;
-            std::shared_ptr<UI::ScrollWidget> transformScrollWidget;
 
             std::shared_ptr<UI::ToolButton> colorEnabledButton;
             std::map<std::string, std::shared_ptr<UI::FloatSlider> > colorSliders;
@@ -67,23 +62,20 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::FloatSlider> > exposureSliders;
             std::shared_ptr<UI::ToolButton> softClipEnabledButton;
             std::shared_ptr<UI::FloatSlider> softClipSlider;
-            std::shared_ptr<UI::LabelSizeGroup> colorSizeGroup;
-            std::map<std::string, std::shared_ptr<UI::FormLayout> > colorLayouts;
-            std::map<std::string, std::shared_ptr<UI::Bellows> > colorBellows;
-            std::shared_ptr<UI::ScrollWidget> colorScrollWidget;
 
+            std::shared_ptr<UI::CheckBox> frameStoreEnabledCheckBox;
             std::shared_ptr<UI::PushButton> loadFrameStoreButton;
-            std::shared_ptr<UI::CheckBox> frameStoreCheckBox;
+            std::shared_ptr<UI::PushButton> clearFrameStoreButton;
             std::shared_ptr<UI::ImageWidget> frameStoreWidget;
-            std::shared_ptr<UI::ScrollWidget> frameStoreScrollWidget;
 
-            std::shared_ptr<UI::TabWidget> tabWidget;
+            std::shared_ptr<UI::LabelSizeGroup> sizeGroup;
+            std::map<std::string, std::shared_ptr<UI::FormLayout> > formLayouts;
+            std::map<std::string, std::shared_ptr<UI::Bellows> > bellows;
 
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<ValueObserver<AV::Render2D::ImageOptions> > imageOptionsObserver;
             std::shared_ptr<ValueObserver<UI::ImageRotate> > rotateObserver;
             std::shared_ptr<ValueObserver<UI::ImageAspectRatio> > aspectRatioObserver;
-            std::shared_ptr<MapObserver<std::string, bool> > colorControlsBellowsObserver;
             std::shared_ptr<ValueObserver<bool> > frameStoreEnabledObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > frameStoreObserver;
         };
@@ -184,115 +176,104 @@ namespace djv
             p.softClipSlider = UI::FloatSlider::create(context);
             p.softClipSlider->setDefaultVisible(true);
 
+            p.frameStoreEnabledCheckBox = UI::CheckBox::create(context);
             p.loadFrameStoreButton = UI::PushButton::create(context);
-            p.frameStoreCheckBox = UI::CheckBox::create(context);
+            p.clearFrameStoreButton = UI::PushButton::create(context);
             p.frameStoreWidget = UI::ImageWidget::create(context);
             p.frameStoreWidget->setSizeRole(UI::MetricsRole::TextColumn);
             p.frameStoreWidget->setHAlign(UI::HAlign::Center);
             p.frameStoreWidget->setVAlign(UI::VAlign::Center);
 
-            p.channelsLayout = UI::FormLayout::create(context);
-            p.channelsLayout->setMargin(UI::MetricsRole::MarginSmall);
-            p.channelsLayout->setSpacing(UI::MetricsRole::SpacingSmall);
-            p.channelsLayout->setShadowOverlay({ UI::Side::Top });
+            p.sizeGroup = UI::LabelSizeGroup::create();
+
+            p.formLayouts["Channels"] = UI::FormLayout::create(context);
             for (const auto& i : p.channelButtonGroup->getButtons())
             {
-                p.channelsLayout->addChild(i);
+                p.formLayouts["Channels"]->addChild(i);
             }
-            p.channelsLayout->addChild(p.alphaComboBox);
-            p.channelsScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            p.channelsScrollWidget->setBorder(false);
-            p.channelsScrollWidget->addChild(p.channelsLayout);
+            p.formLayouts["Channels"]->addChild(p.alphaComboBox);
+            p.bellows["Channels"] = UI::Bellows::create(context);
+            p.bellows["Channels"]->addChild(p.formLayouts["Channels"]);
 
-            p.transformLayout = UI::FormLayout::create(context);
-            p.transformLayout->setMargin(UI::MetricsRole::MarginSmall);
-            p.transformLayout->setSpacing(UI::MetricsRole::SpacingSmall);
+            p.formLayouts["Transform"] = UI::FormLayout::create(context);
             for (size_t i = 0; i < 2; ++i)
             {
-                p.transformLayout->addChild(p.mirrorCheckBoxes[i]);
+                p.formLayouts["Transform"]->addChild(p.mirrorCheckBoxes[i]);
             }
-            p.transformLayout->addChild(p.rotateComboBox);
-            p.transformLayout->addChild(p.aspectRatioComboBox);
-            p.transformScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            p.transformScrollWidget->setBorder(false);
-            p.transformScrollWidget->addChild(p.transformLayout);
+            p.formLayouts["Transform"]->addChild(p.rotateComboBox);
+            p.formLayouts["Transform"]->addChild(p.aspectRatioComboBox);
+            p.bellows["Transform"] = UI::Bellows::create(context);
+            p.bellows["Transform"]->addChild(p.formLayouts["Transform"]);
 
-            p.colorSizeGroup = UI::LabelSizeGroup::create();
-
-            p.colorLayouts["Adjustments"] = UI::FormLayout::create(context);
-            p.colorLayouts["Adjustments"]->setMargin(UI::MetricsRole::MarginSmall);
-            p.colorLayouts["Adjustments"]->setSpacing(UI::MetricsRole::SpacingSmall);
+            p.formLayouts["Color"] = UI::FormLayout::create(context);
             for (const auto& i : { "Brightness", "Contrast", "Saturation" })
             {
-                p.colorLayouts["Adjustments"]->addChild(p.colorSliders[i]);
+                p.formLayouts["Color"]->addChild(p.colorSliders[i]);
             }
-            p.colorLayouts["Adjustments"]->addChild(p.colorInvertCheckBox);
-            p.colorLayouts["Adjustments"]->setSizeGroup(p.colorSizeGroup);
-            p.colorBellows["Adjustments"] = UI::Bellows::create(context);
-            p.colorBellows["Adjustments"]->addWidget(p.colorEnabledButton);
-            p.colorBellows["Adjustments"]->addChild(p.colorLayouts["Adjustments"]);
+            p.formLayouts["Color"]->addChild(p.colorInvertCheckBox);
+            p.bellows["Color"] = UI::Bellows::create(context);
+            p.bellows["Color"]->addWidget(p.colorEnabledButton);
+            p.bellows["Color"]->addChild(p.formLayouts["Color"]);
 
-            p.colorLayouts["Levels"] = UI::FormLayout::create(context);
-            p.colorLayouts["Levels"]->setMargin(UI::MetricsRole::MarginSmall);
-            p.colorLayouts["Levels"]->setSpacing(UI::MetricsRole::SpacingSmall);
-            p.colorLayouts["Levels"]->setSizeGroup(p.colorSizeGroup);
+            p.formLayouts["Levels"] = UI::FormLayout::create(context);
             for (const auto& i : { "InLow", "InHigh", "Gamma", "OutLow", "OutHigh" })
             {
-                p.colorLayouts["Levels"]->addChild(p.levelsSliders[i]);
+                p.formLayouts["Levels"]->addChild(p.levelsSliders[i]);
             }
-            p.colorBellows["Levels"] = UI::Bellows::create(context);
-            p.colorBellows["Levels"]->addWidget(p.levelsEnabledButton);
-            p.colorBellows["Levels"]->addChild(p.colorLayouts["Levels"]);
+            p.bellows["Levels"] = UI::Bellows::create(context);
+            p.bellows["Levels"]->addWidget(p.levelsEnabledButton);
+            p.bellows["Levels"]->addChild(p.formLayouts["Levels"]);
 
-            p.colorLayouts["Exposure"] = UI::FormLayout::create(context);
-            p.colorLayouts["Exposure"]->setMargin(UI::MetricsRole::MarginSmall);
-            p.colorLayouts["Exposure"]->setSpacing(UI::MetricsRole::SpacingSmall);
-            p.colorLayouts["Exposure"]->setSizeGroup(p.colorSizeGroup);
+            p.formLayouts["Exposure"] = UI::FormLayout::create(context);
             for (const auto& i : { "Exposure", "Defog", "KneeLow", "KneeHigh" })
             {
-                p.colorLayouts["Exposure"]->addChild(p.exposureSliders[i]);
+                p.formLayouts["Exposure"]->addChild(p.exposureSliders[i]);
             }
-            p.colorBellows["Exposure"] = UI::Bellows::create(context);
-            p.colorBellows["Exposure"]->addWidget(p.exposureEnabledButton);
-            p.colorBellows["Exposure"]->addChild(p.colorLayouts["Exposure"]);
+            p.bellows["Exposure"] = UI::Bellows::create(context);
+            p.bellows["Exposure"]->addWidget(p.exposureEnabledButton);
+            p.bellows["Exposure"]->addChild(p.formLayouts["Exposure"]);
 
-            auto softClipLayout = UI::VerticalLayout::create(context);
-            softClipLayout->setMargin(UI::MetricsRole::MarginSmall);
-            softClipLayout->setSpacing(UI::MetricsRole::SpacingSmall);
-            softClipLayout->addChild(p.softClipSlider);
-            p.colorBellows["SoftClip"] = UI::Bellows::create(context);
-            p.colorBellows["SoftClip"]->addWidget(p.softClipEnabledButton);
-            p.colorBellows["SoftClip"]->addChild(softClipLayout);
+            p.formLayouts["SoftClip"] = UI::FormLayout::create(context);
+            p.formLayouts["SoftClip"]->addChild(p.softClipSlider);
+            p.bellows["SoftClip"] = UI::Bellows::create(context);
+            p.bellows["SoftClip"]->addWidget(p.softClipEnabledButton);
+            p.bellows["SoftClip"]->addChild(p.formLayouts["SoftClip"]);
 
             auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::MetricsRole::None);
-            vLayout->addChild(p.colorBellows["Adjustments"]);
-            vLayout->addChild(p.colorBellows["Levels"]);
-            vLayout->addChild(p.colorBellows["Exposure"]);
-            vLayout->addChild(p.colorBellows["SoftClip"]);
-            p.colorScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            p.colorScrollWidget->setBorder(false);
-            p.colorScrollWidget->addChild(vLayout);
-
-            vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::SpacingSmall);
             vLayout->setMargin(UI::MetricsRole::MarginSmall);
-            vLayout->setShadowOverlay({ UI::Side::Top });
+            vLayout->addChild(p.frameStoreEnabledCheckBox);
             vLayout->addChild(p.loadFrameStoreButton);
-            vLayout->addChild(p.frameStoreCheckBox);
+            vLayout->addChild(p.clearFrameStoreButton);
             vLayout->addChild(p.frameStoreWidget);
-            p.frameStoreScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            p.frameStoreScrollWidget->setBorder(false);
-            p.frameStoreScrollWidget->addChild(vLayout);
+            p.bellows["FrameStore"] = UI::Bellows::create(context);
+            p.bellows["FrameStore"]->addChild(vLayout);
 
-            p.tabWidget = UI::TabWidget::create(context);
-            p.tabWidget->setBackgroundRole(UI::ColorRole::Background);
-            p.tabWidget->setShadowOverlay({ UI::Side::Top });
-            p.tabWidget->addChild(p.channelsScrollWidget);
-            p.tabWidget->addChild(p.transformScrollWidget);
-            p.tabWidget->addChild(p.colorScrollWidget);
-            p.tabWidget->addChild(p.frameStoreScrollWidget);
-            addChild(p.tabWidget);
+            for (const auto& i : p.formLayouts)
+            {
+                i.second->setMargin(UI::MetricsRole::MarginSmall);
+                i.second->setSpacing(UI::MetricsRole::SpacingSmall);
+                i.second->setSizeGroup(p.sizeGroup);
+            }
+            for (const auto& i : p.bellows)
+            {
+                i.second->close();
+            }
+
+            vLayout = UI::VerticalLayout::create(context);
+            vLayout->setSpacing(UI::MetricsRole::None);
+            vLayout->addChild(p.bellows["Channels"]);
+            vLayout->addChild(p.bellows["Transform"]);
+            vLayout->addChild(p.bellows["Color"]);
+            vLayout->addChild(p.bellows["Levels"]);
+            vLayout->addChild(p.bellows["Exposure"]);
+            vLayout->addChild(p.bellows["SoftClip"]);
+            vLayout->addChild(p.bellows["FrameStore"]);
+            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            scrollWidget->setBackgroundRole(UI::ColorRole::Background);
+            scrollWidget->setShadowOverlay({ UI::Side::Top });
+            scrollWidget->addChild(vLayout);
+            addChild(scrollWidget);
 
             _widgetUpdate();
 
@@ -636,42 +617,35 @@ namespace djv
                     }
                 });
 
-            for (const auto& i : p.colorBellows)
+            p.frameStoreEnabledCheckBox->setCheckedCallback(
+                [contextWeak](bool value)
             {
-                const std::string name = i.first;
-                i.second->setOpenCallback(
-                    [name, contextWeak](bool value)
-                    {
-                        if (auto context = contextWeak.lock())
-                        {
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                            auto appSettings = settingsSystem->getSettingsT<ImageSettings>();
-                            auto settingsBellows = appSettings->observeColorControlsBellows()->get();
-                            settingsBellows[name] = value;
-                            appSettings->setColorControlsBellows(settingsBellows);
-                        }
-                    });
-            }
+                if (auto context = contextWeak.lock())
+                {
+                    auto imageSystem = context->getSystemT<ImageSystem>();
+                    imageSystem->setFrameStoreEnabled(value);
+                }
+            });
 
             p.loadFrameStoreButton->setClickedCallback(
                 [contextWeak]
+            {
+                if (auto context = contextWeak.lock())
                 {
-                    if (auto context = contextWeak.lock())
-                    {
-                        auto imageSystem = context->getSystemT<ImageSystem>();
-                        imageSystem->loadFrameStore();
-                    }
-                });
+                    auto imageSystem = context->getSystemT<ImageSystem>();
+                    imageSystem->loadFrameStore();
+                }
+            });
 
-            p.frameStoreCheckBox->setCheckedCallback(
-                [contextWeak](bool value)
+            p.clearFrameStoreButton->setClickedCallback(
+                [contextWeak]
+            {
+                if (auto context = contextWeak.lock())
                 {
-                    if (auto context = contextWeak.lock())
-                    {
-                        auto imageSystem = context->getSystemT<ImageSystem>();
-                        imageSystem->setFrameStoreEnabled(value);
-                    }
-                });
+                    auto imageSystem = context->getSystemT<ImageSystem>();
+                    imageSystem->clearFrameStore();
+                }
+            });
 
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
@@ -725,25 +699,6 @@ namespace djv
                     });
             }
 
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
-            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
-            p.colorControlsBellowsObserver = MapObserver<std::string, bool>::create(
-                imageSettings->observeColorControlsBellows(),
-                [weak](const std::map<std::string, bool>& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        for (const auto& i : value)
-                        {
-                            const auto j = widget->_p->colorBellows.find(i.first);
-                            if (j != widget->_p->colorBellows.end())
-                            {
-                                j->second->setOpen(i.second);
-                            }
-                        }
-                    }
-                });
-
             auto imageSystem = context->getSystemT<ImageSystem>();
             p.frameStoreEnabledObserver = ValueObserver<bool>::create(
                 imageSystem->observeFrameStoreEnabled(),
@@ -781,20 +736,34 @@ namespace djv
             out->_init(context);
             return out;
         }
-        
-        int ImageControlsWidget::getCurrentTab() const
+
+        std::map<std::string, bool> ImageControlsWidget::getBellowsState() const
         {
-            return _p->tabWidget->getCurrentTab();
+            DJV_PRIVATE_PTR();
+            std::map<std::string, bool> out;
+            for (const auto& i : p.bellows)
+            {
+                out[i.first] = i.second->isOpen();
+            }
+            return out;
         }
 
-        void ImageControlsWidget::setCurrentTab(int value)
+        void ImageControlsWidget::setBellowsState(const std::map<std::string, bool>& value)
         {
-            _p->tabWidget->setCurrentTab(value);
+            DJV_PRIVATE_PTR();
+            for (const auto& i : value)
+            {
+                const auto j = p.bellows.find(i.first);
+                if (j != p.bellows.end())
+                {
+                    j->second->setOpen(i.second);
+                }
+            }
         }
 
         void ImageControlsWidget::_initLayoutEvent(Event::InitLayout&)
         {
-            _p->colorSizeGroup->calcMinimumSize();
+            _p->sizeGroup->calcMinimumSize();
         }
         
         void ImageControlsWidget::_initEvent(Event::Init & event)
@@ -804,14 +773,14 @@ namespace djv
 
             setTitle(_getText(DJV_TEXT("image_controls_title")));
             
-            const auto& channelButtons = p.channelButtonGroup->getButtons();
+            const auto& channelCheckBoxes = p.channelButtonGroup->getButtons();
             const auto& channelEnums = AV::Render2D::getImageChannelEnums();
             size_t j = 0;
             for (size_t i = 1; i < static_cast<size_t>(AV::Render2D::ImageChannel::Count); ++i, ++j)
             {
                 std::stringstream ss;
                 ss << channelEnums[i];
-                p.channelsLayout->setText(channelButtons[j], _getText(ss.str()) + ":");
+                p.formLayouts["Channels"]->setText(channelCheckBoxes[j], _getText(ss.str()) + ":");
             }
 
             std::vector<std::string> items;
@@ -822,10 +791,10 @@ namespace djv
                 items.push_back(_getText(ss.str()));
             }
             p.alphaComboBox->setItems(items);
-            p.channelsLayout->setText(p.alphaComboBox, _getText(DJV_TEXT("image_controls_channels_alpha_blend")) + ":");
+            p.formLayouts["Channels"]->setText(p.alphaComboBox, _getText(DJV_TEXT("image_controls_channels_alpha_blend")) + ":");
 
-            p.transformLayout->setText(p.mirrorCheckBoxes[0], _getText(DJV_TEXT("image_controls_transform_mirror_horizontal")) + ":");
-            p.transformLayout->setText(p.mirrorCheckBoxes[1], _getText(DJV_TEXT("image_controls_transform_mirror_vertical")) + ":");
+            p.formLayouts["Transform"]->setText(p.mirrorCheckBoxes[0], _getText(DJV_TEXT("image_controls_transform_mirror_horizontal")) + ":");
+            p.formLayouts["Transform"]->setText(p.mirrorCheckBoxes[1], _getText(DJV_TEXT("image_controls_transform_mirror_vertical")) + ":");
             items.clear();
             for (auto i : UI::getImageRotateEnums())
             {
@@ -834,7 +803,7 @@ namespace djv
                 items.push_back(_getText(ss.str()));
             }
             p.rotateComboBox->setItems(items);
-            p.transformLayout->setText(p.rotateComboBox, _getText(DJV_TEXT("image_controls_transform_rotate")) + ":");
+            p.formLayouts["Transform"]->setText(p.rotateComboBox, _getText(DJV_TEXT("image_controls_transform_rotate")) + ":");
             items.clear();
             for (auto i : UI::getImageAspectRatioEnums())
             {
@@ -843,41 +812,40 @@ namespace djv
                 items.push_back(_getText(ss.str()));
             }
             p.aspectRatioComboBox->setItems(items);
-            p.transformLayout->setText(p.aspectRatioComboBox, _getText(DJV_TEXT("image_controls_transform_aspect_ratio")) + ":");
+            p.formLayouts["Transform"]->setText(p.aspectRatioComboBox, _getText(DJV_TEXT("image_controls_transform_aspect_ratio")) + ":");
 
-            p.colorEnabledButton->setTooltip(_getText(DJV_TEXT("image_controls_adjustments_enabled_tooltip")));
+            p.colorEnabledButton->setTooltip(_getText(DJV_TEXT("image_controls_color_enabled_tooltip")));
             p.levelsEnabledButton->setTooltip(_getText(DJV_TEXT("image_controls_levels_enabled_tooltip")));
             p.exposureEnabledButton->setTooltip(_getText(DJV_TEXT("image_controls_exposure_enabled_tooltip")));
             p.softClipEnabledButton->setTooltip(_getText(DJV_TEXT("image_controls_soft_clip_enabled_tooltip")));
 
-            p.colorLayouts["Adjustments"]->setText(p.colorSliders["Brightness"], _getText(DJV_TEXT("image_controls_adjustments_brightness")) + ":");
-            p.colorLayouts["Adjustments"]->setText(p.colorSliders["Contrast"], _getText(DJV_TEXT("image_controls_adjustments_contrast")) + ":");
-            p.colorLayouts["Adjustments"]->setText(p.colorSliders["Saturation"], _getText(DJV_TEXT("image_controls_adjustments_saturation")) + ":");
-            p.colorLayouts["Adjustments"]->setText(p.colorInvertCheckBox, _getText(DJV_TEXT("image_controls_adjustments_invert")) + ":");
+            p.formLayouts["Color"]->setText(p.colorSliders["Brightness"], _getText(DJV_TEXT("image_controls_color_brightness")) + ":");
+            p.formLayouts["Color"]->setText(p.colorSliders["Contrast"], _getText(DJV_TEXT("image_controls_color_contrast")) + ":");
+            p.formLayouts["Color"]->setText(p.colorSliders["Saturation"], _getText(DJV_TEXT("image_controls_color_saturation")) + ":");
+            p.formLayouts["Color"]->setText(p.colorInvertCheckBox, _getText(DJV_TEXT("image_controls_color_invert")) + ":");
 
-            p.colorLayouts["Levels"]->setText(p.levelsSliders["InLow"], _getText(DJV_TEXT("image_controls_levels_in_low")) + ":");
-            p.colorLayouts["Levels"]->setText(p.levelsSliders["InHigh"], _getText(DJV_TEXT("image_controls_levels_in_high")) + ":");
-            p.colorLayouts["Levels"]->setText(p.levelsSliders["Gamma"], _getText(DJV_TEXT("image_controls_levels_gamma")) + ":");
-            p.colorLayouts["Levels"]->setText(p.levelsSliders["OutLow"], _getText(DJV_TEXT("image_controls_levels_out_low")) + ":");
-            p.colorLayouts["Levels"]->setText(p.levelsSliders["OutHigh"], _getText(DJV_TEXT("image_controls_levels_out_high")) + ":");
+            p.formLayouts["Levels"]->setText(p.levelsSliders["InLow"], _getText(DJV_TEXT("image_controls_levels_in_low")) + ":");
+            p.formLayouts["Levels"]->setText(p.levelsSliders["InHigh"], _getText(DJV_TEXT("image_controls_levels_in_high")) + ":");
+            p.formLayouts["Levels"]->setText(p.levelsSliders["Gamma"], _getText(DJV_TEXT("image_controls_levels_gamma")) + ":");
+            p.formLayouts["Levels"]->setText(p.levelsSliders["OutLow"], _getText(DJV_TEXT("image_controls_levels_out_low")) + ":");
+            p.formLayouts["Levels"]->setText(p.levelsSliders["OutHigh"], _getText(DJV_TEXT("image_controls_levels_out_high")) + ":");
 
-            p.colorLayouts["Exposure"]->setText(p.exposureSliders["Exposure"], _getText(DJV_TEXT("image_controls_exposure_exposure")) + ":");
-            p.colorLayouts["Exposure"]->setText(p.exposureSliders["Defog"], _getText(DJV_TEXT("image_controls_exposure_defog")) + ":");
-            p.colorLayouts["Exposure"]->setText(p.exposureSliders["KneeLow"], _getText(DJV_TEXT("image_controls_exposure_knee_low")) + ":");
-            p.colorLayouts["Exposure"]->setText(p.exposureSliders["KneeHigh"], _getText(DJV_TEXT("image_controls_exposure_knee_high")) + ":");
+            p.formLayouts["Exposure"]->setText(p.exposureSliders["Exposure"], _getText(DJV_TEXT("image_controls_exposure_exposure")) + ":");
+            p.formLayouts["Exposure"]->setText(p.exposureSliders["Defog"], _getText(DJV_TEXT("image_controls_exposure_defog")) + ":");
+            p.formLayouts["Exposure"]->setText(p.exposureSliders["KneeLow"], _getText(DJV_TEXT("image_controls_exposure_knee_low")) + ":");
+            p.formLayouts["Exposure"]->setText(p.exposureSliders["KneeHigh"], _getText(DJV_TEXT("image_controls_exposure_knee_high")) + ":");
 
-            p.colorBellows["Adjustments"]->setText(_getText(DJV_TEXT("image_controls_adjustments")));
-            p.colorBellows["Levels"]->setText(_getText(DJV_TEXT("image_controls_levels")));
-            p.colorBellows["Exposure"]->setText(_getText(DJV_TEXT("image_controls_exposure")));
-            p.colorBellows["SoftClip"]->setText(_getText(DJV_TEXT("image_controls_soft_clip")));
-
+            p.frameStoreEnabledCheckBox->setText(_getText(DJV_TEXT("image_controls_frame_store_enabled")));
             p.loadFrameStoreButton->setText(_getText(DJV_TEXT("image_controls_frame_store_load")));
-            p.frameStoreCheckBox->setText(_getText(DJV_TEXT("image_controls_frame_store_enabled")));
+            p.clearFrameStoreButton->setText(_getText(DJV_TEXT("image_controls_frame_store_clear")));
 
-            p.tabWidget->setText(p.channelsScrollWidget, _getText(DJV_TEXT("image_controls_section_channels")));
-            p.tabWidget->setText(p.transformScrollWidget, _getText(DJV_TEXT("image_controls_section_transform")));
-            p.tabWidget->setText(p.colorScrollWidget, _getText(DJV_TEXT("image_controls_section_color")));
-            p.tabWidget->setText(p.frameStoreScrollWidget, _getText(DJV_TEXT("image_controls_section_frame_store")));
+            p.bellows["Channels"]->setText(_getText(DJV_TEXT("image_controls_section_channels")));
+            p.bellows["Transform"]->setText(_getText(DJV_TEXT("image_controls_section_transform")));
+            p.bellows["Color"]->setText(_getText(DJV_TEXT("image_controls_section_color")));
+            p.bellows["Levels"]->setText(_getText(DJV_TEXT("image_controls_section_levels")));
+            p.bellows["Exposure"]->setText(_getText(DJV_TEXT("image_controls_section_exposure")));
+            p.bellows["SoftClip"]->setText(_getText(DJV_TEXT("image_controls_section_soft_clip")));
+            p.bellows["FrameStore"]->setText(_getText(DJV_TEXT("image_controls_section_frame_store")));
 
             _widgetUpdate();
         }
@@ -916,7 +884,7 @@ namespace djv
             p.softClipEnabledButton->setChecked(p.imageOptions.softClipEnabled);
             p.softClipSlider->setValue(p.imageOptions.softClip);
 
-            p.frameStoreCheckBox->setChecked(p.frameStoreEnabled);
+            p.frameStoreEnabledCheckBox->setChecked(p.frameStoreEnabled);
             p.frameStoreWidget->setImage(p.frameStore);
         }
 

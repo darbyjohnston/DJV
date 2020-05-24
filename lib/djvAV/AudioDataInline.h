@@ -10,10 +10,10 @@ namespace djv
     {
         namespace Audio
         {
-            constexpr Info::Info()
+            inline Info::Info()
             {}
 
-            constexpr Info::Info(uint8_t channelCount, Type type, size_t sampleRate, size_t sampleCount) :
+            inline Info::Info(uint8_t channelCount, Type type, size_t sampleRate, size_t sampleCount) :
                 channelCount(channelCount),
                 type(type),
                 sampleRate(sampleRate),

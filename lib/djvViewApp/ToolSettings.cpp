@@ -16,6 +16,7 @@ namespace djv
     {
         struct ToolSettings::Private
         {
+            bool infoBellowsState = true;
             std::shared_ptr<ValueSubject<bool> > messagesPopup;
             std::map<std::string, bool> debugBellowsState;
             std::map<std::string, BBox2f> widgetGeom;
@@ -41,6 +42,16 @@ namespace djv
             auto out = std::shared_ptr<ToolSettings>(new ToolSettings);
             out->_init(context);
             return out;
+        }
+
+        bool ToolSettings::getInfoBellowsState() const
+        {
+            return _p->infoBellowsState;
+        }
+
+        void ToolSettings::setInfoBellowsState(bool value)
+        {
+            _p->infoBellowsState = value;
         }
 
         std::shared_ptr<IValueSubject<bool> > ToolSettings::observeMessagesPopup() const
@@ -79,6 +90,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
+                UI::Settings::read("InfoBellowsState", object, p.infoBellowsState);
                 UI::Settings::read("MessagesPopup", object, p.messagesPopup);
                 UI::Settings::read("DebugBellowsState", object, p.debugBellowsState);
                 UI::Settings::read("WidgetGeom", object, p.widgetGeom);
@@ -90,6 +102,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             picojson::value out(picojson::object_type, true);
             auto & object = out.get<picojson::object>();
+            UI::Settings::write("InfoBellowsState", p.infoBellowsState, object);
             UI::Settings::write("MessagesPopup", p.messagesPopup->get(), object);
             UI::Settings::write("DebugBellowsState", p.debugBellowsState, object);
             UI::Settings::write("WidgetGeom", p.widgetGeom, object);

@@ -44,6 +44,7 @@ namespace djv
         {
             std::shared_ptr<ToolSettings> settings;
             int currentToolSystem = -1;
+            bool infoBellowsState = true;
             std::list<std::string> messages;
             bool messagesPopup = false;
             std::map<std::string, bool> debugBellowsState;
@@ -51,6 +52,7 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> toolActionGroup;
             std::shared_ptr<UI::Menu> menu;
+            std::weak_ptr<InfoWidget> infoWidget;
             std::weak_ptr<MessagesWidget> messagesWidget;
             std::weak_ptr<DebugWidget> debugWidget;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
@@ -65,6 +67,7 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             p.settings = ToolSettings::create(context);
+            p.infoBellowsState = p.settings->getInfoBellowsState();
             p.debugBellowsState = p.settings->getDebugBellowsState();
             _setWidgetGeom(p.settings->getWidgetGeom());
 
@@ -147,7 +150,10 @@ namespace djv
                         {
                             if (value)
                             {
-                                system->_openWidget("Info", InfoWidget::create(context));
+                                auto widget = InfoWidget::create(context);
+                                widget->setBellowsState(system->_p->infoBellowsState);
+                                system->_p->infoWidget = widget;
+                                system->_openWidget("Info", widget);
                             }
                             else
                             {
@@ -305,6 +311,7 @@ namespace djv
             _closeWidget("Messages");
             _closeWidget("SystemLog");
             _closeWidget("Debug");
+            p.settings->setInfoBellowsState(p.infoBellowsState);
             p.settings->setDebugBellowsState(p.debugBellowsState);
             p.settings->setWidgetGeom(_getWidgetGeom());
         }
@@ -333,7 +340,15 @@ namespace djv
         void ToolSystem::_closeWidget(const std::string& value)
         {
             DJV_PRIVATE_PTR();
-            if ("Messages" == value)
+            if ("Info" == value)
+            {
+                if (auto infoWidget = p.infoWidget.lock())
+                {
+                    p.infoBellowsState = infoWidget->getBellowsState();
+                }
+                p.infoWidget.reset();
+            }
+            else if ("Messages" == value)
             {
                 p.messagesWidget.reset();
             }
