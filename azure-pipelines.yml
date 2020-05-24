@@ -131,18 +131,18 @@ jobs:
       echo "Building third party dependencies..."
       mkdir DJV-third-party-Release
       cd DJV-third-party-Release
-      cmake ..\..\third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release
-      cmake --build .
-      cmake --build . --target install
+      cmake ..\..\third-party -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release
+      cmake --build . --config Release
+      cmake --build . --config Release --target install
       cd ..
       echo "Building DJV..."
       mkdir DJV-Release
       cd DJV-Release
-      cmake ..\.. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release -DCMAKE_PREFIX_PATH=%DJV_BUILD%/DJV-install-Release
-      cmake --build .
+      cmake ..\.. -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release -DCMAKE_PREFIX_PATH=%DJV_BUILD%/DJV-install-Release
+      cmake --build . --config Release
       cmake ..\.. -DDJV_THIRD_PARTY=TRUE
-      cmake --build .
-      cmake --build . --target package
+      cmake --build . --config Release
+      cmake --build . --config Release --target package
       cd ..\..
 
 - job: macOS
