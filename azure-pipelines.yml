@@ -97,14 +97,14 @@ jobs:
       mkdir DJV-third-party-Debug
       cd DJV-third-party-Debug
       cmake ..\..\third-party -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_OPENGL_ES2=TRUE
-      cmake --build . --config Debug -j 4
+      cmake --build . --config Debug -j
       cmake --build . --config Debug --target install
       cd ..
       echo "Building DJV..."
       mkdir DJV-Debug
       cd DJV-Debug
       cmake ..\.. -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Debug -DCMAKE_PREFIX_PATH=%DJV_BUILD%/DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_BUILD_TINY=TRUE -DDJV_OPENGL_ES2=TRUE
-      cmake --build . --config Debug -j 4
+      cmake --build . --config Debug -j
       rem Fails with:
       rem MSBUILD : error MSB1009: Project file does not exist.
       rem cmake --build . --config Debug --target test
@@ -132,17 +132,17 @@ jobs:
       mkdir DJV-third-party-Release
       cd DJV-third-party-Release
       cmake ..\..\third-party -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release
-      cmake --build . --config Release -j 4
+      cmake --build . --config Release -j
       cmake --build . --config Release --target install
       cd ..
       echo "Building DJV..."
       mkdir DJV-Release
       cd DJV-Release
       cmake ..\.. -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release -DCMAKE_PREFIX_PATH=%DJV_BUILD%/DJV-install-Release
-      cmake --build . --config Release-j 4
+      cmake --build . --config Release-j
       echo "Packaging DJV..."
       cmake ..\.. -DDJV_THIRD_PARTY=TRUE
-      cmake --build . --config Release -j 4
+      cmake --build . --config Release -j
       cmake --build . --config Release --target package
       cd ..\..
 
