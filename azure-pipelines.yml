@@ -91,7 +91,7 @@ jobs:
       mkdir build
       cd build
       set DJV_BUILD=%CD%
-      set PATH=%PATH%;%DJV_BUILD%\DJV-install-Debug\bin
+      set PATH=%DJV_BUILD%\DJV-install-Debug\bin;%PATH%
       set PYTHONPATH=%DJV_BUILD%\DJV-install-Debug\lib;%PYTHONPATH%
       echo "Building third party dependencies..."
       mkdir DJV-third-party-Debug
@@ -122,10 +122,13 @@ jobs:
       Expand-Archive nasm-2.14.02-win64.zip
     displayName: 'Download NASM'
   - script: |
+      set PATH=%CD%\nasm-2.14.02;%PATH%
+      echo %PATH%
+      dir %CD%\nasm-2.14.02
       mkdir build
       cd build
       set DJV_BUILD=%CD%
-      set PATH=%DJV_BUILD%\DJV-install-Release\bin;%DJV_BUILD%\..\nasm-2.14.02;%PATH%
+      set PATH=%DJV_BUILD%\DJV-install-Release\bin;%DJV_DIR%\nasm-2.14.02;%PATH%
       set PYTHONPATH=%DJV_BUILD%\DJV-install-Release\lib;%PYTHONPATH%
       echo "Building third party dependencies..."
       mkdir DJV-third-party-Release
