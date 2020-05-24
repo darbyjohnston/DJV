@@ -122,7 +122,6 @@ jobs:
       Expand-Archive nasm-2.14.02-win64.zip -DestinationPath .
     displayName: 'Download NASM'
   - script: |
-      call "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\Common7\Tools\VsDevCmd.bat"
       set PATH=%CD%\nasm-2.14.02;%PATH%
       mkdir build
       cd build
@@ -132,14 +131,14 @@ jobs:
       echo "Building third party dependencies..."
       mkdir DJV-third-party-Release
       cd DJV-third-party-Release
-      cmake ..\..\third-party -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release
+      cmake ..\..\third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release
       cmake --build .
       cmake --build . --target install
       cd ..
       echo "Building DJV..."
       mkdir DJV-Release
       cd DJV-Release
-      cmake ..\.. -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release -DCMAKE_PREFIX_PATH=%DJV_BUILD%/DJV-install-Release
+      cmake ..\.. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release -DCMAKE_PREFIX_PATH=%DJV_BUILD%/DJV-install-Release
       cmake --build .
       cmake ..\.. -DDJV_THIRD_PARTY=TRUE
       cmake --build .
