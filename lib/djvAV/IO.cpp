@@ -19,9 +19,9 @@
 #if defined(JPEG_FOUND)
 #include <djvAV/JPEG.h>
 #endif // JPEG_FOUND
-#if defined(OPENEXR_FOUND)
+#if defined(OpenEXR_FOUND)
 #include <djvAV/OpenEXR.h>
-#endif // OPENEXR_FOUND
+#endif // OpenEXR_FOUND
 #if defined(PNG_FOUND)
 #include <djvAV/PNG.h>
 #endif // PNG_FOUND
@@ -495,9 +495,9 @@ namespace djv
 #if defined(PNG_FOUND)
                 p.plugins[PNG::pluginName] = PNG::Plugin::create(context);
 #endif // PNG_FOUND
-#if defined(OPENEXR_FOUND)
+#if defined(OpenEXR_FOUND)
                 p.plugins[OpenEXR::pluginName] = OpenEXR::Plugin::create(context);
-#endif // OPENEXR_FOUND
+#endif // OpenEXR_FOUND
 #if defined(TIFF_FOUND)
                 p.plugins[TIFF::pluginName] = TIFF::Plugin::create(context);
 #endif // TIFF_FOUND
