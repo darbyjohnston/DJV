@@ -134,16 +134,16 @@ jobs:
       mkdir DJV-third-party-Release
       cd DJV-third-party-Release
       cmake ..\..\third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release
-      cmake --build . -j 4
+      cmake --build .
       cmake --build . --target install
       cd ..
       echo "Building DJV..."
       mkdir DJV-Release
       cd DJV-Release
       cmake ..\.. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release -DCMAKE_PREFIX_PATH=%DJV_BUILD%/DJV-install-Release
-      cmake --build . -j 4
+      cmake --build .
       cmake ..\.. -DDJV_THIRD_PARTY=TRUE
-      cmake --build . -j 4
+      cmake --build .
       cmake --build . --target package
       cd ..\..
 
