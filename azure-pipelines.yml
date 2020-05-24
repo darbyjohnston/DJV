@@ -96,18 +96,18 @@ jobs:
       echo "Building third party dependencies..."
       mkdir DJV-third-party-Debug
       cd DJV-third-party-Debug
-      cmake ..\..\third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_OPENGL_ES2=TRUE
-      cmake --build . -j 4
-      cmake --build . --target install
+      cmake ..\..\third-party -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_OPENGL_ES2=TRUE
+      cmake --build . --config Debug -j 4
+      cmake --build . --config Debug --target install
       cd ..
       echo "Building DJV..."
       mkdir DJV-Debug
       cd DJV-Debug
-      cmake ..\.. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Debug -DCMAKE_PREFIX_PATH=%DJV_BUILD%/DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_BUILD_TINY=TRUE -DDJV_OPENGL_ES2=TRUE
-      cmake --build . -j 4
+      cmake ..\.. -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Debug -DCMAKE_PREFIX_PATH=%DJV_BUILD%/DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_BUILD_TINY=TRUE -DDJV_OPENGL_ES2=TRUE
+      cmake --build . --config Debug -j 4
       rem Fails with:
       rem MSBUILD : error MSB1009: Project file does not exist.
-      rem cmake --build . --target test
+      rem cmake --build . --config Debug --target test
       rem type Testing/Temporary/LastTest.log
       cd ..\..
 
