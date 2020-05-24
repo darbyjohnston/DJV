@@ -124,7 +124,7 @@ jobs:
   - script: |
       set PATH=%CD%\nasm;%PATH%
       echo %PATH%
-      dir %CD%\nasm-2.14.02
+      dir %CD%\nasm
       mkdir build
       cd build
       set DJV_BUILD=%CD%
