@@ -123,8 +123,6 @@ jobs:
     displayName: 'Download NASM'
   - script: |
       set PATH=%CD%\nasm-2.14.02;%PATH%
-      echo %PATH%
-      dir %CD%\nasm-2.14.02
       mkdir build
       cd build
       set DJV_BUILD=%CD%
@@ -133,14 +131,14 @@ jobs:
       echo "Building third party dependencies..."
       mkdir DJV-third-party-Release
       cd DJV-third-party-Release
-      cmake ..\..\third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release
+      cmake ..\..\third-party -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release
       cmake --build .
       cmake --build . --target install
       cd ..
       echo "Building DJV..."
       mkdir DJV-Release
       cd DJV-Release
-      cmake ..\.. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release -DCMAKE_PREFIX_PATH=%DJV_BUILD%/DJV-install-Release
+      cmake ..\.. -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release -DCMAKE_PREFIX_PATH=%DJV_BUILD%/DJV-install-Release
       cmake --build .
       cmake ..\.. -DDJV_THIRD_PARTY=TRUE
       cmake --build .
