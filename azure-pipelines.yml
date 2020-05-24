@@ -122,6 +122,7 @@ jobs:
       Expand-Archive nasm-2.14.02-win64.zip -DestinationPath .
     displayName: 'Download NASM'
   - script: |
+      call "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\Common7\Tools\VsDevCmd.bat"
       set PATH=%CD%\nasm-2.14.02;%PATH%
       mkdir build
       cd build
