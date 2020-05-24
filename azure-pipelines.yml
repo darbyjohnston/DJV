@@ -119,12 +119,12 @@ jobs:
       $ErrorActionPreference = "Stop"
       $url = "https://www.nasm.us/pub/nasm/releasebuilds/2.14.02/win64/nasm-2.14.02-win64.zip"
       Invoke-WebRequest -Uri $url -OutFile nasm-2.14.02-win64.zip -UserAgent "NativeClient"
-      Expand-Archive nasm-2.14.02-win64.zip -DestinationPath nasm
+      Expand-Archive nasm-2.14.02-win64.zip -DestinationPath tmp
     displayName: 'Download NASM'
   - script: |
-      set PATH=%CD%\nasm;%PATH%
+      set PATH=%CD%\tmp\nasm-2.14.02;%PATH%
       echo %PATH%
-      dir %CD%\nasm
+      dir %CD%\tmp\nasm-2.14.02
       mkdir build
       cd build
       set DJV_BUILD=%CD%
