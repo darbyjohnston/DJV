@@ -34,7 +34,7 @@ namespace djv
                 size_t      sampleRate      = 0;
                 size_t      sampleCount     = 0;
                 
-                constexpr bool isValid() const;
+                bool isValid() const;
                 size_t getByteCount() const;
 
                 bool operator == (const Info&) const;

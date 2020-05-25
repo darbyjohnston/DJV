@@ -20,7 +20,7 @@ namespace djv
                 sampleCount(sampleCount)
             {}
 
-            constexpr bool Info::isValid() const
+            inline bool Info::isValid() const
             {
                 return type != Type::None;
             }
