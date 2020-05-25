@@ -77,6 +77,8 @@ namespace djv
             DJV_PRIVATE();
         };
 
+        //! This class provides functionality to constrain the minimum size
+        //! of multiple Label widgets.
         class LabelSizeGroup : public std::enable_shared_from_this<LabelSizeGroup>
         {
             DJV_NON_COPYABLE(LabelSizeGroup);

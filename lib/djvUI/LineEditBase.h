@@ -13,6 +13,9 @@ namespace djv
     namespace UI
     {
         //! This class provides the base functionality for line edit widgets.
+        //!
+        //! \todo Add a class for constraining the minimum size of multiple
+        //! LineEditBase widgets, similiar to LabelSizeGroup.
         class LineEditBase : public Widget
         {
             DJV_NON_COPYABLE(LineEditBase);
