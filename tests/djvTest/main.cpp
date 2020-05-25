@@ -75,58 +75,65 @@ int main(int argc, char ** argv)
         auto uiSystem = UI::UISystem::create(true, context);
         
         std::vector<std::shared_ptr<Test::ITest> > tests;
-        tests.emplace_back(new CoreTest::AnimationTest(context));
-        tests.emplace_back(new CoreTest::BBoxTest(context));
-        tests.emplace_back(new CoreTest::CacheTest(context));
-        tests.emplace_back(new CoreTest::DirectoryModelTest(context));
-        tests.emplace_back(new CoreTest::DirectoryWatcherTest(context));
-        tests.emplace_back(new CoreTest::DrivesModelTest(context));
-        tests.emplace_back(new CoreTest::EnumTest(context));
-        tests.emplace_back(new CoreTest::ErrorTest(context));
-        tests.emplace_back(new CoreTest::EventTest(context));
-        tests.emplace_back(new CoreTest::FileIOTest(context));
-        tests.emplace_back(new CoreTest::FileInfoTest(context));
-        tests.emplace_back(new CoreTest::FrameTest(context));
-        tests.emplace_back(new CoreTest::IEventSystemTest(context));
-        tests.emplace_back(new CoreTest::ISystemTest(context));
-        tests.emplace_back(new CoreTest::ListObserverTest(context));
-        tests.emplace_back(new CoreTest::LogSystemTest(context));
-        tests.emplace_back(new CoreTest::MapObserverTest(context));
-        tests.emplace_back(new CoreTest::MathTest(context));
-        tests.emplace_back(new CoreTest::MemoryTest(context));
-        tests.emplace_back(new CoreTest::OSTest(context));
-        tests.emplace_back(new CoreTest::ObjectTest(context));
-        tests.emplace_back(new CoreTest::PathTest(context));
-        tests.emplace_back(new CoreTest::PicoJSONTest(context));
-        tests.emplace_back(new CoreTest::RangeTest(context));
-        tests.emplace_back(new CoreTest::SpeedTest(context));
-        tests.emplace_back(new CoreTest::StringFormatTest(context));
-        tests.emplace_back(new CoreTest::StringTest(context));
-        tests.emplace_back(new CoreTest::TextSystemTest(context));
-        tests.emplace_back(new CoreTest::TimeTest(context));
-        tests.emplace_back(new CoreTest::ValueObserverTest(context));
-        tests.emplace_back(new CoreTest::VectorTest(context));
+        if (0)
+        {
+            tests.emplace_back(new CoreTest::PathTest(context));
+        }
+        else
+        {
+            tests.emplace_back(new CoreTest::AnimationTest(context));
+            tests.emplace_back(new CoreTest::BBoxTest(context));
+            tests.emplace_back(new CoreTest::CacheTest(context));
+            tests.emplace_back(new CoreTest::DirectoryModelTest(context));
+            tests.emplace_back(new CoreTest::DirectoryWatcherTest(context));
+            tests.emplace_back(new CoreTest::DrivesModelTest(context));
+            tests.emplace_back(new CoreTest::EnumTest(context));
+            tests.emplace_back(new CoreTest::ErrorTest(context));
+            tests.emplace_back(new CoreTest::EventTest(context));
+            tests.emplace_back(new CoreTest::FileIOTest(context));
+            tests.emplace_back(new CoreTest::FileInfoTest(context));
+            tests.emplace_back(new CoreTest::FrameTest(context));
+            tests.emplace_back(new CoreTest::IEventSystemTest(context));
+            tests.emplace_back(new CoreTest::ISystemTest(context));
+            tests.emplace_back(new CoreTest::ListObserverTest(context));
+            tests.emplace_back(new CoreTest::LogSystemTest(context));
+            tests.emplace_back(new CoreTest::MapObserverTest(context));
+            tests.emplace_back(new CoreTest::MathTest(context));
+            tests.emplace_back(new CoreTest::MemoryTest(context));
+            tests.emplace_back(new CoreTest::OSTest(context));
+            tests.emplace_back(new CoreTest::ObjectTest(context));
+            tests.emplace_back(new CoreTest::PathTest(context));
+            tests.emplace_back(new CoreTest::PicoJSONTest(context));
+            tests.emplace_back(new CoreTest::RangeTest(context));
+            tests.emplace_back(new CoreTest::SpeedTest(context));
+            tests.emplace_back(new CoreTest::StringFormatTest(context));
+            tests.emplace_back(new CoreTest::StringTest(context));
+            tests.emplace_back(new CoreTest::TextSystemTest(context));
+            tests.emplace_back(new CoreTest::TimeTest(context));
+            tests.emplace_back(new CoreTest::ValueObserverTest(context));
+            tests.emplace_back(new CoreTest::VectorTest(context));
 
-        tests.emplace_back(new AVTest::AVSystemTest(context));
-        tests.emplace_back(new AVTest::AudioDataTest(context));
-        tests.emplace_back(new AVTest::AudioTest(context));
-        tests.emplace_back(new AVTest::ColorTest(context));
-        tests.emplace_back(new AVTest::EnumTest(context));
-        tests.emplace_back(new AVTest::FontSystemTest(context));
-        tests.emplace_back(new AVTest::IOTest(context));
-        tests.emplace_back(new AVTest::ImageConvertTest(context));
-        tests.emplace_back(new AVTest::ImageDataTest(context));
-        tests.emplace_back(new AVTest::ImageTest(context));
-        tests.emplace_back(new AVTest::OCIOSystemTest(context));
-        tests.emplace_back(new AVTest::OCIOTest(context));
-        tests.emplace_back(new AVTest::PixelTest(context));
-        tests.emplace_back(new AVTest::Render2DTest(context));
-        tests.emplace_back(new AVTest::ThumbnailSystemTest(context));
-        tests.emplace_back(new AVTest::TagsTest(context));
+            tests.emplace_back(new AVTest::AVSystemTest(context));
+            tests.emplace_back(new AVTest::AudioDataTest(context));
+            tests.emplace_back(new AVTest::AudioTest(context));
+            tests.emplace_back(new AVTest::ColorTest(context));
+            tests.emplace_back(new AVTest::EnumTest(context));
+            tests.emplace_back(new AVTest::FontSystemTest(context));
+            tests.emplace_back(new AVTest::IOTest(context));
+            tests.emplace_back(new AVTest::ImageConvertTest(context));
+            tests.emplace_back(new AVTest::ImageDataTest(context));
+            tests.emplace_back(new AVTest::ImageTest(context));
+            tests.emplace_back(new AVTest::OCIOSystemTest(context));
+            tests.emplace_back(new AVTest::OCIOTest(context));
+            tests.emplace_back(new AVTest::PixelTest(context));
+            tests.emplace_back(new AVTest::Render2DTest(context));
+            tests.emplace_back(new AVTest::ThumbnailSystemTest(context));
+            tests.emplace_back(new AVTest::TagsTest(context));
 
-        tests.emplace_back(new UITest::EnumTest(context));
-        tests.emplace_back(new UITest::WidgetTest(context));
-        
+            tests.emplace_back(new UITest::EnumTest(context));
+            tests.emplace_back(new UITest::WidgetTest(context));
+        }
+
         std::vector<std::shared_ptr<Test::ITest> > testsToRun;
         if (1 == argc)
         {

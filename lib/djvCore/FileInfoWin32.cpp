@@ -21,7 +21,7 @@
 //#pragma optimize("", off)
 
 #define _STAT     struct _stati64
-#define _STAT_FNC        _wstati64
+#define _STAT_FNC _wstati64
 
 namespace djv
 {
@@ -266,9 +266,10 @@ namespace djv
                         }
                         FindClose(hFind);
                     }
-                    else if ("\\\\" == value.getDirectoryName())
+                    else if (value.isServer())
                     {
-                        const std::string path = value.get();
+                        std::string path = value.get();
+                        Path::removeTrailingSeparator(path);
                         const size_t bufSize = path.size() + 1;
                         std::vector<char> buf(bufSize);
                         strcpy_s(buf.data(), bufSize, path.c_str());

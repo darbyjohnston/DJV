@@ -75,6 +75,32 @@ namespace djv
                 return out;
             }
 
+            bool Path::isServer() const
+            {
+                bool out = false;
+                if ("\\\\" == _directoryName && !_baseName.empty())
+                {
+                    out = true;
+                }
+                else if (_directoryName.size() > 2 &&
+                    '\\' == _directoryName[0] &&
+                    '\\' == _directoryName[1] &&
+                    _baseName.empty() &&
+                    _number.empty() &&
+                    _extension.empty())
+                {
+                    const size_t directoryNameSize = _directoryName.size();
+                    size_t i = 2;
+                    for (; i != '\\' && i < directoryNameSize; ++i)
+                        ;
+                    if (directoryNameSize == i)
+                    {
+                        out = true;
+                    }
+                }
+                return out;
+            }
+
             bool Path::cdUp(char separator)
             {
                 auto subDirectories = splitDir(get());

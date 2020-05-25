@@ -133,7 +133,7 @@ namespace djv
                 static char getCurrentSeparator();
 
                 //! Remove a trailing path separator.
-                static void removeTrailingSeparator(std::string &);
+                static void removeTrailingSeparator(std::string&);
 
                 //! Split a path into components.
                 static void split(

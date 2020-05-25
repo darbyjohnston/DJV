@@ -80,6 +80,7 @@ namespace djv
                 DJV_ASSERT(!FileSystem::Path().isServer());
                 DJV_ASSERT(!FileSystem::Path("\\\\").isServer());
                 DJV_ASSERT(FileSystem::Path("\\\\server").isServer());
+                DJV_ASSERT(FileSystem::Path("\\\\server\\").isServer());
                 DJV_ASSERT(!FileSystem::Path("\\\\server\\share").isServer());
             }
         }

@@ -29,6 +29,7 @@ namespace djv
         {
             {
                 const Audio::Info info;
+                DJV_ASSERT(Audio::defaultName == info.name);
                 DJV_ASSERT(0 == info.channelCount);
                 DJV_ASSERT(Audio::Type::None == info.type);
                 DJV_ASSERT(0 == info.sampleRate);
@@ -38,6 +39,7 @@ namespace djv
 
             {
                 const Audio::Info info(2, Audio::Type::S16, 44000, 100);
+                DJV_ASSERT(Audio::defaultName == info.name);
                 DJV_ASSERT(2 == info.channelCount);
                 DJV_ASSERT(Audio::Type::S16 == info.type);
                 DJV_ASSERT(44000 == info.sampleRate);

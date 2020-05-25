@@ -90,7 +90,7 @@ namespace djv
         {
             {
                 const Image::Info info;
-                DJV_ASSERT(Image::nameDefault == info.name);
+                DJV_ASSERT(Image::defaultName == info.name);
                 DJV_ASSERT(1.f == info.pixelAspectRatio);
                 DJV_ASSERT(Image::Type::None == info.type);
                 DJV_ASSERT(!info.isValid());
@@ -105,7 +105,7 @@ namespace djv
                         4,
                         endian);
                 const Image::Info info(size, type, layout);
-                DJV_ASSERT(Image::nameDefault == info.name);
+                DJV_ASSERT(Image::defaultName == info.name);
                 DJV_ASSERT(size == info.size);
                 DJV_ASSERT(type == info.type);
                 DJV_ASSERT(info.layout.mirror.x);
@@ -123,7 +123,7 @@ namespace djv
                         4,
                         endian);
                 const Image::Info info(1, 2, type, layout);
-                DJV_ASSERT(Image::nameDefault == info.name);
+                DJV_ASSERT(Image::defaultName == info.name);
                 DJV_ASSERT(1 == info.size.w);
                 DJV_ASSERT(2 == info.size.h);
                 DJV_ASSERT(type == info.type);
