@@ -569,7 +569,7 @@ namespace djv
             };
         }
 
-        void ViewSystem::setCurrentTool(bool value)
+        void ViewSystem::setCurrentTool(bool value, int)
         {
             _p->currentTool = value;
         }

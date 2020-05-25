@@ -25,7 +25,7 @@ namespace djv
             static std::shared_ptr<MagnifySystem> create(const std::shared_ptr<Core::Context>&);
 
             ToolActionData getToolAction() const override;
-            void setCurrentTool(bool) override;
+            void setCurrentTool(bool, int) override;
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
 

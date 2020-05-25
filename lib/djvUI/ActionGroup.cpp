@@ -94,6 +94,7 @@ namespace djv
             {
                 if (auto group = weak.lock())
                 {
+                    const size_t size = group->_p->actions.size();
                     switch (group->_p->buttonType)
                     {
                     case ButtonType::Toggle:
@@ -105,12 +106,13 @@ namespace djv
                     case ButtonType::Radio:
                         if (value)
                         {
-                            for (size_t i = 0; i < group->_p->actions.size(); ++i)
+                            for (size_t i = 0; i < size; ++i)
                             {
                                 auto action = group->_p->actions[i];
                                 action->setChecked(i == index);
                             }
-                            if (group->_p->radioCallback && Callback::Trigger == group->_p->callback)
+                            if (group->_p->radioCallback &&
+                                Callback::Trigger == group->_p->callback)
                             {
                                 group->_p->radioCallback(index);
                             }
@@ -119,15 +121,33 @@ namespace djv
                     case ButtonType::Exclusive:
                         if (value)
                         {
-                            for (size_t i = 0; i < group->_p->actions.size(); ++i)
+                            for (size_t i = 0; i < size; ++i)
                             {
                                 auto action = group->_p->actions[i];
                                 action->setChecked(i == index);
                             }
+                            if (group->_p->exclusiveCallback &&
+                                Callback::Trigger == group->_p->callback)
+                            {
+                                group->_p->exclusiveCallback(index);
+                            }
                         }
-                        if (group->_p->exclusiveCallback && Callback::Trigger == group->_p->callback)
+                        else
                         {
-                            group->_p->exclusiveCallback(value ? index : -1);
+                            size_t i = 0;
+                            for (; i < size; ++i)
+                            {
+                                if (group->_p->actions[i]->observeChecked()->get())
+                                {
+                                    break;
+                                }
+                            }
+                            if (size == i &&
+                                group->_p->exclusiveCallback &&
+                                Callback::Trigger == group->_p->callback)
+                            {
+                                group->_p->exclusiveCallback(-1);
+                            }
                         }
                         break;
                     default: break;

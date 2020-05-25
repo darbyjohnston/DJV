@@ -71,23 +71,30 @@ namespace djv
             };
         }
 
-        void MagnifySystem::setCurrentTool(bool value)
+        void MagnifySystem::setCurrentTool(bool value, int index)
         {
             DJV_PRIVATE_PTR();
             if (value)
             {
-                if (auto context = getContext().lock())
+                if (p.widget.expired())
                 {
-                    auto widget = MagnifyWidget::create(context);
-                    widget->setMagnify(p.settings->getMagnify());
-                    widget->setMagnifyPos(p.settings->getMagnifyPos());
-                    p.widget = widget;
-                    _openWidget("Magnify", widget);
+                    if (auto context = getContext().lock())
+                    {
+                        auto widget = MagnifyWidget::create(context);
+                        widget->setMagnify(p.settings->getMagnify());
+                        widget->setMagnifyPos(p.settings->getMagnifyPos());
+                        p.widget = widget;
+                        _openWidget("Magnify", widget);
+                    }
                 }
             }
-            else
+            else if (-1 == index)
             {
                 _closeWidget("Magnify");
+            }
+            if (auto widget = p.widget.lock())
+            {
+                widget->setCurrentTool(value);
             }
         }
 

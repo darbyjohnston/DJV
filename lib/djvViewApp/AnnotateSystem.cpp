@@ -33,11 +33,11 @@ namespace djv
         {
             std::shared_ptr<AnnotateSettings> settings;
             
+            bool currentTool = false;
             AV::Image::Color color = AV::Image::Color(1.F, 0.F, 0.F);
             float lineWidth = 10.F;
             glm::vec2 imagePos = glm::vec2(0.F, 0.F);
             float imageZoom = 1.F;
-            bool currentTool = false;
             glm::vec2 hoverPos = glm::vec2(0.F, 0.F);
             glm::vec2 dragStart = glm::vec2(0.F, 0.F);
             std::shared_ptr<MediaWidget> activeWidget;
@@ -180,7 +180,7 @@ namespace djv
             };
         }
 
-        void AnnotateSystem::setCurrentTool(bool value)
+        void AnnotateSystem::setCurrentTool(bool value, int index)
         {
             DJV_PRIVATE_PTR();
             p.currentTool = value;
@@ -188,31 +188,34 @@ namespace djv
             {
                 if (auto context = getContext().lock())
                 {
-                    auto widget = AnnotateWidget::create(context);
-                    widget->setColor(p.color);
-                    widget->setLineWidth(p.lineWidth);
-                    auto weak = std::weak_ptr<AnnotateSystem>(std::dynamic_pointer_cast<AnnotateSystem>(shared_from_this()));
-                    widget->setColorCallback(
-                        [weak](const AV::Image::Color& value)
+                    if (p.widget.expired())
+                    {
+                        auto widget = AnnotateWidget::create(context);
+                        widget->setColor(p.color);
+                        widget->setLineWidth(p.lineWidth);
+                        auto weak = std::weak_ptr<AnnotateSystem>(std::dynamic_pointer_cast<AnnotateSystem>(shared_from_this()));
+                        widget->setColorCallback(
+                            [weak](const AV::Image::Color& value)
                         {
                             if (auto system = weak.lock())
                             {
                                 system->_p->color = value;
                             }
                         });
-                    widget->setLineWidthCallback(
-                        [weak](float value)
+                        widget->setLineWidthCallback(
+                            [weak](float value)
                         {
                             if (auto system = weak.lock())
                             {
                                 system->_p->lineWidth = value;
                             }
                         });
-                    p.widget = widget;
-                    _openWidget("Annotate", widget);
+                        p.widget = widget;
+                        _openWidget("Annotate", widget);
+                    }
                 }
             }
-            else
+            else if (-1 == index)
             {
                 _closeWidget("Annotate");
             }

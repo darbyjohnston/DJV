@@ -26,6 +26,8 @@ namespace djv
 
             static std::shared_ptr<ColorPickerWidget> create(const std::shared_ptr<Core::Context>&);
             
+            void setCurrentTool(bool);
+
             size_t getSampleSize() const;
             void setSampleSize(size_t);
 

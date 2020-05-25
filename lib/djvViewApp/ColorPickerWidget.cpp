@@ -62,6 +62,7 @@ namespace djv
 
         struct ColorPickerWidget::Private
         {
+            bool currentTool = false;
             size_t sampleSize = 1;
             AV::Image::Type lockType = AV::Image::Type::None;
             bool applyColorOperations = true;
@@ -355,9 +356,12 @@ namespace djv
                                     {
                                         if (auto widget = weak.lock())
                                         {
-                                            widget->_p->pickerPos = value.pos;
-                                            widget->_sampleUpdate();
-                                            widget->_widgetUpdate();
+                                            if (widget->_p->currentTool)
+                                            {
+                                                widget->_p->pickerPos = value.pos;
+                                                widget->_sampleUpdate();
+                                                widget->_widgetUpdate();
+                                            }
                                         }
                                     });
                             }
@@ -408,7 +412,17 @@ namespace djv
             out->_init(context);
             return out;
         }
-        
+
+        void ColorPickerWidget::setCurrentTool(bool value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.currentTool)
+                return;
+            p.currentTool = value;
+            _sampleUpdate();
+            _widgetUpdate();
+        }
+
         size_t ColorPickerWidget::getSampleSize() const
         {
             return _p->sampleSize;

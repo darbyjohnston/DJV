@@ -31,7 +31,7 @@ namespace djv
 
             virtual ToolActionData getToolAction() const = 0;
 
-            virtual void setCurrentTool(bool) = 0;
+            virtual void setCurrentTool(bool, int) = 0;
 
         private:
             DJV_PRIVATE();

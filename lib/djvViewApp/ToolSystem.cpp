@@ -127,14 +127,20 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        if (system->_p->currentToolSystem >= 0 && system->_p->currentToolSystem < system->_p->toolSystems.size())
+                        if (system->_p->currentToolSystem >= 0 &&
+                            system->_p->currentToolSystem < system->_p->toolSystems.size())
                         {
-                            system->_p->toolSystems[system->_p->currentToolSystem]->setCurrentTool(false);
+                            system->_p->toolSystems[system->_p->currentToolSystem]->setCurrentTool(
+                                false,
+                                value);
                         }
                         system->_p->currentToolSystem = value;
-                        if (system->_p->currentToolSystem >= 0 && system->_p->currentToolSystem < system->_p->toolSystems.size())
+                        if (system->_p->currentToolSystem >= 0 &&
+                            system->_p->currentToolSystem < system->_p->toolSystems.size())
                         {
-                            system->_p->toolSystems[system->_p->currentToolSystem]->setCurrentTool(true);
+                            system->_p->toolSystems[system->_p->currentToolSystem]->setCurrentTool(
+                                true,
+                                system->_p->currentToolSystem);
                         }
                     }
                 });
