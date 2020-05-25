@@ -35,7 +35,7 @@ uniform bool        levelsEnabled;
 uniform Exposure    exposure;
 uniform bool        exposureEnabled;
 uniform float       softClip;
-uniform int         imageChannel;
+uniform int         imageChannelDisplay;
 uniform int         colorMode;
 uniform vec4        color;
 uniform sampler2D   textureSampler;
@@ -46,12 +46,12 @@ uniform sampler2D   textureSampler;
 #define IMAGE_CHANNELS_RGB  3
 #define IMAGE_CHANNELS_RGBA 4
 
-// djv::AV::Render::ImageChannel
-#define IMAGE_CHANNEL_NONE  0
-#define IMAGE_CHANNEL_RED   1
-#define IMAGE_CHANNEL_GREEN 2
-#define IMAGE_CHANNEL_BLUE  3
-#define IMAGE_CHANNEL_ALPHA 4
+// djv::AV::Render::ImageChannelDisplay
+#define IMAGE_CHANNEL_DISPLAY_COLOR 0
+#define IMAGE_CHANNEL_DISPLAY_RED   1
+#define IMAGE_CHANNEL_DISPLAY_GREEN 2
+#define IMAGE_CHANNEL_DISPLAY_BLUE  3
+#define IMAGE_CHANNEL_DISPLAY_ALPHA 4
 
 // djv::AV::Render::ColorMode
 #define COLOR_MODE_SOLID_COLOR                0
@@ -166,7 +166,10 @@ void main()
     }
     else if (COLOR_MODE_COLOR_AND_TEXTURE == colorMode)
     {
+        // Sample the texture.
         vec4 t = texture2D(textureSampler, Texture);
+        
+        // Swizzle the channels for the given image format.
         if (IMAGE_CHANNELS_L == imageChannels)
         {
             t.g = t.b = t.r;
@@ -182,6 +185,7 @@ void main()
             t.a = 1.0;
         }
         
+		// Apply color transformations.
         if (colorMatrixEnabled)
         {
             t = colorMatrixFunc(t, colorMatrix);
@@ -205,23 +209,23 @@ void main()
             t = softClipFunc(t, softClip);
         }
         
-        // Swizzle the channels for the given image channel configuration.
-        if (IMAGE_CHANNEL_RED == imageChannel)
+        // Swizzle the channels for the given image channel display.
+        if (IMAGE_CHANNEL_DISPLAY_RED == imageChannelDisplay)
         {
             t.g = t.r;
             t.b = t.r;
         }
-		else if (IMAGE_CHANNEL_GREEN == imageChannel)
+		else if (IMAGE_CHANNEL_DISPLAY_GREEN == imageChannelDisplay)
 		{
 			t.r = t.g;
 			t.b = t.g;
 		}
-		else if (IMAGE_CHANNEL_BLUE == imageChannel)
+		else if (IMAGE_CHANNEL_DISPLAY_BLUE == imageChannelDisplay)
 		{
 			t.r = t.b;
 			t.g = t.b;
 		}
-		else if (IMAGE_CHANNEL_ALPHA == imageChannel)
+		else if (IMAGE_CHANNEL_DISPLAY_ALPHA == imageChannelDisplay)
 		{
 			t.r = t.a;
 			t.g = t.a;

@@ -45,11 +45,11 @@ namespace djv
 
             std::shared_ptr<MediaWidget> activeWidget;
 
-            std::vector<std::shared_ptr<UI::CheckBox> > channelCheckBoxes;
-            std::shared_ptr<UI::ButtonGroup> channelButtonGroup;
+            std::shared_ptr<UI::ComboBox> channelDisplayComboBox;
             std::shared_ptr<UI::ComboBox> alphaComboBox;
 
             std::shared_ptr<UI::CheckBox> mirrorCheckBoxes[2];
+            std::shared_ptr<UI::HorizontalLayout> mirrorLayout;
             std::shared_ptr<UI::ComboBox> rotateComboBox;
             std::shared_ptr<UI::ComboBox> aspectRatioComboBox;
 
@@ -63,7 +63,7 @@ namespace djv
             std::shared_ptr<UI::ToolButton> softClipEnabledButton;
             std::shared_ptr<UI::FloatSlider> softClipSlider;
 
-            std::shared_ptr<UI::CheckBox> frameStoreEnabledCheckBox;
+            std::shared_ptr<UI::ToolButton> frameStoreEnabledButton;
             std::shared_ptr<UI::PushButton> loadFrameStoreButton;
             std::shared_ptr<UI::PushButton> clearFrameStoreButton;
             std::shared_ptr<UI::ImageWidget> frameStoreWidget;
@@ -87,12 +87,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::ImageControlsWidget");
 
-            p.channelButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Exclusive);
-            for (size_t i = 1; i < static_cast<size_t>(AV::Render2D::ImageChannel::Count); ++i)
-            {
-                auto checkBox = UI::CheckBox::create(context);
-                p.channelButtonGroup->addButton(checkBox);
-            }
+            p.channelDisplayComboBox = UI::ComboBox::create(context);
             p.alphaComboBox = UI::ComboBox::create(context);
 
             for (size_t i = 0; i < 2; ++i)
@@ -176,7 +171,11 @@ namespace djv
             p.softClipSlider = UI::FloatSlider::create(context);
             p.softClipSlider->setDefaultVisible(true);
 
-            p.frameStoreEnabledCheckBox = UI::CheckBox::create(context);
+            p.frameStoreEnabledButton = UI::ToolButton::create(context);
+            p.frameStoreEnabledButton->setButtonType(UI::ButtonType::Toggle);
+            p.frameStoreEnabledButton->setIcon("djvIconHiddenSmall");
+            p.frameStoreEnabledButton->setCheckedIcon("djvIconVisibleSmall");
+            p.frameStoreEnabledButton->setInsideMargin(UI::MetricsRole::None);
             p.loadFrameStoreButton = UI::PushButton::create(context);
             p.clearFrameStoreButton = UI::PushButton::create(context);
             p.frameStoreWidget = UI::ImageWidget::create(context);
@@ -187,19 +186,18 @@ namespace djv
             p.sizeGroup = UI::LabelSizeGroup::create();
 
             p.formLayouts["Channels"] = UI::FormLayout::create(context);
-            for (const auto& i : p.channelButtonGroup->getButtons())
-            {
-                p.formLayouts["Channels"]->addChild(i);
-            }
+            p.formLayouts["Channels"]->addChild(p.channelDisplayComboBox);
             p.formLayouts["Channels"]->addChild(p.alphaComboBox);
             p.bellows["Channels"] = UI::Bellows::create(context);
             p.bellows["Channels"]->addChild(p.formLayouts["Channels"]);
 
             p.formLayouts["Transform"] = UI::FormLayout::create(context);
+            p.mirrorLayout = UI::HorizontalLayout::create(context);
             for (size_t i = 0; i < 2; ++i)
             {
-                p.formLayouts["Transform"]->addChild(p.mirrorCheckBoxes[i]);
+                p.mirrorLayout->addChild(p.mirrorCheckBoxes[i]);
             }
+            p.formLayouts["Transform"]->addChild(p.mirrorLayout);
             p.formLayouts["Transform"]->addChild(p.rotateComboBox);
             p.formLayouts["Transform"]->addChild(p.aspectRatioComboBox);
             p.bellows["Transform"] = UI::Bellows::create(context);
@@ -242,11 +240,11 @@ namespace djv
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::SpacingSmall);
             vLayout->setMargin(UI::MetricsRole::MarginSmall);
-            vLayout->addChild(p.frameStoreEnabledCheckBox);
             vLayout->addChild(p.loadFrameStoreButton);
             vLayout->addChild(p.clearFrameStoreButton);
             vLayout->addChild(p.frameStoreWidget);
             p.bellows["FrameStore"] = UI::Bellows::create(context);
+            p.bellows["FrameStore"]->addWidget(p.frameStoreEnabledButton);
             p.bellows["FrameStore"]->addChild(vLayout);
 
             for (const auto& i : p.formLayouts)
@@ -278,12 +276,12 @@ namespace djv
             _widgetUpdate();
 
             auto weak = std::weak_ptr<ImageControlsWidget>(std::dynamic_pointer_cast<ImageControlsWidget>(shared_from_this()));
-            p.channelButtonGroup->setExclusiveCallback(
+            p.channelDisplayComboBox->setCallback(
                 [weak](int value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->imageOptions.channel = static_cast<AV::Render2D::ImageChannel>(value + 1);
+                        widget->_p->imageOptions.channelDisplay = static_cast<AV::Render2D::ImageChannelDisplay>(value);
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
@@ -617,7 +615,7 @@ namespace djv
                     }
                 });
 
-            p.frameStoreEnabledCheckBox->setCheckedCallback(
+            p.frameStoreEnabledButton->setCheckedCallback(
                 [contextWeak](bool value)
             {
                 if (auto context = contextWeak.lock())
@@ -773,17 +771,17 @@ namespace djv
 
             setTitle(_getText(DJV_TEXT("image_controls_title")));
             
-            const auto& channelCheckBoxes = p.channelButtonGroup->getButtons();
-            const auto& channelEnums = AV::Render2D::getImageChannelEnums();
-            size_t j = 0;
-            for (size_t i = 1; i < static_cast<size_t>(AV::Render2D::ImageChannel::Count); ++i, ++j)
+            std::vector<std::string> items;
+            for (auto i : AV::Render2D::getImageChannelDisplayEnums())
             {
                 std::stringstream ss;
-                ss << channelEnums[i];
-                p.formLayouts["Channels"]->setText(channelCheckBoxes[j], _getText(ss.str()) + ":");
+                ss << i;
+                items.push_back(_getText(ss.str()));
             }
+            p.channelDisplayComboBox->setItems(items);
+            p.formLayouts["Channels"]->setText(p.channelDisplayComboBox, _getText(DJV_TEXT("image_controls_channels_display")) + ":");
 
-            std::vector<std::string> items;
+            items.clear();
             for (auto i : AV::getAlphaBlendEnums())
             {
                 std::stringstream ss;
@@ -793,8 +791,9 @@ namespace djv
             p.alphaComboBox->setItems(items);
             p.formLayouts["Channels"]->setText(p.alphaComboBox, _getText(DJV_TEXT("image_controls_channels_alpha_blend")) + ":");
 
-            p.formLayouts["Transform"]->setText(p.mirrorCheckBoxes[0], _getText(DJV_TEXT("image_controls_transform_mirror_horizontal")) + ":");
-            p.formLayouts["Transform"]->setText(p.mirrorCheckBoxes[1], _getText(DJV_TEXT("image_controls_transform_mirror_vertical")) + ":");
+            p.mirrorCheckBoxes[0]->setText(_getText(DJV_TEXT("image_controls_transform_mirror_horizontal")));
+            p.mirrorCheckBoxes[1]->setText(_getText(DJV_TEXT("image_controls_transform_mirror_vertical")));
+            p.formLayouts["Transform"]->setText(p.mirrorLayout, _getText(DJV_TEXT("image_controls_transform_mirror")) + ":");
             items.clear();
             for (auto i : UI::getImageRotateEnums())
             {
@@ -835,7 +834,7 @@ namespace djv
             p.formLayouts["Exposure"]->setText(p.exposureSliders["KneeLow"], _getText(DJV_TEXT("image_controls_exposure_knee_low")) + ":");
             p.formLayouts["Exposure"]->setText(p.exposureSliders["KneeHigh"], _getText(DJV_TEXT("image_controls_exposure_knee_high")) + ":");
 
-            p.frameStoreEnabledCheckBox->setText(_getText(DJV_TEXT("image_controls_frame_store_enabled")));
+            p.frameStoreEnabledButton->setTooltip(_getText(DJV_TEXT("image_controls_frame_store_enabled_tooltip")));
             p.loadFrameStoreButton->setText(_getText(DJV_TEXT("image_controls_frame_store_load")));
             p.clearFrameStoreButton->setText(_getText(DJV_TEXT("image_controls_frame_store_clear")));
 
@@ -854,7 +853,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
 
-            p.channelButtonGroup->setChecked(static_cast<int>(p.imageOptions.channel) - 1);
+            p.channelDisplayComboBox->setCurrentItem(static_cast<int>(p.imageOptions.channelDisplay));
             p.alphaComboBox->setCurrentItem(static_cast<int>(p.imageOptions.alphaBlend));
 
             p.mirrorCheckBoxes[0]->setChecked(p.imageOptions.mirror.x);
@@ -884,7 +883,7 @@ namespace djv
             p.softClipEnabledButton->setChecked(p.imageOptions.softClipEnabled);
             p.softClipSlider->setValue(p.imageOptions.softClip);
 
-            p.frameStoreEnabledCheckBox->setChecked(p.frameStoreEnabled);
+            p.frameStoreEnabledButton->setChecked(p.frameStoreEnabled);
             p.frameStoreWidget->setImage(p.frameStore);
         }
 

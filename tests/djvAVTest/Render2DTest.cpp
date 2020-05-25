@@ -65,7 +65,7 @@ namespace djv
                 }
                 {
                     Render2D::ImageOptions options;
-                    options.channel = Render2D::ImageChannel::Red;
+                    options.channelDisplay = Render2D::ImageChannelDisplay::Red;
                     options.alphaBlend = AlphaBlend::Premultiplied;
                     options.mirror.x = true;
                     options.mirror.y = true;
@@ -116,7 +116,7 @@ namespace djv
         {
             {
                 Render2D::ImageOptions options;
-                options.channel = Render2D::ImageChannel::Red;
+                options.channelDisplay = Render2D::ImageChannelDisplay::Red;
                 DJV_ASSERT(options == options);
                 DJV_ASSERT(options != Render2D::ImageOptions());
             }

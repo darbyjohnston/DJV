@@ -131,7 +131,7 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        system->_p->imageOptions.channel = static_cast<AV::Render2D::ImageChannel>(value + 1);
+                        system->_p->imageOptions.channelDisplay = static_cast<AV::Render2D::ImageChannelDisplay>(value + 1);
                         if (system->_p->activeWidget)
                         {
                             system->_p->activeWidget->getImageView()->setImageOptions(system->_p->imageOptions);
@@ -448,7 +448,7 @@ namespace djv
             p.actions["MirrorH"]->setEnabled(activeWidget);
             p.actions["MirrorV"]->setEnabled(activeWidget);
 
-            p.channelActionGroup->setChecked(static_cast<int>(p.imageOptions.channel) - 1);
+            p.channelActionGroup->setChecked(static_cast<int>(p.imageOptions.channelDisplay) - 1);
         }
 
     } // namespace ViewApp

@@ -30,18 +30,18 @@ namespace djv
         namespace Render2D
         {
             //! This enumeration provides which image channels are displayed.
-            enum class ImageChannel
+            enum class ImageChannelDisplay
             {
-                None,
+                Color,
                 Red,
                 Green,
                 Blue,
                 Alpha,
 
                 Count,
-                First = None
+                First = Color
             };
-            DJV_ENUM_HELPERS(ImageChannel);
+            DJV_ENUM_HELPERS(ImageChannelDisplay);
 
             //! This eumeration provides the image cache options.
             enum class ImageCache
@@ -118,19 +118,19 @@ namespace djv
             public:
                 ImageOptions();
                 
-                ImageChannel      channel           = ImageChannel::None;
-                AlphaBlend        alphaBlend        = AlphaBlend::Straight;
-                AV::Image::Mirror mirror;
-                AV::OCIO::Convert colorSpace;
-                ImageColor        color;
-                bool              colorEnabled      = false;
-                ImageLevels       levels;
-                bool              levelsEnabled     = false;
-                ImageExposure     exposure;
-                bool              exposureEnabled   = false;
-                float             softClip          = 0.F;
-                bool              softClipEnabled   = false;
-                ImageCache        cache             = ImageCache::Atlas;
+                ImageChannelDisplay channelDisplay    = ImageChannelDisplay::Color;
+                AlphaBlend          alphaBlend        = AlphaBlend::Straight;
+                AV::Image::Mirror   mirror;
+                AV::OCIO::Convert   colorSpace;
+                ImageColor          color;
+                bool                colorEnabled      = false;
+                ImageLevels         levels;
+                bool                levelsEnabled     = false;
+                ImageExposure       exposure;
+                bool                exposureEnabled   = false;
+                float               softClip          = 0.F;
+                bool                softClipEnabled   = false;
+                ImageCache          cache             = ImageCache::Atlas;
 
                 bool operator == (const ImageOptions&) const;
                 bool operator != (const ImageOptions&) const;
@@ -303,7 +303,7 @@ namespace djv
         } // namespace Render2D
     } // namespace AV
 
-    DJV_ENUM_SERIALIZE_HELPERS(AV::Render2D::ImageChannel);
+    DJV_ENUM_SERIALIZE_HELPERS(AV::Render2D::ImageChannelDisplay);
     DJV_ENUM_SERIALIZE_HELPERS(AV::Render2D::ImageCache);
     DJV_ENUM_SERIALIZE_HELPERS(AV::Render2D::ImageFilter);
 

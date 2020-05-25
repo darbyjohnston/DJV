@@ -11,7 +11,6 @@
 #include <djvUIComponents/ColorPicker.h>
 
 #include <djvUI/Bellows.h>
-#include <djvUI/CheckBox.h>
 #include <djvUI/ComboBox.h>
 #include <djvUI/FloatEdit.h>
 #include <djvUI/FormLayout.h>
@@ -48,13 +47,13 @@ namespace djv
             std::shared_ptr<UI::HorizontalLayout> viewPosLayout[2];
             std::shared_ptr<UI::HorizontalLayout> viewZoomLayout;
 
-            std::shared_ptr<UI::CheckBox> gridEnabledCheckBox;
+            std::shared_ptr<UI::ToolButton> gridEnabledButton;
             std::shared_ptr<UI::IntSlider> gridSizeSlider;
             std::shared_ptr<UI::ColorPickerSwatch> gridColorPickerSwatch;
             std::shared_ptr<UI::ComboBox> gridLabelsComboBox;
             std::shared_ptr<UI::ColorPickerSwatch> gridLabelsColorPickerSwatch;
 
-            std::shared_ptr<UI::CheckBox> hudEnabledCheckBox;
+            std::shared_ptr<UI::ToolButton> hudEnabledButton;
             std::shared_ptr<UI::ColorPickerSwatch> hudColorPickerSwatch;
             std::shared_ptr<UI::ComboBox> hudBackgroundComboBox;
 
@@ -108,7 +107,11 @@ namespace djv
             p.viewZoomResetButton->setIcon("djvIconCloseSmall");
             p.viewZoomResetButton->setInsideMargin(UI::MetricsRole::None);
 
-            p.gridEnabledCheckBox = UI::CheckBox::create(context);
+            p.gridEnabledButton = UI::ToolButton::create(context);
+            p.gridEnabledButton->setButtonType(UI::ButtonType::Toggle);
+            p.gridEnabledButton->setIcon("djvIconHiddenSmall");
+            p.gridEnabledButton->setCheckedIcon("djvIconVisibleSmall");
+            p.gridEnabledButton->setInsideMargin(UI::MetricsRole::None);
             p.gridSizeSlider = UI::IntSlider::create(context);
             p.gridSizeSlider->setRange(IntRange(1, 500));
             p.gridColorPickerSwatch = UI::ColorPickerSwatch::create(context);
@@ -117,7 +120,11 @@ namespace djv
             p.gridLabelsColorPickerSwatch = UI::ColorPickerSwatch::create(context);
             p.gridLabelsColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
 
-            p.hudEnabledCheckBox = UI::CheckBox::create(context);
+            p.hudEnabledButton = UI::ToolButton::create(context);
+            p.hudEnabledButton->setButtonType(UI::ButtonType::Toggle);
+            p.hudEnabledButton->setIcon("djvIconHiddenSmall");
+            p.hudEnabledButton->setCheckedIcon("djvIconVisibleSmall");
+            p.hudEnabledButton->setInsideMargin(UI::MetricsRole::None);
             p.hudColorPickerSwatch = UI::ColorPickerSwatch::create(context);
             p.hudColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
             p.hudBackgroundComboBox = UI::ComboBox::create(context);
@@ -145,19 +152,19 @@ namespace djv
             p.bellows["View"]->addChild(p.formLayouts["View"]);
 
             p.formLayouts["Grid"] = UI::FormLayout::create(context);
-            p.formLayouts["Grid"]->addChild(p.gridEnabledCheckBox);
             p.formLayouts["Grid"]->addChild(p.gridSizeSlider);
             p.formLayouts["Grid"]->addChild(p.gridColorPickerSwatch);
             p.formLayouts["Grid"]->addChild(p.gridLabelsComboBox);
             p.formLayouts["Grid"]->addChild(p.gridLabelsColorPickerSwatch);
             p.bellows["Grid"] = UI::Bellows::create(context);
+            p.bellows["Grid"]->addWidget(p.gridEnabledButton);
             p.bellows["Grid"]->addChild(p.formLayouts["Grid"]);
 
             p.formLayouts["HUD"] = UI::FormLayout::create(context);
-            p.formLayouts["HUD"]->addChild(p.hudEnabledCheckBox);
             p.formLayouts["HUD"]->addChild(p.hudColorPickerSwatch);
             p.formLayouts["HUD"]->addChild(p.hudBackgroundComboBox);
             p.bellows["HUD"] = UI::Bellows::create(context);
+            p.bellows["HUD"]->addWidget(p.hudEnabledButton);
             p.bellows["HUD"]->addChild(p.formLayouts["HUD"]);
 
             p.formLayouts["Background"] = UI::FormLayout::create(context);
@@ -248,7 +255,7 @@ namespace djv
                 });
 
             auto contextWeak = std::weak_ptr<Context>(context);
-            p.gridEnabledCheckBox->setCheckedCallback(
+            p.gridEnabledButton->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -344,7 +351,7 @@ namespace djv
                     }
                 });
 
-            p.hudEnabledCheckBox->setCheckedCallback(
+            p.hudEnabledButton->setCheckedCallback(
                 [weak, contextWeak](bool value)
             {
                 if (auto context = contextWeak.lock())
@@ -556,13 +563,13 @@ namespace djv
             p.formLayouts["View"]->setText(p.viewPosLayout[1], _getText(DJV_TEXT("position_y")) + ":");
             p.formLayouts["View"]->setText(p.viewZoomLayout, _getText(DJV_TEXT("zoom")) + ":");
 
-            p.formLayouts["Grid"]->setText(p.gridEnabledCheckBox, _getText(DJV_TEXT("widget_view_grid_enabled")) + ":");
+            p.gridEnabledButton->setTooltip(_getText(DJV_TEXT("widget_view_grid_enabled")));
             p.formLayouts["Grid"]->setText(p.gridSizeSlider, _getText(DJV_TEXT("widget_view_grid_size")) + ":");
             p.formLayouts["Grid"]->setText(p.gridColorPickerSwatch, _getText(DJV_TEXT("widget_view_grid_color")) + ":");
             p.formLayouts["Grid"]->setText(p.gridLabelsComboBox, _getText(DJV_TEXT("widget_view_grid_labels")) + ":");
             p.formLayouts["Grid"]->setText(p.gridLabelsColorPickerSwatch, _getText(DJV_TEXT("widget_view_grid_labels_color")) + ":");
 
-            p.formLayouts["HUD"]->setText(p.hudEnabledCheckBox, _getText(DJV_TEXT("widget_view_hud_enabled")) + ":");
+            p.hudEnabledButton->setTooltip(_getText(DJV_TEXT("widget_view_hud_enabled_tooltip")));
             p.formLayouts["HUD"]->setText(p.hudColorPickerSwatch, _getText(DJV_TEXT("widget_view_hud_color")) + ":");
             p.formLayouts["HUD"]->setText(p.hudBackgroundComboBox, _getText(DJV_TEXT("widget_view_hud_background")) + ":");
 
@@ -621,7 +628,7 @@ namespace djv
             p.viewZoomEdit->setValue(p.viewZoom);
             p.viewZoomResetButton->setEnabled(p.viewZoom != 1.F);
 
-            p.gridEnabledCheckBox->setChecked(p.gridOptions.enabled);
+            p.gridEnabledButton->setChecked(p.gridOptions.enabled);
             p.gridSizeSlider->setValue(p.gridOptions.size);
             p.gridColorPickerSwatch->setColor(p.gridOptions.color);
             std::vector<std::string> items;
@@ -635,7 +642,7 @@ namespace djv
             p.gridLabelsComboBox->setCurrentItem(static_cast<int>(p.gridOptions.labels));
             p.gridLabelsColorPickerSwatch->setColor(p.gridOptions.labelsColor);
 
-            p.hudEnabledCheckBox->setChecked(p.hudOptions.enabled);
+            p.hudEnabledButton->setChecked(p.hudOptions.enabled);
             p.hudColorPickerSwatch->setColor(p.hudOptions.color);
             items.clear();
             for (auto i : getHUDBackgroundEnums())

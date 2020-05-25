@@ -68,7 +68,7 @@ namespace djv
             inline bool ImageOptions::operator == (const ImageOptions& other) const
             {
                 return
-                    channel         == other.channel         &&
+                    channelDisplay  == other.channelDisplay  &&
                     alphaBlend      == other.alphaBlend      &&
                     mirror          == other.mirror          &&
                     colorSpace      == other.colorSpace      &&

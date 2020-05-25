@@ -70,30 +70,30 @@ namespace djv
                     uint8_t textureAtlasCount = 0;
 
                     // Shader uniform variable locations.
-                    GLint colorModeLoc          = 0;
-                    GLint colorLoc              = 0;
-                    GLint imageChannelsLoc      = 0;
+                    GLint colorModeLoc              = 0;
+                    GLint colorLoc                  = 0;
+                    GLint imageChannelsLoc          = 0;
 #if !defined(DJV_OPENGL_ES2)
-                    GLint colorSpaceLoc         = 0;
-                    GLint colorSpaceSamplerLoc  = 0;
+                    GLint colorSpaceLoc             = 0;
+                    GLint colorSpaceSamplerLoc      = 0;
 #endif // DJV_OPENGL_ES2
-                    GLint colorMatrixLoc        = 0;
-                    GLint colorMatrixEnabledLoc = 0;
-                    GLint colorInvertLoc        = 0;
-                    GLint levelsInLowLoc        = 0;
-                    GLint levelsInHighLoc       = 0;
-                    GLint levelsGammaLoc        = 0;
-                    GLint levelsOutLowLoc       = 0;
-                    GLint levelsOutHighLoc      = 0;
-                    GLint levelsEnabledLoc      = 0;
-                    GLint exposureVLoc          = 0;
-                    GLint exposureDLoc          = 0;
-                    GLint exposureKLoc          = 0;
-                    GLint exposureFLoc          = 0;
-                    GLint exposureEnabledLoc    = 0;
-                    GLint softClipLoc           = 0;
-                    GLint imageChannelLoc       = 0;
-                    GLint textureSamplerLoc     = 0;
+                    GLint colorMatrixLoc            = 0;
+                    GLint colorMatrixEnabledLoc     = 0;
+                    GLint colorInvertLoc            = 0;
+                    GLint levelsInLowLoc            = 0;
+                    GLint levelsInHighLoc           = 0;
+                    GLint levelsGammaLoc            = 0;
+                    GLint levelsOutLowLoc           = 0;
+                    GLint levelsOutHighLoc          = 0;
+                    GLint levelsEnabledLoc          = 0;
+                    GLint exposureVLoc              = 0;
+                    GLint exposureDLoc              = 0;
+                    GLint exposureKLoc              = 0;
+                    GLint exposureFLoc              = 0;
+                    GLint exposureEnabledLoc        = 0;
+                    GLint softClipLoc               = 0;
+                    GLint imageChannelDisplayLoc    = 0;
+                    GLint textureSamplerLoc         = 0;
                 };
 
                 //! This class provides the base functionality for render primitives.
@@ -138,27 +138,27 @@ namespace djv
                 class ImagePrimitive : public Primitive
                 {
                 public:
-                    ColorMode       colorMode           = ColorMode::ColorAndTexture;
-                    Image::Channels imageChannels       = Image::Channels::RGBA;
+                    ColorMode           colorMode           = ColorMode::ColorAndTexture;
+                    Image::Channels     imageChannels       = Image::Channels::RGBA;
 #if !defined(DJV_OPENGL_ES2)
-                    uint8_t         colorSpace          = 0;
-                    GLuint          colorSpaceTextureID = 0;
+                    uint8_t             colorSpace          = 0;
+                    GLuint              colorSpaceTextureID = 0;
 #endif // DJV_OPENGL_ES2
-                    glm::mat4x4     colorMatrix;
-                    bool            colorMatrixEnabled  = false;
-                    bool            colorInvert         = false;
-                    ImageLevels     levels;
-                    bool            levelsEnabled       = false;
-                    float           exposureV           = 0.F;
-                    float           exposureD           = 0.F;
-                    float           exposureK           = 0.F;
-                    float           exposureF           = 0.F;
-                    bool            exposureEnabled     = false;
-                    float           softClip            = 0.F;
-                    ImageChannel    imageChannel        = ImageChannel::None;
-                    ImageCache      imageCache          = ImageCache::Atlas;
-                    uint8_t         atlasIndex          = 0;
-                    GLuint          textureID           = 0;
+                    glm::mat4x4         colorMatrix;
+                    bool                colorMatrixEnabled  = false;
+                    bool                colorInvert         = false;
+                    ImageLevels         levels;
+                    bool                levelsEnabled       = false;
+                    float               exposureV           = 0.F;
+                    float               exposureD           = 0.F;
+                    float               exposureK           = 0.F;
+                    float               exposureF           = 0.F;
+                    bool                exposureEnabled     = false;
+                    float               softClip            = 0.F;
+                    ImageChannelDisplay imageChannelDisplay = ImageChannelDisplay::Color;
+                    ImageCache          imageCache          = ImageCache::Atlas;
+                    uint8_t             atlasIndex          = 0;
+                    GLuint              textureID           = 0;
 
                     void bind(const PrimitiveData& data, const std::shared_ptr<OpenGL::Shader>& shader) override
                     {
@@ -198,7 +198,7 @@ namespace djv
                             shader->setUniform(data.colorSpaceSamplerLoc, static_cast<int>(data.textureAtlasCount + 1));
                         }
 #endif // DJV_OPENGL_ES2
-                        shader->setUniform(data.imageChannelLoc, static_cast<int>(imageChannel));
+                        shader->setUniform(data.imageChannelDisplayLoc, static_cast<int>(imageChannelDisplay));
                         switch (imageCache)
                         {
                         case ImageCache::Atlas:
@@ -614,7 +614,7 @@ namespace djv
                     p.primitiveData.colorSpaceLoc = glGetUniformLocation(program, "colorSpace");
                     p.primitiveData.colorSpaceSamplerLoc = glGetUniformLocation(program, "colorSpaceSampler");
 #endif // DJV_OPENGL_ES2
-                    p.primitiveData.imageChannelLoc = glGetUniformLocation(program, "imageChannel");
+                    p.primitiveData.imageChannelDisplayLoc = glGetUniformLocation(program, "imageChannelDisplay");
                     p.primitiveData.colorMatrixLoc = glGetUniformLocation(program, "colorMatrix");
                     p.primitiveData.colorMatrixEnabledLoc = glGetUniformLocation(program, "colorMatrixEnabled");
                     p.primitiveData.colorInvertLoc = glGetUniformLocation(program, "colorInvert");
@@ -1536,7 +1536,7 @@ namespace djv
                     primitive->color[1] = finalColor[1];
                     primitive->color[2] = finalColor[2];
                     primitive->color[3] = finalColor[3];
-                    primitive->imageChannel = options.channel;
+                    primitive->imageChannelDisplay = options.channelDisplay;
                     primitive->alphaBlend = options.alphaBlend;
                     primitive->colorMatrixEnabled = options.colorEnabled && options.color != ImageColor();
                     if (primitive->colorMatrixEnabled)
@@ -1784,12 +1784,12 @@ namespace djv
     
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::Render2D,
-        ImageChannel,
-        DJV_TEXT("render_image_channel_none"),
-        DJV_TEXT("render_image_channel_red"),
-        DJV_TEXT("render_image_channel_green"),
-        DJV_TEXT("render_image_channel_blue"),
-        DJV_TEXT("render_image_channel_alpha"));
+        ImageChannelDisplay,
+        DJV_TEXT("render_image_channel_display_color"),
+        DJV_TEXT("render_image_channel_display_red"),
+        DJV_TEXT("render_image_channel_display_green"),
+        DJV_TEXT("render_image_channel_display_blue"),
+        DJV_TEXT("render_image_channel_display_alpha"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::Render2D,
