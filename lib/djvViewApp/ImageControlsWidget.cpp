@@ -239,9 +239,12 @@ namespace djv
 
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::SpacingSmall);
-            vLayout->setMargin(UI::MetricsRole::MarginSmall);
-            vLayout->addChild(p.loadFrameStoreButton);
-            vLayout->addChild(p.clearFrameStoreButton);
+            auto hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setSpacing(UI::MetricsRole::SpacingSmall);
+            hLayout->setMargin(UI::MetricsRole::MarginSmall);
+            hLayout->addChild(p.loadFrameStoreButton);
+            hLayout->addChild(p.clearFrameStoreButton);
+            vLayout->addChild(hLayout);
             vLayout->addChild(p.frameStoreWidget);
             p.bellows["FrameStore"] = UI::Bellows::create(context);
             p.bellows["FrameStore"]->addWidget(p.frameStoreEnabledButton);
