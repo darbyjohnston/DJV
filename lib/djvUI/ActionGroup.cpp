@@ -111,8 +111,7 @@ namespace djv
                                 auto action = group->_p->actions[i];
                                 action->setChecked(i == index);
                             }
-                            if (group->_p->radioCallback &&
-                                Callback::Trigger == group->_p->callback)
+                            if (group->_p->radioCallback && Callback::Trigger == group->_p->callback)
                             {
                                 group->_p->radioCallback(index);
                             }
@@ -126,8 +125,7 @@ namespace djv
                                 auto action = group->_p->actions[i];
                                 action->setChecked(i == index);
                             }
-                            if (group->_p->exclusiveCallback &&
-                                Callback::Trigger == group->_p->callback)
+                            if (group->_p->exclusiveCallback && Callback::Trigger == group->_p->callback)
                             {
                                 group->_p->exclusiveCallback(index);
                             }

@@ -111,6 +111,7 @@ namespace djv
                         const auto i = std::find(group->_p->buttons.begin(), group->_p->buttons.end(), button);
                         if (i != group->_p->buttons.end())
                         {
+                            const size_t size = group->_p->buttons.size();
                             const int index = static_cast<int>(i - group->_p->buttons.begin());
                             switch (group->_p->buttonType)
                             {
@@ -121,7 +122,7 @@ namespace djv
                                 }
                                 break;
                             case ButtonType::Radio:
-                                for (size_t i = 0; i < group->_p->buttons.size(); ++i)
+                                for (size_t i = 0; i < size; ++i)
                                 {
                                     auto button = group->_p->buttons[i];
                                     button->setChecked(i == index);
@@ -134,15 +135,32 @@ namespace djv
                             case ButtonType::Exclusive:
                                 if (value)
                                 {
-                                    for (size_t i = 0; i < group->_p->buttons.size(); ++i)
+                                    for (size_t i = 0; i < size; ++i)
                                     {
                                         auto button = group->_p->buttons[i];
                                         button->setChecked(i == index);
                                     }
+                                    if (group->_p->exclusiveCallback && Callback::Trigger == group->_p->callback)
+                                    {
+                                        group->_p->exclusiveCallback(index);
+                                    }
                                 }
-                                if (group->_p->exclusiveCallback && Callback::Trigger == group->_p->callback)
+                                else
                                 {
-                                    group->_p->exclusiveCallback(value ? index : -1);
+                                    size_t i = 0;
+                                    for (; i < size; ++i)
+                                    {
+                                        if (group->_p->buttons[i]->isChecked())
+                                        {
+                                            break;
+                                        }
+                                    }
+                                    if (size == i &&
+                                        group->_p->exclusiveCallback &&
+                                        Callback::Trigger == group->_p->callback)
+                                    {
+                                        group->_p->exclusiveCallback(-1);
+                                    }
                                 }
                                 break;
                             default: break;
