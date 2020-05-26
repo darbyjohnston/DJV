@@ -194,9 +194,9 @@ namespace djv
             return "0";
         }
 
-        void TimeSettingsWidget::setSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
+        void TimeSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
         {
-            _p->layout->setSizeGroup(value);
+            _p->layout->setLabelSizeGroup(value);
         }
 
         void TimeSettingsWidget::_initEvent(Event::Init & event)

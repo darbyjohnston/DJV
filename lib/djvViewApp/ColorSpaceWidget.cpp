@@ -302,7 +302,7 @@ namespace djv
             p.configItemLayout = UI::FormLayout::create(context);
             p.configItemLayout->setSpacing(UI::MetricsRole::None);
             p.configItemLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
-            p.configItemLayout->setSizeGroup(p.sizeGroup);
+            p.configItemLayout->setLabelSizeGroup(p.sizeGroup);
             p.configLayout->addChild(p.configItemLayout);
             p.configLayout->setStretch(p.configItemLayout, UI::RowStretch::Expand);
             p.configLayout->addSeparator();
@@ -318,7 +318,7 @@ namespace djv
             p.displayLayout = UI::FormLayout::create(context);
             p.displayLayout->setSpacing(UI::MetricsRole::None);
             p.displayLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
-            p.displayLayout->setSizeGroup(p.sizeGroup);
+            p.displayLayout->setLabelSizeGroup(p.sizeGroup);
             p.displayLayout->addChild(p.displayPopupWidget);
             p.displayLayout->addChild(p.viewPopupWidget);
             p.bellows["Display"] = UI::Bellows::create(context);
@@ -329,7 +329,7 @@ namespace djv
             p.imageItemLayout = UI::FormLayout::create(context);
             p.imageItemLayout->setSpacing(UI::MetricsRole::None);
             p.imageItemLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
-            p.imageItemLayout->setSizeGroup(p.sizeGroup);
+            p.imageItemLayout->setLabelSizeGroup(p.sizeGroup);
             p.imageLayout->addChild(p.imageItemLayout);
             p.imageLayout->setStretch(p.imageItemLayout, UI::RowStretch::Expand);
             p.imageLayout->addSeparator();

@@ -60,7 +60,7 @@ namespace djv
             p.percentageLabel = UI::Label::create(context);
             p.percentageLabel->setTextHAlign(UI::TextHAlign::Left);
             p.percentageLabel2 = UI::Label::create(context);
-            p.percentageLabel2->setFont(AV::Font::familyMono);
+            p.percentageLabel2->setFontFamily(AV::Font::familyMono);
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);

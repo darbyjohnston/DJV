@@ -245,11 +245,11 @@ void CameraWidget::setCameraDataCallback(const std::function<void(const Scene::P
     _cameraDataCallback = value;
 }
 
-void CameraWidget::setSizeGroup(const std::weak_ptr<djv::UI::LabelSizeGroup>& value)
+void CameraWidget::setLabelSizeGroup(const std::weak_ptr<djv::UI::LabelSizeGroup>& value)
 {
     for (auto i : _layouts)
     {
-        i.second->setSizeGroup(value);
+        i.second->setLabelSizeGroup(value);
     }
 }
 

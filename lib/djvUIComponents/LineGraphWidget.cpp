@@ -42,7 +42,7 @@ namespace djv
             p.label->setFontSizeRole(MetricsRole::FontSmall);
             
             p.labelValue = Label::create(context);
-            p.labelValue->setFont(AV::Font::familyMono);
+            p.labelValue->setFontFamily(AV::Font::familyMono);
             p.labelValue->setFontSizeRole(MetricsRole::FontSmall);
             
             p.layout = HorizontalLayout::create(context);

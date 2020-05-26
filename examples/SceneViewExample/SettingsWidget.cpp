@@ -50,7 +50,7 @@ void SettingsWidget::addChild(const std::shared_ptr<IObject>& value)
 {
     if (auto widget = std::dynamic_pointer_cast<ISettingsWidget>(value))
     {
-        widget->setSizeGroup(_sizeGroup);
+        widget->setLabelSizeGroup(_sizeGroup);
     }
     _childLayout->addChild(value);
 }
@@ -59,7 +59,7 @@ void SettingsWidget::removeChild(const std::shared_ptr<IObject>& value)
 {
     if (auto widget = std::dynamic_pointer_cast<ISettingsWidget>(value))
     {
-        widget->setSizeGroup(std::weak_ptr<UI::LabelSizeGroup>());
+        widget->setLabelSizeGroup(std::weak_ptr<UI::LabelSizeGroup>());
     }
     _childLayout->removeChild(value);
 }
@@ -70,7 +70,7 @@ void SettingsWidget::clearChildren()
     {
         if (auto widget = std::dynamic_pointer_cast<ISettingsWidget>(i))
         {
-            widget->setSizeGroup(std::weak_ptr<UI::LabelSizeGroup>());
+            widget->setLabelSizeGroup(std::weak_ptr<UI::LabelSizeGroup>());
         }
     }
     _childLayout->clearChildren();

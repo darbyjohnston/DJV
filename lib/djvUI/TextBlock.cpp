@@ -222,7 +222,11 @@ namespace djv
             {
                 const glm::vec2 c = g.getCenter();
                 glm::vec2 pos = g.min;
+                
                 auto render = _getRender();
+                //render->setFillColor(AV::Image::Color(1.F, 0.F, 0.F, .5F));
+                //render->drawRect(g);
+
                 render->setFillColor(style->getColor(p.textColorRole));
                 for (const auto & line : cacheValue.first)
                 {

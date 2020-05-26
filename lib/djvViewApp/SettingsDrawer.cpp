@@ -76,7 +76,7 @@ namespace djv
                 {
                     for (auto widget : system->createSettingsWidgets())
                     {
-                        widget->setSizeGroup(p.sizeGroup);
+                        widget->setLabelSizeGroup(p.sizeGroup);
                         p.widgets[widget->getSettingsSortKey()].push_back(widget);
                     }
                 };

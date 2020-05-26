@@ -136,7 +136,7 @@ namespace djv
                         {
                             p.label = Label::create(context);
                             p.label->setTextHAlign(TextHAlign::Left);
-                            p.label->setFont(p.font);
+                            p.label->setFontFamily(p.font);
                             p.label->setFontFace(p.fontFace);
                             p.label->setFontSizeRole(p.fontSizeRole);
                             p.label->setMargin(MetricsRole::MarginSmall);
@@ -174,7 +174,7 @@ namespace djv
                 p.font = value;
                 if (p.label)
                 {
-                    p.label->setFont(value);
+                    p.label->setFontFamily(value);
                 }
             }
 

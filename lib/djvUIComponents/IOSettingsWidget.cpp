@@ -99,9 +99,9 @@ namespace djv
             return "Z";
         }
 
-        void IOThreadsSettingsWidget::setSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)
+        void IOThreadsSettingsWidget::setLabelSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)
         {
-            _p->layout->setSizeGroup(value);
+            _p->layout->setLabelSizeGroup(value);
         }
 
         void IOThreadsSettingsWidget::_initEvent(Event::Init & event)

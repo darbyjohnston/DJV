@@ -95,7 +95,7 @@ namespace djv
 
                 _labels["FPS"] = UI::Label::create(context);
                 _labels["FPSValue"] = UI::Label::create(context);
-                _labels["FPSValue"]->setFont(AV::Font::familyMono);
+                _labels["FPSValue"]->setFontFamily(AV::Font::familyMono);
                 _lineGraphs["FPS"] = UI::LineGraphWidget::create(context);
                 _lineGraphs["FPS"]->setPrecision(2);
 
@@ -111,13 +111,13 @@ namespace djv
 
                 _labels["ObjectCount"] = UI::Label::create(context);
                 _labels["ObjectCountValue"] = UI::Label::create(context);
-                _labels["ObjectCountValue"]->setFont(AV::Font::familyMono);
+                _labels["ObjectCountValue"]->setFontFamily(AV::Font::familyMono);
                 _lineGraphs["ObjectCount"] = UI::LineGraphWidget::create(context);
                 _lineGraphs["ObjectCount"]->setPrecision(0);
 
                 _labels["WidgetCount"] = UI::Label::create(context);
                 _labels["WidgetCountValue"] = UI::Label::create(context);
-                _labels["WidgetCountValue"]->setFont(AV::Font::familyMono);
+                _labels["WidgetCountValue"]->setFontFamily(AV::Font::familyMono);
                 _lineGraphs["WidgetCount"] = UI::LineGraphWidget::create(context);
                 _lineGraphs["WidgetCount"]->setPrecision(0);
 
@@ -128,22 +128,22 @@ namespace djv
 
                 _labels["GlyphCache"] = UI::Label::create(context);
                 _labels["GlyphCacheValue"] = UI::Label::create(context);
-                _labels["GlyphCacheValue"]->setFont(AV::Font::familyMono);
+                _labels["GlyphCacheValue"]->setFontFamily(AV::Font::familyMono);
                 _thermometerWidgets["GlyphCache"] = UI::ThermometerWidget::create(context);
 
                 _labels["ThumbnailInfoCache"] = UI::Label::create(context);
                 _labels["ThumbnailInfoCacheValue"] = UI::Label::create(context);
-                _labels["ThumbnailInfoCacheValue"]->setFont(AV::Font::familyMono);
+                _labels["ThumbnailInfoCacheValue"]->setFontFamily(AV::Font::familyMono);
                 _thermometerWidgets["ThumbnailInfoCache"] = UI::ThermometerWidget::create(context);
 
                 _labels["ThumbnailImageCache"] = UI::Label::create(context);
                 _labels["ThumbnailImageCacheValue"] = UI::Label::create(context);
-                _labels["ThumbnailInfoCacheValue"]->setFont(AV::Font::familyMono);
+                _labels["ThumbnailInfoCacheValue"]->setFontFamily(AV::Font::familyMono);
                 _thermometerWidgets["ThumbnailImageCache"] = UI::ThermometerWidget::create(context);
 
                 _labels["IconCache"] = UI::Label::create(context);
                 _labels["IconCacheValue"] = UI::Label::create(context);
-                _labels["IconCacheValue"]->setFont(AV::Font::familyMono);
+                _labels["IconCacheValue"]->setFontFamily(AV::Font::familyMono);
                 _thermometerWidgets["IconCache"] = UI::ThermometerWidget::create(context);
 
                 for (auto& i : _labels)
@@ -421,18 +421,18 @@ namespace djv
 
                 _labels["TextureAtlas"] = UI::Label::create(context);
                 _labels["TextureAtlasValue"] = UI::Label::create(context);
-                _labels["TextureAtlasValue"]->setFont(AV::Font::familyMono);
+                _labels["TextureAtlasValue"]->setFontFamily(AV::Font::familyMono);
                 _thermometerWidgets["TextureAtlas"] = UI::ThermometerWidget::create(context);
 
                 _labels["DynamicTextureCount"] = UI::Label::create(context);
                 _labels["DynamicTextureCountValue"] = UI::Label::create(context);
-                _labels["DynamicTextureCountValue"]->setFont(AV::Font::familyMono);
+                _labels["DynamicTextureCountValue"]->setFontFamily(AV::Font::familyMono);
                 _lineGraphs["DynamicTextureCount"] = UI::LineGraphWidget::create(context);
                 _lineGraphs["DynamicTextureCount"]->setPrecision(0);
 
                 _labels["VBOSize"] = UI::Label::create(context);
                 _labels["VBOSizeValue"] = UI::Label::create(context);
-                _labels["VBOSizeValue"]->setFont(AV::Font::familyMono);
+                _labels["VBOSizeValue"]->setFontFamily(AV::Font::familyMono);
                 _lineGraphs["VBOSize"] = UI::LineGraphWidget::create(context);
                 _lineGraphs["VBOSize"]->setPrecision(0);
 
@@ -574,7 +574,7 @@ namespace djv
 
                 _labels["CurrentFrame"] = UI::Label::create(context);
                 _labels["CurrentFrameValue"] = UI::Label::create(context);
-                _labels["CurrentFrameValue"]->setFont(AV::Font::familyMono);
+                _labels["CurrentFrameValue"]->setFontFamily(AV::Font::familyMono);
                 
                 _labels["VideoQueue"] = UI::Label::create(context);
                 _lineGraphs["VideoQueue"] = UI::LineGraphWidget::create(context);

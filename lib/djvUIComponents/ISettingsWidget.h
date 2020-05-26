@@ -30,7 +30,7 @@ namespace djv
             virtual std::string getSettingsSortKey() const = 0;
             virtual std::string getSettingsGroup() const = 0;
 
-            virtual void setSizeGroup(const std::weak_ptr<LabelSizeGroup>&) {}
+            virtual void setLabelSizeGroup(const std::weak_ptr<LabelSizeGroup>&) {}
 
             float getHeightForWidth(float) const override;
 

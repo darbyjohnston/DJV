@@ -68,9 +68,9 @@ namespace djv
                 _p->label->setText(value);
             }
 
-            const std::string & CheckBox::getFont() const
+            const std::string & CheckBox::getFontFamily() const
             {
-                return _p->label->getFont();
+                return _p->label->getFontFamily();
             }
 
             const std::string & CheckBox::getFontFace() const
@@ -83,9 +83,9 @@ namespace djv
                 return _p->label->getFontSizeRole();
             }
 
-            void CheckBox::setFont(const std::string & value)
+            void CheckBox::setFontFamily(const std::string & value)
             {
-                _p->label->setFont(value);
+                _p->label->setFontFamily(value);
             }
 
             void CheckBox::setFontFace(const std::string & value)

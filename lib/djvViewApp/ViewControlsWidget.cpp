@@ -176,7 +176,7 @@ namespace djv
             {
                 i.second->setMargin(UI::MetricsRole::MarginSmall);
                 i.second->setSpacing(UI::MetricsRole::SpacingSmall);
-                i.second->setSizeGroup(p.sizeGroup);
+                i.second->setLabelSizeGroup(p.sizeGroup);
             }
             for (const auto& i : p.bellows)
             {

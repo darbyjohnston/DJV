@@ -4,7 +4,10 @@
 
 #include <djvAV/OpenEXR.h>
 
+#include <ImfDoubleAttribute.h>
+#include <ImfFloatVectorAttribute.h>
 #include <ImfFramesPerSecond.h>
+#include <ImfIntAttribute.h>
 #include <ImfStandardAttributes.h>
 #include <ImfThreading.h>
 
@@ -343,126 +346,571 @@ namespace djv
                     return out;
                 }
 
+                namespace
+                {
+                    const std::vector<std::string> knownAttributes =
+                    {
+                        // Predefined attributes.
+                        "displayWindow",
+                        "dataWindow",
+                        "pixelAspectRatio",
+                        "screenWindowCenter",
+                        "screenWindowWidth",
+                        "channels",
+                        "lineOrder",
+                        "compression",
+
+                        // Multipart attributes.
+                        "name",
+                        "type",
+                        "version",
+                        "chunkCount",
+                        "view",
+
+                        // Tile description.
+                        "tileDescription",
+
+                        // Standard attributes.
+                        "chromaticities",
+                        "whiteLuminance",
+                        "adoptedNeutral",
+                        "renderingTransform",
+                        "lookModTransform",
+                        "xDensity",
+                        "owner",
+                        "comments",
+                        "capDate",
+                        "utcOffset",
+                        "longitude",
+                        "latitude",
+                        "altitude",
+                        "focus",
+                        "expTime",
+                        "aperture",
+                        "isoSpeed",
+                        "envMap",
+                        "keyCode",
+                        "timeCode",
+                        "wrapModes",
+                        "framesPerSecond",
+                        "multiView",
+                        "worldToCamera",
+                        "worldToNDC",
+                        "deepImageState",
+                        "originalDataWindow",
+                        "dwaCompressionLevel"
+                    };
+
+                    template<typename T>
+                    std::string serialize(const T& value)
+                    {
+                        std::stringstream ss;
+                        ss << value;
+                        return ss.str();
+                    }
+
+                    template<typename T>
+                    std::string serialize(const std::vector<T>& value)
+                    {
+                        std::vector<std::string> list;
+                        for (const auto& i : value)
+                        {
+                            std::stringstream ss;
+                            ss << serialize(i);
+                            list.push_back(ss.str());
+                        }
+                        return String::join(list, " ");
+                    }
+
+                    template<typename T>
+                    std::string serialize(const Imath::Vec2<T>& value)
+                    {
+                        std::stringstream ss;
+                        ss << value.x << " " << value.y;
+                        return ss.str();
+                    }
+
+                    template<typename T>
+                    std::string serialize(const Imath::Vec3<T>& value)
+                    {
+                        std::stringstream ss;
+                        ss << value.x << " " << value.y << " " << value.z;
+                        return ss.str();
+                    }
+
+                    template<typename T>
+                    std::string serialize(const Imath::Box<Imath::Vec2<T> >& value)
+                    {
+                        std::stringstream ss;
+                        ss << value.min.x << " " << value.min.y << " " <<
+                            value.max.x << " " << value.max.y;
+                        return ss.str();
+                    }
+
+                    template<typename T>
+                    std::string serialize(const Imath::Box<Imath::Vec3<T> >& value)
+                    {
+                        std::stringstream ss;
+                        ss << value.min.x << " " << value.min.y << " " << value.min.z << " " <<
+                            value.max.x << " " << value.max.y << " " << value.max.z;
+                        return ss.str();
+                    }
+
+                    template<>
+                    std::string serialize(const Imf::Compression& value)
+                    {
+                        const std::vector<std::string> text =
+                        {
+                            "None",
+                            "RLE",
+                            "ZIPS",
+                            "ZIP",
+                            "PIZ",
+                            "PXR24",
+                            "B44",
+                            "B44A",
+                            "DWAA",
+                            "DWAB"
+                        };
+                        return text[value];
+                    }
+
+                    template<>
+                    std::string serialize(const Imf::LineOrder& value)
+                    {
+                        const std::vector<std::string> text =
+                        {
+                            "Increasing Y",
+                            "Decreasing Y",
+                            "Random Y"
+                        };
+                        return text[value];
+                    }
+
+                    template<>
+                    std::string serialize(const Imf::LevelMode& value)
+                    {
+                        const std::vector<std::string> text =
+                        {
+                            "One Level",
+                            "Mipmap Levels",
+                            "Ripmap Levels"
+                        };
+                        return text[value];
+                    }
+
+                    template<>
+                    std::string serialize(const Imf::LevelRoundingMode& value)
+                    {
+                        const std::vector<std::string> text =
+                        {
+                            "Round Down",
+                            "Round Up"
+                        };
+                        return text[value];
+                    }
+
+                    template<>
+                    std::string serialize(const Imf::DeepImageState& value)
+                    {
+                        const std::vector<std::string> text =
+                        {
+                            "Messy",
+                            "Sorted",
+                            "Non Overlapping",
+                            "Tidy"
+                        };
+                        return text[value];
+                    }
+
+                    template<>
+                    std::string serialize(const Imf::TimeCode& value)
+                    {
+                        return Time::timecodeToString(value.timeAndFlags());
+                    }
+
+                    template<>
+                    std::string serialize(const Imf::KeyCode& value)
+                    {
+                        return Time::keycodeToString(
+                            value.filmMfcCode(),
+                            value.filmType(),
+                            value.prefix(),
+                            value.count(),
+                            value.perfOffset());
+                    }
+
+                    template<>
+                    std::string serialize(const Imf::Chromaticities& value)
+                    {
+                        std::stringstream ss;
+                        ss << serialize(value.red) << " ";
+                        ss << serialize(value.green) << " ";
+                        ss << serialize(value.blue) << " ";
+                        ss << serialize(value.white);
+                        return ss.str();
+                    }
+
+                    template<>
+                    std::string serialize(const Imf::Rational& value)
+                    {
+                        std::stringstream ss;
+                        ss << value.n << " " << value.d;
+                        return ss.str();
+                    }
+
+                } // namespace
+
                 void readTags(const Imf::Header& header, Tags& tags, Time::Speed& speed)
                 {
-                    if (hasOwner(header))
+                    // Predefined attributes.
+                    tags.setTag("Display Window", serialize(header.displayWindow()));
+                    tags.setTag("Data Window", serialize(header.dataWindow()));
+                    tags.setTag("Pixel Aspect Ratio", serialize(header.pixelAspectRatio()));
+                    tags.setTag("Screen Window Center", serialize(header.screenWindowCenter()));
+                    tags.setTag("Screen Window Width", serialize(header.screenWindowWidth()));
                     {
-                        tags.setTag("Creator", ownerAttribute(header).value());
+                        std::vector<std::string> values;
+                        for (auto i = header.channels().begin(); i != header.channels().end(); ++i)
+                        {
+                            values.push_back(i.name());
+                        }
+                        tags.setTag("Channels", String::join(values, " "));
                     }
-                    if (hasComments(header))
+                    tags.setTag("Line Order", serialize(header.lineOrder()));
+                    tags.setTag("Compression", serialize(header.compression()));
+
+                    // Multipart attributes.
+                    if (header.hasName())
                     {
-                        tags.setTag("Description", commentsAttribute(header).value());
+                        tags.setTag("Name", header.name());
                     }
-                    if (hasCapDate(header))
+                    if (header.hasType())
                     {
-                        tags.setTag("Time", capDateAttribute(header).value());
+                        tags.setTag("Type", header.type());
                     }
-                    if (hasUtcOffset(header))
+                    if (header.hasVersion())
                     {
-                        std::stringstream ss;
-                        ss << utcOffsetAttribute(header).value();
-                        tags.setTag("UTC Offset", ss.str());
+                        tags.setTag("Version", serialize(header.version()));
                     }
-                    if (hasLongitude(header))
+                    if (header.hasChunkCount())
                     {
-                        std::stringstream ss;
-                        ss << utcOffsetAttribute(header).value();
-                        tags.setTag("Longitude", ss.str());
+                        tags.setTag("Chunk Count", serialize(header.chunkCount()));
                     }
-                    if (hasLatitude(header))
+                    if (header.hasView())
                     {
-                        std::stringstream ss;
-                        ss << latitudeAttribute(header).value();
-                        tags.setTag("Latitude", ss.str());
+                        tags.setTag("View", header.view());
                     }
-                    if (hasAltitude(header))
+
+                    // Tile description.
+                    if (header.hasTileDescription())
                     {
-                        std::stringstream ss;
-                        ss << altitudeAttribute(header).value();
-                        tags.setTag("Altitude", ss.str());
+                        const auto& value = header.tileDescription();
+                        {
+                            std::stringstream ss;
+                            ss << value.xSize << " " << value.ySize;
+                            tags.setTag("Tile Size", ss.str());
+                        }
+                        tags.setTag("Tile Level Mode", serialize(value.mode));
+                        tags.setTag("Tile Level Rounding Mode", serialize(value.roundingMode));
                     }
-                    if (hasFocus(header))
-                    {
-                        std::stringstream ss;
-                        ss << focusAttribute(header).value();
-                        tags.setTag("Focus", ss.str());
-                    }
-                    if (hasExpTime(header))
-                    {
-                        std::stringstream ss;
-                        ss << expTimeAttribute(header).value();
-                        tags.setTag("Exposure Time", ss.str());
-                    }
-                    if (hasAperture(header))
-                    {
-                        std::stringstream ss;
-                        ss << apertureAttribute(header).value();
-                        tags.setTag("Aperture", ss.str());
-                    }
-                    if (hasIsoSpeed(header))
-                    {
-                        std::stringstream ss;
-                        ss << isoSpeedAttribute(header).value();
-                        tags.setTag("ISO Speed", ss.str());
-                    }
+
+                    // Standard attributes.
                     if (hasChromaticities(header))
                     {
-                        const Imf::Chromaticities data = chromaticitiesAttribute(header).value();
-                        std::stringstream ss;
-                        ss << data.red.x << " " << data.red.y << " ";
-                        ss << data.green.x << " " << data.green.y << " ";
-                        ss << data.blue.x << " " << data.blue.y << " ";
-                        ss << data.white.x << " " << data.white.y << " ";
-                        tags.setTag("Chromaticities", ss.str());
+                        tags.setTag("Chromaticities", serialize(chromaticitiesAttribute(header).value()));
                     }
                     if (hasWhiteLuminance(header))
                     {
-                        std::stringstream ss;
-                        ss << whiteLuminanceAttribute(header).value();
-                        tags.setTag("White Luminance", ss.str());
+                        tags.setTag("White Luminance", serialize(whiteLuminanceAttribute(header).value()));
+                    }
+                    if (hasAdoptedNeutral(header))
+                    {
+                        tags.setTag("Adopted Neutral", serialize(adoptedNeutralAttribute(header).value()));
+                    }
+                    if (hasRenderingTransform(header))
+                    {
+                        tags.setTag("Rendering Transform", renderingTransformAttribute(header).value());
+                    }
+                    if (hasLookModTransform(header))
+                    {
+                        tags.setTag("Look Modification Transform", lookModTransformAttribute(header).value());
                     }
                     if (hasXDensity(header))
                     {
-                        std::stringstream ss;
-                        ss << xDensityAttribute(header).value();
-                        tags.setTag("X Density", ss.str());
+                        tags.setTag("X Density", serialize(xDensityAttribute(header).value()));
+                    }
+                    if (hasOwner(header))
+                    {
+                        tags.setTag("Owner", ownerAttribute(header).value());
+                    }
+                    if (hasComments(header))
+                    {
+                        tags.setTag("Comments", commentsAttribute(header).value());
+                    }
+                    if (hasCapDate(header))
+                    {
+                        tags.setTag("Capture Date", capDateAttribute(header).value());
+                    }
+                    if (hasUtcOffset(header))
+                    {
+                        tags.setTag("UTC Offset", serialize(utcOffsetAttribute(header).value()));
+                    }
+                    if (hasLongitude(header))
+                    {
+                        tags.setTag("Longitude", serialize(longitudeAttribute(header).value()));
+                    }
+                    if (hasLatitude(header))
+                    {
+                        tags.setTag("Latitude", serialize(latitudeAttribute(header).value()));
+                    }
+                    if (hasAltitude(header))
+                    {
+                        tags.setTag("Altitude", serialize(altitudeAttribute(header).value()));
+                    }
+                    if (hasFocus(header))
+                    {
+                        tags.setTag("Focus", serialize(focusAttribute(header).value()));
+                    }
+                    if (hasExpTime(header))
+                    {
+                        tags.setTag("Exposure Time", serialize(expTimeAttribute(header).value()));
+                    }
+                    if (hasAperture(header))
+                    {
+                        tags.setTag("Aperture", serialize(apertureAttribute(header).value()));
+                    }
+                    if (hasIsoSpeed(header))
+                    {
+                        tags.setTag("ISO Speed", serialize(isoSpeedAttribute(header).value()));
+                    }
+                    if (hasEnvmap(header))
+                    {
+                        tags.setTag("Environment Map", serialize(envmapAttribute(header).value()));
                     }
                     if (hasKeyCode(header))
                     {
-                        const Imf::KeyCode data = keyCodeAttribute(header).value();
-                        tags.setTag(
-                            "Keycode",
-                            Time::keycodeToString(
-                                data.filmMfcCode(),
-                                data.filmType(),
-                                data.prefix(),
-                                data.count(),
-                                data.perfOffset()));
+                        tags.setTag("Keycode", serialize(keyCodeAttribute(header).value()));
                     }
                     if (hasTimeCode(header))
                     {
-                        tags.setTag("Timecode", Time::timecodeToString(timeCodeAttribute(header).value().timeAndFlags()));
+                        tags.setTag("Timecode", serialize(timeCodeAttribute(header).value()));
+                    }
+                    if (hasWrapmodes(header))
+                    {
+                        tags.setTag("Wrap Modes", wrapmodesAttribute(header).value());
                     }
                     if (hasFramesPerSecond(header))
                     {
                         const Imf::Rational data = framesPerSecondAttribute(header).value();
                         speed = Time::Speed(data.n, data.d);
                     }
+                    if (hasMultiView(header))
+                    {
+                        tags.setTag("Multi-View", serialize(multiViewAttribute(header).value()));
+                    }
+                    if (hasWorldToCamera(header))
+                    {
+                        tags.setTag("World To Camera", serialize(worldToCameraAttribute(header).value()));
+                    }
+                    if (hasWorldToNDC(header))
+                    {
+                        tags.setTag("World To NDC", serialize(worldToNDCAttribute(header).value()));
+                    }
+                    if (hasDeepImageState(header))
+                    {
+                        tags.setTag("Deep Image State", serialize(deepImageStateAttribute(header).value()));
+                    }
+                    if (hasOriginalDataWindow(header))
+                    {
+                        tags.setTag("Original Data Window", serialize(originalDataWindowAttribute(header).value()));
+                    }
+                    if (hasDwaCompressionLevel(header))
+                    {
+                        tags.setTag("DWA Compression Level", serialize(dwaCompressionLevelAttribute(header).value()));
+                    }
+
+                    // Other attributes.
+                    for (auto i = header.begin(); i != header.end(); ++i)
+                    {
+                        const auto j = std::find(knownAttributes.begin(), knownAttributes.end(), i.name());
+                        if (j == knownAttributes.end())
+                        {
+                            if ("string" == std::string(i.attribute().typeName()))
+                            {
+                                if (const auto ta = header.findTypedAttribute<Imf::StringAttribute>(i.name()))
+                                {
+                                    tags.setTag(i.name(), ta->value());
+                                }
+                            }
+                            else if ("stringVector" == std::string(i.attribute().typeName()))
+                            {
+                                if (const auto ta = header.findTypedAttribute<Imf::StringVectorAttribute>(i.name()))
+                                {
+                                    tags.setTag(i.name(), serialize(ta->value()));
+                                }
+                            }
+                            else if ("int" == std::string(i.attribute().typeName()))
+                            {
+                                if (const auto ta = header.findTypedAttribute<Imf::IntAttribute>(i.name()))
+                                {
+                                    tags.setTag(i.name(), serialize(ta->value()));
+                                }
+                            }
+                            else if ("float" == std::string(i.attribute().typeName()))
+                            {
+                                if (const auto ta = header.findTypedAttribute<Imf::FloatAttribute>(i.name()))
+                                {
+                                    tags.setTag(i.name(), serialize(ta->value()));
+                                }
+                            }
+                            else if ("floatVector" == std::string(i.attribute().typeName()))
+                            {
+                                if (const auto ta = header.findTypedAttribute<Imf::FloatVectorAttribute>(i.name()))
+                                {
+                                    tags.setTag(i.name(), serialize(ta->value()));
+                                }
+                            }
+                            else if ("double" == std::string(i.attribute().typeName()))
+                            {
+                                if (const auto ta = header.findTypedAttribute<Imf::DoubleAttribute>(i.name()))
+                                {
+                                    tags.setTag(i.name(), serialize(ta->value()));
+                                }
+                            }
+                            else if ("v2i" == std::string(i.attribute().typeName()))
+                            {
+                                if (const auto ta = header.findTypedAttribute<Imf::V2iAttribute>(i.name()))
+                                {
+                                    tags.setTag(i.name(), serialize(ta->value()));
+                                }
+                            }
+                            else if ("v2f" == std::string(i.attribute().typeName()))
+                            {
+                                if (const auto ta = header.findTypedAttribute<Imf::V2fAttribute>(i.name()))
+                                {
+                                    tags.setTag(i.name(), serialize(ta->value()));
+                                }
+                            }
+                            else if ("v2d" == std::string(i.attribute().typeName()))
+                            {
+                                if (const auto ta = header.findTypedAttribute<Imf::V2dAttribute>(i.name()))
+                                {
+                                    tags.setTag(i.name(), serialize(ta->value()));
+                                }
+                            }
+                            else if ("v3i" == std::string(i.attribute().typeName()))
+                            {
+                                if (const auto ta = header.findTypedAttribute<Imf::V3iAttribute>(i.name()))
+                                {
+                                    tags.setTag(i.name(), serialize(ta->value()));
+                                }
+                            }
+                            else if ("v3f" == std::string(i.attribute().typeName()))
+                            {
+                                if (const auto ta = header.findTypedAttribute<Imf::V3fAttribute>(i.name()))
+                                {
+                                    tags.setTag(i.name(), serialize(ta->value()));
+                                }
+                            }
+                            else if ("v3d" == std::string(i.attribute().typeName()))
+                            {
+                                if (const auto ta = header.findTypedAttribute<Imf::V3dAttribute>(i.name()))
+                                {
+                                    tags.setTag(i.name(), serialize(ta->value()));
+                                }
+                            }
+                            else if ("box2i" == std::string(i.attribute().typeName()))
+                            {
+                                if (const auto ta = header.findTypedAttribute<Imf::Box2iAttribute>(i.name()))
+                                {
+                                    tags.setTag(i.name(), serialize(ta->value()));
+                                }
+                            }
+                            else if ("box2f" == std::string(i.attribute().typeName()))
+                            {
+                                if (const auto ta = header.findTypedAttribute<Imf::Box2fAttribute>(i.name()))
+                                {
+                                    tags.setTag(i.name(), serialize(ta->value()));
+                                }
+                            }
+                            else if ("m33f" == std::string(i.attribute().typeName()))
+                            {
+                                if (const auto ta = header.findTypedAttribute<Imf::M33fAttribute>(i.name()))
+                                {
+                                    tags.setTag(i.name(), serialize(ta->value()));
+                                }
+                            }
+                            else if ("m33d" == std::string(i.attribute().typeName()))
+                            {
+                                if (const auto ta = header.findTypedAttribute<Imf::M33dAttribute>(i.name()))
+                                {
+                                    tags.setTag(i.name(), serialize(ta->value()));
+                                }
+                            }
+                            else if ("m44f" == std::string(i.attribute().typeName()))
+                            {
+                                if (const auto ta = header.findTypedAttribute<Imf::M44fAttribute>(i.name()))
+                                {
+                                    tags.setTag(i.name(), serialize(ta->value()));
+                                }
+                            }
+                            else if ("m44d" == std::string(i.attribute().typeName()))
+                            {
+                                if (const auto ta = header.findTypedAttribute<Imf::M44dAttribute>(i.name()))
+                                {
+                                    tags.setTag(i.name(), serialize(ta->value()));
+                                }
+                            }
+                            else if ("rational" == std::string(i.attribute().typeName()))
+                            {
+                                if (const auto ta = header.findTypedAttribute<Imf::RationalAttribute>(i.name()))
+                                {
+                                    tags.setTag(i.name(), serialize(ta->value()));
+                                }
+                            }
+                        }
+                    }
                 }
 
                 void writeTags(const Tags& tags, const Time::Speed& speed, Imf::Header& header)
                 {
+                    if (tags.hasTag("Chromaticities"))
+                    {
+                        std::stringstream ss(tags.getTag("Chromaticities"));
+                        std::vector<Imath::V2f> chromaticities;
+                        chromaticities.resize(8);
+                        for (size_t i = 0; i < 4; ++i)
+                        {
+                            ss >> chromaticities[i].x;
+                            ss >> chromaticities[i].y;
+                        }
+                        addChromaticities(header,
+                            Imf::Chromaticities(
+                                chromaticities[0],
+                                chromaticities[1],
+                                chromaticities[2],
+                                chromaticities[3]));
+                    }
+                    if (tags.hasTag("White Luminance"))
+                    {
+                        addWhiteLuminance(header, std::stof(tags.getTag("White Luminance")));
+                    }
+                    if (tags.hasTag("X Density"))
+                    {
+                        addXDensity(header, std::stof(tags.getTag("X Desnity")));
+                    }
                     if (tags.hasTag("Owner"))
                     {
                         addOwner(header, tags.getTag("Owner"));
                     }
-                    if (tags.hasTag("Description"))
+                    if (tags.hasTag("Comments"))
                     {
-                        addComments(header, tags.getTag("Description"));
+                        addComments(header, tags.getTag("Comments"));
                     }
-                    if (tags.hasTag("Time"))
+                    if (tags.hasTag("Capture Date"))
                     {
-                        addCapDate(header, tags.getTag("Time"));
+                        addCapDate(header, tags.getTag("Capture Date"));
                     }
                     if (tags.hasTag("UTC Offset"))
                     {
@@ -495,31 +943,6 @@ namespace djv
                     if (tags.hasTag("ISO Speed"))
                     {
                         addIsoSpeed(header, std::stof(tags.getTag("ISO Speed")));
-                    }
-                    if (tags.hasTag("Chromaticities"))
-                    {
-                        std::stringstream ss(tags.getTag("Chromaticities"));
-                        std::vector<Imath::V2f> chromaticities;
-                        chromaticities.resize(8);
-                        for (size_t i = 0; i < 4; ++i)
-                        {
-                            ss >> chromaticities[i].x;
-                            ss >> chromaticities[i].y;
-                        }
-                        addChromaticities(header,
-                            Imf::Chromaticities(
-                                chromaticities[0],
-                                chromaticities[1],
-                                chromaticities[2],
-                                chromaticities[3]));
-                    }
-                    if (tags.hasTag("White Luminance"))
-                    {
-                        addWhiteLuminance(header, std::stof(tags.getTag("White Luminance")));
-                    }
-                    if (tags.hasTag("X Density"))
-                    {
-                        addXDensity(header, std::stof(tags.getTag("X Desnity")));
                     }
                     if (tags.hasTag("Keycode"))
                     {

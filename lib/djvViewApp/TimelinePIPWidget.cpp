@@ -61,7 +61,7 @@ namespace djv
             p.imageWidget->setSizeRole(UI::MetricsRole::TextColumn);
 
             p.timeLabel = UI::Label::create(context);
-            p.timeLabel->setFont(AV::Font::familyMono);
+            p.timeLabel->setFontFamily(AV::Font::familyMono);
             p.timeLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
             p.timeLabel->setBackgroundRole(UI::ColorRole::OverlayLight);
             p.timeLabel->setVAlign(UI::VAlign::Bottom);

@@ -262,7 +262,7 @@ namespace djv
             p.speedPopupWidget->setFontSizeRole(UI::MetricsRole::FontSmall);
             p.speedPopupWidget->addChild(p.speedWidget);
             p.realSpeedLabel = UI::Label::create(context);
-            p.realSpeedLabel->setFont(AV::Font::familyMono);
+            p.realSpeedLabel->setFontFamily(AV::Font::familyMono);
             p.realSpeedLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
             p.realSpeedLabel->setMargin(UI::MetricsRole::MarginSmall);
             p.playbackModeButton = UI::MultiStateButton::create(context);
@@ -292,7 +292,7 @@ namespace djv
             p.outPointResetButton->setVAlign(UI::VAlign::Center);
 
             p.durationLabel = UI::Label::create(context);
-            p.durationLabel->setFont(AV::Font::familyMono);
+            p.durationLabel->setFontFamily(AV::Font::familyMono);
             p.durationLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
             p.durationLabel->setMargin(UI::MetricsRole::MarginSmall);
 

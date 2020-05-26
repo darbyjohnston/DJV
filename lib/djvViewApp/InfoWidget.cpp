@@ -13,6 +13,7 @@
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
+#include <djvUI/TextBlock.h>
 #include <djvUI/ToolBar.h>
 
 #include <djvAV/AVSystem.h>
@@ -37,9 +38,28 @@ namespace djv
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
+
+            std::shared_ptr<UI::TextBlock> createTextBlock(const std::shared_ptr<Context>& context)
+            {
+                auto textBlock = UI::TextBlock::create(context);
+                textBlock->setFontFamily(AV::Font::familyMono);
+                textBlock->setMargin(UI::MetricsRole::MarginSmall);
+                return textBlock;
+            }
+
+            std::shared_ptr<UI::FormLayout> createFormLayout(const std::shared_ptr<Context>& context)
+            {
+                auto formLayout = UI::FormLayout::create(context);
+                formLayout->setFontFamily(AV::Font::familyMono);
+                formLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
+                formLayout->setLabelVAlign(UI::VAlign::Top);
+                formLayout->setLabelSizeGroup(sizeGroup);
+                formLayout->setSpacing(UI::MetricsRole::None);
+                return formLayout;
+            }
         };
 
-        void InfoWidget::_init(const std::shared_ptr<Core::Context>& context)
+        void InfoWidget::_init(const std::shared_ptr<Context>& context)
         {
             MDIWidget::_init(context);
             DJV_PRIVATE_PTR();
@@ -143,7 +163,7 @@ namespace djv
         InfoWidget::~InfoWidget()
         {}
 
-        std::shared_ptr<InfoWidget> InfoWidget::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<InfoWidget> InfoWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<InfoWidget>(new InfoWidget);
             out->_init(context);
@@ -218,16 +238,11 @@ namespace djv
 
                 if (!p.info.fileName.empty())
                 {
-                    auto label = UI::Label::create(context);
-                    label->setText(p.info.fileName);
-                    label->setTextHAlign(UI::TextHAlign::Left);
-                    label->setFont(AV::Font::familyMono);
-                    auto formLayout = UI::FormLayout::create(context);
-                    formLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
-                    formLayout->setSizeGroup(p.sizeGroup);
-                    formLayout->setSpacing(UI::MetricsRole::None);
-                    formLayout->addChild(label);
-                    formLayout->setText(label, _getText(DJV_TEXT("widget_info_file_name")) + ":");
+                    auto textBlock = p.createTextBlock(context);
+                    textBlock->setText(p.info.fileName);
+                    auto formLayout = p.createFormLayout(context);
+                    formLayout->addChild(textBlock);
+                    formLayout->setText(textBlock, _getText(DJV_TEXT("widget_info_file_name")) + ":");
 
                     auto bellows = UI::Bellows::create(context);
                     {
@@ -243,51 +258,41 @@ namespace djv
                 size_t j = 0;
                 for (const auto& i : p.info.video)
                 {
-                    auto formLayout = UI::FormLayout::create(context);
-                    formLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
-                    formLayout->setSizeGroup(p.sizeGroup);
-                    formLayout->setSpacing(UI::MetricsRole::None);
-                    formLayout->setShadowOverlay({ UI::Side::Top });
+                    auto formLayout = p.createFormLayout(context);
 
-                    auto label = UI::Label::create(context);
+                    auto textBlock = p.createTextBlock(context);
                     {
                         std::stringstream ss;
                         ss << i.info.size.w << "x" << i.info.size.h;
                         ss.precision(2);
                         ss << ":" << std::fixed << i.info.size.getAspectRatio();
-                        label->setText(ss.str());
+                        textBlock->setText(ss.str());
                     }
-                    label->setTextHAlign(UI::TextHAlign::Left);
-                    label->setFont(AV::Font::familyMono);
-                    formLayout->addChild(label);
-                    formLayout->setText(label, _getText(DJV_TEXT("widget_info_dimensions")) + ":");
+                    formLayout->addChild(textBlock);
+                    formLayout->setText(textBlock, _getText(DJV_TEXT("widget_info_dimensions")) + ":");
 
-                    label = UI::Label::create(context);
+                    textBlock = p.createTextBlock(context);
                     {
                         std::stringstream ss;
                         ss << i.info.type;
-                        label->setText(_getText(ss.str()));
+                        textBlock->setText(_getText(ss.str()));
                     }
-                    label->setTextHAlign(UI::TextHAlign::Left);
-                    label->setFont(AV::Font::familyMono);
-                    formLayout->addChild(label);
-                    formLayout->setText(label, _getText(DJV_TEXT("widget_info_type")) + ":");
+                    formLayout->addChild(textBlock);
+                    formLayout->setText(textBlock, _getText(DJV_TEXT("widget_info_type")) + ":");
 
                     if (i.sequence.getSize() > 0)
                     {
-                        label = UI::Label::create(context);
+                        textBlock = p.createTextBlock(context);
                         {
                             std::stringstream ss;
                             ss.precision(2);
                             ss << std::fixed << i.speed.toFloat();
-                            label->setText(ss.str());
+                            textBlock->setText(ss.str());
                         }
-                        label->setTextHAlign(UI::TextHAlign::Left);
-                        label->setFont(AV::Font::familyMono);
-                        formLayout->addChild(label);
-                        formLayout->setText(label, _getText(DJV_TEXT("widget_info_speed")) + ":");
+                        formLayout->addChild(textBlock);
+                        formLayout->setText(textBlock, _getText(DJV_TEXT("widget_info_speed")) + ":");
 
-                        label = UI::Label::create(context);
+                        textBlock = p.createTextBlock(context);
                         {
                             std::stringstream ss;
                             auto avSystem = context->getSystemT<AV::AVSystem>();
@@ -300,22 +305,18 @@ namespace djv
                                 break;
                             default: break;
                             }
-                            label->setText(ss.str());
+                            textBlock->setText(ss.str());
                         }
-                        label->setTextHAlign(UI::TextHAlign::Left);
-                        label->setFont(AV::Font::familyMono);
-                        formLayout->addChild(label);
-                        formLayout->setText(label, _getText(DJV_TEXT("widget_info_duration")) + ":");
+                        formLayout->addChild(textBlock);
+                        formLayout->setText(textBlock, _getText(DJV_TEXT("widget_info_duration")) + ":");
                     }
 
                     if (!i.codec.empty())
                     {
-                        label = UI::Label::create(context);
-                        label->setText(i.codec);
-                        label->setTextHAlign(UI::TextHAlign::Left);
-                        label->setFont(AV::Font::familyMono);
-                        formLayout->addChild(label);
-                        formLayout->setText(label, _getText(DJV_TEXT("widget_info_codec")) + ":");
+                        textBlock = p.createTextBlock(context);
+                        textBlock->setText(i.codec);
+                        formLayout->addChild(textBlock);
+                        formLayout->setText(textBlock, _getText(DJV_TEXT("widget_info_codec")) + ":");
                     }
 
                     auto bellows = UI::Bellows::create(context);
@@ -330,64 +331,50 @@ namespace djv
                 j = 0;
                 for (const auto& i : p.info.audio)
                 {
-                    auto formLayout = UI::FormLayout::create(context);
-                    formLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
-                    formLayout->setSizeGroup(p.sizeGroup);
-                    formLayout->setSpacing(UI::MetricsRole::None);
-                    formLayout->setShadowOverlay({ UI::Side::Top });
+                    auto formLayout = p.createFormLayout(context);
 
-                    auto label = UI::Label::create(context);
+                    auto textBlock = p.createTextBlock(context);
                     {
                         std::stringstream ss;
                         ss << static_cast<int>(i.info.channelCount);
-                        label->setText(ss.str());
+                        textBlock->setText(ss.str());
                     }
-                    label->setTextHAlign(UI::TextHAlign::Left);
-                    label->setFont(AV::Font::familyMono);
-                    formLayout->addChild(label);
-                    formLayout->setText(label, _getText(DJV_TEXT("widget_info_channels")) + ":");
+                    formLayout->addChild(textBlock);
+                    formLayout->setText(textBlock, _getText(DJV_TEXT("widget_info_channels")) + ":");
 
-                    label = UI::Label::create(context);
+                    textBlock = p.createTextBlock(context);
                     {
                         std::stringstream ss;
                         ss << i.info.type;
-                        label->setText(_getText(ss.str()));
+                        textBlock->setText(_getText(ss.str()));
                     }
-                    label->setTextHAlign(UI::TextHAlign::Left);
-                    label->setFont(AV::Font::familyMono);
-                    formLayout->addChild(label);
-                    formLayout->setText(label, _getText(DJV_TEXT("widget_info_type")) + ":");
+                    formLayout->addChild(textBlock);
+                    formLayout->setText(textBlock, _getText(DJV_TEXT("widget_info_type")) + ":");
 
-                    label = UI::Label::create(context);
+                    textBlock = p.createTextBlock(context);
                     {
                         std::stringstream ss;
                         ss << i.info.sampleRate / 1000.F << _getText(DJV_TEXT("widget_info_khz"));
-                        label->setText(ss.str());
+                        textBlock->setText(ss.str());
                     }
-                    label->setTextHAlign(UI::TextHAlign::Left);
-                    label->setFont(AV::Font::familyMono);
-                    formLayout->addChild(label);
-                    formLayout->setText(label, _getText(DJV_TEXT("widget_info_sample_rate")) + ":");
+                    formLayout->addChild(textBlock);
+                    formLayout->setText(textBlock, _getText(DJV_TEXT("widget_info_sample_rate")) + ":");
 
-                    label = UI::Label::create(context);
+                    textBlock = p.createTextBlock(context);
                     {
                         std::stringstream ss;
                         ss << (i.info.sampleRate > 0 ? (i.info.sampleCount / i.info.sampleRate) : 0) << " " << _getText(DJV_TEXT("widget_info_seconds"));
-                        label->setText(ss.str());
+                        textBlock->setText(ss.str());
                     }
-                    label->setTextHAlign(UI::TextHAlign::Left);
-                    label->setFont(AV::Font::familyMono);
-                    formLayout->addChild(label);
-                    formLayout->setText(label, _getText(DJV_TEXT("widget_info_duration")) + ":");
+                    formLayout->addChild(textBlock);
+                    formLayout->setText(textBlock, _getText(DJV_TEXT("widget_info_duration")) + ":");
 
                     if (!i.codec.empty())
                     {
-                        label = UI::Label::create(context);
-                        label->setText(i.codec);
-                        label->setTextHAlign(UI::TextHAlign::Left);
-                        label->setFont(AV::Font::familyMono);
-                        formLayout->addChild(label);
-                        formLayout->setText(label, _getText(DJV_TEXT("widget_info_codec")) + ":");
+                        textBlock = p.createTextBlock(context);
+                        textBlock->setText(i.codec);
+                        formLayout->addChild(textBlock);
+                        formLayout->setText(textBlock, _getText(DJV_TEXT("widget_info_codec")) + ":");
                     }
 
                     auto bellows = UI::Bellows::create(context);
@@ -401,22 +388,16 @@ namespace djv
 
                 if (!p.info.tags.isEmpty())
                 {
-                    auto formLayout = UI::FormLayout::create(context);
-                    formLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
-                    formLayout->setSizeGroup(p.sizeGroup);
-                    formLayout->setSpacing(UI::MetricsRole::None);
-                    formLayout->setShadowOverlay({ UI::Side::Top });
+                    auto formLayout = p.createFormLayout(context);
 
                     for (const auto& i : p.info.tags.getTags())
                     {
-                        auto label = UI::Label::create(context);
-                        label->setText(i.second);
-                        label->setTextHAlign(UI::TextHAlign::Left);
-                        label->setFont(AV::Font::familyMono);
-                        formLayout->addChild(label);
+                        auto textBlock = p.createTextBlock(context);
+                        textBlock->setText(i.second);
+                        formLayout->addChild(textBlock);
                         std::stringstream ss;
                         ss << i.first << ":";
-                        formLayout->setText(label, ss.str());
+                        formLayout->setText(textBlock, ss.str());
                     }
 
                     auto bellows = UI::Bellows::create(context);

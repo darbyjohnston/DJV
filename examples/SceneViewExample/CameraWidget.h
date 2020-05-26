@@ -28,7 +28,7 @@ public:
     void setCameraData(const djv::Scene::PolarCameraData&);
     void setCameraDataCallback(const std::function<void(const djv::Scene::PolarCameraData&)>&);
 
-    void setSizeGroup(const std::weak_ptr<djv::UI::LabelSizeGroup>&) override;
+    void setLabelSizeGroup(const std::weak_ptr<djv::UI::LabelSizeGroup>&) override;
 
 protected:
     void _initEvent(djv::Core::Event::Init&) override;

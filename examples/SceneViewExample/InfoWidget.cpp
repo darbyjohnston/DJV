@@ -11,15 +11,15 @@ void InfoWidget::_init(const std::shared_ptr<Core::Context>& context)
     ISettingsWidget::_init(context);
 
     _labels["SceneSizeW"] = UI::Label::create(context);
-    _labels["SceneSizeW"]->setFont(AV::Font::familyMono);
+    _labels["SceneSizeW"]->setFontFamily(AV::Font::familyMono);
     _labels["SceneSizeW"]->setTextHAlign(UI::TextHAlign::Left);
     _labels["SceneSizeW"]->setMargin(UI::MetricsRole::MarginSmall);
     _labels["SceneSizeH"] = UI::Label::create(context);
-    _labels["SceneSizeH"]->setFont(AV::Font::familyMono);
+    _labels["SceneSizeH"]->setFontFamily(AV::Font::familyMono);
     _labels["SceneSizeH"]->setTextHAlign(UI::TextHAlign::Left);
     _labels["SceneSizeH"]->setMargin(UI::MetricsRole::MarginSmall);
     _labels["SceneSizeD"] = UI::Label::create(context);
-    _labels["SceneSizeD"]->setFont(AV::Font::familyMono);
+    _labels["SceneSizeD"]->setFontFamily(AV::Font::familyMono);
     _labels["SceneSizeD"]->setTextHAlign(UI::TextHAlign::Left);
     _labels["SceneSizeD"]->setMargin(UI::MetricsRole::MarginSmall);
     _layouts["SceneSize"] = UI::FormLayout::create(context);
@@ -31,27 +31,27 @@ void InfoWidget::_init(const std::shared_ptr<Core::Context>& context)
     _groupBoxes["SceneSize"]->addChild(_layouts["SceneSize"]);
 
     _labels["SceneRangeMinX"] = UI::Label::create(context);
-    _labels["SceneRangeMinX"]->setFont(AV::Font::familyMono);
+    _labels["SceneRangeMinX"]->setFontFamily(AV::Font::familyMono);
     _labels["SceneRangeMinX"]->setTextHAlign(UI::TextHAlign::Left);
     _labels["SceneRangeMinX"]->setMargin(UI::MetricsRole::MarginSmall);
     _labels["SceneRangeMaxX"] = UI::Label::create(context);
-    _labels["SceneRangeMaxX"]->setFont(AV::Font::familyMono);
+    _labels["SceneRangeMaxX"]->setFontFamily(AV::Font::familyMono);
     _labels["SceneRangeMaxX"]->setTextHAlign(UI::TextHAlign::Left);
     _labels["SceneRangeMaxX"]->setMargin(UI::MetricsRole::MarginSmall);
     _labels["SceneRangeMinY"] = UI::Label::create(context);
-    _labels["SceneRangeMinY"]->setFont(AV::Font::familyMono);
+    _labels["SceneRangeMinY"]->setFontFamily(AV::Font::familyMono);
     _labels["SceneRangeMinY"]->setTextHAlign(UI::TextHAlign::Left);
     _labels["SceneRangeMinY"]->setMargin(UI::MetricsRole::MarginSmall);
     _labels["SceneRangeMaxY"] = UI::Label::create(context);
-    _labels["SceneRangeMaxY"]->setFont(AV::Font::familyMono);
+    _labels["SceneRangeMaxY"]->setFontFamily(AV::Font::familyMono);
     _labels["SceneRangeMaxY"]->setTextHAlign(UI::TextHAlign::Left);
     _labels["SceneRangeMaxY"]->setMargin(UI::MetricsRole::MarginSmall);
     _labels["SceneRangeMinZ"] = UI::Label::create(context);
-    _labels["SceneRangeMinZ"]->setFont(AV::Font::familyMono);
+    _labels["SceneRangeMinZ"]->setFontFamily(AV::Font::familyMono);
     _labels["SceneRangeMinZ"]->setTextHAlign(UI::TextHAlign::Left);
     _labels["SceneRangeMinZ"]->setMargin(UI::MetricsRole::MarginSmall);
     _labels["SceneRangeMaxZ"] = UI::Label::create(context);
-    _labels["SceneRangeMaxZ"]->setFont(AV::Font::familyMono);
+    _labels["SceneRangeMaxZ"]->setFontFamily(AV::Font::familyMono);
     _labels["SceneRangeMaxZ"]->setTextHAlign(UI::TextHAlign::Left);
     _labels["SceneRangeMaxZ"]->setMargin(UI::MetricsRole::MarginSmall);
     _layouts["SceneRange"] = UI::FormLayout::create(context);
@@ -66,15 +66,15 @@ void InfoWidget::_init(const std::shared_ptr<Core::Context>& context)
     _groupBoxes["SceneRange"]->addChild(_layouts["SceneRange"]);
 
     _labels["Primitives"] = UI::Label::create(context);
-    _labels["Primitives"]->setFont(AV::Font::familyMono);
+    _labels["Primitives"]->setFontFamily(AV::Font::familyMono);
     _labels["Primitives"]->setTextHAlign(UI::TextHAlign::Left);
     _labels["Primitives"]->setMargin(UI::MetricsRole::MarginSmall);
     _labels["PointCount"] = UI::Label::create(context);
-    _labels["PointCount"]->setFont(AV::Font::familyMono);
+    _labels["PointCount"]->setFontFamily(AV::Font::familyMono);
     _labels["PointCount"]->setTextHAlign(UI::TextHAlign::Left);
     _labels["PointCount"]->setMargin(UI::MetricsRole::MarginSmall);
     _labels["FPS"] = UI::Label::create(context);
-    _labels["FPS"]->setFont(AV::Font::familyMono);
+    _labels["FPS"]->setFontFamily(AV::Font::familyMono);
     _labels["FPS"]->setTextHAlign(UI::TextHAlign::Left);
     _labels["FPS"]->setMargin(UI::MetricsRole::MarginSmall);
     _layouts["Stats"] = UI::FormLayout::create(context);
@@ -132,11 +132,11 @@ void InfoWidget::setFPS(float value)
     _textUpdate();
 }
 
-void InfoWidget::setSizeGroup(const std::weak_ptr<djv::UI::LabelSizeGroup>& value)
+void InfoWidget::setLabelSizeGroup(const std::weak_ptr<djv::UI::LabelSizeGroup>& value)
 {
     for (auto i : _layouts)
     {
-        i.second->setSizeGroup(value);
+        i.second->setLabelSizeGroup(value);
     }
 }
 

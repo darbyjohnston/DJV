@@ -85,9 +85,9 @@ namespace djv
             return "Z";
         }
 
-        void JPEGSettingsWidget::setSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)
+        void JPEGSettingsWidget::setLabelSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)
         {
-            _p->layout->setSizeGroup(value);
+            _p->layout->setLabelSizeGroup(value);
         }
 
         void JPEGSettingsWidget::_initEvent(Event::Init & event)

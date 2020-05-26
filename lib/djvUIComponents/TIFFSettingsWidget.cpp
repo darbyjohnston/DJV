@@ -81,9 +81,9 @@ namespace djv
             return "Z";
         }
 
-        void TIFFSettingsWidget::setSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)
+        void TIFFSettingsWidget::setLabelSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)
         {
-            _p->layout->setSizeGroup(value);
+            _p->layout->setLabelSizeGroup(value);
         }
 
         void TIFFSettingsWidget::_initEvent(Event::Init & event)

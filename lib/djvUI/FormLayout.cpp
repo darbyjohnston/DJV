@@ -17,10 +17,13 @@ namespace djv
         {
             struct Form::Private
             {
+                std::string fontFamily;
+                std::string fontFace;
                 std::vector<ColorRole> alternateRowsRoles = { ColorRole::None, ColorRole::None };
+                VAlign labelVAlign = VAlign::Center;
+                std::weak_ptr<LabelSizeGroup> labelSizeGroup;
                 std::shared_ptr<Grid> layout;
                 std::map<std::shared_ptr<Widget>, std::shared_ptr<Label>> widgetToLabel;
-                std::weak_ptr<LabelSizeGroup> sizeGroup;
             };
 
             void Form::_init(const std::shared_ptr<Context>& context)
@@ -31,6 +34,7 @@ namespace djv
 
                 DJV_PRIVATE_PTR();
                 p.layout = Grid::create(context);
+                p.layout->setSpacing(MetricsRole::None);
                 Widget::addChild(p.layout);
             }
 
@@ -61,8 +65,11 @@ namespace djv
                     auto label = Label::create(context);
                     label->setText(text);
                     label->setTextHAlign(TextHAlign::Left);
+                    label->setFontFamily(p.fontFamily);
+                    label->setFontFace(p.fontFace);
                     label->setMargin(Margin(MetricsRole::MarginSmall));
-                    label->setSizeGroup(p.sizeGroup);
+                    label->setVAlign(p.labelVAlign);
+                    label->setSizeGroup(p.labelSizeGroup);
                     glm::ivec2 gridPos = p.layout->getGridPos(value);
                     p.layout->addChild(label);
                     p.layout->setGridPos(label, glm::ivec2(0, gridPos.y));
@@ -81,6 +88,40 @@ namespace djv
                 _p->layout->setSpacing(value);
             }
 
+            const std::string& Form::getFontFamily() const
+            {
+                return _p->fontFamily;
+            }
+
+            const std::string& Form::getFontFace() const
+            {
+                return _p->fontFace;
+            }
+
+            void Form::setFontFamily(const std::string& value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.fontFamily)
+                    return;
+                p.fontFamily = value;
+                for (const auto& i : p.widgetToLabel)
+                {
+                    i.second->setFontFamily(value);
+                }
+            }
+
+            void Form::setFontFace(const std::string& value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.fontFace)
+                    return;
+                p.fontFace = value;
+                for (const auto& i : p.widgetToLabel)
+                {
+                    i.second->setFontFace(value);
+                }
+            }
+
             void Form::setAlternateRowsRoles(ColorRole value0, ColorRole value1)
             {
                 DJV_PRIVATE_PTR();
@@ -90,24 +131,36 @@ namespace djv
                 _widgetUpdate();
             }
 
-            void Form::setSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)
+            void Form::setLabelVAlign(VAlign value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.labelVAlign)
+                    return;
+                p.labelVAlign = value;
+                for (auto i : p.widgetToLabel)
+                {
+                    i.second->setVAlign(value);
+                }
+            }
+
+            void Form::setLabelSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)
             {
                 DJV_PRIVATE_PTR();
                 for (auto i : p.widgetToLabel)
                 {
                     i.second->setSizeGroup(std::weak_ptr<LabelSizeGroup>());
                 }
-                p.sizeGroup = value;
+                p.labelSizeGroup = value;
                 for (auto i : p.widgetToLabel)
                 {
-                    i.second->setSizeGroup(p.sizeGroup);
+                    i.second->setSizeGroup(p.labelSizeGroup);
                 }
             }
 
             float Form::getHeightForWidth(float value) const
             {
                 const auto& style = _getStyle();
-                float out = _p->layout->getHeightForWidth(value - getMargin().getWidth(style)) + getMargin().getWidth(style);
+                float out = _p->layout->getHeightForWidth(value - getMargin().getWidth(style)) + getMargin().getHeight(style);
                 return out;
             }
 
@@ -157,9 +210,9 @@ namespace djv
             void Form::_layoutEvent(Event::Layout & event)
             {
                 DJV_PRIVATE_PTR();
-                const BBox2f & g = getGeometry();
                 const auto& style = _getStyle();
-                p.layout->setGeometry(getMargin().bbox(g, style));
+                const BBox2f g = getMargin().bbox(getGeometry(), style);
+                p.layout->setGeometry(g);
             }
 
             void Form::_widgetUpdate()

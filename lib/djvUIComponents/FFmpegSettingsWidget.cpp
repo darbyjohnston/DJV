@@ -85,9 +85,9 @@ namespace djv
             return "Z";
         }
 
-        void FFmpegSettingsWidget::setSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)
+        void FFmpegSettingsWidget::setLabelSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)
         {
-            _p->layout->setSizeGroup(value);
+            _p->layout->setLabelSizeGroup(value);
         }
 
         void FFmpegSettingsWidget::_initEvent(Event::Init& event)

@@ -34,9 +34,15 @@ namespace djv
                 const Spacing& getSpacing() const;
                 void setSpacing(const Spacing&);
 
+                const std::string& getFontFamily() const;
+                const std::string& getFontFace() const;
+                void setFontFamily(const std::string&);
+                void setFontFace(const std::string&);
+
                 void setAlternateRowsRoles(ColorRole, ColorRole);
 
-                void setSizeGroup(const std::weak_ptr<LabelSizeGroup>&);
+                void setLabelVAlign(VAlign);
+                void setLabelSizeGroup(const std::weak_ptr<LabelSizeGroup>&);
 
                 float getHeightForWidth(float) const override;
 

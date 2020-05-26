@@ -26,7 +26,7 @@ namespace djv
             TextHAlign textHAlign = TextHAlign::Center;
             TextVAlign textVAlign = TextVAlign::Center;
             ColorRole textColorRole = ColorRole::Foreground;
-            std::string font;
+            std::string fontFamily;
             std::string fontFace;
             MetricsRole fontSizeRole = MetricsRole::FontMedium;
             AV::Font::Info fontInfo;
@@ -121,9 +121,9 @@ namespace djv
             _redraw();
         }
 
-        const std::string & Label::getFont() const
+        const std::string & Label::getFontFamily() const
         {
-            return _p->font;
+            return _p->fontFamily;
         }
 
         const std::string & Label::getFontFace() const
@@ -136,12 +136,12 @@ namespace djv
             return _p->fontSizeRole;
         }
 
-        void Label::setFont(const std::string & value)
+        void Label::setFontFamily(const std::string & value)
         {
             DJV_PRIVATE_PTR();
-            if (value == p.font)
+            if (value == p.fontFamily)
                 return;
-            p.font = value;
+            p.fontFamily = value;
             _fontUpdate();
         }
 
@@ -350,9 +350,9 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            p.fontInfo = p.font.empty() ?
+            p.fontInfo = p.fontFamily.empty() ?
                 style->getFontInfo(p.fontFace, p.fontSizeRole) :
-                style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
+                style->getFontInfo(p.fontFamily, p.fontFace, p.fontSizeRole);
             p.fontMetricsFuture = p.fontSystem->getMetrics(p.fontInfo);
             _textUpdate();
             _sizeStringUpdate();

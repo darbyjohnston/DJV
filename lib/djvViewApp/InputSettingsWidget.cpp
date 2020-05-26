@@ -98,9 +98,9 @@ namespace djv
             return "Y";
         }
 
-        void InputSettingsWidget::setSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
+        void InputSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
         {
-            _p->layout->setSizeGroup(value);
+            _p->layout->setLabelSizeGroup(value);
         }
 
         void InputSettingsWidget::_initEvent(Event::Init& event)
