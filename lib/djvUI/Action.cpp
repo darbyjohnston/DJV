@@ -38,7 +38,7 @@ namespace djv
             p.iconSubject = ValueSubject<std::string>::create();
             p.text = ValueSubject<std::string>::create();
             p.font = ValueSubject<std::string>::create();
-            p.insideMargin = ValueSubject<MetricsRole>::create();
+            p.insideMargin = ValueSubject<MetricsRole>::create(MetricsRole::MarginSmall);
             p.shortcuts = ListSubject<std::shared_ptr<Shortcut> >::create();
             p.enabled = ValueSubject<bool>::create(true);
             p.tooltip = ValueSubject<std::string>::create();
