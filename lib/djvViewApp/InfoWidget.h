@@ -6,6 +6,8 @@
 
 #include <djvViewApp/MDIWidget.h>
 
+#include <djvAV/Audio.h>
+
 namespace djv
 {
     namespace ViewApp
@@ -33,6 +35,15 @@ namespace djv
             void _initEvent(Core::Event::Init &) override;
 
         private:
+            std::string _text(int) const;
+            std::string _text(const Core::Time::Speed&) const;
+            std::string _text(const Core::Frame::Sequence&, const Core::Time::Speed&) const;
+            std::string _text(AV::Image::Type) const;
+            std::string _text(const AV::Image::Size&) const;
+            std::string _text(AV::Audio::Type) const;
+            std::string _textSampleRate(size_t) const;
+            std::string _textDuration(size_t, size_t) const;
+
             void _expandAll();
             void _collapseAll();
             void _widgetUpdate();

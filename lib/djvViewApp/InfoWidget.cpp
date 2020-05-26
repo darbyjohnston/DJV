@@ -7,6 +7,8 @@
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/Media.h>
 
+#include <djvUIComponents/SearchBox.h>
+
 #include <djvUI/Action.h>
 #include <djvUI/Bellows.h>
 #include <djvUI/FormLayout.h>
@@ -30,8 +32,10 @@ namespace djv
         {
             AV::IO::Info info;
             bool bellowsState = true;
+            std::string filter;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::vector<std::shared_ptr<UI::Bellows> > bellows;
+            std::shared_ptr<UI::SearchBox> searchBox;
             std::shared_ptr<UI::ToolBar> toolBar;
             std::shared_ptr<UI::LabelSizeGroup> sizeGroup;
             std::shared_ptr<UI::VerticalLayout> layout;
@@ -68,12 +72,18 @@ namespace djv
 
             p.actions["ExpandAll"] = UI::Action::create();
             p.actions["ExpandAll"]->setIcon("djvIconArrowSmallDown");
+            p.actions["ExpandAll"]->setInsideMargin(UI::MetricsRole::None);
             p.actions["CollapseAll"] = UI::Action::create();
             p.actions["CollapseAll"]->setIcon("djvIconArrowSmallRight");
+            p.actions["CollapseAll"]->setInsideMargin(UI::MetricsRole::None);
+
+            p.searchBox = UI::SearchBox::create(context);
 
             p.toolBar = UI::ToolBar::create(context);
             p.toolBar->addAction(p.actions["ExpandAll"]);
             p.toolBar->addAction(p.actions["CollapseAll"]);
+            p.toolBar->addChild(p.searchBox);
+            p.toolBar->setStretch(p.searchBox, UI::RowStretch::Expand);
 
             p.sizeGroup = UI::LabelSizeGroup::create();
 
@@ -96,6 +106,16 @@ namespace djv
             _widgetUpdate();
 
             auto weak = std::weak_ptr<InfoWidget>(std::dynamic_pointer_cast<InfoWidget>(shared_from_this()));
+            p.searchBox->setFilterCallback(
+                [weak](const std::string& value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->_p->filter = value;
+                    widget->_widgetUpdate();
+                }
+            });
+
             if (auto fileSystem = context->getSystemT<FileSystem>())
             {
                 p.currentMediaObserver = ValueObserver<std::shared_ptr<Media> >::create(
@@ -209,6 +229,77 @@ namespace djv
             _widgetUpdate();
         }
 
+        std::string InfoWidget::_text(int value) const
+        {
+            std::stringstream ss;
+            ss << value;
+            return ss.str();
+        }
+
+        std::string InfoWidget::_text(const Time::Speed& value) const
+        {
+            std::stringstream ss;
+            ss.precision(2);
+            ss << std::fixed << value.toFloat();
+            return ss.str();
+        }
+
+        std::string InfoWidget::_text(const Frame::Sequence& sequence, const Time::Speed& speed) const
+        {
+            std::stringstream ss;
+            if (auto context = getContext().lock())
+            {
+                auto avSystem = context->getSystemT<AV::AVSystem>();
+                const Time::Units timeUnits = avSystem->observeTimeUnits()->get();
+                ss << Time::toString(sequence.getSize(), speed, timeUnits);
+                switch (timeUnits)
+                {
+                case Time::Units::Frames:
+                    ss << " " << _getText(DJV_TEXT("widget_info_frames"));
+                    break;
+                default: break;
+                }
+            }
+            return ss.str();
+        }
+
+        std::string InfoWidget::_text(AV::Image::Type value) const
+        {
+            std::stringstream ss;
+            ss << value;
+            return _getText(ss.str());
+        }
+
+        std::string InfoWidget::_text(const AV::Image::Size& value) const
+        {
+            std::stringstream ss;
+            ss << value.w << "x" << value.h;
+            ss.precision(2);
+            ss << ":" << std::fixed << value.getAspectRatio();
+            return ss.str();
+        }
+
+        std::string InfoWidget::_text(AV::Audio::Type value) const
+        {
+            std::stringstream ss;
+            ss << value;
+            return _getText(ss.str());
+        }
+
+        std::string InfoWidget::_textSampleRate(size_t value) const
+        {
+            std::stringstream ss;
+            ss << value / 1000.F << _getText(DJV_TEXT("widget_info_khz"));
+            return ss.str();
+        }
+
+        std::string InfoWidget::_textDuration(size_t sampleCount, size_t sampleRate) const
+        {
+            std::stringstream ss;
+            ss << (sampleRate > 0 ? (sampleCount / sampleRate) : 0) << " " << _getText(DJV_TEXT("widget_info_seconds"));
+            return ss.str();
+        }
+
         void InfoWidget::_expandAll()
         {
             DJV_PRIVATE_PTR();
@@ -236,20 +327,19 @@ namespace djv
                 p.sizeGroup->clearLabels();
                 p.layout->clearChildren();
 
-                if (!p.info.fileName.empty())
+                const std::string fileNameLabel = _getText(DJV_TEXT("widget_info_file_name"));
+                const bool fileNameMatch = !p.info.fileName.empty() &&
+                    (String::match(fileNameLabel, p.filter) || String::match(p.info.fileName, p.filter));
+                if (fileNameMatch)
                 {
                     auto textBlock = p.createTextBlock(context);
                     textBlock->setText(p.info.fileName);
                     auto formLayout = p.createFormLayout(context);
                     formLayout->addChild(textBlock);
-                    formLayout->setText(textBlock, _getText(DJV_TEXT("widget_info_file_name")) + ":");
+                    formLayout->setText(textBlock, fileNameLabel + ":");
 
                     auto bellows = UI::Bellows::create(context);
-                    {
-                        std::stringstream ss;
-                        ss << _getText(DJV_TEXT("widget_info_general"));
-                        bellows->setText(ss.str());
-                    }
+                    bellows->setText(_getText(DJV_TEXT("widget_info_general")));
                     bellows->addChild(formLayout);
                     p.bellows.push_back(bellows);
                     p.layout->addChild(bellows);
@@ -258,72 +348,82 @@ namespace djv
                 size_t j = 0;
                 for (const auto& i : p.info.video)
                 {
-                    auto formLayout = p.createFormLayout(context);
-
-                    auto textBlock = p.createTextBlock(context);
-                    {
-                        std::stringstream ss;
-                        ss << i.info.size.w << "x" << i.info.size.h;
-                        ss.precision(2);
-                        ss << ":" << std::fixed << i.info.size.getAspectRatio();
-                        textBlock->setText(ss.str());
-                    }
-                    formLayout->addChild(textBlock);
-                    formLayout->setText(textBlock, _getText(DJV_TEXT("widget_info_dimensions")) + ":");
-
-                    textBlock = p.createTextBlock(context);
-                    {
-                        std::stringstream ss;
-                        ss << i.info.type;
-                        textBlock->setText(_getText(ss.str()));
-                    }
-                    formLayout->addChild(textBlock);
-                    formLayout->setText(textBlock, _getText(DJV_TEXT("widget_info_type")) + ":");
-
+                    const std::string sizeLabel = _getText(DJV_TEXT("widget_info_dimensions"));
+                    const std::string sizeText = _text(i.info.size);
+                    const std::string typeLabel = _getText(DJV_TEXT("widget_info_type"));
+                    const std::string typeText = _text(i.info.type);
+                    std::string speedLabel;
+                    std::string speedText;
+                    std::string durationLabel;
+                    std::string durationText;
                     if (i.sequence.getSize() > 0)
                     {
-                        textBlock = p.createTextBlock(context);
-                        {
-                            std::stringstream ss;
-                            ss.precision(2);
-                            ss << std::fixed << i.speed.toFloat();
-                            textBlock->setText(ss.str());
-                        }
-                        formLayout->addChild(textBlock);
-                        formLayout->setText(textBlock, _getText(DJV_TEXT("widget_info_speed")) + ":");
-
-                        textBlock = p.createTextBlock(context);
-                        {
-                            std::stringstream ss;
-                            auto avSystem = context->getSystemT<AV::AVSystem>();
-                            const Time::Units timeUnits = avSystem->observeTimeUnits()->get();
-                            ss << Time::toString(i.sequence.getSize(), i.speed, timeUnits);
-                            switch (timeUnits)
-                            {
-                            case Time::Units::Frames:
-                                ss << " " << _getText(DJV_TEXT("widget_info_frames"));
-                                break;
-                            default: break;
-                            }
-                            textBlock->setText(ss.str());
-                        }
-                        formLayout->addChild(textBlock);
-                        formLayout->setText(textBlock, _getText(DJV_TEXT("widget_info_duration")) + ":");
+                        speedLabel = _getText(DJV_TEXT("widget_info_speed"));
+                        speedText = _text(i.speed);
+                        durationLabel = _getText(DJV_TEXT("widget_info_duration"));
+                        durationText = _text(i.sequence, i.speed);
                     }
+                    const std::string codecLabel = _getText(DJV_TEXT("widget_info_codec"));
 
-                    if (!i.codec.empty())
+                    const bool sizeMatch = String::match(sizeLabel, p.filter) || String::match(sizeText, p.filter);
+                    const bool typeMatch = String::match(typeLabel, p.filter) || String::match(typeText, p.filter);
+                    bool speedMatch = false;
+                    bool durationMatch = false;
+                    if (i.sequence.getSize() > 0)
                     {
-                        textBlock = p.createTextBlock(context);
-                        textBlock->setText(i.codec);
-                        formLayout->addChild(textBlock);
-                        formLayout->setText(textBlock, _getText(DJV_TEXT("widget_info_codec")) + ":");
+                        speedMatch |= String::match(speedLabel, p.filter) || String::match(speedText, p.filter);
+                        durationMatch |= String::match(durationLabel, p.filter) || String::match(durationText, p.filter);
                     }
+                    const bool codecMatch = !i.codec.empty() &&
+                        (String::match(codecLabel, p.filter) || String::match(i.codec, p.filter));
 
-                    auto bellows = UI::Bellows::create(context);
-                    bellows->setText(i.info.name);
-                    bellows->addChild(formLayout);
-                    p.bellows.push_back(bellows);
-                    p.layout->addChild(bellows);
+                    if (sizeMatch || typeMatch || speedMatch || durationMatch || codecMatch)
+                    {
+                        auto formLayout = p.createFormLayout(context);
+                        if (sizeMatch)
+                        {
+                            auto textBlock = p.createTextBlock(context);
+                            textBlock->setText(sizeText);
+                            formLayout->addChild(textBlock);
+                            formLayout->setText(textBlock, sizeLabel + ":");
+                        }
+                        if (typeMatch)
+                        {
+                            auto textBlock = p.createTextBlock(context);
+                            textBlock->setText(typeText);
+                            formLayout->addChild(textBlock);
+                            formLayout->setText(textBlock, typeLabel + ":");
+                        }
+                        if (i.sequence.getSize() > 0)
+                        {
+                            if (speedMatch)
+                            {
+                                auto textBlock = p.createTextBlock(context);
+                                textBlock->setText(speedText);
+                                formLayout->addChild(textBlock);
+                                formLayout->setText(textBlock, speedLabel + ":");
+                            }
+                            if (durationMatch)
+                            {
+                                auto textBlock = p.createTextBlock(context);
+                                textBlock->setText(durationText);
+                                formLayout->addChild(textBlock);
+                                formLayout->setText(textBlock, durationLabel + ":");
+                            }
+                        }
+                        if (codecMatch)
+                        {
+                            auto textBlock = p.createTextBlock(context);
+                            textBlock->setText(i.codec);
+                            formLayout->addChild(textBlock);
+                            formLayout->setText(textBlock, codecLabel + ":");
+                        }
+                        auto bellows = UI::Bellows::create(context);
+                        bellows->setText(i.info.name);
+                        bellows->addChild(formLayout);
+                        p.bellows.push_back(bellows);
+                        p.layout->addChild(bellows);
+                    }
 
                     ++j;
                 }
@@ -331,84 +431,104 @@ namespace djv
                 j = 0;
                 for (const auto& i : p.info.audio)
                 {
-                    auto formLayout = p.createFormLayout(context);
+                    const std::string channelLabel = _getText(DJV_TEXT("widget_info_channels"));
+                    const std::string channelText = _text(i.info.channelCount);
+                    const std::string typeLabel = _getText(DJV_TEXT("widget_info_type"));
+                    const std::string typeText = _text(i.info.type);
+                    const std::string sampleRateLabel = _getText(DJV_TEXT("widget_info_sample_rate"));
+                    const std::string sampleRateText = _textSampleRate(i.info.sampleRate);
+                    const std::string durationLabel = _getText(DJV_TEXT("widget_info_duration"));
+                    const std::string durationText = _textDuration(i.info.sampleCount, i.info.sampleRate);
+                    const std::string codecLabel = _getText(DJV_TEXT("widget_info_codec"));
 
-                    auto textBlock = p.createTextBlock(context);
+                    const bool channelMatch = String::match(channelLabel, p.filter) || String::match(channelText, p.filter);
+                    const bool typeMatch = String::match(typeLabel, p.filter) || String::match(typeText, p.filter);
+                    const bool sampleRateMatch = String::match(sampleRateLabel, p.filter) || String::match(sampleRateText, p.filter);
+                    const bool durationMatch = String::match(durationLabel, p.filter) || String::match(durationText, p.filter);
+                    const bool codecMatch = !i.codec.empty() &&
+                        (String::match(codecLabel, p.filter) || String::match(i.codec, p.filter));
+
+                    if (channelMatch || typeMatch || sampleRateMatch || durationMatch || codecMatch)
                     {
-                        std::stringstream ss;
-                        ss << static_cast<int>(i.info.channelCount);
-                        textBlock->setText(ss.str());
+                        auto formLayout = p.createFormLayout(context);
+                        if (channelMatch)
+                        {
+                            auto textBlock = p.createTextBlock(context);
+                            textBlock->setText(channelText);
+                            formLayout->addChild(textBlock);
+                            formLayout->setText(textBlock, channelLabel + ":");
+                        }
+                        if (typeMatch)
+                        {
+                            auto textBlock = p.createTextBlock(context);
+                            textBlock->setText(_getText(typeText));
+                            formLayout->addChild(textBlock);
+                            formLayout->setText(textBlock, typeLabel + ":");
+                        }
+                        if (sampleRateMatch)
+                        {
+                            auto textBlock = p.createTextBlock(context);
+                            textBlock->setText(sampleRateText);
+                            formLayout->addChild(textBlock);
+                            formLayout->setText(textBlock, sampleRateLabel + ":");
+                        }
+                        if (durationMatch)
+                        {
+                            auto textBlock = p.createTextBlock(context);
+                            textBlock->setText(durationText);
+                            formLayout->addChild(textBlock);
+                            formLayout->setText(textBlock, durationLabel + ":");
+                        }
+                        if (codecMatch)
+                        {
+                            auto textBlock = p.createTextBlock(context);
+                            textBlock->setText(i.codec);
+                            formLayout->addChild(textBlock);
+                            formLayout->setText(textBlock, codecLabel + ":");
+                        }
+                        auto bellows = UI::Bellows::create(context);
+                        bellows->setText(i.info.name);
+                        bellows->addChild(formLayout);
+                        p.bellows.push_back(bellows);
+                        p.layout->addChild(bellows);
                     }
-                    formLayout->addChild(textBlock);
-                    formLayout->setText(textBlock, _getText(DJV_TEXT("widget_info_channels")) + ":");
-
-                    textBlock = p.createTextBlock(context);
-                    {
-                        std::stringstream ss;
-                        ss << i.info.type;
-                        textBlock->setText(_getText(ss.str()));
-                    }
-                    formLayout->addChild(textBlock);
-                    formLayout->setText(textBlock, _getText(DJV_TEXT("widget_info_type")) + ":");
-
-                    textBlock = p.createTextBlock(context);
-                    {
-                        std::stringstream ss;
-                        ss << i.info.sampleRate / 1000.F << _getText(DJV_TEXT("widget_info_khz"));
-                        textBlock->setText(ss.str());
-                    }
-                    formLayout->addChild(textBlock);
-                    formLayout->setText(textBlock, _getText(DJV_TEXT("widget_info_sample_rate")) + ":");
-
-                    textBlock = p.createTextBlock(context);
-                    {
-                        std::stringstream ss;
-                        ss << (i.info.sampleRate > 0 ? (i.info.sampleCount / i.info.sampleRate) : 0) << " " << _getText(DJV_TEXT("widget_info_seconds"));
-                        textBlock->setText(ss.str());
-                    }
-                    formLayout->addChild(textBlock);
-                    formLayout->setText(textBlock, _getText(DJV_TEXT("widget_info_duration")) + ":");
-
-                    if (!i.codec.empty())
-                    {
-                        textBlock = p.createTextBlock(context);
-                        textBlock->setText(i.codec);
-                        formLayout->addChild(textBlock);
-                        formLayout->setText(textBlock, _getText(DJV_TEXT("widget_info_codec")) + ":");
-                    }
-
-                    auto bellows = UI::Bellows::create(context);
-                    bellows->setText(i.info.name);
-                    bellows->addChild(formLayout);
-                    p.bellows.push_back(bellows);
-                    p.layout->addChild(bellows);
 
                     ++j;
                 }
 
                 if (!p.info.tags.isEmpty())
                 {
-                    auto formLayout = p.createFormLayout(context);
-
+                    bool match = false;
                     for (const auto& i : p.info.tags.getTags())
                     {
-                        auto textBlock = p.createTextBlock(context);
-                        textBlock->setText(i.second);
-                        formLayout->addChild(textBlock);
-                        std::stringstream ss;
-                        ss << i.first << ":";
-                        formLayout->setText(textBlock, ss.str());
+                        match |= String::match(i.first, p.filter);
+                        match |= String::match(i.second, p.filter);
                     }
-
-                    auto bellows = UI::Bellows::create(context);
+                    if (match)
                     {
-                        std::stringstream ss;
-                        ss << _getText(DJV_TEXT("widget_info_tags"));
-                        bellows->setText(ss.str());
+                        auto formLayout = p.createFormLayout(context);
+                        for (const auto& i : p.info.tags.getTags())
+                        {
+                            if (String::match(i.first, p.filter) || String::match(i.second, p.filter))
+                            {
+                                auto textBlock = p.createTextBlock(context);
+                                textBlock->setText(i.second);
+                                formLayout->addChild(textBlock);
+                                std::stringstream ss;
+                                ss << i.first << ":";
+                                formLayout->setText(textBlock, ss.str());
+                            }
+                        }
+                        auto bellows = UI::Bellows::create(context);
+                        {
+                            std::stringstream ss;
+                            ss << _getText(DJV_TEXT("widget_info_tags"));
+                            bellows->setText(ss.str());
+                        }
+                        bellows->addChild(formLayout);
+                        p.bellows.push_back(bellows);
+                        p.layout->addChild(bellows);
                     }
-                    bellows->addChild(formLayout);
-                    p.bellows.push_back(bellows);
-                    p.layout->addChild(bellows);
                 }
 
                 if (p.bellowsState)

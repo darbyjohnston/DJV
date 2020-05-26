@@ -22,6 +22,7 @@ namespace djv
             std::shared_ptr<ValueSubject<std::string> > iconSubject;
             std::shared_ptr<ValueSubject<std::string> > text;
             std::shared_ptr<ValueSubject<std::string> > font;
+            std::shared_ptr<ValueSubject<MetricsRole> > insideMargin;
             std::shared_ptr<ListSubject<std::shared_ptr<Shortcut> > > shortcuts;
             std::shared_ptr<ValueSubject<bool> > enabled;
             std::shared_ptr<ValueSubject<std::string> > tooltip;
@@ -37,6 +38,7 @@ namespace djv
             p.iconSubject = ValueSubject<std::string>::create();
             p.text = ValueSubject<std::string>::create();
             p.font = ValueSubject<std::string>::create();
+            p.insideMargin = ValueSubject<MetricsRole>::create();
             p.shortcuts = ListSubject<std::shared_ptr<Shortcut> >::create();
             p.enabled = ValueSubject<bool>::create(true);
             p.tooltip = ValueSubject<std::string>::create();
@@ -127,9 +129,19 @@ namespace djv
             return _p->font;
         }
 
-        void Action::setFont(const std::string & value)
+        void Action::setFont(const std::string& value)
         {
             _p->font->setIfChanged(value);
+        }
+
+        std::shared_ptr<IValueSubject<MetricsRole> > Action::observeInsideMargin() const
+        {
+            return _p->insideMargin;
+        }
+
+        void Action::setInsideMargin(MetricsRole value)
+        {
+            _p->insideMargin->setIfChanged(value);
         }
 
         std::shared_ptr<Core::IListSubject<std::shared_ptr<Shortcut> > > Action::observeShortcuts() const

@@ -23,6 +23,7 @@ namespace djv
                 std::shared_ptr<ValueObserver<bool> > checked;
                 std::shared_ptr<ValueObserver<std::string> > icon;
                 std::shared_ptr<ValueObserver<std::string> > text;
+                std::shared_ptr<ValueObserver<MetricsRole> > insideMargin;
                 std::shared_ptr<ValueObserver<bool> > enabled;
                 std::shared_ptr<ValueObserver<std::string> > tooltip;
                 std::shared_ptr<ValueObserver<bool> > autoRepeat;
@@ -129,12 +130,18 @@ namespace djv
                 {
                     button->setText(value);
                 });*/
+                p.observers[action].insideMargin = ValueObserver<MetricsRole>::create(
+                    action->observeInsideMargin(),
+                    [button](MetricsRole value)
+                {
+                    button->setInsideMargin(value);
+                });
                 p.observers[action].enabled = ValueObserver<bool>::create(
                     action->observeEnabled(),
                     [button](bool value)
-                    {
-                        button->setEnabled(value);
-                    });
+                {
+                    button->setEnabled(value);
+                });
                 p.observers[action].tooltip = ValueObserver<std::string>::create(
                     action->observeTooltip(),
                     [button](const std::string& value)
