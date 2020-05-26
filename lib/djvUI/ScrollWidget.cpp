@@ -468,16 +468,16 @@ namespace djv
                 glm::vec2 minimumSize = glm::vec2(0.F, 0.F);
                 switch (_scrollType)
                 {
+                case ScrollType::Both:
+                    minimumSize.x = _minimumSizeRole != MetricsRole::None ? style->getMetric(_minimumSizeRole) : childrenMinimumSize.x;
+                    minimumSize.y = _minimumSizeRole != MetricsRole::None ? style->getMetric(_minimumSizeRole) : childrenMinimumSize.y;
+                    break;
                 case ScrollType::Horizontal:
                     minimumSize.x = _minimumSizeRole != MetricsRole::None ? style->getMetric(_minimumSizeRole) : childrenMinimumSize.x;
                     minimumSize.y = childrenMinimumSize.y;
                     break;
                 case ScrollType::Vertical:
                     minimumSize.x = childrenMinimumSize.x;
-                    minimumSize.y = _minimumSizeRole != MetricsRole::None ? style->getMetric(_minimumSizeRole) : childrenMinimumSize.y;
-                    break;
-                case ScrollType::Both:
-                    minimumSize.x = _minimumSizeRole != MetricsRole::None ? style->getMetric(_minimumSizeRole) : childrenMinimumSize.x;
                     minimumSize.y = _minimumSizeRole != MetricsRole::None ? style->getMetric(_minimumSizeRole) : childrenMinimumSize.y;
                     break;
                 default: break;
@@ -514,8 +514,7 @@ namespace djv
                         switch (_scrollType)
                         {
                         case ScrollType::Both:
-                            contentsSize = glm::max(contentsSize, ms);
-                            contentsSize = glm::max(contentsSize, glm::vec2(gw, gh));
+                            contentsSize.x = std::max(std::max(contentsSize.x, ms.x), gw);
                             break;
                         case ScrollType::Horizontal:
                             contentsSize.x = std::max(contentsSize.x, ms.x);
@@ -526,6 +525,16 @@ namespace djv
                             contentsSize.y = std::max(contentsSize.y, child->getHeightForWidth(gw));
                             break;
                         default: break;
+                        }
+                    }
+                }
+                if (ScrollType::Both == _scrollType)
+                {
+                    for (const auto& child : getChildWidgets())
+                    {
+                        if (child->isVisible())
+                        {
+                            contentsSize.y = std::max(std::max(contentsSize.y, child->getHeightForWidth(contentsSize.x)), gh);
                         }
                     }
                 }
