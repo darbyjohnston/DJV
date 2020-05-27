@@ -185,7 +185,7 @@ namespace djv
             {
             case HAlign::Center:
                 w = minimumSize.x;
-                x = value.min.x + value.w() / 2.F - minimumSize.x / 2.F;
+                x = value.min.x + floorf(value.w() / 2.F - minimumSize.x / 2.F);
                 break;
             case HAlign::Left:
                 x = value.min.x;
@@ -205,7 +205,7 @@ namespace djv
             {
             case VAlign::Center:
                 h = minimumSize.y;
-                y = value.min.y + value.h() / 2.F - minimumSize.y / 2.F;
+                y = value.min.y + floorf(value.h() / 2.F - minimumSize.y / 2.F);
                 break;
             case VAlign::Top:
                 y = value.min.y;
@@ -221,7 +221,7 @@ namespace djv
                 break;
             default: break;
             }
-            return BBox2f(floorf(x), floorf(y), ceilf(w), ceilf(h));
+            return BBox2f(x, y, w, h);
         }
 
         void Widget::setBackgroundRole(ColorRole value)

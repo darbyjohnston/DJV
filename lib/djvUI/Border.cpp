@@ -92,7 +92,7 @@ namespace djv
                 float out = 0.F;
                 const auto& style = _getStyle();
                 const glm::vec2 m = getMargin().getSize(style);
-                const float b = style->getMetric(MetricsRole::Border);
+                const float b = style->getMetric(p.borderSize);
                 out = StackLayout::heightForWidth(value - b * 2.F - m.x, getChildWidgets(), p.insideMargin, style) + b * 2.F + m.y;
                 return out;
             }
@@ -101,15 +101,17 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
-                _setMinimumSize(StackLayout::minimumSize(getChildWidgets(), p.insideMargin, style) +
-                    style->getMetric(p.borderSize) * 2.F + getMargin().getSize(style));
+                const glm::vec2 m = getMargin().getSize(style);
+                const float b = style->getMetric(p.borderSize);
+                _setMinimumSize(StackLayout::minimumSize(getChildWidgets(), p.insideMargin, style) + b * 2.F + m);
             }
 
             void Border::_layoutEvent(Event::Layout & event)
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
-                const BBox2f & g = getGeometry().margin(-style->getMetric(p.borderSize));
+                const float b = style->getMetric(p.borderSize);
+                const BBox2f & g = getGeometry().margin(-b);
                 StackLayout::layout(getMargin().bbox(g, style), getChildWidgets(), p.insideMargin, style);
             }
 

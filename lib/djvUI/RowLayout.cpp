@@ -313,7 +313,6 @@ namespace djv
                 }
 
                 // Calculate the geometry.
-                std::vector<BBox2f> childrenGeometry;
                 glm::vec2 pos = g.min;
                 switch (p.orientation)
                 {

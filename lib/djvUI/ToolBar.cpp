@@ -203,15 +203,13 @@ namespace djv
         void ToolBar::_preLayoutEvent(Event::PreLayout & event)
         {
             const auto& style = _getStyle();
-            const glm::vec2 m = getMargin().getSize(style);
-            _setMinimumSize(_p->layout->getMinimumSize() + m);
+            _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
         }
 
         void ToolBar::_layoutEvent(Event::Layout & event)
         {
-            const BBox2f & g = getGeometry();
             const auto& style = _getStyle();
-            _p->layout->setGeometry(getMargin().bbox(g, style));
+            _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
         }
 
     } // namespace UI

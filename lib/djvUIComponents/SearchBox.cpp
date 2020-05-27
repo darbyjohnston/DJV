@@ -141,9 +141,20 @@ namespace djv
 
         float SearchBox::getHeightForWidth(float value) const
         {
+            DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const glm::vec2 m = getMargin().getSize(style);
-            float out = _p->layout->getHeightForWidth(value - m.x) + m.y;
+            const float b = style->getMetric(MetricsRole::Border);
+            float size = value - m.x;
+            if (p.border)
+            {
+                size -= b * 2.F;
+            }
+            float out = p.layout->getHeightForWidth(size) + m.y;
+            if (p.border)
+            {
+                out += b * 2.F;
+            }
             return out;
         }
 
