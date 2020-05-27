@@ -117,7 +117,7 @@ namespace djv
                 const BBox2f & g = getGeometry();
                 auto render = _getRender();
                 const auto& style = _getStyle();
-                render->setFillColor(style->getColor(_isToggled() ? ColorRole::Background : ColorRole::BackgroundToolBar));
+                render->setFillColor(style->getColor(_isToggled() ? ColorRole::BackgroundToolBar : ColorRole::Background));
                 render->drawRect(g);
                 if (_isHovered() && !_isToggled())
                 {
@@ -142,7 +142,7 @@ namespace djv
             Widget::_init(context);
             
             setClassName("djv::UI::TabBar");
-            setBackgroundRole(ColorRole::BackgroundToolBar);
+            setBackgroundRole(ColorRole::Background);
 
             DJV_PRIVATE_PTR();
             p.buttonGroup = ButtonGroup::create(ButtonType::Radio);
