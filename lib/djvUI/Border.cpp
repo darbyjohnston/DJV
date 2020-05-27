@@ -111,7 +111,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
                 const float b = style->getMetric(p.borderSize);
-                const BBox2f & g = getGeometry().margin(-b);
+                const BBox2f& g = getGeometry().margin(-b);
                 StackLayout::layout(getMargin().bbox(g, style), getChildWidgets(), p.insideMargin, style);
             }
 
