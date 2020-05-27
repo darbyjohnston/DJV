@@ -31,6 +31,7 @@ namespace djv
                 std::string font;
                 std::string fontFace;
                 MetricsRole fontSizeRole = MetricsRole::FontMedium;
+                MetricsRole insideMargin = MetricsRole::MarginSmall;
                 std::shared_ptr<Icon> icon;
                 std::shared_ptr<Label> label;
                 std::shared_ptr<Icon> popupIcon;
@@ -60,6 +61,24 @@ namespace djv
                 auto out = std::shared_ptr<Menu>(new Menu);
                 out->_init(menuStyle, context);
                 return out;
+            }
+
+            bool Menu::isOpen() const
+            {
+                return _p->open;
+            }
+
+            void Menu::setOpen(bool value)
+            {
+                if (value == _p->open)
+                    return;
+                _p->open = value;
+                _redraw();
+            }
+
+            void Menu::setOpenCallback(const std::function<void(bool)>& callback)
+            {
+                _p->openCallback = callback;
             }
 
             const std::string& Menu::getIcon() const
@@ -198,22 +217,18 @@ namespace djv
                 }
             }
 
-            bool Menu::isOpen() const
+            MetricsRole Menu::getInsideMargin() const
             {
-                return _p->open;
+                return _p->insideMargin;
             }
 
-            void Menu::setOpen(bool value)
+            void Menu::setInsideMargin(MetricsRole value)
             {
-                if (value == _p->open)
+                DJV_PRIVATE_PTR();
+                if (value == p.insideMargin)
                     return;
-                _p->open = value;
-                _redraw();
-            }
-
-            void Menu::setOpenCallback(const std::function<void(bool)>& callback)
-            {
-                _p->openCallback = callback;
+                p.insideMargin = value;
+                _resize();
             }
 
             void Menu::setTextFocusEnabled(bool value)
@@ -241,7 +256,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
-                const float m = style->getMetric(MetricsRole::MarginSmall);
+                const float m = style->getMetric(p.insideMargin);
                 const float b = style->getMetric(MetricsRole::Border);
                 glm::vec2 size = glm::vec2(0.F, 0.F);
                 if (p.icon)
@@ -277,7 +292,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
-                const float m = style->getMetric(MetricsRole::MarginSmall);
+                const float m = style->getMetric(p.insideMargin);
                 const float b = style->getMetric(MetricsRole::Border);
                 BBox2f g2;
                 switch (p.menuStyle)

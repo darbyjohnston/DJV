@@ -90,7 +90,7 @@ namespace djv
                     { MetricsRole::FontHeader, 22.F },
                     { MetricsRole::FontTitle, 32.F },
                     { MetricsRole::Swatch, 50.F },
-                    { MetricsRole::SwatchSmall, 25.F },
+                    { MetricsRole::SwatchSmall, 16.F },
                     { MetricsRole::Slider, 50.F },
                     { MetricsRole::ScrollArea, 200.F },
                     { MetricsRole::ScrollBar, 15.F },

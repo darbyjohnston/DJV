@@ -771,9 +771,9 @@ namespace djv
                 if (size > 1)
                 {
                     std::vector<glm::vec2> pts;
-                    for (size_t i = 1; i < size; ++i)
+                    for (size_t i = 0; i < size; ++i)
                     {
-                        const glm::vec2 v = value[i] - value[i - 1];
+                        const glm::vec2 v = 0 == i ? (value[i + 1] - value[i]) : (value[i] - value[i - 1]);
                         const glm::vec2 perp = glm::normalize(glm::vec2(-v.y, v.x)) * _lineWidth;
                         const glm::vec2 pt[2] =
                         {

@@ -15,7 +15,10 @@
 #include <djvUI/Action.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/SettingsSystem.h>
 #include <djvUI/Shortcut.h>
+#include <djvUI/Style.h>
+#include <djvUI/UISystem.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
@@ -34,20 +37,26 @@ namespace djv
             std::shared_ptr<AnnotateSettings> settings;
             
             bool currentTool = false;
-            AV::Image::Color color = AV::Image::Color(1.F, 0.F, 0.F);
-            float lineWidth = 10.F;
+            AnnotateTool tool = AnnotateTool::First;
+            AnnotateLineSize lineSize = AnnotateLineSize::First;
+            std::vector<AV::Image::Color> colors;
+            int currentColor = -1;
             glm::vec2 imagePos = glm::vec2(0.F, 0.F);
             float imageZoom = 1.F;
             glm::vec2 hoverPos = glm::vec2(0.F, 0.F);
             glm::vec2 dragStart = glm::vec2(0.F, 0.F);
             std::shared_ptr<MediaWidget> activeWidget;
             std::shared_ptr<AnnotatePrimitive> currentPrimitive;
-            
+
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             std::weak_ptr<AnnotateWidget> widget;
             
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
+            std::shared_ptr<ValueObserver<AnnotateTool> > toolObserver;
+            std::shared_ptr<ValueObserver<AnnotateLineSize> > lineSizeObserver;
+            std::shared_ptr<ListObserver<AV::Image::Color> > colorsObserver;
+            std::shared_ptr<ValueObserver<int> > currentColorObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<ValueObserver<glm::vec2> > imagePosObserver;
             std::shared_ptr<ValueObserver<float> > imageZoomObserver;
@@ -67,11 +76,88 @@ namespace djv
             p.actions["Annotate"]->setIcon("djvIconAnnotate");
             p.actions["Annotate"]->setShortcut(GLFW_KEY_A, UI::Shortcut::getSystemModifier());
 
+            p.actions["Polyline"] = UI::Action::create();
+            p.actions["Polyline"]->setIcon("djvIconAnnotatePolyline");
+            p.actions["Line"] = UI::Action::create();
+            p.actions["Line"]->setIcon("djvIconAnnotateLine");
+            p.actions["Rectangle"] = UI::Action::create();
+            p.actions["Rectangle"]->setIcon("djvIconAnnotateRectangle");
+            p.actions["Ellipse"] = UI::Action::create();
+            p.actions["Ellipse"]->setIcon("djvIconAnnotateEllipse");
+
+            p.actions["Clear"] = UI::Action::create();
+            p.actions["Clear"]->setIcon("djvIconClear");
+
+            p.actions["Add"] = UI::Action::create();
+            p.actions["Add"]->setIcon("djvIconAdd");
+            p.actions["Delete"] = UI::Action::create();
+            p.actions["Delete"]->setIcon("djvIconClose");
+            p.actions["DeleteAll"] = UI::Action::create();
+            p.actions["Next"] = UI::Action::create();
+            p.actions["Next"]->setIcon("djvIconArrowRight");
+            p.actions["Prev"] = UI::Action::create();
+            p.actions["Prev"]->setIcon("djvIconArrowLeft");
+
             p.menu = UI::Menu::create(context);
+            p.menu->addAction(p.actions["Polyline"]);
+            p.menu->addAction(p.actions["Line"]);
+            p.menu->addAction(p.actions["Rectangle"]);
+            p.menu->addAction(p.actions["Ellipse"]);
+            p.menu->addSeparator();
+            p.menu->addAction(p.actions["Clear"]);
+            p.menu->addSeparator();
+            p.menu->addAction(p.actions["Add"]);
+            p.menu->addAction(p.actions["Delete"]);
+            p.menu->addAction(p.actions["DeleteAll"]);
+            p.menu->addSeparator();
+            p.menu->addAction(p.actions["Next"]);
+            p.menu->addAction(p.actions["Prev"]);
 
             _textUpdate();
 
+            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto annotateSettings = settingsSystem->getSettingsT<AnnotateSettings>();
             auto weak = std::weak_ptr<AnnotateSystem>(std::dynamic_pointer_cast<AnnotateSystem>(shared_from_this()));
+            p.toolObserver = ValueObserver<AnnotateTool>::create(
+                annotateSettings->observeTool(),
+                [weak](AnnotateTool value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_p->tool = value;
+                }
+            });
+
+            p.lineSizeObserver = ValueObserver<AnnotateLineSize>::create(
+                annotateSettings->observeLineSize(),
+                [weak](AnnotateLineSize value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_p->lineSize = value;
+                }
+            });
+
+            p.colorsObserver = ListObserver<AV::Image::Color>::create(
+                annotateSettings->observeColors(),
+                [weak](const std::vector<AV::Image::Color>& value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_p->colors = value;
+                }
+            });
+
+            p.currentColorObserver = ValueObserver<int>::create(
+                annotateSettings->observeCurrentColor(),
+                [weak](int value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_p->currentColor = value;
+                }
+            });
+
             auto contextWeak = std::weak_ptr<Context>(context);
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
@@ -191,25 +277,6 @@ namespace djv
                     if (p.widget.expired())
                     {
                         auto widget = AnnotateWidget::create(context);
-                        widget->setColor(p.color);
-                        widget->setLineWidth(p.lineWidth);
-                        auto weak = std::weak_ptr<AnnotateSystem>(std::dynamic_pointer_cast<AnnotateSystem>(shared_from_this()));
-                        widget->setColorCallback(
-                            [weak](const AV::Image::Color& value)
-                        {
-                            if (auto system = weak.lock())
-                            {
-                                system->_p->color = value;
-                            }
-                        });
-                        widget->setLineWidthCallback(
-                            [weak](float value)
-                        {
-                            if (auto system = weak.lock())
-                            {
-                                system->_p->lineWidth = value;
-                            }
-                        });
                         p.widget = widget;
                         _openWidget("Annotate", widget);
                     }
@@ -231,7 +298,7 @@ namespace djv
             return
             {
                 _p->menu,
-                "G"
+                "H"
             };
         }
 
@@ -254,7 +321,27 @@ namespace djv
             {
                 p.actions["Annotate"]->setText(_getText(DJV_TEXT("menu_annotate")));
                 p.actions["Annotate"]->setTooltip(_getText(DJV_TEXT("menu_annotate_tooltip")));
-            
+                p.actions["Polyline"]->setText(_getText(DJV_TEXT("menu_annotate_polyline")));
+                p.actions["Polyline"]->setTooltip(_getText(DJV_TEXT("menu_annotate_polyline_tooltip")));
+                p.actions["Line"]->setText(_getText(DJV_TEXT("menu_annotate_line")));
+                p.actions["Line"]->setTooltip(_getText(DJV_TEXT("menu_annotate_line_tooltip")));
+                p.actions["Rectangle"]->setText(_getText(DJV_TEXT("menu_annotate_rectangle")));
+                p.actions["Rectangle"]->setTooltip(_getText(DJV_TEXT("menu_annotate_rectangle_tooltip")));
+                p.actions["Ellipse"]->setText(_getText(DJV_TEXT("menu_annotate_ellipse")));
+                p.actions["Ellipse"]->setTooltip(_getText(DJV_TEXT("menu_annotate_ellipse_tooltip")));
+                p.actions["Clear"]->setText(_getText(DJV_TEXT("menu_annotate_clear")));
+                p.actions["Clear"]->setTooltip(_getText(DJV_TEXT("menu_annotate_clear_tooltip")));
+                p.actions["Add"]->setText(_getText(DJV_TEXT("menu_annotate_add")));
+                p.actions["Add"]->setTooltip(_getText(DJV_TEXT("menu_annotate_add_tooltip")));
+                p.actions["Delete"]->setText(_getText(DJV_TEXT("menu_annotate_delete")));
+                p.actions["Delete"]->setTooltip(_getText(DJV_TEXT("menu_annotate_delete_tooltip")));
+                p.actions["DeleteAll"]->setText(_getText(DJV_TEXT("menu_annotate_delete_all")));
+                p.actions["DeleteAll"]->setTooltip(_getText(DJV_TEXT("menu_annotate_delete_all_tooltip")));
+                p.actions["Next"]->setText(_getText(DJV_TEXT("menu_annotate_next")));
+                p.actions["Next"]->setTooltip(_getText(DJV_TEXT("menu_annotate_next_tooltip")));
+                p.actions["Prev"]->setText(_getText(DJV_TEXT("menu_annotate_prev")));
+                p.actions["Prev"]->setTooltip(_getText(DJV_TEXT("menu_annotate_prev_tooltip")));
+
                 p.menu->setText(_getText(DJV_TEXT("menu_annotate")));
             }
         }
@@ -274,9 +361,26 @@ namespace djv
                 {
                     p.dragStart = value;
                     AnnotateOptions options;
-                    options.color = p.color;
-                    options.lineWidth = p.lineWidth;
-                    p.currentPrimitive = AnnotateLine::create(options, context);
+                    options.color = p.currentColor >= 0 && p.currentColor < p.colors.size() ? p.colors[p.currentColor] : AV::Image::Color();
+                    auto uiSystem = context->getSystemT<UI::UISystem>();
+                    const auto& style = uiSystem->getStyle();
+                    options.lineSize = getAnnotateLineSize(p.lineSize) * style->getScale();
+                    switch (p.tool)
+                    {
+                    case AnnotateTool::Polyline:
+                        p.currentPrimitive = AnnotatePolyline::create(options, context);
+                        break;
+                    case AnnotateTool::Line:
+                        p.currentPrimitive = AnnotateLine::create(options, context);
+                        break;
+                    case AnnotateTool::Rectangle:
+                        p.currentPrimitive = AnnotateRectangle::create(options, context);
+                        break;
+                    case AnnotateTool::Ellipse:
+                        p.currentPrimitive = AnnotateEllipse::create(options, context);
+                        break;
+                    default: break;
+                    }
                     p.currentPrimitive->addPoint(_xformDrag(value));
                     p.activeWidget->getMedia()->addAnnotation(p.currentPrimitive);
                 }

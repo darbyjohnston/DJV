@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include <djvViewApp/ViewApp.h>
-
 #include <djvAV/Color.h>
+
+#include <djvCore/Enum.h>
 
 #include <glm/vec2.hpp>
 
@@ -31,23 +31,35 @@ namespace djv
     
     namespace ViewApp
     {
-        enum class AnnotateType
+        enum class AnnotateTool
         {
             Polyline,
             Line,
             Rectangle,
             Ellipse,
-            
+
             Count,
             First = Polyline
         };
-        DJV_ENUM_HELPERS(AnnotateType);
-        
+        DJV_ENUM_HELPERS(AnnotateTool);
+
+        enum class AnnotateLineSize
+        {
+            Small,
+            Medium,
+            Large,
+
+            Count,
+            First = Small
+        };
+        DJV_ENUM_HELPERS(AnnotateLineSize);
+        float getAnnotateLineSize(AnnotateLineSize);
+
         struct AnnotateOptions
         {
-            AnnotateType type = AnnotateType::First;
+            AnnotateTool tool = AnnotateTool::First;
             AV::Image::Color color = AV::Image::Color(1.F, 1.F, 1.F);
-            float lineWidth = 1.F;
+            float lineSize = 0.F;
         };
         
         class AnnotatePrimitive : public std::enable_shared_from_this<AnnotatePrimitive>
@@ -73,36 +85,99 @@ namespace djv
         private:
             DJV_PRIVATE();
         };
-        
+
+        class AnnotatePolyline : public AnnotatePrimitive
+        {
+            DJV_NON_COPYABLE(AnnotatePolyline);
+
+        protected:
+            void _init(const AnnotateOptions&, const std::shared_ptr<Core::Context>&);
+            AnnotatePolyline();
+
+        public:
+            ~AnnotatePolyline() override;
+
+            static std::shared_ptr<AnnotatePolyline> create(const AnnotateOptions&, const std::shared_ptr<Core::Context>&);
+
+            void draw(const std::shared_ptr<AV::Render2D::Render>&) override;
+            void addPoint(const glm::vec2&) override;
+
+        private:
+            DJV_PRIVATE();
+        };
+
         class AnnotateLine : public AnnotatePrimitive
         {
             DJV_NON_COPYABLE(AnnotateLine);
-            
+
         protected:
             void _init(const AnnotateOptions&, const std::shared_ptr<Core::Context>&);
             AnnotateLine();
-            
+
         public:
             ~AnnotateLine() override;
-            
+
             static std::shared_ptr<AnnotateLine> create(const AnnotateOptions&, const std::shared_ptr<Core::Context>&);
-            
+
             void draw(const std::shared_ptr<AV::Render2D::Render>&) override;
             void addPoint(const glm::vec2&) override;
-            
+
+        private:
+            DJV_PRIVATE();
+        };
+
+        class AnnotateRectangle : public AnnotatePrimitive
+        {
+            DJV_NON_COPYABLE(AnnotateRectangle);
+
+        protected:
+            void _init(const AnnotateOptions&, const std::shared_ptr<Core::Context>&);
+            AnnotateRectangle();
+
+        public:
+            ~AnnotateRectangle() override;
+
+            static std::shared_ptr<AnnotateRectangle> create(const AnnotateOptions&, const std::shared_ptr<Core::Context>&);
+
+            void draw(const std::shared_ptr<AV::Render2D::Render>&) override;
+            void addPoint(const glm::vec2&) override;
+
+        private:
+            DJV_PRIVATE();
+        };
+
+        class AnnotateEllipse : public AnnotatePrimitive
+        {
+            DJV_NON_COPYABLE(AnnotateEllipse);
+
+        protected:
+            void _init(const AnnotateOptions&, const std::shared_ptr<Core::Context>&);
+            AnnotateEllipse();
+
+        public:
+            ~AnnotateEllipse() override;
+
+            static std::shared_ptr<AnnotateEllipse> create(const AnnotateOptions&, const std::shared_ptr<Core::Context>&);
+
+            void draw(const std::shared_ptr<AV::Render2D::Render>&) override;
+            void addPoint(const glm::vec2&) override;
+
         private:
             DJV_PRIVATE();
         };
 
     } // namespace ViewApp
-    
-    picojson::value toJSON(ViewApp::AnnotateType);
+
+    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::AnnotateTool);
+    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::AnnotateLineSize);
+
+    picojson::value toJSON(ViewApp::AnnotateTool);
+    picojson::value toJSON(ViewApp::AnnotateLineSize);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value&, ViewApp::AnnotateType&);
-    
-    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::AnnotateType);
-    
+    void fromJSON(const picojson::value&, ViewApp::AnnotateTool&);
+    void fromJSON(const picojson::value&, ViewApp::AnnotateLineSize&);
+
 } // namespace djv
 

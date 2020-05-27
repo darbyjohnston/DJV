@@ -140,7 +140,7 @@ namespace djv
             return
             {
                 _p->menu,
-                "I"
+                "Z"
             };
         }
 

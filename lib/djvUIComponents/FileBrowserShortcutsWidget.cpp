@@ -47,10 +47,12 @@ namespace djv
 
                 p.addButton = ToolButton::create(context);
                 p.addButton->setIcon("djvIconAddSmall");
+                p.addButton->setInsideMargin(MetricsRole::None);
 
                 p.editButton = ToolButton::create(context);
                 p.editButton->setButtonType(ButtonType::Toggle);
                 p.editButton->setIcon("djvIconEditSmall");
+                p.editButton->setInsideMargin(MetricsRole::None);
 
                 p.removeButtonGroup = ButtonGroup::create(ButtonType::Push);
                 

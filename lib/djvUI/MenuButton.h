@@ -34,6 +34,10 @@ namespace djv
 
                 static std::shared_ptr<Menu> create(MenuStyle, const std::shared_ptr<Core::Context>&);
 
+                bool isOpen() const;
+                void setOpen(bool);
+                void setOpenCallback(const std::function<void(bool)>&);
+
                 const std::string& getIcon() const;
                 const std::string& getPopupIcon() const;
                 void setIcon(const std::string&);
@@ -49,9 +53,8 @@ namespace djv
                 void setFontFace(const std::string&);
                 void setFontSizeRole(MetricsRole);
 
-                bool isOpen() const;
-                void setOpen(bool);
-                void setOpenCallback(const std::function<void(bool)>&);
+                MetricsRole getInsideMargin() const;
+                void setInsideMargin(MetricsRole);
 
                 MenuStyle getMenuStyle() const;
 

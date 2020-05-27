@@ -339,7 +339,7 @@ namespace djv
             return
             {
                 _p->menu,
-                "H"
+                "G"
             };
         }
 

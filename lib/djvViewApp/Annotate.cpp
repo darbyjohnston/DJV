@@ -12,6 +12,17 @@ namespace djv
 {
     namespace ViewApp
     {
+        float getAnnotateLineSize(AnnotateLineSize value)
+        {
+            const std::vector<float> data =
+            {
+                1.F,
+                5.F,
+                10.F
+            };
+            return data[static_cast<size_t>(value)];
+        }
+
         struct AnnotatePrimitive::Private
         {
             std::weak_ptr<Context> context;
@@ -42,40 +53,158 @@ namespace djv
             return _p->context;
         }
 
-        struct AnnotateLine::Private
+        struct AnnotatePolyline::Private
         {
             std::vector<glm::vec2> points;
         };
         
-        void AnnotateLine::_init(const AnnotateOptions& options, const std::shared_ptr<Context>& context)
+        void AnnotatePolyline::_init(const AnnotateOptions& options, const std::shared_ptr<Context>& context)
         {
             AnnotatePrimitive::_init(options, context);
         }
         
-        AnnotateLine::AnnotateLine() :
+        AnnotatePolyline::AnnotatePolyline() :
             _p(new Private)
         {}
             
-        AnnotateLine::~AnnotateLine()
+        AnnotatePolyline::~AnnotatePolyline()
         {}
         
+        std::shared_ptr<AnnotatePolyline> AnnotatePolyline::create(const AnnotateOptions& options, const std::shared_ptr<Context>& context)
+        {
+            auto out = std::shared_ptr<AnnotatePolyline>(new AnnotatePolyline);
+            out->_init(options, context);
+            return out;
+        }
+            
+        void AnnotatePolyline::draw(const std::shared_ptr<AV::Render2D::Render>& render)
+        {
+            DJV_PRIVATE_PTR();
+            const auto& options = getOptions();
+            render->setFillColor(options.color);
+            render->setLineWidth(options.lineSize);
+            render->drawPolyline(p.points);
+        }
+        
+        void AnnotatePolyline::addPoint(const glm::vec2& value)
+        {
+            _p->points.push_back(value);
+        }
+
+        struct AnnotateLine::Private
+        {
+            std::vector<glm::vec2> points;
+        };
+
+        void AnnotateLine::_init(const AnnotateOptions& options, const std::shared_ptr<Context>& context)
+        {
+            AnnotatePrimitive::_init(options, context);
+        }
+
+        AnnotateLine::AnnotateLine() :
+            _p(new Private)
+        {}
+
+        AnnotateLine::~AnnotateLine()
+        {}
+
         std::shared_ptr<AnnotateLine> AnnotateLine::create(const AnnotateOptions& options, const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<AnnotateLine>(new AnnotateLine);
             out->_init(options, context);
             return out;
         }
-            
+
         void AnnotateLine::draw(const std::shared_ptr<AV::Render2D::Render>& render)
         {
             DJV_PRIVATE_PTR();
             const auto& options = getOptions();
             render->setFillColor(options.color);
-            render->setLineWidth(options.lineWidth);
+            render->setLineWidth(options.lineSize);
             render->drawPolyline(p.points);
         }
-        
+
         void AnnotateLine::addPoint(const glm::vec2& value)
+        {
+            while (_p->points.size() > 1)
+            {
+                _p->points.pop_back();
+            }
+            _p->points.push_back(value);
+        }
+
+        struct AnnotateRectangle::Private
+        {
+            std::vector<glm::vec2> points;
+        };
+
+        void AnnotateRectangle::_init(const AnnotateOptions& options, const std::shared_ptr<Context>& context)
+        {
+            AnnotatePrimitive::_init(options, context);
+        }
+
+        AnnotateRectangle::AnnotateRectangle() :
+            _p(new Private)
+        {}
+
+        AnnotateRectangle::~AnnotateRectangle()
+        {}
+
+        std::shared_ptr<AnnotateRectangle> AnnotateRectangle::create(const AnnotateOptions& options, const std::shared_ptr<Context>& context)
+        {
+            auto out = std::shared_ptr<AnnotateRectangle>(new AnnotateRectangle);
+            out->_init(options, context);
+            return out;
+        }
+
+        void AnnotateRectangle::draw(const std::shared_ptr<AV::Render2D::Render>& render)
+        {
+            DJV_PRIVATE_PTR();
+            const auto& options = getOptions();
+            render->setFillColor(options.color);
+            render->setLineWidth(options.lineSize);
+            render->drawPolyline(p.points);
+        }
+
+        void AnnotateRectangle::addPoint(const glm::vec2& value)
+        {
+            _p->points.push_back(value);
+        }
+
+        struct AnnotateEllipse::Private
+        {
+            std::vector<glm::vec2> points;
+        };
+
+        void AnnotateEllipse::_init(const AnnotateOptions& options, const std::shared_ptr<Context>& context)
+        {
+            AnnotatePrimitive::_init(options, context);
+        }
+
+        AnnotateEllipse::AnnotateEllipse() :
+            _p(new Private)
+        {}
+
+        AnnotateEllipse::~AnnotateEllipse()
+        {}
+
+        std::shared_ptr<AnnotateEllipse> AnnotateEllipse::create(const AnnotateOptions& options, const std::shared_ptr<Context>& context)
+        {
+            auto out = std::shared_ptr<AnnotateEllipse>(new AnnotateEllipse);
+            out->_init(options, context);
+            return out;
+        }
+
+        void AnnotateEllipse::draw(const std::shared_ptr<AV::Render2D::Render>& render)
+        {
+            DJV_PRIVATE_PTR();
+            const auto& options = getOptions();
+            render->setFillColor(options.color);
+            render->setLineWidth(options.lineSize);
+            render->drawPolyline(p.points);
+        }
+
+        void AnnotateEllipse::addPoint(const glm::vec2& value)
         {
             _p->points.push_back(value);
         }
@@ -84,20 +213,48 @@ namespace djv
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         ViewApp,
-        AnnotateType,
-        DJV_TEXT("annotate_type_polyline"),
-        DJV_TEXT("annotate_type_line"),
-        DJV_TEXT("annotate_type_rectangle"),
-        DJV_TEXT("annotate_type_ellipse"));
+        AnnotateTool,
+        DJV_TEXT("annotate_tool_polyline"),
+        DJV_TEXT("annotate_tool_line"),
+        DJV_TEXT("annotate_tool_rectangle"),
+        DJV_TEXT("annotate_tool_ellipse"));
 
-    picojson::value toJSON(ViewApp::AnnotateType value)
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        ViewApp,
+        AnnotateLineSize,
+        DJV_TEXT("annotate_line_size_small"),
+        DJV_TEXT("annotate_line_size_medium"),
+        DJV_TEXT("annotate_line_size_large"));
+
+    picojson::value toJSON(ViewApp::AnnotateTool value)
     {
         std::stringstream ss;
         ss << value;
         return picojson::value(ss.str());
     }
 
-    void fromJSON(const picojson::value& value, ViewApp::AnnotateType& out)
+    picojson::value toJSON(ViewApp::AnnotateLineSize value)
+    {
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
+    }
+
+    void fromJSON(const picojson::value& value, ViewApp::AnnotateTool& out)
+    {
+        if (value.is<std::string>())
+        {
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            //! \todo How can we translate this?
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
+        }
+    }
+
+    void fromJSON(const picojson::value& value, ViewApp::AnnotateLineSize& out)
     {
         if (value.is<std::string>())
         {
@@ -112,4 +269,3 @@ namespace djv
     }
 
 } // namespace djv
-

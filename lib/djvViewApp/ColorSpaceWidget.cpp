@@ -7,6 +7,8 @@
 #include <djvUIComponents/FileBrowserDialog.h>
 #include <djvUIComponents/SearchBox.h>
 
+#include <djvUI/Action.h>
+#include <djvUI/ActionGroup.h>
 #include <djvUI/Bellows.h>
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/CheckBox.h>
@@ -17,6 +19,7 @@
 #include <djvUI/PopupWidget.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
+#include <djvUI/ToolBar.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvAV/IO.h>
@@ -79,11 +82,11 @@ namespace djv
                 scrollWidget->addChild(_buttonLayout);
 
                 _searchBox = UI::SearchBox::create(context);
-                _searchBox->setBorder(false);
 
                 _layout = UI::VerticalLayout::create(context);
                 _layout->setSpacing(UI::MetricsRole::None);
                 _layout->addChild(scrollWidget);
+                _layout->setStretch(scrollWidget, UI::RowStretch::Expand);
                 _layout->addSeparator();
                 _layout->addChild(_searchBox);
                 addChild(_layout);
@@ -139,7 +142,8 @@ namespace djv
 
             void ListWidget::_layoutEvent(Event::Layout&)
             {
-                _layout->setGeometry(getGeometry());
+                const BBox2f& g = getGeometry();
+                _layout->setGeometry(g);
             }
 
             void ListWidget::_widgetUpdate()
@@ -224,10 +228,9 @@ namespace djv
             std::vector<std::string> views;
             Core::FileSystem::Path fileBrowserPath = Core::FileSystem::Path(".");
 
+            std::map<std::string, std::shared_ptr<UI::Action> > actions;
+
             std::shared_ptr<UI::ButtonGroup> configButtonGroup;
-            std::shared_ptr<UI::ButtonGroup> editConfigButtonGroup;
-            std::shared_ptr<UI::ToolButton> addConfigButton;
-            std::shared_ptr<UI::ToolButton> editConfigButton;
             std::shared_ptr<UI::FormLayout> configItemLayout;
             std::shared_ptr<UI::VerticalLayout> configLayout;
 
@@ -241,7 +244,6 @@ namespace djv
             std::shared_ptr<UI::FormLayout> imageItemLayout;
             std::shared_ptr<UI::VerticalLayout> addImageLayout;
             std::shared_ptr<UI::PopupWidget> addImagePopupWidget;
-            std::shared_ptr<UI::ToolButton> editImageButton;
             std::shared_ptr<UI::VerticalLayout> imageLayout;
             std::vector<std::shared_ptr<UI::PopupWidget> > imagePopupWidgets;
 
@@ -250,6 +252,7 @@ namespace djv
             std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
             std::map<std::shared_ptr<UI::Widget>, int> textFocusWidgets;
 
+            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ListObserver<AV::OCIO::Config> > configsObserver;
             std::shared_ptr<ValueObserver<AV::OCIO::Config> > configObserver;
             std::shared_ptr<ValueObserver<int> > currentConfigObserver;
@@ -266,12 +269,13 @@ namespace djv
             setClassName("djv::ViewApp::ColorSpaceWidget");
 
             p.configButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Exclusive);
-            p.editConfigButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
-            p.addConfigButton = UI::ToolButton::create(context);
-            p.addConfigButton->setIcon("djvIconAddSmall");
-            p.editConfigButton = UI::ToolButton::create(context);
-            p.editConfigButton->setButtonType(UI::ButtonType::Toggle);
-            p.editConfigButton->setIcon("djvIconEditSmall");
+            p.actions["AddConfig"] = UI::Action::create();
+            p.actions["AddConfig"]->setIcon("djvIconAddSmall");
+            p.actions["AddConfig"]->setInsideMargin(UI::MetricsRole::None);
+            p.actions["EditConfig"] = UI::Action::create();
+            p.actions["EditConfig"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["EditConfig"]->setIcon("djvIconEditSmall");
+            p.actions["EditConfig"]->setInsideMargin(UI::MetricsRole::None);
 
             p.displayListWidget = ListWidget::create(context);
             p.displayPopupWidget = UI::PopupWidget::create(context);
@@ -287,13 +291,15 @@ namespace djv
             p.addImageLayout->setSpacing(UI::MetricsRole::None);
             p.addImagePopupWidget = UI::PopupWidget::create(context);
             p.addImagePopupWidget->setIcon("djvIconAddSmall");
+            p.addImagePopupWidget->setInsideMargin(UI::MetricsRole::None);
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->setBorder(false);
             scrollWidget->addChild(p.addImageLayout);
             p.addImagePopupWidget->addChild(scrollWidget);
-            p.editImageButton = UI::ToolButton::create(context);
-            p.editImageButton->setButtonType(UI::ButtonType::Toggle);
-            p.editImageButton->setIcon("djvIconEditSmall");
+            p.actions["EditImage"] = UI::Action::create();
+            p.actions["EditImage"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["EditImage"]->setIcon("djvIconEditSmall");
+            p.actions["EditImage"]->setInsideMargin(UI::MetricsRole::None);
 
             p.sizeGroup = UI::LabelSizeGroup::create();
 
@@ -306,12 +312,12 @@ namespace djv
             p.configLayout->addChild(p.configItemLayout);
             p.configLayout->setStretch(p.configItemLayout, UI::RowStretch::Expand);
             p.configLayout->addSeparator();
-            auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
-            hLayout->addExpander();
-            hLayout->addChild(p.addConfigButton);
-            hLayout->addChild(p.editConfigButton);
-            p.configLayout->addChild(hLayout);
+            auto toolBar = UI::ToolBar::create(context);
+            toolBar->setBackgroundRole(UI::ColorRole::Background);
+            toolBar->addExpander();
+            toolBar->addAction(p.actions["AddConfig"]);
+            toolBar->addAction(p.actions["EditConfig"]);
+            p.configLayout->addChild(toolBar);
             p.bellows["Config"] = UI::Bellows::create(context);
             p.bellows["Config"]->addChild(p.configLayout);
 
@@ -333,12 +339,12 @@ namespace djv
             p.imageLayout->addChild(p.imageItemLayout);
             p.imageLayout->setStretch(p.imageItemLayout, UI::RowStretch::Expand);
             p.imageLayout->addSeparator();
-            hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
-            hLayout->addExpander();
-            hLayout->addChild(p.addImagePopupWidget);
-            hLayout->addChild(p.editImageButton);
-            p.imageLayout->addChild(hLayout);
+            toolBar = UI::ToolBar::create(context);
+            toolBar->setBackgroundRole(UI::ColorRole::Background);
+            toolBar->addExpander();
+            toolBar->addChild(p.addImagePopupWidget);
+            toolBar->addAction(p.actions["EditImage"]);
+            p.imageLayout->addChild(toolBar);
             p.bellows["Image"] = UI::Bellows::create(context);
             p.bellows["Image"]->addChild(p.imageLayout);
 
@@ -372,61 +378,6 @@ namespace djv
                             auto ocioSystem = context->getSystemT<AV::OCIO::System>();
                             ocioSystem->setCurrentIndex(value);
                         }
-                    }
-                });
-
-            p.addConfigButton->setClickedCallback(
-                [weak, contextWeak]
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            if (widget->_p->fileBrowserDialog)
-                            {
-                                widget->_p->fileBrowserDialog->close();
-                                widget->_p->fileBrowserDialog.reset();
-                            }
-                            widget->_p->fileBrowserDialog = UI::FileBrowser::Dialog::create(context);
-                            widget->_p->fileBrowserDialog->setFileExtensions({ ".ocio" });
-                            widget->_p->fileBrowserDialog->setPath(widget->_p->fileBrowserPath);
-                            widget->_p->fileBrowserDialog->setCallback(
-                                [weak, contextWeak](const Core::FileSystem::FileInfo& value)
-                                {
-                                    if (auto context = contextWeak.lock())
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
-                                            widget->_p->fileBrowserDialog->close();
-                                            widget->_p->fileBrowserDialog.reset();
-                                            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-                                            ocioSystem->addConfig(value.getPath().get());
-                                        }
-                                    }
-                                });
-                            widget->_p->fileBrowserDialog->setCloseCallback(
-                                [weak]
-                                {
-                                    if (auto widget = weak.lock())
-                                    {
-                                        widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
-                                        widget->_p->fileBrowserDialog->close();
-                                        widget->_p->fileBrowserDialog.reset();
-                                    }
-                                });
-                            widget->_p->fileBrowserDialog->show();
-                        }
-                    }
-                });
-
-            p.editConfigButton->setCheckedCallback(
-                [weak](bool value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->editConfig = value;
-                        widget->_widgetUpdate();
                     }
                 });
 
@@ -472,7 +423,68 @@ namespace djv
                     }
                 });
 
-            p.editImageButton->setCheckedCallback(
+            p.actionObservers["AddConfig"] = ValueObserver<bool>::create(
+                p.actions["AddConfig"]->observeClicked(),
+                [weak, contextWeak](bool value)
+            {
+                if (value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            if (widget->_p->fileBrowserDialog)
+                            {
+                                widget->_p->fileBrowserDialog->close();
+                                widget->_p->fileBrowserDialog.reset();
+                            }
+                            widget->_p->fileBrowserDialog = UI::FileBrowser::Dialog::create(context);
+                            widget->_p->fileBrowserDialog->setFileExtensions({ ".ocio" });
+                            widget->_p->fileBrowserDialog->setPath(widget->_p->fileBrowserPath);
+                            widget->_p->fileBrowserDialog->setCallback(
+                                [weak, contextWeak](const Core::FileSystem::FileInfo& value)
+                            {
+                                if (auto context = contextWeak.lock())
+                                {
+                                    if (auto widget = weak.lock())
+                                    {
+                                        widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
+                                        widget->_p->fileBrowserDialog->close();
+                                        widget->_p->fileBrowserDialog.reset();
+                                        auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                                        ocioSystem->addConfig(value.getPath().get());
+                                    }
+                                }
+                            });
+                            widget->_p->fileBrowserDialog->setCloseCallback(
+                                [weak]
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
+                                    widget->_p->fileBrowserDialog->close();
+                                    widget->_p->fileBrowserDialog.reset();
+                                }
+                            });
+                            widget->_p->fileBrowserDialog->show();
+                        }
+                    }
+                }
+            });
+
+            p.actionObservers["EditConfig"] = ValueObserver<bool>::create(
+                p.actions["EditConfig"]->observeChecked(),
+                [weak](bool value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->_p->editConfig = value;
+                    widget->_widgetUpdate();
+                }
+            });
+
+            p.actionObservers["EditImage"] = ValueObserver<bool>::create(
+                p.actions["EditImage"]->observeChecked(),
                 [weak](bool value)
                 {
                     if (auto widget = weak.lock())
@@ -625,14 +637,14 @@ namespace djv
 
             setTitle(_getText(DJV_TEXT("widget_color_space")));
 
-            p.addConfigButton->setTooltip(_getText(DJV_TEXT("widget_color_space_add_config_tooltip")));
-            p.editConfigButton->setTooltip(_getText(DJV_TEXT("widget_color_space_edit_configs_tooltip")));
-            
+            p.actions["AddConfig"]->setTooltip(_getText(DJV_TEXT("widget_color_space_add_config_tooltip")));
+            p.actions["EditConfig"]->setTooltip(_getText(DJV_TEXT("widget_color_space_edit_configs_tooltip")));
+
             p.displayLayout->setText(p.displayPopupWidget, _getText(DJV_TEXT("widget_color_space_display_name")) + ":");
             p.displayLayout->setText(p.viewPopupWidget, _getText(DJV_TEXT("widget_color_space_display_view")) + ":");
             
             p.addImagePopupWidget->setTooltip(_getText(DJV_TEXT("widget_color_space_add_format_tooltip")));
-            p.editImageButton->setTooltip(_getText(DJV_TEXT("widget_color_space_edit_format_tooltip")));
+            p.actions["EditImage"]->setTooltip(_getText(DJV_TEXT("widget_color_space_edit_format_tooltip")));
 
             p.bellows["Config"]->setText(_getText(DJV_TEXT("widget_color_space_config")));
             p.bellows["Display"]->setText(_getText(DJV_TEXT("widget_color_space_display")));
@@ -661,7 +673,6 @@ namespace djv
 
                 p.imagePopupWidgets.clear();
                 p.configButtonGroup->clearButtons();
-                p.editConfigButtonGroup->clearButtons();
                 p.configItemLayout->clearChildren();
                 auto contextWeak = std::weak_ptr<Context>(context);
                 int j = 0;
@@ -700,7 +711,7 @@ namespace djv
                     ++j;
                 }
                 p.configButtonGroup->setChecked(p.currentIndex);
-                p.editConfigButton->setEnabled(p.configs.size() > 0);
+                p.actions["EditConfig"]->setEnabled(p.configs.size() > 0);
 
                 std::vector<std::string> displays;
                 for (const auto& i : p.displays)
@@ -898,7 +909,7 @@ namespace djv
                 p.addImagePopupWidget->setEnabled(
                     p.configs.size() > 0 &&
                     usedPluginNames.size() < pluginNames.size());
-                p.editImageButton->setEnabled(
+                p.actions["EditImage"]->setEnabled(
                     p.configs.size() > 0 &&
                     p.currentConfig.fileColorSpaces.size() > 0);
 

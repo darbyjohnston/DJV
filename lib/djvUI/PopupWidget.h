@@ -42,6 +42,9 @@ namespace djv
             void setFontFace(const std::string&);
             void setFontSizeRole(MetricsRole);
 
+            MetricsRole getInsideMargin() const;
+            void setInsideMargin(MetricsRole);
+
             bool hasCapturePointer() const;
             bool hasCaptureKeyboard() const;
             void setCapturePointer(bool);

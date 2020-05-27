@@ -404,6 +404,16 @@ namespace djv
             _p->button->setFontSizeRole(value);
         }
 
+        MetricsRole PopupWidget::getInsideMargin() const
+        {
+            return _p->button->getInsideMargin();
+        }
+
+        void PopupWidget::setInsideMargin(MetricsRole value)
+        {
+            _p->button->setInsideMargin(value);
+        }
+
         bool PopupWidget::hasCapturePointer() const
         {
             return _p->overlay->hasCapturePointer();

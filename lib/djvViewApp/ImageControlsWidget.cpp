@@ -238,10 +238,10 @@ namespace djv
             p.bellows["SoftClip"]->addChild(p.formLayouts["SoftClip"]);
 
             auto vLayout = UI::VerticalLayout::create(context);
+            vLayout->setMargin(UI::MetricsRole::MarginSmall);
             vLayout->setSpacing(UI::MetricsRole::SpacingSmall);
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::MetricsRole::SpacingSmall);
-            hLayout->setMargin(UI::MetricsRole::MarginSmall);
             hLayout->addChild(p.loadFrameStoreButton);
             hLayout->addChild(p.clearFrameStoreButton);
             vLayout->addChild(hLayout);
