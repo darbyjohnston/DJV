@@ -129,11 +129,11 @@ namespace djv
 
             p.colorLabel = UI::Label::create(context);
             p.colorLabel->setFontFamily(AV::Font::familyMono);
-            p.colorLabel->setHAlign(UI::HAlign::Left);
+            p.colorLabel->setTextHAlign(UI::TextHAlign::Left);
 
             p.pixelLabel = UI::Label::create(context);
             p.pixelLabel->setFontFamily(AV::Font::familyMono);
-            p.pixelLabel->setHAlign(UI::HAlign::Left);
+            p.pixelLabel->setTextHAlign(UI::TextHAlign::Left);
 
             p.sampleSizeSlider = UI::IntSlider::create(context);
             p.sampleSizeSlider->setRange(IntRange(1, sampleSizeMax));
