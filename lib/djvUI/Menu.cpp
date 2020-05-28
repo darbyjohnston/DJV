@@ -144,7 +144,7 @@ namespace djv
             void MenuWidget::_preLayoutEvent(Event::PreLayout &)
             {
                 const auto& style = _getStyle();
-                const float m = style->getMetric(MetricsRole::MarginSmall);
+                const float m = style->getMetric(MetricsRole::MarginInside);
                 const float b = style->getMetric(MetricsRole::Border);
                 const float is = style->getMetric(MetricsRole::Icon);
                 const float iss = style->getMetric(MetricsRole::IconSmall);
@@ -228,7 +228,7 @@ namespace djv
 
                 const BBox2f & g = getGeometry();
                 const auto& style = _getStyle();
-                const float m = style->getMetric(MetricsRole::MarginSmall);
+                const float m = style->getMetric(MetricsRole::MarginInside);
                 const float b = style->getMetric(MetricsRole::Border);
                 const float is = style->getMetric(MetricsRole::Icon);
                 const float iss = style->getMetric(MetricsRole::IconSmall);

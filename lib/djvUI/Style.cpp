@@ -76,6 +76,7 @@ namespace djv
                     { MetricsRole::Margin, 10.F },
                     { MetricsRole::MarginSmall, 5.F },
                     { MetricsRole::MarginLarge, 20.F },
+                    { MetricsRole::MarginInside, 3.F },
                     { MetricsRole::MarginDialog, 50.F },
                     { MetricsRole::Spacing, 10.F },
                     { MetricsRole::SpacingSmall, 5.F },

@@ -193,23 +193,18 @@ namespace djv
             p.listWidget->setBorder(false);
             
             p.actions["Add"] = UI::Action::create();
-            p.actions["Add"]->setIcon("djvIconAddSmall");
-            p.actions["Add"]->setInsideMargin(UI::MetricsRole::None);
+            p.actions["Add"]->setIcon("djvIconAdd");
             p.actions["Delete"] = UI::Action::create();
-            p.actions["Delete"]->setIcon("djvIconCloseSmall");
-            p.actions["Delete"]->setInsideMargin(UI::MetricsRole::None);
+            p.actions["Delete"]->setIcon("djvIconClose");
             p.actions["Prev"] = UI::Action::create();
-            p.actions["Prev"]->setIcon("djvIconArrowSmallLeft");
-            p.actions["Prev"]->setInsideMargin(UI::MetricsRole::None);
+            p.actions["Prev"]->setIcon("djvIconArrowLeft");
             p.actions["Next"] = UI::Action::create();
-            p.actions["Next"]->setIcon("djvIconArrowSmallRight");
-            p.actions["Next"]->setInsideMargin(UI::MetricsRole::None);
+            p.actions["Next"]->setIcon("djvIconArrowRight");
 
             p.listButton = UI::MultiStateButton::create(context);
             p.listButton->setVAlign(UI::VAlign::Center);
-            p.listButton->addIcon("djvIconArrowSmallUp");
-            p.listButton->addIcon("djvIconArrowSmallDown");
-            p.listButton->setInsideMargin(UI::MetricsRole::None);
+            p.listButton->addIcon("djvIconArrowUp");
+            p.listButton->addIcon("djvIconArrowDown");
             
             p.notesLayout = UI::VerticalLayout::create(context);
             p.notesLayout->setSpacing(UI::MetricsRole::None);

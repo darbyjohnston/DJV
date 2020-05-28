@@ -43,8 +43,7 @@ namespace djv
             p.titleLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall, UI::MetricsRole::MarginSmall, UI::MetricsRole::None, UI::MetricsRole::None));
 
             p.closeButton = UI::ToolButton::create(context);
-            p.closeButton->setIcon("djvIconCloseSmall");
-            p.closeButton->setInsideMargin(UI::MetricsRole::None);
+            p.closeButton->setIcon("djvIconClose");
 
             p.titleBar = UI::HorizontalLayout::create(context);
             p.titleBar->setBackgroundRole(UI::ColorRole::BackgroundHeader);

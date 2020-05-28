@@ -99,9 +99,8 @@ namespace djv
 
             p.colorEnabledButton = UI::ToolButton::create(context);
             p.colorEnabledButton->setButtonType(UI::ButtonType::Toggle);
-            p.colorEnabledButton->setIcon("djvIconHiddenSmall");
-            p.colorEnabledButton->setCheckedIcon("djvIconVisibleSmall");
-            p.colorEnabledButton->setInsideMargin(UI::MetricsRole::None);
+            p.colorEnabledButton->setIcon("djvIconHidden");
+            p.colorEnabledButton->setCheckedIcon("djvIconVisible");
             p.colorSliders["Brightness"] = UI::FloatSlider::create(context);
             p.colorSliders["Brightness"]->setRange(FloatRange(0.F, 4.F));
             const AV::Render2D::ImageColor color;
@@ -120,9 +119,8 @@ namespace djv
 
             p.levelsEnabledButton = UI::ToolButton::create(context);
             p.levelsEnabledButton->setButtonType(UI::ButtonType::Toggle);
-            p.levelsEnabledButton->setIcon("djvIconHiddenSmall");
-            p.levelsEnabledButton->setCheckedIcon("djvIconVisibleSmall");
-            p.levelsEnabledButton->setInsideMargin(UI::MetricsRole::None);
+            p.levelsEnabledButton->setIcon("djvIconHidden");
+            p.levelsEnabledButton->setCheckedIcon("djvIconVisible");
             p.levelsSliders["InLow"] = UI::FloatSlider::create(context);
             const AV::Render2D::ImageLevels levels;
             p.levelsSliders["InLow"]->setDefault(levels.inLow);
@@ -142,9 +140,8 @@ namespace djv
 
             p.exposureEnabledButton = UI::ToolButton::create(context);
             p.exposureEnabledButton->setButtonType(UI::ButtonType::Toggle);
-            p.exposureEnabledButton->setIcon("djvIconHiddenSmall");
-            p.exposureEnabledButton->setCheckedIcon("djvIconVisibleSmall");
-            p.exposureEnabledButton->setInsideMargin(UI::MetricsRole::None);
+            p.exposureEnabledButton->setIcon("djvIconHidden");
+            p.exposureEnabledButton->setCheckedIcon("djvIconVisible");
             p.exposureSliders["Exposure"] = UI::FloatSlider::create(context);
             p.exposureSliders["Exposure"]->setRange(FloatRange(-10.F, 10.F));
             const AV::Render2D::ImageExposure exposure;
@@ -165,17 +162,15 @@ namespace djv
 
             p.softClipEnabledButton = UI::ToolButton::create(context);
             p.softClipEnabledButton->setButtonType(UI::ButtonType::Toggle);
-            p.softClipEnabledButton->setIcon("djvIconHiddenSmall");
-            p.softClipEnabledButton->setCheckedIcon("djvIconVisibleSmall");
-            p.softClipEnabledButton->setInsideMargin(UI::MetricsRole::None);
+            p.softClipEnabledButton->setIcon("djvIconHidden");
+            p.softClipEnabledButton->setCheckedIcon("djvIconVisible");
             p.softClipSlider = UI::FloatSlider::create(context);
             p.softClipSlider->setDefaultVisible(true);
 
             p.frameStoreEnabledButton = UI::ToolButton::create(context);
             p.frameStoreEnabledButton->setButtonType(UI::ButtonType::Toggle);
-            p.frameStoreEnabledButton->setIcon("djvIconHiddenSmall");
-            p.frameStoreEnabledButton->setCheckedIcon("djvIconVisibleSmall");
-            p.frameStoreEnabledButton->setInsideMargin(UI::MetricsRole::None);
+            p.frameStoreEnabledButton->setIcon("djvIconHidden");
+            p.frameStoreEnabledButton->setCheckedIcon("djvIconVisible");
             p.loadFrameStoreButton = UI::PushButton::create(context);
             p.clearFrameStoreButton = UI::PushButton::create(context);
             p.frameStoreWidget = UI::ImageWidget::create(context);

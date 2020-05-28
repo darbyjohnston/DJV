@@ -47,9 +47,6 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<std::string> > observeFont() const;
             void setFont(const std::string &);
 
-            std::shared_ptr<Core::IValueSubject<MetricsRole> > observeInsideMargin() const;
-            void setInsideMargin(MetricsRole);
-
             std::shared_ptr<Core::IListSubject<std::shared_ptr<Shortcut> > > observeShortcuts() const;
             void setShortcut(const std::shared_ptr<Shortcut> &);
             void setShortcut(int key);

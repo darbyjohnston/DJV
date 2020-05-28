@@ -45,7 +45,7 @@ namespace djv
                 std::string font;
                 std::string fontFace;
                 MetricsRole fontSizeRole = MetricsRole::FontMedium;
-                MetricsRole insideMargin = MetricsRole::MarginSmall;
+                MetricsRole insideMargin = MetricsRole::MarginInside;
                 std::shared_ptr<Action> action;
                 bool textFocusEnabled = false;
                 bool autoRepeat = false;

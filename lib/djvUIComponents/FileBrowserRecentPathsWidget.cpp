@@ -80,7 +80,6 @@ namespace djv
                                         s = std::string(i);
                                     }
                                     button->setText(s);
-                                    button->setInsideMargin(MetricsRole::Margin);
                                     button->setTooltip(std::string(i));
 
                                     widget->_p->itemLayout->addChild(button);

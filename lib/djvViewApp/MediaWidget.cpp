@@ -266,7 +266,6 @@ namespace djv
             p.realSpeedLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
             p.realSpeedLabel->setMargin(UI::MetricsRole::MarginSmall);
             p.playbackModeButton = UI::MultiStateButton::create(context);
-            p.playbackModeButton->setInsideMargin(UI::MetricsRole::None);
             p.playbackModeButton->addIcon("djvIconPlayOnce");
             p.playbackModeButton->addIcon("djvIconPlayLoop");
             p.playbackModeButton->addIcon("djvIconPlayPingPong");
@@ -275,20 +274,16 @@ namespace djv
             p.inPointWidget = FrameWidget::create(context);
             p.inPointSetButton = UI::ToolButton::create(context);
             p.inPointSetButton->setIcon("djvIconFrameSetStartSmall");
-            p.inPointSetButton->setInsideMargin(UI::MetricsRole::None);
             p.inPointSetButton->setVAlign(UI::VAlign::Center);
             p.inPointResetButton = UI::ToolButton::create(context);
-            p.inPointResetButton->setIcon("djvIconCloseSmall");
-            p.inPointResetButton->setInsideMargin(UI::MetricsRole::None);
+            p.inPointResetButton->setIcon("djvIconClearSmall");
             p.inPointResetButton->setVAlign(UI::VAlign::Center);
             p.outPointWidget = FrameWidget::create(context);
             p.outPointSetButton = UI::ToolButton::create(context);
             p.outPointSetButton->setIcon("djvIconFrameSetEndSmall");
-            p.outPointSetButton->setInsideMargin(UI::MetricsRole::None);
             p.outPointSetButton->setVAlign(UI::VAlign::Center);
             p.outPointResetButton = UI::ToolButton::create(context);
-            p.outPointResetButton->setIcon("djvIconCloseSmall");
-            p.outPointResetButton->setInsideMargin(UI::MetricsRole::None);
+            p.outPointResetButton->setIcon("djvIconClearSmall");
             p.outPointResetButton->setVAlign(UI::VAlign::Center);
 
             p.durationLabel = UI::Label::create(context);
@@ -298,6 +293,7 @@ namespace djv
 
             p.timelineSlider = TimelineSlider::create(context);
             p.timelineSlider->setMedia(p.media);
+            p.timelineSlider->setMargin(UI::MetricsRole::MarginInside);
 
             p.audioLabel = UI::Label::create(context);
             p.audioLabel->setTextHAlign(UI::TextHAlign::Left);

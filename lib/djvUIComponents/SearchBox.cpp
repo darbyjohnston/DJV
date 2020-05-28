@@ -46,10 +46,9 @@ namespace djv
             p.searchIcon->setIconColorRole(ColorRole::Foreground);
             
             p.clearButton = ToolButton::create(context);
-            p.clearButton->setIcon("djvIconClearSmall");
+            p.clearButton->setIcon("djvIconClear");
             p.clearButton->setTextFocusEnabled(false);
             p.clearButton->setBackgroundRole(ColorRole::None);
-            p.clearButton->setInsideMargin(MetricsRole::None);
             
             p.layout = HorizontalLayout::create(context);
             p.layout->setSpacing(MetricsRole::None);

@@ -270,12 +270,10 @@ namespace djv
 
             p.configButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Exclusive);
             p.actions["AddConfig"] = UI::Action::create();
-            p.actions["AddConfig"]->setIcon("djvIconAddSmall");
-            p.actions["AddConfig"]->setInsideMargin(UI::MetricsRole::None);
+            p.actions["AddConfig"]->setIcon("djvIconAdd");
             p.actions["EditConfig"] = UI::Action::create();
             p.actions["EditConfig"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["EditConfig"]->setIcon("djvIconEditSmall");
-            p.actions["EditConfig"]->setInsideMargin(UI::MetricsRole::None);
+            p.actions["EditConfig"]->setIcon("djvIconEdit");
 
             p.displayListWidget = ListWidget::create(context);
             p.displayPopupWidget = UI::PopupWidget::create(context);
@@ -290,16 +288,14 @@ namespace djv
             p.addImageLayout = UI::VerticalLayout::create(context);
             p.addImageLayout->setSpacing(UI::MetricsRole::None);
             p.addImagePopupWidget = UI::PopupWidget::create(context);
-            p.addImagePopupWidget->setIcon("djvIconAddSmall");
-            p.addImagePopupWidget->setInsideMargin(UI::MetricsRole::None);
+            p.addImagePopupWidget->setIcon("djvIconAdd");
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->setBorder(false);
             scrollWidget->addChild(p.addImageLayout);
             p.addImagePopupWidget->addChild(scrollWidget);
             p.actions["EditImage"] = UI::Action::create();
             p.actions["EditImage"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["EditImage"]->setIcon("djvIconEditSmall");
-            p.actions["EditImage"]->setInsideMargin(UI::MetricsRole::None);
+            p.actions["EditImage"]->setIcon("djvIconEdit");
 
             p.sizeGroup = UI::LabelSizeGroup::create();
 
@@ -685,9 +681,8 @@ namespace djv
                     p.textFocusWidgets[button->getFocusWidget()] = id++;
 
                     auto deleteButton = UI::ToolButton::create(context);
-                    deleteButton->setIcon("djvIconCloseSmall");
+                    deleteButton->setIcon("djvIconClose");
                     deleteButton->setVisible(p.editConfig);
-                    deleteButton->setInsideMargin(UI::MetricsRole::None);
                     deleteButton->setVAlign(UI::VAlign::Fill);
                     p.textFocusWidgets[deleteButton->getFocusWidget()] = id++;
 
@@ -808,9 +803,8 @@ namespace djv
                     p.textFocusWidgets[popupWidget->getFocusWidget()] = id++;
 
                     auto deleteButton = UI::ToolButton::create(context);
-                    deleteButton->setIcon("djvIconCloseSmall");
+                    deleteButton->setIcon("djvIconClose");
                     deleteButton->setVisible(p.editImage);
-                    deleteButton->setInsideMargin(UI::MetricsRole::None);
                     deleteButton->setVAlign(UI::VAlign::Fill);
                     p.textFocusWidgets[deleteButton->getFocusWidget()] = id++;
 
@@ -885,7 +879,6 @@ namespace djv
                             s = _getText("Default");
                         }
                         button->setText(s);
-                        button->setInsideMargin(UI::MetricsRole::Margin);
                         p.addImageLayout->addChild(button);
                         std::string pluginName = i;
                         button->setClickedCallback(

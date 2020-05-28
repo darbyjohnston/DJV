@@ -82,7 +82,6 @@ namespace djv
                                         s = std::string(i);
                                     }
                                     button->setText(s);
-                                    button->setInsideMargin(MetricsRole::Margin);
 
                                     widget->_p->itemLayout->addChild(button);
 

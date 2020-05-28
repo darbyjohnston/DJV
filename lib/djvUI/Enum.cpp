@@ -267,6 +267,7 @@ namespace djv
         DJV_TEXT("ui_metrics_role_margin"),
         DJV_TEXT("ui_metrics_role_margin_small"),
         DJV_TEXT("ui_metrics_role_margin_large"),
+        DJV_TEXT("ui_metrics_role_margin_inside"),
         DJV_TEXT("ui_metrics_role_margin_dialog"),
         DJV_TEXT("ui_metrics_role_spacing"),
         DJV_TEXT("ui_metrics_role_spacing_small"),

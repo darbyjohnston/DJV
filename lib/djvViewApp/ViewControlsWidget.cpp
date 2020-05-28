@@ -94,8 +94,7 @@ namespace djv
                 p.viewPosEdit[i]->setModel(model);
 
                 p.viewPosResetButton[i] = UI::ToolButton::create(context);
-                p.viewPosResetButton[i]->setIcon("djvIconCloseSmall");
-                p.viewPosResetButton[i]->setInsideMargin(UI::MetricsRole::None);
+                p.viewPosResetButton[i]->setIcon("djvIconClear");
             }
             p.viewZoomEdit = UI::FloatEdit::create(context);
             auto model = FloatValueModel::create();
@@ -104,14 +103,12 @@ namespace djv
             model->setLargeIncrement(1.F);
             p.viewZoomEdit->setModel(model);
             p.viewZoomResetButton = UI::ToolButton::create(context);
-            p.viewZoomResetButton->setIcon("djvIconCloseSmall");
-            p.viewZoomResetButton->setInsideMargin(UI::MetricsRole::None);
+            p.viewZoomResetButton->setIcon("djvIconClear");
 
             p.gridEnabledButton = UI::ToolButton::create(context);
             p.gridEnabledButton->setButtonType(UI::ButtonType::Toggle);
-            p.gridEnabledButton->setIcon("djvIconHiddenSmall");
-            p.gridEnabledButton->setCheckedIcon("djvIconVisibleSmall");
-            p.gridEnabledButton->setInsideMargin(UI::MetricsRole::None);
+            p.gridEnabledButton->setIcon("djvIconHidden");
+            p.gridEnabledButton->setCheckedIcon("djvIconVisible");
             p.gridSizeSlider = UI::IntSlider::create(context);
             p.gridSizeSlider->setRange(IntRange(1, 500));
             p.gridColorPickerSwatch = UI::ColorPickerSwatch::create(context);
@@ -122,9 +119,8 @@ namespace djv
 
             p.hudEnabledButton = UI::ToolButton::create(context);
             p.hudEnabledButton->setButtonType(UI::ButtonType::Toggle);
-            p.hudEnabledButton->setIcon("djvIconHiddenSmall");
-            p.hudEnabledButton->setCheckedIcon("djvIconVisibleSmall");
-            p.hudEnabledButton->setInsideMargin(UI::MetricsRole::None);
+            p.hudEnabledButton->setIcon("djvIconHidden");
+            p.hudEnabledButton->setCheckedIcon("djvIconVisible");
             p.hudColorPickerSwatch = UI::ColorPickerSwatch::create(context);
             p.hudColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
             p.hudBackgroundComboBox = UI::ComboBox::create(context);

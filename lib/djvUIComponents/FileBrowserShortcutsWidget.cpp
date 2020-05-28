@@ -46,13 +46,11 @@ namespace djv
                 p.titleLabel->setMargin(UI::MetricsRole::MarginSmall);
 
                 p.addButton = ToolButton::create(context);
-                p.addButton->setIcon("djvIconAddSmall");
-                p.addButton->setInsideMargin(MetricsRole::None);
+                p.addButton->setIcon("djvIconAdd");
 
                 p.editButton = ToolButton::create(context);
                 p.editButton->setButtonType(ButtonType::Toggle);
-                p.editButton->setIcon("djvIconEditSmall");
-                p.editButton->setInsideMargin(MetricsRole::None);
+                p.editButton->setIcon("djvIconEdit");
 
                 p.removeButtonGroup = ButtonGroup::create(ButtonType::Push);
                 
@@ -129,11 +127,10 @@ namespace djv
                                         s = std::string(i);
                                     }
                                     button->setText(s);
-                                    button->setInsideMargin(MetricsRole::Margin);
                                     button->setTooltip(std::string(i));
 
                                     auto removeButton = ToolButton::create(context);
-                                    removeButton->setIcon("djvIconCloseSmall");
+                                    removeButton->setIcon("djvIconClose");
                                     removeButton->setVisible(widget->_p->edit);
                                     widget->_p->removeButtonGroup->addButton(removeButton);
 

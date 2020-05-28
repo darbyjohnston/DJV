@@ -297,13 +297,14 @@ namespace djv
             const float b = style->getMetric(UI::MetricsRole::Border);
             glm::vec2 size = glm::vec2(0.F, 0.F);
             size.y = p.fontMetrics.lineHeight * 2.F + b * 6.F;
-            _setMinimumSize(size);
+            _setMinimumSize(size + getMargin().getSize(style));
         }
 
         void TimelineSlider::_layoutEvent(Event::Layout& event)
         {
             DJV_PRIVATE_PTR();
-            const BBox2f& g = getGeometry();
+            const auto& style = _getStyle();
+            const BBox2f g = getMargin().bbox(getGeometry(), style);
             const glm::vec2 size = g.getSize();
             if (p.sizePrev != size)
             {
@@ -311,7 +312,6 @@ namespace djv
                 if (auto context = getContext().lock())
                 {
                     const float w = g.w();
-                    const auto& style = _getStyle();
                     const float m = style->getMetric(UI::MetricsRole::MarginSmall);
                     const float b = style->getMetric(UI::MetricsRole::Border);
                     float x = g.min.x;
@@ -354,7 +354,7 @@ namespace djv
                                     tick->size.y = p.fontMetrics.lineHeight;
                                     tick->text = Time::toString(p.sequence.getFrame(i.second(unit, speedF)), p.speed, p.timeUnits);
                                     tick->glyphsFuture = p.fontSystem->getGlyphs(tick->text, p.fontInfo);
-                                    tick->textPos = glm::vec2(x + m - g.min.x, textY);
+                                    tick->textPos = glm::vec2(x + tick->size.x + m - g.min.x, textY);
                                     x2 = x + p.maxFrameLength + m * 2.F;
                                     ++timeTicksCount;
                                 }
@@ -375,8 +375,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                const BBox2f& g = getGeometry();
                 const auto& style = _getStyle();
+                const BBox2f g = getMargin().bbox(getGeometry(), style);
                 const float m = style->getMetric(UI::MetricsRole::MarginSmall);
                 const float b = style->getMetric(UI::MetricsRole::Border);
                 const BBox2f& hg = _getHandleGeometry();
@@ -482,7 +482,7 @@ namespace djv
                     float frameLeftPos = hg.min.x - m - p.currentFrameLength;
                     float frameRightPos = hg.max.x + m;
                     //! \bug Why the extra subtract by one here?
-                    const float frameY = g.min.y + m + p.fontMetrics.ascender - 1.F;
+                    const float frameY = g.min.y + p.fontMetrics.ascender - 1.F;
                     if ((frameRightPos + p.currentFrameLength) > g.max.x)
                     {
                         render->drawText(p.currentFrameGlyphs, glm::vec2(floorf(frameLeftPos), floorf(frameY)));
@@ -529,8 +529,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             event.accept();
             const auto & pos = event.getPointerInfo().projectedPos;
-            const BBox2f & g = getGeometry();
             const auto& style = _getStyle();
+            const BBox2f g = getMargin().bbox(getGeometry(), style);
             const Frame::Index frame = _posToFrame(static_cast<int>(pos.x - g.min.x));
             if (p.pipWidget)
             {
@@ -556,8 +556,8 @@ namespace djv
                 return;
             const auto id = event.getPointerInfo().id;
             const auto & pos = event.getPointerInfo().projectedPos;
-            const BBox2f & g = getGeometry();
             const auto& style = _getStyle();
+            const BBox2f g = getMargin().bbox(getGeometry(), style);
             event.accept();
             p.pressedID = id;
             p.currentFrame = _posToFrame(static_cast<int>(pos.x - g.min.x));
@@ -666,7 +666,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const BBox2f& g = getGeometry();
+            const BBox2f g = getMargin().bbox(getGeometry(), style);
             const float v = value / g.w();
             const size_t sequenceSize = p.sequence.getSize();
             Frame::Index out = sequenceSize ?
@@ -682,7 +682,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const BBox2f& g = getGeometry();
+            const BBox2f g = getMargin().bbox(getGeometry(), style);
             const size_t sequenceSize = p.sequence.getSize();
             const float v = sequenceSize ? (value / static_cast<float>(sequenceSize)) : 0.F;
             float out = g.min.x + v * g.w();
@@ -716,8 +716,8 @@ namespace djv
         BBox2f TimelineSlider::_getHandleGeometry() const
         {
             DJV_PRIVATE_PTR();
-            const BBox2f & g = getGeometry();
             const auto& style = _getStyle();
+            const BBox2f g = getMargin().bbox(getGeometry(), style);
             const float b = style->getMetric(UI::MetricsRole::Border);
             const float x0 = _frameToPos(p.currentFrame);
             const float x1 = _frameToPos(p.currentFrame + 1);

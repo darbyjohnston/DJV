@@ -194,8 +194,7 @@ namespace djv
             p.model = p.slider->getModel();
             
             p.resetButton = ToolButton::create(context);
-            p.resetButton->setIcon("djvIconCloseSmall");
-            p.resetButton->setInsideMargin(MetricsRole::None);
+            p.resetButton->setIcon("djvIconClear");
             p.resetButton->hide();
 
             p.layout = HorizontalLayout::create(context);

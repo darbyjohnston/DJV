@@ -31,7 +31,7 @@ namespace djv
                 std::string font;
                 std::string fontFace;
                 MetricsRole fontSizeRole = MetricsRole::FontMedium;
-                MetricsRole insideMargin = MetricsRole::MarginSmall;
+                MetricsRole insideMargin = MetricsRole::MarginInside;
                 std::shared_ptr<Icon> icon;
                 std::shared_ptr<Label> label;
                 std::shared_ptr<Icon> popupIcon;

@@ -23,7 +23,7 @@ namespace djv
                 int currentIndex = -1;
                 std::shared_ptr<Icon> icon;
                 std::function<void(int)> callback;
-                MetricsRole insideMargin = MetricsRole::MarginSmall;
+                MetricsRole insideMargin = MetricsRole::MarginInside;
                 Event::PointerID pressedID = Event::invalidID;
                 glm::vec2 pressedPos = glm::vec2(0.F, 0.F);
                 bool canRejectPressed = true;
