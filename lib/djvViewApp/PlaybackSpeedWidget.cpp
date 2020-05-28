@@ -71,6 +71,7 @@ namespace djv
                 case PlaybackSpeed::Default:
                 {
                     auto hLayout = UI::HorizontalLayout::create(context);
+                    hLayout->setSpacing(UI::MetricsRole::None);
                     hLayout->addChild(checkBox);
                     hLayout->setStretch(checkBox, UI::RowStretch::Expand);
                     hLayout->addChild(p.defaultSpeedLabel);
@@ -80,6 +81,7 @@ namespace djv
                 case PlaybackSpeed::Custom:
                 {
                     auto hLayout = UI::HorizontalLayout::create(context);
+                    hLayout->setSpacing(UI::MetricsRole::None);
                     hLayout->addChild(checkBox);
                     hLayout->setStretch(checkBox, UI::RowStretch::Expand);
                     hLayout->addChild(p.customSpeedFloatEdit);
