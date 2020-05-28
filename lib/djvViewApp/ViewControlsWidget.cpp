@@ -109,6 +109,7 @@ namespace djv
             p.gridEnabledButton->setButtonType(UI::ButtonType::Toggle);
             p.gridEnabledButton->setIcon("djvIconHidden");
             p.gridEnabledButton->setCheckedIcon("djvIconVisible");
+            p.gridEnabledButton->setInsideMargin(UI::MetricsRole::None);
             p.gridSizeSlider = UI::IntSlider::create(context);
             p.gridSizeSlider->setRange(IntRange(1, 500));
             p.gridColorPickerSwatch = UI::ColorPickerSwatch::create(context);
@@ -121,6 +122,7 @@ namespace djv
             p.hudEnabledButton->setButtonType(UI::ButtonType::Toggle);
             p.hudEnabledButton->setIcon("djvIconHidden");
             p.hudEnabledButton->setCheckedIcon("djvIconVisible");
+            p.hudEnabledButton->setInsideMargin(UI::MetricsRole::None);
             p.hudColorPickerSwatch = UI::ColorPickerSwatch::create(context);
             p.hudColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
             p.hudBackgroundComboBox = UI::ComboBox::create(context);

@@ -13,6 +13,7 @@
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/ActionGroup.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
@@ -49,6 +50,8 @@ namespace djv
             std::shared_ptr<AnnotatePrimitive> currentPrimitive;
 
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
+            std::shared_ptr<UI::ActionGroup> toolActionGroup;
+            std::shared_ptr<UI::ActionGroup> lineSizeActionGroup;
             std::shared_ptr<UI::Menu> menu;
             std::weak_ptr<AnnotateWidget> widget;
             
@@ -84,6 +87,22 @@ namespace djv
             p.actions["Rectangle"]->setIcon("djvIconAnnotateRectangle");
             p.actions["Ellipse"] = UI::Action::create();
             p.actions["Ellipse"]->setIcon("djvIconAnnotateEllipse");
+            p.toolActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
+            p.toolActionGroup->addAction(p.actions["Polyline"]);
+            p.toolActionGroup->addAction(p.actions["Line"]);
+            p.toolActionGroup->addAction(p.actions["Rectangle"]);
+            p.toolActionGroup->addAction(p.actions["Ellipse"]);
+
+            p.actions["LineSizeSmall"] = UI::Action::create();
+            p.actions["LineSizeSmall"]->setIcon("djvIconAnnotateLineSizeSmall");
+            p.actions["LineSizeMedium"] = UI::Action::create();
+            p.actions["LineSizeMedium"]->setIcon("djvIconAnnotateLineSizeMedium");
+            p.actions["LineSizeLarge"] = UI::Action::create();
+            p.actions["LineSizeLarge"]->setIcon("djvIconAnnotateLineSizeLarge");
+            p.lineSizeActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
+            p.lineSizeActionGroup->addAction(p.actions["LineSizeSmall"]);
+            p.lineSizeActionGroup->addAction(p.actions["LineSizeMedium"]);
+            p.lineSizeActionGroup->addAction(p.actions["LineSizeLarge"]);
 
             p.actions["Clear"] = UI::Action::create();
             p.actions["Clear"]->setIcon("djvIconClear");
@@ -115,9 +134,32 @@ namespace djv
 
             _textUpdate();
 
+            auto weak = std::weak_ptr<AnnotateSystem>(std::dynamic_pointer_cast<AnnotateSystem>(shared_from_this()));
+            auto contextWeak = std::weak_ptr<Context>(context);
+            p.toolActionGroup->setRadioCallback(
+                [contextWeak](int value)
+            {
+                if (auto context = contextWeak.lock())
+                {
+                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                    auto annotateSettings = settingsSystem->getSettingsT<AnnotateSettings>();
+                    annotateSettings->setTool(static_cast<AnnotateTool>(value));
+                }
+            });
+
+            p.lineSizeActionGroup->setRadioCallback(
+                [contextWeak](int value)
+            {
+                if (auto context = contextWeak.lock())
+                {
+                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                    auto annotateSettings = settingsSystem->getSettingsT<AnnotateSettings>();
+                    annotateSettings->setLineSize(static_cast<AnnotateLineSize>(value));
+                }
+            });
+
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
             auto annotateSettings = settingsSystem->getSettingsT<AnnotateSettings>();
-            auto weak = std::weak_ptr<AnnotateSystem>(std::dynamic_pointer_cast<AnnotateSystem>(shared_from_this()));
             p.toolObserver = ValueObserver<AnnotateTool>::create(
                 annotateSettings->observeTool(),
                 [weak](AnnotateTool value)
@@ -125,6 +167,7 @@ namespace djv
                 if (auto system = weak.lock())
                 {
                     system->_p->tool = value;
+                    system->_p->toolActionGroup->setChecked(static_cast<size_t>(system->_p->tool));
                 }
             });
 
@@ -135,6 +178,7 @@ namespace djv
                 if (auto system = weak.lock())
                 {
                     system->_p->lineSize = value;
+                    system->_p->lineSizeActionGroup->setChecked(static_cast<size_t>(system->_p->lineSize));
                 }
             });
 
@@ -158,7 +202,6 @@ namespace djv
                 }
             });
 
-            auto contextWeak = std::weak_ptr<Context>(context);
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
                 p.activeWidgetObserver = ValueObserver<std::shared_ptr<MediaWidget> >::create(
@@ -276,7 +319,7 @@ namespace djv
                 {
                     if (p.widget.expired())
                     {
-                        auto widget = AnnotateWidget::create(context);
+                        auto widget = AnnotateWidget::create(p.actions, context);
                         p.widget = widget;
                         _openWidget("Annotate", widget);
                     }

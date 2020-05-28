@@ -101,6 +101,7 @@ namespace djv
             p.colorEnabledButton->setButtonType(UI::ButtonType::Toggle);
             p.colorEnabledButton->setIcon("djvIconHidden");
             p.colorEnabledButton->setCheckedIcon("djvIconVisible");
+            p.colorEnabledButton->setInsideMargin(UI::MetricsRole::None);
             p.colorSliders["Brightness"] = UI::FloatSlider::create(context);
             p.colorSliders["Brightness"]->setRange(FloatRange(0.F, 4.F));
             const AV::Render2D::ImageColor color;
@@ -121,6 +122,7 @@ namespace djv
             p.levelsEnabledButton->setButtonType(UI::ButtonType::Toggle);
             p.levelsEnabledButton->setIcon("djvIconHidden");
             p.levelsEnabledButton->setCheckedIcon("djvIconVisible");
+            p.levelsEnabledButton->setInsideMargin(UI::MetricsRole::None);
             p.levelsSliders["InLow"] = UI::FloatSlider::create(context);
             const AV::Render2D::ImageLevels levels;
             p.levelsSliders["InLow"]->setDefault(levels.inLow);
@@ -142,6 +144,7 @@ namespace djv
             p.exposureEnabledButton->setButtonType(UI::ButtonType::Toggle);
             p.exposureEnabledButton->setIcon("djvIconHidden");
             p.exposureEnabledButton->setCheckedIcon("djvIconVisible");
+            p.exposureEnabledButton->setInsideMargin(UI::MetricsRole::None);
             p.exposureSliders["Exposure"] = UI::FloatSlider::create(context);
             p.exposureSliders["Exposure"]->setRange(FloatRange(-10.F, 10.F));
             const AV::Render2D::ImageExposure exposure;
@@ -164,6 +167,7 @@ namespace djv
             p.softClipEnabledButton->setButtonType(UI::ButtonType::Toggle);
             p.softClipEnabledButton->setIcon("djvIconHidden");
             p.softClipEnabledButton->setCheckedIcon("djvIconVisible");
+            p.softClipEnabledButton->setInsideMargin(UI::MetricsRole::None);
             p.softClipSlider = UI::FloatSlider::create(context);
             p.softClipSlider->setDefaultVisible(true);
 
@@ -171,6 +175,7 @@ namespace djv
             p.frameStoreEnabledButton->setButtonType(UI::ButtonType::Toggle);
             p.frameStoreEnabledButton->setIcon("djvIconHidden");
             p.frameStoreEnabledButton->setCheckedIcon("djvIconVisible");
+            p.frameStoreEnabledButton->setInsideMargin(UI::MetricsRole::None);
             p.loadFrameStoreButton = UI::PushButton::create(context);
             p.clearFrameStoreButton = UI::PushButton::create(context);
             p.frameStoreWidget = UI::ImageWidget::create(context);

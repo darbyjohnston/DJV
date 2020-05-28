@@ -116,14 +116,9 @@ namespace djv
 
         struct AnnotateWidget::Private
         {
-            AnnotateTool tool = AnnotateTool::First;
-            AnnotateLineSize lineSize = AnnotateLineSize::First;
             std::vector<AV::Image::Color> colors;
             int currentColor = -1;
 
-            std::map<std::string, std::shared_ptr<UI::Action> > actions;
-            std::shared_ptr<UI::ActionGroup> toolActionGroup;
-            std::shared_ptr<UI::ActionGroup> lineSizeActionGroup;
             std::shared_ptr<UI::ButtonGroup> colorButtonGroup;
             std::shared_ptr<UI::ToolBar> colorToolBar;
             std::shared_ptr<UI::TextEdit> noteTextEdit;
@@ -137,52 +132,18 @@ namespace djv
             std::function<void(const AV::Image::Color&)> colorCallback;
             std::function<void(float)> lineWidthCallback;
 
-            std::shared_ptr<ValueObserver<AnnotateTool> > toolObserver;
-            std::shared_ptr<ValueObserver<AnnotateLineSize> > lineSizeObserver;
             std::shared_ptr<ListObserver<AV::Image::Color> > colorsObserver;
             std::shared_ptr<ValueObserver<int> > currentColorObserver;
         };
 
-        void AnnotateWidget::_init(const std::shared_ptr<Context>& context)
+        void AnnotateWidget::_init(
+            std::map<std::string, std::shared_ptr<UI::Action> >& actions,
+            const std::shared_ptr<Context>& context)
         {
             MDIWidget::_init(context);
             DJV_PRIVATE_PTR();
             
             setClassName("djv::ViewApp::AnnotateWidget");
-
-            p.toolActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
-            const std::vector<std::string> toolIcons =
-            {
-                "djvIconAnnotatePolyline",
-                "djvIconAnnotateLine",
-                "djvIconAnnotateRectangle",
-                "djvIconAnnotateEllipse",
-            };
-            const auto& toolEnums = getAnnotateToolEnums();
-            for (size_t i = 0; i < toolEnums.size(); ++i)
-            {
-                auto action = UI::Action::create();
-                action->setIcon(toolIcons[i]);
-                p.toolActionGroup->addAction(action);
-            }
-
-            p.actions["Clear"] = UI::Action::create();
-            p.actions["Clear"]->setIcon("djvIconClear");
-
-            p.lineSizeActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
-            const std::vector<std::string> lineSizeIcons =
-            {
-                "djvIconAnnotateLineSizeSmall",
-                "djvIconAnnotateLineSizeMedium",
-                "djvIconAnnotateLineSizeLarge"
-            };
-            const auto& lineSizeEnums = getAnnotateLineSizeEnums();
-            for (size_t i = 0; i < lineSizeEnums.size(); ++i)
-            {
-                auto action = UI::Action::create();
-                action->setIcon(lineSizeIcons[i]);
-                p.lineSizeActionGroup->addAction(action);
-            }
 
             p.colorButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
             
@@ -191,15 +152,6 @@ namespace djv
 
             p.listWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             p.listWidget->setBorder(false);
-            
-            p.actions["Add"] = UI::Action::create();
-            p.actions["Add"]->setIcon("djvIconAdd");
-            p.actions["Delete"] = UI::Action::create();
-            p.actions["Delete"]->setIcon("djvIconClose");
-            p.actions["Prev"] = UI::Action::create();
-            p.actions["Prev"]->setIcon("djvIconArrowLeft");
-            p.actions["Next"] = UI::Action::create();
-            p.actions["Next"]->setIcon("djvIconArrowRight");
 
             p.listButton = UI::MultiStateButton::create(context);
             p.listButton->setVAlign(UI::VAlign::Center);
@@ -209,19 +161,18 @@ namespace djv
             p.notesLayout = UI::VerticalLayout::create(context);
             p.notesLayout->setSpacing(UI::MetricsRole::None);
             auto toolBar = UI::ToolBar::create(context);
-            for (const auto& i : p.toolActionGroup->getActions())
-            {
-                toolBar->addAction(i);
-            }
+            toolBar->addAction(actions["Polyline"]);
+            toolBar->addAction(actions["Line"]);
+            toolBar->addAction(actions["Rectangle"]);
+            toolBar->addAction(actions["Ellipse"]);
             toolBar->addSeparator();
-            toolBar->addAction(p.actions["Clear"]);
+            toolBar->addAction(actions["Clear"]);
             p.notesLayout->addChild(toolBar);
             p.notesLayout->addSeparator();
             toolBar = UI::ToolBar::create(context);
-            for (const auto& i : p.lineSizeActionGroup->getActions())
-            {
-                toolBar->addAction(i);
-            }
+            toolBar->addAction(actions["LineSizeSmall"]);
+            toolBar->addAction(actions["LineSizeMedium"]);
+            toolBar->addAction(actions["LineSizeLarge"]);
             p.notesLayout->addChild(toolBar);
             p.notesLayout->addSeparator();
             p.colorToolBar = UI::ToolBar::create(context);
@@ -234,10 +185,10 @@ namespace djv
             p.notesLayout->addSeparator();
             toolBar = UI::ToolBar::create(context);
             toolBar->setBackgroundRole(UI::ColorRole::Background);
-            toolBar->addAction(p.actions["Add"]);
-            toolBar->addAction(p.actions["Delete"]);
-            toolBar->addAction(p.actions["Prev"]);
-            toolBar->addAction(p.actions["Next"]);
+            toolBar->addAction(actions["Add"]);
+            toolBar->addAction(actions["Delete"]);
+            toolBar->addAction(actions["Prev"]);
+            toolBar->addAction(actions["Next"]);
             toolBar->addExpander();
             toolBar->addChild(p.listButton);
             p.notesLayout->addChild(toolBar);
@@ -257,82 +208,29 @@ namespace djv
             p.tabWidget->addChild(p.exportLayout);
             addChild(p.tabWidget);
             
-            auto weak = std::weak_ptr<AnnotateWidget>(std::dynamic_pointer_cast<AnnotateWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
-            p.toolActionGroup->setRadioCallback(
-                [weak, contextWeak](int value)
-            {
-                if (auto context = contextWeak.lock())
-                {
-                    if (auto system = weak.lock())
-                    {
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                        auto annotateSettings = settingsSystem->getSettingsT<AnnotateSettings>();
-                        annotateSettings->setTool(static_cast<AnnotateTool>(value));
-                    }
-                }
-            });
-
-            p.lineSizeActionGroup->setRadioCallback(
-                [weak, contextWeak](int value)
-            {
-                if (auto context = contextWeak.lock())
-                {
-                    if (auto system = weak.lock())
-                    {
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                        auto annotateSettings = settingsSystem->getSettingsT<AnnotateSettings>();
-                        annotateSettings->setLineSize(static_cast<AnnotateLineSize>(value));
-                    }
-                }
-            });
-
             p.colorButtonGroup->setRadioCallback(
-                [weak, contextWeak](int value)
+                [contextWeak](int value)
             {
                 if (auto context = contextWeak.lock())
                 {
-                    if (auto system = weak.lock())
-                    {
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                        auto annotateSettings = settingsSystem->getSettingsT<AnnotateSettings>();
-                        annotateSettings->setCurrentColor(value);
-                    }
+                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                    auto annotateSettings = settingsSystem->getSettingsT<AnnotateSettings>();
+                    annotateSettings->setCurrentColor(value);
                 }
             });
 
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
             auto annotateSettings = settingsSystem->getSettingsT<AnnotateSettings>();
-            p.toolObserver = ValueObserver<AnnotateTool>::create(
-                annotateSettings->observeTool(),
-                [weak](AnnotateTool value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_p->tool = value;
-                    system->_widgetUpdate();
-                }
-            });
-
-            p.lineSizeObserver = ValueObserver<AnnotateLineSize>::create(
-                annotateSettings->observeLineSize(),
-                [weak](AnnotateLineSize value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_p->lineSize = value;
-                    system->_widgetUpdate();
-                }
-            });
-
+            auto weak = std::weak_ptr<AnnotateWidget>(std::dynamic_pointer_cast<AnnotateWidget>(shared_from_this()));
             p.colorsObserver = ListObserver<AV::Image::Color>::create(
                 annotateSettings->observeColors(),
                 [weak](const std::vector<AV::Image::Color>& value)
             {
-                if (auto system = weak.lock())
+                if (auto widget = weak.lock())
                 {
-                    system->_p->colors = value;
-                    system->_widgetUpdate();
+                    widget->_p->colors = value;
+                    widget->_widgetUpdate();
                 }
             });
 
@@ -340,10 +238,10 @@ namespace djv
                 annotateSettings->observeCurrentColor(),
                 [weak](int value)
             {
-                if (auto system = weak.lock())
+                if (auto widget = weak.lock())
                 {
-                    system->_p->currentColor = value;
-                    system->_widgetUpdate();
+                    widget->_p->currentColor = value;
+                    widget->_widgetUpdate();
                 }
             });
         }
@@ -355,10 +253,12 @@ namespace djv
         AnnotateWidget::~AnnotateWidget()
         {}
 
-        std::shared_ptr<AnnotateWidget> AnnotateWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<AnnotateWidget> AnnotateWidget::create(
+            std::map<std::string, std::shared_ptr<UI::Action> >& actions,
+            const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<AnnotateWidget>(new AnnotateWidget);
-            out->_init(context);
+            out->_init(actions, context);
             return out;
         }
         
@@ -369,44 +269,10 @@ namespace djv
             
             setTitle(_getText(DJV_TEXT("widget_annotate")));
 
-            const std::vector<std::string> toolTooltips =
-            {
-                DJV_TEXT("menu_annotate_polyline_tooltip"),
-                DJV_TEXT("menu_annotate_line_tooltip"),
-                DJV_TEXT("menu_annotate_rectangle_tooltip"),
-                DJV_TEXT("menu_annotate_ellipse_tooltip")
-            };
-            const auto& toolEnums = getAnnotateToolEnums();
-            auto toolActions = p.toolActionGroup->getActions();
-            for (size_t i = 0; i < toolEnums.size(); ++i)
-            {
-                toolActions[i]->setTooltip(_getText(toolTooltips[i]));
-            }
-
-            p.actions["Clear"]->setTooltip(_getText(DJV_TEXT("menu_annotate_clear_tooltip")));
-
-            const std::vector<std::string> lineSizeTooltips =
-            {
-                DJV_TEXT("annotate_line_size_small_tooltip"),
-                DJV_TEXT("annotate_line_size_medium_tooltip"),
-                DJV_TEXT("annotate_line_size_large_tooltip")
-            };
-            const auto& lineSizeEnums = getAnnotateLineSizeEnums();
-            auto lineSizeActions = p.lineSizeActionGroup->getActions();
-            for (size_t i = 0; i < lineSizeEnums.size(); ++i)
-            {
-                lineSizeActions[i]->setTooltip(_getText(lineSizeTooltips[i]));
-            }
-
             for (const auto& i : p.colorButtonGroup->getButtons())
             {
                 i->setTooltip(_getText(DJV_TEXT("annotate_color_tooltip")));
             }
-            
-            p.actions["Add"]->setTooltip(_getText(DJV_TEXT("menu_annotate_add_tooltip")));
-            p.actions["Delete"]->setTooltip(_getText(DJV_TEXT("menu_annotate_delete_tooltip")));
-            p.actions["Prev"]->setTooltip(_getText(DJV_TEXT("menu_annotate_previous_tooltip")));
-            p.actions["Next"]->setTooltip(_getText(DJV_TEXT("menu_annotate_next_tooltip")));
 
             p.listButton->setTooltip(_getText(DJV_TEXT("annotate_list_show_tooltip")));
             
@@ -420,9 +286,6 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                p.toolActionGroup->setChecked(static_cast<size_t>(p.tool));
-                p.lineSizeActionGroup->setChecked(static_cast<size_t>(p.lineSize));
-
                 p.colorButtonGroup->clearButtons();
                 p.colorToolBar->clearChildren();
                 for (const auto& i : p.colors)

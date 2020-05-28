@@ -25,13 +25,17 @@ namespace djv
             DJV_NON_COPYABLE(AnnotateWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(
+                std::map<std::string, std::shared_ptr<UI::Action> >&,
+                const std::shared_ptr<Core::Context>&);
             AnnotateWidget();
 
         public:
             ~AnnotateWidget() override;
 
-            static std::shared_ptr<AnnotateWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<AnnotateWidget> create(
+                std::map<std::string, std::shared_ptr<UI::Action> >&,
+                const std::shared_ptr<Core::Context>&);
 
         protected:
             void _initEvent(Core::Event::Init &) override;
