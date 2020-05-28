@@ -190,7 +190,7 @@ namespace djv
                 }
 
                 // Draw the label backgrounds.
-                auto render = _getRender();
+                const auto& render = _getRender();
                 switch (p.options.background)
                 {
                 case HUDBackground::Overlay:

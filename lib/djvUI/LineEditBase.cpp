@@ -282,7 +282,7 @@ namespace djv
             const float b = style->getMetric(MetricsRole::Border);
 
             // Draw the selection.
-            auto render = _getRender();
+            const auto& render = _getRender();
             render->setFillColor(style->getColor(ColorRole::Checked));
             const size_t glyphGeomSize = p.glyphGeom.size();
             if (p.cursorPos != p.selectionAnchor)

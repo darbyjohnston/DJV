@@ -148,7 +148,7 @@ namespace djv
 
             void BackgroundWidget::_paintEvent(Event::Paint&)
             {
-                auto render = _getRender();
+                const auto& render = _getRender();
                 const auto& style = _getStyle();
                 const BBox2f& g = getGeometry();
                 render->setFillColor(style->getColor(UI::ColorRole::Background));

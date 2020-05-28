@@ -331,7 +331,7 @@ namespace djv
                 const auto& style = _getStyle();
                 const float b = style->getMetric(MetricsRole::Border);
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
-                auto render = _getRender();
+                const auto& render = _getRender();
 
                 BBox2f g2;
                 switch (p.menuStyle)

@@ -136,7 +136,7 @@ namespace djv
                 Widget::_paintEvent(event);
                 const auto& style = _getStyle();
                 const float sh = style->getMetric(MetricsRole::Shadow);
-                auto render = _getRender();
+                const auto& render = _getRender();
                 render->setFillColor(style->getColor(ColorRole::Shadow));
                 for (const auto & i : getChildWidgets())
                 {

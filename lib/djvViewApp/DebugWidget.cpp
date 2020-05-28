@@ -486,7 +486,7 @@ namespace djv
 
             void RenderDebugWidget::_widgetUpdate()
             {
-                auto render = _getRender();
+                const auto& render = _getRender();
                 const float textureAtlasPercentage = render->getTextureAtlasPercentage();
                 const size_t dynamicTextureCount = render->getDynamicTextureCount();
                 const size_t vboSize = render->getVBOSize();

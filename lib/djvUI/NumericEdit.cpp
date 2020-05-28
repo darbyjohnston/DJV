@@ -263,7 +263,7 @@ namespace djv
             const auto& style = _getStyle();
             const BBox2f& g = getGeometry();
             const float b = style->getMetric(UI::MetricsRole::Border);
-            auto render = _getRender();
+            const auto& render = _getRender();
             if (p.lineEditBase->hasTextFocus())
             {
                 render->setFillColor(style->getColor(UI::ColorRole::TextFocus));

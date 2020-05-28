@@ -371,7 +371,7 @@ namespace djv
                 const auto& style = _getStyle();
                 const BBox2f& g = getGeometry();
                 const float b = style->getMetric(MetricsRole::Border);
-                auto render = _getRender();
+                const auto& render = _getRender();
 
                 if (_isToggled())
                 {

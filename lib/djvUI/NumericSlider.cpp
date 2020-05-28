@@ -92,7 +92,7 @@ namespace djv
             const BBox2f & g = getMargin().bbox(getGeometry(), style);
             const float m = style->getMetric(MetricsRole::MarginSmall);
             const float b = style->getMetric(MetricsRole::Border);
-            auto render = _getRender();
+            const auto& render = _getRender();
             
             if (hasTextFocus())
             {

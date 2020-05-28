@@ -174,7 +174,7 @@ namespace djv
                 const float b = style->getMetric(MetricsRole::Border);
 
                 // Draw the background.
-                auto render = _getRender();
+                const auto& render = _getRender();
                 render->setFillColor(style->getColor(ColorRole::Trough));
                 render->drawRect(g);
 

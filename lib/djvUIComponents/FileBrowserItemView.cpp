@@ -373,7 +373,7 @@ namespace djv
                 const float s = style->getMetric(MetricsRole::Spacing);
                 const float sh = style->getMetric(MetricsRole::Shadow);
 
-                auto render = _getRender();
+                const auto& render = _getRender();
                 const auto& ut = _getUpdateTime();
                 auto item = p.items.begin();
                 size_t index = 0;

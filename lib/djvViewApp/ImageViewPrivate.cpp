@@ -120,7 +120,7 @@ namespace djv
                 const float b = style->getMetric(UI::MetricsRole::Border);
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
 
-                auto render = _getRender();
+                const auto& render = _getRender();
 
                 /*const BBox2f bbox = BBox2f(
                     _imageBBox.min.x * _imageZoom + _imagePos.x,

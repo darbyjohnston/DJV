@@ -148,7 +148,7 @@ namespace djv
             const auto& style = _getStyle();
             const float b = style->getMetric(MetricsRole::Border) * 2.F;
             const BBox2f& g = getMargin().bbox(getGeometry(), style).margin(0, 0, 0, -b);
-            auto render = _getRender();
+            const auto& render = _getRender();
             auto color1 = style->getColor(ColorRole::Checked);
             auto color2 = style->getColor(ColorRole::Checked);
             color2.setF32(color2.getF32(3) * .5F, 3);

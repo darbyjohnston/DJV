@@ -122,7 +122,7 @@ namespace djv
                 const auto& style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
                 const float b = style->getMetric(p.borderSize);
-                auto render = _getRender();
+                const auto& render = _getRender();
                 render->setFillColor(style->getColor(p.borderColor));
                 drawBorder(render, g, b);
             }

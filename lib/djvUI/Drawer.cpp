@@ -233,7 +233,7 @@ namespace djv
                     const BBox2f& g = p.childLayout->getGeometry();
                     const auto& style = _getStyle();
                     const float sh = style->getMetric(MetricsRole::Shadow);
-                    auto render = _getRender();
+                    const auto& render = _getRender();
                     render->setFillColor(style->getColor(ColorRole::Shadow));
                     switch (p.side)
                     {

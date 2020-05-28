@@ -250,7 +250,7 @@ namespace djv
                 {
                     const auto& style = _getStyle();
                     const float sh = style->getMetric(MetricsRole::Shadow);
-                    auto render = _getRender();
+                    const auto& render = _getRender();
                     render->setFillColor(style->getColor(ColorRole::Shadow));
                     const BBox2f& g = getGeometry().margin(0, -sh, 0, 0);
                     if (g.isValid())
@@ -266,7 +266,7 @@ namespace djv
                 if (p.maximize < 1.F)
                 {
                     const auto& style = _getStyle();
-                    auto render = _getRender();
+                    const auto& render = _getRender();
                     render->setFillColor(style->getColor(ColorRole::Handle));
                     const auto& handles = _getHandlesDraw();
                     const auto i = handles.find(p.pressed);

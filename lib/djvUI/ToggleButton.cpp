@@ -119,7 +119,7 @@ namespace djv
                 const float b = style->getMetric(MetricsRole::Border);
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
 
-                auto render = _getRender();
+                const auto& render = _getRender();
                 if (hasTextFocus())
                 {
                     render->setFillColor(style->getColor(ColorRole::TextFocus));

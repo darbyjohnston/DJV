@@ -384,7 +384,7 @@ namespace djv
                 // Draw the time ticks.
                 auto color = style->getColor(UI::ColorRole::Foreground);
                 color.setF32(color.getF32(3) * .4F, 3);
-                auto render = _getRender();
+                const auto& render = _getRender();
                 render->setFillColor(color);
                 std::vector<BBox2f> boxes;
                 for (const auto& tick : p.timeTicks)

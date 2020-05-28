@@ -220,7 +220,7 @@ namespace djv
             UI::Widget::_paintEvent(event);
             const auto& style = _getStyle();
             const float sh = style->getMetric(UI::MetricsRole::Shadow);
-            auto render = _getRender();
+            const auto& render = _getRender();
             render->setFillColor(style->getColor(UI::ColorRole::Shadow));
             for (const auto& i : getChildWidgets())
             {

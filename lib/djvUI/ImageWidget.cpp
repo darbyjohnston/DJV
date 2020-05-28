@@ -276,7 +276,7 @@ namespace djv
                 }
                 options.colorSpace.output = p.outputColorSpace;
 
-                auto render = _getRender();
+                const auto& render = _getRender();
                 render->pushTransform(m);
                 switch (p.imageColorRole)
                 {

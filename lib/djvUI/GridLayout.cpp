@@ -529,7 +529,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
-                auto render = _getRender();
+                const auto& render = _getRender();
                 for (const auto& i : p.rowPosAndHeight)
                 {
                     const auto j = p.rowBackgroundRoles.find(i.first);

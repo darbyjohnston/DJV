@@ -125,7 +125,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const BBox2f& g = getMargin().bbox(getGeometry(), style);
-            auto render = _getRender();
+            const auto& render = _getRender();
             render->setFillColor(style->getColor(p.colorRole));
             switch (p.orientation)
             {

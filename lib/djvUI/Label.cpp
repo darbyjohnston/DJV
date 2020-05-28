@@ -221,7 +221,7 @@ namespace djv
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const glm::vec2 c = g.getCenter();
 
-                auto render = _getRender();
+                const auto& render = _getRender();
                 //render->setFillColor(AV::Image::Color(1.F, 0.F, 0.F, .5F));
                 //render->drawRect(g);
 

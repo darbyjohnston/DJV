@@ -221,7 +221,7 @@ namespace djv
                 const auto& style = _getStyle();
                 const auto hg = _getHandleGeometry();
 
-                auto render = _getRender();
+                const auto& render = _getRender();
                 size_t i = 0;
                 for (const auto & g : hg)
                 {

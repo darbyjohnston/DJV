@@ -115,7 +115,7 @@ namespace djv
             void TabBarButton::_paintEvent(Event::Paint & event)
             {
                 const BBox2f & g = getGeometry();
-                auto render = _getRender();
+                const auto& render = _getRender();
                 const auto& style = _getStyle();
                 render->setFillColor(style->getColor(_isToggled() ? ColorRole::BackgroundToolBar : ColorRole::Background));
                 render->drawRect(g);

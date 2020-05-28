@@ -129,7 +129,7 @@ namespace djv
             const BBox2f & g = getGeometry();
 
             BBox2f g2 = g;
-            auto render = _getRender();
+            const auto& render = _getRender();
             if (p.clickedCallback)
             {
                 if (hasTextFocus())

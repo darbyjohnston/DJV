@@ -129,7 +129,7 @@ namespace djv
             const BBox2f & g = getMargin().bbox(getGeometry(), style);
             const glm::vec2 c = g.getCenter();
 
-            auto render = _getRender();
+            const auto& render = _getRender();
             //render->setFillColor(AV::Image::Color(1.F, 0.F, 0.f));
             //render->drawRect(g);
 
@@ -155,7 +155,7 @@ namespace djv
                 case VAlign::Bottom: pos.y = g.max.y - h; break;
                 default: break;
                 }
-                auto render = _getRender();
+                const auto& render = _getRender();
                 if (p.iconColorRole != ColorRole::None)
                 {
                     render->setFillColor(style->getColor(p.iconColorRole));

@@ -119,7 +119,7 @@ namespace djv
             {
                 Widget::_paintEvent(event);
                 const BBox2f & g = getGeometry();
-                auto render = _getRender();
+                const auto& render = _getRender();
                 const auto& style = _getStyle();
                 if (_isPressed())
                 {

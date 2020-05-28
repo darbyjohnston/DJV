@@ -88,7 +88,7 @@ namespace djv
                 const auto& style = _getStyle();
                 const BBox2f& g = getGeometry();
                 const float m = style->getMetric(UI::MetricsRole::MarginSmall);
-                auto render = _getRender();
+                const auto& render = _getRender();
 
                 if (_isToggled())
                 {

@@ -89,7 +89,7 @@ namespace djv
                     case ButtonType::Radio:
                     case ButtonType::Exclusive:
                     {
-                        auto render = _getRender();
+                        const auto& render = _getRender();
                         const auto& style = _getStyle();
                         const BBox2f& g = getGeometry();
                         const float m = style->getMetric(MetricsRole::MarginSmall);
@@ -240,7 +240,7 @@ namespace djv
             void ActionButton::_paintEvent(Event::Paint& event)
             {
                 IButton::_paintEvent(event);
-                auto render = _getRender();
+                const auto& render = _getRender();
                 const auto& style = _getStyle();
                 const BBox2f& g = getGeometry();
                 if (_isPressed())

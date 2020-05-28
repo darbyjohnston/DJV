@@ -301,7 +301,7 @@ namespace djv
                 return;
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
-                auto render = _getRender();
+                const auto& render = _getRender();
                 render->setFillColor(style->getColor(ColorRole::Checked));
                 for (const auto& i : p.handles)
                 {
