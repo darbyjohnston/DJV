@@ -78,7 +78,7 @@ namespace djv
             p.titleLabel = Label::create(context);
             p.titleLabel->setFontSizeRole(MetricsRole::FontHeader);
             p.titleLabel->setTextHAlign(TextHAlign::Left);
-            p.titleLabel->setMargin(MetricsRole::Margin);
+            p.titleLabel->setMargin(Layout::Margin(MetricsRole::Margin, MetricsRole::Margin, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
             p.titleLabel->hide();
 
             p.closeButton = ToolButton::create(context);

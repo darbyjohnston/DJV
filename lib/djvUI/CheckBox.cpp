@@ -41,6 +41,8 @@ namespace djv
                 p.label->setTextColorRole(getForegroundColorRole());
                 p.label->setMargin(MetricsRole::MarginSmall);
                 addChild(p.label);
+
+                _widgetUpdate();
             }
 
             CheckBox::CheckBox() :
@@ -65,7 +67,11 @@ namespace djv
 
             void CheckBox::setText(const std::string & value)
             {
-                _p->label->setText(value);
+                DJV_PRIVATE_PTR();
+                if (value == p.label->getText())
+                    return;
+                p.label->setText(value);
+                _widgetUpdate();
             }
 
             const std::string & CheckBox::getFontFamily() const
@@ -112,7 +118,7 @@ namespace djv
             void CheckBox::_preLayoutEvent(Event::PreLayout & event)
             {
                 const auto& style = _getStyle();
-                const float m = style->getMetric(MetricsRole::MarginSmall);
+                const float m = style->getMetric(MetricsRole::MarginInside);
                 const float b = style->getMetric(MetricsRole::Border);
                 const float is = style->getMetric(MetricsRole::IconSmall);
                 glm::vec2 size = _p->label->getMinimumSize();
@@ -132,7 +138,7 @@ namespace djv
                 const auto& render = _getRender();
                 const auto& style = _getStyle();
                 const BBox2f& g = getGeometry();
-                const float m = style->getMetric(MetricsRole::MarginSmall);
+                const float m = style->getMetric(MetricsRole::MarginInside);
                 const float b = style->getMetric(MetricsRole::Border);
 
                 if (_isPressed())
@@ -205,7 +211,7 @@ namespace djv
                 const auto& style = _getStyle();
                 const BBox2f& g = getGeometry();
                 const float b = style->getMetric(MetricsRole::Border);
-                const float m = style->getMetric(MetricsRole::MarginSmall);
+                const float m = style->getMetric(MetricsRole::MarginInside);
                 const float is = style->getMetric(MetricsRole::IconSmall);
                 const float size = is + m * 2.F;
                 const BBox2f g2 = g.margin(-b);
@@ -217,11 +223,17 @@ namespace djv
                 const auto& style = _getStyle();
                 const BBox2f& g = getGeometry();
                 const float b = style->getMetric(MetricsRole::Border);
-                const float m = style->getMetric(MetricsRole::MarginSmall);
+                const float m = style->getMetric(MetricsRole::MarginInside);
                 const float is = style->getMetric(MetricsRole::IconSmall);
                 const float size = is + m * 2.F;
                 const BBox2f g2 = g.margin(-b);
                 return BBox2f(g2.min.x + size, g2.min.y, g2.w() - size, g2.h());
+            }
+
+            void CheckBox::_widgetUpdate()
+            {
+                DJV_PRIVATE_PTR();
+                p.label->setVisible(!p.label->getText().empty());
             }
 
         } // namespace Button

@@ -5,6 +5,7 @@
 #include <djvUI/ActionButton.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/CheckBox.h>
 #include <djvUI/DrawUtil.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
@@ -25,87 +26,6 @@ namespace djv
     {
         namespace Button
         {
-            namespace
-            {
-                class CheckBox : public Widget
-                {
-                    DJV_NON_COPYABLE(CheckBox);
-
-                protected:
-                    CheckBox()
-                    {}
-
-                public:
-                    static std::shared_ptr<CheckBox> create(const std::shared_ptr<Context>&);
-
-                    void setChecked(bool);
-                    void setButtonType(ButtonType);
-
-                protected:
-                    void _preLayoutEvent(Event::PreLayout&) override;
-                    void _paintEvent(Event::Paint&) override;
-
-                private:
-                    bool _checked = false;
-                    ButtonType _buttonType = ButtonType::First;
-                };
-
-                std::shared_ptr<CheckBox> CheckBox::create(const std::shared_ptr<Context>& context)
-                {
-                    auto out = std::shared_ptr<CheckBox>(new CheckBox);
-                    out->_init(context);
-                    return out;
-                }
-
-                void CheckBox::setChecked(bool value)
-                {
-                    if (value == _checked)
-                        return;
-                    _checked = value;
-                    _redraw();
-                }
-
-                void CheckBox::setButtonType(ButtonType value)
-                {
-                    if (value == _buttonType)
-                        return;
-                    _buttonType = value;
-                    _redraw();
-                }
-
-                void CheckBox::_preLayoutEvent(Event::PreLayout&)
-                {
-                    const auto& style = _getStyle();
-                    const float m = style->getMetric(MetricsRole::MarginSmall);
-                    const float is = style->getMetric(MetricsRole::IconSmall);
-                    _setMinimumSize(glm::vec2(is + m * 2.F, is + m * 2.F));
-                }
-
-                void CheckBox::_paintEvent(Event::Paint&)
-                {
-                    switch (_buttonType)
-                    {
-                    case ButtonType::Toggle:
-                    case ButtonType::Radio:
-                    case ButtonType::Exclusive:
-                    {
-                        const auto& render = _getRender();
-                        const auto& style = _getStyle();
-                        const BBox2f& g = getGeometry();
-                        const float m = style->getMetric(MetricsRole::MarginSmall);
-                        const float b = style->getMetric(MetricsRole::Border);
-                        render->setFillColor(style->getColor(ColorRole::Border));
-                        drawBorder(render, g.margin(-m), b);
-                        render->setFillColor(style->getColor(_checked ? ColorRole::Checked : ColorRole::Trough));
-                        render->drawRect(g.margin(-m).margin(-b));
-                        break;
-                    }
-                    default: break;
-                    }
-                }
-
-            } // namespace
-
             struct ActionButton::Private
             {
                 std::shared_ptr<Action> action;
@@ -135,7 +55,7 @@ namespace djv
                 p.shortcutsLabel->setMargin(MetricsRole::MarginSmall);
 
                 p.layout = HorizontalLayout::create(context);
-                p.layout->setMargin(MetricsRole::MarginSmall);
+                p.layout->setMargin(MetricsRole::MarginInside);
                 p.layout->setSpacing(MetricsRole::None);
                 p.layout->addChild(p.checkBox);
                 p.layout->addChild(p.icon);
@@ -240,9 +160,9 @@ namespace djv
             void ActionButton::_paintEvent(Event::Paint& event)
             {
                 IButton::_paintEvent(event);
-                const auto& render = _getRender();
                 const auto& style = _getStyle();
                 const BBox2f& g = getGeometry();
+                const auto& render = _getRender();
                 if (_isPressed())
                 {
                     render->setFillColor(style->getColor(ColorRole::Pressed));

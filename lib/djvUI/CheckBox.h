@@ -51,6 +51,8 @@ namespace djv
                 Core::BBox2f _getCheckGeometry() const;
                 Core::BBox2f _getLabelGeometry() const;
 
+                void _widgetUpdate();
+
                 DJV_PRIVATE();
             };
 
