@@ -77,6 +77,12 @@ namespace djv
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         ViewApp,
+        CmdLineMode,
+        DJV_TEXT("cmd_line_mode_djv"),
+        DJV_TEXT("cmd_line_mode_maya"));
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        ViewApp,
         PlaybackSpeed,
         DJV_TEXT("playback_speed_default"),
         DJV_TEXT("playback_speed_custom"),

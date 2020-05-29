@@ -26,9 +26,16 @@ namespace djv
 
             void run() override;
 
-        private:
+        protected:
             void _parseCmdLine(std::list<std::string>&) override;
             void _printUsage() override;
+
+        private:
+            void _parseCmdLineDJV(std::list<std::string>&);
+            void _parseCmdLineMaya(std::list<std::string>&);
+            void _printUsageDJV();
+            void _printUsageMaya();
+
             void _readIcon(const std::string&);
 
             DJV_PRIVATE();

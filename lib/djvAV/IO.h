@@ -423,6 +423,7 @@ namespace djv
                 std::shared_ptr<Core::IValueSubject<bool> > observeOptionsChanged() const;
 
                 const std::set<std::string>& getSequenceExtensions() const;
+                const std::set<std::string>& getNonSequenceExtensions() const;
                 bool canSequence(const Core::FileSystem::FileInfo&) const;
                 bool canRead(const Core::FileSystem::FileInfo&) const;
                 bool canWrite(const Core::FileSystem::FileInfo&, const Info &) const;

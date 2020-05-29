@@ -102,6 +102,16 @@ namespace djv
         };
         DJV_ENUM_HELPERS(PlaybackMode);
 
+        enum class CmdLineMode
+        {
+            DJV,
+            Maya,
+
+            Count,
+            First = DJV
+        };
+        DJV_ENUM_HELPERS(CmdLineMode);
+
     } // namespace ViewApp
 
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ImageViewLock);
@@ -110,12 +120,14 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::Playback);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::PlaybackSpeed);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::PlaybackMode);
+    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::CmdLineMode);
 
     picojson::value toJSON(ViewApp::ImageViewLock);
     picojson::value toJSON(ViewApp::ImageViewGridLabels);
     picojson::value toJSON(ViewApp::ScrollWheelSpeed);
     picojson::value toJSON(ViewApp::PlaybackSpeed);
     picojson::value toJSON(ViewApp::PlaybackMode);
+    picojson::value toJSON(ViewApp::CmdLineMode);
 
     //! Throws:
     //! - std::exception
@@ -124,6 +136,7 @@ namespace djv
     void fromJSON(const picojson::value&, ViewApp::ScrollWheelSpeed&);
     void fromJSON(const picojson::value&, ViewApp::PlaybackSpeed&);
     void fromJSON(const picojson::value&, ViewApp::PlaybackMode&);
+    void fromJSON(const picojson::value&, ViewApp::CmdLineMode&);
 
 } // namespace djv
 

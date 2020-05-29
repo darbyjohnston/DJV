@@ -465,6 +465,7 @@ namespace djv
                 std::shared_ptr<ValueSubject<bool> > optionsChanged;
                 std::map<std::string, std::shared_ptr<IPlugin> > plugins;
                 std::set<std::string> sequenceExtensions;
+                std::set<std::string> nonSequenceExtensions;
             };
 
             void System::_init(const std::shared_ptr<Context>& context)
@@ -508,6 +509,11 @@ namespace djv
                     {
                         const auto& fileExtensions = i.second->getFileExtensions();
                         p.sequenceExtensions.insert(fileExtensions.begin(), fileExtensions.end());
+                    }
+                    else
+                    {
+                        const auto& fileExtensions = i.second->getFileExtensions();
+                        p.nonSequenceExtensions.insert(fileExtensions.begin(), fileExtensions.end());
                     }
                 
                     std::stringstream ss;
@@ -586,7 +592,12 @@ namespace djv
             {
                 return _p->sequenceExtensions;
             }
-                
+
+            const std::set<std::string>& System::getNonSequenceExtensions() const
+            {
+                return _p->nonSequenceExtensions;
+            }
+
             bool System::canSequence(const FileSystem::FileInfo& fileInfo) const
             {
                 DJV_PRIVATE_PTR();

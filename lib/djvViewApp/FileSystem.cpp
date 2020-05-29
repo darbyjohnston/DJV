@@ -566,7 +566,7 @@ namespace djv
 
         void FileSystem::open(const std::vector<std::string>& fileNames, OpenOptions options)
         {
-            for (const auto& i : _processFileNames(fileNames))
+            for (const auto& i : _processFileNames(fileNames, options))
             {
                 open(i, options);
                 if (options.pos && options.spacing)
@@ -807,7 +807,9 @@ namespace djv
             }
         }
 
-        std::vector<Core::FileSystem::FileInfo> FileSystem::_processFileNames(const std::vector<std::string>& fileNames)
+        std::vector<Core::FileSystem::FileInfo> FileSystem::_processFileNames(
+            const std::vector<std::string>& fileNames,
+            const OpenOptions& options)
         {
             DJV_PRIVATE_PTR();
             std::vector<Core::FileSystem::FileInfo> fileInfos;
@@ -819,9 +821,8 @@ namespace djv
                     paths.push_back(Core::FileSystem::Path::getAbsolute(Core::FileSystem::Path(i)));
                 }
 
-                auto io = context->getSystemT<AV::IO::System>();
-
                 // Find arguments that are sequences.
+                auto io = context->getSystemT<AV::IO::System>();
                 auto i = paths.begin();
                 while (i != paths.end())
                 {
@@ -906,8 +907,13 @@ namespace djv
                     {
                         fileSequence = Core::FileSystem::FileInfo::getFileSequence(*i, io->getSequenceExtensions());
                     }
-                    if (wildcard && number.size() == fileSequence.getSequence().pad)
+                    if (wildcard &&
+                        (number.size() == 1 || number.size() == fileSequence.getSequence().pad))
                     {
+                        if (options.startEnd)
+                        {
+                            fileSequence.setSequence(Core::Frame::Sequence(*options.startEnd, fileSequence.getSequence().pad));
+                        }
                         fileInfos.push_back(fileSequence);
                         i = paths.erase(i);
                     }
@@ -924,7 +930,26 @@ namespace djv
                     fileInfo.evalSequence();
                     fileInfos.push_back(fileInfo);
                 }
+
+                // Check for missing file extensions (e.g., Maya movie playblasts).
+                for (auto& i : fileInfos)
+                {
+                    const std::set<std::string> extensions = io->getNonSequenceExtensions();
+                    if (!i.doesExist())
+                    {
+                        for (const auto& j : extensions)
+                        {
+                            Core::FileSystem::FileInfo fileInfo(i.getFileName() + j);
+                            if (fileInfo.doesExist())
+                            {
+                                i = fileInfo;
+                                break;
+                            }
+                        }
+                    }
+                }
                 
+                // Limit the number of file names.
                 const size_t openMax = p.settings->observeOpenMax()->get();
                 if (fileInfos.size() > openMax)
                 {

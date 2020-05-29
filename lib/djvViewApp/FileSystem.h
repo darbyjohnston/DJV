@@ -32,6 +32,7 @@ namespace djv
             std::shared_ptr<glm::vec2>           pos;
             std::shared_ptr<float>               spacing;
             std::shared_ptr<Core::Time::Speed>   speed;
+            std::shared_ptr<Core::Frame::Range>  startEnd;
             std::shared_ptr<std::string>         inPoint;
             std::shared_ptr<std::string>         outPoint;
             std::shared_ptr<std::string>         frame;
@@ -78,7 +79,9 @@ namespace djv
             void _textUpdate() override;
 
         private:
-            std::vector<Core::FileSystem::FileInfo> _processFileNames(const std::vector<std::string>&);
+            std::vector<Core::FileSystem::FileInfo> _processFileNames(
+                const std::vector<std::string>&,
+                const OpenOptions&);
             
             DJV_PRIVATE();
         };
