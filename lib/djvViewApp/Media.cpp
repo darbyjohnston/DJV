@@ -868,7 +868,7 @@ namespace djv
                     auto logSystem = context->getSystemT<LogSystem>();
                     logSystem->log(
                         "djv::ViewApp::Media",
-                        String::Format("{0}: {1}").arg(p.fileInfo.getFileName()).arg(e.what()),
+                        e.what(),
                         LogLevel::Error);
                 }
                 
