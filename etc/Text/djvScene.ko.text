@@ -1,8 +1,5 @@
 {
     "error_cannot_parse_the_value": "값을 구문 분석 할 수 없습니다.",
-    "error_file_open": "error_file_open",
-    "error_file_read": "error_file_read",
-    "error_file_write": "error_file_write",
     "obj_plugin_description": "이 플러그인은 OBJ 파일 I / O를 제공합니다.",
     "opennurbs_plugin_description": "이 플러그인은 OpenNURBS 파일 I / O를 제공합니다."
 }

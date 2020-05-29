@@ -1,6 +1,5 @@
 {
     "djv_ls_description": "djv_ls是用于列出图像序列的命令行工具。",
     "djv_ls_usage": "用法",
-    "djv_ls_usage_format": "djv_ls [输入，...]",
-    "error_file_open": "error_file_open"
+    "djv_ls_usage_format": "djv_ls [输入，...]"
 }

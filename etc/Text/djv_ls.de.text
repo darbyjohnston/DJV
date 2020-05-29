@@ -1,6 +1,5 @@
 {
     "djv_ls_description": "djv_ls ist ein Befehlszeilenprogramm zum Auflisten von Bildsequenzen.",
     "djv_ls_usage": "Verwendungszweck",
-    "djv_ls_usage_format": "djv_ls [Eingabe, ...]",
-    "error_file_open": "error_file_open"
+    "djv_ls_usage_format": "djv_ls [Eingabe, ...]"
 }

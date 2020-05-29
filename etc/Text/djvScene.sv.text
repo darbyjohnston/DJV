@@ -1,8 +1,5 @@
 {
     "error_cannot_parse_the_value": "Det går inte att analysera värdet.",
-    "error_file_open": "error_file_open",
-    "error_file_read": "error_file_read",
-    "error_file_write": "error_file_write",
     "obj_plugin_description": "Detta plugin tillhandahåller OBJ-fil I / O.",
     "opennurbs_plugin_description": "Denna plugin tillhandahåller OpenNURBS-fil I / O."
 }

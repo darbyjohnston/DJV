@@ -1,6 +1,5 @@
 {
     "djv_ls_description": "djv_ls er skipanalína til að skrá myndaraðir.",
     "djv_ls_usage": "Notkun",
-    "djv_ls_usage_format": "djv_ls [inntak, ...]",
-    "error_file_open": "error_file_open"
+    "djv_ls_usage_format": "djv_ls [inntak, ...]"
 }

@@ -1,6 +1,5 @@
 {
     "djv_info_description": "Το djv_info είναι ένα εργαλείο γραμμής εντολών για την εμφάνιση πληροφοριών σχετικά με εικόνες και ακολουθίες εικόνων.",
     "djv_info_usage": "Χρήση",
-    "djv_info_usage_format": "djv_info [εισαγωγή, ...]",
-    "error_file_open": "error_file_open"
+    "djv_info_usage_format": "djv_info [εισαγωγή, ...]"
 }

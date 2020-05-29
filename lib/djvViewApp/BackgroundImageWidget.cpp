@@ -98,10 +98,7 @@ namespace djv
                                     catch (const std::exception& e)
                                     {
                                         auto logSystem = context->getSystemT<LogSystem>();
-                                        logSystem->log(
-                                            "djv::ViewApp::BackgroundImageWidget",
-                                            String::Format("{0}: {1}").arg(value).arg(e.what()),
-                                            LogLevel::Error);
+                                        logSystem->log("djv::ViewApp::BackgroundImageWidget", e.what(), LogLevel::Error);
                                     }
                                 }
                             }

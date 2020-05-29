@@ -781,7 +781,7 @@ namespace djv
                             catch (const std::exception& e)
                             {
                                 p.ioInfo[i->first] = AV::IO::Info();
-                                _log(String::Format("{0}: {1}").arg(p.names[i->first]).arg(e.what()), LogLevel::Error);
+                                _log(e.what(), LogLevel::Error);
                             }
                             i = p.ioInfoFutures.erase(i);
                         }
@@ -810,7 +810,7 @@ namespace djv
                             }
                             catch (const std::exception& e)
                             {
-                                _log(String::Format("{0}: {1}").arg(p.names[i->first]).arg(e.what()), LogLevel::Error);
+                                _log(e.what(), LogLevel::Error);
                             }
                             i = p.thumbnailFutures.erase(i);
                         }

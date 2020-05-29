@@ -1,8 +1,5 @@
 {
     "error_cannot_parse_the_value": "Nie można przeanalizować wartości.",
-    "error_file_open": "plik_błędu_otwarty",
-    "error_file_read": "error_file_read",
-    "error_file_write": "error_file_write",
     "obj_plugin_description": "Ta wtyczka zapewnia we / wy pliku OBJ.",
     "opennurbs_plugin_description": "Ta wtyczka zapewnia we / wy pliku OpenNURBS."
 }

@@ -1,6 +1,5 @@
 {
     "djv_info_description": "djv_info是用于显示有关图像和图像序列的信息的命令行工具。",
     "djv_info_usage": "用法",
-    "djv_info_usage_format": "djv_info [输入，...]",
-    "error_file_open": "error_file_open"
+    "djv_info_usage_format": "djv_info [输入，...]"
 }

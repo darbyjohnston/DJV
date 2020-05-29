@@ -1,6 +1,5 @@
 {
     "djv_info_description": "djv_info는 이미지 및 이미지 시퀀스에 대한 정보를 표시하기위한 명령 줄 도구입니다.",
     "djv_info_usage": "용법",
-    "djv_info_usage_format": "djv_info [입력, ...]",
-    "error_file_open": "error_file_open"
+    "djv_info_usage_format": "djv_info [입력, ...]"
 }
