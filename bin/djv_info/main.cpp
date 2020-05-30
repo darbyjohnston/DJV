@@ -38,7 +38,6 @@ namespace djv
                     Core::FileSystem::FileInfo fileInfo(args.front());
                     if (fileInfo.doesExist())
                     {
-                        fileInfo.evalSequence();
                         _inputs.push_back(fileInfo);
                     }
                     else

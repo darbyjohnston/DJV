@@ -79,8 +79,7 @@ namespace djv
             //! separated with a dash ('-'), for example "render.1-100.exr". Multiple
             //! start and end frames and individual frames are separated with a comma
             //! (','), for example "render.1-10,20-30,33,35,37.exr". File sequences
-            //! are always sorted in ascending order and frame numbers are always
-            //! positive.
+            //! are always sorted in ascending order.
             //!
             //! File sequences may also have frames with padded zeroes, for example
             //! "render.0001-0100.exr".
@@ -91,8 +90,8 @@ namespace djv
             public:
                 FileInfo();
                 FileInfo(const Path&, bool stat = true);
-                explicit FileInfo(const Path&, FileType, bool stat = true);
                 FileInfo(const std::string &, bool stat = true);
+                FileInfo(const Path&, FileType, const Frame::Sequence&, bool stat = true);
 
                 //! \name Path
                 ///@{
@@ -100,7 +99,7 @@ namespace djv
                 const Path& getPath() const;
                 bool isEmpty() const;
                 void setPath(const Path& path, bool stat = true);
-                void setPath(const Path& path, FileType fileType, bool stat = true);
+                void setPath(const Path& path, FileType fileType, const Frame::Sequence&, bool stat = true);
 
                 //! Get the file name.
                 //! \param frame Specify a frame number or -1 for the entire sequence.
@@ -131,9 +130,6 @@ namespace djv
 
                 const Frame::Sequence& getSequence() const;
                 void setSequence(const Frame::Sequence &);
-                void evalSequence();
-                void sortSequence();
-                bool isSequenceValid() const;
                 bool isCompatible(const FileInfo &) const;
                 bool addToSequence(const FileInfo &);
                 
@@ -160,6 +156,7 @@ namespace djv
                 explicit operator std::string() const;
 
             private:
+                static Frame::Sequence _parseSequence(const std::string&);
                 static void _fileSequence(FileInfo&, const DirectoryListOptions&, std::vector<FileInfo>&);
                 static void _sort(const DirectoryListOptions&, std::vector<FileInfo>&);
                 
@@ -176,6 +173,9 @@ namespace djv
 
     } // namespace FileSystem
 
+    DJV_ENUM_SERIALIZE_HELPERS(Core::FileSystem::FileType);
+    DJV_ENUM_SERIALIZE_HELPERS(Core::FileSystem::DirectoryListSort);
+
     picojson::value toJSON(Core::FileSystem::FileType);
     picojson::value toJSON(Core::FileSystem::DirectoryListSort);
     picojson::value toJSON(const Core::FileSystem::FileInfo&);
@@ -183,13 +183,16 @@ namespace djv
     //! Throws:
     //! - std::exception
     void fromJSON(const picojson::value&, Core::FileSystem::FileType&);
+
+    //! Throws:
+    //! - std::exception
     void fromJSON(const picojson::value&, Core::FileSystem::DirectoryListSort&);
+
+    //! Throws:
+    //! - std::exception
     void fromJSON(const picojson::value&, Core::FileSystem::FileInfo&);
 
-    DJV_ENUM_SERIALIZE_HELPERS(Core::FileSystem::FileType);
-    DJV_ENUM_SERIALIZE_HELPERS(Core::FileSystem::DirectoryListSort);
-
-    std::ostream & operator << (std::ostream &, const Core::FileSystem::FileInfo &);
+    std::ostream& operator << (std::ostream&, const Core::FileSystem::FileInfo&);
     
 } // namespace djv
 

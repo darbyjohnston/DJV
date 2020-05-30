@@ -79,8 +79,13 @@ namespace djv
             public:
                 Path();
                 explicit Path(const std::string &);
-                Path(const Path &, const std::string &);
+                Path(const Path&, const std::string&);
                 Path(const std::string &, const std::string &);
+                Path(
+                    const std::string& directoryName,
+                    const std::string& baseName,
+                    const std::string& number,
+                    const std::string& extension);
 
                 //! \name Path
                 ///@{

@@ -807,77 +807,24 @@ namespace djv
             std::vector<Core::FileSystem::FileInfo> fileInfos;
             if (auto context = getContext().lock())
             {
+                // Get absolute paths.
                 std::vector<Core::FileSystem::Path> paths;
                 for (const auto& i : fileNames)
                 {
                     paths.push_back(Core::FileSystem::Path::getAbsolute(Core::FileSystem::Path(i)));
                 }
 
-                // Find arguments that are sequences.
+                // Find sequences.
                 auto io = context->getSystemT<AV::IO::System>();
-                auto i = paths.begin();
-                while (i != paths.end())
-                {
-                    Core::FileSystem::FileInfo fileInfo(*i);
-                    fileInfo.evalSequence();
-                    if (fileInfo.isSequenceValid() &&
-                        fileInfo.getSequence().getSize() > 1 &&
-                        io->canSequence(fileInfo))
-                    {
-                        fileInfos.push_back(fileInfo);
-                        i = paths.erase(i);
-                    }
-                    else
-                    {
-                        ++i;
-                    }
-                }
-            
-                // Find arguments that belong to the same sequence (for
-                // example when a shell wildcard is used).
-                i = paths.begin();
-                while (i != paths.end())
-                {
-                    Core::FileSystem::FileInfo fileInfo(*i);
-                    fileInfo.evalSequence();
-                    if (fileInfo.isSequenceValid() &&
-                        1 == fileInfo.getSequence().getSize() &&
-                        io->canSequence(fileInfo))
-                    {
-                        auto j = i + 1;
-                        while (j != paths.end())
-                        {
-                            Core::FileSystem::FileInfo fileInfo2(*j);
-                            fileInfo2.evalSequence();
-                            if (fileInfo2.isSequenceValid() &&
-                                1 == fileInfo2.getSequence().getSize() &&
-                                io->canSequence(fileInfo2) &&
-                                fileInfo.addToSequence(fileInfo2))
-                            {
-                                j = paths.erase(j);
-                            }
-                            else
-                            {
-                                ++j;
-                            }
-                        }
-                    }
-                    ++i;
-                }
-            
-                // Auto-detect sequences.
                 if (p.settings->observeAutoDetectSequences()->get())
                 {
-                    i = paths.begin();
+                    auto i = paths.begin();
                     while (i != paths.end())
                     {
-                        Core::FileSystem::FileInfo fileInfo(*i);
-                        fileInfo.evalSequence();
-                        if (fileInfo.isSequenceValid() &&
-                            1 == fileInfo.getSequence().getSize() &&
-                            io->canSequence(fileInfo))
+                        const auto fileInfo = Core::FileSystem::FileInfo::getFileSequence(*i, io->getSequenceExtensions());
+                        if (fileInfo.getSequence().getSize() > 1)
                         {
-                            fileInfos.push_back(Core::FileSystem::FileInfo::getFileSequence(*i, io->getSequenceExtensions()));
+                            fileInfos.push_back(fileInfo);
                             i = paths.erase(i);
                         }
                         else
@@ -885,6 +832,36 @@ namespace djv
                             ++i;
                         }
                     }
+                }
+            
+                // Find arguments that belong to the same sequence (for
+                // example when a shell wildcard is used).
+                auto i = paths.begin();
+                while (i != paths.end())
+                {
+                    Core::FileSystem::FileInfo fileInfo(*i);
+                    if (io->canSequence(fileInfo))
+                    {
+                        auto j = i + 1;
+                        while (j != paths.end())
+                        {
+                            bool sequenced = false;
+                            Core::FileSystem::FileInfo fileInfo2(*j);
+                            if (fileInfo.isCompatible(fileInfo2))
+                            {
+                                if (fileInfo.addToSequence(fileInfo2))
+                                {
+                                    sequenced = true;
+                                    j = paths.erase(j);
+                                }
+                            }
+                            if (!sequenced)
+                            {
+                                ++j;
+                            }
+                        }
+                    }
+                    ++i;
                 }
                 
                 // Check the directory for wildcards.
@@ -918,9 +895,7 @@ namespace djv
                 // Add the remaining file names.
                 for (const auto& i : paths)
                 {
-                    Core::FileSystem::FileInfo fileInfo(i);
-                    fileInfo.evalSequence();
-                    fileInfos.push_back(fileInfo);
+                    fileInfos.push_back(Core::FileSystem::FileInfo(i));
                 }
 
                 // Check for missing file extensions (e.g., Maya movie playblasts).

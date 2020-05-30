@@ -77,7 +77,7 @@ int main(int argc, char ** argv)
         std::vector<std::shared_ptr<Test::ITest> > tests;
         if (0)
         {
-            tests.emplace_back(new CoreTest::PathTest(context));
+            tests.emplace_back(new CoreTest::FrameTest(context));
         }
         else
         {

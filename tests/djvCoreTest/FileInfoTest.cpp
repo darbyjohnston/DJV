@@ -80,8 +80,10 @@ namespace djv
             {
                 const FileSystem::Path path("/");
                 const FileSystem::FileType fileType = FileSystem::FileType::File;
-                const FileSystem::FileInfo fileInfo(path, fileType, false);
+                const Frame::Sequence sequence(1, 10);
+                const FileSystem::FileInfo fileInfo(path, fileType, sequence, false);
                 DJV_ASSERT(fileType == fileInfo.getType());
+                DJV_ASSERT(sequence == fileInfo.getSequence());
             }
             
             {
@@ -153,15 +155,10 @@ namespace djv
             }
             
             {
-                FileSystem::FileInfo fileInfo;
-                fileInfo.setPath(FileSystem::Path(), FileSystem::FileType::Sequence, false);
-            }
-            
-            {
-                FileSystem::FileInfo fileInfo(_sequenceName);
-                DJV_ASSERT(_sequenceName == fileInfo.getFileName());
-                DJV_ASSERT("/tmp/render.1.exr" != fileInfo.getFileName(1));
-                fileInfo.evalSequence();
+                FileSystem::FileInfo fileInfo("/tmp/render.1.exr");
+                fileInfo.addToSequence(FileSystem::FileInfo("/tmp/render.2.exr"));
+                fileInfo.addToSequence(FileSystem::FileInfo("/tmp/render.3.exr"));
+                DJV_ASSERT("/tmp/render.1-3.exr" == fileInfo.getFileName());
                 DJV_ASSERT("/tmp/render.1.exr" == fileInfo.getFileName(1));
                 DJV_ASSERT("render.1.exr" == fileInfo.getFileName(1, false));
             }
@@ -177,13 +174,10 @@ namespace djv
         {
             {
                 FileSystem::FileInfo fileInfo(_sequenceName);
-                DJV_ASSERT(!fileInfo.isSequenceValid());
-                DJV_ASSERT(!fileInfo.isCompatible(fileInfo));
-                fileInfo.evalSequence();
+                DJV_ASSERT(Frame::Sequence() == fileInfo.getSequence());
                 Frame::Sequence sequence(1, 100);
                 fileInfo.setSequence(sequence);
                 DJV_ASSERT(sequence == fileInfo.getSequence());
-                DJV_ASSERT(fileInfo.isSequenceValid());
                 FileSystem::FileInfo fileInfo2(fileInfo);
                 fileInfo2.setSequence(Frame::Sequence(Frame::Range(101, 110), 4));
                 DJV_ASSERT(fileInfo.isCompatible(fileInfo2));
@@ -192,21 +186,12 @@ namespace djv
             }
             
             {
-                FileSystem::FileInfo fileInfo(_sequenceName);
-                fileInfo.evalSequence();
-                fileInfo.setPath(FileSystem::Path("render.1-10.exr"), FileSystem::FileType::Sequence);
-                DJV_ASSERT(Frame::Sequence(Frame::Range(1, 10)) == fileInfo.getSequence());
-            }
-            
-            {
                 FileSystem::FileInfo fileInfo("render.1.exr");
-                fileInfo.evalSequence();
                 DJV_ASSERT(!fileInfo.isCompatible(FileSystem::FileInfo("render.1.png")));
             }
             
             {
                 FileSystem::FileInfo fileInfo("render.1.exr");
-                fileInfo.evalSequence();
                 DJV_ASSERT(!fileInfo.isCompatible(FileSystem::FileInfo("snapshot.1.exr")));
             }
         }

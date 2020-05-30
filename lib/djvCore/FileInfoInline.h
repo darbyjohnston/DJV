@@ -16,14 +16,14 @@ namespace djv
                 setPath(path, stat);
             }
 
-            inline FileInfo::FileInfo(const Path& path, FileType fileType, bool stat)
-            {
-                setPath(path, fileType, stat);
-            }
-
             inline FileInfo::FileInfo(const std::string& path, bool stat)
             {
                 setPath(Path(path), stat);
+            }
+
+            inline FileInfo::FileInfo(const Path& path, FileType fileType, const Frame::Sequence& sequence, bool stat)
+            {
+                setPath(path, fileType, sequence, stat);
             }
 
             inline const Path& FileInfo::getPath() const
@@ -71,21 +71,15 @@ namespace djv
                 return _time;
             }
 
-            inline bool FileInfo::isSequenceValid() const
-            {
-                return
-                    _type != FileType::Directory &&
-                    !_path.getNumber().empty() &&
-                    _sequence.ranges.size();
-            }
-
             inline bool FileInfo::isCompatible(const FileInfo& value) const
             {
-                if (!isSequenceValid())
+                if (_path.getNumber().empty() || value._path.getNumber().empty())
                     return false;
                 if (_path.getExtension() != value._path.getExtension())
                     return false;
                 if (_path.getBaseName() != value._path.getBaseName())
+                    return false;
+                if (_path.getDirectoryName() != value._path.getDirectoryName())
                     return false;
                 return true;
             }
@@ -94,12 +88,26 @@ namespace djv
             {
                 if (isCompatible(value))
                 {
-                    for (const auto& range : value._sequence.ranges)
+                    if (_type != FileType::Sequence)
+                    {
+                        _sequence = _parseSequence(_path.getNumber());
+                        if (_sequence.ranges.size())
+                        {
+                            _type = FileType::Sequence;
+                        }
+                    }
+                    Frame::Sequence sequence = _parseSequence(value.getPath().getNumber());
+                    for (const auto& range : sequence.ranges)
                     {
                         if (!_sequence.merge(range))
                         {
                             _sequence.ranges.push_back(range);
                         }
+                    }
+                    {
+                        std::stringstream ss;
+                        ss << _sequence;
+                        _path.setNumber(ss.str());
                     }
                     if (value._sequence.pad > _sequence.pad)
                     {
@@ -126,6 +134,21 @@ namespace djv
                 for (; i != end && '#' == *i; ++i)
                     ;
                 return !value.empty() && i == end;
+            }
+
+            inline Frame::Sequence FileInfo::_parseSequence(const std::string& number)
+            {
+                Frame::Sequence out;
+                try
+                {
+                    std::stringstream ss(number);
+                    ss.exceptions(std::istream::failbit | std::istream::badbit);
+                    ss >> out;
+                }
+                catch (const std::exception&)
+                {
+                }
+                return out;
             }
 
             inline bool FileInfo::operator == (const FileInfo & in) const

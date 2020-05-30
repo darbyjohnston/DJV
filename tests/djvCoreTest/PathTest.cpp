@@ -125,12 +125,10 @@ namespace djv
                 Data("//tmp/",                "//tmp/",    "",                 "",        "",      ""),
                 Data("render.1.exr",          "",          "render.1.exr",     "render.", "1",     ".exr"),
                 Data("render.100.exr",        "",          "render.100.exr",   "render.", "100",   ".exr"),
-                Data("render.1,2,3.exr",      "",          "render.1,2,3.exr", "render.", "1,2,3", ".exr"),
                 Data("render1.exr",           "",          "render1.exr",      "render",  "1",     ".exr"),
                 Data("render100.exr",         "",          "render100.exr",    "render",  "100",   ".exr"),
-                Data("render-1.exr",          "",          "render-1.exr",     "render-", "1",     ".exr"),
-                Data("render-100.exr",        "",          "render-100.exr",   "render-", "100",   ".exr"),
-                Data("render1-100.exr",       "",          "render1-100.exr",  "render",  "1-100", ".exr"),
+                Data("render-1.exr",          "",          "render-1.exr",     "render",  "-1",    ".exr"),
+                Data("render-100.exr",        "",          "render-100.exr",   "render",  "-100",  ".exr"),
                 Data("render####.exr",        "",          "render####.exr",   "render",  "####",  ".exr"),
                 Data("1.exr",                 "",          "1.exr",            "",        "1",     ".exr"),
                 Data("100.exr",               "",          "100.exr",          "",        "100",   ".exr"),
@@ -288,15 +286,12 @@ namespace djv
                 DJV_ASSERT(path == path2);
             }
 
-            try            
             {
                 auto json = picojson::value(picojson::object_type, true);
                 FileSystem::Path path;
                 fromJSON(json, path);
-                DJV_ASSERT(false);
+                DJV_ASSERT(FileSystem::Path() == path);
             }
-            catch (const std::exception&)
-            {}
         }
                 
     } // namespace CoreTest

@@ -78,7 +78,7 @@ namespace djv
                 }
             }
 
-            void FileInfo::setPath(const Path& value, FileType fileType, bool stat)
+            void FileInfo::setPath(const Path& value, FileType fileType, const Frame::Sequence& sequence, bool stat)
             {
                 _path           = value;
                 _exists         = false;
@@ -87,21 +87,7 @@ namespace djv
                 _user           = 0;
                 _permissions    = 0;
                 _time           = 0;
-                _sequence       = Frame::Sequence();
-
-                if (FileType::Sequence == fileType)
-                {
-                    try
-                    {
-                        std::stringstream ss(_path.getNumber());
-                        ss.exceptions(std::istream::failbit | std::istream::badbit);
-                        ss >> _sequence;
-                    }
-                    catch (const std::exception&)
-                    {
-                        _sequence = Frame::Sequence();
-                    }
-                }
+                _sequence       = sequence;
 
                 // Get information from the file system.
                 if (stat)
@@ -113,35 +99,6 @@ namespace djv
             void FileInfo::setSequence(const Frame::Sequence & in)
             {
                 _sequence = in;
-                std::stringstream s;
-                s << _sequence;
-                _path.setNumber(s.str());
-            }
-
-            void FileInfo::evalSequence()
-            {
-                if (FileType::File == _type)
-                {
-                    try
-                    {
-                        std::stringstream ss(_path.getNumber());
-                        ss.exceptions(std::istream::failbit | std::istream::badbit);
-                        ss >> _sequence;
-                        if (_sequence.ranges.size())
-                        {
-                            _type = FileType::Sequence;
-                        }
-                    }
-                    catch (const std::exception&)
-                    {
-                        _sequence = Frame::Sequence();
-                    }
-                }
-            }
-
-            void FileInfo::sortSequence()
-            {
-                _sequence.sort();
                 std::stringstream s;
                 s << _sequence;
                 _path.setNumber(s.str());
@@ -160,8 +117,7 @@ namespace djv
                 }
                 for (const auto& fileInfo : directoryList(Path(dir), options))
                 {
-                    if (fileInfo.getSequence().getSize() > 1 &&
-                        fileInfo.isCompatible(path))
+                    if (fileInfo.isCompatible(out))
                     {
                         out = fileInfo;
                         break;
@@ -180,24 +136,16 @@ namespace djv
                     extension);
                 if (options.fileSequences && i != options.fileSequenceExtensions.end())
                 {
-                    fileInfo.evalSequence();
-                    if (fileInfo.isSequenceValid())
+                    const size_t size = out.size();
+                    size_t j = 0;
+                    for (; j < size; ++j)
                     {
-                        const size_t size = out.size();
-                        size_t j = 0;
-                        for (; j < size; ++j)
+                        if (out[j].addToSequence(fileInfo))
                         {
-                            if (out[j].addToSequence(fileInfo))
-                            {
-                                break;
-                            }
-                        }
-                        if (size == j)
-                        {
-                            out.push_back(fileInfo);
+                            break;
                         }
                     }
-                    else
+                    if (size == j)
                     {
                         out.push_back(fileInfo);
                     }
@@ -212,9 +160,12 @@ namespace djv
             {
                 for (auto & i : out)
                 {
-                    if (i.isSequenceValid())
+                    if (FileType::Sequence == i._type)
                     {
-                        i.sortSequence();
+                        i._sequence.sort();
+                        std::stringstream s;
+                        s << i._sequence;
+                        i._path.setNumber(s.str());
                     }
                 }
 
@@ -261,6 +212,20 @@ namespace djv
 
         } // namespace FileSystem
     } // namespace Core
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        Core::FileSystem,
+        FileType,
+        DJV_TEXT("file_type_file"),
+        DJV_TEXT("file_type_sequence"),
+        DJV_TEXT("file_type_directory"));
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        Core::FileSystem,
+        DirectoryListSort,
+        DJV_TEXT("directory_list_sort_name"),
+        DJV_TEXT("directory_list_sort_size"),
+        DJV_TEXT("directory_list_sort_time"));
 
     picojson::value toJSON(Core::FileSystem::FileType value)
     {
@@ -329,7 +294,13 @@ namespace djv
                     fromJSON(i.second, type);
                 }
             }
-            out = Core::FileSystem::FileInfo(path, type);
+            Core::Frame::Sequence sequence;
+            if (Core::FileSystem::FileType::Sequence == type)
+            {
+                std::stringstream ss(path.getNumber());
+                ss >> sequence;
+            }
+            out = Core::FileSystem::FileInfo(path, type, sequence);
         }
         else
         {
@@ -338,24 +309,10 @@ namespace djv
         }
     }
 
-    std::ostream & operator << (std::ostream & s, const Core::FileSystem::FileInfo & value)
+    std::ostream& operator << (std::ostream& s, const Core::FileSystem::FileInfo& value)
     {
         s << value.getPath();
         return s;
     }
-
-    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        Core::FileSystem,
-        FileType,
-        DJV_TEXT("file_type_file"),
-        DJV_TEXT("file_type_sequence"),
-        DJV_TEXT("file_type_directory"));
-
-    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        Core::FileSystem,
-        DirectoryListSort,
-        DJV_TEXT("directory_list_sort_name"),
-        DJV_TEXT("directory_list_sort_size"),
-        DJV_TEXT("directory_list_sort_time"));
 
 } // namespace djv

@@ -242,7 +242,6 @@ namespace djv
                 else if (1 == args.size())
                 {
                     _output = args.front();
-                    _output.evalSequence();
                     args.pop_front();
                 }
                 else

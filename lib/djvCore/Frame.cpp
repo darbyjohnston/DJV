@@ -155,5 +155,34 @@ namespace djv
         return s;
     }
 
+    picojson::value toJSON(const Core::Frame::Sequence& value)
+    {
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
+    }
+
+    void fromJSON(const picojson::value& value, Core::Frame::Sequence& out)
+    {
+        if (value.is<std::string>())
+        {
+            const auto& s = value.get<std::string>();
+            if (!s.empty())
+            {
+                std::stringstream ss(value.get<std::string>());
+                ss >> out;
+            }
+            else
+            {
+                out = Core::Frame::Sequence();
+            }
+        }
+        else
+        {
+            //! \todo How can we translate this?
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
+        }
+    }
+
 } // namespace djv
 

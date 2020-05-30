@@ -30,6 +30,17 @@ namespace djv
                 this->append(append);
             }
 
+            inline Path::Path(
+                const std::string& directoryName,
+                const std::string& baseName,
+                const std::string& number,
+                const std::string& extension) :
+                _directoryName(directoryName),
+                _baseName(baseName),
+                _number(number),
+                _extension(extension)
+            {}
+
             inline std::string Path::get() const
             {
                 return _directoryName + _baseName + _number + _extension;

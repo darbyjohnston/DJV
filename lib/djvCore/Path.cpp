@@ -236,16 +236,42 @@ namespace djv
 
     picojson::value toJSON(const Core::FileSystem::Path & value)
     {
-        return toJSON(value.get());
+        picojson::value out(picojson::object_type, true);
+        out.get<picojson::object>()["DirectoryName"] = toJSON(value.getDirectoryName());
+        out.get<picojson::object>()["BaseName"] = toJSON(value.getBaseName());
+        out.get<picojson::object>()["Number"] = toJSON(value.getNumber());
+        out.get<picojson::object>()["Extension"] = toJSON(value.getExtension());
+        return out;
     }
 
     void fromJSON(const picojson::value & value, Core::FileSystem::Path & out)
     {
-        if (value.is<std::string>())
+        if (value.is<picojson::object>())
         {
-            std::string s;
-            fromJSON(value, s);
-            out.set(s);
+            std::string directoryName;
+            std::string baseName;
+            std::string number;
+            std::string extension;
+            for (const auto& i : value.get<picojson::object>())
+            {
+                if ("DirectoryName" == i.first)
+                {
+                    fromJSON(i.second, directoryName);
+                }
+                else if ("BaseName" == i.first)
+                {
+                    fromJSON(i.second, baseName);
+                }
+                else if ("Number" == i.first)
+                {
+                    fromJSON(i.second, number);
+                }
+                else if ("Extension" == i.first)
+                {
+                    fromJSON(i.second, extension);
+                }
+            }
+            out = Core::FileSystem::Path(directoryName, baseName, number, extension);
         }
         else
         {

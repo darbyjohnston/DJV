@@ -270,11 +270,13 @@ namespace djv
                     {
                         std::string path = value.get();
                         Path::removeTrailingSeparator(path);
+
                         const size_t bufSize = path.size() + 1;
                         std::vector<char> buf(bufSize);
                         strcpy_s(buf.data(), bufSize, path.c_str());
                         NetResource netResource(16384);
                         netResource.p->lpRemoteName = buf.data();
+
                         std::vector<std::string> shares;
                         EnumerateFunc(netResource.p, shares);
                         for (const auto& i : shares)

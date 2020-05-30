@@ -74,7 +74,7 @@ namespace djv
                     // Get the sequence.
                     size_t sequenceSize = 0;
                     p.frame = Frame::invalid;
-                    if (_fileInfo.isSequenceValid())
+                    if (FileSystem::FileType::Sequence == _fileInfo.getType())
                     {
                         _sequence = _fileInfo.getSequence();
                         sequenceSize = _sequence.getSize();
@@ -523,7 +523,7 @@ namespace djv
                 }
 
                 p.fileInfo = fileInfo;
-                if (p.fileInfo.isSequenceValid())
+                if (FileSystem::FileType::Sequence == p.fileInfo.getType())
                 {
                     auto sequence = p.fileInfo.getSequence();
                     if (sequence.ranges.size())
