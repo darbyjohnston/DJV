@@ -84,7 +84,7 @@ namespace djv
             void _paintEvent(Core::Event::Paint &) override;
 
         private:
-            std::vector<glm::vec3> _getImagePoints() const;
+            std::vector<glm::vec3> _getImagePoints(bool posAndZoom = false) const;
             static glm::vec2 _getCenter(const std::vector<glm::vec3>&);
             static Core::BBox2f _getBBox(const std::vector<glm::vec3>&);
 

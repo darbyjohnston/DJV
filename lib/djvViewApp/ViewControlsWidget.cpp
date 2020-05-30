@@ -13,6 +13,7 @@
 #include <djvUIComponents/ColorPicker.h>
 
 #include <djvUI/Bellows.h>
+#include <djvUI/CheckBox.h>
 #include <djvUI/ComboBox.h>
 #include <djvUI/FloatEdit.h>
 #include <djvUI/FloatSlider.h>
@@ -65,6 +66,9 @@ namespace djv
             std::shared_ptr<UI::FloatSlider> checkersSizeSlider;
             std::shared_ptr<UI::ColorPickerSwatch> checkersColorPickerSwatches[2];
             std::shared_ptr<UI::HorizontalLayout> checkersColorsLayout;
+            std::shared_ptr<UI::CheckBox> borderCheckBox;
+            std::shared_ptr<UI::FloatSlider> borderWidthSlider;
+            std::shared_ptr<UI::ColorPickerSwatch> borderColorPickerSwatch;
 
             std::shared_ptr<UI::LabelSizeGroup> sizeGroup;
             std::map<std::string, std::shared_ptr<UI::FormLayout> > formLayouts;
@@ -145,6 +149,10 @@ namespace djv
             p.checkersColorPickerSwatches[1] = UI::ColorPickerSwatch::create(context);
             p.checkersColorPickerSwatches[1]->setHAlign(UI::HAlign::Fill);
             p.checkersColorPickerSwatches[1]->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
+            p.borderCheckBox = UI::CheckBox::create(context);
+            p.borderWidthSlider = UI::FloatSlider::create(context);
+            p.borderColorPickerSwatch = UI::ColorPickerSwatch::create(context);
+            p.borderColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
 
             p.sizeGroup = UI::LabelSizeGroup::create();
 
@@ -191,6 +199,9 @@ namespace djv
             p.checkersColorsLayout->addChild(p.checkersColorPickerSwatches[1]);
             p.checkersColorsLayout->setStretch(p.checkersColorPickerSwatches[1], UI::RowStretch::Expand);
             p.formLayouts["Background"]->addChild(p.checkersColorsLayout);
+            p.formLayouts["Background"]->addChild(p.borderCheckBox);
+            p.formLayouts["Background"]->addChild(p.borderWidthSlider);
+            p.formLayouts["Background"]->addChild(p.borderColorPickerSwatch);
             p.bellows["Background"] = UI::Bellows::create(context);
             p.bellows["Background"]->addChild(p.formLayouts["Background"]);
             
@@ -526,6 +537,63 @@ namespace djv
                     }
                 }
             });
+            p.borderCheckBox->setCheckedCallback(
+                [weak, contextWeak](bool value)
+            {
+                if (auto context = contextWeak.lock())
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->backgroundOptions.border = value;
+                        widget->_widgetUpdate();
+                        if (widget->_p->activeWidget)
+                        {
+                            widget->_p->activeWidget->getImageView()->setBackgroundOptions(widget->_p->backgroundOptions);
+                        }
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                        viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
+                    }
+                }
+            });
+            p.borderWidthSlider->setValueCallback(
+                [weak, contextWeak](float value)
+            {
+                if (auto context = contextWeak.lock())
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->backgroundOptions.borderWidth = value;
+                        widget->_widgetUpdate();
+                        if (widget->_p->activeWidget)
+                        {
+                            widget->_p->activeWidget->getImageView()->setBackgroundOptions(widget->_p->backgroundOptions);
+                        }
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                        viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
+                    }
+                }
+            });
+            p.borderColorPickerSwatch->setColorCallback(
+                [weak, contextWeak](const AV::Image::Color& value)
+            {
+                if (auto context = contextWeak.lock())
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->backgroundOptions.borderColor = value;
+                        widget->_widgetUpdate();
+                        if (widget->_p->activeWidget)
+                        {
+                            widget->_p->activeWidget->getImageView()->setBackgroundOptions(widget->_p->backgroundOptions);
+                        }
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                        viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
+                    }
+                }
+            });
 
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
@@ -675,6 +743,9 @@ namespace djv
             p.formLayouts["Background"]->setText(p.backgroundColorPickerSwatch, _getText(DJV_TEXT("widget_view_background_color")) + ":");
             p.formLayouts["Background"]->setText(p.checkersSizeSlider, _getText(DJV_TEXT("widget_view_background_checkers_size")) + ":");
             p.formLayouts["Background"]->setText(p.checkersColorsLayout, _getText(DJV_TEXT("widget_view_background_checkers_colors")) + ":");
+            p.formLayouts["Background"]->setText(p.borderCheckBox, _getText(DJV_TEXT("widget_view_border")) + ":");
+            p.formLayouts["Background"]->setText(p.borderWidthSlider, _getText(DJV_TEXT("widget_view_border_width")) + ":");
+            p.formLayouts["Background"]->setText(p.borderColorPickerSwatch, _getText(DJV_TEXT("widget_view_border_color")) + ":");
 
             p.bellows["View"]->setText(_getText(DJV_TEXT("view")));
             p.bellows["Grid"]->setText(_getText(DJV_TEXT("view_grid")));
@@ -768,6 +839,10 @@ namespace djv
             p.checkersSizeSlider->setValue(p.backgroundOptions.checkersSize);
             p.checkersColorPickerSwatches[0]->setColor(p.backgroundOptions.checkersColors[0]);
             p.checkersColorPickerSwatches[1]->setColor(p.backgroundOptions.checkersColors[1]);
+            p.borderCheckBox->setChecked(p.backgroundOptions.border);
+            p.borderWidthSlider->setValue(p.backgroundOptions.borderWidth);
+            p.borderWidthSlider->setRange(FloatRange(1.F, 20.F));
+            p.borderColorPickerSwatch->setColor(p.backgroundOptions.borderColor);
         }
 
     } // namespace ViewApp

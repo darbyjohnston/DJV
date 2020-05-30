@@ -60,11 +60,10 @@ namespace djv
             ViewBackground      background          = ViewBackground::First;
             AV::Image::Color    color               = AV::Image::Color(0.F, 0.F, 0.F);
             float               checkersSize        = 20.F;
-            AV::Image::Color    checkersColors[2]   =
-            {
-                AV::Image::Color(.6F, .6F, .6F),
-                AV::Image::Color(.4F, .4F, .4F)
-            };
+            AV::Image::Color    checkersColors[2]   = { AV::Image::Color(.6F), AV::Image::Color(.4F) };
+            bool                border              = false;
+            float               borderWidth         = 2.F;
+            AV::Image::Color    borderColor         = AV::Image::Color(.8F);
 
             bool operator == (const ViewBackgroundOptions&) const;
         };

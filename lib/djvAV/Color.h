@@ -20,8 +20,10 @@ namespace djv
             public:
                 Color();
                 explicit Color(Type);
+                explicit Color(int v);
                 Color(int r, int g, int b, int a = U8Range.max);
                 Color(F32_T r, F32_T g, F32_T b, F32_T a = F32Range.max);
+                explicit Color(F32_T v);
 
                 Type getType() const;
                 bool isValid() const;

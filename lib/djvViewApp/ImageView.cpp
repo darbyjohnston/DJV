@@ -416,6 +416,7 @@ namespace djv
             const auto& style = _getStyle();
             const BBox2f & g = getMargin().bbox(getGeometry(), style);
 
+            // Draw the background.
             const auto& backgroundOptions = p.backgroundOptions->get();
             const auto& render = _getRender();
             switch (backgroundOptions.background)
@@ -434,9 +435,21 @@ namespace djv
                 break;
             default: break;
             }
-
+            auto image = p.image->get();
             const float zoom = p.imageZoom->get();
-            if (auto image = p.image->get())
+            if (backgroundOptions.border && image)
+            {
+                const auto points = _getImagePoints(true);
+                const BBox2f bbox = _getBBox(points);
+                render->setFillColor(backgroundOptions.borderColor);
+                UI::drawBorder(
+                    render,
+                    bbox.margin(backgroundOptions.borderWidth),
+                    backgroundOptions.borderWidth);
+            }
+
+            // Draw the image.
+            if (image)
             {
                 glm::mat3x3 m(1.F);
                 m = glm::translate(m, g.min + p.imagePos->get());
@@ -463,6 +476,7 @@ namespace djv
                 render->popTransform();
             }
 
+            // Draw the annotations.
             if (p.annotations.size())
             {
                 const glm::vec2& pos = p.imagePos->get();
@@ -478,7 +492,7 @@ namespace djv
             }
         }
 
-        std::vector<glm::vec3> ImageView::_getImagePoints() const
+        std::vector<glm::vec3> ImageView::_getImagePoints(bool posAndZoom) const
         {
             DJV_PRIVATE_PTR();
             std::vector<glm::vec3> out;
@@ -499,7 +513,18 @@ namespace djv
                 out[3].y = 0.F + size.h;
                 out[3].z = 1.F;
                 glm::mat3x3 m(1.F);
-                m *= UI::ImageWidget::getXForm(image, p.imageRotate->get(), glm::vec2(1.F, 1.F), p.imageAspectRatio->get());
+                if (posAndZoom)
+                {
+                    const auto& style = _getStyle();
+                    const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                    m = glm::translate(m, g.min + p.imagePos->get());
+                }
+                const float zoom = p.imageZoom->get();
+                m *= UI::ImageWidget::getXForm(
+                    image,
+                    p.imageRotate->get(),
+                    posAndZoom ? glm::vec2(zoom, zoom) : glm::vec2(1.F, 1.F),
+                    p.imageAspectRatio->get());
                 for (auto& i : out)
                 {
                     i = m * i;

@@ -47,7 +47,10 @@ namespace djv
                 color == other.color &&
                 checkersSize == other.checkersSize &&
                 checkersColors[0] == other.checkersColors[0] &&
-                checkersColors[1] == other.checkersColors[1];
+                checkersColors[1] == other.checkersColors[1] &&
+                border == other.border &&
+                borderWidth == other.borderWidth &&
+                borderColor == other.borderColor;
         }
 
     } // namespace ViewApp
@@ -80,6 +83,9 @@ namespace djv
         out.get<picojson::object>()["CheckersSize"] = toJSON(value.checkersSize);
         out.get<picojson::object>()["CheckersColors0"] = toJSON(value.checkersColors[0]);
         out.get<picojson::object>()["CheckersColors1"] = toJSON(value.checkersColors[1]);
+        out.get<picojson::object>()["Border"] = toJSON(value.border);
+        out.get<picojson::object>()["BorderWidth"] = toJSON(value.borderWidth);
+        out.get<picojson::object>()["BorderColor"] = toJSON(value.borderColor);
         return out;
     }
 
@@ -170,6 +176,18 @@ namespace djv
                 else if ("CheckersColors1" == i.first)
                 {
                     fromJSON(i.second, out.checkersColors[1]);
+                }
+                else if ("Border" == i.first)
+                {
+                    fromJSON(i.second, out.border);
+                }
+                else if ("BorderWidth" == i.first)
+                {
+                    fromJSON(i.second, out.borderWidth);
+                }
+                else if ("BorderColor" == i.first)
+                {
+                    fromJSON(i.second, out.borderColor);
                 }
             }
         }
