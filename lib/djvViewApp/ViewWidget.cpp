@@ -2,11 +2,11 @@
 // Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 
-#include <djvViewApp/ImageView.h>
+#include <djvViewApp/ViewWidget.h>
 
 #include <djvViewApp/Annotate.h>
 #include <djvViewApp/ImageSettings.h>
-#include <djvViewApp/ImageViewPrivate.h>
+#include <djvViewApp/ViewWidgetPrivate.h>
 #include <djvViewApp/ViewSettings.h>
 
 #include <djvUI/Action.h>
@@ -39,7 +39,7 @@ namespace djv
             
         } // namespace
 
-        struct ImageView::Private
+        struct ViewWidget::Private
         {
             std::shared_ptr<ValueSubject<std::shared_ptr<AV::Image::Image> > > image;
             std::shared_ptr<ValueSubject<AV::Render2D::ImageOptions> > imageOptions;
@@ -56,18 +56,18 @@ namespace djv
             std::vector<std::shared_ptr<AnnotatePrimitive> > annotations;
             glm::vec2 pressedImagePos = glm::vec2(0.F, 0.F);
             bool viewInit = true;
-            std::shared_ptr<ImageViewGridOverlay> gridOverlay;
+            std::shared_ptr<GridOverlay> gridOverlay;
             std::shared_ptr<ValueObserver<ViewLock> > lockObserver;
             std::shared_ptr<ValueObserver<AV::OCIO::Config> > ocioConfigObserver;
             std::shared_ptr<Animation::Animation> zoomAnimation;
         };
 
-        void ImageView::_init(const std::shared_ptr<Context>& context)
+        void ViewWidget::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
 
-            setClassName("djv::ViewApp::ImageView");
+            setClassName("djv::ViewApp::ViewWidget");
 
             auto avSystem = context->getSystemT<AV::AVSystem>();
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
@@ -87,7 +87,7 @@ namespace djv
             p.gridOptions = ValueSubject<GridOptions>::create(viewSettings->observeGridOptions()->get());
             p.backgroundOptions = ValueSubject<ViewBackgroundOptions>::create(viewSettings->observeBackgroundOptions()->get());
 
-            p.gridOverlay = ImageViewGridOverlay::create(context);
+            p.gridOverlay = GridOverlay::create(context);
             p.gridOverlay->setOptions(p.gridOptions->get());
             p.gridOverlay->setImagePosAndZoom(p.imagePos->get(), p.imageZoom->get());
             p.gridOverlay->setImageRotate(p.imageRotate->get());
@@ -96,7 +96,7 @@ namespace djv
             p.gridOverlay->setImageFrame(p.lockFrame);
             addChild(p.gridOverlay);
 
-            auto weak = std::weak_ptr<ImageView>(std::dynamic_pointer_cast<ImageView>(shared_from_this()));
+            auto weak = std::weak_ptr<ViewWidget>(std::dynamic_pointer_cast<ViewWidget>(shared_from_this()));
             p.lockObserver = ValueObserver<ViewLock>::create(
                 viewSettings->observeLock(),
                 [weak](ViewLock value)
@@ -133,26 +133,26 @@ namespace djv
             p.zoomAnimation->setType(Animation::Type::SmoothStep);
         }
 
-        ImageView::ImageView() :
+        ViewWidget::ViewWidget() :
             _p(new Private)
         {}
 
-        ImageView::~ImageView()
+        ViewWidget::~ViewWidget()
         {}
 
-        std::shared_ptr<ImageView> ImageView::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ViewWidget> ViewWidget::create(const std::shared_ptr<Context>& context)
         {
-            auto out = std::shared_ptr<ImageView>(new ImageView);
+            auto out = std::shared_ptr<ViewWidget>(new ViewWidget);
             out->_init(context);
             return out;
         }
 
-        std::shared_ptr<IValueSubject<std::shared_ptr<AV::Image::Image> > > ImageView::observeImage() const
+        std::shared_ptr<IValueSubject<std::shared_ptr<AV::Image::Image> > > ViewWidget::observeImage() const
         {
             return _p->image;
         }
 
-        void ImageView::setImage(const std::shared_ptr<AV::Image::Image>& value)
+        void ViewWidget::setImage(const std::shared_ptr<AV::Image::Image>& value)
         {
             DJV_PRIVATE_PTR();
             if (p.image->setIfChanged(value))
@@ -168,12 +168,12 @@ namespace djv
             }
         }
 
-        std::shared_ptr<IValueSubject<AV::Render2D::ImageOptions> > ImageView::observeImageOptions() const
+        std::shared_ptr<IValueSubject<AV::Render2D::ImageOptions> > ViewWidget::observeImageOptions() const
         {
             return _p->imageOptions;
         }
 
-        void ImageView::setImageOptions(const AV::Render2D::ImageOptions& value)
+        void ViewWidget::setImageOptions(const AV::Render2D::ImageOptions& value)
         {
             DJV_PRIVATE_PTR();
             if (p.imageOptions->setIfChanged(value))
@@ -185,44 +185,44 @@ namespace djv
             }
         }
 
-        std::shared_ptr<IValueSubject<glm::vec2> > ImageView::observeImagePos() const
+        std::shared_ptr<IValueSubject<glm::vec2> > ViewWidget::observeImagePos() const
         {
             return _p->imagePos;
         }
 
-        std::shared_ptr<IValueSubject<float> > ImageView::observeImageZoom() const
+        std::shared_ptr<IValueSubject<float> > ViewWidget::observeImageZoom() const
         {
             return _p->imageZoom;
         }
 
-        std::shared_ptr<IValueSubject<UI::ImageRotate> > ImageView::observeImageRotate() const
+        std::shared_ptr<IValueSubject<UI::ImageRotate> > ViewWidget::observeImageRotate() const
         {
             return _p->imageRotate;
         }
 
-        std::shared_ptr<IValueSubject<UI::ImageAspectRatio> > ImageView::observeImageAspectRatio() const
+        std::shared_ptr<IValueSubject<UI::ImageAspectRatio> > ViewWidget::observeImageAspectRatio() const
         {
             return _p->imageAspectRatio;
         }
 
-        BBox2f ImageView::getImageBBox() const
+        BBox2f ViewWidget::getImageBBox() const
         {
             return _getBBox(_getImagePoints());
         }
 
-        void ImageView::setImagePos(const glm::vec2& value, bool animate)
+        void ViewWidget::setImagePos(const glm::vec2& value, bool animate)
         {
             DJV_PRIVATE_PTR();
             setImagePosAndZoom(value, p.imageZoom->get(), animate);
         }
 
-        void ImageView::setImageZoom(float value, bool animate)
+        void ViewWidget::setImageZoom(float value, bool animate)
         {
             DJV_PRIVATE_PTR();
             setImagePosAndZoom(p.imagePos->get(), value, animate);
         }
 
-        void ImageView::setImageZoomFocus(float value, const glm::vec2& mouse, bool animate)
+        void ViewWidget::setImageZoomFocus(float value, const glm::vec2& mouse, bool animate)
         {
             DJV_PRIVATE_PTR();
             setImagePosAndZoom(
@@ -231,14 +231,14 @@ namespace djv
                 animate);
         }
 
-        void ImageView::setImageZoomFocus(float value, bool animate)
+        void ViewWidget::setImageZoomFocus(float value, bool animate)
         {
             const BBox2f& g = getGeometry();
             const glm::vec2& c = g.getCenter();
             setImageZoomFocus(value, c, animate);
         }
 
-        void ImageView::setImagePosAndZoom(const glm::vec2& pos, float zoom, bool animate)
+        void ViewWidget::setImagePosAndZoom(const glm::vec2& pos, float zoom, bool animate)
         {
             if (animate)
             {
@@ -250,7 +250,7 @@ namespace djv
             }
         }
 
-        void ImageView::setImageRotate(UI::ImageRotate value)
+        void ViewWidget::setImageRotate(UI::ImageRotate value)
         {
             DJV_PRIVATE_PTR();
             if (p.imageRotate->setIfChanged(value))
@@ -262,7 +262,7 @@ namespace djv
             }
         }
 
-        void ImageView::setImageAspectRatio(UI::ImageAspectRatio value)
+        void ViewWidget::setImageAspectRatio(UI::ImageAspectRatio value)
         {
             DJV_PRIVATE_PTR();
             if (p.imageAspectRatio->setIfChanged(value))
@@ -277,7 +277,7 @@ namespace djv
             }
         }
 
-        void ImageView::imageFill(bool animate)
+        void ViewWidget::imageFill(bool animate)
         {
             DJV_PRIVATE_PTR();
             if (p.image->get())
@@ -300,12 +300,12 @@ namespace djv
             }
         }
 
-        void ImageView::setImageFrame(const BBox2f& value)
+        void ViewWidget::setImageFrame(const BBox2f& value)
         {
             _p->lockFrame = value;
         }
 
-        void ImageView::imageFrame(bool animate)
+        void ViewWidget::imageFrame(bool animate)
         {
             DJV_PRIVATE_PTR();
             if (p.image->get())
@@ -328,7 +328,7 @@ namespace djv
             }
         }
 
-        void ImageView::imageCenter(bool animate)
+        void ViewWidget::imageCenter(bool animate)
         {
             DJV_PRIVATE_PTR();
             if (p.image->get())
@@ -344,12 +344,12 @@ namespace djv
             }
         }
 
-        std::shared_ptr<IValueSubject<GridOptions> > ImageView::observeGridOptions() const
+        std::shared_ptr<IValueSubject<GridOptions> > ViewWidget::observeGridOptions() const
         {
             return _p->gridOptions;
         }
 
-        void ImageView::setGridOptions(const GridOptions& value)
+        void ViewWidget::setGridOptions(const GridOptions& value)
         {
             DJV_PRIVATE_PTR();
             if (p.gridOptions->setIfChanged(value))
@@ -358,12 +358,12 @@ namespace djv
             }
         }
 
-        std::shared_ptr<IValueSubject<ViewBackgroundOptions> > ImageView::observeBackgroundOptions() const
+        std::shared_ptr<IValueSubject<ViewBackgroundOptions> > ViewWidget::observeBackgroundOptions() const
         {
             return _p->backgroundOptions;
         }
 
-        void ImageView::setBackgroundOptions(const ViewBackgroundOptions& value)
+        void ViewWidget::setBackgroundOptions(const ViewBackgroundOptions& value)
         {
             DJV_PRIVATE_PTR();
             if (p.backgroundOptions->setIfChanged(value))
@@ -372,20 +372,20 @@ namespace djv
             }
         }
         
-        void ImageView::setAnnotations(const std::vector<std::shared_ptr<AnnotatePrimitive> >& value)
+        void ViewWidget::setAnnotations(const std::vector<std::shared_ptr<AnnotatePrimitive> >& value)
         {
             _p->annotations = value;
             _redraw();
         }
 
-        void ImageView::_preLayoutEvent(Event::PreLayout & event)
+        void ViewWidget::_preLayoutEvent(Event::PreLayout & event)
         {
             const auto& style = _getStyle();
             const float sa = style->getMetric(UI::MetricsRole::ScrollArea);
             _setMinimumSize(glm::vec2(sa, sa));
         }
 
-        void ImageView::_layoutEvent(Event::Layout &)
+        void ViewWidget::_layoutEvent(Event::Layout &)
         {
             DJV_PRIVATE_PTR();
             switch (p.lock)
@@ -409,7 +409,7 @@ namespace djv
             p.gridOverlay->setImageFrame(p.lockFrame);
         }
 
-        void ImageView::_paintEvent(Event::Paint &)
+        void ViewWidget::_paintEvent(Event::Paint &)
         {
             DJV_PRIVATE_PTR();
 
@@ -492,7 +492,7 @@ namespace djv
             }
         }
 
-        std::vector<glm::vec3> ImageView::_getImagePoints(bool posAndZoom) const
+        std::vector<glm::vec3> ViewWidget::_getImagePoints(bool posAndZoom) const
         {
             DJV_PRIVATE_PTR();
             std::vector<glm::vec3> out;
@@ -533,7 +533,7 @@ namespace djv
             return out;
         }
 
-        glm::vec2 ImageView::_getCenter(const std::vector<glm::vec3>& value)
+        glm::vec2 ViewWidget::_getCenter(const std::vector<glm::vec3>& value)
         {
             glm::vec2 out(0.F, 0.F);
             if (value.size())
@@ -549,7 +549,7 @@ namespace djv
             return out;
         }
         
-        BBox2f ImageView::_getBBox(const std::vector<glm::vec3>& value)
+        BBox2f ViewWidget::_getBBox(const std::vector<glm::vec3>& value)
         {
             BBox2f out(0.F, 0.F, 0.F, 0.F);
             if (value.size())
@@ -566,12 +566,12 @@ namespace djv
             return out;
         }
 
-        void ImageView::_animatePosAndZoom(const glm::vec2& pos, float zoom)
+        void ViewWidget::_animatePosAndZoom(const glm::vec2& pos, float zoom)
         {
             DJV_PRIVATE_PTR();
             const glm::vec2 posPrev = p.imagePos->get();
             const float zoomPrev = p.imageZoom->get();
-            auto weak = std::weak_ptr<ImageView>(std::dynamic_pointer_cast<ImageView>(shared_from_this()));
+            auto weak = std::weak_ptr<ViewWidget>(std::dynamic_pointer_cast<ViewWidget>(shared_from_this()));
             p.zoomAnimation->start(
                 0.F,
                 1.F,
@@ -596,7 +596,7 @@ namespace djv
                 });
         }
 
-        void ImageView::_setPosAndZoom(const glm::vec2& pos, float zoom)
+        void ViewWidget::_setPosAndZoom(const glm::vec2& pos, float zoom)
         {
             DJV_PRIVATE_PTR();
             if (p.imagePos->setIfChanged(pos))

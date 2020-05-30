@@ -2,7 +2,7 @@
 // Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 
-#include <djvViewApp/ImageViewPrivate.h>
+#include <djvViewApp/ViewWidgetPrivate.h>
 
 #include <djvUI/DrawUtil.h>
 #include <djvUI/ImageWidget.h>
@@ -18,7 +18,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        void ImageViewGridOverlay::_init(const std::shared_ptr<Context>& context)
+        void GridOverlay::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
             for (size_t i = 0; i < 26; ++i)
@@ -28,24 +28,24 @@ namespace djv
             _fontSystem = context->getSystemT<AV::Font::System>();
         }
 
-        ImageViewGridOverlay::ImageViewGridOverlay()
+        GridOverlay::GridOverlay()
         {}
 
-        std::shared_ptr<ImageViewGridOverlay> ImageViewGridOverlay::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<GridOverlay> GridOverlay::create(const std::shared_ptr<Context>& context)
         {
-            auto out = std::shared_ptr<ImageViewGridOverlay>(new ImageViewGridOverlay);
+            auto out = std::shared_ptr<GridOverlay>(new GridOverlay);
             out->_init(context);
             return out;
         }
 
-        void ImageViewGridOverlay::setOptions(const GridOptions& value)
+        void GridOverlay::setOptions(const GridOptions& value)
         {
             _options = value;
             _textUpdate();
             _redraw();
         }
 
-        void ImageViewGridOverlay::setImagePosAndZoom(const glm::vec2& pos, float zoom)
+        void GridOverlay::setImagePosAndZoom(const glm::vec2& pos, float zoom)
         {
             if (pos == _imagePos && zoom == _imageZoom)
                 return;
@@ -55,7 +55,7 @@ namespace djv
             _redraw();
         }
 
-        void ImageViewGridOverlay::setImageRotate(UI::ImageRotate value)
+        void GridOverlay::setImageRotate(UI::ImageRotate value)
         {
             if (value == _imageRotate)
                 return;
@@ -64,7 +64,7 @@ namespace djv
             _redraw();
         }
 
-        void ImageViewGridOverlay::setImageAspectRatio(
+        void GridOverlay::setImageAspectRatio(
             UI::ImageAspectRatio imageAspectRatio,
             float aspectRatio,
             float pixelAspectRatio)
@@ -80,7 +80,7 @@ namespace djv
             _redraw();
         }
 
-        void ImageViewGridOverlay::setImageBBox(const BBox2f& value)
+        void GridOverlay::setImageBBox(const BBox2f& value)
         {
             if (value == _imageBBox)
                 return;
@@ -89,7 +89,7 @@ namespace djv
             _redraw();
         }
 
-        void ImageViewGridOverlay::setImageFrame(const BBox2f& value)
+        void GridOverlay::setImageFrame(const BBox2f& value)
         {
             if (value == _imageFrame)
                 return;
@@ -98,7 +98,7 @@ namespace djv
             _redraw();
         }
 
-        void ImageViewGridOverlay::_layoutEvent(Event::Layout&)
+        void GridOverlay::_layoutEvent(Event::Layout&)
         {
             const auto& style = _getStyle();
             const BBox2f& g = getMargin().bbox(getGeometry(), style);
@@ -111,7 +111,7 @@ namespace djv
             }
         }
 
-        void ImageViewGridOverlay::_paintEvent(Event::Paint&)
+        void GridOverlay::_paintEvent(Event::Paint&)
         {
             const float gridCellSizeZoom = _options.size * _imageZoom;
             if (_options.enabled && gridCellSizeZoom > 2.f)
@@ -163,14 +163,14 @@ namespace djv
                     {
                         switch (i.first.first)
                         {
-                        case ImageViewGrid::Column:
+                        case Grid::Column:
                             render->drawRect(BBox2f(
                                 floorf(g.min.x + (i.first.second * _options.size + _options.size / 2.F) * _imageZoom + _imagePos.x - i.second.size.x / 2.F),
                                 floorf(std::max(_imageFrame.min.y, g.min.y + viewport.min.y)),
                                 ceilf(i.second.size.x + b * 2.F),
                                 ceilf(i.second.size.y + b * 2.F)));
                             break;
-                        case ImageViewGrid::Row:
+                        case Grid::Row:
                             render->drawRect(BBox2f(
                                 floorf(std::max(_imageFrame.min.x, g.min.x + viewport.min.x)),
                                 floorf(g.min.y + (i.first.second * _options.size + _options.size / 2.F) * _imageZoom + _imagePos.y - i.second.size.y / 2.F),
@@ -186,14 +186,14 @@ namespace djv
                     {
                         switch (i.first.first)
                         {
-                        case ImageViewGrid::Column:
+                        case Grid::Column:
                             render->drawText(
                                 i.second.glyphs,
                                 glm::vec2(
                                     floorf(g.min.x + b + (i.first.second * _options.size + _options.size / 2.F) * _imageZoom + _imagePos.x - i.second.size.x / 2.F),
                                     floorf(std::max(_imageFrame.min.y, g.min.y + viewport.min.y) + b + _fontMetrics.ascender - 1.F)));
                             break;
-                        case ImageViewGrid::Row:
+                        case Grid::Row:
                             render->drawText(
                                 i.second.glyphs,
                                 glm::vec2(
@@ -207,7 +207,7 @@ namespace djv
             }
         }
 
-        BBox2f ImageViewGridOverlay::_getViewportWorld() const
+        BBox2f GridOverlay::_getViewportWorld() const
         {
             const auto& style = _getStyle();
             const BBox2f& g = getMargin().bbox(getGeometry(), style);
@@ -218,7 +218,7 @@ namespace djv
                 (g.h() - 1.F) / _imageZoom).intersect(_imageBBox);
         }
 
-        BBox2f ImageViewGridOverlay::_getViewport() const
+        BBox2f GridOverlay::_getViewport() const
         {
             const BBox2f viewportWorld = _getViewportWorld();
             return BBox2f(
@@ -228,7 +228,7 @@ namespace djv
                 viewportWorld.h() * _imageZoom);
         }
 
-        void ImageViewGridOverlay::_initEvent(Event::Init& event)
+        void GridOverlay::_initEvent(Event::Init& event)
         {
             Widget::_initEvent(event);
             const auto& style = _getStyle();
@@ -236,7 +236,7 @@ namespace djv
             _fontMetricsFuture = _fontSystem->getMetrics(fontInfo);
         }
 
-        void ImageViewGridOverlay::_updateEvent(Event::Update& event)
+        void GridOverlay::_updateEvent(Event::Update& event)
         {
             Widget::_updateEvent(event);
             if (_fontMetricsFuture.valid() &&
@@ -301,7 +301,7 @@ namespace djv
             }
         }
 
-        std::string ImageViewGridOverlay::_getLabel(const ImageViewGridPos& value) const
+        std::string GridOverlay::_getLabel(const GridPos& value) const
         {
             std::string out;
             switch (_options.labels)
@@ -318,7 +318,7 @@ namespace djv
                 std::stringstream ss;
                 switch (value.first)
                 {
-                case ImageViewGrid::Column:
+                case Grid::Column:
                 {
                     std::string tmp;
                     bool negative = false;
@@ -341,7 +341,7 @@ namespace djv
                     ss << tmp;
                     break;
                 }
-                case ImageViewGrid::Row:
+                case Grid::Row:
                     ss << value.second;
                     break;
                 default: break;
@@ -354,7 +354,7 @@ namespace djv
             return out;
         }
 
-        void ImageViewGridOverlay::_textCreate(const ImageViewGridPos& pos)
+        void GridOverlay::_textCreate(const GridPos& pos)
         {
             auto& text = _text[pos];
             const std::string label = _getLabel(pos);
@@ -365,7 +365,7 @@ namespace djv
             _textGlyphsFutures[pos] = _fontSystem->getGlyphs(label, fontInfo);
         }
 
-        void ImageViewGridOverlay::_textUpdate()
+        void GridOverlay::_textUpdate()
         {
             _textSizeFutures.clear();
             _textGlyphsFutures.clear();
@@ -375,14 +375,14 @@ namespace djv
                 _options.size * _imageZoom > _fontMetrics.ascender * 2.F)
             {
                 const BBox2f viewportWorld = _getViewportWorld();
-                std::set<ImageViewGridPos> erase;
+                std::set<GridPos> erase;
                 for (const auto& i : _text)
                 {
                     erase.insert(i.first);
                 }
                 for (int x = viewportWorld.min.x / _options.size; x <= viewportWorld.max.x / _options.size; ++x)
                 {
-                    const auto pos = std::make_pair(ImageViewGrid::Column, x);
+                    const auto pos = std::make_pair(Grid::Column, x);
                     _textCreate(pos);
                     const auto i = erase.find(pos);
                     if (i != erase.end())
@@ -392,7 +392,7 @@ namespace djv
                 }
                 for (int y = viewportWorld.min.y / _options.size; y <= viewportWorld.max.y / _options.size; ++y)
                 {
-                    const auto pos = std::make_pair(ImageViewGrid::Row, y);
+                    const auto pos = std::make_pair(Grid::Row, y);
                     _textCreate(pos);
                     const auto i = erase.find(pos);
                     if (i != erase.end())

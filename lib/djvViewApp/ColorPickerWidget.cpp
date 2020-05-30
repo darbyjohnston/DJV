@@ -4,9 +4,9 @@
 
 #include <djvViewApp/ColorPickerWidget.h>
 
-#include <djvViewApp/ImageView.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidget.h>
+#include <djvViewApp/ViewWidget.h>
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUIComponents/ColorPicker.h>
@@ -279,7 +279,7 @@ namespace djv
                             if (widget->_p->activeWidget)
                             {
                                 widget->_p->imageObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
-                                    widget->_p->activeWidget->getImageView()->observeImage(),
+                                    widget->_p->activeWidget->getViewWidget()->observeImage(),
                                     [weak](const std::shared_ptr<AV::Image::Image>& value)
                                     {
                                         if (auto widget = weak.lock())
@@ -291,7 +291,7 @@ namespace djv
                                     });
 
                                 widget->_p->imageOptionsObserver = ValueObserver<AV::Render2D::ImageOptions>::create(
-                                    widget->_p->activeWidget->getImageView()->observeImageOptions(),
+                                    widget->_p->activeWidget->getViewWidget()->observeImageOptions(),
                                     [weak](const AV::Render2D::ImageOptions& value)
                                     {
                                         if (auto widget = weak.lock())
@@ -303,7 +303,7 @@ namespace djv
                                     });
 
                                 widget->_p->imagePosObserver = ValueObserver<glm::vec2>::create(
-                                    widget->_p->activeWidget->getImageView()->observeImagePos(),
+                                    widget->_p->activeWidget->getViewWidget()->observeImagePos(),
                                     [weak](const glm::vec2& value)
                                     {
                                         if (auto widget = weak.lock())
@@ -315,7 +315,7 @@ namespace djv
                                     });
 
                                 widget->_p->imageZoomObserver = ValueObserver<float>::create(
-                                    widget->_p->activeWidget->getImageView()->observeImageZoom(),
+                                    widget->_p->activeWidget->getViewWidget()->observeImageZoom(),
                                     [weak](float value)
                                     {
                                         if (auto widget = weak.lock())
@@ -327,7 +327,7 @@ namespace djv
                                     });
 
                                 widget->_p->imageRotateObserver = ValueObserver<UI::ImageRotate>::create(
-                                    widget->_p->activeWidget->getImageView()->observeImageRotate(),
+                                    widget->_p->activeWidget->getViewWidget()->observeImageRotate(),
                                     [weak](UI::ImageRotate value)
                                     {
                                         if (auto widget = weak.lock())
@@ -339,7 +339,7 @@ namespace djv
                                     });
 
                                 widget->_p->imageAspectRatioObserver = ValueObserver<UI::ImageAspectRatio>::create(
-                                    widget->_p->activeWidget->getImageView()->observeImageAspectRatio(),
+                                    widget->_p->activeWidget->getViewWidget()->observeImageAspectRatio(),
                                     [weak](UI::ImageAspectRatio value)
                                     {
                                         if (auto widget = weak.lock())

@@ -6,8 +6,8 @@
 
 #include <djvViewApp/ImageSettings.h>
 #include <djvViewApp/ImageSystem.h>
-#include <djvViewApp/ImageView.h>
 #include <djvViewApp/MediaWidget.h>
+#include <djvViewApp/ViewWidget.h>
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUI/Bellows.h>
@@ -288,7 +288,7 @@ namespace djv
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
-                            widget->_p->activeWidget->getImageView()->setImageOptions(widget->_p->imageOptions);
+                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
                         }
                     }
                 });
@@ -305,7 +305,7 @@ namespace djv
                             widget->_widgetUpdate();
                             if (widget->_p->activeWidget)
                             {
-                                widget->_p->activeWidget->getImageView()->setImageOptions(widget->_p->imageOptions);
+                                widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
                             }
                             auto avSystem = context->getSystemT<AV::AVSystem>();
                             avSystem->setAlphaBlend(static_cast<AV::AlphaBlend>(value));
@@ -322,7 +322,7 @@ namespace djv
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
-                            widget->_p->activeWidget->getImageView()->setImageOptions(widget->_p->imageOptions);
+                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
                         }
                     }
                 });
@@ -335,7 +335,7 @@ namespace djv
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
-                            widget->_p->activeWidget->getImageView()->setImageOptions(widget->_p->imageOptions);
+                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
                         }
                     }
                 });
@@ -351,7 +351,7 @@ namespace djv
                             widget->_widgetUpdate();
                             if (widget->_p->activeWidget)
                             {
-                                widget->_p->activeWidget->getImageView()->setImageRotate(widget->_p->rotate);
+                                widget->_p->activeWidget->getViewWidget()->setImageRotate(widget->_p->rotate);
                             }
                             auto settingsSystem = context->getSystemT<UI::Settings::System>();
                             auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
@@ -371,7 +371,7 @@ namespace djv
                             widget->_widgetUpdate();
                             if (widget->_p->activeWidget)
                             {
-                                widget->_p->activeWidget->getImageView()->setImageAspectRatio(widget->_p->aspectRatio);
+                                widget->_p->activeWidget->getViewWidget()->setImageAspectRatio(widget->_p->aspectRatio);
                             }
                             auto settingsSystem = context->getSystemT<UI::Settings::System>();
                             auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
@@ -389,7 +389,7 @@ namespace djv
                     widget->_widgetUpdate();
                     if (widget->_p->activeWidget)
                     {
-                        widget->_p->activeWidget->getImageView()->setImageOptions(widget->_p->imageOptions);
+                        widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
                     }
                 }
             });
@@ -402,7 +402,7 @@ namespace djv
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
-                            widget->_p->activeWidget->getImageView()->setImageOptions(widget->_p->imageOptions);
+                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
                         }
                     }
                 });
@@ -415,7 +415,7 @@ namespace djv
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
-                            widget->_p->activeWidget->getImageView()->setImageOptions(widget->_p->imageOptions);
+                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
                         }
                     }
                 });
@@ -428,7 +428,7 @@ namespace djv
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
-                            widget->_p->activeWidget->getImageView()->setImageOptions(widget->_p->imageOptions);
+                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
                         }
                     }
                 });
@@ -441,7 +441,7 @@ namespace djv
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
-                            widget->_p->activeWidget->getImageView()->setImageOptions(widget->_p->imageOptions);
+                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
                         }
                     }
                 });
@@ -455,7 +455,7 @@ namespace djv
                     widget->_widgetUpdate();
                     if (widget->_p->activeWidget)
                     {
-                        widget->_p->activeWidget->getImageView()->setImageOptions(widget->_p->imageOptions);
+                        widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
                     }
                 }
             });
@@ -468,7 +468,7 @@ namespace djv
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
-                            widget->_p->activeWidget->getImageView()->setImageOptions(widget->_p->imageOptions);
+                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
                         }
                     }
                 });
@@ -481,7 +481,7 @@ namespace djv
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
-                            widget->_p->activeWidget->getImageView()->setImageOptions(widget->_p->imageOptions);
+                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
                         }
                     }
                 });
@@ -494,7 +494,7 @@ namespace djv
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
-                            widget->_p->activeWidget->getImageView()->setImageOptions(widget->_p->imageOptions);
+                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
                         }
                     }
                 });
@@ -507,7 +507,7 @@ namespace djv
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
-                            widget->_p->activeWidget->getImageView()->setImageOptions(widget->_p->imageOptions);
+                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
                         }
                     }
                 });
@@ -520,7 +520,7 @@ namespace djv
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
-                            widget->_p->activeWidget->getImageView()->setImageOptions(widget->_p->imageOptions);
+                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
                         }
                     }
                 });
@@ -534,7 +534,7 @@ namespace djv
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
-                            widget->_p->activeWidget->getImageView()->setImageOptions(widget->_p->imageOptions);
+                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
                         }
                     }
                 });
@@ -547,7 +547,7 @@ namespace djv
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
-                            widget->_p->activeWidget->getImageView()->setImageOptions(widget->_p->imageOptions);
+                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
                         }
                     }
                 });
@@ -560,7 +560,7 @@ namespace djv
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
-                            widget->_p->activeWidget->getImageView()->setImageOptions(widget->_p->imageOptions);
+                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
                         }
                     }
                 });
@@ -573,7 +573,7 @@ namespace djv
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
-                            widget->_p->activeWidget->getImageView()->setImageOptions(widget->_p->imageOptions);
+                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
                         }
                     }
                 });
@@ -586,7 +586,7 @@ namespace djv
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
-                            widget->_p->activeWidget->getImageView()->setImageOptions(widget->_p->imageOptions);
+                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
                         }
                     }
                 });
@@ -600,7 +600,7 @@ namespace djv
                     widget->_widgetUpdate();
                     if (widget->_p->activeWidget)
                     {
-                        widget->_p->activeWidget->getImageView()->setImageOptions(widget->_p->imageOptions);
+                        widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
                     }
                 }
             });
@@ -613,7 +613,7 @@ namespace djv
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
-                            widget->_p->activeWidget->getImageView()->setImageOptions(widget->_p->imageOptions);
+                            widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
                         }
                     }
                 });
@@ -660,7 +660,7 @@ namespace djv
                             if (widget->_p->activeWidget)
                             {
                                 widget->_p->imageOptionsObserver = ValueObserver<AV::Render2D::ImageOptions>::create(
-                                    widget->_p->activeWidget->getImageView()->observeImageOptions(),
+                                    widget->_p->activeWidget->getViewWidget()->observeImageOptions(),
                                     [weak](const AV::Render2D::ImageOptions& value)
                                     {
                                         if (auto widget = weak.lock())
@@ -670,7 +670,7 @@ namespace djv
                                         }
                                     });
                                 widget->_p->rotateObserver = ValueObserver<UI::ImageRotate>::create(
-                                    widget->_p->activeWidget->getImageView()->observeImageRotate(),
+                                    widget->_p->activeWidget->getViewWidget()->observeImageRotate(),
                                     [weak](UI::ImageRotate value)
                                     {
                                         if (auto widget = weak.lock())
@@ -680,7 +680,7 @@ namespace djv
                                         }
                                     });
                                 widget->_p->aspectRatioObserver = ValueObserver<UI::ImageAspectRatio>::create(
-                                    widget->_p->activeWidget->getImageView()->observeImageAspectRatio(),
+                                    widget->_p->activeWidget->getViewWidget()->observeImageAspectRatio(),
                                     [weak](UI::ImageAspectRatio value)
                                     {
                                         if (auto widget = weak.lock())

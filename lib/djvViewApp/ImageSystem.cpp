@@ -8,9 +8,9 @@
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/ImageControlsWidget.h>
 #include <djvViewApp/ImageSettings.h>
-#include <djvViewApp/ImageView.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidget.h>
+#include <djvViewApp/ViewWidget.h>
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUI/Action.h>
@@ -134,7 +134,7 @@ namespace djv
                         system->_p->imageOptions.channelDisplay = static_cast<AV::Render2D::ImageChannelDisplay>(value + 1);
                         if (system->_p->activeWidget)
                         {
-                            system->_p->activeWidget->getImageView()->setImageOptions(system->_p->imageOptions);
+                            system->_p->activeWidget->getViewWidget()->setImageOptions(system->_p->imageOptions);
                         }
                     }
                 });
@@ -195,7 +195,7 @@ namespace djv
                         system->_p->imageOptions.mirror.x = value;
                         if (system->_p->activeWidget)
                         {
-                            system->_p->activeWidget->getImageView()->setImageOptions(system->_p->imageOptions);
+                            system->_p->activeWidget->getViewWidget()->setImageOptions(system->_p->imageOptions);
                         }
                     }
                 });
@@ -209,7 +209,7 @@ namespace djv
                         system->_p->imageOptions.mirror.y = value;
                         if (system->_p->activeWidget)
                         {
-                            system->_p->activeWidget->getImageView()->setImageOptions(system->_p->imageOptions);
+                            system->_p->activeWidget->getViewWidget()->setImageOptions(system->_p->imageOptions);
                         }
                     }
                 });
@@ -293,7 +293,7 @@ namespace djv
                             if (system->_p->activeWidget)
                             {
                                 system->_p->imageOptionsObserver = ValueObserver<AV::Render2D::ImageOptions>::create(
-                                    system->_p->activeWidget->getImageView()->observeImageOptions(),
+                                    system->_p->activeWidget->getViewWidget()->observeImageOptions(),
                                     [weak](const AV::Render2D::ImageOptions& value)
                                     {
                                         if (auto system = weak.lock())

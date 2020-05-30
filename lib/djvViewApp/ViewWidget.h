@@ -33,18 +33,18 @@ namespace djv
         class Media;
 
         //! This class provides an image view widget.
-        class ImageView : public UI::Widget
+        class ViewWidget : public UI::Widget
         {
-            DJV_NON_COPYABLE(ImageView);
+            DJV_NON_COPYABLE(ViewWidget);
 
         protected:
             void _init(const std::shared_ptr<Core::Context>&);
-            ImageView();
+            ViewWidget();
 
         public:
-            ~ImageView() override;
+            ~ViewWidget() override;
 
-            static std::shared_ptr<ImageView> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ViewWidget> create(const std::shared_ptr<Core::Context>&);
 
             std::shared_ptr<Core::IValueSubject<std::shared_ptr<AV::Image::Image> > > observeImage() const;
             void setImage(const std::shared_ptr<AV::Image::Image>&);

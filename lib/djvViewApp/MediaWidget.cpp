@@ -8,12 +8,12 @@
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/HUDWidget.h>
 #include <djvViewApp/ImageSystem.h>
-#include <djvViewApp/ImageView.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidgetPrivate.h>
 #include <djvViewApp/PlaybackSettings.h>
 #include <djvViewApp/PlaybackSpeedWidget.h>
 #include <djvViewApp/TimelineSlider.h>
+#include <djvViewApp/ViewWidget.h>
 #include <djvViewApp/ViewSettings.h>
 #include <djvViewApp/WindowSystem.h>
 
@@ -138,7 +138,7 @@ namespace djv
             std::shared_ptr<UI::ToolButton> closeButton;
             std::shared_ptr<UI::HorizontalLayout> titleBar;
             std::shared_ptr<PointerWidget> pointerWidget;
-            std::shared_ptr<ImageView> imageView;
+            std::shared_ptr<ViewWidget> viewWidget;
             std::shared_ptr<HUDWidget> hud;
             std::shared_ptr<PlaybackSpeedWidget> speedWidget;
             std::shared_ptr<UI::PopupWidget> speedPopupWidget;
@@ -250,7 +250,7 @@ namespace djv
 
             p.pointerWidget = PointerWidget::create(context);
 
-            p.imageView = ImageView::create(context);
+            p.viewWidget = ViewWidget::create(context);
 
             p.hud = HUDWidget::create(context);
             p.hud->setHUDOptions(p.hudOptions->get());
@@ -375,7 +375,7 @@ namespace djv
 
             p.layout = UI::StackLayout::create(context);
             p.layout->setBackgroundRole(UI::ColorRole::OverlayLight);
-            p.layout->addChild(p.imageView);
+            p.layout->addChild(p.viewWidget);
             p.layout->addChild(p.hud);
             p.layout->addChild(p.pointerWidget);
             vLayout = UI::VerticalLayout::create(context);
@@ -416,7 +416,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        const BBox2f& g = widget->_p->imageView->getGeometry();
+                        const BBox2f& g = widget->_p->viewWidget->getGeometry();
                         widget->_p->hover->setIfChanged(
                             PointerData(data.state, data.pos - g.min, data.buttons, data.key, data.keyModifiers));
                     }
@@ -427,7 +427,7 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->moveToFront();
-                        const BBox2f& g = widget->_p->imageView->getGeometry();
+                        const BBox2f& g = widget->_p->viewWidget->getGeometry();
                         widget->_p->drag->setIfChanged(
                             PointerData(data.state, data.pos - g.min, data.buttons, data.key, data.keyModifiers));
                     }
@@ -1027,7 +1027,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->imageView->setAnnotations(value);
+                        widget->_p->viewWidget->setAnnotations(value);
                     }
                 });
 
@@ -1083,7 +1083,7 @@ namespace djv
             }
 
             p.imageOptionsObserver = ValueObserver<AV::Render2D::ImageOptions>::create(
-                p.imageView->observeImageOptions(),
+                p.viewWidget->observeImageOptions(),
                 [weak](const AV::Render2D::ImageOptions& value)
                 {
                     if (auto widget = weak.lock())
@@ -1093,7 +1093,7 @@ namespace djv
                 });
 
             p.imageRotateObserver = ValueObserver<UI::ImageRotate>::create(
-                p.imageView->observeImageRotate(),
+                p.viewWidget->observeImageRotate(),
                 [weak](UI::ImageRotate value)
                 {
                     if (auto widget = weak.lock())
@@ -1103,7 +1103,7 @@ namespace djv
                 });
 
             p.imageAspectRatioObserver = ValueObserver<UI::ImageAspectRatio>::create(
-                p.imageView->observeImageAspectRatio(),
+                p.viewWidget->observeImageAspectRatio(),
                 [weak](UI::ImageAspectRatio value)
                 {
                     if (auto widget = weak.lock())
@@ -1132,9 +1132,9 @@ namespace djv
             return _p->media;
         }
 
-        const std::shared_ptr<ImageView>& MediaWidget::getImageView() const
+        const std::shared_ptr<ViewWidget>& MediaWidget::getViewWidget() const
         {
-            return _p->imageView;
+            return _p->viewWidget;
         }
 
         void MediaWidget::fitWindow()
@@ -1142,8 +1142,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const float sh = style->getMetric(UI::MetricsRole::Shadow);
-            const BBox2f imageBBox = p.imageView->getImageBBox();
-            const float zoom = p.imageView->observeImageZoom()->get();
+            const BBox2f imageBBox = p.viewWidget->getImageBBox();
+            const float zoom = p.viewWidget->observeImageZoom()->get();
             const glm::vec2 imageSize = imageBBox.getSize() * zoom;
             glm::vec2 size(ceilf(imageSize.x), ceilf(imageSize.y));
             switch (p.viewLock)
@@ -1230,8 +1230,8 @@ namespace djv
             const float sh = style->getMetric(UI::MetricsRole::Shadow);
             const glm::vec2& minimumSize = p.layout->getMinimumSize();
 
-            glm::vec2 imageSize = p.imageView->getMinimumSize();
-            const float ar = p.imageView->getImageBBox().getAspect();
+            glm::vec2 imageSize = p.viewWidget->getMinimumSize();
+            const float ar = p.viewWidget->getImageBBox().getAspect();
             if (ar > 1.F)
             {
                 imageSize.x = std::max(imageSize.x * 2.F, minimumSize.x);
@@ -1269,7 +1269,7 @@ namespace djv
                 glm::vec2(
                     g.max.x,
                     g.max.y - _getPlaybackHeight()));
-            p.imageView->setImageFrame(frame);
+            p.viewWidget->setImageFrame(frame);
             p.hud->setHUDFrame(frame);
         }
 
@@ -1369,7 +1369,7 @@ namespace djv
         void MediaWidget::_imageUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.imageView->setImage(p.active && p.frameStoreEnabled && p.frameStore ? p.frameStore : p.image);
+            p.viewWidget->setImage(p.active && p.frameStoreEnabled && p.frameStore ? p.frameStore : p.image);
         }
 
         void MediaWidget::_speedUpdate()

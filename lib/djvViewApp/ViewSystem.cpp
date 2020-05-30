@@ -4,12 +4,12 @@
 
 #include <djvViewApp/ViewSystem.h>
 
-#include <djvViewApp/ImageView.h>
 #include <djvViewApp/InputSettings.h>
 #include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/View.h>
 #include <djvViewApp/ViewControlsWidget.h>
 #include <djvViewApp/ViewSettings.h>
+#include <djvViewApp/ViewWidget.h>
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUI/Action.h>
@@ -378,7 +378,7 @@ namespace djv
                         {
                             if (system->_p->activeWidget)
                             {
-                                system->_p->activeWidget->getImageView()->imageFill(true);
+                                system->_p->activeWidget->getViewWidget()->imageFill(true);
                             }
                         }
                     }
@@ -394,7 +394,7 @@ namespace djv
                         {
                             if (system->_p->activeWidget)
                             {
-                                system->_p->activeWidget->getImageView()->imageFrame(true);
+                                system->_p->activeWidget->getViewWidget()->imageFrame(true);
                             }
                         }
                     }
@@ -410,7 +410,7 @@ namespace djv
                         {
                             if (system->_p->activeWidget)
                             {
-                                system->_p->activeWidget->getImageView()->imageCenter(true);
+                                system->_p->activeWidget->getViewWidget()->imageCenter(true);
                             }
                         }
                     }
@@ -426,7 +426,7 @@ namespace djv
                     system->_p->settings->setGridOptions(system->_p->gridOptions);
                     if (system->_p->activeWidget)
                     {
-                        system->_p->activeWidget->getImageView()->setGridOptions(system->_p->gridOptions);
+                        system->_p->activeWidget->getViewWidget()->setGridOptions(system->_p->gridOptions);
                     }
                 }
             });
@@ -458,7 +458,7 @@ namespace djv
                             if (system->_p->activeWidget)
                             {
                                 system->_p->gridOptionsObserver = ValueObserver<GridOptions>::create(
-                                    system->_p->activeWidget->getImageView()->observeGridOptions(),
+                                    system->_p->activeWidget->getViewWidget()->observeGridOptions(),
                                     [weak](const GridOptions& value)
                                 {
                                     if (auto system = weak.lock())
@@ -478,7 +478,7 @@ namespace djv
                                     }
                                 });
                                 system->_p->backgroundOptionsObserver = ValueObserver<ViewBackgroundOptions>::create(
-                                    system->_p->activeWidget->getImageView()->observeBackgroundOptions(),
+                                    system->_p->activeWidget->getViewWidget()->observeBackgroundOptions(),
                                     [weak](const ViewBackgroundOptions& value)
                                 {
                                     if (auto system = weak.lock())
@@ -695,8 +695,8 @@ namespace djv
                     auto uiSystem = context->getSystemT<UI::UISystem>();
                     auto style = uiSystem->getStyle();
                     const float m = style->getMetric(UI::MetricsRole::Move);
-                    auto imageView = widget->getImageView();
-                    imageView->setImagePos(imageView->observeImagePos()->get() + value * m);
+                    auto viewWidget = widget->getViewWidget();
+                    viewWidget->setImagePos(viewWidget->observeImagePos()->get() + value * m);
                 }
             }
         }
@@ -706,9 +706,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto widget = p.activeWidget)
             {
-                auto imageView = widget->getImageView();
-                const float w = imageView->getWidth();
-                const float h = imageView->getHeight();
+                auto viewWidget = widget->getViewWidget();
+                const float w = viewWidget->getWidth();
+                const float h = viewWidget->getHeight();
                 glm::vec2 focus = glm::vec2(0.F, 0.F);
                 if (BBox2f(0.F, 0.F, w, h).contains(p.hoverPos))
                 {
@@ -719,7 +719,7 @@ namespace djv
                     focus.x = w / 2.F;
                     focus.y = h / 2.F;
                 }
-                imageView->setImageZoomFocus(value, focus, true);
+                viewWidget->setImageZoomFocus(value, focus, true);
             }
         }
         
@@ -729,8 +729,8 @@ namespace djv
             p.settings->setLock(ViewLock::None);
             if (auto widget = p.activeWidget)
             {
-                auto imageView = widget->getImageView();
-                const float zoom = imageView->observeImageZoom()->get();
+                auto viewWidget = widget->getViewWidget();
+                const float zoom = viewWidget->observeImageZoom()->get();
                 _zoomImage(zoom * value);
             }
         }
@@ -755,7 +755,7 @@ namespace djv
 
         void ViewSystem::Private::drag(const PointerData& value)
         {
-            if (auto imageView = activeWidget->getImageView())
+            if (auto viewWidget = activeWidget->getViewWidget())
             {
                 bool pan = false;
                 auto i = value.buttons.find(1);
@@ -772,15 +772,15 @@ namespace djv
                 if (pan)
                 {
                     settings->setLock(ViewLock::None);
-                    auto imageView = activeWidget->getImageView();
+                    auto viewWidget = activeWidget->getViewWidget();
                     switch (value.state)
                     {
                     case PointerState::Start:
                         dragStart = value.pos;
-                        dragImagePos = imageView->observeImagePos()->get();
+                        dragImagePos = viewWidget->observeImagePos()->get();
                         break;
                     case PointerState::Move:
-                        imageView->setImagePos(dragImagePos + (value.pos - dragStart));
+                        viewWidget->setImagePos(dragImagePos + (value.pos - dragStart));
                         break;
                     default: break;
                     }
@@ -790,7 +790,7 @@ namespace djv
 
         void ViewSystem::Private::scroll(const ScrollData& value, const std::weak_ptr<Context>& contextWeak)
         {
-            if (auto imageView = activeWidget->getImageView())
+            if (auto viewWidget = activeWidget->getViewWidget())
             {
                 bool zoom = false;
                 zoom |=
@@ -802,11 +802,11 @@ namespace djv
                     if (auto context = contextWeak.lock())
                     {
                         settings->setLock(ViewLock::None);
-                        const float zoom = imageView->observeImageZoom()->get();
+                        const float zoom = viewWidget->observeImageZoom()->get();
                         auto settingsSystem = context->getSystemT<UI::Settings::System>();
                         auto inputSettings = settingsSystem->getSettingsT<InputSettings>();
                         const float speed = _getScrollWheelSpeed(inputSettings->observeScrollWheelSpeed()->get());
-                        imageView->setImageZoomFocus(zoom * (1.F + value.delta.y * speed), hoverPos);
+                        viewWidget->setImageZoomFocus(zoom * (1.F + value.delta.y * speed), hoverPos);
                     }
                 }
             }

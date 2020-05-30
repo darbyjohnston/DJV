@@ -15,8 +15,8 @@ namespace djv
     namespace ViewApp
     {
         struct HUDOptions;
-        class ImageView;
         class Media;
+        class ViewWidget;
 
         //! This enumeration provides the pointer state.
         enum class PointerState
@@ -83,7 +83,7 @@ namespace djv
 
             const std::shared_ptr<Media>& getMedia() const;
 
-            const std::shared_ptr<ImageView>& getImageView() const;
+            const std::shared_ptr<ViewWidget>& getViewWidget() const;
 
             void fitWindow();
 

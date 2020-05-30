@@ -4,10 +4,10 @@
 
 #include <djvViewApp/MagnifyWidget.h>
 
-#include <djvViewApp/ImageView.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/View.h>
+#include <djvViewApp/ViewWidget.h>
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUI/Action.h>
@@ -326,7 +326,7 @@ namespace djv
                                     });
 
                                 widget->_p->imageOptionsObserver = ValueObserver<AV::Render2D::ImageOptions>::create(
-                                    widget->_p->activeWidget->getImageView()->observeImageOptions(),
+                                    widget->_p->activeWidget->getViewWidget()->observeImageOptions(),
                                     [weak](const AV::Render2D::ImageOptions& value)
                                     {
                                         if (auto widget = weak.lock())
@@ -336,7 +336,7 @@ namespace djv
                                     });
 
                                 widget->_p->imagePosObserver = ValueObserver<glm::vec2>::create(
-                                    widget->_p->activeWidget->getImageView()->observeImagePos(),
+                                    widget->_p->activeWidget->getViewWidget()->observeImagePos(),
                                     [weak](const glm::vec2& value)
                                     {
                                         if (auto widget = weak.lock())
@@ -346,7 +346,7 @@ namespace djv
                                     });
 
                                 widget->_p->imageZoomObserver = ValueObserver<float>::create(
-                                    widget->_p->activeWidget->getImageView()->observeImageZoom(),
+                                    widget->_p->activeWidget->getViewWidget()->observeImageZoom(),
                                     [weak](float value)
                                     {
                                         if (auto widget = weak.lock())
@@ -356,7 +356,7 @@ namespace djv
                                     });
 
                                 widget->_p->imageRotateObserver = ValueObserver<UI::ImageRotate>::create(
-                                    widget->_p->activeWidget->getImageView()->observeImageRotate(),
+                                    widget->_p->activeWidget->getViewWidget()->observeImageRotate(),
                                     [weak](UI::ImageRotate value)
                                     {
                                         if (auto widget = weak.lock())
@@ -366,7 +366,7 @@ namespace djv
                                     });
 
                                 widget->_p->imageAspectRatioObserver = ValueObserver<UI::ImageAspectRatio>::create(
-                                    widget->_p->activeWidget->getImageView()->observeImageAspectRatio(),
+                                    widget->_p->activeWidget->getViewWidget()->observeImageAspectRatio(),
                                     [weak](UI::ImageAspectRatio value)
                                     {
                                         if (auto widget = weak.lock())
@@ -376,7 +376,7 @@ namespace djv
                                     });
 
                                 widget->_p->backgroundOptionsObserver = ValueObserver<ViewBackgroundOptions>::create(
-                                    widget->_p->activeWidget->getImageView()->observeBackgroundOptions(),
+                                    widget->_p->activeWidget->getViewWidget()->observeBackgroundOptions(),
                                     [weak](const ViewBackgroundOptions& value)
                                     {
                                         if (auto widget = weak.lock())

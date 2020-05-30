@@ -4,31 +4,31 @@
 
 #pragma once
 
-#include <djvViewApp/ImageView.h>
 #include <djvViewApp/View.h>
+#include <djvViewApp/ViewWidget.h>
 
 namespace djv
 {
     namespace ViewApp
     {
-        enum class ImageViewGrid
+        enum class Grid
         {
             Column,
             Row
         };
 
-        typedef std::pair<ImageViewGrid, int> ImageViewGridPos;
+        typedef std::pair<Grid, int> GridPos;
 
-        class ImageViewGridOverlay : public UI::Widget
+        class GridOverlay : public UI::Widget
         {
-            DJV_NON_COPYABLE(ImageViewGridOverlay);
+            DJV_NON_COPYABLE(GridOverlay);
 
         protected:
             void _init(const std::shared_ptr<Core::Context>&);
-            ImageViewGridOverlay();
+            GridOverlay();
 
         public:
-            static std::shared_ptr<ImageViewGridOverlay> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<GridOverlay> create(const std::shared_ptr<Core::Context>&);
 
             void setOptions(const GridOptions&);
 
@@ -48,8 +48,8 @@ namespace djv
         private:
             Core::BBox2f _getViewportWorld() const;
             Core::BBox2f _getViewport() const;
-            std::string _getLabel(const ImageViewGridPos&) const;
-            void _textCreate(const ImageViewGridPos&);
+            std::string _getLabel(const GridPos&) const;
+            void _textCreate(const GridPos&);
             void _textUpdate();
 
             GridOptions _options;
@@ -72,9 +72,9 @@ namespace djv
                 glm::vec2 size = glm::vec2(0.F, 0.F);
                 std::vector<std::shared_ptr<AV::Font::Glyph> > glyphs;
             };
-            std::map<ImageViewGridPos, Text> _text;
-            std::map<ImageViewGridPos, std::future<glm::vec2> > _textSizeFutures;
-            std::map<ImageViewGridPos, std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > > _textGlyphsFutures;
+            std::map<GridPos, Text> _text;
+            std::map<GridPos, std::future<glm::vec2> > _textSizeFutures;
+            std::map<GridPos, std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > > _textGlyphsFutures;
             float _textWidthMax = 0.F;
         };
 

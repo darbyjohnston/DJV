@@ -25,8 +25,6 @@ set(header
     ImageControlsWidget.h
 	ImageSettings.h
     ImageSystem.h
-    ImageView.h
-    ImageViewPrivate.h
     InfoWidget.h
 	InputSettings.h
 	InputSettingsWidget.h
@@ -63,6 +61,8 @@ set(header
     ViewControlsWidget.h
 	ViewSettings.h
     ViewSystem.h
+    ViewWidget.h
+    ViewWidgetPrivate.h
 	WindowSettings.h
 	WindowSettingsWidget.h
     WindowSystem.h)
@@ -93,8 +93,6 @@ set(source
     ImageControlsWidget.cpp
 	ImageSettings.cpp
     ImageSystem.cpp
-    ImageView.cpp
-    ImageViewPrivate.cpp
     InfoWidget.cpp
 	InputSettings.cpp
 	InputSettingsWidget.cpp
@@ -130,6 +128,8 @@ set(source
     ViewControlsWidget.cpp
 	ViewSettings.cpp
     ViewSystem.cpp
+    ViewWidget.cpp
+    ViewWidgetPrivate.cpp
 	WindowSettings.cpp
 	WindowSettingsWidget.cpp
     WindowSystem.cpp)

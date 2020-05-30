@@ -7,9 +7,9 @@
 #include <djvViewApp/Annotate.h>
 #include <djvViewApp/AnnotateSettings.h>
 #include <djvViewApp/AnnotateWidget.h>
-#include <djvViewApp/ImageView.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidget.h>
+#include <djvViewApp/ViewWidget.h>
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUI/Action.h>
@@ -214,7 +214,7 @@ namespace djv
                             if (system->_p->activeWidget)
                             {
                                 system->_p->imagePosObserver = ValueObserver<glm::vec2>::create(
-                                    system->_p->activeWidget->getImageView()->observeImagePos(),
+                                    system->_p->activeWidget->getViewWidget()->observeImagePos(),
                                     [weak](const glm::vec2& value)
                                     {
                                         if (auto system = weak.lock())
@@ -224,7 +224,7 @@ namespace djv
                                     });
 
                                 system->_p->imageZoomObserver = ValueObserver<float>::create(
-                                    system->_p->activeWidget->getImageView()->observeImageZoom(),
+                                    system->_p->activeWidget->getViewWidget()->observeImageZoom(),
                                     [weak](float value)
                                     {
                                         if (auto system = weak.lock())

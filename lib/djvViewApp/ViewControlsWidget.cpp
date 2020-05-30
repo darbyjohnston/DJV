@@ -4,10 +4,10 @@
 
 #include <djvViewApp/ViewControlsWidget.h>
 
-#include <djvViewApp/ImageView.h>
 #include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/View.h>
 #include <djvViewApp/ViewSettings.h>
+#include <djvViewApp/ViewWidget.h>
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUIComponents/ColorPicker.h>
@@ -299,7 +299,7 @@ namespace djv
                             widget->_widgetUpdate();
                             if (widget->_p->activeWidget)
                             {
-                                widget->_p->activeWidget->getImageView()->setGridOptions(widget->_p->gridOptions);
+                                widget->_p->activeWidget->getViewWidget()->setGridOptions(widget->_p->gridOptions);
                             }
                             auto settingsSystem = context->getSystemT<UI::Settings::System>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
@@ -318,7 +318,7 @@ namespace djv
                             widget->_widgetUpdate();
                             if (widget->_p->activeWidget)
                             {
-                                widget->_p->activeWidget->getImageView()->setGridOptions(widget->_p->gridOptions);
+                                widget->_p->activeWidget->getViewWidget()->setGridOptions(widget->_p->gridOptions);
                             }
                             auto settingsSystem = context->getSystemT<UI::Settings::System>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
@@ -337,7 +337,7 @@ namespace djv
                             widget->_widgetUpdate();
                             if (widget->_p->activeWidget)
                             {
-                                widget->_p->activeWidget->getImageView()->setGridOptions(widget->_p->gridOptions);
+                                widget->_p->activeWidget->getViewWidget()->setGridOptions(widget->_p->gridOptions);
                             }
                             auto settingsSystem = context->getSystemT<UI::Settings::System>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
@@ -356,7 +356,7 @@ namespace djv
                             widget->_widgetUpdate();
                             if (widget->_p->activeWidget)
                             {
-                                widget->_p->activeWidget->getImageView()->setGridOptions(widget->_p->gridOptions);
+                                widget->_p->activeWidget->getViewWidget()->setGridOptions(widget->_p->gridOptions);
                             }
                             auto settingsSystem = context->getSystemT<UI::Settings::System>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
@@ -375,7 +375,7 @@ namespace djv
                             widget->_widgetUpdate();
                             if (widget->_p->activeWidget)
                             {
-                                widget->_p->activeWidget->getImageView()->setGridOptions(widget->_p->gridOptions);
+                                widget->_p->activeWidget->getViewWidget()->setGridOptions(widget->_p->gridOptions);
                             }
                             auto settingsSystem = context->getSystemT<UI::Settings::System>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
@@ -453,7 +453,7 @@ namespace djv
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
-                            widget->_p->activeWidget->getImageView()->setBackgroundOptions(widget->_p->backgroundOptions);
+                            widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
                         }
                         auto settingsSystem = context->getSystemT<UI::Settings::System>();
                         auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
@@ -472,7 +472,7 @@ namespace djv
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
-                            widget->_p->activeWidget->getImageView()->setBackgroundOptions(widget->_p->backgroundOptions);
+                            widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
                         }
                         auto settingsSystem = context->getSystemT<UI::Settings::System>();
                         auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
@@ -491,7 +491,7 @@ namespace djv
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
-                            widget->_p->activeWidget->getImageView()->setBackgroundOptions(widget->_p->backgroundOptions);
+                            widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
                         }
                         auto settingsSystem = context->getSystemT<UI::Settings::System>();
                         auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
@@ -510,7 +510,7 @@ namespace djv
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
-                            widget->_p->activeWidget->getImageView()->setBackgroundOptions(widget->_p->backgroundOptions);
+                            widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
                         }
                         auto settingsSystem = context->getSystemT<UI::Settings::System>();
                         auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
@@ -529,7 +529,7 @@ namespace djv
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
-                            widget->_p->activeWidget->getImageView()->setBackgroundOptions(widget->_p->backgroundOptions);
+                            widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
                         }
                         auto settingsSystem = context->getSystemT<UI::Settings::System>();
                         auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
@@ -548,7 +548,7 @@ namespace djv
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
-                            widget->_p->activeWidget->getImageView()->setBackgroundOptions(widget->_p->backgroundOptions);
+                            widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
                         }
                         auto settingsSystem = context->getSystemT<UI::Settings::System>();
                         auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
@@ -567,7 +567,7 @@ namespace djv
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
-                            widget->_p->activeWidget->getImageView()->setBackgroundOptions(widget->_p->backgroundOptions);
+                            widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
                         }
                         auto settingsSystem = context->getSystemT<UI::Settings::System>();
                         auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
@@ -586,7 +586,7 @@ namespace djv
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
-                            widget->_p->activeWidget->getImageView()->setBackgroundOptions(widget->_p->backgroundOptions);
+                            widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
                         }
                         auto settingsSystem = context->getSystemT<UI::Settings::System>();
                         auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
@@ -607,7 +607,7 @@ namespace djv
                             if (widget->_p->activeWidget)
                             {
                                 widget->_p->viewPosObserver = ValueObserver<glm::vec2>::create(
-                                    widget->_p->activeWidget->getImageView()->observeImagePos(),
+                                    widget->_p->activeWidget->getViewWidget()->observeImagePos(),
                                     [weak](const glm::vec2& value)
                                     {
                                         if (auto widget = weak.lock())
@@ -617,7 +617,7 @@ namespace djv
                                         }
                                     });
                                 widget->_p->viewZoomObserver = ValueObserver<float>::create(
-                                    widget->_p->activeWidget->getImageView()->observeImageZoom(),
+                                    widget->_p->activeWidget->getViewWidget()->observeImageZoom(),
                                     [weak](float value)
                                     {
                                         if (auto widget = weak.lock())
@@ -627,7 +627,7 @@ namespace djv
                                         }
                                     });
                                 widget->_p->gridOptionsObserver = ValueObserver<GridOptions>::create(
-                                    widget->_p->activeWidget->getImageView()->observeGridOptions(),
+                                    widget->_p->activeWidget->getViewWidget()->observeGridOptions(),
                                     [weak](const GridOptions& value)
                                 {
                                     if (auto widget = weak.lock())
@@ -647,7 +647,7 @@ namespace djv
                                     }
                                 });
                                 widget->_p->backgroundOptionsObserver = ValueObserver<ViewBackgroundOptions>::create(
-                                    widget->_p->activeWidget->getImageView()->observeBackgroundOptions(),
+                                    widget->_p->activeWidget->getViewWidget()->observeBackgroundOptions(),
                                     [weak](const ViewBackgroundOptions& value)
                                     {
                                         if (auto widget = weak.lock())
@@ -767,7 +767,7 @@ namespace djv
                 _widgetUpdate();
                 if (p.activeWidget)
                 {
-                    p.activeWidget->getImageView()->setImagePos(p.viewPos);
+                    p.activeWidget->getViewWidget()->setImagePos(p.viewPos);
                 }
             }
         }
@@ -784,7 +784,7 @@ namespace djv
                 _widgetUpdate();
                 if (p.activeWidget)
                 {
-                    p.activeWidget->getImageView()->setImageZoomFocus(value);
+                    p.activeWidget->getViewWidget()->setImageZoomFocus(value);
                 }
             }
         }
