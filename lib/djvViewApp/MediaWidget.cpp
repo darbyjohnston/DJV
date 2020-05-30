@@ -117,7 +117,7 @@ namespace djv
             AV::IO::InOutPoints inOutPoints;
             Playback playbackPrev = Playback::Count;
             Time::Units timeUnits = Time::Units::First;
-            ImageViewLock viewLock = ImageViewLock::First;
+            ViewLock viewLock = ViewLock::First;
             std::shared_ptr<ValueSubject<HUDOptions> > hudOptions;
             bool frameStoreEnabled = false;
             std::shared_ptr<AV::Image::Image> frameStore;
@@ -184,7 +184,7 @@ namespace djv
             std::shared_ptr<ValueObserver<Frame::Sequence> > cachedFramesObserver;
             std::shared_ptr<ListObserver<std::shared_ptr<AnnotatePrimitive> > > annotationsObserver;
             std::shared_ptr<ValueObserver<float> > fadeObserver;
-            std::shared_ptr<ValueObserver<ImageViewLock> > viewLockObserver;
+            std::shared_ptr<ValueObserver<ViewLock> > viewLockObserver;
             std::shared_ptr<ValueObserver<bool> > frameStoreEnabledObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > frameStoreObserver;
             std::shared_ptr<ValueObserver<AV::Render2D::ImageOptions> > imageOptionsObserver;
@@ -1047,9 +1047,9 @@ namespace djv
 
             if (auto viewSettings = settingsSystem->getSettingsT<ViewSettings>())
             {
-                p.viewLockObserver = ValueObserver<ImageViewLock>::create(
+                p.viewLockObserver = ValueObserver<ViewLock>::create(
                     viewSettings->observeLock(),
-                    [weak](ImageViewLock value)
+                    [weak](ViewLock value)
                     {
                         if (auto widget = weak.lock())
                         {
@@ -1148,7 +1148,7 @@ namespace djv
             glm::vec2 size(ceilf(imageSize.x), ceilf(imageSize.y));
             switch (p.viewLock)
             {
-            case ImageViewLock::Frame:
+            case ViewLock::Frame:
                 size.y += _getTitleBarHeight() + _getPlaybackHeight();
                 break;
             default: break;
@@ -1246,7 +1246,7 @@ namespace djv
             
             switch (p.viewLock)
             {
-            case ImageViewLock::Frame:
+            case ViewLock::Frame:
                 size.y += _getTitleBarHeight() + _getPlaybackHeight();
                 break;
             default: break;

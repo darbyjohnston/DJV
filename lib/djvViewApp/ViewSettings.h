@@ -5,28 +5,20 @@
 #pragma once
 
 #include <djvViewApp/Enum.h>
-#include <djvViewApp/HUD.h>
-#include <djvViewApp/ImageView.h>
 
 #include <djvUI/ISettings.h>
 
 #include <djvCore/BBox.h>
-#include <djvCore/ListObserver.h>
 #include <djvCore/ValueObserver.h>
 
 namespace djv
 {
-    namespace AV
-    {
-        namespace Image
-        {
-            class Color;
-
-        } // namespace Image
-    } // namespace AV
-
     namespace ViewApp
     {
+        struct GridOptions;
+        struct HUDOptions;
+        struct ViewBackgroundOptions;
+
         //! This class provides the view settings.
         class ViewSettings : public UI::Settings::ISettings
         {
@@ -43,8 +35,8 @@ namespace djv
             const std::map<std::string, bool> getBellowsState() const;
             void setBellowsState(const std::map<std::string, bool>&);
 
-            std::shared_ptr<Core::IValueSubject<ImageViewLock> > observeLock() const;
-            void setLock(ImageViewLock);
+            std::shared_ptr<Core::IValueSubject<ViewLock> > observeLock() const;
+            void setLock(ViewLock);
 
             std::shared_ptr<Core::IValueSubject<GridOptions> > observeGridOptions() const;
             void setGridOptions(const GridOptions&);
@@ -52,8 +44,8 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<HUDOptions> > observeHUDOptions() const;
             void setHUDOptions(const HUDOptions&);
 
-            std::shared_ptr<Core::IValueSubject<AV::Image::Color> > observeBackgroundColor() const;
-            void setBackgroundColor(const AV::Image::Color&);
+            std::shared_ptr<Core::IValueSubject<ViewBackgroundOptions> > observeBackgroundOptions() const;
+            void setBackgroundOptions(const ViewBackgroundOptions&);
 
             const std::map<std::string, Core::BBox2f>& getWidgetGeom() const;
             void setWidgetGeom(const std::map<std::string, Core::BBox2f>&);

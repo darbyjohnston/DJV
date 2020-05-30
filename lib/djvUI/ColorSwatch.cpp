@@ -148,27 +148,12 @@ namespace djv
             }
 
             const float checkerSize = style->getMetric(MetricsRole::Swatch) / 5.F;
-            const size_t columns = static_cast<size_t>(ceilf((g2.max.x - g2.min.x) / checkerSize));
-            const size_t rows = static_cast<size_t>(ceilf((g2.max.y - g2.min.y) / checkerSize));
-            for (size_t j = 0; j < rows; ++j)
-            {
-                for (size_t i = 0; i < columns; ++i)
-                {
-                    if (0 == ((j + i) % 2))
-                    {
-                        render->setFillColor(AV::Image::Color(.6F, .6F, .6F));
-                    }
-                    else
-                    {
-                        render->setFillColor(AV::Image::Color(.4F, .4F, .4F));
-                    }
-                    render->drawRect(BBox2f(
-                        floorf(g2.min.x + i * checkerSize),
-                        floorf(g2.min.y + j * checkerSize),
-                        ceilf(checkerSize),
-                        ceilf(checkerSize)).intersect(g2));
-                }
-            }
+            drawCheckers(
+                render,
+                g2,
+                checkerSize,
+                AV::Image::Color(.6F, .6F, .6F),
+                AV::Image::Color(.4F, .4F, .4F));
             
             render->setFillColor(p.color);
             render->drawRect(g2);

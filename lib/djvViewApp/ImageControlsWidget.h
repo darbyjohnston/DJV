@@ -19,7 +19,7 @@ namespace djv
 
     namespace ViewApp
     {
-        class GridOptions;
+        struct GridOptions;
 
         //! This class provides the image controls widget.
         class ImageControlsWidget : public MDIWidget

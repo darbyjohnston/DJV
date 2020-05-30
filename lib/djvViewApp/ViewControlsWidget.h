@@ -8,19 +8,8 @@
 
 namespace djv
 {
-    namespace AV
-    {
-        namespace Image
-        {
-            class Color;
-    
-        } // namespace Image
-    } // namespace AV
-
     namespace ViewApp
     {
-        class GridOptions;
-
         //! This class provides the view controls widget.
         class ViewControlsWidget : public MDIWidget
         {

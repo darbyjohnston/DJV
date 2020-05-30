@@ -4,13 +4,8 @@
 
 #pragma once
 
-#include <djvViewApp/Enum.h>
-
 #include <djvUI/Widget.h>
 
-#include <djvAV/Color.h>
-
-#include <djvCore/PicoJSON.h>
 #include <djvCore/ValueObserver.h>
 
 namespace djv
@@ -32,23 +27,10 @@ namespace djv
 
     namespace ViewApp
     {
+        struct GridOptions;
+        struct ViewBackgroundOptions;
         class AnnotatePrimitive;
         class Media;
-
-        //! This class provides grid options.
-        class GridOptions
-        {
-        public:
-            GridOptions();
-
-            bool                enabled     = false;
-            float               size        = 100.F;
-            AV::Image::Color    color       = AV::Image::Color(0.F, 0.F, 0.F, .5F);
-            ImageViewGridLabels labels      = ImageViewGridLabels::X_Y;
-            AV::Image::Color    labelsColor = AV::Image::Color(1.F, 1.F, 1.F, .65F);
-
-            bool operator == (const GridOptions&) const;
-        };
 
         //! This class provides an image view widget.
         class ImageView : public UI::Widget
@@ -91,8 +73,8 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<GridOptions> > observeGridOptions() const;
             void setGridOptions(const GridOptions&);
 
-            std::shared_ptr<Core::IValueSubject<AV::Image::Color> > observeBackgroundColor() const;
-            void setBackgroundColor(const AV::Image::Color&);
+            std::shared_ptr<Core::IValueSubject<ViewBackgroundOptions> > observeBackgroundOptions() const;
+            void setBackgroundOptions(const ViewBackgroundOptions&);
 
             void setAnnotations(const std::vector<std::shared_ptr<AnnotatePrimitive> >&);
 
@@ -113,12 +95,5 @@ namespace djv
         };
 
     } // namespace ViewApp
-
-    picojson::value toJSON(const ViewApp::GridOptions&);
-
-    //! Throws:
-    //! - std::exception
-    void fromJSON(const picojson::value&, ViewApp::GridOptions&);
-
 } // namespace djv
 

@@ -4,7 +4,7 @@
 
 #include <djvViewApp/ViewSettings.h>
 
-#include <djvAV/Color.h>
+#include <djvViewApp/View.h>
 
 #include <djvCore/Context.h>
 
@@ -21,10 +21,10 @@ namespace djv
         struct ViewSettings::Private
         {
             std::map<std::string, bool> bellowsState;
-            std::shared_ptr<ValueSubject<ImageViewLock> > lock;
+            std::shared_ptr<ValueSubject<ViewLock> > lock;
             std::shared_ptr<ValueSubject<GridOptions> > gridOptions;
             std::shared_ptr<ValueSubject<HUDOptions> > hudOptions;
-            std::shared_ptr<ValueSubject<AV::Image::Color> > backgroundColor;
+            std::shared_ptr<ValueSubject<ViewBackgroundOptions> > backgroundOptions;
             std::map<std::string, BBox2f> widgetGeom;
         };
 
@@ -33,10 +33,10 @@ namespace djv
             ISettings::_init("djv::ViewApp::ViewSettings", context);
 
             DJV_PRIVATE_PTR();
-            p.lock = ValueSubject<ImageViewLock>::create(ImageViewLock::Fill);
+            p.lock = ValueSubject<ViewLock>::create(ViewLock::Fill);
             p.gridOptions = ValueSubject<GridOptions>::create();
             p.hudOptions = ValueSubject<HUDOptions>::create();
-            p.backgroundColor = ValueSubject<AV::Image::Color>::create(AV::Image::Color(0.F, 0.F, 0.F));
+            p.backgroundOptions = ValueSubject<ViewBackgroundOptions>::create();
             _load();
         }
 
@@ -61,12 +61,12 @@ namespace djv
             _p->bellowsState = value;
         }
 
-        std::shared_ptr<IValueSubject<ImageViewLock> > ViewSettings::observeLock() const
+        std::shared_ptr<IValueSubject<ViewLock> > ViewSettings::observeLock() const
         {
             return _p->lock;
         }
 
-        void ViewSettings::setLock(ImageViewLock value)
+        void ViewSettings::setLock(ViewLock value)
         {
             _p->lock->setIfChanged(value);
         }
@@ -91,14 +91,14 @@ namespace djv
             _p->hudOptions->setIfChanged(value);
         }
 
-        std::shared_ptr<IValueSubject<AV::Image::Color> > ViewSettings::observeBackgroundColor() const
+        std::shared_ptr<IValueSubject<ViewBackgroundOptions> > ViewSettings::observeBackgroundOptions() const
         {
-            return _p->backgroundColor;
+            return _p->backgroundOptions;
         }
-
-        void ViewSettings::setBackgroundColor(const AV::Image::Color& value)
+        
+        void ViewSettings::setBackgroundOptions(const ViewBackgroundOptions& value)
         {
-            _p->backgroundColor->setIfChanged(value);
+            _p->backgroundOptions->setIfChanged(value);
         }
 
         const std::map<std::string, BBox2f>& ViewSettings::getWidgetGeom() const
@@ -121,7 +121,7 @@ namespace djv
                 UI::Settings::read("Lock", object, p.lock);
                 UI::Settings::read("GridOptions", object, p.gridOptions);
                 UI::Settings::read("HUDOptions", object, p.hudOptions);
-                UI::Settings::read("BackgroundColor", object, p.backgroundColor);
+                UI::Settings::read("BackgroundOptions", object, p.backgroundOptions);
                 UI::Settings::read("WidgetGeom", object, p.widgetGeom);
             }
         }
@@ -135,7 +135,7 @@ namespace djv
             UI::Settings::write("Lock", p.lock->get(), object);
             UI::Settings::write("GridOptions", p.gridOptions->get(), object);
             UI::Settings::write("HUDOptions", p.hudOptions->get(), object);
-            UI::Settings::write("BackgroundColor", p.backgroundColor->get(), object);
+            UI::Settings::write("BackgroundOptions", p.backgroundOptions->get(), object);
             UI::Settings::write("WidgetGeom", p.widgetGeom, object);
             return out;
         }

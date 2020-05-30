@@ -19,7 +19,6 @@ set(header
     FileSettingsWidget.h
     HelpSystem.h
     HistogramWidget.h
-	HUD.h
 	HUDWidget.h
     IToolSystem.h
     IViewSystem.h
@@ -59,6 +58,7 @@ set(header
     TimelineSlider.h
     ToolSettings.h
     ToolSystem.h
+	View.h
     ViewApp.h
     ViewControlsWidget.h
 	ViewSettings.h
@@ -87,7 +87,6 @@ set(source
     FileSystem.cpp
     HelpSystem.cpp
     HistogramWidget.cpp
-	HUD.cpp
 	HUDWidget.cpp
     IToolSystem.cpp
     IViewSystem.cpp
@@ -127,6 +126,7 @@ set(source
     TimelineSlider.cpp
     ToolSettings.cpp
     ToolSystem.cpp
+	View.cpp
     ViewControlsWidget.cpp
 	ViewSettings.cpp
     ViewSystem.cpp

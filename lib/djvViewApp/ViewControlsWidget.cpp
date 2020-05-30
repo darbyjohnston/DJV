@@ -4,7 +4,9 @@
 
 #include <djvViewApp/ViewControlsWidget.h>
 
+#include <djvViewApp/ImageView.h>
 #include <djvViewApp/MediaWidget.h>
+#include <djvViewApp/View.h>
 #include <djvViewApp/ViewSettings.h>
 #include <djvViewApp/WindowSystem.h>
 
@@ -13,6 +15,7 @@
 #include <djvUI/Bellows.h>
 #include <djvUI/ComboBox.h>
 #include <djvUI/FloatEdit.h>
+#include <djvUI/FloatSlider.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/IntSlider.h>
 #include <djvUI/Label.h>
@@ -36,7 +39,7 @@ namespace djv
             float viewZoom = 1.F;
             GridOptions gridOptions;
             HUDOptions hudOptions;
-            AV::Image::Color backgroundColor;
+            ViewBackgroundOptions backgroundOptions;
 
             std::shared_ptr<MediaWidget> activeWidget;
 
@@ -57,7 +60,11 @@ namespace djv
             std::shared_ptr<UI::ColorPickerSwatch> hudColorPickerSwatch;
             std::shared_ptr<UI::ComboBox> hudBackgroundComboBox;
 
+            std::shared_ptr<UI::ComboBox> backgroundComboBox;
             std::shared_ptr<UI::ColorPickerSwatch> backgroundColorPickerSwatch;
+            std::shared_ptr<UI::FloatSlider> checkersSizeSlider;
+            std::shared_ptr<UI::ColorPickerSwatch> checkersColorPickerSwatches[2];
+            std::shared_ptr<UI::HorizontalLayout> checkersColorsLayout;
 
             std::shared_ptr<UI::LabelSizeGroup> sizeGroup;
             std::map<std::string, std::shared_ptr<UI::FormLayout> > formLayouts;
@@ -68,7 +75,7 @@ namespace djv
             std::shared_ptr<ValueObserver<float> > viewZoomObserver;
             std::shared_ptr<ValueObserver<GridOptions> > gridOptionsObserver;
             std::shared_ptr<ValueObserver<HUDOptions> > hudOptionsObserver;
-            std::shared_ptr<ValueObserver<AV::Image::Color> > backgroundColorObserver;
+            std::shared_ptr<ValueObserver<ViewBackgroundOptions> > backgroundOptionsObserver;
         };
 
         void ViewControlsWidget::_init(const std::shared_ptr<Core::Context>& context)
@@ -82,7 +89,7 @@ namespace djv
             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
             p.gridOptions = viewSettings->observeGridOptions()->get();
             p.hudOptions = viewSettings->observeHUDOptions()->get();
-            p.backgroundColor = viewSettings->observeBackgroundColor()->get();
+            p.backgroundOptions = viewSettings->observeBackgroundOptions()->get();
 
             for (size_t i = 0; i < 2; ++i)
             {
@@ -127,8 +134,17 @@ namespace djv
             p.hudColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
             p.hudBackgroundComboBox = UI::ComboBox::create(context);
 
+            p.backgroundComboBox = UI::ComboBox::create(context);
             p.backgroundColorPickerSwatch = UI::ColorPickerSwatch::create(context);
             p.backgroundColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
+            p.checkersSizeSlider = UI::FloatSlider::create(context);
+            p.checkersSizeSlider->setRange(FloatRange(10.F, 100.F));
+            p.checkersColorPickerSwatches[0] = UI::ColorPickerSwatch::create(context);
+            p.checkersColorPickerSwatches[0]->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
+            p.checkersColorPickerSwatches[0]->setHAlign(UI::HAlign::Fill);
+            p.checkersColorPickerSwatches[1] = UI::ColorPickerSwatch::create(context);
+            p.checkersColorPickerSwatches[1]->setHAlign(UI::HAlign::Fill);
+            p.checkersColorPickerSwatches[1]->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
 
             p.sizeGroup = UI::LabelSizeGroup::create();
 
@@ -166,7 +182,15 @@ namespace djv
             p.bellows["HUD"]->addChild(p.formLayouts["HUD"]);
 
             p.formLayouts["Background"] = UI::FormLayout::create(context);
+            p.formLayouts["Background"]->addChild(p.backgroundComboBox);
             p.formLayouts["Background"]->addChild(p.backgroundColorPickerSwatch);
+            p.formLayouts["Background"]->addChild(p.checkersSizeSlider);
+            p.checkersColorsLayout = UI::HorizontalLayout::create(context);
+            p.checkersColorsLayout->addChild(p.checkersColorPickerSwatches[0]);
+            p.checkersColorsLayout->setStretch(p.checkersColorPickerSwatches[0], UI::RowStretch::Expand);
+            p.checkersColorsLayout->addChild(p.checkersColorPickerSwatches[1]);
+            p.checkersColorsLayout->setStretch(p.checkersColorPickerSwatches[1], UI::RowStretch::Expand);
+            p.formLayouts["Background"]->addChild(p.checkersColorsLayout);
             p.bellows["Background"] = UI::Bellows::create(context);
             p.bellows["Background"]->addChild(p.formLayouts["Background"]);
             
@@ -317,7 +341,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->gridOptions.labels = static_cast<ImageViewGridLabels>(value);
+                            widget->_p->gridOptions.labels = static_cast<GridLabels>(value);
                             widget->_widgetUpdate();
                             if (widget->_p->activeWidget)
                             {
@@ -407,25 +431,101 @@ namespace djv
                 }
             });
 
+            p.backgroundComboBox->setCallback(
+                [weak, contextWeak](int value)
+            {
+                if (auto context = contextWeak.lock())
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->backgroundOptions.background = static_cast<ViewBackground>(value);
+                        widget->_widgetUpdate();
+                        if (widget->_p->activeWidget)
+                        {
+                            widget->_p->activeWidget->getImageView()->setBackgroundOptions(widget->_p->backgroundOptions);
+                        }
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                        viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
+                    }
+                }
+            });
             p.backgroundColorPickerSwatch->setColorCallback(
                 [weak, contextWeak](const AV::Image::Color& value)
+            {
+                if (auto context = contextWeak.lock())
                 {
-                    if (auto context = contextWeak.lock())
+                    if (auto widget = weak.lock())
                     {
-                        if (auto widget = weak.lock())
+                        widget->_p->backgroundOptions.color = value;
+                        widget->_widgetUpdate();
+                        if (widget->_p->activeWidget)
                         {
-                            widget->_p->backgroundColor = value;
-                            widget->_widgetUpdate();
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->activeWidget->getImageView()->setBackgroundColor(widget->_p->backgroundColor);
-                            }
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                            auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                            viewSettings->setBackgroundColor(widget->_p->backgroundColor);
+                            widget->_p->activeWidget->getImageView()->setBackgroundOptions(widget->_p->backgroundOptions);
                         }
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                        viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
                     }
-                });
+                }
+            });
+            p.checkersSizeSlider->setValueCallback(
+                [weak, contextWeak](float value)
+            {
+                if (auto context = contextWeak.lock())
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->backgroundOptions.checkersSize = value;
+                        widget->_widgetUpdate();
+                        if (widget->_p->activeWidget)
+                        {
+                            widget->_p->activeWidget->getImageView()->setBackgroundOptions(widget->_p->backgroundOptions);
+                        }
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                        viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
+                    }
+                }
+            });
+            p.checkersColorPickerSwatches[0]->setColorCallback(
+                [weak, contextWeak](const AV::Image::Color& value)
+            {
+                if (auto context = contextWeak.lock())
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->backgroundOptions.checkersColors[0] = value;
+                        widget->_widgetUpdate();
+                        if (widget->_p->activeWidget)
+                        {
+                            widget->_p->activeWidget->getImageView()->setBackgroundOptions(widget->_p->backgroundOptions);
+                        }
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                        viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
+                    }
+                }
+            });
+            p.checkersColorPickerSwatches[1]->setColorCallback(
+                [weak, contextWeak](const AV::Image::Color& value)
+            {
+                if (auto context = contextWeak.lock())
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->backgroundOptions.checkersColors[1] = value;
+                        widget->_widgetUpdate();
+                        if (widget->_p->activeWidget)
+                        {
+                            widget->_p->activeWidget->getImageView()->setBackgroundOptions(widget->_p->backgroundOptions);
+                        }
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                        viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
+                    }
+                }
+            });
 
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
@@ -478,13 +578,13 @@ namespace djv
                                         widget->_widgetUpdate();
                                     }
                                 });
-                                widget->_p->backgroundColorObserver = ValueObserver<AV::Image::Color>::create(
-                                    widget->_p->activeWidget->getImageView()->observeBackgroundColor(),
-                                    [weak](const AV::Image::Color& value)
+                                widget->_p->backgroundOptionsObserver = ValueObserver<ViewBackgroundOptions>::create(
+                                    widget->_p->activeWidget->getImageView()->observeBackgroundOptions(),
+                                    [weak](const ViewBackgroundOptions& value)
                                     {
                                         if (auto widget = weak.lock())
                                         {
-                                            widget->_p->backgroundColor = value;
+                                            widget->_p->backgroundOptions = value;
                                             widget->_widgetUpdate();
                                         }
                                     });
@@ -495,7 +595,7 @@ namespace djv
                                 widget->_p->viewZoomObserver.reset();
                                 widget->_p->gridOptionsObserver.reset();
                                 widget->_p->hudOptionsObserver.reset();
-                                widget->_p->backgroundColorObserver.reset();
+                                widget->_p->backgroundOptionsObserver.reset();
                             }
                         }
                     });
@@ -571,8 +671,11 @@ namespace djv
             p.formLayouts["HUD"]->setText(p.hudColorPickerSwatch, _getText(DJV_TEXT("widget_view_hud_color")) + ":");
             p.formLayouts["HUD"]->setText(p.hudBackgroundComboBox, _getText(DJV_TEXT("widget_view_hud_background")) + ":");
 
+            p.formLayouts["Background"]->setText(p.backgroundComboBox, _getText(DJV_TEXT("widget_view_background")) + ":");
             p.formLayouts["Background"]->setText(p.backgroundColorPickerSwatch, _getText(DJV_TEXT("widget_view_background_color")) + ":");
-            
+            p.formLayouts["Background"]->setText(p.checkersSizeSlider, _getText(DJV_TEXT("widget_view_background_checkers_size")) + ":");
+            p.formLayouts["Background"]->setText(p.checkersColorsLayout, _getText(DJV_TEXT("widget_view_background_checkers_colors")) + ":");
+
             p.bellows["View"]->setText(_getText(DJV_TEXT("view")));
             p.bellows["Grid"]->setText(_getText(DJV_TEXT("view_grid")));
             p.bellows["HUD"]->setText(_getText(DJV_TEXT("view_hud")));
@@ -588,7 +691,7 @@ namespace djv
             {
                 auto settingsSystem = context->getSystemT<UI::Settings::System>();
                 auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                viewSettings->setLock(ImageViewLock::None);
+                viewSettings->setLock(ViewLock::None);
                 p.viewPos = value;
                 _widgetUpdate();
                 if (p.activeWidget)
@@ -605,7 +708,7 @@ namespace djv
             {
                 auto settingsSystem = context->getSystemT<UI::Settings::System>();
                 auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                viewSettings->setLock(ImageViewLock::None);
+                viewSettings->setLock(ViewLock::None);
                 p.viewZoom = value;
                 _widgetUpdate();
                 if (p.activeWidget)
@@ -630,7 +733,7 @@ namespace djv
             p.gridSizeSlider->setValue(p.gridOptions.size);
             p.gridColorPickerSwatch->setColor(p.gridOptions.color);
             std::vector<std::string> items;
-            for (auto i : getImageViewGridLabelsEnums())
+            for (auto i : getGridLabelsEnums())
             {
                 std::stringstream ss;
                 ss << i;
@@ -652,7 +755,19 @@ namespace djv
             p.hudBackgroundComboBox->setItems(items);
             p.hudBackgroundComboBox->setCurrentItem(static_cast<int>(p.hudOptions.background));
 
-            p.backgroundColorPickerSwatch->setColor(p.backgroundColor);
+            items.clear();
+            for (auto i : getViewBackgroundEnums())
+            {
+                std::stringstream ss;
+                ss << i;
+                items.push_back(_getText(ss.str()));
+            }
+            p.backgroundComboBox->setItems(items);
+            p.backgroundComboBox->setCurrentItem(static_cast<int>(p.backgroundOptions.background));
+            p.backgroundColorPickerSwatch->setColor(p.backgroundOptions.color);
+            p.checkersSizeSlider->setValue(p.backgroundOptions.checkersSize);
+            p.checkersColorPickerSwatches[0]->setColor(p.backgroundOptions.checkersColors[0]);
+            p.checkersColorPickerSwatches[1]->setColor(p.backgroundOptions.checkersColors[1]);
         }
 
     } // namespace ViewApp

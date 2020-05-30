@@ -41,7 +41,7 @@ namespace djv
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         ViewApp,
-        ImageViewLock,
+        ViewLock,
         DJV_TEXT("view_lock_none"),
         DJV_TEXT("view_lock_fill"),
         DJV_TEXT("view_lock_frame"),
@@ -49,10 +49,22 @@ namespace djv
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         ViewApp,
-        ImageViewGridLabels,
+        GridLabels,
         DJV_TEXT("view_grid_labels_none"),
         DJV_TEXT("view_grid_labels_x_y"),
         DJV_TEXT("view_grid_labels_a_y"));
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        ViewApp,
+        HUDBackground,
+        DJV_TEXT("hud_background_none"),
+        DJV_TEXT("hud_background_overlay"));
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        ViewApp,
+        ViewBackground,
+        DJV_TEXT("view_background_solid"),
+        DJV_TEXT("view_background_checkers"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         ViewApp,
@@ -102,14 +114,28 @@ namespace djv
         DJV_TEXT("playback_speed_120"),
         DJV_TEXT("playback_speed_240"));
 
-    picojson::value toJSON(ViewApp::ImageViewLock value)
+    picojson::value toJSON(ViewApp::ViewLock value)
     {
         std::stringstream ss;
         ss << value;
         return picojson::value(ss.str());
     }
 
-    picojson::value toJSON(ViewApp::ImageViewGridLabels value)
+    picojson::value toJSON(ViewApp::GridLabels value)
+    {
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
+    }
+
+    picojson::value toJSON(ViewApp::HUDBackground value)
+    {
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
+    }
+
+    picojson::value toJSON(ViewApp::ViewBackground value)
     {
         std::stringstream ss;
         ss << value;
@@ -137,7 +163,7 @@ namespace djv
         return picojson::value(ss.str());
     }
 
-    void fromJSON(const picojson::value& value, ViewApp::ImageViewLock& out)
+    void fromJSON(const picojson::value& value, ViewApp::ViewLock& out)
     {
         if (value.is<std::string>())
         {
@@ -151,7 +177,35 @@ namespace djv
         }
     }
 
-    void fromJSON(const picojson::value& value, ViewApp::ImageViewGridLabels& out)
+    void fromJSON(const picojson::value& value, ViewApp::GridLabels& out)
+    {
+        if (value.is<std::string>())
+        {
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            //! \todo How can we translate this?
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
+        }
+    }
+
+    void fromJSON(const picojson::value& value, ViewApp::HUDBackground& out)
+    {
+        if (value.is<std::string>())
+        {
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            //! \todo How can we translate this?
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
+        }
+    }
+
+    void fromJSON(const picojson::value& value, ViewApp::ViewBackground& out)
     {
         if (value.is<std::string>())
         {

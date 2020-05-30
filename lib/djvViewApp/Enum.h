@@ -20,7 +20,7 @@ namespace djv
 
     namespace ViewApp
     {
-        enum class ImageViewLock
+        enum class ViewLock
         {
             None,
             Fill,
@@ -30,9 +30,9 @@ namespace djv
             Count,
             First = None
         };
-        DJV_ENUM_HELPERS(ImageViewLock);
+        DJV_ENUM_HELPERS(ViewLock);
 
-        enum class ImageViewGridLabels
+        enum class GridLabels
         {
             None,
             X_Y,
@@ -41,7 +41,28 @@ namespace djv
             Count,
             First = None
         };
-        DJV_ENUM_HELPERS(ImageViewGridLabels);
+        DJV_ENUM_HELPERS(GridLabels);
+
+        //! This enumeration provides HUD background options.
+        enum class HUDBackground
+        {
+            None,
+            Overlay,
+
+            Count,
+            First = None
+        };
+        DJV_ENUM_HELPERS(HUDBackground);
+
+        enum class ViewBackground
+        {
+            Solid,
+            Checkers,
+
+            Count,
+            First = Solid
+        };
+        DJV_ENUM_HELPERS(ViewBackground);
 
         enum class ScrollWheelSpeed
         {
@@ -114,16 +135,20 @@ namespace djv
 
     } // namespace ViewApp
 
-    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ImageViewLock);
-    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ImageViewGridLabels);
+    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ViewLock);
+    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::GridLabels);
+    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::HUDBackground);
+    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ViewBackground);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ScrollWheelSpeed);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::Playback);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::PlaybackSpeed);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::PlaybackMode);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::CmdLineMode);
 
-    picojson::value toJSON(ViewApp::ImageViewLock);
-    picojson::value toJSON(ViewApp::ImageViewGridLabels);
+    picojson::value toJSON(ViewApp::ViewLock);
+    picojson::value toJSON(ViewApp::GridLabels);
+    picojson::value toJSON(ViewApp::HUDBackground);
+    picojson::value toJSON(ViewApp::ViewBackground);
     picojson::value toJSON(ViewApp::ScrollWheelSpeed);
     picojson::value toJSON(ViewApp::PlaybackSpeed);
     picojson::value toJSON(ViewApp::PlaybackMode);
@@ -131,11 +156,34 @@ namespace djv
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value&, ViewApp::ImageViewLock&);
-    void fromJSON(const picojson::value&, ViewApp::ImageViewGridLabels&);
+    void fromJSON(const picojson::value&, ViewApp::ViewLock&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const picojson::value&, ViewApp::GridLabels&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const picojson::value&, ViewApp::HUDBackground&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const picojson::value&, ViewApp::ViewBackground&);
+
+    //! Throws:
+    //! - std::exception
     void fromJSON(const picojson::value&, ViewApp::ScrollWheelSpeed&);
+
+    //! Throws:
+    //! - std::exception
     void fromJSON(const picojson::value&, ViewApp::PlaybackSpeed&);
+
+    //! Throws:
+    //! - std::exception
     void fromJSON(const picojson::value&, ViewApp::PlaybackMode&);
+
+    //! Throws:
+    //! - std::exception
     void fromJSON(const picojson::value&, ViewApp::CmdLineMode&);
 
 } // namespace djv

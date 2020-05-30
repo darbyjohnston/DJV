@@ -306,14 +306,14 @@ namespace djv
             std::string out;
             switch (_options.labels)
             {
-            case ImageViewGridLabels::X_Y:
+            case GridLabels::X_Y:
             {
                 std::stringstream ss;
                 ss << value.second;
                 out = ss.str();
                 break;
             }
-            case ImageViewGridLabels::A_Y:
+            case GridLabels::A_Y:
             {
                 std::stringstream ss;
                 switch (value.first)
@@ -370,7 +370,7 @@ namespace djv
             _textSizeFutures.clear();
             _textGlyphsFutures.clear();
             if (_options.enabled &&
-                _options.labels != ImageViewGridLabels::None &&
+                _options.labels != GridLabels::None &&
                 _fontMetrics.ascender > 0 &&
                 _options.size * _imageZoom > _fontMetrics.ascender * 2.F)
             {

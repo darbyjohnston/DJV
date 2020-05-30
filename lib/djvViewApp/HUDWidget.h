@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvViewApp/HUD.h>
+#include <djvViewApp/View.h>
 
 #include <djvUI/Widget.h>
 

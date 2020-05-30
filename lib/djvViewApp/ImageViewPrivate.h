@@ -5,6 +5,7 @@
 #pragma once
 
 #include <djvViewApp/ImageView.h>
+#include <djvViewApp/View.h>
 
 namespace djv
 {

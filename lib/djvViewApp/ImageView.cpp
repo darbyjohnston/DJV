@@ -10,6 +10,7 @@
 #include <djvViewApp/ViewSettings.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/DrawUtil.h>
 #include <djvUI/ImageWidget.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Style.h>
@@ -37,18 +38,6 @@ namespace djv
             const size_t zoomAnimation = 200;
             
         } // namespace
-        
-        GridOptions::GridOptions()
-        {}
-
-        bool GridOptions::operator == (const GridOptions& other) const
-        {
-            return enabled == other.enabled &&
-                size == other.size &&
-                color == other.color &&
-                labels == other.labels &&
-                labelsColor == other.labelsColor;
-        }
 
         struct ImageView::Private
         {
@@ -60,15 +49,15 @@ namespace djv
             std::shared_ptr<ValueSubject<float> > imageZoom;
             std::shared_ptr<ValueSubject<UI::ImageRotate> > imageRotate;
             std::shared_ptr<ValueSubject<UI::ImageAspectRatio> > imageAspectRatio;
-            ImageViewLock lock = ImageViewLock::None;
+            ViewLock lock = ViewLock::None;
             BBox2f lockFrame = BBox2f(0.F, 0.F, 0.F, 0.F);
             std::shared_ptr<ValueSubject<GridOptions> > gridOptions;
-            std::shared_ptr<ValueSubject<AV::Image::Color> > backgroundColor;
+            std::shared_ptr<ValueSubject<ViewBackgroundOptions> > backgroundOptions;
             std::vector<std::shared_ptr<AnnotatePrimitive> > annotations;
             glm::vec2 pressedImagePos = glm::vec2(0.F, 0.F);
             bool viewInit = true;
             std::shared_ptr<ImageViewGridOverlay> gridOverlay;
-            std::shared_ptr<ValueObserver<ImageViewLock> > lockObserver;
+            std::shared_ptr<ValueObserver<ViewLock> > lockObserver;
             std::shared_ptr<ValueObserver<AV::OCIO::Config> > ocioConfigObserver;
             std::shared_ptr<Animation::Animation> zoomAnimation;
         };
@@ -96,7 +85,7 @@ namespace djv
             p.imageRotate = ValueSubject<UI::ImageRotate>::create(imageSettings->observeRotate()->get());
             p.imageAspectRatio = ValueSubject<UI::ImageAspectRatio>::create(imageSettings->observeAspectRatio()->get());
             p.gridOptions = ValueSubject<GridOptions>::create(viewSettings->observeGridOptions()->get());
-            p.backgroundColor = ValueSubject<AV::Image::Color>::create(viewSettings->observeBackgroundColor()->get());
+            p.backgroundOptions = ValueSubject<ViewBackgroundOptions>::create(viewSettings->observeBackgroundOptions()->get());
 
             p.gridOverlay = ImageViewGridOverlay::create(context);
             p.gridOverlay->setOptions(p.gridOptions->get());
@@ -108,9 +97,9 @@ namespace djv
             addChild(p.gridOverlay);
 
             auto weak = std::weak_ptr<ImageView>(std::dynamic_pointer_cast<ImageView>(shared_from_this()));
-            p.lockObserver = ValueObserver<ImageViewLock>::create(
+            p.lockObserver = ValueObserver<ViewLock>::create(
                 viewSettings->observeLock(),
-                [weak](ImageViewLock value)
+                [weak](ViewLock value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -369,15 +358,15 @@ namespace djv
             }
         }
 
-        std::shared_ptr<IValueSubject<AV::Image::Color> > ImageView::observeBackgroundColor() const
+        std::shared_ptr<IValueSubject<ViewBackgroundOptions> > ImageView::observeBackgroundOptions() const
         {
-            return _p->backgroundColor;
+            return _p->backgroundOptions;
         }
 
-        void ImageView::setBackgroundColor(const AV::Image::Color& value)
+        void ImageView::setBackgroundOptions(const ViewBackgroundOptions& value)
         {
             DJV_PRIVATE_PTR();
-            if (p.backgroundColor->setIfChanged(value))
+            if (p.backgroundOptions->setIfChanged(value))
             {
                 _redraw();
             }
@@ -401,9 +390,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             switch (p.lock)
             {
-            case ImageViewLock::Fill:   imageFill();   break;
-            case ImageViewLock::Frame:  imageFrame();  break;
-            case ImageViewLock::Center: imageCenter(); break;
+            case ViewLock::Fill:   imageFill();   break;
+            case ViewLock::Frame:  imageFrame();  break;
+            case ViewLock::Center: imageCenter(); break;
             default:
                 if (p.image && p.viewInit)
                 {
@@ -426,9 +415,25 @@ namespace djv
 
             const auto& style = _getStyle();
             const BBox2f & g = getMargin().bbox(getGeometry(), style);
+
+            const auto& backgroundOptions = p.backgroundOptions->get();
             const auto& render = _getRender();
-            render->setFillColor(p.backgroundColor->get());
-            render->drawRect(g);
+            switch (backgroundOptions.background)
+            {
+            case ViewBackground::Solid:
+                render->setFillColor(backgroundOptions.color);
+                render->drawRect(g);
+                break;
+            case ViewBackground::Checkers:
+                UI::drawCheckers(
+                    render,
+                    g,
+                    backgroundOptions.checkersSize,
+                    backgroundOptions.checkersColors[0],
+                    backgroundOptions.checkersColors[1]);
+                break;
+            default: break;
+            }
 
             const float zoom = p.imageZoom->get();
             if (auto image = p.image->get())
@@ -583,52 +588,5 @@ namespace djv
         }
 
     } // namespace ViewApp
-
-    picojson::value toJSON(const ViewApp::GridOptions& value)
-    {
-        picojson::value out(picojson::object_type, true);
-        out.get<picojson::object>()["Enabled"] = toJSON(value.enabled);
-        out.get<picojson::object>()["Size"] = toJSON(value.size);
-        out.get<picojson::object>()["Color"] = toJSON(value.color);
-        out.get<picojson::object>()["Labels"] = toJSON(value.labels);
-        out.get<picojson::object>()["LabelsColor"] = toJSON(value.labelsColor);
-        return out;
-    }
-
-    void fromJSON(const picojson::value& value, ViewApp::GridOptions& out)
-    {
-        if (value.is<picojson::object>())
-        {
-            for (const auto& i : value.get<picojson::object>())
-            {
-                if ("Enabled" == i.first)
-                {
-                    fromJSON(i.second, out.enabled);
-                }
-                else if ("Size" == i.first)
-                {
-                    fromJSON(i.second, out.size);
-                }
-                else if ("Color" == i.first)
-                {
-                    fromJSON(i.second, out.color);
-                }
-                else if ("Labels" == i.first)
-                {
-                    fromJSON(i.second, out.labels);
-                }
-                else if ("LabelsColor" == i.first)
-                {
-                    fromJSON(i.second, out.labelsColor);
-                }
-            }
-        }
-        else
-        {
-            //! \todo How can we translate this?
-            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
-        }
-    }
-
 } // namespace djv
 

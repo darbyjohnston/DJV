@@ -7,9 +7,11 @@
 #include <djvViewApp/ImageView.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidget.h>
+#include <djvViewApp/View.h>
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/DrawUtil.h>
 #include <djvUI/ImageWidget.h>
 #include <djvUI/IntSlider.h>
 #include <djvUI/RowLayout.h>
@@ -50,7 +52,7 @@ namespace djv
                 void setImageZoom(float);
                 void setImageRotate(UI::ImageRotate);
                 void setImageAspectRatio(UI::ImageAspectRatio);
-                void setBackgroundColor(const AV::Image::Color&);
+                void setBackgroundOptions(const ViewBackgroundOptions&);
                 void setMagnify(int);
                 void setMagnifyPos(const glm::vec2&);
 
@@ -67,7 +69,7 @@ namespace djv
                 UI::ImageAspectRatio _imageAspectRatio = UI::ImageAspectRatio::First;
                 AV::OCIO::Config _ocioConfig;
                 std::string _outputColorSpace;
-                AV::Image::Color _backgroundColor;
+                ViewBackgroundOptions _backgroundOptions;
                 int _magnify = 1;
                 glm::vec2 _magnifyPos = glm::vec2(0.F, 0.F);
                 std::shared_ptr<ValueObserver<AV::OCIO::Config> > _ocioConfigObserver;
@@ -158,11 +160,11 @@ namespace djv
                 _redraw();
             }
 
-            void ImageWidget::setBackgroundColor(const AV::Image::Color& value)
+            void ImageWidget::setBackgroundOptions(const ViewBackgroundOptions& value)
             {
-                if (value == _backgroundColor)
+                if (value == _backgroundOptions)
                     return;
-                _backgroundColor = value;
+                _backgroundOptions = value;
                 _redraw();
             }
 
@@ -193,9 +195,24 @@ namespace djv
             {
                 const auto& style = _getStyle();
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
+
                 const auto& render = _getRender();
-                render->setFillColor(_backgroundColor);
-                render->drawRect(g);
+                switch (_backgroundOptions.background)
+                {
+                case ViewBackground::Solid:
+                    render->setFillColor(_backgroundOptions.color);
+                    render->drawRect(g);
+                    break;
+                case ViewBackground::Checkers:
+                    UI::drawCheckers(
+                        render,
+                        g,
+                        _backgroundOptions.checkersSize,
+                        _backgroundOptions.checkersColors[0],
+                        _backgroundOptions.checkersColors[1]);
+                    break;
+                default: break;
+                }
 
                 if (_image)
                 {
@@ -248,7 +265,7 @@ namespace djv
             std::shared_ptr<ValueObserver<float> > imageZoomObserver;
             std::shared_ptr<ValueObserver<UI::ImageRotate> > imageRotateObserver;
             std::shared_ptr<ValueObserver<UI::ImageAspectRatio> > imageAspectRatioObserver;
-            std::shared_ptr<ValueObserver<AV::Image::Color> > backgroundColorObserver;
+            std::shared_ptr<ValueObserver<ViewBackgroundOptions> > backgroundOptionsObserver;
             std::shared_ptr<ValueObserver<PointerData> > dragObserver;
         };
 
@@ -358,13 +375,13 @@ namespace djv
                                         }
                                     });
 
-                                widget->_p->backgroundColorObserver = ValueObserver<AV::Image::Color>::create(
-                                    widget->_p->activeWidget->getImageView()->observeBackgroundColor(),
-                                    [weak](const AV::Image::Color& value)
+                                widget->_p->backgroundOptionsObserver = ValueObserver<ViewBackgroundOptions>::create(
+                                    widget->_p->activeWidget->getImageView()->observeBackgroundOptions(),
+                                    [weak](const ViewBackgroundOptions& value)
                                     {
                                         if (auto widget = weak.lock())
                                         {
-                                            widget->_p->imageWidget->setBackgroundColor(value);
+                                            widget->_p->imageWidget->setBackgroundOptions(value);
                                         }
                                     });
 
@@ -390,7 +407,7 @@ namespace djv
                                 widget->_p->imageZoomObserver.reset();
                                 widget->_p->imageRotateObserver.reset();
                                 widget->_p->imageAspectRatioObserver.reset();
-                                widget->_p->backgroundColorObserver.reset();
+                                widget->_p->backgroundOptionsObserver.reset();
                                 widget->_p->dragObserver.reset();
                             }
                         }

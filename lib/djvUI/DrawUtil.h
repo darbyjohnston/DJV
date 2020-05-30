@@ -14,6 +14,12 @@ namespace djv
 {
     namespace AV
     {
+        namespace Image
+        {
+            class Color;
+
+        } // namespace Image
+
         namespace Render2D
         {
             class Render;
@@ -24,7 +30,17 @@ namespace djv
 
     namespace UI
     {
-        void drawBorder(const std::shared_ptr<AV::Render2D::Render>&, const Core::BBox2f&, float);
+        void drawBorder(
+            const std::shared_ptr<AV::Render2D::Render>&,
+            const Core::BBox2f& box,
+            float width);
+
+        void drawCheckers(
+            const std::shared_ptr<AV::Render2D::Render>&,
+            const Core::BBox2f& box,
+            float size,
+            const AV::Image::Color& color0,
+            const AV::Image::Color& color1);
 
     } // namespace UI
 } // namespace djv

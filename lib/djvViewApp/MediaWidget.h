@@ -5,7 +5,6 @@
 #pragma once
 
 #include <djvViewApp/Enum.h>
-#include <djvViewApp/HUD.h>
 
 #include <djvUI/MDIWidget.h>
 
@@ -15,6 +14,7 @@ namespace djv
 {
     namespace ViewApp
     {
+        struct HUDOptions;
         class ImageView;
         class Media;
 

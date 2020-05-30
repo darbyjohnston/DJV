@@ -7,6 +7,7 @@
 #include <djvViewApp/ImageView.h>
 #include <djvViewApp/InputSettings.h>
 #include <djvViewApp/MediaWidget.h>
+#include <djvViewApp/View.h>
 #include <djvViewApp/ViewControlsWidget.h>
 #include <djvViewApp/ViewSettings.h>
 #include <djvViewApp/WindowSystem.h>
@@ -39,12 +40,13 @@ namespace djv
             std::map<std::string, bool> bellowsState;
             GridOptions gridOptions;
             HUDOptions hudOptions;
+            ViewBackgroundOptions backgroundOptions;
             bool currentTool = false;
             glm::vec2 hoverPos = glm::vec2(0.F, 0.F);
             glm::vec2 dragStart = glm::vec2(0.F, 0.F);
             glm::vec2 dragImagePos = glm::vec2(0.F, 0.F);
             std::shared_ptr<MediaWidget> activeWidget;
-            std::shared_ptr<ValueSubject<ImageViewLock> > lock;
+            std::shared_ptr<ValueSubject<ViewLock> > lock;
             
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> lockActionGroup;
@@ -53,9 +55,10 @@ namespace djv
             
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
-            std::shared_ptr<ValueObserver<ImageViewLock> > lockObserver;
+            std::shared_ptr<ValueObserver<ViewLock> > lockObserver;
             std::shared_ptr<ValueObserver<GridOptions> > gridOptionsObserver;
             std::shared_ptr<ValueObserver<HUDOptions> > hudOptionsObserver;
+            std::shared_ptr<ValueObserver<ViewBackgroundOptions> > backgroundOptionsObserver;
             std::shared_ptr<ValueObserver<PointerData> > hoverObserver;
             std::shared_ptr<ValueObserver<PointerData> > dragObserver;
             std::shared_ptr<ValueObserver<ScrollData> > scrollObserver;
@@ -76,7 +79,8 @@ namespace djv
 
             p.gridOptions = p.settings->observeGridOptions()->get();
             p.hudOptions = p.settings->observeHUDOptions()->get();
-            p.lock = ValueSubject<ImageViewLock>::create();
+            p.backgroundOptions = p.settings->observeBackgroundOptions()->get();
+            p.lock = ValueSubject<ViewLock>::create();
 
             p.actions["ViewControls"] = UI::Action::create();
             p.actions["ViewControls"]->setButtonType(UI::ButtonType::Toggle);
@@ -178,12 +182,12 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        ImageViewLock lock = ImageViewLock::None;
+                        ViewLock lock = ViewLock::None;
                         switch (index)
                         {
-                        case 0: lock = ImageViewLock::Fill;   break;
-                        case 1: lock = ImageViewLock::Frame;  break;
-                        case 2: lock = ImageViewLock::Center; break;
+                        case 0: lock = ViewLock::Fill;   break;
+                        case 1: lock = ViewLock::Frame;  break;
+                        case 2: lock = ViewLock::Center; break;
                         }
                         system->_p->settings->setLock(lock);
                     }
@@ -234,7 +238,7 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            system->_p->settings->setLock(ImageViewLock::None);
+                            system->_p->settings->setLock(ViewLock::None);
                             system->_panImage(glm::vec2(1.F, 0.F));
                         }
                     }
@@ -248,7 +252,7 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            system->_p->settings->setLock(ImageViewLock::None);
+                            system->_p->settings->setLock(ViewLock::None);
                             system->_panImage(glm::vec2(0.F, -1.F));
                         }
                     }
@@ -262,7 +266,7 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            system->_p->settings->setLock(ImageViewLock::None);
+                            system->_p->settings->setLock(ViewLock::None);
                             system->_panImage(glm::vec2(0.F, 1.F));
                         }
                     }
@@ -276,7 +280,7 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            system->_p->settings->setLock(ImageViewLock::None);
+                            system->_p->settings->setLock(ViewLock::None);
                             system->_panImage(glm::vec2(-1.F, -1.F));
                         }
                     }
@@ -290,7 +294,7 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            system->_p->settings->setLock(ImageViewLock::None);
+                            system->_p->settings->setLock(ViewLock::None);
                             system->_panImage(glm::vec2(1.F, -1.F));
                         }
                     }
@@ -304,7 +308,7 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            system->_p->settings->setLock(ImageViewLock::None);
+                            system->_p->settings->setLock(ViewLock::None);
                             system->_panImage(glm::vec2(1.F, 1.F));
                         }
                     }
@@ -318,7 +322,7 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            system->_p->settings->setLock(ImageViewLock::None);
+                            system->_p->settings->setLock(ViewLock::None);
                             system->_panImage(glm::vec2(-1.F, 1.F));
                         }
                     }
@@ -358,7 +362,7 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            system->_p->settings->setLock(ImageViewLock::None);
+                            system->_p->settings->setLock(ViewLock::None);
                             system->_zoomImage(1.F);
                         }
                     }
@@ -473,6 +477,16 @@ namespace djv
                                         system->_actionsUpdate();
                                     }
                                 });
+                                system->_p->backgroundOptionsObserver = ValueObserver<ViewBackgroundOptions>::create(
+                                    system->_p->activeWidget->getImageView()->observeBackgroundOptions(),
+                                    [weak](const ViewBackgroundOptions& value)
+                                {
+                                    if (auto system = weak.lock())
+                                    {
+                                        system->_p->backgroundOptions = value;
+                                        system->_actionsUpdate();
+                                    }
+                                });
                                 system->_p->hoverObserver = ValueObserver<PointerData>::create(
                                     system->_p->activeWidget->observeHover(),
                                     [weak](const PointerData& value)
@@ -505,6 +519,7 @@ namespace djv
                             {
                                 system->_p->gridOptionsObserver.reset();
                                 system->_p->hudOptionsObserver.reset();
+                                system->_p->backgroundOptionsObserver.reset();
                                 system->_p->hoverObserver.reset();
                                 system->_p->dragObserver.reset();
                                 system->_p->scrollObserver.reset();
@@ -514,25 +529,25 @@ namespace djv
                     });
             }
 
-            p.lockObserver = ValueObserver<ImageViewLock>::create(
+            p.lockObserver = ValueObserver<ViewLock>::create(
                 p.settings->observeLock(),
-                [weak](ImageViewLock value)
+                [weak](ViewLock value)
                 {
                     if (auto system = weak.lock())
                     {
                         system->_p->lock->setIfChanged(value);
                         switch (value)
                         {
-                        case ImageViewLock::None:
+                        case ViewLock::None:
                             system->_p->lockActionGroup->setChecked(-1);
                             break;
-                        case ImageViewLock::Fill:
+                        case ViewLock::Fill:
                             system->_p->lockActionGroup->setChecked(0);
                             break;
-                        case ImageViewLock::Frame:
+                        case ViewLock::Frame:
                             system->_p->lockActionGroup->setChecked(1);
                             break;
-                        case ImageViewLock::Center:
+                        case ViewLock::Center:
                             system->_p->lockActionGroup->setChecked(2);
                             break;
                         default: break;
@@ -711,7 +726,7 @@ namespace djv
         void ViewSystem::_zoomAction(float value)
         {
             DJV_PRIVATE_PTR();
-            p.settings->setLock(ImageViewLock::None);
+            p.settings->setLock(ViewLock::None);
             if (auto widget = p.activeWidget)
             {
                 auto imageView = widget->getImageView();
@@ -736,7 +751,6 @@ namespace djv
             p.actions["ZoomOut"]->setEnabled(activeWidget);
             p.actions["ZoomReset"]->setEnabled(activeWidget);
             p.actions["Grid"]->setChecked(p.gridOptions.enabled);
-            p.actions["HUD"]->setChecked(p.hudOptions.enabled);
         }
 
         void ViewSystem::Private::drag(const PointerData& value)
@@ -757,7 +771,7 @@ namespace djv
                     0 == value.keyModifiers;
                 if (pan)
                 {
-                    settings->setLock(ImageViewLock::None);
+                    settings->setLock(ViewLock::None);
                     auto imageView = activeWidget->getImageView();
                     switch (value.state)
                     {
@@ -787,7 +801,7 @@ namespace djv
                 {
                     if (auto context = contextWeak.lock())
                     {
-                        settings->setLock(ImageViewLock::None);
+                        settings->setLock(ViewLock::None);
                         const float zoom = imageView->observeImageZoom()->get();
                         auto settingsSystem = context->getSystemT<UI::Settings::System>();
                         auto inputSettings = settingsSystem->getSettingsT<InputSettings>();
