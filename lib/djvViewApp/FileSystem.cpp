@@ -91,10 +91,6 @@ namespace djv
             p.actions["Close"]->setShortcut(GLFW_KEY_E, UI::Shortcut::getSystemModifier());
             p.actions["CloseAll"] = UI::Action::create();
             p.actions["CloseAll"]->setShortcut(GLFW_KEY_E, GLFW_MOD_SHIFT | UI::Shortcut::getSystemModifier());
-            //! \todo Implement me!
-            //p.actions["Export"] = UI::Action::create();
-            //p.actions["Export"]->setShortcut(GLFW_KEY_X, UI::Shortcut::getSystemModifier());
-            //p.actions["Export"]->setEnabled(false);
             p.actions["Next"] = UI::Action::create();
             p.actions["Next"]->setShortcut(GLFW_KEY_PAGE_DOWN);
             p.actions["Prev"] = UI::Action::create();
@@ -119,7 +115,6 @@ namespace djv
             p.menu->addAction(p.actions["Reload"]);
             p.menu->addAction(p.actions["Close"]);
             p.menu->addAction(p.actions["CloseAll"]);
-            //p.menu->addAction(p.actions["Export"]);
             p.menu->addAction(p.actions["Next"]);
             p.menu->addAction(p.actions["Prev"]);
             p.menu->addSeparator();
@@ -646,7 +641,6 @@ namespace djv
             p.actions["Reload"]->setEnabled(size > 0);
             p.actions["Close"]->setEnabled(size > 0);
             p.actions["CloseAll"]->setEnabled(size > 0);
-            //p.actions["Export"]->setEnabled(size > 0);
             p.actions["Next"]->setEnabled(size > 1);
             p.actions["Prev"]->setEnabled(size > 1);
             p.actions["NextLayer"]->setEnabled(size > 0);
@@ -786,8 +780,6 @@ namespace djv
                 p.actions["Close"]->setTooltip(_getText(DJV_TEXT("menu_file_close_tooltip")));
                 p.actions["CloseAll"]->setText(_getText(DJV_TEXT("menu_file_close_all")));
                 p.actions["CloseAll"]->setTooltip(_getText(DJV_TEXT("menu_file_close_all_tooltip")));
-                //p.actions["Export"]->setText(_getText(DJV_TEXT("menu_export")));
-                //p.actions["Export"]->setTooltip(_getText(DJV_TEXT("menu_file_export_tooltip")));
                 p.actions["Next"]->setText(_getText(DJV_TEXT("menu_file_next")));
                 p.actions["Next"]->setTooltip(_getText(DJV_TEXT("menu_file_next_tooltip")));
                 p.actions["Prev"]->setText(_getText(DJV_TEXT("menu_file_previous")));
