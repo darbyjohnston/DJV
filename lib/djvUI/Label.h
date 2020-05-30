@@ -36,8 +36,8 @@ namespace djv
             //! \name Label Text
             ///@{
 
-            const std::string & getText() const;
-            void setText(const std::string &);
+            const std::string& getText() const;
+            void setText(const std::string&);
 
             TextHAlign getTextHAlign() const;
             TextVAlign getTextVAlign() const;
@@ -47,15 +47,15 @@ namespace djv
             ColorRole getTextColorRole() const;
             void setTextColorRole(ColorRole);
 
-            const std::string & getFontFamily() const;
-            const std::string & getFontFace() const;
+            const std::string& getFontFamily() const;
+            const std::string& getFontFace() const;
             MetricsRole getFontSizeRole() const;
-            void setFontFamily(const std::string &);
-            void setFontFace(const std::string &);
+            void setFontFamily(const std::string&);
+            void setFontFace(const std::string&);
             void setFontSizeRole(MetricsRole);
 
-            const std::string & getSizeString() const;
-            void setSizeString(const std::string &);
+            const std::string& getSizeString() const;
+            void setSizeString(const std::string&);
 
             ///@}
 
@@ -64,7 +64,7 @@ namespace djv
         protected:
             void _initLayoutEvent(Core::Event::InitLayout&) override;
             void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _paintEvent(Core::Event::Paint &) override;
+            void _paintEvent(Core::Event::Paint&) override;
 
             void _initEvent(Core::Event::Init&) override;
             void _updateEvent(Core::Event::Update&) override;

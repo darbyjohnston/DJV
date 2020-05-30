@@ -65,12 +65,12 @@ namespace djv
             return out;
         }
 
-        const std::string & Label::getText() const
+        const std::string& Label::getText() const
         {
             return _p->text;
         }
 
-        void Label::setText(const std::string & value)
+        void Label::setText(const std::string& value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.text)
@@ -121,12 +121,12 @@ namespace djv
             _redraw();
         }
 
-        const std::string & Label::getFontFamily() const
+        const std::string& Label::getFontFamily() const
         {
             return _p->fontFamily;
         }
 
-        const std::string & Label::getFontFace() const
+        const std::string& Label::getFontFace() const
         {
             return _p->fontFace;
         }
@@ -136,7 +136,7 @@ namespace djv
             return _p->fontSizeRole;
         }
 
-        void Label::setFontFamily(const std::string & value)
+        void Label::setFontFamily(const std::string& value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.fontFamily)
@@ -145,7 +145,7 @@ namespace djv
             _fontUpdate();
         }
 
-        void Label::setFontFace(const std::string & value)
+        void Label::setFontFace(const std::string& value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.fontFace)
@@ -163,12 +163,12 @@ namespace djv
             _fontUpdate();
         }
 
-        const std::string & Label::getSizeString() const
+        const std::string& Label::getSizeString() const
         {
             return _p->sizeString;
         }
 
-        void Label::setSizeString(const std::string & value)
+        void Label::setSizeString(const std::string& value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.sizeString)
@@ -211,7 +211,7 @@ namespace djv
             _setMinimumSize(minimumSize);
         }
 
-        void Label::_paintEvent(Event::Paint & event)
+        void Label::_paintEvent(Event::Paint& event)
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
@@ -280,7 +280,7 @@ namespace djv
                     p.fontMetrics = p.fontMetricsFuture.get();
                     _resize();
                 }
-                catch (const std::exception & e)
+                catch (const std::exception& e)
                 {
                     _log(e.what(), LogLevel::Error);
                 }
@@ -293,7 +293,7 @@ namespace djv
                     p.textSize = p.textSizeFuture.get();
                     _resize();
                 }
-                catch (const std::exception & e)
+                catch (const std::exception& e)
                 {
                     _log(e.what(), LogLevel::Error);
                 }
@@ -306,7 +306,7 @@ namespace djv
                     p.sizeStringSize = p.sizeStringFuture.get();
                     _resize();
                 }
-                catch (const std::exception & e)
+                catch (const std::exception& e)
                 {
                     _log(e.what(), LogLevel::Error);
                 }
@@ -319,7 +319,7 @@ namespace djv
                     p.glyphs = p.glyphsFuture.get();
                     _redraw();
                 }
-                catch (const std::exception & e)
+                catch (const std::exception& e)
                 {
                     _log(e.what(), LogLevel::Error);
                 }
