@@ -70,9 +70,13 @@ namespace djv
             void _updateEvent(Core::Event::Update&) override;
 
         private:
+            glm::vec2 _labelMinimumSize = glm::vec2(0.F, 0.F);
+
             void _textUpdate();
             void _sizeStringUpdate();
             void _fontUpdate();
+
+            friend class LabelSizeGroup;
 
             DJV_PRIVATE();
         };

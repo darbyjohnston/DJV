@@ -39,7 +39,6 @@ namespace djv
             std::future<glm::vec2> sizeStringFuture;
             std::vector<std::shared_ptr<AV::Font::Glyph> > glyphs;
             std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > glyphsFuture;
-            glm::vec2 minimumSize = glm::vec2(0.F, 0.F);
             std::weak_ptr<LabelSizeGroup> sizeGroup;
         };
 
@@ -196,14 +195,13 @@ namespace djv
             DJV_PRIVATE_PTR();
             const glm::vec2 size(glm::max(p.textSize.x, p.sizeStringSize.x), p.fontMetrics.lineHeight);
             const auto& style = _getStyle();
-            p.minimumSize = size + getMargin().getSize(style);
-            _setMinimumSize(p.minimumSize);
+            _labelMinimumSize = size + getMargin().getSize(style);
         }
 
         void Label::_preLayoutEvent(Event::PreLayout&)
         {
             DJV_PRIVATE_PTR();
-            glm::vec2 minimumSize = p.minimumSize;
+            glm::vec2 minimumSize = _labelMinimumSize;
             if (auto sizeGroup = p.sizeGroup.lock())
             {
                 minimumSize = sizeGroup->getMinimumSize();
@@ -421,7 +419,7 @@ namespace djv
             {
                 if (auto label = i->lock())
                 {
-                    p.minimumSize = glm::max(p.minimumSize, label->getMinimumSize());
+                    p.minimumSize = glm::max(p.minimumSize, label->_labelMinimumSize);
                     ++i;
                 }
                 else
