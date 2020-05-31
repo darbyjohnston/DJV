@@ -156,8 +156,8 @@ namespace djv
             
             {
                 FileSystem::FileInfo fileInfo("/tmp/render.1.exr");
-                fileInfo.addToSequence(FileSystem::FileInfo("/tmp/render.2.exr"));
                 fileInfo.addToSequence(FileSystem::FileInfo("/tmp/render.3.exr"));
+                fileInfo.addToSequence(FileSystem::FileInfo("/tmp/render.2.exr"));
                 DJV_ASSERT("/tmp/render.1-3.exr" == fileInfo.getFileName());
                 DJV_ASSERT("/tmp/render.1.exr" == fileInfo.getFileName(1));
                 DJV_ASSERT("render.1.exr" == fileInfo.getFileName(1, false));

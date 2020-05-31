@@ -101,7 +101,10 @@ namespace djv
                     {
                         if (!_sequence.merge(range))
                         {
-                            _sequence.ranges.push_back(range);
+                            auto i = _sequence.ranges.begin();
+                            for (; i != _sequence.ranges.end() && range < *i; ++i)
+                                ;
+                            _sequence.ranges.insert(i, range);
                         }
                     }
                     {
