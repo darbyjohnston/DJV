@@ -31,8 +31,8 @@ before_script:
 - mkdir DJV-third-party-Debug
 - cd DJV-third-party-Debug
 - cmake ../../third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_PYTHON=FALSE -DDJV_OPENGL_ES2=TRUE
-- cmake --build .
-- cmake --build . --target install
+- cmake --build . -j 4
+- cmake --build . --target install -j 4
 - cd ..
 - echo "Building DJV..."
 - mkdir DJV-Debug
@@ -44,7 +44,7 @@ before_script:
 - cp $wrapperdir/libinterceptor-x86_64.so $wrapperdir/libinterceptor-haswell.so
 - build-wrapper-linux-x86-64 --out-dir ../bw-output cmake --build . -j 4
 #- build/bin/djvTest
-- make test
+- cmake --build . --target test
 - cat Testing/Temporary/LastTest.log
 #- cppcheck --enable=all --xml-version=2 -I${PWD}/lib -UDJV_ASSERT -UDJV_ENDIAN_MSB -UDJV_MMAP -UDJV_OPENGL_ES2 -UDJV_PLATFORM_WINDOWS -UGLM_PRECISION_LOWP_FLOAT -UGLM_PRECISION_LOWP_INT -UGLM_PRECISION_MEDIUMP_FLOAT -UGLM_PRECISION_MEDIUMP_INT -UDJV_OPENGL_PBO -Umax -Umin lib bin examples 2> report.xml
 - sh ../../etc/Util/gcov.sh ../..
