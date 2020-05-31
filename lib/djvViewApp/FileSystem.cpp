@@ -808,54 +808,28 @@ namespace djv
             if (auto context = getContext().lock())
             {
                 // Get absolute paths.
-                std::vector<Core::FileSystem::Path> paths;
                 for (const auto& i : fileNames)
                 {
-                    paths.push_back(Core::FileSystem::Path::getAbsolute(Core::FileSystem::Path(i)));
+                    fileInfos.push_back(Core::FileSystem::Path::getAbsolute(Core::FileSystem::Path(i)));
                 }
 
-                // Find sequences.
-                auto io = context->getSystemT<AV::IO::System>();
-                if (p.settings->observeAutoDetectSequences()->get())
-                {
-                    auto i = paths.begin();
-                    while (i != paths.end())
-                    {
-                        const auto fileInfo = Core::FileSystem::FileInfo::getFileSequence(*i, io->getSequenceExtensions());
-                        if (fileInfo.getSequence().getSize() > 1)
-                        {
-                            fileInfos.push_back(fileInfo);
-                            i = paths.erase(i);
-                        }
-                        else
-                        {
-                            ++i;
-                        }
-                    }
-                }
-            
                 // Find arguments that belong to the same sequence (for
                 // example when a shell wildcard is used).
-                auto i = paths.begin();
-                while (i != paths.end())
+                auto io = context->getSystemT<AV::IO::System>();
+                auto i = fileInfos.begin();
+                while (i != fileInfos.end())
                 {
-                    Core::FileSystem::FileInfo fileInfo(*i);
-                    if (io->canSequence(fileInfo))
+                    if (io->canSequence(*i))
                     {
                         auto j = i + 1;
-                        while (j != paths.end())
+                        while (j != fileInfos.end())
                         {
-                            bool sequenced = false;
-                            Core::FileSystem::FileInfo fileInfo2(*j);
-                            if (fileInfo.isCompatible(fileInfo2))
+                            if (i->isCompatible(*j) &&
+                                i->addToSequence(*j))
                             {
-                                if (fileInfo.addToSequence(fileInfo2))
-                                {
-                                    sequenced = true;
-                                    j = paths.erase(j);
-                                }
+                                j = fileInfos.erase(j);
                             }
-                            if (!sequenced)
+                            else
                             {
                                 ++j;
                             }
@@ -864,40 +838,46 @@ namespace djv
                     ++i;
                 }
                 
-                // Check the directory for wildcards.
-                i = paths.begin();
-                while (i != paths.end())
+                // Find sequences.
+                if (p.settings->observeAutoDetectSequences()->get())
                 {
-                    Core::FileSystem::FileInfo fileInfo(*i);
-                    const std::string& number = fileInfo.getPath().getNumber();
-                    const bool wildcard = Core::FileSystem::FileInfo::isSequenceWildcard(number);
-                    Core::FileSystem::FileInfo fileSequence;
-                    if (wildcard)
+                    for (auto& i : fileInfos)
                     {
-                        fileSequence = Core::FileSystem::FileInfo::getFileSequence(*i, io->getSequenceExtensions());
-                    }
-                    if (wildcard &&
-                        (number.size() == 1 || number.size() == fileSequence.getSequence().pad))
-                    {
-                        if (options.startEnd)
+                        if (Core::FileSystem::FileType::File == i.getType())
                         {
-                            fileSequence.setSequence(Core::Frame::Sequence(*options.startEnd, fileSequence.getSequence().pad));
+                            const auto fileInfo = Core::FileSystem::FileInfo::getFileSequence(i.getPath(), io->getSequenceExtensions());
+                            if (fileInfo.getSequence().getSize() > 1)
+                            {
+                                i = fileInfo;
+                            }
                         }
-                        fileInfos.push_back(fileSequence);
-                        i = paths.erase(i);
                     }
-                    else
-                    {
-                        ++i;
+                }
+            
+                // Check the directory for wildcards.
+                for (auto& i : fileInfos)
+                {
+                        if (Core::FileSystem::FileType::File == i.getType())
+                        {
+                        const std::string& number = i.getPath().getNumber();
+                        const bool wildcard = Core::FileSystem::FileInfo::isSequenceWildcard(number);
+                        Core::FileSystem::FileInfo fileSequence;
+                        if (wildcard)
+                        {
+                            fileSequence = Core::FileSystem::FileInfo::getFileSequence(i.getPath(), io->getSequenceExtensions());
+                        }
+                        if (wildcard &&
+                            (number.size() == 1 || number.size() == fileSequence.getSequence().pad))
+                        {
+                            if (options.startEnd)
+                            {
+                                fileSequence.setSequence(Core::Frame::Sequence(*options.startEnd, fileSequence.getSequence().pad));
+                            }
+                            i = fileSequence;
+                        }
                     }
                 }
                 
-                // Add the remaining file names.
-                for (const auto& i : paths)
-                {
-                    fileInfos.push_back(Core::FileSystem::FileInfo(i));
-                }
-
                 // Check for missing file extensions (e.g., Maya movie playblasts).
                 for (auto& i : fileInfos)
                 {
