@@ -6,8 +6,12 @@ set(libraries
     ${libraries}
     djvAVTest
     djvCoreTest
-    djvUITest
-    djvViewAppTest)
+    djvUITest)
+if(NOT DJV_BUILD_TINY)
+    set(libraries
+        ${libraries}
+        djvViewAppTest)
+endif()
 target_link_libraries(djvTest ${libraries})
 set_target_properties(
     djvTest

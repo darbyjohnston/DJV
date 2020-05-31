@@ -55,7 +55,9 @@
 #include <djvUITest/EnumTest.h>
 #include <djvUITest/WidgetTest.h>
 
+#if !defined(DJV_BUILD_TINY)
 #include <djvViewAppTest/FileSystemTest.h>
+#endif // DJV_BUILD_TINY
 
 #include <djvUI/UISystem.h>
 
@@ -135,7 +137,9 @@ int main(int argc, char ** argv)
             tests.emplace_back(new UITest::EnumTest(context));
             tests.emplace_back(new UITest::WidgetTest(context));
 
+#if !defined(DJV_BUILD_TINY)
             tests.emplace_back(new ViewAppTest::FileSystemTest(context));
+#endif // DJV_BUILD_TINY
         }
 
         std::vector<std::shared_ptr<Test::ITest> > testsToRun;
