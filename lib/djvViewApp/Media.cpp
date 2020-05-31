@@ -34,6 +34,7 @@ namespace djv
         {
             std::weak_ptr<Context> context;
 
+            bool valid = false;
             Core::FileSystem::FileInfo fileInfo;
             std::shared_ptr<ValueSubject<AV::IO::Info> > info;
             AV::IO::VideoInfo videoInfo;
@@ -190,6 +191,11 @@ namespace djv
             auto out = std::shared_ptr<Media>(new Media);
             out->_init(fileInfo, context);
             return out;
+        }
+
+        bool Media::isValid() const
+        {
+            return _p->valid;
         }
 
         const Core::FileSystem::FileInfo& Media::getFileInfo() const
@@ -721,6 +727,8 @@ namespace djv
             {
                 try
                 {
+                    p.valid = false;
+
                     AV::IO::ReadOptions options;
                     options.layer = p.layer->get();
                     options.videoQueueSize = videoQueueSize;
@@ -749,7 +757,7 @@ namespace djv
                     }
                     {
                         std::stringstream ss;
-                        ss << p.fileInfo << " sequence: " << sequence.getSize();
+                        ss << "open: " << p.fileInfo << ", sequence: " << sequence;
                         auto logSystem = context->getSystemT<LogSystem>();
                         logSystem->log("djv::ViewApp::Media", ss.str());
                     }
@@ -861,6 +869,8 @@ namespace djv
                                 }
                             }
                         });
+
+                    p.valid = true;
                 }
                 catch (const std::exception& e)
                 {

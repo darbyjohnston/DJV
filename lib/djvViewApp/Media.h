@@ -52,6 +52,7 @@ namespace djv
             //! \name File
             ///@{
 
+            bool isValid() const;
             const Core::FileSystem::FileInfo& getFileInfo() const;
 
             std::shared_ptr<Core::IValueSubject<AV::IO::Info> > observeInfo() const;

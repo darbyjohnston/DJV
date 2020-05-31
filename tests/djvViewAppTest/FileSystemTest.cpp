@@ -5,6 +5,7 @@
 #include <djvViewAppTest/FileSystemTest.h>
 
 #include <djvViewApp/FileSystem.h>
+#include <djvViewApp/Media.h>
 
 #include <djvDesktopApp/EventSystem.h>
 #include <djvDesktopApp/GLFWSystem.h>
@@ -41,19 +42,18 @@ namespace djv
             if (auto context = getContext().lock())
             {
                 {
-                    auto fileSystem = ViewApp::FileSystem::create(context);
-
                     const auto fileInfoA = Core::FileSystem::FileInfo(
-                        Core::FileSystem::Path("ViewAppTest_FileSystemTest_A.1.png"),
+                        Core::FileSystem::Path("testA.#.png"),
                         Core::FileSystem::FileType::Sequence,
                         Frame::Sequence(1, 3));
                     _writeImage(fileInfoA);
                     const auto fileInfoB = Core::FileSystem::FileInfo(
-                        Core::FileSystem::Path("ViewAppTest_FileSystemTest_B.1.png"),
+                        Core::FileSystem::Path("testB.#.png"),
                         Core::FileSystem::FileType::Sequence,
                         Frame::Sequence(3, 6));
                     _writeImage(fileInfoB);
 
+                    auto fileSystem = ViewApp::FileSystem::create(context);
                     bool openObserved = false;
                     auto openObserver = ValueObserver<std::shared_ptr<Media> >::create(
                         fileSystem->observeOpened(),
@@ -109,6 +109,46 @@ namespace djv
                     DJV_ASSERT(closeObserved);
                     DJV_ASSERT(0 == media.size());
                 }
+
+                // https://github.com/darbyjohnston/DJV/issues/31
+                {
+                    const std::string fileName = "wallpaper2960819.png";
+                    _writeImage(Core::FileSystem::FileInfo(fileName));
+                    auto fileSystem = ViewApp::FileSystem::create(context);
+                    fileSystem->open(std::vector<std::string>({ fileName }));
+                    auto media = fileSystem->observeCurrentMedia()->get();
+                    DJV_ASSERT(media->isValid());
+                }
+                {
+                    const std::string fileName = "wallpaper2960819-test.png";
+                    _writeImage(Core::FileSystem::FileInfo(fileName));
+                    auto fileSystem = ViewApp::FileSystem::create(context);
+                    fileSystem->open(std::vector<std::string>({ fileName }));
+                    auto media = fileSystem->observeCurrentMedia()->get();
+                    DJV_ASSERT(media->isValid());
+                }
+
+                // https://github.com/darbyjohnston/DJV/issues/96
+                {
+                    const std::string fileName = "dump.png";
+                    _writeImage(Core::FileSystem::FileInfo(fileName));
+                    _writeImage(Core::FileSystem::FileInfo("dump1.png"));
+                    auto fileSystem = ViewApp::FileSystem::create(context);
+                    fileSystem->open(std::vector<std::string>({ fileName }));
+                    auto media = fileSystem->observeCurrentMedia()->get();
+                    DJV_ASSERT(media->isValid());
+                    DJV_ASSERT(fileName == media->getFileInfo().getFileName(Frame::invalid, false));
+                }
+
+                // https://github.com/darbyjohnston/DJV/issues/115
+                {
+                    const std::string fileName = "Screenshot from 2019-07-17 0-14.png";
+                    _writeImage(Core::FileSystem::FileInfo(fileName));
+                    auto fileSystem = ViewApp::FileSystem::create(context);
+                    fileSystem->open(std::vector<std::string>({ fileName }));
+                    auto media = fileSystem->observeCurrentMedia()->get();
+                    DJV_ASSERT(media->isValid());
+                }
             }
         }
 
@@ -126,7 +166,8 @@ namespace djv
                     std::lock_guard<std::mutex> lock(write->getMutex());
                     auto& writeQueue = write->getVideoQueue();
                     const auto& sequence = value.getSequence();
-                    for (size_t i = 0; i < sequence.getSize(); ++i)
+                    const size_t size = sequence.getSize() > 0 ? sequence.getSize() : 1;
+                    for (size_t i = 0; i < size; ++i)
                     {
                         writeQueue.addFrame(AV::IO::VideoFrame(i, image));
                     }
