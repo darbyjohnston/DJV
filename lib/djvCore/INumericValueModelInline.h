@@ -68,38 +68,38 @@ namespace djv
             switch (_overflow->get())
             {
             case NumericValueOverflow::Clamp:
-                value = Math::clamp(value, range.min, range.max);
+                value = Math::clamp(value, range.getMin(), range.getMax());
                 break;
             case NumericValueOverflow::Wrap:
-                if (range.min != range.max)
+                if (range.getMin() != range.getMax())
                 {
-                    while (value > range.max)
+                    while (value > range.getMax())
                     {
-                        value -= range.max;
+                        value -= range.getMax();
                     }
-                    while (value < range.min)
+                    while (value < range.getMin())
                     {
-                        value += range.min;
+                        value += range.getMin();
                     }
                 }
                 break;
             default: break;
             }
             _value->setIfChanged(value);
-            _isMin->setIfChanged(value == range.min);
-            _isMax->setIfChanged(value == range.max);
+            _isMin->setIfChanged(value == range.getMin());
+            _isMax->setIfChanged(value == range.getMax());
         }
 
         template<typename T>
         inline void INumericValueModel<T>::setMin()
         {
-            setValue(_range->get().min);
+            setValue(_range->get().getMin());
         }
 
         template<typename T>
         inline void INumericValueModel<T>::setMax()
         {
-            setValue(_range->get().max);
+            setValue(_range->get().getMax());
         }
 
         template<typename T>

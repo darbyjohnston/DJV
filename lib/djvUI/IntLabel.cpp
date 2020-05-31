@@ -92,9 +92,9 @@ namespace djv
         std::string IntLabel::getSizeString(const IntRange& range)
         {
             std::string out;
-            const size_t digits = std::max(Math::getNumDigits(range.min), Math::getNumDigits(range.max));
+            const size_t digits = std::max(Math::getNumDigits(range.getMin()), Math::getNumDigits(range.getMax()));
             out += std::string(digits, '0');
-            if (range.min < 0 || range.max < 0)
+            if (range.getMin() < 0 || range.getMax() < 0)
             {
                 out = '-' + out;
             }

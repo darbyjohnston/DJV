@@ -367,18 +367,17 @@ namespace djv
             }
             else
             {
-                range.min = 0;
-                range.max = p.sequence->get().getLastIndex();
+                range = Frame::Range(0, p.sequence->get().getLastIndex());
             }
             Frame::Index tmp = value;
-            const size_t size = range.max - range.min + 1;
+            const size_t size = range.getMax() - range.getMin() + 1;
             if (size)
             {
-                while (tmp > range.max)
+                while (tmp > range.getMax())
                 {
                     tmp -= size;
                 }
-                while (tmp < range.min)
+                while (tmp < range.getMin())
                 {
                     tmp += size;
                 }
@@ -446,27 +445,27 @@ namespace djv
                 switch (p.playbackMode->get())
                 {
                 case PlaybackMode::Once:
-                    if (currentFrame >= range.max ||
-                        currentFrame < range.min)
+                    if (currentFrame >= range.getMax() ||
+                        currentFrame < range.getMin())
                     {
-                        setCurrentFrame(range.min);
+                        setCurrentFrame(range.getMin());
                     }
                     break;
                 case PlaybackMode::Loop:
-                    if (currentFrame > range.max ||
-                        currentFrame < range.min)
+                    if (currentFrame > range.getMax() ||
+                        currentFrame < range.getMin())
                     {
-                        setCurrentFrame(range.min);
+                        setCurrentFrame(range.getMin());
                     }
                     break;
                 case PlaybackMode::PingPong:
-                    if (currentFrame > range.max)
+                    if (currentFrame > range.getMax())
                     {
-                        setCurrentFrame(range.max);
+                        setCurrentFrame(range.getMax());
                     }
-                    else if (currentFrame < range.min)
+                    else if (currentFrame < range.getMin())
                     {
-                        setCurrentFrame(range.min);
+                        setCurrentFrame(range.getMin());
                     }
                     break;
                 default: break;
@@ -476,27 +475,27 @@ namespace djv
                 switch (p.playbackMode->get())
                 {
                 case PlaybackMode::Once:
-                    if (currentFrame <= range.min ||
-                        currentFrame > range.max)
+                    if (currentFrame <= range.getMin() ||
+                        currentFrame > range.getMax())
                     {
-                        setCurrentFrame(range.max);
+                        setCurrentFrame(range.getMax());
                     }
                     break;
                 case PlaybackMode::Loop:
-                    if (currentFrame < range.min ||
-                        currentFrame > range.max)
+                    if (currentFrame < range.getMin() ||
+                        currentFrame > range.getMax())
                     {
-                        setCurrentFrame(range.max);
+                        setCurrentFrame(range.getMax());
                     }
                     break;
                 case PlaybackMode::PingPong:
-                    if (currentFrame > range.max)
+                    if (currentFrame > range.getMax())
                     {
-                        setCurrentFrame(range.max);
+                        setCurrentFrame(range.getMax());
                     }
-                    else if (currentFrame < range.min)
+                    else if (currentFrame < range.getMin())
                     {
-                        setCurrentFrame(range.min);
+                        setCurrentFrame(range.getMin());
                     }
                     break;
                 default: break;
@@ -903,7 +902,7 @@ namespace djv
                 switch (p.playback->get())
                 {
                 case Playback::Forward:
-                    if (value >= range.max)
+                    if (value >= range.getMax())
                     {
                         switch (p.playbackMode->get())
                         {
@@ -927,7 +926,7 @@ namespace djv
                     }
                     break;
                 case Playback::Reverse:
-                    if (value <= range.min)
+                    if (value <= range.getMin())
                     {
                         switch (p.playbackMode->get())
                         {

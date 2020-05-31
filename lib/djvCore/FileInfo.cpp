@@ -43,11 +43,11 @@ namespace djv
                         ss << _path.getDirectoryName();
                     }
                     ss << _path.getBaseName();
-                    if (FileType::Sequence == _type && _sequence.ranges.size() && frame != Frame::invalid)
+                    if (FileType::Sequence == _type && _sequence.isValid() && frame != Frame::invalid)
                     {
-                        ss << Frame::toString(frame, _sequence.pad);
+                        ss << Frame::toString(frame, _sequence.getPad());
                     }
-                    else if (FileType::Sequence == _type && _sequence.ranges.size())
+                    else if (FileType::Sequence == _type && _sequence.isValid())
                     {
                         ss << _sequence;
                     }
@@ -162,7 +162,6 @@ namespace djv
                 {
                     if (FileType::Sequence == i._type)
                     {
-                        i._sequence.sort();
                         std::stringstream s;
                         s << i._sequence;
                         i._path.setNumber(s.str());

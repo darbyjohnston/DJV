@@ -423,10 +423,10 @@ namespace djv
                     color = style->getColor(UI::ColorRole::Checked);
                     render->setFillColor(color);
                     boxes.clear();
-                    for (const auto& i : p.cacheSequence.ranges)
+                    for (const auto& i : p.cacheSequence.getRanges())
                     {
-                        const float x0 = _frameToPos(i.min);
-                        const float x1 = _frameToPos(i.max + 1);
+                        const float x0 = _frameToPos(i.getMin());
+                        const float x1 = _frameToPos(i.getMax() + 1);
                         boxes.push_back(BBox2f(
                             x0,
                             g.max.y - b * 2.F,
@@ -437,10 +437,10 @@ namespace djv
                     color = style->getColor(UI::ColorRole::Cached);
                     render->setFillColor(color);
                     boxes.clear();
-                    for (const auto& i : p.cachedFrames.ranges)
+                    for (const auto& i : p.cachedFrames.getRanges())
                     {
-                        const float x0 = _frameToPos(i.min);
-                        const float x1 = _frameToPos(i.max + 1);
+                        const float x0 = _frameToPos(i.getMin());
+                        const float x1 = _frameToPos(i.getMax() + 1);
                         boxes.push_back(BBox2f(
                             x0,
                             g.max.y - b * 2.F,
@@ -745,10 +745,10 @@ namespace djv
                     break;
                 case Time::Units::Frames:
                 {
-                    const size_t rangesSize = p.sequence.ranges.size();
+                    const size_t rangesSize = p.sequence.getRanges().size();
                     if (rangesSize > 0)
                     {
-                        maxFrameText = std::string(Math::getNumDigits(p.sequence.ranges[rangesSize - 1].max), '0');
+                        maxFrameText = std::string(Math::getNumDigits(p.sequence.getRanges()[rangesSize - 1].getMax()), '0');
                     }
                     break;
                 }

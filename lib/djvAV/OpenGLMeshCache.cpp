@@ -96,7 +96,7 @@ namespace djv
                     p.uids[uid] = out;
                     ++_timestamp;
                     p.timestamps[_timestamp] = uid;
-                    p.vbo->copy(data, out.min * vertexByteCount);
+                    p.vbo->copy(data, out.getMin() * vertexByteCount);
                     return uid;
                 }
 
@@ -138,7 +138,7 @@ namespace djv
                         p.uids[uid] = out;
                         ++_timestamp;
                         p.timestamps[_timestamp] = uid;
-                        p.vbo->copy(data, out.min * vertexByteCount);
+                        p.vbo->copy(data, out.getMin() * vertexByteCount);
                         return uid;
                     }
                 }
@@ -152,7 +152,7 @@ namespace djv
                 size_t used = 0;
                 for (const auto& i : p.ranges)
                 {
-                    used += i.first.max - i.first.min + 1;
+                    used += i.first.getMax() - i.first.getMin() + 1;
                 }
                 return used / static_cast<float>(p.vboSize) * 100.F;
             }
@@ -162,7 +162,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 for (auto i = p.empty.begin(); i != p.empty.end(); ++i)
                 {
-                    const size_t emptySize = i->max - i->min + 1;
+                    const size_t emptySize = i->getMax() - i->getMin() + 1;
                     if (size == emptySize)
                     {
                         out = *i;
@@ -171,9 +171,8 @@ namespace djv
                     }
                     else if (size < emptySize)
                     {
-                        out.min = i->min;
-                        out.max = i->min + size - 1;
-                        SizeTRange empty(out.max + 1, i->max);
+                        out = SizeTRange(i->getMin(), i->getMin() + size - 1);
+                        SizeTRange empty(out.getMax() + 1, i->getMax());
                         p.empty.erase(i);
                         p.empty.insert(empty);
                         return true;

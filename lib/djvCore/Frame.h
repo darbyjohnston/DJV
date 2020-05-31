@@ -39,12 +39,15 @@ namespace djv
             public:
                 Sequence();
                 explicit Sequence(Number);
-                Sequence(Number, Number, size_t pad = 0);
+                Sequence(Number min, Number max, size_t pad = 0);
                 explicit Sequence(const Range& range, size_t pad = 0);
                 explicit Sequence(const std::vector<Range>& ranges, size_t pad = 0);
 
-                std::vector<Range> ranges;
-                size_t pad = 0;
+                const std::vector<Range>& getRanges() const;
+                void add(const Range&);
+
+                size_t getPad() const;
+                void setPad(size_t);
 
                 bool isValid() const;
                 bool contains(Index) const;
@@ -53,26 +56,18 @@ namespace djv
                 Index getIndex(Number) const;
                 Index getLastIndex() const;
 
-                //! \name Utilities
-                ///@{
-                
-                //! Sort the sequence so that the frame numbers are in ascending order.
-                void sort();
-                
-                bool merge(const Range&);
-                
-                ///@}
-
                 bool operator == (const Sequence&) const;
                 bool operator != (const Sequence&) const;
+
+            private:
+                std::vector<Range> _ranges;
+                size_t _pad = 0;
             };
 
             //! \name Utilities
             ///@{
 
             bool isValid(const Range&);
-
-            void sort(Range&);
 
             ///@}
 

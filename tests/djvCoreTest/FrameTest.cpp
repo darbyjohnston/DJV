@@ -31,8 +31,8 @@ namespace djv
         {
             {
                 const Frame::Sequence sequence;
-                DJV_ASSERT(0 == sequence.ranges.size());
-                DJV_ASSERT(0 == sequence.pad);
+                DJV_ASSERT(std::vector<Frame::Range>() == sequence.getRanges());
+                DJV_ASSERT(0 == sequence.getPad());
                 DJV_ASSERT(!sequence.isValid());
                 DJV_ASSERT(!sequence.contains(0));
                 DJV_ASSERT(0 == sequence.getSize());
@@ -42,8 +42,8 @@ namespace djv
             
             {
                 const Frame::Sequence sequence(Frame::Range(0, 99), 4);
-                DJV_ASSERT(1 == sequence.ranges.size());
-                DJV_ASSERT(4 == sequence.pad);
+                DJV_ASSERT(1 == sequence.getRanges().size());
+                DJV_ASSERT(4 == sequence.getPad());
                 DJV_ASSERT(sequence.isValid());
                 DJV_ASSERT(sequence.contains(0));
                 DJV_ASSERT(100 == sequence.getSize());
@@ -53,8 +53,8 @@ namespace djv
             
             {
                 const Frame::Sequence sequence({ Frame::Range(0, 9), Frame::Range(10, 99) }, 4);
-                DJV_ASSERT(2 == sequence.ranges.size());
-                DJV_ASSERT(4 == sequence.pad);
+                DJV_ASSERT(1 == sequence.getRanges().size());
+                DJV_ASSERT(4 == sequence.getPad());
                 DJV_ASSERT(sequence.isValid());
                 DJV_ASSERT(sequence.contains(0));
                 DJV_ASSERT(100 == sequence.getSize());
@@ -64,17 +64,26 @@ namespace djv
             
             {
                 Frame::Sequence sequence({ Frame::Range(10, 9), Frame::Range(3, 1) });
-                sequence.sort();
-                DJV_ASSERT(sequence.ranges[0] == Frame::Range(1, 3));
-                DJV_ASSERT(sequence.ranges[1] == Frame::Range(9, 10));
+                const auto& ranges = sequence.getRanges();
+                DJV_ASSERT(ranges[0] == Frame::Range(1, 3));
+                DJV_ASSERT(ranges[1] == Frame::Range(9, 10));
             }
-            
+
+            {
+                Frame::Sequence sequence;
+                for (Frame::Number i = -10; i <= 10; ++i)
+                {
+                    sequence.add(Frame::Range(i));
+                }
+                DJV_ASSERT(sequence.getRanges()[0] == Frame::Range(-10, 10));
+            }
+
             {
                 Frame::Sequence sequence(Frame::Range(1, 3));
-                sequence.merge(Frame::Range(3, 10));
-                DJV_ASSERT(sequence.ranges[0] == Frame::Range(1, 10));
-                sequence.merge(Frame::Range(12, 100));
-                DJV_ASSERT(sequence.ranges[0] == Frame::Range(1, 10));
+                sequence.add(Frame::Range(3, 10));
+                DJV_ASSERT(sequence.getRanges()[0] == Frame::Range(1, 10));
+                sequence.add(Frame::Range(12, 100));
+                DJV_ASSERT(sequence.getRanges()[0] == Frame::Range(1, 10));
             }
         }
         
@@ -85,12 +94,6 @@ namespace djv
                 DJV_ASSERT(!Frame::isValid(range));
                 range = Frame::Range(1, 100);
                 DJV_ASSERT(Frame::isValid(range));
-            }
-            
-            {
-                Frame::Range range(100, 1);
-                Frame::sort(range);
-                DJV_ASSERT(Frame::Range(1, 100) == range);
             }
         }
         
@@ -104,7 +107,7 @@ namespace djv
                     ss << sequence;
                     _print(ss.str());
                 }
-                DJV_ASSERT(0 == sequence.ranges.size());
+                DJV_ASSERT(0 == sequence.isValid());
             }
             
             {
@@ -115,9 +118,9 @@ namespace djv
                     ss << sequence;
                     _print(ss.str());
                 }
-                DJV_ASSERT(1 == sequence.ranges.size());
-                DJV_ASSERT(1 == sequence.ranges[0].min);
-                DJV_ASSERT(1 == sequence.ranges[0].max);
+                DJV_ASSERT(1 == sequence.isValid());
+                DJV_ASSERT(1 == sequence.getRanges()[0].getMin());
+                DJV_ASSERT(1 == sequence.getRanges()[0].getMax());
             }
             
             {
@@ -128,9 +131,9 @@ namespace djv
                     ss << sequence;
                     _print(ss.str());
                 }
-                DJV_ASSERT(1 == sequence.ranges.size());
-                DJV_ASSERT(1 == sequence.ranges[0].min);
-                DJV_ASSERT(3 == sequence.ranges[0].max);
+                DJV_ASSERT(1 == sequence.isValid());
+                DJV_ASSERT(1 == sequence.getRanges()[0].getMin());
+                DJV_ASSERT(3 == sequence.getRanges()[0].getMax());
             }
             
             {
@@ -141,11 +144,12 @@ namespace djv
                     ss << sequence;
                     _print(ss.str());
                 }
-                DJV_ASSERT(2 == sequence.ranges.size());
-                DJV_ASSERT(1 == sequence.ranges[0].min);
-                DJV_ASSERT(1 == sequence.ranges[0].max);
-                DJV_ASSERT(3 == sequence.ranges[1].min);
-                DJV_ASSERT(3 == sequence.ranges[1].max);
+                const auto& ranges = sequence.getRanges();
+                DJV_ASSERT(2 == ranges.size());
+                DJV_ASSERT(1 == ranges[0].getMin());
+                DJV_ASSERT(1 == ranges[0].getMax());
+                DJV_ASSERT(3 == ranges[1].getMin());
+                DJV_ASSERT(3 == ranges[1].getMax());
             }
             
             {
@@ -156,13 +160,14 @@ namespace djv
                     ss << sequence;
                     _print(ss.str());
                 }
-                DJV_ASSERT(3 == sequence.ranges.size());
-                DJV_ASSERT(1 == sequence.ranges[0].min);
-                DJV_ASSERT(3 == sequence.ranges[0].max);
-                DJV_ASSERT(5 == sequence.ranges[1].min);
-                DJV_ASSERT(6 == sequence.ranges[1].max);
-                DJV_ASSERT(8 == sequence.ranges[2].min);
-                DJV_ASSERT(8 == sequence.ranges[2].max);
+                const auto& ranges = sequence.getRanges();
+                DJV_ASSERT(3 == ranges.size());
+                DJV_ASSERT(1 == ranges[0].getMin());
+                DJV_ASSERT(3 == ranges[0].getMax());
+                DJV_ASSERT(5 == ranges[1].getMin());
+                DJV_ASSERT(6 == ranges[1].getMax());
+                DJV_ASSERT(8 == ranges[2].getMin());
+                DJV_ASSERT(8 == ranges[2].getMax());
             }
             
             {

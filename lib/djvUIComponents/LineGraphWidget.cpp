@@ -77,23 +77,25 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.samples.push_front(value);
-            p.samplesRange.min = std::min(value, p.samplesRange.min);
-            p.samplesRange.max = std::max(value, p.samplesRange.max);
+            p.samplesRange = FloatRange(
+                std::min(value, p.samplesRange.getMin()),
+                std::max(value, p.samplesRange.getMax()));
             while (p.samples.size() > p.samplesSize)
             {
                 p.samples.pop_back();
             }
-            p.samplesRange.min = p.samplesRange.max = 0.F;
+            p.samplesRange = FloatRange(0.F);
             auto i = p.samples.begin();
             if (i != p.samples.end())
             {
-                p.samplesRange.min = p.samplesRange.max = p.samples.front();
+                p.samplesRange = FloatRange(p.samples.front());
                 ++i;
             }
             for (; i != p.samples.end(); ++i)
             {
-                p.samplesRange.min = std::min(p.samplesRange.min, *i);
-                p.samplesRange.max = std::max(p.samplesRange.max, *i);
+                p.samplesRange = FloatRange(
+                    std::min(p.samplesRange.getMin(), *i),
+                    std::max(p.samplesRange.getMax(), *i));
             }
             _widgetUpdate();
             _redraw();
@@ -153,12 +155,12 @@ namespace djv
             auto color2 = style->getColor(ColorRole::Checked);
             color2.setF32(color2.getF32(3) * .5F, 3);
             float x = g.min.x;
-            const float range = p.samplesRange.max - p.samplesRange.min;
+            const float range = p.samplesRange.getMax() - p.samplesRange.getMin();
             std::vector<BBox2f> boxes1(p.samples.size());
             std::vector<BBox2f> boxes2(p.samples.size());
             for (const auto& i : p.samples)
             {
-                float h = (i - p.samplesRange.min) / range * g.h();
+                float h = (i - p.samplesRange.getMin()) / range * g.h();
                 boxes1.emplace_back(BBox2f(x, g.min.y + g.h() - h, b, b));
                 boxes2.emplace_back(BBox2f(x, g.min.y + g.h() - h + b, b, h));
                 x += b;
@@ -190,7 +192,7 @@ namespace djv
                 ss.precision(p.precision);
                 ss << std::fixed;
                 float v = p.samples.size() ? p.samples.front() : 0.F;
-                ss << v << "/" << p.samplesRange.min << "/" << p.samplesRange.max;
+                ss << v << "/" << p.samplesRange.getMin() << "/" << p.samplesRange.getMax();
                 p.labelValue->setText(ss.str());
             }
         }

@@ -14,81 +14,82 @@ namespace djv
 
             template<typename T>
             constexpr Range<T>::Range(T minMax) :
-                min(minMax),
-                max(minMax)
+                _min(minMax),
+                _max(minMax)
             {}
 
             template<typename T>
             constexpr Range<T>::Range(T min, T max) :
-                min(min),
-                max(max)
+                _min(std::min(min, max)),
+                _max(std::max(min, max))
             {}
 
             template<typename T>
             inline Range<T>::~Range()
             {}
 
+            template<typename T>
+            inline T Range<T>::getMin() const
+            {
+                return _min;
+            }
+
+            template<typename T>
+            inline T Range<T>::getMax() const
+            {
+                return _max;
+            }
+
             template<>
             inline void Range<int>::zero()
             {
-                min = max = 0;
+                _min = _max = 0;
             }
 
             template<>
             inline void Range<size_t>::zero()
             {
-                min = max = size_t(0);
+                _min = _max = size_t(0);
             }
 
             template<>
             inline void Range<float>::zero()
             {
-                min = max = 0.F;
+                _min = _max = 0.F;
             }
 
             template<typename T>
             constexpr bool Range<T>::contains(T value) const
             {
-                return value >= min && value <= max;
+                return value >= _min && value <= _max;
             }
 
             template<typename T>
             constexpr bool Range<T>::intersects(const Range<T> & value) const
             {
                 return !(
-                    value.max < min ||
-                    value.min > max);
+                    value._max < _min ||
+                    value._min > _max);
             }
 
             template<typename T>
             inline void Range<T>::expand(T value)
             {
-                min = std::min(min, value);
-                max = std::max(max, value);
+                _min = std::min(_min, value);
+                _max = std::max(_max, value);
             }
 
             template<typename T>
             inline void Range<T>::expand(const Range<T>& value)
             {
-                min = std::min(min, value.min);
-                max = std::max(max, value.max);
-            }
-
-            template<typename T>
-            inline void Range<T>::sort()
-            {
-                if (max < min)
-                {
-                    const T tmp = min;
-                    min = max;
-                    max = tmp;
-                }
+                _min = std::min(_min, value._min);
+                _max = std::max(_max, value._max);
             }
 
             template<typename T>
             constexpr bool Range<T>::operator == (const Range<T> & value) const
             {
-                return min == value.min && max == value.max;
+                return _min == value._min && _max == value._max;
             }
 
             template<typename T>
@@ -100,7 +101,7 @@ namespace djv
             template<typename T>
             constexpr bool Range<T>::operator < (const Range<T> & value) const
             {
-                return min < value.min;
+                return _min < value._min;
             }
 
         } // namespace Range
@@ -109,8 +110,8 @@ namespace djv
     template<typename T>
     inline std::ostream& operator << (std::ostream& is, const Core::Range::Range<T>& value)
     {
-        is << value.min << " ";
-        is << value.max;
+        is << value.getMin() << " ";
+        is << value.getMax();
         return is;
     }
 
@@ -118,8 +119,11 @@ namespace djv
     inline std::istream& operator >> (std::istream& os, Core::Range::Range<T>& out)
     {
         os.exceptions(std::istream::failbit | std::istream::badbit);
-        os >> out.min;
-        os >> out.max;
+        T min = static_cast<T>(0);
+        os >> min;
+        T max = static_cast<T>(0);
+        os >> max;
+        out = Core::Range::Range<T>(min, max);
         return os;
     }
 

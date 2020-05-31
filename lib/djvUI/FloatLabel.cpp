@@ -107,8 +107,8 @@ namespace djv
         std::string FloatLabel::getSizeString(const FloatRange& range, size_t precision)
         {
             std::string out;
-            const size_t digits = std::max(Math::getNumDigits(range.min), Math::getNumDigits(range.max));
-            if (range.min < 0 || range.max < 0)
+            const size_t digits = std::max(Math::getNumDigits(range.getMin()), Math::getNumDigits(range.getMax()));
+            if (range.getMin() < 0 || range.getMax() < 0)
             {
                 out += '-';
             }

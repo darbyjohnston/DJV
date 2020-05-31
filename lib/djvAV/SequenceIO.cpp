@@ -422,9 +422,9 @@ namespace djv
                         for (size_t i = 0; i < readBehind; ++i)
                         {
                             --frame;
-                            if (frame < range.min)
+                            if (frame < range.getMin())
                             {
-                                frame = range.max;
+                                frame = range.getMax();
                             }
                         }
                         const size_t max = std::min(_cache.getMax(), sequenceSize);
@@ -436,9 +436,9 @@ namespace djv
                                 p.cacheFutures.push_back(_getFuture(frame, fileName));
                             }
                             ++frame;
-                            if (frame > range.max)
+                            if (frame > range.getMax())
                             {
-                                frame = range.min;
+                                frame = range.getMin();
                             }
                         }
                         break;
@@ -448,9 +448,9 @@ namespace djv
                         for (size_t i = 0; i < readBehind; ++i)
                         {
                             ++frame;
-                            if (frame > range.max)
+                            if (frame > range.getMax())
                             {
-                                frame = range.min;
+                                frame = range.getMin();
                             }
                         }
                         const size_t max = std::min(_cache.getMax(), sequenceSize);
@@ -462,9 +462,9 @@ namespace djv
                                 p.cacheFutures.push_back(_getFuture(frame, fileName));
                             }
                             --frame;
-                            if (frame < range.min)
+                            if (frame < range.getMin())
                             {
-                                frame = range.max;
+                                frame = range.getMax();
                             }
                         }
                         break;
@@ -526,10 +526,9 @@ namespace djv
                 if (FileSystem::FileType::Sequence == p.fileInfo.getType())
                 {
                     auto sequence = p.fileInfo.getSequence();
-                    if (sequence.ranges.size())
+                    if (sequence.isValid())
                     {
-                        sequence.sort();
-                        p.frameNumber = sequence.ranges[0].min;
+                        p.frameNumber = sequence.getRanges()[0].getMin();
                     }
                 }
 

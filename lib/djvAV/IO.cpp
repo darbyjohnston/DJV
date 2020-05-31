@@ -157,17 +157,17 @@ namespace djv
                     {
                         if (frames[i] != prevFrame + 1)
                         {
-                            out.ranges.push_back(Frame::Range(rangeStart, prevFrame));
+                            out.add(Frame::Range(rangeStart, prevFrame));
                             rangeStart = frames[i];
                         }
                     }
                     if (size > 1)
                     {
-                        out.ranges.push_back(Frame::Range(rangeStart, prevFrame));
+                        out.add(Frame::Range(rangeStart, prevFrame));
                     }
                     else
                     {
-                        out.ranges.push_back(Frame::Range(rangeStart));
+                        out.add(Frame::Range(rangeStart));
                     }
                 }
                 return out;
@@ -231,12 +231,12 @@ namespace djv
                     for (size_t i = 0; i < _readBehind; ++i)
                     {
                         --frame;
-                        if (frame < range.min)
+                        if (frame < range.getMin())
                         {
-                            frame = range.max;
+                            frame = range.getMax();
                         }
                     }
-                    _sequence.ranges.push_back(Frame::Range(frame));
+                    _sequence.add(Frame::Range(frame));
                     const Frame::Index first = frame;
                     for (size_t i = 0; i < _max; ++i)
                     {
@@ -245,17 +245,17 @@ namespace djv
                         {
                             break;
                         }
-                        if (frame > range.max)
+                        if (frame > range.getMax())
                         {
-                            frame = range.min;
-                            if (frame != _sequence.ranges.back().max)
+                            frame = range.getMin();
+                            if (frame != _sequence.getRanges().back().getMax())
                             {
-                                _sequence.ranges.push_back(Frame::Range(frame));
+                                _sequence.add(Frame::Range(frame));
                             }
                         }
                         else
                         {
-                            _sequence.ranges.back().max = frame;
+                            _sequence.add(Frame::Range(frame));
                         }
                     }
                     break;
@@ -265,12 +265,12 @@ namespace djv
                     for (size_t i = 0; i < _readBehind; ++i)
                     {
                         ++frame;
-                        if (frame > range.max)
+                        if (frame > range.getMax())
                         {
-                            frame = range.min;
+                            frame = range.getMin();
                         }
                     }
-                    _sequence.ranges.push_back(Frame::Range(frame));
+                    _sequence.add(Frame::Range(frame));
                     const Frame::Index first = frame;
                     for (size_t i = 0; i < _max; ++i)
                     {
@@ -279,17 +279,17 @@ namespace djv
                         {
                             break;
                         }
-                        if (frame < range.min)
+                        if (frame < range.getMin())
                         {
-                            frame = range.max;
-                            if (frame != _sequence.ranges.back().min)
+                            frame = range.getMax();
+                            if (frame != _sequence.getRanges().back().getMin())
                             {
-                                _sequence.ranges.push_back(Frame::Range(frame));
+                                _sequence.add(Frame::Range(frame));
                             }
                         }
                         else
                         {
-                            _sequence.ranges.back().min = frame;
+                            _sequence.add(Frame::Range(frame));
                         }
                     }
                     break;

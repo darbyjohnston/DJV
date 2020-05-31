@@ -108,12 +108,12 @@ namespace djv
 
             inline void S8ToF32(S8_T value, F32_T & out)
             {
-                out = value / static_cast<float>(S8Range.max);
+                out = value / static_cast<float>(S8Range.getMax());
             }
 
             inline void S8ToF64(S8_T value, F64_T & out)
             {
-                out = value / static_cast<double>(S8Range.max);
+                out = value / static_cast<double>(S8Range.getMax());
             }
 
             inline void S16ToS8(S16_T value, S8_T & out)
@@ -128,12 +128,12 @@ namespace djv
 
             inline void S16ToF32(S16_T value, F32_T & out)
             {
-                out = value / static_cast<float>(S16Range.max);
+                out = value / static_cast<float>(S16Range.getMax());
             }
 
             inline void S16ToF64(S16_T value, F64_T & out)
             {
-                out = value / static_cast<double>(S16Range.max);
+                out = value / static_cast<double>(S16Range.getMax());
             }
 
             inline void S32ToS8(S32_T value, S8_T& out)
@@ -148,36 +148,36 @@ namespace djv
 
             inline void S32ToF32(S32_T value, F32_T& out)
             {
-                out = value / static_cast<float>(S32Range.max);
+                out = value / static_cast<float>(S32Range.getMax());
             }
 
             inline void S32ToF64(S32_T value, F64_T& out)
             {
-                out = value / static_cast<double>(S32Range.max);
+                out = value / static_cast<double>(S32Range.getMax());
             }
 
             inline void F32ToS8(F32_T value, S8_T & out)
             {
                 out = static_cast<S8_T>(Core::Math::clamp(
-                    static_cast<int16_t>(value * S8Range.max),
-                    static_cast<int16_t>(S8Range.min),
-                    static_cast<int16_t>(S8Range.max)));
+                    static_cast<int16_t>(value * S8Range.getMax()),
+                    static_cast<int16_t>(S8Range.getMin()),
+                    static_cast<int16_t>(S8Range.getMax())));
             }
 
             inline void F32ToS16(F32_T value, S16_T & out)
             {
                 out = static_cast<S16_T>(Core::Math::clamp(
-                    static_cast<int32_t>(value * S16Range.max),
-                    static_cast<int32_t>(S16Range.min),
-                    static_cast<int32_t>(S16Range.max)));
+                    static_cast<int32_t>(value * S16Range.getMax()),
+                    static_cast<int32_t>(S16Range.getMin()),
+                    static_cast<int32_t>(S16Range.getMax())));
             }
 
             inline void F32ToS32(F32_T value, S32_T& out)
             {
                 out = static_cast<S32_T>(Core::Math::clamp(
-                    static_cast<int64_t>(static_cast<int64_t>(value) * S32Range.max),
-                    static_cast<int64_t>(S32Range.min),
-                    static_cast<int64_t>(S32Range.max)));
+                    static_cast<int64_t>(static_cast<int64_t>(value) * S32Range.getMax()),
+                    static_cast<int64_t>(S32Range.getMin()),
+                    static_cast<int64_t>(S32Range.getMax())));
             }
 
             inline void F32ToF64(F32_T value, F64_T& out)
@@ -188,25 +188,25 @@ namespace djv
             inline void F64ToS8(F64_T value, S8_T & out)
             {
                 out = static_cast<S8_T>(Core::Math::clamp(
-                    static_cast<int16_t>(value * S8Range.max),
-                    static_cast<int16_t>(S8Range.min),
-                    static_cast<int16_t>(S8Range.max)));
+                    static_cast<int16_t>(value * S8Range.getMax()),
+                    static_cast<int16_t>(S8Range.getMin()),
+                    static_cast<int16_t>(S8Range.getMax())));
             }
 
             inline void F64ToS16(F64_T value, S16_T & out)
             {
                 out = static_cast<S16_T>(Core::Math::clamp(
-                    static_cast<int32_t>(value * S16Range.max),
-                    static_cast<int32_t>(S16Range.min),
-                    static_cast<int32_t>(S16Range.max)));
+                    static_cast<int32_t>(value * S16Range.getMax()),
+                    static_cast<int32_t>(S16Range.getMin()),
+                    static_cast<int32_t>(S16Range.getMax())));
             }
 
             inline void F64ToS32(F64_T value, S32_T& out)
             {
                 out = static_cast<S32_T>(Core::Math::clamp(
-                    static_cast<int64_t>(static_cast<int64_t>(value) * S32Range.max),
-                    static_cast<int64_t>(S32Range.min),
-                    static_cast<int64_t>(S32Range.max)));
+                    static_cast<int64_t>(static_cast<int64_t>(value) * S32Range.getMax()),
+                    static_cast<int64_t>(S32Range.getMin()),
+                    static_cast<int64_t>(S32Range.getMax())));
             }
 
             inline void F64ToF32(F64_T value, F32_T& out)
@@ -220,8 +220,8 @@ namespace djv
     template<>
     inline std::ostream& operator << (std::ostream& os, const Core::Range::Range<int8_t>& value)
     {
-        os << static_cast<int16_t>(value.min) << " ";
-        os << static_cast<int16_t>(value.max);
+        os << static_cast<int16_t>(value.getMin()) << " ";
+        os << static_cast<int16_t>(value.getMax());
         return os;
     }
     
@@ -229,11 +229,11 @@ namespace djv
     inline std::istream& operator >> (std::istream& is, Core::Range::Range<int8_t>& value)
     {
         is.exceptions(std::istream::failbit | std::istream::badbit);
-        int16_t tmp = 0;
-        is >> tmp;
-        value.min = static_cast<int8_t>(tmp);
-        is >> tmp;
-        value.max = static_cast<int8_t>(tmp);
+        int16_t min = 0;
+        is >> min;
+        int16_t max = 0;
+        is >> max;
+        value = Core::Range::Range<int8_t>(min, max);
         return is;
     }
 

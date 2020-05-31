@@ -15,79 +15,36 @@ namespace djv
     {
         namespace Frame
         {
-            void Sequence::sort()
+            void Sequence::add(const Range& value)
             {
-                for (auto & range : ranges)
+                Range newRange(value);
+                auto i = _ranges.begin();
+                while (i != _ranges.end())
                 {
-                    Frame::sort(range);
-                }
-
-                std::sort(ranges.begin(), ranges.end());
-
-                if (ranges.size())
-                {
-                    std::vector<Range> tmp;
-                    tmp.push_back(ranges[0]);
-                    for (size_t i = 1; i < ranges.size(); ++i)
+                    if (newRange.intersects(*i))
                     {
-                        const size_t tmpSize = tmp.size();
-                        size_t j = 0;
-                        for (; j < tmpSize; ++j)
-                        {
-                            if (ranges[i].min == tmp[j].max + 1)
-                            {
-                                tmp[j].max = ranges[i].max;
-                                break;
-                            }
-                            else if (ranges[i].intersects(tmp[j]))
-                            {
-                                tmp[j].expand(ranges[i]);
-                                break;
-                            }
-                        }
-                        if (tmpSize == j)
-                        {
-                            tmp.push_back(ranges[i]);
-                        }
+                        newRange.expand(*i);
+                        i = _ranges.erase(i);
                     }
-                    ranges = tmp;
-                }
-            }
-            
-            bool Sequence::merge(const Range& value)
-            {
-                bool out = false;
-                for (auto& i : ranges)
-                {
-                    if (i.intersects(value))
+                    else if (newRange.getMin() == i->getMax() + 1)
                     {
-                        i.min = std::min(i.min, value.min);
-                        i.max = std::max(i.max, value.max);
-                        out = true;
-                        break;
+                        newRange = Range(i->getMin(), newRange.getMax());
+                        i = _ranges.erase(i);
                     }
-                    if (value.max == i.min - 1)
+                    else if (newRange.getMax() == i->getMin() - 1)
                     {
-                        i.min = value.min;
-                        out = true;
-                        break;
+                        newRange = Range(newRange.getMin(), i->getMax());
+                        i = _ranges.erase(i);
                     }
-                    if (value.min == i.max + 1)
+                    else
                     {
-                        i.max = value.max;
-                        out = true;
-                        break;
+                        ++i;
                     }
                 }
-                return out;
-            }
-
-            void sort(Range & out)
-            {
-                const auto _min = std::min(out.min, out.max);
-                const auto _max = std::max(out.min, out.max);
-                out.min = _min;
-                out.max = _max;
+                i = _ranges.begin();
+                for (; i != _ranges.end() && *i < newRange; ++i)
+                    ;
+                _ranges.insert(i, newRange);
             }
             
             Sequence fromFrames(const std::vector<Number> & frames)
@@ -103,17 +60,17 @@ namespace djv
                     {
                         if (frames[i] != prevFrame + 1)
                         {
-                            out.ranges.push_back(Range(rangeStart, prevFrame));
+                            out.add(Range(rangeStart, prevFrame));
                             rangeStart = frames[i];
                         }
                     }
                     if (size > 1)
                     {
-                        out.ranges.push_back(Range(rangeStart, prevFrame));
+                        out.add(Range(rangeStart, prevFrame));
                     }
                     else
                     {
-                        out.ranges.push_back(Range(rangeStart));
+                        out.add(Range(rangeStart));
                     }
                 }
                 return out;
@@ -125,9 +82,9 @@ namespace djv
     std::ostream & operator << (std::ostream & s, const Core::Frame::Sequence & value)
     {
         std::vector<std::string> pieces;
-        for (const auto & range : value.ranges)
+        for (const auto & range : value.getRanges())
         {
-            pieces.push_back(Core::Frame::toString(range, value.pad));
+            pieces.push_back(Core::Frame::toString(range, value.getPad()));
         }
         s << Core::String::join(pieces, ',');
         return s;
@@ -149,8 +106,8 @@ namespace djv
         {
             Core::Frame::Range range;
             Core::Frame::fromString(piece, range, pad);
-            out.ranges.push_back(range);
-            out.pad = std::max(pad, out.pad);
+            out.add(range);
+            out.setPad(std::max(pad, out.getPad()));
         }
         return s;
     }

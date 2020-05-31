@@ -107,7 +107,7 @@ namespace djv
             if (auto model = getModel())
             {
                 const auto& range = model->observeRange()->get();
-                const float v = (_value - range.min) / static_cast<float>(range.max - range.min);
+                const float v = (_value - range.getMin()) / static_cast<float>(range.getMax() - range.getMin());
                 _paint(v, _valueToPos(_value));
             }
         }
@@ -123,7 +123,7 @@ namespace djv
                 const float b = style->getMetric(MetricsRole::Border);
                 const float handleWidth = _getHandleWidth();
                 const auto & range = model->observeRange()->get();
-                float v = (value - range.min) / static_cast<float>(range.max - range.min);
+                float v = (value - range.getMin()) / static_cast<float>(range.getMax() - range.getMin());
                 const BBox2f g2 = g.margin(-(m + b));
                 switch (getOrientation())
                 {
@@ -152,7 +152,7 @@ namespace djv
                 const float handleWidth = _getHandleWidth();
                 const auto & range = model->observeRange()->get();
                 const BBox2f g2 = g.margin(-(m + b));
-                const float step = g2.w() / static_cast<float>(range.max - range.min) / 2.F;
+                const float step = g2.w() / static_cast<float>(range.getMax() - range.getMin()) / 2.F;
                 float v = 0.F;
                 switch (getOrientation())
                 {
@@ -164,7 +164,7 @@ namespace djv
                     break;
                 default: break;
                 }
-                out = static_cast<int>(v * (range.max - range.min) + range.min);
+                out = static_cast<int>(v * (range.getMax() - range.getMin()) + range.getMin());
             }
             return out;
         }

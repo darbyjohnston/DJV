@@ -13,8 +13,8 @@ using namespace djv::AV;
     { \
         auto bMin = static_cast<Image::B##_T>(0); \
         auto bMax = static_cast<Image::B##_T>(0); \
-        Image::convert_##A##_##B(RANGE.min, bMin); \
-        Image::convert_##A##_##B(RANGE.max, bMax); \
+        Image::convert_##A##_##B(RANGE.getMin(), bMin); \
+        Image::convert_##A##_##B(RANGE.getMax(), bMax); \
         std::stringstream ss; \
         ss << "    " << #B << " " << static_cast<int64_t>(bMin) << " " << static_cast<int64_t>(bMax); \
         _print(ss.str()); \

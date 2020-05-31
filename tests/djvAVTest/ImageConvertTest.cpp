@@ -26,7 +26,7 @@ namespace djv
             {
                 const Image::Info info(64, 64, Image::Type::L_U8);
                 auto data = Image::Data::create(info);
-                data->getData()[0] = Image::U8Range.max;
+                data->getData()[0] = Image::U8Range.getMax();
                 {
                     std::stringstream ss;
                     ss << "input: " << static_cast<uint16_t>(data->getData()[0]);

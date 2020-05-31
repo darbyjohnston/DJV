@@ -21,8 +21,8 @@ namespace djv
                 Color();
                 explicit Color(Type);
                 explicit Color(int v);
-                Color(int r, int g, int b, int a = U8Range.max);
-                Color(F32_T r, F32_T g, F32_T b, F32_T a = F32Range.max);
+                Color(int r, int g, int b, int a = U8Range.getMax());
+                Color(F32_T r, F32_T g, F32_T b, F32_T a = F32Range.getMax());
                 explicit Color(F32_T v);
 
                 Type getType() const;

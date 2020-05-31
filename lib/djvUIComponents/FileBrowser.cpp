@@ -783,7 +783,7 @@ namespace djv
                             if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                             {
                                 auto size = fileBrowserSettings->observeThumbnailSize()->get();
-                                size.w = Math::clamp(static_cast<int>(size.w * 1.25F), thumbnailSizeRange.min, thumbnailSizeRange.max);
+                                size.w = Math::clamp(static_cast<int>(size.w * 1.25F), thumbnailSizeRange.getMin(), thumbnailSizeRange.getMax());
                                 size.h = static_cast<int>(ceilf(size.w / 2.F));
                                 fileBrowserSettings->setThumbnailSize(size);
                             }
@@ -803,7 +803,7 @@ namespace djv
                             if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                             {
                                 auto size = fileBrowserSettings->observeThumbnailSize()->get();
-                                size.w = Math::clamp(static_cast<int>(size.w * .75F), thumbnailSizeRange.min, thumbnailSizeRange.max);
+                                size.w = Math::clamp(static_cast<int>(size.w * .75F), thumbnailSizeRange.getMin(), thumbnailSizeRange.getMax());
                                 size.h = static_cast<int>(ceilf(size.w / 2.F));
                                 fileBrowserSettings->setThumbnailSize(size);
                             }

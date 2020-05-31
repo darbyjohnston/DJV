@@ -28,20 +28,20 @@ namespace djv
         {
             {
                 IntRange range;
-                DJV_ASSERT(0 == range.min);
-                DJV_ASSERT(0 == range.max);
+                DJV_ASSERT(0 == range.getMin());
+                DJV_ASSERT(0 == range.getMax());
             }
             
             {
                 IntRange range(1);
-                DJV_ASSERT(1 == range.min);
-                DJV_ASSERT(1 == range.max);
+                DJV_ASSERT(1 == range.getMin());
+                DJV_ASSERT(1 == range.getMax());
             }
             
             {
-                IntRange range(1, 10);
-                DJV_ASSERT(1 == range.min);
-                DJV_ASSERT(10 == range.max);
+                IntRange range(10, 1);
+                DJV_ASSERT(1 == range.getMin());
+                DJV_ASSERT(10 == range.getMax());
             }
         }
         
@@ -50,8 +50,8 @@ namespace djv
             {
                 IntRange range(1, 10);
                 range.zero();
-                DJV_ASSERT(0 == range.min);
-                DJV_ASSERT(0 == range.max);
+                DJV_ASSERT(0 == range.getMin());
+                DJV_ASSERT(0 == range.getMax());
             }
             
             {
@@ -71,12 +71,6 @@ namespace djv
                 range.expand(IntRange(5, 20));
                 DJV_ASSERT(IntRange(1, 20) == range);
             }            
-            
-            {
-                IntRange range(10, 1);
-                range.sort();
-                DJV_ASSERT(IntRange(1, 10) == range);
-            }
         }
         
         void RangeTest::_operators()

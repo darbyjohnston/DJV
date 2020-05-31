@@ -132,12 +132,12 @@ namespace djv
             std::vector<uint8_t> VBO::convert(const Geom::TriangleMesh& mesh, VBOType type, const SizeTRange & range)
             {
                 const size_t vertexByteCount = getVertexByteCount(type);
-                std::vector<uint8_t> out((range.max - range.min + 1) * 3 * vertexByteCount);
+                std::vector<uint8_t> out((range.getMax() - range.getMin() + 1) * 3 * vertexByteCount);
                 uint8_t * p = out.data();
                 switch (type)
                 {
                 case VBOType::Pos3_F32_UV_U16_Normal_U10:
-                    for (size_t i = range.min; i <= range.max; ++i)
+                    for (size_t i = range.getMin(); i <= range.getMax(); ++i)
                     {
                         const Geom::TriangleMesh::Vertex* vertices[] =
                         {
@@ -170,7 +170,7 @@ namespace djv
                     }
                     break;
                 case VBOType::Pos3_F32_UV_U16_Normal_U10_Color_U8:
-                    for (size_t i = range.min; i <= range.max; ++i)
+                    for (size_t i = range.getMin(); i <= range.getMax(); ++i)
                     {
                         const Geom::TriangleMesh::Vertex* vertices[] =
                         {
@@ -210,7 +210,7 @@ namespace djv
                     }
                     break;
                 case VBOType::Pos3_F32_UV_F32_Normal_F32_Color_F32:
-                    for (size_t i = range.min; i <= range.max; ++i)
+                    for (size_t i = range.getMin(); i <= range.getMax(); ++i)
                     {
                         const Geom::TriangleMesh::Vertex* vertices[] =
                         {

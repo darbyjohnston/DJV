@@ -471,10 +471,10 @@ namespace djv
 
                         switch (bitDepth)
                         {
-                        case  8: header.image.channel[i].highData = Image::U8Range.max;  break;
-                        case 10: header.image.channel[i].highData = Image::U10Range.max; break;
-                        case 12: header.image.channel[i].highData = Image::U12Range.max; break;
-                        case 16: header.image.channel[i].highData = Image::U16Range.max; break;
+                        case  8: header.image.channel[i].highData = Image::U8Range.getMax();  break;
+                        case 10: header.image.channel[i].highData = Image::U10Range.getMax(); break;
+                        case 12: header.image.channel[i].highData = Image::U12Range.getMax(); break;
+                        case 16: header.image.channel[i].highData = Image::U16Range.getMax(); break;
                         default: break;
                         }
                     }

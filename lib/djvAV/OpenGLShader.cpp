@@ -155,7 +155,7 @@ namespace djv
                     const Image::U8_T* p = reinterpret_cast<const Image::U8_T*>(value.getData());
                     const GLfloat v[] =
                     {
-                        p[0] / static_cast<GLfloat>(Image::U8Range.max),
+                        p[0] / static_cast<GLfloat>(Image::U8Range.getMax()),
                         0.F,
                         0.F,
                         1.F
@@ -167,10 +167,10 @@ namespace djv
                     const Image::U8_T* p = reinterpret_cast<const Image::U8_T*>(value.getData());
                     const GLfloat v[] =
                     {
-                        p[0] / static_cast<GLfloat>(Image::U8Range.max),
+                        p[0] / static_cast<GLfloat>(Image::U8Range.getMax()),
                         0.F,
                         0.F,
-                        p[1] / static_cast<GLfloat>(Image::U8Range.max)
+                        p[1] / static_cast<GLfloat>(Image::U8Range.getMax())
                     };
                     glUniform4fv(location, 1, v);
                 }
@@ -179,9 +179,9 @@ namespace djv
                     const Image::U8_T* p = reinterpret_cast<const Image::U8_T*>(value.getData());
                     const GLfloat v[] =
                     {
-                        p[0] / static_cast<GLfloat>(Image::U8Range.max),
-                        p[1] / static_cast<GLfloat>(Image::U8Range.max),
-                        p[2] / static_cast<GLfloat>(Image::U8Range.max),
+                        p[0] / static_cast<GLfloat>(Image::U8Range.getMax()),
+                        p[1] / static_cast<GLfloat>(Image::U8Range.getMax()),
+                        p[2] / static_cast<GLfloat>(Image::U8Range.getMax()),
                         1.F
                     };
                     glUniform4fv(location, 1, v);
@@ -191,10 +191,10 @@ namespace djv
                     const Image::U8_T* p = reinterpret_cast<const Image::U8_T*>(value.getData());
                     const GLfloat v[] =
                     {
-                        p[0] / static_cast<GLfloat>(Image::U8Range.max),
-                        p[1] / static_cast<GLfloat>(Image::U8Range.max),
-                        p[2] / static_cast<GLfloat>(Image::U8Range.max),
-                        p[3] / static_cast<GLfloat>(Image::U8Range.max)
+                        p[0] / static_cast<GLfloat>(Image::U8Range.getMax()),
+                        p[1] / static_cast<GLfloat>(Image::U8Range.getMax()),
+                        p[2] / static_cast<GLfloat>(Image::U8Range.getMax()),
+                        p[3] / static_cast<GLfloat>(Image::U8Range.getMax())
                     };
                     glUniform4fv(location, 1, v);
                 }

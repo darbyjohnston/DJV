@@ -24,13 +24,8 @@ namespace djv
                 constexpr Range(T min, T max);
                 virtual ~Range();
 
-                //! \name Range Components
-                ///@{
-
-                T min = static_cast<T>(0);
-                T max = static_cast<T>(0);
-
-                ///@}
+                T getMin() const;
+                T getMax() const;
 
                 //! \name Utilities
                 ///@{
@@ -44,13 +39,15 @@ namespace djv
                 void expand(T);
                 void expand(const Range<T> &);
 
-                void sort();
-
                 ///@}
 
                 constexpr bool operator == (const Range<T> &) const;
                 constexpr bool operator != (const Range<T> &) const;
                 constexpr bool operator  < (const Range<T> &) const;
+
+            private:
+                T _min = static_cast<T>(0);
+                T _max = static_cast<T>(0);
             };
 
         } // namespace Range

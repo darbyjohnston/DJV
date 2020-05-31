@@ -91,30 +91,24 @@ namespace djv
                     if (_type != FileType::Sequence)
                     {
                         _sequence = _parseSequence(_path.getNumber());
-                        if (_sequence.ranges.size())
+                        if (_sequence.isValid())
                         {
                             _type = FileType::Sequence;
                         }
                     }
                     Frame::Sequence sequence = _parseSequence(value.getPath().getNumber());
-                    for (const auto& range : sequence.ranges)
+                    for (const auto& range : sequence.getRanges())
                     {
-                        if (!_sequence.merge(range))
-                        {
-                            auto i = _sequence.ranges.begin();
-                            for (; i != _sequence.ranges.end() && range < *i; ++i)
-                                ;
-                            _sequence.ranges.insert(i, range);
-                        }
+                        _sequence.add(range);
                     }
                     {
                         std::stringstream ss;
                         ss << _sequence;
                         _path.setNumber(ss.str());
                     }
-                    if (value._sequence.pad > _sequence.pad)
+                    if (value._sequence.getPad() > _sequence.getPad())
                     {
-                        _sequence.pad = value._sequence.pad;
+                        _sequence.setPad(value._sequence.getPad());
                     }
                     _size += value._size;
                     if (value._user > _user)

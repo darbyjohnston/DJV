@@ -13,7 +13,7 @@ namespace djv
             template<>
             inline void Range<int64_t>::zero()
             {
-                min = max = 0;
+                _min = _max = 0;
             }
 
         } // namespace Range
@@ -25,35 +25,54 @@ namespace djv
        
             inline Sequence::Sequence(Number number)
             {
-                ranges.push_back(Range(number));
+                _ranges.push_back(Range(number));
             }
        
             inline Sequence::Sequence(Number min, Number max, size_t pad) :
-                pad(pad)
+                _pad(pad)
             {
-                ranges.push_back(Range(min, max));
+                _ranges.push_back(Range(min, max));
             }
 
             inline Sequence::Sequence(const Range & range, size_t pad) :
-                pad(pad)
+                _pad(pad)
             {
-                ranges.push_back(range);
+                _ranges.push_back(range);
             }
 
             inline Sequence::Sequence(const std::vector<Range> & ranges, size_t pad) :
-                ranges(ranges),
-                pad(pad)
-            {}
+                _pad(pad)
+            {
+                for (const auto& i : ranges)
+                {
+                    add(i);
+                }
+            }
+
+            inline const std::vector<Range>& Sequence::getRanges() const
+            {
+                return _ranges;
+            }
+
+            inline size_t Sequence::getPad() const
+            {
+                return _pad;
+            }
+
+            inline void Sequence::setPad(size_t value)
+            {
+                _pad = value;
+            }
 
             inline bool Sequence::isValid() const
             {
-                return ranges.size() > 0;
+                return _ranges.size() > 0;
             }
 
             inline bool Sequence::contains(Index value) const
             {
                 bool out = false;
-                for (const auto& i : ranges)
+                for (const auto& i : _ranges)
                 {
                     if (i.contains(value))
                     {
@@ -67,16 +86,9 @@ namespace djv
             inline size_t Sequence::getSize() const
             {
                 size_t out = 0;
-                for (const auto& i : ranges)
+                for (const auto& i : _ranges)
                 {
-                    if (i.min < i.max)
-                    {
-                        out += i.max - i.min + 1;
-                    }
-                    else
-                    {
-                        out += i.min - i.max + 1;
-                    }
+                    out += i.getMax() - i.getMin() + 1;
                 }
                 return out;
             }
@@ -84,12 +96,12 @@ namespace djv
             inline Number Sequence::getFrame(Index value) const
             {
                 Number out = invalid;
-                for (const auto& j : ranges)
+                for (const auto& j : _ranges)
                 {
-                    const size_t size = j.max - j.min + 1;
+                    const size_t size = j.getMax() - j.getMin() + 1;
                     if (value < size)
                     {
-                        out = j.min + value;
+                        out = j.getMin() + value;
                         break;
                     }
                     value -= size;
@@ -101,14 +113,14 @@ namespace djv
             {
                 Index out = invalidIndex;
                 Index tmp = 0;
-                for (const auto& j : ranges)
+                for (const auto& j : _ranges)
                 {
                     if (j.contains(value))
                     {
-                        out = tmp + value - j.min;
+                        out = tmp + value - j.getMin();
                         break;
                     }
-                    tmp += j.max - j.min + 1;
+                    tmp += j.getMax() - j.getMin() + 1;
                 }
                 return out;
             }
@@ -116,15 +128,15 @@ namespace djv
             inline Index Sequence::getLastIndex() const
             {
                 Index out = 0;
-                for (const auto& i : ranges)
+                for (const auto& i : _ranges)
                 {
-                    if (i.min < i.max)
+                    if (i.getMin() < i.getMax())
                     {
-                        out += i.max - i.min + 1;
+                        out += i.getMax() - i.getMin() + 1;
                     }
                     else
                     {
-                        out += i.min - i.max + 1;
+                        out += i.getMin() - i.getMax() + 1;
                     }
                 }
                 return out > 0 ? (out - 1) : 0;
@@ -132,7 +144,7 @@ namespace djv
 
             inline bool Sequence::operator == (const Sequence & value) const
             {
-                return ranges == value.ranges && pad == value.pad;
+                return _ranges == value._ranges && _pad == value._pad;
             }
 
             inline bool Sequence::operator != (const Sequence & value) const
@@ -148,7 +160,7 @@ namespace djv
             inline std::vector<Number> toFrames(const Range & value)
             {
                 std::vector<Number> out;
-                for (auto i = value.min; i <= value.max; ++i)
+                for (auto i = value.getMin(); i <= value.getMax(); ++i)
                 {
                     out.push_back(i);
                 }
@@ -158,7 +170,7 @@ namespace djv
             inline std::vector<Number> toFrames(const Sequence & value)
             {
                 std::vector<Number> out;
-                for (const auto & range : value.ranges)
+                for (const auto & range : value.getRanges())
                 {
                     for (const auto & i : toFrames(range))
                     {
@@ -199,14 +211,14 @@ namespace djv
             inline std::string toString(const Range & value, size_t pad)
             {
                 std::vector<std::string> list;
-                if (value.min != value.max)
+                if (value.getMin() != value.getMax())
                 {
-                    list.push_back(toString(value.min, pad));
-                    list.push_back(toString(value.max, pad));
+                    list.push_back(toString(value.getMin(), pad));
+                    list.push_back(toString(value.getMax(), pad));
                 }
                 else
                 {
-                    list.push_back(toString(value.min, pad));
+                    list.push_back(toString(value.getMin(), pad));
                 }
                 return String::join(list, '-');
             }
@@ -219,7 +231,7 @@ namespace djv
                 // Convert the minimum value.
                 if (pieces.size() > 0 && pieces[0].size() > 0)
                 {
-                    out.min = std::stoi(pieces[0]);
+                    out = Range(std::stoi(pieces[0]));
 
                     // Check for zero padding.
                     if (pieces[0].size() >= 2 && '0' == pieces[0][0])
@@ -231,7 +243,7 @@ namespace djv
                 // Convert the maximum value.
                 if (pieces.size() > 1 && pieces[1].size() > 0)
                 {
-                    out.max = std::stoi(pieces[1]);
+                    out = Range(out.getMin(), std::stoi(pieces[1]));
 
                     // Check for zero padding.
                     if (pieces[1].size() >= 2 && '0' == pieces[1][0])
@@ -241,16 +253,16 @@ namespace djv
                 }
                 else
                 {
-                    out.max = out.min;
+                    out = Range(out.getMin());
                 }
             }
 
             inline std::string toString(const Sequence & value)
             {
                 std::vector<std::string> list;
-                for (const auto & range : value.ranges)
+                for (const auto & range : value.getRanges())
                 {
-                    list.push_back(toString(range, value.pad));
+                    list.push_back(toString(range, value.getPad()));
                 }
                 return String::join(list, ',');
             }
@@ -263,8 +275,8 @@ namespace djv
                     Range range;
                     size_t pad = 0;
                     fromString(piece, range, pad);
-                    out.ranges.push_back(range);
-                    out.pad = std::max(out.pad, pad);
+                    out.add(range);
+                    out.setPad(std::max(out.getPad(), pad));
                 }
             }
 

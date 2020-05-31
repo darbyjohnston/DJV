@@ -13,8 +13,8 @@ using namespace djv::AV;
     { \
         auto bMin = static_cast<Audio::TB##_T>(0); \
         auto bMax = static_cast<Audio::TB##_T>(0); \
-        Audio::TA##To##TB(RANGE.min, bMin); \
-        Audio::TA##To##TB(RANGE.max, bMax); \
+        Audio::TA##To##TB(RANGE.getMin(), bMin); \
+        Audio::TA##To##TB(RANGE.getMax(), bMax); \
         std::stringstream ss; \
         ss << "    " << #TB << " " << static_cast<int64_t>(bMin) << " " << static_cast<int64_t>(bMax); \
         _print(ss.str()); \

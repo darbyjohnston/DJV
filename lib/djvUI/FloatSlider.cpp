@@ -107,7 +107,7 @@ namespace djv
             if (auto model = getModel())
             {
                 const auto & range = model->observeRange()->get();
-                float v = (_value - range.min) / (range.max - range.min);
+                float v = (_value - range.getMin()) / (range.getMax() - range.getMin());
                 _paint(v, _valueToPos(_value));
             }
         }
@@ -123,7 +123,7 @@ namespace djv
                 const float b = style->getMetric(MetricsRole::Border);
                 const float handleWidth = _getHandleWidth();
                 const auto & range = model->observeRange()->get();
-                float v = (value - range.min) / static_cast<float>(range.max - range.min);
+                float v = (value - range.getMin()) / static_cast<float>(range.getMax() - range.getMin());
                 const BBox2f g2 = g.margin(-(m + b));
                 switch (getOrientation())
                 {
@@ -163,7 +163,7 @@ namespace djv
                     break;
                 default: break;
                 }
-                out = v * (range.max - range.min) + range.min;
+                out = v * (range.getMax() - range.getMin()) + range.getMin();
             }
             return out;
         }

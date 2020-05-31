@@ -122,7 +122,7 @@ void CameraWidget::_init(const std::shared_ptr<Core::Context>& context)
         {
             if (auto widget = weak.lock())
             {
-                widget->_cameraData.clip.min = value;
+                widget->_cameraData.clip = Core::FloatRange(value, widget->_cameraData.clip.getMax());
                 if (widget->_cameraDataCallback)
                 {
                     widget->_cameraDataCallback(widget->_cameraData);
@@ -134,7 +134,7 @@ void CameraWidget::_init(const std::shared_ptr<Core::Context>& context)
         {
             if (auto widget = weak.lock())
             {
-                widget->_cameraData.clip.max = value;
+                widget->_cameraData.clip = Core::FloatRange(widget->_cameraData.clip.getMin(), value);
                 if (widget->_cameraDataCallback)
                 {
                     widget->_cameraDataCallback(widget->_cameraData);
@@ -274,8 +274,8 @@ void CameraWidget::_initEvent(Core::Event::Init&)
 void CameraWidget::_widgetUpdate()
 {
     _floatEdits["FOV"]->setValue(_cameraData.fov);
-    _floatEdits["ClippingNear"]->setValue(_cameraData.clip.min);
-    _floatEdits["ClippingFar"]->setValue(_cameraData.clip.max);
+    _floatEdits["ClippingNear"]->setValue(_cameraData.clip.getMin());
+    _floatEdits["ClippingFar"]->setValue(_cameraData.clip.getMax());
     _floatEdits["TargetX"]->setValue(_cameraData.target.x);
     _floatEdits["TargetY"]->setValue(_cameraData.target.y);
     _floatEdits["TargetZ"]->setValue(_cameraData.target.z);

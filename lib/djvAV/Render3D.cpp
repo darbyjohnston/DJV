@@ -156,8 +156,8 @@ namespace djv
                     break;
                 case DepthBufferMode::Reverse:
                     glDepthRangef(-1.0, 1.0);
-                    cameraP[2][2] = p.options.clip.min / (p.options.clip.min - p.options.clip.max);
-                    cameraP[3][2] = (p.options.clip.max * p.options.clip.min) / (p.options.clip.min - p.options.clip.max);
+                    cameraP[2][2] = p.options.clip.getMin() / (p.options.clip.getMin() - p.options.clip.getMax());
+                    cameraP[3][2] = (p.options.clip.getMax() * p.options.clip.getMin()) / (p.options.clip.getMin() - p.options.clip.getMax());
                     break;
                 default: break;
                 }
@@ -208,7 +208,7 @@ namespace djv
                             j.first->primitiveBind(primitiveBindData);
                             for (const auto& vaoIt : k->vaoRange)
                             {
-                                vao->draw(k->type, vaoIt.min, vaoIt.max - vaoIt.min + 1);
+                                vao->draw(k->type, vaoIt.getMin(), vaoIt.getMax() - vaoIt.getMin() + 1);
                             }
                         }
                     }
@@ -329,7 +329,7 @@ namespace djv
                     {
                         meshCache->getItem(i->second, range);
                     }
-                    if (range.min == range.max)
+                    if (range.getMin() == range.getMax())
                     {
                         const auto data = OpenGL::VBO::convert(*value, OpenGL::VBOType::Pos3_F32);
                         meshCacheUIDs[uid] = meshCache->addItem(data, range);
@@ -364,7 +364,7 @@ namespace djv
                             {
                                 meshCache->getItem(j->second, range);
                             }
-                            if (range.min == range.max)
+                            if (range.getMin() == range.getMax())
                             {
                                 const auto data = OpenGL::VBO::convert(*i, OpenGL::VBOType::Pos3_F32);
                                 meshCacheUIDs[uid] = meshCache->addItem(data, range);
@@ -396,7 +396,7 @@ namespace djv
                     {
                         meshCache->getItem(i->second, range);
                     }
-                    if (range.min == range.max)
+                    if (range.getMin() == range.getMax())
                     {
                         const auto data = OpenGL::VBO::convert(value, OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
                         meshCacheUIDs[uid] = meshCache->addItem(data, range);
@@ -430,7 +430,7 @@ namespace djv
                             {
                                 meshCache->getItem(j->second, range);
                             }
-                            if (range.min == range.max)
+                            if (range.getMin() == range.getMax())
                             {
                                 const auto data = OpenGL::VBO::convert(i, OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
                                 meshCacheUIDs[uid] = meshCache->addItem(data, range);
@@ -466,7 +466,7 @@ namespace djv
                             {
                                 meshCache->getItem(j->second, range);
                             }
-                            if (range.min == range.max)
+                            if (range.getMin() == range.getMax())
                             {
                                 const auto data = OpenGL::VBO::convert(*i, OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
                                 meshCacheUIDs[uid] = meshCache->addItem(data, range);

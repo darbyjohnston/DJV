@@ -867,11 +867,11 @@ namespace djv
                             fileSequence = Core::FileSystem::FileInfo::getFileSequence(i.getPath(), io->getSequenceExtensions());
                         }
                         if (wildcard &&
-                            (number.size() == 1 || number.size() == fileSequence.getSequence().pad))
+                            (number.size() == 1 || number.size() == fileSequence.getSequence().getPad()))
                         {
                             if (options.startEnd)
                             {
-                                fileSequence.setSequence(Core::Frame::Sequence(*options.startEnd, fileSequence.getSequence().pad));
+                                fileSequence.setSequence(Core::Frame::Sequence(*options.startEnd, fileSequence.getSequence().getPad()));
                             }
                             i = fileSequence;
                         }

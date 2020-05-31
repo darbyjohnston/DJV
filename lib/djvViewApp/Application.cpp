@@ -524,10 +524,11 @@ namespace djv
                             arg("-start_end").
                             arg(textSystem->getText(DJV_TEXT("error_cannot_parse_argument"))));
                     }
-                    p.startEndMayaCmdLine.reset(new Core::Frame::Range);
+                    Frame::Number min = 0;
+                    Frame::Number max = 0;
                     {
                         std::stringstream ss(*arg);
-                        ss >> p.startEndMayaCmdLine->min;
+                        ss >> min;
                     }
                     arg = args.erase(arg);
                     if (args.end() == arg)
@@ -538,8 +539,9 @@ namespace djv
                     }
                     {
                         std::stringstream ss(*arg);
-                        ss >> p.startEndMayaCmdLine->max;
+                        ss >> max;
                     }
+                    p.startEndMayaCmdLine.reset(new Core::Frame::Range(min, max));
                     arg = args.erase(arg);
                 }
                 else

@@ -1087,33 +1087,33 @@ namespace djv
                             VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataOffset]);
                             pData->vx = bbox.min.x;
                             pData->vy = bbox.min.y;
-                            pData->tx = static_cast<uint16_t>(item.textureU.min * 65535.F);
-                            pData->ty = static_cast<uint16_t>(item.textureV.min * 65535.F);
+                            pData->tx = static_cast<uint16_t>(item.textureU.getMin() * 65535.F);
+                            pData->ty = static_cast<uint16_t>(item.textureV.getMin() * 65535.F);
                             ++pData;
                             pData->vx = bbox.max.x;
                             pData->vy = bbox.min.y;
-                            pData->tx = static_cast<uint16_t>(item.textureU.max * 65535.F);
-                            pData->ty = static_cast<uint16_t>(item.textureV.min * 65535.F);
+                            pData->tx = static_cast<uint16_t>(item.textureU.getMax() * 65535.F);
+                            pData->ty = static_cast<uint16_t>(item.textureV.getMin() * 65535.F);
                             ++pData;
                             pData->vx = bbox.max.x;
                             pData->vy = bbox.max.y;
-                            pData->tx = static_cast<uint16_t>(item.textureU.max * 65535.F);
-                            pData->ty = static_cast<uint16_t>(item.textureV.max * 65535.F);
+                            pData->tx = static_cast<uint16_t>(item.textureU.getMax() * 65535.F);
+                            pData->ty = static_cast<uint16_t>(item.textureV.getMax() * 65535.F);
                             ++pData;
                             pData->vx = bbox.max.x;
                             pData->vy = bbox.max.y;
-                            pData->tx = static_cast<uint16_t>(item.textureU.max * 65535.F);
-                            pData->ty = static_cast<uint16_t>(item.textureV.max * 65535.F);
+                            pData->tx = static_cast<uint16_t>(item.textureU.getMax() * 65535.F);
+                            pData->ty = static_cast<uint16_t>(item.textureV.getMax() * 65535.F);
                             ++pData;
                             pData->vx = bbox.min.x;
                             pData->vy = bbox.max.y;
-                            pData->tx = static_cast<uint16_t>(item.textureU.min * 65535.F);
-                            pData->ty = static_cast<uint16_t>(item.textureV.max * 65535.F);
+                            pData->tx = static_cast<uint16_t>(item.textureU.getMin() * 65535.F);
+                            pData->ty = static_cast<uint16_t>(item.textureV.getMax() * 65535.F);
                             ++pData;
                             pData->vx = bbox.min.x;
                             pData->vy = bbox.min.y;
-                            pData->tx = static_cast<uint16_t>(item.textureU.min * 65535.F);
-                            pData->ty = static_cast<uint16_t>(item.textureV.min * 65535.F);
+                            pData->tx = static_cast<uint16_t>(item.textureU.getMin() * 65535.F);
+                            pData->ty = static_cast<uint16_t>(item.textureV.getMin() * 65535.F);
                         }
                     }
 
@@ -1584,8 +1584,7 @@ namespace djv
                         primitive->atlasIndex = item.textureIndex;
                         if (info.layout.mirror.x)
                         {
-                            textureU.min = item.textureU.max;
-                            textureU.max = item.textureU.min;
+                            textureU = FloatRange(item.textureU.getMax(), item.textureU.getMin());
                         }
                         else
                         {
@@ -1593,8 +1592,7 @@ namespace djv
                         }
                         if (info.layout.mirror.y)
                         {
-                            textureV.min = item.textureV.max;
-                            textureV.max = item.textureV.min;
+                            textureV = FloatRange(item.textureV.getMax(), item.textureV.getMin());
                         }
                         else
                         {
@@ -1628,23 +1626,19 @@ namespace djv
                         }
                         if (info.layout.mirror.x)
                         {
-                            textureU.min = 1.F;
-                            textureU.max = 0.F;
+                            textureU = FloatRange(1.F, 0.F);
                         }
                         else
                         {
-                            textureU.min = 0.F;
-                            textureU.max = 1.F;
+                            textureU = FloatRange(0.F, 1.F);
                         }
                         if (info.layout.mirror.y)
                         {
-                            textureV.min = 1.F;
-                            textureV.max = 0.F;
+                            textureV = FloatRange(1.F, 0.F);
                         }
                         else
                         {
-                            textureV.min = 0.F;
-                            textureV.max = 1.F;
+                            textureV = FloatRange(0.F, 1.F);
                         }
                         break;
                     }
@@ -1652,13 +1646,11 @@ namespace djv
                     }
                     if (options.mirror.x)
                     {
-                        textureU.min = 1.F - textureU.min;
-                        textureU.max = 1.F - textureU.max;
+                        textureU = FloatRange(1.F - textureU.getMin(), 1.F - textureU.getMax());
                     }
                     if (options.mirror.y)
                     {
-                        textureV.min = 1.F - textureV.min;
-                        textureV.max = 1.F - textureV.max;
+                        textureV = FloatRange(1.F - textureV.getMin(), 1.F - textureV.getMax());
                     }
 #if !defined(DJV_OPENGL_ES2)
                     if (options.colorSpace.isValid())
@@ -1713,23 +1705,23 @@ namespace djv
                     VBOVertex* pData = reinterpret_cast<VBOVertex*>(&vboData[vboDataOffset]);
                     pData->vx = pts[0].x;
                     pData->vy = pts[0].y;
-                    pData->tx = static_cast<uint16_t>(textureU.min * 65535.F);
-                    pData->ty = static_cast<uint16_t>(textureV.min * 65535.F);
+                    pData->tx = static_cast<uint16_t>(textureU.getMin() * 65535.F);
+                    pData->ty = static_cast<uint16_t>(textureV.getMin() * 65535.F);
                     ++pData;
                     pData->vx = pts[1].x;
                     pData->vy = pts[1].y;
-                    pData->tx = static_cast<uint16_t>(textureU.max * 65535.F);
-                    pData->ty = static_cast<uint16_t>(textureV.min * 65535.F);
+                    pData->tx = static_cast<uint16_t>(textureU.getMax() * 65535.F);
+                    pData->ty = static_cast<uint16_t>(textureV.getMin() * 65535.F);
                     ++pData;
                     pData->vx = pts[3].x;
                     pData->vy = pts[3].y;
-                    pData->tx = static_cast<uint16_t>(textureU.min * 65535.F);
-                    pData->ty = static_cast<uint16_t>(textureV.max * 65535.F);
+                    pData->tx = static_cast<uint16_t>(textureU.getMin() * 65535.F);
+                    pData->ty = static_cast<uint16_t>(textureV.getMax() * 65535.F);
                     ++pData;
                     pData->vx = pts[2].x;
                     pData->vy = pts[2].y;
-                    pData->tx = static_cast<uint16_t>(textureU.max * 65535.F);
-                    pData->ty = static_cast<uint16_t>(textureV.max * 65535.F);
+                    pData->tx = static_cast<uint16_t>(textureU.getMax() * 65535.F);
+                    pData->ty = static_cast<uint16_t>(textureV.getMax() * 65535.F);
                 }
             }
 

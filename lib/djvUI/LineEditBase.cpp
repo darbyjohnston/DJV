@@ -460,16 +460,16 @@ namespace djv
                     {
                         event.accept();
                         const auto& selection = _getSelection();
-                        if (size > 0 && (p.cursorPos > 0 || selection.min != selection.max))
+                        if (size > 0 && (p.cursorPos > 0 || selection.getMin() != selection.getMax()))
                         {
-                            if (selection.min != selection.max)
+                            if (selection.getMin() != selection.getMax())
                             {
-                                p.utf32.erase(selection.min, std::min(selection.max - selection.min, size));
-                                p.cursorPos = selection.min;
+                                p.utf32.erase(selection.getMin(), std::min(selection.getMax() - selection.getMin(), size));
+                                p.cursorPos = selection.getMin();
                             }
                             else
                             {
-                                p.utf32.erase(selection.min - 1, 1);
+                                p.utf32.erase(selection.getMin() - 1, 1);
                                 --p.cursorPos;
                             }
                             p.text = _fromUtf32(p.utf32);
@@ -485,12 +485,12 @@ namespace djv
                     {
                         event.accept();
                         const auto& selection = _getSelection();
-                        if (size > 0 && (p.cursorPos < size || selection.min != selection.max))
+                        if (size > 0 && (p.cursorPos < size || selection.getMin() != selection.getMax()))
                         {
-                            if (selection.min != selection.max)
+                            if (selection.getMin() != selection.getMax())
                             {
-                                p.utf32.erase(selection.min, std::min(selection.max - selection.min, size));
-                                p.cursorPos = selection.min;
+                                p.utf32.erase(selection.getMin(), std::min(selection.getMax() - selection.getMin(), size));
+                                p.cursorPos = selection.getMin();
                             }
                             else
                             {
@@ -590,16 +590,16 @@ namespace djv
                         {
                             event.accept();
                             const auto& selection = _getSelection();
-                            if (selection.min != selection.max)
+                            if (selection.getMin() != selection.getMax())
                             {
-                                const auto utf32 = p.utf32.substr(selection.min, selection.max - selection.min);
-                                p.utf32.erase(selection.min, selection.max - selection.min);
+                                const auto utf32 = p.utf32.substr(selection.getMin(), selection.getMax() - selection.getMin());
+                                p.utf32.erase(selection.getMin(), selection.getMax() - selection.getMin());
                                 if (auto eventSystem = _getEventSystem().lock())
                                 {
                                     eventSystem->setClipboard(_fromUtf32(utf32));
                                 }
                                 p.text = _fromUtf32(p.utf32);
-                                p.cursorPos = selection.min;
+                                p.cursorPos = selection.getMin();
                                 p.selectionAnchor = p.cursorPos;
                                 _textUpdate();
                                 _cursorUpdate();
@@ -617,9 +617,9 @@ namespace djv
                         {
                             event.accept();
                             const auto& selection = _getSelection();
-                            if (selection.min != selection.max)
+                            if (selection.getMin() != selection.getMax())
                             {
-                                const auto utf32 = p.utf32.substr(selection.min, selection.max - selection.min);
+                                const auto utf32 = p.utf32.substr(selection.getMin(), selection.getMax() - selection.getMin());
                                 if (auto eventSystem = _getEventSystem().lock())
                                 {
                                     eventSystem->setClipboard(_fromUtf32(utf32));
@@ -639,10 +639,10 @@ namespace djv
                             {
                                 const auto utf32 = _toUtf32(eventSystem->getClipboard());
                                 const auto& selection = _getSelection();
-                                if (selection.min != selection.max)
+                                if (selection.getMin() != selection.getMax())
                                 {
-                                    p.utf32.replace(selection.min, selection.max - selection.min, utf32);
-                                    p.cursorPos = selection.min + utf32.size();
+                                    p.utf32.replace(selection.getMin(), selection.getMax() - selection.getMin(), utf32);
+                                    p.cursorPos = selection.getMin() + utf32.size();
                                 }
                                 else
                                 {
@@ -698,10 +698,10 @@ namespace djv
             event.accept();
             const auto& selection = _getSelection();
             const auto& utf32 = event.getUtf32();
-            if (selection.min != selection.max)
+            if (selection.getMin() != selection.getMax())
             {
-                p.utf32.replace(selection.min, selection.max - selection.min, utf32);
-                p.cursorPos = selection.min + utf32.size();
+                p.utf32.replace(selection.getMin(), selection.getMax() - selection.getMin(), utf32);
+                p.cursorPos = selection.getMin() + utf32.size();
             }
             else
             {
@@ -844,9 +844,7 @@ namespace djv
         SizeTRange LineEditBase::_getSelection() const
         {
             DJV_PRIVATE_PTR();
-            SizeTRange out(p.cursorPos, p.selectionAnchor);
-            out.sort();
-            return out;
+            return SizeTRange(p.cursorPos, p.selectionAnchor);
         }
 
         void LineEditBase::_textUpdate()

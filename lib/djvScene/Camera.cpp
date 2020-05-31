@@ -59,7 +59,7 @@ namespace djv
         void DefaultCamera::_update()
         {
             _v = glm::lookAt(_data.position, _data.target, _data.up);
-            _p = glm::perspective(Math::deg2rad(_data.fov), _data.aspect, _data.clip.min, _data.clip.max);
+            _p = glm::perspective(Math::deg2rad(_data.fov), _data.aspect, _data.clip.getMin(), _data.clip.getMax());
         }
 
         void PolarCamera::setData(const PolarCameraData& value)
@@ -116,7 +116,7 @@ namespace djv
             _v = glm::rotate(_v, Core::Math::deg2rad(_data.latitude), glm::vec3(1.F, 0.F, 0.F));
             _v = glm::rotate(_v, Core::Math::deg2rad(_data.longitude), glm::vec3(0.F, 1.F, 0.F));
             _v = glm::translate(_v, -_data.target);
-            _p = glm::perspective(Math::deg2rad(_data.fov), _data.aspect, _data.clip.min, _data.clip.max);
+            _p = glm::perspective(Math::deg2rad(_data.fov), _data.aspect, _data.clip.getMin(), _data.clip.getMax());
         }
 
     } // namespace Scene

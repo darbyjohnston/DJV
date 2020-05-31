@@ -198,21 +198,20 @@ namespace djv
 
             inline Core::Range::Range<Core::Frame::Index> InOutPoints::getRange(size_t size) const
             {
-                Core::Range::Range<Core::Frame::Index> out;
-                out.min = 0;
-                out.max = size ? (size - 1) : 0;
+                Core::Frame::Index min = 0;
+                Core::Frame::Index max = size ? (size - 1) : 0;
                 if (_enabled)
                 {
                     if (_in != Core::Frame::invalid)
                     {
-                        out.min = _in;
+                        min = _in;
                     }
                     if (_out != Core::Frame::invalid)
                     {
-                        out.max = _out;
+                        max = _out;
                     }
                 }
-                return out;
+                return Core::Range::Range<Core::Frame::Index>(min, max);
             }
 
             inline bool InOutPoints::operator == (const InOutPoints& other) const
