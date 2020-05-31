@@ -81,7 +81,9 @@ int main(int argc, char ** argv)
         std::vector<std::shared_ptr<Test::ITest> > tests;
         if (0)
         {
+#if !defined(DJV_BUILD_TINY)
             tests.emplace_back(new ViewAppTest::FileSystemTest(context));
+#endif // DJV_BUILD_TINY
         }
         else
         {
