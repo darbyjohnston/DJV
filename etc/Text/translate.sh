@@ -2,7 +2,7 @@
 
 for file in *.en.text
 do
-    if [[ -f $file ]]; then
+    if [ -f $file ]; then
         echo $file
         #for language in "fr"
         for language in "cs" "da" "de" "el" "es" "fr" "it" "is" "ko" "ja" "pl" "pt" "ru" "sv" "zh"
