@@ -1,5 +1,8 @@
 {
     "error_cannot_parse_the_value": "Ekki hægt að greina gildi.",
+    "error_file_open": "Ekki hægt að opna skrána.",
+    "error_file_read": "Get ekki lesið skrána.",
+    "error_file_write": "Get ekki skrifað skrá.",
     "obj_plugin_description": "Þetta tappi veitir OBJ skrá I / O.",
     "opennurbs_plugin_description": "Þessi tappi veitir OpenNURBS skrá I / O."
 }

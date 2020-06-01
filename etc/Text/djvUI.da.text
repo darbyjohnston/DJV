@@ -1,4 +1,7 @@
 {
+    "cli_option_init_settings": "-init_settings",
+    "cli_option_init_settings_description": "Initialiser indstillingerne.",
+    "cli_ui_options": "UI-indstillinger",
     "error_cannot_parse_the_value": "Værdien kan ikke analyseres.",
     "key_0": "0",
     "key_1": "1",
@@ -175,6 +178,10 @@
     "ui_color_role_tooltip_background": "Værktøjstip baggrund",
     "ui_color_role_tooltip_foreground": "Værktøjstip forgrund",
     "ui_color_role_trough": "trug",
+    "ui_corner_lower_left": "Nederst til venstre",
+    "ui_corner_lower_right": "Nederst til højre",
+    "ui_corner_upper_left": "Øvre venstre",
+    "ui_corner_upper_right": "Øverst til højre",
     "ui_expand_both": "Begge",
     "ui_expand_horizontal": "Vandret",
     "ui_expand_none": "Ingen",

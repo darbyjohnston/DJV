@@ -1,4 +1,7 @@
 {
+    "cli_option_init_settings": "-init_settings",
+    "cli_option_init_settings_description": "初始化设置。",
+    "cli_ui_options": "用户界面选项",
     "error_cannot_parse_the_value": "无法解析该值。",
     "key_0": "0",
     "key_1": "1",
@@ -175,6 +178,10 @@
     "ui_color_role_tooltip_background": "工具提示背景",
     "ui_color_role_tooltip_foreground": "工具提示前景",
     "ui_color_role_trough": "槽",
+    "ui_corner_lower_left": "左下",
+    "ui_corner_lower_right": "右下",
+    "ui_corner_upper_left": "左上",
+    "ui_corner_upper_right": "右上方",
     "ui_expand_both": "都",
     "ui_expand_horizontal": "卧式",
     "ui_expand_none": "没有",

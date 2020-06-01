@@ -1,4 +1,7 @@
 {
+    "cli_option_init_settings": "-ρυθμίσεις",
+    "cli_option_init_settings_description": "Αρχικοποιήστε τις ρυθμίσεις.",
+    "cli_ui_options": "Επιλογές διεπαφής χρήστη",
     "error_cannot_parse_the_value": "Δεν είναι δυνατή η ανάλυση της τιμής.",
     "key_0": "0",
     "key_1": "1",
@@ -175,6 +178,10 @@
     "ui_color_role_tooltip_background": "Υπόβαθρο εργαλείου",
     "ui_color_role_tooltip_foreground": "Προειδοποίηση εργαλείου",
     "ui_color_role_trough": "Σκάφη",
+    "ui_corner_lower_left": "Κάτω αριστερά",
+    "ui_corner_lower_right": "Κάτω δεξιά",
+    "ui_corner_upper_left": "Πάνω αριστερά",
+    "ui_corner_upper_right": "Πάνω δεξιά",
     "ui_expand_both": "Και τα δυο",
     "ui_expand_horizontal": "Οριζόντιος",
     "ui_expand_none": "Κανένας",

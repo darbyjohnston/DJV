@@ -1,4 +1,7 @@
 {
+    "cli_option_init_settings": "-init_settings",
+    "cli_option_init_settings_description": "Inicializujte nastavení.",
+    "cli_ui_options": "Možnosti uživatelského rozhraní",
     "error_cannot_parse_the_value": "Nelze analyzovat hodnotu.",
     "key_0": "0",
     "key_1": "1",
@@ -175,6 +178,10 @@
     "ui_color_role_tooltip_background": "Popis pozadí",
     "ui_color_role_tooltip_foreground": "Popis popředí",
     "ui_color_role_trough": "Koryto",
+    "ui_corner_lower_left": "Dolní levá",
+    "ui_corner_lower_right": "Vpravo dole",
+    "ui_corner_upper_left": "Horní levá",
+    "ui_corner_upper_right": "Vpravo nahoře",
     "ui_expand_both": "Oba",
     "ui_expand_horizontal": "Horizontální",
     "ui_expand_none": "Žádný",

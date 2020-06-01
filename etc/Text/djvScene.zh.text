@@ -1,5 +1,8 @@
 {
     "error_cannot_parse_the_value": "无法解析该值。",
+    "error_file_open": "不能打开文件。",
+    "error_file_read": "无法读取文件。",
+    "error_file_write": "无法写入文件。",
     "obj_plugin_description": "该插件提供OBJ文件I / O。",
     "opennurbs_plugin_description": "该插件提供OpenNURBS文件I / O。"
 }

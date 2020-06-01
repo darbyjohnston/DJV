@@ -1,4 +1,7 @@
 {
+    "cli_option_init_settings": "-init_settings",
+    "cli_option_init_settings_description": "Inicialize as configurações.",
+    "cli_ui_options": "Opções de interface do usuário",
     "error_cannot_parse_the_value": "Não é possível analisar o valor.",
     "key_0": "0",
     "key_1": "1",
@@ -175,6 +178,10 @@
     "ui_color_role_tooltip_background": "Fundo da dica de ferramenta",
     "ui_color_role_tooltip_foreground": "Primeiro plano da dica de ferramenta",
     "ui_color_role_trough": "Calha",
+    "ui_corner_lower_left": "Esquerda Inferior",
+    "ui_corner_lower_right": "Inferior direito",
+    "ui_corner_upper_left": "Superior esquerdo",
+    "ui_corner_upper_right": "Canto superior direito",
     "ui_expand_both": "Ambos",
     "ui_expand_horizontal": "Horizontal",
     "ui_expand_none": "Nenhum",

@@ -1,4 +1,7 @@
 {
+    "cli_option_init_settings": "-init_settings",
+    "cli_option_init_settings_description": "설정을 초기화하십시오.",
+    "cli_ui_options": "UI 옵션",
     "error_cannot_parse_the_value": "값을 구문 분석 할 수 없습니다.",
     "key_0": "0",
     "key_1": "1",
@@ -175,6 +178,10 @@
     "ui_color_role_tooltip_background": "툴팁 배경",
     "ui_color_role_tooltip_foreground": "툴팁 포 그라운드",
     "ui_color_role_trough": "구유",
+    "ui_corner_lower_left": "왼쪽 아래",
+    "ui_corner_lower_right": "오른쪽 아래",
+    "ui_corner_upper_left": "왼쪽 위",
+    "ui_corner_upper_right": "오른쪽 위",
     "ui_expand_both": "양자 모두",
     "ui_expand_horizontal": "수평",
     "ui_expand_none": "없음",

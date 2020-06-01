@@ -1,4 +1,7 @@
 {
+    "cli_option_init_settings": "-init_settings",
+    "cli_option_init_settings_description": "Инициализируйте настройки.",
+    "cli_ui_options": "Параметры интерфейса",
     "error_cannot_parse_the_value": "Невозможно проанализировать значение.",
     "key_0": "0",
     "key_1": "1",
@@ -175,6 +178,10 @@
     "ui_color_role_tooltip_background": "Всплывающая подсказка",
     "ui_color_role_tooltip_foreground": "Подсказка переднего плана",
     "ui_color_role_trough": "Впадина",
+    "ui_corner_lower_left": "Нижний левый",
+    "ui_corner_lower_right": "Нижний правый",
+    "ui_corner_upper_left": "Верхний левый",
+    "ui_corner_upper_right": "Верхний правый",
     "ui_expand_both": "И то и другое",
     "ui_expand_horizontal": "горизонтальный",
     "ui_expand_none": "Никто",

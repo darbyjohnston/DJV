@@ -1,5 +1,6 @@
 {
     "djv_ls_description": "djv_ls es una herramienta de línea de comandos para enumerar secuencias de imágenes.",
     "djv_ls_usage": "Uso",
-    "djv_ls_usage_format": "djv_ls [entrada, ...]"
+    "djv_ls_usage_format": "djv_ls [entrada, ...]",
+    "error_file_open": "No puede abrir el archivo."
 }

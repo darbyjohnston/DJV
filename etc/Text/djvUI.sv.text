@@ -1,4 +1,7 @@
 {
+    "cli_option_init_settings": "-init_settings",
+    "cli_option_init_settings_description": "Initiera inställningarna.",
+    "cli_ui_options": "UI-alternativ",
     "error_cannot_parse_the_value": "Det går inte att analysera värdet.",
     "key_0": "0",
     "key_1": "1",
@@ -175,6 +178,10 @@
     "ui_color_role_tooltip_background": "Verktygstips bakgrund",
     "ui_color_role_tooltip_foreground": "Verktygstips i förgrunden",
     "ui_color_role_trough": "Tråg",
+    "ui_corner_lower_left": "Nedre vänstra",
+    "ui_corner_lower_right": "Nedre höger",
+    "ui_corner_upper_left": "Övre vänster",
+    "ui_corner_upper_right": "Upp till höger",
     "ui_expand_both": "Både",
     "ui_expand_horizontal": "Horisontell",
     "ui_expand_none": "Ingen",

@@ -1,5 +1,6 @@
 {
     "djv_ls_description": "djv_ls est un outil en ligne de commande pour répertorier les séquences d&#39;images.",
     "djv_ls_usage": "Usage",
-    "djv_ls_usage_format": "djv_ls [entrée, ...]"
+    "djv_ls_usage_format": "djv_ls [entrée, ...]",
+    "error_file_open": "Ne peut pas ouvrir le fichier."
 }

@@ -1,4 +1,7 @@
 {
+    "cli_option_init_settings": "-init_settings",
+    "cli_option_init_settings_description": "Zainicjuj ustawienia.",
+    "cli_ui_options": "Opcje interfejsu użytkownika",
     "error_cannot_parse_the_value": "Nie można przeanalizować wartości.",
     "key_0": "0",
     "key_1": "1",
@@ -175,6 +178,10 @@
     "ui_color_role_tooltip_background": "Tło etykietki",
     "ui_color_role_tooltip_foreground": "Pierwszy plan podpowiedzi",
     "ui_color_role_trough": "Koryto",
+    "ui_corner_lower_left": "U dołu po lewej",
+    "ui_corner_lower_right": "Prawy dolny",
+    "ui_corner_upper_left": "Górny lewy",
+    "ui_corner_upper_right": "Górny prawy",
     "ui_expand_both": "Obie",
     "ui_expand_horizontal": "Poziomy",
     "ui_expand_none": "Żaden",

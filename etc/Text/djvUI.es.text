@@ -1,4 +1,7 @@
 {
+    "cli_option_init_settings": "-init_settings",
+    "cli_option_init_settings_description": "Inicialice la configuración.",
+    "cli_ui_options": "Opciones de IU",
     "error_cannot_parse_the_value": "No se puede analizar el valor.",
     "key_0": "0",
     "key_1": "1",
@@ -175,6 +178,10 @@
     "ui_color_role_tooltip_background": "Fondo de información sobre herramientas",
     "ui_color_role_tooltip_foreground": "Información sobre herramientas en primer plano",
     "ui_color_role_trough": "Canal",
+    "ui_corner_lower_left": "Inferior izquierda",
+    "ui_corner_lower_right": "Inferior derecha",
+    "ui_corner_upper_left": "Arriba a la izquierda",
+    "ui_corner_upper_right": "Superior derecha",
     "ui_expand_both": "Ambos",
     "ui_expand_horizontal": "Horizontal",
     "ui_expand_none": "Ninguna",

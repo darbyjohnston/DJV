@@ -1,5 +1,6 @@
 {
     "djv_ls_description": "Το djv_ls είναι ένα εργαλείο γραμμής εντολών για την καταχώριση των ακολουθιών εικόνας.",
     "djv_ls_usage": "Χρήση",
-    "djv_ls_usage_format": "djv_ls [εισαγωγή, ...]"
+    "djv_ls_usage_format": "djv_ls [εισαγωγή, ...]",
+    "error_file_open": "Δεν είναι δυνατό το άνοιγμα του αρχείου."
 }

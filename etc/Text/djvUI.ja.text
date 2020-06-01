@@ -1,4 +1,7 @@
 {
+    "cli_option_init_settings": "-init_settings",
+    "cli_option_init_settings_description": "設定を初期化します。",
+    "cli_ui_options": "UIオプション",
     "error_cannot_parse_the_value": "値を解析できません。",
     "key_0": "0",
     "key_1": "1",
@@ -175,6 +178,10 @@
     "ui_color_role_tooltip_background": "ツールチップの背景",
     "ui_color_role_tooltip_foreground": "ツールチップの前景",
     "ui_color_role_trough": "トラフ",
+    "ui_corner_lower_left": "左下",
+    "ui_corner_lower_right": "右下",
+    "ui_corner_upper_left": "左上",
+    "ui_corner_upper_right": "右上",
     "ui_expand_both": "どちらも",
     "ui_expand_horizontal": "横",
     "ui_expand_none": "なし",

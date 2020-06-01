@@ -1,5 +1,6 @@
 {
     "djv_ls_description": "djv_ls är ett kommandoradsverktyg för listning av bildsekvenser.",
     "djv_ls_usage": "Användande",
-    "djv_ls_usage_format": "djv_ls [input, ...]"
+    "djv_ls_usage_format": "djv_ls [input, ...]",
+    "error_file_open": "Kan inte öppna filen."
 }

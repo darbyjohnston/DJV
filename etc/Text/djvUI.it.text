@@ -1,4 +1,7 @@
 {
+    "cli_option_init_settings": "-init_settings",
+    "cli_option_init_settings_description": "Inizializza le impostazioni.",
+    "cli_ui_options": "Opzioni dell&#39;interfaccia utente",
     "error_cannot_parse_the_value": "Impossibile analizzare il valore.",
     "key_0": "0",
     "key_1": "1",
@@ -175,6 +178,10 @@
     "ui_color_role_tooltip_background": "Descrizione comando",
     "ui_color_role_tooltip_foreground": "Tooltip Primo piano",
     "ui_color_role_trough": "depressione",
+    "ui_corner_lower_left": "In basso a sinistra",
+    "ui_corner_lower_right": "In basso a destra",
+    "ui_corner_upper_left": "Superiore sinistro",
+    "ui_corner_upper_right": "In alto a destra",
     "ui_expand_both": "Tutti e due",
     "ui_expand_horizontal": "Orizzontale",
     "ui_expand_none": "Nessuna",

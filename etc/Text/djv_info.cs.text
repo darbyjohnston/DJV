@@ -1,5 +1,6 @@
 {
     "djv_info_description": "djv_info je nástroj příkazového řádku pro zobrazování informací o obrázcích a obrazových sekvencích.",
     "djv_info_usage": "Používání",
-    "djv_info_usage_format": "djv_info [vstup, ...]"
+    "djv_info_usage_format": "djv_info [vstup, ...]",
+    "error_file_open": "Nelze otevřít soubor."
 }
