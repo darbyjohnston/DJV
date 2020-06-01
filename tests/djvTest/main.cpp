@@ -55,6 +55,8 @@
 #include <djvUITest/EnumTest.h>
 #include <djvUITest/WidgetTest.h>
 
+#include <djvViewAppTest/FileSystemTest.h>
+
 #include <djvUI/UISystem.h>
 
 #include <djvAV/AVSystem.h>
@@ -77,7 +79,7 @@ int main(int argc, char ** argv)
         std::vector<std::shared_ptr<Test::ITest> > tests;
         if (0)
         {
-            tests.emplace_back(new CoreTest::FrameTest(context));
+            tests.emplace_back(new ViewAppTest::FileSystemTest(context));
         }
         else
         {
@@ -132,6 +134,8 @@ int main(int argc, char ** argv)
 
             tests.emplace_back(new UITest::EnumTest(context));
             tests.emplace_back(new UITest::WidgetTest(context));
+
+            tests.emplace_back(new ViewAppTest::FileSystemTest(context));
         }
 
         std::vector<std::shared_ptr<Test::ITest> > testsToRun;
