@@ -33,6 +33,7 @@ namespace djv
         {
             //! \todo Should this be configurable?
             const size_t frameRate = 60;
+            const size_t spinLoopSleep = 100;
         
         } // namespace
 
@@ -101,6 +102,7 @@ namespace djv
                     //Time::sleep(frameTime - delta);
                     while (delta < frameTime)
                     {
+                        Time::sleep(std::chrono::microseconds(spinLoopSleep));
                         tickTimers();
                         end = std::chrono::steady_clock::now();
                         delta = std::chrono::duration_cast<Time::Duration>(end - start);
