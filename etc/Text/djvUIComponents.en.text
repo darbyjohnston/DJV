@@ -100,6 +100,8 @@
     "settings_general_section_time": "Time",
     "settings_general_section_tooltips": "Tooltips",
     "settings_general_time_units": "Units",
+    "settings_glfw_section_swap_interval": "Swap Interval",
+    "settings_glfw_swap_interval_enable": "Enabled",
     "settings_io_data_type": "Data type",
     "settings_io_exr_channel_grouping": "Channel grouping",
     "settings_io_exr_compression": "File compression",
@@ -122,5 +124,6 @@
     "settings_render_2d_section_text": "Text",
     "settings_render_2d_text_lcd_rendering": "Enable LCD text rendering",
     "settings_title_general": "General",
+    "settings_title_glfw": "GLFW",
     "settings_title_io": "I/O"
 }

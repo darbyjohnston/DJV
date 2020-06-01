@@ -5,6 +5,7 @@
 #include <djvUI/AVSettings.h>
 
 #include <djvAV/AVSystem.h>
+#include <djvAV/GLFWSystem.h>
 #include <djvAV/IO.h>
 #include <djvAV/Render2D.h>
 
@@ -26,16 +27,18 @@ namespace djv
         {
             struct AV::Private
             {
-                std::shared_ptr<djv::AV::AVSystem> avSystem;
+                std::shared_ptr<djv::AV::GLFW::System> glfwSystem;
                 std::shared_ptr<djv::AV::IO::System> ioSystem;
+                std::shared_ptr<djv::AV::AVSystem> avSystem;
             };
 
             void AV::_init(const std::shared_ptr<Core::Context>& context)
             {
                 ISettings::_init("djv::UI::Settings::AV", context);
                 DJV_PRIVATE_PTR();
-                p.avSystem = context->getSystemT<djv::AV::AVSystem>();
+                p.glfwSystem = context->getSystemT<djv::AV::GLFW::System>();
                 p.ioSystem = context->getSystemT<djv::AV::IO::System>();
+                p.avSystem = context->getSystemT<djv::AV::AVSystem>();
                 _load();
             }
 
@@ -59,21 +62,20 @@ namespace djv
                 if (value.is<picojson::object>())
                 {
                     const auto & object = value.get<picojson::object>();
+                    bool swapInterval = false;
                     djv::Core::Time::Units timeUnits = djv::Core::Time::Units::First;
                     djv::AV::AlphaBlend alphaBlend = djv::AV::AlphaBlend::Straight;
                     Time::FPS defaultSpeed = Time::getDefaultSpeed();
                     djv::AV::Render2D::ImageFilterOptions imageFilterOptions;
                     bool lcdText = false;
+                    read("SwapInterval", object, swapInterval);
                     read("TimeUnits", object, timeUnits);
                     read("AlphaBlend", object, alphaBlend);
                     read("DefaultSpeed", object, defaultSpeed);
                     read("ImageFilterOptions", object, imageFilterOptions);
                     read("LCDText", object, lcdText);
-                    p.avSystem->setTimeUnits(timeUnits);
-                    p.avSystem->setAlphaBlend(alphaBlend);
-                    p.avSystem->setDefaultSpeed(defaultSpeed);
-                    p.avSystem->setImageFilterOptions(imageFilterOptions);
-                    p.avSystem->setLCDText(lcdText);
+
+                    p.glfwSystem->setSwapInterval(swapInterval);
                     for (const auto & i : p.ioSystem->getPluginNames())
                     {
                         const auto j = object.find(i);
@@ -82,6 +84,11 @@ namespace djv
                             p.ioSystem->setOptions(i, j->second);
                         }
                     }
+                    p.avSystem->setTimeUnits(timeUnits);
+                    p.avSystem->setAlphaBlend(alphaBlend);
+                    p.avSystem->setDefaultSpeed(defaultSpeed);
+                    p.avSystem->setImageFilterOptions(imageFilterOptions);
+                    p.avSystem->setLCDText(lcdText);
                 }
             }
 
@@ -90,15 +97,16 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 picojson::value out(picojson::object_type, true);
                 auto & object = out.get<picojson::object>();
+                write("SwapInterval", p.glfwSystem->observeSwapInterval()->get(), object);
+                for (const auto & i : p.ioSystem->getPluginNames())
+                {
+                    object[i] = p.ioSystem->getOptions(i);
+                }
                 write("TimeUnits", p.avSystem->observeTimeUnits()->get(), object);
                 write("AlphaBlend", p.avSystem->observeAlphaBlend()->get(), object);
                 write("DefaultSpeed", p.avSystem->observeDefaultSpeed()->get(), object);
                 write("ImageFilterOptions", p.avSystem->observeImageFilterOptions()->get(), object);
                 write("LCDText", p.avSystem->observeLCDText()->get(), object);
-                for (const auto & i : p.ioSystem->getPluginNames())
-                {
-                    object[i] = p.ioSystem->getOptions(i);
-                }
                 return out;
             }
 

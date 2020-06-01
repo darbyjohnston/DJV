@@ -10,6 +10,7 @@
 #include <djvViewApp/PlaybackSettingsWidget.h>
 #include <djvViewApp/WindowSettingsWidget.h>
 
+#include <djvUIComponents/GLFWSettingsWidget.h>
 #include <djvUIComponents/IOSettingsWidget.h>
 #include <djvUIComponents/LanguageSettingsWidget.h>
 #include <djvUIComponents/PPMSettingsWidget.h>
@@ -79,6 +80,7 @@ namespace djv
             {
                 out =
                 {
+                    UI::GLFWSettingsWidget::create(context),
                     UI::LanguageSettingsWidget::create(context),
                     UI::SizeSettingsWidget::create(context),
                     UI::PaletteSettingsWidget::create(context),

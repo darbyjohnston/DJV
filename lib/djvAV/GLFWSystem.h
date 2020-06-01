@@ -7,6 +7,7 @@
 #include <djvAV/AV.h>
 
 #include <djvCore/ISystem.h>
+#include <djvCore/ValueObserver.h>
 
 #include <stdexcept>
 
@@ -65,6 +66,9 @@ namespace djv
                 static std::shared_ptr<System> create(const std::shared_ptr<Core::Context>&);
 
                 GLFWwindow* getGLFWWindow() const;
+
+                std::shared_ptr<Core::IValueSubject<bool> > observeSwapInterval() const;
+                void setSwapInterval(bool);
 
             private:
                 DJV_PRIVATE();

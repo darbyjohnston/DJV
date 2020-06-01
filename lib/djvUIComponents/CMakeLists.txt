@@ -5,6 +5,7 @@ set(header
     FileBrowserItemView.h
     FileBrowserPrivate.h
     FileBrowserSettings.h
+    GLFWSettingsWidget.h
 	IOSettings.h
 	IOSettingsWidget.h
     ISettingsWidget.h
@@ -32,6 +33,7 @@ set(source
     FileBrowserSettings.cpp
     FileBrowserShortcutsModel.cpp
     FileBrowserShortcutsWidget.cpp
+    GLFWSettingsWidget.cpp
 	IOSettings.cpp
 	IOSettingsWidget.cpp
     ISettingsWidget.cpp
