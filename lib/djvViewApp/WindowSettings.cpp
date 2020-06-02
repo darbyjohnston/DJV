@@ -19,9 +19,19 @@ namespace djv
 {
     namespace ViewApp
     {
+        namespace
+        {
+            //! \todo Should this be configurable?
+            const glm::ivec2 windowSizeDefault = glm::ivec2(1280, 720);
+        
+        } // namespace
+
         struct WindowSettings::Private
         {
-            glm::ivec2 windowSize = glm::ivec2(1280, 720);
+            std::shared_ptr<ValueSubject<bool> > restorePos;
+            std::shared_ptr<ValueSubject<bool> > restoreSize;
+            glm::ivec2 windowPos = glm::ivec2(0, 0);
+            glm::ivec2 windowSize = windowSizeDefault;
             std::shared_ptr<ValueSubject<int> > fullscreenMonitor;
             std::shared_ptr<ValueSubject<bool> > floatOnTop;
             std::shared_ptr<ValueSubject<bool> > maximize;
@@ -36,6 +46,8 @@ namespace djv
             ISettings::_init("djv::ViewApp::WindowSettings", context);
 
             DJV_PRIVATE_PTR();
+            p.restorePos = ValueSubject<bool>::create(false);
+            p.restoreSize = ValueSubject<bool>::create(true);
             p.fullscreenMonitor = ValueSubject<int>::create(0);
             p.floatOnTop = ValueSubject<bool>::create(false);
             p.maximize = ValueSubject<bool>::create(true);
@@ -63,9 +75,44 @@ namespace djv
             return out;
         }
 
+        std::shared_ptr<Core::IValueSubject<bool> > WindowSettings::observeRestorePos() const
+        {
+            return _p->restorePos;
+        }
+
+        std::shared_ptr<Core::IValueSubject<bool> > WindowSettings::observeRestoreSize() const
+        {
+            return _p->restoreSize;
+        }
+
+        const glm::ivec2& WindowSettings::getWindowPos() const
+        {
+            return _p->windowPos;
+        }
+
         const glm::ivec2& WindowSettings::getWindowSize() const
         {
             return _p->windowSize;
+        }
+
+        const glm::ivec2& WindowSettings::getWindowSizeDefault() const
+        {
+            return windowSizeDefault;
+        }
+
+        void WindowSettings::setRestorePos(bool value)
+        {
+            _p->restorePos->setIfChanged(value);
+        }
+
+        void WindowSettings::setRestoreSize(bool value)
+        {
+            _p->restoreSize->setIfChanged(value);
+        }
+
+        void WindowSettings::setWindowPos(const glm::ivec2& value)
+        {
+            _p->windowPos = value;
         }
 
         void WindowSettings::setWindowSize(const glm::ivec2& value)
@@ -149,6 +196,9 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
+                UI::Settings::read("RestorePos", object, p.restorePos);
+                UI::Settings::read("RestoreSize", object, p.restoreSize);
+                UI::Settings::read("WindowPos", object, p.windowPos);
                 UI::Settings::read("WindowSize", object, p.windowSize);
                 UI::Settings::read("FullscreenMonitor", object, p.fullscreenMonitor);
                 UI::Settings::read("FloatOnTop", object, p.floatOnTop);
@@ -165,6 +215,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             picojson::value out(picojson::object_type, true);
             auto & object = out.get<picojson::object>();
+            UI::Settings::write("RestorePos", p.restorePos->get(), object);
+            UI::Settings::write("RestoreSize", p.restoreSize->get(), object);
+            UI::Settings::write("WindowPos", p.windowPos, object);
             UI::Settings::write("WindowSize", p.windowSize, object);
             UI::Settings::write("FullscreenMonitor", p.fullscreenMonitor->get(), object);
             UI::Settings::write("FloatOnTop", p.floatOnTop->get(), object);

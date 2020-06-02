@@ -92,11 +92,27 @@ namespace djv
             p.settings = WindowSettings::create(context);
 
             auto glfwWindow = p.avGLFWSystem->getGLFWWindow();
-            const glm::ivec2& windowSize = p.settings->getWindowSize();
-            glfwSetWindowSize(
-                glfwWindow,
-                std::max(windowSize.x, windowSizeMin.x),
-                std::max(windowSize.y, windowSizeMin.y));
+            if (p.settings->observeRestoreSize()->get())
+            {
+                const glm::ivec2& windowSize = p.settings->getWindowSize();
+                glfwSetWindowSize(
+                    glfwWindow,
+                    std::max(windowSize.x, windowSizeMin.x),
+                    std::max(windowSize.y, windowSizeMin.y));
+            }
+            else
+            {
+                const glm::ivec2& windowSizeDefault = p.settings->getWindowSizeDefault();
+                glfwSetWindowSize(
+                    glfwWindow,
+                    std::max(windowSizeDefault.x, windowSizeMin.x),
+                    std::max(windowSizeDefault.y, windowSizeMin.y));
+            }
+            if (p.settings->observeRestorePos()->get())
+            {
+                const glm::ivec2& windowPos = p.settings->getWindowPos();
+                glfwSetWindowPos(glfwWindow, windowPos.x, windowPos.y);
+            }
 
             p.activeWidget = ValueSubject<std::shared_ptr<MediaWidget> >::create();
             p.fullScreen = ValueSubject<bool>::create(false);
@@ -262,9 +278,12 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto glfwWindow = p.avGLFWSystem->getGLFWWindow();
-            glm::ivec2 windowSize = p.settings->getWindowSize();
-            glfwGetWindowSize(glfwWindow, &windowSize.x, &windowSize.y);
-            p.settings->setWindowSize(windowSize);
+            glm::ivec2 pos(0.F, 0.F);
+            glfwGetWindowPos(glfwWindow, &pos.x, &pos.y);
+            p.settings->setWindowPos(pos);
+            glm::ivec2 size(0.F, 0.F);
+            glfwGetWindowSize(glfwWindow, &size.x, &size.y);
+            p.settings->setWindowSize(size);
         }
 
         std::shared_ptr<WindowSystem> WindowSystem::create(const std::shared_ptr<Context>& context)

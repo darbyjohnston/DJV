@@ -80,6 +80,7 @@ namespace djv
             {
                 out =
                 {
+                    // UI settings widgets.
                     UI::GLFWSettingsWidget::create(context),
                     UI::LanguageSettingsWidget::create(context),
                     UI::SizeSettingsWidget::create(context),
@@ -88,7 +89,6 @@ namespace djv
                     UI::Render2DTextSettingsWidget::create(context),
                     UI::TimeSettingsWidget::create(context),
                     UI::TooltipsSettingsWidget::create(context),
-
                     UI::IOThreadsSettingsWidget::create(context),
                     UI::PPMSettingsWidget::create(context),
                     UI::PPMSettingsWidget::create(context),
@@ -105,14 +105,16 @@ namespace djv
                     UI::TIFFSettingsWidget::create(context),
 #endif
 
-                    AutoHideSettingsWidget::create(context),
+                    // ViewApp settings widgets.
+                    WindowGeometrySettingsWidget::create(context),
                     FullscreenMonitorSettingsWidget::create(context),
+                    AutoHideSettingsWidget::create(context),
                     BackgroundImageSettingsWidget::create(context),
                     InputSettingsWidget::create(context),
                     NUXSettingsWidget::create(context),
                     PlaybackSettingsWidget::create(context),
                     SequenceSettingsWidget::create(context),
-                    TimelineSettingsWidget::create(context),
+                    TimelineSettingsWidget::create(context)
                 };
             }
             return out;

@@ -33,6 +33,246 @@ namespace djv
 {
     namespace ViewApp
     {
+        struct WindowGeometrySettingsWidget::Private
+        {
+            std::shared_ptr<UI::CheckBox> restorePosCheckBox;
+            std::shared_ptr<UI::CheckBox> restoreSizeCheckBox;
+            std::shared_ptr<ValueObserver<bool> > restorePosObserver;
+            std::shared_ptr<ValueObserver<bool> > restoreSizeObserver;
+        };
+
+        void WindowGeometrySettingsWidget::_init(const std::shared_ptr<Context>& context)
+        {
+            ISettingsWidget::_init(context);
+
+            DJV_PRIVATE_PTR();
+            setClassName("djv::ViewApp::WindowGeometrySettingsWidget");
+
+            p.restorePosCheckBox = UI::CheckBox::create(context);
+            p.restoreSizeCheckBox = UI::CheckBox::create(context);
+
+            auto layout = UI::VerticalLayout::create(context);
+            layout->addChild(p.restorePosCheckBox);
+            layout->addChild(p.restoreSizeCheckBox);
+            addChild(layout);
+
+            auto weak = std::weak_ptr<WindowGeometrySettingsWidget>(std::dynamic_pointer_cast<WindowGeometrySettingsWidget>(shared_from_this()));
+            auto contextWeak = std::weak_ptr<Context>(context);
+            p.restorePosCheckBox->setCheckedCallback(
+                [weak, contextWeak](bool value)
+            {
+                if (auto context = contextWeak.lock())
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
+                        {
+                            windowSettings->setRestorePos(value);
+                        }
+                    }
+                }
+            });
+
+            p.restoreSizeCheckBox->setCheckedCallback(
+                [weak, contextWeak](bool value)
+            {
+                if (auto context = contextWeak.lock())
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
+                        {
+                            windowSettings->setRestoreSize(value);
+                        }
+                    }
+                }
+            });
+
+            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
+            {
+                p.restorePosObserver = ValueObserver<bool>::create(
+                    windowSettings->observeRestorePos(),
+                    [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->restorePosCheckBox->setChecked(value);
+                    }
+                });
+
+                p.restoreSizeObserver = ValueObserver<bool>::create(
+                    windowSettings->observeRestoreSize(),
+                    [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->restoreSizeCheckBox->setChecked(value);
+                    }
+                });
+            }
+        }
+
+        WindowGeometrySettingsWidget::WindowGeometrySettingsWidget() :
+            _p(new Private)
+        {}
+
+        WindowGeometrySettingsWidget::~WindowGeometrySettingsWidget()
+        {}
+
+        std::shared_ptr<WindowGeometrySettingsWidget> WindowGeometrySettingsWidget::create(const std::shared_ptr<Context>& context)
+        {
+            auto out = std::shared_ptr<WindowGeometrySettingsWidget>(new WindowGeometrySettingsWidget);
+            out->_init(context);
+            return out;
+        }
+
+        std::string WindowGeometrySettingsWidget::getSettingsName() const
+        {
+            return DJV_TEXT("settings_window_section_geometry");
+        }
+
+        std::string WindowGeometrySettingsWidget::getSettingsGroup() const
+        {
+            return DJV_TEXT("settings_window_title");
+        }
+
+        std::string WindowGeometrySettingsWidget::getSettingsSortKey() const
+        {
+            return "B";
+        }
+
+        void WindowGeometrySettingsWidget::_initEvent(Event::Init& event)
+        {
+            ISettingsWidget::_initEvent(event);
+            DJV_PRIVATE_PTR();
+            p.restorePosCheckBox->setText(_getText(DJV_TEXT("settings_window_restore_pos")));
+            p.restoreSizeCheckBox->setText(_getText(DJV_TEXT("settings_window_restore_size")));
+        }
+
+        struct FullscreenMonitorSettingsWidget::Private
+        {
+            std::vector<std::string> monitorNames;
+            int monitor = 0;
+            std::shared_ptr<UI::ComboBox> monitorComboBox;
+            std::shared_ptr<UI::FormLayout> formLayout;
+            std::shared_ptr<ListObserver<Desktop::MonitorInfo> > monitorInfoObserver;
+            std::shared_ptr<ValueObserver<int> > monitorObserver;
+        };
+
+        void FullscreenMonitorSettingsWidget::_init(const std::shared_ptr<Context>& context)
+        {
+            ISettingsWidget::_init(context);
+
+            DJV_PRIVATE_PTR();
+            setClassName("djv::ViewApp::FullscreenMonitorSettingsWidget");
+
+            p.monitorComboBox = UI::ComboBox::create(context);
+
+            p.formLayout = UI::FormLayout::create(context);
+            p.formLayout->addChild(p.monitorComboBox);
+            addChild(p.formLayout);
+
+            auto weak = std::weak_ptr<FullscreenMonitorSettingsWidget>(std::dynamic_pointer_cast<FullscreenMonitorSettingsWidget>(shared_from_this()));
+            auto contextWeak = std::weak_ptr<Context>(context);
+            p.monitorComboBox->setCallback(
+                [weak, contextWeak](int value)
+            {
+                if (auto context = contextWeak.lock())
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
+                        {
+                            windowSettings->setFullscreenMonitor(value);
+                        }
+                    }
+                }
+            });
+
+            auto glfwSystem = context->getSystemT<Desktop::GLFWSystem>();
+            p.monitorInfoObserver = ListObserver<Desktop::MonitorInfo>::create(
+                glfwSystem->observeMonitorInfo(),
+                [weak](const std::vector<Desktop::MonitorInfo>& value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->_p->monitorNames.clear();
+                    for (const auto& i : value)
+                    {
+                        widget->_p->monitorNames.push_back(i.name);
+                    }
+                    widget->_widgetUpdate();
+                }
+            });
+
+            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
+            {
+                p.monitorObserver = ValueObserver<int>::create(
+                    windowSettings->observeFullscreenMonitor(),
+                    [weak](int value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->monitor = value;
+                        widget->_widgetUpdate();
+                    }
+                });
+            }
+        }
+
+        FullscreenMonitorSettingsWidget::FullscreenMonitorSettingsWidget() :
+            _p(new Private)
+        {}
+
+        FullscreenMonitorSettingsWidget::~FullscreenMonitorSettingsWidget()
+        {}
+
+        std::shared_ptr<FullscreenMonitorSettingsWidget> FullscreenMonitorSettingsWidget::create(const std::shared_ptr<Context>& context)
+        {
+            auto out = std::shared_ptr<FullscreenMonitorSettingsWidget>(new FullscreenMonitorSettingsWidget);
+            out->_init(context);
+            return out;
+        }
+
+        std::string FullscreenMonitorSettingsWidget::getSettingsName() const
+        {
+            return DJV_TEXT("settings_window_section_fullscreen");
+        }
+
+        std::string FullscreenMonitorSettingsWidget::getSettingsGroup() const
+        {
+            return DJV_TEXT("settings_window_title");
+        }
+
+        std::string FullscreenMonitorSettingsWidget::getSettingsSortKey() const
+        {
+            return "B";
+        }
+
+        void FullscreenMonitorSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
+        {
+            _p->formLayout->setLabelSizeGroup(value);
+        }
+
+        void FullscreenMonitorSettingsWidget::_initEvent(Event::Init& event)
+        {
+            ISettingsWidget::_initEvent(event);
+            DJV_PRIVATE_PTR();
+            p.formLayout->setText(p.monitorComboBox, _getText(DJV_TEXT("settings_window_section_monitor")) + ":");
+        }
+
+        void FullscreenMonitorSettingsWidget::_widgetUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            p.monitorComboBox->setItems(p.monitorNames);
+            p.monitorComboBox->setCurrentItem(p.monitor);
+        }
+
         struct AutoHideSettingsWidget::Private
         {
             std::shared_ptr<UI::CheckBox> autoHideCheckBox;
@@ -115,127 +355,6 @@ namespace djv
             p.autoHideCheckBox->setText(_getText(DJV_TEXT("settings_window_automatically_hide_the_user_interface")));
         }
         
-        struct FullscreenMonitorSettingsWidget::Private
-        {
-            std::vector<std::string> monitorNames;
-            int monitor = 0;
-            std::shared_ptr<UI::ComboBox> monitorComboBox;
-            std::shared_ptr<UI::FormLayout> formLayout;
-            std::shared_ptr<ListObserver<Desktop::MonitorInfo> > monitorInfoObserver;
-            std::shared_ptr<ValueObserver<int> > monitorObserver;
-        };
-
-        void FullscreenMonitorSettingsWidget::_init(const std::shared_ptr<Context>& context)
-        {
-            ISettingsWidget::_init(context);
-
-            DJV_PRIVATE_PTR();
-            setClassName("djv::ViewApp::FullscreenMonitorSettingsWidget");
-
-            p.monitorComboBox = UI::ComboBox::create(context);
-
-            p.formLayout = UI::FormLayout::create(context);
-            p.formLayout->addChild(p.monitorComboBox);
-            addChild(p.formLayout);
-
-            auto weak = std::weak_ptr<FullscreenMonitorSettingsWidget>(std::dynamic_pointer_cast<FullscreenMonitorSettingsWidget>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<Context>(context);
-            p.monitorComboBox->setCallback(
-                [weak, contextWeak](int value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                            if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
-                            {
-                                windowSettings->setFullscreenMonitor(value);
-                            }
-                        }
-                    }
-                });
-
-            auto glfwSystem = context->getSystemT<Desktop::GLFWSystem>();
-            p.monitorInfoObserver = ListObserver<Desktop::MonitorInfo>::create(
-                glfwSystem->observeMonitorInfo(),
-                [weak](const std::vector<Desktop::MonitorInfo>& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->monitorNames.clear();
-                        for (const auto& i : value)
-                        {
-                            widget->_p->monitorNames.push_back(i.name);
-                        }
-                        widget->_widgetUpdate();
-                    }
-                });
-
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
-            if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
-            {
-                p.monitorObserver = ValueObserver<int>::create(
-                    windowSettings->observeFullscreenMonitor(),
-                    [weak](int value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->monitor = value;
-                            widget->_widgetUpdate();
-                        }
-                    });
-            }
-        }
-
-        FullscreenMonitorSettingsWidget::FullscreenMonitorSettingsWidget() :
-            _p(new Private)
-        {}
-
-        FullscreenMonitorSettingsWidget::~FullscreenMonitorSettingsWidget()
-        {}
-
-        std::shared_ptr<FullscreenMonitorSettingsWidget> FullscreenMonitorSettingsWidget::create(const std::shared_ptr<Context>& context)
-        {
-            auto out = std::shared_ptr<FullscreenMonitorSettingsWidget>(new FullscreenMonitorSettingsWidget);
-            out->_init(context);
-            return out;
-        }
-
-        std::string FullscreenMonitorSettingsWidget::getSettingsName() const
-        {
-            return DJV_TEXT("settings_window_section_fullscreen");
-        }
-
-        std::string FullscreenMonitorSettingsWidget::getSettingsGroup() const
-        {
-            return DJV_TEXT("settings_window_title");
-        }
-
-        std::string FullscreenMonitorSettingsWidget::getSettingsSortKey() const
-        {
-            return "B";
-        }
-
-        void FullscreenMonitorSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
-        {
-            _p->formLayout->setLabelSizeGroup(value);
-        }
-
-        void FullscreenMonitorSettingsWidget::_initEvent(Event::Init& event)
-        {
-            ISettingsWidget::_initEvent(event);
-            DJV_PRIVATE_PTR();
-            p.formLayout->setText(p.monitorComboBox, _getText(DJV_TEXT("settings_window_section_monitor")) + ":");
-        }
-
-        void FullscreenMonitorSettingsWidget::_widgetUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            p.monitorComboBox->setItems(p.monitorNames);
-            p.monitorComboBox->setCurrentItem(p.monitor);
-        }
-
         struct BackgroundImageSettingsWidget::Private
         {
             std::string fileName;

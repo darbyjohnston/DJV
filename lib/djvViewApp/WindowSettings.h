@@ -8,6 +8,7 @@
 
 #include <djvUI/ISettings.h>
 
+#include <djvCore/BBox.h>
 #include <djvCore/ValueObserver.h>
 
 #include <glm/vec2.hpp>
@@ -31,7 +32,14 @@ namespace djv
 
             static std::shared_ptr<WindowSettings> create(const std::shared_ptr<Core::Context>&);
 
+            std::shared_ptr<Core::IValueSubject<bool> > observeRestorePos() const;
+            std::shared_ptr<Core::IValueSubject<bool> > observeRestoreSize() const;
+            const glm::ivec2& getWindowPos() const;
             const glm::ivec2& getWindowSize() const;
+            const glm::ivec2& getWindowSizeDefault() const;
+            void setRestorePos(bool);
+            void setRestoreSize(bool);
+            void setWindowPos(const glm::ivec2&);
             void setWindowSize(const glm::ivec2&);
 
             std::shared_ptr<Core::IValueSubject<int> > observeFullscreenMonitor() const;
