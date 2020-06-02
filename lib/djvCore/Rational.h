@@ -41,14 +41,17 @@ namespace djv
         } // namespace Math
     } // namespace Core
 
+    std::ostream& operator << (std::ostream&, const Core::Math::Rational&);
+
+    //! Throws:
+    //! - std::exception
+    std::istream& operator >> (std::istream&, Core::Math::Rational&);
+
     picojson::value toJSON(const Core::Math::Rational&);
 
     //! Throws:
     //! - std::exception
     void fromJSON(const picojson::value&, Core::Math::Rational&);
-
-    std::ostream & operator << (std::ostream &, const Core::Math::Rational&);
-    std::istream & operator >> (std::istream &, Core::Math::Rational&);
 
 } // namespace djv
 

@@ -22,6 +22,9 @@
     }
 
 //! This macro provides enum serialziation helpers.
+//!
+//! oeprator >> throws:
+//! - std::invalid_argument
 #define DJV_ENUM_SERIALIZE_HELPERS(name) \
     std::ostream & operator << (std::ostream &, name); \
     std::istream & operator >> (std::istream &, name &);
@@ -30,8 +33,6 @@
 //! Required includes:
 //! - algorithm
 //! - sstream
-//! Throws:
-//! - std::invalid_argument
 //! \todo How can we translate this?
 #define DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(prefix, name, ...) \
     \

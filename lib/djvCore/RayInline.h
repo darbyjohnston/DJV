@@ -47,9 +47,17 @@ namespace djv
     template<typename T, glm::precision P>
     inline std::istream & operator >> (std::istream & s, Core::Ray::tRay3<T, P> & out)
     {
-        s.exceptions(std::istream::failbit | std::istream::badbit);
-        s >> value.start;
-        s >> value.end;
+        try
+        {
+            s.exceptions(std::istream::failbit | std::istream::badbit);
+            s >> value.start;
+            s >> value.end;
+        }
+        catch (const std::exception&)
+        {
+            //! \todo How can we translate this?
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
+        }
         return s;
     }
 

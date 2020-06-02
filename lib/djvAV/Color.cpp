@@ -227,27 +227,6 @@ namespace djv
         } // namepsace Image
     } // namespace AV
 
-    picojson::value toJSON(const AV::Image::Color& value)
-    {
-        std::stringstream ss;
-        ss << value;
-        return picojson::value(ss.str());
-    }
-
-    void fromJSON(const picojson::value& value, AV::Image::Color& out)
-    {
-        if (value.is<std::string>())
-        {
-            std::stringstream ss(value.get<std::string>());
-            ss >> out;
-        }
-        else
-        {
-            //! \todo How can we translate this?
-            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
-        }
-    }
-
     std::ostream & operator << (std::ostream & os, const AV::Image::Color & value)
     {
         const auto type = value.getType();
@@ -340,76 +319,105 @@ namespace djv
 
     std::istream & operator >> (std::istream & is, AV::Image::Color & value)
     {
-        is.exceptions(std::istream::failbit | std::istream::badbit);
-        AV::Image::Type type = AV::Image::Type::None;
-        is >> type;
-        value = AV::Image::Color(type);
-        const size_t channelCount = AV::Image::getChannelCount(type);
-        switch (AV::Image::getDataType(type))
+        try
         {
-        case AV::Image::DataType::U8:
-        {
-            for (size_t i = 0; i < channelCount; ++i)
+            is.exceptions(std::istream::failbit | std::istream::badbit);
+            AV::Image::Type type = AV::Image::Type::None;
+            is >> type;
+            value = AV::Image::Color(type);
+            const size_t channelCount = AV::Image::getChannelCount(type);
+            switch (AV::Image::getDataType(type))
             {
-                uint32_t tmp = 0;
-                is >> tmp;
-                value.setU8(tmp, i);
-            }
-            break;
-        }
-        case AV::Image::DataType::U10:
-        {
-            for (size_t i = 0; i < channelCount; ++i)
+            case AV::Image::DataType::U8:
             {
-                AV::Image::U10_T tmp = 0;
-                is >> tmp;
-                value.setU10(tmp, i);
+                for (size_t i = 0; i < channelCount; ++i)
+                {
+                    uint32_t tmp = 0;
+                    is >> tmp;
+                    value.setU8(tmp, i);
+                }
+                break;
             }
-            break;
-        }
-        case AV::Image::DataType::U16:
-        {
-            for (size_t i = 0; i < channelCount; ++i)
+            case AV::Image::DataType::U10:
             {
-                AV::Image::U16_T tmp = 0;
-                is >> tmp;
-                value.setU16(tmp, i);
+                for (size_t i = 0; i < channelCount; ++i)
+                {
+                    AV::Image::U10_T tmp = 0;
+                    is >> tmp;
+                    value.setU10(tmp, i);
+                }
+                break;
             }
-            break;
-        }
-        case AV::Image::DataType::U32:
-        {
-            for (size_t i = 0; i < channelCount; ++i)
+            case AV::Image::DataType::U16:
             {
-                AV::Image::U32_T tmp = 0;
-                is >> tmp;
-                value.setU32(tmp, i);
+                for (size_t i = 0; i < channelCount; ++i)
+                {
+                    AV::Image::U16_T tmp = 0;
+                    is >> tmp;
+                    value.setU16(tmp, i);
+                }
+                break;
             }
-            break;
-        }
-        case AV::Image::DataType::F16:
-        {
-            for (size_t i = 0; i < channelCount; ++i)
+            case AV::Image::DataType::U32:
             {
-                AV::Image::F16_T tmp = 0.F;
-                is >> tmp;
-                value.setF16(tmp, i);
+                for (size_t i = 0; i < channelCount; ++i)
+                {
+                    AV::Image::U32_T tmp = 0;
+                    is >> tmp;
+                    value.setU32(tmp, i);
+                }
+                break;
             }
-            break;
-        }
-        case AV::Image::DataType::F32:
-        {
-            for (size_t i = 0; i < channelCount; ++i)
+            case AV::Image::DataType::F16:
             {
-                AV::Image::F32_T tmp = 0.F;
-                is >> tmp;
-                value.setF32(tmp, i);
+                for (size_t i = 0; i < channelCount; ++i)
+                {
+                    AV::Image::F16_T tmp = 0.F;
+                    is >> tmp;
+                    value.setF16(tmp, i);
+                }
+                break;
             }
-            break;
+            case AV::Image::DataType::F32:
+            {
+                for (size_t i = 0; i < channelCount; ++i)
+                {
+                    AV::Image::F32_T tmp = 0.F;
+                    is >> tmp;
+                    value.setF32(tmp, i);
+                }
+                break;
+            }
+            default: break;
+            }
         }
-        default: break;
+        catch (const std::exception&)
+        {
+            //! \todo How can we translate this?
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
         return is;
+    }
+
+    picojson::value toJSON(const AV::Image::Color& value)
+    {
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
+    }
+
+    void fromJSON(const picojson::value& value, AV::Image::Color& out)
+    {
+        if (value.is<std::string>())
+        {
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            //! \todo How can we translate this?
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
+        }
     }
 
 } // namespace djv

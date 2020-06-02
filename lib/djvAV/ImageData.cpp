@@ -130,6 +130,29 @@ namespace djv
         } // namespace Image
     } // namespace AV
 
+    std::ostream& operator << (std::ostream& s, const AV::Image::Size& value)
+    {
+        s << value.w << " ";
+        s << value.h;
+        return s;
+    }
+
+    std::istream& operator >> (std::istream& s, AV::Image::Size& value)
+    {
+        try
+        {
+            s.exceptions(std::istream::failbit | std::istream::badbit);
+            s >> value.w;
+            s >> value.h;
+        }
+        catch (const std::exception&)
+        {
+            //! \todo How can we translate this?
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
+        }
+        return s;
+    }
+
     picojson::value toJSON(const AV::Image::Size& value)
     {
         std::stringstream ss;
@@ -149,21 +172,6 @@ namespace djv
             //! \todo How can we translate this?
             throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
-    }
-
-    std::ostream& operator << (std::ostream& s, const AV::Image::Size& value)
-    {
-        s << value.w << " ";
-        s << value.h;
-        return s;
-    }
-
-    std::istream& operator >> (std::istream& s, AV::Image::Size& value)
-    {
-        s.exceptions(std::istream::failbit | std::istream::badbit);
-        s >> value.w;
-        s >> value.h;
-        return s;
     }
 
 } // namespace djv

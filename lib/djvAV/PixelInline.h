@@ -691,27 +691,6 @@ namespace djv
 
         } // namespace Image
     } // namespace AV
-
-    template<>
-    inline std::ostream& operator << (std::ostream& os, const Core::Range::Range<uint8_t>& value)
-    {
-        os << static_cast<uint16_t>(value.getMin()) << " ";
-        os << static_cast<uint16_t>(value.getMax());
-        return os;
-    }
-    
-    template<>
-    inline std::istream& operator >> (std::istream& is, Core::Range::Range<uint8_t>& value)
-    {
-        is.exceptions(std::istream::failbit | std::istream::badbit);
-        uint16_t min = 0;
-        is >> min;
-        uint16_t max = 0;
-        is >> max;
-        value = Core::Range::Range<uint8_t>(min, max);
-        return is;
-    }
-
 } // namespace djv
 
 namespace std

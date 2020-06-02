@@ -19,30 +19,39 @@ namespace djv
     template<typename T, glm::precision P = glm::defaultp>
     bool fuzzyCompare(const glm::tvec4<T, P> &, const glm::tvec4<T, P> &);
 
-    picojson::value toJSON(const glm::ivec2 &);
-    picojson::value toJSON(const glm::vec2 &);
-    picojson::value toJSON(const glm::vec3 &);
-    picojson::value toJSON(const glm::vec4 &);
-
-    //! Throws:
-    //! - std::exception
-    void fromJSON(const picojson::value &, glm::ivec2 &);
-    void fromJSON(const picojson::value &, glm::vec2 &);
-    void fromJSON(const picojson::value &, glm::vec3 &);
-    void fromJSON(const picojson::value &, glm::vec4 &);
-
     template<typename T, glm::precision P = glm::defaultp>
     std::ostream & operator << (std::ostream &, const glm::tvec2<T, P> &);
     template<typename T, glm::precision P = glm::defaultp>
     std::ostream & operator << (std::ostream &, const glm::tvec3<T, P> &);
     template<typename T, glm::precision P = glm::defaultp>
     std::ostream & operator << (std::ostream &, const glm::tvec4<T, P> &);
+
+    //! Throws:
+    //! - std::exception
     template<typename T, glm::precision P = glm::defaultp>
     std::istream & operator >> (std::istream &, glm::tvec2<T, P> &);
+
+    //! Throws:
+    //! - std::exception
     template<typename T, glm::precision P = glm::defaultp>
     std::istream & operator >> (std::istream &, glm::tvec3<T, P> &);
+
+    //! Throws:
+    //! - std::exception
     template<typename T, glm::precision P = glm::defaultp>
     std::istream & operator >> (std::istream &, glm::tvec4<T, P> &);
+
+    picojson::value toJSON(const glm::ivec2&);
+    picojson::value toJSON(const glm::vec2&);
+    picojson::value toJSON(const glm::vec3&);
+    picojson::value toJSON(const glm::vec4&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const picojson::value&, glm::ivec2&);
+    void fromJSON(const picojson::value&, glm::vec2&);
+    void fromJSON(const picojson::value&, glm::vec3&);
+    void fromJSON(const picojson::value&, glm::vec4&);
 
 } // namespace djv
 

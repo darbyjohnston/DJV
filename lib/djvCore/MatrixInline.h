@@ -26,13 +26,21 @@ namespace djv
 
     inline std::istream & operator >> (std::istream & s, glm::mat4x4 & out)
     {
-        s.exceptions(std::istream::failbit | std::istream::badbit);
-        for (glm::mat4x4::length_type i = 0; i < 4; ++i)
+        try
         {
-            for (glm::mat4x4::length_type j = 0; j < 4; ++j)
+            s.exceptions(std::istream::failbit | std::istream::badbit);
+            for (glm::mat4x4::length_type i = 0; i < 4; ++i)
             {
-                s >> out[i][j];
+                for (glm::mat4x4::length_type j = 0; j < 4; ++j)
+                {
+                    s >> out[i][j];
+                }
             }
+        }
+        catch (const std::exception&)
+        {
+            //! \todo How can we translate this?
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
         return s;
     }

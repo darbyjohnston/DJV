@@ -65,6 +65,9 @@ namespace djv
 
     template<typename T>
     std::ostream & operator << (std::ostream &, const Core::Range::Range<T> &);
+
+    //! Throws:
+    //! - std::exception
     template<typename T>
     std::istream & operator >> (std::istream &, Core::Range::Range<T> &);
 

@@ -47,6 +47,37 @@ namespace djv
         } // namespace Math
     } // namespace Core
 
+    std::ostream & operator << (std::ostream & os, const Core::Math::Rational& value)
+    {
+        os << value.getNum() << '/' << value.getDen();
+        return os;
+    }
+
+    std::istream & operator >> (std::istream & is, Core::Math::Rational& value)
+    {
+        try
+        {
+            is.exceptions(std::istream::failbit | std::istream::badbit);
+            std::string s;
+            is >> s;
+            const auto split = Core::String::split(s, '/');
+            if (2 == split.size())
+            {
+                value = Core::Math::Rational(std::stoi(split[0]), std::stoi(split[1]));
+            }
+            else
+            {
+                throw std::exception();
+            }
+        }
+        catch (const std::exception&)
+        {
+            //! \todo How can we translate this?
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
+        }
+        return is;
+    }
+
     picojson::value toJSON(const Core::Math::Rational& value)
     {
         std::stringstream ss;
@@ -66,30 +97,6 @@ namespace djv
             //! \todo How can we translate this?
             throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
-    }
-
-    std::ostream & operator << (std::ostream & os, const Core::Math::Rational& value)
-    {
-        os << value.getNum() << '/' << value.getDen();
-        return os;
-    }
-
-    std::istream & operator >> (std::istream & is, Core::Math::Rational& value)
-    {
-        is.exceptions(std::istream::failbit | std::istream::badbit);
-        std::string s;
-        is >> s;
-        const auto split = Core::String::split(s, '/');
-        if (2 == split.size())
-        {
-            value = Core::Math::Rational(std::stoi(split[0]), std::stoi(split[1]));
-        }
-        else
-        {
-            //! \todo How can we translate this?
-            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
-        }
-        return is;
     }
 
 } // namespace djv

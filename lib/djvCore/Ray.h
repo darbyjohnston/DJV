@@ -48,6 +48,9 @@ namespace djv
 
     template<typename T, glm::precision P = glm::defaultp>
     std::ostream & operator << (std::ostream &, const Core::Ray::tRay3<T, P> &);
+
+    //! Throws:
+    //! - std::exception
     template<typename T, glm::precision P = glm::defaultp>
     std::istream & operator >> (std::istream &, Core::Ray::tRay3<T, P> &);
 

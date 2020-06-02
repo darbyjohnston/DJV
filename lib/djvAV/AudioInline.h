@@ -216,25 +216,4 @@ namespace djv
 
         } // namespace Audio
     } // namespace AV
-
-    template<>
-    inline std::ostream& operator << (std::ostream& os, const Core::Range::Range<int8_t>& value)
-    {
-        os << static_cast<int16_t>(value.getMin()) << " ";
-        os << static_cast<int16_t>(value.getMax());
-        return os;
-    }
-    
-    template<>
-    inline std::istream& operator >> (std::istream& is, Core::Range::Range<int8_t>& value)
-    {
-        is.exceptions(std::istream::failbit | std::istream::badbit);
-        int16_t min = 0;
-        is >> min;
-        int16_t max = 0;
-        is >> max;
-        value = Core::Range::Range<int8_t>(min, max);
-        return is;
-    }
-
 } // namespace djv

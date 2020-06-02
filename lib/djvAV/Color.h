@@ -68,14 +68,17 @@ namespace djv
         } // namespace Image
     } // namespace AV
 
+    std::ostream& operator << (std::ostream&, const AV::Image::Color&);
+
+    //! Throws:
+    //! - std::exception
+    std::istream& operator >> (std::istream&, AV::Image::Color&);
+
     picojson::value toJSON(const AV::Image::Color&);
 
     //! Throws:
     //! - std::exception
     void fromJSON(const picojson::value&, AV::Image::Color&);
-
-    std::ostream & operator << (std::ostream &, const AV::Image::Color &);
-    std::istream & operator >> (std::istream &, AV::Image::Color &);
 
 } // namespace djv
 

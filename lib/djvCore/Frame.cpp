@@ -92,22 +92,30 @@ namespace djv
 
     std::istream & operator >> (std::istream & s, Core::Frame::Sequence & out)
     {
-        s.exceptions(std::istream::failbit | std::istream::badbit);
-
-        std::string tmp;
-        s >> tmp;
-
-        // Split the string into ranges (e.g., 1-10,20-30).
-        const auto pieces = Core::String::split(tmp, ',');
-
-        // Convert the ranges.
-        size_t pad = 0;
-        for (const auto & piece : pieces)
+        try
         {
-            Core::Frame::Range range;
-            Core::Frame::fromString(piece, range, pad);
-            out.add(range);
-            out.setPad(std::max(pad, out.getPad()));
+            s.exceptions(std::istream::failbit | std::istream::badbit);
+
+            std::string tmp;
+            s >> tmp;
+
+            // Split the string into ranges (e.g., 1-10,20-30).
+            const auto pieces = Core::String::split(tmp, ',');
+
+            // Convert the ranges.
+            size_t pad = 0;
+            for (const auto& piece : pieces)
+            {
+                Core::Frame::Range range;
+                Core::Frame::fromString(piece, range, pad);
+                out.add(range);
+                out.setPad(std::max(pad, out.getPad()));
+            }
+        }
+        catch (const std::exception&)
+        {
+            //! \todo How can we translate this?
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
         }
         return s;
     }

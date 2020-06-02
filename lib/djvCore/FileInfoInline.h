@@ -144,6 +144,7 @@ namespace djv
                 }
                 catch (const std::exception&)
                 {
+                    //! \bug How should this be handled?
                 }
                 return out;
             }

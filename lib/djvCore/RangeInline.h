@@ -108,23 +108,31 @@ namespace djv
     } // namespace Core
 
     template<typename T>
-    inline std::ostream& operator << (std::ostream& is, const Core::Range::Range<T>& value)
+    inline std::ostream& operator << (std::ostream& os, const Core::Range::Range<T>& value)
     {
-        is << value.getMin() << " ";
-        is << value.getMax();
-        return is;
+        os << value.getMin() << " ";
+        os << value.getMax();
+        return os;
     }
 
     template<typename T>
-    inline std::istream& operator >> (std::istream& os, Core::Range::Range<T>& out)
+    inline std::istream& operator >> (std::istream& is, Core::Range::Range<T>& out)
     {
-        os.exceptions(std::istream::failbit | std::istream::badbit);
-        T min = static_cast<T>(0);
-        os >> min;
-        T max = static_cast<T>(0);
-        os >> max;
-        out = Core::Range::Range<T>(min, max);
-        return os;
+        try
+        {
+            is.exceptions(std::istream::failbit | std::istream::badbit);
+            T min = static_cast<T>(0);
+            is >> min;
+            T max = static_cast<T>(0);
+            is >> max;
+            out = Core::Range::Range<T>(min, max);
+        }
+        catch (const std::exception&)
+        {
+            //! \todo How can we translate this?
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
+        }
+        return is;
     }
 
 } // namespace djv

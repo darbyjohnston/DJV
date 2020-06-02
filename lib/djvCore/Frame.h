@@ -96,6 +96,9 @@ namespace djv
     } // namespace Core
 
     std::ostream& operator << (std::ostream&, const Core::Frame::Sequence&);
+
+    //! Throws:
+    //! - std::exception
     std::istream& operator >> (std::istream&, Core::Frame::Sequence&);
 
     picojson::value toJSON(const Core::Frame::Sequence&);
