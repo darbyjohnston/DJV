@@ -71,9 +71,9 @@ namespace djv
             setClassName("djv::ViewApp::InfoWidget");
 
             p.actions["ExpandAll"] = UI::Action::create();
-            p.actions["ExpandAll"]->setIcon("djvIconArrowDown");
+            p.actions["ExpandAll"]->setIcon("djvIconArrowSmallDown");
             p.actions["CollapseAll"] = UI::Action::create();
-            p.actions["CollapseAll"]->setIcon("djvIconArrowRight");
+            p.actions["CollapseAll"]->setIcon("djvIconArrowSmallRight");
 
             p.searchBox = UI::SearchBox::create(context);
 
