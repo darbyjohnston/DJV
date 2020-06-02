@@ -186,6 +186,7 @@ namespace djv
                             }
                         }
                         break;
+                    default: break;
                     }
                 }
 
