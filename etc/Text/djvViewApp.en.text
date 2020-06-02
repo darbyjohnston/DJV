@@ -402,6 +402,8 @@
     "menu_window_full_screen_tooltip": "Toggle full screen mode",
     "menu_window_maximize": "Maximize",
     "menu_window_maximize_tooltip": "Maximize the current window",
+    "menu_window_float_on_top": "Float On Top",
+    "menu_window_float_on_top_tooltip": "Float the window above the other windows",
     "north_east": "North East",
     "north_east_tooltip": "North the view Northeast",
     "north_west": "North West",

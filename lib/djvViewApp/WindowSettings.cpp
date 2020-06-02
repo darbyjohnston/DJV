@@ -23,6 +23,7 @@ namespace djv
         {
             glm::ivec2 windowSize = glm::ivec2(1280, 720);
             std::shared_ptr<ValueSubject<int> > fullscreenMonitor;
+            std::shared_ptr<ValueSubject<bool> > floatOnTop;
             std::shared_ptr<ValueSubject<bool> > maximize;
             std::shared_ptr<ValueSubject<bool> > autoHide;
             std::shared_ptr<ValueSubject<std::string> > backgroundImage;
@@ -36,6 +37,7 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             p.fullscreenMonitor = ValueSubject<int>::create(0);
+            p.floatOnTop = ValueSubject<bool>::create(false);
             p.maximize = ValueSubject<bool>::create(true);
             p.autoHide = ValueSubject<bool>::create(true);
             auto resourceSystem = context->getSystemT<Core::ResourceSystem>();
@@ -79,6 +81,16 @@ namespace djv
         void WindowSettings::setFullscreenMonitor(int value)
         {
             _p->fullscreenMonitor->setIfChanged(value);
+        }
+
+        std::shared_ptr<IValueSubject<bool> > WindowSettings::observeFloatOnTop() const
+        {
+            return _p->floatOnTop;
+        }
+
+        void WindowSettings::setFloatOnTop(bool value)
+        {
+            _p->floatOnTop->setIfChanged(value);
         }
 
         std::shared_ptr<IValueSubject<bool> > WindowSettings::observeMaximize() const
@@ -139,6 +151,7 @@ namespace djv
                 const auto & object = value.get<picojson::object>();
                 UI::Settings::read("WindowSize", object, p.windowSize);
                 UI::Settings::read("FullscreenMonitor", object, p.fullscreenMonitor);
+                UI::Settings::read("FloatOnTop", object, p.floatOnTop);
                 UI::Settings::read("Maximize", object, p.maximize);
                 UI::Settings::read("AutoHide", object, p.autoHide);
                 UI::Settings::read("BackgroundImage", object, p.backgroundImage);
@@ -154,6 +167,7 @@ namespace djv
             auto & object = out.get<picojson::object>();
             UI::Settings::write("WindowSize", p.windowSize, object);
             UI::Settings::write("FullscreenMonitor", p.fullscreenMonitor->get(), object);
+            UI::Settings::write("FloatOnTop", p.floatOnTop->get(), object);
             UI::Settings::write("Maximize", p.maximize->get(), object);
             UI::Settings::write("AutoHide", p.autoHide->get(), object);
             UI::Settings::write("BackgroundImage", p.backgroundImage->get(), object);

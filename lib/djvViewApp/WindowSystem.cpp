@@ -48,12 +48,14 @@ namespace djv
 
         struct WindowSystem::Private
         {
-            std::shared_ptr<AV::GLFW::System> glfwSystem;
-            
+            std::shared_ptr<AV::GLFW::System> avGLFWSystem;
+            std::shared_ptr<Desktop::GLFWSystem> desktopGLFWSystem;
+
             std::shared_ptr<WindowSettings> settings;
             std::weak_ptr<MediaCanvas> canvas;
             std::shared_ptr<ValueSubject<std::shared_ptr<MediaWidget> > > activeWidget;
             std::shared_ptr<ValueSubject<bool> > fullScreen;
+            std::shared_ptr<ValueSubject<bool> > floatOnTop;
             std::shared_ptr<ValueSubject<bool> > maximize;
             std::shared_ptr<ValueSubject<float> > fade;
             bool fadeEnabled = false;
@@ -67,13 +69,15 @@ namespace djv
             BBox2i windowGeom = BBox2i(0, 0, 0, 0);
             
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
+            std::shared_ptr<ValueObserver<bool> > floatOnTopObserver;
             std::shared_ptr<ValueObserver<bool> > maximizeObserver;
             std::shared_ptr<ValueObserver<Event::PointerInfo> > pointerObserver;
             std::shared_ptr<ValueObserver<bool> > fadeObserver;
 
             std::shared_ptr<Animation::Animation> fadeAnimation;
 
-            void setFullScreen(bool, const std::shared_ptr<Context>& context);
+            void setFullScreen(bool);
+            void setFloatOnTop(bool);
         };
 
         void WindowSystem::_init(const std::shared_ptr<Context>& context)
@@ -82,11 +86,12 @@ namespace djv
 
             DJV_PRIVATE_PTR();
 
-            p.glfwSystem = context->getSystemT<AV::GLFW::System>();
+            p.avGLFWSystem = context->getSystemT<AV::GLFW::System>();
+            p.desktopGLFWSystem = context->getSystemT<Desktop::GLFWSystem>();
 
             p.settings = WindowSettings::create(context);
 
-            auto glfwWindow = p.glfwSystem->getGLFWWindow();
+            auto glfwWindow = p.avGLFWSystem->getGLFWWindow();
             const glm::ivec2& windowSize = p.settings->getWindowSize();
             glfwSetWindowSize(
                 glfwWindow,
@@ -95,6 +100,7 @@ namespace djv
 
             p.activeWidget = ValueSubject<std::shared_ptr<MediaWidget> >::create();
             p.fullScreen = ValueSubject<bool>::create(false);
+            p.floatOnTop = ValueSubject<bool>::create(false);
             p.maximize = ValueSubject<bool>::create(false);
             p.fade = ValueSubject<float>::create(1.F);
             p.pointerMotionTimer = Time::Timer::create(context);
@@ -104,6 +110,9 @@ namespace djv
             p.actions["FullScreen"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["FullScreen"]->setIcon("djvIconWindowFullScreen");
             p.actions["FullScreen"]->setShortcut(GLFW_KEY_U);
+
+            p.actions["FloatOnTop"] = UI::Action::create();
+            p.actions["FloatOnTop"]->setButtonType(UI::ButtonType::Toggle);
 
             p.actions["Maximize"] = UI::Action::create();
             p.actions["Maximize"]->setButtonType(UI::ButtonType::Toggle);
@@ -122,8 +131,11 @@ namespace djv
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["FullScreen"]);
+            p.menu->addAction(p.actions["FloatOnTop"]);
+            p.menu->addSeparator();
             p.menu->addAction(p.actions["Maximize"]);
             p.menu->addAction(p.actions["Fit"]);
+            p.menu->addSeparator();
             p.menu->addAction(p.actions["AutoHide"]);
 
             _actionsUpdate();
@@ -135,24 +147,31 @@ namespace djv
                 p.actions["FullScreen"]->observeChecked(),
                 [weak, contextWeak](bool value)
                 {
-                    if (auto context = contextWeak.lock())
+                    if (auto system = weak.lock())
                     {
-                        if (auto system = weak.lock())
-                        {
-                            system->setFullScreen(value);
-                        }
+                        system->setFullScreen(value);
                     }
                 });
+
+            p.actionObservers["FloatOnTop"] = ValueObserver<bool>::create(
+                p.actions["FloatOnTop"]->observeChecked(),
+                [weak](bool value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->setFloatOnTop(value);
+                }
+            });
 
             p.actionObservers["Maximize"] = ValueObserver<bool>::create(
                 p.actions["Maximize"]->observeChecked(),
                 [weak](bool value)
+            {
+                if (auto system = weak.lock())
                 {
-                    if (auto system = weak.lock())
-                    {
-                        system->setMaximize(value);
-                    }
-                });
+                    system->setMaximize(value);
+                }
+            });
 
             p.actionObservers["Fit"] = ValueObserver<bool>::create(
                 p.actions["Fit"]->observeClicked(),
@@ -202,15 +221,25 @@ namespace djv
                     }
                 });
 
+            p.floatOnTopObserver = ValueObserver<bool>::create(
+                p.settings->observeFloatOnTop(),
+                [weak](bool value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->setFloatOnTop(value);
+                }
+            });
+
             p.maximizeObserver = ValueObserver<bool>::create(
                 p.settings->observeMaximize(),
                 [weak](bool value)
+            {
+                if (auto system = weak.lock())
                 {
-                    if (auto system = weak.lock())
-                    {
-                        system->setMaximize(value);
-                    }
-                });
+                    system->setMaximize(value);
+                }
+            });
 
             auto eventSystem = context->getSystemT<Event::IEventSystem>();
             p.pointerObserver = ValueObserver<Event::PointerInfo>::create(
@@ -232,7 +261,7 @@ namespace djv
         WindowSystem::~WindowSystem()
         {
             DJV_PRIVATE_PTR();
-            auto glfwWindow = p.glfwSystem->getGLFWWindow();
+            auto glfwWindow = p.avGLFWSystem->getGLFWWindow();
             glm::ivec2 windowSize = p.settings->getWindowSize();
             glfwGetWindowSize(glfwWindow, &windowSize.x, &windowSize.y);
             p.settings->setWindowSize(windowSize);
@@ -285,11 +314,24 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.fullScreen->setIfChanged(value))
             {
-                if (auto context = getContext().lock())
-                {
-                    p.setFullScreen(value, context);
-                    _actionsUpdate();
-                }
+                p.setFullScreen(value);
+                _actionsUpdate();
+            }
+        }
+
+        std::shared_ptr<IValueSubject<bool> > WindowSystem::observeFloatOnTop() const
+        {
+            return _p->floatOnTop;
+        }
+
+        void WindowSystem::setFloatOnTop(bool value)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.floatOnTop->setIfChanged(value))
+            {
+                p.setFloatOnTop(value);
+                p.settings->setFloatOnTop(value);
+                _actionsUpdate();
             }
         }
 
@@ -345,12 +387,9 @@ namespace djv
                     {
                         start = true;
                         p.pointerMotion[p.pointerInfo.id] = p.pointerInfo.projectedPos;
-                        if (auto glfwSystem = context->getSystemT<Desktop::GLFWSystem>())
+                        if (!p.desktopGLFWSystem->isCursorVisible())
                         {
-                            if (!glfwSystem->isCursorVisible())
-                            {
-                                glfwSystem->showCursor();
-                            }
+                            p.desktopGLFWSystem->showCursor();
                         }
                         const float fade = p.fade->get();
                         if (fade < 1.F)
@@ -407,10 +446,7 @@ namespace djv
                                             if (auto context = system->getContext().lock())
                                             {
                                                 system->_p->fade->setIfChanged(value);
-                                                if (auto glfwSystem = context->getSystemT<Desktop::GLFWSystem>())
-                                                {
-                                                    glfwSystem->hideCursor();
-                                                }
+                                                system->_p->desktopGLFWSystem->hideCursor();
                                             }
                                         }
                                     });
@@ -424,6 +460,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.actions["FullScreen"]->setChecked(p.fullScreen->get());
+            p.actions["FloatOnTop"]->setChecked(p.floatOnTop->get());
             p.actions["Maximize"]->setChecked(p.maximize->get());
             p.actions["AutoHide"]->setChecked(p.fadeEnabled);
         }
@@ -435,6 +472,8 @@ namespace djv
             {
                 p.actions["FullScreen"]->setText(_getText(DJV_TEXT("menu_window_full_screen")));
                 p.actions["FullScreen"]->setTooltip(_getText(DJV_TEXT("menu_window_full_screen_tooltip")));
+                p.actions["FloatOnTop"]->setText(_getText(DJV_TEXT("menu_window_float_on_top")));
+                p.actions["FloatOnTop"]->setTooltip(_getText(DJV_TEXT("menu_window_float_on_top_tooltip")));
                 p.actions["Maximize"]->setText(_getText(DJV_TEXT("menu_window_maximize")));
                 p.actions["Maximize"]->setTooltip(_getText(DJV_TEXT("menu_window_maximize_tooltip")));
                 p.actions["Fit"]->setText(_getText(DJV_TEXT("menu_window_fit")));
@@ -446,12 +485,11 @@ namespace djv
             }
         }
 
-        void WindowSystem::Private::setFullScreen(bool value, const std::shared_ptr<Context>& context)
+        void WindowSystem::Private::setFullScreen(bool value)
         {
-            auto avGLFWSystem = context->getSystemT<AV::GLFW::System>();
             auto glfwWindow = avGLFWSystem->getGLFWWindow();
             auto glfwMonitor = glfwGetWindowMonitor(glfwWindow);
-            if (value && !glfwMonitor)
+            if (value && glfwWindow && !glfwMonitor)
             {
                 int monitor = settings->observeFullscreenMonitor()->get();
                 int monitorsCount = 0;
@@ -506,6 +544,14 @@ namespace djv
                     glfwWindow,
                     static_cast<int>(windowGeom.w()),
                     static_cast<int>(windowGeom.h()));
+            }
+        }
+
+        void WindowSystem::Private::setFloatOnTop(bool value)
+        {
+            if (auto glfwWindow = avGLFWSystem->getGLFWWindow())
+            {
+                glfwSetWindowAttrib(glfwWindow, GLFW_FLOATING, value);
             }
         }
 
