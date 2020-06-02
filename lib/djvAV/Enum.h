@@ -27,6 +27,18 @@ namespace djv
         };
         DJV_ENUM_HELPERS(Side);
 
+        //! This enumeration provides GLFW swap intervals.
+        enum class SwapInterval
+        {
+            Default,
+            _0,
+            _1,
+
+            Count,
+            First = Default
+        };
+        DJV_ENUM_HELPERS(SwapInterval);
+
         //! This enumeration provides how the alpha channel is used for blending.
         //!
         //! References:
@@ -45,9 +57,15 @@ namespace djv
     } // namespace UI
 
     DJV_ENUM_SERIALIZE_HELPERS(AV::Side);
+    DJV_ENUM_SERIALIZE_HELPERS(AV::SwapInterval);
     DJV_ENUM_SERIALIZE_HELPERS(AV::AlphaBlend);
 
+    picojson::value toJSON(AV::SwapInterval);
     picojson::value toJSON(AV::AlphaBlend);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const picojson::value&, AV::SwapInterval&);
 
     //! Throws:
     //! - std::exception

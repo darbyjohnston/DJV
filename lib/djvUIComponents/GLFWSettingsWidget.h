@@ -26,10 +26,14 @@ namespace djv
             std::string getSettingsGroup() const override;
             std::string getSettingsSortKey() const override;
 
+            void setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>&) override;
+
         protected:
             void _initEvent(Core::Event::Init &) override;
 
         private:
+            void _widgetUpdate();
+
             DJV_PRIVATE();
         };
 

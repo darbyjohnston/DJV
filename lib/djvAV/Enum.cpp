@@ -21,16 +21,44 @@ namespace djv
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV,
+        SwapInterval,
+        DJV_TEXT("av_swap_interval_default"),
+        DJV_TEXT("av_swap_interval_0"),
+        DJV_TEXT("av_swap_interval_1"));
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        AV,
         AlphaBlend,
         DJV_TEXT("av_alpha_none"),
         DJV_TEXT("av_alpha_straight"),
         DJV_TEXT("av_alpha_premultiplied"));
+
+    picojson::value toJSON(AV::SwapInterval value)
+    {
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
+    }
 
     picojson::value toJSON(AV::AlphaBlend value)
     {
         std::stringstream ss;
         ss << value;
         return picojson::value(ss.str());
+    }
+
+    void fromJSON(const picojson::value& value, AV::SwapInterval& out)
+    {
+        if (value.is<std::string>())
+        {
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            //! \todo How can we translate this?
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
+        }
     }
 
     void fromJSON(const picojson::value& value, AV::AlphaBlend& out)

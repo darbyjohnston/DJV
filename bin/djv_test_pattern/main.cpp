@@ -54,7 +54,7 @@ namespace djv
             void _printUsage() override;
 
         private:
-            Core::FileSystem::FileInfo _output;
+            std::string _output;
             std::unique_ptr<size_t> _frameCount;
             std::unique_ptr<AV::Image::Size> _size;
             std::unique_ptr<AV::Image::Type> _type;
@@ -108,7 +108,11 @@ namespace djv
             AV::IO::WriteOptions writeOptions;
             AV::IO::Info ioInfo;
             ioInfo.video.push_back(_info);
-            _write = io->write(_output, ioInfo, writeOptions);
+            const Core::FileSystem::FileInfo fileInfo(
+                Core::FileSystem::Path(_output),
+                Core::FileSystem::FileType::Sequence,
+                Core::Frame::Sequence(1, *_frameCount));
+            _write = io->write(fileInfo, ioInfo, writeOptions);
 
             _statsTimer = Core::Time::Timer::create(shared_from_this());
             _statsTimer->setRepeating(true);

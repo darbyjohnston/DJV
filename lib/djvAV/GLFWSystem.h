@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvAV/AV.h>
+#include <djvAV/Enum.h>
 
 #include <djvCore/ISystem.h>
 #include <djvCore/ValueObserver.h>
@@ -67,8 +67,8 @@ namespace djv
 
                 GLFWwindow* getGLFWWindow() const;
 
-                std::shared_ptr<Core::IValueSubject<bool> > observeSwapInterval() const;
-                void setSwapInterval(bool);
+                std::shared_ptr<Core::IValueSubject<SwapInterval> > observeSwapInterval() const;
+                void setSwapInterval(SwapInterval);
 
             private:
                 DJV_PRIVATE();

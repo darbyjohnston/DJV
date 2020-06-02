@@ -4,8 +4,8 @@
 
 #include <djvUIComponents/GLFWSettingsWidget.h>
 
-#include <djvUI/CheckBox.h>
-#include <djvUI/RowLayout.h>
+#include <djvUI/ComboBox.h>
+#include <djvUI/FormLayout.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/UISettings.h>
 
@@ -21,9 +21,10 @@ namespace djv
     {
         struct GLFWSettingsWidget::Private
         {
-            std::shared_ptr<CheckBox> swapIntervalCheckBox;
-            std::shared_ptr<VerticalLayout> layout;
-            std::shared_ptr<ValueObserver<bool> > swapIntervalObserver;
+            AV::SwapInterval swapInterval = AV::SwapInterval::Default;
+            std::shared_ptr<ComboBox> swapIntervalComboBox;
+            std::shared_ptr<FormLayout> layout;
+            std::shared_ptr<ValueObserver<AV::SwapInterval> > swapIntervalObserver;
         };
 
         void GLFWSettingsWidget::_init(const std::shared_ptr<Context>& context)
@@ -33,35 +34,36 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::UI::GLFWSettingsWidget");
 
-            p.swapIntervalCheckBox = CheckBox::create(context);
+            p.swapIntervalComboBox = ComboBox::create(context);
 
-            p.layout = VerticalLayout::create(context);
-            p.layout->addChild(p.swapIntervalCheckBox);
+            p.layout = FormLayout::create(context);
+            p.layout->addChild(p.swapIntervalComboBox);
             addChild(p.layout);
 
             auto weak = std::weak_ptr<GLFWSettingsWidget>(std::dynamic_pointer_cast<GLFWSettingsWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
-            p.swapIntervalCheckBox->setCheckedCallback(
-                [weak, contextWeak](bool value)
+            p.swapIntervalComboBox->setCallback(
+                [weak, contextWeak](int value)
                 {
                     if (auto context = contextWeak.lock())
                     {
                         if (auto widget = weak.lock())
                         {
                             auto glfwSystem = context->getSystemT<AV::GLFW::System>();
-                            glfwSystem->setSwapInterval(value);
+                            glfwSystem->setSwapInterval(static_cast<AV::SwapInterval>(value));
                         }
                     }
                 });
 
             auto glfwSystem = context->getSystemT<AV::GLFW::System>();
-            p.swapIntervalObserver = ValueObserver<bool>::create(
+            p.swapIntervalObserver = ValueObserver<AV::SwapInterval>::create(
                 glfwSystem->observeSwapInterval(),
-                [weak](bool value)
+                [weak](AV::SwapInterval value)
             {
                 if (auto widget = weak.lock())
                 {
-                    widget->_p->swapIntervalCheckBox->setChecked(value);
+                    widget->_p->swapInterval = value;
+                    widget->_widgetUpdate();
                 }
             });
         }
@@ -92,11 +94,31 @@ namespace djv
             return "Y";
         }
 
+        void GLFWSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
+        {
+            _p->layout->setLabelSizeGroup(value);
+        }
+
         void GLFWSettingsWidget::_initEvent(Event::Init & event)
         {
             ISettingsWidget::_initEvent(event);
+            _widgetUpdate();
+        }
+
+        void GLFWSettingsWidget::_widgetUpdate()
+        {
             DJV_PRIVATE_PTR();
-            p.swapIntervalCheckBox->setText(_getText(DJV_TEXT("settings_glfw_swap_interval_enable")));
+
+            p.swapIntervalComboBox->clearItems();
+            for (auto i : AV::getSwapIntervalEnums())
+            {
+                std::stringstream ss;
+                ss << i;
+                p.swapIntervalComboBox->addItem(_getText(ss.str()));
+            }
+            p.swapIntervalComboBox->setCurrentItem(static_cast<int>(p.swapInterval));
+
+            p.layout->setText(p.swapIntervalComboBox, _getText(DJV_TEXT("settings_glfw_swap_interval_setting")) + ":");
         }
 
     } // namespace UI

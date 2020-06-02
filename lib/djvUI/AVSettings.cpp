@@ -62,7 +62,7 @@ namespace djv
                 if (value.is<picojson::object>())
                 {
                     const auto & object = value.get<picojson::object>();
-                    bool swapInterval = false;
+                    djv::AV::SwapInterval swapInterval = djv::AV::SwapInterval::Default;
                     djv::Core::Time::Units timeUnits = djv::Core::Time::Units::First;
                     djv::AV::AlphaBlend alphaBlend = djv::AV::AlphaBlend::Straight;
                     Time::FPS defaultSpeed = Time::getDefaultSpeed();
