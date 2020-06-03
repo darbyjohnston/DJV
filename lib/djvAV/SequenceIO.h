@@ -34,7 +34,7 @@ namespace djv
                 bool isRunning() const override;
                 std::future<Info> getInfo() override;
                 void seek(int64_t, Direction) override;
-                bool hasCache() const override { return true; }
+                bool hasCache() const override;
 
             protected:
                 virtual Info _readInfo(const std::string & fileName) = 0;

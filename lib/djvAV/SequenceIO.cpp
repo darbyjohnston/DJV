@@ -255,6 +255,11 @@ namespace djv
                 p.queueCV.notify_one();
             }
 
+            bool ISequenceRead::hasCache() const
+            {
+                return _sequence.getSize() > 1;
+            }
+
             void ISequenceRead::_finish()
             {
                 DJV_PRIVATE_PTR();
