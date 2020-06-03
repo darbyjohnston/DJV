@@ -120,9 +120,12 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.layout->setText(p.filterComboBox[0], _getText(DJV_TEXT("settings_render2d_minify_filter")) + ":");
-            p.layout->setText(p.filterComboBox[1], _getText(DJV_TEXT("settings_render2d_magnify_filter")) + ":");
-            _widgetUpdate();
+            if (event.getData().textChanged)
+            {
+                p.layout->setText(p.filterComboBox[0], _getText(DJV_TEXT("settings_render2d_minify_filter")) + ":");
+                p.layout->setText(p.filterComboBox[1], _getText(DJV_TEXT("settings_render2d_magnify_filter")) + ":");
+                _widgetUpdate();
+            }
         }
 
         void Render2DImageSettingsWidget::_widgetUpdate()
@@ -215,7 +218,10 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.lcdCheckBox->setText(_getText(DJV_TEXT("settings_render_2d_text_lcd_rendering")));
+            if (event.getData().textChanged)
+            {
+                p.lcdCheckBox->setText(_getText(DJV_TEXT("settings_render_2d_text_lcd_rendering")));
+            }
         }
 
     } // namespace UI

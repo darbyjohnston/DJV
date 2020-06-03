@@ -165,13 +165,16 @@ namespace djv
         {
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            setTitle(_getText(DJV_TEXT("widget_messages")));
-            p.popupCheckBox->setText(_getText(DJV_TEXT("widget_messages_popup")));
-            p.popupCheckBox->setTooltip(_getText(DJV_TEXT("widget_messages_popup_tooltip")));
-            p.copyButton->setText(_getText(DJV_TEXT("widget_messages_copy")));
-            p.copyButton->setTooltip(_getText(DJV_TEXT("widget_messages_copy_tooltip")));
-            p.clearButton->setText(_getText(DJV_TEXT("widget_messages_clear")));
-            p.clearButton->setTooltip(_getText(DJV_TEXT("widget_messages_clear_tooltip")));
+            if (event.getData().textChanged)
+            {
+                setTitle(_getText(DJV_TEXT("widget_messages")));
+                p.popupCheckBox->setText(_getText(DJV_TEXT("widget_messages_popup")));
+                p.popupCheckBox->setTooltip(_getText(DJV_TEXT("widget_messages_popup_tooltip")));
+                p.copyButton->setText(_getText(DJV_TEXT("widget_messages_copy")));
+                p.copyButton->setTooltip(_getText(DJV_TEXT("widget_messages_copy_tooltip")));
+                p.clearButton->setText(_getText(DJV_TEXT("widget_messages_clear")));
+                p.clearButton->setTooltip(_getText(DJV_TEXT("widget_messages_clear_tooltip")));
+            }
         }
 
         void MessagesWidget::setText(const std::string& value)

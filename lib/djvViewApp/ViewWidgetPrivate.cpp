@@ -231,9 +231,13 @@ namespace djv
         void GridOverlay::_initEvent(Event::Init& event)
         {
             Widget::_initEvent(event);
-            const auto& style = _getStyle();
-            const auto fontInfo = style->getFontInfo(AV::Font::familyMono, AV::Font::faceDefault, UI::MetricsRole::FontSmall);
-            _fontMetricsFuture = _fontSystem->getMetrics(fontInfo);
+            if (event.getData().sizeChanged ||
+                event.getData().fontChanged)
+            {
+                const auto& style = _getStyle();
+                const auto fontInfo = style->getFontInfo(AV::Font::familyMono, AV::Font::faceDefault, UI::MetricsRole::FontSmall);
+                _fontMetricsFuture = _fontSystem->getMetrics(fontInfo);
+            }
         }
 
         void GridOverlay::_updateEvent(Event::Update& event)

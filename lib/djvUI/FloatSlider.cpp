@@ -319,7 +319,10 @@ namespace djv
         {
             Widget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.resetButton->setTooltip(_getText(DJV_TEXT("reset_the_value")));
+            if (event.getData().textChanged)
+            {
+                p.resetButton->setTooltip(_getText(DJV_TEXT("reset_the_value")));
+            }
         }
 
         void FloatSlider::_modelUpdate()

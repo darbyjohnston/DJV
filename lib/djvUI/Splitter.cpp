@@ -360,9 +360,12 @@ namespace djv
             {
                 Widget::_initEvent(event);
                 DJV_PRIVATE_PTR();
-                const auto& style = _getStyle();
-                p.splitterWidth = style->getMetric(MetricsRole::Handle);
-                _resize();
+                if (event.getData().sizeChanged)
+                {
+                    const auto& style = _getStyle();
+                    p.splitterWidth = style->getMetric(MetricsRole::Handle);
+                    _resize();
+                }
             }
 
             float Splitter::_valueToPos(float value) const

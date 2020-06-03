@@ -90,8 +90,11 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.layout->setText(p.compressionComboBox, _getText(DJV_TEXT("settings_io_tiff_compression")) + ":");
-            _widgetUpdate();
+            if (event.getData().textChanged)
+            {
+                p.layout->setText(p.compressionComboBox, _getText(DJV_TEXT("settings_io_tiff_compression")) + ":");
+                _widgetUpdate();
+            }
         }
 
         void TIFFSettingsWidget::_widgetUpdate()

@@ -135,7 +135,7 @@ namespace djv
                             {
                                 style->_fontNameToId[i.second] = i.first;
                             }
-                            style->_dirty = true;
+                            style->_fontDirty = true;
                         }
                     });
 
@@ -153,7 +153,7 @@ namespace djv
                                     style->_fontFaceToId[std::make_pair(i.first, j.second)] = j.first;
                                 }
                             }
-                            style->_dirty = true;
+                            style->_fontDirty = true;
                         }
                     });
             }
@@ -168,12 +168,65 @@ namespace djv
                 return out;
             }
 
+            namespace
+            {
+                float colorCorrection(float value, float brightness, float contrast)
+                {
+                    return (((value * brightness) - .5F) * contrast) + .5F;
+                }
+
+            } // namespace
+
+            AV::Image::Color Style::getColor(ColorRole role) const
+            {
+                auto color = _palette.getColor(role);
+                if (_brightness != 1.F || _contrast != 1.F)
+                {
+                    switch (color.getType())
+                    {
+                    case AV::Image::Type::L_F32:
+                    case AV::Image::Type::LA_F32:
+                        color.setF32(colorCorrection(color.getF32(0), _brightness, _contrast), 0);
+                        break;
+                    case AV::Image::Type::RGB_F32:
+                    case AV::Image::Type::RGBA_F32:
+                        color.setF32(colorCorrection(color.getF32(0), _brightness, _contrast), 0);
+                        color.setF32(colorCorrection(color.getF32(1), _brightness, _contrast), 1);
+                        color.setF32(colorCorrection(color.getF32(2), _brightness, _contrast), 2);
+                        break;
+                    default:
+                        color = color.convert(AV::Image::Type::RGBA_F32);
+                        color.setF32(colorCorrection(color.getF32(0), _brightness, _contrast), 0);
+                        color.setF32(colorCorrection(color.getF32(1), _brightness, _contrast), 1);
+                        color.setF32(colorCorrection(color.getF32(2), _brightness, _contrast), 2);
+                        break;
+                    }
+                }
+                return color;
+            }
+
             void Style::setPalette(const Palette & value)
             {
                 if (value == _palette)
                     return;
                 _palette = value;
-                _dirty = true;
+                _paletteDirty = true;
+            }
+
+            void Style::setBrightness(float value)
+            {
+                if (value == _brightness)
+                    return;
+                _brightness = value;
+                _paletteDirty = true;
+            }
+
+            void Style::setContrast(float value)
+            {
+                if (value == _contrast)
+                    return;
+                _contrast = value;
+                _paletteDirty = true;
             }
 
             void Style::setDPI(const glm::vec2& value)
@@ -181,7 +234,7 @@ namespace djv
                 if (value == _dpi)
                     return;
                 _dpi = value;
-                _dirty = true;
+                _sizeDirty = true;
             }
 
             void Style::setMetrics(const Metrics& value)
@@ -189,7 +242,7 @@ namespace djv
                 if (value == _metrics)
                     return;
                 _metrics = value;
-                _dirty = true;
+                _sizeDirty = true;
             }
 
             void Style::setFont(const std::string & value)
@@ -197,7 +250,7 @@ namespace djv
                 if (value == _font)
                     return;
                 _font = value;
-                _dirty = true;
+                _fontDirty = true;
             }
 
             AV::Font::Info Style::getFontInfo(const std::string & family, const std::string & face, MetricsRole role) const
@@ -226,7 +279,9 @@ namespace djv
 
             void Style::setClean()
             {
-                _dirty = false;
+                _paletteDirty = false;
+                _sizeDirty = false;
+                _fontDirty = false;
             }
 
         } // namespace Style

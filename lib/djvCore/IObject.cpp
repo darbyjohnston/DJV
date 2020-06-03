@@ -175,7 +175,8 @@ namespace djv
                     const bool newParent = parentChangedEvent.getNewParent() ? true : false;
                     if (newParent && !prevParent)
                     {
-                        Event::Init initEvent;
+                        Event::InitData initData(true);
+                        Event::Init initEvent(initData);
                         _eventInitRecursive(shared_from_this(), initEvent);
                     }
                     break;

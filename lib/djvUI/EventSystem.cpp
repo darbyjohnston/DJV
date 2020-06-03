@@ -91,9 +91,16 @@ namespace djv
             {
                 auto uiSystem = context->getSystemT<UISystem>();
                 auto style = uiSystem->getStyle();
-                if (style->isDirty())
+                bool paletteDirty = style->isPaletteDirty();
+                bool sizeDirty = style->isSizeDirty();
+                bool fontDirty = style->isFontDirty();
+                if (paletteDirty || sizeDirty || fontDirty)
                 {
-                    Event::Init initEvent;
+                    Event::InitData data;
+                    data.paletteChanged = paletteDirty;
+                    data.sizeChanged = sizeDirty;
+                    data.fontChanged = fontDirty;
+                    Event::Init initEvent(data);
                     for (auto i : p.windows)
                     {
                         if (auto window = i.lock())

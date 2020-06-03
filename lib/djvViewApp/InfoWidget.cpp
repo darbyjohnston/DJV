@@ -218,13 +218,15 @@ namespace djv
         {
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
+            if (event.getData().textChanged)
+            {
+                setTitle(_getText(DJV_TEXT("widget_info_title")));
 
-            setTitle(_getText(DJV_TEXT("widget_info_title")));
+                p.actions["ExpandAll"]->setTooltip(_getText(DJV_TEXT("widget_info_expand_all_tooltip")));
+                p.actions["CollapseAll"]->setTooltip(_getText(DJV_TEXT("widget_info_collapse_all_tooltip")));
 
-            p.actions["ExpandAll"]->setTooltip(_getText(DJV_TEXT("widget_info_expand_all_tooltip")));
-            p.actions["CollapseAll"]->setTooltip(_getText(DJV_TEXT("widget_info_collapse_all_tooltip")));
-
-            _widgetUpdate();
+                _widgetUpdate();
+            }
         }
 
         std::string InfoWidget::_text(int value) const

@@ -94,7 +94,10 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.layout->setText(p.qualitySlider, _getText(DJV_TEXT("settings_io_jpeg_compression_quality")) + ":");
+            if (event.getData().textChanged)
+            {
+                p.layout->setText(p.qualitySlider, _getText(DJV_TEXT("settings_io_jpeg_compression_quality")) + ":");
+            }
         }
 
         void JPEGSettingsWidget::_widgetUpdate()

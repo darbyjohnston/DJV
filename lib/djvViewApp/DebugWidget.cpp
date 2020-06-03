@@ -69,7 +69,10 @@ namespace djv
             void IDebugWidget::_initEvent(Event::Init& event)
             {
                 Widget::_initEvent(event);
-                _widgetUpdate();
+                if (event.getData().textChanged)
+                {
+                    _widgetUpdate();
+                }
             }
 
             class GeneralDebugWidget : public IDebugWidget
@@ -724,17 +727,20 @@ namespace djv
             void MediaDebugWidget::_initEvent(Event::Init& event)
             {
                 Widget::_initEvent(event);
+                if (event.getData().textChanged)
                 {
-                    std::stringstream ss;
-                    ss << _getText(DJV_TEXT("debug_media_video_queue")) << ":";
-                    _labels["VideoQueue"]->setText(ss.str());
+                    {
+                        std::stringstream ss;
+                        ss << _getText(DJV_TEXT("debug_media_video_queue")) << ":";
+                        _labels["VideoQueue"]->setText(ss.str());
+                    }
+                    {
+                        std::stringstream ss;
+                        ss << _getText(DJV_TEXT("debug_media_audio_queue")) << ":";
+                        _labels["AudioQueue"]->setText(ss.str());
+                    }
+                    _widgetUpdate();
                 }
-                {
-                    std::stringstream ss;
-                    ss << _getText(DJV_TEXT("debug_media_audio_queue")) << ":";
-                    _labels["AudioQueue"]->setText(ss.str());
-                }
-                _widgetUpdate();
             }
 
             void MediaDebugWidget::_widgetUpdate()
@@ -835,10 +841,13 @@ namespace djv
         {
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            setTitle(_getText(DJV_TEXT("debug_title")));
-            p.bellows["General"]->setText(_getText(DJV_TEXT("debug_section_general")));
-            p.bellows["Render"]->setText(_getText(DJV_TEXT("debug_section_render")));
-            p.bellows["Media"]->setText(_getText(DJV_TEXT("debug_section_media")));
+            if (event.getData().textChanged)
+            {
+                setTitle(_getText(DJV_TEXT("debug_title")));
+                p.bellows["General"]->setText(_getText(DJV_TEXT("debug_section_general")));
+                p.bellows["Render"]->setText(_getText(DJV_TEXT("debug_section_render")));
+                p.bellows["Media"]->setText(_getText(DJV_TEXT("debug_section_media")));
+            }
         }
 
     } // namespace ViewApp

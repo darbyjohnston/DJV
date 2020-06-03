@@ -38,7 +38,10 @@ namespace djv
         void HistogramWidget::_initEvent(Event::Init & event)
         {
             MDIWidget::_initEvent(event);
-            setTitle(_getText(DJV_TEXT("Histogram")));
+            if (event.getData().textChanged)
+            {
+                setTitle(_getText(DJV_TEXT("Histogram")));
+            }
         }
 
     } // namespace ViewApp

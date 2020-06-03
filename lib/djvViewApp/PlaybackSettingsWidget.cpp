@@ -104,7 +104,10 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.startPlaybackButton->setText(_getText(DJV_TEXT("automatically_start_playback")));
+            if (event.getData().textChanged)
+            {
+                p.startPlaybackButton->setText(_getText(DJV_TEXT("automatically_start_playback")));
+            }
         }
 
         struct TimelineSettingsWidget::Private
@@ -190,7 +193,10 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.pipButton->setText(_getText(DJV_TEXT("show_pip_picture_in_picture")));
+            if (event.getData().textChanged)
+            {
+                p.pipButton->setText(_getText(DJV_TEXT("show_pip_picture_in_picture")));
+            }
         }
 
     } // namespace ViewApp

@@ -31,6 +31,8 @@ namespace djv
         {
             std::shared_ptr<Style::Style> style;
             std::shared_ptr<ValueObserver<UI::Style::Palette> > paletteObserver;
+            std::shared_ptr<ValueObserver<float> > brightnessObserver;
+            std::shared_ptr<ValueObserver<float> > contrastObserver;
             std::shared_ptr<ValueObserver<UI::Style::Metrics> > metricsObserver;
             std::shared_ptr<ValueObserver<std::string> > fontObserver;
         };
@@ -64,11 +66,31 @@ namespace djv
             auto weak = std::weak_ptr<UISystem>(std::dynamic_pointer_cast<UISystem>(shared_from_this()));
             p.paletteObserver = ValueObserver<UI::Style::Palette>::create(
                 styleSettings->observeCurrentPalette(),
-                [weak](const UI::Style::Palette & value)
+                [weak](const UI::Style::Palette& value)
             {
                 if (auto system = weak.lock())
                 {
                     system->_p->style->setPalette(value);
+                }
+            });
+
+            p.brightnessObserver = ValueObserver<float>::create(
+                styleSettings->observeBrightness(),
+                [weak](float value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_p->style->setBrightness(value);
+                }
+            });
+
+            p.contrastObserver = ValueObserver<float>::create(
+                styleSettings->observeContrast(),
+                [weak](float value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_p->style->setContrast(value);
                 }
             });
 

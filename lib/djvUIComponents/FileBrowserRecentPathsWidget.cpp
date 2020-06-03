@@ -134,7 +134,10 @@ namespace djv
             {
                 Widget::_initEvent(event);
                 DJV_PRIVATE_PTR();
-                p.titleLabel->setText(_getText(DJV_TEXT("file_browser_recent_paths")));
+                if (event.getData().textChanged)
+                {
+                    p.titleLabel->setText(_getText(DJV_TEXT("file_browser_recent_paths")));
+                }
             }
 
         } // namespace FileBrowser

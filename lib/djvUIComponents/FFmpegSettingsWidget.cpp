@@ -94,8 +94,10 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.layout->setText(p.threadCountSlider, _getText(DJV_TEXT("settings_io_ffmpeg_thread_count")) + ":");
-            _widgetUpdate();
+            if (event.getData().textChanged)
+            {
+                p.layout->setText(p.threadCountSlider, _getText(DJV_TEXT("settings_io_ffmpeg_thread_count")) + ":");
+            }
         }
 
         void FFmpegSettingsWidget::_widgetUpdate()

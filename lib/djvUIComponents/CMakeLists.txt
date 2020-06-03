@@ -13,11 +13,10 @@ set(header
 	LineGraphWidget.h
     ListViewHeader.h
     PPMSettingsWidget.h
-    PaletteSettingsWidget.h
     Render2DSettingsWidget.h
     SceneWidget.h
     SearchBox.h
-    SizeSettingsWidget.h
+    StyleSettingsWidget.h
 	ThermometerWidget.h
 	TimeSettingsWidget.h
     TooltipsSettingsWidget.h
@@ -41,11 +40,10 @@ set(source
 	LineGraphWidget.cpp
     ListViewHeader.cpp
     PPMSettingsWidget.cpp
-    PaletteSettingsWidget.cpp
     Render2DSettingsWidget.cpp
     SceneWidget.cpp
     SearchBox.cpp
-    SizeSettingsWidget.cpp
+    StyleSettingsWidget.cpp
 	ThermometerWidget.cpp
 	TimeSettingsWidget.cpp
     TooltipsSettingsWidget.cpp

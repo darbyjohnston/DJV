@@ -717,42 +717,44 @@ namespace djv
         {
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-
-            setTitle(_getText(DJV_TEXT("view_controls")));
-            
-            for (size_t i = 0; i < 2; ++i)
+            if (event.getData().textChanged)
             {
-                p.viewPosResetButton[i]->setTooltip(_getText(DJV_TEXT("reset_the_value")));
+                setTitle(_getText(DJV_TEXT("view_controls")));
+
+                for (size_t i = 0; i < 2; ++i)
+                {
+                    p.viewPosResetButton[i]->setTooltip(_getText(DJV_TEXT("reset_the_value")));
+                }
+                p.viewZoomResetButton->setTooltip(_getText(DJV_TEXT("reset_the_value")));
+                p.formLayouts["View"]->setText(p.viewPosLayout[0], _getText(DJV_TEXT("position_x")) + ":");
+                p.formLayouts["View"]->setText(p.viewPosLayout[1], _getText(DJV_TEXT("position_y")) + ":");
+                p.formLayouts["View"]->setText(p.viewZoomLayout, _getText(DJV_TEXT("zoom")) + ":");
+
+                p.gridEnabledButton->setTooltip(_getText(DJV_TEXT("widget_view_grid_enabled")));
+                p.formLayouts["Grid"]->setText(p.gridSizeSlider, _getText(DJV_TEXT("widget_view_grid_size")) + ":");
+                p.formLayouts["Grid"]->setText(p.gridColorPickerSwatch, _getText(DJV_TEXT("widget_view_grid_color")) + ":");
+                p.formLayouts["Grid"]->setText(p.gridLabelsComboBox, _getText(DJV_TEXT("widget_view_grid_labels")) + ":");
+                p.formLayouts["Grid"]->setText(p.gridLabelsColorPickerSwatch, _getText(DJV_TEXT("widget_view_grid_labels_color")) + ":");
+
+                p.hudEnabledButton->setTooltip(_getText(DJV_TEXT("widget_view_hud_enabled_tooltip")));
+                p.formLayouts["HUD"]->setText(p.hudColorPickerSwatch, _getText(DJV_TEXT("widget_view_hud_color")) + ":");
+                p.formLayouts["HUD"]->setText(p.hudBackgroundComboBox, _getText(DJV_TEXT("widget_view_hud_background")) + ":");
+
+                p.formLayouts["Background"]->setText(p.backgroundComboBox, _getText(DJV_TEXT("widget_view_background")) + ":");
+                p.formLayouts["Background"]->setText(p.backgroundColorPickerSwatch, _getText(DJV_TEXT("widget_view_background_color")) + ":");
+                p.formLayouts["Background"]->setText(p.checkersSizeSlider, _getText(DJV_TEXT("widget_view_background_checkers_size")) + ":");
+                p.formLayouts["Background"]->setText(p.checkersColorsLayout, _getText(DJV_TEXT("widget_view_background_checkers_colors")) + ":");
+                p.formLayouts["Background"]->setText(p.borderCheckBox, _getText(DJV_TEXT("widget_view_border")) + ":");
+                p.formLayouts["Background"]->setText(p.borderWidthSlider, _getText(DJV_TEXT("widget_view_border_width")) + ":");
+                p.formLayouts["Background"]->setText(p.borderColorPickerSwatch, _getText(DJV_TEXT("widget_view_border_color")) + ":");
+
+                p.bellows["View"]->setText(_getText(DJV_TEXT("view")));
+                p.bellows["Grid"]->setText(_getText(DJV_TEXT("view_grid")));
+                p.bellows["HUD"]->setText(_getText(DJV_TEXT("view_hud")));
+                p.bellows["Background"]->setText(_getText(DJV_TEXT("view_background")));
+
+                _widgetUpdate();
             }
-            p.viewZoomResetButton->setTooltip(_getText(DJV_TEXT("reset_the_value")));
-            p.formLayouts["View"]->setText(p.viewPosLayout[0], _getText(DJV_TEXT("position_x")) + ":");
-            p.formLayouts["View"]->setText(p.viewPosLayout[1], _getText(DJV_TEXT("position_y")) + ":");
-            p.formLayouts["View"]->setText(p.viewZoomLayout, _getText(DJV_TEXT("zoom")) + ":");
-
-            p.gridEnabledButton->setTooltip(_getText(DJV_TEXT("widget_view_grid_enabled")));
-            p.formLayouts["Grid"]->setText(p.gridSizeSlider, _getText(DJV_TEXT("widget_view_grid_size")) + ":");
-            p.formLayouts["Grid"]->setText(p.gridColorPickerSwatch, _getText(DJV_TEXT("widget_view_grid_color")) + ":");
-            p.formLayouts["Grid"]->setText(p.gridLabelsComboBox, _getText(DJV_TEXT("widget_view_grid_labels")) + ":");
-            p.formLayouts["Grid"]->setText(p.gridLabelsColorPickerSwatch, _getText(DJV_TEXT("widget_view_grid_labels_color")) + ":");
-
-            p.hudEnabledButton->setTooltip(_getText(DJV_TEXT("widget_view_hud_enabled_tooltip")));
-            p.formLayouts["HUD"]->setText(p.hudColorPickerSwatch, _getText(DJV_TEXT("widget_view_hud_color")) + ":");
-            p.formLayouts["HUD"]->setText(p.hudBackgroundComboBox, _getText(DJV_TEXT("widget_view_hud_background")) + ":");
-
-            p.formLayouts["Background"]->setText(p.backgroundComboBox, _getText(DJV_TEXT("widget_view_background")) + ":");
-            p.formLayouts["Background"]->setText(p.backgroundColorPickerSwatch, _getText(DJV_TEXT("widget_view_background_color")) + ":");
-            p.formLayouts["Background"]->setText(p.checkersSizeSlider, _getText(DJV_TEXT("widget_view_background_checkers_size")) + ":");
-            p.formLayouts["Background"]->setText(p.checkersColorsLayout, _getText(DJV_TEXT("widget_view_background_checkers_colors")) + ":");
-            p.formLayouts["Background"]->setText(p.borderCheckBox, _getText(DJV_TEXT("widget_view_border")) + ":");
-            p.formLayouts["Background"]->setText(p.borderWidthSlider, _getText(DJV_TEXT("widget_view_border_width")) + ":");
-            p.formLayouts["Background"]->setText(p.borderColorPickerSwatch, _getText(DJV_TEXT("widget_view_border_color")) + ":");
-
-            p.bellows["View"]->setText(_getText(DJV_TEXT("view")));
-            p.bellows["Grid"]->setText(_getText(DJV_TEXT("view_grid")));
-            p.bellows["HUD"]->setText(_getText(DJV_TEXT("view_hud")));
-            p.bellows["Background"]->setText(_getText(DJV_TEXT("view_background")));
-            
-            _widgetUpdate();
         }
 
         void ViewControlsWidget::_setPos(const glm::vec2& value)

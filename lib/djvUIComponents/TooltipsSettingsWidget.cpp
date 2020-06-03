@@ -96,7 +96,10 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.tooltipsCheckBox->setText(_getText(DJV_TEXT("settings_general_enable_tooltips")));
+            if (event.getData().textChanged)
+            {
+                p.tooltipsCheckBox->setText(_getText(DJV_TEXT("settings_general_enable_tooltips")));
+            }
         }
 
     } // namespace UI

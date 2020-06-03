@@ -580,8 +580,13 @@ namespace djv
         void TimelineSlider::_initEvent(Event::Init & event)
         {
             Widget::_initEvent(event);
-            _textUpdate();
-            _currentFrameUpdate();
+            if (event.getData().sizeChanged ||
+                event.getData().fontChanged ||
+                event.getData().textChanged)
+            {
+                _textUpdate();
+                _currentFrameUpdate();
+            }
         }
 
         void TimelineSlider::_updateEvent(Event::Update & event)

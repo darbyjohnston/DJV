@@ -266,19 +266,21 @@ namespace djv
         {
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            
-            setTitle(_getText(DJV_TEXT("widget_annotate")));
-
-            for (const auto& i : p.colorButtonGroup->getButtons())
+            if (event.getData().textChanged)
             {
-                i->setTooltip(_getText(DJV_TEXT("annotate_color_tooltip")));
-            }
+                setTitle(_getText(DJV_TEXT("widget_annotate")));
 
-            p.listButton->setTooltip(_getText(DJV_TEXT("annotate_list_show_tooltip")));
-            
-            p.tabWidget->setText(p.notesLayout, _getText(DJV_TEXT("annotate_tab_notes")));
-            p.tabWidget->setText(p.summaryLayout, _getText(DJV_TEXT("annotate_tab_summary")));
-            p.tabWidget->setText(p.exportLayout, _getText(DJV_TEXT("annotate_tab_export")));
+                for (const auto& i : p.colorButtonGroup->getButtons())
+                {
+                    i->setTooltip(_getText(DJV_TEXT("annotate_color_tooltip")));
+                }
+
+                p.listButton->setTooltip(_getText(DJV_TEXT("annotate_list_show_tooltip")));
+
+                p.tabWidget->setText(p.notesLayout, _getText(DJV_TEXT("annotate_tab_notes")));
+                p.tabWidget->setText(p.summaryLayout, _getText(DJV_TEXT("annotate_tab_summary")));
+                p.tabWidget->setText(p.exportLayout, _getText(DJV_TEXT("annotate_tab_export")));
+            }
         }
 
         void AnnotateWidget::_widgetUpdate()

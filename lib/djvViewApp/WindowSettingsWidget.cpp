@@ -148,8 +148,11 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.restorePosCheckBox->setText(_getText(DJV_TEXT("settings_window_restore_pos")));
-            p.restoreSizeCheckBox->setText(_getText(DJV_TEXT("settings_window_restore_size")));
+            if (event.getData().textChanged)
+            {
+                p.restorePosCheckBox->setText(_getText(DJV_TEXT("settings_window_restore_pos")));
+                p.restoreSizeCheckBox->setText(_getText(DJV_TEXT("settings_window_restore_size")));
+            }
         }
 
         struct FullscreenMonitorSettingsWidget::Private
@@ -263,7 +266,10 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.formLayout->setText(p.monitorComboBox, _getText(DJV_TEXT("settings_window_section_monitor")) + ":");
+            if (event.getData().textChanged)
+            {
+                p.formLayout->setText(p.monitorComboBox, _getText(DJV_TEXT("settings_window_section_monitor")) + ":");
+            }
         }
 
         void FullscreenMonitorSettingsWidget::_widgetUpdate()
@@ -352,7 +358,10 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.autoHideCheckBox->setText(_getText(DJV_TEXT("settings_window_automatically_hide_the_user_interface")));
+            if (event.getData().textChanged)
+            {
+                p.autoHideCheckBox->setText(_getText(DJV_TEXT("settings_window_automatically_hide_the_user_interface")));
+            }
         }
         
         struct BackgroundImageSettingsWidget::Private
@@ -602,10 +611,13 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.openButton->setTooltip(_getText(DJV_TEXT("settings_window_open_file_browser")));
-            p.closeButton->setTooltip(_getText(DJV_TEXT("settings_window_clear_background_image")));
-            p.scaleCheckBox->setText(_getText(DJV_TEXT("settings_window_scale_to_fit")));
-            p.colorizeCheckBox->setText(_getText(DJV_TEXT("settings_window_colorize_with_the_ui_style")));
+            if (event.getData().textChanged)
+            {
+                p.openButton->setTooltip(_getText(DJV_TEXT("settings_window_open_file_browser")));
+                p.closeButton->setTooltip(_getText(DJV_TEXT("settings_window_clear_background_image")));
+                p.scaleCheckBox->setText(_getText(DJV_TEXT("settings_window_scale_to_fit")));
+                p.colorizeCheckBox->setText(_getText(DJV_TEXT("settings_window_colorize_with_the_ui_style")));
+            }
             _imageUpdate();
         }
 

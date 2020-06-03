@@ -157,11 +157,14 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.layout->setText(p.threadCountSlider, _getText(DJV_TEXT("settings_io_exr_thread_count")) + ":");
-            p.layout->setText(p.channelsComboBox, _getText(DJV_TEXT("settings_io_exr_channel_grouping")) + ":");
-            p.layout->setText(p.compressionComboBox, _getText(DJV_TEXT("settings_io_exr_compression")) + ":");
-            p.layout->setText(p.dwaCompressionLevelSlider, _getText(DJV_TEXT("settings_io_exr_dwa_compression_level")) + ":");
-            _widgetUpdate();
+            if (event.getData().textChanged)
+            {
+                p.layout->setText(p.threadCountSlider, _getText(DJV_TEXT("settings_io_exr_thread_count")) + ":");
+                p.layout->setText(p.channelsComboBox, _getText(DJV_TEXT("settings_io_exr_channel_grouping")) + ":");
+                p.layout->setText(p.compressionComboBox, _getText(DJV_TEXT("settings_io_exr_compression")) + ":");
+                p.layout->setText(p.dwaCompressionLevelSlider, _getText(DJV_TEXT("settings_io_exr_dwa_compression_level")) + ":");
+                _widgetUpdate();
+            }
         }
 
         void OpenEXRSettingsWidget::_widgetUpdate()

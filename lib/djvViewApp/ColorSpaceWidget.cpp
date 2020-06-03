@@ -630,23 +630,25 @@ namespace djv
         {
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
+            if (event.getData().textChanged)
+            {
+                setTitle(_getText(DJV_TEXT("widget_color_space")));
 
-            setTitle(_getText(DJV_TEXT("widget_color_space")));
+                p.actions["AddConfig"]->setTooltip(_getText(DJV_TEXT("widget_color_space_add_config_tooltip")));
+                p.actions["EditConfig"]->setTooltip(_getText(DJV_TEXT("widget_color_space_edit_configs_tooltip")));
 
-            p.actions["AddConfig"]->setTooltip(_getText(DJV_TEXT("widget_color_space_add_config_tooltip")));
-            p.actions["EditConfig"]->setTooltip(_getText(DJV_TEXT("widget_color_space_edit_configs_tooltip")));
+                p.displayLayout->setText(p.displayPopupWidget, _getText(DJV_TEXT("widget_color_space_display_name")) + ":");
+                p.displayLayout->setText(p.viewPopupWidget, _getText(DJV_TEXT("widget_color_space_display_view")) + ":");
 
-            p.displayLayout->setText(p.displayPopupWidget, _getText(DJV_TEXT("widget_color_space_display_name")) + ":");
-            p.displayLayout->setText(p.viewPopupWidget, _getText(DJV_TEXT("widget_color_space_display_view")) + ":");
-            
-            p.addImagePopupWidget->setTooltip(_getText(DJV_TEXT("widget_color_space_add_format_tooltip")));
-            p.actions["EditImage"]->setTooltip(_getText(DJV_TEXT("widget_color_space_edit_format_tooltip")));
+                p.addImagePopupWidget->setTooltip(_getText(DJV_TEXT("widget_color_space_add_format_tooltip")));
+                p.actions["EditImage"]->setTooltip(_getText(DJV_TEXT("widget_color_space_edit_format_tooltip")));
 
-            p.bellows["Config"]->setText(_getText(DJV_TEXT("widget_color_space_config")));
-            p.bellows["Display"]->setText(_getText(DJV_TEXT("widget_color_space_display")));
-            p.bellows["Image"]->setText(_getText(DJV_TEXT("widget_color_space_image")));
+                p.bellows["Config"]->setText(_getText(DJV_TEXT("widget_color_space_config")));
+                p.bellows["Display"]->setText(_getText(DJV_TEXT("widget_color_space_display")));
+                p.bellows["Image"]->setText(_getText(DJV_TEXT("widget_color_space_image")));
 
-            _widgetUpdate();
+                _widgetUpdate();
+            }
         }
 
         void ColorSpaceWidget::_widgetUpdate()

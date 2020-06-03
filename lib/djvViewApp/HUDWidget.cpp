@@ -228,7 +228,12 @@ namespace djv
         void HUDWidget::_initEvent(Event::Init & event)
         {
             Widget::_initEvent(event);
-            _textUpdate();
+            if (event.getData().sizeChanged ||
+                event.getData().fontChanged ||
+                event.getData().textChanged)
+            {
+                _textUpdate();
+            }
         }
 
         void HUDWidget::_updateEvent(Event::Update& event)

@@ -504,25 +504,27 @@ namespace djv
         {
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
+            if (event.getData().textChanged)
+            {
+                setTitle(_getText(DJV_TEXT("widget_color_picker")));
 
-            setTitle(_getText(DJV_TEXT("widget_color_picker")));
+                p.actions["LockType"]->setText(_getText(DJV_TEXT("widget_color_picker_lock_color_type")));
+                p.actions["LockType"]->setTooltip(_getText(DJV_TEXT("widget_color_picker_lock_color_type_tooltip")));
+                p.actions["ApplyColorOperations"]->setText(_getText(DJV_TEXT("widget_color_picker_apply_color_operations")));
+                p.actions["ApplyColorOperations"]->setTooltip(_getText(DJV_TEXT("widget_color_picker_apply_color_operations_tooltip")));
+                p.actions["ApplyColorSpace"]->setText(_getText(DJV_TEXT("widget_color_picker_apply_color_space")));
+                p.actions["ApplyColorSpace"]->setTooltip(_getText(DJV_TEXT("widget_color_picker_apply_color_space_tooltip")));
 
-            p.actions["LockType"]->setText(_getText(DJV_TEXT("widget_color_picker_lock_color_type")));
-            p.actions["LockType"]->setTooltip(_getText(DJV_TEXT("widget_color_picker_lock_color_type_tooltip")));
-            p.actions["ApplyColorOperations"]->setText(_getText(DJV_TEXT("widget_color_picker_apply_color_operations")));
-            p.actions["ApplyColorOperations"]->setTooltip(_getText(DJV_TEXT("widget_color_picker_apply_color_operations_tooltip")));
-            p.actions["ApplyColorSpace"]->setText(_getText(DJV_TEXT("widget_color_picker_apply_color_space")));
-            p.actions["ApplyColorSpace"]->setTooltip(_getText(DJV_TEXT("widget_color_picker_apply_color_space_tooltip")));
+                p.sampleSizeSlider->setTooltip(_getText(DJV_TEXT("widget_color_picker_sample_size_tooltip")));
 
-            p.sampleSizeSlider->setTooltip(_getText(DJV_TEXT("widget_color_picker_sample_size_tooltip")));
+                p.copyButton->setTooltip(_getText(DJV_TEXT("widget_color_picker_copy_tooltip")));
 
-            p.copyButton->setTooltip(_getText(DJV_TEXT("widget_color_picker_copy_tooltip")));
+                p.settingsPopupMenu->setTooltip(_getText(DJV_TEXT("widget_color_picker_settings_tooltip")));
 
-            p.settingsPopupMenu->setTooltip(_getText(DJV_TEXT("widget_color_picker_settings_tooltip")));
-
-            p.formLayout->setText(p.colorLabel, _getText(DJV_TEXT("widget_color_picker_color")) + ":");
-            p.formLayout->setText(p.pixelLabel, _getText(DJV_TEXT("widget_color_picker_pixel")) + ":");
-            p.formLayout->setText(p.sampleSizeSlider, _getText(DJV_TEXT("widget_color_picker_sample_size")) + ":");
+                p.formLayout->setText(p.colorLabel, _getText(DJV_TEXT("widget_color_picker_color")) + ":");
+                p.formLayout->setText(p.pixelLabel, _getText(DJV_TEXT("widget_color_picker_pixel")) + ":");
+                p.formLayout->setText(p.sampleSizeSlider, _getText(DJV_TEXT("widget_color_picker_sample_size")) + ":");
+            }
         }
         
         void ColorPickerWidget::_sampleUpdate()

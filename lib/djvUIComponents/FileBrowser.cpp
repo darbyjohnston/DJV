@@ -923,61 +923,63 @@ namespace djv
             {
                 Widget::_initEvent(event);
                 DJV_PRIVATE_PTR();
-                
-                p.actions["Back"]->setText(_getText(DJV_TEXT("file_browser_back")));
-                p.actions["Back"]->setTooltip(_getText(DJV_TEXT("file_browser_back_tooltip")));
-                p.actions["Forward"]->setText(_getText(DJV_TEXT("file_browser_forward")));
-                p.actions["Forward"]->setTooltip(_getText(DJV_TEXT("file_browser_forward_tooltip")));
-                p.actions["Up"]->setText(_getText(DJV_TEXT("file_browser_up")));
-                p.actions["Up"]->setTooltip(_getText(DJV_TEXT("file_browser_up_tooltip")));
+                if (event.getData().textChanged)
+                {
+                    p.actions["Back"]->setText(_getText(DJV_TEXT("file_browser_back")));
+                    p.actions["Back"]->setTooltip(_getText(DJV_TEXT("file_browser_back_tooltip")));
+                    p.actions["Forward"]->setText(_getText(DJV_TEXT("file_browser_forward")));
+                    p.actions["Forward"]->setTooltip(_getText(DJV_TEXT("file_browser_forward_tooltip")));
+                    p.actions["Up"]->setText(_getText(DJV_TEXT("file_browser_up")));
+                    p.actions["Up"]->setTooltip(_getText(DJV_TEXT("file_browser_up_tooltip")));
 
-                p.actions["Tiles"]->setText(_getText(DJV_TEXT("file_browser_settings_tile_view")));
-                p.actions["Tiles"]->setTooltip(_getText(DJV_TEXT("file_browser_settings_tile_view_tooltip")));
-                p.actions["List"]->setText(_getText(DJV_TEXT("file_browser_settings_list_view")));
-                p.actions["List"]->setTooltip(_getText(DJV_TEXT("file_browser_settings_list_view_tooltip")));
-                p.actions["IncreaseThumbnailSize"]->setText(_getText(DJV_TEXT("file_browser_settings_increase_thumbnail")));
-                p.actions["IncreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("file_browser_settings_increase_thumbnail_tooltip")));
-                p.actions["DecreaseThumbnailSize"]->setText(_getText(DJV_TEXT("file_browser_settings_decrease_thumbnail")));
-                p.actions["DecreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("file_browser_settings_decrease_thumbnail_tooltip")));
+                    p.actions["Tiles"]->setText(_getText(DJV_TEXT("file_browser_settings_tile_view")));
+                    p.actions["Tiles"]->setTooltip(_getText(DJV_TEXT("file_browser_settings_tile_view_tooltip")));
+                    p.actions["List"]->setText(_getText(DJV_TEXT("file_browser_settings_list_view")));
+                    p.actions["List"]->setTooltip(_getText(DJV_TEXT("file_browser_settings_list_view_tooltip")));
+                    p.actions["IncreaseThumbnailSize"]->setText(_getText(DJV_TEXT("file_browser_settings_increase_thumbnail")));
+                    p.actions["IncreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("file_browser_settings_increase_thumbnail_tooltip")));
+                    p.actions["DecreaseThumbnailSize"]->setText(_getText(DJV_TEXT("file_browser_settings_decrease_thumbnail")));
+                    p.actions["DecreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("file_browser_settings_decrease_thumbnail_tooltip")));
 
-                p.actions["FileSequences"]->setText(_getText(DJV_TEXT("file_browser_settings_enable_file_sequences")));
-                p.actions["FileSequences"]->setTooltip(_getText(DJV_TEXT("file_browser_settings_file_sequences_tooltip")));
-                p.actions["ShowHidden"]->setText(_getText(DJV_TEXT("file_browser_settings_show_hidden_files")));
-                p.actions["ShowHidden"]->setTooltip(_getText(DJV_TEXT("file_browser_settings_show_hidden_tooltip")));
+                    p.actions["FileSequences"]->setText(_getText(DJV_TEXT("file_browser_settings_enable_file_sequences")));
+                    p.actions["FileSequences"]->setTooltip(_getText(DJV_TEXT("file_browser_settings_file_sequences_tooltip")));
+                    p.actions["ShowHidden"]->setText(_getText(DJV_TEXT("file_browser_settings_show_hidden_files")));
+                    p.actions["ShowHidden"]->setTooltip(_getText(DJV_TEXT("file_browser_settings_show_hidden_tooltip")));
 
-                p.actions["SortByName"]->setText(_getText(DJV_TEXT("file_browser_sort_name")));
-                p.actions["SortByName"]->setTooltip(_getText(DJV_TEXT("file_browser_sort_name_tooltip")));
-                p.actions["SortBySize"]->setText(_getText(DJV_TEXT("file_browser_sort_size")));
-                p.actions["SortBySize"]->setTooltip(_getText(DJV_TEXT("file_browser_sort_size_tooltip")));
-                p.actions["SortByTime"]->setText(_getText(DJV_TEXT("file_browser_sort_time")));
-                p.actions["SortByTime"]->setTooltip(_getText(DJV_TEXT("file_browser_sort_time_tooltip")));
-                p.actions["ReverseSort"]->setText(_getText(DJV_TEXT("file_browser_reverse_sort")));
-                p.actions["ReverseSort"]->setTooltip(_getText(DJV_TEXT("file_browser_reverse_sort_tooltip")));
-                p.actions["SortDirectoriesFirst"]->setText(_getText(DJV_TEXT("file_browser_sort_directories_first")));
-                p.actions["SortDirectoriesFirst"]->setTooltip(_getText(DJV_TEXT("file_browser_sort_directories_first_tooltip")));
+                    p.actions["SortByName"]->setText(_getText(DJV_TEXT("file_browser_sort_name")));
+                    p.actions["SortByName"]->setTooltip(_getText(DJV_TEXT("file_browser_sort_name_tooltip")));
+                    p.actions["SortBySize"]->setText(_getText(DJV_TEXT("file_browser_sort_size")));
+                    p.actions["SortBySize"]->setTooltip(_getText(DJV_TEXT("file_browser_sort_size_tooltip")));
+                    p.actions["SortByTime"]->setText(_getText(DJV_TEXT("file_browser_sort_time")));
+                    p.actions["SortByTime"]->setTooltip(_getText(DJV_TEXT("file_browser_sort_time_tooltip")));
+                    p.actions["ReverseSort"]->setText(_getText(DJV_TEXT("file_browser_reverse_sort")));
+                    p.actions["ReverseSort"]->setTooltip(_getText(DJV_TEXT("file_browser_reverse_sort_tooltip")));
+                    p.actions["SortDirectoriesFirst"]->setText(_getText(DJV_TEXT("file_browser_sort_directories_first")));
+                    p.actions["SortDirectoriesFirst"]->setTooltip(_getText(DJV_TEXT("file_browser_sort_directories_first_tooltip")));
 
-                p.sortTitleLabel->setText(_getText(DJV_TEXT("file_browser_sorting")));
-                p.viewTypeLabel->setText(_getText(DJV_TEXT("file_browser_view")));
-                p.thumbnailSizeLabel->setText(_getText(DJV_TEXT("file_browser_thumbnail_size")));
-                p.miscSettingsLabel->setText(_getText(DJV_TEXT("file_browser_miscellaneous")));
+                    p.sortTitleLabel->setText(_getText(DJV_TEXT("file_browser_sorting")));
+                    p.viewTypeLabel->setText(_getText(DJV_TEXT("file_browser_view")));
+                    p.thumbnailSizeLabel->setText(_getText(DJV_TEXT("file_browser_thumbnail_size")));
+                    p.miscSettingsLabel->setText(_getText(DJV_TEXT("file_browser_miscellaneous")));
 
-                p.listViewHeader->setText(
-                    {
-                        _getText(DJV_TEXT("file_browser_column_name")),
-                        _getText(DJV_TEXT("file_browser_column_size")),
-                        _getText(DJV_TEXT("file_browser_column_time"))
-                    }
-                );
+                    p.listViewHeader->setText(
+                        {
+                            _getText(DJV_TEXT("file_browser_column_name")),
+                            _getText(DJV_TEXT("file_browser_column_size")),
+                            _getText(DJV_TEXT("file_browser_column_time"))
+                        }
+                    );
 
-                p.itemCountLabel->setText(_getItemCountLabel(p.itemCount));
+                    p.itemCountLabel->setText(_getItemCountLabel(p.itemCount));
 
-                p.shortcutsPopupWidget->setTooltip(_getText(DJV_TEXT("file_browser_shortcuts_tooltip")));
-                p.recentPathsPopupWidget->setTooltip(_getText(DJV_TEXT("file_browser_recent_paths_tooltip")));
-                p.drivesPopupWidget->setTooltip(_getText(DJV_TEXT("file_browser_drives_tooltip")));
-                p.sortPopupWidget->setTooltip(_getText(DJV_TEXT("file_browser_sort_tooltip")));
-                p.settingsPopupWidget->setTooltip(_getText(DJV_TEXT("file_browser_settings_tooltip")));
+                    p.shortcutsPopupWidget->setTooltip(_getText(DJV_TEXT("file_browser_shortcuts_tooltip")));
+                    p.recentPathsPopupWidget->setTooltip(_getText(DJV_TEXT("file_browser_recent_paths_tooltip")));
+                    p.drivesPopupWidget->setTooltip(_getText(DJV_TEXT("file_browser_drives_tooltip")));
+                    p.sortPopupWidget->setTooltip(_getText(DJV_TEXT("file_browser_sort_tooltip")));
+                    p.settingsPopupWidget->setTooltip(_getText(DJV_TEXT("file_browser_settings_tooltip")));
 
-                p.searchBox->setTooltip(_getText(DJV_TEXT("file_browser_search_tooltip")));
+                    p.searchBox->setTooltip(_getText(DJV_TEXT("file_browser_search_tooltip")));
+                }
             }
 
             std::string FileBrowser::_getItemCountLabel(size_t size) const

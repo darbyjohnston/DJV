@@ -349,10 +349,13 @@ namespace djv
         {
             Widget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
+            if (event.getData().sizeChanged)
             {
-                const auto& style = _getStyle();
-                p.handleWidth = style->getMetric(MetricsRole::Handle);
+                if (auto context = getContext().lock())
+                {
+                    const auto& style = _getStyle();
+                    p.handleWidth = style->getMetric(MetricsRole::Handle);
+                }
             }
         }
 

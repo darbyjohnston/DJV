@@ -14,9 +14,8 @@
 #include <djvUIComponents/IOSettingsWidget.h>
 #include <djvUIComponents/LanguageSettingsWidget.h>
 #include <djvUIComponents/PPMSettingsWidget.h>
-#include <djvUIComponents/PaletteSettingsWidget.h>
 #include <djvUIComponents/Render2DSettingsWidget.h>
-#include <djvUIComponents/SizeSettingsWidget.h>
+#include <djvUIComponents/StyleSettingsWidget.h>
 #include <djvUIComponents/TimeSettingsWidget.h>
 #include <djvUIComponents/TooltipsSettingsWidget.h>
 #if defined(JPEG_FOUND)
@@ -83,8 +82,7 @@ namespace djv
                     // UI settings widgets.
                     UI::GLFWSettingsWidget::create(context),
                     UI::LanguageSettingsWidget::create(context),
-                    UI::SizeSettingsWidget::create(context),
-                    UI::PaletteSettingsWidget::create(context),
+                    UI::StyleSettingsWidget::create(context),
                     UI::Render2DImageSettingsWidget::create(context),
                     UI::Render2DTextSettingsWidget::create(context),
                     UI::TimeSettingsWidget::create(context),

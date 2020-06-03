@@ -257,7 +257,10 @@ namespace djv
         void TextBlock::_initEvent(Event::Init& event)
         {
             Widget::_initEvent(event);
-            _textUpdate();
+            if (event.getData().sizeChanged || event.getData().fontChanged)
+            {
+                _textUpdate();
+            }
         }
 
         void TextBlock::_updateEvent(Event::Update& event)

@@ -101,7 +101,10 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            p.checkBox->setText(_getText(DJV_TEXT("settings_file_auto-detect_file_sequences")));
+            if (event.getData().textChanged)
+            {
+                p.checkBox->setText(_getText(DJV_TEXT("settings_file_auto-detect_file_sequences")));
+            }
         }
 
     } // namespace ViewApp

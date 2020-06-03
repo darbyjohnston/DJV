@@ -259,7 +259,10 @@ namespace djv
         void PlaybackSpeedWidget::_initEvent(Event::Init & event)
         {
             Widget::_initEvent(event);
-            _textUpdate();
+            if (event.getData().textChanged)
+            {
+                _textUpdate();
+            }
         }
 
         void PlaybackSpeedWidget::_textUpdate()

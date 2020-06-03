@@ -55,7 +55,7 @@ namespace djv
                 std::shared_ptr<ValueSubject<std::shared_ptr<IObject> > > grab;
                 std::shared_ptr<ValueSubject<std::shared_ptr<IObject> > > keyGrab;
                 std::weak_ptr<IObject> textFocus;
-                bool init = false;
+                bool textInit = false;
                 std::shared_ptr<ValueObserver<std::string> > localeObserver;
                 std::shared_ptr<ValueObserver<bool> > textChangedObserver;
                 std::shared_ptr<Time::Timer> statsTimer;
@@ -83,7 +83,7 @@ namespace djv
                         {
                             if (auto system = weak.lock())
                             {
-                                system->_p->init = true;
+                                system->_p->textInit = true;
                             }
                         });
                     p.textChangedObserver = ValueObserver<bool>::create(
@@ -92,7 +92,7 @@ namespace djv
                         {
                             if (auto system = weak.lock())
                             {
-                                system->_p->init = true;
+                                system->_p->textInit = true;
                             }
                         });
                 }
@@ -191,10 +191,12 @@ namespace djv
                     _initObject(i);
                 }
 
-                if (p.init)
+                if (p.textInit)
                 {
-                    p.init = false;
-                    Init event;
+                    p.textInit = false;
+                    InitData data;
+                    data.textChanged = true;
+                    Init event(data);
                     _initRecursive(p.rootObject, event);
                 }
 

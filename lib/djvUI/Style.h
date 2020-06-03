@@ -74,9 +74,13 @@ namespace djv
                 ///@{
 
                 const Palette & getPalette() const;
-                const AV::Image::Color & getColor(ColorRole) const;
+                AV::Image::Color getColor(ColorRole) const;
+                float getBrightness() const;
+                float getContrast() const;
 
                 void setPalette(const Palette &);
+                void setBrightness(float);
+                void setContrast(float);
 
                 ///@}
 
@@ -104,11 +108,15 @@ namespace djv
 
                 ///@}
 
-                bool isDirty() const;
+                bool isPaletteDirty() const;
+                bool isSizeDirty() const;
+                bool isFontDirty() const;
                 void setClean();
 
             private:
                 Palette _palette;
+                float _brightness = 1.F;
+                float _contrast = 1.F;
                 glm::vec2 _dpi = glm::vec2(AV::dpiDefault, AV::dpiDefault);
                 Metrics _metrics;
                 std::string _font = AV::Font::familyDefault;
@@ -118,7 +126,9 @@ namespace djv
                 std::map<std::pair<AV::Font::FamilyID, std::string>, AV::Font::FaceID> _fontFaceToId;
                 std::shared_ptr<Core::MapObserver<AV::Font::FamilyID, std::string> > _fontNamesObserver;
                 std::shared_ptr<Core::MapObserver<AV::Font::FamilyID, std::map<AV::Font::FaceID, std::string> > > _fontFacesObserver;
-                bool _dirty = true;
+                bool _paletteDirty = true;
+                bool _sizeDirty = true;
+                bool _fontDirty = true;
             };
 
         } // namespace Style

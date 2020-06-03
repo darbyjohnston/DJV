@@ -29,6 +29,8 @@ namespace djv
                 std::shared_ptr<MapSubject<std::string, UI::Style::Palette> > palettes;
                 std::shared_ptr<ValueSubject<UI::Style::Palette> > currentPalette;
                 std::shared_ptr<ValueSubject<std::string> > currentPaletteName;
+                std::shared_ptr<ValueSubject<float> > brightness;
+                std::shared_ptr<ValueSubject<float> > contrast;
                 std::shared_ptr<MapSubject<std::string, UI::Style::Metrics> > metrics;
                 std::shared_ptr<ValueSubject<UI::Style::Metrics> > currentMetrics;
                 std::shared_ptr<ValueSubject<std::string> > currentMetricsName;
@@ -90,6 +92,8 @@ namespace djv
                 p.palettes = MapSubject<std::string, UI::Style::Palette>::create(palettes);
                 p.currentPalette = ValueSubject<UI::Style::Palette>::create(palettes["style_palette_dark"]);
                 p.currentPaletteName = ValueSubject<std::string>::create("style_palette_dark");
+                p.brightness = ValueSubject<float>::create(1.F);
+                p.contrast = ValueSubject<float>::create(1.F);
                 p.metrics = MapSubject<std::string, UI::Style::Metrics>::create(metricsList);
                 p.currentMetrics = ValueSubject<UI::Style::Metrics>::create(metricsList["style_metrics_medium"]);
                 p.currentMetricsName = ValueSubject<std::string>::create(("style_metrics_medium"));
@@ -155,6 +159,16 @@ namespace djv
                 return _p->currentPaletteName;
             }
 
+            std::shared_ptr<IValueSubject<float> > Style::observeBrightness() const
+            {
+                return _p->brightness;
+            }
+
+            std::shared_ptr<IValueSubject<float> > Style::observeContrast() const
+            {
+                return _p->contrast;
+            }
+
             void Style::setCurrentPalette(const std::string & name)
             {
                 DJV_PRIVATE_PTR();
@@ -164,6 +178,18 @@ namespace djv
                     p.currentPalette->setIfChanged(palette);
                     p.currentPaletteName->setIfChanged(name);
                 }
+            }
+
+            void Style::setBrightness(float value)
+            {
+                DJV_PRIVATE_PTR();
+                p.brightness->setIfChanged(value);
+            }
+
+            void Style::setContrast(float value)
+            {
+                DJV_PRIVATE_PTR();
+                p.contrast->setIfChanged(value);
             }
 
             std::shared_ptr<IMapSubject<std::string, UI::Style::Metrics> > Style::observeMetrics() const
@@ -206,6 +232,8 @@ namespace djv
                     read("Palettes", object, p.palettes);
                     read("CurrentPalette", object, p.currentPaletteName);
                     p.currentPalette->setIfChanged(p.palettes->getItem(p.currentPaletteName->get()));
+                    read("Brightness", object, p.brightness);
+                    read("Contrast", object, p.contrast);
                     read("Metrics", object, p.metrics);
                     read("CurrentMetrics", object, p.currentMetricsName);
                     p.currentMetrics->setIfChanged(p.metrics->getItem(p.currentMetricsName->get()));
@@ -219,6 +247,8 @@ namespace djv
                 auto & object = out.get<picojson::object>();
                 write("Palettes", p.palettes->get(), object);
                 write("CurrentPalette", p.currentPaletteName->get(), object);
+                write("Brightness", p.brightness->get(), object);
+                write("Contrast", p.contrast->get(), object);
                 write("Metrics", p.metrics->get(), object);
                 write("CurrentMetrics", p.currentMetricsName->get(), object);
                 return out;

@@ -122,11 +122,27 @@ namespace djv
                 ChildOrder();
             };
 
+            //! This struct provides initialization event data.
+            struct InitData
+            {
+                InitData(bool all = false);
+
+                bool paletteChanged = false;
+                bool sizeChanged    = false;
+                bool fontChanged    = false;
+                bool textChanged    = false;
+            };
+
             //! This class provides an initialization event.
             class Init : public Event
             {
             public:
-                Init();
+                Init(const InitData& = InitData());
+
+                const InitData& getData() const;
+
+            private:
+                InitData _data;
             };
 
             //! This class provides an update event.

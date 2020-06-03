@@ -173,13 +173,16 @@ namespace djv
         {
             Widget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            if (!p.name.empty())
+            if (event.getData().sizeChanged)
             {
-                if (auto context = getContext().lock())
+                if (!p.name.empty())
                 {
-                    auto iconSystem = context->getSystemT<IconSystem>();
-                    const auto& style = _getStyle();
-                    p.imageFuture = iconSystem->getIcon(p.name, style->getMetric(MetricsRole::Icon));
+                    if (auto context = getContext().lock())
+                    {
+                        auto iconSystem = context->getSystemT<IconSystem>();
+                        const auto& style = _getStyle();
+                        p.imageFuture = iconSystem->getIcon(p.name, style->getMetric(MetricsRole::Icon));
+                    }
                 }
             }
         }

@@ -253,22 +253,26 @@ void CameraWidget::setLabelSizeGroup(const std::weak_ptr<djv::UI::LabelSizeGroup
     }
 }
 
-void CameraWidget::_initEvent(Core::Event::Init&)
+void CameraWidget::_initEvent(Core::Event::Init& event)
 {
-    setTitle(_getText(DJV_TEXT("widget_camera")));
-    _layouts["Lens"]->setText(_floatEdits["FOV"], _getText(DJV_TEXT("widget_camera_fov")) + ":");
-    _layouts["Clipping"]->setText(_floatEdits["ClippingNear"], _getText(DJV_TEXT("widget_camera_near")) + ":");
-    _layouts["Clipping"]->setText(_floatEdits["ClippingFar"], _getText(DJV_TEXT("widget_camera_far")) + ":");
-    _layouts["Target"]->setText(_floatEdits["TargetX"], _getText(DJV_TEXT("widget_camera_x")) + ":");
-    _layouts["Target"]->setText(_floatEdits["TargetY"], _getText(DJV_TEXT("widget_camera_y")) + ":");
-    _layouts["Target"]->setText(_floatEdits["TargetZ"], _getText(DJV_TEXT("widget_camera_z")) + ":");
-    _layouts["Position"]->setText(_floatEdits["PositionDistance"], _getText(DJV_TEXT("widget_camera_distance")) + ":");
-    _layouts["Position"]->setText(_floatEdits["PositionLatitude"], _getText(DJV_TEXT("widget_camera_latitude")) + ":");
-    _layouts["Position"]->setText(_floatEdits["PositionLongitude"], _getText(DJV_TEXT("widget_camera_longitude")) + ":");
-    _groupBoxes["Lens"]->setText(_getText(DJV_TEXT("widget_camera_lens")));
-    _groupBoxes["Clipping"]->setText(_getText(DJV_TEXT("widget_camera_clipping")));
-    _groupBoxes["Target"]->setText(_getText(DJV_TEXT("widget_camera_target")));
-    _groupBoxes["Position"]->setText(_getText(DJV_TEXT("widget_camera_position")));
+    ISettingsWidget::_initEvent(event);
+    if (event.getData().textChanged)
+    {
+        setTitle(_getText(DJV_TEXT("widget_camera")));
+        _layouts["Lens"]->setText(_floatEdits["FOV"], _getText(DJV_TEXT("widget_camera_fov")) + ":");
+        _layouts["Clipping"]->setText(_floatEdits["ClippingNear"], _getText(DJV_TEXT("widget_camera_near")) + ":");
+        _layouts["Clipping"]->setText(_floatEdits["ClippingFar"], _getText(DJV_TEXT("widget_camera_far")) + ":");
+        _layouts["Target"]->setText(_floatEdits["TargetX"], _getText(DJV_TEXT("widget_camera_x")) + ":");
+        _layouts["Target"]->setText(_floatEdits["TargetY"], _getText(DJV_TEXT("widget_camera_y")) + ":");
+        _layouts["Target"]->setText(_floatEdits["TargetZ"], _getText(DJV_TEXT("widget_camera_z")) + ":");
+        _layouts["Position"]->setText(_floatEdits["PositionDistance"], _getText(DJV_TEXT("widget_camera_distance")) + ":");
+        _layouts["Position"]->setText(_floatEdits["PositionLatitude"], _getText(DJV_TEXT("widget_camera_latitude")) + ":");
+        _layouts["Position"]->setText(_floatEdits["PositionLongitude"], _getText(DJV_TEXT("widget_camera_longitude")) + ":");
+        _groupBoxes["Lens"]->setText(_getText(DJV_TEXT("widget_camera_lens")));
+        _groupBoxes["Clipping"]->setText(_getText(DJV_TEXT("widget_camera_clipping")));
+        _groupBoxes["Target"]->setText(_getText(DJV_TEXT("widget_camera_target")));
+        _groupBoxes["Position"]->setText(_getText(DJV_TEXT("widget_camera_position")));
+    }
 }
 
 void CameraWidget::_widgetUpdate()

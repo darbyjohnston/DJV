@@ -144,7 +144,10 @@ namespace djv
         void SettingsDrawer::_initEvent(Event::Init& event)
         {
             Drawer::_initEvent(event);
-            _textUpdate();
+            if (event.getData().textChanged)
+            {
+                _textUpdate();
+            }
         }
 
         void SettingsDrawer::_textUpdate()

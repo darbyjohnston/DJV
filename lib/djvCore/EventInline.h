@@ -75,9 +75,22 @@ namespace djv
                 Event(Type::ChildOrder)
             {}
 
-            inline Init::Init() :
-                Event(Type::Init)
+            inline InitData::InitData(bool all) :
+                paletteChanged(all),
+                sizeChanged(all),
+                fontChanged(all),
+                textChanged(all)
             {}
+
+            inline Init::Init(const InitData& data) :
+                Event(Type::Init),
+                _data(data)
+            {}
+
+            inline const InitData& Init::getData() const
+            {
+                return _data;
+            }
 
             inline Update::Update(const std::chrono::steady_clock::time_point& t, const Time::Duration& dt) :
                 Event(Type::Update),

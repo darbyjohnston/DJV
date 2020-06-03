@@ -28,9 +28,14 @@ namespace djv
                 return _palette;
             }
 
-            inline const AV::Image::Color& Style::getColor(ColorRole role) const
+            inline float Style::getBrightness() const
             {
-                return _palette.getColor(role);
+                return _brightness;
+            }
+
+            inline float Style::getContrast() const
+            {
+                return _contrast;
             }
 
             inline const glm::vec2& Style::getDPI() const
@@ -58,9 +63,19 @@ namespace djv
                 return _font;
             }
 
-            inline bool Style::isDirty() const
+            inline bool Style::isPaletteDirty() const
             {
-                return _dirty;
+                return _paletteDirty;
+            }
+
+            inline bool Style::isSizeDirty() const
+            {
+                return _sizeDirty;
+            }
+
+            inline bool Style::isFontDirty() const
+            {
+                return _fontDirty;
             }
 
         } // namespace Style

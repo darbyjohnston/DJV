@@ -133,6 +133,23 @@ namespace djv
         void EventTest::_coreEvent()
         {
             {
+                const Event::InitData data(true);
+                DJV_ASSERT(data.paletteChanged);
+                DJV_ASSERT(data.sizeChanged);
+                DJV_ASSERT(data.fontChanged);
+                DJV_ASSERT(data.textChanged);
+            }
+
+
+            {
+                const Event::InitData data(false);
+                DJV_ASSERT(!data.paletteChanged);
+                DJV_ASSERT(!data.sizeChanged);
+                DJV_ASSERT(!data.fontChanged);
+                DJV_ASSERT(!data.textChanged);
+            }
+
+            {
                 const Event::Init event;
                 DJV_ASSERT(event.getEventType() == Event::Type::Init);
             }

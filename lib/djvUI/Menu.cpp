@@ -465,7 +465,10 @@ namespace djv
             void MenuWidget::_initEvent(Event::Init& event)
             {
                 Widget::_initEvent(event);
-                _itemsUpdate();
+                if (event.getData().sizeChanged || event.getData().fontChanged)
+                {
+                    _itemsUpdate();
+                }
             }
 
             void MenuWidget::_updateEvent(Event::Update &)
