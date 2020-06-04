@@ -8,8 +8,7 @@
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUIComponents/LanguageSettingsWidget.h>
-#include <djvUIComponents/PaletteSettingsWidget.h>
-#include <djvUIComponents/SizeSettingsWidget.h>
+#include <djvUIComponents/StyleSettingsWidget.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionButton.h>
