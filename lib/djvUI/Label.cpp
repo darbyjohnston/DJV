@@ -29,7 +29,7 @@ namespace djv
             std::string fontFamily;
             std::string fontFace;
             MetricsRole fontSizeRole = MetricsRole::FontMedium;
-            AV::Font::Info fontInfo;
+            AV::Font::FontInfo fontInfo;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
             glm::vec2 textSize = glm::vec2(0.F, 0.F);

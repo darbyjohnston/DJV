@@ -103,8 +103,8 @@ namespace djv
                 const std::string getFont() const;
                 void setFont(const std::string &);
 
-                AV::Font::Info getFontInfo(const std::string & family, const std::string & face, MetricsRole) const;
-                AV::Font::Info getFontInfo(const std::string & face, MetricsRole) const;
+                AV::Font::FontInfo getFontInfo(const std::string & family, const std::string & face, MetricsRole) const;
+                AV::Font::FontInfo getFontInfo(const std::string & face, MetricsRole) const;
 
                 ///@}
 

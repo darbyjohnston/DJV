@@ -32,10 +32,10 @@ namespace djv
             std::string fontFace;
             std::string fontFamily;
             MetricsRole fontSizeRole = MetricsRole::FontMedium;
-            AV::Font::Info fontInfo;
+            AV::Font::FontInfo fontInfo;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
-            typedef std::pair<AV::Font::Info, float> TextCacheKey;
+            typedef std::pair<AV::Font::FontInfo, float> TextCacheKey;
             typedef std::pair<std::vector<AV::Font::TextLine>, glm::vec2> TextCacheValue;
             Memory::Cache<TextCacheKey, TextCacheValue> textCache;
             BBox2f clipRect;

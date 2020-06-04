@@ -10,10 +10,10 @@ namespace djv
     {
         namespace Font
         {
-            inline Info::Info()
+            inline FontInfo::FontInfo()
             {}
 
-            inline Info::Info(FamilyID family, FaceID face, uint16_t size, uint16_t dpi) :
+            inline FontInfo::FontInfo(FamilyID family, FaceID face, uint16_t size, uint16_t dpi) :
                 _family(family),
                 _face(face),
                 _size(size),
@@ -25,32 +25,32 @@ namespace djv
                 Core::Memory::hashCombine(_hash, _dpi);
             }
 
-            inline FamilyID Info::getFamily() const
+            inline FamilyID FontInfo::getFamily() const
             {
                 return _family;
             }
             
-            inline FaceID   Info::getFace() const
+            inline FaceID   FontInfo::getFace() const
             {
                 return _face;
             }
             
-            inline uint16_t Info::getSize() const
+            inline uint16_t FontInfo::getSize() const
             {
                 return _size;
             }
             
-            inline uint16_t Info::getDPI() const
+            inline uint16_t FontInfo::getDPI() const
             {
                 return _dpi;
             }
 
-            inline bool Info::operator == (const Info & other) const
+            inline bool FontInfo::operator == (const FontInfo& other) const
             {
                 return _hash == other._hash;
             }
 
-            inline bool Info::operator < (const Info& other) const
+            inline bool FontInfo::operator < (const FontInfo& other) const
             {
                 return _hash < other._hash;
             }
@@ -61,21 +61,21 @@ namespace djv
             inline GlyphInfo::GlyphInfo()
             {}
 
-            inline GlyphInfo::GlyphInfo(uint32_t code, const Info& info) :
+            inline GlyphInfo::GlyphInfo(uint32_t code, const FontInfo& fontInfo) :
                 code(code),
-                info(info)
+                fontInfo(fontInfo)
             {}
 
             inline bool GlyphInfo::operator == (const GlyphInfo & other) const
             {
                 return
                     code == other.code &&
-                    info == other.info;
+                    fontInfo == other.fontInfo;
             }
 
             inline bool GlyphInfo::operator < (const GlyphInfo & other) const
             {
-                return std::tie(code, info) < std::tie(other.code, other.info);
+                return std::tie(code, fontInfo) < std::tie(other.code, other.fontInfo);
             }
 
             inline Glyph::Glyph()

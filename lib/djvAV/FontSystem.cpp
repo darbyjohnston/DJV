@@ -44,7 +44,7 @@ namespace djv
                     MetricsRequest() {}
                     MetricsRequest(MetricsRequest && other) = default;
 
-                    Info info;
+                    FontInfo fontInfo;
                     std::promise<Metrics> promise;
                 };
 
@@ -55,7 +55,7 @@ namespace djv
                     MeasureRequest(MeasureRequest&&) = default;
 
                     std::string text;
-                    Info info;
+                    FontInfo fontInfo;
                     uint16_t maxLineWidth = std::numeric_limits<uint16_t>::max();
                     std::promise<glm::vec2> promise;
                 };
@@ -67,7 +67,7 @@ namespace djv
                     MeasureGlyphsRequest(MeasureGlyphsRequest&&) = default;
 
                     std::string text;
-                    Info info;
+                    FontInfo fontInfo;
                     uint16_t maxLineWidth = std::numeric_limits<uint16_t>::max();
                     std::promise<std::vector<BBox2f> > promise;
                 };
@@ -79,7 +79,7 @@ namespace djv
                     GlyphsRequest(GlyphsRequest &&) = default;
 
                     std::string text;
-                    Info info;
+                    FontInfo fontInfo;
                     bool cacheOnly = false;
                     std::promise<std::vector<std::shared_ptr<Glyph> > > promise;
                 };
@@ -91,7 +91,7 @@ namespace djv
                     TextLinesRequest(TextLinesRequest&&) = default;
 
                     std::string text;
-                    Info info;
+                    FontInfo fontInfo;
                     uint16_t maxLineWidth = std::numeric_limits<uint16_t>::max();
                     std::promise<std::vector<TextLine> > promise;
                 };
@@ -176,11 +176,11 @@ namespace djv
                 std::thread thread;
                 std::atomic<bool> running;
 
-                bool getText(const std::string&, const Info&, std::basic_string<djv_char_t>&, FT_Face&, std::string& error);
+                bool getText(const std::string&, const FontInfo&, std::basic_string<djv_char_t>&, FT_Face&, std::string& error);
                 std::shared_ptr<Glyph> getGlyph(const GlyphInfo &);
                 void measure(
                     const std::basic_string<djv_char_t>& utf32,
-                    const Info&,
+                    const FontInfo&,
                     FT_Face,
                     uint16_t maxLineWidth,
                     glm::vec2&,
@@ -316,11 +316,11 @@ namespace djv
                 return _p->fontFaceNamesSubject;
             }
 
-            std::future<Metrics> System::getMetrics(const Info & info)
+            std::future<Metrics> System::getMetrics(const FontInfo& fontInfo)
             {
                 DJV_PRIVATE_PTR();
                 MetricsRequest request;
-                request.info = info;
+                request.fontInfo = fontInfo;
                 auto future = request.promise.get_future();
                 {
                     std::unique_lock<std::mutex> lock(p.requestMutex);
@@ -330,12 +330,12 @@ namespace djv
                 return future;
             }
 
-            std::future<glm::vec2> System::measure(const std::string& text, const Info& info)
+            std::future<glm::vec2> System::measure(const std::string& text, const FontInfo& fontInfo)
             {
                 DJV_PRIVATE_PTR();
                 MeasureRequest request;
                 request.text = text;
-                request.info = info;
+                request.fontInfo = fontInfo;
                 auto future = request.promise.get_future();
                 {
                     std::unique_lock<std::mutex> lock(p.requestMutex);
@@ -345,12 +345,12 @@ namespace djv
                 return future;
             }
 
-            std::future<std::vector<BBox2f> > System::measureGlyphs(const std::string& text, const Info& info)
+            std::future<std::vector<BBox2f> > System::measureGlyphs(const std::string& text, const FontInfo& fontInfo)
             {
                 DJV_PRIVATE_PTR();
                 MeasureGlyphsRequest request;
                 request.text = text;
-                request.info = info;
+                request.fontInfo = fontInfo;
                 auto future = request.promise.get_future();
                 {
                     std::unique_lock<std::mutex> lock(p.requestMutex);
@@ -360,12 +360,12 @@ namespace djv
                 return future;
             }
 
-            std::future<std::vector<std::shared_ptr<Glyph> > > System::getGlyphs(const std::string& text, const Info& info)
+            std::future<std::vector<std::shared_ptr<Glyph> > > System::getGlyphs(const std::string& text, const FontInfo& fontInfo)
             {
                 DJV_PRIVATE_PTR();
                 GlyphsRequest request;
                 request.text = text;
-                request.info = info;
+                request.fontInfo = fontInfo;
                 auto future = request.promise.get_future();
                 {
                     std::unique_lock<std::mutex> lock(p.requestMutex);
@@ -375,12 +375,12 @@ namespace djv
                 return future;
             }
 
-            std::future<std::vector<TextLine> > System::textLines(const std::string& text, uint16_t maxLineWidth, const Info& info)
+            std::future<std::vector<TextLine> > System::textLines(const std::string& text, uint16_t maxLineWidth, const FontInfo& fontInfo)
             {
                 DJV_PRIVATE_PTR();
                 TextLinesRequest request;
                 request.text = text;
-                request.info = info;
+                request.fontInfo = fontInfo;
                 request.maxLineWidth = maxLineWidth;
                 auto future = request.promise.get_future();
                 {
@@ -391,12 +391,12 @@ namespace djv
                 return future;
             }
 
-            void System::cacheGlyphs(const std::string& text, const Info& info)
+            void System::cacheGlyphs(const std::string& text, const FontInfo& fontInfo)
             {
                 DJV_PRIVATE_PTR();
                 GlyphsRequest request;
                 request.text = text;
-                request.info = info;
+                request.fontInfo = fontInfo;
                 request.cacheOnly = true;
                 {
                     std::unique_lock<std::mutex> lock(p.requestMutex);
@@ -532,22 +532,22 @@ namespace djv
                 for (auto & request : p.metricsRequests)
                 {
                     Metrics metrics;
-                    const auto family = p.fontFaces.find(request.info.getFamily());
+                    const auto family = p.fontFaces.find(request.fontInfo.getFamily());
                     if (family != p.fontFaces.end())
                     {
-                        const auto font = family->second.find(request.info.getFace());
+                        const auto font = family->second.find(request.fontInfo.getFace());
                         if (font != family->second.end())
                         {
                             /*FT_Error ftError = FT_Set_Char_Size(
                                 font->second,
                                 0,
-                                static_cast<int>(request.info.getSize() * 64.F),
-                                request.info.getDPI(),
-                                request.info.getDPI());*/
+                                static_cast<int>(request.fontInfo.getSize() * 64.F),
+                                request.fontInfo.getDPI(),
+                                request.fontInfo.getDPI());*/
                             FT_Error ftError = FT_Set_Pixel_Sizes(
                                 font->second,
                                 0,
-                                static_cast<int>(request.info.getSize()));
+                                static_cast<int>(request.fontInfo.getSize()));
                             if (!ftError)
                             {
                                 metrics.ascender   = font->second->size->metrics.ascender  / 64.F;
@@ -570,9 +570,9 @@ namespace djv
                     FT_Face font;
                     std::string error;
                     glm::vec2 size = glm::vec2(0.F, 0.F);
-                    if (p.getText(request.text, request.info, utf32, font, error))
+                    if (p.getText(request.text, request.fontInfo, utf32, font, error))
                     {
-                        p.measure(utf32, request.info, font, request.maxLineWidth, size);
+                        p.measure(utf32, request.fontInfo, font, request.maxLineWidth, size);
                     }
                     else
                     {
@@ -595,9 +595,9 @@ namespace djv
                     std::string error;
                     glm::vec2 size = glm::vec2(0.F, 0.F);
                     std::vector<BBox2f> glyphGeom;
-                    if (p.getText(request.text, request.info, utf32, font, error))
+                    if (p.getText(request.text, request.fontInfo, utf32, font, error))
                     {
-                        p.measure(utf32, request.info, font, request.maxLineWidth, size, &glyphGeom);
+                        p.measure(utf32, request.fontInfo, font, request.maxLineWidth, size, &glyphGeom);
                     }
                     else
                     {
@@ -631,7 +631,7 @@ namespace djv
                     {
                         for (size_t i = 0; i < size; ++i)
                         {
-                            p.getGlyph(GlyphInfo(utf32[i], request.info));
+                            p.getGlyph(GlyphInfo(utf32[i], request.fontInfo));
                         }
                     }
                     else
@@ -639,7 +639,7 @@ namespace djv
                         std::vector<std::shared_ptr<Glyph> > glyphs(size);
                         for (size_t i = 0; i < size; ++i)
                         {
-                            glyphs[i] = p.getGlyph(GlyphInfo(utf32[i], request.info));
+                            glyphs[i] = p.getGlyph(GlyphInfo(utf32[i], request.fontInfo));
                         }
                         request.promise.set_value(std::move(glyphs));
                     }
@@ -671,7 +671,7 @@ namespace djv
                     FT_Face font;
                     std::string error;
                     std::vector<TextLine> lines;
-                    if (p.getText(request.text, request.info, utf32, font, error))
+                    if (p.getText(request.text, request.fontInfo, utf32, font, error))
                     {
                         // Get the glyphs.
                         std::vector<std::shared_ptr<Glyph> > glyphs(utf32.size());
@@ -679,7 +679,7 @@ namespace djv
                         auto i = utf32Begin;
                         for (; i != utf32.end(); ++i)
                         {
-                            const auto info = GlyphInfo(*i, request.info);
+                            const auto info = GlyphInfo(*i, request.fontInfo);
                             auto glyph = p.getGlyph(info);
                             glyphs[i - utf32Begin] = glyph;
                         }
@@ -835,28 +835,28 @@ namespace djv
 
             bool System::Private::getText(
                 const std::string& value,
-                const Info& info,
+                const FontInfo& fontInfo,
                 std::basic_string<djv_char_t>& utf32,
                 FT_Face& font,
                 std::string& error)
             {
                 bool out = false;
-                const auto family = fontFaces.find(info.getFamily());
+                const auto family = fontFaces.find(fontInfo.getFamily());
                 if (family != fontFaces.end())
                 {
-                    auto i = family->second.find(info.getFace());
+                    auto i = family->second.find(fontInfo.getFace());
                     if (i != family->second.end())
                     {
                         /*FT_Error ftError = FT_Set_Char_Size(
                             i->second,
                             0,
-                            static_cast<int>(info.getSize() * 64.f),
-                            info.getDPI(),
-                            info.getDPI());*/
+                            static_cast<int>(fontInfo.getSize() * 64.f),
+                            fontInfo.getDPI(),
+                            fontInfo.getDPI());*/
                         FT_Error ftError = FT_Set_Pixel_Sizes(
                             i->second,
                             0,
-                            static_cast<int>(info.getSize()));
+                            static_cast<int>(fontInfo.getSize()));
                         if (!ftError)
                         {
                             try
@@ -875,20 +875,20 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<Glyph> System::Private::getGlyph(const GlyphInfo & info)
+            std::shared_ptr<Glyph> System::Private::getGlyph(const GlyphInfo& glyphInfo)
             {
                 std::shared_ptr<Glyph> out;
                 FT_Face ftFace = nullptr;
-                if (!glyphCache.get(info, out))
+                if (!glyphCache.get(glyphInfo, out))
                 {
                     out = Glyph::create();
-                    out->info = info;
-                    if (info.info.getFamily() != 0 || info.info.getFace() != 0)
+                    out->glyphInfo = glyphInfo;
+                    if (glyphInfo.fontInfo.getFamily() != 0 || glyphInfo.fontInfo.getFace() != 0)
                     {
-                        const auto i = fontFaces.find(info.info.getFamily());
+                        const auto i = fontFaces.find(glyphInfo.fontInfo.getFamily());
                         if (i != fontFaces.end())
                         {
-                            const auto j = i->second.find(info.info.getFace());
+                            const auto j = i->second.find(glyphInfo.fontInfo.getFace());
                             if (j != i->second.end())
                             {
                                 ftFace = j->second;
@@ -897,23 +897,17 @@ namespace djv
                     }
                     if (ftFace)
                     {
-                        /*FT_Error ftError = FT_Set_Char_Size(
-                            ftFace,
-                            0,
-                            static_cast<int>(request.info.getSize() * 64.F),
-                            request.info.getDPI(),
-                            request.info.getDPI());*/
                         FT_Error ftError = FT_Set_Pixel_Sizes(
                             ftFace,
                             0,
-                            static_cast<int>(info.info.getSize()));
+                            static_cast<int>(glyphInfo.fontInfo.getSize()));
                         if (ftError)
                         {
                             //std::cout << "FT_Set_Char_Size error: " << getFTError(ftError) << std::endl;
                             return nullptr;
                         }
 
-                        if (auto ftGlyphIndex = FT_Get_Char_Index(ftFace, info.code))
+                        if (auto ftGlyphIndex = FT_Get_Char_Index(ftFace, glyphInfo.code))
                         {
                             ftError = FT_Load_Glyph(ftFace, ftGlyphIndex, FT_LOAD_FORCE_AUTOHINT);
                             if (ftError)
@@ -971,7 +965,7 @@ namespace djv
                             out->rsbDelta = ftFace->glyph->rsb_delta;
                             FT_Done_Glyph(ftGlyph);
                         }
-                        glyphCache.add(info, out);
+                        glyphCache.add(glyphInfo, out);
                         glyphCacheSize = glyphCache.getSize();
                         glyphCachePercentageUsed = glyphCache.getPercentageUsed();
                     }
@@ -981,7 +975,7 @@ namespace djv
 
             void System::Private::measure(
                 const std::basic_string<djv_char_t>& utf32,
-                const Info& info,
+                const FontInfo& fontInfo,
                 FT_Face font,
                 uint16_t maxLineWidth,
                 glm::vec2& size,
@@ -993,7 +987,7 @@ namespace djv
                 int32_t rsbDeltaPrev = 0;
                 for (auto i = utf32.begin(); i != utf32.end(); ++i)
                 {
-                    const auto glyphInfo = GlyphInfo(*i, info);
+                    const auto glyphInfo = GlyphInfo(*i, fontInfo);
                     const auto glyph = getGlyph(glyphInfo);
 
                     if (glyphGeom)

@@ -34,19 +34,19 @@ namespace djv
         void FontSystemTest::_info()
         {
             {
-                const Font::Info info;
-                DJV_ASSERT(1 == info.getFamily());
-                DJV_ASSERT(1 == info.getFace());
-                DJV_ASSERT(0 == info.getSize());
-                DJV_ASSERT(dpiDefault == info.getDPI());
+                const Font::FontInfo fontInfo;
+                DJV_ASSERT(1 == fontInfo.getFamily());
+                DJV_ASSERT(1 == fontInfo.getFace());
+                DJV_ASSERT(0 == fontInfo.getSize());
+                DJV_ASSERT(dpiDefault == fontInfo.getDPI());
             }
             
             {
-                const Font::Info info(2, 3, 4, 5);
-                DJV_ASSERT(2 == info.getFamily());
-                DJV_ASSERT(3 == info.getFace());
-                DJV_ASSERT(4 == info.getSize());
-                DJV_ASSERT(5 == info.getDPI());
+                const Font::FontInfo fontInfo(2, 3, 4, 5);
+                DJV_ASSERT(2 == fontInfo.getFamily());
+                DJV_ASSERT(3 == fontInfo.getFace());
+                DJV_ASSERT(4 == fontInfo.getSize());
+                DJV_ASSERT(5 == fontInfo.getDPI());
             }
         }
         
@@ -81,14 +81,14 @@ namespace djv
             {
                 const Font::GlyphInfo glyphInfo;
                 DJV_ASSERT(0 == glyphInfo.code);
-                DJV_ASSERT(Font::Info() == glyphInfo.info);
+                DJV_ASSERT(Font::FontInfo() == glyphInfo.fontInfo);
             }
             
             {
-                const Font::Info info(2, 3, 4, 5);
-                const Font::GlyphInfo glyphInfo(1, info);
+                const Font::FontInfo fontInfo(2, 3, 4, 5);
+                const Font::GlyphInfo glyphInfo(1, fontInfo);
                 DJV_ASSERT(1 == glyphInfo.code);
-                DJV_ASSERT(info == glyphInfo.info);
+                DJV_ASSERT(fontInfo == glyphInfo.fontInfo);
             }
         }
         
@@ -96,7 +96,7 @@ namespace djv
         {
             {
                 auto glyph = Font::Glyph::create();
-                DJV_ASSERT(Font::GlyphInfo() == glyph->info);
+                DJV_ASSERT(Font::GlyphInfo() == glyph->glyphInfo);
                 DJV_ASSERT(!glyph->imageData);
                 DJV_ASSERT(glm::vec2(0.F, 0.F) == glyph->offset);
                 DJV_ASSERT(0 == glyph->lsbDelta);
@@ -122,14 +122,14 @@ namespace djv
                         }
                     });
 
-                Font::Info info(1, 1, 14, dpiDefault);
-                auto metricsFuture = system->getMetrics(info);
+                Font::FontInfo fontInfo(1, 1, 14, dpiDefault);
+                auto metricsFuture = system->getMetrics(fontInfo);
                 const std::string text = String::getRandomText(5);
-                auto measureFuture = system->measure(text, info);
-                auto measureGlyphsFuture = system->measureGlyphs(text, info);
-                auto textLinesFuture = system->textLines(text, 100, info);
-                auto glyphsFuture = system->getGlyphs(text, info);
-                system->cacheGlyphs(text, info);
+                auto measureFuture = system->measure(text, fontInfo);
+                auto measureGlyphsFuture = system->measureGlyphs(text, fontInfo);
+                auto textLinesFuture = system->textLines(text, 100, fontInfo);
+                auto glyphsFuture = system->getGlyphs(text, fontInfo);
+                system->cacheGlyphs(text, fontInfo);
                 
                 Font::Metrics metrics;
                 glm::vec2 measure = glm::vec2(0.F, 0.F);
@@ -191,24 +191,12 @@ namespace djv
                     ss << "measure: " << measure;
                     _print(ss.str());
                 }
-                /*for (const auto& i : measureGlyphs)
-                {
-                    std::stringstream ss;
-                    ss << "measure glyph: " << i;
-                    _print(ss.str());
-                }*/
                 for (const auto& i : textLines)
                 {
                     std::stringstream ss;
                     ss << "text line: " << i.text;
                     _print(ss.str());
                 }
-                /*for (const auto& i : glyphs)
-                {
-                    std::stringstream ss;
-                    ss << "glyph: " << i->info.code;
-                    _print(ss.str());
-                }*/
                 
                 {
                     std::stringstream ss;
@@ -226,14 +214,14 @@ namespace djv
         void FontSystemTest::_operators()
         {
             {
-                const Font::Info info(2, 3, 4, 5);
-                DJV_ASSERT(info == info);
-                DJV_ASSERT(Font::Info() < info);
+                const Font::FontInfo fontInfo(2, 3, 4, 5);
+                DJV_ASSERT(fontInfo == fontInfo);
+                DJV_ASSERT(Font::FontInfo() < fontInfo);
             }
             
             {
-                const Font::Info info(2, 3, 4, 5);
-                const Font::GlyphInfo glyphInfo(1, info);
+                const Font::FontInfo fontInfo(2, 3, 4, 5);
+                const Font::GlyphInfo glyphInfo(1, fontInfo);
                 DJV_ASSERT(glyphInfo == glyphInfo);
                 DJV_ASSERT(Font::GlyphInfo() < glyphInfo);
             }

@@ -69,7 +69,7 @@ namespace djv
                     std::shared_ptr<AV::Image::Image> icon;
                     std::string text;
                     std::string font;
-                    AV::Font::Info fontInfo;
+                    AV::Font::FontInfo fontInfo;
                     AV::Font::Metrics fontMetrics;
                     glm::vec2 textSize = glm::vec2(0.F, 0.F);
                     std::vector<std::shared_ptr<AV::Font::Glyph> > textGlyphs;

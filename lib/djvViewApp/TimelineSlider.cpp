@@ -49,7 +49,7 @@ namespace djv
             bool cacheEnabled = false;
             Frame::Sequence cacheSequence;
             Frame::Sequence cachedFrames;
-            AV::Font::Info fontInfo;
+            AV::Font::FontInfo fontInfo;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
             std::string currentFrameText;

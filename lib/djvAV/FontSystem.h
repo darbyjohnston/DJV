@@ -28,19 +28,19 @@ namespace djv
             const std::string familyMono    = "Noto Mono";
 
             //! This class provides font information.
-            class Info
+            class FontInfo
             {
             public:
-                Info();
-                Info(FamilyID, FaceID, uint16_t size, uint16_t DPI);
+                FontInfo();
+                FontInfo(FamilyID, FaceID, uint16_t size, uint16_t DPI);
 
                 FamilyID getFamily() const;
                 FaceID   getFace() const;
                 uint16_t getSize() const;
                 uint16_t getDPI() const;
 
-                bool operator == (const Info &) const;
-                bool operator < (const Info&) const;
+                bool operator == (const FontInfo&) const;
+                bool operator < (const FontInfo&) const;
                 
             private:
                 FamilyID _family = 1;
@@ -66,10 +66,10 @@ namespace djv
             {
             public:
                 GlyphInfo();
-                GlyphInfo(uint32_t code, const Info &);
+                GlyphInfo(uint32_t code, const FontInfo&);
 
                 uint32_t code = 0;
-                Info     info;
+                FontInfo fontInfo;
 
                 bool operator == (const GlyphInfo&) const;
                 bool operator < (const GlyphInfo&) const;
@@ -86,7 +86,7 @@ namespace djv
             public:
                 static std::shared_ptr<Glyph> create();
 
-                GlyphInfo                    info;
+                GlyphInfo                    glyphInfo;
                 std::shared_ptr<Image::Data> imageData;
                 glm::vec2                    offset    = glm::vec2(0.F, 0.F);
                 uint16_t                     advance   = 0;
@@ -141,31 +141,31 @@ namespace djv
                 std::shared_ptr<Core::IMapSubject<FamilyID, std::map<FaceID, std::string> > > observeFontFaces() const;
 
                 //! Get font metrics.
-                std::future<Metrics> getMetrics(const Info &);
+                std::future<Metrics> getMetrics(const FontInfo&);
 
                 //! Measure the size of text.
                 std::future<glm::vec2> measure(
                     const std::string& text,
-                    const Info&        info);
+                    const FontInfo&    fontInfo);
 
                 //! Measure glyphs.
                 std::future<std::vector<Core::BBox2f> > measureGlyphs(
                     const std::string& text,
-                    const Info&        info);
+                    const FontInfo&    fontInfo);
 
                 //! Get font glyphs.
                 std::future<std::vector<std::shared_ptr<Glyph> > > getGlyphs(
                     const std::string& text,
-                    const Info&        info);
+                    const FontInfo&    fontInfo);
 
                 //! Break text into lines for wrapping.
                 std::future<std::vector<TextLine> > textLines(
                     const std::string& text,
                     uint16_t           maxLineWidth,
-                    const Info&        info);
+                    const FontInfo&    fontInfo);
 
                 //! Request font glyphs to be cached.
-                void cacheGlyphs(const std::string& text, const Info&);
+                void cacheGlyphs(const std::string& text, const FontInfo&);
 
                 //! Get the glyph cache size.
                 size_t getGlyphCacheSize() const;
