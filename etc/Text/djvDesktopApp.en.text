@@ -1,5 +1,5 @@
 {
-    "cli_option_init_settings": "cli_option_init_settings",
-    "cli_option_init_settings_description": "cli_option_init_settings_description",
-    "cli_ui_options": "cli_ui_options"
+    "cli_option_init_settings": "-init_settings",
+    "cli_option_init_settings_description": "Initialize all settings to default values.",
+    "cli_ui_options": "UI Options"
 }
