@@ -42,8 +42,10 @@ namespace djv
             void setWindowPos(const glm::ivec2&);
             void setWindowSize(const glm::ivec2&);
 
-            std::shared_ptr<Core::IValueSubject<int> > observeFullscreenMonitor() const;
-            void setFullscreenMonitor(int);
+            std::shared_ptr<Core::IValueSubject<bool> > observeFullScreen() const;
+            std::shared_ptr<Core::IValueSubject<int> > observeFullScreenMonitor() const;
+            void setFullScreen(bool);
+            void setFullScreenMonitor(int);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeFloatOnTop() const;
             void setFloatOnTop(bool);

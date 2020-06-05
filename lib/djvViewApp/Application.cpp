@@ -253,7 +253,7 @@ namespace djv
             {
                 auto settingsSystem = getSystemT<UI::Settings::System>();
                 auto windowSettings = settingsSystem->getSettingsT<WindowSettings>();
-                windowSettings->setFullscreenMonitor(*(p.fullScreenMonitorCmdLine));
+                windowSettings->setFullScreenMonitor(*(p.fullScreenMonitorCmdLine));
             }
             if (p.fullScreenCmdLine && windowSystem)
             {

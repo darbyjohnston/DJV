@@ -32,7 +32,8 @@ namespace djv
             std::shared_ptr<ValueSubject<bool> > restoreSize;
             glm::ivec2 windowPos = glm::ivec2(0, 0);
             glm::ivec2 windowSize = windowSizeDefault;
-            std::shared_ptr<ValueSubject<int> > fullscreenMonitor;
+            std::shared_ptr<ValueSubject<bool> > fullScreen;
+            std::shared_ptr<ValueSubject<int> > fullScreenMonitor;
             std::shared_ptr<ValueSubject<bool> > floatOnTop;
             std::shared_ptr<ValueSubject<bool> > maximize;
             std::shared_ptr<ValueSubject<bool> > autoHide;
@@ -48,7 +49,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.restorePos = ValueSubject<bool>::create(false);
             p.restoreSize = ValueSubject<bool>::create(true);
-            p.fullscreenMonitor = ValueSubject<int>::create(0);
+            p.fullScreen = ValueSubject<bool>::create(false);
+            p.fullScreenMonitor = ValueSubject<int>::create(0);
             p.floatOnTop = ValueSubject<bool>::create(false);
             p.maximize = ValueSubject<bool>::create(true);
             p.autoHide = ValueSubject<bool>::create(true);
@@ -120,14 +122,24 @@ namespace djv
             _p->windowSize = value;
         }
 
-        std::shared_ptr<IValueSubject<int> > WindowSettings::observeFullscreenMonitor() const
+        std::shared_ptr<IValueSubject<bool> > WindowSettings::observeFullScreen() const
         {
-            return _p->fullscreenMonitor;
+            return _p->fullScreen;
         }
 
-        void WindowSettings::setFullscreenMonitor(int value)
+        std::shared_ptr<IValueSubject<int> > WindowSettings::observeFullScreenMonitor() const
         {
-            _p->fullscreenMonitor->setIfChanged(value);
+            return _p->fullScreenMonitor;
+        }
+
+        void WindowSettings::setFullScreen(bool value)
+        {
+            _p->fullScreen->setIfChanged(value);
+        }
+
+        void WindowSettings::setFullScreenMonitor(int value)
+        {
+            _p->fullScreenMonitor->setIfChanged(value);
         }
 
         std::shared_ptr<IValueSubject<bool> > WindowSettings::observeFloatOnTop() const
@@ -200,7 +212,8 @@ namespace djv
                 UI::Settings::read("RestoreSize", object, p.restoreSize);
                 UI::Settings::read("WindowPos", object, p.windowPos);
                 UI::Settings::read("WindowSize", object, p.windowSize);
-                UI::Settings::read("FullscreenMonitor", object, p.fullscreenMonitor);
+                UI::Settings::read("FullScreen", object, p.fullScreen);
+                UI::Settings::read("FullScreenMonitor", object, p.fullScreenMonitor);
                 UI::Settings::read("FloatOnTop", object, p.floatOnTop);
                 UI::Settings::read("Maximize", object, p.maximize);
                 UI::Settings::read("AutoHide", object, p.autoHide);
@@ -219,7 +232,8 @@ namespace djv
             UI::Settings::write("RestoreSize", p.restoreSize->get(), object);
             UI::Settings::write("WindowPos", p.windowPos, object);
             UI::Settings::write("WindowSize", p.windowSize, object);
-            UI::Settings::write("FullscreenMonitor", p.fullscreenMonitor->get(), object);
+            UI::Settings::write("FullScreen", p.fullScreen->get(), object);
+            UI::Settings::write("FullScreenMonitor", p.fullScreenMonitor->get(), object);
             UI::Settings::write("FloatOnTop", p.floatOnTop->get(), object);
             UI::Settings::write("Maximize", p.maximize->get(), object);
             UI::Settings::write("AutoHide", p.autoHide->get(), object);

@@ -283,6 +283,8 @@ namespace djv
             p.escapeActionObserver = ValueObserver<bool>::create(
                 p.actions["Escape"]->observeClicked(),
                 [contextWeak](bool value)
+            {
+                if (value)
                 {
                     if (auto context = contextWeak.lock())
                     {
@@ -294,7 +296,8 @@ namespace djv
                             }
                         }
                     }
-                });
+                }
+            });
 
             if (toolSystem)
             {

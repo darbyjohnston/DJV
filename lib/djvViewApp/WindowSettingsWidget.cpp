@@ -190,7 +190,7 @@ namespace djv
                         auto settingsSystem = context->getSystemT<UI::Settings::System>();
                         if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
                         {
-                            windowSettings->setFullscreenMonitor(value);
+                            windowSettings->setFullScreenMonitor(value);
                         }
                     }
                 }
@@ -216,7 +216,7 @@ namespace djv
             if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
             {
                 p.monitorObserver = ValueObserver<int>::create(
-                    windowSettings->observeFullscreenMonitor(),
+                    windowSettings->observeFullScreenMonitor(),
                     [weak](int value)
                 {
                     if (auto widget = weak.lock())

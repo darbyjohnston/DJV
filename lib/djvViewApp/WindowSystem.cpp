@@ -70,6 +70,7 @@ namespace djv
             BBox2i windowGeom = BBox2i(0, 0, 0, 0);
             
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
+            std::shared_ptr<ValueObserver<bool> > fullScreenObserver;
             std::shared_ptr<ValueObserver<bool> > floatOnTopObserver;
             std::shared_ptr<ValueObserver<bool> > maximizeObserver;
             std::shared_ptr<ValueObserver<Event::PointerInfo> > pointerObserver;
@@ -160,10 +161,39 @@ namespace djv
             _textUpdate();
 
             auto weak = std::weak_ptr<WindowSystem>(std::dynamic_pointer_cast<WindowSystem>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<Context>(context);
+            p.fullScreenObserver = ValueObserver<bool>::create(
+                p.settings->observeFullScreen(),
+                [weak](bool value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->setFullScreen(value);
+                }
+            });
+
+            p.floatOnTopObserver = ValueObserver<bool>::create(
+                p.settings->observeFloatOnTop(),
+                [weak](bool value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->setFloatOnTop(value);
+                }
+            });
+
+            p.maximizeObserver = ValueObserver<bool>::create(
+                p.settings->observeMaximize(),
+                [weak](bool value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->setMaximize(value);
+                }
+            });
+
             p.actionObservers["FullScreen"] = ValueObserver<bool>::create(
                 p.actions["FullScreen"]->observeChecked(),
-                [weak, contextWeak](bool value)
+                [weak](bool value)
                 {
                     if (auto system = weak.lock())
                     {
@@ -238,6 +268,7 @@ namespace djv
                     }
                 });
 
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.actionObservers["AutoHide"] = ValueObserver<bool>::create(
                 p.actions["AutoHide"]->observeChecked(),
                 [weak, contextWeak](bool value)
@@ -250,26 +281,6 @@ namespace djv
                         }
                     }
                 });
-
-            p.floatOnTopObserver = ValueObserver<bool>::create(
-                p.settings->observeFloatOnTop(),
-                [weak](bool value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->setFloatOnTop(value);
-                }
-            });
-
-            p.maximizeObserver = ValueObserver<bool>::create(
-                p.settings->observeMaximize(),
-                [weak](bool value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->setMaximize(value);
-                }
-            });
 
             auto eventSystem = context->getSystemT<Event::IEventSystem>();
             p.pointerObserver = ValueObserver<Event::PointerInfo>::create(
@@ -338,12 +349,15 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto glfwWindow = p.avGLFWSystem->getGLFWWindow();
-            glm::ivec2 pos(0.F, 0.F);
-            glfwGetWindowPos(glfwWindow, &pos.x, &pos.y);
-            p.settings->setWindowPos(pos);
-            glm::ivec2 size(0.F, 0.F);
-            glfwGetWindowSize(glfwWindow, &size.x, &size.y);
-            p.settings->setWindowSize(size);
+            if (!p.fullScreen->get())
+            {
+                glm::ivec2 pos(0.F, 0.F);
+                glfwGetWindowPos(glfwWindow, &pos.x, &pos.y);
+                p.settings->setWindowPos(pos);
+                glm::ivec2 size(0.F, 0.F);
+                glfwGetWindowSize(glfwWindow, &size.x, &size.y);
+                p.settings->setWindowSize(size);
+            }
         }
 
         std::shared_ptr<WindowSystem> WindowSystem::create(const std::shared_ptr<Context>& context)
@@ -394,6 +408,7 @@ namespace djv
             if (p.fullScreen->setIfChanged(value))
             {
                 p.setFullScreen(value);
+                p.settings->setFullScreen(value);
                 _actionsUpdate();
             }
         }
@@ -544,7 +559,7 @@ namespace djv
             auto glfwMonitor = glfwGetWindowMonitor(glfwWindow);
             if (value && glfwWindow && !glfwMonitor)
             {
-                int monitor = settings->observeFullscreenMonitor()->get();
+                int monitor = settings->observeFullScreenMonitor()->get();
                 int monitorsCount = 0;
                 GLFWmonitor** monitors = glfwGetMonitors(&monitorsCount);
                 if (monitor >= 0 && monitor < monitorsCount)
