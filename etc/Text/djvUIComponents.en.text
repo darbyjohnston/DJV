@@ -122,10 +122,10 @@
     "settings_render2d_section_image": "Image",
     "settings_render_2d_section_text": "Text",
     "settings_render_2d_text_lcd_rendering": "Enable LCD text rendering",
-    "settings_style_size": "Size",
-    "settings_style_palette": "Palette",
     "settings_style_brightness": "Brightness",
     "settings_style_contrast": "Contrast",
+    "settings_style_palette": "Palette",
+    "settings_style_size": "Size",
     "settings_title_general": "General",
     "settings_title_glfw": "GLFW",
     "settings_title_io": "I/O"
