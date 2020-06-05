@@ -1,8 +1,8 @@
 {
     "error_cannot_parse_the_value": "値を解析できません。",
-    "error_file_open": "ファイルを開けません。",
-    "error_file_read": "ファイルを読み取れません。",
-    "error_file_write": "ファイルに書き込めません。",
+    "error_file_open": "ファイルを開けません",
+    "error_file_read": "ファイルを読み込めません",
+    "error_file_write": "ファイルを書き込めません",
     "obj_plugin_description": "このプラグインは、OBJファイルI / Oを提供します。",
     "opennurbs_plugin_description": "このプラグインは、OpenNURBSファイルI / Oを提供します。"
 }
