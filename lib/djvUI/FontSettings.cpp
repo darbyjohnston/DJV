@@ -53,7 +53,7 @@ namespace djv
                 return out;
             }
 
-            const std::shared_ptr<MapSubject<std::string, std::string> > & Font::observeLocaleFonts() const
+            const std::shared_ptr<MapSubject<std::string, std::string> >& Font::observeLocaleFonts() const
             {
                 return _p->localeFonts;
             }

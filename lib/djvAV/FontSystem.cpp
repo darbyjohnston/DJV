@@ -106,28 +106,6 @@ namespace djv
                     return '\n' == c || '\r' == c;
                 }
 
-                /*#undef FTERRORS_H_
-                #define FT_ERRORDEF( e, v, s )  { e, s },
-                #define FT_ERROR_START_LIST     {
-                #define FT_ERROR_END_LIST       { 0, NULL } };
-                            const struct
-                            {
-                                int          code;
-                                const char * message;
-                            } ftErrors[] =
-                #include FT_ERRORS_H
-                            std::string getFTError(FT_Error code)
-                            {
-                                for (auto i : ftErrors)
-                                {
-                                    if (code == i.code)
-                                    {
-                                        return i.message;
-                                    }
-                                }
-                                return std::string();
-                            }*/
-
             } // namespace
 
             std::shared_ptr<Glyph> Glyph::create()
@@ -153,6 +131,7 @@ namespace djv
                 std::map<FamilyID, std::map<FaceID, FT_Face> > fontFaces;
                 std::map<std::string, FamilyID> fontNameToID;
                 std::map<std::pair<FamilyID, std::string>, FamilyID> fontFaceNameToID;
+                std::vector< std::pair<FamilyID, FaceID> > symbolFonts;
 
                 std::list<MetricsRequest> metricsQueue;
                 std::list<MeasureRequest> measureQueue;
@@ -176,12 +155,15 @@ namespace djv
                 std::thread thread;
                 std::atomic<bool> running;
 
-                bool getText(const std::string&, const FontInfo&, std::basic_string<djv_char_t>&, FT_Face&, std::string& error);
-                std::shared_ptr<Glyph> getGlyph(const GlyphInfo &);
+                std::vector<FontInfo> getFontInfoList(const FontInfo&) const;
+
+                FT_Face getFace(FamilyID, FaceID) const;
+
+                std::shared_ptr<Glyph> getGlyph(uint32_t, const std::vector<FontInfo>&);
+                
                 void measure(
                     const std::basic_string<djv_char_t>& utf32,
-                    const FontInfo&,
-                    FT_Face,
+                    const std::vector<FontInfo>&,
                     uint16_t maxLineWidth,
                     glm::vec2&,
                     std::vector<BBox2f>* = nullptr);
@@ -494,8 +476,17 @@ namespace djv
                             }
 
                             p.fontFileNames[familyID] = fileName;
-                            p.fontNames[familyID] = ftFace->family_name;
-                            p.fontFaceNames[familyID][faceID] = ftFace->style_name;
+                            //! \bug Probably not the best way to do this...
+                            if (String::match(ftFace->family_name, "Symbols"))
+                            {
+                                p.symbolFonts.push_back(std::make_pair(familyID, faceID));
+                            }
+                            else
+                            {
+                                std::unique_lock<std::mutex> lock(p.fontNamesMutex);
+                                p.fontNames[familyID] = ftFace->family_name;
+                                p.fontFaceNames[familyID][faceID] = ftFace->style_name;
+                            }
                             p.fontFaces[familyID][faceID] = ftFace;
                         }
                     }
@@ -532,28 +523,23 @@ namespace djv
                 for (auto & request : p.metricsRequests)
                 {
                     Metrics metrics;
-                    const auto family = p.fontFaces.find(request.fontInfo.getFamily());
-                    if (family != p.fontFaces.end())
+                    if (auto ftFace = p.getFace(request.fontInfo.getFamily(), request.fontInfo.getFace()))
                     {
-                        const auto font = family->second.find(request.fontInfo.getFace());
-                        if (font != family->second.end())
+                        /*FT_Error ftError = FT_Set_Char_Size(
+                            ftFace->second,
+                            0,
+                            static_cast<int>(fontInfo.getSize() * 64.F),
+                            request.fontInfo.getDPI(),
+                            request.fontInfo.getDPI());*/
+                        FT_Error ftError = FT_Set_Pixel_Sizes(
+                            ftFace,
+                            0,
+                            static_cast<int>(request.fontInfo.getSize()));
+                        if (!ftError)
                         {
-                            /*FT_Error ftError = FT_Set_Char_Size(
-                                font->second,
-                                0,
-                                static_cast<int>(request.fontInfo.getSize() * 64.F),
-                                request.fontInfo.getDPI(),
-                                request.fontInfo.getDPI());*/
-                            FT_Error ftError = FT_Set_Pixel_Sizes(
-                                font->second,
-                                0,
-                                static_cast<int>(request.fontInfo.getSize()));
-                            if (!ftError)
-                            {
-                                metrics.ascender   = font->second->size->metrics.ascender  / 64.F;
-                                metrics.descender  = font->second->size->metrics.descender / 64.F;
-                                metrics.lineHeight = font->second->size->metrics.height    / 64.F;
-                            }
+                            metrics.ascender = ftFace->size->metrics.ascender / 64.F;
+                            metrics.descender = ftFace->size->metrics.descender / 64.F;
+                            metrics.lineHeight = ftFace->size->metrics.height / 64.F;
                         }
                     }
                     request.promise.set_value(std::move(metrics));
@@ -566,18 +552,16 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 for (auto& request : p.measureRequests)
                 {
-                    std::basic_string<djv_char_t> utf32;
-                    FT_Face font;
-                    std::string error;
                     glm::vec2 size = glm::vec2(0.F, 0.F);
-                    if (p.getText(request.text, request.fontInfo, utf32, font, error))
+                    try
                     {
-                        p.measure(utf32, request.fontInfo, font, request.maxLineWidth, size);
+                        auto utf32 = p.utf32Convert.from_bytes(request.text);
+                        p.measure(utf32, p.getFontInfoList(request.fontInfo), request.maxLineWidth, size);
                     }
-                    else
+                    catch (const std::exception& e)
                     {
                         std::stringstream ss;
-                        ss << "Error converting string" << " '" << request.text << "': " << error;
+                        ss << "Error converting string" << " '" << request.text << "': " << e.what();
                         _log(ss.str(), LogLevel::Error);
                     }
                     request.promise.set_value(size);
@@ -590,19 +574,17 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 for (auto& request : p.measureGlyphsRequests)
                 {
-                    std::basic_string<djv_char_t> utf32;
-                    FT_Face font;
-                    std::string error;
                     glm::vec2 size = glm::vec2(0.F, 0.F);
                     std::vector<BBox2f> glyphGeom;
-                    if (p.getText(request.text, request.fontInfo, utf32, font, error))
+                    try
                     {
-                        p.measure(utf32, request.fontInfo, font, request.maxLineWidth, size, &glyphGeom);
+                        auto utf32 = p.utf32Convert.from_bytes(request.text);
+                        p.measure(utf32, p.getFontInfoList(request.fontInfo), request.maxLineWidth, size, &glyphGeom);
                     }
-                    else
+                    catch (const std::exception& e)
                     {
                         std::stringstream ss;
-                        ss << "Error converting string" << " '" << request.text << "': " << error;
+                        ss << "Error converting string" << " '" << request.text << "': " << e.what();
                         _log(ss.str(), LogLevel::Error);
                     }
                     request.promise.set_value(glyphGeom);
@@ -627,11 +609,12 @@ namespace djv
                         _log(ss.str(), LogLevel::Error);
                     }
                     const size_t size = utf32.size();
+                    const auto fontInfoList = p.getFontInfoList(request.fontInfo);
                     if (request.cacheOnly)
                     {
                         for (size_t i = 0; i < size; ++i)
                         {
-                            p.getGlyph(GlyphInfo(utf32[i], request.fontInfo));
+                            p.getGlyph(utf32[i], fontInfoList);
                         }
                     }
                     else
@@ -639,7 +622,7 @@ namespace djv
                         std::vector<std::shared_ptr<Glyph> > glyphs(size);
                         for (size_t i = 0; i < size; ++i)
                         {
-                            glyphs[i] = p.getGlyph(GlyphInfo(utf32[i], request.fontInfo));
+                            glyphs[i] = p.getGlyph(utf32[i], fontInfoList);
                         }
                         request.promise.set_value(std::move(glyphs));
                     }
@@ -650,46 +633,53 @@ namespace djv
             void System::_handleTextLinesRequests()
             {
                 DJV_PRIVATE_PTR();
+
+                // Input:
+                //   Speckled Dace are capable of |living in an array of habitats
+                //                                ^
+                //                                max width
+                //
+                // Processing:
+                //   Speckled Dace are capable of |living in an array of habitats
+                //   ^                           ^^
+                //   line begin        line break  i
+                //
+                // Output:
+                //   "Speckled Dace are capable of"
+                //   "living in an array of"
+                //   "habitats"
+
                 for (auto& request : p.textLinesRequests)
                 {
-                    // Input:
-                    //   Speckled Dace are capable of |living in an array of habitats
-                    //                                ^
-                    //                                max width
-                    //
-                    // Processing:
-                    //   Speckled Dace are capable of |living in an array of habitats
-                    //   ^                           ^^
-                    //   line begin        line break  i
-                    //
-                    // Output:
-                    //   "Speckled Dace are capable of"
-                    //   "living in an array of"
-                    //   "habitats"
-
-                    std::basic_string<djv_char_t> utf32;
-                    FT_Face font;
-                    std::string error;
                     std::vector<TextLine> lines;
-                    if (p.getText(request.text, request.fontInfo, utf32, font, error))
+                    if (FT_Face ftFace = p.getFace(request.fontInfo.getFamily(), request.fontInfo.getFace()))
                     {
                         // Get the glyphs.
-                        std::vector<std::shared_ptr<Glyph> > glyphs(utf32.size());
-                        const auto utf32Begin = utf32.begin();
-                        auto i = utf32Begin;
-                        for (; i != utf32.end(); ++i)
+                        std::basic_string<djv_char_t> utf32;
+                        try
                         {
-                            const auto info = GlyphInfo(*i, request.fontInfo);
-                            auto glyph = p.getGlyph(info);
-                            glyphs[i - utf32Begin] = glyph;
+                            utf32 = p.utf32Convert.from_bytes(request.text);
+                        }
+                        catch (const std::exception& e)
+                        {
+                            std::stringstream ss;
+                            ss << "Error converting string" << " '" << request.text << "': " << e.what();
+                            _log(ss.str(), LogLevel::Error);
+                        }
+                        const auto utf32Begin = utf32.begin();
+                        std::vector<std::shared_ptr<Glyph> > glyphs(utf32.size());
+                        const auto fontInfoList = p.getFontInfoList(request.fontInfo);
+                        for (auto i = utf32Begin; i != utf32.end(); ++i)
+                        {
+                            glyphs[i - utf32Begin] = p.getGlyph(*i, fontInfoList);
                         }
 
-                        glm::vec2 pos = glm::vec2(0.F, font->size->metrics.height / 64.F);
-                        auto lineBegin = utf32Begin;
+                        glm::vec2 pos = glm::vec2(0.F, ftFace->size->metrics.height / 64.F);
+                        auto lineBegin = utf32.begin();
                         auto lineBreak = utf32.end();
                         float lineBreakPos = 0.F;
                         int32_t rsbDeltaPrev = 0;
-                        i = utf32Begin;
+                        auto i = utf32.begin();
                         for (; i != utf32.end(); ++i)
                         {
                             // Get the current glyph's advance.
@@ -721,18 +711,18 @@ namespace djv
                                     const size_t size = i - lineBegin;
                                     TextLine line;
                                     line.text = p.utf32Convert.to_bytes(utf32.substr(offset, size));
-                                    line.size = glm::vec2(pos.x, font->size->metrics.height / 64.F);
+                                    line.size = glm::vec2(pos.x, ftFace->size->metrics.height / 64.F);
                                     line.glyphs = std::vector<std::shared_ptr<Glyph> >(glyphs.begin() + offset, glyphs.begin() + offset + size);
                                     lines.push_back(line);
                                 }
-                                catch (const std::exception & e)
+                                catch (const std::exception& e)
                                 {
                                     std::stringstream ss;
                                     ss << "Error converting string" << " '" << request.text << "': " << e.what();
                                     _log(ss.str(), LogLevel::Error);
                                 }
                                 pos.x = 0.F;
-                                pos.y += font->size->metrics.height / 64.F;
+                                pos.y += ftFace->size->metrics.height / 64.F;
                                 lineBegin = i;
                                 lineBreak = utf32.end();
                                 rsbDeltaPrev = 0;
@@ -750,18 +740,18 @@ namespace djv
                                         const size_t size = i - lineBegin;
                                         TextLine line;
                                         line.text = p.utf32Convert.to_bytes(utf32.substr(offset, size));
-                                        line.size = glm::vec2(lineBreakPos, font->size->metrics.height / 64.F);
+                                        line.size = glm::vec2(lineBreakPos, ftFace->size->metrics.height / 64.F);
                                         line.glyphs = std::vector<std::shared_ptr<Glyph> >(glyphs.begin() + offset, glyphs.begin() + offset + size);
                                         lines.push_back(line);
                                     }
-                                    catch (const std::exception & e)
+                                    catch (const std::exception& e)
                                     {
                                         std::stringstream ss;
                                         ss << "Error converting string" << " '" << request.text << "': " << e.what();
                                         _log(ss.str(), LogLevel::Error);
                                     }
                                     pos.x = 0.F;
-                                    pos.y += font->size->metrics.height / 64.F;
+                                    pos.y += ftFace->size->metrics.height / 64.F;
                                     lineBegin = i + 1;
                                 }
                                 else
@@ -773,18 +763,18 @@ namespace djv
                                         const size_t size = i - lineBegin;
                                         TextLine line;
                                         line.text = p.utf32Convert.to_bytes(utf32.substr(offset, size));
-                                        line.size = glm::vec2(pos.x, font->size->metrics.height / 64.F);
+                                        line.size = glm::vec2(pos.x, ftFace->size->metrics.height / 64.F);
                                         line.glyphs = std::vector<std::shared_ptr<Glyph> >(glyphs.begin() + offset, glyphs.begin() + offset + size);
                                         lines.push_back(line);
                                     }
-                                    catch (const std::exception & e)
+                                    catch (const std::exception& e)
                                     {
                                         std::stringstream ss;
                                         ss << "Error converting string" << " '" << request.text << "': " << e.what();
                                         _log(ss.str(), LogLevel::Error);
                                     }
                                     pos.x = advance;
-                                    pos.y += font->size->metrics.height / 64.F;
+                                    pos.y += ftFace->size->metrics.height / 64.F;
                                     lineBegin = i;
                                     lineBreak = utf32.end();
                                 }
@@ -810,11 +800,11 @@ namespace djv
                                 const size_t size = i - lineBegin;
                                 TextLine textLine;
                                 textLine.text = p.utf32Convert.to_bytes(utf32.substr(offset, size));
-                                textLine.size = glm::vec2(pos.x, font->size->metrics.height / 64.F);
+                                textLine.size = glm::vec2(pos.x, ftFace->size->metrics.height / 64.F);
                                 textLine.glyphs = std::vector<std::shared_ptr<Glyph> >(glyphs.begin() + offset, glyphs.begin() + offset + size);
                                 lines.push_back(textLine);
                             }
-                            catch (const std::exception & e)
+                            catch (const std::exception& e)
                             {
                                 std::stringstream ss;
                                 ss << "Error converting string" << " '" << request.text << "': " << e.what();
@@ -822,152 +812,127 @@ namespace djv
                             }
                         }
                     }
-                    else
-                    {
-                        std::stringstream ss;
-                        ss << "Error converting string" << " '" << request.text << "': " << error;
-                        _log(ss.str(), LogLevel::Error);
-                    }
                     request.promise.set_value(lines);
                 }
                 p.textLinesRequests.clear();
             }
 
-            bool System::Private::getText(
-                const std::string& value,
-                const FontInfo& fontInfo,
-                std::basic_string<djv_char_t>& utf32,
-                FT_Face& font,
-                std::string& error)
+            std::vector<FontInfo> System::Private::getFontInfoList(const FontInfo& fontInfo) const
             {
-                bool out = false;
-                const auto family = fontFaces.find(fontInfo.getFamily());
-                if (family != fontFaces.end())
+                std::vector<FontInfo> out;
+                out.push_back(fontInfo);
+                for (const auto& i : symbolFonts)
                 {
-                    auto i = family->second.find(fontInfo.getFace());
-                    if (i != family->second.end())
+                    out.push_back(FontInfo(i.first, i.second, fontInfo.getSize(), fontInfo.getDPI()));
+                }
+                return out;
+            }
+
+            FT_Face System::Private::getFace(FamilyID family, FaceID face) const
+            {
+                FT_Face out = nullptr;
+                const auto i = fontFaces.find(family);
+                if (i != fontFaces.end())
+                {
+                    const auto j = i->second.find(face);
+                    if (j != i->second.end())
                     {
-                        /*FT_Error ftError = FT_Set_Char_Size(
-                            i->second,
-                            0,
-                            static_cast<int>(fontInfo.getSize() * 64.f),
-                            fontInfo.getDPI(),
-                            fontInfo.getDPI());*/
-                        FT_Error ftError = FT_Set_Pixel_Sizes(
-                            i->second,
-                            0,
-                            static_cast<int>(fontInfo.getSize()));
-                        if (!ftError)
-                        {
-                            try
-                            {
-                                utf32 = utf32Convert.from_bytes(value);
-                                font = i->second;
-                                out = true;
-                            }
-                            catch (const std::exception & e)
-                            {
-                                error = e.what();
-                            }
-                        }
+                        out = j->second;
                     }
                 }
                 return out;
             }
 
-            std::shared_ptr<Glyph> System::Private::getGlyph(const GlyphInfo& glyphInfo)
+            std::shared_ptr<Glyph> System::Private::getGlyph(uint32_t code, const std::vector<FontInfo>& fontInfoList)
             {
                 std::shared_ptr<Glyph> out;
-                FT_Face ftFace = nullptr;
-                if (!glyphCache.get(glyphInfo, out))
+                for (const auto& fontInfo : fontInfoList)
                 {
-                    out = Glyph::create();
-                    out->glyphInfo = glyphInfo;
-                    if (glyphInfo.fontInfo.getFamily() != 0 || glyphInfo.fontInfo.getFace() != 0)
+                    if (glyphCache.get(GlyphInfo(code, fontInfo), out))
                     {
-                        const auto i = fontFaces.find(glyphInfo.fontInfo.getFamily());
-                        if (i != fontFaces.end())
-                        {
-                            const auto j = i->second.find(glyphInfo.fontInfo.getFace());
-                            if (j != i->second.end())
-                            {
-                                ftFace = j->second;
-                            }
-                        }
+                        break;
                     }
-                    if (ftFace)
+                    else
                     {
-                        FT_Error ftError = FT_Set_Pixel_Sizes(
-                            ftFace,
-                            0,
-                            static_cast<int>(glyphInfo.fontInfo.getSize()));
-                        if (ftError)
+                        if (auto ftFace = getFace(fontInfo.getFamily(), fontInfo.getFace()))
                         {
-                            //std::cout << "FT_Set_Char_Size error: " << getFTError(ftError) << std::endl;
-                            return nullptr;
-                        }
+                            if (auto ftGlyphIndex = FT_Get_Char_Index(ftFace, code))
+                            {
+                                FT_Error ftError = FT_Set_Pixel_Sizes(
+                                    ftFace,
+                                    0,
+                                    static_cast<int>(fontInfo.getSize()));
+                                if (ftError)
+                                {
+                                    //std::cout << "FT_Set_Char_Size error: " << getFTError(ftError) << std::endl;
+                                    return nullptr;
+                                }
 
-                        if (auto ftGlyphIndex = FT_Get_Char_Index(ftFace, glyphInfo.code))
-                        {
-                            ftError = FT_Load_Glyph(ftFace, ftGlyphIndex, FT_LOAD_FORCE_AUTOHINT);
-                            if (ftError)
-                            {
-                                //std::cout << "FT_Load_Glyph error: " << getFTError(ftError) << std::endl;
-                                return nullptr;
-                            }
-                            FT_Render_Mode renderMode = FT_RENDER_MODE_NORMAL;
-                            uint8_t renderModeChannels = 1;
-                            if (lcdHinting)
-                            {
-                                renderMode = FT_RENDER_MODE_LCD;
-                                renderModeChannels = 3;
-                            }
-                            ftError = FT_Render_Glyph(ftFace->glyph, renderMode);
-                            if (ftError)
-                            {
-                                //std::cout << "FT_Render_Glyph error: " << getFTError(ftError) << std::endl;
-                                return nullptr;
-                            }
-                            FT_Glyph ftGlyph;
-                            ftError = FT_Get_Glyph(ftFace->glyph, &ftGlyph);
-                            if (ftError)
-                            {
-                                //std::cout << "FT_Get_Glyph error: " << getFTError(ftError) << std::endl;
-                                return nullptr;
-                            }
-                            FT_Vector v;
-                            v.x = 0;
-                            v.y = 0;
-                            ftError = FT_Glyph_To_Bitmap(&ftGlyph, renderMode, &v, 0);
-                            if (ftError)
-                            {
-                                //std::cout << "FT_Glyph_To_Bitmap error: " << getFTError(ftError) << std::endl;
+                                ftError = FT_Load_Glyph(ftFace, ftGlyphIndex, FT_LOAD_FORCE_AUTOHINT);
+                                if (ftError)
+                                {
+                                    //std::cout << "FT_Load_Glyph error: " << getFTError(ftError) << std::endl;
+                                    return nullptr;
+                                }
+                                FT_Render_Mode renderMode = FT_RENDER_MODE_NORMAL;
+                                uint8_t renderModeChannels = 1;
+                                if (lcdHinting)
+                                {
+                                    renderMode = FT_RENDER_MODE_LCD;
+                                    renderModeChannels = 3;
+                                }
+                                ftError = FT_Render_Glyph(ftFace->glyph, renderMode);
+                                if (ftError)
+                                {
+                                    //std::cout << "FT_Render_Glyph error: " << getFTError(ftError) << std::endl;
+                                    return nullptr;
+                                }
+                                FT_Glyph ftGlyph;
+                                ftError = FT_Get_Glyph(ftFace->glyph, &ftGlyph);
+                                if (ftError)
+                                {
+                                    //std::cout << "FT_Get_Glyph error: " << getFTError(ftError) << std::endl;
+                                    return nullptr;
+                                }
+                                FT_Vector v;
+                                v.x = 0;
+                                v.y = 0;
+                                ftError = FT_Glyph_To_Bitmap(&ftGlyph, renderMode, &v, 0);
+                                if (ftError)
+                                {
+                                    //std::cout << "FT_Glyph_To_Bitmap error: " << getFTError(ftError) << std::endl;
+                                    FT_Done_Glyph(ftGlyph);
+                                    return nullptr;
+                                }
+                                FT_BitmapGlyph bitmap = (FT_BitmapGlyph)ftGlyph;
+                                const Image::Info imageInfo = Image::Info(
+                                    bitmap->bitmap.width / static_cast<int>(renderModeChannels),
+                                    bitmap->bitmap.rows,
+                                    Image::getIntType(renderModeChannels, 8));
+                                auto imageData = Image::Data::create(imageInfo);
+                                for (uint16_t y = 0; y < imageInfo.size.h; ++y)
+                                {
+                                    memcpy(
+                                        imageData->getData(y),
+                                        bitmap->bitmap.buffer + static_cast<size_t>(y) * bitmap->bitmap.pitch,
+                                        static_cast<size_t>(imageInfo.size.w) * renderModeChannels);
+                                }
+                                out = Glyph::create();
+                                out->glyphInfo = GlyphInfo(code, fontInfo);
+                                out->imageData = imageData;
+                                out->offset = glm::vec2(ftFace->glyph->bitmap_left, ftFace->glyph->bitmap_top);
+                                out->advance = ftFace->glyph->advance.x / 64.F;
+                                out->lsbDelta = ftFace->glyph->lsb_delta;
+                                out->rsbDelta = ftFace->glyph->rsb_delta;
                                 FT_Done_Glyph(ftGlyph);
-                                return nullptr;
+
+                                glyphCache.add(out->glyphInfo, out);
+                                glyphCacheSize = glyphCache.getSize();
+                                glyphCachePercentageUsed = glyphCache.getPercentageUsed();
+
+                                break;
                             }
-                            FT_BitmapGlyph bitmap = (FT_BitmapGlyph)ftGlyph;
-                            const Image::Info imageInfo = Image::Info(
-                                bitmap->bitmap.width / static_cast<int>(renderModeChannels),
-                                bitmap->bitmap.rows,
-                                Image::getIntType(renderModeChannels, 8));
-                            auto imageData = Image::Data::create(imageInfo);
-                            for (uint16_t y = 0; y < imageInfo.size.h; ++y)
-                            {
-                                memcpy(
-                                    imageData->getData(y),
-                                    bitmap->bitmap.buffer + static_cast<size_t>(y) * bitmap->bitmap.pitch,
-                                    static_cast<size_t>(imageInfo.size.w) * renderModeChannels);
-                            }
-                            out->imageData = imageData;
-                            out->offset = glm::vec2(ftFace->glyph->bitmap_left, ftFace->glyph->bitmap_top);
-                            out->advance = ftFace->glyph->advance.x / 64.F;
-                            out->lsbDelta = ftFace->glyph->lsb_delta;
-                            out->rsbDelta = ftFace->glyph->rsb_delta;
-                            FT_Done_Glyph(ftGlyph);
                         }
-                        glyphCache.add(glyphInfo, out);
-                        glyphCacheSize = glyphCache.getSize();
-                        glyphCachePercentageUsed = glyphCache.getPercentageUsed();
                     }
                 }
                 return out;
@@ -975,83 +940,94 @@ namespace djv
 
             void System::Private::measure(
                 const std::basic_string<djv_char_t>& utf32,
-                const FontInfo& fontInfo,
-                FT_Face font,
+                const std::vector<FontInfo>& fontInfoList,
                 uint16_t maxLineWidth,
                 glm::vec2& size,
                 std::vector<BBox2f>* glyphGeom)
             {
-                glm::vec2 pos(0.F, font->size->metrics.height / 64.F);
-                auto textLine = utf32.end();
-                float textLineX = 0.F;
-                int32_t rsbDeltaPrev = 0;
-                for (auto i = utf32.begin(); i != utf32.end(); ++i)
+                glm::vec2 pos(0.F, 0.F);
+                for (const auto& fontInfo : fontInfoList)
                 {
-                    const auto glyphInfo = GlyphInfo(*i, fontInfo);
-                    const auto glyph = getGlyph(glyphInfo);
+                    if (auto ftFace = getFace(fontInfo.getFamily(), fontInfo.getFace()))
+                    {
+                        auto textLine = utf32.end();
+                        float textLineX = 0.F;
+                        int32_t rsbDeltaPrev = 0;
+                        for (auto i = utf32.begin(); i != utf32.end(); ++i)
+                        {
+                            const auto glyph = getGlyph(*i, fontInfoList);
 
-                    if (glyphGeom)
-                    {
-                        glyphGeom->push_back(BBox2f(
-                            pos.x,
-                            glyph->advance,
-                            glyph->advance,
-                            font->size->metrics.height / 64.F));
-                    }
+                            if (i == utf32.begin())
+                            {
+                                pos.y = ftFace->size->metrics.height / 64.F;
+                            }
 
-                    int32_t x = 0;
-                    glm::vec2 posAndSize(0.F, 0.F);
-                    if (glyph->imageData)
-                    {
-                        x = glyph->advance;
-                        if (rsbDeltaPrev - glyph->lsbDelta > 32)
-                        {
-                            x -= 1;
-                        }
-                        else if (rsbDeltaPrev - glyph->lsbDelta < -31)
-                        {
-                            x += 1;
-                        }
-                        rsbDeltaPrev = glyph->rsbDelta;
-                    }
-                    else
-                    {
-                        rsbDeltaPrev = 0;
-                    }
+                            if (glyph && glyphGeom)
+                            {
+                                glyphGeom->push_back(BBox2f(
+                                    pos.x,
+                                    glyph->advance,
+                                    glyph->advance,
+                                    ftFace->size->metrics.height / 64.F));
+                            }
 
-                    if (isNewline(*i))
-                    {
-                        size.x = std::max(size.x, pos.x);
-                        pos.x = 0.F;
-                        pos.y += font->size->metrics.height / 64.F;
-                        rsbDeltaPrev = 0;
-                    }
-                    else if (pos.x > 0.F && pos.x + (!isSpace(*i) ? x : 0.F) >= maxLineWidth)
-                    {
-                        if (textLine != utf32.end())
-                        {
-                            i = textLine;
-                            textLine = utf32.end();
-                            size.x = std::max(size.x, textLineX);
-                            pos.x = 0.F;
-                            pos.y += font->size->metrics.height / 64.F;
+                            int32_t x = 0;
+                            glm::vec2 posAndSize(0.F, 0.F);
+                            if (glyph && glyph->imageData)
+                            {
+                                x = glyph->advance;
+                                if (rsbDeltaPrev - glyph->lsbDelta > 32)
+                                {
+                                    x -= 1;
+                                }
+                                else if (rsbDeltaPrev - glyph->lsbDelta < -31)
+                                {
+                                    x += 1;
+                                }
+                                rsbDeltaPrev = glyph->rsbDelta;
+                            }
+                            else
+                            {
+                                rsbDeltaPrev = 0;
+                            }
+
+                            if (isNewline(*i))
+                            {
+                                size.x = std::max(size.x, pos.x);
+                                pos.x = 0.F;
+                                pos.y += ftFace->size->metrics.height / 64.F;
+                                rsbDeltaPrev = 0;
+                            }
+                            else if (pos.x > 0.F && pos.x + (!isSpace(*i) ? x : 0.F) >= maxLineWidth)
+                            {
+                                if (textLine != utf32.end())
+                                {
+                                    i = textLine;
+                                    textLine = utf32.end();
+                                    size.x = std::max(size.x, textLineX);
+                                    pos.x = 0.F;
+                                    pos.y += ftFace->size->metrics.height / 64.F;
+                                }
+                                else
+                                {
+                                    size.x = std::max(size.x, pos.x);
+                                    pos.x = x;
+                                    pos.y += ftFace->size->metrics.height / 64.F;
+                                }
+                                rsbDeltaPrev = 0;
+                            }
+                            else
+                            {
+                                if (isSpace(*i) && i != utf32.begin())
+                                {
+                                    textLine = i;
+                                    textLineX = pos.x;
+                                }
+                                pos.x += x;
+                            }
                         }
-                        else
-                        {
-                            size.x = std::max(size.x, pos.x);
-                            pos.x = x;
-                            pos.y += font->size->metrics.height / 64.F;
-                        }
-                        rsbDeltaPrev = 0;
-                    }
-                    else
-                    {
-                        if (isSpace(*i) && i != utf32.begin())
-                        {
-                            textLine = i;
-                            textLineX = pos.x;
-                        }
-                        pos.x += x;
+
+                        break;
                     }
                 }
                 size.x = std::max(size.x, pos.x);

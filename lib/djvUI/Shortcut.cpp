@@ -275,7 +275,7 @@ namespace djv
                 out.push_back(textSystem->getText(getModifierString(GLFW_MOD_SUPER)));
             }
             out.push_back(textSystem->getText(getKeyString(key)));
-            return String::join(out, "+");
+            return String::join(out, " ");
         }
 
     } // namespace UI

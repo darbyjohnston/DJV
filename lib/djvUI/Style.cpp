@@ -5,6 +5,8 @@
 #include <djvUI/Style.h>
 
 #include <djvUI/IconSystem.h>
+#include <djvUI/SettingsSystem.h>
+#include <djvUI/StyleSettings.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/LogSystem.h>
@@ -122,8 +124,60 @@ namespace djv
 
             void Style::_init(const std::shared_ptr<Core::Context>& context)
             {
-                auto fontSystem = context->getSystemT<AV::Font::System>();
+                auto settingsSystem = context->getSystemT<Settings::System>();
+                auto styleSettings = settingsSystem->getSettingsT<Settings::Style>();
                 auto weak = std::weak_ptr<Style>(shared_from_this());
+                _paletteObserver = ValueObserver<UI::Style::Palette>::create(
+                    styleSettings->observeCurrentPalette(),
+                    [weak](const UI::Style::Palette& value)
+                {
+                    if (auto style = weak.lock())
+                    {
+                        style->setPalette(value);
+                    }
+                });
+
+                _brightnessObserver = ValueObserver<float>::create(
+                    styleSettings->observeBrightness(),
+                    [weak](float value)
+                {
+                    if (auto style = weak.lock())
+                    {
+                        style->setBrightness(value);
+                    }
+                });
+
+                _contrastObserver = ValueObserver<float>::create(
+                    styleSettings->observeContrast(),
+                    [weak](float value)
+                {
+                    if (auto style = weak.lock())
+                    {
+                        style->setContrast(value);
+                    }
+                });
+
+                _metricsObserver = ValueObserver<UI::Style::Metrics>::create(
+                    styleSettings->observeCurrentMetrics(),
+                    [weak](const UI::Style::Metrics& value)
+                {
+                    if (auto style = weak.lock())
+                    {
+                        style->setMetrics(value);
+                    }
+                });
+
+                _fontObserver = ValueObserver<std::string>::create(
+                    styleSettings->observeCurrentFont(),
+                    [weak](const std::string& value)
+                {
+                    if (auto style = weak.lock())
+                    {
+                        style->setFont(value);
+                    }
+                });
+
+                auto fontSystem = context->getSystemT<AV::Font::System>();
                 _fontNamesObserver = MapObserver<AV::Font::FamilyID, std::string>::create(
                     fontSystem->observeFontNames(),
                     [weak](const std::map<AV::Font::FamilyID, std::string>& value)

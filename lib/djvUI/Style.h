@@ -12,6 +12,7 @@
 #include <djvCore/BBox.h>
 #include <djvCore/PicoJSON.h>
 #include <djvCore/MapObserver.h>
+#include <djvCore/ValueObserver.h>
 
 #include <glm/vec2.hpp>
 
@@ -124,6 +125,11 @@ namespace djv
                 std::map<std::string, AV::Font::FamilyID> _fontNameToId;
                 std::map<AV::Font::FamilyID, std::map<AV::Font::FaceID, std::string> > _fontFaces;
                 std::map<std::pair<AV::Font::FamilyID, std::string>, AV::Font::FaceID> _fontFaceToId;
+                std::shared_ptr<Core::ValueObserver<UI::Style::Palette> > _paletteObserver;
+                std::shared_ptr<Core::ValueObserver<float> > _brightnessObserver;
+                std::shared_ptr<Core::ValueObserver<float> > _contrastObserver;
+                std::shared_ptr<Core::ValueObserver<UI::Style::Metrics> > _metricsObserver;
+                std::shared_ptr<Core::ValueObserver<std::string> > _fontObserver;
                 std::shared_ptr<Core::MapObserver<AV::Font::FamilyID, std::string> > _fontNamesObserver;
                 std::shared_ptr<Core::MapObserver<AV::Font::FamilyID, std::map<AV::Font::FaceID, std::string> > > _fontFacesObserver;
                 bool _paletteDirty = true;

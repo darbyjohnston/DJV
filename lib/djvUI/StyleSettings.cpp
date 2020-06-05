@@ -120,7 +120,7 @@ namespace djv
                 auto fontSettings = settingsSystem->getSettingsT<Settings::Font>();
                 p.localeFontsObserver = MapObserver<std::string, std::string>::create(
                     fontSettings->observeLocaleFonts(),
-                    [weak](const std::map<std::string, std::string> & value)
+                    [weak](const std::map<std::string, std::string>& value)
                 {
                     if (auto style = weak.lock())
                     {

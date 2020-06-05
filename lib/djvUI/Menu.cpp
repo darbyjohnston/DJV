@@ -145,6 +145,7 @@ namespace djv
             {
                 const auto& style = _getStyle();
                 const float m = style->getMetric(MetricsRole::MarginInside);
+                const float s = style->getMetric(MetricsRole::Spacing);
                 const float b = style->getMetric(MetricsRole::Border);
                 const float is = style->getMetric(MetricsRole::Icon);
                 const float iss = style->getMetric(MetricsRole::IconSmall);
@@ -178,7 +179,7 @@ namespace djv
                 itemSize.y = std::max(itemSize.y, textSize.y + m * 2.F);
                 if (_hasShortcuts)
                 {
-                    itemSize.x += shortcutSize.x + m * 2.F;
+                    itemSize.x += s + shortcutSize.x + m * 2.F;
                     itemSize.y = std::max(itemSize.y, shortcutSize.y + m * 2.F);
                 }
 
@@ -228,6 +229,7 @@ namespace djv
 
                 const BBox2f & g = getGeometry();
                 const auto& style = _getStyle();
+                const float s = style->getMetric(MetricsRole::Spacing);
                 const float m = style->getMetric(MetricsRole::MarginInside);
                 const float b = style->getMetric(MetricsRole::Border);
                 const float is = style->getMetric(MetricsRole::Icon);

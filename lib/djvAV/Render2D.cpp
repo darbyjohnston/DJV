@@ -1033,91 +1033,94 @@ namespace djv
                 uint8_t textureIndex = 0;
                 for (const auto& glyph : glyphs)
                 {
-                    if (rsbDeltaPrev - glyph->lsbDelta > 32)
+                    if (glyph)
                     {
-                        x -= 1.F;
-                    }
-                    else if (rsbDeltaPrev - glyph->lsbDelta < -31)
-                    {
-                        x += 1.F;
-                    }
-                    rsbDeltaPrev = glyph->rsbDelta;
-
-                    if (glyph->imageData && glyph->imageData->isValid())
-                    {
-                        const uint16_t width = glyph->imageData->getWidth();
-                        const uint16_t height = glyph->imageData->getHeight();
-                        const glm::vec2& offset = glyph->offset;
-                        const BBox2f bbox(pos.x + x + offset.x, pos.y - offset.y, width, height);
-                        if (bbox.intersects(_currentClipRect))
+                        if (rsbDeltaPrev - glyph->lsbDelta > 32)
                         {
-                            const auto uid = glyph->imageData->getUID();
-                            uint64_t id = 0;
-                            const auto i = p.glyphTextureIDs.find(uid);
-                            if (i != p.glyphTextureIDs.end())
-                            {
-                                id = i->second;
-                            }
-                            OpenGL::TextureAtlasItem item;
-                            if (!p.textureAtlas->getItem(id, item))
-                            {
-                                id = p.textureAtlas->addItem(glyph->imageData, item);
-                                p.glyphTextureIDs[uid] = id;
-                            }
-                            
-                            if (!primitive || item.textureIndex != textureIndex)
-                            {
-                                primitive = new TextPrimitive;
-                                primitive->clipRect = _currentClipRect;
-                                primitive->color[0] = _finalColor[0];
-                                primitive->color[1] = _finalColor[1];
-                                primitive->color[2] = _finalColor[2];
-                                primitive->color[3] = _finalColor[3];
-                                primitive->atlasIndex = item.textureIndex;
-                                primitive->vaoOffset = p.vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
-                                primitive->vaoSize = 0;
-                                primitive->lcdText = p.lcdText;
-                                p.primitives.push_back(primitive);
-                                textureIndex = item.textureIndex;
-                            }
-                            
-                            primitive->vaoSize += 6;
-                            const size_t vboDataOffset = p.vboDataSize;
-                            p.updateVBODataSize(6);
-                            VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataOffset]);
-                            pData->vx = bbox.min.x;
-                            pData->vy = bbox.min.y;
-                            pData->tx = static_cast<uint16_t>(item.textureU.getMin() * 65535.F);
-                            pData->ty = static_cast<uint16_t>(item.textureV.getMin() * 65535.F);
-                            ++pData;
-                            pData->vx = bbox.max.x;
-                            pData->vy = bbox.min.y;
-                            pData->tx = static_cast<uint16_t>(item.textureU.getMax() * 65535.F);
-                            pData->ty = static_cast<uint16_t>(item.textureV.getMin() * 65535.F);
-                            ++pData;
-                            pData->vx = bbox.max.x;
-                            pData->vy = bbox.max.y;
-                            pData->tx = static_cast<uint16_t>(item.textureU.getMax() * 65535.F);
-                            pData->ty = static_cast<uint16_t>(item.textureV.getMax() * 65535.F);
-                            ++pData;
-                            pData->vx = bbox.max.x;
-                            pData->vy = bbox.max.y;
-                            pData->tx = static_cast<uint16_t>(item.textureU.getMax() * 65535.F);
-                            pData->ty = static_cast<uint16_t>(item.textureV.getMax() * 65535.F);
-                            ++pData;
-                            pData->vx = bbox.min.x;
-                            pData->vy = bbox.max.y;
-                            pData->tx = static_cast<uint16_t>(item.textureU.getMin() * 65535.F);
-                            pData->ty = static_cast<uint16_t>(item.textureV.getMax() * 65535.F);
-                            ++pData;
-                            pData->vx = bbox.min.x;
-                            pData->vy = bbox.min.y;
-                            pData->tx = static_cast<uint16_t>(item.textureU.getMin() * 65535.F);
-                            pData->ty = static_cast<uint16_t>(item.textureV.getMin() * 65535.F);
+                            x -= 1.F;
                         }
-                    }
+                        else if (rsbDeltaPrev - glyph->lsbDelta < -31)
+                        {
+                            x += 1.F;
+                        }
+                        rsbDeltaPrev = glyph->rsbDelta;
 
-                    x += glyph->advance;
+                        if (glyph->imageData && glyph->imageData->isValid())
+                        {
+                            const uint16_t width = glyph->imageData->getWidth();
+                            const uint16_t height = glyph->imageData->getHeight();
+                            const glm::vec2& offset = glyph->offset;
+                            const BBox2f bbox(pos.x + x + offset.x, pos.y - offset.y, width, height);
+                            if (bbox.intersects(_currentClipRect))
+                            {
+                                const auto uid = glyph->imageData->getUID();
+                                uint64_t id = 0;
+                                const auto i = p.glyphTextureIDs.find(uid);
+                                if (i != p.glyphTextureIDs.end())
+                                {
+                                    id = i->second;
+                                }
+                                OpenGL::TextureAtlasItem item;
+                                if (!p.textureAtlas->getItem(id, item))
+                                {
+                                    id = p.textureAtlas->addItem(glyph->imageData, item);
+                                    p.glyphTextureIDs[uid] = id;
+                                }
+
+                                if (!primitive || item.textureIndex != textureIndex)
+                                {
+                                    primitive = new TextPrimitive;
+                                    primitive->clipRect = _currentClipRect;
+                                    primitive->color[0] = _finalColor[0];
+                                    primitive->color[1] = _finalColor[1];
+                                    primitive->color[2] = _finalColor[2];
+                                    primitive->color[3] = _finalColor[3];
+                                    primitive->atlasIndex = item.textureIndex;
+                                    primitive->vaoOffset = p.vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
+                                    primitive->vaoSize = 0;
+                                    primitive->lcdText = p.lcdText;
+                                    p.primitives.push_back(primitive);
+                                    textureIndex = item.textureIndex;
+                                }
+
+                                primitive->vaoSize += 6;
+                                const size_t vboDataOffset = p.vboDataSize;
+                                p.updateVBODataSize(6);
+                                VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataOffset]);
+                                pData->vx = bbox.min.x;
+                                pData->vy = bbox.min.y;
+                                pData->tx = static_cast<uint16_t>(item.textureU.getMin() * 65535.F);
+                                pData->ty = static_cast<uint16_t>(item.textureV.getMin() * 65535.F);
+                                ++pData;
+                                pData->vx = bbox.max.x;
+                                pData->vy = bbox.min.y;
+                                pData->tx = static_cast<uint16_t>(item.textureU.getMax() * 65535.F);
+                                pData->ty = static_cast<uint16_t>(item.textureV.getMin() * 65535.F);
+                                ++pData;
+                                pData->vx = bbox.max.x;
+                                pData->vy = bbox.max.y;
+                                pData->tx = static_cast<uint16_t>(item.textureU.getMax() * 65535.F);
+                                pData->ty = static_cast<uint16_t>(item.textureV.getMax() * 65535.F);
+                                ++pData;
+                                pData->vx = bbox.max.x;
+                                pData->vy = bbox.max.y;
+                                pData->tx = static_cast<uint16_t>(item.textureU.getMax() * 65535.F);
+                                pData->ty = static_cast<uint16_t>(item.textureV.getMax() * 65535.F);
+                                ++pData;
+                                pData->vx = bbox.min.x;
+                                pData->vy = bbox.max.y;
+                                pData->tx = static_cast<uint16_t>(item.textureU.getMin() * 65535.F);
+                                pData->ty = static_cast<uint16_t>(item.textureV.getMax() * 65535.F);
+                                ++pData;
+                                pData->vx = bbox.min.x;
+                                pData->vy = bbox.min.y;
+                                pData->tx = static_cast<uint16_t>(item.textureU.getMin() * 65535.F);
+                                pData->ty = static_cast<uint16_t>(item.textureV.getMin() * 65535.F);
+                            }
+                        }
+
+                        x += glyph->advance;
+                    }
                 }
             }
 

@@ -30,11 +30,6 @@ namespace djv
         struct UISystem::Private
         {
             std::shared_ptr<Style::Style> style;
-            std::shared_ptr<ValueObserver<UI::Style::Palette> > paletteObserver;
-            std::shared_ptr<ValueObserver<float> > brightnessObserver;
-            std::shared_ptr<ValueObserver<float> > contrastObserver;
-            std::shared_ptr<ValueObserver<UI::Style::Metrics> > metricsObserver;
-            std::shared_ptr<ValueObserver<std::string> > fontObserver;
         };
 
         void UISystem::_init(bool resetSettings, const std::shared_ptr<Core::Context>& context)
@@ -51,7 +46,7 @@ namespace djv
             Settings::General::create(context);
             Settings::Font::create(context);
             Settings::UI::create(context);
-            auto styleSettings = Settings::Style::create(context);
+            Settings::Style::create(context);
 
             auto iconSystem = IconSystem::create(context);
 
@@ -62,57 +57,6 @@ namespace djv
             addDependency(settingsSystem);
             addDependency(iconSystem);
             addDependency(dialogSystem);
-
-            auto weak = std::weak_ptr<UISystem>(std::dynamic_pointer_cast<UISystem>(shared_from_this()));
-            p.paletteObserver = ValueObserver<UI::Style::Palette>::create(
-                styleSettings->observeCurrentPalette(),
-                [weak](const UI::Style::Palette& value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_p->style->setPalette(value);
-                }
-            });
-
-            p.brightnessObserver = ValueObserver<float>::create(
-                styleSettings->observeBrightness(),
-                [weak](float value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_p->style->setBrightness(value);
-                }
-            });
-
-            p.contrastObserver = ValueObserver<float>::create(
-                styleSettings->observeContrast(),
-                [weak](float value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_p->style->setContrast(value);
-                }
-            });
-
-            p.metricsObserver = ValueObserver<UI::Style::Metrics>::create(
-                styleSettings->observeCurrentMetrics(),
-                [weak](const UI::Style::Metrics & value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_p->style->setMetrics(value);
-                }
-            });
-
-            p.fontObserver = ValueObserver<std::string>::create(
-                styleSettings->observeCurrentFont(),
-                [weak](const std::string & value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_p->style->setFont(value);
-                }
-            });
         }
 
         UISystem::UISystem() :
