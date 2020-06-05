@@ -36,6 +36,7 @@ namespace djv
                 std::shared_ptr<Core::IValueSubject<std::shared_ptr<IObject> > > observeKeyGrab() const;
 
                 const std::weak_ptr<IObject> & getTextFocus() const;
+                std::shared_ptr<Core::IValueSubject<bool> > observeTextFocusActive() const;
                 void setTextFocus(const std::shared_ptr<IObject> &);
 
                 virtual void setClipboard(const std::string&);

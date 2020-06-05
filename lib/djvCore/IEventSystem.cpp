@@ -55,6 +55,7 @@ namespace djv
                 std::shared_ptr<ValueSubject<std::shared_ptr<IObject> > > grab;
                 std::shared_ptr<ValueSubject<std::shared_ptr<IObject> > > keyGrab;
                 std::weak_ptr<IObject> textFocus;
+                std::shared_ptr<ValueSubject<bool> > textFocusActive;
                 bool textInit = false;
                 std::shared_ptr<ValueObserver<std::string> > localeObserver;
                 std::shared_ptr<ValueObserver<bool> > textChangedObserver;
@@ -72,6 +73,7 @@ namespace djv
                 p.hover = ValueSubject<std::shared_ptr<IObject> >::create();
                 p.grab = ValueSubject<std::shared_ptr<IObject> >::create();
                 p.keyGrab = ValueSubject<std::shared_ptr<IObject> >::create();
+                p.textFocusActive = ValueSubject<bool>::create();
 
                 auto weak = std::weak_ptr<IEventSystem>(std::dynamic_pointer_cast<IEventSystem>(shared_from_this()));
                 p.textSystem = context->getSystemT<TextSystem>();
@@ -149,23 +151,31 @@ namespace djv
                 return _p->textFocus;
             }
 
+            std::shared_ptr<Core::IValueSubject<bool> > IEventSystem::observeTextFocusActive() const
+            {
+                return _p->textFocusActive;
+            }
+
             void IEventSystem::setTextFocus(const std::shared_ptr<IObject> & value)
             {
                 DJV_PRIVATE_PTR();
                 if (value == p.textFocus.lock())
                     return;
-                auto prev = p.textFocus;
+                auto prevFocus = p.textFocus;
                 p.textFocus = value;
-                if (auto textFocus = prev.lock())
+                if (auto textFocus = prevFocus.lock())
                 {
                     TextFocusLost event;
                     textFocus->event(event);
                 }
-                if (auto textFocus = p.textFocus.lock())
+                auto textFocus = p.textFocus.lock();
+                if (textFocus)
                 {
                     TextFocus event;
                     textFocus->event(event);
+                    p.textFocusActive->setIfChanged(true);
                 }
+                p.textFocusActive->setIfChanged(textFocus != nullptr);
             }
 
             void IEventSystem::setClipboard(const std::string&)

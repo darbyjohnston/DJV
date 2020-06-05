@@ -49,7 +49,9 @@ namespace djv
             MenuData getMenu() const override;
 
         protected:
-            void _pointerUpdate();
+            void _fadeStart();
+            void _fadeStop();
+
             void _actionsUpdate();
 
             void _textUpdate() override;

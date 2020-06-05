@@ -59,9 +59,10 @@ namespace djv
             std::shared_ptr<ValueSubject<bool> > maximize;
             std::shared_ptr<ValueSubject<float> > fade;
             bool fadeEnabled = false;
-            Event::PointerInfo pointerInfo;
+            std::shared_ptr<Time::Timer> fadeTimer;
             std::map<Event::PointerID, glm::vec2> pointerMotion;
-            std::shared_ptr<Time::Timer> pointerMotionTimer;
+            bool textFocusActive = false;
+            bool textFocusInit = false;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             glm::ivec2 monitorSize = glm::ivec2(0, 0);
@@ -72,6 +73,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > floatOnTopObserver;
             std::shared_ptr<ValueObserver<bool> > maximizeObserver;
             std::shared_ptr<ValueObserver<Event::PointerInfo> > pointerObserver;
+            std::shared_ptr<ValueObserver<bool> > textFocusActiveObserver;
             std::shared_ptr<ValueObserver<bool> > fadeObserver;
 
             std::shared_ptr<Animation::Animation> fadeAnimation;
@@ -119,7 +121,7 @@ namespace djv
             p.floatOnTop = ValueSubject<bool>::create(false);
             p.maximize = ValueSubject<bool>::create(false);
             p.fade = ValueSubject<float>::create(1.F);
-            p.pointerMotionTimer = Time::Timer::create(context);
+            p.fadeTimer = Time::Timer::create(context);
             p.fadeAnimation = Animation::Animation::create(context);
 
             p.actions["FullScreen"] = UI::Action::create();
@@ -216,11 +218,23 @@ namespace djv
                             system->_p->fade->setIfChanged(1.F);
                         }
                         system->_p->fadeEnabled = value;
-                        system->_p->fadeAnimation->stop();
-                        system->_p->pointerMotion.clear();
-                        system->_p->pointerMotionTimer->stop();
-                        system->_pointerUpdate();
                         system->_actionsUpdate();
+                        if (system->_p->fadeEnabled && !system->_p->textFocusActive)
+                        {
+                            system->_p->fadeTimer->start(
+                                std::chrono::milliseconds(fadeTimeout),
+                                [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
+                            {
+                                if (auto system = weak.lock())
+                                {
+                                    system->_fadeStart();
+                                }
+                            });
+                        }
+                        else
+                        {
+                            system->_fadeStop();
+                        }
                     }
                 });
 
@@ -260,12 +274,58 @@ namespace djv
             auto eventSystem = context->getSystemT<Event::IEventSystem>();
             p.pointerObserver = ValueObserver<Event::PointerInfo>::create(
                 eventSystem->observePointer(),
-                [weak](const Event::PointerInfo & value)
+                [weak, contextWeak](const Event::PointerInfo& value)
+            {
+                if (auto context = contextWeak.lock())
+                {
+                    if (auto system = weak.lock())
+                    {
+                        const auto i = system->_p->pointerMotion.find(value.id);
+                        if (i != system->_p->pointerMotion.end())
+                        {
+                            system->_fadeStop();
+                            if (system->_p->fadeEnabled && !system->_p->textFocusActive)
+                            {
+                                system->_p->fadeTimer->start(
+                                    std::chrono::milliseconds(fadeTimeout),
+                                    [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
+                                {
+                                    if (auto system = weak.lock())
+                                    {
+                                        system->_fadeStart();
+                                    }
+                                });
+                            }
+                        }
+                        system->_p->pointerMotion[value.id] = value.projectedPos;
+                    }
+                }
+            });
+
+            p.textFocusActiveObserver = ValueObserver<bool>::create(
+                eventSystem->observeTextFocusActive(),
+                [weak](bool value)
             {
                 if (auto system = weak.lock())
                 {
-                    system->_p->pointerInfo = value;
-                    system->_pointerUpdate();
+                    system->_p->textFocusActive = value;
+                    if (value)
+                    {
+                        system->_p->textFocusInit = true;
+                        system->_fadeStop();
+                    }
+                    else if (system->_p->fadeEnabled && system->_p->textFocusInit)
+                    {
+                        system->_p->fadeTimer->start(
+                            std::chrono::milliseconds(fadeTimeout),
+                            [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
+                        {
+                            if (auto system = weak.lock())
+                            {
+                                system->_fadeStart();
+                            }
+                        });
+                    }
                 }
             });
         }
@@ -388,90 +448,64 @@ namespace djv
             };
         }
 
-        void WindowSystem::_pointerUpdate()
+        void WindowSystem::_fadeStart()
         {
             DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
+            auto weak = std::weak_ptr<WindowSystem>(std::dynamic_pointer_cast<WindowSystem>(shared_from_this()));
+            p.fadeAnimation->start(
+                p.fade->get(),
+                0.F,
+                std::chrono::milliseconds(fadeOutTime),
+                [weak](float value)
             {
-                bool start = false;
-                auto weak = std::weak_ptr<WindowSystem>(std::dynamic_pointer_cast<WindowSystem>(shared_from_this()));
-                const auto j = p.pointerMotion.find(p.pointerInfo.id);
-                if (j != p.pointerMotion.end())
+                if (auto system = weak.lock())
                 {
-                    const float diff = glm::length(p.pointerInfo.projectedPos - j->second);
-                    auto uiSystem = context->getSystemT<UI::UISystem>();
-                    auto style = uiSystem->getStyle();
-                    const float h = style->getMetric(UI::MetricsRole::Handle);
-                    if (diff > h)
+                    system->_p->fade->setIfChanged(value);
+                }
+            },
+                [weak](float value)
+            {
+                if (auto system = weak.lock())
+                {
+                    if (auto context = system->getContext().lock())
                     {
-                        start = true;
-                        p.pointerMotion[p.pointerInfo.id] = p.pointerInfo.projectedPos;
-                        if (!p.desktopGLFWSystem->isCursorVisible())
-                        {
-                            p.desktopGLFWSystem->showCursor();
-                        }
-                        const float fade = p.fade->get();
-                        if (fade < 1.F)
-                        {
-                            p.fadeAnimation->start(
-                                p.fade->get(),
-                                1.F,
-                                std::chrono::milliseconds(fadeInTime),
-                                [weak](float value)
-                                {
-                                    if (auto system = weak.lock())
-                                    {
-                                        system->_p->fade->setIfChanged(value);
-                                    }
-                                },
-                                [weak](float value)
-                                {
-                                    if (auto system = weak.lock())
-                                    {
-                                        system->_p->fade->setIfChanged(value);
-                                    }
-                                });
-                        }
+                        system->_p->fade->setIfChanged(value);
+                        system->_p->desktopGLFWSystem->hideCursor();
                     }
                 }
-                else
-                {
-                    start = true;
-                    p.pointerMotion[p.pointerInfo.id] = p.pointerInfo.projectedPos;
-                }
-                if (start && p.fadeEnabled)
-                {
-                    p.pointerMotionTimer->start(
-                        std::chrono::milliseconds(fadeTimeout),
-                        [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
+            });
+        }
+
+        void WindowSystem::_fadeStop()
+        {
+            DJV_PRIVATE_PTR();
+            p.fadeTimer->stop();
+            if (!p.desktopGLFWSystem->isCursorVisible())
+            {
+                p.desktopGLFWSystem->showCursor();
+            }
+            const float fade = p.fade->get();
+            if (fade < 1.F)
+            {
+                auto weak = std::weak_ptr<WindowSystem>(std::dynamic_pointer_cast<WindowSystem>(shared_from_this()));
+                p.fadeAnimation->start(
+                    p.fade->get(),
+                    1.F,
+                    std::chrono::milliseconds(fadeInTime),
+                    [weak](float value)
+                    {
+                        if (auto system = weak.lock())
                         {
-                            if (auto system = weak.lock())
-                            {
-                                system->_p->fadeAnimation->start(
-                                    system->_p->fade->get(),
-                                    0.F,
-                                    std::chrono::milliseconds(fadeOutTime),
-                                    [weak](float value)
-                                    {
-                                        if (auto system = weak.lock())
-                                        {
-                                            system->_p->fade->setIfChanged(value);
-                                        }
-                                    },
-                                    [weak](float value)
-                                    {
-                                        if (auto system = weak.lock())
-                                        {
-                                            if (auto context = system->getContext().lock())
-                                            {
-                                                system->_p->fade->setIfChanged(value);
-                                                system->_p->desktopGLFWSystem->hideCursor();
-                                            }
-                                        }
-                                    });
-                            }
-                        });
-                }
+                            system->_p->fade->setIfChanged(value);
+                        }
+                    },
+                    [weak](float value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            system->_p->fade->setIfChanged(value);
+                        }
+                    });
             }
         }
 
