@@ -102,7 +102,7 @@ namespace djv
         void GLFWSettingsWidget::_initEvent(Event::Init & event)
         {
             ISettingsWidget::_initEvent(event);
-            if (event.getData().textChanged)
+            if (event.getData().text)
             {
                 _widgetUpdate();
             }

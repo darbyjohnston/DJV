@@ -47,8 +47,8 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<Render2D::ImageFilterOptions> > observeImageFilterOptions() const;
             void setImageFilterOptions(const Render2D::ImageFilterOptions&);
 
-            std::shared_ptr<Core::IValueSubject<bool> > observeLCDText() const;
-            void setLCDText(bool);
+            std::shared_ptr<Core::IValueSubject<bool> > observeTextLCDRendering() const;
+            void setTextLCDRendering(bool);
 
         private:
             DJV_PRIVATE();

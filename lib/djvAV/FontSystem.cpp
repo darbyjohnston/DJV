@@ -36,7 +36,6 @@ namespace djv
             {
                 //! \todo Should this be configurable?
                 const size_t glyphCacheMax = 10000;
-                const bool lcdHinting = true;
 
                 class MetricsRequest
                 {
@@ -106,6 +105,57 @@ namespace djv
                     return '\n' == c || '\r' == c;
                 }
 
+                std::shared_ptr<Image::Data> convert(
+                    FT_Bitmap bitmap,
+                    uint8_t renderModeChannels)
+                {
+                    std::shared_ptr<Image::Data> out;
+                    Image::Type imageType = Image::getIntType(renderModeChannels, 8);
+#if defined(DJV_OPENGL_ES2)
+                    imageType = Image::Type::RGBA_U8;
+#endif // DJV_OPENGL_ES2
+                    const Image::Info imageInfo = Image::Info(
+                        bitmap.width / static_cast<int>(renderModeChannels),
+                        bitmap.rows,
+                        imageType);
+                    out = Image::Data::create(imageInfo);
+                    for (uint16_t y = 0; y < imageInfo.size.h; ++y)
+                    {
+                        uint8_t* imageP = out->getData(y);
+                        unsigned char* bitmapP = bitmap.buffer + static_cast<int>(y) * bitmap.pitch;
+                        switch (renderModeChannels)
+                        {
+                        case 1:
+                            for (uint16_t x = 0; x < imageInfo.size.w; ++x)
+                            {
+#if defined(DJV_OPENGL_ES2)
+                                imageP[x * 4] = imageP[x * 4 + 1] = imageP[x * 4 + 2] = bitmapP[x];
+                                imageP[x * 4 + 3] = 0;
+#else // DJV_OPENGL_ES2
+                                imageP[x] = bitmapP[x];
+#endif // DJV_OPENGL_ES2
+                            }
+                            break;
+                        case 3:
+                            for (uint16_t x = 0; x < imageInfo.size.w; ++x)
+                            {
+#if defined(DJV_OPENGL_ES2)
+                                imageP[x * 4] = bitmapP[x * 3];
+                                imageP[x * 4 + 1] = bitmapP[x * 3 + 1];
+                                imageP[x * 4 + 2] = bitmapP[x * 3 + 2];
+                                imageP[x * 4 + 3] = 0;
+#else // DJV_OPENGL_ES2
+                                imageP[x * 3] = bitmapP[x * 3];
+                                imageP[x * 3 + 1] = bitmapP[x * 3 + 1];
+                                imageP[x * 3 + 2] = bitmapP[x * 3 + 2];
+#endif // DJV_OPENGL_ES2
+                            }
+                            break;
+                        }
+                    }
+                    return out;
+                }
+
             } // namespace
 
             std::shared_ptr<Glyph> Glyph::create()
@@ -119,6 +169,9 @@ namespace djv
 
             struct System::Private
             {
+                bool lcdRendering = true;
+                bool lcdRenderingThread = lcdRendering;
+
                 FT_Library ftLibrary = nullptr;
                 FileSystem::Path fontPath;
                 std::map<FamilyID, std::string> fontFileNames;
@@ -220,6 +273,7 @@ namespace djv
                 {
                     DJV_PRIVATE_PTR();
                     _initFreeType();
+                    bool lcdRenderingChanged = false;
                     while (p.running)
                     {
                         {
@@ -231,16 +285,28 @@ namespace djv
                             {
                                 DJV_PRIVATE_PTR();
                                 return
+                                    p.lcdRendering != p.lcdRenderingThread ||
                                     p.metricsQueue.size() ||
                                     p.measureQueue.size() ||
                                     p.glyphsQueue.size() ||
                                     p.textLinesQueue.size();
                             });
+                            if (p.lcdRendering != p.lcdRenderingThread)
+                            {
+                                p.lcdRenderingThread = p.lcdRendering;
+                                lcdRenderingChanged = true;
+                            }
                             p.metricsRequests = std::move(p.metricsQueue);
                             p.measureRequests = std::move(p.measureQueue);
                             p.measureGlyphsRequests = std::move(p.measureGlyphsQueue);
                             p.glyphsRequests = std::move(p.glyphsQueue);
                             p.textLinesRequests = std::move(p.textLinesQueue);
+                        }
+                        if (lcdRenderingChanged)
+                        {
+                            p.glyphCache.clear();
+                            p.glyphCacheSize = 0;
+                            p.glyphCachePercentageUsed = 0.F;
                         }
                         if (p.metricsRequests.size())
                         {
@@ -296,6 +362,15 @@ namespace djv
             std::shared_ptr<Core::IMapSubject<FamilyID, std::map<FaceID, std::string> > > System::observeFontFaces() const
             {
                 return _p->fontFaceNamesSubject;
+            }
+
+            void System::setLCDRendering(bool value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.lcdRendering)
+                    return;
+                std::unique_lock<std::mutex> lock(p.requestMutex);
+                p.lcdRendering = value;
             }
 
             std::future<Metrics> System::getMetrics(const FontInfo& fontInfo)
@@ -874,7 +949,7 @@ namespace djv
                             }
                             FT_Render_Mode renderMode = FT_RENDER_MODE_NORMAL;
                             uint8_t renderModeChannels = 1;
-                            if (lcdHinting)
+                            if (lcdRenderingThread)
                             {
                                 renderMode = FT_RENDER_MODE_LCD;
                                 renderModeChannels = 3;
@@ -902,22 +977,10 @@ namespace djv
                                 FT_Done_Glyph(ftGlyph);
                                 return nullptr;
                             }
-                            FT_BitmapGlyph bitmap = (FT_BitmapGlyph)ftGlyph;
-                            const Image::Info imageInfo = Image::Info(
-                                bitmap->bitmap.width / static_cast<int>(renderModeChannels),
-                                bitmap->bitmap.rows,
-                                Image::getIntType(renderModeChannels, 8));
-                            auto imageData = Image::Data::create(imageInfo);
-                            for (uint16_t y = 0; y < imageInfo.size.h; ++y)
-                            {
-                                memcpy(
-                                    imageData->getData(y),
-                                    bitmap->bitmap.buffer + static_cast<size_t>(y) * bitmap->bitmap.pitch,
-                                    static_cast<size_t>(imageInfo.size.w) * renderModeChannels);
-                            }
+
                             out = Glyph::create();
                             out->glyphInfo = GlyphInfo(code, fontInfo);
-                            out->imageData = imageData;
+                            out->imageData = convert(reinterpret_cast<FT_BitmapGlyph>(ftGlyph)->bitmap, renderModeChannels);
                             out->offset = glm::vec2(ftFace->glyph->bitmap_left, ftFace->glyph->bitmap_top);
                             out->advance = ftFace->glyph->advance.x / 64.F;
                             out->lsbDelta = ftFace->glyph->lsb_delta;

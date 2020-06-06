@@ -70,9 +70,9 @@ namespace djv
                     uint8_t textureAtlasCount = 0;
 
                     // Shader uniform variable locations.
+                    GLint imageChannelsLoc          = 0;
                     GLint colorModeLoc              = 0;
                     GLint colorLoc                  = 0;
-                    GLint imageChannelsLoc          = 0;
 #if !defined(DJV_OPENGL_ES2)
                     GLint colorSpaceLoc             = 0;
                     GLint colorSpaceSamplerLoc      = 0;
@@ -103,12 +103,12 @@ namespace djv
                     virtual ~Primitive() {}
                     
                     BBox2f      clipRect;
-                    float       color[4]    = { 0.F, 0.F, 0.F, 0.F };
-                    GLenum      type        = GL_TRIANGLES;
-                    size_t      vaoOffset   = 0;
-                    size_t      vaoSize     = 0;
-                    AlphaBlend  alphaBlend  = AlphaBlend::Straight;
-                    bool        lcdText     = false;
+                    float       color[4]         = { 0.F, 0.F, 0.F, 0.F };
+                    GLenum      type             = GL_TRIANGLES;
+                    size_t      vaoOffset        = 0;
+                    size_t      vaoSize          = 0;
+                    AlphaBlend  alphaBlend       = AlphaBlend::Straight;
+                    bool        textLCDRendering = false;
 
                     virtual void bind(const PrimitiveData& data, const std::shared_ptr<OpenGL::Shader>& shader)
                     {
@@ -125,7 +125,7 @@ namespace djv
 
                     void bind(const PrimitiveData& data, const std::shared_ptr<OpenGL::Shader>& shader) override
                     {
-                        if (!lcdText)
+                        if (!textLCDRendering)
                         {
                             shader->setUniform(data.colorModeLoc, static_cast<int>(ColorMode::ColorWithTextureAlpha));
                         }
@@ -459,7 +459,7 @@ namespace djv
                 Render* system = nullptr;
 
                 ImageFilterOptions                      imageFilterOptions  = ImageFilterOptions(ImageFilter::Linear, ImageFilter::Nearest);
-                bool                                    lcdText             = true;
+                bool                                    textLCDRendering    = true;
 
                 BBox2f                                              viewport;
                 std::vector<Primitive*>                             primitives;
@@ -610,6 +610,8 @@ namespace djv
                     const auto program = p.shader->getProgram();
                     p.mvpLoc = glGetUniformLocation(program, "transform.mvp");
                     p.primitiveData.imageChannelsLoc = glGetUniformLocation(program, "imageChannels");
+                    p.primitiveData.colorModeLoc = glGetUniformLocation(program, "colorMode");
+                    p.primitiveData.colorLoc = glGetUniformLocation(program, "color");
 #if !defined(DJV_OPENGL_ES2)
                     p.primitiveData.colorSpaceLoc = glGetUniformLocation(program, "colorSpace");
                     p.primitiveData.colorSpaceSamplerLoc = glGetUniformLocation(program, "colorSpaceSampler");
@@ -630,8 +632,6 @@ namespace djv
                     p.primitiveData.exposureFLoc = glGetUniformLocation(program, "exposure.f");
                     p.primitiveData.exposureEnabledLoc = glGetUniformLocation(program, "exposureEnabled");
                     p.primitiveData.softClipLoc = glGetUniformLocation(program, "softClip");
-                    p.primitiveData.colorModeLoc = glGetUniformLocation(program, "colorMode");
-                    p.primitiveData.colorLoc = glGetUniformLocation(program, "color");
                     p.primitiveData.textureSamplerLoc = glGetUniformLocation(program, "textureSampler");
                 }
                 p.shader->bind();
@@ -681,7 +681,7 @@ namespace djv
                 p.vao->bind();
 
                 AlphaBlend currentAlphaBlend = AlphaBlend::Straight;
-                bool currentLCDText = false;
+                bool currentTextLCDRendering = false;
                 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
                 glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
                 for (size_t i = 0; i < p.primitives.size(); ++i)
@@ -710,16 +710,16 @@ namespace djv
                         default: break;
                         }
                     }
-                    if (primitive->lcdText != currentLCDText)
+                    if (primitive->textLCDRendering != currentTextLCDRendering)
                     {
-                        currentLCDText = primitive->lcdText;
-                        if (!currentLCDText)
+                        currentTextLCDRendering = primitive->textLCDRendering;
+                        if (!currentTextLCDRendering)
                         {
                             glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
                         }
                     }
                     primitive->bind(p.primitiveData, p.shader);
-                    if (currentLCDText)
+                    if (currentTextLCDRendering)
                     {
                         p.shader->setUniform(p.primitiveData.colorModeLoc, static_cast<int>(ColorMode::ColorWithTextureAlphaR));
                         glColorMask(GL_TRUE, GL_FALSE, GL_FALSE, GL_TRUE);
@@ -1018,9 +1018,9 @@ namespace djv
                 p.drawImage(image, pos, options, ColorMode::ColorWithTextureAlpha, _getCurrentTransform(), _currentClipRect, _finalColor);
             }
 
-            void Render::setLCDText(bool value)
+            void Render::setTextLCDRendering(bool value)
             {
-                _p->lcdText = value;
+                _p->textLCDRendering = value;
             }
 
             void Render::drawText(const std::vector<std::shared_ptr<Font::Glyph> >& glyphs, const glm::vec2 & pos)
@@ -1078,7 +1078,7 @@ namespace djv
                                     primitive->atlasIndex = item.textureIndex;
                                     primitive->vaoOffset = p.vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
                                     primitive->vaoSize = 0;
-                                    primitive->lcdText = p.lcdText;
+                                    primitive->textLCDRendering = p.textLCDRendering;
                                     p.primitives.push_back(primitive);
                                     textureIndex = item.textureIndex;
                                 }

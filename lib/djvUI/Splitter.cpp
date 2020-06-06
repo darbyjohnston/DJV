@@ -360,7 +360,7 @@ namespace djv
             {
                 Widget::_initEvent(event);
                 DJV_PRIVATE_PTR();
-                if (event.getData().sizeChanged)
+                if (event.getData().resize)
                 {
                     const auto& style = _getStyle();
                     p.splitterWidth = style->getMetric(MetricsRole::Handle);

@@ -115,7 +115,7 @@ namespace djv
 
             //! This class provides a font system.
             //!
-            //! \todo Add support for LCD pixel sub-sampling and gamma correction:
+            //! \todo Add support for gamma correction?
             //! - https://www.freetype.org/freetype2/docs/text-rendering-general.html
             class System : public Core::ISystem
             {
@@ -139,6 +139,9 @@ namespace djv
 
                 //! Observe the font faces.
                 std::shared_ptr<Core::IMapSubject<FamilyID, std::map<FaceID, std::string> > > observeFontFaces() const;
+
+                //! Set whether LCD hinting is enabled.
+                void setLCDRendering(bool);
 
                 //! Get font metrics.
                 std::future<Metrics> getMetrics(const FontInfo&);

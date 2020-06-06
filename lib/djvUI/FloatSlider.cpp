@@ -319,7 +319,7 @@ namespace djv
         {
             Widget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            if (event.getData().textChanged)
+            if (event.getData().text)
             {
                 p.resetButton->setTooltip(_getText(DJV_TEXT("reset_the_value")));
             }

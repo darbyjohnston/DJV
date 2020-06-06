@@ -165,7 +165,7 @@ namespace djv
         {
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            if (event.getData().textChanged)
+            if (event.getData().text)
             {
                 setTitle(_getText(DJV_TEXT("widget_messages")));
                 p.popupCheckBox->setText(_getText(DJV_TEXT("widget_messages_popup")));

@@ -129,7 +129,7 @@ namespace djv
             p.levelsSliders["InHigh"] = UI::FloatSlider::create(context);
             p.levelsSliders["InHigh"]->setDefault(levels.inHigh);
             p.levelsSliders["Gamma"] = UI::FloatSlider::create(context);
-            p.levelsSliders["Gamma"]->setRange(FloatRange(0.F, 4.F));
+            p.levelsSliders["Gamma"]->setRange(FloatRange(.1F, 4.F));
             p.levelsSliders["Gamma"]->setDefault(levels.gamma);
             p.levelsSliders["OutLow"] = UI::FloatSlider::create(context);
             p.levelsSliders["OutLow"]->setDefault(levels.outLow);
@@ -771,7 +771,7 @@ namespace djv
         {
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            if (event.getData().textChanged)
+            if (event.getData().text)
             {
                 setTitle(_getText(DJV_TEXT("image_controls_title")));
 

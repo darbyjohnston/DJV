@@ -724,7 +724,7 @@ namespace djv
             {
                 Widget::_initEvent(event);
                 _iconsUpdate();
-                if (event.getData().textChanged)
+                if (event.getData().text)
                 {
                     _itemsUpdate();
                 }

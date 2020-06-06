@@ -256,7 +256,7 @@ void CameraWidget::setLabelSizeGroup(const std::weak_ptr<djv::UI::LabelSizeGroup
 void CameraWidget::_initEvent(Core::Event::Init& event)
 {
     ISettingsWidget::_initEvent(event);
-    if (event.getData().textChanged)
+    if (event.getData().text)
     {
         setTitle(_getText(DJV_TEXT("widget_camera")));
         _layouts["Lens"]->setText(_floatEdits["FOV"], _getText(DJV_TEXT("widget_camera_fov")) + ":");

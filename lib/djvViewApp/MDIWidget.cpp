@@ -179,7 +179,7 @@ namespace djv
         {
             IWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            if (event.getData().textChanged)
+            if (event.getData().text)
             {
                 p.closeButton->setTooltip(_getText(DJV_TEXT("widget_mdi_close_tooltip")));
             }

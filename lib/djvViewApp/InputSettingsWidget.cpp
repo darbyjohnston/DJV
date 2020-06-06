@@ -107,7 +107,7 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            if (event.getData().textChanged)
+            if (event.getData().text)
             {
                 p.layout->setText(p.scrollWheelSpeedComboBox, _getText(DJV_TEXT("settings_input_scroll_wheel_speed")) + ":");
                 _widgetUpdate();

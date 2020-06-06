@@ -1277,7 +1277,7 @@ namespace djv
         {
             IWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            if (event.getData().textChanged)
+            if (event.getData().text)
             {
                 p.actions["Forward"]->setTooltip(_getText(DJV_TEXT("playback_forward_tooltip")));
                 p.actions["Reverse"]->setTooltip(_getText(DJV_TEXT("playback_reverse_tooltip")));

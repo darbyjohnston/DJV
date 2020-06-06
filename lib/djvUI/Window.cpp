@@ -67,5 +67,17 @@ namespace djv
             StackLayout::layout(getGeometry(), getChildWidgets(), Layout::Margin(), _getStyle());
         }
 
+        void Window::_initEvent(Event::Init& event)
+        {
+            if (event.getData().redraw)
+            {
+                _redraw();
+            }
+            if (event.getData().resize)
+            {
+                _resize();
+            }
+        }
+
     } // namespace UI
 } // namespace djv

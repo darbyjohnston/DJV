@@ -430,7 +430,7 @@ namespace djv
         {
             Window::_initEvent(event);
             DJV_PRIVATE_PTR();
-            if (event.getData().textChanged)
+            if (event.getData().text)
             {
                 p.mediaButton->setTooltip(_getText(DJV_TEXT("menu_media_popup_tooltip")));
                 p.cachePopupWidget->setTooltip(_getText(DJV_TEXT("menu_memory_cache_tooltip")));

@@ -205,7 +205,7 @@ namespace djv
                 {
                     p.textInit = false;
                     InitData data;
-                    data.textChanged = true;
+                    data.text = true;
                     Init event(data);
                     _initRecursive(p.rootObject, event);
                 }

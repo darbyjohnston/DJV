@@ -127,10 +127,10 @@ namespace djv
             {
                 InitData(bool all = false);
 
-                bool paletteChanged = false;
-                bool sizeChanged    = false;
-                bool fontChanged    = false;
-                bool textChanged    = false;
+                bool redraw = false;
+                bool resize = false;
+                bool font   = false;
+                bool text   = false;
             };
 
             //! This class provides an initialization event.

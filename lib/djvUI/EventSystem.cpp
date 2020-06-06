@@ -8,6 +8,8 @@
 #include <djvUI/UISystem.h>
 #include <djvUI/Window.h>
 
+#include <djvAV/AVSystem.h>
+
 #include <djvCore/Context.h>
 #include <djvCore/Timer.h>
 
@@ -22,6 +24,8 @@ namespace djv
         struct EventSystem::Private
         {
             std::vector<std::weak_ptr<Window> > windows;
+            bool textLCDRenderingDirty = false;
+            std::shared_ptr<ValueObserver<bool> > textLCDRenderingObserver;
             std::shared_ptr<Time::Timer> statsTimer;
         };
 
@@ -51,9 +55,20 @@ namespace djv
             DJV_PRIVATE_PTR();
             addDependency(context->getSystemT<UI::UISystem>());
 
+            auto avSystem = context->getSystemT<AV::AVSystem>();
+            auto weak = std::weak_ptr<EventSystem>(std::dynamic_pointer_cast<EventSystem>(shared_from_this()));
+            p.textLCDRenderingObserver = ValueObserver<bool>::create(
+                avSystem->observeTextLCDRendering(),
+                [weak](bool value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_p->textLCDRenderingDirty = true;
+                }
+            });
+
             p.statsTimer = Time::Timer::create(context);
             p.statsTimer->setRepeating(true);
-            auto weak = std::weak_ptr<EventSystem>(std::dynamic_pointer_cast<EventSystem>(shared_from_this()));
             p.statsTimer->start(
                 Time::getTime(Time::TimerValue::VerySlow),
                 [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
@@ -91,15 +106,16 @@ namespace djv
             {
                 auto uiSystem = context->getSystemT<UISystem>();
                 auto style = uiSystem->getStyle();
-                bool paletteDirty = style->isPaletteDirty();
-                bool sizeDirty = style->isSizeDirty();
-                bool fontDirty = style->isFontDirty();
-                if (paletteDirty || sizeDirty || fontDirty)
+                bool redraw = style->isPaletteDirty();
+                bool resize = style->isSizeDirty();
+                bool font = p.textLCDRenderingDirty || style->isFontDirty();
+                p.textLCDRenderingDirty = false;
+                if (redraw || resize || font)
                 {
                     Event::InitData data;
-                    data.paletteChanged = paletteDirty;
-                    data.sizeChanged = sizeDirty;
-                    data.fontChanged = fontDirty;
+                    data.redraw = redraw;
+                    data.resize = resize;
+                    data.font = font;
                     Event::Init initEvent(data);
                     for (auto i : p.windows)
                     {

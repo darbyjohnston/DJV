@@ -349,7 +349,7 @@ namespace djv
         {
             Widget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            if (event.getData().sizeChanged)
+            if (event.getData().resize)
             {
                 if (auto context = getContext().lock())
                 {

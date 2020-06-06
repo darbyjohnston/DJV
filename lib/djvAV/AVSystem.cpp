@@ -34,7 +34,8 @@ namespace djv
             std::shared_ptr<ValueSubject<AlphaBlend> > alphaBlend;
             std::shared_ptr<ValueSubject<Time::FPS> > defaultSpeed;
             std::shared_ptr<ValueSubject<Render2D::ImageFilterOptions> > imageFilterOptions;
-            std::shared_ptr<ValueSubject<bool> > lcdText;
+            std::shared_ptr<ValueSubject<bool> > textLCDRendering;
+            std::shared_ptr<Font::System> fontSystem;
             std::shared_ptr<ThumbnailSystem> thumbnailSystem;
             std::shared_ptr<Render2D::Render> render2D;
         };
@@ -48,12 +49,12 @@ namespace djv
             p.alphaBlend = ValueSubject<AlphaBlend>::create(AlphaBlend::First);
             p.defaultSpeed = ValueSubject<Time::FPS>::create(Time::getDefaultSpeed());
             p.imageFilterOptions = ValueSubject<Render2D::ImageFilterOptions>::create();
-            p.lcdText = ValueSubject<bool>::create(true);
+            p.textLCDRendering = ValueSubject<bool>::create(true);
 
             auto glfwSystem = GLFW::System::create(context);
             auto ocioSystem = OCIO::System::create(context);
             auto ioSystem = IO::System::create(context);
-            auto fontSystem = Font::System::create(context);
+            p.fontSystem = Font::System::create(context);
             p.thumbnailSystem = ThumbnailSystem::create(context);
             auto shaderSystem = Render::ShaderSystem::create(context);
             p.render2D = Render2D::Render::create(context);
@@ -63,7 +64,7 @@ namespace djv
             addDependency(glfwSystem);
             addDependency(ocioSystem);
             addDependency(ioSystem);
-            addDependency(fontSystem);
+            addDependency(p.fontSystem);
             addDependency(p.thumbnailSystem);
             addDependency(shaderSystem);
             addDependency(p.render2D);
@@ -134,17 +135,18 @@ namespace djv
             }
         }
 
-        std::shared_ptr<IValueSubject<bool> > AVSystem::observeLCDText() const
+        std::shared_ptr<IValueSubject<bool> > AVSystem::observeTextLCDRendering() const
         {
-            return _p->lcdText;
+            return _p->textLCDRendering;
         }
 
-        void AVSystem::setLCDText(bool value)
+        void AVSystem::setTextLCDRendering(bool value)
         {
             DJV_PRIVATE_PTR();
-            if (p.lcdText->setIfChanged(value))
+            if (p.textLCDRendering->setIfChanged(value))
             {
-                p.render2D->setLCDText(value);
+                p.fontSystem->setLCDRendering(value);
+                p.render2D->setTextLCDRendering(value);
             }
         }
 

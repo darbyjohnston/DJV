@@ -6,6 +6,7 @@
 
 #include <djvUI/CheckBox.h>
 #include <djvUI/ComboBox.h>
+#include <djvUI/FloatSlider.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/RowLayout.h>
 
@@ -120,7 +121,7 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            if (event.getData().textChanged)
+            if (event.getData().text)
             {
                 p.layout->setText(p.filterComboBox[0], _getText(DJV_TEXT("settings_render2d_minify_filter")) + ":");
                 p.layout->setText(p.filterComboBox[1], _getText(DJV_TEXT("settings_render2d_magnify_filter")) + ":");
@@ -146,9 +147,9 @@ namespace djv
 
         struct Render2DTextSettingsWidget::Private
         {
-            std::shared_ptr<UI::CheckBox> lcdCheckBox;
-            std::shared_ptr<UI::VerticalLayout> layout;
-            std::shared_ptr<ValueObserver<bool> > lcdTextObserver;
+            std::shared_ptr<UI::CheckBox> lcdRenderingCheckBox;
+            std::shared_ptr<UI::FormLayout> formLayout;
+            std::shared_ptr<ValueObserver<bool> > lcdRenderingObserver;
         };
 
         void Render2DTextSettingsWidget::_init(const std::shared_ptr<Context>& context)
@@ -158,34 +159,34 @@ namespace djv
 
             setClassName("djv::UI::Render2DTextSettingsWidget");
 
-            p.lcdCheckBox = UI::CheckBox::create(context);
+            p.lcdRenderingCheckBox = UI::CheckBox::create(context);
 
-            p.layout = UI::VerticalLayout::create(context);
-            p.layout->addChild(p.lcdCheckBox);
-            addChild(p.layout);
+            auto layout = UI::VerticalLayout::create(context);
+            layout->addChild(p.lcdRenderingCheckBox);
+            addChild(layout);
 
             auto contextWeak = std::weak_ptr<Context>(context);
-            p.lcdCheckBox->setCheckedCallback(
+            p.lcdRenderingCheckBox->setCheckedCallback(
                 [contextWeak](bool value)
+            {
+                if (auto context = contextWeak.lock())
                 {
-                    if (auto context = contextWeak.lock())
-                    {
-                        auto render2D = context->getSystemT<AV::Render2D::Render>();
-                        render2D->setLCDText(value);
-                    }
-                });
+                    auto avSystem = context->getSystemT<AV::AVSystem>();
+                    avSystem->setTextLCDRendering(value);
+                }
+            });
 
             auto avSystem = context->getSystemT<AV::AVSystem>();
             auto weak = std::weak_ptr<Render2DTextSettingsWidget>(std::dynamic_pointer_cast<Render2DTextSettingsWidget>(shared_from_this()));
-            p.lcdTextObserver = ValueObserver<bool>::create(
-                avSystem->observeLCDText(),
+            p.lcdRenderingObserver = ValueObserver<bool>::create(
+                avSystem->observeTextLCDRendering(),
                 [weak](bool value)
+            {
+                if (auto widget = weak.lock())
                 {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->lcdCheckBox->setChecked(value);
-                    }
-                });
+                    widget->_p->lcdRenderingCheckBox->setChecked(value);
+                }
+            });
         }
 
         Render2DTextSettingsWidget::Render2DTextSettingsWidget() :
@@ -218,9 +219,9 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            if (event.getData().textChanged)
+            if (event.getData().text)
             {
-                p.lcdCheckBox->setText(_getText(DJV_TEXT("settings_render_2d_text_lcd_rendering")));
+                p.lcdRenderingCheckBox->setText(_getText(DJV_TEXT("settings_render_2d_text_lcd_rendering")));
             }
         }
 

@@ -186,7 +186,7 @@ namespace djv
         {
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            if (event.getData().textChanged)
+            if (event.getData().text)
             {
                 setTitle(_getText(DJV_TEXT("widget_log")));
                 p.copyButton->setText(_getText(DJV_TEXT("widget_log_copy")));

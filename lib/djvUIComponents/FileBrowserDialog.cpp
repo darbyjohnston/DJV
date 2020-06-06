@@ -85,7 +85,7 @@ namespace djv
             void Dialog::_initEvent(Event::Init& event)
             {
                 IDialog::_initEvent(event);
-                if (event.getData().textChanged)
+                if (event.getData().text)
                 {
                     setTitle(_getText(DJV_TEXT("file_browser")));
                 }

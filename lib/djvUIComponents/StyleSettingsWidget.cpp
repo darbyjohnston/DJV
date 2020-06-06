@@ -114,7 +114,7 @@ namespace djv
         void SizeWidget::_initEvent(Event::Init& event)
         {
             Widget::_initEvent(event);
-            if (event.getData().textChanged)
+            if (event.getData().text)
             {
                 _widgetUpdate();
             }
@@ -240,7 +240,7 @@ namespace djv
         void PaletteWidget::_initEvent(Event::Init& event)
         {
             Widget::_initEvent(event);
-            if (event.getData().textChanged)
+            if (event.getData().text)
             {
                 _widgetUpdate();
             }
@@ -393,7 +393,7 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            if (event.getData().textChanged)
+            if (event.getData().text)
             {
                 p.layout->setText(p.sizeWidget, _getText(DJV_TEXT("settings_style_size")) + ":");
                 p.layout->setText(p.paletteWidget, _getText(DJV_TEXT("settings_style_palette")) + ":");

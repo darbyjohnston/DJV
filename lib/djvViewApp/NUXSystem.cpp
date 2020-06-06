@@ -391,7 +391,7 @@ namespace djv
         {
             Window::_initEvent(event);
             DJV_PRIVATE_PTR();
-            if (event.getData().textChanged)
+            if (event.getData().text)
             {
                 p.labels["Language"]->setText(_getText(DJV_TEXT("startup_choose_language")) + ":");
                 p.labels["DisplaySize"]->setText(_getText(DJV_TEXT("startup_choose_ui_size")) + ":");

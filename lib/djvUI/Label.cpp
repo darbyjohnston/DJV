@@ -263,7 +263,7 @@ namespace djv
         void Label::_initEvent(Event::Init& event)
         {
             Widget::_initEvent(event);
-            if (event.getData().sizeChanged || event.getData().fontChanged)
+            if (event.getData().resize || event.getData().font)
             {
                 _fontUpdate();
             }

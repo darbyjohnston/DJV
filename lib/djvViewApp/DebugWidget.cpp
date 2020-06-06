@@ -69,7 +69,7 @@ namespace djv
             void IDebugWidget::_initEvent(Event::Init& event)
             {
                 Widget::_initEvent(event);
-                if (event.getData().textChanged)
+                if (event.getData().text)
                 {
                     _widgetUpdate();
                 }
@@ -727,7 +727,7 @@ namespace djv
             void MediaDebugWidget::_initEvent(Event::Init& event)
             {
                 Widget::_initEvent(event);
-                if (event.getData().textChanged)
+                if (event.getData().text)
                 {
                     {
                         std::stringstream ss;
@@ -841,7 +841,7 @@ namespace djv
         {
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            if (event.getData().textChanged)
+            if (event.getData().text)
             {
                 setTitle(_getText(DJV_TEXT("debug_title")));
                 p.bellows["General"]->setText(_getText(DJV_TEXT("debug_section_general")));

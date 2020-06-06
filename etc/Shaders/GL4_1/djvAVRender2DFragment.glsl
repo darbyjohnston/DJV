@@ -26,6 +26,10 @@ in vec2 Texture;
 out vec4 FragColor;
 
 uniform int         imageChannels       = 0;
+uniform int         colorMode           = 0;
+uniform vec4        color;
+uniform int         colorSpace          = 0;
+uniform sampler3D   colorSpaceSampler;
 uniform mat4        colorMatrix;
 uniform bool        colorMatrixEnabled  = false;
 uniform bool        colorInvert         = false;
@@ -35,11 +39,7 @@ uniform Exposure    exposure;
 uniform bool        exposureEnabled     = false;
 uniform float       softClip            = 0.0;
 uniform int         imageChannelDisplay = 0;
-uniform int         colorMode           = 0;
-uniform vec4        color;
 uniform sampler2D   textureSampler;
-uniform int         colorSpace          = 0;
-uniform sampler3D   colorSpaceSampler;
 
 // djv::AV::Image::Channels
 #define IMAGE_CHANNELS_L    1
@@ -149,7 +149,7 @@ void main()
         FragColor.r = color.r;
         FragColor.g = 0.0;
         FragColor.b = 0.0;
-        FragColor.a = color.a * t.r;
+        FragColor.a = color.a * t.r);
     }
     else if (COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA_G == colorMode)
     {

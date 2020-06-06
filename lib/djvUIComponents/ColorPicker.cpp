@@ -113,7 +113,7 @@ namespace djv
         void ColorTypeWidget::_initEvent(Event::Init & event)
         {
             Widget::_initEvent(event);
-            if (event.getData().textChanged)
+            if (event.getData().text)
             {
                 setTooltip(_getText(DJV_TEXT("color_type_widget_tooltip")));
                 _widgetUpdate();
@@ -236,7 +236,7 @@ namespace djv
         void ColorSliders::_initEvent(Event::Init & event)
         {
             Widget::_initEvent(event);
-            if (event.getData().textChanged)
+            if (event.getData().text)
             {
                 _textUpdate();
             }

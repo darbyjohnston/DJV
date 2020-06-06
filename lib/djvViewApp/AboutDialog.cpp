@@ -292,7 +292,7 @@ namespace djv
         {
             IDialog::_initEvent(event);
             DJV_PRIVATE_PTR();
-            if (event.getData().textChanged)
+            if (event.getData().text)
             {
                 std::stringstream ss;
                 ss << _getText(DJV_TEXT("about_title"));

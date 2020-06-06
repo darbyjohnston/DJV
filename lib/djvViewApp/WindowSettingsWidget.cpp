@@ -148,7 +148,7 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            if (event.getData().textChanged)
+            if (event.getData().text)
             {
                 p.restorePosCheckBox->setText(_getText(DJV_TEXT("settings_window_restore_pos")));
                 p.restoreSizeCheckBox->setText(_getText(DJV_TEXT("settings_window_restore_size")));
@@ -266,7 +266,7 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            if (event.getData().textChanged)
+            if (event.getData().text)
             {
                 p.formLayout->setText(p.monitorComboBox, _getText(DJV_TEXT("settings_window_section_monitor")) + ":");
             }
@@ -358,7 +358,7 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            if (event.getData().textChanged)
+            if (event.getData().text)
             {
                 p.autoHideCheckBox->setText(_getText(DJV_TEXT("settings_window_automatically_hide_the_user_interface")));
             }
@@ -611,7 +611,7 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            if (event.getData().textChanged)
+            if (event.getData().text)
             {
                 p.openButton->setTooltip(_getText(DJV_TEXT("settings_window_open_file_browser")));
                 p.closeButton->setTooltip(_getText(DJV_TEXT("settings_window_clear_background_image")));

@@ -124,7 +124,7 @@ namespace djv
             void TimeUnitsWidget::_initEvent(Event::Init& event)
             {
                 Widget::_initEvent(event);
-                if (event.getData().textChanged)
+                if (event.getData().text)
                 {
                     _widgetUpdate();
                 }
@@ -206,7 +206,7 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            if (event.getData().textChanged)
+            if (event.getData().text)
             {
                 p.layout->setText(p.timeUnitsWidget, _getText(DJV_TEXT("settings_general_time_units")) + ":");
             }

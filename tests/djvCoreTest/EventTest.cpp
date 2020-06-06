@@ -134,19 +134,19 @@ namespace djv
         {
             {
                 const Event::InitData data(true);
-                DJV_ASSERT(data.paletteChanged);
-                DJV_ASSERT(data.sizeChanged);
-                DJV_ASSERT(data.fontChanged);
-                DJV_ASSERT(data.textChanged);
+                DJV_ASSERT(data.redraw);
+                DJV_ASSERT(data.resize);
+                DJV_ASSERT(data.font);
+                DJV_ASSERT(data.text);
             }
 
 
             {
                 const Event::InitData data(false);
-                DJV_ASSERT(!data.paletteChanged);
-                DJV_ASSERT(!data.sizeChanged);
-                DJV_ASSERT(!data.fontChanged);
-                DJV_ASSERT(!data.textChanged);
+                DJV_ASSERT(!data.redraw);
+                DJV_ASSERT(!data.resize);
+                DJV_ASSERT(!data.font);
+                DJV_ASSERT(!data.text);
             }
 
             {

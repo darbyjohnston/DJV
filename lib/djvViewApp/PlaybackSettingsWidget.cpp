@@ -104,7 +104,7 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            if (event.getData().textChanged)
+            if (event.getData().text)
             {
                 p.startPlaybackButton->setText(_getText(DJV_TEXT("automatically_start_playback")));
             }
@@ -193,7 +193,7 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            if (event.getData().textChanged)
+            if (event.getData().text)
             {
                 p.pipButton->setText(_getText(DJV_TEXT("show_pip_picture_in_picture")));
             }

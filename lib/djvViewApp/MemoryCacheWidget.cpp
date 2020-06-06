@@ -181,7 +181,7 @@ namespace djv
         void MemoryCacheWidget::_initEvent(Event::Init & event)
         {
             Widget::_initEvent(event);
-            if (event.getData().textChanged)
+            if (event.getData().text)
             {
                 _widgetUpdate();
             }

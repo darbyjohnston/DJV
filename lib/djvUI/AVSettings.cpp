@@ -67,13 +67,13 @@ namespace djv
                     djv::AV::AlphaBlend alphaBlend = djv::AV::AlphaBlend::Straight;
                     Time::FPS defaultSpeed = Time::getDefaultSpeed();
                     djv::AV::Render2D::ImageFilterOptions imageFilterOptions;
-                    bool lcdText = false;
+                    bool textLCDRendering = true;
                     read("SwapInterval", object, swapInterval);
                     read("TimeUnits", object, timeUnits);
                     read("AlphaBlend", object, alphaBlend);
                     read("DefaultSpeed", object, defaultSpeed);
                     read("ImageFilterOptions", object, imageFilterOptions);
-                    read("LCDText", object, lcdText);
+                    read("TextLCDRendering", object, textLCDRendering);
 
                     p.glfwSystem->setSwapInterval(swapInterval);
                     for (const auto & i : p.ioSystem->getPluginNames())
@@ -88,7 +88,7 @@ namespace djv
                     p.avSystem->setAlphaBlend(alphaBlend);
                     p.avSystem->setDefaultSpeed(defaultSpeed);
                     p.avSystem->setImageFilterOptions(imageFilterOptions);
-                    p.avSystem->setLCDText(lcdText);
+                    p.avSystem->setTextLCDRendering(textLCDRendering);
                 }
             }
 
@@ -106,7 +106,7 @@ namespace djv
                 write("AlphaBlend", p.avSystem->observeAlphaBlend()->get(), object);
                 write("DefaultSpeed", p.avSystem->observeDefaultSpeed()->get(), object);
                 write("ImageFilterOptions", p.avSystem->observeImageFilterOptions()->get(), object);
-                write("LCDText", p.avSystem->observeLCDText()->get(), object);
+                write("TextLCDRendering", p.avSystem->observeTextLCDRendering()->get(), object);
                 return out;
             }
 

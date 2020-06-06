@@ -279,7 +279,7 @@ namespace djv
             {
                 Widget::_initEvent(event);
                 DJV_PRIVATE_PTR();
-                if (event.getData().textChanged)
+                if (event.getData().text)
                 {
                     p.historyButton->setTooltip(_getText(DJV_TEXT("file_browser_history_tooltip")));
                 }

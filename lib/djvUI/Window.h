@@ -33,6 +33,8 @@ namespace djv
             void _preLayoutEvent(Core::Event::PreLayout &) override;
             void _layoutEvent(Core::Event::Layout &) override;
 
+            void _initEvent(Core::Event::Init&) override;
+
         private:
             DJV_PRIVATE();
         };

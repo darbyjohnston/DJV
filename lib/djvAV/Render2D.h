@@ -250,7 +250,7 @@ namespace djv
                 //! \name Text
                 ///@{
 
-                void setLCDText(bool);
+                void setTextLCDRendering(bool);
 
                 void drawText(const std::vector<std::shared_ptr<Font::Glyph> >& glyphs, const glm::vec2& position);
 

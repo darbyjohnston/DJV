@@ -27,6 +27,8 @@ struct Exposure
 varying vec2 Texture;
 
 uniform int         imageChannels;
+uniform int         colorMode;
+uniform vec4        color;
 uniform mat4        colorMatrix;
 uniform bool        colorMatrixEnabled;
 uniform bool        colorInvert;
@@ -36,8 +38,6 @@ uniform Exposure    exposure;
 uniform bool        exposureEnabled;
 uniform float       softClip;
 uniform int         imageChannelDisplay;
-uniform int         colorMode;
-uniform vec4        color;
 uniform sampler2D   textureSampler;
 
 // djv::AV::Image::Channels

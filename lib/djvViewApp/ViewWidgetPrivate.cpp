@@ -231,8 +231,8 @@ namespace djv
         void GridOverlay::_initEvent(Event::Init& event)
         {
             Widget::_initEvent(event);
-            if (event.getData().sizeChanged ||
-                event.getData().fontChanged)
+            if (event.getData().resize ||
+                event.getData().font)
             {
                 const auto& style = _getStyle();
                 const auto fontInfo = style->getFontInfo(AV::Font::familyMono, AV::Font::faceDefault, UI::MetricsRole::FontSmall);

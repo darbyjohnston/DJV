@@ -105,7 +105,7 @@ namespace djv
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
-            if (event.getData().textChanged)
+            if (event.getData().text)
             {
                 p.nuxCheckBox->setText(_getText(DJV_TEXT("settings_new_user_ux_startup")));
             }

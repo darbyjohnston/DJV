@@ -76,10 +76,10 @@ namespace djv
             {}
 
             inline InitData::InitData(bool all) :
-                paletteChanged(all),
-                sizeChanged(all),
-                fontChanged(all),
-                textChanged(all)
+                redraw(all),
+                resize(all),
+                font(all),
+                text(all)
             {}
 
             inline Init::Init(const InitData& data) :

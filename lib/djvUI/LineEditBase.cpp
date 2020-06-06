@@ -719,7 +719,7 @@ namespace djv
         void LineEditBase::_initEvent(Event::Init& event)
         {
             Widget::_initEvent(event);
-            if (event.getData().sizeChanged || event.getData().fontChanged)
+            if (event.getData().resize || event.getData().font)
             {
                 _p->viewOffset = 0.F;
                 _textUpdate();
