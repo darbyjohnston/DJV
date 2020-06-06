@@ -56,6 +56,8 @@ namespace djv
             //! \name Keycode
             ///@{
 
+            //! Throws:
+            //! - std::exception
             std::string keycodeToString(
                 int id,
                 int type,
@@ -66,12 +68,12 @@ namespace djv
             //! Throws:
             //! - std::exception
             void stringToKeycode(
-                const std::string &,
-                int & id,
-                int & type,
-                int & prefix,
-                int & count,
-                int & offset);
+                const std::string&,
+                int& id,
+                int& type,
+                int& prefix,
+                int& count,
+                int& offset);
 
             ///@}
 

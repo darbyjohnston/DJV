@@ -89,12 +89,12 @@ namespace djv
             }
 
             void stringToKeycode(
-                const std::string & string,
-                int &               id,
-                int &               type,
-                int &               prefix,
-                int &               count,
-                int &               offset)
+                const std::string& string,
+                int&               id,
+                int&               type,
+                int&               prefix,
+                int&               count,
+                int&               offset)
             {
                 const auto pieces = String::split(string, ':');
                 if (pieces.size() != 5)

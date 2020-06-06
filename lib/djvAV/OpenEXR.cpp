@@ -946,7 +946,11 @@ namespace djv
                     }
                     if (tags.hasTag("Keycode"))
                     {
-                        int id = 0, type = 0, prefix = 0, count = 0, offset = 0;
+                        int id     = 0;
+                        int type   = 0;
+                        int prefix = 0;
+                        int count  = 0;
+                        int offset = 0;
                         Time::stringToKeycode(tags.getTag("Keycode"), id, type, prefix, count, offset);
                         addKeyCode(header, Imf::KeyCode(id, type, prefix, count, offset));
                     }

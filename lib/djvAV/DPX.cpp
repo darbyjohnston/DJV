@@ -372,12 +372,19 @@ namespace djv
                         Cineon::isValid(out.film.offset, 2) && Cineon::isValid(out.film.prefix, 6) &&
                         Cineon::isValid(out.film.count, 4))
                     {
-                        info.tags.setTag("Keycode", Time::keycodeToString(
-                            std::stoi(std::string(out.film.id, 2)),
-                            std::stoi(std::string(out.film.type, 2)),
-                            std::stoi(std::string(out.film.prefix, 6)),
-                            std::stoi(std::string(out.film.count, 4)),
-                            std::stoi(std::string(out.film.offset, 2))));
+                        try
+                        {
+                            info.tags.setTag("Keycode", Time::keycodeToString(
+                                std::stoi(std::string(out.film.id, 2)),
+                                std::stoi(std::string(out.film.type, 2)),
+                                std::stoi(std::string(out.film.prefix, 6)),
+                                std::stoi(std::string(out.film.count, 4)),
+                                std::stoi(std::string(out.film.offset, 2))));
+                        }
+                        catch (const std::exception& e)
+                        {
+                            //! \bug How should we handle this exception?
+                        }
                     }
                     if (Cineon::isValid(out.film.format, 32))
                     {
@@ -711,31 +718,11 @@ namespace djv
                         int count  = 0;
                         int offset = 0;
                         Time::stringToKeycode(info.tags.getTag("Keycode"), id, type, prefix, count, offset);
-                        {
-                            std::stringstream ss;
-                            ss << id;
-                            Cineon::fromString(ss.str(), header.film.id, 2, false);
-                        }
-                        {
-                            std::stringstream ss;
-                            ss << type;
-                            Cineon::fromString(ss.str(), header.film.type, 2, false);
-                        }
-                        {
-                            std::stringstream ss;
-                            ss << offset;
-                            Cineon::fromString(ss.str(), header.film.offset, 2, false);
-                        }
-                        {
-                            std::stringstream ss;
-                            ss << prefix;
-                            Cineon::fromString(ss.str(), header.film.prefix, 6, false);
-                        }
-                        {
-                            std::stringstream ss;
-                            ss << count;
-                            Cineon::fromString(ss.str(), header.film.count, 4, false);
-                        }
+                        DJV_SNPRINTF(header.film.id, 2, "%d", id);
+                        DJV_SNPRINTF(header.film.type, 2, "%d", type);
+                        DJV_SNPRINTF(header.film.prefix, 6, "%d", prefix);
+                        DJV_SNPRINTF(header.film.count, 4, "%d", count);
+                        DJV_SNPRINTF(header.film.offset, 2, "%d", offset);
                     }
                     if (info.tags.hasTag("Film Format"))
                     {
