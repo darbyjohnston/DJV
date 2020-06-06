@@ -441,13 +441,9 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const bool activeWidget = p.activeWidget.get();
-            p.actions["ColorSpace"]->setEnabled(
 #if defined(DJV_OPENGL_ES2)
-                false
-#else // DJV_OPENGL_ES2
-                activeWidget
+            p.actions["ColorSpace"]->setEnabled(false);
 #endif // DJV_OPENGL_ES2
-            );
             p.actions["RedChannel"]->setEnabled(activeWidget);
             p.actions["GreenChannel"]->setEnabled(activeWidget);
             p.actions["BlueChannel"]->setEnabled(activeWidget);
