@@ -126,7 +126,7 @@ namespace djv
                         mesh.t[1].y = mesh.t[3].y;
                         mesh.t[3].y = tmp;
                     }
-                    p.vbo = AV::OpenGL::VBO::create(2 * 3, AV::OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
+                    p.vbo = AV::OpenGL::VBO::create(2 * 3, AV::OpenGL::VBOType::Pos3_F32_UV_U16);
                     p.vbo->copy(AV::OpenGL::VBO::convert(mesh, p.vbo->getType()));
                     p.vao = AV::OpenGL::VAO::create(p.vbo->getType(), p.vbo->getID());
                 }

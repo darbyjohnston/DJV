@@ -24,6 +24,7 @@ namespace djv
             {
                 Pos2_F32_UV_U16,
                 Pos3_F32,
+                Pos3_F32_UV_U16,
                 Pos3_F32_UV_U16_Normal_U10,
                 Pos3_F32_UV_U16_Normal_U10_Color_U8,
                 Pos3_F32_UV_F32_Normal_F32_Color_F32,

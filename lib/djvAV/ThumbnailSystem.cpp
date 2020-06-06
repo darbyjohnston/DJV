@@ -599,7 +599,10 @@ namespace djv
                                 size.h = static_cast<int>(size.w / imageAspect);
                             }
                             const auto type = i->type != Image::Type::None ? i->type : image->getType();
-                            const auto info = Image::Info(size, type);
+                            auto info = Image::Info(size, type);
+#if defined(DJV_OPENGL_ES2)
+                            info.type = Image::Type::RGBA_U8;
+#endif // DJV_OPENGL_ES2
                             auto tmp = Image::Image::create(info);
                             tmp->setPluginName(image->getPluginName());
                             tmp->setTags(image->getTags());

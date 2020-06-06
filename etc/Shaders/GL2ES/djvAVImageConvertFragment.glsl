@@ -5,6 +5,7 @@
 #version 100
 
 precision mediump float;
+
 varying vec2 Texture;
 
 uniform sampler2D textureSampler;

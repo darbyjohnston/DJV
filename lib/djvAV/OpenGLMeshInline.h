@@ -14,6 +14,7 @@ namespace djv
                 {
                     12, // 2 * sizeof(float) + 2 * sizeof(uint16_t)
                     12, // 3 * sizeof(float)
+                    16, // 3 * sizeof(float) + 2 * sizeof(uint16_t)
                     20, // 3 * sizeof(float) + 2 * sizeof(uint16_t) + sizeof(PackedNormal)
                     24, // 3 * sizeof(float) + 2 * sizeof(uint16_t) + sizeof(PackedNormal) + sizeof(PackedColor)
                     44, // 3 * sizeof(float) + 2 * sizeof(float) + 3 * sizeof(float) + 3 * sizeof(float)

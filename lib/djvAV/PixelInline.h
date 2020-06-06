@@ -376,29 +376,29 @@ namespace djv
 
 #if defined(DJV_OPENGL_ES2)
                     GL_LUMINANCE,
-                    GL_LUMINANCE,
-                    GL_LUMINANCE,
-                    GL_LUMINANCE,
-                    GL_LUMINANCE,
+                    GL_NONE,
+                    GL_NONE,
+                    GL_NONE,
+                    GL_NONE,
 
                     GL_LUMINANCE_ALPHA,
-                    GL_LUMINANCE_ALPHA,
-                    GL_LUMINANCE_ALPHA,
-                    GL_LUMINANCE_ALPHA,
-                    GL_LUMINANCE_ALPHA,
+                    GL_NONE,
+                    GL_NONE,
+                    GL_NONE,
+                    GL_NONE,
                     
                     GL_RGB,
-                    GL_RGBA,
-                    GL_RGB,
-                    GL_RGB,
-                    GL_RGB,
-                    GL_RGB,
+                    GL_NONE,
+                    GL_NONE,
+                    GL_NONE,
+                    GL_NONE,
+                    GL_NONE,
 
                     GL_RGBA,
-                    GL_RGBA,
-                    GL_RGBA,
-                    GL_RGBA,
-                    GL_RGBA
+                    GL_NONE,
+                    GL_NONE,
+                    GL_NONE,
+                    GL_NONE
 #else // DJV_OPENGL_ES2
                     GL_RED,
                     GL_RED,
@@ -436,50 +436,57 @@ namespace djv
                 {
                     GL_NONE,
 
+#if defined(DJV_OPENGL_ES2)
+                    GL_UNSIGNED_BYTE,
+                    GL_NONE,
+                    GL_NONE,
+                    GL_NONE,
+                    GL_NONE,
+
+                    GL_UNSIGNED_BYTE,
+                    GL_NONE,
+                    GL_NONE,
+                    GL_NONE,
+                    GL_NONE,
+
+                    GL_UNSIGNED_BYTE,
+                    GL_NONE,
+                    GL_NONE,
+                    GL_NONE,
+                    GL_NONE,
+                    GL_NONE,
+
+                    GL_UNSIGNED_BYTE,
+                    GL_NONE,
+                    GL_NONE,
+                    GL_NONE,
+                    GL_NONE,
+#else // DJV_OPENGL_ES2
                     GL_UNSIGNED_BYTE,
                     GL_UNSIGNED_SHORT,
                     GL_UNSIGNED_INT,
-#if defined(DJV_OPENGL_ES2)
-                    GL_FLOAT,
-#else
                     GL_HALF_FLOAT,
-#endif
                     GL_FLOAT,
 
                     GL_UNSIGNED_BYTE,
                     GL_UNSIGNED_SHORT,
                     GL_UNSIGNED_INT,
-#if defined(DJV_OPENGL_ES2)
-                    GL_FLOAT,
-#else
                     GL_HALF_FLOAT,
-#endif
                     GL_FLOAT,
 
                     GL_UNSIGNED_BYTE,
-#if defined(DJV_OPENGL_ES2)
-                    GL_UNSIGNED_SHORT,
-#else
                     GL_UNSIGNED_INT_10_10_10_2,
-#endif
                     GL_UNSIGNED_SHORT,
                     GL_UNSIGNED_INT,
-#if defined(DJV_OPENGL_ES2)
-                    GL_FLOAT,
-#else
                     GL_HALF_FLOAT,
-#endif
                     GL_FLOAT,
 
                     GL_UNSIGNED_BYTE,
                     GL_UNSIGNED_SHORT,
                     GL_UNSIGNED_INT,
-#if defined(DJV_OPENGL_ES2)
-                    GL_FLOAT,
-#else
                     GL_HALF_FLOAT,
-#endif
                     GL_FLOAT
+#endif // DJV_OPENGL_ES2
                 };
                 DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];
