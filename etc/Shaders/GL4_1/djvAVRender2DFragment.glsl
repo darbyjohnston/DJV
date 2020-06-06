@@ -149,7 +149,7 @@ void main()
         FragColor.r = color.r;
         FragColor.g = 0.0;
         FragColor.b = 0.0;
-        FragColor.a = color.a * t.r);
+        FragColor.a = color.a * t.r;
     }
     else if (COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA_G == colorMode)
     {
