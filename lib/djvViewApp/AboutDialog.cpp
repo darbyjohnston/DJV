@@ -44,8 +44,8 @@ namespace djv
             
             const std::vector<std::string> credits = 
             {
-                "Credits1", "Credits2", "Credits3", "Credits4", "Credits5",
-                "Credits6", "Credits7", "Credits8", "Credits9", "Credits10"
+                "Credits1", "Credits2", "Credits3", "Credits4", "Credits5", "Credits6",
+                "Credits7", "Credits8", "Credits9", "Credits10", "Credits11"
             };
             for (const auto& i : credits)
             {
@@ -55,9 +55,9 @@ namespace djv
             
             const std::vector<std::string> creditsText = 
             {
-                "Credits1Text", "Credits2Text", "Credits3Text", "Credits4Text",
-                "Credits5Text", "Credits6Text", "Credits7Text", "Credits8Text",
-                "Credits9Text", "Credits10Text"
+                "Credits1Text", "Credits2Text", "Credits3Text", "Credits4Text", "Credits5Text",
+                "Credits6Text", "Credits7Text", "Credits8Text", "Credits9Text", "Credits10Text",
+                "Credits11Text"
             };
             for (const auto& i : creditsText)
             {
@@ -180,6 +180,10 @@ namespace djv
             gridLayout->setGridPos(p.textBlocks["Credits10"], glm::ivec2(0, 9));
             gridLayout->addChild(p.textBlocks["Credits10Text"]);
             gridLayout->setGridPos(p.textBlocks["Credits10Text"], glm::ivec2(1, 9));
+            gridLayout->addChild(p.textBlocks["Credits11"]);
+            gridLayout->setGridPos(p.textBlocks["Credits11"], glm::ivec2(0, 10));
+            gridLayout->addChild(p.textBlocks["Credits11Text"]);
+            gridLayout->setGridPos(p.textBlocks["Credits11Text"], glm::ivec2(1, 10));
             vLayout->addChild(gridLayout);
             textLayout->addChild(vLayout);
 
@@ -326,6 +330,8 @@ namespace djv
                 p.textBlocks["Credits9Text"]->setText(_getText(DJV_TEXT("about_credits_stefan_ihringer_text")));
                 p.textBlocks["Credits10"]->setText(_getText(DJV_TEXT("about_credits_kimball_thurston")));
                 p.textBlocks["Credits10Text"]->setText(_getText(DJV_TEXT("about_credits_kimball_thurston_text")));
+                p.textBlocks["Credits11"]->setText(_getText(DJV_TEXT("about_credits_yushi_tone")));
+                p.textBlocks["Credits11Text"]->setText(_getText(DJV_TEXT("about_credits_yushi_tone_text")));
                 p.textBlocks["Sponsors1"]->setText(_getText(DJV_TEXT("about_sponsors_unexpected")));
                 p.textBlocks["License1"]->setText(_getText(DJV_TEXT("about_license_1")));
                 p.textBlocks["License2"]->setText(_getText(DJV_TEXT("about_license_2")));
