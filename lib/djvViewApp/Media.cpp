@@ -1149,7 +1149,8 @@ namespace djv
                 const Playback playback = p.playback->get();
                 const auto frameTime = std::chrono::duration<float>(1.F / p.speed->get().toFloat());
                 const bool playEveryFrameAdvance = p.playEveryFrameTime >= frameTime;
-                //std::cout << "every frame: " << playEveryFrameAdvance << ", " << p.playEveryFrameTime.count() << "/" << frameTime << std::endl;
+                //std::cout << "every frame: " << playEveryFrameAdvance << ", " <<
+                //    p.playEveryFrameTime.count() << "/" << frameTime.count() << std::endl;
                 const Frame::Index currentFrame = p.currentFrame->get();
                 AV::IO::VideoFrame frame;
                 bool gotFrame = false;

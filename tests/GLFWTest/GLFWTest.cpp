@@ -51,7 +51,7 @@ int main(int argc, char ** argv)
             throw std::runtime_error("Cannot create window.");
         }
         glfwMakeContextCurrent(glfwWindow);
-        glfwSwapInterval(1);
+        //glfwSwapInterval(1);
         glfwShowWindow(glfwWindow);
 
         bool run = true;
