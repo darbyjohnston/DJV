@@ -254,7 +254,7 @@
     "resource_path_settings_file": "Einstellungsdatei",
     "resource_path_shaders": "Shader",
     "resource_path_text": "Text",
-    "time_units_frames": "Rahmen",
+    "time_units_frames": "Frames",
     "time_units_timecode": "Timecode",
     "timer_fast": "Schnell",
     "timer_medium": "Mittel",
