@@ -72,11 +72,6 @@ namespace djv
             //! This function is called by the application event loop.
             virtual void tick();
 
-            //! This function is called by the application event loop. This can
-            //! be called in addition to tick() to increase the accuracy of the
-            //! timers.
-            void tickTimers();
-
             //! Get the average tick FPS.
             float getFPSAverage() const;
 
@@ -87,14 +82,19 @@ namespace djv
             void _addSystem(const std::shared_ptr<ISystemBase> &);
 
         private:
+            void _logInfo(const std::string& argv0);
+            void _logSystemOrder();
+            void _writeSystemDotGraph();
+            void _calcFPS();
+
             std::string _name;
             std::shared_ptr<Time::TimerSystem> _timerSystem;
             std::shared_ptr<ResourceSystem> _resourceSystem;
             std::shared_ptr<LogSystem> _logSystem;
             std::shared_ptr<TextSystem> _textSystem;
             std::vector<std::shared_ptr<ISystemBase> > _systems;
+            bool _logSystemOrderInit = true;
             std::vector<std::pair<std::string, Time::Duration> > _systemTickTimes;
-            std::vector<std::pair<std::string, Time::Duration> > _systemTickTimesTemp;
             std::chrono::time_point<std::chrono::steady_clock> _fpsTime = std::chrono::steady_clock::now();
             std::list<float> _fpsSamples;
             float _fpsAverage = 0.F;

@@ -29,14 +29,6 @@ namespace djv
 {
     namespace Desktop
     {
-        namespace
-        {
-            //! \todo Should this be configurable?
-            const size_t frameRate = 60;
-            const size_t spinLoopSleep = 100;
-        
-        } // namespace
-
         struct Application::Private
         {};
 
@@ -44,6 +36,7 @@ namespace djv
         {
             CmdLine::Application::_init(args);
 
+            // Parse the command line.
             bool resetSettings = false;
             auto arg = args.begin();
             while (arg != args.end())
@@ -87,25 +80,12 @@ namespace djv
             if (auto glfwWindow = avGLFWSystem->getGLFWWindow())
             {
                 glfwShowWindow(glfwWindow);
-                auto start = std::chrono::steady_clock::now();
-                auto delta = Time::Duration::zero();
-                auto frameTime = std::chrono::microseconds(Time::timebase / frameRate);
                 _setRunning(true);
                 while (_isRunning() && glfwWindow && !glfwWindowShouldClose(glfwWindow))
                 {
                     glfwPollEvents();
                     tick();
-
-                    auto end = std::chrono::steady_clock::now();
-                    delta = std::chrono::duration_cast<Time::Duration>(end - start);
-                    while (delta < frameTime)
-                    {
-                        Time::sleep(std::chrono::microseconds(spinLoopSleep));
-                        tickTimers();
-                        end = std::chrono::steady_clock::now();
-                        delta = std::chrono::duration_cast<Time::Duration>(end - start);
-                    }
-                    start = end;
+                    glfwSwapBuffers(glfwWindow);
                 }
             }
         }

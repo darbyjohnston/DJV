@@ -15,7 +15,7 @@ namespace
 {
     const glm::ivec2 windowSize(1280, 720);
     GLFWwindow* glfwWindow = nullptr;
-    const size_t frameRate = 24;
+    const size_t frameRate = 60;
 
     void glfwErrorCallback(int error, const char* description)
     {

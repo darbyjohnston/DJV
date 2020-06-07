@@ -20,16 +20,79 @@
 #include <fcntl.h>
 #endif // DJV_PLATFORM_WINDOWS
 
-namespace
-{
-    const size_t fpsSamplesCount = 100;
-
-} // namespace
-
 namespace djv
 {
     namespace Core
     {
+        namespace
+        {
+            //! \todo Should this be configurable?
+            const size_t fpsSamplesCount = 60;
+
+            void addSample(std::list<float>& list, float sample)
+            {
+                list.push_front(sample);
+                while (list.size() > fpsSamplesCount)
+                {
+                    list.pop_back();
+                }
+            }
+            
+            float averageSamples(const std::list<float>& list)
+            {
+                float out = 0.F;
+                for (const auto& i : list)
+                {
+                    out += i;
+                }
+                return out / static_cast<float>(list.size());
+            }
+
+            struct TickTimes
+            {
+                std::chrono::time_point<std::chrono::steady_clock> time = std::chrono::steady_clock::now();
+                Time::Duration total = Time::Duration::zero();
+                std::vector<std::pair<std::string, Time::Duration> > times;
+
+                void add(const std::string& name)
+                {
+                    auto end = std::chrono::steady_clock::now();
+                    const auto diff = std::chrono::duration_cast<Time::Duration>(end - time);
+                    time = end;
+                    times.push_back(std::make_pair(name, diff));
+                    total += diff;
+                }
+
+                void sort()
+                {
+                    std::sort(
+                        times.begin(),
+                        times.end(),
+                        [](const std::pair<std::string, Time::Duration>& a,
+                            const std::pair<std::string, Time::Duration>& b)
+                        {
+                            return a.second > b.second;
+                        });
+                }
+
+                void print()
+                {
+                    if (times.size() > 0)
+                    {
+                        std::cout << "System tick time: " <<
+                            times[0].first << ", " <<
+                            times[0].second.count() << std::endl;
+                    }
+                    for (const auto& i : times)
+                    {
+                        std::cout << i.first << ": " << i.second.count() << std::endl;
+                    }
+                    std::cout << "total: " << total.count() << std::endl << std::endl;
+                }
+            };
+
+        } // namespace
+
         void Context::_init(const std::string& argv0)
         {
             _name = FileSystem::Path(argv0).getBaseName();
@@ -44,26 +107,7 @@ namespace djv
             _textSystem = TextSystem::create(shared_from_this());
             CoreSystem::create(argv0, shared_from_this());
 
-            {
-                std::stringstream ss;
-                ss << "Application: " << _name << '\n';
-                ss << "System: " << OS::getInformation() << '\n';
-                ss << "Hardware concurrency: " << std::thread::hardware_concurrency() << '\n';
-                {
-                    std::stringstream ss2;
-                    ss2 << Memory::Unit::GB;
-                    ss << "RAM: " << (OS::getRAMSize() / Memory::gigabyte) << _textSystem->getText(ss2.str()) << '\n';
-                }
-                ss << "argv0: " << argv0 << '\n';
-                ss << "Resource paths:" << '\n';
-                for (auto path : FileSystem::getResourcePathEnums())
-                {
-                    std::stringstream ss2;
-                    ss2 << path;
-                    ss << "    " << _textSystem->getText(ss2.str()) << ": " << _resourceSystem->getPath(path) << '\n';
-                }
-                _logSystem->log("djv::Core::Context", ss.str());
-            }
+            _logInfo(argv0);
 
             _fpsTimer = Time::Timer::create(shared_from_this());
             _fpsTimer->setRepeating(true);
@@ -106,97 +150,107 @@ namespace djv
                 }
             }
         }
-        
+                
         void Context::tick()
         {
-            const auto now = std::chrono::steady_clock::now();
-            std::chrono::duration<float> delta = now - _fpsTime;
-            _fpsTime = now;
-            _fpsSamples.push_front(1.F / delta.count());
-            while (_fpsSamples.size() > fpsSamplesCount)
+            if (_logSystemOrderInit)
             {
-                _fpsSamples.pop_back();
-            }
-            _fpsAverage = 0.F;
-            for (auto i : _fpsSamples)
-            {
-                _fpsAverage += i;
-            }
-            _fpsAverage /= static_cast<float>(_fpsSamples.size());
-            //std::cout << "fps = " << _fpsAverage << std::endl;
-
-            static bool logSystemOrder = true;
-            size_t count = 0;
-            if (logSystemOrder)
-            {
-                logSystemOrder = false;
-                std::vector<std::string> dot;
-                dot.push_back("digraph {");
-                for (const auto & system : _systems)
-                {
-                    {
-                        std::stringstream ss;
-                        ss << "Tick system #" << count << ": " << system->getSystemName();
-                        _logSystem->log("djv::Core::Context", ss.str());
-                        ++count;
-                    }
-                    for (const auto & dependency : system->getDependencies())
-                    {
-                        std::stringstream ss;
-                        ss << "    " << "\"" << system->getSystemName() << "\"";
-                        ss << " -> " << "\"" << dependency->getSystemName() << "\"";
-                        dot.push_back(ss.str());
-                    }
-                }
-                dot.push_back("}");
-                //FileSystem::FileIO::writeLines("systems.dot", dot);
+                _logSystemOrderInit = false;
+                _logSystemOrder();
+                //_writeSystemDotGraph();
             }
 
-            Time::Duration total = Time::Duration::zero();
-            _systemTickTimesTemp.resize(_systems.size());
-            auto sytemTime = now;
-            size_t i = 0;
+            _calcFPS();
+
+            TickTimes tickTimes;
             for (const auto & system : _systems)
             {
                 system->tick();
-                auto end = std::chrono::steady_clock::now();
-                const auto diff = std::chrono::duration_cast<Time::Duration>(end - sytemTime);
-                sytemTime = end;
-                auto& tickTimes = _systemTickTimesTemp[i];
-                tickTimes.first = system->getSystemName();
-                tickTimes.second = diff;
-                total += diff;
-                ++i;
+                tickTimes.add(system->getSystemName());
             }
-            std::sort(
-                _systemTickTimesTemp.begin(),
-                _systemTickTimesTemp.end(),
-                [](const std::pair<std::string, Time::Duration>& a, const std::pair<std::string, Time::Duration>& b)
-                {
-                    return a.second > b.second;
-                });
-            /*if (_systemTickTimesTemp.size() > 0)
-            {
-                std::cout << "System tick time: " <<
-                    _systemTickTimesTemp[0].first << ", " <<
-                    _systemTickTimesTemp[0].second.count() << std::endl;
-            }
-            for (const auto& i : _systemTickTimesTemp)
-            {
-                std::cout << i.first << ": " << i.second.count() << std::endl;
-            }
-            std::cout << "total: " << total.count() << std::endl << std::endl;*/
-            _systemTickTimes = _systemTickTimesTemp;
-        }
-
-        void Context::tickTimers()
-        {
-            _timerSystem->tick();
+            tickTimes.sort();
+            //tickTimes.print();
+            _systemTickTimes = tickTimes.times;
         }
 
         void Context::_addSystem(const std::shared_ptr<ISystemBase> & system)
         {
             _systems.push_back(system);
+        }
+
+        void Context::_logInfo(const std::string& argv0)
+        {
+            std::stringstream ss;
+            ss << "Application: " << _name << '\n';
+            ss << "System: " << OS::getInformation() << '\n';
+            ss << "Hardware concurrency: " << std::thread::hardware_concurrency() << '\n';
+            {
+                std::stringstream ss2;
+                ss2 << Memory::Unit::GB;
+                ss << "RAM: " << (OS::getRAMSize() / Memory::gigabyte) << _textSystem->getText(ss2.str()) << '\n';
+            }
+            ss << "argv0: " << argv0 << '\n';
+            ss << "Resource paths:" << '\n';
+            for (auto path : FileSystem::getResourcePathEnums())
+            {
+                std::stringstream ss2;
+                ss2 << path;
+                ss << "    " << _textSystem->getText(ss2.str()) << ": " << _resourceSystem->getPath(path) << '\n';
+            }
+            _logSystem->log("djv::Core::Context", ss.str());
+        }
+
+        void Context::_logSystemOrder()
+        {
+            size_t count = 0;
+            std::vector<std::string> dot;
+            dot.push_back("digraph {");
+            for (const auto & system : _systems)
+            {
+                {
+                    std::stringstream ss;
+                    ss << "Tick system #" << count << ": " << system->getSystemName();
+                    _logSystem->log("djv::Core::Context", ss.str());
+                    ++count;
+                }
+                for (const auto & dependency : system->getDependencies())
+                {
+                    std::stringstream ss;
+                    ss << "    " << "\"" << system->getSystemName() << "\"";
+                    ss << " -> " << "\"" << dependency->getSystemName() << "\"";
+                    dot.push_back(ss.str());
+                }
+            }
+            dot.push_back("}");
+            //FileSystem::FileIO::writeLines("systems.dot", dot);
+        }
+        
+        void Context::_writeSystemDotGraph()
+        {
+            std::vector<std::string> dot;
+            dot.push_back("digraph {");
+            for (const auto & system : _systems)
+            {
+                for (const auto & dependency : system->getDependencies())
+                {
+                    std::stringstream ss;
+                    ss << "    " << "\"" << system->getSystemName() << "\"";
+                    ss << " -> " << "\"" << dependency->getSystemName() << "\"";
+                    dot.push_back(ss.str());
+                }
+            }
+            dot.push_back("}");
+            FileSystem::FileIO::writeLines("systems.dot", dot);
+        }
+
+        void Context::_calcFPS()
+        {
+            const auto now = std::chrono::steady_clock::now();
+            const std::chrono::duration<float> delta = now - _fpsTime;
+            _fpsTime = now;
+            addSample(_fpsSamples, delta.count());
+            _fpsAverage = 1.F / averageSamples(_fpsSamples);
+            //std::cout << "fps = " << _fpsAverage << std::endl;
         }
 
     } // namespace ViewExperiment
