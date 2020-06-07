@@ -42,14 +42,14 @@ namespace djv
             public:
                 VideoInfo();
                 VideoInfo(
-                    const Image::Info &,
-                    const Core::Time::Speed & = Core::Time::Speed(),
+                    const Image::Info&,
+                    const Core::Time::Speed& = Core::Time::Speed(),
                     const Core::Frame::Sequence& = Core::Frame::Sequence());
 
-                Image::Info info;
-                Core::Time::Speed speed;
-                Core::Frame::Sequence sequence;
-                std::string codec;
+                Image::Info             info;
+                Core::Time::Speed       speed;
+                Core::Frame::Sequence   sequence;
+                std::string             codec;
 
                 bool operator == (const VideoInfo &) const;
             };
@@ -77,10 +77,10 @@ namespace djv
                 Info(const std::string & fileName, const VideoInfo &, const AudioInfo &);
                 Info(const std::string & fileName, const std::vector<VideoInfo> &, const std::vector<AudioInfo> &);
 
-                std::string fileName;
-                std::vector<VideoInfo> video;
-                std::vector<AudioInfo> audio;
-                Tags tags;
+                std::string             fileName;
+                std::vector<VideoInfo>  video;
+                std::vector<AudioInfo>  audio;
+                Tags                    tags;
 
                 bool operator == (const Info &) const;
             };
