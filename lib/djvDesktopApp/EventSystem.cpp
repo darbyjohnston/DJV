@@ -252,10 +252,11 @@ namespace djv
                         }
                     }
                     p.render->endFrame();
-                    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-                    _redraw();
                 }
             }
+
+            glBindFramebuffer(GL_FRAMEBUFFER, 0);
+            _redraw();
         }
 
         void EventSystem::_pushClipRect(const Core::BBox2f & value)
