@@ -43,6 +43,7 @@ namespace djv
 
             private:
                 void _actionUpdate();
+                void _widgetUpdate();
 
                 DJV_PRIVATE();
             };

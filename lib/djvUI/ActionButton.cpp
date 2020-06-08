@@ -65,6 +65,7 @@ namespace djv
                 addChild(p.layout);
 
                 _actionUpdate();
+                _widgetUpdate();
 
                 auto weak = std::weak_ptr<ActionButton>(std::dynamic_pointer_cast<ActionButton>(shared_from_this()));
                 setClickedCallback(
@@ -131,18 +132,21 @@ namespace djv
             {
                 IButton::addAction(value);
                 _actionUpdate();
+                _widgetUpdate();
             }
 
             void ActionButton::removeAction(const std::shared_ptr<Action>& value)
             {
                 IButton::removeAction(value);
                 _actionUpdate();
+                _widgetUpdate();
             }
 
             void ActionButton::clearActions()
             {
                 IButton::clearActions();
                 _actionUpdate();
+                _widgetUpdate();
             }
 
             void ActionButton::_preLayoutEvent(Event::PreLayout& event)
@@ -229,6 +233,15 @@ namespace djv
                     p.iconObserver.reset();
                     p.textObserver.reset();
                     p.shortcutsObserver.reset();
+                }
+            }
+
+            void ActionButton::_widgetUpdate()
+            {
+                DJV_PRIVATE_PTR();
+                if (p.action)
+                {
+                    _p->checkBox->setVisible(p.action->observeButtonType()->get() != ButtonType::Push);
                 }
             }
 
