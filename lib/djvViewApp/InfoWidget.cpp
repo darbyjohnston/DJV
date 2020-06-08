@@ -109,6 +109,7 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
+                    widget->setBellowsState(true);
                     widget->_p->filter = value;
                     widget->_widgetUpdate();
                 }
@@ -153,8 +154,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->bellowsState = true;
-                        widget->_expandAll();
+                        widget->setBellowsState(true);
                     }
                 }
             });
@@ -167,8 +167,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->bellowsState = false;
-                        widget->_collapseAll();
+                        widget->setBellowsState(false);
                     }
                 }
             });
