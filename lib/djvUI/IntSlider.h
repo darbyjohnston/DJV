@@ -76,6 +76,11 @@ namespace djv
             void setDefaultVisible(bool);
             void resetValue();
 
+            int getSmallIncrement() const;
+            int getLargeIncrement() const;
+            void setSmallIncrement(int);
+            void setLargeIncrement(int);
+
             const Core::Time::Duration& getDelay() const;
             void setDelay(const Core::Time::Duration&);
 

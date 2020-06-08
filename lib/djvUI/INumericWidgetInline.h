@@ -41,6 +41,30 @@ namespace djv
         }
 
         template<typename T>
+        inline T INumericWidget<T>::getSmallIncrement() const
+        {
+            return _model->observeSmallIncrement()->get();
+        }
+
+        template<typename T>
+        inline T INumericWidget<T>::getLargeIncrement() const
+        {
+            return _model->observeLargeIncrement()->get();
+        }
+
+        template<typename T>
+        inline void INumericWidget<T>::setSmallIncrement(T value)
+        {
+            _model->setSmallIncrement(value);
+        }
+
+        template<typename T>
+        inline void INumericWidget<T>::setLargeIncrement(T value)
+        {
+            _model->setLargeIncrement(value);
+        }
+
+        template<typename T>
         inline const std::shared_ptr<Core::INumericValueModel<T> >& INumericWidget<T>::getModel() const
         {
             return _model;

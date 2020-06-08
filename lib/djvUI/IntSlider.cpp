@@ -289,6 +289,26 @@ namespace djv
             setValue(_p->defaultValue);
         }
 
+        int IntSlider::getSmallIncrement() const
+        {
+            return _p->model->observeSmallIncrement()->get();
+        }
+
+        int IntSlider::getLargeIncrement() const
+        {
+            return _p->model->observeLargeIncrement()->get();
+        }
+
+        void IntSlider::setSmallIncrement(int value)
+        {
+            _p->model->setSmallIncrement(value);
+        }
+
+        void IntSlider::setLargeIncrement(int value)
+        {
+            _p->model->setLargeIncrement(value);
+        }
+
         const Time::Duration& IntSlider::getDelay() const
         {
             return _p->slider->getDelay();

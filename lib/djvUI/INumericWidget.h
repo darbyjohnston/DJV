@@ -46,6 +46,11 @@ namespace djv
             void setValue(T);
             void setValueCallback(const std::function<void(T, TextEditReason)>&);
 
+            T getSmallIncrement() const;
+            T getLargeIncrement() const;
+            void setSmallIncrement(T);
+            void setLargeIncrement(T);
+
             const std::shared_ptr<Core::INumericValueModel<T> >& getModel() const;
             virtual void setModel(const std::shared_ptr<Core::INumericValueModel<T> >&);
 

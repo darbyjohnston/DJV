@@ -97,22 +97,19 @@ namespace djv
 
             for (size_t i = 0; i < 2; ++i)
             {
-                p.viewPosEdit[i] = UI::FloatEdit::create(context);
-                auto model = FloatValueModel::create();
-                model->setRange(FloatRange(-1000000.F, 1000000.F));
-                model->setSmallIncrement(1.F);
-                model->setLargeIncrement(10.F);
-                p.viewPosEdit[i]->setModel(model);
+                auto edit = UI::FloatEdit::create(context);
+                edit->setRange(FloatRange(-1000000.F, 1000000.F));
+                edit->setSmallIncrement(1.F);
+                edit->setLargeIncrement(10.F);
+                p.viewPosEdit[i] = edit;
 
                 p.viewPosResetButton[i] = UI::ToolButton::create(context);
                 p.viewPosResetButton[i]->setIcon("djvIconClear");
             }
             p.viewZoomEdit = UI::FloatEdit::create(context);
-            auto model = FloatValueModel::create();
-            model->setRange(FloatRange(.1F, 1000.F));
-            model->setSmallIncrement(.1F);
-            model->setLargeIncrement(1.F);
-            p.viewZoomEdit->setModel(model);
+            p.viewZoomEdit->setRange(FloatRange(.1F, 1000.F));
+            p.viewZoomEdit->setSmallIncrement(.1F);
+            p.viewZoomEdit->setLargeIncrement(1.F);
             p.viewZoomResetButton = UI::ToolButton::create(context);
             p.viewZoomResetButton->setIcon("djvIconClear");
 
@@ -123,6 +120,8 @@ namespace djv
             p.gridEnabledButton->setInsideMargin(UI::MetricsRole::None);
             p.gridSizeSlider = UI::IntSlider::create(context);
             p.gridSizeSlider->setRange(IntRange(1, 500));
+            p.gridSizeSlider->setSmallIncrement(1);
+            p.gridSizeSlider->setLargeIncrement(10);
             p.gridColorPickerSwatch = UI::ColorPickerSwatch::create(context);
             p.gridColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
             p.gridLabelsComboBox = UI::ComboBox::create(context);
@@ -143,6 +142,8 @@ namespace djv
             p.backgroundColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
             p.checkersSizeSlider = UI::FloatSlider::create(context);
             p.checkersSizeSlider->setRange(FloatRange(10.F, 100.F));
+            p.checkersSizeSlider->setSmallIncrement(1);
+            p.checkersSizeSlider->setLargeIncrement(10);
             p.checkersColorPickerSwatches[0] = UI::ColorPickerSwatch::create(context);
             p.checkersColorPickerSwatches[0]->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
             p.checkersColorPickerSwatches[0]->setHAlign(UI::HAlign::Fill);
@@ -151,6 +152,9 @@ namespace djv
             p.checkersColorPickerSwatches[1]->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
             p.borderCheckBox = UI::CheckBox::create(context);
             p.borderWidthSlider = UI::FloatSlider::create(context);
+            p.borderWidthSlider->setRange(FloatRange(1.F, 20.F));
+            p.borderWidthSlider->setSmallIncrement(1.F);
+            p.borderWidthSlider->setLargeIncrement(5.F);
             p.borderColorPickerSwatch = UI::ColorPickerSwatch::create(context);
             p.borderColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
 
@@ -843,7 +847,6 @@ namespace djv
             p.checkersColorPickerSwatches[1]->setColor(p.backgroundOptions.checkersColors[1]);
             p.borderCheckBox->setChecked(p.backgroundOptions.border);
             p.borderWidthSlider->setValue(p.backgroundOptions.borderWidth);
-            p.borderWidthSlider->setRange(FloatRange(1.F, 20.F));
             p.borderColorPickerSwatch->setColor(p.backgroundOptions.borderColor);
         }
 

@@ -288,6 +288,26 @@ namespace djv
             setValue(_p->defaultValue);
         }
 
+        float FloatSlider::getSmallIncrement() const
+        {
+            return _p->model->observeSmallIncrement()->get();
+        }
+
+        float FloatSlider::getLargeIncrement() const
+        {
+            return _p->model->observeLargeIncrement()->get();
+        }
+
+        void FloatSlider::setSmallIncrement(float value)
+        {
+            _p->model->setSmallIncrement(value);
+        }
+
+        void FloatSlider::setLargeIncrement(float value)
+        {
+            _p->model->setLargeIncrement(value);
+        }
+
         const Time::Duration& FloatSlider::getDelay() const
         {
             return _p->slider->getDelay();

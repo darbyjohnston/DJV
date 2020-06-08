@@ -367,8 +367,8 @@ namespace djv
             {
                 if (AV::Image::isIntType(type))
                 {
-                    auto model = p.intSliders[i]->getModel();
-                    model->setRange(AV::Image::getIntRange(type));
+                    auto slider = p.intSliders[i];
+                    slider->setRange(AV::Image::getIntRange(type));
                     int v = 0;
                     switch (AV::Image::getDataType(type))
                     {
@@ -378,12 +378,12 @@ namespace djv
                     case AV::Image::DataType::U32: v = p.color.getU32(i); break;
                     default: break;
                     }
-                    model->setValue(v);
+                    slider->setValue(v);
                 }
                 else
                 {
-                    auto model = p.floatSliders[i]->getModel();
-                    model->setRange(AV::Image::getFloatRange(type));
+                    auto slider = p.floatSliders[i];
+                    slider->setRange(AV::Image::getFloatRange(type));
                     float v = 0.F;
                     switch (AV::Image::getDataType(type))
                     {
@@ -391,7 +391,7 @@ namespace djv
                     case AV::Image::DataType::F32: v = p.color.getF32(i); break;
                     default: break;
                     }
-                    model->setValue(v);
+                    slider->setValue(v);
                 }
             }
         }
