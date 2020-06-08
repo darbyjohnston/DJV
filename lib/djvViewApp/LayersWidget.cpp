@@ -26,6 +26,7 @@ namespace djv
             std::shared_ptr<Media> currentMedia;
             AV::IO::Info info;
             size_t layer = 0;
+            std::vector<size_t> indices;
             std::string filter;
             std::shared_ptr<UI::ListWidget> listWidget;
             std::shared_ptr<UI::SearchBox> searchBox;
@@ -69,7 +70,14 @@ namespace djv
                     {
                         if (auto media = widget->_p->currentMedia)
                         {
-                            media->setLayer(static_cast<size_t>(std::max(value, 0)));
+                            const auto& indices = widget->_p->indices;
+                            if (!indices.empty())
+                            {
+                                media->setLayer(indices[Math::clamp(
+                                    value,
+                                    0,
+                                    static_cast<int>(widget->_p->indices.size() - 1))]);
+                            }
                         }
                     }
                 });
@@ -159,14 +167,14 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             std::vector<std::string> items;
-            std::vector<size_t> indices;
+            p.indices.clear();
             for (size_t i = 0; i < p.info.video.size(); ++i)
             {
                 const auto& video = p.info.video[i];
                 if (String::match(video.info.name, p.filter))
                 {
                     items.push_back(_getText(video.info.name));
-                    indices.push_back(i);
+                    p.indices.push_back(i);
                 }
             }
             p.listWidget->setItems(items);
@@ -175,20 +183,11 @@ namespace djv
         void LayersWidget::_currentLayerUpdate()
         {
             DJV_PRIVATE_PTR();
-            std::vector<size_t> indices;
-            for (size_t i = 0; i < p.info.video.size(); ++i)
-            {
-                const auto& video = p.info.video[i];
-                if (String::match(video.info.name, p.filter))
-                {
-                    indices.push_back(i);
-                }
-            }
             size_t item = 0;
-            if (indices.size())
+            if (p.indices.size())
             {
-                item = Math::closest(p.layer, indices);
-                p.layer = indices[item];
+                item = Math::closest(p.layer, p.indices);
+                p.layer = p.indices[item];
             }
             if (p.currentMedia)
             {
