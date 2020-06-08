@@ -23,6 +23,7 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
+#include <djvCore/LogSystem.h>
 #include <djvCore/RecentFilesModel.h>
 #include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
@@ -60,6 +61,13 @@ namespace djv
             std::shared_ptr<ValueObserver<int> > cacheMaxGBObserver;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<Time::Timer> cacheTimer;
+
+            typedef std::pair<Core::FileSystem::FileInfo, std::string> FileInfoAndNumber;
+
+            std::vector<FileInfoAndNumber> processFileNames(
+                const std::vector<std::string>&,
+                const OpenOptions&,
+                const std::weak_ptr<Context>&);
         };
 
         void FileSystem::_init(const std::shared_ptr<Core::Context>& context)
@@ -520,7 +528,7 @@ namespace djv
                         const Frame::Index i = sequence.getIndex(Time::fromString(*options.outPoint, speed, timeUnits));
                         outPoint = i != Frame::invalidIndex ? i : end;
                     }
-                    if (options.frame)
+                    if (options.frame && !options.frame->empty())
                     {
                         const Frame::Index i = sequence.getIndex(Time::fromString(*options.frame, speed, timeUnits));
                         frame = i != Frame::invalid ? Math::clamp(i, inPoint, outPoint) : inPoint;
@@ -561,9 +569,14 @@ namespace djv
 
         void FileSystem::open(const std::vector<std::string>& fileNames, OpenOptions options)
         {
-            for (const auto& i : _processFileNames(fileNames, options))
+            DJV_PRIVATE_PTR();
+            for (const auto& i : p.processFileNames(fileNames, options, getContext()))
             {
-                open(i, options);
+                if (!options.frame)
+                {
+                    options.frame.reset(new std::string(i.second));
+                }
+                open(i.first, options);
                 if (options.pos && options.spacing)
                 {
                     options.pos->x += *options.spacing;
@@ -799,35 +812,37 @@ namespace djv
             }
         }
 
-        std::vector<Core::FileSystem::FileInfo> FileSystem::_processFileNames(
+        std::vector<FileSystem::Private::FileInfoAndNumber> FileSystem::Private::processFileNames(
             const std::vector<std::string>& fileNames,
-            const OpenOptions& options)
+            const OpenOptions& options,
+            const std::weak_ptr<Context>& contextWeak)
         {
-            DJV_PRIVATE_PTR();
-            std::vector<Core::FileSystem::FileInfo> fileInfos;
-            if (auto context = getContext().lock())
+            std::vector<FileInfoAndNumber> out;
+            if (auto context = contextWeak.lock())
             {
                 // Get absolute paths.
                 for (const auto& i : fileNames)
                 {
-                    fileInfos.push_back(Core::FileSystem::Path::getAbsolute(Core::FileSystem::Path(i)));
+                    out.push_back(std::make_pair(
+                        Core::FileSystem::FileInfo(Core::FileSystem::Path::getAbsolute(Core::FileSystem::Path(i))),
+                        std::string()));
                 }
 
                 // Find arguments that belong to the same sequence (for
                 // example when a shell wildcard is used).
                 auto io = context->getSystemT<AV::IO::System>();
-                auto i = fileInfos.begin();
-                while (i != fileInfos.end())
+                auto i = out.begin();
+                while (i != out.end())
                 {
-                    if (io->canSequence(*i))
+                    if (io->canSequence(i->first))
                     {
                         auto j = i + 1;
-                        while (j != fileInfos.end())
+                        while (j != out.end())
                         {
-                            if (i->isCompatible(*j) &&
-                                i->addToSequence(*j))
+                            if (i->first.isCompatible(j->first) &&
+                                i->first.addToSequence(j->first))
                             {
-                                j = fileInfos.erase(j);
+                                j = out.erase(j);
                             }
                             else
                             {
@@ -839,32 +854,39 @@ namespace djv
                 }
                 
                 // Find sequences.
-                if (p.settings->observeAutoDetectSequences()->get())
+                if (settings->observeAutoDetectSequences()->get())
                 {
-                    for (auto& i : fileInfos)
+                    const bool firstFrame = settings->observeSequencesFirstFrame()->get();
+                    for (auto& i : out)
                     {
-                        if (Core::FileSystem::FileType::File == i.getType())
+                        if (Core::FileSystem::FileType::File == i.first.getType())
                         {
-                            const auto fileInfo = Core::FileSystem::FileInfo::getFileSequence(i.getPath(), io->getSequenceExtensions());
+                            const auto fileInfo = Core::FileSystem::FileInfo::getFileSequence(
+                                i.first.getPath(),
+                                io->getSequenceExtensions());
                             if (fileInfo.getSequence().getSize() > 1)
                             {
-                                i = fileInfo;
+                                if (!firstFrame)
+                                {
+                                    i.second = i.first.getPath().getNumber();
+                                }
+                                i.first = fileInfo;
                             }
                         }
                     }
                 }
             
                 // Check the directory for wildcards.
-                for (auto& i : fileInfos)
+                for (auto& i : out)
                 {
-                        if (Core::FileSystem::FileType::File == i.getType())
-                        {
-                        const std::string& number = i.getPath().getNumber();
+                    if (Core::FileSystem::FileType::File == i.first.getType())
+                    {
+                        const std::string& number = i.first.getPath().getNumber();
                         const bool wildcard = Core::FileSystem::FileInfo::isSequenceWildcard(number);
                         Core::FileSystem::FileInfo fileSequence;
                         if (wildcard)
                         {
-                            fileSequence = Core::FileSystem::FileInfo::getFileSequence(i.getPath(), io->getSequenceExtensions());
+                            fileSequence = Core::FileSystem::FileInfo::getFileSequence(i.first.getPath(), io->getSequenceExtensions());
                         }
                         if (wildcard &&
                             (number.size() == 1 || number.size() == fileSequence.getSequence().getPad()))
@@ -873,23 +895,23 @@ namespace djv
                             {
                                 fileSequence.setSequence(Core::Frame::Sequence(*options.startEnd, fileSequence.getSequence().getPad()));
                             }
-                            i = fileSequence;
+                            i.first = fileSequence;
                         }
                     }
                 }
                 
                 // Check for missing file extensions (e.g., Maya movie playblasts).
-                for (auto& i : fileInfos)
+                for (auto& i : out)
                 {
                     const std::set<std::string> extensions = io->getNonSequenceExtensions();
-                    if (!i.doesExist())
+                    if (!i.first.doesExist())
                     {
                         for (const auto& j : extensions)
                         {
-                            Core::FileSystem::FileInfo fileInfo(i.getFileName() + j);
+                            Core::FileSystem::FileInfo fileInfo(i.first.getFileName() + j);
                             if (fileInfo.doesExist())
                             {
-                                i = fileInfo;
+                                i.first = fileInfo;
                                 break;
                             }
                         }
@@ -897,17 +919,22 @@ namespace djv
                 }
                 
                 // Limit the number of file names.
-                const size_t openMax = p.settings->observeOpenMax()->get();
-                if (fileInfos.size() > openMax)
+                const size_t openMax = settings->observeOpenMax()->get();
+                if (out.size() > openMax)
                 {
-                    while (fileInfos.size() > openMax)
+                    while (out.size() > openMax)
                     {
-                        fileInfos.pop_back();
+                        out.pop_back();
                     }
-                    _log(String::Format(_getText(DJV_TEXT("error_max_files"))).arg(openMax), LogLevel::Error);
+                    auto logSystem = context->getSystemT<LogSystem>();
+                    auto textSystem = context->getSystemT<TextSystem>();
+                    logSystem->log(
+                        "djv::ViewApp::FileSystem",
+                        String::Format(textSystem->getText(DJV_TEXT("error_max_files"))).arg(openMax),
+                        LogLevel::Error);
                 }
             }
-            return fileInfos;
+            return out;
         }
 
     } // namespace ViewApp

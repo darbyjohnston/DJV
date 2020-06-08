@@ -79,10 +79,6 @@ namespace djv
             void _textUpdate() override;
 
         private:
-            std::vector<Core::FileSystem::FileInfo> _processFileNames(
-                const std::vector<std::string>&,
-                const OpenOptions&);
-            
             DJV_PRIVATE();
         };
 

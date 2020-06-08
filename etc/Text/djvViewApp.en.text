@@ -471,6 +471,7 @@
     "reset_the_value": "Reset the value",
     "settings_file_auto-detect_file_sequences": "Auto-detect file sequences",
     "settings_file_sequences": "Sequences",
+    "settings_file_sequences_start_first_frame": "Start at the first frame",
     "settings_general_section_nux": "NUX",
     "settings_input_scroll_wheel_speed": "Speed",
     "settings_input_section_scroll_wheel": "Scroll Wheel",

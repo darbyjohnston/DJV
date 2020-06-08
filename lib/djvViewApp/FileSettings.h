@@ -47,7 +47,9 @@ namespace djv
             void setRecentFilesMax(size_t);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeAutoDetectSequences() const;
+            std::shared_ptr<Core::IValueSubject<bool> > observeSequencesFirstFrame() const;
             void setAutoDetectSequences(bool);
+            void setSequencesFirstFrame(bool);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeCacheEnabled() const;
             std::shared_ptr<Core::IValueSubject<int> > observeCacheMaxGB() const;
