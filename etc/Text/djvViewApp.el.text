@@ -612,8 +612,6 @@
     "widget_view_background_checkers_size": "Μέγεθος πούλιων",
     "widget_view_background_color": "Χρώμα",
     "widget_view_border": "Σύνορο",
-    "widget_view_border_color": "Χρώμα πλαισίου",
-    "widget_view_border_width": "Πλάτος περιγράμματος",
     "widget_view_grid_color": "Χρώμα",
     "widget_view_grid_enabled": "Ενεργοποιήθηκε",
     "widget_view_grid_enabled_tooltip": "Εμφάνιση του πλέγματος",

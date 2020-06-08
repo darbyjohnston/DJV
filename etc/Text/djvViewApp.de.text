@@ -612,8 +612,6 @@
     "widget_view_background_checkers_size": "Karogröße",
     "widget_view_background_color": "Farbe",
     "widget_view_border": "Rand",
-    "widget_view_border_color": "Randfarbe",
-    "widget_view_border_width": "Randbreite",
     "widget_view_grid_color": "Farbe",
     "widget_view_grid_enabled": "aktiviert",
     "widget_view_grid_enabled_tooltip": "Zeigt das Raster",

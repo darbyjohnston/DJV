@@ -612,8 +612,6 @@
     "widget_view_background_checkers_size": "Dama taglia",
     "widget_view_background_color": "Colore",
     "widget_view_border": "Confine",
-    "widget_view_border_color": "Colore del bordo",
-    "widget_view_border_width": "Larghezza del bordo",
     "widget_view_grid_color": "Colore",
     "widget_view_grid_enabled": "Abilitato",
     "widget_view_grid_enabled_tooltip": "Mostra la griglia",

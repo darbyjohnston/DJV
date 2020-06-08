@@ -612,8 +612,6 @@
     "widget_view_background_checkers_size": "체커 크기",
     "widget_view_background_color": "색깔",
     "widget_view_border": "경계",
-    "widget_view_border_color": "테두리 색",
-    "widget_view_border_width": "테두리 너비",
     "widget_view_grid_color": "색깔",
     "widget_view_grid_enabled": "가능",
     "widget_view_grid_enabled_tooltip": "그리드 표시",

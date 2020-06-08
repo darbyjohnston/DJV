@@ -612,8 +612,6 @@
     "widget_view_background_checkers_size": "Tamaño de las damas",
     "widget_view_background_color": "Color",
     "widget_view_border": "Frontera",
-    "widget_view_border_color": "Color del borde",
-    "widget_view_border_width": "Ancho del borde",
     "widget_view_grid_color": "Color",
     "widget_view_grid_enabled": "Habilitado",
     "widget_view_grid_enabled_tooltip": "Mostrar la cuadrícula",

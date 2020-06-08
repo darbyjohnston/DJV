@@ -612,8 +612,6 @@
     "widget_view_background_checkers_size": "跳棋尺寸",
     "widget_view_background_color": "颜色",
     "widget_view_border": "边界",
-    "widget_view_border_color": "边框颜色",
-    "widget_view_border_width": "边框宽度",
     "widget_view_grid_color": "颜色",
     "widget_view_grid_enabled": "已启用",
     "widget_view_grid_enabled_tooltip": "显示网格",

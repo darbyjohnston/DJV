@@ -612,8 +612,6 @@
     "widget_view_background_checkers_size": "Taille des dames",
     "widget_view_background_color": "Couleur",
     "widget_view_border": "Frontière",
-    "widget_view_border_color": "Couleur de la bordure",
-    "widget_view_border_width": "Largeur de la bordure",
     "widget_view_grid_color": "Couleur",
     "widget_view_grid_enabled": "Activée",
     "widget_view_grid_enabled_tooltip": "Afficher la grille",

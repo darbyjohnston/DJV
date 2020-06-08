@@ -612,8 +612,6 @@
     "widget_view_background_checkers_size": "Tamanho das damas",
     "widget_view_background_color": "Cor",
     "widget_view_border": "Fronteira",
-    "widget_view_border_color": "Cor da borda",
-    "widget_view_border_width": "Largura da borda",
     "widget_view_grid_color": "Cor",
     "widget_view_grid_enabled": "ativado",
     "widget_view_grid_enabled_tooltip": "Mostrar a grade",

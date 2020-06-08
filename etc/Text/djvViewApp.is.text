@@ -612,8 +612,6 @@
     "widget_view_background_checkers_size": "Stærð afgreiðslukassa",
     "widget_view_background_color": "Litur",
     "widget_view_border": "Landamæri",
-    "widget_view_border_color": "Brún litur",
-    "widget_view_border_width": "Landamæribreidd",
     "widget_view_grid_color": "Litur",
     "widget_view_grid_enabled": "Virkt",
     "widget_view_grid_enabled_tooltip": "Sýnið ristina",

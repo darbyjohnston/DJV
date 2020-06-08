@@ -612,8 +612,6 @@
     "widget_view_background_checkers_size": "Velikost dámy",
     "widget_view_background_color": "Barva",
     "widget_view_border": "okraj",
-    "widget_view_border_color": "Barva okraje",
-    "widget_view_border_width": "Šířka okraje",
     "widget_view_grid_color": "Barva",
     "widget_view_grid_enabled": "Povoleno",
     "widget_view_grid_enabled_tooltip": "Zobrazit mřížku",

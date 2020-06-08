@@ -612,8 +612,6 @@
     "widget_view_background_checkers_size": "Dammens storlek",
     "widget_view_background_color": "Färg",
     "widget_view_border": "Gräns",
-    "widget_view_border_color": "Gräns färg",
-    "widget_view_border_width": "Gränsbredd",
     "widget_view_grid_color": "Färg",
     "widget_view_grid_enabled": "Aktiverad",
     "widget_view_grid_enabled_tooltip": "Visa rutnätet",

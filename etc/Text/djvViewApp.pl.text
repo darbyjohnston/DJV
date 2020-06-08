@@ -612,8 +612,6 @@
     "widget_view_background_checkers_size": "Rozmiar warcabów",
     "widget_view_background_color": "Kolor",
     "widget_view_border": "Granica",
-    "widget_view_border_color": "Kolor ramki",
-    "widget_view_border_width": "Szerokość granicy",
     "widget_view_grid_color": "Kolor",
     "widget_view_grid_enabled": "Włączone",
     "widget_view_grid_enabled_tooltip": "Pokaż siatkę",
