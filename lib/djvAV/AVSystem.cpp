@@ -46,7 +46,7 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             p.timeUnits = ValueSubject<Time::Units>::create(Time::Units::First);
-            p.alphaBlend = ValueSubject<AlphaBlend>::create(AlphaBlend::First);
+            p.alphaBlend = ValueSubject<AlphaBlend>::create(AlphaBlend::Premultiplied);
             p.defaultSpeed = ValueSubject<Time::FPS>::create(Time::getDefaultSpeed());
             p.imageFilterOptions = ValueSubject<Render2D::ImageFilterOptions>::create();
             p.textLCDRendering = ValueSubject<bool>::create(true);
