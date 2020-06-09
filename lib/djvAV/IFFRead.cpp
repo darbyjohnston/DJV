@@ -732,6 +732,13 @@ namespace djv
                             io->seek(chunksize);
                         }
 
+                        if (Image::Type::None == info.type)
+                        {
+                            throw FileSystem::Error(String::Format("{0}: {1}").
+                                arg(io->getFileName()).
+                                arg(textSystem->getText(DJV_TEXT("error_file_not_supported"))));
+                        }
+
                         info.layout.mirror.y = true;
                     }
 
