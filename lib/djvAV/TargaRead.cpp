@@ -60,7 +60,7 @@ namespace djv
                             // Information.
                             if (in > end)
                             {
-                                return 0;
+                                return nullptr;
                             }
                             const uint8_t count  = (*in & 0x7f) + 1;
                             const bool    run    = (*in & 0x80) ? true : false;
@@ -70,7 +70,7 @@ namespace djv
                             // Unpack.
                             if (in + length * channels > end)
                             {
-                                return 0;
+                                return nullptr;
                             }
                             if (run)
                             {
@@ -151,7 +151,7 @@ namespace djv
                     }
                     else
                     {
-                        const size_t tmpSize = out->getDataByteCount();
+                        const size_t tmpSize = io->getSize() - io->getPos();
                         std::vector<uint8_t> tmp(tmpSize);
                         io->read(tmp.data(), tmpSize);
                         const uint8_t* p = tmp.data();
