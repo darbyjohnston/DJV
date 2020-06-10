@@ -10,7 +10,7 @@ body
 	background-color: rgb(46, 46, 46);
 }
 
-div.logo
+div.header
 {
     padding: 1em 4em 1em 4em;
 	background-color: rgb(30, 30, 30);
@@ -33,13 +33,7 @@ div.nav
 
 div.block
 {
-	margin: 4em;
-}
-
-div.separator
-{
-    padding: .1em 0 0 0;
-	background-color: rgb(30, 30, 30);
+	margin: 4em 4em 4em 4em;
 }
 
 div.footer
@@ -82,13 +76,6 @@ p
 	color: rgb(190, 190, 190);
 }
 
-p.indexHeader
-{
-    margin: 0 0 2em 0;
-    font-size: 1.5em;
-	color: rgb(240, 240, 240);
-}
-
 p.header
 {
     margin: 2em 0 1em 0;
@@ -103,17 +90,10 @@ p.subHeader
 	color: rgb(240, 240, 240);
 }
 
-p.indexText
+p.list
 {
+    margin: .4em 0 .4em 2em;
     font-size: 1em;
-	color: rgb(190, 190, 190);
-}
-
-p.quote
-{
-    margin: 2em 0 0 0;
-    font-size: 1em;
-	color: rgb(190, 190, 190);
 }
 
 p.quoteAuthor
@@ -144,6 +124,22 @@ ol
 {
     font-size: 1em;
 	color: rgb(190, 190, 190);
+}
+
+.button
+{
+    margin: 0em 1em 0em 0em;
+	color: rgb(255, 255, 255);
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1em;
+}
+
+img.logo
+{
+    float: left;
+    padding: 0em 4em 2em 0em;
 }
 
 img.screenshot

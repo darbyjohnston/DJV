@@ -3,23 +3,16 @@ layout: page
 title: Build Options
 ---
 
-<div class="nav">
-    <p><a class="text" href="index.html">Home</a> |
-    <a class="text" href="documentation.html">Documentation</a> |
-    {{ page.title }}</p>
-	<ul>
-	    <li><a class="text" href="#General">General</a></li>
-	    <li><a class="text" href="#Testing">Testing</a></li>
-	    <li><a class="text" href="#ThirdParty">Third Party</a></li>
-	    <li><a class="text" href="#Experimental">Experimental</a></li>
-	</ul>
+<div class="block">
+	<p class="header">Build options</p>
+    <p class="list"><a class="text" href="#General">General</a></p>
+    <p class="list"><a class="text" href="#Testing">Testing</a></p>
+    <p class="list"><a class="text" href="#ThirdParty">Third party</a></p>
+    <p class="list"><a class="text" href="#Experimental">Experimental</a></p>
 </div>
-
-<div class="separator"></div>
 
 <div class="block">
 	<p class="header"><a name="General">General</a></p>
-	<p>These CMake variables can be used to customize how DJV is built.</p>
     <table>
         <tr>
             <th>Variable</th>
@@ -37,11 +30,8 @@ title: Build Options
     </table>
 </div>
 
-<div class="separator"></div>
-
 <div class="block">
 	<p class="header"><a name="Testing">Testing</a></p>
-	<p>These CMake variables can be used to enable testing.</p>
     <table>
         <tr>
             <th>Variable</th>
@@ -64,12 +54,8 @@ title: Build Options
     </table>
 </div>
 
-<div class="separator"></div>
-
 <div class="block">
-	<p class="header"><a name="ThirdParty">Third Party</a></p>
-	<p>These CMake variables can be used to customize the third party software
-	dependencies.</p>
+	<p class="header"><a name="ThirdParty">Third party</a></p>
     <table>
         <tr>
             <th>Variable</th>
@@ -81,16 +67,13 @@ title: Build Options
             <td>DJV_THIRD_PARTY_OPTIONAL</td>
             <td>Boolean</td>
             <td>True</td>
-            <td>Build optional third party packages.</td>
+            <td>Enable optional third party packages.</td>
         </tr>
     </table>
 </div>
 
-<div class="separator"></div>
-
 <div class="block">
 	<p class="header"><a name="Experimental">Experimental</a></p>
-	<p>These CMake variables can be used to enable experimental functionality.</p>
     <table>
         <tr>
             <th>Variable</th>

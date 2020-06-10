@@ -6,28 +6,21 @@
     <title>DJV Installation</title>
   </head>
   <body>
-    <div class="logo">
-        <img src="assets/djv_logo.svg">
+    <div class="header">
+        <a class="button" href="index.html">DJV</a>
+        <a class="button" href="download.html">Download</a>
+        <a class="button" href="documentation.html">Documentation</a>
+        <a class="button" href="contributing.html">Contribute</a>
+        <a class="button" href="donate.html">Donate</a>
+        <a class="button" href="mailto:darbyjohnston@yahoo.com">Contact</a>
     </div>
-    <div class="nav">
-    <p><a class="text" href="index.html">Home</a> |
-    <a class="text" href="documentation.html">Documentation</a> |
-    DJV Installation</p>
+    <div class="block">
+	<p class="header">Installation</p>
+    <p class="list"><a class="text" href="#LinuxRPM">Linux RPM</a></p>
+    <p class="list"><a class="text" href="#LinuxDEB">Linux DEB</a></p>
+    <p class="list"><a class="text" href="#macOS">Apple macOS</a></p>
+    <p class="list"><a class="text" href="#Windows">Microsoft Windows</a></p>
 </div>
-
-<div class="separator"></div>
-
-<div class="block">
-	<p class="header">DJV Installation</p>
-	<ul>
-	    <li><a class="text" href="#LinuxRPM">Linux RPM</a></li>
-	    <li><a class="text" href="#LinuxDEB">Linux DEB</a></li>
-	    <li><a class="text" href="#macOS">Apple macOS</a></li>
-	    <li><a class="text" href="#Windows">Microsoft Windows</a></li>
-	</ul>
-</div>
-
-<div class="separator"></div>
 
 <div class="block">
 	<p class="header"><a name="LinuxRPM">Linux RPM</a></p>
@@ -36,17 +29,15 @@
 sudo rpm -i DJV2-2.0.6-1.x86_64.rpm
 </pre>
     <p>The default installation directory is "/usr/local/DJV2".</p>
-    <p>Starting the DJV viewer:</p>
+    <p>Starting the DJV player:</p>
     <pre>
-/usr/local/DJV2/bin/djv.sh
+djv
 </pre>
     <p>To uninstall the RPM package:</p>
 	<pre>
 sudo rpm -e DJV2
 </pre>
 </div>
-
-<div class="separator"></div>
 
 <div class="block">
 	<p class="header"><a name="LinuxDEB">Linux DEB</a></p>
@@ -65,16 +56,12 @@ sudo dpkg --remove DJV2
 </pre>
 </div>
 
-<div class="separator"></div>
-
 <div class="block">
 	<p class="header"><a name="macOS">Apple macOS</a></p>
 	<p>Standard macOS DMG files are provided for installation. To
 	install, double-click the DMG file and drag and drop the
 	application to where you would like it installed.</p>
 </div>
-
-<div class="separator"></div>
 
 <div class="block">
 	<p class="header"><a name="Windows">Microsoft Windows</a></p>

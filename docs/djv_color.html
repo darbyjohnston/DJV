@@ -3,15 +3,11 @@ layout: page
 title: Color Management
 ---
 
-<div class="nav">
-    <p><a class="text" href="index.html">Home</a> |
-    <a class="text" href="documentation.html">Documentation</a> |
-    {{ page.title }}</p>
-	<ul>
-	    <li><a class="text" href="#Configurations">Configurations</a></li>
-	    <li><a class="text" href="#Widget">Color Space Widget</a></li>
-	    <li><a class="text" href="#ACES">Adding ACES Configurations</a></li>
-	</ul>
+<div class="block">
+	<p class="header">Color management</p>
+    <p class="list"><a class="text" href="#Configurations">Configurations</a></p>
+    <p class="list"><a class="text" href="#Widget">Color space widget</a></p>
+    <p class="list"><a class="text" href="#ACES">Adding ACES configurations</a></p>
 </div>
 
 <div class="block">
@@ -22,10 +18,8 @@ title: Color Management
     <a class="text" href="https://opencolorio.org/downloads.html">here</a>.</p>
 </div>
 
-<div class="separator"></div>
-
 <div class="block">
-    <p class="header"><a name="Widget">Color Space Widget</a></p>
+    <p class="header"><a name="Widget">Color space widget</a></p>
     <p>The color space widget allows you to configure color management
     settings. By default it is configured with a few sample
     configurations from OpenColorIO.</p>
@@ -35,28 +29,31 @@ title: Color Management
         <li>Click the menu item "Color Space"</li>
     </ol>
     <p><img class="diagram" src="assets/djv_color_1.svg"></p>
-    <p>Within the color space widget, the "Config" tab allows you to set
-    the active configuration and add or remove configurations. The "Display"
-    tab allows you to set the color space for the display. The "Image" tab
-    allows you to set the color space used for each file type.</p>
+    <p>Configuration section:</p>
     <ol>
-        <li>The active configuration</li>
+        <li>Active configuration</li>
         <li>Add a new configuration</li>
         <li>Edit the configurations</li>
-        <li>The display color space</li>
-        <li>The view color space</li>
-        <li>The default color space for files</li>
-        <li>A color space associated with a file type</li>
+    </ol>
+    <p><img class="diagram" src="assets/djv_color_2.svg"></p>
+    <p>Display section:</p>
+    <ol>
+        <li>Display color space</li>
+        <li>View color space</li>
+    </ol>
+    <p><img class="diagram" src="assets/djv_color_3.svg"></p>
+    <p>Image section:</p>
+    <ol>
+        <li>Default color space for files</li>
+        <li>Color space associated with a file type</li>
         <li>Add a new file type color space</li>
         <li>Edit the file type color spaces</li>
     </ol>
-    <p><img class="diagram" src="assets/djv_color_2.svg"></p>
+    <p><img class="diagram" src="assets/djv_color_4.svg"></p>
 </div>
 
-<div class="separator"></div>
-
 <div class="block">
-    <p class="header"><a name="ACES">Adding ACES Configurations</a></p>
+    <p class="header"><a name="ACES">Adding ACES configurations</a></p>
     <p>Download the sample OCIO configurations, which include the ACES
     configurations,
     <a class="text" href="http://github.com/imageworks/OpenColorIO-Configs/tarball/master">here</a>.
@@ -77,14 +74,14 @@ title: Color Management
     defaults in the configuration. To change the color space click
     on the color space name:</p>
     <ol>
-        <li>Go to the display tab</li>
+        <li>Go to the display section</li>
         <li>Set the display color space</li>
         <li>Set the view color space</li>
     </ol>
     <p><img class="diagram" src="assets/djv_color_aces_5.svg"></p>
     <p>Setup color spaces for the different file types:</p>
     <ol>
-        <li>Go to the image tab</li>
+        <li>Go to the image section</li>
         <li>Click the add color space button</li>
         <li>Choose a file type from the popup</li>
         <li>Click the color space button</li>

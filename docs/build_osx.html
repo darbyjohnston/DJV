@@ -3,16 +3,17 @@ layout: page
 title: Building on Apple macOS
 ---
 
-<div class="nav">
-    <p><a class="text" href="index.html">Home</a> |
-    <a class="text" href="documentation.html">Documentation</a> |
-    {{ page.title }}</p>
+<div class="block">
+	<p class="header">Building on Apple macOS</p>
+    <p class="list"><a class="text" href="#Preparation">Preparation</a></p>
+    <p class="list"><a class="text" href="#BuildingThirdParty">Building third party dependencies</a></p>
+    <p class="list"><a class="text" href="#Building">Building</a></p>
+    <p class="list"><a class="text" href="#Packaging">Packaging</a></p>
 </div>
 
 <div class="block">
-	<p class="header">{{ page.title }}</a></p>
-
-	<p class="subHeader"><a name="Requirements">Requirements</a></p>
+	<p class="header"><a name="Preparation">Preparation</a></p>
+	<p>Check that you have the following requirements:</p>
 	<ul>
 	    <li><a class="text" href="https://www.apple.com/macos/catalina">OS X</a> (version 10.11 or later)</li>
 		<li><a class="text" href="http://www.opengl.org">OpenGL</a> (version 4.1 or later)</li>
@@ -27,25 +28,25 @@ title: Building on Apple macOS
 $ brew install git
 $ brew install cmake
 </pre>
-
-	<p class="subHeader"><a name="Preparation">Preparation</a></p>
-    <p>First choose a directory to work in, this is where the code will be
+    <p>Choose a directory to work in, this is where the code will be
     checked out and built. This directory will be referred to as DJV_BUILD
     in the rest of the documentation.</p>
-	<p>Append your PATH and DYLD_LIBRARY_PATH environment variables:</p>
-	<pre>
-$ export DJV_BUILD=$PWD
-$ export PATH=$DJV_BUILD/DJV-install-Debug/bin:$PATH
-$ export DYLD_LIBRARY_PATH=$DJV_BUILD/DJV-install-Debug/lib:$DYLD_LIBRARY_PATH
-</pre>
-
-	<p class="subHeader"><a name="BuildingDJV">Building DJV</a></p>
 	<p>Open a shell, go to the build directory, and clone the DJV repository:</p>
 	<pre>
 $ cd $DJV_BUILD
 $ git clone https://github.com/darbyjohnston/DJV.git
 </pre>
-	<p>Build the third party dependencies:</p>
+	<p>Setup environment variables:</p>
+	<pre>
+$ export DJV_BUILD=$PWD
+$ export PATH=$DJV_BUILD/DJV-install-Debug/bin:$PATH
+$ export DYLD_LIBRARY_PATH=$DJV_BUILD/DJV-install-Debug/lib:$DYLD_LIBRARY_PATH
+</pre>
+</div>
+
+<div class="block">
+	<p class="header"><a name="BuildingThirdParty">Building third party dependencies</a></p>
+	<p>Create a directory for the build, run CMake, and start the build:</p>
 	<pre>
 $ mkdir DJV-third-party-Debug
 $ cd DJV-third-party-Debug
@@ -54,7 +55,11 @@ $ cmake --build .
 $ cmake --build . --target install
 $ cd ..
 </pre>
-	<p>Build DJV:</p>
+</div>
+
+<div class="block">
+	<p class="header"><a name="Building">Building</a></p>
+	<p>Create a directory for the build, run CMake, and start the build:</p>
 	<pre>
 $ mkdir DJV-Debug
 $ cd DJV-Debug
@@ -69,9 +74,10 @@ $ cmake --build . --target test
 	<pre>
 $ ./build/bin/djv
 </pre>
+</div>
 
-	<p class="subHeader"><a name="PackagingDJV">Packaging DJV</a></p>
-	<p>The following steps describe how to pacakge DJV.</p>
+<div class="block">
+	<p class="header"><a name="Packaging">Packaging</a></p>
     <p>Create a release build:</p>
 	<pre>
 $ export DJV_BUILD=$PWD
