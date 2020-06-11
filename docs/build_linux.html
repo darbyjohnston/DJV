@@ -23,16 +23,17 @@ title: Building on Linux
 	<p>On Debian based systems you can install the requirements with the
 	following command:</p>
 	<pre>
-$ sudo apt-get install git cmake build-essential libgl1-mesa-dev xorg-dev libasound2-dev
+$ sudo apt-get install build-essential git libgl1-mesa-dev xorg-dev libasound2-dev
 </pre>
     <p>On CentOS systems you can install the requirements with the
     following command:</p>
     <pre>
-$ sudo yum install git gcc-c++ mesa-libGL-devel libXrandr-devel libXinerama-devel libXcursor-devel libXi-devel alsa-lib-devel
+$ sudo yum install centos-release-scl install devtoolset-7-gcc* git mesa-libGL-devel libXrandr-devel libXinerama-devel libXcursor-devel libXi-devel alsa-lib-devel
+$ scl enable devtoolset-7 bash
 </pre>
-    <p>Note that the version of CMake available from the yum package manager
-    is too old; you will need to manually download and build CMake 3.12 or
-    later.</p>
+    <p>Note that the version of CMake available from your package manager
+    may be too old (i.e., Ubuntu 18.04 and CentOS 7); if so download and
+    manually build CMake 3.12 or later.</p>
     <p>Choose a directory to work in, this is where the code will be
     checked out and built. This directory will be referred to as DJV_BUILD
     in the rest of the documentation.</p>
