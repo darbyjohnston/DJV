@@ -4,7 +4,7 @@
     "endian_lsb": "LSB",
     "endian_msb": "MSB",
     "error_argument_not_found": "Argument nicht gefunden.",
-    "error_cannot_parse_argument": "Das Argument kann nicht analysiert werden.",
+    "error_cannot_parse_argument": "Der Parameter kann nicht analysiert werden.",
     "error_cannot_parse_the_value": "Der Wert kann nicht analysiert werden.",
     "error_duplicate_argument": "Doppeltes Argument.",
     "error_url_cannot_open": "URL kann nicht geöffnet werden.",

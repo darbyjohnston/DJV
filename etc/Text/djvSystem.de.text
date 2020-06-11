@@ -56,7 +56,7 @@
     "resource_path_text": "Text",
     "timer_fast": "Schnell",
     "timer_medium": "Mittel",
-    "timer_slow": "Schleppend",
-    "timer_very_fast": "Sehr schnell",
-    "timer_very_slow": "Sehr langsam"
+    "timer_slow": "Langsam",
+    "timer_very_fast": "Sehr Schnell",
+    "timer_very_slow": "Sehr Langsam"
 }
