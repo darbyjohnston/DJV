@@ -39,7 +39,7 @@ $ sudo apt-get install build-essential git libgl1-mesa-dev xorg-dev libasound2-d
     <p>On CentOS systems you can install the requirements with the
     following command:</p>
     <pre>
-$ sudo yum install centos-release-scl install devtoolset-7-gcc* git mesa-libGL-devel libXrandr-devel libXinerama-devel libXcursor-devel libXi-devel alsa-lib-devel
+$ sudo yum install centos-release-scl install devtoolset-7-gcc* rpm-build git mesa-libGL-devel libXrandr-devel libXinerama-devel libXcursor-devel libXi-devel alsa-lib-devel
 $ scl enable devtoolset-7 bash
 </pre>
     <p>Note that the version of CMake available from your package manager
@@ -94,16 +94,18 @@ $ ./build/bin/djv
 
 <div class="block">
 	<p class="header"><a name="Packaging">Packaging</a></p>
+    <p>Create a release branch:</p>
+    <pre>
+$ git branch -b release/2.0.0
+$ git push -u origin release/2.0.0
+</pre>
+    <p>Update "docs/index.html" with an announcement about the version.</p>
 	<p>Update the version numbers in "docs/download.html" and "docs/djv_install.html".</p>
+    <p>Update the milestone in "docs/download.html".</p>
 	<p>Build the static web site:</p>
     <pre>
 $ cd docs
 $ bundle exec jekyll serve
-</pre>
-	<p>Tag the git repository with the new version:</p>
-	<pre>
-git tag -a 2.0.0 -m "Version 2.0.0"
-git push origin 2.0.0
 </pre>
     <p>Create a release build:</p>
 	<pre>
@@ -138,6 +140,11 @@ $ cmake --build . --target package
 $ cmake ../DJV -DCPACK_GENERATOR=TGZ -DCPACK_PACKAGING_INSTALL_PREFIX= -DDJV_THIRD_PARTY=TRUE
 $ cmake --build .
 $ cmake --build . --target package
+</pre>
+	<p>Tag the git repository with the new version:</p>
+	<pre>
+$ git tag -a 2.0.0 -m "Version 2.0.0"
+$ git push origin 2.0.0
 </pre>
 	<p>Bump the version number in "CMakeLists.txt", "Doxyfile", and "sonar-project.properties".</p>
 </div>
