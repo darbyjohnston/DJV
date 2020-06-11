@@ -1,16 +1,18 @@
-set DJV_BUILD=C:/dev
-set PATH=%CD%\DJV-install-Release\bin;%PATH%
+# Run this script in the parent directory of the repository.
 
-mkdir DJV-third-party-Release
-cd DJV-third-party-Release
-cmake ..\DJV\third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release
+set DJV_BUILD=C:/dev
+set PATH=%CD%\DJV-install-Package\bin;%PATH%
+
+mkdir DJV-third-party-Package
+cd DJV-third-party-Package
+cmake ..\DJV\third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Package
 cmake --build . --config Release -j
 cmake --build . --config Release --target install
 cd ..
 
-mkdir DJV-Release
-cd DJV-Release
-cmake ..\DJV -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=%DJV_BUILD%/DJV-install-Release -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release
+mkdir DJV-Package
+cd DJV-Package
+cmake ..\DJV -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=%DJV_BUILD%/DJV-install-Package -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Package
 cmake --build . --config Release -j
 
 cmake ..\DJV -DDJV_THIRD_PARTY=TRUE
