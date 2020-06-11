@@ -83,7 +83,14 @@ $ ./build/bin/djv
 
 <div class="block">
 	<p class="header"><a name="Packaging">Packaging</a></p>
+    <p>Create a release branch:</p>
+    <pre>
+$ git branch -b release/2.0.0
+$ git push -u origin release/2.0.0
+</pre>
+    <p>Update "docs/index.html" with an announcement about the version.</p>
 	<p>Update the version numbers in "docs/download.html" and "docs/djv_install.html".</p>
+    <p>Update the milestone in "docs/download.html".</p>
 	<p>Build the static web site:</p>
     <pre>
 $ cd docs
@@ -91,8 +98,8 @@ $ bundle exec jekyll serve
 </pre>
 	<p>Tag the git repository with the new version:</p>
 	<pre>
-git tag -a 2.0.0 -m "Version 2.0.0"
-git push origin 2.0.0
+$ git tag -a 2.0.0 -m "Version 2.0.0"
+$ git push origin 2.0.0
 </pre>
     <p>Create a release build:</p>
 	<pre>
