@@ -1,3 +1,5 @@
+git clone https://github.com/darbyjohnston/DJV.git
+
 set DJV_BUILD=C:/dev
 set PATH=%CD%\DJV-install-Release\bin;%PATH%
 

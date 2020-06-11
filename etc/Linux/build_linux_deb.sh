@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Run this script in the parent directory of the repository.
+git clone https://github.com/darbyjohnston/DJV.git
 
 export DJV_BUILD=$PWD
 export PATH=$DJV_BUILD/DJV-install-Release/bin:$PATH
