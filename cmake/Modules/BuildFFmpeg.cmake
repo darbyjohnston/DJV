@@ -22,6 +22,7 @@ else()
         --disable-avfoundation
         --disable-coreimage
         --disable-audiotoolbox
+        --disable-vaapi
         --enable-pic
         --extra-cflags=${FFmpeg_EXTRA_CFLAGS}
         --extra-cxxflags=${FFmpeg_EXTRA_CXXFLAGS}
