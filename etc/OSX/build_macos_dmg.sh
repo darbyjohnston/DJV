@@ -20,4 +20,4 @@ cmake --build . -j 8
 
 cmake ../DJV -DDJV_THIRD_PARTY=TRUE
 cmake --build . -j 8
-cmake --build . --target package
+cmake --build . -j 8 --target package

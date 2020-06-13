@@ -7,7 +7,7 @@ mkdir DJV-third-party-package
 cd DJV-third-party-package
 cmake ..\DJV\third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-package
 cmake --build . --config Release -j
-cmake --build . --config Release --target install
+cmake --build . --config Release -j --target install
 cd ..
 
 mkdir DJV-package
@@ -17,4 +17,4 @@ cmake --build . --config Release -j
 
 cmake ..\DJV -DDJV_THIRD_PARTY=TRUE
 cmake --build . --config Release -j
-cmake --build . --config Release --target package
+cmake --build . --config Release -j --target package
