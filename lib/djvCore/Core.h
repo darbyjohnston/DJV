@@ -9,14 +9,6 @@ namespace djv
     //! This namespace provides core functionality.
     namespace Core
     {
-        //! This enumeration provides the log levels.
-        enum class LogLevel
-        {
-            Information,
-            Warning,
-            Error
-        };
-
         //! This function provides an assert (use the DJV_ASSERT macro instead).
         void _assert(const char * file, int line);
 

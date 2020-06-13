@@ -9,6 +9,7 @@
 #include <memory>
 
 #if defined(DJV_PLATFORM_WINDOWS)
+#if defined(DJV_MMAP)
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
 #endif // WIN32_LEAN_AND_MEAN
@@ -16,6 +17,9 @@
 #define NOMINMAX
 #endif // NOMINMAX
 #include <windows.h>
+#else // DJV_MMAP
+#include <stdio.h>
+#endif // DJV_MMAP
 #endif // DJV_PLATFORM_WINDOWS
 
 namespace djv

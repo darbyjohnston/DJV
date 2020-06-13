@@ -164,9 +164,6 @@ namespace djv
             {
                 _clipRect = value;
             }
-
-            inline PointerInfo::PointerInfo()
-            {}
             
             inline bool PointerInfo::operator == (const PointerInfo& other) const
             {

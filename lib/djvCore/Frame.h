@@ -28,9 +28,6 @@ namespace djv
 
             //! This typedef provides a frame number range.
             typedef Core::Range::Range<Number> Range;
-
-            //! This value represents an invalid frame number range.
-            const Range invalidRange = Range(invalid, invalid);
             
             //! This class provides a sequence of frame numbers. A sequence is
             //! composed of multiple frame number ranges (e.g., 1-10,20-30).
@@ -43,25 +40,41 @@ namespace djv
                 explicit Sequence(const Range& range, size_t pad = 0);
                 explicit Sequence(const std::vector<Range>& ranges, size_t pad = 0);
 
+                //! \name Ranges
+                ///@{
+
                 const std::vector<Range>& getRanges() const;
                 void add(const Range&);
+
+                bool isValid() const;
+
+                ///@}
+
+                //! \name Padding
+                ///@{
 
                 size_t getPad() const;
                 void setPad(size_t);
 
-                bool isValid() const;
+                ///@}
+
+                //! \name Frames
+                ///@{
+
                 bool contains(Index) const;
-                size_t getSize() const;
+                size_t getFrameCount() const;
                 Number getFrame(Index) const;
                 Index getIndex(Number) const;
                 Index getLastIndex() const;
+
+                ///@}
 
                 bool operator == (const Sequence&) const;
                 bool operator != (const Sequence&) const;
 
             private:
-                std::vector<Range> _ranges;
-                size_t _pad = 0;
+                std::vector<Range>  _ranges;
+                size_t              _pad    = 0;
             };
 
             //! \name Utilities

@@ -28,19 +28,39 @@ namespace djv
             public:
                 ~IEventSystem() override;
 
+                //! \name Root Object
+                ///@{
+
                 std::shared_ptr<IObject> getRootObject() const;
+
+                ///@}
+
+                //! \name Pointer and Key Interaction
+                ///@{
 
                 std::shared_ptr<Core::IValueSubject<PointerInfo> > observePointer() const;
                 std::shared_ptr<Core::IValueSubject<std::shared_ptr<IObject> > > observeHover() const;
                 std::shared_ptr<Core::IValueSubject<std::shared_ptr<IObject> > > observeGrab() const;
                 std::shared_ptr<Core::IValueSubject<std::shared_ptr<IObject> > > observeKeyGrab() const;
 
+                ///@}
+
+                //! \name Text Focus
+                ///@{
+
                 const std::weak_ptr<IObject> & getTextFocus() const;
                 std::shared_ptr<Core::IValueSubject<bool> > observeTextFocusActive() const;
                 void setTextFocus(const std::shared_ptr<IObject> &);
 
+                ///@}
+
+                //! \name Clipboard
+                ///@{
+
                 virtual void setClipboard(const std::string&);
                 virtual std::string getClipboard() const;
+
+                ///@}
 
                 void tick() override;
 

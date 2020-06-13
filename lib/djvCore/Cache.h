@@ -22,20 +22,29 @@ namespace djv
             class Cache
             {
             public:
+                //! \name Cache Maximum Size
+                ///@{
+
                 size_t getMax() const;
                 void setMax(size_t);
 
+                ///@}
+
+                //! \name Cache Contents
+                ///@{
+
                 size_t getSize() const;
+                float getPercentageUsed() const;
                 bool contains(const T & key) const;
-                bool get(const T & key, U &) const;
+                bool get(const T & key, U & value) const;
                 void add(const T & key, const U & value);
                 void remove(const T& key);
                 void clear();
 
-                float getPercentageUsed() const;
-
                 std::vector<T> getKeys() const;
                 std::vector<U> getValues() const;
+
+                ///@}
 
             private:
                 void _updateMax();

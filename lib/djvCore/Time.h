@@ -23,6 +23,9 @@ namespace djv
             //! This typedef provides the default time duration.
             typedef std::chrono::microseconds Duration;
 
+            //! This typedef provides the default time point.
+            typedef std::chrono::steady_clock::time_point TimePoint;
+
             //! \name Time Utilities
             ///@{
 

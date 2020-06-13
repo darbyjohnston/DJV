@@ -42,12 +42,17 @@ namespace djv
             inline bool FileIO::isEOF() const
             {
 #if defined(DJV_PLATFORM_WINDOWS)
+#if defined(DJV_MMAP)
                 return
                     _f == INVALID_HANDLE_VALUE ||
                     (_size ? _pos >= _size : true);
+#else // DJV_MMAP
+                return
+                    !_f ||
+                    (_size ? _pos >= _size : true);
+#endif // DJV_MMAP
 #else // DJV_PLATFORM_WINDOWS
                 return
-                    //-1 == _f ||
                     !_f ||
                     (_size ? _pos >= _size : true);
 #endif //DJV_PLATFORM_WINDOWS

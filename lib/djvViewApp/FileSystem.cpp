@@ -864,7 +864,7 @@ namespace djv
                             const auto fileInfo = Core::FileSystem::FileInfo::getFileSequence(
                                 i.first.getPath(),
                                 io->getSequenceExtensions());
-                            if (fileInfo.getSequence().getSize() > 1)
+                            if (fileInfo.getSequence().getFrameCount() > 1)
                             {
                                 if (!firstFrame)
                                 {

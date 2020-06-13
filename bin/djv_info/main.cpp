@@ -133,7 +133,7 @@ namespace djv
                             std::cout << "        Type: " << video.info.type << std::endl;
                             std::cout << "        Speed: " << video.speed.toFloat() << std::endl;
                             const Core::Time::Units timeUnits = avSystem->observeTimeUnits()->get();
-                            std::cout << "        Duration: " << Core::Time::toString(video.sequence.getSize(), video.speed, timeUnits);
+                            std::cout << "        Duration: " << Core::Time::toString(video.sequence.getFrameCount(), video.speed, timeUnits);
                             if (Core::Time::Units::Frames == timeUnits)
                             {
                                 std::cout << " " << "frames";

@@ -250,7 +250,7 @@ namespace djv
             {
                 auto avSystem = context->getSystemT<AV::AVSystem>();
                 const Time::Units timeUnits = avSystem->observeTimeUnits()->get();
-                ss << Time::toString(sequence.getSize(), speed, timeUnits);
+                ss << Time::toString(sequence.getFrameCount(), speed, timeUnits);
                 switch (timeUnits)
                 {
                 case Time::Units::Frames:
@@ -355,7 +355,7 @@ namespace djv
                     std::string speedText;
                     std::string durationLabel;
                     std::string durationText;
-                    if (i.sequence.getSize() > 0)
+                    if (i.sequence.getFrameCount() > 0)
                     {
                         speedLabel = _getText(DJV_TEXT("widget_info_speed"));
                         speedText = _text(i.speed);
@@ -368,7 +368,7 @@ namespace djv
                     const bool typeMatch = String::match(typeLabel, p.filter) || String::match(typeText, p.filter);
                     bool speedMatch = false;
                     bool durationMatch = false;
-                    if (i.sequence.getSize() > 0)
+                    if (i.sequence.getFrameCount() > 0)
                     {
                         speedMatch |= String::match(speedLabel, p.filter) || String::match(speedText, p.filter);
                         durationMatch |= String::match(durationLabel, p.filter) || String::match(durationText, p.filter);
@@ -393,7 +393,7 @@ namespace djv
                             formLayout->addChild(textBlock);
                             formLayout->setText(textBlock, typeLabel + ":");
                         }
-                        if (i.sequence.getSize() > 0)
+                        if (i.sequence.getFrameCount() > 0)
                         {
                             if (speedMatch)
                             {

@@ -116,11 +116,6 @@ namespace djv
                 }
             }
 
-            void DirectoryModel::reload()
-            {
-                _updatePath();
-            }
-
             std::shared_ptr<IListSubject<FileInfo> > DirectoryModel::observeFileInfo() const
             {
                 return _p->fileInfo;
@@ -129,6 +124,11 @@ namespace djv
             std::shared_ptr<IListSubject<std::string> > DirectoryModel::observeFileNames() const
             {
                 return _p->fileNames;
+            }
+
+            void DirectoryModel::reload()
+            {
+                _updatePath();
             }
 
             void DirectoryModel::cdUp()

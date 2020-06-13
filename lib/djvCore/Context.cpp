@@ -50,7 +50,7 @@ namespace djv
 
             struct TickTimes
             {
-                std::chrono::time_point<std::chrono::steady_clock> time = std::chrono::steady_clock::now();
+                Time::TimePoint time = std::chrono::steady_clock::now();
                 Time::Duration total = Time::Duration::zero();
                 std::vector<std::pair<std::string, Time::Duration> > times;
 

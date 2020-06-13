@@ -19,7 +19,6 @@ namespace djv
             
         private:
             void _sequence();
-            void _util();
             void _conversion();
             void _serialize();
         };

@@ -72,13 +72,13 @@ namespace djv
                 bool _active = false;
                 Duration _timeout = Duration::zero();
                 std::function<void(const std::chrono::steady_clock::time_point&, const Duration&)> _callback;
-                std::chrono::time_point<std::chrono::steady_clock> _time;
-                std::chrono::time_point<std::chrono::steady_clock> _start;
+                Time::TimePoint _time;
+                Time::TimePoint _start;
 
                 friend class TimerSystem;
             };
 
-            //! This class provides a timer system.
+            //! This class provides the system that manages timers.
             class TimerSystem : public ISystemBase
             {
                 DJV_NON_COPYABLE(TimerSystem);

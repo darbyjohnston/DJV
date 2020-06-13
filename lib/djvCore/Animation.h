@@ -87,22 +87,22 @@ namespace djv
             private:
                 void _tick();
 
-                Type                      _type        = Type::Linear;
-                Function                  _function;
-                bool                      _repeating   = false;
-                bool                      _active      = false;
-                float                     _begin       = 0.F;
-                float                     _end         = 0.F;
-                Time::Duration            _duration    = Time::Duration::zero();
-                Callback                  _callback;
-                Callback                  _endCallback;
-                std::chrono::time_point<std::chrono::steady_clock> _time;
-                std::chrono::time_point<std::chrono::steady_clock> _start;
+                Type            _type       = Type::Linear;
+                Function        _function;
+                bool            _repeating  = false;
+                bool            _active     = false;
+                float           _begin      = 0.F;
+                float           _end        = 0.F;
+                Time::Duration  _duration   = Time::Duration::zero();
+                Callback        _callback;
+                Callback        _endCallback;
+                Time::TimePoint _time;
+                Time::TimePoint _start;
 
                 friend class System;
             };
 
-            //! This class provides an animation system.
+            //! This class provides the system that manages animations.
             class System : public ISystem
             {
                 DJV_NON_COPYABLE(System);

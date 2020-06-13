@@ -30,6 +30,12 @@ namespace djv
             }
 
             template<typename T, typename U>
+            inline float Cache<T, U>::getPercentageUsed() const
+            {
+                return _map.size() / static_cast<float>(_max) * 100.F;
+            }
+
+            template<typename T, typename U>
             inline bool Cache<T, U>::contains(const T & key) const
             {
                 return _map.find(key) != _map.end();
@@ -82,12 +88,6 @@ namespace djv
             inline void Cache<T, U>::clear()
             {
                 _map.clear();
-            }
-
-            template<typename T, typename U>
-            inline float Cache<T, U>::getPercentageUsed() const
-            {
-                return _map.size() / static_cast<float>(_max) * 100.F;
             }
 
             template<typename T, typename U>

@@ -22,7 +22,6 @@ namespace djv
         void FrameTest::run()
         {
             _sequence();
-            _util();
             _conversion();
             _serialize();
         }
@@ -35,7 +34,7 @@ namespace djv
                 DJV_ASSERT(0 == sequence.getPad());
                 DJV_ASSERT(!sequence.isValid());
                 DJV_ASSERT(!sequence.contains(0));
-                DJV_ASSERT(0 == sequence.getSize());
+                DJV_ASSERT(0 == sequence.getFrameCount());
                 DJV_ASSERT(Frame::invalid == sequence.getFrame(0));
                 DJV_ASSERT(Frame::invalid == sequence.getIndex(0));
             }
@@ -46,7 +45,7 @@ namespace djv
                 DJV_ASSERT(4 == sequence.getPad());
                 DJV_ASSERT(sequence.isValid());
                 DJV_ASSERT(sequence.contains(0));
-                DJV_ASSERT(100 == sequence.getSize());
+                DJV_ASSERT(100 == sequence.getFrameCount());
                 DJV_ASSERT(0 == sequence.getFrame(0));
                 DJV_ASSERT(0 == sequence.getIndex(0));                
             }
@@ -57,7 +56,7 @@ namespace djv
                 DJV_ASSERT(4 == sequence.getPad());
                 DJV_ASSERT(sequence.isValid());
                 DJV_ASSERT(sequence.contains(0));
-                DJV_ASSERT(100 == sequence.getSize());
+                DJV_ASSERT(100 == sequence.getFrameCount());
                 DJV_ASSERT(0 == sequence.getFrame(0));
                 DJV_ASSERT(0 == sequence.getIndex(0));                
             }
@@ -84,16 +83,6 @@ namespace djv
                 DJV_ASSERT(sequence.getRanges()[0] == Frame::Range(1, 10));
                 sequence.add(Frame::Range(12, 100));
                 DJV_ASSERT(sequence.getRanges()[0] == Frame::Range(1, 10));
-            }
-        }
-        
-        void FrameTest::_util()
-        {
-            {
-                Frame::Range range = Frame::invalidRange;
-                DJV_ASSERT(!Frame::isValid(range));
-                range = Frame::Range(1, 100);
-                DJV_ASSERT(Frame::isValid(range));
             }
         }
         
@@ -177,7 +166,7 @@ namespace djv
                     Frame::Range(5, 6),
                     Frame::Range(8)
                 });
-                const size_t size = sequence.getSize();
+                const size_t size = sequence.getFrameCount();
                 DJV_ASSERT(6 == size);
                 const std::vector<Frame::Number> frames = Frame::toFrames(sequence);
                 for (size_t i = 0; i < size; ++i)
@@ -211,7 +200,7 @@ namespace djv
             }
             
             {
-                Frame::Range range = Frame::invalidRange;
+                Frame::Range range;
                 size_t pad = 0;
                 Frame::fromString("01-0010", range, pad);
                 DJV_ASSERT(range == Frame::Range(1, 10));

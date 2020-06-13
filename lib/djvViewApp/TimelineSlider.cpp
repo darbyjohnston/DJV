@@ -333,8 +333,8 @@ namespace djv
                         if (i.first < w)
                         {
                             size_t unit = 0;
-                            const size_t sequenceSize = p.sequence.getSize();
-                            while (x < g.max.x && unit < sequenceSize)
+                            const size_t sequenceFrameCount = p.sequence.getFrameCount();
+                            while (x < g.max.x && unit < sequenceFrameCount)
                             {
                                 if (x >= x2)
                                 {
@@ -451,14 +451,14 @@ namespace djv
                 }
 
                 // Draw the frame ticks.
-                const size_t sequenceSize = p.sequence.getSize();
+                const size_t sequenceFrameCount = p.sequence.getFrameCount();
                 if (_getFrameLength() > b * 2.F)
                 {
                     auto color = style->getColor(UI::ColorRole::Foreground);
                     color.setF32(color.getF32(3) * .4F, 3);
                     render->setFillColor(color);
                     boxes.clear();
-                    for (Frame::Index f2 = 0; f2 < sequenceSize; ++f2)
+                    for (Frame::Index f2 = 0; f2 < sequenceFrameCount; ++f2)
                     {
                         const float x = _frameToPos(f2);
                         boxes.push_back(BBox2f(
@@ -673,12 +673,12 @@ namespace djv
             const auto& style = _getStyle();
             const BBox2f g = getMargin().bbox(getGeometry(), style);
             const float v = value / g.w();
-            const size_t sequenceSize = p.sequence.getSize();
-            Frame::Index out = sequenceSize ?
+            const size_t sequenceFrameCount = p.sequence.getFrameCount();
+            Frame::Index out = sequenceFrameCount ?
                 Math::clamp(
-                    static_cast<Frame::Index>(v * sequenceSize),
+                    static_cast<Frame::Index>(v * sequenceFrameCount),
                     static_cast<Frame::Index>(0),
-                    static_cast<Frame::Index>(sequenceSize - 1)) :
+                    static_cast<Frame::Index>(sequenceFrameCount - 1)) :
                 0;
             return out;
         }
@@ -688,8 +688,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const BBox2f g = getMargin().bbox(getGeometry(), style);
-            const size_t sequenceSize = p.sequence.getSize();
-            const float v = sequenceSize ? (value / static_cast<float>(sequenceSize)) : 0.F;
+            const size_t sequenceFrameCount = p.sequence.getFrameCount();
+            const float v = sequenceFrameCount ? (value / static_cast<float>(sequenceFrameCount)) : 0.F;
             float out = g.min.x + v * g.w();
             return out;
         }

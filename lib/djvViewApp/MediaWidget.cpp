@@ -553,10 +553,10 @@ namespace djv
                         if (auto media = widget->_p->media)
                         {
                             const auto& inOutPoints = media->observeInOutPoints()->get();
-                            const size_t sequenceSize = widget->_p->sequence.getSize();
+                            const size_t sequenceFrameCount = widget->_p->sequence.getFrameCount();
                             media->setInOutPoints(AV::IO::InOutPoints(
                                 inOutPoints.isEnabled(),
-                                Math::clamp(value, static_cast<Frame::Index>(0), static_cast<Frame::Index>(sequenceSize > 0 ? (sequenceSize - 1) : 0)),
+                                Math::clamp(value, static_cast<Frame::Index>(0), static_cast<Frame::Index>(sequenceFrameCount > 0 ? (sequenceFrameCount - 1) : 0)),
                                 inOutPoints.getOut()));
                             widget->_widgetUpdate();
                         }
@@ -595,11 +595,11 @@ namespace djv
                         if (auto media = widget->_p->media)
                         {
                             const auto& inOutPoints = media->observeInOutPoints()->get();
-                            const size_t sequenceSize = widget->_p->sequence.getSize();
+                            const size_t sequenceFrameCount = widget->_p->sequence.getFrameCount();
                             media->setInOutPoints(AV::IO::InOutPoints(
                                 inOutPoints.isEnabled(),
                                 inOutPoints.getIn(),
-                                Math::clamp(value, static_cast<Frame::Index>(0), static_cast<Frame::Index>(sequenceSize > 0 ? (sequenceSize - 1) : 0))));
+                                Math::clamp(value, static_cast<Frame::Index>(0), static_cast<Frame::Index>(sequenceFrameCount > 0 ? (sequenceFrameCount - 1) : 0))));
                             widget->_widgetUpdate();
                         }
                     }
@@ -1358,13 +1358,13 @@ namespace djv
                     p.inOutPoints.isEnabled() &&
                     p.inOutPoints.getOut() != p.sequence.getLastIndex());
 
-                p.durationLabel->setText(Time::toString(p.sequence.getSize(), p.defaultSpeed, p.timeUnits));
+                p.durationLabel->setText(Time::toString(p.sequence.getFrameCount(), p.defaultSpeed, p.timeUnits));
 
                 p.timelineSlider->setInOutPointsEnabled(p.inOutPoints.isEnabled());
                 p.timelineSlider->setInPoint(p.inOutPoints.getIn());
                 p.timelineSlider->setOutPoint(p.inOutPoints.getOut());
 
-                p.playbackLayout->setVisible(p.sequence.getSize() > 1);
+                p.playbackLayout->setVisible(p.sequence.getFrameCount() > 1);
             }
         }
 
@@ -1448,7 +1448,7 @@ namespace djv
                 data.size = layer.info.size;
                 data.type = layer.info.type;
             }
-            data.isSequence = p.sequence.getSize() > 1;
+            data.isSequence = p.sequence.getFrameCount() > 1;
             data.currentFrame = Time::toString(p.sequence.getFrame(p.currentFrame), p.speed, p.timeUnits);
             data.speed = p.speed;
             data.realSpeed = p.realSpeed;

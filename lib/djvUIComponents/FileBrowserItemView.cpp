@@ -977,7 +977,7 @@ namespace djv
                         auto avSystem = context->getSystemT<AV::AVSystem>();
                         const Time::Units timeUnits = avSystem->observeTimeUnits()->get();
                         ss << _getText(DJV_TEXT("file_browser_file_tooltip_video_duration")) << ": " <<
-                            Time::toString(videoInfo.sequence.getSize(), videoInfo.speed, timeUnits);
+                            Time::toString(videoInfo.sequence.getFrameCount(), videoInfo.speed, timeUnits);
                         switch (timeUnits)
                         {
                         case Time::Units::Frames:

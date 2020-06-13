@@ -29,6 +29,20 @@
     std::ostream & operator << (std::ostream &, name); \
     std::istream & operator >> (std::istream &, name &);
 
+namespace djv
+{
+    namespace Core
+    {
+        //! This enumeration provides the log levels.
+        enum class LogLevel
+        {
+            Information,
+            Warning,
+            Error
+        };
+    }
+}
+
 //! This macro provides the enum serialziation helpers implementation.
 //! Required includes:
 //! - algorithm

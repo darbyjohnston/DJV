@@ -17,7 +17,6 @@ namespace djv
 {
     namespace Core
     {
-        class IObject;
         class ISystemBase;
         class LogSystem;
         class ResourceSystem;
@@ -95,7 +94,7 @@ namespace djv
             std::vector<std::shared_ptr<ISystemBase> > _systems;
             bool _logSystemOrderInit = true;
             std::vector<std::pair<std::string, Time::Duration> > _systemTickTimes;
-            std::chrono::time_point<std::chrono::steady_clock> _fpsTime = std::chrono::steady_clock::now();
+            Time::TimePoint _fpsTime = std::chrono::steady_clock::now();
             std::list<float> _fpsSamples;
             float _fpsAverage = 0.F;
             std::shared_ptr<Time::Timer> _fpsTimer;

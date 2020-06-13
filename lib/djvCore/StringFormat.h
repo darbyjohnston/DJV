@@ -25,17 +25,27 @@ namespace djv
             public:
                 Format(const std::string&);
 
+                //! \name Arguments
                 //! Replace the next argument in the string with the given value.
                 //! Arguments consist of an integer enclosed by curly brackets.
                 //! The argument with the smallest integer will be replaced. The
                 //! object is returned so that you can chain calls together.
+                ///@{
+
                 Format& arg(const std::string&);
                 Format& arg(int);
                 Format& arg(float);
                 Format& arg(size_t);
 
+                ///@}
+                
+                //! \name Errors
+                ///@{
+
                 bool hasError() const;
                 const std::string& getError() const;
+
+                ///@}
 
                 operator std::string() const;
 

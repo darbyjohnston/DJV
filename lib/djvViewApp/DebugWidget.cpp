@@ -752,7 +752,7 @@ namespace djv
                 }
                 {
                     std::stringstream ss;
-                    ss << _currentFrame << " / " << _sequence.getSize();
+                    ss << _currentFrame << " / " << _sequence.getFrameCount();
                     _labels["CurrentFrameValue"]->setText(ss.str());
                 }
             }

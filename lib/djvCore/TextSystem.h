@@ -43,18 +43,14 @@ namespace djv
             //! \name Locale
             ///@{
 
-            //! Get the list of locales.
-            const std::vector<std::string> & getLocales() const;
+            const std::vector<std::string>& getLocales() const;
 
             //! Get the system locale which is determined in this order:
             //! - DJV_LANG environment variable
             //! - std::locale("")
             const std::string& getSystemLocale() const;
 
-            //! Observe the current locale.
             std::shared_ptr<IValueSubject<std::string> > observeCurrentLocale() const;
-
-            //! Set the current locale.
             void setCurrentLocale(const std::string &);
 
             ///@}

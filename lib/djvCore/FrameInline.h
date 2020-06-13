@@ -54,6 +54,11 @@ namespace djv
                 return _ranges;
             }
 
+            inline bool Sequence::isValid() const
+            {
+                return _ranges.size() > 0;
+            }
+
             inline size_t Sequence::getPad() const
             {
                 return _pad;
@@ -62,11 +67,6 @@ namespace djv
             inline void Sequence::setPad(size_t value)
             {
                 _pad = value;
-            }
-
-            inline bool Sequence::isValid() const
-            {
-                return _ranges.size() > 0;
             }
 
             inline bool Sequence::contains(Index value) const
@@ -83,7 +83,7 @@ namespace djv
                 return out;
             }
 
-            inline size_t Sequence::getSize() const
+            inline size_t Sequence::getFrameCount() const
             {
                 size_t out = 0;
                 for (const auto& i : _ranges)
@@ -150,11 +150,6 @@ namespace djv
             inline bool Sequence::operator != (const Sequence & value) const
             {
                 return !(*this == value);
-            }
-
-            inline bool isValid(const Range & value)
-            {
-                return value != invalidRange;
             }
 
             inline std::vector<Number> toFrames(const Range & value)

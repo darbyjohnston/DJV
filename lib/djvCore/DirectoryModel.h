@@ -28,20 +28,37 @@ namespace djv
 
                 static std::shared_ptr<DirectoryModel> create(const std::shared_ptr<Context>&);
 
+                //! \name Path
+                ///@{
+
                 std::shared_ptr<IValueSubject<Path> > observePath() const;
 
-                //! Set the path.
                 //! Throws:
                 //! - Error
                 void setPath(const Path &);
 
-                void reload();
+                ///@}
+
+                //! \name Directory Contents
+                ///@{
 
                 std::shared_ptr<IListSubject<FileInfo> > observeFileInfo() const;
                 std::shared_ptr<IListSubject<std::string> > observeFileNames() const;
 
+                void reload();
+
+                ///@}
+
+                //! \name Navigation
+                ///@{
+
                 void cdUp();
                 std::shared_ptr<IValueSubject<bool> > observeHasUp() const;
+
+                ///@}
+
+                //! \name History
+                ///@{
 
                 void setHistoryMax(size_t);
                 void setHistoryIndex(size_t);
@@ -51,6 +68,11 @@ namespace djv
                 std::shared_ptr<IValueSubject<size_t> > observeHistoryIndex() const;
                 std::shared_ptr<IValueSubject<bool> > observeHasBack() const;
                 std::shared_ptr<IValueSubject<bool> > observeHasForward() const;
+
+                ///@}
+
+                //! \name Options
+                ///@{
 
                 void setFileExtensions(const std::set<std::string>&);
 
@@ -70,6 +92,8 @@ namespace djv
                 std::shared_ptr<IValueSubject<std::string> > observeFilter() const;
                 void setFilter(const std::string &);
                 void clearFilter();
+
+                ///@}
 
             private:
                 void _updatePath();

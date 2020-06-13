@@ -369,7 +369,7 @@ namespace djv
             Range::Range<Frame::Index> range;
             if (inOutPoints)
             {
-                range = p.inOutPoints->get().getRange(p.sequence->get().getSize());
+                range = p.inOutPoints->get().getRange(p.sequence->get().getFrameCount());
             }
             else
             {
@@ -406,7 +406,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const auto& inOutPoints = p.inOutPoints->get();
-            const size_t size = p.sequence->get().getSize();
+            const size_t size = p.sequence->get().getFrameCount();
             const Frame::Index end = size > 0 ? (size - 1) : 0;
             setCurrentFrame(inOutPoints.isEnabled() ? inOutPoints.getOut() : end, false);
         }
@@ -419,7 +419,7 @@ namespace djv
         void Media::end()
         {
             DJV_PRIVATE_PTR();
-            const size_t size = p.sequence->get().getSize();
+            const size_t size = p.sequence->get().getFrameCount();
             const Frame::Index frame = size > 0 ? (size - 1) : 0;
             setCurrentFrame(frame, false);
         }
@@ -442,7 +442,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const auto& sequence = p.sequence->get();
-            const size_t sequenceSize = sequence.getSize();
+            const size_t sequenceSize = sequence.getFrameCount();
             const auto& range = p.inOutPoints->get().getRange(sequenceSize);
             const auto currentFrame = p.currentFrame->get();
             switch (value)
@@ -554,7 +554,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             const AV::IO::InOutPoints& value = p.inOutPoints->get();
             bool enabled = true;
-            const size_t size = p.sequence->get().getSize();
+            const size_t size = p.sequence->get().getFrameCount();
             if ((static_cast<Frame::Index>(size) - 1) == value.getOut())
             {
                 enabled = false;
@@ -571,7 +571,7 @@ namespace djv
             {
                 enabled = false;
             }
-            const size_t size = p.sequence->get().getSize();
+            const size_t size = p.sequence->get().getFrameCount();
             setInOutPoints(AV::IO::InOutPoints(enabled, value.getIn(), size > 0 ? (static_cast<Frame::Index>(size) - 1) : 0));
         }
 
@@ -771,7 +771,7 @@ namespace djv
                     Frame::Index frame = Frame::invalid;
                     if (Frame::invalid == currentFrame)
                     {
-                        frame = p.sequence->get().getSize() > 0 ? 0 : Frame::invalid;
+                        frame = p.sequence->get().getFrameCount() > 0 ? 0 : Frame::invalid;
                     }
                     else
                     {
@@ -905,7 +905,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const Frame::Sequence& sequence = p.sequence->get();
-            const size_t sequenceSize = sequence.getSize();
+            const size_t sequenceSize = sequence.getFrameCount();
             const auto& range = p.inOutPoints->get().getRange(sequenceSize);
             if (p.currentFrame->setIfChanged(value))
             {
