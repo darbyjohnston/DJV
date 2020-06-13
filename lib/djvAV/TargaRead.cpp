@@ -326,7 +326,7 @@ namespace djv
                         const size_t ioPos = io->getPos();
                         const size_t fileDataByteCount = ioSize > 0 ? (ioSize - ioPos) : 0;
                         const size_t dataByteCount = info.getDataByteCount();
-                        if (dataByteCount > fileDataByteCount)
+                        if (!compression && dataByteCount > fileDataByteCount)
                         {
                             throw FileSystem::Error(String::Format("{0}: {1}").
                                 arg(io->getFileName()).
