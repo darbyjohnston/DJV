@@ -10,8 +10,8 @@ namespace djv
     {
         template<typename T, typename U>
         inline void MapObserver<T, U>::_init(
-            const std::weak_ptr<IMapSubject<T, U> > & value,
-            const std::function<void(const std::map<T, U> &)> & callback)
+            const std::weak_ptr<IMapSubject<T, U> >& value,
+            const std::function<void(const std::map<T, U>&)>& callback)
         {
             _subject = value;
             _callback = callback;
@@ -37,8 +37,8 @@ namespace djv
 
         template<typename T, typename U>
         inline std::shared_ptr<MapObserver<T, U> > MapObserver<T, U>::create(
-            const std::weak_ptr<IMapSubject<T, U> > & value,
-            const std::function<void(const std::map<T, U> &)> & callback)
+            const std::weak_ptr<IMapSubject<T, U> >& value,
+            const std::function<void(const std::map<T, U>&)>& callback)
         {
             std::shared_ptr<MapObserver<T, U> > out(new MapObserver<T, U>);
             out->_init(value, callback);
@@ -46,7 +46,7 @@ namespace djv
         }
 
         template<typename T, typename U>
-        inline void MapObserver<T, U>::doCallback(const std::map<T, U> & value)
+        inline void MapObserver<T, U>::doCallback(const std::map<T, U>& value)
         {
             _callback(value);
         }
@@ -62,7 +62,7 @@ namespace djv
         }
 
         template<typename T, typename U>
-        inline void IMapSubject<T, U>::_add(const std::weak_ptr<MapObserver<T, U> > & observer)
+        inline void IMapSubject<T, U>::_add(const std::weak_ptr<MapObserver<T, U> >& observer)
         {
             _observers.push_back(observer);
         }
@@ -101,7 +101,7 @@ namespace djv
         {}
 
         template<typename T, typename U>
-        inline MapSubject<T, U>::MapSubject(const std::map<T, U> & value) :
+        inline MapSubject<T, U>::MapSubject(const std::map<T, U>& value) :
             _value(value)
         {}
 
@@ -112,16 +112,16 @@ namespace djv
         }
 
         template<typename T, typename U>
-        inline std::shared_ptr<MapSubject<T, U> > MapSubject<T, U>::create(const std::map<T, U> & value)
+        inline std::shared_ptr<MapSubject<T, U> > MapSubject<T, U>::create(const std::map<T, U>& value)
         {
             return std::shared_ptr<MapSubject<T, U> >(new MapSubject<T, U>(value));
         }
 
         template<typename T, typename U>
-        inline void MapSubject<T, U>::setAlways(const std::map<T, U> & value)
+        inline void MapSubject<T, U>::setAlways(const std::map<T, U>& value)
         {
             _value = value;
-            for (const auto & s : IMapSubject<T, U>::_observers)
+            for (const auto& s : IMapSubject<T, U>::_observers)
             {
                 if (auto observer = s.lock())
                 {
@@ -131,12 +131,12 @@ namespace djv
         }
 
         template<typename T, typename U>
-        inline bool MapSubject<T, U>::setIfChanged(const std::map<T, U> & value)
+        inline bool MapSubject<T, U>::setIfChanged(const std::map<T, U>& value)
         {
             if (value == _value)
                 return false;
             _value = value;
-            for (const auto & s : IMapSubject<T, U>::_observers)
+            for (const auto& s : IMapSubject<T, U>::_observers)
             {
                 if (auto observer = s.lock())
                 {
@@ -152,7 +152,7 @@ namespace djv
             if (_value.size())
             {
                 _value.clear();
-                for (const auto & s : IMapSubject<T, U>::_observers)
+                for (const auto& s : IMapSubject<T, U>::_observers)
                 {
                     if (auto observer = s.lock())
                     {
@@ -163,11 +163,11 @@ namespace djv
         }
 
         template<typename T, typename U>
-        void MapSubject<T, U>::setItem(const T & key, const U & value)
+        void MapSubject<T, U>::setItem(const T& key, const U& value)
         {
             _value[key] = value;
 
-            for (const auto & s : IMapSubject<T, U>::_observers)
+            for (const auto& s : IMapSubject<T, U>::_observers)
             {
                 if (auto observer = s.lock())
                 {
@@ -177,13 +177,13 @@ namespace djv
         }
 
         template<typename T, typename U>
-        void MapSubject<T, U>::setItemOnlyIfChanged(const T & key, const U & value)
+        void MapSubject<T, U>::setItemOnlyIfChanged(const T& key, const U& value)
         {
             const auto i = _value.find(key);
             if (i != _value.end() && i->second == value)
                 return;
             _value[key] = value;
-            for (const auto & s : IMapSubject<T, U>::_observers)
+            for (const auto& s : IMapSubject<T, U>::_observers)
             {
                 if (auto observer = s.lock())
                 {
@@ -193,7 +193,7 @@ namespace djv
         }
 
         template<typename T, typename U>
-        inline const std::map<T, U> & MapSubject<T, U>::get() const
+        inline const std::map<T, U>& MapSubject<T, U>::get() const
         {
             return _value;
         }
@@ -211,13 +211,13 @@ namespace djv
         }
 
         template<typename T, typename U>
-        inline bool MapSubject<T, U>::hasKey(const T & value)
+        inline bool MapSubject<T, U>::hasKey(const T& value)
         {
             return _value.find(value) != _value.end();
         }
 
         template<typename T, typename U>
-        inline const U & MapSubject<T, U>::getItem(const T & key) const
+        inline const U& MapSubject<T, U>::getItem(const T& key) const
         {
             return _value.find(key)->second;
         }

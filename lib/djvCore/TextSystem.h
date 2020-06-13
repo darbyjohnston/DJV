@@ -51,7 +51,7 @@ namespace djv
             const std::string& getSystemLocale() const;
 
             std::shared_ptr<IValueSubject<std::string> > observeCurrentLocale() const;
-            void setCurrentLocale(const std::string &);
+            void setCurrentLocale(const std::string&);
 
             ///@}
 

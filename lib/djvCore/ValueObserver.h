@@ -25,8 +25,8 @@ namespace djv
             
         protected:
             void _init(
-                const std::weak_ptr<IValueSubject<T> > &,
-                const std::function<void(const T &)> &);
+                const std::weak_ptr<IValueSubject<T> >&,
+                const std::function<void(const T&)>&);
 
             ValueObserver();
 
@@ -35,14 +35,14 @@ namespace djv
 
             //! Create a new value observer.
             static std::shared_ptr<ValueObserver<T> > create(
-                const std::weak_ptr<IValueSubject<T> > &,
-                const std::function<void(const T &)> &);
+                const std::weak_ptr<IValueSubject<T> >&,
+                const std::function<void(const T&)>&);
 
             //! Execute the callback.
-            void doCallback(const T &);
+            void doCallback(const T&);
 
         private:
-            std::function<void(const T &)> _callback;
+            std::function<void(const T&)> _callback;
             std::weak_ptr<IValueSubject<T> > _subject;
         };
 
@@ -54,13 +54,13 @@ namespace djv
             virtual ~IValueSubject() = 0;
 
             //! Get the value.
-            virtual const T & get() const = 0;
+            virtual const T& get() const = 0;
             
             //! Get the number of observers.
             size_t getObserversCount() const;
 
         protected:
-            void _add(const std::weak_ptr<ValueObserver<T> > &);
+            void _add(const std::weak_ptr<ValueObserver<T> >&);
             void _remove(ValueObserver<T> *);
 
             std::vector<std::weak_ptr<ValueObserver<T> > > _observers;
@@ -76,22 +76,22 @@ namespace djv
 
         protected:
             ValueSubject();
-            explicit ValueSubject(const T &);
+            explicit ValueSubject(const T&);
 
         public:
             //! Create a new value subject.
             static std::shared_ptr<ValueSubject<T> > create();
 
             //! Create a new value subject with the given value.
-            static std::shared_ptr<ValueSubject<T> > create(const T &);
+            static std::shared_ptr<ValueSubject<T> > create(const T&);
 
             //! Set the value.
-            void setAlways(const T &);
+            void setAlways(const T&);
 
             //! Set the value only if it has changed.
-            bool setIfChanged(const T &);
+            bool setIfChanged(const T&);
 
-            const T & get() const override;
+            const T& get() const override;
 
         private:
             T _value = T();

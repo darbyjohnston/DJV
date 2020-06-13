@@ -81,10 +81,10 @@ namespace djv
             class ParentChanged : public Event
             {
             public:
-                ParentChanged(const std::shared_ptr<IObject> & prevParent, const std::shared_ptr<IObject> & newParent);
+                ParentChanged(const std::shared_ptr<IObject>& prevParent, const std::shared_ptr<IObject>& newParent);
 
-                const std::shared_ptr<IObject> & getPrevParent() const;
-                const std::shared_ptr<IObject> & getNewParent() const;
+                const std::shared_ptr<IObject>& getPrevParent() const;
+                const std::shared_ptr<IObject>& getNewParent() const;
 
             private:
                 std::shared_ptr<IObject> _prevParent;
@@ -95,9 +95,9 @@ namespace djv
             class ChildAdded : public Event
             {
             public:
-                explicit ChildAdded(const std::shared_ptr<IObject> & child);
+                explicit ChildAdded(const std::shared_ptr<IObject>& child);
 
-                const std::shared_ptr<IObject> & getChild() const;
+                const std::shared_ptr<IObject>& getChild() const;
 
             private:
                 std::shared_ptr<IObject> _child;
@@ -107,9 +107,9 @@ namespace djv
             class ChildRemoved : public Event
             {
             public:
-                explicit ChildRemoved(const std::shared_ptr<IObject> & child);
+                explicit ChildRemoved(const std::shared_ptr<IObject>& child);
 
-                const std::shared_ptr<IObject> & getChild() const;
+                const std::shared_ptr<IObject>& getChild() const;
 
             private:
                 std::shared_ptr<IObject> _child;
@@ -184,10 +184,10 @@ namespace djv
             class Clip : public Event
             {
             public:
-                explicit Clip(const BBox2f & clipRect);
+                explicit Clip(const BBox2f& clipRect);
 
-                const BBox2f & getClipRect() const;
-                void setClipRect(const BBox2f &);
+                const BBox2f& getClipRect() const;
+                void setClipRect(const BBox2f&);
 
             private:
                 BBox2f _clipRect;
@@ -197,10 +197,10 @@ namespace djv
             class Paint : public Event
             {
             public:
-                explicit Paint(const BBox2f & clipRect);
+                explicit Paint(const BBox2f& clipRect);
 
-                const BBox2f & getClipRect() const;
-                void setClipRect(const BBox2f &);
+                const BBox2f& getClipRect() const;
+                void setClipRect(const BBox2f&);
 
             private:
                 BBox2f _clipRect;
@@ -242,7 +242,7 @@ namespace djv
             class IPointer : public Event
             {
             protected:
-                IPointer(const PointerInfo &, Type);
+                IPointer(const PointerInfo&, Type);
 
             public:
                 ~IPointer() override = 0;
@@ -251,7 +251,7 @@ namespace djv
                 void setRejected(bool);
                 void reject();
 
-                const PointerInfo & getPointerInfo() const;
+                const PointerInfo& getPointerInfo() const;
 
             private:
                 bool _rejected = false;
@@ -262,44 +262,44 @@ namespace djv
             class PointerEnter : public IPointer
             {
             public:
-                explicit PointerEnter(const PointerInfo &);
+                explicit PointerEnter(const PointerInfo&);
             };
 
             //! This class provides a pointer leave event.
             class PointerLeave : public IPointer
             {
             public:
-                explicit PointerLeave(const PointerInfo &);
+                explicit PointerLeave(const PointerInfo&);
             };
 
             //! This class provides a pointer move event.
             class PointerMove : public IPointer
             {
             public:
-                explicit PointerMove(const PointerInfo &);
+                explicit PointerMove(const PointerInfo&);
             };
 
             //! This class provides a button press event.
             class ButtonPress : public IPointer
             {
             public:
-                explicit ButtonPress(const PointerInfo &);
+                explicit ButtonPress(const PointerInfo&);
             };
 
             //! This class provides a button release event.
             class ButtonRelease : public IPointer
             {
             public:
-                explicit ButtonRelease(const PointerInfo &);
+                explicit ButtonRelease(const PointerInfo&);
             };
 
             //! This class provides a scroll event.
             class Scroll : public IPointer
             {
             public:
-                Scroll(const glm::vec2 & scrollDelta, const PointerInfo &);
+                Scroll(const glm::vec2& scrollDelta, const PointerInfo&);
 
-                const glm::vec2 & getScrollDelta() const;
+                const glm::vec2& getScrollDelta() const;
 
             private:
                 glm::vec2 _scrollDelta;
@@ -309,9 +309,9 @@ namespace djv
             class Drop : public IPointer
             {
             public:
-                Drop(const std::vector<std::string> &, const PointerInfo &);
+                Drop(const std::vector<std::string>&, const PointerInfo&);
 
-                const std::vector<std::string> & getDropPaths() const;
+                const std::vector<std::string>& getDropPaths() const;
 
             private:
                 std::vector<std::string> _dropPaths;
@@ -321,7 +321,7 @@ namespace djv
             class IKey : public IPointer
             {
             protected:
-                IKey(int key, int keyModifiers, const PointerInfo &, Type);
+                IKey(int key, int keyModifiers, const PointerInfo&, Type);
                 
             public:
                 ~IKey() override = 0;
@@ -338,14 +338,14 @@ namespace djv
             class KeyPress : public IKey
             {
             public:
-                KeyPress(int key, int keyModifiers, const PointerInfo &);
+                KeyPress(int key, int keyModifiers, const PointerInfo&);
             };
 
             //! This class provides a key release event.
             class KeyRelease : public IKey
             {
             public:
-                KeyRelease(int key, int keyModifiers, const PointerInfo &);
+                KeyRelease(int key, int keyModifiers, const PointerInfo&);
             };
 
             //! This class provides a text focus event.

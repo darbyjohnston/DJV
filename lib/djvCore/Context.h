@@ -46,7 +46,7 @@ namespace djv
             static std::shared_ptr<Context> create(const std::string& argv0);
 
             //! Get the context name.
-            const std::string & getName() const;
+            const std::string& getName() const;
 
             //! \name Systems
             ///@{

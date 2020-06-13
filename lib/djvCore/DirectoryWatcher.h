@@ -33,10 +33,10 @@ namespace djv
 
                 static std::shared_ptr<DirectoryWatcher> create(const std::shared_ptr<Context>&);
 
-                const Path & getPath() const;
-                void setPath(const Path &);
+                const Path& getPath() const;
+                void setPath(const Path&);
 
-                void setCallback(const std::function<void(void)> &);
+                void setCallback(const std::function<void(void)>&);
 
             private:
                 DJV_PRIVATE();

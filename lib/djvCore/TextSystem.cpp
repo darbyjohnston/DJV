@@ -303,7 +303,7 @@ namespace djv
             return out;
         }
 
-        const std::vector<std::string> & TextSystem::getLocales() const
+        const std::vector<std::string>& TextSystem::getLocales() const
         {
             return _p->locales;
         }
@@ -318,7 +318,7 @@ namespace djv
             return _p->currentLocale;
         }
 
-        void TextSystem::setCurrentLocale(const std::string & value)
+        void TextSystem::setCurrentLocale(const std::string& value)
         {
             DJV_PRIVATE_PTR();
             if (p.currentLocale->setIfChanged(value))

@@ -41,18 +41,18 @@ namespace djv
             --globalObjectCount;
         }
 
-        void IObject::installEventFilter(const std::weak_ptr<IObject> & value)
+        void IObject::installEventFilter(const std::weak_ptr<IObject>& value)
         {
             removeEventFilter(value);
             _filters.push_back(value);
         }
 
-        void IObject::removeEventFilter(const std::weak_ptr<IObject> & value)
+        void IObject::removeEventFilter(const std::weak_ptr<IObject>& value)
         {
             const auto i = std::find_if(
                 _filters.begin(),
                 _filters.end(),
-                [value](const std::weak_ptr<IObject> & other)
+                [value](const std::weak_ptr<IObject>& other)
             {
                 auto a = value.lock();
                 auto b = other.lock();
@@ -64,7 +64,7 @@ namespace djv
             }
         }
 
-        void IObject::addChild(const std::shared_ptr<IObject> & value)
+        void IObject::addChild(const std::shared_ptr<IObject>& value)
         {
             std::shared_ptr<IObject> prevParent;
             if (auto parent = value->_parent.lock())
@@ -91,7 +91,7 @@ namespace djv
             value->event(parentChangedEvent);
         }
 
-        void IObject::removeChild(const std::shared_ptr<IObject> & value)
+        void IObject::removeChild(const std::shared_ptr<IObject>& value)
         {
             auto child = value;
             const auto i = std::find(_children.begin(), _children.end(), child);
@@ -156,7 +156,7 @@ namespace djv
             _enabled = value;
         }
 
-        bool IObject::event(Event::Event & event)
+        bool IObject::event(Event::Event& event)
         {
             bool out = false;
             if (_filters.size())
@@ -169,7 +169,7 @@ namespace djv
                 {
                 case Event::Type::ParentChanged:
                 {
-                    auto& parentChangedEvent = static_cast<Event::ParentChanged &>(event);
+                    auto& parentChangedEvent = static_cast<Event::ParentChanged&>(event);
                     _parentChangedEvent(parentChangedEvent);
                     const bool prevParent = parentChangedEvent.getPrevParent() ? true : false;
                     const bool newParent = parentChangedEvent.getNewParent() ? true : false;
@@ -182,19 +182,19 @@ namespace djv
                     break;
                 }
                 case Event::Type::ChildAdded:
-                    _childAddedEvent(static_cast<Event::ChildAdded &>(event));
+                    _childAddedEvent(static_cast<Event::ChildAdded&>(event));
                     break;
                 case Event::Type::ChildRemoved:
-                    _childRemovedEvent(static_cast<Event::ChildRemoved &>(event));
+                    _childRemovedEvent(static_cast<Event::ChildRemoved&>(event));
                     break;
                 case Event::Type::ChildOrder:
-                    _childOrderEvent(static_cast<Event::ChildOrder &>(event));
+                    _childOrderEvent(static_cast<Event::ChildOrder&>(event));
                     break;
                 case Event::Type::Init:
-                    _initEvent(static_cast<Event::Init &>(event));
+                    _initEvent(static_cast<Event::Init&>(event));
                     break;
                 case Event::Type::Update:
-                    _updateEvent(static_cast<Event::Update &>(event));
+                    _updateEvent(static_cast<Event::Update&>(event));
                     break;
                 default: break;
                 }
@@ -226,42 +226,42 @@ namespace djv
             }
         }
 
-        void IObject::_parentChangedEvent(Event::ParentChanged &)
+        void IObject::_parentChangedEvent(Event::ParentChanged&)
         {
             // Default implementation does nothing.
         }
         
-        void IObject::_childAddedEvent(Event::ChildAdded &)
+        void IObject::_childAddedEvent(Event::ChildAdded&)
         {
             // Default implementation does nothing.
         }
         
-        void IObject::_childRemovedEvent(Event::ChildRemoved &)
+        void IObject::_childRemovedEvent(Event::ChildRemoved&)
         {
             // Default implementation does nothing.
         }
         
-        void IObject::_childOrderEvent(Event::ChildOrder &)
+        void IObject::_childOrderEvent(Event::ChildOrder&)
         {
             // Default implementation does nothing.
         }
         
-        void IObject::_initEvent(Event::Init &)
+        void IObject::_initEvent(Event::Init&)
         {
             // Default implementation does nothing.
         }
         
-        void IObject::_updateEvent(Event::Update &)
+        void IObject::_updateEvent(Event::Update&)
         {
             // Default implementation does nothing.
         }
 
-        std::string IObject::_getText(const std::string & id) const
+        std::string IObject::_getText(const std::string& id) const
         {
             return _textSystem->getText(id);
         }
 
-        void IObject::_log(const std::string & message, LogLevel level)
+        void IObject::_log(const std::string& message, LogLevel level)
         {
             _logSystem->log(_className, message, level);
         }
@@ -275,7 +275,7 @@ namespace djv
             object->event(event);
         }
         
-        bool IObject::_eventFilter(Event::Event & event)
+        bool IObject::_eventFilter(Event::Event& event)
         {
             bool filtered = false;
             auto i = _filters.begin();

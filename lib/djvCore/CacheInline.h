@@ -36,13 +36,13 @@ namespace djv
             }
 
             template<typename T, typename U>
-            inline bool Cache<T, U>::contains(const T & key) const
+            inline bool Cache<T, U>::contains(const T& key) const
             {
                 return _map.find(key) != _map.end();
             }
 
             template<typename T, typename U>
-            inline bool Cache<T, U>::get(const T & key, U & value) const
+            inline bool Cache<T, U>::get(const T& key, U& value) const
             {
                 auto i = _map.find(key);
                 if (i != _map.end())
@@ -60,7 +60,7 @@ namespace djv
             }
 
             template<typename T, typename U>
-            inline void Cache<T, U>::add(const T & key, const U & value)
+            inline void Cache<T, U>::add(const T& key, const U& value)
             {
                 _map[key] = value;
                 ++_counter;
@@ -94,7 +94,7 @@ namespace djv
             inline std::vector<T> Cache<T, U>::getKeys() const
             {
                 std::vector<T> out;
-                for (const auto & i : _map)
+                for (const auto& i : _map)
                 {
                     out.push_back(i.first);
                 }
@@ -105,7 +105,7 @@ namespace djv
             inline std::vector<U> Cache<T, U>::getValues() const
             {
                 std::vector<U> out;
-                for (const auto & i : _map)
+                for (const auto& i : _map)
                 {
                     out.push_back(i.second);
                 }

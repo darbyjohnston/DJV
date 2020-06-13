@@ -95,17 +95,17 @@ namespace djv
 #endif // DJV_PLATFORM_WINDOWS
             }
 
-            inline bool Path::operator == (const Path & other) const
+            inline bool Path::operator == (const Path& other) const
             {
                 return get() == other.get();
             }
 
-            inline bool Path::operator != (const Path & other) const
+            inline bool Path::operator != (const Path& other) const
             {
                 return !(*this == other);
             }
 
-            inline bool Path::operator < (const Path & other) const
+            inline bool Path::operator < (const Path& other) const
             {
                 return get().compare(other.get()) < 0;
             }
@@ -121,7 +121,7 @@ namespace djv
 
 namespace std
 {
-    inline std::size_t hash<djv::Core::FileSystem::Path>::operator() (const djv::Core::FileSystem::Path & value) const noexcept
+    inline std::size_t hash<djv::Core::FileSystem::Path>::operator() (const djv::Core::FileSystem::Path& value) const noexcept
     {
         size_t hash = 0;
         djv::Core::Memory::hashCombine<std::string>(hash, value.get());

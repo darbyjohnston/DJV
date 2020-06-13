@@ -94,7 +94,7 @@ namespace djv
                 return _p->path;
             }
 
-            void DirectoryModel::setPath(const Path & value)
+            void DirectoryModel::setPath(const Path& value)
             {
                 DJV_PRIVATE_PTR();
                 const auto absolute = FileSystem::Path::getAbsolute(value);
@@ -166,8 +166,8 @@ namespace djv
                 if (index < p.history->getSize())
                 {
                     p.historyIndex->setIfChanged(index);
-                    const auto & history = p.history->get();
-                    const auto & path = history[p.historyIndex->get()];
+                    const auto& history = p.history->get();
+                    const auto& path = history[p.historyIndex->get()];
                     p.path->setIfChanged(path);
                     p.hasUp->setIfChanged(!path.isRoot());
                     p.hasBack->setIfChanged(p.historyIndex->get() > 0);
@@ -182,8 +182,8 @@ namespace djv
                 if (p.historyIndex->get() > 0)
                 {
                     p.historyIndex->setIfChanged(p.historyIndex->get() - 1);
-                    const auto & history = p.history->get();
-                    const auto & path = history[p.historyIndex->get()];
+                    const auto& history = p.history->get();
+                    const auto& path = history[p.historyIndex->get()];
                     p.path->setIfChanged(path);
                     p.hasUp->setIfChanged(!path.isRoot());
                     p.hasBack->setIfChanged(p.historyIndex->get() > 0);
@@ -195,11 +195,11 @@ namespace djv
             void DirectoryModel::goForward()
             {
                 DJV_PRIVATE_PTR();
-                const auto & history = p.history->get();
+                const auto& history = p.history->get();
                 if (history.size() ? (p.historyIndex->get() < history.size() - 1) : false)
                 {
                     p.historyIndex->setIfChanged(p.historyIndex->get() + 1);
-                    const auto & path = history[p.historyIndex->get()];
+                    const auto& path = history[p.historyIndex->get()];
                     p.path->setIfChanged(path);
                     p.hasUp->setIfChanged(!path.isRoot());
                     p.hasBack->setIfChanged(p.historyIndex->get() > 0);
@@ -316,7 +316,7 @@ namespace djv
                 return _p->filter;
             }
 
-            void DirectoryModel::setFilter(const std::string & value)
+            void DirectoryModel::setFilter(const std::string& value)
             {
                 if (_p->filter->setIfChanged(value))
                 {
@@ -348,7 +348,7 @@ namespace djv
                 {
                     std::pair<std::vector<FileInfo>, std::vector<std::string> > out;
                     out.first = FileInfo::directoryList(path, options);
-                    for (const auto & fileInfo : out.first)
+                    for (const auto& fileInfo : out.first)
                     {
                         out.second.push_back(fileInfo.getFileName(-1, false));
                     }
@@ -365,7 +365,7 @@ namespace djv
                     {
                         p.futureTimer->stop();
 
-                        const auto & out = p.future.get();
+                        const auto& out = p.future.get();
                         p.fileInfo->setIfChanged(out.first);
                         p.fileNames->setIfChanged(out.second);
                     }

@@ -55,7 +55,7 @@ namespace djv
 
             void Timer::start(
                 const Duration& value,
-                const std::function<void(const std::chrono::steady_clock::time_point&, const Duration&)> & callback)
+                const std::function<void(const std::chrono::steady_clock::time_point&, const Duration&)>& callback)
             {
                 _active   = true;
                 _timeout  = value;
@@ -137,7 +137,7 @@ namespace djv
                 }
             }
 
-            void TimerSystem::_addTimer(const std::weak_ptr<Timer> & value)
+            void TimerSystem::_addTimer(const std::weak_ptr<Timer>& value)
             {
                 _p->newTimers.push_back(value);
             }

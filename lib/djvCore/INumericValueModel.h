@@ -36,7 +36,7 @@ namespace djv
             ///@{
 
             std::shared_ptr<IValueSubject<Range::Range<T> > > observeRange() const;
-            void setRange(const Range::Range<T> &);
+            void setRange(const Range::Range<T>&);
 
             ///@}
 

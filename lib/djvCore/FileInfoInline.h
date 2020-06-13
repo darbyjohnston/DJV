@@ -11,7 +11,7 @@ namespace djv
             inline FileInfo::FileInfo()
             {}
 
-            inline FileInfo::FileInfo(const Path & path, bool stat)
+            inline FileInfo::FileInfo(const Path& path, bool stat)
             {
                 setPath(path, stat);
             }
@@ -149,7 +149,7 @@ namespace djv
                 return out;
             }
 
-            inline bool FileInfo::operator == (const FileInfo & in) const
+            inline bool FileInfo::operator == (const FileInfo& in) const
             {
                 return
                     in._path == _path &&
@@ -160,12 +160,12 @@ namespace djv
                     in._time == _time;
             }
 
-            inline bool FileInfo::operator != (const FileInfo & in) const
+            inline bool FileInfo::operator != (const FileInfo& in) const
             {
                 return !(in == *this);
             }
 
-            inline bool FileInfo::operator < (const FileInfo & in) const
+            inline bool FileInfo::operator < (const FileInfo& in) const
             {
                 return in._path.get() < _path.get();
             }

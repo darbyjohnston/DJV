@@ -104,7 +104,7 @@ namespace djv
             }
 
             template<typename T>
-            constexpr T clamp(const T & v, const T & _min, const T & _max)
+            constexpr T clamp(const T& v, const T& _min, const T& _max)
             {
                 return std::max(std::min(v, _max), _min);
             }
@@ -199,7 +199,7 @@ namespace djv
             }
 
             template<typename T>
-            inline const T & getRandom(const std::vector<T> & value)
+            inline const T& getRandom(const std::vector<T>& value)
             {
                 return value[getRandom(0, static_cast<int>(value.size()) - 1)];
             }

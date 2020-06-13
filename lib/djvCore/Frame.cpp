@@ -79,10 +79,10 @@ namespace djv
         } // namespace Frame
     } // namespace Core
 
-    std::ostream & operator << (std::ostream & s, const Core::Frame::Sequence & value)
+    std::ostream& operator << (std::ostream& s, const Core::Frame::Sequence& value)
     {
         std::vector<std::string> pieces;
-        for (const auto & range : value.getRanges())
+        for (const auto& range : value.getRanges())
         {
             pieces.push_back(Core::Frame::toString(range, value.getPad()));
         }
@@ -90,7 +90,7 @@ namespace djv
         return s;
     }
 
-    std::istream & operator >> (std::istream & s, Core::Frame::Sequence & out)
+    std::istream& operator >> (std::istream& s, Core::Frame::Sequence& out)
     {
         try
         {

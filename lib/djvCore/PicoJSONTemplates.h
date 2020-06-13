@@ -9,16 +9,16 @@
 namespace djv
 {
     template<typename T>
-    picojson::value toJSON(const std::vector<T> &);
+    picojson::value toJSON(const std::vector<T>&);
     template<typename T>
-    picojson::value toJSON(const std::map<std::string, T> &);
+    picojson::value toJSON(const std::map<std::string, T>&);
 
     //! Throws:
     //! - std::exception
     template<typename T>
-    void fromJSON(const picojson::value &, std::vector<T> &);
+    void fromJSON(const picojson::value&, std::vector<T>&);
     template<typename T>
-    void fromJSON(const picojson::value &, std::map<std::string, T> &);
+    void fromJSON(const picojson::value&, std::map<std::string, T>&);
 
 } // namespace djv
 

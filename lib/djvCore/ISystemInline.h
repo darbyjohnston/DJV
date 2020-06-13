@@ -9,7 +9,7 @@ namespace djv
         inline ISystemBase::ISystemBase()
         {}
 
-        inline const std::string & ISystemBase::getSystemName() const
+        inline const std::string& ISystemBase::getSystemName() const
         {
             return _name;
         }
@@ -19,7 +19,7 @@ namespace djv
             return _context;
         }
 
-        inline const std::vector<std::shared_ptr<ISystemBase> > & ISystemBase::getDependencies() const
+        inline const std::vector<std::shared_ptr<ISystemBase> >& ISystemBase::getDependencies() const
         {
             return _dependencies;
         }

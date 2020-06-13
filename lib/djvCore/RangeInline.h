@@ -65,7 +65,7 @@ namespace djv
             }
 
             template<typename T>
-            constexpr bool Range<T>::intersects(const Range<T> & value) const
+            constexpr bool Range<T>::intersects(const Range<T>& value) const
             {
                 return !(
                     value._max < _min ||
@@ -87,19 +87,19 @@ namespace djv
             }
 
             template<typename T>
-            constexpr bool Range<T>::operator == (const Range<T> & value) const
+            constexpr bool Range<T>::operator == (const Range<T>& value) const
             {
                 return _min == value._min && _max == value._max;
             }
 
             template<typename T>
-            constexpr bool Range<T>::operator != (const Range<T> & value) const
+            constexpr bool Range<T>::operator != (const Range<T>& value) const
             {
                 return !(*this == value);
             }
 
             template<typename T>
-            constexpr bool Range<T>::operator < (const Range<T> & value) const
+            constexpr bool Range<T>::operator < (const Range<T>& value) const
             {
                 return _min < value._min;
             }

@@ -55,7 +55,7 @@ namespace djv
                 //! Open the file.
                 //! Throws:
                 //! - Error
-                void open(const std::string & fileName, Mode);
+                void open(const std::string& fileName, Mode);
 
                 //! Open a temporary file.
                 //! Throws:
@@ -69,7 +69,7 @@ namespace djv
                 bool isOpen() const;
 
                 //! Get the file name.
-                const std::string & getFileName() const;
+                const std::string& getFileName() const;
 
                 //! Get the file size.
                 size_t getSize() const;
@@ -128,7 +128,7 @@ namespace djv
                 void writeU32(uint32_t);
                 void writeF32(float);
 
-                void write(const std::string &);
+                void write(const std::string&);
 
                 ///@}
 
@@ -178,12 +178,12 @@ namespace djv
                 //! Read all the lines from a file.
                 //! Throws:
                 //! - Error
-                static std::vector<std::string> readLines(const std::string & fileName);
+                static std::vector<std::string> readLines(const std::string& fileName);
 
                 //! Write lines to a file.
                 //! Throws:
                 //! - Error
-                static void writeLines(const std::string & fileName, const std::vector<std::string> &);
+                static void writeLines(const std::string& fileName, const std::vector<std::string>&);
 
                 ///@}
 

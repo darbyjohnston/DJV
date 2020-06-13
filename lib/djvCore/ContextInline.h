@@ -9,7 +9,7 @@ namespace djv
         inline Context::Context()
         {}
            
-        inline const std::string & Context::getName() const
+        inline const std::string& Context::getName() const
         {
             return _name;
         }
@@ -23,7 +23,7 @@ namespace djv
         inline std::vector<std::shared_ptr<T> > Context::getSystemsT() const
         {
             std::vector<std::shared_ptr<T> > out;
-            for (const auto & i : _systems)
+            for (const auto& i : _systems)
             {
                 if (auto system = std::dynamic_pointer_cast<T>(i))
                 {
@@ -37,7 +37,7 @@ namespace djv
         inline std::shared_ptr<T> Context::getSystemT() const
         {
             std::shared_ptr<T> out;
-            for (const auto & i : _systems)
+            for (const auto& i : _systems)
             {
                 if (auto system = std::dynamic_pointer_cast<T>(i))
                 {

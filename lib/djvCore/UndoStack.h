@@ -29,16 +29,16 @@ namespace djv
 
             static std::shared_ptr<UndoStack> create();
 
-            const std::vector<std::shared_ptr<ICommand> > & getCommands() const;
+            const std::vector<std::shared_ptr<ICommand> >& getCommands() const;
             size_t getSize() const;
             int64_t getCurrentIndex() const;
 
-            void push(const std::shared_ptr<ICommand> &);
+            void push(const std::shared_ptr<ICommand>&);
             void undo();
             void redo();
             void clear();
 
-            void setCallback(const std::function<void()> &);
+            void setCallback(const std::function<void()>&);
 
         protected:
             DJV_PRIVATE();

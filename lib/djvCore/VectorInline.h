@@ -8,7 +8,7 @@
 namespace djv
 {
     template<typename T, glm::precision P>
-    inline bool fuzzyCompare(const glm::tvec2<T, P> & a, const glm::tvec2<T, P> & b)
+    inline bool fuzzyCompare(const glm::tvec2<T, P>& a, const glm::tvec2<T, P>& b)
     {
         return
             fuzzyCompare(a.x, b.x) &&
@@ -16,7 +16,7 @@ namespace djv
     }
 
     template<typename T, glm::precision P>
-    inline bool fuzzyCompare(const glm::tvec3<T, P> & a, const glm::tvec3<T, P> & b)
+    inline bool fuzzyCompare(const glm::tvec3<T, P>& a, const glm::tvec3<T, P>& b)
     {
         return
             fuzzyCompare(a.x, b.x) &&
@@ -25,7 +25,7 @@ namespace djv
     }
 
     template<typename T, glm::precision P>
-    inline bool fuzzyCompare(const glm::tvec4<T, P> & a, const glm::tvec4<T, P> & b)
+    inline bool fuzzyCompare(const glm::tvec4<T, P>& a, const glm::tvec4<T, P>& b)
     {
         return
             fuzzyCompare(a.x, b.x) &&
@@ -35,7 +35,7 @@ namespace djv
     }
 
     template<typename T, glm::precision P>
-    inline std::ostream & operator << (std::ostream & s, const glm::tvec2<T, P> & value)
+    inline std::ostream& operator << (std::ostream& s, const glm::tvec2<T, P>& value)
     {
         s << value.x << " ";
         s << value.y;
@@ -43,7 +43,7 @@ namespace djv
     }
 
     template<typename T, glm::precision P>
-    inline std::ostream & operator << (std::ostream & s, const glm::tvec3<T, P> & value)
+    inline std::ostream& operator << (std::ostream& s, const glm::tvec3<T, P>& value)
     {
         s << value.x << " ";
         s << value.y << " ";
@@ -52,7 +52,7 @@ namespace djv
     }
 
     template<typename T, glm::precision P>
-    inline std::ostream & operator << (std::ostream & s, const glm::tvec4<T, P> & value)
+    inline std::ostream& operator << (std::ostream& s, const glm::tvec4<T, P>& value)
     {
         s << value.x << " ";
         s << value.y << " ";
@@ -62,7 +62,7 @@ namespace djv
     }
 
     template<typename T, glm::precision P>
-    inline std::istream & operator >> (std::istream & s, glm::tvec2<T, P> & out)
+    inline std::istream& operator >> (std::istream& s, glm::tvec2<T, P>& out)
     {
         try
         {
@@ -79,7 +79,7 @@ namespace djv
     }
 
     template<typename T, glm::precision P>
-    inline std::istream & operator >> (std::istream & s, glm::tvec3<T, P> & out)
+    inline std::istream& operator >> (std::istream& s, glm::tvec3<T, P>& out)
     {
         try
         {
@@ -97,7 +97,7 @@ namespace djv
     }
 
     template<typename T, glm::precision P>
-    inline std::istream & operator >> (std::istream & s, glm::tvec4<T, P> & out)
+    inline std::istream& operator >> (std::istream& s, glm::tvec4<T, P>& out)
     {
         try
         {
@@ -119,7 +119,7 @@ namespace djv
 
 namespace std
 {
-    inline std::size_t hash<glm::ivec2>::operator() (const glm::ivec2 & value) const noexcept
+    inline std::size_t hash<glm::ivec2>::operator() (const glm::ivec2& value) const noexcept
     {
         size_t hash = 0;
         djv::Core::Memory::hashCombine<int>(hash, value.x);
@@ -127,7 +127,7 @@ namespace std
         return hash;
     }
 
-    inline std::size_t hash<glm::vec2>::operator() (const glm::vec2 & value) const noexcept
+    inline std::size_t hash<glm::vec2>::operator() (const glm::vec2& value) const noexcept
     {
         size_t hash = 0;
         djv::Core::Memory::hashCombine<float>(hash, value.x);

@@ -47,13 +47,13 @@ namespace djv
         } // namespace Math
     } // namespace Core
 
-    std::ostream & operator << (std::ostream & os, const Core::Math::Rational& value)
+    std::ostream& operator << (std::ostream& os, const Core::Math::Rational& value)
     {
         os << value.getNum() << '/' << value.getDen();
         return os;
     }
 
-    std::istream & operator >> (std::istream & is, Core::Math::Rational& value)
+    std::istream& operator >> (std::istream& is, Core::Math::Rational& value)
     {
         try
         {

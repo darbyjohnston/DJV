@@ -23,7 +23,7 @@ namespace djv
             virtual ~ICommand() = 0;
 
             const std::weak_ptr<Context>& getContext() const;
-            const std::string & getName() const;
+            const std::string& getName() const;
 
             virtual void exec() = 0;
             virtual void undo() = 0;

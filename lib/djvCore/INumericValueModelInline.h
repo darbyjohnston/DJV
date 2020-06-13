@@ -35,7 +35,7 @@ namespace djv
         }
 
         template<typename T>
-        inline void INumericValueModel<T>::setRange(const Range::Range<T> & value)
+        inline void INumericValueModel<T>::setRange(const Range::Range<T>& value)
         {
             if (_range->setIfChanged(value))
             {
@@ -64,7 +64,7 @@ namespace djv
         template<typename T>
         inline void INumericValueModel<T>::setValue(T value)
         {
-            const auto & range = _range->get();
+            const auto& range = _range->get();
             switch (_overflow->get())
             {
             case NumericValueOverflow::Clamp:

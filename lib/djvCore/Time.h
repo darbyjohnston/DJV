@@ -85,10 +85,10 @@ namespace djv
 
             void timecodeToTime(
                 uint32_t,
-                int & hour,
-                int & minute,
-                int & second,
-                int & frame);
+                int& hour,
+                int& minute,
+                int& second,
+                int& frame);
             uint32_t timeToTimecode(
                 int hour,
                 int minute,
@@ -102,7 +102,7 @@ namespace djv
 
             //! Throws:
             //! - std::exception
-            void stringToTimecode(const std::string &, uint32_t &);
+            void stringToTimecode(const std::string&, uint32_t&);
 
             ///@}
 

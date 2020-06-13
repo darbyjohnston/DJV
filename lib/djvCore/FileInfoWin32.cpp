@@ -195,7 +195,7 @@ namespace djv
 
             } // namespace
 
-            std::vector<FileInfo> FileInfo::directoryList(const Path & value, const DirectoryListOptions & options)
+            std::vector<FileInfo> FileInfo::directoryList(const Path& value, const DirectoryListOptions& options)
             {
                 std::vector<FileInfo> out;
                 if (!value.isEmpty())

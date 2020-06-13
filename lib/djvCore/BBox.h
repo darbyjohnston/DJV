@@ -21,8 +21,8 @@ namespace djv
             {
             public:
                 tBBox2();
-                explicit tBBox2(const glm::tvec2<T, P> &);
-                tBBox2(const glm::tvec2<T, P> & min, const glm::tvec2<T, P> & max);
+                explicit tBBox2(const glm::tvec2<T, P>&);
+                tBBox2(const glm::tvec2<T, P>& min, const glm::tvec2<T, P>& max);
                 tBBox2(T x, T y, T w, T h);
 
                 //! \name Box Components
@@ -48,23 +48,23 @@ namespace djv
                 //! \name Utilities
                 ///@{
 
-                bool contains(const tBBox2<T, P> &) const;
-                bool contains(const glm::tvec2<T, P> &) const;
+                bool contains(const tBBox2<T, P>&) const;
+                bool contains(const glm::tvec2<T, P>&) const;
 
-                bool intersects(const tBBox2<T, P> &) const;
-                tBBox2<T, P> intersect(const tBBox2<T, P> &) const;
+                bool intersects(const tBBox2<T, P>&) const;
+                tBBox2<T, P> intersect(const tBBox2<T, P>&) const;
 
-                void expand(const tBBox2<T, P> &);
-                void expand(const glm::tvec2<T, P> &);
+                void expand(const tBBox2<T, P>&);
+                void expand(const glm::tvec2<T, P>&);
 
-                constexpr tBBox2<T, P> margin(const glm::tvec2<T, P> &) const;
+                constexpr tBBox2<T, P> margin(const glm::tvec2<T, P>&) const;
                 constexpr tBBox2<T, P> margin(T) const;
                 constexpr tBBox2<T, P> margin(T x0, T y0, T x1, T y1) const;
 
                 ///@}
 
-                constexpr bool operator == (const tBBox2<T, P> &) const;
-                constexpr bool operator != (const tBBox2<T, P> &) const;
+                constexpr bool operator == (const tBBox2<T, P>&) const;
+                constexpr bool operator != (const tBBox2<T, P>&) const;
             };
 
             //! This class provides an axis aligned bounding box.
@@ -73,8 +73,8 @@ namespace djv
             {
             public:
                 tBBox3();
-                explicit tBBox3(const glm::tvec3<T, P> &);
-                tBBox3(const glm::tvec3<T, P> & min, const glm::tvec3<T, P> & max);
+                explicit tBBox3(const glm::tvec3<T, P>&);
+                tBBox3(const glm::tvec3<T, P>& min, const glm::tvec3<T, P>& max);
                 tBBox3(T x, T y, T z, T w, T h, T d);
 
                 //! \name Components
@@ -100,20 +100,20 @@ namespace djv
                 //! \name Box Utilities
                 ///@{
 
-                bool contains(const tBBox3<T, P> &) const;
-                bool contains(const glm::tvec3<T, P> &) const;
+                bool contains(const tBBox3<T, P>&) const;
+                bool contains(const glm::tvec3<T, P>&) const;
 
-                bool intersects(const tBBox3<T, P> &) const;
-                tBBox3<T, P> intersect(const tBBox3<T, P> &) const;
-                bool intersect(const glm::tvec3<T, P> & start, const glm::tvec3<T, P> & end, glm::tvec3<T, P> & out) const;
+                bool intersects(const tBBox3<T, P>&) const;
+                tBBox3<T, P> intersect(const tBBox3<T, P>&) const;
+                bool intersect(const glm::tvec3<T, P>& start, const glm::tvec3<T, P>& end, glm::tvec3<T, P>& out) const;
 
-                void expand(const tBBox3<T, P> &);
-                void expand(const glm::tvec3<T, P> &);
+                void expand(const tBBox3<T, P>&);
+                void expand(const glm::tvec3<T, P>&);
 
                 ///@}
 
-                constexpr bool operator == (const tBBox3<T, P> &) const;
-                constexpr bool operator != (const tBBox3<T, P> &) const;
+                constexpr bool operator == (const tBBox3<T, P>&) const;
+                constexpr bool operator != (const tBBox3<T, P>&) const;
             };
 
             typedef tBBox2<int, glm::lowp>      BBox2i_lowp;
@@ -156,12 +156,12 @@ namespace djv
     } // namespace Core
 
     template<typename T, glm::precision P = glm::defaultp>
-    bool fuzzyCompare(const Core::BBox::tBBox2<T, P> &, const Core::BBox::tBBox2<T, P> &);
+    bool fuzzyCompare(const Core::BBox::tBBox2<T, P>&, const Core::BBox::tBBox2<T, P>&);
     template<typename T, glm::precision P = glm::defaultp>
-    bool fuzzyCompare(const Core::BBox::tBBox3<T, P> &, const Core::BBox::tBBox3<T, P> &);
+    bool fuzzyCompare(const Core::BBox::tBBox3<T, P>&, const Core::BBox::tBBox3<T, P>&);
 
     template<typename T, glm::precision P = glm::defaultp>
-    Core::BBox::tBBox3<T, P> operator * (const Core::BBox::tBBox3<T, P> &, const glm::mat4 &);
+    Core::BBox::tBBox3<T, P> operator * (const Core::BBox::tBBox3<T, P>&, const glm::mat4&);
 
     template<typename T, glm::precision P = glm::defaultp>
     std::ostream& operator << (std::ostream&, const Core::BBox::tBBox2<T, P>&);

@@ -34,16 +34,16 @@ namespace djv
 
                 constexpr bool contains(T) const;
 
-                constexpr bool intersects(const Range<T> &) const;
+                constexpr bool intersects(const Range<T>&) const;
 
                 void expand(T);
-                void expand(const Range<T> &);
+                void expand(const Range<T>&);
 
                 ///@}
 
-                constexpr bool operator == (const Range<T> &) const;
-                constexpr bool operator != (const Range<T> &) const;
-                constexpr bool operator  < (const Range<T> &) const;
+                constexpr bool operator == (const Range<T>&) const;
+                constexpr bool operator != (const Range<T>&) const;
+                constexpr bool operator  < (const Range<T>&) const;
 
             private:
                 T _min = static_cast<T>(0);
@@ -64,12 +64,12 @@ namespace djv
     } // namespace Core
 
     template<typename T>
-    std::ostream & operator << (std::ostream &, const Core::Range::Range<T> &);
+    std::ostream& operator << (std::ostream&, const Core::Range::Range<T>&);
 
     //! Throws:
     //! - std::exception
     template<typename T>
-    std::istream & operator >> (std::istream &, Core::Range::Range<T> &);
+    std::istream& operator >> (std::istream&, Core::Range::Range<T>&);
 
 } // namespace djv
 

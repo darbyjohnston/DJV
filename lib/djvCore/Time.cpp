@@ -139,7 +139,7 @@ namespace djv
                 return out;
             }
 
-            void stringToTimecode(const std::string & in, uint32_t & out)
+            void stringToTimecode(const std::string& in, uint32_t& out)
             {
                 int hour   = 0;
                 int minute = 0;

@@ -62,7 +62,7 @@ namespace djv
                 std::shared_ptr<Time::Timer> statsTimer;
             };
 
-            void IEventSystem::_init(const std::string & systemName, const std::shared_ptr<Context>& context)
+            void IEventSystem::_init(const std::string& systemName, const std::shared_ptr<Context>& context)
             {
                 ISystem::_init(systemName, context);
 
@@ -146,7 +146,7 @@ namespace djv
                 return _p->keyGrab;
             }
 
-            const std::weak_ptr<IObject> & IEventSystem::getTextFocus() const
+            const std::weak_ptr<IObject>& IEventSystem::getTextFocus() const
             {
                 return _p->textFocus;
             }
@@ -156,7 +156,7 @@ namespace djv
                 return _p->textFocusActive;
             }
 
-            void IEventSystem::setTextFocus(const std::shared_ptr<IObject> & value)
+            void IEventSystem::setTextFocus(const std::shared_ptr<IObject>& value)
             {
                 DJV_PRIVATE_PTR();
                 if (value == p.textFocus.lock())
@@ -196,7 +196,7 @@ namespace djv
                 p.t = now;
 
                 auto objectsCreated = std::move(p.objectsCreated);
-                for (const auto & i : objectsCreated)
+                for (const auto& i : objectsCreated)
                 {
                     _initObject(i);
                 }
@@ -285,16 +285,16 @@ namespace djv
                 }
             }
 
-            void IEventSystem::_initRecursive(const std::shared_ptr<IObject> & object, Init & event)
+            void IEventSystem::_initRecursive(const std::shared_ptr<IObject>& object, Init& event)
             {
                 object->event(event);
-                for (const auto & child : object->_children)
+                for (const auto& child : object->_children)
                 {
                     _initRecursive(child, event);
                 }
             }
 
-            void IEventSystem::_pointerMove(const PointerInfo & info)
+            void IEventSystem::_pointerMove(const PointerInfo& info)
             {
                 DJV_PRIVATE_PTR();
                 p.pointerInfo = info;
@@ -352,7 +352,7 @@ namespace djv
                 }
             }
 
-            void IEventSystem::_drop(const std::vector<std::string> & list)
+            void IEventSystem::_drop(const std::vector<std::string>& list)
             {
                 DJV_PRIVATE_PTR();
                 if (p.hover)
@@ -437,23 +437,23 @@ namespace djv
                 }
             }
 
-            void IEventSystem::_objectCreated(const std::shared_ptr<IObject> & object)
+            void IEventSystem::_objectCreated(const std::shared_ptr<IObject>& object)
             {
                 _p->objectsCreated.push_back(object);
             }
 
-            void IEventSystem::_updateRecursive(const std::shared_ptr<IObject> & object, Update & event)
+            void IEventSystem::_updateRecursive(const std::shared_ptr<IObject>& object, Update& event)
             {
                 object->event(event);
                 const auto children = object->_children;
-                for (const auto & child : children)
+                for (const auto& child : children)
                 {
                     child->_parentsEnabled = object->_enabled && object->_parentsEnabled;
                     _updateRecursive(child, event);
                 }
             }
 
-            void IEventSystem::_setHover(const std::shared_ptr<IObject> & value)
+            void IEventSystem::_setHover(const std::shared_ptr<IObject>& value)
             {
                 DJV_PRIVATE_PTR();
                 auto hoverPrev = p.hover->get();

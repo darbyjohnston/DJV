@@ -18,7 +18,7 @@ namespace djv
     {
         namespace String
         {
-            std::string toUpper(const std::string & value)
+            std::string toUpper(const std::string& value)
             {
                 std::string out;
                 for (auto i : value)
@@ -28,7 +28,7 @@ namespace djv
                 return out;
             }
 
-            std::string toLower(const std::string & value)
+            std::string toLower(const std::string& value)
             {
                 std::string out;
                 for (auto i : value)
@@ -43,7 +43,7 @@ namespace djv
                 return std::string(indent * count, ' ');
             }
 
-            void removeTrailingNewline(std::string & value)
+            void removeTrailingNewline(std::string& value)
             {
                 size_t size = value.size();
                 if (size && '\n' == value[size - 1])
@@ -56,7 +56,7 @@ namespace djv
                 }
             }
 
-            bool match(const std::string & value, const std::string & expression)
+            bool match(const std::string& value, const std::string& expression)
             {
                 bool out = false;
                 try
@@ -73,7 +73,7 @@ namespace djv
                 return out;
             }
 
-            void fromString(const char * s, size_t size, float & out)
+            void fromString(const char * s, size_t size, float& out)
             {
                 out = 0.F;
 
@@ -153,19 +153,19 @@ namespace djv
                 }
             }
 
-            std::wstring toWide(const std::string & value)
+            std::wstring toWide(const std::string& value)
             {
                 std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
                 return converter.from_bytes(value);
             }
 
-            std::string fromWide(const std::wstring & value)
+            std::string fromWide(const std::wstring& value)
             {
                 std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
                 return converter.to_bytes(value);
             }
 
-            std::string escape(const std::string & value)
+            std::string escape(const std::string& value)
             {
                 std::string out;
                 for (const auto i : value)
@@ -179,7 +179,7 @@ namespace djv
                 return out;
             }
 
-            std::string unescape(const std::string & value)
+            std::string unescape(const std::string& value)
             {
                 std::string out;
                 const size_t size = value.size();
@@ -405,7 +405,7 @@ namespace djv
 
             std::vector<std::string> getRandomNames(size_t value)
             {
-                const std::vector<std::string> & data = getTestNames();
+                const std::vector<std::string>& data = getTestNames();
                 std::vector<std::string> out;
                 for (size_t i = 0; i < value; ++i)
                 {
@@ -416,7 +416,7 @@ namespace djv
 
             std::string getRandomName()
             {
-                const std::vector<std::string> & data = getTestNames();
+                const std::vector<std::string>& data = getTestNames();
                 return Math::getRandom(data);
             }
 

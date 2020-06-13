@@ -5,10 +5,10 @@
 namespace djv
 {
     template<typename T>
-    inline picojson::value toJSON(const std::vector<T> & value)
+    inline picojson::value toJSON(const std::vector<T>& value)
     {
         picojson::value out(picojson::array_type, true);
-        for (const auto & i : value)
+        for (const auto& i : value)
         {
             out.get<picojson::array>().push_back(toJSON(i));
         }
@@ -16,7 +16,7 @@ namespace djv
     }
     
     template<typename T>
-    inline picojson::value toJSON(const std::map<std::string, T> & value)
+    inline picojson::value toJSON(const std::map<std::string, T>& value)
     {
         picojson::value out(picojson::object_type, true);
         for (auto i : value)
@@ -27,12 +27,12 @@ namespace djv
     }
 
     template<typename T>
-    inline void fromJSON(const picojson::value & value, std::vector<T> & out)
+    inline void fromJSON(const picojson::value& value, std::vector<T>& out)
     {
         if (value.is<picojson::array>())
         {
             out.clear();
-            for (const auto & i : value.get<picojson::array>())
+            for (const auto& i : value.get<picojson::array>())
             {
                 T tmp;
                 fromJSON(i, tmp);
@@ -47,12 +47,12 @@ namespace djv
     }
     
     template<typename T>
-    inline void fromJSON(const picojson::value & value, std::map<std::string, T> & out)
+    inline void fromJSON(const picojson::value& value, std::map<std::string, T>& out)
     {
         if (value.is<picojson::object>())
         {
             out.clear();
-            for (const auto & i : value.get<picojson::object>())
+            for (const auto& i : value.get<picojson::object>())
             {
                 fromJSON(i.second, out[i.first]);
             }

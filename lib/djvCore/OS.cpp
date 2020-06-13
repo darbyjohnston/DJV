@@ -35,7 +35,7 @@ namespace djv
                 return String::split(OS::getEnv(name), OS::getCurrentListSeparator());
             }
 
-            int getIntEnv(const std::string & name)
+            int getIntEnv(const std::string& name)
             {
                 const std::string env = getEnv(name);
                 return !env.empty() ? std::stoi(env) : 0;

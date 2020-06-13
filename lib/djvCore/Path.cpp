@@ -33,7 +33,7 @@ namespace djv
                 split(value, _directoryName, _baseName, _number, _extension);
             }
 
-            void Path::append(const std::string & value, char separator)
+            void Path::append(const std::string& value, char separator)
             {
                 const std::string path = get();
                 const size_t pathSize = path.size();
@@ -114,32 +114,32 @@ namespace djv
                 return false;
             }
 
-            void Path::setDirectoryName(const std::string & value)
+            void Path::setDirectoryName(const std::string& value)
             {
                 _directoryName = value;
             }
 
-            void Path::setFileName(const std::string & value)
+            void Path::setFileName(const std::string& value)
             {
                 set(_directoryName + value);
             }
 
-            void Path::setBaseName(const std::string & value)
+            void Path::setBaseName(const std::string& value)
             {
                 _baseName = value;
             }
 
-            void Path::setNumber(const std::string & value)
+            void Path::setNumber(const std::string& value)
             {
                 _number = value;
             }
 
-            void Path::setExtension(const std::string & value)
+            void Path::setExtension(const std::string& value)
             {
                 _extension = value;
             }
 
-            void Path::removeTrailingSeparator(std::string & value)
+            void Path::removeTrailingSeparator(std::string& value)
             {
                 if (value.size() > 2)
                 {
@@ -167,7 +167,7 @@ namespace djv
                 extension = in.substr(sizes.path + static_cast<size_t>(sizes.base) + static_cast<size_t>(sizes.number), sizes.extension);
             }
 
-            std::vector<std::string> Path::splitDir(const std::string & value)
+            std::vector<std::string> Path::splitDir(const std::string& value)
             {
                 std::vector<std::string> out;
 
@@ -198,7 +198,7 @@ namespace djv
                     tmp.erase(0, 1);
                 }
 
-                for (const auto & i : String::split(tmp, { '/', '\\' }))
+                for (const auto& i : String::split(tmp, { '/', '\\' }))
                 {
                     out.push_back(i);
                 }
@@ -206,7 +206,7 @@ namespace djv
                 return out;
             }
 
-            std::string Path::joinDirs(const std::vector<std::string> & value, char separator)
+            std::string Path::joinDirs(const std::vector<std::string>& value, char separator)
             {
                 std::string out;
 
@@ -234,7 +234,7 @@ namespace djv
         } // namespace FileSystem
     } // namespace Core
 
-    picojson::value toJSON(const Core::FileSystem::Path & value)
+    picojson::value toJSON(const Core::FileSystem::Path& value)
     {
         picojson::value out(picojson::object_type, true);
         out.get<picojson::object>()["DirectoryName"] = toJSON(value.getDirectoryName());
@@ -244,7 +244,7 @@ namespace djv
         return out;
     }
 
-    void fromJSON(const picojson::value & value, Core::FileSystem::Path & out)
+    void fromJSON(const picojson::value& value, Core::FileSystem::Path& out)
     {
         if (value.is<picojson::object>())
         {
@@ -280,7 +280,7 @@ namespace djv
         }
     }
 
-    std::ostream & operator << (std::ostream & os, const Core::FileSystem::Path & value)
+    std::ostream& operator << (std::ostream& os, const Core::FileSystem::Path& value)
     {
         os << value.get();
         return os;

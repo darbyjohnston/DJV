@@ -26,7 +26,7 @@ namespace djv
     {
         namespace FileSystem
         {
-            void Path::mkdir(const Path & value)
+            void Path::mkdir(const Path& value)
             {
                 if (_wmkdir(String::toWide(value.get()).c_str()) != 0)
                 {
@@ -37,7 +37,7 @@ namespace djv
                 }
             }
 
-            void Path::rmdir(const Path & value)
+            void Path::rmdir(const Path& value)
             {
                 if (_wrmdir(String::toWide(value.get()).c_str()) != 0)
                 {
@@ -48,7 +48,7 @@ namespace djv
                 }
             }
 
-            Path Path::getAbsolute(const Path & value)
+            Path Path::getAbsolute(const Path& value)
             {
                 wchar_t buf[MAX_PATH];
                 std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;

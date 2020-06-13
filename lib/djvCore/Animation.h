@@ -75,11 +75,11 @@ namespace djv
 
                 //! Start the animation.
                 void start(
-                    float            begin,
-                    float            end,
-                    Time::Duration   duration,
-                    const Callback & callback,
-                    const Callback & endCallback = nullptr);
+                    float           begin,
+                    float           end,
+                    Time::Duration  duration,
+                    const Callback& callback,
+                    const Callback& endCallback = nullptr);
 
                 //! Stop the animation.
                 void stop();
@@ -117,7 +117,7 @@ namespace djv
                 void tick() override;
 
             private:
-                void _addAnimation(const std::weak_ptr<Animation> &);
+                void _addAnimation(const std::weak_ptr<Animation>&);
 
                 DJV_PRIVATE();
 

@@ -125,7 +125,7 @@ namespace djv
                 out[i] = 0;
             }
 
-            std::vector<std::string> FileIO::readLines(const std::string & fileName)
+            std::vector<std::string> FileIO::readLines(const std::string& fileName)
             {
                 std::vector<std::string> out;
                 auto io = FileIO::create();
@@ -139,7 +139,7 @@ namespace djv
                 return out;
             }
 
-            void FileIO::writeLines(const std::string & fileName, const std::vector<std::string> & lines)
+            void FileIO::writeLines(const std::string& fileName, const std::vector<std::string>& lines)
             {
                 auto io = FileIO::create();
                 io->open(fileName, FileIO::Mode::Write);

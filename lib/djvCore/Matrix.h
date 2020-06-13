@@ -12,11 +12,11 @@
 
 namespace djv
 {
-    std::ostream & operator << (std::ostream &, const glm::mat4x4 &);
+    std::ostream& operator << (std::ostream&, const glm::mat4x4&);
 
     //! Throws:
     //! - std::exception
-    std::istream & operator >> (std::istream &, glm::mat4x4 &);
+    std::istream& operator >> (std::istream&, glm::mat4x4&);
 
 } // namespace djv
 

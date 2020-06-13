@@ -32,7 +32,7 @@ namespace djv
             return out;
         }
 
-        const std::vector<std::shared_ptr<ICommand> > & UndoStack::getCommands() const
+        const std::vector<std::shared_ptr<ICommand> >& UndoStack::getCommands() const
         {
             return _p->commands;
         }
@@ -47,7 +47,7 @@ namespace djv
             return _p->currentIndex;
         }
 
-        void UndoStack::push(const std::shared_ptr<ICommand> & command)
+        void UndoStack::push(const std::shared_ptr<ICommand>& command)
         {
             DJV_PRIVATE_PTR();
             while (static_cast<int64_t>(p.commands.size()) - 1 > p.currentIndex)

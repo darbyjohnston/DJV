@@ -6,35 +6,35 @@
 
 namespace djv
 {
-    picojson::value toJSON(const glm::ivec2 & value)
+    picojson::value toJSON(const glm::ivec2& value)
     {
         std::stringstream ss;
         ss << value;
         return picojson::value(ss.str());
     }
 
-    picojson::value toJSON(const glm::vec2 & value)
+    picojson::value toJSON(const glm::vec2& value)
     {
         std::stringstream ss;
         ss << value;
         return picojson::value(ss.str());
     }
 
-    picojson::value toJSON(const glm::vec3 & value)
+    picojson::value toJSON(const glm::vec3& value)
     {
         std::stringstream ss;
         ss << value;
         return picojson::value(ss.str());
     }
 
-    picojson::value toJSON(const glm::vec4 & value)
+    picojson::value toJSON(const glm::vec4& value)
     {
         std::stringstream ss;
         ss << value;
         return picojson::value(ss.str());
     }
 
-    void fromJSON(const picojson::value & value, glm::ivec2 & out)
+    void fromJSON(const picojson::value& value, glm::ivec2& out)
     {
         if (value.is<std::string>())
         {
@@ -48,7 +48,7 @@ namespace djv
         }
     }
 
-    void fromJSON(const picojson::value & value, glm::vec2 & out)
+    void fromJSON(const picojson::value& value, glm::vec2& out)
     {
         if (value.is<std::string>())
         {
@@ -62,7 +62,7 @@ namespace djv
         }
     }
 
-    void fromJSON(const picojson::value & value, glm::vec3 & out)
+    void fromJSON(const picojson::value& value, glm::vec3& out)
     {
         if (value.is<std::string>())
         {
@@ -76,7 +76,7 @@ namespace djv
         }
     }
 
-    void fromJSON(const picojson::value & value, glm::vec4 & out)
+    void fromJSON(const picojson::value& value, glm::vec4& out)
     {
         if (value.is<std::string>())
         {

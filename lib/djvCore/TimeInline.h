@@ -43,7 +43,7 @@ namespace djv
                     (frame   / 10 & 0x0f) <<  4 | (frame   % 10 & 0x0f) <<  0;
             }
 
-            inline Frame::Number timecodeToFrame(uint32_t in, const Math::Rational & r)
+            inline Frame::Number timecodeToFrame(uint32_t in, const Math::Rational& r)
             {
                 if (!r.isValid())
                     return 0;

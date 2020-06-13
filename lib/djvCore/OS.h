@@ -56,7 +56,7 @@ namespace djv
 
             //! Throws:
             //! - std::exception
-            std::string getEnv(const std::string & name);
+            std::string getEnv(const std::string& name);
 
             //! Get an environment variable and convert it to an integer. If the
             //! variable is empty then zero is returned.
@@ -73,7 +73,7 @@ namespace djv
 
             //! Throws:
             //! - std::exception
-            bool setEnv(const std::string & name, const std::string &);
+            bool setEnv(const std::string& name, const std::string&);
             
             ///@}
             

@@ -47,7 +47,7 @@ namespace djv
                 return out;
             }
 
-            inline std::vector<std::string> split(const std::string & s, char delimeter, bool keepEmpty)
+            inline std::vector<std::string> split(const std::string& s, char delimeter, bool keepEmpty)
             {
                 std::vector<std::string> out;
                 bool word = false;
@@ -83,7 +83,7 @@ namespace djv
                 return out;
             }
 
-            inline std::vector<std::string> split(const std::string & s, const std::vector<char> & delimeters, bool keepEmpty)
+            inline std::vector<std::string> split(const std::string& s, const std::vector<char>& delimeters, bool keepEmpty)
             {
                 std::vector<std::string> out;
                 bool word = false;
@@ -119,17 +119,17 @@ namespace djv
                 return out;
             }
 
-            inline std::string join(const std::vector<std::string> & value)
+            inline std::string join(const std::vector<std::string>& value)
             {
                 std::string out;
-                for (const auto & s : value)
+                for (const auto& s : value)
                 {
                     out += s;
                 }
                 return out;
             }
 
-            inline std::string join(const std::vector<std::string> & value, char delimeter)
+            inline std::string join(const std::vector<std::string>& value, char delimeter)
             {
                 std::string out;
                 if (const size_t size = value.size())
@@ -147,7 +147,7 @@ namespace djv
                 return out;
             }
 
-            inline std::string join(const std::vector<std::string> & value, const std::string & delimeter)
+            inline std::string join(const std::vector<std::string>& value, const std::string& delimeter)
             {
                 std::string out;
                 if (const size_t size = value.size())
@@ -165,17 +165,17 @@ namespace djv
                 return out;
             }
 
-            inline std::string joinList(const std::list<std::string> & value)
+            inline std::string joinList(const std::list<std::string>& value)
             {
                 std::string out;
-                for (const auto & s : value)
+                for (const auto& s : value)
                 {
                     out += s;
                 }
                 return out;
             }
 
-            inline std::string joinList(const std::list<std::string> & value, char delimeter)
+            inline std::string joinList(const std::list<std::string>& value, char delimeter)
             {
                 std::string out;
                 if (const size_t size = value.size())
@@ -193,7 +193,7 @@ namespace djv
                 return out;
             }
 
-            inline std::string joinList(const std::list<std::string> & value, const std::string & delimeter)
+            inline std::string joinList(const std::list<std::string>& value, const std::string& delimeter)
             {
                 std::string out;
                 if (const size_t size = value.size())
@@ -211,17 +211,17 @@ namespace djv
                 return out;
             }
 
-            inline std::string joinSet(const std::set<std::string> & value)
+            inline std::string joinSet(const std::set<std::string>& value)
             {
                 std::string out;
-                for (const auto & s : value)
+                for (const auto& s : value)
                 {
                     out += s;
                 }
                 return out;
             }
 
-            inline std::string joinSet(const std::set<std::string> & value, char delimeter)
+            inline std::string joinSet(const std::set<std::string>& value, char delimeter)
             {
                 std::string out;
                 if (const size_t size = value.size())
@@ -239,7 +239,7 @@ namespace djv
                 return out;
             }
 
-            inline std::string joinSet(const std::set<std::string> & value, const std::string & delimeter)
+            inline std::string joinSet(const std::set<std::string>& value, const std::string& delimeter)
             {
                 std::string out;
                 if (const size_t size = value.size())
@@ -293,7 +293,7 @@ namespace djv
                 return count;
             }
 
-            inline void fromString(const char * s, size_t size, int & out)
+            inline void fromString(const char * s, size_t size, int& out)
             {
                 out = 0;
 
@@ -330,7 +330,7 @@ namespace djv
                 }
             }
 
-            inline void fromString(const char * s, size_t size, int64_t & out)
+            inline void fromString(const char * s, size_t size, int64_t& out)
             {
                 out = 0;
 
@@ -367,7 +367,7 @@ namespace djv
                 }
             }
 
-            inline void fromString(const char * s, size_t size, size_t & out)
+            inline void fromString(const char * s, size_t size, size_t& out)
             {
                 out = 0;
 

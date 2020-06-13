@@ -184,12 +184,12 @@ namespace djv
                 return out;
             }
 
-            const Path & DirectoryWatcher::getPath() const
+            const Path& DirectoryWatcher::getPath() const
             {
                 return _p->path;
             }
 
-            void DirectoryWatcher::setPath(const Path & value)
+            void DirectoryWatcher::setPath(const Path& value)
             {
                 DJV_PRIVATE_PTR();
                 if (value == p.path)
@@ -205,7 +205,7 @@ namespace djv
                 }
             }
 
-            void DirectoryWatcher::setCallback(const std::function<void(void)> & value)
+            void DirectoryWatcher::setCallback(const std::function<void(void)>& value)
             {
                 _p->callback = value;
             }

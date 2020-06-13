@@ -22,12 +22,12 @@ namespace djv
 
 //! This macro provides a raw pointer to the private implementation.
 #define DJV_PRIVATE_PTR() \
-    auto & p = *_p
+    auto& p = *_p
 
 //! This macro makes a class non-copyable.
 #define DJV_NON_COPYABLE(name) \
-    name(const name &) = delete; \
-    name & operator = (const name &) = delete
+    name(const name&) = delete; \
+    name& operator = (const name&) = delete
 
 //! This macro marks strings for extraction.
 #define DJV_TEXT(arg) (arg)

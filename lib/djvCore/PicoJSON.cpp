@@ -30,9 +30,9 @@ namespace djv
                     }
                     fileIO->write(s);
                     ++indent;
-                    const auto & object = value.get<picojson::object>();
+                    const auto& object = value.get<picojson::object>();
                     size_t i = 0;
-                    for (const auto & key : object)
+                    for (const auto& key : object)
                     {
                         std::stringstream ss;
                         ss << "\"" << key.first << "\": ";
@@ -57,7 +57,7 @@ namespace djv
                     }
                     fileIO->write(s);
                     ++indent;
-                    const auto & array = value.get<picojson::array>();
+                    const auto& array = value.get<picojson::array>();
                     for (size_t i = 0; i < array.size(); ++i)
                     {
                         write(array[i], fileIO, indent);
@@ -125,12 +125,12 @@ namespace djv
         return picojson::value(ss.str());
     }
 
-    picojson::value toJSON(const std::string & value)
+    picojson::value toJSON(const std::string& value)
     {
         return picojson::value(Core::String::escape(value));
     }
 
-    void fromJSON(const picojson::value & value, bool & out)
+    void fromJSON(const picojson::value& value, bool& out)
     {
         if (value.is<std::string>())
         {
@@ -143,7 +143,7 @@ namespace djv
         }
     }
 
-    void fromJSON(const picojson::value & value, int & out)
+    void fromJSON(const picojson::value& value, int& out)
     {
         if (value.is<std::string>())
         {
@@ -182,7 +182,7 @@ namespace djv
         }
     }
 
-    void fromJSON(const picojson::value & value, std::string & out)
+    void fromJSON(const picojson::value& value, std::string& out)
     {
         if (value.is<std::string>())
         {

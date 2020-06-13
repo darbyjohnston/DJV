@@ -34,13 +34,13 @@ namespace djv
                 _ranges.push_back(Range(min, max));
             }
 
-            inline Sequence::Sequence(const Range & range, size_t pad) :
+            inline Sequence::Sequence(const Range& range, size_t pad) :
                 _pad(pad)
             {
                 _ranges.push_back(range);
             }
 
-            inline Sequence::Sequence(const std::vector<Range> & ranges, size_t pad) :
+            inline Sequence::Sequence(const std::vector<Range>& ranges, size_t pad) :
                 _pad(pad)
             {
                 for (const auto& i : ranges)
@@ -142,17 +142,17 @@ namespace djv
                 return out > 0 ? (out - 1) : 0;
             }
 
-            inline bool Sequence::operator == (const Sequence & value) const
+            inline bool Sequence::operator == (const Sequence& value) const
             {
                 return _ranges == value._ranges && _pad == value._pad;
             }
 
-            inline bool Sequence::operator != (const Sequence & value) const
+            inline bool Sequence::operator != (const Sequence& value) const
             {
                 return !(*this == value);
             }
 
-            inline std::vector<Number> toFrames(const Range & value)
+            inline std::vector<Number> toFrames(const Range& value)
             {
                 std::vector<Number> out;
                 for (auto i = value.getMin(); i <= value.getMax(); ++i)
@@ -162,12 +162,12 @@ namespace djv
                 return out;
             }
 
-            inline std::vector<Number> toFrames(const Sequence & value)
+            inline std::vector<Number> toFrames(const Sequence& value)
             {
                 std::vector<Number> out;
-                for (const auto & range : value.getRanges())
+                for (const auto& range : value.getRanges())
                 {
-                    for (const auto & i : toFrames(range))
+                    for (const auto& i : toFrames(range))
                     {
                         out.push_back(i);
                     }
@@ -203,7 +203,7 @@ namespace djv
                 return out;
             }
 
-            inline std::string toString(const Range & value, size_t pad)
+            inline std::string toString(const Range& value, size_t pad)
             {
                 std::vector<std::string> list;
                 if (value.getMin() != value.getMax())
@@ -218,10 +218,10 @@ namespace djv
                 return String::join(list, '-');
             }
             
-            inline void fromString(const std::string & value, Range & out, size_t & pad)
+            inline void fromString(const std::string& value, Range& out, size_t& pad)
             {
                 // Split the string into the minimum and maximum values (e.g., "1-10").
-                const auto & pieces = String::split(value, '-');
+                const auto& pieces = String::split(value, '-');
 
                 // Convert the minimum value.
                 if (pieces.size() > 0 && pieces[0].size() > 0)
@@ -252,20 +252,20 @@ namespace djv
                 }
             }
 
-            inline std::string toString(const Sequence & value)
+            inline std::string toString(const Sequence& value)
             {
                 std::vector<std::string> list;
-                for (const auto & range : value.getRanges())
+                for (const auto& range : value.getRanges())
                 {
                     list.push_back(toString(range, value.getPad()));
                 }
                 return String::join(list, ',');
             }
 
-            inline void fromString(const std::string & value, Sequence & out)
+            inline void fromString(const std::string& value, Sequence& out)
             {
-                const auto & pieces = String::split(value, ',');
-                for (const auto & piece : pieces)
+                const auto& pieces = String::split(value, ',');
+                for (const auto& piece : pieces)
                 {
                     Range range;
                     size_t pad = 0;

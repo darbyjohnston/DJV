@@ -28,8 +28,8 @@ namespace djv
 
         protected:
             void _init(
-                const std::weak_ptr<IListSubject<T> > &,
-                const std::function<void(const std::vector<T> &)> &);
+                const std::weak_ptr<IListSubject<T> >&,
+                const std::function<void(const std::vector<T>&)>&);
 
             ListObserver();
 
@@ -38,14 +38,14 @@ namespace djv
 
             //! Create a new list observer.
             static std::shared_ptr<ListObserver<T> > create(
-                const std::weak_ptr<IListSubject<T> > &,
-                const std::function<void(const std::vector<T> &)> &);
+                const std::weak_ptr<IListSubject<T> >&,
+                const std::function<void(const std::vector<T>&)>&);
 
             //! Execute the callback.
-            void doCallback(const std::vector<T> &);
+            void doCallback(const std::vector<T>&);
 
         private:
-            std::function<void(const std::vector<T> &)> _callback;
+            std::function<void(const std::vector<T>&)> _callback;
             std::weak_ptr<IListSubject<T> > _subject;
         };
 
@@ -57,7 +57,7 @@ namespace djv
             virtual ~IListSubject() = 0;
 
             //! Get the list.
-            virtual const std::vector<T> & get() const = 0;
+            virtual const std::vector<T>& get() const = 0;
 
             //! Get the list size.
             virtual size_t getSize() const = 0;
@@ -66,19 +66,19 @@ namespace djv
             virtual bool isEmpty() const = 0;
 
             //! Get a list item.
-            virtual const T & getItem(size_t) const = 0;
+            virtual const T& getItem(size_t) const = 0;
 
             //! Get whether the list contains the given item.
-            virtual bool contains(const T &) const = 0;
+            virtual bool contains(const T&) const = 0;
 
             //! Get the index of the given item.
-            virtual size_t indexOf(const T &) const = 0;
+            virtual size_t indexOf(const T&) const = 0;
             
             //! Get the number of observers.
             size_t getObserversCount() const;
 
         protected:
-            void _add(const std::weak_ptr<ListObserver<T> > &);
+            void _add(const std::weak_ptr<ListObserver<T> >&);
             void _remove(ListObserver<T> *);
 
             std::vector<std::weak_ptr<ListObserver<T> > > _observers;
@@ -94,42 +94,42 @@ namespace djv
             
         protected:
             ListSubject();
-            explicit ListSubject(const std::vector<T> &);
+            explicit ListSubject(const std::vector<T>&);
 
         public:
             //! Create a new list subject.
             static std::shared_ptr<ListSubject<T> > create();
 
             //! Create a new list subject with the given value.
-            static std::shared_ptr<ListSubject<T> > create(const std::vector<T> &);
+            static std::shared_ptr<ListSubject<T> > create(const std::vector<T>&);
             
             //! Set the list.
-            void setAlways(const std::vector<T> &);
+            void setAlways(const std::vector<T>&);
 
             //! Set the list only if it has changed.
-            bool setIfChanged(const std::vector<T> &);
+            bool setIfChanged(const std::vector<T>&);
 
             //! Clear the list.
             void clear();
 
             //! Set a list item.
-            void setItem(size_t, const T &);
+            void setItem(size_t, const T&);
 
             //! Set a list item only if it has changed.
-            void setItemOnlyIfChanged(size_t, const T &);
+            void setItemOnlyIfChanged(size_t, const T&);
 
             //! Append a list item.
-            void pushBack(const T &);
+            void pushBack(const T&);
 
             //! Remove an item.
             void removeItem(size_t);
 
-            const std::vector<T> & get() const override;
+            const std::vector<T>& get() const override;
             size_t getSize() const override;
             bool isEmpty() const override;
-            const T & getItem(size_t) const override;
-            bool contains(const T &) const override;
-            size_t indexOf(const T &) const override;
+            const T& getItem(size_t) const override;
+            bool contains(const T&) const override;
+            size_t indexOf(const T&) const override;
 
         private:
             std::vector<T> _value;

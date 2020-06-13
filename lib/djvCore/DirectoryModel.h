@@ -35,7 +35,7 @@ namespace djv
 
                 //! Throws:
                 //! - Error
-                void setPath(const Path &);
+                void setPath(const Path&);
 
                 ///@}
 
@@ -90,7 +90,7 @@ namespace djv
                 void setSortDirectoriesFirst(bool);
 
                 std::shared_ptr<IValueSubject<std::string> > observeFilter() const;
-                void setFilter(const std::string &);
+                void setFilter(const std::string&);
                 void clearFilter();
 
                 ///@}

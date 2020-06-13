@@ -163,7 +163,7 @@ namespace djv
             _calcFPS();
 
             TickTimes tickTimes;
-            for (const auto & system : _systems)
+            for (const auto& system : _systems)
             {
                 system->tick();
                 tickTimes.add(system->getSystemName());
@@ -173,7 +173,7 @@ namespace djv
             _systemTickTimes = tickTimes.times;
         }
 
-        void Context::_addSystem(const std::shared_ptr<ISystemBase> & system)
+        void Context::_addSystem(const std::shared_ptr<ISystemBase>& system)
         {
             _systems.push_back(system);
         }
@@ -205,7 +205,7 @@ namespace djv
             size_t count = 0;
             std::vector<std::string> dot;
             dot.push_back("digraph {");
-            for (const auto & system : _systems)
+            for (const auto& system : _systems)
             {
                 {
                     std::stringstream ss;
@@ -213,7 +213,7 @@ namespace djv
                     _logSystem->log("djv::Core::Context", ss.str());
                     ++count;
                 }
-                for (const auto & dependency : system->getDependencies())
+                for (const auto& dependency : system->getDependencies())
                 {
                     std::stringstream ss;
                     ss << "    " << "\"" << system->getSystemName() << "\"";
@@ -229,9 +229,9 @@ namespace djv
         {
             std::vector<std::string> dot;
             dot.push_back("digraph {");
-            for (const auto & system : _systems)
+            for (const auto& system : _systems)
             {
-                for (const auto & dependency : system->getDependencies())
+                for (const auto& dependency : system->getDependencies())
                 {
                     std::stringstream ss;
                     ss << "    " << "\"" << system->getSystemName() << "\"";

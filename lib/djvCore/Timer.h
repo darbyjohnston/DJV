@@ -60,7 +60,7 @@ namespace djv
                 //! Start the timer.
                 void start(
                     const Duration&,
-                    const std::function<void(const std::chrono::steady_clock::time_point&, const Duration&)> &);
+                    const std::function<void(const std::chrono::steady_clock::time_point&, const Duration&)>&);
 
                 //! Stop the timer.
                 void stop();
@@ -94,7 +94,7 @@ namespace djv
                 void tick() override;
 
             private:
-                void _addTimer(const std::weak_ptr<Timer> &);
+                void _addTimer(const std::weak_ptr<Timer>&);
 
                 DJV_PRIVATE();
 

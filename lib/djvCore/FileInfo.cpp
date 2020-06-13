@@ -96,7 +96,7 @@ namespace djv
                 }
             }
 
-            void FileInfo::setSequence(const Frame::Sequence & in)
+            void FileInfo::setSequence(const Frame::Sequence& in)
             {
                 _sequence = in;
                 std::stringstream s;
@@ -158,7 +158,7 @@ namespace djv
 
             void FileInfo::_sort(const DirectoryListOptions& options, std::vector<FileInfo>& out)
             {
-                for (auto & i : out)
+                for (auto& i : out)
                 {
                     if (FileType::Sequence == i._type)
                     {
@@ -173,7 +173,7 @@ namespace djv
                 case DirectoryListSort::Name:
                     std::sort(
                         out.begin(), out.end(),
-                        [&options](const FileInfo & a, const FileInfo & b)
+                        [&options](const FileInfo& a, const FileInfo& b)
                     {
                         return options.reverseSort ?
                             (a.getFileName(Frame::invalid, false) > b.getFileName(Frame::invalid, false)) :
@@ -183,7 +183,7 @@ namespace djv
                 case DirectoryListSort::Size:
                     std::sort(
                         out.begin(), out.end(),
-                        [&options](const FileInfo & a, const FileInfo & b)
+                        [&options](const FileInfo& a, const FileInfo& b)
                     {
                         return options.reverseSort ? (a.getSize() > b.getSize()) : (a.getSize() < b.getSize());
                     });
@@ -191,7 +191,7 @@ namespace djv
                 case DirectoryListSort::Time:
                     std::sort(
                         out.begin(), out.end(),
-                        [&options](const FileInfo & a, const FileInfo & b)
+                        [&options](const FileInfo& a, const FileInfo& b)
                     {
                         return options.reverseSort ? (a.getTime() > b.getTime()) : (a.getTime() < b.getTime());
                     });
@@ -202,7 +202,7 @@ namespace djv
                 {
                     std::stable_sort(
                         out.begin(), out.end(),
-                        [](const FileInfo & a, const FileInfo & b)
+                        [](const FileInfo& a, const FileInfo& b)
                     {
                         return FileType::Directory == a.getType() && b.getType() != FileType::Directory;
                     });

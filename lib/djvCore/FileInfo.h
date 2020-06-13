@@ -90,7 +90,7 @@ namespace djv
             public:
                 FileInfo();
                 FileInfo(const Path&, bool stat = true);
-                FileInfo(const std::string &, bool stat = true);
+                FileInfo(const std::string&, bool stat = true);
                 FileInfo(const Path&, FileType, const Frame::Sequence&, bool stat = true);
 
                 //! \name Path
@@ -129,9 +129,9 @@ namespace djv
                 ///@{
 
                 const Frame::Sequence& getSequence() const;
-                void setSequence(const Frame::Sequence &);
-                bool isCompatible(const FileInfo &) const;
-                bool addToSequence(const FileInfo &);
+                void setSequence(const Frame::Sequence&);
+                bool isCompatible(const FileInfo&) const;
+                bool addToSequence(const FileInfo&);
                 
                 ///@}
 
@@ -149,9 +149,9 @@ namespace djv
 
                 ///@}
 
-                bool operator == (const FileInfo &) const;
-                bool operator != (const FileInfo &) const;
-                bool operator < (const FileInfo &) const;
+                bool operator == (const FileInfo&) const;
+                bool operator != (const FileInfo&) const;
+                bool operator < (const FileInfo&) const;
 
                 explicit operator std::string() const;
 

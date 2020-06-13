@@ -16,19 +16,19 @@ namespace djv
             {}
 
             template<typename T, glm::precision P>
-            constexpr tRay3<T, P>::tRay3(const glm::tvec3<T, P> & start, const glm::tvec3<T, P> & end) :
+            constexpr tRay3<T, P>::tRay3(const glm::tvec3<T, P>& start, const glm::tvec3<T, P>& end) :
                 start(start),
                 end(end)
             {}
 
             template<typename T, glm::precision P>
-            constexpr bool tRay3<T, P>::operator == (const tRay3<T, P> & value) const
+            constexpr bool tRay3<T, P>::operator == (const tRay3<T, P>& value) const
             {
                 return start == value.start && end == value.end;
             }
 
             template<typename T, glm::precision P>
-            constexpr bool tRay3<T, P>::operator != (const tRay3<T, P> & value) const
+            constexpr bool tRay3<T, P>::operator != (const tRay3<T, P>& value) const
             {
                 return !(*this == value);
             }
@@ -37,7 +37,7 @@ namespace djv
     } // namespace Core
 
     template<typename T, glm::precision P>
-    inline std::ostream & operator << (std::ostream & s, const Core::Ray::tRay3<T, P> & value)
+    inline std::ostream& operator << (std::ostream& s, const Core::Ray::tRay3<T, P>& value)
     {
         s << value.start << " ";
         s << value.end;
@@ -45,7 +45,7 @@ namespace djv
     }
 
     template<typename T, glm::precision P>
-    inline std::istream & operator >> (std::istream & s, Core::Ray::tRay3<T, P> & out)
+    inline std::istream& operator >> (std::istream& s, Core::Ray::tRay3<T, P>& out)
     {
         try
         {

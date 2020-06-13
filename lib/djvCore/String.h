@@ -25,20 +25,20 @@ namespace djv
             ///@{
 
             std::vector<std::string> split(const char *, size_t, char delimeter, bool keepEmpty = false);
-            std::vector<std::string> split(const std::string &, char delimeter, bool keepEmpty = false);
-            std::vector<std::string> split(const std::string &, const std::vector<char> & delimeters, bool keepEmpty = false);
+            std::vector<std::string> split(const std::string&, char delimeter, bool keepEmpty = false);
+            std::vector<std::string> split(const std::string&, const std::vector<char>& delimeters, bool keepEmpty = false);
 
-            std::string join(const std::vector<std::string> &);
-            std::string join(const std::vector<std::string> &, char delimeter);
-            std::string join(const std::vector<std::string> &, const std::string & delimeter);
+            std::string join(const std::vector<std::string>&);
+            std::string join(const std::vector<std::string>&, char delimeter);
+            std::string join(const std::vector<std::string>&, const std::string& delimeter);
 
-            std::string joinList(const std::list<std::string> &);
-            std::string joinList(const std::list<std::string> &, char delimeter);
-            std::string joinList(const std::list<std::string> &, const std::string & delimeter);
+            std::string joinList(const std::list<std::string>&);
+            std::string joinList(const std::list<std::string>&, char delimeter);
+            std::string joinList(const std::list<std::string>&, const std::string& delimeter);
 
-            std::string joinSet(const std::set<std::string> &);
-            std::string joinSet(const std::set<std::string> &, char delimeter);
-            std::string joinSet(const std::set<std::string> &, const std::string & delimeter);
+            std::string joinSet(const std::set<std::string>&);
+            std::string joinSet(const std::set<std::string>&, char delimeter);
+            std::string joinSet(const std::set<std::string>&, const std::string& delimeter);
 
             ///@}
 
@@ -46,23 +46,23 @@ namespace djv
             ///@{
 
             //! Upper case.
-            std::string toUpper(const std::string &);
+            std::string toUpper(const std::string&);
 
             //! Lower case.
-            std::string toLower(const std::string &);
+            std::string toLower(const std::string&);
 
             //! Create a string for indenting.
             std::string indent(size_t indent, size_t count = 4);
 
             //! Remove a trailing newline.
-            void removeTrailingNewline(std::string &);
+            void removeTrailingNewline(std::string&);
 
             ///@}
 
             //! \name Comparison
             ///@{
 
-            bool match(const std::string & value, const std::string & expression);
+            bool match(const std::string& value, const std::string& expression);
 
             ///@}
 
@@ -77,32 +77,32 @@ namespace djv
                 size_t maxLen = cStringLength);
 
             //! Low-level function for converting a string to an integer type.
-            void fromString(const char *, size_t size, int &);
+            void fromString(const char *, size_t size, int&);
 
             //! Low-level function for converting a string to an integer type.
-            void fromString(const char *, size_t size, int64_t &);
+            void fromString(const char *, size_t size, int64_t&);
 
             //! Low-level function for converting a string to an integer type.
-            void fromString(const char *, size_t size, size_t &);
+            void fromString(const char *, size_t size, size_t&);
 
             //! Low-level function for converting a string to a floating-point type.
-            void fromString(const char *, size_t size, float &);
+            void fromString(const char *, size_t size, float&);
 
             //! Convert a regular string to a wide string.
             //! Throws:
             //! - std::exception
-            std::wstring toWide(const std::string &);
+            std::wstring toWide(const std::string&);
 
             //! Convert a wide string to a regular string.
             //! Throws:
             //! - std::exception
-            std::string fromWide(const std::wstring &);
+            std::string fromWide(const std::wstring&);
 
             //! Replace '\' with '\\'.
-            std::string escape(const std::string &);
+            std::string escape(const std::string&);
 
             //! Replace '\\' with '\'.
-            std::string unescape(const std::string &);
+            std::string unescape(const std::string&);
 
             ///@}
 

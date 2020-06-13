@@ -36,24 +36,24 @@ namespace djv
 
             const std::weak_ptr<Context>& getContext() const;
 
-            const std::string & getClassName() const;
-            void setClassName(const std::string &);
+            const std::string& getClassName() const;
+            void setClassName(const std::string&);
 
-            const std::string & getObjectName() const;
-            void setObjectName(const std::string &);
+            const std::string& getObjectName() const;
+            void setObjectName(const std::string&);
 
             //! \name Object Hierarchy
             ///@{
 
             //! Get the parent object.
-            const std::weak_ptr<IObject> & getParent() const;
+            const std::weak_ptr<IObject>& getParent() const;
 
             //! Walk up the object hierarchy looking for a parent of the given type.
             template<typename T>
             std::shared_ptr<T> getParentRecursiveT() const;
 
             //! Get the list of child objects.
-            const std::vector<std::shared_ptr<IObject> > & getChildren() const;
+            const std::vector<std::shared_ptr<IObject> >& getChildren() const;
 
             //! Get a list of child objects of the given type.
             template<typename T>
@@ -72,10 +72,10 @@ namespace djv
             std::shared_ptr<T> getFirstChildRecursiveT() const;
 
             //! Add a child object.
-            virtual void addChild(const std::shared_ptr<IObject> &);
+            virtual void addChild(const std::shared_ptr<IObject>&);
 
             //! Remove a child object.
-            virtual void removeChild(const std::shared_ptr<IObject> &);
+            virtual void removeChild(const std::shared_ptr<IObject>&);
 
             //! Remove all child objects. The child objects are removed in order
             //! from last to first.
@@ -101,13 +101,13 @@ namespace djv
             ///@{
 
             //! Install an event filter.
-            void installEventFilter(const std::weak_ptr<IObject> &);
+            void installEventFilter(const std::weak_ptr<IObject>&);
 
             //! Remove an event filter.
-            void removeEventFilter(const std::weak_ptr<IObject> &);
+            void removeEventFilter(const std::weak_ptr<IObject>&);
 
             //! This function receives events for the object.
-            virtual bool event(Event::Event &);
+            virtual bool event(Event::Event&);
 
             ///@}
 
@@ -126,24 +126,24 @@ namespace djv
             //! \name Events
             ///@{
 
-            virtual void _parentChangedEvent(Event::ParentChanged &);
-            virtual void _childAddedEvent(Event::ChildAdded &);
-            virtual void _childRemovedEvent(Event::ChildRemoved &);
-            virtual void _childOrderEvent(Event::ChildOrder &);
-            virtual void _initEvent(Event::Init &);
-            virtual void _updateEvent(Event::Update &);
+            virtual void _parentChangedEvent(Event::ParentChanged&);
+            virtual void _childAddedEvent(Event::ChildAdded&);
+            virtual void _childRemovedEvent(Event::ChildRemoved&);
+            virtual void _childOrderEvent(Event::ChildOrder&);
+            virtual void _initEvent(Event::Init&);
+            virtual void _updateEvent(Event::Update&);
 
             //! Over-ride this function to filter events for other objects.
-            virtual bool _eventFilter(const std::shared_ptr<IObject> &, Event::Event &) { return false; }
+            virtual bool _eventFilter(const std::shared_ptr<IObject>&, Event::Event&) { return false; }
 
             ///@}
 
             //! \name Convenience Functions
             ///@{
 
-            std::string _getText(const std::string & id) const;
+            std::string _getText(const std::string& id) const;
 
-            void _log(const std::string & message, Core::LogLevel = Core::LogLevel::Information);
+            void _log(const std::string& message, Core::LogLevel = Core::LogLevel::Information);
 
             const std::shared_ptr<ResourceSystem>& _getResourceSystem() const;
             const std::shared_ptr<LogSystem>& _getLogSystem() const;
@@ -153,12 +153,12 @@ namespace djv
 
         private:
             void _eventInitRecursive(const std::shared_ptr<IObject>&, Event::Init&);
-            bool _eventFilter(Event::Event &);
+            bool _eventFilter(Event::Event&);
 
             template<typename T>
-            static void _getChildrenRecursiveT(const std::shared_ptr<IObject> &, std::vector<std::shared_ptr<T> > &);
+            static void _getChildrenRecursiveT(const std::shared_ptr<IObject>&, std::vector<std::shared_ptr<T> >&);
             template<typename T>
-            static void _getFirstChildRecursiveT(const std::shared_ptr<IObject> &, std::shared_ptr<T> &);
+            static void _getFirstChildRecursiveT(const std::shared_ptr<IObject>&, std::shared_ptr<T>&);
 
             std::weak_ptr<Context> _context;
 

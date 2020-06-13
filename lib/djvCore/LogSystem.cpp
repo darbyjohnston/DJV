@@ -32,8 +32,8 @@ namespace djv
             struct Message
             {
                 Message(
-                    const std::string & prefix,
-                    const std::string & text,
+                    const std::string& prefix,
+                    const std::string& text,
                     LogLevel level) :
                     prefix(prefix),
                     text(text),
@@ -170,7 +170,7 @@ namespace djv
             return out;
         }
 
-        void LogSystem::log(const std::string & prefix, const std::string & message, LogLevel level)
+        void LogSystem::log(const std::string& prefix, const std::string& message, LogLevel level)
         {
             DJV_PRIVATE_PTR();
             {
@@ -219,7 +219,7 @@ namespace djv
                     { LogLevel::Error, "[ERROR]" }
                 };
 
-                for (const auto & message : p.messages)
+                for (const auto& message : p.messages)
                 {
                     switch (message.level)
                     {
@@ -242,7 +242,7 @@ namespace djv
                         s2 << std::setw(32);
                         s2 << message.prefix << " | ";
 
-                        const auto & label = labels[message.level];
+                        const auto& label = labels[message.level];
                         if (!label.empty())
                         {
                             s2 << label << " ";
@@ -269,7 +269,7 @@ namespace djv
                     }
                 }
             }
-            catch (const std::exception & e)
+            catch (const std::exception& e)
             {
                 std::cerr << name << ": " << e.what() << std::endl;
             }

@@ -29,7 +29,7 @@ namespace djv
             static std::shared_ptr<LogSystem> create(const std::shared_ptr<Context>&);
             
             //! Log a message.
-            void log(const std::string & prefix, const std::string & message, LogLevel = LogLevel::Information);
+            void log(const std::string& prefix, const std::string& message, LogLevel = LogLevel::Information);
 
             //! \name Warning and Errors
             ///@{

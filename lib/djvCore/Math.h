@@ -53,7 +53,7 @@ namespace djv
 
             //! Clamp a number between two values.
             template<typename T>
-            constexpr T clamp(const T &, const T & _min, const T & _max);
+            constexpr T clamp(const T&, const T& _min, const T& _max);
 
             //! Linear interpolation.
             template<typename T, typename U>
@@ -99,7 +99,7 @@ namespace djv
 
             //! Get a random item from a list.
             template<typename T>
-            const T & getRandom(const std::vector<T> &);
+            const T& getRandom(const std::vector<T>&);
 
             //! Seed the random value generator.
             void setRandomSeed(unsigned int);

@@ -26,8 +26,8 @@
 //! oeprator >> throws:
 //! - std::invalid_argument
 #define DJV_ENUM_SERIALIZE_HELPERS(name) \
-    std::ostream & operator << (std::ostream &, name); \
-    std::istream & operator >> (std::istream &, name &);
+    std::ostream& operator << (std::ostream&, name); \
+    std::istream& operator >> (std::istream&, name&);
 
 namespace djv
 {
@@ -50,7 +50,7 @@ namespace djv
 //! \todo How can we translate this?
 #define DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(prefix, name, ...) \
     \
-    std::ostream & operator << (std::ostream & os, prefix::name value) \
+    std::ostream& operator << (std::ostream& os, prefix::name value) \
     { \
         const std::vector<std::string> data = \
         { \
@@ -61,7 +61,7 @@ namespace djv
         return os; \
     } \
     \
-    std::istream & operator >> (std::istream & is, prefix::name & value) \
+    std::istream& operator >> (std::istream& is, prefix::name& value) \
     { \
         std::string s; \
         is >> s; \

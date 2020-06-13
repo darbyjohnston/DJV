@@ -13,7 +13,7 @@ namespace djv
     {
         namespace FileSystem
         {
-            FILE* fopen(const std::string & fileName, const std::string & mode)
+            FILE* fopen(const std::string& fileName, const std::string& mode)
             {
                 FILE* out = nullptr;
                 std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;

@@ -8,7 +8,7 @@ namespace djv
 {
     namespace Core
     {
-        ICommand::ICommand(const std::string & name, const std::shared_ptr<Context>& context) :
+        ICommand::ICommand(const std::string& name, const std::shared_ptr<Context>& context) :
             _context(context),
             _name(name)
         {}
@@ -21,7 +21,7 @@ namespace djv
             return _context;
         }
 
-        const std::string & ICommand::getName() const
+        const std::string& ICommand::getName() const
         {
             return _name;
         }

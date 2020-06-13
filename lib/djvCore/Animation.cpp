@@ -61,11 +61,11 @@ namespace djv
             }
 
             void Animation::start(
-                float            begin,
-                float            end,
-                Time::Duration       duration,
-                const Callback & callback,
-                const Callback & endCallback)
+                float           begin,
+                float           end,
+                Time::Duration  duration,
+                const Callback& callback,
+                const Callback& endCallback)
             {
                 /*if (_active && _endCallback)
                 {
@@ -169,7 +169,7 @@ namespace djv
                 }
             }
 
-            void System::_addAnimation(const std::weak_ptr<Animation> & value)
+            void System::_addAnimation(const std::weak_ptr<Animation>& value)
             {
                 _p->animations.push_back(value);
             }
