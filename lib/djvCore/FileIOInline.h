@@ -53,7 +53,7 @@ namespace djv
 #endif // DJV_MMAP
 #else // DJV_PLATFORM_WINDOWS
                 return
-                    !_f ||
+                    -1 == _f ||
                     (_size ? _pos >= _size : true);
 #endif //DJV_PLATFORM_WINDOWS
             }
