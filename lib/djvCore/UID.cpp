@@ -12,8 +12,10 @@ namespace djv
     {
         uint64_t createUID()
         {
-            static std::atomic<uint64_t> uid(1);
-            return uid++;
+            //! \bug Is this static OK?
+            static std::atomic<uint64_t> uid(0);
+            ++uid;
+            return uid;
         }
 
     } // namespace Core
