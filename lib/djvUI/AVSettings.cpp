@@ -11,8 +11,12 @@
 
 #include <djvCore/Context.h>
 
+#if defined(GetObject)
+#undef GetObject
+#endif // GetObject
+
 // These need to be included last on OSX.
-#include <djvCore/PicoJSONTemplates.h>
+#include <djvCore/RapidJSONTemplates.h>
 #include <djvUI/ISettingsTemplates.h>
 
 //#pragma optimize("", off)
@@ -56,32 +60,31 @@ namespace djv
                 return out;
             }
 
-            void AV::load(const picojson::value & value)
+            void AV::load(const rapidjson::Value & value)
             {
                 DJV_PRIVATE_PTR();
-                if (value.is<picojson::object>())
+                if (value.IsObject())
                 {
-                    const auto & object = value.get<picojson::object>();
                     djv::AV::SwapInterval swapInterval = djv::AV::SwapInterval::Default;
                     djv::Core::Time::Units timeUnits = djv::Core::Time::Units::First;
                     djv::AV::AlphaBlend alphaBlend = djv::AV::AlphaBlend::Straight;
                     Time::FPS defaultSpeed = Time::getDefaultSpeed();
                     djv::AV::Render2D::ImageFilterOptions imageFilterOptions;
                     bool textLCDRendering = true;
-                    read("SwapInterval", object, swapInterval);
-                    read("TimeUnits", object, timeUnits);
-                    read("AlphaBlend", object, alphaBlend);
-                    read("DefaultSpeed", object, defaultSpeed);
-                    read("ImageFilterOptions", object, imageFilterOptions);
-                    read("TextLCDRendering", object, textLCDRendering);
+                    read("SwapInterval", value, swapInterval);
+                    read("TimeUnits", value, timeUnits);
+                    read("AlphaBlend", value, alphaBlend);
+                    read("DefaultSpeed", value, defaultSpeed);
+                    read("ImageFilterOptions", value, imageFilterOptions);
+                    read("TextLCDRendering", value, textLCDRendering);
 
                     p.glfwSystem->setSwapInterval(swapInterval);
                     for (const auto & i : p.ioSystem->getPluginNames())
                     {
-                        const auto j = object.find(i);
-                        if (j != object.end())
+                        const auto j = value.FindMember(i.c_str());
+                        if (j != value.MemberEnd())
                         {
-                            p.ioSystem->setOptions(i, j->second);
+                            p.ioSystem->setOptions(i, j->value);
                         }
                     }
                     p.avSystem->setTimeUnits(timeUnits);
@@ -92,21 +95,20 @@ namespace djv
                 }
             }
 
-            picojson::value AV::save()
+            rapidjson::Value AV::save(rapidjson::Document::AllocatorType& allocator)
             {
                 DJV_PRIVATE_PTR();
-                picojson::value out(picojson::object_type, true);
-                auto & object = out.get<picojson::object>();
-                write("SwapInterval", p.glfwSystem->observeSwapInterval()->get(), object);
+                rapidjson::Value out(rapidjson::kObjectType);
+                write("SwapInterval", p.glfwSystem->observeSwapInterval()->get(), out, allocator);
                 for (const auto & i : p.ioSystem->getPluginNames())
                 {
-                    object[i] = p.ioSystem->getOptions(i);
+                    out.AddMember(rapidjson::Value(i.c_str(), allocator), p.ioSystem->getOptions(i, allocator), allocator);
                 }
-                write("TimeUnits", p.avSystem->observeTimeUnits()->get(), object);
-                write("AlphaBlend", p.avSystem->observeAlphaBlend()->get(), object);
-                write("DefaultSpeed", p.avSystem->observeDefaultSpeed()->get(), object);
-                write("ImageFilterOptions", p.avSystem->observeImageFilterOptions()->get(), object);
-                write("TextLCDRendering", p.avSystem->observeTextLCDRendering()->get(), object);
+                write("TimeUnits", p.avSystem->observeTimeUnits()->get(), out, allocator);
+                write("AlphaBlend", p.avSystem->observeAlphaBlend()->get(), out, allocator);
+                write("DefaultSpeed", p.avSystem->observeDefaultSpeed()->get(), out, allocator);
+                write("ImageFilterOptions", p.avSystem->observeImageFilterOptions()->get(), out, allocator);
+                write("TextLCDRendering", p.avSystem->observeTextLCDRendering()->get(), out, allocator);
                 return out;
             }
 

@@ -10,8 +10,8 @@
 #include <djvAV/FontSystem.h>
 
 #include <djvCore/BBox.h>
-#include <djvCore/PicoJSON.h>
 #include <djvCore/MapObserver.h>
+#include <djvCore/RapidJSON.h>
 #include <djvCore/ValueObserver.h>
 
 #include <glm/vec2.hpp>
@@ -140,13 +140,13 @@ namespace djv
         } // namespace Style
     } // namespace UI
 
-    picojson::value toJSON(const UI::Style::Palette &);
-    picojson::value toJSON(const UI::Style::Metrics &);
+    rapidjson::Value toJSON(const UI::Style::Palette &, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(const UI::Style::Metrics &, rapidjson::Document::AllocatorType&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value &, UI::Style::Palette &);
-    void fromJSON(const picojson::value &, UI::Style::Metrics &);
+    void fromJSON(const rapidjson::Value &, UI::Style::Palette &);
+    void fromJSON(const rapidjson::Value &, UI::Style::Metrics &);
 
 } // namespace djv
 

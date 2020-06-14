@@ -14,6 +14,7 @@
 #include <djvCore/Time.h>
 #include <djvCore/Timer.h>
 
+#include <iostream>
 #include <thread>
 
 #if defined(DJV_PLATFORM_WINDOWS)

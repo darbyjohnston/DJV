@@ -11,7 +11,7 @@
 
 #include <djvCore/BBox.h>
 #include <djvCore/ISystem.h>
-#include <djvCore/PicoJSON.h>
+#include <djvCore/RapidJSON.h>
 #include <djvCore/Range.h>
 
 #include <list>
@@ -307,13 +307,13 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS(AV::Render2D::ImageCache);
     DJV_ENUM_SERIALIZE_HELPERS(AV::Render2D::ImageFilter);
 
-    picojson::value toJSON(AV::Render2D::ImageFilter);
-    picojson::value toJSON(const AV::Render2D::ImageFilterOptions&);
+    rapidjson::Value toJSON(AV::Render2D::ImageFilter, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(const AV::Render2D::ImageFilterOptions&, rapidjson::Document::AllocatorType&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value&, AV::Render2D::ImageFilter&);
-    void fromJSON(const picojson::value&, AV::Render2D::ImageFilterOptions&);
+    void fromJSON(const rapidjson::Value&, AV::Render2D::ImageFilter&);
+    void fromJSON(const rapidjson::Value&, AV::Render2D::ImageFilterOptions&);
 
 } // namespace djv
 

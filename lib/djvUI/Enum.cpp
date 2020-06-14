@@ -81,32 +81,35 @@ namespace djv
 
     } // namespace UI
    
-    picojson::value toJSON(UI::ViewType value)
+    rapidjson::Value toJSON(UI::ViewType value, rapidjson::Document::AllocatorType& allocator)
     {
         std::stringstream ss;
         ss << value;
-        return picojson::value(ss.str());
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
     }
 
-    picojson::value toJSON(UI::ImageRotate value)
+    rapidjson::Value toJSON(UI::ImageRotate value, rapidjson::Document::AllocatorType& allocator)
     {
         std::stringstream ss;
         ss << value;
-        return picojson::value(ss.str());
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
     }
 
-    picojson::value toJSON(UI::ImageAspectRatio value)
+    rapidjson::Value toJSON(UI::ImageAspectRatio value, rapidjson::Document::AllocatorType& allocator)
     {
         std::stringstream ss;
         ss << value;
-        return picojson::value(ss.str());
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
     }
 
-    void fromJSON(const picojson::value & value, UI::ViewType & out)
+    void fromJSON(const rapidjson::Value& value, UI::ViewType & out)
     {
-        if (value.is<std::string>())
+        if (value.IsString())
         {
-            std::stringstream ss(value.get<std::string>());
+            std::stringstream ss(value.GetString());
             ss >> out;
         }
         else
@@ -116,11 +119,11 @@ namespace djv
         }
     }
 
-    void fromJSON(const picojson::value& value, UI::ImageRotate& out)
+    void fromJSON(const rapidjson::Value& value, UI::ImageRotate& out)
     {
-        if (value.is<std::string>())
+        if (value.IsString())
         {
-            std::stringstream ss(value.get<std::string>());
+            std::stringstream ss(value.GetString());
             ss >> out;
         }
         else
@@ -130,11 +133,11 @@ namespace djv
         }
     }
 
-    void fromJSON(const picojson::value& value, UI::ImageAspectRatio& out)
+    void fromJSON(const rapidjson::Value& value, UI::ImageAspectRatio& out)
     {
-        if (value.is<std::string>())
+        if (value.IsString())
         {
-            std::stringstream ss(value.get<std::string>());
+            std::stringstream ss(value.GetString());
             ss >> out;
         }
         else

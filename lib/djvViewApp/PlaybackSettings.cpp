@@ -8,7 +8,7 @@
 #include <djvCore/Speed.h>
 
 // These need to be included last on OSX.
-#include <djvCore/PicoJSONTemplates.h>
+#include <djvCore/RapidJSONTemplates.h>
 #include <djvUI/ISettingsTemplates.h>
 
 using namespace djv::Core;
@@ -112,32 +112,30 @@ namespace djv
             _p->pip->setIfChanged(value);
         }
 
-        void PlaybackSettings::load(const picojson::value & value)
+        void PlaybackSettings::load(const rapidjson::Value & value)
         {
-            if (value.is<picojson::object>())
+            if (value.IsObject())
             {
                 DJV_PRIVATE_PTR();
-                const auto & object = value.get<picojson::object>();
-                UI::Settings::read("StartPlayback", object, p.startPlayback);
-                UI::Settings::read("PlaybackSpeed", object, p.playbackSpeed);
-                UI::Settings::read("CustomSpeed", object, p.customSpeed);
-                UI::Settings::read("PlayEveryFrame", object, p.playEveryFrame);
-                UI::Settings::read("PlaybackMode", object, p.playbackMode);
-                UI::Settings::read("PIP", object, p.pip);
+                UI::Settings::read("StartPlayback", value, p.startPlayback);
+                UI::Settings::read("PlaybackSpeed", value, p.playbackSpeed);
+                UI::Settings::read("CustomSpeed", value, p.customSpeed);
+                UI::Settings::read("PlayEveryFrame", value, p.playEveryFrame);
+                UI::Settings::read("PlaybackMode", value, p.playbackMode);
+                UI::Settings::read("PIP", value, p.pip);
             }
         }
 
-        picojson::value PlaybackSettings::save()
+        rapidjson::Value PlaybackSettings::save(rapidjson::Document::AllocatorType& allocator)
         {
             DJV_PRIVATE_PTR();
-            picojson::value out(picojson::object_type, true);
-            auto & object = out.get<picojson::object>();
-            UI::Settings::write("StartPlayback", p.startPlayback->get(), object);
-            UI::Settings::write("PlaybackSpeed", p.playbackSpeed->get(), object);
-            UI::Settings::write("CustomSpeed", p.customSpeed->get(), object);
-            UI::Settings::write("PlayEveryFrame", p.playEveryFrame->get(), object);
-            UI::Settings::write("PlaybackMode", p.playbackMode->get(), object);
-            UI::Settings::write("PIP", p.pip->get(), object);
+            rapidjson::Value out(rapidjson::kObjectType);
+            UI::Settings::write("StartPlayback", p.startPlayback->get(), out, allocator);
+            UI::Settings::write("PlaybackSpeed", p.playbackSpeed->get(), out, allocator);
+            UI::Settings::write("CustomSpeed", p.customSpeed->get(), out, allocator);
+            UI::Settings::write("PlayEveryFrame", p.playEveryFrame->get(), out, allocator);
+            UI::Settings::write("PlaybackMode", p.playbackMode->get(), out, allocator);
+            UI::Settings::write("PIP", p.pip->get(), out, allocator);
             return out;
         }
 

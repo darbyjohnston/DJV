@@ -7,7 +7,7 @@
 #include <djvUI/UI.h>
 
 #include <djvCore/Enum.h>
-#include <djvCore/PicoJSON.h>
+#include <djvCore/RapidJSON.h>
 
 namespace djv
 {
@@ -306,15 +306,15 @@ namespace djv
 
     } // namespace UI
 
-    picojson::value toJSON(UI::ViewType);
-    picojson::value toJSON(UI::ImageRotate);
-    picojson::value toJSON(UI::ImageAspectRatio);
+    rapidjson::Value toJSON(UI::ViewType, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(UI::ImageRotate, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(UI::ImageAspectRatio, rapidjson::Document::AllocatorType&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value&, UI::ViewType&);
-    void fromJSON(const picojson::value&, UI::ImageRotate&);
-    void fromJSON(const picojson::value&, UI::ImageAspectRatio&);
+    void fromJSON(const rapidjson::Value&, UI::ViewType&);
+    void fromJSON(const rapidjson::Value&, UI::ImageRotate&);
+    void fromJSON(const rapidjson::Value&, UI::ImageAspectRatio&);
 
     DJV_ENUM_SERIALIZE_HELPERS(UI::Orientation);
     DJV_ENUM_SERIALIZE_HELPERS(UI::Side);

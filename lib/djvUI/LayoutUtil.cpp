@@ -4,6 +4,8 @@
 
 #include <djvUI/LayoutUtil.h>
 
+#include <map>
+
 using namespace djv::Core;
 
 namespace djv

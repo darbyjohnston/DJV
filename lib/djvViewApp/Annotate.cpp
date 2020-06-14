@@ -226,25 +226,27 @@ namespace djv
         DJV_TEXT("annotate_line_size_medium"),
         DJV_TEXT("annotate_line_size_large"));
 
-    picojson::value toJSON(ViewApp::AnnotateTool value)
+    rapidjson::Value toJSON(ViewApp::AnnotateTool value, rapidjson::Document::AllocatorType& allocator)
     {
         std::stringstream ss;
         ss << value;
-        return picojson::value(ss.str());
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
     }
 
-    picojson::value toJSON(ViewApp::AnnotateLineSize value)
+    rapidjson::Value toJSON(ViewApp::AnnotateLineSize value, rapidjson::Document::AllocatorType& allocator)
     {
         std::stringstream ss;
         ss << value;
-        return picojson::value(ss.str());
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
     }
 
-    void fromJSON(const picojson::value& value, ViewApp::AnnotateTool& out)
+    void fromJSON(const rapidjson::Value& value, ViewApp::AnnotateTool& out)
     {
-        if (value.is<std::string>())
+        if (value.IsString())
         {
-            std::stringstream ss(value.get<std::string>());
+            std::stringstream ss(value.GetString());
             ss >> out;
         }
         else
@@ -254,11 +256,11 @@ namespace djv
         }
     }
 
-    void fromJSON(const picojson::value& value, ViewApp::AnnotateLineSize& out)
+    void fromJSON(const rapidjson::Value& value, ViewApp::AnnotateLineSize& out)
     {
-        if (value.is<std::string>())
+        if (value.IsString())
         {
-            std::stringstream ss(value.get<std::string>());
+            std::stringstream ss(value.GetString());
             ss >> out;
         }
         else

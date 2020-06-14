@@ -226,18 +226,19 @@ namespace djv
         DJV_TEXT("time_units_timecode"),
         DJV_TEXT("time_units_frames"));
 
-    picojson::value toJSON(Core::Time::Units value)
+    rapidjson::Value toJSON(Core::Time::Units value, rapidjson::Document::AllocatorType& allocator)
     {
         std::stringstream ss;
         ss << value;
-        return picojson::value(ss.str());
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
     }
 
-    void fromJSON(const picojson::value& value, Core::Time::Units& out)
+    void fromJSON(const rapidjson::Value& value, Core::Time::Units& out)
     {
-        if (value.is<std::string>())
+        if (value.IsString())
         {
-            std::stringstream ss(value.get<std::string>());
+            std::stringstream ss(value.GetString());
             ss >> out;
         }
         else

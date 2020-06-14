@@ -33,25 +33,27 @@ namespace djv
         DJV_TEXT("av_alpha_straight"),
         DJV_TEXT("av_alpha_premultiplied"));
 
-    picojson::value toJSON(AV::SwapInterval value)
+    rapidjson::Value toJSON(AV::SwapInterval value, rapidjson::Document::AllocatorType& allocator)
     {
         std::stringstream ss;
         ss << value;
-        return picojson::value(ss.str());
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
     }
 
-    picojson::value toJSON(AV::AlphaBlend value)
+    rapidjson::Value toJSON(AV::AlphaBlend value, rapidjson::Document::AllocatorType& allocator)
     {
         std::stringstream ss;
         ss << value;
-        return picojson::value(ss.str());
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
     }
 
-    void fromJSON(const picojson::value& value, AV::SwapInterval& out)
+    void fromJSON(const rapidjson::Value& value, AV::SwapInterval& out)
     {
-        if (value.is<std::string>())
+        if (value.IsString())
         {
-            std::stringstream ss(value.get<std::string>());
+            std::stringstream ss(value.GetString());
             ss >> out;
         }
         else
@@ -61,11 +63,11 @@ namespace djv
         }
     }
 
-    void fromJSON(const picojson::value& value, AV::AlphaBlend& out)
+    void fromJSON(const rapidjson::Value& value, AV::AlphaBlend& out)
     {
-        if (value.is<std::string>())
+        if (value.IsString())
         {
-            std::stringstream ss(value.get<std::string>());
+            std::stringstream ss(value.GetString());
             ss >> out;
         }
         else

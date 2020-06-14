@@ -51,9 +51,11 @@ namespace djv
                         {
                             auto io = context->getSystemT<AV::IO::System>();
                             AV::IO::FFmpeg::Options options;
-                            fromJSON(io->getOptions(AV::IO::FFmpeg::pluginName), options);
+                            rapidjson::Document document;
+                            auto& allocator = document.GetAllocator();
+                            fromJSON(io->getOptions(AV::IO::FFmpeg::pluginName, allocator), options);
                             options.threadCount = value;
-                            io->setOptions(AV::IO::FFmpeg::pluginName, toJSON(options));
+                            io->setOptions(AV::IO::FFmpeg::pluginName, toJSON(options, allocator));
                         }
                     }
                 });
@@ -107,8 +109,9 @@ namespace djv
             {
                 auto io = context->getSystemT<AV::IO::System>();
                 AV::IO::FFmpeg::Options options;
-                fromJSON(io->getOptions(AV::IO::FFmpeg::pluginName), options);
-
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                fromJSON(io->getOptions(AV::IO::FFmpeg::pluginName, allocator), options);
                 p.threadCountSlider->setValue(options.threadCount);
             }
         }

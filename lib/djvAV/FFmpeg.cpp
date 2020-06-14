@@ -115,13 +115,13 @@ namespace djv
                     return out;
                 }
 
-                picojson::value Plugin::getOptions() const
+                rapidjson::Value Plugin::getOptions(rapidjson::Document::AllocatorType& allocator) const
                 {
                     DJV_PRIVATE_PTR();
-                    return toJSON(p.options);
+                    return toJSON(p.options, allocator);
                 }
 
-                void Plugin::setOptions(const picojson::value& value)
+                void Plugin::setOptions(const rapidjson::Value& value)
                 {
                     DJV_PRIVATE_PTR();
                     fromJSON(value, p.options);
@@ -137,24 +137,24 @@ namespace djv
         } // namespace IO
     } // namespace AV
 
-    picojson::value toJSON(const AV::IO::FFmpeg::Options& value)
+    rapidjson::Value toJSON(const AV::IO::FFmpeg::Options& value, rapidjson::Document::AllocatorType& allocator)
     {
-        picojson::value out(picojson::object_type, true);
+        rapidjson::Value out(rapidjson::kObjectType);
         {
-            out.get<picojson::object>()["ThreadCount"] = toJSON(value.threadCount);
+            out.AddMember("ThreadCount", toJSON(value.threadCount, allocator), allocator);
         }
         return out;
     }
 
-    void fromJSON(const picojson::value& value, AV::IO::FFmpeg::Options& out)
+    void fromJSON(const rapidjson::Value& value, AV::IO::FFmpeg::Options& out)
     {
-        if (value.is<picojson::object>())
+        if (value.IsObject())
         {
-            for (const auto& i : value.get<picojson::object>())
+            for (const auto& i : value.GetObject())
             {
-                if ("ThreadCount" == i.first)
+                if (0 == strcmp("ThreadCount", i.name.GetString()))
                 {
-                    fromJSON(i.second, out.threadCount);
+                    fromJSON(i.value, out.threadCount);
                 }
             }
         }

@@ -8,7 +8,7 @@
 
 #include <djvCore/ListObserver.h>
 #include <djvCore/MapObserver.h>
-#include <djvCore/PicoJSON.h>
+#include <djvCore/RapidJSON.h>
 
 namespace djv
 {
@@ -31,8 +31,8 @@ namespace djv
 
                 const std::shared_ptr<Core::MapSubject<std::string, std::string> >& observeLocaleFonts() const;
 
-                void load(const picojson::value &) override;
-                picojson::value save() override;
+                void load(const rapidjson::Value &) override;
+                rapidjson::Value save(rapidjson::Document::AllocatorType&) override;
 
             private:
                 DJV_PRIVATE();

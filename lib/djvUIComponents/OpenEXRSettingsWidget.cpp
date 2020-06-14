@@ -66,9 +66,11 @@ namespace djv
                         {
                             auto io = context->getSystemT<AV::IO::System>();
                             AV::IO::OpenEXR::Options options;
-                            fromJSON(io->getOptions(AV::IO::OpenEXR::pluginName), options);
+                            rapidjson::Document document;
+                            auto& allocator = document.GetAllocator();
+                            fromJSON(io->getOptions(AV::IO::OpenEXR::pluginName, allocator), options);
                             options.threadCount = value;
-                            io->setOptions(AV::IO::OpenEXR::pluginName, toJSON(options));
+                            io->setOptions(AV::IO::OpenEXR::pluginName, toJSON(options, allocator));
                         }
                     }
                 });
@@ -82,9 +84,11 @@ namespace djv
                         {
                             auto io = context->getSystemT<AV::IO::System>();
                             AV::IO::OpenEXR::Options options;
-                            fromJSON(io->getOptions(AV::IO::OpenEXR::pluginName), options);
+                            rapidjson::Document document;
+                            auto& allocator = document.GetAllocator();
+                            fromJSON(io->getOptions(AV::IO::OpenEXR::pluginName, allocator), options);
                             options.channels = static_cast<AV::IO::OpenEXR::Channels>(value);
-                            io->setOptions(AV::IO::OpenEXR::pluginName, toJSON(options));
+                            io->setOptions(AV::IO::OpenEXR::pluginName, toJSON(options, allocator));
                         }
                     }
                 });
@@ -98,9 +102,11 @@ namespace djv
                         {
                             auto io = context->getSystemT<AV::IO::System>();
                             AV::IO::OpenEXR::Options options;
-                            fromJSON(io->getOptions(AV::IO::OpenEXR::pluginName), options);
+                            rapidjson::Document document;
+                            auto& allocator = document.GetAllocator();
+                            fromJSON(io->getOptions(AV::IO::OpenEXR::pluginName, allocator), options);
                             options.compression = static_cast<AV::IO::OpenEXR::Compression>(value);
-                            io->setOptions(AV::IO::OpenEXR::pluginName, toJSON(options));
+                            io->setOptions(AV::IO::OpenEXR::pluginName, toJSON(options, allocator));
                         }
                     }
                 });
@@ -114,9 +120,11 @@ namespace djv
                         {
                             auto io = context->getSystemT<AV::IO::System>();
                             AV::IO::OpenEXR::Options options;
-                            fromJSON(io->getOptions(AV::IO::OpenEXR::pluginName), options);
+                            rapidjson::Document document;
+                            auto& allocator = document.GetAllocator();
+                            fromJSON(io->getOptions(AV::IO::OpenEXR::pluginName, allocator), options);
                             options.dwaCompressionLevel = value;
-                            io->setOptions(AV::IO::OpenEXR::pluginName, toJSON(options));
+                            io->setOptions(AV::IO::OpenEXR::pluginName, toJSON(options, allocator));
                         }
                     }
                 });
@@ -174,7 +182,9 @@ namespace djv
             {
                 auto io = context->getSystemT<AV::IO::System>();
                 AV::IO::OpenEXR::Options options;
-                fromJSON(io->getOptions(AV::IO::OpenEXR::pluginName), options);
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                fromJSON(io->getOptions(AV::IO::OpenEXR::pluginName, allocator), options);
 
                 p.threadCountSlider->setValue(options.threadCount);
 

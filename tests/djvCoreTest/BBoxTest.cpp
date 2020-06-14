@@ -265,7 +265,9 @@ namespace djv
         {
             {
                 const BBox2i a(0, 1, 2, 3);
-                auto json = toJSON(a);
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(a, allocator);
                 BBox2i b;
                 fromJSON(json, b);
                 DJV_ASSERT(a == b);
@@ -277,7 +279,7 @@ namespace djv
             
             try
             {
-                auto json = picojson::value(picojson::object_type, true);
+                auto json = rapidjson::Value(rapidjson::kObjectType);
                 BBox2i b;
                 fromJSON(json, b);
                 DJV_ASSERT(false);
@@ -287,7 +289,9 @@ namespace djv
             
             {
                 const BBox2f a(0.F, 1.F, 2.F, 3.F);
-                auto json = toJSON(a);
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(a, allocator);
                 BBox2f b;
                 fromJSON(json, b);
                 DJV_ASSERT(a == b);
@@ -299,7 +303,7 @@ namespace djv
 
             try
             {
-                auto json = picojson::value(picojson::object_type, true);
+                auto json = rapidjson::Value(rapidjson::kObjectType);
                 BBox2f b;
                 fromJSON(json, b);
                 DJV_ASSERT(false);
@@ -309,7 +313,9 @@ namespace djv
 
             {
                 const BBox3f a(0.F, 1.F, 2.F, 3.F, 4.F, 5.F);
-                auto json = toJSON(a);
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(a, allocator);
                 BBox3f b;
                 fromJSON(json, b);
                 DJV_ASSERT(a == b);
@@ -321,7 +327,7 @@ namespace djv
 
             try
             {
-                auto json = picojson::value(picojson::object_type, true);
+                auto json = rapidjson::Value(rapidjson::kObjectType);
                 BBox3f b;
                 fromJSON(json, b);
                 DJV_ASSERT(false);

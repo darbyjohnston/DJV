@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvCore/PicoJSON.h>
+#include <djvCore/RapidJSON.h>
 #include <djvCore/Range.h>
 
 namespace djv
@@ -114,11 +114,11 @@ namespace djv
     //! - std::exception
     std::istream& operator >> (std::istream&, Core::Frame::Sequence&);
 
-    picojson::value toJSON(const Core::Frame::Sequence&);
+    rapidjson::Value toJSON(const Core::Frame::Sequence&, rapidjson::Document::AllocatorType&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value&, Core::Frame::Sequence&);
+    void fromJSON(const rapidjson::Value&, Core::Frame::Sequence&);
 
 } // namespace djv
 

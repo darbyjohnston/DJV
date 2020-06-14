@@ -7,7 +7,7 @@
 #include <djvAV/AV.h>
 
 #include <djvCore/Enum.h>
-#include <djvCore/PicoJSON.h>
+#include <djvCore/RapidJSON.h>
 
 namespace djv
 {
@@ -60,16 +60,16 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS(AV::SwapInterval);
     DJV_ENUM_SERIALIZE_HELPERS(AV::AlphaBlend);
 
-    picojson::value toJSON(AV::SwapInterval);
-    picojson::value toJSON(AV::AlphaBlend);
+    rapidjson::Value toJSON(AV::SwapInterval, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(AV::AlphaBlend, rapidjson::Document::AllocatorType&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value&, AV::SwapInterval&);
+    void fromJSON(const rapidjson::Value&, AV::SwapInterval&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value&, AV::AlphaBlend&);
+    void fromJSON(const rapidjson::Value&, AV::AlphaBlend&);
 
 } // namespace djv
 

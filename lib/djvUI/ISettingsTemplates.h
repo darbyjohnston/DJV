@@ -6,7 +6,7 @@
 
 #include <djvCore/ListObserver.h>
 #include <djvCore/MapObserver.h>
-#include <djvCore/PicoJSON.h>
+#include <djvCore/RapidJSON.h>
 #include <djvCore/ValueObserver.h>
 
 namespace djv
@@ -18,16 +18,16 @@ namespace djv
             //! Throws:
             //! - std::exception
             template<typename T>
-            void read(const std::string & name, const picojson::object &, T &);
+            void read(const std::string & name, const rapidjson::Value&, T&);
             template<typename T>
-            void read(const std::string & name, const picojson::object &, std::shared_ptr<Core::ValueSubject<T> > &);
+            void read(const std::string & name, const rapidjson::Value&, std::shared_ptr<Core::ValueSubject<T> >&);
             template<typename T>
-            void read(const std::string & name, const picojson::object &, std::shared_ptr<Core::ListSubject<T> > &);
+            void read(const std::string & name, const rapidjson::Value&, std::shared_ptr<Core::ListSubject<T> >&);
             template<typename T>
-            void read(const std::string & name, const picojson::object &, std::shared_ptr<Core::MapSubject<std::string, T> > &);
+            void read(const std::string & name, const rapidjson::Value&, std::shared_ptr<Core::MapSubject<std::string, T> >&);
 
             template<typename T>
-            void write(const std::string & name, const T &, picojson::object &);
+            void write(const std::string & name, const T &, rapidjson::Value&, rapidjson::Document::AllocatorType&);
 
         } // namespace Settings
     } // namespace UI

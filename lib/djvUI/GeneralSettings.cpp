@@ -8,7 +8,7 @@
 #include <djvCore/TextSystem.h>
 
 // These need to be included last on OSX.
-#include <djvCore/PicoJSONTemplates.h>
+#include <djvCore/RapidJSONTemplates.h>
 #include <djvUI/ISettingsTemplates.h>
 
 using namespace djv::Core;
@@ -47,24 +47,22 @@ namespace djv
                 return out;
             }
 
-            void General::load(const picojson::value& value)
+            void General::load(const rapidjson::Value& value)
             {
                 DJV_PRIVATE_PTR();
-                if (value.is<picojson::object>())
+                if (value.IsObject())
                 {
-                    const auto & object = value.get<picojson::object>();
                     std::string currentLocale;
-                    read("CurrentLocale", object, currentLocale);
+                    read("CurrentLocale", value, currentLocale);
                     p.textSystem->setCurrentLocale(currentLocale);
                 }
             }
 
-            picojson::value General::save()
+            rapidjson::Value General::save(rapidjson::Document::AllocatorType& allocator)
             {
                 DJV_PRIVATE_PTR();
-                picojson::value out(picojson::object_type, true);
-                auto & object = out.get<picojson::object>();
-                write("CurrentLocale", p.textSystem->observeCurrentLocale()->get(), object);
+                rapidjson::Value out(rapidjson::kObjectType);
+                write("CurrentLocale", p.textSystem->observeCurrentLocale()->get(), out, allocator);
                 return out;
             }
 

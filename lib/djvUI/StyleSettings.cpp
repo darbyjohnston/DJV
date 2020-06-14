@@ -10,8 +10,12 @@
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
 
+#if defined(GetObject)
+#undef GetObject
+#endif // GetObject
+
 // These need to be included last on OSX.
-#include <djvCore/PicoJSONTemplates.h>
+#include <djvCore/RapidJSONTemplates.h>
 #include <djvUI/ISettingsTemplates.h>
 
 using namespace djv::Core;
@@ -223,34 +227,32 @@ namespace djv
                 }
             }
 
-            void Style::load(const picojson::value & value)
+            void Style::load(const rapidjson::Value & value)
             {
                 DJV_PRIVATE_PTR();
-                if (value.is<picojson::object>())
+                if (value.IsObject())
                 {
-                    const auto & object = value.get<picojson::object>();
-                    read("Palettes", object, p.palettes);
-                    read("CurrentPalette", object, p.currentPaletteName);
+                    read("Palettes", value, p.palettes);
+                    read("CurrentPalette", value, p.currentPaletteName);
                     p.currentPalette->setIfChanged(p.palettes->getItem(p.currentPaletteName->get()));
-                    read("Brightness", object, p.brightness);
-                    read("Contrast", object, p.contrast);
-                    read("Metrics", object, p.metrics);
-                    read("CurrentMetrics", object, p.currentMetricsName);
+                    read("Brightness", value, p.brightness);
+                    read("Contrast", value, p.contrast);
+                    read("Metrics", value, p.metrics);
+                    read("CurrentMetrics", value, p.currentMetricsName);
                     p.currentMetrics->setIfChanged(p.metrics->getItem(p.currentMetricsName->get()));
                 }
             }
 
-            picojson::value Style::save()
+            rapidjson::Value Style::save(rapidjson::Document::AllocatorType& allocator)
             {
                 DJV_PRIVATE_PTR();
-                picojson::value out(picojson::object_type, true);
-                auto & object = out.get<picojson::object>();
-                write("Palettes", p.palettes->get(), object);
-                write("CurrentPalette", p.currentPaletteName->get(), object);
-                write("Brightness", p.brightness->get(), object);
-                write("Contrast", p.contrast->get(), object);
-                write("Metrics", p.metrics->get(), object);
-                write("CurrentMetrics", p.currentMetricsName->get(), object);
+                rapidjson::Value out(rapidjson::kObjectType);
+                write("Palettes", p.palettes->get(), out, allocator);
+                write("CurrentPalette", p.currentPaletteName->get(), out, allocator);
+                write("Brightness", p.brightness->get(), out, allocator);
+                write("Contrast", p.contrast->get(), out, allocator);
+                write("Metrics", p.metrics->get(), out, allocator);
+                write("CurrentMetrics", p.currentMetricsName->get(), out, allocator);
                 return out;
             }
 

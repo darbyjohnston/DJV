@@ -14,6 +14,8 @@
 #include <tchar.h>
 #endif // DJV_WINDOWS
 
+#include <iostream>
+
 using namespace djv;
 
 int main(int argc, char ** argv)

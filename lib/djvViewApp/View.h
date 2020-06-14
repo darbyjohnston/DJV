@@ -10,7 +10,7 @@
 #include <djvAV/ImageData.h>
 
 #include <djvCore/Frame.h>
-#include <djvCore/PicoJSON.h>
+#include <djvCore/RapidJSON.h>
 #include <djvCore/Speed.h>
 
 namespace djv
@@ -70,21 +70,21 @@ namespace djv
 
     } // namespace ViewApp
 
-    picojson::value toJSON(const ViewApp::GridOptions&);
-    picojson::value toJSON(const ViewApp::HUDOptions&);
-    picojson::value toJSON(const ViewApp::ViewBackgroundOptions&);
+    rapidjson::Value toJSON(const ViewApp::GridOptions&, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(const ViewApp::HUDOptions&, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(const ViewApp::ViewBackgroundOptions&, rapidjson::Document::AllocatorType&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value&, ViewApp::GridOptions&);
+    void fromJSON(const rapidjson::Value&, ViewApp::GridOptions&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value&, ViewApp::HUDOptions&);
+    void fromJSON(const rapidjson::Value&, ViewApp::HUDOptions&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value&, ViewApp::ViewBackgroundOptions&);
+    void fromJSON(const rapidjson::Value&, ViewApp::ViewBackgroundOptions&);
 
 } // namespace djv
 

@@ -6,7 +6,7 @@
 
 #include <djvCore/FileInfo.h>
 #include <djvCore/ISystem.h>
-#include <djvCore/PicoJSON.h>
+#include <djvCore/RapidJSON.h>
 #include <djvCore/ValueObserver.h>
 
 #include <future>
@@ -104,11 +104,11 @@ namespace djv
                 virtual bool canRead(const Core::FileSystem::FileInfo&) const;
                 virtual bool canWrite(const Core::FileSystem::FileInfo&) const;
 
-                virtual picojson::value getOptions() const;
+                virtual rapidjson::Value getOptions(rapidjson::Document::AllocatorType&) const;
 
                 //! Throws:
                 //! - std::invalid_argument
-                virtual void setOptions(const picojson::value&);
+                virtual void setOptions(const rapidjson::Value&);
 
                 //! Throws:
                 //! - Core::FileSystem::Error
@@ -145,11 +145,11 @@ namespace djv
                 std::set<std::string> getPluginNames() const;
                 std::set<std::string> getFileExtensions() const;
 
-                picojson::value getOptions(const std::string& pluginName) const;
+                rapidjson::Value getOptions(const std::string& pluginName, rapidjson::Document::AllocatorType&) const;
 
                 //! Throws:
                 //! - std::invalid_argument
-                void setOptions(const std::string& pluginName, const picojson::value&);
+                void setOptions(const std::string& pluginName, const rapidjson::Value&);
 
                 std::shared_ptr<Core::IValueSubject<bool> > observeOptionsChanged() const;
 

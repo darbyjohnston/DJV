@@ -9,7 +9,7 @@
 #include <djvCore/ISystem.h>
 #include <djvCore/ListObserver.h>
 #include <djvCore/MapObserver.h>
-#include <djvCore/PicoJSON.h>
+#include <djvCore/RapidJSON.h>
 #include <djvCore/ValueObserver.h>
 
 #include <OpenColorIO/OpenColorIO.h>
@@ -93,10 +93,10 @@ namespace djv
         } // namespace OCIO
     } // namespace AV
 
-    picojson::value toJSON(const AV::OCIO::Config&);
+    rapidjson::Value toJSON(const AV::OCIO::Config&, rapidjson::Document::AllocatorType&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value&, AV::OCIO::Config&);
+    void fromJSON(const rapidjson::Value&, AV::OCIO::Config&);
 
 } // namespace djv

@@ -7,7 +7,7 @@
 #include <djvCore/Context.h>
 
 // These need to be included last on OSX.
-#include <djvCore/PicoJSONTemplates.h>
+#include <djvCore/RapidJSONTemplates.h>
 #include <djvUI/ISettingsTemplates.h>
 
 using namespace djv::Core;
@@ -51,22 +51,20 @@ namespace djv
             _p->nux->setIfChanged(value);
         }
 
-        void NUXSettings::load(const picojson::value & value)
+        void NUXSettings::load(const rapidjson::Value & value)
         {
-            if (value.is<picojson::object>())
+            if (value.IsObject())
             {
                 DJV_PRIVATE_PTR();
-                const auto & object = value.get<picojson::object>();
-                UI::Settings::read("NUX", object, p.nux);
+                UI::Settings::read("NUX", value, p.nux);
             }
         }
 
-        picojson::value NUXSettings::save()
+        rapidjson::Value NUXSettings::save(rapidjson::Document::AllocatorType& allocator)
         {
             DJV_PRIVATE_PTR();
-            picojson::value out(picojson::object_type, true);
-            auto & object = out.get<picojson::object>();
-            UI::Settings::write("NUX", p.nux->get(), object);
+            rapidjson::Value out(rapidjson::kObjectType);
+            UI::Settings::write("NUX", p.nux->get(), out, allocator);
             return out;
         }
 

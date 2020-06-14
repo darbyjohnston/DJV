@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvCore/PicoJSON.h>
+#include <djvCore/RapidJSON.h>
 
 #include <memory>
 
@@ -38,10 +38,10 @@ namespace djv
                 const std::string & getName() const;
 
                 //! Load the settings from the given JSON. This function is called by the settings system.
-                virtual void load(const picojson::value &) = 0;
+                virtual void load(const rapidjson::Value &) = 0;
 
                 //! Save the settings to JSON. This function is called by the settings system.
-                virtual picojson::value save() = 0;
+                virtual rapidjson::Value save(rapidjson::Document::AllocatorType&) = 0;
 
             protected:
                 //! \todo This function needs to be called by derived classes at the end of their _init() function.

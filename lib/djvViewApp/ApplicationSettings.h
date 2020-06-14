@@ -30,8 +30,8 @@ namespace djv
             std::shared_ptr<Core::IMapSubject<std::string, bool> > observeSettingsBellows() const;
             void setSettingsBellows(const std::map<std::string, bool>&);
 
-            void load(const picojson::value &) override;
-            picojson::value save() override;
+            void load(const rapidjson::Value &) override;
+            rapidjson::Value save(rapidjson::Document::AllocatorType&) override;
 
         private:
             DJV_PRIVATE();

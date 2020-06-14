@@ -12,7 +12,7 @@
 #include <djvCore/TextSystem.h>
 
 // These need to be included last on OSX.
-#include <djvCore/PicoJSONTemplates.h>
+#include <djvCore/RapidJSONTemplates.h>
 #include <djvUI/ISettingsTemplates.h>
 
 //#pragma optimize("", off)
@@ -187,40 +187,38 @@ namespace djv
                 p.sortDirectoriesFirst->setIfChanged(value);
             }
 
-            void FileBrowser::load(const picojson::value & value)
+            void FileBrowser::load(const rapidjson::Value & value)
             {
-                if (value.is<picojson::object>())
+                if (value.IsObject())
                 {
                     DJV_PRIVATE_PTR();
-                    const auto & object = value.get<picojson::object>();
-                    read("Shortcuts", object, p.shortcuts);
-                    read("RecentPaths", object, p.recentPaths);
-                    read("ViewType", object, p.viewType);
-                    read("ThumbnailSize", object, p.thumbnailSize);
-                    read("ListViewHeaderSplit", object, p.listViewHeaderSplit);
-                    read("FileSequences", object, p.fileSequences);
-                    read("ShowHidden", object, p.showHidden);
-                    read("Sort", object, p.sort);
-                    read("ReverseSort", object, p.reverseSort);
-                    read("SortDirectoriesFirst", object, p.sortDirectoriesFirst);
+                    read("Shortcuts", value, p.shortcuts);
+                    read("RecentPaths", value, p.recentPaths);
+                    read("ViewType", value, p.viewType);
+                    read("ThumbnailSize", value, p.thumbnailSize);
+                    read("ListViewHeaderSplit", value, p.listViewHeaderSplit);
+                    read("FileSequences", value, p.fileSequences);
+                    read("ShowHidden", value, p.showHidden);
+                    read("Sort", value, p.sort);
+                    read("ReverseSort", value, p.reverseSort);
+                    read("SortDirectoriesFirst", value, p.sortDirectoriesFirst);
                 }
             }
 
-            picojson::value FileBrowser::save()
+            rapidjson::Value FileBrowser::save(rapidjson::Document::AllocatorType& allocator)
             {
                 DJV_PRIVATE_PTR();
-                picojson::value out(picojson::object_type, true);
-                auto & object = out.get<picojson::object>();
-                write("Shortcuts", p.shortcuts->get(), object);
-                write("RecentPaths", p.recentPaths->get(), object);
-                write("ViewType", p.viewType->get(), object);
-                write("ThumbnailSize", p.thumbnailSize->get(), object);
-                write("ListViewHeaderSplit", p.listViewHeaderSplit->get(), object);
-                write("FileSequences", p.fileSequences->get(), object);
-                write("ShowHidden", p.showHidden->get(), object);
-                write("Sort", p.sort->get(), object);
-                write("ReverseSort", p.reverseSort->get(), object);
-                write("SortDirectoriesFirst", p.sortDirectoriesFirst->get(), object);
+                rapidjson::Value out(rapidjson::kObjectType);
+                write("Shortcuts", p.shortcuts->get(), out, allocator);
+                write("RecentPaths", p.recentPaths->get(), out, allocator);
+                write("ViewType", p.viewType->get(), out, allocator);
+                write("ThumbnailSize", p.thumbnailSize->get(), out, allocator);
+                write("ListViewHeaderSplit", p.listViewHeaderSplit->get(), out, allocator);
+                write("FileSequences", p.fileSequences->get(), out, allocator);
+                write("ShowHidden", p.showHidden->get(), out, allocator);
+                write("Sort", p.sort->get(), out, allocator);
+                write("ReverseSort", p.reverseSort->get(), out, allocator);
+                write("SortDirectoriesFirst", p.sortDirectoriesFirst->get(), out, allocator);
                 return out;
             }
 

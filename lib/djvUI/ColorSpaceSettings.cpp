@@ -10,8 +10,12 @@
 
 #include <djvCore/Context.h>
 
+#if defined(GetObject)
+#undef GetObject
+#endif // GetObject
+
 // These need to be included last on OSX.
-#include <djvCore/PicoJSONTemplates.h>
+#include <djvCore/RapidJSONTemplates.h>
 #include <djvUI/ISettingsTemplates.h>
 
 using namespace djv::Core;
@@ -122,25 +126,23 @@ namespace djv
                 return out;
             }
 
-            void ColorSpace::load(const picojson::value & value)
+            void ColorSpace::load(const rapidjson::Value & value)
             {
                 DJV_PRIVATE_PTR();
-                if (value.is<picojson::object>())
+                if (value.IsObject())
                 {
-                    const auto& object = value.get<picojson::object>();
                     std::vector<AV::OCIO::Config> configs;
-                    UI::Settings::read("Configs", object, p.configs);
-                    UI::Settings::read("CurrentIndex", object, p.currentIndex);
+                    UI::Settings::read("Configs", value, p.configs);
+                    UI::Settings::read("CurrentIndex", value, p.currentIndex);
                 }
             }
 
-            picojson::value ColorSpace::save()
+            rapidjson::Value ColorSpace::save(rapidjson::Document::AllocatorType& allocator)
             {
                 DJV_PRIVATE_PTR();
-                picojson::value out(picojson::object_type, true);
-                auto& object = out.get<picojson::object>();
-                UI::Settings::write("Configs", p.configs, object);
-                UI::Settings::write("CurrentIndex", p.currentIndex, object);
+                rapidjson::Value out(rapidjson::kObjectType);
+                UI::Settings::write("Configs", p.configs, out, allocator);
+                UI::Settings::write("CurrentIndex", p.currentIndex, out, allocator);
                 return out;
             }
 

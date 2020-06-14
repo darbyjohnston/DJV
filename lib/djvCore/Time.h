@@ -133,11 +133,11 @@ namespace djv
 
     DJV_ENUM_SERIALIZE_HELPERS(Core::Time::Units);
 
-    picojson::value toJSON(Core::Time::Units);
+    rapidjson::Value toJSON(Core::Time::Units, rapidjson::Document::AllocatorType&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value&, Core::Time::Units&);
+    void fromJSON(const rapidjson::Value&, Core::Time::Units&);
 
 } // namespace djv
 

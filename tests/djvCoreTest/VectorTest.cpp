@@ -49,7 +49,9 @@ namespace djv
         {
             {
                 const glm::ivec2 v(0, 1);
-                auto json = toJSON(v);
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(v, allocator);
                 glm::ivec2 v2(0, 0);
                 fromJSON(json, v2);
                 DJV_ASSERT(v == v2);
@@ -57,7 +59,7 @@ namespace djv
 
             try
             {
-                auto json = picojson::value(picojson::object_type, true);
+                auto json = rapidjson::Value(rapidjson::kObjectType);
                 glm::ivec2 v;
                 fromJSON(json, v);
                 DJV_ASSERT(false);
@@ -67,7 +69,9 @@ namespace djv
             
             {
                 const glm::vec2 v(0.F, 1.F);
-                auto json = toJSON(v);
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(v, allocator);
                 glm::vec2 v2(0.F, 0.F);
                 fromJSON(json, v2);
                 DJV_ASSERT(v == v2);
@@ -75,7 +79,7 @@ namespace djv
 
             try
             {
-                auto json = picojson::value(picojson::object_type, true);
+                auto json = rapidjson::Value(rapidjson::kObjectType);
                 glm::vec2 v;
                 fromJSON(json, v);
                 DJV_ASSERT(false);
@@ -85,7 +89,9 @@ namespace djv
             
             {
                 const glm::vec3 v(0.F, 1.F, 2.F);
-                auto json = toJSON(v);
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(v, allocator);
                 glm::vec3 v2(0.F, 0.F, 0.F);
                 fromJSON(json, v2);
                 DJV_ASSERT(v == v2);
@@ -93,7 +99,7 @@ namespace djv
 
             try
             {
-                auto json = picojson::value(picojson::object_type, true);
+                auto json = rapidjson::Value(rapidjson::kObjectType);
                 glm::vec3 v;
                 fromJSON(json, v);
                 DJV_ASSERT(false);
@@ -103,7 +109,9 @@ namespace djv
             
             {
                 const glm::vec4 v(0.F, 1.F, 2.F, 3.F);
-                auto json = toJSON(v);
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(v, allocator);
                 glm::vec4 v2(0.F, 0.F, 0.F, 0.F);
                 fromJSON(json, v2);
                 DJV_ASSERT(v == v2);
@@ -111,7 +119,7 @@ namespace djv
 
             try
             {
-                auto json = picojson::value(picojson::object_type, true);
+                auto json = rapidjson::Value(rapidjson::kObjectType);
                 glm::vec4 v;
                 fromJSON(json, v);
                 DJV_ASSERT(false);

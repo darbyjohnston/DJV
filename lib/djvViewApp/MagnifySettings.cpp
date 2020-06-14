@@ -5,7 +5,7 @@
 #include <djvViewApp/MagnifySettings.h>
 
 // These need to be included last on OSX.
-#include <djvCore/PicoJSONTemplates.h>
+#include <djvCore/RapidJSONTemplates.h>
 #include <djvUI/ISettingsTemplates.h>
 
 using namespace djv::Core;
@@ -71,26 +71,24 @@ namespace djv
             _p->widgetGeom = value;
         }
 
-        void MagnifySettings::load(const picojson::value & value)
+        void MagnifySettings::load(const rapidjson::Value & value)
         {
-            if (value.is<picojson::object>())
+            if (value.IsObject())
             {
                 DJV_PRIVATE_PTR();
-                const auto & object = value.get<picojson::object>();
-                UI::Settings::read("Magnify", object, p.magnify);
-                UI::Settings::read("MagnifyPos", object, p.magnifyPos);
-                UI::Settings::read("WidgetGeom", object, p.widgetGeom);
+                UI::Settings::read("Magnify", value, p.magnify);
+                UI::Settings::read("MagnifyPos", value, p.magnifyPos);
+                UI::Settings::read("WidgetGeom", value, p.widgetGeom);
             }
         }
 
-        picojson::value MagnifySettings::save()
+        rapidjson::Value MagnifySettings::save(rapidjson::Document::AllocatorType& allocator)
         {
             DJV_PRIVATE_PTR();
-            picojson::value out(picojson::object_type, true);
-            auto & object = out.get<picojson::object>();
-            UI::Settings::write("Magnify", p.magnify, object);
-            UI::Settings::write("MagnifyPos", p.magnifyPos, object);
-            UI::Settings::write("WidgetGeom", p.widgetGeom, object);
+            rapidjson::Value out(rapidjson::kObjectType);
+            UI::Settings::write("Magnify", p.magnify, out, allocator);
+            UI::Settings::write("MagnifyPos", p.magnifyPos, out, allocator);
+            UI::Settings::write("WidgetGeom", p.widgetGeom, out, allocator);
             return out;
         }
 

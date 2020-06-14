@@ -178,15 +178,15 @@ namespace djv
     template<typename T, glm::precision P = glm::defaultp>
     std::istream& operator >> (std::istream&, Core::BBox::tBBox3<T, P>&);
 
-    picojson::value toJSON(const Core::BBox2i&);
-    picojson::value toJSON(const Core::BBox2f&);
-    picojson::value toJSON(const Core::BBox3f&);
+    rapidjson::Value toJSON(const Core::BBox2i&, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(const Core::BBox2f&, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(const Core::BBox3f&, rapidjson::Document::AllocatorType&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value&, Core::BBox2i&);
-    void fromJSON(const picojson::value&, Core::BBox2f&);
-    void fromJSON(const picojson::value&, Core::BBox3f&);
+    void fromJSON(const rapidjson::Value&, Core::BBox2i&);
+    void fromJSON(const rapidjson::Value&, Core::BBox2f&);
+    void fromJSON(const rapidjson::Value&, Core::BBox3f&);
 
 } // namespace djv
 

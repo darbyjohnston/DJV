@@ -28,6 +28,10 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/perpendicular.hpp>
 
+#if defined(GetObject)
+#undef GetObject
+#endif // GetObject
+
 using namespace djv::Core;
 namespace _OCIO = OCIO_NAMESPACE;
 
@@ -1808,28 +1812,29 @@ namespace djv
         DJV_TEXT("render_filter_nearest"),
         DJV_TEXT("render_filter_linear"));
 
-    picojson::value toJSON(AV::Render2D::ImageFilter value)
+    rapidjson::Value toJSON(AV::Render2D::ImageFilter value, rapidjson::Document::AllocatorType& allocator)
     {
         std::stringstream ss;
         ss << value;
-        return picojson::value(ss.str());
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
     }
 
-    picojson::value toJSON(const AV::Render2D::ImageFilterOptions& value)
+    rapidjson::Value toJSON(const AV::Render2D::ImageFilterOptions& value, rapidjson::Document::AllocatorType& allocator)
     {
-        picojson::value out(picojson::object_type, true);
+        rapidjson::Value out(rapidjson::kObjectType);
         {
-            out.get<picojson::object>()["Min"] = toJSON(value.min);
-            out.get<picojson::object>()["Mag"] = toJSON(value.mag);
+            out.AddMember("Min", toJSON(value.min, allocator), allocator);
+            out.AddMember("Mag", toJSON(value.mag, allocator), allocator);
         }
         return out;
     }
 
-    void fromJSON(const picojson::value& value, AV::Render2D::ImageFilter& out)
+    void fromJSON(const rapidjson::Value& value, AV::Render2D::ImageFilter& out)
     {
-        if (value.is<std::string>())
+        if (value.IsString())
         {
-            std::stringstream ss(value.get<std::string>());
+            std::stringstream ss(value.GetString());
             ss >> out;
         }
         else
@@ -1839,20 +1844,20 @@ namespace djv
         }
     }
 
-    void fromJSON(const picojson::value& value, AV::Render2D::ImageFilterOptions& out)
+    void fromJSON(const rapidjson::Value& value, AV::Render2D::ImageFilterOptions& out)
     {
-        if (value.is<picojson::object>())
+        if (value.IsObject())
         {
-            for (const auto& i : value.get<picojson::object>())
+            for (const auto& i : value.GetObject())
             {
-                if ("Min" == i.first)
+                if (0 == strcmp("Min", i.name.GetString()) && i.value.IsString())
                 {
-                    std::stringstream ss(i.second.get<std::string>());
+                    std::stringstream ss(i.value.GetString());
                     ss >> out.min;
                 }
-                else if ("Mag" == i.first)
+                else if (0 == strcmp("Mag", i.name.GetString()) && i.value.IsString())
                 {
-                    std::stringstream ss(i.second.get<std::string>());
+                    std::stringstream ss(i.value.GetString());
                     ss >> out.mag;
                 }
             }

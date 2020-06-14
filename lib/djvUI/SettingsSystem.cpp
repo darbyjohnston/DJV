@@ -13,6 +13,12 @@
 #include <djvCore/FileIO.h>
 #include <djvCore/FileInfo.h>
 #include <djvCore/ResourceSystem.h>
+#include <djvCore/StringFormat.h>
+
+#include <rapidjson/error/en.h>
+#include <rapidjson/prettywriter.h>
+
+#include <iostream>
 
 using namespace djv::Core;
 
@@ -24,7 +30,7 @@ namespace djv
         {
             namespace
             {
-                const size_t settingsVersion = 31;
+                const size_t settingsVersion = 32;
 
             } // namespace
 
@@ -32,7 +38,7 @@ namespace djv
             {
                 ISystem::_init("djv::UI::Settings::System", context);
                 
-                //! \todo Is there a better way to disable settings for tests?
+                //! \bug Is there a better way to disable settings for tests?
                 if ("djvTest" == context->getName())
                 {
                     _settingsIO = false;
@@ -47,7 +53,7 @@ namespace djv
 
                 if (!reset)
                 {
-                    _readSettingsFile(_settingsPath, _json);
+                    _readSettingsFile();
                 }
             }
 
@@ -89,20 +95,22 @@ namespace djv
                 ss << "Loading settings: " << settings->getName();
                 _log(ss.str());
 
-                picojson::value json;
-                const auto & name = settings->getName();
-                auto i = _json.find(name);
-                if (i != _json.end())
+                if (_document.IsObject())
                 {
-                    try
+                    const auto& name = settings->getName();
+                    auto i = _document.FindMember(name.c_str());
+                    if (i != _document.MemberEnd())
                     {
-                        settings->load(i->second);
-                    }
-                    catch (const std::exception & e)
-                    {
-                        std::stringstream ss;
-                        ss << "Cannot read settings" << " '" << name << "'. " << e.what();
-                        _log(ss.str(), LogLevel::Error);
+                        try
+                        {
+                            settings->load(i->value);
+                        }
+                        catch (const std::exception& e)
+                        {
+                            std::stringstream ss;
+                            ss << "Cannot read settings" << " '" << name << "': " << e.what();
+                            _log(ss.str(), LogLevel::Error);
+                        }
                     }
                 }
             }
@@ -112,98 +120,97 @@ namespace djv
                 if (!_settingsIO)
                     return;
 
-                picojson::value object(picojson::object_type, true);
-                object.get<picojson::object>()["SettingsVersion"] = toJSON(settingsVersion);
+                rapidjson::Document document;
+                document.SetObject();
+                auto& allocator = document.GetAllocator();
+                document.AddMember("SettingsVersion", toJSON(settingsVersion, allocator), allocator);
 
                 // Serialize the settings.
                 for (const auto & settings : _settings)
                 {
-                    object.get<picojson::object>()[settings->getName()] = settings->save();
+                    document.AddMember(rapidjson::Value(settings->getName().c_str(), allocator), settings->save(allocator), allocator);
                 }
 
                 // Write the JSON to disk.
-                _writeSettingsFile(_settingsPath, object);
+                _writeSettingsFile(document);
             }
 
-            void System::_readSettingsFile(const FileSystem::Path & path, std::map<std::string, picojson::value> & out)
+            void System::_readSettingsFile()
             {
                 try
                 {
-                    if (FileSystem::FileInfo(path).doesExist())
+                    if (FileSystem::FileInfo(_settingsPath).doesExist())
                     {
                         std::stringstream ss;
-                        ss << "Reading settings: " << path;
+                        ss << "Reading settings: " << _settingsPath;
                         _log(ss.str());
 
                         auto fileIO = FileSystem::FileIO::create();
-                        fileIO->open(std::string(path), FileSystem::FileIO::Mode::Read);
+                        fileIO->open(_settingsPath.get(), FileSystem::FileIO::Mode::Read);
+                        size_t bufSize = 0;
 #if defined(DJV_MMAP)
                         const char * bufP = reinterpret_cast<const char *>(fileIO->mmapP());
-                        const char * bufEnd = reinterpret_cast<const char *>(fileIO->mmapEnd());
+                        const char* bufEnd = reinterpret_cast<const char*>(fileIO->mmapEnd());
+                        bufSize = bufEnd - bufP;
 #else // DJV_MMAP
                         std::vector<char> buf;
-                        const size_t fileSize = fileIO->getSize();
-                        buf.resize(fileSize);
-                        fileIO->read(buf.data(), fileSize);
+                        bufSize = fileIO->getSize();
+                        buf.resize(bufSize);
+                        fileIO->read(buf.data(), bufSize);
                         const char* bufP = buf.data();
-                        const char* bufEnd = bufP + fileSize;
 #endif // DJV_MMAP
 
-                        picojson::value v;
-                        std::string error;
-                        picojson::parse(v, bufP, bufEnd, &error);
-                        if (!error.empty())
+                        rapidjson::ParseResult result = _document.Parse(bufP, bufSize);
+                        if (!result)
                         {
-                            throw std::invalid_argument(error);
+                            throw std::runtime_error(String::Format("{0}: {1}").
+                                arg(rapidjson::GetParseError_En(result.Code())).
+                                arg(result.Offset()));
                         }
 
-                        if (v.is<picojson::object>())
+                        size_t readSettingsVersion = 0;
+                        for (const auto& i : _document.GetObject())
                         {
-                            const auto & object = v.get<picojson::object>();
-                            size_t readSettingsVersion = 0;
-                            for (const auto& value : object)
+                            if (0 == strcmp("SettingsVersion", i.name.GetString()))
                             {
-                                if ("SettingsVersion" == value.first)
-                                {
-                                    fromJSON(value.second, readSettingsVersion);
-                                    break;
-                                }
+                                fromJSON(i.value, readSettingsVersion);
+                                break;
                             }
-                            if (settingsVersion == readSettingsVersion)
-                            {
-                                for (const auto& value : object)
-                                {
-                                    out[value.first] = value.second;
-                                }
-                            }
+                        }
+                        if (settingsVersion != readSettingsVersion)
+                        {
+                            _document.Clear();
                         }
                     }
                 }
-                catch (const std::exception & e)
+                catch (const std::exception& e)
                 {
                     std::stringstream ss;
-                    ss << "Cannot read settings" << " '" << path << "'. " << e.what();
+                    ss << "Cannot read settings" << " '" << _settingsPath << "': " << e.what();
                     _log(ss.str(), LogLevel::Error);
                 }
             }
 
-            void System::_writeSettingsFile(const FileSystem::Path & path, const picojson::value & value)
+            void System::_writeSettingsFile(const rapidjson::Document& document)
             {
                 try
                 {
                     std::stringstream ss;
-                    ss << "Writing settings: " << path;
+                    ss << "Writing settings: " << _settingsPath;
                     _log(ss.str());
 
+                    rapidjson::StringBuffer buffer;
+                    rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
+                    document.Accept(writer);
+
                     auto fileIO = FileSystem::FileIO::create();
-                    fileIO->open(std::string(path), FileSystem::FileIO::Mode::Write);
-                    PicoJSON::write(value, fileIO);
-                    fileIO->write("\n");
+                    fileIO->open(_settingsPath.get(), FileSystem::FileIO::Mode::Write);
+                    fileIO->write(buffer.GetString());
                 }
                 catch (const std::exception & e)
                 {
                     std::stringstream ss;
-                    ss << "Cannot write settings" << " '" << path << "'. " << e.what();
+                    ss << "Cannot write settings" << " '" << _settingsPath << "': " << e.what();
                     _log(ss.str(), LogLevel::Error);
                 }
             }

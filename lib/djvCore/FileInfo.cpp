@@ -226,33 +226,35 @@ namespace djv
         DJV_TEXT("directory_list_sort_size"),
         DJV_TEXT("directory_list_sort_time"));
 
-    picojson::value toJSON(Core::FileSystem::FileType value)
+    rapidjson::Value toJSON(Core::FileSystem::FileType value, rapidjson::Document::AllocatorType& allocator)
     {
         std::stringstream ss;
         ss << value;
-        return picojson::value(ss.str());
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
     }
 
-    picojson::value toJSON(Core::FileSystem::DirectoryListSort value)
+    rapidjson::Value toJSON(Core::FileSystem::DirectoryListSort value, rapidjson::Document::AllocatorType& allocator)
     {
         std::stringstream ss;
         ss << value;
-        return picojson::value(ss.str());
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
     }
 
-    picojson::value toJSON(const Core::FileSystem::FileInfo& value)
+    rapidjson::Value toJSON(const Core::FileSystem::FileInfo& value, rapidjson::Document::AllocatorType& allocator)
     {
-        picojson::value out(picojson::object_type, true);
-        out.get<picojson::object>()["Path"] = toJSON(value.getPath());
-        out.get<picojson::object>()["Type"] = toJSON(value.getType());
+        rapidjson::Value out(rapidjson::kObjectType);
+        out.AddMember("Path", toJSON(value.getPath(), allocator), allocator);
+        out.AddMember("Type", toJSON(value.getType(), allocator), allocator);
         return out;
     }
 
-    void fromJSON(const picojson::value& value, Core::FileSystem::FileType& out)
+    void fromJSON(const rapidjson::Value& value, Core::FileSystem::FileType& out)
     {
-        if (value.is<std::string>())
+        if (value.IsString())
         {
-            std::stringstream ss(value.get<std::string>());
+            std::stringstream ss(value.GetString());
             ss >> out;
         }
         else
@@ -262,11 +264,11 @@ namespace djv
         }
     }
 
-    void fromJSON(const picojson::value& value, Core::FileSystem::DirectoryListSort& out)
+    void fromJSON(const rapidjson::Value& value, Core::FileSystem::DirectoryListSort& out)
     {
-        if (value.is<std::string>())
+        if (value.IsString())
         {
-            std::stringstream ss(value.get<std::string>());
+            std::stringstream ss(value.GetString());
             ss >> out;
         }
         else
@@ -276,21 +278,21 @@ namespace djv
         }
     }
 
-    void fromJSON(const picojson::value& value, Core::FileSystem::FileInfo& out)
+    void fromJSON(const rapidjson::Value& value, Core::FileSystem::FileInfo& out)
     {
-        if (value.is<picojson::object>())
+        if (value.IsObject())
         {
             Core::FileSystem::Path path;
             Core::FileSystem::FileType type = Core::FileSystem::FileType::First;
-            for (const auto& i : value.get<picojson::object>())
+            for (const auto& i : value.GetObject())
             {
-                if ("Path" == i.first)
+                if (0 == strcmp("Path", i.name.GetString()))
                 {
-                    fromJSON(i.second, path);
+                    fromJSON(i.value, path);
                 }
-                else if ("Type" == i.first)
+                else if (0 == strcmp("Type", i.name.GetString()))
                 {
-                    fromJSON(i.second, type);
+                    fromJSON(i.value, type);
                 }
             }
             Core::Frame::Sequence sequence;

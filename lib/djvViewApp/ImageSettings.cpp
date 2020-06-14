@@ -9,7 +9,7 @@
 #include <djvCore/Context.h>
 
 // These need to be included last on OSX.
-#include <djvCore/PicoJSONTemplates.h>
+#include <djvCore/RapidJSONTemplates.h>
 #include <djvUI/ISettingsTemplates.h>
 
 using namespace djv::Core;
@@ -98,30 +98,28 @@ namespace djv
             _p->widgetGeom = value;
         }
 
-        void ImageSettings::load(const picojson::value & value)
+        void ImageSettings::load(const rapidjson::Value & value)
         {
-            if (value.is<picojson::object>())
+            if (value.IsObject())
             {
                 DJV_PRIVATE_PTR();
-                const auto & object = value.get<picojson::object>();
-                UI::Settings::read("ControlsBellows", object, p.controlsBellowsState);
-                UI::Settings::read("ColorSpaceBellows", object, p.colorSpaceBellowsState);
-                UI::Settings::read("Rotate", object, p.rotate);
-                UI::Settings::read("AspectRatio", object, p.aspectRatio);
-                UI::Settings::read("WidgetGeom", object, p.widgetGeom);
+                UI::Settings::read("ControlsBellows", value, p.controlsBellowsState);
+                UI::Settings::read("ColorSpaceBellows", value, p.colorSpaceBellowsState);
+                UI::Settings::read("Rotate", value, p.rotate);
+                UI::Settings::read("AspectRatio", value, p.aspectRatio);
+                UI::Settings::read("WidgetGeom", value, p.widgetGeom);
             }
         }
 
-        picojson::value ImageSettings::save()
+        rapidjson::Value ImageSettings::save(rapidjson::Document::AllocatorType& allocator)
         {
             DJV_PRIVATE_PTR();
-            picojson::value out(picojson::object_type, true);
-            auto & object = out.get<picojson::object>();
-            UI::Settings::write("ControlsBellows", p.controlsBellowsState, object);
-            UI::Settings::write("ColorSpaceBellows", p.colorSpaceBellowsState, object);
-            UI::Settings::write("Rotate", p.rotate->get(), object);
-            UI::Settings::write("AspectRatio", p.aspectRatio->get(), object);
-            UI::Settings::write("WidgetGeom", p.widgetGeom, object);
+            rapidjson::Value out(rapidjson::kObjectType);
+            UI::Settings::write("ControlsBellows", p.controlsBellowsState, out, allocator);
+            UI::Settings::write("ColorSpaceBellows", p.colorSpaceBellowsState, out, allocator);
+            UI::Settings::write("Rotate", p.rotate->get(), out, allocator);
+            UI::Settings::write("AspectRatio", p.aspectRatio->get(), out, allocator);
+            UI::Settings::write("WidgetGeom", p.widgetGeom, out, allocator);
             return out;
         }
 

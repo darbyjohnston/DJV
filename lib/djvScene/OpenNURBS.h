@@ -60,8 +60,8 @@ namespace djv
 
                     static std::shared_ptr<Plugin> create(const std::shared_ptr<Core::Context>&);
 
-                    picojson::value getOptions() const override;
-                    void setOptions(const picojson::value&) override;
+                    rapidjson::Value getOptions(rapidjson::Document::AllocatorType&) const override;
+                    void setOptions(const rapidjson::Value&) override;
 
                     std::shared_ptr<IRead> read(const Core::FileSystem::FileInfo&) const override;
 
@@ -73,11 +73,11 @@ namespace djv
         } // namespace IO
     } // namespace Scene
     
-    picojson::value toJSON(const Scene::IO::OpenNURBS::Options&);
+    rapidjson::Value toJSON(const Scene::IO::OpenNURBS::Options&, rapidjson::Document::AllocatorType&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value&, Scene::IO::OpenNURBS::Options&);
+    void fromJSON(const rapidjson::Value&, Scene::IO::OpenNURBS::Options&);
 
 } // namespace djv
 

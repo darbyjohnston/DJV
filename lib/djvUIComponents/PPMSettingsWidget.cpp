@@ -48,9 +48,11 @@ namespace djv
                     {
                         auto io = context->getSystemT<AV::IO::System>();
                         AV::IO::PPM::Options options;
-                        fromJSON(io->getOptions(AV::IO::PPM::pluginName), options);
+                        rapidjson::Document document;
+                        auto& allocator = document.GetAllocator();
+                        fromJSON(io->getOptions(AV::IO::PPM::pluginName, allocator), options);
                         options.data = static_cast<AV::IO::PPM::Data>(value);
-                        io->setOptions(AV::IO::PPM::pluginName, toJSON(options));
+                        io->setOptions(AV::IO::PPM::pluginName, toJSON(options, allocator));
                     }
                 });
         }
@@ -104,8 +106,9 @@ namespace djv
             {
                 auto io = context->getSystemT<AV::IO::System>();
                 AV::IO::PPM::Options options;
-                fromJSON(io->getOptions(AV::IO::PPM::pluginName), options);
-
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                fromJSON(io->getOptions(AV::IO::PPM::pluginName, allocator), options);
                 p.comboBox->clearItems();
                 for (auto i : AV::IO::PPM::getDataEnums())
                 {

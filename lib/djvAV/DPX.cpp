@@ -862,12 +862,12 @@ namespace djv
                     return out;
                 }
 
-                picojson::value Plugin::getOptions() const
+                rapidjson::Value Plugin::getOptions(rapidjson::Document::AllocatorType& allocator) const
                 {
-                    return toJSON(_p->options);
+                    return toJSON(_p->options, allocator);
                 }
 
-                void Plugin::setOptions(const picojson::value & value)
+                void Plugin::setOptions(const rapidjson::Value & value)
                 {
                     fromJSON(value, _p->options);
                 }
@@ -899,38 +899,40 @@ namespace djv
         DJV_TEXT("dpx_endian_msb"),
         DJV_TEXT("dpx_endian_lsb"));
 
-    picojson::value toJSON(const AV::IO::DPX::Options& value)
+    rapidjson::Value toJSON(const AV::IO::DPX::Options& value, rapidjson::Document::AllocatorType& allocator)
     {
-        picojson::value out(picojson::object_type, true);
+        rapidjson::Value out(rapidjson::kObjectType);
         {
             {
                 std::stringstream ss;
                 ss << value.version;
-                out.get<picojson::object>()["Version"] = picojson::value(ss.str());
+                const std::string& s = ss.str();
+                out.AddMember("Version", rapidjson::Value(s.c_str(), s.size(), allocator), allocator);
             }
             {
                 std::stringstream ss;
                 ss << value.endian;
-                out.get<picojson::object>()["Endian"] = picojson::value(ss.str());
+                const std::string& s = ss.str();
+                out.AddMember("Endian", rapidjson::Value(s.c_str(), s.size(), allocator), allocator);
             }
         }
         return out;
     }
 
-    void fromJSON(const picojson::value& value, AV::IO::DPX::Options& out)
+    void fromJSON(const rapidjson::Value& value, AV::IO::DPX::Options& out)
     {
-        if (value.is<picojson::object>())
+        if (value.IsObject())
         {
-            for (const auto& i : value.get<picojson::object>())
+            for (const auto& i : value.GetObject())
             {
-                if ("Version" == i.first)
+                if (0 == strcmp("Version", i.name.GetString()) && i.value.IsString())
                 {
-                    std::stringstream ss(i.second.get<std::string>());
+                    std::stringstream ss(i.value.GetString());
                     ss >> out.version;
                 }
-                else if ("Endian" == i.first)
+                else if (0 == strcmp("Endian", i.name.GetString()) && i.value.IsString())
                 {
-                    std::stringstream ss(i.second.get<std::string>());
+                    std::stringstream ss(i.value.GetString());
                     ss >> out.endian;
                 }
             }

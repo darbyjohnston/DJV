@@ -10,11 +10,13 @@
 #include <djvCore/FileSystem.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/OS.h>
-#include <djvCore/PicoJSON.h>
+#include <djvCore/RapidJSON.h>
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/String.h>
 #include <djvCore/StringFormat.h>
 #include <djvCore/Timer.h>
+
+#include <rapidjson/error/en.h>
 
 #include <future>
 #include <locale>
@@ -445,40 +447,33 @@ namespace djv
                 
                 auto fileIO = FileSystem::FileIO::create();
                 fileIO->open(std::string(path), FileSystem::FileIO::Mode::Read);
+                size_t bufSize = 0;
 #if defined(DJV_MMAP)
                 const char* bufP = reinterpret_cast<const char*>(fileIO->mmapP());
                 const char* bufEnd = reinterpret_cast<const char*>(fileIO->mmapEnd());
+                bufSize = bufEnd - bufP;
 #else // DJV_MMAP
                 std::vector<char> buf;
-                const size_t fileSize = fileIO->getSize();
-                buf.resize(fileSize);
-                fileIO->read(buf.data(), fileSize);
+                bufSize = fileIO->getSize();
+                buf.resize(bufSize);
+                fileIO->read(buf.data(), bufSize);
                 const char* bufP = buf.data();
-                const char* bufEnd = bufP + fileSize;
 #endif // DJV_MMAP
 
                 // Parse the JSON.
-                picojson::value v;
-                std::string error;
-                picojson::parse(v, bufP, bufEnd, &error);
-                if (!error.empty())
+                rapidjson::Document document;
+                rapidjson::ParseResult result = document.Parse(bufP, bufSize);
+                if (!result)
                 {
-                    throw FileSystem::Error(String::Format("{0}: {1}").arg(path.get()).arg(error));
+                    throw FileSystem::Error(String::Format("{0}: {1}").
+                        arg(GetParseError_En(result.Code())).
+                        arg(result.Offset()));
                 }
-                    
-                if (v.is<picojson::object>())
+                for (const auto& i: document.GetObject())
                 {
-                    std::string id;
-                    std::string text;
-                    const auto& obj = v.get<picojson::object>();
-                    for (auto i = obj.begin(); i != obj.end(); ++i)
+                    if (i.value.IsString())
                     {
-                        id = i->first;
-                        text = i->second.to_str();
-                        if (!id.empty())
-                        {
-                            out[locale][id] = text;
-                        }
+                        out[locale][i.name.GetString()] = i.value.GetString();
                     }
                 }
             }

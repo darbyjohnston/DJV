@@ -280,14 +280,16 @@ namespace djv
         {
             {
                 const FileSystem::Path path("/a/b");
-                auto json = toJSON(path);
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(path, allocator);
                 FileSystem::Path path2;
                 fromJSON(json, path2);
                 DJV_ASSERT(path == path2);
             }
 
             {
-                auto json = picojson::value(picojson::object_type, true);
+                auto json = rapidjson::Value(rapidjson::kObjectType);
                 FileSystem::Path path;
                 fromJSON(json, path);
                 DJV_ASSERT(FileSystem::Path() == path);

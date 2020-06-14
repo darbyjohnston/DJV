@@ -47,8 +47,8 @@ namespace djv
 
                 std::shared_ptr<Core::IValueSubject<std::string> > observeCurrentFont() const;
 
-                void load(const picojson::value &) override;
-                picojson::value save() override;
+                void load(const rapidjson::Value &) override;
+                rapidjson::Value save(rapidjson::Document::AllocatorType&) override;
 
             private:
                 void _currentFontUpdate();

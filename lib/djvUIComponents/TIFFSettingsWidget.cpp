@@ -48,9 +48,11 @@ namespace djv
                     {
                         auto io = context->getSystemT<AV::IO::System>();
                         AV::IO::TIFF::Options options;
-                        fromJSON(io->getOptions(AV::IO::TIFF::pluginName), options);
+                        rapidjson::Document document;
+                        auto& allocator = document.GetAllocator();
+                        fromJSON(io->getOptions(AV::IO::TIFF::pluginName, allocator), options);
                         options.compression = static_cast<AV::IO::TIFF::Compression>(value);
-                        io->setOptions(AV::IO::TIFF::pluginName, toJSON(options));
+                        io->setOptions(AV::IO::TIFF::pluginName, toJSON(options, allocator));
                     }
                 });
         }
@@ -104,8 +106,9 @@ namespace djv
             {
                 auto io = context->getSystemT<AV::IO::System>();
                 AV::IO::TIFF::Options options;
-                fromJSON(io->getOptions(AV::IO::TIFF::pluginName), options);
-
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                fromJSON(io->getOptions(AV::IO::TIFF::pluginName, allocator), options);
                 p.compressionComboBox->clearItems();
                 for (auto i : AV::IO::TIFF::getCompressionEnums())
                 {

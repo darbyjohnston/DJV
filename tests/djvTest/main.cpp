@@ -25,8 +25,8 @@
 #include <djvCoreTest/OSTest.h>
 #include <djvCoreTest/ObjectTest.h>
 #include <djvCoreTest/PathTest.h>
-#include <djvCoreTest/PicoJSONTest.h>
 #include <djvCoreTest/RangeTest.h>
+#include <djvCoreTest/RapidJSONTest.h>
 #include <djvCoreTest/SpeedTest.h>
 #include <djvCoreTest/StringFormatTest.h>
 #include <djvCoreTest/StringTest.h>
@@ -66,6 +66,8 @@
 #include <djvCore/Context.h>
 #include <djvCore/Error.h>
 
+#include <iostream>
+
 using namespace djv;
 
 int main(int argc, char ** argv)
@@ -81,8 +83,9 @@ int main(int argc, char ** argv)
         std::vector<std::shared_ptr<Test::ITest> > tests;
         if (0)
         {
+            tests.emplace_back(new CoreTest::RapidJSONTest(context));
 #if !defined(DJV_BUILD_TINY)
-            tests.emplace_back(new ViewAppTest::FileSystemTest(context));
+            //tests.emplace_back(new ViewAppTest::FileSystemTest(context));
 #endif // DJV_BUILD_TINY
         }
         else
@@ -109,7 +112,7 @@ int main(int argc, char ** argv)
             tests.emplace_back(new CoreTest::OSTest(context));
             tests.emplace_back(new CoreTest::ObjectTest(context));
             tests.emplace_back(new CoreTest::PathTest(context));
-            tests.emplace_back(new CoreTest::PicoJSONTest(context));
+            tests.emplace_back(new CoreTest::RapidJSONTest(context));
             tests.emplace_back(new CoreTest::RangeTest(context));
             tests.emplace_back(new CoreTest::SpeedTest(context));
             tests.emplace_back(new CoreTest::StringFormatTest(context));

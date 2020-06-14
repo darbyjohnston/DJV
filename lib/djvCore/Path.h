@@ -5,7 +5,7 @@
 #pragma once
 
 #include <djvCore/Enum.h>
-#include <djvCore/PicoJSON.h>
+#include <djvCore/RapidJSON.h>
 
 namespace djv
 {
@@ -201,11 +201,11 @@ namespace djv
 
     DJV_ENUM_SERIALIZE_HELPERS(Core::FileSystem::ResourcePath);
 
-    picojson::value toJSON(const Core::FileSystem::Path&);
+    rapidjson::Value toJSON(const Core::FileSystem::Path&, rapidjson::Document::AllocatorType&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value&, Core::FileSystem::Path&);
+    void fromJSON(const rapidjson::Value&, Core::FileSystem::Path&);
 
     std::ostream& operator << (std::ostream&, const Core::FileSystem::Path&);
 

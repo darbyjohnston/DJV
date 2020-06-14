@@ -13,7 +13,7 @@
 #include <OpenColorIO/OpenColorIO.h>
 
 // These need to be included last on OSX.
-#include <djvCore/PicoJSONTemplates.h>
+#include <djvCore/RapidJSONTemplates.h>
 #include <djvUI/ISettingsTemplates.h>
 
 using namespace djv::Core;
@@ -418,42 +418,42 @@ namespace djv
         } // namespace OCIO
     } // namespace AV
 
-    picojson::value toJSON(const AV::OCIO::Config& value)
+    rapidjson::Value toJSON(const AV::OCIO::Config& value, rapidjson::Document::AllocatorType& allocator)
     {
-        picojson::value out(picojson::object_type, true);
-        out.get<picojson::object>()["FileName"] = toJSON(value.fileName);
-        out.get<picojson::object>()["Name"] = toJSON(value.name);
-        out.get<picojson::object>()["Display"] = toJSON(value.display);
-        out.get<picojson::object>()["View"] = toJSON(value.view);
-        out.get<picojson::object>()["FileColorSpaces"] = toJSON(value.fileColorSpaces);
+        rapidjson::Value out(rapidjson::kObjectType);
+        out.AddMember("FileName", toJSON(value.fileName, allocator), allocator);
+        out.AddMember("Name", toJSON(value.name, allocator), allocator);
+        out.AddMember("Display", toJSON(value.display, allocator), allocator);
+        out.AddMember("View", toJSON(value.view, allocator), allocator);
+        out.AddMember("FileColorSpaces", toJSON(value.fileColorSpaces, allocator), allocator);
         return out;
     }
 
-    void fromJSON(const picojson::value& value, AV::OCIO::Config& out)
+    void fromJSON(const rapidjson::Value& value, AV::OCIO::Config& out)
     {
-        if (value.is<picojson::object>())
+        if (value.IsObject())
         {
-            for (const auto& i : value.get<picojson::object>())
+            for (const auto& i : value.GetObject())
             {
-                if ("FileName" == i.first)
+                if (0 == strcmp("FileName", i.name.GetString()))
                 {
-                    fromJSON(i.second, out.fileName);
+                    fromJSON(i.value, out.fileName);
                 }
-                else if ("Name" == i.first)
+                else if (0 == strcmp("Name", i.name.GetString()))
                 {
-                    fromJSON(i.second, out.name);
+                    fromJSON(i.value, out.name);
                 }
-                else if ("Display" == i.first)
+                else if (0 == strcmp("Display", i.name.GetString()))
                 {
-                    fromJSON(i.second, out.display);
+                    fromJSON(i.value, out.display);
                 }
-                else if ("View" == i.first)
+                else if (0 == strcmp("View", i.name.GetString()))
                 {
-                    fromJSON(i.second, out.view);
+                    fromJSON(i.value, out.view);
                 }
-                else if ("FileColorSpaces" == i.first)
+                else if (0 == strcmp("FileColorSpaces", i.name.GetString()))
                 {
-                    fromJSON(i.second, out.fileColorSpaces);
+                    fromJSON(i.value, out.fileColorSpaces);
                 }
             }
         }

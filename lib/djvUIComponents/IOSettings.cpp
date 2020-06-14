@@ -7,7 +7,7 @@
 #include <djvCore/Context.h>
 
 // These need to be included last on OSX.
-#include <djvCore/PicoJSONTemplates.h>
+#include <djvCore/RapidJSONTemplates.h>
 #include <djvUI/ISettingsTemplates.h>
 
 //#pragma optimize("", off)
@@ -60,22 +60,20 @@ namespace djv
                 p.threadCount->setIfChanged(value);
             }
 
-            void IO::load(const picojson::value & value)
+            void IO::load(const rapidjson::Value & value)
             {
-                if (value.is<picojson::object>())
+                if (value.IsObject())
                 {
                     DJV_PRIVATE_PTR();
-                    const auto & object = value.get<picojson::object>();
-                    read("ThreadCount", object, p.threadCount);
+                    read("ThreadCount", value, p.threadCount);
                 }
             }
 
-            picojson::value IO::save()
+            rapidjson::Value IO::save(rapidjson::Document::AllocatorType& allocator)
             {
                 DJV_PRIVATE_PTR();
-                picojson::value out(picojson::object_type, true);
-                auto & object = out.get<picojson::object>();
-                write("ThreadCount", p.threadCount->get(), object);
+                rapidjson::Value out(rapidjson::kObjectType);
+                write("ThreadCount", p.threadCount->get(), out, allocator);
                 return out;
             }
 

@@ -4,8 +4,12 @@
 
 #include <djvViewApp/ToolSettings.h>
 
+#if defined(GetObject)
+#undef GetObject
+#endif // GetObject
+
 // These need to be included last on OSX.
-#include <djvCore/PicoJSONTemplates.h>
+#include <djvCore/RapidJSONTemplates.h>
 #include <djvUI/ISettingsTemplates.h>
 
 using namespace djv::Core;
@@ -84,28 +88,26 @@ namespace djv
             _p->widgetGeom = value;
         }
 
-        void ToolSettings::load(const picojson::value & value)
+        void ToolSettings::load(const rapidjson::Value & value)
         {
-            if (value.is<picojson::object>())
+            if (value.IsObject())
             {
                 DJV_PRIVATE_PTR();
-                const auto & object = value.get<picojson::object>();
-                UI::Settings::read("InfoBellowsState", object, p.infoBellowsState);
-                UI::Settings::read("MessagesPopup", object, p.messagesPopup);
-                UI::Settings::read("DebugBellowsState", object, p.debugBellowsState);
-                UI::Settings::read("WidgetGeom", object, p.widgetGeom);
+                UI::Settings::read("InfoBellowsState", value, p.infoBellowsState);
+                UI::Settings::read("MessagesPopup", value, p.messagesPopup);
+                UI::Settings::read("DebugBellowsState", value, p.debugBellowsState);
+                UI::Settings::read("WidgetGeom", value, p.widgetGeom);
             }
         }
 
-        picojson::value ToolSettings::save()
+        rapidjson::Value ToolSettings::save(rapidjson::Document::AllocatorType& allocator)
         {
             DJV_PRIVATE_PTR();
-            picojson::value out(picojson::object_type, true);
-            auto & object = out.get<picojson::object>();
-            UI::Settings::write("InfoBellowsState", p.infoBellowsState, object);
-            UI::Settings::write("MessagesPopup", p.messagesPopup->get(), object);
-            UI::Settings::write("DebugBellowsState", p.debugBellowsState, object);
-            UI::Settings::write("WidgetGeom", p.widgetGeom, object);
+            rapidjson::Value out(rapidjson::kObjectType);
+            UI::Settings::write("InfoBellowsState", p.infoBellowsState, out, allocator);
+            UI::Settings::write("MessagesPopup", p.messagesPopup->get(), out, allocator);
+            UI::Settings::write("DebugBellowsState", p.debugBellowsState, out, allocator);
+            UI::Settings::write("WidgetGeom", p.widgetGeom, out, allocator);
             return out;
         }
 

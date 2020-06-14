@@ -399,18 +399,19 @@ namespace djv
         return is;
     }
 
-    picojson::value toJSON(const AV::Image::Color& value)
+    rapidjson::Value toJSON(const AV::Image::Color& value, rapidjson::Document::AllocatorType& allocator)
     {
         std::stringstream ss;
         ss << value;
-        return picojson::value(ss.str());
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
     }
 
-    void fromJSON(const picojson::value& value, AV::Image::Color& out)
+    void fromJSON(const rapidjson::Value& value, AV::Image::Color& out)
     {
-        if (value.is<std::string>())
+        if (value.IsString())
         {
-            std::stringstream ss(value.get<std::string>());
+            std::stringstream ss(value.GetString());
             ss >> out;
         }
         else

@@ -8,8 +8,12 @@
 
 #include <djvCore/Context.h>
 
+#if defined(GetObject)
+#undef GetObject
+#endif // GetObject
+
 // These need to be included last on OSX.
-#include <djvCore/PicoJSONTemplates.h>
+#include <djvCore/RapidJSONTemplates.h>
 #include <djvUI/ISettingsTemplates.h>
 
 using namespace djv::Core;
@@ -58,20 +62,18 @@ namespace djv
                 return _p->localeFonts;
             }
 
-            void Font::load(const picojson::value & value)
+            void Font::load(const rapidjson::Value & value)
             {
-                if (value.is<picojson::object>())
+                if (value.IsObject())
                 {
-                    const auto & object = value.get<picojson::object>();
-                    read("LocaleFonts", object, _p->localeFonts);
+                    read("LocaleFonts", value, _p->localeFonts);
                 }
             }
 
-            picojson::value Font::save()
+            rapidjson::Value Font::save(rapidjson::Document::AllocatorType& allocator)
             {
-                picojson::value out(picojson::object_type, true);
-                auto & object = out.get<picojson::object>();
-                write("LocaleFonts", _p->localeFonts->get(), object);
+                rapidjson::Value out(rapidjson::kObjectType);
+                write("LocaleFonts", _p->localeFonts->get(), out, allocator);
                 return out;
             }
 

@@ -234,41 +234,41 @@ namespace djv
         } // namespace FileSystem
     } // namespace Core
 
-    picojson::value toJSON(const Core::FileSystem::Path& value)
+    rapidjson::Value toJSON(const Core::FileSystem::Path& value, rapidjson::Document::AllocatorType& allocator)
     {
-        picojson::value out(picojson::object_type, true);
-        out.get<picojson::object>()["DirectoryName"] = toJSON(value.getDirectoryName());
-        out.get<picojson::object>()["BaseName"] = toJSON(value.getBaseName());
-        out.get<picojson::object>()["Number"] = toJSON(value.getNumber());
-        out.get<picojson::object>()["Extension"] = toJSON(value.getExtension());
+        rapidjson::Value out(rapidjson::kObjectType);
+        out.AddMember("DirectoryName", toJSON(value.getDirectoryName(), allocator), allocator);
+        out.AddMember("BaseName", toJSON(value.getBaseName(), allocator), allocator);
+        out.AddMember("Number", toJSON(value.getNumber(), allocator), allocator);
+        out.AddMember("Extension", toJSON(value.getExtension(), allocator), allocator);
         return out;
     }
 
-    void fromJSON(const picojson::value& value, Core::FileSystem::Path& out)
+    void fromJSON(const rapidjson::Value& value, Core::FileSystem::Path& out)
     {
-        if (value.is<picojson::object>())
+        if (value.IsObject())
         {
             std::string directoryName;
             std::string baseName;
             std::string number;
             std::string extension;
-            for (const auto& i : value.get<picojson::object>())
+            for (const auto& i : value.GetObject())
             {
-                if ("DirectoryName" == i.first)
+                if (0 == strcmp("DirectoryName", i.name.GetString()))
                 {
-                    fromJSON(i.second, directoryName);
+                    fromJSON(i.value, directoryName);
                 }
-                else if ("BaseName" == i.first)
+                else if (0 == strcmp("BaseName", i.name.GetString()))
                 {
-                    fromJSON(i.second, baseName);
+                    fromJSON(i.value, baseName);
                 }
-                else if ("Number" == i.first)
+                else if (0 == strcmp("Number", i.name.GetString()))
                 {
-                    fromJSON(i.second, number);
+                    fromJSON(i.value, number);
                 }
-                else if ("Extension" == i.first)
+                else if (0 == strcmp("Extension", i.name.GetString()))
                 {
-                    fromJSON(i.second, extension);
+                    fromJSON(i.value, extension);
                 }
             }
             out = Core::FileSystem::Path(directoryName, baseName, number, extension);

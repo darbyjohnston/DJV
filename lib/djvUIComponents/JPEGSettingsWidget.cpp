@@ -51,9 +51,11 @@ namespace djv
                         {
                             auto io = context->getSystemT<AV::IO::System>();
                             AV::IO::JPEG::Options options;
-                            fromJSON(io->getOptions(AV::IO::JPEG::pluginName), options);
+                            rapidjson::Document document;
+                            auto& allocator = document.GetAllocator();
+                            fromJSON(io->getOptions(AV::IO::JPEG::pluginName, allocator), options);
                             options.quality = value;
-                            io->setOptions(AV::IO::JPEG::pluginName, toJSON(options));
+                            io->setOptions(AV::IO::JPEG::pluginName, toJSON(options, allocator));
                         }
                     }
                 });
@@ -107,7 +109,9 @@ namespace djv
             {
                 auto io = context->getSystemT<AV::IO::System>();
                 AV::IO::JPEG::Options options;
-                fromJSON(io->getOptions(AV::IO::JPEG::pluginName), options);
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                fromJSON(io->getOptions(AV::IO::JPEG::pluginName, allocator), options);
                 p.qualitySlider->setValue(options.quality);
             }
         }

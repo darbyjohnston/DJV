@@ -11,91 +11,91 @@ namespace djv
         namespace Settings
         {
             template<typename T>
-            inline void read(const std::string & name, const picojson::object & object, T & out)
+            inline void read(const std::string& name, const rapidjson::Value& object, T& out)
             {
-                const auto i = object.find(name);
-                if (i != object.end())
+                const auto i = object.FindMember(name.c_str());
+                if (i != object.MemberEnd())
                 {
                     try
                     {
-                        fromJSON(i->second, out);
+                        fromJSON(i->value, out);
                     }
-                    catch (const std::exception & e)
+                    catch (const std::exception& e)
                     {
                         std::stringstream ss;
-                        ss << "Cannot read settings '" << name << "'. " << e.what();
+                        ss << "Cannot read settings '" << name << "': " << e.what();
                         throw std::invalid_argument(ss.str());
                     }
                 }
             }
 
             template<typename T>
-            inline void read(const std::string & name, const picojson::object & object, std::shared_ptr<Core::ValueSubject<T> > & out)
+            inline void read(const std::string& name, const rapidjson::Value& object, std::shared_ptr<Core::ValueSubject<T> >& out)
             {
-                const auto i = object.find(name);
-                if (i != object.end())
+                const auto i = object.FindMember(name.c_str());
+                if (i != object.MemberEnd())
                 {
                     try
                     {
                         T v;
-                        fromJSON(i->second, v);
+                        fromJSON(i->value, v);
                         out->setIfChanged(v);
                     }
-                    catch (const std::exception & e)
+                    catch (const std::exception& e)
                     {
                         std::stringstream ss;
-                        ss << "Cannot read settings '" << name << "'. " << e.what();
+                        ss << "Cannot read settings '" << name << "': " << e.what();
                         throw std::invalid_argument(ss.str());
                     }
                 }
             }
 
             template<typename T>
-            inline void read(const std::string & name, const picojson::object & object, std::shared_ptr<Core::ListSubject<T> > & out)
+            inline void read(const std::string& name, const rapidjson::Value& object, std::shared_ptr<Core::ListSubject<T> >& out)
             {
-                const auto i = object.find(name);
-                if (i != object.end())
+                const auto i = object.FindMember(name.c_str());
+                if (i != object.MemberEnd())
                 {
                     try
                     {
                         std::vector<T> v;
-                        fromJSON(i->second, v);
+                        fromJSON(i->value, v);
                         out->setIfChanged(v);
                     }
-                    catch (const std::exception & e)
+                    catch (const std::exception& e)
                     {
                         std::stringstream ss;
-                        ss << "Cannot read settings '" << name << "'. " << e.what();
+                        ss << "Cannot read settings '" << name << "': " << e.what();
                         throw std::invalid_argument(ss.str());
                     }
                 }
             }
 
             template<typename T>
-            inline void read(const std::string & name, const picojson::object & object, std::shared_ptr<Core::MapSubject<std::string, T> > & out)
+            inline void read(const std::string& name, const rapidjson::Value& object, std::shared_ptr<Core::MapSubject<std::string, T> >& out)
             {
-                const auto i = object.find(name);
-                if (i != object.end())
+                const auto i = object.FindMember(name.c_str());
+                if (i != object.MemberEnd())
                 {
                     try
                     {
                         std::map<std::string, T> v;
-                        fromJSON(i->second, v);
+                        fromJSON(i->value, v);
                         out->setIfChanged(v);
                     }
-                    catch (const std::exception & e)
+                    catch (const std::exception& e)
                     {
                         std::stringstream ss;
-                        ss << "Cannot read settings '" << name << "'. " << e.what();
+                        ss << "Cannot read settings '" << name << "': " << e.what();
                         throw std::invalid_argument(ss.str());
                     }
                 }
             }
 
             template<typename T>
-            inline void write(const std::string & name, const T & value, picojson::object & out)
+            inline void write(const std::string& name, const T& value, rapidjson::Value& out, rapidjson::Document::AllocatorType& allocator)
             {
-                out[name] = toJSON(value);
+                out.AddMember(rapidjson::Value(name.c_str(), allocator), toJSON(value, allocator), allocator);
             }
 
         } // namespace Settings

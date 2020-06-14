@@ -4,6 +4,10 @@
 
 #include <djvViewApp/View.h>
 
+#if defined(GetObject)
+#undef GetObject
+#endif // GetObject
+
 using namespace djv::Core;
 
 namespace djv
@@ -55,65 +59,65 @@ namespace djv
 
     } // namespace ViewApp
 
-    picojson::value toJSON(const ViewApp::GridOptions& value)
+    rapidjson::Value toJSON(const ViewApp::GridOptions& value, rapidjson::Document::AllocatorType& allocator)
     {
-        picojson::value out(picojson::object_type, true);
-        out.get<picojson::object>()["Enabled"] = toJSON(value.enabled);
-        out.get<picojson::object>()["Size"] = toJSON(value.size);
-        out.get<picojson::object>()["Color"] = toJSON(value.color);
-        out.get<picojson::object>()["Labels"] = toJSON(value.labels);
-        out.get<picojson::object>()["LabelsColor"] = toJSON(value.labelsColor);
+        rapidjson::Value out(rapidjson::kObjectType);
+        out.AddMember("Enabled", toJSON(value.enabled, allocator), allocator);
+        out.AddMember("Size", toJSON(value.size, allocator), allocator);
+        out.AddMember("Color", toJSON(value.color, allocator), allocator);
+        out.AddMember("Labels", toJSON(value.labels, allocator), allocator);
+        out.AddMember("LabelsColor", toJSON(value.labelsColor, allocator), allocator);
         return out;
     }
 
-    picojson::value toJSON(const ViewApp::HUDOptions& value)
+    rapidjson::Value toJSON(const ViewApp::HUDOptions& value, rapidjson::Document::AllocatorType& allocator)
     {
-        picojson::value out(picojson::object_type, true);
-        out.get<picojson::object>()["Enabled"] = toJSON(value.enabled);
-        out.get<picojson::object>()["Color"] = toJSON(value.color);
-        out.get<picojson::object>()["Background"] = toJSON(value.background);
+        rapidjson::Value out(rapidjson::kObjectType);
+        out.AddMember("Enabled", toJSON(value.enabled, allocator), allocator);
+        out.AddMember("Color", toJSON(value.color, allocator), allocator);
+        out.AddMember("Background", toJSON(value.background, allocator), allocator);
         return out;
     }
 
-    picojson::value toJSON(const ViewApp::ViewBackgroundOptions& value)
+    rapidjson::Value toJSON(const ViewApp::ViewBackgroundOptions& value, rapidjson::Document::AllocatorType& allocator)
     {
-        picojson::value out(picojson::object_type, true);
-        out.get<picojson::object>()["Background"] = toJSON(value.background);
-        out.get<picojson::object>()["Color"] = toJSON(value.color);
-        out.get<picojson::object>()["CheckersSize"] = toJSON(value.checkersSize);
-        out.get<picojson::object>()["CheckersColors0"] = toJSON(value.checkersColors[0]);
-        out.get<picojson::object>()["CheckersColors1"] = toJSON(value.checkersColors[1]);
-        out.get<picojson::object>()["Border"] = toJSON(value.border);
-        out.get<picojson::object>()["BorderWidth"] = toJSON(value.borderWidth);
-        out.get<picojson::object>()["BorderColor"] = toJSON(value.borderColor);
+        rapidjson::Value out(rapidjson::kObjectType);
+        out.AddMember("Background", toJSON(value.background, allocator), allocator);
+        out.AddMember("Color", toJSON(value.color, allocator), allocator);
+        out.AddMember("CheckersSize", toJSON(value.checkersSize, allocator), allocator);
+        out.AddMember("CheckersColors0", toJSON(value.checkersColors[0], allocator), allocator);
+        out.AddMember("CheckersColors1", toJSON(value.checkersColors[1], allocator), allocator);
+        out.AddMember("Border", toJSON(value.border, allocator), allocator);
+        out.AddMember("BorderWidth", toJSON(value.borderWidth, allocator), allocator);
+        out.AddMember("BorderColor", toJSON(value.borderColor, allocator), allocator);
         return out;
     }
 
-    void fromJSON(const picojson::value& value, ViewApp::GridOptions& out)
+    void fromJSON(const rapidjson::Value& value, ViewApp::GridOptions& out)
     {
-        if (value.is<picojson::object>())
+        if (value.IsObject())
         {
-            for (const auto& i : value.get<picojson::object>())
+            for (const auto& i : value.GetObject())
             {
-                if ("Enabled" == i.first)
+                if (0 == strcmp("Enabled", i.name.GetString()))
                 {
-                    fromJSON(i.second, out.enabled);
+                    fromJSON(i.value, out.enabled);
                 }
-                else if ("Size" == i.first)
+                else if (0 == strcmp("Size", i.name.GetString()))
                 {
-                    fromJSON(i.second, out.size);
+                    fromJSON(i.value, out.size);
                 }
-                else if ("Color" == i.first)
+                else if (0 == strcmp("Color", i.name.GetString()))
                 {
-                    fromJSON(i.second, out.color);
+                    fromJSON(i.value, out.color);
                 }
-                else if ("Labels" == i.first)
+                else if (0 == strcmp("Labels", i.name.GetString()))
                 {
-                    fromJSON(i.second, out.labels);
+                    fromJSON(i.value, out.labels);
                 }
-                else if ("LabelsColor" == i.first)
+                else if (0 == strcmp("LabelsColor", i.name.GetString()))
                 {
-                    fromJSON(i.second, out.labelsColor);
+                    fromJSON(i.value, out.labelsColor);
                 }
             }
         }
@@ -124,23 +128,23 @@ namespace djv
         }
     }
 
-    void fromJSON(const picojson::value& value, ViewApp::HUDOptions& out)
+    void fromJSON(const rapidjson::Value& value, ViewApp::HUDOptions& out)
     {
-        if (value.is<picojson::object>())
+        if (value.IsObject())
         {
-            for (const auto& i : value.get<picojson::object>())
+            for (const auto& i : value.GetObject())
             {
-                if ("Enabled" == i.first)
+                if (0 == strcmp("Enabled", i.name.GetString()))
                 {
-                    fromJSON(i.second, out.enabled);
+                    fromJSON(i.value, out.enabled);
                 }
-                else if ("Color" == i.first)
+                else if (0 == strcmp("Color", i.name.GetString()))
                 {
-                    fromJSON(i.second, out.color);
+                    fromJSON(i.value, out.color);
                 }
-                else if ("Background" == i.first)
+                else if (0 == strcmp("Background", i.name.GetString()))
                 {
-                    fromJSON(i.second, out.background);
+                    fromJSON(i.value, out.background);
                 }
             }
         }
@@ -151,43 +155,43 @@ namespace djv
         }
     }
 
-    void fromJSON(const picojson::value& value, ViewApp::ViewBackgroundOptions& out)
+    void fromJSON(const rapidjson::Value& value, ViewApp::ViewBackgroundOptions& out)
     {
-        if (value.is<picojson::object>())
+        if (value.IsObject())
         {
-            for (const auto& i : value.get<picojson::object>())
+            for (const auto& i : value.GetObject())
             {
-                if ("Background" == i.first)
+                if (0 == strcmp("Background", i.name.GetString()))
                 {
-                    fromJSON(i.second, out.background);
+                    fromJSON(i.value, out.background);
                 }
-                else if ("Color" == i.first)
+                else if (0 == strcmp("Color", i.name.GetString()))
                 {
-                    fromJSON(i.second, out.color);
+                    fromJSON(i.value, out.color);
                 }
-                else if ("CheckersSize" == i.first)
+                else if (0 == strcmp("CheckersSize", i.name.GetString()))
                 {
-                    fromJSON(i.second, out.checkersSize);
+                    fromJSON(i.value, out.checkersSize);
                 }
-                else if ("CheckersColors0" == i.first)
+                else if (0 == strcmp("CheckersColors0", i.name.GetString()))
                 {
-                    fromJSON(i.second, out.checkersColors[0]);
+                    fromJSON(i.value, out.checkersColors[0]);
                 }
-                else if ("CheckersColors1" == i.first)
+                else if (0 == strcmp("CheckersColors1", i.name.GetString()))
                 {
-                    fromJSON(i.second, out.checkersColors[1]);
+                    fromJSON(i.value, out.checkersColors[1]);
                 }
-                else if ("Border" == i.first)
+                else if (0 == strcmp("Border", i.name.GetString()))
                 {
-                    fromJSON(i.second, out.border);
+                    fromJSON(i.value, out.border);
                 }
-                else if ("BorderWidth" == i.first)
+                else if (0 == strcmp("BorderWidth", i.name.GetString()))
                 {
-                    fromJSON(i.second, out.borderWidth);
+                    fromJSON(i.value, out.borderWidth);
                 }
-                else if ("BorderColor" == i.first)
+                else if (0 == strcmp("BorderColor", i.name.GetString()))
                 {
-                    fromJSON(i.second, out.borderColor);
+                    fromJSON(i.value, out.borderColor);
                 }
             }
         }

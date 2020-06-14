@@ -39,7 +39,9 @@ namespace djv
             
             {
                 const AlphaBlend value = AlphaBlend::First;
-                auto json = toJSON(value);
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(value, allocator);
                 AlphaBlend value2 = AlphaBlend::Count;
                 fromJSON(json, value2);
                 DJV_ASSERT(value == value2);
@@ -47,7 +49,7 @@ namespace djv
 
             try
             {
-                auto json = picojson::value(picojson::object_type, true);
+                auto json = rapidjson::Value(rapidjson::kObjectType);
                 AlphaBlend value;
                 fromJSON(json, value);
                 DJV_ASSERT(false);

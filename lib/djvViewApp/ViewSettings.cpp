@@ -8,8 +8,12 @@
 
 #include <djvCore/Context.h>
 
+#if defined(GetObject)
+#undef GetObject
+#endif // GetObject
+
 // These need to be included last on OSX.
-#include <djvCore/PicoJSONTemplates.h>
+#include <djvCore/RapidJSONTemplates.h>
 #include <djvUI/ISettingsTemplates.h>
 
 using namespace djv::Core;
@@ -111,32 +115,30 @@ namespace djv
             _p->widgetGeom = value;
         }
 
-        void ViewSettings::load(const picojson::value & value)
+        void ViewSettings::load(const rapidjson::Value & value)
         {
-            if (value.is<picojson::object>())
+            if (value.IsObject())
             {
                 DJV_PRIVATE_PTR();
-                const auto & object = value.get<picojson::object>();
-                UI::Settings::read("BellowsState", object, p.bellowsState);
-                UI::Settings::read("Lock", object, p.lock);
-                UI::Settings::read("GridOptions", object, p.gridOptions);
-                UI::Settings::read("HUDOptions", object, p.hudOptions);
-                UI::Settings::read("BackgroundOptions", object, p.backgroundOptions);
-                UI::Settings::read("WidgetGeom", object, p.widgetGeom);
+                UI::Settings::read("BellowsState", value, p.bellowsState);
+                UI::Settings::read("Lock", value, p.lock);
+                UI::Settings::read("GridOptions", value, p.gridOptions);
+                UI::Settings::read("HUDOptions", value, p.hudOptions);
+                UI::Settings::read("BackgroundOptions", value, p.backgroundOptions);
+                UI::Settings::read("WidgetGeom", value, p.widgetGeom);
             }
         }
 
-        picojson::value ViewSettings::save()
+        rapidjson::Value ViewSettings::save(rapidjson::Document::AllocatorType& allocator)
         {
             DJV_PRIVATE_PTR();
-            picojson::value out(picojson::object_type, true);
-            auto & object = out.get<picojson::object>();
-            UI::Settings::write("BellowsState", p.bellowsState, object);
-            UI::Settings::write("Lock", p.lock->get(), object);
-            UI::Settings::write("GridOptions", p.gridOptions->get(), object);
-            UI::Settings::write("HUDOptions", p.hudOptions->get(), object);
-            UI::Settings::write("BackgroundOptions", p.backgroundOptions->get(), object);
-            UI::Settings::write("WidgetGeom", p.widgetGeom, object);
+            rapidjson::Value out(rapidjson::kObjectType);
+            UI::Settings::write("BellowsState", p.bellowsState, out, allocator);
+            UI::Settings::write("Lock", p.lock->get(), out, allocator);
+            UI::Settings::write("GridOptions", p.gridOptions->get(), out, allocator);
+            UI::Settings::write("HUDOptions", p.hudOptions->get(), out, allocator);
+            UI::Settings::write("BackgroundOptions", p.backgroundOptions->get(), out, allocator);
+            UI::Settings::write("WidgetGeom", p.widgetGeom, out, allocator);
             return out;
         }
 

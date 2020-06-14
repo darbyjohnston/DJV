@@ -1024,12 +1024,12 @@ namespace djv
                     return out;
                 }
 
-                picojson::value Plugin::getOptions() const
+                rapidjson::Value Plugin::getOptions(rapidjson::Document::AllocatorType& allocator) const
                 {
-                    return toJSON(_p->options);
+                    return toJSON(_p->options, allocator);
                 }
 
-                void Plugin::setOptions(const picojson::value & value)
+                void Plugin::setOptions(const rapidjson::Value & value)
                 {
                     DJV_PRIVATE_PTR();
                     fromJSON(value, p.options);
@@ -1071,49 +1071,51 @@ namespace djv
         DJV_TEXT("exr_compression_dwaa"),
         DJV_TEXT("exr_compression_dwab"));
 
-    picojson::value toJSON(const AV::IO::OpenEXR::Options & value)
+    rapidjson::Value toJSON(const AV::IO::OpenEXR::Options & value, rapidjson::Document::AllocatorType& allocator)
     {
-        picojson::value out(picojson::object_type, true);
+        rapidjson::Value out(rapidjson::kObjectType);
         {
-            out.get<picojson::object>()["ThreadCount"] = toJSON(value.threadCount);
+            out.AddMember("ThreadCount", toJSON(value.threadCount, allocator), allocator);
             {
                 std::stringstream ss;
                 ss << value.channels;
-                out.get<picojson::object>()["Channels"] = picojson::value(ss.str());
+                const std::string& s = ss.str();
+                out.AddMember("Channels", rapidjson::Value(s.c_str(), s.size(), allocator), allocator);
             }
             {
                 std::stringstream ss;
                 ss << value.compression;
-                out.get<picojson::object>()["Compression"] = picojson::value(ss.str());
+                const std::string& s = ss.str();
+                out.AddMember("Compression", rapidjson::Value(s.c_str(), s.size(), allocator), allocator);
             }
-            out.get<picojson::object>()["DWACompressionLevel"] = toJSON(value.dwaCompressionLevel);
+            out.AddMember("DWACompressionLevel", toJSON(value.dwaCompressionLevel, allocator), allocator);
         }
         return out;
     }
 
-    void fromJSON(const picojson::value & value, AV::IO::OpenEXR::Options & out)
+    void fromJSON(const rapidjson::Value & value, AV::IO::OpenEXR::Options & out)
     {
-        if (value.is<picojson::object>())
+        if (value.IsObject())
         {
-            for (const auto & i : value.get<picojson::object>())
+            for (const auto & i : value.GetObject())
             {
-                if ("ThreadCount" == i.first)
+                if (0 == strcmp("ThreadCount", i.name.GetString()))
                 {
-                    fromJSON(i.second, out.threadCount);
+                    fromJSON(i.value, out.threadCount);
                 }
-                else if ("Channels" == i.first)
+                else if (0 == strcmp("Channels", i.name.GetString()) && i.value.IsString())
                 {
-                    std::stringstream ss(i.second.get<std::string>());
+                    std::stringstream ss(i.value.GetString());
                     ss >> out.channels;
                 }
-                else if ("Compression" == i.first)
+                else if (0 == strcmp("Compression", i.name.GetString()) && i.value.IsString())
                 {
-                    std::stringstream ss(i.second.get<std::string>());
+                    std::stringstream ss(i.value.GetString());
                     ss >> out.compression;
                 }
-                else if ("DWACompressionLevel" == i.first)
+                else if (0 == strcmp("DWACompressionLevel", i.name.GetString()))
                 {
-                    fromJSON(i.second, out.dwaCompressionLevel);
+                    fromJSON(i.value, out.dwaCompressionLevel);
                 }
             }
         }

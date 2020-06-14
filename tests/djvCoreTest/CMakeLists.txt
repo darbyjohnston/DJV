@@ -22,8 +22,8 @@ set(header
     OSTest.h
     ObjectTest.h
     PathTest.h
-	PicoJSONTest.h
 	RangeTest.h
+	RapidJSONTest.h
 	SpeedTest.h
     StringFormatTest.h
     StringTest.h
@@ -55,8 +55,8 @@ set(source
     OSTest.cpp
     ObjectTest.cpp
     PathTest.cpp
-	PicoJSONTest.cpp
 	RangeTest.cpp
+	RapidJSONTest.cpp
 	SpeedTest.cpp
     StringFormatTest.cpp
     StringTest.cpp

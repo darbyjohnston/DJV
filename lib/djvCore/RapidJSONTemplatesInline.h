@@ -5,34 +5,34 @@
 namespace djv
 {
     template<typename T>
-    inline picojson::value toJSON(const std::vector<T>& value)
+    inline rapidjson::Value toJSON(const std::vector<T>& value, rapidjson::Document::AllocatorType& allocator)
     {
-        picojson::value out(picojson::array_type, true);
+        rapidjson::Value out(rapidjson::kArrayType);
         for (const auto& i : value)
         {
-            out.get<picojson::array>().push_back(toJSON(i));
+            out.PushBack(toJSON(i, allocator), allocator);
         }
         return out;
     }
     
     template<typename T>
-    inline picojson::value toJSON(const std::map<std::string, T>& value)
+    inline rapidjson::Value toJSON(const std::map<std::string, T>& value, rapidjson::Document::AllocatorType& allocator)
     {
-        picojson::value out(picojson::object_type, true);
-        for (auto i : value)
+        rapidjson::Value out(rapidjson::kObjectType);
+        for (const auto& i : value)
         {
-            out.get<picojson::object>()[i.first] = toJSON(i.second);
+            out.AddMember(rapidjson::Value(i.first.c_str(), allocator), toJSON(i.second, allocator), allocator);
         }
         return out;
     }
 
     template<typename T>
-    inline void fromJSON(const picojson::value& value, std::vector<T>& out)
+    inline void fromJSON(const rapidjson::Value& value, std::vector<T>& out)
     {
-        if (value.is<picojson::array>())
+        if (value.IsArray())
         {
             out.clear();
-            for (const auto& i : value.get<picojson::array>())
+            for (const auto& i : value.GetArray())
             {
                 T tmp;
                 fromJSON(i, tmp);
@@ -47,14 +47,14 @@ namespace djv
     }
     
     template<typename T>
-    inline void fromJSON(const picojson::value& value, std::map<std::string, T>& out)
+    inline void fromJSON(const rapidjson::Value& value, std::map<std::string, T>& out)
     {
-        if (value.is<picojson::object>())
+        if (value.IsObject())
         {
             out.clear();
-            for (const auto& i : value.get<picojson::object>())
+            for (const auto& i : value.GetObject())
             {
-                fromJSON(i.second, out[i.first]);
+                fromJSON(i.value, out[i.name.GetString()]);
             }
         }
         else

@@ -10,7 +10,7 @@
 #include <djvCore/Vector.h>
 
 // These need to be included last on OSX.
-#include <djvCore/PicoJSONTemplates.h>
+#include <djvCore/RapidJSONTemplates.h>
 #include <djvUI/ISettingsTemplates.h>
 
 using namespace djv::Core;
@@ -202,44 +202,42 @@ namespace djv
             _p->backgroundImage->setIfChanged(value);
         }
 
-        void WindowSettings::load(const picojson::value & value)
+        void WindowSettings::load(const rapidjson::Value & value)
         {
-            if (value.is<picojson::object>())
+            if (value.IsObject())
             {
                 DJV_PRIVATE_PTR();
-                const auto & object = value.get<picojson::object>();
-                UI::Settings::read("RestorePos", object, p.restorePos);
-                UI::Settings::read("RestoreSize", object, p.restoreSize);
-                UI::Settings::read("WindowPos", object, p.windowPos);
-                UI::Settings::read("WindowSize", object, p.windowSize);
-                UI::Settings::read("FullScreen", object, p.fullScreen);
-                UI::Settings::read("FullScreenMonitor", object, p.fullScreenMonitor);
-                UI::Settings::read("FloatOnTop", object, p.floatOnTop);
-                UI::Settings::read("Maximize", object, p.maximize);
-                UI::Settings::read("AutoHide", object, p.autoHide);
-                UI::Settings::read("BackgroundImage", object, p.backgroundImage);
-                UI::Settings::read("BackgroundImageScale", object, p.backgroundImageScale);
-                UI::Settings::read("BackgroundImageColorize", object, p.backgroundImageColorize);
+                UI::Settings::read("RestorePos", value, p.restorePos);
+                UI::Settings::read("RestoreSize", value, p.restoreSize);
+                UI::Settings::read("WindowPos", value, p.windowPos);
+                UI::Settings::read("WindowSize", value, p.windowSize);
+                UI::Settings::read("FullScreen", value, p.fullScreen);
+                UI::Settings::read("FullScreenMonitor", value, p.fullScreenMonitor);
+                UI::Settings::read("FloatOnTop", value, p.floatOnTop);
+                UI::Settings::read("Maximize", value, p.maximize);
+                UI::Settings::read("AutoHide", value, p.autoHide);
+                UI::Settings::read("BackgroundImage", value, p.backgroundImage);
+                UI::Settings::read("BackgroundImageScale", value, p.backgroundImageScale);
+                UI::Settings::read("BackgroundImageColorize", value, p.backgroundImageColorize);
             }
         }
 
-        picojson::value WindowSettings::save()
+        rapidjson::Value WindowSettings::save(rapidjson::Document::AllocatorType& allocator)
         {
             DJV_PRIVATE_PTR();
-            picojson::value out(picojson::object_type, true);
-            auto & object = out.get<picojson::object>();
-            UI::Settings::write("RestorePos", p.restorePos->get(), object);
-            UI::Settings::write("RestoreSize", p.restoreSize->get(), object);
-            UI::Settings::write("WindowPos", p.windowPos, object);
-            UI::Settings::write("WindowSize", p.windowSize, object);
-            UI::Settings::write("FullScreen", p.fullScreen->get(), object);
-            UI::Settings::write("FullScreenMonitor", p.fullScreenMonitor->get(), object);
-            UI::Settings::write("FloatOnTop", p.floatOnTop->get(), object);
-            UI::Settings::write("Maximize", p.maximize->get(), object);
-            UI::Settings::write("AutoHide", p.autoHide->get(), object);
-            UI::Settings::write("BackgroundImage", p.backgroundImage->get(), object);
-            UI::Settings::write("BackgroundImageScale", p.backgroundImageScale->get(), object);
-            UI::Settings::write("BackgroundImageColorize", p.backgroundImageColorize->get(), object);
+            rapidjson::Value out(rapidjson::kObjectType);
+            UI::Settings::write("RestorePos", p.restorePos->get(), out, allocator);
+            UI::Settings::write("RestoreSize", p.restoreSize->get(), out, allocator);
+            UI::Settings::write("WindowPos", p.windowPos, out, allocator);
+            UI::Settings::write("WindowSize", p.windowSize, out, allocator);
+            UI::Settings::write("FullScreen", p.fullScreen->get(), out, allocator);
+            UI::Settings::write("FullScreenMonitor", p.fullScreenMonitor->get(), out, allocator);
+            UI::Settings::write("FloatOnTop", p.floatOnTop->get(), out, allocator);
+            UI::Settings::write("Maximize", p.maximize->get(), out, allocator);
+            UI::Settings::write("AutoHide", p.autoHide->get(), out, allocator);
+            UI::Settings::write("BackgroundImage", p.backgroundImage->get(), out, allocator);
+            UI::Settings::write("BackgroundImageScale", p.backgroundImageScale->get(), out, allocator);
+            UI::Settings::write("BackgroundImageColorize", p.backgroundImageColorize->get(), out, allocator);
             return out;
         }
 

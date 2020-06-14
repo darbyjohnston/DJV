@@ -6,7 +6,7 @@
 
 #include <djvCore/Frame.h>
 #include <djvCore/Path.h>
-#include <djvCore/PicoJSON.h>
+#include <djvCore/RapidJSON.h>
 
 #include <set>
 
@@ -176,21 +176,21 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS(Core::FileSystem::FileType);
     DJV_ENUM_SERIALIZE_HELPERS(Core::FileSystem::DirectoryListSort);
 
-    picojson::value toJSON(Core::FileSystem::FileType);
-    picojson::value toJSON(Core::FileSystem::DirectoryListSort);
-    picojson::value toJSON(const Core::FileSystem::FileInfo&);
+    rapidjson::Value toJSON(Core::FileSystem::FileType, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(Core::FileSystem::DirectoryListSort, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(const Core::FileSystem::FileInfo&, rapidjson::Document::AllocatorType&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value&, Core::FileSystem::FileType&);
+    void fromJSON(const rapidjson::Value&, Core::FileSystem::FileType&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value&, Core::FileSystem::DirectoryListSort&);
+    void fromJSON(const rapidjson::Value&, Core::FileSystem::DirectoryListSort&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value&, Core::FileSystem::FileInfo&);
+    void fromJSON(const rapidjson::Value&, Core::FileSystem::FileInfo&);
 
     std::ostream& operator << (std::ostream&, const Core::FileSystem::FileInfo&);
     

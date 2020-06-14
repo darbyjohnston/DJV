@@ -102,12 +102,12 @@ namespace djv
                 return checkExtension(std::string(fileInfo), _fileExtensions);
             }
 
-            picojson::value IPlugin::getOptions() const
+            rapidjson::Value IPlugin::getOptions(rapidjson::Document::AllocatorType&) const
             {
-                return picojson::value(std::string());
+                return rapidjson::Value();
             }
 
-            void IPlugin::setOptions(const picojson::value&)
+            void IPlugin::setOptions(const rapidjson::Value&)
             {
                 // Default implementation does nothing.
             }
@@ -189,18 +189,18 @@ namespace djv
                 return out;
             }
 
-            picojson::value System::getOptions(const std::string& pluginName) const
+            rapidjson::Value System::getOptions(const std::string& pluginName, rapidjson::Document::AllocatorType& allocator) const
             {
                 DJV_PRIVATE_PTR();
                 const auto i = p.plugins.find(pluginName);
                 if (i != p.plugins.end())
                 {
-                    return i->second->getOptions();
+                    return i->second->getOptions(allocator);
                 }
-                return picojson::value();
+                return rapidjson::Value();
             }
 
-            void System::setOptions(const std::string& pluginName, const picojson::value& value)
+            void System::setOptions(const std::string& pluginName, const rapidjson::Value& value)
             {
                 DJV_PRIVATE_PTR();
                 const auto i = p.plugins.find(pluginName);

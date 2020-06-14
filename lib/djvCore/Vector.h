@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvCore/PicoJSON.h>
+#include <djvCore/RapidJSON.h>
 
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
@@ -41,17 +41,17 @@ namespace djv
     template<typename T, glm::precision P = glm::defaultp>
     std::istream& operator >> (std::istream&, glm::tvec4<T, P>&);
 
-    picojson::value toJSON(const glm::ivec2&);
-    picojson::value toJSON(const glm::vec2&);
-    picojson::value toJSON(const glm::vec3&);
-    picojson::value toJSON(const glm::vec4&);
+    rapidjson::Value toJSON(const glm::ivec2&, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(const glm::vec2&, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(const glm::vec3&, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(const glm::vec4&, rapidjson::Document::AllocatorType&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value&, glm::ivec2&);
-    void fromJSON(const picojson::value&, glm::vec2&);
-    void fromJSON(const picojson::value&, glm::vec3&);
-    void fromJSON(const picojson::value&, glm::vec4&);
+    void fromJSON(const rapidjson::Value&, glm::ivec2&);
+    void fromJSON(const rapidjson::Value&, glm::vec2&);
+    void fromJSON(const rapidjson::Value&, glm::vec3&);
+    void fromJSON(const rapidjson::Value&, glm::vec4&);
 
 } // namespace djv
 

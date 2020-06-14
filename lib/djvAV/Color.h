@@ -6,7 +6,7 @@
 
 #include <djvAV/Pixel.h>
 
-#include <djvCore/PicoJSON.h>
+#include <djvCore/RapidJSON.h>
 
 namespace djv
 {
@@ -74,11 +74,11 @@ namespace djv
     //! - std::exception
     std::istream& operator >> (std::istream&, AV::Image::Color&);
 
-    picojson::value toJSON(const AV::Image::Color&);
+    rapidjson::Value toJSON(const AV::Image::Color&, rapidjson::Document::AllocatorType&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value&, AV::Image::Color&);
+    void fromJSON(const rapidjson::Value&, AV::Image::Color&);
 
 } // namespace djv
 

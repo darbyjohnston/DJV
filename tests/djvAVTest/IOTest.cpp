@@ -379,10 +379,12 @@ namespace djv
                     });
                 for (const auto& i : pluginNames)
                 {
-                    auto json = io->getOptions(i);
+                    rapidjson::Document document;
+                    auto& allocator = document.GetAllocator();
+                    auto json = io->getOptions(i, allocator);
                     try
                     {
-                        io->setOptions(i, picojson::value());
+                        io->setOptions(i, rapidjson::Value());
                     }
                     catch (const std::exception&)
                     {}

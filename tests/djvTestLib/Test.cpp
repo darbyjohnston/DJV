@@ -7,6 +7,8 @@
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
 
+#include <iostream>
+
 namespace djv
 {
     namespace Test

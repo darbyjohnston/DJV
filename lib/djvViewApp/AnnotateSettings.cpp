@@ -7,7 +7,7 @@
 #include <djvAV/Color.h>
 
 // These need to be included last on OSX.
-#include <djvCore/PicoJSONTemplates.h>
+#include <djvCore/RapidJSONTemplates.h>
 #include <djvUI/ISettingsTemplates.h>
 
 using namespace djv::Core;
@@ -108,30 +108,28 @@ namespace djv
             _p->widgetGeom = value;
         }
 
-        void AnnotateSettings::load(const picojson::value & value)
+        void AnnotateSettings::load(const rapidjson::Value & value)
         {
-            if (value.is<picojson::object>())
+            if (value.IsObject())
             {
                 DJV_PRIVATE_PTR();
-                const auto & object = value.get<picojson::object>();
-                UI::Settings::read("Tool", object, p.tool);
-                UI::Settings::read("LineSize", object, p.lineSize);
-                UI::Settings::read("Colors", object, p.colors);
-                UI::Settings::read("CurrentColor", object, p.currentColor);
-                UI::Settings::read("WidgetGeom", object, p.widgetGeom);
+                UI::Settings::read("Tool", value, p.tool);
+                UI::Settings::read("LineSize", value, p.lineSize);
+                UI::Settings::read("Colors", value, p.colors);
+                UI::Settings::read("CurrentColor", value, p.currentColor);
+                UI::Settings::read("WidgetGeom", value, p.widgetGeom);
             }
         }
 
-        picojson::value AnnotateSettings::save()
+        rapidjson::Value AnnotateSettings::save(rapidjson::Document::AllocatorType& allocator)
         {
             DJV_PRIVATE_PTR();
-            picojson::value out(picojson::object_type, true);
-            auto & object = out.get<picojson::object>();
-            UI::Settings::write("Tool", p.tool->get(), object);
-            UI::Settings::write("LineSize", p.lineSize->get(), object);
-            UI::Settings::write("Colors", p.colors->get(), object);
-            UI::Settings::write("CurrentColor", p.currentColor->get(), object);
-            UI::Settings::write("WidgetGeom", p.widgetGeom, object);
+            rapidjson::Value out(rapidjson::kObjectType);
+            UI::Settings::write("Tool", p.tool->get(), out, allocator);
+            UI::Settings::write("LineSize", p.lineSize->get(), out, allocator);
+            UI::Settings::write("Colors", p.colors->get(), out, allocator);
+            UI::Settings::write("CurrentColor", p.currentColor->get(), out, allocator);
+            UI::Settings::write("WidgetGeom", p.widgetGeom, out, allocator);
             return out;
         }
 

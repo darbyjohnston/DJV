@@ -4,8 +4,12 @@
 
 #include <djvViewApp/ColorPickerSettings.h>
 
+#if defined(GetObject)
+#undef GetObject
+#endif // GetObject
+
 // These need to be included last on OSX.
-#include <djvCore/PicoJSONTemplates.h>
+#include <djvCore/RapidJSONTemplates.h>
 #include <djvUI/ISettingsTemplates.h>
 
 using namespace djv::Core;
@@ -104,32 +108,30 @@ namespace djv
             _p->widgetGeom = value;
         }
 
-        void ColorPickerSettings::load(const picojson::value & value)
+        void ColorPickerSettings::load(const rapidjson::Value & value)
         {
-            if (value.is<picojson::object>())
+            if (value.IsObject())
             {
                 DJV_PRIVATE_PTR();
-                const auto & object = value.get<picojson::object>();
-                UI::Settings::read("sampleSize", object, p.sampleSize);
-                UI::Settings::read("lockType", object, p.lockType);
-                UI::Settings::read("applyColorOperations", object, p.applyColorOperations);
-                UI::Settings::read("applyColorSpace", object, p.applyColorSpace);
-                UI::Settings::read("pickerPos", object, p.pickerPos);
-                UI::Settings::read("WidgetGeom", object, p.widgetGeom);
+                UI::Settings::read("sampleSize", value, p.sampleSize);
+                UI::Settings::read("lockType", value, p.lockType);
+                UI::Settings::read("applyColorOperations", value, p.applyColorOperations);
+                UI::Settings::read("applyColorSpace", value, p.applyColorSpace);
+                UI::Settings::read("pickerPos", value, p.pickerPos);
+                UI::Settings::read("WidgetGeom", value, p.widgetGeom);
             }
         }
 
-        picojson::value ColorPickerSettings::save()
+        rapidjson::Value ColorPickerSettings::save(rapidjson::Document::AllocatorType& allocator)
         {
             DJV_PRIVATE_PTR();
-            picojson::value out(picojson::object_type, true);
-            auto & object = out.get<picojson::object>();
-            UI::Settings::write("sampleSize", p.sampleSize, object);
-            UI::Settings::write("lockType", p.lockType, object);
-            UI::Settings::write("applyColorOperations", p.applyColorOperations, object);
-            UI::Settings::write("applyColorSpace", p.applyColorSpace, object);
-            UI::Settings::write("pickerPos", p.pickerPos, object);
-            UI::Settings::write("WidgetGeom", p.widgetGeom, object);
+            rapidjson::Value out(rapidjson::kObjectType);
+            UI::Settings::write("sampleSize", p.sampleSize, out, allocator);
+            UI::Settings::write("lockType", p.lockType, out, allocator);
+            UI::Settings::write("applyColorOperations", p.applyColorOperations, out, allocator);
+            UI::Settings::write("applyColorSpace", p.applyColorSpace, out, allocator);
+            UI::Settings::write("pickerPos", p.pickerPos, out, allocator);
+            UI::Settings::write("WidgetGeom", p.widgetGeom, out, allocator);
             return out;
         }
 

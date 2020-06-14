@@ -46,11 +46,11 @@ set(header
     OS.h
     Path.h
     PathInline.h
-    PicoJSON.h
-    PicoJSONTemplates.h
-    PicoJSONTemplatesInline.h
     Range.h
     RangeInline.h
+    RapidJSON.h
+    RapidJSONTemplates.h
+    RapidJSONTemplatesInline.h
     Rational.h
     RationalInline.h
     Ray.h
@@ -97,11 +97,11 @@ set(source
     Memory.cpp
     NumericValueModels.cpp
     OS.cpp
+    RapidJSON.cpp
     Rational.cpp
     RecentFilesModel.cpp
     ResourceSystem.cpp
     Path.cpp
-    PicoJSON.cpp
     Speed.cpp
     String.cpp
     StringFormat.cpp
@@ -139,7 +139,7 @@ endif()
 add_library(djvCore ${header} ${source})
 set(LIBRARIES
     GLM
-    PicoJSON
+    RapidJSON
     FSeq
     Threads::Threads
     ${CMAKE_DL_LIBS})

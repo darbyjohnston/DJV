@@ -7,7 +7,7 @@
 #include <djvAV/Pixel.h>
 
 #include <djvCore/Memory.h>
-#include <djvCore/PicoJSON.h>
+#include <djvCore/RapidJSON.h>
 #include <djvCore/UID.h>
 
 #include <memory>
@@ -175,11 +175,11 @@ namespace djv
     //! - std::exception
     std::istream& operator >> (std::istream&, AV::Image::Size&);
 
-    picojson::value toJSON(const AV::Image::Size&);
+    rapidjson::Value toJSON(const AV::Image::Size&, rapidjson::Document::AllocatorType&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value&, AV::Image::Size&);
+    void fromJSON(const rapidjson::Value&, AV::Image::Size&);
 
 } // namespace djv
 

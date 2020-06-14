@@ -185,7 +185,9 @@ namespace djv
         {
             {
                 OCIO::Config config = createConfig();
-                auto json = toJSON(config);
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(config, allocator);
                 OCIO::Config config2;
                 fromJSON(json, config2);
                 DJV_ASSERT(config == config2);
@@ -193,7 +195,7 @@ namespace djv
 
             try
             {
-                auto json = picojson::value(picojson::string_type, true);
+                auto json = rapidjson::Value();
                 OCIO::Config config;
                 fromJSON(json, config);
                 DJV_ASSERT(false);

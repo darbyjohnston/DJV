@@ -401,12 +401,12 @@ namespace djv
                     return out;
                 }
 
-                picojson::value Plugin::getOptions() const
+                rapidjson::Value Plugin::getOptions(rapidjson::Document::AllocatorType& allocator) const
                 {
-                    return toJSON(_p->options);
+                    return toJSON(_p->options, allocator);
                 }
 
-                void Plugin::setOptions(const picojson::value& value)
+                void Plugin::setOptions(const rapidjson::Value& value)
                 {
                     fromJSON(value, _p->options);
                 }
@@ -420,17 +420,17 @@ namespace djv
         } // namespace IO
     } // namespace Scene
     
-    picojson::value toJSON(const Scene::IO::OBJ::Options& value)
+    rapidjson::Value toJSON(const Scene::IO::OBJ::Options& value, rapidjson::Document::AllocatorType&)
     {
-        picojson::value out(picojson::object_type, true);
+        rapidjson::Value out(rapidjson::kObjectType);
         {
         }
         return out;
     }
 
-    void fromJSON(const picojson::value& value, Scene::IO::OBJ::Options& out)
+    void fromJSON(const rapidjson::Value& value, Scene::IO::OBJ::Options& out)
     {
-        if (value.is<picojson::object>())
+        if (value.IsObject())
         {
         }
         else

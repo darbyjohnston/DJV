@@ -10,10 +10,10 @@ namespace djv
 {
     namespace CoreTest
     {
-        class PicoJSONTest : public Test::ITest
+        class RapidJSONTest : public Test::ITest
         {
         public:
-            PicoJSONTest(const std::shared_ptr<Core::Context>&);
+            RapidJSONTest(const std::shared_ptr<Core::Context>&);
             
             void run() override;
         

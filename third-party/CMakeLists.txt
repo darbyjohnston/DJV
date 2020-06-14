@@ -40,7 +40,7 @@ set(DJV_THIRD_PARTY_REQUIRED_DEPS
     FSeq
     GLM
     GLFW
-    PicoJSON
+    RapidJSON
     #OpenAL
     RtAudio
     IlmBase

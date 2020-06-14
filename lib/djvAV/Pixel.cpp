@@ -588,18 +588,19 @@ namespace djv
         DJV_TEXT("av_data_type_f16"),
         DJV_TEXT("av_data_type_f32"));
 
-    picojson::value toJSON(AV::Image::Type value)
+    rapidjson::Value toJSON(AV::Image::Type value, rapidjson::Document::AllocatorType& allocator)
     {
         std::stringstream ss;
         ss << value;
-        return picojson::value(ss.str());
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
     }
 
-    void fromJSON(const picojson::value& value, AV::Image::Type& out)
+    void fromJSON(const rapidjson::Value& value, AV::Image::Type& out)
     {
-        if (value.is<std::string>())
+        if (value.IsString())
         {
-            std::stringstream ss(value.get<std::string>());
+            std::stringstream ss(value.GetString());
             ss >> out;
         }
         else

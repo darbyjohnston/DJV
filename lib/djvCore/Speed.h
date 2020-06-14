@@ -58,10 +58,10 @@ namespace djv
 
     DJV_ENUM_SERIALIZE_HELPERS(Core::Time::FPS);
 
-    picojson::value toJSON(Core::Time::FPS);
+    rapidjson::Value toJSON(Core::Time::FPS, rapidjson::Document::AllocatorType&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value&, Core::Time::FPS&);
+    void fromJSON(const rapidjson::Value&, Core::Time::FPS&);
 
 } // namespace djv

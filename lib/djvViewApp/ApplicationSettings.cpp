@@ -7,7 +7,7 @@
 #include <djvCore/Context.h>
 
 // These need to be included last on OSX.
-#include <djvCore/PicoJSONTemplates.h>
+#include <djvCore/RapidJSONTemplates.h>
 #include <djvUI/ISettingsTemplates.h>
 
 using namespace djv::Core;
@@ -51,22 +51,20 @@ namespace djv
             _p->settingsBellows->setIfChanged(value);
         }
 
-        void ApplicationSettings::load(const picojson::value & value)
+        void ApplicationSettings::load(const rapidjson::Value & value)
         {
-            if (value.is<picojson::object>())
+            if (value.IsObject())
             {
                 DJV_PRIVATE_PTR();
-                const auto & object = value.get<picojson::object>();
-                UI::Settings::read("SettingsBellows", object, p.settingsBellows);
+                UI::Settings::read("SettingsBellows", value, p.settingsBellows);
             }
         }
 
-        picojson::value ApplicationSettings::save()
+        rapidjson::Value ApplicationSettings::save(rapidjson::Document::AllocatorType& allocator)
         {
             DJV_PRIVATE_PTR();
-            picojson::value out(picojson::object_type, true);
-            auto & object = out.get<picojson::object>();
-            UI::Settings::write("SettingsBellows", p.settingsBellows->get(), object);
+            rapidjson::Value out(rapidjson::kObjectType);
+            UI::Settings::write("SettingsBellows", p.settingsBellows->get(), out, allocator);
             return out;
         }
 

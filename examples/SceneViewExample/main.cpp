@@ -6,6 +6,8 @@
 
 #include <djvCore/Error.h>
 
+#include <iostream>
+
 using namespace djv;
 
 int main(int argc, char ** argv)

@@ -274,7 +274,9 @@ namespace djv
         {
             {
                 const Image::Size value(1, 2);
-                auto json = toJSON(value);
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(value, allocator);
                 Image::Size value2;
                 fromJSON(json, value2);
                 DJV_ASSERT(value == value2);
@@ -282,7 +284,7 @@ namespace djv
 
             try
             {
-                auto json = picojson::value(picojson::object_type, true);
+                auto json = rapidjson::Value(rapidjson::kObjectType);
                 Image::Size b;
                 fromJSON(json, b);
                 DJV_ASSERT(false);

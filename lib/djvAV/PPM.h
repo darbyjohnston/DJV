@@ -125,8 +125,8 @@ namespace djv
                 public:
                     static std::shared_ptr<Plugin> create(const std::shared_ptr<Core::Context>&);
 
-                    picojson::value getOptions() const override;
-                    void setOptions(const picojson::value &) override;
+                    rapidjson::Value getOptions(rapidjson::Document::AllocatorType&) const override;
+                    void setOptions(const rapidjson::Value &) override;
 
                     std::shared_ptr<IRead> read(const Core::FileSystem::FileInfo&, const ReadOptions&) const override;
                     std::shared_ptr<IWrite> write(const Core::FileSystem::FileInfo&, const Info &, const WriteOptions&) const override;
@@ -141,10 +141,10 @@ namespace djv
 
     DJV_ENUM_SERIALIZE_HELPERS(AV::IO::PPM::Data);
     
-    picojson::value toJSON(const AV::IO::PPM::Options &);
+    rapidjson::Value toJSON(const AV::IO::PPM::Options&, rapidjson::Document::AllocatorType&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value &, AV::IO::PPM::Options &);
+    void fromJSON(const rapidjson::Value &, AV::IO::PPM::Options &);
 
 } // namespace djv

@@ -6,8 +6,8 @@
 
 #include <djvCore/ISystem.h>
 
-#include <djvCore/PicoJSON.h>
 #include <djvCore/Path.h>
+#include <djvCore/RapidJSON.h>
 
 namespace djv
 {
@@ -46,11 +46,11 @@ namespace djv
                 void _loadSettings(const std::shared_ptr<ISettings> &);
                 void _saveSettings();
 
-                void _readSettingsFile(const Core::FileSystem::Path &, std::map<std::string, picojson::value> &);
-                void _writeSettingsFile(const Core::FileSystem::Path &, const picojson::value &);
+                void _readSettingsFile();
+                void _writeSettingsFile(const rapidjson::Document &);
 
                 bool _reset = false;
-                std::map<std::string, picojson::value> _json;
+                rapidjson::Document _document;
                 std::vector<std::shared_ptr<ISettings> > _settings;
                 Core::FileSystem::Path _settingsPath;
                 bool _settingsIO = true;

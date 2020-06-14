@@ -120,21 +120,21 @@ namespace djv
         return s;
     }
 
-    picojson::value toJSON(const Core::Frame::Sequence& value)
+    rapidjson::Value toJSON(const Core::Frame::Sequence& value, rapidjson::Document::AllocatorType& allocator)
     {
         std::stringstream ss;
         ss << value;
-        return picojson::value(ss.str());
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
     }
 
-    void fromJSON(const picojson::value& value, Core::Frame::Sequence& out)
+    void fromJSON(const rapidjson::Value& value, Core::Frame::Sequence& out)
     {
-        if (value.is<std::string>())
+        if (value.IsString())
         {
-            const auto& s = value.get<std::string>();
-            if (!s.empty())
+            if (const char* s = value.GetString())
             {
-                std::stringstream ss(value.get<std::string>());
+                std::stringstream ss(s);
                 ss >> out;
             }
             else

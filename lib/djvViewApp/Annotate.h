@@ -171,13 +171,13 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::AnnotateTool);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::AnnotateLineSize);
 
-    picojson::value toJSON(ViewApp::AnnotateTool);
-    picojson::value toJSON(ViewApp::AnnotateLineSize);
+    rapidjson::Value toJSON(ViewApp::AnnotateTool, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(ViewApp::AnnotateLineSize, rapidjson::Document::AllocatorType&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value&, ViewApp::AnnotateTool&);
-    void fromJSON(const picojson::value&, ViewApp::AnnotateLineSize&);
+    void fromJSON(const rapidjson::Value&, ViewApp::AnnotateTool&);
+    void fromJSON(const rapidjson::Value&, ViewApp::AnnotateLineSize&);
 
 } // namespace djv
 

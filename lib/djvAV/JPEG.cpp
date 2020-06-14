@@ -40,12 +40,12 @@ namespace djv
                     return out;
                 }
 
-                picojson::value Plugin::getOptions() const
+                rapidjson::Value Plugin::getOptions(rapidjson::Document::AllocatorType& allocator) const
                 {
-                    return toJSON(_p->options);
+                    return toJSON(_p->options, allocator);
                 }
 
-                void Plugin::setOptions(const picojson::value& value)
+                void Plugin::setOptions(const rapidjson::Value& value)
                 {
                     fromJSON(value, _p->options);
                 }
@@ -90,27 +90,24 @@ namespace djv
         } // namespace IO
     } // namespace AV
     
-    picojson::value toJSON(const AV::IO::JPEG::Options& value)
+    rapidjson::Value toJSON(const AV::IO::JPEG::Options& value, rapidjson::Document::AllocatorType& allocator)
     {
-        picojson::value out(picojson::object_type, true);
+        rapidjson::Value out(rapidjson::kObjectType);
         {
-            std::stringstream ss;
-            ss << value.quality;
-            out.get<picojson::object>()["Quality"] = picojson::value(ss.str());
+            out.AddMember("Quality", rapidjson::Value(value.quality), allocator);
         }
         return out;
     }
 
-    void fromJSON(const picojson::value& value, AV::IO::JPEG::Options& out)
+    void fromJSON(const rapidjson::Value& value, AV::IO::JPEG::Options& out)
     {
-        if (value.is<picojson::object>())
+        if (value.IsObject())
         {
-            for (const auto& i : value.get<picojson::object>())
+            for (const auto& i : value.GetObject())
             {
-                if ("Quality" == i.first)
+                if (0 == strcmp("Quality", i.name.GetString()) && i.value.IsInt())
                 {
-                    std::stringstream ss(i.second.get<std::string>());
-                    ss >> out.quality;
+                    out.quality = i.value.GetInt();
                 }
             }
         }

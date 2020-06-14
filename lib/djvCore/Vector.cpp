@@ -6,39 +6,43 @@
 
 namespace djv
 {
-    picojson::value toJSON(const glm::ivec2& value)
+    rapidjson::Value toJSON(const glm::ivec2& value, rapidjson::Document::AllocatorType& allocator)
     {
         std::stringstream ss;
         ss << value;
-        return picojson::value(ss.str());
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
     }
 
-    picojson::value toJSON(const glm::vec2& value)
+    rapidjson::Value toJSON(const glm::vec2& value, rapidjson::Document::AllocatorType& allocator)
     {
         std::stringstream ss;
         ss << value;
-        return picojson::value(ss.str());
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
     }
 
-    picojson::value toJSON(const glm::vec3& value)
+    rapidjson::Value toJSON(const glm::vec3& value, rapidjson::Document::AllocatorType& allocator)
     {
         std::stringstream ss;
         ss << value;
-        return picojson::value(ss.str());
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
     }
 
-    picojson::value toJSON(const glm::vec4& value)
+    rapidjson::Value toJSON(const glm::vec4& value, rapidjson::Document::AllocatorType& allocator)
     {
         std::stringstream ss;
         ss << value;
-        return picojson::value(ss.str());
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
     }
 
-    void fromJSON(const picojson::value& value, glm::ivec2& out)
+    void fromJSON(const rapidjson::Value& value, glm::ivec2& out)
     {
-        if (value.is<std::string>())
+        if (value.IsString())
         {
-            std::stringstream ss(value.get<std::string>());
+            std::stringstream ss(value.GetString());
             ss >> out;
         }
         else
@@ -48,11 +52,11 @@ namespace djv
         }
     }
 
-    void fromJSON(const picojson::value& value, glm::vec2& out)
+    void fromJSON(const rapidjson::Value& value, glm::vec2& out)
     {
-        if (value.is<std::string>())
+        if (value.IsString())
         {
-            std::stringstream ss(value.get<std::string>());
+            std::stringstream ss(value.GetString());
             ss >> out;
         }
         else
@@ -62,11 +66,11 @@ namespace djv
         }
     }
 
-    void fromJSON(const picojson::value& value, glm::vec3& out)
+    void fromJSON(const rapidjson::Value& value, glm::vec3& out)
     {
-        if (value.is<std::string>())
+        if (value.IsString())
         {
-            std::stringstream ss(value.get<std::string>());
+            std::stringstream ss(value.GetString());
             ss >> out;
         }
         else
@@ -76,11 +80,11 @@ namespace djv
         }
     }
 
-    void fromJSON(const picojson::value& value, glm::vec4& out)
+    void fromJSON(const rapidjson::Value& value, glm::vec4& out)
     {
-        if (value.is<std::string>())
+        if (value.IsString())
         {
-            std::stringstream ss(value.get<std::string>());
+            std::stringstream ss(value.GetString());
             ss >> out;
         }
         else

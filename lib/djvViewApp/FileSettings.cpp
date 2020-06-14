@@ -9,8 +9,12 @@
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
 
+#if defined(GetObject)
+#undef GetObject
+#endif // GetObject
+
 // These need to be included last on OSX.
-#include <djvCore/PicoJSONTemplates.h>
+#include <djvCore/RapidJSONTemplates.h>
 #include <djvUI/ISettingsTemplates.h>
 
 using namespace djv::Core;
@@ -153,15 +157,14 @@ namespace djv
             _p->widgetGeom = value;
         }
 
-        void FileSettings::load(const picojson::value & value)
+        void FileSettings::load(const rapidjson::Value & value)
         {
-            if (value.is<picojson::object>())
+            if (value.IsObject())
             {
                 DJV_PRIVATE_PTR();
-                const auto & object = value.get<picojson::object>();
-                UI::Settings::read("OpenMax", object, p.openMax);
+                UI::Settings::read("OpenMax", value, p.openMax);
                 std::vector< Core::FileSystem::FileInfo> recentFiles;
-                UI::Settings::read("RecentFiles", object, recentFiles);
+                UI::Settings::read("RecentFiles", value, recentFiles);
                 auto i = recentFiles.begin();
                 while (i != recentFiles.end())
                 {
@@ -175,28 +178,27 @@ namespace djv
                     }
                 }
                 p.recentFiles->setIfChanged(recentFiles);
-                UI::Settings::read("RecentFilesMax", object, p.recentFilesMax);
-                UI::Settings::read("AutoDetectSequences", object, p.autoDetectSequences);
-                UI::Settings::read("SequencesFirstFrame", object, p.sequencesFirstFrame);
-                UI::Settings::read("CacheEnabled", object, p.cacheEnabled);
-                UI::Settings::read("CacheMax", object, p.cacheMaxGB);
-                UI::Settings::read("WidgetGeom", object, p.widgetGeom);
+                UI::Settings::read("RecentFilesMax", value, p.recentFilesMax);
+                UI::Settings::read("AutoDetectSequences", value, p.autoDetectSequences);
+                UI::Settings::read("SequencesFirstFrame", value, p.sequencesFirstFrame);
+                UI::Settings::read("CacheEnabled", value, p.cacheEnabled);
+                UI::Settings::read("CacheMax", value, p.cacheMaxGB);
+                UI::Settings::read("WidgetGeom", value, p.widgetGeom);
             }
         }
 
-        picojson::value FileSettings::save()
+        rapidjson::Value FileSettings::save(rapidjson::Document::AllocatorType& allocator)
         {
             DJV_PRIVATE_PTR();
-            picojson::value out(picojson::object_type, true);
-            auto & object = out.get<picojson::object>();
-            UI::Settings::write("OpenMax", p.openMax->get(), object);
-            UI::Settings::write("RecentFiles", p.recentFiles->get(), object);
-            UI::Settings::write("RecentFilesMax", p.recentFilesMax->get(), object);
-            UI::Settings::write("AutoDetectSequences", p.autoDetectSequences->get(), object);
-            UI::Settings::write("SequencesFirstFrame", p.sequencesFirstFrame->get(), object);
-            UI::Settings::write("CacheEnabled", p.cacheEnabled->get(), object);
-            UI::Settings::write("CacheMax", p.cacheMaxGB->get(), object);
-            UI::Settings::write("WidgetGeom", p.widgetGeom, object);
+            rapidjson::Value out(rapidjson::kObjectType);
+            UI::Settings::write("OpenMax", p.openMax->get(), out, allocator);
+            UI::Settings::write("RecentFiles", p.recentFiles->get(), out, allocator);
+            UI::Settings::write("RecentFilesMax", p.recentFilesMax->get(), out, allocator);
+            UI::Settings::write("AutoDetectSequences", p.autoDetectSequences->get(), out, allocator);
+            UI::Settings::write("SequencesFirstFrame", p.sequencesFirstFrame->get(), out, allocator);
+            UI::Settings::write("CacheEnabled", p.cacheEnabled->get(), out, allocator);
+            UI::Settings::write("CacheMax", p.cacheMaxGB->get(), out, allocator);
+            UI::Settings::write("WidgetGeom", p.widgetGeom, out, allocator);
             return out;
         }
 

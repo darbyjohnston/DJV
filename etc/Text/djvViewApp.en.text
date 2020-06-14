@@ -59,6 +59,7 @@
     "about_third_party_opencolorio": "* OpenColorIO, http://opencolorio.org, Copyright (c) 2003-2010 Sony Pictures Imageworks Inc., et al., All rights reserved",
     "about_third_party_openexr": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd.",
     "about_third_party_opennurbs": "* openNURBS, https://www.rhino3d.com/opennurbs, Copyright (c) 1993-2018 Robert McNeel & Associates. All Rights Reserved",
+    "about_third_party_rapidjson": "* RapidJSON, https://rapidjson.org, Copyright (C) 2015 THL A29 Limited, a Tencent company, and Milo Yip. All rights reserved.",
     "about_third_party_rtaudio": "* RtAudio, https://www.music.mcgill.ca/~gary/rtaudio, Copyright (c) 2001-2019 Gary P. Scavone",
     "about_third_party_text": "This software is based in part on the works of (in alphabetical order):",
     "about_third_party_zlib": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler",

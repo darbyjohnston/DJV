@@ -173,7 +173,9 @@ namespace djv
             
             {
                 const Image::Color c(0, 1, 2, 3);
-                auto json = toJSON(c);
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(c, allocator);
                 Image::Color c2;
                 fromJSON(json, c2);
                 DJV_ASSERT(c == c2);
@@ -184,7 +186,9 @@ namespace djv
                 c.setU10(0, 0);
                 c.setU10(1, 1);
                 c.setU10(2, 2);
-                auto json = toJSON(c);
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(c, allocator);
                 Image::Color c2;
                 fromJSON(json, c2);
                 DJV_ASSERT(c == c2);
@@ -196,7 +200,9 @@ namespace djv
                 c.setU16(1, 1);
                 c.setU16(3, 2);
                 c.setU16(3, 3);
-                auto json = toJSON(c);
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(c, allocator);
                 Image::Color c2;
                 fromJSON(json, c2);
                 DJV_ASSERT(c == c2);
@@ -208,7 +214,9 @@ namespace djv
                 c.setU32(1, 1);
                 c.setU32(2, 2);
                 c.setU32(3, 3);
-                auto json = toJSON(c);
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(c, allocator);
                 Image::Color c2;
                 fromJSON(json, c2);
                 DJV_ASSERT(c == c2);
@@ -220,7 +228,9 @@ namespace djv
                 c.setF16(1.F, 1);
                 c.setF16(2.F, 2);
                 c.setF16(3.F, 3);
-                auto json = toJSON(c);
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(c, allocator);
                 Image::Color c2;
                 fromJSON(json, c2);
                 DJV_ASSERT(c == c2);
@@ -232,7 +242,9 @@ namespace djv
                 c.setF32(1.F, 1);
                 c.setF32(2.F, 2);
                 c.setF32(3.F, 3);
-                auto json = toJSON(c);
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(c, allocator);
                 Image::Color c2;
                 fromJSON(json, c2);
                 DJV_ASSERT(c == c2);
@@ -240,7 +252,7 @@ namespace djv
 
             try
             {
-                auto json = picojson::value(picojson::object_type, true);
+                auto json = rapidjson::Value(rapidjson::kObjectType);
                 Image::Color c;
                 fromJSON(json, c);
                 DJV_ASSERT(false);

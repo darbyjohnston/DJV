@@ -9,6 +9,8 @@
 #include <djvCore/BBox.h>
 #include <djvCore/ValueObserver.h>
 
+#include <map>
+
 namespace djv
 {
     namespace ViewApp
@@ -36,8 +38,8 @@ namespace djv
             const std::map<std::string, Core::BBox2f>& getWidgetGeom() const;
             void setWidgetGeom(const std::map<std::string, Core::BBox2f>&);
 
-            void load(const picojson::value &) override;
-            picojson::value save() override;
+            void load(const rapidjson::Value &) override;
+            rapidjson::Value save(rapidjson::Document::AllocatorType&) override;
 
         private:
             DJV_PRIVATE();

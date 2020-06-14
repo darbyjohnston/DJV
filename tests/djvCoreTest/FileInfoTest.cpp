@@ -263,7 +263,9 @@ namespace djv
         {
             for (const auto i : FileSystem::getFileTypeEnums())
             {
-                auto json = toJSON(i);
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(i, allocator);
                 FileSystem::FileType j = FileSystem::FileType::First;
                 fromJSON(json, j);
                 DJV_ASSERT(i == j);
@@ -271,7 +273,7 @@ namespace djv
 
             try
             {
-                auto json = picojson::value(picojson::object_type, true);
+                auto json = rapidjson::Value(rapidjson::kObjectType);
                 FileSystem::FileType t;
                 fromJSON(json, t);
                 DJV_ASSERT(false);
@@ -281,7 +283,9 @@ namespace djv
             
             for (const auto i : FileSystem::getDirectoryListSortEnums())
             {
-                auto json = toJSON(i);
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(i, allocator);
                 FileSystem::DirectoryListSort j = FileSystem::DirectoryListSort::First;
                 fromJSON(json, j);
                 DJV_ASSERT(i == j);
@@ -289,7 +293,7 @@ namespace djv
 
             try
             {
-                auto json = picojson::value(picojson::object_type, true);
+                auto json = rapidjson::Value(rapidjson::kObjectType);
                 FileSystem::DirectoryListSort t;
                 fromJSON(json, t);
                 DJV_ASSERT(false);
@@ -299,7 +303,9 @@ namespace djv
             
             {
                 const FileSystem::FileInfo fileInfo(_fileName);
-                auto json = toJSON(fileInfo);
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(fileInfo, allocator);
                 FileSystem::FileInfo fileInfo2;
                 fromJSON(json, fileInfo2);
                 DJV_ASSERT(fileInfo == fileInfo2);
@@ -307,7 +313,7 @@ namespace djv
 
             try
             {
-                auto json = picojson::value(picojson::string_type, true);
+                auto json = rapidjson::Value();
                 FileSystem::FileInfo fileInfo;
                 fromJSON(json, fileInfo);
                 DJV_ASSERT(false);

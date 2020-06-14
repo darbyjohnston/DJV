@@ -9,7 +9,7 @@
 #include <djvCore/Context.h>
 
 // These need to be included last on OSX.
-#include <djvCore/PicoJSONTemplates.h>
+#include <djvCore/RapidJSONTemplates.h>
 #include <djvUI/ISettingsTemplates.h>
 
 using namespace djv::Core;
@@ -60,23 +60,21 @@ namespace djv
                 }
             }
 
-            void UI::load(const picojson::value & value)
+            void UI::load(const rapidjson::Value & value)
             {
                 DJV_PRIVATE_PTR();
-                if (value.is<picojson::object>())
+                if (value.IsObject())
                 {
-                    const auto & object = value.get<picojson::object>();
-                    read("Tooltips", object, p.tooltips);
+                    read("Tooltips", value, p.tooltips);
                     Widget::setTooltipsEnabled(p.tooltips->get());
                 }
             }
 
-            picojson::value UI::save()
+            rapidjson::Value UI::save(rapidjson::Document::AllocatorType& allocator)
             {
                 DJV_PRIVATE_PTR();
-                picojson::value out(picojson::object_type, true);
-                auto & object = out.get<picojson::object>();
-                write("Tooltips", p.tooltips->get(), object);
+                rapidjson::Value out(rapidjson::kObjectType);
+                write("Tooltips", p.tooltips->get(), out, allocator);
                 return out;
             }
 

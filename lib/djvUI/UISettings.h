@@ -31,8 +31,8 @@ namespace djv
                 std::shared_ptr<Core::IValueSubject<bool> > observeTooltips() const;
                 void setTooltips(bool);
 
-                void load(const picojson::value &) override;
-                picojson::value save() override;
+                void load(const rapidjson::Value &) override;
+                rapidjson::Value save(rapidjson::Document::AllocatorType&) override;
 
             private:
                 DJV_PRIVATE();

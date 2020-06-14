@@ -5,7 +5,6 @@
 #pragma once
 
 #include <djvCore/Enum.h>
-#include <djvCore/PicoJSON.h>
 
 namespace djv
 {

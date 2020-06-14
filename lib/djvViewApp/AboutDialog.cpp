@@ -99,7 +99,7 @@ namespace djv
                 "ThirdParty5", "ThirdParty6", "ThirdParty7", "ThirdParty8",
                 "ThirdParty9", "ThirdParty10", "ThirdParty11", "ThirdParty12",
                 "ThirdParty13", "ThirdParty14", "ThirdParty15", "ThirdParty16",
-                "ThirdParty17", "ThirdParty18", "ThirdParty19"
+                "ThirdParty17", "ThirdParty18", "ThirdParty19", "ThirdParty20"
             };
             for (const auto& i : thirdPartyText)
             {
@@ -332,17 +332,21 @@ namespace djv
                 p.textBlocks["Credits10Text"]->setText(_getText(DJV_TEXT("about_credits_kimball_thurston_text")));
                 p.textBlocks["Credits11"]->setText(_getText(DJV_TEXT("about_credits_yushi_tone")));
                 p.textBlocks["Credits11Text"]->setText(_getText(DJV_TEXT("about_credits_yushi_tone_text")));
+
                 p.textBlocks["Sponsors1"]->setText(_getText(DJV_TEXT("about_sponsors_unexpected")));
+
                 p.textBlocks["License1"]->setText(_getText(DJV_TEXT("about_license_1")));
                 p.textBlocks["License2"]->setText(_getText(DJV_TEXT("about_license_2")));
                 p.textBlocks["License3"]->setText(_getText(DJV_TEXT("about_license_3")));
                 p.textBlocks["License4"]->setText(_getText(DJV_TEXT("about_license_4")));
                 p.textBlocks["License5"]->setText(_getText(DJV_TEXT("about_license_5")));
                 p.textBlocks["License6"]->setText(_getText(DJV_TEXT("about_license_6")));
+
                 p.textBlocks["CopyrightText"]->setText(_getText(DJV_TEXT("about_copyright_text")));
                 p.textBlocks["Copyright1"]->setText(_getText(DJV_TEXT("about_copyright_darby_johnston")));
                 p.textBlocks["Copyright2"]->setText(_getText(DJV_TEXT("about_copyright_kent_oberheu")));
                 p.textBlocks["Copyright3"]->setText(_getText(DJV_TEXT("about_copyright_mikael_sundell")));
+
                 p.textBlocks["ThirdPartyText"]->setText(_getText(DJV_TEXT("about_third_party_text")));
                 p.textBlocks["ThirdParty1"]->setText(_getText(DJV_TEXT("about_third_party_cmake")));
                 p.textBlocks["ThirdParty2"]->setText(_getText(DJV_TEXT("about_third_party_ffmpeg")));
@@ -362,7 +366,9 @@ namespace djv
                 p.textBlocks["ThirdParty16"]->setText(_getText(DJV_TEXT("about_third_party_libpng")));
                 p.textBlocks["ThirdParty17"]->setText(_getText(DJV_TEXT("about_third_party_libtiff")));
                 p.textBlocks["ThirdParty18"]->setText(_getText(DJV_TEXT("about_third_party_opennurbs")));
-                p.textBlocks["ThirdParty19"]->setText(_getText(DJV_TEXT("about_third_party_zlib")));
+                p.textBlocks["ThirdParty19"]->setText(_getText(DJV_TEXT("about_third_party_rapidjson")));
+                p.textBlocks["ThirdParty20"]->setText(_getText(DJV_TEXT("about_third_party_zlib")));
+
                 p.textBlocks["TrademarksText"]->setText(_getText(DJV_TEXT("about_trademarks_text")));
                 p.textBlocks["Trademarks1"]->setText(_getText(DJV_TEXT("about_trademarks_apple")));
                 p.textBlocks["Trademarks2"]->setText(_getText(DJV_TEXT("about_trademarks_amd")));

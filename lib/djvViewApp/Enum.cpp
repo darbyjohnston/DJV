@@ -114,60 +114,67 @@ namespace djv
         DJV_TEXT("playback_speed_120"),
         DJV_TEXT("playback_speed_240"));
 
-    picojson::value toJSON(ViewApp::ViewLock value)
+    rapidjson::Value toJSON(ViewApp::ViewLock value, rapidjson::Document::AllocatorType& allocator)
     {
         std::stringstream ss;
         ss << value;
-        return picojson::value(ss.str());
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
     }
 
-    picojson::value toJSON(ViewApp::GridLabels value)
+    rapidjson::Value toJSON(ViewApp::GridLabels value, rapidjson::Document::AllocatorType& allocator)
     {
         std::stringstream ss;
         ss << value;
-        return picojson::value(ss.str());
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
     }
 
-    picojson::value toJSON(ViewApp::HUDBackground value)
+    rapidjson::Value toJSON(ViewApp::HUDBackground value, rapidjson::Document::AllocatorType& allocator)
     {
         std::stringstream ss;
         ss << value;
-        return picojson::value(ss.str());
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
     }
 
-    picojson::value toJSON(ViewApp::ViewBackground value)
+    rapidjson::Value toJSON(ViewApp::ViewBackground value, rapidjson::Document::AllocatorType& allocator)
     {
         std::stringstream ss;
         ss << value;
-        return picojson::value(ss.str());
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
     }
 
-    picojson::value toJSON(ViewApp::ScrollWheelSpeed value)
+    rapidjson::Value toJSON(ViewApp::ScrollWheelSpeed value, rapidjson::Document::AllocatorType& allocator)
     {
         std::stringstream ss;
         ss << value;
-        return picojson::value(ss.str());
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
     }
 
-    picojson::value toJSON(ViewApp::PlaybackSpeed value)
+    rapidjson::Value toJSON(ViewApp::PlaybackSpeed value, rapidjson::Document::AllocatorType& allocator)
     {
         std::stringstream ss;
         ss << value;
-        return picojson::value(ss.str());
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
     }
 
-    picojson::value toJSON(ViewApp::PlaybackMode value)
+    rapidjson::Value toJSON(ViewApp::PlaybackMode value, rapidjson::Document::AllocatorType& allocator)
     {
         std::stringstream ss;
         ss << value;
-        return picojson::value(ss.str());
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
     }
 
-    void fromJSON(const picojson::value& value, ViewApp::ViewLock& out)
+    void fromJSON(const rapidjson::Value& value, ViewApp::ViewLock& out)
     {
-        if (value.is<std::string>())
+        if (value.IsString())
         {
-            std::stringstream ss(value.get<std::string>());
+            std::stringstream ss(value.GetString());
             ss >> out;
         }
         else
@@ -177,11 +184,11 @@ namespace djv
         }
     }
 
-    void fromJSON(const picojson::value& value, ViewApp::GridLabels& out)
+    void fromJSON(const rapidjson::Value& value, ViewApp::GridLabels& out)
     {
-        if (value.is<std::string>())
+        if (value.IsString())
         {
-            std::stringstream ss(value.get<std::string>());
+            std::stringstream ss(value.GetString());
             ss >> out;
         }
         else
@@ -191,11 +198,11 @@ namespace djv
         }
     }
 
-    void fromJSON(const picojson::value& value, ViewApp::HUDBackground& out)
+    void fromJSON(const rapidjson::Value& value, ViewApp::HUDBackground& out)
     {
-        if (value.is<std::string>())
+        if (value.IsString())
         {
-            std::stringstream ss(value.get<std::string>());
+            std::stringstream ss(value.GetString());
             ss >> out;
         }
         else
@@ -205,11 +212,11 @@ namespace djv
         }
     }
 
-    void fromJSON(const picojson::value& value, ViewApp::ViewBackground& out)
+    void fromJSON(const rapidjson::Value& value, ViewApp::ViewBackground& out)
     {
-        if (value.is<std::string>())
+        if (value.IsString())
         {
-            std::stringstream ss(value.get<std::string>());
+            std::stringstream ss(value.GetString());
             ss >> out;
         }
         else
@@ -219,11 +226,11 @@ namespace djv
         }
     }
 
-    void fromJSON(const picojson::value& value, ViewApp::ScrollWheelSpeed& out)
+    void fromJSON(const rapidjson::Value& value, ViewApp::ScrollWheelSpeed& out)
     {
-        if (value.is<std::string>())
+        if (value.IsString())
         {
-            std::stringstream ss(value.get<std::string>());
+            std::stringstream ss(value.GetString());
             ss >> out;
         }
         else
@@ -233,11 +240,11 @@ namespace djv
         }
     }
 
-    void fromJSON(const picojson::value& value, ViewApp::PlaybackSpeed& out)
+    void fromJSON(const rapidjson::Value& value, ViewApp::PlaybackSpeed& out)
     {
-        if (value.is<std::string>())
+        if (value.IsString())
         {
-            std::stringstream ss(value.get<std::string>());
+            std::stringstream ss(value.GetString());
             ss >> out;
         }
         else
@@ -247,11 +254,11 @@ namespace djv
         }
     }
 
-    void fromJSON(const picojson::value& value, ViewApp::PlaybackMode& out)
+    void fromJSON(const rapidjson::Value& value, ViewApp::PlaybackMode& out)
     {
-        if (value.is<std::string>())
+        if (value.IsString())
         {
-            std::stringstream ss(value.get<std::string>());
+            std::stringstream ss(value.GetString());
             ss >> out;
         }
         else
