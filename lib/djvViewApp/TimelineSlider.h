@@ -77,6 +77,7 @@ namespace djv
             Core::BBox2f _getHandleGeometry() const;
             void _textUpdate();
             void _currentFrameUpdate();
+            void _showPIP(bool);
 
             void _doCurrentFrameCallback();
             void _doCurrentFrameDragCallback(bool);

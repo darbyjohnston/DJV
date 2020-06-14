@@ -51,8 +51,8 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<PlaybackMode> > observePlaybackMode() const;
             void setPlaybackMode(PlaybackMode);
 
-            std::shared_ptr<Core::IValueSubject<bool> > observePIP() const;
-            void setPIP(bool);
+            std::shared_ptr<Core::IValueSubject<bool> > observePIPEnabled() const;
+            void setPIPEnabled(bool);
 
             void load(const rapidjson::Value &) override;
             rapidjson::Value save(rapidjson::Document::AllocatorType&) override;

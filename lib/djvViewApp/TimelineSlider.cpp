@@ -31,11 +31,6 @@ namespace djv
 {
     namespace ViewApp
     {
-        namespace
-        {
-
-        } // namespace
-
         struct TimelineSlider::Private
         {
             std::shared_ptr<AV::Font::System> fontSystem;
@@ -60,17 +55,18 @@ namespace djv
             float maxFrameLength = 0.F;
             std::future<glm::vec2> maxFrameSizeFuture;
             uint32_t pressedID = Event::invalidID;
-            bool pip = true;
+            glm::vec2 pointerReleasePos = glm::vec2(0.F, 0.F);
+            bool pipEnabled = true;
             Time::Units timeUnits = Time::Units::First;
             std::shared_ptr<TimelinePIPWidget> pipWidget;
-            std::shared_ptr<UI::Layout::Overlay> overlay;
+            std::shared_ptr<UI::Layout::Overlay> pipOverlay;
             std::function<void(Frame::Index)> currentFrameCallback;
             std::function<void(bool)> currentFrameDragCallback;
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
             std::shared_ptr<ValueObserver<Time::Speed> > speedObserver;
             std::shared_ptr<ValueObserver<Frame::Sequence> > sequenceObserver;
             std::shared_ptr<ValueObserver<Frame::Index> > currentFrameObserver;
-            std::shared_ptr<ValueObserver<bool> > pipObserver;
+            std::shared_ptr<ValueObserver<bool> > pipEnabledObserver;
             std::shared_ptr<ValueObserver<Time::Units> > timeUnitsObserver;
             glm::vec2 sizePrev = glm::vec2(0.F, 0.F);
             struct TimeTick
@@ -95,23 +91,24 @@ namespace djv
             p.fontSystem = context->getSystemT<AV::Font::System>();
 
             p.pipWidget = TimelinePIPWidget::create(context);
-            p.overlay = UI::Layout::Overlay::create(context);
-            p.overlay->setCaptureKeyboard(false);
-            p.overlay->setCapturePointer(false);
-            p.overlay->setBackgroundRole(UI::ColorRole::None);
-            p.overlay->addChild(p.pipWidget);
+            p.pipOverlay = UI::Layout::Overlay::create(context);
+            p.pipOverlay->setCaptureKeyboard(false);
+            p.pipOverlay->setCapturePointer(false);
+            p.pipOverlay->setBackgroundRole(UI::ColorRole::None);
+            p.pipOverlay->addChild(p.pipWidget);
+            p.pipOverlay->hide();
 
             auto weak = std::weak_ptr<TimelineSlider>(std::dynamic_pointer_cast<TimelineSlider>(shared_from_this()));
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
             if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
             {
-                p.pipObserver = ValueObserver<bool>::create(
-                    playbackSettings->observePIP(),
+                p.pipEnabledObserver = ValueObserver<bool>::create(
+                    playbackSettings->observePIPEnabled(),
                     [weak](bool value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->pip = value;
+                        widget->_p->pipEnabled = value;
                     }
                 });
             }
@@ -503,15 +500,10 @@ namespace djv
                 if (!event.isRejected())
                 {
                     event.accept();
-                    if (p.pip && isEnabled())
+                    if (p.pipEnabled && isEnabled())
                     {
                         p.pipWidget->setFileInfo(p.media->getFileInfo());
-                        if (auto window = getWindow())
-                        {
-                            window->addChild(p.overlay);
-                            p.overlay->moveToFront();
-                            p.overlay->show();
-                        }
+                        _showPIP(true);
                     }
                 }
             }
@@ -521,7 +513,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             event.accept();
-            p.overlay->hide();
+            _showPIP(false);
         }
 
         void TimelineSlider::_pointerMoveEvent(Event::PointerMove & event)
@@ -530,16 +522,17 @@ namespace djv
             event.accept();
             const auto & pos = event.getPointerInfo().projectedPos;
             const auto& style = _getStyle();
+            if (glm::length(pos - p.pointerReleasePos) > style->getMetric(UI::MetricsRole::Handle))
+            {
+                _showPIP(true);
+            }
             const BBox2f g = getMargin().bbox(getGeometry(), style);
             const Frame::Index frame = _posToFrame(static_cast<int>(pos.x - g.min.x));
-            if (p.pipWidget)
+            if (auto parent = getParentRecursiveT<MediaWidget>())
             {
-                if (auto parent = getParentRecursiveT<MediaWidget>())
-                {
-                    const auto& style = _getStyle();
-                    const float s = style->getMetric(UI::MetricsRole::Spacing);
-                    p.pipWidget->setPos(glm::vec2(pos.x, g.min.y - s), frame, parent->getGeometry().margin(-s));
-                }
+                const auto& style = _getStyle();
+                const float s = style->getMetric(UI::MetricsRole::Spacing);
+                p.pipWidget->setPos(glm::vec2(pos.x, g.min.y - s), frame, parent->getGeometry().margin(-s));
             }
             if (p.pressedID)
             {
@@ -554,14 +547,15 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.pressedID)
                 return;
+            event.accept();
             const auto id = event.getPointerInfo().id;
             const auto & pos = event.getPointerInfo().projectedPos;
             const auto& style = _getStyle();
             const BBox2f g = getMargin().bbox(getGeometry(), style);
-            event.accept();
             p.pressedID = id;
             p.currentFrame = _posToFrame(static_cast<int>(pos.x - g.min.x));
             _currentFrameUpdate();
+            _showPIP(true);
             _doCurrentFrameDragCallback(true);
             _doCurrentFrameCallback();
         }
@@ -573,7 +567,9 @@ namespace djv
                 return;
             event.accept();
             p.pressedID = Event::invalidID;
+            p.pointerReleasePos = event.getPointerInfo().projectedPos;
             _redraw();
+            _showPIP(false);
             _doCurrentFrameDragCallback(false);
         }
 
@@ -773,6 +769,27 @@ namespace djv
                 p.currentFrameText = Time::toString(p.sequence.getFrame(p.currentFrame), p.speed, p.timeUnits);
                 p.currentFrameSizeFuture = p.fontSystem->measure(p.currentFrameText, p.fontInfo);
                 p.currentFrameGlyphsFuture = p.fontSystem->getGlyphs(p.currentFrameText, p.fontInfo);
+            }
+        }
+
+        void TimelineSlider::_showPIP(bool value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value)
+            {
+                if (!p.pipOverlay->isVisible())
+                {
+                    if (auto window = getWindow())
+                    {
+                        window->addChild(p.pipOverlay);
+                        p.pipOverlay->moveToFront();
+                        p.pipOverlay->show();
+                    }
+                }
+            }
+            else
+            {
+                p.pipOverlay->hide();
             }
         }
 

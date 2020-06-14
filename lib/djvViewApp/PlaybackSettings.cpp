@@ -24,7 +24,7 @@ namespace djv
             std::shared_ptr<ValueSubject<Time::Speed> > customSpeed;
             std::shared_ptr<ValueSubject<bool> > playEveryFrame;
             std::shared_ptr<ValueSubject<PlaybackMode> > playbackMode;
-            std::shared_ptr<ValueSubject<bool> > pip;
+            std::shared_ptr<ValueSubject<bool> > pipEnabled;
         };
 
         void PlaybackSettings::_init(const std::shared_ptr<Core::Context>& context)
@@ -37,7 +37,7 @@ namespace djv
             p.customSpeed = ValueSubject<Time::Speed>::create(Time::Speed(1));
             p.playEveryFrame = ValueSubject<bool>::create(false);
             p.playbackMode = ValueSubject<PlaybackMode>::create(PlaybackMode::Loop);
-            p.pip = ValueSubject<bool>::create(true);
+            p.pipEnabled = ValueSubject<bool>::create(true);
             _load();
         }
 
@@ -102,14 +102,14 @@ namespace djv
             _p->playbackMode->setIfChanged(value);
         }
 
-        std::shared_ptr<IValueSubject<bool> > PlaybackSettings::observePIP() const
+        std::shared_ptr<IValueSubject<bool> > PlaybackSettings::observePIPEnabled() const
         {
-            return _p->pip;
+            return _p->pipEnabled;
         }
 
-        void PlaybackSettings::setPIP(bool value)
+        void PlaybackSettings::setPIPEnabled(bool value)
         {
-            _p->pip->setIfChanged(value);
+            _p->pipEnabled->setIfChanged(value);
         }
 
         void PlaybackSettings::load(const rapidjson::Value & value)
@@ -122,7 +122,7 @@ namespace djv
                 UI::Settings::read("CustomSpeed", value, p.customSpeed);
                 UI::Settings::read("PlayEveryFrame", value, p.playEveryFrame);
                 UI::Settings::read("PlaybackMode", value, p.playbackMode);
-                UI::Settings::read("PIP", value, p.pip);
+                UI::Settings::read("PIPEnabled", value, p.pipEnabled);
             }
         }
 
@@ -135,7 +135,7 @@ namespace djv
             UI::Settings::write("CustomSpeed", p.customSpeed->get(), out, allocator);
             UI::Settings::write("PlayEveryFrame", p.playEveryFrame->get(), out, allocator);
             UI::Settings::write("PlaybackMode", p.playbackMode->get(), out, allocator);
-            UI::Settings::write("PIP", p.pip->get(), out, allocator);
+            UI::Settings::write("PIPEnabled", p.pipEnabled->get(), out, allocator);
             return out;
         }
 

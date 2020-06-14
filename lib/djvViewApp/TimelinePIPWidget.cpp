@@ -190,7 +190,9 @@ namespace djv
         void TimelinePIPWidget::setImageOptions(const AV::Render2D::ImageOptions& value)
         {
             DJV_PRIVATE_PTR();
-            p.imageWidget->setImageOptions(value);
+            AV::Render2D::ImageOptions options = value;
+            options.alphaBlend = AV::AlphaBlend::Straight;
+            p.imageWidget->setImageOptions(options);
         }
 
         void TimelinePIPWidget::setImageRotate(UI::ImageRotate value)

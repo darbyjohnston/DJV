@@ -112,9 +112,9 @@ namespace djv
 
         struct TimelineSettingsWidget::Private
         {
-            std::shared_ptr<UI::CheckBox> pipButton;
+            std::shared_ptr<UI::CheckBox> pipEnabledButton;
             std::shared_ptr<UI::VerticalLayout> layout;
-            std::shared_ptr<ValueObserver<bool> > pipObserver;
+            std::shared_ptr<ValueObserver<bool> > pipEnabledObserver;
         };
 
         void TimelineSettingsWidget::_init(const std::shared_ptr<Context>& context)
@@ -124,15 +124,15 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::TimelineSettingsWidget");
 
-            p.pipButton = UI::CheckBox::create(context);
+            p.pipEnabledButton = UI::CheckBox::create(context);
 
             p.layout = UI::VerticalLayout::create(context);
-            p.layout->addChild(p.pipButton);
+            p.layout->addChild(p.pipEnabledButton);
             addChild(p.layout);
 
             auto weak = std::weak_ptr<TimelineSettingsWidget>(std::dynamic_pointer_cast<TimelineSettingsWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
-            p.pipButton->setCheckedCallback(
+            p.pipEnabledButton->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -142,7 +142,7 @@ namespace djv
                             auto settingsSystem = context->getSystemT<UI::Settings::System>();
                             if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
                             {
-                                playbackSettings->setPIP(value);
+                                playbackSettings->setPIPEnabled(value);
                             }
                         }
                     }
@@ -151,13 +151,13 @@ namespace djv
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
             if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
             {
-                p.pipObserver = ValueObserver<bool>::create(
-                    playbackSettings->observePIP(),
+                p.pipEnabledObserver = ValueObserver<bool>::create(
+                    playbackSettings->observePIPEnabled(),
                     [weak](bool value)
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->pipButton->setChecked(value);
+                            widget->_p->pipEnabledButton->setChecked(value);
                         }
                     });
             }
@@ -195,7 +195,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                p.pipButton->setText(_getText(DJV_TEXT("show_pip_picture_in_picture")));
+                p.pipEnabledButton->setText(_getText(DJV_TEXT("show_pip_picture_in_picture")));
             }
         }
 

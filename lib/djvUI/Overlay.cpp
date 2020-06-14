@@ -21,6 +21,13 @@ namespace djv
     {
         namespace Layout
         {
+            namespace
+            {
+                //! \todo Should this be configurable?
+                const size_t animationTime = 100;
+
+            } // namespace
+
             struct Overlay::Private
             {
                 bool capturePointer = true;
@@ -118,7 +125,7 @@ namespace djv
                         p.fadeAnimation->start(
                             getOpacity(),
                             1.F,
-                            std::chrono::milliseconds(100),
+                            std::chrono::milliseconds(animationTime),
                             [weak](float value)
                         {
                             if (auto widget = weak.lock())
