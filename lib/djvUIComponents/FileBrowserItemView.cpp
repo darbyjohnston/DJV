@@ -61,11 +61,9 @@ namespace djv
                 std::map<size_t, std::vector<std::shared_ptr<AV::Font::Glyph> > > timeGlyphs;
                 std::map<size_t, std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > > timeGlyphsFutures;
                 std::vector<float> split = { .7F, .8F, 1.F };
-                AV::AlphaBlend alphaBlend = AV::AlphaBlend::First;
                 AV::OCIO::Config ocioConfig;
                 std::string outputColorSpace;
 
-                std::shared_ptr<ValueObserver<AV::AlphaBlend> > alphaBlendObserver;
                 std::shared_ptr<ValueObserver<AV::OCIO::Config> > ocioConfigObserver;
 
                 size_t hover = invalid;
@@ -83,20 +81,8 @@ namespace djv
 
                 p.fontSystem = context->getSystemT<AV::Font::System>();
 
-                auto avSystem = context->getSystemT<AV::AVSystem>();
-                auto weak = std::weak_ptr<ItemView>(std::dynamic_pointer_cast<ItemView>(shared_from_this()));
-                p.alphaBlendObserver = ValueObserver<AV::AlphaBlend>::create(
-                    avSystem->observeAlphaBlend(),
-                    [weak](AV::AlphaBlend value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->alphaBlend = value;
-                            widget->_redraw();
-                        }
-                    });
-
                 auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                auto weak = std::weak_ptr<ItemView>(std::dynamic_pointer_cast<ItemView>(shared_from_this()));
                 auto contextWeak = std::weak_ptr<Context>(context);
                 p.ocioConfigObserver = ValueObserver<AV::OCIO::Config>::create(
                     ocioSystem->observeCurrentConfig(),
@@ -432,7 +418,6 @@ namespace djv
                                     }
                                     render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F, opacity));
                                     AV::Render2D::ImageOptions options;
-                                    options.alphaBlend = p.alphaBlend;
                                     auto l = p.ocioConfig.fileColorSpaces.find(j->second->getPluginName());
                                     if (l != p.ocioConfig.fileColorSpaces.end())
                                     {
