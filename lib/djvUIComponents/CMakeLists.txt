@@ -19,8 +19,8 @@ set(header
     StyleSettingsWidget.h
 	ThermometerWidget.h
 	TimeSettingsWidget.h
-    TooltipsSettingsWidget.h
-    UIComponentsSystem.h)
+    UIComponentsSystem.h
+    UISettingsWidget.h)
 set(source
     ColorPicker.cpp
     FileBrowser.cpp
@@ -46,8 +46,8 @@ set(source
     StyleSettingsWidget.cpp
 	ThermometerWidget.cpp
 	TimeSettingsWidget.cpp
-    TooltipsSettingsWidget.cpp
-    UIComponentsSystem.cpp)
+    UIComponentsSystem.cpp
+    UISettingsWidget.cpp)
 
 if(FFmpeg_FOUND)
     set(header

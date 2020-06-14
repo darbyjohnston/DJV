@@ -7,9 +7,12 @@
 #include <djvUI/Border.h>
 #include <djvUI/DrawUtil.h>
 #include <djvUI/GridLayout.h>
+#include <djvUI/SettingsSystem.h>
 #include <djvUI/StackLayout.h>
+#include <djvUI/UISettings.h>
 #include <djvUI/Window.h>
 
+#include <djvCore/Context.h>
 #include <djvCore/Math.h>
 
 #include <djvAV/Render2D.h>
@@ -602,7 +605,11 @@ namespace djv
             std::list<glm::vec2> pointerAverage;
             std::shared_ptr<Time::Timer> pointerAverageTimer;
             glm::vec2 swipeVelocity = glm::vec2(0.F, 0.F);
+            float swipeMult = 1.F;
             std::shared_ptr<Time::Timer> swipeTimer;
+            std::shared_ptr<ValueObserver<bool> > reverseScrollSwipeObserver;
+
+            void swipeVelocityUpdate(const Time::Duration&);
         };
 
         void ScrollWidget::_init(ScrollType scrollType, const std::shared_ptr<Context>& context)
@@ -698,6 +705,18 @@ namespace djv
                 }
             });
 
+            auto settingsSystem = context->getSystemT<Settings::System>();
+            auto uiSettings = settingsSystem->getSettingsT<Settings::UI>();
+            p.reverseScrollSwipeObserver = ValueObserver<bool>::create(
+                uiSettings->observeReverseScrolling(),
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->swipeMult = value ? -1.F : 1.F;
+                    }
+                });
+
             p.pointerAverageTimer = Time::Timer::create(context);
             p.pointerAverageTimer->setRepeating(true);
             p.pointerAverageTimer->start(
@@ -732,44 +751,11 @@ namespace djv
             p.swipeTimer->setRepeating(true);
             p.swipeTimer->start(
                 Time::getTime(Time::TimerValue::Fast),
-                [weak](const std::chrono::steady_clock::time_point&, const Time::Duration& value)
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Duration& duration)
             {
                 if (auto widget = weak.lock())
                 {
-                    const glm::vec2 & pos = widget->_p->scrollArea->getScrollPos();
-                    glm::vec2 scrollPos(ceilf(pos.x + widget->_p->swipeVelocity.x), ceilf(pos.y + widget->_p->swipeVelocity.y));
-                    if (widget->_p->scrollArea->setScrollPos(scrollPos))
-                    {
-                        const float mult = value.count() / static_cast<float>(Time::getTime(Time::TimerValue::Fast).count());
-                        const float decay = velocityDecay * mult;
-                        if (widget->_p->swipeVelocity.x > 0.F)
-                        {
-                            widget->_p->swipeVelocity.x -= decay;
-                        }
-                        else if (widget->_p->swipeVelocity.x < 0.F)
-                        {
-                            widget->_p->swipeVelocity.x += decay;
-                        }
-                        if (widget->_p->swipeVelocity.y > 0.F)
-                        {
-                            widget->_p->swipeVelocity.y -= decay;
-                        }
-                        else if (widget->_p->swipeVelocity.y < 0.F)
-                        {
-                            widget->_p->swipeVelocity.y += decay;
-                        }
-                        const float v = glm::length(widget->_p->swipeVelocity);
-                        widget->_p->scrollAreaSwipe->setVisible(v > 1.F);
-                        if (v < 1.F)
-                        {
-                            widget->_p->swipeVelocity = glm::vec2(0.F, 0.F);
-                        }
-                    }
-                    else
-                    {
-                        widget->_p->scrollAreaSwipe->hide();
-                        widget->_p->swipeVelocity = glm::vec2(0.F, 0.F);
-                    }
+                    widget->_p->swipeVelocityUpdate(duration);
                 }
             });
         }
@@ -1065,7 +1051,7 @@ namespace djv
                     const glm::vec2 & pos = pointerEvent.getPointerInfo().projectedPos;
                     if (pos != p.pointerPos)
                     {
-                        const glm::vec2 delta = pos - p.pointerPos;
+                        const glm::vec2 delta = (pos - p.pointerPos) * p.swipeMult;
                         p.pointerPos = pos;
                         _addPointerSample(delta);
                         p.scrollArea->setScrollPos(p.scrollArea->getScrollPos() + delta);
@@ -1198,6 +1184,46 @@ namespace djv
                 out /= static_cast<float>(p.pointerAverage.size());
             }
             return out;
+        }
+
+        void ScrollWidget::Private::swipeVelocityUpdate(const Time::Duration& duration)
+        {
+            const glm::vec2& pos = scrollArea->getScrollPos();
+            const glm::vec2 scrollPos(
+                ceilf(pos.x + swipeVelocity.x),
+                ceilf(pos.y + swipeVelocity.y));
+            if (scrollArea->setScrollPos(scrollPos))
+            {
+                const float mult = duration.count() / static_cast<float>(Time::getTime(Time::TimerValue::Fast).count());
+                const float decay = velocityDecay * mult;
+                if (swipeVelocity.x > 0.F)
+                {
+                    swipeVelocity.x -= decay;
+                }
+                else if (swipeVelocity.x < 0.F)
+                {
+                    swipeVelocity.x += decay;
+                }
+                if (swipeVelocity.y > 0.F)
+                {
+                    swipeVelocity.y -= decay;
+                }
+                else if (swipeVelocity.y < 0.F)
+                {
+                    swipeVelocity.y += decay;
+                }
+                const float v = glm::length(swipeVelocity);
+                scrollAreaSwipe->setVisible(v > 1.F);
+                if (v < 1.F)
+                {
+                    swipeVelocity = glm::vec2(0.F, 0.F);
+                }
+            }
+            else
+            {
+                scrollAreaSwipe->hide();
+                swipeVelocity = glm::vec2(0.F, 0.F);
+            }
         }
 
     } // namespace UI    

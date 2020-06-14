@@ -23,6 +23,7 @@ namespace djv
             struct UI::Private
             {
                 std::shared_ptr<ValueSubject<bool> > tooltips;
+                std::shared_ptr<ValueSubject<bool> > reverseScrolling;
             };
 
             void UI::_init(const std::shared_ptr<Core::Context>& context)
@@ -30,6 +31,7 @@ namespace djv
                 ISettings::_init("djv::UI::Settings::UI", context);
                 DJV_PRIVATE_PTR();
                 p.tooltips = ValueSubject<bool>::create(true);
+                p.reverseScrolling = ValueSubject<bool>::create(false);
                 _load();
             }
 
@@ -60,6 +62,16 @@ namespace djv
                 }
             }
 
+            std::shared_ptr<IValueSubject<bool> > UI::observeReverseScrolling() const
+            {
+                return _p->reverseScrolling;
+            }
+
+            void UI::setReverseScrolling(bool value)
+            {
+                _p->reverseScrolling->setIfChanged(value);
+            }
+
             void UI::load(const rapidjson::Value & value)
             {
                 DJV_PRIVATE_PTR();
@@ -67,6 +79,7 @@ namespace djv
                 {
                     read("Tooltips", value, p.tooltips);
                     Widget::setTooltipsEnabled(p.tooltips->get());
+                    read("ReverseScrolling", value, p.reverseScrolling);
                 }
             }
 
@@ -75,6 +88,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 rapidjson::Value out(rapidjson::kObjectType);
                 write("Tooltips", p.tooltips->get(), out, allocator);
+                write("ReverseScrolling", p.reverseScrolling->get(), out, allocator);
                 return out;
             }
 

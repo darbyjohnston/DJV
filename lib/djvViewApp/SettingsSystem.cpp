@@ -17,7 +17,7 @@
 #include <djvUIComponents/Render2DSettingsWidget.h>
 #include <djvUIComponents/StyleSettingsWidget.h>
 #include <djvUIComponents/TimeSettingsWidget.h>
-#include <djvUIComponents/TooltipsSettingsWidget.h>
+#include <djvUIComponents/UISettingsWidget.h>
 #if defined(JPEG_FOUND)
 #include <djvUIComponents/JPEGSettingsWidget.h>
 #endif
@@ -87,6 +87,7 @@ namespace djv
                     UI::Render2DTextSettingsWidget::create(context),
                     UI::TimeSettingsWidget::create(context),
                     UI::TooltipsSettingsWidget::create(context),
+                    UI::ScrollSettingsWidget::create(context),
                     UI::IOThreadsSettingsWidget::create(context),
                     UI::PPMSettingsWidget::create(context),
                     UI::PPMSettingsWidget::create(context),
