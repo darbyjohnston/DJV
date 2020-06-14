@@ -26,11 +26,11 @@ namespace djv
 
             static std::shared_ptr<PopupMenu> create(const std::shared_ptr<Core::Context>&);
 
-            void setMenu(const std::shared_ptr<Menu> &);
+            void setMenu(const std::shared_ptr<Menu>&);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
 
         private:
             DJV_PRIVATE();

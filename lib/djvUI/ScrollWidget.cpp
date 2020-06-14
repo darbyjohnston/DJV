@@ -378,28 +378,28 @@ namespace djv
                 ScrollType getScrollType() const { return _scrollType; }
                 void setScrollType(ScrollType);
 
-                const glm::vec2 & getContentsSize() const { return _contentsSize; }
-                void setContentsSizeCallback(const std::function<void(const glm::vec2 &)> &);
+                const glm::vec2& getContentsSize() const { return _contentsSize; }
+                void setContentsSizeCallback(const std::function<void(const glm::vec2&)>&);
 
-                const glm::vec2 & getScrollPos() const { return _scrollPos; }
-                bool setScrollPos(const glm::vec2 &);
-                void setScrollPosCallback(const std::function<void(const glm::vec2 &)> &);
+                const glm::vec2& getScrollPos() const { return _scrollPos; }
+                bool setScrollPos(const glm::vec2&);
+                void setScrollPosCallback(const std::function<void(const glm::vec2&)>&);
 
                 MetricsRole getMinimumSizeRole() const { return _minimumSizeRole; }
                 void setMinimumSizeRole(MetricsRole);
 
             protected:
-                void _preLayoutEvent(Event::PreLayout &) override;
-                void _layoutEvent(Event::Layout &) override;
+                void _preLayoutEvent(Event::PreLayout&) override;
+                void _layoutEvent(Event::Layout&) override;
 
             private:
                 void _doScrollPosCallback();
 
                 ScrollType _scrollType = ScrollType::Both;
                 glm::vec2 _contentsSize = glm::vec2(0.F, 0.F);
-                std::function<void(const glm::vec2 &)> _contentsSizeCallback;
+                std::function<void(const glm::vec2&)> _contentsSizeCallback;
                 glm::vec2 _scrollPos = glm::vec2(0.F, 0.F);
-                std::function<void(const glm::vec2 &)> _scrollPosCallback;
+                std::function<void(const glm::vec2&)> _scrollPosCallback;
                 MetricsRole _minimumSizeRole = MetricsRole::ScrollArea;
             };
 
@@ -425,14 +425,14 @@ namespace djv
                 _resize();
             }
 
-            void ScrollArea::setContentsSizeCallback(const std::function<void(const glm::vec2 &)> & callback)
+            void ScrollArea::setContentsSizeCallback(const std::function<void(const glm::vec2&)>& callback)
             {
                 _contentsSizeCallback = callback;
             }
 
-            bool ScrollArea::setScrollPos(const glm::vec2 & value)
+            bool ScrollArea::setScrollPos(const glm::vec2& value)
             {
-                const BBox2f & g = getGeometry();
+                const BBox2f& g = getGeometry();
                 const glm::vec2 tmp(
                     floorf(Math::clamp(value.x, 0.F, _contentsSize.x - g.w())),
                     floorf(Math::clamp(value.y, 0.F, _contentsSize.y - g.h())));
@@ -444,7 +444,7 @@ namespace djv
                 return true;
             }
 
-            void ScrollArea::setScrollPosCallback(const std::function<void(const glm::vec2 &)> & callback)
+            void ScrollArea::setScrollPosCallback(const std::function<void(const glm::vec2&)>& callback)
             {
                 _scrollPosCallback = callback;
             }
@@ -457,10 +457,10 @@ namespace djv
                 _resize();
             }
 
-            void ScrollArea::_preLayoutEvent(Event::PreLayout &)
+            void ScrollArea::_preLayoutEvent(Event::PreLayout&)
             {
                 glm::vec2 childrenMinimumSize = glm::vec2(0.F, 0.F);
-                for (const auto & child : getChildWidgets())
+                for (const auto& child : getChildWidgets())
                 {
                     if (child->isVisible())
                     {
@@ -501,19 +501,19 @@ namespace djv
                 _setMinimumSize(size);
             }
 
-            void ScrollArea::_layoutEvent(Event::Layout & event)
+            void ScrollArea::_layoutEvent(Event::Layout& event)
             {
-                const BBox2f & g = getGeometry();
+                const BBox2f& g = getGeometry();
                 const float gw = g.w();
                 const float gh = g.h();
 
                 // Update the contents size.
                 glm::vec2 contentsSize = glm::vec2(0.F, 0.F);
-                for (const auto & child : getChildWidgets())
+                for (const auto& child : getChildWidgets())
                 {
                     if (child->isVisible())
                     {
-                        const auto & ms = child->getMinimumSize();
+                        const auto& ms = child->getMinimumSize();
                         switch (_scrollType)
                         {
                         case ScrollType::Both:
@@ -564,7 +564,7 @@ namespace djv
                 // Update the child geometry.
                 glm::vec2 pos = g.min;
                 pos -= _scrollPos;
-                for (const auto & child : getChildWidgets())
+                for (const auto& child : getChildWidgets())
                 {
                     switch (_scrollType)
                     {
@@ -653,15 +653,15 @@ namespace djv
 
             auto weak = std::weak_ptr<ScrollWidget>(std::dynamic_pointer_cast<ScrollWidget>(shared_from_this()));
             p.scrollArea->setScrollPosCallback(
-                [weak](const glm::vec2 & value)
+                [weak](const glm::vec2& value)
             {
                 if (auto widget = weak.lock())
                 {
                     widget->_p->scrollBars[Orientation::Horizontal]->setScrollPos(value.x);
                     widget->_p->scrollBars[Orientation::Vertical]->setScrollPos(value.y);
 
-                    const BBox2f & g = widget->_p->scrollArea->getGeometry();
-                    const glm::vec2 & contentsSize = widget->_p->scrollArea->getContentsSize();
+                    const BBox2f& g = widget->_p->scrollArea->getGeometry();
+                    const glm::vec2& contentsSize = widget->_p->scrollArea->getContentsSize();
                     if (value.x <= 0.F || value.x >= contentsSize.x - g.w())
                     {
                         widget->_p->swipeVelocity.x = 0.F;
@@ -673,7 +673,7 @@ namespace djv
                 }
             });
             p.scrollArea->setContentsSizeCallback(
-                [weak](const glm::vec2 & value)
+                [weak](const glm::vec2& value)
             {
                 if (auto widget = weak.lock())
                 {
@@ -725,7 +725,7 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    for (auto & i : widget->_p->pointerAverage)
+                    for (auto& i : widget->_p->pointerAverage)
                     {
                         if (i.x > 0.F)
                         {
@@ -784,12 +784,12 @@ namespace djv
             _p->scrollArea->setScrollType(value);
         }
 
-        const glm::vec2 & ScrollWidget::getScrollPos() const
+        const glm::vec2& ScrollWidget::getScrollPos() const
         {
             return _p->scrollArea->getScrollPos();
         }
 
-        void ScrollWidget::setScrollPos(const glm::vec2 & value)
+        void ScrollWidget::setScrollPos(const glm::vec2& value)
         {
             _p->scrollArea->setScrollPos(value);
         }
@@ -902,12 +902,12 @@ namespace djv
             p.scrollBars[Orientation::Vertical]->setSizeRole(value);
         }
 
-        void ScrollWidget::addChild(const std::shared_ptr<IObject> & value)
+        void ScrollWidget::addChild(const std::shared_ptr<IObject>& value)
         {
             _p->scrollArea->addChild(value);
         }
 
-        void ScrollWidget::removeChild(const std::shared_ptr<IObject> & value)
+        void ScrollWidget::removeChild(const std::shared_ptr<IObject>& value)
         {
             _p->scrollArea->removeChild(value);
         }
@@ -917,7 +917,7 @@ namespace djv
             _p->scrollArea->clearChildren();
         }
 
-        void ScrollWidget::_preLayoutEvent(Event::PreLayout &)
+        void ScrollWidget::_preLayoutEvent(Event::PreLayout&)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
@@ -926,7 +926,7 @@ namespace djv
             _updateScrollBars(contentsSize);
         }
 
-        void ScrollWidget::_layoutEvent(Event::Layout &)
+        void ScrollWidget::_layoutEvent(Event::Layout&)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
@@ -934,7 +934,7 @@ namespace djv
             p.border->setGeometry(g);
         }
 
-        void ScrollWidget::_clipEvent(Event::Clip &)
+        void ScrollWidget::_clipEvent(Event::Clip&)
         {
             if (isClipped())
             {
@@ -1028,13 +1028,13 @@ namespace djv
             }
         }
 
-        void ScrollWidget::_scrollEvent(Event::Scroll & event)
+        void ScrollWidget::_scrollEvent(Event::Scroll& event)
         {
             event.accept();
             setScrollPos(_p->scrollArea->getScrollPos() - event.getScrollDelta() * scrollWheelMult);
         }
 
-        bool ScrollWidget::_eventFilter(const std::shared_ptr<IObject> & object, Event::Event & event)
+        bool ScrollWidget::_eventFilter(const std::shared_ptr<IObject>& object, Event::Event& event)
         {
             DJV_PRIVATE_PTR();
             switch (event.getEventType())
@@ -1044,11 +1044,11 @@ namespace djv
                 return true;
             case Event::Type::PointerMove:
             {
-                auto & pointerEvent = static_cast<Event::PointerMove &>(event);
+                auto& pointerEvent = static_cast<Event::PointerMove&>(event);
                 if (pointerEvent.getPointerInfo().id == p.pointerID)
                 {
                     pointerEvent.accept();
-                    const glm::vec2 & pos = pointerEvent.getPointerInfo().projectedPos;
+                    const glm::vec2& pos = pointerEvent.getPointerInfo().projectedPos;
                     if (pos != p.pointerPos)
                     {
                         const glm::vec2 delta = (pos - p.pointerPos) * p.swipeMult;
@@ -1070,7 +1070,7 @@ namespace djv
             }
             case Event::Type::ButtonPress:
             {
-                auto & pointerEvent = static_cast<Event::ButtonPress &>(event);
+                auto& pointerEvent = static_cast<Event::ButtonPress&>(event);
                 if (!p.pointerID)
                 {
                     pointerEvent.accept();
@@ -1084,7 +1084,7 @@ namespace djv
             }
             case Event::Type::ButtonRelease:
             {
-                auto & pointerEvent = static_cast<Event::ButtonRelease &>(event);
+                auto& pointerEvent = static_cast<Event::ButtonRelease&>(event);
                 if (pointerEvent.getPointerInfo().id == p.pointerID)
                 {
                     pointerEvent.accept();
@@ -1123,10 +1123,10 @@ namespace djv
             return false;
         }
 
-        void ScrollWidget::_updateScrollBars(const glm::vec2 & value)
+        void ScrollWidget::_updateScrollBars(const glm::vec2& value)
         {
             DJV_PRIVATE_PTR();
-            const BBox2f & g = p.scrollArea->getGeometry();
+            const BBox2f& g = p.scrollArea->getGeometry();
             const float w = g.w();
             const float h = g.h();
 
@@ -1161,7 +1161,7 @@ namespace djv
             p.scrollBars[Orientation::Vertical]->setEnabled(h < value.y);
         }
 
-        void ScrollWidget::_addPointerSample(const glm::vec2 & value)
+        void ScrollWidget::_addPointerSample(const glm::vec2& value)
         {
             DJV_PRIVATE_PTR();
             p.pointerAverage.push_back(value);
@@ -1177,7 +1177,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.pointerAverage.size())
             {
-                for (const auto & velocity : p.pointerAverage)
+                for (const auto& velocity : p.pointerAverage)
                 {
                     out += velocity;
                 }

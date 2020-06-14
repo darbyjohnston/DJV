@@ -29,7 +29,7 @@ namespace djv
             return _clipped;
         }
 
-        inline const Core::BBox2f & Widget::getClipRect() const
+        inline const Core::BBox2f& Widget::getClipRect() const
         {
             return _clipRect;
         }
@@ -49,7 +49,7 @@ namespace djv
             return _desiredSize;
         }
 
-        inline const Core::BBox2f & Widget::getGeometry() const
+        inline const Core::BBox2f& Widget::getGeometry() const
         {
             return _geometry;
         }
@@ -88,7 +88,7 @@ namespace djv
             return getMinimumSize().y;
         }
 
-        inline const Layout::Margin & Widget::getMargin() const
+        inline const Layout::Margin& Widget::getMargin() const
         {
             return _margin;
         }
@@ -118,7 +118,7 @@ namespace djv
             return _pointerEnabled;
         }
 
-        inline const std::vector<std::shared_ptr<Action> > & Widget::getActions() const
+        inline const std::vector<std::shared_ptr<Action> >& Widget::getActions() const
         {
             return _actions;
         }
@@ -143,12 +143,12 @@ namespace djv
             return _eventSystem;
         }
 
-        inline const std::shared_ptr<AV::Render2D::Render> & Widget::_getRender() const
+        inline const std::shared_ptr<AV::Render2D::Render>& Widget::_getRender() const
         {
             return _render;
         }
 
-        inline const std::shared_ptr<Style::Style> & Widget::_getStyle() const
+        inline const std::shared_ptr<Style::Style>& Widget::_getStyle() const
         {
             return _style;
         }

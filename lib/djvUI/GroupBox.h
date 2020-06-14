@@ -26,18 +26,18 @@ namespace djv
 
                 static std::shared_ptr<GroupBox> create(const std::shared_ptr<Core::Context>&);
 
-                const std::string & getText() const;
-                void setText(const std::string &);
+                const std::string& getText() const;
+                void setText(const std::string&);
 
                 float getHeightForWidth(float) const override;
 
-                void addChild(const std::shared_ptr<IObject> &) override;
-                void removeChild(const std::shared_ptr<IObject> &) override;
+                void addChild(const std::shared_ptr<IObject>&) override;
+                void removeChild(const std::shared_ptr<IObject>&) override;
                 void clearChildren() override;
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout &) override;
-                void _layoutEvent(Core::Event::Layout &) override;
+                void _preLayoutEvent(Core::Event::PreLayout&) override;
+                void _layoutEvent(Core::Event::Layout&) override;
 
             private:
                 DJV_PRIVATE();

@@ -44,7 +44,7 @@ namespace djv
             return out;
         }
 
-        const std::vector<std::shared_ptr<Action> > & ActionGroup::getActions() const
+        const std::vector<std::shared_ptr<Action> >& ActionGroup::getActions() const
         {
             return _p->actions;
         }
@@ -54,7 +54,7 @@ namespace djv
             return _p->actions.size();
         }
 
-        int ActionGroup::getActionIndex(const std::shared_ptr<Action> & value) const
+        int ActionGroup::getActionIndex(const std::shared_ptr<Action>& value) const
         {
             DJV_PRIVATE_PTR();
             const auto i = std::find(p.actions.begin(), p.actions.end(), value);
@@ -65,7 +65,7 @@ namespace djv
             return -1;
         }
 
-        void ActionGroup::addAction(const std::shared_ptr<Action> & action)
+        void ActionGroup::addAction(const std::shared_ptr<Action>& action)
         {
             DJV_PRIVATE_PTR();
             action->setButtonType(p.buttonType);
@@ -156,7 +156,7 @@ namespace djv
             p.actions.push_back(action);
         }
 
-        void ActionGroup::removeAction(const std::shared_ptr<Action> & action)
+        void ActionGroup::removeAction(const std::shared_ptr<Action>& action)
         {
             DJV_PRIVATE_PTR();
             const auto i = std::find(p.actions.begin(), p.actions.end(), action);
@@ -236,22 +236,22 @@ namespace djv
             p.callback = Callback::Trigger;
         }
 
-        void ActionGroup::setPushCallback(const std::function<void(int)> & callback)
+        void ActionGroup::setPushCallback(const std::function<void(int)>& callback)
         {
             _p->pushCallback = callback;
         }
 
-        void ActionGroup::setToggleCallback(const std::function<void(int, bool)> & callback)
+        void ActionGroup::setToggleCallback(const std::function<void(int, bool)>& callback)
         {
             _p->toggleCallback = callback;
         }
 
-        void ActionGroup::setRadioCallback(const std::function<void(int)> & callback)
+        void ActionGroup::setRadioCallback(const std::function<void(int)>& callback)
         {
             _p->radioCallback = callback;
         }
 
-        void ActionGroup::setExclusiveCallback(const std::function<void(int)> & callback)
+        void ActionGroup::setExclusiveCallback(const std::function<void(int)>& callback)
         {
             _p->exclusiveCallback = callback;
         }

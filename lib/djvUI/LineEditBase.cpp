@@ -104,12 +104,12 @@ namespace djv
             return out;
         }
 
-        const std::string & LineEditBase::getText() const
+        const std::string& LineEditBase::getText() const
         {
             return _p->text;
         }
 
-        void LineEditBase::setText(const std::string & value)
+        void LineEditBase::setText(const std::string& value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.text)
@@ -151,12 +151,12 @@ namespace djv
             _resize();
         }
 
-        const std::string & LineEditBase::getFont() const
+        const std::string& LineEditBase::getFont() const
         {
             return _p->font;
         }
 
-        const std::string & LineEditBase::getFontFace() const
+        const std::string& LineEditBase::getFontFace() const
         {
             return _p->fontFace;
         }
@@ -166,7 +166,7 @@ namespace djv
             return _p->fontSizeRole;
         }
 
-        void LineEditBase::setFont(const std::string & value)
+        void LineEditBase::setFont(const std::string& value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.font)
@@ -177,7 +177,7 @@ namespace djv
             _viewUpdate();
         }
 
-        void LineEditBase::setFontFace(const std::string & value)
+        void LineEditBase::setFontFace(const std::string& value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.fontFace)
@@ -199,12 +199,12 @@ namespace djv
             _viewUpdate();
         }
 
-        const std::string & LineEditBase::getSizeString() const
+        const std::string& LineEditBase::getSizeString() const
         {
             return _p->sizeString;
         }
 
-        void LineEditBase::setSizeString(const std::string & value)
+        void LineEditBase::setSizeString(const std::string& value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.sizeString)
@@ -213,7 +213,7 @@ namespace djv
             _textUpdate();
         }
 
-        void LineEditBase::setTextChangedCallback(const std::function<void(const std::string &)> & value)
+        void LineEditBase::setTextChangedCallback(const std::function<void(const std::string&)>& value)
         {
             _p->textChangedCallback = value;
         }
@@ -223,7 +223,7 @@ namespace djv
             _p->textEditCallback = value;
         }
 
-        void LineEditBase::setFocusCallback(const std::function<void(bool)> & value)
+        void LineEditBase::setFocusCallback(const std::function<void(bool)>& value)
         {
             _p->focusCallback = value;
         }
@@ -239,7 +239,7 @@ namespace djv
             return out;
         }
 
-        void LineEditBase::_preLayoutEvent(Event::PreLayout & event)
+        void LineEditBase::_preLayoutEvent(Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
@@ -262,7 +262,7 @@ namespace djv
             _viewUpdate();
         }
 
-        void LineEditBase::_clipEvent(Event::Clip & event)
+        void LineEditBase::_clipEvent(Event::Clip& event)
         {
             if (isClipped())
             {
@@ -271,12 +271,12 @@ namespace djv
             }
         }
 
-        void LineEditBase::_paintEvent(Event::Paint & event)
+        void LineEditBase::_paintEvent(Event::Paint& event)
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const BBox2f & g = getMargin().bbox(getGeometry(), style);
+            const BBox2f& g = getMargin().bbox(getGeometry(), style);
             const glm::vec2 c = g.getCenter();
             const float m = style->getMetric(MetricsRole::MarginSmall);
             const float b = style->getMetric(MetricsRole::Border);
@@ -360,7 +360,7 @@ namespace djv
             }
         }
 
-        void LineEditBase::_pointerEnterEvent(Event::PointerEnter & event)
+        void LineEditBase::_pointerEnterEvent(Event::PointerEnter& event)
         {
             if (!event.isRejected())
             {
@@ -368,7 +368,7 @@ namespace djv
             }
         }
 
-        void LineEditBase::_pointerLeaveEvent(Event::PointerLeave & event)
+        void LineEditBase::_pointerLeaveEvent(Event::PointerLeave& event)
         {
             event.accept();
         }
@@ -405,7 +405,7 @@ namespace djv
             }
         }
 
-        void LineEditBase::_buttonPressEvent(Event::ButtonPress & event)
+        void LineEditBase::_buttonPressEvent(Event::ButtonPress& event)
         {
             DJV_PRIVATE_PTR();
             if (p.pressedID || !isEnabled(true))
@@ -433,7 +433,7 @@ namespace djv
             _viewUpdate();
         }
 
-        void LineEditBase::_buttonReleaseEvent(Event::ButtonRelease & event)
+        void LineEditBase::_buttonReleaseEvent(Event::ButtonRelease& event)
         {
             DJV_PRIVATE_PTR();
             const auto& pointerInfo = event.getPointerInfo();
@@ -444,7 +444,7 @@ namespace djv
             }
         }
 
-        void LineEditBase::_keyPressEvent(Event::KeyPress & event)
+        void LineEditBase::_keyPressEvent(Event::KeyPress& event)
         {
             Widget::_keyPressEvent(event);
             DJV_PRIVATE_PTR();
@@ -681,7 +681,7 @@ namespace djv
             _doFocusCallback(true);
         }
 
-        void LineEditBase::_textFocusLostEvent(Event::TextFocusLost & event)
+        void LineEditBase::_textFocusLostEvent(Event::TextFocusLost& event)
         {
             DJV_PRIVATE_PTR();
             event.accept();
@@ -740,7 +740,7 @@ namespace djv
                     p.fontMetrics = p.fontMetricsFuture.get();
                     _resize();
                 }
-                catch (const std::exception & e)
+                catch (const std::exception& e)
                 {
                     _log(e.what(), LogLevel::Error);
                 }
@@ -753,7 +753,7 @@ namespace djv
                     p.textSize = p.textSizeFuture.get();
                     _resize();
                 }
-                catch (const std::exception & e)
+                catch (const std::exception& e)
                 {
                     _log(e.what(), LogLevel::Error);
                 }
@@ -766,7 +766,7 @@ namespace djv
                     p.sizeStringSize = p.sizeStringFuture.get();
                     _resize();
                 }
-                catch (const std::exception & e)
+                catch (const std::exception& e)
                 {
                     _log(e.what(), LogLevel::Error);
                 }
@@ -780,7 +780,7 @@ namespace djv
                     _viewUpdate();
                     _resize();
                 }
-                catch (const std::exception & e)
+                catch (const std::exception& e)
                 {
                     _log(e.what(), LogLevel::Error);
                 }
@@ -793,7 +793,7 @@ namespace djv
                     p.glyphs = p.glyphsFuture.get();
                     _redraw();
                 }
-                catch (const std::exception & e)
+                catch (const std::exception& e)
                 {
                     _log(e.what(), LogLevel::Error);
                 }

@@ -39,27 +39,27 @@ namespace djv
                 _value[static_cast<size_t>(Side::Bottom)] = bottom;
             }
 
-            inline float Margin::get(Side side, const std::shared_ptr<Style::Style> & style) const
+            inline float Margin::get(Side side, const std::shared_ptr<Style::Style>& style) const
             {
                 return style->getMetric(_value[static_cast<size_t>(side)]);
             }
             
-            inline glm::vec2 Margin::getSize(const std::shared_ptr<Style::Style> & style) const
+            inline glm::vec2 Margin::getSize(const std::shared_ptr<Style::Style>& style) const
             {
                 return glm::vec2(getWidth(style), getHeight(style));
             }
 
-            inline float Margin::getWidth(const std::shared_ptr<Style::Style> & style) const
+            inline float Margin::getWidth(const std::shared_ptr<Style::Style>& style) const
             {
                 return get(Side::Left, style) + get(Side::Right, style);
             }
 
-            inline float Margin::getHeight(const std::shared_ptr<Style::Style> & style) const
+            inline float Margin::getHeight(const std::shared_ptr<Style::Style>& style) const
             {
                 return get(Side::Top, style) + get(Side::Bottom, style);
             }
 
-            inline Core::BBox2f Margin::bbox(const Core::BBox2f & value, const std::shared_ptr<Style::Style> & style) const
+            inline Core::BBox2f Margin::bbox(const Core::BBox2f& value, const std::shared_ptr<Style::Style>& style) const
             {
                 return value.margin(
                     -get(Side::Left, style),
@@ -73,12 +73,12 @@ namespace djv
                 return _value[static_cast<size_t>(side)];
             }
 
-            inline MetricsRole & Margin::operator [] (Side side)
+            inline MetricsRole& Margin::operator [] (Side side)
             {
                 return _value[static_cast<size_t>(side)];
             }
 
-            inline bool Margin::operator == (const Margin & other) const
+            inline bool Margin::operator == (const Margin& other) const
             {
                 return
                     _value[static_cast<size_t>(Side::Left)] == other._value[static_cast<size_t>(Side::Left)] &&

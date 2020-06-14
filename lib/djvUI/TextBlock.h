@@ -25,7 +25,7 @@ namespace djv
 
             static std::shared_ptr<TextBlock> create(const std::shared_ptr<Core::Context>&);
 
-            const std::string & getText() const;
+            const std::string& getText() const;
             void setText(const std::string&);
             void appendText(const std::string&);
             void clearText();
@@ -39,11 +39,11 @@ namespace djv
             MetricsRole getTextSizeRole() const;
             void setTextSizeRole(MetricsRole);
 
-            const std::string & getFontFamily() const;
-            const std::string & getFontFace() const;
+            const std::string& getFontFamily() const;
+            const std::string& getFontFace() const;
             MetricsRole getFontSizeRole() const;
-            void setFontFamily(const std::string &);
-            void setFontFace(const std::string &);
+            void setFontFamily(const std::string&);
+            void setFontFace(const std::string&);
             void setFontSizeRole(MetricsRole);
 
             float getHeightForWidth(float) const override;
@@ -51,10 +51,10 @@ namespace djv
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _layoutEvent(Core::Event::Layout&) override;
-            void _clipEvent(Core::Event::Clip &) override;
-            void _paintEvent(Core::Event::Paint &) override;
+            void _clipEvent(Core::Event::Clip&) override;
+            void _paintEvent(Core::Event::Paint&) override;
 
-            void _initEvent(Core::Event::Init &) override;
+            void _initEvent(Core::Event::Init&) override;
             void _updateEvent(Core::Event::Update&) override;
 
         private:

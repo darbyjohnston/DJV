@@ -102,7 +102,7 @@ namespace djv
                 return out;
             }
 
-            void Toggle::_preLayoutEvent(Event::PreLayout & event)
+            void Toggle::_preLayoutEvent(Event::PreLayout& event)
             {
                 const auto& style = _getStyle();
                 const float b = style->getMetric(MetricsRole::Border);

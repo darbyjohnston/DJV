@@ -72,7 +72,7 @@ namespace djv
                 _p->reverseScrolling->setIfChanged(value);
             }
 
-            void UI::load(const rapidjson::Value & value)
+            void UI::load(const rapidjson::Value& value)
             {
                 DJV_PRIVATE_PTR();
                 if (value.IsObject())

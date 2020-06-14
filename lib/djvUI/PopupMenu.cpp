@@ -71,7 +71,7 @@ namespace djv
             return out;
         }
 
-        void PopupMenu::setMenu(const std::shared_ptr<Menu> & menu)
+        void PopupMenu::setMenu(const std::shared_ptr<Menu>& menu)
         {
             DJV_PRIVATE_PTR();
             if (p.menu)
@@ -103,7 +103,7 @@ namespace djv
 
                 p.iconObserver = ValueObserver<std::string>::create(
                     p.menu->observeIcon(),
-                    [weak](const std::string & value)
+                    [weak](const std::string& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -113,7 +113,7 @@ namespace djv
 
                 p.textObserver = ValueObserver<std::string>::create(
                     p.menu->observeText(),
-                    [weak](const std::string & value)
+                    [weak](const std::string& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -123,12 +123,12 @@ namespace djv
             }
         }
 
-        void PopupMenu::_preLayoutEvent(Event::PreLayout & event)
+        void PopupMenu::_preLayoutEvent(Event::PreLayout& event)
         {
             _setMinimumSize(_p->button->getMinimumSize());
         }
 
-        void PopupMenu::_layoutEvent(Event::Layout & event)
+        void PopupMenu::_layoutEvent(Event::Layout& event)
         {
             _p->button->setGeometry(getGeometry());
         }

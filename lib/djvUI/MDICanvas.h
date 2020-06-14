@@ -29,15 +29,15 @@ namespace djv
 
                 static std::shared_ptr<Canvas> create(const std::shared_ptr<Core::Context>&);
 
-                const glm::vec2 & getCanvasSize() const;
-                void setCanvasSize(const glm::vec2 &);
+                const glm::vec2& getCanvasSize() const;
+                void setCanvasSize(const glm::vec2&);
 
-                const std::shared_ptr<IWidget> & getActiveWidget() const;
+                const std::shared_ptr<IWidget>& getActiveWidget() const;
                 void nextWidget();
                 void prevWidget();
-                void setActiveCallback(const std::function<void(const std::shared_ptr<IWidget> &)> &);
+                void setActiveCallback(const std::function<void(const std::shared_ptr<IWidget>&)>&);
 
-                glm::vec2 getWidgetPos(const std::shared_ptr<IWidget> &) const;
+                glm::vec2 getWidgetPos(const std::shared_ptr<IWidget>&) const;
                 //! \todo We should convert widgets to use local coordinates and then
                 //! we could remove this and use Widget::move() instead.
                 void setWidgetPos(const std::shared_ptr<IWidget>&, const glm::vec2&);
@@ -48,14 +48,14 @@ namespace djv
                 void setMaximizeCallback(const std::function<void(bool)>&);
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout &) override;
-                void _layoutEvent(Core::Event::Layout &) override;
+                void _preLayoutEvent(Core::Event::PreLayout&) override;
+                void _layoutEvent(Core::Event::Layout&) override;
                 void _paintOverlayEvent(Core::Event::PaintOverlay&) override;
 
-                void _childAddedEvent(Core::Event::ChildAdded &) override;
-                void _childRemovedEvent(Core::Event::ChildRemoved &) override;
-                void _childOrderEvent(Core::Event::ChildOrder &) override;
-                bool _eventFilter(const std::shared_ptr<Core::IObject> &, Core::Event::Event &) override;
+                void _childAddedEvent(Core::Event::ChildAdded&) override;
+                void _childRemovedEvent(Core::Event::ChildRemoved&) override;
+                void _childOrderEvent(Core::Event::ChildOrder&) override;
+                bool _eventFilter(const std::shared_ptr<Core::IObject>&, Core::Event::Event&) override;
 
             private:
                 void _doActiveCallback();

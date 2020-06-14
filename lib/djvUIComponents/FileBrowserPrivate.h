@@ -57,8 +57,8 @@ namespace djv
                 void setEdit(bool);
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout &) override;
-                void _layoutEvent(Core::Event::Layout &) override;
+                void _preLayoutEvent(Core::Event::PreLayout&) override;
+                void _layoutEvent(Core::Event::Layout&) override;
 
                 void _initEvent(Core::Event::Init &) override;
                 bool _eventFilter(const std::shared_ptr<Core::IObject> &, Core::Event::Event &) override;
@@ -162,8 +162,8 @@ namespace djv
                 void setCallback(const std::function<void(const Core::FileSystem::Path &)> &);
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout &) override;
-                void _layoutEvent(Core::Event::Layout &) override;
+                void _preLayoutEvent(Core::Event::PreLayout&) override;
+                void _layoutEvent(Core::Event::Layout&) override;
 
                 void _initEvent(Core::Event::Init&) override;
 

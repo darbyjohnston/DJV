@@ -69,7 +69,7 @@ namespace djv
                 _resize();
             }
 
-            void Spacer::_preLayoutEvent(Event::PreLayout & event)
+            void Spacer::_preLayoutEvent(Event::PreLayout& event)
             {
                 glm::vec2 minimumSize = glm::vec2(0.F, 0.F);
                 DJV_PRIVATE_PTR();

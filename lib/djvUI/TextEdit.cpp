@@ -49,7 +49,7 @@ namespace djv
             return out;
         }
 
-        const std::string & TextEdit::getText() const
+        const std::string& TextEdit::getText() const
         {
             return _p->textBlock->getText();
         }
@@ -79,12 +79,12 @@ namespace djv
             _p->textBlock->setTextSizeRole(value);
         }
 
-        const std::string & TextEdit::getFontFamily() const
+        const std::string& TextEdit::getFontFamily() const
         {
             return _p->textBlock->getFontFamily();
         }
 
-        const std::string & TextEdit::getFontFace() const
+        const std::string& TextEdit::getFontFace() const
         {
             return _p->textBlock->getFontFace();
         }
@@ -94,12 +94,12 @@ namespace djv
             return _p->textBlock->getFontSizeRole();
         }
 
-        void TextEdit::setFontFamily(const std::string & value)
+        void TextEdit::setFontFamily(const std::string& value)
         {
             _p->textBlock->setFontFamily(value);
         }
 
-        void TextEdit::setFontFace(const std::string & value)
+        void TextEdit::setFontFace(const std::string& value)
         {
             _p->textBlock->setFontFace(value);
         }

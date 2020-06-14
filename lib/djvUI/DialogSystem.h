@@ -30,9 +30,9 @@ namespace djv
 
             //! Show a message dialog.
             void message(
-                const std::string & title,
-                const std::string & text,
-                const std::string & closeText);
+                const std::string& title,
+                const std::string& text,
+                const std::string& closeText);
 
             //! Show a confirmation dialog.
             void confirmation(

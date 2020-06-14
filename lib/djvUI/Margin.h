@@ -34,17 +34,17 @@ namespace djv
                 void set(MetricsRole);
                 void set(MetricsRole left, MetricsRole right, MetricsRole top, MetricsRole bottom);
 
-                float get(Side, const std::shared_ptr<Style::Style> &) const;
-                glm::vec2 getSize(const std::shared_ptr<Style::Style> &) const;
-                float getWidth(const std::shared_ptr<Style::Style> &) const;
-                float getHeight(const std::shared_ptr<Style::Style> &) const;
+                float get(Side, const std::shared_ptr<Style::Style>&) const;
+                glm::vec2 getSize(const std::shared_ptr<Style::Style>&) const;
+                float getWidth(const std::shared_ptr<Style::Style>&) const;
+                float getHeight(const std::shared_ptr<Style::Style>&) const;
 
-                Core::BBox2f bbox(const Core::BBox2f &, const std::shared_ptr<Style::Style> &) const;
+                Core::BBox2f bbox(const Core::BBox2f&, const std::shared_ptr<Style::Style>&) const;
 
                 MetricsRole operator [] (Side) const;
-                MetricsRole & operator [] (Side);
+                MetricsRole& operator [] (Side);
 
-                bool operator == (const Margin &) const;
+                bool operator == (const Margin&) const;
 
             private:
                 MetricsRole _value[4] =

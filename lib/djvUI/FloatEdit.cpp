@@ -58,7 +58,7 @@ namespace djv
             _textUpdate();
         }
 
-        void FloatEdit::setModel(const std::shared_ptr<INumericValueModel<float> > & model)
+        void FloatEdit::setModel(const std::shared_ptr<INumericValueModel<float> >& model)
         {
             INumericEdit<float>::setModel(model);
             DJV_PRIVATE_PTR();
@@ -67,7 +67,7 @@ namespace djv
                 auto weak = std::weak_ptr<FloatEdit>(std::dynamic_pointer_cast<FloatEdit>(shared_from_this()));
                 p.rangeObserver = ValueObserver<FloatRange>::create(
                     model->observeRange(),
-                    [weak](const FloatRange & value)
+                    [weak](const FloatRange& value)
                 {
                     if (auto widget = weak.lock())
                     {

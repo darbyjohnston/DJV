@@ -100,12 +100,12 @@ namespace djv
             _p->typeCallback = callback;
         }
 
-        void ColorTypeWidget::_preLayoutEvent(Event::PreLayout & event)
+        void ColorTypeWidget::_preLayoutEvent(Event::PreLayout& event)
         {
             _setMinimumSize(_p->comboBox->getMinimumSize());
         }
 
-        void ColorTypeWidget::_layoutEvent(Event::Layout &)
+        void ColorTypeWidget::_layoutEvent(Event::Layout&)
         {
             _p->comboBox->setGeometry(getGeometry());
         }
@@ -221,13 +221,13 @@ namespace djv
             _textUpdate();
         }
 
-        void ColorSliders::_preLayoutEvent(Event::PreLayout & event)
+        void ColorSliders::_preLayoutEvent(Event::PreLayout& event)
         {
             const auto& style = _getStyle();
             _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
         }
 
-        void ColorSliders::_layoutEvent(Event::Layout &)
+        void ColorSliders::_layoutEvent(Event::Layout&)
         {
             const auto& style = _getStyle();
             _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
@@ -697,14 +697,14 @@ namespace djv
             _p->colorCallback = callback;
         }
 
-        void ColorPicker::_preLayoutEvent(Event::PreLayout & event)
+        void ColorPicker::_preLayoutEvent(Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             _setMinimumSize(p.layout->getMinimumSize() + getMargin().getSize(style));
         }
 
-        void ColorPicker::_layoutEvent(Event::Layout &)
+        void ColorPicker::_layoutEvent(Event::Layout&)
         {
             DJV_PRIVATE_PTR();
             const BBox2f g = getGeometry();

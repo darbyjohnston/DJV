@@ -41,12 +41,12 @@ namespace djv
             virtual void _scroll(float) = 0;
             virtual void _valueUpdate() = 0;
             
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _pointerEnterEvent(Core::Event::PointerEnter &) override;
-            void _pointerLeaveEvent(Core::Event::PointerLeave &) override;
-            void _pointerMoveEvent(Core::Event::PointerMove &) override;
-            void _buttonPressEvent(Core::Event::ButtonPress &) override;
-            void _buttonReleaseEvent(Core::Event::ButtonRelease &) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _pointerEnterEvent(Core::Event::PointerEnter&) override;
+            void _pointerLeaveEvent(Core::Event::PointerLeave&) override;
+            void _pointerMoveEvent(Core::Event::PointerMove&) override;
+            void _buttonPressEvent(Core::Event::ButtonPress&) override;
+            void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
             void _keyPressEvent(Core::Event::KeyPress&) override;
             void _textFocusEvent(Core::Event::TextFocus&) override;
             void _textFocusLostEvent(Core::Event::TextFocusLost&) override;

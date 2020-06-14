@@ -29,7 +29,7 @@ namespace djv
 
                 static std::shared_ptr<Form> create(const std::shared_ptr<Core::Context>&);
 
-                void setText(const std::shared_ptr<Widget> &, const std::string &);
+                void setText(const std::shared_ptr<Widget>&, const std::string&);
 
                 const Spacing& getSpacing() const;
                 void setSpacing(const Spacing&);
@@ -46,12 +46,12 @@ namespace djv
 
                 float getHeightForWidth(float) const override;
 
-                void addChild(const std::shared_ptr<IObject> &) override;
-                void removeChild(const std::shared_ptr<IObject> &) override;
+                void addChild(const std::shared_ptr<IObject>&) override;
+                void removeChild(const std::shared_ptr<IObject>&) override;
                 void clearChildren() override;
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout &) override;
+                void _preLayoutEvent(Core::Event::PreLayout&) override;
                 void _layoutEvent(Core::Event::Layout&) override;
 
             private:

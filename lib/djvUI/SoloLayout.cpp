@@ -123,7 +123,7 @@ namespace djv
                 float out = 0.F;
                 const auto& style = _getStyle();
                 const glm::vec2 m = getMargin().getSize(style);
-                for (const auto & child : getChildWidgets())
+                for (const auto& child : getChildWidgets())
                 {
                     if (child->isVisible() ||
                         SoloMinimumSize::Vertical == p.soloMinimumSize ||
@@ -136,7 +136,7 @@ namespace djv
                 return out;
             }
 
-            void Solo::addChild(const std::shared_ptr<IObject> & value)
+            void Solo::addChild(const std::shared_ptr<IObject>& value)
             {
                 Widget::addChild(value);
                 DJV_PRIVATE_PTR();
@@ -147,7 +147,7 @@ namespace djv
                 _widgetUpdate();
             }
 
-            void Solo::removeChild(const std::shared_ptr<IObject> & value)
+            void Solo::removeChild(const std::shared_ptr<IObject>& value)
             {
                 Widget::removeChild(value);
                 if (0 == getChildren().size())
@@ -157,11 +157,11 @@ namespace djv
                 _widgetUpdate();
             }
 
-            void Solo::_preLayoutEvent(Event::PreLayout &)
+            void Solo::_preLayoutEvent(Event::PreLayout&)
             {
                 DJV_PRIVATE_PTR();
                 glm::vec2 minimumSize = glm::vec2(0.F, 0.F);
-                for (const auto & child : getChildWidgets())
+                for (const auto& child : getChildWidgets())
                 {
                     if (child->isVisible() || p.soloMinimumSize != SoloMinimumSize::None)
                     {
@@ -179,11 +179,11 @@ namespace djv
                 _setMinimumSize(minimumSize + getMargin().getSize(style));
             }
 
-            void Solo::_layoutEvent(Event::Layout &)
+            void Solo::_layoutEvent(Event::Layout&)
             {
                 const auto& style = _getStyle();
-                const BBox2f & g = getMargin().bbox(getGeometry(), style);
-                for (const auto & child : getChildWidgets())
+                const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                for (const auto& child : getChildWidgets())
                 {
                     child->setGeometry(Widget::getAlign(g, child->getMinimumSize(), child->getHAlign(), child->getVAlign()));
                 }
@@ -193,7 +193,7 @@ namespace djv
             {
                 int index = 0;
                 const auto& children = getChildWidgets();
-                for (const auto & child : children)
+                for (const auto& child : children)
                 {
                     child->setVisible(_p->currentIndex == index);
                     ++index;

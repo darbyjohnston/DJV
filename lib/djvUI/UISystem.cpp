@@ -73,7 +73,7 @@ namespace djv
             return out;
         }
 
-        const std::shared_ptr<Style::Style> & UISystem::getStyle() const
+        const std::shared_ptr<Style::Style>& UISystem::getStyle() const
         {
             return _p->style;
         }

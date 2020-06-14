@@ -29,43 +29,43 @@ namespace djv
 
             static std::shared_ptr<LineEditBase> create(const std::shared_ptr<Core::Context>&);
 
-            const std::string & getText() const;
-            void setText(const std::string &);
+            const std::string& getText() const;
+            void setText(const std::string&);
 
             ColorRole getTextColorRole() const;
             MetricsRole getTextSizeRole() const;
             void setTextColorRole(ColorRole);
             void setTextSizeRole(MetricsRole);
 
-            const std::string & getFont() const;
-            const std::string & getFontFace() const;
+            const std::string& getFont() const;
+            const std::string& getFontFace() const;
             MetricsRole getFontSizeRole() const;
-            void setFont(const std::string &);
-            void setFontFace(const std::string &);
+            void setFont(const std::string&);
+            void setFontFace(const std::string&);
             void setFontSizeRole(MetricsRole);
 
-            const std::string & getSizeString() const;
-            void setSizeString(const std::string &);
+            const std::string& getSizeString() const;
+            void setSizeString(const std::string&);
 
-            void setTextChangedCallback(const std::function<void(const std::string &)> &);
-            void setTextEditCallback(const std::function<void(const std::string&, TextEditReason)> &);
-            void setFocusCallback(const std::function<void(bool)> &);
+            void setTextChangedCallback(const std::function<void(const std::string&)>&);
+            void setTextEditCallback(const std::function<void(const std::string&, TextEditReason)>&);
+            void setFocusCallback(const std::function<void(bool)>&);
 
             bool acceptFocus(TextFocusDirection) override;
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _layoutEvent(Core::Event::Layout&) override;
-            void _clipEvent(Core::Event::Clip &) override;
-            void _paintEvent(Core::Event::Paint &) override;
-            void _pointerEnterEvent(Core::Event::PointerEnter &) override;
-            void _pointerLeaveEvent(Core::Event::PointerLeave &) override;
-            void _pointerMoveEvent(Core::Event::PointerMove &) override;
-            void _buttonPressEvent(Core::Event::ButtonPress &) override;
-            void _buttonReleaseEvent(Core::Event::ButtonRelease &) override;
+            void _clipEvent(Core::Event::Clip&) override;
+            void _paintEvent(Core::Event::Paint&) override;
+            void _pointerEnterEvent(Core::Event::PointerEnter&) override;
+            void _pointerLeaveEvent(Core::Event::PointerLeave&) override;
+            void _pointerMoveEvent(Core::Event::PointerMove&) override;
+            void _buttonPressEvent(Core::Event::ButtonPress&) override;
+            void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
             void _keyPressEvent(Core::Event::KeyPress&) override;
-            void _textFocusEvent(Core::Event::TextFocus &) override;
-            void _textFocusLostEvent(Core::Event::TextFocusLost &) override;
+            void _textFocusEvent(Core::Event::TextFocus&) override;
+            void _textFocusLostEvent(Core::Event::TextFocusLost&) override;
             void _textInputEvent(Core::Event::TextInput&) override;
 
             void _initEvent(Core::Event::Init&) override;

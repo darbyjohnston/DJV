@@ -46,20 +46,20 @@ namespace djv
                 Orientation getOrientation() const;
                 void setOrientation(Orientation);
 
-                const Spacing & getSpacing() const;
-                void setSpacing(const Spacing &);
+                const Spacing& getSpacing() const;
+                void setSpacing(const Spacing&);
 
-                RowStretch getStretch(const std::shared_ptr<Widget> &) const;
-                void setStretch(const std::shared_ptr<Widget> &, RowStretch);
+                RowStretch getStretch(const std::shared_ptr<Widget>&) const;
+                void setStretch(const std::shared_ptr<Widget>&, RowStretch);
 
                 float getHeightForWidth(float) const override;
 
-                void addChild(const std::shared_ptr<IObject> &) override;
-                void removeChild(const std::shared_ptr<IObject> &) override;
+                void addChild(const std::shared_ptr<IObject>&) override;
+                void removeChild(const std::shared_ptr<IObject>&) override;
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout &) override;
-                void _layoutEvent(Core::Event::Layout &) override;
+                void _preLayoutEvent(Core::Event::PreLayout&) override;
+                void _layoutEvent(Core::Event::Layout&) override;
 
             private:
                 DJV_PRIVATE();

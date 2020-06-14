@@ -27,32 +27,32 @@ namespace djv
                 DJV_NON_COPYABLE(TabBarButton);
 
             protected:
-                void _init(const std::string & text, const std::shared_ptr<Core::Context>&);
+                void _init(const std::string& text, const std::shared_ptr<Core::Context>&);
                 TabBarButton();
 
             public:
                 virtual ~TabBarButton();
 
-                static std::shared_ptr<TabBarButton> create(const std::string &, const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<TabBarButton> create(const std::string&, const std::shared_ptr<Core::Context>&);
 
-                const std::string & getText() const;
-                void setText(const std::string &);
+                const std::string& getText() const;
+                void setText(const std::string&);
 
                 void setChecked(bool) override;
 
                 float getHeightForWidth(float) const override;
 
             protected:
-                void _preLayoutEvent(Event::PreLayout &) override;
-                void _layoutEvent(Event::Layout &) override;
-                void _paintEvent(Event::Paint &) override;
+                void _preLayoutEvent(Event::PreLayout&) override;
+                void _layoutEvent(Event::Layout&) override;
+                void _paintEvent(Event::Paint&) override;
 
             private:
                 std::shared_ptr<Label> _label;
                 std::shared_ptr<StackLayout> _layout;
             };
 
-            void TabBarButton::_init(const std::string & text, const std::shared_ptr<Context>& context)
+            void TabBarButton::_init(const std::string& text, const std::shared_ptr<Context>& context)
             {
                 IButton::_init(context);
 
@@ -74,19 +74,19 @@ namespace djv
             TabBarButton::~TabBarButton()
             {}
 
-            std::shared_ptr<TabBarButton> TabBarButton::create(const std::string & text, const std::shared_ptr<Context>& context)
+            std::shared_ptr<TabBarButton> TabBarButton::create(const std::string& text, const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<TabBarButton>(new TabBarButton);
                 out->_init(text, context);
                 return out;
             }
 
-            const std::string & TabBarButton::getText() const
+            const std::string& TabBarButton::getText() const
             {
                 return _label->getText();
             }
 
-            void TabBarButton::setText(const std::string & value)
+            void TabBarButton::setText(const std::string& value)
             {
                 _label->setText(value);
             }
@@ -102,19 +102,19 @@ namespace djv
                 return _layout->getHeightForWidth(value);
             }
 
-            void TabBarButton::_preLayoutEvent(Event::PreLayout & event)
+            void TabBarButton::_preLayoutEvent(Event::PreLayout& event)
             {
                 _setMinimumSize(_layout->getMinimumSize());
             }
 
-            void TabBarButton::_layoutEvent(Event::Layout &)
+            void TabBarButton::_layoutEvent(Event::Layout&)
             {
                 _layout->setGeometry(getGeometry());
             }
 
-            void TabBarButton::_paintEvent(Event::Paint & event)
+            void TabBarButton::_paintEvent(Event::Paint& event)
             {
-                const BBox2f & g = getGeometry();
+                const BBox2f& g = getGeometry();
                 const auto& render = _getRender();
                 const auto& style = _getStyle();
                 render->setFillColor(style->getColor(_isToggled() ? ColorRole::BackgroundToolBar : ColorRole::Background));
@@ -189,7 +189,7 @@ namespace djv
             return _p->buttonGroup->getButtonCount();
         }
 
-        size_t TabBar::addTab(const std::string & text)
+        size_t TabBar::addTab(const std::string& text)
         {
             DJV_PRIVATE_PTR();
             size_t out = 0;
@@ -227,12 +227,12 @@ namespace djv
             }
         }
 
-        void TabBar::setTabRemovedCallback(const std::function<void(size_t)> & callback)
+        void TabBar::setTabRemovedCallback(const std::function<void(size_t)>& callback)
         {
             _p->removedCallback = callback;
         }
 
-        void TabBar::setText(size_t index, const std::string & value)
+        void TabBar::setText(size_t index, const std::string& value)
         {
             DJV_PRIVATE_PTR();
             if (index < p.buttonGroup->getButtonCount())
@@ -251,7 +251,7 @@ namespace djv
             _p->buttonGroup->setChecked(value);
         }
 
-        void TabBar::setCurrentTabCallback(const std::function<void(int)> & value)
+        void TabBar::setCurrentTabCallback(const std::function<void(int)>& value)
         {
             _p->callback = value;
         }
@@ -270,14 +270,14 @@ namespace djv
             return _p->scrollWidget->getHeightForWidth(value);
         }
 
-        void TabBar::_preLayoutEvent(Event::PreLayout & event)
+        void TabBar::_preLayoutEvent(Event::PreLayout& event)
         {
             _setMinimumSize(_p->scrollWidget->getMinimumSize());
         }
 
-        void TabBar::_layoutEvent(Event::Layout & event)
+        void TabBar::_layoutEvent(Event::Layout& event)
         {
-            const BBox2f & g = getGeometry();
+            const BBox2f& g = getGeometry();
             const auto& style = _getStyle();
             _p->scrollWidget->setGeometry(getMargin().bbox(g, style));
         }

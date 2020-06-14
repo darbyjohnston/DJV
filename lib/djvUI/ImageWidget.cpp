@@ -74,12 +74,12 @@ namespace djv
             return out;
         }
 
-        const std::shared_ptr<AV::Image::Image> & ImageWidget::getImage() const
+        const std::shared_ptr<AV::Image::Image>& ImageWidget::getImage() const
         {
             return _p->image;
         }
 
-        void ImageWidget::setImage(const std::shared_ptr<AV::Image::Image> & value)
+        void ImageWidget::setImage(const std::shared_ptr<AV::Image::Image>& value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.image)
@@ -171,7 +171,7 @@ namespace djv
             return m;
         }
 
-        void ImageWidget::_preLayoutEvent(Event::PreLayout & event)
+        void ImageWidget::_preLayoutEvent(Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             glm::vec2 size(0.F, 0.F);
@@ -210,14 +210,14 @@ namespace djv
             _setMinimumSize(size + getMargin().getSize(style));
         }
 
-        void ImageWidget::_paintEvent(Event::Paint & event)
+        void ImageWidget::_paintEvent(Event::Paint& event)
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
             if (p.image)
             {
                 const auto& style = _getStyle();
-                const BBox2f & g = getMargin().bbox(getGeometry(), style);
+                const BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const glm::vec2 c = g.getCenter();
                 const auto& info = p.image->getInfo();
                 glm::vec2 size(0.F, 0.F);

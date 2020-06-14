@@ -28,7 +28,7 @@ namespace djv
 
             int getCurrentTab() const;
             void setCurrentTab(int);
-            void setCurrentTabCallback(const std::function<void(int)> &);
+            void setCurrentTabCallback(const std::function<void(int)>&);
             void closeCurrentTab();
 
             float getHeightForWidth(float) const override;
@@ -38,8 +38,8 @@ namespace djv
             void clearChildren() override;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
 
         private:
             DJV_PRIVATE();

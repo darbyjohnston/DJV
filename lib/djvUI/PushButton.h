@@ -28,31 +28,31 @@ namespace djv
                 static std::shared_ptr<Push> create(const std::shared_ptr<Core::Context>&);
 
                 std::string getIcon() const;
-                void setIcon(const std::string &);
+                void setIcon(const std::string&);
 
                 std::string getText() const;
-                void setText(const std::string &);
+                void setText(const std::string&);
 
                 TextHAlign getTextHAlign() const;
                 void setTextHAlign(TextHAlign);
 
-                const std::string & getFont() const;
-                const std::string & getFontFace() const;
+                const std::string& getFont() const;
+                const std::string& getFontFace() const;
                 MetricsRole getFontSizeRole() const;
-                void setFont(const std::string &);
-                void setFontFace(const std::string &);
+                void setFont(const std::string&);
+                void setFontFace(const std::string&);
                 void setFontSizeRole(MetricsRole);
 
-                const Layout::Margin & getInsideMargin() const;
-                void setInsideMargin(const Layout::Margin &);
+                const Layout::Margin& getInsideMargin() const;
+                void setInsideMargin(const Layout::Margin&);
 
                 void setForegroundColorRole(ColorRole) override;
 
                 bool acceptFocus(TextFocusDirection) override;
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout &) override;
-                void _layoutEvent(Core::Event::Layout &) override;
+                void _preLayoutEvent(Core::Event::PreLayout&) override;
+                void _layoutEvent(Core::Event::Layout&) override;
                 void _paintEvent(Core::Event::Paint&) override;
                 void _buttonPressEvent(Core::Event::ButtonPress&) override;
                 void _keyPressEvent(Core::Event::KeyPress&) override;

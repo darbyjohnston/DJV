@@ -139,12 +139,12 @@ namespace djv
                 }
             }
 
-            const std::string & Menu::getText() const
+            const std::string& Menu::getText() const
             {
                 return _p->label->getText();
             }
 
-            void Menu::setText(const std::string & value)
+            void Menu::setText(const std::string& value)
             {
                 DJV_PRIVATE_PTR();
                 if (!value.empty())
@@ -252,7 +252,7 @@ namespace djv
                 return out;
             }
 
-            void Menu::_preLayoutEvent(Event::PreLayout &)
+            void Menu::_preLayoutEvent(Event::PreLayout&)
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
@@ -287,7 +287,7 @@ namespace djv
                 _setMinimumSize(size + getMargin().getSize(style));
             }
 
-            void Menu::_layoutEvent(Event::Layout &)
+            void Menu::_layoutEvent(Event::Layout&)
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
@@ -325,7 +325,7 @@ namespace djv
                 }
             }
 
-            void Menu::_paintEvent(Event::Paint &)
+            void Menu::_paintEvent(Event::Paint&)
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
@@ -372,7 +372,7 @@ namespace djv
                 }
             }
 
-            void Menu::_pointerEnterEvent(Event::PointerEnter & event)
+            void Menu::_pointerEnterEvent(Event::PointerEnter& event)
             {
                 event.accept();
                 if (isEnabled(true))
@@ -381,7 +381,7 @@ namespace djv
                 }
             }
 
-            void Menu::_pointerLeaveEvent(Event::PointerLeave & event)
+            void Menu::_pointerLeaveEvent(Event::PointerLeave& event)
             {
                 event.accept();
                 if (isEnabled(true))
@@ -390,12 +390,12 @@ namespace djv
                 }
             }
 
-            void Menu::_pointerMoveEvent(Event::PointerMove & event)
+            void Menu::_pointerMoveEvent(Event::PointerMove& event)
             {
                 event.accept();
             }
 
-            void Menu::_buttonPressEvent(Event::ButtonPress & event)
+            void Menu::_buttonPressEvent(Event::ButtonPress& event)
             {
                 DJV_PRIVATE_PTR();
                 event.accept();

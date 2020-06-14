@@ -265,12 +265,12 @@ namespace djv
                     std::static_pointer_cast<Widget>(p.buttonLayout));
             }
 
-            void PathWidget::_preLayoutEvent(Event::PreLayout & event)
+            void PathWidget::_preLayoutEvent(Event::PreLayout& event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
             }
 
-            void PathWidget::_layoutEvent(Event::Layout & event)
+            void PathWidget::_layoutEvent(Event::Layout& event)
             {
                 _p->layout->setGeometry(getGeometry());
             }

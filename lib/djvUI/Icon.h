@@ -24,8 +24,8 @@ namespace djv
 
             static std::shared_ptr<Icon> create(const std::shared_ptr<Core::Context>&);
 
-            const std::string & getIcon() const;
-            void setIcon(const std::string &);
+            const std::string& getIcon() const;
+            void setIcon(const std::string&);
 
             ColorRole getIconColorRole() const;
             void setIconColorRole(ColorRole);
@@ -34,10 +34,10 @@ namespace djv
             void setIconSizeRole(MetricsRole);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _paintEvent(Core::Event::Paint &) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _paintEvent(Core::Event::Paint&) override;
 
-            void _initEvent(Core::Event::Init &) override;
+            void _initEvent(Core::Event::Init&) override;
             void _updateEvent(Core::Event::Update&) override;
 
         private:

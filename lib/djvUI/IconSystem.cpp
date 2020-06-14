@@ -53,7 +53,7 @@ namespace djv
                 ~ImageRequest()
                 {}
 
-                ImageRequest & operator = (ImageRequest && other)
+                ImageRequest& operator = (ImageRequest && other)
                 {
                     if (this != &other)
                     {
@@ -95,7 +95,7 @@ namespace djv
             std::thread thread;
             std::atomic<bool> running;
 
-            FileSystem::Path getPath(const std::string & name, uint16_t dpi) const;
+            FileSystem::Path getPath(const std::string& name, uint16_t dpi) const;
             uint16_t findClosestDPI(uint16_t) const;
         };
 
@@ -136,7 +136,7 @@ namespace djv
                 try
                 {
                     // Find the DPI values.
-                    for (const auto & i : FileSystem::FileInfo::directoryList(p.iconPath))
+                    for (const auto& i : FileSystem::FileInfo::directoryList(p.iconPath))
                     {
                         const std::string fileName = i.getFileName(Frame::invalid, false);
                         const size_t size = fileName.size();
@@ -149,7 +149,7 @@ namespace djv
                         }
                     }
                     std::sort(p.dpiList.begin(), p.dpiList.end());
-                    for (const auto & i : p.dpiList)
+                    for (const auto& i : p.dpiList)
                     {
                         std::stringstream ss;
                         ss << "Found DPI: " << i;
@@ -179,7 +179,7 @@ namespace djv
                         }
                     }
                 }
-                catch (const std::exception & e)
+                catch (const std::exception& e)
                 {
                     _log(e.what(), LogLevel::Error);
                 }
@@ -207,7 +207,7 @@ namespace djv
             return out;
         }
 
-        std::future<std::shared_ptr<AV::Image::Image> > IconSystem::getIcon(const std::string & name, float size)
+        std::future<std::shared_ptr<AV::Image::Image> > IconSystem::getIcon(const std::string& name, float size)
         {
             DJV_PRIVATE_PTR();
             ImageRequest request(name, static_cast<uint16_t>(Math::clamp(size, 0.F, 65535.F)));
@@ -230,7 +230,7 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             // Process new requests.
-            for (auto & i : p.newImageRequests)
+            for (auto& i : p.newImageRequests)
             {
                 std::shared_ptr<AV::Image::Image> image;
                 p.imageCache.get(i.key, image);
@@ -242,13 +242,13 @@ namespace djv
                         i.read = p.io->read(i.path);
                         p.pendingImageRequests.push_back(std::move(i));
                     }
-                    catch (const std::exception & e)
+                    catch (const std::exception& e)
                     {
                         try
                         {
                             i.promise.set_exception(std::current_exception());
                         }
-                        catch (const std::exception & e)
+                        catch (const std::exception& e)
                         {
                             _log(e.what(), LogLevel::Error);
                         }
@@ -316,7 +316,7 @@ namespace djv
             }
         }
 
-        FileSystem::Path IconSystem::Private::getPath(const std::string & name, uint16_t dpi) const
+        FileSystem::Path IconSystem::Private::getPath(const std::string& name, uint16_t dpi) const
         {
             FileSystem::Path out = iconPath;
             {

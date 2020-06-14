@@ -100,7 +100,7 @@ namespace djv
             _resize();
         }
 
-        void ThermometerWidget::_preLayoutEvent(Event::PreLayout & event)
+        void ThermometerWidget::_preLayoutEvent(Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();

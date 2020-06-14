@@ -122,12 +122,12 @@ namespace djv
                 _p->callback = value;
             }
 
-            void DrivesWidget::_preLayoutEvent(Event::PreLayout & event)
+            void DrivesWidget::_preLayoutEvent(Event::PreLayout& event)
             {
                 _setMinimumSize(_p->scrollWidget->getMinimumSize());
             }
 
-            void DrivesWidget::_layoutEvent(Event::Layout & event)
+            void DrivesWidget::_layoutEvent(Event::Layout& event)
             {
                 _p->scrollWidget->setGeometry(getGeometry());
             }

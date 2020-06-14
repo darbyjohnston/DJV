@@ -52,7 +52,7 @@ namespace djv
                 return out;
             }
 
-            void Form::setText(const std::shared_ptr<Widget> & value, const std::string & text)
+            void Form::setText(const std::shared_ptr<Widget>& value, const std::string& text)
             {
                 DJV_PRIVATE_PTR();
                 const auto i = p.widgetToLabel.find(value);
@@ -78,12 +78,12 @@ namespace djv
                 }
             }
 
-            const Spacing & Form::getSpacing() const
+            const Spacing& Form::getSpacing() const
             {
                 return _p->layout->getSpacing();
             }
 
-            void Form::setSpacing(const Spacing & value)
+            void Form::setSpacing(const Spacing& value)
             {
                 _p->layout->setSpacing(value);
             }
@@ -164,7 +164,7 @@ namespace djv
                 return out;
             }
 
-            void Form::addChild(const std::shared_ptr<IObject> & value)
+            void Form::addChild(const std::shared_ptr<IObject>& value)
             {
                 DJV_PRIVATE_PTR();
                 const glm::ivec2 gridSize = p.layout->getGridSize();
@@ -178,7 +178,7 @@ namespace djv
                 _widgetUpdate();
             }
 
-            void Form::removeChild(const std::shared_ptr<IObject> & value)
+            void Form::removeChild(const std::shared_ptr<IObject>& value)
             {
                 DJV_PRIVATE_PTR();
                 p.layout->removeChild(value);
@@ -201,13 +201,13 @@ namespace djv
                 _widgetUpdate();
             }
 
-            void Form::_preLayoutEvent(Event::PreLayout & event)
+            void Form::_preLayoutEvent(Event::PreLayout& event)
             {
                 const auto& style = _getStyle();
                 _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
             }
 
-            void Form::_layoutEvent(Event::Layout & event)
+            void Form::_layoutEvent(Event::Layout& event)
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();

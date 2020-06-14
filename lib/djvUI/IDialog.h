@@ -23,29 +23,29 @@ namespace djv
         public:
             ~IDialog() override = 0;
 
-            void setTitle(const std::string &);
+            void setTitle(const std::string&);
 
-            void setStretch(const std::shared_ptr<Widget> &, RowStretch = RowStretch::None);
+            void setStretch(const std::shared_ptr<Widget>&, RowStretch = RowStretch::None);
             void setFillLayout(bool);
 
             void addTitleBarWidget(const std::shared_ptr<Widget>&);
             void removeTitleBarWidget(const std::shared_ptr<Widget>&);
             void clearTitleBarWidgets();
 
-            void setCloseCallback(const std::function<void(void)> &);
+            void setCloseCallback(const std::function<void(void)>&);
 
             void setVisible(bool) override;
             float getHeightForWidth(float) const override;
 
-            void addChild(const std::shared_ptr<IObject> &) override;
-            void removeChild(const std::shared_ptr<IObject> &) override;
+            void addChild(const std::shared_ptr<IObject>&) override;
+            void removeChild(const std::shared_ptr<IObject>&) override;
             void clearChildren() override;
 
         protected:
             void _doCloseCallback();
 
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
 
         private:
             DJV_PRIVATE();

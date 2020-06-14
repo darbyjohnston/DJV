@@ -42,16 +42,16 @@ namespace djv
             void setCheckedIcon(const std::string&);
 
             std::shared_ptr<Core::IValueSubject<std::string> > observeText() const;
-            void setText(const std::string &);
+            void setText(const std::string&);
 
             std::shared_ptr<Core::IValueSubject<std::string> > observeFont() const;
-            void setFont(const std::string &);
+            void setFont(const std::string&);
 
             std::shared_ptr<Core::IListSubject<std::shared_ptr<Shortcut> > > observeShortcuts() const;
-            void setShortcut(const std::shared_ptr<Shortcut> &);
+            void setShortcut(const std::shared_ptr<Shortcut>&);
             void setShortcut(int key);
             void setShortcut(int key, int keyModifiers);
-            void addShortcut(const std::shared_ptr<Shortcut> &);
+            void addShortcut(const std::shared_ptr<Shortcut>&);
             void addShortcut(int key);
             void addShortcut(int key, int keyModifiers);
             void clearShortcuts();

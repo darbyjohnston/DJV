@@ -60,7 +60,7 @@ namespace djv
                 return out;
             }
 
-            void AV::load(const rapidjson::Value & value)
+            void AV::load(const rapidjson::Value& value)
             {
                 DJV_PRIVATE_PTR();
                 if (value.IsObject())
@@ -79,7 +79,7 @@ namespace djv
                     read("TextLCDRendering", value, textLCDRendering);
 
                     p.glfwSystem->setSwapInterval(swapInterval);
-                    for (const auto & i : p.ioSystem->getPluginNames())
+                    for (const auto& i : p.ioSystem->getPluginNames())
                     {
                         const auto j = value.FindMember(i.c_str());
                         if (j != value.MemberEnd())
@@ -100,7 +100,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 rapidjson::Value out(rapidjson::kObjectType);
                 write("SwapInterval", p.glfwSystem->observeSwapInterval()->get(), out, allocator);
-                for (const auto & i : p.ioSystem->getPluginNames())
+                for (const auto& i : p.ioSystem->getPluginNames())
                 {
                     out.AddMember(rapidjson::Value(i.c_str(), allocator), p.ioSystem->getOptions(i, allocator), allocator);
                 }

@@ -25,7 +25,7 @@ namespace djv
             class ISettings : public std::enable_shared_from_this<ISettings>
             {
             protected:
-                void _init(const std::string & name, const std::shared_ptr<Core::Context>&);
+                void _init(const std::string& name, const std::shared_ptr<Core::Context>&);
 
             public:
                 ISettings();
@@ -35,10 +35,10 @@ namespace djv
                 const std::weak_ptr<Core::Context>& getContext() const;
 
                 // Get the settings name.
-                const std::string & getName() const;
+                const std::string& getName() const;
 
                 //! Load the settings from the given JSON. This function is called by the settings system.
-                virtual void load(const rapidjson::Value &) = 0;
+                virtual void load(const rapidjson::Value&) = 0;
 
                 //! Save the settings to JSON. This function is called by the settings system.
                 virtual rapidjson::Value save(rapidjson::Document::AllocatorType&) = 0;

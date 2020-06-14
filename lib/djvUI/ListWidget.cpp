@@ -76,7 +76,7 @@ namespace djv
             return out;
         }
 
-        void ListWidget::setItems(const std::vector<std::string> & value)
+        void ListWidget::setItems(const std::vector<std::string>& value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.items)
@@ -85,7 +85,7 @@ namespace djv
             _updateItems();
         }
 
-        void ListWidget::addItem(const std::string & value)
+        void ListWidget::addItem(const std::string& value)
         {
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
@@ -115,7 +115,7 @@ namespace djv
             _updateCurrentItem();
         }
 
-        void ListWidget::setCurrentItemCallback(const std::function<void(int)> & value)
+        void ListWidget::setCurrentItemCallback(const std::function<void(int)>& value)
         {
             _p->currentItemCallback = value;
         }
@@ -125,7 +125,7 @@ namespace djv
             _p->scrollWidget->setBorder(value);
         }
 
-        void ListWidget::_preLayoutEvent(Event::PreLayout & event)
+        void ListWidget::_preLayoutEvent(Event::PreLayout& event)
         {
             const auto& style = _getStyle();
             const float sa = style->getMetric(MetricsRole::ScrollArea);
@@ -135,7 +135,7 @@ namespace djv
             _setMinimumSize(size);
         }
 
-        void ListWidget::_layoutEvent(Event::Layout & event)
+        void ListWidget::_layoutEvent(Event::Layout& event)
         {
             _p->scrollWidget->setGeometry(getGeometry());
         }

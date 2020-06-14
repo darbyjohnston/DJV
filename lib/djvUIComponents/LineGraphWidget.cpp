@@ -120,7 +120,7 @@ namespace djv
             _redraw();
         }
 
-        void LineGraphWidget::_preLayoutEvent(Event::PreLayout & event)
+        void LineGraphWidget::_preLayoutEvent(Event::PreLayout& event)
         {
             const auto& style = _getStyle();
             const float tc = style->getMetric(MetricsRole::TextColumn);

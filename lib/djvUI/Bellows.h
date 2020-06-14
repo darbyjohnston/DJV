@@ -26,14 +26,14 @@ namespace djv
 
                 static std::shared_ptr<Bellows> create(const std::shared_ptr<Core::Context>&);
                 
-                const std::string & getText() const;
-                void setText(const std::string &);
+                const std::string& getText() const;
+                void setText(const std::string&);
 
                 bool isOpen() const;
                 void setOpen(bool);
                 void open();
                 void close();
-                void setOpenCallback(const std::function<void(bool)> &);
+                void setOpenCallback(const std::function<void(bool)>&);
 
                 void addWidget(const std::shared_ptr<IObject>&);
                 void removeWidget(const std::shared_ptr<IObject>&);
@@ -41,13 +41,13 @@ namespace djv
 
                 float getHeightForWidth(float) const override;
 
-                void addChild(const std::shared_ptr<IObject> &) override;
-                void removeChild(const std::shared_ptr<IObject> &) override;
+                void addChild(const std::shared_ptr<IObject>&) override;
+                void removeChild(const std::shared_ptr<IObject>&) override;
                 void clearChildren() override;
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout &) override;
-                void _layoutEvent(Core::Event::Layout &) override;
+                void _preLayoutEvent(Core::Event::PreLayout&) override;
+                void _layoutEvent(Core::Event::Layout&) override;
 
             private:
                 void _childrenUpdate();

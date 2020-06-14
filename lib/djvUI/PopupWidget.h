@@ -27,13 +27,13 @@ namespace djv
             void open();
             void close();
 
-            const std::string & getIcon() const;
+            const std::string& getIcon() const;
             const std::string& getPopupIcon() const;
-            void setIcon(const std::string &);
+            void setIcon(const std::string&);
             void setPopupIcon(const std::string&);
 
-            const std::string & getText() const;
-            void setText(const std::string &);
+            const std::string& getText() const;
+            void setText(const std::string&);
 
             const std::string& getFont() const;
             const std::string& getFontFace() const;
@@ -53,13 +53,13 @@ namespace djv
             void setOpenCallback(const std::function<void(void)>&);
             void setCloseCallback(const std::function<void(void)>&);
 
-            void addChild(const std::shared_ptr<IObject> &) override;
-            void removeChild(const std::shared_ptr<IObject> &) override;
+            void addChild(const std::shared_ptr<IObject>&) override;
+            void removeChild(const std::shared_ptr<IObject>&) override;
             void clearChildren() override;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
 
         private:
             DJV_PRIVATE();

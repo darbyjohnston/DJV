@@ -66,7 +66,7 @@ namespace djv
             return out;
         }
 
-        const std::string & TextBlock::getText() const
+        const std::string& TextBlock::getText() const
         {
             return _p->text;
         }
@@ -134,12 +134,12 @@ namespace djv
             _textUpdate();
         }
 
-        const std::string & TextBlock::getFontFamily() const
+        const std::string& TextBlock::getFontFamily() const
         {
             return _p->fontFace;
         }
 
-        const std::string & TextBlock::getFontFace() const
+        const std::string& TextBlock::getFontFace() const
         {
             return _p->fontFace;
         }
@@ -149,7 +149,7 @@ namespace djv
             return _p->fontSizeRole;
         }
 
-        void TextBlock::setFontFamily(const std::string & value)
+        void TextBlock::setFontFamily(const std::string& value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.fontFamily)
@@ -158,7 +158,7 @@ namespace djv
             _textUpdate();
         }
 
-        void TextBlock::setFontFace(const std::string & value)
+        void TextBlock::setFontFace(const std::string& value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.fontFace)
@@ -205,12 +205,12 @@ namespace djv
             p.textLines(w);
         }
 
-        void TextBlock::_clipEvent(Event::Clip & event)
+        void TextBlock::_clipEvent(Event::Clip& event)
         {
             _p->clipRect = event.getClipRect();
         }
 
-        void TextBlock::_paintEvent(Event::Paint & event)
+        void TextBlock::_paintEvent(Event::Paint& event)
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
@@ -228,7 +228,7 @@ namespace djv
                 //render->drawRect(g);
 
                 render->setFillColor(style->getColor(p.textColorRole));
-                for (const auto & line : cacheValue.first)
+                for (const auto& line : cacheValue.first)
                 {
                     if (pos.y + line.size.y >= p.clipRect.min.y && pos.y <= p.clipRect.max.y)
                     {
@@ -275,7 +275,7 @@ namespace djv
                     p.fontMetrics = p.fontMetricsFuture.get();
                     _resize();
                 }
-                catch (const std::exception & e)
+                catch (const std::exception& e)
                 {
                     _log(e.what(), LogLevel::Error);
                 }

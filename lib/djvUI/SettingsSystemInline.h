@@ -8,7 +8,7 @@ namespace djv
     {
         namespace Settings
         {
-            inline const std::vector<std::shared_ptr<ISettings> > & System::getSettings() const
+            inline const std::vector<std::shared_ptr<ISettings> >& System::getSettings() const
             {
                 return _settings;
             }
@@ -16,7 +16,7 @@ namespace djv
             template<typename T>
             inline std::shared_ptr<T> System::getSettingsT() const
             {
-                for (const auto & i : _settings)
+                for (const auto& i : _settings)
                 {
                     if (auto settings = std::dynamic_pointer_cast<T>(i))
                     {

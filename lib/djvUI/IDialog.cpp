@@ -42,12 +42,12 @@ namespace djv
                 }
 
             protected:
-                void _buttonPressEvent(Event::ButtonPress & event) override
+                void _buttonPressEvent(Event::ButtonPress& event) override
                 {
                     event.accept();
                 }
 
-                void _buttonReleaseEvent(Event::ButtonRelease & event) override
+                void _buttonReleaseEvent(Event::ButtonRelease& event) override
                 {
                     event.accept();
                 }
@@ -144,14 +144,14 @@ namespace djv
         IDialog::~IDialog()
         {}
 
-        void IDialog::setTitle(const std::string & text)
+        void IDialog::setTitle(const std::string& text)
         {
             DJV_PRIVATE_PTR();
             p.titleLabel->setText(text);
             p.titleLabel->setVisible(!text.empty());
         }
 
-        void IDialog::setStretch(const std::shared_ptr<Widget> & widget, RowStretch value)
+        void IDialog::setStretch(const std::shared_ptr<Widget>& widget, RowStretch value)
         {
             _p->childLayout->setStretch(widget, value);
         }
@@ -178,7 +178,7 @@ namespace djv
             _p->titleBarLayout->clearChildren();
         }
 
-        void IDialog::setCloseCallback(const std::function<void(void)> & value)
+        void IDialog::setCloseCallback(const std::function<void(void)>& value)
         {
             _p->closeCallback = value;
         }
@@ -199,7 +199,7 @@ namespace djv
             return _p->overlay->getHeightForWidth(value);
         }
 
-        void IDialog::addChild(const std::shared_ptr<IObject> & value)
+        void IDialog::addChild(const std::shared_ptr<IObject>& value)
         {
             if (auto overlay = std::dynamic_pointer_cast<Layout::Overlay>(value))
             {
@@ -211,7 +211,7 @@ namespace djv
             }
         }
 
-        void IDialog::removeChild(const std::shared_ptr<IObject> & value)
+        void IDialog::removeChild(const std::shared_ptr<IObject>& value)
         {
             if (auto overlay = std::dynamic_pointer_cast<Layout::Overlay>(value))
             {
@@ -237,12 +237,12 @@ namespace djv
             }
         }
 
-        void IDialog::_preLayoutEvent(Event::PreLayout &)
+        void IDialog::_preLayoutEvent(Event::PreLayout&)
         {
             _setMinimumSize(_p->overlay->getMinimumSize());
         }
 
-        void IDialog::_layoutEvent(Event::Layout &)
+        void IDialog::_layoutEvent(Event::Layout&)
         {
             _p->overlay->setGeometry(getGeometry());
             _p->overlayLayout->setGeometry(getGeometry());

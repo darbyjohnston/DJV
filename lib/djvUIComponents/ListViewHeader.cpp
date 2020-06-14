@@ -42,8 +42,8 @@ namespace djv
                 float getHeightForWidth(float) const override;
 
             protected:
-                void _preLayoutEvent(Event::PreLayout &) override;
-                void _layoutEvent(Event::Layout &) override;
+                void _preLayoutEvent(Event::PreLayout&) override;
+                void _layoutEvent(Event::Layout&) override;
                 void _paintEvent(Event::Paint &) override;
 
             private:
@@ -105,12 +105,12 @@ namespace djv
                 return _layout->getHeightForWidth(value);
             }
 
-            void HeaderButton::_preLayoutEvent(Event::PreLayout &)
+            void HeaderButton::_preLayoutEvent(Event::PreLayout&)
             {
                 _setMinimumSize(_layout->getMinimumSize());
             }
 
-            void HeaderButton::_layoutEvent(Event::Layout &)
+            void HeaderButton::_layoutEvent(Event::Layout&)
             {
                 _layout->setGeometry(getGeometry());
             }
@@ -118,7 +118,7 @@ namespace djv
             void HeaderButton::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
-                const BBox2f & g = getGeometry();
+                const BBox2f& g = getGeometry();
                 const auto& render = _getRender();
                 const auto& style = _getStyle();
                 if (_isPressed())
@@ -269,12 +269,12 @@ namespace djv
             _p->splitter->setSplitCallback(callback);
         }
 
-        void ListViewHeader::_preLayoutEvent(Event::PreLayout & event)
+        void ListViewHeader::_preLayoutEvent(Event::PreLayout& event)
         {
             _setMinimumSize(_p->splitter->getMinimumSize());
         }
 
-        void ListViewHeader::_layoutEvent(Event::Layout & event)
+        void ListViewHeader::_layoutEvent(Event::Layout& event)
         {
             _p->splitter->setGeometry(getGeometry());
         }

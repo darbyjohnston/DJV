@@ -184,12 +184,12 @@ namespace djv
                 _p->callback = value;
             }
 
-            void ShortcutsWidget::_preLayoutEvent(Event::PreLayout & event)
+            void ShortcutsWidget::_preLayoutEvent(Event::PreLayout& event)
             {
                 _setMinimumSize(_p->scrollWidget->getMinimumSize());
             }
 
-            void ShortcutsWidget::_layoutEvent(Event::Layout & event)
+            void ShortcutsWidget::_layoutEvent(Event::Layout& event)
             {
                 _p->scrollWidget->setGeometry(getGeometry());
             }

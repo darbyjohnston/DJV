@@ -73,12 +73,12 @@ namespace djv
                 _redraw();
             }
 
-            const Margin & Border::getInsideMargin() const
+            const Margin& Border::getInsideMargin() const
             {
                 return _p->insideMargin;
             }
 
-            void Border::setInsideMargin(const Margin & value)
+            void Border::setInsideMargin(const Margin& value)
             {
                 if (value == _p->insideMargin)
                     return;
@@ -97,7 +97,7 @@ namespace djv
                 return out;
             }
 
-            void Border::_preLayoutEvent(Event::PreLayout & event)
+            void Border::_preLayoutEvent(Event::PreLayout& event)
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
@@ -106,7 +106,7 @@ namespace djv
                 _setMinimumSize(StackLayout::minimumSize(getChildWidgets(), p.insideMargin, style) + b * 2.F + m);
             }
 
-            void Border::_layoutEvent(Event::Layout & event)
+            void Border::_layoutEvent(Event::Layout& event)
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
@@ -115,12 +115,12 @@ namespace djv
                 StackLayout::layout(getMargin().bbox(g, style), getChildWidgets(), p.insideMargin, style);
             }
 
-            void Border::_paintEvent(Event::Paint & event)
+            void Border::_paintEvent(Event::Paint& event)
             {
                 Widget::_paintEvent(event);
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
-                const BBox2f & g = getMargin().bbox(getGeometry(), style);
+                const BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const float b = style->getMetric(p.borderSize);
                 const auto& render = _getRender();
                 render->setFillColor(style->getColor(p.borderColor));

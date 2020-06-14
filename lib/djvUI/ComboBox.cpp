@@ -110,12 +110,12 @@ namespace djv
             return out;
         }
 
-        const std::vector<std::string> & ComboBox::getItems() const
+        const std::vector<std::string>& ComboBox::getItems() const
         {
             return _p->items;
         }
 
-        void ComboBox::setItems(const std::vector<std::string> & value)
+        void ComboBox::setItems(const std::vector<std::string>& value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.items)
@@ -124,7 +124,7 @@ namespace djv
             _updateItems();
         }
 
-        void ComboBox::addItem(const std::string & value)
+        void ComboBox::addItem(const std::string& value)
         {
             DJV_PRIVATE_PTR();
             p.items.push_back(value);
@@ -226,10 +226,10 @@ namespace djv
             takeTextFocus();
         }
 
-        void ComboBox::setFont(int index, const std::string & font)
+        void ComboBox::setFont(int index, const std::string& font)
         {
             DJV_PRIVATE_PTR();
-            const auto & actions = p.actionGroup->getActions();
+            const auto& actions = p.actionGroup->getActions();
             if (index >= 0 && index < actions.size())
             {
                 actions[index]->setFont(font);
@@ -242,7 +242,7 @@ namespace djv
             p.button->setFontSizeRole(value);
         }
 
-        void ComboBox::setCallback(const std::function<void(int)> & value)
+        void ComboBox::setCallback(const std::function<void(int)>& value)
         {
             _p->callback = value;
         }
@@ -252,12 +252,12 @@ namespace djv
             return _p->button->getFocusWidget();
         }
 
-        void ComboBox::_preLayoutEvent(Event::PreLayout & event)
+        void ComboBox::_preLayoutEvent(Event::PreLayout& event)
         {
             _setMinimumSize(_p->button->getMinimumSize());
         }
 
-        void ComboBox::_layoutEvent(Event::Layout & event)
+        void ComboBox::_layoutEvent(Event::Layout& event)
         {
             _p->button->setGeometry(getGeometry());
         }
@@ -301,7 +301,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.actionGroup->clearActions();
             p.menu->clearActions();
-            for (const auto & i : p.items)
+            for (const auto& i : p.items)
             {
                 auto action = Action::create();
                 action->setText(i);

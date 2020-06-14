@@ -42,7 +42,7 @@ namespace djv
             return out;
         }
 
-        void IntEdit::setModel(const std::shared_ptr<INumericValueModel<int> > & model)
+        void IntEdit::setModel(const std::shared_ptr<INumericValueModel<int> >& model)
         {
             INumericEdit<int>::setModel(model);
             DJV_PRIVATE_PTR();

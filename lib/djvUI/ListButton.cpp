@@ -64,7 +64,7 @@ namespace djv
                 return p.icon ? p.icon->getIcon() : std::string();
             }
 
-            void List::setIcon(const std::string & value)
+            void List::setIcon(const std::string& value)
             {
                 DJV_PRIVATE_PTR();
                 if (!value.empty())
@@ -95,7 +95,7 @@ namespace djv
                 return p.label ? p.label->getText() : std::string();
             }
 
-            void List::setText(const std::string & value)
+            void List::setText(const std::string& value)
             {
                 DJV_PRIVATE_PTR();
                 if (!value.empty())
@@ -139,12 +139,12 @@ namespace djv
                 }
             }
 
-            const std::string & List::getFont() const
+            const std::string& List::getFont() const
             {
                 return _p->font;
             }
 
-            const std::string & List::getFontFace() const
+            const std::string& List::getFontFace() const
             {
                 return _p->fontFace;
             }
@@ -154,7 +154,7 @@ namespace djv
                 return _p->fontSizeRole;
             }
 
-            void List::setFont(const std::string & value)
+            void List::setFont(const std::string& value)
             {
                 DJV_PRIVATE_PTR();
                 p.font = value;
@@ -164,7 +164,7 @@ namespace djv
                 }
             }
 
-            void List::setFontFace(const std::string & value)
+            void List::setFontFace(const std::string& value)
             {
                 DJV_PRIVATE_PTR();
                 p.fontFace = value;
@@ -184,12 +184,12 @@ namespace djv
                 }
             }
 
-            const Layout::Margin & List::getInsideMargin() const
+            const Layout::Margin& List::getInsideMargin() const
             {
                 return _p->layout->getMargin();
             }
 
-            void List::setInsideMargin(const Layout::Margin & value)
+            void List::setInsideMargin(const Layout::Margin& value)
             {
                 _p->layout->setMargin(value);
             }
@@ -207,12 +207,12 @@ namespace djv
                 }
             }
 
-            void List::_preLayoutEvent(Event::PreLayout & event)
+            void List::_preLayoutEvent(Event::PreLayout& event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
             }
 
-            void List::_layoutEvent(Event::Layout &)
+            void List::_layoutEvent(Event::Layout&)
             {
                 _p->layout->setGeometry(getGeometry());
             }

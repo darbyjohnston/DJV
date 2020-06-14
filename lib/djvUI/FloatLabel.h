@@ -32,8 +32,8 @@ namespace djv
 
             static std::shared_ptr<FloatLabel> create(const std::shared_ptr<Core::Context>&);
 
-            const std::shared_ptr<Core::FloatValueModel> & getModel() const;
-            void setModel(const std::shared_ptr<Core::FloatValueModel> &);
+            const std::shared_ptr<Core::FloatValueModel>& getModel() const;
+            void setModel(const std::shared_ptr<Core::FloatValueModel>&);
 
             size_t getPrecision();
             void setPrecision(size_t);
@@ -41,8 +41,8 @@ namespace djv
             static std::string getSizeString(const Core::FloatRange&, size_t precision);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
 
         private:
             void _textUpdate();

@@ -39,12 +39,12 @@ namespace djv
                 return out;
             }
 
-            const Spacing & Flow::getSpacing() const
+            const Spacing& Flow::getSpacing() const
             {
                 return _p->spacing;
             }
 
-            void Flow::setSpacing(const Spacing & value)
+            void Flow::setSpacing(const Spacing& value)
             {
                 DJV_PRIVATE_PTR();
                 if (value == p.spacing)
@@ -81,14 +81,14 @@ namespace djv
                 return out;
             }
 
-            void Flow::_preLayoutEvent(Event::PreLayout &)
+            void Flow::_preLayoutEvent(Event::PreLayout&)
             {
                 const auto& style = _getStyle();
                 const float tc = style->getMetric(MetricsRole::TextColumn);
                 glm::vec2 size = glm::vec2(0.F, 0.F);
-                for (const auto & child : getChildWidgets())
+                for (const auto& child : getChildWidgets())
                 {
-                    const auto & childMinimumSize = child->getMinimumSize();
+                    const auto& childMinimumSize = child->getMinimumSize();
                     size.x = std::max(size.x, childMinimumSize.x);
                     size.y += childMinimumSize.y;
                 }
@@ -96,10 +96,10 @@ namespace djv
                 _setMinimumSize(size + getMargin().getSize(style));
             }
 
-            void Flow::_layoutEvent(Event::Layout &)
+            void Flow::_layoutEvent(Event::Layout&)
             {
                 const auto& style = _getStyle();
-                const BBox2f & g = getMargin().bbox(getGeometry(), style);
+                const BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const float gx = g.min.x;
                 const float gw = g.w();
                 const glm::vec2 s = _p->spacing.get(style);
@@ -111,7 +111,7 @@ namespace djv
                 std::map<int, std::vector<Pair> > rows;
                 for (int i = 0, j = 0, k = 0; i < childrenSize; ++i, ++j)
                 {
-                    const auto & childMinimumSize = children[i]->getMinimumSize();
+                    const auto& childMinimumSize = children[i]->getMinimumSize();
                     if (j && pos.x + childMinimumSize.x > gx + gw)
                     {
                         pos.x = gx;
@@ -122,7 +122,7 @@ namespace djv
                     pos.x += childMinimumSize.x + s.x;
                 }
 
-                for (const auto & i : rows)
+                for (const auto& i : rows)
                 {
                     float h = 0.F;
                     for (auto j : i.second)

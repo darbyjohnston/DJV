@@ -62,7 +62,7 @@ namespace djv
                 return _p->localeFonts;
             }
 
-            void Font::load(const rapidjson::Value & value)
+            void Font::load(const rapidjson::Value& value)
             {
                 if (value.IsObject())
                 {

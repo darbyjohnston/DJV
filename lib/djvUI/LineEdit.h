@@ -24,34 +24,34 @@ namespace djv
 
             static std::shared_ptr<LineEdit> create(const std::shared_ptr<Core::Context>&);
 
-            const std::string & getText() const;
-            void setText(const std::string &);
+            const std::string& getText() const;
+            void setText(const std::string&);
 
             ColorRole getTextColorRole() const;
             MetricsRole getTextSizeRole() const;
             void setTextColorRole(ColorRole);
             void setTextSizeRole(MetricsRole);
 
-            const std::string & getFont() const;
-            const std::string & getFontFace() const;
+            const std::string& getFont() const;
+            const std::string& getFontFace() const;
             MetricsRole getFontSizeRole() const;
-            void setFont(const std::string &);
-            void setFontFace(const std::string &);
+            void setFont(const std::string&);
+            void setFontFace(const std::string&);
             void setFontSizeRole(MetricsRole);
 
-            const std::string & getSizeString() const;
-            void setSizeString(const std::string &);
+            const std::string& getSizeString() const;
+            void setSizeString(const std::string&);
 
-            void setTextChangedCallback(const std::function<void(const std::string &)> &);
-            void setTextEditCallback(const std::function<void(const std::string&, TextEditReason)> &);
-            void setFocusCallback(const std::function<void(bool)> &);
+            void setTextChangedCallback(const std::function<void(const std::string&)>&);
+            void setTextEditCallback(const std::function<void(const std::string&, TextEditReason)>&);
+            void setFocusCallback(const std::function<void(bool)>&);
 
             void setBackgroundRole(ColorRole) override;
             std::shared_ptr<Widget> getFocusWidget() override;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
             void _paintEvent(Core::Event::Paint&) override;
 
         private:

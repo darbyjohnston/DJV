@@ -28,7 +28,7 @@ namespace djv
 
                 static std::shared_ptr<ColorSpace> create(const std::shared_ptr<Core::Context>&);
 
-                void load(const rapidjson::Value &) override;
+                void load(const rapidjson::Value&) override;
                 rapidjson::Value save(rapidjson::Document::AllocatorType&) override;
 
             private:

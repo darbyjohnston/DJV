@@ -126,7 +126,7 @@ namespace djv
                 return out;
             }
 
-            void ColorSpace::load(const rapidjson::Value & value)
+            void ColorSpace::load(const rapidjson::Value& value)
             {
                 DJV_PRIVATE_PTR();
                 if (value.IsObject())

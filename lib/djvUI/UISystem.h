@@ -30,7 +30,7 @@ namespace djv
 
             static std::shared_ptr<UISystem> create(bool resetSettings, const std::shared_ptr<Core::Context>&);
 
-            const std::shared_ptr<Style::Style> & getStyle() const;
+            const std::shared_ptr<Style::Style>& getStyle() const;
 
         private:
 

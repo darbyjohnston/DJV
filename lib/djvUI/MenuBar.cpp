@@ -83,7 +83,7 @@ namespace djv
             }
         }
 
-        void MenuBar::setStretch(const std::shared_ptr<Widget> & widget, RowStretch value, Side side)
+        void MenuBar::setStretch(const std::shared_ptr<Widget>& widget, RowStretch value, Side side)
         {
             const auto i = _p->widgetLayout.find(side);
             if (i != _p->widgetLayout.end())
@@ -124,7 +124,7 @@ namespace djv
             return _p->layout->getHeightForWidth(value);
         }
 
-        void MenuBar::addChild(const std::shared_ptr<IObject> & value)
+        void MenuBar::addChild(const std::shared_ptr<IObject>& value)
         {
             Widget::addChild(value);
             DJV_PRIVATE_PTR();
@@ -186,7 +186,7 @@ namespace djv
             }
         }
 
-        void MenuBar::removeChild(const std::shared_ptr<IObject> & value)
+        void MenuBar::removeChild(const std::shared_ptr<IObject>& value)
         {
             Widget::removeChild(value);
             DJV_PRIVATE_PTR();
@@ -228,19 +228,19 @@ namespace djv
             }
         }
 
-        void MenuBar::_preLayoutEvent(Event::PreLayout & event)
+        void MenuBar::_preLayoutEvent(Event::PreLayout& event)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void MenuBar::_layoutEvent(Event::Layout & event)
+        void MenuBar::_layoutEvent(Event::Layout& event)
         {
-            const BBox2f & g = getGeometry();
+            const BBox2f& g = getGeometry();
             const auto& style = _getStyle();
             _p->layout->setGeometry(getMargin().bbox(g, style));
         }
 
-        bool MenuBar::_eventFilter(const std::shared_ptr<IObject> &, Event::Event & event)
+        bool MenuBar::_eventFilter(const std::shared_ptr<IObject>&, Event::Event& event)
         {
             DJV_PRIVATE_PTR();
             switch (event.getEventType())
@@ -309,7 +309,7 @@ namespace djv
 
         void MenuBar::Private::closeMenus()
         {
-            for (auto & i : menus)
+            for (auto& i : menus)
             {
                 i->close();
             }

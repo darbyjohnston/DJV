@@ -49,12 +49,12 @@ namespace djv
             return out;
         }
 
-        const AV::Image::Color & ColorSwatch::getColor() const
+        const AV::Image::Color& ColorSwatch::getColor() const
         {
             return _p->color;
         }
 
-        void ColorSwatch::setColor(const AV::Image::Color & value)
+        void ColorSwatch::setColor(const AV::Image::Color& value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.color)
@@ -102,7 +102,7 @@ namespace djv
             return out;
         }
 
-        void ColorSwatch::_preLayoutEvent(Event::PreLayout & event)
+        void ColorSwatch::_preLayoutEvent(Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
@@ -120,13 +120,13 @@ namespace djv
             _setMinimumSize(size);
         }
 
-        void ColorSwatch::_paintEvent(Event::Paint & event)
+        void ColorSwatch::_paintEvent(Event::Paint& event)
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const float b = style->getMetric(MetricsRole::Border);
-            const BBox2f & g = getGeometry();
+            const BBox2f& g = getGeometry();
 
             BBox2f g2 = g;
             const auto& render = _getRender();

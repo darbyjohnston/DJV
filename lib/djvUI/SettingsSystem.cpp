@@ -72,12 +72,12 @@ namespace djv
                 return out;
             }
 
-            void System::_addSettings(const std::shared_ptr<ISettings> & value)
+            void System::_addSettings(const std::shared_ptr<ISettings>& value)
             {
                 _settings.push_back(value);
             }
 
-            void System::_removeSettings(const std::shared_ptr<ISettings> & value)
+            void System::_removeSettings(const std::shared_ptr<ISettings>& value)
             {
                 const auto i = std::find(_settings.begin(), _settings.end(), value);
                 if (i != _settings.end())
@@ -86,7 +86,7 @@ namespace djv
                 }
             }
 
-            void System::_loadSettings(const std::shared_ptr<ISettings> & settings)
+            void System::_loadSettings(const std::shared_ptr<ISettings>& settings)
             {
                 if (!_settingsIO)
                     return;
@@ -126,7 +126,7 @@ namespace djv
                 document.AddMember("SettingsVersion", toJSON(settingsVersion, allocator), allocator);
 
                 // Serialize the settings.
-                for (const auto & settings : _settings)
+                for (const auto& settings : _settings)
                 {
                     document.AddMember(rapidjson::Value(settings->getName().c_str(), allocator), settings->save(allocator), allocator);
                 }
@@ -207,7 +207,7 @@ namespace djv
                     fileIO->open(_settingsPath.get(), FileSystem::FileIO::Mode::Write);
                     fileIO->write(buffer.GetString());
                 }
-                catch (const std::exception & e)
+                catch (const std::exception& e)
                 {
                     std::stringstream ss;
                     ss << "Cannot write settings" << " '" << _settingsPath << "': " << e.what();

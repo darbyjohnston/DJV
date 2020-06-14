@@ -60,8 +60,8 @@ namespace djv
             void _setIsMin(bool);
             void _setIsMax(bool);
 
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
             void _paintEvent(Core::Event::Paint&) override;
 
             bool _eventFilter(const std::shared_ptr<IObject>&, Core::Event::Event&) override;

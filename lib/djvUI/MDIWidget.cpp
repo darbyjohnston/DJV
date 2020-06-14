@@ -40,7 +40,7 @@ namespace djv
             std::map<Handle, std::vector<BBox2f> > IWidget::_getHandles() const
             {
                 std::map<Handle, std::vector<BBox2f> > out;
-                const BBox2f & g = getGeometry();
+                const BBox2f& g = getGeometry();
                 const auto& style = _getStyle();
                 const float corner = style->getMetric(MetricsRole::Handle) * 2.F;
                 out =
@@ -122,7 +122,7 @@ namespace djv
             std::map<Handle, std::vector<BBox2f> > IWidget::_getHandlesDraw() const
             {
                 std::map<Handle, std::vector<BBox2f> > out;
-                const BBox2f & g = getGeometry();
+                const BBox2f& g = getGeometry();
                 const auto& style = _getStyle();
                 const float edge = ceilf(style->getMetric(MetricsRole::Handle) * .75F);
                 const float corner = style->getMetric(MetricsRole::Handle) * 2.F;

@@ -87,12 +87,12 @@ namespace djv
                 _p->captureKeyboard = value;
             }
 
-            const std::weak_ptr<Widget> & Overlay::getAnchor() const
+            const std::weak_ptr<Widget>& Overlay::getAnchor() const
             {
                 return _p->anchor;
             }
 
-            void Overlay::setAnchor(const std::weak_ptr<Widget> & value)
+            void Overlay::setAnchor(const std::weak_ptr<Widget>& value)
             {
                 _p->anchor = value;
             }
@@ -107,7 +107,7 @@ namespace djv
                 _p->fadeIn = value;
             }
 
-            void Overlay::setCloseCallback(const std::function<void(void)> & callback)
+            void Overlay::setCloseCallback(const std::function<void(void)>& callback)
             {
                 _p->closeCallback = callback;
             }
@@ -156,19 +156,19 @@ namespace djv
                 return out;
             }
 
-            void Overlay::_preLayoutEvent(Event::PreLayout & event)
+            void Overlay::_preLayoutEvent(Event::PreLayout& event)
             {
                 const auto& style = _getStyle();
                 _setMinimumSize(Stack::minimumSize(getChildWidgets(), Margin(), style) + getMargin().getSize(style));
             }
 
-            void Overlay::_layoutEvent(Event::Layout & event)
+            void Overlay::_layoutEvent(Event::Layout& event)
             {
                 const auto& style = _getStyle();
                 Stack::layout(getMargin().bbox(getGeometry(), style), getChildWidgets(), Margin(), style);
             }
 
-            void Overlay::_pointerEnterEvent(Event::PointerEnter & event)
+            void Overlay::_pointerEnterEvent(Event::PointerEnter& event)
             {
                 if (_p->capturePointer && !event.isRejected())
                 {
@@ -176,7 +176,7 @@ namespace djv
                 }
             }
 
-            void Overlay::_pointerLeaveEvent(Event::PointerLeave & event)
+            void Overlay::_pointerLeaveEvent(Event::PointerLeave& event)
             {
                 if (_p->capturePointer)
                 {
@@ -184,7 +184,7 @@ namespace djv
                 }
             }
 
-            void Overlay::_pointerMoveEvent(Event::PointerMove & event)
+            void Overlay::_pointerMoveEvent(Event::PointerMove& event)
             {
                 if (_p->capturePointer)
                 {
@@ -192,7 +192,7 @@ namespace djv
                 }
             }
 
-            void Overlay::_buttonPressEvent(Event::ButtonPress & event)
+            void Overlay::_buttonPressEvent(Event::ButtonPress& event)
             {
                 DJV_PRIVATE_PTR();
                 if (p.capturePointer)
@@ -203,7 +203,7 @@ namespace djv
                 }
             }
 
-            void Overlay::_buttonReleaseEvent(Event::ButtonRelease & event)
+            void Overlay::_buttonReleaseEvent(Event::ButtonRelease& event)
             {
                 DJV_PRIVATE_PTR();
                 const auto i = p.pressedIDs.find(event.getPointerInfo().id);
@@ -214,7 +214,7 @@ namespace djv
                 }
             }
 
-            void Overlay::_keyPressEvent(Event::KeyPress & event)
+            void Overlay::_keyPressEvent(Event::KeyPress& event)
             {
                 Widget::_keyPressEvent(event);
                 DJV_PRIVATE_PTR();

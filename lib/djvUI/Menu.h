@@ -38,11 +38,11 @@ namespace djv
 
             std::shared_ptr<Core::IValueSubject<std::string> > observeIcon() const;
             std::shared_ptr<Core::IValueSubject<std::string> > observeText() const;
-            void setIcon(const std::string &);
-            void setText(const std::string &);
+            void setIcon(const std::string&);
+            void setText(const std::string&);
 
-            void addAction(const std::shared_ptr<Action> &);
-            void removeAction(const std::shared_ptr<Action> &);
+            void addAction(const std::shared_ptr<Action>&);
+            void removeAction(const std::shared_ptr<Action>&);
             void clearActions();
             void addSeparator();
 
@@ -52,14 +52,14 @@ namespace djv
             ColorRole getBackgroundRole() const;
             void setBackgroundRole(ColorRole);
 
-            std::shared_ptr<Widget> popup(const glm::vec2 &);
-            std::shared_ptr<Widget> popup(const std::weak_ptr<Button::Menu> & button);
-            std::shared_ptr<Widget> popup(const std::weak_ptr<Button::Menu> & button, const std::weak_ptr<Widget> & anchor);
+            std::shared_ptr<Widget> popup(const glm::vec2&);
+            std::shared_ptr<Widget> popup(const std::weak_ptr<Button::Menu>& button);
+            std::shared_ptr<Widget> popup(const std::weak_ptr<Button::Menu>& button, const std::weak_ptr<Widget>& anchor);
 
             bool isOpen() const;
             void close();
 
-            void setCloseCallback(const std::function<void(void)> &);
+            void setCloseCallback(const std::function<void(void)>&);
 
         private:
             void _createWidgets();

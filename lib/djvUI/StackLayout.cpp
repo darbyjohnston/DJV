@@ -78,12 +78,12 @@ namespace djv
                 }
             }
 
-            void Stack::_preLayoutEvent(Event::PreLayout &)
+            void Stack::_preLayoutEvent(Event::PreLayout&)
             {
                 _setMinimumSize(minimumSize(getChildWidgets(), getMargin(), _getStyle()));
             }
 
-            void Stack::_layoutEvent(Event::Layout &)
+            void Stack::_layoutEvent(Event::Layout&)
             {
                 layout(getGeometry(), getChildWidgets(), getMargin(), _getStyle());
             }

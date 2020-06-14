@@ -49,12 +49,12 @@ namespace djv
             return out;
         }
 
-        const std::string & Icon::getIcon() const
+        const std::string& Icon::getIcon() const
         {
             return _p->name;
         }
 
-        void Icon::setIcon(const std::string & value)
+        void Icon::setIcon(const std::string& value)
         {
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
@@ -105,7 +105,7 @@ namespace djv
             _resize();
         }
 
-        void Icon::_preLayoutEvent(Event::PreLayout & event)
+        void Icon::_preLayoutEvent(Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
@@ -121,12 +121,12 @@ namespace djv
             _setMinimumSize(size + getMargin().getSize(style));
         }
 
-        void Icon::_paintEvent(Event::Paint & event)
+        void Icon::_paintEvent(Event::Paint& event)
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const BBox2f & g = getMargin().bbox(getGeometry(), style);
+            const BBox2f& g = getMargin().bbox(getGeometry(), style);
             const glm::vec2 c = g.getCenter();
 
             const auto& render = _getRender();
@@ -169,7 +169,7 @@ namespace djv
             }
         }
 
-        void Icon::_initEvent(Event::Init & event)
+        void Icon::_initEvent(Event::Init& event)
         {
             Widget::_initEvent(event);
             DJV_PRIVATE_PTR();
@@ -197,7 +197,7 @@ namespace djv
                 {
                     p.image = p.imageFuture.get();
                 }
-                catch (const std::exception & e)
+                catch (const std::exception& e)
                 {
                     p.image.reset();
                     _log(e.what(), LogLevel::Error);

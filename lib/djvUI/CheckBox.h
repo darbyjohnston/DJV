@@ -27,20 +27,20 @@ namespace djv
                 static std::shared_ptr<CheckBox> create(const std::shared_ptr<Core::Context>&);
 
                 std::string getText() const;
-                void setText(const std::string &);
+                void setText(const std::string&);
 
-                const std::string & getFontFamily() const;
-                const std::string & getFontFace() const;
+                const std::string& getFontFamily() const;
+                const std::string& getFontFace() const;
                 MetricsRole getFontSizeRole() const;
-                void setFontFamily(const std::string &);
-                void setFontFace(const std::string &);
+                void setFontFamily(const std::string&);
+                void setFontFace(const std::string&);
                 void setFontSizeRole(MetricsRole);
 
                 bool acceptFocus(TextFocusDirection) override;
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout &) override;
-                void _layoutEvent(Core::Event::Layout &) override;
+                void _preLayoutEvent(Core::Event::PreLayout&) override;
+                void _layoutEvent(Core::Event::Layout&) override;
                 void _paintEvent(Core::Event::Paint&) override;
                 void _buttonPressEvent(Core::Event::ButtonPress&) override;
                 void _keyPressEvent(Core::Event::KeyPress&) override;

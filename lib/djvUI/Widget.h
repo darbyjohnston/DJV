@@ -65,7 +65,7 @@ namespace djv
             void hide();
 
             bool isClipped() const;
-            const Core::BBox2f & getClipRect() const;
+            const Core::BBox2f& getClipRect() const;
 
             float getOpacity(bool parents = false) const;
             void setOpacity(float);
@@ -77,21 +77,21 @@ namespace djv
 
             const glm::vec2& getMinimumSize() const;
             const glm::vec2& getDesiredSize() const;
-            const Core::BBox2f & getGeometry() const;
+            const Core::BBox2f& getGeometry() const;
             glm::vec2 getSize() const;
             float getWidth() const;
             float getHeight() const;
-            void setGeometry(const Core::BBox2f &);
-            void move(const glm::vec2 &);
-            void resize(const glm::vec2 &);
+            void setGeometry(const Core::BBox2f&);
+            void move(const glm::vec2&);
+            void resize(const glm::vec2&);
 
             //! This function is called during the layout event to determine the height of a
             //! widget based upon the given width. This is used for example by FlowLayout
             //! and TextBlock.
             virtual float getHeightForWidth(float) const;
 
-            const Layout::Margin & getMargin() const;
-            void setMargin(const Layout::Margin &);
+            const Layout::Margin& getMargin() const;
+            void setMargin(const Layout::Margin&);
 
             HAlign getHAlign() const;
             VAlign getVAlign() const;
@@ -100,8 +100,8 @@ namespace djv
 
             //! Utility function for computing widget geometry.
             static Core::BBox2f getAlign(
-                const Core::BBox2f &,
-                const glm::vec2 & minimumSize,
+                const Core::BBox2f&,
+                const glm::vec2& minimumSize,
                 HAlign,
                 VAlign);
 
@@ -137,9 +137,9 @@ namespace djv
             //! \name Actions
             ///@{
 
-            const std::vector<std::shared_ptr<Action> > & getActions() const;
-            virtual void addAction(const std::shared_ptr<Action> &);
-            virtual void removeAction(const std::shared_ptr<Action> &);
+            const std::vector<std::shared_ptr<Action> >& getActions() const;
+            virtual void addAction(const std::shared_ptr<Action>&);
+            virtual void removeAction(const std::shared_ptr<Action>&);
             virtual void clearActions();
 
             ///@}
@@ -147,8 +147,8 @@ namespace djv
             //! \name Tooltip
             ///@{
 
-            const std::string & getTooltip() const;
-            void setTooltip(const std::string &);
+            const std::string& getTooltip() const;
+            void setTooltip(const std::string&);
 
             static bool areTooltipsEnabled();
             static void setTooltipsEnabled(bool);
@@ -164,7 +164,7 @@ namespace djv
             void moveToFront() override;
             void moveToBack() override;
             void setEnabled(bool) override;
-            bool event(Core::Event::Event &) override;
+            bool event(Core::Event::Event&) override;
 
         protected:
             //! \name Events
@@ -172,22 +172,22 @@ namespace djv
 
             virtual void _initLayoutEvent(Core::Event::InitLayout&) {}
             virtual void _preLayoutEvent(Core::Event::PreLayout&) {}
-            virtual void _layoutEvent(Core::Event::Layout &) {}
-            virtual void _clipEvent(Core::Event::Clip &) {}
-            virtual void _paintEvent(Core::Event::Paint &);
+            virtual void _layoutEvent(Core::Event::Layout&) {}
+            virtual void _clipEvent(Core::Event::Clip&) {}
+            virtual void _paintEvent(Core::Event::Paint&);
             virtual void _paintOverlayEvent(Core::Event::PaintOverlay&);
-            virtual void _pointerEnterEvent(Core::Event::PointerEnter &);
-            virtual void _pointerLeaveEvent(Core::Event::PointerLeave &);
-            virtual void _pointerMoveEvent(Core::Event::PointerMove &);
-            virtual void _buttonPressEvent(Core::Event::ButtonPress &) {}
-            virtual void _buttonReleaseEvent(Core::Event::ButtonRelease &) {}
-            virtual void _scrollEvent(Core::Event::Scroll &) {}
-            virtual void _dropEvent(Core::Event::Drop &) {}
-            virtual void _keyPressEvent(Core::Event::KeyPress &);
-            virtual void _keyReleaseEvent(Core::Event::KeyRelease &) {}
-            virtual void _textFocusEvent(Core::Event::TextFocus &) {}
-            virtual void _textFocusLostEvent(Core::Event::TextFocusLost &) {}
-            virtual void _textInputEvent(Core::Event::TextInput &) {}
+            virtual void _pointerEnterEvent(Core::Event::PointerEnter&);
+            virtual void _pointerLeaveEvent(Core::Event::PointerLeave&);
+            virtual void _pointerMoveEvent(Core::Event::PointerMove&);
+            virtual void _buttonPressEvent(Core::Event::ButtonPress&) {}
+            virtual void _buttonReleaseEvent(Core::Event::ButtonRelease&) {}
+            virtual void _scrollEvent(Core::Event::Scroll&) {}
+            virtual void _dropEvent(Core::Event::Drop&) {}
+            virtual void _keyPressEvent(Core::Event::KeyPress&);
+            virtual void _keyReleaseEvent(Core::Event::KeyRelease&) {}
+            virtual void _textFocusEvent(Core::Event::TextFocus&) {}
+            virtual void _textFocusLostEvent(Core::Event::TextFocusLost&) {}
+            virtual void _textInputEvent(Core::Event::TextInput&) {}
             
             ///@}
 
@@ -196,7 +196,7 @@ namespace djv
 
             const std::weak_ptr<EventSystem>& _getEventSystem() const;
             const std::shared_ptr<AV::Render2D::Render>& _getRender() const;
-            const std::shared_ptr<Style::Style> & _getStyle() const;
+            const std::shared_ptr<Style::Style>& _getStyle() const;
 
             ///@}
 
@@ -217,7 +217,7 @@ namespace djv
 
             std::string _getTooltipText() const;
             std::shared_ptr<ITooltipWidget> _createTooltipDefault();
-            virtual std::shared_ptr<ITooltipWidget> _createTooltip(const glm::vec2 & pos);
+            virtual std::shared_ptr<ITooltipWidget> _createTooltip(const glm::vec2& pos);
 
         private:
             std::vector<std::shared_ptr<Widget> > _childWidgets;

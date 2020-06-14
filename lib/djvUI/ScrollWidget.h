@@ -45,8 +45,8 @@ namespace djv
             ScrollType getScrollType() const;
             void setScrollType(ScrollType);
 
-            const glm::vec2 & getScrollPos() const;
-            void setScrollPos(const glm::vec2 &);
+            const glm::vec2& getScrollPos() const;
+            void setScrollPos(const glm::vec2&);
             void moveToBegin();
             void moveToEnd();
             void movePageUp();
@@ -66,22 +66,22 @@ namespace djv
             void setMinimumSizeRole(MetricsRole);
             void setScrollBarSizeRole(MetricsRole);
 
-            void addChild(const std::shared_ptr<IObject> &) override;
-            void removeChild(const std::shared_ptr<IObject> &) override;
+            void addChild(const std::shared_ptr<IObject>&) override;
+            void removeChild(const std::shared_ptr<IObject>&) override;
             void clearChildren() override;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
-            void _clipEvent(Core::Event::Clip &) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
+            void _clipEvent(Core::Event::Clip&) override;
             void _keyPressEvent(Core::Event::KeyPress&) override;
-            void _scrollEvent(Core::Event::Scroll &) override;
+            void _scrollEvent(Core::Event::Scroll&) override;
 
-            bool _eventFilter(const std::shared_ptr<IObject> &, Core::Event::Event &) override;
+            bool _eventFilter(const std::shared_ptr<IObject>&, Core::Event::Event&) override;
 
         private:
-            void _updateScrollBars(const glm::vec2 &);
-            void _addPointerSample(const glm::vec2 &);
+            void _updateScrollBars(const glm::vec2&);
+            void _addPointerSample(const glm::vec2&);
             glm::vec2 _getPointerAverage() const;
 
             DJV_PRIVATE();

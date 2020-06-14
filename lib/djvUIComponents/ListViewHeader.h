@@ -37,8 +37,8 @@ namespace djv
             void setSplitCallback(const std::function<void(const std::vector<float> &)> &);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
 
         private:
             void _sortUpdate();

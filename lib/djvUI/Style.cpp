@@ -55,7 +55,7 @@ namespace djv
                 };
             }
 
-            void Palette::setColor(ColorRole role, const AV::Image::Color & value)
+            void Palette::setColor(ColorRole role, const AV::Image::Color& value)
             {
                 _colors[role] = value.getType() != AV::Image::Type::None ?
                     value.convert(AV::Image::Type::RGBA_F32) :
@@ -67,7 +67,7 @@ namespace djv
                 _disabledMult = value;
             }
 
-            bool Palette::operator == (const Palette & other) const
+            bool Palette::operator == (const Palette& other) const
             {
                 return _colors == other._colors &&
                     _disabledMult == other._disabledMult;
@@ -121,7 +121,7 @@ namespace djv
                 _metrics[role] = value;
             }
 
-            bool Metrics::operator == (const Metrics & other) const
+            bool Metrics::operator == (const Metrics& other) const
             {
                 return _metrics == other._metrics;
             }
@@ -263,7 +263,7 @@ namespace djv
                 return color;
             }
 
-            void Style::setPalette(const Palette & value)
+            void Style::setPalette(const Palette& value)
             {
                 if (value == _palette)
                     return;
@@ -303,7 +303,7 @@ namespace djv
                 _sizeDirty = true;
             }
 
-            void Style::setFont(const std::string & value)
+            void Style::setFont(const std::string& value)
             {
                 if (value == _font)
                     return;
@@ -311,7 +311,7 @@ namespace djv
                 _fontDirty = true;
             }
 
-            AV::Font::FontInfo Style::getFontInfo(const std::string & family, const std::string & face, MetricsRole role) const
+            AV::Font::FontInfo Style::getFontInfo(const std::string& family, const std::string& face, MetricsRole role) const
             {
                 const auto i = _fontNameToId.find(family.empty() ? AV::Font::familyDefault : family);
                 const AV::Font::FamilyID familyID = i != _fontNameToId.end() ? i->second : 1;
@@ -323,7 +323,7 @@ namespace djv
                     static_cast<uint16_t>(_dpi.x));
             }
 
-            AV::Font::FontInfo Style::getFontInfo(const std::string & face, MetricsRole role) const
+            AV::Font::FontInfo Style::getFontInfo(const std::string& face, MetricsRole role) const
             {
                 const auto i = _fontNameToId.find(_font);
                 const AV::Font::FamilyID familyID = i != _fontNameToId.end() ? i->second : 1;
@@ -345,7 +345,7 @@ namespace djv
         } // namespace Style
     } // namespace UI
 
-    rapidjson::Value toJSON(const UI::Style::Palette & value, rapidjson::Document::AllocatorType& allocator)
+    rapidjson::Value toJSON(const UI::Style::Palette& value, rapidjson::Document::AllocatorType& allocator)
     {
         rapidjson::Value out(rapidjson::kObjectType);
         {
@@ -364,7 +364,7 @@ namespace djv
         return out;
     }
 
-    rapidjson::Value toJSON(const UI::Style::Metrics & value, rapidjson::Document::AllocatorType& allocator)
+    rapidjson::Value toJSON(const UI::Style::Metrics& value, rapidjson::Document::AllocatorType& allocator)
     {
         rapidjson::Value out(rapidjson::kObjectType);
         {
@@ -380,17 +380,17 @@ namespace djv
         return out;
     }
 
-    void fromJSON(const rapidjson::Value & value, UI::Style::Palette & out)
+    void fromJSON(const rapidjson::Value& value, UI::Style::Palette& out)
     {
         if (value.IsObject())
         {
-            for (const auto & i : value.GetObject())
+            for (const auto& i : value.GetObject())
             {
                 if (0 == strcmp("Roles", i.name.GetString()))
                 {
                     if (i.value.IsObject())
                     {
-                        for (const auto & j : i.value.GetObject())
+                        for (const auto& j : i.value.GetObject())
                         {
                             UI::ColorRole role = UI::ColorRole::First;
                             std::stringstream ss(j.name.GetString());
@@ -421,17 +421,17 @@ namespace djv
         }
     }
 
-    void fromJSON(const rapidjson::Value & value, UI::Style::Metrics & out)
+    void fromJSON(const rapidjson::Value& value, UI::Style::Metrics& out)
     {
         if (value.IsObject())
         {
-            for (const auto & i : value.GetObject())
+            for (const auto& i : value.GetObject())
             {
                 if (0 == strcmp("Roles", i.name.GetString()))
                 {
                     if (i.value.IsObject())
                     {
-                        for (const auto & j : i.value.GetObject())
+                        for (const auto& j : i.value.GetObject())
                         {
                             UI::MetricsRole role = UI::MetricsRole::First;
                             std::stringstream ss(j.name.GetString());

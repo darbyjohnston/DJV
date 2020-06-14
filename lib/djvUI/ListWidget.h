@@ -27,8 +27,8 @@ namespace djv
 
             static std::shared_ptr<ListWidget> create(const std::shared_ptr<Core::Context>&);
 
-            void setItems(const std::vector<std::string> &);
-            void addItem(const std::string &);
+            void setItems(const std::vector<std::string>&);
+            void addItem(const std::string&);
             void clearItems();
 
             void setCurrentItem(int);
@@ -37,8 +37,8 @@ namespace djv
             void setBorder(bool);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
             void _keyPressEvent(Core::Event::KeyPress&) override;
 
         private:

@@ -69,12 +69,12 @@ namespace djv
                     return out;
                 }
                 
-                void setText(const std::string & text)
+                void setText(const std::string& text)
                 {
                     _textBlock->setText(text);
                 }
 
-                void setCloseText(const std::string & text)
+                void setCloseText(const std::string& text)
                 {
                     _closeButton->setText(text);
                 }
@@ -154,27 +154,27 @@ namespace djv
                     return out;
                 }
 
-                void setText(const std::string & text)
+                void setText(const std::string& text)
                 {
                     _textBlock->setText(text);
                 }
 
-                void setAcceptText(const std::string & text)
+                void setAcceptText(const std::string& text)
                 {
                     _acceptButton->setText(text);
                 }
 
-                void setCancelText(const std::string & text)
+                void setCancelText(const std::string& text)
                 {
                     _cancelButton->setText(text);
                 }
 
-                void setAcceptCallback(const std::function<void(void)> & value)
+                void setAcceptCallback(const std::function<void(void)>& value)
                 {
                     _acceptCallback = value;
                 }
 
-                void setCancelCallback(const std::function<void(void)> & value)
+                void setCancelCallback(const std::function<void(void)>& value)
                 {
                     _cancelCallback = value;
                 }
@@ -227,9 +227,9 @@ namespace djv
         }
 
         void DialogSystem::message(
-            const std::string & title,
-            const std::string & text,
-            const std::string & closeText)
+            const std::string& title,
+            const std::string& text,
+            const std::string& closeText)
         {
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
@@ -261,11 +261,11 @@ namespace djv
         }
 
         void DialogSystem::confirmation(
-            const std::string & title,
-            const std::string & text,
-            const std::string & acceptText,
-            const std::string & cancelText,
-            const std::function<void(bool)> & callback)
+            const std::string& title,
+            const std::string& text,
+            const std::string& acceptText,
+            const std::string& cancelText,
+            const std::function<void(bool)>& callback)
         {
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())

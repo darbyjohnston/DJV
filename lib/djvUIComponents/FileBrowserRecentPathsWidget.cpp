@@ -120,12 +120,12 @@ namespace djv
                 _p->callback = value;
             }
 
-            void RecentPathsWidget::_preLayoutEvent(Event::PreLayout & event)
+            void RecentPathsWidget::_preLayoutEvent(Event::PreLayout& event)
             {
                 _setMinimumSize(_p->scrollWidget->getMinimumSize());
             }
 
-            void RecentPathsWidget::_layoutEvent(Event::Layout & event)
+            void RecentPathsWidget::_layoutEvent(Event::Layout& event)
             {
                 _p->scrollWidget->setGeometry(getGeometry());
             }

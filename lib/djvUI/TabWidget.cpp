@@ -102,7 +102,7 @@ namespace djv
             p.soloLayout->setCurrentIndex(value);
         }
 
-        void TabWidget::setCurrentTabCallback(const std::function<void(int)> & value)
+        void TabWidget::setCurrentTabCallback(const std::function<void(int)>& value)
         {
             _p->callback = value;
         }
@@ -145,14 +145,14 @@ namespace djv
             return _p->layout->getHeightForWidth(value);
         }
 
-        void TabWidget::_preLayoutEvent(Event::PreLayout & event)
+        void TabWidget::_preLayoutEvent(Event::PreLayout& event)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void TabWidget::_layoutEvent(Event::Layout & event)
+        void TabWidget::_layoutEvent(Event::Layout& event)
         {
-            const BBox2f & g = getGeometry();
+            const BBox2f& g = getGeometry();
             const auto& style = _getStyle();
             _p->layout->setGeometry(getMargin().bbox(g, style));
         }

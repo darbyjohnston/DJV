@@ -25,7 +25,7 @@ namespace djv
 
             static std::shared_ptr<IntEdit> create(const std::shared_ptr<Core::Context>&);
 
-            void setModel(const std::shared_ptr<Core::INumericValueModel<int> > &) override;
+            void setModel(const std::shared_ptr<Core::INumericValueModel<int> >&) override;
 
         protected:
             void _setIsMin(bool) override;

@@ -56,14 +56,14 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 glm::ivec2 out(0, 0);
-                for (const auto & widget : p.widgets)
+                for (const auto& widget : p.widgets)
                 {
                     out = glm::max(widget.first + 1, out);
                 }
                 return out;
             }
 
-            glm::ivec2 Grid::getGridPos(const std::shared_ptr<Widget> & value)
+            glm::ivec2 Grid::getGridPos(const std::shared_ptr<Widget>& value)
             {
                 DJV_PRIVATE_PTR();
                 glm::ivec2 out(-1, -1);
@@ -78,7 +78,7 @@ namespace djv
                 return out;
             }
 
-            void Grid::setGridPos(const std::shared_ptr<Widget> & widget, const glm::ivec2 & pos, GridStretch stretch)
+            void Grid::setGridPos(const std::shared_ptr<Widget>& widget, const glm::ivec2& pos, GridStretch stretch)
             {
                 DJV_PRIVATE_PTR();
                 for (auto i = p.widgets.begin(); i != p.widgets.end(); ++i)
@@ -99,17 +99,17 @@ namespace djv
                 _resize();
             }
 
-            void Grid::setGridPos(const std::shared_ptr<Widget> & widget, int x, int y, GridStretch stretch)
+            void Grid::setGridPos(const std::shared_ptr<Widget>& widget, int x, int y, GridStretch stretch)
             {
                 setGridPos(widget, glm::ivec2(x, y), stretch);
             }
 
-            const Spacing & Grid::getSpacing() const
+            const Spacing& Grid::getSpacing() const
             {
                 return _p->spacing;
             }
 
-            void Grid::setSpacing(const Spacing & value)
+            void Grid::setSpacing(const Spacing& value)
             {
                 DJV_PRIVATE_PTR();
                 if (value == p.spacing)
@@ -118,11 +118,11 @@ namespace djv
                 _resize();
             }
 
-            GridStretch Grid::getStretch(const std::shared_ptr<Widget> & value) const
+            GridStretch Grid::getStretch(const std::shared_ptr<Widget>& value) const
             {
                 GridStretch out = GridStretch::First;
                 DJV_PRIVATE_PTR();
-                for (const auto & widget : p.widgets)
+                for (const auto& widget : p.widgets)
                 {
                     if (value == widget.second)
                     {
@@ -132,10 +132,10 @@ namespace djv
                 return out;
             }
 
-            void Grid::setStretch(const std::shared_ptr<Widget> & value, GridStretch stretch)
+            void Grid::setStretch(const std::shared_ptr<Widget>& value, GridStretch stretch)
             {
                 DJV_PRIVATE_PTR();
-                for (const auto & widget : p.widgets)
+                for (const auto& widget : p.widgets)
                 {
                     if (value == widget.second)
                     {
@@ -271,7 +271,7 @@ namespace djv
                 return out;
             }
 
-            void Grid::addChild(const std::shared_ptr<IObject> & value)
+            void Grid::addChild(const std::shared_ptr<IObject>& value)
             {
                 Widget::addChild(value);
                 DJV_PRIVATE_PTR();
@@ -284,7 +284,7 @@ namespace djv
                 }
             }
 
-            void Grid::removeChild(const std::shared_ptr<IObject> & value)
+            void Grid::removeChild(const std::shared_ptr<IObject>& value)
             {
                 Widget::removeChild(value);
                 DJV_PRIVATE_PTR();
@@ -303,7 +303,7 @@ namespace djv
                 }
             }
             
-            void Grid::_preLayoutEvent(Event::PreLayout &)
+            void Grid::_preLayoutEvent(Event::PreLayout&)
             {
                 DJV_PRIVATE_PTR();
 
@@ -358,12 +358,12 @@ namespace djv
                 _setMinimumSize(minimumSize + getMargin().getSize(style));
             }
 
-            void Grid::_layoutEvent(Event::Layout & event)
+            void Grid::_layoutEvent(Event::Layout& event)
             {
                 DJV_PRIVATE_PTR();
 
                 const auto& style = _getStyle();
-                const BBox2f & g = getGeometry();
+                const BBox2f& g = getGeometry();
                 const float gw = g.w();
                 const float gh = g.h();
 
@@ -514,21 +514,21 @@ namespace djv
                 }
 
                 // Set the child geometry.
-                for (const auto & widget : p.widgets)
+                for (const auto& widget : p.widgets)
                 {
-                    const auto & child = widget.second;
+                    const auto& child = widget.second;
                     child->setGeometry(
                         Widget::getAlign(childrenGeometry[widget.second], child->getMinimumSize(), child->getHAlign(), child->getVAlign()).
                         intersect(g));
                 }
             }
 
-            void Grid::_paintEvent(Event::Paint & event)
+            void Grid::_paintEvent(Event::Paint& event)
             {
                 Widget::_paintEvent(event);
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
-                const BBox2f & g = getMargin().bbox(getGeometry(), style);
+                const BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const auto& render = _getRender();
                 for (const auto& i : p.rowPosAndHeight)
                 {

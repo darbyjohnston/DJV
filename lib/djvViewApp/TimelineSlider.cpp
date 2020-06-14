@@ -287,7 +287,7 @@ namespace djv
             _p->currentFrameDragCallback = value;
         }
 
-        void TimelineSlider::_preLayoutEvent(Event::PreLayout & event)
+        void TimelineSlider::_preLayoutEvent(Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();

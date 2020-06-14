@@ -24,13 +24,13 @@ namespace djv
                 void set(MetricsRole);
                 void set(MetricsRole horizontal, MetricsRole vertical);
 
-                glm::vec2 get(const std::shared_ptr<Style::Style> &) const;
-                float get(Orientation, const std::shared_ptr<Style::Style> &) const;
+                glm::vec2 get(const std::shared_ptr<Style::Style>&) const;
+                float get(Orientation, const std::shared_ptr<Style::Style>&) const;
 
                 MetricsRole operator [] (Orientation) const;
-                MetricsRole & operator [] (Orientation);
+                MetricsRole& operator [] (Orientation);
 
-                bool operator == (const Spacing &) const;
+                bool operator == (const Spacing&) const;
 
             private:
                 MetricsRole _value[2] =

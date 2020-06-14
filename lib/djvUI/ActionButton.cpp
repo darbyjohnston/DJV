@@ -182,14 +182,14 @@ namespace djv
             void ActionButton::_actionUpdate()
             {
                 DJV_PRIVATE_PTR();
-                const auto & actions = getActions();
+                const auto& actions = getActions();
                 if (actions.size())
                 {
                     p.action = actions.front();
                     auto weak = std::weak_ptr<ActionButton>(std::dynamic_pointer_cast<ActionButton>(shared_from_this()));
                     p.iconObserver = ValueObserver<std::string>::create(
                         p.action->observeIcon(),
-                        [weak](const std::string & value)
+                        [weak](const std::string& value)
                     {
                         if (auto widget = weak.lock())
                         {
@@ -198,7 +198,7 @@ namespace djv
                     });
                     p.textObserver = ValueObserver<std::string>::create(
                         p.action->observeText(),
-                        [weak](const std::string & value)
+                        [weak](const std::string& value)
                     {
                         if (auto widget = weak.lock())
                         {
@@ -207,7 +207,7 @@ namespace djv
                     });
                     p.shortcutsObserver = ListObserver<std::shared_ptr<Shortcut> >::create(
                         p.action->observeShortcuts(),
-                        [weak](const std::vector<std::shared_ptr<Shortcut> > & value)
+                        [weak](const std::vector<std::shared_ptr<Shortcut> >& value)
                     {
                         if (auto widget = weak.lock())
                         {
@@ -215,7 +215,7 @@ namespace djv
                             {
                                 auto textSystem = context->getSystemT<TextSystem>();
                                 std::vector<std::string> labels;
-                                for (const auto & i : value)
+                                for (const auto& i : value)
                                 {
                                     labels.push_back(Shortcut::getText(
                                         i->observeShortcutKey()->get(),

@@ -41,17 +41,17 @@ namespace djv
 
                     static std::shared_ptr<Button> create(const std::shared_ptr<Context>&);
 
-                    void setIcon(const std::string &);
+                    void setIcon(const std::string&);
 
-                    const std::string & getText() const { return _label->getText(); }
-                    void setText(const std::string &);
+                    const std::string& getText() const { return _label->getText(); }
+                    void setText(const std::string&);
 
                     float getHeightForWidth(float) const override;
 
                 protected:
-                    void _preLayoutEvent(Event::PreLayout &) override;
-                    void _layoutEvent(Event::Layout &) override;
-                    void _paintEvent(Event::Paint &) override;
+                    void _preLayoutEvent(Event::PreLayout&) override;
+                    void _layoutEvent(Event::Layout&) override;
+                    void _paintEvent(Event::Paint&) override;
 
                 private:
                     std::shared_ptr<Icon> _icon;
@@ -100,12 +100,12 @@ namespace djv
                     return out;
                 }
 
-                void Button::setIcon(const std::string & value)
+                void Button::setIcon(const std::string& value)
                 {
                     _icon->setIcon(value);
                 }
 
-                void Button::setText(const std::string & value)
+                void Button::setText(const std::string& value)
                 {
                     _label->setText(value);
                 }
@@ -115,20 +115,20 @@ namespace djv
                     return _layout->getHeightForWidth(value);
                 }
 
-                void Button::_preLayoutEvent(Event::PreLayout &)
+                void Button::_preLayoutEvent(Event::PreLayout&)
                 {
                     _setMinimumSize(_layout->getMinimumSize());
                 }
 
-                void Button::_layoutEvent(Event::Layout &)
+                void Button::_layoutEvent(Event::Layout&)
                 {
                     _layout->setGeometry(getGeometry());
                 }
 
-                void Button::_paintEvent(Event::Paint & event)
+                void Button::_paintEvent(Event::Paint& event)
                 {
                     Widget::_paintEvent(event);
-                    const BBox2f & g = getGeometry();
+                    const BBox2f& g = getGeometry();
                     const auto& render = _getRender();
                     const auto& style = _getStyle();
                     if (_isPressed())
@@ -310,12 +310,12 @@ namespace djv
                 return out;
             }
 
-            const std::string & Bellows::getText() const
+            const std::string& Bellows::getText() const
             {
                 return _p->button->getText();
             }
 
-            void Bellows::setText(const std::string & text)
+            void Bellows::setText(const std::string& text)
             {
                 _p->button->setText(text);
             }
@@ -390,7 +390,7 @@ namespace djv
                 setOpen(false);
             }
 
-            void Bellows::setOpenCallback(const std::function<void(bool)> & callback)
+            void Bellows::setOpenCallback(const std::function<void(bool)>& callback)
             {
                 _p->openCallback = callback;
             }
@@ -415,13 +415,13 @@ namespace djv
                 return _p->layout->getHeightForWidth(value);
             }
 
-            void Bellows::addChild(const std::shared_ptr<IObject> & value)
+            void Bellows::addChild(const std::shared_ptr<IObject>& value)
             {
                 _p->childLayout->addChild(value);
                 _childrenUpdate();
             }
 
-            void Bellows::removeChild(const std::shared_ptr<IObject> & value)
+            void Bellows::removeChild(const std::shared_ptr<IObject>& value)
             {
                 _p->childLayout->removeChild(value);
                 _childrenUpdate();
@@ -433,12 +433,12 @@ namespace djv
                 _childrenUpdate();
             }
 
-            void Bellows::_preLayoutEvent(Event::PreLayout & event)
+            void Bellows::_preLayoutEvent(Event::PreLayout& event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
             }
 
-            void Bellows::_layoutEvent(Event::Layout & event)
+            void Bellows::_layoutEvent(Event::Layout& event)
             {
                 _p->layout->setGeometry(getGeometry());
             }

@@ -59,12 +59,12 @@ namespace djv
             return out;
         }
 
-        const std::string & LineEdit::getText() const
+        const std::string& LineEdit::getText() const
         {
             return _p->lineEditBase->getText();
         }
 
-        void LineEdit::setText(const std::string & value)
+        void LineEdit::setText(const std::string& value)
         {
             _p->lineEditBase->setText(value);
         }
@@ -89,12 +89,12 @@ namespace djv
             _p->lineEditBase->setTextSizeRole(value);
         }
 
-        const std::string & LineEdit::getFont() const
+        const std::string& LineEdit::getFont() const
         {
             return _p->lineEditBase->getFont();
         }
 
-        const std::string & LineEdit::getFontFace() const
+        const std::string& LineEdit::getFontFace() const
         {
             return _p->lineEditBase->getFontFace();
         }
@@ -104,12 +104,12 @@ namespace djv
             return _p->lineEditBase->getFontSizeRole();
         }
 
-        void LineEdit::setFont(const std::string & value)
+        void LineEdit::setFont(const std::string& value)
         {
             _p->lineEditBase->setFont(value);
         }
 
-        void LineEdit::setFontFace(const std::string & value)
+        void LineEdit::setFontFace(const std::string& value)
         {
             _p->lineEditBase->setFontFace(value);
         }
@@ -119,27 +119,27 @@ namespace djv
             _p->lineEditBase->setFontSizeRole(value);
         }
 
-        const std::string & LineEdit::getSizeString() const
+        const std::string& LineEdit::getSizeString() const
         {
             return _p->lineEditBase->getSizeString();
         }
 
-        void LineEdit::setSizeString(const std::string & value)
+        void LineEdit::setSizeString(const std::string& value)
         {
             _p->lineEditBase->setSizeString(value);
         }
 
-        void LineEdit::setTextChangedCallback(const std::function<void(const std::string &)> & callback)
+        void LineEdit::setTextChangedCallback(const std::function<void(const std::string&)>& callback)
         {
             _p->lineEditBase->setTextChangedCallback(callback);
         }
 
-        void LineEdit::setTextEditCallback(const std::function<void(const std::string&, TextEditReason)> & callback)
+        void LineEdit::setTextEditCallback(const std::function<void(const std::string&, TextEditReason)>& callback)
         {
             _p->lineEditBase->setTextEditCallback(callback);
         }
 
-        void LineEdit::setFocusCallback(const std::function<void(bool)> & callback)
+        void LineEdit::setFocusCallback(const std::function<void(bool)>& callback)
         {
             _p->lineEditBase->setFocusCallback(callback);
         }
@@ -155,7 +155,7 @@ namespace djv
             return _p->lineEditBase->getFocusWidget();
         }
         
-        void LineEdit::_preLayoutEvent(Event::PreLayout & event)
+        void LineEdit::_preLayoutEvent(Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
@@ -164,7 +164,7 @@ namespace djv
             _setMinimumSize(size + b * 6.F + getMargin().getSize(style));
         }
 
-        void LineEdit::_layoutEvent(Event::Layout & event)
+        void LineEdit::_layoutEvent(Event::Layout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();

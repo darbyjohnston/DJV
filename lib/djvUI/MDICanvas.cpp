@@ -51,7 +51,7 @@ namespace djv
                 std::map<Event::PointerID, Hovered> hovered;
                 std::map<Event::PointerID, Pressed> pressed;
                 std::shared_ptr<IWidget> activeWidget;
-                std::function<void(const std::shared_ptr<IWidget> &)> activeCallback;
+                std::function<void(const std::shared_ptr<IWidget>&)> activeCallback;
                 bool maximize = false;
                 float maximizeValue = 0.F;
                 std::weak_ptr<IWidget> maximizeWidget;
@@ -84,12 +84,12 @@ namespace djv
                 return out;
             }
 
-            const glm::vec2 & Canvas::getCanvasSize() const
+            const glm::vec2& Canvas::getCanvasSize() const
             {
                 return _p->canvasSize;
             }
 
-            void Canvas::setCanvasSize(const glm::vec2 & size)
+            void Canvas::setCanvasSize(const glm::vec2& size)
             {
                 DJV_PRIVATE_PTR();
                 if (size == p.canvasSize)
@@ -98,14 +98,14 @@ namespace djv
                 _resize();
             }
 
-            const std::shared_ptr<IWidget> & Canvas::getActiveWidget() const
+            const std::shared_ptr<IWidget>& Canvas::getActiveWidget() const
             {
                 return _p->activeWidget;
             }
 
             void Canvas::nextWidget()
             {
-                const auto & children = getChildrenT<IWidget>();
+                const auto& children = getChildrenT<IWidget>();
                 const size_t size = children.size();
                 if (size > 1)
                 {
@@ -115,7 +115,7 @@ namespace djv
 
             void Canvas::prevWidget()
             {
-                const auto & children = getChildrenT<IWidget>();
+                const auto& children = getChildrenT<IWidget>();
                 const size_t size = children.size();
                 if (size > 1)
                 {
@@ -123,12 +123,12 @@ namespace djv
                 }
             }
 
-            void Canvas::setActiveCallback(const std::function<void(const std::shared_ptr<IWidget> &)> & value)
+            void Canvas::setActiveCallback(const std::function<void(const std::shared_ptr<IWidget>&)>& value)
             {
                 _p->activeCallback = value;
             }
 
-            glm::vec2 Canvas::getWidgetPos(const std::shared_ptr<IWidget> & widget) const
+            glm::vec2 Canvas::getWidgetPos(const std::shared_ptr<IWidget>& widget) const
             {
                 DJV_PRIVATE_PTR();
                 const auto i = p.widgetToGeometry.find(widget);
@@ -246,12 +246,12 @@ namespace djv
                 _p->maximizeCallback = value;
             }
 
-            void Canvas::_preLayoutEvent(Event::PreLayout &)
+            void Canvas::_preLayoutEvent(Event::PreLayout&)
             {
                 _setMinimumSize(_p->canvasSize);
             }
 
-            void Canvas::_layoutEvent(Event::Layout &)
+            void Canvas::_layoutEvent(Event::Layout&)
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
@@ -312,7 +312,7 @@ namespace djv
                 }
             }
 
-            void Canvas::_childAddedEvent(Event::ChildAdded & value)
+            void Canvas::_childAddedEvent(Event::ChildAdded& value)
             {
                 DJV_PRIVATE_PTR();
                 if (auto widget = std::dynamic_pointer_cast<IWidget>(value.getChild()))
@@ -337,7 +337,7 @@ namespace djv
                 }
             }
 
-            void Canvas::_childRemovedEvent(Event::ChildRemoved & value)
+            void Canvas::_childRemovedEvent(Event::ChildRemoved& value)
             {
                 DJV_PRIVATE_PTR();
                 if (auto widget = std::dynamic_pointer_cast<IWidget>(value.getChild()))
@@ -350,7 +350,7 @@ namespace djv
                             p.activeWidget->_setActiveWidget(false);
                             p.activeWidget->_setMaximize(0.F);
                         }
-                        const auto & children = getChildrenT<IWidget>();
+                        const auto& children = getChildrenT<IWidget>();
                         p.activeWidget = children.size() ? children.back() : nullptr;
                         if (p.activeWidget)
                         {
@@ -377,10 +377,10 @@ namespace djv
                 }
             }
 
-            void Canvas::_childOrderEvent(Core::Event::ChildOrder &)
+            void Canvas::_childOrderEvent(Core::Event::ChildOrder&)
             {
                 DJV_PRIVATE_PTR();
-                const auto & children = getChildrenT<IWidget>();
+                const auto& children = getChildrenT<IWidget>();
                 if (children.size())
                 {
                     auto widget = children.back();
@@ -410,15 +410,15 @@ namespace djv
                 }
             }
 
-            bool Canvas::_eventFilter(const std::shared_ptr<IObject> & object, Event::Event & event)
+            bool Canvas::_eventFilter(const std::shared_ptr<IObject>& object, Event::Event& event)
             {
                 DJV_PRIVATE_PTR();
                 switch (event.getEventType())
                 {
                 case Event::Type::PointerEnter:
                 {
-                    Event::PointerEnter & pointerEnterEvent = static_cast<Event::PointerEnter &>(event);
-                    const auto & pointerInfo = pointerEnterEvent.getPointerInfo();
+                    Event::PointerEnter& pointerEnterEvent = static_cast<Event::PointerEnter&>(event);
+                    const auto& pointerInfo = pointerEnterEvent.getPointerInfo();
                     if (auto widget = std::dynamic_pointer_cast<IWidget>(object))
                     {
                         p.handles = widget->_getHandles();
@@ -444,8 +444,8 @@ namespace djv
                 }
                 case Event::Type::PointerLeave:
                 {
-                    Event::PointerLeave & pointerLeaveEvent = static_cast<Event::PointerLeave &>(event);
-                    const auto & pointerInfo = pointerLeaveEvent.getPointerInfo();
+                    Event::PointerLeave& pointerLeaveEvent = static_cast<Event::PointerLeave&>(event);
+                    const auto& pointerInfo = pointerLeaveEvent.getPointerInfo();
                     const auto i = p.hovered.find(pointerInfo.id);
                     if (i != p.hovered.end())
                     {
@@ -460,8 +460,8 @@ namespace djv
                 case Event::Type::PointerMove:
                 {
                     event.accept();
-                    Event::PointerMove & pointerMoveEvent = static_cast<Event::PointerMove &>(event);
-                    const auto & pointerInfo = pointerMoveEvent.getPointerInfo();
+                    Event::PointerMove& pointerMoveEvent = static_cast<Event::PointerMove&>(event);
+                    const auto& pointerInfo = pointerMoveEvent.getPointerInfo();
                     if (auto widget = std::dynamic_pointer_cast<IWidget>(object))
                     {
                         const auto i = p.pressed.find(pointerInfo.id);
@@ -547,8 +547,8 @@ namespace djv
                 }
                 case Event::Type::ButtonPress:
                 {
-                    Event::ButtonPress & buttonPressEvent = static_cast<Event::ButtonPress &>(event);
-                    const auto & pointerInfo = buttonPressEvent.getPointerInfo();
+                    Event::ButtonPress& buttonPressEvent = static_cast<Event::ButtonPress&>(event);
+                    const auto& pointerInfo = buttonPressEvent.getPointerInfo();
                     if (auto widget = std::dynamic_pointer_cast<IWidget>(object))
                     {
                         const auto i = p.widgetToGeometry.find(widget);
@@ -580,8 +580,8 @@ namespace djv
                 }
                 case Event::Type::ButtonRelease:
                 {
-                    Event::ButtonRelease & buttonReleaseEvent = static_cast<Event::ButtonRelease &>(event);
-                    const auto & pointerInfo = buttonReleaseEvent.getPointerInfo();
+                    Event::ButtonRelease& buttonReleaseEvent = static_cast<Event::ButtonRelease&>(event);
+                    const auto& pointerInfo = buttonReleaseEvent.getPointerInfo();
                     const auto i = p.pressed.find(pointerInfo.id);
                     if (i != p.pressed.end())
                     {

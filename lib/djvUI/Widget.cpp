@@ -143,7 +143,7 @@ namespace djv
             _resize();
         }
 
-        void Widget::setGeometry(const BBox2f & value)
+        void Widget::setGeometry(const BBox2f& value)
         {
             if (value == _geometry)
                 return;
@@ -151,7 +151,7 @@ namespace djv
             _resize();
         }
 
-        void Widget::setMargin(const Layout::Margin & value)
+        void Widget::setMargin(const Layout::Margin& value)
         {
             if (value == _margin)
                 return;
@@ -175,7 +175,7 @@ namespace djv
             _resize();
         }
 
-        BBox2f Widget::getAlign(const BBox2f & value, const glm::vec2 & minimumSize, HAlign hAlign, VAlign vAlign)
+        BBox2f Widget::getAlign(const BBox2f& value, const glm::vec2& minimumSize, HAlign hAlign, VAlign vAlign)
         {
             float x = 0.F;
             float y = 0.F;
@@ -405,12 +405,12 @@ namespace djv
             }
         }
 
-        void Widget::addAction(const std::shared_ptr<Action> & action)
+        void Widget::addAction(const std::shared_ptr<Action>& action)
         {
             _actions.push_back(action);
         }
 
-        void Widget::removeAction(const std::shared_ptr<Action> & action)
+        void Widget::removeAction(const std::shared_ptr<Action>& action)
         {
             const auto i = std::find(_actions.begin(), _actions.end(), action);
             if (i != _actions.end())
@@ -424,7 +424,7 @@ namespace djv
             _actions.clear();
         }
 
-        void Widget::setTooltip(const std::string & value)
+        void Widget::setTooltip(const std::string& value)
         {
             _tooltipText = value;
             for (auto& i : _pointerToTooltips)
@@ -488,7 +488,7 @@ namespace djv
             }
         }
 
-        bool Widget::event(Event::Event & event)
+        bool Widget::event(Event::Event& event)
         {
             bool out = IObject::event(event);
             if (!out)
@@ -497,7 +497,7 @@ namespace djv
                 {
                 case Event::Type::ParentChanged:
                 {
-                    auto& parentChangedEvent = static_cast<Event::ParentChanged &>(event);
+                    auto& parentChangedEvent = static_cast<Event::ParentChanged&>(event);
                     const bool newParent = parentChangedEvent.getNewParent() ? true : false;
                     if (!newParent)
                     {
@@ -556,12 +556,12 @@ namespace djv
                     break;
                 case Event::Type::Update:
                 {
-                    auto & updateEvent = static_cast<Event::Update &>(event);
+                    auto& updateEvent = static_cast<Event::Update&>(event);
                     _updateTime = updateEvent.getTime();
 
                     if (auto context = getContext().lock())
                     {
-                        for (auto & i : _pointerToTooltips)
+                        for (auto& i : _pointerToTooltips)
                         {
                             const auto j = _pointerHover.find(i.first);
                             const auto t = std::chrono::duration_cast<std::chrono::milliseconds>(_updateTime - i.second.timer);
@@ -593,14 +593,14 @@ namespace djv
                     _initLayoutEvent(static_cast<Event::InitLayout&>(event));
                     break;
                 case Event::Type::PreLayout:
-                    _preLayoutEvent(static_cast<Event::PreLayout &>(event));
+                    _preLayoutEvent(static_cast<Event::PreLayout&>(event));
                     break;
                 case Event::Type::Layout:
                     _layoutEvent(static_cast<Event::Layout&>(event));
                     break;
                 case Event::Type::Clip:
                 {
-                    auto& clipEvent = static_cast<Event::Clip &>(event);
+                    auto& clipEvent = static_cast<Event::Clip&>(event);
                     if (auto parent = std::dynamic_pointer_cast<Widget>(getParent().lock()))
                     {
                         _parentsVisible = parent->_visible && parent->_parentsVisible;
@@ -645,7 +645,7 @@ namespace djv
                         float opacity = getOpacity(true);
                         opacity *= isEnabled(true) ? 1.F : _style->getPalette().getDisabledMult();
                         _render->setAlphaMult(opacity);
-                        _paintEvent(static_cast<Event::Paint &>(event));
+                        _paintEvent(static_cast<Event::Paint&>(event));
                     }
                     break;
                 }
@@ -659,18 +659,18 @@ namespace djv
                 }
                 case Event::Type::PointerEnter:
                 {
-                    auto & pointerEvent = static_cast<Event::PointerEnter &>(event);
-                    const auto & info = pointerEvent.getPointerInfo();
+                    auto& pointerEvent = static_cast<Event::PointerEnter&>(event);
+                    const auto& info = pointerEvent.getPointerInfo();
                     const auto id = info.id;
                     _pointerHover[id] = info.projectedPos;
                     _pointerToTooltips[id] = TooltipData();
                     _pointerToTooltips[id].timer = _updateTime;
-                    _pointerEnterEvent(static_cast<Event::PointerEnter &>(event));
+                    _pointerEnterEvent(static_cast<Event::PointerEnter&>(event));
                     break;
                 }
                 case Event::Type::PointerLeave:
                 {
-                    auto & pointerEvent = static_cast<Event::PointerLeave &>(event);
+                    auto& pointerEvent = static_cast<Event::PointerLeave&>(event);
                     const auto id = pointerEvent.getPointerInfo().id;
                     const auto i = _pointerHover.find(id);
                     if (i != _pointerHover.end())
@@ -682,13 +682,13 @@ namespace djv
                     {
                         _pointerToTooltips.erase(j);
                     }
-                    _pointerLeaveEvent(static_cast<Event::PointerLeave &>(event));
+                    _pointerLeaveEvent(static_cast<Event::PointerLeave&>(event));
                     break;
                 }
                 case Event::Type::PointerMove:
                 {
-                    auto & pointerEvent = static_cast<Event::PointerMove &>(event);
-                    const auto & info = pointerEvent.getPointerInfo();
+                    auto& pointerEvent = static_cast<Event::PointerMove&>(event);
+                    const auto& info = pointerEvent.getPointerInfo();
                     const auto id = info.id;
                     const auto i = _pointerToTooltips.find(id);
                     if (i != _pointerToTooltips.end())
@@ -702,32 +702,32 @@ namespace djv
                         }
                     }
                     _pointerHover[id] = info.projectedPos;
-                    _pointerMoveEvent(static_cast<Event::PointerMove &>(event));
+                    _pointerMoveEvent(static_cast<Event::PointerMove&>(event));
                     break;
                 }
                 case Event::Type::ButtonPress:
-                    _buttonPressEvent(static_cast<Event::ButtonPress &>(event));
+                    _buttonPressEvent(static_cast<Event::ButtonPress&>(event));
                     break;
                 case Event::Type::ButtonRelease:
-                    _buttonReleaseEvent(static_cast<Event::ButtonRelease &>(event));
+                    _buttonReleaseEvent(static_cast<Event::ButtonRelease&>(event));
                     break;
                 case Event::Type::Scroll:
-                    _scrollEvent(static_cast<Event::Scroll &>(event));
+                    _scrollEvent(static_cast<Event::Scroll&>(event));
                     break;
                 case Event::Type::Drop:
-                    _dropEvent(static_cast<Event::Drop &>(event));
+                    _dropEvent(static_cast<Event::Drop&>(event));
                     break;
                 case Event::Type::KeyPress:
-                    _keyPressEvent(static_cast<Event::KeyPress &>(event));
+                    _keyPressEvent(static_cast<Event::KeyPress&>(event));
                     break;
                 case Event::Type::KeyRelease:
-                    _keyReleaseEvent(static_cast<Event::KeyRelease &>(event));
+                    _keyReleaseEvent(static_cast<Event::KeyRelease&>(event));
                     break;
                 case Event::Type::TextFocus:
-                    _textFocusEvent(static_cast<Event::TextFocus &>(event));
+                    _textFocusEvent(static_cast<Event::TextFocus&>(event));
                     break;
                 case Event::Type::TextFocusLost:
-                    _textFocusLostEvent(static_cast<Event::TextFocusLost &>(event));
+                    _textFocusLostEvent(static_cast<Event::TextFocusLost&>(event));
                     break;
                 case Event::Type::TextInput:
                     _textInputEvent(static_cast<Event::TextInput&>(event));
@@ -778,7 +778,7 @@ namespace djv
             }
         }
 
-        void Widget::_pointerEnterEvent(Event::PointerEnter & event)
+        void Widget::_pointerEnterEvent(Event::PointerEnter& event)
         {
             if (_pointerEnabled && !event.isRejected())
             {
@@ -786,7 +786,7 @@ namespace djv
             }
         }
 
-        void Widget::_pointerLeaveEvent(Event::PointerLeave & event)
+        void Widget::_pointerLeaveEvent(Event::PointerLeave& event)
         {
             if (_pointerEnabled)
             {
@@ -794,7 +794,7 @@ namespace djv
             }
         }
 
-        void Widget::_pointerMoveEvent(Event::PointerMove & event)
+        void Widget::_pointerMoveEvent(Event::PointerMove& event)
         {
             if (_pointerEnabled)
             {
@@ -802,7 +802,7 @@ namespace djv
             }
         }
 
-        void Widget::_keyPressEvent(Event::KeyPress & event)
+        void Widget::_keyPressEvent(Event::KeyPress& event)
         {
             switch (event.getKey())
             {
@@ -894,9 +894,9 @@ namespace djv
             }
             else
             {
-                for (const auto & action : _actions)
+                for (const auto& action : _actions)
                 {
-                    const auto & actionTooltip = action->observeTooltip()->get();
+                    const auto& actionTooltip = action->observeTooltip()->get();
                     if (!actionTooltip.empty())
                     {
                         out << actionTooltip;
@@ -940,7 +940,7 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<ITooltipWidget> Widget::_createTooltip(const glm::vec2 &)
+        std::shared_ptr<ITooltipWidget> Widget::_createTooltip(const glm::vec2&)
         {
             std::shared_ptr<ITooltipWidget> out;
             if (!_tooltipText.empty())

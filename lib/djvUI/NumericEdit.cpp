@@ -163,7 +163,7 @@ namespace djv
 
             auto weak = std::weak_ptr<NumericEdit>(std::dynamic_pointer_cast<NumericEdit>(shared_from_this()));
             p.lineEditBase->setTextEditCallback(
-                [weak](const std::string & value, TextEditReason reason)
+                [weak](const std::string& value, TextEditReason reason)
             {
                 if (auto widget = weak.lock())
                 {
@@ -204,7 +204,7 @@ namespace djv
         NumericEdit::~NumericEdit()
         {}
 
-        void NumericEdit::_preLayoutEvent(Event::PreLayout & event)
+        void NumericEdit::_preLayoutEvent(Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             glm::vec2 size = glm::vec2(0.F, 0.F);
@@ -219,7 +219,7 @@ namespace djv
             _setMinimumSize(size + b * 6.F + getMargin().getSize(style));
         }
 
-        void NumericEdit::_layoutEvent(Event::Layout & event)
+        void NumericEdit::_layoutEvent(Event::Layout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();

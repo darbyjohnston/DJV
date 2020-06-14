@@ -32,14 +32,14 @@ namespace djv
 
             static std::shared_ptr<IntLabel> create(const std::shared_ptr<Core::Context>&);
 
-            const std::shared_ptr<Core::IntValueModel> & getModel() const;
-            void setModel(const std::shared_ptr<Core::IntValueModel> &);
+            const std::shared_ptr<Core::IntValueModel>& getModel() const;
+            void setModel(const std::shared_ptr<Core::IntValueModel>&);
 
             static std::string getSizeString(const Core::IntRange&);
             
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
 
         private:
             void _textUpdate();

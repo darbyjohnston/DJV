@@ -89,7 +89,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const BBox2f & g = getMargin().bbox(getGeometry(), style);
+            const BBox2f& g = getMargin().bbox(getGeometry(), style);
             const float m = style->getMetric(MetricsRole::MarginSmall);
             const float b = style->getMetric(MetricsRole::Border);
             const auto& render = _getRender();
@@ -191,7 +191,7 @@ namespace djv
             }
         }
 
-        void NumericSlider::_preLayoutEvent(Event::PreLayout & event)
+        void NumericSlider::_preLayoutEvent(Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
@@ -209,7 +209,7 @@ namespace djv
             _setMinimumSize(size + m * 2.F + b * 4.F + getMargin().getSize(style));
         }
 
-        void NumericSlider::_pointerEnterEvent(Event::PointerEnter & event)
+        void NumericSlider::_pointerEnterEvent(Event::PointerEnter& event)
         {
             if (!event.isRejected())
             {
@@ -221,7 +221,7 @@ namespace djv
             }
         }
 
-        void NumericSlider::_pointerLeaveEvent(Event::PointerLeave & event)
+        void NumericSlider::_pointerLeaveEvent(Event::PointerLeave& event)
         {
             event.accept();
             if (isEnabled(true))
@@ -230,11 +230,11 @@ namespace djv
             }
         }
 
-        void NumericSlider::_pointerMoveEvent(Event::PointerMove & event)
+        void NumericSlider::_pointerMoveEvent(Event::PointerMove& event)
         {
             DJV_PRIVATE_PTR();
             event.accept();
-            const auto & pointerInfo = event.getPointerInfo();
+            const auto& pointerInfo = event.getPointerInfo();
             if (pointerInfo.id == p.pressedID)
             {
                 float v = 0.F;
@@ -258,14 +258,14 @@ namespace djv
             }
         }
 
-        void NumericSlider::_buttonPressEvent(Event::ButtonPress & event)
+        void NumericSlider::_buttonPressEvent(Event::ButtonPress& event)
         {
             DJV_PRIVATE_PTR();
             if (p.pressedID)
                 return;
             event.accept();
             takeTextFocus();
-            const auto & pointerInfo = event.getPointerInfo();
+            const auto& pointerInfo = event.getPointerInfo();
             p.pressedID = pointerInfo.id;
             p.pressedPos = pointerInfo.projectedPos;
             p.prevPos = pointerInfo.projectedPos;
@@ -288,10 +288,10 @@ namespace djv
             _redraw();
         }
 
-        void NumericSlider::_buttonReleaseEvent(Event::ButtonRelease & event)
+        void NumericSlider::_buttonReleaseEvent(Event::ButtonRelease& event)
         {
             DJV_PRIVATE_PTR();
-            const auto & pointerInfo = event.getPointerInfo();
+            const auto& pointerInfo = event.getPointerInfo();
             if (pointerInfo.id == p.pressedID)
             {
                 event.accept();

@@ -22,7 +22,7 @@ namespace djv
                 std::string name;
             };
 
-            void ISettings::_init(const std::string & name, const std::shared_ptr<Core::Context>& context)
+            void ISettings::_init(const std::string& name, const std::shared_ptr<Core::Context>& context)
             {
                 DJV_PRIVATE_PTR();
                 p.context = context;
@@ -46,7 +46,7 @@ namespace djv
                 return _p->context;
             }
 
-            const std::string & ISettings::getName() const
+            const std::string& ISettings::getName() const
             {
                 return _p->name;
             }

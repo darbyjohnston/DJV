@@ -165,12 +165,12 @@ namespace djv
             p.closeButton->setForegroundColorRole(value ? UI::ColorRole::Foreground : UI::ColorRole::ForegroundDim);
         }
 
-        void MDIWidget::_preLayoutEvent(Event::PreLayout & event)
+        void MDIWidget::_preLayoutEvent(Event::PreLayout& event)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void MDIWidget::_layoutEvent(Event::Layout &)
+        void MDIWidget::_layoutEvent(Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
         }

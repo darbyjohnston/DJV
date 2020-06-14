@@ -31,7 +31,7 @@ namespace djv
 
                 const std::shared_ptr<Core::MapSubject<std::string, std::string> >& observeLocaleFonts() const;
 
-                void load(const rapidjson::Value &) override;
+                void load(const rapidjson::Value&) override;
                 rapidjson::Value save(rapidjson::Document::AllocatorType&) override;
 
             private:

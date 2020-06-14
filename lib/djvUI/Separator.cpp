@@ -42,7 +42,7 @@ namespace djv
                 return out;
             }
 
-            void Separator::_preLayoutEvent(Event::PreLayout & event)
+            void Separator::_preLayoutEvent(Event::PreLayout& event)
             {
                 DJV_PRIVATE_PTR();
 

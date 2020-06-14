@@ -147,12 +147,12 @@ namespace djv
                 setOpen(false);
             }
 
-            void Drawer::addChild(const std::shared_ptr<IObject> & value)
+            void Drawer::addChild(const std::shared_ptr<IObject>& value)
             {
                 _p->childLayout->addChild(value);
             }
 
-            void Drawer::removeChild(const std::shared_ptr<IObject> & value)
+            void Drawer::removeChild(const std::shared_ptr<IObject>& value)
             {
                 _p->childLayout->removeChild(value);
             }
@@ -162,7 +162,7 @@ namespace djv
                 _p->childLayout->clearChildren();
             }
 
-            void Drawer::_preLayoutEvent(Event::PreLayout & event)
+            void Drawer::_preLayoutEvent(Event::PreLayout& event)
             {
                 DJV_PRIVATE_PTR();
                 const glm::vec2& minimumSize = p.childLayout->getMinimumSize();
@@ -187,11 +187,11 @@ namespace djv
                 _setMinimumSize(size);
             }
 
-            void Drawer::_layoutEvent(Event::Layout & event)
+            void Drawer::_layoutEvent(Event::Layout& event)
             {
                 DJV_PRIVATE_PTR();
-                const BBox2f & g = getGeometry();
-                const glm::vec2 & minimumSize = p.childLayout->getMinimumSize();
+                const BBox2f& g = getGeometry();
+                const glm::vec2& minimumSize = p.childLayout->getMinimumSize();
                 BBox2f childGeometry(0.F, 0.F, 0.F, 0.F);
                 switch (p.side)
                 {

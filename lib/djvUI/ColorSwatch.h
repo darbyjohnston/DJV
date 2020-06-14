@@ -26,8 +26,8 @@ namespace djv
 
             static std::shared_ptr<ColorSwatch> create(const std::shared_ptr<Core::Context>&);
 
-            const AV::Image::Color & getColor() const;
-            void setColor(const AV::Image::Color &);
+            const AV::Image::Color& getColor() const;
+            void setColor(const AV::Image::Color&);
 
             MetricsRole getSwatchSizeRole() const;
             void setSwatchSizeRole(MetricsRole);
@@ -39,8 +39,8 @@ namespace djv
             bool acceptFocus(TextFocusDirection) override;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _paintEvent(Core::Event::Paint &) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _paintEvent(Core::Event::Paint&) override;
             void _pointerEnterEvent(Core::Event::PointerEnter&) override;
             void _pointerLeaveEvent(Core::Event::PointerLeave&) override;
             void _pointerMoveEvent(Core::Event::PointerMove&) override;

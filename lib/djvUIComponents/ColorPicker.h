@@ -40,8 +40,8 @@ namespace djv
             void setTypeCallback(const std::function<void(AV::Image::Type)> &);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
 
             void _initEvent(Core::Event::Init &) override;
 
@@ -75,8 +75,8 @@ namespace djv
             void setHSV(bool);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
 
             void _initEvent(Core::Event::Init &) override;
 

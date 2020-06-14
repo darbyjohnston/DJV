@@ -48,7 +48,7 @@ namespace djv
         
         } // namespace
         
-        void EventSystem::_init(const std::string & name, const std::shared_ptr<Core::Context>& context)
+        void EventSystem::_init(const std::string& name, const std::shared_ptr<Core::Context>& context)
         {
             IEventSystem::_init(name, context);
 
@@ -154,7 +154,7 @@ namespace djv
             }
         }
 
-        void EventSystem::_pushClipRect(const Core::BBox2f &)
+        void EventSystem::_pushClipRect(const Core::BBox2f&)
         {
             // Default implementation does nothing.
         }
@@ -164,14 +164,14 @@ namespace djv
             // Default implementation does nothing.
         }
 
-        bool EventSystem::_resizeRequest(const std::shared_ptr<Widget> & widget) const
+        bool EventSystem::_resizeRequest(const std::shared_ptr<Widget>& widget) const
         {
             bool out = widget->_resizeRequest;
             widget->_resizeRequest = false;
             return out;
         }
 
-        bool EventSystem::_redrawRequest(const std::shared_ptr<Widget> & widget) const
+        bool EventSystem::_redrawRequest(const std::shared_ptr<Widget>& widget) const
         {
             bool out = widget->_redrawRequest;
             widget->_redrawRequest = false;
@@ -196,23 +196,23 @@ namespace djv
             widget->event(event);
         }
 
-        void EventSystem::_layoutRecursive(const std::shared_ptr<Widget> & widget, Event::Layout & event)
+        void EventSystem::_layoutRecursive(const std::shared_ptr<Widget>& widget, Event::Layout& event)
         {
             if (widget->isVisible())
             {
                 widget->event(event);
-                for (const auto & child : widget->getChildWidgets())
+                for (const auto& child : widget->getChildWidgets())
                 {
                     _layoutRecursive(child, event);
                 }
             }
         }
 
-        void EventSystem::_clipRecursive(const std::shared_ptr<Widget> & widget, Event::Clip & event)
+        void EventSystem::_clipRecursive(const std::shared_ptr<Widget>& widget, Event::Clip& event)
         {
             widget->event(event);
             const BBox2f clipRect = event.getClipRect();
-            for (const auto & child : widget->getChildWidgets())
+            for (const auto& child : widget->getChildWidgets())
             {
                 event.setClipRect(clipRect.intersect(child->getGeometry()));
                 _clipRecursive(child, event);
@@ -221,8 +221,8 @@ namespace djv
         }
 
         void EventSystem::_paintRecursive(
-            const std::shared_ptr<Widget> & widget,
-            Event::Paint & event,
+            const std::shared_ptr<Widget>& widget,
+            Event::Paint& event,
             Event::PaintOverlay& overlayEvent)
         {
             if (widget->isVisible() && !widget->isClipped())
@@ -230,7 +230,7 @@ namespace djv
                 const BBox2f clipRect = event.getClipRect();
                 _pushClipRect(clipRect);
                 widget->event(event);
-                for (const auto & child : widget->getChildWidgets())
+                for (const auto& child : widget->getChildWidgets())
                 {
                     const BBox2f childClipRect = clipRect.intersect(child->getGeometry());
                     event.setClipRect(childClipRect);
@@ -244,7 +244,7 @@ namespace djv
             }
         }
 
-        void EventSystem::_initObject(const std::shared_ptr<IObject> & object)
+        void EventSystem::_initObject(const std::shared_ptr<IObject>& object)
         {
             IEventSystem::_initObject(object);
             DJV_PRIVATE_PTR();

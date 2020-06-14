@@ -34,7 +34,7 @@ namespace djv
                 std::shared_ptr<Core::IValueSubject<bool> > observeReverseScrolling() const;
                 void setReverseScrolling(bool);
 
-                void load(const rapidjson::Value &) override;
+                void load(const rapidjson::Value&) override;
                 rapidjson::Value save(rapidjson::Document::AllocatorType&) override;
 
             private:

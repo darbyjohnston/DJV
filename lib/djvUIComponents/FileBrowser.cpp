@@ -907,13 +907,13 @@ namespace djv
                 return _p->layout->getHeightForWidth(value);
             }
             
-            void FileBrowser::_preLayoutEvent(Event::PreLayout & event)
+            void FileBrowser::_preLayoutEvent(Event::PreLayout& event)
             {
                 const auto& style = _getStyle();
                 _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
             }
 
-            void FileBrowser::_layoutEvent(Event::Layout & event)
+            void FileBrowser::_layoutEvent(Event::Layout& event)
             {
                 const auto& style = _getStyle();
                 _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));

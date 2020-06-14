@@ -52,12 +52,12 @@ namespace djv
             return out;
         }
 
-        const std::shared_ptr<IntValueModel> & IntLabel::getModel() const
+        const std::shared_ptr<IntValueModel>& IntLabel::getModel() const
         {
             return _p->model;
         }
 
-        void IntLabel::setModel(const std::shared_ptr<IntValueModel> & model)
+        void IntLabel::setModel(const std::shared_ptr<IntValueModel>& model)
         {
             DJV_PRIVATE_PTR();
             if (p.model)
@@ -70,7 +70,7 @@ namespace djv
                 auto weak = std::weak_ptr<IntLabel>(std::dynamic_pointer_cast<IntLabel>(shared_from_this()));
                 p.rangeObserver = ValueObserver<IntRange>::create(
                     p.model->observeRange(),
-                    [weak](const IntRange & value)
+                    [weak](const IntRange& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -101,14 +101,14 @@ namespace djv
             return out;
         }
 
-        void IntLabel::_preLayoutEvent(Event::PreLayout & event)
+        void IntLabel::_preLayoutEvent(Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             _setMinimumSize(p.label->getMinimumSize() + getMargin().getSize(style));
         }
 
-        void IntLabel::_layoutEvent(Event::Layout & event)
+        void IntLabel::_layoutEvent(Event::Layout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();

@@ -29,9 +29,9 @@ namespace djv
                 Orientation getOrientation() const;
                 void setOrientation(Orientation);
 
-                const std::vector<float> & getSplit() const;
-                void setSplit(const std::vector<float> &);
-                void setSplitCallback(const std::function<void(const std::vector<float> &)> &);
+                const std::vector<float>& getSplit() const;
+                void setSplit(const std::vector<float>&);
+                void setSplitCallback(const std::function<void(const std::vector<float>&)>&);
                 void distributeEvenly();
 
                 ColorRole getHandleColorRole() const;
@@ -39,19 +39,19 @@ namespace djv
 
                 float getHeightForWidth(float) const override;
 
-                void addChild(const std::shared_ptr<IObject> &) override;
-                void removeChild(const std::shared_ptr<IObject> &) override;
+                void addChild(const std::shared_ptr<IObject>&) override;
+                void removeChild(const std::shared_ptr<IObject>&) override;
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout &) override;
-                void _layoutEvent(Core::Event::Layout &) override;
-                void _paintEvent(Core::Event::Paint &) override;
-                void _pointerLeaveEvent(Core::Event::PointerLeave &) override;
-                void _pointerMoveEvent(Core::Event::PointerMove &) override;
-                void _buttonPressEvent(Core::Event::ButtonPress &) override;
-                void _buttonReleaseEvent(Core::Event::ButtonRelease &) override;
+                void _preLayoutEvent(Core::Event::PreLayout&) override;
+                void _layoutEvent(Core::Event::Layout&) override;
+                void _paintEvent(Core::Event::Paint&) override;
+                void _pointerLeaveEvent(Core::Event::PointerLeave&) override;
+                void _pointerMoveEvent(Core::Event::PointerMove&) override;
+                void _buttonPressEvent(Core::Event::ButtonPress&) override;
+                void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
 
-                void _initEvent(Core::Event::Init &) override;
+                void _initEvent(Core::Event::Init&) override;
 
             private:
                 float _valueToPos(float) const;

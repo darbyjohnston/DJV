@@ -57,12 +57,12 @@ namespace djv
             moveToBack();
         }
 
-        void Window::_preLayoutEvent(Event::PreLayout &)
+        void Window::_preLayoutEvent(Event::PreLayout&)
         {
             _setMinimumSize(StackLayout::minimumSize(getChildWidgets(), Layout::Margin(), _getStyle()));
         }
 
-        void Window::_layoutEvent(Event::Layout &)
+        void Window::_layoutEvent(Event::Layout&)
         {
             StackLayout::layout(getGeometry(), getChildWidgets(), Layout::Margin(), _getStyle());
         }

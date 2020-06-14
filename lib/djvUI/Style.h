@@ -32,13 +32,13 @@ namespace djv
             public:
                 Palette();
 
-                const AV::Image::Color & getColor(ColorRole) const;
-                void setColor(ColorRole, const AV::Image::Color &);
+                const AV::Image::Color& getColor(ColorRole) const;
+                void setColor(ColorRole, const AV::Image::Color&);
 
                 float getDisabledMult() const;
                 void setDisabledMult(float);
 
-                bool operator == (const Palette &) const;
+                bool operator == (const Palette&) const;
 
             private:
                 std::map<ColorRole, AV::Image::Color> _colors;
@@ -54,7 +54,7 @@ namespace djv
                 float getMetric(MetricsRole role) const;
                 void setMetric(MetricsRole, float);
 
-                bool operator == (const Metrics &) const;
+                bool operator == (const Metrics&) const;
 
             private:
                 std::map<MetricsRole, float> _metrics;
@@ -74,12 +74,12 @@ namespace djv
                 //! \name Color Palette
                 ///@{
 
-                const Palette & getPalette() const;
+                const Palette& getPalette() const;
                 AV::Image::Color getColor(ColorRole) const;
                 float getBrightness() const;
                 float getContrast() const;
 
-                void setPalette(const Palette &);
+                void setPalette(const Palette&);
                 void setBrightness(float);
                 void setContrast(float);
 
@@ -89,12 +89,12 @@ namespace djv
                 ///@{
 
                 const glm::vec2& getDPI() const;
-                const Metrics & getMetrics() const;
+                const Metrics& getMetrics() const;
                 float getScale() const;
                 float getMetric(MetricsRole) const;
 
                 void setDPI(const glm::vec2&);
-                void setMetrics(const Metrics &);
+                void setMetrics(const Metrics&);
 
                 ///@}
 
@@ -102,10 +102,10 @@ namespace djv
                 ///@{
 
                 const std::string getFont() const;
-                void setFont(const std::string &);
+                void setFont(const std::string&);
 
-                AV::Font::FontInfo getFontInfo(const std::string & family, const std::string & face, MetricsRole) const;
-                AV::Font::FontInfo getFontInfo(const std::string & face, MetricsRole) const;
+                AV::Font::FontInfo getFontInfo(const std::string& family, const std::string& face, MetricsRole) const;
+                AV::Font::FontInfo getFontInfo(const std::string& face, MetricsRole) const;
 
                 ///@}
 
@@ -140,13 +140,13 @@ namespace djv
         } // namespace Style
     } // namespace UI
 
-    rapidjson::Value toJSON(const UI::Style::Palette &, rapidjson::Document::AllocatorType&);
-    rapidjson::Value toJSON(const UI::Style::Metrics &, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(const UI::Style::Palette&, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(const UI::Style::Metrics&, rapidjson::Document::AllocatorType&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const rapidjson::Value &, UI::Style::Palette &);
-    void fromJSON(const rapidjson::Value &, UI::Style::Metrics &);
+    void fromJSON(const rapidjson::Value&, UI::Style::Palette&);
+    void fromJSON(const rapidjson::Value&, UI::Style::Metrics&);
 
 } // namespace djv
 

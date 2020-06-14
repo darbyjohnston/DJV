@@ -110,7 +110,7 @@ namespace djv
                 {
                     p.currentLocaleObserver = ValueObserver<std::string>::create(
                         textSystem->observeCurrentLocale(),
-                        [weak](const std::string & value)
+                        [weak](const std::string& value)
                     {
                         if (auto settings = weak.lock())
                         {
@@ -173,7 +173,7 @@ namespace djv
                 return _p->contrast;
             }
 
-            void Style::setCurrentPalette(const std::string & name)
+            void Style::setCurrentPalette(const std::string& name)
             {
                 DJV_PRIVATE_PTR();
                 if (p.palettes->hasKey(name))
@@ -216,7 +216,7 @@ namespace djv
                 return _p->currentFont;
             }
 
-            void Style::setCurrentMetrics(const std::string & name)
+            void Style::setCurrentMetrics(const std::string& name)
             {
                 DJV_PRIVATE_PTR();
                 if (p.metrics->hasKey(name))
@@ -227,7 +227,7 @@ namespace djv
                 }
             }
 
-            void Style::load(const rapidjson::Value & value)
+            void Style::load(const rapidjson::Value& value)
             {
                 DJV_PRIVATE_PTR();
                 if (value.IsObject())

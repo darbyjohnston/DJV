@@ -378,14 +378,14 @@ namespace djv
             _redraw();
         }
 
-        void ViewWidget::_preLayoutEvent(Event::PreLayout & event)
+        void ViewWidget::_preLayoutEvent(Event::PreLayout& event)
         {
             const auto& style = _getStyle();
             const float sa = style->getMetric(UI::MetricsRole::ScrollArea);
             _setMinimumSize(glm::vec2(sa, sa));
         }
 
-        void ViewWidget::_layoutEvent(Event::Layout &)
+        void ViewWidget::_layoutEvent(Event::Layout&)
         {
             DJV_PRIVATE_PTR();
             switch (p.lock)
@@ -414,7 +414,7 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             const auto& style = _getStyle();
-            const BBox2f & g = getMargin().bbox(getGeometry(), style);
+            const BBox2f& g = getMargin().bbox(getGeometry(), style);
 
             // Draw the background.
             const auto& backgroundOptions = p.backgroundOptions->get();

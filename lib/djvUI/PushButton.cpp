@@ -69,7 +69,7 @@ namespace djv
                 return p.icon ? p.icon->getIcon() : std::string();
             }
 
-            void Push::setIcon(const std::string & value)
+            void Push::setIcon(const std::string& value)
             {
                 DJV_PRIVATE_PTR();
                 if (!value.empty())
@@ -100,7 +100,7 @@ namespace djv
                 return p.label ? p.label->getText() : std::string();
             }
 
-            void Push::setText(const std::string & value)
+            void Push::setText(const std::string& value)
             {
                 DJV_PRIVATE_PTR();
                 if (!value.empty())
@@ -144,12 +144,12 @@ namespace djv
                 }
             }
 
-            const std::string & Push::getFont() const
+            const std::string& Push::getFont() const
             {
                 return _p->font;
             }
 
-            const std::string & Push::getFontFace() const
+            const std::string& Push::getFontFace() const
             {
                 return _p->fontFace;
             }
@@ -159,7 +159,7 @@ namespace djv
                 return _p->fontSizeRole;
             }
 
-            void Push::setFont(const std::string & value)
+            void Push::setFont(const std::string& value)
             {
                 DJV_PRIVATE_PTR();
                 p.font = value;
@@ -169,7 +169,7 @@ namespace djv
                 }
             }
 
-            void Push::setFontFace(const std::string & value)
+            void Push::setFontFace(const std::string& value)
             {
                 DJV_PRIVATE_PTR();
                 p.fontFace = value;
@@ -189,12 +189,12 @@ namespace djv
                 }
             }
 
-            const Layout::Margin & Push::getInsideMargin() const
+            const Layout::Margin& Push::getInsideMargin() const
             {
                 return _p->layout->getMargin();
             }
 
-            void Push::setInsideMargin(const Layout::Margin & value)
+            void Push::setInsideMargin(const Layout::Margin& value)
             {
                 _p->layout->setMargin(value);
             }
@@ -223,7 +223,7 @@ namespace djv
                 return out;
             }
 
-            void Push::_preLayoutEvent(Event::PreLayout & event)
+            void Push::_preLayoutEvent(Event::PreLayout& event)
             {
                 const auto& style = _getStyle();
                 const float b = style->getMetric(MetricsRole::Border);
@@ -231,7 +231,7 @@ namespace djv
                 _setMinimumSize(size + b * 4.F);
             }
 
-            void Push::_layoutEvent(Event::Layout &)
+            void Push::_layoutEvent(Event::Layout&)
             {
                 const auto& style = _getStyle();
                 const float b = style->getMetric(MetricsRole::Border);

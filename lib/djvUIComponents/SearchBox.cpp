@@ -157,7 +157,7 @@ namespace djv
             return out;
         }
 
-        void SearchBox::_preLayoutEvent(Event::PreLayout & event)
+        void SearchBox::_preLayoutEvent(Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
@@ -170,7 +170,7 @@ namespace djv
             _setMinimumSize(size + getMargin().getSize(style));
         }
 
-        void SearchBox::_layoutEvent(Event::Layout & event)
+        void SearchBox::_layoutEvent(Event::Layout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();

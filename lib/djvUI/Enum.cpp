@@ -105,7 +105,7 @@ namespace djv
         return rapidjson::Value(s.c_str(), s.size(), allocator);
     }
 
-    void fromJSON(const rapidjson::Value& value, UI::ViewType & out)
+    void fromJSON(const rapidjson::Value& value, UI::ViewType& out)
     {
         if (value.IsString())
         {

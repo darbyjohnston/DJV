@@ -28,9 +28,9 @@ namespace djv
 
             static std::shared_ptr<ComboBox> create(const std::shared_ptr<Core::Context>&);
 
-            const std::vector<std::string> & getItems() const;
-            void setItems(const std::vector<std::string> &);
-            void addItem(const std::string &);
+            const std::vector<std::string>& getItems() const;
+            void setItems(const std::vector<std::string>&);
+            void addItem(const std::string&);
             void clearItems(Callback = Callback::Suppress);
 
             int getCurrentItem() const;
@@ -44,7 +44,7 @@ namespace djv
             void open();
             void close();
 
-            void setFont(int, const std::string &);
+            void setFont(int, const std::string&);
             void setFontSizeRole(MetricsRole);
 
             void setCallback(const std::function<void(int)>&);
@@ -52,8 +52,8 @@ namespace djv
             std::shared_ptr<Widget> getFocusWidget() override;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
             void _keyPressEvent(Core::Event::KeyPress&) override;
 
         private:

@@ -33,21 +33,21 @@ namespace djv
                 static std::shared_ptr<System> create(bool reset, const std::shared_ptr<Core::Context>&);
 
                 //! Get the list of settings.
-                const std::vector<std::shared_ptr<ISettings> > & getSettings() const;
+                const std::vector<std::shared_ptr<ISettings> >& getSettings() const;
 
                 //! Get a settings of the given type.
                 template<typename T>
                 std::shared_ptr<T> getSettingsT() const;
 
             private:
-                void _addSettings(const std::shared_ptr<ISettings> &);
-                void _removeSettings(const std::shared_ptr<ISettings> &);
+                void _addSettings(const std::shared_ptr<ISettings>&);
+                void _removeSettings(const std::shared_ptr<ISettings>&);
 
-                void _loadSettings(const std::shared_ptr<ISettings> &);
+                void _loadSettings(const std::shared_ptr<ISettings>&);
                 void _saveSettings();
 
                 void _readSettingsFile();
-                void _writeSettingsFile(const rapidjson::Document &);
+                void _writeSettingsFile(const rapidjson::Document&);
 
                 bool _reset = false;
                 rapidjson::Document _document;

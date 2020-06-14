@@ -44,7 +44,7 @@ namespace djv
             return out;
         }
 
-        void BasicIntSlider::setModel(const std::shared_ptr<INumericValueModel<int> > & model)
+        void BasicIntSlider::setModel(const std::shared_ptr<INumericValueModel<int> >& model)
         {
             INumericSlider<int>::setModel(model);
             DJV_PRIVATE_PTR();
@@ -101,7 +101,7 @@ namespace djv
             INumericSlider<int>::_valueUpdate();
         }
 
-        void BasicIntSlider::_paintEvent(Event::Paint & event)
+        void BasicIntSlider::_paintEvent(Event::Paint& event)
         {
             NumericSlider::_paintEvent(event);
             if (auto model = getModel())
@@ -122,7 +122,7 @@ namespace djv
                 const float m = style->getMetric(MetricsRole::MarginSmall);
                 const float b = style->getMetric(MetricsRole::Border);
                 const float handleWidth = _getHandleWidth();
-                const auto & range = model->observeRange()->get();
+                const auto& range = model->observeRange()->get();
                 float v = (value - range.getMin()) / static_cast<float>(range.getMax() - range.getMin());
                 const BBox2f g2 = g.margin(-(m + b));
                 switch (getOrientation())
@@ -150,7 +150,7 @@ namespace djv
                 const float m = style->getMetric(MetricsRole::MarginSmall);
                 const float b = style->getMetric(MetricsRole::Border);
                 const float handleWidth = _getHandleWidth();
-                const auto & range = model->observeRange()->get();
+                const auto& range = model->observeRange()->get();
                 const BBox2f g2 = g.margin(-(m + b));
                 const float step = g2.w() / static_cast<float>(range.getMax() - range.getMin()) / 2.F;
                 float v = 0.F;
@@ -319,18 +319,18 @@ namespace djv
             _p->slider->setDelay(value);
         }
 
-        const std::shared_ptr<INumericValueModel<int> > & IntSlider::getModel() const
+        const std::shared_ptr<INumericValueModel<int> >& IntSlider::getModel() const
         {
             return _p->slider->getModel();
         }
 
-        void IntSlider::_preLayoutEvent(Event::PreLayout & event)
+        void IntSlider::_preLayoutEvent(Event::PreLayout& event)
         {
             const auto& style = _getStyle();
             _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
         }
 
-        void IntSlider::_layoutEvent(Event::Layout & event)
+        void IntSlider::_layoutEvent(Event::Layout& event)
         {
             const auto& style = _getStyle();
             _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));

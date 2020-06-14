@@ -44,10 +44,10 @@ namespace djv
                 void clearChildren() override;
 
             protected:
-                void _preLayoutEvent(Event::PreLayout &) override;
-                void _layoutEvent(Event::Layout &) override;
-                void _buttonPressEvent(Event::ButtonPress &) override;
-                void _buttonReleaseEvent(Event::ButtonRelease &) override;
+                void _preLayoutEvent(Event::PreLayout&) override;
+                void _layoutEvent(Event::Layout&) override;
+                void _buttonPressEvent(Event::ButtonPress&) override;
+                void _buttonReleaseEvent(Event::ButtonRelease&) override;
 
             private:
                 std::shared_ptr<StackLayout> _layout;
@@ -93,22 +93,22 @@ namespace djv
                 _layout->clearChildren();
             }
 
-            void OverlayWidget::_buttonPressEvent(Event::ButtonPress & event)
+            void OverlayWidget::_buttonPressEvent(Event::ButtonPress& event)
             {
                 event.accept();
             }
 
-            void OverlayWidget::_buttonReleaseEvent(Event::ButtonRelease & event)
+            void OverlayWidget::_buttonReleaseEvent(Event::ButtonRelease& event)
             {
                 event.accept();
             }
 
-            void OverlayWidget::_preLayoutEvent(Event::PreLayout &)
+            void OverlayWidget::_preLayoutEvent(Event::PreLayout&)
             {
                 _setMinimumSize(_border->getMinimumSize());
             }
 
-            void OverlayWidget::_layoutEvent(Event::Layout &)
+            void OverlayWidget::_layoutEvent(Event::Layout&)
             {
                 _border->setGeometry(getGeometry());
             }
@@ -129,8 +129,8 @@ namespace djv
                 void clearPopup();
 
             protected:
-                void _layoutEvent(Event::Layout &) override;
-                void _paintEvent(Event::Paint &) override;
+                void _layoutEvent(Event::Layout&) override;
+                void _paintEvent(Event::Paint&) override;
 
                 void _childRemovedEvent(Event::ChildRemoved&) override;
 
@@ -155,7 +155,7 @@ namespace djv
                 return out;
             }
 
-            void OverlayLayout::setButton(const std::shared_ptr<Widget> & widget, const std::weak_ptr<Widget> & button)
+            void OverlayLayout::setButton(const std::shared_ptr<Widget>& widget, const std::weak_ptr<Widget>& button)
             {
                 _widgetToButton[widget] = button;
             }
@@ -165,15 +165,15 @@ namespace djv
                 _widgetToPopup.clear();
             }
 
-            void OverlayLayout::_layoutEvent(Event::Layout &)
+            void OverlayLayout::_layoutEvent(Event::Layout&)
             {
-                const BBox2f & g = getGeometry();
-                for (const auto & i : _widgetToButton)
+                const BBox2f& g = getGeometry();
+                for (const auto& i : _widgetToButton)
                 {
                     if (auto button = i.second.lock())
                     {
-                        const auto & buttonBBox = button->getGeometry();
-                        const auto & minimumSize = i.first->getMinimumSize();
+                        const auto& buttonBBox = button->getGeometry();
+                        const auto& minimumSize = i.first->getMinimumSize();
                         Popup popup = Popup::BelowRight;
                         auto j = _widgetToPopup.find(i.first);
                         if (j != _widgetToPopup.end())
@@ -190,14 +190,14 @@ namespace djv
                 }
             }
 
-            void OverlayLayout::_paintEvent(Event::Paint & event)
+            void OverlayLayout::_paintEvent(Event::Paint& event)
             {
                 Widget::_paintEvent(event);
                 const auto& style = _getStyle();
                 const float sh = style->getMetric(MetricsRole::Shadow);
                 const auto& render = _getRender();
                 render->setFillColor(style->getColor(ColorRole::Shadow));
-                for (const auto & i : getChildWidgets())
+                for (const auto& i : getChildWidgets())
                 {
                     BBox2f g = i->getGeometry();
                     g.min.x -= sh;
@@ -354,7 +354,7 @@ namespace djv
             return _p->button->getPopupIcon();
         }
 
-        void PopupWidget::setIcon(const std::string & value)
+        void PopupWidget::setIcon(const std::string& value)
         {
             _p->button->setIcon(value);
         }
@@ -364,12 +364,12 @@ namespace djv
             _p->button->setPopupIcon(value);
         }
 
-        const std::string & PopupWidget::getText() const
+        const std::string& PopupWidget::getText() const
         {
             return _p->button->getText();
         }
 
-        void PopupWidget::setText(const std::string & value)
+        void PopupWidget::setText(const std::string& value)
         {
             _p->button->setText(value);
         }
@@ -444,7 +444,7 @@ namespace djv
             _p->closeCallback = value;
         }
 
-        void PopupWidget::addChild(const std::shared_ptr<IObject> & value)
+        void PopupWidget::addChild(const std::shared_ptr<IObject>& value)
         {
             _p->overlayWidget->addChild(value);
         }
@@ -459,12 +459,12 @@ namespace djv
             _p->overlayWidget->clearChildren();
         }
 
-        void PopupWidget::_preLayoutEvent(Event::PreLayout & event)
+        void PopupWidget::_preLayoutEvent(Event::PreLayout& event)
         {
             _setMinimumSize(_p->button->getMinimumSize());
         }
 
-        void PopupWidget::_layoutEvent(Event::Layout & event)
+        void PopupWidget::_layoutEvent(Event::Layout& event)
         {
             _p->button->setGeometry(getGeometry());
         }

@@ -25,23 +25,23 @@ namespace djv
             static std::shared_ptr<TabBar> create(const std::shared_ptr<Core::Context>&);
 
             size_t getTabCount() const;
-            size_t addTab(const std::string &);
+            size_t addTab(const std::string&);
             void removeTab(size_t);
             void clearTabs();
-            void setTabRemovedCallback(const std::function<void(size_t)> &);
+            void setTabRemovedCallback(const std::function<void(size_t)>&);
 
-            void setText(size_t, const std::string &);
+            void setText(size_t, const std::string&);
 
             int getCurrentTab() const;
             void setCurrentTab(int);
-            void setCurrentTabCallback(const std::function<void(int)> &);
+            void setCurrentTabCallback(const std::function<void(int)>&);
             void removeCurrentTab();
 
             float getHeightForWidth(float) const override;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
 
         private:
             DJV_PRIVATE();

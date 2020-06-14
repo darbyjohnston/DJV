@@ -65,7 +65,7 @@ namespace djv
                 return p.label ? p.label->getText() : std::string();
             }
 
-            void CheckBox::setText(const std::string & value)
+            void CheckBox::setText(const std::string& value)
             {
                 DJV_PRIVATE_PTR();
                 if (value == p.label->getText())
@@ -74,12 +74,12 @@ namespace djv
                 _widgetUpdate();
             }
 
-            const std::string & CheckBox::getFontFamily() const
+            const std::string& CheckBox::getFontFamily() const
             {
                 return _p->label->getFontFamily();
             }
 
-            const std::string & CheckBox::getFontFace() const
+            const std::string& CheckBox::getFontFace() const
             {
                 return _p->label->getFontFace();
             }
@@ -89,12 +89,12 @@ namespace djv
                 return _p->label->getFontSizeRole();
             }
 
-            void CheckBox::setFontFamily(const std::string & value)
+            void CheckBox::setFontFamily(const std::string& value)
             {
                 _p->label->setFontFamily(value);
             }
 
-            void CheckBox::setFontFace(const std::string & value)
+            void CheckBox::setFontFace(const std::string& value)
             {
                 _p->label->setFontFace(value);
             }
@@ -115,7 +115,7 @@ namespace djv
                 return out;
             }
 
-            void CheckBox::_preLayoutEvent(Event::PreLayout & event)
+            void CheckBox::_preLayoutEvent(Event::PreLayout& event)
             {
                 const auto& style = _getStyle();
                 const float m = style->getMetric(MetricsRole::MarginInside);
@@ -127,7 +127,7 @@ namespace djv
                 _setMinimumSize(size);
             }
 
-            void CheckBox::_layoutEvent(Event::Layout &)
+            void CheckBox::_layoutEvent(Event::Layout&)
             {
                 _p->label->setGeometry(_getLabelGeometry());
             }

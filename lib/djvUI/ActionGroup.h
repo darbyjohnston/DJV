@@ -28,11 +28,11 @@ namespace djv
 
             static std::shared_ptr<ActionGroup> create(ButtonType);
 
-            const std::vector<std::shared_ptr<Action> > & getActions() const;
+            const std::vector<std::shared_ptr<Action> >& getActions() const;
             size_t getActionCount() const;
-            int getActionIndex(const std::shared_ptr<Action> &) const;
-            void addAction(const std::shared_ptr<Action> &);
-            void removeAction(const std::shared_ptr<Action> &);
+            int getActionIndex(const std::shared_ptr<Action>&) const;
+            void addAction(const std::shared_ptr<Action>&);
+            void removeAction(const std::shared_ptr<Action>&);
             void clearActions();
 
             ButtonType getButtonType() const;
@@ -40,10 +40,10 @@ namespace djv
 
             void setChecked(int, bool = true, Callback = Callback::Suppress);
 
-            void setPushCallback(const std::function<void(int)> &);
-            void setToggleCallback(const std::function<void(int, bool)> &);
-            void setRadioCallback(const std::function<void(int)> &);
-            void setExclusiveCallback(const std::function<void(int)> &);
+            void setPushCallback(const std::function<void(int)>&);
+            void setToggleCallback(const std::function<void(int, bool)>&);
+            void setRadioCallback(const std::function<void(int)>&);
+            void setExclusiveCallback(const std::function<void(int)>&);
 
         private:
             DJV_PRIVATE();

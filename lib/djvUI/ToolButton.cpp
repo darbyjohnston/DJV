@@ -108,7 +108,7 @@ namespace djv
                 return out;
             }
 
-            void Tool::setIcon(const std::string & value)
+            void Tool::setIcon(const std::string& value)
             {
                 DJV_PRIVATE_PTR();
                 if (value == p.icon)
@@ -141,7 +141,7 @@ namespace djv
                 return p.label ? p.label->getText() : std::string();
             }
 
-            void Tool::setText(const std::string & value)
+            void Tool::setText(const std::string& value)
             {
                 DJV_PRIVATE_PTR();
                 if (!value.empty())
@@ -199,7 +199,7 @@ namespace djv
                 return _p->fontSizeRole;
             }
 
-            void Tool::setFont(const std::string & value)
+            void Tool::setFont(const std::string& value)
             {
                 DJV_PRIVATE_PTR();
                 p.font = value;
@@ -209,7 +209,7 @@ namespace djv
                 }
             }
 
-            void Tool::setFontFace(const std::string & value)
+            void Tool::setFontFace(const std::string& value)
             {
                 DJV_PRIVATE_PTR();
                 p.fontFace = value;
@@ -308,7 +308,7 @@ namespace djv
                 return out;
             }
 
-            void Tool::_preLayoutEvent(Event::PreLayout & event)
+            void Tool::_preLayoutEvent(Event::PreLayout& event)
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
@@ -335,7 +335,7 @@ namespace djv
                 _setMinimumSize(size + getMargin().getSize(style));
             }
 
-            void Tool::_layoutEvent(Event::Layout &)
+            void Tool::_layoutEvent(Event::Layout&)
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();

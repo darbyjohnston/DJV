@@ -28,7 +28,7 @@ namespace djv
 
             void setSide(const std::shared_ptr<Widget>&, Side);
 
-            void setStretch(const std::shared_ptr<Widget> &, Layout::RowStretch, Side);
+            void setStretch(const std::shared_ptr<Widget>&, Layout::RowStretch, Side);
 
             void addSeparator(Side);
             void addSpacer(Side);
@@ -36,14 +36,14 @@ namespace djv
 
             float getHeightForWidth(float) const override;
 
-            void addChild(const std::shared_ptr<IObject> &) override;
-            void removeChild(const std::shared_ptr<IObject> &) override;
+            void addChild(const std::shared_ptr<IObject>&) override;
+            void removeChild(const std::shared_ptr<IObject>&) override;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
 
-            bool _eventFilter(const std::shared_ptr<IObject> &, Core::Event::Event &) override;
+            bool _eventFilter(const std::shared_ptr<IObject>&, Core::Event::Event&) override;
 
         private:
             void _openCallback(bool, const std::weak_ptr<Menu>&);

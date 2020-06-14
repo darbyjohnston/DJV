@@ -57,12 +57,12 @@ namespace djv
             _p->childLayout->clearChildren();
         }
 
-        void ISettingsWidget::_preLayoutEvent(Event::PreLayout & event)
+        void ISettingsWidget::_preLayoutEvent(Event::PreLayout& event)
         {
             _setMinimumSize(_p->childLayout->getMinimumSize());
         }
 
-        void ISettingsWidget::_layoutEvent(Event::Layout &)
+        void ISettingsWidget::_layoutEvent(Event::Layout&)
         {
             _p->childLayout->setGeometry(getGeometry());
         }

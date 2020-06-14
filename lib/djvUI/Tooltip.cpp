@@ -31,14 +31,14 @@ namespace djv
             public:
                 static std::shared_ptr<TooltipLayout> create(const std::shared_ptr<Core::Context>&);
 
-                void setPos(const std::shared_ptr<Widget> &, const glm::vec2 & pos);
+                void setPos(const std::shared_ptr<Widget>&, const glm::vec2& pos);
 
                 void addChild(const std::shared_ptr<IObject>&) override;
                 void removeChild(const std::shared_ptr<IObject>&) override;
 
             protected:
-                void _layoutEvent(Core::Event::Layout &) override;
-                void _paintEvent(Event::Paint &) override;
+                void _layoutEvent(Core::Event::Layout&) override;
+                void _paintEvent(Event::Paint&) override;
 
             private:
                 std::map<std::shared_ptr<Widget>, glm::vec2> _widgetToPos;
@@ -60,7 +60,7 @@ namespace djv
                 return out;
             }
 
-            void TooltipLayout::setPos(const std::shared_ptr<Widget> & value, const glm::vec2 & pos)
+            void TooltipLayout::setPos(const std::shared_ptr<Widget>& value, const glm::vec2& pos)
             {
                 _widgetToPos[value] = pos;
                 _resize();
@@ -89,14 +89,14 @@ namespace djv
                 }
             }
             
-            void TooltipLayout::_layoutEvent(Event::Layout &)
+            void TooltipLayout::_layoutEvent(Event::Layout&)
             {
-                const BBox2f & g = getGeometry();
+                const BBox2f& g = getGeometry();
                 const auto& style = _getStyle();
                 const float to = style->getMetric(MetricsRole::TooltipOffset);
                 for (auto i : _widgetToPos)
                 {
-                    const glm::vec2 & minimumSize = i.first->getMinimumSize();
+                    const glm::vec2& minimumSize = i.first->getMinimumSize();
                     std::vector<BBox2f> geomCandidates;
                     const BBox2f belowRight(
                         i.second.x + to,
@@ -123,7 +123,7 @@ namespace djv
                     geomCandidates.push_back(belowLeft);
                     geomCandidates.push_back(aboveLeft);
                     std::sort(geomCandidates.begin(), geomCandidates.end(),
-                        [g](const BBox2f & a, const BBox2f & b)
+                        [g](const BBox2f& a, const BBox2f& b)
                     {
                         return a.intersect(g).getArea() > b.intersect(g).getArea();
                     });
@@ -131,14 +131,14 @@ namespace djv
                 }
             }
 
-            void TooltipLayout::_paintEvent(Event::Paint & event)
+            void TooltipLayout::_paintEvent(Event::Paint& event)
             {
                 Widget::_paintEvent(event);
                 const auto& style = _getStyle();
                 const float sh = style->getMetric(MetricsRole::Shadow);
                 const auto& render = _getRender();
                 render->setFillColor(style->getColor(ColorRole::Shadow));
-                for (const auto & i : getChildWidgets())
+                for (const auto& i : getChildWidgets())
                 {
                     BBox2f g = i->getGeometry();
                     g.min.x -= sh;
@@ -160,9 +160,9 @@ namespace djv
         };
 
         void Tooltip::_init(
-            const std::shared_ptr<Window> & window,
-            const glm::vec2 & pos,
-            const std::shared_ptr<ITooltipWidget> & widget,
+            const std::shared_ptr<Window>& window,
+            const glm::vec2& pos,
+            const std::shared_ptr<ITooltipWidget>& widget,
             const std::shared_ptr<Core::Context>& context)
         {
             DJV_PRIVATE_PTR();
@@ -197,9 +197,9 @@ namespace djv
         }
 
         std::shared_ptr<Tooltip> Tooltip::create(
-            const std::shared_ptr<Window> & window,
-            const glm::vec2 & pos,
-            const std::shared_ptr<ITooltipWidget> & widget,
+            const std::shared_ptr<Window>& window,
+            const glm::vec2& pos,
+            const std::shared_ptr<ITooltipWidget>& widget,
             const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<Tooltip>(new Tooltip);

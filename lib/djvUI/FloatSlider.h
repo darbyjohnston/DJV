@@ -27,7 +27,7 @@ namespace djv
 
             static std::shared_ptr<BasicFloatSlider> create(Orientation, const std::shared_ptr<Core::Context>&);
 
-            void setModel(const std::shared_ptr<Core::INumericValueModel<float> > &) override;
+            void setModel(const std::shared_ptr<Core::INumericValueModel<float> >&) override;
 
         protected:
             void _pointerMove(float) override;
@@ -37,7 +37,7 @@ namespace djv
             void _scroll(float) override;
             void _valueUpdate() override;
 
-            void _paintEvent(Core::Event::Paint &) override;
+            void _paintEvent(Core::Event::Paint&) override;
 
         private:
             float _valueToPos(float) const override;
@@ -63,11 +63,11 @@ namespace djv
             void setModel(const std::shared_ptr<Core::INumericValueModel<float> >&);
 
             Core::FloatRange getRange() const;
-            void setRange(const Core::FloatRange &);
+            void setRange(const Core::FloatRange&);
 
             float getValue() const;
             void setValue(float);
-            void setValueCallback(const std::function<void(float)> &);
+            void setValueCallback(const std::function<void(float)>&);
             
             float getDefault() const;
             void setDefault(float);
@@ -85,8 +85,8 @@ namespace djv
             const std::shared_ptr<Core::INumericValueModel<float>>& getModel() const;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
 
             void _initEvent(Core::Event::Init&) override;
 

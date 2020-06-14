@@ -31,8 +31,8 @@ namespace djv
                 ColorRole getForegroundColorRole() const;
                 virtual void setForegroundColorRole(ColorRole);
 
-                void setClickedCallback(const std::function<void(void)> &);
-                void setCheckedCallback(const std::function<void(bool)> &);
+                void setClickedCallback(const std::function<void(void)>&);
+                void setCheckedCallback(const std::function<void(bool)>&);
 
                 void addAction(const std::shared_ptr<Action>&) override;
                 void removeAction(const std::shared_ptr<Action>&) override;
@@ -42,17 +42,17 @@ namespace djv
                 bool _isToggled() const;
                 bool _isHovered() const;
                 bool _isPressed() const;
-                const glm::vec2 & _getPressedPos() const;
+                const glm::vec2& _getPressedPos() const;
                 void _setCanRejectPressed(bool);
 
                 virtual void _doClickedCallback();
                 virtual void _doCheckedCallback(bool);
 
-                void _pointerEnterEvent(Core::Event::PointerEnter &) override;
-                void _pointerLeaveEvent(Core::Event::PointerLeave &) override;
-                void _pointerMoveEvent(Core::Event::PointerMove &) override;
-                void _buttonPressEvent(Core::Event::ButtonPress &) override;
-                void _buttonReleaseEvent(Core::Event::ButtonRelease &) override;
+                void _pointerEnterEvent(Core::Event::PointerEnter&) override;
+                void _pointerLeaveEvent(Core::Event::PointerLeave&) override;
+                void _pointerMoveEvent(Core::Event::PointerMove&) override;
+                void _buttonPressEvent(Core::Event::ButtonPress&) override;
+                void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
 
             private:
                 void _actionUpdate();

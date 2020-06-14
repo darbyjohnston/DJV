@@ -32,13 +32,13 @@ namespace djv
                 void setChecked(bool) override;
                 void setButtonType(ButtonType) override;
 
-                void addAction(const std::shared_ptr<Action> &) override;
-                void removeAction(const std::shared_ptr<Action> &) override;
+                void addAction(const std::shared_ptr<Action>&) override;
+                void removeAction(const std::shared_ptr<Action>&) override;
                 void clearActions() override;
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout &) override;
-                void _layoutEvent(Core::Event::Layout &) override;
+                void _preLayoutEvent(Core::Event::PreLayout&) override;
+                void _layoutEvent(Core::Event::Layout&) override;
                 void _paintEvent(Core::Event::Paint&) override;
 
             private:

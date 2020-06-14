@@ -39,8 +39,8 @@ public:
     float getHeightForWidth(float) const override;
 
 protected:
-    void _preLayoutEvent(Core::Event::PreLayout &) override;
-    void _layoutEvent(Core::Event::Layout &) override;
+    void _preLayoutEvent(Core::Event::PreLayout&) override;
+    void _layoutEvent(Core::Event::Layout&) override;
 
 private:
     std::shared_ptr<UI::ToolButton> _closeButton;
@@ -110,12 +110,12 @@ float MDIWidget::getHeightForWidth(float value) const
     return _border->getHeightForWidth(value);
 }
 
-void MDIWidget::_preLayoutEvent(Core::Event::PreLayout &)
+void MDIWidget::_preLayoutEvent(Core::Event::PreLayout&)
 {
     _setMinimumSize(_border->getMinimumSize());
 }
 
-void MDIWidget::_layoutEvent(Core::Event::Layout &)
+void MDIWidget::_layoutEvent(Core::Event::Layout&)
 {
     _border->setGeometry(getGeometry());
 }

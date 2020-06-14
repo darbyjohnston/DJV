@@ -26,12 +26,12 @@ namespace djv
 
                 static std::shared_ptr<Tool> create(const std::shared_ptr<Core::Context>&);
 
-                void setIcon(const std::string &);
+                void setIcon(const std::string&);
                 void setIconSizeRole(MetricsRole);
                 void setCheckedIcon(const std::string&);
 
                 std::string getText() const;
-                void setText(const std::string &);
+                void setText(const std::string&);
 
                 TextHAlign getTextHAlign() const;
                 void setTextHAlign(TextHAlign);
@@ -39,8 +39,8 @@ namespace djv
                 const std::string& getFont() const;
                 const std::string& getFontFace() const;
                 MetricsRole getFontSizeRole() const;
-                void setFont(const std::string &);
-                void setFontFace(const std::string &);
+                void setFont(const std::string&);
+                void setFontFace(const std::string&);
                 void setFontSizeRole(MetricsRole);
 
                 MetricsRole getInsideMargin() const;
@@ -59,8 +59,8 @@ namespace djv
                 bool acceptFocus(TextFocusDirection) override;
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout &) override;
-                void _layoutEvent(Core::Event::Layout &) override;
+                void _preLayoutEvent(Core::Event::PreLayout&) override;
+                void _layoutEvent(Core::Event::Layout&) override;
                 void _paintEvent(Core::Event::Paint&) override;
                 void _buttonPressEvent(Core::Event::ButtonPress&) override;
                 void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;

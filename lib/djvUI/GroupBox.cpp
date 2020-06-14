@@ -64,12 +64,12 @@ namespace djv
                 return out;
             }
 
-            const std::string & GroupBox::getText() const
+            const std::string& GroupBox::getText() const
             {
                 return _p->titleLabel->getText();
             }
 
-            void GroupBox::setText(const std::string & text)
+            void GroupBox::setText(const std::string& text)
             {
                 _p->titleLabel->setText(text);
             }
@@ -79,7 +79,7 @@ namespace djv
                 return _p->layout->getHeightForWidth(value);
             }
 
-            void GroupBox::addChild(const std::shared_ptr<IObject> & value)
+            void GroupBox::addChild(const std::shared_ptr<IObject>& value)
             {
                 _p->childLayout->addChild(value);
             }
@@ -94,12 +94,12 @@ namespace djv
                 _p->childLayout->clearChildren();
             }
 
-            void GroupBox::_preLayoutEvent(Event::PreLayout & event)
+            void GroupBox::_preLayoutEvent(Event::PreLayout& event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
             }
 
-            void GroupBox::_layoutEvent(Event::Layout & event)
+            void GroupBox::_layoutEvent(Event::Layout& event)
             {
                 _p->layout->setGeometry(getGeometry());
             }

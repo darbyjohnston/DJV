@@ -58,7 +58,7 @@ namespace djv
             return out;
         }
 
-        void ToolBar::setStretch(const std::shared_ptr<Widget> & widget, RowStretch value)
+        void ToolBar::setStretch(const std::shared_ptr<Widget>& widget, RowStretch value)
         {
             _p->layout->setStretch(widget, value);
         }
@@ -86,7 +86,7 @@ namespace djv
             return out;
         }
 
-        void ToolBar::addAction(const std::shared_ptr<Action> & action)
+        void ToolBar::addAction(const std::shared_ptr<Action>& action)
         {
             Widget::addAction(action);
             DJV_PRIVATE_PTR();
@@ -125,7 +125,7 @@ namespace djv
                     });
                 /*p.observers[action].text = ValueObserver<std::string>::create(
                     action->observeText(),
-                    [button](const std::string & value)
+                    [button](const std::string& value)
                 {
                     button->setText(value);
                 });*/
@@ -150,7 +150,7 @@ namespace djv
             }
         }
 
-        void ToolBar::removeAction(const std::shared_ptr<Action> & action)
+        void ToolBar::removeAction(const std::shared_ptr<Action>& action)
         {
             Widget::removeAction(action);
             DJV_PRIVATE_PTR();
@@ -178,7 +178,7 @@ namespace djv
             p.observers.clear();
         }
 
-        void ToolBar::addChild(const std::shared_ptr<IObject> & value)
+        void ToolBar::addChild(const std::shared_ptr<IObject>& value)
         {
             _p->layout->addChild(value);
         }
@@ -193,13 +193,13 @@ namespace djv
             _p->layout->clearChildren();
         }
 
-        void ToolBar::_preLayoutEvent(Event::PreLayout & event)
+        void ToolBar::_preLayoutEvent(Event::PreLayout& event)
         {
             const auto& style = _getStyle();
             _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
         }
 
-        void ToolBar::_layoutEvent(Event::Layout & event)
+        void ToolBar::_layoutEvent(Event::Layout& event)
         {
             const auto& style = _getStyle();
             _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
