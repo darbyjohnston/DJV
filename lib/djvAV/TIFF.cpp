@@ -85,7 +85,7 @@ namespace djv
                     return toJSON(_p->options, allocator);
                 }
 
-                void Plugin::setOptions(const rapidjson::Value & value)
+                void Plugin::setOptions(const rapidjson::Value& value)
                 {
                     fromJSON(value, _p->options);
                 }
@@ -95,7 +95,7 @@ namespace djv
                     return Read::create(fileInfo, options, _textSystem, _resourceSystem, _logSystem);
                 }
 
-                std::shared_ptr<IWrite> Plugin::write(const FileSystem::FileInfo& fileInfo, const Info & info, const WriteOptions& options) const
+                std::shared_ptr<IWrite> Plugin::write(const FileSystem::FileInfo& fileInfo, const Info& info, const WriteOptions& options) const
                 {
                     return Write::create(fileInfo, info, options, _p->options, _textSystem, _resourceSystem, _logSystem);
                 }
@@ -104,7 +104,7 @@ namespace djv
         } // namespace IO
     } // namespace AV
 
-    rapidjson::Value toJSON(const AV::IO::TIFF::Options & value, rapidjson::Document::AllocatorType& allocator)
+    rapidjson::Value toJSON(const AV::IO::TIFF::Options& value, rapidjson::Document::AllocatorType& allocator)
     {
         rapidjson::Value out(rapidjson::kObjectType);
         {
@@ -116,11 +116,11 @@ namespace djv
         return out;
     }
 
-    void fromJSON(const rapidjson::Value & value, AV::IO::TIFF::Options & out)
+    void fromJSON(const rapidjson::Value& value, AV::IO::TIFF::Options& out)
     {
         if (value.IsObject())
         {
-            for (const auto & i : value.GetObject())
+            for (const auto& i : value.GetObject())
             {
                 if (0 == strcmp("Compression", i.name.GetString()) && i.value.IsString())
                 {

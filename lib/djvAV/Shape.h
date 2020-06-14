@@ -22,7 +22,7 @@ namespace djv
             public:
                 virtual ~IShape() = 0;
 
-                virtual void triangulate(TriangleMesh &) const = 0;
+                virtual void triangulate(TriangleMesh&) const = 0;
             };
 
             //! This class provides a square shape.
@@ -34,7 +34,7 @@ namespace djv
                 float getRadius() const { return _radius; }
                 void setRadius(float);
 
-                void triangulate(TriangleMesh &) const override;
+                void triangulate(TriangleMesh&) const override;
 
             private:
                 float _radius = .5F;
@@ -51,7 +51,7 @@ namespace djv
                 void setRadius(float);
                 void setResolution(size_t);
 
-                void triangulate(TriangleMesh &) const override;
+                void triangulate(TriangleMesh&) const override;
 
             private:
                 float _radius = .5F;
@@ -67,7 +67,7 @@ namespace djv
                 float getRadius() const { return _radius; }
                 void setRadius(float);
 
-                void triangulate(TriangleMesh &) const override;
+                void triangulate(TriangleMesh&) const override;
 
             private:
                 float _radius = .5F;
@@ -80,20 +80,20 @@ namespace djv
                 typedef std::pair<size_t, size_t> Resolution;
                 typedef std::pair<float, float> Span;
 
-                Sphere(float radius = .5F, const Resolution & = Resolution(10, 10));
+                Sphere(float radius = .5F, const Resolution& = Resolution(10, 10));
 
                 float getRadius() const { return _radius; }
-                const Resolution & getResolution() const { return _resolution; }
-                const Span & getUSpan() const { return _uSpan; }
-                const Span & getVSpan() const { return _vSpan; }
+                const Resolution& getResolution() const { return _resolution; }
+                const Span& getUSpan() const { return _uSpan; }
+                const Span& getVSpan() const { return _vSpan; }
                 bool hasTextureSpan() const { return _textureSpan; }
                 void setRadius(float);
-                void setResolution(const Resolution &);
-                void setUSpan(const Span &);
-                void setVSpan(const Span &);
+                void setResolution(const Resolution&);
+                void setUSpan(const Span&);
+                void setVSpan(const Span&);
                 void setTextureSpan(bool);
 
-                void triangulate(TriangleMesh &) const override;
+                void triangulate(TriangleMesh&) const override;
 
             private:
                 float _radius = .5F;
@@ -115,16 +115,16 @@ namespace djv
                 float getLength() const { return _length; }
                 bool isCapped() const { return _capped; }
                 size_t getResolution() const { return _resolution; }
-                const Span & getSpan() const { return _span; }
+                const Span& getSpan() const { return _span; }
                 bool hasTextureSpan() const { return _textureSpan; }
                 void setRadius(float);
                 void setLength(float);
                 void setCapped(bool);
                 void setResolution(size_t);
-                void setSpan(const Span &);
+                void setSpan(const Span&);
                 void setTextureSpan(bool);
 
-                void triangulate(TriangleMesh &) const override;
+                void triangulate(TriangleMesh&) const override;
 
             private:
                 float _radius = .5F;

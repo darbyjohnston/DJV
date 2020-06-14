@@ -35,8 +35,8 @@ namespace djv
 
             void Color::rgbToHSV(const float in[3], float out[3])
             {
-                const float & min = std::min(in[0], std::min(in[1], in[2]));
-                const float & max = std::max(in[0], std::max(in[1], in[2]));
+                const float& min = std::min(in[0], std::min(in[1], in[2]));
+                const float& max = std::max(in[0], std::max(in[1], in[2]));
                 out[2] = max;
                 out[1] = max != 0.F ? (1.F - min / max) : 0.F;
                 const float v = (max - min) * 6.F;
@@ -227,7 +227,7 @@ namespace djv
         } // namepsace Image
     } // namespace AV
 
-    std::ostream & operator << (std::ostream & os, const AV::Image::Color & value)
+    std::ostream& operator << (std::ostream& os, const AV::Image::Color& value)
     {
         const auto type = value.getType();
         os << type;
@@ -317,7 +317,7 @@ namespace djv
         return os;
     }
 
-    std::istream & operator >> (std::istream & is, AV::Image::Color & value)
+    std::istream& operator >> (std::istream& is, AV::Image::Color& value)
     {
         try
         {

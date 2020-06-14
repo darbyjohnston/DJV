@@ -33,7 +33,7 @@ namespace djv
     {
         namespace Audio
         {
-            bool Info::operator == (const Info & other) const
+            bool Info::operator == (const Info& other) const
             {
                 return
                     name == other.name &&
@@ -43,18 +43,18 @@ namespace djv
                     sampleCount == other.sampleCount;
             }
 
-            bool Info::operator != (const Info & other) const
+            bool Info::operator != (const Info& other) const
             {
                 return !(*this == other);
             }
 
-            void Data::_init(const Info & info)
+            void Data::_init(const Info& info)
             {
                 _info = info;
                 _data.resize(getByteCount());
             }
 
-            std::shared_ptr<Data> Data::create(const Info & info)
+            std::shared_ptr<Data> Data::create(const Info& info)
             {
                 auto out = std::shared_ptr<Data>(new Data);
                 out->_init(info);
@@ -66,7 +66,7 @@ namespace djv
                 memset(_data.data(), 0, getByteCount());
             }
 
-            std::shared_ptr<Data> Data::convert(const std::shared_ptr<Data> & data, Type type)
+            std::shared_ptr<Data> Data::convert(const std::shared_ptr<Data>& data, Type type)
             {
                 const Type dataType = data->getType();
                 const size_t sampleCount = data->getSampleCount();
@@ -155,7 +155,7 @@ namespace djv
                 }
             }
 
-            std::shared_ptr<Data> Data::planarInterleave(const std::shared_ptr<Data> & data)
+            std::shared_ptr<Data> Data::planarInterleave(const std::shared_ptr<Data>& data)
             {
                 auto out = Data::create(data->getInfo());
                 const size_t channelCount = data->getChannelCount();
@@ -200,7 +200,7 @@ namespace djv
                 }
             }
 
-            std::shared_ptr<Data> Data::planarDeinterleave(const std::shared_ptr<Data> & data)
+            std::shared_ptr<Data> Data::planarDeinterleave(const std::shared_ptr<Data>& data)
             {
                 auto out = Data::create(data->getInfo());
                 const uint8_t channelCount = data->getChannelCount();
@@ -240,14 +240,14 @@ namespace djv
                 }
             }
 
-            bool Data::operator == (const Data & other) const
+            bool Data::operator == (const Data& other) const
             {
                 return
                     _info == other._info &&
                     0 == memcmp(getData(), other.getData(), getByteCount());
             }
 
-            bool Data::operator != (const Data & other) const
+            bool Data::operator != (const Data& other) const
             {
                 return !(*this == other);
             }

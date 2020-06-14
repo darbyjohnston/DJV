@@ -80,7 +80,7 @@ namespace djv
                     uid(createUID())
                 {}
 
-                ImageRequest(ImageRequest && other) noexcept :
+                ImageRequest(ImageRequest&& other) noexcept :
                     uid(other.uid),
                     fileInfo(other.fileInfo),
                     size(std::move(other.size)),
@@ -92,7 +92,7 @@ namespace djv
                 ~ImageRequest()
                 {}
 
-                ImageRequest & operator = (ImageRequest && other) noexcept
+                ImageRequest& operator = (ImageRequest&& other) noexcept
                 {
                     if (this != &other)
                     {
@@ -114,7 +114,7 @@ namespace djv
                 std::promise<std::shared_ptr<Image::Image> > promise;
             };
 
-            size_t getInfoCacheKey(const FileSystem::FileInfo & fileInfo)
+            size_t getInfoCacheKey(const FileSystem::FileInfo& fileInfo)
             {
                 size_t out = 0;
                 Memory::hashCombine(out, fileInfo.getFileName());
@@ -136,7 +136,7 @@ namespace djv
         ThumbnailSystem::InfoFuture::InfoFuture()
         {}
         
-        ThumbnailSystem::InfoFuture::InfoFuture(std::future<IO::Info> & future, UID uid) :
+        ThumbnailSystem::InfoFuture::InfoFuture(std::future<IO::Info>& future, UID uid) :
             future(std::move(future)),
             uid(uid)
         {}
@@ -144,7 +144,7 @@ namespace djv
         ThumbnailSystem::ImageFuture::ImageFuture()
         {}
         
-        ThumbnailSystem::ImageFuture::ImageFuture(std::future<std::shared_ptr<Image::Image> > & future, UID uid) :
+        ThumbnailSystem::ImageFuture::ImageFuture(std::future<std::shared_ptr<Image::Image> >& future, UID uid) :
             future(std::move(future)),
             uid(uid)
         {}
@@ -290,7 +290,7 @@ namespace djv
                         }
                     }
                 }
-                catch (const std::exception & e)
+                catch (const std::exception& e)
                 {
                     logSystem->log("djv::AV::ThumbnailSystem", e.what(), LogLevel::Error);
                 }
@@ -336,7 +336,7 @@ namespace djv
             return out;
         }
 
-        ThumbnailSystem::InfoFuture ThumbnailSystem::getInfo(const FileSystem::FileInfo & fileInfo)
+        ThumbnailSystem::InfoFuture ThumbnailSystem::getInfo(const FileSystem::FileInfo& fileInfo)
         {
             DJV_PRIVATE_PTR();
             InfoRequest request;
@@ -358,7 +358,7 @@ namespace djv
                 const auto i = std::find_if(
                     p.infoRequests.rbegin(),
                     p.infoRequests.rend(),
-                    [uid](const InfoRequest & value)
+                    [uid](const InfoRequest& value)
                 {
                     return value.uid == uid;
                 });
@@ -396,7 +396,7 @@ namespace djv
                 const auto i = std::find_if(
                     p.imageRequests.rbegin(),
                     p.imageRequests.rend(),
-                    [uid](const ImageRequest & value)
+                    [uid](const ImageRequest& value)
                 {
                     return value.uid == uid;
                 });
@@ -457,13 +457,13 @@ namespace djv
                         i.infoFuture = i.read->getInfo();
                         p.pendingInfoRequests.push_back(std::move(i));
                     }
-                    catch (const std::exception &)
+                    catch (const std::exception&)
                     {
                         try
                         {
                             i.promise.set_exception(std::current_exception());
                         }
-                        catch (const std::exception & e)
+                        catch (const std::exception& e)
                         {
                             _log(e.what(), LogLevel::Error);
                         }
@@ -485,13 +485,13 @@ namespace djv
                         p.infoCachePercentage = p.infoCache.getPercentageUsed();
                         i->promise.set_value(info);
                     }
-                    catch (const std::exception &)
+                    catch (const std::exception&)
                     {
                         try
                         {
                             i->promise.set_exception(std::current_exception());
                         }
-                        catch (const std::exception & e)
+                        catch (const std::exception& e)
                         {
                             _log(e.what(), LogLevel::Error);
                         }
@@ -505,7 +505,7 @@ namespace djv
             }
         }
 
-        void ThumbnailSystem::_handleImageRequests(const std::shared_ptr<Image::Convert> & convert)
+        void ThumbnailSystem::_handleImageRequests(const std::shared_ptr<Image::Convert>& convert)
         {
             DJV_PRIVATE_PTR();
 
@@ -553,7 +553,7 @@ namespace djv
                         {
                             i.promise.set_exception(std::current_exception());
                         }
-                        catch (const std::exception &e)
+                        catch (const std::exception& e)
                         {
                             _log(e.what(), LogLevel::Error);
                         }

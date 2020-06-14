@@ -491,9 +491,9 @@ namespace djv
                         ss << "FreeType version: " << versionMajor << "." << versionMinor << "." << versionPatch;
                         _log(ss.str());
                     }
-                    for (const auto & i : FileSystem::FileInfo::directoryList(p.fontPath))
+                    for (const auto& i : FileSystem::FileInfo::directoryList(p.fontPath))
                     {
-                        const std::string & fileName = i.getFileName();
+                        const std::string& fileName = i.getFileName();
                         {
                             std::stringstream ss;
                             ss << "Loading font: " << fileName;
@@ -570,7 +570,7 @@ namespace djv
                         throw Error("No fonts were found.");
                     }
                 }
-                catch (const std::exception & e)
+                catch (const std::exception& e)
                 {
                     _log(e.what());
                 }
@@ -581,9 +581,9 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (p.ftLibrary)
                 {
-                    for (const auto & i : p.fontFaces)
+                    for (const auto& i : p.fontFaces)
                     {
-                        for (const auto & j : i.second)
+                        for (const auto& j : i.second)
                         {
                             FT_Done_Face(j.second);
                         }
@@ -595,7 +595,7 @@ namespace djv
             void System::_handleMetricsRequests()
             {
                 DJV_PRIVATE_PTR();
-                for (auto & request : p.metricsRequests)
+                for (auto& request : p.metricsRequests)
                 {
                     Metrics metrics;
                     if (auto ftFace = p.getFace(request.fontInfo.getFamily(), request.fontInfo.getFace()))
@@ -670,14 +670,14 @@ namespace djv
             void System::_handleGlyphsRequests()
             {
                 DJV_PRIVATE_PTR();
-                for (auto & request : p.glyphsRequests)
+                for (auto& request : p.glyphsRequests)
                 {
                     std::basic_string<djv_char_t> utf32;
                     try
                     {
                         utf32 = p.utf32Convert.from_bytes(request.text);
                     }
-                    catch (const std::exception & e)
+                    catch (const std::exception& e)
                     {
                         std::stringstream ss;
                         ss << "Error converting string" << " '" << request.text << "': " << e.what();

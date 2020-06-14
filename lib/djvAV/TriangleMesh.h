@@ -39,7 +39,7 @@ namespace djv
                     size_t t = 0;
                     size_t n = 0;
 
-                    bool operator == (const Vertex &) const;
+                    bool operator == (const Vertex&) const;
                 };
 
                 //! This struct provides a face.
@@ -47,7 +47,7 @@ namespace djv
                 {
                     std::vector<Vertex> v;
 
-                    bool operator == (const Face &) const;
+                    bool operator == (const Face&) const;
                 };
 
                 //! This struct provides a triangle.
@@ -59,7 +59,7 @@ namespace djv
                     Vertex v1;
                     Vertex v2;
 
-                    bool operator == (const Triangle &) const;
+                    bool operator == (const Triangle&) const;
                 };
 
                 //! \name Mesh Components
@@ -84,40 +84,40 @@ namespace djv
                 void bboxUpdate();
 
                 //! Convert a face into triangles.
-                static void faceToTriangles(const Face &, std::vector<Triangle> &);
+                static void faceToTriangles(const Face&, std::vector<Triangle>&);
 
                 //! Calculate the mesh normals.
                 //! \todo Implement smoothing.
                 //! \todo Add an option for CW and CCW.
-                static void calcNormals(TriangleMesh &);
+                static void calcNormals(TriangleMesh&);
 
                 //! Intersect a line with a triangle.
                 static bool intersectTriangle(
-                    const glm::vec3 & pos,
-                    const glm::vec3 & dir,
-                    const glm::vec3 & v0,
-                    const glm::vec3 & v1,
-                    const glm::vec3 & v2,
-                    glm::vec3 &       hit,
-                    glm::vec3 &       barycentric);
+                    const glm::vec3& pos,
+                    const glm::vec3& dir,
+                    const glm::vec3& v0,
+                    const glm::vec3& v1,
+                    const glm::vec3& v2,
+                    glm::vec3&       hit,
+                    glm::vec3&       barycentric);
 
                 //! Intersect a line with a mesh.
                 static bool intersect(
-                    const glm::vec3 &    pos,
-                    const glm::vec3 &    dir,
-                    const TriangleMesh & mesh,
-                    glm::vec3 &          hit);
+                    const glm::vec3&    pos,
+                    const glm::vec3&    dir,
+                    const TriangleMesh& mesh,
+                    glm::vec3&          hit);
                 static bool intersect(
-                    const glm::vec3 &    pos,
-                    const glm::vec3 &    dir,
-                    const TriangleMesh & mesh,
-                    glm::vec3 &          hit,
-                    glm::vec3 &          hitColor,
-                    glm::vec2 &          hitTexture,
-                    glm::vec3 &          hitNormal);
+                    const glm::vec3&    pos,
+                    const glm::vec3&    dir,
+                    const TriangleMesh& mesh,
+                    glm::vec3&          hit,
+                    glm::vec3&          hitColor,
+                    glm::vec2&          hitTexture,
+                    glm::vec3&          hitNormal);
 
                 //! Create a mesh from a bounding-box.
-                static void triangulateBBox(const Core::BBox3f &, TriangleMesh &);
+                static void triangulateBBox(const Core::BBox3f&, TriangleMesh&);
 
                 ///@}
 

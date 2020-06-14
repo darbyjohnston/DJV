@@ -32,7 +32,7 @@ namespace djv
 
                 std::shared_ptr<Write> Write::create(
                     const FileSystem::FileInfo& fileInfo,
-                    const Info & info,
+                    const Info& info,
                     const WriteOptions& writeOptions,
                     const Options& options,
                     const std::shared_ptr<TextSystem>& textSystem,
@@ -83,7 +83,7 @@ namespace djv
                     return out;
                 }
                 
-                void Write::_write(const std::string & fileName, const std::shared_ptr<Image::Image> & image)
+                void Write::_write(const std::string& fileName, const std::shared_ptr<Image::Image>& image)
                 {
                     DJV_PRIVATE_PTR();
 

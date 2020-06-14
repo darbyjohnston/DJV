@@ -57,7 +57,7 @@ namespace djv
             };
 
             void ISequenceRead::_init(
-                const FileSystem::FileInfo & fileInfo,
+                const FileSystem::FileInfo& fileInfo,
                 const ReadOptions& options,
                 const std::shared_ptr<TextSystem>& textSystem,
                 const std::shared_ptr<ResourceSystem>& resourceSystem,
@@ -673,7 +673,7 @@ namespace djv
 
                         p.convert.reset();
                     }
-                    catch (const std::exception & e)
+                    catch (const std::exception& e)
                     {
                         _logSystem->log("djv::AV::ISequenceWrite", e.what(), LogLevel::Error);
                     }

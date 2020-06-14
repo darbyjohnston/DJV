@@ -23,7 +23,7 @@ namespace djv
                 std::runtime_error(what)
             {}
             
-            void Shader::_init(const std::shared_ptr<Render::Shader> & shader)
+            void Shader::_init(const std::shared_ptr<Render::Shader>& shader)
             {
                 _shader = shader;
 
@@ -101,7 +101,7 @@ namespace djv
                 }
             }
 
-            std::shared_ptr<Shader> Shader::create(const std::shared_ptr<Render::Shader> & shader)
+            std::shared_ptr<Shader> Shader::create(const std::shared_ptr<Render::Shader>& shader)
             {
                 auto out = std::shared_ptr<Shader>(new Shader);
                 out->_init(shader);
@@ -123,27 +123,27 @@ namespace djv
                 glUniform1f(location, value);
             }
 
-            void Shader::setUniform(GLint location, const glm::vec2 & value)
+            void Shader::setUniform(GLint location, const glm::vec2& value)
             {
                 glUniform2fv(location, 1, &value[0]);
             }
 
-            void Shader::setUniform(GLint location, const glm::vec3 & value)
+            void Shader::setUniform(GLint location, const glm::vec3& value)
             {
                 glUniform3fv(location, 1, &value[0]);
             }
 
-            void Shader::setUniform(GLint location, const glm::vec4 & value)
+            void Shader::setUniform(GLint location, const glm::vec4& value)
             {
                 glUniform4fv(location, 1, &value[0]);
             }
 
-            void Shader::setUniform(GLint location, const glm::mat3x3 & value)
+            void Shader::setUniform(GLint location, const glm::mat3x3& value)
             {
                 glUniformMatrix3fv(location, 1, GL_FALSE, &value[0][0]);
             }
 
-            void Shader::setUniform(GLint location, const glm::mat4x4 & value)
+            void Shader::setUniform(GLint location, const glm::mat4x4& value)
             {
                 glUniformMatrix4fv(location, 1, GL_FALSE, &value[0][0]);
             }
@@ -272,43 +272,43 @@ namespace djv
                 glUniform4fv(location, value.size(), &value[0][0]);
             }
 
-            void Shader::setUniform(const std::string & name, int value)
+            void Shader::setUniform(const std::string& name, int value)
             {
                 const GLint location = glGetUniformLocation(_program, name.c_str());
                 glUniform1i(location, value);
             }
 
-            void Shader::setUniform(const std::string & name, float value)
+            void Shader::setUniform(const std::string& name, float value)
             {
                 const GLint location = glGetUniformLocation(_program, name.c_str());
                 glUniform1f(location, value);
             }
 
-            void Shader::setUniform(const std::string & name, const glm::vec2 & value)
+            void Shader::setUniform(const std::string& name, const glm::vec2& value)
             {
                 const GLint location = glGetUniformLocation(_program, name.c_str());
                 glUniform2fv(location, 1, &value[0]);
             }
 
-            void Shader::setUniform(const std::string & name, const glm::vec3 & value)
+            void Shader::setUniform(const std::string& name, const glm::vec3& value)
             {
                 const GLint location = glGetUniformLocation(_program, name.c_str());
                 glUniform3fv(location, 1, &value[0]);
             }
 
-            void Shader::setUniform(const std::string & name, const glm::vec4 & value)
+            void Shader::setUniform(const std::string& name, const glm::vec4& value)
             {
                 const GLint location = glGetUniformLocation(_program, name.c_str());
                 glUniform4fv(location, 1, &value[0]);
             }
 
-            void Shader::setUniform(const std::string & name, const glm::mat3x3 & value)
+            void Shader::setUniform(const std::string& name, const glm::mat3x3& value)
             {
                 const GLint location = glGetUniformLocation(_program, name.c_str());
                 glUniformMatrix3fv(location, 1, GL_FALSE, &value[0][0]);
             }
 
-            void Shader::setUniform(const std::string & name, const glm::mat4x4 & value)
+            void Shader::setUniform(const std::string& name, const glm::mat4x4& value)
             {
                 const GLint location = glGetUniformLocation(_program, name.c_str());
                 glUniformMatrix4fv(location, 1, GL_FALSE, &value[0][0]);

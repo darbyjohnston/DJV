@@ -867,7 +867,7 @@ namespace djv
                     return toJSON(_p->options, allocator);
                 }
 
-                void Plugin::setOptions(const rapidjson::Value & value)
+                void Plugin::setOptions(const rapidjson::Value& value)
                 {
                     fromJSON(value, _p->options);
                 }
@@ -877,7 +877,7 @@ namespace djv
                     return Read::create(fileInfo, options, _p->options, _textSystem, _resourceSystem, _logSystem);
                 }
 
-                std::shared_ptr<IWrite> Plugin::write(const FileSystem::FileInfo& fileInfo, const Info & info, const WriteOptions& options) const
+                std::shared_ptr<IWrite> Plugin::write(const FileSystem::FileInfo& fileInfo, const Info& info, const WriteOptions& options) const
                 {
                     return Write::create(fileInfo, info, options, _p->options, _textSystem, _resourceSystem, _logSystem);
                 }

@@ -99,7 +99,7 @@ namespace djv
             class OffscreenBufferBinding
             {
             public:
-                explicit OffscreenBufferBinding(const std::shared_ptr<OffscreenBuffer> &);
+                explicit OffscreenBufferBinding(const std::shared_ptr<OffscreenBuffer>&);
                 ~OffscreenBufferBinding();
 
             private:

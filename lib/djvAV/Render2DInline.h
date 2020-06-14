@@ -124,7 +124,7 @@ namespace djv
                 }
             }
 
-            inline void Render::pushClipRect(const Core::BBox2f & value)
+            inline void Render::pushClipRect(const Core::BBox2f& value)
             {
                 if (!_clipRects.size())
                 {
@@ -150,7 +150,7 @@ namespace djv
                 }
             }
 
-            inline void Render::setFillColor(const Image::Color & value)
+            inline void Render::setFillColor(const Image::Color& value)
             {
                 if (Image::Type::RGBA_F32 == value.getType())
                 {
@@ -213,7 +213,7 @@ namespace djv
                 _currentClipRect.min.y = 0.F;
                 _currentClipRect.max.x = static_cast<float>(_size.w);
                 _currentClipRect.max.y = static_cast<float>(_size.h);
-                for (const auto & i : _clipRects)
+                for (const auto& i : _clipRects)
                 {
                     _currentClipRect = _currentClipRect.intersect(i);
                 }

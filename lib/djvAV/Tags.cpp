@@ -23,7 +23,7 @@ namespace djv
             return _tags.size();
         }
 
-        const std::map<std::string, std::string> & Tags::getTags() const
+        const std::map<std::string, std::string>& Tags::getTags() const
         {
             return _tags;
         }
@@ -33,24 +33,24 @@ namespace djv
             return _tags.find(key) != _tags.end();
         }
 
-        const std::string & Tags::getTag(const std::string & key) const
+        const std::string& Tags::getTag(const std::string& key) const
         {
             static const std::string empty;
             const auto i = _tags.find(key);
             return i != _tags.end() ? i->second : _empty;
         }
 
-        void Tags::setTags(const std::map<std::string, std::string> & tags)
+        void Tags::setTags(const std::map<std::string, std::string>& tags)
         {
             _tags = tags;
         }
 
-        void Tags::setTag(const std::string & key, const std::string & value)
+        void Tags::setTag(const std::string& key, const std::string& value)
         {
             _tags[key] = value;
         }
 
-        bool Tags::operator == (const Tags & other) const
+        bool Tags::operator == (const Tags& other) const
         {
             return _tags == other._tags;
         }

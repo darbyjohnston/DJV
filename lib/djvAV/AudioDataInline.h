@@ -30,7 +30,7 @@ namespace djv
                 return sampleCount * channelCount * Audio::getByteCount(type);
             }
 
-            inline const Info & Data::getInfo() const
+            inline const Info& Data::getInfo() const
             {
                 return _info;
             }

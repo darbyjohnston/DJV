@@ -35,7 +35,7 @@ namespace djv
 
                 std::shared_ptr<Write> Write::create(
                     const FileSystem::FileInfo& fileInfo,
-                    const Info & info,
+                    const Info& info,
                     const WriteOptions& writeOptions,
                     const std::shared_ptr<TextSystem>& textSystem,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
@@ -197,7 +197,7 @@ namespace djv
                     return out;
                 }
 
-                void Write::_write(const std::string & fileName, const std::shared_ptr<Image::Image> & image)
+                void Write::_write(const std::string& fileName, const std::shared_ptr<Image::Image>& image)
                 {
                     // Open the file.
                     auto f = File::create();

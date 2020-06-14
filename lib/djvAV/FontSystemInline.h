@@ -66,14 +66,14 @@ namespace djv
                 fontInfo(fontInfo)
             {}
 
-            inline bool GlyphInfo::operator == (const GlyphInfo & other) const
+            inline bool GlyphInfo::operator == (const GlyphInfo& other) const
             {
                 return
                     code == other.code &&
                     fontInfo == other.fontInfo;
             }
 
-            inline bool GlyphInfo::operator < (const GlyphInfo & other) const
+            inline bool GlyphInfo::operator < (const GlyphInfo& other) const
             {
                 return std::tie(code, fontInfo) < std::tie(other.code, other.fontInfo);
             }
@@ -84,7 +84,7 @@ namespace djv
             inline TextLine::TextLine()
             {}
 
-            inline TextLine::TextLine(const std::string & text, const glm::vec2 & size, const std::vector<std::shared_ptr<Glyph> > & glyphs) :
+            inline TextLine::TextLine(const std::string& text, const glm::vec2& size, const std::vector<std::shared_ptr<Glyph> >& glyphs) :
                 text(text),
                 size(size),
                 glyphs(glyphs)

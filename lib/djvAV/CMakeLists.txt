@@ -114,8 +114,7 @@ set(source
 if(FFmpeg_FOUND)
     set(header
         ${header}
-		FFmpeg.h
-		FFmpegInline.h)
+		FFmpeg.h)
     set(source
         ${source}
 		FFmpeg.cpp

@@ -11,13 +11,13 @@ namespace djv
             inline VideoInfo::VideoInfo()
             {}
 
-            inline VideoInfo::VideoInfo(const Image::Info & info, const Core::Time::Speed & speed, const Core::Frame::Sequence& sequence) :
+            inline VideoInfo::VideoInfo(const Image::Info& info, const Core::Time::Speed& speed, const Core::Frame::Sequence& sequence) :
                 info(info),
                 speed(speed),
                 sequence(sequence)
             {}
 
-            inline bool VideoInfo::operator == (const VideoInfo & other) const
+            inline bool VideoInfo::operator == (const VideoInfo& other) const
             {
                 return info == other.info && speed == other.speed && sequence == other.sequence;
             }
@@ -25,11 +25,11 @@ namespace djv
             inline AudioInfo::AudioInfo()
             {}
 
-            inline AudioInfo::AudioInfo(const Audio::Info & info) :
+            inline AudioInfo::AudioInfo(const Audio::Info& info) :
                 info(info)
             {}
 
-            inline bool AudioInfo::operator == (const AudioInfo & other) const
+            inline bool AudioInfo::operator == (const AudioInfo& other) const
             {
                 return info == other.info;
             }
@@ -37,32 +37,32 @@ namespace djv
             inline Info::Info()
             {}
 
-            inline Info::Info(const std::string & fileName, const VideoInfo & video) :
+            inline Info::Info(const std::string& fileName, const VideoInfo& video) :
                 fileName(fileName)
             {
                 this->video.push_back(video);
             }
 
-            inline Info::Info(const std::string & fileName, const AudioInfo & audio) :
+            inline Info::Info(const std::string& fileName, const AudioInfo& audio) :
                 fileName(fileName)
             {
                 this->audio.push_back(audio);
             }
 
-            inline Info::Info(const std::string & fileName, const VideoInfo & video, const AudioInfo & audio) :
+            inline Info::Info(const std::string& fileName, const VideoInfo& video, const AudioInfo& audio) :
                 fileName(fileName)
             {
                 this->video.push_back(video);
                 this->audio.push_back(audio);
             }
 
-            inline Info::Info(const std::string & fileName, const std::vector<VideoInfo> & video, const std::vector<AudioInfo> & audio) :
+            inline Info::Info(const std::string& fileName, const std::vector<VideoInfo>& video, const std::vector<AudioInfo>& audio) :
                 fileName(fileName),
                 video(video),
                 audio(audio)
             {}
 
-            inline bool Info::operator == (const Info & other) const
+            inline bool Info::operator == (const Info& other) const
             {
                 return
                     fileName == other.fileName &&
@@ -247,17 +247,17 @@ namespace djv
                 return out;
             }
 
-            inline const std::string & IPlugin::getPluginName() const
+            inline const std::string& IPlugin::getPluginName() const
             {
                 return _pluginName;
             }
 
-            inline const std::string & IPlugin::getPluginInfo() const
+            inline const std::string& IPlugin::getPluginInfo() const
             {
                 return _pluginInfo;
             }
 
-            inline const std::set<std::string> & IPlugin::getFileExtensions() const
+            inline const std::set<std::string>& IPlugin::getFileExtensions() const
             {
                 return _fileExtensions;
             }

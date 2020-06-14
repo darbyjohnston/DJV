@@ -43,16 +43,16 @@ namespace djv
             public:
                 ~Shader();
 
-                static std::shared_ptr<Shader> create(const std::string & vertex, const std::string & fragment);
+                static std::shared_ptr<Shader> create(const std::string& vertex, const std::string& fragment);
 
                 //! Throws:
                 //! - ShaderError
-                static std::shared_ptr<Shader> create(const Core::FileSystem::Path & vertex, const Core::FileSystem::Path & fragment);
+                static std::shared_ptr<Shader> create(const Core::FileSystem::Path& vertex, const Core::FileSystem::Path& fragment);
 
-                const std::string & getVertexName() const;
-                const std::string & getVertexSource() const;
-                const std::string & getFragmentName() const;
-                const std::string & getFragmentSource() const;
+                const std::string& getVertexName() const;
+                const std::string& getVertexSource() const;
+                const std::string& getFragmentName() const;
+                const std::string& getFragmentSource() const;
 
                 void setVertexName(const std::string&);
                 void setFragmentName(const std::string&);

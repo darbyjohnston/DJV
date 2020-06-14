@@ -39,14 +39,14 @@ namespace djv
                     return out;
                 }
 
-                Info Read::_readInfo(const std::string & fileName)
+                Info Read::_readInfo(const std::string& fileName)
                 {
                     auto io = FileSystem::FileIO::create();
                     Data data = Data::First;
                     return _open(fileName, io, data);
                 }
 
-                std::shared_ptr<Image::Image> Read::_readImage(const std::string & fileName)
+                std::shared_ptr<Image::Image> Read::_readImage(const std::string& fileName)
                 {
                     auto io = FileSystem::FileIO::create();
                     Data data = Data::First;

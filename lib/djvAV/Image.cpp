@@ -10,7 +10,7 @@ namespace djv
     {
         namespace Image
         {
-            void Image::_init(const Info & value, const std::shared_ptr<Core::FileSystem::FileIO>& io)
+            void Image::_init(const Info& value, const std::shared_ptr<Core::FileSystem::FileIO>& io)
             {
                 Data::_init(value, io);
             }
@@ -29,7 +29,7 @@ namespace djv
                 return out;
             }
 #else // DJV_MMAP
-            std::shared_ptr<Image> Image::create(const Info & value)
+            std::shared_ptr<Image> Image::create(const Info& value)
             {
                 auto out = std::shared_ptr<Image>(new Image);
                 out->_init(value, nullptr);

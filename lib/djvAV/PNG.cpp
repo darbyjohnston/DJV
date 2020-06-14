@@ -35,7 +35,7 @@ namespace djv
                     return Read::create(fileInfo, options, _textSystem, _resourceSystem, _logSystem);
                 }
 
-                std::shared_ptr<IWrite> Plugin::write(const FileSystem::FileInfo& fileInfo, const Info & info, const WriteOptions& options) const
+                std::shared_ptr<IWrite> Plugin::write(const FileSystem::FileInfo& fileInfo, const Info& info, const WriteOptions& options) const
                 {
                     return Write::create(fileInfo, info, options, _textSystem, _resourceSystem, _logSystem);
                 }

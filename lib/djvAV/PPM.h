@@ -78,8 +78,8 @@ namespace djv
                         const std::shared_ptr<Core::LogSystem>&);
 
                 protected:
-                    Info _readInfo(const std::string &) override;
-                    std::shared_ptr<Image::Image> _readImage(const std::string &) override;
+                    Info _readInfo(const std::string&) override;
+                    std::shared_ptr<Image::Image> _readImage(const std::string&) override;
 
                 private:
                     Info _open(const std::string&, const std::shared_ptr<Core::FileSystem::FileIO>&, Data&);
@@ -98,7 +98,7 @@ namespace djv
 
                     static std::shared_ptr<Write> create(
                         const Core::FileSystem::FileInfo&,
-                        const Info &,
+                        const Info&,
                         const WriteOptions&,
                         const Options&,
                         const std::shared_ptr<Core::TextSystem>&,
@@ -108,7 +108,7 @@ namespace djv
                 protected:
                     Image::Type _getImageType(Image::Type) const override;
                     Image::Layout _getImageLayout() const override;
-                    void _write(const std::string & fileName, const std::shared_ptr<Image::Image> &) override;
+                    void _write(const std::string& fileName, const std::shared_ptr<Image::Image>&) override;
 
                 private:
                     DJV_PRIVATE();
@@ -126,10 +126,10 @@ namespace djv
                     static std::shared_ptr<Plugin> create(const std::shared_ptr<Core::Context>&);
 
                     rapidjson::Value getOptions(rapidjson::Document::AllocatorType&) const override;
-                    void setOptions(const rapidjson::Value &) override;
+                    void setOptions(const rapidjson::Value&) override;
 
                     std::shared_ptr<IRead> read(const Core::FileSystem::FileInfo&, const ReadOptions&) const override;
-                    std::shared_ptr<IWrite> write(const Core::FileSystem::FileInfo&, const Info &, const WriteOptions&) const override;
+                    std::shared_ptr<IWrite> write(const Core::FileSystem::FileInfo&, const Info&, const WriteOptions&) const override;
 
                 private:
                     DJV_PRIVATE();
@@ -145,6 +145,6 @@ namespace djv
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const rapidjson::Value &, AV::IO::PPM::Options &);
+    void fromJSON(const rapidjson::Value&, AV::IO::PPM::Options&);
 
 } // namespace djv

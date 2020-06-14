@@ -57,8 +57,8 @@ namespace djv
 
                 static std::string getLabel(const Color&, int precision = 2, bool pad = true);
 
-                bool operator == (const Color &) const;
-                bool operator != (const Color &) const;
+                bool operator == (const Color&) const;
+                bool operator != (const Color&) const;
 
             private:
                 Type _type = Type::None;

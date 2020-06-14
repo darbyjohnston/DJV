@@ -208,7 +208,7 @@ namespace djv
                 bool redrawRequest = p.redrawRequest;
                 p.resizeRequest = false;
                 p.redrawRequest = false;
-                for (const auto & i : rootObject->getChildrenT<UI::Window>())
+                for (const auto& i : rootObject->getChildrenT<UI::Window>())
                 {
                     resizeRequest |= _resizeRequest(i);
                     redrawRequest |= _redrawRequest(i);
@@ -217,7 +217,7 @@ namespace djv
                 const auto& size = p.offscreenBuffer->getSize();
                 if (resizeRequest)
                 {
-                    for (const auto & i : rootObject->getChildrenT<UI::Window>())
+                    for (const auto& i : rootObject->getChildrenT<UI::Window>())
                     {
                         i->resize(glm::vec2(size.w, size.h));
 
@@ -242,7 +242,7 @@ namespace djv
                 {
                     p.offscreenBuffer->bind();
                     p.render->beginFrame(size);
-                    for (const auto & i : rootObject->getChildrenT<UI::Window>())
+                    for (const auto& i : rootObject->getChildrenT<UI::Window>())
                     {
                         if (i->isVisible())
                         {
@@ -259,7 +259,7 @@ namespace djv
             _redraw();
         }
 
-        void EventSystem::_pushClipRect(const Core::BBox2f & value)
+        void EventSystem::_pushClipRect(const Core::BBox2f& value)
         {
             _p->render->pushClipRect(value);
         }
@@ -277,7 +277,7 @@ namespace djv
             }
         }
 
-        void EventSystem::_resize(const glm::ivec2 & size)
+        void EventSystem::_resize(const glm::ivec2& size)
         {
             DJV_PRIVATE_PTR();
             p.resize = size;
@@ -394,7 +394,7 @@ namespace djv
             }
         }
 
-        void EventSystem::_hover(Event::PointerMove & event, std::shared_ptr<IObject> & hover)
+        void EventSystem::_hover(Event::PointerMove& event, std::shared_ptr<IObject>& hover)
         {
             auto rootObject = getRootObject();
             const auto windows = rootObject->getChildrenT<UI::Window>();
@@ -412,7 +412,7 @@ namespace djv
             }
         }
 
-        void EventSystem::_hover(const std::shared_ptr<UI::Widget> & widget, Event::PointerMove & event, std::shared_ptr<IObject> & hover)
+        void EventSystem::_hover(const std::shared_ptr<UI::Widget>& widget, Event::PointerMove& event, std::shared_ptr<IObject>& hover)
         {
             const auto children = widget->getChildWidgets();
             for (auto i = children.rbegin(); i != children.rend(); ++i)

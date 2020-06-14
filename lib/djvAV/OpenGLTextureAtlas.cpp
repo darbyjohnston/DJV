@@ -45,7 +45,7 @@ namespace djv
                 bool isBranch() const { return children[0].get(); }
                 bool isOccupied() const { return uid != 0; }
 
-                std::shared_ptr<BoxPackingNode> insert(const std::shared_ptr<Image::Data> &);
+                std::shared_ptr<BoxPackingNode> insert(const std::shared_ptr<Image::Data>&);
             };
 
             TextureAtlas::BoxPackingNode::BoxPackingNode(int border) :
@@ -59,7 +59,7 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<TextureAtlas::BoxPackingNode> TextureAtlas::BoxPackingNode::insert(const std::shared_ptr<Image::Data> & data)
+            std::shared_ptr<TextureAtlas::BoxPackingNode> TextureAtlas::BoxPackingNode::insert(const std::shared_ptr<Image::Data>& data)
             {
                 if (isBranch())
                 {
@@ -75,8 +75,8 @@ namespace djv
                 }
                 else
                 {
-                    const glm::ivec2 & dataSize = glm::ivec2(data->getWidth(), data->getHeight()) + border * 2;
-                    const glm::ivec2 & bboxSize = bbox.getSize();
+                    const glm::ivec2& dataSize = glm::ivec2(data->getWidth(), data->getHeight()) + border * 2;
+                    const glm::ivec2& bboxSize = bbox.getSize();
                     if (dataSize.x > bboxSize.x || dataSize.y > bboxSize.y)
                     {
                         return nullptr;
@@ -173,17 +173,17 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 std::vector<GLuint> out;
-                for (const auto & i : p.textures)
+                for (const auto& i : p.textures)
                 {
                     out.push_back(i->getID());
                 }
                 return out;
             }
 
-            bool TextureAtlas::getItem(UID uid, TextureAtlasItem & out)
+            bool TextureAtlas::getItem(UID uid, TextureAtlasItem& out)
             {
                 DJV_PRIVATE_PTR();
-                const auto & i = p.cache.find(uid);
+                const auto& i = p.cache.find(uid);
                 if (i != p.cache.end())
                 {
                     _toTextureAtlasItem(i->second, out);
@@ -192,7 +192,7 @@ namespace djv
                 return false;
             }
 
-            UID TextureAtlas::addItem(const std::shared_ptr<Image::Data> & data, TextureAtlasItem & out)
+            UID TextureAtlas::addItem(const std::shared_ptr<Image::Data>& data, TextureAtlasItem& out)
             {
                 DJV_PRIVATE_PTR();
 
@@ -271,7 +271,7 @@ namespace djv
                     size_t used = 0;
                     std::vector<std::shared_ptr<BoxPackingNode> > leafs;
                     _getLeafNodes(p.boxPackingNodes[i], leafs);
-                    for (const auto & j : leafs)
+                    for (const auto& j : leafs)
                     {
                         if (j->isOccupied())
                         {
@@ -285,7 +285,7 @@ namespace djv
 
             void TextureAtlas::_getAllNodes(
                 const std::shared_ptr<BoxPackingNode>& node,
-                std::vector<std::shared_ptr<BoxPackingNode> > & out)
+                std::vector<std::shared_ptr<BoxPackingNode> >& out)
             {
                 out.push_back(node);
                 if (node->isBranch())
@@ -297,7 +297,7 @@ namespace djv
 
             void TextureAtlas::_getLeafNodes(
                 const std::shared_ptr<BoxPackingNode>& node,
-                std::vector<std::shared_ptr<BoxPackingNode> > & out) const
+                std::vector<std::shared_ptr<BoxPackingNode> >& out) const
             {
                 if (node->isBranch())
                 {
@@ -312,7 +312,7 @@ namespace djv
 
             void TextureAtlas::_toTextureAtlasItem(
                 const std::shared_ptr<BoxPackingNode>& node,
-                TextureAtlasItem & out)
+                TextureAtlasItem& out)
             {
                 DJV_PRIVATE_PTR();
                 out.w = node->bbox.w();

@@ -148,6 +148,3 @@ namespace djv
     void fromJSON(const rapidjson::Value&, AV::IO::FFmpeg::Options&);
 
 } // namespace djv
-
-#include <djvAV/FFmpegInline.h>
-

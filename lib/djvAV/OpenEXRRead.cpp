@@ -129,13 +129,13 @@ namespace djv
                     return out;
                 }
 
-                Info Read::_readInfo(const std::string & fileName)
+                Info Read::_readInfo(const std::string& fileName)
                 {
                     File f;
                     return _open(fileName, f);
                 }
 
-                std::shared_ptr<Image::Image> Read::_readImage(const std::string & fileName)
+                std::shared_ptr<Image::Image> Read::_readImage(const std::string& fileName)
                 {
                     File f;
                     Info info = _open(fileName, f);
@@ -211,7 +211,7 @@ namespace djv
                     return out;
                 }
 
-                Info Read::_open(const std::string & fileName, File & f)
+                Info Read::_open(const std::string& fileName, File& f)
                 {
                     DJV_PRIVATE_PTR();
 

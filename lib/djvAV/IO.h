@@ -51,7 +51,7 @@ namespace djv
                 Core::Frame::Sequence   sequence;
                 std::string             codec;
 
-                bool operator == (const VideoInfo &) const;
+                bool operator == (const VideoInfo&) const;
             };
 
             //! This class provides audio I/O information.
@@ -59,12 +59,12 @@ namespace djv
             {
             public:
                 AudioInfo();
-                explicit AudioInfo(const Audio::Info &);
+                explicit AudioInfo(const Audio::Info&);
 
                 Audio::Info info;
                 std::string codec;
 
-                bool operator == (const AudioInfo &) const;
+                bool operator == (const AudioInfo&) const;
             };
 
             //! This class provides I/O information.
@@ -72,17 +72,17 @@ namespace djv
             {
             public:
                 Info();
-                Info(const std::string & fileName, const VideoInfo &);
-                Info(const std::string & fileName, const AudioInfo &);
-                Info(const std::string & fileName, const VideoInfo &, const AudioInfo &);
-                Info(const std::string & fileName, const std::vector<VideoInfo> &, const std::vector<AudioInfo> &);
+                Info(const std::string& fileName, const VideoInfo&);
+                Info(const std::string& fileName, const AudioInfo&);
+                Info(const std::string& fileName, const VideoInfo&, const AudioInfo&);
+                Info(const std::string& fileName, const std::vector<VideoInfo>&, const std::vector<AudioInfo>&);
 
                 std::string             fileName;
                 std::vector<VideoInfo>  video;
                 std::vector<AudioInfo>  audio;
                 Tags                    tags;
 
-                bool operator == (const Info &) const;
+                bool operator == (const Info&) const;
             };
 
             //! This class provides a video frame.
@@ -151,7 +151,7 @@ namespace djv
                 bool isEmpty() const;
                 size_t getCount() const;
                 AudioFrame getFrame() const;
-                void addFrame(const AudioFrame &);
+                void addFrame(const AudioFrame&);
                 AudioFrame popFrame();
                 void clearFrames();
 
@@ -337,8 +337,8 @@ namespace djv
             {
             protected:
                 void _init(
-                    const Core::FileSystem::FileInfo &,
-                    const Info &,
+                    const Core::FileSystem::FileInfo&,
+                    const Info&,
                     const WriteOptions&,
                     const std::shared_ptr<Core::TextSystem>&,
                     const std::shared_ptr<Core::ResourceSystem>&,
@@ -365,19 +365,19 @@ namespace djv
             public:
                 virtual ~IPlugin() = 0;
 
-                const std::string & getPluginName() const;
-                const std::string & getPluginInfo() const;
-                const std::set<std::string> & getFileExtensions() const;
+                const std::string& getPluginName() const;
+                const std::string& getPluginInfo() const;
+                const std::set<std::string>& getFileExtensions() const;
 
                 virtual bool canSequence() const;
                 virtual bool canRead(const Core::FileSystem::FileInfo&) const;
-                virtual bool canWrite(const Core::FileSystem::FileInfo&, const Info &) const;
+                virtual bool canWrite(const Core::FileSystem::FileInfo&, const Info&) const;
 
                 virtual rapidjson::Value getOptions(rapidjson::Document::AllocatorType&) const;
 
                 //! Throws:
                 //! - std::invalid_argument
-                virtual void setOptions(const rapidjson::Value &);
+                virtual void setOptions(const rapidjson::Value&);
 
                 //! Throws:
                 //! - Core::FileSystem::Error
@@ -418,7 +418,7 @@ namespace djv
 
                 //! Throws:
                 //! - std::invalid_argument
-                void setOptions(const std::string & pluginName, const rapidjson::Value&);
+                void setOptions(const std::string& pluginName, const rapidjson::Value&);
 
                 std::shared_ptr<Core::IValueSubject<bool> > observeOptionsChanged() const;
 
@@ -426,7 +426,7 @@ namespace djv
                 const std::set<std::string>& getNonSequenceExtensions() const;
                 bool canSequence(const Core::FileSystem::FileInfo&) const;
                 bool canRead(const Core::FileSystem::FileInfo&) const;
-                bool canWrite(const Core::FileSystem::FileInfo&, const Info &) const;
+                bool canWrite(const Core::FileSystem::FileInfo&, const Info&) const;
 
                 //! Throws:
                 //! - Core::FileSystem::Error
@@ -434,7 +434,7 @@ namespace djv
 
                 //! Throws:
                 //! - Core::FileSystem::Error
-                std::shared_ptr<IWrite> write(const Core::FileSystem::FileInfo&, const Info &, const WriteOptions& = WriteOptions());
+                std::shared_ptr<IWrite> write(const Core::FileSystem::FileInfo&, const Info&, const WriteOptions& = WriteOptions());
 
             private:
                 DJV_PRIVATE();

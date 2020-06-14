@@ -534,7 +534,7 @@ namespace djv
                                 }
                             }
                         }
-                        catch (const std::exception & e)
+                        catch (const std::exception& e)
                         {
                             p.infoPromise.set_value(Info());
                             _logSystem->log("djvAV::IO::FFmpeg::Read", e.what(), LogLevel::Error);

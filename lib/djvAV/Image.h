@@ -19,7 +19,7 @@ namespace djv
                 DJV_NON_COPYABLE(Image);
 
             protected:
-                void _init(const Info &, const std::shared_ptr<Core::FileSystem::FileIO>&);
+                void _init(const Info&, const std::shared_ptr<Core::FileSystem::FileIO>&);
                 Image();
 
             public:

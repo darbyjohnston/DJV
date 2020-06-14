@@ -50,7 +50,7 @@ namespace djv
             class Shader
             {
                 DJV_NON_COPYABLE(Shader);
-                void _init(const std::shared_ptr<Render::Shader> &);
+                void _init(const std::shared_ptr<Render::Shader>&);
                 Shader();
 
             public:
@@ -58,19 +58,19 @@ namespace djv
 
                 //! Throws:
                 //! - ShaderError
-                static std::shared_ptr<Shader> create(const std::shared_ptr<Render::Shader> &);
+                static std::shared_ptr<Shader> create(const std::shared_ptr<Render::Shader>&);
 
                 GLuint getProgram() const;
 
                 void setUniform(GLint, int);
                 void setUniform(GLint, float);
-                void setUniform(GLint, const glm::vec2 &);
-                void setUniform(GLint, const glm::vec3 &);
-                void setUniform(GLint, const glm::vec4 &);
-                void setUniform(GLint, const glm::mat3x3 &);
-                void setUniform(GLint, const glm::mat4x4 &);
-                void setUniform(GLint, const Image::Color &);
-                void setUniformF(GLint, const Image::Color &);
+                void setUniform(GLint, const glm::vec2&);
+                void setUniform(GLint, const glm::vec3&);
+                void setUniform(GLint, const glm::vec4&);
+                void setUniform(GLint, const glm::mat3x3&);
+                void setUniform(GLint, const glm::mat4x4&);
+                void setUniform(GLint, const Image::Color&);
+                void setUniformF(GLint, const Image::Color&);
                 void setUniform(GLint, const float [4]);
 
                 void setUniform(GLint, const std::vector<int>&);
@@ -78,16 +78,16 @@ namespace djv
                 void setUniform(GLint, const std::vector<glm::vec3>&);
                 void setUniform(GLint, const std::vector<glm::vec4>&);
 
-                void setUniform(const std::string &, int);
-                void setUniform(const std::string &, float);
-                void setUniform(const std::string &, const glm::vec2 &);
-                void setUniform(const std::string &, const glm::vec3 &);
-                void setUniform(const std::string &, const glm::vec4 &);
-                void setUniform(const std::string &, const glm::mat3x3 &);
-                void setUniform(const std::string &, const glm::mat4x4 &);
-                void setUniform(const std::string &, const Image::Color&);
-                void setUniformF(const std::string &, const Image::Color&);
-                void setUniform(const std::string &, const float [4]);
+                void setUniform(const std::string&, int);
+                void setUniform(const std::string&, float);
+                void setUniform(const std::string&, const glm::vec2&);
+                void setUniform(const std::string&, const glm::vec3&);
+                void setUniform(const std::string&, const glm::vec4&);
+                void setUniform(const std::string&, const glm::mat3x3&);
+                void setUniform(const std::string&, const glm::mat4x4&);
+                void setUniform(const std::string&, const Image::Color&);
+                void setUniformF(const std::string&, const Image::Color&);
+                void setUniform(const std::string&, const float [4]);
 
                 void setUniform(const std::string&, const std::vector<int>&);
                 void setUniform(const std::string&, const std::vector<float>&);

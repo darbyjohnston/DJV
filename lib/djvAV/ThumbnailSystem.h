@@ -68,7 +68,7 @@ namespace djv
             struct InfoFuture
             {
                 InfoFuture();
-                InfoFuture(std::future<IO::Info> &, Core::UID);
+                InfoFuture(std::future<IO::Info>&, Core::UID);
                 std::future<IO::Info> future;
                 Core::UID uid = 0;
             };
@@ -83,7 +83,7 @@ namespace djv
             struct ImageFuture
             {
                 ImageFuture();
-                ImageFuture(std::future<std::shared_ptr<Image::Image> > &, Core::UID);
+                ImageFuture(std::future<std::shared_ptr<Image::Image> >&, Core::UID);
                 std::future<std::shared_ptr<Image::Image> > future;
                 Core::UID uid = 0;
             };
@@ -108,7 +108,7 @@ namespace djv
 
         private:
             void _handleInfoRequests();
-            void _handleImageRequests(const std::shared_ptr<Image::Convert> &);
+            void _handleImageRequests(const std::shared_ptr<Image::Convert>&);
 
             DJV_PRIVATE();
         };

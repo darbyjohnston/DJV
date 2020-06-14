@@ -33,7 +33,7 @@ namespace djv
                 const size_t offset = 1;
             }
 
-            void Square::triangulate(TriangleMesh & mesh) const
+            void Square::triangulate(TriangleMesh& mesh) const
             {
                 mesh.v.push_back(glm::vec3(-_radius, 0.F, _radius));
                 mesh.v.push_back(glm::vec3(_radius, 0.F, _radius));
@@ -75,7 +75,7 @@ namespace djv
                 _resolution = std::max(value, size_t(3));
             }
 
-            void Circle::triangulate(TriangleMesh & mesh) const
+            void Circle::triangulate(TriangleMesh& mesh) const
             {
                 for (size_t i = 0; i < _resolution; ++i)
                 {
@@ -108,7 +108,7 @@ namespace djv
                 _radius = value;
             }
 
-            void Cube::triangulate(TriangleMesh & mesh) const
+            void Cube::triangulate(TriangleMesh& mesh) const
             {
                 BBox3f bbox;
                 bbox.min = glm::vec3(-_radius, -_radius, -_radius);
@@ -116,7 +116,7 @@ namespace djv
                 TriangleMesh::triangulateBBox(bbox, mesh);
             }
 
-            Sphere::Sphere(float radius, const Resolution & resolution) :
+            Sphere::Sphere(float radius, const Resolution& resolution) :
                 _radius(radius)
             {
                 setResolution(resolution);
@@ -127,18 +127,18 @@ namespace djv
                 _radius = value;
             }
 
-            void Sphere::setResolution(const Resolution & value)
+            void Sphere::setResolution(const Resolution& value)
             {
                 _resolution.first = std::max(value.first, size_t(3));
                 _resolution.second = std::max(value.second, size_t(3));
             }
 
-            void Sphere::setUSpan(const Span & value)
+            void Sphere::setUSpan(const Span& value)
             {
                 _uSpan = value;
             }
 
-            void Sphere::setVSpan(const Span & value)
+            void Sphere::setVSpan(const Span& value)
             {
                 _vSpan = value;
             }
@@ -148,7 +148,7 @@ namespace djv
                 _textureSpan = value;
             }
 
-            void Sphere::triangulate(TriangleMesh & mesh) const
+            void Sphere::triangulate(TriangleMesh& mesh) const
             {
                 //! \bug Use only a single vertex at each pole.
                 for (size_t v = 0; v <= _resolution.second; ++v)
@@ -218,7 +218,7 @@ namespace djv
                 _resolution = std::max(value, size_t(3));
             }
 
-            void Cylinder::setSpan(const Span & value)
+            void Cylinder::setSpan(const Span& value)
             {
                 _span = value;
             }
@@ -228,7 +228,7 @@ namespace djv
                 _capped = value;
             }
 
-            void Cylinder::triangulate(TriangleMesh & mesh) const
+            void Cylinder::triangulate(TriangleMesh& mesh) const
             {
                 const float l = _length / 2.F;
                 for (size_t u = 0; u <= _resolution; ++u)

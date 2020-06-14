@@ -46,11 +46,11 @@ namespace djv
                         const std::shared_ptr<Core::LogSystem>&);
 
                 protected:
-                    Info _readInfo(const std::string & fileName) override;
-                    std::shared_ptr<Image::Image> _readImage(const std::string & fileName) override;
+                    Info _readInfo(const std::string& fileName) override;
+                    std::shared_ptr<Image::Image> _readImage(const std::string& fileName) override;
 
                 private:
-                    Info _open(const std::string &, const std::shared_ptr<Core::FileSystem::FileIO>&);
+                    Info _open(const std::string&, const std::shared_ptr<Core::FileSystem::FileIO>&);
                     
                     int  _tiles       = 0;
                     bool _compression = false;

@@ -14,7 +14,7 @@ namespace djv
     {
         namespace OpenGL
         {
-            void Texture::_init(const Image::Info & info, GLenum filterMin, GLenum filterMag)
+            void Texture::_init(const Image::Info& info, GLenum filterMin, GLenum filterMag)
             {
                 _info = info;
                 _filterMin = filterMin;
@@ -66,7 +66,7 @@ namespace djv
 #endif // DJV_OPENGL_PBO
             }
 
-            std::shared_ptr<Texture> Texture::create(const Image::Info & info, GLenum filterMin, GLenum filterMag)
+            std::shared_ptr<Texture> Texture::create(const Image::Info& info, GLenum filterMin, GLenum filterMag)
             {
                 auto out = std::shared_ptr<Texture>(new Texture);
                 out->_init(info, filterMin, filterMag);

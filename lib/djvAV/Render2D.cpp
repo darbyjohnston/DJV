@@ -438,7 +438,7 @@ namespace djv
                      0.F,      0.F,      0.F,     1.F);
             }
 
-            glm::mat4x4 colorMatrix(const ImageColor & in)
+            glm::mat4x4 colorMatrix(const ImageColor& in)
             {
                 return
                     brightnessMatrix(in.brightness, in.brightness, in.brightness) *
@@ -828,7 +828,7 @@ namespace djv
                 }
             }
             
-            void Render::drawRect(const BBox2f & value)
+            void Render::drawRect(const BBox2f& value)
             {
                 drawRects({ value });
             }
@@ -952,7 +952,7 @@ namespace djv
                 }
             }
 
-            void Render::drawCircle(const glm::vec2 & pos, float radius, size_t facets)
+            void Render::drawCircle(const glm::vec2& pos, float radius, size_t facets)
             {
                 DJV_PRIVATE_PTR();
                 const BBox2f rect(pos.x - radius, pos.y - radius, radius * 2.F, radius * 2.F);
@@ -1005,7 +1005,7 @@ namespace djv
             }
 
             void Render::drawImage(
-                const std::shared_ptr<Image::Image> & image,
+                const std::shared_ptr<Image::Image>& image,
                 const glm::vec2& pos,
                 const ImageOptions& options)
             {
@@ -1014,7 +1014,7 @@ namespace djv
             }
 
             void Render::drawFilledImage(
-                const std::shared_ptr<Image::Image> & image,
+                const std::shared_ptr<Image::Image>& image,
                 const glm::vec2& pos,
                 const ImageOptions& options)
             {
@@ -1027,7 +1027,7 @@ namespace djv
                 _p->textLCDRendering = value;
             }
 
-            void Render::drawText(const std::vector<std::shared_ptr<Font::Glyph> >& glyphs, const glm::vec2 & pos)
+            void Render::drawText(const std::vector<std::shared_ptr<Font::Glyph> >& glyphs, const glm::vec2& pos)
             {
                 DJV_PRIVATE_PTR();
 

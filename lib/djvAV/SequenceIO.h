@@ -37,8 +37,8 @@ namespace djv
                 bool hasCache() const override;
 
             protected:
-                virtual Info _readInfo(const std::string & fileName) = 0;
-                virtual std::shared_ptr<Image::Image> _readImage(const std::string & fileName) = 0;
+                virtual Info _readInfo(const std::string& fileName) = 0;
+                virtual std::shared_ptr<Image::Image> _readImage(const std::string& fileName) = 0;
                 void _finish();
 
                 Core::Time::Speed _speed;
@@ -63,7 +63,7 @@ namespace djv
             protected:
                 void _init(
                     const Core::FileSystem::FileInfo&,
-                    const Info &,
+                    const Info&,
                     const WriteOptions&,
                     const std::shared_ptr<Core::TextSystem>&,
                     const std::shared_ptr<Core::ResourceSystem>&,
@@ -78,7 +78,7 @@ namespace djv
             protected:
                 virtual Image::Type _getImageType(Image::Type) const;
                 virtual Image::Layout _getImageLayout() const;
-                virtual void _write(const std::string & fileName, const std::shared_ptr<Image::Image> &) = 0;
+                virtual void _write(const std::string& fileName, const std::shared_ptr<Image::Image>&) = 0;
                 void _finish();
 
                 Info _info;

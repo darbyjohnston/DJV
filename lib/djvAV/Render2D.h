@@ -195,7 +195,7 @@ namespace djv
                 //! \name Clipping Rectangle
                 ///@{
 
-                void pushClipRect(const Core::BBox2f &);
+                void pushClipRect(const Core::BBox2f&);
                 void popClipRect();
 
                 ///@}
@@ -223,7 +223,7 @@ namespace djv
                 void drawRect(const Core::BBox2f&);
                 void drawRects(const std::vector<Core::BBox2f>&);
                 void drawPill(const Core::BBox2f&, size_t facets = 32);
-                void drawCircle(const glm::vec2 & pos, float radius, size_t facets = 64);
+                void drawCircle(const glm::vec2& pos, float radius, size_t facets = 64);
 
                 ///@}
 
@@ -236,14 +236,14 @@ namespace djv
                 void setImageFilterOptions(const ImageFilterOptions&);
 
                 void drawImage(
-                    const std::shared_ptr<Image::Image> &,
+                    const std::shared_ptr<Image::Image>&,
                     const glm::vec2& pos,
                     const ImageOptions& = ImageOptions());
 
                 void drawFilledImage(
-                    const std::shared_ptr<Image::Image> &,
+                    const std::shared_ptr<Image::Image>&,
                     const glm::vec2& pos,
-                    const ImageOptions & = ImageOptions());
+                    const ImageOptions& = ImageOptions());
 
                 ///@}
 

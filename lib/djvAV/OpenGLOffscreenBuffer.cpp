@@ -324,7 +324,7 @@ namespace djv
                 glBindFramebuffer(GL_FRAMEBUFFER, _id);
             }
 
-            OffscreenBufferBinding::OffscreenBufferBinding(const std::shared_ptr<OffscreenBuffer> & buffer) :
+            OffscreenBufferBinding::OffscreenBufferBinding(const std::shared_ptr<OffscreenBuffer>& buffer) :
                 _buffer(buffer)
             {
                 _buffer->bind();

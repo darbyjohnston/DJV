@@ -129,7 +129,7 @@ namespace djv
                 return convert(mesh, type, SizeTRange(0, size > 0 ? size - 1 : 0));
             }
 
-            std::vector<uint8_t> VBO::convert(const Geom::TriangleMesh& mesh, VBOType type, const SizeTRange & range)
+            std::vector<uint8_t> VBO::convert(const Geom::TriangleMesh& mesh, VBOType type, const SizeTRange& range)
             {
                 const size_t vertexByteCount = getVertexByteCount(type);
                 std::vector<uint8_t> out((range.getMax() - range.getMin() + 1) * 3 * vertexByteCount);

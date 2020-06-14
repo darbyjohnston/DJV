@@ -309,7 +309,7 @@ namespace djv
             }
 
             void IRead::_init(
-                const FileSystem::FileInfo & fileInfo,
+                const FileSystem::FileInfo& fileInfo,
                 const ReadOptions& options,
                 const std::shared_ptr<TextSystem>& textSystem,
                 const std::shared_ptr<ResourceSystem>& resourceSystem,
@@ -382,7 +382,7 @@ namespace djv
 
             void IWrite::_init(
                 const FileSystem::FileInfo& fileInfo,
-                const Info & info,
+                const Info& info,
                 const WriteOptions& options,
                 const std::shared_ptr<TextSystem>& textSystem,
                 const std::shared_ptr<ResourceSystem>& resourceSystem,
@@ -503,7 +503,7 @@ namespace djv
                 p.plugins[TIFF::pluginName] = TIFF::Plugin::create(context);
 #endif // TIFF_FOUND
 
-                for (const auto & i : p.plugins)
+                for (const auto& i : p.plugins)
                 {
                     if (i.second->canSequence())
                     {
@@ -542,7 +542,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 std::set<std::string> out;
-                for (const auto & i : p.plugins)
+                for (const auto& i : p.plugins)
                 {
                     out.insert(i.second->getPluginName());
                 }
@@ -561,7 +561,7 @@ namespace djv
                 return out;
             }
 
-            rapidjson::Value System::getOptions(const std::string &pluginName, rapidjson::Document::AllocatorType& allocator) const
+            rapidjson::Value System::getOptions(const std::string& pluginName, rapidjson::Document::AllocatorType& allocator) const
             {
                 DJV_PRIVATE_PTR();
                 const auto i = p.plugins.find(pluginName);
@@ -572,7 +572,7 @@ namespace djv
                 return rapidjson::Value();
             }
 
-            void System::setOptions(const std::string & pluginName, const rapidjson::Value& value)
+            void System::setOptions(const std::string& pluginName, const rapidjson::Value& value)
             {
                 DJV_PRIVATE_PTR();
                 const auto i = p.plugins.find(pluginName);
@@ -610,7 +610,7 @@ namespace djv
             bool System::canRead(const FileSystem::FileInfo& fileInfo) const
             {
                 DJV_PRIVATE_PTR();
-                for (const auto & i : p.plugins)
+                for (const auto& i : p.plugins)
                 {
                     if (i.second->canRead(fileInfo))
                     {
@@ -620,10 +620,10 @@ namespace djv
                 return false;
             }
 
-            bool System::canWrite(const FileSystem::FileInfo& fileInfo, const Info & info) const
+            bool System::canWrite(const FileSystem::FileInfo& fileInfo, const Info& info) const
             {
                 DJV_PRIVATE_PTR();
-                for (const auto & i : p.plugins)
+                for (const auto& i : p.plugins)
                 {
                     if (i.second->canWrite(fileInfo, info))
                     {
@@ -637,7 +637,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 std::shared_ptr<IRead> out;
-                for (const auto & i : p.plugins)
+                for (const auto& i : p.plugins)
                 {
                     if (i.second->canRead(fileInfo))
                     {
@@ -654,11 +654,11 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<IWrite> System::write(const FileSystem::FileInfo& fileInfo, const Info & info, const WriteOptions& options)
+            std::shared_ptr<IWrite> System::write(const FileSystem::FileInfo& fileInfo, const Info& info, const WriteOptions& options)
             {
                 DJV_PRIVATE_PTR();
                 std::shared_ptr<IWrite> out;
-                for (const auto & i : p.plugins)
+                for (const auto& i : p.plugins)
                 {
                     if (i.second->canWrite(fileInfo, info))
                     {
