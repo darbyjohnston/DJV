@@ -684,19 +684,23 @@ namespace djv
                 p.vbo->copy(p.vboData, 0, p.vboDataSize);
                 p.vao->bind();
 
+                BBox2f currentClipRect(0.F, 0.F, 0.F, 0.F);
                 AlphaBlend currentAlphaBlend = AlphaBlend::Straight;
                 bool currentTextLCDRendering = false;
                 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
                 glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-                for (size_t i = 0; i < p.primitives.size(); ++i)
+                for (const auto& primitive : p.primitives)
                 {
-                    const auto& primitive = p.primitives[i];
                     const BBox2f clipRect = flip(primitive->clipRect, _size);
-                    glScissor(
-                        static_cast<GLint>(clipRect.min.x),
-                        static_cast<GLint>(clipRect.min.y),
-                        static_cast<GLsizei>(clipRect.w()),
-                        static_cast<GLsizei>(clipRect.h()));
+                    if (clipRect != currentClipRect)
+                    {
+                        currentClipRect = clipRect;
+                        glScissor(
+                            static_cast<GLint>(currentClipRect.min.x),
+                            static_cast<GLint>(currentClipRect.min.y),
+                            static_cast<GLsizei>(currentClipRect.w()),
+                            static_cast<GLsizei>(currentClipRect.h()));
+                    }
                     if (primitive->alphaBlend != currentAlphaBlend)
                     {
                         currentAlphaBlend = primitive->alphaBlend;
