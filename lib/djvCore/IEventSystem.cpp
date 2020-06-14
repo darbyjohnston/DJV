@@ -195,12 +195,14 @@ namespace djv
                 auto dt = std::chrono::duration_cast<Time::Duration>(p.t - now);
                 p.t = now;
 
+                // Initialize new objects.
                 auto objectsCreated = std::move(p.objectsCreated);
                 for (const auto& i : objectsCreated)
                 {
                     _initObject(i);
                 }
 
+                // Text init event.
                 if (p.textInit)
                 {
                     p.textInit = false;
@@ -210,9 +212,11 @@ namespace djv
                     _initRecursive(p.rootObject, event);
                 }
 
+                // Update event.
                 Update updateEvent(p.t, dt);
                 _updateRecursive(p.rootObject, updateEvent);
 
+                // Move event.
                 PointerMove moveEvent(p.pointerInfo);
                 if (auto grab = p.grab->get())
                 {
@@ -313,20 +317,23 @@ namespace djv
                 }
                 else
                 {
-                    auto object = p.hover->get();
-                    while (object)
+                    PointerMove moveEvent(p.pointerInfo);
+                    std::shared_ptr<IObject> hover;
+                    _hover(moveEvent, hover);
+                    _setHover(hover);
+                    while (hover)
                     {
-                        if (object->isEnabled(true))
+                        if (hover->isEnabled(true))
                         {
                             setTextFocus(nullptr);
-                            object->event(event);
+                            hover->event(event);
                             if (event.isAccepted())
                             {
-                                p.grab->setIfChanged(object);
+                                p.grab->setIfChanged(hover);
                                 break;
                             }
                         }
-                        object = object->getParent().lock();
+                        hover = hover->getParent().lock();
                     }
                 }
             }
