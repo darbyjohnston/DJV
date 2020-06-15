@@ -528,7 +528,9 @@ namespace djv
                         const Frame::Index i = sequence.getIndex(Time::fromString(*options.outPoint, speed, timeUnits));
                         outPoint = i != Frame::invalidIndex ? i : end;
                     }
-                    if (options.frame && !options.frame->empty())
+                    if (options.frame &&
+                        !options.frame->empty() &&
+                        !Core::FileSystem::FileInfo::isSequenceWildcard(*options.frame))
                     {
                         const Frame::Index i = sequence.getIndex(Time::fromString(*options.frame, speed, timeUnits));
                         frame = i != Frame::invalid ? Math::clamp(i, inPoint, outPoint) : inPoint;
