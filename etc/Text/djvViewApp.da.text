@@ -172,7 +172,6 @@
     "djv_cli_options_window": "Vinduesindstillinger",
     "djv_cli_usage": "Anvendelse",
     "djv_cli_usage_format": "djv [input] ... [option, ...]",
-    "djv_cli_usage_format_input_description": "Indgange kan være filer eller filsekvenser. Hvis indstillingen for automatisk detektering af filsekvenser er aktiveret, udvides filer automatisk til filsekvenser. Filsekvenser kan specificeres med enten rammenumre (f.eks. Render.0001-1000.exr) eller &#39;#&#39; jokertegn (f.eks. Render. ####. Exr).",
     "error_audio_cannot_be_initialized": "Audio kan ikke initialiseres.",
     "error_cannot_parse_argument": "error_cannot_parse_argument",
     "error_cannot_parse_the_value": "Værdien kan ikke analyseres.",

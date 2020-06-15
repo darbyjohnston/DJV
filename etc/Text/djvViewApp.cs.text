@@ -172,7 +172,6 @@
     "djv_cli_options_window": "Možnosti okna",
     "djv_cli_usage": "Používání",
     "djv_cli_usage_format": "djv [vstup] ... [možnost, ...]",
-    "djv_cli_usage_format_input_description": "Vstupy mohou být soubory nebo sekvence souborů. Pokud je povoleno automatické rozpoznávání sekvencí souborů, soubory se automaticky rozbalí na sekvence souborů. Sekvence souborů mohou být specifikovány buď čísly rámců (např. Render.0001-1000.exr), nebo zástupnými znaky „#“ (např. Render. ####. Exr).",
     "error_audio_cannot_be_initialized": "Zvuk nelze inicializovat.",
     "error_cannot_parse_argument": "error_cannot_parse_argument",
     "error_cannot_parse_the_value": "Nelze analyzovat hodnotu.",

@@ -172,7 +172,6 @@
     "djv_cli_options_window": "창 옵션",
     "djv_cli_usage": "용법",
     "djv_cli_usage_format": "djv [입력] ... [옵션, ...]",
-    "djv_cli_usage_format_input_description": "입력은 파일 또는 파일 시퀀스 일 수 있습니다. 파일 시퀀스 자동 검색 설정을 사용하면 파일이 자동으로 파일 시퀀스로 확장됩니다. 파일 시퀀스는 프레임 번호 (예 : render.0001-1000.exr) 또는 &#39;#&#39;와일드 카드 (예 : render. ####. exr)로 지정할 수 있습니다.",
     "error_audio_cannot_be_initialized": "오디오를 초기화 할 수 없습니다.",
     "error_cannot_parse_argument": "error_cannot_parse_argument",
     "error_cannot_parse_the_value": "값을 구문 분석 할 수 없습니다.",

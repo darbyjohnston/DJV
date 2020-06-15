@@ -172,7 +172,6 @@
     "djv_cli_options_window": "Opcje okna",
     "djv_cli_usage": "Stosowanie",
     "djv_cli_usage_format": "djv [wejście] ... [opcja, ...]",
-    "djv_cli_usage_format_input_description": "Dane wejściowe mogą być plikami lub sekwencjami plików. Jeśli włączone jest automatyczne wykrywanie sekwencji plików, pliki zostaną automatycznie rozwinięte do sekwencji plików. Sekwencje plików można określić za pomocą numerów ramek (np. Render.0001-1000.exr) lub symboli wieloznacznych „#” (np. Render. ####. Exr).",
     "error_audio_cannot_be_initialized": "Nie można zainicjować dźwięku.",
     "error_cannot_parse_argument": "error_cannot_parse_argument",
     "error_cannot_parse_the_value": "Nie można przeanalizować wartości.",

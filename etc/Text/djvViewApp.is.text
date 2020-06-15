@@ -172,7 +172,6 @@
     "djv_cli_options_window": "Valkostir glugga",
     "djv_cli_usage": "Notkun",
     "djv_cli_usage_format": "djv [inntak] ... [valkostur, ...]",
-    "djv_cli_usage_format_input_description": "Inntak getur verið skrár eða skrár. Ef stillingin á sjálfvirkum uppgötvun skrár er virk, verða skrár sjálfkrafa útvíkkaðar í skrár. Hægt er að tilgreina skrárröð með annað hvort rammanúmerum (td render.0001-1000.exr) eða &#39;#&#39; villikortum (td. Render. ####. Exr).",
     "error_audio_cannot_be_initialized": "Ekki er hægt að frumstilla hljóð.",
     "error_cannot_parse_argument": "error_cannot_parse_argument",
     "error_cannot_parse_the_value": "Ekki hægt að greina gildi.",

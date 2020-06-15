@@ -172,7 +172,6 @@
     "djv_cli_options_window": "Options de fenêtre",
     "djv_cli_usage": "Usage",
     "djv_cli_usage_format": "djv [entrée] ... [option, ...]",
-    "djv_cli_usage_format_input_description": "Les entrées peuvent être des fichiers ou des séquences de fichiers. Si le paramètre de détection automatique des séquences de fichiers est activé, les fichiers seront automatiquement développés en séquences de fichiers. Les séquences de fichiers peuvent être spécifiées avec des numéros de trame (par exemple, render.0001-1000.exr) ou des caractères génériques &#39;#&#39; (par exemple, render. ####. Exr).",
     "error_audio_cannot_be_initialized": "Le son ne peut pas être initialisé.",
     "error_cannot_parse_argument": "error_cannot_parse_argument",
     "error_cannot_parse_the_value": "Impossible d&#39;analyser la valeur.",

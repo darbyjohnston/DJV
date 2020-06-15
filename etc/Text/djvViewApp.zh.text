@@ -172,7 +172,6 @@
     "djv_cli_options_window": "视窗选项",
     "djv_cli_usage": "用法",
     "djv_cli_usage_format": "djv [输入] ... [选项，...]",
-    "djv_cli_usage_format_input_description": "输入可以是文件或文件序列。如果启用了自动检测文件序列设置，则文件将自动扩展为文件序列。可以使用帧号（例如render.0001-1000.exr）或“＃”通配符（例如render。####。exr）指定文件序列。",
     "error_audio_cannot_be_initialized": "音频无法初始化。",
     "error_cannot_parse_argument": "error_cannot_parse_argument",
     "error_cannot_parse_the_value": "无法解析该值。",

@@ -172,7 +172,6 @@
     "djv_cli_options_window": "ウィンドウオプション",
     "djv_cli_usage": "使用法",
     "djv_cli_usage_format": "djv [入力] ... [オプション、...]",
-    "djv_cli_usage_format_input_description": "入力はファイルまたはファイルシーケンスです。ファイルシーケンスの自動検出設定が有効になっている場合、ファイルは自動的にファイルシーケンスに展開されます。ファイルシーケンスは、フレーム番号（render.0001-1000.exrなど）または &#39;＃&#39;ワイルドカード（render。####。exrなど）で指定できます。",
     "error_audio_cannot_be_initialized": "オーディオを初期化できません。",
     "error_cannot_parse_argument": "error_cannot_parse_argument",
     "error_cannot_parse_the_value": "値を解析できません。",

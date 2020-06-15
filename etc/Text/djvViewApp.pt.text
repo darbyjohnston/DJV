@@ -172,7 +172,6 @@
     "djv_cli_options_window": "Opções da janela",
     "djv_cli_usage": "Uso",
     "djv_cli_usage_format": "djv [entrada] ... [opção, ...]",
-    "djv_cli_usage_format_input_description": "As entradas podem ser arquivos ou sequências de arquivos. Se a configuração de detecção automática de seqüências de arquivos estiver ativada, os arquivos serão automaticamente expandidos para sequências de arquivos. As seqüências de arquivos podem ser especificadas com números de quadro (por exemplo, render.0001-1000.exr) ou curingas &#39;#&#39; (por exemplo, render. ####. Exr).",
     "error_audio_cannot_be_initialized": "O áudio não pode ser inicializado.",
     "error_cannot_parse_argument": "error_cannot_parse_argument",
     "error_cannot_parse_the_value": "Não é possível analisar o valor.",

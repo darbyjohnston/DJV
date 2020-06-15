@@ -172,7 +172,6 @@
     "djv_cli_options_window": "Fensteroptionen",
     "djv_cli_usage": "Verwendungszweck",
     "djv_cli_usage_format": "djv [Eingabe] ... [Option, ...]",
-    "djv_cli_usage_format_input_description": "Eingaben können Dateien oder Dateisequenzen sein. Wenn die Einstellung für die automatische Erkennung von Dateisequenzen aktiviert ist, werden Dateien automatisch zu Dateisequenzen erweitert. Dateisequenzen können entweder mit Frame-Nummern (z. B. render.0001-1000.exr) oder Platzhaltern &#39;#&#39; (z. B. render. ####. Exr) angegeben werden.",
     "error_audio_cannot_be_initialized": "Audio kann nicht initialisiert werden.",
     "error_cannot_parse_argument": "error_cannot_parse_argument",
     "error_cannot_parse_the_value": "Der Wert kann nicht analysiert werden.",
