@@ -41,16 +41,24 @@ namespace djv
                 const Math::Rational r = Time::fromSpeed(Time::FPS::_29_97);
                 DJV_ASSERT(r == Math::Rational(30000, 1001));
             }
+
+            {
+                const Math::Rational speed(30000, 1001);
+                DJV_ASSERT(Time::fromSpeed(Time::FPS::_29_97) == speed);
+            }
+
+            {
+                DJV_ASSERT(Time::fromSpeed(Time::FPS::_23_976) == Time::fromSpeed(23.976F));
+                DJV_ASSERT(Time::fromSpeed(Time::FPS::_23_976) == Time::fromSpeed(23.98F));
+                DJV_ASSERT(Time::fromSpeed(Time::FPS::_24) == Time::fromSpeed(24.F));
+                DJV_ASSERT(Time::fromSpeed(Time::FPS::_29_97) == Time::fromSpeed(29.97F));
+                DJV_ASSERT(Time::fromSpeed(Time::FPS::_30) == Time::fromSpeed(30.F));
+            }
             
             {
                 Time::setDefaultSpeed(Time::FPS::_25);
                 DJV_ASSERT(Time::FPS::_25 == Time::getDefaultSpeed());
                 Time::setDefaultSpeed(Time::FPS::_24);
-            }
-            
-            {
-                const Math::Rational speed(30000, 1001);
-                DJV_ASSERT(Time::fromSpeed(Time::FPS::_29_97) == speed);
             }
         }
         
