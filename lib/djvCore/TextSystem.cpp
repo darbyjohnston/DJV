@@ -446,7 +446,7 @@ namespace djv
                 }
                 
                 auto fileIO = FileSystem::FileIO::create();
-                fileIO->open(std::string(path), FileSystem::FileIO::Mode::Read);
+                fileIO->open(path.get(), FileSystem::FileIO::Mode::Read);
                 size_t bufSize = 0;
 #if defined(DJV_MMAP)
                 const char* bufP = reinterpret_cast<const char*>(fileIO->mmapP());
@@ -465,9 +465,16 @@ namespace djv
                 rapidjson::ParseResult result = document.Parse(bufP, bufSize);
                 if (!result)
                 {
-                    throw FileSystem::Error(String::Format("{0}: {1}").
-                        arg(GetParseError_En(result.Code())).
-                        arg(result.Offset()));
+                    size_t line = 0;
+                    size_t character = 0;
+                    RapidJSON::errorLineNumber(bufP, bufSize, result.Offset(), line, character);
+                    throw std::runtime_error(String::Format("{0}: {1} {2} {3}, {4} {5}").
+                        arg(path.get()).
+                        arg(rapidjson::GetParseError_En(result.Code())).
+                        arg("Line").
+                        arg(line).
+                        arg("Character").
+                        arg(character));
                 }
                 for (const auto& i: document.GetObject())
                 {

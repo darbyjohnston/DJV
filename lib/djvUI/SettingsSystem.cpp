@@ -163,9 +163,15 @@ namespace djv
                         rapidjson::ParseResult result = _document.Parse(bufP, bufSize);
                         if (!result)
                         {
-                            throw std::runtime_error(String::Format("{0}: {1}").
+                            size_t line = 0;
+                            size_t character = 0;
+                            RapidJSON::errorLineNumber(bufP, bufSize, result.Offset(), line, character);
+                            throw std::runtime_error(String::Format("{0} {1} {2}, {3} {4}").
                                 arg(rapidjson::GetParseError_En(result.Code())).
-                                arg(result.Offset()));
+                                arg(_getText(DJV_TEXT("error_line_number"))).
+                                arg(line).
+                                arg(_getText(DJV_TEXT("error_character_number"))).
+                                arg(character));
                         }
 
                         size_t readSettingsVersion = 0;

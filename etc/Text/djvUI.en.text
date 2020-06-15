@@ -1,5 +1,7 @@
 {
     "error_cannot_parse_the_value": "Cannot parse the value.",
+    "error_character_number": "Character",
+    "error_line_number": "Line",
     "key_0": "0",
     "key_1": "1",
     "key_2": "2",

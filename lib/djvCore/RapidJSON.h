@@ -12,6 +12,15 @@
 
 namespace djv
 {
+    namespace Core
+    {
+        namespace RapidJSON
+        {
+            void errorLineNumber(const char*, size_t size, size_t index, size_t& line, size_t& character);
+
+        } // namespace RapidJSON
+    } // namespace Core
+
     rapidjson::Value toJSON(bool, rapidjson::Document::AllocatorType&);
     rapidjson::Value toJSON(int, rapidjson::Document::AllocatorType&);
     rapidjson::Value toJSON(float, rapidjson::Document::AllocatorType&);

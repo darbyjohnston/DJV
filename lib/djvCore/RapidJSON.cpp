@@ -10,6 +10,39 @@
 
 namespace djv
 {
+    namespace Core
+    {
+        namespace RapidJSON
+        {
+            void errorLineNumber(const char* text, size_t size, size_t index, size_t& line, size_t& character)
+            {
+                line = 1;
+                size_t lineTotal = 0;
+                size_t i = 0;
+                for (; i < size && i < index; ++i)
+                {
+                    bool newline = false;
+                    if ('\r' == text[i] && i < size - 1 && '\n' == text[i + 1])
+                    {
+                        newline = true;
+                        ++i;
+                    }
+                    else if ('\n' == text[i])
+                    {
+                        newline = true;
+                    }
+                    if (newline)
+                    {
+                        ++line;
+                        lineTotal = i;
+                    }
+                }
+                character = i - lineTotal;
+            }
+
+        } // Core
+    } // RapidJSON
+
     rapidjson::Value toJSON(bool value, rapidjson::Document::AllocatorType&)
     {
         return rapidjson::Value(value);
