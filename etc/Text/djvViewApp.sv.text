@@ -173,7 +173,6 @@
     "djv_cli_usage": "Användande",
     "djv_cli_usage_format": "djv [input] ... [option, ...]",
     "error_audio_cannot_be_initialized": "Ljudet kan inte initialiseras.",
-    "error_cannot_parse_argument": "error_cannot_parse_argument",
     "error_cannot_parse_the_value": "Det går inte att analysera värdet.",
     "error_cannot_sample_color": "Kan inte prova färgen.",
     "error_cannot_start_audio_stream": "Det går inte att starta ljudströmmen.",

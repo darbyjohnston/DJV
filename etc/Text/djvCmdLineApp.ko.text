@@ -7,6 +7,5 @@
     "cli_option_time_units": "-time_units",
     "cli_option_time_units_description": "시간 단위를 설정하십시오. 옵션 : {0}. 현재 값 : {1}.",
     "cli_option_version": "-버전",
-    "cli_option_version_description": "버전을 인쇄하고 종료하십시오.",
-    "error_cannot_parse_argument": "error_cannot_parse_argument"
+    "cli_option_version_description": "버전을 인쇄하고 종료하십시오."
 }

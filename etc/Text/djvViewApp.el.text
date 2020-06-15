@@ -173,7 +173,6 @@
     "djv_cli_usage": "Χρήση",
     "djv_cli_usage_format": "djv [είσοδος] ... [επιλογή, ...]",
     "error_audio_cannot_be_initialized": "Δεν είναι δυνατή η προετοιμασία του ήχου.",
-    "error_cannot_parse_argument": "error_cannot_parse_argument",
     "error_cannot_parse_the_value": "Δεν είναι δυνατή η ανάλυση της τιμής.",
     "error_cannot_sample_color": "Δεν είναι δυνατή η δειγματοληψία του χρώματος.",
     "error_cannot_start_audio_stream": "Δεν είναι δυνατή η έναρξη της ροής ήχου.",

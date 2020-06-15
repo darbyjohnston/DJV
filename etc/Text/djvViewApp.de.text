@@ -173,7 +173,6 @@
     "djv_cli_usage": "Verwendungszweck",
     "djv_cli_usage_format": "djv [Eingabe] ... [Option, ...]",
     "error_audio_cannot_be_initialized": "Audio kann nicht initialisiert werden.",
-    "error_cannot_parse_argument": "error_cannot_parse_argument",
     "error_cannot_parse_the_value": "Der Wert kann nicht analysiert werden.",
     "error_cannot_sample_color": "Die Farbe kann nicht abgetastet werden.",
     "error_cannot_start_audio_stream": "Audiostream kann nicht gestartet werden.",

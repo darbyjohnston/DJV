@@ -7,6 +7,5 @@
     "cli_option_time_units": "-time_units",
     "cli_option_time_units_description": "Nastavte časové jednotky. Možnosti: {0}. Aktuální hodnota: {1}.",
     "cli_option_version": "-verze",
-    "cli_option_version_description": "Vytiskněte verzi a ukončete.",
-    "error_cannot_parse_argument": "error_cannot_parse_argument"
+    "cli_option_version_description": "Vytiskněte verzi a ukončete."
 }

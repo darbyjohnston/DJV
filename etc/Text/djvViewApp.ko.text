@@ -173,7 +173,6 @@
     "djv_cli_usage": "용법",
     "djv_cli_usage_format": "djv [입력] ... [옵션, ...]",
     "error_audio_cannot_be_initialized": "오디오를 초기화 할 수 없습니다.",
-    "error_cannot_parse_argument": "error_cannot_parse_argument",
     "error_cannot_parse_the_value": "값을 구문 분석 할 수 없습니다.",
     "error_cannot_sample_color": "색상을 샘플링 할 수 없습니다.",
     "error_cannot_start_audio_stream": "오디오 스트림을 시작할 수 없습니다.",

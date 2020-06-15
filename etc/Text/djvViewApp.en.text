@@ -169,7 +169,7 @@
     "djv_cli_usage_format": "djv [input]... [option, ...]",
     "djv_cli_usage_format_input_description": "Inputs can be files or file sequences. If the auto-detect file sequences setting is enabled, files will automatically be expanded to file sequences. File sequences can be specified with a '#' wildcard (e.g., render.####.exr).",
     "error_audio_cannot_be_initialized": "Audio cannot be initialized.",
-    "error_cannot_parse_argument": "error_cannot_parse_argument",
+    "error_cannot_parse_argument": "Cannot parse the argument.",
     "error_cannot_parse_the_value": "Cannot parse the value.",
     "error_cannot_sample_color": "Cannot sample the color.",
     "error_cannot_start_audio_stream": "Cannot start audio stream.",

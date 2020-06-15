@@ -173,7 +173,6 @@
     "djv_cli_usage": "Používání",
     "djv_cli_usage_format": "djv [vstup] ... [možnost, ...]",
     "error_audio_cannot_be_initialized": "Zvuk nelze inicializovat.",
-    "error_cannot_parse_argument": "error_cannot_parse_argument",
     "error_cannot_parse_the_value": "Nelze analyzovat hodnotu.",
     "error_cannot_sample_color": "Nelze ochutnat barvu.",
     "error_cannot_start_audio_stream": "Nelze spustit zvukový tok.",

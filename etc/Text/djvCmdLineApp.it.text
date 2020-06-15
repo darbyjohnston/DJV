@@ -7,6 +7,5 @@
     "cli_option_time_units": "-time_units",
     "cli_option_time_units_description": "Imposta le unità di tempo. Opzioni: {0}. Valore corrente: {1}.",
     "cli_option_version": "-versione",
-    "cli_option_version_description": "Stampa la versione ed esci.",
-    "error_cannot_parse_argument": "error_cannot_parse_argument"
+    "cli_option_version_description": "Stampa la versione ed esci."
 }

@@ -173,7 +173,6 @@
     "djv_cli_usage": "使用法",
     "djv_cli_usage_format": "djv [入力] ... [オプション、...]",
     "error_audio_cannot_be_initialized": "オーディオを初期化できません。",
-    "error_cannot_parse_argument": "error_cannot_parse_argument",
     "error_cannot_parse_the_value": "値を解析できません。",
     "error_cannot_sample_color": "色をサンプリングできません。",
     "error_cannot_start_audio_stream": "オーディオストリームを開始できません。",

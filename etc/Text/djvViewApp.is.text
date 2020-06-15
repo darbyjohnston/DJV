@@ -173,7 +173,6 @@
     "djv_cli_usage": "Notkun",
     "djv_cli_usage_format": "djv [inntak] ... [valkostur, ...]",
     "error_audio_cannot_be_initialized": "Ekki er hægt að frumstilla hljóð.",
-    "error_cannot_parse_argument": "error_cannot_parse_argument",
     "error_cannot_parse_the_value": "Ekki hægt að greina gildi.",
     "error_cannot_sample_color": "Ekki hægt að taka sýnishorn af litnum.",
     "error_cannot_start_audio_stream": "Ekki hægt að ræsa hljóðstrauminn.",
