@@ -101,12 +101,12 @@ namespace djv
             
             {
                 uint32_t t = Time::timeToTimecode(1, 2, 3, 4);
-                int64_t f = Time::timecodeToFrame(t, Time::Speed());
-                DJV_ASSERT(Time::frameToTimecode(f, Time::Speed()) == t);
+                int64_t f = Time::timecodeToFrame(t, Time::fromSpeed(Time::getDefaultSpeed()));
+                DJV_ASSERT(Time::frameToTimecode(f, Time::fromSpeed(Time::getDefaultSpeed())) == t);
             }
             
             {
-                uint32_t f = Time::frameToTimecode(100, Time::Speed(0, 0));
+                uint32_t f = Time::frameToTimecode(100, Math::Rational(0, 0));
                 DJV_ASSERT(0 == f);
             }
             
@@ -131,7 +131,7 @@ namespace djv
             {}
             
             {
-                int64_t f = Time::timecodeToFrame(0, Time::Speed(0, 0));
+                int64_t f = Time::timecodeToFrame(0, Math::Rational(0, 0));
                 DJV_ASSERT(0 == f);
             }
 
@@ -146,13 +146,13 @@ namespace djv
 
             {
                 std::stringstream ss;
-                ss << "frames label: " << Time::toString(100, Time::Speed(), Time::Units::Frames);
+                ss << "frames label: " << Time::toString(100, Time::fromSpeed(Time::getDefaultSpeed()), Time::Units::Frames);
                 _print(ss.str());
             }
 
             {
                 std::stringstream ss;
-                ss << "timecode label: " << Time::toString(100, Time::Speed(), Time::Units::Frames);
+                ss << "timecode label: " << Time::toString(100, Time::fromSpeed(Time::getDefaultSpeed()), Time::Units::Frames);
                 _print(ss.str());
             }
         }

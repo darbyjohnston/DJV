@@ -301,7 +301,7 @@ namespace djv
             _widgetUpdate();
         }
 
-        void FrameWidget::setSpeed(const Time::Speed& value)
+        void FrameWidget::setSpeed(const Math::Rational& value)
         {
             if (value == _speed)
                 return;

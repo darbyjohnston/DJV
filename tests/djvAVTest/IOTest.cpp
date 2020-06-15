@@ -41,14 +41,14 @@ namespace djv
             {
                 const AV::IO::VideoInfo info;
                 DJV_ASSERT(info.info == Image::Info());
-                DJV_ASSERT(info.speed == Time::Speed());
+                DJV_ASSERT(info.speed == Time::fromSpeed(Time::getDefaultSpeed()));
                 DJV_ASSERT(info.sequence == Frame::Sequence());
                 DJV_ASSERT(info.codec.empty());
             }
             
             {
                 const Image::Info imageInfo(1, 2, Image::Type::RGB_U8);
-                const Time::Speed speed(Time::FPS::_60);
+                const Math::Rational speed(Time::fromSpeed(Time::FPS::_60));
                 const Frame::Sequence sequence(3, 4);
                 const AV::IO::VideoInfo info(imageInfo, speed, sequence);
                 DJV_ASSERT(info.info == imageInfo);
@@ -429,7 +429,7 @@ namespace djv
             {
                 const IO::VideoInfo info(
                     Image::Info(1, 2, Image::Type::RGB_U8),
-                    Time::Speed(Time::FPS::_60),
+                    Math::Rational(Time::fromSpeed(Time::FPS::_60)),
                     Frame::Sequence(3, 4));
                 DJV_ASSERT(info == info);
             }

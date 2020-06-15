@@ -32,26 +32,29 @@ namespace djv
                 _59_94,
                 _60,
                 _120,
+                _240,
 
                 Count,
                 First = _1
             };
             DJV_ENUM_HELPERS(FPS);
-            Math::Rational toRational(FPS);
-            FPS fromRational(const Math::Rational&);
+
+            //! \name Default Speed
+            ///@{
 
             FPS getDefaultSpeed();
             void setDefaultSpeed(FPS);
 
-            //! This class provides a speed.
-            class Speed : public Math::Rational
-            {
-            public:
-                Speed();
-                explicit Speed(FPS);
-                explicit Speed(int scale, int duration = 1);
-                explicit Speed(const Math::Rational&);
-            };
+            ///@}
+
+            //! \name Utilities
+            ///@{
+
+            Math::Rational fromSpeed(FPS);
+            Math::Rational fromSpeed(float);
+            bool toSpeed(const Math::Rational&, FPS&);
+
+            ///@}
 
         } // namespace Time
     } // namespace Core

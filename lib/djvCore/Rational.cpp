@@ -29,7 +29,7 @@ namespace djv
 
             Rational Rational::fromFloat(float value)
             {
-                //! \todo Implement a proper floating-point to rational number conversion.
+                //! \bug Implement a proper floating-point to rational number conversion.
                 //! Check-out: OpenEXR\IlmImf\ImfRational.h
                 return Rational(static_cast<int>(round(value)), 1);
             }

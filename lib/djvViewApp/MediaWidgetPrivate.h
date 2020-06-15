@@ -71,7 +71,7 @@ namespace djv
             static std::shared_ptr<FrameWidget> create(const std::shared_ptr<Core::Context>&);
 
             void setSequence(const Core::Frame::Sequence&);
-            void setSpeed(const Core::Time::Speed&);
+            void setSpeed(const Core::Math::Rational&);
             void setFrame(const Core::Frame::Index);
             void setCallback(const std::function<void(Core::Frame::Index)>&);
 
@@ -86,7 +86,7 @@ namespace djv
 
             Core::Time::Units _timeUnits = Core::Time::Units::First;
             Core::Frame::Sequence _sequence;
-            Core::Time::Speed _speed;
+            Core::Math::Rational _speed;
             Core::Frame::Index _index = 0;
             std::shared_ptr<UI::LineEditBase> _lineEditBase;
             std::shared_ptr<UI::NumericEditButtons> _buttons;

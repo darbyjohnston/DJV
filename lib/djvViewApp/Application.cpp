@@ -60,7 +60,7 @@ namespace djv
             std::shared_ptr<std::string> ocioDisplayCmdLine;
             std::shared_ptr<std::string> ocioViewCmdLine;
             std::shared_ptr<std::string> ocioImageCmdLine;
-            std::shared_ptr<Time::Speed> speedCmdLine;
+            std::shared_ptr<Math::Rational> speedCmdLine;
             std::shared_ptr<Core::Frame::Range> startEndMayaCmdLine;
             std::shared_ptr<std::string> inPointCmdLine;
             std::shared_ptr<std::string> outPointCmdLine;
@@ -413,16 +413,16 @@ namespace djv
                     std::stringstream ss(*arg);
                     ss >> value;
                     arg = args.erase(arg);
-                    Time::Speed speed;
+                    Math::Rational speed;
                     if (value >= 1.F)
                     {
-                        speed = Time::Speed(value);
+                        speed = Time::fromSpeed(value);
                     }
                     else if (value > 0.F && value < 1.F)
                     {
-                        speed = Time::Speed(static_cast<int>(std::floor(value * 1000.F)), 1000);
+                        speed = Math::Rational(static_cast<int>(std::floor(value * 1000.F)), 1000);
                     }
-                    p.speedCmdLine.reset(new Time::Speed(speed));
+                    p.speedCmdLine.reset(new Math::Rational(speed));
                 }
                 else if ("-in_out" == *arg)
                 {
@@ -504,16 +504,16 @@ namespace djv
                     std::stringstream ss(*arg);
                     ss >> value;
                     arg = args.erase(arg);
-                    Time::Speed speed;
+                    Math::Rational speed;
                     if (value >= 1.F)
                     {
-                        speed = Time::Speed(value);
+                        speed = Time::fromSpeed(value);
                     }
                     else if (value > 0.F && value < 1.F)
                     {
-                        speed = Time::Speed(static_cast<int>(std::floor(value * 1000.F)), 1000);
+                        speed = Math::Rational(static_cast<int>(std::floor(value * 1000.F)), 1000);
                     }
-                    p.speedCmdLine.reset(new Time::Speed(speed));
+                    p.speedCmdLine.reset(new Math::Rational(speed));
                 }
                 else if ("-start_end" == *arg)
                 {

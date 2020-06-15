@@ -15,7 +15,23 @@ namespace djv
     {
         namespace Time
         {
-            Math::Rational toRational(FPS fps)
+            namespace
+            {
+                FPS defaultSpeed = FPS::_24;
+
+            } // namespace
+
+            FPS getDefaultSpeed()
+            {
+                return defaultSpeed;
+            }
+
+            void setDefaultSpeed(FPS value)
+            {
+                defaultSpeed = value;
+            }
+
+            Math::Rational fromSpeed(FPS fps)
             {
                 const int scale[] =
                 {
@@ -34,7 +50,8 @@ namespace djv
                     50,
                     60000,
                     60,
-                    120
+                    120,
+                    240
                 };
                 DJV_ASSERT(static_cast<size_t>(FPS::Count) == sizeof(scale) / sizeof(scale[0]));
                 const int duration[] =
@@ -54,58 +71,42 @@ namespace djv
                     1,
                     1001,
                     1,
+                    1,
                     1
                 };
                 DJV_ASSERT(static_cast<size_t>(FPS::Count) == sizeof(duration) / sizeof(duration[0]));
                 return Math::Rational(scale[static_cast<size_t>(fps)], duration[static_cast<size_t>(fps)]);
             }
 
-            namespace
+            Math::Rational fromSpeed(float value)
             {
-                FPS defaultSpeed = FPS::_24;
-
-            } // namespace
-
-            FPS fromRational(const Math::Rational& value)
-            {
-                //! \todo Implement a proper floating-point to rational number conversion.
+                //! \bug Implement a proper floating-point to rational number conversion.
                 //! Check-out: OpenEXR\IlmImf\ImfRational.h
                 for (size_t i = 0; i < static_cast<size_t>(FPS::Count); ++i)
                 {
                     const FPS fps = static_cast<FPS>(i);
-                    if (fabs(value.toFloat() - toRational(fps).toFloat()) < .000001F)
+                    const Math::Rational r = fromSpeed(fps);
+                    const float diff = fabs(value - r.toFloat());
+                    if (diff < .01F)
                     {
-                        return fps;
+                        return r;
                     }
                 }
-                return defaultSpeed;
+                return Math::Rational::fromFloat(value);
             }
 
-            FPS getDefaultSpeed()
+            bool toSpeed(const Math::Rational& value, FPS& out)
             {
-                return defaultSpeed;
+                for (const auto i : getFPSEnums())
+                {
+                    if (value == fromSpeed(i))
+                    {
+                        out = i;
+                        return true;
+                    }
+                }
+                return false;
             }
-
-            void setDefaultSpeed(FPS value)
-            {
-                defaultSpeed = value;
-            }
-
-            Speed::Speed() :
-                Math::Rational(toRational(defaultSpeed))
-            {}
-
-            Speed::Speed(FPS fps) :
-                Math::Rational(toRational(fps))
-            {}
-
-            Speed::Speed(int scale, int duration) :
-                Math::Rational(scale, duration)
-            {}
-
-            Speed::Speed(const Math::Rational& value) :
-                Math::Rational(value)
-            {}
 
         } // namespace Time
     } // namespace Core
@@ -128,7 +129,8 @@ namespace djv
         "50",
         "59.94",
         "60",
-        "120");
+        "120",
+        "240");
 
     rapidjson::Value toJSON(Core::Time::FPS value, rapidjson::Document::AllocatorType& allocator)
     {

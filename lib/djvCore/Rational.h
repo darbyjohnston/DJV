@@ -19,7 +19,7 @@ namespace djv
             {
             public:
                 Rational();
-                Rational(int num, int den);
+                explicit Rational(int num, int den = 1);
 
                 int getNum() const;
                 int getDen() const;

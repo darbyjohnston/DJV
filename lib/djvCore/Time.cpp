@@ -174,7 +174,7 @@ namespace djv
                 out = timeToTimecode(hour, minute, second, frame);
             }
 
-            std::string toString(Frame::Number value, const Speed& speed, Units units)
+            std::string toString(Frame::Number value, const Math::Rational& speed, Units units)
             {
                 std::string out;
                 switch (units)
@@ -197,7 +197,7 @@ namespace djv
                 return out;
             }
 
-            Frame::Number fromString(const std::string& value, const Time::Speed& speed, Units units)
+            Frame::Number fromString(const std::string& value, const Math::Rational& speed, Units units)
             {
                 Frame::Number out = Frame::invalid;
                 switch (units)

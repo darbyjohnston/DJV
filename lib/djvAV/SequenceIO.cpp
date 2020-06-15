@@ -64,7 +64,7 @@ namespace djv
                 const std::shared_ptr<LogSystem>& logSystem)
             {
                 IRead::_init(fileInfo, options, textSystem, resourceSystem, logSystem);
-                _speed = Time::Speed();
+                _speed = Time::fromSpeed(Time::getDefaultSpeed());
                 _p->running = true;
                 _p->thread = std::thread(
                     [this]

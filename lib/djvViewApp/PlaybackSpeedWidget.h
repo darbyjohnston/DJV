@@ -37,13 +37,13 @@ namespace djv
             static std::shared_ptr<PlaybackSpeedWidget> create(const std::shared_ptr<Core::Context>&);
 
             void setPlaybackSpeed(PlaybackSpeed);
-            void setDefaultSpeed(const Core::Time::Speed&);
-            void setCustomSpeed(const Core::Time::Speed&);
-            void setSpeed(const Core::Time::Speed&);
+            void setDefaultSpeed(const Core::Math::Rational&);
+            void setCustomSpeed(const Core::Math::Rational&);
+            void setSpeed(const Core::Math::Rational&);
             void setPlayEveryFrame(bool);
             
             void setPlaybackSpeedCallback(const std::function<void(PlaybackSpeed)>&);
-            void setCustomSpeedCallback(const std::function<void(const Core::Time::Speed&)>&);
+            void setCustomSpeedCallback(const std::function<void(const Core::Math::Rational&)>&);
             void setPlayEveryFrameCallback(const std::function<void(bool)>&);
 
         protected:

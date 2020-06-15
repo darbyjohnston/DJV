@@ -41,10 +41,10 @@ namespace djv
             AV::IO::AudioInfo audioInfo;
             std::shared_ptr<ValueSubject<bool> > reload;
             std::shared_ptr<ValueSubject<size_t> > layer;
-            std::shared_ptr<ValueSubject<Time::Speed> > speed;
+            std::shared_ptr<ValueSubject<Math::Rational> > speed;
             std::shared_ptr<ValueSubject<PlaybackSpeed> > playbackSpeed;
-            std::shared_ptr<ValueSubject<Time::Speed> > defaultSpeed;
-            std::shared_ptr<ValueSubject<Time::Speed> > customSpeed;
+            std::shared_ptr<ValueSubject<Math::Rational> > defaultSpeed;
+            std::shared_ptr<ValueSubject<Math::Rational> > customSpeed;
             float realSpeed = 0.F;
             std::shared_ptr<ValueSubject<float> > realSpeedSubject;
             std::shared_ptr<ValueSubject<bool> > playEveryFrame;
@@ -99,10 +99,10 @@ namespace djv
             p.info = ValueSubject<AV::IO::Info>::create();
             p.reload = ValueSubject<bool>::create(false);
             p.layer = ValueSubject<size_t>::create(0);
-            p.speed = ValueSubject<Time::Speed>::create();
+            p.speed = ValueSubject<Math::Rational>::create();
             p.playbackSpeed = ValueSubject<PlaybackSpeed>::create();
-            p.defaultSpeed = ValueSubject<Time::Speed>::create();
-            p.customSpeed = ValueSubject<Time::Speed>::create();
+            p.defaultSpeed = ValueSubject<Math::Rational>::create();
+            p.customSpeed = ValueSubject<Math::Rational>::create();
             p.realSpeedSubject = ValueSubject<float>::create(p.realSpeed);
             p.playEveryFrame = ValueSubject<bool>::create(false);
             p.sequence = ValueSubject<Frame::Sequence>::create();
@@ -266,7 +266,7 @@ namespace djv
             return _p->currentImage;
         }
 
-        std::shared_ptr<IValueSubject<Time::Speed> > Media::observeSpeed() const
+        std::shared_ptr<IValueSubject<Math::Rational> > Media::observeSpeed() const
         {
             return _p->speed;
         }
@@ -276,12 +276,12 @@ namespace djv
             return _p->playbackSpeed;
         }
 
-        std::shared_ptr<IValueSubject<Time::Speed> > Media::observeCustomSpeed() const
+        std::shared_ptr<IValueSubject<Math::Rational> > Media::observeCustomSpeed() const
         {
             return _p->customSpeed;
         }
 
-        std::shared_ptr<IValueSubject<Time::Speed> > Media::observeDefaultSpeed() const
+        std::shared_ptr<IValueSubject<Math::Rational> > Media::observeDefaultSpeed() const
         {
             return _p->defaultSpeed;
         }
@@ -326,18 +326,18 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.playbackSpeed->setIfChanged(value))
             {
-                Time::Speed speed;
+                Math::Rational speed;
                 switch (value)
                 {
                 case PlaybackSpeed::Default: speed = p.defaultSpeed->get(); break;
                 case PlaybackSpeed::Custom:  speed = p.customSpeed->get(); break;
-                default: speed = getPlaybackSpeed(value); break;
+                default: break;
                 }
                 _setSpeed(speed);
             }
         }
 
-        void Media::setCustomSpeed(const Time::Speed& value)
+        void Media::setCustomSpeed(const Math::Rational& value)
         {
             DJV_PRIVATE_PTR();
             if (p.customSpeed->setIfChanged(value))
@@ -741,7 +741,7 @@ namespace djv
 
                     const auto info = p.read->getInfo().get();
                     p.info->setIfChanged(info);
-                    Time::Speed speed;
+                    Math::Rational speed = Time::fromSpeed(Time::getDefaultSpeed());
                     Frame::Sequence sequence;
                     const auto& video = info.video;
                     if (video.size())
@@ -887,7 +887,7 @@ namespace djv
             }
         }
 
-        void Media::_setSpeed(const Core::Time::Speed& value)
+        void Media::_setSpeed(const Math::Rational& value)
         {
             DJV_PRIVATE_PTR();
             if (p.speed->setIfChanged(value))

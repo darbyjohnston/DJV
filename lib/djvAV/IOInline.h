@@ -8,10 +8,14 @@ namespace djv
     {
         namespace IO
         {
-            inline VideoInfo::VideoInfo()
+            inline VideoInfo::VideoInfo() :
+                speed(Core::Time::fromSpeed(Core::Time::getDefaultSpeed()))
             {}
 
-            inline VideoInfo::VideoInfo(const Image::Info& info, const Core::Time::Speed& speed, const Core::Frame::Sequence& sequence) :
+            inline VideoInfo::VideoInfo(
+                const Image::Info& info,
+                const Core::Math::Rational& speed,
+                const Core::Frame::Sequence& sequence) :
                 info(info),
                 speed(speed),
                 sequence(sequence)

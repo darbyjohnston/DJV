@@ -410,7 +410,7 @@ namespace djv
                     }
                     if (isValid(&out.film.frameRate) && out.film.frameRate > _minSpeed)
                     {
-                        info.video[0].speed = Time::Speed(out.film.frameRate);
+                        info.video[0].speed = Time::fromSpeed(out.film.frameRate);
                         std::stringstream ss;
                         ss << out.film.frameRate;
                         info.tags.setTag("Film Frame Rate", ss.str());
@@ -460,7 +460,7 @@ namespace djv
                     }
                     if (isValid(&out.tv.frameRate) && out.tv.frameRate > _minSpeed)
                     {
-                        info.video[0].speed = Time::Speed(out.tv.frameRate);
+                        info.video[0].speed = Time::fromSpeed(out.tv.frameRate);
                         std::stringstream ss;
                         ss << out.tv.frameRate;
                         info.tags.setTag("TV Frame Rate", ss.str());

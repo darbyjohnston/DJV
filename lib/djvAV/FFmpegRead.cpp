@@ -35,7 +35,7 @@ namespace djv
                     Options options;
                     VideoInfo videoInfo;
                     AudioInfo audioInfo;
-                    Time::Speed speed;
+                    Math::Rational speed;
                     std::promise<Info> infoPromise;
                     std::condition_variable queueCV;
                     int64_t seek = Frame::invalid;
@@ -205,7 +205,7 @@ namespace djv
                                         av_get_time_base_q(),
                                         r);
                                 }
-                                p.speed = Time::Speed(avVideoStream->r_frame_rate.num, avVideoStream->r_frame_rate.den);
+                                p.speed = Math::Rational(avVideoStream->r_frame_rate.num, avVideoStream->r_frame_rate.den);
                                 p.videoInfo = VideoInfo(pixelDataInfo, p.speed, Frame::Sequence(Frame::Range(1, sequenceSize)));
                                 p.videoInfo.codec = std::string(avVideoCodec->long_name);
                                 info.video.push_back(p.videoInfo);

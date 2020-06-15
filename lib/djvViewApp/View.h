@@ -32,14 +32,14 @@ namespace djv
         //! This struct provides HUD data.
         struct HUDData
         {
-            std::string         fileName;
-            std::string         layer;
-            AV::Image::Size     size;
-            AV::Image::Type     type            = AV::Image::Type::None;
-            bool                isSequence      = false;
-            std::string         currentFrame;
-            Core::Time::Speed   speed;
-            float               realSpeed       = 0.F;
+            std::string          fileName;
+            std::string          layer;
+            AV::Image::Size      size;
+            AV::Image::Type      type            = AV::Image::Type::None;
+            bool                 isSequence      = false;
+            std::string          currentFrame;
+            Core::Math::Rational speed;
+            float                realSpeed       = 0.F;
 
             bool operator == (const HUDData&) const;
         };

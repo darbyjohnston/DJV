@@ -235,7 +235,7 @@ namespace djv
             return ss.str();
         }
 
-        std::string InfoWidget::_text(const Time::Speed& value) const
+        std::string InfoWidget::_text(const Math::Rational& value) const
         {
             std::stringstream ss;
             ss.precision(2);
@@ -243,7 +243,7 @@ namespace djv
             return ss.str();
         }
 
-        std::string InfoWidget::_text(const Frame::Sequence& sequence, const Time::Speed& speed) const
+        std::string InfoWidget::_text(const Frame::Sequence& sequence, const Math::Rational& speed) const
         {
             std::stringstream ss;
             if (auto context = getContext().lock())

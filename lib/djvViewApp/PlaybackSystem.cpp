@@ -37,7 +37,7 @@ namespace djv
         {
             std::shared_ptr<PlaybackSettings> settings;
             std::shared_ptr<Media> currentMedia;
-            Time::Speed speed;
+            Math::Rational speed;
             Frame::Sequence sequence;
             bool playEveryFrame = false;
             Playback playback = Playback::Forward;
@@ -52,7 +52,7 @@ namespace djv
             std::shared_ptr<UI::Menu> menu;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
-            std::shared_ptr<ValueObserver<Time::Speed> > speedObserver;
+            std::shared_ptr<ValueObserver<Math::Rational> > speedObserver;
             std::shared_ptr<ValueObserver<bool> > playEveryFrameObserver;
             std::shared_ptr<ValueObserver<Frame::Sequence> > sequenceObserver;
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
@@ -484,9 +484,9 @@ namespace djv
                         system->_actionsUpdate();
                         if (value)
                         {
-                            system->_p->speedObserver = ValueObserver<Time::Speed>::create(
+                            system->_p->speedObserver = ValueObserver<Math::Rational>::create(
                                 value->observeSpeed(),
-                                [weak](const Time::Speed& value)
+                                [weak](const Math::Rational& value)
                                 {
                                     if (auto system = weak.lock())
                                     {
@@ -563,7 +563,7 @@ namespace djv
                         }
                         else
                         {
-                            system->_p->speed = Time::Speed();
+                            system->_p->speed = Math::Rational();
                             system->_p->sequence = Frame::Sequence();
                             system->_p->playEveryFrame = false;
                             system->_p->playback = Playback::Stop;

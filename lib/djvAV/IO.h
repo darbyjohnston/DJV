@@ -43,11 +43,11 @@ namespace djv
                 VideoInfo();
                 VideoInfo(
                     const Image::Info&,
-                    const Core::Time::Speed& = Core::Time::Speed(),
+                    const Core::Math::Rational& = Core::Time::fromSpeed(Core::Time::getDefaultSpeed()),
                     const Core::Frame::Sequence& = Core::Frame::Sequence());
 
                 Image::Info             info;
-                Core::Time::Speed       speed;
+                Core::Math::Rational    speed;
                 Core::Frame::Sequence   sequence;
                 std::string             codec;
 

@@ -35,7 +35,7 @@ namespace djv
         {
             std::shared_ptr<AV::Font::System> fontSystem;
             std::shared_ptr<Media> media;
-            Time::Speed speed;
+            Math::Rational speed;
             Frame::Sequence sequence;
             Frame::Index currentFrame = 0;
             bool inOutPointsEnabled = false;
@@ -63,7 +63,7 @@ namespace djv
             std::function<void(Frame::Index)> currentFrameCallback;
             std::function<void(bool)> currentFrameDragCallback;
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
-            std::shared_ptr<ValueObserver<Time::Speed> > speedObserver;
+            std::shared_ptr<ValueObserver<Math::Rational> > speedObserver;
             std::shared_ptr<ValueObserver<Frame::Sequence> > sequenceObserver;
             std::shared_ptr<ValueObserver<Frame::Index> > currentFrameObserver;
             std::shared_ptr<ValueObserver<bool> > pipEnabledObserver;
@@ -156,15 +156,15 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->speed = value.video.size() ? value.video[0].speed : Time::Speed();
+                        widget->_p->speed = value.video.size() ? value.video[0].speed : Math::Rational();
                         widget->_textUpdate();
                         widget->_currentFrameUpdate();
                     }
                 });
 
-                p.speedObserver = ValueObserver<Time::Speed>::create(
+                p.speedObserver = ValueObserver<Math::Rational>::create(
                     p.media->observeDefaultSpeed(),
-                    [weak](const Time::Speed& value)
+                    [weak](const Math::Rational& value)
                     {
                         if (auto widget = weak.lock())
                         {
@@ -201,7 +201,7 @@ namespace djv
             {
                 p.sequence = Frame::Sequence();
                 p.currentFrame = 0;
-                p.speed = Time::Speed();
+                p.speed = Math::Rational();
 
                 p.pipWidget->setFileInfo(Core::FileSystem::FileInfo());
 

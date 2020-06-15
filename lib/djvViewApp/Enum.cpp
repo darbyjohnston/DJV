@@ -10,35 +10,6 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace ViewApp
-    {
-        Time::Speed getPlaybackSpeed(PlaybackSpeed value)
-        {
-            const Time::Speed values[] =
-            {
-                Time::Speed(0),
-                Time::Speed(0),
-                Time::Speed(6),
-                Time::Speed(8),
-                Time::Speed(12),
-                Time::Speed(16),
-                Time::Speed(24000, 1001),
-                Time::Speed(24),
-                Time::Speed(25),
-                Time::Speed(30000, 1001),
-                Time::Speed(30),
-                Time::Speed(48),
-                Time::Speed(50),
-                Time::Speed(60000, 1001),
-                Time::Speed(60),
-                Time::Speed(120),
-                Time::Speed(240)
-            };
-            return values[static_cast<size_t>(value)];
-        }
-
-    } // namespace ViewApp
-
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         ViewApp,
         ViewLock,
@@ -97,22 +68,7 @@ namespace djv
         ViewApp,
         PlaybackSpeed,
         DJV_TEXT("playback_speed_default"),
-        DJV_TEXT("playback_speed_custom"),
-        DJV_TEXT("playback_speed_6"),
-        DJV_TEXT("playback_speed_8"),
-        DJV_TEXT("playback_speed_12"),
-        DJV_TEXT("playback_speed_16"),
-        DJV_TEXT("playback_speed_23_98"),
-        DJV_TEXT("playback_speed_24"),
-        DJV_TEXT("playback_speed_25"),
-        DJV_TEXT("playback_speed_29_97"),
-        DJV_TEXT("playback_speed_30"),
-        DJV_TEXT("playback_speed_48"),
-        DJV_TEXT("playback_speed_50"),
-        DJV_TEXT("playback_speed_59_94"),
-        DJV_TEXT("playback_speed_60"),
-        DJV_TEXT("playback_speed_120"),
-        DJV_TEXT("playback_speed_240"));
+        DJV_TEXT("playback_speed_custom"));
 
     rapidjson::Value toJSON(ViewApp::ViewLock value, rapidjson::Document::AllocatorType& allocator)
     {

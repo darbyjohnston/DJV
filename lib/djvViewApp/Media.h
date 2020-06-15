@@ -83,10 +83,10 @@ namespace djv
             //! \name Playback
             ///@{
 
-            std::shared_ptr<Core::IValueSubject<Core::Time::Speed> > observeSpeed() const;
+            std::shared_ptr<Core::IValueSubject<Core::Math::Rational> > observeSpeed() const;
             std::shared_ptr<Core::IValueSubject<PlaybackSpeed> > observePlaybackSpeed() const;
-            std::shared_ptr<Core::IValueSubject<Core::Time::Speed> > observeDefaultSpeed() const;
-            std::shared_ptr<Core::IValueSubject<Core::Time::Speed> > observeCustomSpeed() const;
+            std::shared_ptr<Core::IValueSubject<Core::Math::Rational> > observeDefaultSpeed() const;
+            std::shared_ptr<Core::IValueSubject<Core::Math::Rational> > observeCustomSpeed() const;
             std::shared_ptr<Core::IValueSubject<float> > observeRealSpeed() const;
             std::shared_ptr<Core::IValueSubject<bool> > observePlayEveryFrame() const;
             std::shared_ptr<Core::IValueSubject<Core::Frame::Sequence> > observeSequence() const;
@@ -96,7 +96,7 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<AV::IO::InOutPoints> > observeInOutPoints() const;
 
             void setPlaybackSpeed(PlaybackSpeed);
-            void setCustomSpeed(const Core::Time::Speed&);
+            void setCustomSpeed(const Core::Math::Rational&);
             void setPlayEveryFrame(bool);
             void setCurrentFrame(Core::Frame::Index, bool inOutPoints = true);
             void setPlayback(Playback);
@@ -175,7 +175,7 @@ namespace djv
             bool _isAudioEnabled() const;
             bool _hasAudioSyncPlayback() const;
             void _open();
-            void _setSpeed(const Core::Time::Speed&);
+            void _setSpeed(const Core::Math::Rational&);
             void _setCurrentFrame(Core::Frame::Index);
             void _seek(Core::Frame::Index);
             void _playbackUpdate();

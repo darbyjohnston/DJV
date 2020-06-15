@@ -102,12 +102,12 @@ namespace djv
                 std::vector<Layer> getLayers(const Imf::ChannelList&, Channels);
 
                 //! Read the tags from an Imf header.
-                void readTags(const Imf::Header&, Tags&, Core::Time::Speed&);
+                void readTags(const Imf::Header&, Tags&, Core::Math::Rational&);
 
                 //! Write tags to an Imf header.
                 //!
                 //! \todo Write all the tags that are handled by readTags().
-                void writeTags(const Tags&, const Core::Time::Speed&, Imf::Header&);
+                void writeTags(const Tags&, const Core::Math::Rational&, Imf::Header&);
 
                 //! Convert an Imath box type.
                 Core::BBox2i fromImath(const Imath::Box2i&);

@@ -11,11 +11,11 @@ namespace djv
 {
     namespace Core
     {
-        namespace Time
+        namespace Math
         {
-            class Speed;
+            class Rational;
 
-        } // namespace Time
+        } // namespace Math
     } // namespace Core
 
     namespace ViewApp
@@ -90,27 +90,11 @@ namespace djv
         {
             Default,
             Custom,
-            _6,
-            _8,
-            _12,
-            _16,
-            _23_98,
-            _24,
-            _25,
-            _29_97,
-            _30,
-            _48,
-            _50,
-            _59_94,
-            _60,
-            _120,
-            _240,
 
             Count,
             First = Default
         };
         DJV_ENUM_HELPERS(PlaybackSpeed);
-        Core::Time::Speed getPlaybackSpeed(PlaybackSpeed);
 
         enum class PlaybackMode
         {

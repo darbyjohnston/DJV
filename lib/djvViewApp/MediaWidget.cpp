@@ -106,9 +106,9 @@ namespace djv
             size_t layer = 0;
             std::shared_ptr<AV::Image::Image> image;
             PlaybackSpeed playbackSpeed = PlaybackSpeed::First;
-            Time::Speed defaultSpeed;
-            Time::Speed customSpeed;
-            Time::Speed speed;
+            Math::Rational defaultSpeed;
+            Math::Rational customSpeed;
+            Math::Rational speed;
             float realSpeed = 0.F;
             bool playEveryFrame = false;
             PlaybackMode playbackMode = PlaybackMode::First;
@@ -165,10 +165,10 @@ namespace djv
             std::shared_ptr<ValueObserver<AV::IO::Info> > ioInfoObserver;
             std::shared_ptr<ValueObserver<size_t> > layerObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
-            std::shared_ptr<ValueObserver<Time::Speed> > speedObserver;
+            std::shared_ptr<ValueObserver<Math::Rational> > speedObserver;
             std::shared_ptr<ValueObserver<PlaybackSpeed> > playbackSpeedObserver;
-            std::shared_ptr<ValueObserver<Time::Speed> > defaultSpeedObserver;
-            std::shared_ptr<ValueObserver<Time::Speed> > customSpeedObserver;
+            std::shared_ptr<ValueObserver<Math::Rational> > defaultSpeedObserver;
+            std::shared_ptr<ValueObserver<Math::Rational> > customSpeedObserver;
             std::shared_ptr<ValueObserver<float> > realSpeedObserver;
             std::shared_ptr<ValueObserver<bool> > playEveryFrameObserver;
             std::shared_ptr<ValueObserver<PlaybackMode> > playbackModeObserver;
@@ -468,7 +468,7 @@ namespace djv
                     }
                 });
             p.speedWidget->setCustomSpeedCallback(
-                [weak, contextWeak](const Time::Speed& value)
+                [weak, contextWeak](const Math::Rational& value)
                 {
                     if (auto context = contextWeak.lock())
                     {
@@ -819,9 +819,9 @@ namespace djv
                     }
                 });
 
-            p.speedObserver = ValueObserver<Time::Speed>::create(
+            p.speedObserver = ValueObserver<Math::Rational>::create(
                 p.media->observeSpeed(),
-                [weak](const Time::Speed& value)
+                [weak](const Math::Rational& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -844,9 +844,9 @@ namespace djv
                     }
                 });
 
-            p.customSpeedObserver = ValueObserver<Time::Speed>::create(
+            p.customSpeedObserver = ValueObserver<Math::Rational>::create(
                 p.media->observeCustomSpeed(),
-                [weak](const Time::Speed& value)
+                [weak](const Math::Rational& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -856,9 +856,9 @@ namespace djv
                     }
                 });
 
-            p.defaultSpeedObserver = ValueObserver<Time::Speed>::create(
+            p.defaultSpeedObserver = ValueObserver<Math::Rational>::create(
                 p.media->observeDefaultSpeed(),
-                [weak](const Time::Speed& value)
+                [weak](const Math::Rational& value)
                 {
                     if (auto widget = weak.lock())
                     {

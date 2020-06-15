@@ -29,13 +29,13 @@ namespace djv
         //! This struct provides options for opening files.
         struct OpenOptions
         {
-            std::shared_ptr<glm::vec2>           pos;
-            std::shared_ptr<float>               spacing;
-            std::shared_ptr<Core::Time::Speed>   speed;
-            std::shared_ptr<Core::Frame::Range>  startEnd;
-            std::shared_ptr<std::string>         inPoint;
-            std::shared_ptr<std::string>         outPoint;
-            std::shared_ptr<std::string>         frame;
+            std::shared_ptr<glm::vec2>            pos;
+            std::shared_ptr<float>                spacing;
+            std::shared_ptr<Core::Math::Rational> speed;
+            std::shared_ptr<Core::Frame::Range>   startEnd;
+            std::shared_ptr<std::string>          inPoint;
+            std::shared_ptr<std::string>          outPoint;
+            std::shared_ptr<std::string>          frame;
         };
 
         //! This class provides the file system.

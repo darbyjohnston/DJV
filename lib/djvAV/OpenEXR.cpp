@@ -561,7 +561,7 @@ namespace djv
 
                 } // namespace
 
-                void readTags(const Imf::Header& header, Tags& tags, Time::Speed& speed)
+                void readTags(const Imf::Header& header, Tags& tags, Math::Rational& speed)
                 {
                     // Predefined attributes.
                     tags.setTag("Display Window", serialize(header.displayWindow()));
@@ -703,7 +703,7 @@ namespace djv
                     if (hasFramesPerSecond(header))
                     {
                         const Imf::Rational data = framesPerSecondAttribute(header).value();
-                        speed = Time::Speed(data.n, data.d);
+                        speed = Math::Rational(data.n, data.d);
                     }
                     if (hasMultiView(header))
                     {
@@ -873,7 +873,7 @@ namespace djv
                     }
                 }
 
-                void writeTags(const Tags& tags, const Time::Speed& speed, Imf::Header& header)
+                void writeTags(const Tags& tags, const Math::Rational& speed, Imf::Header& header)
                 {
                     if (tags.hasTag("Chromaticities"))
                     {

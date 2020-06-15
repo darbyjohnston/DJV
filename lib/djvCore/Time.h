@@ -120,11 +120,11 @@ namespace djv
             };
             DJV_ENUM_HELPERS(Units);
             
-            std::string toString(Frame::Number, const Time::Speed&, Units);
+            std::string toString(Frame::Number, const Math::Rational&, Units);
 
             //! Throws:
             //! - std::exception
-            Frame::Number fromString(const std::string&, const Time::Speed&, Units);
+            Frame::Number fromString(const std::string&, const Math::Rational&, Units);
 
             ///@}
 
