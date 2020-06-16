@@ -53,13 +53,19 @@ namespace djv
             }
             Context::_init(argv0);
 
+            // Parse the command line.
+            auto logSystem = getSystemT<LogSystem>();
+            {
+                std::stringstream ss;
+                ss << "Command line arguments: " << String::joinList(args, ' ');
+                logSystem->log("djv::CmdLine::Application", ss.str());
+            }
             auto arg = args.begin();
             while (arg != args.end())
             {
                 if ("-log_console" == *arg)
                 {
                     arg = args.erase(arg);
-                    auto logSystem = getSystemT<LogSystem>();
                     logSystem->setConsoleOutput(true);
                 }
                 else if ("-version" == *arg)

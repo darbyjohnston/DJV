@@ -40,6 +40,12 @@ namespace djv
     {
         struct FileSystem::Private
         {
+            Private(FileSystem& p) :
+                p(p)
+            {}
+
+            FileSystem& p;
+
             std::shared_ptr<FileSettings> settings;
             std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > opened;
             std::shared_ptr<ValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> > > opened2;
@@ -422,7 +428,7 @@ namespace djv
         }
 
         FileSystem::FileSystem() :
-            _p(new Private)
+            _p(new Private(*this))
         {}
 
         FileSystem::~FileSystem()
@@ -487,6 +493,12 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
+                {
+                    std::stringstream ss;
+                    ss << "Open: " << fileInfo;
+                    _log(ss.str());
+                }
+
                 auto media = Media::create(fileInfo, context);
                 media->setThreadCount(p.threadCount);
                 if (options.speed)
@@ -593,6 +605,12 @@ namespace djv
             size_t index = p.media->indexOf(media);
             if (index != invalidListIndex)
             {
+                {
+                    std::stringstream ss;
+                    ss << "Close: " << media->getFileInfo();
+                    _log(ss.str());
+                }
+
                 p.media->removeItem(index);
                 p.closed->setIfChanged(media);
                 p.closed->setIfChanged(nullptr);
@@ -819,15 +837,29 @@ namespace djv
             const OpenOptions& options,
             const std::weak_ptr<Context>& contextWeak)
         {
+            {
+                std::stringstream ss;
+                ss << "Process file names: " << String::join(fileNames, ", ");
+                p._log(ss.str());
+            }
+
             std::vector<FileInfoAndNumber> out;
             if (auto context = contextWeak.lock())
             {
                 // Get absolute paths.
                 for (const auto& i : fileNames)
                 {
-                    out.push_back(std::make_pair(
-                        Core::FileSystem::FileInfo(Core::FileSystem::Path::getAbsolute(Core::FileSystem::Path(i))),
-                        std::string()));
+                    auto path = Core::FileSystem::Path(i);
+                    try
+                    {
+                        out.push_back(std::make_pair(
+                            Core::FileSystem::FileInfo(Core::FileSystem::Path::getAbsolute(path)),
+                            std::string()));
+                    }
+                    catch (const std::exception& e)
+                    {
+                        p._log(String::Format("{0}: {1}").arg(path.get()).arg(e.what()), LogLevel::Error);
+                    }
                 }
 
                 // Find arguments that belong to the same sequence (for
@@ -936,6 +968,14 @@ namespace djv
                         LogLevel::Error);
                 }
             }
+
+            for (const auto& i : out)
+            {
+                std::stringstream ss;
+                ss << "Process file names result: " << i.first << ":" << i.second;
+                p._log(ss.str());
+            }
+
             return out;
         }
 
