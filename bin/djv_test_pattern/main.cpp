@@ -291,7 +291,7 @@ namespace djv
     } // namespace TestPattern
 } // namespace djv
 
-int main(int argc, char** argv)
+DJV_MAIN()
 {
     int r = 1;
     try

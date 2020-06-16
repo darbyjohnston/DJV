@@ -757,7 +757,7 @@ namespace djv
                     }
                     {
                         std::stringstream ss;
-                        ss << "open: " << p.fileInfo << ", sequence: " << sequence;
+                        ss << "Open: " << p.fileInfo << ", sequence: " << sequence;
                         auto logSystem = context->getSystemT<LogSystem>();
                         logSystem->log("djv::ViewApp::Media", ss.str());
                     }

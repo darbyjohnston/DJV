@@ -143,6 +143,16 @@ namespace djv
             return out;
         }
 
+        std::list<std::string> Application::args(int argc, wchar_t** argv)
+        {
+            std::list<std::string> out;
+            for (int i = 0; i < argc; ++i)
+            {
+                out.push_back(String::fromWide(argv[i]));
+            }
+            return out;
+        }
+
         void Application::_parseCmdLine(std::list<std::string>& args)
         {
             auto textSystem = getSystemT<Core::TextSystem>();

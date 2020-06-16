@@ -18,7 +18,7 @@
 
 using namespace djv;
 
-int main(int argc, char ** argv)
+DJV_MAIN()
 {
     int r = 1;
     try
@@ -39,8 +39,8 @@ int main(int argc, char ** argv)
 }
 
 #if defined(DJV_PLATFORM_WINDOWS)
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
+int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR, int)
 {
-    return main(__argc, __argv);
+    return wmain(__argc, __wargv);
 }
 #endif // DJV_WINDOWS

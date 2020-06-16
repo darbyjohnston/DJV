@@ -10,6 +10,12 @@
 
 struct GLFWwindow;
 
+#if defined(DJV_PLATFORM_WINDOWS)
+#define DJV_MAIN() int wmain(int argc, wchar_t* argv[])
+#else
+#define DJV_MAIN() int main(int argc, char* argv[])
+#endif
+
 namespace djv
 {
     namespace CmdLine
@@ -40,6 +46,7 @@ namespace djv
             void exit(int);
 
             static std::list<std::string> args(int, char**);
+            static std::list<std::string> args(int, wchar_t**);
 
         protected:
             //! Throws:
