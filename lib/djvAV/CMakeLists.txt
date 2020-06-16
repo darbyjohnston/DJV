@@ -41,7 +41,10 @@ set(header
     PixelInline.h
     RLA.h
     Render2D.h
+    Render2DData.h
+    Render2DDataInline.h
     Render2DInline.h
+    Render2DPrivate.h
     Render3D.h
     Render3DCamera.h
     Render3DCameraInline.h
@@ -96,6 +99,8 @@ set(source
     RLA.cpp
     RLARead.cpp
     Render2D.cpp
+    Render2DData.cpp
+    Render2DPrivate.cpp
     Render3D.cpp
     Render3DCamera.cpp
     Render3DLight.cpp

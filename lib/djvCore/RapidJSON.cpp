@@ -40,8 +40,8 @@ namespace djv
                 character = i - lineTotal;
             }
 
-        } // Core
-    } // RapidJSON
+        } // namespace Core
+    } // namespace RapidJSON
 
     rapidjson::Value toJSON(bool value, rapidjson::Document::AllocatorType&)
     {
