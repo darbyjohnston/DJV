@@ -230,7 +230,6 @@ namespace djv
 
         void GridOverlay::_initEvent(Event::Init& event)
         {
-            Widget::_initEvent(event);
             if (event.getData().resize ||
                 event.getData().font)
             {
@@ -242,7 +241,6 @@ namespace djv
 
         void GridOverlay::_updateEvent(Event::Update& event)
         {
-            Widget::_updateEvent(event);
             if (_fontMetricsFuture.valid() &&
                 _fontMetricsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {

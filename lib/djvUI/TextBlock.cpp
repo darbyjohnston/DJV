@@ -256,7 +256,6 @@ namespace djv
 
         void TextBlock::_initEvent(Event::Init& event)
         {
-            Widget::_initEvent(event);
             if (event.getData().resize || event.getData().font)
             {
                 _textUpdate();
@@ -265,9 +264,9 @@ namespace djv
 
         void TextBlock::_updateEvent(Event::Update& event)
         {
-            Widget::_updateEvent(event);
             DJV_PRIVATE_PTR();
-            if (p.fontMetricsFuture.valid() &&
+            const bool fontMetricsFutureValid = p.fontMetricsFuture.valid();
+            if (fontMetricsFutureValid &&
                 p.fontMetricsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {
                 try
@@ -280,6 +279,7 @@ namespace djv
                     _log(e.what(), LogLevel::Error);
                 }
             }
+            _setUpdateEnabled(fontMetricsFutureValid);
         }
 
         void TextBlock::_textUpdate()
@@ -293,6 +293,7 @@ namespace djv
             p.fontSystem->cacheGlyphs(p.text, p.fontInfo);
             p.textCache.clear();
             _resize();
+            _setUpdateEnabled(true);
         }
 
         TextBlock::Private::TextCacheValue TextBlock::Private::textLines(float value)

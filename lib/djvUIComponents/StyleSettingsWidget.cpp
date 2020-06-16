@@ -113,7 +113,6 @@ namespace djv
 
         void SizeWidget::_initEvent(Event::Init& event)
         {
-            Widget::_initEvent(event);
             if (event.getData().text)
             {
                 _widgetUpdate();
@@ -239,7 +238,6 @@ namespace djv
 
         void PaletteWidget::_initEvent(Event::Init& event)
         {
-            Widget::_initEvent(event);
             if (event.getData().text)
             {
                 _widgetUpdate();

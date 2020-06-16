@@ -137,7 +137,7 @@ namespace djv
         void ComboBox::clearItems(Callback callback)
         {
             DJV_PRIVATE_PTR();
-            if (p.items.size())
+            if (!p.items.empty())
             {
                 p.items.clear();
                 _updateItems();

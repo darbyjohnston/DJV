@@ -123,7 +123,6 @@ namespace djv
 
             void TimeUnitsWidget::_initEvent(Event::Init& event)
             {
-                Widget::_initEvent(event);
                 if (event.getData().text)
                 {
                     _widgetUpdate();

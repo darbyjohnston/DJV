@@ -88,6 +88,18 @@ namespace djv
                 return !(*this == other);
             }
 
+            inline GLenum toGL(ImageFilter value)
+            {
+                GLenum out = GL_NONE;
+                switch (value)
+                {
+                case ImageFilter::Nearest: out = GL_NEAREST; break;
+                case ImageFilter::Linear:  out = GL_LINEAR;  break;
+                default: break;
+                }
+                return out;
+            }
+
             inline ImageFilterOptions::ImageFilterOptions()
             {}
 

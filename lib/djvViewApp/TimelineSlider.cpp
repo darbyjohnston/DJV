@@ -575,7 +575,6 @@ namespace djv
 
         void TimelineSlider::_initEvent(Event::Init & event)
         {
-            Widget::_initEvent(event);
             if (event.getData().resize ||
                 event.getData().font ||
                 event.getData().text)

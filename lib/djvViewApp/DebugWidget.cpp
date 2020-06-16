@@ -68,7 +68,6 @@ namespace djv
 
             void IDebugWidget::_initEvent(Event::Init& event)
             {
-                Widget::_initEvent(event);
                 if (event.getData().text)
                 {
                     _widgetUpdate();
@@ -726,7 +725,6 @@ namespace djv
 
             void MediaDebugWidget::_initEvent(Event::Init& event)
             {
-                Widget::_initEvent(event);
                 if (event.getData().text)
                 {
                     {

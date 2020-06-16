@@ -707,7 +707,6 @@ namespace djv
 
             void ItemView::_initEvent(Event::Init& event)
             {
-                Widget::_initEvent(event);
                 _iconsUpdate();
                 if (event.getData().text)
                 {

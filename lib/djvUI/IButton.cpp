@@ -289,7 +289,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto& actions = getActions();
-                if (actions.size())
+                if (!actions.empty())
                 {
                     p.action = actions.front();
                     auto weak = std::weak_ptr<IButton>(std::dynamic_pointer_cast<IButton>(shared_from_this()));

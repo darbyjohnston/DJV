@@ -74,6 +74,7 @@ namespace djv
                     p.image.reset();
                 }
                 _resize();
+                _setUpdateEnabled(true);
             }
         }
 
@@ -171,7 +172,6 @@ namespace djv
 
         void Icon::_initEvent(Event::Init& event)
         {
-            Widget::_initEvent(event);
             DJV_PRIVATE_PTR();
             if (event.getData().resize)
             {
@@ -182,6 +182,7 @@ namespace djv
                         auto iconSystem = context->getSystemT<IconSystem>();
                         const auto& style = _getStyle();
                         p.imageFuture = iconSystem->getIcon(p.name, style->getMetric(MetricsRole::Icon));
+                        _setUpdateEnabled(true);
                     }
                 }
             }
@@ -190,7 +191,8 @@ namespace djv
         void Icon::_updateEvent(Core::Event::Update&)
         {
             DJV_PRIVATE_PTR();
-            if (p.imageFuture.valid() &&
+            const bool imageFutureValid = p.imageFuture.valid();
+            if (imageFutureValid &&
                 p.imageFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {
                 try
@@ -204,6 +206,7 @@ namespace djv
                 }
                 _resize();
             }
+            _setUpdateEnabled(imageFutureValid);
         }
             
     } // namespace UI

@@ -559,28 +559,31 @@ namespace djv
                     auto& updateEvent = static_cast<Event::Update&>(event);
                     _updateTime = updateEvent.getTime();
 
-                    if (auto context = getContext().lock())
+                    if (!_pointerToTooltips.empty())
                     {
-                        for (auto& i : _pointerToTooltips)
+                        if (auto context = getContext().lock())
                         {
-                            const auto j = _pointerHover.find(i.first);
-                            const auto t = std::chrono::duration_cast<std::chrono::milliseconds>(_updateTime - i.second.timer);
-                            const auto& g = getGeometry();
-                            if (_tooltipsEnabled &&
-                                t > tooltipTimeout &&
-                                !i.second.tooltip &&
-                                j != _pointerHover.end() &&
-                                g.contains(j->second))
+                            for (auto& i : _pointerToTooltips)
                             {
-                                for (
-                                    auto widget = std::dynamic_pointer_cast<Widget>(shared_from_this());
-                                    widget;
-                                    widget = std::dynamic_pointer_cast<Widget>(widget->getParent().lock()))
+                                const auto j = _pointerHover.find(i.first);
+                                const auto t = std::chrono::duration_cast<std::chrono::milliseconds>(_updateTime - i.second.timer);
+                                const auto& g = getGeometry();
+                                if (_tooltipsEnabled &&
+                                    t > tooltipTimeout &&
+                                    !i.second.tooltip &&
+                                    j != _pointerHover.end() &&
+                                    g.contains(j->second))
                                 {
-                                    if (auto tooltipWidget = widget->_createTooltip(j->second))
+                                    for (
+                                        auto widget = std::dynamic_pointer_cast<Widget>(shared_from_this());
+                                        widget;
+                                        widget = std::dynamic_pointer_cast<Widget>(widget->getParent().lock()))
                                     {
-                                        i.second.tooltip = Tooltip::create(getWindow(), j->second, tooltipWidget, context);
-                                        break;
+                                        if (auto tooltipWidget = widget->_createTooltip(j->second))
+                                        {
+                                            i.second.tooltip = Tooltip::create(getWindow(), j->second, tooltipWidget, context);
+                                            break;
+                                        }
                                     }
                                 }
                             }

@@ -921,7 +921,6 @@ namespace djv
 
             void FileBrowser::_initEvent(Event::Init & event)
             {
-                Widget::_initEvent(event);
                 DJV_PRIVATE_PTR();
                 if (event.getData().text)
                 {

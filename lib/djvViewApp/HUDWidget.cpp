@@ -227,7 +227,6 @@ namespace djv
 
         void HUDWidget::_initEvent(Event::Init & event)
         {
-            Widget::_initEvent(event);
             if (event.getData().resize ||
                 event.getData().font ||
                 event.getData().text)
@@ -238,7 +237,6 @@ namespace djv
 
         void HUDWidget::_updateEvent(Event::Update& event)
         {
-            Widget::_updateEvent(event);
             DJV_PRIVATE_PTR();
             if (p.fontMetricsFuture.valid() &&
                 p.fontMetricsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)

@@ -262,7 +262,6 @@ namespace djv
 
         void Label::_initEvent(Event::Init& event)
         {
-            Widget::_initEvent(event);
             if (event.getData().resize || event.getData().font)
             {
                 _fontUpdate();
@@ -271,9 +270,12 @@ namespace djv
 
         void Label::_updateEvent(Event::Update& event)
         {
-            Widget::_updateEvent(event);
             DJV_PRIVATE_PTR();
-            if (p.fontMetricsFuture.valid() &&
+            const bool fontMetricsFutureValid = p.fontMetricsFuture.valid();
+            const bool textSizeFutureValid = p.textSizeFuture.valid();
+            const bool sizeStringFutureValid = p.sizeStringFuture.valid();
+            const bool glyphsFutureValid = p.glyphsFuture.valid();
+            if (fontMetricsFutureValid &&
                 p.fontMetricsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {
                 try
@@ -286,7 +288,7 @@ namespace djv
                     _log(e.what(), LogLevel::Error);
                 }
             }
-            if (p.textSizeFuture.valid() &&
+            if (textSizeFutureValid &&
                 p.textSizeFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {
                 try
@@ -299,7 +301,7 @@ namespace djv
                     _log(e.what(), LogLevel::Error);
                 }
             }
-            if (p.sizeStringFuture.valid() &&
+            if (sizeStringFutureValid &&
                 p.sizeStringFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {
                 try
@@ -312,7 +314,7 @@ namespace djv
                     _log(e.what(), LogLevel::Error);
                 }
             }
-            if (p.glyphsFuture.valid() &&
+            if (glyphsFutureValid &&
                 p.glyphsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {
                 try
@@ -325,6 +327,13 @@ namespace djv
                     _log(e.what(), LogLevel::Error);
                 }
             }
+            if (!(fontMetricsFutureValid ||
+                textSizeFutureValid ||
+                sizeStringFutureValid ||
+                glyphsFutureValid))
+            {
+                _setUpdateEnabled(false);
+            }
         }
 
         void Label::_textUpdate()
@@ -336,6 +345,7 @@ namespace djv
                 p.glyphs.clear();
             }
             p.glyphsFuture = p.fontSystem->getGlyphs(p.text, p.fontInfo);
+            _setUpdateEnabled(true);
         }
 
         void Label::_sizeStringUpdate()
@@ -345,6 +355,7 @@ namespace djv
             {
                 p.sizeStringFuture = p.fontSystem->measure(p.sizeString, p.fontInfo);
             }
+            _setUpdateEnabled(true);
         }
 
         void Label::_fontUpdate()
@@ -357,6 +368,7 @@ namespace djv
             p.fontMetricsFuture = p.fontSystem->getMetrics(p.fontInfo);
             _textUpdate();
             _sizeStringUpdate();
+            _setUpdateEnabled(true);
         }
 
         struct LabelSizeGroup::Private

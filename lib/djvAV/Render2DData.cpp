@@ -12,25 +12,6 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace AV
-    {
-        namespace Render2D
-        {
-            GLenum toGL(ImageFilter value)
-            {
-                GLenum out = GL_NONE;
-                switch (value)
-                {
-                case ImageFilter::Nearest: out = GL_NEAREST; break;
-                case ImageFilter::Linear:  out = GL_LINEAR;  break;
-                default: break;
-                }
-                return out;
-            }
-
-        } // namespace Render2D
-    } // namespace AV
-
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::Render2D,
         ImageChannelDisplay,
