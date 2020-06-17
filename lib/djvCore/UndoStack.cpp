@@ -16,12 +16,17 @@ namespace djv
         {
             std::vector<std::shared_ptr<ICommand> > commands;
             int64_t currentIndex = -1;
-            std::function<void()> callback;
+            std::shared_ptr<ValueSubject<bool> > hasUndo;
+            std::shared_ptr<ValueSubject<bool> > hasRedo;
         };
 
         UndoStack::UndoStack() :
             _p(new Private)
-        {}
+        {
+            DJV_PRIVATE_PTR();
+            p.hasUndo = ValueSubject<bool>::create(false);
+            p.hasRedo = ValueSubject<bool>::create(false);
+        }
 
         UndoStack::~UndoStack()
         {}
@@ -32,21 +37,6 @@ namespace djv
             return out;
         }
 
-        const std::vector<std::shared_ptr<ICommand> >& UndoStack::getCommands() const
-        {
-            return _p->commands;
-        }
-
-        size_t UndoStack::getSize() const
-        {
-            return _p->commands.size();
-        }
-
-        int64_t UndoStack::getCurrentIndex() const
-        {
-            return _p->currentIndex;
-        }
-
         void UndoStack::push(const std::shared_ptr<ICommand>& command)
         {
             DJV_PRIVATE_PTR();
@@ -55,12 +45,19 @@ namespace djv
                 p.commands.pop_back();
             }
             p.commands.push_back(command);
-            ++p.currentIndex;
+            p.currentIndex = p.currentIndex + 1;
             command->exec();
-            if (p.callback)
-            {
-                p.callback();
-            }
+            p.hasUndo->setIfChanged(true);
+        }
+
+        std::shared_ptr<Core::IValueSubject<bool> > UndoStack::observeHasUndo() const
+        {
+            return _p->hasUndo;
+        }
+
+        std::shared_ptr<Core::IValueSubject<bool> > UndoStack::observeHasRedo() const
+        {
+            return _p->hasRedo;
         }
 
         void UndoStack::undo()
@@ -69,11 +66,9 @@ namespace djv
             if (p.commands.size() && p.currentIndex >= 0)
             {
                 p.commands[p.currentIndex]->undo();
-                --p.currentIndex;
-                if (p.callback)
-                {
-                    p.callback();
-                }
+                p.currentIndex = p.currentIndex - 1;
+                p.hasUndo->setIfChanged(p.currentIndex >= 0);
+                p.hasRedo->setIfChanged(p.currentIndex < static_cast<int64_t>(p.commands.size()) - 1);
             }
         }
 
@@ -82,26 +77,23 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.commands.size() && p.currentIndex < static_cast<int64_t>(p.commands.size()) - 1)
             {
-                ++p.currentIndex;
-                p.commands[p.currentIndex]->exec();
-                if (p.callback)
-                {
-                    p.callback();
-                }
+                const int64_t index = p.currentIndex + 1;
+                p.commands[index]->exec();
+                p.currentIndex = index;
+                p.hasUndo->setIfChanged(p.currentIndex >= 0);
+                p.hasRedo->setIfChanged(p.currentIndex < static_cast<int64_t>(p.commands.size()) - 1);
             }
         }
 
         void UndoStack::clear()
         {
             DJV_PRIVATE_PTR();
-            if (p.commands.size())
+            if (!p.commands.empty())
             {
                 p.commands.clear();
                 p.currentIndex = -1;
-                if (p.callback)
-                {
-                    p.callback();
-                }
+                p.hasUndo->setIfChanged(false);
+                p.hasRedo->setIfChanged(false);
             }
         }
 

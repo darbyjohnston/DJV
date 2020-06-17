@@ -4,6 +4,8 @@
 
 #include <djvViewApp/Annotate.h>
 
+#include <djvViewApp/Media.h>
+
 #include <djvAV/Render2D.h>
 
 using namespace djv::Core;
@@ -208,7 +210,71 @@ namespace djv
         {
             _p->points.push_back(value);
         }
-            
+        
+        struct AnnotateCommand::Private
+        {
+            std::shared_ptr<AnnotatePrimitive> primitive;
+            std::weak_ptr<Media> media;
+            std::shared_ptr<ValueSubject<bool> > undo;
+        };
+
+        void AnnotateCommand::_init(
+            const std::shared_ptr<AnnotatePrimitive>& primitive,
+            const std::shared_ptr<Media>& media)
+        {
+            DJV_PRIVATE_PTR();
+            p.primitive = primitive;
+            p.media = media;
+            p.undo = ValueSubject<bool>::create();
+        }
+
+        AnnotateCommand::AnnotateCommand() :
+            _p(new Private)
+        {}
+
+        std::shared_ptr<AnnotateCommand> AnnotateCommand::create(
+            const std::shared_ptr<AnnotatePrimitive>& primitive,
+            const std::shared_ptr<Media>& media)
+        {
+            auto out = std::shared_ptr<AnnotateCommand>(new AnnotateCommand);
+            out->_init(primitive, media);
+            return out;
+        }
+
+        std::shared_ptr<Core::IValueSubject<bool> > AnnotateCommand::observeUndo() const
+        {
+            return _p->undo;
+        }
+
+        const std::shared_ptr<AnnotatePrimitive>& AnnotateCommand::getPrimitive() const
+        {
+            return _p->primitive;
+        }
+
+        const std::weak_ptr<Media>& AnnotateCommand::getMedia() const
+        {
+            return _p->media;
+        }
+
+        void AnnotateCommand::exec()
+        {
+            DJV_PRIVATE_PTR();
+            if (auto media = p.media.lock())
+            {
+                media->addAnnotation(p.primitive);
+            }
+        }
+
+        void AnnotateCommand::undo()
+        {
+            DJV_PRIVATE_PTR();
+            if (auto media = p.media.lock())
+            {
+                media->removeAnnotation(p.primitive);
+            }
+            p.undo->setAlways(true);
+        }
+
     } // namespace ViewApp
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(

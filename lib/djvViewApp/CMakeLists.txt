@@ -13,6 +13,7 @@ set(header
     ColorPickerWidget.h
 	ColorSpaceWidget.h
     DebugWidget.h
+    EditSystem.h
     Enum.h
     FileSystem.h
     FileSettings.h
@@ -81,6 +82,7 @@ set(source
     ColorPickerWidget.cpp
 	ColorSpaceWidget.cpp
     DebugWidget.cpp
+    EditSystem.cpp
     Enum.cpp
     FileSettings.cpp
     FileSettingsWidget.cpp

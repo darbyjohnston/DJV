@@ -7,6 +7,8 @@
 #include <djvAV/Color.h>
 
 #include <djvCore/Enum.h>
+#include <djvCore/ICommand.h>
+#include <djvCore/ValueObserver.h>
 
 #include <glm/vec2.hpp>
 
@@ -31,6 +33,8 @@ namespace djv
     
     namespace ViewApp
     {
+        class Media;
+
         enum class AnnotateTool
         {
             Polyline,
@@ -161,6 +165,32 @@ namespace djv
 
             void draw(const std::shared_ptr<AV::Render2D::Render>&) override;
             void addPoint(const glm::vec2&) override;
+
+        private:
+            DJV_PRIVATE();
+        };
+
+        class AnnotateCommand : public Core::ICommand
+        {
+            DJV_NON_COPYABLE(AnnotateCommand);
+
+        protected:
+            void _init(
+                const std::shared_ptr<AnnotatePrimitive>&,
+                const std::shared_ptr<Media>&);
+            AnnotateCommand();
+
+        public:
+            static std::shared_ptr<AnnotateCommand> create(
+                const std::shared_ptr<AnnotatePrimitive>&,
+                const std::shared_ptr<Media>&);
+
+            std::shared_ptr<Core::IValueSubject<bool> > observeUndo() const;
+            const std::shared_ptr<AnnotatePrimitive>& getPrimitive() const;
+            const std::weak_ptr<Media>& getMedia() const;
+
+            void exec() override;
+            void undo() override;
 
         private:
             DJV_PRIVATE();

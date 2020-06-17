@@ -18,6 +18,7 @@ namespace djv
     namespace Core
     {
         class Context;
+        class ICommand;
 
         namespace FileSystem
         {
@@ -154,9 +155,22 @@ namespace djv
             ///@{
             
             std::shared_ptr<Core::IListSubject<std::shared_ptr<AnnotatePrimitive> > > observeAnnotations() const;
-            
+
             void addAnnotation(const std::shared_ptr<AnnotatePrimitive>&);
+            void removeAnnotation(const std::shared_ptr<AnnotatePrimitive>&);
             void clearAnnotations();
+
+            ///@}
+
+            //! \name Undo
+            ///@{
+
+            void pushCommand(const std::shared_ptr<Core::ICommand>&);
+
+            std::shared_ptr<Core::IValueSubject<bool> > observeHasUndo() const;
+            std::shared_ptr<Core::IValueSubject<bool> > observeHasRedo() const;
+            void undo();
+            void redo();
 
             ///@}
 

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
+#include <djvCore/ValueObserver.h>
 
 #include <functional>
 #include <memory>
@@ -29,16 +29,13 @@ namespace djv
 
             static std::shared_ptr<UndoStack> create();
 
-            const std::vector<std::shared_ptr<ICommand> >& getCommands() const;
-            size_t getSize() const;
-            int64_t getCurrentIndex() const;
-
             void push(const std::shared_ptr<ICommand>&);
-            void undo();
-            void redo();
             void clear();
 
-            void setCallback(const std::function<void()>&);
+            std::shared_ptr<Core::IValueSubject<bool> > observeHasUndo() const;
+            std::shared_ptr<Core::IValueSubject<bool> > observeHasRedo() const;
+            void undo();
+            void redo();
 
         protected:
             DJV_PRIVATE();

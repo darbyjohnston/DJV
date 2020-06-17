@@ -7,6 +7,7 @@
 #include <djvViewApp/Annotate.h>
 #include <djvViewApp/AnnotateSettings.h>
 #include <djvViewApp/AnnotateWidget.h>
+#include <djvViewApp/EditSystem.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/ViewWidget.h>
@@ -47,7 +48,7 @@ namespace djv
             glm::vec2 hoverPos = glm::vec2(0.F, 0.F);
             glm::vec2 dragStart = glm::vec2(0.F, 0.F);
             std::shared_ptr<MediaWidget> activeWidget;
-            std::shared_ptr<AnnotatePrimitive> currentPrimitive;
+            std::shared_ptr<AnnotateCommand> currentCommand;
 
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> toolActionGroup;
@@ -60,6 +61,7 @@ namespace djv
             std::shared_ptr<ValueObserver<AnnotateLineSize> > lineSizeObserver;
             std::shared_ptr<ListObserver<AV::Image::Color> > colorsObserver;
             std::shared_ptr<ValueObserver<int> > currentColorObserver;
+            std::shared_ptr<ValueObserver<bool> > undoObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<ValueObserver<glm::vec2> > imagePosObserver;
             std::shared_ptr<ValueObserver<float> > imageZoomObserver;
@@ -134,7 +136,6 @@ namespace djv
 
             _textUpdate();
 
-            auto weak = std::weak_ptr<AnnotateSystem>(std::dynamic_pointer_cast<AnnotateSystem>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
             p.toolActionGroup->setRadioCallback(
                 [contextWeak](int value)
@@ -160,6 +161,7 @@ namespace djv
 
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
             auto annotateSettings = settingsSystem->getSettingsT<AnnotateSettings>();
+            auto weak = std::weak_ptr<AnnotateSystem>(std::dynamic_pointer_cast<AnnotateSystem>(shared_from_this()));
             p.toolObserver = ValueObserver<AnnotateTool>::create(
                 annotateSettings->observeTool(),
                 [weak](AnnotateTool value)
@@ -341,7 +343,7 @@ namespace djv
             return
             {
                 _p->menu,
-                "H"
+                "I"
             };
         }
 
@@ -408,24 +410,45 @@ namespace djv
                     auto uiSystem = context->getSystemT<UI::UISystem>();
                     const auto& style = uiSystem->getStyle();
                     options.lineSize = getAnnotateLineSize(p.lineSize) * style->getScale();
+                    std::shared_ptr<AnnotatePrimitive> primitive;
                     switch (p.tool)
                     {
                     case AnnotateTool::Polyline:
-                        p.currentPrimitive = AnnotatePolyline::create(options, context);
+                        primitive = AnnotatePolyline::create(options, context);
                         break;
                     case AnnotateTool::Line:
-                        p.currentPrimitive = AnnotateLine::create(options, context);
+                        primitive = AnnotateLine::create(options, context);
                         break;
                     case AnnotateTool::Rectangle:
-                        p.currentPrimitive = AnnotateRectangle::create(options, context);
+                        primitive = AnnotateRectangle::create(options, context);
                         break;
                     case AnnotateTool::Ellipse:
-                        p.currentPrimitive = AnnotateEllipse::create(options, context);
+                        primitive = AnnotateEllipse::create(options, context);
                         break;
                     default: break;
                     }
-                    p.currentPrimitive->addPoint(_xformDrag(value));
-                    p.activeWidget->getMedia()->addAnnotation(p.currentPrimitive);
+                    if (primitive)
+                    {
+                        primitive->addPoint(_xformDrag(value));
+                        auto media = p.activeWidget->getMedia();
+                        p.currentCommand = AnnotateCommand::create(primitive, media);
+
+                        auto weak = std::weak_ptr<AnnotateSystem>(std::dynamic_pointer_cast<AnnotateSystem>(shared_from_this()));
+                        p.undoObserver = ValueObserver<bool>::create(
+                            p.currentCommand->observeUndo(),
+                            [weak](bool value)
+                            {
+                                if (value)
+                                {
+                                    if (auto system = weak.lock())
+                                    {
+                                        system->_p->currentCommand.reset();
+                                    }
+                                }
+                            });
+
+                        media->pushCommand(p.currentCommand);
+                    }
                 }
             }
         }
@@ -433,16 +456,17 @@ namespace djv
         void AnnotateSystem::_dragMove(const glm::vec2& value)
         {
             DJV_PRIVATE_PTR();
-            if (p.currentPrimitive)
+            if (auto command = p.currentCommand)
             {
-                p.currentPrimitive->addPoint(_xformDrag(value));
+                auto primitive = command->getPrimitive();
+                primitive->addPoint(_xformDrag(value));
             }
         }
         
         void AnnotateSystem::_dragEnd(const glm::vec2& value)
         {
             DJV_PRIVATE_PTR();
-            p.currentPrimitive.reset();
+            p.currentCommand.reset();
         }
 
     } // namespace ViewApp

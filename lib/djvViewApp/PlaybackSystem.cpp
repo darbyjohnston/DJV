@@ -657,7 +657,7 @@ namespace djv
             return
             {
                 _p->menu,
-                "E"
+                "F"
             };
         }
 
@@ -783,13 +783,16 @@ namespace djv
                         break;
                     case PointerState::Move:
                     {
-                        if (auto context = contextWeak.lock())
+                        if (dragStartFrame != Frame::invalidIndex)
                         {
-                            auto uiSystem = context->getSystemT<UI::UISystem>();
-                            auto style = uiSystem->getStyle();
-                            const Frame::Index offset =
-                                (value.pos.x - dragStart.x) / style->getMetric(UI::MetricsRole::Scrub);
-                            media->setCurrentFrame(dragStartFrame + offset);
+                            if (auto context = contextWeak.lock())
+                            {
+                                auto uiSystem = context->getSystemT<UI::UISystem>();
+                                auto style = uiSystem->getStyle();
+                                const Frame::Index offset =
+                                    (value.pos.x - dragStart.x) / style->getMetric(UI::MetricsRole::Scrub);
+                                media->setCurrentFrame(dragStartFrame + offset);
+                            }
                         }
                         break;
                     }

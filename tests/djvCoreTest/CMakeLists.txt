@@ -29,6 +29,7 @@ set(header
     StringTest.h
     TextSystemTest.h
     TimeTest.h
+    UndoStackTest.h
     ValueObserverTest.h
     VectorTest.h)
 set(source
@@ -62,6 +63,7 @@ set(source
     StringTest.cpp
     TextSystemTest.cpp
     TimeTest.cpp
+    UndoStackTest.cpp
     ValueObserverTest.cpp
     VectorTest.cpp)
 

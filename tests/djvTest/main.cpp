@@ -32,6 +32,7 @@
 #include <djvCoreTest/StringTest.h>
 #include <djvCoreTest/TextSystemTest.h>
 #include <djvCoreTest/TimeTest.h>
+#include <djvCoreTest/UndoStackTest.h>
 #include <djvCoreTest/ValueObserverTest.h>
 #include <djvCoreTest/VectorTest.h>
 
@@ -81,9 +82,9 @@ int main(int argc, char ** argv)
         auto uiSystem = UI::UISystem::create(true, context);
         
         std::vector<std::shared_ptr<Test::ITest> > tests;
-        if (0)
+        if (1)
         {
-            tests.emplace_back(new CoreTest::SpeedTest(context));
+            tests.emplace_back(new CoreTest::UndoStackTest(context));
 #if !defined(DJV_BUILD_TINY)
             //tests.emplace_back(new ViewAppTest::FileSystemTest(context));
 #endif // DJV_BUILD_TINY
@@ -119,6 +120,7 @@ int main(int argc, char ** argv)
             tests.emplace_back(new CoreTest::StringTest(context));
             tests.emplace_back(new CoreTest::TextSystemTest(context));
             tests.emplace_back(new CoreTest::TimeTest(context));
+            tests.emplace_back(new CoreTest::UndoStackTest(context));
             tests.emplace_back(new CoreTest::ValueObserverTest(context));
             tests.emplace_back(new CoreTest::VectorTest(context));
 

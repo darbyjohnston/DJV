@@ -5,6 +5,7 @@
 #include <djvViewApp/Media.h>
 
 #include <djvViewApp/Annotate.h>
+#include <djvViewApp/EditSystem.h>
 
 #include <djvAV/AVSystem.h>
 #include <djvAV/AudioSystem.h>
@@ -14,6 +15,7 @@
 #include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 #include <djvCore/Timer.h>
+#include <djvCore/UndoStack.h>
 
 using namespace djv::Core;
 
@@ -63,6 +65,7 @@ namespace djv
             bool cacheEnabled = false;
             size_t cacheMaxByteCount = 0;
             std::shared_ptr<ListSubject<std::shared_ptr<AnnotatePrimitive> > > annotations;
+            std::shared_ptr<UndoStack> undoStack;
 
             std::shared_ptr<ValueSubject<size_t> > videoQueueMax;
             std::shared_ptr<ValueSubject<size_t> > videoQueueCount;
@@ -118,6 +121,7 @@ namespace djv
             p.cacheSequence = ValueSubject<Frame::Sequence>::create();
             p.cachedFrames = ValueSubject<Frame::Sequence>::create();
             p.annotations = ListSubject<std::shared_ptr<AnnotatePrimitive> >::create();
+            p.undoStack = UndoStack::create();
             
             p.videoQueueMax = ValueSubject<size_t>::create();
             p.audioQueueMax = ValueSubject<size_t>::create();
@@ -377,7 +381,7 @@ namespace djv
             }
             Frame::Index tmp = value;
             const size_t size = range.getMax() - range.getMin() + 1;
-            if (size)
+            if (size > 1)
             {
                 while (tmp > range.getMax())
                 {
@@ -668,15 +672,49 @@ namespace djv
         {
             return _p->annotations;
         }
-        
+
         void Media::addAnnotation(const std::shared_ptr<AnnotatePrimitive>& value)
         {
             _p->annotations->pushBack(value);
+        }
+
+        void Media::removeAnnotation(const std::shared_ptr<AnnotatePrimitive>& value)
+        {
+            const size_t i = _p->annotations->indexOf(value);
+            if (i != invalidListIndex)
+            {
+                _p->annotations->removeItem(i);
+            }
         }
         
         void Media::clearAnnotations()
         {
             _p->annotations->clear();
+        }
+
+        void Media::pushCommand(const std::shared_ptr<Core::ICommand>& value)
+        {
+            _p->undoStack->push(value);
+        }
+
+        std::shared_ptr<Core::IValueSubject<bool> > Media::observeHasUndo() const
+        {
+            return _p->undoStack->observeHasUndo();
+        }
+
+        std::shared_ptr<Core::IValueSubject<bool> > Media::observeHasRedo() const
+        {
+            return _p->undoStack->observeHasRedo();
+        }
+
+        void Media::undo()
+        {
+            _p->undoStack->undo();
+        }
+
+        void Media::redo()
+        {
+            _p->undoStack->redo();
         }
 
         std::shared_ptr<IValueSubject<size_t> > Media::observeVideoQueueMax() const
