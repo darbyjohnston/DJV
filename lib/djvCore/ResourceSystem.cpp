@@ -176,9 +176,7 @@ namespace djv
                 p.paths[ResourcePath::Text]             = Path(etc, "Text");
                 p.paths[ResourcePath::Color]            = Path(etc, "Color");
                 Path docs = Path(p.paths[ResourcePath::Application], "docs");
-                docs = Path(docs, "_site");
-                docs = Path(docs, "documentation.html");
-                p.paths[ResourcePath::Documentation]    = docs;
+                p.paths[ResourcePath::Documentation]    = Path(docs, "documentation.html");
             }
         }
 
