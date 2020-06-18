@@ -881,6 +881,7 @@ namespace djv
             }
             p.glyphGeomFuture = p.fontSystem->measureGlyphs(p.text, fontInfo);
             p.glyphsFuture = p.fontSystem->getGlyphs(p.text, fontInfo);
+            _setUpdateEnabled(true);
         }
 
         void LineEditBase::_cursorUpdate()
