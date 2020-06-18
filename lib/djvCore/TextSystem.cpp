@@ -154,16 +154,22 @@ namespace djv
             {
                 p.locales.push_back(locale);
             }
-            std::stringstream ss;
-            ss.str(std::string());
-            ss << "Found text files: " << String::join(p.locales, ", ");
-            p.logSystem->log(getSystemName(), ss.str());
+            {
+                std::stringstream ss;
+                ss.str(std::string());
+                ss << "Found text files: " << String::join(p.locales, ", ");
+                p.logSystem->log(getSystemName(), ss.str());
+            }
 
             // Get the system locale.
             std::string djvLang = OS::getEnv("DJV_LANG");
             if (djvLang.size())
             {
-                ss << "DJV_LANG: " << djvLang;
+                {
+                    std::stringstream ss;
+                    ss << "DJV_LANG: " << djvLang;
+                    p.logSystem->log(getSystemName(), ss.str());
+                }
                 p.systemLocale = djvLang;
             }
             else
@@ -172,8 +178,11 @@ namespace djv
                 {
                     std::locale locale("");
                     std::string localeName = locale.name();
-                    ss << "std::locale: " << localeName;
-                    p.logSystem->log(getSystemName(), ss.str());
+                    {
+                        std::stringstream ss;
+                        ss << "std::locale: " << localeName;
+                        p.logSystem->log(getSystemName(), ss.str());
+                    }
                     std::string cppLocale = parseLocale(localeName);
                     if (cppLocale.size())
                     {
@@ -202,9 +211,11 @@ namespace djv
                     p.systemLocale = *localeSet.begin();
                 }
             }
-            ss.str(std::string());
-            ss << "System locale: " << p.systemLocale;
-            p.logSystem->log(getSystemName(), ss.str());
+            {
+                std::stringstream ss;
+                ss << "System locale: " << p.systemLocale;
+                p.logSystem->log(getSystemName(), ss.str());
+            }
 
             // Load the text.
             for (const auto& j : p.textFiles)
@@ -430,11 +441,6 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             TextMap out;
-            {
-                std::stringstream ss;
-                ss << "Reading text file: " << textFile.getPath().get();
-                p.logSystem->log(getSystemName(), ss.str());
-            }
             try
             {
                 const auto& path = textFile.getPath();
@@ -482,6 +488,11 @@ namespace djv
                     {
                         out[locale][i.name.GetString()] = i.value.GetString();
                     }
+                }
+                {
+                    std::stringstream ss;
+                    ss << textFile.getPath().get() << "' strings: " << out[locale].size();
+                    p.logSystem->log(getSystemName(), ss.str());
                 }
             }
             catch (const std::exception& e)
