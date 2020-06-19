@@ -30,7 +30,7 @@ namespace djv
         {
             namespace
             {
-                const size_t settingsVersion = 32;
+                const std::string settingsVersion = "33";
 
             } // namespace
 
@@ -137,6 +137,7 @@ namespace djv
 
             void System::_readSettingsFile()
             {
+                std::string readSettingsVersion;
                 try
                 {
                     if (FileSystem::FileInfo(_settingsPath).doesExist())
@@ -174,7 +175,6 @@ namespace djv
                                 arg(character));
                         }
 
-                        size_t readSettingsVersion = 0;
                         for (const auto& i : _document.GetObject())
                         {
                             if (0 == strcmp("SettingsVersion", i.name.GetString()))
@@ -183,10 +183,6 @@ namespace djv
                                 break;
                             }
                         }
-                        if (settingsVersion != readSettingsVersion)
-                        {
-                            _document.Clear();
-                        }
                     }
                 }
                 catch (const std::exception& e)
@@ -194,6 +190,13 @@ namespace djv
                     std::stringstream ss;
                     ss << "Cannot read settings" << " '" << _settingsPath << "': " << e.what();
                     _log(ss.str(), LogLevel::Error);
+                }
+                if (settingsVersion != readSettingsVersion)
+                {
+                    if (_document.IsObject())
+                    {
+                        _document.RemoveAllMembers();
+                    }
                 }
             }
 
