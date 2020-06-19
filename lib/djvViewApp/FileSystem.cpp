@@ -56,7 +56,6 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
-            Core::FileSystem::Path fileBrowserPath = Core::FileSystem::Path(".");
             std::shared_ptr<RecentFilesDialog> recentFilesDialog;
             size_t threadCount = 4;
             std::shared_ptr<Core::FileSystem::RecentFilesModel> recentFilesModel;
@@ -714,7 +713,16 @@ namespace djv
                 p.fileBrowserDialog = UI::FileBrowser::Dialog::create(context);
                 auto io = context->getSystemT<AV::IO::System>();
                 p.fileBrowserDialog->setFileExtensions(io->getFileExtensions());
-                p.fileBrowserDialog->setPath(p.fileBrowserPath);
+                Core::FileSystem::Path path;
+                if (auto media = p.currentMedia->get())
+                {
+                    path = Core::FileSystem::Path(media->getFileInfo().getPath().getDirectoryName());
+                }
+                else
+                {
+                    path = Core::FileSystem::Path(".");
+                }
+                p.fileBrowserDialog->setPath(path);
                 auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
                 p.fileBrowserDialog->setCallback(
                     [weak](const Core::FileSystem::FileInfo& value)
@@ -723,7 +731,6 @@ namespace djv
                         {
                             if (system->_p->fileBrowserDialog)
                             {
-                                system->_p->fileBrowserPath = system->_p->fileBrowserDialog->getPath();
                                 system->_p->fileBrowserDialog->close();
                                 system->_p->fileBrowserDialog.reset();
                                 system->open(value);
@@ -737,7 +744,6 @@ namespace djv
                         {
                             if (system->_p->fileBrowserDialog)
                             {
-                                system->_p->fileBrowserPath = system->_p->fileBrowserDialog->getPath();
                                 system->_p->fileBrowserDialog->close();
                                 system->_p->fileBrowserDialog.reset();
                             }
