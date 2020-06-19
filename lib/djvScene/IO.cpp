@@ -16,6 +16,8 @@
 #include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 
+#include <map>
+
 using namespace djv::Core;
 
 namespace djv

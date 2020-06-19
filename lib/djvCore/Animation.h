@@ -4,11 +4,9 @@
 
 #pragma once
 
-#include <djvCore/Enum.h>
 #include <djvCore/ISystem.h>
 #include <djvCore/Time.h>
 
-#include <chrono>
 #include <functional>
 
 namespace djv

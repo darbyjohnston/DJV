@@ -7,8 +7,6 @@
 #include <djvCore/Path.h>
 #include <djvCore/ISystem.h>
 
-#include <map>
-
 namespace djv
 {
     namespace Core

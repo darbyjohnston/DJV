@@ -6,6 +6,8 @@
 
 #include <djvCore/Range.h>
 
+#include <map>
+
 using namespace djv::Core;
 
 namespace djv

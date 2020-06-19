@@ -3,7 +3,6 @@
 // All rights reserved.
 
 #include <algorithm>
-#include <map>
 
 namespace djv
 {

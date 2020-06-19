@@ -21,6 +21,7 @@
 
 #include <future>
 #include <locale>
+#include <map>
 #include <mutex>
 #include <set>
 

@@ -9,6 +9,7 @@
 #include <djvCore/OS.h>
 
 #include <iostream>
+#include <map>
 
 using namespace djv::Core::FileSystem;
 

@@ -12,6 +12,8 @@
 #include <djvCore/ListObserver.h>
 #include <djvCore/ValueObserver.h>
 
+#include <map>
+
 namespace djv
 {
     namespace AV

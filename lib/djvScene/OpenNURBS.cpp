@@ -24,6 +24,8 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
+#include <map>
+
 using namespace djv::Core;
 
 namespace djv

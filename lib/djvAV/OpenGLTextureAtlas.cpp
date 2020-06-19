@@ -8,6 +8,8 @@
 
 #include <djvCore/BBox.h>
 
+#include <map>
+
 using namespace djv::Core;
 
 namespace djv

@@ -8,6 +8,7 @@
 
 #include <glm/mat4x4.hpp>
 
+#include <map>
 #include <memory>
 
 namespace djv

@@ -11,6 +11,8 @@
 #include <djvCore/BBox.h>
 #include <djvCore/ValueObserver.h>
 
+#include <map>
+
 namespace djv
 {
     namespace ViewApp
