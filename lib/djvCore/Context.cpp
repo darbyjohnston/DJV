@@ -51,15 +51,11 @@ namespace djv
 
             struct TickTimes
             {
-                Time::TimePoint time = std::chrono::steady_clock::now();
                 Time::Duration total = Time::Duration::zero();
                 std::vector<std::pair<std::string, Time::Duration> > times;
 
-                void add(const std::string& name)
+                void add(const std::string& name, const Time::Duration& diff)
                 {
-                    auto end = std::chrono::steady_clock::now();
-                    const auto diff = std::chrono::duration_cast<Time::Duration>(end - time);
-                    time = end;
                     times.push_back(std::make_pair(name, diff));
                     total += diff;
                 }
@@ -164,10 +160,14 @@ namespace djv
             _calcFPS();
 
             TickTimes tickTimes;
+            auto start = std::chrono::steady_clock::now();
             for (const auto& system : _systems)
             {
                 system->tick();
-                tickTimes.add(system->getSystemName());
+                const auto end = std::chrono::steady_clock::now();
+                const auto diff = std::chrono::duration_cast<Time::Duration>(end - start);
+                start = end;
+                tickTimes.add(system->getSystemName(), diff);
             }
             tickTimes.sort();
             //tickTimes.print();

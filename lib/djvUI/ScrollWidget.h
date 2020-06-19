@@ -80,10 +80,6 @@ namespace djv
             bool _eventFilter(const std::shared_ptr<IObject>&, Core::Event::Event&) override;
 
         private:
-            void _updateScrollBars(const glm::vec2&);
-            void _addPointerSample(const glm::vec2&);
-            glm::vec2 _getPointerAverage() const;
-
             DJV_PRIVATE();
         };
 

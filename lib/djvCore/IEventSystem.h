@@ -57,8 +57,8 @@ namespace djv
                 //! \name Clipboard
                 ///@{
 
-                virtual void setClipboard(const std::string&);
                 virtual std::string getClipboard() const;
+                virtual void setClipboard(const std::string&);
 
                 ///@}
 

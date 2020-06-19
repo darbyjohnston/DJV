@@ -30,9 +30,9 @@ namespace djv
                 void setText(const std::string&);
 
                 bool isOpen() const;
-                void setOpen(bool);
-                void open();
-                void close();
+                void setOpen(bool, bool animate = true);
+                void open(bool animate = true);
+                void close(bool animate = true);
                 void setOpenCallback(const std::function<void(bool)>&);
 
                 void addWidget(const std::shared_ptr<IObject>&);

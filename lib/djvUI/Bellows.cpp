@@ -325,69 +325,76 @@ namespace djv
                 return _p->button->isChecked();
             }
 
-            void Bellows::setOpen(bool value)
+            void Bellows::setOpen(bool value, bool animate)
             {
                 DJV_PRIVATE_PTR();
                 if (value == p.open)
                     return;
                 p.open = value;
                 _childrenUpdate();
-                auto weak = std::weak_ptr<Bellows>(std::dynamic_pointer_cast<Bellows>(shared_from_this()));
-                if (p.open)
+                if (animate)
                 {
-                    p.openAnimation->start(
-                        0.F,
-                        1.F,
-                        std::chrono::milliseconds(animationTime),
-                        [weak](float value)
-                        {
-                            if (auto widget = weak.lock())
+                    auto weak = std::weak_ptr<Bellows>(std::dynamic_pointer_cast<Bellows>(shared_from_this()));
+                    if (p.open)
+                    {
+                        p.openAnimation->start(
+                            0.F,
+                            1.F,
+                            std::chrono::milliseconds(animationTime),
+                            [weak](float value)
                             {
-                                widget->_p->childLayout->setOpen(value);
-                            }
-                        },
-                        [weak](float value)
-                        {
-                            if (auto widget = weak.lock())
+                                if (auto widget = weak.lock())
+                                {
+                                    widget->_p->childLayout->setOpen(value);
+                                }
+                            },
+                            [weak](float value)
                             {
-                                widget->_p->childLayout->setOpen(value);
-                            }
-                        });
+                                if (auto widget = weak.lock())
+                                {
+                                    widget->_p->childLayout->setOpen(value);
+                                }
+                            });
+                    }
+                    else
+                    {
+                        p.openAnimation->start(
+                            1.F,
+                            0.F,
+                            std::chrono::milliseconds(animationTime),
+                            [weak](float value)
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    widget->_p->childLayout->setOpen(value);
+                                    widget->_resize();
+                                }
+                            },
+                            [weak](float value)
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    widget->_p->childLayout->setOpen(value);
+                                    widget->_resize();
+                                }
+                            });
+                    }
                 }
                 else
                 {
-                    p.openAnimation->start(
-                        1.F,
-                        0.F,
-                        std::chrono::milliseconds(animationTime),
-                        [weak](float value)
-                        {
-                            if (auto widget = weak.lock())
-                            {
-                                widget->_p->childLayout->setOpen(value);
-                                widget->_resize();
-                            }
-                        },
-                        [weak](float value)
-                        {
-                            if (auto widget = weak.lock())
-                            {
-                                widget->_p->childLayout->setOpen(value);
-                                widget->_resize();
-                            }
-                        });
+                    p.childLayout->setOpen(value ? 1.F : 0.F);
                 }
                 _resize();
             }
 
-            void Bellows::open()
+            void Bellows::open(bool animate)
             {
-                setOpen(true);
+                setOpen(true, animate);
             }
 
-            void Bellows::close()
+            void Bellows::close(bool animate)
             {
-                setOpen(false);
+                setOpen(false, animate);
             }
 
             void Bellows::setOpenCallback(const std::function<void(bool)>& callback)

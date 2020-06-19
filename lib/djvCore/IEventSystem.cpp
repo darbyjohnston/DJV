@@ -178,14 +178,14 @@ namespace djv
                 p.textFocusActive->setIfChanged(textFocus != nullptr);
             }
 
-            void IEventSystem::setClipboard(const std::string&)
-            {
-                // Default implementation does nothing.
-            }
-
             std::string IEventSystem::getClipboard() const
             {
                 return std::string();
+            }
+
+            void IEventSystem::setClipboard(const std::string&)
+            {
+                // Default implementation does nothing.
             }
 
             void IEventSystem::tick()

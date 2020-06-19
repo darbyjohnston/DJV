@@ -34,8 +34,8 @@ namespace djv
 
             static std::shared_ptr<EventSystem> create(GLFWwindow *, const std::shared_ptr<Core::Context>&);
 
-            void setClipboard(const std::string&) override;
             std::string getClipboard() const override;
+            void setClipboard(const std::string&) override;
 
             void tick() override;
 

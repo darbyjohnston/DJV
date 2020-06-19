@@ -36,11 +36,11 @@ namespace djv
                 p.drivesSubject = ListSubject<Path>::create();
 
                 p.running = true;
-                const auto timeout = Time::getTime(Time::TimerValue::Medium);
                 p.thread = std::thread(
-                    [this, timeout]
+                    [this]
                 {
                     DJV_PRIVATE_PTR();
+                    const Time::Duration timeout = Time::getTime(Time::TimerValue::Medium);
                     while (p.running)
                     {
                         const std::vector<Path> drives = _getDrives();
@@ -55,7 +55,7 @@ namespace djv
                 p.timer = Time::Timer::create(context);
                 p.timer->setRepeating(true);
                 p.timer->start(
-                    timeout,
+                    Time::getTime(Time::TimerValue::Medium),
                     [this](const std::chrono::steady_clock::time_point&, const Time::Duration&)
                 {
                     DJV_PRIVATE_PTR();

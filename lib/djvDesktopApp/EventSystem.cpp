@@ -157,23 +157,23 @@ namespace djv
             return out;
         }
 
-        void EventSystem::setClipboard(const std::string& value)
-        {
-            DJV_PRIVATE_PTR();
-            glfwSetClipboardString(p.glfwWindow, value.c_str());
-        }
-
         std::string EventSystem::getClipboard() const
         {
             DJV_PRIVATE_PTR();
             return glfwGetClipboardString(p.glfwWindow);
         }
 
+        void EventSystem::setClipboard(const std::string& value)
+        {
+            DJV_PRIVATE_PTR();
+            glfwSetClipboardString(p.glfwWindow, value.c_str());
+        }
+
         void EventSystem::tick()
         {
             UI::EventSystem::tick();
-
             DJV_PRIVATE_PTR();
+
             if (p.resizeRequest)
             {
                 const AV::Image::Size size(p.resize.x, p.resize.y);
@@ -252,10 +252,11 @@ namespace djv
                         }
                     }
                     p.render->endFrame();
+
+                    glBindFramebuffer(GL_FRAMEBUFFER, 0);
                 }
             }
 
-            glBindFramebuffer(GL_FRAMEBUFFER, 0);
             _redraw();
         }
 
@@ -316,8 +317,6 @@ namespace djv
                     0,
                     GLsizei(size.w),
                     GLsizei(size.h));
-                glClearColor(0.F, 0.F, 0.F, 0.F);
-                glClear(GL_COLOR_BUFFER_BIT);
 #if defined(DJV_OPENGL_ES2)
                 p.shader->bind();
                 const auto viewMatrix = glm::ortho(

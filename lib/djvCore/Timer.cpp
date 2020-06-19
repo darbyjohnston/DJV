@@ -127,7 +127,10 @@ namespace djv
                 {
                     if (auto timer = i->lock())
                     {
-                        timer->_tick();
+                        if (timer->isActive())
+                        {
+                            timer->_tick();
+                        }
                         ++i;
                     }
                     else

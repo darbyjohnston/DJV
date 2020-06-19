@@ -7,8 +7,6 @@
 #include <djvCore/ISystem.h>
 #include <djvCore/ValueObserver.h>
 
-#include <map>
-
 namespace djv
 {
     namespace Core
@@ -70,12 +68,6 @@ namespace djv
             ///@}
 
         private:
-            std::vector<FileSystem::FileInfo> _getTextFiles() const;
-            void _reload(const FileSystem::FileInfo&);
-            typedef std::map<std::string, std::map<std::string, std::string> > TextMap;
-            TextMap _readText(const FileSystem::FileInfo&);
-            void _readAllFutures();
-
             DJV_PRIVATE();
         };
 

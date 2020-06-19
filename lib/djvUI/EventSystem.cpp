@@ -23,6 +23,7 @@ namespace djv
     {
         struct EventSystem::Private
         {
+            std::shared_ptr<UI::UISystem> uiSystem;
             std::vector<std::weak_ptr<Window> > windows;
             bool textLCDRenderingDirty = false;
             std::shared_ptr<ValueObserver<bool> > textLCDRenderingObserver;
@@ -53,7 +54,8 @@ namespace djv
             IEventSystem::_init(name, context);
 
             DJV_PRIVATE_PTR();
-            addDependency(context->getSystemT<UI::UISystem>());
+            p.uiSystem = context->getSystemT<UI::UISystem>();
+            addDependency(p.uiSystem);
 
             auto avSystem = context->getSystemT<AV::AVSystem>();
             auto weak = std::weak_ptr<EventSystem>(std::dynamic_pointer_cast<EventSystem>(shared_from_this()));
@@ -104,8 +106,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                auto uiSystem = context->getSystemT<UISystem>();
-                auto style = uiSystem->getStyle();
+                const auto& style = p.uiSystem->getStyle();
                 bool redraw = style->isPaletteDirty();
                 bool resize = style->isSizeDirty();
                 bool font = p.textLCDRenderingDirty || style->isFontDirty();

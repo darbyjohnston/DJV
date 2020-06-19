@@ -78,7 +78,7 @@ namespace djv
                 _duration    = duration;
                 _callback    = callback;
                 _endCallback = endCallback;
-                _start       = _time;
+                _start       = std::chrono::steady_clock::now();
             }
 
             void Animation::stop()
@@ -90,38 +90,36 @@ namespace djv
             {
                 const auto now = std::chrono::steady_clock::now();
                 _time = now;
-                if (_active)
+
+                const auto diff = std::chrono::duration<float>(_time - _start);
+                const float t = Math::clamp(diff.count() / std::chrono::duration<float>(_duration).count(), 0.F, 1.F);
+
+                float v = 0.F;
+                if (_begin < _end)
                 {
-                    const auto diff = std::chrono::duration<float>(_time - _start);
-                    const float t = Math::clamp(diff.count() / std::chrono::duration<float>(_duration).count(), 0.F, 1.F);
+                    v = Math::lerp(_function(t), _begin, _end);
+                }
+                else
+                {
+                    v = Math::lerp(_function(1.F - t), _end, _begin);
+                }
+                _callback(v);
 
-                    float v = 0.F;
-                    if (_begin < _end)
+                if (_time > (_start + _duration))
+                {
+                    if (_callback)
                     {
-                        v = Math::lerp(_function(t), _begin, _end);
-                    }
-                    else
-                    {
-                        v = Math::lerp(_function(1.F - t), _end, _begin);
-                    }
-                    _callback(v);
-
-                    if (_time > (_start + _duration))
-                    {
-                        if (_callback)
+                        if (_endCallback)
                         {
-                            if (_endCallback)
-                            {
-                                _endCallback(_end);
-                            }
-                            _active = false;
+                            _endCallback(_end);
                         }
+                        _active = false;
+                    }
 
-                        if (_repeating)
-                        {
-                            _active = true;
-                            _start = now;
-                        }
+                    if (_repeating)
+                    {
+                        _active = true;
+                        _start = now;
                     }
                 }
             }
@@ -159,7 +157,10 @@ namespace djv
                 {
                     if (auto animation = i->lock())
                     {
-                        animation->_tick();
+                        if (animation->isActive())
+                        {
+                            animation->_tick();
+                        }
                         ++i;
                     }
                     else

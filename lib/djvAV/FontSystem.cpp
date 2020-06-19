@@ -274,13 +274,14 @@ namespace djv
                     DJV_PRIVATE_PTR();
                     _initFreeType();
                     bool lcdRenderingChanged = false;
+                    const Time::Duration threadTimerDuration = Time::getTime(Time::TimerValue::Fast);
                     while (p.running)
                     {
                         {
                             std::unique_lock<std::mutex> lock(p.requestMutex);
                             p.requestCV.wait_for(
                                 lock,
-                                Time::getTime(Time::TimerValue::Fast),
+                                threadTimerDuration,
                                 [this]
                             {
                                 DJV_PRIVATE_PTR();

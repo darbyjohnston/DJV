@@ -45,14 +45,14 @@ namespace djv
             void DirectoryWatcher::_init(const std::shared_ptr<Context>& context)
             {
                 DJV_PRIVATE_PTR();
-                const auto timeout = Time::getTime(Time::TimerValue::Medium);
                 auto contextWeak = std::weak_ptr<Context>(context);
                 _p->thread = std::thread(
-                    [this, timeout, contextWeak]
+                    [this, contextWeak]
                 {
                     DJV_PRIVATE_PTR();
                     Path path;
                     HANDLE changeHandle = INVALID_HANDLE_VALUE;
+                    const Time::Duration timeout = Time::getTime(Time::TimerValue::Medium);
                     while (p.running)
                     {
                         bool pathChanged = false;
@@ -137,7 +137,7 @@ namespace djv
                 p.timer = Time::Timer::create(context);
                 p.timer->setRepeating(true);
                 p.timer->start(
-                    timeout,
+                    Time::getTime(Time::TimerValue::Medium),
                     [this](const std::chrono::steady_clock::time_point&, const Time::Duration&)
                 {
                     DJV_PRIVATE_PTR();

@@ -30,11 +30,14 @@ namespace djv
     namespace Desktop
     {
         struct Application::Private
-        {};
+        {
+            std::shared_ptr<EventSystem> eventSystem;
+        };
 
         void Application::_init(std::list<std::string>& args)
         {
             CmdLine::Application::_init(args);
+            DJV_PRIVATE_PTR();
 
             // Parse the command line.
             bool resetSettings = false;
@@ -57,7 +60,7 @@ namespace djv
             auto uiSystem = UI::UISystem::create(resetSettings, shared_from_this());
             auto avGLFWSystem = getSystemT<AV::GLFW::System>();
             auto glfwWindow = avGLFWSystem->getGLFWWindow();
-            auto eventSystem = EventSystem::create(glfwWindow, shared_from_this());
+            p.eventSystem = EventSystem::create(glfwWindow, shared_from_this());
         }
         
         Application::Application() :
@@ -76,6 +79,7 @@ namespace djv
 
         void Application::run()
         {
+            DJV_PRIVATE_PTR();
             auto avGLFWSystem = getSystemT<AV::GLFW::System>();
             if (auto glfwWindow = avGLFWSystem->getGLFWWindow())
             {

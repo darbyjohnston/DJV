@@ -105,7 +105,7 @@ namespace djv
 
                         const std::string group = i.second[0]->getSettingsGroup();
                         const auto k = settingsBellows.find(group);
-                        bellows->setOpen(k != settingsBellows.end() ? k->second : false);
+                        bellows->setOpen(k != settingsBellows.end() ? k->second : false, false);
 
                         bellows->setOpenCallback(
                             [group, contextWeak](bool value)

@@ -38,13 +38,6 @@ namespace djv
     {
         namespace Render2D
         {
-            namespace
-            {
-                //! This variable provides color space conversion ids.
-                size_t colorSpaceID = 1;
-            
-            } // namespace
-
             struct Render::Private
             {
                 Render* system = nullptr;
@@ -62,6 +55,7 @@ namespace djv
                 std::map<UID, std::shared_ptr<OpenGL::Texture> >    dynamicTextureCache;
 #if !defined(DJV_OPENGL_ES2)
                 std::map<OCIO::Convert, ColorSpaceData>             colorSpaceCache;
+                size_t                                              colorSpaceID        = 1;
 #endif // DJV_OPENGL_ES2
                 std::vector<uint8_t>                                vboData;
                 size_t                                              vboDataSize         = 0;

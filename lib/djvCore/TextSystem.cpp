@@ -5,6 +5,7 @@
 #include <djvCore/TextSystem.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/DirectoryWatcher.h>
 #include <djvCore/FileInfo.h>
 #include <djvCore/FileIO.h>
 #include <djvCore/FileSystem.h>
@@ -31,6 +32,12 @@ namespace djv
     {
         struct TextSystem::Private
         {
+            Private(TextSystem& p) :
+                p(p)
+            {}
+
+            TextSystem& p;
+
             std::shared_ptr<ResourceSystem> resourceSystem;
             std::shared_ptr<LogSystem> logSystem;
 
@@ -40,13 +47,24 @@ namespace djv
             std::string systemLocale;
             std::shared_ptr<ValueSubject<std::string> > currentLocale;
 
+            typedef std::map<std::string, std::map<std::string, std::string> > TextMap;
             TextMap text;
             std::shared_ptr<ValueSubject<bool> > textChanged;
 
             mutable std::mutex mutex;
             std::vector<std::future<TextMap> > readFutures;
-            std::future<std::vector<FileSystem::FileInfo> > statFuture;
             std::shared_ptr<Time::Timer> timer;
+            std::shared_ptr<FileSystem::DirectoryWatcher> directoryWatcher;
+
+            std::vector<FileSystem::FileInfo> getTextFiles() const;
+
+            void reload(const FileSystem::FileInfo&);
+
+            TextMap readText(const FileSystem::FileInfo&);
+            void readAllFutures();
+
+            void startTimer();
+            void stopTimer();
         };
 
         namespace
@@ -115,6 +133,7 @@ namespace djv
 #endif // DJV_PLATFORM_WINDOWS
                 return out;
             }
+
         } // namespace
 
         void TextSystem::_init(const std::shared_ptr<Context>& context)
@@ -134,7 +153,7 @@ namespace djv
             p.textChanged = ValueSubject<bool>::create();
 
             // Find the .text files.
-            p.textFiles = _getTextFiles();
+            p.textFiles = p.getTextFiles();
 
             // Extract the locale names.
             std::set<std::string> localeSet;
@@ -176,14 +195,14 @@ namespace djv
             {
                 try
                 {
-                    std::locale locale("");
-                    std::string localeName = locale.name();
+                    const std::locale locale("");
+                    const std::string localeName = locale.name();
                     {
                         std::stringstream ss;
                         ss << "std::locale: " << localeName;
                         p.logSystem->log(getSystemName(), ss.str());
                     }
-                    std::string cppLocale = parseLocale(localeName);
+                    const std::string cppLocale = parseLocale(localeName);
                     if (cppLocale.size())
                     {
                         p.systemLocale = cppLocale;
@@ -220,90 +239,29 @@ namespace djv
             // Load the text.
             for (const auto& j : p.textFiles)
             {
-                _reload(j);
+                p.reload(j);
             }
 
+            // Start a directory watcher to check for changes to the text files.
+            p.directoryWatcher = FileSystem::DirectoryWatcher::create(context);
+            p.directoryWatcher->setPath(p.resourceSystem->getPath(FileSystem::ResourcePath::Text));
+            p.directoryWatcher->setCallback(
+                [this]
+                {
+                    for (const auto& j : _p->textFiles)
+                    {
+                        _p->reload(j);
+                    }
+                    _p->startTimer();
+                });
+            
+            // Create a timer to wait for text files to be read.
             p.timer = Time::Timer::create(context);
             p.timer->setRepeating(true);
-            auto weak = std::weak_ptr<TextSystem>(std::dynamic_pointer_cast<TextSystem>(shared_from_this()));
-            p.timer->start(
-                Time::getTime(Time::TimerValue::Slow),
-                [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        bool textChanged = false;
-                        auto j = system->_p->readFutures.begin();
-                        while (j != system->_p->readFutures.end())
-                        {
-                            if (j->valid() &&
-                                j->wait_for(std::chrono::seconds(0)) == std::future_status::ready)
-                            {
-                                for (const auto& k : j->get())
-                                {
-                                    std::unique_lock<std::mutex> lock(system->_p->mutex);
-                                    for (const auto& l : k.second)
-                                    {
-                                        system->_p->text[k.first][l.first] = l.second;
-                                        textChanged = true;
-                                    }
-                                }
-                                j = system->_p->readFutures.erase(j);
-                            }
-                            else
-                            {
-                                ++j;
-                            }
-                        }
-                        if (textChanged)
-                        {
-                            system->_p->textChanged->setAlways(true);
-                        }
-
-                        bool stat = false;
-                        if (system->_p->statFuture.valid())
-                        {
-                            if (system->_p->statFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
-                            {
-                                auto textFiles = system->_p->statFuture.get();
-                                for (auto k = system->_p->textFiles.begin(), l = textFiles.begin();
-                                    k != system->_p->textFiles.end() && l != textFiles.end();
-                                    ++k, ++l)
-                                {
-                                    if (l->getTime() > k->getTime())
-                                    {
-                                        system->_reload(*l);
-                                        *k = *l;
-                                    }
-                                }
-                                stat = true;
-                            }
-                        }
-                        else
-                        {
-                            stat = true;
-                        }
-                        if (stat)
-                        {
-                            auto textFiles = system->_p->textFiles;
-                            system->_p->statFuture = std::async(
-                                std::launch::async,
-                                [textFiles]
-                                {
-                                    std::vector<FileSystem::FileInfo> out;
-                                    for (const auto& textFile : textFiles)
-                                    {
-                                        out.push_back(FileSystem::FileInfo(textFile.getPath()));
-                                    }
-                                    return out;
-                                });
-                        }
-                    }
-                });
         }
 
         TextSystem::TextSystem() :
-            _p(new Private)
+            _p(new Private(*this))
         {}
 
         TextSystem::~TextSystem()
@@ -343,7 +301,7 @@ namespace djv
         const std::string& TextSystem::getText(const std::string& id)
         {
             DJV_PRIVATE_PTR();
-            _readAllFutures();
+            p.readAllFutures();
             {
                 std::unique_lock<std::mutex> lock(p.mutex);
                 const auto i = p.text.find(p.currentLocale->get());
@@ -362,7 +320,7 @@ namespace djv
         const std::string& TextSystem::getID(const std::string& text)
         {
             DJV_PRIVATE_PTR();
-            _readAllFutures();
+            p.readAllFutures();
             {
                 std::unique_lock<std::mutex> lock(p.mutex);
                 const auto i = p.text.find(p.currentLocale->get());
@@ -385,17 +343,16 @@ namespace djv
             return _p->textChanged;
         }
 
-        std::vector<FileSystem::FileInfo> TextSystem::_getTextFiles() const
+        std::vector<FileSystem::FileInfo> TextSystem::Private::getTextFiles() const
         {
-            DJV_PRIVATE_PTR();
             std::vector<FileSystem::FileInfo> out;
             FileSystem::DirectoryListOptions options;
             options.filter = "\\.text$";
 
-            const auto textPath = p.resourceSystem->getPath(FileSystem::ResourcePath::Text);
+            const auto textPath = resourceSystem->getPath(FileSystem::ResourcePath::Text);
             out = FileSystem::FileInfo::directoryList(textPath, options);
             
-            const auto documentsPath = p.resourceSystem->getPath(FileSystem::ResourcePath::Documents);
+            const auto documentsPath = resourceSystem->getPath(FileSystem::ResourcePath::Documents);
             auto list = FileSystem::FileInfo::directoryList(documentsPath, options);
             out.insert(out.end(), list.begin(), list.end());
 
@@ -410,8 +367,8 @@ namespace djv
             }
             catch (const std::exception& e)
             {
-                p.logSystem->log(
-                    getSystemName(),
+                logSystem->log(
+                    p.getSystemName(),
                     String::Format("{0}: {1}").arg("DJV_TEXT_PATH").arg(e.what()),
                     LogLevel::Error);
             }
@@ -419,27 +376,19 @@ namespace djv
             return out;
         }
         
-        void TextSystem::_reload(const FileSystem::FileInfo& value)
+        void TextSystem::Private::reload(const FileSystem::FileInfo& value)
         {
-            DJV_PRIVATE_PTR();
-            auto weak = std::weak_ptr<TextSystem>(std::dynamic_pointer_cast<TextSystem>(shared_from_this()));
             auto fileInfo = value;
-            p.readFutures.push_back(std::async(
+            readFutures.push_back(std::async(
                 std::launch::async,
-                [weak, fileInfo]
+                [this, fileInfo]
                 {
-                    TextMap out;
-                    if (auto system = weak.lock())
-                    {
-                        out = system->_readText(fileInfo);
-                    }
-                    return out;
+                    return readText(fileInfo);
                 }));
         }
 
-        TextSystem::TextMap TextSystem::_readText(const FileSystem::FileInfo& textFile)
+        TextSystem::Private::TextMap TextSystem::Private::readText(const FileSystem::FileInfo& textFile)
         {
-            DJV_PRIVATE_PTR();
             TextMap out;
             try
             {
@@ -492,46 +441,82 @@ namespace djv
                 {
                     std::stringstream ss;
                     ss << textFile.getPath().get() << "' strings: " << out[locale].size();
-                    p.logSystem->log(getSystemName(), ss.str());
+                    logSystem->log(p.getSystemName(), ss.str());
                 }
             }
             catch (const std::exception& e)
             {
-                p.logSystem->log(getSystemName(), e.what(), LogLevel::Error);
+                logSystem->log(p.getSystemName(), e.what(), LogLevel::Error);
             }
             return out;
         }
         
-        void TextSystem::_readAllFutures()
+        void TextSystem::Private::readAllFutures()
         {
-            DJV_PRIVATE_PTR();
+            timer->stop();
             bool textChanged = false;
-            auto j = p.readFutures.begin();
-            while (j != p.readFutures.end())
+            for (auto& j : readFutures)
             {
-                if (j->valid() &&
-                    j->wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                for (const auto& k : j.get())
                 {
-                    for (const auto& k : j->get())
+                    std::unique_lock<std::mutex> lock(mutex);
+                    for (const auto& l : k.second)
                     {
-                        std::unique_lock<std::mutex> lock(p.mutex);
-                        for (const auto& l : k.second)
-                        {
-                            p.text[k.first][l.first] = l.second;
-                            textChanged = true;
-                        }
+                        text[k.first][l.first] = l.second;
+                        textChanged = true;
                     }
-                    j = p.readFutures.erase(j);
-                }
-                else
-                {
-                    ++j;
                 }
             }
+            readFutures.clear();
             if (textChanged)
             {
-                p.textChanged->setAlways(true);
+                this->textChanged->setAlways(true);
             }
+        }
+
+        void TextSystem::Private::startTimer()
+        {
+            timer->start(
+                Time::getTime(Time::TimerValue::Slow),
+                [this](const std::chrono::steady_clock::time_point&, const Time::Duration&)
+                {
+                    bool textChanged = false;
+                    auto j = readFutures.begin();
+                    while (j != readFutures.end())
+                    {
+                        if (j->valid() &&
+                            j->wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                        {
+                            for (const auto& k : j->get())
+                            {
+                                std::unique_lock<std::mutex> lock(mutex);
+                                for (const auto& l : k.second)
+                                {
+                                    text[k.first][l.first] = l.second;
+                                    textChanged = true;
+                                }
+                            }
+                            j = readFutures.erase(j);
+                        }
+                        else
+                        {
+                            ++j;
+                        }
+                    }
+                    if (readFutures.empty())
+                    {
+                        stopTimer();
+                    }
+                    if (textChanged)
+                    {
+                        this->textChanged->setAlways(true);
+                    }
+                });
+        }
+
+        void TextSystem::Private::stopTimer()
+        {
+            timer->stop();
         }
 
     } // namespace Core
