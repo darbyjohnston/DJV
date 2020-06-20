@@ -82,9 +82,9 @@ int main(int argc, char ** argv)
         auto uiSystem = UI::UISystem::create(true, context);
         
         std::vector<std::shared_ptr<Test::ITest> > tests;
-        if (1)
+        if (0)
         {
-            tests.emplace_back(new CoreTest::UndoStackTest(context));
+            tests.emplace_back(new CoreTest::FileInfoTest(context));
 #if !defined(DJV_BUILD_TINY)
             //tests.emplace_back(new ViewAppTest::FileSystemTest(context));
 #endif // DJV_BUILD_TINY
