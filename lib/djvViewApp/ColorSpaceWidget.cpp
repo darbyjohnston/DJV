@@ -346,7 +346,7 @@ namespace djv
 
             for (const auto& i : p.bellows)
             {
-                i.second->close();
+                i.second->close(false);
             }
 
             auto vLayout = UI::VerticalLayout::create(context);
@@ -616,7 +616,7 @@ namespace djv
                 const auto j = p.bellows.find(i.first);
                 if (j != p.bellows.end())
                 {
-                    j->second->setOpen(i.second);
+                    j->second->setOpen(i.second, false);
                 }
             }
         }

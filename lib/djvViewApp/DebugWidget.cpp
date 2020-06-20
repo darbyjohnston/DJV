@@ -830,7 +830,7 @@ namespace djv
                 const auto j = p.bellows.find(i.first);
                 if (j != p.bellows.end())
                 {
-                    j->second->setOpen(i.second);
+                    j->second->setOpen(i.second, false);
                 }
             }
         }
