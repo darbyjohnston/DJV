@@ -60,7 +60,7 @@ namespace djv
                 _active   = true;
                 _timeout  = value;
                 _callback = callback;
-                _start    = _time;
+                _start    = std::chrono::steady_clock::now();
             }
 
             void Timer::stop()
@@ -71,23 +71,20 @@ namespace djv
             void Timer::_tick()
             {
                 _time = std::chrono::steady_clock::now();
-                if (_active)
+                if (_time >= (_start + _timeout))
                 {
-                    if (_time >= (_start + _timeout))
+                    if (_callback)
                     {
-                        if (_callback)
-                        {
-                            const auto v = std::chrono::duration_cast<Duration>(_time - _start);
-                            _callback(_time, v);
-                        }
-                        if (_repeating)
-                        {
-                            _start = _time;
-                        }
-                        else
-                        {
-                            _active = false;
-                        }
+                        const auto v = std::chrono::duration_cast<Duration>(_time - _start);
+                        _callback(_time, v);
+                    }
+                    if (_repeating)
+                    {
+                        _start = _time;
+                    }
+                    else
+                    {
+                        _active = false;
                     }
                 }
             }

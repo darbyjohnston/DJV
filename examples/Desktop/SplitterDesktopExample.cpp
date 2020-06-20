@@ -30,7 +30,7 @@ int main(int argc, char ** argv)
         for (size_t i = 0; i < 3; ++i)
         {
             auto textBlock = UI::TextBlock::create(app);
-            textBlock->setText(Core::String::getRandomText(20));
+            textBlock->setText(Core::String::getRandomText(50));
             textBlock->setFontSizeRole(UI::MetricsRole::FontLarge);
             textBlock->setMargin(UI::MetricsRole::Margin);
 
