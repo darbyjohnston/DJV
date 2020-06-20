@@ -127,6 +127,7 @@ namespace djv
             struct System::Private
             {
                 std::vector<std::weak_ptr<Animation> > animations;
+                std::vector<std::weak_ptr<Animation> > newAnimations;
             };
 
             void System::_init(const std::shared_ptr<Context>& context)
@@ -152,6 +153,8 @@ namespace djv
             void System::tick()
             {
                 DJV_PRIVATE_PTR();
+                p.animations.insert(p.animations.end(), p.newAnimations.begin(), p.newAnimations.end());
+                p.newAnimations.clear();
                 auto i = p.animations.begin();
                 while (i != p.animations.end())
                 {
@@ -172,7 +175,7 @@ namespace djv
 
             void System::_addAnimation(const std::weak_ptr<Animation>& value)
             {
-                _p->animations.push_back(value);
+                _p->newAnimations.push_back(value);
             }
 
         } // namespace Animation
