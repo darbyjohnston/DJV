@@ -6,6 +6,8 @@
 
 #include <djvCore/Speed.h>
 
+#include <algorithm>
+
 using namespace djv::Core;
 
 namespace djv
