@@ -56,6 +56,7 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
+            Core::FileSystem::Path fileBrowserPath = Core::FileSystem::Path(".");
             std::shared_ptr<RecentFilesDialog> recentFilesDialog;
             size_t threadCount = 4;
             std::shared_ptr<Core::FileSystem::RecentFilesModel> recentFilesModel;
@@ -720,7 +721,7 @@ namespace djv
                 }
                 else
                 {
-                    path = Core::FileSystem::Path(".");
+                    path = p.fileBrowserPath;
                 }
                 p.fileBrowserDialog->setPath(path);
                 auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
@@ -731,6 +732,7 @@ namespace djv
                         {
                             if (system->_p->fileBrowserDialog)
                             {
+                                system->_p->fileBrowserPath = system->_p->fileBrowserDialog->getPath();
                                 system->_p->fileBrowserDialog->close();
                                 system->_p->fileBrowserDialog.reset();
                                 system->open(value);
@@ -744,6 +746,7 @@ namespace djv
                         {
                             if (system->_p->fileBrowserDialog)
                             {
+                                system->_p->fileBrowserPath = system->_p->fileBrowserDialog->getPath();
                                 system->_p->fileBrowserDialog->close();
                                 system->_p->fileBrowserDialog.reset();
                             }
@@ -758,9 +761,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                if (p.fileBrowserDialog)
+                if (p.recentFilesDialog)
                 {
-                    p.fileBrowserDialog->close();
+                    p.recentFilesDialog->close();
                 }
                 p.recentFilesDialog = RecentFilesDialog::create(context);
                 auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
