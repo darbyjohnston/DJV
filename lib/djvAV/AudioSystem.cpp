@@ -98,7 +98,7 @@ namespace djv
                             p.devices.push_back(device);
                             {
                                 std::stringstream ss;
-                                ss << "Device: " << device.name;
+                                ss << "Device " << i << ": " << device.name;
                                 _log(ss.str());
                             }
                             {
@@ -139,12 +139,12 @@ namespace djv
                     }
                     {
                         std::stringstream ss;
-                        ss << "    Default input device: " << p.rtAudio->getDefaultInputDevice();
+                        ss << "Default input device: " << getDefaultInputDevice();
                         _log(ss.str());
                     }
                     {
                         std::stringstream ss;
-                        ss << "    Default output device: " << p.rtAudio->getDefaultOutputDevice();
+                        ss << "Default output device: " << getDefaultOutputDevice();
                         _log(ss.str());
                     }
                 }

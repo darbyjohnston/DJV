@@ -1,7 +1,7 @@
 include(ExternalProject)
 
-# Tag: 5.1.0
-set(RtAudio_GIT_TAG d27f257b4bc827e4152cdc4d69a2e22084204afd)
+# Tag: 2020/06/07
+set(RtAudio_GIT_TAG d7f12763c55795ef8a71a9b589b39e7be01db7b2)
 
 set(RtAudio_ARGS
     -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
