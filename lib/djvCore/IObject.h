@@ -144,7 +144,7 @@ namespace djv
             //! \name Convenience Functions
             ///@{
 
-            std::string _getText(const std::string& id) const;
+            const std::string& _getText(const std::string& id) const;
 
             void _log(const std::string& message, Core::LogLevel = Core::LogLevel::Information);
 

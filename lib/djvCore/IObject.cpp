@@ -256,7 +256,7 @@ namespace djv
             // Default implementation does nothing.
         }
 
-        std::string IObject::_getText(const std::string& id) const
+        const std::string& IObject::_getText(const std::string& id) const
         {
             return _textSystem->getText(id);
         }
