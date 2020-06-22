@@ -7,6 +7,8 @@
 #include <djvCore/FileIO.h>
 #include <djvCore/FileInfo.h>
 
+#include <iomanip>
+
 using namespace djv::Core;
 
 namespace djv
@@ -194,6 +196,13 @@ namespace djv
             {
                 FileSystem::FileInfo fileInfo("render.1.exr");
                 DJV_ASSERT(!fileInfo.isCompatible(FileSystem::FileInfo("snapshot.1.exr")));
+            }
+
+            {
+                FileSystem::FileInfo fileInfo("frame#.png");
+                fileInfo.setSequence(Frame::Sequence(10));
+                fileInfo.addToSequence(FileSystem::FileInfo("frame09.png"));
+                DJV_ASSERT(2 == fileInfo.getSequence().getPad());
             }
         }
 

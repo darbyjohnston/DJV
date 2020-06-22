@@ -106,9 +106,9 @@ namespace djv
                         ss << _sequence;
                         _path.setNumber(ss.str());
                     }
-                    if (value._sequence.getPad() > _sequence.getPad())
+                    if (sequence.getPad() > _sequence.getPad())
                     {
-                        _sequence.setPad(value._sequence.getPad());
+                        _sequence.setPad(sequence.getPad());
                     }
                     _size += value._size;
                     if (value._user > _user)
