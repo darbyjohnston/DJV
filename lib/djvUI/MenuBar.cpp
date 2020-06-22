@@ -38,10 +38,11 @@ namespace djv
 
         void MenuBar::_init(const std::shared_ptr<Context>& context)
         {
-            Widget::_init(context);
-            
+            Widget::_init(context);            
             DJV_PRIVATE_PTR();
+            
             setClassName("djv::UI::MenuBar");
+            _setUpdateEnabled(false);
 
             p.menuLayout = HorizontalLayout::create(context);
             p.menuLayout->setSpacing(MetricsRole::None);

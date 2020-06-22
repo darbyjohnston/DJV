@@ -34,10 +34,11 @@ namespace djv
         void ToolBar::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
-
             DJV_PRIVATE_PTR();
+            
             setClassName("djv::UI::ToolBar");
             setBackgroundRole(ColorRole::BackgroundToolBar);
+            _setUpdateEnabled(false);
 
             p.layout = HorizontalLayout::create(context);
             p.layout->setSpacing(MetricsRole::None);

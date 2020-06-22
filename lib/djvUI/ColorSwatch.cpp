@@ -33,6 +33,7 @@ namespace djv
             setClassName("djv::UI::ColorSwatch");
             setHAlign(HAlign::Left);
             setPointerEnabled(true);
+            _setUpdateEnabled(false);
         }
         
         ColorSwatch::ColorSwatch() :

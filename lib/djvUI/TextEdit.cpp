@@ -27,6 +27,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             
             setClassName("djv::UI::TextEdit");
+            _setUpdateEnabled(false);
             
             p.textBlock = TextBlock::create(context);
             

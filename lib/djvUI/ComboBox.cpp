@@ -39,6 +39,7 @@ namespace djv
             setClassName("djv::UI::ComboBox");
             setHAlign(HAlign::Left);
             setVAlign(VAlign::Center);
+            _setUpdateEnabled(false);
 
             p.actionGroup = ActionGroup::create(ButtonType::Radio);
 

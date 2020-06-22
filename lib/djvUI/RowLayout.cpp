@@ -31,9 +31,10 @@ namespace djv
             {
                 Widget::_init(context);
 
-                _p->orientation = orientation;
-
                 setClassName("djv::UI::Layout::Row");
+                _setUpdateEnabled(false);
+
+                _p->orientation = orientation;
             }
 
             Row::Row() :

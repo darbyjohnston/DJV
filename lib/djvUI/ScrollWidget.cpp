@@ -96,6 +96,7 @@ namespace djv
 
                 setClassName("djv::UI::ScrollBar");
                 setPointerEnabled(true);
+                _setUpdateEnabled(false);
 
                 _orientation = orientation;
             }
@@ -406,7 +407,10 @@ namespace djv
             void ScrollArea::_init(ScrollType scrollType, const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
+
                 setClassName("djv::UI::ScrollArea");
+                _setUpdateEnabled(false);
+
                 _scrollType = scrollType;
             }
 
@@ -625,10 +629,11 @@ namespace djv
         void ScrollWidget::_init(ScrollType scrollType, const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
+            DJV_PRIVATE_PTR();
 
             setClassName("djv::UI::ScrollWidget");
+            _setUpdateEnabled(false);
 
-            DJV_PRIVATE_PTR();
             p.scrollType = scrollType;
 
             p.scrollArea = ScrollArea::create(scrollType, context);

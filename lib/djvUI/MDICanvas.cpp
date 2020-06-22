@@ -64,7 +64,9 @@ namespace djv
             {
                 Widget::_init(context);
                 DJV_PRIVATE_PTR();
+
                 setClassName("djv::UI::MDI::Canvas");
+                _setUpdateEnabled(false);
 
                 p.maximizeAnimation = Animation::Animation::create(context);
                 p.maximizeAnimation->setType(Animation::Type::SmoothStep);

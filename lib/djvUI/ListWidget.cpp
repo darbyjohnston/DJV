@@ -31,10 +31,11 @@ namespace djv
         void ListWidget::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
-
             DJV_PRIVATE_PTR();
+            
             setClassName("djv::UI::ListWidget");
             setPointerEnabled(true);
+            _setUpdateEnabled(false);
 
             p.buttonGroup = ButtonGroup::create(ButtonType::Radio);
 

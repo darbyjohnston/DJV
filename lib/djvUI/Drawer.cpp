@@ -40,10 +40,10 @@ namespace djv
             void Drawer::_init(Side side, const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
-
                 DJV_PRIVATE_PTR();
 
                 setClassName("djv::UI::Layout::Drawer");
+                _setUpdateEnabled(false);
 
                 p.side = side;
 

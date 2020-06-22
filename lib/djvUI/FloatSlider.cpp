@@ -187,6 +187,7 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             setClassName("djv::UI::FloatSlider");
+            _setUpdateEnabled(false);
 
             p.edit = FloatEdit::create(context);
             p.slider = BasicFloatSlider::create(Orientation::Horizontal, context);

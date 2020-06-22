@@ -41,12 +41,13 @@ namespace djv
             void Menu::_init(MenuStyle menuStyle, const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
-
                 DJV_PRIVATE_PTR();
-                p.menuStyle = menuStyle;
 
                 setClassName("djv::UI::Button::Menu");
                 setPointerEnabled(true);
+                _setUpdateEnabled(false);
+
+                p.menuStyle = menuStyle;
             }
 
             Menu::Menu() :

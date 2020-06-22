@@ -32,12 +32,12 @@ namespace djv
             void MultiState::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
-
                 DJV_PRIVATE_PTR();
 
                 setClassName("djv::UI::Button::MultiState");
                 setPointerEnabled(true);
                 setVAlign(VAlign::Center);
+                _setUpdateEnabled(false);
 
                 p.icon = Icon::create(context);
                 addChild(p.icon);

@@ -776,6 +776,7 @@ namespace djv
                 Widget::_init(context);
                 setClassName("djv::UI::MenuPopupWidget");
                 setPointerEnabled(true);
+                _setUpdateEnabled(false);
 
                 _menuWidget = MenuWidget::create(context);
 
@@ -865,6 +866,7 @@ namespace djv
             {
                 Widget::_init(context);
                 setClassName("djv::UI::MenuLayout");
+                _setUpdateEnabled(false);
             }
 
             MenuLayout::MenuLayout()
@@ -991,8 +993,8 @@ namespace djv
         void Menu::_init(const std::shared_ptr<Context>& context)
         {
             IObject::_init(context);
-
             DJV_PRIVATE_PTR();
+            _setUpdateEnabled(false);
             p.icon = ValueSubject<std::string>::create();
             p.text = ValueSubject<std::string>::create();
         }

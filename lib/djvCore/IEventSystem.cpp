@@ -37,6 +37,7 @@ namespace djv
                         auto out = std::shared_ptr<RootObject>(new RootObject);
                         out->_init(context);
                         out->setClassName("djv::Core::Context::RootObject");
+                        out->_setUpdateEnabled(false);
                         return out;
                     }
                 };

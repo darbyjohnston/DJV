@@ -29,10 +29,11 @@ namespace djv
             void Form::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
+                DJV_PRIVATE_PTR();
 
                 setClassName("djv::UI::Layout::Form");
+                _setUpdateEnabled(false);
 
-                DJV_PRIVATE_PTR();
                 p.layout = Grid::create(context);
                 p.layout->setSpacing(MetricsRole::None);
                 Widget::addChild(p.layout);

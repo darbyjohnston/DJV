@@ -44,6 +44,7 @@ namespace djv
             {
                 setClassName("djv::UI::Button::IButton");
                 setPointerEnabled(true);
+                _setUpdateEnabled(false);
             }
 
             IButton::~IButton()

@@ -57,9 +57,11 @@ namespace djv
             void OverlayWidget::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
+
                 setClassName("djv::UI::PopupWidget::OverlayWidget");
                 setBackgroundRole(ColorRole::Background);
                 setPointerEnabled(true);
+                _setUpdateEnabled(false);
 
                 _layout = StackLayout::create(context);
 
@@ -239,9 +241,10 @@ namespace djv
         void PopupWidget::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
-
             DJV_PRIVATE_PTR();
+
             setClassName("djv::UI::PopupWidget");
+            _setUpdateEnabled(false);
 
             p.button = Button::Menu::create(Button::MenuStyle::Tool, context);
             Widget::addChild(p.button);

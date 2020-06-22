@@ -26,10 +26,11 @@ namespace djv
 
         void TabWidget::_init(const std::shared_ptr<Context>& context)
         {
-            Widget::_init(context);
-            
+            Widget::_init(context);            
             DJV_PRIVATE_PTR();
+
             setClassName("djv::UI::TabWidget");
+            _setUpdateEnabled(false);
 
             p.tabBar = TabBar::create(context);
 

@@ -24,11 +24,11 @@ namespace djv
         void LineEdit::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
-
             DJV_PRIVATE_PTR();
 
             setClassName("djv::UI::LineEdit");
             setVAlign(VAlign::Center);
+            _setUpdateEnabled(false);
 
             p.lineEditBase = LineEditBase::create(context);
             p.lineEditBase->setBackgroundRole(ColorRole::Trough);

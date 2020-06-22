@@ -28,6 +28,7 @@ namespace djv
                 {
                     Vertical::_init(context);
                     setPointerEnabled(true);
+                    _setUpdateEnabled(false);
                 }
                 
                 DialogLayout()
@@ -74,6 +75,7 @@ namespace djv
 
             setClassName("djv::UI::IDialog");
             setBackgroundRole(ColorRole::None);
+            _setUpdateEnabled(false);
 
             p.titleLabel = Label::create(context);
             p.titleLabel->setFontSizeRole(MetricsRole::FontHeader);
