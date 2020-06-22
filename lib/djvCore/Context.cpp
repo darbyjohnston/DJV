@@ -28,7 +28,8 @@ namespace djv
         namespace
         {
             //! \todo Should this be configurable?
-            const size_t fpsSamplesCount = 60;
+            const size_t statsRate       = 60;
+            const size_t fpsSamplesCount = 10;
 
             void addSample(std::list<float>& list, float sample)
             {
@@ -159,19 +160,30 @@ namespace djv
 
             _calcFPS();
 
+            const bool doStats = 0 == _tickCount % statsRate;
             TickTimes tickTimes;
             auto start = std::chrono::steady_clock::now();
             for (const auto& system : _systems)
             {
                 system->tick();
-                const auto end = std::chrono::steady_clock::now();
-                const auto diff = std::chrono::duration_cast<Time::Duration>(end - start);
-                start = end;
-                tickTimes.add(system->getSystemName(), diff);
+                
+                if (doStats)
+                {
+                    const auto end = std::chrono::steady_clock::now();
+                    const auto diff = std::chrono::duration_cast<Time::Duration>(end - start);
+                    start = end;
+                    tickTimes.add(system->getSystemName(), diff);
+                }
             }
-            tickTimes.sort();
-            //tickTimes.print();
-            _systemTickTimes = tickTimes.times;
+            
+            if (doStats)
+            {
+                tickTimes.sort();
+                //tickTimes.print();
+                _systemTickTimes = tickTimes.times;
+            }
+            
+            ++_tickCount;
         }
 
         void Context::_addSystem(const std::shared_ptr<ISystemBase>& system)
