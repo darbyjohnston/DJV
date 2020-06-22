@@ -123,6 +123,7 @@ namespace djv
                 return;
             p.items = value;
             _updateItems();
+            _updateCurrentItem(Callback::Suppress);
         }
 
         void ComboBox::addItem(const std::string& value)
