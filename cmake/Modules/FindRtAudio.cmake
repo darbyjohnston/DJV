@@ -44,7 +44,6 @@ else()
         set(RtAudio_INCLUDE_DIRS ${JACK_INCLUDE_DIR} ${RtAudio_INCLUDE_DIRS})
         set(RtAudio_LINK_LIBRARIES ${JACK_LIB} ${RtAudio_LINK_LIBRARIES})
     endif()
-    set(RtAudio_INCLUDE_DIRS ${RtAudio_INCLUDE_DIR} ${RtAudio_INCLUDE_DIRS})
 endif()
 
 if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
