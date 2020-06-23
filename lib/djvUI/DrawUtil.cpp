@@ -51,16 +51,16 @@ namespace djv
                     if (0 == ((j + i) % 2))
                     {
                         rects[0].emplace_back(BBox2f(
-                            floorf(box.min.x + i * size),
-                            floorf(box.min.y + j * size),
+                            floorf(box.min.x + static_cast<float>(i) * size),
+                            floorf(box.min.y + static_cast<float>(j) * size),
                             ceilf(size),
                             ceilf(size)).intersect(box));
                     }
                     else
                     {
                         rects[1].emplace_back(BBox2f(
-                            floorf(box.min.x + i * size),
-                            floorf(box.min.y + j * size),
+                            floorf(box.min.x + static_cast<float>(i) * size),
+                            floorf(box.min.y + static_cast<float>(j) * size),
                             ceilf(size),
                             ceilf(size)).intersect(box));
                     }

@@ -54,9 +54,9 @@ namespace djv
                         }
                     }
                     U10_S_LSB* outP = reinterpret_cast<U10_S_LSB*>(out);
-                    outP->r = average[0] / static_cast<float>(width * height);
-                    outP->g = average[1] / static_cast<float>(width * height);
-                    outP->b = average[2] / static_cast<float>(width * height);
+                    outP->r = static_cast<uint32_t>(static_cast<float>(average[0]) / static_cast<float>(width * height));
+                    outP->g = static_cast<uint32_t>(static_cast<float>(average[1]) / static_cast<float>(width * height));
+                    outP->b = static_cast<uint32_t>(static_cast<float>(average[2]) / static_cast<float>(width * height));
                 }
 
             } // namespace

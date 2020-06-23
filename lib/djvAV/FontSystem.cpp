@@ -613,9 +613,9 @@ namespace djv
                             static_cast<int>(request.fontInfo.getSize()));
                         if (!ftError)
                         {
-                            metrics.ascender = ftFace->size->metrics.ascender / 64.F;
-                            metrics.descender = ftFace->size->metrics.descender / 64.F;
-                            metrics.lineHeight = ftFace->size->metrics.height / 64.F;
+                            metrics.ascender = static_cast<float>(ftFace->size->metrics.ascender) / 64.F;
+                            metrics.descender = static_cast<float>(ftFace->size->metrics.descender) / 64.F;
+                            metrics.lineHeight = static_cast<float>(ftFace->size->metrics.height) / 64.F;
                         }
                     }
                     request.promise.set_value(std::move(metrics));
@@ -750,7 +750,7 @@ namespace djv
                             glyphs[i - utf32Begin] = p.getGlyph(*i, fontInfoList);
                         }
 
-                        glm::vec2 pos = glm::vec2(0.F, ftFace->size->metrics.height / 64.F);
+                        glm::vec2 pos = glm::vec2(0.F, static_cast<float>(ftFace->size->metrics.height) / 64.F);
                         auto lineBegin = utf32.begin();
                         auto lineBreak = utf32.end();
                         float lineBreakPos = 0.F;
@@ -787,7 +787,7 @@ namespace djv
                                     const size_t size = i - lineBegin;
                                     TextLine line;
                                     line.text = p.utf32Convert.to_bytes(utf32.substr(offset, size));
-                                    line.size = glm::vec2(pos.x, ftFace->size->metrics.height / 64.F);
+                                    line.size = glm::vec2(pos.x, static_cast<float>(ftFace->size->metrics.height) / 64.F);
                                     line.glyphs = std::vector<std::shared_ptr<Glyph> >(glyphs.begin() + offset, glyphs.begin() + offset + size);
                                     lines.push_back(line);
                                 }
@@ -798,7 +798,7 @@ namespace djv
                                     _log(ss.str(), LogLevel::Error);
                                 }
                                 pos.x = 0.F;
-                                pos.y += ftFace->size->metrics.height / 64.F;
+                                pos.y += static_cast<float>(ftFace->size->metrics.height) / 64.F;
                                 lineBegin = i;
                                 lineBreak = utf32.end();
                                 rsbDeltaPrev = 0;
@@ -816,7 +816,7 @@ namespace djv
                                         const size_t size = i - lineBegin;
                                         TextLine line;
                                         line.text = p.utf32Convert.to_bytes(utf32.substr(offset, size));
-                                        line.size = glm::vec2(lineBreakPos, ftFace->size->metrics.height / 64.F);
+                                        line.size = glm::vec2(lineBreakPos, static_cast<float>(ftFace->size->metrics.height) / 64.F);
                                         line.glyphs = std::vector<std::shared_ptr<Glyph> >(glyphs.begin() + offset, glyphs.begin() + offset + size);
                                         lines.push_back(line);
                                     }
@@ -827,7 +827,7 @@ namespace djv
                                         _log(ss.str(), LogLevel::Error);
                                     }
                                     pos.x = 0.F;
-                                    pos.y += ftFace->size->metrics.height / 64.F;
+                                    pos.y += static_cast<float>(ftFace->size->metrics.height / 64.F);
                                     lineBegin = i + 1;
                                 }
                                 else
@@ -839,7 +839,7 @@ namespace djv
                                         const size_t size = i - lineBegin;
                                         TextLine line;
                                         line.text = p.utf32Convert.to_bytes(utf32.substr(offset, size));
-                                        line.size = glm::vec2(pos.x, ftFace->size->metrics.height / 64.F);
+                                        line.size = glm::vec2(pos.x, static_cast<float>(ftFace->size->metrics.height) / 64.F);
                                         line.glyphs = std::vector<std::shared_ptr<Glyph> >(glyphs.begin() + offset, glyphs.begin() + offset + size);
                                         lines.push_back(line);
                                     }
@@ -850,7 +850,7 @@ namespace djv
                                         _log(ss.str(), LogLevel::Error);
                                     }
                                     pos.x = advance;
-                                    pos.y += ftFace->size->metrics.height / 64.F;
+                                    pos.y += static_cast<float>(ftFace->size->metrics.height) / 64.F;
                                     lineBegin = i;
                                     lineBreak = utf32.end();
                                 }
@@ -876,7 +876,7 @@ namespace djv
                                 const size_t size = i - lineBegin;
                                 TextLine textLine;
                                 textLine.text = p.utf32Convert.to_bytes(utf32.substr(offset, size));
-                                textLine.size = glm::vec2(pos.x, ftFace->size->metrics.height / 64.F);
+                                textLine.size = glm::vec2(pos.x, static_cast<float>(ftFace->size->metrics.height) / 64.F);
                                 textLine.glyphs = std::vector<std::shared_ptr<Glyph> >(glyphs.begin() + offset, glyphs.begin() + offset + size);
                                 lines.push_back(textLine);
                             }
@@ -983,7 +983,7 @@ namespace djv
                             out->glyphInfo = GlyphInfo(code, fontInfo);
                             out->imageData = convert(reinterpret_cast<FT_BitmapGlyph>(ftGlyph)->bitmap, renderModeChannels);
                             out->offset = glm::vec2(ftFace->glyph->bitmap_left, ftFace->glyph->bitmap_top);
-                            out->advance = ftFace->glyph->advance.x / 64.F;
+                            out->advance = static_cast<float>(ftFace->glyph->advance.x / 64.F);
                             out->lsbDelta = ftFace->glyph->lsb_delta;
                             out->rsbDelta = ftFace->glyph->rsb_delta;
                             FT_Done_Glyph(ftGlyph);
@@ -1026,7 +1026,7 @@ namespace djv
                             //std::cout << "FT_Set_Pixel_Sizes error: " << getFTError(ftError) << std::endl;
                             break;
                         }
-                        pos.y = ftFace->size->metrics.height / 64.F;
+                        pos.y = static_cast<float>(ftFace->size->metrics.height) / 64.F;
                         auto textLine = utf32.end();
                         float textLineX = 0.F;
                         int32_t rsbDeltaPrev = 0;
@@ -1039,7 +1039,7 @@ namespace djv
                                     pos.x,
                                     glyph->advance,
                                     glyph->advance,
-                                    ftFace->size->metrics.height / 64.F));
+                                    static_cast<float>(ftFace->size->metrics.height) / 64.F));
                             }
 
                             int32_t x = 0;
@@ -1066,10 +1066,10 @@ namespace djv
                             {
                                 size.x = std::max(size.x, pos.x);
                                 pos.x = 0.F;
-                                pos.y += ftFace->size->metrics.height / 64.F;
+                                pos.y += static_cast<float>(ftFace->size->metrics.height) / 64.F;
                                 rsbDeltaPrev = 0;
                             }
-                            else if (pos.x > 0.F && pos.x + (!isSpace(*i) ? x : 0.F) >= maxLineWidth)
+                            else if (pos.x > 0.F && pos.x + (!isSpace(*i) ? static_cast<float>(x) : 0.F) >= maxLineWidth)
                             {
                                 if (textLine != utf32.end())
                                 {
@@ -1077,13 +1077,13 @@ namespace djv
                                     textLine = utf32.end();
                                     size.x = std::max(size.x, textLineX);
                                     pos.x = 0.F;
-                                    pos.y += ftFace->size->metrics.height / 64.F;
+                                    pos.y += static_cast<float>(ftFace->size->metrics.height) / 64.F;
                                 }
                                 else
                                 {
                                     size.x = std::max(size.x, pos.x);
-                                    pos.x = x;
-                                    pos.y += ftFace->size->metrics.height / 64.F;
+                                    pos.x = static_cast<float>(x);
+                                    pos.y += static_cast<float>(ftFace->size->metrics.height) / 64.F;
                                 }
                                 rsbDeltaPrev = 0;
                             }
@@ -1094,7 +1094,7 @@ namespace djv
                                     textLine = i;
                                     textLineX = pos.x;
                                 }
-                                pos.x += x;
+                                pos.x += static_cast<float>(x);
                             }
                         }
                         break;

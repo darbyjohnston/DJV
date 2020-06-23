@@ -79,7 +79,7 @@ namespace djv
             {
                 for (size_t i = 0; i < _resolution; ++i)
                 {
-                    const float v = i / static_cast<float>(_resolution);
+                    const float v = static_cast<float>(i) / static_cast<float>(_resolution);
                     const float c = cosf(v * Math::pi2);
                     const float s = sinf(v * Math::pi2);
                     mesh.v.push_back(glm::vec3(c * _radius, 0.F, s * _radius));
@@ -153,12 +153,12 @@ namespace djv
                 //! \bug Use only a single vertex at each pole.
                 for (size_t v = 0; v <= _resolution.second; ++v)
                 {
-                    const float v1 = v / static_cast<float>(_resolution.second);
+                    const float v1 = static_cast<float>(v) / static_cast<float>(_resolution.second);
                     const float v2 = Math::lerp(v1, _vSpan.first, _vSpan.second);
 
                     for (size_t u = 0; u <= _resolution.first; ++u)
                     {
-                        const float u1 = u / static_cast<float>(_resolution.first);
+                        const float u1 = static_cast<float>(u) / static_cast<float>(_resolution.first);
                         const float u2 = Math::lerp(u1, _uSpan.first, _uSpan.second);
                         const float x = _radius * sinf(v2 * Math::pi) * cosf(u2 * Math::pi2);
                         const float y = _radius * cosf(v2 * Math::pi);
@@ -233,7 +233,7 @@ namespace djv
                 const float l = _length / 2.F;
                 for (size_t u = 0; u <= _resolution; ++u)
                 {
-                    const float u1 = u / static_cast<float>(_resolution);
+                    const float u1 = static_cast<float>(u) / static_cast<float>(_resolution);
                     const float u2 = Math::lerp(u1, _span.first, _span.second);
                     const float c = cosf(u2 * Math::pi2);
                     const float s = sinf(u2 * Math::pi2);

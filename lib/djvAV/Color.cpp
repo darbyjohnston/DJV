@@ -72,7 +72,7 @@ namespace djv
                     float tmp = value;
                     if (mod != 0.F)
                     {
-                        tmp = value - (static_cast<int>(value / mod) * mod);
+                        tmp = value - (static_cast<float>(static_cast<int>(value / mod)) * mod);
                         if (tmp < 0.F)
                         {
                             tmp += mod;
@@ -87,7 +87,7 @@ namespace djv
             {
                 const float h = mod(in[0] * 6.F, 6.F);
                 const int   i = static_cast<int>(floorf(h));
-                const float f = h - i;
+                const float f = h - static_cast<float>(i);
                 const float p = in[2] * (1.F - in[1]);
                 const float q = in[2] * (1.F - (in[1] * f));
                 const float t = in[2] * (1.F - (in[1] * (1.F - f)));

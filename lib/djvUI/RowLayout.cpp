@@ -163,7 +163,7 @@ namespace djv
                     switch (p.orientation)
                     {
                     case Orientation::Vertical:
-                        out += s.y * (visibleChildren - 1);
+                        out += s.y * static_cast<float>(visibleChildren - 1);
                         break;
                     default: break;
                     }
@@ -234,10 +234,10 @@ namespace djv
                     switch (p.orientation)
                     {
                     case Orientation::Horizontal:
-                        minimumSize.x += s.x * (visibleChildren - 1);
+                        minimumSize.x += s.x * static_cast<float>(visibleChildren - 1);
                         break;
                     case Orientation::Vertical:
-                        minimumSize.y += s.y * (visibleChildren - 1);
+                        minimumSize.y += s.y * static_cast<float>(visibleChildren - 1);
                         break;
                     default: break;
                     }
@@ -303,10 +303,10 @@ namespace djv
                     switch (p.orientation)
                     {
                     case Orientation::Horizontal:
-                        minimumSize.x += s.x * (visibleChildren - 1);
+                        minimumSize.x += s.x * static_cast<float>(visibleChildren - 1);
                         break;
                     case Orientation::Vertical:
-                        minimumSize.y += s.y * (visibleChildren - 1);
+                        minimumSize.y += s.y * static_cast<float>(visibleChildren - 1);
                         break;
                     default: break;
                     }

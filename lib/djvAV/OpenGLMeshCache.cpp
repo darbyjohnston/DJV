@@ -156,7 +156,7 @@ namespace djv
                 {
                     used += i.first.getMax() - i.first.getMin() + 1;
                 }
-                return used / static_cast<float>(p.vboSize) * 100.F;
+                return static_cast<float>(used) / static_cast<float>(p.vboSize) * 100.F;
             }
 
             bool MeshCache::_find(size_t size, SizeTRange& out)

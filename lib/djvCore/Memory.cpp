@@ -18,19 +18,19 @@ namespace djv
                 ss.precision(2);
                 if (value >= terabyte)
                 {
-                    ss << std::fixed << value / static_cast<double>(terabyte);
+                    ss << std::fixed << static_cast<double>(value) / static_cast<double>(terabyte);
                 }
                 else if (value >= gigabyte)
                 {
-                    ss << std::fixed << value / static_cast<double>(gigabyte);
+                    ss << std::fixed << static_cast<double>(value) / static_cast<double>(gigabyte);
                 }
                 else if (value >= megabyte)
                 {
-                    ss << std::fixed << value / static_cast<double>(megabyte);
+                    ss << std::fixed << static_cast<double>(value) / static_cast<double>(megabyte);
                 }
                 else
                 {
-                    ss << std::fixed << value / static_cast<double>(kilobyte);
+                    ss << std::fixed << static_cast<double>(value) / static_cast<double>(kilobyte);
                 }
                 return ss.str();
             }

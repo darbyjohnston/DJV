@@ -111,7 +111,7 @@ namespace djv
         {
             if (auto model = getModel())
             {
-                model->setValue(model->observeValue()->get() + static_cast<int>(model->observeSmallIncrement()->get() * value));
+                model->setValue(model->observeValue()->get() + static_cast<int>(static_cast<float>(model->observeSmallIncrement()->get()) * value));
             }
         }
 

@@ -92,7 +92,7 @@ namespace djv
         {
             if (auto model = getModel())
             {
-                model->setValue(model->observeValue()->get() + static_cast<int>(model->observeSmallIncrement()->get() * value));
+                model->setValue(model->observeValue()->get() + static_cast<int>(static_cast<float>(model->observeSmallIncrement()->get()) * value));
             }
         }
 
@@ -107,7 +107,7 @@ namespace djv
             if (auto model = getModel())
             {
                 const auto& range = model->observeRange()->get();
-                const float v = (_value - range.getMin()) / static_cast<float>(range.getMax() - range.getMin());
+                const float v = (_value - static_cast<float>(range.getMin())) / static_cast<float>(range.getMax() - range.getMin());
                 _paint(v, _valueToPos(_value));
             }
         }
@@ -123,7 +123,7 @@ namespace djv
                 const float b = style->getMetric(MetricsRole::Border);
                 const float handleWidth = _getHandleWidth();
                 const auto& range = model->observeRange()->get();
-                float v = (value - range.getMin()) / static_cast<float>(range.getMax() - range.getMin());
+                float v = (value - static_cast<float>(range.getMin())) / static_cast<float>(range.getMax() - range.getMin());
                 const BBox2f g2 = g.margin(-(m + b));
                 switch (getOrientation())
                 {
@@ -164,7 +164,7 @@ namespace djv
                     break;
                 default: break;
                 }
-                out = static_cast<int>(v * (range.getMax() - range.getMin()) + range.getMin());
+                out = static_cast<int>(v * static_cast<float>(range.getMax() - range.getMin()) + static_cast<float>(range.getMin()));
             }
             return out;
         }
@@ -264,12 +264,12 @@ namespace djv
             _p->callback = callback;
         }
         
-        float IntSlider::getDefault() const
+        int IntSlider::getDefault() const
         {
             return _p->defaultValue;
         }
         
-        void IntSlider::setDefault(float value)
+        void IntSlider::setDefault(int value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.defaultValue)

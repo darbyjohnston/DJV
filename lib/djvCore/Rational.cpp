@@ -24,7 +24,7 @@ namespace djv
 
             float Rational::toFloat() const
             {
-                return _num / static_cast<float>(_den);
+                return static_cast<float>(_num) / static_cast<float>(_den);
             }
 
             Rational Rational::fromFloat(float value)

@@ -264,7 +264,7 @@ namespace djv
                 const glm::vec2 s = p.spacing.get(style);
                 if (gridSize.y)
                 {
-                    out += s.y * (gridSize.y - 1);
+                    out += s.y * static_cast<float>(gridSize.y - 1);
                 }
 
                 out += m.y;
@@ -348,11 +348,11 @@ namespace djv
                 const glm::vec2 s = p.spacing.get(style);
                 if (gridSize.x)
                 {
-                    minimumSize.x += s.x * (gridSize.x - 1);
+                    minimumSize.x += s.x * static_cast<float>(gridSize.x - 1);
                 }
                 if (gridSize.y)
                 {
-                    minimumSize.y += s.y * (gridSize.y - 1);
+                    minimumSize.y += s.y * static_cast<float>(gridSize.y - 1);
                 }
 
                 _setMinimumSize(minimumSize + getMargin().getSize(style));
@@ -453,11 +453,11 @@ namespace djv
                 const glm::vec2 s = p.spacing.get(style);
                 if (gridSize.x)
                 {
-                    minimumSize.x += s.x * (gridSize.x - 1);
+                    minimumSize.x += s.x * static_cast<float>(gridSize.x - 1);
                 }
                 if (gridSize.y)
                 {
-                    minimumSize.y += s.y * (gridSize.y - 1);
+                    minimumSize.y += s.y * static_cast<float>(gridSize.y - 1);
                 }
 
                 // Calculate the geometry.

@@ -71,8 +71,8 @@ namespace djv
             void setValue(int);
             void setValueCallback(const std::function<void(int)>&);
             
-            float getDefault() const;
-            void setDefault(float);
+            int getDefault() const;
+            void setDefault(int);
             void setDefaultVisible(bool);
             void resetValue();
 

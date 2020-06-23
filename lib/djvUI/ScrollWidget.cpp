@@ -1220,7 +1220,7 @@ namespace djv
                 ceilf(pos.y + swipeVelocity.y));
             if (scrollArea->setScrollPos(scrollPos))
             {
-                const float mult = duration.count() / static_cast<float>(swipeTimerDuration.count());
+                const float mult = static_cast<float>(duration.count()) / static_cast<float>(swipeTimerDuration.count());
                 const float decay = velocityDecay * mult;
                 if (swipeVelocity.x > 0.F)
                 {

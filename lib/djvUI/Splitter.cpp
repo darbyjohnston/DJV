@@ -87,7 +87,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto& children = getChildWidgets();
                 p.split.resize(children.size());
-                const float size = children.size() ? 1.F / children.size() : 0.F;
+                const float size = children.size() ? 1.F / static_cast<float>(children.size()) : 0.F;
                 float x = size;
                 for (size_t i = 0; i < children.size(); ++i)
                 {

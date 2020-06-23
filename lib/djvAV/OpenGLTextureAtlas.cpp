@@ -280,7 +280,7 @@ namespace djv
                             used += j->bbox.getArea();
                         }
                     }
-                    out += used;
+                    out += static_cast<float>(used);
                 }
                 return out / static_cast<float>(p.textureSize * p.textureSize) / static_cast<float>(p.textureCount) * 100.F;
             }
@@ -321,11 +321,11 @@ namespace djv
                 out.h = node->bbox.h();
                 out.textureIndex = node->textureIndex;
                 out.textureU = FloatRange(
-                    (node->bbox.min.x + p.border)     / static_cast<float>(p.textureSize),
-                    (node->bbox.max.x - p.border + 1) / static_cast<float>(p.textureSize));
+                    (node->bbox.min.x + static_cast<float>(p.border))       / static_cast<float>(p.textureSize),
+                    (node->bbox.max.x - static_cast<float>(p.border) + 1.F) / static_cast<float>(p.textureSize));
                 out.textureV = FloatRange(
-                    (node->bbox.min.y + p.border)     / static_cast<float>(p.textureSize),
-                    (node->bbox.max.y - p.border + 1) / static_cast<float>(p.textureSize));
+                    (node->bbox.min.y + static_cast<float>(p.border))       / static_cast<float>(p.textureSize),
+                    (node->bbox.max.y - static_cast<float>(p.border) + 1.F) / static_cast<float>(p.textureSize));
             }
 
             void TextureAtlas::_removeFromAtlas(const std::shared_ptr<BoxPackingNode>& node)
