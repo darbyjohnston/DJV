@@ -26,7 +26,7 @@
 	<p class="header"><a name="Preparation">Preparation</a></p>
 	<p>Check that you have the following requirements:</p>
 	<ul>
-	    <li><a class="text" href="https://www.apple.com/macos/catalina">OS X</a> (version 10.11 or later)</li>
+	    <li><a class="text" href="https://www.apple.com/macos">macOS</a> (version 10.11 or later)</li>
 		<li><a class="text" href="http://www.opengl.org">OpenGL</a> (version 4.1 or later)</li>
 		<li><a class="text" href="https://developer.apple.com/xcode">Xcode</a></li>
 		<li><a class="text" href="https://cmake.org">CMake</a> (version 3.12 or later)</li>
@@ -62,8 +62,8 @@ $ export DYLD_LIBRARY_PATH=$DJV_BUILD/DJV-install-Debug/lib:$DYLD_LIBRARY_PATH
 $ mkdir DJV-third-party-Debug
 $ cd DJV-third-party-Debug
 $ cmake ../DJV/third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Debug -DCMAKE_FIND_FRAMEWORK="LAST"
-$ cmake --build .
-$ cmake --build . --target install
+$ cmake --build . -j 8
+$ cmake --build . -j 8 --target install
 $ cd ..
 </pre>
 </div>
@@ -75,11 +75,11 @@ $ cd ..
 $ mkdir DJV-Debug
 $ cd DJV-Debug
 $ cmake ../DJV -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Debug -DCMAKE_PREFIX_PATH=$DJV_BUILD/DJV-install-Debug -DCMAKE_FIND_FRAMEWORK="LAST"
-$ cmake --build .
+$ cmake --build . -j 8
 </pre>
 	<p>Try running the confidence tests to make sure everything is working OK:</p>
 	<pre>
-$ cmake --build . --target test
+$ cmake --build . -j 8 --target test
 </pre>
 	<p>Run the djv player application:</p>
 	<pre>
@@ -97,19 +97,19 @@ $ export DYLD_LIBRARY_PATH=$DJV_BUILD/DJV-install-Release/lib:$DYLD_LIBRARY_PATH
 $ mkdir DJV-third-party-Release
 $ cd DJV-third-party-Release
 $ cmake ../DJV/third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Release -DCMAKE_FIND_FRAMEWORK="LAST"
-$ cmake --build .
-$ cmake --build . --target install
+$ cmake --build . -j 8
+$ cmake --build . -j 8 --target install
 $ cd ..
 $ mkdir DJV-Release
 $ cd DJV-Release
 $ cmake ../DJV -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Release -DCMAKE_PREFIX_PATH=$DJV_BUILD/DJV-install-Release -DCMAKE_FIND_FRAMEWORK="LAST"
-$ cmake --build .
+$ cmake --build . -j 8
 </pre>
 <p>Build the package:</p>
 <pre>
 $ cmake ../DJV -DDJV_THIRD_PARTY=TRUE
-$ cmake --build .
-$ cmake --build . --target package
+$ cmake --build . -j 8
+$ cmake --build . -j 8 --target package
 </pre>
 
 </div>

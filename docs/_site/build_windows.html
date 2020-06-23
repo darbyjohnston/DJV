@@ -98,7 +98,7 @@ $ make install
 > cd DJV-third-party-Debug
 > cmake ..\DJV\third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Debug
 > cmake --build . --config Debug -j
-> cmake --build . --config Debug --target install
+> cmake --build . --config Debug -j --target install
 > cd ..
 </pre>
 </div>
@@ -114,7 +114,7 @@ $ make install
 </pre>
 <p>Try running the confidence tests to make sure everything is working OK:</p>
 <pre>
-> cmake --build . --config Debug --target test
+> cmake --build . --config Debug -j --target test
 </pre>
 <p>Run the djv player application:</p>
 <pre>
@@ -132,7 +132,7 @@ $ make install
 > cd DJV-third-party-Release
 > cmake ..\DJV\third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release
 > cmake --build . --config Release -j
-> cmake --build . --config Release --target install
+> cmake --build . --config Release -j --target install
 > cd ..
 > mkdir DJV-Release
 > cd DJV-Release
@@ -143,7 +143,7 @@ $ make install
 <pre>
 > cmake ..\DJV -DDJV_THIRD_PARTY=TRUE
 > cmake --build . --config Release -j
-> cmake --build . --config Release --target package
+> cmake --build . --config Release -j --target package
 </pre>
 </div>
 
