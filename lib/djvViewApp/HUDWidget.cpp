@@ -195,15 +195,19 @@ namespace djv
                 switch (p.options.background)
                 {
                 case HUDBackground::Overlay:
-                    render->setFillColor(style->getColor(UI::ColorRole::Overlay));
+                {
+                    std::vector<BBox2f> rects;
                     for (const auto& i : labels)
                     {
                         for (const auto& j : i.second)
                         {
-                            render->drawRect(j.second.geometry);
+                            rects.push_back(j.second.geometry);
                         }
                     }
+                    render->setFillColor(style->getColor(UI::ColorRole::Overlay));
+                    render->drawRects(rects);
                     break;
+                }
                 default: break;
                 }
 

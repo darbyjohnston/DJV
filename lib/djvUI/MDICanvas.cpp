@@ -297,22 +297,6 @@ namespace djv
                 }
             }
 
-            void Canvas::_paintOverlayEvent(Core::Event::PaintOverlay&)
-            {
-                return;
-                DJV_PRIVATE_PTR();
-                const auto& style = _getStyle();
-                const auto& render = _getRender();
-                render->setFillColor(style->getColor(ColorRole::Checked));
-                for (const auto& i : p.handles)
-                {
-                    for (const auto& j : i.second)
-                    {
-                        render->drawRect(j);
-                    }
-                }
-            }
-
             void Canvas::_childAddedEvent(Event::ChildAdded& value)
             {
                 DJV_PRIVATE_PTR();

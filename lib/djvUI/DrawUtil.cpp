@@ -43,25 +43,33 @@ namespace djv
         {
             const size_t columns = static_cast<size_t>(ceilf((box.max.x - box.min.x) / size));
             const size_t rows = static_cast<size_t>(ceilf((box.max.y - box.min.y) / size));
+            std::vector<BBox2f> rects[2];
             for (size_t j = 0; j < rows; ++j)
             {
                 for (size_t i = 0; i < columns; ++i)
                 {
                     if (0 == ((j + i) % 2))
                     {
-                        render->setFillColor(color0);
+                        rects[0].emplace_back(BBox2f(
+                            floorf(box.min.x + i * size),
+                            floorf(box.min.y + j * size),
+                            ceilf(size),
+                            ceilf(size)).intersect(box));
                     }
                     else
                     {
-                        render->setFillColor(color1);
+                        rects[1].emplace_back(BBox2f(
+                            floorf(box.min.x + i * size),
+                            floorf(box.min.y + j * size),
+                            ceilf(size),
+                            ceilf(size)).intersect(box));
                     }
-                    render->drawRect(BBox2f(
-                        floorf(box.min.x + i * size),
-                        floorf(box.min.y + j * size),
-                        ceilf(size),
-                        ceilf(size)).intersect(box));
                 }
             }
+            render->setFillColor(color0);
+            render->drawRects(rects[0]);
+            render->setFillColor(color1);
+            render->drawRects(rects[1]);
         }
 
     } // namespace UI

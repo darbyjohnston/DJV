@@ -135,13 +135,10 @@ namespace djv
                 //render->setFillColor(AV::Image::Color(1.F, 1.F, 0.F));
                 //UI::drawBorder(render, viewport, b);
 
-                const float opacity = Math::clamp((gridCellSizeZoom - 2.F) / 10.F, 0.F, 1.F);
-                auto gridColor = _options.color.convert(AV::Image::Type::RGBA_F32);
-                gridColor.setF32(gridColor.getF32(3) * opacity, 3);
-                render->setFillColor(gridColor);
+                std::vector<BBox2f> rects;
                 for (int x = viewportWorld.min.x / _options.size; x <= viewportWorld.max.x / _options.size; ++x)
                 {
-                    render->drawRect(BBox2f(
+                    rects.emplace_back(BBox2f(
                         floorf(g.min.x + x * _options.size * _imageZoom + _imagePos.x),
                         floorf(g.min.y + viewport.min.y),
                         b,
@@ -149,29 +146,34 @@ namespace djv
                 }
                 for (int y = viewportWorld.min.y / _options.size; y <= viewportWorld.max.y / _options.size; ++y)
                 {
-                    render->drawRect(BBox2f(
+                    rects.emplace_back(BBox2f(
                         floorf(g.min.x + viewport.min.x),
                         floorf(g.min.y + y * _options.size * _imageZoom + _imagePos.y),
                         viewport.w(),
                         ceilf(b)));
                 }
+                const float opacity = Math::clamp((gridCellSizeZoom - 2.F) / 10.F, 0.F, 1.F);
+                auto gridColor = _options.color.convert(AV::Image::Type::RGBA_F32);
+                gridColor.setF32(gridColor.getF32(3) * opacity, 3);
+                render->setFillColor(gridColor);
+                render->drawRects(rects);
 
                 if (_text.size() > 0 && (_textWidthMax + b * 2.F) < gridCellSizeZoom)
                 {
-                    render->setFillColor(_options.color);
+                    rects.clear();
                     for (const auto& i : _text)
                     {
                         switch (i.first.first)
                         {
                         case Grid::Column:
-                            render->drawRect(BBox2f(
+                            rects.emplace_back(BBox2f(
                                 floorf(g.min.x + (i.first.second * _options.size + _options.size / 2.F) * _imageZoom + _imagePos.x - i.second.size.x / 2.F),
                                 floorf(std::max(_imageFrame.min.y, g.min.y + viewport.min.y)),
                                 ceilf(i.second.size.x + b * 2.F),
                                 ceilf(i.second.size.y + b * 2.F)));
                             break;
                         case Grid::Row:
-                            render->drawRect(BBox2f(
+                            rects.emplace_back(BBox2f(
                                 floorf(std::max(_imageFrame.min.x, g.min.x + viewport.min.x)),
                                 floorf(g.min.y + (i.first.second * _options.size + _options.size / 2.F) * _imageZoom + _imagePos.y - i.second.size.y / 2.F),
                                 ceilf(i.second.size.x + b * 2.F),
@@ -180,6 +182,8 @@ namespace djv
                         default: break;
                         }
                     }
+                    render->setFillColor(_options.color);
+                    render->drawRects(rects);
 
                     render->setFillColor(_options.labelsColor);
                     for (const auto& i : _text)

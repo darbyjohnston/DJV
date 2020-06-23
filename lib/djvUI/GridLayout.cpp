@@ -530,14 +530,14 @@ namespace djv
                 const auto& style = _getStyle();
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const auto& render = _getRender();
+                std::map<ColorRole, std::vector<BBox2f> > rects;
                 for (const auto& i : p.rowPosAndHeight)
                 {
                     const auto j = p.rowBackgroundRoles.find(i.first);
                     if (j != p.rowBackgroundRoles.end())
                     {
-                        render->setFillColor(style->getColor(j->second));
                         const auto& row = i.second;
-                        render->drawRect(BBox2f(g.min.x, row.first, g.w(), row.second));
+                        rects[j->second].emplace_back(BBox2f(g.min.x, row.first, g.w(), row.second));
                     }
                 }
                 for (const auto& i : p.columnPosAndWidth)
@@ -545,10 +545,14 @@ namespace djv
                     const auto j = p.columnBackgroundRoles.find(i.first);
                     if (j != p.columnBackgroundRoles.end())
                     {
-                        render->setFillColor(style->getColor(j->second));
                         const auto& column = i.second;
-                        render->drawRect(BBox2f(column.first, g.min.y, column.second, g.h()));
+                        rects[j->second].emplace_back(BBox2f(column.first, g.min.y, column.second, g.h()));
                     }
+                }
+                for (const auto& i : rects)
+                {
+                    render->setFillColor(style->getColor(i.first));
+                    render->drawRects(i.second);
                 }
             }
 

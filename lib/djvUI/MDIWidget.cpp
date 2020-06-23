@@ -267,14 +267,14 @@ namespace djv
                 {
                     const auto& style = _getStyle();
                     const auto& render = _getRender();
-                    render->setFillColor(style->getColor(ColorRole::Handle));
                     const auto& handles = _getHandlesDraw();
                     const auto i = handles.find(p.pressed);
+                    std::vector<BBox2f> rects;
                     if (i != handles.end())
                     {
                         for (const auto& j : i->second)
                         {
-                            render->drawRect(j);
+                            rects.push_back(j);
                         }
                     }
                     if (p.hovered != p.pressed)
@@ -284,10 +284,12 @@ namespace djv
                         {
                             for (const auto& j : i->second)
                             {
-                                render->drawRect(j);
+                                rects.push_back(j);
                             }
                         }
                     }
+                    render->setFillColor(style->getColor(ColorRole::Handle));
+                    render->drawRects(rects);
                 }
             }
 
