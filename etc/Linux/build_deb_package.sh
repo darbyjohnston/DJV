@@ -22,7 +22,3 @@ cmake ../DJV -DCPACK_GENERATOR=DEB -DCPACK_PACKAGING_INSTALL_PREFIX=/usr/local/D
 cmake --build . -j 8
 cmake --build . -j 8 --target package
 
-cmake ../DJV -DCPACK_GENERATOR=TGZ -DCPACK_PACKAGING_INSTALL_PREFIX= -DDJV_THIRD_PARTY=TRUE
-cmake --build . -j 8
-cmake --build . -j 8 --target package
-
