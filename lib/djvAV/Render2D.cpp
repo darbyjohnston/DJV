@@ -47,6 +47,7 @@ namespace djv
 
                 BBox2f                                              viewport;
                 std::vector<std::shared_ptr<Primitive> >            primitives;
+                size_t                                              primitivesCount     = 0;
                 PrimitiveData                                       primitiveData;
                 std::shared_ptr<OpenGL::TextureAtlas>               textureAtlas;
                 std::map<UID, uint64_t>                             textureIDs;
@@ -148,6 +149,7 @@ namespace djv
                     {
                         DJV_PRIVATE_PTR();
                         std::stringstream ss;
+                        ss << "Primitives: " << p.primitivesCount << "\n";
                         ss << "Texture atlas: " << p.textureAtlas->getPercentageUsed() << "%\n";
                         ss << "Texture IDs: " << p.textureIDs.size() << "%\n";
                         ss << "Glyph texture IDs: " << p.glyphTextureIDs.size() << "\n";
@@ -186,6 +188,9 @@ namespace djv
             void Render::endFrame()
             {
                 DJV_PRIVATE_PTR();
+                
+                p.primitivesCount = p.primitives.size();
+
                 if (!p.shader)
                 {
                     auto shader = AV::Render::Shader::create(p.vertexSource, p.getFragmentSource());
@@ -1038,6 +1043,11 @@ namespace djv
 
                     p.primitives.push_back(primitive);
                 }
+            }
+
+            size_t Render::getPrimitivesCount() const
+            {
+                return _p->primitivesCount;
             }
 
             float Render::getTextureAtlasPercentage() const

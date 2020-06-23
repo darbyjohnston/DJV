@@ -140,6 +140,7 @@ namespace djv
                 //! \name Diagnostics
                 ///@{
 
+                size_t getPrimitivesCount() const;
                 float getTextureAtlasPercentage() const;
                 size_t getDynamicTextureCount() const;
                 size_t getVBOSize() const;

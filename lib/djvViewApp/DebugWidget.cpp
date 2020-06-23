@@ -421,6 +421,12 @@ namespace djv
 
                 setClassName("djv::ViewApp::RenderDebugWidget");
 
+                _labels["Primitives"] = UI::Label::create(context);
+                _labels["PrimitivesValue"] = UI::Label::create(context);
+                _labels["PrimitivesValue"]->setFontFamily(AV::Font::familyMono);
+                _lineGraphs["Primitives"] = UI::LineGraphWidget::create(context);
+                _lineGraphs["Primitives"]->setPrecision(0);
+
                 _labels["TextureAtlas"] = UI::Label::create(context);
                 _labels["TextureAtlasValue"] = UI::Label::create(context);
                 _labels["TextureAtlasValue"]->setFontFamily(AV::Font::familyMono);
@@ -446,6 +452,11 @@ namespace djv
                 _layout = UI::VerticalLayout::create(context);
                 _layout->setMargin(UI::MetricsRole::Margin);
                 auto hLayout = UI::HorizontalLayout::create(context);
+                hLayout->addChild(_labels["Primitives"]);
+                hLayout->addChild(_labels["PrimitivesValue"]);
+                _layout->addChild(hLayout);
+                _layout->addChild(_lineGraphs["Primitives"]);
+                hLayout = UI::HorizontalLayout::create(context);
                 hLayout->addChild(_labels["TextureAtlas"]);
                 hLayout->addChild(_labels["TextureAtlasValue"]);
                 _layout->addChild(hLayout);
@@ -489,14 +500,26 @@ namespace djv
             void RenderDebugWidget::_widgetUpdate()
             {
                 const auto& render = _getRender();
+                const size_t primitives = render->getPrimitivesCount();
                 const float textureAtlasPercentage = render->getTextureAtlasPercentage();
                 const size_t dynamicTextureCount = render->getDynamicTextureCount();
                 const size_t vboSize = render->getVBOSize();
 
+                _lineGraphs["Primitives"]->addSample(primitives);
                 _thermometerWidgets["TextureAtlas"]->setPercentage(textureAtlasPercentage);
                 _lineGraphs["DynamicTextureCount"]->addSample(dynamicTextureCount);
                 _lineGraphs["VBOSize"]->addSample(vboSize);
 
+                {
+                    std::stringstream ss;
+                    ss << _getText(DJV_TEXT("debug_render_primitives")) << ":";
+                    _labels["Primitives"]->setText(ss.str());
+                }
+                {
+                    std::stringstream ss;
+                    ss << primitives;
+                    _labels["PrimitivesValue"]->setText(ss.str());
+                }
                 {
                     std::stringstream ss;
                     ss << _getText(DJV_TEXT("debug_render_texture_atlas")) << ":";
@@ -779,13 +802,13 @@ namespace djv
 
             auto renderDebugWidget = RenderDebugWidget::create(context);
             p.bellows["Render"] = UI::Bellows::create(context);
-            p.bellows["Render"]->setOpen(false);
+            p.bellows["Render"]->setOpen(false, false);
             p.bellows["Render"]->addChild(renderDebugWidget);
             layout->addChild(p.bellows["Render"]);
 
             auto mediaDebugWidget = MediaDebugWidget::create(context);
             p.bellows["Media"] = UI::Bellows::create(context);
-            p.bellows["Media"]->setOpen(false);
+            p.bellows["Media"]->setOpen(false, false);
             p.bellows["Media"]->addChild(mediaDebugWidget);
             layout->addChild(p.bellows["Media"]);
 

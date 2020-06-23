@@ -131,6 +131,7 @@
     "debug_media_current_time": "Current time",
     "debug_media_video_queue": "Video queue",
     "debug_render_dynamic_texture_count": "Dynamic texture count",
+    "debug_render_primitives": "Primitives",
     "debug_render_texture_atlas": "Texture atlas",
     "debug_render_vbo_size": "VBO size",
     "debug_section_general": "General",
