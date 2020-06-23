@@ -42,7 +42,6 @@ namespace djv
             DJV_PRIVATE_PTR();
             
             setClassName("djv::UI::MenuBar");
-            _setUpdateEnabled(false);
 
             p.menuLayout = HorizontalLayout::create(context);
             p.menuLayout->setSpacing(MetricsRole::None);

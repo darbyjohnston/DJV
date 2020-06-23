@@ -143,7 +143,6 @@ namespace djv
             
             setClassName("djv::UI::TabBar");
             setBackgroundRole(ColorRole::Background);
-            _setUpdateEnabled(false);
 
             DJV_PRIVATE_PTR();
             p.buttonGroup = ButtonGroup::create(ButtonType::Radio);

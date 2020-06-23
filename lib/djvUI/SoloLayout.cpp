@@ -23,7 +23,6 @@ namespace djv
                 Widget::_init(context);
 
                 setClassName("djv::UI::Layout::Solo");
-                _setUpdateEnabled(false);
 
                 _widgetUpdate();
             }

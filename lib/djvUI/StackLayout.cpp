@@ -19,7 +19,6 @@ namespace djv
             {
                 Widget::_init(context);
                 setClassName("djv::UI::Layout::Stack");
-                _setUpdateEnabled(false);
             }
 
             Stack::Stack() :

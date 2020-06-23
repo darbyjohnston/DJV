@@ -29,7 +29,6 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             setClassName("djv::UI::IntLabel");
-            _setUpdateEnabled(false);
 
             p.label = Label::create(context);
             p.label->setTextHAlign(TextHAlign::Right);

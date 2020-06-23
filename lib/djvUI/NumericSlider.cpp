@@ -44,7 +44,6 @@ namespace djv
                 case Orientation::Vertical:   setHAlign(HAlign::Center); break;
                 default: break;
             }
-            _setUpdateEnabled(false);
 
             p.orientation = orientation;
             p.delayTimer = Time::Timer::create(context);

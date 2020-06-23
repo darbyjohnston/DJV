@@ -35,7 +35,6 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 setClassName("djv::UI::Button::CheckBox");
                 setButtonType(UI::ButtonType::Toggle);
-                _setUpdateEnabled(false);
 
                 p.label = Label::create(context);
                 p.label->setTextHAlign(TextHAlign::Left);

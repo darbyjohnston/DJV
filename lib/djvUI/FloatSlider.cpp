@@ -183,11 +183,9 @@ namespace djv
         void FloatSlider::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
-
             DJV_PRIVATE_PTR();
 
             setClassName("djv::UI::FloatSlider");
-            _setUpdateEnabled(false);
 
             p.edit = FloatEdit::create(context);
             p.slider = BasicFloatSlider::create(Orientation::Horizontal, context);

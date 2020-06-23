@@ -27,11 +27,9 @@ namespace djv
         void FloatLabel::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
-
             DJV_PRIVATE_PTR();
 
             setClassName("djv::UI::FloatLabel");
-            _setUpdateEnabled(false);
 
             p.label = Label::create(context);
             p.label->setTextHAlign(TextHAlign::Right);

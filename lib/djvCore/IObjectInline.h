@@ -115,16 +115,6 @@ namespace djv
             return parents ? (_parentsEnabled && _enabled) : _enabled;
         }
 
-        inline bool IObject::_hasUpdateEnabled() const
-        {
-            return _updateEnabled;
-        }
-
-        inline void IObject::_setUpdateEnabled(bool value)
-        {
-            _updateEnabled = value;
-        }
-
         inline const std::shared_ptr<ResourceSystem>& IObject::_getResourceSystem() const
         {
             return _resourceSystem;

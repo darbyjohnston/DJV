@@ -29,7 +29,6 @@ namespace djv
             {
                 Widget::_init(context);
                 setClassName("djv::UI::Layout::Border");
-                _setUpdateEnabled(false);
             }
 
             Border::Border() :

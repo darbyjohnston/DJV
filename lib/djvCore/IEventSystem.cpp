@@ -37,7 +37,6 @@ namespace djv
                         auto out = std::shared_ptr<RootObject>(new RootObject);
                         out->_init(context);
                         out->setClassName("djv::Core::Context::RootObject");
-                        out->_setUpdateEnabled(false);
                         return out;
                     }
                 };
@@ -452,10 +451,7 @@ namespace djv
 
             void IEventSystem::_updateRecursive(const std::shared_ptr<IObject>& object, Update& event)
             {
-                if (object->_hasUpdateEnabled())
-                {
-                    object->event(event);
-                }
+                object->event(event);
                 const auto children = object->_children;
                 for (const auto& child : children)
                 {

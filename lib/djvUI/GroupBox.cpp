@@ -32,7 +32,6 @@ namespace djv
 
                 setClassName("djv::UI::Layout::GroupBox");
                 setVAlign(VAlign::Top);
-                _setUpdateEnabled(false);
 
                 p.titleLabel = Label::create(context);
                 p.titleLabel->setTextHAlign(TextHAlign::Left);

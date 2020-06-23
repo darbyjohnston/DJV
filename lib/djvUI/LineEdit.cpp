@@ -28,7 +28,6 @@ namespace djv
 
             setClassName("djv::UI::LineEdit");
             setVAlign(VAlign::Center);
-            _setUpdateEnabled(false);
 
             p.lineEditBase = LineEditBase::create(context);
             p.lineEditBase->setBackgroundRole(ColorRole::Trough);

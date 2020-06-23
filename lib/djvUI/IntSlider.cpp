@@ -187,7 +187,6 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             setClassName("djv::UI::IntSlider");
-            _setUpdateEnabled(false);
 
             p.edit = IntEdit::create(context);
             p.slider = BasicIntSlider::create(Orientation::Horizontal, context);

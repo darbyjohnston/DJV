@@ -38,7 +38,6 @@ namespace djv
 
             setClassName("djv::UI::NumericEditButtons");
             setBackgroundRole(ColorRole::Button);
-            _setUpdateEnabled(false);
 
             const std::vector<std::string> icons =
             {
@@ -153,7 +152,6 @@ namespace djv
 
             setClassName("djv::UI::NumericEdit");
             setVAlign(VAlign::Center);
-            _setUpdateEnabled(false);
 
             p.lineEditBase = LineEditBase::create(context);
             p.lineEditBase->setFont(AV::Font::familyMono);

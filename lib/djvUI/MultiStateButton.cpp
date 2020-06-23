@@ -37,7 +37,6 @@ namespace djv
                 setClassName("djv::UI::Button::MultiState");
                 setPointerEnabled(true);
                 setVAlign(VAlign::Center);
-                _setUpdateEnabled(false);
 
                 p.icon = Icon::create(context);
                 addChild(p.icon);

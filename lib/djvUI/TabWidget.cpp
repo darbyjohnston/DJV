@@ -30,7 +30,6 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             setClassName("djv::UI::TabWidget");
-            _setUpdateEnabled(false);
 
             p.tabBar = TabBar::create(context);
 

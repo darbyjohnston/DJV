@@ -126,9 +126,6 @@ namespace djv
             //! \name Events
             ///@{
 
-            bool _hasUpdateEnabled() const;
-            void _setUpdateEnabled(bool);
-
             virtual void _parentChangedEvent(Event::ParentChanged&);
             virtual void _childAddedEvent(Event::ChildAdded&);
             virtual void _childRemovedEvent(Event::ChildRemoved&);
@@ -173,7 +170,6 @@ namespace djv
 
             bool _enabled = true;
             bool _parentsEnabled = true;
-            bool _updateEnabled = true;
 
             std::vector<std::weak_ptr<IObject> > _filters;
 

@@ -32,7 +32,6 @@ namespace djv
             DJV_PRIVATE_PTR();
             
             setClassName("djv::UI::PopupMenu");
-            _setUpdateEnabled(false);
 
             p.button = Button::Menu::create(Button::MenuStyle::Flat, context);
             addChild(p.button);

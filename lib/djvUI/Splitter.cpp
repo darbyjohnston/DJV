@@ -32,7 +32,6 @@ namespace djv
                 Widget::_init(context);
                 setClassName("djv::UI::Layout::Splitter");
                 setPointerEnabled(true);
-                _setUpdateEnabled(false);
             }
 
             Splitter::Splitter() :

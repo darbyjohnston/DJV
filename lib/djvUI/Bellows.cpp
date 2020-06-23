@@ -65,7 +65,6 @@ namespace djv
 
                     setClassName("djv::UI::Layout::Bellows::Button");
                     setButtonType(ButtonType::Toggle);
-                    _setUpdateEnabled(false);
 
                     _icon = Icon::create(context);
                     _icon->setIcon("djvIconArrowSmallRight");
@@ -177,8 +176,6 @@ namespace djv
                 void ChildLayout::_init(const std::shared_ptr<Context>& context)
                 {
                     Widget::_init(context);
-
-                    _setUpdateEnabled(false);
                     
                     _layout = StackLayout::create(context);
                     Widget::addChild(_layout);
@@ -257,7 +254,6 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 setClassName("djv::UI::Layout::Bellows");
                 setVAlign(VAlign::Top);
-                _setUpdateEnabled(false);
                 
                 p.openAnimation = Animation::Animation::create(context);
 

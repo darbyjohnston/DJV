@@ -40,7 +40,6 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             setClassName("djv::UI::ImageWidget");
-            _setUpdateEnabled(false);
 
             auto ocioSystem = context->getSystemT<AV::OCIO::System>();
             auto weak = std::weak_ptr<ImageWidget>(std::dynamic_pointer_cast<ImageWidget>(shared_from_this()));

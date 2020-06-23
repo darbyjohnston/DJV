@@ -28,7 +28,6 @@ namespace djv
             setVisible(false);
             setBackgroundRole(ColorRole::Background);
             setPointerEnabled(true);
-            _setUpdateEnabled(false);
         }
 
         Window::Window() :

@@ -36,7 +36,6 @@ namespace djv
                 Widget::_init(context);
 
                 setClassName("djv::UI::Layout::Grid");
-                _setUpdateEnabled(false);
             }
 
             Grid::Grid() :

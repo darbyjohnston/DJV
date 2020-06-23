@@ -23,7 +23,6 @@ namespace djv
             {
                 Widget::_init(context);
                 setClassName("djv::UI::Layout::Flow");
-                _setUpdateEnabled(false);
             }
 
             Flow::Flow() :

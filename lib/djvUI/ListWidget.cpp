@@ -35,7 +35,6 @@ namespace djv
             
             setClassName("djv::UI::ListWidget");
             setPointerEnabled(true);
-            _setUpdateEnabled(false);
 
             p.buttonGroup = ButtonGroup::create(ButtonType::Radio);
 

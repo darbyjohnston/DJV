@@ -45,7 +45,6 @@ namespace djv
 
                 setClassName("djv::UI::Button::Menu");
                 setPointerEnabled(true);
-                _setUpdateEnabled(false);
 
                 p.menuStyle = menuStyle;
             }

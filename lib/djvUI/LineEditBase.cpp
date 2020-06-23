@@ -730,12 +730,7 @@ namespace djv
         void LineEditBase::_updateEvent(Event::Update& event)
         {
             DJV_PRIVATE_PTR();
-            const bool fontMetricsFutureValid = p.fontMetricsFuture.valid();
-            const bool textSizeFutureValid = p.textSizeFuture.valid();
-            const bool sizeStringFutureValid = p.sizeStringFuture.valid();
-            const bool glyphGeomFutureValid = p.glyphGeomFuture.valid();
-            const bool glyphsFutureValid = p.glyphsFuture.valid();
-            if (fontMetricsFutureValid &&
+            if (p.fontMetricsFuture.valid() &&
                 p.fontMetricsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {
                 try
@@ -748,7 +743,7 @@ namespace djv
                     _log(e.what(), LogLevel::Error);
                 }
             }
-            if (textSizeFutureValid &&
+            if (p.textSizeFuture.valid() &&
                 p.textSizeFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {
                 try
@@ -761,7 +756,7 @@ namespace djv
                     _log(e.what(), LogLevel::Error);
                 }
             }
-            if (sizeStringFutureValid &&
+            if (p.sizeStringFuture.valid() &&
                 p.sizeStringFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {
                 try
@@ -774,7 +769,7 @@ namespace djv
                     _log(e.what(), LogLevel::Error);
                 }
             }
-            if (glyphGeomFutureValid &&
+            if (p.glyphGeomFuture.valid() &&
                 p.glyphGeomFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {
                 try
@@ -788,7 +783,7 @@ namespace djv
                     _log(e.what(), LogLevel::Error);
                 }
             }
-            if (glyphsFutureValid &&
+            if (p.glyphsFuture.valid() &&
                 p.glyphsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {
                 try
@@ -800,14 +795,6 @@ namespace djv
                 {
                     _log(e.what(), LogLevel::Error);
                 }
-            }
-            if (!(fontMetricsFutureValid ||
-                textSizeFutureValid ||
-                sizeStringFutureValid ||
-                glyphGeomFutureValid ||
-                glyphsFutureValid))
-            {
-                _setUpdateEnabled(false);
             }
         }
 
@@ -881,7 +868,6 @@ namespace djv
             }
             p.glyphGeomFuture = p.fontSystem->measureGlyphs(p.text, fontInfo);
             p.glyphsFuture = p.fontSystem->getGlyphs(p.text, fontInfo);
-            _setUpdateEnabled(true);
         }
 
         void LineEditBase::_cursorUpdate()

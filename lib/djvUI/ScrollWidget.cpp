@@ -96,7 +96,6 @@ namespace djv
 
                 setClassName("djv::UI::ScrollBar");
                 setPointerEnabled(true);
-                _setUpdateEnabled(false);
 
                 _orientation = orientation;
             }
@@ -409,7 +408,6 @@ namespace djv
                 Widget::_init(context);
 
                 setClassName("djv::UI::ScrollArea");
-                _setUpdateEnabled(false);
 
                 _scrollType = scrollType;
             }
@@ -632,7 +630,6 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             setClassName("djv::UI::ScrollWidget");
-            _setUpdateEnabled(false);
 
             p.scrollType = scrollType;
 

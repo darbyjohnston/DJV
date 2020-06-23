@@ -279,7 +279,6 @@ namespace djv
                     _log(e.what(), LogLevel::Error);
                 }
             }
-            _setUpdateEnabled(fontMetricsFutureValid);
         }
 
         void TextBlock::_textUpdate()
@@ -293,7 +292,6 @@ namespace djv
             p.fontSystem->cacheGlyphs(p.text, p.fontInfo);
             p.textCache.clear();
             _resize();
-            _setUpdateEnabled(true);
         }
 
         TextBlock::Private::TextCacheValue TextBlock::Private::textLines(float value)

@@ -32,7 +32,6 @@ namespace djv
                 Widget::_init(context);
 
                 setClassName("djv::UI::Layout::Row");
-                _setUpdateEnabled(false);
 
                 _p->orientation = orientation;
             }

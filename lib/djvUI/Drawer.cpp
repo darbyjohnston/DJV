@@ -43,7 +43,6 @@ namespace djv
                 DJV_PRIVATE_PTR();
 
                 setClassName("djv::UI::Layout::Drawer");
-                _setUpdateEnabled(false);
 
                 p.side = side;
 

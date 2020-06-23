@@ -32,7 +32,6 @@ namespace djv
                 DJV_PRIVATE_PTR();
 
                 setClassName("djv::UI::Layout::Form");
-                _setUpdateEnabled(false);
 
                 p.layout = Grid::create(context);
                 p.layout->setSpacing(MetricsRole::None);

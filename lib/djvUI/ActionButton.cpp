@@ -45,7 +45,6 @@ namespace djv
 
                 DJV_PRIVATE_PTR();
                 setClassName("djv::UI::Button::ActionButton");
-                _setUpdateEnabled(false);
 
                 p.checkBox = CheckBox::create(context);
                 p.icon = Icon::create(context);
