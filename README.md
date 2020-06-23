@@ -14,7 +14,7 @@ Microsoft Windows. Source code is provided under a BSD style open source license
 * [Contribute](https://darbyjohnston.github.io/DJV/contributing.html)
 * [Documentation](https://darbyjohnston.github.io/DJV/documentation.html)
 
-![Screenshot](docs/assets/djv_screenshot.png)
+![Screenshot](docs/assets/djv_screenshot1.png)
 ![Screenshot](docs/assets/djv_screenshot2.png)
 
 Building the Code
