@@ -20,7 +20,6 @@
     <p class="list"><a class="text" href="#BuildingFFmpeg">Building FFmpeg</a></p>
     <p class="list"><a class="text" href="#BuildingThirdParty">Building third party dependencies</a></p>
     <p class="list"><a class="text" href="#Building">Building</a></p>
-    <p class="list"><a class="text" href="#Packaging">Packaging</a></p>
 </div>
 
 <div class="block">
@@ -119,31 +118,6 @@ $ make install
 <p>Run the djv player application:</p>
 <pre>
 > build\bin\Debug\djv
-</pre>
-</div>
-
-<div class="block">
-	<p class="header"><a name="Packaging">Packaging</a></p>
-	<p>Create a release build:</p>
-	<pre>
-> set DJV_BUILD=%CD%
-> set PATH=%DJV_BUILD%\DJV-install-Release\bin;%PATH%
-> mkdir DJV-third-party-Release
-> cd DJV-third-party-Release
-> cmake ..\DJV\third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release
-> cmake --build . --config Release -j
-> cmake --build . --config Release -j --target install
-> cd ..
-> mkdir DJV-Release
-> cd DJV-Release
-> cmake ..\DJV -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=%DJV_BUILD%/DJV-install-Release -DCMAKE_INSTALL_PREFIX=%DJV_BUILD%/DJV-install-Release
-> cmake --build . --config Release -j
-</pre>
-	<p>Build the packages:</p>
-<pre>
-> cmake ..\DJV -DDJV_THIRD_PARTY=TRUE
-> cmake --build . --config Release -j
-> cmake --build . --config Release -j --target package
 </pre>
 </div>
 

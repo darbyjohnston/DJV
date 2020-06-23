@@ -8,7 +8,6 @@ title: Building on Linux
     <p class="list"><a class="text" href="#Preparation">Preparation</a></p>
     <p class="list"><a class="text" href="#BuildingThirdParty">Building third party dependencies</a></p>
     <p class="list"><a class="text" href="#Building">Building</a></p>
-    <p class="list"><a class="text" href="#Packaging">Packaging</a></p>
 </div>
 
 <div class="block">
@@ -79,62 +78,5 @@ $ cmake --build . --target test
 	<pre>
 $ ./build/bin/djv
 </pre>
-</div>
-
-<div class="block">
-	<p class="header"><a name="Packaging">Packaging</a></p>
-    <p>Create a release branch:</p>
-    <pre>
-$ git branch -b release/2.0.0
-$ git push -u origin release/2.0.0
-</pre>
-    <p>Update "docs/index.html" with an announcement about the version.</p>
-	<p>Update the version numbers in "docs/download.html" and "docs/djv_install.html".</p>
-    <p>Update the milestone in "docs/download.html".</p>
-	<p>Build the static web site:</p>
-    <pre>
-$ cd docs
-$ bundle exec jekyll serve
-</pre>
-    <p>Create a release build:</p>
-	<pre>
-$ export DJV_BUILD=$PWD
-$ export PATH=$DJV_BUILD/DJV-install-Release/bin:$PATH
-$ export LD_LIBRARY_PATH=$DJV_BUILD/DJV-install-Release/lib:$LD_LIBRARY_PATH
-$ mkdir DJV-third-party-Release
-$ cd DJV-third-party-Release
-$ cmake ../DJV/third-party -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Release
-$ cmake --build . -j 8
-$ cmake --build . -j 8 --target install
-$ cd ..
-$ mkdir DJV-Release
-$ cd DJV-Release
-$ cmake ../DJV -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$DJV_BUILD/DJV-install-Release -DCMAKE_PREFIX_PATH=$DJV_BUILD/DJV-install-Release
-$ cmake --build . -j 8
-</pre>
-	<p>Create an RPM package:</p>
-	<pre>
-$ cmake ../DJV -DCPACK_GENERATOR=RPM -DCPACK_PACKAGING_INSTALL_PREFIX=/usr/local/DJV2 -DDJV_THIRD_PARTY=TRUE
-$ cmake --build . -j 8
-$ cmake --build . -j 8 --target package
-</pre>
-	<p>Create a Debian package:</p>
-	<pre>
-$ cmake ../DJV -DCPACK_GENERATOR=DEB -DCPACK_PACKAGING_INSTALL_PREFIX=/usr/local/DJV2 -DDJV_THIRD_PARTY=TRUE
-$ cmake --build . -j 8
-$ cmake --build . -j 8 --target package
-</pre>
-	<p>Create a TGZ package:</p>
-	<pre>
-$ cmake ../DJV -DCPACK_GENERATOR=TGZ -DCPACK_PACKAGING_INSTALL_PREFIX= -DDJV_THIRD_PARTY=TRUE
-$ cmake --build . -j 8
-$ cmake --build . -j 8 --target package
-</pre>
-	<p>Tag the git repository with the version:</p>
-	<pre>
-git tag -a 2.0.0 -m "Version 2.0.0"
-git push origin 2.0.0
-</pre>
-	<p>Bump the version number in "CMakeLists.txt", "Doxyfile", and "sonar-project.properties".</p>
 </div>
 
