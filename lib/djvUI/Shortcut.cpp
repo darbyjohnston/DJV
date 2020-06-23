@@ -99,7 +99,7 @@ namespace djv
         
         int Shortcut::getSystemModifier()
         {
-#if defined(DJV_PLATFORM_OSX)
+#if defined(DJV_PLATFORM_MACOS)
             return GLFW_MOD_SUPER;
 #else
             return GLFW_MOD_CONTROL;

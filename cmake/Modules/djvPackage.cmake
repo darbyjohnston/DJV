@@ -133,15 +133,15 @@ elseif (APPLE)
     set(CPACK_GENERATOR Bundle)
 
     configure_file(
-        ${PROJECT_SOURCE_DIR}/etc/OSX/startup.sh.in
+        ${PROJECT_SOURCE_DIR}/etc/macOS/startup.sh.in
         ${PROJECT_BINARY_DIR}/startup.sh)
     configure_file(
-        ${PROJECT_SOURCE_DIR}/etc/OSX/Info.plist.in
+        ${PROJECT_SOURCE_DIR}/etc/macOS/Info.plist.in
         ${PROJECT_BINARY_DIR}/Info.plist)
         
-    set(CPACK_PACKAGE_ICON ${PROJECT_SOURCE_DIR}/etc/OSX/djv.icns)
+    set(CPACK_PACKAGE_ICON ${PROJECT_SOURCE_DIR}/etc/macOS/djv.icns)
     set(CPACK_BUNDLE_NAME ${INSTALL_NAME})
-    set(CPACK_BUNDLE_ICON ${PROJECT_SOURCE_DIR}/etc/OSX/djv.icns)
+    set(CPACK_BUNDLE_ICON ${PROJECT_SOURCE_DIR}/etc/macOS/djv.icns)
     set(CPACK_BUNDLE_PLIST ${PROJECT_BINARY_DIR}/Info.plist)
     set(CPACK_BUNDLE_STARTUP_COMMAND ${PROJECT_BINARY_DIR}/startup.sh)
 

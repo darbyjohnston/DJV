@@ -7,7 +7,7 @@
 #include <djvCore/Context.h>
 #include <djvCore/Speed.h>
 
-// These need to be included last on OSX.
+// These need to be included last on macOS.
 #include <djvCore/RapidJSONTemplates.h>
 #include <djvUI/ISettingsTemplates.h>
 

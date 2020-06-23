@@ -119,8 +119,8 @@ namespace djv
                 std::string out;
 #if defined(DJV_PLATFORM_WINDOWS)
                 //! \todo Windows locale.
-#elif defined(DJV_PLATFORM_OSX)
-                //! \todo OSX locale.
+#elif defined(DJV_PLATFORM_MACOS)
+                //! \todo macOS locale.
 #else
                 auto pieces = String::split(locale, '_');
                 if (!pieces.size())

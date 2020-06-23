@@ -51,8 +51,8 @@ endif()
 
 # Setup the platform we are building for.
 if(APPLE)
-    set(DJV_PLATFORM_OSX TRUE)
-    add_definitions(-DDJV_PLATFORM_OSX)
+    set(DJV_PLATFORM_MACOS TRUE)
+    add_definitions(-DDJV_PLATFORM_MACOS)
 elseif(UNIX)
     string(COMPARE EQUAL ${CMAKE_SYSTEM_NAME} Linux _TMP)
     if(_TMP)

@@ -14,14 +14,14 @@
 
 //#pragma optimize("", off)
 
-#if defined(DJV_PLATFORM_OSX) || defined(DJV_PLATFORM_IOS)
+#if defined(DJV_PLATFORM_MACOS) || defined(DJV_PLATFORM_IOS)
 //! \bug OS X doesn't have stat64?
 #define _STAT struct ::stat
 #define _STAT_FNC    ::stat
 #elif defined(DJV_PLATFORM_LINUX)
 #define _STAT struct ::stat64
 #define _STAT_FNC    ::stat64
-#endif // DJV_PLATFORM_OSX
+#endif // DJV_PLATFORM_MACOS
 
 namespace djv
 {

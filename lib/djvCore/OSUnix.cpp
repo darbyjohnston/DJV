@@ -9,21 +9,21 @@
 #include <djvCore/String.h>
 #include <djvCore/StringFormat.h>
 
-#if defined(DJV_PLATFORM_OSX)
+#if defined(DJV_PLATFORM_MACOS)
 #include <ApplicationServices/ApplicationServices.h>
 #include <CoreFoundation/CFBundle.h>
 #include <CoreServices/CoreServices.h>
-#endif // DJV_PLATFORM_OSX
+#endif // DJV_PLATFORM_MACOS
 
 #include <sstream>
 
 #include <sys/ioctl.h>
-#if defined(DJV_PLATFORM_OSX)
+#if defined(DJV_PLATFORM_MACOS)
 #include <sys/types.h>
 #include <sys/sysctl.h>
-#else // DJV_PLATFORM_OSX
+#else // DJV_PLATFORM_MACOS
 #include <sys/sysinfo.h>
-#endif // DJV_PLATFORM_OSX
+#endif // DJV_PLATFORM_MACOS
 #include <sys/termios.h>
 #include <sys/utsname.h>
 #include <pwd.h>
@@ -52,7 +52,7 @@ namespace djv
             size_t getRAMSize()
             {
                 size_t out = 0;
-#if defined(DJV_PLATFORM_OSX)
+#if defined(DJV_PLATFORM_MACOS)
                 int name[2] = { CTL_HW, HW_MEMSIZE };
                 u_int namelen = sizeof(name) / sizeof(name[0]);
                 uint64_t size = 0;
@@ -61,13 +61,13 @@ namespace djv
                 {
                     out = static_cast<size_t>(size);
                 }
-#else // DJV_PLATFORM_OSX
+#else // DJV_PLATFORM_MACOS
                 struct sysinfo info;
                 if (0 == sysinfo(&info))
                 {
                     out = info.totalram;
                 }
-#endif // DJV_PLATFORM_OSX
+#endif // DJV_PLATFORM_MACOS
                 return out;
             }
 
@@ -112,7 +112,7 @@ namespace djv
             FileSystem::Path getPath(DirectoryShortcut value)
             {
                 FileSystem::Path out;
-#if defined(DJV_PLATFORM_OSX)
+#if defined(DJV_PLATFORM_MACOS)
                 OSType folderType = kDesktopFolderType;
                 switch (value)
                 {
@@ -134,7 +134,7 @@ namespace djv
                 {
                     out = FileSystem::Path(path);
                 }
-#else // DJV_PLATFORM_OSX
+#else // DJV_PLATFORM_MACOS
                 if (struct passwd* buf = ::getpwuid(::getuid()))
                 {
                     const std::string dir(buf->pw_dir);
@@ -147,13 +147,13 @@ namespace djv
                     default: break;
                     }
                 }
-#endif // DJV_PLATFORM_OSX
+#endif // DJV_PLATFORM_MACOS
                 return out;
             }
 
             void openURL(const std::string& value)
             {
-#if defined(DJV_PLATFORM_OSX)
+#if defined(DJV_PLATFORM_MACOS)
                 CFURLRef url = CFURLCreateWithBytes(
                     NULL,
                     (UInt8*)value.c_str(),
@@ -162,7 +162,7 @@ namespace djv
                     NULL);
                 LSOpenCFURLRef(url, 0);
                 CFRelease(url);
-#else // DJV_PLATFORM_OSX
+#else // DJV_PLATFORM_MACOS
                 std::stringstream ss;
                 ss << "xdg-open" << " " << value;
                 int r = system(ss.str().c_str());
@@ -177,7 +177,7 @@ namespace djv
                         arg(value));
                     throw std::runtime_error(String::join(messages, ' '));
                 }
-#endif // DJV_PLATFORM_OSX
+#endif // DJV_PLATFORM_MACOS
             }
 
         } // namespace OS

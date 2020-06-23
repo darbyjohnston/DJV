@@ -22,7 +22,7 @@ namespace djv
         //! Text files are searched for in this order:
         //! - FileSystem::ResourcePath::Text
         //! - FileSystem::ResourcePath::Documents
-        //! - DJV_TEXT environment variable, a list of colon (Linux/OSX)
+        //! - DJV_TEXT environment variable, a list of colon (Linux/macOS)
         //!   or semicolon (Windows) separated paths to search
         class TextSystem : public ISystemBase
         {

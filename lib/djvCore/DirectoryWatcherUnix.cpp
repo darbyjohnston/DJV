@@ -11,7 +11,7 @@
 #include <mutex>
 #include <thread>
 
-#if defined(DJV_PLATFORM_OSX)
+#if defined(DJV_PLATFORM_MACOS)
 #include <CoreServices/CoreServices.h>
 
 #include <sys/types.h>
@@ -31,7 +31,7 @@ namespace djv
         {
             namespace
             {
-#if defined(DJV_PLATFORM_OSX)
+#if defined(DJV_PLATFORM_MACOS)
                 class Notify
                 {
                 public:
@@ -85,7 +85,7 @@ namespace djv
                     ::time_t _lastModified = 0;
                 };
 
-#else // DJV_PLATFORM_OSX
+#else // DJV_PLATFORM_MACOS
 
                 class Notify
                 {
@@ -166,7 +166,7 @@ namespace djv
                     int _wd = 0;
                     ::time_t _lastModified = 0;
                 };
-#endif // DJV_PLATFORM_OSX
+#endif // DJV_PLATFORM_MACOS
 
             } // namespace
                     

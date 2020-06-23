@@ -514,10 +514,10 @@ namespace djv
                     info.id = pointerID;
                     info.pos.x = static_cast<float>(x);
                     info.pos.y = static_cast<float>(y);
-#if defined(DJV_PLATFORM_OSX)
+#if defined(DJV_PLATFORM_MACOS)
                     info.pos.x *= system->_p->contentScale.x;
                     info.pos.y *= system->_p->contentScale.y;
-#endif // DJV_PLATFORM_OSX
+#endif // DJV_PLATFORM_MACOS
                     info.pos.z = 0.F;
                     info.dir.x = 0.F;
                     info.dir.y = 0.F;
