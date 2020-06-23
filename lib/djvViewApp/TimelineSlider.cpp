@@ -383,10 +383,10 @@ namespace djv
                 color.setF32(color.getF32(3) * .4F, 3);
                 const auto& render = _getRender();
                 render->setFillColor(color);
-                std::vector<BBox2f> boxes;
+                std::vector<BBox2f> rects;
                 for (const auto& tick : p.timeTicks)
                 {
-                    boxes.push_back(BBox2f(
+                    rects.emplace_back(BBox2f(
                         floorf(g.min.x + tick->pos.x),
                         floorf(g.min.y + tick->pos.y),
                         ceilf(tick->size.x),
@@ -398,7 +398,7 @@ namespace djv
                             glm::vec2(floorf(g.min.x + tick->textPos.x), floorf(g.min.y + tick->textPos.y)));
                     }
                 }
-                render->drawRects(boxes);
+                render->drawRects(rects);
 
                 // Draw the in/out points.
                 if (p.inOutPointsEnabled)
@@ -419,32 +419,32 @@ namespace djv
                 {
                     color = style->getColor(UI::ColorRole::Checked);
                     render->setFillColor(color);
-                    boxes.clear();
+                    rects.clear();
                     for (const auto& i : p.cacheSequence.getRanges())
                     {
                         const float x0 = _frameToPos(i.getMin());
                         const float x1 = _frameToPos(i.getMax() + 1);
-                        boxes.push_back(BBox2f(
+                        rects.emplace_back(BBox2f(
                             x0,
                             g.max.y - b * 2.F,
                             x1 - x0,
                             b * 2.F));
                     }
-                    render->drawRects(boxes);
+                    render->drawRects(rects);
                     color = style->getColor(UI::ColorRole::Cached);
                     render->setFillColor(color);
-                    boxes.clear();
+                    rects.clear();
                     for (const auto& i : p.cachedFrames.getRanges())
                     {
                         const float x0 = _frameToPos(i.getMin());
                         const float x1 = _frameToPos(i.getMax() + 1);
-                        boxes.push_back(BBox2f(
+                        rects.emplace_back(BBox2f(
                             x0,
                             g.max.y - b * 2.F,
                             x1 - x0,
                             b * 2.F));
                     }
-                    render->drawRects(boxes);
+                    render->drawRects(rects);
                 }
 
                 // Draw the frame ticks.
@@ -454,17 +454,17 @@ namespace djv
                     auto color = style->getColor(UI::ColorRole::Foreground);
                     color.setF32(color.getF32(3) * .4F, 3);
                     render->setFillColor(color);
-                    boxes.clear();
+                    rects.clear();
                     for (Frame::Index f2 = 0; f2 < sequenceFrameCount; ++f2)
                     {
                         const float x = _frameToPos(f2);
-                        boxes.push_back(BBox2f(
+                        rects.emplace_back(BBox2f(
                             x,
                             g.max.y - b * 6.F,
                             b,
                             b * 6.F));
                     }
-                    render->drawRects(boxes);
+                    render->drawRects(rects);
                 }
 
                 // Draw the current frame.

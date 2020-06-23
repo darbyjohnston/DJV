@@ -25,19 +25,23 @@ namespace djv
         struct TextBlock::Private
         {
             std::shared_ptr<AV::Font::System> fontSystem;
+
             std::string text;
             TextHAlign textHAlign = TextHAlign::Left;
             ColorRole textColorRole = ColorRole::Foreground;
             MetricsRole textSizeRole = MetricsRole::TextColumn;
+
             std::string fontFace;
             std::string fontFamily;
             MetricsRole fontSizeRole = MetricsRole::FontMedium;
             AV::Font::FontInfo fontInfo;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
+
             typedef std::pair<AV::Font::FontInfo, float> TextCacheKey;
             typedef std::pair<std::vector<AV::Font::TextLine>, glm::vec2> TextCacheValue;
             Memory::Cache<TextCacheKey, TextCacheValue> textCache;
+
             BBox2f clipRect;
 
             TextCacheValue textLines(float);

@@ -22,24 +22,34 @@ namespace djv
         struct Label::Private
         {
             std::shared_ptr<AV::Font::System> fontSystem;
+
             std::string text;
             TextHAlign textHAlign = TextHAlign::Center;
             TextVAlign textVAlign = TextVAlign::Center;
             ColorRole textColorRole = ColorRole::Foreground;
+
             std::string fontFamily;
             std::string fontFace;
             MetricsRole fontSizeRole = MetricsRole::FontMedium;
             AV::Font::FontInfo fontInfo;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
+
             glm::vec2 textSize = glm::vec2(0.F, 0.F);
             std::future<glm::vec2> textSizeFuture;
+
             std::string sizeString;
             glm::vec2 sizeStringSize = glm::vec2(0.F, 0.F);
             std::future<glm::vec2> sizeStringFuture;
+
             std::vector<std::shared_ptr<AV::Font::Glyph> > glyphs;
             std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > glyphsFuture;
+
+            bool labelMinimumSizeInit = true;
             std::weak_ptr<LabelSizeGroup> sizeGroup;
+
+            BBox2f paintGeometry = BBox2f(0.F, 0.F, 0.F, 0.F);
+            glm::vec2 paintCenter = glm::vec2(0.F, 0.F);
         };
 
         void Label::_init(const std::shared_ptr<Context>& context)
@@ -193,20 +203,50 @@ namespace djv
         void Label::_initLayoutEvent(Event::InitLayout&)
         {
             DJV_PRIVATE_PTR();
-            const glm::vec2 size(glm::max(p.textSize.x, p.sizeStringSize.x), p.fontMetrics.lineHeight);
-            const auto& style = _getStyle();
-            _labelMinimumSize = size + getMargin().getSize(style);
+            if (p.labelMinimumSizeInit)
+            {
+                p.labelMinimumSizeInit = false;
+                const glm::vec2 size(glm::max(p.textSize.x, p.sizeStringSize.x), p.fontMetrics.lineHeight);
+                const auto& style = _getStyle();
+                _labelMinimumSize = size + getMargin().getSize(style);
+            }
         }
 
         void Label::_preLayoutEvent(Event::PreLayout&)
         {
             DJV_PRIVATE_PTR();
             glm::vec2 minimumSize = _labelMinimumSize;
-            if (auto sizeGroup = p.sizeGroup.lock())
+            if (!p.sizeGroup.expired())
             {
-                minimumSize = sizeGroup->getMinimumSize();
+                if (auto sizeGroup = p.sizeGroup.lock())
+                {
+                    minimumSize = sizeGroup->getMinimumSize();
+                }
             }
             _setMinimumSize(minimumSize);
+        }
+
+        void Label::_layoutEvent(Event::Layout&)
+        {
+            DJV_PRIVATE_PTR();
+            const auto& style = _getStyle();
+            p.paintGeometry = getMargin().bbox(getGeometry(), style);
+            bool center = false;
+            switch (p.textHAlign)
+            {
+            case TextHAlign::Center: center = true; break;
+            default: break;
+            }
+            switch (p.textVAlign)
+            {
+            case TextVAlign::Center:
+            case TextVAlign::Baseline: center = true; break;
+            default: break;
+            }
+            if (center)
+            {
+                p.paintCenter = p.paintGeometry.getCenter();
+            }
         }
 
         void Label::_paintEvent(Event::Paint& event)
@@ -216,37 +256,35 @@ namespace djv
             if (p.glyphs.size())
             {
                 const auto& style = _getStyle();
-                const BBox2f& g = getMargin().bbox(getGeometry(), style);
-                const glm::vec2 c = g.getCenter();
 
                 const auto& render = _getRender();
                 //render->setFillColor(AV::Image::Color(1.F, 0.F, 0.F, .5F));
-                //render->drawRect(g);
+                //render->drawRect(p.paintGeometry);
 
-                glm::vec2 pos = g.min;
+                glm::vec2 pos = p.paintGeometry.min;
                 switch (p.textHAlign)
                 {
                 case TextHAlign::Center:
-                    pos.x = c.x - p.textSize.x / 2.F;
+                    pos.x = p.paintCenter.x - p.textSize.x / 2.F;
                     break;
                 case TextHAlign::Right:
-                    pos.x = g.max.x - p.textSize.x;
+                    pos.x = p.paintGeometry.max.x - p.textSize.x;
                     break;
                 default: break;
                 }
                 switch (p.textVAlign)
                 {
                 case TextVAlign::Center:
-                    pos.y = c.y - p.textSize.y / 2.F;
+                    pos.y = p.paintCenter.y - p.textSize.y / 2.F;
                     break;
                 case TextVAlign::Top:
-                    pos.y = g.min.y;
+                    pos.y = p.paintGeometry.min.y;
                     break;
                 case TextVAlign::Bottom:
-                    pos.y = g.max.y - p.textSize.y;
+                    pos.y = p.paintGeometry.max.y - p.textSize.y;
                     break;
                 case TextVAlign::Baseline:
-                    pos.y = c.y - p.fontMetrics.ascender / 2.F;
+                    pos.y = p.paintCenter.y - p.fontMetrics.ascender / 2.F;
                     break;
                 default: break;
                 }
@@ -277,6 +315,7 @@ namespace djv
                 try
                 {
                     p.fontMetrics = p.fontMetricsFuture.get();
+                    p.labelMinimumSizeInit = true;
                     _resize();
                 }
                 catch (const std::exception& e)
@@ -290,6 +329,7 @@ namespace djv
                 try
                 {
                     p.textSize = p.textSizeFuture.get();
+                    p.labelMinimumSizeInit = true;
                     _resize();
                 }
                 catch (const std::exception& e)
@@ -303,6 +343,7 @@ namespace djv
                 try
                 {
                     p.sizeStringSize = p.sizeStringFuture.get();
+                    p.labelMinimumSizeInit = true;
                     _resize();
                 }
                 catch (const std::exception& e)

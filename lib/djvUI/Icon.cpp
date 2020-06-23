@@ -20,12 +20,17 @@ namespace djv
     {
         struct Icon::Private
         {
+            std::shared_ptr<IconSystem> iconSystem;
+
             std::string name;
             ColorRole iconColorRole = ColorRole::Foreground;
             MetricsRole iconSizeRole = MetricsRole::Icon;
+
             std::future<std::shared_ptr<AV::Image::Image> > imageFuture;
             std::shared_ptr<AV::Image::Image> image;
-            std::shared_ptr<IconSystem> iconSystem;
+
+            BBox2f paintGeometry = BBox2f(0.F, 0.F, 0.F, 0.F);
+            glm::vec2 paintCenter = glm::vec2(0.F, 0.F);
         };
 
         void Icon::_init(const std::shared_ptr<Context>& context)
@@ -121,19 +126,40 @@ namespace djv
             _setMinimumSize(size + getMargin().getSize(style));
         }
 
+        void Icon::_layoutEvent(Event::Layout& event)
+        {
+            DJV_PRIVATE_PTR();
+            const auto& style = _getStyle();
+            p.paintGeometry = getMargin().bbox(getGeometry(), style);
+            bool center = false;
+            switch (getHAlign())
+            {
+            case HAlign::Center:
+            case HAlign::Fill: center = true; break;
+            default: break;
+            }
+            switch (getVAlign())
+            {
+            case VAlign::Center:
+            case VAlign::Fill: center = true; break;
+            default: break;
+            }
+            if (center)
+            {
+                p.paintCenter = p.paintGeometry.getCenter();
+            }
+        }
+
         void Icon::_paintEvent(Event::Paint& event)
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const BBox2f& g = getMargin().bbox(getGeometry(), style);
-            const glm::vec2 c = g.getCenter();
 
             const auto& render = _getRender();
             //render->setFillColor(AV::Image::Color(1.F, 0.F, 0.f));
-            //render->drawRect(g);
+            //render->drawRect(p.paintGeometry);
 
-            // Draw the icon.
             if (p.image && p.image->isValid())
             {
                 const uint16_t w = p.image->getWidth();
@@ -142,20 +168,19 @@ namespace djv
                 switch (getHAlign())
                 {
                 case HAlign::Center:
-                case HAlign::Fill:   pos.x = ceilf(c.x - w / 2.F); break;
-                case HAlign::Left:   pos.x = g.min.x; break;
-                case HAlign::Right:  pos.x = g.max.x - w; break;
+                case HAlign::Fill:   pos.x = ceilf(p.paintCenter.x - w / 2.F); break;
+                case HAlign::Left:   pos.x = p.paintGeometry.min.x; break;
+                case HAlign::Right:  pos.x = p.paintGeometry.max.x - w; break;
                 default: break;
                 }
                 switch (getVAlign())
                 {
                 case VAlign::Center:
-                case VAlign::Fill:   pos.y = ceilf(c.y - h / 2.F); break;
-                case VAlign::Top:    pos.y = g.min.y; break;
-                case VAlign::Bottom: pos.y = g.max.y - h; break;
+                case VAlign::Fill:   pos.y = ceilf(p.paintCenter.y - h / 2.F); break;
+                case VAlign::Top:    pos.y = p.paintGeometry.min.y; break;
+                case VAlign::Bottom: pos.y = p.paintGeometry.max.y - h; break;
                 default: break;
                 }
-                const auto& render = _getRender();
                 if (p.iconColorRole != ColorRole::None)
                 {
                     render->setFillColor(style->getColor(p.iconColorRole));
