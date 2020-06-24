@@ -5,6 +5,7 @@
 #include <djvUIComponents/UIComponentsSystem.h>
 
 #include <djvUIComponents/FileBrowserSettings.h>
+#include <djvUIComponents/FileBrowserSystem.h>
 #include <djvUIComponents/IOSettings.h>
 
 #include <djvUI/UISystem.h>
@@ -28,6 +29,8 @@ namespace djv
             Settings::FileBrowser::create(context);
 
             addDependency(context->getSystemT<UISystem>());
+
+            FileBrowserSystem::create(context);
         }
 
         UIComponentsSystem::UIComponentsSystem() :

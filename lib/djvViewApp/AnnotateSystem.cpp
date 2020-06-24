@@ -119,7 +119,7 @@ namespace djv
             p.actions["Prev"] = UI::Action::create();
             p.actions["Prev"]->setIcon("djvIconArrowLeft");
 
-            _addShortcut("ViewApp/Annotate/Annotate", GLFW_KEY_A, UI::Shortcut::getSystemModifier());
+            _addShortcut("shortcut_annotate", GLFW_KEY_A, UI::Shortcut::getSystemModifier());
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Polyline"]);
@@ -399,7 +399,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.actions.size())
             {
-                p.actions["Annotate"]->setShortcuts(_getShortcuts("ViewApp/Annotate/Annotate"));
+                p.actions["Annotate"]->setShortcuts(_getShortcuts("shortcut_annotate"));
             }
         }
         

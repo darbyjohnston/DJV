@@ -50,9 +50,9 @@ namespace djv
             p.actions["Mute"] = UI::Action::create();
             p.actions["Mute"]->setButtonType(UI::ButtonType::Toggle);
 
-            _addShortcut("ViewApp/Audio/IncreaseVolume", GLFW_KEY_8, UI::Shortcut::getSystemModifier());
-            _addShortcut("ViewApp/Audio/DecreaseVolume", GLFW_KEY_7, UI::Shortcut::getSystemModifier());
-            _addShortcut("ViewApp/Audio/Mute", GLFW_KEY_9, UI::Shortcut::getSystemModifier());
+            _addShortcut("shortcut_audio_decrease_volume", GLFW_KEY_8, UI::Shortcut::getSystemModifier());
+            _addShortcut("shortcut_audio_increase_volume", GLFW_KEY_7, UI::Shortcut::getSystemModifier());
+            _addShortcut("shortcut_audio_mute", GLFW_KEY_9, UI::Shortcut::getSystemModifier());
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["IncreaseVolume"]);
@@ -223,9 +223,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.actions.size())
             {
-                p.actions["IncreaseVolume"]->setShortcuts(_getShortcuts("ViewApp/Audio/IncreaseVolume"));
-                p.actions["DecreaseVolume"]->setShortcuts(_getShortcuts("ViewApp/Audio/DecreaseVolume"));
-                p.actions["Mute"]->setShortcuts(_getShortcuts("ViewApp/Audio/Mute"));
+                p.actions["IncreaseVolume"]->setShortcuts(_getShortcuts("shortcut_audio_decrease_volume"));
+                p.actions["DecreaseVolume"]->setShortcuts(_getShortcuts("shortcut_audio_increase_volume"));
+                p.actions["Mute"]->setShortcuts(_getShortcuts("shortcut_audio_mute"));
             }
         }
 

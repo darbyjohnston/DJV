@@ -140,10 +140,10 @@ namespace djv
             p.actions["AutoHide"]->setIcon("djvIconVisible");
             p.actions["AutoHide"]->setCheckedIcon("djvIconHidden");
 
-            _addShortcut("ViewApp/Window/FullScreen", GLFW_KEY_U);
-            _addShortcut("ViewApp/Window/Maximize", GLFW_KEY_M);
-            _addShortcut("ViewApp/Window/Fit", GLFW_KEY_F, UI::Shortcut::getSystemModifier());
-            _addShortcut("ViewApp/Window/AutoHide", GLFW_KEY_H, UI::Shortcut::getSystemModifier());
+            _addShortcut("shortcut_window_full_screen", GLFW_KEY_U);
+            _addShortcut("shortcut_window_maximize", GLFW_KEY_M);
+            _addShortcut("shortcut_window_fit", GLFW_KEY_F, UI::Shortcut::getSystemModifier());
+            _addShortcut("shortcut_window_auto_hide", GLFW_KEY_H, UI::Shortcut::getSystemModifier());
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["FullScreen"]);
@@ -486,10 +486,10 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.actions.size())
             {
-                p.actions["FullScreen"]->setShortcuts(_getShortcuts("ViewApp/Window/FullScreen"));
-                p.actions["Maximize"]->setShortcuts(_getShortcuts("ViewApp/Window/Maximize"));
-                p.actions["Fit"]->setShortcuts(_getShortcuts("ViewApp/Window/Fit"));
-                p.actions["AutoHide"]->setShortcuts(_getShortcuts("ViewApp/Window/AutoHide"));
+                p.actions["FullScreen"]->setShortcuts(_getShortcuts("shortcut_window_full_screen"));
+                p.actions["Maximize"]->setShortcuts(_getShortcuts("shortcut_window_maximize"));
+                p.actions["Fit"]->setShortcuts(_getShortcuts("shortcut_window_fit"));
+                p.actions["AutoHide"]->setShortcuts(_getShortcuts("shortcut_window_auto_hide"));
             }
         }
 

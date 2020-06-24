@@ -41,7 +41,7 @@ namespace djv
             p.actions["ColorPicker"] = UI::Action::create();
             p.actions["ColorPicker"]->setIcon("djvIconColorPicker");
 
-            _addShortcut("ViewApp/ColorPicker/ColorPicker", GLFW_KEY_K, UI::Shortcut::getSystemModifier());
+            _addShortcut("shortcut_color_picker", GLFW_KEY_K, UI::Shortcut::getSystemModifier());
 
             _textUpdate();
             _shortcutsUpdate();
@@ -145,7 +145,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.actions.size())
             {
-                p.actions["ColorPicker"]->setShortcuts(_getShortcuts("ViewApp/ColorPicker/ColorPicker"));
+                p.actions["ColorPicker"]->setShortcuts(_getShortcuts("shortcut_color_picker"));
             }
         }
         

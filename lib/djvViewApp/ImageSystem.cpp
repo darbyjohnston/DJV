@@ -98,16 +98,16 @@ namespace djv
             p.actions["LoadFrameStore"] = UI::Action::create();
             p.actions["ClearFrameStore"] = UI::Action::create();
 
-            _addShortcut("ViewApp/Image/ImageControls", GLFW_KEY_M, UI::Shortcut::getSystemModifier());
-            _addShortcut("ViewApp/Image/ColorSpace", GLFW_KEY_P, UI::Shortcut::getSystemModifier());
-            _addShortcut("ViewApp/Image/RedChannel", GLFW_KEY_R);
-            _addShortcut("ViewApp/Image/GreenChannel", GLFW_KEY_G);
-            _addShortcut("ViewApp/Image/BlueChannel", GLFW_KEY_B);
-            _addShortcut("ViewApp/Image/AlphaChannel", GLFW_KEY_A);
-            _addShortcut("ViewApp/Image/MirrorH", GLFW_KEY_H);
-            _addShortcut("ViewApp/Image/MirrorV", GLFW_KEY_V);
-            _addShortcut("ViewApp/Image/FrameStoreEnabled", GLFW_KEY_F);
-            _addShortcut("ViewApp/Image/LoadFrameStore", GLFW_KEY_F, GLFW_MOD_SHIFT);
+            _addShortcut("shortcut_image_controls", GLFW_KEY_M, UI::Shortcut::getSystemModifier());
+            _addShortcut("shortcut_image_color_space", GLFW_KEY_P, UI::Shortcut::getSystemModifier());
+            _addShortcut("shortcut_image_red_channel", GLFW_KEY_R);
+            _addShortcut("shortcut_image_green_channel", GLFW_KEY_G);
+            _addShortcut("shortcut_image_blue_channel", GLFW_KEY_B);
+            _addShortcut("shortcut_image_alpha_channel", GLFW_KEY_A);
+            _addShortcut("shortcut_image_mirror_h", GLFW_KEY_H);
+            _addShortcut("shortcut_image_mirror_v", GLFW_KEY_V);
+            _addShortcut("shortcut_image_frame_store_enabled", GLFW_KEY_F);
+            _addShortcut("shortcut_image_load_frame_store", GLFW_KEY_F, GLFW_MOD_SHIFT);
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["ImageControls"]);
@@ -446,16 +446,16 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.actions.size())
             {
-                p.actions["ImageControls"]->setShortcuts(_getShortcuts("ViewApp/Image/ImageControls"));
-                p.actions["ColorSpace"]->setShortcuts(_getShortcuts("ViewApp/Image/ColorSpace"));
-                p.actions["RedChannel"]->setShortcuts(_getShortcuts("ViewApp/Image/RedChannel"));
-                p.actions["GreenChannel"]->setShortcuts(_getShortcuts("ViewApp/Image/GreenChannel"));
-                p.actions["BlueChannel"]->setShortcuts(_getShortcuts("ViewApp/Image/BlueChannel"));
-                p.actions["AlphaChannel"]->setShortcuts(_getShortcuts("ViewApp/Image/AlphaChannel"));
-                p.actions["MirrorH"]->setShortcuts(_getShortcuts("ViewApp/Image/MirrorH"));
-                p.actions["MirrorV"]->setShortcuts(_getShortcuts("ViewApp/Image/MirrorV"));
-                p.actions["FrameStoreEnabled"]->setShortcuts(_getShortcuts("ViewApp/Image/FrameStoreEnabled"));
-                p.actions["LoadFrameStore"]->setShortcuts(_getShortcuts("ViewApp/Image/LoadFrameStore"));
+                p.actions["ImageControls"]->setShortcuts(_getShortcuts("shortcut_image_controls"));
+                p.actions["ColorSpace"]->setShortcuts(_getShortcuts("shortcut_image_color_space"));
+                p.actions["RedChannel"]->setShortcuts(_getShortcuts("shortcut_image_red_channel"));
+                p.actions["GreenChannel"]->setShortcuts(_getShortcuts("shortcut_image_green_channel"));
+                p.actions["BlueChannel"]->setShortcuts(_getShortcuts("shortcut_image_blue_channel"));
+                p.actions["AlphaChannel"]->setShortcuts(_getShortcuts("shortcut_image_alpha_channel"));
+                p.actions["MirrorH"]->setShortcuts(_getShortcuts("shortcut_image_mirror_h"));
+                p.actions["MirrorV"]->setShortcuts(_getShortcuts("shortcut_image_mirror_v"));
+                p.actions["FrameStoreEnabled"]->setShortcuts(_getShortcuts("shortcut_image_frame_store_enabled"));
+                p.actions["LoadFrameStore"]->setShortcuts(_getShortcuts("shortcut_image_load_frame_store"));
             }
         }
 

@@ -40,7 +40,7 @@ namespace djv
             p.actions["Magnify"] = UI::Action::create();
             p.actions["Magnify"]->setIcon("djvIconMagnify");
 
-            _addShortcut("ViewApp/Magnify/Magnify", GLFW_KEY_Y, UI::Shortcut::getSystemModifier());
+            _addShortcut("shortcut_magnify", GLFW_KEY_Y, UI::Shortcut::getSystemModifier());
 
             _textUpdate();
             _shortcutsUpdate();
@@ -137,7 +137,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.actions.size())
             {
-                p.actions["Magnify"]->setShortcuts(_getShortcuts("ViewApp/Magnify/Magnify"));
+                p.actions["Magnify"]->setShortcuts(_getShortcuts("shortcut_magnify"));
             }
         }
 

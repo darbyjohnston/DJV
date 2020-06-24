@@ -119,42 +119,42 @@ namespace djv
             p.actions["ResetInPoint"] = UI::Action::create();
             p.actions["ResetOutPoint"] = UI::Action::create();
 
-            _addShortcut("ViewApp/Playback/Forward", {
+            _addShortcut("shortcut_playback_forward", {
                 UI::ShortcutData(GLFW_KEY_UP),
                 UI::ShortcutData(GLFW_KEY_L) });
-            _addShortcut("ViewApp/Playback/Reverse", {
+            _addShortcut("shortcut_playback_reverse", {
                 UI::ShortcutData(GLFW_KEY_DOWN),
                 UI::ShortcutData(GLFW_KEY_J) });
-            _addShortcut("ViewApp/Playback/Playback", {
+            _addShortcut("shortcut_playback_playback", {
                 UI::ShortcutData(GLFW_KEY_SPACE),
                 UI::ShortcutData(GLFW_KEY_K) });
-            _addShortcut("ViewApp/Playback/InPoint", GLFW_KEY_HOME);
-            _addShortcut("ViewApp/Playback/OutPoint", GLFW_KEY_END);
-            _addShortcut("ViewApp/Playback/StartFrame", GLFW_KEY_HOME, GLFW_MOD_SHIFT);
-            _addShortcut("ViewApp/Playback/EndFrame", GLFW_KEY_END, GLFW_MOD_SHIFT);
-            _addShortcut("ViewApp/Playback/NextFrame", {
+            _addShortcut("shortcut_playback_in_point", GLFW_KEY_HOME);
+            _addShortcut("shortcut_playback_out_point", GLFW_KEY_END);
+            _addShortcut("shortcut_playback_start_frame", GLFW_KEY_HOME, GLFW_MOD_SHIFT);
+            _addShortcut("shortcut_playback_end_frame", GLFW_KEY_END, GLFW_MOD_SHIFT);
+            _addShortcut("shortcut_playback_next_frame", {
                 UI::ShortcutData(GLFW_KEY_RIGHT),
                 UI::ShortcutData(GLFW_KEY_RIGHT_BRACKET) });
-            _addShortcut("ViewApp/Playback/NextFrame10", {
+            _addShortcut("shortcut_playback_next_frame_10", {
                 UI::ShortcutData(GLFW_KEY_RIGHT, GLFW_MOD_SHIFT),
                 UI::ShortcutData(GLFW_KEY_RIGHT_BRACKET, GLFW_MOD_SHIFT) });
-            _addShortcut("ViewApp/Playback/NextFrame100", {
+            _addShortcut("shortcut_playback_next_frame_100", {
                 UI::ShortcutData(GLFW_KEY_RIGHT, UI::Shortcut::getSystemModifier()),
                 UI::ShortcutData(GLFW_KEY_RIGHT_BRACKET, UI::Shortcut::getSystemModifier()) });
-            _addShortcut("ViewApp/Playback/PrevFrame", {
+            _addShortcut("shortcut_playback_prev_frame", {
                 UI::ShortcutData(GLFW_KEY_LEFT),
                 UI::ShortcutData(GLFW_KEY_LEFT_BRACKET) });
-            _addShortcut("ViewApp/Playback/PrevFrame10", {
+            _addShortcut("shortcut_playback_prev_frame_10", {
                 UI::ShortcutData(GLFW_KEY_LEFT, GLFW_MOD_SHIFT),
                 UI::ShortcutData(GLFW_KEY_LEFT_BRACKET, GLFW_MOD_SHIFT) });
-            _addShortcut("ViewApp/Playback/PrevFrame100", {
+            _addShortcut("shortcut_playback_prev_frame_100", {
                 UI::ShortcutData(GLFW_KEY_LEFT, UI::Shortcut::getSystemModifier()),
                 UI::ShortcutData(GLFW_KEY_LEFT_BRACKET, UI::Shortcut::getSystemModifier()) });
-            _addShortcut("ViewApp/Playback/InOutPoints", GLFW_KEY_P);
-            _addShortcut("ViewApp/Playback/SetInPoint", GLFW_KEY_I);
-            _addShortcut("ViewApp/Playback/SetOutPoint", GLFW_KEY_O);
-            _addShortcut("ViewApp/Playback/ResetInPoint", GLFW_KEY_I, GLFW_MOD_SHIFT);
-            _addShortcut("ViewApp/Playback/ResetOutPoint", GLFW_KEY_O, GLFW_MOD_SHIFT);
+            _addShortcut("shortcut_playback_in_out_points", GLFW_KEY_P);
+            _addShortcut("shortcut_playback_set_in_point", GLFW_KEY_I);
+            _addShortcut("shortcut_playback_set_out_point", GLFW_KEY_O);
+            _addShortcut("shortcut_playback_reset_in_point", GLFW_KEY_I, GLFW_MOD_SHIFT);
+            _addShortcut("shortcut_playback_reset_out_point", GLFW_KEY_O, GLFW_MOD_SHIFT);
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Forward"]);
@@ -760,24 +760,24 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.actions.size())
             {
-                p.actions["Forward"]->setShortcuts(_getShortcuts("ViewApp/Playback/Forward"));
-                p.actions["Reverse"]->setShortcuts(_getShortcuts("ViewApp/Playback/Reverse"));
-                p.actions["Playback"]->setShortcuts(_getShortcuts("ViewApp/Playback/Playback"));
-                p.actions["InPoint"]->setShortcuts(_getShortcuts("ViewApp/Playback/InPoint"));
-                p.actions["OutPoint"]->setShortcuts(_getShortcuts("ViewApp/Playback/OutPoint"));
-                p.actions["StartFrame"]->setShortcuts(_getShortcuts("ViewApp/Playback/StartFrame"));
-                p.actions["EndFrame"]->setShortcuts(_getShortcuts("ViewApp/Playback/EndFrame"));
-                p.actions["NextFrame"]->setShortcuts(_getShortcuts("ViewApp/Playback/NextFrame"));
-                p.actions["NextFrame10"]->setShortcuts(_getShortcuts("ViewApp/Playback/NextFrame10"));
-                p.actions["NextFrame100"]->setShortcuts(_getShortcuts("ViewApp/Playback/NextFrame100"));
-                p.actions["PrevFrame"]->setShortcuts(_getShortcuts("ViewApp/Playback/PrevFrame"));
-                p.actions["PrevFrame10"]->setShortcuts(_getShortcuts("ViewApp/Playback/PrevFrame10"));
-                p.actions["PrevFrame100"]->setShortcuts(_getShortcuts("ViewApp/Playback/PrevFrame100"));
-                p.actions["InOutPoints"]->setShortcuts(_getShortcuts("ViewApp/Playback/InOutPoints"));
-                p.actions["SetInPoint"]->setShortcuts(_getShortcuts("ViewApp/Playback/SetInPoint"));
-                p.actions["SetOutPoint"]->setShortcuts(_getShortcuts("ViewApp/Playback/SetOutPoint"));
-                p.actions["ResetInPoint"]->setShortcuts(_getShortcuts("ViewApp/Playback/ResetInPoint"));
-                p.actions["ResetOutPoint"]->setShortcuts(_getShortcuts("ViewApp/Playback/ResetOutPoint"));
+                p.actions["Forward"]->setShortcuts(_getShortcuts("shortcut_playback_forward"));
+                p.actions["Reverse"]->setShortcuts(_getShortcuts("shortcut_playback_reverse"));
+                p.actions["Playback"]->setShortcuts(_getShortcuts("shortcut_playback_playback"));
+                p.actions["InPoint"]->setShortcuts(_getShortcuts("shortcut_playback_in_point"));
+                p.actions["OutPoint"]->setShortcuts(_getShortcuts("shortcut_playback_out_point"));
+                p.actions["StartFrame"]->setShortcuts(_getShortcuts("shortcut_playback_start_frame"));
+                p.actions["EndFrame"]->setShortcuts(_getShortcuts("shortcut_playback_end_frame"));
+                p.actions["NextFrame"]->setShortcuts(_getShortcuts("shortcut_playback_next_frame"));
+                p.actions["NextFrame10"]->setShortcuts(_getShortcuts("shortcut_playback_next_frame_10"));
+                p.actions["NextFrame100"]->setShortcuts(_getShortcuts("shortcut_playback_next_frame_100"));
+                p.actions["PrevFrame"]->setShortcuts(_getShortcuts("shortcut_playback_prev_frame"));
+                p.actions["PrevFrame10"]->setShortcuts(_getShortcuts("shortcut_playback_prev_frame_10"));
+                p.actions["PrevFrame100"]->setShortcuts(_getShortcuts("shortcut_playback_prev_frame_100"));
+                p.actions["InOutPoints"]->setShortcuts(_getShortcuts("shortcut_playback_in_out_points"));
+                p.actions["SetInPoint"]->setShortcuts(_getShortcuts("shortcut_playback_set_in_point"));
+                p.actions["SetOutPoint"]->setShortcuts(_getShortcuts("shortcut_playback_set_out_point"));
+                p.actions["ResetInPoint"]->setShortcuts(_getShortcuts("shortcut_playback_reset_in_point"));
+                p.actions["ResetOutPoint"]->setShortcuts(_getShortcuts("shortcut_playback_reset_out_point"));
             }
         }
 

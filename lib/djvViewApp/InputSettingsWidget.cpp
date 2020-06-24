@@ -95,7 +95,7 @@ namespace djv
 
         std::string InputSettingsWidget::getSettingsSortKey() const
         {
-            return "X";
+            return "Z";
         }
 
         void InputSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)

@@ -112,17 +112,17 @@ namespace djv
             //p.actions["8BitConversion"]->setEnabled(false);
             p.actions["Exit"] = UI::Action::create();
 
-            _addShortcut("ViewApp/File/Open", GLFW_KEY_O, UI::Shortcut::getSystemModifier());
-            _addShortcut("ViewApp/File/Recent", GLFW_KEY_T, UI::Shortcut::getSystemModifier());
-            _addShortcut("ViewApp/File/Reload", GLFW_KEY_R, UI::Shortcut::getSystemModifier());
-            _addShortcut("ViewApp/File/Close", GLFW_KEY_E, UI::Shortcut::getSystemModifier());
-            _addShortcut("ViewApp/File/CloseAll", GLFW_KEY_E, GLFW_MOD_SHIFT | UI::Shortcut::getSystemModifier());
-            _addShortcut("ViewApp/File/Next", GLFW_KEY_PAGE_DOWN);
-            _addShortcut("ViewApp/File/Prev", GLFW_KEY_PAGE_UP);
-            _addShortcut("ViewApp/File/Layers", GLFW_KEY_L, UI::Shortcut::getSystemModifier());
-            _addShortcut("ViewApp/File/NextLayer", GLFW_KEY_EQUAL, UI::Shortcut::getSystemModifier());
-            _addShortcut("ViewApp/File/PrevLayer", GLFW_KEY_MINUS, UI::Shortcut::getSystemModifier());
-            _addShortcut("ViewApp/File/Exit", GLFW_KEY_Q, UI::Shortcut::getSystemModifier());
+            _addShortcut("shortcut_file_open", GLFW_KEY_O, UI::Shortcut::getSystemModifier());
+            _addShortcut("shortcut_file_recent", GLFW_KEY_T, UI::Shortcut::getSystemModifier());
+            _addShortcut("shortcut_file_reload", GLFW_KEY_R, UI::Shortcut::getSystemModifier());
+            _addShortcut("shortcut_file_close", GLFW_KEY_E, UI::Shortcut::getSystemModifier());
+            _addShortcut("shortcut_file_close_all", GLFW_KEY_E, GLFW_MOD_SHIFT | UI::Shortcut::getSystemModifier());
+            _addShortcut("shortcut_file_next", GLFW_KEY_PAGE_DOWN);
+            _addShortcut("shortcut_file_prev", GLFW_KEY_PAGE_UP);
+            _addShortcut("shortcut_file_layers", GLFW_KEY_L, UI::Shortcut::getSystemModifier());
+            _addShortcut("shortcut_file_next_layer", GLFW_KEY_EQUAL, UI::Shortcut::getSystemModifier());
+            _addShortcut("shortcut_file_prev_layer", GLFW_KEY_MINUS, UI::Shortcut::getSystemModifier());
+            _addShortcut("shortcut_file_exit", GLFW_KEY_Q, UI::Shortcut::getSystemModifier());
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Open"]);
@@ -848,17 +848,17 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.actions.size())
             {
-                p.actions["Open"]->setShortcuts(_getShortcuts("ViewApp/File/Open"));
-                p.actions["Recent"]->setShortcuts(_getShortcuts("ViewApp/File/Recent"));
-                p.actions["Reload"]->setShortcuts(_getShortcuts("ViewApp/File/Reload"));
-                p.actions["Close"]->setShortcuts(_getShortcuts("ViewApp/File/Close"));
-                p.actions["CloseAll"]->setShortcuts(_getShortcuts("ViewApp/File/CloseAll"));
-                p.actions["Next"]->setShortcuts(_getShortcuts("ViewApp/File/Next"));
-                p.actions["Prev"]->setShortcuts(_getShortcuts("ViewApp/File/Prev"));
-                p.actions["Layers"]->setShortcuts(_getShortcuts("ViewApp/File/Layers"));
-                p.actions["NextLayer"]->setShortcuts(_getShortcuts("ViewApp/File/NextLayer"));
-                p.actions["PrevLayer"]->setShortcuts(_getShortcuts("ViewApp/File/PrevLayer"));
-                p.actions["Exit"]->setShortcuts(_getShortcuts("ViewApp/File/Exit"));
+                p.actions["Open"]->setShortcuts(_getShortcuts("shortcut_file_open"));
+                p.actions["Recent"]->setShortcuts(_getShortcuts("shortcut_file_recent"));
+                p.actions["Reload"]->setShortcuts(_getShortcuts("shortcut_file_reload"));
+                p.actions["Close"]->setShortcuts(_getShortcuts("shortcut_file_close"));
+                p.actions["CloseAll"]->setShortcuts(_getShortcuts("shortcut_file_close_all"));
+                p.actions["Next"]->setShortcuts(_getShortcuts("shortcut_file_next"));
+                p.actions["Prev"]->setShortcuts(_getShortcuts("shortcut_file_prev"));
+                p.actions["Layers"]->setShortcuts(_getShortcuts("shortcut_file_layers"));
+                p.actions["NextLayer"]->setShortcuts(_getShortcuts("shortcut_file_next_layer"));
+                p.actions["PrevLayer"]->setShortcuts(_getShortcuts("shortcut_file_prev_layer"));
+                p.actions["Exit"]->setShortcuts(_getShortcuts("shortcut_file_exit"));
             }
         }
 

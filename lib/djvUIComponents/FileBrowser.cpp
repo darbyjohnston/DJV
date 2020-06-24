@@ -40,9 +40,6 @@
 #include <djvCore/RecentFilesModel.h>
 #include <djvCore/StringFormat.h>
 
-#define GLFW_INCLUDE_NONE
-#include <GLFW/glfw3.h>
-
 #include <ctime>
 
 using namespace djv::Core;
@@ -164,23 +161,6 @@ namespace djv
                 {
                     addAction(action.second);
                 }
-
-                auto settingsSystem = context->getSystemT<Settings::System>();
-                auto shortcutsSettings = settingsSystem->getSettingsT<UI::Settings::Shortcuts>();
-                shortcutsSettings->addShortcut("UIComponents/FileBrowser/Back", GLFW_KEY_LEFT, Shortcut::getSystemModifier());
-                shortcutsSettings->addShortcut("UIComponents/FileBrowser/Forward", GLFW_KEY_RIGHT, Shortcut::getSystemModifier());
-                shortcutsSettings->addShortcut("UIComponents/FileBrowser/Up", GLFW_KEY_UP, Shortcut::getSystemModifier());
-                shortcutsSettings->addShortcut("UIComponents/FileBrowser/Tiles", GLFW_KEY_T);
-                shortcutsSettings->addShortcut("UIComponents/FileBrowser/List", GLFW_KEY_L);
-                shortcutsSettings->addShortcut("UIComponents/FileBrowser/IncreaseThumbnailSize", GLFW_KEY_EQUAL);
-                shortcutsSettings->addShortcut("UIComponents/FileBrowser/DecreaseThumbnailSize", GLFW_KEY_MINUS);
-                shortcutsSettings->addShortcut("UIComponents/FileBrowser/FileSequences", GLFW_KEY_S);
-                shortcutsSettings->addShortcut("UIComponents/FileBrowser/ShowHidden", GLFW_KEY_N);
-                shortcutsSettings->addShortcut("UIComponents/FileBrowser/SortByName", GLFW_KEY_3);
-                shortcutsSettings->addShortcut("UIComponents/FileBrowser/SortBySize", GLFW_KEY_4);
-                shortcutsSettings->addShortcut("UIComponents/FileBrowser/SortByTime", GLFW_KEY_5);
-                shortcutsSettings->addShortcut("UIComponents/FileBrowser/ReverseSort", GLFW_KEY_R);
-                shortcutsSettings->addShortcut("UIComponents/FileBrowser/SortDirectoriesFirst", GLFW_KEY_D);
 
                 auto pathWidget = PathWidget::create(context);
 
@@ -534,78 +514,80 @@ namespace djv
                     }
                 });
 
+                auto settingsSystem = context->getSystemT<Settings::System>();
+                auto shortcutsSettings = settingsSystem->getSettingsT<UI::Settings::Shortcuts>();
                 p.uiShortcutsObserver = MapObserver<std::string, std::vector<ShortcutData>>::create(
                     shortcutsSettings->observeShortcuts(),
                     [weak](const std::map<std::string, std::vector<ShortcutData> >& value)
                     {
                         if (auto widget = weak.lock())
                         {
-                            auto i = value.find("UIComponents/FileBrowser/Back");
+                            auto i = value.find("file_browser_shortcut_back");
                             if (i != value.end())
                             {
                                 widget->_p->actions["Back"]->setShortcuts(i->second);
                             }
-                            i = value.find("UIComponents/FileBrowser/Forward");
+                            i = value.find("file_browser_shortcut_forward");
                             if (i != value.end())
                             {
                                 widget->_p->actions["Forward"]->setShortcuts(i->second);
                             }
-                            i = value.find("UIComponents/FileBrowser/Up");
+                            i = value.find("file_browser_shortcut_up");
                             if (i != value.end())
                             {
                                 widget->_p->actions["Up"]->setShortcuts(i->second);
                             }
-                            i = value.find("UIComponents/FileBrowser/Tiles");
+                            i = value.find("file_browser_shortcut_tiles");
                             if (i != value.end())
                             {
                                 widget->_p->actions["Tiles"]->setShortcuts(i->second);
                             }
-                            i = value.find("UIComponents/FileBrowser/List");
+                            i = value.find("file_browser_shortcut_list");
                             if (i != value.end())
                             {
                                 widget->_p->actions["List"]->setShortcuts(i->second);
                             }
-                            i = value.find("UIComponents/FileBrowser/IncreaseThumbnailSize");
+                            i = value.find("file_browser_shortcut_increase_thumbnail_size");
                             if (i != value.end())
                             {
                                 widget->_p->actions["IncreaseThumbnailSize"]->setShortcuts(i->second);
                             }
-                            i = value.find("UIComponents/FileBrowser/DecreaseThumbnailSize");
+                            i = value.find("file_browser_shortcut_decrease_thumbnail_size");
                             if (i != value.end())
                             {
                                 widget->_p->actions["DecreaseThumbnailSize"]->setShortcuts(i->second);
                             }
-                            i = value.find("UIComponents/FileBrowser/FileSequences");
+                            i = value.find("file_browser_shortcut_file_sequences");
                             if (i != value.end())
                             {
                                 widget->_p->actions["FileSequences"]->setShortcuts(i->second);
                             }
-                            i = value.find("UIComponents/FileBrowser/ShowHidden");
+                            i = value.find("file_browser_shortcut_show_hidden");
                             if (i != value.end())
                             {
                                 widget->_p->actions["ShowHidden"]->setShortcuts(i->second);
                             }
-                            i = value.find("UIComponents/FileBrowser/SortByName");
+                            i = value.find("file_browser_shortcut_sort_by_name");
                             if (i != value.end())
                             {
                                 widget->_p->actions["SortByName"]->setShortcuts(i->second);
                             }
-                            i = value.find("UIComponents/FileBrowser/SortBySize");
+                            i = value.find("file_browser_shortcut_sort_by_size");
                             if (i != value.end())
                             {
                                 widget->_p->actions["SortBySize"]->setShortcuts(i->second);
                             }
-                            i = value.find("UIComponents/FileBrowser/SortByTime");
+                            i = value.find("file_browser_shortcut_sort_by_time");
                             if (i != value.end())
                             {
                                 widget->_p->actions["SortByTime"]->setShortcuts(i->second);
                             }
-                            i = value.find("UIComponents/FileBrowser/ReverseSort");
+                            i = value.find("file_browser_shortcut_reverse_sort");
                             if (i != value.end())
                             {
                                 widget->_p->actions["ReverseSort"]->setShortcuts(i->second);
                             }
-                            i = value.find("UIComponents/FileBrowser/SortDirectoriesFirst");
+                            i = value.find("file_browser_shortcut_sort_directories_first");
                             if (i != value.end())
                             {
                                 widget->_p->actions["SortDirectoriesFirst"]->setShortcuts(i->second);
