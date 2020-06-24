@@ -67,6 +67,7 @@ namespace djv
             std::shared_ptr<ValueObserver<float> > imageZoomObserver;
             std::shared_ptr<ValueObserver<PointerData> > hoverObserver;
             std::shared_ptr<ValueObserver<PointerData> > dragObserver;
+            std::shared_ptr<MapObserver<std::string, std::vector<UI::ShortcutData> > > shortcutsObserver;
         };
 
         void AnnotateSystem::_init(const std::shared_ptr<Context>& context)
@@ -79,7 +80,6 @@ namespace djv
 
             p.actions["Annotate"] = UI::Action::create();
             p.actions["Annotate"]->setIcon("djvIconAnnotate");
-            p.actions["Annotate"]->setShortcut(GLFW_KEY_A, UI::Shortcut::getSystemModifier());
 
             p.actions["Polyline"] = UI::Action::create();
             p.actions["Polyline"]->setIcon("djvIconAnnotatePolyline");
@@ -119,6 +119,8 @@ namespace djv
             p.actions["Prev"] = UI::Action::create();
             p.actions["Prev"]->setIcon("djvIconArrowLeft");
 
+            _addShortcut("ViewApp/Annotate/Annotate", GLFW_KEY_A, UI::Shortcut::getSystemModifier());
+
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Polyline"]);
             p.menu->addAction(p.actions["Line"]);
@@ -135,6 +137,7 @@ namespace djv
             p.menu->addAction(p.actions["Prev"]);
 
             _textUpdate();
+            _shortcutsUpdate();
 
             auto contextWeak = std::weak_ptr<Context>(context);
             p.toolActionGroup->setRadioCallback(
@@ -388,6 +391,15 @@ namespace djv
                 p.actions["Prev"]->setTooltip(_getText(DJV_TEXT("menu_annotate_prev_tooltip")));
 
                 p.menu->setText(_getText(DJV_TEXT("menu_annotate")));
+            }
+        }
+
+        void AnnotateSystem::_shortcutsUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.actions.size())
+            {
+                p.actions["Annotate"]->setShortcuts(_getShortcuts("ViewApp/Annotate/Annotate"));
             }
         }
         

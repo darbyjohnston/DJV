@@ -94,34 +94,35 @@ namespace djv
 
             p.actions["Open"] = UI::Action::create();
             p.actions["Open"]->setIcon("djvIconFileOpen");
-            p.actions["Open"]->setShortcut(GLFW_KEY_O, UI::Shortcut::getSystemModifier());
             p.actions["Recent"] = UI::Action::create();
             p.actions["Recent"]->setIcon("djvIconFileRecent");
-            p.actions["Recent"]->setShortcut(GLFW_KEY_T, UI::Shortcut::getSystemModifier());
             p.actions["Reload"] = UI::Action::create();
-            p.actions["Reload"]->setShortcut(GLFW_KEY_R, UI::Shortcut::getSystemModifier());
             p.actions["Close"] = UI::Action::create();
             p.actions["Close"]->setIcon("djvIconFileClose");
-            p.actions["Close"]->setShortcut(GLFW_KEY_E, UI::Shortcut::getSystemModifier());
             p.actions["CloseAll"] = UI::Action::create();
-            p.actions["CloseAll"]->setShortcut(GLFW_KEY_E, GLFW_MOD_SHIFT | UI::Shortcut::getSystemModifier());
             p.actions["Next"] = UI::Action::create();
-            p.actions["Next"]->setShortcut(GLFW_KEY_PAGE_DOWN);
             p.actions["Prev"] = UI::Action::create();
-            p.actions["Prev"]->setShortcut(GLFW_KEY_PAGE_UP);
             p.actions["Layers"] = UI::Action::create();
             p.actions["Layers"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Layers"]->setShortcut(GLFW_KEY_L, UI::Shortcut::getSystemModifier());
             p.actions["NextLayer"] = UI::Action::create();
-            p.actions["NextLayer"]->setShortcut(GLFW_KEY_EQUAL, UI::Shortcut::getSystemModifier());
             p.actions["PrevLayer"] = UI::Action::create();
-            p.actions["PrevLayer"]->setShortcut(GLFW_KEY_MINUS, UI::Shortcut::getSystemModifier());
             //! \todo Implement me!
             //p.actions["8BitConversion"] = UI::Action::create();
             //p.actions["8BitConversion"]->setButtonType(UI::ButtonType::Toggle);
             //p.actions["8BitConversion"]->setEnabled(false);
             p.actions["Exit"] = UI::Action::create();
-            p.actions["Exit"]->setShortcut(GLFW_KEY_Q, UI::Shortcut::getSystemModifier());
+
+            _addShortcut("ViewApp/File/Open", GLFW_KEY_O, UI::Shortcut::getSystemModifier());
+            _addShortcut("ViewApp/File/Recent", GLFW_KEY_T, UI::Shortcut::getSystemModifier());
+            _addShortcut("ViewApp/File/Reload", GLFW_KEY_R, UI::Shortcut::getSystemModifier());
+            _addShortcut("ViewApp/File/Close", GLFW_KEY_E, UI::Shortcut::getSystemModifier());
+            _addShortcut("ViewApp/File/CloseAll", GLFW_KEY_E, GLFW_MOD_SHIFT | UI::Shortcut::getSystemModifier());
+            _addShortcut("ViewApp/File/Next", GLFW_KEY_PAGE_DOWN);
+            _addShortcut("ViewApp/File/Prev", GLFW_KEY_PAGE_UP);
+            _addShortcut("ViewApp/File/Layers", GLFW_KEY_L, UI::Shortcut::getSystemModifier());
+            _addShortcut("ViewApp/File/NextLayer", GLFW_KEY_EQUAL, UI::Shortcut::getSystemModifier());
+            _addShortcut("ViewApp/File/PrevLayer", GLFW_KEY_MINUS, UI::Shortcut::getSystemModifier());
+            _addShortcut("ViewApp/File/Exit", GLFW_KEY_Q, UI::Shortcut::getSystemModifier());
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Open"]);
@@ -144,6 +145,7 @@ namespace djv
 
             _actionsUpdate();
             _textUpdate();
+            _shortcutsUpdate();
 
             auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
             p.recentFilesObserver = ListObserver<Core::FileSystem::FileInfo>::create(
@@ -838,6 +840,25 @@ namespace djv
                 p.actions["Exit"]->setTooltip(_getText(DJV_TEXT("menu_file_exit_tooltip")));
 
                 p.menu->setText(_getText(DJV_TEXT("menu_file")));
+            }
+        }
+
+        void FileSystem::_shortcutsUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.actions.size())
+            {
+                p.actions["Open"]->setShortcuts(_getShortcuts("ViewApp/File/Open"));
+                p.actions["Recent"]->setShortcuts(_getShortcuts("ViewApp/File/Recent"));
+                p.actions["Reload"]->setShortcuts(_getShortcuts("ViewApp/File/Reload"));
+                p.actions["Close"]->setShortcuts(_getShortcuts("ViewApp/File/Close"));
+                p.actions["CloseAll"]->setShortcuts(_getShortcuts("ViewApp/File/CloseAll"));
+                p.actions["Next"]->setShortcuts(_getShortcuts("ViewApp/File/Next"));
+                p.actions["Prev"]->setShortcuts(_getShortcuts("ViewApp/File/Prev"));
+                p.actions["Layers"]->setShortcuts(_getShortcuts("ViewApp/File/Layers"));
+                p.actions["NextLayer"]->setShortcuts(_getShortcuts("ViewApp/File/NextLayer"));
+                p.actions["PrevLayer"]->setShortcuts(_getShortcuts("ViewApp/File/PrevLayer"));
+                p.actions["Exit"]->setShortcuts(_getShortcuts("ViewApp/File/Exit"));
             }
         }
 

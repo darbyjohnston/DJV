@@ -135,12 +135,12 @@ namespace djv
             void CheckBox::_paintEvent(Event::Paint& event)
             {
                 IButton::_paintEvent(event);
-                const auto& render = _getRender();
                 const auto& style = _getStyle();
-                const BBox2f& g = getGeometry();
                 const float m = style->getMetric(MetricsRole::MarginInside);
                 const float b = style->getMetric(MetricsRole::Border);
+                const BBox2f& g = getGeometry();
 
+                const auto& render = _getRender();
                 if (_isPressed())
                 {
                     render->setFillColor(style->getColor(ColorRole::Pressed));
@@ -209,11 +209,11 @@ namespace djv
             BBox2f CheckBox::_getCheckGeometry() const
             {
                 const auto& style = _getStyle();
-                const BBox2f& g = getGeometry();
-                const float b = style->getMetric(MetricsRole::Border);
                 const float m = style->getMetric(MetricsRole::MarginInside);
+                const float b = style->getMetric(MetricsRole::Border);
                 const float is = style->getMetric(MetricsRole::IconSmall);
                 const float size = is + m * 2.F;
+                const BBox2f& g = getGeometry();
                 const BBox2f g2 = g.margin(-b);
                 return BBox2f(g2.min.x, floorf(g2.min.y + g2.h() / 2.F - size / 2.F), size, size);
             }
@@ -221,11 +221,11 @@ namespace djv
             BBox2f CheckBox::_getLabelGeometry() const
             {
                 const auto& style = _getStyle();
-                const BBox2f& g = getGeometry();
-                const float b = style->getMetric(MetricsRole::Border);
                 const float m = style->getMetric(MetricsRole::MarginInside);
+                const float b = style->getMetric(MetricsRole::Border);
                 const float is = style->getMetric(MetricsRole::IconSmall);
                 const float size = is + m * 2.F;
+                const BBox2f& g = getGeometry();
                 const BBox2f g2 = g.margin(-b);
                 return BBox2f(g2.min.x + size, g2.min.y, g2.w() - size, g2.h());
             }

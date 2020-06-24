@@ -24,6 +24,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SettingsSystem.h>
+#include <djvUI/ShortcutsSettings.h>
 #include <djvUI/Shortcut.h>
 #include <djvUI/Splitter.h>
 #include <djvUI/StackLayout.h>
@@ -86,32 +87,25 @@ namespace djv
                 std::shared_ptr<ValueObserver<FileSystem::Path> > pathObserver;
                 std::shared_ptr<ListObserver<FileSystem::FileInfo> > fileInfoObserver;
                 std::shared_ptr<ValueObserver<bool> > hasUpObserver;
-                std::shared_ptr<ValueObserver<bool> > upObserver;
                 std::shared_ptr<ListObserver<FileSystem::Path> > historyObserver;
                 std::shared_ptr<ValueObserver<size_t> > historyIndexObserver;
                 std::shared_ptr<ValueObserver<bool> > hasBackObserver;
-                std::shared_ptr<ValueObserver<bool> > backObserver;
                 std::shared_ptr<ValueObserver<bool> > hasForwardObserver;
-                std::shared_ptr<ValueObserver<bool> > forwardObserver;
                 std::shared_ptr<ListObserver<FileSystem::Path> > shortcutsObserver;
                 std::shared_ptr<ListObserver<FileSystem::Path> > shortcutsSettingsObserver;
                 std::shared_ptr<ListObserver<FileSystem::FileInfo> > recentPathsObserver;
                 std::shared_ptr<ListObserver<FileSystem::Path> > recentPathsSettingsObserver;
                 std::shared_ptr<ListObserver<FileSystem::Path> > drivesObserver;
                 std::shared_ptr<ValueObserver<ViewType> > viewTypeSettingsObserver;
-                std::shared_ptr<ValueObserver<bool> > increaseThumbnailSizeObserver;
-                std::shared_ptr<ValueObserver<bool> > decreaseThumbnailSizeObserver;
                 std::shared_ptr<ValueObserver<AV::Image::Size> > thumbnailSizeSettingsObserver;
                 std::shared_ptr<ListObserver<float> > listViewHeaderSplitSettingsObserver;
-                std::shared_ptr<ValueObserver<bool> > fileSequencesObserver;
                 std::shared_ptr<ValueObserver<bool> > fileSequencesSettingsObserver;
-                std::shared_ptr<ValueObserver<bool> > showHiddenObserver;
                 std::shared_ptr<ValueObserver<bool> > showHiddenSettingsObserver;
                 std::shared_ptr<ValueObserver<FileSystem::DirectoryListSort> > sortSettingsObserver;
-                std::shared_ptr<ValueObserver<bool> > reverseSortObserver;
                 std::shared_ptr<ValueObserver<bool> > reverseSortSettingsObserver;
-                std::shared_ptr<ValueObserver<bool> > sortDirectoriesFirstObserver;
                 std::shared_ptr<ValueObserver<bool> > sortDirectoriesFirstSettingsObserver;
+                std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
+                std::shared_ptr<MapObserver<std::string, std::vector<ShortcutData> > > uiShortcutsObserver;
             };
 
             void FileBrowser::_init(const std::shared_ptr<Context>& context)
@@ -131,59 +125,62 @@ namespace djv
 
                 p.actions["Back"] = Action::create();
                 p.actions["Back"]->setIcon("djvIconArrowLeft");
-                p.actions["Back"]->setShortcut(GLFW_KEY_LEFT);
                 p.actions["Forward"] = Action::create();
                 p.actions["Forward"]->setIcon("djvIconArrowRight");
-                p.actions["Forward"]->setShortcut(GLFW_KEY_RIGHT);
                 p.actions["Up"] = Action::create();
                 p.actions["Up"]->setIcon("djvIconArrowUp");
-                p.actions["Up"]->setShortcut(GLFW_KEY_UP);
 
                 p.actions["Tiles"] = Action::create();
                 p.actions["Tiles"]->setIcon("djvIconTileView");
-                p.actions["Tiles"]->setShortcut(GLFW_KEY_T);
                 p.actions["List"] = Action::create();
                 p.actions["List"]->setIcon("djvIconListView");
-                p.actions["List"]->setShortcut(GLFW_KEY_L);
                 p.viewTypeActionGroup = ActionGroup::create(ButtonType::Radio);
                 p.viewTypeActionGroup->addAction(p.actions["Tiles"]);
                 p.viewTypeActionGroup->addAction(p.actions["List"]);
                 p.actions["IncreaseThumbnailSize"] = Action::create();
                 p.actions["IncreaseThumbnailSize"]->setIcon("djvIconAdd");
-                p.actions["IncreaseThumbnailSize"]->setShortcut(GLFW_KEY_EQUAL);
                 p.actions["DecreaseThumbnailSize"] = Action::create();
                 p.actions["DecreaseThumbnailSize"]->setIcon("djvIconSubtract");
-                p.actions["DecreaseThumbnailSize"]->setShortcut(GLFW_KEY_MINUS);
 
                 p.actions["FileSequences"] = Action::create();
                 p.actions["FileSequences"]->setButtonType(ButtonType::Toggle);
                 p.actions["FileSequences"]->setIcon("djvIconFileSequence");
-                p.actions["FileSequences"]->setShortcut(GLFW_KEY_S);
                 p.actions["ShowHidden"] = Action::create();
                 p.actions["ShowHidden"]->setButtonType(ButtonType::Toggle);
-                p.actions["ShowHidden"]->setShortcut(GLFW_KEY_N);
 
                 p.actions["SortByName"] = Action::create();
-                p.actions["SortByName"]->setShortcut(GLFW_KEY_3);
                 p.actions["SortBySize"] = Action::create();
-                p.actions["SortBySize"]->setShortcut(GLFW_KEY_4);
                 p.actions["SortByTime"] = Action::create();
-                p.actions["SortByTime"]->setShortcut(GLFW_KEY_5);
                 p.sortActionGroup = ActionGroup::create(ButtonType::Radio);
                 p.sortActionGroup->addAction(p.actions["SortByName"]);
                 p.sortActionGroup->addAction(p.actions["SortBySize"]);
                 p.sortActionGroup->addAction(p.actions["SortByTime"]);
                 p.actions["ReverseSort"] = Action::create();
                 p.actions["ReverseSort"]->setButtonType(ButtonType::Toggle);
-                p.actions["ReverseSort"]->setShortcut(GLFW_KEY_R);
                 p.actions["SortDirectoriesFirst"] = Action::create();
                 p.actions["SortDirectoriesFirst"]->setButtonType(ButtonType::Toggle);
-                p.actions["SortDirectoriesFirst"]->setShortcut(GLFW_KEY_D);
 
                 for (auto action : p.actions)
                 {
                     addAction(action.second);
                 }
+
+                auto settingsSystem = context->getSystemT<Settings::System>();
+                auto shortcutsSettings = settingsSystem->getSettingsT<UI::Settings::Shortcuts>();
+                shortcutsSettings->addShortcut("UIComponents/FileBrowser/Back", GLFW_KEY_LEFT, Shortcut::getSystemModifier());
+                shortcutsSettings->addShortcut("UIComponents/FileBrowser/Forward", GLFW_KEY_RIGHT, Shortcut::getSystemModifier());
+                shortcutsSettings->addShortcut("UIComponents/FileBrowser/Up", GLFW_KEY_UP, Shortcut::getSystemModifier());
+                shortcutsSettings->addShortcut("UIComponents/FileBrowser/Tiles", GLFW_KEY_T);
+                shortcutsSettings->addShortcut("UIComponents/FileBrowser/List", GLFW_KEY_L);
+                shortcutsSettings->addShortcut("UIComponents/FileBrowser/IncreaseThumbnailSize", GLFW_KEY_EQUAL);
+                shortcutsSettings->addShortcut("UIComponents/FileBrowser/DecreaseThumbnailSize", GLFW_KEY_MINUS);
+                shortcutsSettings->addShortcut("UIComponents/FileBrowser/FileSequences", GLFW_KEY_S);
+                shortcutsSettings->addShortcut("UIComponents/FileBrowser/ShowHidden", GLFW_KEY_N);
+                shortcutsSettings->addShortcut("UIComponents/FileBrowser/SortByName", GLFW_KEY_3);
+                shortcutsSettings->addShortcut("UIComponents/FileBrowser/SortBySize", GLFW_KEY_4);
+                shortcutsSettings->addShortcut("UIComponents/FileBrowser/SortByTime", GLFW_KEY_5);
+                shortcutsSettings->addShortcut("UIComponents/FileBrowser/ReverseSort", GLFW_KEY_R);
+                shortcutsSettings->addShortcut("UIComponents/FileBrowser/SortDirectoriesFirst", GLFW_KEY_D);
 
                 auto pathWidget = PathWidget::create(context);
 
@@ -203,9 +200,9 @@ namespace djv
                 p.drivesPopupWidget->addChild(drivesWidget);
 
                 p.sortTitleLabel = Label::create(context);
-                p.sortTitleLabel->setTextHAlign(UI::TextHAlign::Left);
+                p.sortTitleLabel->setTextHAlign(TextHAlign::Left);
                 p.sortTitleLabel->setMargin(MetricsRole::MarginSmall);
-                p.sortTitleLabel->setBackgroundRole(UI::ColorRole::Trough);
+                p.sortTitleLabel->setBackgroundRole(ColorRole::Trough);
                 auto sortByNameButton = ActionButton::create(context);
                 sortByNameButton->addAction(p.actions["SortByName"]);
                 auto sortBySizeButton = ActionButton::create(context);
@@ -220,7 +217,7 @@ namespace djv
                 p.viewTypeLabel = Label::create(context);
                 p.viewTypeLabel->setTextHAlign(TextHAlign::Left);
                 p.viewTypeLabel->setMargin(MetricsRole::MarginSmall);
-                p.viewTypeLabel->setBackgroundRole(UI::ColorRole::Trough);
+                p.viewTypeLabel->setBackgroundRole(ColorRole::Trough);
                 auto tilesButton = ActionButton::create(context);
                 tilesButton->addAction(p.actions["Tiles"]);
                 auto listButton = ActionButton::create(context);
@@ -229,7 +226,7 @@ namespace djv
                 p.thumbnailSizeLabel = Label::create(context);
                 p.thumbnailSizeLabel->setTextHAlign(TextHAlign::Left);
                 p.thumbnailSizeLabel->setMargin(MetricsRole::MarginSmall);
-                p.thumbnailSizeLabel->setBackgroundRole(UI::ColorRole::Trough);
+                p.thumbnailSizeLabel->setBackgroundRole(ColorRole::Trough);
                 auto increaseThumbnailSizeButton = ActionButton::create(context);
                 increaseThumbnailSizeButton->addAction(p.actions["IncreaseThumbnailSize"]);
                 auto decreaseThumbnailSizeButton = ActionButton::create(context);
@@ -238,7 +235,7 @@ namespace djv
                 p.miscSettingsLabel = Label::create(context);
                 p.miscSettingsLabel->setTextHAlign(TextHAlign::Left);
                 p.miscSettingsLabel->setMargin(MetricsRole::MarginSmall);
-                p.miscSettingsLabel->setBackgroundRole(UI::ColorRole::Trough);
+                p.miscSettingsLabel->setBackgroundRole(ColorRole::Trough);
                 auto fileSequencesButton = ActionButton::create(context);
                 fileSequencesButton->addAction(p.actions["FileSequences"]);
                 auto showHiddenButton = ActionButton::create(context);
@@ -464,7 +461,7 @@ namespace djv
                     }
                 });
 
-                p.upObserver = ValueObserver<bool>::create(
+                p.actionObservers["Up"] = ValueObserver<bool>::create(
                     p.actions["Up"]->observeClicked(),
                     [weak](bool value)
                 {
@@ -501,7 +498,7 @@ namespace djv
                     }
                 });
 
-                p.backObserver = ValueObserver<bool>::create(
+                p.actionObservers["Back"] = ValueObserver<bool>::create(
                     p.actions["Back"]->observeClicked(),
                     [weak](bool value)
                 {
@@ -524,7 +521,7 @@ namespace djv
                     }
                 });
 
-                p.forwardObserver = ValueObserver<bool>::create(
+                p.actionObservers["Forward"] = ValueObserver<bool>::create(
                     p.actions["Forward"]->observeClicked(),
                     [weak](bool value)
                 {
@@ -537,7 +534,85 @@ namespace djv
                     }
                 });
 
-                auto settingsSystem = context->getSystemT<Settings::System>();
+                p.uiShortcutsObserver = MapObserver<std::string, std::vector<ShortcutData>>::create(
+                    shortcutsSettings->observeShortcuts(),
+                    [weak](const std::map<std::string, std::vector<ShortcutData> >& value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            auto i = value.find("UIComponents/FileBrowser/Back");
+                            if (i != value.end())
+                            {
+                                widget->_p->actions["Back"]->setShortcuts(i->second);
+                            }
+                            i = value.find("UIComponents/FileBrowser/Forward");
+                            if (i != value.end())
+                            {
+                                widget->_p->actions["Forward"]->setShortcuts(i->second);
+                            }
+                            i = value.find("UIComponents/FileBrowser/Up");
+                            if (i != value.end())
+                            {
+                                widget->_p->actions["Up"]->setShortcuts(i->second);
+                            }
+                            i = value.find("UIComponents/FileBrowser/Tiles");
+                            if (i != value.end())
+                            {
+                                widget->_p->actions["Tiles"]->setShortcuts(i->second);
+                            }
+                            i = value.find("UIComponents/FileBrowser/List");
+                            if (i != value.end())
+                            {
+                                widget->_p->actions["List"]->setShortcuts(i->second);
+                            }
+                            i = value.find("UIComponents/FileBrowser/IncreaseThumbnailSize");
+                            if (i != value.end())
+                            {
+                                widget->_p->actions["IncreaseThumbnailSize"]->setShortcuts(i->second);
+                            }
+                            i = value.find("UIComponents/FileBrowser/DecreaseThumbnailSize");
+                            if (i != value.end())
+                            {
+                                widget->_p->actions["DecreaseThumbnailSize"]->setShortcuts(i->second);
+                            }
+                            i = value.find("UIComponents/FileBrowser/FileSequences");
+                            if (i != value.end())
+                            {
+                                widget->_p->actions["FileSequences"]->setShortcuts(i->second);
+                            }
+                            i = value.find("UIComponents/FileBrowser/ShowHidden");
+                            if (i != value.end())
+                            {
+                                widget->_p->actions["ShowHidden"]->setShortcuts(i->second);
+                            }
+                            i = value.find("UIComponents/FileBrowser/SortByName");
+                            if (i != value.end())
+                            {
+                                widget->_p->actions["SortByName"]->setShortcuts(i->second);
+                            }
+                            i = value.find("UIComponents/FileBrowser/SortBySize");
+                            if (i != value.end())
+                            {
+                                widget->_p->actions["SortBySize"]->setShortcuts(i->second);
+                            }
+                            i = value.find("UIComponents/FileBrowser/SortByTime");
+                            if (i != value.end())
+                            {
+                                widget->_p->actions["SortByTime"]->setShortcuts(i->second);
+                            }
+                            i = value.find("UIComponents/FileBrowser/ReverseSort");
+                            if (i != value.end())
+                            {
+                                widget->_p->actions["ReverseSort"]->setShortcuts(i->second);
+                            }
+                            i = value.find("UIComponents/FileBrowser/SortDirectoriesFirst");
+                            if (i != value.end())
+                            {
+                                widget->_p->actions["SortDirectoriesFirst"]->setShortcuts(i->second);
+                            }
+                        }
+                    });
+
                 if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                 {
                     p.shortcutsSettingsObserver = ListObserver<FileSystem::Path>::create(
@@ -771,7 +846,7 @@ namespace djv
                         }
                     });
 
-                p.increaseThumbnailSizeObserver = ValueObserver<bool>::create(
+                p.actionObservers["IncreaseThumbnailSize"] = ValueObserver<bool>::create(
                     p.actions["IncreaseThumbnailSize"]->observeClicked(),
                     [contextWeak](bool value)
                 {
@@ -791,7 +866,7 @@ namespace djv
                     }
                 });
 
-                p.decreaseThumbnailSizeObserver = ValueObserver<bool>::create(
+                p.actionObservers["DecreaseThumbnailSize"] = ValueObserver<bool>::create(
                     p.actions["DecreaseThumbnailSize"]->observeClicked(),
                     [contextWeak](bool value)
                 {
@@ -811,7 +886,7 @@ namespace djv
                     }
                 });
 
-                p.fileSequencesObserver = ValueObserver<bool>::create(
+                p.actionObservers["FileSequences"] = ValueObserver<bool>::create(
                     p.actions["FileSequences"]->observeChecked(),
                     [contextWeak](bool value)
                     {
@@ -825,7 +900,7 @@ namespace djv
                         }
                     });
 
-                p.showHiddenObserver = ValueObserver<bool>::create(
+                p.actionObservers["ShowHidden"] = ValueObserver<bool>::create(
                     p.actions["ShowHidden"]->observeChecked(),
                     [contextWeak](bool value)
                     {
@@ -839,7 +914,7 @@ namespace djv
                         }
                     });
 
-                p.reverseSortObserver = ValueObserver<bool>::create(
+                p.actionObservers["ReverseSort"] = ValueObserver<bool>::create(
                     p.actions["ReverseSort"]->observeChecked(),
                     [contextWeak](bool value)
                     {
@@ -853,7 +928,7 @@ namespace djv
                         }
                     });
 
-                p.sortDirectoriesFirstObserver = ValueObserver<bool>::create(
+                p.actionObservers["SortDirectoriesFirst"] = ValueObserver<bool>::create(
                     p.actions["SortDirectoriesFirst"]->observeChecked(),
                     [contextWeak](bool value)
                     {

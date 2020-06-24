@@ -128,25 +128,22 @@ namespace djv
             p.actions["FullScreen"] = UI::Action::create();
             p.actions["FullScreen"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["FullScreen"]->setIcon("djvIconWindowFullScreen");
-            p.actions["FullScreen"]->setShortcut(GLFW_KEY_U);
-
             p.actions["FloatOnTop"] = UI::Action::create();
             p.actions["FloatOnTop"]->setButtonType(UI::ButtonType::Toggle);
-
             p.actions["Maximize"] = UI::Action::create();
             p.actions["Maximize"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["Maximize"]->setIcon("djvIconMDI");
             p.actions["Maximize"]->setCheckedIcon("djvIconSDI");
-            p.actions["Maximize"]->setShortcut(GLFW_KEY_M);
-
             p.actions["Fit"] = UI::Action::create();
-            p.actions["Fit"]->setShortcut(GLFW_KEY_F, UI::Shortcut::getSystemModifier());
-
             p.actions["AutoHide"] = UI::Action::create();
             p.actions["AutoHide"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["AutoHide"]->setIcon("djvIconVisible");
             p.actions["AutoHide"]->setCheckedIcon("djvIconHidden");
-            p.actions["AutoHide"]->setShortcut(GLFW_KEY_H, UI::Shortcut::getSystemModifier());
+
+            _addShortcut("ViewApp/Window/FullScreen", GLFW_KEY_U);
+            _addShortcut("ViewApp/Window/Maximize", GLFW_KEY_M);
+            _addShortcut("ViewApp/Window/Fit", GLFW_KEY_F, UI::Shortcut::getSystemModifier());
+            _addShortcut("ViewApp/Window/AutoHide", GLFW_KEY_H, UI::Shortcut::getSystemModifier());
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["FullScreen"]);
@@ -159,6 +156,7 @@ namespace djv
 
             _actionsUpdate();
             _textUpdate();
+            _shortcutsUpdate();
 
             auto weak = std::weak_ptr<WindowSystem>(std::dynamic_pointer_cast<WindowSystem>(shared_from_this()));
             p.fullScreenObserver = ValueObserver<bool>::create(
@@ -463,6 +461,38 @@ namespace djv
             };
         }
 
+        void WindowSystem::_textUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.actions.size())
+            {
+                p.actions["FullScreen"]->setText(_getText(DJV_TEXT("menu_window_full_screen")));
+                p.actions["FullScreen"]->setTooltip(_getText(DJV_TEXT("menu_window_full_screen_tooltip")));
+                p.actions["FloatOnTop"]->setText(_getText(DJV_TEXT("menu_window_float_on_top")));
+                p.actions["FloatOnTop"]->setTooltip(_getText(DJV_TEXT("menu_window_float_on_top_tooltip")));
+                p.actions["Maximize"]->setText(_getText(DJV_TEXT("menu_window_maximize")));
+                p.actions["Maximize"]->setTooltip(_getText(DJV_TEXT("menu_window_maximize_tooltip")));
+                p.actions["Fit"]->setText(_getText(DJV_TEXT("menu_window_fit")));
+                p.actions["Fit"]->setTooltip(_getText(DJV_TEXT("menu_window_fit_tooltip")));
+                p.actions["AutoHide"]->setText(_getText(DJV_TEXT("menu_window_auto_hide_interface")));
+                p.actions["AutoHide"]->setTooltip(_getText(DJV_TEXT("menu_window_auto_hide_tooltip")));
+
+                p.menu->setText(_getText(DJV_TEXT("menu_window")));
+            }
+        }
+
+        void WindowSystem::_shortcutsUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.actions.size())
+            {
+                p.actions["FullScreen"]->setShortcuts(_getShortcuts("ViewApp/Window/FullScreen"));
+                p.actions["Maximize"]->setShortcuts(_getShortcuts("ViewApp/Window/Maximize"));
+                p.actions["Fit"]->setShortcuts(_getShortcuts("ViewApp/Window/Fit"));
+                p.actions["AutoHide"]->setShortcuts(_getShortcuts("ViewApp/Window/AutoHide"));
+            }
+        }
+
         void WindowSystem::_fadeStart()
         {
             DJV_PRIVATE_PTR();
@@ -472,23 +502,23 @@ namespace djv
                 0.F,
                 std::chrono::milliseconds(fadeOutTime),
                 [weak](float value)
-            {
-                if (auto system = weak.lock())
                 {
-                    system->_p->fade->setIfChanged(value);
-                }
-            },
-                [weak](float value)
-            {
-                if (auto system = weak.lock())
-                {
-                    if (auto context = system->getContext().lock())
+                    if (auto system = weak.lock())
                     {
                         system->_p->fade->setIfChanged(value);
-                        system->_p->desktopGLFWSystem->hideCursor();
                     }
-                }
-            });
+                },
+                [weak](float value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        if (auto context = system->getContext().lock())
+                        {
+                            system->_p->fade->setIfChanged(value);
+                            system->_p->desktopGLFWSystem->hideCursor();
+                        }
+                    }
+                });
         }
 
         void WindowSystem::_fadeStop()
@@ -531,26 +561,6 @@ namespace djv
             p.actions["FloatOnTop"]->setChecked(p.floatOnTop->get());
             p.actions["Maximize"]->setChecked(p.maximize->get());
             p.actions["AutoHide"]->setChecked(p.fadeEnabled);
-        }
-
-        void WindowSystem::_textUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            if (p.actions.size())
-            {
-                p.actions["FullScreen"]->setText(_getText(DJV_TEXT("menu_window_full_screen")));
-                p.actions["FullScreen"]->setTooltip(_getText(DJV_TEXT("menu_window_full_screen_tooltip")));
-                p.actions["FloatOnTop"]->setText(_getText(DJV_TEXT("menu_window_float_on_top")));
-                p.actions["FloatOnTop"]->setTooltip(_getText(DJV_TEXT("menu_window_float_on_top_tooltip")));
-                p.actions["Maximize"]->setText(_getText(DJV_TEXT("menu_window_maximize")));
-                p.actions["Maximize"]->setTooltip(_getText(DJV_TEXT("menu_window_maximize_tooltip")));
-                p.actions["Fit"]->setText(_getText(DJV_TEXT("menu_window_fit")));
-                p.actions["Fit"]->setTooltip(_getText(DJV_TEXT("menu_window_fit_tooltip")));
-                p.actions["AutoHide"]->setText(_getText(DJV_TEXT("menu_window_auto_hide_interface")));
-                p.actions["AutoHide"]->setTooltip(_getText(DJV_TEXT("menu_window_auto_hide_tooltip")));
-
-                p.menu->setText(_getText(DJV_TEXT("menu_window")));
-            }
         }
 
         void WindowSystem::Private::setFullScreen(bool value)

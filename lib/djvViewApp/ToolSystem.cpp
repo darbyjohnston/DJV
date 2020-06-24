@@ -92,18 +92,19 @@ namespace djv
             }
             p.actions["Info"] = UI::Action::create();
             p.actions["Info"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Info"]->setShortcut(GLFW_KEY_I, UI::Shortcut::getSystemModifier());
             p.actions["Messages"] = UI::Action::create();
             p.actions["Messages"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Messages"]->setShortcut(GLFW_KEY_S, UI::Shortcut::getSystemModifier());
             p.actions["SystemLog"] = UI::Action::create();
             p.actions["SystemLog"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["Debug"] = UI::Action::create();
             p.actions["Debug"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Debug"]->setShortcut(GLFW_KEY_D, UI::Shortcut::getSystemModifier());
             p.actions["Settings"] = UI::Action::create();
             p.actions["Settings"]->setIcon("djvIconSettings");
             p.actions["Settings"]->setButtonType(UI::ButtonType::Toggle);
+
+            _addShortcut("ViewApp/Tool/Info", GLFW_KEY_I, UI::Shortcut::getSystemModifier());
+            _addShortcut("ViewApp/Tool/Messages", GLFW_KEY_S, UI::Shortcut::getSystemModifier());
+            _addShortcut("ViewApp/Tool/Debug", GLFW_KEY_D, UI::Shortcut::getSystemModifier());
 
             p.menu = UI::Menu::create(context);
             for (const auto& i : toolActions)
@@ -120,6 +121,7 @@ namespace djv
             p.menu->addAction(p.actions["Settings"]);
 
             _textUpdate();
+            _shortcutsUpdate();
 
             auto weak = std::weak_ptr<ToolSystem>(std::dynamic_pointer_cast<ToolSystem>(shared_from_this()));
             p.toolActionGroup->setExclusiveCallback(
@@ -391,6 +393,17 @@ namespace djv
                 p.actions["Settings"]->setTooltip(_getText(DJV_TEXT("menu_tools_settings_tooltip")));
 
                 p.menu->setText(_getText(DJV_TEXT("menu_tools")));
+            }
+        }
+
+        void ToolSystem::_shortcutsUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.actions.size())
+            {
+                p.actions["Info"]->setShortcuts(_getShortcuts("ViewApp/Tool/Info"));
+                p.actions["Messages"]->setShortcuts(_getShortcuts("ViewApp/Tool/Messages"));
+                p.actions["Debug"]->setShortcuts(_getShortcuts("ViewApp/Tool/Debug"));
             }
         }
 

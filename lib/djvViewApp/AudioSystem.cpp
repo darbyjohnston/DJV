@@ -9,8 +9,9 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/Menu.h>
-#include <djvUI/Shortcut.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/SettingsSystem.h>
+#include <djvUI/Shortcut.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
@@ -49,16 +50,18 @@ namespace djv
             p.actions["Mute"] = UI::Action::create();
             p.actions["Mute"]->setButtonType(UI::ButtonType::Toggle);
 
+            _addShortcut("ViewApp/Audio/IncreaseVolume", GLFW_KEY_8, UI::Shortcut::getSystemModifier());
+            _addShortcut("ViewApp/Audio/DecreaseVolume", GLFW_KEY_7, UI::Shortcut::getSystemModifier());
+            _addShortcut("ViewApp/Audio/Mute", GLFW_KEY_9, UI::Shortcut::getSystemModifier());
+
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["IncreaseVolume"]);
-            p.actions["IncreaseVolume"]->setShortcut(GLFW_KEY_8, UI::Shortcut::getSystemModifier());
             p.menu->addAction(p.actions["DecreaseVolume"]);
-            p.actions["DecreaseVolume"]->setShortcut(GLFW_KEY_7, UI::Shortcut::getSystemModifier());
             p.menu->addAction(p.actions["Mute"]);
-            p.actions["Mute"]->setShortcut(GLFW_KEY_9, UI::Shortcut::getSystemModifier());
 
             _actionsUpdate();
             _textUpdate();
+            _shortcutsUpdate();
 
             auto weak = std::weak_ptr<AudioSystem>(std::dynamic_pointer_cast<AudioSystem>(shared_from_this()));
             p.actionObservers["IncreaseVolume"] = ValueObserver<bool>::create(
@@ -212,6 +215,17 @@ namespace djv
                 p.actions["Mute"]->setTooltip(_getText(DJV_TEXT("menu_audio_mute_tooltip")));
 
                 p.menu->setText(_getText(DJV_TEXT("menu_audio")));
+            }
+        }
+
+        void AudioSystem::_shortcutsUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.actions.size())
+            {
+                p.actions["IncreaseVolume"]->setShortcuts(_getShortcuts("ViewApp/Audio/IncreaseVolume"));
+                p.actions["DecreaseVolume"]->setShortcuts(_getShortcuts("ViewApp/Audio/DecreaseVolume"));
+                p.actions["Mute"]->setShortcuts(_getShortcuts("ViewApp/Audio/Mute"));
             }
         }
 

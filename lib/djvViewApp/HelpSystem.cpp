@@ -12,7 +12,6 @@
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/Shortcut.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/OS.h>

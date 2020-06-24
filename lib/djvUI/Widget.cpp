@@ -853,15 +853,14 @@ namespace djv
                 std::sort(shortcuts.begin(), shortcuts.end(),
                     [](const std::shared_ptr<Shortcut>& a, const std::shared_ptr<Shortcut>& b)
                     {
-                        return a->observeShortcutModifiers()->get() > b->observeShortcutModifiers()->get();
+                        return a->observeShortcut()->get().modifiers > b->observeShortcut()->get().modifiers;
                     });
 
                 for (const auto& i : shortcuts)
                 {
-                    const int key = i->observeShortcutKey()->get();
-                    const int modifiers = i->observeShortcutModifiers()->get();
-                    if ((key == event.getKey() && event.getKeyModifiers() == modifiers) ||
-                        (key == event.getKey() && modifiers == 0 && event.getKeyModifiers() == 0))
+                    const auto& shortcut = i->observeShortcut()->get();
+                    if ((shortcut.key == event.getKey() && event.getKeyModifiers() == shortcut.modifiers) ||
+                        (shortcut.key == event.getKey() && shortcut.modifiers == 0 && event.getKeyModifiers() == 0))
                     {
                         event.accept();
                         i->doCallback();

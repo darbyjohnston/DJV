@@ -694,10 +694,8 @@ namespace djv
                                     std::vector<std::string> labels;
                                     for (const auto& i : value)
                                     {
-                                        labels.push_back(Shortcut::getText(
-                                            i->observeShortcutKey()->get(),
-                                            i->observeShortcutModifiers()->get(),
-                                            textSystem));
+                                        const auto& shortcut = i->observeShortcut()->get();
+                                        labels.push_back(Shortcut::getText(shortcut.key, shortcut.modifiers, textSystem));
                                     }
                                     item->shortcutLabel = String::join(labels, ", ");
                                     widget->_textUpdateRequest = true;

@@ -84,72 +84,82 @@ namespace djv
 
             p.actions["ViewControls"] = UI::Action::create();
             p.actions["ViewControls"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["ViewControls"]->addShortcut(GLFW_KEY_W, UI::Shortcut::getSystemModifier());
             p.actions["Tool"] = UI::Action::create();
             p.actions["Tool"]->setIcon("djvIconMove");
-            p.actions["Tool"]->addShortcut(GLFW_KEY_N, UI::Shortcut::getSystemModifier());
             p.actions["Left"] = UI::Action::create();
-            p.actions["Left"]->addShortcut(GLFW_KEY_KP_4);
             p.actions["Right"] = UI::Action::create();
-            p.actions["Right"]->addShortcut(GLFW_KEY_KP_6);
             p.actions["Up"] = UI::Action::create();
-            p.actions["Up"]->addShortcut(GLFW_KEY_KP_8);
             p.actions["Down"] = UI::Action::create();
-            p.actions["Down"]->addShortcut(GLFW_KEY_KP_2);
             p.actions["NW"] = UI::Action::create();
-            p.actions["NW"]->addShortcut(GLFW_KEY_KP_7);
             p.actions["NE"] = UI::Action::create();
-            p.actions["NE"]->addShortcut(GLFW_KEY_KP_9);
             p.actions["SE"] = UI::Action::create();
-            p.actions["SE"]->addShortcut(GLFW_KEY_KP_3);
             p.actions["SW"] = UI::Action::create();
-            p.actions["SW"]->addShortcut(GLFW_KEY_KP_1);
             p.actions["ZoomIn"] = UI::Action::create();
             p.actions["ZoomIn"]->setIcon("djvIconZoomIn");
-            p.actions["ZoomIn"]->addShortcut(GLFW_KEY_EQUAL);
-            p.actions["ZoomIn"]->addShortcut(GLFW_KEY_KP_ADD);
             p.actions["ZoomOut"] = UI::Action::create();
             p.actions["ZoomOut"]->setIcon("djvIconZoomOut");
-            p.actions["ZoomOut"]->addShortcut(GLFW_KEY_MINUS);
-            p.actions["ZoomOut"]->addShortcut(GLFW_KEY_KP_SUBTRACT);
             p.actions["ZoomReset"] = UI::Action::create();
             p.actions["ZoomReset"]->setIcon("djvIconZoomReset");
-            p.actions["ZoomReset"]->addShortcut(GLFW_KEY_0);
-            p.actions["ZoomReset"]->addShortcut(GLFW_KEY_KP_0);
             p.actions["Fill"] = UI::Action::create();
             p.actions["Fill"]->setIcon("djvIconViewFill");
-            p.actions["Fill"]->addShortcut(GLFW_KEY_BACKSPACE);
-            p.actions["Fill"]->addShortcut(GLFW_KEY_KP_MULTIPLY);
             p.actions["FillLock"] = UI::Action::create();
             p.actions["FillLock"]->setIcon("djvIconViewFill");
-            p.actions["FillLock"]->addShortcut(GLFW_KEY_BACKSPACE, GLFW_MOD_SHIFT);
-            p.actions["FillLock"]->addShortcut(GLFW_KEY_KP_MULTIPLY, GLFW_MOD_SHIFT);
             p.actions["Frame"] = UI::Action::create();
             p.actions["Frame"]->setIcon("djvIconViewFrame");
-            p.actions["Frame"]->addShortcut(GLFW_KEY_PERIOD);
-            p.actions["Frame"]->addShortcut(GLFW_KEY_KP_DECIMAL);
             p.actions["FrameLock"] = UI::Action::create();
             p.actions["FrameLock"]->setIcon("djvIconViewFrame");
-            p.actions["FrameLock"]->addShortcut(GLFW_KEY_PERIOD, GLFW_MOD_SHIFT);
-            p.actions["FrameLock"]->addShortcut(GLFW_KEY_KP_DECIMAL, GLFW_MOD_SHIFT);
             p.actions["Center"] = UI::Action::create();
             p.actions["Center"]->setIcon("djvIconViewCenter");
-            p.actions["Center"]->addShortcut(GLFW_KEY_BACKSLASH);
-            p.actions["Center"]->addShortcut(GLFW_KEY_KP_5);
             p.actions["CenterLock"] = UI::Action::create();
             p.actions["CenterLock"]->setIcon("djvIconViewCenter");
-            p.actions["CenterLock"]->addShortcut(GLFW_KEY_BACKSLASH, GLFW_MOD_SHIFT);
-            p.actions["CenterLock"]->addShortcut(GLFW_KEY_KP_5, GLFW_MOD_SHIFT);
             p.lockActionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
             p.lockActionGroup->addAction(p.actions["FillLock"]);
             p.lockActionGroup->addAction(p.actions["FrameLock"]);
             p.lockActionGroup->addAction(p.actions["CenterLock"]);
             p.actions["Grid"] = UI::Action::create();
             p.actions["Grid"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Grid"]->addShortcut(GLFW_KEY_G, UI::Shortcut::getSystemModifier());
             p.actions["HUD"] = UI::Action::create();
             p.actions["HUD"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["HUD"]->setShortcut(GLFW_KEY_U, UI::Shortcut::getSystemModifier());
+
+            _addShortcut("ViewApp/View/ViewControls", GLFW_KEY_W, UI::Shortcut::getSystemModifier());
+            _addShortcut("ViewApp/View/Tool", GLFW_KEY_N, UI::Shortcut::getSystemModifier());
+            _addShortcut("ViewApp/View/Left", GLFW_KEY_KP_4);
+            _addShortcut("ViewApp/View/Right", GLFW_KEY_KP_6);
+            _addShortcut("ViewApp/View/Up", GLFW_KEY_KP_8);
+            _addShortcut("ViewApp/View/Down", GLFW_KEY_KP_2);
+            _addShortcut("ViewApp/View/NW", GLFW_KEY_KP_7);
+            _addShortcut("ViewApp/View/NE", GLFW_KEY_KP_9);
+            _addShortcut("ViewApp/View/SE", GLFW_KEY_KP_3);
+            _addShortcut("ViewApp/View/SW", GLFW_KEY_KP_1);
+            _addShortcut("ViewApp/View/ZoomIn", {
+                UI::ShortcutData(GLFW_KEY_EQUAL),
+                UI::ShortcutData(GLFW_KEY_KP_ADD) });
+            _addShortcut("ViewApp/View/ZoomOut", {
+                UI::ShortcutData(GLFW_KEY_MINUS),
+                UI::ShortcutData(GLFW_KEY_KP_SUBTRACT) });
+            _addShortcut("ViewApp/View/ZoomReset", {
+                UI::ShortcutData(GLFW_KEY_0),
+                UI::ShortcutData(GLFW_KEY_KP_0) });
+            _addShortcut("ViewApp/View/Fill", {
+                UI::ShortcutData(GLFW_KEY_BACKSPACE),
+                UI::ShortcutData(GLFW_KEY_KP_MULTIPLY) });
+            _addShortcut("ViewApp/View/FillLock", {
+                UI::ShortcutData(GLFW_KEY_BACKSPACE, GLFW_MOD_SHIFT),
+                UI::ShortcutData(GLFW_KEY_KP_MULTIPLY, GLFW_MOD_SHIFT) });
+            _addShortcut("ViewApp/View/Frame", {
+                UI::ShortcutData(GLFW_KEY_PERIOD),
+                UI::ShortcutData(GLFW_KEY_KP_DECIMAL) });
+            _addShortcut("ViewApp/View/FrameLock", {
+                UI::ShortcutData(GLFW_KEY_PERIOD, GLFW_MOD_SHIFT),
+                UI::ShortcutData(GLFW_KEY_KP_DECIMAL, GLFW_MOD_SHIFT) });
+            _addShortcut("ViewApp/View/Center", {
+                UI::ShortcutData(GLFW_KEY_BACKSLASH),
+                UI::ShortcutData(GLFW_KEY_KP_5) });
+            _addShortcut("ViewApp/View/CenterLock", {
+                UI::ShortcutData(GLFW_KEY_BACKSLASH, GLFW_MOD_SHIFT),
+                UI::ShortcutData(GLFW_KEY_KP_5, GLFW_MOD_SHIFT) });
+            _addShortcut("ViewApp/View/Grid", GLFW_KEY_G, UI::Shortcut::getSystemModifier());
+            _addShortcut("ViewApp/View/HUD", GLFW_KEY_U, UI::Shortcut::getSystemModifier());
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["ViewControls"]);
@@ -175,6 +185,7 @@ namespace djv
 
             _actionsUpdate();
             _textUpdate();
+            _shortcutsUpdate();
 
             auto weak = std::weak_ptr<ViewSystem>(std::dynamic_pointer_cast<ViewSystem>(shared_from_this()));
             p.lockActionGroup->setExclusiveCallback(
@@ -671,6 +682,35 @@ namespace djv
                 p.actions["HUD"]->setTooltip(_getText(DJV_TEXT("menu_view_hud_tooltip")));
 
                 p.menu->setText(_getText(DJV_TEXT("menu_view")));
+            }
+        }
+
+        void ViewSystem::_shortcutsUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.actions.size())
+            {
+                p.actions["ViewControls"]->setShortcuts(_getShortcuts("ViewApp/View/ViewControls"));
+                p.actions["Tool"]->setShortcuts(_getShortcuts("ViewApp/View/Tool"));
+                p.actions["Left"]->setShortcuts(_getShortcuts("ViewApp/View/Left"));
+                p.actions["Right"]->setShortcuts(_getShortcuts("ViewApp/View/Right"));
+                p.actions["Up"]->setShortcuts(_getShortcuts("ViewApp/View/Up"));
+                p.actions["Down"]->setShortcuts(_getShortcuts("ViewApp/View/Down"));
+                p.actions["NW"]->setShortcuts(_getShortcuts("ViewApp/View/NW"));
+                p.actions["NE"]->setShortcuts(_getShortcuts("ViewApp/View/NE"));
+                p.actions["SE"]->setShortcuts(_getShortcuts("ViewApp/View/SE"));
+                p.actions["SW"]->setShortcuts(_getShortcuts("ViewApp/View/SW"));
+                p.actions["ZoomIn"]->setShortcuts(_getShortcuts("ViewApp/View/ZoomIn"));
+                p.actions["ZoomOut"]->setShortcuts(_getShortcuts("ViewApp/View/ZoomOut"));
+                p.actions["ZoomReset"]->setShortcuts(_getShortcuts("ViewApp/View/ZoomReset"));
+                p.actions["Fill"]->setShortcuts(_getShortcuts("ViewApp/View/Fill"));
+                p.actions["FillLock"]->setShortcuts(_getShortcuts("ViewApp/View/FillLock"));
+                p.actions["Frame"]->setShortcuts(_getShortcuts("ViewApp/View/Frame"));
+                p.actions["FrameLock"]->setShortcuts(_getShortcuts("ViewApp/View/FrameLock"));
+                p.actions["Center"]->setShortcuts(_getShortcuts("ViewApp/View/Center"));
+                p.actions["CenterLock"]->setShortcuts(_getShortcuts("ViewApp/View/CenterLock"));
+                p.actions["Grid"]->setShortcuts(_getShortcuts("ViewApp/View/Grid"));
+                p.actions["HUD"]->setShortcuts(_getShortcuts("ViewApp/View/HUD"));
             }
         }
 

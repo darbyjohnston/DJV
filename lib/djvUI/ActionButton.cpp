@@ -5,7 +5,6 @@
 #include <djvUI/ActionButton.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/CheckBox.h>
 #include <djvUI/DrawUtil.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
@@ -26,6 +25,84 @@ namespace djv
     {
         namespace Button
         {
+            namespace
+            {
+                class CheckBox : public Widget
+                {
+                    DJV_NON_COPYABLE(CheckBox);
+
+                protected:
+                    void _init(const std::shared_ptr<Context>&);
+                    CheckBox();
+
+                public:
+                    virtual ~CheckBox();
+
+                    static std::shared_ptr<CheckBox> create(const std::shared_ptr<Context>&);
+
+                    void setChecked(bool);
+
+                protected:
+                    void _preLayoutEvent(Event::PreLayout&) override;
+                    void _paintEvent(Event::Paint&) override;
+
+                private:
+                    bool _checked = false;
+                };
+
+                void CheckBox::_init(const std::shared_ptr<Context>& context)
+                {
+                    Widget::_init(context);
+                }
+
+                CheckBox::CheckBox()
+                {}
+
+                CheckBox::~CheckBox()
+                {}
+
+                std::shared_ptr<CheckBox> CheckBox::create(const std::shared_ptr<Context>& context)
+                {
+                    auto out = std::shared_ptr<CheckBox>(new CheckBox);
+                    out->_init(context);
+                    return out;
+                }
+
+                void CheckBox::setChecked(bool value)
+                {
+                    if (value == _checked)
+                        return;
+                    _checked = value;
+                    _redraw();
+                }
+
+                void CheckBox::_preLayoutEvent(Event::PreLayout&)
+                {
+                    const auto& style = _getStyle();
+                    const float m = style->getMetric(MetricsRole::MarginInside);
+                    const float b = style->getMetric(MetricsRole::Border);
+                    const float is = style->getMetric(MetricsRole::IconSmall);
+                    _setMinimumSize(glm::vec2(is + m * 2.F + b * 4.F, is + m * 2.F + b * 4.F));
+                }
+
+                void CheckBox::_paintEvent(Event::Paint&)
+                {
+                    const auto& style = _getStyle();
+                    const float m = style->getMetric(MetricsRole::MarginInside);
+                    const float b = style->getMetric(MetricsRole::Border);
+                    const float is = style->getMetric(MetricsRole::IconSmall);
+                    const BBox2f g = getGeometry().margin(-b);
+                    const float size = is + m * 2.F;
+                    const BBox2f g2 = BBox2f(g.min.x, floorf(g.min.y + g.h() / 2.F - size / 2.F), size, size).margin(-m);
+                    const auto& render = _getRender();
+                    render->setFillColor(style->getColor(ColorRole::Border));
+                    drawBorder(render, g2, b);
+                    render->setFillColor(style->getColor(_checked ? ColorRole::Checked : ColorRole::Trough));
+                    render->drawRect(g2.margin(-b));
+                }
+
+            } // namespace
+
             struct ActionButton::Private
             {
                 std::shared_ptr<Action> action;
@@ -125,7 +202,7 @@ namespace djv
             void ActionButton::setButtonType(ButtonType value)
             {
                 IButton::setButtonType(value);
-                _p->checkBox->setButtonType(value);
+                _widgetUpdate();
             }
 
             void ActionButton::addAction(const std::shared_ptr<Action>& value)
@@ -217,10 +294,8 @@ namespace djv
                                 std::vector<std::string> labels;
                                 for (const auto& i : value)
                                 {
-                                    labels.push_back(Shortcut::getText(
-                                        i->observeShortcutKey()->get(),
-                                        i->observeShortcutModifiers()->get(),
-                                        textSystem));
+                                    const auto& shortcut = i->observeShortcut()->get();
+                                    labels.push_back(Shortcut::getText(shortcut.key, shortcut.modifiers, textSystem));
                                 }
                                 widget->_p->shortcutsLabel->setText(String::join(labels, ", "));
                             }

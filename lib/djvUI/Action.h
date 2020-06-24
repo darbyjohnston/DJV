@@ -14,6 +14,7 @@ namespace djv
     namespace UI
     {
         class Shortcut;
+        struct ShortcutData;
 
         //! This class provides an action.
         class Action : public std::enable_shared_from_this<Action>
@@ -48,9 +49,11 @@ namespace djv
             void setFont(const std::string&);
 
             std::shared_ptr<Core::IListSubject<std::shared_ptr<Shortcut> > > observeShortcuts() const;
+            void setShortcuts(const std::vector<ShortcutData>&);
             void setShortcut(const std::shared_ptr<Shortcut>&);
             void setShortcut(int key);
             void setShortcut(int key, int keyModifiers);
+            void addShortcut(const ShortcutData&);
             void addShortcut(const std::shared_ptr<Shortcut>&);
             void addShortcut(int key);
             void addShortcut(int key, int keyModifiers);

@@ -64,6 +64,7 @@ set(header
     SettingsSystem.h
     SettingsSystemInline.h
     Shortcut.h
+    ShortcutsSettings.h
     Spacer.h
     Spacing.h
     SpacingInline.h
@@ -147,6 +148,7 @@ set(source
     Separator.cpp
     SettingsSystem.cpp
     Shortcut.cpp
+    ShortcutsSettings.cpp
     Spacer.cpp
     Splitter.cpp
     SoloLayout.cpp

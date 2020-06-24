@@ -8,6 +8,7 @@
 #include <djvViewApp/ColorPickerWidget.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/SettingsSystem.h>
 #include <djvUI/Shortcut.h>
 
 #include <djvCore/Context.h>
@@ -39,9 +40,11 @@ namespace djv
 
             p.actions["ColorPicker"] = UI::Action::create();
             p.actions["ColorPicker"]->setIcon("djvIconColorPicker");
-            p.actions["ColorPicker"]->setShortcut(GLFW_KEY_K, UI::Shortcut::getSystemModifier());
+
+            _addShortcut("ViewApp/ColorPicker/ColorPicker", GLFW_KEY_K, UI::Shortcut::getSystemModifier());
 
             _textUpdate();
+            _shortcutsUpdate();
         }
 
         ColorPickerSystem::ColorPickerSystem() :
@@ -134,6 +137,15 @@ namespace djv
             {
                 p.actions["ColorPicker"]->setText(_getText(DJV_TEXT("menu_tools_color_picker")));
                 p.actions["ColorPicker"]->setTooltip(_getText(DJV_TEXT("menu_color_picker_tooltip")));
+            }
+        }
+
+        void ColorPickerSystem::_shortcutsUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.actions.size())
+            {
+                p.actions["ColorPicker"]->setShortcuts(_getShortcuts("ViewApp/ColorPicker/ColorPicker"));
             }
         }
         

@@ -21,6 +21,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SettingsSystem.h>
+#include <djvUI/ShortcutsSettings.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/ToolBar.h>
 
@@ -59,9 +60,9 @@ namespace djv
 
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver;
             std::shared_ptr<ValueObserver<size_t> > recentFilesMaxObserver;
-            std::shared_ptr<ValueObserver<bool> > increaseThumbnailSizeObserver;
-            std::shared_ptr<ValueObserver<bool> > decreaseThumbnailSizeObserver;
             std::shared_ptr<ValueObserver<AV::Image::Size> > thumbnailSizeSettingsObserver;
+            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
+            std::shared_ptr<MapObserver<std::string, std::vector<UI::ShortcutData> > > shortcutsObserver;
         };
 
         void RecentFilesDialog::_init(const std::shared_ptr<Core::Context>& context)
@@ -239,7 +240,7 @@ namespace djv
                     }
                 });
 
-            p.increaseThumbnailSizeObserver = ValueObserver<bool>::create(
+            p.actionObservers["IncreaseThumbnailSize"] = ValueObserver<bool>::create(
                 p.actions["IncreaseThumbnailSize"]->observeClicked(),
                 [contextWeak](bool value)
             {
@@ -260,7 +261,7 @@ namespace djv
                 }
             });
 
-            p.decreaseThumbnailSizeObserver = ValueObserver<bool>::create(
+            p.actionObservers["DecreaseThumbnailSize"] = ValueObserver<bool>::create(
                 p.actions["DecreaseThumbnailSize"]->observeClicked(),
                 [contextWeak](bool value)
             {
@@ -280,6 +281,26 @@ namespace djv
                     }
                 }
             });
+
+            auto shortcutsSettings = settingsSystem->getSettingsT<UI::Settings::Shortcuts>();
+            p.shortcutsObserver = MapObserver<std::string, std::vector<UI::ShortcutData>>::create(
+                shortcutsSettings->observeShortcuts(),
+                [weak](const std::map<std::string, std::vector<UI::ShortcutData> >& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        auto i = value.find("UIComponents/FileBrowser/IncreaseThumbnailSize");
+                        if (i != value.end())
+                        {
+                            widget->_p->actions["IncreaseThumbnailSize"]->setShortcuts(i->second);
+                        }
+                        i = value.find("UIComponents/FileBrowser/DecreaseThumbnailSize");
+                        if (i != value.end())
+                        {
+                            widget->_p->actions["DecreaseThumbnailSize"]->setShortcuts(i->second);
+                        }
+                    }
+                });
         }
 
         RecentFilesDialog::RecentFilesDialog() :

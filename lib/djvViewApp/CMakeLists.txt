@@ -29,7 +29,6 @@ set(header
     InfoWidget.h
 	InputSettings.h
 	InputSettingsWidget.h
-	InputSystem.h
 	LayersWidget.h
 	MDIWidget.h
     MagnifySettings.h
@@ -98,7 +97,6 @@ set(source
     InfoWidget.cpp
 	InputSettings.cpp
 	InputSettingsWidget.cpp
-	InputSystem.cpp
 	LayersWidget.cpp
 	MDIWidget.cpp
     MagnifySettings.cpp

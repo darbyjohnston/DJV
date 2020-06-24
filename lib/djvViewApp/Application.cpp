@@ -13,7 +13,7 @@
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/HelpSystem.h>
 #include <djvViewApp/ImageSystem.h>
-#include <djvViewApp/InputSystem.h>
+#include <djvViewApp/InputSettings.h>
 #include <djvViewApp/MagnifySystem.h>
 #include <djvViewApp/MainWindow.h>
 #include <djvViewApp/Media.h>
@@ -108,9 +108,12 @@ namespace djv
             Desktop::Application::_init(args);
             DJV_PRIVATE_PTR();
 
+            // Create settings.
+            p.settings = ApplicationSettings::create(shared_from_this());
+            InputSettings::create(shared_from_this());
+
             // Create the systems.
             UI::UIComponentsSystem::create(shared_from_this());
-            p.systems.push_back(InputSystem::create(shared_from_this()));
             p.systems.push_back(FileSystem::create(shared_from_this()));
             p.systems.push_back(WindowSystem::create(shared_from_this()));
             //p.systems.push_back(EditSystem::create(shared_from_this()));
@@ -125,9 +128,6 @@ namespace djv
             p.systems.push_back(HelpSystem::create(shared_from_this()));
             p.systems.push_back(NUXSystem::create(shared_from_this()));
             p.systems.push_back(SettingsSystem::create(shared_from_this()));
-
-            // Create settings.
-            p.settings = ApplicationSettings::create(shared_from_this());
 
             // Parse the command-line.
             auto arg = args.begin();

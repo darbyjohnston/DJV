@@ -8,6 +8,7 @@
 
 #include <djvCore/BBox.h>
 #include <djvCore/ListObserver.h>
+#include <djvCore/MapObserver.h>
 #include <djvCore/ValueObserver.h>
 
 #include <map>

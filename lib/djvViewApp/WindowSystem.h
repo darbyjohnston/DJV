@@ -49,14 +49,15 @@ namespace djv
             MenuData getMenu() const override;
 
         protected:
+            void _textUpdate() override;
+            void _shortcutsUpdate() override;
+
+        private:
             void _fadeStart();
             void _fadeStop();
 
             void _actionsUpdate();
 
-            void _textUpdate() override;
-
-        private:
             DJV_PRIVATE();
         };
 
