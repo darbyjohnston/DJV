@@ -21,7 +21,7 @@ Building the Code
 -----------------
 
 * [Building on Linux](https://darbyjohnston.github.io/DJV/build_linux.html)
-* [Building on OS X](https://darbyjohnston.github.io/DJV/build_osx.html)
+* [Building on macOS](https://darbyjohnston.github.io/DJV/build_macos.html)
 * [Building on Windows](https://darbyjohnston.github.io/DJV/build_windows.html)
 
 
