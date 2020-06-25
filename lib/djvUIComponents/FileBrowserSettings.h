@@ -6,6 +6,7 @@
 
 #include <djvUI/Enum.h>
 #include <djvUI/ISettings.h>
+#include <djvUI/ShortcutData.h>
 
 #include <djvCore/FileInfo.h>
 #include <djvCore/MapObserver.h>
@@ -72,6 +73,9 @@ namespace djv
 
                 std::shared_ptr<Core::IValueSubject<bool> > observeSortDirectoriesFirst() const;
                 void setSortDirectoriesFirst(bool);
+
+                std::shared_ptr<Core::MapSubject<std::string, std::vector<UI::ShortcutData> > > observeKeyShortcuts() const;
+                void setKeyShortcuts(const UI::ShortcutDataMap&);
 
                 void load(const rapidjson::Value &) override;
                 rapidjson::Value save(rapidjson::Document::AllocatorType&) override;

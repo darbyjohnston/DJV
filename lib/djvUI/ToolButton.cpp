@@ -313,7 +313,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
                 const float m = style->getMetric(p.insideMargin);
-                const float b = style->getMetric(MetricsRole::Border);
+                const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 glm::vec2 size = glm::vec2(0.F, 0.F);
                 if (p.iconWidget)
                 {
@@ -330,7 +330,7 @@ namespace djv
                 size += m * 2.F;
                 if (p.textFocusEnabled)
                 {
-                    size += b * 2.F;
+                    size += btf * 2.F;
                 }
                 _setMinimumSize(size + getMargin().getSize(style));
             }
@@ -341,11 +341,11 @@ namespace djv
                 const auto& style = _getStyle();
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const float m = style->getMetric(p.insideMargin);
-                const float b = style->getMetric(MetricsRole::Border);
+                const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 BBox2f g2 = g;
                 if (p.textFocusEnabled)
                 {
-                    g2 = g2.margin(-b);
+                    g2 = g2.margin(-btf);
                 }
                 g2 = g2.margin(-m);
                 float x = g2.min.x;
@@ -370,7 +370,7 @@ namespace djv
                 Widget::_paintEvent(event);
                 const auto& style = _getStyle();
                 const BBox2f& g = getGeometry();
-                const float b = style->getMetric(MetricsRole::Border);
+                const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 const auto& render = _getRender();
 
                 if (_isToggled())
@@ -392,7 +392,7 @@ namespace djv
                 if (hasTextFocus())
                 {
                     render->setFillColor(style->getColor(ColorRole::TextFocus));
-                    drawBorder(render, g, b * 2.F);
+                    drawBorder(render, g, btf);
                 }
             }
 

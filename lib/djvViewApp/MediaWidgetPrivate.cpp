@@ -326,14 +326,16 @@ namespace djv
         {
             const auto& style = _getStyle();
             const float b = style->getMetric(UI::MetricsRole::Border);
-            _setMinimumSize(_layout->getMinimumSize() + b * 6.F);
+            const float btf = style->getMetric(UI::MetricsRole::BorderTextFocus);
+            _setMinimumSize(_layout->getMinimumSize() + (b + btf) * 2.F);
         }
 
         void FrameWidget::_layoutEvent(Event::Layout&)
         {
             const auto& style = _getStyle();
             const float b = style->getMetric(UI::MetricsRole::Border);
-            _layout->setGeometry(getGeometry().margin(-b * 3.0F));
+            const float btf = style->getMetric(UI::MetricsRole::BorderTextFocus);
+            _layout->setGeometry(getGeometry().margin(-(b + btf)));
         }
 
         void FrameWidget::_paintEvent(Event::Paint& event)
@@ -342,14 +344,15 @@ namespace djv
             const auto& style = _getStyle();
             const BBox2f& g = getGeometry();
             const float b = style->getMetric(UI::MetricsRole::Border);
+            const float btf = style->getMetric(UI::MetricsRole::BorderTextFocus);
             const auto& render = _getRender();
             if (_lineEditBase->hasTextFocus())
             {
                 render->setFillColor(style->getColor(UI::ColorRole::TextFocus));
-                UI::drawBorder(render, g, b * 2.F);
+                UI::drawBorder(render, g, btf);
             }
             render->setFillColor(style->getColor(UI::ColorRole::Border));
-            const BBox2f g2 = g.margin(-b * 2.F);
+            const BBox2f g2 = g.margin(-btf);
             UI::drawBorder(render, g2, b);
         }
 

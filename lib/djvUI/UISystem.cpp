@@ -11,7 +11,6 @@
 #include <djvUI/FontSettings.h>
 #include <djvUI/IconSystem.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/ShortcutsSettings.h>
 #include <djvUI/Style.h>
 #include <djvUI/StyleSettings.h>
 #include <djvUI/UISettings.h>
@@ -48,7 +47,6 @@ namespace djv
             Settings::Font::create(context);
             Settings::UI::create(context);
             Settings::Style::create(context);
-            Settings::Shortcuts::create(context);
 
             auto iconSystem = IconSystem::create(context);
 

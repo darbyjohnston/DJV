@@ -16,21 +16,21 @@ namespace djv
         namespace Layout
         {
             Core::BBox2f getPopupGeometry(
-                Popup,
+                UI::Popup,
                 const glm::vec2& pos,
                 const glm::vec2& minimumSize);
             Core::BBox2f getPopupGeometry(
-                Popup,
+                UI::Popup,
                 const Core::BBox2f& button,
                 const glm::vec2& minimumSize);
 
-            Popup getPopup(
-                Popup,
+            UI::Popup getPopup(
+                UI::Popup,
                 const Core::BBox2f& area,
                 const glm::vec2& pos,
                 const glm::vec2& minimumSize);
-            Popup getPopup(
-                Popup,
+            UI::Popup getPopup(
+                UI::Popup,
                 const Core::BBox2f& area,
                 const Core::BBox2f& button,
                 const glm::vec2& minimumSize);

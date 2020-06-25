@@ -42,9 +42,10 @@ namespace djv
                 p.childLayout->setMargin(MetricsRole::MarginSmall);
 
                 p.layout = VerticalLayout::create(context);
-                p.layout->setSpacing(UI::MetricsRole::None);
+                p.layout->setSpacing(MetricsRole::None);
                 p.layout->addChild(p.titleLabel);
                 p.layout->addSeparator();
+                p.layout->addSpacer(MetricsRole::SpacingSmall);
                 p.layout->addChild(p.childLayout);
                 p.layout->setStretch(p.childLayout, RowStretch::Expand);
                 Widget::addChild(p.layout);

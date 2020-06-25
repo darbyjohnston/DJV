@@ -17,11 +17,10 @@
 #include <djvUI/IntSlider.h>
 #include <djvUI/Label.h>
 #include <djvUI/MDICanvas.h>
-#include <djvUI/PopupWidget.h>
+#include <djvUI/PopupButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/ShortcutsSettings.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/ToolBar.h>
 
@@ -51,7 +50,7 @@ namespace djv
             std::shared_ptr<UI::IntSlider> maxSlider;
             std::shared_ptr<UI::Label> thumbnailSizeLabel;
             std::shared_ptr<UI::IntSlider> thumbnailSizeSlider;
-            std::shared_ptr<UI::PopupWidget> settingsPopupWidget;
+            std::shared_ptr<UI::PopupButton> settingsPopupButton;
             std::shared_ptr<UI::FileBrowser::ItemView> itemView;
             std::shared_ptr<UI::Label> itemCountLabel;
             std::shared_ptr<UI::StackLayout> layout;
@@ -121,14 +120,14 @@ namespace djv
             scrollWidget->setBorder(false);
             scrollWidget->setMinimumSizeRole(UI::MetricsRole::None);
             scrollWidget->addChild(vLayout);
-            p.settingsPopupWidget = UI::PopupWidget::create(context);
-            p.settingsPopupWidget->setIcon("djvIconSettings");
-            p.settingsPopupWidget->addChild(scrollWidget);
+            p.settingsPopupButton = UI::PopupButton::create(context);
+            p.settingsPopupButton->setIcon("djvIconSettings");
+            p.settingsPopupButton->addChild(scrollWidget);
 
             auto toolBar = UI::ToolBar::create(context);
             toolBar->addExpander();
             toolBar->addChild(p.searchBox);
-            toolBar->addChild(p.settingsPopupWidget);
+            toolBar->addChild(p.settingsPopupButton);
 
             p.itemView = UI::FileBrowser::ItemView::create(context);
             scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
@@ -282,9 +281,9 @@ namespace djv
                 }
             });
 
-            auto shortcutsSettings = settingsSystem->getSettingsT<UI::Settings::Shortcuts>();
+            auto shortcutsSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
             p.shortcutsObserver = MapObserver<std::string, std::vector<UI::ShortcutData>>::create(
-                shortcutsSettings->observeShortcuts(),
+                shortcutsSettings->observeKeyShortcuts(),
                 [weak](const std::map<std::string, std::vector<UI::ShortcutData> >& value)
                 {
                     if (auto widget = weak.lock())
@@ -339,7 +338,7 @@ namespace djv
                 p.thumbnailSizeLabel->setText(_getText(DJV_TEXT("recent_files_thumbnail_size")));
                 p.itemCountLabel->setText(_getItemCountLabel(p.itemCount));
                 p.searchBox->setTooltip(_getText(DJV_TEXT("recent_files_search_tooltip")));
-                p.settingsPopupWidget->setTooltip(_getText(DJV_TEXT("recent_files_settings_tooltip")));
+                p.settingsPopupButton->setTooltip(_getText(DJV_TEXT("recent_files_settings_tooltip")));
             }
         }
 

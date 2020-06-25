@@ -106,8 +106,9 @@ namespace djv
             {
                 const auto& style = _getStyle();
                 const float b = style->getMetric(MetricsRole::Border);
+                const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 const float is = style->getMetric(MetricsRole::IconSmall);
-                _setMinimumSize(glm::vec2(is * 2.F, is) + b * 4.F + getMargin().getSize(style));
+                _setMinimumSize(glm::vec2(is * 2.F, is) + (b + btf) * 2.F + getMargin().getSize(style));
             }
 
             void Toggle::_paintEvent(Event::Paint& event)
@@ -117,16 +118,17 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
                 const float b = style->getMetric(MetricsRole::Border);
+                const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
 
                 const auto& render = _getRender();
                 if (hasTextFocus())
                 {
                     render->setFillColor(style->getColor(ColorRole::TextFocus));
-                    drawBorder(render, g, b * 2.F);
+                    drawBorder(render, g, btf);
                 }
 
-                const BBox2f& g2 = g.margin(-b * 2.F);
+                const BBox2f& g2 = g.margin(-btf);
                 render->setFillColor(style->getColor(ColorRole::Border));
                 drawBorder(render, g2, b);
                 render->setFillColor(style->getColor(isChecked() ? ColorRole::Checked : ColorRole::Trough));

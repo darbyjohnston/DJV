@@ -216,7 +216,8 @@ namespace djv
             size.y = std::max(size.y, tmp.y);
             const auto& style = _getStyle();
             const float b = style->getMetric(MetricsRole::Border);
-            _setMinimumSize(size + b * 6.F + getMargin().getSize(style));
+            const float btf = style->getMetric(MetricsRole::BorderTextFocus);
+            _setMinimumSize(size + (b + btf) * 2.F + getMargin().getSize(style));
         }
 
         void NumericEdit::_layoutEvent(Event::Layout& event)
@@ -225,8 +226,9 @@ namespace djv
             const auto& style = _getStyle();
             const BBox2f& g = getMargin().bbox(getGeometry(), style);
             const float b = style->getMetric(MetricsRole::Border);
+            const float btf = style->getMetric(MetricsRole::BorderTextFocus);
             glm::vec2 tmp = p.buttons->getMinimumSize();
-            BBox2f g2 = g.margin(-b * 3.F);
+            BBox2f g2 = g.margin(-(b + btf));
             float x = g2.max.x - tmp.x;
             float y = g2.min.y;
             float w = tmp.x;
@@ -263,14 +265,15 @@ namespace djv
             const auto& style = _getStyle();
             const BBox2f& g = getGeometry();
             const float b = style->getMetric(UI::MetricsRole::Border);
+            const float btf = style->getMetric(MetricsRole::BorderTextFocus);
             const auto& render = _getRender();
             if (p.lineEditBase->hasTextFocus())
             {
                 render->setFillColor(style->getColor(UI::ColorRole::TextFocus));
-                drawBorder(render, g, b * 2.F);
+                drawBorder(render, g, btf);
             }
             render->setFillColor(style->getColor(UI::ColorRole::Border));
-            const BBox2f g2 = g.margin(-b * 2.F);
+            const BBox2f g2 = g.margin(-btf);
             drawBorder(render, g2, b);
         }
 

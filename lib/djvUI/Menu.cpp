@@ -14,6 +14,7 @@
 #include <djvUI/Overlay.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/Shortcut.h>
+#include <djvUI/ShortcutData.h>
 #include <djvUI/Window.h>
 
 #include <djvAV/FontSystem.h>
@@ -695,7 +696,7 @@ namespace djv
                                     for (const auto& i : value)
                                     {
                                         const auto& shortcut = i->observeShortcut()->get();
-                                        labels.push_back(Shortcut::getText(shortcut.key, shortcut.modifiers, textSystem));
+                                        labels.push_back(ShortcutData::getText(shortcut.key, shortcut.modifiers, textSystem));
                                     }
                                     item->shortcutLabel = String::join(labels, ", ");
                                     widget->_textUpdateRequest = true;
@@ -1121,7 +1122,6 @@ namespace djv
             {
                 p.layout->setButton(p.popupWidget, button);
             }
-            p.overlay->setAnchor(button);
             p.overlay->show();
             p.window->show();
             out = p.overlay;
@@ -1137,7 +1137,6 @@ namespace djv
             {
                 p.layout->setButton(p.popupWidget, button);
             }
-            p.overlay->setAnchor(anchor);
             p.overlay->show();
             p.window->show();
             out = p.overlay;

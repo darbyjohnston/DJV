@@ -4,6 +4,7 @@
 
 #include <djvViewApp/IViewSystem.h>
 
+#include <djvViewApp/InputSettings.h>
 #include <djvViewApp/MDIWidget.h>
 
 #include <djvUIComponents/UIComponentsSystem.h>
@@ -11,7 +12,6 @@
 #include <djvUI/MDICanvas.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Shortcut.h>
-#include <djvUI/ShortcutsSettings.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
@@ -25,7 +25,7 @@ namespace djv
         struct IViewSystem::Private
         {
             std::shared_ptr<UI::Settings::System> settingsSystem;
-            std::shared_ptr<UI::Settings::Shortcuts> shortcutsSettings;
+            std::shared_ptr<InputSettings> inputSettings;
 
             std::shared_ptr<UI::MDI::Canvas> canvas;
             std::map<std::string, std::shared_ptr<MDIWidget> > widgets;
@@ -43,7 +43,7 @@ namespace djv
             addDependency(context->getSystemT<UI::UIComponentsSystem>());
 
             p.settingsSystem = context->getSystemT<UI::Settings::System>();
-            p.shortcutsSettings = p.settingsSystem->getSettingsT<UI::Settings::Shortcuts>();
+            p.inputSettings = p.settingsSystem->getSettingsT<InputSettings>();
 
             auto weak = std::weak_ptr<IViewSystem>(std::dynamic_pointer_cast<IViewSystem>(shared_from_this()));
             p.textChangedObserver = ValueObserver<bool>::create(
@@ -60,7 +60,7 @@ namespace djv
                 });
 
             p.shortcutsObserver = MapObserver<std::string, std::vector<UI::ShortcutData> >::create(
-                p.shortcutsSettings->observeShortcuts(),
+                p.inputSettings->observeShortcuts(),
                 [weak](const std::map<std::string, std::vector<UI::ShortcutData> >& value)
                 {
                     if (auto system = weak.lock())
@@ -150,24 +150,24 @@ namespace djv
 
         std::vector<UI::ShortcutData> IViewSystem::_getShortcuts(const std::string& value) const
         {
-            const auto& shortcuts = _p->shortcutsSettings->observeShortcuts()->get();
+            const auto& shortcuts = _p->inputSettings->observeShortcuts()->get();
             const auto i = shortcuts.find(value);
             return i != shortcuts.end() ? i->second : std::vector<UI::ShortcutData>();
         }
 
         void IViewSystem::_addShortcut(const std::string& name, const std::vector<UI::ShortcutData>& value)
         {
-            _p->shortcutsSettings->addShortcut(name, value);
+            _p->inputSettings->addShortcut(name, value);
         }
 
         void IViewSystem::_addShortcut(const std::string& name, int key)
         {
-            _p->shortcutsSettings->addShortcut(name, key);
+            _p->inputSettings->addShortcut(name, key);
         }
 
         void IViewSystem::_addShortcut(const std::string& name, int key, int keyModifiers)
         {
-            _p->shortcutsSettings->addShortcut(name, key, keyModifiers);
+            _p->inputSettings->addShortcut(name, key, keyModifiers);
         }
 
         void IViewSystem::_textUpdate()

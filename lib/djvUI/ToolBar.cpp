@@ -67,9 +67,9 @@ namespace djv
             _p->layout->addSeparator();
         }
 
-        void ToolBar::addSpacer()
+        void ToolBar::addSpacer(MetricsRole role)
         {
-            _p->layout->addSpacer();
+            _p->layout->addSpacer(role);
         }
 
         void ToolBar::addExpander()

@@ -30,7 +30,7 @@
 #include <djvUI/Menu.h>
 #include <djvUI/MenuBar.h>
 #include <djvUI/MenuButton.h>
-#include <djvUI/PopupWidget.h>
+#include <djvUI/PopupButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Shortcut.h>
@@ -60,7 +60,7 @@ namespace djv
             std::shared_ptr<UI::ActionGroup> mediaActionGroup;
             std::shared_ptr<UI::Menu> mediaMenu;
             std::shared_ptr<UI::Button::Menu> mediaButton;
-            std::shared_ptr<UI::PopupWidget> cachePopupWidget;
+            std::shared_ptr<UI::PopupButton> cachePopupButton;
             std::shared_ptr<UI::ThermometerWidget> cacheThermometerWidget;
             std::shared_ptr<UI::ToolButton> settingsButton;
             std::shared_ptr<SettingsDrawer> settingsDrawer;
@@ -118,9 +118,9 @@ namespace djv
             p.mediaButton->setEnabled(false);
 
             auto memoryCacheWidget = MemoryCacheWidget::create(context);
-            p.cachePopupWidget = UI::PopupWidget::create(context);
-            p.cachePopupWidget->setIcon("djvIconMemory");
-            p.cachePopupWidget->addChild(memoryCacheWidget);
+            p.cachePopupButton = UI::PopupButton::create(context);
+            p.cachePopupButton->setIcon("djvIconMemory");
+            p.cachePopupButton->addChild(memoryCacheWidget);
             p.cacheThermometerWidget = UI::ThermometerWidget::create(context);
             p.cacheThermometerWidget->setOrientation(UI::Orientation::Vertical);
             p.cacheThermometerWidget->setColorRole(UI::ColorRole::Cached);
@@ -174,7 +174,7 @@ namespace djv
             p.menuBar->addChild(p.mediaButton);
             p.menuBar->setStretch(p.mediaButton, UI::RowStretch::Expand, UI::Side::Right);
             p.menuBar->addSeparator(UI::Side::Right);
-            p.menuBar->addChild(p.cachePopupWidget);
+            p.menuBar->addChild(p.cachePopupButton);
             p.menuBar->addChild(p.cacheThermometerWidget);
             p.menuBar->addSeparator(UI::Side::Right);
             p.menuBar->addChild(maximizeButton);
@@ -433,7 +433,7 @@ namespace djv
             if (event.getData().text)
             {
                 p.mediaButton->setTooltip(_getText(DJV_TEXT("menu_media_popup_tooltip")));
-                p.cachePopupWidget->setTooltip(_getText(DJV_TEXT("menu_memory_cache_tooltip")));
+                p.cachePopupButton->setTooltip(_getText(DJV_TEXT("menu_memory_cache_tooltip")));
 #ifdef DJV_DEMO
                 p.titleLabel->setText(_getText(DJV_TEXT("djv_2_0_4")));
 #endif // DJV_DEMO

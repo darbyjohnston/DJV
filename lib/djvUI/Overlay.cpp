@@ -32,7 +32,6 @@ namespace djv
             {
                 bool capturePointer = true;
                 bool captureKeyboard = true;
-                std::weak_ptr<Widget> anchor;
                 bool fadeIn = true;
                 bool closeOnEscape = true;
                 std::shared_ptr<Animation::Animation> fadeAnimation;
@@ -85,16 +84,6 @@ namespace djv
             void Overlay::setCaptureKeyboard(bool value)
             {
                 _p->captureKeyboard = value;
-            }
-
-            const std::weak_ptr<Widget>& Overlay::getAnchor() const
-            {
-                return _p->anchor;
-            }
-
-            void Overlay::setAnchor(const std::weak_ptr<Widget>& value)
-            {
-                _p->anchor = value;
             }
 
             bool Overlay::hasFadeIn() const

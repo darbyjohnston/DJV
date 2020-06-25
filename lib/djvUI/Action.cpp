@@ -5,6 +5,7 @@
 #include <djvUI/Action.h>
 
 #include <djvUI/Shortcut.h>
+#include <djvUI/ShortcutData.h>
 
 using namespace djv::Core;
 

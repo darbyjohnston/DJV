@@ -194,6 +194,8 @@ namespace djv
             Shadow,
             Handle,
             Cached,
+            Warning,
+            Error,
 
             Count,
             First = None
@@ -205,6 +207,7 @@ namespace djv
         {
             None,
             Border,
+            BorderTextFocus,
             Margin,
             MarginSmall,
             MarginLarge,

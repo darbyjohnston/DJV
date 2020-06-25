@@ -16,7 +16,7 @@
 #include <djvUI/Label.h>
 #include <djvUI/Overlay.h>
 #include <djvUI/PushButton.h>
-#include <djvUI/PopupWidget.h>
+#include <djvUI/PopupButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SoloLayout.h>
 #include <djvUI/StackLayout.h>
@@ -201,7 +201,7 @@ namespace djv
             std::shared_ptr<UI::Icon> logoIcon;
             std::map<std::string, std::shared_ptr<UI::Label> > labels;
             std::map < std::string, std::shared_ptr<UI::PushButton> > buttons;
-            std::shared_ptr<UI::PopupWidget> settingsPopupWidget;
+            std::shared_ptr<UI::PopupButton> settingsPopupButton;
             std::shared_ptr<UI::ActionButton> fullscreenButton;
             std::shared_ptr<UI::Layout::Overlay> overlay;
             std::shared_ptr<Animation::Animation> fadeOutAnimation;
@@ -246,9 +246,9 @@ namespace djv
             {
                 p.fullscreenButton->addAction(windowSystem->getActions()["FullScreen"]);
             }
-            p.settingsPopupWidget = UI::PopupWidget::create(context);
-            p.settingsPopupWidget->setIcon("djvIconSettings");
-            p.settingsPopupWidget->addChild(p.fullscreenButton);
+            p.settingsPopupButton = UI::PopupButton::create(context);
+            p.settingsPopupButton->setIcon("djvIconSettings");
+            p.settingsPopupButton->addChild(p.fullscreenButton);
 
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setMargin(UI::MetricsRole::MarginDialog);
@@ -275,7 +275,7 @@ namespace djv
             hLayout->addChild(p.buttons["Next"]);
             hLayout->addExpander();
             hLayout->addChild(p.buttons["Finish"]);
-            hLayout->addChild(p.settingsPopupWidget);
+            hLayout->addChild(p.settingsPopupButton);
             vLayout->addChild(hLayout);
             auto layout = UI::VerticalLayout::create(context);
             layout->setBackgroundRole(UI::ColorRole::Hovered);
@@ -363,7 +363,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->settingsPopupWidget->close();
+                        widget->_p->settingsPopupButton->close();
                     }
                 });
             }

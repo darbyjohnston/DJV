@@ -40,7 +40,7 @@ namespace djv
                 static std::shared_ptr<Row> create(Orientation, const std::shared_ptr<Core::Context>&);
 
                 void addSeparator();
-                void addSpacer();
+                void addSpacer(MetricsRole = MetricsRole::Spacing);
                 void addExpander();
 
                 Orientation getOrientation() const;

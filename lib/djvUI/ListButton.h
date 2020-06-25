@@ -35,6 +35,9 @@ namespace djv
                 TextHAlign getTextHAlign() const;
                 void setTextHAlign(TextHAlign);
 
+                std::string getRightsideText() const;
+                void setRightsideText(const std::string&);
+
                 const std::string& getFont() const;
                 const std::string& getFontFace() const;
                 MetricsRole getFontSizeRole() const;
@@ -53,6 +56,8 @@ namespace djv
                 void _paintEvent(Core::Event::Paint&) override;
 
             private:
+                void _widgetUpdate();
+
                 DJV_PRIVATE();
             };
 

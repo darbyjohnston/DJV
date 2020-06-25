@@ -10,6 +10,7 @@
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Shortcut.h>
+#include <djvUI/ShortcutData.h>
 
 #include <djvAV/Render2D.h>
 
@@ -295,7 +296,7 @@ namespace djv
                                 for (const auto& i : value)
                                 {
                                     const auto& shortcut = i->observeShortcut()->get();
-                                    labels.push_back(Shortcut::getText(shortcut.key, shortcut.modifiers, textSystem));
+                                    labels.push_back(ShortcutData::getText(shortcut.key, shortcut.modifiers, textSystem));
                                 }
                                 widget->_p->shortcutsLabel->setText(String::join(labels, ", "));
                             }

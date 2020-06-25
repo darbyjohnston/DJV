@@ -11,16 +11,16 @@ namespace djv
     namespace ViewApp
     {
         //! This class provides the input settings widget.
-        class InputSettingsWidget : public UI::ISettingsWidget
+        class ScrollWheelSettingsWidget : public UI::ISettingsWidget
         {
-            DJV_NON_COPYABLE(InputSettingsWidget);
+            DJV_NON_COPYABLE(ScrollWheelSettingsWidget);
 
         protected:
             void _init(const std::shared_ptr<Core::Context>&);
-            InputSettingsWidget();
+            ScrollWheelSettingsWidget();
 
         public:
-            static std::shared_ptr<InputSettingsWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ScrollWheelSettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
             std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;
@@ -34,6 +34,26 @@ namespace djv
         private:
             void _widgetUpdate();
 
+            DJV_PRIVATE();
+        };
+
+        //! This class provides a shortcuts settings widget.
+        class ShortcutsSettingsWidget : public UI::ISettingsWidget
+        {
+            DJV_NON_COPYABLE(ShortcutsSettingsWidget);
+
+        protected:
+            void _init(const std::shared_ptr<Core::Context>&);
+            ShortcutsSettingsWidget();
+
+        public:
+            static std::shared_ptr<ShortcutsSettingsWidget> create(const std::shared_ptr<Core::Context>&);
+
+            std::string getSettingsName() const override;
+            std::string getSettingsGroup() const override;
+            std::string getSettingsSortKey() const override;
+
+        private:
             DJV_PRIVATE();
         };
 

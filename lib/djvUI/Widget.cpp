@@ -8,6 +8,7 @@
 #include <djvUI/EventSystem.h>
 #include <djvUI/ITooltipWidget.h>
 #include <djvUI/Shortcut.h>
+#include <djvUI/ShortcutData.h>
 #include <djvUI/Style.h>
 #include <djvUI/TextBlock.h>
 #include <djvUI/Tooltip.h>
@@ -923,7 +924,7 @@ namespace djv
                     const auto& textSystem = _getTextSystem();
                     for (const auto& shortcut : action->observeShortcuts()->get())
                     {
-                        shortcutsText.push_back(Shortcut::getText(shortcut, textSystem));
+                        shortcutsText.push_back(ShortcutData::getText(shortcut->observeShortcut()->get(), textSystem));
                     }
                     out << String::join(shortcutsText, ", ");
                     out << ")";

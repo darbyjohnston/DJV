@@ -27,9 +27,7 @@ namespace djv
             const std::string & getFilter() const;
             void setFilter(const std::string &);
             void clearFilter();
-            void setFilterCallback(const std::function<void(const std::string &)> &);
-
-            void setBorder(bool);
+            void setFilterCallback(const std::function<void(const std::string &)>&);
 
             float getHeightForWidth(float) const override;
 

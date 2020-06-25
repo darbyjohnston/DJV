@@ -55,7 +55,9 @@ set(header
     NumericEdit.h
     NumericSlider.h
     Overlay.h
+    PopupButton.h
     PopupMenu.h
+    PopupLayout.h
     PopupWidget.h
     PushButton.h
     RowLayout.h
@@ -64,7 +66,7 @@ set(header
     SettingsSystem.h
     SettingsSystemInline.h
     Shortcut.h
-    ShortcutsSettings.h
+    ShortcutData.h
     Spacer.h
     Spacing.h
     SpacingInline.h
@@ -140,7 +142,9 @@ set(source
     NumericEdit.cpp
     NumericSlider.cpp
     Overlay.cpp
+    PopupButton.cpp
     PopupMenu.cpp
+    PopupLayout.cpp
     PopupWidget.cpp
     PushButton.cpp
     RowLayout.cpp
@@ -148,7 +152,7 @@ set(source
     Separator.cpp
     SettingsSystem.cpp
     Shortcut.cpp
-    ShortcutsSettings.cpp
+    ShortcutData.cpp
     Spacer.cpp
     Splitter.cpp
     SoloLayout.cpp

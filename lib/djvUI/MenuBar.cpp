@@ -101,12 +101,12 @@ namespace djv
             }
         }
 
-        void MenuBar::addSpacer(Side side)
+        void MenuBar::addSpacer(Side side, MetricsRole role)
         {
             const auto i = _p->widgetLayout.find(side);
             if (i != _p->widgetLayout.end())
             {
-                i->second->addSpacer();
+                i->second->addSpacer(role);
             }
         }
 

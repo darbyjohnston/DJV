@@ -16,7 +16,7 @@
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/Shortcut.h>
+#include <djvUI/ShortcutData.h>
 #include <djvUI/UISystem.h>
 
 #include <djvAV/AVSystem.h>
@@ -142,8 +142,8 @@ namespace djv
 
             _addShortcut("shortcut_window_full_screen", GLFW_KEY_U);
             _addShortcut("shortcut_window_maximize", GLFW_KEY_M);
-            _addShortcut("shortcut_window_fit", GLFW_KEY_F, UI::Shortcut::getSystemModifier());
-            _addShortcut("shortcut_window_auto_hide", GLFW_KEY_H, UI::Shortcut::getSystemModifier());
+            _addShortcut("shortcut_window_fit", GLFW_KEY_F, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_window_auto_hide", GLFW_KEY_H, UI::ShortcutData::getSystemModifier());
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["FullScreen"]);

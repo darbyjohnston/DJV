@@ -8,7 +8,7 @@
 #include <djvViewApp/MagnifySettings.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/Shortcut.h>
+#include <djvUI/ShortcutData.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
@@ -40,7 +40,7 @@ namespace djv
             p.actions["Magnify"] = UI::Action::create();
             p.actions["Magnify"]->setIcon("djvIconMagnify");
 
-            _addShortcut("shortcut_magnify", GLFW_KEY_Y, UI::Shortcut::getSystemModifier());
+            _addShortcut("shortcut_magnify", GLFW_KEY_Y, UI::ShortcutData::getSystemModifier());
 
             _textUpdate();
             _shortcutsUpdate();

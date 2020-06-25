@@ -145,6 +145,7 @@ namespace djv
 
             p.settingsMenu = UI::Menu::create(context);
             p.settingsMenu->setIcon("djvIconSettings");
+            p.settingsMenu->setMinimumSizeRole(UI::MetricsRole::None);
             p.settingsMenu->addAction(p.actions["LockType"]);
             p.settingsMenu->addAction(p.actions["ApplyColorOperations"]);
             p.settingsMenu->addAction(p.actions["ApplyColorSpace"]);

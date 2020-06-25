@@ -194,6 +194,7 @@
     "ui_image_rotate_270": "270°",
     "ui_image_rotate_90": "90°",
     "ui_metrics_role_border": "Border",
+    "ui_metrics_role_border_text_focus": "Border Text Focus",
     "ui_metrics_role_dialog": "Dialog",
     "ui_metrics_role_drag": "Drag",
     "ui_metrics_role_font_header": "Font Header",

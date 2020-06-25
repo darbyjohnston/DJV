@@ -16,7 +16,7 @@
 #include <djvUI/ActionGroup.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/Shortcut.h>
+#include <djvUI/ShortcutData.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/IEventSystem.h>
@@ -102,9 +102,9 @@ namespace djv
             p.actions["Settings"]->setIcon("djvIconSettings");
             p.actions["Settings"]->setButtonType(UI::ButtonType::Toggle);
 
-            _addShortcut("shortcut_tool_info", GLFW_KEY_I, UI::Shortcut::getSystemModifier());
-            _addShortcut("shortcut_tool_messages", GLFW_KEY_S, UI::Shortcut::getSystemModifier());
-            _addShortcut("shortcut_tool_debug", GLFW_KEY_D, UI::Shortcut::getSystemModifier());
+            _addShortcut("shortcut_tool_info", GLFW_KEY_I, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_tool_messages", GLFW_KEY_S, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_tool_debug", GLFW_KEY_D, UI::ShortcutData::getSystemModifier());
 
             p.menu = UI::Menu::create(context);
             for (const auto& i : toolActions)

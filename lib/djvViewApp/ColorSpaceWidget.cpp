@@ -16,7 +16,7 @@
 #include <djvUI/FormLayout.h>
 #include <djvUI/Label.h>
 #include <djvUI/ListButton.h>
-#include <djvUI/PopupWidget.h>
+#include <djvUI/PopupButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/ToolBar.h>
@@ -235,17 +235,17 @@ namespace djv
             std::shared_ptr<UI::VerticalLayout> configLayout;
 
             std::shared_ptr<ListWidget> displayListWidget;
-            std::shared_ptr<UI::PopupWidget> displayPopupWidget;
+            std::shared_ptr<UI::PopupButton> displayPopupButton;
             std::shared_ptr<ListWidget> viewListWidget;
-            std::shared_ptr<UI::PopupWidget> viewPopupWidget;
+            std::shared_ptr<UI::PopupButton> viewPopupButton;
             std::shared_ptr<UI::FormLayout> displayLayout;
 
             std::shared_ptr<UI::ButtonGroup> editImageButtonGroup;
             std::shared_ptr<UI::FormLayout> imageItemLayout;
             std::shared_ptr<UI::VerticalLayout> addImageLayout;
-            std::shared_ptr<UI::PopupWidget> addImagePopupWidget;
+            std::shared_ptr<UI::PopupButton> addImagePopupButton;
             std::shared_ptr<UI::VerticalLayout> imageLayout;
-            std::vector<std::shared_ptr<UI::PopupWidget> > imagePopupWidgets;
+            std::vector<std::shared_ptr<UI::PopupButton> > imagePopupButtons;
 
             std::shared_ptr<UI::LabelSizeGroup> sizeGroup;
             std::map<std::string, std::shared_ptr<UI::Bellows> > bellows;
@@ -276,23 +276,23 @@ namespace djv
             p.actions["EditConfig"]->setIcon("djvIconEdit");
 
             p.displayListWidget = ListWidget::create(context);
-            p.displayPopupWidget = UI::PopupWidget::create(context);
-            p.displayPopupWidget->setPopupIcon("djvIconPopupMenu");
-            p.displayPopupWidget->addChild(p.displayListWidget);
+            p.displayPopupButton = UI::PopupButton::create(context);
+            p.displayPopupButton->setPopupIcon("djvIconPopupMenu");
+            p.displayPopupButton->addChild(p.displayListWidget);
             p.viewListWidget = ListWidget::create(context);
-            p.viewPopupWidget = UI::PopupWidget::create(context);
-            p.viewPopupWidget->setPopupIcon("djvIconPopupMenu");
-            p.viewPopupWidget->addChild(p.viewListWidget);
+            p.viewPopupButton = UI::PopupButton::create(context);
+            p.viewPopupButton->setPopupIcon("djvIconPopupMenu");
+            p.viewPopupButton->addChild(p.viewListWidget);
 
             p.editImageButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
             p.addImageLayout = UI::VerticalLayout::create(context);
             p.addImageLayout->setSpacing(UI::MetricsRole::None);
-            p.addImagePopupWidget = UI::PopupWidget::create(context);
-            p.addImagePopupWidget->setIcon("djvIconAdd");
+            p.addImagePopupButton = UI::PopupButton::create(context);
+            p.addImagePopupButton->setIcon("djvIconAdd");
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->setBorder(false);
             scrollWidget->addChild(p.addImageLayout);
-            p.addImagePopupWidget->addChild(scrollWidget);
+            p.addImagePopupButton->addChild(scrollWidget);
             p.actions["EditImage"] = UI::Action::create();
             p.actions["EditImage"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["EditImage"]->setIcon("djvIconEdit");
@@ -321,8 +321,8 @@ namespace djv
             p.displayLayout->setSpacing(UI::MetricsRole::None);
             p.displayLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
             p.displayLayout->setLabelSizeGroup(p.sizeGroup);
-            p.displayLayout->addChild(p.displayPopupWidget);
-            p.displayLayout->addChild(p.viewPopupWidget);
+            p.displayLayout->addChild(p.displayPopupButton);
+            p.displayLayout->addChild(p.viewPopupButton);
             p.bellows["Display"] = UI::Bellows::create(context);
             p.bellows["Display"]->addChild(p.displayLayout);
 
@@ -338,7 +338,7 @@ namespace djv
             toolBar = UI::ToolBar::create(context);
             toolBar->setBackgroundRole(UI::ColorRole::Background);
             toolBar->addExpander();
-            toolBar->addChild(p.addImagePopupWidget);
+            toolBar->addChild(p.addImagePopupButton);
             toolBar->addAction(p.actions["EditImage"]);
             p.imageLayout->addChild(toolBar);
             p.bellows["Image"] = UI::Bellows::create(context);
@@ -637,10 +637,10 @@ namespace djv
                 p.actions["AddConfig"]->setTooltip(_getText(DJV_TEXT("widget_color_space_add_config_tooltip")));
                 p.actions["EditConfig"]->setTooltip(_getText(DJV_TEXT("widget_color_space_edit_configs_tooltip")));
 
-                p.displayLayout->setText(p.displayPopupWidget, _getText(DJV_TEXT("widget_color_space_display_name")) + ":");
-                p.displayLayout->setText(p.viewPopupWidget, _getText(DJV_TEXT("widget_color_space_display_view")) + ":");
+                p.displayLayout->setText(p.displayPopupButton, _getText(DJV_TEXT("widget_color_space_display_name")) + ":");
+                p.displayLayout->setText(p.viewPopupButton, _getText(DJV_TEXT("widget_color_space_display_view")) + ":");
 
-                p.addImagePopupWidget->setTooltip(_getText(DJV_TEXT("widget_color_space_add_format_tooltip")));
+                p.addImagePopupButton->setTooltip(_getText(DJV_TEXT("widget_color_space_add_format_tooltip")));
                 p.actions["EditImage"]->setTooltip(_getText(DJV_TEXT("widget_color_space_edit_format_tooltip")));
 
                 p.bellows["Config"]->setText(_getText(DJV_TEXT("widget_color_space_config")));
@@ -669,7 +669,7 @@ namespace djv
                 p.textFocusWidgets.clear();
                 int id = 0;
 
-                p.imagePopupWidgets.clear();
+                p.imagePopupButtons.clear();
                 p.configButtonGroup->clearButtons();
                 p.configItemLayout->clearChildren();
                 auto contextWeak = std::weak_ptr<Context>(context);
@@ -736,10 +736,10 @@ namespace djv
                     }
                 }
                 p.displayListWidget->setItems(displays);
-                p.displayPopupWidget->setText((index >= 0 && index < displays.size()) ? displays[index] : std::string());
-                p.textFocusWidgets[p.displayPopupWidget->getFocusWidget()] = id++;
+                p.displayPopupButton->setText((index >= 0 && index < displays.size()) ? displays[index] : std::string());
+                p.textFocusWidgets[p.displayPopupButton->getFocusWidget()] = id++;
 
-                p.viewPopupWidget->setEnabled(p.views.size() > 0);
+                p.viewPopupButton->setEnabled(p.views.size() > 0);
                 std::vector<std::string> views;
                 for (const auto& i : p.views)
                 {
@@ -762,8 +762,8 @@ namespace djv
                     ++j;
                 }
                 p.viewListWidget->setItems(views);
-                p.viewPopupWidget->setText((index >= 0 && index < views.size()) ? views[index] : std::string());
-                p.textFocusWidgets[p.viewPopupWidget->getFocusWidget()] = id++;
+                p.viewPopupButton->setText((index >= 0 && index < views.size()) ? views[index] : std::string());
+                p.textFocusWidgets[p.viewPopupButton->getFocusWidget()] = id++;
 
                 p.editImageButtonGroup->clearButtons();
                 p.imageItemLayout->clearChildren();
@@ -797,12 +797,12 @@ namespace djv
                     auto listWidget = ListWidget::create(context);
                     listWidget->setItems(colorSpaces);
 
-                    auto popupWidget = UI::PopupWidget::create(context);
-                    popupWidget->setPopupIcon("djvIconPopupMenu");
-                    popupWidget->setText((index >= 0 && index < colorSpaces.size()) ? colorSpaces[index] : std::string());
-                    popupWidget->addChild(listWidget);
-                    p.imagePopupWidgets.push_back(popupWidget);
-                    p.textFocusWidgets[popupWidget->getFocusWidget()] = id++;
+                    auto popupButton = UI::PopupButton::create(context);
+                    popupButton->setPopupIcon("djvIconPopupMenu");
+                    popupButton->setText((index >= 0 && index < colorSpaces.size()) ? colorSpaces[index] : std::string());
+                    popupButton->addChild(listWidget);
+                    p.imagePopupButtons.push_back(popupButton);
+                    p.textFocusWidgets[popupButton->getFocusWidget()] = id++;
 
                     auto deleteButton = UI::ToolButton::create(context);
                     deleteButton->setIcon("djvIconClose");
@@ -812,8 +812,8 @@ namespace djv
 
                     auto hLayout = UI::HorizontalLayout::create(context);
                     hLayout->setSpacing(UI::MetricsRole::None);
-                    hLayout->addChild(popupWidget);
-                    hLayout->setStretch(popupWidget, UI::RowStretch::Expand);
+                    hLayout->addChild(popupButton);
+                    hLayout->setStretch(popupButton, UI::RowStretch::Expand);
                     hLayout->addChild(deleteButton);
                     p.imageItemLayout->addChild(hLayout);
                     std::string s = i.first;
@@ -890,7 +890,7 @@ namespace djv
                                 {
                                     if (auto widget = weak.lock())
                                     {
-                                        widget->_p->addImagePopupWidget->close();
+                                        widget->_p->addImagePopupButton->close();
                                         widget->_p->currentConfig.fileColorSpaces[pluginName] = std::string();
                                         auto ocioSystem = context->getSystemT<AV::OCIO::System>();
                                         ocioSystem->setCurrentConfig(widget->_p->currentConfig);
@@ -901,7 +901,7 @@ namespace djv
                     }
                 }
 
-                p.addImagePopupWidget->setEnabled(
+                p.addImagePopupButton->setEnabled(
                     p.configs.size() > 0 &&
                     usedPluginNames.size() < pluginNames.size());
                 p.actions["EditImage"]->setEnabled(
@@ -955,7 +955,7 @@ namespace djv
                         }
                         ++k;
                     }
-                    p.imagePopupWidgets[j]->setText(
+                    p.imagePopupButtons[j]->setText(
                         index >= 0 && index < colorSpaces.size() ?
                         colorSpaces[index] :
                         std::string());

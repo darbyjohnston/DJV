@@ -6,6 +6,8 @@
 
 #include <djvViewApp/InputSettings.h>
 
+#include <djvUIComponents/ShortcutsWidget.h>
+
 #include <djvUI/ComboBox.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/RowLayout.h>
@@ -19,19 +21,19 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct InputSettingsWidget::Private
+        struct ScrollWheelSettingsWidget::Private
         {
             std::shared_ptr<UI::ComboBox> scrollWheelSpeedComboBox;
             std::shared_ptr<UI::FormLayout> layout;
             std::shared_ptr<ValueObserver<ScrollWheelSpeed> > scrollWheelSpeedObserver;
         };
 
-        void InputSettingsWidget::_init(const std::shared_ptr<Context>& context)
+        void ScrollWheelSettingsWidget::_init(const std::shared_ptr<Context>& context)
         {
             ISettingsWidget::_init(context);
 
             DJV_PRIVATE_PTR();
-            setClassName("djv::ViewApp::InputSettingsWidget");
+            setClassName("djv::ViewApp::ScrollWheelSettingsWidget");
 
             p.scrollWheelSpeedComboBox = UI::ComboBox::create(context);
 
@@ -39,7 +41,7 @@ namespace djv
             p.layout->addChild(p.scrollWheelSpeedComboBox);
             addChild(p.layout);
 
-            auto weak = std::weak_ptr<InputSettingsWidget>(std::dynamic_pointer_cast<InputSettingsWidget>(shared_from_this()));
+            auto weak = std::weak_ptr<ScrollWheelSettingsWidget>(std::dynamic_pointer_cast<ScrollWheelSettingsWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
             p.scrollWheelSpeedComboBox->setCallback(
                 [weak, contextWeak](int value)
@@ -72,38 +74,38 @@ namespace djv
             }
         }
 
-        InputSettingsWidget::InputSettingsWidget() :
+        ScrollWheelSettingsWidget::ScrollWheelSettingsWidget() :
             _p(new Private)
         {}
 
-        std::shared_ptr<InputSettingsWidget> InputSettingsWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ScrollWheelSettingsWidget> ScrollWheelSettingsWidget::create(const std::shared_ptr<Context>& context)
         {
-            auto out = std::shared_ptr<InputSettingsWidget>(new InputSettingsWidget);
+            auto out = std::shared_ptr<ScrollWheelSettingsWidget>(new ScrollWheelSettingsWidget);
             out->_init(context);
             return out;
         }
 
-        std::string InputSettingsWidget::getSettingsName() const
+        std::string ScrollWheelSettingsWidget::getSettingsName() const
         {
             return DJV_TEXT("settings_input_section_scroll_wheel");
         }
 
-        std::string InputSettingsWidget::getSettingsGroup() const
+        std::string ScrollWheelSettingsWidget::getSettingsGroup() const
         {
             return DJV_TEXT("settings_title_input");
         }
 
-        std::string InputSettingsWidget::getSettingsSortKey() const
+        std::string ScrollWheelSettingsWidget::getSettingsSortKey() const
         {
             return "Z";
         }
 
-        void InputSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
+        void ScrollWheelSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
         {
             _p->layout->setLabelSizeGroup(value);
         }
 
-        void InputSettingsWidget::_initEvent(Event::Init& event)
+        void ScrollWheelSettingsWidget::_initEvent(Event::Init& event)
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
@@ -114,7 +116,7 @@ namespace djv
             }
         }
 
-        void InputSettingsWidget::_widgetUpdate()
+        void ScrollWheelSettingsWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
@@ -133,6 +135,74 @@ namespace djv
                     p.scrollWheelSpeedComboBox->setCurrentItem(static_cast<int>(inputSettings->observeScrollWheelSpeed()->get()));
                 }
             }
+        }
+
+        struct ShortcutsSettingsWidget::Private
+        {
+            std::shared_ptr<UI::ShortcutsWidget> widget;
+            std::shared_ptr<MapObserver<std::string, std::vector<UI::ShortcutData> > > shortcutsObserver;
+        };
+
+        void ShortcutsSettingsWidget::_init(const std::shared_ptr<Context>& context)
+        {
+            ISettingsWidget::_init(context);
+
+            DJV_PRIVATE_PTR();
+            setClassName("djv::UI::ShortcutsSettingsWidget");
+
+            p.widget = UI::ShortcutsWidget::create(context);
+            addChild(p.widget);
+
+            auto contextWeak = std::weak_ptr<Context>(context);
+            p.widget->setShortcutsCallback(
+                [contextWeak](const UI::ShortcutDataMap& value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto inputSettings = settingsSystem->getSettingsT<InputSettings>();
+                        inputSettings->setShortcuts(value);
+                    }
+                });
+
+            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto inputSettings = settingsSystem->getSettingsT<InputSettings>();
+            auto weak = std::weak_ptr<ShortcutsSettingsWidget>(std::dynamic_pointer_cast<ShortcutsSettingsWidget>(shared_from_this()));
+            p.shortcutsObserver = MapObserver<std::string, std::vector<UI::ShortcutData>>::create(
+                inputSettings->observeShortcuts(),
+                [weak](const std::map<std::string, std::vector<UI::ShortcutData> >& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->widget->setShortcuts(value);
+                    }
+                });
+        }
+
+        ShortcutsSettingsWidget::ShortcutsSettingsWidget() :
+            _p(new Private)
+        {}
+
+        std::shared_ptr<ShortcutsSettingsWidget> ShortcutsSettingsWidget::create(const std::shared_ptr<Context>& context)
+        {
+            auto out = std::shared_ptr<ShortcutsSettingsWidget>(new ShortcutsSettingsWidget);
+            out->_init(context);
+            return out;
+        }
+
+        std::string ShortcutsSettingsWidget::getSettingsName() const
+        {
+            return DJV_TEXT("settings_input_section_shortcuts");
+        }
+
+        std::string ShortcutsSettingsWidget::getSettingsGroup() const
+        {
+            return DJV_TEXT("settings_title_input");
+        }
+
+        std::string ShortcutsSettingsWidget::getSettingsSortKey() const
+        {
+            return "Z";
         }
 
     } // namespace ViewApp

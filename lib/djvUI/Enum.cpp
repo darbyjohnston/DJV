@@ -260,13 +260,16 @@ namespace djv
         DJV_TEXT("ui_color_role_overlay_light"),
         DJV_TEXT("ui_color_role_shadow"),
         DJV_TEXT("ui_color_role_handle"),
-        DJV_TEXT("ui_color_role_cached"));
+        DJV_TEXT("ui_color_role_cached"),
+        DJV_TEXT("ui_color_role_warning"),
+        DJV_TEXT("ui_color_role_error"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         MetricsRole,
         DJV_TEXT("ui_metrics_role_none"),
         DJV_TEXT("ui_metrics_role_border"),
+        DJV_TEXT("ui_metrics_role_border_text_focus"),
         DJV_TEXT("ui_metrics_role_margin"),
         DJV_TEXT("ui_metrics_role_margin_small"),
         DJV_TEXT("ui_metrics_role_margin_large"),

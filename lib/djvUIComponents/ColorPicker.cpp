@@ -15,6 +15,8 @@
 #include <djvUI/Label.h>
 #include <djvUI/LayoutUtil.h>
 #include <djvUI/Overlay.h>
+#include <djvUI/PopupLayout.h>
+#include <djvUI/PopupWidget.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Window.h>
 
@@ -718,112 +720,6 @@ namespace djv
             p.typeWidget->setType(p.color.getType());
         }
 
-        namespace
-        {
-            class OverlayLayout : public Widget
-            {
-                DJV_NON_COPYABLE(OverlayLayout);
-
-            protected:
-                void _init(const std::shared_ptr<Context>&);
-                OverlayLayout();
-
-            public:
-                static std::shared_ptr<OverlayLayout> create(const std::shared_ptr<Context>&);
-
-                void setButton(const std::shared_ptr<Widget>&, const std::weak_ptr<Widget>&);
-
-            protected:
-                void _layoutEvent(Event::Layout&) override;
-                void _paintEvent(Event::Paint&) override;
-
-                void _childRemovedEvent(Event::ChildRemoved&) override;
-
-            private:
-                std::map<std::shared_ptr<Widget>, std::weak_ptr<Widget> > _widgetToButton;
-                std::map< std::shared_ptr<Widget>, Popup> _widgetToPopup;
-            };
-
-            void OverlayLayout::_init(const std::shared_ptr<Context>& context)
-            {
-                Widget::_init(context);
-                setClassName("djv::UI::PopupWidget::OverlayLayout");
-            }
-
-            OverlayLayout::OverlayLayout()
-            {}
-
-            std::shared_ptr<OverlayLayout> OverlayLayout::create(const std::shared_ptr<Context>& context)
-            {
-                auto out = std::shared_ptr<OverlayLayout>(new OverlayLayout);
-                out->_init(context);
-                return out;
-            }
-
-            void OverlayLayout::setButton(const std::shared_ptr<Widget>& widget, const std::weak_ptr<Widget>& button)
-            {
-                _widgetToButton[widget] = button;
-            }
-
-            void OverlayLayout::_layoutEvent(Event::Layout&)
-            {
-                const BBox2f& g = getGeometry();
-                for (const auto& i : _widgetToButton)
-                {
-                    if (auto button = i.second.lock())
-                    {
-                        const auto& buttonBBox = button->getGeometry();
-                        const auto& minimumSize = i.first->getMinimumSize();
-                        Popup popup = Popup::BelowRight;
-                        auto j = _widgetToPopup.find(i.first);
-                        if (j != _widgetToPopup.end())
-                        {
-                            popup = j->second;
-                        }
-                        else
-                        {
-                            popup = Layout::getPopup(popup, g, buttonBBox, minimumSize);
-                            _widgetToPopup[i.first] = popup;
-                        }
-                        i.first->setGeometry(Layout::getPopupGeometry(popup, buttonBBox, minimumSize).intersect(g));
-                    }
-                }
-            }
-
-            void OverlayLayout::_paintEvent(Event::Paint& event)
-            {
-                Widget::_paintEvent(event);
-                const auto& style = _getStyle();
-                const float sh = style->getMetric(MetricsRole::Shadow);
-                const auto& render = _getRender();
-                render->setFillColor(style->getColor(ColorRole::Shadow));
-                for (const auto& i : getChildWidgets())
-                {
-                    BBox2f g = i->getGeometry();
-                    g.min.x -= sh;
-                    g.max.x += sh;
-                    g.max.y += sh;
-                    if (g.isValid())
-                    {
-                        render->drawShadow(g, sh);
-                    }
-                }
-            }
-
-            void OverlayLayout::_childRemovedEvent(Event::ChildRemoved& event)
-            {
-                if (auto widget = std::dynamic_pointer_cast<Widget>(event.getChild()))
-                {
-                    const auto j = _widgetToButton.find(widget);
-                    if (j != _widgetToButton.end())
-                    {
-                        _widgetToButton.erase(j);
-                    }
-                }
-            }
-
-        } // namespace
-
         struct ColorPickerSwatch::Private
         {
             AV::Image::Color color = AV::Image::Color(0.F, 0.F, 0.F);
@@ -906,25 +802,23 @@ namespace djv
             {
                 if (!p.window)
                 {
-                    p.window = Window::create(context);
-                    p.window->setBackgroundRole(UI::ColorRole::None);
-
                     auto colorPicker = ColorPicker::create(context);
                     colorPicker->setColor(p.color);
                     colorPicker->setMargin(UI::MetricsRole::MarginSmall);
-                    auto border = Layout::Border::create(context);
-                    border->setBackgroundRole(UI::ColorRole::Background);
-                    border->addChild(colorPicker);
 
-                    auto overlayLayout = OverlayLayout::create(context);
-                    overlayLayout->addChild(border);
-                    overlayLayout->setButton(border, p.colorSwatch);
+                    auto popupWidget = PopupWidget::create(context);
+                    popupWidget->addChild(colorPicker);
+                    auto popupLayout = Layout::Popup::create(context);
+                    popupLayout->addChild(popupWidget);
+                    popupLayout->setButton(p.colorSwatch);
 
                     auto overlay = Layout::Overlay::create(context);
                     overlay->setFadeIn(false);
                     overlay->setBackgroundRole(UI::ColorRole::None);
-                    overlay->addChild(overlayLayout);
+                    overlay->addChild(popupLayout);
 
+                    p.window = Window::create(context);
+                    p.window->setBackgroundRole(UI::ColorRole::None);
                     p.window->addChild(overlay);
                     
                     auto weak = std::weak_ptr<ColorPickerSwatch>(std::dynamic_pointer_cast<ColorPickerSwatch>(shared_from_this()));

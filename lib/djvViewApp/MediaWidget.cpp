@@ -29,7 +29,7 @@
 #include <djvUI/MDICanvas.h>
 #include <djvUI/MDIWidget.h>
 #include <djvUI/MultiStateButton.h>
-#include <djvUI/PopupWidget.h>
+#include <djvUI/PopupButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SettingsSystem.h>
@@ -141,7 +141,7 @@ namespace djv
             std::shared_ptr<ViewWidget> viewWidget;
             std::shared_ptr<HUDWidget> hud;
             std::shared_ptr<PlaybackSpeedWidget> speedWidget;
-            std::shared_ptr<UI::PopupWidget> speedPopupWidget;
+            std::shared_ptr<UI::PopupButton> speedPopupButton;
             std::shared_ptr<UI::Label> realSpeedLabel;
             std::shared_ptr<UI::MultiStateButton> playbackModeButton;
             std::shared_ptr<FrameWidget> currentFrameWidget;
@@ -156,7 +156,7 @@ namespace djv
             std::shared_ptr<UI::Label> audioLabel;
             std::shared_ptr<UI::FloatSlider> audioVolumeSlider;
             std::shared_ptr<UI::ToolButton> audioMuteButton;
-            std::shared_ptr<UI::PopupWidget> audioPopupWidget;
+            std::shared_ptr<UI::PopupButton> audioPopupButton;
             std::shared_ptr<UI::GridLayout> playbackLayout;
             std::shared_ptr<UI::StackLayout> layout;
 
@@ -256,11 +256,11 @@ namespace djv
             p.hud->setHUDOptions(p.hudOptions->get());
 
             p.speedWidget = PlaybackSpeedWidget::create(context);
-            p.speedPopupWidget = UI::PopupWidget::create(context);
-            p.speedPopupWidget->setPopupIcon("djvIconPopupMenu");
-            p.speedPopupWidget->setFont(AV::Font::familyMono);
-            p.speedPopupWidget->setFontSizeRole(UI::MetricsRole::FontSmall);
-            p.speedPopupWidget->addChild(p.speedWidget);
+            p.speedPopupButton = UI::PopupButton::create(context);
+            p.speedPopupButton->setPopupIcon("djvIconPopupMenu");
+            p.speedPopupButton->setFont(AV::Font::familyMono);
+            p.speedPopupButton->setFontSizeRole(UI::MetricsRole::FontSmall);
+            p.speedPopupButton->addChild(p.speedWidget);
             p.realSpeedLabel = UI::Label::create(context);
             p.realSpeedLabel->setFontFamily(AV::Font::familyMono);
             p.realSpeedLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
@@ -322,9 +322,9 @@ namespace djv
             hLayout->addChild(p.audioVolumeSlider);
             hLayout->addChild(p.audioMuteButton);
             vLayout->addChild(hLayout);
-            p.audioPopupWidget = UI::PopupWidget::create(context);
-            p.audioPopupWidget->setVAlign(UI::VAlign::Center);
-            p.audioPopupWidget->addChild(vLayout);
+            p.audioPopupButton = UI::PopupButton::create(context);
+            p.audioPopupButton->setVAlign(UI::VAlign::Center);
+            p.audioPopupButton->addChild(vLayout);
 
             auto toolBar = UI::ToolBar::create(context);
             toolBar->setVAlign(UI::VAlign::Center);
@@ -344,11 +344,11 @@ namespace djv
             p.playbackLayout->addChild(p.timelineSlider);
             p.playbackLayout->setGridPos(p.timelineSlider, 1, 0);
             p.playbackLayout->setStretch(p.timelineSlider, UI::GridStretch::Horizontal);
-            p.playbackLayout->addChild(p.audioPopupWidget);
-            p.playbackLayout->setGridPos(p.audioPopupWidget, 2, 0);
+            p.playbackLayout->addChild(p.audioPopupButton);
+            p.playbackLayout->setGridPos(p.audioPopupButton, 2, 0);
             hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::MetricsRole::None);
-            hLayout->addChild(p.speedPopupWidget);
+            hLayout->addChild(p.speedPopupButton);
             hLayout->addChild(p.realSpeedLabel);
             hLayout->addChild(p.playbackModeButton);
             p.playbackLayout->addChild(hLayout);
@@ -1289,7 +1289,7 @@ namespace djv
                 p.maximizeButton->setTooltip(_getText(DJV_TEXT("widget_media_maximize_tooltip")));
                 p.closeButton->setTooltip(_getText(DJV_TEXT("widget_media_close_tooltip")));
 
-                p.speedPopupWidget->setTooltip(_getText(DJV_TEXT("playback_speed_popup_tooltip")));
+                p.speedPopupButton->setTooltip(_getText(DJV_TEXT("playback_speed_popup_tooltip")));
                 p.realSpeedLabel->setTooltip(_getText(DJV_TEXT("playback_real_speed_tooltip")));
                 p.currentFrameWidget->setTooltip(_getText(DJV_TEXT("playback_current_frame_tooltip")));
                 p.inPointWidget->setTooltip(_getText(DJV_TEXT("playback_in_point_tooltip")));
@@ -1303,7 +1303,7 @@ namespace djv
                 p.audioLabel->setText(_getText(DJV_TEXT("playback_menu_audio")));
                 p.audioVolumeSlider->setTooltip(_getText(DJV_TEXT("audio_volume_tooltip")));
                 p.audioMuteButton->setTooltip(_getText(DJV_TEXT("audio_mute_tooltip")));
-                p.audioPopupWidget->setTooltip(_getText(DJV_TEXT("audio_popup_tooltip")));
+                p.audioPopupButton->setTooltip(_getText(DJV_TEXT("audio_popup_tooltip")));
 
                 _widgetUpdate();
                 _speedUpdate();
@@ -1387,7 +1387,7 @@ namespace djv
                 std::stringstream ss;
                 ss.precision(2);
                 ss << _getText(DJV_TEXT("playback_fps")) << ": " << std::fixed << p.speed.toFloat();
-                p.speedPopupWidget->setText(ss.str());
+                p.speedPopupButton->setText(ss.str());
             }
         }
 
@@ -1405,26 +1405,26 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.audioVolumeSlider->setValue(p.audioVolume * 100.F);
             p.audioMuteButton->setChecked(p.audioMute);
-            p.audioPopupWidget->setVisible(p.audioEnabled);
+            p.audioPopupButton->setVisible(p.audioEnabled);
             if (p.audioMute)
             {
-                p.audioPopupWidget->setIcon("djvIconAudioMute");
+                p.audioPopupButton->setIcon("djvIconAudioMute");
             }
             else if (p.audioVolume < 1.F / 4.F)
             {
-                p.audioPopupWidget->setIcon("djvIconAudio0");
+                p.audioPopupButton->setIcon("djvIconAudio0");
             }
             else if (p.audioVolume < 2.F / 4.F)
             {
-                p.audioPopupWidget->setIcon("djvIconAudio1");
+                p.audioPopupButton->setIcon("djvIconAudio1");
             }
             else if (p.audioVolume < 3.F / 4.F)
             {
-                p.audioPopupWidget->setIcon("djvIconAudio2");
+                p.audioPopupButton->setIcon("djvIconAudio2");
             }
             else
             {
-                p.audioPopupWidget->setIcon("djvIconAudio3");
+                p.audioPopupButton->setIcon("djvIconAudio3");
             }
         }
 
