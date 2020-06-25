@@ -271,6 +271,7 @@ namespace djv
             vLayout->addChild(p.bellows["SoftClip"]);
             vLayout->addChild(p.bellows["FrameStore"]);
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            scrollWidget->setBorder(false);
             scrollWidget->setBackgroundRole(UI::ColorRole::Background);
             scrollWidget->setShadowOverlay({ UI::Side::Top });
             scrollWidget->addChild(vLayout);

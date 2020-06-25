@@ -46,6 +46,7 @@ namespace djv
             
             p.clearButton = ToolButton::create(context);
             p.clearButton->setIcon("djvIconClear");
+            p.clearButton->setInsideMargin(MetricsRole::None);
             p.clearButton->setTextFocusEnabled(false);
             p.clearButton->setBackgroundRole(ColorRole::None);
             
@@ -135,11 +136,9 @@ namespace djv
             const glm::vec2 m = getMargin().getSize(style);
             const float b = style->getMetric(MetricsRole::Border);
             const float btf = style->getMetric(MetricsRole::BorderTextFocus);
-            float size = value - m.x;
-            size -= (b + btf) * 2.F;
-            float out = p.layout->getHeightForWidth(size) + m.y;
-            out += (b + btf) * 2.F;
-            return out;
+            float size = value - m.x - btf * 2.F - b * 2.F;
+            float out = p.layout->getHeightForWidth(size);
+            return out + b * 2.F + btf * 2.F + m.y;
         }
 
         void SearchBox::_preLayoutEvent(Event::PreLayout& event)
@@ -149,7 +148,7 @@ namespace djv
             const float b = style->getMetric(MetricsRole::Border);
             const float btf = style->getMetric(MetricsRole::BorderTextFocus);
             glm::vec2 size = p.layout->getMinimumSize();
-            size += (b + btf) * 2.F;
+            size += b * 2.F + btf * 2.F;
             _setMinimumSize(size + getMargin().getSize(style));
         }
 
@@ -160,8 +159,7 @@ namespace djv
             const float b = style->getMetric(MetricsRole::Border);
             const float btf = style->getMetric(MetricsRole::BorderTextFocus);
             const BBox2f g = getMargin().bbox(getGeometry(), style);
-            BBox2f g2;
-            g2 = g.margin(-(b + btf));
+            const BBox2f g2 = g.margin(-(b + btf));
             _p->layout->setGeometry(g2);
         }
 
@@ -179,7 +177,7 @@ namespace djv
                 render->setFillColor(style->getColor(UI::ColorRole::TextFocus));
                 drawBorder(render, g, btf);
             }
-            BBox2f g2 = g.margin(-btf);
+            const BBox2f g2 = g.margin(-btf);
             render->setFillColor(style->getColor(UI::ColorRole::Border));
             drawBorder(render, g2, b);
         }

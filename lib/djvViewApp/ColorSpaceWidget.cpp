@@ -307,7 +307,6 @@ namespace djv
             p.configItemLayout->setLabelSizeGroup(p.sizeGroup);
             p.configLayout->addChild(p.configItemLayout);
             p.configLayout->setStretch(p.configItemLayout, UI::RowStretch::Expand);
-            p.configLayout->addSeparator();
             auto toolBar = UI::ToolBar::create(context);
             toolBar->setBackgroundRole(UI::ColorRole::Background);
             toolBar->addExpander();
@@ -334,7 +333,6 @@ namespace djv
             p.imageItemLayout->setLabelSizeGroup(p.sizeGroup);
             p.imageLayout->addChild(p.imageItemLayout);
             p.imageLayout->setStretch(p.imageItemLayout, UI::RowStretch::Expand);
-            p.imageLayout->addSeparator();
             toolBar = UI::ToolBar::create(context);
             toolBar->setBackgroundRole(UI::ColorRole::Background);
             toolBar->addExpander();
@@ -355,6 +353,7 @@ namespace djv
             vLayout->addChild(p.bellows["Display"]);
             vLayout->addChild(p.bellows["Image"]);
             scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            scrollWidget->setBorder(false);
             scrollWidget->setBackgroundRole(UI::ColorRole::Background);
             scrollWidget->setShadowOverlay({ UI::Side::Top });
             scrollWidget->addChild(vLayout);

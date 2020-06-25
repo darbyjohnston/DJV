@@ -47,6 +47,7 @@ namespace djv
             p.layout->setSpacing(UI::MetricsRole::None);
 
             p.scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            p.scrollWidget->setBorder(false);
             p.scrollWidget->setBackgroundRole(UI::ColorRole::Background);
             p.scrollWidget->addChild(p.layout);
             addChild(p.scrollWidget);

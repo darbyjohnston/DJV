@@ -238,6 +238,7 @@ namespace djv
             vLayout->addChild(p.bellows["Background"]);
             vLayout->addChild(p.bellows["Border"]);
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            scrollWidget->setBorder(false);
             scrollWidget->setBackgroundRole(UI::ColorRole::Background);
             scrollWidget->setShadowOverlay({ UI::Side::Top });
             scrollWidget->addChild(vLayout);

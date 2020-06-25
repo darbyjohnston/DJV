@@ -9,7 +9,6 @@
 #include <djvUI/Menu.h>
 #include <djvUI/MenuButton.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ScrollWidget.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>

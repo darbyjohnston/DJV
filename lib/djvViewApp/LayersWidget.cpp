@@ -11,7 +11,6 @@
 
 #include <djvUI/ListWidget.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ToolBar.h>
 
 #include <djvCore/Context.h>
 
@@ -30,7 +29,6 @@ namespace djv
             std::string filter;
             std::shared_ptr<UI::ListWidget> listWidget;
             std::shared_ptr<UI::SearchBox> searchBox;
-            std::shared_ptr<UI::ToolBar> toolBar;
             std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
@@ -46,20 +44,16 @@ namespace djv
             p.listWidget = UI::ListWidget::create(context);
             p.listWidget->setBorder(false);
             p.listWidget->setShadowOverlay({ UI::Side::Top });
-            p.listWidget->setBackgroundRole(UI::ColorRole::Background);
 
             p.searchBox = UI::SearchBox::create(context);
-
-            p.toolBar = UI::ToolBar::create(context);
-            p.toolBar->addChild(p.searchBox);
-            p.toolBar->setStretch(p.searchBox, UI::RowStretch::Expand);
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
             p.layout->setBackgroundRole(UI::ColorRole::Background);
             p.layout->addChild(p.listWidget);
             p.layout->setStretch(p.listWidget, UI::Layout::RowStretch::Expand);
-            p.layout->addChild(p.toolBar);
+            p.layout->addSeparator();
+            p.layout->addChild(p.searchBox);
             addChild(p.layout);
 
             auto weak = std::weak_ptr<LayersWidget>(std::dynamic_pointer_cast<LayersWidget>(shared_from_this()));

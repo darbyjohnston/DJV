@@ -19,7 +19,6 @@ namespace djv
             struct Popup::Private
             {
                 std::weak_ptr<Widget> button;
-                std::map<std::shared_ptr<Widget>, UI::Popup> widgetToPopup;
             };
 
             void Popup::_init(const std::shared_ptr<Context>& context)
@@ -60,17 +59,7 @@ namespace djv
                     {
                         const auto& buttonBBox = button->getGeometry();
                         const auto& minimumSize = i->getMinimumSize();
-                        UI::Popup popup = UI::Popup::BelowRight;
-                        auto j = p.widgetToPopup.find(i);
-                        if (j != p.widgetToPopup.end())
-                        {
-                            popup = j->second;
-                        }
-                        else
-                        {
-                            popup = Layout::getPopup(popup, g, buttonBBox, minimumSize);
-                            p.widgetToPopup[i] = popup;
-                        }
+                        const UI::Popup popup = Layout::getPopup(UI::Popup::BelowRight, g, buttonBBox, minimumSize);
                         i->setGeometry(Layout::getPopupGeometry(popup, buttonBBox, minimumSize).intersect(g));
                     }
                 }
@@ -92,19 +81,6 @@ namespace djv
                     if (g.isValid())
                     {
                         render->drawShadow(g, sh);
-                    }
-                }
-            }
-
-            void Popup::_childRemovedEvent(Event::ChildRemoved& event)
-            {
-                DJV_PRIVATE_PTR();
-                if (auto widget = std::dynamic_pointer_cast<Widget>(event.getChild()))
-                {
-                    const auto j = p.widgetToPopup.find(widget);
-                    if (j != p.widgetToPopup.end())
-                    {
-                        p.widgetToPopup.erase(j);
                     }
                 }
             }

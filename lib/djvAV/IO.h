@@ -376,15 +376,15 @@ namespace djv
                 virtual rapidjson::Value getOptions(rapidjson::Document::AllocatorType&) const;
 
                 //! Throws:
-                //! - std::invalid_argument
+                //! - std::exception
                 virtual void setOptions(const rapidjson::Value&);
 
                 //! Throws:
-                //! - Core::FileSystem::Error
+                //! - std::exception
                 virtual std::shared_ptr<IRead> read(const Core::FileSystem::FileInfo&, const ReadOptions&) const;
 
                 //! Throws:
-                //! - Core::FileSystem::Error
+                //! - std::exception
                 virtual std::shared_ptr<IWrite> write(const Core::FileSystem::FileInfo&, const Info&, const WriteOptions&) const;
 
             protected:
@@ -417,7 +417,7 @@ namespace djv
                 rapidjson::Value getOptions(const std::string& pluginName, rapidjson::Document::AllocatorType&) const;
 
                 //! Throws:
-                //! - std::invalid_argument
+                //! - std::exception
                 void setOptions(const std::string& pluginName, const rapidjson::Value&);
 
                 std::shared_ptr<Core::IValueSubject<bool> > observeOptionsChanged() const;
@@ -429,11 +429,11 @@ namespace djv
                 bool canWrite(const Core::FileSystem::FileInfo&, const Info&) const;
 
                 //! Throws:
-                //! - Core::FileSystem::Error
+                //! - std::exception
                 std::shared_ptr<IRead> read(const Core::FileSystem::FileInfo&, const ReadOptions& = ReadOptions());
 
                 //! Throws:
-                //! - Core::FileSystem::Error
+                //! - std::exception
                 std::shared_ptr<IWrite> write(const Core::FileSystem::FileInfo&, const Info&, const WriteOptions& = WriteOptions());
 
             private:
