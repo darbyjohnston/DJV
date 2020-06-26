@@ -19,11 +19,6 @@ namespace djv
 {
     namespace UI
     {
-        ShortcutData::ShortcutData(int key, int modifiers) :
-            key(key),
-            modifiers(modifiers)
-        {}
-
         int ShortcutData::getSystemModifier()
         {
 #if defined(DJV_PLATFORM_MACOS)
@@ -170,53 +165,6 @@ namespace djv
             };
         }
 
-        std::string ShortcutData::keyToString(int key)
-        {
-            const auto& data = getKeyStrings();
-            const auto i = data.find(key);
-            return i != data.end() ? i->second : std::string();
-        }
-
-        std::string ShortcutData::modifierToString(int key)
-        {
-            const auto& data = getModifierStrings();
-            const auto i = data.find(key);
-            return i != data.end() ? i->second : std::string();
-        }
-
-        int ShortcutData::keyFromString(const std::string& value)
-        {
-            int out = 0;
-            for (const auto& i : getKeyStrings())
-            {
-                if (value == i.second)
-                {
-                    out = i.first;
-                    break;
-                }
-            }
-            return out;
-        }
-
-        int ShortcutData::modifierFromString(const std::string& value)
-        {
-            int out = 0;
-            for (const auto& i : getModifierStrings())
-            {
-                if (value == i.second)
-                {
-                    out = i.first;
-                    break;
-                }
-            }
-            return out;
-        }
-
-        std::string ShortcutData::getText(const ShortcutData& shortcutData, const std::shared_ptr<TextSystem>& textSystem)
-        {
-            return getText(shortcutData.key, shortcutData.modifiers, textSystem);
-        }
-
         std::string ShortcutData::getText(int key, int keyModifiers, const std::shared_ptr<TextSystem>& textSystem)
         {
             std::vector<std::string> out;
@@ -238,16 +186,6 @@ namespace djv
             }
             out.push_back(textSystem->getText(keyToString(key)));
             return String::join(out, " ");
-        }
-
-        bool ShortcutData::operator == (const ShortcutData & other) const
-        {
-            return key == other.key && modifiers == other.modifiers;
-        }
-
-        bool ShortcutData::operator < (const ShortcutData& other) const
-        {
-            return std::tie(key, modifiers) < std::tie(other.key, other.modifiers);
         }
 
     } // namespace UI
@@ -277,6 +215,14 @@ namespace djv
         return out;
     }
 
+    rapidjson::Value toJSON(const UI::ShortcutDataPair& value, rapidjson::Document::AllocatorType& allocator)
+    {
+        rapidjson::Value out(rapidjson::kObjectType);
+        out.AddMember("Primary", toJSON(value.primary, allocator), allocator);
+        out.AddMember("Secondary", toJSON(value.secondary, allocator), allocator);
+        return out;
+    }
+
     void fromJSON(const rapidjson::Value& value, UI::ShortcutData& out)
     {
         if (value.IsObject())
@@ -297,6 +243,29 @@ namespace djv
                     {
                         out.modifiers |= UI::ShortcutData::modifierFromString(j);
                     }
+                }
+            }
+        }
+        else
+        {
+            //! \todo How can we translate this?
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
+        }
+    }
+
+    void fromJSON(const rapidjson::Value& value, UI::ShortcutDataPair& out)
+    {
+        if (value.IsObject())
+        {
+            for (const auto& i : value.GetObject())
+            {
+                if (0 == strcmp("Primary", i.name.GetString()))
+                {
+                    fromJSON(i.value, out.primary);
+                }
+                else if (0 == strcmp("Secondary", i.name.GetString()))
+                {
+                    fromJSON(i.value, out.secondary);
                 }
             }
         }

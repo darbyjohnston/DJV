@@ -32,7 +32,7 @@ namespace djv
             std::map<std::string, BBox2f> widgetGeom;
 
             std::shared_ptr<ValueObserver<bool> > textChangedObserver;
-            std::shared_ptr<MapObserver<std::string, std::vector<UI::ShortcutData> > > shortcutsObserver;
+            std::shared_ptr<MapObserver<std::string, UI::ShortcutDataPair> > shortcutsObserver;
         };
 
         void IViewSystem::_init(const std::string& name, const std::shared_ptr<Core::Context>& context)
@@ -59,9 +59,9 @@ namespace djv
                     }
                 });
 
-            p.shortcutsObserver = MapObserver<std::string, std::vector<UI::ShortcutData> >::create(
+            p.shortcutsObserver = MapObserver<std::string, UI::ShortcutDataPair>::create(
                 p.inputSettings->observeShortcuts(),
-                [weak](const std::map<std::string, std::vector<UI::ShortcutData> >& value)
+                [weak](const std::map<std::string, UI::ShortcutDataPair>& value)
                 {
                     if (auto system = weak.lock())
                     {
@@ -148,14 +148,14 @@ namespace djv
             _p->widgetGeom = value;
         }
 
-        std::vector<UI::ShortcutData> IViewSystem::_getShortcuts(const std::string& value) const
+        UI::ShortcutDataPair IViewSystem::_getShortcuts(const std::string& value) const
         {
             const auto& shortcuts = _p->inputSettings->observeShortcuts()->get();
             const auto i = shortcuts.find(value);
-            return i != shortcuts.end() ? i->second : std::vector<UI::ShortcutData>();
+            return i != shortcuts.end() ? i->second : UI::ShortcutDataPair();
         }
 
-        void IViewSystem::_addShortcut(const std::string& name, const std::vector<UI::ShortcutData>& value)
+        void IViewSystem::_addShortcut(const std::string& name, const UI::ShortcutDataPair& value)
         {
             _p->inputSettings->addShortcut(name, value);
         }

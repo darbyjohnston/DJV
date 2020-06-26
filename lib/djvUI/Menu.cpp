@@ -696,7 +696,10 @@ namespace djv
                                     for (const auto& i : value)
                                     {
                                         const auto& shortcut = i->observeShortcut()->get();
-                                        labels.push_back(ShortcutData::getText(shortcut.key, shortcut.modifiers, textSystem));
+                                        if (shortcut.isValid())
+                                        {
+                                            labels.push_back(ShortcutData::getText(shortcut.key, shortcut.modifiers, textSystem));
+                                        }
                                     }
                                     item->shortcutLabel = String::join(labels, ", ");
                                     widget->_textUpdateRequest = true;

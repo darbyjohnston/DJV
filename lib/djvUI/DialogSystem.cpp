@@ -249,8 +249,11 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            system->_p->messageWindow->close();
-                            system->_p->messageWindow.reset();
+                            if (system->_p->messageWindow)
+                            {
+                                system->_p->messageWindow->close();
+                                system->_p->messageWindow.reset();
+                            }
                         }
                     });
                 p.messageWindow = Window::create(context);
@@ -296,8 +299,11 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            system->_p->confirmationWindow->close();
-                            system->_p->confirmationWindow.reset();
+                            if (system->_p->confirmationWindow)
+                            {
+                                system->_p->confirmationWindow->close();
+                                system->_p->confirmationWindow.reset();
+                            }
                         }
                     });
                 p.confirmationWindow = Window::create(context);

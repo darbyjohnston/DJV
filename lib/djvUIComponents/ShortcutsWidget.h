@@ -11,8 +11,6 @@ namespace djv
 {
     namespace UI
     {
-        struct ShortcutData;
-
         //! This class provides a widget for editing shortcuts.
         class ShortcutsWidget : public Widget
         {
@@ -38,7 +36,7 @@ namespace djv
             void _popup(
                 const std::shared_ptr<Widget>& button,
                 const std::string&,
-                const std::vector<ShortcutData>&);
+                const ShortcutDataPair&);
             
             void _shortcutsUpdate();
             void _itemsUpdate();

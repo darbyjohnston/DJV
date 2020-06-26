@@ -61,7 +61,7 @@ namespace djv
             std::shared_ptr<ValueObserver<size_t> > recentFilesMaxObserver;
             std::shared_ptr<ValueObserver<AV::Image::Size> > thumbnailSizeSettingsObserver;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
-            std::shared_ptr<MapObserver<std::string, std::vector<UI::ShortcutData> > > shortcutsObserver;
+            std::shared_ptr<MapObserver<std::string, UI::ShortcutDataPair> > shortcutsObserver;
         };
 
         void RecentFilesDialog::_init(const std::shared_ptr<Core::Context>& context)
@@ -282,9 +282,9 @@ namespace djv
             });
 
             auto shortcutsSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
-            p.shortcutsObserver = MapObserver<std::string, std::vector<UI::ShortcutData>>::create(
+            p.shortcutsObserver = MapObserver<std::string, UI::ShortcutDataPair>::create(
                 shortcutsSettings->observeKeyShortcuts(),
-                [weak](const std::map<std::string, std::vector<UI::ShortcutData> >& value)
+                [weak](const std::map<std::string, UI::ShortcutDataPair>& value)
                 {
                     if (auto widget = weak.lock())
                     {

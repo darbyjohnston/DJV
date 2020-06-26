@@ -922,9 +922,13 @@ namespace djv
                     out << ": ";
                     std::vector<std::string> shortcutsText;
                     const auto& textSystem = _getTextSystem();
-                    for (const auto& shortcut : action->observeShortcuts()->get())
+                    for (const auto& i : action->observeShortcuts()->get())
                     {
-                        shortcutsText.push_back(ShortcutData::getText(shortcut->observeShortcut()->get(), textSystem));
+                        const auto& shortcut = i->observeShortcut()->get();
+                        if (shortcut.isValid())
+                        {
+                            shortcutsText.push_back(ShortcutData::getText(shortcut, textSystem));
+                        }
                     }
                     out << String::join(shortcutsText, ", ");
                     out << ")";

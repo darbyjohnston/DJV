@@ -20,7 +20,7 @@ namespace djv
     {
         struct InputSettings::Private
         {
-            std::shared_ptr<MapSubject<std::string, std::vector<UI::ShortcutData> > > shortcuts;
+            std::shared_ptr<MapSubject<std::string, UI::ShortcutDataPair> > shortcuts;
             std::shared_ptr<ValueSubject<ScrollWheelSpeed> > scrollWheelSpeed;
         };
 
@@ -29,7 +29,7 @@ namespace djv
             ISettings::_init("djv::ViewApp::InputSettings", context);
 
             DJV_PRIVATE_PTR();
-            p.shortcuts = MapSubject<std::string, std::vector<UI::ShortcutData> >::create();
+            p.shortcuts = MapSubject<std::string, UI::ShortcutDataPair>::create();
             p.scrollWheelSpeed = ValueSubject<ScrollWheelSpeed>::create(ScrollWheelSpeed::Slow);
             _load();
         }
@@ -45,7 +45,7 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<MapSubject<std::string, std::vector<UI::ShortcutData> > > InputSettings::observeShortcuts() const
+        std::shared_ptr<MapSubject<std::string, UI::ShortcutDataPair > > InputSettings::observeShortcuts() const
         {
             return _p->shortcuts;
         }
@@ -55,7 +55,7 @@ namespace djv
             _p->shortcuts->setIfChanged(value);
         }
 
-        void InputSettings::addShortcut(const std::string& name, const std::vector<UI::ShortcutData>& shortcuts, bool overwrite)
+        void InputSettings::addShortcut(const std::string& name, const UI::ShortcutDataPair& shortcuts, bool overwrite)
         {
             DJV_PRIVATE_PTR();
             if (p.shortcuts->hasKey(name))

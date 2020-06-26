@@ -67,6 +67,7 @@ set(header
     SettingsSystemInline.h
     Shortcut.h
     ShortcutData.h
+    ShortcutDataInline.h
     Spacer.h
     Spacing.h
     SpacingInline.h

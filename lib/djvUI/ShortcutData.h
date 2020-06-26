@@ -27,6 +27,8 @@ namespace djv
             int key       = 0;
             int modifiers = 0;
 
+            bool isValid() const;
+
             static int getSystemModifier();
 
             static std::map<int, std::string> getKeyStrings();
@@ -49,15 +51,36 @@ namespace djv
             bool operator < (const ShortcutData&) const;
         };
 
+        //! This struct provides primary and secondary shortcut data.
+        struct ShortcutDataPair
+        {
+            ShortcutDataPair();
+            ShortcutDataPair(const ShortcutData& primary);
+            ShortcutDataPair(const ShortcutData& primary, const ShortcutData& secondary);
+
+            ShortcutData primary;
+            ShortcutData secondary;
+
+            bool operator == (const ShortcutDataPair&) const;
+            bool operator < (const ShortcutDataPair&) const;
+        };
+
         //! This typedef provides a map of shortcut data.
-        typedef std::map<std::string, std::vector<ShortcutData> > ShortcutDataMap;
+        typedef std::map<std::string, ShortcutDataPair> ShortcutDataMap;
 
     } // namespace UI
 
     rapidjson::Value toJSON(const UI::ShortcutData&, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(const UI::ShortcutDataPair&, rapidjson::Document::AllocatorType&);
 
     //! Throws:
     //! - std::exception
     void fromJSON(const rapidjson::Value&, UI::ShortcutData&);
 
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, UI::ShortcutDataPair&);
+
 } // namespace djv
+
+#include <djvUI/ShortcutDataInline.h>

@@ -140,7 +140,7 @@ namespace djv
         struct ShortcutsSettingsWidget::Private
         {
             std::shared_ptr<UI::ShortcutsWidget> widget;
-            std::shared_ptr<MapObserver<std::string, std::vector<UI::ShortcutData> > > shortcutsObserver;
+            std::shared_ptr<MapObserver<std::string, UI::ShortcutDataPair> > shortcutsObserver;
         };
 
         void ShortcutsSettingsWidget::_init(const std::shared_ptr<Context>& context)
@@ -168,9 +168,9 @@ namespace djv
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
             auto inputSettings = settingsSystem->getSettingsT<InputSettings>();
             auto weak = std::weak_ptr<ShortcutsSettingsWidget>(std::dynamic_pointer_cast<ShortcutsSettingsWidget>(shared_from_this()));
-            p.shortcutsObserver = MapObserver<std::string, std::vector<UI::ShortcutData>>::create(
+            p.shortcutsObserver = MapObserver<std::string, UI::ShortcutDataPair>::create(
                 inputSettings->observeShortcuts(),
-                [weak](const std::map<std::string, std::vector<UI::ShortcutData> >& value)
+                [weak](const std::map<std::string, UI::ShortcutDataPair>& value)
                 {
                     if (auto widget = weak.lock())
                     {

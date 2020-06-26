@@ -138,13 +138,11 @@ namespace djv
             return _p->shortcuts;
         }
 
-        void Action::setShortcuts(const std::vector<ShortcutData>& value)
+        void Action::setShortcuts(const ShortcutDataPair& value)
         {
             clearShortcuts();
-            for (const auto& i : value)
-            {
-                addShortcut(i);
-            }
+            addShortcut(value.primary);
+            addShortcut(value.secondary);
         }
 
         void Action::setShortcut(const std::shared_ptr<Shortcut>& value)

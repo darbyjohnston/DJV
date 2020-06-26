@@ -74,7 +74,7 @@ namespace djv
                 std::shared_ptr<Core::IValueSubject<bool> > observeSortDirectoriesFirst() const;
                 void setSortDirectoriesFirst(bool);
 
-                std::shared_ptr<Core::MapSubject<std::string, std::vector<UI::ShortcutData> > > observeKeyShortcuts() const;
+                std::shared_ptr<Core::MapSubject<std::string, ShortcutDataPair> > observeKeyShortcuts() const;
                 void setKeyShortcuts(const UI::ShortcutDataMap&);
 
                 void load(const rapidjson::Value &) override;

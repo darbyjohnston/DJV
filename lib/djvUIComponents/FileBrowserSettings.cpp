@@ -46,7 +46,7 @@ namespace djv
                 std::shared_ptr<ValueSubject<FileSystem::DirectoryListSort> > sort;
                 std::shared_ptr<ValueSubject<bool> > reverseSort;
                 std::shared_ptr<ValueSubject<bool> > sortDirectoriesFirst;
-                std::shared_ptr<MapSubject<std::string, std::vector<UI::ShortcutData> > > keyShortcuts;
+                std::shared_ptr<MapSubject<std::string, ShortcutDataPair> > keyShortcuts;
             };
 
             void FileBrowser::_init(const std::shared_ptr<Context>& context)
@@ -69,7 +69,7 @@ namespace djv
                 p.sort = ValueSubject<FileSystem::DirectoryListSort>::create(FileSystem::DirectoryListSort::Name);
                 p.reverseSort = ValueSubject<bool>::create(false);
                 p.sortDirectoriesFirst = ValueSubject<bool>::create(true);
-                p.keyShortcuts = MapSubject<std::string, std::vector<UI::ShortcutData> >::create({
+                p.keyShortcuts = MapSubject<std::string, ShortcutDataPair>::create({
                     { "file_browser_shortcut_back", { ShortcutData(GLFW_KEY_LEFT, ShortcutData::getSystemModifier()) } },
                     { "file_browser_shortcut_forward", { ShortcutData(GLFW_KEY_RIGHT, ShortcutData::getSystemModifier()) } },
                     { "file_browser_shortcut_up", { ShortcutData(GLFW_KEY_UP, ShortcutData::getSystemModifier()) } },
@@ -202,7 +202,7 @@ namespace djv
                 _p->sortDirectoriesFirst->setIfChanged(value);
             }
 
-            std::shared_ptr<MapSubject<std::string, std::vector<UI::ShortcutData> > > FileBrowser::observeKeyShortcuts() const
+            std::shared_ptr<MapSubject<std::string, ShortcutDataPair> > FileBrowser::observeKeyShortcuts() const
             {
                 return _p->keyShortcuts;
             }

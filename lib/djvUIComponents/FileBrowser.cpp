@@ -101,7 +101,7 @@ namespace djv
                 std::shared_ptr<ValueObserver<bool> > reverseSortSettingsObserver;
                 std::shared_ptr<ValueObserver<bool> > sortDirectoriesFirstSettingsObserver;
                 std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
-                std::shared_ptr<MapObserver<std::string, std::vector<ShortcutData> > > keyShortcutsObserver;
+                std::shared_ptr<MapObserver<std::string, ShortcutDataPair> > keyShortcutsObserver;
             };
 
             void FileBrowser::_init(const std::shared_ptr<Context>& context)
@@ -631,9 +631,9 @@ namespace djv
                     }
                 });
 
-                p.keyShortcutsObserver = MapObserver<std::string, std::vector<ShortcutData>>::create(
+                p.keyShortcutsObserver = MapObserver<std::string, ShortcutDataPair>::create(
                     fileBrowserSettings->observeKeyShortcuts(),
-                    [weak](const std::map<std::string, std::vector<ShortcutData> >& value)
+                    [weak](const std::map<std::string, ShortcutDataPair>& value)
                     {
                         if (auto widget = weak.lock())
                         {
