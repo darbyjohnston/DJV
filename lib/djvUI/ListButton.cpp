@@ -42,6 +42,7 @@ namespace djv
 
                 p.layout = HorizontalLayout::create(context);
                 p.layout->setMargin(MetricsRole::MarginSmall);
+                p.layout->setSpacing(MetricsRole::None);
                 addChild(p.layout);
             }
 
@@ -76,8 +77,6 @@ namespace djv
                         {
                             p.icon = Icon::create(context);
                             p.icon->setVAlign(VAlign::Center);
-                            p.layout->addChild(p.icon);
-                            p.icon->moveToFront();
                             _widgetUpdate();
                         }
                     }
@@ -106,9 +105,6 @@ namespace djv
                         if (auto context = getContext().lock())
                         {
                             p.label = Label::create(context);
-                            p.layout->addChild(p.label);
-                            p.layout->setStretch(p.label, RowStretch::Expand);
-                            p.label->moveToBack();
                             _widgetUpdate();
                         }
                     }
@@ -151,8 +147,6 @@ namespace djv
                         if (auto context = getContext().lock())
                         {
                             p.rightsideLabel = Label::create(context);
-                            p.layout->addChild(p.rightsideLabel);
-                            p.rightsideLabel->moveToFront();
                             _widgetUpdate();
                         }
                     }
@@ -260,26 +254,31 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const ColorRole foregroundColorRole = getForegroundColorRole();
+                p.layout->clearChildren();
                 if (p.icon)
                 {
-                    _p->icon->setIconColorRole(isChecked() ? ColorRole::Checked : foregroundColorRole);
+                    p.icon->setIconColorRole(foregroundColorRole);
+                    p.layout->addChild(p.icon);
                 }
                 if (p.label)
                 {
                     p.label->setTextHAlign(p.textHAlign);
-                    p.label->setTextColorRole(getForegroundColorRole());
+                    p.label->setTextColorRole(foregroundColorRole);
                     p.label->setFontFamily(p.font);
                     p.label->setFontFace(p.fontFace);
                     p.label->setFontSizeRole(p.fontSizeRole);
                     p.label->setTextColorRole(foregroundColorRole);
+                    p.layout->addChild(p.label);
+                    p.layout->setStretch(p.label, RowStretch::Expand);
                 }
                 if (p.rightsideLabel)
                 {
-                    p.rightsideLabel->setTextColorRole(getForegroundColorRole());
+                    p.rightsideLabel->setTextColorRole(foregroundColorRole);
                     p.rightsideLabel->setFontFamily(p.font);
                     p.rightsideLabel->setFontFace(p.fontFace);
                     p.rightsideLabel->setFontSizeRole(p.fontSizeRole);
                     p.rightsideLabel->setTextColorRole(foregroundColorRole);
+                    p.layout->addChild(p.rightsideLabel);
                 }
             }
 

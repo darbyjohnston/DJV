@@ -16,6 +16,7 @@
 #include <djvUI/FormLayout.h>
 #include <djvUI/Label.h>
 #include <djvUI/ListButton.h>
+#include <djvUI/ListWidget.h>
 #include <djvUI/PopupButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
@@ -36,136 +37,6 @@ namespace djv
     {
         namespace
         {
-            class ListWidget : public UI::Widget
-            {
-                DJV_NON_COPYABLE(ListWidget);
-
-            protected:
-                void _init(const std::shared_ptr<Context>&);
-                ListWidget()
-                {}
-
-            public:
-                static std::shared_ptr<ListWidget> create(const std::shared_ptr<Context>&);
-
-                void setItems(const std::vector<std::string>&);
-
-                void setCallback(const std::function<void(int)>&);
-
-            protected:
-                void _preLayoutEvent(Event::PreLayout&) override;
-                void _layoutEvent(Event::Layout&) override;
-
-            private:
-                void _widgetUpdate();
-
-                std::vector<std::string> _items;
-                std::string _filter;
-                std::shared_ptr<UI::ButtonGroup> _buttonGroup;
-                std::shared_ptr<UI::VerticalLayout> _buttonLayout;
-                std::shared_ptr<UI::SearchBox> _searchBox;
-                std::shared_ptr<UI::VerticalLayout> _layout;
-                std::function<void(int)> _callback;
-            };
-
-            void ListWidget::_init(const std::shared_ptr<Context>& context)
-            {
-                Widget::_init(context);
-
-                _buttonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
-
-                _buttonLayout = UI::VerticalLayout::create(context);
-                _buttonLayout->setSpacing(UI::MetricsRole::None);
-
-                auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-                scrollWidget->setBorder(false);
-                scrollWidget->addChild(_buttonLayout);
-
-                _searchBox = UI::SearchBox::create(context);
-
-                _layout = UI::VerticalLayout::create(context);
-                _layout->setSpacing(UI::MetricsRole::None);
-                _layout->addChild(scrollWidget);
-                _layout->setStretch(scrollWidget, UI::RowStretch::Expand);
-                _layout->addSeparator();
-                _layout->addChild(_searchBox);
-                addChild(_layout);
-
-                auto weak = std::weak_ptr<ListWidget>(std::dynamic_pointer_cast<ListWidget>(shared_from_this()));
-                _buttonGroup->setPushCallback(
-                    [weak](int value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            if (widget->_callback)
-                            {
-                                widget->_callback(value);
-                            }
-                        }
-                    });
-
-                _searchBox->setFilterCallback(
-                    [weak](const std::string& value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_filter = value;
-                            widget->_widgetUpdate();
-                        }
-                    });
-            }
-
-            std::shared_ptr<ListWidget> ListWidget::create(const std::shared_ptr<Context>& context)
-            {
-                auto out = std::shared_ptr<ListWidget>(new ListWidget);
-                out->_init(context);
-                return out;
-            }
-
-            void ListWidget::setItems(const std::vector<std::string>& value)
-            {
-                if (value == _items)
-                    return;
-                _items = value;
-                _widgetUpdate();
-            }
-
-            void ListWidget::setCallback(const std::function<void(int)>& value)
-            {
-                _callback = value;
-            }
-
-            void ListWidget::_preLayoutEvent(Event::PreLayout&)
-            {
-                _setMinimumSize(_layout->getMinimumSize());
-            }
-
-            void ListWidget::_layoutEvent(Event::Layout&)
-            {
-                const BBox2f& g = getGeometry();
-                _layout->setGeometry(g);
-            }
-
-            void ListWidget::_widgetUpdate()
-            {
-                if (auto context = getContext().lock())
-                {
-                    _buttonGroup->clearButtons();
-                    _buttonLayout->clearChildren();
-                    for (const auto& i : _items)
-                    {
-                        auto button = UI::ListButton::create(context);
-                        button->setText(i);
-                        if (!_filter.empty())
-                        {
-                            button->setVisible(String::match(i, _filter));
-                        }
-                        _buttonGroup->addButton(button);
-                        _buttonLayout->addChild(button);
-                    }
-                }
-            }
-
             bool hasImageListUpdate(const AV::OCIO::Config& a, const AV::OCIO::Config& b)
             {
                 bool out = false;
@@ -234,9 +105,9 @@ namespace djv
             std::shared_ptr<UI::FormLayout> configItemLayout;
             std::shared_ptr<UI::VerticalLayout> configLayout;
 
-            std::shared_ptr<ListWidget> displayListWidget;
+            std::shared_ptr<UI::ListWidget> displayListWidget;
             std::shared_ptr<UI::PopupButton> displayPopupButton;
-            std::shared_ptr<ListWidget> viewListWidget;
+            std::shared_ptr<UI::ListWidget> viewListWidget;
             std::shared_ptr<UI::PopupButton> viewPopupButton;
             std::shared_ptr<UI::FormLayout> displayLayout;
 
@@ -275,14 +146,29 @@ namespace djv
             p.actions["EditConfig"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["EditConfig"]->setIcon("djvIconEdit");
 
-            p.displayListWidget = ListWidget::create(context);
+            p.displayListWidget = UI::ListWidget::create(UI::ButtonType::Radio, context);
+            p.displayListWidget->setBorder(false);
+            auto displaySearchBox = UI::SearchBox::create(context);
             p.displayPopupButton = UI::PopupButton::create(context);
             p.displayPopupButton->setPopupIcon("djvIconPopupMenu");
-            p.displayPopupButton->addChild(p.displayListWidget);
-            p.viewListWidget = ListWidget::create(context);
+            auto vLayout = UI::VerticalLayout::create(context);
+            vLayout->setSpacing(UI::MetricsRole::None);
+            vLayout->addChild(p.displayListWidget);
+            vLayout->addSeparator();
+            vLayout->addChild(displaySearchBox);
+            p.displayPopupButton->addChild(vLayout);
+
+            p.viewListWidget = UI::ListWidget::create(UI::ButtonType::Radio, context);
+            p.viewListWidget->setBorder(false);
+            auto viewSearchBox = UI::SearchBox::create(context);
             p.viewPopupButton = UI::PopupButton::create(context);
             p.viewPopupButton->setPopupIcon("djvIconPopupMenu");
-            p.viewPopupButton->addChild(p.viewListWidget);
+            vLayout = UI::VerticalLayout::create(context);
+            vLayout->setSpacing(UI::MetricsRole::None);
+            vLayout->addChild(p.viewListWidget);
+            vLayout->addSeparator();
+            vLayout->addChild(viewSearchBox);
+            p.viewPopupButton->addChild(vLayout);
 
             p.editImageButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
             p.addImageLayout = UI::VerticalLayout::create(context);
@@ -347,7 +233,7 @@ namespace djv
                 i.second->close(false);
             }
 
-            auto vLayout = UI::VerticalLayout::create(context);
+            vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(p.bellows["Config"]);
             vLayout->addChild(p.bellows["Display"]);
@@ -376,7 +262,7 @@ namespace djv
                     }
                 });
 
-            p.displayListWidget->setCallback(
+            p.displayListWidget->setRadioCallback(
                 [weak, contextWeak](int value)
                 {
                     if (auto widget = weak.lock())
@@ -397,7 +283,16 @@ namespace djv
                     }
                 });
 
-            p.viewListWidget->setCallback(
+            displaySearchBox->setFilterCallback(
+                [weak](const std::string& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->displayListWidget->setFilter(value);
+                    }
+                });
+
+            p.viewListWidget->setRadioCallback(
                 [weak, contextWeak](int value)
                 {
                     if (auto widget = weak.lock())
@@ -415,6 +310,15 @@ namespace djv
                                 }
                             }
                         }
+                    }
+                });
+
+            viewSearchBox->setFilterCallback(
+                [weak](const std::string& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->viewListWidget->setFilter(value);
                     }
                 });
 
@@ -735,6 +639,7 @@ namespace djv
                     }
                 }
                 p.displayListWidget->setItems(displays);
+                p.displayListWidget->setChecked(index);
                 p.displayPopupButton->setText((index >= 0 && index < displays.size()) ? displays[index] : std::string());
                 p.textFocusWidgets[p.displayPopupButton->getFocusWidget()] = id++;
 
@@ -761,6 +666,7 @@ namespace djv
                     ++j;
                 }
                 p.viewListWidget->setItems(views);
+                p.viewListWidget->setChecked(index);
                 p.viewPopupButton->setText((index >= 0 && index < views.size()) ? views[index] : std::string());
                 p.textFocusWidgets[p.viewPopupButton->getFocusWidget()] = id++;
 
@@ -793,13 +699,23 @@ namespace djv
                         }
                         ++k;
                     }
-                    auto listWidget = ListWidget::create(context);
+                    auto listWidget = UI::ListWidget::create(UI::ButtonType::Radio, context);
                     listWidget->setItems(colorSpaces);
+                    listWidget->setChecked(index);
+                    listWidget->setBorder(false);
+
+                    auto searchBox = UI::SearchBox::create(context);
+                    p.textFocusWidgets[searchBox->getFocusWidget()] = id++;
 
                     auto popupButton = UI::PopupButton::create(context);
                     popupButton->setPopupIcon("djvIconPopupMenu");
                     popupButton->setText((index >= 0 && index < colorSpaces.size()) ? colorSpaces[index] : std::string());
-                    popupButton->addChild(listWidget);
+                    auto vLayout = UI::VerticalLayout::create(context);
+                    vLayout->setSpacing(UI::MetricsRole::None);
+                    vLayout->addChild(listWidget);
+                    vLayout->addSeparator();
+                    vLayout->addChild(searchBox);
+                    popupButton->addChild(vLayout);
                     p.imagePopupButtons.push_back(popupButton);
                     p.textFocusWidgets[popupButton->getFocusWidget()] = id++;
 
@@ -823,7 +739,7 @@ namespace djv
                     p.imageItemLayout->setText(hLayout, s + ":");
 
                     std::string pluginName = i.first;
-                    listWidget->setCallback(
+                    listWidget->setRadioCallback(
                         [pluginName, weak, contextWeak](int value)
                         {
                             if (auto context = contextWeak.lock())
@@ -839,6 +755,11 @@ namespace djv
                                     }
                                 }
                             }
+                        });
+                    searchBox->setFilterCallback(
+                        [listWidget](const std::string& value)
+                        {
+                            listWidget->setFilter(value);
                         });
                     deleteButton->setClickedCallback(
                         [pluginName, weak, contextWeak]

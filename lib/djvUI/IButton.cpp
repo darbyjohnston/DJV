@@ -60,6 +60,10 @@ namespace djv
                 if (value == p.buttonType)
                     return;
                 p.buttonType = value;
+                if (ButtonType::Push == value)
+                {
+                    p.checked = false;
+                }
                 _resize();
             }
 

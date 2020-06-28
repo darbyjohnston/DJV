@@ -25,8 +25,6 @@ namespace djv
             std::shared_ptr<Media> currentMedia;
             AV::IO::Info info;
             size_t layer = 0;
-            std::vector<size_t> indices;
-            std::string filter;
             std::shared_ptr<UI::ListWidget> listWidget;
             std::shared_ptr<UI::SearchBox> searchBox;
             std::shared_ptr<UI::VerticalLayout> layout;
@@ -41,7 +39,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::LayersWidget");
 
-            p.listWidget = UI::ListWidget::create(context);
+            p.listWidget = UI::ListWidget::create(UI::ButtonType::Radio, context);
             p.listWidget->setBorder(false);
             p.listWidget->setShadowOverlay({ UI::Side::Top });
 
@@ -57,20 +55,16 @@ namespace djv
             addChild(p.layout);
 
             auto weak = std::weak_ptr<LayersWidget>(std::dynamic_pointer_cast<LayersWidget>(shared_from_this()));
-            p.listWidget->setCurrentItemCallback(
+            p.listWidget->setRadioCallback(
                 [weak](int value)
                 {
                     if (auto widget = weak.lock())
                     {
                         if (auto media = widget->_p->currentMedia)
                         {
-                            const auto& indices = widget->_p->indices;
-                            if (!indices.empty())
+                            if (value >= 0)
                             {
-                                media->setLayer(indices[Math::clamp(
-                                    value,
-                                    0,
-                                    static_cast<int>(widget->_p->indices.size() - 1))]);
+                                media->setLayer(static_cast<size_t>(value));
                             }
                         }
                     }
@@ -81,9 +75,7 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    widget->_p->filter = value;
-                    widget->_layersUpdate();
-                    widget->_currentLayerUpdate();
+                    widget->_p->listWidget->setFilter(value);
                 }
             });
 
@@ -161,15 +153,10 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             std::vector<std::string> items;
-            p.indices.clear();
             for (size_t i = 0; i < p.info.video.size(); ++i)
             {
                 const auto& video = p.info.video[i];
-                if (String::match(video.info.name, p.filter))
-                {
-                    items.push_back(_getText(video.info.name));
-                    p.indices.push_back(i);
-                }
+                items.push_back(_getText(video.info.name));
             }
             p.listWidget->setItems(items);
         }
@@ -177,17 +164,7 @@ namespace djv
         void LayersWidget::_currentLayerUpdate()
         {
             DJV_PRIVATE_PTR();
-            size_t item = 0;
-            if (p.indices.size())
-            {
-                item = Math::closest(p.layer, p.indices);
-                p.layer = p.indices[item];
-            }
-            if (p.currentMedia)
-            {
-                p.currentMedia->setLayer(p.layer);
-            }
-            p.listWidget->setCurrentItem(item);
+            p.listWidget->setChecked(p.layer);
         }
 
     } // namespace ViewApp

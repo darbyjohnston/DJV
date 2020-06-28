@@ -10,31 +10,53 @@ namespace djv
 {
     namespace UI
     {
+        //! This struct provides a list item.
+        struct ListItem
+        {
+            std::string text;
+            std::string rightsideText;
+            std::string icon;
+            ColorRole   colorRole     = ColorRole::None;
+
+            bool operator == (const ListItem&) const;
+        };
+
         //! This class provides a list widget.
         //!
-        //! \todo Add support for icons. Should we use actions instead of items?
         //! \todo Keep the current item visible in the scroll widget.
         class ListWidget : public Widget
         {
             DJV_NON_COPYABLE(ListWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(ButtonType, const std::shared_ptr<Core::Context>&);
             ListWidget();
 
         public:
             virtual ~ListWidget();
 
-            static std::shared_ptr<ListWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ListWidget> create(ButtonType, const std::shared_ptr<Core::Context>&);
 
             void setItems(const std::vector<std::string>&);
+            void setItems(const std::vector<ListItem>&);
+            void addItem(const ListItem&);
             void addItem(const std::string&);
             void clearItems();
 
-            void setCurrentItem(int);
-            void setCurrentItemCallback(const std::function<void(int)>&);
+            virtual void setButtonType(ButtonType);
+
+            int getChecked() const;
+            void setChecked(int, bool = true);
+
+            void setPushCallback(const std::function<void(int)>&);
+            void setToggleCallback(const std::function<void(int, bool)>&);
+            void setRadioCallback(const std::function<void(int)>&);
+            void setExclusiveCallback(const std::function<void(int)>&);
+
+            void setFilter(const std::string&);
 
             void setBorder(bool);
+            void setAlternateRowsRoles(ColorRole, ColorRole);
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;
@@ -43,7 +65,7 @@ namespace djv
 
         private:
             void _updateItems();
-            void _updateCurrentItem();
+            void _updateFilter(Callback = Callback::Suppress);
 
             DJV_PRIVATE();
         };

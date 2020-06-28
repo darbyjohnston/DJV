@@ -6,11 +6,10 @@
 
 #include <djvUIComponents/SearchBox.h>
 
-#include <djvUI/ButtonGroup.h>
 #include <djvUI/DrawUtil.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/Label.h>
-#include <djvUI/ListButton.h>
+#include <djvUI/ListWidget.h>
 #include <djvUI/Overlay.h>
 #include <djvUI/PopupLayout.h>
 #include <djvUI/PopupWidget.h>
@@ -40,17 +39,13 @@ namespace djv
                 DJV_NON_COPYABLE(KeyPressWidget);
 
             protected:
-                void _init(
-                    bool takeTextFocus,
-                    const std::shared_ptr<Context>&);
+                void _init(const std::shared_ptr<Context>&);
                 KeyPressWidget();
 
             public:
                 virtual ~KeyPressWidget();
 
-                static std::shared_ptr<KeyPressWidget> create(
-                    bool takeTextFocus,
-                    const std::shared_ptr<Context>&);
+                static std::shared_ptr<KeyPressWidget> create(const std::shared_ptr<Context>&);
 
                 void setShortcut(const ShortcutData&);
                 void setCallback(const std::function<void(const ShortcutData&)>&);
@@ -71,28 +66,22 @@ namespace djv
                 void _textFocusLostEvent(Event::TextFocusLost&) override;
 
                 void _initEvent(Event::Init&) override;
-                void _updateEvent(Event::Update&) override;
 
             private:
                 void _widgetUpdate();
 
                 ShortcutData _shortcut;
-                bool _textFocusInit = true;
                 std::shared_ptr<Label> _label;
                 std::function<void(const ShortcutData&)> _callback;
                 Event::PointerID _pressedID = Event::invalidID;
             };
 
-            void KeyPressWidget::_init(
-                bool takeTextFocus,
-                const std::shared_ptr<Context>& context)
+            void KeyPressWidget::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
 
                 setClassName("djvUIComponents::KeyPressWidget");
                 setPointerEnabled(true);
-
-                _textFocusInit = takeTextFocus;
 
                 _label = Label::create(context);
                 _label->setTextHAlign(TextHAlign::Left);
@@ -109,12 +98,10 @@ namespace djv
             KeyPressWidget::~KeyPressWidget()
             {}
 
-            std::shared_ptr<KeyPressWidget> KeyPressWidget::create(
-                bool takeTextFocus,
-                const std::shared_ptr<Context>& context)
+            std::shared_ptr<KeyPressWidget> KeyPressWidget::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<KeyPressWidget>(new KeyPressWidget);
-                out->_init(takeTextFocus, context);
+                out->_init(context);
                 return out;
             }
 
@@ -242,6 +229,7 @@ namespace djv
                         case GLFW_KEY_MENU:
                             break;
                         default:
+                            event.accept();
                             _shortcut.key = event.getKey();
                             _shortcut.modifiers = event.getKeyModifiers();
                             _widgetUpdate();
@@ -275,220 +263,42 @@ namespace djv
                 }
             }
 
-            void KeyPressWidget::_updateEvent(Event::Update& event)
-            {
-                if (_textFocusInit)
-                {
-                    _textFocusInit = false;
-                    takeTextFocus();
-                }
-            }
-
             void KeyPressWidget::_widgetUpdate()
             {
                 const auto& textSystem = _getTextSystem();
                 _label->setText(ShortcutData::getText(_shortcut, textSystem));
             }
 
-            class ShortcutWidget : public Widget
-            {
-                DJV_NON_COPYABLE(ShortcutWidget);
-
-            protected:
-                void _init(const ShortcutDataPair&, const std::shared_ptr<Context>&);
-                ShortcutWidget();
-
-            public:
-                virtual ~ShortcutWidget();
-
-                static std::shared_ptr<ShortcutWidget> create(const ShortcutDataPair&, const std::shared_ptr<Context>&);
-
-                void setCallback(const std::function<void(const ShortcutDataPair&)>&);
-
-            protected:
-                void _preLayoutEvent(Event::PreLayout&) override;
-                void _layoutEvent(Event::Layout&) override;
-
-                void _initEvent(Event::Init&) override;
-
-            private:
-                void _widgetUpdate();
-
-                ShortcutDataPair _shortcutPair;
-                std::shared_ptr<KeyPressWidget> _keyPressWidget[2];
-                std::shared_ptr<ToolButton> _clearButtons[2];
-                std::shared_ptr<HorizontalLayout> _hLayouts[2];
-                std::shared_ptr<FormLayout> _layout;
-                std::function<void(const ShortcutDataPair&)> _callback;
-            };
-
-            void ShortcutWidget::_init(
-                const ShortcutDataPair& shortcutPair,
-                const std::shared_ptr<Context>& context)
-            {
-                Widget::_init(context);
-
-                setClassName("djv::UI::ShortcutWidget");
-
-                _shortcutPair = shortcutPair;
-
-                for (size_t i = 0; i < 2; ++i)
-                {
-                    _keyPressWidget[i] = KeyPressWidget::create(0 == i, context);
-
-                    _clearButtons[i] = ToolButton::create(context);
-                    _clearButtons[i]->setIcon("djvIconClear");
-                    _clearButtons[i]->setInsideMargin(MetricsRole::None);
-                }
-
-                _layout = FormLayout::create(context);
-                _layout->setMargin(MetricsRole::MarginSmall);
-                for (size_t i = 0; i < 2; ++i)
-                {
-                    _hLayouts[i] = HorizontalLayout::create(context);
-                    _hLayouts[i]->setSpacing(MetricsRole::None);
-                    _hLayouts[i]->addChild(_keyPressWidget[i]);
-                    _hLayouts[i]->setStretch(_keyPressWidget[i], RowStretch::Expand);
-                    _hLayouts[i]->addChild(_clearButtons[i]);
-                    _layout->addChild(_hLayouts[i]);
-                }
-                addChild(_layout);
-
-                _widgetUpdate();
-
-                auto weak = std::weak_ptr<ShortcutWidget>(std::dynamic_pointer_cast<ShortcutWidget>(shared_from_this()));
-                _keyPressWidget[0]->setCallback(
-                    [weak](const ShortcutData& value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            if (widget->_callback)
-                            {
-                                widget->_shortcutPair.primary = value;
-                                widget->_widgetUpdate();
-                                if (widget->_callback)
-                                {
-                                    widget->_callback(widget->_shortcutPair);
-                                }
-                            }
-                        }
-                    });
-                _keyPressWidget[1]->setCallback(
-                    [weak](const ShortcutData& value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            if (widget->_callback)
-                            {
-                                widget->_shortcutPair.secondary = value;
-                                widget->_widgetUpdate();
-                                if (widget->_callback)
-                                {
-                                    widget->_callback(widget->_shortcutPair);
-                                }
-                            }
-                        }
-                    });
-
-                _clearButtons[0]->setClickedCallback(
-                    [weak]
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            if (widget->_callback)
-                            {
-                                widget->_shortcutPair.primary = ShortcutData();
-                                widget->_widgetUpdate();
-                                if (widget->_callback)
-                                {
-                                    widget->_callback(widget->_shortcutPair);
-                                }
-                            }
-                        }
-                    });
-
-                _clearButtons[1]->setClickedCallback(
-                    [weak]
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            if (widget->_callback)
-                            {
-                                widget->_shortcutPair.secondary = ShortcutData();
-                                widget->_widgetUpdate();
-                                if (widget->_callback)
-                                {
-                                    widget->_callback(widget->_shortcutPair);
-                                }
-                            }
-                        }
-                    });
-            }
-
-            ShortcutWidget::ShortcutWidget()
-            {}
-
-            ShortcutWidget::~ShortcutWidget()
-            {}
-
-            std::shared_ptr<ShortcutWidget> ShortcutWidget::create(
-                const ShortcutDataPair& shortcutPair,
-                const std::shared_ptr<Context>& context)
-            {
-                auto out = std::shared_ptr<ShortcutWidget>(new ShortcutWidget);
-                out->_init(shortcutPair, context);
-                return out;
-            }
-
-            void ShortcutWidget::setCallback(const std::function<void(const ShortcutDataPair&)>& value)
-            {
-                _callback = value;
-            }
-
-            void ShortcutWidget::_preLayoutEvent(Event::PreLayout&)
-            {
-                _setMinimumSize(_layout->getMinimumSize());
-            }
-
-            void ShortcutWidget::_layoutEvent(Event::Layout&)
-            {
-                _layout->setGeometry(getGeometry());
-            }
-
-            void ShortcutWidget::_initEvent(Event::Init& event)
-            {
-                if (event.getData().text)
-                {
-                    _layout->setText(_hLayouts[0], _getText("shortcut_primary") + ": ");
-                    _layout->setText(_hLayouts[1], _getText("shortcut_secondary") + ": ");
-                    for (size_t i = 0; i < 2; ++i)
-                    {
-                        _clearButtons[i]->setTooltip(_getText("shortcut_clear"));
-                    }
-                }
-            }
-
-            void ShortcutWidget::_widgetUpdate()
-            {
-                _keyPressWidget[0]->setShortcut(_shortcutPair.primary);
-                _keyPressWidget[1]->setShortcut(_shortcutPair.secondary);
-            }
-
         } // namespace
 
         struct ShortcutsWidget::Private
         {
-            ShortcutDataMap shortcuts;
-            std::map<std::string, bool> shortcutsCollisions;
-            std::string filter;
+            Private(ShortcutsWidget& p) :
+                p(p)
+            {}
 
-            std::shared_ptr<ButtonGroup> buttonGroup;
-            std::shared_ptr<VerticalLayout> itemsLayout;
+            ShortcutsWidget& p;
+
+            ShortcutDataMap shortcuts;
+            std::vector<std::string> shortcutNames;
+            std::map<std::string, bool> shortcutsCollisions;
+            int currentShortcut = -1;
+
+            std::shared_ptr<ListWidget> listWidget;
             std::shared_ptr<SearchBox> searchBox;
+            std::shared_ptr<KeyPressWidget> keyPressWidgets[2];
+            std::shared_ptr<ToolButton> clearButtons[2];
             std::shared_ptr<VerticalLayout> layout;
             std::shared_ptr<Window> window;
 
             std::function<void(const ShortcutDataMap&)> shortcutsCallback;
+
+            void setCurrentPrimary(const ShortcutData&);
+            void setCurrentSecondary(const ShortcutData&);
+
+            void shortcutsUpdate();
+            void itemsUpdate();
+            void currentItemUpdate();
         };
 
         void ShortcutsWidget::_init(const std::shared_ptr<Context>& context)
@@ -498,36 +308,93 @@ namespace djv
 
             setClassName("djv::UI::ShortcutsWidget");
 
-            p.buttonGroup = ButtonGroup::create(ButtonType::Push);
-            p.itemsLayout = VerticalLayout::create(context);
-            p.itemsLayout->setSpacing(MetricsRole::None);
-            auto scrollWidget = ScrollWidget::create(UI::ScrollType::Vertical, context);
-            scrollWidget->addChild(p.itemsLayout);
+            p.listWidget = ListWidget::create(UI::ButtonType::Radio, context);
 
             p.searchBox = SearchBox::create(context);
 
+            for (size_t i = 0; i < 2; ++i)
+            {
+                p.keyPressWidgets[i] = KeyPressWidget::create(context);
+                p.clearButtons[i] = ToolButton::create(context);
+                p.clearButtons[i]->setIcon("djvIconClear");
+                p.clearButtons[i]->setInsideMargin(MetricsRole::None);
+            }
+
             p.layout = VerticalLayout::create(context);
             p.layout->setSpacing(MetricsRole::SpacingSmall);
-            p.layout->addChild(scrollWidget);
-            p.layout->setStretch(scrollWidget, RowStretch::Expand);
-            p.layout->addChild(p.searchBox);
+            p.layout->addChild(p.listWidget);
+            p.layout->setStretch(p.listWidget, RowStretch::Expand);
+            auto hLayout = HorizontalLayout::create(context);
+            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->addChild(p.keyPressWidgets[0]);
+            hLayout->setStretch(p.keyPressWidgets[0], RowStretch::Expand);
+            hLayout->addChild(p.clearButtons[0]);
+            hLayout->addChild(p.keyPressWidgets[1]);
+            hLayout->setStretch(p.keyPressWidgets[1], RowStretch::Expand);
+            hLayout->addChild(p.clearButtons[1]);
+            hLayout->addChild(p.searchBox);
+            hLayout->setStretch(p.searchBox, RowStretch::Expand);
+            p.layout->addChild(hLayout);
             addChild(p.layout);
 
             auto weak = std::weak_ptr<ShortcutsWidget>(std::dynamic_pointer_cast<ShortcutsWidget>(shared_from_this()));
+            p.listWidget->setRadioCallback(
+                [weak](int value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->currentShortcut = value;
+                        widget->_p->currentItemUpdate();
+                        widget->_p->keyPressWidgets[0]->takeTextFocus();
+                    }
+                });
+
+            p.keyPressWidgets[0]->setCallback(
+                [weak](const ShortcutData& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->setCurrentPrimary(value);
+                    }
+                });
+            p.keyPressWidgets[1]->setCallback(
+                [weak](const ShortcutData& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->setCurrentSecondary(value);
+                    }
+                });
+
+            p.clearButtons[0]->setClickedCallback(
+                [weak]
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->setCurrentPrimary(ShortcutData());
+                    }
+                });
+            p.clearButtons[1]->setClickedCallback(
+                [weak]
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->setCurrentSecondary(ShortcutData());
+                    }
+                });
+
             p.searchBox->setFilterCallback(
                 [weak](const std::string& value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->filter = value;
-                        widget->_shortcutsUpdate();
-                        widget->_itemsUpdate();
+                        widget->_p->listWidget->setFilter(value);
                     }
                 });
         }
 
         ShortcutsWidget::ShortcutsWidget() :
-            _p(new Private)
+            _p(new Private(*this))
         {}
 
         std::shared_ptr<ShortcutsWidget> ShortcutsWidget::create(const std::shared_ptr<Context>& context)
@@ -542,8 +409,10 @@ namespace djv
             if (value == _p->shortcuts)
                 return;
             _p->shortcuts = value;
-            _shortcutsUpdate();
-            _itemsUpdate();
+            _p->currentShortcut = Math::clamp(_p->currentShortcut, 0, static_cast<int>(_p->shortcuts.size()) - 1);
+            _p->shortcutsUpdate();
+            _p->itemsUpdate();
+            _p->currentItemUpdate();
         }
 
         void ShortcutsWidget::setShortcutsCallback(const std::function<void(const ShortcutDataMap&)>& value)
@@ -566,69 +435,51 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                _itemsUpdate();
+                p.searchBox->setTooltip(_getText("shortcut_search"));
+                p.keyPressWidgets[0]->setTooltip(_getText("shortcut_primary_tooltip"));
+                p.keyPressWidgets[1]->setTooltip(_getText("shortcut_secondary_tooltip"));
+                p.clearButtons[0]->setTooltip(_getText("shortcut_primary_clear_tooltip"));
+                p.clearButtons[1]->setTooltip(_getText("shortcut_secondary_clear_tooltip"));
+                p.itemsUpdate();
             }
         }
 
-        void ShortcutsWidget::_popup(
-            const std::shared_ptr<Widget>& button,
-            const std::string& shortcut,
-            const ShortcutDataPair& shortcutPair)
+        void ShortcutsWidget::Private::setCurrentPrimary(const ShortcutData& value)
         {
-            DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
+            if (currentShortcut >= 0 && currentShortcut < static_cast<int>(shortcutNames.size()))
             {
-                auto shortcutWidget = ShortcutWidget::create(shortcutPair, context);
-
-                auto popupWidget = PopupWidget::create(context);
-                popupWidget->addChild(shortcutWidget);
-                auto popupLayout = Layout::Popup::create(context);
-                popupLayout->setButton(button);
-                popupLayout->addChild(popupWidget);
-                auto overlay = Layout::Overlay::create(context);
-                overlay->setFadeIn(false);
-                overlay->setBackgroundRole(UI::ColorRole::None);
-                overlay->addChild(popupLayout);
-                p.window = Window::create(context);
-                p.window->setBackgroundRole(UI::ColorRole::None);
-                p.window->addChild(overlay);
-                p.window->show();
-
-                auto weak = std::weak_ptr<ShortcutsWidget>(std::dynamic_pointer_cast<ShortcutsWidget>(shared_from_this()));
-                shortcutWidget->setCallback(
-                    [weak, shortcut](const ShortcutDataPair& value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            if (widget->_p->shortcutsCallback)
-                            {
-                                auto shortcuts = widget->_p->shortcuts;
-                                shortcuts[shortcut] = value;
-                                widget->_p->shortcutsCallback(shortcuts);
-                            }
-                        }
-                    });
-                
-                overlay->setCloseCallback(
-                    [weak]
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            if (widget->_p->window)
-                            {
-                                widget->_p->window->close();
-                                widget->_p->window.reset();
-                            }
-                        }
-                    });
+                auto i = shortcuts.find(shortcutNames[currentShortcut]);
+                if (i != shortcuts.end())
+                {
+                    i->second.primary = value;
+                    shortcutsUpdate();
+                    itemsUpdate();
+                    currentItemUpdate();
+                    shortcutsCallback(shortcuts);
+                }
             }
         }
 
-        void ShortcutsWidget::_shortcutsUpdate()
+        void ShortcutsWidget::Private::setCurrentSecondary(const ShortcutData& value)
         {
-            DJV_PRIVATE_PTR();
+            if (currentShortcut >= 0 && currentShortcut < static_cast<int>(shortcutNames.size()))
+            {
+                auto i = shortcuts.find(shortcutNames[currentShortcut]);
+                if (i != shortcuts.end())
+                {
+                    i->second.secondary = value;
+                    shortcutsUpdate();
+                    itemsUpdate();
+                    currentItemUpdate();
+                    shortcutsCallback(shortcuts);
+                }
+            }
+        }
+
+        void ShortcutsWidget::Private::shortcutsUpdate()
+        {
             std::map<UI::ShortcutData, std::set<std::string> > taken;
-            for (const auto& i : p.shortcuts)
+            for (const auto& i : shortcuts)
             {
                 if (i.second.primary.isValid())
                 {
@@ -639,70 +490,57 @@ namespace djv
                     taken[i.second.secondary].insert(i.first);
                 }
             }
-            p.shortcutsCollisions.clear();
+            shortcutsCollisions.clear();
             for (const auto& i : taken)
             {
                 for (const auto& j : i.second)
                 {
-                    p.shortcutsCollisions[j] = i.second.size() > 1;
+                    shortcutsCollisions[j] |= i.second.size() > 1;
                 }
             }
         }
 
-        void ShortcutsWidget::_itemsUpdate()
+        void ShortcutsWidget::Private::itemsUpdate()
         {
-            DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
+            shortcutNames.clear();
+            std::vector<UI::ListItem> items;
+            const auto& textSystem = p._getTextSystem();
+            for (const auto& i : shortcuts)
             {
-                p.buttonGroup->clearButtons();
-                p.itemsLayout->clearChildren();
-                const auto& textSystem = _getTextSystem();
-                size_t index = 0;
-                for (const auto& i : p.shortcuts)
+                shortcutNames.push_back(i.first);
+                std::vector<std::string> list;
+                if (i.second.primary.isValid())
                 {
-                    const std::string text = _getText(i.first);
-                    std::vector<std::string> list;
-                    if (i.second.primary.isValid())
-                    {
-                        list.push_back(ShortcutData::getText(i.second.primary.key, i.second.primary.modifiers, textSystem));
-                    }
-                    if (i.second.secondary.isValid())
-                    {
-                        list.push_back(ShortcutData::getText(i.second.secondary.key, i.second.secondary.modifiers, textSystem));
-                    }
-                    const std::string shortcutText = String::join(list, ", ");
-                    if (p.filter.empty() ||
-                        String::match(text, p.filter) ||
-                        String::match(shortcutText, p.filter))
-                    {
-                        auto button = ListButton::create(context);
-                        button->setText(text);
-                        button->setBackgroundRole(0 == index % 2 ? ColorRole::Trough : ColorRole::None);
-                        button->setRightsideText(shortcutText);
-                        const auto j = p.shortcutsCollisions.find(i.first);
-                        if (j != p.shortcutsCollisions.end() && j->second)
-                        {
-                            button->setBackgroundRole(ColorRole::Warning);
-                        }
-                        p.buttonGroup->addButton(button);
-                        p.itemsLayout->addChild(button);
+                    list.push_back(ShortcutData::getText(i.second.primary.key, i.second.primary.modifiers, textSystem));
+                }
+                if (i.second.secondary.isValid())
+                {
+                    list.push_back(ShortcutData::getText(i.second.secondary.key, i.second.secondary.modifiers, textSystem));
+                }
+                const auto j = shortcutsCollisions.find(i.first);
+                const bool collision = j != shortcutsCollisions.end() && j->second;
+                items.push_back({
+                    p._getText(i.first),
+                    String::join(list, ", "),
+                    std::string(),
+                    collision ? UI::ColorRole::Warning : UI::ColorRole::None });
+            }
+            listWidget->setItems(items);
+        }
 
-                        auto weak = std::weak_ptr<ShortcutsWidget>(std::dynamic_pointer_cast<ShortcutsWidget>(shared_from_this()));
-                        const std::string shortcut = i.first;
-                        const ShortcutDataPair shortcutPair = i.second;
-                        button->setClickedCallback(
-                            [weak, button, shortcut, shortcutPair]
-                            {
-                                if (auto widget = weak.lock())
-                                {
-                                    widget->_popup(button, shortcut, shortcutPair);
-                                }
-                            });
-
-                        ++index;
-                    }
+        void ShortcutsWidget::Private::currentItemUpdate()
+        {
+            ShortcutDataPair shortcut;
+            if (currentShortcut >= 0 && currentShortcut < static_cast<int>(shortcutNames.size()))
+            {
+                const auto i = shortcuts.find(shortcutNames[currentShortcut]);
+                if (i != shortcuts.end())
+                {
+                    shortcut = i->second;
                 }
             }
+            keyPressWidgets[0]->setShortcut(shortcut.primary);
+            keyPressWidgets[1]->setShortcut(shortcut.secondary);
         }
 
     } // namespace UI

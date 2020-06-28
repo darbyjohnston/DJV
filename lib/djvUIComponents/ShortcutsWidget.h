@@ -33,14 +33,6 @@ namespace djv
             void _initEvent(Core::Event::Init &) override;
 
         private:
-            void _popup(
-                const std::shared_ptr<Widget>& button,
-                const std::string&,
-                const ShortcutDataPair&);
-            
-            void _shortcutsUpdate();
-            void _itemsUpdate();
-
             DJV_PRIVATE();
         };
 
