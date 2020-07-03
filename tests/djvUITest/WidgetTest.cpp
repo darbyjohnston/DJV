@@ -168,64 +168,62 @@ namespace djv
             if (auto context = getContext().lock())
             {
                 auto system = TestEventSystem::create(context);
+                auto widget = PushButton::create(context);
+                    
+                auto widget2 = ListButton::create(context);
+                widget2->setHAlign(HAlign::Left);
+                widget2->setHAlign(HAlign::Left);
+                auto widget3 = ToolButton::create(context);
+                widget3->setHAlign(HAlign::Right);
+                auto widget4 = ToggleButton::create(context);
+                widget4->setHAlign(HAlign::Center);
+                    
+                auto widget5 = IntSlider::create(context);
+                widget5->setVAlign(VAlign::Top);
+                widget5->setVAlign(VAlign::Top);
+                auto widget6 = FloatSlider::create(context);
+                widget6->setVAlign(VAlign::Bottom);
+                auto widget7 = LineEdit::create(context);
+                widget7->setVAlign(VAlign::Center);
+                    
+                auto stackLayout = StackLayout::create(context);
+                stackLayout->addChild(widget);
+                stackLayout->addChild(widget2);
+                stackLayout->addChild(widget3);
+                stackLayout->addChild(widget4);
+                stackLayout->addChild(widget5);
+                stackLayout->addChild(widget6);
+                    
+                auto rowLayout = HorizontalLayout::create(context);
+                auto label = Label::create(context);
+                label->setText("Hello world!");
+                rowLayout->addChild(label);
+                auto icon = Icon::create(context);
+                icon->setIcon("djvIconFileOpen");
+                rowLayout->addChild(icon);
+
+                auto formLayout = FormLayout::create(context);
+                formLayout->addChild(CheckBox::create(context));
+                formLayout->addChild(ColorSwatch::create(context));
+
+                auto gridLayout = GridLayout::create(context);
+                gridLayout->addChild(stackLayout);
+                gridLayout->addChild(rowLayout);
+                gridLayout->setGridPos(rowLayout, 1, 0);
+                gridLayout->addChild(formLayout);
+                gridLayout->setGridPos(formLayout, 0, 1);
+
+                auto window = Window::create(context);
+                window->addChild(gridLayout);
+                if (auto parentWindow = gridLayout->getWindow())
                 {
-                    auto widget = PushButton::create(context);
-                    
-                    auto widget2 = ListButton::create(context);
-                    widget2->setHAlign(HAlign::Left);
-                    widget2->setHAlign(HAlign::Left);
-                    auto widget3 = ToolButton::create(context);
-                    widget3->setHAlign(HAlign::Right);
-                    auto widget4 = ToggleButton::create(context);
-                    widget4->setHAlign(HAlign::Center);
-                    
-                    auto widget5 = IntSlider::create(context);
-                    widget5->setVAlign(VAlign::Top);
-                    widget5->setVAlign(VAlign::Top);
-                    auto widget6 = FloatSlider::create(context);
-                    widget6->setVAlign(VAlign::Bottom);
-                    auto widget7 = LineEdit::create(context);
-                    widget7->setVAlign(VAlign::Center);
-                    
-                    auto stackLayout = StackLayout::create(context);
-                    stackLayout->addChild(widget);
-                    stackLayout->addChild(widget2);
-                    stackLayout->addChild(widget3);
-                    stackLayout->addChild(widget4);
-                    stackLayout->addChild(widget5);
-                    stackLayout->addChild(widget6);
-                    
-                    auto rowLayout = HorizontalLayout::create(context);
-                    auto label = Label::create(context);
-                    label->setText("Hello world!");
-                    rowLayout->addChild(label);
-                    auto icon = Icon::create(context);
-                    icon->setIcon("djvIconFileOpen");
-                    rowLayout->addChild(icon);
-
-                    auto formLayout = FormLayout::create(context);
-                    formLayout->addChild(CheckBox::create(context));
-                    formLayout->addChild(ColorSwatch::create(context));
-
-                    auto gridLayout = GridLayout::create(context);
-                    gridLayout->addChild(stackLayout);
-                    gridLayout->addChild(rowLayout);
-                    gridLayout->setGridPos(rowLayout, 1, 0);
-                    gridLayout->addChild(formLayout);
-                    gridLayout->setGridPos(formLayout, 0, 1);
-
-                    auto window = Window::create(context);
-                    window->addChild(gridLayout);
-                    if (auto parentWindow = gridLayout->getWindow())
-                    {
-                        DJV_ASSERT(window == parentWindow);
-                    }
-                    window->show();
-                    
-                    _tickFor(std::chrono::milliseconds(1000));
-                    
-                    window->close();
+                    DJV_ASSERT(window == parentWindow);
                 }
+                window->show();
+                    
+                _tickFor(std::chrono::milliseconds(1000));
+                    
+                window->close();
             }
         }
 

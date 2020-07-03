@@ -29,7 +29,6 @@ namespace djv
 
         private:
             void _layersUpdate();
-            void _currentLayerUpdate();
 
             DJV_PRIVATE();
         };

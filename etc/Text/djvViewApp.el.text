@@ -562,7 +562,6 @@
     "widget_color_space_display_name": "Ονομα",
     "widget_color_space_display_name_none": "Κανένας",
     "widget_color_space_display_view": "Θέα",
-    "widget_color_space_edit_configs_tooltip": "Επεξεργαστείτε τη λίστα των παραμέτρων OpenColorIO",
     "widget_color_space_edit_format_tooltip": "Επεξεργαστείτε τη λίστα με τους χρωματικούς χώρους",
     "widget_color_space_image": "Εικόνα",
     "widget_color_space_none": "Κανένας",

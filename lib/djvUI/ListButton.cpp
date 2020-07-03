@@ -24,8 +24,9 @@ namespace djv
             struct List::Private
             {
                 std::shared_ptr<Icon> icon;
+                std::shared_ptr<Icon> rightIcon;
                 std::shared_ptr<Label> label;
-                std::shared_ptr<Label> rightsideLabel;
+                std::shared_ptr<Label> rightLabel;
                 TextHAlign textHAlign = TextHAlign::Left;
                 std::string font;
                 std::string fontFace;
@@ -42,7 +43,7 @@ namespace djv
 
                 p.layout = HorizontalLayout::create(context);
                 p.layout->setMargin(MetricsRole::MarginSmall);
-                p.layout->setSpacing(MetricsRole::None);
+                p.layout->setSpacing(MetricsRole::SpacingSmall);
                 addChild(p.layout);
             }
 
@@ -89,6 +90,35 @@ namespace djv
                 }
             }
 
+            std::string List::getRightIcon() const
+            {
+                DJV_PRIVATE_PTR();
+                return p.rightIcon ? p.rightIcon->getIcon() : std::string();
+            }
+
+            void List::setRightIcon(const std::string& value)
+            {
+                DJV_PRIVATE_PTR();
+                if (!value.empty())
+                {
+                    if (!p.rightIcon)
+                    {
+                        if (auto context = getContext().lock())
+                        {
+                            p.rightIcon = Icon::create(context);
+                            p.rightIcon->setVAlign(VAlign::Center);
+                            _widgetUpdate();
+                        }
+                    }
+                    p.rightIcon->setIcon(value);
+                }
+                else
+                {
+                    p.layout->removeChild(p.rightIcon);
+                    p.rightIcon.reset();
+                }
+            }
+
             std::string List::getText() const
             {
                 DJV_PRIVATE_PTR();
@@ -131,31 +161,31 @@ namespace djv
                 _widgetUpdate();
             }
 
-            std::string List::getRightsideText() const
+            std::string List::getRightText() const
             {
                 DJV_PRIVATE_PTR();
-                return p.rightsideLabel ? p.rightsideLabel->getText() : std::string();
+                return p.rightLabel ? p.rightLabel->getText() : std::string();
             }
 
-            void List::setRightsideText(const std::string& value)
+            void List::setRightText(const std::string& value)
             {
                 DJV_PRIVATE_PTR();
                 if (!value.empty())
                 {
-                    if (!p.rightsideLabel)
+                    if (!p.rightLabel)
                     {
                         if (auto context = getContext().lock())
                         {
-                            p.rightsideLabel = Label::create(context);
+                            p.rightLabel = Label::create(context);
                             _widgetUpdate();
                         }
                     }
-                    p.rightsideLabel->setText(value);
+                    p.rightLabel->setText(value);
                 }
                 else
                 {
-                    p.layout->removeChild(p.rightsideLabel);
-                    p.rightsideLabel.reset();
+                    p.layout->removeChild(p.rightLabel);
+                    p.rightLabel.reset();
                 }
             }
 
@@ -271,14 +301,19 @@ namespace djv
                     p.layout->addChild(p.label);
                     p.layout->setStretch(p.label, RowStretch::Expand);
                 }
-                if (p.rightsideLabel)
+                if (p.rightLabel)
                 {
-                    p.rightsideLabel->setTextColorRole(foregroundColorRole);
-                    p.rightsideLabel->setFontFamily(p.font);
-                    p.rightsideLabel->setFontFace(p.fontFace);
-                    p.rightsideLabel->setFontSizeRole(p.fontSizeRole);
-                    p.rightsideLabel->setTextColorRole(foregroundColorRole);
-                    p.layout->addChild(p.rightsideLabel);
+                    p.rightLabel->setTextColorRole(foregroundColorRole);
+                    p.rightLabel->setFontFamily(p.font);
+                    p.rightLabel->setFontFace(p.fontFace);
+                    p.rightLabel->setFontSizeRole(p.fontSizeRole);
+                    p.rightLabel->setTextColorRole(foregroundColorRole);
+                    p.layout->addChild(p.rightLabel);
+                }
+                if (p.rightIcon)
+                {
+                    p.rightIcon->setIconColorRole(foregroundColorRole);
+                    p.layout->addChild(p.rightIcon);
                 }
             }
 

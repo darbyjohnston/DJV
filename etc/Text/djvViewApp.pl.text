@@ -562,7 +562,6 @@
     "widget_color_space_display_name": "Nazwa",
     "widget_color_space_display_name_none": "Żaden",
     "widget_color_space_display_view": "Widok",
-    "widget_color_space_edit_configs_tooltip": "Edytuj listę konfiguracji OpenColorIO",
     "widget_color_space_edit_format_tooltip": "Edytuj listę przestrzeni kolorów",
     "widget_color_space_image": "Wizerunek",
     "widget_color_space_none": "Żaden",

@@ -562,7 +562,6 @@
     "widget_color_space_display_name": "název",
     "widget_color_space_display_name_none": "Žádný",
     "widget_color_space_display_view": "Pohled",
-    "widget_color_space_edit_configs_tooltip": "Upravte seznam konfigurací OpenColorIO",
     "widget_color_space_edit_format_tooltip": "Upravte seznam barevných prostorů",
     "widget_color_space_image": "obraz",
     "widget_color_space_none": "Žádný",

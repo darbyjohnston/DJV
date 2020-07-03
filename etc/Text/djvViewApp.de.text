@@ -562,7 +562,6 @@
     "widget_color_space_display_name": "Name",
     "widget_color_space_display_name_none": "Keine",
     "widget_color_space_display_view": "Ansicht",
-    "widget_color_space_edit_configs_tooltip": "Bearbeitet die Liste der OpenColorIO-Konfigurationen",
     "widget_color_space_edit_format_tooltip": "Bearbeitet die Liste der Farbräume",
     "widget_color_space_image": "Bild",
     "widget_color_space_none": "Keiner",

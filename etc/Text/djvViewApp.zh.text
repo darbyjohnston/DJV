@@ -562,7 +562,6 @@
     "widget_color_space_display_name": "名称",
     "widget_color_space_display_name_none": "没有",
     "widget_color_space_display_view": "视图",
-    "widget_color_space_edit_configs_tooltip": "编辑OpenColorIO配置列表",
     "widget_color_space_edit_format_tooltip": "编辑色彩空间列表",
     "widget_color_space_image": "图片",
     "widget_color_space_none": "没有",

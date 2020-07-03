@@ -11,6 +11,7 @@
 
 #include <djvUI/ListWidget.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/ScrollWidget.h>
 
 #include <djvCore/Context.h>
 
@@ -23,14 +24,13 @@ namespace djv
         struct LayersWidget::Private
         {
             std::shared_ptr<Media> currentMedia;
-            AV::IO::Info info;
-            size_t layer = 0;
+            std::vector<AV::IO::VideoInfo> layers;
+            int currentLayer = -1;
             std::shared_ptr<UI::ListWidget> listWidget;
             std::shared_ptr<UI::SearchBox> searchBox;
             std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
-            std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
-            std::shared_ptr<ValueObserver<size_t> > layerObserver;
+            std::shared_ptr<ValueObserver<std::pair<std::vector<AV::IO::VideoInfo>, int> > > layersObserver;
         };
 
         void LayersWidget::_init(const std::shared_ptr<Core::Context>& context)
@@ -40,16 +40,18 @@ namespace djv
             setClassName("djv::ViewApp::LayersWidget");
 
             p.listWidget = UI::ListWidget::create(UI::ButtonType::Radio, context);
-            p.listWidget->setBorder(false);
-            p.listWidget->setShadowOverlay({ UI::Side::Top });
+            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            scrollWidget->setBorder(false);
+            scrollWidget->setShadowOverlay({ UI::Side::Top });
+            scrollWidget->addChild(p.listWidget);
 
             p.searchBox = UI::SearchBox::create(context);
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
             p.layout->setBackgroundRole(UI::ColorRole::Background);
-            p.layout->addChild(p.listWidget);
-            p.layout->setStretch(p.listWidget, UI::Layout::RowStretch::Expand);
+            p.layout->addChild(scrollWidget);
+            p.layout->setStretch(scrollWidget, UI::Layout::RowStretch::Expand);
             p.layout->addSeparator();
             p.layout->addChild(p.searchBox);
             addChild(p.layout);
@@ -90,35 +92,24 @@ namespace djv
                             widget->_p->currentMedia = value;
                             if (value)
                             {
-                                widget->_p->infoObserver = ValueObserver<AV::IO::Info>::create(
-                                    value->observeInfo(),
-                                    [weak](const AV::IO::Info& value)
+                                widget->_p->layersObserver = ValueObserver<std::pair<std::vector<AV::IO::VideoInfo>, int> >::create(
+                                    value->observeLayers(),
+                                    [weak](const std::pair<std::vector<AV::IO::VideoInfo>, int>& value)
                                     {
                                         if (auto widget = weak.lock())
                                         {
-                                            widget->_p->info = value;
+                                            widget->_p->layers = value.first;
+                                            widget->_p->currentLayer = value.second;
                                             widget->_layersUpdate();
-                                        }
-                                    });
-                                widget->_p->layerObserver = ValueObserver<size_t>::create(
-                                    value->observeLayer(),
-                                    [weak](size_t value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->layer = value;
-                                            widget->_currentLayerUpdate();
                                         }
                                     });
                             }
                             else
                             {
-                                widget->_p->info = AV::IO::Info();
-                                widget->_p->layer = 0;
-                                widget->_p->infoObserver.reset();
-                                widget->_p->layerObserver.reset();
+                                widget->_p->layers.clear();;
+                                widget->_p->currentLayer = -1;
+                                widget->_p->layersObserver.reset();
                                 widget->_layersUpdate();
-                                widget->_currentLayerUpdate();
                             }
                         }
                     });
@@ -153,18 +144,11 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             std::vector<std::string> items;
-            for (size_t i = 0; i < p.info.video.size(); ++i)
+            for (const auto& i : p.layers)
             {
-                const auto& video = p.info.video[i];
-                items.push_back(_getText(video.info.name));
+                items.push_back(_getText(i.info.name));
             }
-            p.listWidget->setItems(items);
-        }
-
-        void LayersWidget::_currentLayerUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            p.listWidget->setChecked(p.layer);
+            p.listWidget->setItems(items, p.currentLayer);
         }
 
     } // namespace ViewApp

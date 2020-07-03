@@ -562,7 +562,6 @@
     "widget_color_space_display_name": "名前",
     "widget_color_space_display_name_none": "なし",
     "widget_color_space_display_view": "表示",
-    "widget_color_space_edit_configs_tooltip": "OpenColorIO構成のリストを編集する",
     "widget_color_space_edit_format_tooltip": "色空間のリストを編集する",
     "widget_color_space_image": "イメージ",
     "widget_color_space_none": "なし",

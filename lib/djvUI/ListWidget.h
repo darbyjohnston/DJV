@@ -14,9 +14,10 @@ namespace djv
         struct ListItem
         {
             std::string text;
-            std::string rightsideText;
+            std::string rightText;
             std::string icon;
             ColorRole   colorRole     = ColorRole::None;
+            std::string tooltip;
 
             bool operator == (const ListItem&) const;
         };
@@ -37,8 +38,8 @@ namespace djv
 
             static std::shared_ptr<ListWidget> create(ButtonType, const std::shared_ptr<Core::Context>&);
 
-            void setItems(const std::vector<std::string>&);
-            void setItems(const std::vector<ListItem>&);
+            void setItems(const std::vector<std::string>&, int checked = -1);
+            void setItems(const std::vector<ListItem>&, int checked = -1);
             void addItem(const ListItem&);
             void addItem(const std::string&);
             void clearItems();
@@ -55,7 +56,6 @@ namespace djv
 
             void setFilter(const std::string&);
 
-            void setBorder(bool);
             void setAlternateRowsRoles(ColorRole, ColorRole);
 
         protected:
@@ -64,8 +64,8 @@ namespace djv
             void _keyPressEvent(Core::Event::KeyPress&) override;
 
         private:
-            void _updateItems();
-            void _updateFilter(Callback = Callback::Suppress);
+            void _updateItems(int checked);
+            void _updateFilter();
 
             DJV_PRIVATE();
         };

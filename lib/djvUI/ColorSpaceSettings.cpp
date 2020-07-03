@@ -29,9 +29,9 @@ namespace djv
             struct ColorSpace::Private
             {
                 std::vector<AV::OCIO::Config> configs;
-                int currentIndex = 0;
+                int currentConfig = 0;
                 std::shared_ptr<ListObserver<AV::OCIO::Config> > configsObserver;
-                std::shared_ptr<ValueObserver<int> > currentIndexObserver;
+                std::shared_ptr<ValueObserver<AV::OCIO::ConfigData> > configDataObserver;
             };
 
             void ColorSpace::_init(const std::shared_ptr<Core::Context>& context)
@@ -89,7 +89,7 @@ namespace djv
                 {
                     ocioSystem->addConfig(i);
                 }
-                ocioSystem->setCurrentIndex(p.currentIndex);
+                ocioSystem->setCurrentConfig(p.currentConfig);
 
                 auto weak = std::weak_ptr<ColorSpace>(std::dynamic_pointer_cast<ColorSpace>(shared_from_this()));
                 p.configsObserver = ListObserver<AV::OCIO::Config>::create(
@@ -98,16 +98,23 @@ namespace djv
                     {
                         if (auto settings = weak.lock())
                         {
-                            settings->_p->configs = value;
+                            settings->_p->configs.clear();
+                            for (const auto& i : value)
+                            {
+                                if (AV::OCIO::ConfigType::User == i.type)
+                                {
+                                    settings->_p->configs.push_back(i);
+                                }
+                            }
                         }
                     });
-                p.currentIndexObserver = ValueObserver<int>::create(
-                    ocioSystem->observeCurrentIndex(),
-                    [weak](int value)
+                p.configDataObserver = ValueObserver<AV::OCIO::ConfigData>::create(
+                    ocioSystem->observeConfigData(),
+                    [weak](const AV::OCIO::ConfigData& value)
                     {
                         if (auto settings = weak.lock())
                         {
-                            settings->_p->currentIndex = value;
+                            settings->_p->currentConfig = value.current;
                         }
                     });
             }
@@ -133,7 +140,7 @@ namespace djv
                 {
                     std::vector<AV::OCIO::Config> configs;
                     UI::Settings::read("Configs", value, p.configs);
-                    UI::Settings::read("CurrentIndex", value, p.currentIndex);
+                    UI::Settings::read("CurrentConfig", value, p.currentConfig);
                 }
             }
 
@@ -142,7 +149,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 rapidjson::Value out(rapidjson::kObjectType);
                 UI::Settings::write("Configs", p.configs, out, allocator);
-                UI::Settings::write("CurrentIndex", p.currentIndex, out, allocator);
+                UI::Settings::write("CurrentConfig", p.currentConfig, out, allocator);
                 return out;
             }
 

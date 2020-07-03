@@ -309,6 +309,8 @@ namespace djv
             setClassName("djv::UI::ShortcutsWidget");
 
             p.listWidget = ListWidget::create(UI::ButtonType::Radio, context);
+            auto scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
+            scrollWidget->addChild(p.listWidget);
 
             p.searchBox = SearchBox::create(context);
 
@@ -322,8 +324,8 @@ namespace djv
 
             p.layout = VerticalLayout::create(context);
             p.layout->setSpacing(MetricsRole::SpacingSmall);
-            p.layout->addChild(p.listWidget);
-            p.layout->setStretch(p.listWidget, RowStretch::Expand);
+            p.layout->addChild(scrollWidget);
+            p.layout->setStretch(scrollWidget, RowStretch::Expand);
             auto hLayout = HorizontalLayout::create(context);
             hLayout->setSpacing(UI::MetricsRole::None);
             hLayout->addChild(p.keyPressWidgets[0]);
@@ -338,6 +340,15 @@ namespace djv
             addChild(p.layout);
 
             auto weak = std::weak_ptr<ShortcutsWidget>(std::dynamic_pointer_cast<ShortcutsWidget>(shared_from_this()));
+            p.listWidget->setPushCallback(
+                [weak](int value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->keyPressWidgets[0]->takeTextFocus();
+                    }
+                });
+
             p.listWidget->setRadioCallback(
                 [weak](int value)
                 {
@@ -345,7 +356,6 @@ namespace djv
                     {
                         widget->_p->currentShortcut = value;
                         widget->_p->currentItemUpdate();
-                        widget->_p->keyPressWidgets[0]->takeTextFocus();
                     }
                 });
 
@@ -525,7 +535,7 @@ namespace djv
                     std::string(),
                     collision ? UI::ColorRole::Warning : UI::ColorRole::None });
             }
-            listWidget->setItems(items);
+            listWidget->setItems(items, currentShortcut);
         }
 
         void ShortcutsWidget::Private::currentItemUpdate()

@@ -103,7 +103,8 @@ namespace djv
         {
             std::shared_ptr<Media> media;
             AV::IO::Info ioInfo;
-            size_t layer = 0;
+            std::vector<AV::IO::VideoInfo> layers;
+            int currentLayer = -1;
             std::shared_ptr<AV::Image::Image> image;
             PlaybackSpeed playbackSpeed = PlaybackSpeed::First;
             Math::Rational defaultSpeed;
@@ -163,7 +164,7 @@ namespace djv
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<Time::Units> > timeUnitsObserver;
             std::shared_ptr<ValueObserver<AV::IO::Info> > ioInfoObserver;
-            std::shared_ptr<ValueObserver<size_t> > layerObserver;
+            std::shared_ptr<ValueObserver<std::pair<std::vector<AV::IO::VideoInfo>, int> > > layersObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
             std::shared_ptr<ValueObserver<Math::Rational> > speedObserver;
             std::shared_ptr<ValueObserver<PlaybackSpeed> > playbackSpeedObserver;
@@ -793,17 +794,17 @@ namespace djv
                         widget->_p->ioInfo = value;
                         widget->_widgetUpdate();
                         widget->_audioUpdate();
-                        widget->_hudUpdate();
                     }
                 });
 
-            p.layerObserver = ValueObserver<size_t>::create(
-                p.media->observeLayer(),
-                [weak](size_t value)
+            p.layersObserver = ValueObserver<std::pair<std::vector<AV::IO::VideoInfo>, int> >::create(
+                p.media->observeLayers(),
+                [weak](const std::pair<std::vector<AV::IO::VideoInfo>, int>& value)
             {
                 if (auto widget = weak.lock())
                 {
-                    widget->_p->layer = value;
+                    widget->_p->layers = value.first;
+                    widget->_p->currentLayer = value.second;
                     widget->_hudUpdate();
                 }
             });
@@ -1441,9 +1442,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             HUDData data;
             data.fileName = p.media->getFileInfo().getFileName(Frame::invalid, false);
-            if (p.layer < p.ioInfo.video.size())
+            if (p.currentLayer >= 0 && p.currentLayer < static_cast<int>(p.layers.size()))
             {
-                const auto& layer = p.ioInfo.video[p.layer];
+                const auto& layer = p.layers[p.currentLayer];
                 data.layer = layer.info.name;
                 data.size = layer.info.size;
                 data.type = layer.info.type;

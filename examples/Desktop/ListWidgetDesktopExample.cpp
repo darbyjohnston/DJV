@@ -12,6 +12,7 @@
 #include <djvUI/ListWidget.h>
 #include <djvUI/PushButton.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/ScrollWidget.h>
 #include <djvUI/Window.h>
 
 #include <djvCore/Error.h>
@@ -65,7 +66,11 @@ void Application::_init(std::list<std::string>& args)
 
     // Create a list widget.
     _listWidget = UI::ListWidget::create(buttonType, shared_from_this());
-    _listWidget->setBorder(false);
+
+    // Create a scroll widget for the list widget.
+    auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, shared_from_this());
+    scrollWidget->setBorder(false);
+    scrollWidget->addChild(_listWidget);
 
     // Layout the widgets.
     auto layout = UI::VerticalLayout::create(shared_from_this());
@@ -83,8 +88,8 @@ void Application::_init(std::list<std::string>& args)
     hLayout->addChild(searchBox);
     layout->addChild(hLayout);
     layout->addSeparator();
-    layout->addChild(_listWidget);
-    layout->setStretch(_listWidget, UI::Layout::RowStretch::Expand);
+    layout->addChild(scrollWidget);
+    layout->setStretch(scrollWidget, UI::Layout::RowStretch::Expand);
 
     // Create a window.
     _window = UI::Window::create(shared_from_this());

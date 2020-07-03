@@ -29,14 +29,17 @@ namespace djv
                 std::string getIcon() const;
                 void setIcon(const std::string&);
 
+                std::string getRightIcon() const;
+                void setRightIcon(const std::string&);
+
                 std::string getText() const;
                 void setText(const std::string&);
 
                 TextHAlign getTextHAlign() const;
                 void setTextHAlign(TextHAlign);
 
-                std::string getRightsideText() const;
-                void setRightsideText(const std::string&);
+                std::string getRightText() const;
+                void setRightText(const std::string&);
 
                 const std::string& getFont() const;
                 const std::string& getFontFace() const;

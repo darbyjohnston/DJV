@@ -12,6 +12,7 @@ set(header
     ColorPickerSystem.h
     ColorPickerWidget.h
 	ColorSpaceWidget.h
+	ColorSpaceWidgetPrivate.h
     DebugWidget.h
     EditSystem.h
     Enum.h
@@ -80,6 +81,7 @@ set(source
     ColorPickerSystem.cpp
     ColorPickerWidget.cpp
 	ColorSpaceWidget.cpp
+	ColorSpaceWidgetPrivate.cpp
     DebugWidget.cpp
     EditSystem.cpp
     Enum.cpp

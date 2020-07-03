@@ -42,7 +42,7 @@ namespace djv
             AV::IO::VideoInfo videoInfo;
             AV::IO::AudioInfo audioInfo;
             std::shared_ptr<ValueSubject<bool> > reload;
-            std::shared_ptr<ValueSubject<size_t> > layer;
+            std::shared_ptr<ValueSubject<std::pair<std::vector<AV::IO::VideoInfo>, int> > > layers;
             std::shared_ptr<ValueSubject<Math::Rational> > speed;
             std::shared_ptr<ValueSubject<PlaybackSpeed> > playbackSpeed;
             std::shared_ptr<ValueSubject<Math::Rational> > defaultSpeed;
@@ -101,7 +101,8 @@ namespace djv
             p.fileInfo = fileInfo;
             p.info = ValueSubject<AV::IO::Info>::create();
             p.reload = ValueSubject<bool>::create(false);
-            p.layer = ValueSubject<size_t>::create(0);
+            p.layers = ValueSubject<std::pair<std::vector<AV::IO::VideoInfo>, int> >::create(
+                std::make_pair(std::vector<AV::IO::VideoInfo>(), 0));
             p.speed = ValueSubject<Math::Rational>::create();
             p.playbackSpeed = ValueSubject<PlaybackSpeed>::create();
             p.defaultSpeed = ValueSubject<Math::Rational>::create();
@@ -222,14 +223,15 @@ namespace djv
             _open();
         }
 
-        std::shared_ptr<IValueSubject<size_t> > Media::observeLayer() const
+        std::shared_ptr<IValueSubject<std::pair<std::vector<AV::IO::VideoInfo>, int> > > Media::observeLayers() const
         {
-            return _p->layer;
+            return _p->layers;
         }
 
-        void Media::setLayer(size_t value)
+        void Media::setLayer(int value)
         {
-            if (_p->layer->setIfChanged(value))
+            DJV_PRIVATE_PTR();
+            if (p.layers->setIfChanged(std::make_pair(p.info->get().video, value)))
             {
                 _open();
             }
@@ -237,7 +239,7 @@ namespace djv
 
         void Media::nextLayer()
         {
-            size_t layer = _p->layer->get();
+            size_t layer = _p->layers->get().second;
             ++layer;
             if (layer >= _p->info->get().video.size())
             {
@@ -248,7 +250,7 @@ namespace djv
 
         void Media::prevLayer()
         {
-            size_t layer = _p->layer->get();
+            size_t layer = _p->layers->get().second;
             const size_t size = _p->info->get().video.size();
             if (layer > 0)
             {
@@ -768,7 +770,7 @@ namespace djv
                     p.valid = false;
 
                     AV::IO::ReadOptions options;
-                    options.layer = p.layer->get();
+                    options.layer = p.layers->get().second;
                     options.videoQueueSize = videoQueueSize;
                     auto io = context->getSystemT<AV::IO::System>();
                     p.read = io->read(p.fileInfo, options);
@@ -779,14 +781,16 @@ namespace djv
 
                     const auto info = p.read->getInfo().get();
                     p.info->setIfChanged(info);
+                    const int currentLayer = Math::clamp(p.layers->get().second, 0, static_cast<int>(info.video.size()) - 1);
+                    p.layers->setIfChanged(std::make_pair(info.video, currentLayer));
                     Math::Rational speed = Time::fromSpeed(Time::getDefaultSpeed());
                     Frame::Sequence sequence;
                     const auto& video = info.video;
                     if (video.size())
                     {
-                        p.videoInfo = video[0];
-                        speed = video[0].speed;
-                        sequence = video[0].sequence;
+                        p.videoInfo = video[currentLayer];
+                        speed = video[currentLayer].speed;
+                        sequence = video[currentLayer].sequence;
                     }
                     const auto& audio = info.audio;
                     if (audio.size())
@@ -799,7 +803,6 @@ namespace djv
                         auto logSystem = context->getSystemT<LogSystem>();
                         logSystem->log("djv::ViewApp::Media", ss.str());
                     }
-                    p.info->setIfChanged(info);
                     p.speed->setIfChanged(speed);
                     p.defaultSpeed->setIfChanged(speed);
                     p.sequence->setIfChanged(sequence);

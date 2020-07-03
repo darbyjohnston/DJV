@@ -19,13 +19,13 @@ namespace djv
             struct Popup::Private
             {
                 std::weak_ptr<Widget> button;
+                std::map<std::shared_ptr<IObject>, UI::Popup> popups;
             };
 
             void Popup::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
                 DJV_PRIVATE_PTR();
-
                 setClassName("djv::UI::Layout::Popup");
             }
 
@@ -49,6 +49,11 @@ namespace djv
                 _resize();
             }
 
+            void Popup::clearPopups()
+            {
+                _p->popups.clear();
+            }
+
             void Popup::_layoutEvent(Event::Layout&)
             {
                 DJV_PRIVATE_PTR();
@@ -59,7 +64,17 @@ namespace djv
                     {
                         const auto& buttonBBox = button->getGeometry();
                         const auto& minimumSize = i->getMinimumSize();
-                        const UI::Popup popup = Layout::getPopup(UI::Popup::BelowRight, g, buttonBBox, minimumSize);
+                        UI::Popup popup = UI::Popup::BelowRight;
+                        auto j = p.popups.find(i);
+                        if (j == p.popups.end())
+                        {
+                            popup = Layout::getPopup(popup, g, buttonBBox, minimumSize);
+                            p.popups[i] = popup;
+                        }
+                        else
+                        {
+                            popup = j->second;
+                        }
                         i->setGeometry(Layout::getPopupGeometry(popup, buttonBBox, minimumSize).intersect(g));
                     }
                 }
@@ -82,6 +97,16 @@ namespace djv
                     {
                         render->drawShadow(g, sh);
                     }
+                }
+            }
+
+            void Popup::_childRemovedEvent(Event::ChildRemoved& value)
+            {
+                DJV_PRIVATE_PTR();
+                const auto i = p.popups.find(value.getChild());
+                if (i != p.popups.end())
+                {
+                    p.popups.erase(i);
                 }
             }
 

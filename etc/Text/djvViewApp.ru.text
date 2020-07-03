@@ -562,7 +562,6 @@
     "widget_color_space_display_name": "имя",
     "widget_color_space_display_name_none": "Никто",
     "widget_color_space_display_view": "Посмотреть",
-    "widget_color_space_edit_configs_tooltip": "Изменить список конфигураций OpenColorIO",
     "widget_color_space_edit_format_tooltip": "Редактировать список цветовых пространств",
     "widget_color_space_image": "Образ",
     "widget_color_space_none": "Никто",

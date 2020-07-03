@@ -261,28 +261,32 @@ namespace djv
             {
                 windowSystem->setFullScreen(*(p.fullScreenCmdLine));
             }
-            if (p.ocioConfigCmdLine)
+            if (p.ocioConfigCmdLine || p.ocioDisplayCmdLine || p.ocioViewCmdLine || p.ocioImageCmdLine)
             {
-                auto ocioSystem = getSystemT<AV::OCIO::System>();
-                ocioSystem->addConfig(*p.ocioConfigCmdLine);
-            }
-            if (p.ocioDisplayCmdLine || p.ocioViewCmdLine || p.ocioImageCmdLine)
-            {
-                auto ocioSystem = getSystemT<AV::OCIO::System>();
-                auto config = ocioSystem->observeCurrentConfig()->get();
+                AV::OCIO::Config config;
+                config.type = AV::OCIO::ConfigType::CmdLine;
+                if (p.ocioConfigCmdLine)
+                {
+                    config.fileName = *p.ocioConfigCmdLine;
+                }
                 if (p.ocioDisplayCmdLine)
                 {
-                    config.display = *p.ocioDisplayCmdLine;
+                    config.display = *p.ocioConfigCmdLine;
                 }
                 if (p.ocioViewCmdLine)
                 {
                     config.view = *p.ocioViewCmdLine;
                 }
+                if (p.ocioConfigCmdLine)
+                {
+                    config.fileName = *p.ocioConfigCmdLine;
+                }
                 if (p.ocioImageCmdLine)
                 {
                     config.fileColorSpaces[std::string()] = *p.ocioImageCmdLine;
                 }
-                ocioSystem->setCurrentConfig(config);
+                auto ocioSystem = getSystemT<AV::OCIO::System>();
+                ocioSystem->setCurrentConfig(ocioSystem->addConfig(config));
             }
 
             // Show the main window.

@@ -562,7 +562,6 @@
     "widget_color_space_display_name": "namn",
     "widget_color_space_display_name_none": "Ingen",
     "widget_color_space_display_view": "Se",
-    "widget_color_space_edit_configs_tooltip": "Redigera listan med OpenColorIO-konfigurationer",
     "widget_color_space_edit_format_tooltip": "Redigera listan med färgavstånd",
     "widget_color_space_image": "Bild",
     "widget_color_space_none": "Ingen",

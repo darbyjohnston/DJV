@@ -115,6 +115,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (auto context = getContext().lock())
                 {
+                    p.popupLayout->clearPopups();
                     p.window = Window::create(context);
                     p.window->setBackgroundRole(ColorRole::None);
                     p.window->addChild(p.overlay);

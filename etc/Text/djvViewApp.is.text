@@ -562,7 +562,6 @@
     "widget_color_space_display_name": "Nafn",
     "widget_color_space_display_name_none": "Enginn",
     "widget_color_space_display_view": "Útsýni",
-    "widget_color_space_edit_configs_tooltip": "Breyttu lista yfir OpenColorIO stillingar",
     "widget_color_space_edit_format_tooltip": "Breyta listanum yfir litrými",
     "widget_color_space_image": "Mynd",
     "widget_color_space_none": "Enginn",

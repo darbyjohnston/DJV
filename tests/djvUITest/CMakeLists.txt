@@ -1,7 +1,9 @@
 set(header
+    ButtonGroupTest.h
     EnumTest.h
     WidgetTest.h)
 set(source
+    ButtonGroupTest.cpp
     EnumTest.cpp
     WidgetTest.cpp)
 

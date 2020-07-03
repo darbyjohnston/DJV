@@ -28,9 +28,13 @@ namespace djv
 
                 void setButton(const std::weak_ptr<Widget>&);
 
+                void clearPopups();
+
             protected:
                 void _layoutEvent(Core::Event::Layout&) override;
                 void _paintEvent(Core::Event::Paint&) override;
+
+                void _childRemovedEvent(Core::Event::ChildRemoved&) override;
 
             private:
                 DJV_PRIVATE();

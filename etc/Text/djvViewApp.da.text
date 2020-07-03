@@ -562,7 +562,6 @@
     "widget_color_space_display_name": "Navn",
     "widget_color_space_display_name_none": "Ingen",
     "widget_color_space_display_view": "Udsigt",
-    "widget_color_space_edit_configs_tooltip": "Rediger listen over OpenColorIO-konfigurationer",
     "widget_color_space_edit_format_tooltip": "Rediger listen over farverum",
     "widget_color_space_image": "Billede",
     "widget_color_space_none": "Ingen",
