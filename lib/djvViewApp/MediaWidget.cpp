@@ -1218,6 +1218,7 @@ namespace djv
             IWidget::_setActiveWidget(value);
             DJV_PRIVATE_PTR();
             p.active = value;
+            p.scroll->setAlways(ScrollData(glm::vec2(0.F, 0.F), 0, 0));
             p.titleLabel->setTextColorRole(p.active ? UI::ColorRole::Foreground : UI::ColorRole::ForegroundDim);
             p.maximizeButton->setForegroundColorRole(p.active ? UI::ColorRole::Foreground : UI::ColorRole::ForegroundDim);
             p.closeButton->setForegroundColorRole(p.active ? UI::ColorRole::Foreground : UI::ColorRole::ForegroundDim);
