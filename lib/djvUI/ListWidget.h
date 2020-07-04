@@ -13,6 +13,9 @@ namespace djv
         //! This struct provides a list item.
         struct ListItem
         {
+            ListItem();
+            ListItem(const std::string& text);
+            
             std::string text;
             std::string rightText;
             std::string icon;

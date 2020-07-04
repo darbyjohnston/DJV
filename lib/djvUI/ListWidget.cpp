@@ -17,6 +17,13 @@ namespace djv
 {
     namespace UI
     {
+        ListItem::ListItem()
+        {}
+        
+        ListItem::ListItem(const std::string& text) :
+            text(text)
+        {}
+        
         bool ListItem::operator == (const ListItem& other) const
         {
             return icon == other.icon &&

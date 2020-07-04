@@ -308,7 +308,7 @@ namespace djv
 
             setClassName("djv::UI::ShortcutsWidget");
 
-            p.listWidget = ListWidget::create(UI::ButtonType::Radio, context);
+            p.listWidget = ListWidget::create(ButtonType::Radio, context);
             auto scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
             scrollWidget->addChild(p.listWidget);
 
@@ -327,7 +327,7 @@ namespace djv
             p.layout->addChild(scrollWidget);
             p.layout->setStretch(scrollWidget, RowStretch::Expand);
             auto hLayout = HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->setSpacing(MetricsRole::None);
             hLayout->addChild(p.keyPressWidgets[0]);
             hLayout->setStretch(p.keyPressWidgets[0], RowStretch::Expand);
             hLayout->addChild(p.clearButtons[0]);
@@ -488,7 +488,7 @@ namespace djv
 
         void ShortcutsWidget::Private::shortcutsUpdate()
         {
-            std::map<UI::ShortcutData, std::set<std::string> > taken;
+            std::map<ShortcutData, std::set<std::string> > taken;
             for (const auto& i : shortcuts)
             {
                 if (i.second.primary.isValid())
@@ -513,7 +513,7 @@ namespace djv
         void ShortcutsWidget::Private::itemsUpdate()
         {
             shortcutNames.clear();
-            std::vector<UI::ListItem> items;
+            std::vector<ListItem> items;
             const auto& textSystem = p._getTextSystem();
             for (const auto& i : shortcuts)
             {
@@ -529,11 +529,11 @@ namespace djv
                 }
                 const auto j = shortcutsCollisions.find(i.first);
                 const bool collision = j != shortcutsCollisions.end() && j->second;
-                items.push_back({
-                    p._getText(i.first),
-                    String::join(list, ", "),
-                    std::string(),
-                    collision ? UI::ColorRole::Warning : UI::ColorRole::None });
+                ListItem item;
+                item.text = p._getText(i.first);
+                item.rightText = String::join(list, ", ");
+                item.colorRole = collision ? UI::ColorRole::Warning : ColorRole::None;
+                items.emplace_back(item);
             }
             listWidget->setItems(items, currentShortcut);
         }
