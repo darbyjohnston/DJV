@@ -18,6 +18,7 @@
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/ToolButton.h>
 
+#include <djvAV/IO.h>
 #include <djvAV/OCIOSystem.h>
 
 #include <djvCore/Context.h>
@@ -37,20 +38,21 @@ namespace djv
 
             std::shared_ptr<UI::ListWidget> configListWidget;
             std::shared_ptr<UI::SearchBox> configSearchBox;
-            std::shared_ptr<UI::PopupButton> configPopupButton;
+            std::shared_ptr<UI::PopupButton> configButton;
 
             std::shared_ptr<UI::ListWidget> displayListWidget;
             std::shared_ptr<UI::SearchBox> displaySearchBox;
-            std::shared_ptr<UI::PopupButton> displayPopupButton;
+            std::shared_ptr<UI::PopupButton> displayButton;
 
             std::shared_ptr<UI::ListWidget> viewListWidget;
             std::shared_ptr<UI::SearchBox> viewSearchBox;
-            std::shared_ptr<UI::PopupButton> viewPopupButton;
+            std::shared_ptr<UI::PopupButton> viewButton;
 
             std::shared_ptr<UI::ListButton> editConfigsButton;
             std::shared_ptr<UI::ListButton> fileFormatsButton;
 
-            std::shared_ptr<UI::FormLayout> formLayout;
+            std::shared_ptr<UI::LabelSizeGroup> sizeGroup;
+            std::map<std::string, std::shared_ptr<UI::FormLayout> > formLayouts;
             std::shared_ptr<UI::VerticalLayout> layout;
 
             std::function<void()> editConfigsCallback;
@@ -73,45 +75,45 @@ namespace djv
             scrollWidget->setBorder(false);
             scrollWidget->addChild(p.configListWidget);
             p.configSearchBox = UI::SearchBox::create(context);
-            p.configPopupButton = UI::PopupButton::create(context);
-            p.configPopupButton->setPopupIcon("djvIconPopupMenu");
+            p.configButton = UI::PopupButton::create(context);
+            p.configButton->setPopupIcon("djvIconPopupMenu");
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(scrollWidget);
             vLayout->setStretch(scrollWidget, UI::RowStretch::Expand);
             vLayout->addSeparator();
             vLayout->addChild(p.configSearchBox);
-            p.configPopupButton->addChild(vLayout);
+            p.configButton->addChild(vLayout);
 
             p.displayListWidget = UI::ListWidget::create(UI::ButtonType::Radio, context);
             scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->setBorder(false);
             scrollWidget->addChild(p.displayListWidget);
             p.displaySearchBox = UI::SearchBox::create(context);
-            p.displayPopupButton = UI::PopupButton::create(context);
-            p.displayPopupButton->setPopupIcon("djvIconPopupMenu");
+            p.displayButton = UI::PopupButton::create(context);
+            p.displayButton->setPopupIcon("djvIconPopupMenu");
             vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(scrollWidget);
             vLayout->setStretch(scrollWidget, UI::RowStretch::Expand);
             vLayout->addSeparator();
             vLayout->addChild(p.displaySearchBox);
-            p.displayPopupButton->addChild(vLayout);
+            p.displayButton->addChild(vLayout);
 
             p.viewListWidget = UI::ListWidget::create(UI::ButtonType::Radio, context);
             scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->setBorder(false);
             scrollWidget->addChild(p.viewListWidget);
             p.viewSearchBox = UI::SearchBox::create(context);
-            p.viewPopupButton = UI::PopupButton::create(context);
-            p.viewPopupButton->setPopupIcon("djvIconPopupMenu");
+            p.viewButton = UI::PopupButton::create(context);
+            p.viewButton->setPopupIcon("djvIconPopupMenu");
             vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(scrollWidget);
             vLayout->setStretch(scrollWidget, UI::RowStretch::Expand);
             vLayout->addSeparator();
             vLayout->addChild(p.viewSearchBox);
-            p.viewPopupButton->addChild(vLayout);
+            p.viewButton->addChild(vLayout);
 
             p.editConfigsButton = UI::ListButton::create(context);
             p.editConfigsButton->setRightIcon("djvIconArrowSmallRight");
@@ -119,16 +121,23 @@ namespace djv
             p.fileFormatsButton = UI::ListButton::create(context);
             p.fileFormatsButton->setRightIcon("djvIconArrowSmallRight");
 
+            p.sizeGroup = UI::LabelSizeGroup::create();
+
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
             p.layout->setBackgroundRole(UI::ColorRole::Background);
-            p.formLayout = UI::FormLayout::create(context);
-            p.formLayout->addChild(p.configPopupButton);
-            p.formLayout->addChild(p.displayPopupButton);
-            p.formLayout->addChild(p.viewPopupButton);
-            p.layout->addChild(p.formLayout);
-            p.layout->addSeparator();
+            p.formLayouts["Config"] = UI::FormLayout::create(context);
+            p.formLayouts["Config"]->setLabelSizeGroup(p.sizeGroup);
+            p.formLayouts["Config"]->addChild(p.configButton);
+            p.layout->addChild(p.formLayouts["Config"]);
             p.layout->addChild(p.editConfigsButton);
+            p.layout->addSeparator();
+            p.formLayouts["Display"] = UI::FormLayout::create(context);
+            p.formLayouts["Display"]->setLabelSizeGroup(p.sizeGroup);
+            p.formLayouts["Display"]->addChild(p.displayButton);
+            p.formLayouts["Display"]->addChild(p.viewButton);
+            p.layout->addChild(p.formLayouts["Display"]);
+            p.layout->addSeparator();
             p.layout->addChild(p.fileFormatsButton);
             addChild(p.layout);
 
@@ -270,6 +279,11 @@ namespace djv
             _p->fileFormatsCallback = value;
         }
 
+        void ColorSpaceMainWidget::_initLayoutEvent(Event::InitLayout& event)
+        {
+            _p->sizeGroup->calcMinimumSize();
+        }
+
         void ColorSpaceMainWidget::_preLayoutEvent(Event::PreLayout&)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
@@ -285,12 +299,12 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                p.formLayout->setText(p.configPopupButton, _getText(DJV_TEXT("widget_color_space_config")) + ":");
-                p.formLayout->setText(p.displayPopupButton, _getText(DJV_TEXT("widget_color_space_display")) + ":");
-                p.formLayout->setText(p.viewPopupButton, _getText(DJV_TEXT("widget_color_space_view")) + ":");
+                p.formLayouts["Config"]->setText(p.configButton, _getText(DJV_TEXT("widget_color_space_config")) + ":");
+                p.formLayouts["Display"]->setText(p.displayButton, _getText(DJV_TEXT("widget_color_space_display")) + ":");
+                p.formLayouts["Display"]->setText(p.viewButton, _getText(DJV_TEXT("widget_color_space_view")) + ":");
 
                 p.editConfigsButton->setText(_getText(DJV_TEXT("widget_color_space_edit_configs")));
-                p.fileFormatsButton->setText(_getText(DJV_TEXT("widget_color_space_edit_file_formats")));
+                p.fileFormatsButton->setText(_getText(DJV_TEXT("widget_color_space_file_formats")));
 
                 _widgetUpdate();
             }
@@ -310,7 +324,7 @@ namespace djv
                     items.emplace_back(item);
                 }
                 p.configListWidget->setItems(items, p.configData.current);
-                p.configPopupButton->setText(
+                p.configButton->setText(
                     p.configData.current >= 0 &&
                     p.configData.current < static_cast<int>(p.configData.names.size()) ?
                     p.configData.names[p.configData.current] :
@@ -326,7 +340,7 @@ namespace djv
                     items.emplace_back(item);
                 }
                 p.displayListWidget->setItems(items, p.displayData.current);
-                p.displayPopupButton->setText(
+                p.displayButton->setText(
                     p.displayData.current >= 0 &&
                     p.displayData.current < static_cast<int>(p.displayData.names.size()) &&
                     !p.displayData.names[p.displayData.current].empty() ?
@@ -343,7 +357,7 @@ namespace djv
                     items.emplace_back(item);
                 }
                 p.viewListWidget->setItems(items, p.viewData.current);
-                p.viewPopupButton->setText(
+                p.viewButton->setText(
                     p.viewData.current >= 0 &&
                     p.viewData.current < static_cast<int>(p.viewData.names.size()) &&
                     !p.viewData.names[p.viewData.current].empty() ?
@@ -378,8 +392,6 @@ namespace djv
                 void _initEvent(Event::Init&) override;
 
             private:
-                void _widgetUpdate();
-
                 std::shared_ptr<UI::Label> _label;
                 std::shared_ptr<UI::ToolButton> _deleteButton;
                 std::shared_ptr<UI::HorizontalLayout> _layout;
@@ -447,12 +459,6 @@ namespace djv
             void ConfigWidget::_initEvent(Event::Init& event)
             {
                 _deleteButton->setTooltip(_getText(DJV_TEXT("widget_color_space_delete_config_tooltip")));
-
-            }
-
-            void ConfigWidget::_widgetUpdate()
-            {
-
             }
 
         } // namespace
@@ -509,6 +515,7 @@ namespace djv
             p.itemLayout = UI::VerticalLayout::create(context);
             p.itemLayout->setSpacing(UI::MetricsRole::None);
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            scrollWidget->setMinimumSizeRole(UI::MetricsRole::Border);
             scrollWidget->setBorder(false);
             scrollWidget->addChild(p.itemLayout);
             p.layout->addChild(scrollWidget);
@@ -704,10 +711,20 @@ namespace djv
 
         struct ColorSpaceFileFormatsWidget::Private
         {
+            std::vector<std::string> colorSpaces;
+            std::map<std::string, std::string> fileColorSpaces;
+            bool edit = false;
+
             std::shared_ptr<UI::ListButton> backButton;
+            std::shared_ptr<UI::PopupButton> addButton;
+            std::shared_ptr<UI::ToolButton> deleteButton;
+            std::shared_ptr<UI::FormLayout> itemLayout;
             std::shared_ptr<UI::VerticalLayout> layout;
 
             std::function<void()> backCallback;
+
+            std::shared_ptr<ListObserver<std::string> > colorSpacesObserver;
+            std::shared_ptr<MapObserver<std::string, std::string> > fileColorSpacesObserver;
         };
 
         void ColorSpaceFileFormatsWidget::_init(const std::shared_ptr<Context>& context)
@@ -720,11 +737,48 @@ namespace djv
             p.backButton = UI::ListButton::create(context);
             p.backButton->setIcon("djvIconArrowSmallLeft");
 
+            p.addButton = UI::PopupButton::create(context);
+            p.addButton->setIcon("djvIconAdd");
+            auto buttonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
+            auto buttonLayout = UI::VerticalLayout::create(context);
+            buttonLayout->setSpacing(UI::MetricsRole::None);
+            auto io = context->getSystemT<AV::IO::System>();
+            auto pluginNames = io->getPluginNames();
+            for (const auto& j : pluginNames)
+            {
+                auto button = UI::ListButton::create(context);
+                button->setText(j);
+                buttonGroup->addButton(button);
+                buttonLayout->addChild(button);
+            }
+            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            scrollWidget->setBorder(false);
+            scrollWidget->addChild(buttonLayout);
+            p.addButton->addChild(scrollWidget);
+
+            p.deleteButton = UI::ToolButton::create(context);
+            p.deleteButton->setButtonType(UI::ButtonType::Toggle);
+            p.deleteButton->setIcon("djvIconClear");
+
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
             p.layout->setBackgroundRole(UI::ColorRole::Background);
             p.layout->addChild(p.backButton);
             p.layout->addSeparator();
+            p.itemLayout = UI::FormLayout::create(context);
+            scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            scrollWidget->setMinimumSizeRole(UI::MetricsRole::Border);
+            scrollWidget->setBorder(false);
+            scrollWidget->addChild(p.itemLayout);
+            p.layout->addChild(scrollWidget);
+            p.layout->setStretch(scrollWidget, UI::RowStretch::Expand);
+            p.layout->addSeparator();
+            auto hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->addExpander();
+            hLayout->addChild(p.addButton);
+            hLayout->addChild(p.deleteButton);
+            p.layout->addChild(hLayout);
             addChild(p.layout);
 
             auto weak = std::weak_ptr<ColorSpaceFileFormatsWidget>(std::dynamic_pointer_cast<ColorSpaceFileFormatsWidget>(shared_from_this()));
@@ -737,6 +791,64 @@ namespace djv
                         {
                             widget->_p->backCallback();
                         }
+                    }
+                });
+
+            auto contextWeak = std::weak_ptr<Context>(context);
+            std::vector<std::string> pluginNamesList;
+            for (const auto& i : pluginNames)
+            {
+                pluginNamesList.push_back(i);
+            }
+            buttonGroup->setPushCallback(
+                [weak, pluginNamesList, contextWeak](int value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->addButton->close();
+                            if (value >= 0 && value < static_cast<int>(pluginNamesList.size()))
+                            {
+                                auto fileColorSpaces = widget->_p->fileColorSpaces;
+                                fileColorSpaces[pluginNamesList[value]] = std::string();
+                                auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                                ocioSystem->setFileColorSpaces(fileColorSpaces);
+                            }
+                        }
+                    }
+                });
+
+            p.deleteButton->setCheckedCallback(
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->edit = value;
+                        widget->_widgetUpdate();
+                    }
+                });
+
+            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+            p.colorSpacesObserver = ListObserver<std::string>::create(
+                ocioSystem->observeColorSpaces(),
+                [weak](const std::vector<std::string>& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->colorSpaces = value;
+                        widget->_widgetUpdate();
+                    }
+                });
+
+            p.fileColorSpacesObserver = MapObserver<std::string, std::string>::create(
+                ocioSystem->observeFileColorSpaces(),
+                [weak](const std::map<std::string, std::string>& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->fileColorSpaces = value;
+                        widget->_widgetUpdate();
                     }
                 });
         }
@@ -775,7 +887,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                p.backButton->setText(_getText(DJV_TEXT("widget_color_space_edit_file_formats")));
+                p.backButton->setText(_getText(DJV_TEXT("widget_color_space_file_formats")));
+                p.addButton->setTooltip(_getText(DJV_TEXT("widget_color_space_add_file_format_tooltip")));
+                p.deleteButton->setTooltip(_getText(DJV_TEXT("widget_color_space_delete_file_formats_tooltip")));
                 _widgetUpdate();
             }
         }
@@ -785,6 +899,64 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
+                p.itemLayout->clearChildren();
+                for (const auto& i : p.fileColorSpaces)
+                {
+                    auto listWidget = UI::ListWidget::create(UI::ButtonType::Radio, context);
+                    std::vector<UI::ListItem> items;
+                    for (const auto& j : p.colorSpaces)
+                    {
+                        UI::ListItem item;
+                        item.text = !j.empty() ? j : _getText(DJV_TEXT("av_ocio_file_formats_none"));
+                        items.emplace_back(item);
+                    }
+                    const auto j = std::find(p.colorSpaces.begin(), p.colorSpaces.end(), i.second);
+                    listWidget->setItems(
+                        items,
+                        j != p.colorSpaces.end() ? static_cast<int>(j - p.colorSpaces.begin()) : -1);
+
+                    auto searchBox = UI::SearchBox::create(context);
+
+                    auto popupButton = UI::PopupButton::create(context);
+                    popupButton->setPopupIcon("djvIconPopupMenu");
+                    popupButton->setText(
+                        !i.second.empty() ? i.second : _getText(DJV_TEXT("av_ocio_file_formats_none")));
+                    auto vLayout = UI::VerticalLayout::create(context);
+                    vLayout->setSpacing(UI::MetricsRole::None);
+                    auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+                    scrollWidget->setBorder(false);
+                    scrollWidget->addChild(listWidget);
+                    vLayout->addChild(scrollWidget);
+                    vLayout->setStretch(scrollWidget, UI::RowStretch::Expand);
+                    vLayout->addSeparator();
+                    vLayout->addChild(searchBox);
+                    popupButton->addChild(vLayout);
+                    p.itemLayout->addChild(popupButton);
+                    p.itemLayout->setText(
+                        popupButton,
+                        (!i.first.empty() ? i.first : _getText(DJV_TEXT("av_ocio_file_formats_default"))) + ":");
+
+                    std::string file = i.first;
+                    auto weak = std::weak_ptr<ColorSpaceFileFormatsWidget>(std::dynamic_pointer_cast<ColorSpaceFileFormatsWidget>(shared_from_this()));
+                    auto contextWeak = std::weak_ptr<Context>(context);
+                    listWidget->setRadioCallback(
+                        [weak, file, contextWeak](int value)
+                        {
+                            if (auto context = contextWeak.lock())
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    auto fileColorSpaces = widget->_p->fileColorSpaces;
+                                    fileColorSpaces[file] =
+                                        value >= 0 && value < static_cast<int>(widget->_p->colorSpaces.size()) ?
+                                        widget->_p->colorSpaces[value] :
+                                        std::string();
+                                    auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                                    ocioSystem->setFileColorSpaces(fileColorSpaces);
+                                }
+                            }
+                        });
+                }
             }
         }
 

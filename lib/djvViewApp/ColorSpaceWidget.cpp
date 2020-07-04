@@ -47,7 +47,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->layout->setCurrentWidget(widget->_p->editConfigsWidget, UI::Side::Right);
+                        widget->_p->layout->setCurrentWidget(widget->_p->editConfigsWidget, UI::Side::Left);
                     }
                 });
             p.mainWidget->setFileFormatsCallback(
@@ -55,7 +55,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->layout->setCurrentWidget(widget->_p->fileFormatsWidget, UI::Side::Right);
+                        widget->_p->layout->setCurrentWidget(widget->_p->fileFormatsWidget, UI::Side::Left);
                     }
                 });
 
@@ -64,7 +64,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->layout->setCurrentWidget(widget->_p->mainWidget, UI::Side::Left);
+                        widget->_p->layout->setCurrentWidget(widget->_p->mainWidget, UI::Side::Right);
                     }
                 });
 
@@ -73,7 +73,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->layout->setCurrentWidget(widget->_p->mainWidget, UI::Side::Left);
+                        widget->_p->layout->setCurrentWidget(widget->_p->mainWidget, UI::Side::Right);
                     }
                 });
         }

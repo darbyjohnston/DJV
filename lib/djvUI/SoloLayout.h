@@ -35,13 +35,9 @@ namespace djv
                 ~Solo() override;
                 static std::shared_ptr<Solo> create(const std::shared_ptr<Core::Context>&);
 
-                int getCurrentIndex() const;
-                void setCurrentIndex(int);
-                void setCurrentIndex(int, Side);
-
-                std::shared_ptr<Widget> getCurrentWidget() const;
+                const std::shared_ptr<Widget>& getCurrentWidget() const;
                 void setCurrentWidget(const std::shared_ptr<Widget>&);
-                void setCurrentWidget(const std::shared_ptr<Widget>&, Side);
+                void setCurrentWidget(const std::shared_ptr<Widget>&, Side, bool animated = true);
 
                 SoloMinimumSize getSoloMinimumSize() const;
                 void setSoloMinimumSize(SoloMinimumSize);

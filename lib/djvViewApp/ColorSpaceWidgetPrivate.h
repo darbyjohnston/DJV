@@ -28,6 +28,7 @@ namespace djv
             void setFileFormatsCallback(const std::function<void()>&);
 
         protected:
+            void _initLayoutEvent(Core::Event::InitLayout&) override;
             void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _layoutEvent(Core::Event::Layout&) override;
 

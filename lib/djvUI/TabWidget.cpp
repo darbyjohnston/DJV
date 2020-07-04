@@ -16,7 +16,8 @@ namespace djv
     {
         struct TabWidget::Private
         {
-            std::map<std::shared_ptr<IObject>, size_t> childToID;
+            std::vector<std::shared_ptr<Widget> > widgets;
+            std::map<std::shared_ptr<Widget>, size_t> childToID;
             std::shared_ptr<TabBar> tabBar;
             std::shared_ptr<VerticalLayout> layout;
             std::shared_ptr<SoloLayout> soloLayout;
@@ -49,7 +50,10 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    widget->_p->soloLayout->setCurrentIndex(value);
+                    if (value >= 0 && value < static_cast<int>(widget->_p->widgets.size()))
+                    {
+                        widget->_p->soloLayout->setCurrentWidget(widget->_p->widgets[value]);
+                    }
                     if (widget->_p->callback)
                     {
                         widget->_p->callback(value);
@@ -80,7 +84,7 @@ namespace djv
             return out;
         }
 
-        void TabWidget::setText(const std::shared_ptr<IObject>& child, const std::string& text)
+        void TabWidget::setText(const std::shared_ptr<Widget>& child, const std::string& text)
         {
             DJV_PRIVATE_PTR();
             const auto i = p.childToID.find(child);
@@ -99,7 +103,10 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.tabBar->setCurrentTab(value);
-            p.soloLayout->setCurrentIndex(value);
+            if (value >= 0 && value < static_cast<int>(p.widgets.size()))
+            {
+                p.soloLayout->setCurrentWidget(p.widgets[value]);
+            }
         }
 
         void TabWidget::setCurrentTabCallback(const std::function<void(int)>& value)
@@ -115,21 +122,33 @@ namespace djv
         void TabWidget::addChild(const std::shared_ptr<IObject>& value)
         {
             DJV_PRIVATE_PTR();
-            const size_t id = p.tabBar->addTab(std::string());
-            p.childToID[value] = id;
-            p.soloLayout->addChild(value);
+            if (auto widget = std::dynamic_pointer_cast<Widget>(value))
+            {
+                p.widgets.push_back(widget);
+                const size_t id = p.tabBar->addTab(std::string());
+                p.childToID[widget] = id;
+                p.soloLayout->addChild(widget);
+            }
         }
 
         void TabWidget::removeChild(const std::shared_ptr<IObject>& value)
         {
             DJV_PRIVATE_PTR();
-            const auto i = p.childToID.find(value);
-            if (i != p.childToID.end())
+            if (auto widget = std::dynamic_pointer_cast<Widget>(value))
             {
-                p.tabBar->removeTab(i->second);
-                p.childToID.erase(i);
+                const auto i = std::find(p.widgets.begin(), p.widgets.end(), widget);
+                if (i != p.widgets.end())
+                {
+                    p.widgets.erase(i);
+                }
+                const auto j = p.childToID.find(widget);
+                if (j != p.childToID.end())
+                {
+                    p.tabBar->removeTab(j->second);
+                    p.childToID.erase(j);
+                }
+                p.soloLayout->removeChild(value);
             }
-            p.soloLayout->removeChild(value);
         }
 
         void TabWidget::clearChildren()

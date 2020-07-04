@@ -197,6 +197,7 @@ namespace djv
 
         struct NUXWidget::Private
         {
+            std::vector<std::shared_ptr<Widget> > widgets;
             size_t index = 0;
             std::shared_ptr<UI::Icon> logoIcon;
             std::map<std::string, std::shared_ptr<UI::Label> > labels;
@@ -212,16 +213,21 @@ namespace djv
         void NUXWidget::_init(const std::shared_ptr<Context>& context)
         {
             Window::_init(context);
-
             DJV_PRIVATE_PTR();
+
             setBackgroundRole(UI::ColorRole::None);
 
             auto languageWidget = UI::LanguageWidget::create(context);
             languageWidget->setHAlign(UI::HAlign::Fill);
+            p.widgets.push_back(languageWidget);
+
             auto displaySizeWidget = UI::SizeWidget::create(context);
             displaySizeWidget->setHAlign(UI::HAlign::Fill);
+            p.widgets.push_back(displaySizeWidget);
+
             auto displayPaletteWidget = UI::PaletteWidget::create(context);
             displayPaletteWidget->setHAlign(UI::HAlign::Fill);
+            p.widgets.push_back(displayPaletteWidget);
 
             p.logoIcon = UI::Icon::create(context);
             p.logoIcon->setIcon("djvLogoStartScreen");
@@ -306,7 +312,7 @@ namespace djv
                     if (widget->_p->index < 3)
                     {
                         ++widget->_p->index;
-                        soloLayout->setCurrentIndex(widget->_p->index);
+                        soloLayout->setCurrentWidget(widget->_p->widgets[widget->_p->index]);
                     }
                     widget->_widgetUpdate();
                 }
@@ -320,7 +326,7 @@ namespace djv
                     if (widget->_p->index > 0)
                     {
                         --widget->_p->index;
-                        soloLayout->setCurrentIndex(widget->_p->index);
+                        soloLayout->setCurrentWidget(widget->_p->widgets[widget->_p->index]);
                     }
                     widget->_widgetUpdate();
                 }

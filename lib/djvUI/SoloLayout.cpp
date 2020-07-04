@@ -4,6 +4,8 @@
 
 #include <djvUI/SoloLayout.h>
 
+#include <djvCore/Animation.h>
+
 using namespace djv::Core;
 
 namespace djv
@@ -12,19 +14,34 @@ namespace djv
     {
         namespace Layout
         {
+            namespace
+            {
+                //! \todo Should this be configurable?
+                const size_t animationTime = 100;
+
+            } // namespace
+
             struct Solo::Private
             {
-                int currentIndex = -1;
+                std::shared_ptr<Widget> currentWidget;
                 SoloMinimumSize soloMinimumSize = SoloMinimumSize::Both;
+                Side side = Side::First;
+                std::shared_ptr<Widget> prevWidget;
+                float animationValue = 0.F;
+                std::shared_ptr<Animation::Animation> animation;
             };
 
             void Solo::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
+                DJV_PRIVATE_PTR();
 
                 setClassName("djv::UI::Layout::Solo");
 
                 _widgetUpdate();
+
+                p.animation = Animation::Animation::create(context);
+                p.animation->setType(Animation::Type::SmoothStep);
             }
 
             Solo::Solo() :
@@ -41,65 +58,65 @@ namespace djv
                 return out;
             }
 
-            int Solo::getCurrentIndex() const
+            const std::shared_ptr<Widget>& Solo::getCurrentWidget() const
             {
-                return _p->currentIndex;
-            }
-
-            void Solo::setCurrentIndex(int value)
-            {
-                DJV_PRIVATE_PTR();
-                if (value == p.currentIndex)
-                    return;
-                p.currentIndex = value;
-                _widgetUpdate();
-            }
-
-            void Solo::setCurrentIndex(int value, Side side)
-            {
-                DJV_PRIVATE_PTR();
-                if (value == p.currentIndex)
-                    return;
-                p.currentIndex = value;
-                _widgetUpdate();
-            }
-
-            std::shared_ptr<Widget> Solo::getCurrentWidget() const
-            {
-                const auto& children = getChildWidgets();
-                DJV_PRIVATE_PTR();
-                if (p.currentIndex >= 0 && p.currentIndex < static_cast<int>(children.size()))
-                {
-                    return children[p.currentIndex];
-                }
-                return nullptr;
+                return _p->currentWidget;
             }
 
             void Solo::setCurrentWidget(const std::shared_ptr<Widget>& value)
             {
-                int i = 0;
-                for (const auto& child : getChildWidgets())
-                {
-                    if (value == child)
-                    {
-                        setCurrentIndex(i);
-                        break;
-                    }
-                    ++i;
-                }
+                DJV_PRIVATE_PTR();
+                if (value == p.currentWidget)
+                    return;
+                p.currentWidget = value;
+                _widgetUpdate();
             }
 
-            void Solo::setCurrentWidget(const std::shared_ptr<Widget>& value, Side)
+            void Solo::setCurrentWidget(const std::shared_ptr<Widget>& value, Side side, bool animated)
             {
-                int i = 0;
-                for (const auto& child : getChildWidgets())
+                DJV_PRIVATE_PTR();
+                const auto& childWidgets = getChildWidgets();
+                const auto i = std::find(childWidgets.begin(), childWidgets.end(), value);
+                if (i != childWidgets.end() && *i != p.currentWidget)
                 {
-                    if (value == child)
+                    if (animated)
                     {
-                        setCurrentIndex(i);
-                        break;
+                        p.side = side;
+                        p.prevWidget = p.currentWidget;
+                        p.currentWidget = *i;
+                        p.currentWidget->moveToFront();
+                        p.currentWidget->show();
+                        if (p.animationValue > 0.F)
+                        {
+                            p.animationValue = 1.F - p.animationValue;
+                        }
+                        auto weak = std::weak_ptr<Solo>(std::dynamic_pointer_cast<Solo>(shared_from_this()));
+                        p.animation->start(
+                            p.animationValue,
+                            1.F,
+                            std::chrono::milliseconds(static_cast<size_t>(animationTime * std::max(0.F, 1.F - p.animationValue))),
+                            [weak](float value)
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    widget->_p->animationValue = value;
+                                    widget->_resize();
+                                }
+                            },
+                            [weak](float value)
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    widget->_p->prevWidget->hide();
+                                    widget->_p->prevWidget.reset();
+                                    widget->_p->animationValue = value;
+                                }
+                            });
                     }
-                    ++i;
+                    else
+                    {
+                        setCurrentWidget(*i);
+                    }
                 }
             }
 
@@ -140,21 +157,24 @@ namespace djv
             {
                 Widget::addChild(value);
                 DJV_PRIVATE_PTR();
-                if (-1 == p.currentIndex)
+                if (!p.currentWidget)
                 {
-                    p.currentIndex = 0;
+                    p.currentWidget = std::dynamic_pointer_cast<Widget>(value);
                 }
                 _widgetUpdate();
             }
 
             void Solo::removeChild(const std::shared_ptr<IObject>& value)
             {
-                Widget::removeChild(value);
-                if (0 == getChildren().size())
+                const auto& childWidgets = getChildWidgets();
+                const auto i = std::find(childWidgets.begin(), childWidgets.end(), value);
+                std::shared_ptr<Widget> currentWidget;
+                if (i != childWidgets.end() && i != childWidgets.begin())
                 {
-                    _p->currentIndex = -1;
+                    currentWidget = *(i - 1);
                 }
-                _widgetUpdate();
+                Widget::removeChild(value);
+                setCurrentWidget(currentWidget);
             }
 
             void Solo::_preLayoutEvent(Event::PreLayout&)
@@ -181,22 +201,45 @@ namespace djv
 
             void Solo::_layoutEvent(Event::Layout&)
             {
+                DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
-                for (const auto& child : getChildWidgets())
+                const auto& childWidgets = getChildWidgets();
+                for (const auto& child : childWidgets)
                 {
                     child->setGeometry(Widget::getAlign(g, child->getMinimumSize(), child->getHAlign(), child->getVAlign()));
+                }
+                if (p.prevWidget)
+                {
+                    const float w = g.w();
+                    const float h = g.h();
+                    BBox2f prevG(g);
+                    BBox2f currentG(g);
+                    switch (p.side)
+                    {
+                    case Side::Left:
+                        prevG = BBox2f(floorf(g.min.x - w * p.animationValue), g.min.y, w, h);
+                        currentG = BBox2f(floorf(g.min.x + w - w * p.animationValue), g.min.y, w, h);
+                        break;
+                    case Side::Top: break;
+                    case Side::Right:
+                        prevG = BBox2f(floorf(g.min.x + w * p.animationValue), g.min.y, w, h);
+                        currentG = BBox2f(floorf(g.min.x - w + w * p.animationValue), g.min.y, w, h);
+                        break;
+                    case Side::Bottom: break;
+                    default: break;
+                    }
+                    p.prevWidget->setGeometry(prevG);
+                    p.currentWidget->setGeometry(currentG);
                 }
             }
 
             void Solo::_widgetUpdate()
             {
-                int index = 0;
                 const auto& children = getChildWidgets();
                 for (const auto& child : children)
                 {
-                    child->setVisible(_p->currentIndex == index);
-                    ++index;
+                    child->setVisible(child == _p->currentWidget);
                 }
                 _resize();
             }

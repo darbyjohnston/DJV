@@ -11,7 +11,6 @@
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Animation.h>
-#include <djvCore/Timer.h>
 
 using namespace djv::Core;
 
@@ -46,10 +45,11 @@ namespace djv
 
                 p.side = side;
 
-                p.openAnimation = Animation::Animation::create(context);
-
                 p.childLayout = Stack::create(context);
                 Widget::addChild(p.childLayout);
+
+                p.openAnimation = Animation::Animation::create(context);
+                p.openAnimation->setType(Animation::Type::SmoothStep);
             }
 
             Drawer::Drawer() :

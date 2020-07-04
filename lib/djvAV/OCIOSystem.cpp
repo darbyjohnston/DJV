@@ -79,7 +79,6 @@ namespace djv
                 std::vector<Config> configs;
                 Config currentConfig;
                 std::vector<Display> displays;
-                std::map< std::string, std::string> fileColorSpaces;
 
                 std::shared_ptr<ListSubject<Config> > configsSubject;
                 std::shared_ptr<ValueSubject<Config> > currentConfigSubject;
@@ -268,11 +267,14 @@ namespace djv
             void System::setFileColorSpaces(const std::map<std::string, std::string>& value)
             {
                 DJV_PRIVATE_PTR();
-                if (value == p.fileColorSpaces)
+                Config config = p.currentConfig;
+                config.fileColorSpaces = value;
+                if (config == p.currentConfig)
                     return;
-                p.fileColorSpaces = value;
+                p.currentConfig = config;
                 _configUpdate();
-                p.fileColorSpacesSubject->setIfChanged(value);
+                p.currentConfigSubject->setIfChanged(config);
+                _dataUpdate();
             }
 
             std::string System::getColorSpace(const std::string& display, const std::string& view) const
@@ -466,6 +468,7 @@ namespace djv
                 p.configDataSubject->setIfChanged(configData);
                 p.displayDataSubject->setIfChanged(displayData);
                 p.viewDataSubject->setIfChanged(viewData);
+                p.fileColorSpacesSubject->setIfChanged(p.currentConfig.fileColorSpaces);
             }
 
             std::string System::Private::getDisplayName(int value) const
