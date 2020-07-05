@@ -77,7 +77,7 @@ namespace djv
             {
                 std::vector<_OCIO::ConstConfigRcPtr> ocioConfigs;
                 std::vector<Config> configs;
-                Config currentConfig;
+                int currentConfig = -1;
                 std::vector<Display> displays;
 
                 std::shared_ptr<ListSubject<Config> > configsSubject;
@@ -89,7 +89,7 @@ namespace djv
                 std::shared_ptr<MapSubject<std::string, std::string> > fileColorSpacesSubject;
 
                 std::string getDisplayName(int) const;
-                std::string getViewName(int) const;
+                std::string getViewName(int displayIndex, int) const;
 
                 int getConfigIndex(const std::string&) const;
                 int getDisplayIndex(const std::string&) const;
@@ -130,7 +130,7 @@ namespace djv
                         config.fileName = env;
                         p.ocioConfigs.push_back(ocioConfig);
                         p.configs.push_back(config);
-                        p.currentConfig = config;
+                        p.currentConfig = 0;
                         _configUpdate();
                         p.configsSubject->setIfChanged(p.configs);
                         p.currentConfigSubject->setIfChanged(config);
@@ -185,17 +185,16 @@ namespace djv
                     p.configs.erase(p.configs.begin() + value);
                 }
                 const size_t size = p.configs.size();
-                if (value >= size)
+                if (p.currentConfig >= size)
                 {
-                    value = static_cast<int>(size) - 1;
+                    p.currentConfig = static_cast<int>(size) - 1;
                 }
-                p.currentConfig =
-                    value >= 0 && value < static_cast<int>(size) ?
-                    p.configs[value] :
-                    Config();
                 _configUpdate();
                 p.configsSubject->setIfChanged(p.configs);
-                p.currentConfigSubject->setIfChanged(p.currentConfig);
+                p.currentConfigSubject->setIfChanged(
+                    p.currentConfig >= 0 && p.currentConfig < static_cast<int>(p.configs.size()) ?
+                    p.configs[p.currentConfig] :
+                    Config());
                 _dataUpdate();
             }
 
@@ -227,54 +226,63 @@ namespace djv
             void System::setCurrentConfig(int value)
             {
                 DJV_PRIVATE_PTR();
-                const Config config = value >= 0 && value < static_cast<int>(p.configs.size()) ?
-                    p.configs[value] :
-                    Config();
-                if (config == p.currentConfig)
+                if (value == p.currentConfig)
                     return;
-                p.currentConfig = config;
+                p.currentConfig = value;
                 _configUpdate();
-                p.currentConfigSubject->setIfChanged(config);
+                p.currentConfigSubject->setIfChanged(
+                    p.currentConfig >= 0 && p.currentConfig < static_cast<int>(p.configs.size()) ?
+                    p.configs[p.currentConfig] :
+                    Config());
                 _dataUpdate();
             }
 
             void System::setCurrentDisplay(int value)
             {
                 DJV_PRIVATE_PTR();
-                Config config = p.currentConfig;
-                config.display = p.getDisplayName(value);
-                if (config == p.currentConfig)
-                    return;
-                p.currentConfig = config;
-                _configUpdate();
-                p.currentConfigSubject->setIfChanged(config);
-                _dataUpdate();
+                if (p.currentConfig >= 0 && p.currentConfig < static_cast<int>(p.configs.size()))
+                {
+                    const std::string displayName = p.getDisplayName(value);
+                    if (displayName == p.configs[p.currentConfig].display)
+                        return;
+                    p.configs[p.currentConfig].display = displayName;
+                    _configUpdate();
+                    p.configsSubject->setIfChanged(p.configs);
+                    p.currentConfigSubject->setIfChanged(p.configs[p.currentConfig]);
+                    _dataUpdate();
+                }
             }
 
             void System::setCurrentView(int value)
             {
                 DJV_PRIVATE_PTR();
-                Config config = p.currentConfig;
-                config.view = p.getViewName(value);
-                if (config == p.currentConfig)
-                    return;
-                p.currentConfig = config;
-                _configUpdate();
-                p.currentConfigSubject->setIfChanged(config);
-                _dataUpdate();
+                if (p.currentConfig >= 0 && p.currentConfig < static_cast<int>(p.configs.size()))
+                {
+                    const int displayIndex = p.getDisplayIndex(p.configs[p.currentConfig].display);
+                    const std::string viewName = p.getViewName(displayIndex, value);
+                    if (viewName == p.configs[p.currentConfig].view)
+                        return;
+                    p.configs[p.currentConfig].view = viewName;
+                    _configUpdate();
+                    p.configsSubject->setIfChanged(p.configs);
+                    p.currentConfigSubject->setIfChanged(p.configs[p.currentConfig]);
+                    _dataUpdate();
+                }
             }
 
             void System::setFileColorSpaces(const std::map<std::string, std::string>& value)
             {
                 DJV_PRIVATE_PTR();
-                Config config = p.currentConfig;
-                config.fileColorSpaces = value;
-                if (config == p.currentConfig)
-                    return;
-                p.currentConfig = config;
-                _configUpdate();
-                p.currentConfigSubject->setIfChanged(config);
-                _dataUpdate();
+                if (p.currentConfig >= 0 && p.currentConfig < static_cast<int>(p.configs.size()))
+                {
+                    if (value == p.configs[p.currentConfig].fileColorSpaces)
+                        return;
+                    p.configs[p.currentConfig].fileColorSpaces = value;
+                    _configUpdate();
+                    p.configsSubject->setIfChanged(p.configs);
+                    p.currentConfigSubject->setIfChanged(p.configs[p.currentConfig]);
+                    _dataUpdate();
+                }
             }
 
             std::string System::getColorSpace(const std::string& display, const std::string& view) const
@@ -388,15 +396,13 @@ namespace djv
 
                 DJV_ASSERT(p.ocioConfigs.size() == p.configs.size());
 
-                int configIndex = -1;
                 p.displays.clear();
                 std::vector<std::string> colorSpaces;
                 try
                 {
-                    configIndex = p.getConfigIndex(p.currentConfig.name);
-                    if (configIndex >= 0 && configIndex < p.ocioConfigs.size())
+                    if (p.currentConfig >= 0 && p.currentConfig < static_cast<int>(p.ocioConfigs.size()))
                     {
-                        const auto ocioConfig = p.ocioConfigs[configIndex];
+                        const auto ocioConfig = p.ocioConfigs[p.currentConfig];
                         _OCIO::SetCurrentConfig(ocioConfig);
 
                         colorSpaces.push_back(std::string());
@@ -443,6 +449,8 @@ namespace djv
                 ConfigData configData;
                 DisplayData displayData;
                 ViewData viewData;
+                std::map<std::string, std::string> fileColorSpaces;
+
                 for (const auto& config : p.configs)
                 {
                     configData.names.push_back(config.name);
@@ -451,7 +459,9 @@ namespace djv
                 for (const auto& display : p.displays)
                 {
                     displayData.names.push_back(display.name);
-                    if (p.currentConfig.display == display.name)
+                    if (p.currentConfig >= 0 &&
+                        p.currentConfig < static_cast<int>(p.configs.size()) && 
+                        p.configs[p.currentConfig].display == display.name)
                     {
                         for (const auto& view : display.views)
                         {
@@ -461,14 +471,23 @@ namespace djv
                 }
                 DJV_ASSERT(p.displays.size() == displayData.names.size());
 
-                configData.current = p.getConfigIndex(p.currentConfig.name);
-                displayData.current = p.getDisplayIndex(p.currentConfig.display);
-                viewData.current = p.getViewIndex(displayData.current, p.currentConfig.view);
+                configData.current = p.currentConfig;
+                if (p.currentConfig >= 0 && p.currentConfig < static_cast<int>(p.configs.size()))
+                {
+                    displayData.current = p.getDisplayIndex(p.configs[p.currentConfig].display);
+                    viewData.current = p.getViewIndex(displayData.current, p.configs[p.currentConfig].view);
+                    fileColorSpaces = p.configs[p.currentConfig].fileColorSpaces;
+                }
+                else
+                {
+                    displayData.current = -1;
+                    viewData.current = -1;
+                }
 
                 p.configDataSubject->setIfChanged(configData);
                 p.displayDataSubject->setIfChanged(displayData);
                 p.viewDataSubject->setIfChanged(viewData);
-                p.fileColorSpacesSubject->setIfChanged(p.currentConfig.fileColorSpaces);
+                p.fileColorSpacesSubject->setIfChanged(fileColorSpaces);
             }
 
             std::string System::Private::getDisplayName(int value) const
@@ -481,10 +500,9 @@ namespace djv
                 return out;
             }
 
-            std::string System::Private::getViewName(int value) const
+            std::string System::Private::getViewName(int displayIndex, int value) const
             {
                 std::string out;
-                const int displayIndex = getDisplayIndex(currentConfig.display);
                 if (displayIndex >= 0 && displayIndex < static_cast<int>(displays.size()))
                 {
                     const auto& views = displays[displayIndex].views;
