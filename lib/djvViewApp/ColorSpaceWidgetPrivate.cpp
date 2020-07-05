@@ -7,13 +7,16 @@
 #include <djvUIComponents/FileBrowserDialog.h>
 #include <djvUIComponents/SearchBox.h>
 
+#include <djvUI/Action.h>
+#include <djvUI/ActionGroup.h>
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/EventSystem.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/Label.h>
 #include <djvUI/ListButton.h>
 #include <djvUI/ListWidget.h>
-#include <djvUI/PopupButton.h>
+#include <djvUI/Menu.h>
+#include <djvUI/PopupMenu.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/Spacer.h>
@@ -98,7 +101,7 @@ namespace djv
             p.layout->addSeparator();
             p.buttonLayout = UI::VerticalLayout::create(context);
             p.buttonLayout->setSpacing(UI::MetricsRole::None);
-            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
             scrollWidget->setBorder(false);
             scrollWidget->setMinimumSizeRole(UI::MetricsRole::Swatch);
             scrollWidget->addChild(p.buttonLayout);
@@ -344,7 +347,7 @@ namespace djv
             p.layout->setBackgroundRole(UI::ColorRole::Background);
             p.layout->addChild(p.backButton);
             p.layout->addSeparator();
-            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
             scrollWidget->setBorder(false);
             scrollWidget->setMinimumSizeRole(UI::MetricsRole::Swatch);
             scrollWidget->addChild(p.listWidget);
@@ -493,7 +496,7 @@ namespace djv
             p.layout->setBackgroundRole(UI::ColorRole::Background);
             p.layout->addChild(p.backButton);
             p.layout->addSeparator();
-            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
             scrollWidget->setBorder(false);
             scrollWidget->setMinimumSizeRole(UI::MetricsRole::Swatch);
             scrollWidget->addChild(p.listWidget);
@@ -613,10 +616,12 @@ namespace djv
 
             std::shared_ptr<UI::ButtonGroup> buttonGroup;
             std::shared_ptr<UI::ButtonGroup> deleteButtonGroup;
-            std::shared_ptr<UI::PopupButton> addButton;
-            std::shared_ptr<UI::ButtonGroup> addButtonGroup;
+            std::shared_ptr<UI::ActionGroup> addActionGroup;
+            std::shared_ptr<UI::Menu> addMenu;
+            std::shared_ptr<UI::PopupMenu> addButton;
             std::shared_ptr<UI::ToolButton> deleteButton;
-            std::shared_ptr<UI::VerticalLayout> itemLayout;
+            std::shared_ptr<UI::VerticalLayout> buttonLayout;
+            std::shared_ptr<UI::VerticalLayout> addButtonLayout;
             std::shared_ptr<UI::VerticalLayout> layout;
 
             std::function<void(const std::string&)> callback;
@@ -634,24 +639,12 @@ namespace djv
             p.buttonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
             p.deleteButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
 
-            p.addButton = UI::PopupButton::create(context);
-            p.addButton->setIcon("djvIconAdd");
-            p.addButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
-            auto addButtonLayout = UI::VerticalLayout::create(context);
-            addButtonLayout->setSpacing(UI::MetricsRole::None);
-            auto io = context->getSystemT<AV::IO::System>();
-            auto pluginNames = io->getPluginNames();
-            for (const auto& j : pluginNames)
-            {
-                auto button = UI::ListButton::create(context);
-                button->setText(j);
-                p.addButtonGroup->addButton(button);
-                addButtonLayout->addChild(button);
-            }
-            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            scrollWidget->setBorder(false);
-            scrollWidget->addChild(addButtonLayout);
-            p.addButton->addChild(scrollWidget);
+            p.addActionGroup = UI::ActionGroup::create(UI::ButtonType::Push);
+            p.addMenu = UI::Menu::create(context);
+            p.addMenu->setIcon("djvIconAdd");
+            p.addMenu->setMinimumSizeRole(UI::MetricsRole::None);
+            p.addButton = UI::PopupMenu::create(context);
+            p.addButton->setMenu(p.addMenu);
 
             p.deleteButton = UI::ToolButton::create(context);
             p.deleteButton->setButtonType(UI::ButtonType::Toggle);
@@ -659,12 +652,12 @@ namespace djv
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
-            p.itemLayout = UI::VerticalLayout::create(context);
-            p.itemLayout->setSpacing(UI::MetricsRole::None);
-            scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            p.buttonLayout = UI::VerticalLayout::create(context);
+            p.buttonLayout->setSpacing(UI::MetricsRole::None);
+            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
             scrollWidget->setBorder(false);
             scrollWidget->setMinimumSizeRole(UI::MetricsRole::Swatch);
-            scrollWidget->addChild(p.itemLayout);
+            scrollWidget->addChild(p.buttonLayout);
             p.layout->addChild(scrollWidget);
             p.layout->setStretch(scrollWidget, UI::RowStretch::Expand);
             p.layout->addSeparator();
@@ -718,30 +711,6 @@ namespace djv
                             }
                             auto ocioSystem = context->getSystemT<AV::OCIO::System>();
                             ocioSystem->setFileColorSpaces(fileColorSpaces);
-                        }
-                    }
-                });
-
-            std::vector<std::string> pluginNamesList;
-            for (const auto& i : pluginNames)
-            {
-                pluginNamesList.push_back(i);
-            }
-            p.addButtonGroup->setPushCallback(
-                [pluginNamesList, weak, contextWeak](int value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->addButton->close();
-                            if (value >= 0 && value < static_cast<int>(pluginNamesList.size()))
-                            {
-                                auto fileColorSpaces = widget->_p->fileColorSpaces;
-                                fileColorSpaces[pluginNamesList[value]] = std::string();
-                                auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-                                ocioSystem->setFileColorSpaces(fileColorSpaces);
-                            }
                         }
                     }
                 });
@@ -816,7 +785,10 @@ namespace djv
             {
                 p.buttonGroup->clearButtons();
                 p.deleteButtonGroup->clearButtons();
-                p.itemLayout->clearChildren();
+                p.addActionGroup->clearActions();
+                p.addMenu->clearActions();
+                p.buttonLayout->clearChildren();
+
                 for (const auto& i : p.fileColorSpaces)
                 {
                     auto button = UI::ListButton::create(context);
@@ -836,8 +808,44 @@ namespace djv
                     hLayout->addChild(button);
                     hLayout->setStretch(button, UI::RowStretch::Expand);
                     hLayout->addChild(deleteButton);
-                    p.itemLayout->addChild(hLayout);
+                    p.buttonLayout->addChild(hLayout);
                 }
+
+                auto io = context->getSystemT<AV::IO::System>();
+                auto pluginNames = io->getPluginNames();
+                pluginNames.insert(pluginNames.begin(), std::string());
+                std::vector<std::string> pluginNamesList;
+                for (const auto& j : pluginNames)
+                {
+                    const auto k = p.fileColorSpaces.find(j);
+                    if (k == p.fileColorSpaces.end())
+                    {
+                        pluginNamesList.push_back(j);
+                        auto action = UI::Action::create();
+                        action->setText(!j.empty() ? j : _getText(DJV_TEXT("av_ocio_files_default")));
+                        p.addActionGroup->addAction(action);
+                        p.addMenu->addAction(action);
+                    }
+                }
+                auto weak = std::weak_ptr<FileColorSpacesWidget>(std::dynamic_pointer_cast<FileColorSpacesWidget>(shared_from_this()));
+                auto contextWeak = std::weak_ptr<Context>(context);
+                p.addActionGroup->setPushCallback(
+                    [pluginNamesList, weak, contextWeak](int value)
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                if (value >= 0 && value < static_cast<int>(pluginNamesList.size()))
+                                {
+                                    auto fileColorSpaces = widget->_p->fileColorSpaces;
+                                    fileColorSpaces[pluginNamesList[value]] = std::string();
+                                    auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                                    ocioSystem->setFileColorSpaces(fileColorSpaces);
+                                }
+                            }
+                        }
+                    });
             }
         }
 
@@ -880,7 +888,7 @@ namespace djv
             p.layout->setBackgroundRole(UI::ColorRole::Background);
             p.layout->addChild(p.backButton);
             p.layout->addSeparator();
-            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
             scrollWidget->setBorder(false);
             scrollWidget->setMinimumSizeRole(UI::MetricsRole::Swatch);
             scrollWidget->addChild(p.listWidget);
