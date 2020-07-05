@@ -185,7 +185,7 @@ namespace djv
                     p.configs.erase(p.configs.begin() + value);
                 }
                 const size_t size = p.configs.size();
-                if (value > size)
+                if (value >= size)
                 {
                     value = static_cast<int>(size) - 1;
                 }

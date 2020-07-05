@@ -28,6 +28,8 @@ namespace djv
             void _initEvent(Core::Event::Init &) override;
 
         private:
+            void _widgetUpdate();
+
             DJV_PRIVATE();
         };
 

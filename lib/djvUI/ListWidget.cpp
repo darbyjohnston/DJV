@@ -89,7 +89,7 @@ namespace djv
         void ListWidget::setItems(const std::vector<ListItem>& value, int checked)
         {
             DJV_PRIVATE_PTR();
-            if (value == p.items)
+            if (value == p.items && checked == _p->buttonGroup->getChecked())
                 return;
             p.items = value;
             _updateItems(checked);
