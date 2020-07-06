@@ -36,7 +36,7 @@ namespace djv
                 DJV_ASSERT(config.name.empty());
                 DJV_ASSERT(config.display.empty());
                 DJV_ASSERT(config.view.empty());
-                DJV_ASSERT(config.fileColorSpaces.empty());
+                DJV_ASSERT(config.imageColorSpaces.empty());
             }
             
             {
@@ -53,7 +53,7 @@ namespace djv
                 config.name = "name";
                 config.display = "display";
                 config.view = "view";
-                config.fileColorSpaces = { { "PNG", "sRGB" }, { "DPX", "Cineon" } };
+                config.imageColorSpaces = { { "PNG", "sRGB" }, { "DPX", "Cineon" } };
                 return config;
             }
         

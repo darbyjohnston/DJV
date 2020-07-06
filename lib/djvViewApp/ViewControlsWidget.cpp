@@ -105,14 +105,16 @@ namespace djv
                 p.viewPosEdit[i] = edit;
 
                 p.viewPosResetButton[i] = UI::ToolButton::create(context);
-                p.viewPosResetButton[i]->setIcon("djvIconClear");
+                p.viewPosResetButton[i]->setIcon("djvIconClearSmall");
+                p.viewPosResetButton[i]->setInsideMargin(UI::MetricsRole::None);
             }
             p.viewZoomEdit = UI::FloatEdit::create(context);
             p.viewZoomEdit->setRange(FloatRange(.1F, 1000.F));
             p.viewZoomEdit->setSmallIncrement(.1F);
             p.viewZoomEdit->setLargeIncrement(1.F);
             p.viewZoomResetButton = UI::ToolButton::create(context);
-            p.viewZoomResetButton->setIcon("djvIconClear");
+            p.viewZoomResetButton->setIcon("djvIconClearSmall");
+            p.viewZoomResetButton->setInsideMargin(UI::MetricsRole::None);
 
             p.gridEnabledButton = UI::ToolButton::create(context);
             p.gridEnabledButton->setButtonType(UI::ButtonType::Toggle);

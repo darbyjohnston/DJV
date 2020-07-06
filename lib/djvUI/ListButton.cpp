@@ -42,8 +42,7 @@ namespace djv
                 setClassName("djv::UI::Button::List");
 
                 p.layout = HorizontalLayout::create(context);
-                p.layout->setMargin(MetricsRole::MarginSmall);
-                p.layout->setSpacing(MetricsRole::SpacingSmall);
+                p.layout->setSpacing(MetricsRole::None);
                 addChild(p.layout);
             }
 
@@ -298,6 +297,7 @@ namespace djv
                     p.label->setFontFace(p.fontFace);
                     p.label->setFontSizeRole(p.fontSizeRole);
                     p.label->setTextColorRole(foregroundColorRole);
+                    p.label->setMargin(MetricsRole::MarginSmall);
                     p.layout->addChild(p.label);
                     p.layout->setStretch(p.label, RowStretch::Expand);
                 }
@@ -308,6 +308,7 @@ namespace djv
                     p.rightLabel->setFontFace(p.fontFace);
                     p.rightLabel->setFontSizeRole(p.fontSizeRole);
                     p.rightLabel->setTextColorRole(foregroundColorRole);
+                    p.rightLabel->setMargin(MetricsRole::MarginSmall);
                     p.layout->addChild(p.rightLabel);
                 }
                 if (p.rightIcon)

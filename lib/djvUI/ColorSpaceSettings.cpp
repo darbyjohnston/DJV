@@ -44,7 +44,7 @@ namespace djv
                     config.name = "nuke-default";
                     config.display = "default";
                     config.view = "sRGB";
-                    config.fileColorSpaces =
+                    config.imageColorSpaces =
                     {
                         { "",        "sRGB" },
                         { "Cineon",  "Cineon" },
@@ -59,7 +59,7 @@ namespace djv
                     config.name = "spi-anim";
                     config.display = "sRGB";
                     config.view = "Film";
-                    config.fileColorSpaces =
+                    config.imageColorSpaces =
                     {
                         { "",        "" },
                         { "OpenEXR", "lnh" }
@@ -72,7 +72,7 @@ namespace djv
                     config.name = "spi-vfx";
                     config.display = "sRGB";
                     config.view = "Film";
-                    config.fileColorSpaces =
+                    config.imageColorSpaces =
                     {
                         { "",        "" },
                         { "Cineon",  "lg10" },

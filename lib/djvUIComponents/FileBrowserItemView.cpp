@@ -418,15 +418,15 @@ namespace djv
                                     }
                                     render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F, opacity));
                                     AV::Render2D::ImageOptions options;
-                                    auto l = p.ocioConfig.fileColorSpaces.find(j->second->getPluginName());
-                                    if (l != p.ocioConfig.fileColorSpaces.end())
+                                    auto l = p.ocioConfig.imageColorSpaces.find(j->second->getPluginName());
+                                    if (l != p.ocioConfig.imageColorSpaces.end())
                                     {
                                         options.colorSpace.input = l->second;
                                     }
                                     else
                                     {
-                                        l = p.ocioConfig.fileColorSpaces.find(std::string());
-                                        if (l != p.ocioConfig.fileColorSpaces.end())
+                                        l = p.ocioConfig.imageColorSpaces.find(std::string());
+                                        if (l != p.ocioConfig.imageColorSpaces.end())
                                         {
                                             options.colorSpace.input = l->second;
                                         }

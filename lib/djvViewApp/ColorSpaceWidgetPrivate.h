@@ -94,49 +94,21 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides the file color spaces widget.
-        class FileColorSpacesWidget : public UI::Widget
+        //! This class provides the image color spaces widget.
+        class ImageColorSpacesWidget : public UI::Widget
         {
-            DJV_NON_COPYABLE(FileColorSpacesWidget);
+            DJV_NON_COPYABLE(ImageColorSpacesWidget);
 
         protected:
             void _init(const std::shared_ptr<Core::Context>&);
-            FileColorSpacesWidget();
+            ImageColorSpacesWidget();
 
         public:
-            ~FileColorSpacesWidget() override;
+            ~ImageColorSpacesWidget() override;
 
-            static std::shared_ptr<FileColorSpacesWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ImageColorSpacesWidget> create(const std::shared_ptr<Core::Context>&);
 
-            void setCallback(const std::function<void(const std::string&)>&);
-
-        protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
-
-            void _initEvent(Core::Event::Init&) override;
-
-        private:
-            void _widgetUpdate();
-
-            DJV_PRIVATE();
-        };
-
-        //! This class provides the file color space widget.
-        class FileColorSpaceWidget : public UI::Widget
-        {
-            DJV_NON_COPYABLE(FileColorSpaceWidget);
-
-        protected:
-            void _init(const std::shared_ptr<Core::Context>&);
-            FileColorSpaceWidget();
-
-        public:
-            ~FileColorSpaceWidget() override;
-
-            static std::shared_ptr<FileColorSpaceWidget> create(const std::shared_ptr<Core::Context>&);
-
-            void setFile(const std::string&);
+            void setImage(const std::string&);
 
             void setBackCallback(const std::function<void()>&);
 

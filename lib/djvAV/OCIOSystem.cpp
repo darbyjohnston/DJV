@@ -43,7 +43,7 @@ namespace djv
                     name == other.name &&
                     display == other.display &&
                     view == other.view &&
-                    fileColorSpaces == other.fileColorSpaces;
+                    imageColorSpaces == other.imageColorSpaces;
             }
 
             bool Config::operator != (const Config& other) const
@@ -86,7 +86,7 @@ namespace djv
                 std::shared_ptr<ValueSubject<DisplayData> > displayDataSubject;
                 std::shared_ptr<ValueSubject<ViewData> > viewDataSubject;
                 std::shared_ptr<ListSubject<std::string> > colorSpacesSubject;
-                std::shared_ptr<MapSubject<std::string, std::string> > fileColorSpacesSubject;
+                std::shared_ptr<MapSubject<std::string, std::string> > imageColorSpacesSubject;
 
                 std::string getDisplayName(int) const;
                 std::string getViewName(int displayIndex, int) const;
@@ -109,7 +109,7 @@ namespace djv
                 p.displayDataSubject = ValueSubject<DisplayData>::create();
                 p.viewDataSubject = ValueSubject<ViewData>::create();
                 p.colorSpacesSubject = ListSubject<std::string>::create();
-                p.fileColorSpacesSubject = MapSubject<std::string, std::string>::create();
+                p.imageColorSpacesSubject = MapSubject<std::string, std::string>::create();
 
                 _OCIO::SetLoggingLevel(_OCIO::LOGGING_LEVEL_NONE);
 
@@ -218,9 +218,9 @@ namespace djv
                 return _p->colorSpacesSubject;
             }
 
-            std::shared_ptr<IMapSubject<std::string, std::string> > System::observeFileColorSpaces() const
+            std::shared_ptr<IMapSubject<std::string, std::string> > System::observeImageColorSpaces() const
             {
-                return _p->fileColorSpacesSubject;
+                return _p->imageColorSpacesSubject;
             }
 
             void System::setCurrentConfig(int value)
@@ -270,14 +270,14 @@ namespace djv
                 }
             }
 
-            void System::setFileColorSpaces(const std::map<std::string, std::string>& value)
+            void System::setImageColorSpaces(const std::map<std::string, std::string>& value)
             {
                 DJV_PRIVATE_PTR();
                 if (p.currentConfig >= 0 && p.currentConfig < static_cast<int>(p.configs.size()))
                 {
-                    if (value == p.configs[p.currentConfig].fileColorSpaces)
+                    if (value == p.configs[p.currentConfig].imageColorSpaces)
                         return;
-                    p.configs[p.currentConfig].fileColorSpaces = value;
+                    p.configs[p.currentConfig].imageColorSpaces = value;
                     _configUpdate();
                     p.configsSubject->setIfChanged(p.configs);
                     p.currentConfigSubject->setIfChanged(p.configs[p.currentConfig]);
@@ -449,7 +449,7 @@ namespace djv
                 ConfigData configData;
                 DisplayData displayData;
                 ViewData viewData;
-                std::map<std::string, std::string> fileColorSpaces;
+                std::map<std::string, std::string> imageColorSpaces;
 
                 for (const auto& config : p.configs)
                 {
@@ -476,7 +476,7 @@ namespace djv
                 {
                     displayData.current = p.getDisplayIndex(p.configs[p.currentConfig].display);
                     viewData.current = p.getViewIndex(displayData.current, p.configs[p.currentConfig].view);
-                    fileColorSpaces = p.configs[p.currentConfig].fileColorSpaces;
+                    imageColorSpaces = p.configs[p.currentConfig].imageColorSpaces;
                 }
                 else
                 {
@@ -487,7 +487,7 @@ namespace djv
                 p.configDataSubject->setIfChanged(configData);
                 p.displayDataSubject->setIfChanged(displayData);
                 p.viewDataSubject->setIfChanged(viewData);
-                p.fileColorSpacesSubject->setIfChanged(fileColorSpaces);
+                p.imageColorSpacesSubject->setIfChanged(imageColorSpaces);
             }
 
             std::string System::Private::getDisplayName(int value) const
@@ -569,7 +569,7 @@ namespace djv
         out.AddMember("Name", toJSON(value.name, allocator), allocator);
         out.AddMember("Display", toJSON(value.display, allocator), allocator);
         out.AddMember("View", toJSON(value.view, allocator), allocator);
-        out.AddMember("FileColorSpaces", toJSON(value.fileColorSpaces, allocator), allocator);
+        out.AddMember("ImageColorSpaces", toJSON(value.imageColorSpaces, allocator), allocator);
         return out;
     }
 
@@ -595,9 +595,9 @@ namespace djv
                 {
                     fromJSON(i.value, out.view);
                 }
-                else if (0 == strcmp("FileColorSpaces", i.name.GetString()))
+                else if (0 == strcmp("ImageColorSpaces", i.name.GetString()))
                 {
-                    fromJSON(i.value, out.fileColorSpaces);
+                    fromJSON(i.value, out.imageColorSpaces);
                 }
             }
         }

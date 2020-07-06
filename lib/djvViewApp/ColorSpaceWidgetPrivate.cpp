@@ -34,23 +34,6 @@ namespace djv
 {
     namespace ViewApp
     {
-        namespace
-        {
-            std::shared_ptr<UI::Layout::Spacer> createSpacer(const std::shared_ptr<Context>& context)
-            {
-                auto out = UI::Layout::HorizontalSpacer::create(context);
-                out->setSpacerSize(UI::MetricsRole::None);
-                out->setSpacerOppositeSize(UI::MetricsRole::Icon);
-                out->setMargin(UI::Layout::Margin(
-                    UI::MetricsRole::None,
-                    UI::MetricsRole::None,
-                    UI::MetricsRole::MarginSmall,
-                    UI::MetricsRole::MarginSmall));
-                return out;
-            }
-
-        } // namespace
-
         struct ColorSpaceConfigsWidget::Private
         {
             AV::OCIO::Config config;
@@ -294,7 +277,8 @@ namespace djv
                     buttons.push_back(button);
                     
                     auto deleteButton = UI::ToolButton::create(context);
-                    deleteButton->setIcon("djvIconClear");
+                    deleteButton->setIcon("djvIconClearSmall");
+                    deleteButton->setInsideMargin(UI::MetricsRole::None);
                     deleteButton->setVisible(p.deleteEnabled);
                     deleteButton->setTooltip(_getText(DJV_TEXT("widget_color_space_delete_config_tooltip")));
                     p.deleteButtonGroup->addButton(deleteButton);
@@ -303,7 +287,6 @@ namespace djv
                     hLayout->setSpacing(UI::MetricsRole::None);
                     hLayout->addChild(button);
                     hLayout->setStretch(button, UI::RowStretch::Expand);
-                    hLayout->addChild(createSpacer(context));
                     hLayout->addChild(deleteButton);
                     p.buttonLayout->addChild(hLayout);
                 }
@@ -337,6 +320,7 @@ namespace djv
             p.backButton->setIcon("djvIconArrowSmallLeft");
 
             p.listWidget = UI::ListWidget::create(UI::ButtonType::Radio, context);
+            p.listWidget->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
 
             p.searchBox = UI::SearchBox::create(context);
 
@@ -486,6 +470,7 @@ namespace djv
             p.backButton->setIcon("djvIconArrowSmallLeft");
 
             p.listWidget = UI::ListWidget::create(UI::ButtonType::Radio, context);
+            p.listWidget->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
 
             p.searchBox = UI::SearchBox::create(context);
 
@@ -609,251 +594,11 @@ namespace djv
             }
         }
 
-        struct FileColorSpacesWidget::Private
+        struct ImageColorSpacesWidget::Private
         {
-            std::map<std::string, std::string> fileColorSpaces;
-            bool deleteEnabled = false;
-
-            std::shared_ptr<UI::ButtonGroup> buttonGroup;
-            std::shared_ptr<UI::ButtonGroup> deleteButtonGroup;
-            std::shared_ptr<UI::ActionGroup> addActionGroup;
-            std::shared_ptr<UI::Menu> addMenu;
-            std::shared_ptr<UI::PopupMenu> addButton;
-            std::shared_ptr<UI::ToolButton> deleteButton;
-            std::shared_ptr<UI::VerticalLayout> buttonLayout;
-            std::shared_ptr<UI::VerticalLayout> addButtonLayout;
-            std::shared_ptr<UI::VerticalLayout> layout;
-
-            std::function<void(const std::string&)> callback;
-
-            std::shared_ptr<MapObserver<std::string, std::string> > fileColorSpacesObserver;
-        };
-
-        void FileColorSpacesWidget::_init(const std::shared_ptr<Context>& context)
-        {
-            Widget::_init(context);
-            DJV_PRIVATE_PTR();
-
-            setClassName("djv::ViewApp::FileColorSpacesWidget");
-
-            p.buttonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
-            p.deleteButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
-
-            p.addActionGroup = UI::ActionGroup::create(UI::ButtonType::Push);
-            p.addMenu = UI::Menu::create(context);
-            p.addMenu->setIcon("djvIconAdd");
-            p.addMenu->setMinimumSizeRole(UI::MetricsRole::None);
-            p.addButton = UI::PopupMenu::create(context);
-            p.addButton->setMenu(p.addMenu);
-
-            p.deleteButton = UI::ToolButton::create(context);
-            p.deleteButton->setButtonType(UI::ButtonType::Toggle);
-            p.deleteButton->setIcon("djvIconClear");
-
-            p.layout = UI::VerticalLayout::create(context);
-            p.layout->setSpacing(UI::MetricsRole::None);
-            p.buttonLayout = UI::VerticalLayout::create(context);
-            p.buttonLayout->setSpacing(UI::MetricsRole::None);
-            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
-            scrollWidget->setBorder(false);
-            scrollWidget->setMinimumSizeRole(UI::MetricsRole::Swatch);
-            scrollWidget->addChild(p.buttonLayout);
-            p.layout->addChild(scrollWidget);
-            p.layout->setStretch(scrollWidget, UI::RowStretch::Expand);
-            p.layout->addSeparator();
-            auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
-            hLayout->addExpander();
-            hLayout->addChild(p.addButton);
-            hLayout->addChild(p.deleteButton);
-            p.layout->addChild(hLayout);
-            addChild(p.layout);
-
-            auto weak = std::weak_ptr<FileColorSpacesWidget>(std::dynamic_pointer_cast<FileColorSpacesWidget>(shared_from_this()));
-            p.buttonGroup->setPushCallback(
-                [weak](int value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        int index = 0;
-                        for (const auto& i : widget->_p->fileColorSpaces)
-                        {
-                            if (value == index)
-                            {
-                                if (widget->_p->callback)
-                                {
-                                    widget->_p->callback(i.first);
-                                }
-                                break;
-                            }
-                            ++index;
-                        }
-                    }
-                });
-
-            auto contextWeak = std::weak_ptr<Context>(context);
-            p.deleteButtonGroup->setPushCallback(
-                [weak, contextWeak](int value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            auto fileColorSpaces = widget->_p->fileColorSpaces;
-                            int index = 0;
-                            for (auto i = fileColorSpaces.begin(); i != fileColorSpaces.end(); ++i, ++index)
-                            {
-                                if (index == value)
-                                {
-                                    fileColorSpaces.erase(i);
-                                    break;
-                                }
-                            }
-                            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-                            ocioSystem->setFileColorSpaces(fileColorSpaces);
-                        }
-                    }
-                });
-
-            p.deleteButton->setCheckedCallback(
-                [weak](bool value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->deleteEnabled = value;
-                        widget->_widgetUpdate();
-                    }
-                });
-
-            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-            p.fileColorSpacesObserver = MapObserver<std::string, std::string>::create(
-                ocioSystem->observeFileColorSpaces(),
-                [weak](const std::map<std::string, std::string>& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->fileColorSpaces = value;
-                        widget->_widgetUpdate();
-                    }
-                });
-        }
-
-        FileColorSpacesWidget::FileColorSpacesWidget() :
-            _p(new Private)
-        {}
-
-        FileColorSpacesWidget::~FileColorSpacesWidget()
-        {}
-
-        std::shared_ptr<FileColorSpacesWidget> FileColorSpacesWidget::create(const std::shared_ptr<Context>& context)
-        {
-            auto out = std::shared_ptr<FileColorSpacesWidget>(new FileColorSpacesWidget);
-            out->_init(context);
-            return out;
-        }
-
-        void FileColorSpacesWidget::setCallback(const std::function<void(const std::string&)>& value)
-        {
-            _p->callback = value;
-        }
-
-        void FileColorSpacesWidget::_preLayoutEvent(Event::PreLayout&)
-        {
-            _setMinimumSize(_p->layout->getMinimumSize());
-        }
-
-        void FileColorSpacesWidget::_layoutEvent(Event::Layout&)
-        {
-            _p->layout->setGeometry(getGeometry());
-        }
-
-        void FileColorSpacesWidget::_initEvent(Event::Init& event)
-        {
-            DJV_PRIVATE_PTR();
-            if (event.getData().text)
-            {
-                p.addButton->setTooltip(_getText(DJV_TEXT("widget_color_space_add_file_tooltip")));
-                p.deleteButton->setTooltip(_getText(DJV_TEXT("widget_color_space_delete_files_tooltip")));
-                _widgetUpdate();
-            }
-        }
-
-        void FileColorSpacesWidget::_widgetUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
-            {
-                p.buttonGroup->clearButtons();
-                p.deleteButtonGroup->clearButtons();
-                p.addActionGroup->clearActions();
-                p.addMenu->clearActions();
-                p.buttonLayout->clearChildren();
-
-                for (const auto& i : p.fileColorSpaces)
-                {
-                    auto button = UI::ListButton::create(context);
-                    button->setText((!i.first.empty() ? i.first : _getText(DJV_TEXT("av_ocio_files_default"))) + ":");
-                    button->setRightText(!i.second.empty() ? i.second : _getText(DJV_TEXT("av_ocio_files_none")));
-                    button->setRightIcon("djvIconArrowSmallRight");
-                    p.buttonGroup->addButton(button);
-
-                    auto deleteButton = UI::ToolButton::create(context);
-                    deleteButton->setIcon("djvIconClear");
-                    deleteButton->setVisible(p.deleteEnabled);
-                    deleteButton->setTooltip(_getText(DJV_TEXT("widget_color_space_delete_file_tooltip")));
-                    p.deleteButtonGroup->addButton(deleteButton);
-
-                    auto hLayout = UI::HorizontalLayout::create(context);
-                    hLayout->setSpacing(UI::MetricsRole::None);
-                    hLayout->addChild(button);
-                    hLayout->setStretch(button, UI::RowStretch::Expand);
-                    hLayout->addChild(deleteButton);
-                    p.buttonLayout->addChild(hLayout);
-                }
-
-                auto io = context->getSystemT<AV::IO::System>();
-                auto pluginNames = io->getPluginNames();
-                pluginNames.insert(pluginNames.begin(), std::string());
-                std::vector<std::string> pluginNamesList;
-                for (const auto& j : pluginNames)
-                {
-                    const auto k = p.fileColorSpaces.find(j);
-                    if (k == p.fileColorSpaces.end())
-                    {
-                        pluginNamesList.push_back(j);
-                        auto action = UI::Action::create();
-                        action->setText(!j.empty() ? j : _getText(DJV_TEXT("av_ocio_files_default")));
-                        p.addActionGroup->addAction(action);
-                        p.addMenu->addAction(action);
-                    }
-                }
-                auto weak = std::weak_ptr<FileColorSpacesWidget>(std::dynamic_pointer_cast<FileColorSpacesWidget>(shared_from_this()));
-                auto contextWeak = std::weak_ptr<Context>(context);
-                p.addActionGroup->setPushCallback(
-                    [pluginNamesList, weak, contextWeak](int value)
-                    {
-                        if (auto context = contextWeak.lock())
-                        {
-                            if (auto widget = weak.lock())
-                            {
-                                if (value >= 0 && value < static_cast<int>(pluginNamesList.size()))
-                                {
-                                    auto fileColorSpaces = widget->_p->fileColorSpaces;
-                                    fileColorSpaces[pluginNamesList[value]] = std::string();
-                                    auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-                                    ocioSystem->setFileColorSpaces(fileColorSpaces);
-                                }
-                            }
-                        }
-                    });
-            }
-        }
-
-        struct FileColorSpaceWidget::Private
-        {
-            std::string file;
+            std::string image;
             std::vector<std::string> colorSpaces;
-            std::map<std::string, std::string> fileColorSpaces;
+            std::map<std::string, std::string> imageColorSpaces;
 
             std::shared_ptr<UI::ListButton> backButton;
             std::shared_ptr<UI::ListWidget> listWidget;
@@ -864,20 +609,21 @@ namespace djv
             std::function<void()> backCallback;
 
             std::shared_ptr<ListObserver<std::string> > colorSpacesObserver;
-            std::shared_ptr<MapObserver<std::string, std::string> > fileColorSpacesObserver;
+            std::shared_ptr<MapObserver<std::string, std::string> > imageColorSpacesObserver;
         };
 
-        void FileColorSpaceWidget::_init(const std::shared_ptr<Context>& context)
+        void ImageColorSpacesWidget::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
 
-            setClassName("djv::ViewApp::FileColorSpaceWidget");
+            setClassName("djv::ViewApp::ImageColorSpacesWidget");
 
             p.backButton = UI::ListButton::create(context);
             p.backButton->setIcon("djvIconArrowSmallLeft");
 
             p.listWidget = UI::ListWidget::create(UI::ButtonType::Radio, context);
+            p.listWidget->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
 
             p.searchBox = UI::SearchBox::create(context);
 
@@ -898,7 +644,7 @@ namespace djv
             p.layout->addChild(p.searchBox);
             addChild(p.layout);
 
-            auto weak = std::weak_ptr<FileColorSpaceWidget>(std::dynamic_pointer_cast<FileColorSpaceWidget>(shared_from_this()));
+            auto weak = std::weak_ptr<ImageColorSpacesWidget>(std::dynamic_pointer_cast<ImageColorSpacesWidget>(shared_from_this()));
             p.backButton->setClickedCallback(
                 [weak]
                 {
@@ -919,13 +665,13 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            auto fileColorSpaces = widget->_p->fileColorSpaces;
-                            fileColorSpaces[widget->_p->file] =
+                            auto imageColorSpaces = widget->_p->imageColorSpaces;
+                            imageColorSpaces[widget->_p->image] =
                                 value >= 0 && value < static_cast<int>(widget->_p->colorSpaces.size()) ?
                                 widget->_p->colorSpaces[value] :
                                 std::string();
                             auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-                            ocioSystem->setFileColorSpaces(fileColorSpaces);
+                            ocioSystem->setImageColorSpaces(imageColorSpaces);
                         }
                     }
                 });
@@ -951,57 +697,57 @@ namespace djv
                     }
                 });
 
-            p.fileColorSpacesObserver = MapObserver<std::string, std::string>::create(
-                ocioSystem->observeFileColorSpaces(),
+            p.imageColorSpacesObserver = MapObserver<std::string, std::string>::create(
+                ocioSystem->observeImageColorSpaces(),
                 [weak](const std::map<std::string, std::string>& value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->fileColorSpaces = value;
+                        widget->_p->imageColorSpaces = value;
                         widget->_widgetUpdate();
                     }
                 });
         }
 
-        FileColorSpaceWidget::FileColorSpaceWidget() :
+        ImageColorSpacesWidget::ImageColorSpacesWidget() :
             _p(new Private)
         {}
 
-        FileColorSpaceWidget::~FileColorSpaceWidget()
+        ImageColorSpacesWidget::~ImageColorSpacesWidget()
         {}
 
-        std::shared_ptr<FileColorSpaceWidget> FileColorSpaceWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ImageColorSpacesWidget> ImageColorSpacesWidget::create(const std::shared_ptr<Context>& context)
         {
-            auto out = std::shared_ptr<FileColorSpaceWidget>(new FileColorSpaceWidget);
+            auto out = std::shared_ptr<ImageColorSpacesWidget>(new ImageColorSpacesWidget);
             out->_init(context);
             return out;
         }
 
-        void FileColorSpaceWidget::setFile(const std::string& value)
+        void ImageColorSpacesWidget::setImage(const std::string& value)
         {
             DJV_PRIVATE_PTR();
-            if (value == p.file)
+            if (value == p.image)
                 return;
-            p.file = value;
+            p.image = value;
             _widgetUpdate();
         }
 
-        void FileColorSpaceWidget::setBackCallback(const std::function<void()>& value)
+        void ImageColorSpacesWidget::setBackCallback(const std::function<void()>& value)
         {
             _p->backCallback = value;
         }
 
-        void FileColorSpaceWidget::_preLayoutEvent(Event::PreLayout&)
+        void ImageColorSpacesWidget::_preLayoutEvent(Event::PreLayout&)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void FileColorSpaceWidget::_layoutEvent(Event::Layout&)
+        void ImageColorSpacesWidget::_layoutEvent(Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
         }
 
-        void FileColorSpaceWidget::_initEvent(Event::Init& event)
+        void ImageColorSpacesWidget::_initEvent(Event::Init& event)
         {
             DJV_PRIVATE_PTR();
             if (event.getData().text)
@@ -1011,27 +757,27 @@ namespace djv
             }
         }
 
-        void FileColorSpaceWidget::_widgetUpdate()
+        void ImageColorSpacesWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
                 p.backButton->setText(
-                    !p.file.empty() ?
-                    p.file :
-                    _getText(DJV_TEXT("av_ocio_files_default")));
+                    !p.image.empty() ?
+                    p.image :
+                    _getText(DJV_TEXT("av_ocio_images_default")));
                 std::vector<UI::ListItem> items;
                 for (size_t i = 0; i < p.colorSpaces.size(); ++i)
                 {
                     UI::ListItem item;
                     item.text = !p.colorSpaces[i].empty() ?
                         p.colorSpaces[i] :
-                        _getText(DJV_TEXT("av_ocio_files_none"));
+                        _getText(DJV_TEXT("av_ocio_images_none"));
                     items.emplace_back(item);
                 }
                 int index = -1;
-                const auto i = p.fileColorSpaces.find(p.file);
-                if (i != p.fileColorSpaces.end())
+                const auto i = p.imageColorSpaces.find(p.image);
+                if (i != p.imageColorSpaces.end())
                 {
                     const auto j = std::find(p.colorSpaces.begin(), p.colorSpaces.end(), i->second);
                     if (j != p.colorSpaces.end())

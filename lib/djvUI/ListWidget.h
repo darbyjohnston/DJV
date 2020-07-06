@@ -16,10 +16,11 @@ namespace djv
             ListItem();
             ListItem(const std::string& text);
             
+            std::string icon;
+            std::string rightIcon;
             std::string text;
             std::string rightText;
-            std::string icon;
-            ColorRole   colorRole     = ColorRole::None;
+            ColorRole   colorRole = ColorRole::None;
             std::string tooltip;
 
             bool operator == (const ListItem&) const;

@@ -283,7 +283,7 @@ namespace djv
                 }
                 if (p.ocioImageCmdLine)
                 {
-                    config.fileColorSpaces[std::string()] = *p.ocioImageCmdLine;
+                    config.imageColorSpaces[std::string()] = *p.ocioImageCmdLine;
                 }
                 auto ocioSystem = getSystemT<AV::OCIO::System>();
                 ocioSystem->setCurrentConfig(ocioSystem->addConfig(config));

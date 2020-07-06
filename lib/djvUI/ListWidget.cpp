@@ -27,9 +27,11 @@ namespace djv
         bool ListItem::operator == (const ListItem& other) const
         {
             return icon == other.icon &&
+                rightIcon == other.rightIcon &&
                 text == other.text &&
                 rightText == other.rightText &&
-                colorRole == other.colorRole;
+                colorRole == other.colorRole &&
+                tooltip == other.tooltip;
         }
 
         struct ListWidget::Private
@@ -40,6 +42,8 @@ namespace djv
             std::vector<std::shared_ptr<ListButton> > buttons;
             std::shared_ptr<ButtonGroup> buttonGroup;
             std::shared_ptr<VerticalLayout> layout;
+
+            static void initButton(const std::shared_ptr<ListButton>&, const ListItem&);
         };
 
         void ListWidget::_init(ButtonType buttonType, const std::shared_ptr<Context>& context)
@@ -48,7 +52,6 @@ namespace djv
             DJV_PRIVATE_PTR();
             
             setClassName("djv::UI::ListWidget");
-            setPointerEnabled(true);
 
             p.buttonGroup = ButtonGroup::create(buttonType);
 
@@ -103,7 +106,7 @@ namespace djv
             {
                 p.items.push_back({ value });
                 auto button = ListButton::create(context);
-                button->setText(value);
+                p.initButton(button, ListItem(value));
                 p.buttons.push_back(button);
                 p.buttonGroup->addButton(button);
                 p.layout->addChild(button);
@@ -118,9 +121,7 @@ namespace djv
             {
                 p.items.push_back(value);
                 auto button = ListButton::create(context);
-                button->setIcon(value.icon);
-                button->setText(value.text);
-                button->setRightText(value.rightText);
+                p.initButton(button, value);
                 p.buttons.push_back(button);
                 p.buttonGroup->addButton(button);
                 p.layout->addChild(button);
@@ -244,18 +245,12 @@ namespace djv
                 size_t i = 0;
                 for (; i < p.items.size() && i < buttonsSize; ++i)
                 {
-                    const auto& item = p.items[i];
-                    p.buttons[i]->setIcon(item.icon);
-                    p.buttons[i]->setText(item.text);
-                    p.buttons[i]->setRightText(item.rightText);
+                    p.initButton(p.buttons[i], p.items[i]);
                 }
                 for (; i < p.items.size(); ++i)
                 {
-                    const auto& item = p.items[i];
                     auto button = ListButton::create(context);
-                    button->setIcon(item.icon);
-                    button->setText(item.text);
-                    button->setRightText(item.rightText);
+                    p.initButton(button, p.items[i]);
                     p.buttons.push_back(button);
                     p.layout->addChild(button);
                 }
@@ -304,6 +299,16 @@ namespace djv
                     indices.push_back(i);
                 }
             }
+        }
+        
+        void ListWidget::Private::initButton(const std::shared_ptr<ListButton>& button, const ListItem& item)
+        {
+            button->setIcon(item.icon);
+            button->setRightIcon(item.rightIcon);
+            button->setText(item.text);
+            button->setRightText(item.rightText);
+            button->setBackgroundRole(item.colorRole);
+            button->setTooltip(item.tooltip);
         }
 
     } // namespace UI

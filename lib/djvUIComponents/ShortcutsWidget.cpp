@@ -212,7 +212,6 @@ namespace djv
                         switch (event.getKey())
                         {
                         case 0:
-                        case GLFW_KEY_ESCAPE:
                         case GLFW_KEY_ENTER:
                         case GLFW_KEY_TAB:
                         case GLFW_KEY_CAPS_LOCK:
@@ -227,6 +226,10 @@ namespace djv
                         case GLFW_KEY_RIGHT_ALT:
                         case GLFW_KEY_RIGHT_SUPER:
                         case GLFW_KEY_MENU:
+                            break;
+                        case GLFW_KEY_ESCAPE:
+                            event.accept();
+                            releaseTextFocus();
                             break;
                         default:
                             event.accept();
@@ -318,7 +321,8 @@ namespace djv
             {
                 p.keyPressWidgets[i] = KeyPressWidget::create(context);
                 p.clearButtons[i] = ToolButton::create(context);
-                p.clearButtons[i]->setIcon("djvIconClear");
+                p.clearButtons[i]->setIcon("djvIconClearSmall");
+                p.clearButtons[i]->setInsideMargin(MetricsRole::None);
                 p.clearButtons[i]->setInsideMargin(MetricsRole::None);
             }
 
@@ -532,7 +536,7 @@ namespace djv
                 ListItem item;
                 item.text = p._getText(i.first);
                 item.rightText = String::join(list, ", ");
-                item.colorRole = collision ? UI::ColorRole::Warning : ColorRole::None;
+                item.rightIcon = collision ? "djvIconWarningSmall" : std::string();
                 items.emplace_back(item);
             }
             listWidget->setItems(items, currentShortcut);

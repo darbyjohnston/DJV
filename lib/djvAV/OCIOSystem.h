@@ -38,7 +38,7 @@ namespace djv
                 std::string name;
                 std::string display;
                 std::string view;
-                std::map<std::string, std::string> fileColorSpaces;
+                std::map<std::string, std::string> imageColorSpaces;
 
                 static std::string getNameFromFileName(const std::string&);
 
@@ -101,11 +101,11 @@ namespace djv
                 std::shared_ptr<Core::IValueSubject<DisplayData> > observeDisplayData() const;
                 std::shared_ptr<Core::IValueSubject<ViewData> > observeViewData() const;
                 std::shared_ptr<Core::IListSubject<std::string> > observeColorSpaces() const;
-                std::shared_ptr<Core::IMapSubject<std::string, std::string> > observeFileColorSpaces() const;
+                std::shared_ptr<Core::IMapSubject<std::string, std::string> > observeImageColorSpaces() const;
                 void setCurrentConfig(int);
                 void setCurrentDisplay(int);
                 void setCurrentView(int);
-                void setFileColorSpaces(const std::map<std::string, std::string>&);
+                void setImageColorSpaces(const std::map<std::string, std::string>&);
 
                 ///@}
 
