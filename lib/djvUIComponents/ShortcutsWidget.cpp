@@ -132,20 +132,18 @@ namespace djv
             void KeyPressWidget::_preLayoutEvent(Event::PreLayout&)
             {
                 const auto& style = _getStyle();
-                const float b = style->getMetric(MetricsRole::Border);
                 const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 glm::vec2 size = _label->getMinimumSize();
-                size += b * 2.F + btf * 2.F;
+                size += btf * 2.F;
                 _setMinimumSize(size);
             }
 
             void KeyPressWidget::_layoutEvent(Event::Layout&)
             {
                 const auto& style = _getStyle();
-                const float b = style->getMetric(MetricsRole::Border);
                 const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 const BBox2f& g = getGeometry();
-                const BBox2f g2 = g.margin(-(b + btf));
+                const BBox2f g2 = g.margin(-btf);
                 _label->setGeometry(g2);
             }
 
@@ -161,9 +159,11 @@ namespace djv
                     render->setFillColor(style->getColor(ColorRole::TextFocus));
                     drawBorder(render, g, btf);
                 }
-                const BBox2f g2 = g.margin(-btf);
-                render->setFillColor(style->getColor(ColorRole::Border));
-                drawBorder(render, g2, b);
+                else
+                {
+                    render->setFillColor(style->getColor(ColorRole::Border));
+                    drawBorder(render, g.margin(-b), b);
+                }
             }
 
             void KeyPressWidget::_pointerEnterEvent(Event::PointerEnter& event)

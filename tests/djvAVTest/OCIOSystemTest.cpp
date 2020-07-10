@@ -65,18 +65,21 @@ namespace djv
             {
                 auto system = context->getSystemT<OCIO::System>();
                 
-                auto configsObserver = ListObserver<OCIO::Config>::create(
-                    system->observeConfigs(),
-                    [this](const std::vector<OCIO::Config>& value)
+                auto userConfigsObserver = ValueObserver<OCIO::UserConfigs>::create(
+                    system->observeUserConfigs(),
+                    [this](const OCIO::UserConfigs& value)
                     {
                         size_t j = 0;
-                        for (const auto& i : value)
+                        for (const auto& i : value.first)
                         {
                             std::stringstream ss;
                             ss << "config " << j << ": " << i.name;
                             _print(ss.str());
                             ++j;
                         }
+                        std::stringstream ss;
+                        ss << "current config: " << value.second;
+                        _print(ss.str());
                     });
                 
                 auto currentConfigObserver = ValueObserver<OCIO::Config>::create(
@@ -88,28 +91,12 @@ namespace djv
                         _print(ss.str());
                     });
 
-                auto configDataObserver = ValueObserver<OCIO::ConfigData>::create(
-                    system->observeConfigData(),
-                    [this](const OCIO::ConfigData& value)
+                auto displaysObserver = ValueObserver<OCIO::Displays>::create(
+                    system->observeDisplays(),
+                    [this](const OCIO::Displays& value)
                     {
                         size_t j = 0;
-                        for (const auto& i : value.names)
-                        {
-                            std::stringstream ss;
-                            ss << "config " << j << ": " << i;
-                            _print(ss.str());
-                            ++j;
-                        }
-                        std::stringstream ss;
-                        ss << "current config: " << value.current;
-                        _print(ss.str());
-                    });
-                auto displayDataObserver = ValueObserver<OCIO::DisplayData>::create(
-                    system->observeDisplayData(),
-                    [this](const OCIO::DisplayData& value)
-                    {
-                        size_t j = 0;
-                        for (const auto& i : value.names)
+                        for (const auto& i : value.first)
                         {
                             std::stringstream ss;
                             ss << "display " << j << ": " << i;
@@ -117,15 +104,15 @@ namespace djv
                             ++j;
                         }
                         std::stringstream ss;
-                        ss << "current display: " << value.current;
+                        ss << "current display: " << value.second;
                         _print(ss.str());
                     });
-                auto viewDataObserver = ValueObserver<OCIO::ViewData>::create(
-                    system->observeViewData(),
-                    [this](const OCIO::ViewData& value)
+                auto viewsObserver = ValueObserver<OCIO::Views>::create(
+                    system->observeViews(),
+                    [this](const OCIO::Views& value)
                     {
                         size_t j = 0;
-                        for (const auto& i : value.names)
+                        for (const auto& i : value.first)
                         {
                             std::stringstream ss;
                             ss << "view " << j << ": " << i;
@@ -133,24 +120,24 @@ namespace djv
                             ++j;
                         }
                         std::stringstream ss;
-                        ss << "current view: " << value.current;
+                        ss << "current view: " << value.second;
                         _print(ss.str());
                     });
 
-                auto configs = system->observeConfigs()->get();
-                if (!configs.empty())
+                auto userConfigs = system->observeUserConfigs()->get();
+                if (!userConfigs.first.empty())
                 {
-                    OCIO::Config config = configs[0];
-                    system->removeConfig(0);
-                    int index = system->addConfig(config);
-                    system->setCurrentConfig(index);
-                    system->setCurrentConfig(index);
-                    DJV_ASSERT(index == system->addConfig(config));
+                    OCIO::Config config = userConfigs.first[0];
+                    system->removeUserConfig(0);
+                    int index = system->addUserConfig(config);
+                    system->setCurrentUserConfig(index);
+                    system->setCurrentUserConfig(index);
+                    DJV_ASSERT(config == system->observeCurrentConfig()->get());
                 }
 
-                for (size_t i = 0; i < configs.size(); ++i)
+                for (size_t i = 0; i < userConfigs.first.size(); ++i)
                 {
-                    system->removeConfig(i);                    
+                    system->removeUserConfig(i);
                 }
 
                 DJV_ASSERT(system->getColorSpace(std::string(), std::string()).empty());

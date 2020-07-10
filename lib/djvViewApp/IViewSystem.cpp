@@ -59,15 +59,18 @@ namespace djv
                     }
                 });
 
-            p.shortcutsObserver = MapObserver<std::string, UI::ShortcutDataPair>::create(
-                p.inputSettings->observeShortcuts(),
-                [weak](const std::map<std::string, UI::ShortcutDataPair>& value)
-                {
-                    if (auto system = weak.lock())
+            if (p.inputSettings)
+            {
+                p.shortcutsObserver = MapObserver<std::string, UI::ShortcutDataPair>::create(
+                    p.inputSettings->observeShortcuts(),
+                    [weak](const std::map<std::string, UI::ShortcutDataPair>& value)
                     {
-                        system->_shortcutsUpdate();
-                    }
-                });
+                        if (auto system = weak.lock())
+                        {
+                            system->_shortcutsUpdate();
+                        }
+                    });
+            }
         }
             
         IViewSystem::IViewSystem() :
@@ -150,24 +153,41 @@ namespace djv
 
         UI::ShortcutDataPair IViewSystem::_getShortcuts(const std::string& value) const
         {
-            const auto& shortcuts = _p->inputSettings->observeShortcuts()->get();
+            DJV_PRIVATE_PTR();
+            UI::ShortcutDataMap shortcuts;
+            if (p.inputSettings)
+            {
+                shortcuts = p.inputSettings->observeShortcuts()->get();
+            }
             const auto i = shortcuts.find(value);
             return i != shortcuts.end() ? i->second : UI::ShortcutDataPair();
         }
 
         void IViewSystem::_addShortcut(const std::string& name, const UI::ShortcutDataPair& value)
         {
-            _p->inputSettings->addShortcut(name, value);
+            DJV_PRIVATE_PTR();
+            if (p.inputSettings)
+            {
+                p.inputSettings->addShortcut(name, value);
+            }
         }
 
         void IViewSystem::_addShortcut(const std::string& name, int key)
         {
-            _p->inputSettings->addShortcut(name, key);
+            DJV_PRIVATE_PTR();
+            if (p.inputSettings)
+            {
+                p.inputSettings->addShortcut(name, key);
+            }
         }
 
         void IViewSystem::_addShortcut(const std::string& name, int key, int keyModifiers)
         {
-            _p->inputSettings->addShortcut(name, key, keyModifiers);
+            DJV_PRIVATE_PTR();
+            if (p.inputSettings)
+            {
+                p.inputSettings->addShortcut(name, key, keyModifiers);
+            }
         }
 
         void IViewSystem::_textUpdate()

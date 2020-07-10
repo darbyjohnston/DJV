@@ -30,10 +30,11 @@ namespace djv
     {
         struct ColorSpaceWidget::Private
         {
-            AV::OCIO::ConfigData configData;
-            AV::OCIO::DisplayData displayData;
-            AV::OCIO::ViewData viewData;
-            std::map<std::string, std::string> imageColorSpaces;
+            AV::OCIO::UserConfigs userConfigs;
+            AV::OCIO::Config currentConfig;
+            AV::OCIO::Displays displays;
+            AV::OCIO::Views views;
+            AV::OCIO::ImageColorSpaces imageColorSpaces;
             bool imageDeleteEnabled = false;
 
             std::map<std::string, std::shared_ptr<UI::ListButton> > buttons;
@@ -53,9 +54,10 @@ namespace djv
             std::shared_ptr<UI::VerticalLayout> mainLayout;
             std::shared_ptr<UI::SoloLayout> layout;
 
-            std::shared_ptr<ValueObserver<AV::OCIO::ConfigData> > configDataObserver;
-            std::shared_ptr<ValueObserver<AV::OCIO::DisplayData> > displayDataObserver;
-            std::shared_ptr<ValueObserver<AV::OCIO::ViewData> > viewDataObserver;
+            std::shared_ptr<ValueObserver<AV::OCIO::UserConfigs> > userConfigsObserver;
+            std::shared_ptr<ValueObserver<AV::OCIO::Config> > currentConfigObserver;
+            std::shared_ptr<ValueObserver<AV::OCIO::Displays> > displaysObserver;
+            std::shared_ptr<ValueObserver<AV::OCIO::Views> > viewsObserver;
             std::shared_ptr<MapObserver<std::string, std::string> > imageColorSpacesObserver;
         };
 
@@ -239,39 +241,49 @@ namespace djv
                 });
 
             auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-            p.configDataObserver = ValueObserver<AV::OCIO::ConfigData>::create(
-                ocioSystem->observeConfigData(),
-                [weak](const AV::OCIO::ConfigData& value)
+            p.userConfigsObserver = ValueObserver<AV::OCIO::UserConfigs>::create(
+                ocioSystem->observeUserConfigs(),
+                [weak](const AV::OCIO::UserConfigs& value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->configData = value;
+                        widget->_p->userConfigs = value;
                         widget->_widgetUpdate();
                     }
                 });
-            p.displayDataObserver = ValueObserver<AV::OCIO::DisplayData>::create(
-                ocioSystem->observeDisplayData(),
-                [weak](const AV::OCIO::DisplayData& value)
+            p.currentConfigObserver = ValueObserver<AV::OCIO::Config>::create(
+                ocioSystem->observeCurrentConfig(),
+                [weak](const AV::OCIO::Config& value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->displayData = value;
+                        widget->_p->currentConfig = value;
                         widget->_widgetUpdate();
                     }
                 });
-            p.viewDataObserver = ValueObserver<AV::OCIO::ViewData>::create(
-                ocioSystem->observeViewData(),
-                [weak](const AV::OCIO::ViewData& value)
+            p.displaysObserver = ValueObserver<AV::OCIO::Displays>::create(
+                ocioSystem->observeDisplays(),
+                [weak](const AV::OCIO::Displays& value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->viewData = value;
+                        widget->_p->displays = value;
+                        widget->_widgetUpdate();
+                    }
+                });
+            p.viewsObserver = ValueObserver<AV::OCIO::Views>::create(
+                ocioSystem->observeViews(),
+                [weak](const AV::OCIO::Views& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->views = value;
                         widget->_widgetUpdate();
                     }
                 });
             p.imageColorSpacesObserver = MapObserver<std::string, std::string>::create(
                 ocioSystem->observeImageColorSpaces(),
-                [weak](const std::map<std::string, std::string>& value)
+                [weak](const AV::OCIO::ImageColorSpaces& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -317,19 +329,19 @@ namespace djv
             if (auto context = getContext().lock())
             {
                 p.buttons["Config"]->setRightText(
-                    p.configData.current >= 0 && p.configData.current < static_cast<int>(p.configData.names.size()) ?
-                    p.configData.names[p.configData.current] :
+                    !p.currentConfig.name.empty() ?
+                    p.currentConfig.name :
                     _getText(DJV_TEXT("av_ocio_config_none")));
 
                 p.buttons["Display"]->setRightText(
-                    p.displayData.current >= 0 && p.displayData.current < static_cast<int>(p.displayData.names.size()) ?
-                    p.displayData.names[p.displayData.current] :
+                    !p.currentConfig.display.empty() ?
+                    p.currentConfig.display :
                     _getText(DJV_TEXT("av_ocio_display_none")));
                 p.buttons["Display"]->setBackgroundRole(UI::ColorRole::Trough);
 
                 p.buttons["View"]->setRightText(
-                    p.viewData.current >= 0 && p.viewData.current < static_cast<int>(p.viewData.names.size()) ?
-                    p.viewData.names[p.viewData.current] :
+                    !p.currentConfig.view.empty() ?
+                    p.currentConfig.view :
                     _getText(DJV_TEXT("av_ocio_view_none")));
 
                 p.imageButtonGroup->clearButtons();
@@ -402,6 +414,11 @@ namespace djv
                     });
                 p.imageAddButton->setEnabled(!pluginNamesList.empty());
                 p.imageDeleteButton->setEnabled(p.imageButtonGroup->getButtonCount() != 0);
+                if (0 == p.imageButtonGroup->getButtonCount())
+                {
+                    p.imageDeleteEnabled = false;
+                    p.imageDeleteButton->setChecked(false);
+                }
             }
         }
 

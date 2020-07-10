@@ -257,7 +257,6 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
                 const float m = style->getMetric(p.insideMargin);
-                const float b = style->getMetric(MetricsRole::Border);
                 const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 glm::vec2 size = glm::vec2(0.F, 0.F);
                 if (p.icon)
@@ -280,9 +279,9 @@ namespace djv
                 }                
                 switch (p.menuStyle)
                 {
-                case MenuStyle::Flat:     size.x += m * 2.F;            break;
-                case MenuStyle::Tool:     size += m * 2.F;              break;
-                case MenuStyle::ComboBox: size += b * 2.F +  btf * 2.F; break;
+                case MenuStyle::Flat:     size.x += m * 2.F; break;
+                case MenuStyle::Tool:     size += m * 2.F;   break;
+                case MenuStyle::ComboBox: size += btf * 2.F; break;
                 default: break;
                 }
                 _setMinimumSize(size + getMargin().getSize(style));
@@ -294,14 +293,13 @@ namespace djv
                 const auto& style = _getStyle();
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const float m = style->getMetric(p.insideMargin);
-                const float b = style->getMetric(MetricsRole::Border);
                 const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 BBox2f g2;
                 switch (p.menuStyle)
                 {
                 case MenuStyle::Flat:     g2 = g.margin(-m, 0, -m, 0); break;
                 case MenuStyle::Tool:     g2 = g.margin(-m);           break;
-                case MenuStyle::ComboBox: g2 = g.margin(-(b + btf));   break;
+                case MenuStyle::ComboBox: g2 = g.margin(-btf);         break;
                 default: break;
                 }
                 float x = g2.min.x;
@@ -340,12 +338,17 @@ namespace djv
                 switch (p.menuStyle)
                 {
                 case MenuStyle::ComboBox:
+                    g2 = g.margin(-btf);
                     if (hasTextFocus())
                     {
                         render->setFillColor(style->getColor(ColorRole::TextFocus));
                         drawBorder(render, g, btf);
                     }
-                    g2 = g.margin(-btf);
+                    else
+                    {
+                        render->setFillColor(style->getColor(ColorRole::BorderButton));
+                        drawBorder(render, g2.margin(b), b);
+                    }
                     break;
                 default:
                     g2 = g;
@@ -354,17 +357,17 @@ namespace djv
 
                 render->setFillColor(style->getColor(getBackgroundRole()));
                 render->drawRect(g2);
-                switch (p.menuStyle)
-                {
-                case MenuStyle::ComboBox:
-                    render->setFillColor(style->getColor(ColorRole::BorderButton));
-                    drawBorder(render, g2, b);
-                    break;
-                default: break;
-                }
                 if (p.open)
                 {
-                    render->setFillColor(style->getColor(ColorRole::Checked));
+                    switch (p.menuStyle)
+                    {
+                    case MenuStyle::ComboBox:
+                        render->setFillColor(style->getColor(ColorRole::Pressed));
+                        break;
+                    default:
+                        render->setFillColor(style->getColor(ColorRole::Checked));
+                        break;
+                    }
                     render->drawRect(g2);
                 }
 

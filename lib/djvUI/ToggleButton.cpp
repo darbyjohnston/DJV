@@ -105,10 +105,9 @@ namespace djv
             void Toggle::_preLayoutEvent(Event::PreLayout& event)
             {
                 const auto& style = _getStyle();
-                const float b = style->getMetric(MetricsRole::Border);
                 const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 const float is = style->getMetric(MetricsRole::IconSmall);
-                _setMinimumSize(glm::vec2(is * 2.F, is) + (b + btf) * 2.F + getMargin().getSize(style));
+                _setMinimumSize(glm::vec2(is * 2.F, is) + btf * 2.F + getMargin().getSize(style));
             }
 
             void Toggle::_paintEvent(Event::Paint& event)
@@ -127,12 +126,15 @@ namespace djv
                     render->setFillColor(style->getColor(ColorRole::TextFocus));
                     drawBorder(render, g, btf);
                 }
+                else
+                {
+                    render->setFillColor(style->getColor(ColorRole::Border));
+                    drawBorder(render, g.margin(-b), b);
+                }
 
                 const BBox2f& g2 = g.margin(-btf);
-                render->setFillColor(style->getColor(ColorRole::Border));
-                drawBorder(render, g2, b);
                 render->setFillColor(style->getColor(isChecked() ? ColorRole::Checked : ColorRole::Trough));
-                render->drawRect(g2.margin(-b));
+                render->drawRect(g2);
 
                 if (_isHovered())
                 {

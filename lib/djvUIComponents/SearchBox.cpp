@@ -134,21 +134,19 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const glm::vec2 m = getMargin().getSize(style);
-            const float b = style->getMetric(MetricsRole::Border);
             const float btf = style->getMetric(MetricsRole::BorderTextFocus);
-            float size = value - m.x - btf * 2.F - b * 2.F;
+            float size = value - m.x - btf * 2.F;
             float out = p.layout->getHeightForWidth(size);
-            return out + b * 2.F + btf * 2.F + m.y;
+            return out + btf * 2.F + m.y;
         }
 
         void SearchBox::_preLayoutEvent(Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const float b = style->getMetric(MetricsRole::Border);
             const float btf = style->getMetric(MetricsRole::BorderTextFocus);
             glm::vec2 size = p.layout->getMinimumSize();
-            size += b * 2.F + btf * 2.F;
+            size += btf * 2.F;
             _setMinimumSize(size + getMargin().getSize(style));
         }
 
@@ -156,10 +154,9 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const float b = style->getMetric(MetricsRole::Border);
             const float btf = style->getMetric(MetricsRole::BorderTextFocus);
             const BBox2f g = getMargin().bbox(getGeometry(), style);
-            const BBox2f g2 = g.margin(-(b + btf));
+            const BBox2f g2 = g.margin(-btf);
             _p->layout->setGeometry(g2);
         }
 
@@ -177,9 +174,11 @@ namespace djv
                 render->setFillColor(style->getColor(UI::ColorRole::TextFocus));
                 drawBorder(render, g, btf);
             }
-            const BBox2f g2 = g.margin(-btf);
-            render->setFillColor(style->getColor(UI::ColorRole::Border));
-            drawBorder(render, g2, b);
+            else
+            {
+                render->setFillColor(style->getColor(UI::ColorRole::Border));
+                drawBorder(render, g.margin(b), b);
+            }
         }
 
         void SearchBox::_doFilterCallback()

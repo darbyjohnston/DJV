@@ -215,9 +215,8 @@ namespace djv
             size.x += tmp.x;
             size.y = std::max(size.y, tmp.y);
             const auto& style = _getStyle();
-            const float b = style->getMetric(MetricsRole::Border);
             const float btf = style->getMetric(MetricsRole::BorderTextFocus);
-            _setMinimumSize(size + (b + btf) * 2.F + getMargin().getSize(style));
+            _setMinimumSize(size + btf * 2.F + getMargin().getSize(style));
         }
 
         void NumericEdit::_layoutEvent(Event::Layout& event)
@@ -225,10 +224,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const BBox2f& g = getMargin().bbox(getGeometry(), style);
-            const float b = style->getMetric(MetricsRole::Border);
             const float btf = style->getMetric(MetricsRole::BorderTextFocus);
             glm::vec2 tmp = p.buttons->getMinimumSize();
-            BBox2f g2 = g.margin(-(b + btf));
+            BBox2f g2 = g.margin(-btf);
             float x = g2.max.x - tmp.x;
             float y = g2.min.y;
             float w = tmp.x;
@@ -263,18 +261,20 @@ namespace djv
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const BBox2f& g = getGeometry();
             const float b = style->getMetric(UI::MetricsRole::Border);
             const float btf = style->getMetric(MetricsRole::BorderTextFocus);
+            const BBox2f& g = getGeometry();
             const auto& render = _getRender();
             if (p.lineEditBase->hasTextFocus())
             {
                 render->setFillColor(style->getColor(UI::ColorRole::TextFocus));
                 drawBorder(render, g, btf);
             }
-            render->setFillColor(style->getColor(UI::ColorRole::Border));
-            const BBox2f g2 = g.margin(-btf);
-            drawBorder(render, g2, b);
+            else
+            {
+                render->setFillColor(style->getColor(UI::ColorRole::Border));
+                drawBorder(render, g.margin(-b), b);
+            }
         }
 
         bool NumericEdit::_eventFilter(const std::shared_ptr<IObject>& object, Event::Event& event)

@@ -25,9 +25,6 @@ namespace djv
     {
         namespace OCIO
         {
-            Config::Config()
-            {}
-            
             std::string Config::getNameFromFileName(const std::string& value)
             {
                 FileSystem::Path path(value);
@@ -35,65 +32,47 @@ namespace djv
                 return path.getFileName();
             }
 
-            bool Config::operator == (const Config& other) const
-            {
-                return
-                    type == other.type &&
-                    fileName == other.fileName &&
-                    name == other.name &&
-                    display == other.display &&
-                    view == other.view &&
-                    imageColorSpaces == other.imageColorSpaces;
-            }
-
-            bool Config::operator != (const Config& other) const
-            {
-                return !(*this == other);
-            }
-
-            bool ConfigData::operator == (const ConfigData& other) const
-            {
-                return
-                    fileNames == other.fileNames &&
-                    names == other.names &&
-                    current == other.current;
-            }
-
-            bool DisplayData::operator == (const DisplayData& other) const
-            {
-                return
-                    names == other.names &&
-                    current == other.current;
-            }
-
-            bool ViewData::operator == (const ViewData& other) const
-            {
-                return
-                    names == other.names &&
-                    current == other.current;
-            }
-
             struct System::Private
             {
-                std::vector<_OCIO::ConstConfigRcPtr> ocioConfigs;
-                std::vector<Config> configs;
-                int currentConfig = -1;
-                std::vector<Display> displays;
+                Private(System& p) :
+                    p(p)
+                {}
 
-                std::shared_ptr<ListSubject<Config> > configsSubject;
+                System& p;
+
+                typedef std::pair<_OCIO::ConstConfigRcPtr, Config> ConfigPair;
+
+                ConfigType configType = ConfigType::First;
+                std::vector<ConfigPair> userConfigs;
+                int currentUserConfig = -1;
+                bool hasEnvConfig = false;
+                ConfigPair envConfig;
+                ConfigPair cmdLineConfig;
+                std::vector<Display> displays;
+                std::vector<std::string> colorSpaces;
+
+                std::shared_ptr<ValueSubject<ConfigType> > configTypeSubject;
+                std::shared_ptr<ValueSubject<UserConfigs> > userConfigsSubject;
+                std::shared_ptr<ValueSubject<Config> > envConfigSubject;
+                std::shared_ptr<ValueSubject<Config> > cmdLineConfigSubject;
                 std::shared_ptr<ValueSubject<Config> > currentConfigSubject;
-                std::shared_ptr<ValueSubject<ConfigData> > configDataSubject;
-                std::shared_ptr<ValueSubject<DisplayData> > displayDataSubject;
-                std::shared_ptr<ValueSubject<ViewData> > viewDataSubject;
-                std::shared_ptr<ListSubject<std::string> > colorSpacesSubject;
+                std::shared_ptr<ValueSubject<Displays> > displaysSubject;
+                std::shared_ptr<ValueSubject<Views> > viewsSubject;
                 std::shared_ptr<MapSubject<std::string, std::string> > imageColorSpacesSubject;
+                std::shared_ptr<ListSubject<std::string> > colorSpacesSubject;
+
+                std::vector<Config> getUserConfigs() const;
+
+                Config getCurrentConfig() const;
 
                 std::string getDisplayName(int) const;
+                static std::vector<std::string> getViews(const std::string& display, const std::vector<Display>&);
                 std::string getViewName(int displayIndex, int) const;
 
-                int getConfigIndex(const std::string&) const;
                 int getDisplayIndex(const std::string&) const;
-                int getViewIndex(int displayIndex, const std::string&) const;
+
+                int addUserConfig(const Config&, bool init);
+                void configUpdate();
             };
 
             void System::_init(const std::shared_ptr<Context>& context)
@@ -103,13 +82,15 @@ namespace djv
 
                 addDependency(context->getSystemT<CoreSystem>());
 
-                p.configsSubject = ListSubject<AV::OCIO::Config>::create();
+                p.configTypeSubject = ValueSubject<ConfigType>::create();
+                p.userConfigsSubject = ValueSubject<UserConfigs>::create();
+                p.envConfigSubject = ValueSubject<Config>::create();
+                p.cmdLineConfigSubject = ValueSubject<Config>::create();
                 p.currentConfigSubject = ValueSubject<Config>::create();
-                p.configDataSubject = ValueSubject<ConfigData>::create();
-                p.displayDataSubject = ValueSubject<DisplayData>::create();
-                p.viewDataSubject = ValueSubject<ViewData>::create();
-                p.colorSpacesSubject = ListSubject<std::string>::create();
+                p.displaysSubject = ValueSubject<Displays>::create();
+                p.viewsSubject = ValueSubject<Displays>::create();
                 p.imageColorSpacesSubject = MapSubject<std::string, std::string>::create();
+                p.colorSpacesSubject = ListSubject<std::string>::create();
 
                 _OCIO::SetLoggingLevel(_OCIO::LOGGING_LEVEL_NONE);
 
@@ -122,25 +103,24 @@ namespace djv
                 std::string env = OS::getEnv("OCIO");
                 if (!env.empty())
                 {
+                    p.hasEnvConfig = true;
                     if (auto ocioConfig = _OCIO::Config::CreateFromEnv())
                     {
                         Config config;
-                        config.type = ConfigType::Env;
-                        config.name = AV::OCIO::Config::getNameFromFileName(env);
                         config.fileName = env;
-                        p.ocioConfigs.push_back(ocioConfig);
-                        p.configs.push_back(config);
-                        p.currentConfig = 0;
-                        _configUpdate();
-                        p.configsSubject->setIfChanged(p.configs);
-                        p.currentConfigSubject->setIfChanged(config);
-                        _dataUpdate();
+                        config.name = AV::OCIO::Config::getNameFromFileName(env);
+                        const char* display = ocioConfig->getDefaultDisplay();
+                        config.display = display;
+                        config.view = ocioConfig->getDefaultView(display);
+                        p.configType = ConfigType::Env;
+                        p.envConfig = std::make_pair(ocioConfig, config);
+                        p.configUpdate();
                     }
                 }
             }
 
             System::System() :
-                _p(new Private)
+                _p(new Private(*this))
             {}
 
             System::~System()
@@ -153,9 +133,29 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<IListSubject<Config> > System::observeConfigs() const
+            bool System::hasEnvConfig() const
             {
-                return _p->configsSubject;
+                return _p->hasEnvConfig;
+            }
+
+            std::shared_ptr<IValueSubject<ConfigType> > System::observeConfigType() const
+            {
+                return _p->configTypeSubject;
+            }
+
+            std::shared_ptr<IValueSubject<UserConfigs> > System::observeUserConfigs() const
+            {
+                return _p->userConfigsSubject;
+            }
+
+            std::shared_ptr<IValueSubject<Config> > System::observeEnvConfig() const
+            {
+                return _p->envConfigSubject;
+            }
+
+            std::shared_ptr<IValueSubject<Config> > System::observeCmdLineConfig() const
+            {
+                return _p->cmdLineConfigSubject;
             }
 
             std::shared_ptr<IValueSubject<Config> > System::observeCurrentConfig() const
@@ -163,59 +163,104 @@ namespace djv
                 return _p->currentConfigSubject;
             }
 
-            int System::addConfig(const std::string& fileName)
+            std::shared_ptr<IValueSubject<Displays> > System::observeDisplays() const
             {
+                return _p->displaysSubject;
+            }
+
+            std::shared_ptr<IValueSubject<Views> > System::observeViews() const
+            {
+                return _p->viewsSubject;
+            }
+
+            void System::setConfigType(ConfigType value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.configType)
+                    return;
+                p.configType = value;
+                p.configUpdate();
+            }
+
+            int System::addUserConfig(const std::string& fileName)
+            {
+                DJV_PRIVATE_PTR();
                 AV::OCIO::Config config;
                 config.fileName = fileName;
                 config.name = AV::OCIO::Config::getNameFromFileName(fileName);
-                return _addConfig(config, true);
+                return p.addUserConfig(config, true);
             }
 
-            int System::addConfig(const Config& config)
-            {
-                return _addConfig(config, false);
-            }
-
-            void System::removeConfig(int value)
+            int System::addUserConfig(const Config& config)
             {
                 DJV_PRIVATE_PTR();
-                if (value >= 0 && value < static_cast<int>(p.configs.size()))
+                return p.addUserConfig(config, false);
+            }
+
+            void System::removeUserConfig(int value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value >= 0 && value < static_cast<int>(p.userConfigs.size()))
                 {
-                    p.ocioConfigs.erase(p.ocioConfigs.begin() + value);
-                    p.configs.erase(p.configs.begin() + value);
+                    p.userConfigs.erase(p.userConfigs.begin() + value);
                 }
-                const size_t size = p.configs.size();
-                if (p.currentConfig >= size)
+                const size_t size = p.userConfigs.size();
+                if (p.currentUserConfig >= size)
                 {
-                    p.currentConfig = static_cast<int>(size) - 1;
+                    p.currentUserConfig = static_cast<int>(size) - 1;
                 }
-                _configUpdate();
-                p.configsSubject->setIfChanged(p.configs);
-                p.currentConfigSubject->setIfChanged(
-                    p.currentConfig >= 0 && p.currentConfig < static_cast<int>(p.configs.size()) ?
-                    p.configs[p.currentConfig] :
-                    Config());
-                _dataUpdate();
+                p.configUpdate();
             }
 
-            std::shared_ptr<IValueSubject<ConfigData> > System::observeConfigData() const
+            void System::setEnvConfig(const Config& config)
             {
-                return _p->configDataSubject;
+                DJV_PRIVATE_PTR();
+                try
+                {
+                    _OCIO::ConstConfigRcPtr ocioConfig;
+                    if (config.isValid())
+                    {
+                        ocioConfig = _OCIO::Config::CreateFromFile(config.fileName.c_str());
+                    }
+                    p.envConfig = std::make_pair(ocioConfig, config);
+                    p.configUpdate();
+                }
+                catch (const std::exception& e)
+                {
+                    std::stringstream ss;
+                    ss << e.what();
+                    _log(ss.str(), LogLevel::Error);
+                }
             }
 
-            std::shared_ptr<IValueSubject<DisplayData> > System::observeDisplayData() const
+            void System::setCmdLineConfig(const Config& config)
             {
-                return _p->displayDataSubject;
-            }
-
-            std::shared_ptr<IValueSubject<ViewData> > System::observeViewData() const
-            {
-                return _p->viewDataSubject;
-            }
-
-            std::shared_ptr<IListSubject<std::string> > System::observeColorSpaces() const
-            {
-                return _p->colorSpacesSubject;
+                DJV_PRIVATE_PTR();
+                try
+                {
+                    _OCIO::ConstConfigRcPtr ocioConfig;
+                    if (config.isValid())
+                    {
+                        ocioConfig = _OCIO::Config::CreateFromFile(config.fileName.c_str());
+                    }
+                    Config tmp = config;
+                    if (tmp.display.empty() && ocioConfig)
+                    {
+                        tmp.display = ocioConfig->getDefaultDisplay();
+                    }
+                    if (tmp.view.empty() && ocioConfig)
+                    {
+                        tmp.view = ocioConfig->getDefaultView(tmp.display.c_str());
+                    }
+                    p.cmdLineConfig = std::make_pair(ocioConfig, tmp);
+                    p.configUpdate();
+                }
+                catch (const std::exception& e)
+                {
+                    std::stringstream ss;
+                    ss << e.what();
+                    _log(ss.str(), LogLevel::Error);
+                }
             }
 
             std::shared_ptr<IMapSubject<std::string, std::string> > System::observeImageColorSpaces() const
@@ -223,65 +268,126 @@ namespace djv
                 return _p->imageColorSpacesSubject;
             }
 
-            void System::setCurrentConfig(int value)
+            std::shared_ptr<IListSubject<std::string> > System::observeColorSpaces() const
+            {
+                return _p->colorSpacesSubject;
+            }
+
+            void System::setCurrentUserConfig(int value)
             {
                 DJV_PRIVATE_PTR();
-                if (value == p.currentConfig)
+                if (value == p.currentUserConfig)
                     return;
-                p.currentConfig = value;
-                _configUpdate();
-                p.currentConfigSubject->setIfChanged(
-                    p.currentConfig >= 0 && p.currentConfig < static_cast<int>(p.configs.size()) ?
-                    p.configs[p.currentConfig] :
-                    Config());
-                _dataUpdate();
+                p.currentUserConfig = value;
+                p.configUpdate();
             }
 
             void System::setCurrentDisplay(int value)
             {
                 DJV_PRIVATE_PTR();
-                if (p.currentConfig >= 0 && p.currentConfig < static_cast<int>(p.configs.size()))
+                const std::string displayName = p.getDisplayName(value);
+                switch (p.configType)
                 {
-                    const std::string displayName = p.getDisplayName(value);
-                    if (displayName == p.configs[p.currentConfig].display)
-                        return;
-                    p.configs[p.currentConfig].display = displayName;
-                    _configUpdate();
-                    p.configsSubject->setIfChanged(p.configs);
-                    p.currentConfigSubject->setIfChanged(p.configs[p.currentConfig]);
-                    _dataUpdate();
+                case ConfigType::User:
+                    if (p.currentUserConfig >= 0 &&
+                        p.currentUserConfig < static_cast<int>(p.userConfigs.size()))
+                    {
+                        if (displayName != p.userConfigs[p.currentUserConfig].second.display)
+                        {
+                            p.userConfigs[p.currentUserConfig].second.display = displayName;
+                            p.configUpdate();
+                        }
+                    }
+                    break;
+                case ConfigType::Env:
+                    if (displayName != p.envConfig.second.display)
+                    {
+                        p.envConfig.second.display = displayName;
+                        p.configUpdate();
+                    }
+                    break;
+                case ConfigType::CmdLine:
+                    if (displayName != p.cmdLineConfig.second.display)
+                    {
+                        p.cmdLineConfig.second.display = displayName;
+                        p.configUpdate();
+                    }
+                    break;
+                default: break;
                 }
             }
 
             void System::setCurrentView(int value)
             {
                 DJV_PRIVATE_PTR();
-                if (p.currentConfig >= 0 && p.currentConfig < static_cast<int>(p.configs.size()))
+                switch (p.configType)
                 {
-                    const int displayIndex = p.getDisplayIndex(p.configs[p.currentConfig].display);
+                case ConfigType::User:
+                    if (p.currentUserConfig >= 0 &&
+                        p.currentUserConfig < static_cast<int>(p.userConfigs.size()))
+                    {
+                        const int displayIndex = p.getDisplayIndex(p.userConfigs[p.currentUserConfig].second.display);
+                        const std::string viewName = p.getViewName(displayIndex, value);
+                        if (viewName != p.userConfigs[p.currentUserConfig].second.view)
+                        {
+                            p.userConfigs[p.currentUserConfig].second.view = viewName;
+                            p.configUpdate();
+                        }
+                    }
+                    break;
+                case ConfigType::Env:
+                {
+                    const int displayIndex = p.getDisplayIndex(p.envConfig.second.display);
                     const std::string viewName = p.getViewName(displayIndex, value);
-                    if (viewName == p.configs[p.currentConfig].view)
-                        return;
-                    p.configs[p.currentConfig].view = viewName;
-                    _configUpdate();
-                    p.configsSubject->setIfChanged(p.configs);
-                    p.currentConfigSubject->setIfChanged(p.configs[p.currentConfig]);
-                    _dataUpdate();
+                    if (viewName != p.envConfig.second.view)
+                    {
+                        p.envConfig.second.view = viewName;
+                        p.configUpdate();
+                    }
+                    break;
+                }
+                case ConfigType::CmdLine:
+                {
+                    const int displayIndex = p.getDisplayIndex(p.cmdLineConfig.second.display);
+                    const std::string viewName = p.getViewName(displayIndex, value);
+                    if (viewName != p.cmdLineConfig.second.view)
+                    {
+                        p.cmdLineConfig.second.view = viewName;
+                        p.configUpdate();
+                    }
+                    break;
+                }
+                default: break;
                 }
             }
 
-            void System::setImageColorSpaces(const std::map<std::string, std::string>& value)
+            void System::setImageColorSpaces(const ImageColorSpaces& value)
             {
                 DJV_PRIVATE_PTR();
-                if (p.currentConfig >= 0 && p.currentConfig < static_cast<int>(p.configs.size()))
+                switch (p.configType)
                 {
-                    if (value == p.configs[p.currentConfig].imageColorSpaces)
-                        return;
-                    p.configs[p.currentConfig].imageColorSpaces = value;
-                    _configUpdate();
-                    p.configsSubject->setIfChanged(p.configs);
-                    p.currentConfigSubject->setIfChanged(p.configs[p.currentConfig]);
-                    _dataUpdate();
+                case ConfigType::User:
+                    if (p.currentUserConfig >= 0 &&
+                        p.currentUserConfig < static_cast<int>(p.userConfigs.size()) &&
+                        value != p.userConfigs[p.currentUserConfig].second.imageColorSpaces)
+                    {
+                        p.userConfigs[p.currentUserConfig].second.imageColorSpaces = value;
+                        p.configUpdate();
+                    }
+                break;
+                case ConfigType::Env:
+                {
+                    p.envConfig.second.imageColorSpaces = value;
+                    p.configUpdate();
+                    break;
+                }
+                case ConfigType::CmdLine:
+                {
+                    p.cmdLineConfig.second.imageColorSpaces = value;
+                    p.configUpdate();
+                    break;
+                }
+                default: break;
                 }
             }
 
@@ -303,191 +409,36 @@ namespace djv
                 return std::string();
             }
 
-            int System::_addConfig(const Config& config, bool init)
+            std::vector<Config> System::Private::getUserConfigs() const
             {
-                DJV_PRIVATE_PTR();
-                int out = static_cast<int>(p.configs.size());
-                if (auto context = getContext().lock())
+                std::vector<Config> out;
+                for (const auto& i : userConfigs)
                 {
-                    try
-                    {
-                        FileSystem::FileInfo fileInfo(config.fileName);
-
-                        // If the file doesn't exist try looking for it in the resource path.
-                        if (!fileInfo.doesExist())
-                        {
-                            auto resourceSystem = context->getSystemT<ResourceSystem>();
-                            FileSystem::Path resourcePath = FileSystem::Path(resourceSystem->getPath(FileSystem::ResourcePath::Color), config.fileName);
-                            FileSystem::DirectoryListOptions options;
-                            options.filter = ".*\\.ocio$";
-                            auto directoryList = FileSystem::FileInfo::directoryList(resourcePath, options);
-                            if (directoryList.size())
-                            {
-                                fileInfo = directoryList[0];
-                            }
-                        }
-
-                        // Remove any existing configurations with the same file name.
-                        const std::string& fileName = fileInfo.getFileName();
-                        auto i = p.configs.begin();
-                        auto j = p.ocioConfigs.begin();
-                        while (i != p.configs.end() && j != p.ocioConfigs.end())
-                        {
-                            if (i->fileName == fileName)
-                            {
-                                i = p.configs.erase(i);
-                                j = p.ocioConfigs.erase(j);
-                            }
-                            else
-                            {
-                                ++i;
-                                ++j;
-                            }
-                        }
-
-                        // Add the configuration.
-                        auto ocioConfig = _OCIO::Config::CreateFromFile(fileName.c_str());
-                        p.ocioConfigs.push_back(ocioConfig);
-                        Config tmp = config;
-                        tmp.fileName = fileName;
-                        if (init)
-                        {
-                            tmp.display = ocioConfig->getDefaultDisplay();
-                            tmp.view = ocioConfig->getDefaultView(tmp.display.c_str());
-                        }
-                        p.configs.push_back(tmp);
-                        _configUpdate();
-                        p.configsSubject->setIfChanged(p.configs);
-                        _dataUpdate();
-                    }
-                    catch (const std::exception& e)
-                    {
-                        std::stringstream ss;
-                        ss << e.what();
-                        _log(ss.str(), LogLevel::Error);
-                    }
+                    out.push_back(i.second);
                 }
                 return out;
             }
 
-            namespace
+            Config System::Private::getCurrentConfig() const
             {
-                std::vector<std::string> getViews(const std::string& display, const std::vector<Display>& displays)
+                Config out;
+                switch (configType)
                 {
-                    std::vector<std::string> out;
-                    for (const auto& i : displays)
+                case ConfigType::User:
+                    if (currentUserConfig >= 0 && currentUserConfig < static_cast<int>(userConfigs.size()))
                     {
-                        if (display == i.name)
-                        {
-                            for (const auto& j : i.views)
-                            {
-                                out.push_back(j.name);
-                            }
-                            break;
-                        }
+                        out = userConfigs[currentUserConfig].second;
                     }
-                    return out;
+                    break;
+                case ConfigType::Env:
+                    out = envConfig.second;
+                    break;
+                case ConfigType::CmdLine:
+                    out = cmdLineConfig.second;
+                    break;
+                default: break;
                 }
-            } // namespace
-
-            void System::_configUpdate()
-            {
-                DJV_PRIVATE_PTR();
-
-                DJV_ASSERT(p.ocioConfigs.size() == p.configs.size());
-
-                p.displays.clear();
-                std::vector<std::string> colorSpaces;
-                try
-                {
-                    if (p.currentConfig >= 0 && p.currentConfig < static_cast<int>(p.ocioConfigs.size()))
-                    {
-                        const auto ocioConfig = p.ocioConfigs[p.currentConfig];
-                        _OCIO::SetCurrentConfig(ocioConfig);
-
-                        colorSpaces.push_back(std::string());
-                        for (int i = 0; i < ocioConfig->getNumColorSpaces(); ++i)
-                        {
-                            const char* colorSpace = ocioConfig->getColorSpaceNameByIndex(i);
-                            colorSpaces.push_back(colorSpace);
-                        }
-
-                        p.displays.push_back(Display());
-                        for (int i = 0; i < ocioConfig->getNumDisplays(); ++i)
-                        {
-                            const char* displayName = ocioConfig->getDisplay(i);
-                            Display display;
-                            display.name = displayName;
-                            display.defaultView = ocioConfig->getDefaultView(displayName);
-                            for (int j = 0; j < ocioConfig->getNumViews(displayName); ++j)
-                            {
-                                const char* viewName = ocioConfig->getView(displayName, j);
-                                View view;
-                                view.name = viewName;
-                                view.colorSpace = ocioConfig->getDisplayColorSpaceName(displayName, viewName);
-                                view.looks = ocioConfig->getDisplayLooks(displayName, viewName);
-                                display.views.push_back(view);
-                            }
-                            p.displays.push_back(display);
-                        }
-                    }
-                }
-                catch (const std::exception& e)
-                {
-                    std::stringstream ss;
-                    ss << e.what();
-                    _log(ss.str(), LogLevel::Error);
-                }
-
-                p.colorSpacesSubject->setIfChanged(colorSpaces);
-            }
-
-            void System::_dataUpdate()
-            {
-                DJV_PRIVATE_PTR();
-
-                ConfigData configData;
-                DisplayData displayData;
-                ViewData viewData;
-                std::map<std::string, std::string> imageColorSpaces;
-
-                for (const auto& config : p.configs)
-                {
-                    configData.names.push_back(config.name);
-                    configData.fileNames.push_back(config.fileName);
-                }
-                for (const auto& display : p.displays)
-                {
-                    displayData.names.push_back(display.name);
-                    if (p.currentConfig >= 0 &&
-                        p.currentConfig < static_cast<int>(p.configs.size()) && 
-                        p.configs[p.currentConfig].display == display.name)
-                    {
-                        for (const auto& view : display.views)
-                        {
-                            viewData.names.push_back(view.name);
-                        }
-                    }
-                }
-                DJV_ASSERT(p.displays.size() == displayData.names.size());
-
-                configData.current = p.currentConfig;
-                if (p.currentConfig >= 0 && p.currentConfig < static_cast<int>(p.configs.size()))
-                {
-                    displayData.current = p.getDisplayIndex(p.configs[p.currentConfig].display);
-                    viewData.current = p.getViewIndex(displayData.current, p.configs[p.currentConfig].view);
-                    imageColorSpaces = p.configs[p.currentConfig].imageColorSpaces;
-                }
-                else
-                {
-                    displayData.current = -1;
-                    viewData.current = -1;
-                }
-
-                p.configDataSubject->setIfChanged(configData);
-                p.displayDataSubject->setIfChanged(displayData);
-                p.viewDataSubject->setIfChanged(viewData);
-                p.imageColorSpacesSubject->setIfChanged(imageColorSpaces);
+                return out;
             }
 
             std::string System::Private::getDisplayName(int value) const
@@ -496,6 +447,23 @@ namespace djv
                 if (value >= 0 && value < static_cast<int>(displays.size()))
                 {
                     out = displays[value].name;
+                }
+                return out;
+            }
+
+            std::vector<std::string> System::Private::getViews(const std::string& display, const std::vector<Display>& displays)
+            {
+                std::vector<std::string> out;
+                for (const auto& i : displays)
+                {
+                    if (display == i.name)
+                    {
+                        for (const auto& j : i.views)
+                        {
+                            out.push_back(j.name);
+                        }
+                        break;
+                    }
                 }
                 return out;
             }
@@ -514,18 +482,6 @@ namespace djv
                 return out;
             }
 
-            int System::Private::getConfigIndex(const std::string& value) const
-            {
-                const auto i = std::find_if(
-                    configs.begin(),
-                    configs.end(),
-                    [value](const Config& config)
-                    {
-                        return value == config.name;
-                    });
-                return i != configs.end() ? i - configs.begin() : -1;
-            }
-
             int System::Private::getDisplayIndex(const std::string& value) const
             {
                 const auto i = std::find_if(
@@ -538,29 +494,176 @@ namespace djv
                 return i != displays.end() ? i - displays.begin() : -1;
             }
 
-            int System::Private::getViewIndex(int displayIndex, const std::string& value) const
+            int System::Private::addUserConfig(const Config& config, bool init)
             {
-                int out = -1;
-                if (displayIndex >= 0 && displayIndex < static_cast<int>(displays.size()))
+                int out = static_cast<int>(userConfigs.size());
+                if (auto context = p.getContext().lock())
                 {
-                    const auto& display = displays[displayIndex];
-                    const auto i = std::find_if(
-                        display.views.begin(),
-                        display.views.end(),
-                        [value](const View& view)
-                        {
-                            return value == view.name;
-                        });
-                    if (i != display.views.end())
+                    try
                     {
-                        out = i - display.views.begin();
+                        Config tmp = config;
+                        FileSystem::FileInfo fileInfo(tmp.fileName);
+
+                        // If the file doesn't exist try looking for it in the resource path.
+                        if (!fileInfo.doesExist())
+                        {
+                            auto resourceSystem = context->getSystemT<ResourceSystem>();
+                            FileSystem::Path resourcePath = FileSystem::Path(resourceSystem->getPath(FileSystem::ResourcePath::Color), tmp.fileName);
+                            FileSystem::DirectoryListOptions options;
+                            options.filter = ".*\\.ocio$";
+                            auto directoryList = FileSystem::FileInfo::directoryList(resourcePath, options);
+                            if (directoryList.size())
+                            {
+                                fileInfo = directoryList[0];
+                                tmp.fileName = fileInfo.getFileName();
+                            }
+                        }
+
+                        // Add the configuration.
+                        auto ocioConfig = _OCIO::Config::CreateFromFile(tmp.fileName.c_str());
+                        if (init)
+                        {
+                            tmp.display = ocioConfig->getDefaultDisplay();
+                            tmp.view = ocioConfig->getDefaultView(tmp.display.c_str());
+                        }
+                        userConfigs.push_back(std::make_pair(ocioConfig, tmp));
+
+                        configUpdate();
+                    }
+                    catch (const std::exception& e)
+                    {
+                        std::stringstream ss;
+                        ss << e.what();
+                        p._log(ss.str(), LogLevel::Error);
                     }
                 }
                 return out;
             }
 
+            void System::Private::configUpdate()
+            {
+                displays.clear();
+                colorSpaces.clear();
+
+                _OCIO::ConstConfigRcPtr ocioConfig;
+                std::string displayName;
+                std::string viewName;
+                switch (configType)
+                {
+                case ConfigType::User:
+                    if (currentUserConfig >= 0 &&
+                        currentUserConfig < static_cast<int>(userConfigs.size()))
+                    {
+                        const auto& config = userConfigs[currentUserConfig];
+                        ocioConfig = config.first;
+                        displayName = config.second.display;
+                        viewName = config.second.view;
+                    }
+                    break;
+                case ConfigType::Env:
+                    ocioConfig = envConfig.first;
+                    displayName = envConfig.second.display;
+                    viewName = envConfig.second.view;
+                    break;
+                case ConfigType::CmdLine:
+                    ocioConfig = cmdLineConfig.first;
+                    displayName = cmdLineConfig.second.display;
+                    viewName = cmdLineConfig.second.view;
+                    break;
+                default: break;
+                }
+
+                if (ocioConfig)
+                {
+                    try
+                    {
+                        _OCIO::SetCurrentConfig(ocioConfig);
+
+                        colorSpaces.push_back(std::string());
+                        for (int i = 0; i < ocioConfig->getNumColorSpaces(); ++i)
+                        {
+                            const char* colorSpace = ocioConfig->getColorSpaceNameByIndex(i);
+                            colorSpaces.push_back(colorSpace);
+                        }
+
+                        displays.push_back(Display());
+                        for (int i = 0; i < ocioConfig->getNumDisplays(); ++i)
+                        {
+                            const char* displayName = ocioConfig->getDisplay(i);
+                            Display display;
+                            display.name = displayName;
+                            display.defaultView = ocioConfig->getDefaultView(displayName);
+                            for (int j = 0; j < ocioConfig->getNumViews(displayName); ++j)
+                            {
+                                const char* viewName = ocioConfig->getView(displayName, j);
+                                View view;
+                                view.name = viewName;
+                                view.colorSpace = ocioConfig->getDisplayColorSpaceName(displayName, viewName);
+                                view.looks = ocioConfig->getDisplayLooks(displayName, viewName);
+                                display.views.push_back(view);
+                            }
+                            displays.push_back(display);
+                        }
+                    }
+                    catch (const std::exception& e)
+                    {
+                        std::stringstream ss;
+                        ss << e.what();
+                        p._log(ss.str(), LogLevel::Error);
+                    }
+                }
+
+                const auto& currentConfig = getCurrentConfig();
+                Displays displaysTmp;
+                Views viewsTmp;
+                for (size_t i = 0; i < displays.size(); ++i)
+                {
+                    const auto& display = displays[i];
+                    displaysTmp.first.push_back(display.name);
+                    if (display.name == currentConfig.display)
+                    {
+                        displaysTmp.second = static_cast<int>(i);
+                        for (size_t j = 0; j < display.views.size(); ++j)
+                        {
+                            const auto& view = display.views[j];
+                            viewsTmp.first.push_back(view.name);
+                            if (view.name == currentConfig.name)
+                            {
+                                viewsTmp.second = static_cast<int>(j);
+                            }
+                        }
+                    }
+                }
+
+                configTypeSubject->setIfChanged(configType);
+                userConfigsSubject->setIfChanged(std::make_pair(getUserConfigs(), currentUserConfig));
+                envConfigSubject->setIfChanged(envConfig.second);
+                cmdLineConfigSubject->setIfChanged(cmdLineConfig.second);
+                currentConfigSubject->setIfChanged(currentConfig);
+                displaysSubject->setIfChanged(displaysTmp);
+                viewsSubject->setIfChanged(viewsTmp);
+                imageColorSpacesSubject->setIfChanged(currentConfig.imageColorSpaces);
+                colorSpacesSubject->setIfChanged(colorSpaces);
+            }
+
         } // namespace OCIO
     } // namespace AV
+   
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        AV::OCIO,
+        ConfigType,
+        DJV_TEXT("av_ocio_config_type_none"),
+        DJV_TEXT("av_ocio_config_type_user"),
+        DJV_TEXT("av_ocio_config_type_env"),
+        DJV_TEXT("av_ocio_config_type_cmd_line"));
+
+    rapidjson::Value toJSON(AV::OCIO::ConfigType value, rapidjson::Document::AllocatorType& allocator)
+    {
+        std::stringstream ss;
+        ss << value;
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
+    }
 
     rapidjson::Value toJSON(const AV::OCIO::Config& value, rapidjson::Document::AllocatorType& allocator)
     {
@@ -571,6 +674,20 @@ namespace djv
         out.AddMember("View", toJSON(value.view, allocator), allocator);
         out.AddMember("ImageColorSpaces", toJSON(value.imageColorSpaces, allocator), allocator);
         return out;
+    }
+
+    void fromJSON(const rapidjson::Value& value, AV::OCIO::ConfigType& out)
+    {
+        if (value.IsString())
+        {
+            std::stringstream ss(value.GetString());
+            ss >> out;
+        }
+        else
+        {
+            //! \todo How can we translate this?
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
+        }
     }
 
     void fromJSON(const rapidjson::Value& value, AV::OCIO::Config& out)

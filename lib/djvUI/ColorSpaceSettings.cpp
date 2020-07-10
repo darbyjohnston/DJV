@@ -28,16 +28,24 @@ namespace djv
         {
             struct ColorSpace::Private
             {
-                std::vector<AV::OCIO::Config> configs;
-                int currentConfig = 0;
-                std::shared_ptr<ListObserver<AV::OCIO::Config> > configsObserver;
-                std::shared_ptr<ValueObserver<AV::OCIO::ConfigData> > configDataObserver;
+                std::shared_ptr<AV::OCIO::System> ocioSystem;
+
+                AV::OCIO::ConfigType configType = AV::OCIO::ConfigType::User;
+                AV::OCIO::UserConfigs userConfigs;
+                AV::OCIO::Config envConfig;
+
+                std::shared_ptr<ValueObserver<AV::OCIO::ConfigType> > configTypeObserver;
+                std::shared_ptr<ValueObserver<AV::OCIO::UserConfigs> > userConfigsObserver;
+                std::shared_ptr<ValueObserver<AV::OCIO::Config> > envConfigObserver;
             };
 
             void ColorSpace::_init(const std::shared_ptr<Core::Context>& context)
             {
                 ISettings::_init("djv::UI::Settings::ColorSpace", context);
                 DJV_PRIVATE_PTR();
+
+                p.ocioSystem = context->getSystemT<AV::OCIO::System>();
+
                 {
                     AV::OCIO::Config config;
                     config.fileName = "nuke-default";
@@ -51,7 +59,7 @@ namespace djv
                         { "DPX",     "Cineon" },
                         { "OpenEXR", "linear" }
                     };
-                    p.configs.push_back(config);
+                    p.userConfigs.first.emplace_back(config);
                 }
                 {
                     AV::OCIO::Config config;
@@ -64,7 +72,7 @@ namespace djv
                         { "",        "" },
                         { "OpenEXR", "lnh" }
                     };
-                    p.configs.push_back(config);
+                    p.userConfigs.first.emplace_back(config);
                 }
                 {
                     AV::OCIO::Config config;
@@ -79,42 +87,54 @@ namespace djv
                         { "DPX",     "lg10" },
                         { "OpenEXR", "lnh" }
                     };
-                    p.configs.push_back(config);
+                    p.userConfigs.first.emplace_back(config);
                 }
 
                 _load();
 
-                auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-                for (const auto& i : p.configs)
+                if (p.ocioSystem->observeConfigType()->get() != AV::OCIO::ConfigType::Env)
                 {
-                    ocioSystem->addConfig(i);
+                    p.ocioSystem->setConfigType(
+                        AV::OCIO::ConfigType::None == p.configType ?
+                        AV::OCIO::ConfigType::None :
+                        AV::OCIO::ConfigType::User);
                 }
-                ocioSystem->setCurrentConfig(p.currentConfig);
+                for (const auto& i : p.userConfigs.first)
+                {
+                    p.ocioSystem->addUserConfig(i);
+                }
+                p.ocioSystem->setCurrentUserConfig(p.userConfigs.second);
+                if (p.envConfig.isValid())
+                {
+                    p.ocioSystem->setEnvConfig(p.envConfig);
+                }
 
                 auto weak = std::weak_ptr<ColorSpace>(std::dynamic_pointer_cast<ColorSpace>(shared_from_this()));
-                p.configsObserver = ListObserver<AV::OCIO::Config>::create(
-                    ocioSystem->observeConfigs(),
-                    [weak](const std::vector<AV::OCIO::Config>& value)
+                p.configTypeObserver = ValueObserver<AV::OCIO::ConfigType>::create(
+                    p.ocioSystem->observeConfigType(),
+                    [weak](const AV::OCIO::ConfigType& value)
                     {
                         if (auto settings = weak.lock())
                         {
-                            settings->_p->configs.clear();
-                            for (const auto& i : value)
-                            {
-                                if (AV::OCIO::ConfigType::User == i.type)
-                                {
-                                    settings->_p->configs.push_back(i);
-                                }
-                            }
+                            settings->_p->configType = value;
                         }
                     });
-                p.configDataObserver = ValueObserver<AV::OCIO::ConfigData>::create(
-                    ocioSystem->observeConfigData(),
-                    [weak](const AV::OCIO::ConfigData& value)
+                p.userConfigsObserver = ValueObserver<AV::OCIO::UserConfigs>::create(
+                    p.ocioSystem->observeUserConfigs(),
+                    [weak](const AV::OCIO::UserConfigs& value)
                     {
                         if (auto settings = weak.lock())
                         {
-                            settings->_p->currentConfig = value.current;
+                            settings->_p->userConfigs = value;
+                        }
+                    });
+                p.envConfigObserver = ValueObserver<AV::OCIO::Config>::create(
+                    p.ocioSystem->observeEnvConfig(),
+                    [weak](const AV::OCIO::Config& value)
+                    {
+                        if (auto settings = weak.lock())
+                        {
+                            settings->_p->envConfig = value;
                         }
                     });
             }
@@ -139,8 +159,13 @@ namespace djv
                 if (value.IsObject())
                 {
                     std::vector<AV::OCIO::Config> configs;
-                    UI::Settings::read("Configs", value, p.configs);
-                    UI::Settings::read("CurrentConfig", value, p.currentConfig);
+                    UI::Settings::read("ConfigType", value, p.configType);
+                    UI::Settings::read("UserConfigs", value, p.userConfigs.first);
+                    UI::Settings::read("CurrentUserConfig", value, p.userConfigs.second);
+                    if (value.HasMember("EnvConfig") && p.ocioSystem->hasEnvConfig())
+                    {
+                        UI::Settings::read("EnvConfig", value, p.envConfig);
+                    }
                 }
             }
 
@@ -148,8 +173,13 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 rapidjson::Value out(rapidjson::kObjectType);
-                UI::Settings::write("Configs", p.configs, out, allocator);
-                UI::Settings::write("CurrentConfig", p.currentConfig, out, allocator);
+                UI::Settings::write("ConfigType", p.configType, out, allocator);
+                UI::Settings::write("UserConfigs", p.userConfigs.first, out, allocator);
+                UI::Settings::write("CurrentUserConfig", p.userConfigs.second, out, allocator);
+                if (p.envConfig.isValid())
+                {
+                    UI::Settings::write("EnvConfig", p.envConfig, out, allocator);
+                }
                 return out;
             }
 

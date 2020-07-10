@@ -6,6 +6,7 @@
 
 #include <djvAV/OCIO.h>
 
+#include <djvCore/Enum.h>
 #include <djvCore/ISystem.h>
 #include <djvCore/ListObserver.h>
 #include <djvCore/MapObserver.h>
@@ -23,22 +24,31 @@ namespace djv
             //! This enumeration provides the configuration types.
             enum class ConfigType
             {
+                None,
                 User,
                 Env,
-                CmdLine
+                CmdLine,
+
+                Count,
+                First = None
             };
+            DJV_ENUM_HELPERS(ConfigType);
+
+            //! Thsi typedef provides the image color space associations.
+            typedef std::map<std::string, std::string> ImageColorSpaces;
 
             //! This struct provides a color space configuration.
             struct Config
             {
                 Config();
                 
-                ConfigType  type     = ConfigType::User;
-                std::string fileName;
-                std::string name;
-                std::string display;
-                std::string view;
-                std::map<std::string, std::string> imageColorSpaces;
+                std::string      fileName;
+                std::string      name;
+                std::string      display;
+                std::string      view;
+                ImageColorSpaces imageColorSpaces;
+
+                bool isValid() const;
 
                 static std::string getNameFromFileName(const std::string&);
 
@@ -46,35 +56,14 @@ namespace djv
                 bool operator != (const Config&) const;
             };
 
-            //! This struct provides configuration data for the UI.
-            struct ConfigData
-            {
-                std::vector<std::string> fileNames;
-                std::vector<std::string> names;
-                int current = -1;
-
-                bool operator == (const ConfigData&) const;
-            };
-
-            //! This struct provides display data for the UI.
-            struct DisplayData
-            {
-                std::vector<std::string> names;
-                int current = -1;
-
-                bool operator == (const DisplayData&) const;
-            };
-
-            //! This struct provides view data for the UI.
-            struct ViewData
-            {
-                std::vector<std::string> names;
-                int current = -1;
-
-                bool operator == (const ViewData&) const;
-            };
+            typedef std::pair<std::vector<Config>, int> UserConfigs;
+            typedef std::pair<std::vector<std::string>, int> Displays;
+            typedef std::pair<std::vector<std::string>, int> Views;
 
             //! This class manages color space configurations.
+            //!
+            //! \todo Split out the UI interface from this class into a
+            //! view model.
             class System : public Core::ISystem
             {
                 DJV_NON_COPYABLE(System);
@@ -91,21 +80,28 @@ namespace djv
                 //! \name Configurations
                 ///@{
 
-                std::shared_ptr<Core::IListSubject<Config> > observeConfigs() const;
-                std::shared_ptr<Core::IValueSubject<Config> > observeCurrentConfig() const;
-                int addConfig(const std::string& fileName);
-                int addConfig(const Config&);
-                void removeConfig(int);
+                bool hasEnvConfig() const;
 
-                std::shared_ptr<Core::IValueSubject<ConfigData> > observeConfigData() const;
-                std::shared_ptr<Core::IValueSubject<DisplayData> > observeDisplayData() const;
-                std::shared_ptr<Core::IValueSubject<ViewData> > observeViewData() const;
-                std::shared_ptr<Core::IListSubject<std::string> > observeColorSpaces() const;
+                std::shared_ptr<Core::IValueSubject<ConfigType> > observeConfigType() const;
+                std::shared_ptr<Core::IValueSubject<UserConfigs> > observeUserConfigs() const;
+                std::shared_ptr<Core::IValueSubject<Config> > observeEnvConfig() const;
+                std::shared_ptr<Core::IValueSubject<Config> > observeCmdLineConfig() const;
+                std::shared_ptr<Core::IValueSubject<Config> > observeCurrentConfig() const;
+                std::shared_ptr<Core::IValueSubject<Displays> > observeDisplays() const;
+                std::shared_ptr<Core::IValueSubject<Views> > observeViews() const;
                 std::shared_ptr<Core::IMapSubject<std::string, std::string> > observeImageColorSpaces() const;
-                void setCurrentConfig(int);
+                std::shared_ptr<Core::IListSubject<std::string> > observeColorSpaces() const;
+
+                void setConfigType(ConfigType);
+                int addUserConfig(const std::string& fileName);
+                int addUserConfig(const Config&);
+                void removeUserConfig(int);
+                void setEnvConfig(const Config&);
+                void setCmdLineConfig(const Config&);
+                void setCurrentUserConfig(int);
                 void setCurrentDisplay(int);
                 void setCurrentView(int);
-                void setImageColorSpaces(const std::map<std::string, std::string>&);
+                void setImageColorSpaces(const ImageColorSpaces&);
 
                 ///@}
 
@@ -118,20 +114,25 @@ namespace djv
                 ///@}
                 
             private:
-                int _addConfig(const Config&, bool init);
-                void _configUpdate();
-                void _dataUpdate();
-
                 DJV_PRIVATE();
             };
 
         } // namespace OCIO
     } // namespace AV
 
+    DJV_ENUM_SERIALIZE_HELPERS(AV::OCIO::ConfigType);
+
+    rapidjson::Value toJSON(AV::OCIO::ConfigType, rapidjson::Document::AllocatorType&);
     rapidjson::Value toJSON(const AV::OCIO::Config&, rapidjson::Document::AllocatorType&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, AV::OCIO::ConfigType&);
 
     //! Throws:
     //! - std::exception
     void fromJSON(const rapidjson::Value&, AV::OCIO::Config&);
 
 } // namespace djv
+
+#include <djvAV/OCIOSystemInline.h>

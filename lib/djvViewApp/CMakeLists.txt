@@ -11,6 +11,8 @@ set(header
     ColorPickerSettings.h
     ColorPickerSystem.h
     ColorPickerWidget.h
+    #ColorSpaceViewModel.h
+    #ColorSpaceViewModelInline.h
 	ColorSpaceWidget.h
 	ColorSpaceWidgetPrivate.h
     DebugWidget.h
@@ -80,6 +82,7 @@ set(source
     ColorPickerSettings.cpp
     ColorPickerSystem.cpp
     ColorPickerWidget.cpp
+    #ColorSpaceViewModel.cpp
 	ColorSpaceWidget.cpp
 	ColorSpaceWidgetPrivate.cpp
     DebugWidget.cpp

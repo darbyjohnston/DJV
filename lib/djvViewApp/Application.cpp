@@ -264,10 +264,10 @@ namespace djv
             if (p.ocioConfigCmdLine || p.ocioDisplayCmdLine || p.ocioViewCmdLine || p.ocioImageCmdLine)
             {
                 AV::OCIO::Config config;
-                config.type = AV::OCIO::ConfigType::CmdLine;
                 if (p.ocioConfigCmdLine)
                 {
                     config.fileName = *p.ocioConfigCmdLine;
+                    config.name = AV::OCIO::Config::getNameFromFileName(config.fileName);
                 }
                 if (p.ocioDisplayCmdLine)
                 {
@@ -286,7 +286,8 @@ namespace djv
                     config.imageColorSpaces[std::string()] = *p.ocioImageCmdLine;
                 }
                 auto ocioSystem = getSystemT<AV::OCIO::System>();
-                ocioSystem->setCurrentConfig(ocioSystem->addConfig(config));
+                ocioSystem->setCmdLineConfig(config);
+                ocioSystem->setConfigType(AV::OCIO::ConfigType::CmdLine);
             }
 
             // Show the main window.

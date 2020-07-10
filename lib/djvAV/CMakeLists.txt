@@ -23,7 +23,9 @@ set(header
     ImageDataInline.h
     ImageUtil.h
 	OCIO.h
+	OCIOInline.h
 	OCIOSystem.h
+	OCIOSystemInline.h
     OpenGL.h
     OpenGLMesh.h
     OpenGLMeshCache.h

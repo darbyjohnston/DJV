@@ -158,20 +158,18 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const float b = style->getMetric(MetricsRole::Border);
             const float btf = style->getMetric(UI::MetricsRole::BorderTextFocus);
             glm::vec2 size = p.lineEditBase->getMinimumSize();
-            _setMinimumSize(size + (b + btf) * 2.F + getMargin().getSize(style));
+            _setMinimumSize(size + btf * 2.F + getMargin().getSize(style));
         }
 
         void LineEdit::_layoutEvent(Event::Layout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const float b = style->getMetric(MetricsRole::Border);
             const float btf = style->getMetric(UI::MetricsRole::BorderTextFocus);
             const BBox2f g = getMargin().bbox(getGeometry(), style);
-            p.lineEditBase->setGeometry(g.margin(-(b + btf)));
+            p.lineEditBase->setGeometry(g.margin(-btf));
         }
 
         void LineEdit::_paintEvent(Event::Paint& event)
@@ -188,9 +186,11 @@ namespace djv
                 render->setFillColor(style->getColor(UI::ColorRole::TextFocus));
                 drawBorder(render, g, btf);
             }
-            render->setFillColor(style->getColor(UI::ColorRole::Border));
-            const BBox2f g2 = g.margin(-btf);
-            drawBorder(render, g2, b);
+            else
+            {
+                render->setFillColor(style->getColor(UI::ColorRole::Border));
+                drawBorder(render, g.margin(-b), b);
+            }
         }
 
     } // namespace UI

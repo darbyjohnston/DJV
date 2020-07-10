@@ -226,19 +226,17 @@ namespace djv
             void Push::_preLayoutEvent(Event::PreLayout& event)
             {
                 const auto& style = _getStyle();
-                const float b = style->getMetric(MetricsRole::Border);
                 const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 glm::vec2 size = _p->layout->getMinimumSize();
-                _setMinimumSize(size + b * 2.F + btf * 2.F);
+                _setMinimumSize(size + btf * 2.F);
             }
 
             void Push::_layoutEvent(Event::Layout&)
             {
                 const auto& style = _getStyle();
-                const float b = style->getMetric(MetricsRole::Border);
                 const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 const BBox2f& g = getGeometry();
-                _p->layout->setGeometry(g.margin(-(b + btf)));
+                _p->layout->setGeometry(g.margin(-btf));
             }
 
             void Push::_paintEvent(Event::Paint& event)
@@ -247,35 +245,37 @@ namespace djv
                 const float b = style->getMetric(MetricsRole::Border);
                 const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                const BBox2f& g2 = g.margin(-btf);
                 const auto& render = _getRender();
                 if (hasTextFocus())
                 {
                     render->setFillColor(style->getColor(ColorRole::TextFocus));
                     drawBorder(render, g, btf);
                 }
-                const BBox2f& g2 = g.margin(-btf);
-                render->setFillColor(style->getColor(ColorRole::BorderButton));
-                drawBorder(render, g2, b);
-                const BBox2f& g3 = g2.margin(-b);
+                else
+                {
+                    render->setFillColor(style->getColor(ColorRole::BorderButton));
+                    drawBorder(render, g.margin(-b), b);
+                }
                 if (_isToggled())
                 {
                     render->setFillColor(style->getColor(ColorRole::Checked));
-                    render->drawRect(g3);
+                    render->drawRect(g2);
                 }
                 else
                 {
                     render->setFillColor(style->getColor(ColorRole::Button));
-                    render->drawRect(g3);
+                    render->drawRect(g2);
                 }
                 if (_isPressed())
                 {
                     render->setFillColor(style->getColor(ColorRole::Pressed));
-                    render->drawRect(g3);
+                    render->drawRect(g2);
                 }
                 else if (_isHovered())
                 {
                     render->setFillColor(style->getColor(ColorRole::Hovered));
-                    render->drawRect(g3);
+                    render->drawRect(g2);
                 }
             }
 
