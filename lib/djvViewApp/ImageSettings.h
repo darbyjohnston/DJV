@@ -31,7 +31,9 @@ namespace djv
             static std::shared_ptr<ImageSettings> create(const std::shared_ptr<Core::Context>&);
 
             std::map<std::string, bool> getControlsBellowsState() const;
+            std::map<std::string, bool> getColorSpaceBellowsState() const;
             void setControlsBellowsState(const std::map<std::string, bool>&);
+            void setColorSpaceBellowsState(const std::map<std::string, bool>&);
 
             std::shared_ptr<Core::IValueSubject<UI::ImageRotate> > observeRotate() const;
             std::shared_ptr<Core::IValueSubject<UI::ImageAspectRatio> > observeAspectRatio() const;

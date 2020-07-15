@@ -21,6 +21,7 @@ namespace djv
         struct ImageSettings::Private
         {
             std::map<std::string, bool> controlsBellowsState;
+            std::map<std::string, bool> colorSpaceBellowsState;
             std::shared_ptr<ValueSubject<UI::ImageRotate> > rotate;
             std::shared_ptr<ValueSubject<UI::ImageAspectRatio> > aspectRatio;
             std::map<std::string, BBox2f> widgetGeom;
@@ -52,9 +53,19 @@ namespace djv
             return _p->controlsBellowsState;
         }
 
+        std::map<std::string, bool> ImageSettings::getColorSpaceBellowsState() const
+        {
+            return _p->colorSpaceBellowsState;
+        }
+
         void ImageSettings::setControlsBellowsState(const std::map<std::string, bool>& value)
         {
             _p->controlsBellowsState = value;
+        }
+
+        void ImageSettings::setColorSpaceBellowsState(const std::map<std::string, bool>& value)
+        {
+            _p->colorSpaceBellowsState = value;
         }
 
         std::shared_ptr<IValueSubject<UI::ImageRotate> > ImageSettings::observeRotate() const
@@ -93,6 +104,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 UI::Settings::read("ControlsBellows", value, p.controlsBellowsState);
+                UI::Settings::read("ColorSpaceBellows", value, p.colorSpaceBellowsState);
                 UI::Settings::read("Rotate", value, p.rotate);
                 UI::Settings::read("AspectRatio", value, p.aspectRatio);
                 UI::Settings::read("WidgetGeom", value, p.widgetGeom);
@@ -104,6 +116,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             rapidjson::Value out(rapidjson::kObjectType);
             UI::Settings::write("ControlsBellows", p.controlsBellowsState, out, allocator);
+            UI::Settings::write("ColorSpaceBellows", p.colorSpaceBellowsState, out, allocator);
             UI::Settings::write("Rotate", p.rotate->get(), out, allocator);
             UI::Settings::write("AspectRatio", p.aspectRatio->get(), out, allocator);
             UI::Settings::write("WidgetGeom", p.widgetGeom, out, allocator);

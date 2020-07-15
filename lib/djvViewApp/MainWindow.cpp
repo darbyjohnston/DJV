@@ -113,14 +113,12 @@ namespace djv
             p.mediaActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
             p.mediaMenu = UI::Menu::create(context);
             addChild(p.mediaMenu);
-            p.mediaButton = UI::Button::Menu::create(UI::Button::MenuStyle::Flat, context);
+            p.mediaButton = UI::Button::Menu::create(UI::MenuButtonStyle::Flat, context);
             p.mediaButton->setPopupIcon("djvIconPopupMenu");
             p.mediaButton->setEnabled(false);
 
-            auto memoryCacheWidget = MemoryCacheWidget::create(context);
-            p.cachePopupButton = UI::PopupButton::create(context);
+            p.cachePopupButton = UI::PopupButton::create(UI::MenuButtonStyle::Tool, context);
             p.cachePopupButton->setIcon("djvIconMemory");
-            p.cachePopupButton->addChild(memoryCacheWidget);
             p.cacheThermometerWidget = UI::ThermometerWidget::create(context);
             p.cacheThermometerWidget->setOrientation(UI::Orientation::Vertical);
             p.cacheThermometerWidget->setColorRole(UI::ColorRole::Cached);
@@ -278,6 +276,18 @@ namespace djv
                     {
                         widget->_p->mediaButton->setOpen(false);
                     }
+                });
+
+            p.cachePopupButton->setOpenCallback(
+                [contextWeak]() -> std::shared_ptr<UI::Widget>
+                {
+                    std::shared_ptr<UI::Widget> out;
+                    if (auto context = contextWeak.lock())
+                    {
+                        auto memoryCacheWidget = MemoryCacheWidget::create(context);
+                        out = memoryCacheWidget;
+                    }
+                    return out;
                 });
 
             p.escapeActionObserver = ValueObserver<bool>::create(

@@ -8,23 +8,29 @@
 
 namespace djv
 {
+    namespace UI
+    {
+        class LabelSizeGroup;
+    
+    } // namespace UI
+
     namespace ViewApp
     {
-        //! This class provides the color space configurations widget.
-        class ColorSpaceConfigsWidget : public UI::Widget
+        //! This class provides the color space configuration widget.
+        class ColorSpaceConfigWidget : public UI::Widget
         {
-            DJV_NON_COPYABLE(ColorSpaceConfigsWidget);
+            DJV_NON_COPYABLE(ColorSpaceConfigWidget);
 
         protected:
             void _init(const std::shared_ptr<Core::Context>&);
-            ColorSpaceConfigsWidget();
+            ColorSpaceConfigWidget();
 
         public:
-            ~ColorSpaceConfigsWidget() override;
+            ~ColorSpaceConfigWidget() override;
 
-            static std::shared_ptr<ColorSpaceConfigsWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ColorSpaceConfigWidget> create(const std::shared_ptr<Core::Context>&);
 
-            void setBackCallback(const std::function<void()>&);
+            void setSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>&);
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;
@@ -38,21 +44,21 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides the color space displays widget.
-        class ColorSpaceDisplaysWidget : public UI::Widget
+        //! This class provides the color space display widget.
+        class ColorSpaceDisplayWidget : public UI::Widget
         {
-            DJV_NON_COPYABLE(ColorSpaceDisplaysWidget);
+            DJV_NON_COPYABLE(ColorSpaceDisplayWidget);
 
         protected:
             void _init(const std::shared_ptr<Core::Context>&);
-            ColorSpaceDisplaysWidget();
+            ColorSpaceDisplayWidget();
 
         public:
-            ~ColorSpaceDisplaysWidget() override;
+            ~ColorSpaceDisplayWidget() override;
 
-            static std::shared_ptr<ColorSpaceDisplaysWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ColorSpaceDisplayWidget> create(const std::shared_ptr<Core::Context>&);
 
-            void setBackCallback(const std::function<void()>&);
+            void setSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>&);
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;
@@ -66,21 +72,21 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides the color space views widget.
-        class ColorSpaceViewsWidget : public UI::Widget
+        //! This class provides the color space image widget.
+        class ColorSpaceImageWidget : public UI::Widget
         {
-            DJV_NON_COPYABLE(ColorSpaceViewsWidget);
+            DJV_NON_COPYABLE(ColorSpaceImageWidget);
 
         protected:
             void _init(const std::shared_ptr<Core::Context>&);
-            ColorSpaceViewsWidget();
+            ColorSpaceImageWidget();
 
         public:
-            ~ColorSpaceViewsWidget() override;
+            ~ColorSpaceImageWidget() override;
 
-            static std::shared_ptr<ColorSpaceViewsWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ColorSpaceImageWidget> create(const std::shared_ptr<Core::Context>&);
 
-            void setBackCallback(const std::function<void()>&);
+            void setSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>&);
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;
@@ -89,36 +95,7 @@ namespace djv
             void _initEvent(Core::Event::Init&) override;
 
         private:
-            void _widgetUpdate();
-
-            DJV_PRIVATE();
-        };
-
-        //! This class provides the image color spaces widget.
-        class ImageColorSpacesWidget : public UI::Widget
-        {
-            DJV_NON_COPYABLE(ImageColorSpacesWidget);
-
-        protected:
-            void _init(const std::shared_ptr<Core::Context>&);
-            ImageColorSpacesWidget();
-
-        public:
-            ~ImageColorSpacesWidget() override;
-
-            static std::shared_ptr<ImageColorSpacesWidget> create(const std::shared_ptr<Core::Context>&);
-
-            void setImage(const std::string&);
-
-            void setBackCallback(const std::function<void()>&);
-
-        protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
-
-            void _initEvent(Core::Event::Init&) override;
-
-        private:
+            void _valueUpdate();
             void _widgetUpdate();
 
             DJV_PRIVATE();

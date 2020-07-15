@@ -21,8 +21,8 @@ namespace djv
     {
         namespace OCIO
         {
-            //! This enumeration provides the configuration types.
-            enum class ConfigType
+            //! This enumeration provides the configuration modes.
+            enum class ConfigMode
             {
                 None,
                 User,
@@ -32,7 +32,7 @@ namespace djv
                 Count,
                 First = None
             };
-            DJV_ENUM_HELPERS(ConfigType);
+            DJV_ENUM_HELPERS(ConfigMode);
 
             //! Thsi typedef provides the image color space associations.
             typedef std::map<std::string, std::string> ImageColorSpaces;
@@ -82,7 +82,7 @@ namespace djv
 
                 bool hasEnvConfig() const;
 
-                std::shared_ptr<Core::IValueSubject<ConfigType> > observeConfigType() const;
+                std::shared_ptr<Core::IValueSubject<ConfigMode> > observeConfigMode() const;
                 std::shared_ptr<Core::IValueSubject<UserConfigs> > observeUserConfigs() const;
                 std::shared_ptr<Core::IValueSubject<Config> > observeEnvConfig() const;
                 std::shared_ptr<Core::IValueSubject<Config> > observeCmdLineConfig() const;
@@ -92,7 +92,7 @@ namespace djv
                 std::shared_ptr<Core::IMapSubject<std::string, std::string> > observeImageColorSpaces() const;
                 std::shared_ptr<Core::IListSubject<std::string> > observeColorSpaces() const;
 
-                void setConfigType(ConfigType);
+                void setConfigMode(ConfigMode);
                 int addUserConfig(const std::string& fileName);
                 int addUserConfig(const Config&);
                 void removeUserConfig(int);
@@ -120,14 +120,14 @@ namespace djv
         } // namespace OCIO
     } // namespace AV
 
-    DJV_ENUM_SERIALIZE_HELPERS(AV::OCIO::ConfigType);
+    DJV_ENUM_SERIALIZE_HELPERS(AV::OCIO::ConfigMode);
 
-    rapidjson::Value toJSON(AV::OCIO::ConfigType, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(AV::OCIO::ConfigMode, rapidjson::Document::AllocatorType&);
     rapidjson::Value toJSON(const AV::OCIO::Config&, rapidjson::Document::AllocatorType&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const rapidjson::Value&, AV::OCIO::ConfigType&);
+    void fromJSON(const rapidjson::Value&, AV::OCIO::ConfigMode&);
 
     //! Throws:
     //! - std::exception

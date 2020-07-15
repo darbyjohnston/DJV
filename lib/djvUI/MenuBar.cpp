@@ -136,7 +136,7 @@ namespace djv
                     menu->setMinimumSizeRole(MetricsRole::None);
                     p.menus.push_back(menu);
 
-                    auto button = Button::Menu::create(Button::MenuStyle::Flat, context);
+                    auto button = Button::Menu::create(MenuButtonStyle::Flat, context);
                     button->setTextFocusEnabled(false);
 
                     p.menuLayout->addChild(button);

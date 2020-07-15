@@ -33,7 +33,7 @@ namespace djv
             
             setClassName("djv::UI::PopupMenu");
 
-            p.button = Button::Menu::create(Button::MenuStyle::Flat, context);
+            p.button = Button::Menu::create(MenuButtonStyle::Flat, context);
             addChild(p.button);
 
             auto weak = std::weak_ptr<PopupMenu>(std::dynamic_pointer_cast<PopupMenu>(shared_from_this()));

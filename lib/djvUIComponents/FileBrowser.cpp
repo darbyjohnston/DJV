@@ -13,12 +13,10 @@
 #include <djvUI/Action.h>
 #include <djvUI/ActionButton.h>
 #include <djvUI/ActionGroup.h>
-#include <djvUI/Bellows.h>
 #include <djvUI/Border.h>
 #include <djvUI/DialogSystem.h>
 #include <djvUI/FlowLayout.h>
 #include <djvUI/Icon.h>
-#include <djvUI/IntSlider.h>
 #include <djvUI/Label.h>
 #include <djvUI/PopupButton.h>
 #include <djvUI/RowLayout.h>
@@ -52,6 +50,7 @@ namespace djv
             struct FileBrowser::Private
             {
                 std::shared_ptr<FileSystem::DirectoryModel> directoryModel;
+                FileSystem::Path path;
                 size_t itemCount = 0;
                 std::shared_ptr<ShortcutsModel> shortcutsModel;
                 std::shared_ptr<FileSystem::RecentFilesModel> recentPathsModel;
@@ -63,12 +62,7 @@ namespace djv
                 std::shared_ptr<PopupButton> shortcutsPopupButton;
                 std::shared_ptr<PopupButton> recentPathsPopupButton;
                 std::shared_ptr<PopupButton> drivesPopupButton;
-                std::shared_ptr<Label> sortTitleLabel;
                 std::shared_ptr<PopupButton> sortPopupButton;
-                std::shared_ptr<Label> viewTypeLabel;
-                std::shared_ptr<Label> thumbnailSizeLabel;
-                std::shared_ptr<IntSlider> thumbnailSizeSlider;
-                std::shared_ptr<Label> miscSettingsLabel;
                 std::shared_ptr<PopupButton> settingsPopupButton;
                 std::shared_ptr<ListViewHeader> listViewHeader;
                 std::shared_ptr<VerticalLayout> listViewLayout;
@@ -163,119 +157,22 @@ namespace djv
 
                 auto pathWidget = PathWidget::create(context);
 
-                auto shortcutsWidget = ShortcutsWidget::create(p.shortcutsModel, context);
-                p.shortcutsPopupButton = PopupButton::create(context);
+                p.shortcutsPopupButton = PopupButton::create(MenuButtonStyle::Tool, context);
                 p.shortcutsPopupButton->setIcon("djvIconBookmark");
-                p.shortcutsPopupButton->addChild(shortcutsWidget);
 
-                auto recentPathsWidget = RecentPathsWidget::create(p.recentPathsModel, context);
-                p.recentPathsPopupButton = PopupButton::create(context);
+                p.recentPathsPopupButton = PopupButton::create(MenuButtonStyle::Tool, context);
                 p.recentPathsPopupButton->setIcon("djvIconFileRecent");
-                p.recentPathsPopupButton->addChild(recentPathsWidget);
 
-                auto drivesWidget = DrivesWidget::create(p.drivesModel, context);
-                p.drivesPopupButton = PopupButton::create(context);
+                p.drivesPopupButton = PopupButton::create(MenuButtonStyle::Tool, context);
                 p.drivesPopupButton->setIcon("djvIconDrives");
-                p.drivesPopupButton->addChild(drivesWidget);
 
-                p.sortTitleLabel = Label::create(context);
-                p.sortTitleLabel->setTextHAlign(TextHAlign::Left);
-                p.sortTitleLabel->setMargin(MetricsRole::MarginSmall);
-                p.sortTitleLabel->setBackgroundRole(ColorRole::Trough);
-                auto sortByNameButton = ActionButton::create(context);
-                sortByNameButton->addAction(p.actions["SortByName"]);
-                auto sortBySizeButton = ActionButton::create(context);
-                sortBySizeButton->addAction(p.actions["SortBySize"]);
-                auto sortByTimeButton = ActionButton::create(context);
-                sortByTimeButton->addAction(p.actions["SortByTime"]);
-                auto reverseSortButton = ActionButton::create(context);
-                reverseSortButton->addAction(p.actions["ReverseSort"]);
-                auto sortDirectoriesFirstButton = ActionButton::create(context);
-                sortDirectoriesFirstButton->addAction(p.actions["SortDirectoriesFirst"]);
-
-                p.viewTypeLabel = Label::create(context);
-                p.viewTypeLabel->setTextHAlign(TextHAlign::Left);
-                p.viewTypeLabel->setMargin(MetricsRole::MarginSmall);
-                p.viewTypeLabel->setBackgroundRole(ColorRole::Trough);
-                auto tilesButton = ActionButton::create(context);
-                tilesButton->addAction(p.actions["Tiles"]);
-                auto listButton = ActionButton::create(context);
-                listButton->addAction(p.actions["List"]);
-
-                p.thumbnailSizeLabel = Label::create(context);
-                p.thumbnailSizeLabel->setTextHAlign(TextHAlign::Left);
-                p.thumbnailSizeLabel->setMargin(MetricsRole::MarginSmall);
-                p.thumbnailSizeLabel->setBackgroundRole(ColorRole::Trough);
-                auto increaseThumbnailSizeButton = ActionButton::create(context);
-                increaseThumbnailSizeButton->addAction(p.actions["IncreaseThumbnailSize"]);
-                auto decreaseThumbnailSizeButton = ActionButton::create(context);
-                decreaseThumbnailSizeButton->addAction(p.actions["DecreaseThumbnailSize"]);
-
-                p.miscSettingsLabel = Label::create(context);
-                p.miscSettingsLabel->setTextHAlign(TextHAlign::Left);
-                p.miscSettingsLabel->setMargin(MetricsRole::MarginSmall);
-                p.miscSettingsLabel->setBackgroundRole(ColorRole::Trough);
-                auto fileSequencesButton = ActionButton::create(context);
-                fileSequencesButton->addAction(p.actions["FileSequences"]);
-                auto showHiddenButton = ActionButton::create(context);
-                showHiddenButton->addAction(p.actions["ShowHidden"]);
-
-                auto vLayout = VerticalLayout::create(context);
-                vLayout->setSpacing(MetricsRole::None);
-                vLayout->addChild(p.sortTitleLabel);
-                vLayout->addSeparator();
-                auto vLayout2 = VerticalLayout::create(context);
-                vLayout2->setSpacing(MetricsRole::None);
-                vLayout2->addChild(sortByNameButton);
-                vLayout2->addChild(sortBySizeButton);
-                vLayout2->addChild(sortByTimeButton);
-                vLayout2->addSeparator();
-                vLayout2->addChild(reverseSortButton);
-                vLayout2->addChild(sortDirectoriesFirstButton);
-                vLayout->addChild(vLayout2);
-                p.sortPopupButton = PopupButton::create(context);
+                p.sortPopupButton = PopupButton::create(MenuButtonStyle::Tool, context);
                 p.sortPopupButton->setIcon("djvIconSort");
-                p.sortPopupButton->addChild(vLayout);
 
                 p.searchBox = SearchBox::create(context);
 
-                p.thumbnailSizeSlider = IntSlider::create(context);
-                p.thumbnailSizeSlider->setRange(thumbnailSizeRange);
-                p.thumbnailSizeSlider->setDelay(Time::getTime(Time::TimerValue::Medium));
-                p.thumbnailSizeSlider->setMargin(MetricsRole::MarginSmall);
-                vLayout = VerticalLayout::create(context);
-                vLayout->setSpacing(MetricsRole::None);
-                vLayout->addChild(p.viewTypeLabel);
-                vLayout->addSeparator();
-                vLayout2 = VerticalLayout::create(context);
-                vLayout2->setSpacing(MetricsRole::None);
-                vLayout2->addChild(tilesButton);
-                vLayout2->addChild(listButton);
-                vLayout->addChild(vLayout2);
-                vLayout->addSeparator();
-                vLayout->addChild(p.thumbnailSizeLabel);
-                vLayout->addSeparator();
-                vLayout2 = VerticalLayout::create(context);
-                vLayout2->setSpacing(MetricsRole::None);
-                vLayout2->addChild(increaseThumbnailSizeButton);
-                vLayout2->addChild(decreaseThumbnailSizeButton);
-                vLayout2->addChild(p.thumbnailSizeSlider);
-                vLayout->addChild(vLayout2);
-                vLayout->addSeparator();
-                vLayout->addChild(p.miscSettingsLabel);
-                vLayout->addSeparator();
-                vLayout2 = VerticalLayout::create(context);
-                vLayout2->setSpacing(MetricsRole::None);
-                vLayout2->addChild(fileSequencesButton);
-                vLayout2->addChild(showHiddenButton);
-                vLayout->addChild(vLayout2);
-                auto scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
-                scrollWidget->setBorder(false);
-                scrollWidget->setMinimumSizeRole(MetricsRole::None);
-                scrollWidget->addChild(vLayout);
-                p.settingsPopupButton = PopupButton::create(context);
+                p.settingsPopupButton = PopupButton::create(MenuButtonStyle::Tool, context);
                 p.settingsPopupButton->setIcon("djvIconSettings");
-                p.settingsPopupButton->addChild(scrollWidget);
 
                 auto toolBar = ToolBar::create(context);
                 toolBar->addChild(p.shortcutsPopupButton);
@@ -348,34 +245,106 @@ namespace djv
                     }
                 });
 
-                shortcutsWidget->setCallback(
-                    [weak](const FileSystem::Path & value)
-                {
-                    if (auto widget = weak.lock())
+                auto contextWeak = std::weak_ptr<Context>(context);
+                p.shortcutsPopupButton->setOpenCallback(
+                    [weak, contextWeak]() -> std::shared_ptr<Widget>
                     {
-                        widget->_p->directoryModel->setPath(value);
-                        widget->_p->shortcutsPopupButton->close();
-                    }
-                });
-
-                recentPathsWidget->setCallback(
-                    [weak](const FileSystem::Path& value)
-                    {
-                        if (auto widget = weak.lock())
+                        std::shared_ptr<Widget> out;
+                        if (auto context = contextWeak.lock())
                         {
-                            widget->_p->directoryModel->setPath(value);
-                            widget->_p->recentPathsPopupButton->close();
+                            if (auto widget = weak.lock())
+                            {
+                                auto shortcutsWidget = ShortcutsWidget::create(widget->_p->shortcutsModel, context);
+                                shortcutsWidget->setPath(widget->_p->path);
+                                shortcutsWidget->setCallback(
+                                    [weak](const FileSystem::Path& value)
+                                    {
+                                        if (auto widget = weak.lock())
+                                        {
+                                            widget->_p->directoryModel->setPath(value);
+                                            widget->_p->shortcutsPopupButton->close();
+                                        }
+                                    });
+                                out = shortcutsWidget;
+                            }
                         }
+                        return out;
                     });
 
-                drivesWidget->setCallback(
-                    [weak](const FileSystem::Path& value)
+                p.recentPathsPopupButton->setOpenCallback(
+                    [weak, contextWeak]() -> std::shared_ptr<Widget>
                     {
-                        if (auto widget = weak.lock())
+                        std::shared_ptr<Widget> out;
+                        if (auto context = contextWeak.lock())
                         {
-                            widget->_p->directoryModel->setPath(value);
-                            widget->_p->drivesPopupButton->close();
+                            if (auto widget = weak.lock())
+                            {
+                                auto recentPathsWidget = RecentPathsWidget::create(widget->_p->recentPathsModel, context);
+                                recentPathsWidget->setCallback(
+                                    [weak](const FileSystem::Path& value)
+                                    {
+                                        if (auto widget = weak.lock())
+                                        {
+                                            widget->_p->directoryModel->setPath(value);
+                                            widget->_p->recentPathsPopupButton->close();
+                                        }
+                                    });
+                                out = recentPathsWidget;
+                            }
                         }
+                        return out;
+                    });
+
+                p.drivesPopupButton->setOpenCallback(
+                    [weak, contextWeak]() -> std::shared_ptr<Widget>
+                    {
+                        std::shared_ptr<Widget> out;
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                auto drivesWidget = DrivesWidget::create(widget->_p->drivesModel, context);
+                                drivesWidget->setCallback(
+                                    [weak](const FileSystem::Path& value)
+                                    {
+                                        if (auto widget = weak.lock())
+                                        {
+                                            widget->_p->directoryModel->setPath(value);
+                                            widget->_p->drivesPopupButton->close();
+                                        }
+                                    });
+                                out = drivesWidget;
+                            }
+                        }
+                        return out;
+                    });
+
+                p.sortPopupButton->setOpenCallback(
+                    [weak, contextWeak]() -> std::shared_ptr<Widget>
+                    {
+                        std::shared_ptr<Widget> out;
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                out = SortWidget::create(widget->_p->actions, context);
+                            }
+                        }
+                        return out;
+                    });
+
+                p.settingsPopupButton->setOpenCallback(
+                    [weak, contextWeak]() -> std::shared_ptr<Widget>
+                    {
+                        std::shared_ptr<Widget> out;
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                out = SettingsWidget::create(widget->_p->actions, context);
+                            }
+                        }
+                        return out;
                     });
 
                 p.itemView->setCallback(
@@ -408,13 +377,13 @@ namespace djv
 
                 p.pathObserver = ValueObserver<FileSystem::Path>::create(
                     p.directoryModel->observePath(),
-                    [weak, shortcutsWidget, pathWidget](const FileSystem::Path & value)
+                    [weak, pathWidget](const FileSystem::Path& value)
                 {
                     if (auto widget = weak.lock())
                     {
+                        widget->_p->path = value;
                         widget->_p->scrollWidget->setScrollPos(glm::vec2(0.F, 0.F));
                     }
-                    shortcutsWidget->setPath(value);
                     pathWidget->setPath(value);
                 });
 
@@ -559,7 +528,6 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->itemView->setThumbnailSize(value);
-                        widget->_p->thumbnailSizeSlider->setValue(value.w);
                     }
                 });
 
@@ -710,7 +678,6 @@ namespace djv
                         }
                     });
 
-                auto contextWeak = std::weak_ptr<Context>(context);
                 p.viewTypeActionGroup->setRadioCallback(
                     [contextWeak](int value)
                     {
@@ -807,19 +774,6 @@ namespace djv
                             if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                             {
                                 fileBrowserSettings->setListViewHeaderSplit(value);
-                            }
-                        }
-                    });
-
-                p.thumbnailSizeSlider->setValueCallback(
-                    [contextWeak](int value)
-                    {
-                        if (auto context = contextWeak.lock())
-                        {
-                            auto settingsSystem = context->getSystemT<Settings::System>();
-                            if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
-                            {
-                                fileBrowserSettings->setThumbnailSize(AV::Image::Size(value, ceilf(value / 2.F)));
                             }
                         }
                     });
@@ -1008,11 +962,6 @@ namespace djv
                     p.actions["ReverseSort"]->setTooltip(_getText(DJV_TEXT("file_browser_reverse_sort_tooltip")));
                     p.actions["SortDirectoriesFirst"]->setText(_getText(DJV_TEXT("file_browser_sort_directories_first")));
                     p.actions["SortDirectoriesFirst"]->setTooltip(_getText(DJV_TEXT("file_browser_sort_directories_first_tooltip")));
-
-                    p.sortTitleLabel->setText(_getText(DJV_TEXT("file_browser_sorting")));
-                    p.viewTypeLabel->setText(_getText(DJV_TEXT("file_browser_view")));
-                    p.thumbnailSizeLabel->setText(_getText(DJV_TEXT("file_browser_thumbnail_size")));
-                    p.miscSettingsLabel->setText(_getText(DJV_TEXT("file_browser_miscellaneous")));
 
                     p.listViewHeader->setText(
                         {

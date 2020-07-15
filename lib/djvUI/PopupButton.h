@@ -18,13 +18,13 @@ namespace djv
                 DJV_NON_COPYABLE(Popup);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>&);
+                void _init(MenuButtonStyle, const std::shared_ptr<Core::Context>&);
                 Popup();
 
             public:
                 virtual ~Popup();
 
-                static std::shared_ptr<Popup> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<Popup> create(MenuButtonStyle, const std::shared_ptr<Core::Context>&);
 
                 void open();
                 void close();
@@ -52,12 +52,8 @@ namespace djv
                 void setCapturePointer(bool);
                 void setCaptureKeyboard(bool);
 
-                void setOpenCallback(const std::function<void(void)>&);
-                void setCloseCallback(const std::function<void(void)>&);
-
-                void addChild(const std::shared_ptr<IObject>&) override;
-                void removeChild(const std::shared_ptr<IObject>&) override;
-                void clearChildren() override;
+                void setOpenCallback(const std::function<std::shared_ptr<Widget>(void)>&);
+                void setCloseCallback(const std::function<void(const std::shared_ptr<Widget>&)>&);
 
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout&) override;

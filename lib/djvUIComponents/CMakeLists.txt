@@ -31,8 +31,10 @@ set(source
     FileBrowserPathWidget.cpp
     FileBrowserRecentPathsWidget.cpp
     FileBrowserSettings.cpp
+    FileBrowserSettingsWidget.cpp
     FileBrowserShortcutsModel.cpp
     FileBrowserShortcutsWidget.cpp
+    FileBrowserSortWidget.cpp
     GLFWSettingsWidget.cpp
 	IOSettings.cpp
 	IOSettingsWidget.cpp

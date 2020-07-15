@@ -287,7 +287,7 @@ namespace djv
                 }
                 auto ocioSystem = getSystemT<AV::OCIO::System>();
                 ocioSystem->setCmdLineConfig(config);
-                ocioSystem->setConfigType(AV::OCIO::ConfigType::CmdLine);
+                ocioSystem->setConfigMode(AV::OCIO::ConfigMode::CmdLine);
             }
 
             // Show the main window.

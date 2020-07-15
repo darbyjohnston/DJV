@@ -30,11 +30,11 @@ namespace djv
             {
                 std::shared_ptr<AV::OCIO::System> ocioSystem;
 
-                AV::OCIO::ConfigType configType = AV::OCIO::ConfigType::User;
+                AV::OCIO::ConfigMode configMode = AV::OCIO::ConfigMode::User;
                 AV::OCIO::UserConfigs userConfigs;
                 AV::OCIO::Config envConfig;
 
-                std::shared_ptr<ValueObserver<AV::OCIO::ConfigType> > configTypeObserver;
+                std::shared_ptr<ValueObserver<AV::OCIO::ConfigMode> > configModeObserver;
                 std::shared_ptr<ValueObserver<AV::OCIO::UserConfigs> > userConfigsObserver;
                 std::shared_ptr<ValueObserver<AV::OCIO::Config> > envConfigObserver;
             };
@@ -92,12 +92,12 @@ namespace djv
 
                 _load();
 
-                if (p.ocioSystem->observeConfigType()->get() != AV::OCIO::ConfigType::Env)
+                if (p.ocioSystem->observeConfigMode()->get() != AV::OCIO::ConfigMode::Env)
                 {
-                    p.ocioSystem->setConfigType(
-                        AV::OCIO::ConfigType::None == p.configType ?
-                        AV::OCIO::ConfigType::None :
-                        AV::OCIO::ConfigType::User);
+                    p.ocioSystem->setConfigMode(
+                        AV::OCIO::ConfigMode::None == p.configMode ?
+                        AV::OCIO::ConfigMode::None :
+                        AV::OCIO::ConfigMode::User);
                 }
                 for (const auto& i : p.userConfigs.first)
                 {
@@ -110,13 +110,13 @@ namespace djv
                 }
 
                 auto weak = std::weak_ptr<ColorSpace>(std::dynamic_pointer_cast<ColorSpace>(shared_from_this()));
-                p.configTypeObserver = ValueObserver<AV::OCIO::ConfigType>::create(
-                    p.ocioSystem->observeConfigType(),
-                    [weak](const AV::OCIO::ConfigType& value)
+                p.configModeObserver = ValueObserver<AV::OCIO::ConfigMode>::create(
+                    p.ocioSystem->observeConfigMode(),
+                    [weak](const AV::OCIO::ConfigMode& value)
                     {
                         if (auto settings = weak.lock())
                         {
-                            settings->_p->configType = value;
+                            settings->_p->configMode = value;
                         }
                     });
                 p.userConfigsObserver = ValueObserver<AV::OCIO::UserConfigs>::create(
@@ -159,7 +159,7 @@ namespace djv
                 if (value.IsObject())
                 {
                     std::vector<AV::OCIO::Config> configs;
-                    UI::Settings::read("ConfigType", value, p.configType);
+                    UI::Settings::read("ConfigMode", value, p.configMode);
                     UI::Settings::read("UserConfigs", value, p.userConfigs.first);
                     UI::Settings::read("CurrentUserConfig", value, p.userConfigs.second);
                     if (value.HasMember("EnvConfig") && p.ocioSystem->hasEnvConfig())
@@ -173,7 +173,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 rapidjson::Value out(rapidjson::kObjectType);
-                UI::Settings::write("ConfigType", p.configType, out, allocator);
+                UI::Settings::write("ConfigMode", p.configMode, out, allocator);
                 UI::Settings::write("UserConfigs", p.userConfigs.first, out, allocator);
                 UI::Settings::write("CurrentUserConfig", p.userConfigs.second, out, allocator);
                 if (p.envConfig.isValid())

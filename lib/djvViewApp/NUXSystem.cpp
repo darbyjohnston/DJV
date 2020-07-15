@@ -203,7 +203,6 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Label> > labels;
             std::map < std::string, std::shared_ptr<UI::PushButton> > buttons;
             std::shared_ptr<UI::PopupButton> settingsPopupButton;
-            std::shared_ptr<UI::ActionButton> fullscreenButton;
             std::shared_ptr<UI::Layout::Overlay> overlay;
             std::shared_ptr<Animation::Animation> fadeOutAnimation;
             std::function<void(void)> finishCallback;
@@ -245,16 +244,8 @@ namespace djv
             p.buttons["Prev"] = UI::PushButton::create(context);
             p.buttons["Finish"] = UI::PushButton::create(context);
 
-            p.fullscreenButton = UI::ActionButton::create(context);
-            p.fullscreenButton->setShowShortcuts(false);
-            auto windowSystem = context->getSystemT<WindowSystem>();
-            if (windowSystem)
-            {
-                p.fullscreenButton->addAction(windowSystem->getActions()["FullScreen"]);
-            }
-            p.settingsPopupButton = UI::PopupButton::create(context);
+            p.settingsPopupButton = UI::PopupButton::create(UI::MenuButtonStyle::Tool, context);
             p.settingsPopupButton->setIcon("djvIconSettings");
-            p.settingsPopupButton->addChild(p.fullscreenButton);
 
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setMargin(UI::MetricsRole::MarginDialog);
@@ -361,6 +352,26 @@ namespace djv
                 }
             });
 
+            auto contextWeak = std::weak_ptr<Context>(context);
+            p.settingsPopupButton->setOpenCallback(
+                [contextWeak]() -> std::shared_ptr<UI::Widget>
+                {
+                    std::shared_ptr<UI::Widget> out;
+                    if (auto context = contextWeak.lock())
+                    {
+                        auto fullScreenButton = UI::ActionButton::create(context);
+                        fullScreenButton->setShowShortcuts(false);
+                        auto windowSystem = context->getSystemT<WindowSystem>();
+                        if (windowSystem)
+                        {
+                            fullScreenButton->addAction(windowSystem->getActions()["FullScreen"]);
+                        }
+                        out = fullScreenButton;
+                    }
+                    return out;
+                });
+
+            auto windowSystem = context->getSystemT<WindowSystem>();
             if (windowSystem)
             {
                 p.fullScreenObserver = ValueObserver<bool>::create(

@@ -50,7 +50,7 @@ namespace djv
 
                 p.editButton = ToolButton::create(context);
                 p.editButton->setButtonType(ButtonType::Toggle);
-                p.editButton->setIcon("djvIconEdit");
+                p.editButton->setIcon("djvIconClear");
 
                 p.removeButtonGroup = ButtonGroup::create(ButtonType::Push);
                 

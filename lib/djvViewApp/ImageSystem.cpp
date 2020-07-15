@@ -40,6 +40,7 @@ namespace djv
             std::shared_ptr<ImageSettings> settings;
 
             std::map<std::string, bool> controlsBellowsState;
+            std::map<std::string, bool> colorSpaceBellowsState;
             std::shared_ptr<ValueSubject<bool> > frameStoreEnabled;
             std::shared_ptr<ValueSubject<std::shared_ptr<AV::Image::Image> > > frameStore;
             std::shared_ptr<AV::Image::Image> currentImage;
@@ -68,6 +69,7 @@ namespace djv
 
             p.settings = ImageSettings::create(context);
             p.controlsBellowsState = p.settings->getControlsBellowsState();
+            p.colorSpaceBellowsState = p.settings->getColorSpaceBellowsState();
             _setWidgetGeom(p.settings->getWidgetGeom());
 
             p.frameStoreEnabled = ValueSubject<bool>::create();
@@ -175,9 +177,10 @@ namespace djv
                         {
                             if (value)
                             {
-                                auto colorSpaceWidget = ColorSpaceWidget::create(context);
-                                system->_p->colorSpaceWidget = colorSpaceWidget;
-                                system->_openWidget("ColorSpace", colorSpaceWidget);
+                                auto widget = ColorSpaceWidget::create(context);
+                                widget->setBellowsState(system->_p->colorSpaceBellowsState);
+                                system->_p->colorSpaceWidget = widget;
+                                system->_openWidget("ColorSpace", widget);
                             }
                             else
                             {
@@ -321,9 +324,10 @@ namespace djv
         ImageSystem::~ImageSystem()
         {
             DJV_PRIVATE_PTR();
-            _closeWidget("ImageControls");
             _closeWidget("ColorSpace");
+            _closeWidget("ImageControls");
             p.settings->setControlsBellowsState(p.controlsBellowsState);
+            p.settings->setColorSpaceBellowsState(p.colorSpaceBellowsState);
             p.settings->setWidgetGeom(_getWidgetGeom());
         }
 
@@ -391,6 +395,10 @@ namespace djv
             }
             else if ("ColorSpace" == value)
             {
+                if (auto colorSpaceWidget = p.colorSpaceWidget.lock())
+                {
+                    p.colorSpaceBellowsState = colorSpaceWidget->getBellowsState();
+                }
                 p.colorSpaceWidget.reset();
             }
             const auto i = p.actions.find(value);

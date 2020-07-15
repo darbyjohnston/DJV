@@ -307,6 +307,14 @@ namespace djv
         };
         DJV_ENUM_HELPERS(Popup);
 
+        //! This enum provides menu button styles.
+        enum class MenuButtonStyle
+        {
+            Flat,
+            Tool,
+            ComboBox
+        };
+
     } // namespace UI
 
     DJV_ENUM_SERIALIZE_HELPERS(UI::Orientation);

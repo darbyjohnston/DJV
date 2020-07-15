@@ -32,24 +32,30 @@ namespace djv
         {
             struct Popup::Private
             {
+                std::shared_ptr<Widget> widget;
                 std::shared_ptr<Button::Menu> button;
                 std::shared_ptr<PopupWidget> popupWidget;
                 std::shared_ptr<Layout::Popup> popupLayout;
                 std::shared_ptr<Layout::Overlay> overlay;
                 std::shared_ptr<UI::Window> window;
                 std::function<void(int)> callback;
-                std::function<void(void)> openCallback;
-                std::function<void(void)> closeCallback;
+                std::function<std::shared_ptr<Widget>(void)> openCallback;
+                std::function<void(const std::shared_ptr<Widget>&)> closeCallback;
             };
 
-            void Popup::_init(const std::shared_ptr<Context>& context)
+            void Popup::_init(MenuButtonStyle buttonStyle, const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
                 DJV_PRIVATE_PTR();
 
                 setClassName("djv::UI::Button::Popup");
 
-                p.button = Button::Menu::create(Button::MenuStyle::Tool, context);
+                p.button = Button::Menu::create(buttonStyle, context);
+                if (MenuButtonStyle::ComboBox == buttonStyle)
+                {
+                    p.button->setTextFocusEnabled(true);
+                    p.button->setBackgroundRole(ColorRole::Button);
+                }
                 Widget::addChild(p.button);
 
                 p.popupWidget = PopupWidget::create(context);
@@ -103,10 +109,10 @@ namespace djv
                 }
             }
 
-            std::shared_ptr<Popup> Popup::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<Popup> Popup::create(MenuButtonStyle buttonStyle, const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<Popup>(new Popup);
-                out->_init(context);
+                out->_init(buttonStyle, context);
                 return out;
             }
 
@@ -115,15 +121,16 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (auto context = getContext().lock())
                 {
-                    p.popupLayout->clearPopups();
-                    p.window = Window::create(context);
-                    p.window->setBackgroundRole(ColorRole::None);
-                    p.window->addChild(p.overlay);
-                    p.window->show();
-                    p.button->setOpen(true);
                     if (p.openCallback)
                     {
-                        p.openCallback();
+                        p.widget = p.openCallback();
+                        p.popupWidget->addChild(p.widget);
+                        p.popupLayout->clearPopups();
+                        p.window = Window::create(context);
+                        p.window->setBackgroundRole(ColorRole::None);
+                        p.window->addChild(p.overlay);
+                        p.window->show();
+                        p.button->setOpen(true);
                     }
                 }
             }
@@ -131,6 +138,7 @@ namespace djv
             void Popup::close()
             {
                 DJV_PRIVATE_PTR();
+                p.popupWidget->removeChild(p.widget);
                 if (p.window)
                 {
                     p.window->removeChild(p.overlay);
@@ -140,8 +148,9 @@ namespace djv
                 p.button->setOpen(false);
                 if (p.closeCallback)
                 {
-                    p.closeCallback();
+                    p.closeCallback(p.widget);
                 }
+                p.widget.reset();
             }
 
             const std::string& Popup::getIcon() const
@@ -234,29 +243,14 @@ namespace djv
                 _p->overlay->setCaptureKeyboard(value);
             }
 
-            void Popup::setOpenCallback(const std::function<void(void)>& value)
+            void Popup::setOpenCallback(const std::function<std::shared_ptr<Widget>(void)>& value)
             {
                 _p->openCallback = value;
             }
 
-            void Popup::setCloseCallback(const std::function<void(void)>& value)
+            void Popup::setCloseCallback(const std::function<void(const std::shared_ptr<Widget>&)>& value)
             {
                 _p->closeCallback = value;
-            }
-
-            void Popup::addChild(const std::shared_ptr<IObject>& value)
-            {
-                _p->popupWidget->addChild(value);
-            }
-
-            void Popup::removeChild(const std::shared_ptr<IObject>& value)
-            {
-                _p->popupWidget->removeChild(value);
-            }
-
-            void Popup::clearChildren()
-            {
-                _p->popupWidget->clearChildren();
             }
 
             void Popup::_preLayoutEvent(Event::PreLayout& event)

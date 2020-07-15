@@ -55,6 +55,7 @@
     "file_browser_reverse_sort": "Reverse sort",
     "file_browser_reverse_sort_tooltip": "Reverse the sort direction",
     "file_browser_search_tooltip": "Search for items in the directory",
+    "file_browser_settings": "Settings",
     "file_browser_settings_decrease_thumbnail": "Decrease",
     "file_browser_settings_decrease_thumbnail_tooltip": "Decrease the size of the thumbnails",
     "file_browser_settings_enable_file_sequences": "Enable file sequences",

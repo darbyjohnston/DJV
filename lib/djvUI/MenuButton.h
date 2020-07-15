@@ -12,27 +12,19 @@ namespace djv
     {
         namespace Button
         {
-            //! This enum provides the menu button styles.
-            enum class MenuStyle
-            {
-                Flat,
-                Tool,
-                ComboBox
-            };
-
             //! This class provides a button for menu widgets.
             class Menu : public Widget
             {
                 DJV_NON_COPYABLE(Menu);
 
             protected:
-                void _init(MenuStyle, const std::shared_ptr<Core::Context>&);
+                void _init(MenuButtonStyle, const std::shared_ptr<Core::Context>&);
                 Menu();
 
             public:
                 virtual ~Menu();
 
-                static std::shared_ptr<Menu> create(MenuStyle, const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<Menu> create(MenuButtonStyle, const std::shared_ptr<Core::Context>&);
 
                 bool isOpen() const;
                 void setOpen(bool);
@@ -56,7 +48,7 @@ namespace djv
                 MetricsRole getInsideMargin() const;
                 void setInsideMargin(MetricsRole);
 
-                MenuStyle getMenuStyle() const;
+                MenuButtonStyle getMenuButtonStyle() const;
 
                 void setTextFocusEnabled(bool);
 

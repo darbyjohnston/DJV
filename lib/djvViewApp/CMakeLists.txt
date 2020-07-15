@@ -11,8 +11,6 @@ set(header
     ColorPickerSettings.h
     ColorPickerSystem.h
     ColorPickerWidget.h
-    #ColorSpaceViewModel.h
-    #ColorSpaceViewModelInline.h
 	ColorSpaceWidget.h
 	ColorSpaceWidgetPrivate.h
     DebugWidget.h
@@ -49,7 +47,6 @@ set(header
 	NUXSystem.h
 	PlaybackSettings.h
     PlaybackSettingsWidget.h
-    PlaybackSpeedWidget.h
     PlaybackSystem.h
     RecentFilesDialog.h
     SettingsDrawer.h
@@ -82,9 +79,10 @@ set(source
     ColorPickerSettings.cpp
     ColorPickerSystem.cpp
     ColorPickerWidget.cpp
-    #ColorSpaceViewModel.cpp
+	ColorSpaceConfigWidget.cpp
+	ColorSpaceDisplayWidget.cpp
+	ColorSpaceImageWidget.cpp
 	ColorSpaceWidget.cpp
-	ColorSpaceWidgetPrivate.cpp
     DebugWidget.cpp
     EditSystem.cpp
     Enum.cpp
@@ -109,9 +107,12 @@ set(source
     MagnifyWidget.cpp
     MainWindow.cpp
     Media.cpp
+	MediaAudioWidget.cpp
 	MediaCanvas.cpp
+	MediaFrameWidget.cpp
+    MediaPlaybackSpeedWidget.cpp
+	MediaPointerWidget.cpp
 	MediaWidget.cpp
-	MediaWidgetPrivate.cpp
 	MemoryCacheWidget.cpp
     MessagesWidget.cpp
 	NUXSettings.cpp
@@ -119,7 +120,6 @@ set(source
 	NUXSystem.cpp
 	PlaybackSettings.cpp
     PlaybackSettingsWidget.cpp
-    PlaybackSpeedWidget.cpp
     PlaybackSystem.cpp
     RecentFilesDialog.cpp
     SettingsDrawer.cpp

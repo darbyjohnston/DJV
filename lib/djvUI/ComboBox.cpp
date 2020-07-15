@@ -45,7 +45,7 @@ namespace djv
             p.menu->setMinimumSizeRole(MetricsRole::None);
             addChild(p.menu);
 
-            p.button = Button::Menu::create(Button::MenuStyle::ComboBox, context);
+            p.button = Button::Menu::create(MenuButtonStyle::ComboBox, context);
             p.button->setPopupIcon("djvIconPopupMenu");
             p.button->setTextFocusEnabled(true);
             p.button->setBackgroundRole(ColorRole::Button);
