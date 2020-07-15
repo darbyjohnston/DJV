@@ -7,9 +7,13 @@
 #include <djvViewApp/ColorSpaceWidgetPrivate.h>
 
 #include <djvUI/Bellows.h>
+#include <djvUI/FormLayout.h>
 #include <djvUI/Label.h>
+#include <djvUI/PopupButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
+
+#include <djvAV/OCIOSystem.h>
 
 #include <djvCore/Context.h>
 
@@ -21,13 +25,22 @@ namespace djv
     {
         struct ColorSpaceWidget::Private
         {
-            std::shared_ptr<ColorSpaceConfigWidget> configWidget;
-            std::shared_ptr<ColorSpaceDisplayWidget> displayWidget;
-            std::shared_ptr<ColorSpaceImageWidget> imageWidget;
+            AV::OCIO::ConfigMode configMode = AV::OCIO::ConfigMode::First;
+            AV::OCIO::UserConfigs userConfigs;
+            AV::OCIO::Config currentConfig;
 
+            std::shared_ptr<UI::PopupButton> configPopupButton;
+            std::shared_ptr<UI::PopupButton> displayPopupButton;
+            std::shared_ptr<UI::PopupButton> viewPopupButton;
             std::shared_ptr<UI::LabelSizeGroup> sizeGroup;
+            std::shared_ptr<ColorSpaceImageWidget> imageWidget;
+            std::shared_ptr<UI::FormLayout> formLayout;
             std::map<std::string, std::shared_ptr<UI::Bellows> > bellows;
             std::shared_ptr<UI::ScrollWidget> scrollWidget;
+
+            std::shared_ptr<ValueObserver<AV::OCIO::ConfigMode> > configModeObserver;
+            std::shared_ptr<ValueObserver<AV::OCIO::UserConfigs> > userConfigsObserver;
+            std::shared_ptr<ValueObserver<AV::OCIO::Config> > currentConfigObserver;
         };
 
         void ColorSpaceWidget::_init(const std::shared_ptr<Core::Context>& context)
@@ -37,17 +50,19 @@ namespace djv
 
             setClassName("djv::ViewApp::ColorSpaceWidget");
 
+            p.configPopupButton = UI::PopupButton::create(UI::MenuButtonStyle::ComboBox, context);
+            p.configPopupButton->setPopupIcon("djvIconPopupMenu");
+            p.configPopupButton->setElide(labelElide);
+
+            p.displayPopupButton = UI::PopupButton::create(UI::MenuButtonStyle::ComboBox, context);
+            p.displayPopupButton->setPopupIcon("djvIconPopupMenu");
+            p.displayPopupButton->setElide(labelElide);
+
+            p.viewPopupButton = UI::PopupButton::create(UI::MenuButtonStyle::ComboBox, context);
+            p.viewPopupButton->setPopupIcon("djvIconPopupMenu");
+            p.viewPopupButton->setElide(labelElide);
+
             p.sizeGroup = UI::LabelSizeGroup::create();
-
-            p.configWidget = ColorSpaceConfigWidget::create(context);
-            p.configWidget->setSizeGroup(p.sizeGroup);
-            p.bellows["Config"] = UI::Bellows::create(context);
-            p.bellows["Config"]->addChild(p.configWidget);
-
-            p.displayWidget = ColorSpaceDisplayWidget::create(context);
-            p.displayWidget->setSizeGroup(p.sizeGroup);
-            p.bellows["Display"] = UI::Bellows::create(context);
-            p.bellows["Display"]->addChild(p.displayWidget);
 
             p.imageWidget = ColorSpaceImageWidget::create(context);
             p.imageWidget->setSizeGroup(p.sizeGroup);
@@ -59,16 +74,92 @@ namespace djv
                 i.second->close(false);
             }
 
-            p.scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
-            p.scrollWidget->setBorder(false);
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
-            vLayout->setBackgroundRole(UI::ColorRole::Background);
-            vLayout->addChild(p.bellows["Config"]);
-            vLayout->addChild(p.bellows["Display"]);
+            p.formLayout = UI::FormLayout::create(context);
+            p.formLayout->setMargin(UI::MetricsRole::MarginSmall);
+            p.formLayout->setSpacing(UI::MetricsRole::SpacingSmall);
+            p.formLayout->setLabelSizeGroup(p.sizeGroup);
+            p.formLayout->addChild(p.configPopupButton);
+            p.formLayout->addChild(p.displayPopupButton);
+            p.formLayout->addChild(p.viewPopupButton);
+            vLayout->addChild(p.formLayout);
             vLayout->addChild(p.bellows["Image"]);
+            p.scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            p.scrollWidget->setBorder(false);
+            p.scrollWidget->setMinimumSizeRole(UI::MetricsRole::ScrollAreaSmall);
+            p.scrollWidget->setBackgroundRole(UI::ColorRole::Background);
             p.scrollWidget->addChild(vLayout);
             addChild(p.scrollWidget);
+
+            auto contextWeak = std::weak_ptr<Context>(context);
+            p.configPopupButton->setOpenCallback(
+                [contextWeak]() -> std::shared_ptr<UI::Widget>
+                {
+                    std::shared_ptr<UI::Widget> out;
+                    if (auto context = contextWeak.lock())
+                    {
+                        out = ColorSpaceConfigWidget::create(context);
+                    }
+                    return out;
+                });
+
+            p.displayPopupButton->setOpenCallback(
+                [contextWeak]() -> std::shared_ptr<UI::Widget>
+                {
+                    std::shared_ptr<UI::Widget> out;
+                    if (auto context = contextWeak.lock())
+                    {
+                        out = ColorSpaceDisplayWidget::create(context);
+                    }
+                    return out;
+                });
+
+            p.viewPopupButton->setOpenCallback(
+                [contextWeak]() -> std::shared_ptr<UI::Widget>
+                {
+                    std::shared_ptr<UI::Widget> out;
+                    if (auto context = contextWeak.lock())
+                    {
+                        out = ColorSpaceViewWidget::create(context);
+                    }
+                    return out;
+                });
+
+            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+            auto weak = std::weak_ptr<ColorSpaceWidget>(std::dynamic_pointer_cast<ColorSpaceWidget>(shared_from_this()));
+            p.configModeObserver = ValueObserver<AV::OCIO::ConfigMode>::create(
+                ocioSystem->observeConfigMode(),
+                [weak](const AV::OCIO::ConfigMode& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->configMode = value;
+                        widget->_widgetUpdate();
+                    }
+                });
+
+            p.userConfigsObserver = ValueObserver<AV::OCIO::UserConfigs>::create(
+                ocioSystem->observeUserConfigs(),
+                [weak](const AV::OCIO::UserConfigs& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->userConfigs = value;
+                        widget->_widgetUpdate();
+                    }
+                });
+
+            p.currentConfigObserver = ValueObserver<AV::OCIO::Config>::create(
+                ocioSystem->observeCurrentConfig(),
+                [weak](const AV::OCIO::Config& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->currentConfig = value;
+                        widget->_widgetUpdate();
+                    }
+                });
         }
 
         ColorSpaceWidget::ColorSpaceWidget() :
@@ -121,9 +212,48 @@ namespace djv
             if (event.getData().text)
             {
                 setTitle(_getText(DJV_TEXT("widget_color_space")));
-                p.bellows["Config"]->setText(_getText(DJV_TEXT("widget_color_space_config")));
-                p.bellows["Display"]->setText(_getText(DJV_TEXT("widget_color_space_display")));
+                p.formLayout->setText(p.configPopupButton, _getText(DJV_TEXT("widget_color_space_config")) + ":");
+                p.formLayout->setText(p.displayPopupButton, _getText(DJV_TEXT("widget_color_space_display")) + ":");
+                p.formLayout->setText(p.viewPopupButton, _getText(DJV_TEXT("widget_color_space_view")) + ":");
                 p.bellows["Image"]->setText(_getText(DJV_TEXT("widget_color_space_image")));
+                _widgetUpdate();
+            }
+        }
+
+        void ColorSpaceWidget::_widgetUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (auto context = getContext().lock())
+            {
+                std::string text;
+                switch (p.configMode)
+                {
+                case AV::OCIO::ConfigMode::None:
+                case AV::OCIO::ConfigMode::Env:
+                case AV::OCIO::ConfigMode::CmdLine:
+                {
+                    std::stringstream ss;
+                    ss << p.configMode;
+                    text = _getText(ss.str());
+                    break;
+                }
+                case AV::OCIO::ConfigMode::User:
+                    text = p.userConfigs.second >= 0 &&
+                        p.userConfigs.second < static_cast<int>(p.userConfigs.first.size()) ?
+                        p.userConfigs.first[p.userConfigs.second].name :
+                        _getText(DJV_TEXT("av_ocio_config_none"));
+                    break;
+                default: break;
+                }
+                p.configPopupButton->setText(text);
+                p.displayPopupButton->setText(
+                    !p.currentConfig.display.empty() ?
+                    p.currentConfig.display :
+                    _getText(DJV_TEXT("av_ocio_display_none")));
+                p.viewPopupButton->setText(
+                    !p.currentConfig.view.empty() ?
+                    p.currentConfig.view :
+                    _getText(DJV_TEXT("av_ocio_view_none")));
             }
         }
 

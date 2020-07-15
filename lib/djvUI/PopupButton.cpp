@@ -213,6 +213,16 @@ namespace djv
                 _p->button->setFontSizeRole(value);
             }
 
+            int Popup::getElide() const
+            {
+                return _p->button->getElide();
+            }
+
+            void Popup::setElide(int value)
+            {
+                _p->button->setElide(value);
+            }
+
             MetricsRole Popup::getInsideMargin() const
             {
                 return _p->button->getInsideMargin();

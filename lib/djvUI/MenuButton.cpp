@@ -31,6 +31,7 @@ namespace djv
                 std::string font;
                 std::string fontFace;
                 MetricsRole fontSizeRole = MetricsRole::FontMedium;
+                int elide = 0;
                 MetricsRole insideMargin = MetricsRole::MarginInside;
                 std::shared_ptr<Icon> icon;
                 std::shared_ptr<Label> label;
@@ -158,6 +159,7 @@ namespace djv
                             p.label->setFontFamily(p.font);
                             p.label->setFontFace(p.fontFace);
                             p.label->setFontSizeRole(p.fontSizeRole);
+                            p.label->setElide(p.elide);
                             p.label->setMargin(MetricsRole::MarginSmall);
                             addChild(p.label);
                         }
@@ -214,6 +216,23 @@ namespace djv
                 if (p.label)
                 {
                     p.label->setFontSizeRole(value);
+                }
+            }
+
+            int Menu::getElide() const
+            {
+                return _p->elide;
+            }
+
+            void Menu::setElide(int value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.elide)
+                    return;
+                p.elide = value;
+                if (p.label)
+                {
+                    p.label->setElide(value);
                 }
             }
 

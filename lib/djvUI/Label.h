@@ -13,8 +13,6 @@ namespace djv
         class LabelSizeGroup;
 
         //! This class provides a label.
-        //!
-        //! \todo Add an option for eliding.
         class Label : public Widget
         {
             DJV_NON_COPYABLE(Label);
@@ -53,6 +51,9 @@ namespace djv
             void setFontFamily(const std::string&);
             void setFontFace(const std::string&);
             void setFontSizeRole(MetricsRole);
+
+            int getElide() const;
+            void setElide(int);
 
             const std::string& getSizeString() const;
             void setSizeString(const std::string&);

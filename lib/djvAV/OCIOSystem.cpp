@@ -43,18 +43,18 @@ namespace djv
                 typedef std::pair<_OCIO::ConstConfigRcPtr, Config> ConfigPair;
 
                 ConfigMode configMode = ConfigMode::First;
-                std::vector<ConfigPair> userConfigs;
-                int currentUserConfig = -1;
+                ConfigPair cmdLineConfig;
                 bool hasEnvConfig = false;
                 ConfigPair envConfig;
-                ConfigPair cmdLineConfig;
+                std::vector<ConfigPair> userConfigs;
+                int currentUserConfig = -1;
                 std::vector<Display> displays;
                 std::vector<std::string> colorSpaces;
 
                 std::shared_ptr<ValueSubject<ConfigMode> > configModeSubject;
-                std::shared_ptr<ValueSubject<UserConfigs> > userConfigsSubject;
-                std::shared_ptr<ValueSubject<Config> > envConfigSubject;
                 std::shared_ptr<ValueSubject<Config> > cmdLineConfigSubject;
+                std::shared_ptr<ValueSubject<Config> > envConfigSubject;
+                std::shared_ptr<ValueSubject<UserConfigs> > userConfigsSubject;
                 std::shared_ptr<ValueSubject<Config> > currentConfigSubject;
                 std::shared_ptr<ValueSubject<Displays> > displaysSubject;
                 std::shared_ptr<ValueSubject<Views> > viewsSubject;
@@ -83,9 +83,9 @@ namespace djv
                 addDependency(context->getSystemT<CoreSystem>());
 
                 p.configModeSubject = ValueSubject<ConfigMode>::create();
-                p.userConfigsSubject = ValueSubject<UserConfigs>::create();
-                p.envConfigSubject = ValueSubject<Config>::create();
                 p.cmdLineConfigSubject = ValueSubject<Config>::create();
+                p.envConfigSubject = ValueSubject<Config>::create();
+                p.userConfigsSubject = ValueSubject<UserConfigs>::create();
                 p.currentConfigSubject = ValueSubject<Config>::create();
                 p.displaysSubject = ValueSubject<Displays>::create();
                 p.viewsSubject = ValueSubject<Displays>::create();
@@ -143,9 +143,9 @@ namespace djv
                 return _p->configModeSubject;
             }
 
-            std::shared_ptr<IValueSubject<UserConfigs> > System::observeUserConfigs() const
+            std::shared_ptr<IValueSubject<Config> > System::observeCmdLineConfig() const
             {
-                return _p->userConfigsSubject;
+                return _p->cmdLineConfigSubject;
             }
 
             std::shared_ptr<IValueSubject<Config> > System::observeEnvConfig() const
@@ -153,9 +153,9 @@ namespace djv
                 return _p->envConfigSubject;
             }
 
-            std::shared_ptr<IValueSubject<Config> > System::observeCmdLineConfig() const
+            std::shared_ptr<IValueSubject<UserConfigs> > System::observeUserConfigs() const
             {
-                return _p->cmdLineConfigSubject;
+                return _p->userConfigsSubject;
             }
 
             std::shared_ptr<IValueSubject<Config> > System::observeCurrentConfig() const
@@ -180,57 +180,6 @@ namespace djv
                     return;
                 p.configMode = value;
                 p.configUpdate();
-            }
-
-            int System::addUserConfig(const std::string& fileName)
-            {
-                DJV_PRIVATE_PTR();
-                AV::OCIO::Config config;
-                config.fileName = fileName;
-                config.name = AV::OCIO::Config::getNameFromFileName(fileName);
-                return p.addUserConfig(config, true);
-            }
-
-            int System::addUserConfig(const Config& config)
-            {
-                DJV_PRIVATE_PTR();
-                return p.addUserConfig(config, false);
-            }
-
-            void System::removeUserConfig(int value)
-            {
-                DJV_PRIVATE_PTR();
-                if (value >= 0 && value < static_cast<int>(p.userConfigs.size()))
-                {
-                    p.userConfigs.erase(p.userConfigs.begin() + value);
-                }
-                const size_t size = p.userConfigs.size();
-                if (p.currentUserConfig >= size)
-                {
-                    p.currentUserConfig = static_cast<int>(size) - 1;
-                }
-                p.configUpdate();
-            }
-
-            void System::setEnvConfig(const Config& config)
-            {
-                DJV_PRIVATE_PTR();
-                try
-                {
-                    _OCIO::ConstConfigRcPtr ocioConfig;
-                    if (config.isValid())
-                    {
-                        ocioConfig = _OCIO::Config::CreateFromFile(config.fileName.c_str());
-                    }
-                    p.envConfig = std::make_pair(ocioConfig, config);
-                    p.configUpdate();
-                }
-                catch (const std::exception& e)
-                {
-                    std::stringstream ss;
-                    ss << e.what();
-                    _log(ss.str(), LogLevel::Error);
-                }
             }
 
             void System::setCmdLineConfig(const Config& config)
@@ -263,6 +212,58 @@ namespace djv
                 }
             }
 
+            void System::setEnvConfig(const Config& config)
+            {
+                DJV_PRIVATE_PTR();
+                try
+                {
+                    _OCIO::ConstConfigRcPtr ocioConfig;
+                    if (config.isValid())
+                    {
+                        ocioConfig = _OCIO::Config::CreateFromFile(config.fileName.c_str());
+                    }
+                    p.envConfig = std::make_pair(ocioConfig, config);
+                    p.configUpdate();
+                }
+                catch (const std::exception& e)
+                {
+                    std::stringstream ss;
+                    ss << e.what();
+                    _log(ss.str(), LogLevel::Error);
+                }
+            }
+
+
+            int System::addUserConfig(const std::string& fileName)
+            {
+                DJV_PRIVATE_PTR();
+                AV::OCIO::Config config;
+                config.fileName = fileName;
+                config.name = AV::OCIO::Config::getNameFromFileName(fileName);
+                return p.addUserConfig(config, true);
+            }
+
+            int System::addUserConfig(const Config& config)
+            {
+                DJV_PRIVATE_PTR();
+                return p.addUserConfig(config, false);
+            }
+
+            void System::removeUserConfig(int value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value >= 0 && value < static_cast<int>(p.userConfigs.size()))
+                {
+                    p.userConfigs.erase(p.userConfigs.begin() + value);
+                }
+                const size_t size = p.userConfigs.size();
+                if (p.currentUserConfig >= size)
+                {
+                    p.currentUserConfig = static_cast<int>(size) - 1;
+                }
+                p.configUpdate();
+            }
+
             std::shared_ptr<IMapSubject<std::string, std::string> > System::observeImageColorSpaces() const
             {
                 return _p->imageColorSpacesSubject;
@@ -288,6 +289,20 @@ namespace djv
                 const std::string displayName = p.getDisplayName(value);
                 switch (p.configMode)
                 {
+                case ConfigMode::CmdLine:
+                    if (displayName != p.cmdLineConfig.second.display)
+                    {
+                        p.cmdLineConfig.second.display = displayName;
+                        p.configUpdate();
+                    }
+                    break;
+                case ConfigMode::Env:
+                    if (displayName != p.envConfig.second.display)
+                    {
+                        p.envConfig.second.display = displayName;
+                        p.configUpdate();
+                    }
+                    break;
                 case ConfigMode::User:
                     if (p.currentUserConfig >= 0 &&
                         p.currentUserConfig < static_cast<int>(p.userConfigs.size()))
@@ -299,20 +314,6 @@ namespace djv
                         }
                     }
                     break;
-                case ConfigMode::Env:
-                    if (displayName != p.envConfig.second.display)
-                    {
-                        p.envConfig.second.display = displayName;
-                        p.configUpdate();
-                    }
-                    break;
-                case ConfigMode::CmdLine:
-                    if (displayName != p.cmdLineConfig.second.display)
-                    {
-                        p.cmdLineConfig.second.display = displayName;
-                        p.configUpdate();
-                    }
-                    break;
                 default: break;
                 }
             }
@@ -322,6 +323,28 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 switch (p.configMode)
                 {
+                case ConfigMode::CmdLine:
+                {
+                    const int displayIndex = p.getDisplayIndex(p.cmdLineConfig.second.display);
+                    const std::string viewName = p.getViewName(displayIndex, value);
+                    if (viewName != p.cmdLineConfig.second.view)
+                    {
+                        p.cmdLineConfig.second.view = viewName;
+                        p.configUpdate();
+                    }
+                    break;
+                }
+                case ConfigMode::Env:
+                {
+                    const int displayIndex = p.getDisplayIndex(p.envConfig.second.display);
+                    const std::string viewName = p.getViewName(displayIndex, value);
+                    if (viewName != p.envConfig.second.view)
+                    {
+                        p.envConfig.second.view = viewName;
+                        p.configUpdate();
+                    }
+                    break;
+                }
                 case ConfigMode::User:
                     if (p.currentUserConfig >= 0 &&
                         p.currentUserConfig < static_cast<int>(p.userConfigs.size()))
@@ -335,28 +358,6 @@ namespace djv
                         }
                     }
                     break;
-                case ConfigMode::Env:
-                {
-                    const int displayIndex = p.getDisplayIndex(p.envConfig.second.display);
-                    const std::string viewName = p.getViewName(displayIndex, value);
-                    if (viewName != p.envConfig.second.view)
-                    {
-                        p.envConfig.second.view = viewName;
-                        p.configUpdate();
-                    }
-                    break;
-                }
-                case ConfigMode::CmdLine:
-                {
-                    const int displayIndex = p.getDisplayIndex(p.cmdLineConfig.second.display);
-                    const std::string viewName = p.getViewName(displayIndex, value);
-                    if (viewName != p.cmdLineConfig.second.view)
-                    {
-                        p.cmdLineConfig.second.view = viewName;
-                        p.configUpdate();
-                    }
-                    break;
-                }
                 default: break;
                 }
             }
@@ -366,6 +367,14 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 switch (p.configMode)
                 {
+                case ConfigMode::CmdLine:
+                    p.cmdLineConfig.second.imageColorSpaces = value;
+                    p.configUpdate();
+                    break;
+                case ConfigMode::Env:
+                    p.envConfig.second.imageColorSpaces = value;
+                    p.configUpdate();
+                    break;
                 case ConfigMode::User:
                     if (p.currentUserConfig >= 0 &&
                         p.currentUserConfig < static_cast<int>(p.userConfigs.size()) &&
@@ -374,19 +383,7 @@ namespace djv
                         p.userConfigs[p.currentUserConfig].second.imageColorSpaces = value;
                         p.configUpdate();
                     }
-                break;
-                case ConfigMode::Env:
-                {
-                    p.envConfig.second.imageColorSpaces = value;
-                    p.configUpdate();
                     break;
-                }
-                case ConfigMode::CmdLine:
-                {
-                    p.cmdLineConfig.second.imageColorSpaces = value;
-                    p.configUpdate();
-                    break;
-                }
                 default: break;
                 }
             }
@@ -424,17 +421,17 @@ namespace djv
                 Config out;
                 switch (configMode)
                 {
+                case ConfigMode::CmdLine:
+                    out = cmdLineConfig.second;
+                    break;
+                case ConfigMode::Env:
+                    out = envConfig.second;
+                    break;
                 case ConfigMode::User:
                     if (currentUserConfig >= 0 && currentUserConfig < static_cast<int>(userConfigs.size()))
                     {
                         out = userConfigs[currentUserConfig].second;
                     }
-                    break;
-                case ConfigMode::Env:
-                    out = envConfig.second;
-                    break;
-                case ConfigMode::CmdLine:
-                    out = cmdLineConfig.second;
                     break;
                 default: break;
                 }
@@ -550,6 +547,16 @@ namespace djv
                 std::string viewName;
                 switch (configMode)
                 {
+                case ConfigMode::CmdLine:
+                    ocioConfig = cmdLineConfig.first;
+                    displayName = cmdLineConfig.second.display;
+                    viewName = cmdLineConfig.second.view;
+                    break;
+                case ConfigMode::Env:
+                    ocioConfig = envConfig.first;
+                    displayName = envConfig.second.display;
+                    viewName = envConfig.second.view;
+                    break;
                 case ConfigMode::User:
                     if (currentUserConfig >= 0 &&
                         currentUserConfig < static_cast<int>(userConfigs.size()))
@@ -559,16 +566,6 @@ namespace djv
                         displayName = config.second.display;
                         viewName = config.second.view;
                     }
-                    break;
-                case ConfigMode::Env:
-                    ocioConfig = envConfig.first;
-                    displayName = envConfig.second.display;
-                    viewName = envConfig.second.view;
-                    break;
-                case ConfigMode::CmdLine:
-                    ocioConfig = cmdLineConfig.first;
-                    displayName = cmdLineConfig.second.display;
-                    viewName = cmdLineConfig.second.view;
                     break;
                 default: break;
                 }
@@ -653,9 +650,9 @@ namespace djv
         AV::OCIO,
         ConfigMode,
         DJV_TEXT("av_ocio_config_mode_none"),
-        DJV_TEXT("av_ocio_config_mode_user"),
+        DJV_TEXT("av_ocio_config_mode_cmd_line"),
         DJV_TEXT("av_ocio_config_mode_env"),
-        DJV_TEXT("av_ocio_config_mode_cmd_line"));
+        DJV_TEXT("av_ocio_config_mode_user"));
 
     rapidjson::Value toJSON(AV::OCIO::ConfigMode value, rapidjson::Document::AllocatorType& allocator)
     {

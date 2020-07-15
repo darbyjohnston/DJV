@@ -268,6 +268,9 @@ namespace djv
             p.layout->addChild(hLayout);
             addChild(p.layout);
 
+            _valueUpdate();
+            _widgetUpdate();
+
             auto weak = std::weak_ptr<ColorSpaceImageWidget>(std::dynamic_pointer_cast<ColorSpaceImageWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
             p.deleteButtonGroup->setPushCallback(
@@ -378,7 +381,9 @@ namespace djv
                 const auto j = p.imageColorSpaces.find(p.images[i]);
                 if (j != p.imageColorSpaces.end())
                 {
-                    p.buttons[i]->setText(!j->second.empty() ? j->second : _getText(DJV_TEXT("av_ocio_image_none")));
+                    const std::string& text = !j->second.empty() ? j->second : _getText(DJV_TEXT("av_ocio_image_none"));
+                    p.buttons[i]->setText(text);
+                    p.buttons[i]->setTooltip(text);
                 }
             }
         }
@@ -398,8 +403,11 @@ namespace djv
                 for (const auto& i : p.imageColorSpaces)
                 {
                     auto button = UI::PopupButton::create(UI::MenuButtonStyle::ComboBox, context);
-                    button->setText(!i.second.empty() ? i.second : _getText(DJV_TEXT("av_ocio_image_none")));
+                    const std::string& text = !i.second.empty() ? i.second : _getText(DJV_TEXT("av_ocio_image_none"));
+                    button->setText(text);
                     button->setPopupIcon("djvIconPopupMenu");
+                    button->setElide(labelElide);
+                    button->setTooltip(text);
                     p.buttons.push_back(button);
                     std::string image = i.first;
                     auto weakContext = std::weak_ptr<Context>(context);

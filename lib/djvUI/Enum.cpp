@@ -225,6 +225,7 @@ namespace djv
         DJV_TEXT("ui_metrics_role_swatch_small"),
         DJV_TEXT("ui_metrics_role_slider"),
         DJV_TEXT("ui_metrics_role_scroll_area"),
+        DJV_TEXT("ui_metrics_role_scroll_area_small"),
         DJV_TEXT("ui_metrics_role_scroll_bar"),
         DJV_TEXT("ui_metrics_role_scroll_bar_small"),
         DJV_TEXT("ui_metrics_role_menu"),

@@ -103,6 +103,7 @@ namespace djv
                     { MetricsRole::SwatchSmall, 16.F },
                     { MetricsRole::Slider, 50.F },
                     { MetricsRole::ScrollArea, 200.F },
+                    { MetricsRole::ScrollAreaSmall, 100.F },
                     { MetricsRole::ScrollBar, 15.F },
                     { MetricsRole::ScrollBarSmall, 10.F },
                     { MetricsRole::Menu, 600.F },

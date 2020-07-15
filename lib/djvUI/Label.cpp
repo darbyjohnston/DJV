@@ -35,6 +35,8 @@ namespace djv
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
 
+            int elide = 0;
+
             glm::vec2 textSize = glm::vec2(0.F, 0.F);
             std::future<glm::vec2> textSizeFuture;
 
@@ -170,6 +172,20 @@ namespace djv
                 return;
             p.fontSizeRole = value;
             _fontUpdate();
+        }
+
+        int Label::getElide() const
+        {
+            return _p->elide;
+        }
+
+        void Label::setElide(int value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.elide)
+                return;
+            p.elide = value;
+            _textUpdate();
         }
 
         const std::string& Label::getSizeString() const
@@ -369,12 +385,12 @@ namespace djv
         void Label::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.textSizeFuture = p.fontSystem->measure(p.text, p.fontInfo);
+            p.textSizeFuture = p.fontSystem->measure(p.text, p.fontInfo, p.elide);
             if (!p.text.size())
             {
                 p.glyphs.clear();
             }
-            p.glyphsFuture = p.fontSystem->getGlyphs(p.text, p.fontInfo);
+            p.glyphsFuture = p.fontSystem->getGlyphs(p.text, p.fontInfo, p.elide);
         }
 
         void Label::_sizeStringUpdate()

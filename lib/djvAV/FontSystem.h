@@ -149,17 +149,20 @@ namespace djv
                 //! Measure the size of text.
                 std::future<glm::vec2> measure(
                     const std::string& text,
-                    const FontInfo&    fontInfo);
+                    const FontInfo&    fontInfo,
+                    uint16_t           elide    = 0);
 
-                //! Measure glyphs.
+                //! Measure the size of glyphs.
                 std::future<std::vector<Core::BBox2f> > measureGlyphs(
                     const std::string& text,
-                    const FontInfo&    fontInfo);
+                    const FontInfo&    fontInfo,
+                    uint16_t           elide    = 0);
 
                 //! Get font glyphs.
                 std::future<std::vector<std::shared_ptr<Glyph> > > getGlyphs(
                     const std::string& text,
-                    const FontInfo&    fontInfo);
+                    const FontInfo&    fontInfo,
+                    uint16_t           elide    = 0);
 
                 //! Break text into lines for wrapping.
                 std::future<std::vector<TextLine> > textLines(

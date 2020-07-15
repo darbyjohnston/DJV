@@ -229,6 +229,7 @@ namespace djv
             SwatchSmall,
             Slider,
             ScrollArea,
+            ScrollAreaSmall,
             ScrollBar,
             ScrollBarSmall,
             Menu,

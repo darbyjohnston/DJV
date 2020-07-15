@@ -82,6 +82,7 @@ set(source
 	ColorSpaceConfigWidget.cpp
 	ColorSpaceDisplayWidget.cpp
 	ColorSpaceImageWidget.cpp
+	ColorSpaceViewWidget.cpp
 	ColorSpaceWidget.cpp
     DebugWidget.cpp
     EditSystem.cpp

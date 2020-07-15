@@ -25,9 +25,9 @@ namespace djv
             enum class ConfigMode
             {
                 None,
-                User,
-                Env,
                 CmdLine,
+                Env,
+                User,
 
                 Count,
                 First = None
@@ -83,9 +83,9 @@ namespace djv
                 bool hasEnvConfig() const;
 
                 std::shared_ptr<Core::IValueSubject<ConfigMode> > observeConfigMode() const;
-                std::shared_ptr<Core::IValueSubject<UserConfigs> > observeUserConfigs() const;
-                std::shared_ptr<Core::IValueSubject<Config> > observeEnvConfig() const;
                 std::shared_ptr<Core::IValueSubject<Config> > observeCmdLineConfig() const;
+                std::shared_ptr<Core::IValueSubject<Config> > observeEnvConfig() const;
+                std::shared_ptr<Core::IValueSubject<UserConfigs> > observeUserConfigs() const;
                 std::shared_ptr<Core::IValueSubject<Config> > observeCurrentConfig() const;
                 std::shared_ptr<Core::IValueSubject<Displays> > observeDisplays() const;
                 std::shared_ptr<Core::IValueSubject<Views> > observeViews() const;
@@ -93,11 +93,11 @@ namespace djv
                 std::shared_ptr<Core::IListSubject<std::string> > observeColorSpaces() const;
 
                 void setConfigMode(ConfigMode);
+                void setCmdLineConfig(const Config&);
+                void setEnvConfig(const Config&);
                 int addUserConfig(const std::string& fileName);
                 int addUserConfig(const Config&);
                 void removeUserConfig(int);
-                void setEnvConfig(const Config&);
-                void setCmdLineConfig(const Config&);
                 void setCurrentUserConfig(int);
                 void setCurrentDisplay(int);
                 void setCurrentView(int);

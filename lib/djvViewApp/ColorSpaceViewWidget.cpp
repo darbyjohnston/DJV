@@ -23,23 +23,23 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct ColorSpaceDisplayWidget::Private
+        struct ColorSpaceViewWidget::Private
         {
-            AV::OCIO::Displays displays;
+            AV::OCIO::Views views;
 
             std::shared_ptr<UI::ListWidget> listWidget;
             std::shared_ptr<UI::SearchBox> searchBox;
             std::shared_ptr<UI::VerticalLayout> layout;
 
-            std::shared_ptr<ValueObserver<AV::OCIO::Displays> > displaysObserver;
+            std::shared_ptr<ValueObserver<AV::OCIO::Views> > viewsObserver;
         };
 
-        void ColorSpaceDisplayWidget::_init(const std::shared_ptr<Context>& context)
+        void ColorSpaceViewWidget::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
 
-            setClassName("djv::ViewApp::ColorSpaceDisplayWidget");
+            setClassName("djv::ViewApp::ColorSpaceViewWidget");
 
             p.listWidget = UI::ListWidget::create(UI::ButtonType::Radio, context);
             p.listWidget->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
@@ -67,11 +67,11 @@ namespace djv
                     if (auto context = contextWeak.lock())
                     {
                         auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-                        ocioSystem->setCurrentDisplay(value);
+                        ocioSystem->setCurrentView(value);
                     }
                 });
 
-            auto weak = std::weak_ptr<ColorSpaceDisplayWidget>(std::dynamic_pointer_cast<ColorSpaceDisplayWidget>(shared_from_this()));
+            auto weak = std::weak_ptr<ColorSpaceViewWidget>(std::dynamic_pointer_cast<ColorSpaceViewWidget>(shared_from_this()));
             p.searchBox->setFilterCallback(
                 [weak](const std::string& value)
                 {
@@ -82,43 +82,43 @@ namespace djv
                 });
 
             auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-            p.displaysObserver = ValueObserver<AV::OCIO::Displays>::create(
-                ocioSystem->observeDisplays(),
-                [weak](const AV::OCIO::Displays& value)
+            p.viewsObserver = ValueObserver<AV::OCIO::Views>::create(
+                ocioSystem->observeViews(),
+                [weak](const AV::OCIO::Views& value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->displays = value;
+                        widget->_p->views = value;
                         widget->_widgetUpdate();
                     }
                 });
         }
 
-        ColorSpaceDisplayWidget::ColorSpaceDisplayWidget() :
+        ColorSpaceViewWidget::ColorSpaceViewWidget() :
             _p(new Private)
         {}
 
-        ColorSpaceDisplayWidget::~ColorSpaceDisplayWidget()
+        ColorSpaceViewWidget::~ColorSpaceViewWidget()
         {}
 
-        std::shared_ptr<ColorSpaceDisplayWidget> ColorSpaceDisplayWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ColorSpaceViewWidget> ColorSpaceViewWidget::create(const std::shared_ptr<Context>& context)
         {
-            auto out = std::shared_ptr<ColorSpaceDisplayWidget>(new ColorSpaceDisplayWidget);
+            auto out = std::shared_ptr<ColorSpaceViewWidget>(new ColorSpaceViewWidget);
             out->_init(context);
             return out;
         }
 
-        void ColorSpaceDisplayWidget::_preLayoutEvent(Event::PreLayout&)
+        void ColorSpaceViewWidget::_preLayoutEvent(Event::PreLayout&)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void ColorSpaceDisplayWidget::_layoutEvent(Event::Layout&)
+        void ColorSpaceViewWidget::_layoutEvent(Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
         }
 
-        void ColorSpaceDisplayWidget::_initEvent(Event::Init& event)
+        void ColorSpaceViewWidget::_initEvent(Event::Init& event)
         {
             if (event.getData().text)
             {
@@ -126,20 +126,20 @@ namespace djv
             }
         }
 
-        void ColorSpaceDisplayWidget::_widgetUpdate()
+        void ColorSpaceViewWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
                 std::vector<UI::ListItem> items;
-                for (size_t i = 0; i < p.displays.first.size(); ++i)
+                for (size_t i = 0; i < p.views.first.size(); ++i)
                 {
-                    const auto& display = p.displays.first[i];
+                    const auto& view = p.views.first[i];
                     UI::ListItem item;
-                    item.text = !display.empty() ? display : _getText(DJV_TEXT("av_ocio_display_none"));
+                    item.text = !view.empty() ? view : _getText(DJV_TEXT("av_ocio_view_none"));
                     items.emplace_back(item);
                 }
-                p.listWidget->setItems(items, p.displays.second);
+                p.listWidget->setItems(items, p.views.second);
             }
         }
 

@@ -31,6 +31,7 @@ namespace djv
                 std::string font;
                 std::string fontFace;
                 MetricsRole fontSizeRole = MetricsRole::FontMedium;
+                int elide = 0;
                 std::shared_ptr<HorizontalLayout> layout;
             };
 
@@ -230,6 +231,20 @@ namespace djv
                 _widgetUpdate();
             }
 
+            int List::getElide() const
+            {
+                return _p->elide;
+            }
+
+            void List::setElide(int value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.elide)
+                    return;
+                p.elide = value;
+                _widgetUpdate();
+            }
+
             const Layout::Margin& List::getInsideMargin() const
             {
                 return _p->layout->getMargin();
@@ -296,7 +311,7 @@ namespace djv
                     p.label->setFontFamily(p.font);
                     p.label->setFontFace(p.fontFace);
                     p.label->setFontSizeRole(p.fontSizeRole);
-                    p.label->setTextColorRole(foregroundColorRole);
+                    p.label->setElide(p.elide);
                     p.label->setMargin(MetricsRole::MarginSmall);
                     p.layout->addChild(p.label);
                     p.layout->setStretch(p.label, RowStretch::Expand);
@@ -307,7 +322,7 @@ namespace djv
                     p.rightLabel->setFontFamily(p.font);
                     p.rightLabel->setFontFace(p.fontFace);
                     p.rightLabel->setFontSizeRole(p.fontSizeRole);
-                    p.rightLabel->setTextColorRole(foregroundColorRole);
+                    p.rightLabel->setElide(p.elide);
                     p.rightLabel->setMargin(MetricsRole::MarginSmall);
                     p.layout->addChild(p.rightLabel);
                 }

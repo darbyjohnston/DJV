@@ -16,6 +16,8 @@ namespace djv
 
     namespace ViewApp
     {
+        const int labelElide = 20;
+
         //! This class provides the color space configuration widget.
         class ColorSpaceConfigWidget : public UI::Widget
         {
@@ -29,8 +31,6 @@ namespace djv
             ~ColorSpaceConfigWidget() override;
 
             static std::shared_ptr<ColorSpaceConfigWidget> create(const std::shared_ptr<Core::Context>&);
-
-            void setSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>&);
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;
@@ -57,6 +57,34 @@ namespace djv
             ~ColorSpaceDisplayWidget() override;
 
             static std::shared_ptr<ColorSpaceDisplayWidget> create(const std::shared_ptr<Core::Context>&);
+
+            void setSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>&);
+
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
+
+            void _initEvent(Core::Event::Init&) override;
+
+        private:
+            void _widgetUpdate();
+
+            DJV_PRIVATE();
+        };
+
+        //! This class provides the color space view widget.
+        class ColorSpaceViewWidget : public UI::Widget
+        {
+            DJV_NON_COPYABLE(ColorSpaceViewWidget);
+
+        protected:
+            void _init(const std::shared_ptr<Core::Context>&);
+            ColorSpaceViewWidget();
+
+        public:
+            ~ColorSpaceViewWidget() override;
+
+            static std::shared_ptr<ColorSpaceViewWidget> create(const std::shared_ptr<Core::Context>&);
 
             void setSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>&);
 

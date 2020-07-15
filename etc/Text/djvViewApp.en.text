@@ -618,8 +618,6 @@
     "widget_color_space_delete_configs_tooltip": "Delete color space configurations",
     "widget_color_space_display": "Display",
     "widget_color_space_image": "Image",
-    "widget_color_space_config_mode": "Mode",
-    "widget_color_space_config_user": "User",
     "widget_color_space_view": "View",
     "widget_color_space_add_image_tooltip": "Add an image color space",
     "widget_color_space_delete_image_tooltip": "Delete this image color space",

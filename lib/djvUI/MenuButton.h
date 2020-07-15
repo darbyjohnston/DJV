@@ -45,6 +45,9 @@ namespace djv
                 void setFontFace(const std::string&);
                 void setFontSizeRole(MetricsRole);
 
+                int getElide() const;
+                void setElide(int);
+
                 MetricsRole getInsideMargin() const;
                 void setInsideMargin(MetricsRole);
 
