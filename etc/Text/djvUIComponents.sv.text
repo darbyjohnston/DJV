@@ -100,7 +100,6 @@
     "settings_general_section_tooltips": "verktygstips",
     "settings_general_time_units": "Enheter",
     "settings_glfw_section_swap_interval": "Byt intervall",
-    "settings_glfw_swap_interval_setting": "Inställning (kan kräva omstart)",
     "settings_io_data_type": "Data typ",
     "settings_io_exr_channel_grouping": "Kanalgruppering",
     "settings_io_exr_compression": "Filkomprimering",

@@ -96,7 +96,7 @@ namespace djv
 
         std::string IOThreadsSettingsWidget::getSettingsSortKey() const
         {
-            return "ZZ";
+            return "ZZZ";
         }
 
         void IOThreadsSettingsWidget::setLabelSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)

@@ -80,7 +80,7 @@ namespace djv
 
         std::string TIFFSettingsWidget::getSettingsSortKey() const
         {
-            return "ZZ";
+            return "ZZZ";
         }
 
         void TIFFSettingsWidget::setLabelSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)

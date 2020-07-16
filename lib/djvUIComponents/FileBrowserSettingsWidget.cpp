@@ -59,7 +59,7 @@ namespace djv
                 p.thumbnailSizeSlider->setDelay(Time::getTime(Time::TimerValue::Medium));
 
                 p.keyShortcutsWidget = UI::ShortcutsWidget::create(context);
-                p.keyShortcutsWidget->setMargin(MetricsRole::MarginSmall);
+                p.keyShortcutsWidget->setMargin(MetricsRole::Margin);
 
                 auto fileSequencesButton = ActionButton::create(context);
                 fileSequencesButton->addAction(actions.at("FileSequences"));
@@ -69,16 +69,16 @@ namespace djv
                 auto vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(MetricsRole::None);
                 auto vLayout2 = VerticalLayout::create(context);
-                vLayout2->setMargin(MetricsRole::MarginSmall);
-                vLayout2->setSpacing(MetricsRole::SpacingSmall);
+                vLayout2->setMargin(MetricsRole::Margin);
+                vLayout2->setSpacing(MetricsRole::None);
                 vLayout2->addChild(tilesButton);
                 vLayout2->addChild(listButton);
                 p.bellows["View"] = Bellows::create(context);
                 p.bellows["View"]->addChild(vLayout2);
                 vLayout->addChild(p.bellows["View"]);
                 vLayout2 = VerticalLayout::create(context);
-                vLayout2->setMargin(MetricsRole::MarginSmall);
-                vLayout2->setSpacing(MetricsRole::SpacingSmall);
+                vLayout2->setMargin(MetricsRole::Margin);
+                vLayout2->setSpacing(MetricsRole::None);
                 vLayout2->addChild(increaseThumbnailSizeButton);
                 vLayout2->addChild(decreaseThumbnailSizeButton);
                 vLayout2->addChild(p.thumbnailSizeSlider);
@@ -89,8 +89,8 @@ namespace djv
                 p.bellows["Keyboard"]->addChild(p.keyShortcutsWidget);
                 vLayout->addChild(p.bellows["Keyboard"]);
                 vLayout2 = VerticalLayout::create(context);
-                vLayout2->setMargin(MetricsRole::MarginSmall);
-                vLayout2->setSpacing(MetricsRole::SpacingSmall);
+                vLayout2->setMargin(MetricsRole::Margin);
+                vLayout2->setSpacing(MetricsRole::None);
                 vLayout2->addChild(fileSequencesButton);
                 vLayout2->addChild(showHiddenButton);
                 p.bellows["Misc"] = Bellows::create(context);
@@ -207,7 +207,7 @@ namespace djv
                 {
                     p.bellows["View"]->setText(_getText(DJV_TEXT("file_browser_settings_view")));
                     p.bellows["Thumbnails"]->setText(_getText(DJV_TEXT("file_browser_settings_thumbnails")));
-                    p.bellows["Keyboard"]->setText(_getText(DJV_TEXT("file_browser_settings_keyboard")));
+                    p.bellows["Keyboard"]->setText(_getText(DJV_TEXT("file_browser_settings_keyboard_shortcuts")));
                     p.bellows["Misc"]->setText(_getText(DJV_TEXT("file_browser_settings_miscellaneous")));
                     p.thumbnailSizeSlider->setTooltip(_getText(DJV_TEXT("file_browser_settings_thumbnail_size_tooltip")));
                 }

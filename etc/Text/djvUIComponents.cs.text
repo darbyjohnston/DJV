@@ -100,7 +100,6 @@
     "settings_general_section_tooltips": "Popisky",
     "settings_general_time_units": "Jednotky",
     "settings_glfw_section_swap_interval": "Interval výměny",
-    "settings_glfw_swap_interval_setting": "Nastavení (může vyžadovat restart)",
     "settings_io_data_type": "Datový typ",
     "settings_io_exr_channel_grouping": "Seskupení kanálů",
     "settings_io_exr_compression": "Komprese souborů",

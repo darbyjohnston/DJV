@@ -100,7 +100,6 @@
     "settings_general_section_tooltips": "værktøjsvink",
     "settings_general_time_units": "Enheder",
     "settings_glfw_section_swap_interval": "Skiftinterval",
-    "settings_glfw_swap_interval_setting": "Indstilling (kan kræve genstart)",
     "settings_io_data_type": "Datatype",
     "settings_io_exr_channel_grouping": "Kanalgruppering",
     "settings_io_exr_compression": "Filkomprimering",

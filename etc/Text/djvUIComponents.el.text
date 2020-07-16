@@ -100,7 +100,6 @@
     "settings_general_section_tooltips": "Εργαλεία",
     "settings_general_time_units": "Μονάδες",
     "settings_glfw_section_swap_interval": "Διάστημα ανταλλαγής",
-    "settings_glfw_swap_interval_setting": "Ρύθμιση (ενδέχεται να απαιτείται επανεκκίνηση)",
     "settings_io_data_type": "Τύπος δεδομένων",
     "settings_io_exr_channel_grouping": "Ομαδοποίηση καναλιών",
     "settings_io_exr_compression": "Συμπίεση αρχείων",

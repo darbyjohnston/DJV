@@ -80,7 +80,7 @@ namespace djv
 
         std::string PPMSettingsWidget::getSettingsSortKey() const
         {
-            return "ZZ";
+            return "ZZZ";
         }
 
         void PPMSettingsWidget::setLabelSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)

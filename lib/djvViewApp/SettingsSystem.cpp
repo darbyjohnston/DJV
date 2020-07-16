@@ -5,7 +5,8 @@
 #include <djvViewApp/SettingsSystem.h>
 
 #include <djvViewApp/FileSettingsWidget.h>
-#include <djvViewApp/InputSettingsWidget.h>
+#include <djvViewApp/KeyboardSettingsWidget.h>
+#include <djvViewApp/MouseSettingsWidget.h>
 #include <djvViewApp/NUXSettingsWidget.h>
 #include <djvViewApp/PlaybackSettingsWidget.h>
 #include <djvViewApp/WindowSettingsWidget.h>
@@ -43,7 +44,6 @@ namespace djv
     {
         struct SettingsSystem::Private
         {
-            int currentTab = 0;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
         };
@@ -109,8 +109,8 @@ namespace djv
                     FullscreenMonitorSettingsWidget::create(context),
                     AutoHideSettingsWidget::create(context),
                     BackgroundImageSettingsWidget::create(context),
-                    ShortcutsSettingsWidget::create(context),
-                    ScrollWheelSettingsWidget::create(context),
+                    KeyboardShortcutSettingsWidget::create(context),
+                    MouseScrollWheelSettingsWidget::create(context),
                     NUXSettingsWidget::create(context),
                     PlaybackSettingsWidget::create(context),
                     SequenceSettingsWidget::create(context),

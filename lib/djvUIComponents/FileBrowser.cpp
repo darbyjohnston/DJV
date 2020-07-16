@@ -360,10 +360,13 @@ namespace djv
                         {
                             if (auto widget = weak.lock())
                             {
-                                auto settingsSystem = context->getSystemT<Settings::System>();
-                                auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
-                                fileBrowserSettings->setSettingsBellowsState(widget->_p->settingsWidget->getBellowsState());
-                                widget->_p->settingsWidget.reset();
+                                if (widget->_p->settingsWidget)
+                                {
+                                    auto settingsSystem = context->getSystemT<Settings::System>();
+                                    auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
+                                    fileBrowserSettings->setSettingsBellowsState(widget->_p->settingsWidget->getBellowsState());
+                                    widget->_p->settingsWidget.reset();
+                                }
                             }
                         }
                     });
@@ -912,9 +915,12 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (auto context = getContext().lock())
                 {
-                    auto settingsSystem = context->getSystemT<Settings::System>();
-                    auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
-                    fileBrowserSettings->setSettingsBellowsState(p.settingsWidget->getBellowsState());
+                    if (p.settingsWidget)
+                    {
+                        auto settingsSystem = context->getSystemT<Settings::System>();
+                        auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
+                        fileBrowserSettings->setSettingsBellowsState(p.settingsWidget->getBellowsState());
+                    }
                 }
             }
 

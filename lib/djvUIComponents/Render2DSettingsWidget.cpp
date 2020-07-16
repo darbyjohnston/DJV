@@ -109,7 +109,7 @@ namespace djv
 
         std::string Render2DImageSettingsWidget::getSettingsSortKey() const
         {
-            return "ZZZ";
+            return "ZZZZ";
         }
 
         void Render2DImageSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
@@ -212,7 +212,7 @@ namespace djv
 
         std::string Render2DTextSettingsWidget::getSettingsSortKey() const
         {
-            return "ZZZ";
+            return "ZZZZ";
         }
 
         void Render2DTextSettingsWidget::_initEvent(Event::Init& event)

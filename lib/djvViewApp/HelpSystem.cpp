@@ -87,22 +87,23 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            if (system->_p->aboutDialog)
+                            if (!system->_p->aboutDialog)
                             {
-                                system->_p->aboutDialog->close();
-                                system->_p->aboutDialog.reset();
-                            }
-                            system->_p->aboutDialog = AboutDialog::create(context);
-                            system->_p->aboutDialog->setCloseCallback(
-                                [weak]
-                                {
-                                    if (auto system = weak.lock())
+                                system->_p->aboutDialog = AboutDialog::create(context);
+                                system->_p->aboutDialog->setCloseCallback(
+                                    [weak]
                                     {
-                                        system->_p->aboutDialog->close();
-                                        system->_p->aboutDialog.reset();
-                                    }
-                                });
-                            system->_p->aboutDialog->show();
+                                        if (auto system = weak.lock())
+                                        {
+                                            if (system->_p->aboutDialog)
+                                            {
+                                                system->_p->aboutDialog->close();
+                                                system->_p->aboutDialog.reset();
+                                            }
+                                        }
+                                    });
+                                system->_p->aboutDialog->show();
+                            }
                         }
                     }
                 }

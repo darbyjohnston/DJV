@@ -100,7 +100,6 @@
     "settings_general_section_tooltips": "툴팁",
     "settings_general_time_units": "단위",
     "settings_glfw_section_swap_interval": "스왑 간격",
-    "settings_glfw_swap_interval_setting": "설정 (다시 시작해야 할 수도 있음)",
     "settings_io_data_type": "데이터 형식",
     "settings_io_exr_channel_grouping": "채널 그룹",
     "settings_io_exr_compression": "파일 압축",

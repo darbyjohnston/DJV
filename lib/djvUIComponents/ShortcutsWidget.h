@@ -11,7 +11,7 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides a widget for editing shortcuts.
+        //! This class provides a widget for editing keyboard shortcuts.
         class ShortcutsWidget : public Widget
         {
             DJV_NON_COPYABLE(ShortcutsWidget);

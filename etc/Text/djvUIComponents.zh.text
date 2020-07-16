@@ -100,7 +100,6 @@
     "settings_general_section_tooltips": "工具提示",
     "settings_general_time_units": "单位",
     "settings_glfw_section_swap_interval": "交换间隔",
-    "settings_glfw_swap_interval_setting": "设置（可能需要重新启动）",
     "settings_io_data_type": "数据类型",
     "settings_io_exr_channel_grouping": "渠道分组",
     "settings_io_exr_compression": "文件压缩",

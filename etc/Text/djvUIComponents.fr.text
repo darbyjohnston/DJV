@@ -100,7 +100,6 @@
     "settings_general_section_tooltips": "Info-bulles",
     "settings_general_time_units": "Unités",
     "settings_glfw_section_swap_interval": "Intervalle d&#39;échange",
-    "settings_glfw_swap_interval_setting": "Réglage (peut nécessiter un redémarrage)",
     "settings_io_data_type": "Type de données",
     "settings_io_exr_channel_grouping": "Groupement de canaux",
     "settings_io_exr_compression": "Compression de fichiers",

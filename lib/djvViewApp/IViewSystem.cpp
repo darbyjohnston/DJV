@@ -4,7 +4,7 @@
 
 #include <djvViewApp/IViewSystem.h>
 
-#include <djvViewApp/InputSettings.h>
+#include <djvViewApp/KeyboardSettings.h>
 #include <djvViewApp/MDIWidget.h>
 
 #include <djvUIComponents/UIComponentsSystem.h>
@@ -25,7 +25,7 @@ namespace djv
         struct IViewSystem::Private
         {
             std::shared_ptr<UI::Settings::System> settingsSystem;
-            std::shared_ptr<InputSettings> inputSettings;
+            std::shared_ptr<KeyboardSettings> keyboardSettings;
 
             std::shared_ptr<UI::MDI::Canvas> canvas;
             std::map<std::string, std::shared_ptr<MDIWidget> > widgets;
@@ -43,7 +43,7 @@ namespace djv
             addDependency(context->getSystemT<UI::UIComponentsSystem>());
 
             p.settingsSystem = context->getSystemT<UI::Settings::System>();
-            p.inputSettings = p.settingsSystem->getSettingsT<InputSettings>();
+            p.keyboardSettings = p.settingsSystem->getSettingsT<KeyboardSettings>();
 
             auto weak = std::weak_ptr<IViewSystem>(std::dynamic_pointer_cast<IViewSystem>(shared_from_this()));
             p.textChangedObserver = ValueObserver<bool>::create(
@@ -59,10 +59,10 @@ namespace djv
                     }
                 });
 
-            if (p.inputSettings)
+            if (p.keyboardSettings)
             {
                 p.shortcutsObserver = MapObserver<std::string, UI::ShortcutDataPair>::create(
-                    p.inputSettings->observeShortcuts(),
+                    p.keyboardSettings->observeShortcuts(),
                     [weak](const std::map<std::string, UI::ShortcutDataPair>& value)
                     {
                         if (auto system = weak.lock())
@@ -155,9 +155,9 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             UI::ShortcutDataMap shortcuts;
-            if (p.inputSettings)
+            if (p.keyboardSettings)
             {
-                shortcuts = p.inputSettings->observeShortcuts()->get();
+                shortcuts = p.keyboardSettings->observeShortcuts()->get();
             }
             const auto i = shortcuts.find(value);
             return i != shortcuts.end() ? i->second : UI::ShortcutDataPair();
@@ -166,27 +166,27 @@ namespace djv
         void IViewSystem::_addShortcut(const std::string& name, const UI::ShortcutDataPair& value)
         {
             DJV_PRIVATE_PTR();
-            if (p.inputSettings)
+            if (p.keyboardSettings)
             {
-                p.inputSettings->addShortcut(name, value);
+                p.keyboardSettings->addShortcut(name, value);
             }
         }
 
         void IViewSystem::_addShortcut(const std::string& name, int key)
         {
             DJV_PRIVATE_PTR();
-            if (p.inputSettings)
+            if (p.keyboardSettings)
             {
-                p.inputSettings->addShortcut(name, key);
+                p.keyboardSettings->addShortcut(name, key);
             }
         }
 
         void IViewSystem::_addShortcut(const std::string& name, int key, int keyModifiers)
         {
             DJV_PRIVATE_PTR();
-            if (p.inputSettings)
+            if (p.keyboardSettings)
             {
-                p.inputSettings->addShortcut(name, key, keyModifiers);
+                p.keyboardSettings->addShortcut(name, key, keyModifiers);
             }
         }
 

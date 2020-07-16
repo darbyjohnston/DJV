@@ -100,7 +100,6 @@
     "settings_general_section_tooltips": "Verkfæratips",
     "settings_general_time_units": "Einingar",
     "settings_glfw_section_swap_interval": "Skipt um bil",
-    "settings_glfw_swap_interval_setting": "Stilling (gæti þurft að endurræsa)",
     "settings_io_data_type": "Gagnategund",
     "settings_io_exr_channel_grouping": "Flokkun rásar",
     "settings_io_exr_compression": "Þjöppun skráar",

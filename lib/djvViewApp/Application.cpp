@@ -13,10 +13,11 @@
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/HelpSystem.h>
 #include <djvViewApp/ImageSystem.h>
-#include <djvViewApp/InputSettings.h>
+#include <djvViewApp/KeyboardSettings.h>
 #include <djvViewApp/MagnifySystem.h>
 #include <djvViewApp/MainWindow.h>
 #include <djvViewApp/Media.h>
+#include <djvViewApp/MouseSettings.h>
 #include <djvViewApp/NUXSystem.h>
 #include <djvViewApp/PlaybackSystem.h>
 #include <djvViewApp/SettingsSystem.h>
@@ -110,7 +111,8 @@ namespace djv
 
             // Create settings.
             p.settings = ApplicationSettings::create(shared_from_this());
-            InputSettings::create(shared_from_this());
+            KeyboardSettings::create(shared_from_this());
+            MouseSettings::create(shared_from_this());
 
             // Create the systems.
             UI::UIComponentsSystem::create(shared_from_this());

@@ -100,7 +100,6 @@
     "settings_general_section_tooltips": "Información sobre herramientas",
     "settings_general_time_units": "Unidades",
     "settings_glfw_section_swap_interval": "Intervalo de intercambio",
-    "settings_glfw_swap_interval_setting": "Configuración (puede requerir reinicio)",
     "settings_io_data_type": "Tipo de datos",
     "settings_io_exr_channel_grouping": "Agrupación de canales",
     "settings_io_exr_compression": "Compresión de archivo",

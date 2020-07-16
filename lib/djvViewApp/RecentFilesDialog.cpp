@@ -98,15 +98,15 @@ namespace djv
                 auto vLayout = UI::VerticalLayout::create(context);
                 vLayout->setSpacing(UI::MetricsRole::None);
                 auto vLayout2 = UI::VerticalLayout::create(context);
-                vLayout2->setMargin(UI::MetricsRole::MarginSmall);
-                vLayout2->setSpacing(UI::MetricsRole::SpacingSmall);
+                vLayout2->setMargin(UI::MetricsRole::Margin);
+                vLayout2->setSpacing(UI::MetricsRole::None);
                 vLayout2->addChild(_maxSlider);
                 _bellows["Max"] = UI::Bellows::create(context);
                 _bellows["Max"]->addChild(vLayout2);
                 vLayout->addChild(_bellows["Max"]);
                 vLayout2 = UI::VerticalLayout::create(context);
-                vLayout2->setMargin(UI::MetricsRole::MarginSmall);
-                vLayout2->setSpacing(UI::MetricsRole::SpacingSmall);
+                vLayout2->setMargin(UI::MetricsRole::Margin);
+                vLayout2->setSpacing(UI::MetricsRole::None);
                 vLayout2->addChild(increaseThumbnailSizeButton);
                 vLayout2->addChild(decreaseThumbnailSizeButton);
                 vLayout2->addChild(_thumbnailSizeSlider);
@@ -327,10 +327,13 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                            auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
-                            fileSettings->setRecentFilesSettingsBellowsState(widget->_p->settingsWidget->getBellowsState());
-                            widget->_p->settingsWidget.reset();
+                            if (widget->_p->settingsWidget)
+                            {
+                                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                                auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
+                                fileSettings->setRecentFilesSettingsBellowsState(widget->_p->settingsWidget->getBellowsState());
+                                widget->_p->settingsWidget.reset();
+                            }
                         }
                     }
                 });

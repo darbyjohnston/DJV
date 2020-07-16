@@ -100,7 +100,6 @@
     "settings_general_section_tooltips": "Всплывающие",
     "settings_general_time_units": "Единицы измерения",
     "settings_glfw_section_swap_interval": "Интервал обмена",
-    "settings_glfw_swap_interval_setting": "Настройка (может потребоваться перезагрузка)",
     "settings_io_data_type": "Тип данных",
     "settings_io_exr_channel_grouping": "Группировка каналов",
     "settings_io_exr_compression": "Сжатие файлов",

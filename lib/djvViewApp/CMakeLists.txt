@@ -28,8 +28,8 @@ set(header
 	ImageSettings.h
     ImageSystem.h
     InfoWidget.h
-	InputSettings.h
-	InputSettingsWidget.h
+	KeyboardSettings.h
+	KeyboardSettingsWidget.h
 	LayersWidget.h
 	MDIWidget.h
     MagnifySettings.h
@@ -42,6 +42,8 @@ set(header
 	MediaWidgetPrivate.h
 	MemoryCacheWidget.h
     MessagesWidget.h
+	MouseSettings.h
+	MouseSettingsWidget.h
 	NUXSettings.h
     NUXSettingsWidget.h
 	NUXSystem.h
@@ -99,8 +101,8 @@ set(source
 	ImageSettings.cpp
     ImageSystem.cpp
     InfoWidget.cpp
-	InputSettings.cpp
-	InputSettingsWidget.cpp
+	KeyboardSettings.cpp
+	KeyboardSettingsWidget.cpp
 	LayersWidget.cpp
 	MDIWidget.cpp
     MagnifySettings.cpp
@@ -116,6 +118,8 @@ set(source
 	MediaWidget.cpp
 	MemoryCacheWidget.cpp
     MessagesWidget.cpp
+	MouseSettings.cpp
+	MouseSettingsWidget.cpp
 	NUXSettings.cpp
     NUXSettingsWidget.cpp
 	NUXSystem.cpp

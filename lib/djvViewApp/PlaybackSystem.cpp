@@ -6,9 +6,9 @@
 
 #include <djvViewApp/Application.h>
 #include <djvViewApp/FileSystem.h>
-#include <djvViewApp/InputSettings.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidget.h>
+#include <djvViewApp/MouseSettings.h>
 #include <djvViewApp/PlaybackSettings.h>
 #include <djvViewApp/WindowSystem.h>
 
@@ -855,8 +855,8 @@ namespace djv
                     {
                         Frame::Index frame = media->observeCurrentFrame()->get();
                         auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                        auto inputSettings = settingsSystem->getSettingsT<InputSettings>();
-                        const float speed = _getScrollWheelSpeed(inputSettings->observeScrollWheelSpeed()->get());
+                        auto mouseSettings = settingsSystem->getSettingsT<MouseSettings>();
+                        const float speed = _getScrollWheelSpeed(mouseSettings->observeScrollWheelSpeed()->get());
                         media->setCurrentFrame(frame + value.delta.y * speed);
                     }
                 }

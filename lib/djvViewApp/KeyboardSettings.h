@@ -16,27 +16,24 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the input settings.
-        class InputSettings : public UI::Settings::ISettings
+        //! This class provides keyboard settings.
+        class KeyboardSettings : public UI::Settings::ISettings
         {
-            DJV_NON_COPYABLE(InputSettings);
+            DJV_NON_COPYABLE(KeyboardSettings);
 
         protected:
             void _init(const std::shared_ptr<Core::Context>& context);
 
-            InputSettings();
+            KeyboardSettings();
 
         public:
-            static std::shared_ptr<InputSettings> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<KeyboardSettings> create(const std::shared_ptr<Core::Context>&);
 
             std::shared_ptr<Core::MapSubject<std::string, UI::ShortcutDataPair> > observeShortcuts() const;
             void setShortcuts(const UI::ShortcutDataMap&);
             void addShortcut(const std::string&, const UI::ShortcutDataPair&, bool overwrite = false);
             void addShortcut(const std::string&, int key, bool overwrite = false);
             void addShortcut(const std::string&, int key, int keyModifiers, bool overwrite = false);
-
-            std::shared_ptr<Core::IValueSubject<ScrollWheelSpeed> > observeScrollWheelSpeed() const;
-            void setScrollWheelSpeed(ScrollWheelSpeed);
 
             void load(const rapidjson::Value &) override;
             rapidjson::Value save(rapidjson::Document::AllocatorType&) override;
