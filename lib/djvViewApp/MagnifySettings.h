@@ -26,7 +26,7 @@ namespace djv
             MagnifySettings();
 
         public:
-            virtual ~MagnifySettings();
+            ~MagnifySettings() override;
 
             static std::shared_ptr<MagnifySettings> create(const std::shared_ptr<Core::Context>&);
 

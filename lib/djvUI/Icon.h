@@ -20,7 +20,7 @@ namespace djv
             Icon();
 
         public:
-            virtual ~Icon();
+            ~Icon() override;
 
             static std::shared_ptr<Icon> create(const std::shared_ptr<Core::Context>&);
 

@@ -40,7 +40,7 @@ namespace djv
                 FileBrowser();
 
             public:
-                virtual ~FileBrowser();
+                ~FileBrowser() override;
 
                 static std::shared_ptr<FileBrowser> create(const std::shared_ptr<Core::Context>&);
 

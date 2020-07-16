@@ -35,7 +35,7 @@ namespace djv
             GLFWSystem();
 
         public:
-            virtual ~GLFWSystem();
+            ~GLFWSystem() override;
             
             //! Create a new GLFW system.
             static std::shared_ptr<GLFWSystem> create(const std::shared_ptr<Core::Context>&);

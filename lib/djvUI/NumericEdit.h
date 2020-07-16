@@ -20,7 +20,7 @@ namespace djv
             NumericEditButtons();
 
         public:
-            virtual ~NumericEditButtons();
+            ~NumericEditButtons() override;
 
             static std::shared_ptr<NumericEditButtons> create(const std::shared_ptr<Core::Context>&);
 

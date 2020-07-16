@@ -39,7 +39,7 @@ namespace djv
                 Grid();
 
             public:
-                virtual ~Grid();
+                ~Grid() override;
 
                 static std::shared_ptr<Grid> create(const std::shared_ptr<Core::Context>&);
 

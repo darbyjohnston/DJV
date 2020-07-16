@@ -24,7 +24,7 @@ namespace djv
             ComboBox();
 
         public:
-            virtual ~ComboBox();
+            ~ComboBox() override;
 
             static std::shared_ptr<ComboBox> create(const std::shared_ptr<Core::Context>&);
 

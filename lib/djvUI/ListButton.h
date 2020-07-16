@@ -22,7 +22,7 @@ namespace djv
                 List();
 
             public:
-                virtual ~List();
+                ~List() override;
 
                 static std::shared_ptr<List> create(const std::shared_ptr<Core::Context>&);
 

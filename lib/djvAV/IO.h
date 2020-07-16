@@ -407,7 +407,7 @@ namespace djv
                 System();
 
             public:
-                virtual ~System();
+                ~System() override;
 
                 static std::shared_ptr<System> create(const std::shared_ptr<Core::Context>&);
 

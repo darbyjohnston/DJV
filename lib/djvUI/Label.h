@@ -22,7 +22,7 @@ namespace djv
             Label();
 
         public:
-            virtual ~Label();
+            ~Label() override;
 
             //! \name Label Creation
             ///@{
@@ -93,7 +93,7 @@ namespace djv
             LabelSizeGroup();
 
         public:
-            virtual ~LabelSizeGroup();
+            ~LabelSizeGroup();
 
             static std::shared_ptr<LabelSizeGroup> create();
 

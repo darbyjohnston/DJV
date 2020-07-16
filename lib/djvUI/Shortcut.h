@@ -24,7 +24,7 @@ namespace djv
             Shortcut();
 
         public:
-            virtual ~Shortcut();
+            ~Shortcut();
 
             static std::shared_ptr<Shortcut> create();
             static std::shared_ptr<Shortcut> create(const ShortcutData&);

@@ -20,7 +20,7 @@ namespace djv
             PopupWidget();
 
         public:
-            virtual ~PopupWidget();
+            ~PopupWidget() override;
 
             static std::shared_ptr<PopupWidget> create(const std::shared_ptr<Core::Context>&);
 

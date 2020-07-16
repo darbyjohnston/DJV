@@ -22,7 +22,7 @@ namespace djv
                 constexpr Range();
                 explicit constexpr Range(T minMax);
                 constexpr Range(T min, T max);
-                virtual ~Range();
+                ~Range();
 
                 T getMin() const;
                 T getMax() const;

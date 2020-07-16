@@ -21,7 +21,7 @@ protected:
     CameraWidget();
 
 public:
-    virtual ~CameraWidget();
+    ~CameraWidget() override;
 
     static std::shared_ptr<CameraWidget> create(const std::shared_ptr<djv::Core::Context>&);
 

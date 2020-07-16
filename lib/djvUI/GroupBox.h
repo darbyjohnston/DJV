@@ -22,7 +22,7 @@ namespace djv
                 GroupBox();
 
             public:
-                virtual ~GroupBox();
+                ~GroupBox() override;
 
                 static std::shared_ptr<GroupBox> create(const std::shared_ptr<Core::Context>&);
 

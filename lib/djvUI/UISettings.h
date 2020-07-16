@@ -24,7 +24,7 @@ namespace djv
                 UI();
 
             public:
-                virtual ~UI();
+                ~UI() override;
 
                 static std::shared_ptr<UI> create(const std::shared_ptr<Core::Context>&);
 

@@ -22,7 +22,7 @@ namespace djv
                 Toggle();
 
             public:
-                virtual ~Toggle();
+                ~Toggle() override;
 
                 static std::shared_ptr<Toggle> create(const std::shared_ptr<Core::Context>&);
 

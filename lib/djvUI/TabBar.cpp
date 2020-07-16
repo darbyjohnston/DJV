@@ -31,7 +31,7 @@ namespace djv
                 TabBarButton();
 
             public:
-                virtual ~TabBarButton();
+                ~TabBarButton() override;
 
                 static std::shared_ptr<TabBarButton> create(const std::string&, const std::shared_ptr<Core::Context>&);
 

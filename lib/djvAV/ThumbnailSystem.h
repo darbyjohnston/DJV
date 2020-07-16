@@ -57,7 +57,7 @@ namespace djv
             ThumbnailSystem();
 
         public:
-            virtual ~ThumbnailSystem();
+            ~ThumbnailSystem() override;
 
             //! Create a new thumbnail system.
             //! Throws:

@@ -28,7 +28,7 @@ namespace djv
             ToolSettings();
 
         public:
-            virtual ~ToolSettings();
+            ~ToolSettings() override;
 
             static std::shared_ptr<ToolSettings> create(const std::shared_ptr<Core::Context>&);
 

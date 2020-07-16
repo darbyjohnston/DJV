@@ -27,7 +27,7 @@ namespace djv
                 System();
 
             public:
-                virtual ~System();
+                ~System() override;
 
                 //! Create a new settings system.
                 static std::shared_ptr<System> create(bool reset, const std::shared_ptr<Core::Context>&);

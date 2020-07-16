@@ -49,7 +49,7 @@ namespace djv
                 ScrollBar();
 
             public:
-                virtual ~ScrollBar();
+                ~ScrollBar() override;
 
                 static std::shared_ptr<ScrollBar> create(Orientation, const std::shared_ptr<Context>&);
 
@@ -368,7 +368,7 @@ namespace djv
                 {}
 
             public:
-                virtual ~ScrollArea()
+                ~ScrollArea() override
                 {}
 
                 static std::shared_ptr<ScrollArea> create(ScrollType, const std::shared_ptr<Context>&);

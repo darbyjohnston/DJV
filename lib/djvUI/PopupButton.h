@@ -22,7 +22,7 @@ namespace djv
                 Popup();
 
             public:
-                virtual ~Popup();
+                ~Popup() override;
 
                 static std::shared_ptr<Popup> create(MenuButtonStyle, const std::shared_ptr<Core::Context>&);
 

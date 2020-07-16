@@ -22,7 +22,7 @@ namespace djv
                 Menu();
 
             public:
-                virtual ~Menu();
+                ~Menu() override;
 
                 static std::shared_ptr<Menu> create(MenuButtonStyle, const std::shared_ptr<Core::Context>&);
 

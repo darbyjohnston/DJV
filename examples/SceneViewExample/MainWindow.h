@@ -30,7 +30,7 @@ protected:
     MainWindow();
 
 public:
-    virtual ~MainWindow();
+    ~MainWindow() override;
 
     static std::shared_ptr<MainWindow> create(const std::shared_ptr<djv::Core::Context>&);
 

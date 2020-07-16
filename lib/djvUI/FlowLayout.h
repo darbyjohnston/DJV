@@ -24,7 +24,7 @@ namespace djv
                 Flow();
 
             public:
-                virtual ~Flow();
+                ~Flow() override;
 
                 static std::shared_ptr<Flow> create(const std::shared_ptr<Core::Context>&);
 

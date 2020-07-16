@@ -22,7 +22,7 @@ namespace djv
                 Drawer();
 
             public:
-                virtual ~Drawer();
+                ~Drawer() override;
 
                 static std::shared_ptr<Drawer> create(Side, const std::shared_ptr<Core::Context>&);
 

@@ -33,7 +33,7 @@ namespace djv
             IconSystem();
 
         public:
-            virtual ~IconSystem();
+            ~IconSystem() override;
 
             static std::shared_ptr<IconSystem> create(const std::shared_ptr<Core::Context>&);
             

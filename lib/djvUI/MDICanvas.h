@@ -25,7 +25,7 @@ namespace djv
                 Canvas();
 
             public:
-                virtual ~Canvas();
+                ~Canvas() override;
 
                 static std::shared_ptr<Canvas> create(const std::shared_ptr<Core::Context>&);
 

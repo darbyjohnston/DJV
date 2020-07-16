@@ -37,7 +37,7 @@ namespace djv
             FileSettings();
 
         public:
-            virtual ~FileSettings();
+            ~FileSettings() override;
 
             static std::shared_ptr<FileSettings> create(const std::shared_ptr<Core::Context>&);
             

@@ -22,7 +22,7 @@ namespace djv
             ColorSwatch();
 
         public:
-            virtual ~ColorSwatch();
+            ~ColorSwatch() override;
 
             static std::shared_ptr<ColorSwatch> create(const std::shared_ptr<Core::Context>&);
 

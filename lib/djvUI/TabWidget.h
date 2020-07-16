@@ -20,7 +20,7 @@ namespace djv
             TabWidget();
 
         public:
-            virtual ~TabWidget();
+            ~TabWidget() override;
 
             static std::shared_ptr<TabWidget> create(const std::shared_ptr<Core::Context>&);
             

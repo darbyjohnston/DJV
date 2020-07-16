@@ -22,7 +22,7 @@ namespace djv
                 Spacer();
 
             public:
-                virtual ~Spacer();
+                ~Spacer() override;
 
                 static std::shared_ptr<Spacer> create(Orientation, const std::shared_ptr<Core::Context>&);
 

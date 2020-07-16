@@ -28,7 +28,7 @@ namespace djv
             WindowSettings();
 
         public:
-            virtual ~WindowSettings();
+            ~WindowSettings() override;
 
             static std::shared_ptr<WindowSettings> create(const std::shared_ptr<Core::Context>&);
 

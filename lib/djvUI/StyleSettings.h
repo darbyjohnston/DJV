@@ -27,7 +27,7 @@ namespace djv
                 Style();
 
             public:
-                virtual ~Style();
+                ~Style() override;
 
                 static std::shared_ptr<Style> create(const std::shared_ptr<Core::Context>&);
 

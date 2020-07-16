@@ -20,7 +20,7 @@ namespace djv
             WindowGeometrySettingsWidget();
 
         public:
-            virtual ~WindowGeometrySettingsWidget();
+            ~WindowGeometrySettingsWidget() override;
 
             static std::shared_ptr<WindowGeometrySettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
@@ -45,7 +45,7 @@ namespace djv
             FullscreenMonitorSettingsWidget();
 
         public:
-            virtual ~FullscreenMonitorSettingsWidget();
+            ~FullscreenMonitorSettingsWidget() override;
 
             static std::shared_ptr<FullscreenMonitorSettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
@@ -97,7 +97,7 @@ namespace djv
             BackgroundImageSettingsWidget();
 
         public:
-            virtual ~BackgroundImageSettingsWidget();
+            ~BackgroundImageSettingsWidget() override;
 
             static std::shared_ptr<BackgroundImageSettingsWidget> create(const std::shared_ptr<Core::Context>&);
 

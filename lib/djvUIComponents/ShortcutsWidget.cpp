@@ -43,7 +43,7 @@ namespace djv
                 KeyPressWidget();
 
             public:
-                virtual ~KeyPressWidget();
+                ~KeyPressWidget() override;
 
                 static std::shared_ptr<KeyPressWidget> create(const std::shared_ptr<Context>&);
 

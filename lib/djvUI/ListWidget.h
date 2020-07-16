@@ -38,7 +38,7 @@ namespace djv
             ListWidget();
 
         public:
-            virtual ~ListWidget();
+            ~ListWidget() override;
 
             static std::shared_ptr<ListWidget> create(ButtonType, const std::shared_ptr<Core::Context>&);
 

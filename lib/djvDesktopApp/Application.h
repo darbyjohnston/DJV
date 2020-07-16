@@ -23,7 +23,7 @@ namespace djv
             Application();
 
         public:
-            virtual ~Application();
+            ~Application() override;
 
             static std::shared_ptr<Application> create(std::list<std::string>&);
 

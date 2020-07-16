@@ -22,7 +22,7 @@ namespace djv
                 Overlay();
 
             public:
-                virtual ~Overlay();
+                ~Overlay() override;
                 static std::shared_ptr<Overlay> create(const std::shared_ptr<Core::Context>&);
 
                 bool hasCapturePointer() const;

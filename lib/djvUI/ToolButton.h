@@ -22,7 +22,7 @@ namespace djv
                 Tool();
 
             public:
-                virtual ~Tool();
+                ~Tool() override;
 
                 static std::shared_ptr<Tool> create(const std::shared_ptr<Core::Context>&);
 

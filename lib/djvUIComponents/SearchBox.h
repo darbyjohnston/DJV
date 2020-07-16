@@ -20,7 +20,7 @@ namespace djv
             SearchBox();
 
         public:
-            virtual ~SearchBox();
+            ~SearchBox() override;
 
             static std::shared_ptr<SearchBox> create(const std::shared_ptr<Core::Context>&);
 

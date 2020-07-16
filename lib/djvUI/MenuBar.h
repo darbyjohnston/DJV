@@ -22,7 +22,7 @@ namespace djv
             MenuBar();
 
         public:
-            virtual ~MenuBar();
+            ~MenuBar() override;
 
             static std::shared_ptr<MenuBar> create(const std::shared_ptr<Core::Context>&);
 

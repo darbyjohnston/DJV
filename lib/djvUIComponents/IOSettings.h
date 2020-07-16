@@ -25,7 +25,7 @@ namespace djv
                 IO();
 
             public:
-                virtual ~IO();
+                ~IO() override;
 
                 static std::shared_ptr<IO> create(const std::shared_ptr<Core::Context>&);
 

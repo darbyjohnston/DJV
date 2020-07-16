@@ -20,7 +20,7 @@ namespace djv
             ToolBar();
 
         public:
-            virtual ~ToolBar();
+            ~ToolBar() override;
 
             static std::shared_ptr<ToolBar> create(const std::shared_ptr<Core::Context>&);
 

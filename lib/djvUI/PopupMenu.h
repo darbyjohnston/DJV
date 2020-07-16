@@ -22,7 +22,7 @@ namespace djv
             PopupMenu();
 
         public:
-            virtual ~PopupMenu();
+            ~PopupMenu() override;
 
             static std::shared_ptr<PopupMenu> create(const std::shared_ptr<Core::Context>&);
 

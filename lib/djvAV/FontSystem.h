@@ -127,7 +127,7 @@ namespace djv
                 System();
 
             public:
-                virtual ~System();
+                ~System() override;
 
                 //! Create a new font system.
                 //! Throws:

@@ -22,7 +22,7 @@ namespace djv
                 Border();
 
             public:
-                virtual ~Border();
+                ~Border() override;
 
                 static std::shared_ptr<Border> create(const std::shared_ptr<Core::Context>&);
 

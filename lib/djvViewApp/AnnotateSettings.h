@@ -38,7 +38,7 @@ namespace djv
             AnnotateSettings();
 
         public:
-            virtual ~AnnotateSettings();
+            ~AnnotateSettings() override;
 
             static std::shared_ptr<AnnotateSettings> create(const std::shared_ptr<Core::Context>&);
 

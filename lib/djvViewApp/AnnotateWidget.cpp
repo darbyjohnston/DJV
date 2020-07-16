@@ -42,7 +42,7 @@ namespace djv
                 ColorButton();
 
             public:
-                virtual ~ColorButton();
+                ~ColorButton() override;
 
                 static std::shared_ptr<ColorButton> create(const AV::Image::Color&, const std::shared_ptr<Context>&);
 

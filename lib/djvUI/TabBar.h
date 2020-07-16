@@ -20,7 +20,7 @@ namespace djv
             TabBar();
 
         public:
-            virtual ~TabBar();
+            ~TabBar() override;
 
             static std::shared_ptr<TabBar> create(const std::shared_ptr<Core::Context>&);
 

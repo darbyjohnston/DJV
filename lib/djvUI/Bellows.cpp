@@ -37,7 +37,7 @@ namespace djv
                     Button();
 
                 public:
-                    virtual ~Button();
+                    ~Button() override;
 
                     static std::shared_ptr<Button> create(const std::shared_ptr<Context>&);
 
@@ -152,7 +152,7 @@ namespace djv
                     ChildLayout();
 
                 public:
-                    virtual ~ChildLayout();
+                    ~ChildLayout() override;
 
                     static std::shared_ptr<ChildLayout> create(const std::shared_ptr<Context>&);
 

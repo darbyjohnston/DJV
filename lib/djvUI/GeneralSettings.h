@@ -22,7 +22,7 @@ namespace djv
                 General();
 
             public:
-                virtual ~General();
+                ~General() override;
 
                 static std::shared_ptr<General> create(const std::shared_ptr<Core::Context>&);
 

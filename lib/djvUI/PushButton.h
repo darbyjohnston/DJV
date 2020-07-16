@@ -23,7 +23,7 @@ namespace djv
                 Push();
 
             public:
-                virtual ~Push();
+                ~Push() override;
 
                 static std::shared_ptr<Push> create(const std::shared_ptr<Core::Context>&);
 

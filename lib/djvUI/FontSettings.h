@@ -26,7 +26,7 @@ namespace djv
                 Font();
 
             public:
-                virtual ~Font();
+                ~Font() override;
                 static std::shared_ptr<Font> create(const std::shared_ptr<Core::Context>&);
 
                 const std::shared_ptr<Core::MapSubject<std::string, std::string> >& observeLocaleFonts() const;

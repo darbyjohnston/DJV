@@ -21,7 +21,7 @@ namespace djv
             IntEdit();
 
         public:
-            virtual ~IntEdit();
+            ~IntEdit() override;
 
             static std::shared_ptr<IntEdit> create(const std::shared_ptr<Core::Context>&);
 

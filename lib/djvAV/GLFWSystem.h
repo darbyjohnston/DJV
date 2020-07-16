@@ -58,7 +58,7 @@ namespace djv
                 System();
 
             public:
-                virtual ~System();
+                ~System() override;
 
                 //! Create a new GLFW system.
                 //! Throws:

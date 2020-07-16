@@ -21,7 +21,7 @@ protected:
     RenderWidget();
 
 public:
-    virtual ~RenderWidget();
+    ~RenderWidget() override;
 
     static std::shared_ptr<RenderWidget> create(const std::shared_ptr<djv::Core::Context>&);
 

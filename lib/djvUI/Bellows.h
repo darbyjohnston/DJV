@@ -22,7 +22,7 @@ namespace djv
                 Bellows();
 
             public:
-                virtual ~Bellows();
+                ~Bellows() override;
 
                 static std::shared_ptr<Bellows> create(const std::shared_ptr<Core::Context>&);
                 

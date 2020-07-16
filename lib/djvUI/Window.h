@@ -20,7 +20,7 @@ namespace djv
             Window();
 
         public:
-            virtual ~Window();
+            ~Window() override;
 
             static std::shared_ptr<Window> create(const std::shared_ptr<Core::Context>&);
 
