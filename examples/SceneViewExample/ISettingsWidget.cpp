@@ -18,7 +18,6 @@ void ISettingsWidget::_init(const std::shared_ptr<Core::Context>& context)
     //_childLayout->setMargin(UI::MetricsRole::Margin);
 
     _bellows = UI::Bellows::create(context);
-    _bellows->close();
     _bellows->addChild(_childLayout);
     Widget::addChild(_bellows);
 }

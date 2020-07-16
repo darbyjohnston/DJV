@@ -312,7 +312,7 @@ namespace djv
                                     const uint64_t size = fileInfo.getSize();
                                     ss << Memory::getSizeLabel(size);
                                     std::stringstream ss2;
-                                    ss2 << Memory::getSizeLabel(size);
+                                    ss2 << Memory::getUnitLabel(size);
                                     ss << _getText(ss2.str());
                                     const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium);
                                     p.sizeGlyphsFutures[i.first] = p.fontSystem->getGlyphs(ss.str(), fontInfo);

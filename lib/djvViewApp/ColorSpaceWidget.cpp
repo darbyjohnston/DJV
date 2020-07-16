@@ -69,11 +69,6 @@ namespace djv
             p.bellows["Image"] = UI::Bellows::create(context);
             p.bellows["Image"]->addChild(p.imageWidget);
 
-            for (const auto& i : p.bellows)
-            {
-                i.second->close(false);
-            }
-
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
             p.formLayout = UI::FormLayout::create(context);

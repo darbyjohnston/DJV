@@ -31,6 +31,7 @@ namespace djv
             std::shared_ptr<ValueSubject<size_t> > openMax;
             std::shared_ptr<ListSubject<Core::FileSystem::FileInfo> > recentFiles;
             std::shared_ptr<ValueSubject<size_t> > recentFilesMax;
+            std::map<std::string, bool> recentFilesSettingsBellowsState;
             std::shared_ptr<ValueSubject<bool> > autoDetectSequences;
             std::shared_ptr<ValueSubject<bool> > sequencesFirstFrame;
             std::shared_ptr<ValueSubject<bool> > cacheEnabled;
@@ -86,6 +87,11 @@ namespace djv
             return _p->recentFilesMax;
         }
 
+        std::map<std::string, bool> FileSettings::getRecentFilesSettingsBellowsState() const
+        {
+            return _p->recentFilesSettingsBellowsState;
+        }
+
         void FileSettings::setRecentFiles(const std::vector<Core::FileSystem::FileInfo>& value)
         {
             DJV_PRIVATE_PTR();
@@ -108,6 +114,11 @@ namespace djv
                 filesMax.push_back(files[i]);
             }
             setRecentFiles(filesMax);
+        }
+
+        void FileSettings::setRecentFilesSettingsBellowsState(const std::map<std::string, bool>& value)
+        {
+            _p->recentFilesSettingsBellowsState = value;
         }
 
         std::shared_ptr<IValueSubject<bool> > FileSettings::observeAutoDetectSequences() const
@@ -182,6 +193,7 @@ namespace djv
                 }
                 p.recentFiles->setIfChanged(recentFiles);
                 UI::Settings::read("RecentFilesMax", value, p.recentFilesMax);
+                UI::Settings::read("RecentFilesSettingsBellows", value, p.recentFilesSettingsBellowsState);
                 UI::Settings::read("AutoDetectSequences", value, p.autoDetectSequences);
                 UI::Settings::read("SequencesFirstFrame", value, p.sequencesFirstFrame);
                 UI::Settings::read("CacheEnabled", value, p.cacheEnabled);
@@ -197,6 +209,7 @@ namespace djv
             UI::Settings::write("OpenMax", p.openMax->get(), out, allocator);
             UI::Settings::write("RecentFiles", p.recentFiles->get(), out, allocator);
             UI::Settings::write("RecentFilesMax", p.recentFilesMax->get(), out, allocator);
+            UI::Settings::write("RecentFilesSettingsBellows", p.recentFilesSettingsBellowsState, out, allocator);
             UI::Settings::write("AutoDetectSequences", p.autoDetectSequences->get(), out, allocator);
             UI::Settings::write("SequencesFirstFrame", p.sequencesFirstFrame->get(), out, allocator);
             UI::Settings::write("CacheEnabled", p.cacheEnabled->get(), out, allocator);

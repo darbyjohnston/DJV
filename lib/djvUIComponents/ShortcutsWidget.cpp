@@ -436,12 +436,16 @@ namespace djv
 
         void ShortcutsWidget::_preLayoutEvent(Event::PreLayout&)
         {
-            _setMinimumSize(_p->layout->getMinimumSize());
+            DJV_PRIVATE_PTR();
+            const auto& style = _getStyle();
+            _setMinimumSize(p.layout->getMinimumSize() + getMargin().getSize(style));
         }
 
         void ShortcutsWidget::_layoutEvent(Event::Layout&)
         {
-            _p->layout->setGeometry(getGeometry());
+            DJV_PRIVATE_PTR();
+            const auto& style = _getStyle();
+            p.layout->setGeometry(getMargin().bbox(getGeometry(), style));
         }
 
         void ShortcutsWidget::_initEvent(Event::Init & event)

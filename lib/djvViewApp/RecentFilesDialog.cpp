@@ -14,6 +14,8 @@
 #include <djvUI/Action.h>
 #include <djvUI/ActionButton.h>
 #include <djvUI/ActionGroup.h>
+#include <djvUI/Bellows.h>
+#include <djvUI/Drawer.h>
 #include <djvUI/IntSlider.h>
 #include <djvUI/Label.h>
 #include <djvUI/MDICanvas.h>
@@ -55,6 +57,9 @@ namespace djv
                     const std::map<std::string, std::shared_ptr<UI::Action> >&,
                     const std::shared_ptr<Context>&);
 
+                std::map<std::string, bool> getBellowsState() const;
+                void setBellowsState(const std::map<std::string, bool>&);
+
             protected:
                 void _preLayoutEvent(Event::PreLayout&) override;
                 void _layoutEvent(Event::Layout&) override;
@@ -62,10 +67,9 @@ namespace djv
                 void _initEvent(Event::Init&) override;
 
             private:
-                std::shared_ptr<UI::Label> _maxLabel;
                 std::shared_ptr<UI::IntSlider> _maxSlider;
-                std::shared_ptr<UI::Label> _thumbnailSizeLabel;
                 std::shared_ptr<UI::IntSlider> _thumbnailSizeSlider;
+                std::map<std::string, std::shared_ptr<UI::Bellows> > _bellows;
                 std::shared_ptr<UI::ScrollWidget> _scrollWidget;
 
                 std::shared_ptr<ValueObserver<size_t> > _recentFilesMaxObserver;
@@ -78,46 +82,41 @@ namespace djv
             {
                 Widget::_init(context);
 
+                _maxSlider = UI::IntSlider::create(context);
+                _maxSlider->setRange(IntRange(5, 100));
+                _maxSlider->setDelay(Time::getTime(Time::TimerValue::Medium));
+
                 auto increaseThumbnailSizeButton = UI::ActionButton::create(context);
                 increaseThumbnailSizeButton->addAction(actions.at("IncreaseThumbnailSize"));
                 auto decreaseThumbnailSizeButton = UI::ActionButton::create(context);
                 decreaseThumbnailSizeButton->addAction(actions.at("DecreaseThumbnailSize"));
 
-                _maxLabel = UI::Label::create(context);
-                _maxLabel->setTextHAlign(UI::TextHAlign::Left);
-                _maxLabel->setBackgroundRole(UI::ColorRole::Trough);
-                _maxLabel->setMargin(UI::MetricsRole::MarginSmall);
-                _maxSlider = UI::IntSlider::create(context);
-                _maxSlider->setRange(IntRange(5, 100));
-                _maxSlider->setDelay(Time::getTime(Time::TimerValue::Medium));
-                _maxSlider->setMargin(UI::MetricsRole::MarginSmall);
-
-                _thumbnailSizeLabel = UI::Label::create(context);
-                _thumbnailSizeLabel->setTextHAlign(UI::TextHAlign::Left);
-                _thumbnailSizeLabel->setBackgroundRole(UI::ColorRole::Trough);
-                _thumbnailSizeLabel->setMargin(UI::MetricsRole::MarginSmall);
                 _thumbnailSizeSlider = UI::IntSlider::create(context);
                 _thumbnailSizeSlider->setRange(UI::FileBrowser::thumbnailSizeRange);
                 _thumbnailSizeSlider->setDelay(Time::getTime(Time::TimerValue::Medium));
-                _thumbnailSizeSlider->setMargin(UI::MetricsRole::MarginSmall);
 
                 auto vLayout = UI::VerticalLayout::create(context);
                 vLayout->setSpacing(UI::MetricsRole::None);
-                vLayout->addChild(_maxLabel);
-                vLayout->addSeparator();
-                vLayout->addChild(_maxSlider);
-                vLayout->addSeparator();
-                vLayout->addChild(_thumbnailSizeLabel);
-                vLayout->addSeparator();
                 auto vLayout2 = UI::VerticalLayout::create(context);
+                vLayout2->setMargin(UI::MetricsRole::MarginSmall);
+                vLayout2->setSpacing(UI::MetricsRole::SpacingSmall);
+                vLayout2->addChild(_maxSlider);
+                _bellows["Max"] = UI::Bellows::create(context);
+                _bellows["Max"]->addChild(vLayout2);
+                vLayout->addChild(_bellows["Max"]);
+                vLayout2 = UI::VerticalLayout::create(context);
+                vLayout2->setMargin(UI::MetricsRole::MarginSmall);
                 vLayout2->setSpacing(UI::MetricsRole::SpacingSmall);
                 vLayout2->addChild(increaseThumbnailSizeButton);
                 vLayout2->addChild(decreaseThumbnailSizeButton);
                 vLayout2->addChild(_thumbnailSizeSlider);
-                vLayout->addChild(vLayout2);
+                _bellows["Thumbnails"] = UI::Bellows::create(context);
+                _bellows["Thumbnails"]->addChild(vLayout2);
+                vLayout->addChild(_bellows["Thumbnails"]);
                 _scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
                 _scrollWidget->setBorder(false);
                 _scrollWidget->setMinimumSizeRole(UI::MetricsRole::None);
+                _scrollWidget->setBackgroundRole(UI::ColorRole::Background);
                 _scrollWidget->addChild(vLayout);
                 addChild(_scrollWidget);
 
@@ -181,6 +180,28 @@ namespace djv
                 return out;
             }
 
+            std::map<std::string, bool> SettingsWidget::getBellowsState() const
+            {
+                std::map<std::string, bool> out;
+                for (const auto& i : _bellows)
+                {
+                    out[i.first] = i.second->isOpen();
+                }
+                return out;
+            }
+
+            void SettingsWidget::setBellowsState(const std::map<std::string, bool>& value)
+            {
+                for (const auto& i : value)
+                {
+                    const auto j = _bellows.find(i.first);
+                    if (j != _bellows.end())
+                    {
+                        j->second->setOpen(i.second, false);
+                    }
+                }
+            }
+
             void SettingsWidget::_preLayoutEvent(Event::PreLayout&)
             {
                 _setMinimumSize(_scrollWidget->getMinimumSize());
@@ -195,8 +216,9 @@ namespace djv
             {
                 if (event.getData().text)
                 {
-                    _maxLabel->setText(_getText(DJV_TEXT("recent_files_max")));
-                    _thumbnailSizeLabel->setText(_getText(DJV_TEXT("recent_files_thumbnail_size")));
+                    _bellows["Max"]->setText(_getText(DJV_TEXT("recent_files_settings_max")));
+                    _bellows["Thumbnails"]->setText(_getText(DJV_TEXT("recent_files_settings_thumbnails")));
+                    _thumbnailSizeSlider->setTooltip(_getText(DJV_TEXT("recent_files_settings_thumbnail_size_tooltip")));
                 }
             }
 
@@ -210,10 +232,10 @@ namespace djv
 
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::SearchBox> searchBox;
-            std::shared_ptr<UI::PopupButton> settingsPopupButton;
+            std::shared_ptr<SettingsWidget> settingsWidget;
             std::shared_ptr<UI::FileBrowser::ItemView> itemView;
             std::shared_ptr<UI::Label> itemCountLabel;
-            std::shared_ptr<UI::StackLayout> layout;
+            std::shared_ptr<UI::VerticalLayout> layout;
 
             std::function<void(const Core::FileSystem::FileInfo&)> callback;
 
@@ -232,19 +254,21 @@ namespace djv
 
             p.actions["IncreaseThumbnailSize"] = UI::Action::create();
             p.actions["IncreaseThumbnailSize"]->setIcon("djvIconAdd");
-            p.actions["IncreaseThumbnailSize"]->setShortcut(GLFW_KEY_EQUAL);
             p.actions["DecreaseThumbnailSize"] = UI::Action::create();
             p.actions["DecreaseThumbnailSize"]->setIcon("djvIconSubtract");
-            p.actions["DecreaseThumbnailSize"]->setShortcut(GLFW_KEY_MINUS);
-            p.searchBox = UI::SearchBox::create(context);
 
-            p.settingsPopupButton = UI::PopupButton::create(UI::MenuButtonStyle::Tool, context);
-            p.settingsPopupButton->setIcon("djvIconSettings");
+            p.actions["Settings"] = UI::Action::create();
+            p.actions["Settings"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["Settings"]->setIcon("djvIconSettings");
+
+            p.searchBox = UI::SearchBox::create(context);
 
             auto toolBar = UI::ToolBar::create(context);
             toolBar->addExpander();
             toolBar->addChild(p.searchBox);
-            toolBar->addChild(p.settingsPopupButton);
+            toolBar->addAction(p.actions["Settings"]);
+
+            auto settingsDrawer = UI::Drawer::create(UI::Side::Right, context);
 
             p.itemView = UI::FileBrowser::ItemView::create(context);
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
@@ -257,19 +281,21 @@ namespace djv
             p.itemCountLabel->setVAlign(UI::VAlign::Bottom);
             p.itemCountLabel->setMargin(UI::MetricsRole::Margin);
 
-            p.layout = UI::StackLayout::create(context);
+            p.layout = UI::VerticalLayout::create(context);
+            p.layout->setSpacing(UI::MetricsRole::None);
+            p.layout->addChild(toolBar);
             for (auto action : p.actions)
             {
                 p.layout->addAction(action.second);
             }
-            auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::MetricsRole::None);
-            vLayout->addChild(toolBar);
-            vLayout->addSeparator();
-            vLayout->addChild(scrollWidget);
-            vLayout->setStretch(scrollWidget, UI::RowStretch::Expand);
-            p.layout->addChild(vLayout);
-            p.layout->addChild(p.itemCountLabel);
+            auto stackLayout2 = UI::StackLayout::create(context);
+            stackLayout2->addChild(scrollWidget);
+            stackLayout2->addChild(p.itemCountLabel);
+            auto stackLayout = UI::StackLayout::create(context);
+            stackLayout->addChild(stackLayout2);
+            stackLayout->addChild(settingsDrawer);
+            p.layout->addChild(stackLayout);
+            p.layout->setStretch(stackLayout, UI::RowStretch::Expand);
             addChild(p.layout);
             setStretch(p.layout, UI::RowStretch::Expand);
 
@@ -277,7 +303,7 @@ namespace djv
 
             auto weak = std::weak_ptr<RecentFilesDialog>(std::dynamic_pointer_cast<RecentFilesDialog>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
-            p.settingsPopupButton->setOpenCallback(
+            settingsDrawer->setOpenCallback(
                 [weak, contextWeak]() -> std::shared_ptr<UI::Widget>
                 {
                     std::shared_ptr<UI::Widget> out;
@@ -285,10 +311,28 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            out = SettingsWidget::create(widget->_p->actions, context);
+                            widget->_p->settingsWidget = SettingsWidget::create(widget->_p->actions, context);
+                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
+                            widget->_p->settingsWidget->setBellowsState(fileSettings->getRecentFilesSettingsBellowsState());
+                            out = widget->_p->settingsWidget;
                         }
                     }
                     return out;
+                });
+            settingsDrawer->setCloseCallback(
+                [weak, contextWeak](const std::shared_ptr<Widget>&)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
+                            fileSettings->setRecentFilesSettingsBellowsState(widget->_p->settingsWidget->getBellowsState());
+                            widget->_p->settingsWidget.reset();
+                        }
+                    }
                 });
 
             p.itemView->setCallback(
@@ -379,6 +423,13 @@ namespace djv
                 }
             });
 
+            p.actionObservers["Settings"] = ValueObserver<bool>::create(
+                p.actions["Settings"]->observeChecked(),
+                [settingsDrawer](bool value)
+                {
+                    settingsDrawer->setOpen(value);
+                });
+
             auto shortcutsSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
             p.shortcutsObserver = MapObserver<std::string, UI::ShortcutDataPair>::create(
                 shortcutsSettings->observeKeyShortcuts(),
@@ -386,12 +437,12 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        auto i = value.find("UIComponents/FileBrowser/IncreaseThumbnailSize");
+                        auto i = value.find("file_browser_shortcut_increase_thumbnail_size");
                         if (i != value.end())
                         {
                             widget->_p->actions["IncreaseThumbnailSize"]->setShortcuts(i->second);
                         }
-                        i = value.find("UIComponents/FileBrowser/DecreaseThumbnailSize");
+                        i = value.find("file_browser_shortcut_decrease_thumbnail_size");
                         if (i != value.end())
                         {
                             widget->_p->actions["DecreaseThumbnailSize"]->setShortcuts(i->second);
@@ -405,7 +456,15 @@ namespace djv
         {}
 
         RecentFilesDialog::~RecentFilesDialog()
-        {}
+        {
+            DJV_PRIVATE_PTR();
+            if (auto context = getContext().lock())
+            {
+                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
+                fileSettings->setRecentFilesSettingsBellowsState(p.settingsWidget->getBellowsState());
+            }
+        }
 
         std::shared_ptr<RecentFilesDialog> RecentFilesDialog::create(const std::shared_ptr<Core::Context>& context)
         {
@@ -425,16 +484,16 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                setTitle(_getText(DJV_TEXT("widget_recent_files_title")));
+                setTitle(_getText(DJV_TEXT("recent_files_title")));
 
-                p.actions["IncreaseThumbnailSize"]->setText(_getText(DJV_TEXT("widget_recent_increase_thumbnail_size")));
-                p.actions["IncreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("widget_recent_increase_thumbnail_size_tooltip")));
-                p.actions["DecreaseThumbnailSize"]->setText(_getText(DJV_TEXT("widget_recent_decrease_thumbnail_size")));
-                p.actions["DecreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("widget_recent_decrease_thumbnail_size_tooltip")));
+                p.actions["IncreaseThumbnailSize"]->setText(_getText(DJV_TEXT("recent_files_increase_thumbnail_size")));
+                p.actions["IncreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("recent_files_increase_thumbnail_size_tooltip")));
+                p.actions["DecreaseThumbnailSize"]->setText(_getText(DJV_TEXT("recent_files_decrease_thumbnail_size")));
+                p.actions["DecreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("recent_files_decrease_thumbnail_size_tooltip")));
+                p.actions["Settings"]->setTooltip(_getText(DJV_TEXT("recent_files_settings_tooltip")));
 
                 p.itemCountLabel->setText(_getItemCountLabel(p.itemCount));
                 p.searchBox->setTooltip(_getText(DJV_TEXT("recent_files_search_tooltip")));
-                p.settingsPopupButton->setTooltip(_getText(DJV_TEXT("recent_files_settings_tooltip")));
             }
         }
 

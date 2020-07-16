@@ -217,6 +217,9 @@ namespace djv
                     const std::map<std::string, std::shared_ptr<Action> >&,
                     const std::shared_ptr<Core::Context>&);
 
+                std::map<std::string, bool> getBellowsState() const;
+                void setBellowsState(const std::map<std::string, bool>&);
+
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout&) override;
                 void _layoutEvent(Core::Event::Layout&) override;

@@ -246,7 +246,7 @@ namespace djv
                         for (const auto& i : value)
                         {
                             std::stringstream ss;
-                            ss << system->_getText(DJV_TEXT("recent_files_label_warning")) << ": ";
+                            ss << system->_getText(DJV_TEXT("warning")) << ": ";
                             ss << i;
                             system->_p->messages.push_back(ss.str());
                             while (system->_p->messages.size() > messagesMax)
@@ -274,7 +274,7 @@ namespace djv
                         for (const auto& i : value)
                         {
                             std::stringstream ss;
-                            ss << system->_getText(DJV_TEXT("recent_files_label_error")) << ": ";
+                            ss << system->_getText(DJV_TEXT("error")) << ": ";
                             ss << i;
                             system->_p->messages.push_back(ss.str());
                             while (system->_p->messages.size() > messagesMax)

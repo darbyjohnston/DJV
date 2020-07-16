@@ -227,10 +227,6 @@ namespace djv
                 i.second->setSpacing(UI::MetricsRole::SpacingSmall);
                 i.second->setLabelSizeGroup(p.sizeGroup);
             }
-            for (const auto& i : p.bellows)
-            {
-                i.second->close(false);
-            }
 
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);

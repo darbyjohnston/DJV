@@ -5,8 +5,10 @@
 #include <djvUIComponents/FileBrowserPrivate.h>
 
 #include <djvUIComponents/FileBrowserSettings.h>
+#include <djvUIComponents/ShortcutsWidget.h>
 
 #include <djvUI/ActionButton.h>
+#include <djvUI/Bellows.h>
 #include <djvUI/Label.h>
 #include <djvUI/IntSlider.h>
 #include <djvUI/RowLayout.h>
@@ -25,14 +27,13 @@ namespace djv
         {
             struct SettingsWidget::Private
             {
-                std::shared_ptr<Label> titleLabel;
-                std::shared_ptr<Label> viewTypeLabel;
-                std::shared_ptr<Label> thumbnailSizeLabel;
                 std::shared_ptr<IntSlider> thumbnailSizeSlider;
-                std::shared_ptr<Label> miscSettingsLabel;
-                std::shared_ptr<VerticalLayout> layout;
+                std::shared_ptr<UI::ShortcutsWidget> keyShortcutsWidget;
+                std::map<std::string, std::shared_ptr<Bellows> > bellows;
+                std::shared_ptr<ScrollWidget> scrollWidget;
 
                 std::shared_ptr<ValueObserver<AV::Image::Size> > thumbnailSizeObserver;
+                std::shared_ptr<MapObserver<std::string, UI::ShortcutDataPair> > keyShortcutsObserver;
             };
 
             void SettingsWidget::_init(
@@ -44,80 +45,63 @@ namespace djv
 
                 setClassName("djv::UI::FileBrowser::SettingsWidget");
 
-                p.titleLabel = Label::create(context);
-                p.titleLabel->setTextHAlign(TextHAlign::Left);
-                p.titleLabel->setMargin(MetricsRole::MarginSmall);
-                p.titleLabel->setBackgroundRole(ColorRole::Trough);
-
-                p.viewTypeLabel = Label::create(context);
-                p.viewTypeLabel->setTextHAlign(TextHAlign::Left);
-                p.viewTypeLabel->setMargin(MetricsRole::MarginSmall);
-                p.viewTypeLabel->setBackgroundRole(ColorRole::Trough);
                 auto tilesButton = ActionButton::create(context);
                 tilesButton->addAction(actions.at("Tiles"));
                 auto listButton = ActionButton::create(context);
                 listButton->addAction(actions.at("List"));
 
-                p.thumbnailSizeLabel = Label::create(context);
-                p.thumbnailSizeLabel->setTextHAlign(TextHAlign::Left);
-                p.thumbnailSizeLabel->setMargin(MetricsRole::MarginSmall);
-                p.thumbnailSizeLabel->setBackgroundRole(ColorRole::Trough);
                 auto increaseThumbnailSizeButton = ActionButton::create(context);
                 increaseThumbnailSizeButton->addAction(actions.at("IncreaseThumbnailSize"));
                 auto decreaseThumbnailSizeButton = ActionButton::create(context);
                 decreaseThumbnailSizeButton->addAction(actions.at("DecreaseThumbnailSize"));
+                p.thumbnailSizeSlider = IntSlider::create(context);
+                p.thumbnailSizeSlider->setRange(thumbnailSizeRange);
+                p.thumbnailSizeSlider->setDelay(Time::getTime(Time::TimerValue::Medium));
 
-                p.miscSettingsLabel = Label::create(context);
-                p.miscSettingsLabel->setTextHAlign(TextHAlign::Left);
-                p.miscSettingsLabel->setMargin(MetricsRole::MarginSmall);
-                p.miscSettingsLabel->setBackgroundRole(ColorRole::Trough);
+                p.keyShortcutsWidget = UI::ShortcutsWidget::create(context);
+                p.keyShortcutsWidget->setMargin(MetricsRole::MarginSmall);
+
                 auto fileSequencesButton = ActionButton::create(context);
                 fileSequencesButton->addAction(actions.at("FileSequences"));
                 auto showHiddenButton = ActionButton::create(context);
                 showHiddenButton->addAction(actions.at("ShowHidden"));
 
-                p.thumbnailSizeSlider = IntSlider::create(context);
-                p.thumbnailSizeSlider->setRange(thumbnailSizeRange);
-                p.thumbnailSizeSlider->setDelay(Time::getTime(Time::TimerValue::Medium));
-                p.thumbnailSizeSlider->setMargin(MetricsRole::MarginSmall);
-
-                p.layout = VerticalLayout::create(context);
-                p.layout->setSpacing(MetricsRole::None);
-                p.layout->addChild(p.titleLabel);
-                p.layout->addSeparator();
                 auto vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(MetricsRole::None);
-                vLayout->addChild(p.viewTypeLabel);
-                vLayout->addSeparator();
                 auto vLayout2 = VerticalLayout::create(context);
-                vLayout2->setSpacing(MetricsRole::None);
+                vLayout2->setMargin(MetricsRole::MarginSmall);
+                vLayout2->setSpacing(MetricsRole::SpacingSmall);
                 vLayout2->addChild(tilesButton);
                 vLayout2->addChild(listButton);
-                vLayout->addChild(vLayout2);
-                vLayout->addSeparator();
-                vLayout->addChild(p.thumbnailSizeLabel);
-                vLayout->addSeparator();
+                p.bellows["View"] = Bellows::create(context);
+                p.bellows["View"]->addChild(vLayout2);
+                vLayout->addChild(p.bellows["View"]);
                 vLayout2 = VerticalLayout::create(context);
-                vLayout2->setSpacing(MetricsRole::None);
+                vLayout2->setMargin(MetricsRole::MarginSmall);
+                vLayout2->setSpacing(MetricsRole::SpacingSmall);
                 vLayout2->addChild(increaseThumbnailSizeButton);
                 vLayout2->addChild(decreaseThumbnailSizeButton);
                 vLayout2->addChild(p.thumbnailSizeSlider);
-                vLayout->addChild(vLayout2);
-                vLayout->addSeparator();
-                vLayout->addChild(p.miscSettingsLabel);
-                vLayout->addSeparator();
+                p.bellows["Thumbnails"] = Bellows::create(context);
+                p.bellows["Thumbnails"]->addChild(vLayout2);
+                vLayout->addChild(p.bellows["Thumbnails"]);
+                p.bellows["Keyboard"] = Bellows::create(context);
+                p.bellows["Keyboard"]->addChild(p.keyShortcutsWidget);
+                vLayout->addChild(p.bellows["Keyboard"]);
                 vLayout2 = VerticalLayout::create(context);
-                vLayout2->setSpacing(MetricsRole::None);
+                vLayout2->setMargin(MetricsRole::MarginSmall);
+                vLayout2->setSpacing(MetricsRole::SpacingSmall);
                 vLayout2->addChild(fileSequencesButton);
                 vLayout2->addChild(showHiddenButton);
-                vLayout->addChild(vLayout2);
-                auto scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
-                scrollWidget->setBorder(false);
-                scrollWidget->setMinimumSizeRole(MetricsRole::None);
-                scrollWidget->addChild(vLayout);
-                p.layout->addChild(scrollWidget);
-                p.layout->setStretch(scrollWidget, RowStretch::Expand);
-                addChild(p.layout);
+                p.bellows["Misc"] = Bellows::create(context);
+                p.bellows["Misc"]->addChild(vLayout2);
+                vLayout->addChild(p.bellows["Misc"]);
+                p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
+                p.scrollWidget->setBorder(false);
+                p.scrollWidget->setMinimumSizeRole(MetricsRole::None);
+                p.scrollWidget->setBackgroundRole(ColorRole::Background);
+                p.scrollWidget->addChild(vLayout);
+                addChild(p.scrollWidget);
 
                 auto contextWeak = std::weak_ptr<Context>(context);
                 p.thumbnailSizeSlider->setValueCallback(
@@ -126,10 +110,19 @@ namespace djv
                         if (auto context = contextWeak.lock())
                         {
                             auto settingsSystem = context->getSystemT<Settings::System>();
-                            if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
-                            {
-                                fileBrowserSettings->setThumbnailSize(AV::Image::Size(value, ceilf(value / 2.F)));
-                            }
+                            auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
+                            fileBrowserSettings->setThumbnailSize(AV::Image::Size(value, ceilf(value / 2.F)));
+                        }
+                    });
+
+                p.keyShortcutsWidget->setShortcutsCallback(
+                    [contextWeak](const UI::ShortcutDataMap& value)
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
+                            fileBrowserSettings->setKeyShortcuts(value);
                         }
                     });
 
@@ -143,6 +136,16 @@ namespace djv
                         if (auto widget = weak.lock())
                         {
                             widget->_p->thumbnailSizeSlider->setValue(value.w);
+                        }
+                    });
+
+                p.keyShortcutsObserver = MapObserver<std::string, UI::ShortcutDataPair>::create(
+                    fileBrowserSettings->observeKeyShortcuts(),
+                    [weak](const std::map<std::string, UI::ShortcutDataPair>& value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->keyShortcutsWidget->setShortcuts(value);
                         }
                     });
             }
@@ -163,14 +166,38 @@ namespace djv
                 return out;
             }
 
+            std::map<std::string, bool> SettingsWidget::getBellowsState() const
+            {
+                DJV_PRIVATE_PTR();
+                std::map<std::string, bool> out;
+                for (const auto& i : p.bellows)
+                {
+                    out[i.first] = i.second->isOpen();
+                }
+                return out;
+            }
+
+            void SettingsWidget::setBellowsState(const std::map<std::string, bool>& value)
+            {
+                DJV_PRIVATE_PTR();
+                for (const auto& i : value)
+                {
+                    const auto j = p.bellows.find(i.first);
+                    if (j != p.bellows.end())
+                    {
+                        j->second->setOpen(i.second, false);
+                    }
+                }
+            }
+
             void SettingsWidget::_preLayoutEvent(Event::PreLayout& event)
             {
-                _setMinimumSize(_p->layout->getMinimumSize());
+                _setMinimumSize(_p->scrollWidget->getMinimumSize());
             }
 
             void SettingsWidget::_layoutEvent(Event::Layout& event)
             {
-                _p->layout->setGeometry(getGeometry());
+                _p->scrollWidget->setGeometry(getGeometry());
             }
 
             void SettingsWidget::_initEvent(Event::Init& event)
@@ -178,10 +205,11 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (event.getData().text)
                 {
-                    p.titleLabel->setText(_getText(DJV_TEXT("file_browser_settings")));
-                    p.viewTypeLabel->setText(_getText(DJV_TEXT("file_browser_view")));
-                    p.thumbnailSizeLabel->setText(_getText(DJV_TEXT("file_browser_thumbnail_size")));
-                    p.miscSettingsLabel->setText(_getText(DJV_TEXT("file_browser_miscellaneous")));
+                    p.bellows["View"]->setText(_getText(DJV_TEXT("file_browser_settings_view")));
+                    p.bellows["Thumbnails"]->setText(_getText(DJV_TEXT("file_browser_settings_thumbnails")));
+                    p.bellows["Keyboard"]->setText(_getText(DJV_TEXT("file_browser_settings_keyboard")));
+                    p.bellows["Misc"]->setText(_getText(DJV_TEXT("file_browser_settings_miscellaneous")));
+                    p.thumbnailSizeSlider->setTooltip(_getText(DJV_TEXT("file_browser_settings_thumbnail_size_tooltip")));
                 }
             }
 

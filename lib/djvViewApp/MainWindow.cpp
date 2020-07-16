@@ -14,7 +14,7 @@
 #include <djvViewApp/MediaCanvas.h>
 #include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/MemoryCacheWidget.h>
-#include <djvViewApp/SettingsDrawer.h>
+#include <djvViewApp/SettingsWidget.h>
 #include <djvViewApp/SettingsSystem.h>
 #include <djvViewApp/ToolSystem.h>
 #include <djvViewApp/ViewSystem.h>
@@ -25,6 +25,7 @@
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
 #include <djvUI/ButtonGroup.h>
+#include <djvUI/Drawer.h>
 #include <djvUI/Label.h>
 #include <djvUI/MDICanvas.h>
 #include <djvUI/Menu.h>
@@ -63,7 +64,6 @@ namespace djv
             std::shared_ptr<UI::PopupButton> cachePopupButton;
             std::shared_ptr<UI::ThermometerWidget> cacheThermometerWidget;
             std::shared_ptr<UI::ToolButton> settingsButton;
-            std::shared_ptr<SettingsDrawer> settingsDrawer;
             std::shared_ptr<UI::MenuBar> menuBar;
             std::shared_ptr<MediaCanvas> mediaCanvas;
             std::shared_ptr<UI::MDI::Canvas> canvas;
@@ -160,7 +160,7 @@ namespace djv
             {
                 p.settingsButton->addAction(toolSystem->getActions()["Settings"]);
             }
-            p.settingsDrawer = SettingsDrawer::create(context);
+            auto settingsDrawer = UI::Drawer::create(UI::Side::Right, context);
 
             p.menuBar = UI::MenuBar::create(context);
             p.menuBar->setBackgroundRole(UI::ColorRole::OverlayLight);
@@ -220,8 +220,8 @@ namespace djv
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(p.menuBar);
-            vLayout->addChild(p.settingsDrawer);
-            vLayout->setStretch(p.settingsDrawer, UI::Layout::RowStretch::Expand);
+            vLayout->addChild(settingsDrawer);
+            vLayout->setStretch(settingsDrawer, UI::Layout::RowStretch::Expand);
             p.layout->addChild(vLayout);
 #ifdef DJV_DEMO
             vLayout = UI::VerticalLayout::create(context);
@@ -290,6 +290,17 @@ namespace djv
                     return out;
                 });
 
+            settingsDrawer->setOpenCallback(
+                [contextWeak]() -> std::shared_ptr<UI::Widget>
+                {
+                    std::shared_ptr<UI::Widget> out;
+                    if (auto context = contextWeak.lock())
+                    {
+                        out = SettingsWidget::create(context);
+                    }
+                    return out;
+                });
+
             p.escapeActionObserver = ValueObserver<bool>::create(
                 p.actions["Escape"]->observeClicked(),
                 [contextWeak](bool value)
@@ -313,12 +324,9 @@ namespace djv
             {
                 p.settingsActionObserver = ValueObserver<bool>::create(
                     toolSystem->getActions()["Settings"]->observeChecked(),
-                    [weak, contextWeak](bool value)
+                    [settingsDrawer](bool value)
                     {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->settingsDrawer->setOpen(value);
-                        }
+                        settingsDrawer->setOpen(value);
                     });
             }
 

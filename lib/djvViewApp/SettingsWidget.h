@@ -4,31 +4,30 @@
 
 #pragma once
 
-#include <djvUI/Drawer.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the settings drawer.
-        class SettingsDrawer : public UI::Drawer
+        //! This class provides the settings widget.
+        class SettingsWidget : public UI::Widget
         {
-            DJV_NON_COPYABLE(SettingsDrawer);
+            DJV_NON_COPYABLE(SettingsWidget);
 
         protected:
             void _init(const std::shared_ptr<Core::Context>&);
-            SettingsDrawer();
+            SettingsWidget();
 
         public:
-            ~SettingsDrawer() override;
+            ~SettingsWidget() override;
 
-            static std::shared_ptr<SettingsDrawer> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<SettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
         protected:
-            void _openStart(void) override;
-            void _closeEnd(void) override;
-
             void _initLayoutEvent(Core::Event::InitLayout&) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
 
             void _initEvent(Core::Event::Init &) override;
 

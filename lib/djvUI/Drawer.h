@@ -33,16 +33,10 @@ namespace djv
                 void open();
                 void close();
 
-                void addChild(const std::shared_ptr<IObject>&) override;
-                void removeChild(const std::shared_ptr<IObject>&) override;
-                void clearChildren() override;
+                void setOpenCallback(const std::function<std::shared_ptr<Widget>(void)>&);
+                void setCloseCallback(const std::function<void(const std::shared_ptr<Widget>&)>&);
 
             protected:
-                virtual void _openStart(void) {}
-                virtual void _openEnd(void) {}
-                virtual void _closeStart(void) {}
-                virtual void _closeEnd(void) {}
-
                 void _preLayoutEvent(Core::Event::PreLayout&) override;
                 void _layoutEvent(Core::Event::Layout&) override;
                 void _paintEvent(Core::Event::Paint&) override;
