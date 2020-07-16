@@ -71,7 +71,7 @@ namespace djv
 
                 std::shared_ptr<Time::Timer>                        statsTimer;
 
-                void updateVBODataSize(size_t);
+                void vboDataSizeUpdate(size_t);
 
                 void drawImage(
                     const std::shared_ptr<Image::Image>&,
@@ -121,7 +121,7 @@ namespace djv
                     0));
                 p.primitiveData.textureAtlasCount = _textureAtlasCount;
 
-                _updateImageFilter();
+                _imageFilterUpdate();
 
                 auto resourceSystem = context->getSystemT<ResourceSystem>();
                 const FileSystem::Path shaderPath = resourceSystem->getPath(FileSystem::ResourcePath::Shaders);
@@ -397,7 +397,7 @@ namespace djv
                         primitive->vaoSize = ptsSize;
 
                         const size_t vboDataOffset = p.vboDataSize;
-                        p.updateVBODataSize(ptsSize);
+                        p.vboDataSizeUpdate(ptsSize);
                         const glm::vec2* pPts = pts.data();
                         VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataOffset]);
                         for (size_t i = 0; i < size; ++i, pPts += 2)
@@ -439,7 +439,7 @@ namespace djv
                         primitive->vaoSize += 6;
 
                         const size_t vboDataOffset = p.vboDataSize;
-                        p.updateVBODataSize(6);
+                        p.vboDataSizeUpdate(6);
                         VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataOffset]);
                         pData->vx = i.min.x;
                         pData->vy = i.min.y;
@@ -480,7 +480,7 @@ namespace djv
                     primitive->vaoSize = 3 * 2 + facets * 2 * 3;
 
                     const size_t vboDataOffset = p.vboDataSize;
-                    p.updateVBODataSize(primitive->vaoSize);
+                    p.vboDataSizeUpdate(primitive->vaoSize);
                     const float h = rect.h();
                     const float radius = h / 2.F;
                     VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataOffset]);
@@ -559,7 +559,7 @@ namespace djv
                     primitive->vaoSize = 3 * facets;
 
                     const size_t vboDataOffset = p.vboDataSize;
-                    p.updateVBODataSize(3 * facets);
+                    p.vboDataSizeUpdate(3 * facets);
                     VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataOffset]);
                     for (size_t i = 0; i < facets * 3; i += 3)
                     {
@@ -591,7 +591,7 @@ namespace djv
                 if (value == p.imageFilterOptions)
                     return;
                 p.imageFilterOptions = value;
-                _updateImageFilter();
+                _imageFilterUpdate();
             }
 
             void Render::drawImage(
@@ -679,7 +679,7 @@ namespace djv
 
                                 primitive->vaoSize += 6;
                                 const size_t vboDataOffset = p.vboDataSize;
-                                p.updateVBODataSize(6);
+                                p.vboDataSizeUpdate(6);
                                 VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataOffset]);
                                 pData->vx = bbox.min.x;
                                 pData->vy = bbox.min.y;
@@ -743,7 +743,7 @@ namespace djv
                     };
 
                     const size_t vboDataOffset = p.vboDataSize;
-                    p.updateVBODataSize(4);
+                    p.vboDataSizeUpdate(4);
                     VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataOffset]);
                     pData->vx = value.min.x;
                     pData->vy = value.min.y;
@@ -780,7 +780,7 @@ namespace djv
                     primitive->vaoSize = 5 * 2 * 3 + 4 * facets * 3;
 
                     const size_t vboDataOffset = p.vboDataSize;
-                    p.updateVBODataSize(primitive->vaoSize);
+                    p.vboDataSizeUpdate(primitive->vaoSize);
                     VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataOffset]);
 
                     // Center.
@@ -1019,7 +1019,7 @@ namespace djv
                     primitive->target = target;
 
                     const size_t vboDataOffset = p.vboDataSize;
-                    p.updateVBODataSize(4);
+                    p.vboDataSizeUpdate(4);
                     VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataOffset]);
                     pData->vx = value.min.x;
                     pData->vy = value.min.y;
@@ -1065,7 +1065,7 @@ namespace djv
                 return _p->vbo ? _p->vbo->getSize() : 0;
             }
 
-            void Render::_updateImageFilter()
+            void Render::_imageFilterUpdate()
             {
                 DJV_PRIVATE_PTR();
                 p.dynamicTextures.clear();
@@ -1080,7 +1080,7 @@ namespace djv
                 }
             }
 
-            void Render::Private::updateVBODataSize(size_t value)
+            void Render::Private::vboDataSizeUpdate(size_t value)
             {
                 const size_t vertexByteCount = AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
                 vboDataSize += value * vertexByteCount;
@@ -1315,7 +1315,7 @@ namespace djv
                     primitive->vaoSize = 4;
 
                     const size_t vboDataOffset = vboDataSize;
-                    updateVBODataSize(4);
+                    vboDataSizeUpdate(4);
                     VBOVertex* pData = reinterpret_cast<VBOVertex*>(&vboData[vboDataOffset]);
                     pData->vx = pts[0].x;
                     pData->vy = pts[0].y;

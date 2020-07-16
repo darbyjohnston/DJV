@@ -51,7 +51,7 @@ namespace djv
             p.button->setBackgroundRole(ColorRole::Button);
             addChild(p.button);
 
-            _updateCurrentItem(Callback::Suppress);
+            _currentItemUpdate(Callback::Suppress);
 
             auto weak = std::weak_ptr<ComboBox>(std::dynamic_pointer_cast<ComboBox>(shared_from_this()));
             p.actionGroup->setRadioCallback(
@@ -120,8 +120,8 @@ namespace djv
             if (value == p.items)
                 return;
             p.items = value;
-            _updateItems();
-            _updateCurrentItem(Callback::Suppress);
+            _itemsUpdate();
+            _currentItemUpdate(Callback::Suppress);
         }
 
         void ComboBox::addItem(const std::string& value)
@@ -140,9 +140,9 @@ namespace djv
             if (!p.items.empty())
             {
                 p.items.clear();
-                _updateItems();
+                _itemsUpdate();
                 p.currentItem = -1;
-                _updateCurrentItem(callback);
+                _currentItemUpdate(callback);
             }
         }
 
@@ -162,7 +162,7 @@ namespace djv
             if (tmp == p.currentItem)
                 return;
             p.currentItem = tmp;
-            _updateCurrentItem(callback);
+            _currentItemUpdate(callback);
         }
 
         void ComboBox::firstItem(Callback callback)
@@ -296,7 +296,7 @@ namespace djv
             }
         }
 
-        void ComboBox::_updateItems()
+        void ComboBox::_itemsUpdate()
         {
             DJV_PRIVATE_PTR();
             p.actionGroup->clearActions();
@@ -310,7 +310,7 @@ namespace djv
             }
         }
 
-        void ComboBox::_updateCurrentItem(Callback callback)
+        void ComboBox::_currentItemUpdate(Callback callback)
         {
             DJV_PRIVATE_PTR();
             if (p.currentItem >= 0 && p.currentItem < p.items.size())

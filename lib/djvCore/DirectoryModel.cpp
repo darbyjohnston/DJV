@@ -112,7 +112,7 @@ namespace djv
                     p.historyIndex->setIfChanged(historyIndex);
                     p.hasBack->setIfChanged(p.historyIndex->get() > 0);
                     p.hasForward->setIfChanged(history.size() ? (p.historyIndex->get() < history.size() - 1) : false);
-                    _updatePath();
+                    _pathUpdate();
                 }
             }
 
@@ -128,7 +128,7 @@ namespace djv
 
             void DirectoryModel::reload()
             {
-                _updatePath();
+                _pathUpdate();
             }
 
             void DirectoryModel::cdUp()
@@ -172,7 +172,7 @@ namespace djv
                     p.hasUp->setIfChanged(!path.isRoot());
                     p.hasBack->setIfChanged(p.historyIndex->get() > 0);
                     p.hasForward->setIfChanged(history.size() ? (p.historyIndex->get() < history.size() - 1) : false);
-                    _updatePath();
+                    _pathUpdate();
                 }
             }
 
@@ -188,7 +188,7 @@ namespace djv
                     p.hasUp->setIfChanged(!path.isRoot());
                     p.hasBack->setIfChanged(p.historyIndex->get() > 0);
                     p.hasForward->setIfChanged(history.size() ? (p.historyIndex->get() < history.size() - 1) : false);
-                    _updatePath();
+                    _pathUpdate();
                 }
             }
 
@@ -204,7 +204,7 @@ namespace djv
                     p.hasUp->setIfChanged(!path.isRoot());
                     p.hasBack->setIfChanged(p.historyIndex->get() > 0);
                     p.hasForward->setIfChanged(history.size() ? (p.historyIndex->get() < history.size() - 1) : false);
-                    _updatePath();
+                    _pathUpdate();
                 }
             }
 
@@ -234,7 +234,7 @@ namespace djv
                 if (value == p.fileExtensions)
                     return;
                 p.fileExtensions = value;
-                _updatePath();
+                _pathUpdate();
             }
 
             std::shared_ptr<IValueSubject<bool> > DirectoryModel::observeFileSequences() const
@@ -251,7 +251,7 @@ namespace djv
             {
                 if (_p->fileSequences->setIfChanged(value))
                 {
-                    _updatePath();
+                    _pathUpdate();
                 }
             }
 
@@ -261,14 +261,14 @@ namespace djv
                 if (value == p.fileSequenceExtensions)
                     return;
                 p.fileSequenceExtensions = value;
-                _updatePath();
+                _pathUpdate();
             }
 
             void DirectoryModel::setShowHidden(bool value)
             {
                 if (_p->showHidden->setIfChanged(value))
                 {
-                    _updatePath();
+                    _pathUpdate();
                 }
             }
 
@@ -291,7 +291,7 @@ namespace djv
             {
                 if (_p->sort->setIfChanged(value))
                 {
-                    _updatePath();
+                    _pathUpdate();
                 }
             }
 
@@ -299,7 +299,7 @@ namespace djv
             {
                 if (_p->reverseSort->setIfChanged(value))
                 {
-                    _updatePath();
+                    _pathUpdate();
                 }
             }
 
@@ -307,7 +307,7 @@ namespace djv
             {
                 if (_p->sortDirectoriesFirst->setIfChanged(value))
                 {
-                    _updatePath();
+                    _pathUpdate();
                 }
             }
 
@@ -320,7 +320,7 @@ namespace djv
             {
                 if (_p->filter->setIfChanged(value))
                 {
-                    _updatePath();
+                    _pathUpdate();
                 }
             }
 
@@ -329,7 +329,7 @@ namespace djv
                 setFilter(std::string());
             }
 
-            void DirectoryModel::_updatePath()
+            void DirectoryModel::_pathUpdate()
             {
                 DJV_PRIVATE_PTR();
                 const Path path = p.path->get();

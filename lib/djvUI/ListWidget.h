@@ -68,8 +68,8 @@ namespace djv
             void _keyPressEvent(Core::Event::KeyPress&) override;
 
         private:
-            void _updateItems(int checked);
-            void _updateFilter();
+            void _itemsUpdate(int checked);
+            void _filterUpdate();
 
             DJV_PRIVATE();
         };

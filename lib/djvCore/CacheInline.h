@@ -20,7 +20,7 @@ namespace djv
             inline void Cache<T, U>::setMax(size_t value)
             {
                 _max = value;
-                _updateMax();
+                _maxUpdate();
             }
 
             template<typename T, typename U>
@@ -65,7 +65,7 @@ namespace djv
                 _map[key] = value;
                 ++_counter;
                 _counts[key] = _counter;
-                _updateMax();
+                _maxUpdate();
             }
 
             template<typename T, typename U>
@@ -81,7 +81,7 @@ namespace djv
                 {
                     _counts.erase(j);
                 }
-                _updateMax();
+                _maxUpdate();
             }
             
             template<typename T, typename U>
@@ -113,7 +113,7 @@ namespace djv
             }
 
             template<typename T, typename U>
-            inline void Cache<T, U>::_updateMax()
+            inline void Cache<T, U>::_maxUpdate()
             {
                 if (_map.size() > _max)
                 {

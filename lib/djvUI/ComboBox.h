@@ -57,8 +57,8 @@ namespace djv
             void _keyPressEvent(Core::Event::KeyPress&) override;
 
         private:
-            void _updateItems();
-            void _updateCurrentItem(Callback);
+            void _itemsUpdate();
+            void _currentItemUpdate(Callback);
 
             DJV_PRIVATE();
         };

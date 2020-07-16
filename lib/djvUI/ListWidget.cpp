@@ -85,8 +85,8 @@ namespace djv
             if (tmp == p.items)
                 return;
             p.items = tmp;
-            _updateItems(checked);
-            _updateFilter();
+            _itemsUpdate(checked);
+            _filterUpdate();
         }
 
         void ListWidget::setItems(const std::vector<ListItem>& value, int checked)
@@ -95,8 +95,8 @@ namespace djv
             if (value == p.items && checked == _p->buttonGroup->getChecked())
                 return;
             p.items = value;
-            _updateItems(checked);
-            _updateFilter();
+            _itemsUpdate(checked);
+            _filterUpdate();
         }
 
         void ListWidget::addItem(const std::string& value)
@@ -110,7 +110,7 @@ namespace djv
                 p.buttons.push_back(button);
                 p.buttonGroup->addButton(button);
                 p.layout->addChild(button);
-                _updateFilter();
+                _filterUpdate();
             }
         }
 
@@ -125,7 +125,7 @@ namespace djv
                 p.buttons.push_back(button);
                 p.buttonGroup->addButton(button);
                 p.layout->addChild(button);
-                _updateFilter();
+                _filterUpdate();
             }
         }
 
@@ -135,14 +135,14 @@ namespace djv
             if (p.items.size())
             {
                 p.items.clear();
-                _updateItems(-1);
+                _itemsUpdate(-1);
             }
         }
 
         void ListWidget::setButtonType(ButtonType value)
         {
             _p->buttonGroup->setButtonType(value);
-            _updateFilter();
+            _filterUpdate();
         }
 
         int ListWidget::getChecked() const
@@ -181,7 +181,7 @@ namespace djv
             if (value == p.filter)
                 return;
             p.filter = value;
-            _updateFilter();
+            _filterUpdate();
         }
 
         void ListWidget::setAlternateRowsRoles(ColorRole value0, ColorRole value1)
@@ -190,7 +190,7 @@ namespace djv
             if (value0 == p.alternateRowsRoles[0] && value1 == p.alternateRowsRoles[1])
                 return;
             p.alternateRowsRoles = { value0, value1 };
-            _updateFilter();
+            _filterUpdate();
         }
 
         void ListWidget::_preLayoutEvent(Event::PreLayout& event)
@@ -235,7 +235,7 @@ namespace djv
             }
         }
 
-        void ListWidget::_updateItems(int checked)
+        void ListWidget::_itemsUpdate(int checked)
         {
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
@@ -272,7 +272,7 @@ namespace djv
             }
         }
 
-        void ListWidget::_updateFilter()
+        void ListWidget::_filterUpdate()
         {
             DJV_PRIVATE_PTR();
             const auto& buttons = p.buttonGroup->getButtons();
