@@ -7,6 +7,7 @@
 #include <djvCore/RapidJSON.h>
 
 #include <map>
+#include <memory>
 #include <vector>
 
 namespace djv
