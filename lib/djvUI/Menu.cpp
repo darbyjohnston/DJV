@@ -149,7 +149,6 @@ namespace djv
                 const float s = style->getMetric(MetricsRole::Spacing);
                 const float b = style->getMetric(MetricsRole::Border);
                 const float is = style->getMetric(MetricsRole::Icon);
-                const float iss = style->getMetric(MetricsRole::IconSmall);
 
                 glm::vec2 textSize(0.F, 0.F);
                 glm::vec2 shortcutSize(0.F, 0.F);
@@ -169,8 +168,9 @@ namespace djv
                 }
 
                 glm::vec2 itemSize(0.F, 0.F);
-                itemSize.x += iss + m * 2.F;
-                itemSize.y = std::max(itemSize.y, iss + m * 2.F);
+                const glm::vec2 checkBoxSize = getCheckBoxSize(style);
+                itemSize.x += checkBoxSize.x + m * 2.F;
+                itemSize.y = std::max(itemSize.y, checkBoxSize.y + m * 2.F);
                 if (_hasIcons)
                 {
                     itemSize.x += is;
@@ -234,7 +234,6 @@ namespace djv
                 const float m = style->getMetric(MetricsRole::MarginInside);
                 const float b = style->getMetric(MetricsRole::Border);
                 const float is = style->getMetric(MetricsRole::Icon);
-                const float iss = style->getMetric(MetricsRole::IconSmall);
 
                 const auto& render = _getRender();
                 for (const auto& i : _items)
@@ -268,6 +267,7 @@ namespace djv
 
                     render->setAlphaMult(i.second->enabled ? 1.F : style->getPalette().getDisabledMult());
 
+                    const glm::vec2 checkBoxSize = getCheckBoxSize(style);
                     switch (i.second->buttonType)
                     {
                     case ButtonType::Toggle:
@@ -276,18 +276,15 @@ namespace djv
                     {
                         const BBox2f checkBoxGeometry(
                             x + m,
-                            floorf(i.second->geom.min.y + ceilf(i.second->size.y / 2.F - iss / 2.F)),
-                            iss,
-                            iss);
-                        render->setFillColor(style->getColor(ColorRole::Border));
-                        drawBorder(render, checkBoxGeometry, b);
-                        render->setFillColor(style->getColor(i.second->checked ? ColorRole::Checked : ColorRole::Trough));
-                        render->drawRect(checkBoxGeometry.margin(-b));
+                            floorf(i.second->geom.min.y + ceilf(i.second->size.y / 2.F - checkBoxSize.y / 2.F)),
+                            checkBoxSize.x,
+                            checkBoxSize.y);
+                        drawCheckBox(render, style, checkBoxGeometry, i.second->checked);
                         break;
                     }
                     default: break;
                     }
-                    x += iss + m * 2.F;
+                    x += checkBoxSize.x + m * 2.F;
 
                     if (_hasIcons)
                     {

@@ -30,6 +30,12 @@ namespace djv
 
     namespace UI
     {
+        namespace Style
+        {
+            class Style;
+
+        } // namespace Style
+
         void drawBorder(
             const std::shared_ptr<AV::Render2D::Render>&,
             const Core::BBox2f& box,
@@ -41,6 +47,13 @@ namespace djv
             float size,
             const AV::Image::Color& color0,
             const AV::Image::Color& color1);
+
+        glm::vec2 getCheckBoxSize(const std::shared_ptr<Style::Style>&);
+        void drawCheckBox(
+            const std::shared_ptr<AV::Render2D::Render>&,
+            const std::shared_ptr<Style::Style>&,
+            const Core::BBox2f&,
+            bool checked);
 
     } // namespace UI
 } // namespace djv

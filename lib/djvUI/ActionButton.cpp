@@ -18,6 +18,9 @@
 #include <djvCore/String.h>
 #include <djvCore/TextSystem.h>
 
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
+
 using namespace djv::Core;
 
 namespace djv
@@ -81,25 +84,19 @@ namespace djv
                 {
                     const auto& style = _getStyle();
                     const float m = style->getMetric(MetricsRole::MarginInside);
-                    const float b = style->getMetric(MetricsRole::Border);
-                    const float is = style->getMetric(MetricsRole::IconSmall);
-                    _setMinimumSize(glm::vec2(is + m * 2.F + b * 4.F, is + m * 2.F + b * 4.F));
+                    const glm::vec2 checkBoxSize = getCheckBoxSize(style);
+                    _setMinimumSize(checkBoxSize + m * 2.F);
                 }
 
                 void CheckBox::_paintEvent(Event::Paint&)
                 {
                     const auto& style = _getStyle();
                     const float m = style->getMetric(MetricsRole::MarginInside);
-                    const float b = style->getMetric(MetricsRole::Border);
-                    const float is = style->getMetric(MetricsRole::IconSmall);
-                    const BBox2f g = getGeometry().margin(-b);
-                    const float size = is + m * 2.F;
-                    const BBox2f g2 = BBox2f(g.min.x, floorf(g.min.y + g.h() / 2.F - size / 2.F), size, size).margin(-m);
+                    const BBox2f g = getGeometry().margin(-m);
+                    const glm::vec2 checkBoxSize = getCheckBoxSize(style);
+                    const BBox2f checkBoxGeometry(g.min.x, g.min.y + floorf(g.h() / 2.F - checkBoxSize.y / 2.F), checkBoxSize.x, checkBoxSize.y);
                     const auto& render = _getRender();
-                    render->setFillColor(style->getColor(ColorRole::Border));
-                    drawBorder(render, g2, b);
-                    render->setFillColor(style->getColor(_checked ? ColorRole::Checked : ColorRole::Trough));
-                    render->drawRect(g2.margin(-b));
+                    drawCheckBox(render, style, checkBoxGeometry, _checked);
                 }
 
             } // namespace
@@ -133,7 +130,7 @@ namespace djv
                 p.shortcutsLabel->setMargin(MetricsRole::MarginSmall);
 
                 p.layout = HorizontalLayout::create(context);
-                p.layout->setMargin(MetricsRole::MarginInside);
+                //p.layout->setMargin(MetricsRole::MarginInside);
                 p.layout->setSpacing(MetricsRole::None);
                 p.layout->addChild(p.checkBox);
                 p.layout->addChild(p.icon);
@@ -227,34 +224,111 @@ namespace djv
                 _widgetUpdate();
             }
 
+            bool ActionButton::acceptFocus(TextFocusDirection)
+            {
+                bool out = false;
+                if (isEnabled(true) && isVisible(true) && !isClipped())
+                {
+                    takeTextFocus();
+                    out = true;
+                }
+                return out;
+            }
+
             void ActionButton::_preLayoutEvent(Event::PreLayout& event)
             {
                 DJV_PRIVATE_PTR();
-                _setMinimumSize(p.layout->getMinimumSize());
+                const auto& style = _getStyle();
+                const float bt = style->getMetric(MetricsRole::BorderTextFocus);
+                _setMinimumSize(p.layout->getMinimumSize() + bt * 2.F);
             }
 
             void ActionButton::_layoutEvent(Event::Layout&)
             {
                 DJV_PRIVATE_PTR();
-                p.layout->setGeometry(getGeometry());
+                const auto& style = _getStyle();
+                const float bt = style->getMetric(MetricsRole::BorderTextFocus);
+                p.layout->setGeometry(getGeometry().margin(-bt));
             }
 
             void ActionButton::_paintEvent(Event::Paint& event)
             {
                 IButton::_paintEvent(event);
                 const auto& style = _getStyle();
+                const float bt = style->getMetric(MetricsRole::BorderTextFocus);
                 const BBox2f& g = getGeometry();
+
                 const auto& render = _getRender();
+                if (hasTextFocus())
+                {
+                    render->setFillColor(style->getColor(ColorRole::TextFocus));
+                    drawBorder(render, g, bt);
+                }
+
+                const BBox2f g2 = g.margin(-bt);
                 if (_isPressed())
                 {
                     render->setFillColor(style->getColor(ColorRole::Pressed));
-                    render->drawRect(g);
+                    render->drawRect(g2);
                 }
                 else if (_isHovered())
                 {
                     render->setFillColor(style->getColor(ColorRole::Hovered));
-                    render->drawRect(g);
+                    render->drawRect(g2);
                 }
+            }
+
+            void ActionButton::_keyPressEvent(Event::KeyPress& event)
+            {
+                IButton::_keyPressEvent(event);
+                DJV_PRIVATE_PTR();
+                if (!event.isAccepted() && hasTextFocus())
+                {
+                    switch (event.getKey())
+                    {
+                    case GLFW_KEY_ENTER:
+                    case GLFW_KEY_SPACE:
+                        event.accept();
+                        switch (getButtonType())
+                        {
+                        case ButtonType::Push:
+                            _doClickedCallback();
+                            break;
+                        case ButtonType::Toggle:
+                            setChecked(!isChecked());
+                            _doCheckedCallback(isChecked());
+                            break;
+                        case ButtonType::Radio:
+                            if (!isChecked())
+                            {
+                                setChecked(true);
+                                _doCheckedCallback(isChecked());
+                            }
+                            break;
+                        case ButtonType::Exclusive:
+                            setChecked(!isChecked());
+                            _doCheckedCallback(isChecked());
+                            break;
+                        default: break;
+                        }
+                        break;
+                    case GLFW_KEY_ESCAPE:
+                        event.accept();
+                        releaseTextFocus();
+                        break;
+                    default: break;
+                    }
+                }
+            }
+
+            void ActionButton::_textFocusEvent(Event::TextFocus&)
+            {
+                _redraw();
+            }
+
+            void ActionButton::_textFocusLostEvent(Event::TextFocusLost&)
+            {
+                _redraw();
             }
 
             void ActionButton::_actionUpdate()
