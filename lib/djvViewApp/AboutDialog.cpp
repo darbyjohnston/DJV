@@ -39,7 +39,7 @@ namespace djv
             {
                 p.headers[i] = UI::Label::create(context);
                 p.headers[i]->setTextHAlign(UI::TextHAlign::Left);
-                p.headers[i]->setFontSizeRole(UI::MetricsRole::FontHeader);
+                p.headers[i]->setFontSizeRole(UI::MetricsRole::FontLarge);
             }
             
             const std::vector<std::string> credits = 

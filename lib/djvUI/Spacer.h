@@ -32,6 +32,9 @@ namespace djv
                 MetricsRole getSpacerSize() const;
                 void setSpacerSize(MetricsRole);
 
+                MetricsRole getSpacerOppositeSize() const;
+                void setSpacerOppositeSize(MetricsRole);
+
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout&) override;
 

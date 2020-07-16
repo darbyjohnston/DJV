@@ -31,6 +31,7 @@ namespace djv
             void _actionsUpdate();
 
             void _textUpdate() override;
+            void _shortcutsUpdate() override;
 
         private:
             DJV_PRIVATE();

@@ -10,30 +10,23 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the input settings widget.
-        class InputSettingsWidget : public UI::ISettingsWidget
+        //! This class provides a keyboard shortcut settings widget.
+        class KeyboardShortcutSettingsWidget : public UI::ISettingsWidget
         {
-            DJV_NON_COPYABLE(InputSettingsWidget);
+            DJV_NON_COPYABLE(KeyboardShortcutSettingsWidget);
 
         protected:
             void _init(const std::shared_ptr<Core::Context>&);
-            InputSettingsWidget();
+            KeyboardShortcutSettingsWidget();
 
         public:
-            static std::shared_ptr<InputSettingsWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<KeyboardShortcutSettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
             std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;
             std::string getSettingsSortKey() const override;
 
-            void setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>&) override;
-
-        protected:
-            void _initEvent(Core::Event::Init&) override;
-
         private:
-            void _widgetUpdate();
-
             DJV_PRIVATE();
         };
 

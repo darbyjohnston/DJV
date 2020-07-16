@@ -145,6 +145,7 @@ namespace djv
 
             p.settingsMenu = UI::Menu::create(context);
             p.settingsMenu->setIcon("djvIconSettings");
+            p.settingsMenu->setMinimumSizeRole(UI::MetricsRole::None);
             p.settingsMenu->addAction(p.actions["LockType"]);
             p.settingsMenu->addAction(p.actions["ApplyColorOperations"]);
             p.settingsMenu->addAction(p.actions["ApplyColorSpace"]);
@@ -578,15 +579,15 @@ namespace djv
                     }
                     if (p.applyColorSpace)
                     {
-                        auto i = p.ocioConfig.fileColorSpaces.find(p.image->getPluginName());
-                        if (i != p.ocioConfig.fileColorSpaces.end())
+                        auto i = p.ocioConfig.imageColorSpaces.find(p.image->getPluginName());
+                        if (i != p.ocioConfig.imageColorSpaces.end())
                         {
                             options.colorSpace.input = i->second;
                         }
                         else
                         {
-                            i = p.ocioConfig.fileColorSpaces.find(std::string());
-                            if (i != p.ocioConfig.fileColorSpaces.end())
+                            i = p.ocioConfig.imageColorSpaces.find(std::string());
+                            if (i != p.ocioConfig.imageColorSpaces.end())
                             {
                                 options.colorSpace.input = i->second;
                             }

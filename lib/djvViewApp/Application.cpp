@@ -13,10 +13,11 @@
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/HelpSystem.h>
 #include <djvViewApp/ImageSystem.h>
-#include <djvViewApp/InputSystem.h>
+#include <djvViewApp/KeyboardSettings.h>
 #include <djvViewApp/MagnifySystem.h>
 #include <djvViewApp/MainWindow.h>
 #include <djvViewApp/Media.h>
+#include <djvViewApp/MouseSettings.h>
 #include <djvViewApp/NUXSystem.h>
 #include <djvViewApp/PlaybackSystem.h>
 #include <djvViewApp/SettingsSystem.h>
@@ -108,9 +109,13 @@ namespace djv
             Desktop::Application::_init(args);
             DJV_PRIVATE_PTR();
 
+            // Create settings.
+            p.settings = ApplicationSettings::create(shared_from_this());
+            KeyboardSettings::create(shared_from_this());
+            MouseSettings::create(shared_from_this());
+
             // Create the systems.
             UI::UIComponentsSystem::create(shared_from_this());
-            p.systems.push_back(InputSystem::create(shared_from_this()));
             p.systems.push_back(FileSystem::create(shared_from_this()));
             p.systems.push_back(WindowSystem::create(shared_from_this()));
             //p.systems.push_back(EditSystem::create(shared_from_this()));
@@ -125,9 +130,6 @@ namespace djv
             p.systems.push_back(HelpSystem::create(shared_from_this()));
             p.systems.push_back(NUXSystem::create(shared_from_this()));
             p.systems.push_back(SettingsSystem::create(shared_from_this()));
-
-            // Create settings.
-            p.settings = ApplicationSettings::create(shared_from_this());
 
             // Parse the command-line.
             auto arg = args.begin();
@@ -261,28 +263,33 @@ namespace djv
             {
                 windowSystem->setFullScreen(*(p.fullScreenCmdLine));
             }
-            if (p.ocioConfigCmdLine)
+            if (p.ocioConfigCmdLine || p.ocioDisplayCmdLine || p.ocioViewCmdLine || p.ocioImageCmdLine)
             {
-                auto ocioSystem = getSystemT<AV::OCIO::System>();
-                ocioSystem->addConfig(*p.ocioConfigCmdLine);
-            }
-            if (p.ocioDisplayCmdLine || p.ocioViewCmdLine || p.ocioImageCmdLine)
-            {
-                auto ocioSystem = getSystemT<AV::OCIO::System>();
-                auto config = ocioSystem->observeCurrentConfig()->get();
+                AV::OCIO::Config config;
+                if (p.ocioConfigCmdLine)
+                {
+                    config.fileName = *p.ocioConfigCmdLine;
+                    config.name = AV::OCIO::Config::getNameFromFileName(config.fileName);
+                }
                 if (p.ocioDisplayCmdLine)
                 {
-                    config.display = *p.ocioDisplayCmdLine;
+                    config.display = *p.ocioConfigCmdLine;
                 }
                 if (p.ocioViewCmdLine)
                 {
                     config.view = *p.ocioViewCmdLine;
                 }
+                if (p.ocioConfigCmdLine)
+                {
+                    config.fileName = *p.ocioConfigCmdLine;
+                }
                 if (p.ocioImageCmdLine)
                 {
-                    config.fileColorSpaces[std::string()] = *p.ocioImageCmdLine;
+                    config.imageColorSpaces[std::string()] = *p.ocioImageCmdLine;
                 }
-                ocioSystem->setCurrentConfig(config);
+                auto ocioSystem = getSystemT<AV::OCIO::System>();
+                ocioSystem->setCmdLineConfig(config);
+                ocioSystem->setConfigMode(AV::OCIO::ConfigMode::CmdLine);
             }
 
             // Show the main window.

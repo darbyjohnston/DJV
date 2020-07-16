@@ -25,8 +25,7 @@ namespace djv
             setClassName("djv::UI::ISettingsWidget");
 
             p.childLayout = VerticalLayout::create(context);
-            //p.childLayout->setMargin(MetricsRole::MarginLarge);
-            //p.childLayout->setSpacing(MetricsRole::SpacingLarge);
+            p.childLayout->setSpacing(MetricsRole::SpacingSmall);
             Widget::addChild(p.childLayout);
         }
 

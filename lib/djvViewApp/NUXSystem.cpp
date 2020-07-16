@@ -16,7 +16,7 @@
 #include <djvUI/Label.h>
 #include <djvUI/Overlay.h>
 #include <djvUI/PushButton.h>
-#include <djvUI/PopupWidget.h>
+#include <djvUI/PopupButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SoloLayout.h>
 #include <djvUI/StackLayout.h>
@@ -197,12 +197,12 @@ namespace djv
 
         struct NUXWidget::Private
         {
+            std::vector<std::shared_ptr<Widget> > widgets;
             size_t index = 0;
             std::shared_ptr<UI::Icon> logoIcon;
             std::map<std::string, std::shared_ptr<UI::Label> > labels;
             std::map < std::string, std::shared_ptr<UI::PushButton> > buttons;
-            std::shared_ptr<UI::PopupWidget> settingsPopupWidget;
-            std::shared_ptr<UI::ActionButton> fullscreenButton;
+            std::shared_ptr<UI::PopupButton> settingsPopupButton;
             std::shared_ptr<UI::Layout::Overlay> overlay;
             std::shared_ptr<Animation::Animation> fadeOutAnimation;
             std::function<void(void)> finishCallback;
@@ -212,16 +212,21 @@ namespace djv
         void NUXWidget::_init(const std::shared_ptr<Context>& context)
         {
             Window::_init(context);
-
             DJV_PRIVATE_PTR();
+
             setBackgroundRole(UI::ColorRole::None);
 
             auto languageWidget = UI::LanguageWidget::create(context);
             languageWidget->setHAlign(UI::HAlign::Fill);
+            p.widgets.push_back(languageWidget);
+
             auto displaySizeWidget = UI::SizeWidget::create(context);
             displaySizeWidget->setHAlign(UI::HAlign::Fill);
+            p.widgets.push_back(displaySizeWidget);
+
             auto displayPaletteWidget = UI::PaletteWidget::create(context);
             displayPaletteWidget->setHAlign(UI::HAlign::Fill);
+            p.widgets.push_back(displayPaletteWidget);
 
             p.logoIcon = UI::Icon::create(context);
             p.logoIcon->setIcon("djvLogoStartScreen");
@@ -239,16 +244,8 @@ namespace djv
             p.buttons["Prev"] = UI::PushButton::create(context);
             p.buttons["Finish"] = UI::PushButton::create(context);
 
-            p.fullscreenButton = UI::ActionButton::create(context);
-            p.fullscreenButton->setShowShortcuts(false);
-            auto windowSystem = context->getSystemT<WindowSystem>();
-            if (windowSystem)
-            {
-                p.fullscreenButton->addAction(windowSystem->getActions()["FullScreen"]);
-            }
-            p.settingsPopupWidget = UI::PopupWidget::create(context);
-            p.settingsPopupWidget->setIcon("djvIconSettings");
-            p.settingsPopupWidget->addChild(p.fullscreenButton);
+            p.settingsPopupButton = UI::PopupButton::create(UI::MenuButtonStyle::Tool, context);
+            p.settingsPopupButton->setIcon("djvIconSettings");
 
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setMargin(UI::MetricsRole::MarginDialog);
@@ -275,7 +272,7 @@ namespace djv
             hLayout->addChild(p.buttons["Next"]);
             hLayout->addExpander();
             hLayout->addChild(p.buttons["Finish"]);
-            hLayout->addChild(p.settingsPopupWidget);
+            hLayout->addChild(p.settingsPopupButton);
             vLayout->addChild(hLayout);
             auto layout = UI::VerticalLayout::create(context);
             layout->setBackgroundRole(UI::ColorRole::Hovered);
@@ -306,7 +303,7 @@ namespace djv
                     if (widget->_p->index < 3)
                     {
                         ++widget->_p->index;
-                        soloLayout->setCurrentIndex(widget->_p->index);
+                        soloLayout->setCurrentWidget(widget->_p->widgets[widget->_p->index]);
                     }
                     widget->_widgetUpdate();
                 }
@@ -320,7 +317,7 @@ namespace djv
                     if (widget->_p->index > 0)
                     {
                         --widget->_p->index;
-                        soloLayout->setCurrentIndex(widget->_p->index);
+                        soloLayout->setCurrentWidget(widget->_p->widgets[widget->_p->index]);
                     }
                     widget->_widgetUpdate();
                 }
@@ -355,6 +352,26 @@ namespace djv
                 }
             });
 
+            auto contextWeak = std::weak_ptr<Context>(context);
+            p.settingsPopupButton->setOpenCallback(
+                [contextWeak]() -> std::shared_ptr<UI::Widget>
+                {
+                    std::shared_ptr<UI::Widget> out;
+                    if (auto context = contextWeak.lock())
+                    {
+                        auto fullScreenButton = UI::ActionButton::create(context);
+                        fullScreenButton->setShowShortcuts(false);
+                        auto windowSystem = context->getSystemT<WindowSystem>();
+                        if (windowSystem)
+                        {
+                            fullScreenButton->addAction(windowSystem->getActions()["FullScreen"]);
+                        }
+                        out = fullScreenButton;
+                    }
+                    return out;
+                });
+
+            auto windowSystem = context->getSystemT<WindowSystem>();
             if (windowSystem)
             {
                 p.fullScreenObserver = ValueObserver<bool>::create(
@@ -363,7 +380,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->settingsPopupWidget->close();
+                        widget->_p->settingsPopupButton->close();
                     }
                 });
             }

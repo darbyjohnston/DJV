@@ -13,7 +13,7 @@ namespace djv
         //! This class provides a combo box widget.
         //!
         //! \todo Add support for icons. Should we use actions instead of items?
-        //! \todo When the combo box is opened position the current item under the pointer.
+        //! \todo When the combo box is opened, position the current item under the pointer.
         //! \todo Don't close the combo box when the current item is changed with a keyboard shortcut?
         class ComboBox : public Widget
         {

@@ -53,14 +53,14 @@ namespace djv
             return _p->controlsBellowsState;
         }
 
-        void ImageSettings::setControlsBellowsState(const std::map<std::string, bool>& value)
-        {
-            _p->controlsBellowsState = value;
-        }
-
         std::map<std::string, bool> ImageSettings::getColorSpaceBellowsState() const
         {
             return _p->colorSpaceBellowsState;
+        }
+
+        void ImageSettings::setControlsBellowsState(const std::map<std::string, bool>& value)
+        {
+            _p->controlsBellowsState = value;
         }
 
         void ImageSettings::setColorSpaceBellowsState(const std::map<std::string, bool>& value)

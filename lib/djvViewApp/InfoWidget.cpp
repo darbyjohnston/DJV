@@ -36,7 +36,6 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::vector<std::shared_ptr<UI::Bellows> > bellows;
             std::shared_ptr<UI::SearchBox> searchBox;
-            std::shared_ptr<UI::ToolBar> toolBar;
             std::shared_ptr<UI::LabelSizeGroup> sizeGroup;
             std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
@@ -77,11 +76,12 @@ namespace djv
 
             p.searchBox = UI::SearchBox::create(context);
 
-            p.toolBar = UI::ToolBar::create(context);
-            p.toolBar->addAction(p.actions["ExpandAll"]);
-            p.toolBar->addAction(p.actions["CollapseAll"]);
-            p.toolBar->addChild(p.searchBox);
-            p.toolBar->setStretch(p.searchBox, UI::RowStretch::Expand);
+            auto toolBar = UI::ToolBar::create(context);
+            toolBar->setBackgroundRole(UI::ColorRole::Background);
+            toolBar->addAction(p.actions["ExpandAll"]);
+            toolBar->addAction(p.actions["CollapseAll"]);
+            toolBar->addChild(p.searchBox);
+            toolBar->setStretch(p.searchBox, UI::RowStretch::Expand);
 
             p.sizeGroup = UI::LabelSizeGroup::create();
 
@@ -98,7 +98,8 @@ namespace djv
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(scrollWidget);
             vLayout->setStretch(scrollWidget, UI::RowStretch::Expand);
-            vLayout->addChild(p.toolBar);
+            vLayout->addSeparator();
+            vLayout->addChild(toolBar);
             addChild(vLayout);
 
             _widgetUpdate();

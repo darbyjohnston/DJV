@@ -70,6 +70,8 @@ namespace djv
                 palette.setColor(ColorRole::Shadow, AV::Image::Color(0.F, 0.F, 0.F, .12F));
                 palette.setColor(ColorRole::Trough, AV::Image::Color(.95F, .95F, .95F, 1.F));
                 palette.setColor(ColorRole::Cached, AV::Image::Color(.69F, .89F, .76F, 1.F));
+                palette.setColor(ColorRole::Warning, AV::Image::Color(.8F, .8F, .2F, 1.F));
+                palette.setColor(ColorRole::Error, AV::Image::Color(.8F, .2F, .2F, 1.F));
                 palette.setDisabledMult(.5F);
                 palettes[DJV_TEXT("style_palette_light")] = palette;
                 

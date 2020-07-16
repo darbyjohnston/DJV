@@ -55,6 +55,7 @@ namespace djv
 
                     std::string text;
                     FontInfo fontInfo;
+                    uint16_t elide = 0;
                     uint16_t maxLineWidth = std::numeric_limits<uint16_t>::max();
                     std::promise<glm::vec2> promise;
                 };
@@ -67,6 +68,7 @@ namespace djv
 
                     std::string text;
                     FontInfo fontInfo;
+                    uint16_t elide = 0;
                     uint16_t maxLineWidth = std::numeric_limits<uint16_t>::max();
                     std::promise<std::vector<BBox2f> > promise;
                 };
@@ -79,6 +81,7 @@ namespace djv
 
                     std::string text;
                     FontInfo fontInfo;
+                    uint16_t elide = 0;
                     bool cacheOnly = false;
                     std::promise<std::vector<std::shared_ptr<Glyph> > > promise;
                 };
@@ -388,12 +391,16 @@ namespace djv
                 return future;
             }
 
-            std::future<glm::vec2> System::measure(const std::string& text, const FontInfo& fontInfo)
+            std::future<glm::vec2> System::measure(
+                const std::string& text,
+                const FontInfo& fontInfo,
+                uint16_t elide)
             {
                 DJV_PRIVATE_PTR();
                 MeasureRequest request;
                 request.text = text;
                 request.fontInfo = fontInfo;
+                request.elide = elide;
                 auto future = request.promise.get_future();
                 {
                     std::unique_lock<std::mutex> lock(p.requestMutex);
@@ -403,12 +410,16 @@ namespace djv
                 return future;
             }
 
-            std::future<std::vector<BBox2f> > System::measureGlyphs(const std::string& text, const FontInfo& fontInfo)
+            std::future<std::vector<BBox2f> > System::measureGlyphs(
+                const std::string& text,
+                const FontInfo& fontInfo,
+                uint16_t elide)
             {
                 DJV_PRIVATE_PTR();
                 MeasureGlyphsRequest request;
                 request.text = text;
                 request.fontInfo = fontInfo;
+                request.elide = elide;
                 auto future = request.promise.get_future();
                 {
                     std::unique_lock<std::mutex> lock(p.requestMutex);
@@ -418,12 +429,16 @@ namespace djv
                 return future;
             }
 
-            std::future<std::vector<std::shared_ptr<Glyph> > > System::getGlyphs(const std::string& text, const FontInfo& fontInfo)
+            std::future<std::vector<std::shared_ptr<Glyph> > > System::getGlyphs(
+                const std::string& text,
+                const FontInfo& fontInfo,
+                uint16_t elide)
             {
                 DJV_PRIVATE_PTR();
                 GlyphsRequest request;
                 request.text = text;
                 request.fontInfo = fontInfo;
+                request.elide = elide;
                 auto future = request.promise.get_future();
                 {
                     std::unique_lock<std::mutex> lock(p.requestMutex);
@@ -433,7 +448,10 @@ namespace djv
                 return future;
             }
 
-            std::future<std::vector<TextLine> > System::textLines(const std::string& text, uint16_t maxLineWidth, const FontInfo& fontInfo)
+            std::future<std::vector<TextLine> > System::textLines(
+                const std::string& text,
+                uint16_t maxLineWidth,
+                const FontInfo& fontInfo)
             {
                 DJV_PRIVATE_PTR();
                 TextLinesRequest request;
@@ -632,6 +650,18 @@ namespace djv
                     try
                     {
                         auto utf32 = p.utf32Convert.from_bytes(request.text);
+                        const size_t inSize = utf32.size();
+                        const size_t outSize = request.elide > 0 ? std::min(inSize, static_cast<size_t>(request.elide)) : inSize;
+                        while (utf32.size() > outSize)
+                        {
+                            utf32.pop_back();
+                        }
+                        if (outSize < inSize)
+                        {
+                            utf32.push_back('.');
+                            utf32.push_back('.');
+                            utf32.push_back('.');
+                        }
                         p.measure(utf32, p.getFontInfoList(request.fontInfo), request.maxLineWidth, size);
                     }
                     catch (const std::exception& e)
@@ -655,6 +685,18 @@ namespace djv
                     try
                     {
                         auto utf32 = p.utf32Convert.from_bytes(request.text);
+                        const size_t inSize = utf32.size();
+                        const size_t outSize = request.elide > 0 ? std::min(inSize, static_cast<size_t>(request.elide)) : inSize;
+                        while (utf32.size() > outSize)
+                        {
+                            utf32.pop_back();
+                        }
+                        if (outSize < inSize)
+                        {
+                            utf32.push_back('.');
+                            utf32.push_back('.');
+                            utf32.push_back('.');
+                        }
                         p.measure(utf32, p.getFontInfoList(request.fontInfo), request.maxLineWidth, size, &glyphGeom);
                     }
                     catch (const std::exception& e)
@@ -684,21 +726,30 @@ namespace djv
                         ss << "Error converting string" << " '" << request.text << "': " << e.what();
                         _log(ss.str(), LogLevel::Error);
                     }
-                    const size_t size = utf32.size();
+                    const size_t inSize = utf32.size();
+                    const size_t outSize = request.elide > 0 ? std::min(inSize, static_cast<size_t>(request.elide)) : inSize;
+                    const bool elided = outSize < inSize;
                     const auto fontInfoList = p.getFontInfoList(request.fontInfo);
                     if (request.cacheOnly)
                     {
-                        for (size_t i = 0; i < size; ++i)
+                        for (size_t i = 0; i < inSize; ++i)
                         {
                             p.getGlyph(utf32[i], fontInfoList);
                         }
                     }
                     else
                     {
-                        std::vector<std::shared_ptr<Glyph> > glyphs(size);
-                        for (size_t i = 0; i < size; ++i)
+                        std::vector<std::shared_ptr<Glyph> > glyphs(outSize + (elided ? 3 : 0));
+                        size_t i = 0;
+                        for (; i < outSize; ++i)
                         {
                             glyphs[i] = p.getGlyph(utf32[i], fontInfoList);
+                        }
+                        if (elided)
+                        {
+                            glyphs[i] = p.getGlyph('.', fontInfoList);
+                            glyphs[i + 1] = p.getGlyph('.', fontInfoList);
+                            glyphs[i + 2] = p.getGlyph('.', fontInfoList);
                         }
                         request.promise.set_value(std::move(glyphs));
                     }
@@ -1026,6 +1077,7 @@ namespace djv
                             //std::cout << "FT_Set_Pixel_Sizes error: " << getFTError(ftError) << std::endl;
                             break;
                         }
+
                         pos.y = static_cast<float>(ftFace->size->metrics.height) / 64.F;
                         auto textLine = utf32.end();
                         float textLineX = 0.F;

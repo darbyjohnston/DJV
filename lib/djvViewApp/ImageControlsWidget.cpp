@@ -256,10 +256,6 @@ namespace djv
                 i.second->setSpacing(UI::MetricsRole::SpacingSmall);
                 i.second->setLabelSizeGroup(p.sizeGroup);
             }
-            for (const auto& i : p.bellows)
-            {
-                i.second->close(false);
-            }
 
             vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
@@ -271,6 +267,7 @@ namespace djv
             vLayout->addChild(p.bellows["SoftClip"]);
             vLayout->addChild(p.bellows["FrameStore"]);
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            scrollWidget->setBorder(false);
             scrollWidget->setBackgroundRole(UI::ColorRole::Background);
             scrollWidget->setShadowOverlay({ UI::Side::Top });
             scrollWidget->addChild(vLayout);

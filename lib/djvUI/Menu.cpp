@@ -14,6 +14,7 @@
 #include <djvUI/Overlay.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/Shortcut.h>
+#include <djvUI/ShortcutData.h>
 #include <djvUI/Window.h>
 
 #include <djvAV/FontSystem.h>
@@ -694,10 +695,11 @@ namespace djv
                                     std::vector<std::string> labels;
                                     for (const auto& i : value)
                                     {
-                                        labels.push_back(Shortcut::getText(
-                                            i->observeShortcutKey()->get(),
-                                            i->observeShortcutModifiers()->get(),
-                                            textSystem));
+                                        const auto& shortcut = i->observeShortcut()->get();
+                                        if (shortcut.isValid())
+                                        {
+                                            labels.push_back(ShortcutData::getText(shortcut.key, shortcut.modifiers, textSystem));
+                                        }
                                     }
                                     item->shortcutLabel = String::join(labels, ", ");
                                     widget->_textUpdateRequest = true;
@@ -849,11 +851,12 @@ namespace djv
                 void setPos(const std::shared_ptr<MenuPopupWidget>&, const glm::vec2&);
                 void setButton(const std::shared_ptr<MenuPopupWidget>&, const std::weak_ptr<Button::Menu>&);
 
-                void removeChild(const std::shared_ptr<IObject>&) override;
 
             protected:
                 void _layoutEvent(Event::Layout&) override;
                 void _paintEvent(Event::Paint&) override;
+
+                void _childRemovedEvent(Event::ChildRemoved&) override;
 
             private:
                 std::map<std::shared_ptr<MenuPopupWidget>, glm::vec2> _widgetToPos;
@@ -885,24 +888,6 @@ namespace djv
             void MenuLayout::setButton(const std::shared_ptr<MenuPopupWidget>& widget, const std::weak_ptr<Button::Menu>& button)
             {
                 _widgetToButton[widget] = button;
-            }
-
-            void MenuLayout::removeChild(const std::shared_ptr<IObject>& value)
-            {
-                Widget::removeChild(value);
-                if (auto widget = std::dynamic_pointer_cast<MenuPopupWidget>(value))
-                {
-                    const auto i = _widgetToPos.find(widget);
-                    if (i != _widgetToPos.end())
-                    {
-                        _widgetToPos.erase(i);
-                    }
-                    const auto j = _widgetToButton.find(widget);
-                    if (j != _widgetToButton.end())
-                    {
-                        _widgetToButton.erase(j);
-                    }
-                }
             }
 
             void MenuLayout::_layoutEvent(Event::Layout&)
@@ -965,6 +950,28 @@ namespace djv
                     if (g.isValid())
                     {
                         render->drawShadow(g, sh);
+                    }
+                }
+            }
+
+            void MenuLayout::_childRemovedEvent(Event::ChildRemoved& event)
+            {
+                if (auto widget = std::dynamic_pointer_cast<MenuPopupWidget>(event.getChild()))
+                {
+                    const auto i = _widgetToPos.find(widget);
+                    if (i != _widgetToPos.end())
+                    {
+                        _widgetToPos.erase(i);
+                    }
+                    const auto j = _widgetToButton.find(widget);
+                    if (j != _widgetToButton.end())
+                    {
+                        _widgetToButton.erase(j);
+                    }
+                    const auto k = _widgetToPopup.find(widget);
+                    if (k != _widgetToPopup.end())
+                    {
+                        _widgetToPopup.erase(k);
                     }
                 }
             }
@@ -1123,7 +1130,6 @@ namespace djv
             {
                 p.layout->setButton(p.popupWidget, button);
             }
-            p.overlay->setAnchor(button);
             p.overlay->show();
             p.window->show();
             out = p.overlay;
@@ -1139,7 +1145,6 @@ namespace djv
             {
                 p.layout->setButton(p.popupWidget, button);
             }
-            p.overlay->setAnchor(anchor);
             p.overlay->show();
             p.window->show();
             out = p.overlay;

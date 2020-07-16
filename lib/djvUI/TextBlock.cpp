@@ -304,7 +304,10 @@ namespace djv
             const auto key = std::make_pair(fontInfo, value);
             if (!textCache.get(key, out))
             {
-                auto textLines = fontSystem->textLines(text, value, fontInfo).get();
+                auto textLines = fontSystem->textLines(
+                    text,
+                    static_cast<uint16_t>(std::min(value, static_cast<float>(std::numeric_limits<uint16_t>::max()))),
+                    fontInfo).get();
                 glm::vec2 textSize = glm::vec2(0.F, 0.F);
                 for (const auto& i : textLines)
                 {

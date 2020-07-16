@@ -262,15 +262,15 @@ namespace djv
                     glm::vec2(size.x / static_cast<float>(info.size.w), size.y / static_cast<float>(info.size.h)),
                     UI::ImageAspectRatio::Unscaled);
 
-                auto i = p.ocioConfig.fileColorSpaces.find(p.image->getPluginName());
-                if (i != p.ocioConfig.fileColorSpaces.end())
+                auto i = p.ocioConfig.imageColorSpaces.find(p.image->getPluginName());
+                if (i != p.ocioConfig.imageColorSpaces.end())
                 {
                     options.colorSpace.input = i->second;
                 }
                 else
                 {
-                    i = p.ocioConfig.fileColorSpaces.find(std::string());
-                    if (i != p.ocioConfig.fileColorSpaces.end())
+                    i = p.ocioConfig.imageColorSpaces.find(std::string());
+                    if (i != p.ocioConfig.imageColorSpaces.end())
                     {
                         options.colorSpace.input = i->second;
                     }

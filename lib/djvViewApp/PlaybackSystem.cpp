@@ -6,9 +6,9 @@
 
 #include <djvViewApp/Application.h>
 #include <djvViewApp/FileSystem.h>
-#include <djvViewApp/InputSettings.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidget.h>
+#include <djvViewApp/MouseSettings.h>
 #include <djvViewApp/PlaybackSettings.h>
 #include <djvViewApp/WindowSystem.h>
 
@@ -16,7 +16,7 @@
 #include <djvUI/ActionGroup.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/Shortcut.h>
+#include <djvUI/ShortcutData.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Style.h>
 #include <djvUI/UISystem.h>
@@ -76,18 +76,12 @@ namespace djv
 
             p.actions["Forward"] = UI::Action::create();
             p.actions["Forward"]->setIcon("djvIconPlaybackForward");
-            p.actions["Forward"]->addShortcut(GLFW_KEY_UP);
-            p.actions["Forward"]->addShortcut(GLFW_KEY_L);
             p.actions["Reverse"] = UI::Action::create();
             p.actions["Reverse"]->setIcon("djvIconPlaybackReverse");
-            p.actions["Reverse"]->addShortcut(GLFW_KEY_DOWN);
-            p.actions["Reverse"]->addShortcut(GLFW_KEY_J);
             p.playbackActionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
             p.playbackActionGroup->addAction(p.actions["Forward"]);
             p.playbackActionGroup->addAction(p.actions["Reverse"]);
             p.actions["Playback"] = UI::Action::create();
-            p.actions["Playback"]->addShortcut(GLFW_KEY_SPACE);
-            p.actions["Playback"]->addShortcut(GLFW_KEY_K);
 
             p.actions["PlayOnce"] = UI::Action::create();
             p.actions["PlayOnce"]->setEnabled(false);
@@ -105,46 +99,62 @@ namespace djv
 
             p.actions["InPoint"] = UI::Action::create();
             p.actions["InPoint"]->setIcon("djvIconFrameStart");
-            p.actions["InPoint"]->setShortcut(GLFW_KEY_HOME);
             p.actions["OutPoint"] = UI::Action::create();
             p.actions["OutPoint"]->setIcon("djvIconFrameEnd");
-            p.actions["OutPoint"]->setShortcut(GLFW_KEY_END);
             p.actions["StartFrame"] = UI::Action::create();
-            p.actions["StartFrame"]->setShortcut(GLFW_KEY_HOME, GLFW_MOD_SHIFT);
             p.actions["EndFrame"] = UI::Action::create();
-            p.actions["EndFrame"]->setShortcut(GLFW_KEY_END, GLFW_MOD_SHIFT);
             p.actions["NextFrame"] = UI::Action::create();
             p.actions["NextFrame"]->setIcon("djvIconFrameNext");
-            p.actions["NextFrame"]->addShortcut(GLFW_KEY_RIGHT);
-            p.actions["NextFrame"]->addShortcut(GLFW_KEY_RIGHT_BRACKET);
             p.actions["NextFrame10"] = UI::Action::create();
-            p.actions["NextFrame10"]->addShortcut(GLFW_KEY_RIGHT, GLFW_MOD_SHIFT);
-            p.actions["NextFrame10"]->addShortcut(GLFW_KEY_RIGHT_BRACKET, GLFW_MOD_SHIFT);
             p.actions["NextFrame100"] = UI::Action::create();
-            p.actions["NextFrame100"]->addShortcut(GLFW_KEY_RIGHT, UI::Shortcut::getSystemModifier());
-            p.actions["NextFrame100"]->addShortcut(GLFW_KEY_RIGHT_BRACKET, UI::Shortcut::getSystemModifier());
             p.actions["PrevFrame"] = UI::Action::create();
             p.actions["PrevFrame"]->setIcon("djvIconFramePrev");
-            p.actions["PrevFrame"]->addShortcut(GLFW_KEY_LEFT);
-            p.actions["PrevFrame"]->addShortcut(GLFW_KEY_LEFT_BRACKET);
             p.actions["PrevFrame10"] = UI::Action::create();
-            p.actions["PrevFrame10"]->addShortcut(GLFW_KEY_LEFT, GLFW_MOD_SHIFT);
-            p.actions["PrevFrame10"]->addShortcut(GLFW_KEY_LEFT_BRACKET, GLFW_MOD_SHIFT);
             p.actions["PrevFrame100"] = UI::Action::create();
-            p.actions["PrevFrame100"]->addShortcut(GLFW_KEY_LEFT, UI::Shortcut::getSystemModifier());
-            p.actions["PrevFrame100"]->addShortcut(GLFW_KEY_LEFT_BRACKET, UI::Shortcut::getSystemModifier());
 
             p.actions["InOutPoints"] = UI::Action::create();
             p.actions["InOutPoints"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["InOutPoints"]->setShortcut(GLFW_KEY_P);
             p.actions["SetInPoint"] = UI::Action::create();
-            p.actions["SetInPoint"]->setShortcut(GLFW_KEY_I);
             p.actions["SetOutPoint"] = UI::Action::create();
-            p.actions["SetOutPoint"]->setShortcut(GLFW_KEY_O);
             p.actions["ResetInPoint"] = UI::Action::create();
-            p.actions["ResetInPoint"]->setShortcut(GLFW_KEY_I, GLFW_MOD_SHIFT);
             p.actions["ResetOutPoint"] = UI::Action::create();
-            p.actions["ResetOutPoint"]->setShortcut(GLFW_KEY_O, GLFW_MOD_SHIFT);
+
+            _addShortcut("shortcut_playback_forward", {
+                UI::ShortcutData(GLFW_KEY_UP),
+                UI::ShortcutData(GLFW_KEY_L) });
+            _addShortcut("shortcut_playback_reverse", {
+                UI::ShortcutData(GLFW_KEY_DOWN),
+                UI::ShortcutData(GLFW_KEY_J) });
+            _addShortcut("shortcut_playback_playback", {
+                UI::ShortcutData(GLFW_KEY_SPACE),
+                UI::ShortcutData(GLFW_KEY_K) });
+            _addShortcut("shortcut_playback_in_point", GLFW_KEY_HOME);
+            _addShortcut("shortcut_playback_out_point", GLFW_KEY_END);
+            _addShortcut("shortcut_playback_start_frame", GLFW_KEY_HOME, GLFW_MOD_SHIFT);
+            _addShortcut("shortcut_playback_end_frame", GLFW_KEY_END, GLFW_MOD_SHIFT);
+            _addShortcut("shortcut_playback_next_frame", {
+                UI::ShortcutData(GLFW_KEY_RIGHT),
+                UI::ShortcutData(GLFW_KEY_RIGHT_BRACKET) });
+            _addShortcut("shortcut_playback_next_frame_10", {
+                UI::ShortcutData(GLFW_KEY_RIGHT, GLFW_MOD_SHIFT),
+                UI::ShortcutData(GLFW_KEY_RIGHT_BRACKET, GLFW_MOD_SHIFT) });
+            _addShortcut("shortcut_playback_next_frame_100", {
+                UI::ShortcutData(GLFW_KEY_RIGHT, UI::ShortcutData::getSystemModifier()),
+                UI::ShortcutData(GLFW_KEY_RIGHT_BRACKET, UI::ShortcutData::getSystemModifier()) });
+            _addShortcut("shortcut_playback_prev_frame", {
+                UI::ShortcutData(GLFW_KEY_LEFT),
+                UI::ShortcutData(GLFW_KEY_LEFT_BRACKET) });
+            _addShortcut("shortcut_playback_prev_frame_10", {
+                UI::ShortcutData(GLFW_KEY_LEFT, GLFW_MOD_SHIFT),
+                UI::ShortcutData(GLFW_KEY_LEFT_BRACKET, GLFW_MOD_SHIFT) });
+            _addShortcut("shortcut_playback_prev_frame_100", {
+                UI::ShortcutData(GLFW_KEY_LEFT, UI::ShortcutData::getSystemModifier()),
+                UI::ShortcutData(GLFW_KEY_LEFT_BRACKET, UI::ShortcutData::getSystemModifier()) });
+            _addShortcut("shortcut_playback_in_out_points", GLFW_KEY_P);
+            _addShortcut("shortcut_playback_set_in_point", GLFW_KEY_I);
+            _addShortcut("shortcut_playback_set_out_point", GLFW_KEY_O);
+            _addShortcut("shortcut_playback_reset_in_point", GLFW_KEY_I, GLFW_MOD_SHIFT);
+            _addShortcut("shortcut_playback_reset_out_point", GLFW_KEY_O, GLFW_MOD_SHIFT);
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Forward"]);
@@ -170,6 +180,7 @@ namespace djv
 
             _actionsUpdate();
             _textUpdate();
+            _shortcutsUpdate();
 
             auto weak = std::weak_ptr<PlaybackSystem>(std::dynamic_pointer_cast<PlaybackSystem>(shared_from_this()));
             p.playbackActionGroup->setExclusiveCallback(
@@ -744,6 +755,32 @@ namespace djv
             }
         }
 
+        void PlaybackSystem::_shortcutsUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.actions.size())
+            {
+                p.actions["Forward"]->setShortcuts(_getShortcuts("shortcut_playback_forward"));
+                p.actions["Reverse"]->setShortcuts(_getShortcuts("shortcut_playback_reverse"));
+                p.actions["Playback"]->setShortcuts(_getShortcuts("shortcut_playback_playback"));
+                p.actions["InPoint"]->setShortcuts(_getShortcuts("shortcut_playback_in_point"));
+                p.actions["OutPoint"]->setShortcuts(_getShortcuts("shortcut_playback_out_point"));
+                p.actions["StartFrame"]->setShortcuts(_getShortcuts("shortcut_playback_start_frame"));
+                p.actions["EndFrame"]->setShortcuts(_getShortcuts("shortcut_playback_end_frame"));
+                p.actions["NextFrame"]->setShortcuts(_getShortcuts("shortcut_playback_next_frame"));
+                p.actions["NextFrame10"]->setShortcuts(_getShortcuts("shortcut_playback_next_frame_10"));
+                p.actions["NextFrame100"]->setShortcuts(_getShortcuts("shortcut_playback_next_frame_100"));
+                p.actions["PrevFrame"]->setShortcuts(_getShortcuts("shortcut_playback_prev_frame"));
+                p.actions["PrevFrame10"]->setShortcuts(_getShortcuts("shortcut_playback_prev_frame_10"));
+                p.actions["PrevFrame100"]->setShortcuts(_getShortcuts("shortcut_playback_prev_frame_100"));
+                p.actions["InOutPoints"]->setShortcuts(_getShortcuts("shortcut_playback_in_out_points"));
+                p.actions["SetInPoint"]->setShortcuts(_getShortcuts("shortcut_playback_set_in_point"));
+                p.actions["SetOutPoint"]->setShortcuts(_getShortcuts("shortcut_playback_set_out_point"));
+                p.actions["ResetInPoint"]->setShortcuts(_getShortcuts("shortcut_playback_reset_in_point"));
+                p.actions["ResetOutPoint"]->setShortcuts(_getShortcuts("shortcut_playback_reset_out_point"));
+            }
+        }
+
         float PlaybackSystem::_getScrollWheelSpeed(ScrollWheelSpeed value)
         {
             const float values[] =
@@ -818,8 +855,8 @@ namespace djv
                     {
                         Frame::Index frame = media->observeCurrentFrame()->get();
                         auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                        auto inputSettings = settingsSystem->getSettingsT<InputSettings>();
-                        const float speed = _getScrollWheelSpeed(inputSettings->observeScrollWheelSpeed()->get());
+                        auto mouseSettings = settingsSystem->getSettingsT<MouseSettings>();
+                        const float speed = _getScrollWheelSpeed(mouseSettings->observeScrollWheelSpeed()->get());
                         media->setCurrentFrame(frame + value.delta.y * speed);
                     }
                 }

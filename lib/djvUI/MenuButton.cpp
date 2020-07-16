@@ -26,11 +26,12 @@ namespace djv
             struct Menu::Private
             {
                 bool open = false;
-                MenuStyle menuStyle = MenuStyle::Flat;
+                MenuButtonStyle buttonStyle = MenuButtonStyle::Flat;
                 bool textFocusEnabled = false;
                 std::string font;
                 std::string fontFace;
                 MetricsRole fontSizeRole = MetricsRole::FontMedium;
+                int elide = 0;
                 MetricsRole insideMargin = MetricsRole::MarginInside;
                 std::shared_ptr<Icon> icon;
                 std::shared_ptr<Label> label;
@@ -38,7 +39,7 @@ namespace djv
                 std::function<void(bool)> openCallback;
             };
 
-            void Menu::_init(MenuStyle menuStyle, const std::shared_ptr<Context>& context)
+            void Menu::_init(MenuButtonStyle buttonStyle, const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
                 DJV_PRIVATE_PTR();
@@ -46,7 +47,7 @@ namespace djv
                 setClassName("djv::UI::Button::Menu");
                 setPointerEnabled(true);
 
-                p.menuStyle = menuStyle;
+                p.buttonStyle = buttonStyle;
             }
 
             Menu::Menu() :
@@ -56,10 +57,10 @@ namespace djv
             Menu::~Menu()
             {}
 
-            std::shared_ptr<Menu> Menu::create(MenuStyle menuStyle, const std::shared_ptr<Context>& context)
+            std::shared_ptr<Menu> Menu::create(MenuButtonStyle buttonStyle, const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<Menu>(new Menu);
-                out->_init(menuStyle, context);
+                out->_init(buttonStyle, context);
                 return out;
             }
 
@@ -158,6 +159,7 @@ namespace djv
                             p.label->setFontFamily(p.font);
                             p.label->setFontFace(p.fontFace);
                             p.label->setFontSizeRole(p.fontSizeRole);
+                            p.label->setElide(p.elide);
                             p.label->setMargin(MetricsRole::MarginSmall);
                             addChild(p.label);
                         }
@@ -217,6 +219,23 @@ namespace djv
                 }
             }
 
+            int Menu::getElide() const
+            {
+                return _p->elide;
+            }
+
+            void Menu::setElide(int value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.elide)
+                    return;
+                p.elide = value;
+                if (p.label)
+                {
+                    p.label->setElide(value);
+                }
+            }
+
             MetricsRole Menu::getInsideMargin() const
             {
                 return _p->insideMargin;
@@ -236,9 +255,9 @@ namespace djv
                 _p->textFocusEnabled = value;
             }
 
-            MenuStyle Menu::getMenuStyle() const
+            MenuButtonStyle Menu::getMenuButtonStyle() const
             {
-                return _p->menuStyle;
+                return _p->buttonStyle;
             }
 
             bool Menu::acceptFocus(TextFocusDirection)
@@ -257,7 +276,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
                 const float m = style->getMetric(p.insideMargin);
-                const float b = style->getMetric(MetricsRole::Border);
+                const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 glm::vec2 size = glm::vec2(0.F, 0.F);
                 if (p.icon)
                 {
@@ -277,11 +296,11 @@ namespace djv
                     size.x += tmp.x;
                     size.y = std::max(size.y, tmp.y);
                 }                
-                switch (p.menuStyle)
+                switch (p.buttonStyle)
                 {
-                case MenuStyle::Flat:     size.x += m * 2.F; break;
-                case MenuStyle::Tool:     size += m * 2.F;   break;
-                case MenuStyle::ComboBox: size += b * 4.F;   break;
+                case MenuButtonStyle::Flat:     size.x += m * 2.F; break;
+                case MenuButtonStyle::Tool:     size += m * 2.F;   break;
+                case MenuButtonStyle::ComboBox: size += btf * 2.F; break;
                 default: break;
                 }
                 _setMinimumSize(size + getMargin().getSize(style));
@@ -293,13 +312,13 @@ namespace djv
                 const auto& style = _getStyle();
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const float m = style->getMetric(p.insideMargin);
-                const float b = style->getMetric(MetricsRole::Border);
+                const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 BBox2f g2;
-                switch (p.menuStyle)
+                switch (p.buttonStyle)
                 {
-                case MenuStyle::Flat:     g2 = g.margin(-m, 0, -m, 0); break;
-                case MenuStyle::Tool:     g2 = g.margin(-m);           break;
-                case MenuStyle::ComboBox: g2 = g.margin(-b * 2.F);     break;
+                case MenuButtonStyle::Flat:     g2 = g.margin(-m, 0, -m, 0); break;
+                case MenuButtonStyle::Tool:     g2 = g.margin(-m);           break;
+                case MenuButtonStyle::ComboBox: g2 = g.margin(-btf);         break;
                 default: break;
                 }
                 float x = g2.min.x;
@@ -330,19 +349,25 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
                 const float b = style->getMetric(MetricsRole::Border);
+                const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const auto& render = _getRender();
 
                 BBox2f g2;
-                switch (p.menuStyle)
+                switch (p.buttonStyle)
                 {
-                case MenuStyle::ComboBox:
+                case MenuButtonStyle::ComboBox:
+                    g2 = g.margin(-btf);
                     if (hasTextFocus())
                     {
                         render->setFillColor(style->getColor(ColorRole::TextFocus));
-                        drawBorder(render, g, b * 2.F);
+                        drawBorder(render, g, btf);
                     }
-                    g2 = g.margin(-b * 2.F);
+                    else
+                    {
+                        render->setFillColor(style->getColor(ColorRole::BorderButton));
+                        drawBorder(render, g2.margin(b), b);
+                    }
                     break;
                 default:
                     g2 = g;
@@ -351,17 +376,17 @@ namespace djv
 
                 render->setFillColor(style->getColor(getBackgroundRole()));
                 render->drawRect(g2);
-                switch (p.menuStyle)
-                {
-                case MenuStyle::ComboBox:
-                    render->setFillColor(style->getColor(ColorRole::BorderButton));
-                    drawBorder(render, g2, b);
-                    break;
-                default: break;
-                }
                 if (p.open)
                 {
-                    render->setFillColor(style->getColor(ColorRole::Checked));
+                    switch (p.buttonStyle)
+                    {
+                    case MenuButtonStyle::ComboBox:
+                        render->setFillColor(style->getColor(ColorRole::Pressed));
+                        break;
+                    default:
+                        render->setFillColor(style->getColor(ColorRole::Checked));
+                        break;
+                    }
                     render->drawRect(g2);
                 }
 

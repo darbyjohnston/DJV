@@ -27,7 +27,7 @@ namespace djv
             void setStretch(const std::shared_ptr<Widget>&, RowStretch);
 
             void addSeparator();
-            void addSpacer();
+            void addSpacer(MetricsRole = MetricsRole::Spacing);
             void addExpander();
 
             float getHeightForWidth(float) const override;

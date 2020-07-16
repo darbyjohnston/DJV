@@ -24,7 +24,6 @@ namespace djv
                 std::shared_ptr<ValueObserver<std::string> > icon;
                 std::shared_ptr<ValueObserver<std::string> > text;
                 std::shared_ptr<ValueObserver<bool> > enabled;
-                std::shared_ptr<ValueObserver<std::string> > tooltip;
                 std::shared_ptr<ValueObserver<bool> > autoRepeat;
             };
             std::map<std::shared_ptr<Action>, Observers> observers;
@@ -68,9 +67,9 @@ namespace djv
             _p->layout->addSeparator();
         }
 
-        void ToolBar::addSpacer()
+        void ToolBar::addSpacer(MetricsRole role)
         {
-            _p->layout->addSpacer();
+            _p->layout->addSpacer(role);
         }
 
         void ToolBar::addExpander()
@@ -88,11 +87,11 @@ namespace djv
 
         void ToolBar::addAction(const std::shared_ptr<Action>& action)
         {
-            Widget::addAction(action);
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
                 auto button = ToolButton::create(context);
+                button->addAction(action);
                 p.layout->addChild(button);
                 button->setClickedCallback(
                     [action]
@@ -135,12 +134,6 @@ namespace djv
                 {
                     button->setEnabled(value);
                 });
-                p.observers[action].tooltip = ValueObserver<std::string>::create(
-                    action->observeTooltip(),
-                    [button](const std::string& value)
-                    {
-                        button->setTooltip(value);
-                    });
                 p.observers[action].autoRepeat = ValueObserver<bool>::create(
                     action->observeAutoRepeat(),
                     [button](bool value)

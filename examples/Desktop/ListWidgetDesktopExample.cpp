@@ -6,10 +6,13 @@
 
 #include <djvUIComponents/SearchBox.h>
 
+#include <djvUI/CheckBox.h>
+#include <djvUI/ComboBox.h>
 #include <djvUI/IntSlider.h>
 #include <djvUI/ListWidget.h>
+#include <djvUI/PushButton.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ToolButton.h>
+#include <djvUI/ScrollWidget.h>
 #include <djvUI/Window.h>
 
 #include <djvCore/Error.h>
@@ -36,8 +39,6 @@ private:
 
     int _listSize = 20;
     std::vector<std::string> _list;
-    int _currentItem = 0;
-    std::string _filter;
     std::shared_ptr<UI::IntSlider> _countSlider;
     std::shared_ptr<UI::ListWidget> _listWidget;
     std::shared_ptr<UI::Window> _window;
@@ -49,15 +50,27 @@ void Application::_init(std::list<std::string>& args)
 
     // Create widgets for modifying the list.
     _countSlider = UI::IntSlider::create(shared_from_this());
-    auto newButton = UI::ToolButton::create(shared_from_this());
-    newButton->setText("New");
+    auto newButton = UI::PushButton::create(shared_from_this());
+    newButton->setText("New List");
+
+    // Create widgets for list options.
+    auto typeComboBox = UI::ComboBox::create(shared_from_this());
+    typeComboBox->setItems({ "Push", "Toggle", "Radio", "Exclusive" });
+    const UI::ButtonType buttonType = UI::ButtonType::Radio;
+    typeComboBox->setCurrentItem(static_cast<int>(buttonType));
+    auto alternateRowsCheckBox = UI::CheckBox::create(shared_from_this());
+    alternateRowsCheckBox->setText("Alternate rows");
 
     // Create a search box.
     auto searchBox = UI::SearchBox::create(shared_from_this());
 
     // Create a list widget.
-    _listWidget = UI::ListWidget::create(shared_from_this());
-    _listWidget->setBorder(false);
+    _listWidget = UI::ListWidget::create(buttonType, shared_from_this());
+
+    // Create a scroll widget for the list widget.
+    auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, shared_from_this());
+    scrollWidget->setBorder(false);
+    scrollWidget->addChild(_listWidget);
 
     // Layout the widgets.
     auto layout = UI::VerticalLayout::create(shared_from_this());
@@ -68,11 +81,15 @@ void Application::_init(std::list<std::string>& args)
     hLayout->addChild(_countSlider);
     hLayout->setStretch(_countSlider, UI::Layout::RowStretch::Expand);
     hLayout->addChild(newButton);
+    hLayout->addSeparator();
+    hLayout->addChild(typeComboBox);
+    hLayout->addChild(alternateRowsCheckBox);
+    hLayout->addSeparator();
     hLayout->addChild(searchBox);
     layout->addChild(hLayout);
     layout->addSeparator();
-    layout->addChild(_listWidget);
-    layout->setStretch(_listWidget, UI::Layout::RowStretch::Expand);
+    layout->addChild(scrollWidget);
+    layout->setStretch(scrollWidget, UI::Layout::RowStretch::Expand);
 
     // Create a window.
     _window = UI::Window::create(shared_from_this());
@@ -85,28 +102,54 @@ void Application::_init(std::list<std::string>& args)
     // Setup callbacks.
     _countSlider->setValueCallback(
         [this](int value)
-    {
-        _listSize = value;
-        _list = _createList();
-        _widgetUpdate();
-    });
+        {
+            _listSize = value;
+            _list = _createList();
+            _widgetUpdate();
+        });
     newButton->setClickedCallback(
         [this]
-    {
-        _list = _createList();
-        _widgetUpdate();
-    });
+        {
+            _list = _createList();
+            _widgetUpdate();
+        });
+    typeComboBox->setCallback(
+        [this](int value)
+        {
+            _listWidget->setButtonType(static_cast<UI::ButtonType>(value));
+        });
+    alternateRowsCheckBox->setCheckedCallback(
+        [this](bool value)
+        {
+            _listWidget->setAlternateRowsRoles(
+                UI::ColorRole::None,
+                value ? UI::ColorRole::Trough : UI::ColorRole::None);
+        });
     searchBox->setFilterCallback(
         [this](const std::string& value)
-    {
-        _filter = value;
-        _widgetUpdate();
-    });
-    _listWidget->setCurrentItemCallback(
+        {
+            _listWidget->setFilter(value);
+        });
+    _listWidget->setPushCallback(
         [this](int value)
-    {
-        _currentItem = value;
-    });
+        {
+            std::cout << "Push: " << value << std::endl;
+        });
+    _listWidget->setToggleCallback(
+        [this](int value, bool checked)
+        {
+            std::cout << "Toggle: " << value << " = " << checked << std::endl;
+        });
+    _listWidget->setRadioCallback(
+        [this](int value)
+        {
+            std::cout << "Radio: " << value << std::endl;
+        });
+    _listWidget->setExclusiveCallback(
+        [this](int value)
+        {
+            std::cout << "Exclusive: " << value << std::endl;
+        });
 
     // Show the window.
     _window->show();
@@ -133,30 +176,7 @@ std::vector<std::string> Application::_createList() const
 void Application::_widgetUpdate()
 {
     _countSlider->setValue(_listSize);
-
-    // Update the list items.
-    std::vector<std::string> items;
-    std::vector<size_t> indices;
-    auto textSystem = getSystemT<Core::TextSystem>();
-    for (size_t i = 0; i < _list.size(); ++i)
-    {
-        const auto& item = _list[i];
-        if (Core::String::match(item, _filter))
-        {
-            items.push_back(textSystem->getText(item));
-            indices.push_back(i);
-        }
-    }
-    _listWidget->setItems(items);
-
-    // Update the list current item.
-    size_t item = 0;
-    if (indices.size())
-    {
-        item = Core::Math::closest(static_cast<size_t>(_currentItem), indices);
-        _currentItem = indices[item];
-    }
-    _listWidget->setCurrentItem(item);
+    _listWidget->setItems(_list);
 }
 
 int main(int argc, char ** argv)

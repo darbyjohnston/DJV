@@ -61,3 +61,5 @@ namespace djv
         } // namespace OCIO
     } // namespace AV
 } // namespace djv
+
+#include <djvAV/OCIOInline.h>

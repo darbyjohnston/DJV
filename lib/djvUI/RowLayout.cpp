@@ -58,11 +58,12 @@ namespace djv
                 }
             }
 
-            void Row::addSpacer()
+            void Row::addSpacer(MetricsRole value)
             {
                 if (auto context = getContext().lock())
                 {
                     auto spacer = Spacer::create(_p->orientation, context);
+                    spacer->setSpacerSize(value);
                     addChild(spacer);
                 }
             }

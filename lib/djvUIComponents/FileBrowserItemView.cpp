@@ -312,7 +312,7 @@ namespace djv
                                     const uint64_t size = fileInfo.getSize();
                                     ss << Memory::getSizeLabel(size);
                                     std::stringstream ss2;
-                                    ss2 << Memory::getSizeLabel(size);
+                                    ss2 << Memory::getUnitLabel(size);
                                     ss << _getText(ss2.str());
                                     const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium);
                                     p.sizeGlyphsFutures[i.first] = p.fontSystem->getGlyphs(ss.str(), fontInfo);
@@ -418,15 +418,15 @@ namespace djv
                                     }
                                     render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F, opacity));
                                     AV::Render2D::ImageOptions options;
-                                    auto l = p.ocioConfig.fileColorSpaces.find(j->second->getPluginName());
-                                    if (l != p.ocioConfig.fileColorSpaces.end())
+                                    auto l = p.ocioConfig.imageColorSpaces.find(j->second->getPluginName());
+                                    if (l != p.ocioConfig.imageColorSpaces.end())
                                     {
                                         options.colorSpace.input = l->second;
                                     }
                                     else
                                     {
-                                        l = p.ocioConfig.fileColorSpaces.find(std::string());
-                                        if (l != p.ocioConfig.fileColorSpaces.end())
+                                        l = p.ocioConfig.imageColorSpaces.find(std::string());
+                                        if (l != p.ocioConfig.imageColorSpaces.end())
                                         {
                                             options.colorSpace.input = l->second;
                                         }

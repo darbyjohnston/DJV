@@ -30,9 +30,6 @@ namespace djv
                 void setCapturePointer(bool);
                 void setCaptureKeyboard(bool);
 
-                const std::weak_ptr<Widget>& getAnchor() const;
-                void setAnchor(const std::weak_ptr<Widget>&);
-
                 bool hasFadeIn() const;
                 void setFadeIn(bool);
 

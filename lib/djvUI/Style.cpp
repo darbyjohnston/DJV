@@ -51,7 +51,9 @@ namespace djv
                     { ColorRole::OverlayLight, AV::Image::Color(0.F, 0.F, 0.F, .7F) },
                     { ColorRole::Shadow, AV::Image::Color(0.F, 0.F, 0.F, .16F) },
                     { ColorRole::Handle, AV::Image::Color(.58F, .32F, .18F, 1.F) },
-                    { ColorRole::Cached, AV::Image::Color(.32F, .58F, .18F, 1.F) }
+                    { ColorRole::Cached, AV::Image::Color(.32F, .58F, .18F, 1.F) },
+                    { ColorRole::Warning, AV::Image::Color(.5F, .5F, .2F, 1.F) },
+                    { ColorRole::Error, AV::Image::Color(.5F, .2F, .2F, 1.F) }
                 };
             }
 
@@ -79,6 +81,7 @@ namespace djv
                 {
                     { MetricsRole::None, 0.F },
                     { MetricsRole::Border, 1.F },
+                    { MetricsRole::BorderTextFocus, 2.F },
                     { MetricsRole::Margin, 10.F },
                     { MetricsRole::MarginSmall, 5.F },
                     { MetricsRole::MarginLarge, 20.F },
@@ -93,13 +96,14 @@ namespace djv
                     { MetricsRole::IconMini, 8.F },
                     { MetricsRole::FontSmall, 10.F },
                     { MetricsRole::FontMedium, 12.F },
-                    { MetricsRole::FontLarge, 18.F },
-                    { MetricsRole::FontHeader, 22.F },
+                    { MetricsRole::FontLarge, 16.F },
+                    { MetricsRole::FontHeader, 20.F },
                     { MetricsRole::FontTitle, 32.F },
                     { MetricsRole::Swatch, 50.F },
                     { MetricsRole::SwatchSmall, 16.F },
                     { MetricsRole::Slider, 50.F },
                     { MetricsRole::ScrollArea, 200.F },
+                    { MetricsRole::ScrollAreaSmall, 100.F },
                     { MetricsRole::ScrollBar, 15.F },
                     { MetricsRole::ScrollBarSmall, 10.F },
                     { MetricsRole::Menu, 600.F },

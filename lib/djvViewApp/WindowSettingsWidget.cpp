@@ -484,9 +484,12 @@ namespace djv
                                 {
                                     if (auto widget = weak.lock())
                                     {
-                                        widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
-                                        widget->_p->fileBrowserDialog->close();
-                                        widget->_p->fileBrowserDialog.reset();
+                                        if (widget->_p->fileBrowserDialog)
+                                        {
+                                            widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
+                                            widget->_p->fileBrowserDialog->close();
+                                            widget->_p->fileBrowserDialog.reset();
+                                        }
                                     }
                                 });
                             widget->_p->fileBrowserDialog->show();

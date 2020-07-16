@@ -5,6 +5,7 @@
 #include <djvUI/Action.h>
 
 #include <djvUI/Shortcut.h>
+#include <djvUI/ShortcutData.h>
 
 using namespace djv::Core;
 
@@ -137,6 +138,13 @@ namespace djv
             return _p->shortcuts;
         }
 
+        void Action::setShortcuts(const ShortcutDataPair& value)
+        {
+            clearShortcuts();
+            addShortcut(value.primary);
+            addShortcut(value.secondary);
+        }
+
         void Action::setShortcut(const std::shared_ptr<Shortcut>& value)
         {
             clearShortcuts();
@@ -180,6 +188,11 @@ namespace djv
                     }
                 }
             });
+        }
+
+        void Action::addShortcut(const ShortcutData& value)
+        {
+            addShortcut(UI::Shortcut::create(value));
         }
 
         void Action::addShortcut(int key)

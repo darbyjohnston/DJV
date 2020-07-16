@@ -18,6 +18,7 @@ namespace djv
             {
                 Orientation orientation = Orientation::First;
                 MetricsRole spacerSize = MetricsRole::Spacing;
+                MetricsRole spacerOppositeSize = MetricsRole::None;
             };
 
             void Spacer::_init(const std::shared_ptr<Context>& context)
@@ -69,6 +70,20 @@ namespace djv
                 _resize();
             }
 
+            MetricsRole Spacer::getSpacerOppositeSize() const
+            {
+                return _p->spacerOppositeSize;
+            }
+
+            void Spacer::setSpacerOppositeSize(MetricsRole value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.spacerOppositeSize)
+                    return;
+                p.spacerOppositeSize = value;
+                _resize();
+            }
+
             void Spacer::_preLayoutEvent(Event::PreLayout& event)
             {
                 glm::vec2 minimumSize = glm::vec2(0.F, 0.F);
@@ -76,11 +91,17 @@ namespace djv
                 const auto& style = _getStyle();
                 switch (p.orientation)
                 {
-                case Orientation::Horizontal: minimumSize.x = style->getMetric(p.spacerSize); break;
-                case Orientation::Vertical:   minimumSize.y = style->getMetric(p.spacerSize); break;
+                case Orientation::Horizontal:
+                    minimumSize.x = style->getMetric(p.spacerSize);
+                    minimumSize.y = style->getMetric(p.spacerOppositeSize);
+                    break;
+                case Orientation::Vertical:
+                    minimumSize.x = style->getMetric(p.spacerOppositeSize);
+                    minimumSize.y = style->getMetric(p.spacerSize);
+                    break;
                 default: break;
                 }
-                _setMinimumSize(minimumSize);
+                _setMinimumSize(minimumSize + getMargin().getSize(style));
             }
 
             HorizontalSpacer::HorizontalSpacer()

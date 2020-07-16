@@ -21,7 +21,6 @@ namespace djv
     {
         struct SearchBox::Private
         {
-            bool border = true;
             std::shared_ptr<LineEditBase> lineEditBase;
             std::shared_ptr<Icon> searchIcon;
             std::shared_ptr<ToolButton> clearButton;
@@ -47,6 +46,7 @@ namespace djv
             
             p.clearButton = ToolButton::create(context);
             p.clearButton->setIcon("djvIconClear");
+            p.clearButton->setInsideMargin(MetricsRole::None);
             p.clearButton->setTextFocusEnabled(false);
             p.clearButton->setBackgroundRole(ColorRole::None);
             
@@ -129,44 +129,24 @@ namespace djv
             _p->filterCallback = value;
         }
 
-        void SearchBox::setBorder(bool value)
-        {
-            DJV_PRIVATE_PTR();
-            if (value == p.border)
-                return;
-            p.border = value;
-            _resize();
-        }
-
         float SearchBox::getHeightForWidth(float value) const
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const glm::vec2 m = getMargin().getSize(style);
-            const float b = style->getMetric(MetricsRole::Border);
-            float size = value - m.x;
-            if (p.border)
-            {
-                size -= b * 2.F;
-            }
-            float out = p.layout->getHeightForWidth(size) + m.y;
-            if (p.border)
-            {
-                out += b * 2.F;
-            }
-            return out;
+            const float btf = style->getMetric(MetricsRole::BorderTextFocus);
+            float size = value - m.x - btf * 2.F;
+            float out = p.layout->getHeightForWidth(size);
+            return out + btf * 2.F + m.y;
         }
 
         void SearchBox::_preLayoutEvent(Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const float b = style->getMetric(MetricsRole::Border);
+            const float btf = style->getMetric(MetricsRole::BorderTextFocus);
             glm::vec2 size = p.layout->getMinimumSize();
-            if (p.border)
-            {
-                size += b * 2.F;
-            }
+            size += btf * 2.F;
             _setMinimumSize(size + getMargin().getSize(style));
         }
 
@@ -174,17 +154,9 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const float b = style->getMetric(MetricsRole::Border);
+            const float btf = style->getMetric(MetricsRole::BorderTextFocus);
             const BBox2f g = getMargin().bbox(getGeometry(), style);
-            BBox2f g2;
-            if (p.border)
-            {
-                g2 = g.margin(-b * 2.F);
-            }
-            else
-            {
-                g2 = g;
-            }
+            const BBox2f g2 = g.margin(-btf);
             _p->layout->setGeometry(g2);
         }
 
@@ -195,11 +167,17 @@ namespace djv
             const auto& style = _getStyle();
             const BBox2f g = getMargin().bbox(getGeometry(), style);
             const float b = style->getMetric(UI::MetricsRole::Border);
+            const float btf = style->getMetric(UI::MetricsRole::BorderTextFocus);
             const auto& render = _getRender();
             if (p.lineEditBase->hasTextFocus())
             {
                 render->setFillColor(style->getColor(UI::ColorRole::TextFocus));
-                drawBorder(render, g, b * 2.F);
+                drawBorder(render, g, btf);
+            }
+            else
+            {
+                render->setFillColor(style->getColor(UI::ColorRole::Border));
+                drawBorder(render, g.margin(b), b);
             }
         }
 

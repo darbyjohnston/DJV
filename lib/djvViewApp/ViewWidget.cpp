@@ -457,15 +457,15 @@ namespace djv
                 render->pushTransform(m);
                 render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F));
                 AV::Render2D::ImageOptions options(p.imageOptions->get());
-                auto i = p.ocioConfig.fileColorSpaces.find(image->getPluginName());
-                if (i != p.ocioConfig.fileColorSpaces.end())
+                auto i = p.ocioConfig.imageColorSpaces.find(image->getPluginName());
+                if (i != p.ocioConfig.imageColorSpaces.end())
                 {
                     options.colorSpace.input = i->second;
                 }
                 else
                 {
-                    i = p.ocioConfig.fileColorSpaces.find(std::string());
-                    if (i != p.ocioConfig.fileColorSpaces.end())
+                    i = p.ocioConfig.imageColorSpaces.find(std::string());
+                    if (i != p.ocioConfig.imageColorSpaces.end())
                     {
                         options.colorSpace.input = i->second;
                     }

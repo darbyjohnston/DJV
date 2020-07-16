@@ -14,18 +14,18 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the input settings.
-        class InputSettings : public UI::Settings::ISettings
+        //! This class provides the mouse settings.
+        class MouseSettings : public UI::Settings::ISettings
         {
-            DJV_NON_COPYABLE(InputSettings);
+            DJV_NON_COPYABLE(MouseSettings);
 
         protected:
             void _init(const std::shared_ptr<Core::Context>& context);
 
-            InputSettings();
+            MouseSettings();
 
         public:
-            static std::shared_ptr<InputSettings> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<MouseSettings> create(const std::shared_ptr<Core::Context>&);
 
             std::shared_ptr<Core::IValueSubject<ScrollWheelSpeed> > observeScrollWheelSpeed() const;
             void setScrollWheelSpeed(ScrollWheelSpeed);

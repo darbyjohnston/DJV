@@ -190,21 +190,19 @@ namespace djv
                     case Orientation::Horizontal:
                     {
                         const float x = _valueToPos(_scrollPos);
-                        handleGeom = BBox2f(x, g.y(), _valueToPos(_scrollPos + _viewSize) - x, g.h());
+                        handleGeom = BBox2f(x, g.y(), _valueToPos(_scrollPos + _viewSize) - x, g.h()).margin(-b);
                         break;
                     }
                     case Orientation::Vertical:
                     {
                         const float y = _valueToPos(_scrollPos);
-                        handleGeom = BBox2f(g.x(), y, g.w(), _valueToPos(_scrollPos + _viewSize) - y);
+                        handleGeom = BBox2f(g.x(), y, g.w(), _valueToPos(_scrollPos + _viewSize) - y).margin(-b);
                         break;
                     }
                     default: break;
                     }
-                    render->setFillColor(style->getColor(ColorRole::Border));
-                    drawBorder(render, handleGeom, b);
                     render->setFillColor(style->getColor(ColorRole::Button));
-                    render->drawRect(handleGeom.margin(-b));
+                    render->drawRect(handleGeom);
 
                     // Draw the pressed and hovered state.
                     if (_pressedID)
@@ -491,12 +489,14 @@ namespace djv
                 switch (_scrollType)
                 {
                 case ScrollType::Horizontal:
-                    size.x = std::min(childrenMinimumSize.x, size.x);
+                    //! \todo Is this necessary?
+                    //size.x = std::min(childrenMinimumSize.x, size.x);
                     size.y = std::max(childrenMinimumSize.y, size.y);
                     break;
                 case ScrollType::Vertical:
                     size.x = std::max(childrenMinimumSize.x, size.x);
-                    size.y = std::min(childrenMinimumSize.y, size.y);
+                    //! \todo Is this necessary?
+                    //size.y = std::min(childrenMinimumSize.y, size.y);
                     break;
                 default: break;
                 }
@@ -924,82 +924,85 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (!event.isAccepted())
             {
-                switch (event.getKey())
+                if (0 == event.getKeyModifiers())
                 {
-                case GLFW_KEY_HOME:
-                    event.accept();
-                    moveToBegin();
-                    break;
-                case GLFW_KEY_END:
-                    event.accept();
-                    moveToEnd();
-                    break;
-                case GLFW_KEY_PAGE_UP:
-                    switch (p.scrollType)
+                    switch (event.getKey())
                     {
-                    case ScrollType::Vertical:
-                    case ScrollType::Both:
+                    case GLFW_KEY_HOME:
                         event.accept();
-                        movePageUp();
+                        moveToBegin();
                         break;
-                    default: break;
-                    }
-                    break;
-                case GLFW_KEY_PAGE_DOWN:
-                    switch (p.scrollType)
-                    {
-                    case ScrollType::Vertical:
-                    case ScrollType::Both:
+                    case GLFW_KEY_END:
                         event.accept();
-                        movePageDown();
+                        moveToEnd();
                         break;
-                    default: break;
-                    }
-                    break;
-                case GLFW_KEY_UP:
-                    switch (p.scrollType)
-                    {
-                    case ScrollType::Vertical:
-                    case ScrollType::Both:
-                        event.accept();
-                        moveUp();
+                    case GLFW_KEY_PAGE_UP:
+                        switch (p.scrollType)
+                        {
+                        case ScrollType::Vertical:
+                        case ScrollType::Both:
+                            event.accept();
+                            movePageUp();
+                            break;
+                        default: break;
+                        }
                         break;
-                    default: break;
-                    }
-                    break;
-                case GLFW_KEY_DOWN:
-                    switch (p.scrollType)
-                    {
-                    case ScrollType::Vertical:
-                    case ScrollType::Both:
-                        event.accept();
-                        moveDown();
+                    case GLFW_KEY_PAGE_DOWN:
+                        switch (p.scrollType)
+                        {
+                        case ScrollType::Vertical:
+                        case ScrollType::Both:
+                            event.accept();
+                            movePageDown();
+                            break;
+                        default: break;
+                        }
                         break;
-                    default: break;
-                    }
-                    break;
-                case GLFW_KEY_LEFT:
-                    switch (p.scrollType)
-                    {
-                    case ScrollType::Horizontal:
-                    case ScrollType::Both:
-                        event.accept();
-                        moveLeft();
+                    case GLFW_KEY_UP:
+                        switch (p.scrollType)
+                        {
+                        case ScrollType::Vertical:
+                        case ScrollType::Both:
+                            event.accept();
+                            moveUp();
+                            break;
+                        default: break;
+                        }
                         break;
-                    default: break;
-                    }
-                    break;
-                case GLFW_KEY_RIGHT:
-                    switch (p.scrollType)
-                    {
-                    case ScrollType::Horizontal:
-                    case ScrollType::Both:
-                        event.accept();
-                        moveRight();
+                    case GLFW_KEY_DOWN:
+                        switch (p.scrollType)
+                        {
+                        case ScrollType::Vertical:
+                        case ScrollType::Both:
+                            event.accept();
+                            moveDown();
+                            break;
+                        default: break;
+                        }
                         break;
-                    default: break;
+                    case GLFW_KEY_LEFT:
+                        switch (p.scrollType)
+                        {
+                        case ScrollType::Horizontal:
+                        case ScrollType::Both:
+                            event.accept();
+                            moveLeft();
+                            break;
+                        default: break;
+                        }
+                        break;
+                    case GLFW_KEY_RIGHT:
+                        switch (p.scrollType)
+                        {
+                        case ScrollType::Horizontal:
+                        case ScrollType::Both:
+                            event.accept();
+                            moveRight();
+                            break;
+                        default: break;
+                        }
+                        break;
                     }
-                    break;
                 }
             }
         }

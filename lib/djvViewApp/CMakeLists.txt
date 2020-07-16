@@ -12,6 +12,7 @@ set(header
     ColorPickerSystem.h
     ColorPickerWidget.h
 	ColorSpaceWidget.h
+	ColorSpaceWidgetPrivate.h
     DebugWidget.h
     EditSystem.h
     Enum.h
@@ -27,9 +28,8 @@ set(header
 	ImageSettings.h
     ImageSystem.h
     InfoWidget.h
-	InputSettings.h
-	InputSettingsWidget.h
-	InputSystem.h
+	KeyboardSettings.h
+	KeyboardSettingsWidget.h
 	LayersWidget.h
 	MDIWidget.h
     MagnifySettings.h
@@ -42,16 +42,17 @@ set(header
 	MediaWidgetPrivate.h
 	MemoryCacheWidget.h
     MessagesWidget.h
+	MouseSettings.h
+	MouseSettingsWidget.h
 	NUXSettings.h
     NUXSettingsWidget.h
 	NUXSystem.h
 	PlaybackSettings.h
     PlaybackSettingsWidget.h
-    PlaybackSpeedWidget.h
     PlaybackSystem.h
     RecentFilesDialog.h
-    SettingsDrawer.h
     SettingsSystem.h
+    SettingsWidget.h
     SystemLogWidget.h
     TimelinePIPWidget.h
     TimelineSlider.h
@@ -80,6 +81,10 @@ set(source
     ColorPickerSettings.cpp
     ColorPickerSystem.cpp
     ColorPickerWidget.cpp
+	ColorSpaceConfigWidget.cpp
+	ColorSpaceDisplayWidget.cpp
+	ColorSpaceImageWidget.cpp
+	ColorSpaceViewWidget.cpp
 	ColorSpaceWidget.cpp
     DebugWidget.cpp
     EditSystem.cpp
@@ -96,9 +101,8 @@ set(source
 	ImageSettings.cpp
     ImageSystem.cpp
     InfoWidget.cpp
-	InputSettings.cpp
-	InputSettingsWidget.cpp
-	InputSystem.cpp
+	KeyboardSettings.cpp
+	KeyboardSettingsWidget.cpp
 	LayersWidget.cpp
 	MDIWidget.cpp
     MagnifySettings.cpp
@@ -106,21 +110,25 @@ set(source
     MagnifyWidget.cpp
     MainWindow.cpp
     Media.cpp
+	MediaAudioWidget.cpp
 	MediaCanvas.cpp
+	MediaFrameWidget.cpp
+    MediaPlaybackSpeedWidget.cpp
+	MediaPointerWidget.cpp
 	MediaWidget.cpp
-	MediaWidgetPrivate.cpp
 	MemoryCacheWidget.cpp
     MessagesWidget.cpp
+	MouseSettings.cpp
+	MouseSettingsWidget.cpp
 	NUXSettings.cpp
     NUXSettingsWidget.cpp
 	NUXSystem.cpp
 	PlaybackSettings.cpp
     PlaybackSettingsWidget.cpp
-    PlaybackSpeedWidget.cpp
     PlaybackSystem.cpp
     RecentFilesDialog.cpp
-    SettingsDrawer.cpp
     SettingsSystem.cpp
+    SettingsWidget.cpp
     SystemLogWidget.cpp
     TimelinePIPWidget.cpp
     TimelineSlider.cpp

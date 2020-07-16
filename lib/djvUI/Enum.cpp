@@ -80,72 +80,6 @@ namespace djv
         }
 
     } // namespace UI
-   
-    rapidjson::Value toJSON(UI::ViewType value, rapidjson::Document::AllocatorType& allocator)
-    {
-        std::stringstream ss;
-        ss << value;
-        const std::string& s = ss.str();
-        return rapidjson::Value(s.c_str(), s.size(), allocator);
-    }
-
-    rapidjson::Value toJSON(UI::ImageRotate value, rapidjson::Document::AllocatorType& allocator)
-    {
-        std::stringstream ss;
-        ss << value;
-        const std::string& s = ss.str();
-        return rapidjson::Value(s.c_str(), s.size(), allocator);
-    }
-
-    rapidjson::Value toJSON(UI::ImageAspectRatio value, rapidjson::Document::AllocatorType& allocator)
-    {
-        std::stringstream ss;
-        ss << value;
-        const std::string& s = ss.str();
-        return rapidjson::Value(s.c_str(), s.size(), allocator);
-    }
-
-    void fromJSON(const rapidjson::Value& value, UI::ViewType& out)
-    {
-        if (value.IsString())
-        {
-            std::stringstream ss(value.GetString());
-            ss >> out;
-        }
-        else
-        {
-            //! \todo How can we translate this?
-            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
-        }
-    }
-
-    void fromJSON(const rapidjson::Value& value, UI::ImageRotate& out)
-    {
-        if (value.IsString())
-        {
-            std::stringstream ss(value.GetString());
-            ss >> out;
-        }
-        else
-        {
-            //! \todo How can we translate this?
-            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
-        }
-    }
-
-    void fromJSON(const rapidjson::Value& value, UI::ImageAspectRatio& out)
-    {
-        if (value.IsString())
-        {
-            std::stringstream ss(value.GetString());
-            ss >> out;
-        }
-        else
-        {
-            //! \todo How can we translate this?
-            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
-        }
-    }
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
@@ -260,13 +194,16 @@ namespace djv
         DJV_TEXT("ui_color_role_overlay_light"),
         DJV_TEXT("ui_color_role_shadow"),
         DJV_TEXT("ui_color_role_handle"),
-        DJV_TEXT("ui_color_role_cached"));
+        DJV_TEXT("ui_color_role_cached"),
+        DJV_TEXT("ui_color_role_warning"),
+        DJV_TEXT("ui_color_role_error"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
         MetricsRole,
         DJV_TEXT("ui_metrics_role_none"),
         DJV_TEXT("ui_metrics_role_border"),
+        DJV_TEXT("ui_metrics_role_border_text_focus"),
         DJV_TEXT("ui_metrics_role_margin"),
         DJV_TEXT("ui_metrics_role_margin_small"),
         DJV_TEXT("ui_metrics_role_margin_large"),
@@ -288,6 +225,7 @@ namespace djv
         DJV_TEXT("ui_metrics_role_swatch_small"),
         DJV_TEXT("ui_metrics_role_slider"),
         DJV_TEXT("ui_metrics_role_scroll_area"),
+        DJV_TEXT("ui_metrics_role_scroll_area_small"),
         DJV_TEXT("ui_metrics_role_scroll_bar"),
         DJV_TEXT("ui_metrics_role_scroll_bar_small"),
         DJV_TEXT("ui_metrics_role_menu"),
@@ -327,6 +265,72 @@ namespace djv
         DJV_TEXT("popup_below_left"),
         DJV_TEXT("popup_above_right"),
         DJV_TEXT("popup_above_left"));
+
+    rapidjson::Value toJSON(UI::ViewType value, rapidjson::Document::AllocatorType& allocator)
+    {
+        std::stringstream ss;
+        ss << value;
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
+    }
+
+    rapidjson::Value toJSON(UI::ImageRotate value, rapidjson::Document::AllocatorType& allocator)
+    {
+        std::stringstream ss;
+        ss << value;
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
+    }
+
+    rapidjson::Value toJSON(UI::ImageAspectRatio value, rapidjson::Document::AllocatorType& allocator)
+    {
+        std::stringstream ss;
+        ss << value;
+        const std::string& s = ss.str();
+        return rapidjson::Value(s.c_str(), s.size(), allocator);
+    }
+
+    void fromJSON(const rapidjson::Value& value, UI::ViewType& out)
+    {
+        if (value.IsString())
+        {
+            std::stringstream ss(value.GetString());
+            ss >> out;
+        }
+        else
+        {
+            //! \todo How can we translate this?
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
+        }
+    }
+
+    void fromJSON(const rapidjson::Value& value, UI::ImageRotate& out)
+    {
+        if (value.IsString())
+        {
+            std::stringstream ss(value.GetString());
+            ss >> out;
+        }
+        else
+        {
+            //! \todo How can we translate this?
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
+        }
+    }
+
+    void fromJSON(const rapidjson::Value& value, UI::ImageAspectRatio& out)
+    {
+        if (value.IsString())
+        {
+            std::stringstream ss(value.GetString());
+            ss >> out;
+        }
+        else
+        {
+            //! \todo How can we translate this?
+            throw std::invalid_argument(DJV_TEXT("error_cannot_parse_the_value"));
+        }
+    }
 
 } // namespace djv
 

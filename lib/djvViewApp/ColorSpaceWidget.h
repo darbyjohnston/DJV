@@ -28,13 +28,12 @@ namespace djv
             void setBellowsState(const std::map<std::string, bool>&);
 
         protected:
-            void _initLayoutEvent(djv::Core::Event::InitLayout&) override;
+            void _initLayoutEvent(Core::Event::InitLayout&) override;
 
             void _initEvent(Core::Event::Init &) override;
 
         private:
             void _widgetUpdate();
-            void _imageListUpdate();
 
             DJV_PRIVATE();
         };

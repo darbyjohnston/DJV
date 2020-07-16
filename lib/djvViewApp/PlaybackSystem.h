@@ -34,6 +34,7 @@ namespace djv
             void _actionsUpdate();
 
             void _textUpdate() override;
+            void _shortcutsUpdate() override;
 
         private:
             static float _getScrollWheelSpeed(ScrollWheelSpeed);

@@ -4,6 +4,7 @@
 
 #include <djvUI/PushButton.h>
 
+#include <djvUI/DrawUtil.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
@@ -41,7 +42,6 @@ namespace djv
 
                 DJV_PRIVATE_PTR();
                 setClassName("djv::UI::Button::Push");
-                setBackgroundRole(ColorRole::Button);
                 setVAlign(VAlign::Center);
 
                 p.layout = HorizontalLayout::create(context);
@@ -226,31 +226,37 @@ namespace djv
             void Push::_preLayoutEvent(Event::PreLayout& event)
             {
                 const auto& style = _getStyle();
-                const float b = style->getMetric(MetricsRole::Border);
+                const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 glm::vec2 size = _p->layout->getMinimumSize();
-                _setMinimumSize(size + b * 4.F);
+                _setMinimumSize(size + btf * 2.F);
             }
 
             void Push::_layoutEvent(Event::Layout&)
             {
                 const auto& style = _getStyle();
-                const float b = style->getMetric(MetricsRole::Border);
+                const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 const BBox2f& g = getGeometry();
-                _p->layout->setGeometry(g.margin(-b * 2.F));
+                _p->layout->setGeometry(g.margin(-btf));
             }
 
             void Push::_paintEvent(Event::Paint& event)
             {
                 const auto& style = _getStyle();
                 const float b = style->getMetric(MetricsRole::Border);
+                const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                const BBox2f& g2 = g.margin(-btf);
                 const auto& render = _getRender();
                 if (hasTextFocus())
                 {
                     render->setFillColor(style->getColor(ColorRole::TextFocus));
-                    render->drawRect(g);
+                    drawBorder(render, g, btf);
                 }
-                const BBox2f& g2 = g.margin(-b * 2.F);
+                else
+                {
+                    render->setFillColor(style->getColor(ColorRole::BorderButton));
+                    drawBorder(render, g.margin(-b), b);
+                }
                 if (_isToggled())
                 {
                     render->setFillColor(style->getColor(ColorRole::Checked));
@@ -258,7 +264,7 @@ namespace djv
                 }
                 else
                 {
-                    render->setFillColor(style->getColor(getBackgroundRole()));
+                    render->setFillColor(style->getColor(ColorRole::Button));
                     render->drawRect(g2);
                 }
                 if (_isPressed())

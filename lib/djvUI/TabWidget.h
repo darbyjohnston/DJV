@@ -24,7 +24,7 @@ namespace djv
 
             static std::shared_ptr<TabWidget> create(const std::shared_ptr<Core::Context>&);
             
-            void setText(const std::shared_ptr<IObject>&, const std::string&);
+            void setText(const std::shared_ptr<Widget>&, const std::string&);
 
             int getCurrentTab() const;
             void setCurrentTab(int);

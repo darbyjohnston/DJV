@@ -24,7 +24,9 @@ namespace djv
                 std::function<void(int, bool)> toggleCallback;
                 std::function<void(int)> radioCallback;
                 std::function<void(int)> exclusiveCallback;
-                Callback callback = Callback::Trigger;
+
+                void clickedCallback(const std::shared_ptr<IButton>&);
+                void checkedCallback(const std::shared_ptr<IButton>&, bool);
             };
 
             Group::Group() :
@@ -64,6 +66,66 @@ namespace djv
                 return -1;
             }
 
+            void Group::setButtons(const std::vector<std::shared_ptr<IButton> >& buttons, int checked)
+            {
+                DJV_PRIVATE_PTR();
+                p.buttons = buttons;
+                for (const auto& i : p.buttons)
+                {
+                    i->setButtonType(p.buttonType);
+                }
+                const int size = static_cast<int>(p.buttons.size());
+                switch (p.buttonType)
+                {
+                case ButtonType::Toggle:
+                    if (checked >= 0 && checked < size)
+                    {
+                        p.buttons[checked]->setChecked(true);
+                    }
+                    break;
+                case ButtonType::Radio:
+                    if (p.buttons.size())
+                    {
+                        checked = std::max(0, checked);
+                        for (int i = 0; i < size; ++i)
+                        {
+                            p.buttons[i]->setChecked(i == checked);
+                        }
+                    }
+                    break;
+                case ButtonType::Exclusive:
+                    if (p.buttons.size())
+                    {
+                        for (int i = 0; i < size; ++i)
+                        {
+                            p.buttons[i]->setChecked(i == checked);
+                        }
+                    }
+                    break;
+                }
+                auto weak = std::weak_ptr<Group>(std::dynamic_pointer_cast<Group>(shared_from_this()));
+                for (const auto& i : p.buttons)
+                {
+                    auto button = i;
+                    i->setClickedCallback(
+                        [weak, button]
+                        {
+                            if (auto group = weak.lock())
+                            {
+                                group->_p->clickedCallback(button);
+                            }
+                        });
+                    i->setCheckedCallback(
+                        [weak, button](bool value)
+                        {
+                            if (auto group = weak.lock())
+                            {
+                                group->_p->checkedCallback(button, value);
+                            }
+                        });
+                }
+            }
+
             void Group::addButton(const std::shared_ptr<IButton>& button)
             {
                 DJV_PRIVATE_PTR();
@@ -82,6 +144,10 @@ namespace djv
                     if (i == p.buttons.size())
                     {
                         button->setChecked(true);
+                        if (_p->radioCallback)
+                        {
+                            _p->radioCallback(0);
+                        }
                     }
                 }
 
@@ -91,81 +157,15 @@ namespace djv
                 {
                     if (auto group = weak.lock())
                     {
-                        const auto i = std::find(group->_p->buttons.begin(), group->_p->buttons.end(), button);
-                        if (i != group->_p->buttons.end())
-                        {
-                            if (group->_p->pushCallback)
-                            {
-                                const int index = static_cast<int>(i - group->_p->buttons.begin());
-                                group->_p->pushCallback(index);
-                            }
-                        }
+                        group->_p->clickedCallback(button);
                     }
                 });
-
                 button->setCheckedCallback(
                     [weak, button](bool value)
                 {
                     if (auto group = weak.lock())
                     {
-                        const auto i = std::find(group->_p->buttons.begin(), group->_p->buttons.end(), button);
-                        if (i != group->_p->buttons.end())
-                        {
-                            const size_t size = group->_p->buttons.size();
-                            const int index = static_cast<int>(i - group->_p->buttons.begin());
-                            switch (group->_p->buttonType)
-                            {
-                            case ButtonType::Toggle:
-                                if (group->_p->toggleCallback && Callback::Trigger == group->_p->callback)
-                                {
-                                    group->_p->toggleCallback(index, value);
-                                }
-                                break;
-                            case ButtonType::Radio:
-                                for (size_t i = 0; i < size; ++i)
-                                {
-                                    auto button = group->_p->buttons[i];
-                                    button->setChecked(i == index);
-                                }
-                                if (value && group->_p->radioCallback && Callback::Trigger == group->_p->callback)
-                                {
-                                    group->_p->radioCallback(index);
-                                }
-                                break;
-                            case ButtonType::Exclusive:
-                                if (value)
-                                {
-                                    for (size_t i = 0; i < size; ++i)
-                                    {
-                                        auto button = group->_p->buttons[i];
-                                        button->setChecked(i == index);
-                                    }
-                                    if (group->_p->exclusiveCallback && Callback::Trigger == group->_p->callback)
-                                    {
-                                        group->_p->exclusiveCallback(index);
-                                    }
-                                }
-                                else
-                                {
-                                    size_t i = 0;
-                                    for (; i < size; ++i)
-                                    {
-                                        if (group->_p->buttons[i]->isChecked())
-                                        {
-                                            break;
-                                        }
-                                    }
-                                    if (size == i &&
-                                        group->_p->exclusiveCallback &&
-                                        Callback::Trigger == group->_p->callback)
-                                    {
-                                        group->_p->exclusiveCallback(-1);
-                                    }
-                                }
-                                break;
-                            default: break;
-                            }
-                        }
+                        group->_p->checkedCallback(button, value);
                     }
                 });
 
@@ -183,17 +183,30 @@ namespace djv
                     (*i)->setClickedCallback(nullptr);
                     (*i)->setCheckedCallback(nullptr);
                     p.buttons.erase(i);
-                    if (ButtonType::Radio == p.buttonType && checked && p.buttons.size() > 0)
+                    if (ButtonType::Radio == p.buttonType)
                     {
-                        if (index >= p.buttons.size())
+                        if (p.buttons.size() > 0)
                         {
-                            --index;
+                            if (checked)
+                            {
+                                if (index >= p.buttons.size())
+                                {
+                                    --index;
+                                }
+                                auto button = p.buttons[index];
+                                button->setChecked(true);
+                                if (p.radioCallback)
+                                {
+                                    p.radioCallback(index);
+                                }
+                            }
                         }
-                        auto button = p.buttons[index];
-                        button->setChecked(true);
-                        if (p.radioCallback)
+                        else
                         {
-                            p.radioCallback(index);
+                            if (p.radioCallback)
+                            {
+                                p.radioCallback(-1);
+                            }
                         }
                     }
                 }
@@ -220,13 +233,32 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 p.buttonType = value;
+                int checked = -1;
                 for (size_t i = 0; i < p.buttons.size(); ++i)
                 {
+                    if (-1 == checked && p.buttons[i]->isChecked())
+                    {
+                        checked = static_cast<int>(i);
+                    }
+                    p.buttons[i]->setChecked(false);
                     p.buttons[i]->setButtonType(value);
                 }
-                if (ButtonType::Radio == p.buttonType)
+                if (p.buttons.size())
                 {
-                    setChecked(0);
+                    switch (p.buttonType)
+                    {
+                    case ButtonType::Toggle:
+                    case ButtonType::Exclusive:
+                        if (checked != -1)
+                        {
+                            p.buttons[checked]->setChecked(true);
+                        }
+                        break;
+                    case ButtonType::Radio:
+                        p.buttons[checked != -1 ? checked : 0]->setChecked(true);
+                        break;
+                    default: break;
+                    }
                 }
             }
 
@@ -243,10 +275,9 @@ namespace djv
                 return -1;
             }
 
-            void Group::setChecked(int index, bool value, Callback callback)
+            void Group::setChecked(int index, bool value)
             {
                 DJV_PRIVATE_PTR();
-                p.callback = callback;
                 switch (p.buttonType)
                 {
                 case ButtonType::Toggle:
@@ -255,6 +286,10 @@ namespace djv
                     {
                         auto button = p.buttons[index];
                         button->setChecked(value);
+                        if (p.toggleCallback)
+                        {
+                            p.toggleCallback(index, value);
+                        }
                     }
                     break;
                 }
@@ -265,6 +300,10 @@ namespace djv
                         {
                             auto button = p.buttons[i];
                             button->setChecked(i == index);
+                        }
+                        if (p.radioCallback)
+                        {
+                            p.radioCallback(index);
                         }
                     }
                     break;
@@ -282,10 +321,13 @@ namespace djv
                         auto button = p.buttons[index];
                         button->setChecked(false);
                     }
+                    if (p.exclusiveCallback)
+                    {
+                        p.exclusiveCallback(value ? index : -1);
+                    }
                     break;
                 default: break;
                 }
-                p.callback = Callback::Trigger;
             }
 
             void Group::setPushCallback(const std::function<void(int)>& callback)
@@ -306,6 +348,79 @@ namespace djv
             void Group::setExclusiveCallback(const std::function<void(int)>& callback)
             {
                 _p->exclusiveCallback = callback;
+            }
+
+            void Group::Private::clickedCallback(const std::shared_ptr<IButton>& button)
+            {
+                const auto i = std::find(buttons.begin(), buttons.end(), button);
+                if (i != buttons.end())
+                {
+                    if (pushCallback)
+                    {
+                        const int index = static_cast<int>(i - buttons.begin());
+                        pushCallback(index);
+                    }
+                }
+            }
+
+            void Group::Private::checkedCallback(const std::shared_ptr<IButton>& button, bool value)
+            {
+                const auto i = std::find(buttons.begin(), buttons.end(), button);
+                if (i != buttons.end())
+                {
+                    const size_t size = buttons.size();
+                    const int index = static_cast<int>(i - buttons.begin());
+                    switch (buttonType)
+                    {
+                    case ButtonType::Toggle:
+                        if (toggleCallback)
+                        {
+                            toggleCallback(index, value);
+                        }
+                        break;
+                    case ButtonType::Radio:
+                        for (size_t i = 0; i < size; ++i)
+                        {
+                            auto button = buttons[i];
+                            button->setChecked(i == index);
+                        }
+                        if (value && radioCallback)
+                        {
+                            radioCallback(index);
+                        }
+                        break;
+                    case ButtonType::Exclusive:
+                        if (value)
+                        {
+                            for (size_t i = 0; i < size; ++i)
+                            {
+                                auto button = buttons[i];
+                                button->setChecked(i == index);
+                            }
+                            if (exclusiveCallback)
+                            {
+                                exclusiveCallback(index);
+                            }
+                        }
+                        else
+                        {
+                            size_t i = 0;
+                            for (; i < size; ++i)
+                            {
+                                if (buttons[i]->isChecked())
+                                {
+                                    break;
+                                }
+                            }
+                            if (size == i && exclusiveCallback)
+                            {
+                                exclusiveCallback(-1);
+                            }
+                        }
+                        break;
+                    default: break;
+                    }
+                }
             }
 
         } // namespace Button

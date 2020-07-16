@@ -36,7 +36,7 @@ namespace djv
                 DJV_ASSERT(config.name.empty());
                 DJV_ASSERT(config.display.empty());
                 DJV_ASSERT(config.view.empty());
-                DJV_ASSERT(config.fileColorSpaces.empty());
+                DJV_ASSERT(config.imageColorSpaces.empty());
             }
             
             {
@@ -53,7 +53,7 @@ namespace djv
                 config.name = "name";
                 config.display = "display";
                 config.view = "view";
-                config.fileColorSpaces = { { "PNG", "sRGB" }, { "DPX", "Cineon" } };
+                config.imageColorSpaces = { { "PNG", "sRGB" }, { "DPX", "Cineon" } };
                 return config;
             }
         
@@ -65,18 +65,21 @@ namespace djv
             {
                 auto system = context->getSystemT<OCIO::System>();
                 
-                auto configsObserver = ListObserver<OCIO::Config>::create(
-                    system->observeConfigs(),
-                    [this](const std::vector<OCIO::Config>& value)
+                auto userConfigsObserver = ValueObserver<OCIO::UserConfigs>::create(
+                    system->observeUserConfigs(),
+                    [this](const OCIO::UserConfigs& value)
                     {
                         size_t j = 0;
-                        for (const auto& i : value)
+                        for (const auto& i : value.first)
                         {
                             std::stringstream ss;
                             ss << "config " << j << ": " << i.name;
                             _print(ss.str());
                             ++j;
                         }
+                        std::stringstream ss;
+                        ss << "current config: " << value.second;
+                        _print(ss.str());
                     });
                 
                 auto currentConfigObserver = ValueObserver<OCIO::Config>::create(
@@ -87,86 +90,54 @@ namespace djv
                         ss << "current config: " << value.name;
                         _print(ss.str());
                     });
-                auto currentIndexObserver = ValueObserver<int>::create(
-                    system->observeCurrentIndex(),
-                    [this](int value)
+
+                auto displaysObserver = ValueObserver<OCIO::Displays>::create(
+                    system->observeDisplays(),
+                    [this](const OCIO::Displays& value)
                     {
+                        size_t j = 0;
+                        for (const auto& i : value.first)
+                        {
+                            std::stringstream ss;
+                            ss << "display " << j << ": " << i;
+                            _print(ss.str());
+                            ++j;
+                        }
                         std::stringstream ss;
-                        ss << "current index: " << value;
+                        ss << "current display: " << value.second;
                         _print(ss.str());
                     });
-                auto colorSpacesObserver = ListObserver<std::string>::create(
-                    system->observeColorSpaces(),
-                    [this](const std::vector<std::string>& value)
-                    {
-                        size_t j = 0;
-                        for (const auto& i : value)
-                        {
-                            std::stringstream ss;
-                            ss << "color space " << j << ": " << i;
-                            _print(ss.str());
-                            ++j;
-                        }
-                    });
-                auto displaysObserver = ListObserver<OCIO::Display>::create(
-                    system->observeDisplays(),
-                    [this, system](const std::vector<OCIO::Display>& value)
-                    {
-                        size_t j = 0;
-                        for (const auto& i : value)
-                        {
-                            std::stringstream ss;
-                            ss << "display " << j << ": " << i.name;
-                            _print(ss.str());
-                            for (const auto& k : i.views)
-                            {
-                                {
-                                    std::stringstream ss;
-                                    ss << "    view: " << k.name;
-                                    _print(ss.str());
-                                }
-                                {
-                                    std::stringstream ss;
-                                    ss << "    color space: " << system->getColorSpace(i.name, k.name);
-                                    _print(ss.str());
-                                }
-                            }
-                            ++j;
-                        }
-                    });
-                auto viewsObserver = ListObserver<std::string>::create(
+                auto viewsObserver = ValueObserver<OCIO::Views>::create(
                     system->observeViews(),
-                    [this](const std::vector<std::string>& value)
+                    [this](const OCIO::Views& value)
                     {
                         size_t j = 0;
-                        for (const auto& i : value)
+                        for (const auto& i : value.first)
                         {
                             std::stringstream ss;
                             ss << "view " << j << ": " << i;
                             _print(ss.str());
                             ++j;
                         }
+                        std::stringstream ss;
+                        ss << "current view: " << value.second;
+                        _print(ss.str());
                     });
-                
-                auto configs = system->observeConfigs()->get();
-                if (!configs.empty())
-                {
-                    OCIO::Config config = configs[0];
-                    system->removeConfig(0);
-                    int index = system->addConfig(config);
-                    system->setCurrentIndex(index);
-                    system->setCurrentIndex(index);
-                    DJV_ASSERT(index == system->addConfig(config));
-                }
-                
-                OCIO::Config config;
-                system->setCurrentConfig(config);
-                system->setCurrentConfig(config);
-                DJV_ASSERT(-1 == system->addConfig(config));
 
-                for (size_t i = 0; i < configs.size(); ++i)
+                auto userConfigs = system->observeUserConfigs()->get();
+                if (!userConfigs.first.empty())
                 {
-                    system->removeConfig(i);                    
+                    OCIO::Config config = userConfigs.first[0];
+                    system->removeUserConfig(0);
+                    int index = system->addUserConfig(config);
+                    system->setCurrentUserConfig(index);
+                    system->setCurrentUserConfig(index);
+                    DJV_ASSERT(config == system->observeCurrentConfig()->get());
+                }
+
+                for (size_t i = 0; i < userConfigs.first.size(); ++i)
+                {
+                    system->removeUserConfig(i);
                 }
 
                 DJV_ASSERT(system->getColorSpace(std::string(), std::string()).empty());

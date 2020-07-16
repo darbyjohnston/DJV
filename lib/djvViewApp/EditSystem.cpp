@@ -10,7 +10,7 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/Menu.h>
-#include <djvUI/Shortcut.h>
+#include <djvUI/ShortcutData.h>
 
 #include <djvCore/Context.h>
 
@@ -40,15 +40,17 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             p.actions["Undo"] = UI::Action::create();
-            p.actions["Undo"]->addShortcut(GLFW_KEY_Z, UI::Shortcut::getSystemModifier());
             p.actions["Redo"] = UI::Action::create();
-            p.actions["Redo"]->addShortcut(GLFW_KEY_Z, UI::Shortcut::getSystemModifier() | GLFW_MOD_SHIFT);
+
+            _addShortcut("shortcut_undo", GLFW_KEY_Z, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_redo", GLFW_KEY_Z, UI::ShortcutData::getSystemModifier() | GLFW_MOD_SHIFT);
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Undo"]);
             p.menu->addAction(p.actions["Redo"]);
 
             _textUpdate();
+            _shortcutsUpdate();
             
             auto weak = std::weak_ptr<EditSystem>(std::dynamic_pointer_cast<EditSystem>(shared_from_this()));
             p.actionObservers["Undo"] = ValueObserver<bool>::create(
@@ -164,6 +166,16 @@ namespace djv
                 p.actions["Redo"]->setText(_getText(DJV_TEXT("menu_edit_redo")));
 
                 p.menu->setText(_getText(DJV_TEXT("menu_edit")));
+            }
+        }
+
+        void EditSystem::_shortcutsUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.actions.size())
+            {
+                p.actions["Undo"]->setShortcuts(_getShortcuts("ViewApp/Edit/Undo"));
+                p.actions["Redo"]->setShortcuts(_getShortcuts("ViewApp/Edit/Redo"));
             }
         }
 

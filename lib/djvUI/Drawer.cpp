@@ -11,7 +11,6 @@
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Animation.h>
-#include <djvCore/Timer.h>
 
 using namespace djv::Core;
 
@@ -33,8 +32,11 @@ namespace djv
                 Side side = Side::First;
                 bool open = false;
                 float openAmount = 0.F;
-                std::shared_ptr<Animation::Animation> openAnimation;
+                std::shared_ptr<Widget> widget;
                 std::shared_ptr<Stack> childLayout;
+                std::function<std::shared_ptr<Widget>(void)> openCallback;
+                std::function<void(const std::shared_ptr<Widget>&)> closeCallback;
+                std::shared_ptr<Animation::Animation> openAnimation;
             };
 
             void Drawer::_init(Side side, const std::shared_ptr<Context>& context)
@@ -46,10 +48,11 @@ namespace djv
 
                 p.side = side;
 
-                p.openAnimation = Animation::Animation::create(context);
-
                 p.childLayout = Stack::create(context);
                 Widget::addChild(p.childLayout);
+
+                p.openAnimation = Animation::Animation::create(context);
+                p.openAnimation->setType(Animation::Type::SmoothStep);
             }
 
             Drawer::Drawer() :
@@ -85,32 +88,34 @@ namespace djv
                 auto weak = std::weak_ptr<Drawer>(std::dynamic_pointer_cast<Drawer>(shared_from_this()));
                 if (p.open)
                 {
-                    _openStart();
-                    p.openAnimation->start(
-                        0.F,
-                        1.F,
-                        std::chrono::milliseconds(animationTime),
-                        [weak](float value)
-                        {
-                            if (auto widget = weak.lock())
+                    if (p.openCallback)
+                    {
+                        p.widget = p.openCallback();
+                        p.childLayout->addChild(p.widget);
+                        p.openAnimation->start(
+                            0.F,
+                            1.F,
+                            std::chrono::milliseconds(animationTime),
+                            [weak](float value)
                             {
-                                widget->_p->openAmount = value;
-                                widget->_resize();
-                            }
-                        },
-                        [weak](float value)
-                        {
-                            if (auto widget = weak.lock())
+                                if (auto widget = weak.lock())
+                                {
+                                    widget->_p->openAmount = value;
+                                    widget->_resize();
+                                }
+                            },
+                            [weak](float value)
                             {
-                                widget->_p->openAmount = value;
-                                widget->_openEnd();
-                                widget->_resize();
-                            }
-                        });
+                                if (auto widget = weak.lock())
+                                {
+                                    widget->_p->openAmount = value;
+                                    widget->_resize();
+                                }
+                            });
+                    }
                 }
                 else
                 {
-                    _closeStart();
                     p.openAnimation->start(
                         1.F,
                         0.F,
@@ -128,7 +133,12 @@ namespace djv
                             if (auto widget = weak.lock())
                             {
                                 widget->_p->openAmount = value;
-                                widget->_closeEnd();
+                                if (widget->_p->closeCallback)
+                                {
+                                    widget->_p->closeCallback(widget->_p->widget);
+                                }
+                                widget->_p->childLayout->removeChild(widget->_p->widget);
+                                widget->_p->widget.reset();
                                 widget->_resize();
                             }
                         });
@@ -146,19 +156,14 @@ namespace djv
                 setOpen(false);
             }
 
-            void Drawer::addChild(const std::shared_ptr<IObject>& value)
+            void Drawer::setOpenCallback(const std::function<std::shared_ptr<Widget>(void)>& value)
             {
-                _p->childLayout->addChild(value);
+                _p->openCallback = value;
             }
 
-            void Drawer::removeChild(const std::shared_ptr<IObject>& value)
+            void Drawer::setCloseCallback(const std::function<void(const std::shared_ptr<Widget>&)>& value)
             {
-                _p->childLayout->removeChild(value);
-            }
-
-            void Drawer::clearChildren()
-            {
-                _p->childLayout->clearChildren();
+                _p->closeCallback = value;
             }
 
             void Drawer::_preLayoutEvent(Event::PreLayout& event)

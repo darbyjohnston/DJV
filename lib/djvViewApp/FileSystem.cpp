@@ -17,7 +17,7 @@
 #include <djvUI/Action.h>
 #include <djvUI/Menu.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/Shortcut.h>
+#include <djvUI/ShortcutData.h>
 
 #include <djvAV/AVSystem.h>
 
@@ -94,34 +94,35 @@ namespace djv
 
             p.actions["Open"] = UI::Action::create();
             p.actions["Open"]->setIcon("djvIconFileOpen");
-            p.actions["Open"]->setShortcut(GLFW_KEY_O, UI::Shortcut::getSystemModifier());
             p.actions["Recent"] = UI::Action::create();
             p.actions["Recent"]->setIcon("djvIconFileRecent");
-            p.actions["Recent"]->setShortcut(GLFW_KEY_T, UI::Shortcut::getSystemModifier());
             p.actions["Reload"] = UI::Action::create();
-            p.actions["Reload"]->setShortcut(GLFW_KEY_R, UI::Shortcut::getSystemModifier());
             p.actions["Close"] = UI::Action::create();
             p.actions["Close"]->setIcon("djvIconFileClose");
-            p.actions["Close"]->setShortcut(GLFW_KEY_E, UI::Shortcut::getSystemModifier());
             p.actions["CloseAll"] = UI::Action::create();
-            p.actions["CloseAll"]->setShortcut(GLFW_KEY_E, GLFW_MOD_SHIFT | UI::Shortcut::getSystemModifier());
             p.actions["Next"] = UI::Action::create();
-            p.actions["Next"]->setShortcut(GLFW_KEY_PAGE_DOWN);
             p.actions["Prev"] = UI::Action::create();
-            p.actions["Prev"]->setShortcut(GLFW_KEY_PAGE_UP);
             p.actions["Layers"] = UI::Action::create();
             p.actions["Layers"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Layers"]->setShortcut(GLFW_KEY_L, UI::Shortcut::getSystemModifier());
             p.actions["NextLayer"] = UI::Action::create();
-            p.actions["NextLayer"]->setShortcut(GLFW_KEY_EQUAL, UI::Shortcut::getSystemModifier());
             p.actions["PrevLayer"] = UI::Action::create();
-            p.actions["PrevLayer"]->setShortcut(GLFW_KEY_MINUS, UI::Shortcut::getSystemModifier());
             //! \todo Implement me!
             //p.actions["8BitConversion"] = UI::Action::create();
             //p.actions["8BitConversion"]->setButtonType(UI::ButtonType::Toggle);
             //p.actions["8BitConversion"]->setEnabled(false);
             p.actions["Exit"] = UI::Action::create();
-            p.actions["Exit"]->setShortcut(GLFW_KEY_Q, UI::Shortcut::getSystemModifier());
+
+            _addShortcut("shortcut_file_open", GLFW_KEY_O, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_file_recent", GLFW_KEY_T, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_file_reload", GLFW_KEY_R, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_file_close", GLFW_KEY_E, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_file_close_all", GLFW_KEY_E, GLFW_MOD_SHIFT | UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_file_next", GLFW_KEY_PAGE_DOWN);
+            _addShortcut("shortcut_file_prev", GLFW_KEY_PAGE_UP);
+            _addShortcut("shortcut_file_layers", GLFW_KEY_L, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_file_next_layer", GLFW_KEY_EQUAL, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_file_prev_layer", GLFW_KEY_MINUS, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_file_exit", GLFW_KEY_Q, UI::ShortcutData::getSystemModifier());
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Open"]);
@@ -144,6 +145,7 @@ namespace djv
 
             _actionsUpdate();
             _textUpdate();
+            _shortcutsUpdate();
 
             auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
             p.recentFilesObserver = ListObserver<Core::FileSystem::FileInfo>::create(
@@ -838,6 +840,25 @@ namespace djv
                 p.actions["Exit"]->setTooltip(_getText(DJV_TEXT("menu_file_exit_tooltip")));
 
                 p.menu->setText(_getText(DJV_TEXT("menu_file")));
+            }
+        }
+
+        void FileSystem::_shortcutsUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.actions.size())
+            {
+                p.actions["Open"]->setShortcuts(_getShortcuts("shortcut_file_open"));
+                p.actions["Recent"]->setShortcuts(_getShortcuts("shortcut_file_recent"));
+                p.actions["Reload"]->setShortcuts(_getShortcuts("shortcut_file_reload"));
+                p.actions["Close"]->setShortcuts(_getShortcuts("shortcut_file_close"));
+                p.actions["CloseAll"]->setShortcuts(_getShortcuts("shortcut_file_close_all"));
+                p.actions["Next"]->setShortcuts(_getShortcuts("shortcut_file_next"));
+                p.actions["Prev"]->setShortcuts(_getShortcuts("shortcut_file_prev"));
+                p.actions["Layers"]->setShortcuts(_getShortcuts("shortcut_file_layers"));
+                p.actions["NextLayer"]->setShortcuts(_getShortcuts("shortcut_file_next_layer"));
+                p.actions["PrevLayer"]->setShortcuts(_getShortcuts("shortcut_file_prev_layer"));
+                p.actions["Exit"]->setShortcuts(_getShortcuts("shortcut_file_exit"));
             }
         }
 
