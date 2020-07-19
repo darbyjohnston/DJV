@@ -109,9 +109,10 @@ namespace djv
                         Action::create()
                     };
                     group->setActions({ actions[0], actions[1] });
-                    group->setChecked(0);
                     actions[1]->doClick();
                     DJV_ASSERT(1 == checked);
+                    actions[0]->doClick();
+                    DJV_ASSERT(0 == checked);
                 }
                 {
                     auto group = ActionGroup::create(ButtonType::Exclusive);
@@ -127,7 +128,6 @@ namespace djv
                         Action::create()
                     };
                     group->setActions({ actions[0], actions[1] });
-                    group->setChecked(0);
                     actions[1]->doClick();
                     DJV_ASSERT(1 == checked);
                     actions[1]->doClick();

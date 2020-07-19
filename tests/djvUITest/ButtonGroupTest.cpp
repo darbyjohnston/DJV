@@ -125,11 +125,10 @@ namespace djv
                         PushButton::create(context)
                     };
                     group->setButtons({ buttons[0], buttons[1] });
-                    group->setChecked(0);
-                    buttons[0]->doClick();
-                    DJV_ASSERT(0 == checked);
                     buttons[1]->doClick();
                     DJV_ASSERT(1 == checked);
+                    buttons[0]->doClick();
+                    DJV_ASSERT(0 == checked);
                 }
                 {
                     auto group = ButtonGroup::create(ButtonType::Exclusive);
@@ -145,7 +144,6 @@ namespace djv
                         PushButton::create(context)
                     };
                     group->setButtons({ buttons[0], buttons[1] });
-                    group->setChecked(0);
                     buttons[1]->doClick();
                     DJV_ASSERT(1 == checked);
                     buttons[1]->doClick();

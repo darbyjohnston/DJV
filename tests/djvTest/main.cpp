@@ -84,7 +84,7 @@ int main(int argc, char ** argv)
         auto uiSystem = UI::UISystem::create(true, context);
         
         std::vector<std::shared_ptr<Test::ITest> > tests;
-        if (1)
+        if (0)
         {
             tests.emplace_back(new UITest::ActionGroupTest(context));
             tests.emplace_back(new UITest::ButtonGroupTest(context));
