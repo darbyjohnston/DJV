@@ -114,7 +114,7 @@ namespace djv
             {
                 size += btf * 2.F;
             }
-            if (p.border)
+            else if (p.border)
             {
                 size += b * 2.F;
             }
@@ -139,10 +139,14 @@ namespace djv
                     render->setFillColor(style->getColor(ColorRole::TextFocus));
                     drawBorder(render, g, btf);
                 }
+                else
+                {
+                    render->setFillColor(style->getColor(ColorRole::Border));
+                    drawBorder(render, g2.margin(-b), b);
+                }
                 g2 = g2.margin(-btf);
             }
-
-            if (p.border)
+            else if (p.border)
             {
                 render->setFillColor(style->getColor(ColorRole::Border));
                 drawBorder(render, g2, b);
