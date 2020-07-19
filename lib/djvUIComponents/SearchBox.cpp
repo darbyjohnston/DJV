@@ -177,7 +177,7 @@ namespace djv
             else
             {
                 render->setFillColor(style->getColor(UI::ColorRole::Border));
-                drawBorder(render, g.margin(b), b);
+                drawBorder(render, g.margin(-b), b);
             }
         }
 

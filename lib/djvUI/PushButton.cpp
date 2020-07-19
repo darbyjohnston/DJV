@@ -301,13 +301,12 @@ namespace djv
                         switch (getButtonType())
                         {
                         case ButtonType::Push:
-                            _doClickedCallback();
+                            _doClick();
                             break;
                         case ButtonType::Toggle:
                         case ButtonType::Radio:
                         case ButtonType::Exclusive:
-                            setChecked(!isChecked());
-                            _doCheckedCallback(isChecked());
+                            _doCheck(!isChecked());
                             break;
                         default: break;
                         }

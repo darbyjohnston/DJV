@@ -206,16 +206,17 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                p.buttonGroup->clearButtons();
+                std::vector<std::shared_ptr<Button::IButton> > buttons;
                 auto split = p.splitter->getSplit();
                 p.splitter->clearChildren();
                 for (const auto& i : value)
                 {
                     auto button = HeaderButton::create(context);
                     button->setText(i);
-                    p.buttonGroup->addButton(button);
+                    buttons.push_back(button);
                     p.splitter->addChild(button);
                 }
+                p.buttonGroup->setButtons(buttons);
                 p.splitter->setSplit(split);
                 _sortUpdate();
             }

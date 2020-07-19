@@ -49,180 +49,107 @@ namespace djv
             {
                 auto system = TestEventSystem::create(context);
                 {
-                    auto buttonGroup = ButtonGroup::create(ButtonType::Radio);
-                    DJV_ASSERT(buttonGroup->getButtons().empty());
-                    DJV_ASSERT(0 == buttonGroup->getButtonCount());
-                    DJV_ASSERT(-1 == buttonGroup->getButtonIndex(nullptr));
-                    DJV_ASSERT(ButtonType::Radio == buttonGroup->getButtonType());
-                    DJV_ASSERT(-1 == buttonGroup->getChecked());
+                    auto group = ButtonGroup::create(ButtonType::Radio);
+                    DJV_ASSERT(group->getButtons().empty());
+                    DJV_ASSERT(0 == group->getButtonCount());
+                    DJV_ASSERT(-1 == group->getButtonIndex(nullptr));
+                    DJV_ASSERT(ButtonType::Radio == group->getButtonType());
+                    DJV_ASSERT(-1 == group->getChecked());
                 }
                 {
-                    auto buttonGroup = ButtonGroup::create(ButtonType::Radio);
+                    auto group = ButtonGroup::create(ButtonType::Radio);
                     std::vector<std::shared_ptr<Button::IButton> > buttons =
                     {
                         PushButton::create(context),
                         PushButton::create(context),
                         PushButton::create(context)
                     };
-                    buttonGroup->addButton(buttons[0]);
-                    buttonGroup->addButton(buttons[1]);
-                    buttonGroup->addButton(buttons[2]);
-                    DJV_ASSERT(3 == buttonGroup->getButtonCount());
-                    DJV_ASSERT(0 == buttonGroup->getButtonIndex(buttons[0]));
-                    DJV_ASSERT(1 == buttonGroup->getButtonIndex(buttons[1]));
-                    DJV_ASSERT(2 == buttonGroup->getButtonIndex(buttons[2]));
-                    buttonGroup->removeButton(buttons[1]);
-                    DJV_ASSERT(2 == buttonGroup->getButtonCount());
-                    DJV_ASSERT(0 == buttonGroup->getButtonIndex(buttons[0]));
-                    DJV_ASSERT(1 == buttonGroup->getButtonIndex(buttons[2]));
-                    buttonGroup->clearButtons();
-                    DJV_ASSERT(0 == buttonGroup->getButtonCount());
+                    group->setButtons({
+                        buttons[0],
+                        buttons[1],
+                        buttons[2] });
+                    DJV_ASSERT(3 == group->getButtonCount());
+                    DJV_ASSERT(0 == group->getButtonIndex(buttons[0]));
+                    DJV_ASSERT(1 == group->getButtonIndex(buttons[1]));
+                    DJV_ASSERT(2 == group->getButtonIndex(buttons[2]));
+                    group->clearButtons();
+                    DJV_ASSERT(0 == group->getButtonCount());
                 }
                 {
-                    auto buttonGroup = ButtonGroup::create(ButtonType::Push);
-                    std::vector<std::shared_ptr<Button::IButton> > buttons =
-                    {
-                        PushButton::create(context),
-                        PushButton::create(context),
-                    };
-                    buttonGroup->addButton(buttons[0]);
-                    buttonGroup->addButton(buttons[1]);
-                    buttonGroup->setChecked(0);
-                    DJV_ASSERT(!buttons[0]->isChecked());
-                    DJV_ASSERT(!buttons[1]->isChecked());
-                    buttonGroup->setChecked(1);
-                    DJV_ASSERT(!buttons[0]->isChecked());
-                    DJV_ASSERT(!buttons[1]->isChecked());
-                }
-                {
-                    auto buttonGroup = ButtonGroup::create(ButtonType::Toggle);
-                    bool buttonChecked[2] = { false, false };
-                    buttonGroup->setToggleCallback(
-                        [&buttonChecked](int index, bool value)
+                    auto group = ButtonGroup::create(ButtonType::Push);
+                    int clicked = -1;
+                    group->setPushCallback(
+                        [&clicked](int value)
                         {
-                            buttonChecked[index] = value;
+                            clicked = value;
                         });
                     std::vector<std::shared_ptr<Button::IButton> > buttons =
                     {
                         PushButton::create(context),
                         PushButton::create(context)
                     };
-                    buttonGroup->addButton(buttons[0]);
-                    buttonGroup->addButton(buttons[1]);
-                    buttonGroup->setChecked(0);
-                    DJV_ASSERT(buttonChecked[0]);
-                    DJV_ASSERT(!buttonChecked[1]);
-                    DJV_ASSERT(buttons[0]->isChecked());
-                    DJV_ASSERT(!buttons[1]->isChecked());
-                    buttonGroup->setChecked(1);
-                    DJV_ASSERT(buttonChecked[1]);
-                    DJV_ASSERT(buttons[0]->isChecked());
-                    DJV_ASSERT(buttons[1]->isChecked());
+                    group->setButtons({ buttons[0], buttons[1] });
+                    buttons[0]->doClick();
+                    DJV_ASSERT(0 == clicked);
+                    buttons[1]->doClick();
+                    DJV_ASSERT(1 == clicked);
                 }
                 {
-                    auto buttonGroup = ButtonGroup::create(ButtonType::Radio);
-                    int buttonChecked = -1;
-                    buttonGroup->setRadioCallback(
-                        [&buttonChecked](int index)
+                    auto group = ButtonGroup::create(ButtonType::Toggle);
+                    bool checked[2] = { false, false };
+                    group->setToggleCallback(
+                        [&checked](int index, bool value)
                         {
-                            buttonChecked = index;
+                            checked[index] = value;
                         });
                     std::vector<std::shared_ptr<Button::IButton> > buttons =
                     {
                         PushButton::create(context),
                         PushButton::create(context)
                     };
-                    buttonGroup->addButton(buttons[0]);
-                    buttonGroup->addButton(buttons[1]);
-                    DJV_ASSERT(0 == buttonChecked);
-                    DJV_ASSERT(buttons[0]->isChecked());
-                    DJV_ASSERT(!buttons[1]->isChecked());
-                    buttonGroup->setChecked(1);
-                    DJV_ASSERT(1 == buttonChecked);
-                    DJV_ASSERT(!buttons[0]->isChecked());
-                    DJV_ASSERT(buttons[1]->isChecked());
-                    buttonGroup->removeButton(buttons[1]);
-                    DJV_ASSERT(0 == buttonChecked);
-                    DJV_ASSERT(buttons[0]->isChecked());
-                    buttonGroup->removeButton(buttons[0]);
-                    DJV_ASSERT(-1 == buttonChecked);
+                    group->setButtons({ buttons[0], buttons[1] });
+                    buttons[1]->doClick();
+                    DJV_ASSERT(checked[1]);
                 }
                 {
-                    auto buttonGroup = ButtonGroup::create(ButtonType::Exclusive);
-                    int buttonChecked = -1;
-                    buttonGroup->setExclusiveCallback(
-                        [&buttonChecked](int index)
+                    auto group = ButtonGroup::create(ButtonType::Radio);
+                    int checked = -1;
+                    group->setRadioCallback(
+                        [&checked](int index)
                         {
-                            buttonChecked = index;
+                            checked = index;
                         });
                     std::vector<std::shared_ptr<Button::IButton> > buttons =
                     {
                         PushButton::create(context),
                         PushButton::create(context)
                     };
-                    buttonGroup->addButton(buttons[0]);
-                    buttonGroup->addButton(buttons[1]);
-                    buttonGroup->setChecked(0);
-                    DJV_ASSERT(0 == buttonChecked);
-                    DJV_ASSERT(buttons[0]->isChecked());
-                    DJV_ASSERT(!buttons[1]->isChecked());
-                    buttonGroup->setChecked(1);
-                    DJV_ASSERT(1 == buttonChecked);
-                    DJV_ASSERT(!buttons[0]->isChecked());
-                    DJV_ASSERT(buttons[1]->isChecked());
-                    buttonGroup->setChecked(1, false);
-                    DJV_ASSERT(-1 == buttonChecked);
-                    DJV_ASSERT(!buttons[0]->isChecked());
-                    DJV_ASSERT(!buttons[1]->isChecked());
+                    group->setButtons({ buttons[0], buttons[1] });
+                    group->setChecked(0);
+                    buttons[0]->doClick();
+                    DJV_ASSERT(0 == checked);
+                    buttons[1]->doClick();
+                    DJV_ASSERT(1 == checked);
                 }
                 {
-                    auto buttonGroup = ButtonGroup::create(ButtonType::Toggle);
+                    auto group = ButtonGroup::create(ButtonType::Exclusive);
+                    int checked = -1;
+                    group->setExclusiveCallback(
+                        [&checked](int index)
+                        {
+                            checked = index;
+                        });
                     std::vector<std::shared_ptr<Button::IButton> > buttons =
                     {
                         PushButton::create(context),
                         PushButton::create(context)
                     };
-                    buttonGroup->setButtons(buttons, 1);
-                    DJV_ASSERT(buttons[1]->isChecked());
-                }
-                {
-                    auto buttonGroup = ButtonGroup::create(ButtonType::Radio);
-                    std::vector<std::shared_ptr<Button::IButton> > buttons =
-                    {
-                        PushButton::create(context),
-                        PushButton::create(context)
-                    };
-                    buttons[0]->setChecked(true);
-                    buttons[1]->setChecked(true);
-                    buttonGroup->setButtons(buttons, 1);
-                    DJV_ASSERT(!buttons[0]->isChecked());
-                    DJV_ASSERT(buttons[1]->isChecked());
-                }
-                {
-                    auto buttonGroup = ButtonGroup::create(ButtonType::Exclusive);
-                    std::vector<std::shared_ptr<Button::IButton> > buttons =
-                    {
-                        PushButton::create(context),
-                        PushButton::create(context)
-                    };
-                    buttons[0]->setChecked(true);
-                    buttons[1]->setChecked(true);
-                    buttonGroup->setButtons(buttons, 1);
-                    DJV_ASSERT(!buttons[0]->isChecked());
-                    DJV_ASSERT(buttons[1]->isChecked());
-                }
-                {
-                    auto buttonGroup = ButtonGroup::create(ButtonType::Exclusive);
-                    std::vector<std::shared_ptr<Button::IButton> > buttons =
-                    {
-                        PushButton::create(context),
-                        PushButton::create(context)
-                    };
-                    buttons[0]->setChecked(true);
-                    buttons[1]->setChecked(true);
-                    buttonGroup->setButtons(buttons, -1);
-                    DJV_ASSERT(!buttons[0]->isChecked());
-                    DJV_ASSERT(!buttons[1]->isChecked());
+                    group->setButtons({ buttons[0], buttons[1] });
+                    group->setChecked(0);
+                    buttons[1]->doClick();
+                    DJV_ASSERT(1 == checked);
+                    buttons[1]->doClick();
+                    DJV_ASSERT(-1 == checked);
                 }
             }
         }

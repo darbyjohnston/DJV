@@ -112,13 +112,14 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
 
-            p.swapIntervalComboBox->clearItems();
+            std::vector<std::string> items;
             for (auto i : AV::getSwapIntervalEnums())
             {
                 std::stringstream ss;
                 ss << i;
-                p.swapIntervalComboBox->addItem(_getText(ss.str()));
+                items.push_back(_getText(ss.str()));
             }
+            p.swapIntervalComboBox->setItems(items);
             p.swapIntervalComboBox->setCurrentItem(static_cast<int>(p.swapInterval));
 
             p.layout->setText(p.swapIntervalComboBox, _getText(DJV_TEXT("settings_glfw_swap_interval_setting")) + ":");

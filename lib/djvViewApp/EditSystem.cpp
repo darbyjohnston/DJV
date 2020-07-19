@@ -28,7 +28,6 @@ namespace djv
             std::shared_ptr<MediaWidget> activeWidget;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<ValueObserver<bool> > hasUndoObserver;
             std::shared_ptr<ValueObserver<bool> > hasRedoObserver;
@@ -53,34 +52,26 @@ namespace djv
             _shortcutsUpdate();
             
             auto weak = std::weak_ptr<EditSystem>(std::dynamic_pointer_cast<EditSystem>(shared_from_this()));
-            p.actionObservers["Undo"] = ValueObserver<bool>::create(
-                p.actions["Undo"]->observeClicked(),
-                [weak](bool value)
+            p.actions["Undo"]->setClickedCallback(
+                [weak]
                 {
-                    if (value)
+                    if (auto system = weak.lock())
                     {
-                        if (auto system = weak.lock())
+                        if (auto widget = system->_p->activeWidget)
                         {
-                            if (auto widget = system->_p->activeWidget)
-                            {
-                                widget->getMedia()->undo();
-                            }
+                            widget->getMedia()->undo();
                         }
                     }
                 });
                 
-            p.actionObservers["Redo"] = ValueObserver<bool>::create(
-                p.actions["Redo"]->observeClicked(),
-                [weak](bool value)
+            p.actions["Redo"]->setClickedCallback(
+                [weak]
                 {
-                    if (value)
+                    if (auto system = weak.lock())
                     {
-                        if (auto system = weak.lock())
+                        if (auto widget = system->_p->activeWidget)
                         {
-                            if (auto widget = system->_p->activeWidget)
-                            {
-                                widget->getMedia()->redo();
-                            }
+                            widget->getMedia()->redo();
                         }
                     }
                 });

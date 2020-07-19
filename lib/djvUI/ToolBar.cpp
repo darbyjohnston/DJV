@@ -96,12 +96,7 @@ namespace djv
                 button->setClickedCallback(
                     [action]
                     {
-                        action->doClicked();
-                    });
-                button->setCheckedCallback(
-                    [action](bool value)
-                    {
-                        action->setChecked(value);
+                        action->doClick();
                     });
                 p.actionsToButtons[action] = button;
                 p.observers[action].buttonType = ValueObserver<ButtonType>::create(

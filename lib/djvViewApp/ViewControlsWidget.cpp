@@ -224,7 +224,6 @@ namespace djv
             for (const auto& i : p.formLayouts)
             {
                 i.second->setMargin(UI::MetricsRole::MarginSmall);
-                i.second->setSpacing(UI::MetricsRole::SpacingSmall);
                 i.second->setLabelSizeGroup(p.sizeGroup);
             }
 

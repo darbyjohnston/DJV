@@ -210,7 +210,8 @@ namespace djv
                             index = static_cast<int>(j - _colorSpaces.begin());
                         }
                     }
-                    _listWidget->setItems(items, index);
+                    _listWidget->setItems(items);
+                    _listWidget->setChecked(index);
                 }
             }
 
@@ -258,7 +259,6 @@ namespace djv
             p.layout->setMargin(UI::MetricsRole::MarginSmall);
             p.layout->setSpacing(UI::MetricsRole::SpacingSmall);
             p.formLayout = UI::FormLayout::create(context);
-            p.formLayout->setSpacing(UI::MetricsRole::SpacingSmall);
             p.layout->addChild(p.formLayout);
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::MetricsRole::None);
@@ -394,11 +394,10 @@ namespace djv
             if (auto context = getContext().lock())
             {
                 p.buttons.clear();
-                p.deleteButtonGroup->clearButtons();
-                p.addActionGroup->clearActions();
                 p.addMenu->clearActions();
                 p.formLayout->clearChildren();
 
+                std::vector<std::shared_ptr<UI::Button::IButton> > deleteButtons;
                 size_t j = 0;
                 for (const auto& i : p.imageColorSpaces)
                 {
@@ -429,7 +428,7 @@ namespace djv
                     deleteButton->setInsideMargin(UI::MetricsRole::None);
                     deleteButton->setVisible(p.deleteEnabled);
                     deleteButton->setTooltip(_getText(DJV_TEXT("widget_color_space_delete_image_tooltip")));
-                    p.deleteButtonGroup->addButton(deleteButton);
+                    deleteButtons.push_back(deleteButton);
 
                     auto hLayout = UI::HorizontalLayout::create(context);
                     hLayout->setSpacing(UI::MetricsRole::None);
@@ -444,11 +443,13 @@ namespace djv
 
                     ++j;
                 }
+                p.deleteButtonGroup->setButtons(deleteButtons);
 
                 auto io = context->getSystemT<AV::IO::System>();
                 auto pluginNames = io->getPluginNames();
                 pluginNames.insert(pluginNames.begin(), std::string());
                 std::vector<std::string> pluginNamesList;
+                std::vector<std::shared_ptr<UI::Action> > actions;
                 for (const auto& j : pluginNames)
                 {
                     const auto k = p.imageColorSpaces.find(j);
@@ -457,10 +458,11 @@ namespace djv
                         pluginNamesList.push_back(j);
                         auto action = UI::Action::create();
                         action->setText(!j.empty() ? j : _getText(DJV_TEXT("av_ocio_images_default")));
-                        p.addActionGroup->addAction(action);
+                        actions.push_back(action);
                         p.addMenu->addAction(action);
                     }
                 }
+                p.addActionGroup->setActions(actions);
                 auto weak = std::weak_ptr<ColorSpaceImageWidget>(std::dynamic_pointer_cast<ColorSpaceImageWidget>(shared_from_this()));
                 auto contextWeak = std::weak_ptr<Context>(context);
                 p.addActionGroup->setPushCallback(

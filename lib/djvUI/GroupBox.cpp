@@ -39,7 +39,7 @@ namespace djv
                 p.titleLabel->setMargin(MetricsRole::MarginSmall);
 
                 p.childLayout = StackLayout::create(context);
-                p.childLayout->setMargin(MetricsRole::MarginSmall);
+                p.childLayout->setMargin(MetricsRole::None);
 
                 p.layout = VerticalLayout::create(context);
                 p.layout->setSpacing(MetricsRole::None);

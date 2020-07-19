@@ -128,12 +128,10 @@ namespace djv
                     ss << i;
                     items.push_back(_getText(ss.str()));
                 }
-                p.scrollWheelSpeedComboBox->setItems(items);
                 auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                if (auto mouseSettings = settingsSystem->getSettingsT<MouseSettings>())
-                {
-                    p.scrollWheelSpeedComboBox->setCurrentItem(static_cast<int>(mouseSettings->observeScrollWheelSpeed()->get()));
-                }
+                auto mouseSettings = settingsSystem->getSettingsT<MouseSettings>();
+                p.scrollWheelSpeedComboBox->setItems(items);
+                p.scrollWheelSpeedComboBox->setCurrentItem(static_cast<int>(mouseSettings->observeScrollWheelSpeed()->get()));
             }
         }
 

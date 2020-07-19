@@ -148,7 +148,8 @@ namespace djv
             {
                 items.push_back(_getText(i.info.name));
             }
-            p.listWidget->setItems(items, p.currentLayer);
+            p.listWidget->setItems(items);
+            p.listWidget->setChecked(p.currentLayer);
         }
 
     } // namespace ViewApp

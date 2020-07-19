@@ -184,19 +184,16 @@ namespace djv
                         switch (getButtonType())
                         {
                         case ButtonType::Toggle:
-                            setChecked(!isChecked());
-                            _doCheckedCallback(isChecked());
+                            _doCheck(!isChecked());
                             break;
                         case ButtonType::Radio:
                             if (!isChecked())
                             {
-                                setChecked(true);
-                                _doCheckedCallback(isChecked());
+                                _doCheck(true);
                             }
                             break;
                         case ButtonType::Exclusive:
-                            setChecked(!isChecked());
-                            _doCheckedCallback(isChecked());
+                            _doCheck(!isChecked());
                             break;
                         default: break;
                         }

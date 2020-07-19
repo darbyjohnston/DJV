@@ -72,7 +72,6 @@ namespace djv
 #endif // DJV_DEMO
             std::shared_ptr<UI::StackLayout> layout;
 
-            std::shared_ptr<ValueObserver<bool> > escapeActionObserver;
             std::shared_ptr<ValueObserver<bool> > settingsActionObserver;
             std::shared_ptr<ListObserver<std::shared_ptr<Media> > > mediaObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
@@ -155,6 +154,7 @@ namespace djv
             }
 
             p.settingsButton = UI::ToolButton::create(context);
+            p.settingsButton->setButtonType(UI::ButtonType::Toggle);
             auto toolSystem = context->getSystemT<ToolSystem>();
             if (toolSystem)
             {
@@ -301,20 +301,16 @@ namespace djv
                     return out;
                 });
 
-            p.escapeActionObserver = ValueObserver<bool>::create(
-                p.actions["Escape"]->observeClicked(),
-                [contextWeak](bool value)
+            p.actions["Escape"]->setClickedCallback(
+                [contextWeak]
             {
-                if (value)
+                if (auto context = contextWeak.lock())
                 {
-                    if (auto context = contextWeak.lock())
+                    if (auto windowSystem = context->getSystemT<WindowSystem>())
                     {
-                        if (auto windowSystem = context->getSystemT<WindowSystem>())
+                        if (windowSystem->observeFullScreen()->get())
                         {
-                            if (windowSystem->observeFullScreen()->get())
-                            {
-                                windowSystem->setFullScreen(false);
-                            }
+                            windowSystem->setFullScreen(false);
                         }
                     }
                 }
@@ -341,15 +337,16 @@ namespace djv
                             if (auto widget = weak.lock())
                             {
                                 widget->_p->media = value;
-                                widget->_p->mediaActionGroup->clearActions();
+                                std::vector<std::shared_ptr<UI::Action> > actions;
                                 widget->_p->mediaMenu->clearActions();
                                 for (const auto& i : widget->_p->media)
                                 {
                                     auto action = UI::Action::create();
                                     action->setText(i->getFileInfo().getFileName());
-                                    widget->_p->mediaActionGroup->addAction(action);
+                                    actions.push_back(action);
                                     widget->_p->mediaMenu->addAction(action);
                                 }
+                                widget->_p->mediaActionGroup->setActions(actions);
                                 widget->_p->mediaButton->setEnabled(widget->_p->media.size() > 0);
                             }
                         });

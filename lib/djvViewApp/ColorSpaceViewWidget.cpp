@@ -139,7 +139,8 @@ namespace djv
                     item.text = !view.empty() ? view : _getText(DJV_TEXT("av_ocio_view_none"));
                     items.emplace_back(item);
                 }
-                p.listWidget->setItems(items, p.views.second);
+                p.listWidget->setItems(items);
+                p.listWidget->setChecked(p.views.second);
             }
         }
 

@@ -64,7 +64,7 @@ namespace djv
                 if (i.second.size())
                 {
                     auto layout = UI::VerticalLayout::create(context);
-                    layout->setMargin(UI::MetricsRole::Margin);
+                    layout->setMargin(UI::MetricsRole::MarginSmall);
                     for (const auto& j : i.second)
                     {
                         auto groupBox = UI::GroupBox::create(context);

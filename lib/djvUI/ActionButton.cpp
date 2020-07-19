@@ -149,18 +149,7 @@ namespace djv
                         {
                             if (widget->_p->action)
                             {
-                                widget->_p->action->doClicked();
-                            }
-                        }
-                    });
-                setCheckedCallback(
-                    [weak](bool value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            if (widget->_p->action)
-                            {
-                                widget->_p->action->setChecked(value);
+                                widget->_p->action->doClick();
                             }
                         }
                     });
@@ -291,22 +280,19 @@ namespace djv
                         switch (getButtonType())
                         {
                         case ButtonType::Push:
-                            _doClickedCallback();
+                            _doClick();
                             break;
                         case ButtonType::Toggle:
-                            setChecked(!isChecked());
-                            _doCheckedCallback(isChecked());
+                            _doCheck(!isChecked());
                             break;
                         case ButtonType::Radio:
                             if (!isChecked())
                             {
-                                setChecked(true);
-                                _doCheckedCallback(isChecked());
+                                _doCheck(true);
                             }
                             break;
                         case ButtonType::Exclusive:
-                            setChecked(!isChecked());
-                            _doCheckedCallback(isChecked());
+                            _doCheck(!isChecked());
                             break;
                         default: break;
                         }

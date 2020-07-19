@@ -29,12 +29,10 @@ namespace djv
         public:
             virtual ~Action();
             static std::shared_ptr<Action> create();
+            static std::shared_ptr<Action> create(const std::string& text);
 
             std::shared_ptr<Core::IValueSubject<ButtonType> > observeButtonType() const;
             void setButtonType(ButtonType);
-
-            std::shared_ptr<Core::IValueSubject<bool> > observeClicked() const;
-            void doClicked();
 
             std::shared_ptr<Core::IValueSubject<bool> > observeChecked() const;
             void setChecked(bool);
@@ -68,6 +66,10 @@ namespace djv
 
             std::shared_ptr<Core::IValueSubject<bool> > observeAutoRepeat() const;
             void setAutoRepeat(bool);
+
+            void setClickedCallback(const std::function<void(void)>&);
+            void setCheckedCallback(const std::function<void(bool)>&);
+            void doClick();
 
         private:
             void _iconUpdate();

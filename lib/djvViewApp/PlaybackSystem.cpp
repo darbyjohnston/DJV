@@ -50,7 +50,6 @@ namespace djv
             std::shared_ptr<UI::ActionGroup> playbackActionGroup;
             std::shared_ptr<UI::ActionGroup> playbackModeActionGroup;
             std::shared_ptr<UI::Menu> menu;
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<Math::Rational> > speedObserver;
             std::shared_ptr<ValueObserver<bool> > playEveryFrameObserver;
@@ -79,8 +78,9 @@ namespace djv
             p.actions["Reverse"] = UI::Action::create();
             p.actions["Reverse"]->setIcon("djvIconPlaybackReverse");
             p.playbackActionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
-            p.playbackActionGroup->addAction(p.actions["Forward"]);
-            p.playbackActionGroup->addAction(p.actions["Reverse"]);
+            p.playbackActionGroup->setActions({
+                p.actions["Forward"],
+                p.actions["Reverse"] });
             p.actions["Playback"] = UI::Action::create();
 
             p.actions["PlayOnce"] = UI::Action::create();
@@ -90,9 +90,10 @@ namespace djv
             p.actions["PlayPingPong"] = UI::Action::create();
             p.actions["PlayPingPong"]->setEnabled(false);
             p.playbackModeActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
-            p.playbackModeActionGroup->addAction(p.actions["PlayOnce"]);
-            p.playbackModeActionGroup->addAction(p.actions["PlayLoop"]);
-            p.playbackModeActionGroup->addAction(p.actions["PlayPingPong"]);
+            p.playbackModeActionGroup->setActions({
+                p.actions["PlayOnce"],
+                p.actions["PlayLoop"],
+                p.actions["PlayPingPong"] });
 
             p.actions["PlayEveryFrame"] = UI::Action::create();
             p.actions["PlayEveryFrame"]->setButtonType(UI::ButtonType::Toggle);
@@ -213,27 +214,22 @@ namespace djv
                 }
             });
 
-            p.actionObservers["Playback"] = ValueObserver<bool>::create(
-                p.actions["Playback"]->observeClicked(),
-                [weak](bool value)
+            p.actions["Playback"]->setClickedCallback(
+                [weak]
             {
-                if (value)
+                if (auto system = weak.lock())
                 {
-                    if (auto system = weak.lock())
+                    if (auto media = system->_p->currentMedia)
                     {
-                        if (auto media = system->_p->currentMedia)
-                        {
-                            media->setPlayback(
-                                Playback::Stop == media->observePlayback()->get() ?
-                                (Playback::Stop == system->_p->playback ? Playback::Forward : system->_p->playback) :
-                                Playback::Stop);
-                        }
+                        media->setPlayback(
+                            Playback::Stop == media->observePlayback()->get() ?
+                            (Playback::Stop == system->_p->playback ? Playback::Forward : system->_p->playback) :
+                            Playback::Stop);
                     }
                 }
             });
 
-            p.actionObservers["PlayEveryFrame"] = ValueObserver<bool>::create(
-                p.actions["PlayEveryFrame"]->observeChecked(),
+            p.actions["PlayEveryFrame"]->setCheckedCallback(
                 [weak](bool value)
                 {
                     if (auto system = weak.lock())
@@ -245,91 +241,68 @@ namespace djv
                     }
                 });
 
-            p.actionObservers["InPoint"] = ValueObserver<bool>::create(
-                p.actions["InPoint"]->observeClicked(),
-                [weak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            if (auto media = system->_p->currentMedia)
-                            {
-                                media->inPoint();
-                            }
-                        }
-                    }
-                });
-
-            p.actionObservers["OutPoint"] = ValueObserver<bool>::create(
-                p.actions["OutPoint"]->observeClicked(),
-                [weak](bool value)
-            {
-                if (value)
+            p.actions["InPoint"]->setClickedCallback(
+                [weak]
                 {
                     if (auto system = weak.lock())
                     {
                         if (auto media = system->_p->currentMedia)
                         {
-                            media->outPoint();
+                            media->inPoint();
                         }
+                    }
+                });
+
+            p.actions["OutPoint"]->setClickedCallback(
+                [weak]
+            {
+                if (auto system = weak.lock())
+                {
+                    if (auto media = system->_p->currentMedia)
+                    {
+                        media->outPoint();
                     }
                 }
             });
 
-            p.actionObservers["StartFrame"] = ValueObserver<bool>::create(
-                p.actions["StartFrame"]->observeClicked(),
-                [weak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            if (auto media = system->_p->currentMedia)
-                            {
-                                media->start();
-                            }
-                        }
-                    }
-                });
-
-            p.actionObservers["EndFrame"] = ValueObserver<bool>::create(
-                p.actions["EndFrame"]->observeClicked(),
-                [weak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            if (auto media = system->_p->currentMedia)
-                            {
-                                media->end();
-                            }
-                        }
-                    }
-                });
-
-            p.actionObservers["NextFrame"] = ValueObserver<bool>::create(
-                p.actions["NextFrame"]->observeClicked(),
-                [weak](bool value)
-            {
-                if (value)
+            p.actions["StartFrame"]->setClickedCallback(
+                [weak]
                 {
                     if (auto system = weak.lock())
                     {
                         if (auto media = system->_p->currentMedia)
                         {
-                            media->nextFrame();
+                            media->start();
                         }
+                    }
+                });
+
+            p.actions["EndFrame"]->setClickedCallback(
+                [weak]
+                {
+                    if (auto system = weak.lock())
+                    {
+                        if (auto media = system->_p->currentMedia)
+                        {
+                            media->end();
+                        }
+                    }
+                });
+
+            p.actions["NextFrame"]->setClickedCallback(
+                [weak]
+            {
+                if (auto system = weak.lock())
+                {
+                    if (auto media = system->_p->currentMedia)
+                    {
+                        media->nextFrame();
                     }
                 }
             });
 
-            p.actionObservers["NextFrame10"] = ValueObserver<bool>::create(
-                p.actions["NextFrame10"]->observeClicked(),
-                [weak](bool value)
-            {
-                if (value)
+            p.actions["NextFrame10"]->setClickedCallback(
+                [weak]
                 {
                     if (auto system = weak.lock())
                     {
@@ -338,14 +311,10 @@ namespace djv
                             media->nextFrame(10);
                         }
                     }
-                }
-            });
+                });
 
-            p.actionObservers["NextFrame100"] = ValueObserver<bool>::create(
-                p.actions["NextFrame100"]->observeClicked(),
-                [weak](bool value)
-            {
-                if (value)
+            p.actions["NextFrame100"]->setClickedCallback(
+                [weak]
                 {
                     if (auto system = weak.lock())
                     {
@@ -354,14 +323,10 @@ namespace djv
                             media->nextFrame(100);
                         }
                     }
-                }
-            });
+                });
 
-            p.actionObservers["PrevFrame"] = ValueObserver<bool>::create(
-                p.actions["PrevFrame"]->observeClicked(),
-                [weak](bool value)
-            {
-                if (value)
+            p.actions["PrevFrame"]->setClickedCallback(
+                [weak]
                 {
                     if (auto system = weak.lock())
                     {
@@ -370,43 +335,33 @@ namespace djv
                             media->prevFrame();
                         }
                     }
+                });
+
+            p.actions["PrevFrame10"]->setClickedCallback(
+                [weak]
+            {
+                if (auto system = weak.lock())
+                {
+                    if (auto media = system->_p->currentMedia)
+                    {
+                        media->prevFrame(10);
+                    }
                 }
             });
 
-            p.actionObservers["PrevFrame10"] = ValueObserver<bool>::create(
-                p.actions["PrevFrame10"]->observeClicked(),
-                [weak](bool value)
-            {
-                if (value)
+            p.actions["PrevFrame100"]->setClickedCallback(
+                [weak]
                 {
                     if (auto system = weak.lock())
                     {
                         if (auto media = system->_p->currentMedia)
                         {
-                            media->prevFrame(10);
-                        }
-                    }
-                }
-            });
-
-            p.actionObservers["PrevFrame100"] = ValueObserver<bool>::create(
-                p.actions["PrevFrame100"]->observeClicked(),
-                [weak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            if (auto media = system->_p->currentMedia)
-                            {
-                                media->prevFrame(100);
-                            }
+                            media->prevFrame(100);
                         }
                     }
                 });
 
-            p.actionObservers["InOutPoints"] = ValueObserver<bool>::create(
-                p.actions["InOutPoints"]->observeChecked(),
+            p.actions["InOutPoints"]->setCheckedCallback(
                 [weak](bool value)
                 {
                     if (auto system = weak.lock())
@@ -419,66 +374,50 @@ namespace djv
                     }
                 });
 
-            p.actionObservers["SetInPoint"] = ValueObserver<bool>::create(
-                p.actions["SetInPoint"]->observeClicked(),
-                [weak](bool value)
+            p.actions["SetInPoint"]->setClickedCallback(
+                [weak]
                 {
-                    if (value)
+                    if (auto system = weak.lock())
                     {
-                        if (auto system = weak.lock())
+                        if (auto media = system->_p->currentMedia)
                         {
-                            if (auto media = system->_p->currentMedia)
-                            {
-                                media->setInPoint();
-                            }
+                            media->setInPoint();
                         }
                     }
                 });
 
-            p.actionObservers["SetOutPoint"] = ValueObserver<bool>::create(
-                p.actions["SetOutPoint"]->observeClicked(),
-                [weak](bool value)
+            p.actions["SetOutPoint"]->setClickedCallback(
+                [weak]
                 {
-                    if (value)
+                    if (auto system = weak.lock())
                     {
-                        if (auto system = weak.lock())
+                        if (auto media = system->_p->currentMedia)
                         {
-                            if (auto media = system->_p->currentMedia)
-                            {
-                                media->setOutPoint();
-                            }
+                            media->setOutPoint();
                         }
                     }
                 });
 
-            p.actionObservers["ResetInPoint"] = ValueObserver<bool>::create(
-                p.actions["ResetInPoint"]->observeClicked(),
-                [weak](bool value)
+            p.actions["ResetInPoint"]->setClickedCallback(
+                [weak]
                 {
-                    if (value)
+                    if (auto system = weak.lock())
                     {
-                        if (auto system = weak.lock())
+                        if (auto media = system->_p->currentMedia)
                         {
-                            if (auto media = system->_p->currentMedia)
-                            {
-                                media->resetInPoint();
-                            }
+                            media->resetInPoint();
                         }
                     }
                 });
 
-            p.actionObservers["ResetOutPoint"] = ValueObserver<bool>::create(
-                p.actions["ResetOutPoint"]->observeClicked(),
-                [weak](bool value)
+            p.actions["ResetOutPoint"]->setClickedCallback(
+                [weak]
                 {
-                    if (value)
+                    if (auto system = weak.lock())
                     {
-                        if (auto system = weak.lock())
+                        if (auto media = system->_p->currentMedia)
                         {
-                            if (auto media = system->_p->currentMedia)
-                            {
-                                media->resetOutPoint();
-                            }
+                            media->resetOutPoint();
                         }
                     }
                 });

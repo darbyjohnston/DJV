@@ -253,7 +253,6 @@ namespace djv
             for (const auto& i : p.formLayouts)
             {
                 i.second->setMargin(UI::MetricsRole::MarginSmall);
-                i.second->setSpacing(UI::MetricsRole::SpacingSmall);
                 i.second->setLabelSizeGroup(p.sizeGroup);
             }
 
@@ -772,46 +771,13 @@ namespace djv
             {
                 setTitle(_getText(DJV_TEXT("image_controls_title")));
 
-                std::vector<std::string> items;
-                for (auto i : AV::Render2D::getImageChannelDisplayEnums())
-                {
-                    std::stringstream ss;
-                    ss << i;
-                    items.push_back(_getText(ss.str()));
-                }
-                p.channelDisplayComboBox->setItems(items);
                 p.formLayouts["Channels"]->setText(p.channelDisplayComboBox, _getText(DJV_TEXT("image_controls_channels_display")) + ":");
-
-                items.clear();
-                for (auto i : AV::getAlphaBlendEnums())
-                {
-                    std::stringstream ss;
-                    ss << i;
-                    items.push_back(_getText(ss.str()));
-                }
-                p.alphaComboBox->setItems(items);
                 p.formLayouts["Channels"]->setText(p.alphaComboBox, _getText(DJV_TEXT("image_controls_channels_alpha_blend")) + ":");
 
                 p.mirrorCheckBoxes[0]->setText(_getText(DJV_TEXT("image_controls_transform_mirror_horizontal")));
                 p.mirrorCheckBoxes[1]->setText(_getText(DJV_TEXT("image_controls_transform_mirror_vertical")));
                 p.formLayouts["Transform"]->setText(p.mirrorLayout, _getText(DJV_TEXT("image_controls_transform_mirror")) + ":");
-                items.clear();
-                for (auto i : UI::getImageRotateEnums())
-                {
-                    std::stringstream ss;
-                    ss << i;
-                    items.push_back(_getText(ss.str()));
-                }
-                p.rotateComboBox->setItems(items);
                 p.formLayouts["Transform"]->setText(p.rotateComboBox, _getText(DJV_TEXT("image_controls_transform_rotate")) + ":");
-                items.clear();
-                for (auto i : UI::getImageAspectRatioEnums())
-                {
-                    std::stringstream ss;
-                    ss << i;
-                    items.push_back(_getText(ss.str()));
-                }
-                p.aspectRatioComboBox->setItems(items);
                 p.formLayouts["Transform"]->setText(p.aspectRatioComboBox, _getText(DJV_TEXT("image_controls_transform_aspect_ratio")) + ":");
 
                 p.colorEnabledButton->setTooltip(_getText(DJV_TEXT("image_controls_color_enabled_tooltip")));
@@ -855,12 +821,47 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
 
+            std::vector<std::string> items;
+            for (auto i : AV::Render2D::getImageChannelDisplayEnums())
+            {
+                std::stringstream ss;
+                ss << i;
+                items.push_back(_getText(ss.str()));
+            }
+            p.channelDisplayComboBox->setItems(items);
             p.channelDisplayComboBox->setCurrentItem(static_cast<int>(p.imageOptions.channelDisplay));
+
+            items.clear();
+            for (auto i : AV::getAlphaBlendEnums())
+            {
+                std::stringstream ss;
+                ss << i;
+                items.push_back(_getText(ss.str()));
+            }
+            p.alphaComboBox->setItems(items);
             p.alphaComboBox->setCurrentItem(static_cast<int>(p.imageOptions.alphaBlend));
 
             p.mirrorCheckBoxes[0]->setChecked(p.imageOptions.mirror.x);
             p.mirrorCheckBoxes[1]->setChecked(p.imageOptions.mirror.y);
+
+            items.clear();
+            for (auto i : UI::getImageRotateEnums())
+            {
+                std::stringstream ss;
+                ss << i;
+                items.push_back(_getText(ss.str()));
+            }
+            p.rotateComboBox->setItems(items);
             p.rotateComboBox->setCurrentItem(static_cast<int>(p.rotate));
+
+            items.clear();
+            for (auto i : UI::getImageAspectRatioEnums())
+            {
+                std::stringstream ss;
+                ss << i;
+                items.push_back(_getText(ss.str()));
+            }
+            p.aspectRatioComboBox->setItems(items);
             p.aspectRatioComboBox->setCurrentItem(static_cast<int>(p.aspectRatio));
             
             p.colorEnabledButton->setChecked(p.imageOptions.colorEnabled);

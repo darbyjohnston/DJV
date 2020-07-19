@@ -42,6 +42,8 @@ namespace djv
             void _layoutEvent(Core::Event::Layout&) override;
 
         private:
+            void _widgetUpdate();
+
             DJV_PRIVATE();
         };
 

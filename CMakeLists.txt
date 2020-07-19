@@ -24,9 +24,13 @@ set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
 #-------------------------------------------------------------------------------
 
 # General options.
-set(DJV_BUILD_TINY FALSE CACHE BOOL "Enable a 'tiny' build (only build core libraries + tests)")
+set(DJV_BUILD_TINY FALSE CACHE BOOL "Enable a 'tiny' build (core libraries + tests)")
 if(DJV_BUILD_TINY)
     add_definitions(-DDJV_BUILD_TINY)
+endif()
+set(DJV_BUILD_MINIMAL FALSE CACHE BOOL "Enable a minimal build (core libraries + tests + examples)")
+if(DJV_BUILD_MINIMAL)
+    add_definitions(-DDJV_BUILD_MINIMAL)
 endif()
 set(DJV_THIRD_PARTY_OPTIONAL TRUE CACHE BOOL "Build optional third party dependencies")
 
@@ -300,7 +304,10 @@ include(djvPackage)
 
 add_subdirectory(lib)
 add_subdirectory(tests)
-if(NOT DJV_BUILD_TINY)
+if(DJV_BUILD_TINY)
+elseif(DJV_BUILD_MINIMAL)
+    add_subdirectory(examples)
+else()
     add_subdirectory(bin)
     add_subdirectory(docs)
     add_subdirectory(examples)

@@ -34,7 +34,6 @@ namespace djv
             std::shared_ptr<UI::NumericEditButtons> buttons;
             std::shared_ptr<UI::HorizontalLayout> layout;
             std::function<void(Core::Frame::Index)> callback;
-            std::map<std::string, std::shared_ptr<Core::ValueObserver<bool> > > actionObservers;
             std::shared_ptr<Core::ValueObserver<Core::Time::Units> > timeUnitsObserver;
         };
 
@@ -121,9 +120,8 @@ namespace djv
                     }
                 });
 
-            p.actionObservers["Next"] = ValueObserver<bool>::create(
-                nextAction->observeClicked(),
-                [weak](bool value)
+            nextAction->setClickedCallback(
+                [weak]
                 {
                     if (auto widget = weak.lock())
                     {
@@ -131,27 +129,24 @@ namespace djv
                     }
                 });
 
-            p.actionObservers["Prev"] = ValueObserver<bool>::create(
-                prevAction->observeClicked(),
-                [weak](bool value)
+            prevAction->setClickedCallback(
+                [weak]
                 {
                     if (auto widget = weak.lock())
                     {
                         widget->_setFrame(widget->_p->index - 1);
                     }
                 });
-            p.actionObservers["NextX10"] = ValueObserver<bool>::create(
-                nextX10Action->observeClicked(),
-                [weak](bool value)
+            nextX10Action->setClickedCallback(
+                [weak]
                 {
                     if (auto widget = weak.lock())
                     {
                         widget->_setFrame(widget->_p->index + 10);
                     }
                 });
-            p.actionObservers["PrevX10"] = ValueObserver<bool>::create(
-                prevX10Action->observeClicked(),
-                [weak](bool value)
+            prevX10Action->setClickedCallback(
+                [weak]
                 {
                     if (auto widget = weak.lock())
                     {

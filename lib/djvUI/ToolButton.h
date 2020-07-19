@@ -59,6 +59,9 @@ namespace djv
                 bool acceptFocus(TextFocusDirection) override;
 
             protected:
+                void _doClick() override;
+                void _doCheck(bool) override;
+
                 void _preLayoutEvent(Core::Event::PreLayout&) override;
                 void _layoutEvent(Core::Event::Layout&) override;
                 void _paintEvent(Core::Event::Paint&) override;

@@ -68,30 +68,6 @@ namespace djv
 
                 _actionUpdate();
                 _iconUpdate();
-
-                auto weak = std::weak_ptr<Tool>(std::dynamic_pointer_cast<Tool>(shared_from_this()));
-                setClickedCallback(
-                    [weak]
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            if (widget->_p->action)
-                            {
-                                widget->_p->action->doClicked();
-                            }
-                        }
-                    });
-                setCheckedCallback(
-                    [weak](bool value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            if (widget->_p->action)
-                            {
-                                widget->_p->action->setChecked(value);
-                            }
-                        }
-                    });
             }
 
             Tool::Tool() :
@@ -308,6 +284,28 @@ namespace djv
                 return out;
             }
 
+            void Tool::_doClick()
+            {
+                DJV_PRIVATE_PTR();
+                if (p.action)
+                {
+                    p.action->doClick();
+                }
+                else
+                {
+                    IButton::_doClick();
+                }
+            }
+
+            void Tool::_doCheck(bool value)
+            {
+                DJV_PRIVATE_PTR();
+                if (!p.action)
+                {
+                    IButton::_doCheck(value);
+                }
+            }
+
             void Tool::_preLayoutEvent(Event::PreLayout& event)
             {
                 DJV_PRIVATE_PTR();
@@ -421,7 +419,7 @@ namespace djv
                                         {
                                             if (auto widget2 = weak.lock())
                                             {
-                                                widget2->_doClickedCallback();
+                                                widget2->_doClick();
                                             }
                                         });
                                 }
@@ -454,13 +452,12 @@ namespace djv
                         switch (getButtonType())
                         {
                         case ButtonType::Push:
-                            _doClickedCallback();
+                            _doClick();
                             break;
                         case ButtonType::Toggle:
                         case ButtonType::Radio:
                         case ButtonType::Exclusive:
-                            setChecked(!isChecked());
-                            _doCheckedCallback(isChecked());
+                            _doCheck(!isChecked());
                             break;
                         default: break;
                         }

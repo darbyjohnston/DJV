@@ -124,13 +124,14 @@ namespace djv
         void ColorTypeWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.comboBox->clearItems();
+            std::vector<std::string> items;
             for (size_t i = static_cast<size_t>(AV::Image::Type::L_U8); i < static_cast<size_t>(AV::Image::Type::Count); ++i)
             {
                 std::stringstream ss;
                 ss << static_cast<AV::Image::Type>(i);
-                p.comboBox->addItem(_getText(ss.str()));
+                items.push_back(_getText(ss.str()));
             }
+            p.comboBox->setItems(items);
             p.comboBox->setCurrentItem(static_cast<int>(p.type) - 1);
         }
 

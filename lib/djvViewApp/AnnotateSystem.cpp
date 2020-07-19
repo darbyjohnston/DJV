@@ -90,10 +90,11 @@ namespace djv
             p.actions["Ellipse"] = UI::Action::create();
             p.actions["Ellipse"]->setIcon("djvIconAnnotateEllipse");
             p.toolActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
-            p.toolActionGroup->addAction(p.actions["Polyline"]);
-            p.toolActionGroup->addAction(p.actions["Line"]);
-            p.toolActionGroup->addAction(p.actions["Rectangle"]);
-            p.toolActionGroup->addAction(p.actions["Ellipse"]);
+            p.toolActionGroup->setActions({
+                p.actions["Polyline"],
+                p.actions["Line"],
+                p.actions["Rectangle"],
+                p.actions["Ellipse"] });
 
             p.actions["LineSizeSmall"] = UI::Action::create();
             p.actions["LineSizeSmall"]->setIcon("djvIconAnnotateLineSizeSmall");
@@ -102,9 +103,10 @@ namespace djv
             p.actions["LineSizeLarge"] = UI::Action::create();
             p.actions["LineSizeLarge"]->setIcon("djvIconAnnotateLineSizeLarge");
             p.lineSizeActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
-            p.lineSizeActionGroup->addAction(p.actions["LineSizeSmall"]);
-            p.lineSizeActionGroup->addAction(p.actions["LineSizeMedium"]);
-            p.lineSizeActionGroup->addAction(p.actions["LineSizeLarge"]);
+            p.lineSizeActionGroup->setActions({
+                p.actions["LineSizeSmall"],
+                p.actions["LineSizeMedium"],
+                p.actions["LineSizeLarge"] });
 
             p.actions["Clear"] = UI::Action::create();
             p.actions["Clear"]->setIcon("djvIconClear");

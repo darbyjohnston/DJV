@@ -139,7 +139,8 @@ namespace djv
                     item.text = !display.empty() ? display : _getText(DJV_TEXT("av_ocio_display_none"));
                     items.emplace_back(item);
                 }
-                p.listWidget->setItems(items, p.displays.second);
+                p.listWidget->setItems(items);
+                p.listWidget->setChecked(p.displays.second);
             }
         }
 

@@ -30,15 +30,14 @@ namespace djv
 
             const std::vector<std::string>& getItems() const;
             void setItems(const std::vector<std::string>&);
-            void addItem(const std::string&);
-            void clearItems(Callback = Callback::Suppress);
+            void clearItems();
 
             int getCurrentItem() const;
-            void setCurrentItem(int, Callback = Callback::Suppress);
-            void firstItem(Callback = Callback::Suppress);
-            void lastItem(Callback = Callback::Suppress);
-            void prevItem(Callback = Callback::Suppress);
-            void nextItem(Callback = Callback::Suppress);
+            void setCurrentItem(int);
+            void firstItem();
+            void lastItem();
+            void prevItem();
+            void nextItem();
 
             bool isOpen() const;
             void open();
@@ -58,7 +57,7 @@ namespace djv
 
         private:
             void _itemsUpdate();
-            void _currentItemUpdate(Callback);
+            void _currentItemUpdate();
 
             DJV_PRIVATE();
         };

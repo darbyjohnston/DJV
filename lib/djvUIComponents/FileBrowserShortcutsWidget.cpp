@@ -27,7 +27,7 @@ namespace djv
                 std::shared_ptr<Label> titleLabel;
                 std::shared_ptr<ToolButton> addButton;
                 std::shared_ptr<ToolButton> editButton;
-                std::shared_ptr<ButtonGroup> removeButtonGroup;
+                std::shared_ptr<ButtonGroup> deleteButtonGroup;
                 std::shared_ptr<GridLayout> itemLayout;
                 std::shared_ptr<ScrollWidget> scrollWidget;
                 std::function<void(const FileSystem::Path&)> callback;
@@ -52,7 +52,7 @@ namespace djv
                 p.editButton->setButtonType(ButtonType::Toggle);
                 p.editButton->setIcon("djvIconClear");
 
-                p.removeButtonGroup = ButtonGroup::create(ButtonType::Push);
+                p.deleteButtonGroup = ButtonGroup::create(ButtonType::Push);
                 
                 auto layout = VerticalLayout::create(context);
                 layout->setSpacing(MetricsRole::None);
@@ -93,14 +93,14 @@ namespace djv
                         if (auto widget = weak.lock())
                         {
                             widget->_p->edit = value;
-                            for (const auto& i : widget->_p->removeButtonGroup->getButtons())
+                            for (const auto& i : widget->_p->deleteButtonGroup->getButtons())
                             {
                                 i->setVisible(value);
                             }
                         }
                     });
                 
-                p.removeButtonGroup->setPushCallback(
+                p.deleteButtonGroup->setPushCallback(
                     [model](int value)
                     {
                         model->removeShortcut(value);
@@ -115,7 +115,7 @@ namespace djv
                         {
                             if (auto widget = weak.lock())
                             {
-                                widget->_p->removeButtonGroup->clearButtons();
+                                std::vector<std::shared_ptr<Button::IButton> > deleteButtons;
                                 widget->_p->itemLayout->clearChildren();
                                 size_t j = 0;
                                 for (const auto& i : value)
@@ -129,16 +129,16 @@ namespace djv
                                     button->setText(s);
                                     button->setTooltip(std::string(i));
 
-                                    auto removeButton = ToolButton::create(context);
-                                    removeButton->setIcon("djvIconClose");
-                                    removeButton->setVisible(widget->_p->edit);
-                                    widget->_p->removeButtonGroup->addButton(removeButton);
+                                    auto deleteButton = ToolButton::create(context);
+                                    deleteButton->setIcon("djvIconClose");
+                                    deleteButton->setVisible(widget->_p->edit);
+                                    deleteButtons.push_back(deleteButton);
 
                                     widget->_p->itemLayout->addChild(button);
                                     widget->_p->itemLayout->setGridPos(button, 0, j);
                                     widget->_p->itemLayout->setStretch(button, GridStretch::Horizontal);
-                                    widget->_p->itemLayout->addChild(removeButton);
-                                    widget->_p->itemLayout->setGridPos(removeButton, 1, j);
+                                    widget->_p->itemLayout->addChild(deleteButton);
+                                    widget->_p->itemLayout->setGridPos(deleteButton, 1, j);
 
                                     const auto path = i;
                                     button->setClickedCallback(
@@ -155,6 +155,7 @@ namespace djv
 
                                     ++j;
                                 }
+                                widget->_p->deleteButtonGroup->setButtons(deleteButtons);
                             }
                         }
                     });

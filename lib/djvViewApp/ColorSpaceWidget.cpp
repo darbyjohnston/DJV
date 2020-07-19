@@ -73,7 +73,6 @@ namespace djv
             vLayout->setSpacing(UI::MetricsRole::None);
             p.formLayout = UI::FormLayout::create(context);
             p.formLayout->setMargin(UI::MetricsRole::MarginSmall);
-            p.formLayout->setSpacing(UI::MetricsRole::SpacingSmall);
             p.formLayout->setLabelSizeGroup(p.sizeGroup);
             p.formLayout->addChild(p.configPopupButton);
             p.formLayout->addChild(p.displayPopupButton);

@@ -71,12 +71,13 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
     }
 
     _sceneRotateActionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
-    _sceneRotateActionGroup->addAction(_actions["Scene"]["Rotate+X"]);
-    _sceneRotateActionGroup->addAction(_actions["Scene"]["Rotate-X"]);
-    _sceneRotateActionGroup->addAction(_actions["Scene"]["Rotate+Y"]);
-    _sceneRotateActionGroup->addAction(_actions["Scene"]["Rotate-Y"]);
-    _sceneRotateActionGroup->addAction(_actions["Scene"]["Rotate+Z"]);
-    _sceneRotateActionGroup->addAction(_actions["Scene"]["Rotate-Z"]);
+    _sceneRotateActionGroup->setActions({
+        _actions["Scene"]["Rotate+X"],
+        _actions["Scene"]["Rotate-X"],
+        _actions["Scene"]["Rotate+Y"],
+        _actions["Scene"]["Rotate-Y"],
+        _actions["Scene"]["Rotate+Z"],
+        _actions["Scene"]["Rotate-Z"] });
 
     auto fileMenu = UI::Menu::create(context);
     fileMenu->setText("File");

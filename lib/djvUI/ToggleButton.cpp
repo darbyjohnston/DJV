@@ -178,8 +178,7 @@ namespace djv
                     case GLFW_KEY_ENTER:
                     case GLFW_KEY_SPACE:
                         event.accept();
-                        setChecked(!isChecked());
-                        _doCheckedCallback(isChecked());
+                        _doCheck(!isChecked());
                         break;
                     case GLFW_KEY_ESCAPE:
                         event.accept();

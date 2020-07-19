@@ -153,7 +153,6 @@ namespace djv
             std::shared_ptr<UI::GridLayout> playbackLayout;
             std::shared_ptr<UI::StackLayout> layout;
 
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<Time::Units> > timeUnitsObserver;
             std::shared_ptr<ValueObserver<AV::IO::Info> > ioInfoObserver;
             std::shared_ptr<ValueObserver<std::pair<std::vector<AV::IO::VideoInfo>, int> > > layersObserver;
@@ -204,8 +203,9 @@ namespace djv
             p.actions["Reverse"]->setIcon("djvIconPlaybackReverse");
             p.actions["Reverse"]->setCheckedIcon("djvIconPlaybackStop");
             p.playbackActionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
-            p.playbackActionGroup->addAction(p.actions["Forward"]);
-            p.playbackActionGroup->addAction(p.actions["Reverse"]);
+            p.playbackActionGroup->setActions({
+                p.actions["Forward"],
+                p.actions["Reverse"] });
 
             p.actions["InPoint"] = UI::Action::create();
             p.actions["InPoint"]->setIcon("djvIconFrameStart");
@@ -604,66 +604,50 @@ namespace djv
                     }
                 });
 
-            p.actionObservers["InPoint"] = ValueObserver<bool>::create(
-                p.actions["InPoint"]->observeClicked(),
-                [weak](bool value)
+            p.actions["InPoint"]->setClickedCallback(
+                [weak]
                 {
-                    if (value)
+                    if (auto widget = weak.lock())
                     {
-                        if (auto widget = weak.lock())
+                        if (auto media = widget->_p->media)
                         {
-                            if (auto media = widget->_p->media)
-                            {
-                                media->inPoint();
-                            }
+                            media->inPoint();
                         }
                     }
                 });
 
-            p.actionObservers["PrevFrame"] = ValueObserver<bool>::create(
-                p.actions["PrevFrame"]->observeClicked(),
-                [weak](bool value)
+            p.actions["PrevFrame"]->setClickedCallback(
+                [weak]
                 {
-                    if (value)
+                    if (auto widget = weak.lock())
                     {
-                        if (auto widget = weak.lock())
+                        if (auto media = widget->_p->media)
                         {
-                            if (auto media = widget->_p->media)
-                            {
-                                media->prevFrame();
-                            }
+                            media->prevFrame();
                         }
                     }
                 });
 
-            p.actionObservers["NextFrame"] = ValueObserver<bool>::create(
-                p.actions["NextFrame"]->observeClicked(),
-                [weak](bool value)
+            p.actions["NextFrame"]->setClickedCallback(
+                [weak]
                 {
-                    if (value)
+                    if (auto widget = weak.lock())
                     {
-                        if (auto widget = weak.lock())
+                        if (auto media = widget->_p->media)
                         {
-                            if (auto media = widget->_p->media)
-                            {
-                                media->nextFrame();
-                            }
+                            media->nextFrame();
                         }
                     }
                 });
 
-            p.actionObservers["OutPoint"] = ValueObserver<bool>::create(
-                p.actions["OutPoint"]->observeClicked(),
-                [weak](bool value)
+            p.actions["OutPoint"]->setClickedCallback(
+                [weak]
                 {
-                    if (value)
+                    if (auto widget = weak.lock())
                     {
-                        if (auto widget = weak.lock())
+                        if (auto media = widget->_p->media)
                         {
-                            if (auto media = widget->_p->media)
-                            {
-                                media->outPoint();
-                            }
+                            media->outPoint();
                         }
                     }
                 });

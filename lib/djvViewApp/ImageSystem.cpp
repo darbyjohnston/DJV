@@ -53,7 +53,6 @@ namespace djv
             std::weak_ptr<ImageControlsWidget> imageControlsWidget;
             std::weak_ptr<ColorSpaceWidget> colorSpaceWidget;
 
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > currentImageObserver;
             std::shared_ptr<ValueObserver<AV::Render2D::ImageOptions> > imageOptionsObserver;
@@ -84,10 +83,11 @@ namespace djv
             p.actions["BlueChannel"] = UI::Action::create();
             p.actions["AlphaChannel"] = UI::Action::create();
             p.channelActionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
-            p.channelActionGroup->addAction(p.actions["RedChannel"]);
-            p.channelActionGroup->addAction(p.actions["GreenChannel"]);
-            p.channelActionGroup->addAction(p.actions["BlueChannel"]);
-            p.channelActionGroup->addAction(p.actions["AlphaChannel"]);
+            p.channelActionGroup->setActions({
+                p.actions["RedChannel"],
+                p.actions["GreenChannel"],
+                p.actions["BlueChannel"],
+                p.actions["AlphaChannel"] });
             p.actions["MirrorH"] = UI::Action::create();
             p.actions["MirrorH"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["MirrorV"] = UI::Action::create();
@@ -144,8 +144,7 @@ namespace djv
                 });
 
             auto contextWeak = std::weak_ptr<Context>(context);
-            p.actionObservers["ImageControls"] = ValueObserver<bool>::create(
-                p.actions["ImageControls"]->observeChecked(),
+            p.actions["ImageControls"]->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -167,8 +166,7 @@ namespace djv
                     }
                 });
 
-            p.actionObservers["ColorSpace"] = ValueObserver<bool>::create(
-                p.actions["ColorSpace"]->observeChecked(),
+            p.actions["ColorSpace"]->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -190,8 +188,7 @@ namespace djv
                     }
                 });
 
-            p.actionObservers["MirrorH"] = ValueObserver<bool>::create(
-                p.actions["MirrorH"]->observeChecked(),
+            p.actions["MirrorH"]->setCheckedCallback(
                 [weak](bool value)
                 {
                     if (auto system = weak.lock())
@@ -204,8 +201,7 @@ namespace djv
                     }
                 });
 
-            p.actionObservers["MirrorV"] = ValueObserver<bool>::create(
-                p.actions["MirrorV"]->observeChecked(),
+            p.actions["MirrorV"]->setCheckedCallback(
                 [weak](bool value)
                 {
                     if (auto system = weak.lock())
@@ -218,8 +214,7 @@ namespace djv
                     }
                 });
 
-            p.actionObservers["FrameStoreEnabled"] = ValueObserver<bool>::create(
-                p.actions["FrameStoreEnabled"]->observeChecked(),
+            p.actions["FrameStoreEnabled"]->setCheckedCallback(
                 [weak](bool value)
                 {
                     if (auto system = weak.lock())
@@ -228,29 +223,21 @@ namespace djv
                     }
                 });
 
-            p.actionObservers["LoadFrameStore"] = ValueObserver<bool>::create(
-                p.actions["LoadFrameStore"]->observeClicked(),
-                [weak](bool value)
+            p.actions["LoadFrameStore"]->setClickedCallback(
+                [weak]
                 {
-                    if (value)
+                    if (auto system = weak.lock())
                     {
-                        if (auto system = weak.lock())
-                        {
-                            system->loadFrameStore();
-                        }
+                        system->loadFrameStore();
                     }
                 });
 
-            p.actionObservers["ClearFrameStore"] = ValueObserver<bool>::create(
-                p.actions["ClearFrameStore"]->observeClicked(),
-                [weak](bool value)
+            p.actions["ClearFrameStore"]->setClickedCallback(
+                [weak]
                 {
-                    if (value)
+                    if (auto system = weak.lock())
                     {
-                        if (auto system = weak.lock())
-                        {
-                            system->clearFrameStore();
-                        }
+                        system->clearFrameStore();
                     }
                 });
 

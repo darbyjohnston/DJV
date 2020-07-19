@@ -98,14 +98,14 @@ namespace djv
                 auto vLayout = UI::VerticalLayout::create(context);
                 vLayout->setSpacing(UI::MetricsRole::None);
                 auto vLayout2 = UI::VerticalLayout::create(context);
-                vLayout2->setMargin(UI::MetricsRole::Margin);
+                vLayout2->setMargin(UI::MetricsRole::MarginSmall);
                 vLayout2->setSpacing(UI::MetricsRole::None);
                 vLayout2->addChild(_maxSlider);
                 _bellows["Max"] = UI::Bellows::create(context);
                 _bellows["Max"]->addChild(vLayout2);
                 vLayout->addChild(_bellows["Max"]);
                 vLayout2 = UI::VerticalLayout::create(context);
-                vLayout2->setMargin(UI::MetricsRole::Margin);
+                vLayout2->setMargin(UI::MetricsRole::MarginSmall);
                 vLayout2->setSpacing(UI::MetricsRole::None);
                 vLayout2->addChild(increaseThumbnailSizeButton);
                 vLayout2->addChild(decreaseThumbnailSizeButton);
@@ -241,7 +241,6 @@ namespace djv
 
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver;
             std::shared_ptr<ValueObserver<AV::Image::Size> > thumbnailSizeSettingsObserver;
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<MapObserver<std::string, UI::ShortcutDataPair> > shortcutsObserver;
         };
 
@@ -301,8 +300,48 @@ namespace djv
 
             _recentFilesUpdate();
 
-            auto weak = std::weak_ptr<RecentFilesDialog>(std::dynamic_pointer_cast<RecentFilesDialog>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
+            p.actions["IncreaseThumbnailSize"]->setClickedCallback(
+                [contextWeak]
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
+                        auto size = fileBrowserSettings->observeThumbnailSize()->get();
+                        size.w = Math::clamp(
+                            static_cast<int>(size.w * 1.25F),
+                            UI::FileBrowser::thumbnailSizeRange.getMin(),
+                            UI::FileBrowser::thumbnailSizeRange.getMax());
+                        size.h = static_cast<int>(ceilf(size.w / 2.F));
+                        fileBrowserSettings->setThumbnailSize(size);
+                    }
+                });
+
+            p.actions["DecreaseThumbnailSize"]->setClickedCallback(
+                [contextWeak]
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
+                        auto size = fileBrowserSettings->observeThumbnailSize()->get();
+                        size.w = Math::clamp(
+                            static_cast<int>(size.w * .75F),
+                            UI::FileBrowser::thumbnailSizeRange.getMin(),
+                            UI::FileBrowser::thumbnailSizeRange.getMax());
+                        size.h = static_cast<int>(ceilf(size.w / 2.F));
+                        fileBrowserSettings->setThumbnailSize(size);
+                    }
+                });
+
+            p.actions["Settings"]->setCheckedCallback(
+                [settingsDrawer](bool value)
+                {
+                    settingsDrawer->setOpen(value);
+                });
+
+            auto weak = std::weak_ptr<RecentFilesDialog>(std::dynamic_pointer_cast<RecentFilesDialog>(shared_from_this()));
             settingsDrawer->setOpenCallback(
                 [weak, contextWeak]() -> std::shared_ptr<UI::Widget>
                 {
@@ -384,55 +423,6 @@ namespace djv
                 }
             });
 
-            p.actionObservers["IncreaseThumbnailSize"] = ValueObserver<bool>::create(
-                p.actions["IncreaseThumbnailSize"]->observeClicked(),
-                [contextWeak](bool value)
-            {
-                if (value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                        auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
-                        auto size = fileBrowserSettings->observeThumbnailSize()->get();
-                        size.w = Math::clamp(
-                            static_cast<int>(size.w * 1.25F),
-                            UI::FileBrowser::thumbnailSizeRange.getMin(),
-                            UI::FileBrowser::thumbnailSizeRange.getMax());
-                        size.h = static_cast<int>(ceilf(size.w / 2.F));
-                        fileBrowserSettings->setThumbnailSize(size);
-                    }
-                }
-            });
-
-            p.actionObservers["DecreaseThumbnailSize"] = ValueObserver<bool>::create(
-                p.actions["DecreaseThumbnailSize"]->observeClicked(),
-                [contextWeak](bool value)
-            {
-                if (value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                        auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
-                        auto size = fileBrowserSettings->observeThumbnailSize()->get();
-                        size.w = Math::clamp(
-                            static_cast<int>(size.w * .75F),
-                            UI::FileBrowser::thumbnailSizeRange.getMin(),
-                            UI::FileBrowser::thumbnailSizeRange.getMax());
-                        size.h = static_cast<int>(ceilf(size.w / 2.F));
-                        fileBrowserSettings->setThumbnailSize(size);
-                    }
-                }
-            });
-
-            p.actionObservers["Settings"] = ValueObserver<bool>::create(
-                p.actions["Settings"]->observeChecked(),
-                [settingsDrawer](bool value)
-                {
-                    settingsDrawer->setOpen(value);
-                });
-
             auto shortcutsSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
             p.shortcutsObserver = MapObserver<std::string, UI::ShortcutDataPair>::create(
                 shortcutsSettings->observeKeyShortcuts(),
@@ -463,9 +453,12 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
-                fileSettings->setRecentFilesSettingsBellowsState(p.settingsWidget->getBellowsState());
+                if (p.settingsWidget)
+                {
+                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                    auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
+                    fileSettings->setRecentFilesSettingsBellowsState(p.settingsWidget->getBellowsState());
+                }
             }
         }
 

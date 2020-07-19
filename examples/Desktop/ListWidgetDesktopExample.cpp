@@ -35,12 +35,15 @@ public:
 
 private:
     std::vector<std::string> _createList() const;
+    void _createListWidget();
     void _widgetUpdate();
 
+    UI::ButtonType _buttonType = UI::ButtonType::Radio;
     int _listSize = 20;
     std::vector<std::string> _list;
     std::shared_ptr<UI::IntSlider> _countSlider;
     std::shared_ptr<UI::ListWidget> _listWidget;
+    std::shared_ptr<UI::ScrollWidget> _scrollWidget;
     std::shared_ptr<UI::Window> _window;
 };
 
@@ -56,21 +59,19 @@ void Application::_init(std::list<std::string>& args)
     // Create widgets for list options.
     auto typeComboBox = UI::ComboBox::create(shared_from_this());
     typeComboBox->setItems({ "Push", "Toggle", "Radio", "Exclusive" });
-    const UI::ButtonType buttonType = UI::ButtonType::Radio;
-    typeComboBox->setCurrentItem(static_cast<int>(buttonType));
+    typeComboBox->setCurrentItem(static_cast<int>(_buttonType));
     auto alternateRowsCheckBox = UI::CheckBox::create(shared_from_this());
     alternateRowsCheckBox->setText("Alternate rows");
 
     // Create a search box.
     auto searchBox = UI::SearchBox::create(shared_from_this());
 
-    // Create a list widget.
-    _listWidget = UI::ListWidget::create(buttonType, shared_from_this());
-
     // Create a scroll widget for the list widget.
-    auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, shared_from_this());
-    scrollWidget->setBorder(false);
-    scrollWidget->addChild(_listWidget);
+    _scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, shared_from_this());
+    _scrollWidget->setBorder(false);
+
+    // Create a list widget.
+    _createListWidget();
 
     // Layout the widgets.
     auto layout = UI::VerticalLayout::create(shared_from_this());
@@ -88,8 +89,8 @@ void Application::_init(std::list<std::string>& args)
     hLayout->addChild(searchBox);
     layout->addChild(hLayout);
     layout->addSeparator();
-    layout->addChild(scrollWidget);
-    layout->setStretch(scrollWidget, UI::Layout::RowStretch::Expand);
+    layout->addChild(_scrollWidget);
+    layout->setStretch(_scrollWidget, UI::Layout::RowStretch::Expand);
 
     // Create a window.
     _window = UI::Window::create(shared_from_this());
@@ -116,7 +117,9 @@ void Application::_init(std::list<std::string>& args)
     typeComboBox->setCallback(
         [this](int value)
         {
-            _listWidget->setButtonType(static_cast<UI::ButtonType>(value));
+            _buttonType = static_cast<UI::ButtonType>(value);
+            _scrollWidget->removeChild(_listWidget);
+            _createListWidget();
         });
     alternateRowsCheckBox->setCheckedCallback(
         [this](bool value)
@@ -129,26 +132,6 @@ void Application::_init(std::list<std::string>& args)
         [this](const std::string& value)
         {
             _listWidget->setFilter(value);
-        });
-    _listWidget->setPushCallback(
-        [this](int value)
-        {
-            std::cout << "Push: " << value << std::endl;
-        });
-    _listWidget->setToggleCallback(
-        [this](int value, bool checked)
-        {
-            std::cout << "Toggle: " << value << " = " << checked << std::endl;
-        });
-    _listWidget->setRadioCallback(
-        [this](int value)
-        {
-            std::cout << "Radio: " << value << std::endl;
-        });
-    _listWidget->setExclusiveCallback(
-        [this](int value)
-        {
-            std::cout << "Exclusive: " << value << std::endl;
         });
 
     // Show the window.
@@ -171,6 +154,36 @@ std::shared_ptr<Application> Application::create(std::list<std::string>& args)
 std::vector<std::string> Application::_createList() const
 {
     return Core::String::getRandomNames(_listSize);
+}
+
+void Application::_createListWidget()
+{
+    _listWidget = UI::ListWidget::create(_buttonType, shared_from_this());
+    _scrollWidget->addChild(_listWidget);
+
+    _list = _createList();
+    _widgetUpdate();
+
+    _listWidget->setPushCallback(
+        [this](int value)
+        {
+            std::cout << "Push: " << value << std::endl;
+        });
+    _listWidget->setToggleCallback(
+        [this](int value, bool checked)
+        {
+            std::cout << "Toggle: " << value << " = " << checked << std::endl;
+        });
+    _listWidget->setRadioCallback(
+        [this](int value)
+        {
+            std::cout << "Radio: " << value << std::endl;
+        });
+    _listWidget->setExclusiveCallback(
+        [this](int value)
+        {
+            std::cout << "Exclusive: " << value << std::endl;
+        });
 }
 
 void Application::_widgetUpdate()

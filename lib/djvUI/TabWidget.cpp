@@ -17,12 +17,12 @@ namespace djv
         struct TabWidget::Private
         {
             std::vector<std::shared_ptr<Widget> > widgets;
-            std::map<std::shared_ptr<Widget>, size_t> childToID;
+            std::map<std::shared_ptr<Widget>, int> widgetToIndex;
+            std::map<std::shared_ptr<Widget>, std::string> widgetToText;
             std::shared_ptr<TabBar> tabBar;
             std::shared_ptr<VerticalLayout> layout;
             std::shared_ptr<SoloLayout> soloLayout;
             std::function<void(int)> callback;
-            std::function<void(size_t)> removedCallback;
         };
 
         void TabWidget::_init(const std::shared_ptr<Context>& context)
@@ -60,14 +60,6 @@ namespace djv
                     }
                 }
             });
-            p.tabBar->setTabRemovedCallback(
-                [weak](size_t value)
-            {
-                if (auto widget = weak.lock())
-                {
-                    widget->_p->soloLayout->removeChild(widget->_p->soloLayout->getChildWidgets()[value]);
-                }
-            });
         }
 
         TabWidget::TabWidget() :
@@ -84,11 +76,12 @@ namespace djv
             return out;
         }
 
-        void TabWidget::setText(const std::shared_ptr<Widget>& child, const std::string& text)
+        void TabWidget::setText(const std::shared_ptr<Widget>& widget, const std::string& text)
         {
             DJV_PRIVATE_PTR();
-            const auto i = p.childToID.find(child);
-            if (i != p.childToID.end())
+            p.widgetToText[widget] = text;
+            const auto i = p.widgetToIndex.find(widget);
+            if (i != p.widgetToIndex.end())
             {
                 _p->tabBar->setText(i->second, text);
             }
@@ -125,9 +118,8 @@ namespace djv
             if (auto widget = std::dynamic_pointer_cast<Widget>(value))
             {
                 p.widgets.push_back(widget);
-                const size_t id = p.tabBar->addTab(std::string());
-                p.childToID[widget] = id;
                 p.soloLayout->addChild(widget);
+                _widgetUpdate();
             }
         }
 
@@ -141,22 +133,28 @@ namespace djv
                 {
                     p.widgets.erase(i);
                 }
-                const auto j = p.childToID.find(widget);
-                if (j != p.childToID.end())
+                const auto j = p.widgetToIndex.find(widget);
+                if (j != p.widgetToIndex.end())
                 {
-                    p.tabBar->removeTab(j->second);
-                    p.childToID.erase(j);
+                    p.widgetToIndex.erase(j);
+                }
+                const auto k = p.widgetToText.find(widget);
+                if (k != p.widgetToText.end())
+                {
+                    p.widgetToText.erase(k);
                 }
                 p.soloLayout->removeChild(value);
+                _widgetUpdate();
             }
         }
 
         void TabWidget::clearChildren()
         {
             DJV_PRIVATE_PTR();
-            p.childToID.clear();
-            p.tabBar->clearTabs();
+            p.widgetToIndex.clear();
+            p.widgetToText.clear();
             p.soloLayout->clearChildren();
+            _widgetUpdate();
         }
 
         float TabWidget::getHeightForWidth(float value) const
@@ -174,6 +172,22 @@ namespace djv
             const BBox2f& g = getGeometry();
             const auto& style = _getStyle();
             _p->layout->setGeometry(getMargin().bbox(g, style));
+        }
+
+        void TabWidget::_widgetUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            std::vector<std::string> tabs;
+            for (const auto& i : p.widgets)
+            {
+                const auto j = p.widgetToIndex.find(i);
+                const auto k = p.widgetToText.find(i);
+                if (j != p.widgetToIndex.end() && k != p.widgetToText.end())
+                {
+                    p.tabBar->setText(j->second, k->second);
+                }
+            }
+            p.tabBar->setTabs(tabs);
         }
 
     } // namespace UI

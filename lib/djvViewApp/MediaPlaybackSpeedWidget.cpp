@@ -86,11 +86,12 @@ namespace djv
             p.defaultSpeedLabel->setMargin(UI::MetricsRole::MarginSmall);
 
             p.speedButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
+            std::vector<std::shared_ptr<UI::Button::IButton> > buttons;
             std::vector<std::shared_ptr<UI::Widget> > widgets;
             for (auto i : getPlaybackSpeedEnums())
             {
                 auto checkBox = UI::CheckBox::create(context);
-                p.speedButtonGroup->addButton(checkBox);
+                buttons.push_back(checkBox);
                 switch (i)
                 {
                 case PlaybackSpeed::Default:
@@ -119,14 +120,17 @@ namespace djv
                 }
                 p.speedCheckBoxes[i] = checkBox;
             }
+            p.speedButtonGroup->setButtons(buttons);
             p.presetSpeedButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
+            buttons.clear();
             for (auto i : Time::getFPSEnums())
             {
                 auto button = UI::ListButton::create(context);
-                p.presetSpeedButtonGroup->addButton(button);
+                buttons.push_back(button);
                 widgets.push_back(button);
                 p.presetSpeedButtons[i] = button;
             }
+            p.presetSpeedButtonGroup->setButtons(buttons);
             p.speedButtonLayout = UI::VerticalLayout::create(context);
             p.speedButtonLayout->setSpacing(UI::MetricsRole::None);
             for (auto i = widgets.rbegin(); i != widgets.rend(); ++i)

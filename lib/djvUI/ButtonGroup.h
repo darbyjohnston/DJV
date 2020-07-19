@@ -23,23 +23,20 @@ namespace djv
                 DJV_NON_COPYABLE(Group);
 
             protected:
-                Group();
+                Group(ButtonType);
 
             public:
                 ~Group();
 
                 static std::shared_ptr<Group> create(ButtonType);
 
+                ButtonType getButtonType() const;
+
                 const std::vector<std::shared_ptr<IButton> >& getButtons() const;
                 size_t getButtonCount() const;
                 int getButtonIndex(const std::shared_ptr<IButton>&) const;
-                void setButtons(const std::vector<std::shared_ptr<IButton> >&, int checked = -1);
-                void addButton(const std::shared_ptr<IButton>&);
-                void removeButton(const std::shared_ptr<IButton>&);
+                void setButtons(const std::vector<std::shared_ptr<IButton> >&);
                 void clearButtons();
-
-                ButtonType getButtonType() const;
-                void setButtonType(ButtonType);
 
                 int getChecked() const;
                 void setChecked(int, bool = true);

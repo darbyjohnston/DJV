@@ -44,6 +44,7 @@ set(header
     MemoryInline.h
     NumericValueModels.h
     OS.h
+    Observer.h
     Path.h
     PathInline.h
     Range.h

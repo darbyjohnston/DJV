@@ -543,7 +543,8 @@ namespace djv
                 item.rightIcon = collision ? "djvIconWarningSmall" : std::string();
                 items.emplace_back(item);
             }
-            listWidget->setItems(items, currentShortcut);
+            listWidget->setItems(items);
+            listWidget->setChecked(currentShortcut);
         }
 
         void ShortcutsWidget::Private::currentItemUpdate()

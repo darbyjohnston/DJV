@@ -404,25 +404,7 @@ namespace djv
                     const auto i = _itemToAction.find(_pressed.second);
                     if (i != _itemToAction.end())
                     {
-                        switch (i->second->observeButtonType()->get())
-                        {
-                        case ButtonType::Push:
-                            i->second->doClicked();
-                            break;
-                        case ButtonType::Toggle:
-                            i->second->setChecked(!i->second->observeChecked()->get());
-                            break;
-                        case ButtonType::Radio:
-                            if (!i->second->observeChecked()->get())
-                            {
-                                i->second->setChecked(true);
-                            }
-                            break;
-                        case ButtonType::Exclusive:
-                            i->second->setChecked(!i->second->observeChecked()->get());
-                            break;
-                        default: break;
-                        }
+                        i->second->doClick();
                         if (_closeCallback)
                         {
                             _closeCallback();
@@ -611,6 +593,7 @@ namespace djv
                 _shortcutsObservers.clear();
                 _enabledObservers.clear();
                 auto weak = std::weak_ptr<MenuWidget>(std::dynamic_pointer_cast<MenuWidget>(shared_from_this()));
+                auto contextWeak = getContext();
                 for (const auto& i : _actions)
                 {
                     auto item = std::shared_ptr<Item>(new Item);
@@ -618,7 +601,7 @@ namespace djv
                     {
                         _buttonTypeObservers[item] = ValueObserver<ButtonType>::create(
                             i.second->observeButtonType(),
-                            [weak, item](ButtonType value)
+                            [item, weak](ButtonType value)
                             {
                                 if (auto widget = weak.lock())
                                 {
@@ -628,7 +611,7 @@ namespace djv
                             });
                         _checkedObservers[item] = ValueObserver<bool>::create(
                             i.second->observeChecked(),
-                            [weak, item](bool value)
+                            [item, weak](bool value)
                             {
                                 if (auto widget = weak.lock())
                                 {
@@ -638,7 +621,7 @@ namespace djv
                             });
                         _iconObservers[item] = ValueObserver<std::string>::create(
                             i.second->observeIcon(),
-                            [weak, item](const std::string& value)
+                            [item, weak](const std::string& value)
                             {
                                 if (auto widget = weak.lock())
                                 {
@@ -662,7 +645,7 @@ namespace djv
                             });
                         _textObservers[item] = ValueObserver<std::string>::create(
                             i.second->observeText(),
-                            [weak, item](const std::string& value)
+                            [item, weak](const std::string& value)
                             {
                                 if (auto widget = weak.lock())
                                 {
@@ -672,7 +655,7 @@ namespace djv
                             });
                         _fontObservers[item] = ValueObserver<std::string>::create(
                             i.second->observeFont(),
-                            [weak, item](const std::string& value)
+                            [item, weak](const std::string& value)
                         {
                             if (auto widget = weak.lock())
                             {
@@ -682,11 +665,11 @@ namespace djv
                         });
                         _shortcutsObservers[item] = ListObserver<std::shared_ptr<Shortcut> >::create(
                             i.second->observeShortcuts(),
-                            [weak, item](const std::vector<std::shared_ptr<Shortcut> >& value)
+                            [item, weak, contextWeak](const std::vector<std::shared_ptr<Shortcut> >& value)
                         {
-                            if (auto widget = weak.lock())
+                            if (auto context = contextWeak.lock())
                             {
-                                if (auto context = widget->getContext().lock())
+                                if (auto widget = weak.lock())
                                 {
                                     auto textSystem = context->getSystemT<TextSystem>();
                                     std::vector<std::string> labels;
@@ -705,7 +688,7 @@ namespace djv
                         });
                         _enabledObservers[item] = ValueObserver<bool>::create(
                             i.second->observeEnabled(),
-                            [weak, item](bool value)
+                            [item, weak](bool value)
                         {
                             if (auto widget = weak.lock())
                             {

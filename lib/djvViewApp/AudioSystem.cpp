@@ -32,7 +32,6 @@ namespace djv
             float volume = 1.F;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
             std::shared_ptr<ValueObserver<float> > volumeObserver;
@@ -64,40 +63,31 @@ namespace djv
             _shortcutsUpdate();
 
             auto weak = std::weak_ptr<AudioSystem>(std::dynamic_pointer_cast<AudioSystem>(shared_from_this()));
-            p.actionObservers["IncreaseVolume"] = ValueObserver<bool>::create(
-                p.actions["IncreaseVolume"]->observeClicked(),
-                [weak](bool value)
+            p.actions["IncreaseVolume"]->setClickedCallback(
+                [weak]
             {
-                if (value)
+                if (auto system = weak.lock())
                 {
-                    if (auto system = weak.lock())
+                    if (auto media = system->_p->currentMedia)
                     {
-                        if (auto media = system->_p->currentMedia)
-                        {
-                            media->setVolume(system->_p->volume + .1F);
-                        }
+                        media->setVolume(system->_p->volume + .1F);
                     }
                 }
             });
 
-            p.actionObservers["DecreaseVolume"] = ValueObserver<bool>::create(
-                p.actions["DecreaseVolume"]->observeClicked(),
-                [weak](bool value)
+            p.actions["DecreaseVolume"]->setClickedCallback(
+                [weak]
             {
-                if (value)
+                if (auto system = weak.lock())
                 {
-                    if (auto system = weak.lock())
+                    if (auto media = system->_p->currentMedia)
                     {
-                        if (auto media = system->_p->currentMedia)
-                        {
-                            media->setVolume(system->_p->volume - .1F);
-                        }
+                        media->setVolume(system->_p->volume - .1F);
                     }
                 }
             });
 
-            p.actionObservers["Mute"] = ValueObserver<bool>::create(
-                p.actions["Mute"]->observeChecked(),
+            p.actions["Mute"]->setCheckedCallback(
                 [weak](bool value)
             {
                 if (auto system = weak.lock())

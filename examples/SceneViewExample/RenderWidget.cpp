@@ -150,39 +150,39 @@ void RenderWidget::_initEvent(Core::Event::Init&)
 
 void RenderWidget::_widgetUpdate()
 {
-    _shaderModeComboBox->clearItems();
+    std::vector<std::string> items;
     for (const auto& i : AV::Render3D::getDefaultMaterialModeEnums())
     {
         std::stringstream ss;
         ss << i;
-        _shaderModeComboBox->addItem(_getText(ss.str()));
+        items.push_back(_getText(ss.str()));
     }
-    _shaderModeComboBox->setCurrentItem(static_cast<int>(_renderOptions.shaderMode));
+    _shaderModeComboBox->setItems(items, static_cast<int>(_renderOptions.shaderMode));
 
-    _depthBufferModeComboBox->clearItems();
+    items.clear();
     for (const auto& i : AV::Render3D::getDepthBufferModeEnums())
     {
         std::stringstream ss;
         ss << i;
-        _depthBufferModeComboBox->addItem(_getText(ss.str()));
+        items.push_back(_getText(ss.str()));
     }
-    _depthBufferModeComboBox->setCurrentItem(static_cast<int>(_renderOptions.depthBufferMode));
+    _depthBufferModeComboBox->setItems(items, static_cast<int>(_renderOptions.depthBufferMode));
 
-    _depthBufferTypeComboBox->clearItems();
+    items.clear();
     for (const auto& i : AV::OpenGL::getOffscreenDepthTypeEnums())
     {
         std::stringstream ss;
         ss << i;
-        _depthBufferTypeComboBox->addItem(_getText(ss.str()));
+        items.push_back(_getText(ss.str()));
     }
-    _depthBufferTypeComboBox->setCurrentItem(static_cast<int>(_renderOptions.depthBufferType));
+    _depthBufferTypeComboBox->setItems(items, static_cast<int>(_renderOptions.depthBufferType));
 
-    _multiSamplingComboBox->clearItems();
+    items.clear();
     for (const auto& i : AV::OpenGL::getOffscreenSamplingEnums())
     {
         std::stringstream ss;
         ss << i;
-        _multiSamplingComboBox->addItem(_getText(ss.str()));
+        items.push_back(_getText(ss.str()));
     }
-    _multiSamplingComboBox->setCurrentItem(static_cast<int>(_renderOptions.multiSampling));
+    _multiSamplingComboBox->setItems(items, static_cast<int>(_renderOptions.multiSampling));
 }

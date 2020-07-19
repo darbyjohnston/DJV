@@ -33,6 +33,7 @@ namespace djv
 
                 void setClickedCallback(const std::function<void(void)>&);
                 void setCheckedCallback(const std::function<void(bool)>&);
+                void doClick();
 
                 void addAction(const std::shared_ptr<Action>&) override;
                 void removeAction(const std::shared_ptr<Action>&) override;
@@ -45,8 +46,8 @@ namespace djv
                 const glm::vec2& _getPressedPos() const;
                 void _setCanRejectPressed(bool);
 
-                virtual void _doClickedCallback();
-                virtual void _doCheckedCallback(bool);
+                virtual void _doClick();
+                virtual void _doCheck(bool);
 
                 void _pointerEnterEvent(Core::Event::PointerEnter&) override;
                 void _pointerLeaveEvent(Core::Event::PointerLeave&) override;

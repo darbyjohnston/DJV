@@ -53,13 +53,14 @@
 #include <djvAVTest/ThumbnailSystemTest.h>
 #include <djvAVTest/TagsTest.h>
 
+#include <djvUITest/ActionGroupTest.h>
 #include <djvUITest/ButtonGroupTest.h>
 #include <djvUITest/EnumTest.h>
 #include <djvUITest/WidgetTest.h>
 
-#if !defined(DJV_BUILD_TINY)
+#if !defined(DJV_BUILD_TINY) && !defined(DJV_BUILD_MINIMAL)
 #include <djvViewAppTest/FileSystemTest.h>
-#endif // DJV_BUILD_TINY
+#endif
 
 #include <djvUI/UISystem.h>
 
@@ -83,9 +84,10 @@ int main(int argc, char ** argv)
         auto uiSystem = UI::UISystem::create(true, context);
         
         std::vector<std::shared_ptr<Test::ITest> > tests;
-        if (0)
+        if (1)
         {
-            tests.emplace_back(new CoreTest::AnimationTest(context));
+            tests.emplace_back(new UITest::ActionGroupTest(context));
+            tests.emplace_back(new UITest::ButtonGroupTest(context));
         }
         else
         {
@@ -139,13 +141,14 @@ int main(int argc, char ** argv)
             tests.emplace_back(new AVTest::ThumbnailSystemTest(context));
             tests.emplace_back(new AVTest::TagsTest(context));
 
+            tests.emplace_back(new UITest::ActionGroupTest(context));
             tests.emplace_back(new UITest::ButtonGroupTest(context));
             tests.emplace_back(new UITest::EnumTest(context));
             tests.emplace_back(new UITest::WidgetTest(context));
 
-#if !defined(DJV_BUILD_TINY)
+#if !defined(DJV_BUILD_TINY) && !defined(DJV_BUILD_MINIMAL)
             tests.emplace_back(new ViewAppTest::FileSystemTest(context));
-#endif // DJV_BUILD_TINY
+#endif
         }
 
         std::vector<std::shared_ptr<Test::ITest> > testsToRun;

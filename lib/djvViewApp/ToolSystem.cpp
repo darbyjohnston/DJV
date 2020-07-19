@@ -86,10 +86,12 @@ namespace djv
             }
 
             p.toolActionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
+            std::vector<std::shared_ptr<UI::Action> > actions;
             for (const auto& i : toolActions)
             {
-                p.toolActionGroup->addAction(i.second);
+                actions.push_back(i.second);
             }
+            p.toolActionGroup->setActions(actions);
             p.actions["Info"] = UI::Action::create();
             p.actions["Info"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["Messages"] = UI::Action::create();

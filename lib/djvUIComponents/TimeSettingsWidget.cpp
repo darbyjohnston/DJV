@@ -132,14 +132,15 @@ namespace djv
             void TimeUnitsWidget::_widgetUpdate()
             {
                 DJV_PRIVATE_PTR();
-                p.comboBox->clearItems();
+                std::vector<std::string> items;
                 for (auto i : Time::getUnitsEnums())
                 {
                     std::stringstream ss;
                     ss << i;
-                    p.comboBox->addItem(_getText(ss.str()));
+                    items.push_back(_getText(ss.str()));
                 }
-                _currentItemUpdate();
+                p.comboBox->setItems(items);
+                p.comboBox->setCurrentItem(static_cast<int>(p.timeUnits));
             }
 
             void TimeUnitsWidget::_currentItemUpdate()

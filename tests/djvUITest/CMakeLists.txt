@@ -1,8 +1,10 @@
 set(header
+    ActionGroupTest.h
     ButtonGroupTest.h
     EnumTest.h
     WidgetTest.h)
 set(source
+    ActionGroupTest.cpp
     ButtonGroupTest.cpp
     EnumTest.cpp
     WidgetTest.cpp)

@@ -65,7 +65,6 @@ namespace djv
             std::shared_ptr<ValueObserver<size_t> > threadCountObserver;
             std::shared_ptr<ValueObserver<bool> > cacheEnabledObserver;
             std::shared_ptr<ValueObserver<int> > cacheMaxGBObserver;
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<Time::Timer> cacheTimer;
 
             typedef std::pair<Core::FileSystem::FileInfo, std::string> FileInfoAndNumber;
@@ -148,6 +147,163 @@ namespace djv
             _shortcutsUpdate();
 
             auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
+            p.actions["Open"]->setClickedCallback(
+                [weak]
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_showFileBrowserDialog();
+                }
+            });
+
+            p.actions["Recent"]->setClickedCallback(
+                [weak]
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_showRecentFilesDialog();
+                    }
+                });
+
+            p.actions["Reload"]->setClickedCallback(
+                [weak]
+                {
+                    if (auto system = weak.lock())
+                    {
+                        if (auto media = system->_p->currentMedia->get())
+                        {
+                            media->reload();
+                        }
+                    }
+                });
+
+            p.actions["Close"]->setClickedCallback(
+                [weak]
+            {
+                if (auto system = weak.lock())
+                {
+                    if (auto media = system->_p->currentMedia->get())
+                    {
+                        system->close(media);
+                    }
+                }
+            });
+
+            p.actions["CloseAll"]->setClickedCallback(
+                [weak]
+            {
+                if (auto system = weak.lock())
+                {
+                    system->closeAll();
+                }
+            });
+
+            p.actions["Next"]->setClickedCallback(
+                [weak]
+            {
+                if (auto system = weak.lock())
+                {
+                    if (auto media = system->_p->currentMedia->get())
+                    {
+                        const size_t size = system->_p->media->getSize();
+                        if (size > 1)
+                        {
+                            size_t index = system->_p->media->indexOf(system->_p->currentMedia->get());
+                            if (index < size - 1)
+                            {
+                                ++index;
+                            }
+                            else
+                            {
+                                index = 0;
+                            }
+                            system->setCurrentMedia(system->_p->media->getItem(index));
+                        }
+                    }
+                }
+            });
+
+            p.actions["Prev"]->setClickedCallback(
+                [weak]
+            {
+                if (auto system = weak.lock())
+                {
+                    const size_t size = system->_p->media->getSize();
+                    if (size > 1)
+                    {
+                        size_t index = system->_p->media->indexOf(system->_p->currentMedia->get());
+                        if (index > 0)
+                        {
+                            --index;
+                        }
+                        else
+                        {
+                            index = size - 1;
+                        }
+                        system->setCurrentMedia(system->_p->media->getItem(index));
+                    }
+                }
+            });
+
+            auto contextWeak = std::weak_ptr<Context>(context);
+            p.actions["NextLayer"]->setClickedCallback(
+                [weak, contextWeak]
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (auto media = system->_p->currentMedia->get())
+                            {
+                                media->nextLayer();
+                            }
+                        }
+                    }
+                });
+
+            p.actions["PrevLayer"]->setClickedCallback(
+                [weak, contextWeak]
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (auto media = system->_p->currentMedia->get())
+                            {
+                                media->prevLayer();
+                            }
+                        }
+                    }
+                });
+
+            p.actions["Layers"]->setCheckedCallback(
+                [weak, contextWeak](bool value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (value)
+                            {
+                                system->_openWidget("Layers", LayersWidget::create(context));
+                            }
+                            else
+                            {
+                                system->_closeWidget("Layers");
+                            }
+                        }
+                    }
+                });
+
+            p.actions["Exit"]->setClickedCallback(
+                [weak, contextWeak]
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        std::dynamic_pointer_cast<Application>(context)->exit(0);
+                    }
+                });
+
             p.recentFilesObserver = ListObserver<Core::FileSystem::FileInfo>::create(
                 p.settings->observeRecentFiles(),
                 [weak](const std::vector<Core::FileSystem::FileInfo>& value)
@@ -168,191 +324,6 @@ namespace djv
                     }
                 });
 
-            p.actionObservers["Open"] = ValueObserver<bool>::create(
-                p.actions["Open"]->observeClicked(),
-                [weak](bool value)
-            {
-                if (value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        system->_showFileBrowserDialog();
-                    }
-                }
-            });
-
-            p.actionObservers["Recent"] = ValueObserver<bool>::create(
-                p.actions["Recent"]->observeClicked(),
-                [weak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            system->_showRecentFilesDialog();
-                        }
-                    }
-                });
-
-            p.actionObservers["Reload"] = ValueObserver<bool>::create(
-                p.actions["Reload"]->observeClicked(),
-                [weak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            if (auto media = system->_p->currentMedia->get())
-                            {
-                                media->reload();
-                            }
-                        }
-                    }
-                });
-
-            p.actionObservers["Close"] = ValueObserver<bool>::create(
-                p.actions["Close"]->observeClicked(),
-                [weak](bool value)
-            {
-                if (value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        if (auto media = system->_p->currentMedia->get())
-                        {
-                            system->close(media);
-                        }
-                    }
-                }
-            });
-
-            p.actionObservers["CloseAll"] = ValueObserver<bool>::create(
-                p.actions["CloseAll"]->observeClicked(),
-                [weak](bool value)
-            {
-                if (value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        system->closeAll();
-                    }
-                }
-            });
-
-            p.actionObservers["Next"] = ValueObserver<bool>::create(
-                p.actions["Next"]->observeClicked(),
-                [weak](bool value)
-            {
-                if (value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        if (auto media = system->_p->currentMedia->get())
-                        {
-                            const size_t size = system->_p->media->getSize();
-                            if (size > 1)
-                            {
-                                size_t index = system->_p->media->indexOf(system->_p->currentMedia->get());
-                                if (index < size - 1)
-                                {
-                                    ++index;
-                                }
-                                else
-                                {
-                                    index = 0;
-                                }
-                                system->setCurrentMedia(system->_p->media->getItem(index));
-                            }
-                        }
-                    }
-                }
-            });
-
-            p.actionObservers["Prev"] = ValueObserver<bool>::create(
-                p.actions["Prev"]->observeClicked(),
-                [weak](bool value)
-            {
-                if (value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        const size_t size = system->_p->media->getSize();
-                        if (size > 1)
-                        {
-                            size_t index = system->_p->media->indexOf(system->_p->currentMedia->get());
-                            if (index > 0)
-                            {
-                                --index;
-                            }
-                            else
-                            {
-                                index = size - 1;
-                            }
-                            system->setCurrentMedia(system->_p->media->getItem(index));
-                        }
-                    }
-                }
-            });
-
-            auto contextWeak = std::weak_ptr<Context>(context);
-            p.actionObservers["NextLayer"] = ValueObserver<bool>::create(
-                p.actions["NextLayer"]->observeClicked(),
-                [weak, contextWeak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto context = contextWeak.lock())
-                        {
-                            if (auto system = weak.lock())
-                            {
-                                if (auto media = system->_p->currentMedia->get())
-                                {
-                                    media->nextLayer();
-                                }
-                            }
-                        }
-                    }
-                });
-
-            p.actionObservers["PrevLayer"] = ValueObserver<bool>::create(
-                p.actions["PrevLayer"]->observeClicked(),
-                [weak, contextWeak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto context = contextWeak.lock())
-                        {
-                            if (auto system = weak.lock())
-                            {
-                                if (auto media = system->_p->currentMedia->get())
-                                {
-                                    media->prevLayer();
-                                }
-                            }
-                        }
-                    }
-                });
-
-            p.actionObservers["Layers"] = ValueObserver<bool>::create(
-                p.actions["Layers"]->observeChecked(),
-                [weak, contextWeak](bool value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            if (value)
-                            {
-                                system->_openWidget("Layers", LayersWidget::create(context));
-                            }
-                            else
-                            {
-                                system->_closeWidget("Layers");
-                            }
-                        }
-                    }
-                });
-
             p.cacheEnabledObserver = ValueObserver<bool>::create(
                 p.settings->observeCacheEnabled(),
                 [weak](bool value)
@@ -370,19 +341,6 @@ namespace djv
                     if (auto system = weak.lock())
                     {
                         system->_cacheUpdate();
-                    }
-                });
-
-            p.actionObservers["Exit"] = ValueObserver<bool>::create(
-                p.actions["Exit"]->observeClicked(),
-                [weak, contextWeak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto context = contextWeak.lock())
-                        {
-                            std::dynamic_pointer_cast<Application>(context)->exit(0);
-                        }
                     }
                 });
 

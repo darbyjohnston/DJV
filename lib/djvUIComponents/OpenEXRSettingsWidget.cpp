@@ -188,22 +188,24 @@ namespace djv
 
                 p.threadCountSlider->setValue(options.threadCount);
 
-                p.channelsComboBox->clearItems();
+                std::vector<std::string> items;
                 for (auto i : AV::IO::OpenEXR::getChannelsEnums())
                 {
                     std::stringstream ss;
                     ss << i;
-                    p.channelsComboBox->addItem(_getText(ss.str()));
+                    items.push_back(_getText(ss.str()));
                 }
+                p.channelsComboBox->setItems(items);
                 p.channelsComboBox->setCurrentItem(static_cast<int>(options.channels));
 
-                p.compressionComboBox->clearItems();
+                items.clear();
                 for (auto i : AV::IO::OpenEXR::getCompressionEnums())
                 {
                     std::stringstream ss;
                     ss << i;
-                    p.compressionComboBox->addItem(_getText(ss.str()));
+                    items.push_back(_getText(ss.str()));
                 }
+                p.compressionComboBox->setItems(items);
                 p.compressionComboBox->setCurrentItem(static_cast<int>(options.compression));
 
                 p.dwaCompressionLevelSlider->setValue(options.dwaCompressionLevel);

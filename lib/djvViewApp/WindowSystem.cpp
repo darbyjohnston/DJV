@@ -69,7 +69,6 @@ namespace djv
             int monitorRefresh = 0;
             BBox2i windowGeom = BBox2i(0, 0, 0, 0);
             
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<bool> > fullScreenObserver;
             std::shared_ptr<ValueObserver<bool> > floatOnTopObserver;
             std::shared_ptr<ValueObserver<bool> > maximizeObserver;
@@ -159,38 +158,7 @@ namespace djv
             _shortcutsUpdate();
 
             auto weak = std::weak_ptr<WindowSystem>(std::dynamic_pointer_cast<WindowSystem>(shared_from_this()));
-            p.fullScreenObserver = ValueObserver<bool>::create(
-                p.settings->observeFullScreen(),
-                [weak](bool value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->setFullScreen(value);
-                }
-            });
-
-            p.floatOnTopObserver = ValueObserver<bool>::create(
-                p.settings->observeFloatOnTop(),
-                [weak](bool value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->setFloatOnTop(value);
-                }
-            });
-
-            p.maximizeObserver = ValueObserver<bool>::create(
-                p.settings->observeMaximize(),
-                [weak](bool value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->setMaximize(value);
-                }
-            });
-
-            p.actionObservers["FullScreen"] = ValueObserver<bool>::create(
-                p.actions["FullScreen"]->observeChecked(),
+            p.actions["FullScreen"]->setCheckedCallback(
                 [weak](bool value)
                 {
                     if (auto system = weak.lock())
@@ -199,39 +167,76 @@ namespace djv
                     }
                 });
 
-            p.actionObservers["FloatOnTop"] = ValueObserver<bool>::create(
-                p.actions["FloatOnTop"]->observeChecked(),
+            p.actions["FloatOnTop"]->setCheckedCallback(
                 [weak](bool value)
-            {
-                if (auto system = weak.lock())
                 {
-                    system->setFloatOnTop(value);
-                }
-            });
+                    if (auto system = weak.lock())
+                    {
+                        system->setFloatOnTop(value);
+                    }
+                });
 
-            p.actionObservers["Maximize"] = ValueObserver<bool>::create(
-                p.actions["Maximize"]->observeChecked(),
+            p.actions["Maximize"]->setCheckedCallback(
                 [weak](bool value)
-            {
-                if (auto system = weak.lock())
                 {
-                    system->setMaximize(value);
-                }
-            });
+                    if (auto system = weak.lock())
+                    {
+                        system->setMaximize(value);
+                    }
+                });
 
-            p.actionObservers["Fit"] = ValueObserver<bool>::create(
-                p.actions["Fit"]->observeClicked(),
-                [weak](bool value)
+            p.actions["Fit"]->setClickedCallback(
+                [weak]
                 {
-                    if (value)
+                    if (auto system = weak.lock())
+                    {
+                        if (auto widget = system->_p->activeWidget->get())
+                        {
+                            widget->fitWindow();
+                        }
+                    }
+                });
+
+            auto contextWeak = std::weak_ptr<Context>(context);
+            p.actions["AutoHide"]->setCheckedCallback(
+                [weak, contextWeak](bool value)
+                {
+                    if (auto context = contextWeak.lock())
                     {
                         if (auto system = weak.lock())
                         {
-                            if (auto widget = system->_p->activeWidget->get())
-                            {
-                                widget->fitWindow();
-                            }
+                            system->_p->settings->setAutoHide(value);
                         }
+                    }
+                });
+
+            p.fullScreenObserver = ValueObserver<bool>::create(
+                p.settings->observeFullScreen(),
+                [weak](bool value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->setFullScreen(value);
+                    }
+                });
+
+            p.floatOnTopObserver = ValueObserver<bool>::create(
+                p.settings->observeFloatOnTop(),
+                [weak](bool value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->setFloatOnTop(value);
+                    }
+                });
+
+            p.maximizeObserver = ValueObserver<bool>::create(
+                p.settings->observeMaximize(),
+                [weak](bool value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->setMaximize(value);
                     }
                 });
 
@@ -262,20 +267,6 @@ namespace djv
                         else
                         {
                             system->_fadeStop();
-                        }
-                    }
-                });
-
-            auto contextWeak = std::weak_ptr<Context>(context);
-            p.actionObservers["AutoHide"] = ValueObserver<bool>::create(
-                p.actions["AutoHide"]->observeChecked(),
-                [weak, contextWeak](bool value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            system->_p->settings->setAutoHide(value);
                         }
                     }
                 });

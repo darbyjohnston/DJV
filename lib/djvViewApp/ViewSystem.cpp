@@ -53,7 +53,6 @@ namespace djv
             std::shared_ptr<UI::Menu> menu;
             std::weak_ptr<ViewControlsWidget> viewControlsWidget;
             
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<ValueObserver<ViewLock> > lockObserver;
             std::shared_ptr<ValueObserver<GridOptions> > gridOptionsObserver;
@@ -113,9 +112,10 @@ namespace djv
             p.actions["CenterLock"] = UI::Action::create();
             p.actions["CenterLock"]->setIcon("djvIconViewCenter");
             p.lockActionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
-            p.lockActionGroup->addAction(p.actions["FillLock"]);
-            p.lockActionGroup->addAction(p.actions["FrameLock"]);
-            p.lockActionGroup->addAction(p.actions["CenterLock"]);
+            p.lockActionGroup->setActions({
+                p.actions["FillLock"],
+                p.actions["FrameLock"],
+                p.actions["CenterLock"] });
             p.actions["Grid"] = UI::Action::create();
             p.actions["Grid"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["HUD"] = UI::Action::create();
@@ -205,8 +205,7 @@ namespace djv
                 });
 
             auto contextWeak = std::weak_ptr<Context>(context);
-            p.actionObservers["ViewControls"] = ValueObserver<bool>::create(
-                p.actions["ViewControls"]->observeChecked(),
+            p.actions["ViewControls"]->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -228,234 +227,176 @@ namespace djv
                     }
                 });
 
-            p.actionObservers["Left"] = ValueObserver<bool>::create(
-                p.actions["Left"]->observeClicked(),
-                [weak](bool value)
+            p.actions["Left"]->setClickedCallback(
+                [weak]
                 {
-                    if (value)
+                    if (auto system = weak.lock())
                     {
-                        if (auto system = weak.lock())
+                        system->_panImage(glm::vec2(-1.F, 0.F));
+                    }
+                });
+
+            p.actions["Right"]->setClickedCallback(
+                [weak]
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->settings->setLock(ViewLock::None);
+                        system->_panImage(glm::vec2(1.F, 0.F));
+                    }
+                });
+
+            p.actions["Up"]->setClickedCallback(
+                [weak]
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->settings->setLock(ViewLock::None);
+                        system->_panImage(glm::vec2(0.F, -1.F));
+                    }
+                });
+
+            p.actions["Down"]->setClickedCallback(
+                [weak]
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->settings->setLock(ViewLock::None);
+                        system->_panImage(glm::vec2(0.F, 1.F));
+                    }
+                });
+
+           p.actions["NW"]->setClickedCallback(
+                [weak]
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->settings->setLock(ViewLock::None);
+                        system->_panImage(glm::vec2(-1.F, -1.F));
+                    }
+                });
+
+            p.actions["NE"]->setClickedCallback(
+                [weak]
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->settings->setLock(ViewLock::None);
+                        system->_panImage(glm::vec2(1.F, -1.F));
+                    }
+                });
+
+            p.actions["SE"]->setClickedCallback(
+                [weak]
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->settings->setLock(ViewLock::None);
+                        system->_panImage(glm::vec2(1.F, 1.F));
+                    }
+                });
+
+            p.actions["SW"]->setClickedCallback(
+                [weak]
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->settings->setLock(ViewLock::None);
+                        system->_panImage(glm::vec2(-1.F, 1.F));
+                    }
+                });
+
+            p.actions["ZoomIn"]->setClickedCallback(
+                [weak]
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_zoomAction(2.F);
+                    }
+                });
+
+            p.actions["ZoomOut"]->setClickedCallback(
+                [weak]
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_zoomAction(.5F);
+                    }
+                });
+
+            p.actions["ZoomReset"]->setClickedCallback(
+                [weak]
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->settings->setLock(ViewLock::None);
+                        system->_zoomImage(1.F);
+                    }
+                });
+
+            p.actions["Fill"]->setClickedCallback(
+                [weak]
+                {
+                    if (auto system = weak.lock())
+                    {
+                        if (system->_p->activeWidget)
                         {
-                            system->_panImage(glm::vec2(-1.F, 0.F));
+                            system->_p->activeWidget->getViewWidget()->imageFill(true);
                         }
                     }
                 });
 
-            p.actionObservers["Right"] = ValueObserver<bool>::create(
-                p.actions["Right"]->observeClicked(),
-                [weak](bool value)
+            p.actions["Frame"]->setClickedCallback(
+                [weak]
                 {
-                    if (value)
+                    if (auto system = weak.lock())
                     {
-                        if (auto system = weak.lock())
+                        if (system->_p->activeWidget)
                         {
-                            system->_p->settings->setLock(ViewLock::None);
-                            system->_panImage(glm::vec2(1.F, 0.F));
+                            system->_p->activeWidget->getViewWidget()->imageFrame(true);
                         }
                     }
                 });
 
-            p.actionObservers["Up"] = ValueObserver<bool>::create(
-                p.actions["Up"]->observeClicked(),
-                [weak](bool value)
+            p.actions["Center"]->setClickedCallback(
+                [weak]
                 {
-                    if (value)
+                    if (auto system = weak.lock())
                     {
-                        if (auto system = weak.lock())
+                        if (system->_p->activeWidget)
                         {
-                            system->_p->settings->setLock(ViewLock::None);
-                            system->_panImage(glm::vec2(0.F, -1.F));
+                            system->_p->activeWidget->getViewWidget()->imageCenter(true);
                         }
                     }
                 });
 
-            p.actionObservers["Down"] = ValueObserver<bool>::create(
-                p.actions["Down"]->observeClicked(),
+            p.actions["Grid"]->setCheckedCallback(
                 [weak](bool value)
                 {
-                    if (value)
+                    if (auto system = weak.lock())
                     {
-                        if (auto system = weak.lock())
+                        system->_p->gridOptions.enabled = value;
+                        system->_p->settings->setGridOptions(system->_p->gridOptions);
+                        if (system->_p->activeWidget)
                         {
-                            system->_p->settings->setLock(ViewLock::None);
-                            system->_panImage(glm::vec2(0.F, 1.F));
+                            system->_p->activeWidget->getViewWidget()->setGridOptions(system->_p->gridOptions);
                         }
                     }
                 });
 
-            p.actionObservers["NW"] = ValueObserver<bool>::create(
-                p.actions["NW"]->observeClicked(),
+            p.actions["HUD"]->setCheckedCallback(
                 [weak](bool value)
                 {
-                    if (value)
+                    if (auto system = weak.lock())
                     {
-                        if (auto system = weak.lock())
+                        system->_p->hudOptions.enabled = value;
+                        system->_p->settings->setHUDOptions(system->_p->hudOptions);
+                        if (system->_p->activeWidget)
                         {
-                            system->_p->settings->setLock(ViewLock::None);
-                            system->_panImage(glm::vec2(-1.F, -1.F));
+                            system->_p->activeWidget->setHUDOptions(system->_p->hudOptions);
                         }
                     }
                 });
-
-            p.actionObservers["NE"] = ValueObserver<bool>::create(
-                p.actions["NE"]->observeClicked(),
-                [weak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            system->_p->settings->setLock(ViewLock::None);
-                            system->_panImage(glm::vec2(1.F, -1.F));
-                        }
-                    }
-                });
-
-            p.actionObservers["SE"] = ValueObserver<bool>::create(
-                p.actions["SE"]->observeClicked(),
-                [weak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            system->_p->settings->setLock(ViewLock::None);
-                            system->_panImage(glm::vec2(1.F, 1.F));
-                        }
-                    }
-                });
-
-            p.actionObservers["SW"] = ValueObserver<bool>::create(
-                p.actions["SW"]->observeClicked(),
-                [weak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            system->_p->settings->setLock(ViewLock::None);
-                            system->_panImage(glm::vec2(-1.F, 1.F));
-                        }
-                    }
-                });
-
-            p.actionObservers["ZoomIn"] = ValueObserver<bool>::create(
-                p.actions["ZoomIn"]->observeClicked(),
-                [weak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            system->_zoomAction(2.F);
-                        }
-                    }
-                });
-
-            p.actionObservers["ZoomOut"] = ValueObserver<bool>::create(
-                p.actions["ZoomOut"]->observeClicked(),
-                [weak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            system->_zoomAction(.5F);
-                        }
-                    }
-                });
-
-            p.actionObservers["ZoomReset"] = ValueObserver<bool>::create(
-                p.actions["ZoomReset"]->observeClicked(),
-                [weak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            system->_p->settings->setLock(ViewLock::None);
-                            system->_zoomImage(1.F);
-                        }
-                    }
-                });
-
-            p.actionObservers["Fill"] = ValueObserver<bool>::create(
-                p.actions["Fill"]->observeClicked(),
-                [weak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            if (system->_p->activeWidget)
-                            {
-                                system->_p->activeWidget->getViewWidget()->imageFill(true);
-                            }
-                        }
-                    }
-                });
-
-            p.actionObservers["Frame"] = ValueObserver<bool>::create(
-                p.actions["Frame"]->observeClicked(),
-                [weak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            if (system->_p->activeWidget)
-                            {
-                                system->_p->activeWidget->getViewWidget()->imageFrame(true);
-                            }
-                        }
-                    }
-                });
-
-            p.actionObservers["Center"] = ValueObserver<bool>::create(
-                p.actions["Center"]->observeClicked(),
-                [weak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            if (system->_p->activeWidget)
-                            {
-                                system->_p->activeWidget->getViewWidget()->imageCenter(true);
-                            }
-                        }
-                    }
-                });
-
-            p.actionObservers["Grid"] = ValueObserver<bool>::create(
-                p.actions["Grid"]->observeChecked(),
-                [weak](bool value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_p->gridOptions.enabled = value;
-                    system->_p->settings->setGridOptions(system->_p->gridOptions);
-                    if (system->_p->activeWidget)
-                    {
-                        system->_p->activeWidget->getViewWidget()->setGridOptions(system->_p->gridOptions);
-                    }
-                }
-            });
-
-            p.actionObservers["HUD"] = ValueObserver<bool>::create(
-                p.actions["HUD"]->observeChecked(),
-                [weak](bool value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_p->hudOptions.enabled = value;
-                    system->_p->settings->setHUDOptions(system->_p->hudOptions);
-                    if (system->_p->activeWidget)
-                    {
-                        system->_p->activeWidget->setHUDOptions(system->_p->hudOptions);
-                    }
-                }
-            });
 
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {

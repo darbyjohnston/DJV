@@ -42,13 +42,9 @@ namespace djv
 
             static std::shared_ptr<ListWidget> create(ButtonType, const std::shared_ptr<Core::Context>&);
 
-            void setItems(const std::vector<std::string>&, int checked = -1);
-            void setItems(const std::vector<ListItem>&, int checked = -1);
-            void addItem(const ListItem&);
-            void addItem(const std::string&);
+            void setItems(const std::vector<std::string>&);
+            void setItems(const std::vector<ListItem>&);
             void clearItems();
-
-            virtual void setButtonType(ButtonType);
 
             int getChecked() const;
             void setChecked(int, bool = true);
@@ -68,7 +64,7 @@ namespace djv
             void _keyPressEvent(Core::Event::KeyPress&) override;
 
         private:
-            void _itemsUpdate(int checked);
+            void _itemsUpdate();
             void _filterUpdate();
 
             DJV_PRIVATE();

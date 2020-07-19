@@ -109,13 +109,14 @@ namespace djv
                 rapidjson::Document document;
                 auto& allocator = document.GetAllocator();
                 fromJSON(io->getOptions(AV::IO::PPM::pluginName, allocator), options);
-                p.comboBox->clearItems();
+                std::vector<std::string> items;
                 for (auto i : AV::IO::PPM::getDataEnums())
                 {
                     std::stringstream ss;
                     ss << i;
-                    p.comboBox->addItem(_getText(ss.str()));
+                    items.push_back(_getText(ss.str()));
                 }
+                p.comboBox->setItems(items);
                 p.comboBox->setCurrentItem(static_cast<int>(options.data));
             }
         }

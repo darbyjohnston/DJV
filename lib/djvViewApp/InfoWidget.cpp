@@ -40,7 +40,6 @@ namespace djv
             std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
 
             std::shared_ptr<UI::TextBlock> createTextBlock(const std::shared_ptr<Context>& context)
             {
@@ -105,6 +104,24 @@ namespace djv
             _widgetUpdate();
 
             auto weak = std::weak_ptr<InfoWidget>(std::dynamic_pointer_cast<InfoWidget>(shared_from_this()));
+            p.actions["ExpandAll"]->setClickedCallback(
+                [weak]
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->setBellowsState(true);
+                    }
+                });
+
+            p.actions["CollapseAll"]->setClickedCallback(
+                [weak]
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->setBellowsState(false);
+                    }
+                });
+
             p.searchBox->setFilterCallback(
                 [weak](const std::string& value)
             {
@@ -146,32 +163,6 @@ namespace djv
                         }
                     });
             }
-
-            p.actionObservers["ExpandAll"] = ValueObserver<bool>::create(
-                p.actions["ExpandAll"]->observeClicked(),
-                [weak](bool value)
-            {
-                if (value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->setBellowsState(true);
-                    }
-                }
-            });
-
-            p.actionObservers["CollapseAll"] = ValueObserver<bool>::create(
-                p.actions["CollapseAll"]->observeClicked(),
-                [weak](bool value)
-            {
-                if (value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->setBellowsState(false);
-                    }
-                }
-            });
         }
 
         InfoWidget::InfoWidget() :

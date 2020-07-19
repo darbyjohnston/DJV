@@ -74,7 +74,7 @@ namespace djv
             return out;
         }
 
-        void ListWidget::setItems(const std::vector<std::string>& value, int checked)
+        void ListWidget::setItems(const std::vector<std::string>& value)
         {
             DJV_PRIVATE_PTR();
             std::vector<ListItem> tmp;
@@ -85,48 +85,18 @@ namespace djv
             if (tmp == p.items)
                 return;
             p.items = tmp;
-            _itemsUpdate(checked);
+            _itemsUpdate();
             _filterUpdate();
         }
 
-        void ListWidget::setItems(const std::vector<ListItem>& value, int checked)
+        void ListWidget::setItems(const std::vector<ListItem>& value)
         {
             DJV_PRIVATE_PTR();
-            if (value == p.items && checked == _p->buttonGroup->getChecked())
+            if (value == p.items)
                 return;
             p.items = value;
-            _itemsUpdate(checked);
+            _itemsUpdate();
             _filterUpdate();
-        }
-
-        void ListWidget::addItem(const std::string& value)
-        {
-            DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
-            {
-                p.items.push_back({ value });
-                auto button = ListButton::create(context);
-                p.initButton(button, ListItem(value));
-                p.buttons.push_back(button);
-                p.buttonGroup->addButton(button);
-                p.layout->addChild(button);
-                _filterUpdate();
-            }
-        }
-
-        void ListWidget::addItem(const ListItem& value)
-        {
-            DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
-            {
-                p.items.push_back(value);
-                auto button = ListButton::create(context);
-                p.initButton(button, value);
-                p.buttons.push_back(button);
-                p.buttonGroup->addButton(button);
-                p.layout->addChild(button);
-                _filterUpdate();
-            }
         }
 
         void ListWidget::clearItems()
@@ -135,14 +105,8 @@ namespace djv
             if (p.items.size())
             {
                 p.items.clear();
-                _itemsUpdate(-1);
+                _itemsUpdate();
             }
-        }
-
-        void ListWidget::setButtonType(ButtonType value)
-        {
-            _p->buttonGroup->setButtonType(value);
-            _filterUpdate();
         }
 
         int ListWidget::getChecked() const
@@ -216,26 +180,26 @@ namespace djv
                     {
                     case GLFW_KEY_HOME:
                         event.accept();
-                        p.buttonGroup->setChecked(0);
+                        p.buttonGroup->getButtons()[0]->doClick();
                         break;
                     case GLFW_KEY_END:
                         event.accept();
-                        p.buttonGroup->setChecked(size - 1);
+                        p.buttonGroup->getButtons()[size - 1]->doClick();
                         break;
                     case GLFW_KEY_UP:
                         event.accept();
-                        p.buttonGroup->setChecked(p.buttonGroup->getChecked() - 1);
+                        p.buttonGroup->getButtons()[p.buttonGroup->getChecked() - 1]->doClick();
                         break;
                     case GLFW_KEY_DOWN:
                         event.accept();
-                        p.buttonGroup->setChecked(p.buttonGroup->getChecked() + 1);
+                        p.buttonGroup->getButtons()[p.buttonGroup->getChecked() + 1]->doClick();
                         break;
                     }
                 }
             }
         }
 
-        void ListWidget::_itemsUpdate(int checked)
+        void ListWidget::_itemsUpdate()
         {
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
@@ -257,7 +221,6 @@ namespace djv
                 for (; i < buttonsSize; ++i)
                 {
                     auto button = p.buttons.begin() + p.items.size();
-                    p.buttonGroup->removeButton(*button);
                     p.layout->removeChild(*button);
                     p.buttons.erase(button);
                 }
@@ -268,7 +231,7 @@ namespace djv
                 {
                     iButtons.push_back(i);
                 }
-                p.buttonGroup->setButtons(iButtons, checked);
+                p.buttonGroup->setButtons(iButtons);
             }
         }
 
