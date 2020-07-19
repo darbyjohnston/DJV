@@ -29,7 +29,7 @@ namespace djv
                 std::shared_ptr<ToolButton> editButton;
                 std::shared_ptr<ButtonGroup> deleteButtonGroup;
                 std::shared_ptr<GridLayout> itemLayout;
-                std::shared_ptr<ScrollWidget> scrollWidget;
+                std::shared_ptr<VerticalLayout> layout;
                 std::function<void(const FileSystem::Path&)> callback;
                 std::shared_ptr<ListObserver<FileSystem::Path> > shortcutsObserver;
             };
@@ -54,8 +54,8 @@ namespace djv
 
                 p.deleteButtonGroup = ButtonGroup::create(ButtonType::Push);
                 
-                auto layout = VerticalLayout::create(context);
-                layout->setSpacing(MetricsRole::None);
+                p.layout = VerticalLayout::create(context);
+                p.layout->setSpacing(MetricsRole::None);
                 auto hLayout = HorizontalLayout::create(context);
                 hLayout->setBackgroundRole(UI::ColorRole::Trough);
                 hLayout->setSpacing(MetricsRole::None);
@@ -63,19 +63,23 @@ namespace djv
                 hLayout->addExpander();
                 hLayout->addChild(p.addButton);
                 hLayout->addChild(p.editButton);
-                layout->addChild(hLayout);
-                layout->addSeparator();
-                auto vLayout = VerticalLayout::create(context);
-                vLayout->setSpacing(MetricsRole::None);
+                p.layout->addChild(hLayout);
+                p.layout->addSeparator();
                 p.itemLayout = GridLayout::create(context);
                 p.itemLayout->setSpacing(MetricsRole::None);
-                vLayout->addChild(p.itemLayout);
-                layout->addChild(vLayout);
-                p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
-                p.scrollWidget->setMinimumSizeRole(MetricsRole::None);
-                p.scrollWidget->setBorder(false);
-                p.scrollWidget->addChild(layout);
-                addChild(p.scrollWidget);
+                auto scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
+                scrollWidget->setBorder(false);
+                scrollWidget->addChild(p.itemLayout);
+                p.layout->addChild(scrollWidget);
+                p.layout->setStretch(scrollWidget, RowStretch::Expand);
+                p.layout->addSeparator();
+                hLayout = HorizontalLayout::create(context);
+                hLayout->setSpacing(MetricsRole::None);
+                hLayout->addExpander();
+                hLayout->addChild(p.addButton);
+                hLayout->addChild(p.editButton);
+                p.layout->addChild(hLayout);
+                addChild(p.layout);
 
                 auto weak = std::weak_ptr<ShortcutsWidget>(std::dynamic_pointer_cast<ShortcutsWidget>(shared_from_this()));
                 p.addButton->setClickedCallback(
@@ -188,12 +192,12 @@ namespace djv
 
             void ShortcutsWidget::_preLayoutEvent(Event::PreLayout& event)
             {
-                _setMinimumSize(_p->scrollWidget->getMinimumSize());
+                _setMinimumSize(_p->layout->getMinimumSize());
             }
 
             void ShortcutsWidget::_layoutEvent(Event::Layout& event)
             {
-                _p->scrollWidget->setGeometry(getGeometry());
+                _p->layout->setGeometry(getGeometry());
             }
             
             void ShortcutsWidget::_initEvent(Event::Init& event)
