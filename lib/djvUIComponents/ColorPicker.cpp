@@ -159,7 +159,7 @@ namespace djv
             setClassName("djv::UI::ColorSliders");
 
             p.layout = GridLayout::create(context);
-            p.layout->setSpacing(MetricsRole::SpacingSmall);
+            p.layout->setSpacing(Layout::Spacing(MetricsRole::SpacingSmall, MetricsRole::None));
             addChild(p.layout);
 
             _widgetUpdate();
