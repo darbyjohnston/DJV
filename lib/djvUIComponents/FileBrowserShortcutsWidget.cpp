@@ -130,7 +130,8 @@ namespace djv
                                     button->setTooltip(std::string(i));
 
                                     auto deleteButton = ToolButton::create(context);
-                                    deleteButton->setIcon("djvIconClose");
+                                    deleteButton->setIcon("djvIconClearSmall");
+                                    deleteButton->setInsideMargin(UI::MetricsRole::None);
                                     deleteButton->setVisible(widget->_p->edit);
                                     deleteButtons.push_back(deleteButton);
 

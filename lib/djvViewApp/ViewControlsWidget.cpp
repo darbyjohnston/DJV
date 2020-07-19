@@ -206,6 +206,7 @@ namespace djv
             p.formLayouts["Background"]->addChild(p.backgroundColorPickerSwatch);
             p.formLayouts["Background"]->addChild(p.checkersSizeSlider);
             p.checkersColorsLayout = UI::HorizontalLayout::create(context);
+            p.checkersColorsLayout->setSpacing(UI::MetricsRole::SpacingSmall);
             p.checkersColorsLayout->addChild(p.checkersColorPickerSwatches[0]);
             p.checkersColorsLayout->setStretch(p.checkersColorPickerSwatches[0], UI::RowStretch::Expand);
             p.checkersColorsLayout->addChild(p.checkersColorPickerSwatches[1]);

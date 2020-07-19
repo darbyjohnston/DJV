@@ -153,14 +153,13 @@ namespace djv
             p.settingsPopupMenu->setMenu(p.settingsMenu);
 
             p.layout = UI::VerticalLayout::create(context);
-            p.layout->setSpacing(UI::MetricsRole::None);
+            p.layout->setMargin(UI::MetricsRole::MarginSmall);
+            p.layout->setSpacing(UI::MetricsRole::SpacingSmall);
             p.layout->setBackgroundRole(UI::ColorRole::Background);
             p.layout->setShadowOverlay({ UI::Side::Top });
             p.layout->addChild(p.colorSwatch);
             p.layout->setStretch(p.colorSwatch, UI::RowStretch::Expand);
             p.formLayout = UI::FormLayout::create(context);
-            p.formLayout->setMargin(UI::MetricsRole::MarginSmall);
-            p.formLayout->setSpacing(UI::MetricsRole::SpacingSmall);
             p.formLayout->addChild(p.colorLabel);
             p.formLayout->addChild(p.pixelLabel);
             p.formLayout->addChild(p.sampleSizeSlider);
