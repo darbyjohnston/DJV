@@ -418,6 +418,7 @@ namespace djv
                                     }
                                     render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F, opacity));
                                     AV::Render2D::ImageOptions options;
+                                    options.alphaBlend = AV::AlphaBlend::None;
                                     auto l = p.ocioConfig.imageColorSpaces.find(j->second->getPluginName());
                                     if (l != p.ocioConfig.imageColorSpaces.end())
                                     {
