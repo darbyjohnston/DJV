@@ -34,53 +34,1243 @@ namespace djv
 {
     namespace ViewApp
     {
+        namespace
+        {
+            class PosAndZoomWidget : public UI::Widget
+            {
+                DJV_NON_COPYABLE(PosAndZoomWidget);
+
+            protected:
+                void _init(const std::shared_ptr<Context>&);
+                PosAndZoomWidget();
+
+            public:
+                ~PosAndZoomWidget() override;
+
+                static std::shared_ptr<PosAndZoomWidget> create(const std::shared_ptr<Context>&);
+
+                void setLabelSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>&);
+
+            protected:
+                void _preLayoutEvent(Event::PreLayout&) override;
+                void _layoutEvent(Event::Layout&) override;
+
+                void _initEvent(Event::Init&) override;
+
+            private:
+                void _setPos(const glm::vec2&);
+                void _setZoom(float);
+                void _widgetUpdate();
+
+                std::shared_ptr<MediaWidget> _activeWidget;
+                glm::vec2 _viewPos = glm::vec2(0.F, 0.F);
+                float _viewZoom = 1.F;
+                std::shared_ptr<UI::FloatEdit> _viewPosEdit[2];
+                std::shared_ptr<UI::ToolButton> _viewPosResetButton[2];
+                std::shared_ptr<UI::FloatEdit> _viewZoomEdit;
+                std::shared_ptr<UI::ToolButton> _viewZoomResetButton;
+                std::shared_ptr<UI::HorizontalLayout> _viewPosLayout[2];
+                std::shared_ptr<UI::HorizontalLayout> _viewZoomLayout;
+                std::shared_ptr<UI::FormLayout> _layout;
+                std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > _activeWidgetObserver;
+                std::shared_ptr<ValueObserver<glm::vec2> > _viewPosObserver;
+                std::shared_ptr<ValueObserver<float> > _viewZoomObserver;
+            };
+
+            void PosAndZoomWidget::_init(const std::shared_ptr<Context>& context)
+            {
+                Widget::_init(context);
+
+                for (size_t i = 0; i < 2; ++i)
+                {
+                    auto edit = UI::FloatEdit::create(context);
+                    edit->setRange(FloatRange(-1000000.F, 1000000.F));
+                    edit->setSmallIncrement(1.F);
+                    edit->setLargeIncrement(10.F);
+                    _viewPosEdit[i] = edit;
+
+                    _viewPosResetButton[i] = UI::ToolButton::create(context);
+                    _viewPosResetButton[i]->setIcon("djvIconClearSmall");
+                    _viewPosResetButton[i]->setInsideMargin(UI::MetricsRole::None);
+                }
+                _viewZoomEdit = UI::FloatEdit::create(context);
+                _viewZoomEdit->setRange(FloatRange(.1F, 1000.F));
+                _viewZoomEdit->setSmallIncrement(.1F);
+                _viewZoomEdit->setLargeIncrement(1.F);
+                _viewZoomResetButton = UI::ToolButton::create(context);
+                _viewZoomResetButton->setIcon("djvIconClearSmall");
+                _viewZoomResetButton->setInsideMargin(UI::MetricsRole::None);
+
+                _layout = UI::FormLayout::create(context);
+                _layout->setMargin(UI::MetricsRole::MarginSmall);
+                for (size_t i = 0; i < 2; ++i)
+                {
+                    _viewPosLayout[i] = UI::HorizontalLayout::create(context);
+                    _viewPosLayout[i]->setSpacing(UI::MetricsRole::None);
+                    _viewPosLayout[i]->addChild(_viewPosEdit[i]);
+                    _viewPosLayout[i]->addChild(_viewPosResetButton[i]);
+                    _layout->addChild(_viewPosLayout[i]);
+                }
+                _viewZoomLayout = UI::HorizontalLayout::create(context);
+                _viewZoomLayout->setSpacing(UI::MetricsRole::None);
+                _viewZoomLayout->addChild(_viewZoomEdit);
+                _viewZoomLayout->addChild(_viewZoomResetButton);
+                _layout->addChild(_viewZoomLayout);
+                addChild(_layout);
+
+                _widgetUpdate();
+
+                auto weak = std::weak_ptr<PosAndZoomWidget>(std::dynamic_pointer_cast<PosAndZoomWidget>(shared_from_this()));
+                _viewPosEdit[0]->setValueCallback(
+                    [weak](float value, UI::TextEditReason)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_setPos(glm::vec2(value, widget->_viewPos.y));
+                        }
+                    });
+                _viewPosEdit[1]->setValueCallback(
+                    [weak](float value, UI::TextEditReason)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_setPos(glm::vec2(widget->_viewPos.x, value));
+                        }
+                    });
+
+                _viewPosResetButton[0]->setClickedCallback(
+                    [weak]
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            glm::vec2 pos = widget->_viewPos;
+                            pos.x = 0.F;
+                            widget->_setPos(pos);
+                        }
+                    });
+                _viewPosResetButton[1]->setClickedCallback(
+                    [weak]
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            glm::vec2 pos = widget->_viewPos;
+                            pos.y = 0.F;
+                            widget->_setPos(pos);
+                        }
+                    });
+
+                _viewZoomEdit->setValueCallback(
+                    [weak](float value, UI::TextEditReason)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_setZoom(value);
+                        }
+                    });
+
+                _viewZoomResetButton->setClickedCallback(
+                    [weak]
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_setZoom(1.F);
+                        }
+                    });
+
+                if (auto windowSystem = context->getSystemT<WindowSystem>())
+                {
+                    _activeWidgetObserver = ValueObserver<std::shared_ptr<MediaWidget> >::create(
+                        windowSystem->observeActiveWidget(),
+                        [weak](const std::shared_ptr<MediaWidget>& value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_activeWidget = value;
+                                if (widget->_activeWidget)
+                                {
+                                    widget->_viewPosObserver = ValueObserver<glm::vec2>::create(
+                                        widget->_activeWidget->getViewWidget()->observeImagePos(),
+                                        [weak](const glm::vec2& value)
+                                        {
+                                            if (auto widget = weak.lock())
+                                            {
+                                                widget->_viewPos = value;
+                                                widget->_widgetUpdate();
+                                            }
+                                        });
+                                    widget->_viewZoomObserver = ValueObserver<float>::create(
+                                        widget->_activeWidget->getViewWidget()->observeImageZoom(),
+                                        [weak](float value)
+                                        {
+                                            if (auto widget = weak.lock())
+                                            {
+                                                widget->_viewZoom = value;
+                                                widget->_widgetUpdate();
+                                            }
+                                        });
+                                }
+                                else
+                                {
+                                    widget->_viewPosObserver.reset();
+                                    widget->_viewZoomObserver.reset();
+                                }
+                            }
+                        });
+                }
+            }
+
+            PosAndZoomWidget::PosAndZoomWidget()
+            {}
+
+            PosAndZoomWidget::~PosAndZoomWidget()
+            {}
+
+            std::shared_ptr<PosAndZoomWidget> PosAndZoomWidget::create(const std::shared_ptr<Context>& context)
+            {
+                auto out = std::shared_ptr<PosAndZoomWidget>(new PosAndZoomWidget);
+                out->_init(context);
+                return out;
+            }
+
+            void PosAndZoomWidget::setLabelSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>& value)
+            {
+                _layout->setLabelSizeGroup(value);
+            }
+
+            void PosAndZoomWidget::_preLayoutEvent(Event::PreLayout&)
+            {
+                _setMinimumSize(_layout->getMinimumSize());
+            }
+
+            void PosAndZoomWidget::_layoutEvent(Event::Layout&)
+            {
+                _layout->setGeometry(getGeometry());
+            }
+
+            void PosAndZoomWidget::_initEvent(Event::Init& event)
+            {
+                if (event.getData().text)
+                {
+                    for (size_t i = 0; i < 2; ++i)
+                    {
+                        _viewPosResetButton[i]->setTooltip(_getText(DJV_TEXT("reset_the_value")));
+                    }
+                    _viewZoomResetButton->setTooltip(_getText(DJV_TEXT("reset_the_value")));
+                    _layout->setText(_viewPosLayout[0], _getText(DJV_TEXT("position_x")) + ":");
+                    _layout->setText(_viewPosLayout[1], _getText(DJV_TEXT("position_y")) + ":");
+                    _layout->setText(_viewZoomLayout, _getText(DJV_TEXT("zoom")) + ":");
+                }
+            }
+
+            void PosAndZoomWidget::_setPos(const glm::vec2& value)
+            {
+                if (auto context = getContext().lock())
+                {
+                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                    auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                    viewSettings->setLock(ViewLock::None);
+                    _viewPos = value;
+                    _widgetUpdate();
+                    if (_activeWidget)
+                    {
+                        _activeWidget->getViewWidget()->setImagePos(_viewPos);
+                    }
+                }
+            }
+
+            void PosAndZoomWidget::_setZoom(float value)
+            {
+                if (auto context = getContext().lock())
+                {
+                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                    auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                    viewSettings->setLock(ViewLock::None);
+                    _viewZoom = value;
+                    _widgetUpdate();
+                    if (_activeWidget)
+                    {
+                        _activeWidget->getViewWidget()->setImageZoomFocus(value);
+                    }
+                }
+            }
+
+            void PosAndZoomWidget::_widgetUpdate()
+            {
+                _viewPosEdit[0]->setValue(_viewPos.x);
+                _viewPosEdit[1]->setValue(_viewPos.y);
+                _viewPosResetButton[0]->setEnabled(_viewPos.x != 0.F);
+                _viewPosResetButton[1]->setEnabled(_viewPos.y != 0.F);
+                _viewZoomEdit->setValue(_viewZoom);
+                _viewZoomResetButton->setEnabled(_viewZoom != 1.F);
+            }
+
+            class GridWidget : public UI::Widget
+            {
+                DJV_NON_COPYABLE(GridWidget);
+
+            protected:
+                void _init(const std::shared_ptr<Context>&);
+                GridWidget();
+
+            public:
+                ~GridWidget() override;
+
+                static std::shared_ptr<GridWidget> create(const std::shared_ptr<Context>&);
+
+                const std::shared_ptr<UI::ToolButton>& getEnabledButton() const;
+
+                void setLabelSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>&);
+
+            protected:
+                void _preLayoutEvent(Event::PreLayout&) override;
+                void _layoutEvent(Event::Layout&) override;
+
+                void _initEvent(Event::Init&) override;
+
+            private:
+                void _widgetUpdate();
+
+                GridOptions _gridOptions;
+                std::shared_ptr<MediaWidget> _activeWidget;
+                std::shared_ptr<UI::ToolButton> _gridEnabledButton;
+                std::shared_ptr<UI::IntSlider> _gridSizeSlider;
+                std::shared_ptr<UI::ColorPickerSwatch> _gridColorPickerSwatch;
+                std::shared_ptr<UI::ComboBox> _gridLabelsComboBox;
+                std::shared_ptr<UI::ColorPickerSwatch> _gridLabelsColorPickerSwatch;
+                std::shared_ptr<UI::FormLayout> _layout;
+                std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > _activeWidgetObserver;
+                std::shared_ptr<ValueObserver<GridOptions> > _gridOptionsObserver;
+            };
+
+            void GridWidget::_init(const std::shared_ptr<Context>& context)
+            {
+                Widget::_init(context);
+
+                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                _gridOptions = viewSettings->observeGridOptions()->get();
+
+                _gridEnabledButton = UI::ToolButton::create(context);
+                _gridEnabledButton->setButtonType(UI::ButtonType::Toggle);
+                _gridEnabledButton->setIcon("djvIconHidden");
+                _gridEnabledButton->setCheckedIcon("djvIconVisible");
+                _gridEnabledButton->setInsideMargin(UI::MetricsRole::None);
+                _gridSizeSlider = UI::IntSlider::create(context);
+                _gridSizeSlider->setRange(IntRange(1, 500));
+                _gridSizeSlider->setSmallIncrement(1);
+                _gridSizeSlider->setLargeIncrement(10);
+                _gridColorPickerSwatch = UI::ColorPickerSwatch::create(context);
+                _gridColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
+                _gridLabelsComboBox = UI::ComboBox::create(context);
+                _gridLabelsColorPickerSwatch = UI::ColorPickerSwatch::create(context);
+                _gridLabelsColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
+
+                _layout = UI::FormLayout::create(context);
+                _layout->setMargin(UI::MetricsRole::MarginSmall);
+                _layout->addChild(_gridSizeSlider);
+                _layout->addChild(_gridColorPickerSwatch);
+                _layout->addChild(_gridLabelsComboBox);
+                _layout->addChild(_gridLabelsColorPickerSwatch);
+                addChild(_layout);
+
+                _widgetUpdate();
+
+                auto weak = std::weak_ptr<GridWidget>(std::dynamic_pointer_cast<GridWidget>(shared_from_this()));
+                auto contextWeak = std::weak_ptr<Context>(context);
+                _gridEnabledButton->setCheckedCallback(
+                    [weak, contextWeak](bool value)
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_gridOptions.enabled = value;
+                                widget->_widgetUpdate();
+                                if (widget->_activeWidget)
+                                {
+                                    widget->_activeWidget->getViewWidget()->setGridOptions(widget->_gridOptions);
+                                }
+                                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                                auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                                viewSettings->setGridOptions(widget->_gridOptions);
+                            }
+                        }
+                    });
+                _gridSizeSlider->setValueCallback(
+                    [weak, contextWeak](int value)
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_gridOptions.size = value;
+                                widget->_widgetUpdate();
+                                if (widget->_activeWidget)
+                                {
+                                    widget->_activeWidget->getViewWidget()->setGridOptions(widget->_gridOptions);
+                                }
+                                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                                auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                                viewSettings->setGridOptions(widget->_gridOptions);
+                            }
+                        }
+                    });
+                _gridColorPickerSwatch->setColorCallback(
+                    [weak, contextWeak](const AV::Image::Color& value)
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_gridOptions.color = value;
+                                widget->_widgetUpdate();
+                                if (widget->_activeWidget)
+                                {
+                                    widget->_activeWidget->getViewWidget()->setGridOptions(widget->_gridOptions);
+                                }
+                                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                                auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                                viewSettings->setGridOptions(widget->_gridOptions);
+                            }
+                        }
+                    });
+                _gridLabelsComboBox->setCallback(
+                    [weak, contextWeak](int value)
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_gridOptions.labels = static_cast<GridLabels>(value);
+                                widget->_widgetUpdate();
+                                if (widget->_activeWidget)
+                                {
+                                    widget->_activeWidget->getViewWidget()->setGridOptions(widget->_gridOptions);
+                                }
+                                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                                auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                                viewSettings->setGridOptions(widget->_gridOptions);
+                            }
+                        }
+                    });
+                _gridLabelsColorPickerSwatch->setColorCallback(
+                    [weak, contextWeak](const AV::Image::Color& value)
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_gridOptions.labelsColor = value;
+                                widget->_widgetUpdate();
+                                if (widget->_activeWidget)
+                                {
+                                    widget->_activeWidget->getViewWidget()->setGridOptions(widget->_gridOptions);
+                                }
+                                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                                auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                                viewSettings->setGridOptions(widget->_gridOptions);
+                            }
+                        }
+                    });
+
+                if (auto windowSystem = context->getSystemT<WindowSystem>())
+                {
+                    _activeWidgetObserver = ValueObserver<std::shared_ptr<MediaWidget> >::create(
+                        windowSystem->observeActiveWidget(),
+                        [weak](const std::shared_ptr<MediaWidget>& value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_activeWidget = value;
+                                if (widget->_activeWidget)
+                                {
+                                    widget->_gridOptionsObserver = ValueObserver<GridOptions>::create(
+                                        widget->_activeWidget->getViewWidget()->observeGridOptions(),
+                                        [weak](const GridOptions& value)
+                                        {
+                                            if (auto widget = weak.lock())
+                                            {
+                                                widget->_gridOptions = value;
+                                                widget->_widgetUpdate();
+                                            }
+                                        });
+                                }
+                                else
+                                {
+                                    widget->_gridOptionsObserver.reset();
+                                }
+                            }
+                        });
+                }
+            }
+
+            GridWidget::GridWidget()
+            {}
+
+            GridWidget::~GridWidget()
+            {}
+
+            std::shared_ptr<GridWidget> GridWidget::create(const std::shared_ptr<Context>& context)
+            {
+                auto out = std::shared_ptr<GridWidget>(new GridWidget);
+                out->_init(context);
+                return out;
+            }
+
+            const std::shared_ptr<UI::ToolButton>& GridWidget::getEnabledButton() const
+            {
+                return _gridEnabledButton;
+            }
+
+            void GridWidget::setLabelSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>& value)
+            {
+                _layout->setLabelSizeGroup(value);
+            }
+
+            void GridWidget::_preLayoutEvent(Event::PreLayout&)
+            {
+                _setMinimumSize(_layout->getMinimumSize());
+            }
+
+            void GridWidget::_layoutEvent(Event::Layout&)
+            {
+                _layout->setGeometry(getGeometry());
+            }
+
+            void GridWidget::_initEvent(Event::Init& event)
+            {
+                if (event.getData().text)
+                {
+                    _gridEnabledButton->setTooltip(_getText(DJV_TEXT("widget_view_grid_enabled_tooltip")));
+                    _layout->setText(_gridSizeSlider, _getText(DJV_TEXT("widget_view_grid_size")) + ":");
+                    _layout->setText(_gridColorPickerSwatch, _getText(DJV_TEXT("widget_view_grid_color")) + ":");
+                    _layout->setText(_gridLabelsComboBox, _getText(DJV_TEXT("widget_view_grid_labels")) + ":");
+                    _layout->setText(_gridLabelsColorPickerSwatch, _getText(DJV_TEXT("widget_view_grid_labels_color")) + ":");
+                }
+            }
+
+            void GridWidget::_widgetUpdate()
+            {
+                _gridEnabledButton->setChecked(_gridOptions.enabled);
+                _gridSizeSlider->setValue(_gridOptions.size);
+                _gridColorPickerSwatch->setColor(_gridOptions.color);
+                std::vector<std::string> items;
+                for (auto i : getGridLabelsEnums())
+                {
+                    std::stringstream ss;
+                    ss << i;
+                    items.push_back(_getText(ss.str()));
+                }
+                _gridLabelsComboBox->setItems(items);
+                _gridLabelsComboBox->setCurrentItem(static_cast<int>(_gridOptions.labels));
+                _gridLabelsColorPickerSwatch->setColor(_gridOptions.labelsColor);
+            }
+
+            class HUDWidget : public UI::Widget
+            {
+                DJV_NON_COPYABLE(HUDWidget);
+
+            protected:
+                void _init(const std::shared_ptr<Context>&);
+                HUDWidget();
+
+            public:
+                ~HUDWidget() override;
+
+                static std::shared_ptr<HUDWidget> create(const std::shared_ptr<Context>&);
+
+                const std::shared_ptr<UI::ToolButton>& getEnabledButton() const;
+
+                void setLabelSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>&);
+
+            protected:
+                void _preLayoutEvent(Event::PreLayout&) override;
+                void _layoutEvent(Event::Layout&) override;
+
+                void _initEvent(Event::Init&) override;
+
+            private:
+                void _widgetUpdate();
+
+                HUDOptions _hudOptions;
+                std::shared_ptr<UI::ToolButton> _hudEnabledButton;
+                std::shared_ptr<MediaWidget> _activeWidget;
+                std::shared_ptr<UI::ColorPickerSwatch> _hudColorPickerSwatch;
+                std::shared_ptr<UI::ComboBox> _hudBackgroundComboBox;
+                std::shared_ptr<UI::FormLayout> _layout;
+                std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > _activeWidgetObserver;
+                std::shared_ptr<ValueObserver<HUDOptions> > _hudOptionsObserver;
+            };
+
+            void HUDWidget::_init(const std::shared_ptr<Context>& context)
+            {
+                Widget::_init(context);
+
+                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                _hudOptions = viewSettings->observeHUDOptions()->get();
+
+                _hudEnabledButton = UI::ToolButton::create(context);
+                _hudEnabledButton->setButtonType(UI::ButtonType::Toggle);
+                _hudEnabledButton->setIcon("djvIconHidden");
+                _hudEnabledButton->setCheckedIcon("djvIconVisible");
+                _hudEnabledButton->setInsideMargin(UI::MetricsRole::None);
+                _hudColorPickerSwatch = UI::ColorPickerSwatch::create(context);
+                _hudColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
+                _hudBackgroundComboBox = UI::ComboBox::create(context);
+
+                _layout = UI::FormLayout::create(context);
+                _layout->setMargin(UI::MetricsRole::MarginSmall);
+                _layout->addChild(_hudColorPickerSwatch);
+                _layout->addChild(_hudBackgroundComboBox);
+                addChild(_layout);
+
+                _widgetUpdate();
+
+                auto weak = std::weak_ptr<HUDWidget>(std::dynamic_pointer_cast<HUDWidget>(shared_from_this()));
+                auto contextWeak = std::weak_ptr<Context>(context);
+                _hudEnabledButton->setCheckedCallback(
+                    [weak, contextWeak](bool value)
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_hudOptions.enabled = value;
+                                widget->_widgetUpdate();
+                                if (widget->_activeWidget)
+                                {
+                                    widget->_activeWidget->setHUDOptions(widget->_hudOptions);
+                                }
+                                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                                auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                                viewSettings->setHUDOptions(widget->_hudOptions);
+                            }
+                        }
+                    });
+                _hudColorPickerSwatch->setColorCallback(
+                    [weak, contextWeak](const AV::Image::Color& value)
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_hudOptions.color = value;
+                                widget->_widgetUpdate();
+                                if (widget->_activeWidget)
+                                {
+                                    widget->_activeWidget->setHUDOptions(widget->_hudOptions);
+                                }
+                                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                                auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                                viewSettings->setHUDOptions(widget->_hudOptions);
+                            }
+                        }
+                    });
+                _hudBackgroundComboBox->setCallback(
+                    [weak, contextWeak](int value)
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_hudOptions.background = static_cast<HUDBackground>(value);
+                                widget->_widgetUpdate();
+                                if (widget->_activeWidget)
+                                {
+                                    widget->_activeWidget->setHUDOptions(widget->_hudOptions);
+                                }
+                                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                                auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                                viewSettings->setHUDOptions(widget->_hudOptions);
+                            }
+                        }
+                    });
+
+                if (auto windowSystem = context->getSystemT<WindowSystem>())
+                {
+                    _activeWidgetObserver = ValueObserver<std::shared_ptr<MediaWidget> >::create(
+                        windowSystem->observeActiveWidget(),
+                        [weak](const std::shared_ptr<MediaWidget>& value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_activeWidget = value;
+                                if (widget->_activeWidget)
+                                {
+                                    widget->_hudOptionsObserver = ValueObserver<HUDOptions>::create(
+                                        widget->_activeWidget->observeHUDOptions(),
+                                        [weak](const HUDOptions& value)
+                                        {
+                                            if (auto widget = weak.lock())
+                                            {
+                                                widget->_hudOptions = value;
+                                                widget->_widgetUpdate();
+                                            }
+                                        });
+                                }
+                                else
+                                {
+                                    widget->_hudOptionsObserver.reset();
+                                }
+                            }
+                        });
+                }
+            }
+
+            HUDWidget::HUDWidget()
+            {}
+
+            HUDWidget::~HUDWidget()
+            {}
+
+            std::shared_ptr<HUDWidget> HUDWidget::create(const std::shared_ptr<Context>& context)
+            {
+                auto out = std::shared_ptr<HUDWidget>(new HUDWidget);
+                out->_init(context);
+                return out;
+            }
+
+            const std::shared_ptr<UI::ToolButton>& HUDWidget::getEnabledButton() const
+            {
+                return _hudEnabledButton;
+            }
+
+            void HUDWidget::setLabelSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>& value)
+            {
+                _layout->setLabelSizeGroup(value);
+            }
+
+            void HUDWidget::_preLayoutEvent(Event::PreLayout&)
+            {
+                _setMinimumSize(_layout->getMinimumSize());
+            }
+
+            void HUDWidget::_layoutEvent(Event::Layout&)
+            {
+                _layout->setGeometry(getGeometry());
+            }
+
+            void HUDWidget::_initEvent(Event::Init& event)
+            {
+                if (event.getData().text)
+                {
+                    _hudEnabledButton->setTooltip(_getText(DJV_TEXT("widget_view_hud_enabled_tooltip")));
+                    _layout->setText(_hudColorPickerSwatch, _getText(DJV_TEXT("widget_view_hud_color")) + ":");
+                    _layout->setText(_hudBackgroundComboBox, _getText(DJV_TEXT("widget_view_hud_background")) + ":");
+                }
+            }
+
+            void HUDWidget::_widgetUpdate()
+            {
+                _hudEnabledButton->setChecked(_hudOptions.enabled);
+                _hudColorPickerSwatch->setColor(_hudOptions.color);
+                std::vector<std::string> items;
+                for (auto i : getHUDBackgroundEnums())
+                {
+                    std::stringstream ss;
+                    ss << i;
+                    items.push_back(_getText(ss.str()));
+                }
+                _hudBackgroundComboBox->setItems(items);
+                _hudBackgroundComboBox->setCurrentItem(static_cast<int>(_hudOptions.background));
+            }
+
+            class BackgroundWidget : public UI::Widget
+            {
+                DJV_NON_COPYABLE(BackgroundWidget);
+
+            protected:
+                void _init(const std::shared_ptr<Context>&);
+                BackgroundWidget();
+
+            public:
+                ~BackgroundWidget() override;
+
+                static std::shared_ptr<BackgroundWidget> create(const std::shared_ptr<Context>&);
+
+                void setLabelSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>&);
+
+            protected:
+                void _preLayoutEvent(Event::PreLayout&) override;
+                void _layoutEvent(Event::Layout&) override;
+
+                void _initEvent(Event::Init&) override;
+
+            private:
+                void _widgetUpdate();
+
+                ViewBackgroundOptions _backgroundOptions;
+                std::shared_ptr<MediaWidget> _activeWidget;
+                std::shared_ptr<UI::ComboBox> _backgroundComboBox;
+                std::shared_ptr<UI::ColorPickerSwatch> _solidPickerSwatch;
+                std::shared_ptr<UI::FloatSlider> _checkersSizeSlider;
+                std::shared_ptr<UI::ColorPickerSwatch> _checkersColorPickerSwatches[2];
+                std::shared_ptr<UI::HorizontalLayout> _checkersColorsLayout;
+                std::shared_ptr<UI::FormLayout> _backgroundLayout;
+                std::shared_ptr<UI::FormLayout> _solidLayout;
+                std::shared_ptr<UI::FormLayout> _checkersLayout;
+                std::shared_ptr<UI::VerticalLayout> _layout;
+                std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > _activeWidgetObserver;
+                std::shared_ptr<ValueObserver<HUDOptions> > _hudOptionsObserver;
+                std::shared_ptr<ValueObserver<ViewBackgroundOptions> > _backgroundOptionsObserver;
+            };
+
+            void BackgroundWidget::_init(const std::shared_ptr<Context>& context)
+            {
+                Widget::_init(context);
+
+                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                _backgroundOptions = viewSettings->observeBackgroundOptions()->get();
+
+                _backgroundComboBox = UI::ComboBox::create(context);
+                _solidPickerSwatch = UI::ColorPickerSwatch::create(context);
+                _solidPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
+                _checkersSizeSlider = UI::FloatSlider::create(context);
+                _checkersSizeSlider->setRange(FloatRange(10.F, 100.F));
+                _checkersSizeSlider->setSmallIncrement(1);
+                _checkersSizeSlider->setLargeIncrement(10);
+                _checkersColorPickerSwatches[0] = UI::ColorPickerSwatch::create(context);
+                _checkersColorPickerSwatches[0]->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
+                _checkersColorPickerSwatches[0]->setHAlign(UI::HAlign::Fill);
+                _checkersColorPickerSwatches[1] = UI::ColorPickerSwatch::create(context);
+                _checkersColorPickerSwatches[1]->setHAlign(UI::HAlign::Fill);
+                _checkersColorPickerSwatches[1]->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
+
+                _layout = UI::VerticalLayout::create(context);
+                _layout->setMargin(UI::MetricsRole::MarginSmall);
+                _layout->setSpacing(UI::MetricsRole::None);
+                _backgroundLayout = UI::FormLayout::create(context);
+                _backgroundLayout->addChild(_backgroundComboBox);
+                _layout->addChild(_backgroundLayout);
+                _solidLayout = UI::FormLayout::create(context);
+                _solidLayout->addChild(_solidPickerSwatch);
+                _layout->addChild(_solidLayout);
+                _checkersLayout = UI::FormLayout::create(context);
+                _checkersLayout->addChild(_checkersSizeSlider);
+                _checkersColorsLayout = UI::HorizontalLayout::create(context);
+                _checkersColorsLayout->setSpacing(UI::MetricsRole::SpacingSmall);
+                _checkersColorsLayout->addChild(_checkersColorPickerSwatches[0]);
+                _checkersColorsLayout->setStretch(_checkersColorPickerSwatches[0], UI::RowStretch::Expand);
+                _checkersColorsLayout->addChild(_checkersColorPickerSwatches[1]);
+                _checkersColorsLayout->setStretch(_checkersColorPickerSwatches[1], UI::RowStretch::Expand);
+                _checkersLayout->addChild(_checkersColorsLayout);
+                _layout->addChild(_checkersLayout);
+                addChild(_layout);
+
+                _widgetUpdate();
+
+                auto weak = std::weak_ptr<BackgroundWidget>(std::dynamic_pointer_cast<BackgroundWidget>(shared_from_this()));
+                auto contextWeak = std::weak_ptr<Context>(context);
+                _backgroundComboBox->setCallback(
+                    [weak, contextWeak](int value)
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_backgroundOptions.background = static_cast<ViewBackground>(value);
+                                widget->_widgetUpdate();
+                                if (widget->_activeWidget)
+                                {
+                                    widget->_activeWidget->getViewWidget()->setBackgroundOptions(widget->_backgroundOptions);
+                                }
+                                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                                auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                                viewSettings->setBackgroundOptions(widget->_backgroundOptions);
+                            }
+                        }
+                    });
+                _solidPickerSwatch->setColorCallback(
+                    [weak, contextWeak](const AV::Image::Color& value)
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_backgroundOptions.color = value;
+                                widget->_widgetUpdate();
+                                if (widget->_activeWidget)
+                                {
+                                    widget->_activeWidget->getViewWidget()->setBackgroundOptions(widget->_backgroundOptions);
+                                }
+                                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                                auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                                viewSettings->setBackgroundOptions(widget->_backgroundOptions);
+                            }
+                        }
+                    });
+                _checkersSizeSlider->setValueCallback(
+                    [weak, contextWeak](float value)
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_backgroundOptions.checkersSize = value;
+                                widget->_widgetUpdate();
+                                if (widget->_activeWidget)
+                                {
+                                    widget->_activeWidget->getViewWidget()->setBackgroundOptions(widget->_backgroundOptions);
+                                }
+                                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                                auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                                viewSettings->setBackgroundOptions(widget->_backgroundOptions);
+                            }
+                        }
+                    });
+                _checkersColorPickerSwatches[0]->setColorCallback(
+                    [weak, contextWeak](const AV::Image::Color& value)
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_backgroundOptions.checkersColors[0] = value;
+                                widget->_widgetUpdate();
+                                if (widget->_activeWidget)
+                                {
+                                    widget->_activeWidget->getViewWidget()->setBackgroundOptions(widget->_backgroundOptions);
+                                }
+                                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                                auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                                viewSettings->setBackgroundOptions(widget->_backgroundOptions);
+                            }
+                        }
+                    });
+                _checkersColorPickerSwatches[1]->setColorCallback(
+                    [weak, contextWeak](const AV::Image::Color& value)
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_backgroundOptions.checkersColors[1] = value;
+                                widget->_widgetUpdate();
+                                if (widget->_activeWidget)
+                                {
+                                    widget->_activeWidget->getViewWidget()->setBackgroundOptions(widget->_backgroundOptions);
+                                }
+                                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                                auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                                viewSettings->setBackgroundOptions(widget->_backgroundOptions);
+                            }
+                        }
+                    });
+
+                if (auto windowSystem = context->getSystemT<WindowSystem>())
+                {
+                    _activeWidgetObserver = ValueObserver<std::shared_ptr<MediaWidget> >::create(
+                        windowSystem->observeActiveWidget(),
+                        [weak](const std::shared_ptr<MediaWidget>& value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_activeWidget = value;
+                                if (widget->_activeWidget)
+                                {
+                                    widget->_backgroundOptionsObserver = ValueObserver<ViewBackgroundOptions>::create(
+                                        widget->_activeWidget->getViewWidget()->observeBackgroundOptions(),
+                                        [weak](const ViewBackgroundOptions& value)
+                                        {
+                                            if (auto widget = weak.lock())
+                                            {
+                                                widget->_backgroundOptions = value;
+                                                widget->_widgetUpdate();
+                                            }
+                                        });
+                                }
+                                else
+                                {
+                                    widget->_backgroundOptionsObserver.reset();
+                                }
+                            }
+                        });
+                }
+            }
+
+            BackgroundWidget::BackgroundWidget()
+            {}
+
+            BackgroundWidget::~BackgroundWidget()
+            {}
+
+            std::shared_ptr<BackgroundWidget> BackgroundWidget::create(const std::shared_ptr<Context>& context)
+            {
+                auto out = std::shared_ptr<BackgroundWidget>(new BackgroundWidget);
+                out->_init(context);
+                return out;
+            }
+
+            void BackgroundWidget::setLabelSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>& value)
+            {
+                _backgroundLayout->setLabelSizeGroup(value);
+                _solidLayout->setLabelSizeGroup(value);
+                _checkersLayout->setLabelSizeGroup(value);
+            }
+
+            void BackgroundWidget::_preLayoutEvent(Event::PreLayout&)
+            {
+                _setMinimumSize(_layout->getMinimumSize());
+            }
+
+            void BackgroundWidget::_layoutEvent(Event::Layout&)
+            {
+                _layout->setGeometry(getGeometry());
+            }
+
+            void BackgroundWidget::_initEvent(Event::Init& event)
+            {
+                if (event.getData().text)
+                {
+                    _backgroundLayout->setText(_backgroundComboBox, _getText(DJV_TEXT("widget_view_background")) + ":");
+                    _solidLayout->setText(_solidPickerSwatch, _getText(DJV_TEXT("widget_view_background_color")) + ":");
+                    _checkersLayout->setText(_checkersSizeSlider, _getText(DJV_TEXT("widget_view_background_checkers_size")) + ":");
+                    _checkersLayout->setText(_checkersColorsLayout, _getText(DJV_TEXT("widget_view_background_checkers_colors")) + ":");
+                }
+            }
+
+            void BackgroundWidget::_widgetUpdate()
+            {
+                switch (_backgroundOptions.background)
+                {
+                case ViewBackground::Solid:
+                    _solidLayout->show();
+                    _checkersLayout->hide();
+                    break;
+                case ViewBackground::Checkers:
+                    _solidLayout->hide();
+                    _checkersLayout->show();
+                    break;
+                }
+                std::vector<std::string> items;
+                for (auto i : getViewBackgroundEnums())
+                {
+                    std::stringstream ss;
+                    ss << i;
+                    items.push_back(_getText(ss.str()));
+                }
+                _backgroundComboBox->setItems(items);
+                _backgroundComboBox->setCurrentItem(static_cast<int>(_backgroundOptions.background));
+                _solidPickerSwatch->setColor(_backgroundOptions.color);
+                _checkersSizeSlider->setValue(_backgroundOptions.checkersSize);
+                _checkersColorPickerSwatches[0]->setColor(_backgroundOptions.checkersColors[0]);
+                _checkersColorPickerSwatches[1]->setColor(_backgroundOptions.checkersColors[1]);
+            }
+
+            class BorderWidget : public UI::Widget
+            {
+                DJV_NON_COPYABLE(BorderWidget);
+
+            protected:
+                void _init(const std::shared_ptr<Context>&);
+                BorderWidget();
+
+            public:
+                ~BorderWidget() override;
+
+                static std::shared_ptr<BorderWidget> create(const std::shared_ptr<Context>&);
+
+                const std::shared_ptr<UI::ToolButton>& getEnabledButton() const;
+
+                void setLabelSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>&);
+
+            protected:
+                void _preLayoutEvent(Event::PreLayout&) override;
+                void _layoutEvent(Event::Layout&) override;
+
+                void _initEvent(Event::Init&) override;
+
+            private:
+                void _widgetUpdate();
+
+                ViewBackgroundOptions _backgroundOptions;
+                std::shared_ptr<MediaWidget> _activeWidget;
+                std::shared_ptr<UI::ToolButton> _borderEnabledButton;
+                std::shared_ptr<UI::FloatSlider> _borderWidthSlider;
+                std::shared_ptr<UI::ColorPickerSwatch> _borderColorPickerSwatch;
+                std::shared_ptr<UI::FormLayout> _layout;
+                std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > _activeWidgetObserver;
+                std::shared_ptr<ValueObserver<ViewBackgroundOptions> > _backgroundOptionsObserver;
+            };
+
+            void BorderWidget::_init(const std::shared_ptr<Context>& context)
+            {
+                Widget::_init(context);
+
+                _borderEnabledButton = UI::ToolButton::create(context);
+                _borderEnabledButton->setButtonType(UI::ButtonType::Toggle);
+                _borderEnabledButton->setIcon("djvIconHidden");
+                _borderEnabledButton->setCheckedIcon("djvIconVisible");
+                _borderEnabledButton->setInsideMargin(UI::MetricsRole::None);
+                _borderWidthSlider = UI::FloatSlider::create(context);
+                _borderWidthSlider->setRange(FloatRange(1.F, 20.F));
+                _borderWidthSlider->setSmallIncrement(1.F);
+                _borderWidthSlider->setLargeIncrement(5.F);
+                _borderColorPickerSwatch = UI::ColorPickerSwatch::create(context);
+                _borderColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
+
+                _layout = UI::FormLayout::create(context);
+                _layout->setMargin(UI::MetricsRole::MarginSmall);
+                _layout->addChild(_borderWidthSlider);
+                _layout->addChild(_borderColorPickerSwatch);
+                addChild(_layout);
+
+                _widgetUpdate();
+
+                auto weak = std::weak_ptr<BorderWidget>(std::dynamic_pointer_cast<BorderWidget>(shared_from_this()));
+                auto contextWeak = std::weak_ptr<Context>(context);
+                _borderEnabledButton->setCheckedCallback(
+                    [weak, contextWeak](bool value)
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_backgroundOptions.border = value;
+                                widget->_widgetUpdate();
+                                if (widget->_activeWidget)
+                                {
+                                    widget->_activeWidget->getViewWidget()->setBackgroundOptions(widget->_backgroundOptions);
+                                }
+                                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                                auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                                viewSettings->setBackgroundOptions(widget->_backgroundOptions);
+                            }
+                        }
+                    });
+                _borderWidthSlider->setValueCallback(
+                    [weak, contextWeak](float value)
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_backgroundOptions.borderWidth = value;
+                                widget->_widgetUpdate();
+                                if (widget->_activeWidget)
+                                {
+                                    widget->_activeWidget->getViewWidget()->setBackgroundOptions(widget->_backgroundOptions);
+                                }
+                                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                                auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                                viewSettings->setBackgroundOptions(widget->_backgroundOptions);
+                            }
+                        }
+                    });
+                _borderColorPickerSwatch->setColorCallback(
+                    [weak, contextWeak](const AV::Image::Color& value)
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_backgroundOptions.borderColor = value;
+                                widget->_widgetUpdate();
+                                if (widget->_activeWidget)
+                                {
+                                    widget->_activeWidget->getViewWidget()->setBackgroundOptions(widget->_backgroundOptions);
+                                }
+                                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                                auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                                viewSettings->setBackgroundOptions(widget->_backgroundOptions);
+                            }
+                        }
+                    });
+
+                if (auto windowSystem = context->getSystemT<WindowSystem>())
+                {
+                    _activeWidgetObserver = ValueObserver<std::shared_ptr<MediaWidget> >::create(
+                        windowSystem->observeActiveWidget(),
+                        [weak](const std::shared_ptr<MediaWidget>& value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_activeWidget = value;
+                                if (widget->_activeWidget)
+                                {
+                                    widget->_backgroundOptionsObserver = ValueObserver<ViewBackgroundOptions>::create(
+                                        widget->_activeWidget->getViewWidget()->observeBackgroundOptions(),
+                                        [weak](const ViewBackgroundOptions& value)
+                                        {
+                                            if (auto widget = weak.lock())
+                                            {
+                                                widget->_backgroundOptions = value;
+                                                widget->_widgetUpdate();
+                                            }
+                                        });
+                                }
+                                else
+                                {
+                                    widget->_backgroundOptionsObserver.reset();
+                                }
+                            }
+                        });
+                }
+            }
+
+            BorderWidget::BorderWidget()
+            {}
+
+            BorderWidget::~BorderWidget()
+            {}
+
+            std::shared_ptr<BorderWidget> BorderWidget::create(const std::shared_ptr<Context>& context)
+            {
+                auto out = std::shared_ptr<BorderWidget>(new BorderWidget);
+                out->_init(context);
+                return out;
+            }
+
+            const std::shared_ptr<UI::ToolButton>& BorderWidget::getEnabledButton() const
+            {
+                return _borderEnabledButton;
+            }
+
+            void BorderWidget::setLabelSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>& value)
+            {
+                _layout->setLabelSizeGroup(value);
+            }
+
+            void BorderWidget::_preLayoutEvent(Event::PreLayout&)
+            {
+                _setMinimumSize(_layout->getMinimumSize());
+            }
+
+            void BorderWidget::_layoutEvent(Event::Layout&)
+            {
+                _layout->setGeometry(getGeometry());
+            }
+
+            void BorderWidget::_initEvent(Event::Init& event)
+            {
+                if (event.getData().text)
+                {
+                    _borderEnabledButton->setTooltip(_getText(DJV_TEXT("widget_view_border_enabled_tooltip")));
+                    _layout->setText(_borderWidthSlider, _getText(DJV_TEXT("widget_view_border_width")) + ":");
+                    _layout->setText(_borderColorPickerSwatch, _getText(DJV_TEXT("widget_view_border_color")) + ":");
+                }
+            }
+
+            void BorderWidget::_widgetUpdate()
+            {
+                _borderEnabledButton->setChecked(_backgroundOptions.border);
+                _borderWidthSlider->setValue(_backgroundOptions.borderWidth);
+                _borderColorPickerSwatch->setColor(_backgroundOptions.borderColor);
+            }
+
+        } // namespace
+
         struct ViewControlsWidget::Private
         {
-            glm::vec2 viewPos = glm::vec2(0.F, 0.F);
-            float viewZoom = 1.F;
-            GridOptions gridOptions;
-            HUDOptions hudOptions;
-            ViewBackgroundOptions backgroundOptions;
-
-            std::shared_ptr<MediaWidget> activeWidget;
-
-            std::shared_ptr<UI::FloatEdit> viewPosEdit[2];
-            std::shared_ptr<UI::ToolButton> viewPosResetButton[2];
-            std::shared_ptr<UI::FloatEdit> viewZoomEdit;
-            std::shared_ptr<UI::ToolButton> viewZoomResetButton;
-            std::shared_ptr<UI::HorizontalLayout> viewPosLayout[2];
-            std::shared_ptr<UI::HorizontalLayout> viewZoomLayout;
-
-            std::shared_ptr<UI::ToolButton> gridEnabledButton;
-            std::shared_ptr<UI::IntSlider> gridSizeSlider;
-            std::shared_ptr<UI::ColorPickerSwatch> gridColorPickerSwatch;
-            std::shared_ptr<UI::ComboBox> gridLabelsComboBox;
-            std::shared_ptr<UI::ColorPickerSwatch> gridLabelsColorPickerSwatch;
-
-            std::shared_ptr<UI::ToolButton> hudEnabledButton;
-            std::shared_ptr<UI::ColorPickerSwatch> hudColorPickerSwatch;
-            std::shared_ptr<UI::ComboBox> hudBackgroundComboBox;
-
-            std::shared_ptr<UI::ComboBox> backgroundComboBox;
-            std::shared_ptr<UI::ColorPickerSwatch> backgroundColorPickerSwatch;
-            std::shared_ptr<UI::FloatSlider> checkersSizeSlider;
-            std::shared_ptr<UI::ColorPickerSwatch> checkersColorPickerSwatches[2];
-            std::shared_ptr<UI::HorizontalLayout> checkersColorsLayout;
-
-            std::shared_ptr<UI::ToolButton> borderEnabledButton;
-            std::shared_ptr<UI::FloatSlider> borderWidthSlider;
-            std::shared_ptr<UI::ColorPickerSwatch> borderColorPickerSwatch;
-
+            std::shared_ptr<PosAndZoomWidget> zoomAndPosWidget;
+            std::shared_ptr<GridWidget> gridWidget;
+            std::shared_ptr<HUDWidget> hudWidget;
+            std::shared_ptr<BackgroundWidget> backgroundWidget;
+            std::shared_ptr<BorderWidget> borderWidget;
             std::shared_ptr<UI::LabelSizeGroup> sizeGroup;
-            std::map<std::string, std::shared_ptr<UI::FormLayout> > formLayouts;
             std::map<std::string, std::shared_ptr<UI::Bellows> > bellows;
-
-            std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
-            std::shared_ptr<ValueObserver<glm::vec2> > viewPosObserver;
-            std::shared_ptr<ValueObserver<float> > viewZoomObserver;
-            std::shared_ptr<ValueObserver<GridOptions> > gridOptionsObserver;
-            std::shared_ptr<ValueObserver<HUDOptions> > hudOptionsObserver;
-            std::shared_ptr<ValueObserver<ViewBackgroundOptions> > backgroundOptionsObserver;
         };
 
         void ViewControlsWidget::_init(const std::shared_ptr<Core::Context>& context)
@@ -90,144 +1280,33 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::ViewControlsWidget");
 
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
-            auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-            p.gridOptions = viewSettings->observeGridOptions()->get();
-            p.hudOptions = viewSettings->observeHUDOptions()->get();
-            p.backgroundOptions = viewSettings->observeBackgroundOptions()->get();
-
-            for (size_t i = 0; i < 2; ++i)
-            {
-                auto edit = UI::FloatEdit::create(context);
-                edit->setRange(FloatRange(-1000000.F, 1000000.F));
-                edit->setSmallIncrement(1.F);
-                edit->setLargeIncrement(10.F);
-                p.viewPosEdit[i] = edit;
-
-                p.viewPosResetButton[i] = UI::ToolButton::create(context);
-                p.viewPosResetButton[i]->setIcon("djvIconClearSmall");
-                p.viewPosResetButton[i]->setInsideMargin(UI::MetricsRole::None);
-            }
-            p.viewZoomEdit = UI::FloatEdit::create(context);
-            p.viewZoomEdit->setRange(FloatRange(.1F, 1000.F));
-            p.viewZoomEdit->setSmallIncrement(.1F);
-            p.viewZoomEdit->setLargeIncrement(1.F);
-            p.viewZoomResetButton = UI::ToolButton::create(context);
-            p.viewZoomResetButton->setIcon("djvIconClearSmall");
-            p.viewZoomResetButton->setInsideMargin(UI::MetricsRole::None);
-
-            p.gridEnabledButton = UI::ToolButton::create(context);
-            p.gridEnabledButton->setButtonType(UI::ButtonType::Toggle);
-            p.gridEnabledButton->setIcon("djvIconHidden");
-            p.gridEnabledButton->setCheckedIcon("djvIconVisible");
-            p.gridEnabledButton->setInsideMargin(UI::MetricsRole::None);
-            p.gridSizeSlider = UI::IntSlider::create(context);
-            p.gridSizeSlider->setRange(IntRange(1, 500));
-            p.gridSizeSlider->setSmallIncrement(1);
-            p.gridSizeSlider->setLargeIncrement(10);
-            p.gridColorPickerSwatch = UI::ColorPickerSwatch::create(context);
-            p.gridColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
-            p.gridLabelsComboBox = UI::ComboBox::create(context);
-            p.gridLabelsColorPickerSwatch = UI::ColorPickerSwatch::create(context);
-            p.gridLabelsColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
-
-            p.hudEnabledButton = UI::ToolButton::create(context);
-            p.hudEnabledButton->setButtonType(UI::ButtonType::Toggle);
-            p.hudEnabledButton->setIcon("djvIconHidden");
-            p.hudEnabledButton->setCheckedIcon("djvIconVisible");
-            p.hudEnabledButton->setInsideMargin(UI::MetricsRole::None);
-            p.hudColorPickerSwatch = UI::ColorPickerSwatch::create(context);
-            p.hudColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
-            p.hudBackgroundComboBox = UI::ComboBox::create(context);
-
-            p.backgroundComboBox = UI::ComboBox::create(context);
-            p.backgroundColorPickerSwatch = UI::ColorPickerSwatch::create(context);
-            p.backgroundColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
-            p.checkersSizeSlider = UI::FloatSlider::create(context);
-            p.checkersSizeSlider->setRange(FloatRange(10.F, 100.F));
-            p.checkersSizeSlider->setSmallIncrement(1);
-            p.checkersSizeSlider->setLargeIncrement(10);
-            p.checkersColorPickerSwatches[0] = UI::ColorPickerSwatch::create(context);
-            p.checkersColorPickerSwatches[0]->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
-            p.checkersColorPickerSwatches[0]->setHAlign(UI::HAlign::Fill);
-            p.checkersColorPickerSwatches[1] = UI::ColorPickerSwatch::create(context);
-            p.checkersColorPickerSwatches[1]->setHAlign(UI::HAlign::Fill);
-            p.checkersColorPickerSwatches[1]->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
-
-            p.borderEnabledButton = UI::ToolButton::create(context);
-            p.borderEnabledButton->setButtonType(UI::ButtonType::Toggle);
-            p.borderEnabledButton->setIcon("djvIconHidden");
-            p.borderEnabledButton->setCheckedIcon("djvIconVisible");
-            p.borderEnabledButton->setInsideMargin(UI::MetricsRole::None);
-            p.borderWidthSlider = UI::FloatSlider::create(context);
-            p.borderWidthSlider->setRange(FloatRange(1.F, 20.F));
-            p.borderWidthSlider->setSmallIncrement(1.F);
-            p.borderWidthSlider->setLargeIncrement(5.F);
-            p.borderColorPickerSwatch = UI::ColorPickerSwatch::create(context);
-            p.borderColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
-
             p.sizeGroup = UI::LabelSizeGroup::create();
 
-            p.formLayouts["View"] = UI::FormLayout::create(context);
-            for (size_t i = 0; i < 2; ++i)
-            {
-                p.viewPosLayout[i] = UI::HorizontalLayout::create(context);
-                p.viewPosLayout[i]->setSpacing(UI::MetricsRole::None);
-                p.viewPosLayout[i]->addChild(p.viewPosEdit[i]);
-                p.viewPosLayout[i]->addChild(p.viewPosResetButton[i]);
-                p.formLayouts["View"]->addChild(p.viewPosLayout[i]);
-            }
-            p.viewZoomLayout = UI::HorizontalLayout::create(context);
-            p.viewZoomLayout->setSpacing(UI::MetricsRole::None);
-            p.viewZoomLayout->addChild(p.viewZoomEdit);
-            p.viewZoomLayout->addChild(p.viewZoomResetButton);
-            p.formLayouts["View"]->addChild(p.viewZoomLayout);
+            p.zoomAndPosWidget = PosAndZoomWidget::create(context);
+            p.zoomAndPosWidget->setLabelSizeGroup(p.sizeGroup);
+            p.gridWidget = GridWidget::create(context);
+            p.gridWidget->setLabelSizeGroup(p.sizeGroup);
+            p.hudWidget = HUDWidget::create(context);
+            p.hudWidget->setLabelSizeGroup(p.sizeGroup);
+            p.backgroundWidget = BackgroundWidget::create(context);
+            p.backgroundWidget->setLabelSizeGroup(p.sizeGroup);
+            p.borderWidget = BorderWidget::create(context);
+            p.borderWidget->setLabelSizeGroup(p.sizeGroup);
+
             p.bellows["View"] = UI::Bellows::create(context);
-            p.bellows["View"]->addChild(p.formLayouts["View"]);
-
-            p.formLayouts["Grid"] = UI::FormLayout::create(context);
-            p.formLayouts["Grid"]->addChild(p.gridSizeSlider);
-            p.formLayouts["Grid"]->addChild(p.gridColorPickerSwatch);
-            p.formLayouts["Grid"]->addChild(p.gridLabelsComboBox);
-            p.formLayouts["Grid"]->addChild(p.gridLabelsColorPickerSwatch);
+            p.bellows["View"]->addChild(p.zoomAndPosWidget);
             p.bellows["Grid"] = UI::Bellows::create(context);
-            p.bellows["Grid"]->addWidget(p.gridEnabledButton);
-            p.bellows["Grid"]->addChild(p.formLayouts["Grid"]);
-
-            p.formLayouts["HUD"] = UI::FormLayout::create(context);
-            p.formLayouts["HUD"]->addChild(p.hudColorPickerSwatch);
-            p.formLayouts["HUD"]->addChild(p.hudBackgroundComboBox);
+            p.bellows["Grid"]->addWidget(p.gridWidget->getEnabledButton());
+            p.bellows["Grid"]->addChild(p.gridWidget);
             p.bellows["HUD"] = UI::Bellows::create(context);
-            p.bellows["HUD"]->addWidget(p.hudEnabledButton);
-            p.bellows["HUD"]->addChild(p.formLayouts["HUD"]);
-
-            p.formLayouts["Background"] = UI::FormLayout::create(context);
-            p.formLayouts["Background"]->addChild(p.backgroundComboBox);
-            p.formLayouts["Background"]->addChild(p.backgroundColorPickerSwatch);
-            p.formLayouts["Background"]->addChild(p.checkersSizeSlider);
-            p.checkersColorsLayout = UI::HorizontalLayout::create(context);
-            p.checkersColorsLayout->setSpacing(UI::MetricsRole::SpacingSmall);
-            p.checkersColorsLayout->addChild(p.checkersColorPickerSwatches[0]);
-            p.checkersColorsLayout->setStretch(p.checkersColorPickerSwatches[0], UI::RowStretch::Expand);
-            p.checkersColorsLayout->addChild(p.checkersColorPickerSwatches[1]);
-            p.checkersColorsLayout->setStretch(p.checkersColorPickerSwatches[1], UI::RowStretch::Expand);
-            p.formLayouts["Background"]->addChild(p.checkersColorsLayout);
+            p.bellows["HUD"]->addWidget(p.hudWidget->getEnabledButton());
+            p.bellows["HUD"]->addChild(p.hudWidget);
             p.bellows["Background"] = UI::Bellows::create(context);
-            p.bellows["Background"]->addChild(p.formLayouts["Background"]);
-
-            p.formLayouts["Border"] = UI::FormLayout::create(context);
-            p.formLayouts["Border"]->addChild(p.borderWidthSlider);
-            p.formLayouts["Border"]->addChild(p.borderColorPickerSwatch);
+            p.bellows["Background"]->addChild(p.backgroundWidget);
             p.bellows["Border"] = UI::Bellows::create(context);
-            p.bellows["Border"]->addWidget(p.borderEnabledButton);
-            p.bellows["Border"]->addChild(p.formLayouts["Border"]);
+            p.bellows["Border"]->addWidget(p.borderWidget->getEnabledButton());
+            p.bellows["Border"]->addChild(p.borderWidget);
             
-            for (const auto& i : p.formLayouts)
-            {
-                i.second->setMargin(UI::MetricsRole::MarginSmall);
-                i.second->setLabelSizeGroup(p.sizeGroup);
-            }
-
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(p.bellows["View"]);
@@ -241,448 +1320,6 @@ namespace djv
             scrollWidget->setShadowOverlay({ UI::Side::Top });
             scrollWidget->addChild(vLayout);
             addChild(scrollWidget);
-
-            _widgetUpdate();
-
-            auto weak = std::weak_ptr<ViewControlsWidget>(std::dynamic_pointer_cast<ViewControlsWidget>(shared_from_this()));
-            p.viewPosEdit[0]->setValueCallback(
-                [weak](float value, UI::TextEditReason)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_setPos(glm::vec2(value, widget->_p->viewPos.y));
-                    }
-                });
-            p.viewPosEdit[1]->setValueCallback(
-                [weak](float value, UI::TextEditReason)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_setPos(glm::vec2(widget->_p->viewPos.x, value));
-                    }
-                });
-
-            p.viewPosResetButton[0]->setClickedCallback(
-                [weak]
-            {
-                if (auto widget = weak.lock())
-                {
-                    glm::vec2 pos = widget->_p->viewPos;
-                    pos.x = 0.F;
-                    widget->_setPos(pos);
-                }
-            });
-            p.viewPosResetButton[1]->setClickedCallback(
-                [weak]
-            {
-                if (auto widget = weak.lock())
-                {
-                    glm::vec2 pos = widget->_p->viewPos;
-                    pos.y = 0.F;
-                    widget->_setPos(pos);
-                }
-            });
-
-            p.viewZoomEdit->setValueCallback(
-                [weak](float value, UI::TextEditReason)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_setZoom(value);
-                    }
-                });
-
-            p.viewZoomResetButton->setClickedCallback(
-                [weak]
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_setZoom(1.F);
-                    }
-                });
-
-            auto contextWeak = std::weak_ptr<Context>(context);
-            p.gridEnabledButton->setCheckedCallback(
-                [weak, contextWeak](bool value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->gridOptions.enabled = value;
-                            widget->_widgetUpdate();
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->activeWidget->getViewWidget()->setGridOptions(widget->_p->gridOptions);
-                            }
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                            auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                            viewSettings->setGridOptions(widget->_p->gridOptions);
-                        }
-                    }
-                });
-            p.gridSizeSlider->setValueCallback(
-                [weak, contextWeak](int value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->gridOptions.size = value;
-                            widget->_widgetUpdate();
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->activeWidget->getViewWidget()->setGridOptions(widget->_p->gridOptions);
-                            }
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                            auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                            viewSettings->setGridOptions(widget->_p->gridOptions);
-                        }
-                    }
-                });
-            p.gridColorPickerSwatch->setColorCallback(
-                [weak, contextWeak](const AV::Image::Color& value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->gridOptions.color = value;
-                            widget->_widgetUpdate();
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->activeWidget->getViewWidget()->setGridOptions(widget->_p->gridOptions);
-                            }
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                            auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                            viewSettings->setGridOptions(widget->_p->gridOptions);
-                        }
-                    }
-                });
-            p.gridLabelsComboBox->setCallback(
-                [weak, contextWeak](int value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->gridOptions.labels = static_cast<GridLabels>(value);
-                            widget->_widgetUpdate();
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->activeWidget->getViewWidget()->setGridOptions(widget->_p->gridOptions);
-                            }
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                            auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                            viewSettings->setGridOptions(widget->_p->gridOptions);
-                        }
-                    }
-                });
-            p.gridLabelsColorPickerSwatch->setColorCallback(
-                [weak, contextWeak](const AV::Image::Color& value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->gridOptions.labelsColor = value;
-                            widget->_widgetUpdate();
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->activeWidget->getViewWidget()->setGridOptions(widget->_p->gridOptions);
-                            }
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                            auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                            viewSettings->setGridOptions(widget->_p->gridOptions);
-                        }
-                    }
-                });
-
-            p.hudEnabledButton->setCheckedCallback(
-                [weak, contextWeak](bool value)
-            {
-                if (auto context = contextWeak.lock())
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->hudOptions.enabled = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
-                        {
-                            widget->_p->activeWidget->setHUDOptions(widget->_p->hudOptions);
-                        }
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                        auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                        viewSettings->setHUDOptions(widget->_p->hudOptions);
-                    }
-                }
-            });
-            p.hudColorPickerSwatch->setColorCallback(
-                [weak, contextWeak](const AV::Image::Color& value)
-            {
-                if (auto context = contextWeak.lock())
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->hudOptions.color = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
-                        {
-                            widget->_p->activeWidget->setHUDOptions(widget->_p->hudOptions);
-                        }
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                        auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                        viewSettings->setHUDOptions(widget->_p->hudOptions);
-                    }
-                }
-            });
-            p.hudBackgroundComboBox->setCallback(
-                [weak, contextWeak](int value)
-            {
-                if (auto context = contextWeak.lock())
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->hudOptions.background = static_cast<HUDBackground>(value);
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
-                        {
-                            widget->_p->activeWidget->setHUDOptions(widget->_p->hudOptions);
-                        }
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                        auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                        viewSettings->setHUDOptions(widget->_p->hudOptions);
-                    }
-                }
-            });
-
-            p.backgroundComboBox->setCallback(
-                [weak, contextWeak](int value)
-            {
-                if (auto context = contextWeak.lock())
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->backgroundOptions.background = static_cast<ViewBackground>(value);
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
-                        {
-                            widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
-                        }
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                        auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                        viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
-                    }
-                }
-            });
-            p.backgroundColorPickerSwatch->setColorCallback(
-                [weak, contextWeak](const AV::Image::Color& value)
-            {
-                if (auto context = contextWeak.lock())
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->backgroundOptions.color = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
-                        {
-                            widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
-                        }
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                        auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                        viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
-                    }
-                }
-            });
-            p.checkersSizeSlider->setValueCallback(
-                [weak, contextWeak](float value)
-            {
-                if (auto context = contextWeak.lock())
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->backgroundOptions.checkersSize = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
-                        {
-                            widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
-                        }
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                        auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                        viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
-                    }
-                }
-            });
-            p.checkersColorPickerSwatches[0]->setColorCallback(
-                [weak, contextWeak](const AV::Image::Color& value)
-            {
-                if (auto context = contextWeak.lock())
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->backgroundOptions.checkersColors[0] = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
-                        {
-                            widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
-                        }
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                        auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                        viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
-                    }
-                }
-            });
-            p.checkersColorPickerSwatches[1]->setColorCallback(
-                [weak, contextWeak](const AV::Image::Color& value)
-            {
-                if (auto context = contextWeak.lock())
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->backgroundOptions.checkersColors[1] = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
-                        {
-                            widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
-                        }
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                        auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                        viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
-                    }
-                }
-            });
-
-            p.borderEnabledButton->setCheckedCallback(
-                [weak, contextWeak](bool value)
-            {
-                if (auto context = contextWeak.lock())
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->backgroundOptions.border = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
-                        {
-                            widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
-                        }
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                        auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                        viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
-                    }
-                }
-            });
-            p.borderWidthSlider->setValueCallback(
-                [weak, contextWeak](float value)
-            {
-                if (auto context = contextWeak.lock())
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->backgroundOptions.borderWidth = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
-                        {
-                            widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
-                        }
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                        auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                        viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
-                    }
-                }
-            });
-            p.borderColorPickerSwatch->setColorCallback(
-                [weak, contextWeak](const AV::Image::Color& value)
-            {
-                if (auto context = contextWeak.lock())
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->backgroundOptions.borderColor = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
-                        {
-                            widget->_p->activeWidget->getViewWidget()->setBackgroundOptions(widget->_p->backgroundOptions);
-                        }
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                        auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                        viewSettings->setBackgroundOptions(widget->_p->backgroundOptions);
-                    }
-                }
-            });
-
-            if (auto windowSystem = context->getSystemT<WindowSystem>())
-            {
-                p.activeWidgetObserver = ValueObserver<std::shared_ptr<MediaWidget> >::create(
-                    windowSystem->observeActiveWidget(),
-                    [weak](const std::shared_ptr<MediaWidget>& value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->activeWidget = value;
-                            if (widget->_p->activeWidget)
-                            {
-                                widget->_p->viewPosObserver = ValueObserver<glm::vec2>::create(
-                                    widget->_p->activeWidget->getViewWidget()->observeImagePos(),
-                                    [weak](const glm::vec2& value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->viewPos = value;
-                                            widget->_widgetUpdate();
-                                        }
-                                    });
-                                widget->_p->viewZoomObserver = ValueObserver<float>::create(
-                                    widget->_p->activeWidget->getViewWidget()->observeImageZoom(),
-                                    [weak](float value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->viewZoom = value;
-                                            widget->_widgetUpdate();
-                                        }
-                                    });
-                                widget->_p->gridOptionsObserver = ValueObserver<GridOptions>::create(
-                                    widget->_p->activeWidget->getViewWidget()->observeGridOptions(),
-                                    [weak](const GridOptions& value)
-                                {
-                                    if (auto widget = weak.lock())
-                                    {
-                                        widget->_p->gridOptions = value;
-                                        widget->_widgetUpdate();
-                                    }
-                                });
-                                widget->_p->hudOptionsObserver = ValueObserver<HUDOptions>::create(
-                                    widget->_p->activeWidget->observeHUDOptions(),
-                                    [weak](const HUDOptions& value)
-                                {
-                                    if (auto widget = weak.lock())
-                                    {
-                                        widget->_p->hudOptions = value;
-                                        widget->_widgetUpdate();
-                                    }
-                                });
-                                widget->_p->backgroundOptionsObserver = ValueObserver<ViewBackgroundOptions>::create(
-                                    widget->_p->activeWidget->getViewWidget()->observeBackgroundOptions(),
-                                    [weak](const ViewBackgroundOptions& value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->backgroundOptions = value;
-                                            widget->_widgetUpdate();
-                                        }
-                                    });
-                            }
-                            else
-                            {
-                                widget->_p->viewPosObserver.reset();
-                                widget->_p->viewZoomObserver.reset();
-                                widget->_p->gridOptionsObserver.reset();
-                                widget->_p->hudOptionsObserver.reset();
-                                widget->_p->backgroundOptionsObserver.reset();
-                            }
-                        }
-                    });
-            }
         }
 
         ViewControlsWidget::ViewControlsWidget() :
@@ -735,133 +1372,12 @@ namespace djv
             if (event.getData().text)
             {
                 setTitle(_getText(DJV_TEXT("view_controls")));
-
-                for (size_t i = 0; i < 2; ++i)
-                {
-                    p.viewPosResetButton[i]->setTooltip(_getText(DJV_TEXT("reset_the_value")));
-                }
-                p.viewZoomResetButton->setTooltip(_getText(DJV_TEXT("reset_the_value")));
-                p.formLayouts["View"]->setText(p.viewPosLayout[0], _getText(DJV_TEXT("position_x")) + ":");
-                p.formLayouts["View"]->setText(p.viewPosLayout[1], _getText(DJV_TEXT("position_y")) + ":");
-                p.formLayouts["View"]->setText(p.viewZoomLayout, _getText(DJV_TEXT("zoom")) + ":");
-
-                p.gridEnabledButton->setTooltip(_getText(DJV_TEXT("widget_view_grid_enabled")));
-                p.formLayouts["Grid"]->setText(p.gridSizeSlider, _getText(DJV_TEXT("widget_view_grid_size")) + ":");
-                p.formLayouts["Grid"]->setText(p.gridColorPickerSwatch, _getText(DJV_TEXT("widget_view_grid_color")) + ":");
-                p.formLayouts["Grid"]->setText(p.gridLabelsComboBox, _getText(DJV_TEXT("widget_view_grid_labels")) + ":");
-                p.formLayouts["Grid"]->setText(p.gridLabelsColorPickerSwatch, _getText(DJV_TEXT("widget_view_grid_labels_color")) + ":");
-
-                p.hudEnabledButton->setTooltip(_getText(DJV_TEXT("widget_view_hud_enabled_tooltip")));
-                p.formLayouts["HUD"]->setText(p.hudColorPickerSwatch, _getText(DJV_TEXT("widget_view_hud_color")) + ":");
-                p.formLayouts["HUD"]->setText(p.hudBackgroundComboBox, _getText(DJV_TEXT("widget_view_hud_background")) + ":");
-
-                p.formLayouts["Background"]->setText(p.backgroundComboBox, _getText(DJV_TEXT("widget_view_background")) + ":");
-                p.formLayouts["Background"]->setText(p.backgroundColorPickerSwatch, _getText(DJV_TEXT("widget_view_background_color")) + ":");
-                p.formLayouts["Background"]->setText(p.checkersSizeSlider, _getText(DJV_TEXT("widget_view_background_checkers_size")) + ":");
-                p.formLayouts["Background"]->setText(p.checkersColorsLayout, _getText(DJV_TEXT("widget_view_background_checkers_colors")) + ":");
-
-                p.borderEnabledButton->setTooltip(_getText(DJV_TEXT("widget_view_border_enabled_tooltip")) + ":");
-                p.formLayouts["Border"]->setText(p.borderWidthSlider, _getText(DJV_TEXT("widget_view_border_width")) + ":");
-                p.formLayouts["Border"]->setText(p.borderColorPickerSwatch, _getText(DJV_TEXT("widget_view_border_color")) + ":");
-
                 p.bellows["View"]->setText(_getText(DJV_TEXT("view")));
                 p.bellows["Grid"]->setText(_getText(DJV_TEXT("view_grid")));
                 p.bellows["HUD"]->setText(_getText(DJV_TEXT("view_hud")));
                 p.bellows["Background"]->setText(_getText(DJV_TEXT("view_background")));
                 p.bellows["Border"]->setText(_getText(DJV_TEXT("view_border")));
-
-                _widgetUpdate();
             }
-        }
-
-        void ViewControlsWidget::_setPos(const glm::vec2& value)
-        {
-            DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
-            {
-                auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                viewSettings->setLock(ViewLock::None);
-                p.viewPos = value;
-                _widgetUpdate();
-                if (p.activeWidget)
-                {
-                    p.activeWidget->getViewWidget()->setImagePos(p.viewPos);
-                }
-            }
-        }
-
-        void ViewControlsWidget::_setZoom(float value)
-        {
-            DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
-            {
-                auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-                viewSettings->setLock(ViewLock::None);
-                p.viewZoom = value;
-                _widgetUpdate();
-                if (p.activeWidget)
-                {
-                    p.activeWidget->getViewWidget()->setImageZoomFocus(value);
-                }
-            }
-        }
-
-        void ViewControlsWidget::_widgetUpdate()
-        {
-            DJV_PRIVATE_PTR();
-
-            p.viewPosEdit[0]->setValue(p.viewPos.x);
-            p.viewPosEdit[1]->setValue(p.viewPos.y);
-            p.viewPosResetButton[0]->setEnabled(p.viewPos.x != 0.F);
-            p.viewPosResetButton[1]->setEnabled(p.viewPos.y != 0.F);
-            p.viewZoomEdit->setValue(p.viewZoom);
-            p.viewZoomResetButton->setEnabled(p.viewZoom != 1.F);
-
-            p.gridEnabledButton->setChecked(p.gridOptions.enabled);
-            p.gridSizeSlider->setValue(p.gridOptions.size);
-            p.gridColorPickerSwatch->setColor(p.gridOptions.color);
-            std::vector<std::string> items;
-            for (auto i : getGridLabelsEnums())
-            {
-                std::stringstream ss;
-                ss << i;
-                items.push_back(_getText(ss.str()));
-            }
-            p.gridLabelsComboBox->setItems(items);
-            p.gridLabelsComboBox->setCurrentItem(static_cast<int>(p.gridOptions.labels));
-            p.gridLabelsColorPickerSwatch->setColor(p.gridOptions.labelsColor);
-
-            p.hudEnabledButton->setChecked(p.hudOptions.enabled);
-            p.hudColorPickerSwatch->setColor(p.hudOptions.color);
-            items.clear();
-            for (auto i : getHUDBackgroundEnums())
-            {
-                std::stringstream ss;
-                ss << i;
-                items.push_back(_getText(ss.str()));
-            }
-            p.hudBackgroundComboBox->setItems(items);
-            p.hudBackgroundComboBox->setCurrentItem(static_cast<int>(p.hudOptions.background));
-
-            items.clear();
-            for (auto i : getViewBackgroundEnums())
-            {
-                std::stringstream ss;
-                ss << i;
-                items.push_back(_getText(ss.str()));
-            }
-            p.backgroundComboBox->setItems(items);
-            p.backgroundComboBox->setCurrentItem(static_cast<int>(p.backgroundOptions.background));
-            p.backgroundColorPickerSwatch->setColor(p.backgroundOptions.color);
-            p.checkersSizeSlider->setValue(p.backgroundOptions.checkersSize);
-            p.checkersColorPickerSwatches[0]->setColor(p.backgroundOptions.checkersColors[0]);
-            p.checkersColorPickerSwatches[1]->setColor(p.backgroundOptions.checkersColors[1]);
-
-            p.borderEnabledButton->setChecked(p.backgroundOptions.border);
-            p.borderWidthSlider->setValue(p.backgroundOptions.borderWidth);
-            p.borderColorPickerSwatch->setColor(p.backgroundOptions.borderColor);
         }
 
     } // namespace ViewApp
