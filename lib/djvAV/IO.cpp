@@ -4,6 +4,8 @@
 
 #include <djvAV/IO.h>
 
+#include <djvCore/Speed.h>
+
 using namespace djv::Core;
 
 namespace djv
@@ -12,6 +14,10 @@ namespace djv
     {
         namespace IO
         {
+            Info::Info() :
+                videoSpeed(Time::fromSpeed(Time::getDefaultSpeed()))
+            {}
+
             void VideoQueue::setMax(size_t value)
             {
                 _max = value;

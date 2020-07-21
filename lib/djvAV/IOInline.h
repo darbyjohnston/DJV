@@ -8,9 +8,6 @@ namespace djv
     {
         namespace IO
         {
-            inline Info::Info()
-            {}
-
             inline bool Info::operator == (const Info& other) const
             {
                 return
