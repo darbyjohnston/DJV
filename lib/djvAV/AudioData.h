@@ -70,14 +70,25 @@ namespace djv
                 static std::shared_ptr<Data> convert(const std::shared_ptr<Data>&, Type);
 
                 template<typename T>
-                static void extract(const T*, T*, size_t sampleCount, uint8_t inChannelCount, uint8_t outChannelCount);
+                static void extract(
+                    const T*,
+                    T*,
+                    size_t sampleCount,
+                    uint8_t inChannelCount,
+                    uint8_t outChannelCount);
 
                 static std::shared_ptr<Data> planarInterleave(const std::shared_ptr<Data>&);
                 template<typename T>
                 static void planarInterleave(const T**, T*, size_t sampleCount, uint8_t channelCount);
                 static std::shared_ptr<Data> planarDeinterleave(const std::shared_ptr<Data>&);
 
-                static void volume(const uint8_t*, uint8_t*, float volume, size_t sampleCount, uint8_t channelCount, Type);
+                static void volume(
+                    const uint8_t*,
+                    uint8_t*,
+                    float volume,
+                    size_t sampleCount,
+                    uint8_t channelCount,
+                    Type);
 
                 bool operator == (const Data&) const;
                 bool operator != (const Data&) const;
