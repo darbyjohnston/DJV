@@ -61,6 +61,7 @@ set(header
 	View.h
     ViewApp.h
     ViewControlsWidget.h
+    ViewControlsWidgetPrivate.h
 	ViewSettings.h
     ViewSystem.h
     ViewWidget.h
@@ -136,6 +137,7 @@ set(source
     ToolSystem.cpp
 	View.cpp
     ViewControlsWidget.cpp
+    ViewControlsWidgetPrivate.cpp
 	ViewSettings.cpp
     ViewSystem.cpp
     ViewWidget.cpp
