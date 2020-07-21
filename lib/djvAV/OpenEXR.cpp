@@ -4,6 +4,8 @@
 
 #include <djvAV/OpenEXR.h>
 
+#include <djvCore/Time.h>
+
 #include <ImfDoubleAttribute.h>
 #include <ImfFloatVectorAttribute.h>
 #include <ImfFramesPerSecond.h>

@@ -9,6 +9,7 @@
 #include <djvUI/IntSlider.h>
 
 #include <djvAV/FFmpeg.h>
+#include <djvAV/IOSystem.h>
 
 #include <djvCore/Context.h>
 

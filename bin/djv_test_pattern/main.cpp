@@ -5,7 +5,7 @@
 #include <djvCmdLineApp/Application.h>
 
 #include <djvAV/AVSystem.h>
-#include <djvAV/IO.h>
+#include <djvAV/IOSystem.h>
 #include <djvAV/OpenGLOffscreenBuffer.h>
 #include <djvAV/Render2D.h>
 

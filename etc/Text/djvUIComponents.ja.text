@@ -31,7 +31,6 @@
     "file_browser_file_tooltip_audio_channels": "チャンネル",
     "file_browser_file_tooltip_audio_duration": "尺",
     "file_browser_file_tooltip_audio_sample_rate": "サンプルレート",
-    "file_browser_file_tooltip_audio_track": "オーディオトラック",
     "file_browser_file_tooltip_audio_type": "タイプ",
     "file_browser_file_tooltip_audio_unit_khz": "kHz",
     "file_browser_file_tooltip_audio_unit_seconds": "秒",

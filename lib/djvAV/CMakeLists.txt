@@ -17,6 +17,9 @@ set(header
     IFF.h
     IO.h
     IOInline.h
+    IOPlugin.h
+    IOPluginInline.h
+    IOSystem.h
     Image.h
     ImageConvert.h
     ImageData.h
@@ -82,6 +85,8 @@ set(source
     IFF.cpp
     IFFRead.cpp
     IO.cpp
+    IOPlugin.cpp
+    IOSystem.cpp
     Image.cpp
     ImageConvert.cpp
     ImageData.cpp

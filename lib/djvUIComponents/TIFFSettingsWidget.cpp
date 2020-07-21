@@ -8,6 +8,7 @@
 #include <djvUI/Label.h>
 #include <djvUI/FormLayout.h>
 
+#include <djvAV/IOSystem.h>
 #include <djvAV/TIFF.h>
 
 #include <djvCore/Context.h>

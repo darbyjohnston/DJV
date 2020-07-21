@@ -186,7 +186,7 @@ namespace djv
         void AudioSystem::_actionsUpdate()
         {
             DJV_PRIVATE_PTR();
-            const bool hasAudio = p.info.audio.size();
+            const bool hasAudio = p.info.audio.isValid();
             p.actions["IncreaseVolume"]->setEnabled(hasAudio && p.volume < 1.F);
             p.actions["DecreaseVolume"]->setEnabled(hasAudio && p.volume > 0.F);
             p.actions["Mute"]->setEnabled(hasAudio);

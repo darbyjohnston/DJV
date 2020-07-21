@@ -31,7 +31,6 @@
     "file_browser_file_tooltip_audio_channels": "Kanäle",
     "file_browser_file_tooltip_audio_duration": "Dauer",
     "file_browser_file_tooltip_audio_sample_rate": "Samplingrate",
-    "file_browser_file_tooltip_audio_track": "Audiospur",
     "file_browser_file_tooltip_audio_type": "Art",
     "file_browser_file_tooltip_audio_unit_khz": "kHz",
     "file_browser_file_tooltip_audio_unit_seconds": "Sekunden",

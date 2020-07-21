@@ -24,13 +24,13 @@ namespace djv
         struct LayersWidget::Private
         {
             std::shared_ptr<Media> currentMedia;
-            std::vector<AV::IO::VideoInfo> layers;
+            std::vector<AV::Image::Info> layers;
             int currentLayer = -1;
             std::shared_ptr<UI::ListWidget> listWidget;
             std::shared_ptr<UI::SearchBox> searchBox;
             std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
-            std::shared_ptr<ValueObserver<std::pair<std::vector<AV::IO::VideoInfo>, int> > > layersObserver;
+            std::shared_ptr<ValueObserver<std::pair<std::vector<AV::Image::Info>, int> > > layersObserver;
         };
 
         void LayersWidget::_init(const std::shared_ptr<Core::Context>& context)
@@ -92,9 +92,9 @@ namespace djv
                             widget->_p->currentMedia = value;
                             if (value)
                             {
-                                widget->_p->layersObserver = ValueObserver<std::pair<std::vector<AV::IO::VideoInfo>, int> >::create(
+                                widget->_p->layersObserver = ValueObserver<std::pair<std::vector<AV::Image::Info>, int> >::create(
                                     value->observeLayers(),
-                                    [weak](const std::pair<std::vector<AV::IO::VideoInfo>, int>& value)
+                                    [weak](const std::pair<std::vector<AV::Image::Info>, int>& value)
                                     {
                                         if (auto widget = weak.lock())
                                         {
@@ -146,7 +146,7 @@ namespace djv
             std::vector<std::string> items;
             for (const auto& i : p.layers)
             {
-                items.push_back(_getText(i.info.name));
+                items.push_back(_getText(i.name));
             }
             p.listWidget->setItems(items);
             p.listWidget->setChecked(p.currentLayer);

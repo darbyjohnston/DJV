@@ -65,7 +65,6 @@ private:
     std::function<void(void)> _reloadCallback;
     std::function<void(void)> _exitCallback;
     
-    std::map<std::string, std::map<std::string, std::shared_ptr<djv::Core::ValueObserver<bool> > > > _actionObservers;
     std::shared_ptr<djv::Core::ValueObserver<djv::Scene::PolarCameraData> > _cameraDataObserver;
     std::shared_ptr<djv::Core::ValueObserver<djv::UI::SceneRenderOptions> > _renderOptionsObserver;
     std::shared_ptr<djv::Core::ValueObserver<djv::Core::BBox3f> > _bboxObserver;

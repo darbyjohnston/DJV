@@ -157,7 +157,8 @@ void RenderWidget::_widgetUpdate()
         ss << i;
         items.push_back(_getText(ss.str()));
     }
-    _shaderModeComboBox->setItems(items, static_cast<int>(_renderOptions.shaderMode));
+    _shaderModeComboBox->setItems(items);
+    _shaderModeComboBox->setCurrentItem(static_cast<int>(_renderOptions.shaderMode));
 
     items.clear();
     for (const auto& i : AV::Render3D::getDepthBufferModeEnums())
@@ -166,7 +167,8 @@ void RenderWidget::_widgetUpdate()
         ss << i;
         items.push_back(_getText(ss.str()));
     }
-    _depthBufferModeComboBox->setItems(items, static_cast<int>(_renderOptions.depthBufferMode));
+    _depthBufferModeComboBox->setItems(items);
+    _depthBufferModeComboBox->setCurrentItem(static_cast<int>(_renderOptions.depthBufferMode));
 
     items.clear();
     for (const auto& i : AV::OpenGL::getOffscreenDepthTypeEnums())
@@ -175,7 +177,8 @@ void RenderWidget::_widgetUpdate()
         ss << i;
         items.push_back(_getText(ss.str()));
     }
-    _depthBufferTypeComboBox->setItems(items, static_cast<int>(_renderOptions.depthBufferType));
+    _depthBufferTypeComboBox->setItems(items);
+    _depthBufferTypeComboBox->setCurrentItem(static_cast<int>(_renderOptions.depthBufferType));
 
     items.clear();
     for (const auto& i : AV::OpenGL::getOffscreenSamplingEnums())
@@ -184,5 +187,6 @@ void RenderWidget::_widgetUpdate()
         ss << i;
         items.push_back(_getText(ss.str()));
     }
-    _multiSamplingComboBox->setItems(items, static_cast<int>(_renderOptions.multiSampling));
+    _multiSamplingComboBox->setItems(items);
+    _multiSamplingComboBox->setCurrentItem(static_cast<int>(_renderOptions.multiSampling));
 }

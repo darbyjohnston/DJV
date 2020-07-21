@@ -16,8 +16,6 @@ namespace djv
             void run() override;
             
         private:
-            void _videoInfo();
-            void _audioInfo();
             void _info();
             void _videoFrame();
             void _videoQueue();
@@ -26,7 +24,6 @@ namespace djv
             void _cache();
             void _io();
             void _system();
-            void _operators();
         };
         
     } // namespace AVTest

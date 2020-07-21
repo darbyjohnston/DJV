@@ -40,6 +40,7 @@
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/FileInfo.h>
 #include <djvCore/NumericValueModels.h>
 #include <djvCore/Path.h>
 #include <djvCore/Timer.h>
@@ -102,7 +103,7 @@ namespace djv
         {
             std::shared_ptr<Media> media;
             AV::IO::Info ioInfo;
-            std::vector<AV::IO::VideoInfo> layers;
+            std::vector<AV::Image::Info> layers;
             int currentLayer = -1;
             std::shared_ptr<AV::Image::Image> image;
             Math::Rational defaultSpeed;
@@ -155,7 +156,7 @@ namespace djv
 
             std::shared_ptr<ValueObserver<Time::Units> > timeUnitsObserver;
             std::shared_ptr<ValueObserver<AV::IO::Info> > ioInfoObserver;
-            std::shared_ptr<ValueObserver<std::pair<std::vector<AV::IO::VideoInfo>, int> > > layersObserver;
+            std::shared_ptr<ValueObserver<std::pair<std::vector<AV::Image::Info>, int> > > layersObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
             std::shared_ptr<ValueObserver<Math::Rational> > speedObserver;
             std::shared_ptr<ValueObserver<Math::Rational> > defaultSpeedObserver;
@@ -677,9 +678,9 @@ namespace djv
                     }
                 });
 
-            p.layersObserver = ValueObserver<std::pair<std::vector<AV::IO::VideoInfo>, int> >::create(
+            p.layersObserver = ValueObserver<std::pair<std::vector<AV::Image::Info>, int> >::create(
                 p.media->observeLayers(),
-                [weak](const std::pair<std::vector<AV::IO::VideoInfo>, int>& value)
+                [weak](const std::pair<std::vector<AV::Image::Info>, int>& value)
             {
                 if (auto widget = weak.lock())
                 {
@@ -1280,9 +1281,9 @@ namespace djv
             if (p.currentLayer >= 0 && p.currentLayer < static_cast<int>(p.layers.size()))
             {
                 const auto& layer = p.layers[p.currentLayer];
-                data.layer = layer.info.name;
-                data.size = layer.info.size;
-                data.type = layer.info.type;
+                data.layer = layer.name;
+                data.size = layer.size;
+                data.type = layer.type;
             }
             data.isSequence = p.sequence.getFrameCount() > 1;
             data.currentFrame = Time::toString(p.sequence.getFrame(p.currentFrame), p.speed, p.timeUnits);

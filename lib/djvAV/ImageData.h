@@ -88,6 +88,7 @@ namespace djv
                 float       pixelAspectRatio    = 1.F;
                 Type        type                = Type::None;
                 Layout      layout;
+                std::string codec;
 
                 float getAspectRatio() const;
                 GLenum getGLFormat() const;

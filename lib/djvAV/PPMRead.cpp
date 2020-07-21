@@ -51,7 +51,7 @@ namespace djv
                     auto io = FileSystem::FileIO::create();
                     Data data = Data::First;
                     const auto info = _open(fileName, io, data);
-                    auto imageInfo = info.video[0].info;
+                    auto imageInfo = info.video[0];
                     std::shared_ptr<Image::Image> out;
                     switch (data)
                     {
@@ -157,12 +157,12 @@ namespace djv
                     }
                     Image::Layout layout;
                     layout.endian = data != Data::ASCII ? Memory::Endian::MSB : Memory::getEndian();
-                    auto info = Image::Info(w, h, imageType, layout);
+                    auto imageInfo = Image::Info(w, h, imageType, layout);
 
                     const size_t ioSize = io->getSize();
                     const size_t ioPos = io->getPos();
                     const size_t fileDataByteCount = ioSize > 0 ? (ioSize - ioPos) : 0;
-                    const size_t dataByteCount = info.getDataByteCount();
+                    const size_t dataByteCount = imageInfo.getDataByteCount();
                     if (Data::Binary == data && dataByteCount > fileDataByteCount)
                     {
                         throw FileSystem::Error(String::Format("{0}: {1}").
@@ -170,7 +170,12 @@ namespace djv
                             arg(_textSystem->getText(DJV_TEXT("error_incomplete_file"))));
                     }
 
-                    return Info(fileName, VideoInfo(info, _speed, _sequence));
+                    Info info;
+                    info.fileName = fileName;
+                    info.videoSpeed = _speed;
+                    info.videoSequence = _sequence;
+                    info.video.push_back(imageInfo);
+                    return info;
                 }
 
             } // namespace PPM

@@ -10,6 +10,7 @@
 #include <djvUI/GroupBox.h>
 #include <djvUI/IntSlider.h>
 
+#include <djvAV/IOSystem.h>
 #include <djvAV/OpenEXR.h>
 
 #include <djvCore/Context.h>

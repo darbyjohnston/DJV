@@ -20,6 +20,7 @@
 #include <djvUI/ShortcutData.h>
 
 #include <djvAV/AVSystem.h>
+#include <djvAV/IOSystem.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>

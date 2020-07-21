@@ -31,7 +31,6 @@
     "file_browser_file_tooltip_audio_channels": "频道",
     "file_browser_file_tooltip_audio_duration": "持续时间",
     "file_browser_file_tooltip_audio_sample_rate": "采样率",
-    "file_browser_file_tooltip_audio_track": "音轨",
     "file_browser_file_tooltip_audio_type": "类型",
     "file_browser_file_tooltip_audio_unit_khz": "千赫",
     "file_browser_file_tooltip_audio_unit_seconds": "秒",

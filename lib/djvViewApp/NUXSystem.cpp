@@ -22,7 +22,7 @@
 #include <djvUI/StackLayout.h>
 #include <djvUI/Window.h>
 
-#include <djvAV/IO.h>
+#include <djvAV/IOSystem.h>
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Animation.h>

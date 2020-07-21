@@ -161,7 +161,7 @@ namespace djv
                     }
                     header.insert(Imf::CompressionAttribute::staticTypeName(), compression);
                     addDwaCompressionLevel(header, p.options.dwaCompressionLevel);
-                    writeTags(image->getTags(), _info.video[0].speed, header);
+                    writeTags(image->getTags(), _info.videoSpeed, header);
 
                     auto out = std::unique_ptr<Imf::OutputFile>(new Imf::OutputFile(fileName.c_str(), header));
                     const uint8_t* data = image->getData();

@@ -4,9 +4,9 @@
 
 #include <djvAV/ThumbnailSystem.h>
 
+#include <djvAV/IOSystem.h>
 #include <djvAV/Image.h>
 #include <djvAV/ImageConvert.h>
-#include <djvAV/IO.h>
 
 #include <djvCore/Cache.h>
 #include <djvCore/Context.h>

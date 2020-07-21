@@ -31,7 +31,6 @@
     "file_browser_file_tooltip_audio_channels": "каналы",
     "file_browser_file_tooltip_audio_duration": "продолжительность",
     "file_browser_file_tooltip_audio_sample_rate": "Частота дискретизации",
-    "file_browser_file_tooltip_audio_track": "Звуковая дорожка",
     "file_browser_file_tooltip_audio_type": "Тип",
     "file_browser_file_tooltip_audio_unit_khz": "кГц",
     "file_browser_file_tooltip_audio_unit_seconds": "секунд",

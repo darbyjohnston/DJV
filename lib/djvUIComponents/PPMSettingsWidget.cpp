@@ -8,6 +8,7 @@
 #include <djvUI/FormLayout.h>
 #include <djvUI/GroupBox.h>
 
+#include <djvAV/IOSystem.h>
 #include <djvAV/PPM.h>
 
 #include <djvCore/Context.h>

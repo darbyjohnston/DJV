@@ -33,21 +33,6 @@ namespace djv
     {
         namespace Audio
         {
-            bool Info::operator == (const Info& other) const
-            {
-                return
-                    name == other.name &&
-                    channelCount == other.channelCount &&
-                    type == other.type &&
-                    sampleRate == other.sampleRate &&
-                    sampleCount == other.sampleCount;
-            }
-
-            bool Info::operator != (const Info& other) const
-            {
-                return !(*this == other);
-            }
-
             void Data::_init(const Info& info)
             {
                 _info = info;

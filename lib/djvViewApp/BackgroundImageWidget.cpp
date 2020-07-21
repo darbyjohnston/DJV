@@ -9,7 +9,7 @@
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Style.h>
 
-#include <djvAV/IO.h>
+#include <djvAV/IOSystem.h>
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Context.h>

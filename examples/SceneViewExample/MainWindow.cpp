@@ -154,6 +154,79 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
     addChild(vLayout);
 
     auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
+    _actions["File"]["Open"]->setClickedCallback(
+        [weak]
+        {
+            if (auto widget = weak.lock())
+            {
+                widget->_open();
+            }
+        });
+
+    _actions["File"]["Reload"]->setClickedCallback(
+        [weak]
+        {
+            if (auto widget = weak.lock())
+            {
+                if (widget->_reloadCallback)
+                {
+                    widget->_reloadCallback();
+                }
+            }
+        });
+
+    _actions["File"]["Close"]->setClickedCallback(
+        [weak]
+        {
+            if (auto widget = weak.lock())
+            {
+                if (widget->_openCallback)
+                {
+                    widget->_openCallback(Core::FileSystem::FileInfo());
+                }
+            }
+        });
+
+    _actions["File"]["Exit"]->setClickedCallback(
+        [weak]
+        {
+            if (auto widget = weak.lock())
+            {
+                if (widget->_exitCallback)
+                {
+                    widget->_exitCallback();
+                }
+            }
+        });
+
+    _actions["View"]["Frame"]->setClickedCallback(
+        [weak]
+        {
+            if (auto widget = weak.lock())
+            {
+                widget->_sceneWidget->frameView();
+            }
+        });
+
+    _actions["Tools"]["Settings"]->setCheckedCallback(
+        [weak](bool value)
+        {
+            if (auto widget = weak.lock())
+            {
+                widget->_settingsDrawer->setOpen(value);
+            }
+        });
+
+    _sceneRotateActionGroup->setExclusiveCallback(
+        [weak](int value)
+        {
+            if (auto widget = weak.lock())
+            {
+                widget->_sceneWidget->setSceneRotate(static_cast<UI::SceneRotate>(value + 1));
+                widget->_sceneWidget->frameView();
+            }
+        });
+
     _cameraWidget->setCameraDataCallback(
         [weak](const Scene::PolarCameraData& value)
         {
@@ -169,100 +242,6 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
             if (auto widget = weak.lock())
             {
                 widget->_sceneWidget->setRenderOptions(value);
-            }
-        });
-
-    _sceneRotateActionGroup->setExclusiveCallback(
-        [weak](int value)
-        {
-            if (auto widget = weak.lock())
-            {
-                widget->_sceneWidget->setSceneRotate(static_cast<UI::SceneRotate>(value + 1));
-                widget->_sceneWidget->frameView();
-            }
-        });
-    
-    _actionObservers["File"]["Open"] = Core::ValueObserver<bool>::create(
-        _actions["File"]["Open"]->observeClicked(),
-        [weak](bool value)
-        {
-            if (value)
-            {
-                if (auto widget = weak.lock())
-                {
-                    widget->_open();
-                }
-            }
-        });
-
-    _actionObservers["File"]["Reload"] = Core::ValueObserver<bool>::create(
-        _actions["File"]["Reload"]->observeClicked(),
-        [weak](bool value)
-        {
-            if (value)
-            {
-                if (auto widget = weak.lock())
-                {
-                    if (widget->_reloadCallback)
-                    {
-                        widget->_reloadCallback();
-                    }
-                }
-            }
-        });
-
-    _actionObservers["File"]["Close"] = Core::ValueObserver<bool>::create(
-        _actions["File"]["Close"]->observeClicked(),
-        [weak](bool value)
-        {
-            if (value)
-            {
-                if (auto widget = weak.lock())
-                {
-                    if (widget->_openCallback)
-                    {
-                        widget->_openCallback(Core::FileSystem::FileInfo());
-                    }
-                }
-            }
-        });
-
-    _actionObservers["File"]["Exit"] = Core::ValueObserver<bool>::create(
-        _actions["File"]["Exit"]->observeClicked(),
-        [weak](bool value)
-        {
-            if (value)
-            {
-                if (auto widget = weak.lock())
-                {
-                    if (widget->_exitCallback)
-                    {
-                        widget->_exitCallback();
-                    }
-                }
-            }
-        });
-
-    _actionObservers["View"]["Frame"] = Core::ValueObserver<bool>::create(
-        _actions["View"]["Frame"]->observeClicked(),
-        [weak](bool value)
-        {
-            if (value)
-            {
-                if (auto widget = weak.lock())
-                {
-                    widget->_sceneWidget->frameView();
-                }
-            }
-        });
-
-    _actionObservers["Tools"]["Settings"] = Core::ValueObserver<bool>::create(
-        _actions["Tools"]["Settings"]->observeChecked(),
-        [weak](bool value)
-        {
-            if (auto widget = weak.lock())
-            {
-                widget->_settingsDrawer->setOpen(value);
             }
         });
 

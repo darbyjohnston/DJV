@@ -31,7 +31,6 @@
     "file_browser_file_tooltip_audio_channels": "Canaux",
     "file_browser_file_tooltip_audio_duration": "Durée",
     "file_browser_file_tooltip_audio_sample_rate": "Taux d’échantillonnage",
-    "file_browser_file_tooltip_audio_track": "Piste audio",
     "file_browser_file_tooltip_audio_type": "Type",
     "file_browser_file_tooltip_audio_unit_khz": "kHz",
     "file_browser_file_tooltip_audio_unit_seconds": "secondes",

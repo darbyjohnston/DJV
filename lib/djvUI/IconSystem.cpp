@@ -5,7 +5,7 @@
 #include <djvUI/IconSystem.h>
 
 #include <djvAV/AVSystem.h>
-#include <djvAV/IO.h>
+#include <djvAV/IOSystem.h>
 #include <djvAV/Image.h>
 
 #include <djvCore/Cache.h>

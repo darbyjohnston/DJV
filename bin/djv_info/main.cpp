@@ -5,7 +5,7 @@
 #include <djvCmdLineApp/Application.h>
 
 #include <djvAV/AVSystem.h>
-#include <djvAV/IO.h>
+#include <djvAV/IOSystem.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/Error.h>
@@ -29,6 +29,8 @@ namespace djv
             void _init(std::list<std::string>& args)
             {
                 CmdLine::Application::_init(args);
+
+                _textSystem = getSystemT<Core::TextSystem>();
 
                 _parseCmdLine(args);
 
@@ -120,36 +122,38 @@ namespace djv
                 {
                     try
                     {
-                        auto read = io->read(fileInfo);
-                        auto info = read->getInfo().get();
+                        const auto read = io->read(fileInfo);
+                        const auto info = read->getInfo().get();
                         std::cout << fileInfo << std::endl;
-                        size_t i = 0;
-                        for (const auto & video : info.video)
+                        std::cout.precision(2);
+                        if (info.videoSequence.getFrameCount() > 1)
                         {
-                            std::cout << "    Video track " << i << ":" << std::endl;
-                            std::cout << "        Name: " << video.info.name << std::endl;
-                            std::cout.precision(2);
-                            std::cout << "        Size: " << video.info.size << " " << std::fixed << video.info.getAspectRatio() << std::endl;
-                            std::cout << "        Type: " << video.info.type << std::endl;
-                            std::cout << "        Speed: " << video.speed.toFloat() << std::endl;
+                            std::cout << "    Speed: " << info.videoSpeed.toFloat() << std::endl;
                             const Core::Time::Units timeUnits = avSystem->observeTimeUnits()->get();
-                            std::cout << "        Duration: " << Core::Time::toString(video.sequence.getFrameCount(), video.speed, timeUnits);
+                            std::cout << "    Duration: " << Core::Time::toString(info.videoSequence.getFrameCount(), info.videoSpeed, timeUnits);
                             if (Core::Time::Units::Frames == timeUnits)
                             {
                                 std::cout << " " << "frames";
                             }
                             std::cout << std::endl;
-                            ++i;
                         }
-                        i = 0;
-                        for (const auto & audio : info.audio)
+                        for (const auto & video : info.video)
                         {
-                            std::cout << "    Audio track " << i << ":" << std::endl;
-                            std::cout << "        Channels: " << static_cast<int>(audio.info.channelCount) << std::endl;
-                            std::cout << "        Type: " << audio.info.type << std::endl;
-                            std::cout << "        Sample rate: " << audio.info.sampleRate << std::endl;
-                            std::cout << "        Duration: " << (audio.info.sampleRate > 0 ? (audio.info.sampleCount / static_cast<float>(audio.info.sampleRate)) : 0.F) << " seconds" << std::endl;
-                            ++i;
+                            std::cout << "    " << video.name << std::endl;
+                            std::cout << "        Size: " << video.size << " " << std::fixed << video.getAspectRatio() << std::endl;
+                            std::stringstream ss;
+                            ss << video.type;
+                            std::cout << "        Type: " << _textSystem->getText(ss.str()) << std::endl;
+                        }
+                        if (info.audio.isValid())
+                        {
+                            std::cout << "    " << info.audio.name << std::endl;
+                            std::cout << "        Channels: " << static_cast<int>(info.audio.channelCount) << std::endl;
+                            std::stringstream ss;
+                            ss << info.audio.type;
+                            std::cout << "        Type: " << _textSystem->getText(ss.str()) << std::endl;
+                            std::cout << "        Sample rate: " << info.audio.sampleRate << std::endl;
+                            std::cout << "        Duration: " << (info.audio.sampleRate > 0 ? (info.audio.sampleCount / static_cast<float>(info.audio.sampleRate)) : 0.F) << " seconds" << std::endl;
                         }
                     }
                     catch (const std::exception & e)
@@ -159,6 +163,7 @@ namespace djv
                 }
             }
 
+            std::shared_ptr<Core::TextSystem> _textSystem;
             std::vector<Core::FileSystem::FileInfo> _inputs;
         };
 

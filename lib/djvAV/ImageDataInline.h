@@ -126,10 +126,13 @@ namespace djv
             inline bool Info::operator == (const Info& other) const
             {
                 return
-                    other.size.w == size.w &&
-                    other.size.h == size.h &&
-                    other.type == type &&
-                    other.layout == layout;
+                    name == other.name &&
+                    size.w == other.size.w &&
+                    size.h == other.size.h &&
+                    pixelAspectRatio == other.pixelAspectRatio &&
+                    type == other.type &&
+                    layout == other.layout &&
+                    codec == other.codec;
             }
 
             inline bool Info::operator != (const Info& other) const

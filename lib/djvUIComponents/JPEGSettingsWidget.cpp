@@ -7,6 +7,7 @@
 #include <djvUI/FormLayout.h>
 #include <djvUI/IntSlider.h>
 
+#include <djvAV/IOSystem.h>
 #include <djvAV/JPEG.h>
 
 #include <djvCore/Context.h>

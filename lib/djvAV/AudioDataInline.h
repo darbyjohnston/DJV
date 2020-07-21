@@ -30,6 +30,23 @@ namespace djv
                 return sampleCount * channelCount * Audio::getByteCount(type);
             }
 
+            inline bool Info::operator == (const Info& other) const
+            {
+                return
+                    name == other.name &&
+                    channelCount == other.channelCount &&
+                    type == other.type &&
+                    sampleRate == other.sampleRate &&
+                    sampleCount == other.sampleCount &&
+                    codec == other.codec;
+            }
+
+            inline bool Info::operator != (const Info& other) const
+            {
+                return !(*this == other);
+            }
+
+
             inline const Info& Data::getInfo() const
             {
                 return _info;

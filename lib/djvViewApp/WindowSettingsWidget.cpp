@@ -19,7 +19,7 @@
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/ToolButton.h>
 
-#include <djvAV/IO.h>
+#include <djvAV/IOSystem.h>
 #include <djvAV/Render2D.h>
 #include <djvAV/ThumbnailSystem.h>
 

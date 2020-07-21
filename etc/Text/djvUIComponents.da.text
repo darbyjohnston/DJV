@@ -31,7 +31,6 @@
     "file_browser_file_tooltip_audio_channels": "Kanaler",
     "file_browser_file_tooltip_audio_duration": "Varighed",
     "file_browser_file_tooltip_audio_sample_rate": "Prøvehastighed",
-    "file_browser_file_tooltip_audio_track": "Lydspor",
     "file_browser_file_tooltip_audio_type": "Type",
     "file_browser_file_tooltip_audio_unit_khz": "kHz",
     "file_browser_file_tooltip_audio_unit_seconds": "sekunder",

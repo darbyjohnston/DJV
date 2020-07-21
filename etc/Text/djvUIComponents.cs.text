@@ -31,7 +31,6 @@
     "file_browser_file_tooltip_audio_channels": "Kanály",
     "file_browser_file_tooltip_audio_duration": "Doba trvání",
     "file_browser_file_tooltip_audio_sample_rate": "Vzorkovací frekvence",
-    "file_browser_file_tooltip_audio_track": "Zvuková stopa",
     "file_browser_file_tooltip_audio_type": "Typ",
     "file_browser_file_tooltip_audio_unit_khz": "kHz",
     "file_browser_file_tooltip_audio_unit_seconds": "sekundy",

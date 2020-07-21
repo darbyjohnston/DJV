@@ -121,9 +121,9 @@ namespace djv
                     const auto info = _open(fileName, f);
 
                     // Read the file.
-                    auto out = Image::Image::create(info.video[0].info);
+                    auto out = Image::Image::create(info.video[0]);
                     out->setPluginName(pluginName);
-                    for (uint16_t y = 0; y < info.video[0].info.size.h; ++y)
+                    for (uint16_t y = 0; y < info.video[0].size.h; ++y)
                     {
                         if (!jpegScanline(&f->jpeg, out->getData(y), &f->jpegError))
                         {
@@ -246,7 +246,11 @@ namespace djv
                             arg(fileName).
                             arg(_textSystem->getText(DJV_TEXT("error_unsupported_color_components"))));
                     }
-                    auto info = Info(fileName, VideoInfo(Image::Info(f->jpeg.output_width, f->jpeg.output_height, imageType), _speed, _sequence));
+                    Info info;
+                    info.fileName = fileName;
+                    info.videoSpeed = _speed;
+                    info.videoSequence = _sequence;
+                    info.video.push_back(Image::Info(f->jpeg.output_width, f->jpeg.output_height, imageType));
 
                     const jpeg_saved_marker_ptr marker = f->jpeg.marker_list;
                     if (marker)

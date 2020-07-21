@@ -7,7 +7,7 @@
 #include <djvAV/AudioSystem.h>
 #include <djvAV/FontSystem.h>
 #include <djvAV/GLFWSystem.h>
-#include <djvAV/IO.h>
+#include <djvAV/IOSystem.h>
 #include <djvAV/OCIOSystem.h>
 #include <djvAV/Render2D.h>
 #include <djvAV/Render3D.h>

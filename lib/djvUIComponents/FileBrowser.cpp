@@ -23,7 +23,7 @@
 #include <djvUI/ToolBar.h>
 #include <djvUI/ToolButton.h>
 
-#include <djvAV/IO.h>
+#include <djvAV/IOSystem.h>
 #include <djvAV/ThumbnailSystem.h>
 
 #include <djvCore/Context.h>

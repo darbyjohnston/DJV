@@ -616,7 +616,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             const bool playable =
                 (p.currentMedia ? true : false) &&
-                (p.sequence.getFrameCount() > 0);
+                (p.sequence.getFrameCount() > 1);
             p.actions["Forward"]->setEnabled(playable);
             p.actions["Reverse"]->setEnabled(playable);
             p.actions["PlayOnce"]->setEnabled(playable);

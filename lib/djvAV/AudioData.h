@@ -33,6 +33,7 @@ namespace djv
                 Type        type            = Audio::Type::None;
                 size_t      sampleRate      = 0;
                 size_t      sampleCount     = 0;
+                std::string codec;
                 
                 bool isValid() const;
                 size_t getByteCount() const;

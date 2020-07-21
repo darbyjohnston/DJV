@@ -67,9 +67,9 @@ namespace djv
                     std::shared_ptr<Image::Image> out;
                     File f;
                     const auto info = _open(fileName, f);
-                    out = Image::Image::create(info.video[0].info);
+                    out = Image::Image::create(info.video[0]);
                     out->setPluginName(pluginName);
-                    for (uint16_t y = 0; y < info.video[0].info.size.h; ++y)
+                    for (uint16_t y = 0; y < info.video[0].size.h; ++y)
                     {
                         if (TIFFReadScanline(f.f, (tdata_t *)out->getData(y), y) == -1)
                         {
@@ -81,8 +81,8 @@ namespace djv
                         {
                             TIFF::paletteLoad(
                                 out->getData(y),
-                                info.video[0].info.size.w,
-                                static_cast<int>(Image::getChannelCount(info.video[0].info.type)),
+                                info.video[0].size.w,
+                                static_cast<int>(Image::getChannelCount(info.video[0].type)),
                                 f.colormap[0], f.colormap[1], f.colormap[2]);
                         }
                     }
@@ -197,8 +197,11 @@ namespace djv
                         }
                     }
 
-                    auto imageInfo = Image::Info(width, height, imageType, layout);
-                    auto info = Info(fileName, VideoInfo(imageInfo, _speed, _sequence));
+                    Info info;
+                    info.fileName = fileName;
+                    info.videoSpeed = _speed;
+                    info.videoSequence = _sequence;
+                    info.video.push_back(Image::Info(width, height, imageType, layout));
                     info.tags = tags;
                     return info;
                 }

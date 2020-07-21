@@ -66,7 +66,7 @@ namespace djv
             //! \name Layers
             ///@{
 
-            std::shared_ptr<Core::IValueSubject<std::pair<std::vector<AV::IO::VideoInfo>, int> > > observeLayers() const;
+            std::shared_ptr<Core::IValueSubject<std::pair<std::vector<AV::Image::Info>, int> > > observeLayers() const;
 
             void setLayer(int);
             void nextLayer();

@@ -140,10 +140,10 @@ namespace djv
                     std::shared_ptr<Image::Image> out;
                     auto io = FileSystem::FileIO::create();
                     const auto info = _open(fileName, io);
-                    out = Image::Image::create(info.video[0].info);
+                    out = Image::Image::create(info.video[0]);
                     out->setPluginName(pluginName);
 
-                    const Image::Info& imageInfo = info.video[0].info;
+                    const Image::Info& imageInfo = info.video[0];
                     const size_t channels = Image::getChannelCount(imageInfo.type);
                     if (!_compression)
                     {
@@ -342,7 +342,11 @@ namespace djv
                     io->open(fileName, FileSystem::FileIO::Mode::Read);
                     Image::Info imageInfo;
                     Header().read(io, imageInfo, _bgr, _compression, _textSystem);
-                    auto info = Info(fileName, VideoInfo(imageInfo, _speed, _sequence));
+                    Info info;
+                    info.fileName = fileName;
+                    info.videoSpeed = _speed;
+                    info.videoSequence = _sequence;
+                    info.video.push_back(imageInfo);
                     return info;
                 }
 
