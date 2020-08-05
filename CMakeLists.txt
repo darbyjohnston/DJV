@@ -106,6 +106,9 @@ endif()
 if(DJV_DEMO_THREADS)
     add_definitions(-DDJV_DEMO_THREADS)
 endif()
+if(WIN32)
+    add_definitions(-DNOMINMAX)
+endif()
 
 # Test settings.
 if(UNIX)
