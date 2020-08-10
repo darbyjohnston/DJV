@@ -10,7 +10,7 @@ namespace djv
     {
         namespace Font
         {
-            inline FontInfo::FontInfo()
+            inline FontInfo::FontInfo() noexcept
             {}
 
             inline FontInfo::FontInfo(FamilyID family, FaceID face, uint16_t size, uint16_t dpi) :
@@ -25,48 +25,48 @@ namespace djv
                 Core::Memory::hashCombine(_hash, _dpi);
             }
 
-            inline FamilyID FontInfo::getFamily() const
+            inline FamilyID FontInfo::getFamily() const noexcept
             {
                 return _family;
             }
             
-            inline FaceID   FontInfo::getFace() const
+            inline FaceID   FontInfo::getFace() const noexcept
             {
                 return _face;
             }
             
-            inline uint16_t FontInfo::getSize() const
+            inline uint16_t FontInfo::getSize() const noexcept
             {
                 return _size;
             }
             
-            inline uint16_t FontInfo::getDPI() const
+            inline uint16_t FontInfo::getDPI() const noexcept
             {
                 return _dpi;
             }
 
-            inline bool FontInfo::operator == (const FontInfo& other) const
+            inline bool FontInfo::operator == (const FontInfo& other) const noexcept
             {
                 return _hash == other._hash;
             }
 
-            inline bool FontInfo::operator < (const FontInfo& other) const
+            inline bool FontInfo::operator < (const FontInfo& other) const noexcept
             {
                 return _hash < other._hash;
             }
 
-            inline Metrics::Metrics()
+            inline Metrics::Metrics() noexcept
             {}
 
-            inline GlyphInfo::GlyphInfo()
+            inline GlyphInfo::GlyphInfo() noexcept
             {}
 
-            inline GlyphInfo::GlyphInfo(uint32_t code, const FontInfo& fontInfo) :
+            inline GlyphInfo::GlyphInfo(uint32_t code, const FontInfo& fontInfo) noexcept :
                 code(code),
                 fontInfo(fontInfo)
             {}
 
-            inline bool GlyphInfo::operator == (const GlyphInfo& other) const
+            inline bool GlyphInfo::operator == (const GlyphInfo& other) const noexcept
             {
                 return
                     code == other.code &&

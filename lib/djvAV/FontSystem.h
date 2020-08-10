@@ -31,16 +31,16 @@ namespace djv
             class FontInfo
             {
             public:
-                FontInfo();
+                FontInfo() noexcept;
                 FontInfo(FamilyID, FaceID, uint16_t size, uint16_t DPI);
 
-                FamilyID getFamily() const;
-                FaceID   getFace() const;
-                uint16_t getSize() const;
-                uint16_t getDPI() const;
+                FamilyID getFamily() const noexcept;
+                FaceID   getFace() const noexcept;
+                uint16_t getSize() const noexcept;
+                uint16_t getDPI() const noexcept;
 
-                bool operator == (const FontInfo&) const;
-                bool operator < (const FontInfo&) const;
+                bool operator == (const FontInfo&) const noexcept;
+                bool operator < (const FontInfo&) const noexcept;
                 
             private:
                 FamilyID _family = 1;
@@ -54,7 +54,7 @@ namespace djv
             class Metrics
             {
             public:
-                Metrics();
+                Metrics() noexcept;
                 
                 uint16_t ascender   = 0;
                 uint16_t descender  = 0;
@@ -65,13 +65,13 @@ namespace djv
             class GlyphInfo
             {
             public:
-                GlyphInfo();
-                GlyphInfo(uint32_t code, const FontInfo&);
+                GlyphInfo() noexcept;
+                GlyphInfo(uint32_t code, const FontInfo&) noexcept;
 
                 uint32_t code = 0;
                 FontInfo fontInfo;
 
-                bool operator == (const GlyphInfo&) const;
+                bool operator == (const GlyphInfo&) const noexcept;
                 bool operator < (const GlyphInfo&) const;
             };
 
