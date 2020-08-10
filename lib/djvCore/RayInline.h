@@ -12,23 +12,23 @@ namespace djv
         namespace Ray
         {
             template<typename T, glm::precision P>
-            constexpr tRay3<T, P>::tRay3()
+            constexpr tRay3<T, P>::tRay3() noexcept
             {}
 
             template<typename T, glm::precision P>
-            constexpr tRay3<T, P>::tRay3(const glm::tvec3<T, P>& start, const glm::tvec3<T, P>& end) :
+            constexpr tRay3<T, P>::tRay3(const glm::tvec3<T, P>& start, const glm::tvec3<T, P>& end) noexcept :
                 start(start),
                 end(end)
             {}
 
             template<typename T, glm::precision P>
-            constexpr bool tRay3<T, P>::operator == (const tRay3<T, P>& value) const
+            constexpr bool tRay3<T, P>::operator == (const tRay3<T, P>& value) const noexcept
             {
                 return start == value.start && end == value.end;
             }
 
             template<typename T, glm::precision P>
-            constexpr bool tRay3<T, P>::operator != (const tRay3<T, P>& value) const
+            constexpr bool tRay3<T, P>::operator != (const tRay3<T, P>& value) const noexcept
             {
                 return !(*this == value);
             }

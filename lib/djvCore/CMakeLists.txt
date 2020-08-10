@@ -59,7 +59,6 @@ set(header
     RecentFilesModel.h
     ResourceSystem.h
     Speed.h
-    SpeedInline.h
     String.h
     StringFormat.h
     StringFormatInline.h

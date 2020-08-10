@@ -122,8 +122,8 @@ namespace djv
                 uint32_t b   : 10;
                 uint32_t pad : 2;
 
-                constexpr bool operator == (const U10_S_MSB&) const;
-                constexpr bool operator != (const U10_S_MSB&) const;
+                constexpr bool operator == (const U10_S_MSB&) const noexcept;
+                constexpr bool operator != (const U10_S_MSB&) const noexcept;
             };
 
             //! This struct provides 10-bit LSB pixel data.
@@ -134,8 +134,8 @@ namespace djv
                 uint32_t g   : 10;
                 uint32_t r   : 10;
 
-                constexpr bool operator == (const U10_S_LSB&) const;
-                constexpr bool operator != (const U10_S_LSB&) const;
+                constexpr bool operator == (const U10_S_LSB&) const noexcept;
+                constexpr bool operator != (const U10_S_LSB&) const noexcept;
             };
 #if defined(DJV_ENDIAN_MSB)
             typedef U10_S_MSB U10_S;
@@ -143,23 +143,23 @@ namespace djv
             typedef U10_S_LSB U10_S;
 #endif
 
-            Channels getChannels(Type);
-            uint8_t getChannelCount(Type);
-            DataType getDataType(Type);
-            uint8_t getBitDepth(Type);
-            uint8_t getBitDepth(DataType);
-            size_t getByteCount(Type);
-            size_t getByteCount(DataType);
+            Channels getChannels(Type) noexcept;
+            uint8_t getChannelCount(Type) noexcept;
+            DataType getDataType(Type) noexcept;
+            uint8_t getBitDepth(Type) noexcept;
+            uint8_t getBitDepth(DataType) noexcept;
+            size_t getByteCount(Type) noexcept;
+            size_t getByteCount(DataType) noexcept;
 
-            bool isIntType(Type);
-            bool isFloatType(Type);
+            bool isIntType(Type) noexcept;
+            bool isFloatType(Type) noexcept;
             Core::IntRange getIntRange(Type);
             Core::FloatRange getFloatRange(Type);
-            Type getIntType(uint8_t channelCount, uint8_t bitDepth);
-            Type getFloatType(uint8_t channelCount, uint8_t bitDepth);
+            Type getIntType(uint8_t channelCount, uint8_t bitDepth) noexcept;
+            Type getFloatType(uint8_t channelCount, uint8_t bitDepth) noexcept;
 
-            GLenum getGLFormat(Type);
-            GLenum getGLType(Type);
+            GLenum getGLFormat(Type) noexcept;
+            GLenum getGLType(Type) noexcept;
 
             void convert_U8_U8(U8_T, U8_T&);
             void convert_U8_U10(U8_T, U10_T&);

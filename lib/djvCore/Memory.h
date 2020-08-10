@@ -51,23 +51,23 @@ namespace djv
             DJV_ENUM_HELPERS(Endian);
 
             //! Get the current machine's endian.
-            Endian getEndian();
+            Endian getEndian() noexcept;
 
             //! Get the opposite of the given endian.
-            Endian opposite(Endian);
+            Endian opposite(Endian) noexcept;
 
             //! Convert the endianness of a block of memory in place.
             void endian(
                 void*  in,
                 size_t size,
-                size_t wordSize);
+                size_t wordSize) noexcept;
 
             //! Convert the endianness of a block of memory.
             void endian(
                 const void* in,
                 void*       out,
                 size_t      size,
-                size_t      wordSize);
+                size_t      wordSize) noexcept;
 
             ///@}
 

@@ -46,12 +46,12 @@ namespace djv
                 return _directoryName + _baseName + _number + _extension;
             }
 
-            inline bool Path::isEmpty() const
+            inline bool Path::isEmpty() const noexcept
             {
                 return get().empty();
             }
 
-            inline const std::string& Path::getDirectoryName() const
+            inline const std::string& Path::getDirectoryName() const noexcept
             {
                 return _directoryName;
             }
@@ -61,32 +61,32 @@ namespace djv
                 return _baseName + _number + _extension;
             }
 
-            inline const std::string& Path::getBaseName() const
+            inline const std::string& Path::getBaseName() const noexcept
             {
                 return _baseName;
             }
 
-            inline const std::string& Path::getNumber() const
+            inline const std::string& Path::getNumber() const noexcept
             {
                 return _number;
             }
 
-            inline const std::string& Path::getExtension() const
+            inline const std::string& Path::getExtension() const noexcept
             {
                 return _extension;
             }
 
-            inline bool Path::isSeparator(char c)
+            inline bool Path::isSeparator(char c) noexcept
             {
                 return '/' == c || '\\' == c;
             }
 
-            inline char Path::getSeparator(PathSeparator value)
+            inline char Path::getSeparator(PathSeparator value) noexcept
             {
                 return PathSeparator::Unix == value ? '/' : '\\';
             }
 
-            inline char Path::getCurrentSeparator()
+            inline char Path::getCurrentSeparator() noexcept
             {
 #if defined(DJV_PLATFORM_WINDOWS)
                 return getSeparator(PathSeparator::Windows);

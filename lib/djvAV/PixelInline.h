@@ -11,7 +11,7 @@ namespace djv
     {
         namespace Image
         {
-            constexpr bool U10_S_MSB::operator == (const U10_S_MSB& value) const
+            constexpr bool U10_S_MSB::operator == (const U10_S_MSB& value) const noexcept
             {
                 return
                     value.r == r &&
@@ -19,12 +19,12 @@ namespace djv
                     value.b == b;
             }
 
-            constexpr bool U10_S_MSB::operator != (const U10_S_MSB& value) const
+            constexpr bool U10_S_MSB::operator != (const U10_S_MSB& value) const noexcept
             {
                 return !(*this == value);
             }
 
-            constexpr bool U10_S_LSB::operator == (const U10_S_LSB& value) const
+            constexpr bool U10_S_LSB::operator == (const U10_S_LSB& value) const noexcept
             {
                 return
                     value.r == r &&
@@ -32,12 +32,12 @@ namespace djv
                     value.b == b;
             }
 
-            constexpr bool U10_S_LSB::operator != (const U10_S_LSB& value) const
+            constexpr bool U10_S_LSB::operator != (const U10_S_LSB& value) const noexcept
             {
                 return !(*this == value);
             }
 
-            inline Channels getChannels(Type value)
+            inline Channels getChannels(Type value) noexcept
             {
                 const Channels data[] =
                 {
@@ -72,7 +72,7 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
-            inline uint8_t getChannelCount(Type value)
+            inline uint8_t getChannelCount(Type value) noexcept
             {
                 const uint8_t data[] =
                 {
@@ -86,7 +86,7 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
-            inline DataType getDataType(Type value)
+            inline DataType getDataType(Type value) noexcept
             {
                 const DataType data[] =
                 {
@@ -121,7 +121,7 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
-            inline uint8_t getBitDepth(Type value)
+            inline uint8_t getBitDepth(Type value) noexcept
             {
                 const uint8_t data[] =
                 {
@@ -135,7 +135,7 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
-            inline uint8_t getBitDepth(DataType value)
+            inline uint8_t getBitDepth(DataType value) noexcept
             {
                 const uint8_t data[] =
                 {
@@ -151,7 +151,7 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
-            inline size_t getByteCount(Type value)
+            inline size_t getByteCount(Type value) noexcept
             {
                 const size_t data[] =
                 {
@@ -165,7 +165,7 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
-            inline size_t getByteCount(DataType value)
+            inline size_t getByteCount(DataType value) noexcept
             {
                 const size_t data[] =
                 {
@@ -181,7 +181,7 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
-            inline bool isIntType(Type value)
+            inline bool isIntType(Type value) noexcept
             {
                 const bool data[] =
                 {
@@ -195,7 +195,7 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
-            inline bool isFloatType(Type value)
+            inline bool isFloatType(Type value) noexcept
             {
                 const bool data[] =
                 {
@@ -281,7 +281,7 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
-            inline Type getIntType(uint8_t channelCount, uint8_t bitDepth)
+            inline Type getIntType(uint8_t channelCount, uint8_t bitDepth) noexcept
             {
                 switch (channelCount)
                 {
@@ -327,7 +327,7 @@ namespace djv
                 return Type::None;
             }
 
-            inline Type getFloatType(uint8_t channelCount, uint8_t bitDepth)
+            inline Type getFloatType(uint8_t channelCount, uint8_t bitDepth) noexcept
             {
                 switch (channelCount)
                 {
@@ -368,7 +368,7 @@ namespace djv
                 return Type::None;
             }
 
-            inline GLenum getGLFormat(Type value)
+            inline GLenum getGLFormat(Type value) noexcept
             {
                 const GLenum data[] =
                 {
@@ -430,7 +430,7 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
-            inline GLenum getGLType(Type value)
+            inline GLenum getGLType(Type value) noexcept
             {
                 const GLenum data[] =
                 {

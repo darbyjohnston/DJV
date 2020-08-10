@@ -19,22 +19,22 @@ namespace djv
             template<typename T>
             struct Range
             {
-                constexpr Range();
-                explicit constexpr Range(T minMax);
+                constexpr Range() noexcept;
+                explicit constexpr Range(T minMax) noexcept;
                 constexpr Range(T min, T max);
                 ~Range();
 
-                T getMin() const;
-                T getMax() const;
+                T getMin() const noexcept;
+                T getMax() const noexcept;
 
                 //! \name Utilities
                 ///@{
 
-                void zero();
+                void zero() noexcept;
 
-                constexpr bool contains(T) const;
+                constexpr bool contains(T) const noexcept;
 
-                constexpr bool intersects(const Range<T>&) const;
+                constexpr bool intersects(const Range<T>&) const noexcept;
 
                 void expand(T);
                 void expand(const Range<T>&);

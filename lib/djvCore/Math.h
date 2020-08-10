@@ -22,27 +22,27 @@ namespace djv
 
             //! Get the absolute value.
             template<typename T>
-            constexpr T abs(T);
+            constexpr T abs(T) noexcept;
 
             //! Get the anti-logarithm.
             template<typename T>
-            T antiLog10(T);
+            T antiLog10(T) noexcept;
 
             //! Step function.
             template<typename T>
-            constexpr T step(T value, T step);
+            constexpr T step(T value, T step) noexcept;
 
             //! Pulse function.
             template<typename T>
-            constexpr T pulse(T value, T min, T max);
+            constexpr T pulse(T value, T min, T max) noexcept;
 
             //! Bias function.
             template<typename T>
-            T bias(T value, T bias);
+            T bias(T value, T bias) noexcept;
 
             //! Gain function.
             template<typename T>
-            T gain(T value, T gain);
+            T gain(T value, T gain) noexcept;
 
             //! Clamp a number between two values.
             template<typename T>
@@ -50,11 +50,11 @@ namespace djv
 
             //! Linear interpolation.
             template<typename T, typename U>
-            constexpr T lerp(U value, T min, T max);
+            constexpr T lerp(U value, T min, T max) noexcept;
 
             //! Smooth step function.
             template<typename T>
-            constexpr T smoothStep(T value, T min, T max);
+            constexpr T smoothStep(T value, T min, T max) noexcept;
 
             //! Soft clip function.
             //!
@@ -62,15 +62,15 @@ namespace djv
             //! - Ken McGaugh, "Re: [Openexr-devel] Cineon -> half conversion?"
             //!   OpenEXR Mailing List 3/2/05
             template<typename T>
-            T softClip(T value, T softClip);
+            T softClip(T value, T softClip) noexcept;
 
             //! Get the number of digits.
             template<typename T>
-            size_t getNumDigits(T);
+            size_t getNumDigits(T) noexcept;
 
             //! Find the closest value. The index of the result is returned.
             template<typename T>
-            size_t closest(T, const std::vector<T>&);
+            size_t closest(T, const std::vector<T>&) noexcept;
 
             //! \name Random Numbers
             ///@{
@@ -107,16 +107,16 @@ namespace djv
 
             //! Get the value after the decimal.
             template<typename T>
-            constexpr T getFraction(T);
+            constexpr T getFraction(T) noexcept;
 
             //! Find the closest power of two.
-            int toPow2(int);
+            int toPow2(int) noexcept;
 
             //! Convert readians to degrees.
-            constexpr float rad2deg(float);
+            constexpr float rad2deg(float) noexcept;
 
             //! Convert degrees to radians.
-            constexpr float deg2rad(float);
+            constexpr float deg2rad(float) noexcept;
 
             ///@{
 
@@ -124,15 +124,15 @@ namespace djv
             ///@{
 
             //! Are the signs of both numbers the same?
-            constexpr bool haveSameSign(float, float);
+            constexpr bool haveSameSign(float, float) noexcept;
 
             ///@}
 
         } // namespace Math
     } // namespace Core
 
-    bool fuzzyCompare(double a, double b, double e = .1e-9);
-    bool fuzzyCompare(float a, float b, float e = .1e-6F);
+    bool fuzzyCompare(double a, double b, double e = .1e-9) noexcept;
+    bool fuzzyCompare(float a, float b, float e = .1e-6F) noexcept;
 
 } // namespace djv
 

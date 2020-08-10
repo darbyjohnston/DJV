@@ -36,7 +36,7 @@ namespace djv
             DJV_ENUM_HELPERS(VBOType);
 
             //! Get the VBO type byte count.
-            size_t getVertexByteCount(VBOType);
+            size_t getVertexByteCount(VBOType) noexcept;
 
             //! This class provides an OpenGL vertex buffer object.
             class VBO

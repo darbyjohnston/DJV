@@ -25,8 +25,8 @@ namespace djv
                 Color(F32_T r, F32_T g, F32_T b, F32_T a = F32Range.getMax());
                 explicit Color(F32_T v);
 
-                Type getType() const;
-                bool isValid() const;
+                Type getType() const noexcept;
+                bool isValid() const noexcept;
 
                 U8_T  getU8(size_t channel) const;
                 U10_T getU10(size_t channel) const;
@@ -41,8 +41,8 @@ namespace djv
                 void setF16(F16_T, size_t channel);
                 void setF32(F32_T, size_t channel);
 
-                const uint8_t * getData() const;
-                uint8_t * getData();
+                const uint8_t * getData() const noexcept;
+                uint8_t * getData() noexcept;
                 void setData(const uint8_t*);
 
                 void zero();

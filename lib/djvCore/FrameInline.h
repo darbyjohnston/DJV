@@ -11,7 +11,7 @@ namespace djv
         namespace Range
         {
             template<>
-            inline void Range<int64_t>::zero()
+            inline void Range<int64_t>::zero() noexcept
             {
                 _min = _max = 0;
             }
@@ -49,17 +49,17 @@ namespace djv
                 }
             }
 
-            inline const std::vector<Range>& Sequence::getRanges() const
+            inline const std::vector<Range>& Sequence::getRanges() const noexcept
             {
                 return _ranges;
             }
 
-            inline bool Sequence::isValid() const
+            inline bool Sequence::isValid() const noexcept
             {
                 return _ranges.size() > 0;
             }
 
-            inline size_t Sequence::getPad() const
+            inline size_t Sequence::getPad() const noexcept
             {
                 return _pad;
             }
@@ -69,7 +69,7 @@ namespace djv
                 _pad = value;
             }
 
-            inline bool Sequence::contains(Index value) const
+            inline bool Sequence::contains(Index value) const noexcept
             {
                 bool out = false;
                 for (const auto& i : _ranges)
@@ -83,7 +83,7 @@ namespace djv
                 return out;
             }
 
-            inline size_t Sequence::getFrameCount() const
+            inline size_t Sequence::getFrameCount() const noexcept
             {
                 size_t out = 0;
                 for (const auto& i : _ranges)
@@ -93,7 +93,7 @@ namespace djv
                 return out;
             }
 
-            inline Number Sequence::getFrame(Index value) const
+            inline Number Sequence::getFrame(Index value) const noexcept
             {
                 Number out = invalid;
                 for (const auto& j : _ranges)
@@ -109,7 +109,7 @@ namespace djv
                 return out;
             }
 
-            inline Index Sequence::getIndex(Number value) const
+            inline Index Sequence::getIndex(Number value) const noexcept
             {
                 Index out = invalidIndex;
                 Index tmp = 0;
@@ -125,7 +125,7 @@ namespace djv
                 return out;
             }
 
-            inline Index Sequence::getLastIndex() const
+            inline Index Sequence::getLastIndex() const noexcept
             {
                 Index out = 0;
                 for (const auto& i : _ranges)

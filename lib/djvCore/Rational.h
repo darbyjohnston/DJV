@@ -18,20 +18,20 @@ namespace djv
             class Rational
             {
             public:
-                Rational();
-                explicit Rational(int num, int den = 1);
+                Rational() noexcept;
+                explicit Rational(int num, int den = 1) noexcept;
 
-                int getNum() const;
-                int getDen() const;
-                bool isValid() const;
+                int getNum() const noexcept;
+                int getDen() const noexcept;
+                bool isValid() const noexcept;
 
-                float toFloat() const;
+                float toFloat() const noexcept;
                 static Rational fromFloat(float);
 
-                Rational swap() const;
+                Rational swap() const noexcept;
 
-                bool operator == (const Rational&) const;
-                bool operator != (const Rational&) const;
+                bool operator == (const Rational&) const noexcept;
+                bool operator != (const Rational&) const noexcept;
 
             private:
                 int _num = 0;

@@ -31,45 +31,45 @@ namespace djv
             class Mirror
             {
             public:
-                constexpr Mirror();
-                constexpr Mirror(bool x, bool y);
+                constexpr Mirror() noexcept;
+                constexpr Mirror(bool x, bool y) noexcept;
 
                 bool x = false;
                 bool y = false;
 
-                constexpr bool operator == (const Mirror&) const;
-                constexpr bool operator != (const Mirror&) const;
+                constexpr bool operator == (const Mirror&) const noexcept;
+                constexpr bool operator != (const Mirror&) const noexcept;
             };
 
             //! This class provides information about the data layout.
             class Layout
             {
             public:
-                Layout();
-                constexpr Layout(const Mirror&, GLint alignment = 1, Core::Memory::Endian = Core::Memory::getEndian());
+                Layout() noexcept;
+                constexpr Layout(const Mirror&, GLint alignment = 1, Core::Memory::Endian = Core::Memory::getEndian()) noexcept;
 
                 Mirror                  mirror;
                 GLint                   alignment   = 1;
                 Core::Memory::Endian    endian      = Core::Memory::getEndian();
 
-                constexpr bool operator == (const Layout&) const;
-                constexpr bool operator != (const Layout&) const;
+                constexpr bool operator == (const Layout&) const noexcept;
+                constexpr bool operator != (const Layout&) const noexcept;
             };
 
             //! This class provides the image size.
             class Size
             {
             public:
-                Size(uint16_t w = 0, uint16_t h = 0);
+                Size(uint16_t w = 0, uint16_t h = 0) noexcept;
 
                 uint16_t w = 0;
                 uint16_t h = 0;
                 
-                bool isValid() const;
-                float getAspectRatio() const;
+                bool isValid() const noexcept;
+                float getAspectRatio() const noexcept;
 
-                bool operator == (const Size&) const;
-                bool operator != (const Size&) const;
+                bool operator == (const Size&) const noexcept;
+                bool operator != (const Size&) const noexcept;
             };
 
             //! This constant provides the default name.
@@ -90,13 +90,13 @@ namespace djv
                 Layout      layout;
                 std::string codec;
 
-                float getAspectRatio() const;
-                GLenum getGLFormat() const;
-                GLenum getGLType() const;
-                bool isValid() const;
-                size_t getPixelByteCount() const;
-                size_t getScanlineByteCount() const;
-                size_t getDataByteCount() const;
+                float getAspectRatio() const noexcept;
+                GLenum getGLFormat() const noexcept;
+                GLenum getGLType() const noexcept;
+                bool isValid() const noexcept;
+                size_t getPixelByteCount() const noexcept;
+                size_t getScanlineByteCount() const noexcept;
+                size_t getDataByteCount() const noexcept;
 
                 bool operator == (const Info&) const;
                 bool operator != (const Info&) const;

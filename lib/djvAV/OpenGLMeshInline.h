@@ -8,7 +8,7 @@ namespace djv
     {
         namespace OpenGL
         {
-            inline size_t getVertexByteCount(VBOType value)
+            inline size_t getVertexByteCount(VBOType value) noexcept
             {
                 const size_t data[] =
                 {
