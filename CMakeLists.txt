@@ -14,7 +14,7 @@ project(
     DJV
     VERSION ${DJV_VERSION}
     DESCRIPTION "Professional review software for VFX, animation, and film production"
-    HOMEPAGE_URL "http://djv.sourceforge.net"
+    HOMEPAGE_URL "https://github.com/darbyjohnston/DJV"
     LANGUAGES C CXX)
 
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
