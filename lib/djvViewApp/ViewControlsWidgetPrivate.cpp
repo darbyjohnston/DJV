@@ -966,6 +966,7 @@ namespace djv
                 p.solidLayout->hide();
                 p.checkersLayout->show();
                 break;
+            default: break;
             }
             std::vector<std::string> items;
             for (auto i : getViewBackgroundEnums())
