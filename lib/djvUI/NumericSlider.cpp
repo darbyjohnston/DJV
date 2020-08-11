@@ -94,15 +94,16 @@ namespace djv
             const BBox2f& g = getMargin().bbox(getGeometry(), style);
             const float m = style->getMetric(MetricsRole::MarginSmall);
             const float b = style->getMetric(MetricsRole::Border);
+            const float btf = style->getMetric(MetricsRole::BorderTextFocus);
             const auto& render = _getRender();
             
             if (hasTextFocus())
             {
                 render->setFillColor(style->getColor(ColorRole::TextFocus));
-                drawBorder(render, g, b * 2.F);
+                drawBorder(render, g, btf);
             }
 
-            const BBox2f g2 = g.margin(-b * 2.F);
+            const BBox2f g2 = g.margin(-btf);
             if (_getPointerHover().size())
             {
                 render->setFillColor(style->getColor(ColorRole::Hovered));
@@ -200,6 +201,7 @@ namespace djv
             const float s = style->getMetric(MetricsRole::Slider);
             const float m = style->getMetric(MetricsRole::MarginSmall);
             const float b = style->getMetric(MetricsRole::Border);
+            const float btf = style->getMetric(MetricsRole::BorderTextFocus);
             const float is = style->getMetric(MetricsRole::IconSmall);
             glm::vec2 size(0.F, 0.F);
             switch (p.orientation)
@@ -208,7 +210,7 @@ namespace djv
             case Orientation::Vertical:   size = glm::vec2(is, s); break;
             default: break;
             }
-            _setMinimumSize(size + m * 2.F + b * 4.F + getMargin().getSize(style));
+            _setMinimumSize(size + m * 2.F + btf * 2.F + getMargin().getSize(style));
         }
 
         void NumericSlider::_pointerEnterEvent(Event::PointerEnter& event)

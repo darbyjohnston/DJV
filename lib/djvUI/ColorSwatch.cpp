@@ -107,13 +107,14 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const float b = style->getMetric(MetricsRole::Border);
+            const float btf = style->getMetric(MetricsRole::BorderTextFocus);
             const float sw = style->getMetric(p.swatchSizeRole);
             glm::vec2 size = glm::vec2(sw, sw);
             if (p.clickedCallback)
             {
-                size += b * 4.F;
+                size += btf * 2.F;
             }
-            if (p.border)
+            else if (p.border)
             {
                 size += b * 2.F;
             }
@@ -126,6 +127,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const float b = style->getMetric(MetricsRole::Border);
+            const float btf = style->getMetric(MetricsRole::BorderTextFocus);
             const BBox2f& g = getGeometry();
 
             BBox2f g2 = g;
@@ -135,12 +137,16 @@ namespace djv
                 if (hasTextFocus())
                 {
                     render->setFillColor(style->getColor(ColorRole::TextFocus));
-                    drawBorder(render, g, b * 2.F);
+                    drawBorder(render, g, btf);
                 }
-                g2 = g2.margin(-b * 2.F);
+                else
+                {
+                    render->setFillColor(style->getColor(ColorRole::Border));
+                    drawBorder(render, g2.margin(-b), b);
+                }
+                g2 = g2.margin(-btf);
             }
-
-            if (p.border)
+            else if (p.border)
             {
                 render->setFillColor(style->getColor(ColorRole::Border));
                 drawBorder(render, g2, b);

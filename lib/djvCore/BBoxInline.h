@@ -11,97 +11,97 @@ namespace djv
         namespace BBox
         {
             template<>
-            inline tBBox2<int>::tBBox2() :
+            inline tBBox2<int>::tBBox2() noexcept :
                 min(0, 0),
                 max(0, 0)
             {}
 
             template<>
-            inline tBBox2<float>::tBBox2() :
+            inline tBBox2<float>::tBBox2() noexcept :
                 min(0.F, 0.F),
                 max(0.F, 0.F)
             {}
 
             template<>
-            inline tBBox3<float>::tBBox3() :
+            inline tBBox3<float>::tBBox3() noexcept :
                 min(0.F, 0.F, 0.F),
                 max(0.F, 0.F, 0.F)
             {}
 
             template<typename T, glm::precision P>
-            inline tBBox2<T, P>::tBBox2(const glm::tvec2<T, P>& value) :
+            inline tBBox2<T, P>::tBBox2(const glm::tvec2<T, P>& value) noexcept :
                 min(value),
                 max(value)
             {}
 
             template<typename T, glm::precision P>
-            inline tBBox3<T, P>::tBBox3(const glm::tvec3<T, P>& value) :
+            inline tBBox3<T, P>::tBBox3(const glm::tvec3<T, P>& value) noexcept :
                 min(value),
                 max(value)
             {}
 
             template<typename T, glm::precision P>
-            inline tBBox2<T, P>::tBBox2(const glm::tvec2<T, P>& min, const glm::tvec2<T, P>& max) :
+            inline tBBox2<T, P>::tBBox2(const glm::tvec2<T, P>& min, const glm::tvec2<T, P>& max) noexcept :
                 min(min),
                 max(max)
             {}
 
             template<typename T, glm::precision P>
-            inline tBBox3<T, P>::tBBox3(const glm::tvec3<T, P>& min, const glm::tvec3<T, P>& max) :
+            inline tBBox3<T, P>::tBBox3(const glm::tvec3<T, P>& min, const glm::tvec3<T, P>& max) noexcept :
                 min(min),
                 max(max)
             {}
 
             template<>
-            inline tBBox2<int>::tBBox2(int x, int y, int w, int h) :
+            inline tBBox2<int>::tBBox2(int x, int y, int w, int h) noexcept :
                 min(x, y),
                 max(x + w - 1, y + h - 1)
             {}
 
             template<>
-            inline tBBox2<float>::tBBox2(float x, float y, float w, float h) :
+            inline tBBox2<float>::tBBox2(float x, float y, float w, float h) noexcept :
                 min(x, y),
                 max(x + w, y + h)
             {}
 
             template<typename T, glm::precision P>
-            inline tBBox3<T, P>::tBBox3(T x, T y, T z, T w, T h, T d) :
+            inline tBBox3<T, P>::tBBox3(T x, T y, T z, T w, T h, T d) noexcept :
                 min(x, y, z),
                 max(x + w, y + h, z + d)
             {}
 
             template<typename T, glm::precision P>
-            inline T tBBox2<T, P>::x() const { return min.x; }
+            inline T tBBox2<T, P>::x() const noexcept { return min.x; }
             template<typename T, glm::precision P>
-            inline T tBBox3<T, P>::x() const { return min.x; }
-
-            template<typename T, glm::precision P>
-            inline T tBBox2<T, P>::y() const { return min.y; }
-            template<typename T, glm::precision P>
-            inline T tBBox3<T, P>::y() const { return min.y; }
+            inline T tBBox3<T, P>::x() const noexcept { return min.x; }
 
             template<typename T, glm::precision P>
-            inline T tBBox3<T, P>::z() const { return min.z; }
-
-            template<>
-            inline float tBBox2<float>::w() const { return max.x - min.x; }
-            template<>
-            inline int tBBox2<int>::w() const { return max.x - min.x + 1; }
-            template<>
-            inline float tBBox3<float>::w() const { return max.x - min.x; }
-
-            template<>
-            inline float tBBox2<float>::h() const { return max.y - min.y; }
-            template<>
-            inline int tBBox2<int>::h() const { return max.y - min.y + 1; }
-            template<>
-            inline float tBBox3<float>::h() const { return max.y - min.y; }
-
-            template<>
-            inline float tBBox3<float>::d() const { return max.z - min.z; }
+            inline T tBBox2<T, P>::y() const noexcept { return min.y; }
+            template<typename T, glm::precision P>
+            inline T tBBox3<T, P>::y() const noexcept { return min.y; }
 
             template<typename T, glm::precision P>
-            constexpr bool tBBox2<T, P>::isValid() const
+            inline T tBBox3<T, P>::z() const noexcept { return min.z; }
+
+            template<>
+            inline float tBBox2<float>::w() const noexcept { return max.x - min.x; }
+            template<>
+            inline int tBBox2<int>::w() const noexcept { return max.x - min.x + 1; }
+            template<>
+            inline float tBBox3<float>::w() const noexcept { return max.x - min.x; }
+
+            template<>
+            inline float tBBox2<float>::h() const noexcept { return max.y - min.y; }
+            template<>
+            inline int tBBox2<int>::h() const noexcept { return max.y - min.y + 1; }
+            template<>
+            inline float tBBox3<float>::h() const noexcept { return max.y - min.y; }
+
+            template<>
+            inline float tBBox3<float>::d() const noexcept { return max.z - min.z; }
+
+            template<typename T, glm::precision P>
+            constexpr bool tBBox2<T, P>::isValid() const noexcept
             {
                 return
                     min.x < max.x &&
@@ -109,7 +109,7 @@ namespace djv
             }
 
             template<typename T, glm::precision P>
-            constexpr bool tBBox3<T, P>::isValid() const
+            constexpr bool tBBox3<T, P>::isValid() const noexcept
             {
                 return
                     min.x < max.x &&
@@ -118,25 +118,25 @@ namespace djv
             }
 
             template<>
-            inline glm::tvec2<int> tBBox2<int>::getSize() const
+            inline glm::tvec2<int> tBBox2<int>::getSize() const noexcept
             {
                 return glm::tvec2<int>(max.x - min.x + 1, max.y - min.y + 1);
             }
 
             template<>
-            inline glm::tvec2<float> tBBox2<float>::getSize() const
+            inline glm::tvec2<float> tBBox2<float>::getSize() const noexcept
             {
                 return glm::tvec2<float>(max.x - min.x, max.y - min.y);
             }
 
             template<typename T, glm::precision P>
-            inline glm::tvec3<T, P> tBBox3<T, P>::getSize() const
+            inline glm::tvec3<T, P> tBBox3<T, P>::getSize() const noexcept
             {
                 return glm::tvec3<T, P>(max.x - min.x, max.y - min.y, max.z - min.z);
             }
 
             template<>
-            inline glm::tvec2<int> tBBox2<int>::getCenter() const
+            inline glm::tvec2<int> tBBox2<int>::getCenter() const noexcept
             {
                 return glm::tvec2<int>(
                     min.x + (max.x - min.x + 1) / 2.F,
@@ -144,7 +144,7 @@ namespace djv
             }
 
             template<>
-            inline glm::tvec2<float> tBBox2<float>::getCenter() const
+            inline glm::tvec2<float> tBBox2<float>::getCenter() const noexcept
             {
                 return glm::tvec2<float>(
                     min.x + (max.x - min.x) / 2.F,
@@ -152,7 +152,7 @@ namespace djv
             }
 
             template<typename T, glm::precision P>
-            inline glm::tvec3<T, P> tBBox3<T, P>::getCenter() const
+            inline glm::tvec3<T, P> tBBox3<T, P>::getCenter() const noexcept
             {
                 return glm::tvec3<T, P>(
                     min.x + (max.x - min.x) / 2.F,
@@ -161,51 +161,51 @@ namespace djv
             }
 
             template<>
-            inline int tBBox2<int>::getArea() const
+            inline int tBBox2<int>::getArea() const noexcept
             {
                 return w() * h();
             }
 
             template<>
-            inline float tBBox2<float>::getArea() const
+            inline float tBBox2<float>::getArea() const noexcept
             {
                 return w() * h();
             }
 
             template<>
-            inline float tBBox2<int>::getAspect() const
+            inline float tBBox2<int>::getAspect() const noexcept
             {
                 const int h = this->h();
                 return h != 0 ? w() / static_cast<float>(h) : 0.F;
             }
 
             template<>
-            inline float tBBox2<float>::getAspect() const
+            inline float tBBox2<float>::getAspect() const noexcept
             {
                 const float h = this->h();
                 return h != 0 ? w() / h : 0.F;
             }
 
             template<>
-            inline void tBBox2<int>::zero()
+            inline void tBBox2<int>::zero() noexcept
             {
                 min.x = min.y = max.x = max.y = 0;
             }
 
             template<>
-            inline void tBBox2<float>::zero()
+            inline void tBBox2<float>::zero() noexcept
             {
                 min.x = min.y = max.x = max.y = 0.F;
             }
 
             template<>
-            inline void tBBox3<float>::zero()
+            inline void tBBox3<float>::zero() noexcept
             {
                 min.x = min.y = min.z = max.x = max.y = max.z = 0.F;
             }
 
             template<>
-            inline bool tBBox2<int>::contains(const tBBox2<int>& value) const
+            inline bool tBBox2<int>::contains(const tBBox2<int>& value) const noexcept
             {
                 return
                     value.min.x >= min.x && value.max.x < max.x &&
@@ -213,7 +213,7 @@ namespace djv
             }
 
             template<>
-            inline bool tBBox2<float>::contains(const tBBox2<float>& value) const
+            inline bool tBBox2<float>::contains(const tBBox2<float>& value) const noexcept
             {
                 return
                     value.min.x >= min.x && value.max.x <= max.x &&
@@ -221,7 +221,7 @@ namespace djv
             }
 
             template<typename T, glm::precision P>
-            inline bool tBBox3<T, P>::contains(const tBBox3<T, P>& value) const
+            inline bool tBBox3<T, P>::contains(const tBBox3<T, P>& value) const noexcept
             {
                 return
                     value.min.x >= min.x && value.max.x <= max.x &&
@@ -230,7 +230,7 @@ namespace djv
             }
 
             template<>
-            inline bool tBBox2<int>::contains(const glm::tvec2<int>& value) const
+            inline bool tBBox2<int>::contains(const glm::tvec2<int>& value) const noexcept
             {
                 return
                     value.x >= min.x && value.x < max.x &&
@@ -238,7 +238,7 @@ namespace djv
             }
 
             template<>
-            inline bool tBBox2<float>::contains(const glm::tvec2<float>& value) const
+            inline bool tBBox2<float>::contains(const glm::tvec2<float>& value) const noexcept
             {
                 return
                     value.x >= min.x && value.x <= max.x &&
@@ -246,7 +246,7 @@ namespace djv
             }
 
             template<typename T, glm::precision P>
-            inline bool tBBox3<T, P>::contains(const glm::tvec3<T, P>& value) const
+            inline bool tBBox3<T, P>::contains(const glm::tvec3<T, P>& value) const noexcept
             {
                 return
                     value.x >= min.x && value.x <= max.x &&
@@ -255,7 +255,7 @@ namespace djv
             }
 
             template<>
-            inline bool tBBox2<int>::intersects(const tBBox2<int>& value) const
+            inline bool tBBox2<int>::intersects(const tBBox2<int>& value) const noexcept
             {
                 return !(
                     value.max.x <= min.x ||
@@ -265,7 +265,7 @@ namespace djv
             }
 
             template<>
-            inline bool tBBox2<float>::intersects(const tBBox2<float>& value) const
+            inline bool tBBox2<float>::intersects(const tBBox2<float>& value) const noexcept
             {
                 return !(
                     value.max.x < min.x ||
@@ -275,7 +275,7 @@ namespace djv
             }
 
             template<typename T, glm::precision P>
-            inline bool tBBox3<T, P>::intersects(const tBBox3<T, P>& value) const
+            inline bool tBBox3<T, P>::intersects(const tBBox3<T, P>& value) const noexcept
             {
                 return !(
                     value.max.x < min.x ||
@@ -313,7 +313,7 @@ namespace djv
             //! References:
             //! - http://www.3dkingdoms.com/weekly/weekly.php?a=3
 
-            inline bool _intersect(float fDst1, float fDst2, const glm::vec3& start, const glm::vec3& end, glm::vec3& out)
+            inline bool _intersect(float fDst1, float fDst2, const glm::vec3& start, const glm::vec3& end, glm::vec3& out) noexcept
             {
                 if ((fDst1 * fDst2) >= .0F) return false;
                 if (fDst1 == fDst2) return false;
@@ -321,7 +321,7 @@ namespace djv
                 return true;
             }
 
-            inline bool _isInside(const glm::vec3& hit, const BBox3f& bbox, int axis)
+            inline bool _isInside(const glm::vec3& hit, const BBox3f& bbox, int axis) noexcept
             {
                 switch (axis)
                 {
@@ -419,7 +419,7 @@ namespace djv
             }
 
             template<typename T, glm::precision P>
-            constexpr tBBox2<T, P> tBBox2<T, P>::margin(const glm::tvec2<T, P>& value) const
+            constexpr tBBox2<T, P> tBBox2<T, P>::margin(const glm::tvec2<T, P>& value) const noexcept
             {
                 return tBBox2<T, P>(
                     glm::tvec2<T, P>(min.x - value.x, min.y - value.y),
@@ -427,7 +427,7 @@ namespace djv
             }
 
             template<typename T, glm::precision P>
-            constexpr tBBox2<T, P> tBBox2<T, P>::margin(T value) const
+            constexpr tBBox2<T, P> tBBox2<T, P>::margin(T value) const noexcept
             {
                 return tBBox2<T, P>(
                     glm::tvec2<T, P>(min.x - value, min.y - value),
@@ -435,7 +435,7 @@ namespace djv
             }
 
             template<typename T, glm::precision P>
-            constexpr tBBox2<T, P> tBBox2<T, P>::margin(T x0, T y0, T x1, T y1) const
+            constexpr tBBox2<T, P> tBBox2<T, P>::margin(T x0, T y0, T x1, T y1) const noexcept
             {
                 return tBBox2<T, P>(
                     glm::tvec2<T, P>(min.x - x0, min.y - y0),
@@ -443,25 +443,25 @@ namespace djv
             }
 
             template<typename T, glm::precision P>
-            constexpr bool tBBox2<T, P>::operator == (const tBBox2<T, P>& value) const
+            constexpr bool tBBox2<T, P>::operator == (const tBBox2<T, P>& value) const noexcept
             {
                 return min == value.min && max == value.max;
             }
 
             template<typename T, glm::precision P>
-            constexpr bool tBBox3<T, P>::operator == (const tBBox3<T, P>& value) const
+            constexpr bool tBBox3<T, P>::operator == (const tBBox3<T, P>& value) const noexcept
             {
                 return min == value.min && max == value.max;
             }
 
             template<typename T, glm::precision P>
-            constexpr bool tBBox2<T, P>::operator != (const tBBox2<T, P>& value) const
+            constexpr bool tBBox2<T, P>::operator != (const tBBox2<T, P>& value) const noexcept
             {
                 return !(*this == value);
             }
 
             template<typename T, glm::precision P>
-            constexpr bool tBBox3<T, P>::operator != (const tBBox3<T, P>& value) const
+            constexpr bool tBBox3<T, P>::operator != (const tBBox3<T, P>& value) const noexcept
             {
                 return !(*this == value);
             }
@@ -470,19 +470,19 @@ namespace djv
     } // namespace Core
 
     template<typename T, glm::precision P>
-    inline bool fuzzyCompare(const Core::BBox::tBBox2<T, P>& a, const Core::BBox::tBBox2<T, P>& b)
+    inline bool fuzzyCompare(const Core::BBox::tBBox2<T, P>& a, const Core::BBox::tBBox2<T, P>& b) noexcept
     {
         return fuzzyCompare(a.min, b.min) && fuzzyCompare(a.max, b.max);
     }
 
     template<typename T, glm::precision P>
-    inline bool fuzzyCompare(const Core::BBox::tBBox3<T, P>& a, const Core::BBox::tBBox3<T, P>& b)
+    inline bool fuzzyCompare(const Core::BBox::tBBox3<T, P>& a, const Core::BBox::tBBox3<T, P>& b) noexcept
     {
         return fuzzyCompare(a.min, b.min) && fuzzyCompare(a.max, b.max);
     }
 
     template<typename T, glm::precision P>
-    inline Core::BBox::tBBox3<T, P> operator * (const Core::BBox::tBBox3<T, P>& bbox, const glm::mat4& m)
+    inline Core::BBox::tBBox3<T, P> operator * (const Core::BBox::tBBox3<T, P>& bbox, const glm::mat4& m) noexcept
     {
         const glm::tvec4<T, P> pts[] =
         {

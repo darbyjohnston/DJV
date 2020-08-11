@@ -64,32 +64,32 @@ namespace djv
 
             //ALenum getALType(uint8_t channels, Type);
             //std::string getALErrorString(ALenum);
-            RtAudioFormat toRtAudio(Type);
+            RtAudioFormat toRtAudio(Type) noexcept;
 
-            void S8ToS16(S8_T, S16_T&);
-            void S8ToS32(S8_T, S32_T&);
-            void S8ToF32(S8_T, F32_T&);
-            void S8ToF64(S8_T, F64_T&);
+            void S8ToS16(S8_T, S16_T&) noexcept;
+            void S8ToS32(S8_T, S32_T&) noexcept;
+            void S8ToF32(S8_T, F32_T&) noexcept;
+            void S8ToF64(S8_T, F64_T&) noexcept;
 
-            void S16ToS8(S16_T, S8_T&);
-            void S16ToS32(S16_T, S32_T&);
-            void S16ToF32(S16_T, F32_T&);
-            void S16ToF64(S16_T, F64_T&);
+            void S16ToS8(S16_T, S8_T&) noexcept;
+            void S16ToS32(S16_T, S32_T&) noexcept;
+            void S16ToF32(S16_T, F32_T&) noexcept;
+            void S16ToF64(S16_T, F64_T&) noexcept;
 
-            void S32ToS8(S32_T, S8_T&);
-            void S32ToS16(S32_T, S16_T&);
-            void S32ToF32(S32_T, F32_T&);
-            void S32ToF64(S32_T, F64_T&);
+            void S32ToS8(S32_T, S8_T&) noexcept;
+            void S32ToS16(S32_T, S16_T&) noexcept;
+            void S32ToF32(S32_T, F32_T&) noexcept;
+            void S32ToF64(S32_T, F64_T&) noexcept;
 
-            void F32ToS8(F32_T, S8_T&);
-            void F32ToS16(F32_T, S16_T&);
-            void F32ToS32(F32_T, S32_T&);
-            void F32ToS32(F32_T, F64_T&);
+            void F32ToS8(F32_T, S8_T&) noexcept;
+            void F32ToS16(F32_T, S16_T&) noexcept;
+            void F32ToS32(F32_T, S32_T&) noexcept;
+            void F32ToS32(F32_T, F64_T&) noexcept;
 
-            void F64ToS8(F64_T, S8_T&);
-            void F64ToS16(F64_T, S16_T&);
-            void F64ToS32(F64_T, S32_T&);
-            void F64ToS32(F64_T, F32_T&);
+            void F64ToS8(F64_T, S8_T&) noexcept;
+            void F64ToS16(F64_T, S16_T&) noexcept;
+            void F64ToS32(F64_T, S32_T&) noexcept;
+            void F64ToS32(F64_T, F32_T&) noexcept;
 
         } // namespace Audio
     } // namespace AV

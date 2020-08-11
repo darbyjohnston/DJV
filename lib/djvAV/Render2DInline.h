@@ -106,7 +106,7 @@ namespace djv
                 return _transforms.size() ? _transforms.back() : _identity;
             }
 
-            inline void Render::_updateCurrentClipRect()
+            inline void Render::_currentClipRectUpdate()
             {
                 _currentClipRect.min.x = 0.F;
                 _currentClipRect.min.y = 0.F;

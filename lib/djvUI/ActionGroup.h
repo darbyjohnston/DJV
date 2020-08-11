@@ -21,24 +21,23 @@ namespace djv
             DJV_NON_COPYABLE(ActionGroup);
 
         protected:
-            ActionGroup();
+            ActionGroup(ButtonType);
 
         public:
             ~ActionGroup();
 
             static std::shared_ptr<ActionGroup> create(ButtonType);
 
+            ButtonType getButtonType() const;
+
             const std::vector<std::shared_ptr<Action> >& getActions() const;
             size_t getActionCount() const;
             int getActionIndex(const std::shared_ptr<Action>&) const;
-            void addAction(const std::shared_ptr<Action>&);
-            void removeAction(const std::shared_ptr<Action>&);
+            void setActions(const std::vector<std::shared_ptr<Action> >&);
             void clearActions();
 
-            ButtonType getButtonType() const;
-            void setButtonType(ButtonType);
-
-            void setChecked(int, bool = true, Callback = Callback::Suppress);
+            int getChecked() const;
+            void setChecked(int, bool = true);
 
             void setPushCallback(const std::function<void(int)>&);
             void setToggleCallback(const std::function<void(int, bool)>&);

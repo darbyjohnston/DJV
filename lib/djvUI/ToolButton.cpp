@@ -68,30 +68,6 @@ namespace djv
 
                 _actionUpdate();
                 _iconUpdate();
-
-                auto weak = std::weak_ptr<Tool>(std::dynamic_pointer_cast<Tool>(shared_from_this()));
-                setClickedCallback(
-                    [weak]
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            if (widget->_p->action)
-                            {
-                                widget->_p->action->doClicked();
-                            }
-                        }
-                    });
-                setCheckedCallback(
-                    [weak](bool value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            if (widget->_p->action)
-                            {
-                                widget->_p->action->setChecked(value);
-                            }
-                        }
-                    });
             }
 
             Tool::Tool() :
@@ -308,12 +284,34 @@ namespace djv
                 return out;
             }
 
+            void Tool::_doClick()
+            {
+                DJV_PRIVATE_PTR();
+                if (p.action)
+                {
+                    p.action->doClick();
+                }
+                else
+                {
+                    IButton::_doClick();
+                }
+            }
+
+            void Tool::_doCheck(bool value)
+            {
+                DJV_PRIVATE_PTR();
+                if (!p.action)
+                {
+                    IButton::_doCheck(value);
+                }
+            }
+
             void Tool::_preLayoutEvent(Event::PreLayout& event)
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
                 const float m = style->getMetric(p.insideMargin);
-                const float b = style->getMetric(MetricsRole::Border);
+                const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 glm::vec2 size = glm::vec2(0.F, 0.F);
                 if (p.iconWidget)
                 {
@@ -330,7 +328,7 @@ namespace djv
                 size += m * 2.F;
                 if (p.textFocusEnabled)
                 {
-                    size += b * 2.F;
+                    size += btf * 2.F;
                 }
                 _setMinimumSize(size + getMargin().getSize(style));
             }
@@ -341,11 +339,11 @@ namespace djv
                 const auto& style = _getStyle();
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const float m = style->getMetric(p.insideMargin);
-                const float b = style->getMetric(MetricsRole::Border);
+                const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 BBox2f g2 = g;
                 if (p.textFocusEnabled)
                 {
-                    g2 = g2.margin(-b);
+                    g2 = g2.margin(-btf);
                 }
                 g2 = g2.margin(-m);
                 float x = g2.min.x;
@@ -370,7 +368,7 @@ namespace djv
                 Widget::_paintEvent(event);
                 const auto& style = _getStyle();
                 const BBox2f& g = getGeometry();
-                const float b = style->getMetric(MetricsRole::Border);
+                const float btf = style->getMetric(MetricsRole::BorderTextFocus);
                 const auto& render = _getRender();
 
                 if (_isToggled())
@@ -392,7 +390,7 @@ namespace djv
                 if (hasTextFocus())
                 {
                     render->setFillColor(style->getColor(ColorRole::TextFocus));
-                    drawBorder(render, g, b * 2.F);
+                    drawBorder(render, g, btf);
                 }
             }
 
@@ -421,7 +419,7 @@ namespace djv
                                         {
                                             if (auto widget2 = weak.lock())
                                             {
-                                                widget2->_doClickedCallback();
+                                                widget2->_doClick();
                                             }
                                         });
                                 }
@@ -454,13 +452,12 @@ namespace djv
                         switch (getButtonType())
                         {
                         case ButtonType::Push:
-                            _doClickedCallback();
+                            _doClick();
                             break;
                         case ButtonType::Toggle:
                         case ButtonType::Radio:
                         case ButtonType::Exclusive:
-                            setChecked(!isChecked());
-                            _doCheckedCallback(isChecked());
+                            _doCheck(!isChecked());
                             break;
                         default: break;
                         }

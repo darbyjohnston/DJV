@@ -47,7 +47,7 @@ namespace djv
                 ///@}
 
             private:
-                void _updateMax();
+                void _maxUpdate();
 
                 size_t _max = 10000;
                 std::map<T, U> _map;

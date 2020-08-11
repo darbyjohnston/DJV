@@ -798,17 +798,16 @@ namespace djv
             auto generalDebugWidget = GeneralDebugWidget::create(context);
             p.bellows["General"] = UI::Bellows::create(context);
             p.bellows["General"]->addChild(generalDebugWidget);
+            p.bellows["General"]->setOpen(true, false);
             layout->addChild(p.bellows["General"]);
 
             auto renderDebugWidget = RenderDebugWidget::create(context);
             p.bellows["Render"] = UI::Bellows::create(context);
-            p.bellows["Render"]->setOpen(false, false);
             p.bellows["Render"]->addChild(renderDebugWidget);
             layout->addChild(p.bellows["Render"]);
 
             auto mediaDebugWidget = MediaDebugWidget::create(context);
             p.bellows["Media"] = UI::Bellows::create(context);
-            p.bellows["Media"]->setOpen(false, false);
             p.bellows["Media"]->addChild(mediaDebugWidget);
             layout->addChild(p.bellows["Media"]);
 

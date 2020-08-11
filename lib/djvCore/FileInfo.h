@@ -96,8 +96,8 @@ namespace djv
                 //! \name Path
                 ///@{
 
-                const Path& getPath() const;
-                bool isEmpty() const;
+                const Path& getPath() const noexcept;
+                bool isEmpty() const noexcept;
                 void setPath(const Path& path, bool stat = true);
                 void setPath(const Path& path, FileType fileType, const Frame::Sequence&, bool stat = true);
 
@@ -107,18 +107,18 @@ namespace djv
                 std::string getFileName(Frame::Number frame = Frame::invalid, bool path = true) const;
 
                 //! Get whether this file exists.
-                bool doesExist() const;
+                bool doesExist() const noexcept;
 
                 ///@}
 
                 //! \name File Information
                 ///@{
 
-                FileType getType() const;
-                uint64_t getSize() const;
-                uid_t getUser() const;
-                int getPermissions() const;
-                time_t getTime() const;
+                FileType getType() const noexcept;
+                uint64_t getSize() const noexcept;
+                uid_t getUser() const noexcept;
+                int getPermissions() const noexcept;
+                time_t getTime() const noexcept;
 
                 //! Get information from the file system.
                 bool stat(std::string* error = nullptr);
@@ -128,7 +128,7 @@ namespace djv
                 //! \name File Sequences
                 ///@{
 
-                const Frame::Sequence& getSequence() const;
+                const Frame::Sequence& getSequence() const noexcept;
                 void setSequence(const Frame::Sequence&);
                 bool isCompatible(const FileInfo&) const;
                 bool addToSequence(const FileInfo&);
@@ -139,7 +139,7 @@ namespace djv
                 ///@{
 
                 //! Test whether the string contains all '#' characters.
-                static bool isSequenceWildcard(const std::string&);
+                static bool isSequenceWildcard(const std::string&) noexcept;
 
                 //! Get the contents of the given directory.
                 static std::vector<FileInfo> directoryList(const Path& path, const DirectoryListOptions& options = DirectoryListOptions());

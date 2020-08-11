@@ -18,7 +18,7 @@
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/Shortcut.h>
+#include <djvUI/ShortcutData.h>
 #include <djvUI/Style.h>
 #include <djvUI/UISystem.h>
 
@@ -67,6 +67,7 @@ namespace djv
             std::shared_ptr<ValueObserver<float> > imageZoomObserver;
             std::shared_ptr<ValueObserver<PointerData> > hoverObserver;
             std::shared_ptr<ValueObserver<PointerData> > dragObserver;
+            std::shared_ptr<MapObserver<std::string, std::vector<UI::ShortcutData> > > shortcutsObserver;
         };
 
         void AnnotateSystem::_init(const std::shared_ptr<Context>& context)
@@ -79,7 +80,6 @@ namespace djv
 
             p.actions["Annotate"] = UI::Action::create();
             p.actions["Annotate"]->setIcon("djvIconAnnotate");
-            p.actions["Annotate"]->setShortcut(GLFW_KEY_A, UI::Shortcut::getSystemModifier());
 
             p.actions["Polyline"] = UI::Action::create();
             p.actions["Polyline"]->setIcon("djvIconAnnotatePolyline");
@@ -90,10 +90,11 @@ namespace djv
             p.actions["Ellipse"] = UI::Action::create();
             p.actions["Ellipse"]->setIcon("djvIconAnnotateEllipse");
             p.toolActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
-            p.toolActionGroup->addAction(p.actions["Polyline"]);
-            p.toolActionGroup->addAction(p.actions["Line"]);
-            p.toolActionGroup->addAction(p.actions["Rectangle"]);
-            p.toolActionGroup->addAction(p.actions["Ellipse"]);
+            p.toolActionGroup->setActions({
+                p.actions["Polyline"],
+                p.actions["Line"],
+                p.actions["Rectangle"],
+                p.actions["Ellipse"] });
 
             p.actions["LineSizeSmall"] = UI::Action::create();
             p.actions["LineSizeSmall"]->setIcon("djvIconAnnotateLineSizeSmall");
@@ -102,9 +103,10 @@ namespace djv
             p.actions["LineSizeLarge"] = UI::Action::create();
             p.actions["LineSizeLarge"]->setIcon("djvIconAnnotateLineSizeLarge");
             p.lineSizeActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
-            p.lineSizeActionGroup->addAction(p.actions["LineSizeSmall"]);
-            p.lineSizeActionGroup->addAction(p.actions["LineSizeMedium"]);
-            p.lineSizeActionGroup->addAction(p.actions["LineSizeLarge"]);
+            p.lineSizeActionGroup->setActions({
+                p.actions["LineSizeSmall"],
+                p.actions["LineSizeMedium"],
+                p.actions["LineSizeLarge"] });
 
             p.actions["Clear"] = UI::Action::create();
             p.actions["Clear"]->setIcon("djvIconClear");
@@ -118,6 +120,8 @@ namespace djv
             p.actions["Next"]->setIcon("djvIconArrowRight");
             p.actions["Prev"] = UI::Action::create();
             p.actions["Prev"]->setIcon("djvIconArrowLeft");
+
+            _addShortcut("shortcut_annotate", GLFW_KEY_A, UI::ShortcutData::getSystemModifier());
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Polyline"]);
@@ -135,6 +139,7 @@ namespace djv
             p.menu->addAction(p.actions["Prev"]);
 
             _textUpdate();
+            _shortcutsUpdate();
 
             auto contextWeak = std::weak_ptr<Context>(context);
             p.toolActionGroup->setRadioCallback(
@@ -388,6 +393,15 @@ namespace djv
                 p.actions["Prev"]->setTooltip(_getText(DJV_TEXT("menu_annotate_prev_tooltip")));
 
                 p.menu->setText(_getText(DJV_TEXT("menu_annotate")));
+            }
+        }
+
+        void AnnotateSystem::_shortcutsUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.actions.size())
+            {
+                p.actions["Annotate"]->setShortcuts(_getShortcuts("shortcut_annotate"));
             }
         }
         

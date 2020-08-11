@@ -8,6 +8,7 @@
 #include <djvUI/EventSystem.h>
 #include <djvUI/ITooltipWidget.h>
 #include <djvUI/Shortcut.h>
+#include <djvUI/ShortcutData.h>
 #include <djvUI/Style.h>
 #include <djvUI/TextBlock.h>
 #include <djvUI/Tooltip.h>
@@ -853,15 +854,14 @@ namespace djv
                 std::sort(shortcuts.begin(), shortcuts.end(),
                     [](const std::shared_ptr<Shortcut>& a, const std::shared_ptr<Shortcut>& b)
                     {
-                        return a->observeShortcutModifiers()->get() > b->observeShortcutModifiers()->get();
+                        return a->observeShortcut()->get().modifiers > b->observeShortcut()->get().modifiers;
                     });
 
                 for (const auto& i : shortcuts)
                 {
-                    const int key = i->observeShortcutKey()->get();
-                    const int modifiers = i->observeShortcutModifiers()->get();
-                    if ((key == event.getKey() && event.getKeyModifiers() == modifiers) ||
-                        (key == event.getKey() && modifiers == 0 && event.getKeyModifiers() == 0))
+                    const auto& shortcut = i->observeShortcut()->get();
+                    if ((shortcut.key == event.getKey() && event.getKeyModifiers() == shortcut.modifiers) ||
+                        (shortcut.key == event.getKey() && shortcut.modifiers == 0 && event.getKeyModifiers() == 0))
                     {
                         event.accept();
                         i->doCallback();
@@ -922,9 +922,13 @@ namespace djv
                     out << ": ";
                     std::vector<std::string> shortcutsText;
                     const auto& textSystem = _getTextSystem();
-                    for (const auto& shortcut : action->observeShortcuts()->get())
+                    for (const auto& i : action->observeShortcuts()->get())
                     {
-                        shortcutsText.push_back(Shortcut::getText(shortcut, textSystem));
+                        const auto& shortcut = i->observeShortcut()->get();
+                        if (shortcut.isValid())
+                        {
+                            shortcutsText.push_back(ShortcutData::getText(shortcut, textSystem));
+                        }
                     }
                     out << String::join(shortcutsText, ", ");
                     out << ")";

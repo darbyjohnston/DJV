@@ -8,13 +8,8 @@
 #include <djvAV/Image.h>
 #include <djvAV/Tags.h>
 
-#include <djvCore/Error.h>
-#include <djvCore/FileInfo.h>
-#include <djvCore/ISystem.h>
-#include <djvCore/RapidJSON.h>
+#include <djvCore/Frame.h>
 #include <djvCore/Speed.h>
-#include <djvCore/Time.h>
-#include <djvCore/ValueObserver.h>
 
 #include <future>
 #include <queue>
@@ -23,64 +18,23 @@
 
 namespace djv
 {
-    namespace Core
-    {
-        class LogSystem;
-        class ResourceSystem;
-        class TextSystem;
-
-    } // namespace Core
-
     namespace AV
     {
         //! This namespace provides I/O functionality.
         namespace IO
         {
-            //! This class provides video I/O information.
-            class VideoInfo
-            {
-            public:
-                VideoInfo();
-                VideoInfo(
-                    const Image::Info&,
-                    const Core::Math::Rational& = Core::Time::fromSpeed(Core::Time::getDefaultSpeed()),
-                    const Core::Frame::Sequence& = Core::Frame::Sequence());
-
-                Image::Info             info;
-                Core::Math::Rational    speed;
-                Core::Frame::Sequence   sequence;
-                std::string             codec;
-
-                bool operator == (const VideoInfo&) const;
-            };
-
-            //! This class provides audio I/O information.
-            class AudioInfo
-            {
-            public:
-                AudioInfo();
-                explicit AudioInfo(const Audio::Info&);
-
-                Audio::Info info;
-                std::string codec;
-
-                bool operator == (const AudioInfo&) const;
-            };
-
             //! This class provides I/O information.
             class Info
             {
             public:
                 Info();
-                Info(const std::string& fileName, const VideoInfo&);
-                Info(const std::string& fileName, const AudioInfo&);
-                Info(const std::string& fileName, const VideoInfo&, const AudioInfo&);
-                Info(const std::string& fileName, const std::vector<VideoInfo>&, const std::vector<AudioInfo>&);
 
-                std::string             fileName;
-                std::vector<VideoInfo>  video;
-                std::vector<AudioInfo>  audio;
-                Tags                    tags;
+                std::string              fileName;
+                Core::Math::Rational     videoSpeed;
+                Core::Frame::Sequence    videoSequence;
+                std::vector<Image::Info> video;
+                Audio::Info              audio;
+                Tags                     tags;
 
                 bool operator == (const Info&) const;
             };
@@ -165,55 +119,6 @@ namespace djv
                 bool _finished = false;
             };
 
-            //! This class provides I/O options.
-            struct IOOptions
-            {
-                size_t videoQueueSize = 1;
-                //! \todo What is a good default for this value?
-                size_t audioQueueSize = 30;
-            };
-
-            //! This class provides an interface for I/O.
-            class IIO : public std::enable_shared_from_this<IIO>
-            {
-            protected:
-                void _init(
-                    const Core::FileSystem::FileInfo&,
-                    const IOOptions&,
-                    const std::shared_ptr<Core::TextSystem>&,
-                    const std::shared_ptr<Core::ResourceSystem>&,
-                    const std::shared_ptr<Core::LogSystem>&);
-
-            public:
-                virtual ~IIO() = 0;
-
-                virtual bool isRunning() const = 0;
-
-                size_t getThreadCount() const;
-                void setThreadCount(size_t);
-
-                std::mutex& getMutex();
-                VideoQueue& getVideoQueue();
-                AudioQueue& getAudioQueue();
-
-            protected:
-                std::shared_ptr<Core::LogSystem> _logSystem;
-                std::shared_ptr<Core::ResourceSystem> _resourceSystem;
-                std::shared_ptr<Core::TextSystem> _textSystem;
-                Core::FileSystem::FileInfo _fileInfo;
-                std::mutex _mutex;
-                VideoQueue _videoQueue;
-                AudioQueue _audioQueue;
-                size_t _threadCount = 4;
-            };
-
-            //! This class provides options for reading.
-            struct ReadOptions : IOOptions
-            {
-                size_t layer = 0;
-                std::string colorSpace;
-            };
-
             //! This class provides playback in/out points.
             class InOutPoints
             {
@@ -277,167 +182,6 @@ namespace djv
                 size_t _readBehind = 10;
                 Core::Frame::Sequence _sequence;
                 std::map<Core::Frame::Index, std::shared_ptr<AV::Image::Image> > _cache;
-            };
-
-            //! This class provides an interface for reading.
-            class IRead : public IIO
-            {
-            protected:
-                void _init(
-                    const Core::FileSystem::FileInfo&,
-                    const ReadOptions&,
-                    const std::shared_ptr<Core::TextSystem>&,
-                    const std::shared_ptr<Core::ResourceSystem>&,
-                    const std::shared_ptr<Core::LogSystem>&);
-
-            public:
-                virtual ~IRead() = 0;
-
-                virtual std::future<Info> getInfo() = 0;
-
-                void setPlayback(bool);
-                void setLoop(bool);
-                void setInOutPoints(const InOutPoints&);
-
-                //! \param value For video files this value represents the
-                //! frame number, for audio files it represents the audio sample.
-                virtual void seek(int64_t value, Direction) = 0;
-
-                virtual bool hasCache() const { return false; }
-                bool isCacheEnabled() const;
-                size_t getCacheMaxByteCount() const;
-                size_t getCacheByteCount();
-                Core::Frame::Sequence getCacheSequence();
-                Core::Frame::Sequence getCachedFrames();
-                void setCacheEnabled(bool);
-                void setCacheMaxByteCount(size_t);
-
-            protected:
-                ReadOptions _options;
-                InOutPoints _inOutPoints;
-                Direction _direction = Direction::Forward;
-                bool _playback = false;
-                bool _loop = false;
-                bool _cacheEnabled = false;
-                size_t _cacheMaxByteCount = 0;
-                size_t _cacheByteCount = 0;
-                Core::Frame::Sequence _cacheSequence;
-                Core::Frame::Sequence _cachedFrames;
-                Cache _cache;
-            };
-
-            //! This class provides options for writing.
-            struct WriteOptions : IOOptions
-            {
-                std::string colorSpace;
-            };
-
-            //! This class provides an interface for writing.
-            class IWrite : public IIO
-            {
-            protected:
-                void _init(
-                    const Core::FileSystem::FileInfo&,
-                    const Info&,
-                    const WriteOptions&,
-                    const std::shared_ptr<Core::TextSystem>&,
-                    const std::shared_ptr<Core::ResourceSystem>&,
-                    const std::shared_ptr<Core::LogSystem>&);
-
-            public:
-                virtual ~IWrite() = 0;
-
-            protected:
-                Info _info;
-                WriteOptions _options;
-            };
-
-            //! This class provides an interface for I/O plugins.
-            class IPlugin : public std::enable_shared_from_this<IPlugin>
-            {
-            protected:
-                void _init(
-                    const std::string& pluginName,
-                    const std::string& pluginInfo,
-                    const std::set<std::string>& fileExtensions,
-                    const std::shared_ptr<Core::Context>&);
-
-            public:
-                virtual ~IPlugin() = 0;
-
-                const std::string& getPluginName() const;
-                const std::string& getPluginInfo() const;
-                const std::set<std::string>& getFileExtensions() const;
-
-                virtual bool canSequence() const;
-                virtual bool canRead(const Core::FileSystem::FileInfo&) const;
-                virtual bool canWrite(const Core::FileSystem::FileInfo&, const Info&) const;
-
-                virtual rapidjson::Value getOptions(rapidjson::Document::AllocatorType&) const;
-
-                //! Throws:
-                //! - std::invalid_argument
-                virtual void setOptions(const rapidjson::Value&);
-
-                //! Throws:
-                //! - Core::FileSystem::Error
-                virtual std::shared_ptr<IRead> read(const Core::FileSystem::FileInfo&, const ReadOptions&) const;
-
-                //! Throws:
-                //! - Core::FileSystem::Error
-                virtual std::shared_ptr<IWrite> write(const Core::FileSystem::FileInfo&, const Info&, const WriteOptions&) const;
-
-            protected:
-                std::weak_ptr<Core::Context> _context;
-                std::shared_ptr<Core::LogSystem> _logSystem;
-                std::shared_ptr<Core::ResourceSystem> _resourceSystem;
-                std::shared_ptr<Core::TextSystem> _textSystem;
-                std::string _pluginName;
-                std::string _pluginInfo;
-                std::set<std::string> _fileExtensions;
-            };
-
-            //! This class provides an I/O system.
-            class System : public Core::ISystem
-            {
-                DJV_NON_COPYABLE(System);
-
-            protected:
-                void _init(const std::shared_ptr<Core::Context>&);
-                System();
-
-            public:
-                virtual ~System();
-
-                static std::shared_ptr<System> create(const std::shared_ptr<Core::Context>&);
-
-                std::set<std::string> getPluginNames() const;
-                std::set<std::string> getFileExtensions() const;
-
-                rapidjson::Value getOptions(const std::string& pluginName, rapidjson::Document::AllocatorType&) const;
-
-                //! Throws:
-                //! - std::invalid_argument
-                void setOptions(const std::string& pluginName, const rapidjson::Value&);
-
-                std::shared_ptr<Core::IValueSubject<bool> > observeOptionsChanged() const;
-
-                const std::set<std::string>& getSequenceExtensions() const;
-                const std::set<std::string>& getNonSequenceExtensions() const;
-                bool canSequence(const Core::FileSystem::FileInfo&) const;
-                bool canRead(const Core::FileSystem::FileInfo&) const;
-                bool canWrite(const Core::FileSystem::FileInfo&, const Info&) const;
-
-                //! Throws:
-                //! - Core::FileSystem::Error
-                std::shared_ptr<IRead> read(const Core::FileSystem::FileInfo&, const ReadOptions& = ReadOptions());
-
-                //! Throws:
-                //! - Core::FileSystem::Error
-                std::shared_ptr<IWrite> write(const Core::FileSystem::FileInfo&, const Info&, const WriteOptions& = WriteOptions());
-
-            private:
-                DJV_PRIVATE();
             };
 
         } // namespace IO

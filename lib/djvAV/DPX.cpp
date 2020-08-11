@@ -188,7 +188,7 @@ namespace djv
                     {
                         io->setEndianConversion(true);
                         convertEndian(out);
-                        info.video[0].info.layout.endian = Memory::opposite(Memory::getEndian());
+                        info.video[0].layout.endian = Memory::opposite(Memory::getEndian());
                     }
 
                     // Collect information.
@@ -198,25 +198,25 @@ namespace djv
                             arg(io->getFileName()).
                             arg(textSystem->getText(DJV_TEXT("error_unsupported_file"))));
                     }
-                    info.video[0].info.size.w = out.image.size[0];
-                    info.video[0].info.size.h = out.image.size[1];
+                    info.video[0].size.w = out.image.size[0];
+                    info.video[0].size.h = out.image.size[1];
 
                     switch (static_cast<Orient>(out.image.orient))
                     {
                     case Orient::LeftRightBottomTop:
-                        info.video[0].info.layout.mirror.y = true;
+                        info.video[0].layout.mirror.y = true;
                         break;
                     case Orient::RightLeftTopBottom:
-                        info.video[0].info.layout.mirror.x = true;
+                        info.video[0].layout.mirror.x = true;
                         break;
                     case Orient::RightLeftBottomTop:
-                        info.video[0].info.layout.mirror.x = true;
-                        info.video[0].info.layout.mirror.y = true;
+                        info.video[0].layout.mirror.x = true;
+                        info.video[0].layout.mirror.y = true;
                         break;
                     default: break;
                     }
 
-                    info.video[0].info.type = Image::Type::None;
+                    info.video[0].type = Image::Type::None;
                     switch (static_cast<Components>(out.image.elem[0].packing))
                     {
                     case Components::Pack:
@@ -229,7 +229,7 @@ namespace djv
                         case Descriptor::RGBA: channels = 4; break;
                         default: break;
                         }
-                        info.video[0].info.type = Image::getIntType(channels, out.image.elem[0].bitDepth);
+                        info.video[0].type = Image::getIntType(channels, out.image.elem[0].bitDepth);
                     }
                     break;
                     case Components::TypeA:
@@ -238,8 +238,8 @@ namespace djv
                         case 10:
                             if (Descriptor::RGB == static_cast<Descriptor>(out.image.elem[0].descriptor))
                             {
-                                info.video[0].info.type = Image::Type::RGB_U10;
-                                info.video[0].info.layout.alignment = 4;
+                                info.video[0].type = Image::Type::RGB_U10;
+                                info.video[0].layout.alignment = 4;
                             }
                             break;
                         case 16:
@@ -252,7 +252,7 @@ namespace djv
                             case Descriptor::RGBA: channels = 4; break;
                             default: break;
                             }
-                            info.video[0].info.type = Image::getIntType(channels, out.image.elem[0].bitDepth);
+                            info.video[0].type = Image::getIntType(channels, out.image.elem[0].bitDepth);
                             break;
                         }
                         default: break;
@@ -260,13 +260,13 @@ namespace djv
                         break;
                     default: break;
                     }
-                    if (Image::Type::None == info.video[0].info.type)
+                    if (Image::Type::None == info.video[0].type)
                     {
                         throw FileSystem::Error(String::Format("{0}: {1}").
                             arg(io->getFileName()).
                             arg(textSystem->getText(DJV_TEXT("error_unsupported_file"))));
                     }
-                    const size_t dataByteCount = info.video[0].info.getDataByteCount();
+                    const size_t dataByteCount = info.video[0].getDataByteCount();
                     const size_t ioSize = io->getSize();
                     if (dataByteCount > ioSize - out.file.imageOffset)
                     {
@@ -410,7 +410,7 @@ namespace djv
                     }
                     if (isValid(&out.film.frameRate) && out.film.frameRate > _minSpeed)
                     {
-                        info.video[0].speed = Time::fromSpeed(out.film.frameRate);
+                        info.videoSpeed = Time::fromSpeed(out.film.frameRate);
                         std::stringstream ss;
                         ss << out.film.frameRate;
                         info.tags.setTag("Film Frame Rate", ss.str());
@@ -460,7 +460,7 @@ namespace djv
                     }
                     if (isValid(&out.tv.frameRate) && out.tv.frameRate > _minSpeed)
                     {
-                        info.video[0].speed = Time::fromSpeed(out.tv.frameRate);
+                        info.videoSpeed = Time::fromSpeed(out.tv.frameRate);
                         std::stringstream ss;
                         ss << out.tv.frameRate;
                         info.tags.setTag("TV Frame Rate", ss.str());
@@ -552,11 +552,11 @@ namespace djv
                     header.file.encryptionKey       = 0;
 
                     header.image.elemSize = 1;
-                    header.image.size[0]  = info.video[0].info.size.w;
-                    header.image.size[1]  = info.video[0].info.size.h;
+                    header.image.size[0]  = info.video[0].size.w;
+                    header.image.size[1]  = info.video[0].size.h;
                     header.image.orient   = static_cast<uint16_t>(Orient::LeftRightTopBottom);
 
-                    switch (info.video[0].info.type)
+                    switch (info.video[0].type)
                     {
                     case Image::Type::L_U8:
                     case Image::Type::L_U16:
@@ -580,7 +580,7 @@ namespace djv
                     default: break;
                     }
 
-                    switch (info.video[0].info.type)
+                    switch (info.video[0].type)
                     {
                     case Image::Type::RGB_U10:
                         header.image.elem[0].packing = static_cast<uint16_t>(Components::TypeA);
@@ -588,7 +588,7 @@ namespace djv
                     default: break;
                     }
 
-                    const int bitDepth = Image::getBitDepth(info.video[0].info.type);
+                    const int bitDepth = Image::getBitDepth(info.video[0].type);
                     header.image.elem[0].bitDepth = bitDepth;
                     header.image.elem[0].dataSign = 0;
                     header.image.elem[0].lowData  = 0;

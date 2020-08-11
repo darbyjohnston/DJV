@@ -139,7 +139,7 @@ namespace djv
                 {
                     File f;
                     Info info = _open(fileName, f);
-                    Image::Info imageInfo = info.video[std::min(_options.layer, info.video.size() - 1)].info;
+                    Image::Info imageInfo = info.video[std::min(_options.layer, info.video.size() - 1)];
                     std::shared_ptr<Image::Image> out = Image::Image::create(imageInfo);
                     out->setPluginName(pluginName);
                     out->setTags(info.tags);
@@ -237,6 +237,8 @@ namespace djv
                     // Get the layers.
                     f.layers = getLayers(f.f->header().channels(), p.options.channels);
                     out.fileName = fileName;
+                    out.videoSequence = _sequence;
+                    out.videoSpeed = _speed;
                     out.video.resize(f.layers.size());
                     for (size_t i = 0; i < f.layers.size(); ++i)
                     {
@@ -244,7 +246,7 @@ namespace djv
                         const glm::ivec2 sampling(layer.channels[0].sampling.x, layer.channels[0].sampling.y);
                         if (sampling.x != 1 || sampling.y != 1)
                             f.fast = false;
-                        auto& info = out.video[i].info;
+                        auto& info = out.video[i];
                         info.name = layer.name;
                         info.size.w = f.displayWindow.w();
                         info.size.h = f.displayWindow.h();
@@ -266,8 +268,6 @@ namespace djv
                                 arg(fileName).
                                 arg(_textSystem->getText(DJV_TEXT("error_unsupported_image_type"))));
                         }
-                        out.video[i].sequence = _sequence;
-                        out.video[i].speed = _speed;
                     }
 
                     return out;

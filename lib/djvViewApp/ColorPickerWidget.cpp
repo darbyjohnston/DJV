@@ -145,6 +145,7 @@ namespace djv
 
             p.settingsMenu = UI::Menu::create(context);
             p.settingsMenu->setIcon("djvIconSettings");
+            p.settingsMenu->setMinimumSizeRole(UI::MetricsRole::None);
             p.settingsMenu->addAction(p.actions["LockType"]);
             p.settingsMenu->addAction(p.actions["ApplyColorOperations"]);
             p.settingsMenu->addAction(p.actions["ApplyColorSpace"]);
@@ -152,14 +153,13 @@ namespace djv
             p.settingsPopupMenu->setMenu(p.settingsMenu);
 
             p.layout = UI::VerticalLayout::create(context);
-            p.layout->setSpacing(UI::MetricsRole::None);
+            p.layout->setMargin(UI::MetricsRole::MarginSmall);
+            p.layout->setSpacing(UI::MetricsRole::SpacingSmall);
             p.layout->setBackgroundRole(UI::ColorRole::Background);
             p.layout->setShadowOverlay({ UI::Side::Top });
             p.layout->addChild(p.colorSwatch);
             p.layout->setStretch(p.colorSwatch, UI::RowStretch::Expand);
             p.formLayout = UI::FormLayout::create(context);
-            p.formLayout->setMargin(UI::MetricsRole::MarginSmall);
-            p.formLayout->setSpacing(UI::MetricsRole::SpacingSmall);
             p.formLayout->addChild(p.colorLabel);
             p.formLayout->addChild(p.pixelLabel);
             p.formLayout->addChild(p.sampleSizeSlider);
@@ -578,15 +578,15 @@ namespace djv
                     }
                     if (p.applyColorSpace)
                     {
-                        auto i = p.ocioConfig.fileColorSpaces.find(p.image->getPluginName());
-                        if (i != p.ocioConfig.fileColorSpaces.end())
+                        auto i = p.ocioConfig.imageColorSpaces.find(p.image->getPluginName());
+                        if (i != p.ocioConfig.imageColorSpaces.end())
                         {
                             options.colorSpace.input = i->second;
                         }
                         else
                         {
-                            i = p.ocioConfig.fileColorSpaces.find(std::string());
-                            if (i != p.ocioConfig.fileColorSpaces.end())
+                            i = p.ocioConfig.imageColorSpaces.find(std::string());
+                            if (i != p.ocioConfig.imageColorSpaces.end())
                             {
                                 options.colorSpace.input = i->second;
                             }

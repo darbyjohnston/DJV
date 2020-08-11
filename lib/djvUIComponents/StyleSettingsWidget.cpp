@@ -122,17 +122,22 @@ namespace djv
         void SizeWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.comboBox->clearItems();
             p.indexToMetrics.clear();
             p.metricsToIndex.clear();
+            std::vector<std::string> items;
             for (size_t i = 0; i < p.metrics.size(); ++i)
             {
                 const auto& name = p.metrics[i];
-                p.comboBox->addItem(_getText(name));
+                items.push_back(_getText(name));
                 p.indexToMetrics[i] = name;
                 p.metricsToIndex[name] = i;
             }
-            _currentItemUpdate();
+            const auto i = p.metricsToIndex.find(p.currentMetrics);
+            if (i != p.metricsToIndex.end())
+            {
+                p.comboBox->setItems(items);
+                p.comboBox->setCurrentItem(static_cast<int>(i->second));
+            }
         }
 
         void SizeWidget::_currentItemUpdate()
@@ -247,17 +252,22 @@ namespace djv
         void PaletteWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.comboBox->clearItems();
             p.indexToPalette.clear();
             p.paletteToIndex.clear();
+            std::vector<std::string> items;
             for (size_t i = 0; i < p.palettes.size(); ++i)
             {
                 const auto& name = p.palettes[i];
-                p.comboBox->addItem(_getText(name));
+                items.push_back(_getText(name));
                 p.indexToPalette[i] = name;
                 p.paletteToIndex[name] = i;
             }
-            _currentItemUpdate();
+            const auto i = p.paletteToIndex.find(p.currentPalette);
+            if (i != p.paletteToIndex.end())
+            {
+                p.comboBox->setItems(items);
+                p.comboBox->setCurrentItem(static_cast<int>(i->second));
+            }
         }
 
         void PaletteWidget::_currentItemUpdate()

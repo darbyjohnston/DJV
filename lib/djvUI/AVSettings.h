@@ -23,7 +23,7 @@ namespace djv
                 AV();
 
             public:
-                virtual ~AV();
+                ~AV() override;
 
                 static std::shared_ptr<AV> create(const std::shared_ptr<Core::Context>&);
 

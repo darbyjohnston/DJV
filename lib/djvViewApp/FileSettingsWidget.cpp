@@ -38,6 +38,7 @@ namespace djv
             p.firstFrameCheckBox = UI::CheckBox::create(context);
 
             p.layout = UI::VerticalLayout::create(context);
+            p.layout->setSpacing(UI::MetricsRole::None);
             p.layout->addChild(p.autoDetectCheckBox);
             p.layout->addChild(p.firstFrameCheckBox);
             addChild(p.layout);

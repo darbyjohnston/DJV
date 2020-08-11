@@ -30,17 +30,17 @@ int main(int argc, char ** argv)
         comboBox0->setVAlign(UI::VAlign::Top);
         auto comboBox1 = UI::ComboBox::create(app);
         comboBox1->setItems(Core::String::getRandomNames(25));
-        comboBox1->setCurrentItem(0);
+        comboBox0->setCurrentItem(0);
         comboBox1->setHAlign(UI::HAlign::Right);
         comboBox1->setVAlign(UI::VAlign::Top);
         auto comboBox2 = UI::ComboBox::create(app);
         comboBox2->setItems(Core::String::getRandomNames(5));
-        comboBox2->setCurrentItem(0);
+        comboBox0->setCurrentItem(0);
         comboBox2->setHAlign(UI::HAlign::Left);
         comboBox2->setVAlign(UI::VAlign::Bottom);
         auto comboBox3 = UI::ComboBox::create(app);
         comboBox3->setItems(Core::String::getRandomNames(25));
-        comboBox3->setCurrentItem(0);
+        comboBox0->setCurrentItem(0);
         comboBox3->setHAlign(UI::HAlign::Right);
         comboBox3->setVAlign(UI::VAlign::Bottom);
 

@@ -20,14 +20,14 @@ namespace djv
             ToolBar();
 
         public:
-            virtual ~ToolBar();
+            ~ToolBar() override;
 
             static std::shared_ptr<ToolBar> create(const std::shared_ptr<Core::Context>&);
 
             void setStretch(const std::shared_ptr<Widget>&, RowStretch);
 
             void addSeparator();
-            void addSpacer();
+            void addSpacer(MetricsRole = MetricsRole::Spacing);
             void addExpander();
 
             float getHeightForWidth(float) const override;

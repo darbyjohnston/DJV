@@ -4,7 +4,7 @@
 
 #include <djvAVTest/IOTest.h>
 
-#include <djvAV/IO.h>
+#include <djvAV/IOSystem.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/String.h>
@@ -23,8 +23,6 @@ namespace djv
         
         void IOTest::run()
         {
-            _videoInfo();
-            _audioInfo();
             _info();
             _videoFrame();
             _videoQueue();
@@ -33,42 +31,6 @@ namespace djv
             _cache();
             _io();
             _system();
-            _operators();
-        }
-        
-        void IOTest::_videoInfo()
-        {
-            {
-                const AV::IO::VideoInfo info;
-                DJV_ASSERT(info.info == Image::Info());
-                DJV_ASSERT(info.speed == Time::fromSpeed(Time::getDefaultSpeed()));
-                DJV_ASSERT(info.sequence == Frame::Sequence());
-                DJV_ASSERT(info.codec.empty());
-            }
-            
-            {
-                const Image::Info imageInfo(1, 2, Image::Type::RGB_U8);
-                const Math::Rational speed(Time::fromSpeed(Time::FPS::_60));
-                const Frame::Sequence sequence(3, 4);
-                const AV::IO::VideoInfo info(imageInfo, speed, sequence);
-                DJV_ASSERT(info.info == imageInfo);
-                DJV_ASSERT(info.speed == speed);
-                DJV_ASSERT(info.sequence == sequence);
-            }
-        }
-        
-        void IOTest::_audioInfo()
-        {
-            {
-                const AV::IO::AudioInfo info;
-                DJV_ASSERT(info.info == Audio::Info());
-            }
-            
-            {
-                const Audio::Info audioInfo(1, Audio::Type::S16, 2, 3);
-                const AV::IO::AudioInfo info(audioInfo);
-                DJV_ASSERT(info.info == audioInfo);
-            }
         }
         
         void IOTest::_info()
@@ -77,34 +39,10 @@ namespace djv
                 const IO::Info info;
                 DJV_ASSERT(info.fileName.empty());
                 DJV_ASSERT(info.video.empty());
-                DJV_ASSERT(info.audio.empty());
+                DJV_ASSERT(info.videoSpeed == Time::fromSpeed(Time::getDefaultSpeed()));
+                DJV_ASSERT(info.videoSequence == Frame::Sequence());
+                DJV_ASSERT(info.audio == Audio::Info());
                 DJV_ASSERT(info.tags.isEmpty());
-            }
-            
-            {
-                const std::string fileName = "fileName";
-                const IO::VideoInfo videoInfo(Image::Info(1, 2, Image::Type::RGB_U8));
-                const std::vector<IO::VideoInfo> videoInfoList = { videoInfo };
-                const IO::AudioInfo audioInfo(Audio::Info(1, Audio::Type::S16, 2, 3));
-                const std::vector<IO::AudioInfo> audioInfoList = { audioInfo };
-                
-                const IO::Info info(fileName, videoInfo);
-                DJV_ASSERT(fileName == info.fileName);
-                DJV_ASSERT(videoInfo == info.video[0]);
-                
-                const IO::Info info2(fileName, audioInfo);
-                DJV_ASSERT(fileName == info2.fileName);
-                DJV_ASSERT(audioInfo == info2.audio[0]);
-                
-                const IO::Info info3(fileName, videoInfo, audioInfo);
-                DJV_ASSERT(fileName == info3.fileName);
-                DJV_ASSERT(videoInfo == info3.video[0]);
-                DJV_ASSERT(audioInfo == info3.audio[0]);
-                
-                const IO::Info info4(fileName, videoInfoList, audioInfoList);
-                DJV_ASSERT(fileName == info4.fileName);
-                DJV_ASSERT(videoInfoList == info4.video);
-                DJV_ASSERT(audioInfoList == info4.audio);
             }
         }
         
@@ -421,44 +359,6 @@ namespace djv
                     ss << io->canWrite(FileSystem::FileInfo(i), IO::Info());
                     _print(ss.str());
                 }
-            }
-        }
-        
-        void IOTest::_operators()
-        {
-            {
-                const IO::VideoInfo info(
-                    Image::Info(1, 2, Image::Type::RGB_U8),
-                    Math::Rational(Time::fromSpeed(Time::FPS::_60)),
-                    Frame::Sequence(3, 4));
-                DJV_ASSERT(info == info);
-            }
-
-            {
-                const IO::AudioInfo info(
-                    Audio::Info(1, Audio::Type::S16, 2, 3));
-                DJV_ASSERT(info == info);
-            }
-            
-            {
-                const IO::Info info(
-                    "fileName",
-                    IO::VideoInfo(Image::Info(1, 2, Image::Type::RGB_U8)),
-                    IO::AudioInfo(Audio::Info(1, Audio::Type::S16, 2, 3)));
-                DJV_ASSERT(info == info);
-            }
-            
-            {
-                const IO::VideoFrame frame(
-                    1,
-                    Image::Image::create(Image::Info(1, 2, Image::Type::RGB_U8)));
-                DJV_ASSERT(frame == frame);
-            }
-            
-            {
-                const IO::AudioFrame frame(
-                    Audio::Data::create(Audio::Info(1, Audio::Type::S16, 2, 3)));
-                DJV_ASSERT(frame == frame);
             }
         }
                 

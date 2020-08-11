@@ -5,7 +5,7 @@
 #include <djvUI/LineEditBase.h>
 
 #include <djvUI/EventSystem.h>
-#include <djvUI/Shortcut.h>
+#include <djvUI/ShortcutData.h>
 #include <djvUI/Style.h>
 
 #include <djvAV/FontSystem.h>
@@ -571,7 +571,7 @@ namespace djv
                     case GLFW_KEY_PAGE_DOWN:
                         break;
                     case GLFW_KEY_A:
-                        if (modifiers & UI::Shortcut::getSystemModifier())
+                        if (modifiers & UI::ShortcutData::getSystemModifier())
                         {
                             event.accept();
                             p.cursorPos = 0;
@@ -586,7 +586,7 @@ namespace djv
                         }
                         break;
                     case GLFW_KEY_X:
-                        if (modifiers & UI::Shortcut::getSystemModifier())
+                        if (modifiers & UI::ShortcutData::getSystemModifier())
                         {
                             event.accept();
                             const auto& selection = _getSelection();
@@ -613,7 +613,7 @@ namespace djv
                         }
                         break;
                     case GLFW_KEY_C:
-                        if (modifiers & UI::Shortcut::getSystemModifier())
+                        if (modifiers & UI::ShortcutData::getSystemModifier())
                         {
                             event.accept();
                             const auto& selection = _getSelection();
@@ -632,7 +632,7 @@ namespace djv
                         }
                         break;
                     case GLFW_KEY_V:
-                        if (modifiers & UI::Shortcut::getSystemModifier())
+                        if (modifiers & UI::ShortcutData::getSystemModifier())
                         {
                             event.accept();
                             if (auto eventSystem = _getEventSystem().lock())

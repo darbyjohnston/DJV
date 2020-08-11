@@ -61,6 +61,147 @@ namespace djv
                     return i != data.end() ? i->second : DJV_TEXT("error_unknown");
                 }
 
+                void extractAudio(
+                    uint8_t** inData,
+                    int inFormat,
+                    uint8_t inChannelCount,
+                    std::shared_ptr<Audio::Data> out)
+                {
+                    const uint8_t outChannelCount = out->getChannelCount();
+                    switch (inFormat)
+                    {
+                    case AV_SAMPLE_FMT_S16:
+                    {
+                        if (inChannelCount == outChannelCount)
+                        {
+                            memcpy(out->getData(), inData[0], out->getByteCount());
+                        }
+                        else
+                        {
+                            Audio::Data::extract(
+                                reinterpret_cast<int16_t*>(inData[0]),
+                                reinterpret_cast<int16_t*>(out->getData()),
+                                out->getSampleCount(),
+                                inChannelCount,
+                                outChannelCount);
+                        }
+                        break;
+                    }
+                    case AV_SAMPLE_FMT_S32:
+                    {
+                        if (inChannelCount == outChannelCount)
+                        {
+                            memcpy(out->getData(), inData[0], out->getByteCount());
+                        }
+                        else
+                        {
+                            Audio::Data::extract(
+                                reinterpret_cast<int32_t*>(inData[0]),
+                                reinterpret_cast<int32_t*>(out->getData()),
+                                out->getSampleCount(),
+                                inChannelCount,
+                                outChannelCount);
+                        }
+                        break;
+                    }
+                    case AV_SAMPLE_FMT_FLT:
+                    {
+                        if (inChannelCount == outChannelCount)
+                        {
+                            memcpy(out->getData(), inData[0], out->getByteCount());
+                        }
+                        else
+                        {
+                            Audio::Data::extract(
+                                reinterpret_cast<float*>(inData[0]),
+                                reinterpret_cast<float*>(out->getData()),
+                                out->getSampleCount(),
+                                inChannelCount,
+                                outChannelCount);
+                        }
+                        break;
+                    }
+                    case AV_SAMPLE_FMT_DBL:
+                    {
+                        if (inChannelCount == outChannelCount)
+                        {
+                            memcpy(out->getData(), inData[0], out->getByteCount());
+                        }
+                        else
+                        {
+                            Audio::Data::extract(
+                                reinterpret_cast<double*>(inData[0]),
+                                reinterpret_cast<double*>(out->getData()),
+                                out->getSampleCount(),
+                                inChannelCount,
+                                outChannelCount);
+                        }
+                        break;
+                    }
+                    case AV_SAMPLE_FMT_S16P:
+                    {
+                        const int16_t** c = new const int16_t * [outChannelCount];
+                        for (int i = 0; i < outChannelCount; ++i)
+                        {
+                            c[i] = reinterpret_cast<int16_t*>(inData[i]);
+                        }
+                        Audio::Data::planarInterleave(
+                            c,
+                            reinterpret_cast<int16_t*>(out->getData()),
+                            out->getSampleCount(),
+                            outChannelCount);
+                        delete[] c;
+                        break;
+                    }
+                    case AV_SAMPLE_FMT_S32P:
+                    {
+                        const int32_t** c = new const int32_t * [outChannelCount];
+                        for (int i = 0; i < outChannelCount; ++i)
+                        {
+                            c[i] = reinterpret_cast<int32_t*>(inData[i]);
+                        }
+                        Audio::Data::planarInterleave(
+                            c,
+                            reinterpret_cast<int32_t*>(out->getData()),
+                            out->getSampleCount(),
+                            outChannelCount);
+                        delete[] c;
+                        break;
+                    }
+                    case AV_SAMPLE_FMT_FLTP:
+                    {
+                        const float** c = new const float* [outChannelCount];
+                        for (int i = 0; i < outChannelCount; ++i)
+                        {
+                            c[i] = reinterpret_cast<float*>(inData[i]);
+                        }
+                        Audio::Data::planarInterleave(
+                            c,
+                            reinterpret_cast<float*>(out->getData()),
+                            out->getSampleCount(),
+                            outChannelCount);
+                        delete[] c;
+                        break;
+                    }
+                    case AV_SAMPLE_FMT_DBLP:
+                    {
+                        const double** c = new const double* [outChannelCount];
+                        for (int i = 0; i < outChannelCount; ++i)
+                        {
+                            c[i] = reinterpret_cast<double*>(inData[i]);
+                        }
+                        Audio::Data::planarInterleave(
+                            c,
+                            reinterpret_cast<double*>(out->getData()),
+                            out->getSampleCount(),
+                            outChannelCount);
+                        delete[] c;
+                        break;
+                    }
+                    default: break;
+                    }
+                }
+
                 std::string getErrorString(int r)
                 {
                     char buf[String::cStringLength];

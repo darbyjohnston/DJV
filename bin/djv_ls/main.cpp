@@ -4,7 +4,7 @@
 
 #include <djvCmdLineApp/Application.h>
 
-#include <djvAV/IO.h>
+#include <djvAV/IOSystem.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/Error.h>

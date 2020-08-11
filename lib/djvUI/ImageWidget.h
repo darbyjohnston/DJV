@@ -35,7 +35,7 @@ namespace djv
             ImageWidget();
 
         public:
-            virtual ~ImageWidget();
+            ~ImageWidget() override;
 
             static std::shared_ptr<ImageWidget> create(const std::shared_ptr<Core::Context>&);
 

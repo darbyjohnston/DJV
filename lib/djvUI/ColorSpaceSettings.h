@@ -24,7 +24,7 @@ namespace djv
                 ColorSpace();
 
             public:
-                virtual ~ColorSpace();
+                ~ColorSpace() override;
 
                 static std::shared_ptr<ColorSpace> create(const std::shared_ptr<Core::Context>&);
 

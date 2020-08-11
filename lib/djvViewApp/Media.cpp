@@ -9,6 +9,7 @@
 
 #include <djvAV/AVSystem.h>
 #include <djvAV/AudioSystem.h>
+#include <djvAV/IOSystem.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/LogSystem.h>
@@ -39,10 +40,9 @@ namespace djv
             bool valid = false;
             Core::FileSystem::FileInfo fileInfo;
             std::shared_ptr<ValueSubject<AV::IO::Info> > info;
-            AV::IO::VideoInfo videoInfo;
-            AV::IO::AudioInfo audioInfo;
+            AV::Audio::Info audioInfo;
             std::shared_ptr<ValueSubject<bool> > reload;
-            std::shared_ptr<ValueSubject<size_t> > layer;
+            std::shared_ptr<ValueSubject<std::pair<std::vector<AV::Image::Info>, int> > > layers;
             std::shared_ptr<ValueSubject<Math::Rational> > speed;
             std::shared_ptr<ValueSubject<PlaybackSpeed> > playbackSpeed;
             std::shared_ptr<ValueSubject<Math::Rational> > defaultSpeed;
@@ -101,7 +101,8 @@ namespace djv
             p.fileInfo = fileInfo;
             p.info = ValueSubject<AV::IO::Info>::create();
             p.reload = ValueSubject<bool>::create(false);
-            p.layer = ValueSubject<size_t>::create(0);
+            p.layers = ValueSubject<std::pair<std::vector<AV::Image::Info>, int> >::create(
+                std::make_pair(std::vector<AV::Image::Info>(), 0));
             p.speed = ValueSubject<Math::Rational>::create();
             p.playbackSpeed = ValueSubject<PlaybackSpeed>::create();
             p.defaultSpeed = ValueSubject<Math::Rational>::create();
@@ -222,14 +223,15 @@ namespace djv
             _open();
         }
 
-        std::shared_ptr<IValueSubject<size_t> > Media::observeLayer() const
+        std::shared_ptr<IValueSubject<std::pair<std::vector<AV::Image::Info>, int> > > Media::observeLayers() const
         {
-            return _p->layer;
+            return _p->layers;
         }
 
-        void Media::setLayer(size_t value)
+        void Media::setLayer(int value)
         {
-            if (_p->layer->setIfChanged(value))
+            DJV_PRIVATE_PTR();
+            if (p.layers->setIfChanged(std::make_pair(p.info->get().video, value)))
             {
                 _open();
             }
@@ -237,7 +239,7 @@ namespace djv
 
         void Media::nextLayer()
         {
-            size_t layer = _p->layer->get();
+            size_t layer = _p->layers->get().second;
             ++layer;
             if (layer >= _p->info->get().video.size())
             {
@@ -248,7 +250,7 @@ namespace djv
 
         void Media::prevLayer()
         {
-            size_t layer = _p->layer->get();
+            size_t layer = _p->layers->get().second;
             const size_t size = _p->info->get().video.size();
             if (layer > 0)
             {
@@ -740,7 +742,7 @@ namespace djv
         bool Media::_hasAudio() const
         {
             DJV_PRIVATE_PTR();
-            return p.audioInfo.info.isValid() && p.rtAudio;
+            return p.audioInfo.isValid() && p.rtAudio;
         }
 
         bool Media::_isAudioEnabled() const
@@ -768,7 +770,7 @@ namespace djv
                     p.valid = false;
 
                     AV::IO::ReadOptions options;
-                    options.layer = p.layer->get();
+                    options.layer = p.layers->get().second;
                     options.videoQueueSize = videoQueueSize;
                     auto io = context->getSystemT<AV::IO::System>();
                     p.read = io->read(p.fileInfo, options);
@@ -779,27 +781,17 @@ namespace djv
 
                     const auto info = p.read->getInfo().get();
                     p.info->setIfChanged(info);
-                    Math::Rational speed = Time::fromSpeed(Time::getDefaultSpeed());
-                    Frame::Sequence sequence;
-                    const auto& video = info.video;
-                    if (video.size())
-                    {
-                        p.videoInfo = video[0];
-                        speed = video[0].speed;
-                        sequence = video[0].sequence;
-                    }
-                    const auto& audio = info.audio;
-                    if (audio.size())
-                    {
-                        p.audioInfo = audio[0];
-                    }
+                    const int currentLayer = Math::clamp(p.layers->get().second, 0, static_cast<int>(info.video.size()) - 1);
+                    p.layers->setIfChanged(std::make_pair(info.video, currentLayer));
+                    Math::Rational speed = info.videoSpeed;
+                    Frame::Sequence sequence = info.videoSequence;
+                    p.audioInfo = info.audio;
                     {
                         std::stringstream ss;
                         ss << "Open: " << p.fileInfo << ", sequence: " << sequence;
                         auto logSystem = context->getSystemT<LogSystem>();
                         logSystem->log("djv::ViewApp::Media", ss.str());
                     }
-                    p.info->setIfChanged(info);
                     p.speed->setIfChanged(speed);
                     p.defaultSpeed->setIfChanged(speed);
                     p.sequence->setIfChanged(sequence);
@@ -809,7 +801,7 @@ namespace djv
                     Frame::Index frame = Frame::invalid;
                     if (Frame::invalid == currentFrame)
                     {
-                        frame = p.sequence->get().getFrameCount() > 0 ? 0 : Frame::invalid;
+                        frame = p.sequence->get().getFrameCount() > 1 ? 0 : Frame::invalid;
                     }
                     else
                     {
@@ -825,15 +817,15 @@ namespace djv
                         RtAudio::StreamParameters rtParameters;
                         auto audioSystem = context->getSystemT<AV::Audio::System>();
                         rtParameters.deviceId = audioSystem->getDefaultOutputDevice();
-                        rtParameters.nChannels = p.audioInfo.info.channelCount;
+                        rtParameters.nChannels = p.audioInfo.channelCount;
                         unsigned int rtBufferFrames = audioBufferFrameCount;
                         try
                         {
                             p.rtAudio->openStream(
                                 &rtParameters,
                                 nullptr,
-                                AV::Audio::toRtAudio(p.audioInfo.info.type),
-                                p.audioInfo.info.sampleRate,
+                                AV::Audio::toRtAudio(p.audioInfo.type),
+                                p.audioInfo.sampleRate,
                                 &rtBufferFrames,
                                 _rtAudioCallback,
                                 this,
@@ -1102,7 +1094,7 @@ namespace djv
                         Frame::Index frame = p.frameOffset +
                             Time::scale(
                                 p.audioDataSamplesCount,
-                                Math::Rational(1, static_cast<int>(p.audioInfo.info.sampleRate)),
+                                Math::Rational(1, static_cast<int>(p.audioInfo.sampleRate)),
                                 speed.swap());
                         _setCurrentFrame(frame);
                     }
@@ -1266,7 +1258,7 @@ namespace djv
 
             size_t outputSampleCount = static_cast<size_t>(nFrames);
             size_t sampleCount = 0;
-            const size_t sampleByteCount = info.info.channelCount * AV::Audio::getByteCount(info.info.type);
+            const size_t sampleByteCount = info.channelCount * AV::Audio::getByteCount(info.type);
             const float volume = !media->_p->mute->get() ? media->_p->volume->get() : 0.F;
 
             if (media->_p->audioData)
@@ -1304,8 +1296,8 @@ namespace djv
                     p,
                     volume,
                     size,
-                    info.info.channelCount,
-                    info.info.type);
+                    info.channelCount,
+                    info.type);
                 p += size * sampleByteCount;
                 media->_p->audioDataSamplesOffset += size;
                 media->_p->audioDataSamplesCount += size;
@@ -1331,8 +1323,8 @@ namespace djv
                     p,
                     volume,
                     size,
-                    info.info.channelCount,
-                    info.info.type);
+                    info.channelCount,
+                    info.type);
                 p += size * sampleByteCount;
                 media->_p->audioDataSamplesOffset = size;
                 media->_p->audioDataSamplesCount += size;

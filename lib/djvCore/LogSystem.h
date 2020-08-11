@@ -23,7 +23,7 @@ namespace djv
             LogSystem();
 
         public:
-            virtual ~LogSystem();
+            ~LogSystem() override;
             
             //! Create a new logging system.
             static std::shared_ptr<LogSystem> create(const std::shared_ptr<Context>&);

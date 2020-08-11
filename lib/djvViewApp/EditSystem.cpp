@@ -10,7 +10,7 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/Menu.h>
-#include <djvUI/Shortcut.h>
+#include <djvUI/ShortcutData.h>
 
 #include <djvCore/Context.h>
 
@@ -28,7 +28,6 @@ namespace djv
             std::shared_ptr<MediaWidget> activeWidget;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<ValueObserver<bool> > hasUndoObserver;
             std::shared_ptr<ValueObserver<bool> > hasRedoObserver;
@@ -40,45 +39,39 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             p.actions["Undo"] = UI::Action::create();
-            p.actions["Undo"]->addShortcut(GLFW_KEY_Z, UI::Shortcut::getSystemModifier());
             p.actions["Redo"] = UI::Action::create();
-            p.actions["Redo"]->addShortcut(GLFW_KEY_Z, UI::Shortcut::getSystemModifier() | GLFW_MOD_SHIFT);
+
+            _addShortcut("shortcut_undo", GLFW_KEY_Z, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_redo", GLFW_KEY_Z, UI::ShortcutData::getSystemModifier() | GLFW_MOD_SHIFT);
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Undo"]);
             p.menu->addAction(p.actions["Redo"]);
 
             _textUpdate();
+            _shortcutsUpdate();
             
             auto weak = std::weak_ptr<EditSystem>(std::dynamic_pointer_cast<EditSystem>(shared_from_this()));
-            p.actionObservers["Undo"] = ValueObserver<bool>::create(
-                p.actions["Undo"]->observeClicked(),
-                [weak](bool value)
+            p.actions["Undo"]->setClickedCallback(
+                [weak]
                 {
-                    if (value)
+                    if (auto system = weak.lock())
                     {
-                        if (auto system = weak.lock())
+                        if (auto widget = system->_p->activeWidget)
                         {
-                            if (auto widget = system->_p->activeWidget)
-                            {
-                                widget->getMedia()->undo();
-                            }
+                            widget->getMedia()->undo();
                         }
                     }
                 });
                 
-            p.actionObservers["Redo"] = ValueObserver<bool>::create(
-                p.actions["Redo"]->observeClicked(),
-                [weak](bool value)
+            p.actions["Redo"]->setClickedCallback(
+                [weak]
                 {
-                    if (value)
+                    if (auto system = weak.lock())
                     {
-                        if (auto system = weak.lock())
+                        if (auto widget = system->_p->activeWidget)
                         {
-                            if (auto widget = system->_p->activeWidget)
-                            {
-                                widget->getMedia()->redo();
-                            }
+                            widget->getMedia()->redo();
                         }
                     }
                 });
@@ -164,6 +157,16 @@ namespace djv
                 p.actions["Redo"]->setText(_getText(DJV_TEXT("menu_edit_redo")));
 
                 p.menu->setText(_getText(DJV_TEXT("menu_edit")));
+            }
+        }
+
+        void EditSystem::_shortcutsUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.actions.size())
+            {
+                p.actions["Undo"]->setShortcuts(_getShortcuts("ViewApp/Edit/Undo"));
+                p.actions["Redo"]->setShortcuts(_getShortcuts("ViewApp/Edit/Redo"));
             }
         }
 

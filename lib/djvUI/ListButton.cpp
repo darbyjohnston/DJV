@@ -24,11 +24,14 @@ namespace djv
             struct List::Private
             {
                 std::shared_ptr<Icon> icon;
+                std::shared_ptr<Icon> rightIcon;
                 std::shared_ptr<Label> label;
+                std::shared_ptr<Label> rightLabel;
                 TextHAlign textHAlign = TextHAlign::Left;
                 std::string font;
                 std::string fontFace;
                 MetricsRole fontSizeRole = MetricsRole::FontMedium;
+                int elide = 0;
                 std::shared_ptr<HorizontalLayout> layout;
             };
 
@@ -40,7 +43,7 @@ namespace djv
                 setClassName("djv::UI::Button::List");
 
                 p.layout = HorizontalLayout::create(context);
-                p.layout->setMargin(MetricsRole::MarginSmall);
+                p.layout->setSpacing(MetricsRole::None);
                 addChild(p.layout);
             }
 
@@ -69,23 +72,50 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (!value.empty())
                 {
-                    if (auto context = getContext().lock())
+                    if (!p.icon)
                     {
-                        if (!p.icon)
+                        if (auto context = getContext().lock())
                         {
                             p.icon = Icon::create(context);
                             p.icon->setVAlign(VAlign::Center);
-                            p.icon->setIconColorRole(getForegroundColorRole());
-                            p.layout->addChild(p.icon);
-                            p.icon->moveToFront();
+                            _widgetUpdate();
                         }
-                        p.icon->setIcon(value);
                     }
+                    p.icon->setIcon(value);
                 }
                 else
                 {
                     p.layout->removeChild(p.icon);
                     p.icon.reset();
+                }
+            }
+
+            std::string List::getRightIcon() const
+            {
+                DJV_PRIVATE_PTR();
+                return p.rightIcon ? p.rightIcon->getIcon() : std::string();
+            }
+
+            void List::setRightIcon(const std::string& value)
+            {
+                DJV_PRIVATE_PTR();
+                if (!value.empty())
+                {
+                    if (!p.rightIcon)
+                    {
+                        if (auto context = getContext().lock())
+                        {
+                            p.rightIcon = Icon::create(context);
+                            p.rightIcon->setVAlign(VAlign::Center);
+                            _widgetUpdate();
+                        }
+                    }
+                    p.rightIcon->setIcon(value);
+                }
+                else
+                {
+                    p.layout->removeChild(p.rightIcon);
+                    p.rightIcon.reset();
                 }
             }
 
@@ -100,22 +130,15 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (!value.empty())
                 {
-                    if (auto context = getContext().lock())
+                    if (!p.label)
                     {
-                        if (!p.label)
+                        if (auto context = getContext().lock())
                         {
                             p.label = Label::create(context);
-                            p.label->setTextHAlign(p.textHAlign);
-                            p.label->setTextColorRole(getForegroundColorRole());
-                            p.label->setFontFamily(p.font);
-                            p.label->setFontFace(p.fontFace);
-                            p.label->setFontSizeRole(p.fontSizeRole);
-                            p.layout->addChild(p.label);
-                            p.layout->setStretch(p.label, RowStretch::Expand);
-                            p.label->moveToBack();
+                            _widgetUpdate();
                         }
-                        p.label->setText(value);
                     }
+                    p.label->setText(value);
                 }
                 else
                 {
@@ -132,10 +155,37 @@ namespace djv
             void List::setTextHAlign(TextHAlign value)
             {
                 DJV_PRIVATE_PTR();
+                if (value == p.textHAlign)
+                    return;
                 p.textHAlign = value;
-                if (p.label)
+                _widgetUpdate();
+            }
+
+            std::string List::getRightText() const
+            {
+                DJV_PRIVATE_PTR();
+                return p.rightLabel ? p.rightLabel->getText() : std::string();
+            }
+
+            void List::setRightText(const std::string& value)
+            {
+                DJV_PRIVATE_PTR();
+                if (!value.empty())
                 {
-                    p.label->setTextHAlign(value);
+                    if (!p.rightLabel)
+                    {
+                        if (auto context = getContext().lock())
+                        {
+                            p.rightLabel = Label::create(context);
+                            _widgetUpdate();
+                        }
+                    }
+                    p.rightLabel->setText(value);
+                }
+                else
+                {
+                    p.layout->removeChild(p.rightLabel);
+                    p.rightLabel.reset();
                 }
             }
 
@@ -157,31 +207,42 @@ namespace djv
             void List::setFont(const std::string& value)
             {
                 DJV_PRIVATE_PTR();
+                if (value == p.font)
+                    return;
                 p.font = value;
-                if (p.label)
-                {
-                    p.label->setFontFamily(value);
-                }
+                _widgetUpdate();
             }
 
             void List::setFontFace(const std::string& value)
             {
                 DJV_PRIVATE_PTR();
+                if (value == p.fontFace)
+                    return;
                 p.fontFace = value;
-                if (p.label)
-                {
-                    p.label->setFontFace(value);
-                }
+                _widgetUpdate();
             }
 
             void List::setFontSizeRole(MetricsRole value)
             {
                 DJV_PRIVATE_PTR();
+                if (value == p.fontSizeRole)
+                    return;
                 p.fontSizeRole = value;
-                if (p.label)
-                {
-                    p.label->setFontSizeRole(value);
-                }
+                _widgetUpdate();
+            }
+
+            int List::getElide() const
+            {
+                return _p->elide;
+            }
+
+            void List::setElide(int value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.elide)
+                    return;
+                p.elide = value;
+                _widgetUpdate();
             }
 
             const Layout::Margin& List::getInsideMargin() const
@@ -197,14 +258,7 @@ namespace djv
             void List::setForegroundColorRole(ColorRole value)
             {
                 IButton::setForegroundColorRole(value);
-                if (_p->icon)
-                {
-                    _p->icon->setIconColorRole(isChecked() ? ColorRole::Checked : value);
-                }
-                if (_p->label)
-                {
-                    _p->label->setTextColorRole(value);
-                }
+                _widgetUpdate();
             }
 
             void List::_preLayoutEvent(Event::PreLayout& event)
@@ -237,6 +291,45 @@ namespace djv
                 {
                     render->setFillColor(style->getColor(ColorRole::Hovered));
                     render->drawRect(g);
+                }
+            }
+
+            void List::_widgetUpdate()
+            {
+                DJV_PRIVATE_PTR();
+                const ColorRole foregroundColorRole = getForegroundColorRole();
+                p.layout->clearChildren();
+                if (p.icon)
+                {
+                    p.icon->setIconColorRole(foregroundColorRole);
+                    p.layout->addChild(p.icon);
+                }
+                if (p.label)
+                {
+                    p.label->setTextHAlign(p.textHAlign);
+                    p.label->setTextColorRole(foregroundColorRole);
+                    p.label->setFontFamily(p.font);
+                    p.label->setFontFace(p.fontFace);
+                    p.label->setFontSizeRole(p.fontSizeRole);
+                    p.label->setElide(p.elide);
+                    p.label->setMargin(MetricsRole::MarginSmall);
+                    p.layout->addChild(p.label);
+                    p.layout->setStretch(p.label, RowStretch::Expand);
+                }
+                if (p.rightLabel)
+                {
+                    p.rightLabel->setTextColorRole(foregroundColorRole);
+                    p.rightLabel->setFontFamily(p.font);
+                    p.rightLabel->setFontFace(p.fontFace);
+                    p.rightLabel->setFontSizeRole(p.fontSizeRole);
+                    p.rightLabel->setElide(p.elide);
+                    p.rightLabel->setMargin(MetricsRole::MarginSmall);
+                    p.layout->addChild(p.rightLabel);
+                }
+                if (p.rightIcon)
+                {
+                    p.rightIcon->setIconColorRole(foregroundColorRole);
+                    p.layout->addChild(p.rightIcon);
                 }
             }
 

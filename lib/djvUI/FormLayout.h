@@ -25,7 +25,7 @@ namespace djv
                 Form();
 
             public:
-                virtual ~Form();
+                ~Form() override;
 
                 static std::shared_ptr<Form> create(const std::shared_ptr<Core::Context>&);
 

@@ -107,7 +107,7 @@ namespace djv
                 //! Write tags to an Imf header.
                 //!
                 //! \todo Write all the tags that are handled by readTags().
-                void writeTags(const Tags&, const Core::Math::Rational&, Imf::Header&);
+                void writeTags(const Tags&, const Core::Math::Rational& speed, Imf::Header&);
 
                 //! Convert an Imath box type.
                 Core::BBox2i fromImath(const Imath::Box2i&);

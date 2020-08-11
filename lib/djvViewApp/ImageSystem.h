@@ -48,6 +48,7 @@ namespace djv
             void _closeWidget(const std::string&) override;
 
             void _textUpdate() override;
+            void _shortcutsUpdate() override;
 
         private:
             void _actionsUpdate();

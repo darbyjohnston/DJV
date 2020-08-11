@@ -19,7 +19,7 @@ protected:
     InfoWidget();
 
 public:
-    virtual ~InfoWidget();
+    ~InfoWidget() override;
 
     static std::shared_ptr<InfoWidget> create(const std::shared_ptr<djv::Core::Context>&);
 

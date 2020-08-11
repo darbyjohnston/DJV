@@ -11,9 +11,16 @@
 #include <djvCore/OS.h>
 #include <djvCore/TextSystem.h>
 
+#if defined(GetObject)
+#undef GetObject
+#endif // GetObject
+
 // These need to be included last on macOS.
 #include <djvCore/RapidJSONTemplates.h>
 #include <djvUI/ISettingsTemplates.h>
+
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
 
 //#pragma optimize("", off)
 
@@ -37,6 +44,8 @@ namespace djv
                 std::shared_ptr<ValueSubject<FileSystem::DirectoryListSort> > sort;
                 std::shared_ptr<ValueSubject<bool> > reverseSort;
                 std::shared_ptr<ValueSubject<bool> > sortDirectoriesFirst;
+                std::map<std::string, bool> settingsBellowsState;
+                std::shared_ptr<MapSubject<std::string, ShortcutDataPair> > keyShortcuts;
             };
 
             void FileBrowser::_init(const std::shared_ptr<Context>& context)
@@ -59,6 +68,21 @@ namespace djv
                 p.sort = ValueSubject<FileSystem::DirectoryListSort>::create(FileSystem::DirectoryListSort::Name);
                 p.reverseSort = ValueSubject<bool>::create(false);
                 p.sortDirectoriesFirst = ValueSubject<bool>::create(true);
+                p.keyShortcuts = MapSubject<std::string, ShortcutDataPair>::create({
+                    { "file_browser_shortcut_back", { ShortcutData(GLFW_KEY_LEFT, ShortcutData::getSystemModifier()) } },
+                    { "file_browser_shortcut_forward", { ShortcutData(GLFW_KEY_RIGHT, ShortcutData::getSystemModifier()) } },
+                    { "file_browser_shortcut_up", { ShortcutData(GLFW_KEY_UP, ShortcutData::getSystemModifier()) } },
+                    { "file_browser_shortcut_tiles", { ShortcutData(GLFW_KEY_T) } },
+                    { "file_browser_shortcut_list", { ShortcutData(GLFW_KEY_L) } },
+                    { "file_browser_shortcut_increase_thumbnail_size", { ShortcutData(GLFW_KEY_EQUAL) } },
+                    { "file_browser_shortcut_decrease_thumbnail_size", { ShortcutData(GLFW_KEY_MINUS) } },
+                    { "file_browser_shortcut_file_sequences", { ShortcutData(GLFW_KEY_S) } },
+                    { "file_browser_shortcut_show_hidden", { ShortcutData(GLFW_KEY_N) } },
+                    { "file_browser_shortcut_sort_by_name", { ShortcutData(GLFW_KEY_3) } },
+                    { "file_browser_shortcut_sort_by_size", { ShortcutData(GLFW_KEY_4) } },
+                    { "file_browser_shortcut_sort_by_time", { ShortcutData(GLFW_KEY_5) } },
+                    { "file_browser_shortcut_reverse_sort", { ShortcutData(GLFW_KEY_R) } },
+                    { "file_browser_shortcut_sort_directories_first", { ShortcutData(GLFW_KEY_D) } } });
 
                 _load();
             }
@@ -84,8 +108,7 @@ namespace djv
 
             void FileBrowser::setShortcuts(const std::vector<FileSystem::Path>& value)
             {
-                DJV_PRIVATE_PTR();
-                p.shortcuts->setIfChanged(value);
+                _p->shortcuts->setIfChanged(value);
             }
 
             std::shared_ptr<IListSubject<FileSystem::Path> > FileBrowser::observeRecentPaths() const
@@ -95,8 +118,7 @@ namespace djv
 
             void FileBrowser::setRecentPaths(const std::vector<FileSystem::Path>& value)
             {
-                DJV_PRIVATE_PTR();
-                p.recentPaths->setIfChanged(value);
+                _p->recentPaths->setIfChanged(value);
             }
 
             std::shared_ptr<IValueSubject<ViewType> > FileBrowser::observeViewType() const
@@ -106,8 +128,7 @@ namespace djv
 
             void FileBrowser::setViewType(ViewType value)
             {
-                DJV_PRIVATE_PTR();
-                p.viewType->setIfChanged(value);
+                _p->viewType->setIfChanged(value);
             }
 
             std::shared_ptr<IValueSubject<AV::Image::Size> > FileBrowser::observeThumbnailSize() const
@@ -117,8 +138,7 @@ namespace djv
 
             void FileBrowser::setThumbnailSize(const AV::Image::Size& value)
             {
-                DJV_PRIVATE_PTR();
-                p.thumbnailSize->setIfChanged(value);
+                _p->thumbnailSize->setIfChanged(value);
             }
 
             std::shared_ptr<IListSubject<float> > FileBrowser::observeListViewHeaderSplit() const
@@ -128,8 +148,7 @@ namespace djv
 
             void FileBrowser::setListViewHeaderSplit(const std::vector<float> & value)
             {
-                DJV_PRIVATE_PTR();
-                p.listViewHeaderSplit->setIfChanged(value);
+                _p->listViewHeaderSplit->setIfChanged(value);
             }
 
             std::shared_ptr<IValueSubject<bool> > FileBrowser::observeFileSequences() const
@@ -139,8 +158,7 @@ namespace djv
 
             void FileBrowser::setFileSequences(bool value)
             {
-                DJV_PRIVATE_PTR();
-                p.fileSequences->setIfChanged(value);
+                _p->fileSequences->setIfChanged(value);
             }
 
             std::shared_ptr<IValueSubject<bool> > FileBrowser::observeShowHidden() const
@@ -150,8 +168,7 @@ namespace djv
 
             void FileBrowser::setShowHidden(bool value)
             {
-                DJV_PRIVATE_PTR();
-                p.showHidden->setIfChanged(value);
+                _p->showHidden->setIfChanged(value);
             }
 
             std::shared_ptr<IValueSubject<FileSystem::DirectoryListSort> > FileBrowser::observeSort() const
@@ -161,8 +178,7 @@ namespace djv
 
             void FileBrowser::setSort(FileSystem::DirectoryListSort value)
             {
-                DJV_PRIVATE_PTR();
-                p.sort->setIfChanged(value);
+                _p->sort->setIfChanged(value);
             }
 
             std::shared_ptr<IValueSubject<bool> > FileBrowser::observeReverseSort() const
@@ -172,8 +188,7 @@ namespace djv
 
             void FileBrowser::setReverseSort(bool value)
             {
-                DJV_PRIVATE_PTR();
-                p.reverseSort->setIfChanged(value);
+                _p->reverseSort->setIfChanged(value);
             }
 
             std::shared_ptr<IValueSubject<bool> > FileBrowser::observeSortDirectoriesFirst() const
@@ -183,8 +198,27 @@ namespace djv
 
             void FileBrowser::setSortDirectoriesFirst(bool value)
             {
-                DJV_PRIVATE_PTR();
-                p.sortDirectoriesFirst->setIfChanged(value);
+                _p->sortDirectoriesFirst->setIfChanged(value);
+            }
+
+            std::map<std::string, bool> FileBrowser::getSettingsBellowsState() const
+            {
+                return _p->settingsBellowsState;
+            }
+
+            void FileBrowser::setSettingsBellowsState(const std::map<std::string, bool>& value)
+            {
+                _p->settingsBellowsState = value;
+            }
+
+            std::shared_ptr<MapSubject<std::string, ShortcutDataPair> > FileBrowser::observeKeyShortcuts() const
+            {
+                return _p->keyShortcuts;
+            }
+
+            void FileBrowser::setKeyShortcuts(const ShortcutDataMap& value)
+            {
+                _p->keyShortcuts->setIfChanged(value);
             }
 
             void FileBrowser::load(const rapidjson::Value & value)
@@ -202,6 +236,8 @@ namespace djv
                     read("Sort", value, p.sort);
                     read("ReverseSort", value, p.reverseSort);
                     read("SortDirectoriesFirst", value, p.sortDirectoriesFirst);
+                    read("SettingsBellows", value, p.settingsBellowsState);
+                    read("KeyShortcuts", value, p.keyShortcuts);
                 }
             }
 
@@ -219,6 +255,8 @@ namespace djv
                 write("Sort", p.sort->get(), out, allocator);
                 write("ReverseSort", p.reverseSort->get(), out, allocator);
                 write("SortDirectoriesFirst", p.sortDirectoriesFirst->get(), out, allocator);
+                Settings::write("SettingsBellows", p.settingsBellowsState, out, allocator);
+                write("KeyShortcuts", p.keyShortcuts->get(), out, allocator);
                 return out;
             }
 

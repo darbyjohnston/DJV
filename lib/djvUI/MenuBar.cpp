@@ -101,12 +101,12 @@ namespace djv
             }
         }
 
-        void MenuBar::addSpacer(Side side)
+        void MenuBar::addSpacer(Side side, MetricsRole role)
         {
             const auto i = _p->widgetLayout.find(side);
             if (i != _p->widgetLayout.end())
             {
-                i->second->addSpacer();
+                i->second->addSpacer(role);
             }
         }
 
@@ -136,7 +136,7 @@ namespace djv
                     menu->setMinimumSizeRole(MetricsRole::None);
                     p.menus.push_back(menu);
 
-                    auto button = Button::Menu::create(Button::MenuStyle::Flat, context);
+                    auto button = Button::Menu::create(MenuButtonStyle::Flat, context);
                     button->setTextFocusEnabled(false);
 
                     p.menuLayout->addChild(button);

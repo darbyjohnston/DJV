@@ -8,7 +8,7 @@
 namespace djv
 {
     template<typename T, glm::precision P>
-    inline bool fuzzyCompare(const glm::tvec2<T, P>& a, const glm::tvec2<T, P>& b)
+    inline bool fuzzyCompare(const glm::tvec2<T, P>& a, const glm::tvec2<T, P>& b) noexcept
     {
         return
             fuzzyCompare(a.x, b.x) &&
@@ -16,7 +16,7 @@ namespace djv
     }
 
     template<typename T, glm::precision P>
-    inline bool fuzzyCompare(const glm::tvec3<T, P>& a, const glm::tvec3<T, P>& b)
+    inline bool fuzzyCompare(const glm::tvec3<T, P>& a, const glm::tvec3<T, P>& b) noexcept
     {
         return
             fuzzyCompare(a.x, b.x) &&
@@ -25,7 +25,7 @@ namespace djv
     }
 
     template<typename T, glm::precision P>
-    inline bool fuzzyCompare(const glm::tvec4<T, P>& a, const glm::tvec4<T, P>& b)
+    inline bool fuzzyCompare(const glm::tvec4<T, P>& a, const glm::tvec4<T, P>& b) noexcept
     {
         return
             fuzzyCompare(a.x, b.x) &&

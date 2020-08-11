@@ -33,6 +33,7 @@ namespace djv
         protected:
             void _closeWidget(const std::string&) override;
             void _textUpdate() override;
+            void _shortcutsUpdate() override;
 
         private:
             glm::vec2 _xformDrag(const glm::vec2&) const;

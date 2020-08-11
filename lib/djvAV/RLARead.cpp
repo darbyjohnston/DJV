@@ -131,14 +131,14 @@ namespace djv
                     std::shared_ptr<Image::Image> out;
                     auto io = FileSystem::FileIO::create();
                     const auto info = _open(fileName, io);
-                    out = Image::Image::create(info.video[0].info);
+                    out = Image::Image::create(info.video[0]);
                     out->setPluginName(pluginName);
 
-                    const size_t w = info.video[0].info.size.w;
-                    const size_t h = info.video[0].info.size.h;
-                    const size_t channels = Image::getChannelCount(info.video[0].info.type);
-                    const size_t bytes = Image::getByteCount(Image::getDataType(info.video[0].info.type));
-                    const Image::DataType dataType = Image::getDataType(info.video[0].info.type);
+                    const size_t w = info.video[0].size.w;
+                    const size_t h = info.video[0].size.h;
+                    const size_t channels = Image::getChannelCount(info.video[0].type);
+                    const size_t bytes = Image::getByteCount(Image::getDataType(info.video[0].type));
+                    const Image::DataType dataType = Image::getDataType(info.video[0].type);
                     uint8_t* dataP = out->getData();
                     for (uint16_t y = 0; y < h; ++y, dataP += w * channels * bytes)
                     {
@@ -286,8 +286,11 @@ namespace djv
                             arg(_textSystem->getText(DJV_TEXT("error_file_not_supported"))));
                     }
 
-                    auto imageInfo = Image::Info(w, h, type, Image::Mirror(false, true));
-                    auto info = Info(fileName, VideoInfo(imageInfo, _speed, _sequence));
+                    Info info;
+                    info.fileName = fileName;
+                    info.videoSpeed = _speed;
+                    info.videoSequence = _sequence;
+                    info.video.push_back(Image::Info(w, h, type, Image::Mirror(false, true)));
                     return info;
                 }
 

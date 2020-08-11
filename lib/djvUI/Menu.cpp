@@ -14,6 +14,7 @@
 #include <djvUI/Overlay.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/Shortcut.h>
+#include <djvUI/ShortcutData.h>
 #include <djvUI/Window.h>
 
 #include <djvAV/FontSystem.h>
@@ -148,7 +149,6 @@ namespace djv
                 const float s = style->getMetric(MetricsRole::Spacing);
                 const float b = style->getMetric(MetricsRole::Border);
                 const float is = style->getMetric(MetricsRole::Icon);
-                const float iss = style->getMetric(MetricsRole::IconSmall);
 
                 glm::vec2 textSize(0.F, 0.F);
                 glm::vec2 shortcutSize(0.F, 0.F);
@@ -168,8 +168,9 @@ namespace djv
                 }
 
                 glm::vec2 itemSize(0.F, 0.F);
-                itemSize.x += iss + m * 2.F;
-                itemSize.y = std::max(itemSize.y, iss + m * 2.F);
+                const glm::vec2 checkBoxSize = getCheckBoxSize(style);
+                itemSize.x += checkBoxSize.x + m * 2.F;
+                itemSize.y = std::max(itemSize.y, checkBoxSize.y + m * 2.F);
                 if (_hasIcons)
                 {
                     itemSize.x += is;
@@ -233,7 +234,6 @@ namespace djv
                 const float m = style->getMetric(MetricsRole::MarginInside);
                 const float b = style->getMetric(MetricsRole::Border);
                 const float is = style->getMetric(MetricsRole::Icon);
-                const float iss = style->getMetric(MetricsRole::IconSmall);
 
                 const auto& render = _getRender();
                 for (const auto& i : _items)
@@ -267,6 +267,7 @@ namespace djv
 
                     render->setAlphaMult(i.second->enabled ? 1.F : style->getPalette().getDisabledMult());
 
+                    const glm::vec2 checkBoxSize = getCheckBoxSize(style);
                     switch (i.second->buttonType)
                     {
                     case ButtonType::Toggle:
@@ -275,18 +276,15 @@ namespace djv
                     {
                         const BBox2f checkBoxGeometry(
                             x + m,
-                            floorf(i.second->geom.min.y + ceilf(i.second->size.y / 2.F - iss / 2.F)),
-                            iss,
-                            iss);
-                        render->setFillColor(style->getColor(ColorRole::Border));
-                        drawBorder(render, checkBoxGeometry, b);
-                        render->setFillColor(style->getColor(i.second->checked ? ColorRole::Checked : ColorRole::Trough));
-                        render->drawRect(checkBoxGeometry.margin(-b));
+                            floorf(i.second->geom.min.y + ceilf(i.second->size.y / 2.F - checkBoxSize.y / 2.F)),
+                            checkBoxSize.x,
+                            checkBoxSize.y);
+                        drawCheckBox(render, style, checkBoxGeometry, i.second->checked);
                         break;
                     }
                     default: break;
                     }
-                    x += iss + m * 2.F;
+                    x += checkBoxSize.x + m * 2.F;
 
                     if (_hasIcons)
                     {
@@ -406,25 +404,7 @@ namespace djv
                     const auto i = _itemToAction.find(_pressed.second);
                     if (i != _itemToAction.end())
                     {
-                        switch (i->second->observeButtonType()->get())
-                        {
-                        case ButtonType::Push:
-                            i->second->doClicked();
-                            break;
-                        case ButtonType::Toggle:
-                            i->second->setChecked(!i->second->observeChecked()->get());
-                            break;
-                        case ButtonType::Radio:
-                            if (!i->second->observeChecked()->get())
-                            {
-                                i->second->setChecked(true);
-                            }
-                            break;
-                        case ButtonType::Exclusive:
-                            i->second->setChecked(!i->second->observeChecked()->get());
-                            break;
-                        default: break;
-                        }
+                        i->second->doClick();
                         if (_closeCallback)
                         {
                             _closeCallback();
@@ -613,6 +593,7 @@ namespace djv
                 _shortcutsObservers.clear();
                 _enabledObservers.clear();
                 auto weak = std::weak_ptr<MenuWidget>(std::dynamic_pointer_cast<MenuWidget>(shared_from_this()));
+                auto contextWeak = getContext();
                 for (const auto& i : _actions)
                 {
                     auto item = std::shared_ptr<Item>(new Item);
@@ -620,7 +601,7 @@ namespace djv
                     {
                         _buttonTypeObservers[item] = ValueObserver<ButtonType>::create(
                             i.second->observeButtonType(),
-                            [weak, item](ButtonType value)
+                            [item, weak](ButtonType value)
                             {
                                 if (auto widget = weak.lock())
                                 {
@@ -630,7 +611,7 @@ namespace djv
                             });
                         _checkedObservers[item] = ValueObserver<bool>::create(
                             i.second->observeChecked(),
-                            [weak, item](bool value)
+                            [item, weak](bool value)
                             {
                                 if (auto widget = weak.lock())
                                 {
@@ -640,7 +621,7 @@ namespace djv
                             });
                         _iconObservers[item] = ValueObserver<std::string>::create(
                             i.second->observeIcon(),
-                            [weak, item](const std::string& value)
+                            [item, weak](const std::string& value)
                             {
                                 if (auto widget = weak.lock())
                                 {
@@ -664,7 +645,7 @@ namespace djv
                             });
                         _textObservers[item] = ValueObserver<std::string>::create(
                             i.second->observeText(),
-                            [weak, item](const std::string& value)
+                            [item, weak](const std::string& value)
                             {
                                 if (auto widget = weak.lock())
                                 {
@@ -674,7 +655,7 @@ namespace djv
                             });
                         _fontObservers[item] = ValueObserver<std::string>::create(
                             i.second->observeFont(),
-                            [weak, item](const std::string& value)
+                            [item, weak](const std::string& value)
                         {
                             if (auto widget = weak.lock())
                             {
@@ -684,20 +665,21 @@ namespace djv
                         });
                         _shortcutsObservers[item] = ListObserver<std::shared_ptr<Shortcut> >::create(
                             i.second->observeShortcuts(),
-                            [weak, item](const std::vector<std::shared_ptr<Shortcut> >& value)
+                            [item, weak, contextWeak](const std::vector<std::shared_ptr<Shortcut> >& value)
                         {
-                            if (auto widget = weak.lock())
+                            if (auto context = contextWeak.lock())
                             {
-                                if (auto context = widget->getContext().lock())
+                                if (auto widget = weak.lock())
                                 {
                                     auto textSystem = context->getSystemT<TextSystem>();
                                     std::vector<std::string> labels;
                                     for (const auto& i : value)
                                     {
-                                        labels.push_back(Shortcut::getText(
-                                            i->observeShortcutKey()->get(),
-                                            i->observeShortcutModifiers()->get(),
-                                            textSystem));
+                                        const auto& shortcut = i->observeShortcut()->get();
+                                        if (shortcut.isValid())
+                                        {
+                                            labels.push_back(ShortcutData::getText(shortcut.key, shortcut.modifiers, textSystem));
+                                        }
                                     }
                                     item->shortcutLabel = String::join(labels, ", ");
                                     widget->_textUpdateRequest = true;
@@ -706,7 +688,7 @@ namespace djv
                         });
                         _enabledObservers[item] = ValueObserver<bool>::create(
                             i.second->observeEnabled(),
-                            [weak, item](bool value)
+                            [item, weak](bool value)
                         {
                             if (auto widget = weak.lock())
                             {
@@ -849,11 +831,12 @@ namespace djv
                 void setPos(const std::shared_ptr<MenuPopupWidget>&, const glm::vec2&);
                 void setButton(const std::shared_ptr<MenuPopupWidget>&, const std::weak_ptr<Button::Menu>&);
 
-                void removeChild(const std::shared_ptr<IObject>&) override;
 
             protected:
                 void _layoutEvent(Event::Layout&) override;
                 void _paintEvent(Event::Paint&) override;
+
+                void _childRemovedEvent(Event::ChildRemoved&) override;
 
             private:
                 std::map<std::shared_ptr<MenuPopupWidget>, glm::vec2> _widgetToPos;
@@ -885,24 +868,6 @@ namespace djv
             void MenuLayout::setButton(const std::shared_ptr<MenuPopupWidget>& widget, const std::weak_ptr<Button::Menu>& button)
             {
                 _widgetToButton[widget] = button;
-            }
-
-            void MenuLayout::removeChild(const std::shared_ptr<IObject>& value)
-            {
-                Widget::removeChild(value);
-                if (auto widget = std::dynamic_pointer_cast<MenuPopupWidget>(value))
-                {
-                    const auto i = _widgetToPos.find(widget);
-                    if (i != _widgetToPos.end())
-                    {
-                        _widgetToPos.erase(i);
-                    }
-                    const auto j = _widgetToButton.find(widget);
-                    if (j != _widgetToButton.end())
-                    {
-                        _widgetToButton.erase(j);
-                    }
-                }
             }
 
             void MenuLayout::_layoutEvent(Event::Layout&)
@@ -965,6 +930,28 @@ namespace djv
                     if (g.isValid())
                     {
                         render->drawShadow(g, sh);
+                    }
+                }
+            }
+
+            void MenuLayout::_childRemovedEvent(Event::ChildRemoved& event)
+            {
+                if (auto widget = std::dynamic_pointer_cast<MenuPopupWidget>(event.getChild()))
+                {
+                    const auto i = _widgetToPos.find(widget);
+                    if (i != _widgetToPos.end())
+                    {
+                        _widgetToPos.erase(i);
+                    }
+                    const auto j = _widgetToButton.find(widget);
+                    if (j != _widgetToButton.end())
+                    {
+                        _widgetToButton.erase(j);
+                    }
+                    const auto k = _widgetToPopup.find(widget);
+                    if (k != _widgetToPopup.end())
+                    {
+                        _widgetToPopup.erase(k);
                     }
                 }
             }
@@ -1123,7 +1110,6 @@ namespace djv
             {
                 p.layout->setButton(p.popupWidget, button);
             }
-            p.overlay->setAnchor(button);
             p.overlay->show();
             p.window->show();
             out = p.overlay;
@@ -1139,7 +1125,6 @@ namespace djv
             {
                 p.layout->setButton(p.popupWidget, button);
             }
-            p.overlay->setAnchor(anchor);
             p.overlay->show();
             p.window->show();
             out = p.overlay;

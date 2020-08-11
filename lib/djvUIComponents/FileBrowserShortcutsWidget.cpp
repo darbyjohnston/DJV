@@ -27,9 +27,9 @@ namespace djv
                 std::shared_ptr<Label> titleLabel;
                 std::shared_ptr<ToolButton> addButton;
                 std::shared_ptr<ToolButton> editButton;
-                std::shared_ptr<ButtonGroup> removeButtonGroup;
+                std::shared_ptr<ButtonGroup> deleteButtonGroup;
                 std::shared_ptr<GridLayout> itemLayout;
-                std::shared_ptr<ScrollWidget> scrollWidget;
+                std::shared_ptr<VerticalLayout> layout;
                 std::function<void(const FileSystem::Path&)> callback;
                 std::shared_ptr<ListObserver<FileSystem::Path> > shortcutsObserver;
             };
@@ -50,12 +50,12 @@ namespace djv
 
                 p.editButton = ToolButton::create(context);
                 p.editButton->setButtonType(ButtonType::Toggle);
-                p.editButton->setIcon("djvIconEdit");
+                p.editButton->setIcon("djvIconClear");
 
-                p.removeButtonGroup = ButtonGroup::create(ButtonType::Push);
+                p.deleteButtonGroup = ButtonGroup::create(ButtonType::Push);
                 
-                auto layout = VerticalLayout::create(context);
-                layout->setSpacing(MetricsRole::None);
+                p.layout = VerticalLayout::create(context);
+                p.layout->setSpacing(MetricsRole::None);
                 auto hLayout = HorizontalLayout::create(context);
                 hLayout->setBackgroundRole(UI::ColorRole::Trough);
                 hLayout->setSpacing(MetricsRole::None);
@@ -63,19 +63,23 @@ namespace djv
                 hLayout->addExpander();
                 hLayout->addChild(p.addButton);
                 hLayout->addChild(p.editButton);
-                layout->addChild(hLayout);
-                layout->addSeparator();
-                auto vLayout = VerticalLayout::create(context);
-                vLayout->setSpacing(MetricsRole::None);
+                p.layout->addChild(hLayout);
+                p.layout->addSeparator();
                 p.itemLayout = GridLayout::create(context);
                 p.itemLayout->setSpacing(MetricsRole::None);
-                vLayout->addChild(p.itemLayout);
-                layout->addChild(vLayout);
-                p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
-                p.scrollWidget->setMinimumSizeRole(MetricsRole::None);
-                p.scrollWidget->setBorder(false);
-                p.scrollWidget->addChild(layout);
-                addChild(p.scrollWidget);
+                auto scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
+                scrollWidget->setBorder(false);
+                scrollWidget->addChild(p.itemLayout);
+                p.layout->addChild(scrollWidget);
+                p.layout->setStretch(scrollWidget, RowStretch::Expand);
+                p.layout->addSeparator();
+                hLayout = HorizontalLayout::create(context);
+                hLayout->setSpacing(MetricsRole::None);
+                hLayout->addExpander();
+                hLayout->addChild(p.addButton);
+                hLayout->addChild(p.editButton);
+                p.layout->addChild(hLayout);
+                addChild(p.layout);
 
                 auto weak = std::weak_ptr<ShortcutsWidget>(std::dynamic_pointer_cast<ShortcutsWidget>(shared_from_this()));
                 p.addButton->setClickedCallback(
@@ -93,14 +97,14 @@ namespace djv
                         if (auto widget = weak.lock())
                         {
                             widget->_p->edit = value;
-                            for (const auto& i : widget->_p->removeButtonGroup->getButtons())
+                            for (const auto& i : widget->_p->deleteButtonGroup->getButtons())
                             {
                                 i->setVisible(value);
                             }
                         }
                     });
                 
-                p.removeButtonGroup->setPushCallback(
+                p.deleteButtonGroup->setPushCallback(
                     [model](int value)
                     {
                         model->removeShortcut(value);
@@ -115,7 +119,7 @@ namespace djv
                         {
                             if (auto widget = weak.lock())
                             {
-                                widget->_p->removeButtonGroup->clearButtons();
+                                std::vector<std::shared_ptr<Button::IButton> > deleteButtons;
                                 widget->_p->itemLayout->clearChildren();
                                 size_t j = 0;
                                 for (const auto& i : value)
@@ -129,16 +133,17 @@ namespace djv
                                     button->setText(s);
                                     button->setTooltip(std::string(i));
 
-                                    auto removeButton = ToolButton::create(context);
-                                    removeButton->setIcon("djvIconClose");
-                                    removeButton->setVisible(widget->_p->edit);
-                                    widget->_p->removeButtonGroup->addButton(removeButton);
+                                    auto deleteButton = ToolButton::create(context);
+                                    deleteButton->setIcon("djvIconClearSmall");
+                                    deleteButton->setInsideMargin(UI::MetricsRole::None);
+                                    deleteButton->setVisible(widget->_p->edit);
+                                    deleteButtons.push_back(deleteButton);
 
                                     widget->_p->itemLayout->addChild(button);
                                     widget->_p->itemLayout->setGridPos(button, 0, j);
                                     widget->_p->itemLayout->setStretch(button, GridStretch::Horizontal);
-                                    widget->_p->itemLayout->addChild(removeButton);
-                                    widget->_p->itemLayout->setGridPos(removeButton, 1, j);
+                                    widget->_p->itemLayout->addChild(deleteButton);
+                                    widget->_p->itemLayout->setGridPos(deleteButton, 1, j);
 
                                     const auto path = i;
                                     button->setClickedCallback(
@@ -155,6 +160,7 @@ namespace djv
 
                                     ++j;
                                 }
+                                widget->_p->deleteButtonGroup->setButtons(deleteButtons);
                             }
                         }
                     });
@@ -186,12 +192,12 @@ namespace djv
 
             void ShortcutsWidget::_preLayoutEvent(Event::PreLayout& event)
             {
-                _setMinimumSize(_p->scrollWidget->getMinimumSize());
+                _setMinimumSize(_p->layout->getMinimumSize());
             }
 
             void ShortcutsWidget::_layoutEvent(Event::Layout& event)
             {
-                _p->scrollWidget->setGeometry(getGeometry());
+                _p->layout->setGeometry(getGeometry());
             }
             
             void ShortcutsWidget::_initEvent(Event::Init& event)

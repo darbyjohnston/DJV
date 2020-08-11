@@ -99,7 +99,7 @@ namespace djv
                     std::shared_ptr<Image::Image> out;
                     auto io = FileSystem::FileIO::create();
                     const auto info = _open(fileName, io);
-                    out = Image::Image::create(info.video[0].info);
+                    out = Image::Image::create(info.video[0]);
                     out->setPluginName(pluginName);
 
                     uint8_t type[4];
@@ -108,8 +108,8 @@ namespace djv
                     uint32_t chunkSize;
                     uint32_t tilesRgba = _tiles;
 
-                    const size_t channelByteCount = Image::getByteCount(Image::getDataType(info.video[0].info.type));
-                    const size_t byteCount = Image::getByteCount(info.video[0].info.type);
+                    const size_t channelByteCount = Image::getByteCount(Image::getDataType(info.video[0].type));
+                    const size_t byteCount = Image::getByteCount(info.video[0].type);
 
                     // Read FOR4 <size> TBMP block
                     while (!io->isEOF())
@@ -187,8 +187,8 @@ namespace djv
 
                                         if (xmin > xmax ||
                                             ymin > ymax ||
-                                            xmax >= info.video[0].info.size.w ||
-                                            ymax >= info.video[0].info.size.h)
+                                            xmax >= info.video[0].size.w ||
+                                            ymax >= info.video[0].size.h)
                                         {
                                             throw FileSystem::Error(String::Format("{0}: {1}").
                                                 arg(fileName).
@@ -215,14 +215,14 @@ namespace djv
                                         // is written uncompressed.
 
                                         // Set channels.
-                                        uint8_t channels = Image::getChannelCount(info.video[0].info.type);
+                                        uint8_t channels = Image::getChannelCount(info.video[0].type);
 
                                         // Set tile pixels.
 
                                         // Append xmin, xmax, ymin and ymax.
                                         uint32_t tileSize =
                                             tw * th * channels *
-                                            Image::getByteCount(Image::getDataType(info.video[0].info.type)) + 8;
+                                            Image::getByteCount(Image::getDataType(info.video[0].type)) + 8;
 
                                         // Test compressed.
                                         if (tileSize > imageSize)
@@ -231,8 +231,8 @@ namespace djv
                                         }
 
                                         // Handle 8-bit data.
-                                        if (info.video[0].info.type == Image::Type::RGB_U8 ||
-                                            info.video[0].info.type == Image::Type::RGBA_U8)
+                                        if (info.video[0].type == Image::Type::RGB_U8 ||
+                                            info.video[0].type == Image::Type::RGBA_U8)
                                         {
                                             // Tile compress.
                                             if (tile_compress)
@@ -312,8 +312,8 @@ namespace djv
                                         }
                                         // Handle 16-bit data.
                                         else if (
-                                            info.video[0].info.type == Image::Type::RGB_U16 ||
-                                            info.video[0].info.type == Image::Type::RGBA_U16)
+                                            info.video[0].type == Image::Type::RGB_U16 ||
+                                            info.video[0].type == Image::Type::RGBA_U16)
                                         {
                                             if (tile_compress)
                                             {
@@ -328,7 +328,7 @@ namespace djv
                                                     int rgb16[] = { 0, 2, 4, 1, 3, 5 };
                                                     int rgba16[] = { 0, 2, 4, 7, 1, 3, 5, 6 };
 
-                                                    if (info.video[0].info.type == Image::Type::RGB_U16)
+                                                    if (info.video[0].type == Image::Type::RGB_U16)
                                                     {
                                                         map = rgb16;
                                                     }
@@ -342,7 +342,7 @@ namespace djv
                                                     int rgb16[] = { 1, 3, 5, 0, 2, 4 };
                                                     int rgba16[] = { 1, 3, 5, 7, 0, 2, 4, 6 };
 
-                                                    if (info.video[0].info.type == Image::Type::RGB_U16)
+                                                    if (info.video[0].type == Image::Type::RGB_U16)
                                                     {
                                                         map = rgb16;
                                                     }
@@ -750,7 +750,11 @@ namespace djv
                     io->open(fileName, FileSystem::FileIO::Mode::Read);
                     Image::Info imageInfo;
                     Header().read(io, imageInfo, _tiles, _compression, _textSystem);
-                    auto info = Info(fileName, VideoInfo(imageInfo, _speed, _sequence));
+                    Info info;
+                    info.fileName = fileName;
+                    info.videoSpeed = _speed;
+                    info.videoSequence = _sequence;
+                    info.video.push_back(imageInfo);
                     return info;
                 }
 

@@ -51,7 +51,7 @@ namespace djv
                 p.historyActionGroup = ActionGroup::create(ButtonType::Radio);
                 p.historyMenu = Menu::create(context);
                 addChild(p.historyMenu);
-                p.historyButton = Button::Menu::create(UI::Button::MenuStyle::Flat, context);
+                p.historyButton = Button::Menu::create(UI::MenuButtonStyle::Flat, context);
                 p.historyButton->setIcon("djvIconPopupMenu");
                 p.historyButton->setEnabled(false);
 
@@ -230,15 +230,16 @@ namespace djv
                 if (value == p.history)
                     return;
                 p.history = value;
-                p.historyActionGroup->clearActions();
+                std::vector<std::shared_ptr<Action> > actions;
                 p.historyMenu->clearActions();
                 for (const auto & i : p.history)
                 {
                     auto action = Action::create();
                     action->setText(std::string(i));
-                    p.historyActionGroup->addAction(action);
+                    actions.push_back(action);
                     p.historyMenu->addAction(action);
                 }
+                p.historyActionGroup->setActions(actions);
                 p.historyButton->setEnabled(p.history.size() > 1);
             }
 

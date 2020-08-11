@@ -38,7 +38,7 @@ namespace djv
             ScrollWidget();
 
         public:
-            virtual ~ScrollWidget();
+            ~ScrollWidget() override;
 
             static std::shared_ptr<ScrollWidget> create(ScrollType, const std::shared_ptr<Core::Context>&);
 

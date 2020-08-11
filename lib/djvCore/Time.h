@@ -41,7 +41,7 @@ namespace djv
 
             Math::Rational getTimebaseRational();
 
-            int64_t scale(int64_t, const Math::Rational&, const Math::Rational&);
+            int64_t scale(int64_t, const Math::Rational&, const Math::Rational&) noexcept;
 
             void secondsToTime(
                 double,

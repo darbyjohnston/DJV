@@ -7,7 +7,7 @@
 #include <djvAV/AVSystem.h>
 #include <djvAV/Color.h>
 #include <djvAV/GLFWSystem.h>
-#include <djvAV/IO.h>
+#include <djvAV/IOSystem.h>
 #include <djvAV/OpenGL.h>
 #include <djvAV/Render2D.h>
 

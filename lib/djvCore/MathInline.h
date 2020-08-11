@@ -14,49 +14,49 @@ namespace djv
         namespace Math
         {
             template<class T>
-            constexpr T abs(T value)
+            constexpr T abs(T value) noexcept
             {
                 return value < T(0) ? -value : value;
             }
 
             template<>
-            inline float antiLog10(float value)
+            inline float antiLog10(float value) noexcept
             {
                 return exp(value * log(10.F));
             }
 
             template<>
-            inline double antiLog10(double value)
+            inline double antiLog10(double value) noexcept
             {
                 return exp(value * log(10.));
             }
 
             template<class T>
-            constexpr T step(T value, T step)
+            constexpr T step(T value, T step) noexcept
             {
                 return value <= step ? value : step;
             }
 
             template<class T>
-            constexpr T pulse(T value, T min, T max)
+            constexpr T pulse(T value, T min, T max) noexcept
             {
                 return step(value, max) - step(value, min);
             }
 
             template<>
-            inline float bias(float value, float bias)
+            inline float bias(float value, float bias) noexcept
             {
                 return pow(value, log(bias) / log(.5F));
             }
 
             template<>
-            inline double bias(double value, double bias)
+            inline double bias(double value, double bias) noexcept
             {
                 return pow(value, log(bias) / log(.5));
             }
 
             template<>
-            inline float gain(float value, float gain)
+            inline float gain(float value, float gain) noexcept
             {
                 const float almostZero = FLT_MIN * 2.F;
                 const float almostOne = 1.F - almostZero;
@@ -80,7 +80,7 @@ namespace djv
             }
 
             template<>
-            inline double gain(double value, double gain)
+            inline double gain(double value, double gain) noexcept
             {
                 const double almostZero = DBL_MIN * 2.;
                 const double almostOne = 1. - almostZero;
@@ -110,23 +110,23 @@ namespace djv
             }
 
             template<class T, class U>
-            constexpr T lerp(U value, T min, T max)
+            constexpr T lerp(U value, T min, T max) noexcept
             {
                 return min + T(value * (max - min));
             }
 
-            constexpr float smoothStep(float value, float min, float max)
+            constexpr float smoothStep(float value, float min, float max) noexcept
             {
                 return lerp(value * value * (3.F - (2.F * value)), min, max);
             }
 
-            constexpr double smoothStep(double value, double min, double max)
+            constexpr double smoothStep(double value, double min, double max) noexcept
             {
                 return lerp(value * value * (3. - (2. * value)), min, max);
             }
 
             template<typename T>
-            inline T softClip(T value, T softClip)
+            inline T softClip(T value, T softClip) noexcept
             {
                 const T tmp = T(1) - softClip;
                 if (value > tmp)
@@ -137,7 +137,7 @@ namespace djv
             }
 
             template<typename T>
-            inline size_t getNumDigits(T value)
+            inline size_t getNumDigits(T value) noexcept
             {
                 size_t out = 0;
                 value = abs(value);
@@ -181,7 +181,7 @@ namespace djv
             }
 
             template<typename T>
-            size_t closest(T value, const std::vector<T>& list)
+            size_t closest(T value, const std::vector<T>& list) noexcept
             {
                 size_t out = 0;
                 T minAbs = std::numeric_limits<T>::max();
@@ -204,17 +204,17 @@ namespace djv
                 return value[getRandom(0, static_cast<int>(value.size()) - 1)];
             }
 
-            constexpr float getFraction(float value)
+            constexpr float getFraction(float value) noexcept
             {
                 return value - static_cast<int>(value);
             }
 
-            constexpr double getFraction(double value)
+            constexpr double getFraction(double value) noexcept
             {
                 return value - static_cast<int>(value);
             }
 
-            inline int toPow2(int value)
+            inline int toPow2(int value) noexcept
             {
                 int i = 0;
                 for (; value > (1 << i); ++i)
@@ -222,17 +222,17 @@ namespace djv
                 return 1 << i;
             }
 
-            constexpr float rad2deg(float value)
+            constexpr float rad2deg(float value) noexcept
             {
                 return value / (3.14159265359F * 2.F) * 360.F;
             }
 
-            constexpr float deg2rad(float value)
+            constexpr float deg2rad(float value) noexcept
             {
                 return value / 360.F * (3.14159265359F * 2.F);
             }
 
-            constexpr bool haveSameSign(float a, float b)
+            constexpr bool haveSameSign(float a, float b) noexcept
             {
                 return ((a > 0.F && b > 0.F) || (a < 0.F && b < 0.F));
             }
@@ -240,12 +240,12 @@ namespace djv
         } // namespace Math
     } // namespace Core
 
-    inline bool fuzzyCompare(double a, double b, double e)
+    inline bool fuzzyCompare(double a, double b, double e) noexcept
     {
         return fabs(a - b) < e;
     }
 
-    inline bool fuzzyCompare(float a, float b, float e)
+    inline bool fuzzyCompare(float a, float b, float e) noexcept
     {
         return fabsf(a - b) < e;
     }

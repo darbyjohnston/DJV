@@ -8,6 +8,7 @@
 #include <djvUI/Label.h>
 #include <djvUI/FormLayout.h>
 
+#include <djvAV/IOSystem.h>
 #include <djvAV/TIFF.h>
 
 #include <djvCore/Context.h>
@@ -80,7 +81,7 @@ namespace djv
 
         std::string TIFFSettingsWidget::getSettingsSortKey() const
         {
-            return "Z";
+            return "ZZZ";
         }
 
         void TIFFSettingsWidget::setLabelSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)
@@ -109,13 +110,14 @@ namespace djv
                 rapidjson::Document document;
                 auto& allocator = document.GetAllocator();
                 fromJSON(io->getOptions(AV::IO::TIFF::pluginName, allocator), options);
-                p.compressionComboBox->clearItems();
+                std::vector<std::string> items;
                 for (auto i : AV::IO::TIFF::getCompressionEnums())
                 {
                     std::stringstream ss;
                     ss << i;
-                    p.compressionComboBox->addItem(_getText(ss.str()));
+                    items.push_back(_getText(ss.str()));
                 }
+                p.compressionComboBox->setItems(items);
                 p.compressionComboBox->setCurrentItem(static_cast<int>(options.compression));
             }
         }

@@ -10,6 +10,7 @@
 #include <djvUI/GroupBox.h>
 #include <djvUI/IntSlider.h>
 
+#include <djvAV/IOSystem.h>
 #include <djvAV/OpenEXR.h>
 
 #include <djvCore/Context.h>
@@ -153,7 +154,7 @@ namespace djv
 
         std::string OpenEXRSettingsWidget::getSettingsSortKey() const
         {
-            return "Z";
+            return "ZZZ";
         }
 
         void OpenEXRSettingsWidget::setLabelSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)
@@ -188,22 +189,24 @@ namespace djv
 
                 p.threadCountSlider->setValue(options.threadCount);
 
-                p.channelsComboBox->clearItems();
+                std::vector<std::string> items;
                 for (auto i : AV::IO::OpenEXR::getChannelsEnums())
                 {
                     std::stringstream ss;
                     ss << i;
-                    p.channelsComboBox->addItem(_getText(ss.str()));
+                    items.push_back(_getText(ss.str()));
                 }
+                p.channelsComboBox->setItems(items);
                 p.channelsComboBox->setCurrentItem(static_cast<int>(options.channels));
 
-                p.compressionComboBox->clearItems();
+                items.clear();
                 for (auto i : AV::IO::OpenEXR::getCompressionEnums())
                 {
                     std::stringstream ss;
                     ss << i;
-                    p.compressionComboBox->addItem(_getText(ss.str()));
+                    items.push_back(_getText(ss.str()));
                 }
+                p.compressionComboBox->setItems(items);
                 p.compressionComboBox->setCurrentItem(static_cast<int>(options.compression));
 
                 p.dwaCompressionLevelSlider->setValue(options.dwaCompressionLevel);

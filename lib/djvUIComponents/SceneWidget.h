@@ -61,7 +61,7 @@ namespace djv
             SceneWidget();
 
         public:
-            virtual ~SceneWidget();
+            ~SceneWidget() override;
 
             static std::shared_ptr<SceneWidget> create(const std::shared_ptr<Core::Context>&);
 

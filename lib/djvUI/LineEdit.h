@@ -20,7 +20,7 @@ namespace djv
             LineEdit();
 
         public:
-            virtual ~LineEdit();
+            ~LineEdit() override;
 
             static std::shared_ptr<LineEdit> create(const std::shared_ptr<Core::Context>&);
 

@@ -8,6 +8,7 @@
 
 #include <djvCore/BBox.h>
 #include <djvCore/ListObserver.h>
+#include <djvCore/MapObserver.h>
 #include <djvCore/ValueObserver.h>
 
 #include <map>
@@ -36,7 +37,7 @@ namespace djv
             FileSettings();
 
         public:
-            virtual ~FileSettings();
+            ~FileSettings() override;
 
             static std::shared_ptr<FileSettings> create(const std::shared_ptr<Core::Context>&);
             
@@ -45,8 +46,10 @@ namespace djv
 
             std::shared_ptr<Core::IListSubject<Core::FileSystem::FileInfo> > observeRecentFiles() const;
             std::shared_ptr<Core::IValueSubject<size_t> > observeRecentFilesMax() const;
+            std::map<std::string, bool> getRecentFilesSettingsBellowsState() const;
             void setRecentFiles(const std::vector<Core::FileSystem::FileInfo>&);
             void setRecentFilesMax(size_t);
+            void setRecentFilesSettingsBellowsState(const std::map<std::string, bool>&);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeAutoDetectSequences() const;
             std::shared_ptr<Core::IValueSubject<bool> > observeSequencesFirstFrame() const;

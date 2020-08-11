@@ -5,6 +5,9 @@
 #include <djvUI/Action.h>
 
 #include <djvUI/Shortcut.h>
+#include <djvUI/ShortcutData.h>
+
+#include <iostream>
 
 using namespace djv::Core;
 
@@ -14,34 +17,33 @@ namespace djv
     {
         struct Action::Private
         {
-            std::shared_ptr<ValueSubject<ButtonType> > buttonType;
-            std::shared_ptr<ValueSubject<bool> > clicked;
-            std::shared_ptr<ValueSubject<bool> > checked;
+            std::shared_ptr<ValueSubject<ButtonType> > buttonTypeSubject;
+            std::shared_ptr<ValueSubject<bool> > checkedSubject;
             std::string icon;
             std::string checkedIcon;
             std::shared_ptr<ValueSubject<std::string> > iconSubject;
-            std::shared_ptr<ValueSubject<std::string> > text;
-            std::shared_ptr<ValueSubject<std::string> > font;
-            std::shared_ptr<ListSubject<std::shared_ptr<Shortcut> > > shortcuts;
-            std::shared_ptr<ValueSubject<bool> > enabled;
-            std::shared_ptr<ValueSubject<std::string> > tooltip;
-            std::shared_ptr<ValueSubject<bool> > autoRepeat;
+            std::shared_ptr<ValueSubject<std::string> > textSubject;
+            std::shared_ptr<ValueSubject<std::string> > fontSubject;
+            std::shared_ptr<ListSubject<std::shared_ptr<Shortcut> > > shortcutsSubject;
+            std::shared_ptr<ValueSubject<bool> > enabledSubject;
+            std::shared_ptr<ValueSubject<std::string> > tooltipSubject;
+            std::shared_ptr<ValueSubject<bool> > autoRepeatSubject;
+            std::function<void(void)> clickedCallback;
+            std::function<void(bool)> checkedCallback;
         };
 
         void Action::_init()
         {
             DJV_PRIVATE_PTR();
-            p.buttonType = ValueSubject<ButtonType>::create(ButtonType::Push);
-            p.clicked = ValueSubject<bool>::create(false);
-            p.checked = ValueSubject<bool>::create(false);
+            p.buttonTypeSubject = ValueSubject<ButtonType>::create(ButtonType::Push);
+            p.checkedSubject = ValueSubject<bool>::create(false);
             p.iconSubject = ValueSubject<std::string>::create();
-            p.text = ValueSubject<std::string>::create();
-            p.font = ValueSubject<std::string>::create();
-            p.shortcuts = ListSubject<std::shared_ptr<Shortcut> >::create();
-            p.enabled = ValueSubject<bool>::create(true);
-            p.tooltip = ValueSubject<std::string>::create();
-            p.autoRepeat = ValueSubject<bool>::create();
-            _iconUpdate();
+            p.textSubject = ValueSubject<std::string>::create();
+            p.fontSubject = ValueSubject<std::string>::create();
+            p.shortcutsSubject = ListSubject<std::shared_ptr<Shortcut> >::create();
+            p.enabledSubject = ValueSubject<bool>::create(true);
+            p.tooltipSubject = ValueSubject<std::string>::create();
+            p.autoRepeatSubject = ValueSubject<bool>::create();
         }
 
         Action::Action() :
@@ -58,34 +60,31 @@ namespace djv
             return out;
         }
 
+        std::shared_ptr<Action> Action::create(const std::string& text)
+        {
+            auto out = create();
+            out->setText(text);
+            return out;
+        }
+
         std::shared_ptr<IValueSubject<ButtonType> > Action::observeButtonType() const
         {
-            return _p->buttonType;
+            return _p->buttonTypeSubject;
         }
 
         void Action::setButtonType(ButtonType value)
         {
-            _p->buttonType->setIfChanged(value);
-        }
-
-        std::shared_ptr<Core::IValueSubject<bool> > Action::observeClicked() const
-        {
-            return _p->clicked;
-        }
-
-        void Action::doClicked()
-        {
-            _p->clicked->setAlways(true);
+            _p->buttonTypeSubject->setIfChanged(value);
         }
 
         std::shared_ptr<IValueSubject<bool> > Action::observeChecked() const
         {
-            return _p->checked;
+            return _p->checkedSubject;
         }
 
         void Action::setChecked(bool value)
         {
-            if (_p->checked->setIfChanged(value))
+            if (_p->checkedSubject->setIfChanged(value))
             {
                 _iconUpdate();
             }
@@ -114,27 +113,34 @@ namespace djv
 
         std::shared_ptr<IValueSubject<std::string> > Action::observeText() const
         {
-            return _p->text;
+            return _p->textSubject;
         }
 
         void Action::setText(const std::string& value)
         {
-            _p->text->setIfChanged(value);
+            _p->textSubject->setIfChanged(value);
         }
 
         std::shared_ptr<IValueSubject<std::string> > Action::observeFont() const
         {
-            return _p->font;
+            return _p->fontSubject;
         }
 
         void Action::setFont(const std::string& value)
         {
-            _p->font->setIfChanged(value);
+            _p->fontSubject->setIfChanged(value);
         }
 
         std::shared_ptr<Core::IListSubject<std::shared_ptr<Shortcut> > > Action::observeShortcuts() const
         {
-            return _p->shortcuts;
+            return _p->shortcutsSubject;
+        }
+
+        void Action::setShortcuts(const ShortcutDataPair& value)
+        {
+            clearShortcuts();
+            addShortcut(value.primary);
+            addShortcut(value.secondary);
         }
 
         void Action::setShortcut(const std::shared_ptr<Shortcut>& value)
@@ -155,31 +161,21 @@ namespace djv
 
         void Action::addShortcut(const std::shared_ptr<Shortcut>& value)
         {
-            _p->shortcuts->pushBack(value);
+            _p->shortcutsSubject->pushBack(value);
             auto weak = std::weak_ptr<Action>(shared_from_this());
             value->setCallback(
                 [weak]
             {
                 if (auto action = weak.lock())
                 {
-                    switch (action->_p->buttonType->get())
-                    {
-                    case ButtonType::Push:
-                        action->doClicked();
-                        break;
-                    case ButtonType::Toggle:
-                        action->setChecked(!action->_p->checked->get());
-                        break;
-                    case ButtonType::Radio:
-                        action->setChecked(true);
-                        break;
-                    case ButtonType::Exclusive:
-                        action->setChecked(!action->_p->checked->get());
-                        break;
-                    default: break;
-                    }
+                    action->doClick();
                 }
             });
+        }
+
+        void Action::addShortcut(const ShortcutData& value)
+        {
+            addShortcut(UI::Shortcut::create(value));
         }
 
         void Action::addShortcut(int key)
@@ -195,53 +191,103 @@ namespace djv
         void Action::clearShortcuts()
         {
             DJV_PRIVATE_PTR();
-            auto shortcuts = p.shortcuts->get();
+            const auto shortcuts = p.shortcutsSubject->get();
             for (auto& i : shortcuts)
             {
                 i->setCallback(nullptr);
             }
-            p.shortcuts->clear();
+            p.shortcutsSubject->clear();
         }
 
         std::shared_ptr<Core::IValueSubject<bool> > Action::observeEnabled() const
         {
-            return _p->enabled;
+            return _p->enabledSubject;
         }
 
         void Action::setEnabled(bool value)
         {
-            _p->enabled->setIfChanged(value);
+            _p->enabledSubject->setIfChanged(value);
         }
 
         std::shared_ptr<IValueSubject<std::string> > Action::observeTooltip() const
         {
-            return _p->tooltip;
+            return _p->tooltipSubject;
         }
 
         void Action::setTooltip(const std::string& value)
         {
-            _p->tooltip->setIfChanged(value);
+            _p->tooltipSubject->setIfChanged(value);
         }
 
         std::shared_ptr<IValueSubject<bool> > Action::observeAutoRepeat() const
         {
-            return _p->autoRepeat;
+            return _p->autoRepeatSubject;
         }
 
         void Action::setAutoRepeat(bool value)
         {
-            _p->autoRepeat->setIfChanged(value);
+            _p->autoRepeatSubject->setIfChanged(value);
+        }
+
+        void Action::setClickedCallback(const std::function<void(void)>& callback)
+        {
+            _p->clickedCallback = callback;
+        }
+
+        void Action::setCheckedCallback(const std::function<void(bool)>& callback)
+        {
+            _p->checkedCallback = callback;
+        }
+
+        void Action::doClick()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.clickedCallback)
+            {
+                p.clickedCallback();
+            }
+            switch (p.buttonTypeSubject->get())
+            {
+            case ButtonType::Toggle:
+                if (p.checkedSubject->setIfChanged(!p.checkedSubject->get()))
+                {
+                    if (p.checkedCallback)
+                    {
+                        p.checkedCallback(p.checkedSubject->get());
+                    }
+                }
+                break;
+            case ButtonType::Radio:
+                if (p.checkedSubject->setIfChanged(true))
+                {
+                    if (p.checkedCallback)
+                    {
+                        p.checkedCallback(p.checkedSubject->get());
+                    }
+                }
+                break;
+            case ButtonType::Exclusive:
+                if (p.checkedSubject->setIfChanged(!p.checkedSubject->get()))
+                {
+                    if (p.checkedCallback)
+                    {
+                        p.checkedCallback(p.checkedSubject->get());
+                    }
+                }
+                break;
+            }
         }
 
         void Action::_iconUpdate()
         {
-            if (_p->checked->get() && !_p->checkedIcon.empty())
+            DJV_PRIVATE_PTR();
+            if (p.checkedSubject->get() && !p.checkedIcon.empty())
             {
-                _p->iconSubject->setIfChanged(_p->checkedIcon);
+                p.iconSubject->setIfChanged(p.checkedIcon);
             }
             else
             {
-                _p->iconSubject->setIfChanged(_p->icon);
+                p.iconSubject->setIfChanged(p.icon);
             }
         }
 

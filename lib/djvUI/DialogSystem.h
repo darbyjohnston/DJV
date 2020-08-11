@@ -24,7 +24,7 @@ namespace djv
             DialogSystem();
 
         public:
-            virtual ~DialogSystem();
+            ~DialogSystem() override;
 
             static std::shared_ptr<DialogSystem> create(const std::shared_ptr<Core::Context>&);
 

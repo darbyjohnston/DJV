@@ -65,9 +65,10 @@ namespace djv
                     DJV_PRIVATE_PTR();
                     io->open(fileName, FileSystem::FileIO::Mode::Read);
                     Info info;
-                    info.video.resize(1);
+                    info.videoSpeed = _speed;
+                    info.videoSequence = _sequence;
+                    info.video.push_back(Image::Info());
                     DPX::read(io, info, p.colorProfile, _textSystem);
-                    info.video[0].sequence = _sequence;
                     return info;
                 }
 

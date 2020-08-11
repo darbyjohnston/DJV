@@ -22,16 +22,13 @@ namespace djv
                 Overlay();
 
             public:
-                virtual ~Overlay();
+                ~Overlay() override;
                 static std::shared_ptr<Overlay> create(const std::shared_ptr<Core::Context>&);
 
                 bool hasCapturePointer() const;
                 bool hasCaptureKeyboard() const;
                 void setCapturePointer(bool);
                 void setCaptureKeyboard(bool);
-
-                const std::weak_ptr<Widget>& getAnchor() const;
-                void setAnchor(const std::weak_ptr<Widget>&);
 
                 bool hasFadeIn() const;
                 void setFadeIn(bool);

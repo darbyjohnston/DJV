@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
+#include <djvCore/Observer.h>
 
 #include <functional>
 #include <memory>
@@ -26,7 +26,8 @@ namespace djv
         protected:
             void _init(
                 const std::weak_ptr<IValueSubject<T> >&,
-                const std::function<void(const T&)>&);
+                const std::function<void(const T&)>&,
+                ObserverCallbackAction);
 
             ValueObserver();
 
@@ -36,7 +37,8 @@ namespace djv
             //! Create a new value observer.
             static std::shared_ptr<ValueObserver<T> > create(
                 const std::weak_ptr<IValueSubject<T> >&,
-                const std::function<void(const T&)>&);
+                const std::function<void(const T&)>&,
+                ObserverCallbackAction = ObserverCallbackAction::Trigger);
 
             //! Execute the callback.
             void doCallback(const T&);

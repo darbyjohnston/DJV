@@ -4,7 +4,7 @@
 
 #include <djvAVTest/ThumbnailSystemTest.h>
 
-#include <djvAV/IO.h>
+#include <djvAV/IOSystem.h>
 #include <djvAV/ThumbnailSystem.h>
 
 #include <djvCore/Context.h>
@@ -61,7 +61,7 @@ namespace djv
                 if (info.video.size())
                 {
                     std::stringstream ss;
-                    ss << "info: " << info.video[0].info.size;
+                    ss << "info: " << info.video[0].size;
                     _print(ss.str());
                 }
                 if (image)

@@ -7,7 +7,7 @@ set(libraries
     djvAVTest
     djvCoreTest
     djvUITest)
-if(NOT DJV_BUILD_TINY)
+if(NOT DJV_BUILD_TINY AND NOT DJV_BUILD_MINIMAL)
     set(libraries
         ${libraries}
         djvViewAppTest)

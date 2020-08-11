@@ -20,7 +20,7 @@ namespace djv
             ListViewHeader();
 
         public:
-            virtual ~ListViewHeader();
+            ~ListViewHeader() override;
 
             static std::shared_ptr<ListViewHeader> create(const std::shared_ptr<Core::Context>&);
 

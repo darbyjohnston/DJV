@@ -4,9 +4,9 @@
 
 #include <djvCore/Path.h>
 
-#include <djvCore/FileInfo.h>
 #include <djvCore/Math.h>
 #include <djvCore/Memory.h>
+#include <djvCore/String.h>
 
 extern "C"
 {

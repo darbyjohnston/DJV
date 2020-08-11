@@ -13,7 +13,7 @@ namespace djv
         //! This class provides a combo box widget.
         //!
         //! \todo Add support for icons. Should we use actions instead of items?
-        //! \todo When the combo box is opened position the current item under the pointer.
+        //! \todo When the combo box is opened, position the current item under the pointer.
         //! \todo Don't close the combo box when the current item is changed with a keyboard shortcut?
         class ComboBox : public Widget
         {
@@ -24,21 +24,20 @@ namespace djv
             ComboBox();
 
         public:
-            virtual ~ComboBox();
+            ~ComboBox() override;
 
             static std::shared_ptr<ComboBox> create(const std::shared_ptr<Core::Context>&);
 
             const std::vector<std::string>& getItems() const;
             void setItems(const std::vector<std::string>&);
-            void addItem(const std::string&);
-            void clearItems(Callback = Callback::Suppress);
+            void clearItems();
 
             int getCurrentItem() const;
-            void setCurrentItem(int, Callback = Callback::Suppress);
-            void firstItem(Callback = Callback::Suppress);
-            void lastItem(Callback = Callback::Suppress);
-            void prevItem(Callback = Callback::Suppress);
-            void nextItem(Callback = Callback::Suppress);
+            void setCurrentItem(int);
+            void firstItem();
+            void lastItem();
+            void prevItem();
+            void nextItem();
 
             bool isOpen() const;
             void open();
@@ -57,8 +56,8 @@ namespace djv
             void _keyPressEvent(Core::Event::KeyPress&) override;
 
         private:
-            void _updateItems();
-            void _updateCurrentItem(Callback);
+            void _itemsUpdate();
+            void _currentItemUpdate();
 
             DJV_PRIVATE();
         };

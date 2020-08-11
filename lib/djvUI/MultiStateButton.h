@@ -22,7 +22,7 @@ namespace djv
                 MultiState();
 
             public:
-                virtual ~MultiState();
+                ~MultiState() override;
 
                 static std::shared_ptr<MultiState> create(const std::shared_ptr<Core::Context>&);
                 

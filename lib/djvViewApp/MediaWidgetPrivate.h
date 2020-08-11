@@ -6,15 +6,6 @@
 
 #include <djvViewApp/MediaWidget.h>
 
-#include <djvUI/LineEditBase.h>
-#include <djvUI/NumericEdit.h>
-#include <djvUI/RowLayout.h>
-#include <djvUI/Widget.h>
-
-#include <djvCore/Frame.h>
-#include <djvCore/Speed.h>
-#include <djvCore/ValueObserver.h>
-
 namespace djv
 {
     namespace ViewApp
@@ -25,8 +16,7 @@ namespace djv
 
         protected:
             void _init(const std::shared_ptr<Core::Context>&);
-            PointerWidget()
-            {}
+            PointerWidget();
 
         public:
             static std::shared_ptr<PointerWidget> create(const std::shared_ptr<Core::Context>&);
@@ -49,13 +39,37 @@ namespace djv
             void _doHoverCallback(const PointerData&);
             void _doDragCallback(const PointerData&);
 
-            uint32_t _pressedID = Core::Event::invalidID;
-            std::map<int, bool> _buttons;
-            int _key = 0;
-            int _keyModifiers = 0;
-            std::function<void(const PointerData&)> _hoverCallback;
-            std::function<void(const PointerData&)> _dragCallback;
-            std::function<void(const ScrollData&)> _scrollCallback;
+            DJV_PRIVATE();
+        };
+
+        class PlaybackSpeedWidget : public UI::Widget
+        {
+            DJV_NON_COPYABLE(PlaybackSpeedWidget);
+
+        protected:
+            void _init(
+                const std::shared_ptr<Media>&,
+                const std::shared_ptr<Core::Context>&);
+            PlaybackSpeedWidget();
+
+        public:
+            ~PlaybackSpeedWidget() override;
+
+            static std::shared_ptr<PlaybackSpeedWidget> create(
+                const std::shared_ptr<Media>&,
+                const std::shared_ptr<Core::Context>&);
+
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
+
+            void _initEvent(Core::Event::Init&) override;
+
+        private:
+            void _textUpdate();
+            void _widgetUpdate();
+
+            DJV_PRIVATE();
         };
 
         class FrameWidget : public UI::Widget
@@ -64,8 +78,7 @@ namespace djv
 
         protected:
             void _init(const std::shared_ptr<Core::Context>&);
-            FrameWidget()
-            {}
+            FrameWidget();
 
         public:
             static std::shared_ptr<FrameWidget> create(const std::shared_ptr<Core::Context>&);
@@ -84,16 +97,34 @@ namespace djv
             void _setFrame(Core::Frame::Index);
             void _widgetUpdate();
 
-            Core::Time::Units _timeUnits = Core::Time::Units::First;
-            Core::Frame::Sequence _sequence;
-            Core::Math::Rational _speed;
-            Core::Frame::Index _index = 0;
-            std::shared_ptr<UI::LineEditBase> _lineEditBase;
-            std::shared_ptr<UI::NumericEditButtons> _buttons;
-            std::shared_ptr<UI::HorizontalLayout> _layout;
-            std::function<void(Core::Frame::Index)> _callback;
-            std::map<std::string, std::shared_ptr<Core::ValueObserver<bool> > > _actionObservers;
-            std::shared_ptr<Core::ValueObserver<Core::Time::Units> > _timeUnitsObserver;
+            DJV_PRIVATE();
+        };
+
+        class AudioWidget : public UI::Widget
+        {
+            DJV_NON_COPYABLE(AudioWidget);
+
+        protected:
+            void _init(
+                const std::shared_ptr<Media>&,
+                const std::shared_ptr<Core::Context>&);
+            AudioWidget();
+
+        public:
+            static std::shared_ptr<AudioWidget> create(
+                const std::shared_ptr<Media>&,
+                const std::shared_ptr<Core::Context>&);
+
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
+
+            void _initEvent(Core::Event::Init&) override;
+
+        private:
+            void _widgetUpdate();
+
+            DJV_PRIVATE();
         };
 
     } // namespace ViewApp

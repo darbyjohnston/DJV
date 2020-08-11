@@ -21,7 +21,7 @@ namespace djv
             TextEdit();
 
         public:
-            virtual ~TextEdit();
+            ~TextEdit() override;
 
             static std::shared_ptr<TextEdit> create(const std::shared_ptr<Core::Context>&);
 

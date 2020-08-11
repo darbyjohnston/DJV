@@ -56,12 +56,12 @@ namespace djv
                 p[0] = v;
             }
 
-            inline Type Color::getType() const
+            inline Type Color::getType() const noexcept
             {
                 return _type;
             }
 
-            inline bool Color::isValid() const
+            inline bool Color::isValid() const noexcept
             {
                 return _type != Type::None;
             }
@@ -142,12 +142,12 @@ namespace djv
                 reinterpret_cast<F32_T *>(_data.data())[channel] = value;
             }
 
-            inline const uint8_t * Color::getData() const
+            inline const uint8_t * Color::getData() const noexcept
             {
                 return _data.data();
             }
 
-            inline uint8_t * Color::getData()
+            inline uint8_t * Color::getData() noexcept
             {
                 return _data.data();
             }

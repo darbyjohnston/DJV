@@ -9,6 +9,7 @@
 #include <djvUI/IntSlider.h>
 
 #include <djvAV/FFmpeg.h>
+#include <djvAV/IOSystem.h>
 
 #include <djvCore/Context.h>
 
@@ -84,7 +85,7 @@ namespace djv
 
         std::string FFmpegSettingsWidget::getSettingsSortKey() const
         {
-            return "Z";
+            return "ZZZ";
         }
 
         void FFmpegSettingsWidget::setLabelSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)

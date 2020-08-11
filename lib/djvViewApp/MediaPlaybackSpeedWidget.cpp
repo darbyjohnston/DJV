@@ -2,7 +2,10 @@
 // Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 
-#include <djvViewApp/PlaybackSpeedWidget.h>
+#include <djvViewApp/MediaWidgetPrivate.h>
+
+#include <djvViewApp/Media.h>
+#include <djvViewApp/PlaybackSettings.h>
 
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/CheckBox.h>
@@ -11,7 +14,9 @@
 #include <djvUI/ListButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
+#include <djvUI/SettingsSystem.h>
 
+#include <djvCore/Context.h>
 #include <djvCore/Speed.h>
 
 using namespace djv::Core;
@@ -22,6 +27,13 @@ namespace djv
     {
         struct PlaybackSpeedWidget::Private
         {
+            Private(PlaybackSpeedWidget& p) :
+                p(p)
+            {}
+
+            PlaybackSpeedWidget& p;
+
+            std::shared_ptr<Media> media;
             PlaybackSpeed playbackSpeed = PlaybackSpeed::First;
             Math::Rational defaultSpeed;
             Math::Rational customSpeed = Math::Rational(1);
@@ -38,16 +50,27 @@ namespace djv
             std::shared_ptr<UI::VerticalLayout> speedButtonLayout;
             std::shared_ptr<UI::CheckBox> playEveryFrameCheckBox;
             std::shared_ptr<UI::ScrollWidget> scrollWidget;
-            std::function<void(PlaybackSpeed)> playbackSpeedCallback;
-            std::function<void(const Math::Rational&)> customSpeedCallback;
-            std::function<void(bool)> playEveryFrameCallback;
+
+            std::shared_ptr<ValueObserver<Math::Rational> > speedObserver;
+            std::shared_ptr<ValueObserver<PlaybackSpeed> > playbackSpeedObserver;
+            std::shared_ptr<ValueObserver<Math::Rational> > defaultSpeedObserver;
+            std::shared_ptr<ValueObserver<Math::Rational> > customSpeedObserver;
+            std::shared_ptr<ValueObserver<bool> > playEveryFrameObserver;
+
+            void setPlaybackSpeed(PlaybackSpeed);
+            void setCustomSpeed(const Math::Rational&);
         };
 
-        void PlaybackSpeedWidget::_init(const std::shared_ptr<Context>& context)
+        void PlaybackSpeedWidget::_init(
+            const std::shared_ptr<Media>& media,
+            const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
+
             setClassName("djv::ViewApp::PlaybackSpeedWidget");
+
+            p.media = media;
 
             p.titleLabel = UI::Label::create(context);
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
@@ -63,11 +86,12 @@ namespace djv
             p.defaultSpeedLabel->setMargin(UI::MetricsRole::MarginSmall);
 
             p.speedButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
+            std::vector<std::shared_ptr<UI::Button::IButton> > buttons;
             std::vector<std::shared_ptr<UI::Widget> > widgets;
             for (auto i : getPlaybackSpeedEnums())
             {
                 auto checkBox = UI::CheckBox::create(context);
-                p.speedButtonGroup->addButton(checkBox);
+                buttons.push_back(checkBox);
                 switch (i)
                 {
                 case PlaybackSpeed::Default:
@@ -96,14 +120,17 @@ namespace djv
                 }
                 p.speedCheckBoxes[i] = checkBox;
             }
+            p.speedButtonGroup->setButtons(buttons);
             p.presetSpeedButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
+            buttons.clear();
             for (auto i : Time::getFPSEnums())
             {
                 auto button = UI::ListButton::create(context);
-                p.presetSpeedButtonGroup->addButton(button);
+                buttons.push_back(button);
                 widgets.push_back(button);
                 p.presetSpeedButtons[i] = button;
             }
+            p.presetSpeedButtonGroup->setButtons(buttons);
             p.speedButtonLayout = UI::VerticalLayout::create(context);
             p.speedButtonLayout->setSpacing(UI::MetricsRole::None);
             for (auto i = widgets.rbegin(); i != widgets.rend(); ++i)
@@ -139,10 +166,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        if (widget->_p->playbackSpeedCallback)
-                        {
-                            widget->_p->playbackSpeedCallback(static_cast<PlaybackSpeed>(value));
-                        }
+                        widget->_p->setPlaybackSpeed(static_cast<PlaybackSpeed>(value));
                     }
                 });
 
@@ -151,25 +175,30 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        if (widget->_p->playbackSpeedCallback)
-                        {
-                            widget->_p->playbackSpeedCallback(PlaybackSpeed::Custom);
-                        }
-                        if (widget->_p->customSpeedCallback)
-                        {
-                            widget->_p->customSpeedCallback(Time::fromSpeed(static_cast<Time::FPS>(value)));
-                        }
+                        widget->_p->setPlaybackSpeed(PlaybackSpeed::Custom);
+                        widget->_p->setCustomSpeed(Time::fromSpeed(static_cast<Time::FPS>(value)));
                     }
                 });
 
             p.playEveryFrameCheckBox->setCheckedCallback(
-                [weak](bool value)
+                [weak, contextWeak](bool value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        if (widget->_p->playEveryFrameCallback)
+                        if (auto context = contextWeak.lock())
                         {
-                            widget->_p->playEveryFrameCallback(value);
+                            if (auto widget = weak.lock())
+                            {
+                                if (auto media = widget->_p->media)
+                                {
+                                    media->setPlayEveryFrame(value);
+                                }
+                                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                                if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
+                                {
+                                    playbackSettings->setPlayEveryFrame(value);
+                                }
+                            }
                         }
                     }
                 });
@@ -180,7 +209,7 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         Math::Rational customSpeed;
-                        if (value >= 1.F) 
+                        if (value >= 1.F)
                         {
                             customSpeed = Time::fromSpeed(value);
                         }
@@ -188,86 +217,69 @@ namespace djv
                         {
                             customSpeed = Math::Rational(static_cast<int>(std::floor(value * 1000.F)), 1000);
                         }
-                        if (widget->_p->customSpeedCallback)
-                        {
-                            widget->_p->customSpeedCallback(customSpeed);
-                        }
+                        widget->_p->setCustomSpeed(customSpeed);
+                    }
+                });
+
+            p.speedObserver = ValueObserver<Math::Rational>::create(
+                media->observeSpeed(),
+                [weak](const Math::Rational& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->speed = value;
+                        widget->_widgetUpdate();
+                    }
+                });
+
+            p.playbackSpeedObserver = ValueObserver<PlaybackSpeed>::create(
+                media->observePlaybackSpeed(),
+                [weak](PlaybackSpeed value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->playbackSpeed = value;
+                        widget->_widgetUpdate();
+                    }
+                });
+
+            p.customSpeedObserver = ValueObserver<Math::Rational>::create(
+                media->observeCustomSpeed(),
+                [weak](const Math::Rational& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->customSpeed = value;
+                        widget->_widgetUpdate();
+                    }
+                });
+
+            p.defaultSpeedObserver = ValueObserver<Math::Rational>::create(
+                media->observeDefaultSpeed(),
+                [weak](const Math::Rational& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->defaultSpeed = value;
+                        widget->_widgetUpdate();
                     }
                 });
         }
 
         PlaybackSpeedWidget::PlaybackSpeedWidget() :
-            _p(new Private)
+            _p(new Private(*this))
         {}
 
         PlaybackSpeedWidget::~PlaybackSpeedWidget()
         {}
 
-        std::shared_ptr<PlaybackSpeedWidget> PlaybackSpeedWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<PlaybackSpeedWidget> PlaybackSpeedWidget::create(
+            const std::shared_ptr<Media>& media,
+            const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<PlaybackSpeedWidget>(new PlaybackSpeedWidget);
-            out->_init(context);
+            out->_init(media, context);
             return out;
-        }
-
-        void PlaybackSpeedWidget::setPlaybackSpeed(PlaybackSpeed value)
-        {
-            DJV_PRIVATE_PTR();
-            if (value == p.playbackSpeed)
-                return;
-            p.playbackSpeed = value;
-            _widgetUpdate();
-        }
-
-        void PlaybackSpeedWidget::setDefaultSpeed(const Math::Rational& value)
-        {
-            DJV_PRIVATE_PTR();
-            if (value == p.defaultSpeed)
-                return;
-            p.defaultSpeed = value;
-            _widgetUpdate();
-        }
-
-        void PlaybackSpeedWidget::setCustomSpeed(const Math::Rational& value)
-        {
-            DJV_PRIVATE_PTR();
-            if (value == p.customSpeed)
-                return;
-            p.customSpeed = value;
-            _widgetUpdate();
-        }
-
-        void PlaybackSpeedWidget::setSpeed(const Math::Rational& value)
-        {
-            DJV_PRIVATE_PTR();
-            if (value == p.speed)
-                return;
-            p.speed = value;
-            _textUpdate();
-        }
-
-        void PlaybackSpeedWidget::setPlayEveryFrame(bool value)
-        {
-            DJV_PRIVATE_PTR();
-            if (value == p.playEveryFrame)
-                return;
-            p.playEveryFrame = value;
-            _widgetUpdate();
-        }
-
-        void PlaybackSpeedWidget::setPlaybackSpeedCallback(const std::function<void(PlaybackSpeed)>& value)
-        {
-            _p->playbackSpeedCallback = value;
-        }
-
-        void PlaybackSpeedWidget::setCustomSpeedCallback(const std::function<void(const Math::Rational&)>& value)
-        {
-            _p->customSpeedCallback = value;
-        }
-
-        void PlaybackSpeedWidget::setPlayEveryFrameCallback(const std::function<void(bool)>& value)
-        {
-            _p->playEveryFrameCallback = value;
         }
 
         void PlaybackSpeedWidget::_preLayoutEvent(Event::PreLayout&)
@@ -344,6 +356,38 @@ namespace djv
             p.customSpeedFloatEdit->setValue(p.customSpeed.toFloat());
             p.playEveryFrameCheckBox->setChecked(p.playEveryFrame);
             p.speedButtonGroup->setChecked(static_cast<int>(p.playbackSpeed));
+        }
+
+        void PlaybackSpeedWidget::Private::setPlaybackSpeed(PlaybackSpeed value)
+        {
+            if (media)
+            {
+                media->setPlaybackSpeed(value);
+            }
+            if (auto context = p.getContext().lock())
+            {
+                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
+                {
+                    playbackSettings->setPlaybackSpeed(value);
+                }
+            }
+        }
+
+        void PlaybackSpeedWidget::Private::setCustomSpeed(const Math::Rational& value)
+        {
+            if (media)
+            {
+                media->setCustomSpeed(value);
+            }
+            if (auto context = p.getContext().lock())
+            {
+                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
+                {
+                    playbackSettings->setCustomSpeed(value);
+                }
+            }
         }
 
     } // namespace ViewApp

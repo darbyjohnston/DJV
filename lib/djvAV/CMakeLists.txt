@@ -17,13 +17,18 @@ set(header
     IFF.h
     IO.h
     IOInline.h
+    IOPlugin.h
+    IOPluginInline.h
+    IOSystem.h
     Image.h
     ImageConvert.h
     ImageData.h
     ImageDataInline.h
     ImageUtil.h
 	OCIO.h
+	OCIOInline.h
 	OCIOSystem.h
+	OCIOSystemInline.h
     OpenGL.h
     OpenGLMesh.h
     OpenGLMeshCache.h
@@ -80,6 +85,8 @@ set(source
     IFF.cpp
     IFFRead.cpp
     IO.cpp
+    IOPlugin.cpp
+    IOSystem.cpp
     Image.cpp
     ImageConvert.cpp
     ImageData.cpp

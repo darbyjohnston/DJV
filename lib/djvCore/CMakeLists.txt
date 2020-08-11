@@ -44,6 +44,7 @@ set(header
     MemoryInline.h
     NumericValueModels.h
     OS.h
+    Observer.h
     Path.h
     PathInline.h
     Range.h
@@ -58,7 +59,6 @@ set(header
     RecentFilesModel.h
     ResourceSystem.h
     Speed.h
-    SpeedInline.h
     String.h
     StringFormat.h
     StringFormatInline.h

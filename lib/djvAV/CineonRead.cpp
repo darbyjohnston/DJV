@@ -51,17 +51,17 @@ namespace djv
 #else // DJV_MMAP
                     auto infoTmp = info;
                     bool convertEndian = false;
-                    if (infoTmp.video[0].info.layout.endian != Memory::getEndian())
+                    if (infoTmp.video[0].layout.endian != Memory::getEndian())
                     {
                         convertEndian = true;
-                        infoTmp.video[0].info.layout.endian = Memory::getEndian();
+                        infoTmp.video[0].layout.endian = Memory::getEndian();
                     }
-                    auto out = Image::Image::create(infoTmp.video[0].info);
+                    auto out = Image::Image::create(infoTmp.video[0]);
                     io->read(out->getData(), out->getDataByteCount());
                     if (convertEndian)
                     {
                         const size_t dataByteCount = out->getDataByteCount();
-                        switch (Image::getDataType(infoTmp.video[0].info.type))
+                        switch (Image::getDataType(infoTmp.video[0].type))
                         {
                             case Image::DataType::U10:
                                 Memory::endian(out->getData(), dataByteCount / 4, 4);
@@ -97,9 +97,10 @@ namespace djv
                     DJV_PRIVATE_PTR();
                     io->open(fileName, FileSystem::FileIO::Mode::Read);
                     Info info;
-                    info.video.resize(1);
+                    info.videoSpeed = _speed;
+                    info.videoSequence = _sequence;
+                    info.video.push_back(Image::Info());
                     read(io, info, p.colorProfile, _textSystem);
-                    info.video[0].sequence = _sequence;
                     return info;
                 }
 

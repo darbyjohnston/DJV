@@ -18,7 +18,7 @@
 
 #include <djvAV/AVSystem.h>
 #include <djvAV/FontSystem.h>
-#include <djvAV/IO.h>
+#include <djvAV/IOSystem.h>
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Context.h>
@@ -154,12 +154,8 @@ namespace djv
                         options.audioQueueSize = 0;
                         p.read = io->read(value, options);
                         const auto info = p.read->getInfo().get();
-                        const auto& video = info.video;
-                        if (video.size())
-                        {
-                            p.speed = video[0].speed;
-                            p.sequence = video[0].sequence;
-                        }
+                        p.speed = info.videoSpeed;
+                        p.sequence = info.videoSequence;
                     }
                     catch (const std::exception& e)
                     {

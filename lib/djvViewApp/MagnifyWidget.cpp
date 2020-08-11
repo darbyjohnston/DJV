@@ -42,7 +42,7 @@ namespace djv
                 ImageWidget();
 
             public:
-                virtual ~ImageWidget();
+                ~ImageWidget() override;
 
                 static std::shared_ptr<ImageWidget> create(const std::shared_ptr<Context>&);
 
@@ -225,15 +225,15 @@ namespace djv
                     m *= UI::ImageWidget::getXForm(_image, _imageRotate, glm::vec2(_imageZoom * magnify, _imageZoom * magnify), _imageAspectRatio);
                     render->pushTransform(m);
                     AV::Render2D::ImageOptions options(_imageOptions);
-                    auto i = _ocioConfig.fileColorSpaces.find(_image->getPluginName());
-                    if (i != _ocioConfig.fileColorSpaces.end())
+                    auto i = _ocioConfig.imageColorSpaces.find(_image->getPluginName());
+                    if (i != _ocioConfig.imageColorSpaces.end())
                     {
                         options.colorSpace.input = i->second;
                     }
                     else
                     {
-                        i = _ocioConfig.fileColorSpaces.find(std::string());
-                        if (i != _ocioConfig.fileColorSpaces.end())
+                        i = _ocioConfig.imageColorSpaces.find(std::string());
+                        if (i != _ocioConfig.imageColorSpaces.end())
                         {
                             options.colorSpace.input = i->second;
                         }
@@ -283,7 +283,8 @@ namespace djv
             p.magnifySlider->setRange(IntRange(1, 10));
 
             auto layout = UI::VerticalLayout::create(context);
-            layout->setSpacing(UI::MetricsRole::None);
+            layout->setMargin(UI::MetricsRole::MarginSmall);
+            layout->setSpacing(UI::MetricsRole::SpacingSmall);
             layout->setBackgroundRole(UI::ColorRole::Background);
             layout->addChild(p.imageWidget);
             layout->setStretch(p.imageWidget, UI::RowStretch::Expand);

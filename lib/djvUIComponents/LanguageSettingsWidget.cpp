@@ -129,7 +129,9 @@ namespace djv
                 p.comboBox->clearItems();
                 auto textSystem = _getTextSystem();
                 const auto& locales = textSystem->getLocales();
-                size_t j = 0;
+                std::vector<std::string> items;
+                std::vector<std::pair<int, std::string> > fonts;
+                int j = 0;
                 for (const auto& i : locales)
                 {
                     std::string font;
@@ -146,8 +148,8 @@ namespace djv
                             font = k->second;
                         }
                     }
-                    p.comboBox->addItem(_getText(i));
-                    p.comboBox->setFont(j, font);
+                    items.push_back(_getText(i));
+                    fonts.push_back(std::make_pair(j, font));
                     p.indexToLocale[j] = i;
                     p.localeToIndex[i] = j;
                     ++j;
@@ -155,7 +157,12 @@ namespace djv
                 const auto i = p.localeToIndex.find(p.locale);
                 if (i != p.localeToIndex.end())
                 {
+                    p.comboBox->setItems(items);
                     p.comboBox->setCurrentItem(static_cast<int>(i->second));
+                    for (const auto k : fonts)
+                    {
+                        p.comboBox->setFont(k.first, k.second);
+                    }
                 }
             }
         }

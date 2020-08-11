@@ -17,9 +17,10 @@
 #include <djvUI/Action.h>
 #include <djvUI/Menu.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/Shortcut.h>
+#include <djvUI/ShortcutData.h>
 
 #include <djvAV/AVSystem.h>
+#include <djvAV/IOSystem.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
@@ -65,7 +66,6 @@ namespace djv
             std::shared_ptr<ValueObserver<size_t> > threadCountObserver;
             std::shared_ptr<ValueObserver<bool> > cacheEnabledObserver;
             std::shared_ptr<ValueObserver<int> > cacheMaxGBObserver;
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<Time::Timer> cacheTimer;
 
             typedef std::pair<Core::FileSystem::FileInfo, std::string> FileInfoAndNumber;
@@ -94,34 +94,35 @@ namespace djv
 
             p.actions["Open"] = UI::Action::create();
             p.actions["Open"]->setIcon("djvIconFileOpen");
-            p.actions["Open"]->setShortcut(GLFW_KEY_O, UI::Shortcut::getSystemModifier());
             p.actions["Recent"] = UI::Action::create();
             p.actions["Recent"]->setIcon("djvIconFileRecent");
-            p.actions["Recent"]->setShortcut(GLFW_KEY_T, UI::Shortcut::getSystemModifier());
             p.actions["Reload"] = UI::Action::create();
-            p.actions["Reload"]->setShortcut(GLFW_KEY_R, UI::Shortcut::getSystemModifier());
             p.actions["Close"] = UI::Action::create();
             p.actions["Close"]->setIcon("djvIconFileClose");
-            p.actions["Close"]->setShortcut(GLFW_KEY_E, UI::Shortcut::getSystemModifier());
             p.actions["CloseAll"] = UI::Action::create();
-            p.actions["CloseAll"]->setShortcut(GLFW_KEY_E, GLFW_MOD_SHIFT | UI::Shortcut::getSystemModifier());
             p.actions["Next"] = UI::Action::create();
-            p.actions["Next"]->setShortcut(GLFW_KEY_PAGE_DOWN);
             p.actions["Prev"] = UI::Action::create();
-            p.actions["Prev"]->setShortcut(GLFW_KEY_PAGE_UP);
             p.actions["Layers"] = UI::Action::create();
             p.actions["Layers"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Layers"]->setShortcut(GLFW_KEY_L, UI::Shortcut::getSystemModifier());
             p.actions["NextLayer"] = UI::Action::create();
-            p.actions["NextLayer"]->setShortcut(GLFW_KEY_EQUAL, UI::Shortcut::getSystemModifier());
             p.actions["PrevLayer"] = UI::Action::create();
-            p.actions["PrevLayer"]->setShortcut(GLFW_KEY_MINUS, UI::Shortcut::getSystemModifier());
             //! \todo Implement me!
             //p.actions["8BitConversion"] = UI::Action::create();
             //p.actions["8BitConversion"]->setButtonType(UI::ButtonType::Toggle);
             //p.actions["8BitConversion"]->setEnabled(false);
             p.actions["Exit"] = UI::Action::create();
-            p.actions["Exit"]->setShortcut(GLFW_KEY_Q, UI::Shortcut::getSystemModifier());
+
+            _addShortcut("shortcut_file_open", GLFW_KEY_O, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_file_recent", GLFW_KEY_T, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_file_reload", GLFW_KEY_R, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_file_close", GLFW_KEY_E, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_file_close_all", GLFW_KEY_E, GLFW_MOD_SHIFT | UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_file_next", GLFW_KEY_PAGE_DOWN);
+            _addShortcut("shortcut_file_prev", GLFW_KEY_PAGE_UP);
+            _addShortcut("shortcut_file_layers", GLFW_KEY_L, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_file_next_layer", GLFW_KEY_EQUAL, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_file_prev_layer", GLFW_KEY_MINUS, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_file_exit", GLFW_KEY_Q, UI::ShortcutData::getSystemModifier());
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Open"]);
@@ -144,8 +145,166 @@ namespace djv
 
             _actionsUpdate();
             _textUpdate();
+            _shortcutsUpdate();
 
             auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
+            p.actions["Open"]->setClickedCallback(
+                [weak]
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_showFileBrowserDialog();
+                }
+            });
+
+            p.actions["Recent"]->setClickedCallback(
+                [weak]
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_showRecentFilesDialog();
+                    }
+                });
+
+            p.actions["Reload"]->setClickedCallback(
+                [weak]
+                {
+                    if (auto system = weak.lock())
+                    {
+                        if (auto media = system->_p->currentMedia->get())
+                        {
+                            media->reload();
+                        }
+                    }
+                });
+
+            p.actions["Close"]->setClickedCallback(
+                [weak]
+            {
+                if (auto system = weak.lock())
+                {
+                    if (auto media = system->_p->currentMedia->get())
+                    {
+                        system->close(media);
+                    }
+                }
+            });
+
+            p.actions["CloseAll"]->setClickedCallback(
+                [weak]
+            {
+                if (auto system = weak.lock())
+                {
+                    system->closeAll();
+                }
+            });
+
+            p.actions["Next"]->setClickedCallback(
+                [weak]
+            {
+                if (auto system = weak.lock())
+                {
+                    if (auto media = system->_p->currentMedia->get())
+                    {
+                        const size_t size = system->_p->media->getSize();
+                        if (size > 1)
+                        {
+                            size_t index = system->_p->media->indexOf(system->_p->currentMedia->get());
+                            if (index < size - 1)
+                            {
+                                ++index;
+                            }
+                            else
+                            {
+                                index = 0;
+                            }
+                            system->setCurrentMedia(system->_p->media->getItem(index));
+                        }
+                    }
+                }
+            });
+
+            p.actions["Prev"]->setClickedCallback(
+                [weak]
+            {
+                if (auto system = weak.lock())
+                {
+                    const size_t size = system->_p->media->getSize();
+                    if (size > 1)
+                    {
+                        size_t index = system->_p->media->indexOf(system->_p->currentMedia->get());
+                        if (index > 0)
+                        {
+                            --index;
+                        }
+                        else
+                        {
+                            index = size - 1;
+                        }
+                        system->setCurrentMedia(system->_p->media->getItem(index));
+                    }
+                }
+            });
+
+            auto contextWeak = std::weak_ptr<Context>(context);
+            p.actions["NextLayer"]->setClickedCallback(
+                [weak, contextWeak]
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (auto media = system->_p->currentMedia->get())
+                            {
+                                media->nextLayer();
+                            }
+                        }
+                    }
+                });
+
+            p.actions["PrevLayer"]->setClickedCallback(
+                [weak, contextWeak]
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (auto media = system->_p->currentMedia->get())
+                            {
+                                media->prevLayer();
+                            }
+                        }
+                    }
+                });
+
+            p.actions["Layers"]->setCheckedCallback(
+                [weak, contextWeak](bool value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (value)
+                            {
+                                system->_openWidget("Layers", LayersWidget::create(context));
+                            }
+                            else
+                            {
+                                system->_closeWidget("Layers");
+                            }
+                        }
+                    }
+                });
+
+            p.actions["Exit"]->setClickedCallback(
+                [weak, contextWeak]
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        std::dynamic_pointer_cast<Application>(context)->exit(0);
+                    }
+                });
+
             p.recentFilesObserver = ListObserver<Core::FileSystem::FileInfo>::create(
                 p.settings->observeRecentFiles(),
                 [weak](const std::vector<Core::FileSystem::FileInfo>& value)
@@ -166,191 +325,6 @@ namespace djv
                     }
                 });
 
-            p.actionObservers["Open"] = ValueObserver<bool>::create(
-                p.actions["Open"]->observeClicked(),
-                [weak](bool value)
-            {
-                if (value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        system->_showFileBrowserDialog();
-                    }
-                }
-            });
-
-            p.actionObservers["Recent"] = ValueObserver<bool>::create(
-                p.actions["Recent"]->observeClicked(),
-                [weak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            system->_showRecentFilesDialog();
-                        }
-                    }
-                });
-
-            p.actionObservers["Reload"] = ValueObserver<bool>::create(
-                p.actions["Reload"]->observeClicked(),
-                [weak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            if (auto media = system->_p->currentMedia->get())
-                            {
-                                media->reload();
-                            }
-                        }
-                    }
-                });
-
-            p.actionObservers["Close"] = ValueObserver<bool>::create(
-                p.actions["Close"]->observeClicked(),
-                [weak](bool value)
-            {
-                if (value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        if (auto media = system->_p->currentMedia->get())
-                        {
-                            system->close(media);
-                        }
-                    }
-                }
-            });
-
-            p.actionObservers["CloseAll"] = ValueObserver<bool>::create(
-                p.actions["CloseAll"]->observeClicked(),
-                [weak](bool value)
-            {
-                if (value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        system->closeAll();
-                    }
-                }
-            });
-
-            p.actionObservers["Next"] = ValueObserver<bool>::create(
-                p.actions["Next"]->observeClicked(),
-                [weak](bool value)
-            {
-                if (value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        if (auto media = system->_p->currentMedia->get())
-                        {
-                            const size_t size = system->_p->media->getSize();
-                            if (size > 1)
-                            {
-                                size_t index = system->_p->media->indexOf(system->_p->currentMedia->get());
-                                if (index < size - 1)
-                                {
-                                    ++index;
-                                }
-                                else
-                                {
-                                    index = 0;
-                                }
-                                system->setCurrentMedia(system->_p->media->getItem(index));
-                            }
-                        }
-                    }
-                }
-            });
-
-            p.actionObservers["Prev"] = ValueObserver<bool>::create(
-                p.actions["Prev"]->observeClicked(),
-                [weak](bool value)
-            {
-                if (value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        const size_t size = system->_p->media->getSize();
-                        if (size > 1)
-                        {
-                            size_t index = system->_p->media->indexOf(system->_p->currentMedia->get());
-                            if (index > 0)
-                            {
-                                --index;
-                            }
-                            else
-                            {
-                                index = size - 1;
-                            }
-                            system->setCurrentMedia(system->_p->media->getItem(index));
-                        }
-                    }
-                }
-            });
-
-            auto contextWeak = std::weak_ptr<Context>(context);
-            p.actionObservers["NextLayer"] = ValueObserver<bool>::create(
-                p.actions["NextLayer"]->observeClicked(),
-                [weak, contextWeak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto context = contextWeak.lock())
-                        {
-                            if (auto system = weak.lock())
-                            {
-                                if (auto media = system->_p->currentMedia->get())
-                                {
-                                    media->nextLayer();
-                                }
-                            }
-                        }
-                    }
-                });
-
-            p.actionObservers["PrevLayer"] = ValueObserver<bool>::create(
-                p.actions["PrevLayer"]->observeClicked(),
-                [weak, contextWeak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto context = contextWeak.lock())
-                        {
-                            if (auto system = weak.lock())
-                            {
-                                if (auto media = system->_p->currentMedia->get())
-                                {
-                                    media->prevLayer();
-                                }
-                            }
-                        }
-                    }
-                });
-
-            p.actionObservers["Layers"] = ValueObserver<bool>::create(
-                p.actions["Layers"]->observeChecked(),
-                [weak, contextWeak](bool value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            if (value)
-                            {
-                                system->_openWidget("Layers", LayersWidget::create(context));
-                            }
-                            else
-                            {
-                                system->_closeWidget("Layers");
-                            }
-                        }
-                    }
-                });
-
             p.cacheEnabledObserver = ValueObserver<bool>::create(
                 p.settings->observeCacheEnabled(),
                 [weak](bool value)
@@ -368,19 +342,6 @@ namespace djv
                     if (auto system = weak.lock())
                     {
                         system->_cacheUpdate();
-                    }
-                });
-
-            p.actionObservers["Exit"] = ValueObserver<bool>::create(
-                p.actions["Exit"]->observeClicked(),
-                [weak, contextWeak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto context = contextWeak.lock())
-                        {
-                            std::dynamic_pointer_cast<Application>(context)->exit(0);
-                        }
                     }
                 });
 
@@ -838,6 +799,25 @@ namespace djv
                 p.actions["Exit"]->setTooltip(_getText(DJV_TEXT("menu_file_exit_tooltip")));
 
                 p.menu->setText(_getText(DJV_TEXT("menu_file")));
+            }
+        }
+
+        void FileSystem::_shortcutsUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.actions.size())
+            {
+                p.actions["Open"]->setShortcuts(_getShortcuts("shortcut_file_open"));
+                p.actions["Recent"]->setShortcuts(_getShortcuts("shortcut_file_recent"));
+                p.actions["Reload"]->setShortcuts(_getShortcuts("shortcut_file_reload"));
+                p.actions["Close"]->setShortcuts(_getShortcuts("shortcut_file_close"));
+                p.actions["CloseAll"]->setShortcuts(_getShortcuts("shortcut_file_close_all"));
+                p.actions["Next"]->setShortcuts(_getShortcuts("shortcut_file_next"));
+                p.actions["Prev"]->setShortcuts(_getShortcuts("shortcut_file_prev"));
+                p.actions["Layers"]->setShortcuts(_getShortcuts("shortcut_file_layers"));
+                p.actions["NextLayer"]->setShortcuts(_getShortcuts("shortcut_file_next_layer"));
+                p.actions["PrevLayer"]->setShortcuts(_getShortcuts("shortcut_file_prev_layer"));
+                p.actions["Exit"]->setShortcuts(_getShortcuts("shortcut_file_exit"));
             }
         }
 

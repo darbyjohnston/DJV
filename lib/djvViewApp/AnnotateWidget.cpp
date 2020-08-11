@@ -42,7 +42,7 @@ namespace djv
                 ColorButton();
 
             public:
-                virtual ~ColorButton();
+                ~ColorButton() override;
 
                 static std::shared_ptr<ColorButton> create(const AV::Image::Color&, const std::shared_ptr<Context>&);
 
@@ -288,14 +288,15 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                p.colorButtonGroup->clearButtons();
+                std::vector<std::shared_ptr<UI::Button::IButton> > buttons;
                 p.colorToolBar->clearChildren();
                 for (const auto& i : p.colors)
                 {
                     auto button = ColorButton::create(i, context);
-                    p.colorButtonGroup->addButton(button);
+                    buttons.push_back(button);
                     p.colorToolBar->addChild(button);
                 }
+                p.colorButtonGroup->setButtons(buttons);
                 p.colorButtonGroup->setChecked(p.currentColor);
             }
         }

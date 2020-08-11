@@ -20,11 +20,11 @@ namespace djv
             TabWidget();
 
         public:
-            virtual ~TabWidget();
+            ~TabWidget() override;
 
             static std::shared_ptr<TabWidget> create(const std::shared_ptr<Core::Context>&);
             
-            void setText(const std::shared_ptr<IObject>&, const std::string&);
+            void setText(const std::shared_ptr<Widget>&, const std::string&);
 
             int getCurrentTab() const;
             void setCurrentTab(int);
@@ -42,6 +42,8 @@ namespace djv
             void _layoutEvent(Core::Event::Layout&) override;
 
         private:
+            void _widgetUpdate();
+
             DJV_PRIVATE();
         };
 

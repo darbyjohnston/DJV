@@ -16,7 +16,7 @@
 #include <djvUI/ActionGroup.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/Shortcut.h>
+#include <djvUI/ShortcutData.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/IEventSystem.h>
@@ -86,24 +86,27 @@ namespace djv
             }
 
             p.toolActionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
+            std::vector<std::shared_ptr<UI::Action> > actions;
             for (const auto& i : toolActions)
             {
-                p.toolActionGroup->addAction(i.second);
+                actions.push_back(i.second);
             }
+            p.toolActionGroup->setActions(actions);
             p.actions["Info"] = UI::Action::create();
             p.actions["Info"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Info"]->setShortcut(GLFW_KEY_I, UI::Shortcut::getSystemModifier());
             p.actions["Messages"] = UI::Action::create();
             p.actions["Messages"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Messages"]->setShortcut(GLFW_KEY_S, UI::Shortcut::getSystemModifier());
             p.actions["SystemLog"] = UI::Action::create();
             p.actions["SystemLog"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["Debug"] = UI::Action::create();
             p.actions["Debug"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Debug"]->setShortcut(GLFW_KEY_D, UI::Shortcut::getSystemModifier());
             p.actions["Settings"] = UI::Action::create();
             p.actions["Settings"]->setIcon("djvIconSettings");
             p.actions["Settings"]->setButtonType(UI::ButtonType::Toggle);
+
+            _addShortcut("shortcut_tool_info", GLFW_KEY_I, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_tool_messages", GLFW_KEY_S, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_tool_debug", GLFW_KEY_D, UI::ShortcutData::getSystemModifier());
 
             p.menu = UI::Menu::create(context);
             for (const auto& i : toolActions)
@@ -120,6 +123,7 @@ namespace djv
             p.menu->addAction(p.actions["Settings"]);
 
             _textUpdate();
+            _shortcutsUpdate();
 
             auto weak = std::weak_ptr<ToolSystem>(std::dynamic_pointer_cast<ToolSystem>(shared_from_this()));
             p.toolActionGroup->setExclusiveCallback(
@@ -244,7 +248,7 @@ namespace djv
                         for (const auto& i : value)
                         {
                             std::stringstream ss;
-                            ss << system->_getText(DJV_TEXT("recent_files_label_warning")) << ": ";
+                            ss << system->_getText(DJV_TEXT("warning")) << ": ";
                             ss << i;
                             system->_p->messages.push_back(ss.str());
                             while (system->_p->messages.size() > messagesMax)
@@ -272,7 +276,7 @@ namespace djv
                         for (const auto& i : value)
                         {
                             std::stringstream ss;
-                            ss << system->_getText(DJV_TEXT("recent_files_label_error")) << ": ";
+                            ss << system->_getText(DJV_TEXT("error")) << ": ";
                             ss << i;
                             system->_p->messages.push_back(ss.str());
                             while (system->_p->messages.size() > messagesMax)
@@ -391,6 +395,17 @@ namespace djv
                 p.actions["Settings"]->setTooltip(_getText(DJV_TEXT("menu_tools_settings_tooltip")));
 
                 p.menu->setText(_getText(DJV_TEXT("menu_tools")));
+            }
+        }
+
+        void ToolSystem::_shortcutsUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.actions.size())
+            {
+                p.actions["Info"]->setShortcuts(_getShortcuts("shortcut_tool_info"));
+                p.actions["Messages"]->setShortcuts(_getShortcuts("shortcut_tool_messages"));
+                p.actions["Debug"]->setShortcuts(_getShortcuts("shortcut_tool_debug"));
             }
         }
 

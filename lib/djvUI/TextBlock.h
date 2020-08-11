@@ -21,7 +21,7 @@ namespace djv
             TextBlock();
 
         public:
-            virtual ~TextBlock();
+            ~TextBlock() override;
 
             static std::shared_ptr<TextBlock> create(const std::shared_ptr<Core::Context>&);
 

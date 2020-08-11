@@ -194,6 +194,8 @@ namespace djv
             Shadow,
             Handle,
             Cached,
+            Warning,
+            Error,
 
             Count,
             First = None
@@ -205,6 +207,7 @@ namespace djv
         {
             None,
             Border,
+            BorderTextFocus,
             Margin,
             MarginSmall,
             MarginLarge,
@@ -226,6 +229,7 @@ namespace djv
             SwatchSmall,
             Slider,
             ScrollArea,
+            ScrollAreaSmall,
             ScrollBar,
             ScrollBarSmall,
             Menu,
@@ -304,17 +308,15 @@ namespace djv
         };
         DJV_ENUM_HELPERS(Popup);
 
+        //! This enum provides menu button styles.
+        enum class MenuButtonStyle
+        {
+            Flat,
+            Tool,
+            ComboBox
+        };
+
     } // namespace UI
-
-    rapidjson::Value toJSON(UI::ViewType, rapidjson::Document::AllocatorType&);
-    rapidjson::Value toJSON(UI::ImageRotate, rapidjson::Document::AllocatorType&);
-    rapidjson::Value toJSON(UI::ImageAspectRatio, rapidjson::Document::AllocatorType&);
-
-    //! Throws:
-    //! - std::exception
-    void fromJSON(const rapidjson::Value&, UI::ViewType&);
-    void fromJSON(const rapidjson::Value&, UI::ImageRotate&);
-    void fromJSON(const rapidjson::Value&, UI::ImageAspectRatio&);
 
     DJV_ENUM_SERIALIZE_HELPERS(UI::Orientation);
     DJV_ENUM_SERIALIZE_HELPERS(UI::Side);
@@ -333,6 +335,16 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS(UI::ImageRotate);
     DJV_ENUM_SERIALIZE_HELPERS(UI::ImageAspectRatio);
     DJV_ENUM_SERIALIZE_HELPERS(UI::Popup);
+
+    rapidjson::Value toJSON(UI::ViewType, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(UI::ImageRotate, rapidjson::Document::AllocatorType&);
+    rapidjson::Value toJSON(UI::ImageAspectRatio, rapidjson::Document::AllocatorType&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const rapidjson::Value&, UI::ViewType&);
+    void fromJSON(const rapidjson::Value&, UI::ImageRotate&);
+    void fromJSON(const rapidjson::Value&, UI::ImageAspectRatio&);
 
 } // namespace djv
 

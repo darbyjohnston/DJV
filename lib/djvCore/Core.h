@@ -43,7 +43,7 @@ namespace djv
 #endif
 
 #if defined(DJV_PLATFORM_WINDOWS)
-//! \bug [S 1.0] https://social.msdn.microsoft.com/Forums/vstudio/en-US/8f40dcd8-c67f-4eba-9134-a19b9178e481/vs-2015-rc-linker-stdcodecvt-error?forum=vcgeneral
+//! \bug https://social.msdn.microsoft.com/Forums/vstudio/en-US/8f40dcd8-c67f-4eba-9134-a19b9178e481/vs-2015-rc-linker-stdcodecvt-error?forum=vcgeneral
 typedef unsigned int djv_char_t;
 #define DJV_SNPRINTF sprintf_s
 #define DJV_STRNCPY strncpy_s

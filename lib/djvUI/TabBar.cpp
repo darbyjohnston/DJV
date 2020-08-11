@@ -31,7 +31,7 @@ namespace djv
                 TabBarButton();
 
             public:
-                virtual ~TabBarButton();
+                ~TabBarButton() override;
 
                 static std::shared_ptr<TabBarButton> create(const std::string&, const std::shared_ptr<Core::Context>&);
 
@@ -189,53 +189,33 @@ namespace djv
             return _p->buttonGroup->getButtonCount();
         }
 
-        size_t TabBar::addTab(const std::string& text)
+        void TabBar::setTabs(const std::vector<std::string>& text)
         {
             DJV_PRIVATE_PTR();
-            size_t out = 0;
             if (auto context = getContext().lock())
             {
-                out = p.buttonGroup->getButtonCount();
-                auto button = TabBarButton::create(text, context);
-                p.buttonGroup->addButton(button);
-                p.layout->addChild(button);
-            }
-            return out;
-        }
-
-        void TabBar::removeTab(size_t value)
-        {
-            DJV_PRIVATE_PTR();
-            const auto buttons = p.buttonGroup->getButtons();
-            if (value < buttons.size())
-            {
-                p.buttonGroup->removeButton(buttons[value]);
-                p.layout->removeChild(buttons[value]);
-                if (p.removedCallback)
+                std::vector<std::shared_ptr<Button::IButton> > buttons;
+                for (const auto& i : text)
                 {
-                    p.removedCallback(value);
+                    auto button = TabBarButton::create(i, context);
+                    p.layout->addChild(button);
+                    buttons.push_back(button);
                 }
+                p.buttonGroup->setButtons(buttons);
             }
         }
 
         void TabBar::clearTabs()
         {
             DJV_PRIVATE_PTR();
-            while (p.buttonGroup->getButtonCount())
-            {
-                removeTab(p.buttonGroup->getButtonCount() - 1);
-            }
+            p.buttonGroup->clearButtons();
+            p.layout->clearChildren();
         }
 
-        void TabBar::setTabRemovedCallback(const std::function<void(size_t)>& callback)
-        {
-            _p->removedCallback = callback;
-        }
-
-        void TabBar::setText(size_t index, const std::string& value)
+        void TabBar::setText(int index, const std::string& value)
         {
             DJV_PRIVATE_PTR();
-            if (index < p.buttonGroup->getButtonCount())
+            if (index < static_cast<int>(p.buttonGroup->getButtonCount()))
             {
                 std::dynamic_pointer_cast<TabBarButton>(p.buttonGroup->getButtons()[index])->setText(value);
             }
@@ -254,15 +234,6 @@ namespace djv
         void TabBar::setCurrentTabCallback(const std::function<void(int)>& value)
         {
             _p->callback = value;
-        }
-
-        void TabBar::removeCurrentTab()
-        {
-            const int index = getCurrentTab();
-            if (index >= 0)
-            {
-                removeTab(static_cast<size_t>(index));
-            }
         }
 
         float TabBar::getHeightForWidth(float value) const

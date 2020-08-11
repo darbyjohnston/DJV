@@ -214,7 +214,7 @@ namespace djv
 
                 // Update event.
                 Update updateEvent(p.t, dt);
-                _updateRecursive(p.rootObject, updateEvent);
+                _recursiveUpdate(p.rootObject, updateEvent);
 
                 // Move event.
                 PointerMove moveEvent(p.pointerInfo);
@@ -449,14 +449,14 @@ namespace djv
                 _p->objectsCreated.push_back(object);
             }
 
-            void IEventSystem::_updateRecursive(const std::shared_ptr<IObject>& object, Update& event)
+            void IEventSystem::_recursiveUpdate(const std::shared_ptr<IObject>& object, Update& event)
             {
                 object->event(event);
                 const auto children = object->_children;
                 for (const auto& child : children)
                 {
                     child->_parentsEnabled = object->_enabled && object->_parentsEnabled;
-                    _updateRecursive(child, event);
+                    _recursiveUpdate(child, event);
                 }
             }
 

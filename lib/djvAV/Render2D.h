@@ -149,9 +149,9 @@ namespace djv
 
             private:
                 const glm::mat3x3& _getCurrentTransform() const;
-                void _updateCurrentClipRect();
-                void _updateCurrentTransform();
-                void _updateImageFilter();
+                void _currentClipRectUpdate();
+                void _currentTransformUpdate();
+                void _imageFilterUpdate();
 
                 Image::Size             _size;
                 std::list<glm::mat3x3>  _transforms;

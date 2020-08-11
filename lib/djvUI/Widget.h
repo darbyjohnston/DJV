@@ -46,7 +46,7 @@ namespace djv
             Widget();
 
         public:
-            virtual ~Widget();
+            ~Widget() override;
 
             //! Create a new widget.
             static std::shared_ptr<Widget> create(const std::shared_ptr<Core::Context>&);

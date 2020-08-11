@@ -6,6 +6,7 @@
 
 #include <djvUI/Enum.h>
 #include <djvUI/ISettings.h>
+#include <djvUI/ShortcutData.h>
 
 #include <djvCore/FileInfo.h>
 #include <djvCore/MapObserver.h>
@@ -39,7 +40,7 @@ namespace djv
                 FileBrowser();
 
             public:
-                virtual ~FileBrowser();
+                ~FileBrowser() override;
 
                 static std::shared_ptr<FileBrowser> create(const std::shared_ptr<Core::Context>&);
 
@@ -72,6 +73,12 @@ namespace djv
 
                 std::shared_ptr<Core::IValueSubject<bool> > observeSortDirectoriesFirst() const;
                 void setSortDirectoriesFirst(bool);
+
+                std::map<std::string, bool> getSettingsBellowsState() const;
+                void setSettingsBellowsState(const std::map<std::string, bool>&);
+
+                std::shared_ptr<Core::MapSubject<std::string, ShortcutDataPair> > observeKeyShortcuts() const;
+                void setKeyShortcuts(const ShortcutDataMap&);
 
                 void load(const rapidjson::Value &) override;
                 rapidjson::Value save(rapidjson::Document::AllocatorType&) override;

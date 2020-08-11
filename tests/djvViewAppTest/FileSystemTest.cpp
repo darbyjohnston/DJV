@@ -15,7 +15,7 @@
 #include <djvUI/UISystem.h>
 
 #include <djvAV/GLFWSystem.h>
-#include <djvAV/IO.h>
+#include <djvAV/IOSystem.h>
 
 #include <djvCore/Context.h>
 
@@ -166,7 +166,7 @@ namespace djv
                     std::lock_guard<std::mutex> lock(write->getMutex());
                     auto& writeQueue = write->getVideoQueue();
                     const auto& sequence = value.getSequence();
-                    const size_t size = sequence.getFrameCount() > 0 ? sequence.getFrameCount() : 1;
+                    const size_t size = sequence.getFrameCount() > 1 ? sequence.getFrameCount() : 1;
                     for (size_t i = 0; i < size; ++i)
                     {
                         writeQueue.addFrame(AV::IO::VideoFrame(i, image));

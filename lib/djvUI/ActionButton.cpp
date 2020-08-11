@@ -5,18 +5,21 @@
 #include <djvUI/ActionButton.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/CheckBox.h>
 #include <djvUI/DrawUtil.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Shortcut.h>
+#include <djvUI/ShortcutData.h>
 
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/String.h>
 #include <djvCore/TextSystem.h>
+
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
 
 using namespace djv::Core;
 
@@ -26,6 +29,78 @@ namespace djv
     {
         namespace Button
         {
+            namespace
+            {
+                class CheckBox : public Widget
+                {
+                    DJV_NON_COPYABLE(CheckBox);
+
+                protected:
+                    void _init(const std::shared_ptr<Context>&);
+                    CheckBox();
+
+                public:
+                    ~CheckBox() override;
+
+                    static std::shared_ptr<CheckBox> create(const std::shared_ptr<Context>&);
+
+                    void setChecked(bool);
+
+                protected:
+                    void _preLayoutEvent(Event::PreLayout&) override;
+                    void _paintEvent(Event::Paint&) override;
+
+                private:
+                    bool _checked = false;
+                };
+
+                void CheckBox::_init(const std::shared_ptr<Context>& context)
+                {
+                    Widget::_init(context);
+                }
+
+                CheckBox::CheckBox()
+                {}
+
+                CheckBox::~CheckBox()
+                {}
+
+                std::shared_ptr<CheckBox> CheckBox::create(const std::shared_ptr<Context>& context)
+                {
+                    auto out = std::shared_ptr<CheckBox>(new CheckBox);
+                    out->_init(context);
+                    return out;
+                }
+
+                void CheckBox::setChecked(bool value)
+                {
+                    if (value == _checked)
+                        return;
+                    _checked = value;
+                    _redraw();
+                }
+
+                void CheckBox::_preLayoutEvent(Event::PreLayout&)
+                {
+                    const auto& style = _getStyle();
+                    const float m = style->getMetric(MetricsRole::MarginInside);
+                    const glm::vec2 checkBoxSize = getCheckBoxSize(style);
+                    _setMinimumSize(checkBoxSize + m * 2.F);
+                }
+
+                void CheckBox::_paintEvent(Event::Paint&)
+                {
+                    const auto& style = _getStyle();
+                    const float m = style->getMetric(MetricsRole::MarginInside);
+                    const BBox2f g = getGeometry().margin(-m);
+                    const glm::vec2 checkBoxSize = getCheckBoxSize(style);
+                    const BBox2f checkBoxGeometry(g.min.x, g.min.y + floorf(g.h() / 2.F - checkBoxSize.y / 2.F), checkBoxSize.x, checkBoxSize.y);
+                    const auto& render = _getRender();
+                    drawCheckBox(render, style, checkBoxGeometry, _checked);
+                }
+
+            } // namespace
+
             struct ActionButton::Private
             {
                 std::shared_ptr<Action> action;
@@ -55,7 +130,6 @@ namespace djv
                 p.shortcutsLabel->setMargin(MetricsRole::MarginSmall);
 
                 p.layout = HorizontalLayout::create(context);
-                p.layout->setMargin(MetricsRole::MarginInside);
                 p.layout->setSpacing(MetricsRole::None);
                 p.layout->addChild(p.checkBox);
                 p.layout->addChild(p.icon);
@@ -75,18 +149,7 @@ namespace djv
                         {
                             if (widget->_p->action)
                             {
-                                widget->_p->action->doClicked();
-                            }
-                        }
-                    });
-                setCheckedCallback(
-                    [weak](bool value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            if (widget->_p->action)
-                            {
-                                widget->_p->action->setChecked(value);
+                                widget->_p->action->doClick();
                             }
                         }
                     });
@@ -125,7 +188,7 @@ namespace djv
             void ActionButton::setButtonType(ButtonType value)
             {
                 IButton::setButtonType(value);
-                _p->checkBox->setButtonType(value);
+                _widgetUpdate();
             }
 
             void ActionButton::addAction(const std::shared_ptr<Action>& value)
@@ -149,34 +212,108 @@ namespace djv
                 _widgetUpdate();
             }
 
+            bool ActionButton::acceptFocus(TextFocusDirection)
+            {
+                bool out = false;
+                if (isEnabled(true) && isVisible(true) && !isClipped())
+                {
+                    takeTextFocus();
+                    out = true;
+                }
+                return out;
+            }
+
             void ActionButton::_preLayoutEvent(Event::PreLayout& event)
             {
                 DJV_PRIVATE_PTR();
-                _setMinimumSize(p.layout->getMinimumSize());
+                const auto& style = _getStyle();
+                const float bt = style->getMetric(MetricsRole::BorderTextFocus);
+                _setMinimumSize(p.layout->getMinimumSize() + bt * 2.F);
             }
 
             void ActionButton::_layoutEvent(Event::Layout&)
             {
                 DJV_PRIVATE_PTR();
-                p.layout->setGeometry(getGeometry());
+                const auto& style = _getStyle();
+                const float bt = style->getMetric(MetricsRole::BorderTextFocus);
+                p.layout->setGeometry(getGeometry().margin(-bt));
             }
 
             void ActionButton::_paintEvent(Event::Paint& event)
             {
                 IButton::_paintEvent(event);
                 const auto& style = _getStyle();
+                const float bt = style->getMetric(MetricsRole::BorderTextFocus);
                 const BBox2f& g = getGeometry();
+
                 const auto& render = _getRender();
+                if (hasTextFocus())
+                {
+                    render->setFillColor(style->getColor(ColorRole::TextFocus));
+                    drawBorder(render, g, bt);
+                }
+
+                const BBox2f g2 = g.margin(-bt);
                 if (_isPressed())
                 {
                     render->setFillColor(style->getColor(ColorRole::Pressed));
-                    render->drawRect(g);
+                    render->drawRect(g2);
                 }
                 else if (_isHovered())
                 {
                     render->setFillColor(style->getColor(ColorRole::Hovered));
-                    render->drawRect(g);
+                    render->drawRect(g2);
                 }
+            }
+
+            void ActionButton::_keyPressEvent(Event::KeyPress& event)
+            {
+                IButton::_keyPressEvent(event);
+                DJV_PRIVATE_PTR();
+                if (!event.isAccepted() && hasTextFocus())
+                {
+                    switch (event.getKey())
+                    {
+                    case GLFW_KEY_ENTER:
+                    case GLFW_KEY_SPACE:
+                        event.accept();
+                        switch (getButtonType())
+                        {
+                        case ButtonType::Push:
+                            _doClick();
+                            break;
+                        case ButtonType::Toggle:
+                            _doCheck(!isChecked());
+                            break;
+                        case ButtonType::Radio:
+                            if (!isChecked())
+                            {
+                                _doCheck(true);
+                            }
+                            break;
+                        case ButtonType::Exclusive:
+                            _doCheck(!isChecked());
+                            break;
+                        default: break;
+                        }
+                        break;
+                    case GLFW_KEY_ESCAPE:
+                        event.accept();
+                        releaseTextFocus();
+                        break;
+                    default: break;
+                    }
+                }
+            }
+
+            void ActionButton::_textFocusEvent(Event::TextFocus&)
+            {
+                _redraw();
+            }
+
+            void ActionButton::_textFocusLostEvent(Event::TextFocusLost&)
+            {
+                _redraw();
             }
 
             void ActionButton::_actionUpdate()
@@ -217,10 +354,11 @@ namespace djv
                                 std::vector<std::string> labels;
                                 for (const auto& i : value)
                                 {
-                                    labels.push_back(Shortcut::getText(
-                                        i->observeShortcutKey()->get(),
-                                        i->observeShortcutModifiers()->get(),
-                                        textSystem));
+                                    const auto& shortcut = i->observeShortcut()->get();
+                                    if (shortcut.isValid())
+                                    {
+                                        labels.push_back(ShortcutData::getText(shortcut.key, shortcut.modifiers, textSystem));
+                                    }
                                 }
                                 widget->_p->shortcutsLabel->setText(String::join(labels, ", "));
                             }

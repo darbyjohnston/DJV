@@ -86,7 +86,7 @@ namespace djv
                 TimerSystem();
 
             public:
-                virtual ~TimerSystem();
+                ~TimerSystem() override;
 
                 //! Create a new timer system.
                 static std::shared_ptr<TimerSystem> create(const std::shared_ptr<Context>&);

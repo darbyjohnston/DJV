@@ -96,7 +96,7 @@ namespace djv
                 ///@}
 
             private:
-                void _updatePath();
+                void _pathUpdate();
 
                 DJV_PRIVATE();
             };

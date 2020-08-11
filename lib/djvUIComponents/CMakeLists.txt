@@ -16,6 +16,7 @@ set(header
     Render2DSettingsWidget.h
     SceneWidget.h
     SearchBox.h
+    ShortcutsWidget.h
     StyleSettingsWidget.h
 	ThermometerWidget.h
 	TimeSettingsWidget.h
@@ -30,8 +31,10 @@ set(source
     FileBrowserPathWidget.cpp
     FileBrowserRecentPathsWidget.cpp
     FileBrowserSettings.cpp
+    FileBrowserSettingsWidget.cpp
     FileBrowserShortcutsModel.cpp
     FileBrowserShortcutsWidget.cpp
+    FileBrowserSortWidget.cpp
     GLFWSettingsWidget.cpp
 	IOSettings.cpp
 	IOSettingsWidget.cpp
@@ -43,6 +46,7 @@ set(source
     Render2DSettingsWidget.cpp
     SceneWidget.cpp
     SearchBox.cpp
+    ShortcutsWidget.cpp
     StyleSettingsWidget.cpp
 	ThermometerWidget.cpp
 	TimeSettingsWidget.cpp

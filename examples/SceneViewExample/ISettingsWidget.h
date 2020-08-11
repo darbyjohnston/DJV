@@ -19,7 +19,7 @@ protected:
     ISettingsWidget();
 
 public:
-    virtual ~ISettingsWidget();
+    ~ISettingsWidget() override;
 
     std::shared_ptr<djv::Core::IValueSubject<std::string> > observeTitle() const;
     void setTitle(const std::string&);

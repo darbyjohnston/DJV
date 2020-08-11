@@ -19,7 +19,7 @@
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/ToolButton.h>
 
-#include <djvAV/IO.h>
+#include <djvAV/IOSystem.h>
 #include <djvAV/Render2D.h>
 #include <djvAV/ThumbnailSystem.h>
 
@@ -52,6 +52,7 @@ namespace djv
             p.restoreSizeCheckBox = UI::CheckBox::create(context);
 
             auto layout = UI::VerticalLayout::create(context);
+            layout->setSpacing(UI::MetricsRole::None);
             layout->addChild(p.restorePosCheckBox);
             layout->addChild(p.restoreSizeCheckBox);
             addChild(layout);
@@ -282,7 +283,6 @@ namespace djv
         struct AutoHideSettingsWidget::Private
         {
             std::shared_ptr<UI::CheckBox> autoHideCheckBox;
-            std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<ValueObserver<bool> > autoHideObserver;
         };
 
@@ -295,9 +295,11 @@ namespace djv
 
             p.autoHideCheckBox = UI::CheckBox::create(context);
 
-            p.layout = UI::VerticalLayout::create(context);
-            p.layout->addChild(p.autoHideCheckBox);
-            addChild(p.layout);
+            auto layout = UI::VerticalLayout::create(context);
+            layout->setSpacing(UI::MetricsRole::None);
+            layout->addChild(p.autoHideCheckBox);
+            layout->setSpacing(UI::MetricsRole::None);
+            addChild(layout);
 
             auto weak = std::weak_ptr<AutoHideSettingsWidget>(std::dynamic_pointer_cast<AutoHideSettingsWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
@@ -379,7 +381,6 @@ namespace djv
             std::shared_ptr<UI::ToolButton> closeButton;
             std::shared_ptr<UI::CheckBox> scaleCheckBox;
             std::shared_ptr<UI::CheckBox> colorizeCheckBox;
-            std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
 
             std::shared_ptr<ValueObserver<std::string> > backgroundImageObserver;
@@ -395,6 +396,7 @@ namespace djv
             setClassName("djv::ViewApp::BackgroundImageSettingsWidget");
 
             p.imageWidget = UI::ImageWidget::create(context);
+            p.imageWidget->setMargin(UI::MetricsRole::MarginSmall);
             AV::Render2D::ImageOptions options;
             options.alphaBlend = AV::AlphaBlend::Straight;
             p.imageWidget->setImageOptions(options);
@@ -412,18 +414,19 @@ namespace djv
             p.scaleCheckBox = UI::CheckBox::create(context);
             p.colorizeCheckBox = UI::CheckBox::create(context);
 
-            p.layout = UI::VerticalLayout::create(context);
-            p.layout->addChild(p.imageWidget);
+            auto layout = UI::VerticalLayout::create(context);
+            layout->setSpacing(UI::MetricsRole::None);
+            layout->addChild(p.imageWidget);
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::MetricsRole::None);
             hLayout ->addChild(p.lineEdit);
             hLayout->setStretch(p.lineEdit, UI::RowStretch::Expand);
             hLayout->addChild(p.openButton);
             hLayout->addChild(p.closeButton);
-            p.layout->addChild(hLayout);
-            p.layout->addChild(p.scaleCheckBox);
-            p.layout->addChild(p.colorizeCheckBox);
-            addChild(p.layout);
+            layout->addChild(hLayout);
+            layout->addChild(p.scaleCheckBox);
+            layout->addChild(p.colorizeCheckBox);
+            addChild(layout);
 
             _widgetUpdate();
             _imageUpdate();
@@ -484,9 +487,12 @@ namespace djv
                                 {
                                     if (auto widget = weak.lock())
                                     {
-                                        widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
-                                        widget->_p->fileBrowserDialog->close();
-                                        widget->_p->fileBrowserDialog.reset();
+                                        if (widget->_p->fileBrowserDialog)
+                                        {
+                                            widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
+                                            widget->_p->fileBrowserDialog->close();
+                                            widget->_p->fileBrowserDialog.reset();
+                                        }
                                     }
                                 });
                             widget->_p->fileBrowserDialog->show();

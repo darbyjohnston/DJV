@@ -21,7 +21,7 @@ namespace djv
             FloatEdit();
 
         public:
-            virtual ~FloatEdit();
+            ~FloatEdit() override;
 
             static std::shared_ptr<FloatEdit> create(const std::shared_ptr<Core::Context>&);
 

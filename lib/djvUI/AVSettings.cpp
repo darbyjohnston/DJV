@@ -6,7 +6,7 @@
 
 #include <djvAV/AVSystem.h>
 #include <djvAV/GLFWSystem.h>
-#include <djvAV/IO.h>
+#include <djvAV/IOSystem.h>
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Context.h>

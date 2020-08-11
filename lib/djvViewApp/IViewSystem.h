@@ -19,6 +19,7 @@ namespace djv
         class Action;
         class ISettingsWidget;
         class Menu;
+        struct ShortcutDataPair;
     
         namespace MDI
         {
@@ -64,7 +65,13 @@ namespace djv
             const std::map<std::string, Core::BBox2f>& _getWidgetGeom() const;
             void _setWidgetGeom(const std::map<std::string, Core::BBox2f>&);
 
+            UI::ShortcutDataPair _getShortcuts(const std::string&) const;
+            void _addShortcut(const std::string&, const UI::ShortcutDataPair&);
+            void _addShortcut(const std::string&, int key);
+            void _addShortcut(const std::string&, int key, int keyModifiers);
+
             virtual void _textUpdate();
+            virtual void _shortcutsUpdate();
 
         private:
             DJV_PRIVATE();

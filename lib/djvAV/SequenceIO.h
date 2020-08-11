@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvAV/IO.h>
+#include <djvAV/IOPlugin.h>
 
 #include <djvCore/Frame.h>
 

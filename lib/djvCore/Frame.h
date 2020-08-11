@@ -43,17 +43,17 @@ namespace djv
                 //! \name Ranges
                 ///@{
 
-                const std::vector<Range>& getRanges() const;
+                const std::vector<Range>& getRanges() const noexcept;
                 void add(const Range&);
 
-                bool isValid() const;
+                bool isValid() const noexcept;
 
                 ///@}
 
                 //! \name Padding
                 ///@{
 
-                size_t getPad() const;
+                size_t getPad() const noexcept;
                 void setPad(size_t);
 
                 ///@}
@@ -61,11 +61,11 @@ namespace djv
                 //! \name Frames
                 ///@{
 
-                bool contains(Index) const;
-                size_t getFrameCount() const;
-                Number getFrame(Index) const;
-                Index getIndex(Number) const;
-                Index getLastIndex() const;
+                bool contains(Index) const noexcept;
+                size_t getFrameCount() const noexcept;
+                Number getFrame(Index) const noexcept;
+                Index getIndex(Number) const noexcept;
+                Index getLastIndex() const noexcept;
 
                 ///@}
 

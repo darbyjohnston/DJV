@@ -8,68 +8,12 @@ namespace djv
     {
         namespace IO
         {
-            inline VideoInfo::VideoInfo() :
-                speed(Core::Time::fromSpeed(Core::Time::getDefaultSpeed()))
-            {}
-
-            inline VideoInfo::VideoInfo(
-                const Image::Info& info,
-                const Core::Math::Rational& speed,
-                const Core::Frame::Sequence& sequence) :
-                info(info),
-                speed(speed),
-                sequence(sequence)
-            {}
-
-            inline bool VideoInfo::operator == (const VideoInfo& other) const
-            {
-                return info == other.info && speed == other.speed && sequence == other.sequence;
-            }
-
-            inline AudioInfo::AudioInfo()
-            {}
-
-            inline AudioInfo::AudioInfo(const Audio::Info& info) :
-                info(info)
-            {}
-
-            inline bool AudioInfo::operator == (const AudioInfo& other) const
-            {
-                return info == other.info;
-            }
-
-            inline Info::Info()
-            {}
-
-            inline Info::Info(const std::string& fileName, const VideoInfo& video) :
-                fileName(fileName)
-            {
-                this->video.push_back(video);
-            }
-
-            inline Info::Info(const std::string& fileName, const AudioInfo& audio) :
-                fileName(fileName)
-            {
-                this->audio.push_back(audio);
-            }
-
-            inline Info::Info(const std::string& fileName, const VideoInfo& video, const AudioInfo& audio) :
-                fileName(fileName)
-            {
-                this->video.push_back(video);
-                this->audio.push_back(audio);
-            }
-
-            inline Info::Info(const std::string& fileName, const std::vector<VideoInfo>& video, const std::vector<AudioInfo>& audio) :
-                fileName(fileName),
-                video(video),
-                audio(audio)
-            {}
-
             inline bool Info::operator == (const Info& other) const
             {
                 return
                     fileName == other.fileName &&
+                    videoSpeed == other.videoSpeed &&
+                    videoSequence == other.videoSequence &&
                     video == other.video &&
                     audio == other.audio &&
                     tags == other.tags;
@@ -156,26 +100,6 @@ namespace djv
                 return _queue.size() ? _queue.front() : AudioFrame();
             }
 
-            inline size_t IIO::getThreadCount() const
-            {
-                return _threadCount;
-            }
-
-            inline std::mutex& IIO::getMutex()
-            {
-                return _mutex;
-            }
-
-            inline VideoQueue& IIO::getVideoQueue()
-            {
-                return _videoQueue;
-            }
-
-            inline AudioQueue& IIO::getAudioQueue()
-            {
-                return  _audioQueue;
-            }
-
             inline InOutPoints::InOutPoints()
             {}
 
@@ -249,21 +173,6 @@ namespace djv
                     }
                 }
                 return out;
-            }
-
-            inline const std::string& IPlugin::getPluginName() const
-            {
-                return _pluginName;
-            }
-
-            inline const std::string& IPlugin::getPluginInfo() const
-            {
-                return _pluginInfo;
-            }
-
-            inline const std::set<std::string>& IPlugin::getFileExtensions() const
-            {
-                return _fileExtensions;
             }
 
             inline size_t Cache::getReadBehind() const

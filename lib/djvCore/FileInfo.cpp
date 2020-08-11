@@ -31,31 +31,38 @@ namespace djv
             std::string FileInfo::getFileName(Frame::Number frame, bool path) const
             {
                 std::stringstream ss;
-                const bool isRoot = std::string(1, Path::getCurrentSeparator()) == _path.get();
-                if (isRoot)
+                try
                 {
-                    ss << _path;
-                }
-                else
-                {
-                    if (path)
+                    const bool isRoot = std::string(1, Path::getCurrentSeparator()) == _path.get();
+                    if (isRoot)
                     {
-                        ss << _path.getDirectoryName();
-                    }
-                    ss << _path.getBaseName();
-                    if (FileType::Sequence == _type && _sequence.isValid() && frame != Frame::invalid)
-                    {
-                        ss << Frame::toString(frame, _sequence.getPad());
-                    }
-                    else if (FileType::Sequence == _type && _sequence.isValid())
-                    {
-                        ss << _sequence;
+                        ss << _path;
                     }
                     else
                     {
-                        ss << _path.getNumber();
+                        if (path)
+                        {
+                            ss << _path.getDirectoryName();
+                        }
+                        ss << _path.getBaseName();
+                        if (FileType::Sequence == _type && _sequence.isValid() && frame != Frame::invalid)
+                        {
+                            ss << Frame::toString(frame, _sequence.getPad());
+                        }
+                        else if (FileType::Sequence == _type && _sequence.isValid())
+                        {
+                            ss << _sequence;
+                        }
+                        else
+                        {
+                            ss << _path.getNumber();
+                        }
+                        ss << _path.getExtension();
                     }
-                    ss << _path.getExtension();
+                }
+                catch (const std::exception&)
+                {
+                    //! \bug How should we handle this error?
                 }
                 return ss.str();
             }

@@ -28,7 +28,7 @@ namespace djv
             IntLabel();
 
         public:
-            virtual ~IntLabel();
+            ~IntLabel() override;
 
             static std::shared_ptr<IntLabel> create(const std::shared_ptr<Core::Context>&);
 

@@ -14,7 +14,7 @@
 #include <djvViewApp/MediaCanvas.h>
 #include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/MemoryCacheWidget.h>
-#include <djvViewApp/SettingsDrawer.h>
+#include <djvViewApp/SettingsWidget.h>
 #include <djvViewApp/SettingsSystem.h>
 #include <djvViewApp/ToolSystem.h>
 #include <djvViewApp/ViewSystem.h>
@@ -25,12 +25,13 @@
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
 #include <djvUI/ButtonGroup.h>
+#include <djvUI/Drawer.h>
 #include <djvUI/Label.h>
 #include <djvUI/MDICanvas.h>
 #include <djvUI/Menu.h>
 #include <djvUI/MenuBar.h>
 #include <djvUI/MenuButton.h>
-#include <djvUI/PopupWidget.h>
+#include <djvUI/PopupButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Shortcut.h>
@@ -60,10 +61,9 @@ namespace djv
             std::shared_ptr<UI::ActionGroup> mediaActionGroup;
             std::shared_ptr<UI::Menu> mediaMenu;
             std::shared_ptr<UI::Button::Menu> mediaButton;
-            std::shared_ptr<UI::PopupWidget> cachePopupWidget;
+            std::shared_ptr<UI::PopupButton> cachePopupButton;
             std::shared_ptr<UI::ThermometerWidget> cacheThermometerWidget;
             std::shared_ptr<UI::ToolButton> settingsButton;
-            std::shared_ptr<SettingsDrawer> settingsDrawer;
             std::shared_ptr<UI::MenuBar> menuBar;
             std::shared_ptr<MediaCanvas> mediaCanvas;
             std::shared_ptr<UI::MDI::Canvas> canvas;
@@ -72,7 +72,6 @@ namespace djv
 #endif // DJV_DEMO
             std::shared_ptr<UI::StackLayout> layout;
 
-            std::shared_ptr<ValueObserver<bool> > escapeActionObserver;
             std::shared_ptr<ValueObserver<bool> > settingsActionObserver;
             std::shared_ptr<ListObserver<std::shared_ptr<Media> > > mediaObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
@@ -113,14 +112,12 @@ namespace djv
             p.mediaActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
             p.mediaMenu = UI::Menu::create(context);
             addChild(p.mediaMenu);
-            p.mediaButton = UI::Button::Menu::create(UI::Button::MenuStyle::Flat, context);
+            p.mediaButton = UI::Button::Menu::create(UI::MenuButtonStyle::Flat, context);
             p.mediaButton->setPopupIcon("djvIconPopupMenu");
             p.mediaButton->setEnabled(false);
 
-            auto memoryCacheWidget = MemoryCacheWidget::create(context);
-            p.cachePopupWidget = UI::PopupWidget::create(context);
-            p.cachePopupWidget->setIcon("djvIconMemory");
-            p.cachePopupWidget->addChild(memoryCacheWidget);
+            p.cachePopupButton = UI::PopupButton::create(UI::MenuButtonStyle::Tool, context);
+            p.cachePopupButton->setIcon("djvIconMemory");
             p.cacheThermometerWidget = UI::ThermometerWidget::create(context);
             p.cacheThermometerWidget->setOrientation(UI::Orientation::Vertical);
             p.cacheThermometerWidget->setColorRole(UI::ColorRole::Cached);
@@ -157,12 +154,13 @@ namespace djv
             }
 
             p.settingsButton = UI::ToolButton::create(context);
+            p.settingsButton->setButtonType(UI::ButtonType::Toggle);
             auto toolSystem = context->getSystemT<ToolSystem>();
             if (toolSystem)
             {
                 p.settingsButton->addAction(toolSystem->getActions()["Settings"]);
             }
-            p.settingsDrawer = SettingsDrawer::create(context);
+            auto settingsDrawer = UI::Drawer::create(UI::Side::Right, context);
 
             p.menuBar = UI::MenuBar::create(context);
             p.menuBar->setBackgroundRole(UI::ColorRole::OverlayLight);
@@ -174,7 +172,7 @@ namespace djv
             p.menuBar->addChild(p.mediaButton);
             p.menuBar->setStretch(p.mediaButton, UI::RowStretch::Expand, UI::Side::Right);
             p.menuBar->addSeparator(UI::Side::Right);
-            p.menuBar->addChild(p.cachePopupWidget);
+            p.menuBar->addChild(p.cachePopupButton);
             p.menuBar->addChild(p.cacheThermometerWidget);
             p.menuBar->addSeparator(UI::Side::Right);
             p.menuBar->addChild(maximizeButton);
@@ -222,8 +220,8 @@ namespace djv
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(p.menuBar);
-            vLayout->addChild(p.settingsDrawer);
-            vLayout->setStretch(p.settingsDrawer, UI::Layout::RowStretch::Expand);
+            vLayout->addChild(settingsDrawer);
+            vLayout->setStretch(settingsDrawer, UI::Layout::RowStretch::Expand);
             p.layout->addChild(vLayout);
 #ifdef DJV_DEMO
             vLayout = UI::VerticalLayout::create(context);
@@ -280,20 +278,39 @@ namespace djv
                     }
                 });
 
-            p.escapeActionObserver = ValueObserver<bool>::create(
-                p.actions["Escape"]->observeClicked(),
-                [contextWeak](bool value)
-            {
-                if (value)
+            p.cachePopupButton->setOpenCallback(
+                [contextWeak]() -> std::shared_ptr<UI::Widget>
                 {
+                    std::shared_ptr<UI::Widget> out;
                     if (auto context = contextWeak.lock())
                     {
-                        if (auto windowSystem = context->getSystemT<WindowSystem>())
+                        auto memoryCacheWidget = MemoryCacheWidget::create(context);
+                        out = memoryCacheWidget;
+                    }
+                    return out;
+                });
+
+            settingsDrawer->setOpenCallback(
+                [contextWeak]() -> std::shared_ptr<UI::Widget>
+                {
+                    std::shared_ptr<UI::Widget> out;
+                    if (auto context = contextWeak.lock())
+                    {
+                        out = SettingsWidget::create(context);
+                    }
+                    return out;
+                });
+
+            p.actions["Escape"]->setClickedCallback(
+                [contextWeak]
+            {
+                if (auto context = contextWeak.lock())
+                {
+                    if (auto windowSystem = context->getSystemT<WindowSystem>())
+                    {
+                        if (windowSystem->observeFullScreen()->get())
                         {
-                            if (windowSystem->observeFullScreen()->get())
-                            {
-                                windowSystem->setFullScreen(false);
-                            }
+                            windowSystem->setFullScreen(false);
                         }
                     }
                 }
@@ -303,12 +320,9 @@ namespace djv
             {
                 p.settingsActionObserver = ValueObserver<bool>::create(
                     toolSystem->getActions()["Settings"]->observeChecked(),
-                    [weak, contextWeak](bool value)
+                    [settingsDrawer](bool value)
                     {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->settingsDrawer->setOpen(value);
-                        }
+                        settingsDrawer->setOpen(value);
                     });
             }
 
@@ -323,15 +337,16 @@ namespace djv
                             if (auto widget = weak.lock())
                             {
                                 widget->_p->media = value;
-                                widget->_p->mediaActionGroup->clearActions();
+                                std::vector<std::shared_ptr<UI::Action> > actions;
                                 widget->_p->mediaMenu->clearActions();
                                 for (const auto& i : widget->_p->media)
                                 {
                                     auto action = UI::Action::create();
                                     action->setText(i->getFileInfo().getFileName());
-                                    widget->_p->mediaActionGroup->addAction(action);
+                                    actions.push_back(action);
                                     widget->_p->mediaMenu->addAction(action);
                                 }
+                                widget->_p->mediaActionGroup->setActions(actions);
                                 widget->_p->mediaButton->setEnabled(widget->_p->media.size() > 0);
                             }
                         });
@@ -433,7 +448,7 @@ namespace djv
             if (event.getData().text)
             {
                 p.mediaButton->setTooltip(_getText(DJV_TEXT("menu_media_popup_tooltip")));
-                p.cachePopupWidget->setTooltip(_getText(DJV_TEXT("menu_memory_cache_tooltip")));
+                p.cachePopupButton->setTooltip(_getText(DJV_TEXT("menu_memory_cache_tooltip")));
 #ifdef DJV_DEMO
                 p.titleLabel->setText(_getText(DJV_TEXT("djv_2_0_4")));
 #endif // DJV_DEMO

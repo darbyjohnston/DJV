@@ -1,0 +1,497 @@
+// SPDX-License-Identifier: BSD-3-Clause
+// Copyright (c) 2020 Darby Johnston
+// All rights reserved.
+
+#include <djvViewApp/ColorSpaceWidgetPrivate.h>
+
+#include <djvUIComponents/SearchBox.h>
+
+#include <djvUI/Action.h>
+#include <djvUI/ActionGroup.h>
+#include <djvUI/ButtonGroup.h>
+#include <djvUI/FormLayout.h>
+#include <djvUI/Label.h>
+#include <djvUI/ListWidget.h>
+#include <djvUI/Menu.h>
+#include <djvUI/PopupButton.h>
+#include <djvUI/PopupMenu.h>
+#include <djvUI/RowLayout.h>
+#include <djvUI/ScrollWidget.h>
+#include <djvUI/Spacer.h>
+#include <djvUI/ToolButton.h>
+
+#include <djvAV/IOSystem.h>
+#include <djvAV/OCIOSystem.h>
+
+#include <djvCore/Context.h>
+
+using namespace djv::Core;
+
+namespace djv
+{
+    namespace ViewApp
+    {
+        namespace
+        {
+            class ColorSpacesWidget : public UI::Widget
+            {
+                DJV_NON_COPYABLE(ColorSpacesWidget);
+
+            protected:
+                void _init(const std::shared_ptr<Context>&);
+                ColorSpacesWidget();
+
+            public:
+                ~ColorSpacesWidget() override;
+
+                static std::shared_ptr<ColorSpacesWidget> create(const std::shared_ptr<Context>&);
+
+                void setImage(const std::string& value);
+
+            protected:
+                void _preLayoutEvent(Event::PreLayout&) override;
+                void _layoutEvent(Event::Layout&) override;
+
+                void _initEvent(Event::Init&) override;
+
+            private:
+                void _widgetUpdate();
+
+                std::string _image;
+                std::vector<std::string> _colorSpaces;
+                AV::OCIO::ImageColorSpaces _imageColorSpaces;
+
+                std::shared_ptr<UI::ListWidget> _listWidget;
+                std::shared_ptr<UI::SearchBox> _searchBox;
+
+                std::shared_ptr<UI::VerticalLayout> _layout;
+
+                std::shared_ptr<ListObserver<std::string> > _colorSpacesObserver;
+                std::shared_ptr<MapObserver<std::string, std::string> > _imageColorSpacesObserver;
+            };
+
+            void ColorSpacesWidget::_init(const std::shared_ptr<Context>& context)
+            {
+                Widget::_init(context);
+
+                setClassName("djv::ViewApp::ColorSpacesWidget");
+
+                _listWidget = UI::ListWidget::create(UI::ButtonType::Radio, context);
+                _listWidget->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
+
+                _searchBox = UI::SearchBox::create(context);
+
+                _layout = UI::VerticalLayout::create(context);
+
+                _layout = UI::VerticalLayout::create(context);
+                _layout->setSpacing(UI::MetricsRole::None);
+                _layout->setBackgroundRole(UI::ColorRole::Background);
+                auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
+                scrollWidget->setBorder(false);
+                scrollWidget->addChild(_listWidget);
+                _layout->addChild(scrollWidget);
+                _layout->setStretch(scrollWidget, UI::RowStretch::Expand);
+                _layout->addSeparator();
+                _layout->addChild(_searchBox);
+                addChild(_layout);
+
+                auto weak = std::weak_ptr<ColorSpacesWidget>(std::dynamic_pointer_cast<ColorSpacesWidget>(shared_from_this()));
+                auto contextWeak = std::weak_ptr<Context>(context);
+                _listWidget->setRadioCallback(
+                    [weak, contextWeak](int value)
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                auto imageColorSpaces = widget->_imageColorSpaces;
+                                imageColorSpaces[widget->_image] =
+                                    value >= 0 && value < static_cast<int>(widget->_colorSpaces.size()) ?
+                                    widget->_colorSpaces[value] :
+                                    std::string();
+                                auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                                ocioSystem->setImageColorSpaces(imageColorSpaces);
+                            }
+                        }
+                    });
+
+                _searchBox->setFilterCallback(
+                    [weak](const std::string& value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_listWidget->setFilter(value);
+                        }
+                    });
+
+                auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                _colorSpacesObserver = ListObserver<std::string>::create(
+                    ocioSystem->observeColorSpaces(),
+                    [weak](const std::vector<std::string>& value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_colorSpaces = value;
+                            widget->_widgetUpdate();
+                        }
+                    });
+
+                _imageColorSpacesObserver = MapObserver<std::string, std::string>::create(
+                    ocioSystem->observeImageColorSpaces(),
+                    [weak](const AV::OCIO::ImageColorSpaces& value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_imageColorSpaces = value;
+                            widget->_widgetUpdate();
+                        }
+                    });
+            }
+
+            ColorSpacesWidget::ColorSpacesWidget()
+            {}
+
+            ColorSpacesWidget::~ColorSpacesWidget()
+            {}
+
+            std::shared_ptr<ColorSpacesWidget> ColorSpacesWidget::create(const std::shared_ptr<Context>& context)
+            {
+                auto out = std::shared_ptr<ColorSpacesWidget>(new ColorSpacesWidget);
+                out->_init(context);
+                return out;
+            }
+
+            void ColorSpacesWidget::setImage(const std::string& value)
+            {
+                if (value == _image)
+                    return;
+                _image = value;
+                _widgetUpdate();
+            }
+
+            void ColorSpacesWidget::_preLayoutEvent(Event::PreLayout&)
+            {
+                _setMinimumSize(_layout->getMinimumSize());
+            }
+
+            void ColorSpacesWidget::_layoutEvent(Event::Layout&)
+            {
+                _layout->setGeometry(getGeometry());
+            }
+
+            void ColorSpacesWidget::_initEvent(Event::Init& event)
+            {
+                if (event.getData().text)
+                {
+                    _widgetUpdate();
+                }
+            }
+
+            void ColorSpacesWidget::_widgetUpdate()
+            {
+                if (auto context = getContext().lock())
+                {
+                    std::vector<UI::ListItem> items;
+                    for (size_t i = 0; i < _colorSpaces.size(); ++i)
+                    {
+                        UI::ListItem item;
+                        item.text = !_colorSpaces[i].empty() ?
+                            _colorSpaces[i] :
+                            _getText(DJV_TEXT("av_ocio_image_none"));
+                        items.emplace_back(item);
+                    }
+                    int index = -1;
+                    const auto i = _imageColorSpaces.find(_image);
+                    if (i != _imageColorSpaces.end())
+                    {
+                        const auto j = std::find(_colorSpaces.begin(), _colorSpaces.end(), i->second);
+                        if (j != _colorSpaces.end())
+                        {
+                            index = static_cast<int>(j - _colorSpaces.begin());
+                        }
+                    }
+                    _listWidget->setItems(items);
+                    _listWidget->setChecked(index);
+                }
+            }
+
+        } // namespace
+
+        struct ColorSpaceImageWidget::Private
+        {
+            AV::OCIO::ImageColorSpaces imageColorSpaces;
+            std::vector<std::string> images;
+            bool deleteEnabled = false;
+
+            std::vector<std::shared_ptr<UI::PopupButton> > buttons;
+            std::shared_ptr<UI::ButtonGroup> deleteButtonGroup;
+            std::shared_ptr<UI::ActionGroup> addActionGroup;
+            std::shared_ptr<UI::Menu> addMenu;
+            std::shared_ptr<UI::PopupMenu> addButton;
+            std::shared_ptr<UI::ToolButton> deleteButton;
+
+            std::shared_ptr<UI::FormLayout> formLayout;
+            std::shared_ptr<UI::VerticalLayout> addButtonLayout;
+            std::shared_ptr<UI::VerticalLayout> layout;
+
+            std::shared_ptr<MapObserver<std::string, std::string> > imageColorSpacesObserver;
+        };
+
+        void ColorSpaceImageWidget::_init(const std::shared_ptr<Context>& context)
+        {
+            Widget::_init(context);
+            DJV_PRIVATE_PTR();
+
+            p.deleteButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
+
+            p.addActionGroup = UI::ActionGroup::create(UI::ButtonType::Push);
+            p.addMenu = UI::Menu::create(context);
+            p.addMenu->setIcon("djvIconAdd");
+            p.addMenu->setMinimumSizeRole(UI::MetricsRole::None);
+            p.addButton = UI::PopupMenu::create(context);
+            p.addButton->setMenu(p.addMenu);
+
+            p.deleteButton = UI::ToolButton::create(context);
+            p.deleteButton->setButtonType(UI::ButtonType::Toggle);
+            p.deleteButton->setIcon("djvIconClear");
+
+            p.layout = UI::VerticalLayout::create(context);
+            p.layout->setMargin(UI::MetricsRole::MarginSmall);
+            p.layout->setSpacing(UI::MetricsRole::SpacingSmall);
+            p.formLayout = UI::FormLayout::create(context);
+            p.layout->addChild(p.formLayout);
+            auto hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->addExpander();
+            hLayout->addChild(p.addButton);
+            hLayout->addChild(p.deleteButton);
+            p.layout->addChild(hLayout);
+            addChild(p.layout);
+
+            _valueUpdate();
+            _widgetUpdate();
+
+            auto weak = std::weak_ptr<ColorSpaceImageWidget>(std::dynamic_pointer_cast<ColorSpaceImageWidget>(shared_from_this()));
+            auto contextWeak = std::weak_ptr<Context>(context);
+            p.deleteButtonGroup->setPushCallback(
+                [weak, contextWeak](int value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            auto imageColorSpaces = widget->_p->imageColorSpaces;
+                            int index = 0;
+                            for (auto i = imageColorSpaces.begin(); i != imageColorSpaces.end(); ++i, ++index)
+                            {
+                                if (index == value)
+                                {
+                                    imageColorSpaces.erase(i);
+                                    break;
+                                }
+                            }
+                            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                            ocioSystem->setImageColorSpaces(imageColorSpaces);
+                        }
+                    }
+                });
+
+            p.deleteButton->setCheckedCallback(
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->deleteEnabled = value;
+                        widget->_widgetUpdate();
+                    }
+                });
+
+            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+            p.imageColorSpacesObserver = MapObserver<std::string, std::string>::create(
+                ocioSystem->observeImageColorSpaces(),
+                [weak](const AV::OCIO::ImageColorSpaces& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        std::vector<std::string> images;
+                        for (const auto& i : value)
+                        {
+                            images.push_back(i.first);
+                        }
+                        widget->_p->imageColorSpaces = value;
+                        if (images != widget->_p->images)
+                        {
+                            widget->_p->images = images;
+                            widget->_widgetUpdate();
+                        }
+                        else
+                        {
+                            widget->_valueUpdate();
+                        }
+                    }
+                });
+        }
+
+        ColorSpaceImageWidget::ColorSpaceImageWidget() :
+            _p(new Private)
+        {}
+
+        ColorSpaceImageWidget::~ColorSpaceImageWidget()
+        {}
+
+        std::shared_ptr<ColorSpaceImageWidget> ColorSpaceImageWidget::create(const std::shared_ptr<Context>& context)
+        {
+            auto out = std::shared_ptr<ColorSpaceImageWidget>(new ColorSpaceImageWidget);
+            out->_init(context);
+            return out;
+        }
+
+        void ColorSpaceImageWidget::setSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>& value)
+        {
+            _p->formLayout->setLabelSizeGroup(value);
+        }
+
+        void ColorSpaceImageWidget::_preLayoutEvent(Event::PreLayout&)
+        {
+            _setMinimumSize(_p->layout->getMinimumSize());
+        }
+
+        void ColorSpaceImageWidget::_layoutEvent(Event::Layout&)
+        {
+            _p->layout->setGeometry(getGeometry());
+        }
+
+        void ColorSpaceImageWidget::_initEvent(Event::Init& event)
+        {
+            DJV_PRIVATE_PTR();
+            if (event.getData().text)
+            {
+                p.addButton->setTooltip(_getText(DJV_TEXT("widget_color_space_add_image_tooltip")));
+                p.deleteButton->setTooltip(_getText(DJV_TEXT("widget_color_space_delete_images_tooltip")));
+            }
+        }
+
+        void ColorSpaceImageWidget::_valueUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            DJV_ASSERT(p.imageColorSpaces.size() == p.images.size());
+            DJV_ASSERT(p.imageColorSpaces.size() == p.buttons.size());
+            for (size_t i = 0; i < p.images.size(); ++i)
+            {
+                const auto j = p.imageColorSpaces.find(p.images[i]);
+                if (j != p.imageColorSpaces.end())
+                {
+                    const std::string& text = !j->second.empty() ? j->second : _getText(DJV_TEXT("av_ocio_image_none"));
+                    p.buttons[i]->setText(text);
+                    p.buttons[i]->setTooltip(text);
+                }
+            }
+        }
+
+        void ColorSpaceImageWidget::_widgetUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (auto context = getContext().lock())
+            {
+                p.buttons.clear();
+                p.addMenu->clearActions();
+                p.formLayout->clearChildren();
+
+                std::vector<std::shared_ptr<UI::Button::IButton> > deleteButtons;
+                size_t j = 0;
+                for (const auto& i : p.imageColorSpaces)
+                {
+                    auto button = UI::PopupButton::create(UI::MenuButtonStyle::ComboBox, context);
+                    const std::string& text = !i.second.empty() ? i.second : _getText(DJV_TEXT("av_ocio_image_none"));
+                    button->setText(text);
+                    button->setPopupIcon("djvIconPopupMenu");
+                    button->setElide(labelElide);
+                    button->setTooltip(text);
+                    p.buttons.push_back(button);
+                    std::string image = i.first;
+                    auto weakContext = std::weak_ptr<Context>(context);
+                    button->setOpenCallback(
+                        [weakContext, image]() -> std::shared_ptr<UI::Widget>
+                        {
+                            std::shared_ptr<UI::Widget> out;
+                            if (auto context = weakContext.lock())
+                            {
+                                auto widget = ColorSpacesWidget::create(context);
+                                widget->setImage(image);
+                                out = widget;
+                            }
+                            return out;
+                        });
+
+                    auto deleteButton = UI::ToolButton::create(context);
+                    deleteButton->setIcon("djvIconClearSmall");
+                    deleteButton->setInsideMargin(UI::MetricsRole::None);
+                    deleteButton->setVisible(p.deleteEnabled);
+                    deleteButton->setTooltip(_getText(DJV_TEXT("widget_color_space_delete_image_tooltip")));
+                    deleteButtons.push_back(deleteButton);
+
+                    auto hLayout = UI::HorizontalLayout::create(context);
+                    hLayout->setSpacing(UI::MetricsRole::None);
+                    hLayout->setBackgroundRole(0 == j % 2 ? UI::ColorRole::Trough : UI::ColorRole::None);
+                    hLayout->addChild(button);
+                    hLayout->setStretch(button, UI::RowStretch::Expand);
+                    hLayout->addChild(deleteButton);
+                    p.formLayout->addChild(hLayout);
+                    p.formLayout->setText(
+                        hLayout,
+                        (!i.first.empty() ? i.first : _getText(DJV_TEXT("av_ocio_images_default"))) + ":");
+
+                    ++j;
+                }
+                p.deleteButtonGroup->setButtons(deleteButtons);
+
+                auto io = context->getSystemT<AV::IO::System>();
+                auto pluginNames = io->getPluginNames();
+                pluginNames.insert(pluginNames.begin(), std::string());
+                std::vector<std::string> pluginNamesList;
+                std::vector<std::shared_ptr<UI::Action> > actions;
+                for (const auto& j : pluginNames)
+                {
+                    const auto k = p.imageColorSpaces.find(j);
+                    if (k == p.imageColorSpaces.end())
+                    {
+                        pluginNamesList.push_back(j);
+                        auto action = UI::Action::create();
+                        action->setText(!j.empty() ? j : _getText(DJV_TEXT("av_ocio_images_default")));
+                        actions.push_back(action);
+                        p.addMenu->addAction(action);
+                    }
+                }
+                p.addActionGroup->setActions(actions);
+                auto weak = std::weak_ptr<ColorSpaceImageWidget>(std::dynamic_pointer_cast<ColorSpaceImageWidget>(shared_from_this()));
+                auto contextWeak = std::weak_ptr<Context>(context);
+                p.addActionGroup->setPushCallback(
+                    [pluginNamesList, weak, contextWeak](int value)
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                if (value >= 0 && value < static_cast<int>(pluginNamesList.size()))
+                                {
+                                    auto imageColorSpaces = widget->_p->imageColorSpaces;
+                                    imageColorSpaces[pluginNamesList[value]] = std::string();
+                                    auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                                    ocioSystem->setImageColorSpaces(imageColorSpaces);
+                                }
+                            }
+                        }
+                    });
+                p.addButton->setEnabled(!pluginNamesList.empty());
+                p.deleteButton->setEnabled(!p.imageColorSpaces.empty());
+                if (p.imageColorSpaces.empty())
+                {
+                    p.deleteEnabled = false;
+                    p.deleteButton->setChecked(false);
+                }
+            }
+        }
+
+    } // namespace ViewApp
+} // namespace djv
+

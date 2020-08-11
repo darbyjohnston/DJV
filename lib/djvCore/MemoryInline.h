@@ -12,7 +12,7 @@ namespace djv
     {
         namespace Memory
         {
-            inline Endian getEndian()
+            inline Endian getEndian() noexcept
             {
                 const int tmp = 1;
                 const uint8_t* const p = reinterpret_cast<const uint8_t*>(&tmp);
@@ -20,7 +20,7 @@ namespace djv
                 return endian;
             }
             
-            inline Endian opposite(Endian in)
+            inline Endian opposite(Endian in) noexcept
             {
                 return Endian::MSB == in ? Endian::LSB : Endian::MSB;
             }
@@ -28,7 +28,7 @@ namespace djv
             inline void endian(
                 void*  in,
                 size_t size,
-                size_t wordSize)
+                size_t wordSize) noexcept
             {
                 uint8_t* p = reinterpret_cast<uint8_t*>(in);
                 uint8_t tmp;
@@ -81,7 +81,7 @@ namespace djv
                 const void* in,
                 void*       out,
                 size_t      size,
-                size_t      wordSize)
+                size_t      wordSize) noexcept
             {
                 const uint8_t* inP = reinterpret_cast<const uint8_t*>(in);
                 uint8_t* outP = reinterpret_cast<uint8_t*>(out);

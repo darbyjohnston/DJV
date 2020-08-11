@@ -237,7 +237,7 @@ namespace djv
                     {
                         io->setEndianConversion(true);
                         convertEndian(out);
-                        info.video[0].info.layout.endian = Memory::opposite(Memory::getEndian());
+                        info.video[0].layout.endian = Memory::opposite(Memory::getEndian());
                     }
 
                     // Read the image section of the header.
@@ -300,10 +300,10 @@ namespace djv
                     }
 
                     // Collect information.
-                    info.video[0].info.type = imageType;
-                    info.video[0].info.size.w = out.image.channel[0].size[0];
-                    info.video[0].info.size.h = out.image.channel[0].size[1];
-                    if (io->getSize() - out.file.imageOffset != info.video[0].info.getDataByteCount())
+                    info.video[0].type = imageType;
+                    info.video[0].size.w = out.image.channel[0].size[0];
+                    info.video[0].size.h = out.image.channel[0].size[1];
+                    if (io->getSize() - out.file.imageOffset != info.video[0].getDataByteCount())
                     {
                         throw FileSystem::Error(String::Format("{0}: {1}").
                             arg(io->getFileName()).
@@ -312,14 +312,14 @@ namespace djv
                     switch (static_cast<Orient>(out.image.orient))
                     {
                     case Orient::LeftRightBottomTop:
-                        info.video[0].info.layout.mirror.y = true;
+                        info.video[0].layout.mirror.y = true;
                         break;
                     case Orient::RightLeftTopBottom:
-                        info.video[0].info.layout.mirror.x = true;
+                        info.video[0].layout.mirror.x = true;
                         break;
                     case Orient::RightLeftBottomTop:
-                        info.video[0].info.layout.mirror.x = true;
-                        info.video[0].info.layout.mirror.y = true;
+                        info.video[0].layout.mirror.x = true;
+                        info.video[0].layout.mirror.y = true;
                         break;
                     case Orient::TopBottomLeftRight:
                     case Orient::TopBottomRightLeft:
@@ -403,7 +403,7 @@ namespace djv
                     }
                     if (isValid(&out.film.frameRate) && out.film.frameRate >= _minSpeed)
                     {
-                        info.video[0].speed = Time::fromSpeed(out.film.frameRate);
+                        info.videoSpeed = Time::fromSpeed(out.film.frameRate);
                         std::stringstream ss;
                         ss << out.film.frameRate;
                         info.tags.setTag("Film Frame Rate", ss.str());
@@ -430,7 +430,7 @@ namespace djv
                     const size_t ioSize = io->getSize();
                     const size_t ioPos = io->getPos();
                     const size_t fileDataByteCount = ioSize > 0 ? (ioSize - ioPos) : 0;
-                    const size_t dataByteCount = info.video[0].info.getDataByteCount();
+                    const size_t dataByteCount = info.video[0].getDataByteCount();
                     if (dataByteCount > fileDataByteCount)
                     {
                         throw FileSystem::Error(String::Format("{0}: {1}").
@@ -475,8 +475,8 @@ namespace djv
                     {
                         header.image.channel[i].descriptor[0] = 0;
                         header.image.channel[i].bitDepth = bitDepth;
-                        header.image.channel[i].size[0] = info.video[0].info.size.w;
-                        header.image.channel[i].size[1] = info.video[0].info.size.h;
+                        header.image.channel[i].size[0] = info.video[0].size.w;
+                        header.image.channel[i].size[1] = info.video[0].size.h;
 
                         header.image.channel[i].lowData = 0;
 
@@ -497,7 +497,7 @@ namespace djv
                     header.image.channelPadding = 0;
 
                     // Set the tags.
-                    fromString(info.video[0].info.name, header.file.name, 100, false);
+                    fromString(info.video[0].name, header.file.name, 100, false);
                     if (info.tags.hasTag("Time"))
                     {
                         fromString(info.tags.getTag("Time"), header.file.time, 24, false);

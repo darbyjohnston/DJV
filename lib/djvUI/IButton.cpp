@@ -60,6 +60,10 @@ namespace djv
                 if (value == p.buttonType)
                     return;
                 p.buttonType = value;
+                if (ButtonType::Push == value)
+                {
+                    p.checked = false;
+                }
                 _resize();
             }
 
@@ -99,6 +103,29 @@ namespace djv
             void IButton::setCheckedCallback(const std::function<void(bool)>& callback)
             {
                 _p->checkedCallback = callback;
+            }
+
+            void IButton::doClick()
+            {
+                DJV_PRIVATE_PTR();
+                _doClick();
+                switch (p.buttonType)
+                {
+                case ButtonType::Toggle:
+                    _doCheck(!p.checked);
+                    break;
+                case ButtonType::Radio:
+                    if (!p.checked)
+                    {
+                        _doCheck(true);
+                    }
+                    break;
+                case ButtonType::Exclusive:
+                    _doCheck(!p.checked);
+                    break;
+                default: break;
+                }
+                _redraw();
             }
 
             void IButton::addAction(const std::shared_ptr<Action>& value)
@@ -182,27 +209,7 @@ namespace djv
                     const auto i = hover.find(pointerInfo.id);
                     if (i != hover.end() && g.contains(i->second))
                     {
-                        _doClickedCallback();
-                        switch (p.buttonType)
-                        {
-                        case ButtonType::Toggle:
-                            setChecked(!p.checked);
-                            _doCheckedCallback(p.checked);
-                            break;
-                        case ButtonType::Radio:
-                            if (!p.checked)
-                            {
-                                setChecked(true);
-                                _doCheckedCallback(p.checked);
-                            }
-                            break;
-                        case ButtonType::Exclusive:
-                            setChecked(!p.checked);
-                            _doCheckedCallback(p.checked);
-                            break;
-                        default: break;
-                        }
-                        _redraw();
+                        doClick();
                     }
                 }
             }
@@ -267,7 +274,7 @@ namespace djv
                 _p->canRejectPressed = value;
             }
 
-            void IButton::_doClickedCallback()
+            void IButton::_doClick()
             {
                 DJV_PRIVATE_PTR();
                 if (p.clickedCallback)
@@ -276,13 +283,15 @@ namespace djv
                 }
             }
 
-            void IButton::_doCheckedCallback(bool value)
+            void IButton::_doCheck(bool value)
             {
                 DJV_PRIVATE_PTR();
+                p.checked = value;
                 if (p.checkedCallback)
                 {
                     p.checkedCallback(value);
                 }
+                _redraw();
             }
 
             void IButton::_actionUpdate()

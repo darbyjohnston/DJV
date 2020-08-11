@@ -12,7 +12,6 @@
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/Shortcut.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/OS.h>
@@ -33,7 +32,6 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             std::shared_ptr<AboutDialog> aboutDialog;
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
         };
 
         void HelpSystem::_init(const std::shared_ptr<Core::Context>& context)
@@ -53,54 +51,47 @@ namespace djv
             
             auto weak = std::weak_ptr<HelpSystem>(std::dynamic_pointer_cast<HelpSystem>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
-            p.actionObservers["Documentation"] = ValueObserver<bool>::create(
-                p.actions["Documentation"]->observeClicked(),
-                [weak, contextWeak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto context = contextWeak.lock())
-                        {
-                            if (auto system = weak.lock())
-                            {
-                                auto resourceSystem = context->getSystemT<ResourceSystem>();
-                                auto path = resourceSystem->getPath(Core::FileSystem::ResourcePath::Documentation);
-                                try
-                                {
-                                    OS::openURL(path.get());
-                                }
-                                catch (const std::exception& e)
-                                {
-                                    system->_log(e.what(), LogLevel::Error);
-                                }
-                            }
-                        }
-                    }
-                });
-                
-            p.actionObservers["About"] = ValueObserver<bool>::create(
-                p.actions["About"]->observeClicked(),
-                [weak, contextWeak](bool value)
-            {
-                if (value)
+            p.actions["Documentation"]->setClickedCallback(
+                [weak, contextWeak]
                 {
                     if (auto context = contextWeak.lock())
                     {
                         if (auto system = weak.lock())
                         {
-                            if (system->_p->aboutDialog)
+                            auto resourceSystem = context->getSystemT<ResourceSystem>();
+                            auto path = resourceSystem->getPath(Core::FileSystem::ResourcePath::Documentation);
+                            try
                             {
-                                system->_p->aboutDialog->close();
-                                system->_p->aboutDialog.reset();
+                                OS::openURL(path.get());
                             }
+                            catch (const std::exception& e)
+                            {
+                                system->_log(e.what(), LogLevel::Error);
+                            }
+                        }
+                    }
+                });
+                
+            p.actions["About"]->setClickedCallback(
+                [weak, contextWeak]
+            {
+                if (auto context = contextWeak.lock())
+                {
+                    if (auto system = weak.lock())
+                    {
+                        if (!system->_p->aboutDialog)
+                        {
                             system->_p->aboutDialog = AboutDialog::create(context);
                             system->_p->aboutDialog->setCloseCallback(
                                 [weak]
                                 {
                                     if (auto system = weak.lock())
                                     {
-                                        system->_p->aboutDialog->close();
-                                        system->_p->aboutDialog.reset();
+                                        if (system->_p->aboutDialog)
+                                        {
+                                            system->_p->aboutDialog->close();
+                                            system->_p->aboutDialog.reset();
+                                        }
                                     }
                                 });
                             system->_p->aboutDialog->show();

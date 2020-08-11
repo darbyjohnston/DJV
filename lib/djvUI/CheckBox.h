@@ -22,7 +22,7 @@ namespace djv
                 CheckBox();
 
             public:
-                virtual ~CheckBox();
+                ~CheckBox() override;
 
                 static std::shared_ptr<CheckBox> create(const std::shared_ptr<Core::Context>&);
 

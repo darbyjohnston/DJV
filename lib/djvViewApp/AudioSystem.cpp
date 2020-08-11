@@ -9,8 +9,9 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/Menu.h>
-#include <djvUI/Shortcut.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/SettingsSystem.h>
+#include <djvUI/ShortcutData.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
@@ -31,7 +32,6 @@ namespace djv
             float volume = 1.F;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
             std::shared_ptr<ValueObserver<float> > volumeObserver;
@@ -49,52 +49,45 @@ namespace djv
             p.actions["Mute"] = UI::Action::create();
             p.actions["Mute"]->setButtonType(UI::ButtonType::Toggle);
 
+            _addShortcut("shortcut_audio_decrease_volume", GLFW_KEY_8, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_audio_increase_volume", GLFW_KEY_7, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_audio_mute", GLFW_KEY_9, UI::ShortcutData::getSystemModifier());
+
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["IncreaseVolume"]);
-            p.actions["IncreaseVolume"]->setShortcut(GLFW_KEY_8, UI::Shortcut::getSystemModifier());
             p.menu->addAction(p.actions["DecreaseVolume"]);
-            p.actions["DecreaseVolume"]->setShortcut(GLFW_KEY_7, UI::Shortcut::getSystemModifier());
             p.menu->addAction(p.actions["Mute"]);
-            p.actions["Mute"]->setShortcut(GLFW_KEY_9, UI::Shortcut::getSystemModifier());
 
             _actionsUpdate();
             _textUpdate();
+            _shortcutsUpdate();
 
             auto weak = std::weak_ptr<AudioSystem>(std::dynamic_pointer_cast<AudioSystem>(shared_from_this()));
-            p.actionObservers["IncreaseVolume"] = ValueObserver<bool>::create(
-                p.actions["IncreaseVolume"]->observeClicked(),
-                [weak](bool value)
+            p.actions["IncreaseVolume"]->setClickedCallback(
+                [weak]
             {
-                if (value)
+                if (auto system = weak.lock())
                 {
-                    if (auto system = weak.lock())
+                    if (auto media = system->_p->currentMedia)
                     {
-                        if (auto media = system->_p->currentMedia)
-                        {
-                            media->setVolume(system->_p->volume + .1F);
-                        }
+                        media->setVolume(system->_p->volume + .1F);
                     }
                 }
             });
 
-            p.actionObservers["DecreaseVolume"] = ValueObserver<bool>::create(
-                p.actions["DecreaseVolume"]->observeClicked(),
-                [weak](bool value)
+            p.actions["DecreaseVolume"]->setClickedCallback(
+                [weak]
             {
-                if (value)
+                if (auto system = weak.lock())
                 {
-                    if (auto system = weak.lock())
+                    if (auto media = system->_p->currentMedia)
                     {
-                        if (auto media = system->_p->currentMedia)
-                        {
-                            media->setVolume(system->_p->volume - .1F);
-                        }
+                        media->setVolume(system->_p->volume - .1F);
                     }
                 }
             });
 
-            p.actionObservers["Mute"] = ValueObserver<bool>::create(
-                p.actions["Mute"]->observeChecked(),
+            p.actions["Mute"]->setCheckedCallback(
                 [weak](bool value)
             {
                 if (auto system = weak.lock())
@@ -193,7 +186,7 @@ namespace djv
         void AudioSystem::_actionsUpdate()
         {
             DJV_PRIVATE_PTR();
-            const bool hasAudio = p.info.audio.size();
+            const bool hasAudio = p.info.audio.isValid();
             p.actions["IncreaseVolume"]->setEnabled(hasAudio && p.volume < 1.F);
             p.actions["DecreaseVolume"]->setEnabled(hasAudio && p.volume > 0.F);
             p.actions["Mute"]->setEnabled(hasAudio);
@@ -212,6 +205,17 @@ namespace djv
                 p.actions["Mute"]->setTooltip(_getText(DJV_TEXT("menu_audio_mute_tooltip")));
 
                 p.menu->setText(_getText(DJV_TEXT("menu_audio")));
+            }
+        }
+
+        void AudioSystem::_shortcutsUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.actions.size())
+            {
+                p.actions["IncreaseVolume"]->setShortcuts(_getShortcuts("shortcut_audio_decrease_volume"));
+                p.actions["DecreaseVolume"]->setShortcuts(_getShortcuts("shortcut_audio_increase_volume"));
+                p.actions["Mute"]->setShortcuts(_getShortcuts("shortcut_audio_mute"));
             }
         }
 

@@ -26,47 +26,47 @@ namespace djv
                 setPath(path, fileType, sequence, stat);
             }
 
-            inline const Path& FileInfo::getPath() const
+            inline const Path& FileInfo::getPath() const noexcept
             {
                 return _path;
             }
 
-            inline bool FileInfo::isEmpty() const
+            inline bool FileInfo::isEmpty() const noexcept
             {
                 return _path.isEmpty();
             }
 
-            inline const Frame::Sequence& FileInfo::getSequence() const
+            inline const Frame::Sequence& FileInfo::getSequence() const noexcept
             {
                 return _sequence;
             }
 
-            inline bool FileInfo::doesExist() const
+            inline bool FileInfo::doesExist() const noexcept
             {
                 return _exists;
             }
 
-            inline FileType FileInfo::getType() const
+            inline FileType FileInfo::getType() const noexcept
             {
                 return _type;
             }
 
-            inline uint64_t FileInfo::getSize() const
+            inline uint64_t FileInfo::getSize() const noexcept
             {
                 return _size;
             }
 
-            inline uid_t FileInfo::getUser() const
+            inline uid_t FileInfo::getUser() const noexcept
             {
                 return _user;
             }
 
-            inline int FileInfo::getPermissions() const
+            inline int FileInfo::getPermissions() const noexcept
             {
                 return _permissions;
             }
 
-            inline time_t FileInfo::getTime() const
+            inline time_t FileInfo::getTime() const noexcept
             {
                 return _time;
             }
@@ -124,7 +124,7 @@ namespace djv
                 return false;
             }
             
-            inline bool FileInfo::isSequenceWildcard(const std::string& value)
+            inline bool FileInfo::isSequenceWildcard(const std::string& value) noexcept
             {
                 auto i = value.begin();
                 auto end = value.end();

@@ -28,7 +28,7 @@ namespace djv
             FloatLabel();
 
         public:
-            virtual ~FloatLabel();
+            ~FloatLabel() override;
 
             static std::shared_ptr<FloatLabel> create(const std::shared_ptr<Core::Context>&);
 

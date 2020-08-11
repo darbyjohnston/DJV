@@ -23,7 +23,7 @@ protected:
     SettingsWidget();
 
 public:
-    virtual ~SettingsWidget();
+    ~SettingsWidget() override;
 
     static std::shared_ptr<SettingsWidget> create(const std::shared_ptr<djv::Core::Context>&);
 

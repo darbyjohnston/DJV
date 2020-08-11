@@ -9,11 +9,11 @@ namespace djv
         namespace Range
         {
             template<typename T>
-            constexpr Range<T>::Range()
+            constexpr Range<T>::Range() noexcept
             {}
 
             template<typename T>
-            constexpr Range<T>::Range(T minMax) :
+            constexpr Range<T>::Range(T minMax) noexcept :
                 _min(minMax),
                 _max(minMax)
             {}
@@ -29,43 +29,43 @@ namespace djv
             {}
 
             template<typename T>
-            inline T Range<T>::getMin() const
+            inline T Range<T>::getMin() const noexcept
             {
                 return _min;
             }
 
             template<typename T>
-            inline T Range<T>::getMax() const
+            inline T Range<T>::getMax() const noexcept
             {
                 return _max;
             }
 
             template<>
-            inline void Range<int>::zero()
+            inline void Range<int>::zero() noexcept
             {
                 _min = _max = 0;
             }
 
             template<>
-            inline void Range<size_t>::zero()
+            inline void Range<size_t>::zero() noexcept
             {
                 _min = _max = size_t(0);
             }
 
             template<>
-            inline void Range<float>::zero()
+            inline void Range<float>::zero() noexcept
             {
                 _min = _max = 0.F;
             }
 
             template<typename T>
-            constexpr bool Range<T>::contains(T value) const
+            constexpr bool Range<T>::contains(T value) const noexcept
             {
                 return value >= _min && value <= _max;
             }
 
             template<typename T>
-            constexpr bool Range<T>::intersects(const Range<T>& value) const
+            constexpr bool Range<T>::intersects(const Range<T>& value) const noexcept
             {
                 return !(
                     value._max < _min ||

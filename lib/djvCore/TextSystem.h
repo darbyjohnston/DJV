@@ -33,7 +33,7 @@ namespace djv
             TextSystem();
 
         public:
-            virtual ~TextSystem();
+            ~TextSystem() override;
             
             //! Create a new text system.
             static std::shared_ptr<TextSystem> create(const std::shared_ptr<Context>&);

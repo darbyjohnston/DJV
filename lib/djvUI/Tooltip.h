@@ -37,7 +37,7 @@ namespace djv
             Tooltip();
 
         public:
-            virtual ~Tooltip();
+            ~Tooltip();
 
             static std::shared_ptr<Tooltip> create(
                 const std::shared_ptr<Window>&,

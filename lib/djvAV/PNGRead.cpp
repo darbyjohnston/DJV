@@ -209,9 +209,9 @@ namespace djv
                     const auto info = _open(fileName, f);
 
                     // Read the file.
-                    auto out = Image::Image::create(info.video[0].info);
+                    auto out = Image::Image::create(info.video[0]);
                     out->setPluginName(pluginName);
-                    for (uint16_t y = 0; y < info.video[0].info.size.h; ++y)
+                    for (uint16_t y = 0; y < info.video[0].size.h; ++y)
                     {
                         if (!pngScanline(f->png, out->getData(y)))
                         {
@@ -284,9 +284,13 @@ namespace djv
                             arg(fileName).
                             arg(_textSystem->getText(DJV_TEXT("error_unsupported_image_type"))));
                     }
-                    auto info = Image::Info(width, height, imageType);
 
-                    return Info(fileName, VideoInfo(info, _speed, _sequence));
+                    Info info;
+                    info.fileName = fileName;
+                    info.videoSpeed = _speed;
+                    info.videoSequence = _sequence;
+                    info.video.push_back(Image::Info(width, height, imageType));
+                    return info;
                 }
 
             } // namespace PNG

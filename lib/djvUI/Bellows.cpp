@@ -37,7 +37,7 @@ namespace djv
                     Button();
 
                 public:
-                    virtual ~Button();
+                    ~Button() override;
 
                     static std::shared_ptr<Button> create(const std::shared_ptr<Context>&);
 
@@ -152,7 +152,7 @@ namespace djv
                     ChildLayout();
 
                 public:
-                    virtual ~ChildLayout();
+                    ~ChildLayout() override;
 
                     static std::shared_ptr<ChildLayout> create(const std::shared_ptr<Context>&);
 
@@ -242,7 +242,7 @@ namespace djv
                 std::shared_ptr<HorizontalLayout> buttonLayout;
                 std::shared_ptr<ChildLayout> childLayout;
                 std::shared_ptr<VerticalLayout> layout;
-                bool open = true;
+                bool open = false;
                 std::shared_ptr<Animation::Animation> openAnimation;
                 std::function<void(bool)> openCallback;
             };
@@ -268,6 +268,7 @@ namespace djv
                 p.buttonLayout->setStretch(p.button, RowStretch::Expand);
 
                 p.childLayout = ChildLayout::create(context);
+                p.childLayout->setOpen(p.open);
                 p.childLayout->setShadowOverlay({ Side::Top });
                 p.childLayout->addChild(p.spacer);
 
@@ -279,7 +280,7 @@ namespace djv
                 p.layout->setStretch(p.childLayout, RowStretch::Expand);
                 Widget::addChild(p.layout);
 
-                setOpen(true);
+                _widgetUpdate();
 
                 auto weak = std::weak_ptr<Bellows>(std::dynamic_pointer_cast<Bellows>(shared_from_this()));
                 p.button->setCheckedCallback(
@@ -331,7 +332,7 @@ namespace djv
                 if (value == p.open)
                     return;
                 p.open = value;
-                _childrenUpdate();
+                _widgetUpdate();
                 if (animate)
                 {
                     auto weak = std::weak_ptr<Bellows>(std::dynamic_pointer_cast<Bellows>(shared_from_this()));
@@ -425,19 +426,19 @@ namespace djv
             void Bellows::addChild(const std::shared_ptr<IObject>& value)
             {
                 _p->childLayout->addChild(value);
-                _childrenUpdate();
+                _widgetUpdate();
             }
 
             void Bellows::removeChild(const std::shared_ptr<IObject>& value)
             {
                 _p->childLayout->removeChild(value);
-                _childrenUpdate();
+                _widgetUpdate();
             }
 
             void Bellows::clearChildren()
             {
                 _p->childLayout->clearChildren();
-                _childrenUpdate();
+                _widgetUpdate();
             }
 
             void Bellows::_preLayoutEvent(Event::PreLayout& event)
@@ -450,7 +451,7 @@ namespace djv
                 _p->layout->setGeometry(getGeometry());
             }
 
-            void Bellows::_childrenUpdate()
+            void Bellows::_widgetUpdate()
             {
                 DJV_PRIVATE_PTR();
                 p.button->setChecked(p.open);

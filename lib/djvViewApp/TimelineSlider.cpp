@@ -18,7 +18,7 @@
 
 #include <djvAV/AVSystem.h>
 #include <djvAV/FontSystem.h>
-#include <djvAV/IO.h>
+#include <djvAV/IOSystem.h>
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Context.h>
@@ -156,7 +156,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->speed = value.video.size() ? value.video[0].speed : Math::Rational();
+                        widget->_p->speed = value.videoSpeed;
                         widget->_textUpdate();
                         widget->_currentFrameUpdate();
                     }

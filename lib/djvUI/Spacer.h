@@ -22,7 +22,7 @@ namespace djv
                 Spacer();
 
             public:
-                virtual ~Spacer();
+                ~Spacer() override;
 
                 static std::shared_ptr<Spacer> create(Orientation, const std::shared_ptr<Core::Context>&);
 
@@ -31,6 +31,9 @@ namespace djv
 
                 MetricsRole getSpacerSize() const;
                 void setSpacerSize(MetricsRole);
+
+                MetricsRole getSpacerOppositeSize() const;
+                void setSpacerOppositeSize(MetricsRole);
 
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout&) override;

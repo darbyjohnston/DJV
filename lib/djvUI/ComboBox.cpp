@@ -9,7 +9,6 @@
 #include <djvUI/Menu.h>
 #include <djvUI/MenuButton.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ScrollWidget.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -46,13 +45,13 @@ namespace djv
             p.menu->setMinimumSizeRole(MetricsRole::None);
             addChild(p.menu);
 
-            p.button = Button::Menu::create(Button::MenuStyle::ComboBox, context);
+            p.button = Button::Menu::create(MenuButtonStyle::ComboBox, context);
             p.button->setPopupIcon("djvIconPopupMenu");
             p.button->setTextFocusEnabled(true);
             p.button->setBackgroundRole(ColorRole::Button);
             addChild(p.button);
 
-            _updateCurrentItem(Callback::Suppress);
+            _currentItemUpdate();
 
             auto weak = std::weak_ptr<ComboBox>(std::dynamic_pointer_cast<ComboBox>(shared_from_this()));
             p.actionGroup->setRadioCallback(
@@ -84,11 +83,11 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        if (value && widget->_p->currentItem >= 0 && widget->_p->currentItem < widget->_p->items.size())
+                        if (value)
                         {
                             widget->open();
                         }
-                        if (!value)
+                        else
                         {
                             widget->close();
                         }
@@ -121,29 +120,19 @@ namespace djv
             if (value == p.items)
                 return;
             p.items = value;
-            _updateItems();
-            _updateCurrentItem(Callback::Suppress);
+            p.currentItem = p.items.size() ? 0 : -1;
+            _itemsUpdate();
+            _currentItemUpdate();
         }
 
-        void ComboBox::addItem(const std::string& value)
-        {
-            DJV_PRIVATE_PTR();
-            p.items.push_back(value);
-            auto action = Action::create();
-            action->setText(value);
-            p.actionGroup->addAction(action);
-            p.menu->addAction(action);
-        }
-
-        void ComboBox::clearItems(Callback callback)
+        void ComboBox::clearItems()
         {
             DJV_PRIVATE_PTR();
             if (!p.items.empty())
             {
                 p.items.clear();
-                _updateItems();
-                p.currentItem = -1;
-                _updateCurrentItem(callback);
+                _itemsUpdate();
+                _currentItemUpdate();
             }
         }
 
@@ -152,57 +141,53 @@ namespace djv
             return _p->currentItem;
         }
 
-        void ComboBox::setCurrentItem(int value, Callback callback)
+        void ComboBox::setCurrentItem(int value)
         {
             DJV_PRIVATE_PTR();
-            int tmp = -1;
-            if (value >= 0 && value < static_cast<int>(p.items.size()))
-            {
-                tmp = value;
-            }
-            if (tmp == p.currentItem)
+            if (value == p.currentItem)
                 return;
-            p.currentItem = tmp;
-            _updateCurrentItem(callback);
+            p.currentItem = value;
+            _p->actionGroup->setChecked(value);
+            _currentItemUpdate();
         }
 
-        void ComboBox::firstItem(Callback callback)
+        void ComboBox::firstItem()
         {
             DJV_PRIVATE_PTR();
             const size_t size = p.items.size();
             if (size)
             {
-                setCurrentItem(0, callback);
+                setCurrentItem(0);
             }
         }
 
-        void ComboBox::lastItem(Callback callback)
+        void ComboBox::lastItem()
         {
             DJV_PRIVATE_PTR();
             const size_t size = p.items.size();
             if (size)
             {
-                setCurrentItem(size - 1, callback);
+                setCurrentItem(size - 1);
             }
         }
 
-        void ComboBox::prevItem(Callback callback)
+        void ComboBox::prevItem()
         {
             DJV_PRIVATE_PTR();
             const size_t size = p.items.size();
             if (size && p.currentItem > 0)
             {
-                setCurrentItem(p.currentItem - 1, callback);
+                setCurrentItem(p.currentItem - 1);
             }
         }
 
-        void ComboBox::nextItem(Callback callback)
+        void ComboBox::nextItem()
         {
             DJV_PRIVATE_PTR();
             const size_t size = p.items.size();
-            if (size && p.currentItem >= 0 && p.currentItem < size - 1)
+            if (size && p.currentItem >= 0 && p.currentItem < static_cast<int>(size) - 1)
             {
-                setCurrentItem(p.currentItem + 1, callback);
+                setCurrentItem(p.currentItem + 1);
             }
         }
 
@@ -214,7 +199,7 @@ namespace djv
         void ComboBox::open()
         {
             DJV_PRIVATE_PTR();
-            if (p.currentItem >= 0 && p.currentItem < p.items.size())
+            if (!p.items.empty())
             {
                 p.menu->popup(p.button);
             }
@@ -223,8 +208,11 @@ namespace djv
         void ComboBox::close()
         {
             DJV_PRIVATE_PTR();
-            p.menu->close();
-            takeTextFocus();
+            if (p.menu->isOpen())
+            {
+                p.menu->close();
+                takeTextFocus();
+            }
         }
 
         void ComboBox::setFont(int index, const std::string& font)
@@ -274,19 +262,19 @@ namespace djv
                 {
                 case GLFW_KEY_HOME:
                     event.accept();
-                    firstItem(Callback::Trigger);
+                    firstItem();
                     break;
                 case GLFW_KEY_END:
                     event.accept();
-                    lastItem(Callback::Trigger);
+                    lastItem();
                     break;
                 case GLFW_KEY_UP:
                     event.accept();
-                    prevItem(Callback::Trigger);
+                    prevItem();
                     break;
                 case GLFW_KEY_DOWN:
                     event.accept();
-                    nextItem(Callback::Trigger);
+                    nextItem();
                     break;
                 default: break;
                 }
@@ -297,32 +285,33 @@ namespace djv
             }
         }
 
-        void ComboBox::_updateItems()
+        void ComboBox::_itemsUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.actionGroup->clearActions();
             p.menu->clearActions();
+            std::vector<std::shared_ptr<Action> > actions;
             for (const auto& i : p.items)
             {
                 auto action = Action::create();
                 action->setText(i);
-                p.actionGroup->addAction(action);
                 p.menu->addAction(action);
+                actions.push_back(action);
             }
+            p.actionGroup->setActions(actions);
+            p.actionGroup->setChecked(p.currentItem);
         }
 
-        void ComboBox::_updateCurrentItem(Callback callback)
+        void ComboBox::_currentItemUpdate()
         {
             DJV_PRIVATE_PTR();
-            if (p.currentItem >= 0 && p.currentItem < p.items.size())
+            p.actionGroup->setChecked(p.currentItem);
+            if (p.currentItem >= 0 && p.currentItem < static_cast<int>(p.items.size()))
             {
-                p.actionGroup->setChecked(p.currentItem, true, callback);
                 p.button->setText(p.items[p.currentItem]);
                 p.button->setEnabled(true);
             }
             else
             {
-                p.actionGroup->setChecked(-1, true, callback);
                 p.button->setText(std::string());
                 p.button->setEnabled(false);
             }

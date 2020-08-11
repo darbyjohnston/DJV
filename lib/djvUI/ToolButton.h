@@ -22,7 +22,7 @@ namespace djv
                 Tool();
 
             public:
-                virtual ~Tool();
+                ~Tool() override;
 
                 static std::shared_ptr<Tool> create(const std::shared_ptr<Core::Context>&);
 
@@ -59,6 +59,9 @@ namespace djv
                 bool acceptFocus(TextFocusDirection) override;
 
             protected:
+                void _doClick() override;
+                void _doCheck(bool) override;
+
                 void _preLayoutEvent(Core::Event::PreLayout&) override;
                 void _layoutEvent(Core::Event::Layout&) override;
                 void _paintEvent(Core::Event::Paint&) override;

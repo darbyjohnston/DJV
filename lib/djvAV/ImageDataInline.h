@@ -8,64 +8,64 @@ namespace djv
     {
         namespace Image
         {
-            constexpr Mirror::Mirror()
+            constexpr Mirror::Mirror() noexcept
             {}
 
-            constexpr Mirror::Mirror(bool x, bool y) :
+            constexpr Mirror::Mirror(bool x, bool y) noexcept :
                 x(x),
                 y(y)
             {}
 
-            constexpr bool Mirror::operator == (const Mirror& other) const
+            constexpr bool Mirror::operator == (const Mirror& other) const noexcept
             {
                 return other.x == x && other.y == y;
             }
 
-            constexpr bool Mirror::operator != (const Mirror& other) const
+            constexpr bool Mirror::operator != (const Mirror& other) const noexcept
             {
                 return !(other == *this);
             }
 
-            inline Layout::Layout()
+            inline Layout::Layout() noexcept
             {}
 
-            constexpr Layout::Layout(const Mirror& mirror, GLint alignment, Core::Memory::Endian endian) :
+            constexpr Layout::Layout(const Mirror& mirror, GLint alignment, Core::Memory::Endian endian) noexcept :
                 mirror(mirror),
                 alignment(alignment),
                 endian(endian)
             {}
 
-            constexpr bool Layout::operator == (const Layout& other) const
+            constexpr bool Layout::operator == (const Layout& other) const noexcept
             {
                 return other.mirror == mirror && other.alignment == alignment && other.endian == endian;
             }
 
-            constexpr bool Layout::operator != (const Layout& other) const
+            constexpr bool Layout::operator != (const Layout& other) const noexcept
             {
                 return !(other == *this);
             }
 
-            inline Size::Size(uint16_t w, uint16_t h) :
+            inline Size::Size(uint16_t w, uint16_t h) noexcept :
                 w(w),
                 h(h)
             {}
 
-            inline bool Size::isValid() const
+            inline bool Size::isValid() const noexcept
             {
                 return w > 0 && h > 0;
             }
 
-            inline float Size::getAspectRatio() const
+            inline float Size::getAspectRatio() const noexcept
             {
                 return h > 0 ? (w / static_cast<float>(h)) : 1.F;
             }
 
-            inline bool Size::operator == (const Size& other) const
+            inline bool Size::operator == (const Size& other) const noexcept
             {
                 return w == other.w && h == other.h;
             }
 
-            inline bool Size::operator != (const Size& other) const
+            inline bool Size::operator != (const Size& other) const noexcept
             {
                 return !(*this == other);
             }
@@ -85,32 +85,32 @@ namespace djv
                 layout(layout)
             {}
 
-            inline float Info::getAspectRatio() const
+            inline float Info::getAspectRatio() const noexcept
             {
                 return size.getAspectRatio();
             }
 
-            inline GLenum Info::getGLFormat() const
+            inline GLenum Info::getGLFormat() const noexcept
             {
                 return AV::Image::getGLFormat(type);
             }
 
-            inline GLenum Info::getGLType() const
+            inline GLenum Info::getGLType() const noexcept
             {
                 return AV::Image::getGLType(type);
             }
 
-            inline bool Info::isValid() const
+            inline bool Info::isValid() const noexcept
             {
                 return size.w > 0 && size.h > 0 && type != Type::None;
             }
 
-            inline size_t Info::getPixelByteCount() const
+            inline size_t Info::getPixelByteCount() const noexcept
             {
                 return AV::Image::getByteCount(type);
             }
 
-            inline size_t Info::getScanlineByteCount() const
+            inline size_t Info::getScanlineByteCount() const noexcept
             {
                 const size_t byteCount = static_cast<size_t>(size.w) * AV::Image::getByteCount(type);
                 const size_t q = byteCount / layout.alignment * layout.alignment;
@@ -118,7 +118,7 @@ namespace djv
                 return q + (r ? layout.alignment : 0);
             }
 
-            inline size_t Info::getDataByteCount() const
+            inline size_t Info::getDataByteCount() const noexcept
             {
                 return size.h * getScanlineByteCount();
             }
@@ -126,10 +126,13 @@ namespace djv
             inline bool Info::operator == (const Info& other) const
             {
                 return
-                    other.size.w == size.w &&
-                    other.size.h == size.h &&
-                    other.type == type &&
-                    other.layout == layout;
+                    name == other.name &&
+                    size.w == other.size.w &&
+                    size.h == other.size.h &&
+                    pixelAspectRatio == other.pixelAspectRatio &&
+                    type == other.type &&
+                    layout == other.layout &&
+                    codec == other.codec;
             }
 
             inline bool Info::operator != (const Info& other) const

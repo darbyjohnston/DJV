@@ -95,7 +95,7 @@ namespace djv
                 void append(const std::string&, char separator = getCurrentSeparator());
 
                 //! Is the path empty?
-                bool isEmpty() const;
+                bool isEmpty() const noexcept;
 
                 //! Is this a root path?
                 bool isRoot() const;
@@ -111,11 +111,11 @@ namespace djv
                 //! \name Path Components
                 ///@{
 
-                const std::string& getDirectoryName() const;
+                const std::string& getDirectoryName() const noexcept;
                 std::string getFileName() const;
-                const std::string& getBaseName() const;
-                const std::string& getNumber() const;
-                const std::string& getExtension() const;
+                const std::string& getBaseName() const noexcept;
+                const std::string& getNumber() const noexcept;
+                const std::string& getExtension() const noexcept;
 
                 void setDirectoryName(const std::string&);
                 void setFileName(const std::string&);
@@ -129,13 +129,13 @@ namespace djv
                 ///@{
 
                 //! Is this character a path separator?
-                static bool isSeparator(char);
+                static bool isSeparator(char) noexcept;
 
                 //! Get the path separator.
-                static char getSeparator(PathSeparator);
+                static char getSeparator(PathSeparator) noexcept;
 
                 //! Get the current path separator.
-                static char getCurrentSeparator();
+                static char getCurrentSeparator() noexcept;
 
                 //! Remove a trailing path separator.
                 static void removeTrailingSeparator(std::string&);

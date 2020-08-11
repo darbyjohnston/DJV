@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvAV/IO.h>
+#include <djvAV/IOPlugin.h>
 
 #include <djvCore/Frame.h>
 
@@ -55,6 +55,12 @@ namespace djv
 
                 Audio::Type toAudioType(AVSampleFormat);
                 std::string toString(AVSampleFormat);
+
+                void extractAudio(
+                    uint8_t**                    inData,
+                    int                          inFormat,
+                    uint8_t                      inChannelCount,
+                    std::shared_ptr<Audio::Data> out);
 
                 std::string getErrorString(int);
 

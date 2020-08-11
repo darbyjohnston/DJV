@@ -2,7 +2,7 @@
 // Copyright (c) 2020 Darby Johnston
 // All rights reserved.
 
-#include <djvViewApp/InputSettings.h>
+#include <djvViewApp/MouseSettings.h>
 
 #include <djvCore/Context.h>
 
@@ -16,42 +16,42 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct InputSettings::Private
+        struct MouseSettings::Private
         {
             std::shared_ptr<ValueSubject<ScrollWheelSpeed> > scrollWheelSpeed;
         };
 
-        void InputSettings::_init(const std::shared_ptr<Core::Context>& context)
+        void MouseSettings::_init(const std::shared_ptr<Core::Context>& context)
         {
-            ISettings::_init("djv::ViewApp::InputSettings", context);
+            ISettings::_init("djv::ViewApp::MouseSettings", context);
 
             DJV_PRIVATE_PTR();
             p.scrollWheelSpeed = ValueSubject<ScrollWheelSpeed>::create(ScrollWheelSpeed::Slow);
             _load();
         }
 
-        InputSettings::InputSettings() :
+        MouseSettings::MouseSettings() :
             _p(new Private)
         {}
 
-        std::shared_ptr<InputSettings> InputSettings::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<MouseSettings> MouseSettings::create(const std::shared_ptr<Core::Context>& context)
         {
-            auto out = std::shared_ptr<InputSettings>(new InputSettings);
+            auto out = std::shared_ptr<MouseSettings>(new MouseSettings);
             out->_init(context);
             return out;
         }
 
-        std::shared_ptr<IValueSubject<ScrollWheelSpeed> > InputSettings::observeScrollWheelSpeed() const
+        std::shared_ptr<IValueSubject<ScrollWheelSpeed> > MouseSettings::observeScrollWheelSpeed() const
         {
             return _p->scrollWheelSpeed;
         }
 
-        void InputSettings::setScrollWheelSpeed(ScrollWheelSpeed value)
+        void MouseSettings::setScrollWheelSpeed(ScrollWheelSpeed value)
         {
             _p->scrollWheelSpeed->setIfChanged(value);
         }
 
-        void InputSettings::load(const rapidjson::Value & value)
+        void MouseSettings::load(const rapidjson::Value & value)
         {
             if (value.IsObject())
             {
@@ -60,7 +60,7 @@ namespace djv
             }
         }
 
-        rapidjson::Value InputSettings::save(rapidjson::Document::AllocatorType& allocator)
+        rapidjson::Value MouseSettings::save(rapidjson::Document::AllocatorType& allocator)
         {
             DJV_PRIVATE_PTR();
             rapidjson::Value out(rapidjson::kObjectType);

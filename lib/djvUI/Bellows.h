@@ -22,7 +22,7 @@ namespace djv
                 Bellows();
 
             public:
-                virtual ~Bellows();
+                ~Bellows() override;
 
                 static std::shared_ptr<Bellows> create(const std::shared_ptr<Core::Context>&);
                 
@@ -50,7 +50,7 @@ namespace djv
                 void _layoutEvent(Core::Event::Layout&) override;
 
             private:
-                void _childrenUpdate();
+                void _widgetUpdate();
 
                 DJV_PRIVATE();
             };

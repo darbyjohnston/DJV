@@ -14,34 +14,11 @@ namespace djv
     {
         namespace Math
         {
-            Rational::Rational()
-            {}
-
-            Rational::Rational(int num, int den) :
-                _num(num),
-                _den(den)
-            {}
-
-            float Rational::toFloat() const
-            {
-                return static_cast<float>(_num) / static_cast<float>(_den);
-            }
-
             Rational Rational::fromFloat(float value)
             {
                 //! \bug Implement a proper floating-point to rational number conversion.
                 //! Check-out: OpenEXR\IlmImf\ImfRational.h
                 return Rational(static_cast<int>(round(value)), 1);
-            }
-
-            bool Rational::operator == (const Rational& other) const
-            {
-                return _num == other._num && _den == other._den;
-            }
-
-            bool Rational::operator != (const Rational& other) const
-            {
-                return !(*this == other);
             }
 
         } // namespace Math

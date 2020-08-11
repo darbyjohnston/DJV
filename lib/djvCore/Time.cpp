@@ -21,7 +21,7 @@ namespace djv
                 return Math::Rational(1, timebase);
             }
 
-            int64_t scale(int64_t value, const Math::Rational& br, const Math::Rational& cr)
+            int64_t scale(int64_t value, const Math::Rational& br, const Math::Rational& cr) noexcept
             {
                 int64_t out = 0;
                 const int64_t b = br.getNum() * static_cast<int64_t>(cr.getDen());

@@ -4,6 +4,8 @@
 
 #include <djvUI/DrawUtil.h>
 
+#include <djvUI/Style.h>
+
 #include <djvAV/Render2D.h>
 
 using namespace djv::Core;
@@ -70,6 +72,25 @@ namespace djv
             render->drawRects(rects[0]);
             render->setFillColor(color1);
             render->drawRects(rects[1]);
+        }
+
+        glm::vec2 getCheckBoxSize(const std::shared_ptr<Style::Style>& style)
+        {
+            const float is = style->getMetric(MetricsRole::IconSmall);
+            return glm::vec2(is, is);
+        }
+
+        void drawCheckBox(
+            const std::shared_ptr<AV::Render2D::Render>& render,
+            const std::shared_ptr<Style::Style>& style,
+            const BBox2f& g,
+            bool checked)
+        {
+            const float b = style->getMetric(MetricsRole::Border);
+            render->setFillColor(style->getColor(ColorRole::Border));
+            drawBorder(render, g, b);
+            render->setFillColor(style->getColor(checked ? ColorRole::Checked : ColorRole::Trough));
+            render->drawRect(g.margin(-b));
         }
 
     } // namespace UI

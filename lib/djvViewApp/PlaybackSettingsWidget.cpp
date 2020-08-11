@@ -24,7 +24,6 @@ namespace djv
         struct PlaybackSettingsWidget::Private
         {
             std::shared_ptr<UI::CheckBox> startPlaybackButton;
-            std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<ValueObserver<bool> > startPlaybackObserver;
         };
 
@@ -37,9 +36,10 @@ namespace djv
 
             p.startPlaybackButton = UI::CheckBox::create(context);
 
-            p.layout = UI::VerticalLayout::create(context);
-            p.layout->addChild(p.startPlaybackButton);
-            addChild(p.layout);
+            auto layout = UI::VerticalLayout::create(context);
+            layout->setSpacing(UI::MetricsRole::None);
+            layout->addChild(p.startPlaybackButton);
+            addChild(layout);
 
             auto weak = std::weak_ptr<PlaybackSettingsWidget>(std::dynamic_pointer_cast<PlaybackSettingsWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
@@ -113,7 +113,6 @@ namespace djv
         struct TimelineSettingsWidget::Private
         {
             std::shared_ptr<UI::CheckBox> pipEnabledButton;
-            std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<ValueObserver<bool> > pipEnabledObserver;
         };
 
@@ -126,9 +125,10 @@ namespace djv
 
             p.pipEnabledButton = UI::CheckBox::create(context);
 
-            p.layout = UI::VerticalLayout::create(context);
-            p.layout->addChild(p.pipEnabledButton);
-            addChild(p.layout);
+            auto layout = UI::VerticalLayout::create(context);
+            layout->setSpacing(UI::MetricsRole::None);
+            layout->addChild(p.pipEnabledButton);
+            addChild(layout);
 
             auto weak = std::weak_ptr<TimelineSettingsWidget>(std::dynamic_pointer_cast<TimelineSettingsWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);

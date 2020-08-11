@@ -22,7 +22,7 @@ namespace djv
             MenuBar();
 
         public:
-            virtual ~MenuBar();
+            ~MenuBar() override;
 
             static std::shared_ptr<MenuBar> create(const std::shared_ptr<Core::Context>&);
 
@@ -31,7 +31,7 @@ namespace djv
             void setStretch(const std::shared_ptr<Widget>&, Layout::RowStretch, Side);
 
             void addSeparator(Side);
-            void addSpacer(Side);
+            void addSpacer(Side, MetricsRole = MetricsRole::Spacing);
             void addExpander(Side);
 
             float getHeightForWidth(float) const override;

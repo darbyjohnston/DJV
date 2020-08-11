@@ -7,7 +7,6 @@
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/ListButton.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ScrollWidget.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -18,48 +17,47 @@ namespace djv
 {
     namespace UI
     {
+        ListItem::ListItem()
+        {}
+        
+        ListItem::ListItem(const std::string& text) :
+            text(text)
+        {}
+        
+        bool ListItem::operator == (const ListItem& other) const
+        {
+            return icon == other.icon &&
+                rightIcon == other.rightIcon &&
+                text == other.text &&
+                rightText == other.rightText &&
+                colorRole == other.colorRole &&
+                tooltip == other.tooltip;
+        }
+
         struct ListWidget::Private
         {
-            std::vector<std::string> items;
-            int currentItem = -1;
+            std::vector<ListItem> items;
+            std::string filter;
+            std::vector<ColorRole> alternateRowsRoles = { ColorRole::None, ColorRole::None };
+            std::vector<std::shared_ptr<ListButton> > buttons;
             std::shared_ptr<ButtonGroup> buttonGroup;
             std::shared_ptr<VerticalLayout> layout;
-            std::shared_ptr<ScrollWidget> scrollWidget;
-            std::function<void(int)> currentItemCallback;
+
+            static void initButton(const std::shared_ptr<ListButton>&, const ListItem&);
         };
 
-        void ListWidget::_init(const std::shared_ptr<Context>& context)
+        void ListWidget::_init(ButtonType buttonType, const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
             
             setClassName("djv::UI::ListWidget");
-            setPointerEnabled(true);
 
-            p.buttonGroup = ButtonGroup::create(ButtonType::Radio);
+            p.buttonGroup = ButtonGroup::create(buttonType);
 
             p.layout = VerticalLayout::create(context);
             p.layout->setSpacing(MetricsRole::None);
-
-            p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
-            p.scrollWidget->addChild(p.layout);
-            addChild(p.scrollWidget);
-
-            _updateItems();
-            _updateCurrentItem();
-
-            auto weak = std::weak_ptr<ListWidget>(std::dynamic_pointer_cast<ListWidget>(shared_from_this()));
-            p.buttonGroup->setRadioCallback(
-                [weak](int value)
-            {
-                if (auto widget = weak.lock())
-                {
-                    if (widget->_p->currentItemCallback)
-                    {
-                        widget->_p->currentItemCallback(value);
-                    }
-                }
-            });
+            addChild(p.layout);
         }
 
         ListWidget::ListWidget() :
@@ -69,33 +67,36 @@ namespace djv
         ListWidget::~ListWidget()
         {}
 
-        std::shared_ptr<ListWidget> ListWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ListWidget> ListWidget::create(ButtonType buttonType, const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<ListWidget>(new ListWidget);
-            out->_init(context);
+            out->_init(buttonType, context);
             return out;
         }
 
         void ListWidget::setItems(const std::vector<std::string>& value)
         {
             DJV_PRIVATE_PTR();
+            std::vector<ListItem> tmp;
+            for (const auto& i : value)
+            {
+                tmp.push_back({ i });
+            }
+            if (tmp == p.items)
+                return;
+            p.items = tmp;
+            _itemsUpdate();
+            _filterUpdate();
+        }
+
+        void ListWidget::setItems(const std::vector<ListItem>& value)
+        {
+            DJV_PRIVATE_PTR();
             if (value == p.items)
                 return;
             p.items = value;
-            _updateItems();
-        }
-
-        void ListWidget::addItem(const std::string& value)
-        {
-            DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
-            {
-                p.items.push_back(value);
-                auto button = ListButton::create(context);
-                button->setText(value);
-                p.buttonGroup->addButton(button);
-                p.layout->addChild(button);
-            }
+            _itemsUpdate();
+            _filterUpdate();
         }
 
         void ListWidget::clearItems()
@@ -104,40 +105,66 @@ namespace djv
             if (p.items.size())
             {
                 p.items.clear();
-                _updateItems();
+                _itemsUpdate();
             }
         }
 
-        void ListWidget::setCurrentItem(int value)
+        int ListWidget::getChecked() const
+        {
+            return _p->buttonGroup->getChecked();
+        }
+
+        void ListWidget::setChecked(int index, bool value)
+        {
+            _p->buttonGroup->setChecked(index, value);
+        }
+
+        void ListWidget::setPushCallback(const std::function<void(int)>& value)
+        {
+            _p->buttonGroup->setPushCallback(value);
+        }
+
+        void ListWidget::setToggleCallback(const std::function<void(int, bool)>& value)
+        {
+            _p->buttonGroup->setToggleCallback(value);
+        }
+
+        void ListWidget::setRadioCallback(const std::function<void(int)>& value)
+        {
+            _p->buttonGroup->setRadioCallback(value);
+        }
+
+        void ListWidget::setExclusiveCallback(const std::function<void(int)>& value)
+        {
+            _p->buttonGroup->setExclusiveCallback(value);
+        }
+
+        void ListWidget::setFilter(const std::string& value)
         {
             DJV_PRIVATE_PTR();
-            p.currentItem = value;
-            _updateCurrentItem();
+            if (value == p.filter)
+                return;
+            p.filter = value;
+            _filterUpdate();
         }
 
-        void ListWidget::setCurrentItemCallback(const std::function<void(int)>& value)
+        void ListWidget::setAlternateRowsRoles(ColorRole value0, ColorRole value1)
         {
-            _p->currentItemCallback = value;
-        }
-
-        void ListWidget::setBorder(bool value)
-        {
-            _p->scrollWidget->setBorder(value);
+            DJV_PRIVATE_PTR();
+            if (value0 == p.alternateRowsRoles[0] && value1 == p.alternateRowsRoles[1])
+                return;
+            p.alternateRowsRoles = { value0, value1 };
+            _filterUpdate();
         }
 
         void ListWidget::_preLayoutEvent(Event::PreLayout& event)
         {
-            const auto& style = _getStyle();
-            const float sa = style->getMetric(MetricsRole::ScrollArea);
-            glm::vec2 size = _p->scrollWidget->getMinimumSize();
-            size.x = std::max(size.x, sa);
-            size.y = std::max(size.y, sa);
-            _setMinimumSize(size);
+            _setMinimumSize(_p->layout->getMinimumSize());
         }
 
         void ListWidget::_layoutEvent(Event::Layout& event)
         {
-            _p->scrollWidget->setGeometry(getGeometry());
+            _p->layout->setGeometry(getGeometry());
         }
 
         void ListWidget::_keyPressEvent(Event::KeyPress& event)
@@ -153,65 +180,98 @@ namespace djv
                     {
                     case GLFW_KEY_HOME:
                         event.accept();
-                        if (p.currentItemCallback)
-                        {
-                            p.currentItemCallback(0);
-                        }
+                        p.buttonGroup->getButtons()[0]->doClick();
                         break;
                     case GLFW_KEY_END:
                         event.accept();
-                        if (p.currentItemCallback)
-                        {
-                            p.currentItemCallback(size - 1);
-                        }
+                        p.buttonGroup->getButtons()[size - 1]->doClick();
                         break;
                     case GLFW_KEY_UP:
                         event.accept();
-                        if (p.currentItem > 0 && p.currentItemCallback)
-                        {
-                            p.currentItemCallback(p.currentItem - 1);
-                        }
+                        p.buttonGroup->getButtons()[p.buttonGroup->getChecked() - 1]->doClick();
                         break;
                     case GLFW_KEY_DOWN:
                         event.accept();
-                        if (p.currentItem < size - 1 && p.currentItemCallback)
-                        {
-                            p.currentItemCallback(p.currentItem + 1);
-                        }
+                        p.buttonGroup->getButtons()[p.buttonGroup->getChecked() + 1]->doClick();
                         break;
                     }
                 }
             }
         }
 
-        void ListWidget::_updateItems()
+        void ListWidget::_itemsUpdate()
         {
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
                 p.buttonGroup->clearButtons();
-                p.layout->clearChildren();
-                for (const auto& i : p.items)
+                const size_t buttonsSize = p.buttons.size();
+                size_t i = 0;
+                for (; i < p.items.size() && i < buttonsSize; ++i)
+                {
+                    p.initButton(p.buttons[i], p.items[i]);
+                }
+                for (; i < p.items.size(); ++i)
                 {
                     auto button = ListButton::create(context);
-                    button->setText(i);
-                    p.buttonGroup->addButton(button);
+                    p.initButton(button, p.items[i]);
+                    p.buttons.push_back(button);
                     p.layout->addChild(button);
                 }
+                for (; i < buttonsSize; ++i)
+                {
+                    auto button = p.buttons.begin() + p.items.size();
+                    p.layout->removeChild(*button);
+                    p.buttons.erase(button);
+                }
+                DJV_ASSERT(p.buttons.size() == p.items.size());
+                DJV_ASSERT(p.buttons.size() == p.layout->getChildWidgets().size());
+                std::vector<std::shared_ptr<Button::IButton> > iButtons;
+                for (const auto& i : p.buttons)
+                {
+                    iButtons.push_back(i);
+                }
+                p.buttonGroup->setButtons(iButtons);
             }
         }
 
-        void ListWidget::_updateCurrentItem()
+        void ListWidget::_filterUpdate()
         {
             DJV_PRIVATE_PTR();
-            if (p.currentItem >= 0 && p.currentItem < p.items.size())
+            const auto& buttons = p.buttonGroup->getButtons();
+            DJV_ASSERT(buttons.size() == p.items.size());
+            std::vector<int> indices;
+            for (int i = 0; i < static_cast<int>(p.items.size()); ++i)
             {
-                p.buttonGroup->setChecked(p.currentItem, true);
+                const auto& item = p.items[i];
+                const bool match = String::match(item.text + " " + item.rightText, p.filter);
+                buttons[i]->setVisible(match);
+                if (match)
+                {
+                    if (item.colorRole != ColorRole::None)
+                    {
+                        buttons[i]->setBackgroundRole(item.colorRole);
+                    }
+                    else
+                    {
+                        buttons[i]->setBackgroundRole(
+                            (0 == indices.size() % 2) ?
+                            p.alternateRowsRoles[0] :
+                            p.alternateRowsRoles[1]);
+                    }
+                    indices.push_back(i);
+                }
             }
-            else
-            {
-                p.buttonGroup->setChecked(-1, true);
-            }
+        }
+        
+        void ListWidget::Private::initButton(const std::shared_ptr<ListButton>& button, const ListItem& item)
+        {
+            button->setIcon(item.icon);
+            button->setRightIcon(item.rightIcon);
+            button->setText(item.text);
+            button->setRightText(item.rightText);
+            button->setBackgroundRole(item.colorRole);
+            button->setTooltip(item.tooltip);
         }
 
     } // namespace UI

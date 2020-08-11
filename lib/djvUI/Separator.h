@@ -22,7 +22,7 @@ namespace djv
                 Separator();
 
             public:
-                virtual ~Separator();
+                ~Separator() override;
 
                 static std::shared_ptr<Separator> create(const std::shared_ptr<Core::Context>&);
 

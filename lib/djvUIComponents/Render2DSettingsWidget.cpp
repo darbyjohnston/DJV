@@ -109,7 +109,7 @@ namespace djv
 
         std::string Render2DImageSettingsWidget::getSettingsSortKey() const
         {
-            return "ZZ";
+            return "ZZZZ";
         }
 
         void Render2DImageSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
@@ -132,23 +132,22 @@ namespace djv
         void Render2DImageSettingsWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.filterComboBox[0]->clearItems();
-            p.filterComboBox[1]->clearItems();
+            std::vector<std::string> items;
             for (auto i : AV::Render2D::getImageFilterEnums())
             {
                 std::stringstream ss;
                 ss << i;
-                p.filterComboBox[0]->addItem(_getText(ss.str()));
-                p.filterComboBox[1]->addItem(_getText(ss.str()));
+                items.push_back(_getText(ss.str()));
             }
+            p.filterComboBox[0]->setItems(items);
             p.filterComboBox[0]->setCurrentItem(static_cast<int>(p.filterOptions.min));
+            p.filterComboBox[1]->setItems(items);
             p.filterComboBox[1]->setCurrentItem(static_cast<int>(p.filterOptions.mag));
         }
 
         struct Render2DTextSettingsWidget::Private
         {
             std::shared_ptr<UI::CheckBox> lcdRenderingCheckBox;
-            std::shared_ptr<UI::FormLayout> formLayout;
             std::shared_ptr<ValueObserver<bool> > lcdRenderingObserver;
         };
 
@@ -162,6 +161,7 @@ namespace djv
             p.lcdRenderingCheckBox = UI::CheckBox::create(context);
 
             auto layout = UI::VerticalLayout::create(context);
+            layout->setSpacing(UI::MetricsRole::None);
             layout->addChild(p.lcdRenderingCheckBox);
             addChild(layout);
 
@@ -212,7 +212,7 @@ namespace djv
 
         std::string Render2DTextSettingsWidget::getSettingsSortKey() const
         {
-            return "ZZ";
+            return "ZZZZ";
         }
 
         void Render2DTextSettingsWidget::_initEvent(Event::Init& event)

@@ -28,7 +28,7 @@ namespace djv
             ColorPickerSettings();
 
         public:
-            virtual ~ColorPickerSettings();
+            ~ColorPickerSettings() override;
 
             static std::shared_ptr<ColorPickerSettings> create(const std::shared_ptr<Core::Context>&);
 

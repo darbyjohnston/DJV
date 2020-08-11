@@ -143,9 +143,9 @@ namespace djv
                         }
                         if (info.video.size() && _options.layer < info.video.size())
                         {
-                            const size_t dataByteCount = info.video[_options.layer].info.getDataByteCount();
+                            const size_t dataByteCount = info.video[_options.layer].getDataByteCount();
                             _cache.setMax(dataByteCount ? (cacheMaxByteCount / dataByteCount) : 0);
-                            _cache.setSequenceSize(info.video[_options.layer].sequence.getFrameCount());
+                            _cache.setSequenceSize(info.videoSequence.getFrameCount());
                             _cache.setInOutPoints(inOutPoints);
                         }
                         else
@@ -524,7 +524,7 @@ namespace djv
                 _info = info;
                 if (_info.video.size())
                 {
-                    _imageInfo = _info.video[0].info;
+                    _imageInfo = _info.video[0];
                 }
 
                 p.fileInfo = fileInfo;

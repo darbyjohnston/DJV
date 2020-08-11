@@ -22,7 +22,7 @@ namespace djv
                 Splitter();
 
             public:
-                virtual ~Splitter();
+                ~Splitter() override;
 
                 static std::shared_ptr<Splitter> create(Orientation, const std::shared_ptr<Core::Context>&);
 
