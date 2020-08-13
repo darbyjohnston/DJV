@@ -89,7 +89,6 @@ namespace djv
 
         } // namespace
 
-        std::chrono::steady_clock::time_point Widget::_updateTime;
         bool Widget::_tooltipsEnabled = true;
 
         void Widget::_init(const std::shared_ptr<Context>& context)
