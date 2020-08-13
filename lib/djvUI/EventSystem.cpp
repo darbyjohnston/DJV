@@ -25,6 +25,7 @@ namespace djv
         {
             std::shared_ptr<UI::UISystem> uiSystem;
             std::vector<std::weak_ptr<Window> > windows;
+            std::vector<std::weak_ptr<Window> > newWindows;
             bool textLCDRenderingDirty = false;
             std::shared_ptr<ValueObserver<bool> > textLCDRenderingObserver;
             std::shared_ptr<Time::Timer> statsTimer;
@@ -127,6 +128,26 @@ namespace djv
                     }
                     style->setClean();
                 }
+
+                if (!p.newWindows.empty())
+                {
+                    auto newWindows = std::move(p.newWindows);
+                    Event::InitData data;
+                    data.redraw = true;
+                    data.resize = true;
+                    data.font = true;
+                    data.text = true;
+                    Event::Init initEvent(data);
+                    for (const auto& i : newWindows)
+                    {
+                        if (auto window = i.lock())
+                        {
+                            _initRecursive(window, initEvent);
+                            p.windows.push_back(window);
+                        }
+                    }
+                }
+
                 auto i = p.windows.begin();
                 while (i != p.windows.end())
                 {
@@ -162,7 +183,7 @@ namespace djv
         void EventSystem::_addWindow(const std::shared_ptr<Window>& value)
         {
             setTextFocus(nullptr);
-            _p->windows.push_back(value);
+            _p->newWindows.push_back(value);
         }
 
         void EventSystem::_pushClipRect(const Core::BBox2f&)
