@@ -15,6 +15,7 @@
 
 #include <functional>
 #include <memory>
+#include <set>
 
 namespace djv
 {
@@ -113,8 +114,8 @@ namespace djv
             ColorRole getBackgroundRole() const;
             virtual void setBackgroundRole(ColorRole);
 
-            const std::vector<Side>& getShadowOverlay() const;
-            void setShadowOverlay(const std::vector<Side>&);
+            const std::set<Side>& getShadowOverlay() const;
+            void setShadowOverlay(const std::set<Side>&);
 
             ///@}
 
@@ -240,7 +241,7 @@ namespace djv
             VAlign              _vAlign          = VAlign::Fill;
 
             ColorRole           _backgroundRole  = ColorRole::None;
-            std::vector<Side>   _shadowOverlay;
+            std::set<Side>      _shadowOverlay;
 
             bool                _pointerEnabled  = false;
             std::map<Core::Event::PointerID, glm::vec2>

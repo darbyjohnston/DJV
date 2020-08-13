@@ -108,7 +108,7 @@ namespace djv
             return _backgroundRole;
         }
 
-        inline const std::vector<Side>& Widget::getShadowOverlay() const
+        inline const std::set<Side>& Widget::getShadowOverlay() const
         {
             return _shadowOverlay;
         }

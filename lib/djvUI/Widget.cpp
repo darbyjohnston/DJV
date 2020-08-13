@@ -233,7 +233,7 @@ namespace djv
             _redraw();
         }
 
-        void Widget::setShadowOverlay(const std::vector<Side>& value)
+        void Widget::setShadowOverlay(const std::set<Side>& value)
         {
             if (value == _shadowOverlay)
                 return;
@@ -754,7 +754,7 @@ namespace djv
 
         void Widget::_paintOverlayEvent(Event::PaintOverlay& event)
         {
-            if (_shadowOverlay.size())
+            if (!_shadowOverlay.empty())
             {
                 const auto& style = _getStyle();
                 const float ss = style->getMetric(MetricsRole::ShadowSmall);
