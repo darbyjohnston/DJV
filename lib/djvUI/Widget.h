@@ -260,9 +260,6 @@ namespace djv
             std::map<Core::Event::PointerID, TooltipData>
                                 _pointerToTooltips;
 
-            static bool         _resizeRequest;
-            static bool         _redrawRequest;
-
             std::weak_ptr<EventSystem>              _eventSystem;
             std::shared_ptr<AV::Render2D::Render>   _render;
             std::shared_ptr<Style::Style>           _style;

@@ -26,6 +26,8 @@ namespace djv
             std::shared_ptr<UI::UISystem> uiSystem;
             std::vector<std::weak_ptr<Window> > windows;
             std::vector<std::weak_ptr<Window> > newWindows;
+            bool resizeRequest = false;
+            bool redrawRequest = false;
             bool textLCDRenderingDirty = false;
             std::shared_ptr<ValueObserver<bool> > textLCDRenderingObserver;
             std::shared_ptr<Time::Timer> statsTimer;
@@ -100,6 +102,16 @@ namespace djv
 
         EventSystem::~EventSystem()
         {}
+
+        void EventSystem::resizeRequest()
+        {
+            _p->resizeRequest = true;
+        }
+
+        void EventSystem::redrawRequest()
+        {
+            _p->redrawRequest = true;
+        }
 
         void EventSystem::tick()
         {
@@ -184,6 +196,22 @@ namespace djv
         {
             setTextFocus(nullptr);
             _p->newWindows.push_back(value);
+            _p->resizeRequest = true;
+            _p->redrawRequest = true;
+        }
+
+        bool EventSystem::_resizeRequestReset()
+        {
+            const bool out = _p->resizeRequest;
+            _p->resizeRequest = false;
+            return out;
+        }
+
+        bool EventSystem::_redrawRequestReset()
+        {
+            const bool out = _p->redrawRequest;
+            _p->redrawRequest = false;
+            return out;
         }
 
         void EventSystem::_pushClipRect(const Core::BBox2f&)
@@ -194,20 +222,6 @@ namespace djv
         void EventSystem::_popClipRect()
         {
             // Default implementation does nothing.
-        }
-
-        bool EventSystem::_resizeRequest(const std::shared_ptr<Widget>& widget) const
-        {
-            bool out = widget->_resizeRequest;
-            widget->_resizeRequest = false;
-            return out;
-        }
-
-        bool EventSystem::_redrawRequest(const std::shared_ptr<Widget>& widget) const
-        {
-            bool out = widget->_redrawRequest;
-            widget->_redrawRequest = false;
-            return out;
         }
 
         void EventSystem::_initLayoutRecursive(const std::shared_ptr<Widget>& widget, Event::InitLayout& event)

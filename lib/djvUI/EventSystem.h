@@ -26,17 +26,20 @@ namespace djv
         public:
             virtual ~EventSystem() = 0;
 
+            void resizeRequest();
+            void redrawRequest();
+
             void tick() override;
 
         protected:
             const std::vector<std::weak_ptr<Window> >& _getWindows() const;
             void _addWindow(const std::shared_ptr<Window>&);
 
+            bool _resizeRequestReset();
+            bool _redrawRequestReset();
+
             virtual void _pushClipRect(const Core::BBox2f&);
             virtual void _popClipRect();
-
-            bool _resizeRequest(const std::shared_ptr<Widget>&) const;
-            bool _redrawRequest(const std::shared_ptr<Widget>&) const;
 
             void _initLayoutRecursive(const std::shared_ptr<Widget>&, Core::Event::InitLayout&);
             void _preLayoutRecursive(const std::shared_ptr<Widget>&, Core::Event::PreLayout&);

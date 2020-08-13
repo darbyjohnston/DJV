@@ -64,9 +64,7 @@ namespace djv
         {
             GLFWwindow * glfwWindow = nullptr;
             glm::ivec2 resize = glm::ivec2(0, 0);
-            bool resizeRequest = true;
             glm::vec2 contentScale = glm::vec2(1.F, 1.F);
-            bool redrawRequest = true;
             std::shared_ptr<AV::Render2D::Render> render;
             std::shared_ptr<AV::OpenGL::OffscreenBuffer> offscreenBuffer;
 #if defined(DJV_OPENGL_ES2)
@@ -174,7 +172,8 @@ namespace djv
             UI::EventSystem::tick();
             DJV_PRIVATE_PTR();
 
-            if (p.resizeRequest)
+            const bool resizeRequest = _resizeRequestReset();
+            if (resizeRequest)
             {
                 const AV::Image::Size size(p.resize.x, p.resize.y);
                 if (size.isValid())
@@ -208,19 +207,7 @@ namespace djv
 
             if (p.offscreenBuffer)
             {
-                bool resizeRequest = p.resizeRequest;
-                bool redrawRequest = p.redrawRequest;
-                p.resizeRequest = false;
-                p.redrawRequest = false;
-                for (const auto& i : _getWindows())
-                {
-                    if (auto window = i.lock())
-                    {
-                        resizeRequest |= _resizeRequest(window);
-                        redrawRequest |= _redrawRequest(window);
-                    }
-                }
-
+                const bool redrawRequest = _redrawRequestReset();
                 const auto& size = p.offscreenBuffer->getSize();
                 if (resizeRequest)
                 {
@@ -295,7 +282,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.resize = size;
-            p.resizeRequest = true;
+            resizeRequest();
         }
 
         void EventSystem::_contentScale(const glm::vec2& value)

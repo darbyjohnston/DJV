@@ -153,16 +153,6 @@ namespace djv
             return _style;
         }
 
-        inline void Widget::_redraw()
-        {
-            _redrawRequest = true;
-        }
-
-        inline void Widget::_resize()
-        {
-            _resizeRequest = true;
-        }
-
         inline const std::chrono::steady_clock::time_point& Widget::_getUpdateTime()
         {
             return _updateTime;
