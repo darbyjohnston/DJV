@@ -29,6 +29,8 @@ namespace djv
             void resizeRequest();
             void redrawRequest();
 
+            bool areTooltipsEnabled() const;
+
             void tick() override;
 
         protected:

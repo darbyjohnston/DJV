@@ -4,7 +4,9 @@
 
 #include <djvUI/EventSystem.h>
 
+#include <djvUI/SettingsSystem.h>
 #include <djvUI/Style.h>
+#include <djvUI/UISettings.h>
 #include <djvUI/UISystem.h>
 #include <djvUI/Window.h>
 
@@ -29,7 +31,9 @@ namespace djv
             bool resizeRequest = false;
             bool redrawRequest = false;
             bool textLCDRenderingDirty = false;
+            bool tooltips = false;
             std::shared_ptr<ValueObserver<bool> > textLCDRenderingObserver;
+            std::shared_ptr<ValueObserver<bool> > tooltipsObserver;
             std::shared_ptr<Time::Timer> statsTimer;
         };
 
@@ -65,12 +69,24 @@ namespace djv
             p.textLCDRenderingObserver = ValueObserver<bool>::create(
                 avSystem->observeTextLCDRendering(),
                 [weak](bool value)
-            {
-                if (auto system = weak.lock())
                 {
-                    system->_p->textLCDRenderingDirty = true;
-                }
-            });
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->textLCDRenderingDirty = true;
+                    }
+                });
+
+            auto settingsSystem = context->getSystemT<Settings::System>();
+            auto uiSettings = settingsSystem->getSettingsT<Settings::UI>();
+            p.tooltipsObserver = ValueObserver<bool>::create(
+                uiSettings->observeTooltips(),
+                [weak](bool value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->tooltips = value;
+                    }
+                });
 
             p.statsTimer = Time::Timer::create(context);
             p.statsTimer->setRepeating(true);
@@ -111,6 +127,11 @@ namespace djv
         void EventSystem::redrawRequest()
         {
             _p->redrawRequest = true;
+        }
+
+        bool EventSystem::areTooltipsEnabled() const
+        {
+            return _p->tooltips;
         }
 
         void EventSystem::tick()

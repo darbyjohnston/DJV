@@ -39,7 +39,7 @@ namespace djv
             const Time::Duration tooltipTimeout = std::chrono::milliseconds(500);
             const float tooltipHideDelta = 1.F;
 
-            size_t globalWidgetCount = 0;
+            std::atomic<size_t> globalWidgetCount = 0;
 
             class DefaultTooltipWidget : public ITooltipWidget
             {
@@ -88,8 +88,6 @@ namespace djv
             };
 
         } // namespace
-
-        bool Widget::_tooltipsEnabled = true;
 
         void Widget::_init(const std::shared_ptr<Context>& context)
         {
@@ -435,11 +433,6 @@ namespace djv
             setPointerEnabled(true);
         }
 
-        void Widget::setTooltipsEnabled(bool value)
-        {
-            _tooltipsEnabled = value;
-        }
-
         size_t Widget::getGlobalWidgetCount()
         {
             return globalWidgetCount;
@@ -561,26 +554,33 @@ namespace djv
                     {
                         if (auto context = getContext().lock())
                         {
-                            for (auto& i : _pointerToTooltips)
+                            if (auto eventSystem = _eventSystem.lock())
                             {
-                                const auto j = _pointerHover.find(i.first);
-                                const auto t = std::chrono::duration_cast<std::chrono::milliseconds>(_updateTime - i.second.timer);
-                                const auto& g = getGeometry();
-                                if (_tooltipsEnabled &&
-                                    t > tooltipTimeout &&
-                                    !i.second.tooltip &&
-                                    j != _pointerHover.end() &&
-                                    g.contains(j->second))
+                                const bool tooltipsEnabled = eventSystem->areTooltipsEnabled();
+                                if (tooltipsEnabled)
                                 {
-                                    for (
-                                        auto widget = std::dynamic_pointer_cast<Widget>(shared_from_this());
-                                        widget;
-                                        widget = std::dynamic_pointer_cast<Widget>(widget->getParent().lock()))
+                                    for (auto& i : _pointerToTooltips)
                                     {
-                                        if (auto tooltipWidget = widget->_createTooltip(j->second))
+                                        const auto j = _pointerHover.find(i.first);
+                                        const auto t = std::chrono::duration_cast<std::chrono::milliseconds>(_updateTime - i.second.timer);
+                                        const auto& g = getGeometry();
+                                        if (t > tooltipTimeout &&
+                                            !i.second.tooltip &&
+                                            j != _pointerHover.end() &&
+                                            g.contains(j->second))
                                         {
-                                            i.second.tooltip = Tooltip::create(getWindow(), j->second, tooltipWidget, context);
-                                            break;
+                                            for (
+                                                auto widget = std::dynamic_pointer_cast<Widget>(shared_from_this());
+                                                widget;
+                                                widget = std::dynamic_pointer_cast<Widget>(widget->getParent().lock()))
+                                            {
+                                                if (auto tooltipWidget = widget->_createTooltip(j->second))
+                                                {
+                                                    i.second.tooltip = Tooltip::create(getWindow(), j->second, tooltipWidget, context);
+                                                    break;
+                                                }
+                                            }
+
                                         }
                                     }
                                 }

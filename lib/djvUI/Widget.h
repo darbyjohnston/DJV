@@ -151,9 +151,6 @@ namespace djv
             const std::string& getTooltip() const;
             void setTooltip(const std::string&);
 
-            static bool areTooltipsEnabled();
-            static void setTooltipsEnabled(bool);
-
             ///@}
 
             //! Get the child widgets.
@@ -243,26 +240,22 @@ namespace djv
             ColorRole           _backgroundRole  = ColorRole::None;
             std::set<Side>      _shadowOverlay;
 
-            bool                _pointerEnabled  = false;
-            std::map<Core::Event::PointerID, glm::vec2>
-                                _pointerHover;
+            bool _pointerEnabled = false;
+            std::map<Core::Event::PointerID, glm::vec2> _pointerHover;
 
-            std::vector<std::shared_ptr<Action> >
-                                _actions;
+            std::vector<std::shared_ptr<Action> > _actions;
 
-            std::string         _tooltipText;
-            static bool         _tooltipsEnabled;
+            std::string _tooltipText;
             struct TooltipData
             {
                 std::chrono::steady_clock::time_point timer;
                 std::shared_ptr<Tooltip> tooltip;
             };
-            std::map<Core::Event::PointerID, TooltipData>
-                                _pointerToTooltips;
+            std::map<Core::Event::PointerID, TooltipData> _pointerToTooltips;
 
-            std::weak_ptr<EventSystem>              _eventSystem;
-            std::shared_ptr<AV::Render2D::Render>   _render;
-            std::shared_ptr<Style::Style>           _style;
+            std::weak_ptr<EventSystem> _eventSystem;
+            std::shared_ptr<AV::Render2D::Render> _render;
+            std::shared_ptr<Style::Style> _style;
 
             friend class EventSystem;
         };

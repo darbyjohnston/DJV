@@ -128,11 +128,6 @@ namespace djv
             return _tooltipText;
         }
 
-        inline bool Widget::areTooltipsEnabled()
-        {
-            return _tooltipsEnabled;
-        }
-
         inline const std::vector<std::shared_ptr<Widget> >& Widget::getChildWidgets() const
         {
             return _childWidgets;
