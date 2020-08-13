@@ -187,10 +187,14 @@ namespace djv
                 }
             }
 
-            auto rootObject = getRootObject();
-
             /*std::map<std::string, size_t> objectCounts;
-            IObject::getObjectCounts(rootObject, objectCounts);
+            for (const auto& i : _getWindows())
+            {
+                if (auto window = i.lock())
+                {
+                    IObject::getObjectCounts(window, objectCounts);
+                }
+            }
             size_t totalObjectCount = 0;
             for (const auto& i : objectCounts)
             {
@@ -208,32 +212,38 @@ namespace djv
                 bool redrawRequest = p.redrawRequest;
                 p.resizeRequest = false;
                 p.redrawRequest = false;
-                for (const auto& i : rootObject->getChildrenT<UI::Window>())
+                for (const auto& i : _getWindows())
                 {
-                    resizeRequest |= _resizeRequest(i);
-                    redrawRequest |= _redrawRequest(i);
+                    if (auto window = i.lock())
+                    {
+                        resizeRequest |= _resizeRequest(window);
+                        redrawRequest |= _redrawRequest(window);
+                    }
                 }
 
                 const auto& size = p.offscreenBuffer->getSize();
                 if (resizeRequest)
                 {
-                    for (const auto& i : rootObject->getChildrenT<UI::Window>())
+                    for (const auto& i : _getWindows())
                     {
-                        i->resize(glm::vec2(size.w, size.h));
-
-                        Event::InitLayout initLayout;
-                        _initLayoutRecursive(i, initLayout);
-
-                        Event::PreLayout preLayout;
-                        _preLayoutRecursive(i, preLayout);
-
-                        if (i->isVisible())
+                        if (auto window = i.lock())
                         {
-                            Event::Layout layout;
-                            _layoutRecursive(i, layout);
+                            window->resize(glm::vec2(size.w, size.h));
 
-                            Event::Clip clip(BBox2f(0.F, 0.F, static_cast<float>(size.w), static_cast<float>(size.h)));
-                            _clipRecursive(i, clip);
+                            Event::InitLayout initLayout;
+                            _initLayoutRecursive(window, initLayout);
+
+                            Event::PreLayout preLayout;
+                            _preLayoutRecursive(window, preLayout);
+
+                            if (window->isVisible())
+                            {
+                                Event::Layout layout;
+                                _layoutRecursive(window, layout);
+
+                                Event::Clip clip(BBox2f(0.F, 0.F, static_cast<float>(size.w), static_cast<float>(size.h)));
+                                _clipRecursive(window, clip);
+                            }
                         }
                     }
                 }
@@ -242,13 +252,16 @@ namespace djv
                 {
                     p.offscreenBuffer->bind();
                     p.render->beginFrame(size);
-                    for (const auto& i : rootObject->getChildrenT<UI::Window>())
+                    for (const auto& i : _getWindows())
                     {
-                        if (i->isVisible())
+                        if (auto window = i.lock())
                         {
-                            Event::Paint paintEvent(BBox2f(0.F, 0.F, static_cast<float>(size.w), static_cast<float>(size.h)));
-                            Event::PaintOverlay paintOverlayEvent(BBox2f(0.F, 0.F, static_cast<float>(size.w), static_cast<float>(size.h)));
-                            _paintRecursive(i, paintEvent, paintOverlayEvent);
+                            if (window->isVisible())
+                            {
+                                Event::Paint paintEvent(BBox2f(0.F, 0.F, static_cast<float>(size.w), static_cast<float>(size.h)));
+                                Event::PaintOverlay paintOverlayEvent(BBox2f(0.F, 0.F, static_cast<float>(size.w), static_cast<float>(size.h)));
+                                _paintRecursive(window, paintEvent, paintOverlayEvent);
+                            }
                         }
                     }
                     p.render->endFrame();
@@ -395,17 +408,18 @@ namespace djv
 
         void EventSystem::_hover(Event::PointerMove& event, std::shared_ptr<IObject>& hover)
         {
-            auto rootObject = getRootObject();
-            const auto windows = rootObject->getChildrenT<UI::Window>();
+            const auto windows = _getWindows();
             for (auto i = windows.rbegin(); i != windows.rend(); ++i)
             {
-                auto window = *i;
-                if (window->isVisible())
+                if (auto window = i->lock())
                 {
-                    _hover(window, event, hover);
-                    if (event.isAccepted())
+                    if (window->isVisible())
                     {
-                        break;
+                        _hover(window, event, hover);
+                        if (event.isAccepted())
+                        {
+                            break;
+                        }
                     }
                 }
             }

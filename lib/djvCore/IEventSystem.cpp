@@ -20,33 +20,8 @@ namespace djv
     {
         namespace Event
         {
-            namespace
-            {
-                class RootObject : public IObject
-                {
-                protected:
-                    RootObject()
-                    {}
-
-                public:
-                    ~RootObject() override
-                    {}
-
-                    static std::shared_ptr<RootObject> create(const std::shared_ptr<Context>& context)
-                    {
-                        auto out = std::shared_ptr<RootObject>(new RootObject);
-                        out->_init(context);
-                        out->setClassName("djv::Core::Context::RootObject");
-                        return out;
-                    }
-                };
-
-            } // namespace
-
             struct IEventSystem::Private
             {
-                std::vector<std::shared_ptr<IObject> > objectsCreated;
-                std::shared_ptr<RootObject> rootObject;
                 std::weak_ptr<TextSystem> textSystem;
                 std::chrono::steady_clock::time_point t;
                 PointerInfo pointerInfo;
@@ -68,7 +43,6 @@ namespace djv
 
                 DJV_PRIVATE_PTR();
 
-                p.rootObject = RootObject::create(context);
                 p.pointerSubject = ValueSubject<PointerInfo>::create();
                 p.hover = ValueSubject<std::shared_ptr<IObject> >::create();
                 p.grab = ValueSubject<std::shared_ptr<IObject> >::create();
@@ -120,11 +94,6 @@ namespace djv
 
             IEventSystem::~IEventSystem()
             {}
-
-            std::shared_ptr<IObject> IEventSystem::getRootObject() const
-            {
-                return _p->rootObject;
-            }
 
             std::shared_ptr<Core::IValueSubject<PointerInfo> > IEventSystem::observePointer() const
             {
@@ -195,13 +164,6 @@ namespace djv
                 auto dt = std::chrono::duration_cast<Time::Duration>(p.t - now);
                 p.t = now;
 
-                // Initialize new objects.
-                auto objectsCreated = std::move(p.objectsCreated);
-                for (const auto& i : objectsCreated)
-                {
-                    _initObject(i);
-                }
-
                 // Text init event.
                 if (p.textInit)
                 {
@@ -209,12 +171,12 @@ namespace djv
                     InitData data;
                     data.text = true;
                     Init event(data);
-                    _initRecursive(p.rootObject, event);
+                    _init(event);
                 }
 
                 // Update event.
                 Update updateEvent(p.t, dt);
-                _recursiveUpdate(p.rootObject, updateEvent);
+                _update(updateEvent);
 
                 // Move event.
                 PointerMove moveEvent(p.pointerInfo);
@@ -292,9 +254,21 @@ namespace djv
             void IEventSystem::_initRecursive(const std::shared_ptr<IObject>& object, Init& event)
             {
                 object->event(event);
-                for (const auto& child : object->_children)
+                const auto children = object->_children;
+                for (const auto& child : children)
                 {
                     _initRecursive(child, event);
+                }
+            }
+
+            void IEventSystem::_udateRecursive(const std::shared_ptr<IObject>& object, Update& event)
+            {
+                object->event(event);
+                const auto children = object->_children;
+                for (const auto& child : children)
+                {
+                    child->_parentsEnabled = object->_enabled && object->_parentsEnabled;
+                    _udateRecursive(child, event);
                 }
             }
 
@@ -441,22 +415,6 @@ namespace djv
                         }
                         object = object->getParent().lock();
                     }
-                }
-            }
-
-            void IEventSystem::_objectCreated(const std::shared_ptr<IObject>& object)
-            {
-                _p->objectsCreated.push_back(object);
-            }
-
-            void IEventSystem::_recursiveUpdate(const std::shared_ptr<IObject>& object, Update& event)
-            {
-                object->event(event);
-                const auto children = object->_children;
-                for (const auto& child : children)
-                {
-                    child->_parentsEnabled = object->_enabled && object->_parentsEnabled;
-                    _recursiveUpdate(child, event);
                 }
             }
 

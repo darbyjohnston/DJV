@@ -135,7 +135,6 @@ namespace djv
                     {
                         if (window->isClosed())
                         {
-                            getRootObject()->removeChild(window);
                             erase = true;
                         }
                     }
@@ -153,6 +152,17 @@ namespace djv
                     }
                 }
             }
+        }
+
+        const std::vector<std::weak_ptr<Window> >& EventSystem::_getWindows() const
+        {
+            return _p->windows;
+        }
+        
+        void EventSystem::_addWindow(const std::shared_ptr<Window>& value)
+        {
+            setTextFocus(nullptr);
+            _p->windows.push_back(value);
         }
 
         void EventSystem::_pushClipRect(const Core::BBox2f&)
@@ -245,15 +255,25 @@ namespace djv
             }
         }
 
-        void EventSystem::_initObject(const std::shared_ptr<IObject>& object)
+        void EventSystem::_init(Event::Init& event)
         {
-            IEventSystem::_initObject(object);
-            DJV_PRIVATE_PTR();
-            if (auto window = std::dynamic_pointer_cast<Window>(object))
+            for (const auto& i : _p->windows)
             {
-                setTextFocus(nullptr);
-                getRootObject()->addChild(window);
-                p.windows.push_back(window);
+                if (auto window = i.lock())
+                {
+                    _initRecursive(window, event);
+                }
+            }
+        }
+
+        void EventSystem::_update(Event::Update& event)
+        {
+            for (const auto& i : _p->windows)
+            {
+                if (auto window = i.lock())
+                {
+                    _udateRecursive(window, event);
+                }
             }
         }
 

@@ -28,13 +28,6 @@ namespace djv
             public:
                 ~IEventSystem() override;
 
-                //! \name Root Object
-                ///@{
-
-                std::shared_ptr<IObject> getRootObject() const;
-
-                ///@}
-
                 //! \name Pointer and Key Interaction
                 ///@{
 
@@ -64,12 +57,11 @@ namespace djv
 
                 void tick() override;
 
-                //! \todo How can we make this function protected?
-                void _objectCreated(const std::shared_ptr<IObject>&);
-
             protected:
-                virtual void _initObject(const std::shared_ptr<IObject>&) {}
+                virtual void _init(Init&) {}
                 void _initRecursive(const std::shared_ptr<IObject>&, Init&);
+                virtual void _update(Update&) {}
+                void _udateRecursive(const std::shared_ptr<IObject>&, Update&);
 
                 void _pointerMove(const PointerInfo&);
                 void _buttonPress(int);
@@ -83,13 +75,10 @@ namespace djv
                 virtual void _hover(PointerMove&, std::shared_ptr<IObject>&) = 0;
 
             private:
-                void _recursiveUpdate(const std::shared_ptr<IObject>&, Update&);
                 void _setHover(const std::shared_ptr<IObject>&);
                 void _keyPress(std::shared_ptr<IObject>, KeyPress&);
 
                 DJV_PRIVATE();
-
-                friend class IObject;
             };
 
         } // namespace Event

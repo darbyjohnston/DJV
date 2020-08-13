@@ -29,6 +29,9 @@ namespace djv
             void tick() override;
 
         protected:
+            const std::vector<std::weak_ptr<Window> >& _getWindows() const;
+            void _addWindow(const std::shared_ptr<Window>&);
+
             virtual void _pushClipRect(const Core::BBox2f&);
             virtual void _popClipRect();
 
@@ -44,10 +47,13 @@ namespace djv
                 Core::Event::Paint&,
                 Core::Event::PaintOverlay&);
 
-            void _initObject(const std::shared_ptr<Core::IObject>&) override;
+            void _init(Core::Event::Init&) override;
+            void _update(Core::Event::Update&) override;
 
         private:
             DJV_PRIVATE();
+
+            friend class Window;
         };
 
     } // namespace UI
