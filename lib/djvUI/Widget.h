@@ -77,7 +77,6 @@ namespace djv
             ///@{
 
             const glm::vec2& getMinimumSize() const;
-            const glm::vec2& getDesiredSize() const;
             const Core::BBox2f& getGeometry() const;
             glm::vec2 getSize() const;
             float getWidth() const;
@@ -207,9 +206,6 @@ namespace djv
             //! Set the minimum size. This is computed and set in the pre-layout event.
             void _setMinimumSize(const glm::vec2&);
 
-            //! Set the desired size. This is computed and set in the pre-layout event.
-            void _setDesiredSize(const glm::vec2&);
-
             const std::chrono::steady_clock::time_point& _getUpdateTime();
             const std::map<Core::Event::PointerID, glm::vec2> _getPointerHover() const;
 
@@ -232,7 +228,6 @@ namespace djv
 
             Core::BBox2f        _geometry        = Core::BBox2f(0.F, 0.F, 0.F, 0.F);
             glm::vec2           _minimumSize     = glm::vec2(0.F, 0.F);
-            glm::vec2           _desiredSize     = glm::vec2(0.F, 0.F);
             Layout::Margin      _margin;
             HAlign              _hAlign          = HAlign::Fill;
             VAlign              _vAlign          = VAlign::Fill;

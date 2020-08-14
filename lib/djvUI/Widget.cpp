@@ -893,14 +893,6 @@ namespace djv
             _resize();
         }
 
-        void Widget::_setDesiredSize(const glm::vec2& value)
-        {
-            if (value == _desiredSize)
-                return;
-            _desiredSize = value;
-            _resize();
-        }
-
         std::string Widget::_getTooltipText() const
         {
             std::stringstream out;

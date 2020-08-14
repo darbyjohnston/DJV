@@ -268,9 +268,8 @@ namespace djv
                         if (p.widgetInit[i.first])
                         {
                             p.widgetInit[i.first] = false;
-                            const glm::vec2& widgetDesiredSize = i.first->getDesiredSize();
-                            widgetSize.x = ceilf(std::max(widgetSize.x, std::max(widgetMinimumSize.x, widgetDesiredSize.x)));
-                            widgetSize.y = ceilf(std::max(widgetSize.y, std::max(widgetMinimumSize.y, widgetDesiredSize.y)));
+                            widgetSize.x = ceilf(std::max(widgetSize.x, widgetMinimumSize.x));
+                            widgetSize.y = ceilf(std::max(widgetSize.y, widgetMinimumSize.y));
                             const glm::vec2 c = g.getCenter();
                             i.second.min.x = floorf(c.x - widgetSize.x / 2.F);
                             i.second.min.y = floorf(c.y - widgetSize.y / 2.F);

@@ -44,11 +44,6 @@ namespace djv
             return _minimumSize;
         }
 
-        inline const glm::vec2& Widget::getDesiredSize() const
-        {
-            return _desiredSize;
-        }
-
         inline const Core::BBox2f& Widget::getGeometry() const
         {
             return _geometry;
