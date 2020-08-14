@@ -117,15 +117,7 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
 
     _sceneWidget = UI::SceneWidget::create(context);
 
-    _cameraWidget = CameraWidget::create(context);
-    _renderWidget = RenderWidget::create(context);
-    _infoWidget = InfoWidget::create(context);
-    auto settingsWidget = SettingsWidget::create(context);
-    settingsWidget->addChild(_cameraWidget);
-    settingsWidget->addChild(_renderWidget);
-    settingsWidget->addChild(_infoWidget);
     _settingsDrawer = UI::Drawer::create(UI::Side::Right, context);
-    _settingsDrawer->addChild(settingsWidget);
 
     auto toolBar = UI::ToolBar::create(context);
     toolBar->setBackgroundRole(UI::ColorRole::OverlayLight);
@@ -227,88 +219,110 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
             }
         });
 
-    _cameraWidget->setCameraDataCallback(
-        [weak](const Scene::PolarCameraData& value)
-        {
-            if (auto widget = weak.lock())
-            {
-                widget->_sceneWidget->setCameraData(value);
-            }
-        });
-
-    _renderWidget->setRenderOptionsCallback(
-        [weak](const UI::SceneRenderOptions& value)
-        {
-            if (auto widget = weak.lock())
-            {
-                widget->_sceneWidget->setRenderOptions(value);
-            }
-        });
-
-    _cameraDataObserver = Core::ValueObserver<Scene::PolarCameraData>::create(
-        _sceneWidget->observeCameraData(),
-        [weak](const Scene::PolarCameraData& value)
-        {
-            if (auto widget = weak.lock())
-            {
-                widget->_cameraWidget->setCameraData(value);
-            }
-        });
-
-    _renderOptionsObserver = Core::ValueObserver<UI::SceneRenderOptions>::create(
-        _sceneWidget->observeRenderOptions(),
-        [weak](const UI::SceneRenderOptions& value)
-        {
-            if (auto widget = weak.lock())
-            {
-                widget->_renderWidget->setRenderOptions(value);
-            }
-        });
-
-    _bboxObserver = Core::ValueObserver<Core::BBox3f>::create(
-        _sceneWidget->observeBBox(),
-        [weak](const Core::BBox3f& value)
-        {
-            if (auto widget = weak.lock())
-            {
-                widget->_infoWidget->setBBox(value);
-            }
-        });
-
-    _primitivesCountObserver = Core::ValueObserver<size_t>::create(
-        _sceneWidget->observePrimitivesCount(),
-        [weak](size_t value)
-        {
-            if (auto widget = weak.lock())
-            {
-                widget->_infoWidget->setPrimitivesCount(value);
-            }
-        });
-
-    _pointCountObserver = Core::ValueObserver<size_t>::create(
-        _sceneWidget->observePointCount(),
-        [weak](size_t value)
-        {
-            if (auto widget = weak.lock())
-            {
-                widget->_infoWidget->setPointCount(value);
-            }
-        });
-
-    _statsTimer = Core::Time::Timer::create(context);
-    _statsTimer->setRepeating(true);
     auto contextWeak = std::weak_ptr<Core::Context>(context);
-    _statsTimer->start(
-        Core::Time::getTime(Core::Time::TimerValue::Slow),
-        [weak, contextWeak](const std::chrono::steady_clock::time_point&, const Core::Time::Duration&)
+    _settingsDrawer->setOpenCallback(
+        [weak, contextWeak]() ->std::shared_ptr<Widget>
         {
+            std::shared_ptr<Widget> out;
             if (auto context = contextWeak.lock())
             {
                 if (auto widget = weak.lock())
                 {
-                    widget->_infoWidget->setFPS(context->getFPSAverage());
+                    auto cameraWidget = CameraWidget::create(context);
+                    auto renderWidget = RenderWidget::create(context);
+                    auto infoWidget = InfoWidget::create(context);
+                    auto settingsWidget = SettingsWidget::create(context);
+                    settingsWidget->addChild(cameraWidget);
+                    settingsWidget->addChild(renderWidget);
+                    settingsWidget->addChild(infoWidget);
+
+                    cameraWidget->setCameraDataCallback(
+                        [weak](const Scene::PolarCameraData& value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_sceneWidget->setCameraData(value);
+                            }
+                        });
+
+                    renderWidget->setRenderOptionsCallback(
+                        [weak](const UI::SceneRenderOptions& value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_sceneWidget->setRenderOptions(value);
+                            }
+                        });
+
+                    widget->_cameraDataObserver = Core::ValueObserver<Scene::PolarCameraData>::create(
+                        widget->_sceneWidget->observeCameraData(),
+                        [cameraWidget, weak](const Scene::PolarCameraData& value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                cameraWidget->setCameraData(value);
+                            }
+                        });
+
+                    widget->_renderOptionsObserver = Core::ValueObserver<UI::SceneRenderOptions>::create(
+                        widget->_sceneWidget->observeRenderOptions(),
+                        [renderWidget, weak](const UI::SceneRenderOptions& value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                renderWidget->setRenderOptions(value);
+                            }
+                        });
+
+                    widget->_bboxObserver = Core::ValueObserver<Core::BBox3f>::create(
+                        widget->_sceneWidget->observeBBox(),
+                        [infoWidget, weak](const Core::BBox3f& value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                infoWidget->setBBox(value);
+                            }
+                        });
+
+                    widget->_primitivesCountObserver = Core::ValueObserver<size_t>::create(
+                        widget->_sceneWidget->observePrimitivesCount(),
+                        [infoWidget, weak](size_t value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                infoWidget->setPrimitivesCount(value);
+                            }
+                        });
+
+                    widget->_pointCountObserver = Core::ValueObserver<size_t>::create(
+                        widget->_sceneWidget->observePointCount(),
+                        [infoWidget, weak](size_t value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                infoWidget->setPointCount(value);
+                            }
+                        });
+
+                    widget->_statsTimer = Core::Time::Timer::create(context);
+                    widget->_statsTimer->setRepeating(true);
+                    widget->_statsTimer->start(
+                        Core::Time::getTime(Core::Time::TimerValue::Slow),
+                        [infoWidget, weak, contextWeak](const std::chrono::steady_clock::time_point&, const Core::Time::Duration&)
+                        {
+                            if (auto context = contextWeak.lock())
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    infoWidget->setFPS(context->getFPSAverage());
+                                }
+                            }
+                        });
+
+                    out = settingsWidget;
                 }
             }
+            return out;
         });
 }
 

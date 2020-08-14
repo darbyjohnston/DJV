@@ -53,9 +53,6 @@ private:
 
     std::shared_ptr<djv::UI::Label> _fileInfoLabel;
     std::shared_ptr<djv::UI::SceneWidget> _sceneWidget;
-    std::shared_ptr<CameraWidget> _cameraWidget;
-    std::shared_ptr<InfoWidget> _infoWidget;
-    std::shared_ptr<RenderWidget> _renderWidget;
     std::shared_ptr<djv::UI::Drawer> _settingsDrawer;
 
     std::shared_ptr<djv::UI::FileBrowser::Dialog> _fileBrowserDialog;
