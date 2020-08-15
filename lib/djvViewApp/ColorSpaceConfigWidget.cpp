@@ -9,7 +9,6 @@
 
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/FormLayout.h>
-#include <djvUI/Label.h>
 #include <djvUI/ListButton.h>
 #include <djvUI/ListWidget.h>
 #include <djvUI/PopupButton.h>
@@ -33,15 +32,9 @@ namespace djv
         {
             AV::OCIO::ConfigMode configMode = AV::OCIO::ConfigMode::First;
             AV::OCIO::UserConfigs userConfigs;
-            AV::OCIO::Config envConfig;
-            AV::OCIO::Config cmdLineConfig;
             Core::FileSystem::Path fileBrowserPath = Core::FileSystem::Path(".");
             bool deleteEnabled = false;
 
-            std::shared_ptr<UI::Label> modeLabel;
-            std::shared_ptr<UI::ButtonGroup> modeButtonGroup;
-            std::shared_ptr<UI::VerticalLayout> modeButtonLayout;
-            std::shared_ptr<UI::Label> userConfigLabel;
             std::shared_ptr<UI::ButtonGroup> userConfigButtonGroup;
             std::shared_ptr<UI::ButtonGroup> userConfigDeleteButtonGroup;
             std::shared_ptr<UI::ToolButton> userConfigAddButton;
@@ -52,8 +45,6 @@ namespace djv
 
             std::shared_ptr<ValueObserver<AV::OCIO::ConfigMode> > configModeObserver;
             std::shared_ptr<ValueObserver<AV::OCIO::UserConfigs> > userConfigsObserver;
-            std::shared_ptr<ValueObserver<AV::OCIO::Config> > envConfigObserver;
-            std::shared_ptr<ValueObserver<AV::OCIO::Config> > cmdLineConfigObserver;
         };
 
         void ColorSpaceConfigWidget::_init(const std::shared_ptr<Context>& context)
@@ -61,16 +52,6 @@ namespace djv
             Widget::_init(context);
             DJV_PRIVATE_PTR();
 
-            p.modeLabel = UI::Label::create(context);
-            p.modeLabel->setTextHAlign(UI::TextHAlign::Left);
-            p.modeLabel->setBackgroundRole(UI::ColorRole::Trough);
-            p.modeLabel->setMargin(UI::MetricsRole::MarginSmall);
-            p.modeButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
-
-            p.userConfigLabel = UI::Label::create(context);
-            p.userConfigLabel->setTextHAlign(UI::TextHAlign::Left);
-            p.userConfigLabel->setBackgroundRole(UI::ColorRole::Trough);
-            p.userConfigLabel->setMargin(UI::MetricsRole::MarginSmall);
             p.userConfigButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Exclusive);
             p.userConfigAddButton = UI::ToolButton::create(context);
             p.userConfigAddButton->setIcon("djvIconAdd");
@@ -81,14 +62,6 @@ namespace djv
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
-            p.layout->addChild(p.modeLabel);
-            p.layout->addSeparator();
-            p.modeButtonLayout = UI::VerticalLayout::create(context);
-            p.modeButtonLayout->setSpacing(UI::MetricsRole::None);
-            p.layout->addChild(p.modeButtonLayout);
-            p.layout->addSeparator();
-            p.layout->addChild(p.userConfigLabel);
-            p.layout->addSeparator();
             p.userConfigButtonLayout = UI::VerticalLayout::create(context);
             p.userConfigButtonLayout->setSpacing(UI::MetricsRole::None);
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
@@ -106,16 +79,6 @@ namespace djv
             addChild(p.layout);
 
             auto contextWeak = std::weak_ptr<Context>(context);
-            p.modeButtonGroup->setRadioCallback(
-                [contextWeak](int value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-                        ocioSystem->setConfigMode(static_cast<AV::OCIO::ConfigMode>(value));
-                    }
-                });
-
             p.userConfigButtonGroup->setExclusiveCallback(
                 [contextWeak](int value)
                 {
@@ -217,28 +180,6 @@ namespace djv
                         widget->_widgetUpdate();
                     }
                 });
-
-            p.envConfigObserver = ValueObserver<AV::OCIO::Config>::create(
-                ocioSystem->observeEnvConfig(),
-                [weak](const AV::OCIO::Config& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->envConfig = value;
-                        widget->_widgetUpdate();
-                    }
-                });
-
-            p.cmdLineConfigObserver = ValueObserver<AV::OCIO::Config>::create(
-                ocioSystem->observeCmdLineConfig(),
-                [weak](const AV::OCIO::Config& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->cmdLineConfig = value;
-                        widget->_widgetUpdate();
-                    }
-                });
         }
 
         ColorSpaceConfigWidget::ColorSpaceConfigWidget() :
@@ -276,8 +217,6 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                p.modeLabel->setText(_getText(DJV_TEXT("widget_color_space_mode")));
-                p.userConfigLabel->setText(_getText(DJV_TEXT("widget_color_space_user_config")));
                 p.userConfigAddButton->setTooltip(_getText(DJV_TEXT("widget_color_space_add_config_tooltip")));
                 p.userConfigDeleteButton->setTooltip(_getText(DJV_TEXT("widget_color_space_delete_configs_tooltip")));
                 _widgetUpdate();
@@ -289,26 +228,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                p.modeButtonLayout->clearChildren();
-                std::vector<std::shared_ptr<UI::Button::IButton> > buttons;
-                for (const auto& i : AV::OCIO::getConfigModeEnums())
-                {
-                    std::stringstream ss;
-                    ss << i;
-                    auto button = UI::ListButton::create(context);
-                    std::string text = _getText(DJV_TEXT(ss.str()));
-                    button->setText(text);
-                    buttons.push_back(button);
-                    p.modeButtonLayout->addChild(button);
-                }
-                buttons[static_cast<int>(AV::OCIO::ConfigMode::Env)]->setEnabled(p.envConfig.isValid());
-                buttons[static_cast<int>(AV::OCIO::ConfigMode::CmdLine)]->setEnabled(p.cmdLineConfig.isValid());
-                p.modeButtonGroup->setButtons(buttons);
-                p.modeButtonGroup->setChecked(static_cast<int>(p.configMode));
-
                 const bool userConfigMode = AV::OCIO::ConfigMode::User == p.configMode;
                 p.userConfigButtonLayout->clearChildren();
-                buttons.clear();
+                std::vector<std::shared_ptr<UI::Button::IButton> > buttons;
                 std::vector<std::shared_ptr<UI::Button::IButton> > deleteButtons;
                 auto contextWeak = std::weak_ptr<Context>(context);
                 for (size_t i = 0; i < p.userConfigs.first.size(); ++i)

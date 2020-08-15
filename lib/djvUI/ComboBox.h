@@ -12,9 +12,7 @@ namespace djv
     {
         //! This class provides a combo box widget.
         //!
-        //! \todo Add support for icons. Should we use actions instead of items?
         //! \todo When the combo box is opened, position the current item under the pointer.
-        //! \todo Don't close the combo box when the current item is changed with a keyboard shortcut?
         class ComboBox : public Widget
         {
             DJV_NON_COPYABLE(ComboBox);
@@ -28,8 +26,8 @@ namespace djv
 
             static std::shared_ptr<ComboBox> create(const std::shared_ptr<Core::Context>&);
 
-            const std::vector<std::string>& getItems() const;
             void setItems(const std::vector<std::string>&);
+            void setItems(const std::vector<std::shared_ptr<Action> >&);
             void clearItems();
 
             int getCurrentItem() const;
