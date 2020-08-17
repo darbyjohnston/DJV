@@ -39,7 +39,7 @@ namespace djv
             const Time::Duration tooltipTimeout = std::chrono::milliseconds(500);
             const float tooltipHideDelta = 1.F;
 
-            std::atomic<size_t> globalWidgetCount = 0;
+            std::atomic<size_t> globalWidgetCount(0);
 
             class DefaultTooltipWidget : public ITooltipWidget
             {
