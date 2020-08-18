@@ -68,55 +68,57 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (value == p.currentWidget)
                     return;
+                p.prevWidget.reset();
+                if (p.currentWidget)
+                {
+                    p.currentWidget->hide();
+                }
                 p.currentWidget = value;
                 _widgetUpdate();
             }
 
-            void Solo::setCurrentWidget(const std::shared_ptr<Widget>& value, Side side, bool animated)
+            void Solo::setCurrentWidget(const std::shared_ptr<Widget>& value, Side side)
             {
                 DJV_PRIVATE_PTR();
                 const auto& childWidgets = getChildWidgets();
                 const auto i = std::find(childWidgets.begin(), childWidgets.end(), value);
                 if (i != childWidgets.end() && *i != p.currentWidget)
                 {
-                    if (animated)
+                    p.side = side;
+                    if (p.prevWidget)
                     {
-                        p.side = side;
-                        p.prevWidget = p.currentWidget;
-                        p.currentWidget = *i;
-                        p.currentWidget->moveToFront();
-                        p.currentWidget->show();
-                        if (p.animationValue > 0.F)
+                        p.prevWidget->hide();
+                    }
+                    p.prevWidget = p.currentWidget;
+                    p.currentWidget = *i;
+                    p.currentWidget->moveToFront();
+                    p.currentWidget->show();
+                    if (p.animationValue > 0.F)
+                    {
+                        p.animationValue = 1.F - p.animationValue;
+                    }
+                    auto weak = std::weak_ptr<Solo>(std::dynamic_pointer_cast<Solo>(shared_from_this()));
+                    p.animation->start(
+                        p.animationValue,
+                        1.F,
+                        std::chrono::milliseconds(static_cast<size_t>(animationTime * std::max(0.F, 1.F - p.animationValue))),
+                        [weak](float value)
                         {
-                            p.animationValue = 1.F - p.animationValue;
-                        }
-                        auto weak = std::weak_ptr<Solo>(std::dynamic_pointer_cast<Solo>(shared_from_this()));
-                        p.animation->start(
-                            p.animationValue,
-                            1.F,
-                            std::chrono::milliseconds(static_cast<size_t>(animationTime * std::max(0.F, 1.F - p.animationValue))),
-                            [weak](float value)
+                            if (auto widget = weak.lock())
                             {
-                                if (auto widget = weak.lock())
-                                {
-                                    widget->_p->animationValue = value;
-                                    widget->_resize();
-                                }
-                            },
-                            [weak](float value)
+                                widget->_p->animationValue = value;
+                                widget->_resize();
+                            }
+                        },
+                        [weak](float value)
+                        {
+                            if (auto widget = weak.lock())
                             {
-                                if (auto widget = weak.lock())
-                                {
-                                    widget->_p->prevWidget->hide();
-                                    widget->_p->prevWidget.reset();
-                                    widget->_p->animationValue = value;
-                                }
-                            });
-                    }
-                    else
-                    {
-                        setCurrentWidget(*i);
-                    }
+                                widget->_p->prevWidget->hide();
+                                widget->_p->prevWidget.reset();
+                                widget->_p->animationValue = value;
+                            }
+                        });
                 }
             }
 
@@ -157,9 +159,17 @@ namespace djv
             {
                 Widget::addChild(value);
                 DJV_PRIVATE_PTR();
-                if (!p.currentWidget)
+                if (auto widget = std::dynamic_pointer_cast<Widget>(value))
                 {
-                    p.currentWidget = std::dynamic_pointer_cast<Widget>(value);
+                    if (!p.currentWidget)
+                    {
+                        p.prevWidget.reset();
+                        p.currentWidget = widget;
+                    }
+                    else
+                    {
+                        widget->hide();
+                    }
                 }
                 _widgetUpdate();
             }
@@ -236,10 +246,11 @@ namespace djv
 
             void Solo::_widgetUpdate()
             {
-                const auto& children = getChildWidgets();
-                for (const auto& child : children)
+                DJV_PRIVATE_PTR();
+                if (p.currentWidget)
                 {
-                    child->setVisible(child == _p->currentWidget);
+                    p.currentWidget->moveToFront();
+                    p.currentWidget->show();
                 }
                 _resize();
             }

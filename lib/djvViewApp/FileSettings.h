@@ -57,9 +57,9 @@ namespace djv
             void setSequencesFirstFrame(bool);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeCacheEnabled() const;
-            std::shared_ptr<Core::IValueSubject<int> > observeCacheMaxGB() const;
+            std::shared_ptr<Core::IValueSubject<int> > observeCacheSize() const;
             void setCacheEnabled(bool);
-            void setCacheMaxGB(int);
+            void setCacheSize(int);
 
             const std::map<std::string, Core::BBox2f>& getWidgetGeom() const;
             void setWidgetGeom(const std::map<std::string, Core::BBox2f>&);

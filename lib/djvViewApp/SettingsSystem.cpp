@@ -6,6 +6,7 @@
 
 #include <djvViewApp/FileSettingsWidget.h>
 #include <djvViewApp/KeyboardSettingsWidget.h>
+#include <djvViewApp/MemorySettingsWidget.h>
 #include <djvViewApp/MouseSettingsWidget.h>
 #include <djvViewApp/NUXSettingsWidget.h>
 #include <djvViewApp/PlaybackSettingsWidget.h>
@@ -114,7 +115,8 @@ namespace djv
                     NUXSettingsWidget::create(context),
                     PlaybackSettingsWidget::create(context),
                     SequenceSettingsWidget::create(context),
-                    TimelineSettingsWidget::create(context)
+                    TimelineSettingsWidget::create(context),
+                    MemorySettingsWidget::create(context)
                 };
             }
             return out;

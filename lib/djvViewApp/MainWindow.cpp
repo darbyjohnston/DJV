@@ -13,7 +13,6 @@
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaCanvas.h>
 #include <djvViewApp/MediaWidget.h>
-#include <djvViewApp/MemoryCacheWidget.h>
 #include <djvViewApp/SettingsWidget.h>
 #include <djvViewApp/SettingsSystem.h>
 #include <djvViewApp/ToolSystem.h>
@@ -31,7 +30,6 @@
 #include <djvUI/Menu.h>
 #include <djvUI/MenuBar.h>
 #include <djvUI/MenuButton.h>
-#include <djvUI/PopupButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Shortcut.h>
@@ -61,8 +59,6 @@ namespace djv
             std::shared_ptr<UI::ActionGroup> mediaActionGroup;
             std::shared_ptr<UI::Menu> mediaMenu;
             std::shared_ptr<UI::Button::Menu> mediaButton;
-            std::shared_ptr<UI::PopupButton> cachePopupButton;
-            std::shared_ptr<UI::ThermometerWidget> cacheThermometerWidget;
             std::shared_ptr<UI::ToolButton> settingsButton;
             std::shared_ptr<UI::MenuBar> menuBar;
             std::shared_ptr<MediaCanvas> mediaCanvas;
@@ -75,7 +71,6 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > settingsActionObserver;
             std::shared_ptr<ListObserver<std::shared_ptr<Media> > > mediaObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
-            std::shared_ptr<ValueObserver<float> > cachePercentageObserver;
             std::shared_ptr<ValueObserver<bool> > maximizeObserver;
             std::shared_ptr<ValueObserver<float> > fadeObserver;
         };
@@ -115,14 +110,6 @@ namespace djv
             p.mediaButton = UI::Button::Menu::create(UI::MenuButtonStyle::Flat, context);
             p.mediaButton->setPopupIcon("djvIconPopupMenu");
             p.mediaButton->setEnabled(false);
-
-            p.cachePopupButton = UI::PopupButton::create(UI::MenuButtonStyle::Tool, context);
-            p.cachePopupButton->setIcon("djvIconMemory");
-            p.cacheThermometerWidget = UI::ThermometerWidget::create(context);
-            p.cacheThermometerWidget->setOrientation(UI::Orientation::Vertical);
-            p.cacheThermometerWidget->setColorRole(UI::ColorRole::Cached);
-            p.cacheThermometerWidget->setSizeRole(UI::MetricsRole::None);
-            p.cacheThermometerWidget->setBackgroundRole(UI::ColorRole::None);
 
             auto maximizeButton = UI::ToolButton::create(context);
             auto autoHideButton = UI::ToolButton::create(context);
@@ -171,9 +158,6 @@ namespace djv
             p.menuBar->addSeparator(UI::Side::Right);
             p.menuBar->addChild(p.mediaButton);
             p.menuBar->setStretch(p.mediaButton, UI::RowStretch::Expand, UI::Side::Right);
-            p.menuBar->addSeparator(UI::Side::Right);
-            p.menuBar->addChild(p.cachePopupButton);
-            p.menuBar->addChild(p.cacheThermometerWidget);
             p.menuBar->addSeparator(UI::Side::Right);
             p.menuBar->addChild(maximizeButton);
             p.menuBar->addChild(autoHideButton);
@@ -278,18 +262,6 @@ namespace djv
                     }
                 });
 
-            p.cachePopupButton->setOpenCallback(
-                [contextWeak]() -> std::shared_ptr<UI::Widget>
-                {
-                    std::shared_ptr<UI::Widget> out;
-                    if (auto context = contextWeak.lock())
-                    {
-                        auto memoryCacheWidget = MemoryCacheWidget::create(context);
-                        out = memoryCacheWidget;
-                    }
-                    return out;
-                });
-
             settingsDrawer->setOpenCallback(
                 [contextWeak]() -> std::shared_ptr<UI::Widget>
                 {
@@ -372,16 +344,6 @@ namespace djv
                                     Core::FileSystem::FileInfo()));
                             }
                         });
-
-                    p.cachePercentageObserver = ValueObserver<float>::create(
-                        fileSystem->observeCachePercentage(),
-                        [weak](float value)
-                        {
-                            if (auto widget = weak.lock())
-                            {
-                                widget->_cacheUpdate();
-                            }
-                        });
                 }
             }
 
@@ -448,28 +410,9 @@ namespace djv
             if (event.getData().text)
             {
                 p.mediaButton->setTooltip(_getText(DJV_TEXT("menu_media_popup_tooltip")));
-                p.cachePopupButton->setTooltip(_getText(DJV_TEXT("menu_memory_cache_tooltip")));
 #ifdef DJV_DEMO
                 p.titleLabel->setText(_getText(DJV_TEXT("djv_2_0_4")));
 #endif // DJV_DEMO
-                _cacheUpdate();
-            }
-        }
-
-        void MainWindow::_cacheUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
-            {
-                if (auto fileSystem = context->getSystemT<FileSystem>())
-                {
-                    const float percentage = fileSystem->observeCachePercentage()->get();
-                    p.cacheThermometerWidget->setPercentage(percentage);
-                    std::stringstream ss;
-                    ss << _getText(DJV_TEXT("menu_memory_cache_thermometer_tooltip")) << ": " <<
-                        static_cast<int>(percentage) << "%";
-                    p.cacheThermometerWidget->setTooltip(ss.str());
-                }
             }
         }
 
