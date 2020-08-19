@@ -133,7 +133,7 @@ namespace djv
                 }
 
                 const BBox2f& g2 = g.margin(-btf);
-                render->setFillColor(style->getColor(isChecked() ? ColorRole::Checked : ColorRole::Trough));
+                render->setFillColor(style->getColor(ColorRole::Trough));
                 render->drawRect(g2);
 
                 if (_isHovered())
@@ -144,13 +144,19 @@ namespace djv
 
                 const float r = g2.h() / 2.F;
                 const float x = Math::lerp(p.animationValue, g2.min.x + r, g2.max.x - r);
-                const BBox2f handleBBox = BBox2f(x - r, g2.min.y, r * 2.F, r * 2.F);
-                auto color = style->getColor(ColorRole::Border);
-                render->setFillColor(color);
-                render->drawRect(handleBBox);
-                color = style->getColor(ColorRole::Button);
-                render->setFillColor(color);
-                render->drawRect(handleBBox.margin(-b));
+                const BBox2f handleBBox = BBox2f(x - r, g2.min.y, r * 2.F, r * 2.F).margin(-b);
+                if (isChecked())
+                {
+                    render->setFillColor(style->getColor(ColorRole::Checked));
+                    render->drawRect(handleBBox);
+                }
+                else
+                {
+                    render->setFillColor(style->getColor(ColorRole::BorderButton));
+                    render->drawRect(handleBBox);
+                    render->setFillColor(style->getColor(ColorRole::Button));
+                    render->drawRect(handleBBox.margin(-b));
+                }
 
                 if (_isPressed())
                 {

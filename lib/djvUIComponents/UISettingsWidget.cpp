@@ -4,9 +4,9 @@
 
 #include <djvUIComponents/UISettingsWidget.h>
 
-#include <djvUI/CheckBox.h>
-#include <djvUI/RowLayout.h>
+#include <djvUI/FormLayout.h>
 #include <djvUI/SettingsSystem.h>
+#include <djvUI/ToggleButton.h>
 #include <djvUI/UISettings.h>
 
 #include <djvCore/Context.h>
@@ -19,8 +19,8 @@ namespace djv
     {
         struct TooltipsSettingsWidget::Private
         {
-            std::shared_ptr<CheckBox> tooltipsCheckBox;
-            std::shared_ptr<VerticalLayout> layout;
+            std::shared_ptr<ToggleButton> tooltipsButton;
+            std::shared_ptr<FormLayout> layout;
             std::shared_ptr<ValueObserver<bool> > tooltipsObserver;
         };
 
@@ -31,15 +31,15 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::UI::TooltipsSettingsWidget");
 
-            p.tooltipsCheckBox = CheckBox::create(context);
+            p.tooltipsButton = ToggleButton::create(context);
 
-            p.layout = VerticalLayout::create(context);
-            p.layout->addChild(p.tooltipsCheckBox);
+            p.layout = FormLayout::create(context);
+            p.layout->addChild(p.tooltipsButton);
             addChild(p.layout);
 
             auto weak = std::weak_ptr<TooltipsSettingsWidget>(std::dynamic_pointer_cast<TooltipsSettingsWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
-            p.tooltipsCheckBox->setCheckedCallback(
+            p.tooltipsButton->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -61,7 +61,7 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    widget->_p->tooltipsCheckBox->setChecked(value);
+                    widget->_p->tooltipsButton->setChecked(value);
                 }
             });
         }
@@ -77,11 +77,6 @@ namespace djv
             return out;
         }
 
-        std::string TooltipsSettingsWidget::getSettingsName() const
-        {
-            return DJV_TEXT("settings_general_section_tooltips");
-        }
-
         std::string TooltipsSettingsWidget::getSettingsGroup() const
         {
             return DJV_TEXT("settings_title_general");
@@ -92,20 +87,25 @@ namespace djv
             return "0";
         }
 
+        void TooltipsSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
+        {
+            _p->layout->setLabelSizeGroup(value);
+        }
+
         void TooltipsSettingsWidget::_initEvent(Event::Init & event)
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                p.tooltipsCheckBox->setText(_getText(DJV_TEXT("settings_general_enable_tooltips")));
+                p.layout->setText(p.tooltipsButton, _getText(DJV_TEXT("settings_general_tooltips")) + ":");
             }
         }
 
         struct ScrollSettingsWidget::Private
         {
-            std::shared_ptr<CheckBox> reverseScrollingCheckBox;
-            std::shared_ptr<VerticalLayout> layout;
+            std::shared_ptr<ToggleButton> reverseScrollingButton;
+            std::shared_ptr<FormLayout> layout;
             std::shared_ptr<ValueObserver<bool> > reverseScrollingObserver;
         };
 
@@ -116,15 +116,15 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::UI::ScrollSettingsWidget");
 
-            p.reverseScrollingCheckBox = CheckBox::create(context);
+            p.reverseScrollingButton = ToggleButton::create(context);
 
-            p.layout = VerticalLayout::create(context);
-            p.layout->addChild(p.reverseScrollingCheckBox);
+            p.layout = FormLayout::create(context);
+            p.layout->addChild(p.reverseScrollingButton);
             addChild(p.layout);
 
             auto weak = std::weak_ptr<ScrollSettingsWidget>(std::dynamic_pointer_cast<ScrollSettingsWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
-            p.reverseScrollingCheckBox->setCheckedCallback(
+            p.reverseScrollingButton->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -146,7 +146,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->reverseScrollingCheckBox->setChecked(value);
+                        widget->_p->reverseScrollingButton->setChecked(value);
                     }
                 });
         }
@@ -162,11 +162,6 @@ namespace djv
             return out;
         }
 
-        std::string ScrollSettingsWidget::getSettingsName() const
-        {
-            return DJV_TEXT("settings_general_section_scroll");
-        }
-
         std::string ScrollSettingsWidget::getSettingsGroup() const
         {
             return DJV_TEXT("settings_title_general");
@@ -177,13 +172,18 @@ namespace djv
             return "0";
         }
 
+        void ScrollSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
+        {
+            _p->layout->setLabelSizeGroup(value);
+        }
+
         void ScrollSettingsWidget::_initEvent(Event::Init& event)
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                p.reverseScrollingCheckBox->setText(_getText(DJV_TEXT("settings_general_reverse_scrolling")));
+                p.layout->setText(p.reverseScrollingButton, _getText(DJV_TEXT("settings_general_reverse_scrolling")) + ":");
             }
         }
 

@@ -10,7 +10,6 @@
 #include <djvUIComponents/ISettingsWidget.h>
 
 #include <djvUI/Bellows.h>
-#include <djvUI/GroupBox.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
@@ -28,7 +27,7 @@ namespace djv
         {
             std::map<std::string, std::vector<std::shared_ptr<UI::ISettingsWidget> > > widgets;
             std::map<std::shared_ptr<UI::ISettingsWidget>, std::shared_ptr<UI::Bellows> > bellows;
-            std::map<std::shared_ptr<UI::ISettingsWidget>, std::shared_ptr<UI::GroupBox> > groupBoxes;
+            std::map<std::shared_ptr<UI::ISettingsWidget>, std::shared_ptr<UI::Label> > labels;
             std::shared_ptr<UI::LabelSizeGroup> sizeGroup;
             std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<UI::ScrollWidget> scrollWidget;
@@ -59,18 +58,39 @@ namespace djv
             auto appSettings = settingsSystem->getSettingsT<ApplicationSettings>();
             const auto& settingsBellows = appSettings->observeSettingsBellows()->get();
             auto contextWeak = std::weak_ptr<Context>(context);
+            const size_t widgetsSize = p.widgets.size();
             for (const auto& i : p.widgets)
             {
                 if (i.second.size())
                 {
                     auto layout = UI::VerticalLayout::create(context);
                     layout->setMargin(UI::MetricsRole::MarginSmall);
-                    for (const auto& j : i.second)
+                    const size_t size = i.second.size();
+                    for (size_t j = 0; j < size; ++j)
                     {
-                        auto groupBox = UI::GroupBox::create(context);
-                        groupBox->addChild(j);
-                        p.groupBoxes[j] = groupBox;
-                        layout->addChild(groupBox);
+                        const auto& widget = i.second[j];
+                        if (!widget->getSettingsName().empty())
+                        {
+                            auto label = UI::Label::create(context);
+                            label->setFontFace("Bold");
+                            label->setMargin(UI::MetricsRole::MarginSmall);
+                            label->setHAlign(UI::HAlign::Left);
+                            p.labels[widget] = label;
+
+                            auto vLayout = UI::VerticalLayout::create(context);
+                            vLayout->setSpacing(UI::MetricsRole::SpacingSmall);
+                            vLayout->addChild(label);
+                            vLayout->addChild(widget);
+                            layout->addChild(vLayout);
+                        }
+                        else
+                        {
+                            layout->addChild(widget);
+                        }
+                        if (j < size - 1)
+                        {
+                            layout->addSeparator();
+                        }
                     }
 
                     auto bellows = UI::Bellows::create(context);
@@ -151,7 +171,7 @@ namespace djv
             {
                 i.second->setText(_getText(i.first->getSettingsGroup()));
             }
-            for (const auto& i : p.groupBoxes)
+            for (const auto& i : p.labels)
             {
                 i.second->setText(_getText(i.first->getSettingsName()));
             }

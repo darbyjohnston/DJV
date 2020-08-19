@@ -85,11 +85,6 @@ namespace djv
             return out;
         }
 
-        std::string MouseScrollWheelSettingsWidget::getSettingsName() const
-        {
-            return DJV_TEXT("settings_mouse_section_scroll_wheel");
-        }
-
         std::string MouseScrollWheelSettingsWidget::getSettingsGroup() const
         {
             return DJV_TEXT("settings_title_mouse");
@@ -97,7 +92,7 @@ namespace djv
 
         std::string MouseScrollWheelSettingsWidget::getSettingsSortKey() const
         {
-            return "ZZ";
+            return "X";
         }
 
         void MouseScrollWheelSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
@@ -111,7 +106,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                p.layout->setText(p.scrollWheelSpeedComboBox, _getText(DJV_TEXT("settings_mouse_scroll_wheel_speed")) + ":");
+                p.layout->setText(p.scrollWheelSpeedComboBox, _getText(DJV_TEXT("settings_mouse_scroll_wheel")) + ":");
                 _widgetUpdate();
             }
         }

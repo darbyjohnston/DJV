@@ -9,14 +9,13 @@
 
 #include <djvUIComponents/SearchBox.h>
 
-#include <djvUI/Action.h>
 #include <djvUI/Bellows.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/TextBlock.h>
-#include <djvUI/ToolBar.h>
+#include <djvUI/ToolButton.h>
 
 #include <djvAV/AVSystem.h>
 
@@ -33,8 +32,8 @@ namespace djv
             AV::IO::Info info;
             bool bellowsState = true;
             std::string filter;
-            std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::vector<std::shared_ptr<UI::Bellows> > bellows;
+            std::map<std::string, std::shared_ptr<UI::ToolButton> > buttons;
             std::shared_ptr<UI::SearchBox> searchBox;
             std::shared_ptr<UI::LabelSizeGroup> sizeGroup;
             std::shared_ptr<UI::VerticalLayout> layout;
@@ -68,43 +67,44 @@ namespace djv
 
             setClassName("djv::ViewApp::InfoWidget");
 
-            p.actions["ExpandAll"] = UI::Action::create();
-            p.actions["ExpandAll"]->setIcon("djvIconArrowSmallDown");
-            p.actions["CollapseAll"] = UI::Action::create();
-            p.actions["CollapseAll"]->setIcon("djvIconArrowSmallRight");
-
             p.searchBox = UI::SearchBox::create(context);
 
-            auto toolBar = UI::ToolBar::create(context);
-            toolBar->setBackgroundRole(UI::ColorRole::Background);
-            toolBar->addAction(p.actions["ExpandAll"]);
-            toolBar->addAction(p.actions["CollapseAll"]);
-            toolBar->addChild(p.searchBox);
-            toolBar->setStretch(p.searchBox, UI::RowStretch::Expand);
+            p.buttons["ExpandAll"] = UI::ToolButton::create(context);
+            p.buttons["ExpandAll"]->setIcon("djvIconArrowSmallDown");
+            p.buttons["CollapseAll"] = UI::ToolButton::create(context);
+            p.buttons["CollapseAll"]->setIcon("djvIconArrowSmallRight");
 
             p.sizeGroup = UI::LabelSizeGroup::create();
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
-
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
             scrollWidget->setBorder(false);
             scrollWidget->setShadowOverlay({ UI::Side::Top });
-            scrollWidget->setBackgroundRole(UI::ColorRole::Background);
             scrollWidget->addChild(p.layout);
-
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
+            vLayout->setBackgroundRole(UI::ColorRole::Background);
             vLayout->addChild(scrollWidget);
             vLayout->setStretch(scrollWidget, UI::RowStretch::Expand);
             vLayout->addSeparator();
-            vLayout->addChild(toolBar);
+            auto hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setMargin(UI::MetricsRole::MarginSmall);
+            hLayout->setSpacing(UI::MetricsRole::SpacingSmall);
+            auto hLayout2 = UI::HorizontalLayout::create(context);
+            hLayout2->setSpacing(UI::MetricsRole::None);
+            hLayout2->addChild(p.buttons["ExpandAll"]);
+            hLayout2->addChild(p.buttons["CollapseAll"]);
+            hLayout->addChild(hLayout2);
+            hLayout->addChild(p.searchBox);
+            hLayout->setStretch(p.searchBox, UI::RowStretch::Expand);
+            vLayout->addChild(hLayout);
             addChild(vLayout);
 
             _widgetUpdate();
 
             auto weak = std::weak_ptr<InfoWidget>(std::dynamic_pointer_cast<InfoWidget>(shared_from_this()));
-            p.actions["ExpandAll"]->setClickedCallback(
+            p.buttons["ExpandAll"]->setClickedCallback(
                 [weak]
                 {
                     if (auto widget = weak.lock())
@@ -113,7 +113,7 @@ namespace djv
                     }
                 });
 
-            p.actions["CollapseAll"]->setClickedCallback(
+            p.buttons["CollapseAll"]->setClickedCallback(
                 [weak]
                 {
                     if (auto widget = weak.lock())
@@ -213,8 +213,8 @@ namespace djv
             {
                 setTitle(_getText(DJV_TEXT("widget_info_title")));
 
-                p.actions["ExpandAll"]->setTooltip(_getText(DJV_TEXT("widget_info_expand_all_tooltip")));
-                p.actions["CollapseAll"]->setTooltip(_getText(DJV_TEXT("widget_info_collapse_all_tooltip")));
+                p.buttons["ExpandAll"]->setTooltip(_getText(DJV_TEXT("widget_info_expand_all_tooltip")));
+                p.buttons["CollapseAll"]->setTooltip(_getText(DJV_TEXT("widget_info_collapse_all_tooltip")));
 
                 _widgetUpdate();
             }

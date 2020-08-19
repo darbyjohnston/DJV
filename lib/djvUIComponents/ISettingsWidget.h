@@ -26,7 +26,7 @@ namespace djv
         public:
             ~ISettingsWidget() override = 0;
 
-            virtual std::string getSettingsName() const = 0;
+            virtual std::string getSettingsName() const { return std::string(); }
             virtual std::string getSettingsSortKey() const = 0;
             virtual std::string getSettingsGroup() const = 0;
 

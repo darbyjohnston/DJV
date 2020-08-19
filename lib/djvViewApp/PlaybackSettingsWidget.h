@@ -22,9 +22,10 @@ namespace djv
         public:
             static std::shared_ptr<PlaybackSettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
-            std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;
             std::string getSettingsSortKey() const override;
+
+            void setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>&) override;
 
         protected:
             void _initEvent(Core::Event::Init&) override;
@@ -45,9 +46,10 @@ namespace djv
         public:
             static std::shared_ptr<TimelineSettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
-            std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;
             std::string getSettingsSortKey() const override;
+
+            void setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>&) override;
 
         protected:
             void _initEvent(Core::Event::Init&) override;

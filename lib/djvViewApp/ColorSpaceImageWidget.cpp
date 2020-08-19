@@ -80,6 +80,7 @@ namespace djv
                 _listWidget->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
 
                 _searchBox = UI::SearchBox::create(context);
+                _searchBox->setMargin(UI::MetricsRole::MarginSmall);
 
                 _layout = UI::VerticalLayout::create(context);
 

@@ -152,11 +152,6 @@ namespace djv
             return out;
         }
 
-        std::string TimeSettingsWidget::getSettingsName() const
-        {
-            return DJV_TEXT("settings_general_section_time");
-        }
-
         std::string TimeSettingsWidget::getSettingsGroup() const
         {
             return DJV_TEXT("settings_title_general");

@@ -48,11 +48,14 @@ namespace djv
         public:
             static std::shared_ptr<LanguageSettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
-            std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;
             std::string getSettingsSortKey() const override;
 
+            void setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>&) override;
+
         private:
+            void _initEvent(Core::Event::Init&) override;
+
             DJV_PRIVATE();
         };
 

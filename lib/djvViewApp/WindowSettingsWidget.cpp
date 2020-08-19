@@ -10,13 +10,13 @@
 
 #include <djvUIComponents/FileBrowserDialog.h>
 
-#include <djvUI/CheckBox.h>
 #include <djvUI/ComboBox.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/ImageWidget.h>
 #include <djvUI/LineEdit.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
+#include <djvUI/ToggleButton.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvAV/IOSystem.h>
@@ -35,10 +35,11 @@ namespace djv
     {
         struct WindowGeometrySettingsWidget::Private
         {
-            std::shared_ptr<UI::CheckBox> restorePosCheckBox;
-            std::shared_ptr<UI::CheckBox> restoreSizeCheckBox;
+            std::shared_ptr<UI::ToggleButton> restorePosButton;
+            std::shared_ptr<UI::ToggleButton> restoreSizeButton;
             std::shared_ptr<ValueObserver<bool> > restorePosObserver;
             std::shared_ptr<ValueObserver<bool> > restoreSizeObserver;
+            std::shared_ptr<UI::FormLayout> layout;
         };
 
         void WindowGeometrySettingsWidget::_init(const std::shared_ptr<Context>& context)
@@ -48,18 +49,18 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::WindowGeometrySettingsWidget");
 
-            p.restorePosCheckBox = UI::CheckBox::create(context);
-            p.restoreSizeCheckBox = UI::CheckBox::create(context);
+            p.restorePosButton = UI::ToggleButton::create(context);
+            p.restoreSizeButton = UI::ToggleButton::create(context);
 
-            auto layout = UI::VerticalLayout::create(context);
-            layout->setSpacing(UI::MetricsRole::None);
-            layout->addChild(p.restorePosCheckBox);
-            layout->addChild(p.restoreSizeCheckBox);
-            addChild(layout);
+            p.layout = UI::FormLayout::create(context);
+            p.layout->setSpacing(UI::MetricsRole::None);
+            p.layout->addChild(p.restorePosButton);
+            p.layout->addChild(p.restoreSizeButton);
+            addChild(p.layout);
 
             auto weak = std::weak_ptr<WindowGeometrySettingsWidget>(std::dynamic_pointer_cast<WindowGeometrySettingsWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
-            p.restorePosCheckBox->setCheckedCallback(
+            p.restorePosButton->setCheckedCallback(
                 [weak, contextWeak](bool value)
             {
                 if (auto context = contextWeak.lock())
@@ -75,7 +76,7 @@ namespace djv
                 }
             });
 
-            p.restoreSizeCheckBox->setCheckedCallback(
+            p.restoreSizeButton->setCheckedCallback(
                 [weak, contextWeak](bool value)
             {
                 if (auto context = contextWeak.lock())
@@ -100,7 +101,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->restorePosCheckBox->setChecked(value);
+                        widget->_p->restorePosButton->setChecked(value);
                     }
                 });
 
@@ -110,7 +111,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->restoreSizeCheckBox->setChecked(value);
+                        widget->_p->restoreSizeButton->setChecked(value);
                     }
                 });
             }
@@ -130,11 +131,6 @@ namespace djv
             return out;
         }
 
-        std::string WindowGeometrySettingsWidget::getSettingsName() const
-        {
-            return DJV_TEXT("settings_window_section_geometry");
-        }
-
         std::string WindowGeometrySettingsWidget::getSettingsGroup() const
         {
             return DJV_TEXT("settings_window_title");
@@ -145,14 +141,19 @@ namespace djv
             return "B";
         }
 
+        void WindowGeometrySettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
+        {
+            _p->layout->setLabelSizeGroup(value);
+        }
+
         void WindowGeometrySettingsWidget::_initEvent(Event::Init& event)
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                p.restorePosCheckBox->setText(_getText(DJV_TEXT("settings_window_restore_pos")));
-                p.restoreSizeCheckBox->setText(_getText(DJV_TEXT("settings_window_restore_size")));
+                p.layout->setText(p.restorePosButton, _getText(DJV_TEXT("settings_window_restore_pos")) + ":");
+                p.layout->setText(p.restoreSizeButton, _getText(DJV_TEXT("settings_window_restore_size")) + ":");
             }
         }
 
@@ -161,7 +162,7 @@ namespace djv
             std::vector<std::string> monitorNames;
             int monitor = 0;
             std::shared_ptr<UI::ComboBox> monitorComboBox;
-            std::shared_ptr<UI::FormLayout> formLayout;
+            std::shared_ptr<UI::FormLayout> layout;
             std::shared_ptr<ListObserver<Desktop::MonitorInfo> > monitorInfoObserver;
             std::shared_ptr<ValueObserver<int> > monitorObserver;
         };
@@ -175,9 +176,9 @@ namespace djv
 
             p.monitorComboBox = UI::ComboBox::create(context);
 
-            p.formLayout = UI::FormLayout::create(context);
-            p.formLayout->addChild(p.monitorComboBox);
-            addChild(p.formLayout);
+            p.layout = UI::FormLayout::create(context);
+            p.layout->addChild(p.monitorComboBox);
+            addChild(p.layout);
 
             auto weak = std::weak_ptr<FullscreenMonitorSettingsWidget>(std::dynamic_pointer_cast<FullscreenMonitorSettingsWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
@@ -243,11 +244,6 @@ namespace djv
             return out;
         }
 
-        std::string FullscreenMonitorSettingsWidget::getSettingsName() const
-        {
-            return DJV_TEXT("settings_window_section_fullscreen");
-        }
-
         std::string FullscreenMonitorSettingsWidget::getSettingsGroup() const
         {
             return DJV_TEXT("settings_window_title");
@@ -260,7 +256,7 @@ namespace djv
 
         void FullscreenMonitorSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
         {
-            _p->formLayout->setLabelSizeGroup(value);
+            _p->layout->setLabelSizeGroup(value);
         }
 
         void FullscreenMonitorSettingsWidget::_initEvent(Event::Init& event)
@@ -269,7 +265,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                p.formLayout->setText(p.monitorComboBox, _getText(DJV_TEXT("settings_window_section_monitor")) + ":");
+                p.layout->setText(p.monitorComboBox, _getText(DJV_TEXT("settings_window_section_fullscreen_monitor")) + ":");
             }
         }
 
@@ -282,7 +278,8 @@ namespace djv
 
         struct AutoHideSettingsWidget::Private
         {
-            std::shared_ptr<UI::CheckBox> autoHideCheckBox;
+            std::shared_ptr<UI::ToggleButton> autoHideButton;
+            std::shared_ptr<UI::FormLayout> layout;
             std::shared_ptr<ValueObserver<bool> > autoHideObserver;
         };
 
@@ -293,17 +290,15 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::AutoHideSettingsWidget");
 
-            p.autoHideCheckBox = UI::CheckBox::create(context);
+            p.autoHideButton = UI::ToggleButton::create(context);
 
-            auto layout = UI::VerticalLayout::create(context);
-            layout->setSpacing(UI::MetricsRole::None);
-            layout->addChild(p.autoHideCheckBox);
-            layout->setSpacing(UI::MetricsRole::None);
-            addChild(layout);
+            p.layout = UI::FormLayout::create(context);
+            p.layout->addChild(p.autoHideButton);
+            addChild(p.layout);
 
             auto weak = std::weak_ptr<AutoHideSettingsWidget>(std::dynamic_pointer_cast<AutoHideSettingsWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
-            p.autoHideCheckBox->setCheckedCallback(
+            p.autoHideButton->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -325,7 +320,7 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    widget->_p->autoHideCheckBox->setChecked(value);
+                    widget->_p->autoHideButton->setChecked(value);
                 }
             });
         }
@@ -341,11 +336,6 @@ namespace djv
             return out;
         }
 
-        std::string AutoHideSettingsWidget::getSettingsName() const
-        {
-            return DJV_TEXT("settings_window_auto-hide");
-        }
-
         std::string AutoHideSettingsWidget::getSettingsGroup() const
         {
             return DJV_TEXT("settings_title_window");
@@ -356,13 +346,18 @@ namespace djv
             return "B";
         }
 
+        void AutoHideSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
+        {
+            _p->layout->setLabelSizeGroup(value);
+        }
+
         void AutoHideSettingsWidget::_initEvent(Event::Init& event)
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                p.autoHideCheckBox->setText(_getText(DJV_TEXT("settings_window_automatically_hide_the_user_interface")));
+                p.layout->setText(p.autoHideButton, _getText(DJV_TEXT("settings_window_auto-hide")) + ":");
             }
         }
         
@@ -379,9 +374,11 @@ namespace djv
             std::shared_ptr<UI::LineEdit> lineEdit;
             std::shared_ptr<UI::ToolButton> openButton;
             std::shared_ptr<UI::ToolButton> closeButton;
-            std::shared_ptr<UI::CheckBox> scaleCheckBox;
-            std::shared_ptr<UI::CheckBox> colorizeCheckBox;
+            std::shared_ptr<UI::ToggleButton> scaleButton;
+            std::shared_ptr<UI::ToggleButton> colorizeButton;
             std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
+            std::shared_ptr<UI::FormLayout> formLayout;
+            std::shared_ptr<UI::VerticalLayout> layout;
 
             std::shared_ptr<ValueObserver<std::string> > backgroundImageObserver;
             std::shared_ptr<ValueObserver<bool> > backgroundImageScaleObserver;
@@ -411,22 +408,24 @@ namespace djv
             p.closeButton = UI::ToolButton::create(context);
             p.closeButton->setIcon("djvIconClose");
 
-            p.scaleCheckBox = UI::CheckBox::create(context);
-            p.colorizeCheckBox = UI::CheckBox::create(context);
+            p.scaleButton = UI::ToggleButton::create(context);
+            p.colorizeButton = UI::ToggleButton::create(context);
 
-            auto layout = UI::VerticalLayout::create(context);
-            layout->setSpacing(UI::MetricsRole::None);
-            layout->addChild(p.imageWidget);
+            p.layout = UI::VerticalLayout::create(context);
+            p.layout->setSpacing(UI::MetricsRole::SpacingSmall);
+            p.layout->addChild(p.imageWidget);
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::MetricsRole::None);
             hLayout ->addChild(p.lineEdit);
             hLayout->setStretch(p.lineEdit, UI::RowStretch::Expand);
             hLayout->addChild(p.openButton);
             hLayout->addChild(p.closeButton);
-            layout->addChild(hLayout);
-            layout->addChild(p.scaleCheckBox);
-            layout->addChild(p.colorizeCheckBox);
-            addChild(layout);
+            p.layout->addChild(hLayout);
+            p.formLayout = UI::FormLayout::create(context);
+            p.formLayout->addChild(p.scaleButton);
+            p.formLayout->addChild(p.colorizeButton);
+            p.layout->addChild(p.formLayout);
+            addChild(p.layout);
 
             _widgetUpdate();
             _imageUpdate();
@@ -513,7 +512,7 @@ namespace djv
                     }
                 });
 
-            p.scaleCheckBox->setCheckedCallback(
+            p.scaleButton->setCheckedCallback(
                 [contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -526,7 +525,7 @@ namespace djv
                     }
                 });
 
-            p.colorizeCheckBox->setCheckedCallback(
+            p.colorizeButton->setCheckedCallback(
                 [contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -613,6 +612,11 @@ namespace djv
             return "B";
         }
 
+        void BackgroundImageSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
+        {
+            _p->formLayout->setLabelSizeGroup(value);
+        }
+
         void BackgroundImageSettingsWidget::_initEvent(Event::Init& event)
         {
             ISettingsWidget::_initEvent(event);
@@ -621,8 +625,8 @@ namespace djv
             {
                 p.openButton->setTooltip(_getText(DJV_TEXT("settings_window_open_file_browser")));
                 p.closeButton->setTooltip(_getText(DJV_TEXT("settings_window_clear_background_image")));
-                p.scaleCheckBox->setText(_getText(DJV_TEXT("settings_window_scale_to_fit")));
-                p.colorizeCheckBox->setText(_getText(DJV_TEXT("settings_window_colorize_with_the_ui_style")));
+                p.formLayout->setText(p.scaleButton, _getText(DJV_TEXT("settings_window_scale_to_fit")) + ":");
+                p.formLayout->setText(p.colorizeButton, _getText(DJV_TEXT("settings_window_colorize")) + ":");
             }
             _imageUpdate();
         }
@@ -651,8 +655,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.imageWidget->setImageColorRole(p.colorize ? UI::ColorRole::Button : UI::ColorRole::None);
             p.lineEdit->setText(p.fileName);
-            p.scaleCheckBox->setChecked(p.scale);
-            p.colorizeCheckBox->setChecked(p.colorize);
+            p.scaleButton->setChecked(p.scale);
+            p.colorizeButton->setChecked(p.colorize);
         }
 
         void BackgroundImageSettingsWidget::_imageUpdate()

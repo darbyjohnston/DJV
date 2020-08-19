@@ -5,7 +5,6 @@
 #include <djvViewApp/ColorSpaceWidgetPrivate.h>
 
 #include <djvUIComponents/FileBrowserDialog.h>
-#include <djvUIComponents/SearchBox.h>
 
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/FormLayout.h>

@@ -12,6 +12,7 @@
 #include <djvViewApp/PlaybackSettingsWidget.h>
 #include <djvViewApp/WindowSettingsWidget.h>
 
+#include <djvUIComponents/FileBrowserSettingsWidget.h>
 #include <djvUIComponents/GLFWSettingsWidget.h>
 #include <djvUIComponents/IOSettingsWidget.h>
 #include <djvUIComponents/LanguageSettingsWidget.h>
@@ -80,7 +81,7 @@ namespace djv
             {
                 out =
                 {
-                    // UI settings widgets.
+                    UI::FileBrowser::SettingsWidget::create(context),
                     UI::GLFWSettingsWidget::create(context),
                     UI::LanguageSettingsWidget::create(context),
                     UI::StyleSettingsWidget::create(context),
@@ -90,7 +91,6 @@ namespace djv
                     UI::TooltipsSettingsWidget::create(context),
                     UI::ScrollSettingsWidget::create(context),
                     UI::IOThreadsSettingsWidget::create(context),
-                    UI::PPMSettingsWidget::create(context),
                     UI::PPMSettingsWidget::create(context),
 #if defined(JPEG_FOUND)
                     UI::JPEGSettingsWidget::create(context),
@@ -105,7 +105,6 @@ namespace djv
                     UI::TIFFSettingsWidget::create(context),
 #endif
 
-                    // ViewApp settings widgets.
                     WindowGeometrySettingsWidget::create(context),
                     FullscreenMonitorSettingsWidget::create(context),
                     AutoHideSettingsWidget::create(context),

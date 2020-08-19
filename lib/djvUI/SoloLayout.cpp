@@ -4,6 +4,8 @@
 
 #include <djvUI/SoloLayout.h>
 
+#include <djvUI/LayoutUtil.h>
+
 #include <djvCore/Animation.h>
 
 using namespace djv::Core;
@@ -17,7 +19,7 @@ namespace djv
             namespace
             {
                 //! \todo Should this be configurable?
-                const size_t animationTime = 100;
+                const size_t animationTime = 150;
 
             } // namespace
 
@@ -217,30 +219,38 @@ namespace djv
                 const auto& childWidgets = getChildWidgets();
                 for (const auto& child : childWidgets)
                 {
-                    child->setGeometry(Widget::getAlign(g, child->getMinimumSize(), child->getHAlign(), child->getVAlign()));
+                    child->setGeometry(getAlign(g, child->getMinimumSize(), child->getHAlign(), child->getVAlign()));
                 }
-                if (p.prevWidget)
+                if (p.currentWidget && p.prevWidget)
                 {
                     const float w = g.w();
                     const float h = g.h();
-                    BBox2f prevG(g);
                     BBox2f currentG(g);
+                    BBox2f prevG(g);
                     switch (p.side)
                     {
                     case Side::Left:
-                        prevG = BBox2f(floorf(g.min.x - w * p.animationValue), g.min.y, w, h);
                         currentG = BBox2f(floorf(g.min.x + w - w * p.animationValue), g.min.y, w, h);
+                        prevG = BBox2f(floorf(g.min.x - w * p.animationValue), g.min.y, w, h);
                         break;
                     case Side::Top: break;
                     case Side::Right:
-                        prevG = BBox2f(floorf(g.min.x + w * p.animationValue), g.min.y, w, h);
                         currentG = BBox2f(floorf(g.min.x - w + w * p.animationValue), g.min.y, w, h);
+                        prevG = BBox2f(floorf(g.min.x + w * p.animationValue), g.min.y, w, h);
                         break;
                     case Side::Bottom: break;
                     default: break;
                     }
-                    p.prevWidget->setGeometry(prevG);
-                    p.currentWidget->setGeometry(currentG);
+                    p.currentWidget->setGeometry(getAlign(
+                        currentG,
+                        p.currentWidget->getMinimumSize(),
+                        p.currentWidget->getHAlign(),
+                        p.currentWidget->getVAlign()));
+                    p.prevWidget->setGeometry(getAlign(
+                        prevG,
+                        p.prevWidget->getMinimumSize(),
+                        p.prevWidget->getHAlign(),
+                        p.prevWidget->getVAlign()));
                 }
             }
 

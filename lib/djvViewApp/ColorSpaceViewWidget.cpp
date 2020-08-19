@@ -45,12 +45,12 @@ namespace djv
             p.listWidget->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
 
             p.searchBox = UI::SearchBox::create(context);
+            p.searchBox->setMargin(UI::MetricsRole::MarginSmall);
 
             p.layout = UI::VerticalLayout::create(context);
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
-            p.layout->setBackgroundRole(UI::ColorRole::Background);
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
             scrollWidget->setBorder(false);
             scrollWidget->addChild(p.listWidget);

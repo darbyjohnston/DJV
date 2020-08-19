@@ -84,11 +84,6 @@ namespace djv
             return out;
         }
 
-        std::string IOThreadsSettingsWidget::getSettingsName() const
-        {
-            return DJV_TEXT("settings_io_section_threads");
-        }
-
         std::string IOThreadsSettingsWidget::getSettingsGroup() const
         {
             return DJV_TEXT("settings_title_io");
@@ -96,7 +91,7 @@ namespace djv
 
         std::string IOThreadsSettingsWidget::getSettingsSortKey() const
         {
-            return "ZZZ";
+            return "ZZZZ";
         }
 
         void IOThreadsSettingsWidget::setLabelSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)

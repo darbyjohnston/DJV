@@ -28,8 +28,6 @@ namespace djv
             void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _layoutEvent(Core::Event::Layout&) override;
 
-            void _initEvent(Core::Event::Init&) override;
-
         private:
             DJV_PRIVATE();
         };
@@ -70,7 +68,6 @@ namespace djv
         public:
             static std::shared_ptr<MemorySettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
-            std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;
             std::string getSettingsSortKey() const override;
 

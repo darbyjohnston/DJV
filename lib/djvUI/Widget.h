@@ -98,13 +98,6 @@ namespace djv
             void setHAlign(HAlign);
             void setVAlign(VAlign);
 
-            //! Utility function for computing widget geometry.
-            static Core::BBox2f getAlign(
-                const Core::BBox2f&,
-                const glm::vec2& minimumSize,
-                HAlign,
-                VAlign);
-
             ///@}
 
             //! \name Style

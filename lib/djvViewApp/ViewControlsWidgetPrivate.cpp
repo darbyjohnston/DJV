@@ -83,12 +83,14 @@ namespace djv
                 p.viewPosLayout[i] = UI::HorizontalLayout::create(context);
                 p.viewPosLayout[i]->setSpacing(UI::MetricsRole::None);
                 p.viewPosLayout[i]->addChild(p.viewPosEdit[i]);
+                p.viewPosLayout[i]->setStretch(p.viewPosEdit[i], UI::RowStretch::Expand);
                 p.viewPosLayout[i]->addChild(p.viewPosResetButton[i]);
                 p.layout->addChild(p.viewPosLayout[i]);
             }
             p.viewZoomLayout = UI::HorizontalLayout::create(context);
             p.viewZoomLayout->setSpacing(UI::MetricsRole::None);
             p.viewZoomLayout->addChild(p.viewZoomEdit);
+            p.viewZoomLayout->setStretch(p.viewZoomEdit, UI::RowStretch::Expand);
             p.viewZoomLayout->addChild(p.viewZoomResetButton);
             p.layout->addChild(p.viewZoomLayout);
             addChild(p.layout);
@@ -318,9 +320,11 @@ namespace djv
             p.gridSizeSlider->setLargeIncrement(10);
             p.gridColorPickerSwatch = UI::ColorPickerSwatch::create(context);
             p.gridColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
+            p.gridColorPickerSwatch->setHAlign(UI::HAlign::Fill);
             p.gridLabelsComboBox = UI::ComboBox::create(context);
             p.gridLabelsColorPickerSwatch = UI::ColorPickerSwatch::create(context);
             p.gridLabelsColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
+            p.gridLabelsColorPickerSwatch->setHAlign(UI::HAlign::Fill);
 
             p.layout = UI::FormLayout::create(context);
             p.layout->setMargin(UI::MetricsRole::MarginSmall);
@@ -554,6 +558,7 @@ namespace djv
             p.hudEnabledButton->setInsideMargin(UI::MetricsRole::None);
             p.hudColorPickerSwatch = UI::ColorPickerSwatch::create(context);
             p.hudColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
+            p.hudColorPickerSwatch->setHAlign(UI::HAlign::Fill);
             p.hudBackgroundComboBox = UI::ComboBox::create(context);
 
             p.layout = UI::FormLayout::create(context);
@@ -746,6 +751,7 @@ namespace djv
             p.backgroundComboBox = UI::ComboBox::create(context);
             p.solidPickerSwatch = UI::ColorPickerSwatch::create(context);
             p.solidPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
+            p.solidPickerSwatch->setHAlign(UI::HAlign::Fill);
             p.checkersSizeSlider = UI::FloatSlider::create(context);
             p.checkersSizeSlider->setRange(FloatRange(10.F, 100.F));
             p.checkersSizeSlider->setSmallIncrement(1);
@@ -1010,6 +1016,7 @@ namespace djv
             p.borderWidthSlider->setLargeIncrement(5.F);
             p.borderColorPickerSwatch = UI::ColorPickerSwatch::create(context);
             p.borderColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
+            p.borderColorPickerSwatch->setHAlign(UI::HAlign::Fill);
 
             p.layout = UI::FormLayout::create(context);
             p.layout->setMargin(UI::MetricsRole::MarginSmall);

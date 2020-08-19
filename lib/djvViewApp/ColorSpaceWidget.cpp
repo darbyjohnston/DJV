@@ -93,6 +93,7 @@ namespace djv
             p.scrollWidget->setBorder(false);
             p.scrollWidget->setMinimumSizeRole(UI::MetricsRole::ScrollAreaSmall);
             p.scrollWidget->setBackgroundRole(UI::ColorRole::Background);
+            p.scrollWidget->setShadowOverlay({ UI::Side::Top });
             p.scrollWidget->addChild(vLayout);
             addChild(p.scrollWidget);
 
