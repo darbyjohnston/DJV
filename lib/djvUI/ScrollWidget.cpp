@@ -201,8 +201,10 @@ namespace djv
                     }
                     default: break;
                     }
+                    render->setFillColor(style->getColor(ColorRole::BorderButton));
+                    drawBorder(render, handleGeom, b);
                     render->setFillColor(style->getColor(ColorRole::Button));
-                    render->drawRect(handleGeom);
+                    render->drawRect(handleGeom.margin(-b));
 
                     // Draw the pressed and hovered state.
                     if (_pressedID)
