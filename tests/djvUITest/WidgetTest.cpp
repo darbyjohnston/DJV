@@ -59,32 +59,36 @@ namespace djv
                 
                 const glm::vec2 size(1280, 720);
                 
-                auto rootObject = getRootObject();
-                const auto windows = rootObject->getChildrenT<Window>();
-                for (const auto & i : windows)
+                for (const auto & i : _getWindows())
                 {
-                    i->resize(size);
-
-                    Event::PreLayout preLayout;
-                    _preLayoutRecursive(i, preLayout);
-
-                    if (i->isVisible())
+                    if (auto window = i.lock())
                     {
-                        Event::Layout layout;
-                        _layoutRecursive(i, layout);
+                        window->resize(size);
 
-                        Event::Clip clip(BBox2f(0.F, 0.F, size.x, size.y));
-                        _clipRecursive(i, clip);
+                        Event::PreLayout preLayout;
+                        _preLayoutRecursive(window, preLayout);
+
+                        if (window->isVisible())
+                        {
+                            Event::Layout layout;
+                            _layoutRecursive(window, layout);
+
+                            Event::Clip clip(BBox2f(0.F, 0.F, size.x, size.y));
+                            _clipRecursive(window, clip);
+                        }
                     }
                 }
                 
-                for (const auto & i : windows)
+                for (const auto & i : _getWindows())
                 {
-                    if (i->isVisible())
+                    if (auto window = i.lock())
                     {
-                        Event::Paint paintEvent(BBox2f(0.F, 0.F, size.x, size.y));
-                        Event::PaintOverlay paintOverlayEvent(BBox2f(0.F, 0.F, size.x, size.y));
-                        _paintRecursive(i, paintEvent, paintOverlayEvent);
+                        if (window->isVisible())
+                        {
+                            Event::Paint paintEvent(BBox2f(0.F, 0.F, size.x, size.y));
+                            Event::PaintOverlay paintOverlayEvent(BBox2f(0.F, 0.F, size.x, size.y));
+                            _paintRecursive(window, paintEvent, paintOverlayEvent);
+                        }
                     }
                 }
                 
@@ -142,15 +146,17 @@ namespace djv
             
             void _hover(Event::PointerMove& event, std::shared_ptr<IObject>& hover) override
             {
-                auto rootObject = getRootObject();
-                const auto objects = rootObject->getChildrenT<Window>();
-                for (auto i = objects.rbegin(); i != objects.rend(); ++i)
+                const auto& windows = _getWindows();
+                for (auto i = windows.rbegin(); i != windows.rend(); ++i)
                 {
-                    _hover(*i, event, hover);
-                    if (event.isAccepted())
+                    if (auto window = i->lock())
                     {
-                        break;
-                    }                
+                        _hover(window, event, hover);
+                        if (event.isAccepted())
+                        {
+                            break;
+                        }
+                    }
                 }
             }
                     

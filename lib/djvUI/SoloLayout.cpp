@@ -4,6 +4,8 @@
 
 #include <djvUI/SoloLayout.h>
 
+#include <djvUI/LayoutUtil.h>
+
 #include <djvCore/Animation.h>
 
 using namespace djv::Core;
@@ -17,7 +19,7 @@ namespace djv
             namespace
             {
                 //! \todo Should this be configurable?
-                const size_t animationTime = 100;
+                const size_t animationTime = 150;
 
             } // namespace
 
@@ -68,55 +70,57 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (value == p.currentWidget)
                     return;
+                p.prevWidget.reset();
+                if (p.currentWidget)
+                {
+                    p.currentWidget->hide();
+                }
                 p.currentWidget = value;
                 _widgetUpdate();
             }
 
-            void Solo::setCurrentWidget(const std::shared_ptr<Widget>& value, Side side, bool animated)
+            void Solo::setCurrentWidget(const std::shared_ptr<Widget>& value, Side side)
             {
                 DJV_PRIVATE_PTR();
                 const auto& childWidgets = getChildWidgets();
                 const auto i = std::find(childWidgets.begin(), childWidgets.end(), value);
                 if (i != childWidgets.end() && *i != p.currentWidget)
                 {
-                    if (animated)
+                    p.side = side;
+                    if (p.prevWidget)
                     {
-                        p.side = side;
-                        p.prevWidget = p.currentWidget;
-                        p.currentWidget = *i;
-                        p.currentWidget->moveToFront();
-                        p.currentWidget->show();
-                        if (p.animationValue > 0.F)
+                        p.prevWidget->hide();
+                    }
+                    p.prevWidget = p.currentWidget;
+                    p.currentWidget = *i;
+                    p.currentWidget->moveToFront();
+                    p.currentWidget->show();
+                    if (p.animationValue > 0.F)
+                    {
+                        p.animationValue = 1.F - p.animationValue;
+                    }
+                    auto weak = std::weak_ptr<Solo>(std::dynamic_pointer_cast<Solo>(shared_from_this()));
+                    p.animation->start(
+                        p.animationValue,
+                        1.F,
+                        std::chrono::milliseconds(static_cast<size_t>(animationTime * std::max(0.F, 1.F - p.animationValue))),
+                        [weak](float value)
                         {
-                            p.animationValue = 1.F - p.animationValue;
-                        }
-                        auto weak = std::weak_ptr<Solo>(std::dynamic_pointer_cast<Solo>(shared_from_this()));
-                        p.animation->start(
-                            p.animationValue,
-                            1.F,
-                            std::chrono::milliseconds(static_cast<size_t>(animationTime * std::max(0.F, 1.F - p.animationValue))),
-                            [weak](float value)
+                            if (auto widget = weak.lock())
                             {
-                                if (auto widget = weak.lock())
-                                {
-                                    widget->_p->animationValue = value;
-                                    widget->_resize();
-                                }
-                            },
-                            [weak](float value)
+                                widget->_p->animationValue = value;
+                                widget->_resize();
+                            }
+                        },
+                        [weak](float value)
+                        {
+                            if (auto widget = weak.lock())
                             {
-                                if (auto widget = weak.lock())
-                                {
-                                    widget->_p->prevWidget->hide();
-                                    widget->_p->prevWidget.reset();
-                                    widget->_p->animationValue = value;
-                                }
-                            });
-                    }
-                    else
-                    {
-                        setCurrentWidget(*i);
-                    }
+                                widget->_p->prevWidget->hide();
+                                widget->_p->prevWidget.reset();
+                                widget->_p->animationValue = value;
+                            }
+                        });
                 }
             }
 
@@ -157,9 +161,17 @@ namespace djv
             {
                 Widget::addChild(value);
                 DJV_PRIVATE_PTR();
-                if (!p.currentWidget)
+                if (auto widget = std::dynamic_pointer_cast<Widget>(value))
                 {
-                    p.currentWidget = std::dynamic_pointer_cast<Widget>(value);
+                    if (!p.currentWidget)
+                    {
+                        p.prevWidget.reset();
+                        p.currentWidget = widget;
+                    }
+                    else
+                    {
+                        widget->hide();
+                    }
                 }
                 _widgetUpdate();
             }
@@ -207,39 +219,48 @@ namespace djv
                 const auto& childWidgets = getChildWidgets();
                 for (const auto& child : childWidgets)
                 {
-                    child->setGeometry(Widget::getAlign(g, child->getMinimumSize(), child->getHAlign(), child->getVAlign()));
+                    child->setGeometry(getAlign(g, child->getMinimumSize(), child->getHAlign(), child->getVAlign()));
                 }
-                if (p.prevWidget)
+                if (p.currentWidget && p.prevWidget)
                 {
                     const float w = g.w();
                     const float h = g.h();
-                    BBox2f prevG(g);
                     BBox2f currentG(g);
+                    BBox2f prevG(g);
                     switch (p.side)
                     {
                     case Side::Left:
-                        prevG = BBox2f(floorf(g.min.x - w * p.animationValue), g.min.y, w, h);
                         currentG = BBox2f(floorf(g.min.x + w - w * p.animationValue), g.min.y, w, h);
+                        prevG = BBox2f(floorf(g.min.x - w * p.animationValue), g.min.y, w, h);
                         break;
                     case Side::Top: break;
                     case Side::Right:
-                        prevG = BBox2f(floorf(g.min.x + w * p.animationValue), g.min.y, w, h);
                         currentG = BBox2f(floorf(g.min.x - w + w * p.animationValue), g.min.y, w, h);
+                        prevG = BBox2f(floorf(g.min.x + w * p.animationValue), g.min.y, w, h);
                         break;
                     case Side::Bottom: break;
                     default: break;
                     }
-                    p.prevWidget->setGeometry(prevG);
-                    p.currentWidget->setGeometry(currentG);
+                    p.currentWidget->setGeometry(getAlign(
+                        currentG,
+                        p.currentWidget->getMinimumSize(),
+                        p.currentWidget->getHAlign(),
+                        p.currentWidget->getVAlign()));
+                    p.prevWidget->setGeometry(getAlign(
+                        prevG,
+                        p.prevWidget->getMinimumSize(),
+                        p.prevWidget->getHAlign(),
+                        p.prevWidget->getVAlign()));
                 }
             }
 
             void Solo::_widgetUpdate()
             {
-                const auto& children = getChildWidgets();
-                for (const auto& child : children)
+                DJV_PRIVATE_PTR();
+                if (p.currentWidget)
                 {
-                    child->setVisible(child == _p->currentWidget);
+                    p.currentWidget->moveToFront();
+                    p.currentWidget->show();
                 }
                 _resize();
             }

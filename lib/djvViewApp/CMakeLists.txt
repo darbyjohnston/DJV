@@ -40,7 +40,7 @@ set(header
 	MediaCanvas.h
 	MediaWidget.h
 	MediaWidgetPrivate.h
-	MemoryCacheWidget.h
+	MemorySettingsWidget.h
     MessagesWidget.h
 	MouseSettings.h
 	MouseSettingsWidget.h
@@ -117,7 +117,7 @@ set(source
     MediaPlaybackSpeedWidget.cpp
 	MediaPointerWidget.cpp
 	MediaWidget.cpp
-	MemoryCacheWidget.cpp
+	MemorySettingsWidget.cpp
     MessagesWidget.cpp
 	MouseSettings.cpp
 	MouseSettingsWidget.cpp

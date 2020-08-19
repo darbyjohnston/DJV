@@ -4,6 +4,8 @@
 
 #include <djvUI/GridLayout.h>
 
+#include <djvUI/LayoutUtil.h>
+
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Math.h>
@@ -518,7 +520,7 @@ namespace djv
                 {
                     const auto& child = widget.second;
                     child->setGeometry(
-                        Widget::getAlign(childrenGeometry[widget.second], child->getMinimumSize(), child->getHAlign(), child->getVAlign()).
+                        getAlign(childrenGeometry[widget.second], child->getMinimumSize(), child->getHAlign(), child->getVAlign()).
                         intersect(g));
                 }
             }

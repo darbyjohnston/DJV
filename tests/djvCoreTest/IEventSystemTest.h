@@ -25,7 +25,6 @@ namespace djv
             void run() override;
             
         private:
-            void _info();
             void _clipboard();
             void _textFocus();
             void _tick();

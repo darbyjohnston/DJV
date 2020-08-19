@@ -44,7 +44,6 @@ namespace djv
                 std::shared_ptr<ValueSubject<FileSystem::DirectoryListSort> > sort;
                 std::shared_ptr<ValueSubject<bool> > reverseSort;
                 std::shared_ptr<ValueSubject<bool> > sortDirectoriesFirst;
-                std::map<std::string, bool> settingsBellowsState;
                 std::shared_ptr<MapSubject<std::string, ShortcutDataPair> > keyShortcuts;
             };
 
@@ -201,16 +200,6 @@ namespace djv
                 _p->sortDirectoriesFirst->setIfChanged(value);
             }
 
-            std::map<std::string, bool> FileBrowser::getSettingsBellowsState() const
-            {
-                return _p->settingsBellowsState;
-            }
-
-            void FileBrowser::setSettingsBellowsState(const std::map<std::string, bool>& value)
-            {
-                _p->settingsBellowsState = value;
-            }
-
             std::shared_ptr<MapSubject<std::string, ShortcutDataPair> > FileBrowser::observeKeyShortcuts() const
             {
                 return _p->keyShortcuts;
@@ -236,7 +225,6 @@ namespace djv
                     read("Sort", value, p.sort);
                     read("ReverseSort", value, p.reverseSort);
                     read("SortDirectoriesFirst", value, p.sortDirectoriesFirst);
-                    read("SettingsBellows", value, p.settingsBellowsState);
                     read("KeyShortcuts", value, p.keyShortcuts);
                 }
             }
@@ -255,7 +243,6 @@ namespace djv
                 write("Sort", p.sort->get(), out, allocator);
                 write("ReverseSort", p.reverseSort->get(), out, allocator);
                 write("SortDirectoriesFirst", p.sortDirectoriesFirst->get(), out, allocator);
-                Settings::write("SettingsBellows", p.settingsBellowsState, out, allocator);
                 write("KeyShortcuts", p.keyShortcuts->get(), out, allocator);
                 return out;
             }

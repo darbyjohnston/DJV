@@ -199,26 +199,23 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides a file browser settings widget.
-            class SettingsWidget : public UI::Widget
+            //! This class provides the file browser popup menu.
+            class Menu : public UI::Widget
             {
-                DJV_NON_COPYABLE(SettingsWidget);
+                DJV_NON_COPYABLE(Menu);
 
             protected:
                 void _init(
                     const std::map<std::string, std::shared_ptr<Action> >&,
                     const std::shared_ptr<Core::Context>&);
-                SettingsWidget();
+                Menu();
 
             public:
-                ~SettingsWidget() override;
+                ~Menu() override;
 
-                static std::shared_ptr<SettingsWidget> create(
+                static std::shared_ptr<Menu> create(
                     const std::map<std::string, std::shared_ptr<Action> >&,
                     const std::shared_ptr<Core::Context>&);
-
-                std::map<std::string, bool> getBellowsState() const;
-                void setBellowsState(const std::map<std::string, bool>&);
 
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout&) override;
@@ -230,7 +227,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-        } // namespace Layout
+        } // namespace FileBrowser
     } // namespace UI
 } // namespace djv
 

@@ -79,11 +79,6 @@ namespace djv
             return out;
         }
 
-        std::string GLFWSettingsWidget::getSettingsName() const
-        {
-            return DJV_TEXT("settings_glfw_section_swap_interval");
-        }
-
         std::string GLFWSettingsWidget::getSettingsGroup() const
         {
             return DJV_TEXT("settings_title_glfw");
@@ -91,7 +86,7 @@ namespace djv
 
         std::string GLFWSettingsWidget::getSettingsSortKey() const
         {
-            return "Y";
+            return "ZZ";
         }
 
         void GLFWSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
@@ -122,7 +117,7 @@ namespace djv
             p.swapIntervalComboBox->setItems(items);
             p.swapIntervalComboBox->setCurrentItem(static_cast<int>(p.swapInterval));
 
-            p.layout->setText(p.swapIntervalComboBox, _getText(DJV_TEXT("settings_glfw_swap_interval_setting")) + ":");
+            p.layout->setText(p.swapIntervalComboBox, _getText(DJV_TEXT("settings_glfw_swap_interval")) + ":");
         }
 
     } // namespace UI

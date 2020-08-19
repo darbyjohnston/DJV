@@ -154,7 +154,7 @@ namespace djv
 
         std::string OpenEXRSettingsWidget::getSettingsSortKey() const
         {
-            return "ZZZ";
+            return "ZZZZ";
         }
 
         void OpenEXRSettingsWidget::setLabelSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)

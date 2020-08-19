@@ -4,8 +4,6 @@
 
 #include <djvUI/UISettings.h>
 
-#include <djvUI/Widget.h>
-
 #include <djvCore/Context.h>
 
 // These need to be included last on macOS.
@@ -56,10 +54,7 @@ namespace djv
 
             void UI::setTooltips(bool value)
             {
-                if (_p->tooltips->setIfChanged(value))
-                {
-                    Widget::setTooltipsEnabled(value);
-                }
+                _p->tooltips->setIfChanged(value);
             }
 
             std::shared_ptr<IValueSubject<bool> > UI::observeReverseScrolling() const
@@ -78,7 +73,6 @@ namespace djv
                 if (value.IsObject())
                 {
                     read("Tooltips", value, p.tooltips);
-                    Widget::setTooltipsEnabled(p.tooltips->get());
                     read("ReverseScrolling", value, p.reverseScrolling);
                 }
             }

@@ -6,9 +6,9 @@
 
 #include <djvViewApp/NUXSettings.h>
 
-#include <djvUI/CheckBox.h>
-#include <djvUI/RowLayout.h>
+#include <djvUI/FormLayout.h>
 #include <djvUI/SettingsSystem.h>
+#include <djvUI/ToggleButton.h>
 
 #include <djvCore/Context.h>
 
@@ -20,8 +20,8 @@ namespace djv
     {
         struct NUXSettingsWidget::Private
         {
-            std::shared_ptr<UI::CheckBox> nuxCheckBox;
-            std::shared_ptr<UI::VerticalLayout> layout;
+            std::shared_ptr<UI::ToggleButton> button;
+            std::shared_ptr<UI::FormLayout> layout;
             std::shared_ptr<ValueObserver<bool> > nuxObserver;
         };
 
@@ -32,15 +32,15 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::NUXSettingsWidget");
 
-            p.nuxCheckBox = UI::CheckBox::create(context);
+            p.button = UI::ToggleButton::create(context);
 
-            p.layout = UI::VerticalLayout::create(context);
-            p.layout->addChild(p.nuxCheckBox);
+            p.layout = UI::FormLayout::create(context);
+            p.layout->addChild(p.button);
             addChild(p.layout);
 
             auto weak = std::weak_ptr<NUXSettingsWidget>(std::dynamic_pointer_cast<NUXSettingsWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
-            p.nuxCheckBox->setCheckedCallback(
+            p.button->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -68,7 +68,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->nuxCheckBox->setChecked(value);
+                            widget->_p->button->setChecked(value);
                         }
                     });
                 }
@@ -86,11 +86,6 @@ namespace djv
             return out;
         }
 
-        std::string NUXSettingsWidget::getSettingsName() const
-        {
-            return DJV_TEXT("settings_general_section_nux");
-        }
-
         std::string NUXSettingsWidget::getSettingsGroup() const
         {
             return DJV_TEXT("settings_title_general");
@@ -101,13 +96,18 @@ namespace djv
             return "0";
         }
 
+        void NUXSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
+        {
+            _p->layout->setLabelSizeGroup(value);
+        }
+
         void NUXSettingsWidget::_initEvent(Event::Init & event)
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                p.nuxCheckBox->setText(_getText(DJV_TEXT("settings_new_user_ux_startup")));
+                p.layout->setText(p.button, _getText(DJV_TEXT("settings_new_user_ux")) + ":");
             }
         }
 

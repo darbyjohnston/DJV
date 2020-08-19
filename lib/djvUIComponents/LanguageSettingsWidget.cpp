@@ -6,6 +6,8 @@
 
 #include <djvUI/ComboBox.h>
 #include <djvUI/FontSettings.h>
+#include <djvUI/FormLayout.h>
+#include <djvUI/LayoutUtil.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/StyleSettings.h>
 
@@ -37,7 +39,7 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             setClassName("djv::UI::LanguageWidget");
-            setHAlign(HAlign::Left);
+            setHAlign(HAlign::Fill);
 
             p.comboBox = ComboBox::create(context);
             addChild(p.comboBox);
@@ -170,6 +172,7 @@ namespace djv
         struct LanguageSettingsWidget::Private
         {
             std::shared_ptr<LanguageWidget> languageWidget;
+            std::shared_ptr<FormLayout> layout;
         };
 
         void LanguageSettingsWidget::_init(const std::shared_ptr<Context>& context)
@@ -180,7 +183,10 @@ namespace djv
             setClassName("djv::UI::LanguageSettingsWidget");
 
             p.languageWidget = LanguageWidget::create(context);
-            addChild(p.languageWidget);
+
+            p.layout = UI::FormLayout::create(context);
+            p.layout->addChild(p.languageWidget);
+            addChild(p.layout);
         }
 
         LanguageSettingsWidget::LanguageSettingsWidget() :
@@ -194,11 +200,6 @@ namespace djv
             return out;
         }
 
-        std::string LanguageSettingsWidget::getSettingsName() const
-        {
-            return DJV_TEXT("settings_general_section_language");
-        }
-
         std::string LanguageSettingsWidget::getSettingsGroup() const
         {
             return DJV_TEXT("settings_title_general");
@@ -207,6 +208,21 @@ namespace djv
         std::string LanguageSettingsWidget::getSettingsSortKey() const
         {
             return "0";
+        }
+
+        void LanguageSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
+        {
+            _p->layout->setLabelSizeGroup(value);
+        }
+
+        void LanguageSettingsWidget::_initEvent(Event::Init& event)
+        {
+            ISettingsWidget::_initEvent(event);
+            DJV_PRIVATE_PTR();
+            if (event.getData().text)
+            {
+                p.layout->setText(p.languageWidget, _getText(DJV_TEXT("settings_language")) + ":");
+            }
         }
 
     } // namespace UI

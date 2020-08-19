@@ -5,6 +5,7 @@ set(header
     FileBrowserItemView.h
     FileBrowserPrivate.h
     FileBrowserSettings.h
+    FileBrowserSettingsWidget.h
     GLFWSettingsWidget.h
 	IOSettings.h
 	IOSettingsWidget.h
@@ -28,6 +29,7 @@ set(source
     FileBrowserDialog.cpp
     FileBrowserDrivesWidget.cpp
     FileBrowserItemView.cpp
+    FileBrowserMenu.cpp
     FileBrowserPathWidget.cpp
     FileBrowserRecentPathsWidget.cpp
     FileBrowserSettings.cpp

@@ -33,7 +33,6 @@ namespace djv
             _logSystem = context->getSystemT<LogSystem>();
             _textSystem = context->getSystemT<TextSystem>();
             auto eventSystem = context->getSystemT<Event::IEventSystem>();
-            eventSystem->_objectCreated(shared_from_this());
         }
 
         IObject::~IObject()

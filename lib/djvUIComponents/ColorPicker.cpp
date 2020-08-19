@@ -710,7 +710,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             const BBox2f g = getGeometry();
             const auto& style = _getStyle();
-            p.layout->setGeometry(getAlign(getMargin().bbox(g, style), p.layout->getMinimumSize(), getHAlign(), getVAlign()));
+            p.layout->setGeometry(Layout::getAlign(getMargin().bbox(g, style), p.layout->getMinimumSize(), getHAlign(), getVAlign()));
         }
 
         void ColorPicker::_colorUpdate()
@@ -874,7 +874,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             const BBox2f g = getGeometry();
             const auto& style = _getStyle();
-            p.colorSwatch->setGeometry(getAlign(getMargin().bbox(g, style), p.colorSwatch->getMinimumSize(), getHAlign(), getVAlign()));
+            p.colorSwatch->setGeometry(Layout::getAlign(getMargin().bbox(g, style), p.colorSwatch->getMinimumSize(), getHAlign(), getVAlign()));
         }
 
         void ColorPickerSwatch::_colorUpdate()

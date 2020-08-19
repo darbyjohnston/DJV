@@ -4,7 +4,9 @@
 
 #include <djvUI/EventSystem.h>
 
+#include <djvUI/SettingsSystem.h>
 #include <djvUI/Style.h>
+#include <djvUI/UISettings.h>
 #include <djvUI/UISystem.h>
 #include <djvUI/Window.h>
 
@@ -25,8 +27,13 @@ namespace djv
         {
             std::shared_ptr<UI::UISystem> uiSystem;
             std::vector<std::weak_ptr<Window> > windows;
+            std::vector<std::weak_ptr<Window> > newWindows;
+            bool resizeRequest = false;
+            bool redrawRequest = false;
             bool textLCDRenderingDirty = false;
+            bool tooltips = false;
             std::shared_ptr<ValueObserver<bool> > textLCDRenderingObserver;
+            std::shared_ptr<ValueObserver<bool> > tooltipsObserver;
             std::shared_ptr<Time::Timer> statsTimer;
         };
 
@@ -62,12 +69,24 @@ namespace djv
             p.textLCDRenderingObserver = ValueObserver<bool>::create(
                 avSystem->observeTextLCDRendering(),
                 [weak](bool value)
-            {
-                if (auto system = weak.lock())
                 {
-                    system->_p->textLCDRenderingDirty = true;
-                }
-            });
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->textLCDRenderingDirty = true;
+                    }
+                });
+
+            auto settingsSystem = context->getSystemT<Settings::System>();
+            auto uiSettings = settingsSystem->getSettingsT<Settings::UI>();
+            p.tooltipsObserver = ValueObserver<bool>::create(
+                uiSettings->observeTooltips(),
+                [weak](bool value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->tooltips = value;
+                    }
+                });
 
             p.statsTimer = Time::Timer::create(context);
             p.statsTimer->setRepeating(true);
@@ -100,6 +119,21 @@ namespace djv
         EventSystem::~EventSystem()
         {}
 
+        void EventSystem::resizeRequest()
+        {
+            _p->resizeRequest = true;
+        }
+
+        void EventSystem::redrawRequest()
+        {
+            _p->redrawRequest = true;
+        }
+
+        bool EventSystem::areTooltipsEnabled() const
+        {
+            return _p->tooltips;
+        }
+
         void EventSystem::tick()
         {
             IEventSystem::tick();
@@ -127,6 +161,26 @@ namespace djv
                     }
                     style->setClean();
                 }
+
+                if (!p.newWindows.empty())
+                {
+                    auto newWindows = std::move(p.newWindows);
+                    Event::InitData data;
+                    data.redraw = true;
+                    data.resize = true;
+                    data.font = true;
+                    data.text = true;
+                    Event::Init initEvent(data);
+                    for (const auto& i : newWindows)
+                    {
+                        if (auto window = i.lock())
+                        {
+                            _initRecursive(window, initEvent);
+                            p.windows.push_back(window);
+                        }
+                    }
+                }
+
                 auto i = p.windows.begin();
                 while (i != p.windows.end())
                 {
@@ -135,7 +189,6 @@ namespace djv
                     {
                         if (window->isClosed())
                         {
-                            getRootObject()->removeChild(window);
                             erase = true;
                         }
                     }
@@ -155,6 +208,33 @@ namespace djv
             }
         }
 
+        const std::vector<std::weak_ptr<Window> >& EventSystem::_getWindows() const
+        {
+            return _p->windows;
+        }
+        
+        void EventSystem::_addWindow(const std::shared_ptr<Window>& value)
+        {
+            setTextFocus(nullptr);
+            _p->newWindows.push_back(value);
+            _p->resizeRequest = true;
+            _p->redrawRequest = true;
+        }
+
+        bool EventSystem::_resizeRequestReset()
+        {
+            const bool out = _p->resizeRequest;
+            _p->resizeRequest = false;
+            return out;
+        }
+
+        bool EventSystem::_redrawRequestReset()
+        {
+            const bool out = _p->redrawRequest;
+            _p->redrawRequest = false;
+            return out;
+        }
+
         void EventSystem::_pushClipRect(const Core::BBox2f&)
         {
             // Default implementation does nothing.
@@ -163,20 +243,6 @@ namespace djv
         void EventSystem::_popClipRect()
         {
             // Default implementation does nothing.
-        }
-
-        bool EventSystem::_resizeRequest(const std::shared_ptr<Widget>& widget) const
-        {
-            bool out = widget->_resizeRequest;
-            widget->_resizeRequest = false;
-            return out;
-        }
-
-        bool EventSystem::_redrawRequest(const std::shared_ptr<Widget>& widget) const
-        {
-            bool out = widget->_redrawRequest;
-            widget->_redrawRequest = false;
-            return out;
         }
 
         void EventSystem::_initLayoutRecursive(const std::shared_ptr<Widget>& widget, Event::InitLayout& event)
@@ -245,15 +311,25 @@ namespace djv
             }
         }
 
-        void EventSystem::_initObject(const std::shared_ptr<IObject>& object)
+        void EventSystem::_init(Event::Init& event)
         {
-            IEventSystem::_initObject(object);
-            DJV_PRIVATE_PTR();
-            if (auto window = std::dynamic_pointer_cast<Window>(object))
+            for (const auto& i : _p->windows)
             {
-                setTextFocus(nullptr);
-                getRootObject()->addChild(window);
-                p.windows.push_back(window);
+                if (auto window = i.lock())
+                {
+                    _initRecursive(window, event);
+                }
+            }
+        }
+
+        void EventSystem::_update(Event::Update& event)
+        {
+            for (const auto& i : _p->windows)
+            {
+                if (auto window = i.lock())
+                {
+                    _udateRecursive(window, event);
+                }
             }
         }
 

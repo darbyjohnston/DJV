@@ -4,6 +4,8 @@
 
 #include <djvUI/StackLayout.h>
 
+#include <djvUI/LayoutUtil.h>
+
 using namespace djv::Core;
 
 namespace djv
@@ -73,7 +75,7 @@ namespace djv
                 const BBox2f& g = margin.bbox(geometry, style);
                 for (const auto& child : children)
                 {
-                    const BBox2f childGeometry = Widget::getAlign(g, child->getMinimumSize(), child->getHAlign(), child->getVAlign());
+                    const BBox2f childGeometry = getAlign(g, child->getMinimumSize(), child->getHAlign(), child->getVAlign());
                     child->setGeometry(childGeometry);
                 }
             }

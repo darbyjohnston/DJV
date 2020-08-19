@@ -4,6 +4,8 @@
 
 #include <djvUI/FlowLayout.h>
 
+#include <djvUI/LayoutUtil.h>
+
 #include <djvCore/Math.h>
 
 using namespace djv::Core;
@@ -134,7 +136,7 @@ namespace djv
                         BBox2f g = j.second;
                         g.min.y = pos.y;
                         g.max.y = pos.y + h;
-                        j.first->setGeometry(Widget::getAlign(g, j.first->getMinimumSize(), j.first->getHAlign(), j.first->getVAlign()));
+                        j.first->setGeometry(getAlign(g, j.first->getMinimumSize(), j.first->getHAlign(), j.first->getVAlign()));
                     }
                     pos.y += h + s.y;
                 }

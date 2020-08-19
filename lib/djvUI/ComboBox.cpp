@@ -21,7 +21,7 @@ namespace djv
     {
         struct ComboBox::Private
         {
-            std::vector<std::string> items;
+            std::vector<std::shared_ptr<Action> > items;
             int currentItem = -1;
             std::shared_ptr<ActionGroup> actionGroup;
             std::shared_ptr<Menu> menu;
@@ -36,7 +36,7 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             setClassName("djv::UI::ComboBox");
-            setHAlign(HAlign::Left);
+            setHAlign(HAlign::Fill);
             setVAlign(VAlign::Center);
 
             p.actionGroup = ActionGroup::create(ButtonType::Radio);
@@ -109,16 +109,24 @@ namespace djv
             return out;
         }
 
-        const std::vector<std::string>& ComboBox::getItems() const
-        {
-            return _p->items;
-        }
-
         void ComboBox::setItems(const std::vector<std::string>& value)
         {
             DJV_PRIVATE_PTR();
-            if (value == p.items)
-                return;
+            p.items.clear();
+            for (const auto& i : value)
+            {
+                auto action = Action::create();
+                action->setText(i);
+                p.items.push_back(action);
+            }
+            p.currentItem = p.items.size() ? 0 : -1;
+            _itemsUpdate();
+            _currentItemUpdate();
+        }
+
+        void ComboBox::setItems(const std::vector<std::shared_ptr<Action> >& value)
+        {
+            DJV_PRIVATE_PTR();
             p.items = value;
             p.currentItem = p.items.size() ? 0 : -1;
             _itemsUpdate();
@@ -289,15 +297,11 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.menu->clearActions();
-            std::vector<std::shared_ptr<Action> > actions;
             for (const auto& i : p.items)
             {
-                auto action = Action::create();
-                action->setText(i);
-                p.menu->addAction(action);
-                actions.push_back(action);
+                p.menu->addAction(i);
             }
-            p.actionGroup->setActions(actions);
+            p.actionGroup->setActions(p.items);
             p.actionGroup->setChecked(p.currentItem);
         }
 
@@ -307,7 +311,7 @@ namespace djv
             p.actionGroup->setChecked(p.currentItem);
             if (p.currentItem >= 0 && p.currentItem < static_cast<int>(p.items.size()))
             {
-                p.button->setText(p.items[p.currentItem]);
+                p.button->setText(p.items[p.currentItem]->observeText()->get());
                 p.button->setEnabled(true);
             }
             else

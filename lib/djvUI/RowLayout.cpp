@@ -4,6 +4,7 @@
 
 #include <djvUI/RowLayout.h>
 
+#include <djvUI/LayoutUtil.h>
 #include <djvUI/Separator.h>
 #include <djvUI/Spacer.h>
 #include <djvUI/TextBlock.h>
@@ -335,7 +336,7 @@ namespace djv
                             default: break;
                             }
                             const BBox2f cellGeometry(pos.x, pos.y, cellSize, gh);
-                            BBox2f childGeometry = Widget::getAlign(cellGeometry, child->getMinimumSize(), child->getHAlign(), child->getVAlign());
+                            BBox2f childGeometry = getAlign(cellGeometry, child->getMinimumSize(), child->getHAlign(), child->getVAlign());
                             childGeometry.max.x = std::min(childGeometry.max.x, g.max.x);
                             child->setGeometry(childGeometry);
                             pos.x += cellGeometry.w() + s.x;
@@ -369,7 +370,7 @@ namespace djv
                             default: break;
                             }
                             const BBox2f cellGeometry(pos.x, pos.y, gw, cellSize);
-                            BBox2f childGeometry = Widget::getAlign(cellGeometry, child->getMinimumSize(), child->getHAlign(), child->getVAlign());
+                            BBox2f childGeometry = getAlign(cellGeometry, child->getMinimumSize(), child->getHAlign(), child->getVAlign());
                             childGeometry.max.y = std::min(childGeometry.max.y, g.max.y);
                             child->setGeometry(childGeometry);
                             pos.y += cellGeometry.h() + s.y;

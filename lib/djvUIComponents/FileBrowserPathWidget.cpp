@@ -30,7 +30,7 @@ namespace djv
                 FileSystem::Path path;
                 std::vector<FileSystem::Path> history;
                 std::shared_ptr<ActionGroup> historyActionGroup;
-                std::shared_ptr<Menu> historyMenu;
+                std::shared_ptr<UI::Menu> historyMenu;
                 std::shared_ptr<Button::Menu> historyButton;
                 std::shared_ptr<HorizontalLayout> buttonLayout;
                 std::shared_ptr<LineEdit> lineEdit;
@@ -49,7 +49,7 @@ namespace djv
                 setPointerEnabled(true);
 
                 p.historyActionGroup = ActionGroup::create(ButtonType::Radio);
-                p.historyMenu = Menu::create(context);
+                p.historyMenu = UI::Menu::create(context);
                 addChild(p.historyMenu);
                 p.historyButton = Button::Menu::create(UI::MenuButtonStyle::Flat, context);
                 p.historyButton->setIcon("djvIconPopupMenu");

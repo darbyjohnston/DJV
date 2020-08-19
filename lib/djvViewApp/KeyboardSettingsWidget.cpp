@@ -86,7 +86,7 @@ namespace djv
 
         std::string KeyboardShortcutSettingsWidget::getSettingsSortKey() const
         {
-            return "Z";
+            return "Y";
         }
 
     } // namespace ViewApp

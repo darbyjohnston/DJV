@@ -762,6 +762,7 @@ namespace djv
                 _menuWidget = MenuWidget::create(context);
 
                 _scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
+                _scrollWidget->setBorder(false);
                 _scrollWidget->addChild(_menuWidget);
                 addChild(_scrollWidget);
             }

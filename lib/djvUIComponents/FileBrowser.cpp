@@ -12,7 +12,6 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
-#include <djvUI/Drawer.h>
 #include <djvUI/Label.h>
 #include <djvUI/PopupButton.h>
 #include <djvUI/RowLayout.h>
@@ -59,7 +58,7 @@ namespace djv
                 std::shared_ptr<PopupButton> recentPathsPopupButton;
                 std::shared_ptr<PopupButton> drivesPopupButton;
                 std::shared_ptr<PopupButton> sortPopupButton;
-                std::shared_ptr<SettingsWidget> settingsWidget;
+                std::shared_ptr<PopupButton> menuPopupButton;
                 std::shared_ptr<ListViewHeader> listViewHeader;
                 std::shared_ptr<VerticalLayout> itemViewLayout;
                 std::shared_ptr<ItemView> itemView;
@@ -147,10 +146,6 @@ namespace djv
                 p.actions["SortDirectoriesFirst"] = Action::create();
                 p.actions["SortDirectoriesFirst"]->setButtonType(ButtonType::Toggle);
 
-                p.actions["Settings"] = Action::create();
-                p.actions["Settings"]->setButtonType(ButtonType::Toggle);
-                p.actions["Settings"]->setIcon("djvIconSettings");
-
                 for (auto action : p.actions)
                 {
                     addAction(action.second);
@@ -170,6 +165,9 @@ namespace djv
                 p.sortPopupButton = PopupButton::create(MenuButtonStyle::Tool, context);
                 p.sortPopupButton->setIcon("djvIconSort");
 
+                p.menuPopupButton = PopupButton::create(MenuButtonStyle::Tool, context);
+                p.menuPopupButton->setIcon("djvIconMenu");
+
                 p.searchBox = SearchBox::create(context);
 
                 auto toolBar = ToolBar::create(context);
@@ -183,9 +181,7 @@ namespace djv
                 toolBar->setStretch(pathWidget, RowStretch::Expand);
                 toolBar->addChild(p.sortPopupButton);
                 toolBar->addChild(p.searchBox);
-                toolBar->addAction(p.actions["Settings"]);
-
-                auto settingsDrawer = Drawer::create(Side::Right, context);
+                toolBar->addChild(p.menuPopupButton);
 
                 p.listViewHeader = ListViewHeader::create(context);
                 p.listViewHeader->setText({ std::string(), std::string(), std::string() });
@@ -212,11 +208,8 @@ namespace djv
                 stackLayout2->addChild(p.itemCountLabel);
                 p.itemViewLayout->addChild(stackLayout2);
                 p.itemViewLayout->setStretch(stackLayout2, RowStretch::Expand);
-                auto stackLayout = StackLayout::create(context);
-                stackLayout->addChild(p.itemViewLayout);
-                stackLayout->addChild(settingsDrawer);
-                p.layout->addChild(stackLayout);
-                p.layout->setStretch(stackLayout, RowStretch::Expand);
+                p.layout->addChild(p.itemViewLayout);
+                p.layout->setStretch(p.itemViewLayout, RowStretch::Expand);
                 addChild(p.layout);
 
                 auto weak = std::weak_ptr<FileBrowser>(std::dynamic_pointer_cast<FileBrowser>(shared_from_this()));
@@ -245,12 +238,6 @@ namespace djv
                         {
                             widget->_p->directoryModel->goForward();
                         }
-                    });
-
-                p.actions["Settings"]->setCheckedCallback(
-                    [settingsDrawer](bool value)
-                    {
-                        settingsDrawer->setOpen(value);
                     });
 
                 auto contextWeak = std::weak_ptr<Context>(context);
@@ -454,7 +441,7 @@ namespace djv
                         return out;
                     });
 
-                settingsDrawer->setOpenCallback(
+                p.menuPopupButton->setOpenCallback(
                     [weak, contextWeak]() -> std::shared_ptr<Widget>
                     {
                         std::shared_ptr<Widget> out;
@@ -462,31 +449,10 @@ namespace djv
                         {
                             if (auto widget = weak.lock())
                             {
-                                widget->_p->settingsWidget = SettingsWidget::create(widget->_p->actions, context);
-                                auto settingsSystem = context->getSystemT<Settings::System>();
-                                auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
-                                widget->_p->settingsWidget->setBellowsState(fileBrowserSettings->getSettingsBellowsState());
-                                out = widget->_p->settingsWidget;
+                                out = Menu::create(widget->_p->actions, context);
                             }
                         }
                         return out;
-                    });
-                settingsDrawer->setCloseCallback(
-                    [weak, contextWeak](const std::shared_ptr<Widget>&)
-                    {
-                        if (auto context = contextWeak.lock())
-                        {
-                            if (auto widget = weak.lock())
-                            {
-                                if (widget->_p->settingsWidget)
-                                {
-                                    auto settingsSystem = context->getSystemT<Settings::System>();
-                                    auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
-                                    fileBrowserSettings->setSettingsBellowsState(widget->_p->settingsWidget->getBellowsState());
-                                    widget->_p->settingsWidget.reset();
-                                }
-                            }
-                        }
                     });
 
                 p.itemView->setCallback(
@@ -887,18 +853,7 @@ namespace djv
             {}
 
             FileBrowser::~FileBrowser()
-            {
-                DJV_PRIVATE_PTR();
-                if (auto context = getContext().lock())
-                {
-                    if (p.settingsWidget)
-                    {
-                        auto settingsSystem = context->getSystemT<Settings::System>();
-                        auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
-                        fileBrowserSettings->setSettingsBellowsState(p.settingsWidget->getBellowsState());
-                    }
-                }
-            }
+            {}
 
             std::shared_ptr<FileBrowser> FileBrowser::create(const std::shared_ptr<Context>& context)
             {
@@ -980,7 +935,6 @@ namespace djv
                     p.actions["ReverseSort"]->setTooltip(_getText(DJV_TEXT("file_browser_reverse_sort_tooltip")));
                     p.actions["SortDirectoriesFirst"]->setText(_getText(DJV_TEXT("file_browser_sort_directories_first")));
                     p.actions["SortDirectoriesFirst"]->setTooltip(_getText(DJV_TEXT("file_browser_sort_directories_first_tooltip")));
-                    p.actions["Settings"]->setTooltip(_getText(DJV_TEXT("file_browser_settings_tooltip")));
 
                     p.listViewHeader->setText(
                         {

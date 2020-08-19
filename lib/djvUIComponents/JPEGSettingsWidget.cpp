@@ -85,7 +85,7 @@ namespace djv
 
         std::string JPEGSettingsWidget::getSettingsSortKey() const
         {
-            return "ZZZ";
+            return "ZZZZ";
         }
 
         void JPEGSettingsWidget::setLabelSizeGroup(const std::weak_ptr<LabelSizeGroup>& value)

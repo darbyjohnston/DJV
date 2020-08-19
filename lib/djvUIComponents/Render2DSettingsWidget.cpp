@@ -4,11 +4,11 @@
 
 #include <djvUIComponents/Render2DSettingsWidget.h>
 
-#include <djvUI/CheckBox.h>
 #include <djvUI/ComboBox.h>
 #include <djvUI/FloatSlider.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/ToggleButton.h>
 
 #include <djvAV/AVSystem.h>
 #include <djvAV/Render2D.h>
@@ -99,7 +99,7 @@ namespace djv
 
         std::string Render2DImageSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("settings_render2d_section_image");
+            return DJV_TEXT("settings_render2d_section_images");
         }
 
         std::string Render2DImageSettingsWidget::getSettingsGroup() const
@@ -109,7 +109,7 @@ namespace djv
 
         std::string Render2DImageSettingsWidget::getSettingsSortKey() const
         {
-            return "ZZZZ";
+            return "ZZZZZ";
         }
 
         void Render2DImageSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
@@ -147,7 +147,8 @@ namespace djv
 
         struct Render2DTextSettingsWidget::Private
         {
-            std::shared_ptr<UI::CheckBox> lcdRenderingCheckBox;
+            std::shared_ptr<UI::ToggleButton> lcdRenderingButton;
+            std::shared_ptr<UI::FormLayout> layout;
             std::shared_ptr<ValueObserver<bool> > lcdRenderingObserver;
         };
 
@@ -158,15 +159,15 @@ namespace djv
 
             setClassName("djv::UI::Render2DTextSettingsWidget");
 
-            p.lcdRenderingCheckBox = UI::CheckBox::create(context);
+            p.lcdRenderingButton = UI::ToggleButton::create(context);
 
-            auto layout = UI::VerticalLayout::create(context);
-            layout->setSpacing(UI::MetricsRole::None);
-            layout->addChild(p.lcdRenderingCheckBox);
-            addChild(layout);
+            p.layout = UI::FormLayout::create(context);
+            p.layout->setSpacing(UI::MetricsRole::None);
+            p.layout->addChild(p.lcdRenderingButton);
+            addChild(p.layout);
 
             auto contextWeak = std::weak_ptr<Context>(context);
-            p.lcdRenderingCheckBox->setCheckedCallback(
+            p.lcdRenderingButton->setCheckedCallback(
                 [contextWeak](bool value)
             {
                 if (auto context = contextWeak.lock())
@@ -184,7 +185,7 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    widget->_p->lcdRenderingCheckBox->setChecked(value);
+                    widget->_p->lcdRenderingButton->setChecked(value);
                 }
             });
         }
@@ -212,7 +213,12 @@ namespace djv
 
         std::string Render2DTextSettingsWidget::getSettingsSortKey() const
         {
-            return "ZZZZ";
+            return "ZZZZZ";
+        }
+
+        void Render2DTextSettingsWidget::setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>& value)
+        {
+            _p->layout->setLabelSizeGroup(value);
         }
 
         void Render2DTextSettingsWidget::_initEvent(Event::Init& event)
@@ -221,7 +227,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                p.lcdRenderingCheckBox->setText(_getText(DJV_TEXT("settings_render_2d_text_lcd_rendering")));
+                p.layout->setText(p.lcdRenderingButton, _getText(DJV_TEXT("settings_render_2d_text_lcd_rendering")) + ":");
             }
         }
 

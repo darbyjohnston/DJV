@@ -15,6 +15,13 @@ namespace djv
         //! This namespace provides layout functionality.
         namespace Layout
         {
+            //! Calculate widget geometry.
+            Core::BBox2f getAlign(
+                const Core::BBox2f&,
+                const glm::vec2& minimumSize,
+                HAlign,
+                VAlign);
+
             Core::BBox2f getPopupGeometry(
                 UI::Popup,
                 const glm::vec2& pos,
@@ -38,4 +45,3 @@ namespace djv
         } // namespace Layout
     } // namespace UI
 } // namespace djv
-

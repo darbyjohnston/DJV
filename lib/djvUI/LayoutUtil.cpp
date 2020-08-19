@@ -14,6 +14,55 @@ namespace djv
     {
         namespace Layout
         {
+            BBox2f getAlign(const BBox2f& value, const glm::vec2& minimumSize, HAlign hAlign, VAlign vAlign)
+            {
+                float x = 0.F;
+                float y = 0.F;
+                float w = 0.F;
+                float h = 0.F;
+                switch (hAlign)
+                {
+                case HAlign::Center:
+                    w = minimumSize.x;
+                    x = value.min.x + floorf(value.w() / 2.F - minimumSize.x / 2.F);
+                    break;
+                case HAlign::Left:
+                    x = value.min.x;
+                    w = minimumSize.x;
+                    break;
+                case HAlign::Right:
+                    w = minimumSize.x;
+                    x = value.min.x + value.w() - minimumSize.x;
+                    break;
+                case HAlign::Fill:
+                    x = value.min.x;
+                    w = value.w();
+                    break;
+                default: break;
+                }
+                switch (vAlign)
+                {
+                case VAlign::Center:
+                    h = minimumSize.y;
+                    y = value.min.y + floorf(value.h() / 2.F - minimumSize.y / 2.F);
+                    break;
+                case VAlign::Top:
+                    y = value.min.y;
+                    h = minimumSize.y;
+                    break;
+                case VAlign::Bottom:
+                    h = minimumSize.y;
+                    y = value.min.y + value.h() - minimumSize.y;
+                    break;
+                case VAlign::Fill:
+                    y = value.min.y;
+                    h = value.h();
+                    break;
+                default: break;
+                }
+                return BBox2f(x, y, w, h);
+            }
+
             BBox2f getPopupGeometry(
                 Popup value,
                 const glm::vec2& pos,

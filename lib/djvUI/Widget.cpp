@@ -39,7 +39,7 @@ namespace djv
             const Time::Duration tooltipTimeout = std::chrono::milliseconds(500);
             const float tooltipHideDelta = 1.F;
 
-            size_t globalWidgetCount = 0;
+            std::atomic<size_t> globalWidgetCount(0);
 
             class DefaultTooltipWidget : public ITooltipWidget
             {
@@ -88,11 +88,6 @@ namespace djv
             };
 
         } // namespace
-
-        std::chrono::steady_clock::time_point Widget::_updateTime;
-        bool Widget::_tooltipsEnabled = true;
-        bool Widget::_resizeRequest   = true;
-        bool Widget::_redrawRequest   = true;
 
         void Widget::_init(const std::shared_ptr<Context>& context)
         {
@@ -176,55 +171,6 @@ namespace djv
             _resize();
         }
 
-        BBox2f Widget::getAlign(const BBox2f& value, const glm::vec2& minimumSize, HAlign hAlign, VAlign vAlign)
-        {
-            float x = 0.F;
-            float y = 0.F;
-            float w = 0.F;
-            float h = 0.F;
-            switch (hAlign)
-            {
-            case HAlign::Center:
-                w = minimumSize.x;
-                x = value.min.x + floorf(value.w() / 2.F - minimumSize.x / 2.F);
-                break;
-            case HAlign::Left:
-                x = value.min.x;
-                w = minimumSize.x;
-                break;
-            case HAlign::Right:
-                w = minimumSize.x;
-                x = value.min.x + value.w() - minimumSize.x;
-                break;
-            case HAlign::Fill:
-                x = value.min.x;
-                w = value.w();
-                break;
-            default: break;
-            }
-            switch (vAlign)
-            {
-            case VAlign::Center:
-                h = minimumSize.y;
-                y = value.min.y + floorf(value.h() / 2.F - minimumSize.y / 2.F);
-                break;
-            case VAlign::Top:
-                y = value.min.y;
-                h = minimumSize.y;
-                break;
-            case VAlign::Bottom:
-                h = minimumSize.y;
-                y = value.min.y + value.h() - minimumSize.y;
-                break;
-            case VAlign::Fill:
-                y = value.min.y;
-                h = value.h();
-                break;
-            default: break;
-            }
-            return BBox2f(x, y, w, h);
-        }
-
         void Widget::setBackgroundRole(ColorRole value)
         {
             if (value == _backgroundRole)
@@ -233,7 +179,7 @@ namespace djv
             _redraw();
         }
 
-        void Widget::setShadowOverlay(const std::vector<Side>& value)
+        void Widget::setShadowOverlay(const std::set<Side>& value)
         {
             if (value == _shadowOverlay)
                 return;
@@ -438,11 +384,6 @@ namespace djv
             setPointerEnabled(true);
         }
 
-        void Widget::setTooltipsEnabled(bool value)
-        {
-            _tooltipsEnabled = value;
-        }
-
         size_t Widget::getGlobalWidgetCount()
         {
             return globalWidgetCount;
@@ -564,26 +505,33 @@ namespace djv
                     {
                         if (auto context = getContext().lock())
                         {
-                            for (auto& i : _pointerToTooltips)
+                            if (auto eventSystem = _eventSystem.lock())
                             {
-                                const auto j = _pointerHover.find(i.first);
-                                const auto t = std::chrono::duration_cast<std::chrono::milliseconds>(_updateTime - i.second.timer);
-                                const auto& g = getGeometry();
-                                if (_tooltipsEnabled &&
-                                    t > tooltipTimeout &&
-                                    !i.second.tooltip &&
-                                    j != _pointerHover.end() &&
-                                    g.contains(j->second))
+                                const bool tooltipsEnabled = eventSystem->areTooltipsEnabled();
+                                if (tooltipsEnabled)
                                 {
-                                    for (
-                                        auto widget = std::dynamic_pointer_cast<Widget>(shared_from_this());
-                                        widget;
-                                        widget = std::dynamic_pointer_cast<Widget>(widget->getParent().lock()))
+                                    for (auto& i : _pointerToTooltips)
                                     {
-                                        if (auto tooltipWidget = widget->_createTooltip(j->second))
+                                        const auto j = _pointerHover.find(i.first);
+                                        const auto t = std::chrono::duration_cast<std::chrono::milliseconds>(_updateTime - i.second.timer);
+                                        const auto& g = getGeometry();
+                                        if (t > tooltipTimeout &&
+                                            !i.second.tooltip &&
+                                            j != _pointerHover.end() &&
+                                            g.contains(j->second))
                                         {
-                                            i.second.tooltip = Tooltip::create(getWindow(), j->second, tooltipWidget, context);
-                                            break;
+                                            for (
+                                                auto widget = std::dynamic_pointer_cast<Widget>(shared_from_this());
+                                                widget;
+                                                widget = std::dynamic_pointer_cast<Widget>(widget->getParent().lock()))
+                                            {
+                                                if (auto tooltipWidget = widget->_createTooltip(j->second))
+                                                {
+                                                    i.second.tooltip = Tooltip::create(getWindow(), j->second, tooltipWidget, context);
+                                                    break;
+                                                }
+                                            }
+
                                         }
                                     }
                                 }
@@ -754,7 +702,7 @@ namespace djv
 
         void Widget::_paintOverlayEvent(Event::PaintOverlay& event)
         {
-            if (_shadowOverlay.size())
+            if (!_shadowOverlay.empty())
             {
                 const auto& style = _getStyle();
                 const float ss = style->getMetric(MetricsRole::ShadowSmall);
@@ -872,19 +820,27 @@ namespace djv
             }
         }
 
+        void Widget::_resize()
+        {
+            if (auto eventSystem = _eventSystem.lock())
+            {
+                eventSystem->resizeRequest();
+            }
+        }
+
+        void Widget::_redraw()
+        {
+            if (auto eventSystem = _eventSystem.lock())
+            {
+                eventSystem->redrawRequest();
+            }
+        }
+
         void Widget::_setMinimumSize(const glm::vec2& value)
         {
             if (value == _minimumSize)
                 return;
             _minimumSize = value;
-            _resize();
-        }
-
-        void Widget::_setDesiredSize(const glm::vec2& value)
-        {
-            if (value == _desiredSize)
-                return;
-            _desiredSize = value;
             _resize();
         }
 

@@ -416,9 +416,10 @@ namespace djv
                                         break;
                                     default: break;
                                     }
+                                    render->setFillColor(AV::Image::Color(0.F, 0.F, 0.F));
+                                    render->drawRect(BBox2f(pos.x, pos.y, w, h));
                                     render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F, opacity));
                                     AV::Render2D::ImageOptions options;
-                                    options.alphaBlend = AV::AlphaBlend::None;
                                     auto l = p.ocioConfig.imageColorSpaces.find(j->second->getPluginName());
                                     if (l != p.ocioConfig.imageColorSpaces.end())
                                     {

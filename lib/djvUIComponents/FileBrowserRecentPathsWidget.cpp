@@ -47,12 +47,9 @@ namespace djv
                 layout->setSpacing(MetricsRole::None);
                 layout->addChild(p.titleLabel);
                 layout->addSeparator();
-                auto vLayout = VerticalLayout::create(context);
-                vLayout->setSpacing(MetricsRole::None);
                 p.itemLayout = VerticalLayout::create(context);
                 p.itemLayout->setSpacing(MetricsRole::None);
-                vLayout->addChild(p.itemLayout);
-                layout->addChild(vLayout);
+                layout->addChild(p.itemLayout);
                 p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
                 p.scrollWidget->setMinimumSizeRole(MetricsRole::None);
                 p.scrollWidget->setBorder(false);

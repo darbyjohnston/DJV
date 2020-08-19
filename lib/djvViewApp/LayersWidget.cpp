@@ -46,6 +46,7 @@ namespace djv
             scrollWidget->addChild(p.listWidget);
 
             p.searchBox = UI::SearchBox::create(context);
+            p.searchBox->setMargin(UI::MetricsRole::MarginSmall);
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);

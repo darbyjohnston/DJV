@@ -37,7 +37,6 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             setClassName("djv::UI::SizeWidget");
-            setHAlign(HAlign::Left);
 
             p.comboBox = ComboBox::create(context);
             addChild(p.comboBox);
@@ -167,7 +166,6 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             setClassName("djv::UI::PaletteWidget");
-            setHAlign(HAlign::Left);
 
             p.comboBox = ComboBox::create(context);
             addChild(p.comboBox);
@@ -375,11 +373,6 @@ namespace djv
             auto out = std::shared_ptr<StyleSettingsWidget>(new StyleSettingsWidget);
             out->_init(context);
             return out;
-        }
-
-        std::string StyleSettingsWidget::getSettingsName() const
-        {
-            return DJV_TEXT("settings_general_section_style");
         }
 
         std::string StyleSettingsWidget::getSettingsGroup() const

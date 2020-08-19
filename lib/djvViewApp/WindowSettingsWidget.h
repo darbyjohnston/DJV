@@ -24,9 +24,10 @@ namespace djv
 
             static std::shared_ptr<WindowGeometrySettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
-            std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;
             std::string getSettingsSortKey() const override;
+
+            void setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>&) override;
 
         protected:
             void _initEvent(Core::Event::Init&) override;
@@ -49,7 +50,6 @@ namespace djv
 
             static std::shared_ptr<FullscreenMonitorSettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
-            std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;
             std::string getSettingsSortKey() const override;
 
@@ -76,9 +76,10 @@ namespace djv
         public:
             static std::shared_ptr<AutoHideSettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
-            std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;
             std::string getSettingsSortKey() const override;
+
+            void setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>&) override;
 
         protected:
             void _initEvent(Core::Event::Init&) override;
@@ -104,6 +105,8 @@ namespace djv
             std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;
             std::string getSettingsSortKey() const override;
+
+            void setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>&) override;
 
         protected:
             void _initEvent(Core::Event::Init&) override;

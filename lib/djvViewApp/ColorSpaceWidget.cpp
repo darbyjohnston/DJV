@@ -6,7 +6,9 @@
 
 #include <djvViewApp/ColorSpaceWidgetPrivate.h>
 
+#include <djvUI/Action.h>
 #include <djvUI/Bellows.h>
+#include <djvUI/ComboBox.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/Label.h>
 #include <djvUI/PopupButton.h>
@@ -26,9 +28,12 @@ namespace djv
         struct ColorSpaceWidget::Private
         {
             AV::OCIO::ConfigMode configMode = AV::OCIO::ConfigMode::First;
+            AV::OCIO::Config envConfig;
+            AV::OCIO::Config cmdLineConfig;
             AV::OCIO::UserConfigs userConfigs;
             AV::OCIO::Config currentConfig;
 
+            std::shared_ptr<UI::ComboBox> configModeComboBox;
             std::shared_ptr<UI::PopupButton> configPopupButton;
             std::shared_ptr<UI::PopupButton> displayPopupButton;
             std::shared_ptr<UI::PopupButton> viewPopupButton;
@@ -39,6 +44,8 @@ namespace djv
             std::shared_ptr<UI::ScrollWidget> scrollWidget;
 
             std::shared_ptr<ValueObserver<AV::OCIO::ConfigMode> > configModeObserver;
+            std::shared_ptr<ValueObserver<AV::OCIO::Config> > envConfigObserver;
+            std::shared_ptr<ValueObserver<AV::OCIO::Config> > cmdLineConfigObserver;
             std::shared_ptr<ValueObserver<AV::OCIO::UserConfigs> > userConfigsObserver;
             std::shared_ptr<ValueObserver<AV::OCIO::Config> > currentConfigObserver;
         };
@@ -49,6 +56,8 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             setClassName("djv::ViewApp::ColorSpaceWidget");
+
+            p.configModeComboBox = UI::ComboBox::create(context);
 
             p.configPopupButton = UI::PopupButton::create(UI::MenuButtonStyle::ComboBox, context);
             p.configPopupButton->setPopupIcon("djvIconPopupMenu");
@@ -74,6 +83,7 @@ namespace djv
             p.formLayout = UI::FormLayout::create(context);
             p.formLayout->setMargin(UI::MetricsRole::MarginSmall);
             p.formLayout->setLabelSizeGroup(p.sizeGroup);
+            p.formLayout->addChild(p.configModeComboBox);
             p.formLayout->addChild(p.configPopupButton);
             p.formLayout->addChild(p.displayPopupButton);
             p.formLayout->addChild(p.viewPopupButton);
@@ -83,10 +93,21 @@ namespace djv
             p.scrollWidget->setBorder(false);
             p.scrollWidget->setMinimumSizeRole(UI::MetricsRole::ScrollAreaSmall);
             p.scrollWidget->setBackgroundRole(UI::ColorRole::Background);
+            p.scrollWidget->setShadowOverlay({ UI::Side::Top });
             p.scrollWidget->addChild(vLayout);
             addChild(p.scrollWidget);
 
             auto contextWeak = std::weak_ptr<Context>(context);
+            p.configModeComboBox->setCallback(
+                [contextWeak](int value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                        ocioSystem->setConfigMode(static_cast<AV::OCIO::ConfigMode>(value));
+                    }
+                });
+
             p.configPopupButton->setOpenCallback(
                 [contextWeak]() -> std::shared_ptr<UI::Widget>
                 {
@@ -129,6 +150,28 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->configMode = value;
+                        widget->_widgetUpdate();
+                    }
+                });
+
+            p.envConfigObserver = ValueObserver<AV::OCIO::Config>::create(
+                ocioSystem->observeEnvConfig(),
+                [weak](const AV::OCIO::Config& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->envConfig = value;
+                        widget->_widgetUpdate();
+                    }
+                });
+
+            p.cmdLineConfigObserver = ValueObserver<AV::OCIO::Config>::create(
+                ocioSystem->observeCmdLineConfig(),
+                [weak](const AV::OCIO::Config& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->cmdLineConfig = value;
                         widget->_widgetUpdate();
                     }
                 });
@@ -206,6 +249,7 @@ namespace djv
             if (event.getData().text)
             {
                 setTitle(_getText(DJV_TEXT("widget_color_space")));
+                p.formLayout->setText(p.configModeComboBox, _getText(DJV_TEXT("widget_color_space_mode")) + ":");
                 p.formLayout->setText(p.configPopupButton, _getText(DJV_TEXT("widget_color_space_config")) + ":");
                 p.formLayout->setText(p.displayPopupButton, _getText(DJV_TEXT("widget_color_space_display")) + ":");
                 p.formLayout->setText(p.viewPopupButton, _getText(DJV_TEXT("widget_color_space_view")) + ":");
@@ -219,6 +263,20 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
+                std::vector<std::shared_ptr<UI::Action> > items;
+                for (const auto& i : AV::OCIO::getConfigModeEnums())
+                {
+                    auto action = UI::Action::create();
+                    std::stringstream ss;
+                    ss << i;
+                    action->setText(_getText(DJV_TEXT(ss.str())));
+                    items.push_back(action);
+                }
+                items[static_cast<int>(AV::OCIO::ConfigMode::Env)]->setEnabled(p.envConfig.isValid());
+                items[static_cast<int>(AV::OCIO::ConfigMode::CmdLine)]->setEnabled(p.cmdLineConfig.isValid());
+                p.configModeComboBox->setItems(items);
+                p.configModeComboBox->setCurrentItem(static_cast<int>(p.configMode));
+
                 std::string text;
                 switch (p.configMode)
                 {
@@ -240,10 +298,12 @@ namespace djv
                 default: break;
                 }
                 p.configPopupButton->setText(text);
+
                 p.displayPopupButton->setText(
                     !p.currentConfig.display.empty() ?
                     p.currentConfig.display :
                     _getText(DJV_TEXT("av_ocio_display_none")));
+
                 p.viewPopupButton->setText(
                     !p.currentConfig.view.empty() ?
                     p.currentConfig.view :

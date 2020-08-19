@@ -65,7 +65,7 @@ namespace djv
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver2;
             std::shared_ptr<ValueObserver<size_t> > threadCountObserver;
             std::shared_ptr<ValueObserver<bool> > cacheEnabledObserver;
-            std::shared_ptr<ValueObserver<int> > cacheMaxGBObserver;
+            std::shared_ptr<ValueObserver<int> > cacheSizeObserver;
             std::shared_ptr<Time::Timer> cacheTimer;
 
             typedef std::pair<Core::FileSystem::FileInfo, std::string> FileInfoAndNumber;
@@ -335,8 +335,8 @@ namespace djv
                     }
                 });
 
-            p.cacheMaxGBObserver = ValueObserver<int>::create(
-                p.settings->observeCacheMaxGB(),
+            p.cacheSizeObserver = ValueObserver<int>::create(
+                p.settings->observeCacheSize(),
                 [weak](int value)
                 {
                     if (auto system = weak.lock())
@@ -654,7 +654,7 @@ namespace djv
                 }
             }
             const bool cacheEnabled = p.settings->observeCacheEnabled()->get();
-            const size_t cacheMaxByteCount = p.settings->observeCacheMaxGB()->get() * Memory::gigabyte;
+            const size_t cacheMaxByteCount = p.settings->observeCacheSize()->get() * Memory::gigabyte;
             const size_t mediaCacheSizeByteCount = cacheCount > 0 ? (cacheMaxByteCount / cacheCount) : 0;
             for (const auto& i : media)
             {

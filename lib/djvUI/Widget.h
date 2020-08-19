@@ -15,6 +15,7 @@
 
 #include <functional>
 #include <memory>
+#include <set>
 
 namespace djv
 {
@@ -76,7 +77,6 @@ namespace djv
             ///@{
 
             const glm::vec2& getMinimumSize() const;
-            const glm::vec2& getDesiredSize() const;
             const Core::BBox2f& getGeometry() const;
             glm::vec2 getSize() const;
             float getWidth() const;
@@ -98,13 +98,6 @@ namespace djv
             void setHAlign(HAlign);
             void setVAlign(VAlign);
 
-            //! Utility function for computing widget geometry.
-            static Core::BBox2f getAlign(
-                const Core::BBox2f&,
-                const glm::vec2& minimumSize,
-                HAlign,
-                VAlign);
-
             ///@}
 
             //! \name Style
@@ -113,8 +106,8 @@ namespace djv
             ColorRole getBackgroundRole() const;
             virtual void setBackgroundRole(ColorRole);
 
-            const std::vector<Side>& getShadowOverlay() const;
-            void setShadowOverlay(const std::vector<Side>&);
+            const std::set<Side>& getShadowOverlay() const;
+            void setShadowOverlay(const std::set<Side>&);
 
             ///@}
 
@@ -149,9 +142,6 @@ namespace djv
 
             const std::string& getTooltip() const;
             void setTooltip(const std::string&);
-
-            static bool areTooltipsEnabled();
-            static void setTooltipsEnabled(bool);
 
             ///@}
 
@@ -209,10 +199,7 @@ namespace djv
             //! Set the minimum size. This is computed and set in the pre-layout event.
             void _setMinimumSize(const glm::vec2&);
 
-            //! Set the desired size. This is computed and set in the pre-layout event.
-            void _setDesiredSize(const glm::vec2&);
-
-            static const std::chrono::steady_clock::time_point& _getUpdateTime();
+            const std::chrono::steady_clock::time_point& _getUpdateTime();
             const std::map<Core::Event::PointerID, glm::vec2> _getPointerHover() const;
 
             std::string _getTooltipText() const;
@@ -222,7 +209,7 @@ namespace djv
         private:
             std::vector<std::shared_ptr<Widget> > _childWidgets;
 
-            static std::chrono::steady_clock::time_point _updateTime;
+            std::chrono::steady_clock::time_point _updateTime;
 
             bool                _visible         = true;
             bool                _visibleInit     = true;
@@ -234,37 +221,29 @@ namespace djv
 
             Core::BBox2f        _geometry        = Core::BBox2f(0.F, 0.F, 0.F, 0.F);
             glm::vec2           _minimumSize     = glm::vec2(0.F, 0.F);
-            glm::vec2           _desiredSize     = glm::vec2(0.F, 0.F);
             Layout::Margin      _margin;
             HAlign              _hAlign          = HAlign::Fill;
             VAlign              _vAlign          = VAlign::Fill;
 
             ColorRole           _backgroundRole  = ColorRole::None;
-            std::vector<Side>   _shadowOverlay;
+            std::set<Side>      _shadowOverlay;
 
-            bool                _pointerEnabled  = false;
-            std::map<Core::Event::PointerID, glm::vec2>
-                                _pointerHover;
+            bool _pointerEnabled = false;
+            std::map<Core::Event::PointerID, glm::vec2> _pointerHover;
 
-            std::vector<std::shared_ptr<Action> >
-                                _actions;
+            std::vector<std::shared_ptr<Action> > _actions;
 
-            std::string         _tooltipText;
-            static bool         _tooltipsEnabled;
+            std::string _tooltipText;
             struct TooltipData
             {
                 std::chrono::steady_clock::time_point timer;
                 std::shared_ptr<Tooltip> tooltip;
             };
-            std::map<Core::Event::PointerID, TooltipData>
-                                _pointerToTooltips;
+            std::map<Core::Event::PointerID, TooltipData> _pointerToTooltips;
 
-            static bool         _resizeRequest;
-            static bool         _redrawRequest;
-
-            std::weak_ptr<EventSystem>              _eventSystem;
-            std::shared_ptr<AV::Render2D::Render>   _render;
-            std::shared_ptr<Style::Style>           _style;
+            std::weak_ptr<EventSystem> _eventSystem;
+            std::shared_ptr<AV::Render2D::Render> _render;
+            std::shared_ptr<Style::Style> _style;
 
             friend class EventSystem;
         };

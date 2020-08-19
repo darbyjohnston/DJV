@@ -35,7 +35,7 @@ namespace djv
             std::shared_ptr<ValueSubject<bool> > autoDetectSequences;
             std::shared_ptr<ValueSubject<bool> > sequencesFirstFrame;
             std::shared_ptr<ValueSubject<bool> > cacheEnabled;
-            std::shared_ptr<ValueSubject<int> > cacheMaxGB;
+            std::shared_ptr<ValueSubject<int> > cacheSize;
             std::map<std::string, BBox2f> widgetGeom;
         };
 
@@ -49,7 +49,7 @@ namespace djv
             p.autoDetectSequences = ValueSubject<bool>::create(true);
             p.sequencesFirstFrame = ValueSubject<bool>::create(true);
             p.cacheEnabled = ValueSubject<bool>::create(true);
-            p.cacheMaxGB = ValueSubject<int>::create(4);
+            p.cacheSize = ValueSubject<int>::create(4);
             _load();
         }
 
@@ -146,9 +146,9 @@ namespace djv
             return _p->cacheEnabled;
         }
 
-        std::shared_ptr<IValueSubject<int> > FileSettings::observeCacheMaxGB() const
+        std::shared_ptr<IValueSubject<int> > FileSettings::observeCacheSize() const
         {
-            return _p->cacheMaxGB;
+            return _p->cacheSize;
         }
 
         void FileSettings::setCacheEnabled(bool value)
@@ -156,9 +156,9 @@ namespace djv
             _p->cacheEnabled->setIfChanged(value);
         }
 
-        void FileSettings::setCacheMaxGB(int value)
+        void FileSettings::setCacheSize(int value)
         {
-            _p->cacheMaxGB->setIfChanged(value);
+            _p->cacheSize->setIfChanged(value);
         }
 
         const std::map<std::string, BBox2f>& FileSettings::getWidgetGeom() const
@@ -197,7 +197,7 @@ namespace djv
                 UI::Settings::read("AutoDetectSequences", value, p.autoDetectSequences);
                 UI::Settings::read("SequencesFirstFrame", value, p.sequencesFirstFrame);
                 UI::Settings::read("CacheEnabled", value, p.cacheEnabled);
-                UI::Settings::read("CacheMax", value, p.cacheMaxGB);
+                UI::Settings::read("CacheSize", value, p.cacheSize);
                 UI::Settings::read("WidgetGeom", value, p.widgetGeom);
             }
         }
@@ -213,7 +213,7 @@ namespace djv
             UI::Settings::write("AutoDetectSequences", p.autoDetectSequences->get(), out, allocator);
             UI::Settings::write("SequencesFirstFrame", p.sequencesFirstFrame->get(), out, allocator);
             UI::Settings::write("CacheEnabled", p.cacheEnabled->get(), out, allocator);
-            UI::Settings::write("CacheMax", p.cacheMaxGB->get(), out, allocator);
+            UI::Settings::write("CacheSize", p.cacheSize->get(), out, allocator);
             UI::Settings::write("WidgetGeom", p.widgetGeom, out, allocator);
             return out;
         }

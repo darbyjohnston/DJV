@@ -4,6 +4,7 @@
 
 #include <djvUI/Window.h>
 
+#include <djvUI/EventSystem.h>
 #include <djvUI/StackLayout.h>
 
 #include <djvCore/Context.h>
@@ -28,6 +29,10 @@ namespace djv
             setVisible(false);
             setBackgroundRole(ColorRole::Background);
             setPointerEnabled(true);
+            if (auto eventSystem = _getEventSystem().lock())
+            {
+                eventSystem->_addWindow(std::dynamic_pointer_cast<Window>(shared_from_this()));
+            }
         }
 
         Window::Window() :

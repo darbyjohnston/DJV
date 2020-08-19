@@ -44,11 +44,6 @@ namespace djv
             return _minimumSize;
         }
 
-        inline const glm::vec2& Widget::getDesiredSize() const
-        {
-            return _desiredSize;
-        }
-
         inline const Core::BBox2f& Widget::getGeometry() const
         {
             return _geometry;
@@ -108,7 +103,7 @@ namespace djv
             return _backgroundRole;
         }
 
-        inline const std::vector<Side>& Widget::getShadowOverlay() const
+        inline const std::set<Side>& Widget::getShadowOverlay() const
         {
             return _shadowOverlay;
         }
@@ -126,11 +121,6 @@ namespace djv
         inline const std::string& Widget::getTooltip() const
         {
             return _tooltipText;
-        }
-
-        inline bool Widget::areTooltipsEnabled()
-        {
-            return _tooltipsEnabled;
         }
 
         inline const std::vector<std::shared_ptr<Widget> >& Widget::getChildWidgets() const
@@ -151,16 +141,6 @@ namespace djv
         inline const std::shared_ptr<Style::Style>& Widget::_getStyle() const
         {
             return _style;
-        }
-
-        inline void Widget::_redraw()
-        {
-            _redrawRequest = true;
-        }
-
-        inline void Widget::_resize()
-        {
-            _resizeRequest = true;
         }
 
         inline const std::chrono::steady_clock::time_point& Widget::_getUpdateTime()

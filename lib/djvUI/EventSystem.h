@@ -26,14 +26,22 @@ namespace djv
         public:
             virtual ~EventSystem() = 0;
 
+            void resizeRequest();
+            void redrawRequest();
+
+            bool areTooltipsEnabled() const;
+
             void tick() override;
 
         protected:
+            const std::vector<std::weak_ptr<Window> >& _getWindows() const;
+            void _addWindow(const std::shared_ptr<Window>&);
+
+            bool _resizeRequestReset();
+            bool _redrawRequestReset();
+
             virtual void _pushClipRect(const Core::BBox2f&);
             virtual void _popClipRect();
-
-            bool _resizeRequest(const std::shared_ptr<Widget>&) const;
-            bool _redrawRequest(const std::shared_ptr<Widget>&) const;
 
             void _initLayoutRecursive(const std::shared_ptr<Widget>&, Core::Event::InitLayout&);
             void _preLayoutRecursive(const std::shared_ptr<Widget>&, Core::Event::PreLayout&);
@@ -44,10 +52,13 @@ namespace djv
                 Core::Event::Paint&,
                 Core::Event::PaintOverlay&);
 
-            void _initObject(const std::shared_ptr<Core::IObject>&) override;
+            void _init(Core::Event::Init&) override;
+            void _update(Core::Event::Update&) override;
 
         private:
             DJV_PRIVATE();
+
+            friend class Window;
         };
 
     } // namespace UI

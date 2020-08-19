@@ -188,12 +188,22 @@ namespace djv
                         break;
                     case GLFW_KEY_UP:
                         event.accept();
-                        p.buttonGroup->getButtons()[p.buttonGroup->getChecked() - 1]->doClick();
+                        if (p.buttonGroup->getChecked() > 0)
+                        {
+                            p.buttonGroup->getButtons()[p.buttonGroup->getChecked() - 1]->doClick();
+                        }
                         break;
                     case GLFW_KEY_DOWN:
+                    {
                         event.accept();
-                        p.buttonGroup->getButtons()[p.buttonGroup->getChecked() + 1]->doClick();
+                        const size_t count = p.buttonGroup->getButtonCount();
+                        if (count > 0 && p.buttonGroup->getChecked() < count - 1)
+                        {
+                            p.buttonGroup->getButtons()[p.buttonGroup->getChecked() + 1]->doClick();
+                        }
                         break;
+                    }
+                    default: break;
                     }
                 }
             }
