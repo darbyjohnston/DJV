@@ -142,7 +142,7 @@ namespace djv
             _addShortcut("shortcut_window_full_screen", GLFW_KEY_U);
             _addShortcut("shortcut_window_maximize", GLFW_KEY_M);
             _addShortcut("shortcut_window_fit", GLFW_KEY_F, UI::ShortcutData::getSystemModifier());
-            _addShortcut("shortcut_window_auto_hide", GLFW_KEY_H, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_window_auto_hide", GLFW_KEY_H, GLFW_MOD_SHIFT | UI::ShortcutData::getSystemModifier());
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["FullScreen"]);

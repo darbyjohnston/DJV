@@ -98,7 +98,7 @@ namespace djv
             p.actions["LoadFrameStore"] = UI::Action::create();
             p.actions["ClearFrameStore"] = UI::Action::create();
 
-            _addShortcut("shortcut_image_controls", GLFW_KEY_M, UI::ShortcutData::getSystemModifier());
+            _addShortcut("shortcut_image_controls", GLFW_KEY_B, UI::ShortcutData::getSystemModifier());
             _addShortcut("shortcut_image_color_space", GLFW_KEY_P, UI::ShortcutData::getSystemModifier());
             _addShortcut("shortcut_image_red_channel", GLFW_KEY_R);
             _addShortcut("shortcut_image_green_channel", GLFW_KEY_G);
