@@ -251,6 +251,7 @@ namespace djv
             case ButtonType::Toggle:
                 if (p.checkedSubject->setIfChanged(!p.checkedSubject->get()))
                 {
+                    _iconUpdate();
                     if (p.checkedCallback)
                     {
                         p.checkedCallback(p.checkedSubject->get());
@@ -260,6 +261,7 @@ namespace djv
             case ButtonType::Radio:
                 if (p.checkedSubject->setIfChanged(true))
                 {
+                    _iconUpdate();
                     if (p.checkedCallback)
                     {
                         p.checkedCallback(p.checkedSubject->get());
@@ -269,6 +271,7 @@ namespace djv
             case ButtonType::Exclusive:
                 if (p.checkedSubject->setIfChanged(!p.checkedSubject->get()))
                 {
+                    _iconUpdate();
                     if (p.checkedCallback)
                     {
                         p.checkedCallback(p.checkedSubject->get());
