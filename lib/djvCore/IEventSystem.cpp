@@ -164,6 +164,12 @@ namespace djv
                 auto dt = std::chrono::duration_cast<Time::Duration>(p.t - now);
                 p.t = now;
 
+                // Check if the text focus is still valid.
+                if (p.textFocus.expired() && p.textFocusActive.get())
+                {
+                    p.textFocusActive->setIfChanged(false);
+                }
+
                 // Text init event.
                 if (p.textInit)
                 {
@@ -178,7 +184,7 @@ namespace djv
                 Update updateEvent(p.t, dt);
                 _update(updateEvent);
 
-                // Move event.
+                // Pointer move event.
                 PointerMove moveEvent(p.pointerInfo);
                 if (auto grab = p.grab->get())
                 {
