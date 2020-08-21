@@ -781,6 +781,23 @@ namespace djv
                     std::vector<TextLine> lines;
                     if (FT_Face ftFace = p.getFace(request.fontInfo.getFamily(), request.fontInfo.getFace()))
                     {
+                        /*FT_Error ftError = FT_Set_Char_Size(
+                            ftFace->second,
+                            0,
+                            static_cast<int>(request.fontInfo.getSize() * 64.F),
+                            fontInfo.getDPI(),
+                            fontInfo.getDPI());*/
+                        FT_Error ftError = FT_Set_Pixel_Sizes(
+                            ftFace,
+                            0,
+                            static_cast<int>(request.fontInfo.getSize()));
+                        if (ftError)
+                        {
+                            std::stringstream ss;
+                            ss << "Error setting font size" << " '" << request.text << "': " << request.fontInfo.getSize();
+                            _log(ss.str(), LogLevel::Error);
+                        }
+
                         // Get the glyphs.
                         std::basic_string<djv_char_t> utf32;
                         try
@@ -854,7 +871,10 @@ namespace djv
                                 lineBreak = utf32.end();
                                 rsbDeltaPrev = 0;
                             }
-                            else if (pos.x > 0.F && pos.x + (!isSpace(*i) ? advance : 0) >= request.maxLineWidth)
+                            else if (
+                                request.maxLineWidth > 0.F &&
+                                pos.x > 0.F
+                                && pos.x + (!isSpace(*i) ? advance : 0) >= request.maxLineWidth)
                             {
                                 if (lineBreak != utf32.end())
                                 {
@@ -989,14 +1009,14 @@ namespace djv
                                 static_cast<int>(fontInfo.getSize()));
                             if (ftError)
                             {
-                                //std::cout << "FT_Set_Pixel_Sizes error: " << getFTError(ftError) << std::endl;
+                                //std::cout << "FT_Set_Pixel_Sizes error: " << ftError << std::endl;
                                 return nullptr;
                             }
 
                             ftError = FT_Load_Glyph(ftFace, ftGlyphIndex, FT_LOAD_FORCE_AUTOHINT);
                             if (ftError)
                             {
-                                //std::cout << "FT_Load_Glyph error: " << getFTError(ftError) << std::endl;
+                                //std::cout << "FT_Load_Glyph error: " << ftError << std::endl;
                                 return nullptr;
                             }
                             FT_Render_Mode renderMode = FT_RENDER_MODE_NORMAL;
@@ -1009,14 +1029,14 @@ namespace djv
                             ftError = FT_Render_Glyph(ftFace->glyph, renderMode);
                             if (ftError)
                             {
-                                //std::cout << "FT_Render_Glyph error: " << getFTError(ftError) << std::endl;
+                                //std::cout << "FT_Render_Glyph error: " << ftError << std::endl;
                                 return nullptr;
                             }
                             FT_Glyph ftGlyph;
                             ftError = FT_Get_Glyph(ftFace->glyph, &ftGlyph);
                             if (ftError)
                             {
-                                //std::cout << "FT_Get_Glyph error: " << getFTError(ftError) << std::endl;
+                                //std::cout << "FT_Get_Glyph error: " << ftError << std::endl;
                                 return nullptr;
                             }
                             FT_Vector v;
@@ -1025,7 +1045,7 @@ namespace djv
                             ftError = FT_Glyph_To_Bitmap(&ftGlyph, renderMode, &v, 0);
                             if (ftError)
                             {
-                                //std::cout << "FT_Glyph_To_Bitmap error: " << getFTError(ftError) << std::endl;
+                                //std::cout << "FT_Glyph_To_Bitmap error: " << ftError << std::endl;
                                 FT_Done_Glyph(ftGlyph);
                                 return nullptr;
                             }
@@ -1074,7 +1094,7 @@ namespace djv
                             static_cast<int>(fontInfo.getSize()));
                         if (ftError)
                         {
-                            //std::cout << "FT_Set_Pixel_Sizes error: " << getFTError(ftError) << std::endl;
+                            //std::cout << "FT_Set_Pixel_Sizes error: " << ftError << std::endl;
                             break;
                         }
 
