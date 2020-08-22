@@ -26,9 +26,6 @@ namespace djv
 
             static std::shared_ptr<InfoWidget> create(const std::shared_ptr<Core::Context>&);
 
-            bool getBellowsState() const;
-            void setBellowsState(bool);
-
         protected:
             void _initLayoutEvent(djv::Core::Event::InitLayout&) override;
 
@@ -44,8 +41,6 @@ namespace djv
             std::string _textSampleRate(size_t) const;
             std::string _textDuration(size_t, size_t) const;
 
-            void _expandAll();
-            void _collapseAll();
             void _widgetUpdate();
 
             DJV_PRIVATE();

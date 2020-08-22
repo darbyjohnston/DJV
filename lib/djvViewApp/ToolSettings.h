@@ -32,9 +32,6 @@ namespace djv
 
             static std::shared_ptr<ToolSettings> create(const std::shared_ptr<Core::Context>&);
 
-            bool getInfoBellowsState() const;
-            void setInfoBellowsState(bool);
-
             std::shared_ptr<Core::IValueSubject<bool> > observeMessagesPopup() const;
             void setMessagesPopup(bool);
 

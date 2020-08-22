@@ -34,6 +34,8 @@ namespace djv
         {
             struct FileBrowser::Private
             {
+                std::shared_ptr<ValueSubject<bool> > drawerOpen;
+                std::shared_ptr<MapSubject<std::string, bool> > bellowsState;
                 std::shared_ptr<ListSubject<FileSystem::Path> > shortcuts;
                 std::shared_ptr<ListSubject<FileSystem::Path> > recentPaths;
                 std::shared_ptr<ValueSubject<ViewType> > viewType;
@@ -52,6 +54,8 @@ namespace djv
                 ISettings::_init("djv::UI::Settings::FileBrowser", context);
                 
                 DJV_PRIVATE_PTR();
+                p.drawerOpen = ValueSubject<bool>::create();
+                p.bellowsState = MapSubject<std::string, bool>::create();
                 p.shortcuts = ListSubject<FileSystem::Path>::create();
                 for (size_t i = 0; i < static_cast<size_t>(OS::DirectoryShortcut::Count); ++i)
                 {
@@ -98,6 +102,26 @@ namespace djv
                 auto out = std::shared_ptr<FileBrowser>(new FileBrowser);
                 out->_init(context);
                 return out;
+            }
+
+            std::shared_ptr<Core::IValueSubject<bool> > FileBrowser::observeDrawerOpen() const
+            {
+                return _p->drawerOpen;
+            }
+
+            void FileBrowser::setDrawerOpen(bool value)
+            {
+                _p->drawerOpen->setIfChanged(value);
+            }
+
+            std::shared_ptr<Core::IMapSubject<std::string, bool> > FileBrowser::observeBellowsState() const
+            {
+                return _p->bellowsState;
+            }
+
+            void FileBrowser::setBellowsState(const std::map<std::string, bool>& value)
+            {
+                _p->bellowsState->setIfChanged(value);
             }
 
             std::shared_ptr<IListSubject<FileSystem::Path> > FileBrowser::observeShortcuts() const
@@ -215,6 +239,8 @@ namespace djv
                 if (value.IsObject())
                 {
                     DJV_PRIVATE_PTR();
+                    read("DrawerOpen", value, p.drawerOpen);
+                    read("BellowsState", value, p.bellowsState);
                     read("Shortcuts", value, p.shortcuts);
                     read("RecentPaths", value, p.recentPaths);
                     read("ViewType", value, p.viewType);
@@ -233,6 +259,8 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 rapidjson::Value out(rapidjson::kObjectType);
+                write("DrawerOpen", p.drawerOpen->get(), out, allocator);
+                write("BellowsState", p.bellowsState->get(), out, allocator);
                 write("Shortcuts", p.shortcuts->get(), out, allocator);
                 write("RecentPaths", p.recentPaths->get(), out, allocator);
                 write("ViewType", p.viewType->get(), out, allocator);

@@ -139,8 +139,6 @@ namespace djv
                 void _preLayoutEvent(Core::Event::PreLayout&) override;
                 void _layoutEvent(Core::Event::Layout&) override;
 
-                void _initEvent(Core::Event::Init&) override;
-
             private:
                 DJV_PRIVATE();
             };
@@ -164,36 +162,6 @@ namespace djv
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout&) override;
                 void _layoutEvent(Core::Event::Layout&) override;
-
-                void _initEvent(Core::Event::Init&) override;
-
-            private:
-                DJV_PRIVATE();
-            };
-
-            //! This class provides a file browser sort widget.
-            class SortWidget : public UI::Widget
-            {
-                DJV_NON_COPYABLE(SortWidget);
-
-            protected:
-                void _init(
-                    const std::map<std::string, std::shared_ptr<Action> >&,
-                    const std::shared_ptr<Core::Context>&);
-                SortWidget();
-
-            public:
-                ~SortWidget() override;
-
-                static std::shared_ptr<SortWidget> create(
-                    const std::map<std::string, std::shared_ptr<Action> >&,
-                    const std::shared_ptr<Core::Context>&);
-
-            protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
-
-                void _initEvent(Core::Event::Init&) override;
 
             private:
                 DJV_PRIVATE();

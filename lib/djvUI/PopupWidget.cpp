@@ -4,7 +4,7 @@
 
 #include <djvUI/PopupWidget.h>
 
-#include <djvUI/RowLayout.h>
+#include <djvUI/Border.h>
 
 using namespace djv::Core;
 
@@ -14,7 +14,7 @@ namespace djv
     {
         struct PopupWidget::Private
         {
-            std::shared_ptr<VerticalLayout> layout;
+            std::shared_ptr<Border> border;
         };
 
         void PopupWidget::_init(const std::shared_ptr<Context>& context)
@@ -26,8 +26,8 @@ namespace djv
             setBackgroundRole(ColorRole::Background);
             setPointerEnabled(true);
 
-            p.layout = VerticalLayout::create(context);
-            Widget::addChild(p.layout);
+            p.border = Border::create(context);
+            Widget::addChild(p.border);
         }
 
         PopupWidget::PopupWidget() :
@@ -46,32 +46,32 @@ namespace djv
 
         void PopupWidget::addChild(const std::shared_ptr<IObject>& value)
         {
-            _p->layout->addChild(value);
+            _p->border->addChild(value);
         }
 
         void PopupWidget::removeChild(const std::shared_ptr<IObject>& value)
         {
-            _p->layout->removeChild(value);
+            _p->border->removeChild(value);
         }
 
         void PopupWidget::clearChildren()
         {
-            _p->layout->clearChildren();
+            _p->border->clearChildren();
         }
 
         float PopupWidget::getHeightForWidth(float value) const
         {
-            return _p->layout->getHeightForWidth(value);
+            return _p->border->getHeightForWidth(value);
         }
 
         void PopupWidget::_preLayoutEvent(Event::PreLayout& event)
         {
-            _setMinimumSize(_p->layout->getMinimumSize());
+            _setMinimumSize(_p->border->getMinimumSize());
         }
 
         void PopupWidget::_layoutEvent(Event::Layout& event)
         {
-            _p->layout->setGeometry(getGeometry());
+            _p->border->setGeometry(getGeometry());
         }
 
         void PopupWidget::_buttonPressEvent(Event::ButtonPress& event)

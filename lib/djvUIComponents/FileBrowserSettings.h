@@ -9,8 +9,8 @@
 #include <djvUI/ShortcutData.h>
 
 #include <djvCore/FileInfo.h>
-#include <djvCore/MapObserver.h>
 #include <djvCore/ListObserver.h>
+#include <djvCore/MapObserver.h>
 #include <djvCore/ValueObserver.h>
 #include <djvCore/Vector.h>
 
@@ -43,6 +43,12 @@ namespace djv
                 ~FileBrowser() override;
 
                 static std::shared_ptr<FileBrowser> create(const std::shared_ptr<Core::Context>&);
+
+                std::shared_ptr<Core::IValueSubject<bool> > observeDrawerOpen() const;
+                void setDrawerOpen(bool);
+
+                std::shared_ptr<Core::IMapSubject<std::string, bool> > observeBellowsState() const;
+                void setBellowsState(const std::map<std::string, bool>&);
 
                 std::shared_ptr<Core::IListSubject<Core::FileSystem::Path> > observeShortcuts() const;
                 void setShortcuts(const std::vector<Core::FileSystem::Path>&);

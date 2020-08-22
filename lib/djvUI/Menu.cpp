@@ -207,12 +207,14 @@ namespace djv
                     size.x = std::max(size.x, i.second.x);
                     size.y += i.second.y;
                 }
-                _setMinimumSize(size);
+                _setMinimumSize(size + b * 2.F);
             }
 
             void MenuWidget::_layoutEvent(Event::Layout&)
             {
-                const BBox2f& g = getGeometry();
+                const auto& style = _getStyle();
+                const float b = style->getMetric(MetricsRole::Border);
+                const BBox2f g = getGeometry().margin(-b);
                 float y = g.min.y;
                 for (auto& i : _items)
                 {
@@ -228,14 +230,18 @@ namespace djv
             {
                 Widget::_paintEvent(event);
 
-                const BBox2f& g = getGeometry();
                 const auto& style = _getStyle();
                 const float s = style->getMetric(MetricsRole::Spacing);
                 const float m = style->getMetric(MetricsRole::MarginInside);
                 const float b = style->getMetric(MetricsRole::Border);
                 const float is = style->getMetric(MetricsRole::Icon);
+                const BBox2f& g = getGeometry().margin(-b);
 
                 const auto& render = _getRender();
+                render->setFillColor(style->getColor(ColorRole::Border));
+                drawBorder(render, g, b);
+                const BBox2f g2 = g.margin(-b);
+
                 for (const auto& i : _items)
                 {
                     if (i.second->enabled)
@@ -307,7 +313,7 @@ namespace djv
 
                         if (!i.second->shortcutLabel.empty())
                         {
-                            x = g.max.x - i.second->shortcutSize.x - m;
+                            x = g2.max.x - i.second->shortcutSize.x - m;
                             render->drawText(i.second->shortcutGlyphs, glm::vec2(x, y));
                         }
                     }

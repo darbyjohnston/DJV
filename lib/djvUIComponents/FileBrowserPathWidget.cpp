@@ -50,6 +50,7 @@ namespace djv
 
                 p.historyActionGroup = ActionGroup::create(ButtonType::Radio);
                 p.historyMenu = UI::Menu::create(context);
+                p.historyMenu->setMinimumSizeRole(MetricsRole::None);
                 addChild(p.historyMenu);
                 p.historyButton = Button::Menu::create(UI::MenuButtonStyle::Flat, context);
                 p.historyButton->setIcon("djvIconPopupMenu");

@@ -106,6 +106,7 @@ namespace djv
 
             p.mediaActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
             p.mediaMenu = UI::Menu::create(context);
+            p.mediaMenu->setMinimumSizeRole(UI::MetricsRole::None);
             addChild(p.mediaMenu);
             p.mediaButton = UI::Button::Menu::create(UI::MenuButtonStyle::Flat, context);
             p.mediaButton->setPopupIcon("djvIconPopupMenu");

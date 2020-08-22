@@ -4,12 +4,8 @@
 
 #include <djvUIComponents/FileBrowserPrivate.h>
 
-#include <djvUI/Action.h>
-#include <djvUI/GroupBox.h>
-#include <djvUI/Label.h>
 #include <djvUI/ListButton.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ScrollWidget.h>
 
 #include <djvCore/DrivesModel.h>
 #include <djvCore/FileInfo.h>
@@ -26,9 +22,8 @@ namespace djv
             {
                 std::vector<FileSystem::Path> drives;
 
-                std::shared_ptr<Label> titleLabel;
-                std::shared_ptr<VerticalLayout> itemLayout;
-                std::shared_ptr<ScrollWidget> scrollWidget;
+                std::shared_ptr<VerticalLayout> layout;
+
                 std::function<void(const FileSystem::Path &)> callback;
 
                 std::shared_ptr<ListObserver<FileSystem::Path> > drivesObserver;
@@ -41,26 +36,9 @@ namespace djv
 
                 setClassName("djv::UI::FileBrowser::DrivesWidget");
 
-                p.titleLabel = UI::Label::create(context);
-                p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
-                p.titleLabel->setMargin(UI::MetricsRole::MarginSmall);
-                p.titleLabel->setBackgroundRole(UI::ColorRole::Trough);
-
-                auto layout = VerticalLayout::create(context);
-                layout->setSpacing(MetricsRole::None);
-                layout->addChild(p.titleLabel);
-                layout->addSeparator();
-                auto vLayout = VerticalLayout::create(context);
-                vLayout->setSpacing(MetricsRole::None);
-                p.itemLayout = VerticalLayout::create(context);
-                p.itemLayout->setSpacing(MetricsRole::None);
-                vLayout->addChild(p.itemLayout);
-                layout->addChild(vLayout);
-                p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
-                p.scrollWidget->setMinimumSizeRole(MetricsRole::None);
-                p.scrollWidget->setBorder(false);
-                p.scrollWidget->addChild(layout);
-                addChild(p.scrollWidget);
+                p.layout = VerticalLayout::create(context);
+                p.layout->setSpacing(MetricsRole::None);
+                addChild(p.layout);
 
                 auto weak = std::weak_ptr<DrivesWidget>(std::dynamic_pointer_cast<DrivesWidget>(shared_from_this()));
                 auto contextWeak = std::weak_ptr<Context>(context);
@@ -72,7 +50,7 @@ namespace djv
                         {
                             if (auto widget = weak.lock())
                             {
-                                widget->_p->itemLayout->clearChildren();
+                                widget->_p->layout->clearChildren();
                                 for (const auto& i : value)
                                 {
                                     auto button = ListButton::create(context);
@@ -83,7 +61,7 @@ namespace djv
                                     }
                                     button->setText(s);
 
-                                    widget->_p->itemLayout->addChild(button);
+                                    widget->_p->layout->addChild(button);
 
                                     const auto path = i;
                                     button->setClickedCallback(
@@ -124,21 +102,12 @@ namespace djv
 
             void DrivesWidget::_preLayoutEvent(Event::PreLayout& event)
             {
-                _setMinimumSize(_p->scrollWidget->getMinimumSize());
+                _setMinimumSize(_p->layout->getMinimumSize());
             }
 
             void DrivesWidget::_layoutEvent(Event::Layout& event)
             {
-                _p->scrollWidget->setGeometry(getGeometry());
-            }
-
-            void DrivesWidget::_initEvent(Event::Init& event)
-            {
-                DJV_PRIVATE_PTR();
-                if (event.getData().text)
-                {
-                    p.titleLabel->setText(_getText(DJV_TEXT("file_browser_drives")));
-                }
+                _p->layout->setGeometry(getGeometry());
             }
 
         } // namespace FileBrowser

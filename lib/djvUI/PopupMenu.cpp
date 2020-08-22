@@ -123,6 +123,16 @@ namespace djv
             }
         }
 
+        MetricsRole PopupMenu::getInsideMargin() const
+        {
+            return _p->button->getInsideMargin();
+        }
+
+        void PopupMenu::setInsideMargin(MetricsRole value)
+        {
+            _p->button->setInsideMargin(value);
+        }
+
         void PopupMenu::_preLayoutEvent(Event::PreLayout& event)
         {
             _setMinimumSize(_p->button->getMinimumSize());

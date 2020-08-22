@@ -79,7 +79,7 @@ namespace djv
                 return _p->open;
             }
 
-            void Drawer::setOpen(bool value)
+            void Drawer::setOpen(bool value, bool animate)
             {
                 DJV_PRIVATE_PTR();
                 if (value == p.open)

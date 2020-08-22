@@ -56,6 +56,8 @@ namespace djv
             private:
                 std::string _getItemCountLabel(size_t) const;
 
+                void _bellowsUpdate();
+
                 DJV_PRIVATE();
             };
 

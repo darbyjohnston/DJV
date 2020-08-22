@@ -14,6 +14,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/Spacer.h>
+#include <djvUI/ToolBar.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvAV/OCIOSystem.h>
@@ -53,11 +54,13 @@ namespace djv
 
             p.userConfigButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Exclusive);
             p.userConfigAddButton = UI::ToolButton::create(context);
-            p.userConfigAddButton->setIcon("djvIconAdd");
+            p.userConfigAddButton->setIcon("djvIconAddSmall");
+            p.userConfigAddButton->setInsideMargin(UI::MetricsRole::None);
             p.userConfigDeleteButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
             p.userConfigDeleteButton = UI::ToolButton::create(context);
             p.userConfigDeleteButton->setButtonType(UI::ButtonType::Toggle);
-            p.userConfigDeleteButton->setIcon("djvIconClear");
+            p.userConfigDeleteButton->setIcon("djvIconClearSmall");
+            p.userConfigDeleteButton->setInsideMargin(UI::MetricsRole::None);
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
@@ -68,13 +71,11 @@ namespace djv
             scrollWidget->addChild(p.userConfigButtonLayout);
             p.layout->addChild(scrollWidget);
             p.layout->setStretch(scrollWidget, UI::RowStretch::Expand);
-            p.layout->addSeparator();
-            auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
-            hLayout->addExpander();
-            hLayout->addChild(p.userConfigAddButton);
-            hLayout->addChild(p.userConfigDeleteButton);
-            p.layout->addChild(hLayout);
+            auto toolBar = UI::ToolBar::create(context);
+            toolBar->addExpander();
+            toolBar->addChild(p.userConfigAddButton);
+            toolBar->addChild(p.userConfigDeleteButton);
+            p.layout->addChild(toolBar);
             addChild(p.layout);
 
             auto contextWeak = std::weak_ptr<Context>(context);

@@ -118,7 +118,7 @@ namespace djv
             void CheckBox::_preLayoutEvent(Event::PreLayout& event)
             {
                 const auto& style = _getStyle();
-                const float m = style->getMetric(MetricsRole::MarginInside);
+                const float m = 0.F;// style->getMetric(MetricsRole::MarginInside);
                 const float bt = style->getMetric(MetricsRole::BorderTextFocus);
                 const glm::vec2 checkBoxSize = getCheckBoxSize(style);
                 const glm::vec2 labelSize = _p->label->getMinimumSize();

@@ -12,6 +12,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/Spacer.h>
+#include <djvUI/Toolbar.h>
 
 #include <djvAV/OCIOSystem.h>
 
@@ -45,7 +46,6 @@ namespace djv
             p.listWidget->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
 
             p.searchBox = UI::SearchBox::create(context);
-            p.searchBox->setMargin(UI::MetricsRole::MarginSmall);
             
             p.layout = UI::VerticalLayout::create(context);
 
@@ -57,8 +57,10 @@ namespace djv
             scrollWidget->addChild(p.listWidget);
             p.layout->addChild(scrollWidget);
             p.layout->setStretch(scrollWidget, UI::RowStretch::Expand);
-            p.layout->addSeparator();
-            p.layout->addChild(p.searchBox);
+            auto toolBar = UI::ToolBar::create(context);
+            toolBar->addChild(p.searchBox);
+            toolBar->setStretch(p.searchBox, UI::RowStretch::Expand);
+            p.layout->addChild(toolBar);
             addChild(p.layout);
 
             auto contextWeak = std::weak_ptr<Context>(context);

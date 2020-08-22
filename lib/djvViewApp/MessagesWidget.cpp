@@ -8,8 +8,8 @@
 #include <djvUI/PushButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
-#include <djvUI/StackLayout.h>
 #include <djvUI/TextBlock.h>
+#include <djvUI/ToolBar.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/LogSystem.h>
@@ -23,41 +23,6 @@ namespace djv
 {
     namespace ViewApp
     {
-        namespace
-        {
-            class SizeWidget : public UI::Widget
-            {
-                DJV_NON_COPYABLE(SizeWidget);
-
-            protected:
-                SizeWidget();
-
-            public:
-                static std::shared_ptr<SizeWidget> create(const std::shared_ptr<Context>&);
-
-            protected:
-                void _preLayoutEvent(Event::PreLayout&) override;
-            };
-
-            SizeWidget::SizeWidget()
-            {}
-
-            std::shared_ptr<SizeWidget> SizeWidget::create(const std::shared_ptr<Context>& context)
-            {
-                auto out = std::shared_ptr<SizeWidget>(new SizeWidget);
-                out->_init(context);
-                return out;
-            }
-
-            void SizeWidget::_preLayoutEvent(Event::PreLayout&)
-            {
-                const auto& style = _getStyle();
-                const float s = style->getMetric(UI::MetricsRole::Dialog);
-                _setMinimumSize(glm::vec2(s, s * .5F));
-            }
-
-        } // namespace
-
         struct MessagesWidget::Private
         {
             std::shared_ptr<UI::TextBlock> textBlock;
@@ -92,22 +57,16 @@ namespace djv
 
             auto layout = UI::VerticalLayout::create(context);
             layout->setSpacing(UI::MetricsRole::None);
+            layout->setBackgroundRole(UI::ColorRole::Background);
             layout->addChild(scrollWidget);
             layout->setStretch(scrollWidget, UI::RowStretch::Expand);
-            layout->addSeparator();
-            auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setMargin(UI::MetricsRole::MarginSmall);
-            hLayout->setSpacing(UI::MetricsRole::SpacingSmall);
-            hLayout->addChild(p.popupCheckBox);
-            hLayout->addExpander();
-            hLayout->addChild(p.copyButton);
-            hLayout->addChild(p.clearButton);
-            layout->addChild(hLayout);
-            auto stackLayout = UI::StackLayout::create(context);
-            stackLayout->setBackgroundRole(UI::ColorRole::Background);
-            stackLayout->addChild(SizeWidget::create(context));
-            stackLayout->addChild(layout);
-            addChild(stackLayout);
+            auto toolBar = UI::ToolBar::create(context);
+            toolBar->addChild(p.popupCheckBox);
+            toolBar->addExpander();
+            toolBar->addChild(p.copyButton);
+            toolBar->addChild(p.clearButton);
+            layout->addChild(toolBar);
+            addChild(layout);
 
             auto weak = std::weak_ptr<MessagesWidget>(std::dynamic_pointer_cast<MessagesWidget>(shared_from_this()));
             p.popupCheckBox->setCheckedCallback(

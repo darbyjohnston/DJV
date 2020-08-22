@@ -46,6 +46,8 @@ namespace djv
             void setFontFace(const std::string&);
             void setFontSizeRole(MetricsRole);
 
+            void setWordWrap(bool);
+
             float getHeightForWidth(float) const override;
 
         protected:

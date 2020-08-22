@@ -9,13 +9,13 @@
 
 #include <djvUIComponents/SearchBox.h>
 
-#include <djvUI/Bellows.h>
 #include <djvUI/FormLayout.h>
+#include <djvUI/GroupBox.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/TextBlock.h>
-#include <djvUI/ToolButton.h>
+#include <djvUI/ToolBar.h>
 
 #include <djvAV/AVSystem.h>
 
@@ -30,13 +30,11 @@ namespace djv
         struct InfoWidget::Private
         {
             AV::IO::Info info;
-            bool bellowsState = true;
             std::string filter;
-            std::vector<std::shared_ptr<UI::Bellows> > bellows;
-            std::map<std::string, std::shared_ptr<UI::ToolButton> > buttons;
             std::shared_ptr<UI::SearchBox> searchBox;
+            std::vector<std::shared_ptr<UI::GroupBox> > groupBoxes;
             std::shared_ptr<UI::LabelSizeGroup> sizeGroup;
-            std::shared_ptr<UI::VerticalLayout> layout;
+            std::shared_ptr<UI::VerticalLayout> infoLayout;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
 
@@ -51,7 +49,6 @@ namespace djv
             std::shared_ptr<UI::FormLayout> createFormLayout(const std::shared_ptr<Context>& context)
             {
                 auto formLayout = UI::FormLayout::create(context);
-                formLayout->setFontFamily(AV::Font::familyMono);
                 formLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
                 formLayout->setLabelVAlign(UI::VAlign::Top);
                 formLayout->setLabelSizeGroup(sizeGroup);
@@ -69,65 +66,32 @@ namespace djv
 
             p.searchBox = UI::SearchBox::create(context);
 
-            p.buttons["ExpandAll"] = UI::ToolButton::create(context);
-            p.buttons["ExpandAll"]->setIcon("djvIconArrowSmallDown");
-            p.buttons["CollapseAll"] = UI::ToolButton::create(context);
-            p.buttons["CollapseAll"]->setIcon("djvIconArrowSmallRight");
-
             p.sizeGroup = UI::LabelSizeGroup::create();
 
-            p.layout = UI::VerticalLayout::create(context);
-            p.layout->setSpacing(UI::MetricsRole::None);
-            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
-            scrollWidget->setBorder(false);
-            scrollWidget->setShadowOverlay({ UI::Side::Top });
-            scrollWidget->addChild(p.layout);
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->setBackgroundRole(UI::ColorRole::Background);
+            p.infoLayout = UI::VerticalLayout::create(context);
+            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
+            scrollWidget->setBorder(false);
+            scrollWidget->setShadowOverlay({ UI::Side::Top });
+            scrollWidget->addChild(p.infoLayout);
             vLayout->addChild(scrollWidget);
             vLayout->setStretch(scrollWidget, UI::RowStretch::Expand);
-            vLayout->addSeparator();
-            auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setMargin(UI::MetricsRole::MarginSmall);
-            hLayout->setSpacing(UI::MetricsRole::SpacingSmall);
-            auto hLayout2 = UI::HorizontalLayout::create(context);
-            hLayout2->setSpacing(UI::MetricsRole::None);
-            hLayout2->addChild(p.buttons["ExpandAll"]);
-            hLayout2->addChild(p.buttons["CollapseAll"]);
-            hLayout->addChild(hLayout2);
-            hLayout->addChild(p.searchBox);
-            hLayout->setStretch(p.searchBox, UI::RowStretch::Expand);
-            vLayout->addChild(hLayout);
+            auto toolBar = UI::ToolBar::create(context);
+            toolBar->addChild(p.searchBox);
+            toolBar->setStretch(p.searchBox, UI::RowStretch::Expand);
+            vLayout->addChild(toolBar);
             addChild(vLayout);
 
             _widgetUpdate();
 
             auto weak = std::weak_ptr<InfoWidget>(std::dynamic_pointer_cast<InfoWidget>(shared_from_this()));
-            p.buttons["ExpandAll"]->setClickedCallback(
-                [weak]
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->setBellowsState(true);
-                    }
-                });
-
-            p.buttons["CollapseAll"]->setClickedCallback(
-                [weak]
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->setBellowsState(false);
-                    }
-                });
-
             p.searchBox->setFilterCallback(
                 [weak](const std::string& value)
             {
                 if (auto widget = weak.lock())
                 {
-                    widget->setBellowsState(true);
                     widget->_p->filter = value;
                     widget->_widgetUpdate();
                 }
@@ -179,27 +143,6 @@ namespace djv
             return out;
         }
 
-        bool InfoWidget::getBellowsState() const
-        {
-            return _p->bellowsState;
-        }
-
-        void InfoWidget::setBellowsState(bool value)
-        {
-            DJV_PRIVATE_PTR();
-            if (value == p.bellowsState)
-                return;
-            p.bellowsState = value;
-            if (p.bellowsState)
-            {
-                _expandAll();
-            }
-            else
-            {
-                _collapseAll();
-            }
-        }
-
         void InfoWidget::_initLayoutEvent(Event::InitLayout&)
         {
             _p->sizeGroup->calcMinimumSize();
@@ -212,10 +155,6 @@ namespace djv
             if (event.getData().text)
             {
                 setTitle(_getText(DJV_TEXT("widget_info_title")));
-
-                p.buttons["ExpandAll"]->setTooltip(_getText(DJV_TEXT("widget_info_expand_all_tooltip")));
-                p.buttons["CollapseAll"]->setTooltip(_getText(DJV_TEXT("widget_info_collapse_all_tooltip")));
-
                 _widgetUpdate();
             }
         }
@@ -291,32 +230,14 @@ namespace djv
             return ss.str();
         }
 
-        void InfoWidget::_expandAll()
-        {
-            DJV_PRIVATE_PTR();
-            for (const auto& i : p.bellows)
-            {
-                i->open();
-            }
-        }
-
-        void InfoWidget::_collapseAll()
-        {
-            DJV_PRIVATE_PTR();
-            for (const auto& i : p.bellows)
-            {
-                i->close();
-            }
-        }
-
         void InfoWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                p.bellows.clear();
+                p.groupBoxes.clear();
                 p.sizeGroup->clearLabels();
-                p.layout->clearChildren();
+                p.infoLayout->clearChildren();
 
                 const std::string fileNameLabel = _getText(DJV_TEXT("widget_info_file_name"));
                 std::string speedLabel;
@@ -364,11 +285,11 @@ namespace djv
                         formLayout->addChild(textBlock);
                         formLayout->setText(textBlock, durationLabel + ":");
                     }
-                    auto bellows = UI::Bellows::create(context);
-                    bellows->setText(_getText(DJV_TEXT("widget_info_general")));
-                    bellows->addChild(formLayout);
-                    p.bellows.push_back(bellows);
-                    p.layout->addChild(bellows);
+                    auto groupBox = UI::GroupBox::create(context);
+                    groupBox->setText(_getText(DJV_TEXT("widget_info_general")));
+                    groupBox->addChild(formLayout);
+                    p.groupBoxes.push_back(groupBox);
+                    p.infoLayout->addChild(groupBox);
                 }
 
                 size_t j = 0;
@@ -408,11 +329,11 @@ namespace djv
                             formLayout->addChild(textBlock);
                             formLayout->setText(textBlock, codecLabel + ":");
                         }
-                        auto bellows = UI::Bellows::create(context);
-                        bellows->setText(i.name);
-                        bellows->addChild(formLayout);
-                        p.bellows.push_back(bellows);
-                        p.layout->addChild(bellows);
+                        auto groupBox = UI::GroupBox::create(context);
+                        groupBox->setText(i.name);
+                        groupBox->addChild(formLayout);
+                        p.groupBoxes.push_back(groupBox);
+                        p.infoLayout->addChild(groupBox);
                     }
 
                     ++j;
@@ -474,11 +395,11 @@ namespace djv
                             formLayout->addChild(textBlock);
                             formLayout->setText(textBlock, codecLabel + ":");
                         }
-                        auto bellows = UI::Bellows::create(context);
-                        bellows->setText(p.info.audio.name);
-                        bellows->addChild(formLayout);
-                        p.bellows.push_back(bellows);
-                        p.layout->addChild(bellows);
+                        auto groupBox = UI::GroupBox::create(context);
+                        groupBox->setText(p.info.audio.name);
+                        groupBox->addChild(formLayout);
+                        p.groupBoxes.push_back(groupBox);
+                        p.infoLayout->addChild(groupBox);
                     }
                 }
 
@@ -505,25 +426,16 @@ namespace djv
                                 formLayout->setText(textBlock, ss.str());
                             }
                         }
-                        auto bellows = UI::Bellows::create(context);
+                        auto groupBox = UI::GroupBox::create(context);
                         {
                             std::stringstream ss;
                             ss << _getText(DJV_TEXT("widget_info_tags"));
-                            bellows->setText(ss.str());
+                            groupBox->setText(ss.str());
                         }
-                        bellows->addChild(formLayout);
-                        p.bellows.push_back(bellows);
-                        p.layout->addChild(bellows);
+                        groupBox->addChild(formLayout);
+                        p.groupBoxes.push_back(groupBox);
+                        p.infoLayout->addChild(groupBox);
                     }
-                }
-
-                if (p.bellowsState)
-                {
-                    _expandAll();
-                }
-                else
-                {
-                    _collapseAll();
                 }
             }
         }

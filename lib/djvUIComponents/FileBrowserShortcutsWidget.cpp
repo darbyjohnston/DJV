@@ -6,10 +6,10 @@
 
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/GridLayout.h>
-#include <djvUI/Label.h>
 #include <djvUI/ListButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
+#include <djvUI/ToolBar.h>
 #include <djvUI/ToolButton.h>
 
 using namespace djv::Core;
@@ -24,7 +24,6 @@ namespace djv
             {
                 FileSystem::Path path;
                 bool edit = false;
-                std::shared_ptr<Label> titleLabel;
                 std::shared_ptr<ToolButton> addButton;
                 std::shared_ptr<ToolButton> editButton;
                 std::shared_ptr<ButtonGroup> deleteButtonGroup;
@@ -41,44 +40,28 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 setClassName("djv::UI::FileBrowser::ShortcutsWidget");
 
-                p.titleLabel = Label::create(context);
-                p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
-                p.titleLabel->setMargin(UI::MetricsRole::MarginSmall);
-
                 p.addButton = ToolButton::create(context);
                 p.addButton->setIcon("djvIconAdd");
+                p.addButton->setInsideMargin(MetricsRole::None);
 
                 p.editButton = ToolButton::create(context);
                 p.editButton->setButtonType(ButtonType::Toggle);
                 p.editButton->setIcon("djvIconClear");
+                p.editButton->setInsideMargin(MetricsRole::None);
 
                 p.deleteButtonGroup = ButtonGroup::create(ButtonType::Push);
                 
                 p.layout = VerticalLayout::create(context);
                 p.layout->setSpacing(MetricsRole::None);
-                auto hLayout = HorizontalLayout::create(context);
-                hLayout->setBackgroundRole(UI::ColorRole::Trough);
-                hLayout->setSpacing(MetricsRole::None);
-                hLayout->addChild(p.titleLabel);
-                hLayout->addExpander();
-                hLayout->addChild(p.addButton);
-                hLayout->addChild(p.editButton);
-                p.layout->addChild(hLayout);
-                p.layout->addSeparator();
+                auto toolBar = ToolBar::create(context);
+                toolBar->addExpander();
+                toolBar->addChild(p.addButton);
+                toolBar->addChild(p.editButton);
+                p.layout->addChild(toolBar);
                 p.itemLayout = GridLayout::create(context);
                 p.itemLayout->setSpacing(MetricsRole::None);
-                auto scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
-                scrollWidget->setBorder(false);
-                scrollWidget->addChild(p.itemLayout);
-                p.layout->addChild(scrollWidget);
-                p.layout->setStretch(scrollWidget, RowStretch::Expand);
-                p.layout->addSeparator();
-                hLayout = HorizontalLayout::create(context);
-                hLayout->setSpacing(MetricsRole::None);
-                hLayout->addExpander();
-                hLayout->addChild(p.addButton);
-                hLayout->addChild(p.editButton);
-                p.layout->addChild(hLayout);
+                p.layout->addChild(p.itemLayout);
+                p.layout->setStretch(p.itemLayout, RowStretch::Expand);
                 addChild(p.layout);
 
                 auto weak = std::weak_ptr<ShortcutsWidget>(std::dynamic_pointer_cast<ShortcutsWidget>(shared_from_this()));
@@ -205,7 +188,6 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (event.getData().text)
                 {
-                    p.titleLabel->setText(_getText(DJV_TEXT("file_browser_file_browser_show_shortcuts")));
                     p.addButton->setTooltip(_getText(DJV_TEXT("file_browser_add_shortcut_tooltip")));
                     p.editButton->setTooltip(_getText(DJV_TEXT("file_browser_edit_shortcuts_tooltip")));
                 }

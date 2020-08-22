@@ -44,7 +44,6 @@ namespace djv
         {
             std::shared_ptr<ToolSettings> settings;
             int currentToolSystem = -1;
-            bool infoBellowsState = true;
             std::list<std::string> messages;
             bool messagesPopup = false;
             std::map<std::string, bool> debugBellowsState;
@@ -67,7 +66,6 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             p.settings = ToolSettings::create(context);
-            p.infoBellowsState = p.settings->getInfoBellowsState();
             p.debugBellowsState = p.settings->getDebugBellowsState();
             _setWidgetGeom(p.settings->getWidgetGeom());
 
@@ -161,7 +159,6 @@ namespace djv
                             if (value)
                             {
                                 auto widget = InfoWidget::create(context);
-                                widget->setBellowsState(system->_p->infoBellowsState);
                                 system->_p->infoWidget = widget;
                                 system->_openWidget("Info", widget);
                             }
@@ -321,7 +318,6 @@ namespace djv
             _closeWidget("Messages");
             _closeWidget("SystemLog");
             _closeWidget("Debug");
-            p.settings->setInfoBellowsState(p.infoBellowsState);
             p.settings->setDebugBellowsState(p.debugBellowsState);
             p.settings->setWidgetGeom(_getWidgetGeom());
         }
@@ -352,10 +348,6 @@ namespace djv
             DJV_PRIVATE_PTR();
             if ("Info" == value)
             {
-                if (auto infoWidget = p.infoWidget.lock())
-                {
-                    p.infoBellowsState = infoWidget->getBellowsState();
-                }
                 p.infoWidget.reset();
             }
             else if ("Messages" == value)

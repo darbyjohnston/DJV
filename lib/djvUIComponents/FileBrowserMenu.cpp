@@ -25,7 +25,6 @@ namespace djv
         {
             struct Menu::Private
             {
-                std::map<std::string, std::shared_ptr<Label> > labels;
                 std::shared_ptr<IntSlider> thumbnailSizeSlider;
                 std::shared_ptr<ScrollWidget> scrollWidget;
 
@@ -41,13 +40,22 @@ namespace djv
 
                 setClassName("djv::UI::FileBrowser::Menu");
 
-                p.labels["View"] = Label::create(context);
+                auto sortByNameButton = ActionButton::create(context);
+                sortByNameButton->addAction(actions.at("SortByName"));
+                auto sortBySizeButton = ActionButton::create(context);
+                sortBySizeButton->addAction(actions.at("SortBySize"));
+                auto sortByTimeButton = ActionButton::create(context);
+                sortByTimeButton->addAction(actions.at("SortByTime"));
+                auto reverseSortButton = ActionButton::create(context);
+                reverseSortButton->addAction(actions.at("ReverseSort"));
+                auto sortDirectoriesFirstButton = ActionButton::create(context);
+                sortDirectoriesFirstButton->addAction(actions.at("SortDirectoriesFirst"));
+
                 auto tilesButton = ActionButton::create(context);
                 tilesButton->addAction(actions.at("Tiles"));
                 auto listButton = ActionButton::create(context);
                 listButton->addAction(actions.at("List"));
 
-                p.labels["Thumbnails"] = Label::create(context);
                 auto increaseThumbnailSizeButton = ActionButton::create(context);
                 increaseThumbnailSizeButton->addAction(actions.at("IncreaseThumbnailSize"));
                 auto decreaseThumbnailSizeButton = ActionButton::create(context);
@@ -56,48 +64,29 @@ namespace djv
                 p.thumbnailSizeSlider->setRange(thumbnailSizeRange);
                 p.thumbnailSizeSlider->setDelay(Time::getTime(Time::TimerValue::Medium));
 
-                p.labels["Misc"] = Label::create(context);
                 auto fileSequencesButton = ActionButton::create(context);
                 fileSequencesButton->addAction(actions.at("FileSequences"));
                 auto showHiddenButton = ActionButton::create(context);
                 showHiddenButton->addAction(actions.at("ShowHidden"));
 
-                for (const auto& i : p.labels)
-                {
-                    i.second->setTextHAlign(TextHAlign::Left);
-                    i.second->setMargin(MetricsRole::MarginSmall);
-                    i.second->setBackgroundRole(ColorRole::Trough);
-                }
-
                 auto vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(MetricsRole::None);
-                vLayout->addChild(p.labels["View"]);
+                vLayout->addChild(sortByNameButton);
+                vLayout->addChild(sortBySizeButton);
+                vLayout->addChild(sortByTimeButton);
                 vLayout->addSeparator();
-                auto vLayout2 = VerticalLayout::create(context);
-                vLayout2->setMargin(MetricsRole::MarginSmall);
-                vLayout2->setSpacing(MetricsRole::None);
-                vLayout2->addChild(tilesButton);
-                vLayout2->addChild(listButton);
-                vLayout->addChild(vLayout2);
+                vLayout->addChild(reverseSortButton);
+                vLayout->addChild(sortDirectoriesFirstButton);
                 vLayout->addSeparator();
-                vLayout->addChild(p.labels["Thumbnails"]);
+                vLayout->addChild(tilesButton);
+                vLayout->addChild(listButton);
                 vLayout->addSeparator();
-                vLayout2 = VerticalLayout::create(context);
-                vLayout2->setMargin(MetricsRole::MarginSmall);
-                vLayout2->setSpacing(MetricsRole::None);
-                vLayout2->addChild(increaseThumbnailSizeButton);
-                vLayout2->addChild(decreaseThumbnailSizeButton);
-                vLayout2->addChild(p.thumbnailSizeSlider);
-                vLayout->addChild(vLayout2);
+                vLayout->addChild(increaseThumbnailSizeButton);
+                vLayout->addChild(decreaseThumbnailSizeButton);
+                vLayout->addChild(p.thumbnailSizeSlider);
                 vLayout->addSeparator();
-                vLayout->addChild(p.labels["Misc"]);
-                vLayout->addSeparator();
-                vLayout2 = VerticalLayout::create(context);
-                vLayout2->setMargin(MetricsRole::MarginSmall);
-                vLayout2->setSpacing(MetricsRole::None);
-                vLayout2->addChild(fileSequencesButton);
-                vLayout2->addChild(showHiddenButton);
-                vLayout->addChild(vLayout2);
+                vLayout->addChild(fileSequencesButton);
+                vLayout->addChild(showHiddenButton);
                 p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
                 p.scrollWidget->setBorder(false);
                 p.scrollWidget->setMinimumSizeRole(MetricsRole::None);
@@ -162,9 +151,6 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (event.getData().text)
                 {
-                    p.labels["View"]->setText(_getText(DJV_TEXT("file_browser_settings_view")));
-                    p.labels["Thumbnails"]->setText(_getText(DJV_TEXT("file_browser_settings_thumbnails")));
-                    p.labels["Misc"]->setText(_getText(DJV_TEXT("file_browser_settings_miscellaneous")));
                     p.thumbnailSizeSlider->setTooltip(_getText(DJV_TEXT("file_browser_settings_thumbnail_size_tooltip")));
                 }
             }

@@ -4,10 +4,8 @@
 
 #include <djvUIComponents/FileBrowserPrivate.h>
 
-#include <djvUI/Label.h>
 #include <djvUI/ListButton.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ScrollWidget.h>
 
 #include <djvCore/FileInfo.h>
 #include <djvCore/RecentFilesModel.h>
@@ -22,9 +20,7 @@ namespace djv
         {
             struct RecentPathsWidget::Private
             {
-                std::shared_ptr<Label> titleLabel;
-                std::shared_ptr<VerticalLayout> itemLayout;
-                std::shared_ptr<ScrollWidget> scrollWidget;
+                std::shared_ptr<VerticalLayout> layout;
 
                 std::function<void(const FileSystem::Path&)> callback;
 
@@ -38,23 +34,9 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 setClassName("djv::UI::FileBrowser::RecentPathsWidget");
 
-                p.titleLabel = Label::create(context);
-                p.titleLabel->setTextHAlign(TextHAlign::Left);
-                p.titleLabel->setMargin(MetricsRole::MarginSmall);
-                p.titleLabel->setBackgroundRole(ColorRole::Trough);
-
-                auto layout = VerticalLayout::create(context);
-                layout->setSpacing(MetricsRole::None);
-                layout->addChild(p.titleLabel);
-                layout->addSeparator();
-                p.itemLayout = VerticalLayout::create(context);
-                p.itemLayout->setSpacing(MetricsRole::None);
-                layout->addChild(p.itemLayout);
-                p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
-                p.scrollWidget->setMinimumSizeRole(MetricsRole::None);
-                p.scrollWidget->setBorder(false);
-                p.scrollWidget->addChild(layout);
-                addChild(p.scrollWidget);
+                p.layout = VerticalLayout::create(context);
+                p.layout->setSpacing(MetricsRole::None);
+                addChild(p.layout);
 
                 auto weak = std::weak_ptr<RecentPathsWidget>(std::dynamic_pointer_cast<RecentPathsWidget>(shared_from_this()));
                 auto contextWeak = std::weak_ptr<Context>(context);
@@ -66,7 +48,7 @@ namespace djv
                         {
                             if (auto widget = weak.lock())
                             {
-                                widget->_p->itemLayout->clearChildren();
+                                widget->_p->layout->clearChildren();
                                 for (const auto& i : value)
                                 {
                                     auto button = ListButton::create(context);
@@ -79,7 +61,7 @@ namespace djv
                                     button->setText(s);
                                     button->setTooltip(std::string(i));
 
-                                    widget->_p->itemLayout->addChild(button);
+                                    widget->_p->layout->addChild(button);
 
                                     button->setClickedCallback(
                                         [weak, path]
@@ -119,21 +101,12 @@ namespace djv
 
             void RecentPathsWidget::_preLayoutEvent(Event::PreLayout& event)
             {
-                _setMinimumSize(_p->scrollWidget->getMinimumSize());
+                _setMinimumSize(_p->layout->getMinimumSize());
             }
 
             void RecentPathsWidget::_layoutEvent(Event::Layout& event)
             {
-                _p->scrollWidget->setGeometry(getGeometry());
-            }
-
-            void RecentPathsWidget::_initEvent(Event::Init& event)
-            {
-                DJV_PRIVATE_PTR();
-                if (event.getData().text)
-                {
-                    p.titleLabel->setText(_getText(DJV_TEXT("file_browser_recent_paths")));
-                }
+                _p->layout->setGeometry(getGeometry());
             }
 
         } // namespace FileBrowser

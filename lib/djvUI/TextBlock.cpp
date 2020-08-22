@@ -38,6 +38,8 @@ namespace djv
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
 
+            bool wordWrap = true;
+
             typedef std::pair<AV::Font::FontInfo, float> TextCacheKey;
             typedef std::pair<std::vector<AV::Font::TextLine>, glm::vec2> TextCacheValue;
             Memory::Cache<TextCacheKey, TextCacheValue> textCache;
@@ -180,6 +182,15 @@ namespace djv
             _textUpdate();
         }
 
+        void TextBlock::setWordWrap(bool value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.wordWrap)
+                return;
+            p.wordWrap = value;
+            _textUpdate();
+        }
+
         float TextBlock::getHeightForWidth(float value) const
         {
             DJV_PRIVATE_PTR();
@@ -306,7 +317,7 @@ namespace djv
             {
                 auto textLines = fontSystem->textLines(
                     text,
-                    static_cast<uint16_t>(std::min(value, static_cast<float>(std::numeric_limits<uint16_t>::max()))),
+                    wordWrap ? static_cast<uint16_t>(std::min(value, static_cast<float>(std::numeric_limits<uint16_t>::max()))) : 0.F,
                     fontInfo).get();
                 glm::vec2 textSize = glm::vec2(0.F, 0.F);
                 for (const auto& i : textLines)

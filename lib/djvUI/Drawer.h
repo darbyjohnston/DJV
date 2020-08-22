@@ -29,7 +29,7 @@ namespace djv
                 Side getSide() const;
 
                 bool isOpen() const;
-                void setOpen(bool);
+                void setOpen(bool, bool animate = true);
                 void open();
                 void close();
 

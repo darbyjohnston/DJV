@@ -11,7 +11,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/TextBlock.h>
-#include <djvUI/StackLayout.h>
+#include <djvUI/ToolBar.h>
 #include <djvUI/Window.h>
 
 #include <djvCore/Context.h>
@@ -29,41 +29,6 @@ namespace djv
 {
     namespace ViewApp
     {
-        namespace
-        {
-            class SizeWidget : public UI::Widget
-            {
-                DJV_NON_COPYABLE(SizeWidget);
-
-            protected:
-                SizeWidget();
-
-            public:
-                static std::shared_ptr<SizeWidget> create(const std::shared_ptr<Context>&);
-
-            protected:
-                void _preLayoutEvent(Event::PreLayout&) override;
-            };
-
-            SizeWidget::SizeWidget()
-            {}
-
-            std::shared_ptr<SizeWidget> SizeWidget::create(const std::shared_ptr<Context>& context)
-            {
-                auto out = std::shared_ptr<SizeWidget>(new SizeWidget);
-                out->_init(context);
-                return out;
-            }
-
-            void SizeWidget::_preLayoutEvent(Event::PreLayout&)
-            {
-                const auto& style = _getStyle();
-                const float s = style->getMetric(UI::MetricsRole::Dialog);
-                _setMinimumSize(glm::vec2(s * 2.F, s));
-            }
-        
-        } // namespace
-
         struct SystemLogWidget::Private
         {
             std::vector<std::string> log;
@@ -84,9 +49,10 @@ namespace djv
             p.textBlock = UI::TextBlock::create(context);
             p.textBlock->setFontFamily(AV::Font::familyMono);
             p.textBlock->setFontSizeRole(UI::MetricsRole::FontSmall);
+            p.textBlock->setWordWrap(false);
             p.textBlock->setMargin(UI::MetricsRole::Margin);
 
-            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
             scrollWidget->setBorder(false);
             scrollWidget->setShadowOverlay({ UI::Side::Top });
             scrollWidget->addChild(p.textBlock);
@@ -97,22 +63,16 @@ namespace djv
 
             auto layout = UI::VerticalLayout::create(context);
             layout->setSpacing(UI::MetricsRole::None);
+            layout->setBackgroundRole(UI::ColorRole::Background);
             layout->addChild(scrollWidget);
             layout->setStretch(scrollWidget, UI::RowStretch::Expand);
-            layout->addSeparator();
-            auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setMargin(UI::MetricsRole::MarginSmall);
-            hLayout->setSpacing(UI::MetricsRole::SpacingSmall);
-            hLayout->addExpander();
-            hLayout->addChild(p.copyButton);
-            hLayout->addChild(p.reloadButton);
-            hLayout->addChild(p.clearButton);
-            layout->addChild(hLayout);
-            auto stackLayout = UI::StackLayout::create(context);
-            stackLayout->setBackgroundRole(UI::ColorRole::Background);
-            stackLayout->addChild(SizeWidget::create(context));
-            stackLayout->addChild(layout);
-            addChild(stackLayout);
+            auto toolBar = UI::ToolBar::create(context);
+            toolBar->addExpander();
+            toolBar->addChild(p.copyButton);
+            toolBar->addChild(p.reloadButton);
+            toolBar->addChild(p.clearButton);
+            layout->addChild(toolBar);
+            addChild(layout);
 
             auto weak = std::weak_ptr<SystemLogWidget>(std::dynamic_pointer_cast<SystemLogWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);

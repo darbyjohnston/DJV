@@ -18,6 +18,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/Spacer.h>
+#include <djvUI/ToolBar.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvAV/IOSystem.h>
@@ -80,7 +81,6 @@ namespace djv
                 _listWidget->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
 
                 _searchBox = UI::SearchBox::create(context);
-                _searchBox->setMargin(UI::MetricsRole::MarginSmall);
 
                 _layout = UI::VerticalLayout::create(context);
 
@@ -92,8 +92,10 @@ namespace djv
                 scrollWidget->addChild(_listWidget);
                 _layout->addChild(scrollWidget);
                 _layout->setStretch(scrollWidget, UI::RowStretch::Expand);
-                _layout->addSeparator();
-                _layout->addChild(_searchBox);
+                auto toolBar = UI::ToolBar::create(context);
+                toolBar->addChild(_searchBox);
+                toolBar->setStretch(_searchBox, UI::RowStretch::Expand);
+                _layout->addChild(toolBar);
                 addChild(_layout);
 
                 auto weak = std::weak_ptr<ColorSpacesWidget>(std::dynamic_pointer_cast<ColorSpacesWidget>(shared_from_this()));
@@ -247,26 +249,27 @@ namespace djv
 
             p.addActionGroup = UI::ActionGroup::create(UI::ButtonType::Push);
             p.addMenu = UI::Menu::create(context);
-            p.addMenu->setIcon("djvIconAdd");
+            p.addMenu->setIcon("djvIconAddSmall");
             p.addMenu->setMinimumSizeRole(UI::MetricsRole::None);
             p.addButton = UI::PopupMenu::create(context);
             p.addButton->setMenu(p.addMenu);
+            p.addButton->setInsideMargin(UI::MetricsRole::None);
 
             p.deleteButton = UI::ToolButton::create(context);
             p.deleteButton->setButtonType(UI::ButtonType::Toggle);
-            p.deleteButton->setIcon("djvIconClear");
+            p.deleteButton->setIcon("djvIconClearSmall");
+            p.deleteButton->setInsideMargin(UI::MetricsRole::None);
 
             p.layout = UI::VerticalLayout::create(context);
-            p.layout->setMargin(UI::MetricsRole::MarginSmall);
-            p.layout->setSpacing(UI::MetricsRole::SpacingSmall);
+            p.layout->setSpacing(UI::MetricsRole::None);
+            auto toolBar = UI::ToolBar::create(context);
+            toolBar->addExpander();
+            toolBar->addChild(p.addButton);
+            toolBar->addChild(p.deleteButton);
+            p.layout->addChild(toolBar);
             p.formLayout = UI::FormLayout::create(context);
+            p.formLayout->setMargin(UI::MetricsRole::MarginSmall);
             p.layout->addChild(p.formLayout);
-            auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
-            hLayout->addExpander();
-            hLayout->addChild(p.addButton);
-            hLayout->addChild(p.deleteButton);
-            p.layout->addChild(hLayout);
             addChild(p.layout);
 
             _valueUpdate();
@@ -433,7 +436,6 @@ namespace djv
 
                     auto hLayout = UI::HorizontalLayout::create(context);
                     hLayout->setSpacing(UI::MetricsRole::None);
-                    hLayout->setBackgroundRole(0 == j % 2 ? UI::ColorRole::Trough : UI::ColorRole::None);
                     hLayout->addChild(button);
                     hLayout->setStretch(button, UI::RowStretch::Expand);
                     hLayout->addChild(deleteButton);
