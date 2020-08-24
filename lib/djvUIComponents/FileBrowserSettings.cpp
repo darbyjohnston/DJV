@@ -34,8 +34,8 @@ namespace djv
         {
             struct FileBrowser::Private
             {
-                std::shared_ptr<ValueSubject<bool> > drawerOpen;
-                std::shared_ptr<MapSubject<std::string, bool> > bellowsState;
+                std::shared_ptr<ValueSubject<bool> > pathsOpen;
+                std::shared_ptr<MapSubject<std::string, bool> > pathsBellowsState;
                 std::shared_ptr<ListSubject<FileSystem::Path> > shortcuts;
                 std::shared_ptr<ListSubject<FileSystem::Path> > recentPaths;
                 std::shared_ptr<ValueSubject<ViewType> > viewType;
@@ -54,8 +54,8 @@ namespace djv
                 ISettings::_init("djv::UI::Settings::FileBrowser", context);
                 
                 DJV_PRIVATE_PTR();
-                p.drawerOpen = ValueSubject<bool>::create();
-                p.bellowsState = MapSubject<std::string, bool>::create();
+                p.pathsOpen = ValueSubject<bool>::create();
+                p.pathsBellowsState = MapSubject<std::string, bool>::create();
                 p.shortcuts = ListSubject<FileSystem::Path>::create();
                 for (size_t i = 0; i < static_cast<size_t>(OS::DirectoryShortcut::Count); ++i)
                 {
@@ -75,6 +75,7 @@ namespace djv
                     { "file_browser_shortcut_back", { ShortcutData(GLFW_KEY_LEFT, ShortcutData::getSystemModifier()) } },
                     { "file_browser_shortcut_forward", { ShortcutData(GLFW_KEY_RIGHT, ShortcutData::getSystemModifier()) } },
                     { "file_browser_shortcut_up", { ShortcutData(GLFW_KEY_UP, ShortcutData::getSystemModifier()) } },
+                    { "file_browser_shortcut_paths", { ShortcutData(GLFW_KEY_P) } },
                     { "file_browser_shortcut_tiles", { ShortcutData(GLFW_KEY_T) } },
                     { "file_browser_shortcut_list", { ShortcutData(GLFW_KEY_L) } },
                     { "file_browser_shortcut_increase_thumbnail_size", { ShortcutData(GLFW_KEY_EQUAL) } },
@@ -104,24 +105,24 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<Core::IValueSubject<bool> > FileBrowser::observeDrawerOpen() const
+            std::shared_ptr<Core::IValueSubject<bool> > FileBrowser::observePathsOpen() const
             {
-                return _p->drawerOpen;
+                return _p->pathsOpen;
             }
 
-            void FileBrowser::setDrawerOpen(bool value)
+            void FileBrowser::setPathsOpen(bool value)
             {
-                _p->drawerOpen->setIfChanged(value);
+                _p->pathsOpen->setIfChanged(value);
             }
 
-            std::shared_ptr<Core::IMapSubject<std::string, bool> > FileBrowser::observeBellowsState() const
+            std::shared_ptr<Core::IMapSubject<std::string, bool> > FileBrowser::observePathsBellowsState() const
             {
-                return _p->bellowsState;
+                return _p->pathsBellowsState;
             }
 
-            void FileBrowser::setBellowsState(const std::map<std::string, bool>& value)
+            void FileBrowser::setPathsBellowsState(const std::map<std::string, bool>& value)
             {
-                _p->bellowsState->setIfChanged(value);
+                _p->pathsBellowsState->setIfChanged(value);
             }
 
             std::shared_ptr<IListSubject<FileSystem::Path> > FileBrowser::observeShortcuts() const
@@ -239,8 +240,8 @@ namespace djv
                 if (value.IsObject())
                 {
                     DJV_PRIVATE_PTR();
-                    read("DrawerOpen", value, p.drawerOpen);
-                    read("BellowsState", value, p.bellowsState);
+                    read("PathsOpen", value, p.pathsOpen);
+                    read("PathsBellowsState", value, p.pathsBellowsState);
                     read("Shortcuts", value, p.shortcuts);
                     read("RecentPaths", value, p.recentPaths);
                     read("ViewType", value, p.viewType);
@@ -259,8 +260,8 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 rapidjson::Value out(rapidjson::kObjectType);
-                write("DrawerOpen", p.drawerOpen->get(), out, allocator);
-                write("BellowsState", p.bellowsState->get(), out, allocator);
+                write("PathsOpen", p.pathsOpen->get(), out, allocator);
+                write("PathsBellowsState", p.pathsBellowsState->get(), out, allocator);
                 write("Shortcuts", p.shortcuts->get(), out, allocator);
                 write("RecentPaths", p.recentPaths->get(), out, allocator);
                 write("ViewType", p.viewType->get(), out, allocator);

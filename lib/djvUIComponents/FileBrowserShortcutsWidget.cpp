@@ -149,12 +149,24 @@ namespace djv
                     });
             }
 
+            namespace
+            {
+                int count = 0;
+
+            } // namespace
+
             ShortcutsWidget::ShortcutsWidget() :
                 _p(new Private)
-            {}
+            {
+                ++count;
+                std::cout << "ctor: " << count << std::endl;
+            }
 
             ShortcutsWidget::~ShortcutsWidget()
-            {}
+            {
+                --count;
+                std::cout << "dtor: " << count << std::endl;
+            }
 
             std::shared_ptr<ShortcutsWidget> ShortcutsWidget::create(const std::shared_ptr<ShortcutsModel> & model, const std::shared_ptr<Context>& context)
             {

@@ -40,6 +40,9 @@ namespace djv
 
                 setClassName("djv::UI::FileBrowser::Menu");
 
+                auto drawerButton = ActionButton::create(context);
+                drawerButton->addAction(actions.at("Paths"));
+
                 auto sortByNameButton = ActionButton::create(context);
                 sortByNameButton->addAction(actions.at("SortByName"));
                 auto sortBySizeButton = ActionButton::create(context);
@@ -71,6 +74,8 @@ namespace djv
 
                 auto vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(MetricsRole::None);
+                vLayout->addChild(drawerButton);
+                vLayout->addSeparator();
                 vLayout->addChild(sortByNameButton);
                 vLayout->addChild(sortBySizeButton);
                 vLayout->addChild(sortByTimeButton);

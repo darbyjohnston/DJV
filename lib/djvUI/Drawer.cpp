@@ -85,16 +85,47 @@ namespace djv
                 if (value == p.open)
                     return;
                 p.open = value;
-                auto weak = std::weak_ptr<Drawer>(std::dynamic_pointer_cast<Drawer>(shared_from_this()));
-                if (p.open)
+                if (animate)
                 {
-                    if (p.openCallback)
+                    auto weak = std::weak_ptr<Drawer>(std::dynamic_pointer_cast<Drawer>(shared_from_this()));
+                    if (p.open)
                     {
-                        p.widget = p.openCallback();
-                        p.childLayout->addChild(p.widget);
+                        if (p.widget)
+                        {
+                            p.childLayout->removeChild(p.widget);
+                            p.widget.reset();
+                        }
+                        if (p.openCallback)
+                        {
+                            p.widget = p.openCallback();
+                            p.childLayout->addChild(p.widget);
+                            p.openAnimation->start(
+                                p.openAmount,
+                                1.F,
+                                std::chrono::milliseconds(animationTime),
+                                [weak](float value)
+                                {
+                                    if (auto widget = weak.lock())
+                                    {
+                                        widget->_p->openAmount = value;
+                                        widget->_resize();
+                                    }
+                                },
+                                [weak](float value)
+                                {
+                                    if (auto widget = weak.lock())
+                                    {
+                                        widget->_p->openAmount = value;
+                                        widget->_resize();
+                                    }
+                                });
+                        }
+                    }
+                    else
+                    {
                         p.openAnimation->start(
+                            p.openAmount,
                             0.F,
-                            1.F,
                             std::chrono::milliseconds(animationTime),
                             [weak](float value)
                             {
@@ -109,6 +140,12 @@ namespace djv
                                 if (auto widget = weak.lock())
                                 {
                                     widget->_p->openAmount = value;
+                                    if (widget->_p->closeCallback)
+                                    {
+                                        widget->_p->closeCallback(widget->_p->widget);
+                                    }
+                                    widget->_p->childLayout->removeChild(widget->_p->widget);
+                                    widget->_p->widget.reset();
                                     widget->_resize();
                                 }
                             });
@@ -116,34 +153,26 @@ namespace djv
                 }
                 else
                 {
-                    p.openAnimation->start(
-                        1.F,
-                        0.F,
-                        std::chrono::milliseconds(animationTime),
-                        [weak](float value)
+                    if (p.open)
+                    {
+                        p.openAmount = 1.F;
+                        if (p.openCallback)
                         {
-                            if (auto widget = weak.lock())
-                            {
-                                widget->_p->openAmount = value;
-                                widget->_resize();
-                            }
-                        },
-                        [weak](float value)
+                            p.widget = p.openCallback();
+                            p.childLayout->addChild(p.widget);
+                        }
+                    }
+                    else
+                    {
+                        p.openAmount = 0.F;
+                        if (p.closeCallback)
                         {
-                            if (auto widget = weak.lock())
-                            {
-                                widget->_p->openAmount = value;
-                                if (widget->_p->closeCallback)
-                                {
-                                    widget->_p->closeCallback(widget->_p->widget);
-                                }
-                                widget->_p->childLayout->removeChild(widget->_p->widget);
-                                widget->_p->widget.reset();
-                                widget->_resize();
-                            }
-                        });
+                            p.closeCallback(p.widget);
+                        }
+                        p.childLayout->removeChild(p.widget);
+                        p.widget.reset();
+                    }
                 }
-                _resize();
             }
 
             void Drawer::open()
@@ -171,22 +200,19 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const glm::vec2& minimumSize = p.childLayout->getMinimumSize();
                 glm::vec2 size(0.F, 0.F);
-                if (p.open)
+                switch (p.side)
                 {
-                    switch (p.side)
-                    {
-                    case Side::Left:
-                    case Side::Right:
-                        size.x = minimumSize.x * p.openAmount;
-                        size.y = minimumSize.y;
-                        break;
-                    case Side::Top:
-                    case Side::Bottom:
-                        size.x = minimumSize.x;
-                        size.y = minimumSize.y * p.openAmount;
-                        break;
-                    default: break;
-                    }
+                case Side::Left:
+                case Side::Right:
+                    size.x = minimumSize.x * p.openAmount;
+                    size.y = minimumSize.y;
+                    break;
+                case Side::Top:
+                case Side::Bottom:
+                    size.x = minimumSize.x;
+                    size.y = minimumSize.y * p.openAmount;
+                    break;
+                default: break;
                 }
                 _setMinimumSize(size);
             }
@@ -197,57 +223,36 @@ namespace djv
                 const BBox2f& g = getGeometry();
                 const glm::vec2& minimumSize = p.childLayout->getMinimumSize();
                 BBox2f childGeometry(0.F, 0.F, 0.F, 0.F);
+                const float inverseOpenAmount = 1.F - p.openAmount;
                 switch (p.side)
                 {
                 case Side::Left:
-                    childGeometry.min.x = g.min.x;
+                    childGeometry.min.x = g.min.x - (minimumSize.x * inverseOpenAmount);
                     childGeometry.min.y = g.min.y;
                     childGeometry.max.x = g.min.x + (minimumSize.x * p.openAmount);
                     childGeometry.max.y = g.max.y;
                     break;
                 case Side::Top:
                     childGeometry.min.x = g.min.x;
-                    childGeometry.min.y = g.min.y;
+                    childGeometry.min.y = g.min.y - (minimumSize.y * inverseOpenAmount);
                     childGeometry.max.x = g.max.x;
                     childGeometry.max.y = g.min.y + (minimumSize.y * p.openAmount);
                     break;
                 case Side::Right:
                     childGeometry.min.x = g.max.x - (minimumSize.x * p.openAmount);
                     childGeometry.min.y = g.min.y;
-                    childGeometry.max.x = g.max.x;
+                    childGeometry.max.x = g.max.x + (minimumSize.x * inverseOpenAmount);
                     childGeometry.max.y = g.max.y;
                     break;
                 case Side::Bottom:
                     childGeometry.min.x = g.min.x;
                     childGeometry.min.y = g.max.y - (minimumSize.x * p.openAmount);
                     childGeometry.max.x = g.max.x;
-                    childGeometry.max.y = g.max.y;
+                    childGeometry.max.y = g.max.y + (minimumSize.x * inverseOpenAmount);
                     break;
                 default: break;
                 }
                 p.childLayout->setGeometry(childGeometry);
-            }
-
-            void Drawer::_paintEvent(Event::Paint& event)
-            {
-                Widget::_paintEvent(event);
-                DJV_PRIVATE_PTR();
-                if (p.open)
-                {
-                    const BBox2f& g = p.childLayout->getGeometry();
-                    const auto& style = _getStyle();
-                    const float sh = style->getMetric(MetricsRole::Shadow);
-                    const auto& render = _getRender();
-                    render->setFillColor(style->getColor(ColorRole::Shadow));
-                    switch (p.side)
-                    {
-                    case Side::Left:   render->drawShadow(BBox2f(g.max.x, g.min.y, sh, g.h()), AV::Side::Right);     break;
-                    case Side::Top:    render->drawShadow(BBox2f(g.min.x, g.max.y, g.w(), sh), AV::Side::Bottom);    break;
-                    case Side::Right:  render->drawShadow(BBox2f(g.min.x - sh, g.min.y, sh, g.h()), AV::Side::Left); break;
-                    case Side::Bottom: render->drawShadow(BBox2f(g.min.x, g.min.y - sh, g.w(), sh), AV::Side::Top);  break;
-                    default: break;
-                    }
-                }
             }
 
         } // namespace Layout

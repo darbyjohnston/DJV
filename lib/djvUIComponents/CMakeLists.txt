@@ -27,6 +27,7 @@ set(source
     ColorPicker.cpp
     FileBrowser.cpp
     FileBrowserDialog.cpp
+    FileBrowserDrawerWidget.cpp
     FileBrowserDrivesWidget.cpp
     FileBrowserItemView.cpp
     FileBrowserMenu.cpp

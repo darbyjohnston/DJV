@@ -44,11 +44,11 @@ namespace djv
 
                 static std::shared_ptr<FileBrowser> create(const std::shared_ptr<Core::Context>&);
 
-                std::shared_ptr<Core::IValueSubject<bool> > observeDrawerOpen() const;
-                void setDrawerOpen(bool);
+                std::shared_ptr<Core::IValueSubject<bool> > observePathsOpen() const;
+                void setPathsOpen(bool);
 
-                std::shared_ptr<Core::IMapSubject<std::string, bool> > observeBellowsState() const;
-                void setBellowsState(const std::map<std::string, bool>&);
+                std::shared_ptr<Core::IMapSubject<std::string, bool> > observePathsBellowsState() const;
+                void setPathsBellowsState(const std::map<std::string, bool>&);
 
                 std::shared_ptr<Core::IListSubject<Core::FileSystem::Path> > observeShortcuts() const;
                 void setShortcuts(const std::vector<Core::FileSystem::Path>&);

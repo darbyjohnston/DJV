@@ -53,12 +53,12 @@ namespace djv
                 return _p->shortcuts;
             }
 
-            void ShortcutsModel::setShortcuts(const std::vector<Core::FileSystem::Path> & value)
+            void ShortcutsModel::setShortcuts(const std::vector<Core::FileSystem::Path>& value)
             {
                 _p->shortcuts->setIfChanged(value);
             }
 
-            void ShortcutsModel::addShortcut(const Core::FileSystem::Path & value)
+            void ShortcutsModel::addShortcut(const Core::FileSystem::Path& value)
             {
                 auto shortcuts = _p->shortcuts->get();
                 const auto i = std::find(shortcuts.begin(), shortcuts.end(), value);

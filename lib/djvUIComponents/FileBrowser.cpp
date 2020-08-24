@@ -12,7 +12,6 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
-#include <djvUI/Bellows.h>
 #include <djvUI/Drawer.h>
 #include <djvUI/Label.h>
 #include <djvUI/PopupButton.h>
@@ -56,8 +55,7 @@ namespace djv
                 std::map<std::string, std::shared_ptr<Action> > actions;
                 std::shared_ptr<ActionGroup> viewTypeActionGroup;
                 std::shared_ptr<ActionGroup> sortActionGroup;
-                std::shared_ptr<Drawer> drawer;
-                std::map<std::string, std::shared_ptr<Bellows> > bellows;
+                std::shared_ptr<Drawer> pathsDrawer;
                 std::shared_ptr<SearchBox> searchBox;
                 std::shared_ptr<PopupButton> menuPopupButton;
                 std::shared_ptr<ListViewHeader> listViewHeader;
@@ -76,8 +74,7 @@ namespace djv
                 std::shared_ptr<ValueObserver<size_t> > historyIndexObserver;
                 std::shared_ptr<ValueObserver<bool> > hasBackObserver;
                 std::shared_ptr<ValueObserver<bool> > hasForwardObserver;
-                std::shared_ptr<ValueObserver<bool> > drawerOpenSettingsObserver;
-                std::shared_ptr<MapObserver<std::string, bool> > bellowsStateSettingsObserver;
+                std::shared_ptr<ValueObserver<bool> > pathsOpenSettingsObserver;
                 std::shared_ptr<ListObserver<FileSystem::Path> > shortcutsObserver;
                 std::shared_ptr<ListObserver<FileSystem::Path> > shortcutsSettingsObserver;
                 std::shared_ptr<ListObserver<FileSystem::FileInfo> > recentPathsObserver;
@@ -108,9 +105,9 @@ namespace djv
                 p.recentPathsModel->setFilesMax(10);
                 p.drivesModel = FileSystem::DrivesModel::create(context);
 
-                p.actions["Drawer"] = Action::create();
-                p.actions["Drawer"]->setButtonType(ButtonType::Toggle);
-                p.actions["Drawer"]->setIcon("djvIconDrawerLeft");
+                p.actions["Paths"] = Action::create();
+                p.actions["Paths"]->setButtonType(ButtonType::Toggle);
+                p.actions["Paths"]->setIcon("djvIconDrawerLeft");
 
                 p.actions["Back"] = Action::create();
                 p.actions["Back"]->setIcon("djvIconArrowLeft");
@@ -156,7 +153,7 @@ namespace djv
                     addAction(action.second);
                 }
 
-                p.drawer = Drawer::create(Side::Left, context);
+                p.pathsDrawer = Drawer::create(Side::Left, context);
 
                 auto pathWidget = PathWidget::create(context);
 
@@ -166,7 +163,7 @@ namespace djv
                 p.menuPopupButton->setIcon("djvIconMenu");
 
                 auto toolBar = ToolBar::create(context);
-                toolBar->addAction(p.actions["Drawer"]);
+                toolBar->addAction(p.actions["Paths"]);
                 toolBar->addAction(p.actions["Back"]);
                 toolBar->addAction(p.actions["Forward"]);
                 toolBar->addAction(p.actions["Up"]);
@@ -194,7 +191,7 @@ namespace djv
                 p.layout->addSeparator();
                 auto hLayout = HorizontalLayout::create(context);
                 hLayout->setSpacing(MetricsRole::None);
-                hLayout->addChild(p.drawer);
+                hLayout->addChild(p.pathsDrawer);
                 p.itemViewLayout = VerticalLayout::create(context);
                 p.itemViewLayout->setSpacing(MetricsRole::None);
                 p.itemViewLayout->addChild(p.listViewHeader);
@@ -210,12 +207,12 @@ namespace djv
                 addChild(p.layout);
 
                 auto weak = std::weak_ptr<FileBrowser>(std::dynamic_pointer_cast<FileBrowser>(shared_from_this()));
-                p.actions["Drawer"]->setCheckedCallback(
+                p.actions["Paths"]->setCheckedCallback(
                     [weak](bool value)
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->drawer->setOpen(value);
+                            widget->_p->pathsDrawer->setOpen(value);
                         }
                     });
 
@@ -319,7 +316,7 @@ namespace djv
                         }
                     });
 
-                p.drawer->setOpenCallback(
+                p.pathsDrawer->setOpenCallback(
                     [weak, contextWeak]() -> std::shared_ptr<Widget>
                     {
                         std::shared_ptr<Widget> out;
@@ -327,69 +324,37 @@ namespace djv
                         {
                             if (auto widget = weak.lock())
                             {
-                                auto shortcutsWidget = ShortcutsWidget::create(widget->_p->shortcutsModel, context);
-                                shortcutsWidget->setPath(widget->_p->path);
-                                shortcutsWidget->setCallback(
-                                    [weak](const FileSystem::Path& value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->directoryModel->setPath(value);
-                                        }
-                                    });
-                                widget->_p->bellows["Shortcuts"] = Bellows::create(context);
-                                widget->_p->bellows["Shortcuts"]->addChild(shortcutsWidget);
-
-                                auto recentPathsWidget = RecentPathsWidget::create(widget->_p->recentPathsModel, context);
-                                recentPathsWidget->setCallback(
-                                    [weak](const FileSystem::Path& value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->directoryModel->setPath(value);
-                                        }
-                                    });
-                                widget->_p->bellows["Recent"] = Bellows::create(context);
-                                widget->_p->bellows["Recent"]->addChild(recentPathsWidget);
-
-                                auto drivesWidget = DrivesWidget::create(widget->_p->drivesModel, context);
-                                drivesWidget->setCallback(
-                                    [weak](const FileSystem::Path& value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->directoryModel->setPath(value);
-                                        }
-                                    });
-                                widget->_p->bellows["Drives"] = Bellows::create(context);
-                                widget->_p->bellows["Drives"]->addChild(drivesWidget);
-
-                                auto layout = VerticalLayout::create(context);
-                                layout->setSpacing(MetricsRole::None);
-                                layout->addChild(widget->_p->bellows["Shortcuts"]);
-                                layout->addChild(widget->_p->bellows["Recent"]);
-                                layout->addChild(widget->_p->bellows["Drives"]);
+                                auto drawerWidget = DrawerWidget::create(
+                                    widget->_p->directoryModel,
+                                    widget->_p->shortcutsModel,
+                                    widget->_p->recentPathsModel,
+                                    widget->_p->drivesModel,
+                                    context);
                                 auto scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
                                 scrollWidget->setBorder(false);
-                                scrollWidget->addChild(layout);
+                                scrollWidget->addChild(drawerWidget);
                                 auto hLayout = HorizontalLayout::create(context);
                                 hLayout->setSpacing(MetricsRole::None);
                                 hLayout->addChild(scrollWidget);
                                 hLayout->addSeparator();
                                 out = hLayout;
 
-                                widget->_bellowsUpdate();
+                                auto settingsSystem = context->getSystemT<Settings::System>();
+                                auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
+                                fileBrowserSettings->setPathsOpen(true);
                             }
                         }
                         return out;
                     });
 
-                p.drawer->setCloseCallback(
-                    [weak](const std::shared_ptr<Widget>& widget)
+                p.pathsDrawer->setCloseCallback(
+                    [contextWeak](const std::shared_ptr<Widget>& widget)
                     {
-                        if (auto widget = weak.lock())
+                        if (auto context = contextWeak.lock())
                         {
-                            widget->_p->bellows.clear();
+                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
+                            fileBrowserSettings->setPathsOpen(false);
                         }
                     });
 
@@ -471,9 +436,9 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->path = value;
+                        pathWidget->setPath(value);
                         widget->_p->scrollWidget->setScrollPos(glm::vec2(0.F, 0.F));
                     }
-                    pathWidget->setPath(value);
                 });
 
                 p.fileInfoObserver = ListObserver<FileSystem::FileInfo>::create(
@@ -534,24 +499,14 @@ namespace djv
 
                 auto settingsSystem = context->getSystemT<Settings::System>();
                 auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>();
-                p.drawerOpenSettingsObserver = ValueObserver<bool>::create(
-                    fileBrowserSettings->observeDrawerOpen(),
+                p.pathsOpenSettingsObserver = ValueObserver<bool>::create(
+                    fileBrowserSettings->observePathsOpen(),
                     [weak](bool value)
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->drawer->setOpen(value, false);
-                            widget->_p->actions["Drawer"]->setChecked(value);
-                        }
-                    });
-
-                p.bellowsStateSettingsObserver = MapObserver<std::string, bool>::create(
-                    fileBrowserSettings->observeBellowsState(),
-                    [weak](const std::map<std::string, bool>& value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_bellowsUpdate();
+                            widget->_p->pathsDrawer->setOpen(value, false);
+                            widget->_p->actions["Paths"]->setChecked(value);
                         }
                     });
 
@@ -720,6 +675,11 @@ namespace djv
                             if (i != value.end())
                             {
                                 widget->_p->actions["ShowHidden"]->setShortcuts(i->second);
+                            }
+                            i = value.find("file_browser_shortcut_paths");
+                            if (i != value.end())
+                            {
+                                widget->_p->actions["Paths"]->setShortcuts(i->second);
                             }
                             i = value.find("file_browser_shortcut_sort_by_name");
                             if (i != value.end())
@@ -892,7 +852,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (event.getData().text)
                 {
-                    p.actions["Drawer"]->setTooltip(_getText(DJV_TEXT("file_browser_drawer_tooltip")));
+                    p.actions["Paths"]->setTooltip(_getText(DJV_TEXT("file_browser_paths_tooltip")));
 
                     p.actions["Back"]->setText(_getText(DJV_TEXT("file_browser_back")));
                     p.actions["Back"]->setTooltip(_getText(DJV_TEXT("file_browser_back_tooltip")));
@@ -915,6 +875,8 @@ namespace djv
                     p.actions["ShowHidden"]->setText(_getText(DJV_TEXT("file_browser_settings_show_hidden_files")));
                     p.actions["ShowHidden"]->setTooltip(_getText(DJV_TEXT("file_browser_settings_show_hidden_tooltip")));
 
+                    p.actions["Paths"]->setText(_getText(DJV_TEXT("file_browser_paths")));
+                    p.actions["Paths"]->setTooltip(_getText(DJV_TEXT("file_browser_paths_tooltip")));
                     p.actions["SortByName"]->setText(_getText(DJV_TEXT("file_browser_sort_name")));
                     p.actions["SortByName"]->setTooltip(_getText(DJV_TEXT("file_browser_sort_name_tooltip")));
                     p.actions["SortBySize"]->setText(_getText(DJV_TEXT("file_browser_sort_size")));
@@ -939,8 +901,6 @@ namespace djv
                     p.searchBox->setTooltip(_getText(DJV_TEXT("file_browser_search_tooltip")));
 
                     p.menuPopupButton->setTooltip(_getText(DJV_TEXT("file_browser_menu_tooltip")));
-
-                    _bellowsUpdate();
                 }
             }
 
@@ -949,17 +909,6 @@ namespace djv
                 std::stringstream ss;
                 ss << size << " " << _getText(DJV_TEXT("file_browser_items"));
                 return ss.str();
-            }
-
-            void FileBrowser::_bellowsUpdate()
-            {
-                DJV_PRIVATE_PTR();
-                if (p.bellows.size())
-                {
-                    p.bellows["Shortcuts"]->setText(_getText(DJV_TEXT("file_browser_shortcuts")));
-                    p.bellows["Recent"]->setText(_getText(DJV_TEXT("file_browser_recent_paths")));
-                    p.bellows["Drives"]->setText(_getText(DJV_TEXT("file_browser_drives")));
-                }
             }
 
         } // namespace FileBrowser
