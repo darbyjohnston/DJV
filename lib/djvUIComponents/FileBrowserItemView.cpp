@@ -416,7 +416,7 @@ namespace djv
                                         break;
                                     default: break;
                                     }
-                                    render->setFillColor(AV::Image::Color(0.F, 0.F, 0.F));
+                                    render->setFillColor(AV::Image::Color(0.F, 0.F, 0.F, opacity));
                                     render->drawRect(BBox2f(pos.x, pos.y, w, h));
                                     render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F, opacity));
                                     AV::Render2D::ImageOptions options;
