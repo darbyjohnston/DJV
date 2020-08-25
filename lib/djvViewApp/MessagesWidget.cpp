@@ -5,11 +5,11 @@
 #include <djvViewApp/MessagesWidget.h>
 
 #include <djvUI/CheckBox.h>
-#include <djvUI/PushButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/TextBlock.h>
 #include <djvUI/ToolBar.h>
+#include <djvUI/ToolButton.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/LogSystem.h>
@@ -27,8 +27,8 @@ namespace djv
         {
             std::shared_ptr<UI::TextBlock> textBlock;
             std::shared_ptr<UI::CheckBox> popupCheckBox;
-            std::shared_ptr<UI::PushButton> copyButton;
-            std::shared_ptr<UI::PushButton> clearButton;
+            std::shared_ptr<UI::ToolButton> copyButton;
+            std::shared_ptr<UI::ToolButton> clearButton;
             std::function<void(bool)> popupCallback;
             std::function<void(void)> copyCallback;
             std::function<void(void)> clearCallback;
@@ -52,8 +52,10 @@ namespace djv
             scrollWidget->addChild(p.textBlock);
 
             p.popupCheckBox = UI::CheckBox::create(context);
-            p.copyButton = UI::PushButton::create(context);
-            p.clearButton = UI::PushButton::create(context);
+            p.copyButton = UI::ToolButton::create(context);
+            p.copyButton->setIcon("djvIconShare");
+            p.clearButton = UI::ToolButton::create(context);
+            p.clearButton->setIcon("djvIconClear");
 
             auto layout = UI::VerticalLayout::create(context);
             layout->setSpacing(UI::MetricsRole::None);
@@ -129,9 +131,7 @@ namespace djv
                 setTitle(_getText(DJV_TEXT("widget_messages")));
                 p.popupCheckBox->setText(_getText(DJV_TEXT("widget_messages_popup")));
                 p.popupCheckBox->setTooltip(_getText(DJV_TEXT("widget_messages_popup_tooltip")));
-                p.copyButton->setText(_getText(DJV_TEXT("widget_messages_copy")));
                 p.copyButton->setTooltip(_getText(DJV_TEXT("widget_messages_copy_tooltip")));
-                p.clearButton->setText(_getText(DJV_TEXT("widget_messages_clear")));
                 p.clearButton->setTooltip(_getText(DJV_TEXT("widget_messages_clear_tooltip")));
             }
         }

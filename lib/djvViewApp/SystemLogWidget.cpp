@@ -4,14 +4,14 @@
 
 #include <djvViewApp/SystemLogWidget.h>
 
-#include <djvDesktopApp/GLFWSystem.h>
+#include <djvUIComponents/SearchBox.h>
 
 #include <djvUI/EventSystem.h>
-#include <djvUI/PushButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/TextBlock.h>
 #include <djvUI/ToolBar.h>
+#include <djvUI/ToolButton.h>
 #include <djvUI/Window.h>
 
 #include <djvCore/Context.h>
@@ -19,9 +19,6 @@
 #include <djvCore/Path.h>
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/String.h>
-
-#define GLFW_INCLUDE_NONE
-#include <GLFW/glfw3.h>
 
 using namespace djv::Core;
 
@@ -32,11 +29,12 @@ namespace djv
         struct SystemLogWidget::Private
         {
             std::vector<std::string> log;
-            bool shown = false;
+            std::string filter;
             std::shared_ptr<UI::TextBlock> textBlock;
-            std::shared_ptr<UI::PushButton> copyButton;
-            std::shared_ptr<UI::PushButton> reloadButton;
-            std::shared_ptr<UI::PushButton> clearButton;
+            std::shared_ptr<UI::ToolButton> copyButton;
+            std::shared_ptr<UI::ToolButton> reloadButton;
+            std::shared_ptr<UI::ToolButton> clearButton;
+            std::shared_ptr<UI::SearchBox> searchBox;
         };
 
         void SystemLogWidget::_init(const std::shared_ptr<Core::Context>& context)
@@ -57,9 +55,13 @@ namespace djv
             scrollWidget->setShadowOverlay({ UI::Side::Top });
             scrollWidget->addChild(p.textBlock);
 
-            p.copyButton = UI::PushButton::create(context);
-            p.reloadButton = UI::PushButton::create(context);
-            p.clearButton = UI::PushButton::create(context);
+            p.copyButton = UI::ToolButton::create(context);
+            p.copyButton->setIcon("djvIconShare");
+            p.reloadButton = UI::ToolButton::create(context);
+            p.reloadButton->setIcon("djvIconReload");
+            p.clearButton = UI::ToolButton::create(context);
+            p.clearButton->setIcon("djvIconClear");
+            p.searchBox = UI::SearchBox::create(context);
 
             auto layout = UI::VerticalLayout::create(context);
             layout->setSpacing(UI::MetricsRole::None);
@@ -71,6 +73,7 @@ namespace djv
             toolBar->addChild(p.copyButton);
             toolBar->addChild(p.reloadButton);
             toolBar->addChild(p.clearButton);
+            toolBar->addChild(p.searchBox);
             layout->addChild(toolBar);
             addChild(layout);
 
@@ -88,6 +91,7 @@ namespace djv
                         }
                     }
                 });
+
             p.reloadButton->setClickedCallback(
                 [weak]
                 {
@@ -96,14 +100,25 @@ namespace djv
                         widget->reloadLog();
                     }
                 });
+
             p.clearButton->setClickedCallback(
                 [weak]
-            {
-                if (auto widget = weak.lock())
                 {
-                    widget->clearLog();
-                }
-            });
+                    if (auto widget = weak.lock())
+                    {
+                        widget->clearLog();
+                    }
+                });
+
+            p.searchBox->setFilterCallback(
+                [weak](const std::string& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->filter = value;
+                        widget->_widgetUpdate();
+                    }
+                });
         }
 
         SystemLogWidget::SystemLogWidget() :
@@ -127,19 +142,22 @@ namespace djv
             {
                 p.log = FileSystem::FileIO::readLines(std::string(
                     _getResourceSystem()->getPath(FileSystem::ResourcePath::LogFile)));
-                p.textBlock->setText(String::join(p.log, '\n'));
             }
             catch (const std::exception & e)
             {
                 _log(e.what(), LogLevel::Error);
             }
+            _widgetUpdate();
         }
 
         void SystemLogWidget::clearLog()
         {
             DJV_PRIVATE_PTR();
-            p.log.clear();
-            p.textBlock->setText(std::string());
+            if (!p.log.empty())
+            {
+                p.log.clear();
+                _widgetUpdate();
+            }
         }
 
         void SystemLogWidget::_initEvent(Event::Init & event)
@@ -149,13 +167,31 @@ namespace djv
             if (event.getData().text)
             {
                 setTitle(_getText(DJV_TEXT("widget_log")));
-                p.copyButton->setText(_getText(DJV_TEXT("widget_log_copy")));
                 p.copyButton->setTooltip(_getText(DJV_TEXT("widget_log_copy_tooltip")));
-                p.reloadButton->setText(_getText(DJV_TEXT("widget_log_reload")));
                 p.reloadButton->setTooltip(_getText(DJV_TEXT("widget_log_reload_tooltip")));
-                p.clearButton->setText(_getText(DJV_TEXT("widget_log_clear")));
                 p.clearButton->setTooltip(_getText(DJV_TEXT("widget_log_clear_tooltip")));
             }
+        }
+
+        void SystemLogWidget::_widgetUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            std::vector<std::string> log;
+            if (!p.filter.empty())
+            {
+                for (const auto& i : p.log)
+                {
+                    if (String::match(i, p.filter))
+                    {
+                        log.push_back(i);
+                    }
+                }
+            }
+            else
+            {
+                log = p.log;
+            }
+            p.textBlock->setText(String::join(log, '\n'));
         }
 
     } // namespace ViewApp
