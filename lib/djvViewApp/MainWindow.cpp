@@ -143,6 +143,7 @@ namespace djv
             auto settingsDrawer = UI::Drawer::create(UI::Side::Right, context);
 
             p.menuBar = UI::MenuBar::create(context);
+            p.menuBar->setBackgroundRole(UI::ColorRole::BackgroundHeader);
             for (auto i : menus)
             {
                 p.menuBar->addChild(i.second);
