@@ -159,7 +159,6 @@ namespace djv
                 const auto& render = _getRender();
                 const BBox2f& g = getGeometry();
                 const AV::Image::Size& size = p.image->getSize();
-                glm::vec2 c(g.min.x + size.w / 2.F, g.min.y + size.h / 2.F);
                 float zoom = 1.F;
                 if (p.scale)
                 {
@@ -168,13 +167,11 @@ namespace djv
                     {
                         zoom = g.h() / static_cast<float>(size.h);
                     }
-                    c.x *= zoom;
-                    c.y *= zoom;
                 }
                 glm::mat3x3 m(1.F);
                 const glm::vec2 pos(
-                    floorf(g.w() / 2.F - c.x),
-                    floorf(g.h() / 2.F - c.y));
+                    floorf(g.w() / 2.F - size.w * zoom / 2.F),
+                    floorf(g.h() / 2.F - size.h * zoom / 2.F));
                 m = glm::translate(m, g.min + pos);
                 m = glm::scale(m, glm::vec2(zoom, zoom));
                 render->pushTransform(m);
