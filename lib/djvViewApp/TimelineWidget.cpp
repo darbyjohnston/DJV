@@ -97,7 +97,6 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::TimelineWidget");
-            setBackgroundRole(UI::ColorRole::BackgroundToolBar);
 
             p.actions["Forward"] = UI::Action::create();
             p.actions["Forward"]->setIcon("djvIconPlaybackForward");
