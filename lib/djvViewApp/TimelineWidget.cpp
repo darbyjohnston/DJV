@@ -820,7 +820,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                setEnabled(p.media ? true : false);
+                setEnabled(p.media.get() && p.sequence.getFrameCount() > 1);
 
                 auto playback = Playback::Stop;
                 if (p.media)
@@ -872,7 +872,12 @@ namespace djv
                     p.inOutPoints.isEnabled() &&
                     p.inOutPoints.getOut() != p.sequence.getLastIndex());
 
-                p.durationLabel->setText(Time::toString(p.sequence.getFrameCount(), p.defaultSpeed, p.timeUnits));
+                std::string text;
+                if (p.sequence.getFrameCount() > 1)
+                {
+                    text = Time::toString(p.sequence.getFrameCount(), p.defaultSpeed, p.timeUnits);
+                }
+                p.durationLabel->setText(text);
 
                 p.timelineSlider->setInOutPointsEnabled(p.inOutPoints.isEnabled());
                 p.timelineSlider->setInPoint(p.inOutPoints.getIn());

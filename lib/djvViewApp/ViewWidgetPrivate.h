@@ -51,29 +51,7 @@ namespace djv
             void _textCreate(const GridPos&);
             void _textUpdate();
 
-            GridOptions _options;
-            glm::vec2 _imagePos = glm::vec2(0.F, 0.F);
-            float _imageZoom = 1.F;
-            UI::ImageRotate _imageRotate = UI::ImageRotate::First;
-            UI::ImageAspectRatio _imageAspectRatio = UI::ImageAspectRatio::First;
-            float _aspectRatio = 1.F;
-            float _pixelAspectRatio = 1.F;
-            Core::BBox2f _imageBBox = Core::BBox2f(0.F, 0.F, 0.F, 0.F);
-            glm::vec2 _widgetSize = glm::vec2(0.F, 0.F);
-            std::vector<char> _letters;
-            std::shared_ptr<AV::Font::System> _fontSystem;
-            AV::Font::Metrics _fontMetrics;
-            std::future<AV::Font::Metrics> _fontMetricsFuture;
-            struct Text
-            {
-                std::string text;
-                glm::vec2 size = glm::vec2(0.F, 0.F);
-                std::vector<std::shared_ptr<AV::Font::Glyph> > glyphs;
-            };
-            std::map<GridPos, Text> _text;
-            std::map<GridPos, std::future<glm::vec2> > _textSizeFutures;
-            std::map<GridPos, std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > > _textGlyphsFutures;
-            float _textWidthMax = 0.F;
+            DJV_PRIVATE();
         };
 
     } // namespace ViewApp

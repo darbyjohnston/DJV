@@ -18,17 +18,46 @@ namespace djv
 {
     namespace ViewApp
     {
+        struct GridOverlay::Private
+        {
+            GridOptions options;
+            glm::vec2 imagePos = glm::vec2(0.F, 0.F);
+            float imageZoom = 1.F;
+            UI::ImageRotate imageRotate = UI::ImageRotate::First;
+            UI::ImageAspectRatio imageAspectRatio = UI::ImageAspectRatio::First;
+            float aspectRatio = 1.F;
+            float pixelAspectRatio = 1.F;
+            Core::BBox2f imageBBox = Core::BBox2f(0.F, 0.F, 0.F, 0.F);
+            glm::vec2 widgetSize = glm::vec2(0.F, 0.F);
+            std::vector<char> letters;
+            std::shared_ptr<AV::Font::System> fontSystem;
+            AV::Font::Metrics fontMetrics;
+            std::future<AV::Font::Metrics> fontMetricsFuture;
+            struct Text
+            {
+                std::string text;
+                glm::vec2 size = glm::vec2(0.F, 0.F);
+                std::vector<std::shared_ptr<AV::Font::Glyph> > glyphs;
+            };
+            std::map<GridPos, Text> text;
+            std::map<GridPos, std::future<glm::vec2> > textSizeFutures;
+            std::map<GridPos, std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > > textGlyphsFutures;
+            float textWidthMax = 0.F;
+        };
+
         void GridOverlay::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
+            DJV_PRIVATE_PTR();
             for (size_t i = 0; i < 26; ++i)
             {
-                _letters.push_back('A' + i);
+                p.letters.push_back('A' + i);
             }
-            _fontSystem = context->getSystemT<AV::Font::System>();
+            p.fontSystem = context->getSystemT<AV::Font::System>();
         }
 
-        GridOverlay::GridOverlay()
+        GridOverlay::GridOverlay() :
+            _p(new Private)
         {}
 
         std::shared_ptr<GridOverlay> GridOverlay::create(const std::shared_ptr<Context>& context)
@@ -40,26 +69,28 @@ namespace djv
 
         void GridOverlay::setOptions(const GridOptions& value)
         {
-            _options = value;
+            _p->options = value;
             _textUpdate();
             _redraw();
         }
 
         void GridOverlay::setImagePosAndZoom(const glm::vec2& pos, float zoom)
         {
-            if (pos == _imagePos && zoom == _imageZoom)
+            DJV_PRIVATE_PTR();
+            if (pos == p.imagePos && zoom == p.imageZoom)
                 return;
-            _imagePos = pos;
-            _imageZoom = zoom;
+            p.imagePos = pos;
+            p.imageZoom = zoom;
             _textUpdate();
             _redraw();
         }
 
         void GridOverlay::setImageRotate(UI::ImageRotate value)
         {
-            if (value == _imageRotate)
+            DJV_PRIVATE_PTR();
+            if (value == p.imageRotate)
                 return;
-            _imageRotate = value;
+            p.imageRotate = value;
             _textUpdate();
             _redraw();
         }
@@ -69,34 +100,37 @@ namespace djv
             float aspectRatio,
             float pixelAspectRatio)
         {
-            if (imageAspectRatio == _imageAspectRatio &&
-                aspectRatio == _aspectRatio &&
-                pixelAspectRatio == _pixelAspectRatio)
+            DJV_PRIVATE_PTR();
+            if (imageAspectRatio == p.imageAspectRatio &&
+                aspectRatio == p.aspectRatio &&
+                pixelAspectRatio == p.pixelAspectRatio)
                 return;
-            _imageAspectRatio = imageAspectRatio;
-            _aspectRatio = aspectRatio;
-            _pixelAspectRatio = pixelAspectRatio;
+            p.imageAspectRatio = imageAspectRatio;
+            p.aspectRatio = aspectRatio;
+            p.pixelAspectRatio = pixelAspectRatio;
             _textUpdate();
             _redraw();
         }
 
         void GridOverlay::setImageBBox(const BBox2f& value)
         {
-            if (value == _imageBBox)
+            DJV_PRIVATE_PTR();
+            if (value == p.imageBBox)
                 return;
-            _imageBBox = value;
+            p.imageBBox = value;
             _textUpdate();
             _redraw();
         }
 
         void GridOverlay::_layoutEvent(Event::Layout&)
         {
+            DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const BBox2f& g = getMargin().bbox(getGeometry(), style);
             const glm::vec2& size = g.getSize();
-            if (size != _widgetSize)
+            if (size != p.widgetSize)
             {
-                _widgetSize = size;
+                p.widgetSize = size;
                 _textUpdate();
                 _redraw();
             }
@@ -104,8 +138,9 @@ namespace djv
 
         void GridOverlay::_paintEvent(Event::Paint&)
         {
-            const float gridCellSizeZoom = _options.size * _imageZoom;
-            if (_options.enabled && gridCellSizeZoom > 2.f)
+            DJV_PRIVATE_PTR();
+            const float gridCellSizeZoom = p.options.size * p.imageZoom;
+            if (p.options.enabled && gridCellSizeZoom > 2.f)
             {
                 const auto& style = _getStyle();
                 const float b = style->getMetric(UI::MetricsRole::Border);
@@ -114,10 +149,10 @@ namespace djv
                 const auto& render = _getRender();
 
                 /*const BBox2f bbox = BBox2f(
-                    _imageBBox.min.x * _imageZoom + _imagePos.x,
-                    _imageBBox.min.y * _imageZoom + _imagePos.y,
-                    _imageBBox.w() * _imageZoom,
-                    _imageBBox.h() * _imageZoom);
+                    p.imageBBox.min.x * p.imageZoom + p.imagePos.x,
+                    p.imageBBox.min.y * p.imageZoom + p.imagePos.y,
+                    p.imageBBox.w() * p.imageZoom,
+                    p.imageBBox.h() * p.imageZoom);
                 render->setFillColor(AV::Image::Color(1.F, 0.F, 0.F));
                 UI::drawBorder(render, bbox, b);*/
 
@@ -127,38 +162,38 @@ namespace djv
                 //UI::drawBorder(render, viewport, b);
 
                 std::vector<BBox2f> rects;
-                for (int x = viewportWorld.min.x / _options.size; x <= viewportWorld.max.x / _options.size; ++x)
+                for (int x = viewportWorld.min.x / p.options.size; x <= viewportWorld.max.x / p.options.size; ++x)
                 {
                     rects.emplace_back(BBox2f(
-                        floorf(g.min.x + x * _options.size * _imageZoom + _imagePos.x),
+                        floorf(g.min.x + x * p.options.size * p.imageZoom + p.imagePos.x),
                         floorf(g.min.y + viewport.min.y),
                         b,
                         ceilf(viewport.h())));
                 }
-                for (int y = viewportWorld.min.y / _options.size; y <= viewportWorld.max.y / _options.size; ++y)
+                for (int y = viewportWorld.min.y / p.options.size; y <= viewportWorld.max.y / p.options.size; ++y)
                 {
                     rects.emplace_back(BBox2f(
                         floorf(g.min.x + viewport.min.x),
-                        floorf(g.min.y + y * _options.size * _imageZoom + _imagePos.y),
+                        floorf(g.min.y + y * p.options.size * p.imageZoom + p.imagePos.y),
                         viewport.w(),
                         ceilf(b)));
                 }
                 const float opacity = Math::clamp((gridCellSizeZoom - 2.F) / 10.F, 0.F, 1.F);
-                auto gridColor = _options.color.convert(AV::Image::Type::RGBA_F32);
+                auto gridColor = p.options.color.convert(AV::Image::Type::RGBA_F32);
                 gridColor.setF32(gridColor.getF32(3) * opacity, 3);
                 render->setFillColor(gridColor);
                 render->drawRects(rects);
 
-                if (_text.size() > 0 && (_textWidthMax + b * 2.F) < gridCellSizeZoom)
+                if (p.text.size() > 0 && (p.textWidthMax + b * 2.F) < gridCellSizeZoom)
                 {
                     rects.clear();
-                    for (const auto& i : _text)
+                    for (const auto& i : p.text)
                     {
                         switch (i.first.first)
                         {
                         case Grid::Column:
                             rects.emplace_back(BBox2f(
-                                floorf(g.min.x + (i.first.second * _options.size + _options.size / 2.F) * _imageZoom + _imagePos.x - i.second.size.x / 2.F),
+                                floorf(g.min.x + (i.first.second * p.options.size + p.options.size / 2.F) * p.imageZoom + p.imagePos.x - i.second.size.x / 2.F),
                                 floorf(g.min.y + viewport.min.y),
                                 ceilf(i.second.size.x + b * 2.F),
                                 ceilf(i.second.size.y + b * 2.F)));
@@ -166,18 +201,18 @@ namespace djv
                         case Grid::Row:
                             rects.emplace_back(BBox2f(
                                 floorf(g.min.x + viewport.min.x),
-                                floorf(g.min.y + (i.first.second * _options.size + _options.size / 2.F) * _imageZoom + _imagePos.y - i.second.size.y / 2.F),
+                                floorf(g.min.y + (i.first.second * p.options.size + p.options.size / 2.F) * p.imageZoom + p.imagePos.y - i.second.size.y / 2.F),
                                 ceilf(i.second.size.x + b * 2.F),
                                 ceilf(i.second.size.y + b * 2.F)));
                             break;
                         default: break;
                         }
                     }
-                    render->setFillColor(_options.color);
+                    render->setFillColor(p.options.color);
                     render->drawRects(rects);
 
-                    render->setFillColor(_options.labelsColor);
-                    for (const auto& i : _text)
+                    render->setFillColor(p.options.labelsColor);
+                    for (const auto& i : p.text)
                     {
                         switch (i.first.first)
                         {
@@ -185,15 +220,15 @@ namespace djv
                             render->drawText(
                                 i.second.glyphs,
                                 glm::vec2(
-                                    floorf(g.min.x + b + (i.first.second * _options.size + _options.size / 2.F) * _imageZoom + _imagePos.x - i.second.size.x / 2.F),
-                                    floorf(g.min.y + viewport.min.y + b + _fontMetrics.ascender - 1.F)));
+                                    floorf(g.min.x + b + (i.first.second * p.options.size + p.options.size / 2.F) * p.imageZoom + p.imagePos.x - i.second.size.x / 2.F),
+                                    floorf(g.min.y + viewport.min.y + b + p.fontMetrics.ascender - 1.F)));
                             break;
                         case Grid::Row:
                             render->drawText(
                                 i.second.glyphs,
                                 glm::vec2(
                                     floorf(g.min.x + viewport.min.x + b),
-                                    floorf(g.min.y + b + (i.first.second * _options.size + _options.size / 2.F) * _imageZoom + _imagePos.y - i.second.size.y / 2.F + _fontMetrics.ascender - 1.F)));
+                                    floorf(g.min.y + b + (i.first.second * p.options.size + p.options.size / 2.F) * p.imageZoom + p.imagePos.y - i.second.size.y / 2.F + p.fontMetrics.ascender - 1.F)));
                             break;
                         default: break;
                         }
@@ -204,44 +239,48 @@ namespace djv
 
         BBox2f GridOverlay::_getViewportWorld() const
         {
+            DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const BBox2f& g = getMargin().bbox(getGeometry(), style);
             return BBox2f(
-                -_imagePos.x / _imageZoom,
-                -_imagePos.y / _imageZoom,
-                (g.w() - 1.F) / _imageZoom,
-                (g.h() - 1.F) / _imageZoom).intersect(_imageBBox);
+                -p.imagePos.x / p.imageZoom,
+                -p.imagePos.y / p.imageZoom,
+                (g.w() - 1.F) / p.imageZoom,
+                (g.h() - 1.F) / p.imageZoom).intersect(p.imageBBox);
         }
 
         BBox2f GridOverlay::_getViewport() const
         {
+            DJV_PRIVATE_PTR();
             const BBox2f viewportWorld = _getViewportWorld();
             return BBox2f(
-                viewportWorld.min.x * _imageZoom + _imagePos.x,
-                viewportWorld.min.y * _imageZoom + _imagePos.y,
-                viewportWorld.w() * _imageZoom,
-                viewportWorld.h() * _imageZoom);
+                viewportWorld.min.x * p.imageZoom + p.imagePos.x,
+                viewportWorld.min.y * p.imageZoom + p.imagePos.y,
+                viewportWorld.w() * p.imageZoom,
+                viewportWorld.h() * p.imageZoom);
         }
 
         void GridOverlay::_initEvent(Event::Init& event)
         {
+            DJV_PRIVATE_PTR();
             if (event.getData().resize ||
                 event.getData().font)
             {
                 const auto& style = _getStyle();
                 const auto fontInfo = style->getFontInfo(AV::Font::familyMono, AV::Font::faceDefault, UI::MetricsRole::FontSmall);
-                _fontMetricsFuture = _fontSystem->getMetrics(fontInfo);
+                p.fontMetricsFuture = p.fontSystem->getMetrics(fontInfo);
             }
         }
 
         void GridOverlay::_updateEvent(Event::Update& event)
         {
-            if (_fontMetricsFuture.valid() &&
-                _fontMetricsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+            DJV_PRIVATE_PTR();
+            if (p.fontMetricsFuture.valid() &&
+                p.fontMetricsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {
                 try
                 {
-                    _fontMetrics = _fontMetricsFuture.get();
+                    p.fontMetrics = p.fontMetricsFuture.get();
                     _textUpdate();
                     _redraw();
                 }
@@ -250,8 +289,8 @@ namespace djv
                     _log(e.what(), LogLevel::Error);
                 }
             }
-            auto textSizeFuturesIt = _textSizeFutures.begin();
-            while (textSizeFuturesIt != _textSizeFutures.end())
+            auto textSizeFuturesIt = p.textSizeFutures.begin();
+            while (textSizeFuturesIt != p.textSizeFutures.end())
             {
                 if (textSizeFuturesIt->second.valid() &&
                     textSizeFuturesIt->second.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
@@ -259,37 +298,37 @@ namespace djv
                     try
                     {
                         const glm::vec2 size = textSizeFuturesIt->second.get();
-                        _text[textSizeFuturesIt->first].size = size;
-                        _textWidthMax = std::max(_textWidthMax, size.x);
+                        p.text[textSizeFuturesIt->first].size = size;
+                        p.textWidthMax = std::max(p.textWidthMax, size.x);
                         _redraw();
                     }
                     catch (const std::exception & e)
                     {
                         _log(e.what(), LogLevel::Error);
                     }
-                    textSizeFuturesIt = _textSizeFutures.erase(textSizeFuturesIt);
+                    textSizeFuturesIt = p.textSizeFutures.erase(textSizeFuturesIt);
                 }
                 else
                 {
                     ++textSizeFuturesIt;
                 }
             }
-            auto textGlyphsFuturesIt = _textGlyphsFutures.begin();
-            while (textGlyphsFuturesIt != _textGlyphsFutures.end())
+            auto textGlyphsFuturesIt = p.textGlyphsFutures.begin();
+            while (textGlyphsFuturesIt != p.textGlyphsFutures.end())
             {
                 if (textGlyphsFuturesIt->second.valid() &&
                     textGlyphsFuturesIt->second.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                 {
                     try
                     {
-                        _text[textGlyphsFuturesIt->first].glyphs = textGlyphsFuturesIt->second.get();
+                        p.text[textGlyphsFuturesIt->first].glyphs = textGlyphsFuturesIt->second.get();
                         _redraw();
                     }
                     catch (const std::exception & e)
                     {
                         _log(e.what(), LogLevel::Error);
                     }
-                    textGlyphsFuturesIt = _textGlyphsFutures.erase(textGlyphsFuturesIt);
+                    textGlyphsFuturesIt = p.textGlyphsFutures.erase(textGlyphsFuturesIt);
                 }
                 else
                 {
@@ -300,8 +339,9 @@ namespace djv
 
         std::string GridOverlay::_getLabel(const GridPos& value) const
         {
+            DJV_PRIVATE_PTR();
             std::string out;
-            switch (_options.labels)
+            switch (p.options.labels)
             {
             case GridLabels::X_Y:
             {
@@ -353,31 +393,33 @@ namespace djv
 
         void GridOverlay::_textCreate(const GridPos& pos)
         {
-            auto& text = _text[pos];
+            DJV_PRIVATE_PTR();
+            auto& text = p.text[pos];
             const std::string label = _getLabel(pos);
             text.text = label;
             const auto& style = _getStyle();
             const auto fontInfo = style->getFontInfo(AV::Font::familyMono, AV::Font::faceDefault, UI::MetricsRole::FontSmall);
-            _textSizeFutures[pos] = _fontSystem->measure(label, fontInfo);
-            _textGlyphsFutures[pos] = _fontSystem->getGlyphs(label, fontInfo);
+            p.textSizeFutures[pos] = p.fontSystem->measure(label, fontInfo);
+            p.textGlyphsFutures[pos] = p.fontSystem->getGlyphs(label, fontInfo);
         }
 
         void GridOverlay::_textUpdate()
         {
-            _textSizeFutures.clear();
-            _textGlyphsFutures.clear();
-            if (_options.enabled &&
-                _options.labels != GridLabels::None &&
-                _fontMetrics.ascender > 0 &&
-                _options.size * _imageZoom > _fontMetrics.ascender * 2.F)
+            DJV_PRIVATE_PTR();
+            p.textSizeFutures.clear();
+            p.textGlyphsFutures.clear();
+            if (p.options.enabled &&
+                p.options.labels != GridLabels::None &&
+                p.fontMetrics.ascender > 0 &&
+                p.options.size * p.imageZoom > p.fontMetrics.ascender * 2.F)
             {
                 const BBox2f viewportWorld = _getViewportWorld();
                 std::set<GridPos> erase;
-                for (const auto& i : _text)
+                for (const auto& i : p.text)
                 {
                     erase.insert(i.first);
                 }
-                for (int x = viewportWorld.min.x / _options.size; x <= viewportWorld.max.x / _options.size; ++x)
+                for (int x = viewportWorld.min.x / p.options.size; x <= viewportWorld.max.x / p.options.size; ++x)
                 {
                     const auto pos = std::make_pair(Grid::Column, x);
                     _textCreate(pos);
@@ -387,7 +429,7 @@ namespace djv
                         erase.erase(i);
                     }
                 }
-                for (int y = viewportWorld.min.y / _options.size; y <= viewportWorld.max.y / _options.size; ++y)
+                for (int y = viewportWorld.min.y / p.options.size; y <= viewportWorld.max.y / p.options.size; ++y)
                 {
                     const auto pos = std::make_pair(Grid::Row, y);
                     _textCreate(pos);
@@ -399,16 +441,16 @@ namespace djv
                 }
                 for (const auto& i : erase)
                 {
-                    const auto j = _text.find(i);
-                    if (j != _text.end())
+                    const auto j = p.text.find(i);
+                    if (j != p.text.end())
                     {
-                        _text.erase(j);
+                        p.text.erase(j);
                     }
                 }
             }
             else
             {
-                _text.clear();
+                p.text.clear();
             }
         }
 

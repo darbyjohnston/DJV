@@ -104,6 +104,7 @@ namespace djv
 
             p.activeWidget = ValueSubject<std::shared_ptr<MediaWidget> >::create();
             p.fullScreen = ValueSubject<bool>::create(false);
+            p.presentation = ValueSubject<bool>::create(false);
             p.floatOnTop = ValueSubject<bool>::create(false);
             p.maximize = ValueSubject<bool>::create(false);
 
@@ -121,6 +122,7 @@ namespace djv
             p.actions["Fit"] = UI::Action::create();
 
             _addShortcut("shortcut_window_full_screen", GLFW_KEY_U);
+            _addShortcut("shortcut_window_presentation", GLFW_KEY_E);
             _addShortcut("shortcut_window_maximize", GLFW_KEY_M);
             _addShortcut("shortcut_window_fit", GLFW_KEY_F, UI::ShortcutData::getSystemModifier());
             _addShortcut("shortcut_window_auto_hide", GLFW_KEY_H, GLFW_MOD_SHIFT | UI::ShortcutData::getSystemModifier());
@@ -289,9 +291,26 @@ namespace djv
             }
         }
 
+        std::shared_ptr<IValueSubject<bool> > WindowSystem::observePresentation() const
+        {
+            return _p->presentation;
+        }
+
         void WindowSystem::setPresentation(bool value)
         {
-
+            DJV_PRIVATE_PTR();
+            if (p.presentation->setIfChanged(value))
+            {
+                if (value)
+                {
+                    p.desktopGLFWSystem->hideCursor();
+                }
+                else
+                {
+                    p.desktopGLFWSystem->showCursor();
+                }
+                _actionsUpdate();
+            }
         }
 
         std::shared_ptr<IValueSubject<bool> > WindowSystem::observeFloatOnTop() const
@@ -346,6 +365,8 @@ namespace djv
             {
                 p.actions["FullScreen"]->setText(_getText(DJV_TEXT("menu_window_full_screen")));
                 p.actions["FullScreen"]->setTooltip(_getText(DJV_TEXT("menu_window_full_screen_tooltip")));
+                p.actions["Presentation"]->setText(_getText(DJV_TEXT("menu_window_presentation")));
+                p.actions["Presentation"]->setTooltip(_getText(DJV_TEXT("menu_window_presentation_tooltip")));
                 p.actions["FloatOnTop"]->setText(_getText(DJV_TEXT("menu_window_float_on_top")));
                 p.actions["FloatOnTop"]->setTooltip(_getText(DJV_TEXT("menu_window_float_on_top_tooltip")));
                 p.actions["Maximize"]->setText(_getText(DJV_TEXT("menu_window_maximize")));
@@ -363,6 +384,7 @@ namespace djv
             if (p.actions.size())
             {
                 p.actions["FullScreen"]->setShortcuts(_getShortcuts("shortcut_window_full_screen"));
+                p.actions["Presentation"]->setShortcuts(_getShortcuts("shortcut_window_presentation"));
                 p.actions["Maximize"]->setShortcuts(_getShortcuts("shortcut_window_maximize"));
                 p.actions["Fit"]->setShortcuts(_getShortcuts("shortcut_window_fit"));
             }
@@ -372,6 +394,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.actions["FullScreen"]->setChecked(p.fullScreen->get());
+            p.actions["Presentation"]->setChecked(p.presentation->get());
             p.actions["FloatOnTop"]->setChecked(p.floatOnTop->get());
             p.actions["Maximize"]->setChecked(p.maximize->get());
         }

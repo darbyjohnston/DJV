@@ -5,7 +5,6 @@
 #include <djvViewApp/MainWindow.h>
 
 #include <djvViewApp/Application.h>
-#include <djvViewApp/BackgroundImageWidget.h>
 #include <djvViewApp/FileSettings.h>
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/IToolSystem.h>
@@ -13,11 +12,13 @@
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaCanvas.h>
 #include <djvViewApp/MediaWidget.h>
+#include <djvViewApp/PresentationWidget.h>
 #include <djvViewApp/SettingsWidget.h>
 #include <djvViewApp/SettingsSystem.h>
 #include <djvViewApp/TimelineWidget.h>
 #include <djvViewApp/ToolSystem.h>
 #include <djvViewApp/ViewSystem.h>
+#include <djvViewApp/WindowBackgroundWidget.h>
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUIComponents/ThermometerWidget.h>
@@ -34,6 +35,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Shortcut.h>
+#include <djvUI/SoloLayout.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/ToolBar.h>
 #include <djvUI/ToolButton.h>
@@ -63,11 +65,14 @@ namespace djv
             std::shared_ptr<MediaCanvas> mediaCanvas;
             std::shared_ptr<UI::MDI::Canvas> canvas;
             std::shared_ptr<TimelineWidget> timelineWidget;
-            std::shared_ptr<UI::VerticalLayout> layout;
+            std::shared_ptr<PresentationWidget> presentationWidget;
+            std::shared_ptr<UI::VerticalLayout> mainLayout;
+            std::shared_ptr<UI::SoloLayout> layout;
 
             std::shared_ptr<ValueObserver<bool> > settingsActionObserver;
             std::shared_ptr<ListObserver<std::shared_ptr<Media> > > mediaObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
+            std::shared_ptr<ValueObserver<bool> > presentationObserver;
             std::shared_ptr<ValueObserver<bool> > maximizeObserver;
         };
         
@@ -169,7 +174,7 @@ namespace djv
             p.menuBar->addSeparator(UI::Side::Right);
             p.menuBar->addChild(p.settingsButton);
 
-            auto backgroundImageWidget = BackgroundImageWidget::create(context);
+            auto backgroundWidget = WindowBackgroundWidget::create(context);
 
             p.mediaCanvas = MediaCanvas::create(context);
 
@@ -181,19 +186,24 @@ namespace djv
 
             p.timelineWidget = TimelineWidget::create(context);
 
-            p.layout = UI::VerticalLayout::create(context);
-            p.layout->setSpacing(UI::MetricsRole::None);
-            p.layout->addChild(p.menuBar);
-            p.layout->addSeparator();
+            p.presentationWidget = PresentationWidget::create(context);
+
+            p.layout = UI::SoloLayout::create(context);
+            p.mainLayout = UI::VerticalLayout::create(context);
+            p.mainLayout->setSpacing(UI::MetricsRole::None);
+            p.mainLayout->addChild(p.menuBar);
+            p.mainLayout->addSeparator();
             auto stackLayout = UI::StackLayout::create(context);
-            stackLayout->addChild(backgroundImageWidget);
+            stackLayout->addChild(backgroundWidget);
             stackLayout->addChild(p.mediaCanvas);
             stackLayout->addChild(p.canvas);
             stackLayout->addChild(settingsDrawer);
-            p.layout->addChild(stackLayout);
-            p.layout->setStretch(stackLayout, UI::Layout::RowStretch::Expand);
-            p.layout->addSeparator();
-            p.layout->addChild(p.timelineWidget);
+            p.mainLayout->addChild(stackLayout);
+            p.mainLayout->setStretch(stackLayout, UI::Layout::RowStretch::Expand);
+            p.mainLayout->addSeparator();
+            p.mainLayout->addChild(p.timelineWidget);
+            p.layout->addChild(p.mainLayout);
+            p.layout->addChild(p.presentationWidget);
             addChild(p.layout);
 
             auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
@@ -260,13 +270,29 @@ namespace djv
                 {
                     if (auto windowSystem = context->getSystemT<WindowSystem>())
                     {
-                        if (windowSystem->observeFullScreen()->get())
+                        if (windowSystem->observePresentation()->get())
+                        {
+                            windowSystem->setPresentation(false);
+                        }
+                        else if (windowSystem->observeFullScreen()->get())
                         {
                             windowSystem->setFullScreen(false);
                         }
                     }
                 }
             });
+            
+            p.presentationWidget->setCloseCallback(
+                [contextWeak]
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto windowSystem = context->getSystemT<WindowSystem>())
+                        {
+                            windowSystem->setPresentation(false);
+                        }
+                    }
+                });
 
             if (toolSystem)
             {
@@ -326,6 +352,23 @@ namespace djv
 
             if (windowSystem)
             {
+                p.presentationObserver = ValueObserver<bool>::create(
+                    windowSystem->observePresentation(),
+                    [weak](bool value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            if (value)
+                            {
+                                widget->_p->layout->setCurrentWidget(widget->_p->presentationWidget);
+                            }
+                            else
+                            {
+                                widget->_p->layout->setCurrentWidget(widget->_p->mainLayout);
+                            }
+                        }
+                    });
+
                 p.maximizeObserver = ValueObserver<bool>::create(
                     windowSystem->observeMaximize(),
                     [weak](bool value)

@@ -12,19 +12,19 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides a background widget for displaying a logo image.
-        class BackgroundImageWidget : public UI::Widget
+        //! This class provides the window background widget.
+        class WindowBackgroundWidget : public UI::Widget
         {
-            DJV_NON_COPYABLE(BackgroundImageWidget);
+            DJV_NON_COPYABLE(WindowBackgroundWidget);
 
         protected:
             void _init(const std::shared_ptr<Core::Context>&);
-            BackgroundImageWidget();
+            WindowBackgroundWidget();
 
         public:
-            ~BackgroundImageWidget() override;
+            ~WindowBackgroundWidget() override;
 
-            static std::shared_ptr<BackgroundImageWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<WindowBackgroundWidget> create(const std::shared_ptr<Core::Context>&);
 
         protected:
             void _paintEvent(Core::Event::Paint &) override;

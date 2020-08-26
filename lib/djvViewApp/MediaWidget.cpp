@@ -4,44 +4,23 @@
 
 #include <djvViewApp/MediaWidget.h>
 
-#include <djvViewApp/FileSettings.h>
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/HUDWidget.h>
 #include <djvViewApp/ImageSystem.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidgetPrivate.h>
-#include <djvViewApp/PlaybackSettings.h>
-#include <djvViewApp/TimelineWidget.h>
-#include <djvViewApp/ViewWidget.h>
 #include <djvViewApp/ViewSettings.h>
-#include <djvViewApp/WindowSystem.h>
+#include <djvViewApp/ViewWidget.h>
 
-#include <djvUI/Action.h>
-#include <djvUI/Border.h>
-#include <djvUI/FloatSlider.h>
-#include <djvUI/IntEdit.h>
-#include <djvUI/IntSlider.h>
-#include <djvUI/Label.h>
-#include <djvUI/LineEdit.h>
 #include <djvUI/MDICanvas.h>
-#include <djvUI/MDIWidget.h>
-#include <djvUI/MultiStateButton.h>
-#include <djvUI/PopupButton.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ScrollWidget.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/StackLayout.h>
-#include <djvUI/ToolBar.h>
-#include <djvUI/ToolButton.h>
 
 #include <djvAV/AVSystem.h>
-#include <djvAV/Render2D.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
-#include <djvCore/NumericValueModels.h>
-#include <djvCore/Path.h>
-#include <djvCore/Timer.h>
 
 #include <iomanip>
 

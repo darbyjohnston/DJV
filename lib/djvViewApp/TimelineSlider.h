@@ -68,6 +68,7 @@ namespace djv
             void _updateEvent(Core::Event::Update &) override;
 
         private:
+            bool _isPIPEnabled() const;
             Core::Frame::Index _posToFrame(float) const;
             float _frameToPos(Core::Frame::Index) const;
             float _getFrameLength() const;

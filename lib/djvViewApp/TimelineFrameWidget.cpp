@@ -270,7 +270,12 @@ namespace djv
             default: break;
             }
             p.lineEditBase->setSizeString(sizeString);
-            p.lineEditBase->setText(Time::toString(p.sequence.getFrame(p.index), p.speed, p.timeUnits));
+            std::string text;
+            if (p.sequence.getFrameCount() > 1)
+            {
+                text = Time::toString(p.sequence.getFrame(p.index), p.speed, p.timeUnits);
+            }
+            p.lineEditBase->setText(text);
         }
 
     } // namespace ViewApp

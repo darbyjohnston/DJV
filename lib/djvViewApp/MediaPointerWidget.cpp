@@ -17,7 +17,7 @@ namespace djv
     {
         struct PointerWidget::Private
         {
-            uint32_t pressedID = Core::Event::invalidID;
+            uint32_t pressedID = Event::invalidID;
             std::map<int, bool> buttons;
             int key = 0;
             int keyModifiers = 0;

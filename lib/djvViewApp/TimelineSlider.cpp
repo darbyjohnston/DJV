@@ -500,9 +500,7 @@ namespace djv
                 if (!event.isRejected())
                 {
                     event.accept();
-                    if (p.media &&
-                        p.pipEnabled &&
-                        isEnabled())
+                    if (_isPIPEnabled())
                     {
                         p.pipWidget->setFileInfo(p.media->getFileInfo());
                         _showPIP(true);
@@ -524,9 +522,7 @@ namespace djv
             event.accept();
             const auto & pos = event.getPointerInfo().projectedPos;
             const auto& style = _getStyle();
-            if (p.media &&
-                p.pipEnabled &&
-                isEnabled() &&
+            if (_isPIPEnabled() &&
                 glm::length(pos - p.pointerReleasePos) > style->getMetric(UI::MetricsRole::Handle))
             {
                 _showPIP(true);
@@ -667,6 +663,16 @@ namespace djv
             }
         }
 
+        bool TimelineSlider::_isPIPEnabled() const
+        {
+            DJV_PRIVATE_PTR();
+            return
+                p.media &&
+                p.sequence.getFrameCount() > 1 &&
+                p.pipEnabled &&
+                isEnabled(true);
+        }
+
         Frame::Index TimelineSlider::_posToFrame(float value) const
         {
             DJV_PRIVATE_PTR();
@@ -770,7 +776,12 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                p.currentFrameText = Time::toString(p.sequence.getFrame(p.currentFrame), p.speed, p.timeUnits);
+                std::string text;
+                if (p.sequence.getFrameCount() > 1)
+                {
+                    text = Time::toString(p.sequence.getFrame(p.currentFrame), p.speed, p.timeUnits);
+                }
+                p.currentFrameText = text;
                 p.currentFrameSizeFuture = p.fontSystem->measure(p.currentFrameText, p.fontInfo);
                 p.currentFrameGlyphsFuture = p.fontSystem->getGlyphs(p.currentFrameText, p.fontInfo);
             }

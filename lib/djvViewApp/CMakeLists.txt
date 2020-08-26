@@ -7,7 +7,6 @@ set(header
     Application.h
 	ApplicationSettings.h
 	AudioSystem.h
-	BackgroundImageWidget.h
     ColorPickerSettings.h
     ColorPickerSystem.h
     ColorPickerWidget.h
@@ -50,6 +49,7 @@ set(header
 	PlaybackSettings.h
     PlaybackSettingsWidget.h
     PlaybackSystem.h
+    PresentationWidget.h
     RecentFilesDialog.h
     SettingsSystem.h
     SettingsWidget.h
@@ -68,6 +68,7 @@ set(header
     ViewSystem.h
     ViewWidget.h
     ViewWidgetPrivate.h
+	WindowBackgroundWidget.h
 	WindowSettings.h
 	WindowSettingsWidget.h
     WindowSystem.h)
@@ -80,7 +81,6 @@ set(source
     Application.cpp
 	ApplicationSettings.cpp
 	AudioSystem.cpp
-	BackgroundImageWidget.cpp
     ColorPickerSettings.cpp
     ColorPickerSystem.cpp
     ColorPickerWidget.cpp
@@ -127,6 +127,7 @@ set(source
 	PlaybackSettings.cpp
     PlaybackSettingsWidget.cpp
     PlaybackSystem.cpp
+    PresentationWidget.cpp
     RecentFilesDialog.cpp
     SettingsSystem.cpp
     SettingsWidget.cpp
@@ -145,7 +146,8 @@ set(source
 	ViewSettings.cpp
     ViewSystem.cpp
     ViewWidget.cpp
-    ViewWidgetPrivate.cpp
+    ViewGridOverlay.cpp
+	WindowBackgroundWidget.cpp
 	WindowSettings.cpp
 	WindowSettingsWidget.cpp
     WindowSystem.cpp)

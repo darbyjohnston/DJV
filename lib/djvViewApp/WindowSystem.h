@@ -37,6 +37,7 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<bool> > observeFullScreen() const;
             void setFullScreen(bool);
 
+            std::shared_ptr<Core::IValueSubject<bool> > observePresentation() const;
             void setPresentation(bool);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeFloatOnTop() const;

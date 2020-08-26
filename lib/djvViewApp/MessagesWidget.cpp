@@ -34,7 +34,7 @@ namespace djv
             std::function<void(void)> clearCallback;
         };
 
-        void MessagesWidget::_init(const std::shared_ptr<Core::Context>& context)
+        void MessagesWidget::_init(const std::shared_ptr<Context>& context)
         {
             MDIWidget::_init(context);
             DJV_PRIVATE_PTR();
@@ -115,7 +115,7 @@ namespace djv
         MessagesWidget::~MessagesWidget()
         {}
 
-        std::shared_ptr<MessagesWidget> MessagesWidget::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<MessagesWidget> MessagesWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<MessagesWidget>(new MessagesWidget);
             out->_init(context);

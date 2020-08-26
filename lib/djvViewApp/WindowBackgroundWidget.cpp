@@ -2,7 +2,7 @@
 // Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 
-#include <djvViewApp/BackgroundImageWidget.h>
+#include <djvViewApp/WindowBackgroundWidget.h>
 
 #include <djvViewApp/WindowSettings.h>
 
@@ -27,7 +27,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct BackgroundImageWidget::Private
+        struct WindowBackgroundWidget::Private
         {
             std::shared_ptr<AV::Image::Image> image;
             bool scale = false;
@@ -39,17 +39,17 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > colorizeObserver;
         };
 
-        void BackgroundImageWidget::_init(const std::shared_ptr<Core::Context>& context)
+        void WindowBackgroundWidget::_init(const std::shared_ptr<Core::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
 
-            setClassName("djv::ViewApp::BackgroundImageWidget");
+            setClassName("djv::ViewApp::WindowBackgroundWidget");
 
             p.timer = Time::Timer::create(context);
             p.timer->setRepeating(true);
 
-            auto weak = std::weak_ptr<BackgroundImageWidget>(std::dynamic_pointer_cast<BackgroundImageWidget>(shared_from_this()));
+            auto weak = std::weak_ptr<WindowBackgroundWidget>(std::dynamic_pointer_cast<WindowBackgroundWidget>(shared_from_this()));
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
             if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
             {
@@ -98,7 +98,7 @@ namespace djv
                                     catch (const std::exception& e)
                                     {
                                         auto logSystem = context->getSystemT<LogSystem>();
-                                        logSystem->log("djv::ViewApp::BackgroundImageWidget", e.what(), LogLevel::Error);
+                                        logSystem->log("djv::ViewApp::WindowBackgroundWidget", e.what(), LogLevel::Error);
                                     }
                                 }
                             }
@@ -135,21 +135,21 @@ namespace djv
             }
         }
 
-        BackgroundImageWidget::BackgroundImageWidget() :
+        WindowBackgroundWidget::WindowBackgroundWidget() :
             _p(new Private)
         {}
 
-        BackgroundImageWidget::~BackgroundImageWidget()
+        WindowBackgroundWidget::~WindowBackgroundWidget()
         {}
 
-        std::shared_ptr<BackgroundImageWidget> BackgroundImageWidget::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<WindowBackgroundWidget> WindowBackgroundWidget::create(const std::shared_ptr<Core::Context>& context)
         {
-            auto out = std::shared_ptr<BackgroundImageWidget>(new BackgroundImageWidget);
+            auto out = std::shared_ptr<WindowBackgroundWidget>(new WindowBackgroundWidget);
             out->_init(context);
             return out;
         }
 
-        void BackgroundImageWidget::_paintEvent(Event::Paint & event)
+        void WindowBackgroundWidget::_paintEvent(Event::Paint & event)
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
