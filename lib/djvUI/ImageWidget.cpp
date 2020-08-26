@@ -177,24 +177,29 @@ namespace djv
             DJV_PRIVATE_PTR();
             glm::vec2 size(0.F, 0.F);
             const auto& style = _getStyle();
+            float pixelAspectRatio = 1.F;
+            float aspectRatioScale = 1.F;
+            if (p.image)
+            {
+                pixelAspectRatio = UI::getPixelAspectRatio(p.imageAspectRatio, p.image->getInfo().pixelAspectRatio);
+                aspectRatioScale = UI::getAspectRatioScale(p.imageAspectRatio, p.image->getAspectRatio());
+            }
             if (p.sizeRole != MetricsRole::None)
             {
                 size.x = style->getMetric(p.sizeRole);
-                size.y = ceilf(size.x / 2.F);
-                if (p.image)
+                if (p.image && p.image->getAspectRatio() > 0.F && pixelAspectRatio > 0.F)
                 {
-                    size.y = size.x / p.image->getAspectRatio();
+                    size.y = ceilf(size.x / p.image->getAspectRatio() / pixelAspectRatio * aspectRatioScale);
+                }
+                else
+                {
+                    size.y = ceilf(size.x / 2.F);
                 }
             }
             else if (p.image)
             {
-                size.x = p.image->getWidth();
-                size.y = p.image->getHeight();
-            }
-            if (p.image)
-            {
-                size.x = ceilf(size.x * UI::getPixelAspectRatio(p.imageAspectRatio, p.image->getInfo().pixelAspectRatio));
-                size.y = ceilf(size.y * UI::getAspectRatioScale(p.imageAspectRatio, p.image->getAspectRatio()));
+                size.x = ceilf(p.image->getWidth() * pixelAspectRatio);
+                size.y = ceilf(p.image->getHeight() * aspectRatioScale);
             }
             switch (p.imageRotate)
             {

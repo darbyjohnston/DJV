@@ -2,7 +2,7 @@
 // Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 
-#include <djvViewApp/MediaWidgetPrivate.h>
+#include <djvViewApp/TimelineWidgetPrivate.h>
 
 #include <djvViewApp/Media.h>
 #include <djvViewApp/PlaybackSettings.h>
@@ -25,13 +25,13 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct PlaybackSpeedWidget::Private
+        struct SpeedWidget::Private
         {
-            Private(PlaybackSpeedWidget& p) :
+            Private(SpeedWidget& p) :
                 p(p)
             {}
 
-            PlaybackSpeedWidget& p;
+            SpeedWidget& p;
 
             std::shared_ptr<Media> media;
             PlaybackSpeed playbackSpeed = PlaybackSpeed::First;
@@ -61,14 +61,14 @@ namespace djv
             void setCustomSpeed(const Math::Rational&);
         };
 
-        void PlaybackSpeedWidget::_init(
+        void SpeedWidget::_init(
             const std::shared_ptr<Media>& media,
             const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
 
-            setClassName("djv::ViewApp::PlaybackSpeedWidget");
+            setClassName("djv::ViewApp::SpeedWidget");
 
             p.media = media;
 
@@ -159,8 +159,8 @@ namespace djv
             _widgetUpdate();
 
             auto contextWeak = std::weak_ptr<Context>(context);
-            auto weak = std::weak_ptr<PlaybackSpeedWidget>(
-                std::dynamic_pointer_cast<PlaybackSpeedWidget>(shared_from_this()));
+            auto weak = std::weak_ptr<SpeedWidget>(
+                std::dynamic_pointer_cast<SpeedWidget>(shared_from_this()));
             p.speedButtonGroup->setRadioCallback(
                 [weak](int value)
                 {
@@ -266,35 +266,35 @@ namespace djv
                 });
         }
 
-        PlaybackSpeedWidget::PlaybackSpeedWidget() :
+        SpeedWidget::SpeedWidget() :
             _p(new Private(*this))
         {}
 
-        PlaybackSpeedWidget::~PlaybackSpeedWidget()
+        SpeedWidget::~SpeedWidget()
         {}
 
-        std::shared_ptr<PlaybackSpeedWidget> PlaybackSpeedWidget::create(
+        std::shared_ptr<SpeedWidget> SpeedWidget::create(
             const std::shared_ptr<Media>& media,
             const std::shared_ptr<Context>& context)
         {
-            auto out = std::shared_ptr<PlaybackSpeedWidget>(new PlaybackSpeedWidget);
+            auto out = std::shared_ptr<SpeedWidget>(new SpeedWidget);
             out->_init(media, context);
             return out;
         }
 
-        void PlaybackSpeedWidget::_preLayoutEvent(Event::PreLayout&)
+        void SpeedWidget::_preLayoutEvent(Event::PreLayout&)
         {
             const auto& style = _getStyle();
             _setMinimumSize(_p->scrollWidget->getMinimumSize() + getMargin().getSize(style));
         }
         
-        void PlaybackSpeedWidget::_layoutEvent(Event::Layout&)
+        void SpeedWidget::_layoutEvent(Event::Layout&)
         {
             const auto& style = _getStyle();
             _p->scrollWidget->setGeometry(getMargin().bbox(getGeometry(), style));
         }
 
-        void PlaybackSpeedWidget::_initEvent(Event::Init & event)
+        void SpeedWidget::_initEvent(Event::Init & event)
         {
             if (event.getData().text)
             {
@@ -302,7 +302,7 @@ namespace djv
             }
         }
 
-        void PlaybackSpeedWidget::_textUpdate()
+        void SpeedWidget::_textUpdate()
         {
             DJV_PRIVATE_PTR();
 
@@ -350,7 +350,7 @@ namespace djv
             p.playEveryFrameCheckBox->setTooltip(_getText(DJV_TEXT("playback_play_every_frame_tooltip")));
         }
 
-        void PlaybackSpeedWidget::_widgetUpdate()
+        void SpeedWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
             p.customSpeedFloatEdit->setValue(p.customSpeed.toFloat());
@@ -358,7 +358,7 @@ namespace djv
             p.speedButtonGroup->setChecked(static_cast<int>(p.playbackSpeed));
         }
 
-        void PlaybackSpeedWidget::Private::setPlaybackSpeed(PlaybackSpeed value)
+        void SpeedWidget::Private::setPlaybackSpeed(PlaybackSpeed value)
         {
             if (media)
             {
@@ -374,7 +374,7 @@ namespace djv
             }
         }
 
-        void PlaybackSpeedWidget::Private::setCustomSpeed(const Math::Rational& value)
+        void SpeedWidget::Private::setCustomSpeed(const Math::Rational& value)
         {
             if (media)
             {

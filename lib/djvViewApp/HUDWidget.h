@@ -26,7 +26,6 @@ namespace djv
 
             static std::shared_ptr<HUDWidget> create(const std::shared_ptr<Core::Context>&);
 
-            void setHUDFrame(const Core::BBox2f&);
             void setHUDData(const HUDData&);
             void setHUDOptions(const HUDOptions&);
 

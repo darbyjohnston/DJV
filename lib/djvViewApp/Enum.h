@@ -23,7 +23,6 @@ namespace djv
         enum class ViewLock
         {
             None,
-            Fill,
             Frame,
             Center,
 

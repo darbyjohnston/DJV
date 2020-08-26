@@ -33,7 +33,7 @@ namespace djv
 
             inline float Rational::toFloat() const noexcept
             {
-                return static_cast<float>(_num) / static_cast<float>(_den);
+                return _den > 0 ? (static_cast<float>(_num) / static_cast<float>(_den)) : 0.F;
             }
 
             inline Rational Rational::swap() const noexcept

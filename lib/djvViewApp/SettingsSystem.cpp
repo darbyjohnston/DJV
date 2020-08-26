@@ -107,7 +107,6 @@ namespace djv
 
                     WindowGeometrySettingsWidget::create(context),
                     FullscreenMonitorSettingsWidget::create(context),
-                    AutoHideSettingsWidget::create(context),
                     BackgroundImageSettingsWidget::create(context),
                     KeyboardShortcutSettingsWidget::create(context),
                     MouseScrollWheelSettingsWidget::create(context),

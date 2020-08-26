@@ -65,8 +65,6 @@ namespace djv
             void setImageRotate(UI::ImageRotate);
             void setImageAspectRatio(UI::ImageAspectRatio);
 
-            void imageFill(bool animate = false);
-            void setImageFrame(const Core::BBox2f&);
             void imageFrame(bool animate = false);
             void imageCenter(bool animate = false);
 

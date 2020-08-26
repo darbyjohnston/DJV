@@ -50,7 +50,6 @@ namespace djv
             std::shared_ptr<ValueSubject<UI::ImageRotate> > imageRotate;
             std::shared_ptr<ValueSubject<UI::ImageAspectRatio> > imageAspectRatio;
             ViewLock lock = ViewLock::None;
-            BBox2f lockFrame = BBox2f(0.F, 0.F, 0.F, 0.F);
             std::shared_ptr<ValueSubject<GridOptions> > gridOptions;
             std::shared_ptr<ValueSubject<ViewBackgroundOptions> > backgroundOptions;
             std::vector<std::shared_ptr<AnnotatePrimitive> > annotations;
@@ -93,7 +92,6 @@ namespace djv
             p.gridOverlay->setImageRotate(p.imageRotate->get());
             p.gridOverlay->setImageAspectRatio(p.imageAspectRatio->get(), 1.F, 1.F);
             p.gridOverlay->setImageBBox(getImageBBox());
-            p.gridOverlay->setImageFrame(p.lockFrame);
             addChild(p.gridOverlay);
 
             auto weak = std::weak_ptr<ViewWidget>(std::dynamic_pointer_cast<ViewWidget>(shared_from_this()));
@@ -163,7 +161,6 @@ namespace djv
                     image ? image->getAspectRatio() : 1.F,
                     image ? image->getInfo().pixelAspectRatio : 1.F);
                 p.gridOverlay->setImageBBox(getImageBBox());
-                p.gridOverlay->setImageFrame(p.lockFrame);
                 _resize();
             }
         }
@@ -257,7 +254,6 @@ namespace djv
             {
                 p.gridOverlay->setImageRotate(value);
                 p.gridOverlay->setImageBBox(getImageBBox());
-                p.gridOverlay->setImageFrame(p.lockFrame);
                 _resize();
             }
         }
@@ -272,12 +268,11 @@ namespace djv
                     p.image ? p.image->get()->getAspectRatio() : 1.F,
                     p.image ? p.image->get()->getInfo().pixelAspectRatio : 1.F);
                 p.gridOverlay->setImageBBox(getImageBBox());
-                p.gridOverlay->setImageFrame(p.lockFrame);
                 _resize();
             }
         }
 
-        void ViewWidget::imageFill(bool animate)
+        void ViewWidget::imageFrame(bool animate)
         {
             DJV_PRIVATE_PTR();
             if (p.image->get())
@@ -295,34 +290,6 @@ namespace djv
                     glm::vec2(
                         g.w() / 2.F - c.x * zoom,
                         g.h() / 2.F - c.y * zoom),
-                    zoom,
-                    animate);
-            }
-        }
-
-        void ViewWidget::setImageFrame(const BBox2f& value)
-        {
-            _p->lockFrame = value;
-        }
-
-        void ViewWidget::imageFrame(bool animate)
-        {
-            DJV_PRIVATE_PTR();
-            if (p.image->get())
-            {
-                const BBox2f& g = getGeometry();
-                const auto pts = _getImagePoints();
-                const glm::vec2 c = _getCenter(pts);
-                const BBox2f bbox = _getBBox(pts);
-                float zoom = p.lockFrame.w() / static_cast<float>(bbox.w());
-                if (zoom * bbox.h() > p.lockFrame.h())
-                {
-                    zoom = p.lockFrame.h() / static_cast<float>(bbox.h());
-                }
-                setImagePosAndZoom(
-                    glm::vec2(
-                        (p.lockFrame.min.x - g.min.x) + p.lockFrame.w() / 2.F - c.x * zoom,
-                        (p.lockFrame.min.y - g.min.y) + p.lockFrame.h() / 2.F - c.y * zoom),
                     zoom,
                     animate);
             }
@@ -390,13 +357,12 @@ namespace djv
             DJV_PRIVATE_PTR();
             switch (p.lock)
             {
-            case ViewLock::Fill:   imageFill();   break;
             case ViewLock::Frame:  imageFrame();  break;
             case ViewLock::Center: imageCenter(); break;
             default:
                 if (p.image && p.viewInit)
                 {
-                    imageFill();
+                    imageFrame();
                 }
                 break;
             }
@@ -406,7 +372,6 @@ namespace djv
             }
             p.gridOverlay->setGeometry(getGeometry());
             p.gridOverlay->setImageBBox(getImageBBox());
-            p.gridOverlay->setImageFrame(p.lockFrame);
         }
 
         void ViewWidget::_paintEvent(Event::Paint &)
@@ -609,7 +574,6 @@ namespace djv
             }
             p.gridOverlay->setImagePosAndZoom(p.imagePos->get(), p.imageZoom->get());
             p.gridOverlay->setImageBBox(getImageBBox());
-            p.gridOverlay->setImageFrame(p.lockFrame);
         }
 
     } // namespace ViewApp

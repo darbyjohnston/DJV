@@ -99,10 +99,6 @@ namespace djv
             p.actions["ZoomOut"]->setIcon("djvIconZoomOut");
             p.actions["ZoomReset"] = UI::Action::create();
             p.actions["ZoomReset"]->setIcon("djvIconZoomReset");
-            p.actions["Fill"] = UI::Action::create();
-            p.actions["Fill"]->setIcon("djvIconViewFill");
-            p.actions["FillLock"] = UI::Action::create();
-            p.actions["FillLock"]->setIcon("djvIconViewFill");
             p.actions["Frame"] = UI::Action::create();
             p.actions["Frame"]->setIcon("djvIconViewFrame");
             p.actions["FrameLock"] = UI::Action::create();
@@ -113,7 +109,6 @@ namespace djv
             p.actions["CenterLock"]->setIcon("djvIconViewCenter");
             p.lockActionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
             p.lockActionGroup->setActions({
-                p.actions["FillLock"],
                 p.actions["FrameLock"],
                 p.actions["CenterLock"] });
             p.actions["Grid"] = UI::Action::create();
@@ -140,12 +135,6 @@ namespace djv
             _addShortcut("shortcut_view_zoom_reset", {
                 UI::ShortcutData(GLFW_KEY_0),
                 UI::ShortcutData(GLFW_KEY_KP_0) });
-            _addShortcut("shortcut_view_fill", {
-                UI::ShortcutData(GLFW_KEY_BACKSPACE),
-                UI::ShortcutData(GLFW_KEY_KP_MULTIPLY) });
-            _addShortcut("shortcut_view_fill_lock", {
-                UI::ShortcutData(GLFW_KEY_BACKSPACE, GLFW_MOD_SHIFT),
-                UI::ShortcutData(GLFW_KEY_KP_MULTIPLY, GLFW_MOD_SHIFT) });
             _addShortcut("shortcut_view_frame", {
                 UI::ShortcutData(GLFW_KEY_PERIOD),
                 UI::ShortcutData(GLFW_KEY_KP_DECIMAL) });
@@ -173,8 +162,6 @@ namespace djv
             p.menu->addAction(p.actions["ZoomOut"]);
             p.menu->addAction(p.actions["ZoomReset"]);
             p.menu->addSeparator();
-            p.menu->addAction(p.actions["Fill"]);
-            p.menu->addAction(p.actions["FillLock"]);
             p.menu->addAction(p.actions["Frame"]);
             p.menu->addAction(p.actions["FrameLock"]);
             p.menu->addAction(p.actions["Center"]);
@@ -196,9 +183,8 @@ namespace djv
                         ViewLock lock = ViewLock::None;
                         switch (index)
                         {
-                        case 0: lock = ViewLock::Fill;   break;
-                        case 1: lock = ViewLock::Frame;  break;
-                        case 2: lock = ViewLock::Center; break;
+                        case 0: lock = ViewLock::Frame;  break;
+                        case 1: lock = ViewLock::Center; break;
                         }
                         system->_p->settings->setLock(lock);
                     }
@@ -331,18 +317,6 @@ namespace djv
                     {
                         system->_p->settings->setLock(ViewLock::None);
                         system->_zoomImage(1.F);
-                    }
-                });
-
-            p.actions["Fill"]->setClickedCallback(
-                [weak]
-                {
-                    if (auto system = weak.lock())
-                    {
-                        if (system->_p->activeWidget)
-                        {
-                            system->_p->activeWidget->getViewWidget()->imageFill(true);
-                        }
                     }
                 });
 
@@ -493,14 +467,11 @@ namespace djv
                         case ViewLock::None:
                             system->_p->lockActionGroup->setChecked(-1);
                             break;
-                        case ViewLock::Fill:
+                        case ViewLock::Frame:
                             system->_p->lockActionGroup->setChecked(0);
                             break;
-                        case ViewLock::Frame:
-                            system->_p->lockActionGroup->setChecked(1);
-                            break;
                         case ViewLock::Center:
-                            system->_p->lockActionGroup->setChecked(2);
+                            system->_p->lockActionGroup->setChecked(1);
                             break;
                         default: break;
                         }
@@ -605,10 +576,6 @@ namespace djv
                 p.actions["ZoomOut"]->setTooltip(_getText(DJV_TEXT("menu_view_zoom_out_tooltip")));
                 p.actions["ZoomReset"]->setText(_getText(DJV_TEXT("menu_view_zoom_reset")));
                 p.actions["ZoomReset"]->setTooltip(_getText(DJV_TEXT("menu_view_zoom_reset_tooltip")));
-                p.actions["Fill"]->setText(_getText(DJV_TEXT("menu_view_fill")));
-                p.actions["Fill"]->setTooltip(_getText(DJV_TEXT("menu_view_fill_tooltip")));
-                p.actions["FillLock"]->setText(_getText(DJV_TEXT("menu_view_lock_fill")));
-                p.actions["FillLock"]->setTooltip(_getText(DJV_TEXT("menu_view_lock_fill_tooltip")));
                 p.actions["Frame"]->setText(_getText(DJV_TEXT("menu_view_frame")));
                 p.actions["Frame"]->setTooltip(_getText(DJV_TEXT("menu_view_frame_tooltip")));
                 p.actions["FrameLock"]->setText(_getText(DJV_TEXT("menu_view_lock_frame")));
@@ -644,8 +611,6 @@ namespace djv
                 p.actions["ZoomIn"]->setShortcuts(_getShortcuts("shortcut_view_zoom_in"));
                 p.actions["ZoomOut"]->setShortcuts(_getShortcuts("shortcut_view_zoom_out"));
                 p.actions["ZoomReset"]->setShortcuts(_getShortcuts("shortcut_view_zoom_reset"));
-                p.actions["Fill"]->setShortcuts(_getShortcuts("shortcut_view_fill"));
-                p.actions["FillLock"]->setShortcuts(_getShortcuts("shortcut_view_fill_lock"));
                 p.actions["Frame"]->setShortcuts(_getShortcuts("shortcut_view_frame"));
                 p.actions["FrameLock"]->setShortcuts(_getShortcuts("shortcut_view_frame_lock"));
                 p.actions["Center"]->setShortcuts(_getShortcuts("shortcut_view_center"));

@@ -36,7 +36,6 @@ namespace djv
             void setImageRotate(UI::ImageRotate);
             void setImageAspectRatio(UI::ImageAspectRatio, float aspectRatio, float pixelAspectRatio);
             void setImageBBox(const Core::BBox2f&);
-            void setImageFrame(const Core::BBox2f&);
 
         protected:
             void _layoutEvent(Core::Event::Layout&) override;
@@ -60,7 +59,6 @@ namespace djv
             float _aspectRatio = 1.F;
             float _pixelAspectRatio = 1.F;
             Core::BBox2f _imageBBox = Core::BBox2f(0.F, 0.F, 0.F, 0.F);
-            Core::BBox2f _imageFrame = Core::BBox2f(0.F, 0.F, 0.F, 0.F);
             glm::vec2 _widgetSize = glm::vec2(0.F, 0.F);
             std::vector<char> _letters;
             std::shared_ptr<AV::Font::System> _fontSystem;

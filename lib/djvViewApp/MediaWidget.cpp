@@ -11,16 +11,14 @@
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidgetPrivate.h>
 #include <djvViewApp/PlaybackSettings.h>
-#include <djvViewApp/TimelineSlider.h>
+#include <djvViewApp/TimelineWidget.h>
 #include <djvViewApp/ViewWidget.h>
 #include <djvViewApp/ViewSettings.h>
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/ActionGroup.h>
 #include <djvUI/Border.h>
 #include <djvUI/FloatSlider.h>
-#include <djvUI/GridLayout.h>
 #include <djvUI/IntEdit.h>
 #include <djvUI/IntSlider.h>
 #include <djvUI/Label.h>
@@ -101,85 +99,41 @@ namespace djv
 
         struct MediaWidget::Private
         {
+            Time::Units timeUnits = Time::Units::First;
             std::shared_ptr<Media> media;
-            AV::IO::Info ioInfo;
             std::vector<AV::Image::Info> layers;
             int currentLayer = -1;
             std::shared_ptr<AV::Image::Image> image;
-            Math::Rational defaultSpeed;
-            Math::Rational speed;
-            float realSpeed = 0.F;
-            PlaybackMode playbackMode = PlaybackMode::First;
-            Frame::Sequence sequence;
-            Frame::Index currentFrame = Frame::invalidIndex;
-            AV::IO::InOutPoints inOutPoints;
-            Playback playbackPrev = Playback::Count;
-            Time::Units timeUnits = Time::Units::First;
             ViewLock viewLock = ViewLock::First;
             std::shared_ptr<ValueSubject<HUDOptions> > hudOptions;
             bool frameStoreEnabled = false;
             std::shared_ptr<AV::Image::Image> frameStore;
-            bool audioEnabled = false;
-            float audioVolume = 0.F;
-            bool audioMute = false;
+            Math::Rational speed;
+            float realSpeed = 0.F;
+            Frame::Sequence sequence;
+            Frame::Index currentFrame = Frame::invalidIndex;
             bool active = false;
-            float fade = 1.F;
             std::shared_ptr<ValueSubject<PointerData> > hover;
             std::shared_ptr<ValueSubject<PointerData> > drag;
             std::shared_ptr<ValueSubject<ScrollData> > scroll;
 
-            std::map<std::string, std::shared_ptr<UI::Action> > actions;
-            std::shared_ptr<UI::ActionGroup> playbackActionGroup;
-
-            std::shared_ptr<UI::Label> titleLabel;
-            std::shared_ptr<UI::ToolButton> maximizeButton;
-            std::shared_ptr<UI::ToolButton> closeButton;
-            std::shared_ptr<UI::HorizontalLayout> titleBar;
+            std::shared_ptr<TitleBar> titleBar;
             std::shared_ptr<PointerWidget> pointerWidget;
             std::shared_ptr<ViewWidget> viewWidget;
             std::shared_ptr<HUDWidget> hud;
-            std::shared_ptr<UI::PopupButton> speedPopupButton;
-            std::shared_ptr<UI::Label> realSpeedLabel;
-            std::shared_ptr<UI::MultiStateButton> playbackModeButton;
-            std::shared_ptr<FrameWidget> currentFrameWidget;
-            std::shared_ptr<FrameWidget> inPointWidget;
-            std::shared_ptr<UI::ToolButton> inPointSetButton;
-            std::shared_ptr<UI::ToolButton> inPointResetButton;
-            std::shared_ptr<FrameWidget> outPointWidget;
-            std::shared_ptr<UI::ToolButton> outPointSetButton;
-            std::shared_ptr<UI::ToolButton> outPointResetButton;
-            std::shared_ptr<UI::Label> durationLabel;
-            std::shared_ptr<TimelineSlider> timelineSlider;
-            std::shared_ptr<UI::PopupButton> audioPopupButton;
-            std::shared_ptr<UI::GridLayout> playbackLayout;
-            std::shared_ptr<UI::StackLayout> layout;
+            std::shared_ptr<UI::VerticalLayout> layout;
 
             std::shared_ptr<ValueObserver<Time::Units> > timeUnitsObserver;
-            std::shared_ptr<ValueObserver<AV::IO::Info> > ioInfoObserver;
             std::shared_ptr<ValueObserver<std::pair<std::vector<AV::Image::Info>, int> > > layersObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
-            std::shared_ptr<ValueObserver<Math::Rational> > speedObserver;
-            std::shared_ptr<ValueObserver<Math::Rational> > defaultSpeedObserver;
-            std::shared_ptr<ValueObserver<float> > realSpeedObserver;
-            std::shared_ptr<ValueObserver<PlaybackMode> > playbackModeObserver;
-            std::shared_ptr<ValueObserver<Frame::Sequence> > sequenceObserver;
-            std::shared_ptr<ValueObserver<Frame::Index> > currentFrameObserver;
-            std::shared_ptr<ValueObserver<AV::IO::InOutPoints> > inOutPointsObserver;
-            std::shared_ptr<ValueObserver<Playback> > playbackObserver;
-            std::shared_ptr<ValueObserver<bool> > audioEnabledObserver;
-            std::shared_ptr<ValueObserver<float> > volumeObserver;
-            std::shared_ptr<ValueObserver<bool> > muteObserver;
-            std::shared_ptr<ValueObserver<bool> > cacheEnabledObserver;
-            std::shared_ptr<ValueObserver<Frame::Sequence> > cacheSequenceObserver;
-            std::shared_ptr<ValueObserver<Frame::Sequence> > cachedFramesObserver;
-            std::shared_ptr<ListObserver<std::shared_ptr<AnnotatePrimitive> > > annotationsObserver;
-            std::shared_ptr<ValueObserver<float> > fadeObserver;
             std::shared_ptr<ValueObserver<ViewLock> > viewLockObserver;
             std::shared_ptr<ValueObserver<bool> > frameStoreEnabledObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > frameStoreObserver;
-            std::shared_ptr<ValueObserver<AV::Render2D::ImageOptions> > imageOptionsObserver;
-            std::shared_ptr<ValueObserver<UI::ImageRotate> > imageRotateObserver;
-            std::shared_ptr<ValueObserver<UI::ImageAspectRatio> > imageAspectRatioObserver;
+            std::shared_ptr<ValueObserver<Math::Rational> > speedObserver;
+            std::shared_ptr<ValueObserver<float> > realSpeedObserver;
+            std::shared_ptr<ValueObserver<Frame::Sequence> > sequenceObserver;
+            std::shared_ptr<ValueObserver<Frame::Index> > currentFrameObserver;
+            std::shared_ptr<ListObserver<std::shared_ptr<AnnotatePrimitive> > > annotationsObserver;
         };
 
         void MediaWidget::_init(const std::shared_ptr<Media>& media, const std::shared_ptr<Context>& context)
@@ -197,47 +151,10 @@ namespace djv
             p.drag = ValueSubject<PointerData>::create();
             p.scroll = ValueSubject<ScrollData>::create();
 
-            p.actions["Forward"] = UI::Action::create();
-            p.actions["Forward"]->setIcon("djvIconPlaybackForward");
-            p.actions["Forward"]->setCheckedIcon("djvIconPlaybackStop");
-            p.actions["Reverse"] = UI::Action::create();
-            p.actions["Reverse"]->setIcon("djvIconPlaybackReverse");
-            p.actions["Reverse"]->setCheckedIcon("djvIconPlaybackStop");
-            p.playbackActionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
-            p.playbackActionGroup->setActions({
-                p.actions["Forward"],
-                p.actions["Reverse"] });
-
-            p.actions["InPoint"] = UI::Action::create();
-            p.actions["InPoint"]->setIcon("djvIconFrameStart");
-            p.actions["PrevFrame"] = UI::Action::create();
-            p.actions["PrevFrame"]->setIcon("djvIconFramePrev");
-            p.actions["PrevFrame"]->setAutoRepeat(true);
-            p.actions["NextFrame"] = UI::Action::create();
-            p.actions["NextFrame"]->setIcon("djvIconFrameNext");
-            p.actions["NextFrame"]->setAutoRepeat(true);
-            p.actions["OutPoint"] = UI::Action::create();
-            p.actions["OutPoint"]->setIcon("djvIconFrameEnd");
-
-            p.titleLabel = UI::Label::create(context);
-            p.titleLabel->setText(media->getFileInfo().getFileName(Frame::invalid, false));
-            p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
-            p.titleLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin, UI::MetricsRole::Margin, UI::MetricsRole::None, UI::MetricsRole::None));
-            p.titleLabel->setTooltip(std::string(media->getFileInfo()));
-
-            p.maximizeButton = UI::ToolButton::create(context);
-            p.maximizeButton->setIcon("djvIconSDI");
-
-            p.closeButton = UI::ToolButton::create(context);
-            p.closeButton->setIcon("djvIconClose");
-
-            p.titleBar = UI::HorizontalLayout::create(context);
-            p.titleBar->setSpacing(UI::MetricsRole::None);
-            p.titleBar->setBackgroundRole(UI::ColorRole::OverlayLight);
-            p.titleBar->addChild(p.titleLabel);
-            p.titleBar->setStretch(p.titleLabel, UI::RowStretch::Expand);
-            p.titleBar->addChild(p.maximizeButton);
-            p.titleBar->addChild(p.closeButton);
+            p.titleBar = TitleBar::create(
+                media->getFileInfo().getFileName(Frame::invalid, false),
+                std::string(media->getFileInfo()),
+                context);
 
             p.pointerWidget = PointerWidget::create(context);
 
@@ -246,132 +163,41 @@ namespace djv
             p.hud = HUDWidget::create(context);
             p.hud->setHUDOptions(p.hudOptions->get());
 
-            p.speedPopupButton = UI::PopupButton::create(UI::MenuButtonStyle::Tool, context);
-            p.speedPopupButton->setPopupIcon("djvIconPopupMenu");
-            p.realSpeedLabel = UI::Label::create(context);
-            p.realSpeedLabel->setFontFamily(AV::Font::familyMono);
-            p.realSpeedLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
-            p.realSpeedLabel->setMargin(UI::MetricsRole::MarginSmall);
-            p.playbackModeButton = UI::MultiStateButton::create(context);
-            p.playbackModeButton->setInsideMargin(UI::MetricsRole::None);
-            p.playbackModeButton->addIcon("djvIconPlayOnce");
-            p.playbackModeButton->addIcon("djvIconPlayLoop");
-            p.playbackModeButton->addIcon("djvIconPlayPingPong");
-
-            p.currentFrameWidget = FrameWidget::create(context);
-            p.inPointWidget = FrameWidget::create(context);
-            p.inPointSetButton = UI::ToolButton::create(context);
-            p.inPointSetButton->setIcon("djvIconFrameSetStartSmall");
-            p.inPointSetButton->setInsideMargin(UI::MetricsRole::None);
-            p.inPointSetButton->setVAlign(UI::VAlign::Center);
-            p.inPointResetButton = UI::ToolButton::create(context);
-            p.inPointResetButton->setIcon("djvIconClearSmall");
-            p.inPointResetButton->setInsideMargin(UI::MetricsRole::None);
-            p.inPointResetButton->setVAlign(UI::VAlign::Center);
-            p.outPointWidget = FrameWidget::create(context);
-            p.outPointSetButton = UI::ToolButton::create(context);
-            p.outPointSetButton->setIcon("djvIconFrameSetEndSmall");
-            p.outPointSetButton->setInsideMargin(UI::MetricsRole::None);
-            p.outPointSetButton->setVAlign(UI::VAlign::Center);
-            p.outPointResetButton = UI::ToolButton::create(context);
-            p.outPointResetButton->setIcon("djvIconClearSmall");
-            p.outPointResetButton->setInsideMargin(UI::MetricsRole::None);
-            p.outPointResetButton->setVAlign(UI::VAlign::Center);
-
-            p.durationLabel = UI::Label::create(context);
-            p.durationLabel->setFontFamily(AV::Font::familyMono);
-            p.durationLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
-            p.durationLabel->setMargin(UI::MetricsRole::MarginSmall);
-
-            p.timelineSlider = TimelineSlider::create(context);
-            p.timelineSlider->setMedia(p.media);
-            p.timelineSlider->setMargin(UI::MetricsRole::MarginInside);
-
-            p.audioPopupButton = UI::PopupButton::create(UI::MenuButtonStyle::Tool, context);
-            p.audioPopupButton->setVAlign(UI::VAlign::Center);
-
-            auto toolBar = UI::ToolBar::create(context);
-            toolBar->setVAlign(UI::VAlign::Center);
-            toolBar->setBackgroundRole(UI::ColorRole::None);
-            toolBar->addAction(p.actions["InPoint"]);
-            toolBar->addAction(p.actions["PrevFrame"]);
-            toolBar->addAction(p.actions["Reverse"]);
-            toolBar->addAction(p.actions["Forward"]);
-            toolBar->addAction(p.actions["NextFrame"]);
-            toolBar->addAction(p.actions["OutPoint"]);
-                        
-            p.playbackLayout = UI::GridLayout::create(context);
-            p.playbackLayout->setBackgroundRole(UI::ColorRole::OverlayLight);
-            p.playbackLayout->setSpacing(UI::MetricsRole::None);
-            p.playbackLayout->addChild(toolBar);
-            p.playbackLayout->setGridPos(toolBar, 0, 0);
-            p.playbackLayout->addChild(p.timelineSlider);
-            p.playbackLayout->setGridPos(p.timelineSlider, 1, 0);
-            p.playbackLayout->setStretch(p.timelineSlider, UI::GridStretch::Horizontal);
-            p.playbackLayout->addChild(p.audioPopupButton);
-            p.playbackLayout->setGridPos(p.audioPopupButton, 2, 0);
-            auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
-            hLayout->addChild(p.speedPopupButton);
-            hLayout->addChild(p.realSpeedLabel);
-            hLayout->addChild(p.playbackModeButton);
-            p.playbackLayout->addChild(hLayout);
-            p.playbackLayout->setGridPos(hLayout, 0, 1);
-            hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
-            hLayout->addChild(p.currentFrameWidget);
-            auto hLayout2 = UI::HorizontalLayout::create(context);
-            hLayout2->setSpacing(UI::MetricsRole::None);
-            hLayout2->addChild(p.inPointWidget);
-            hLayout2->addChild(p.inPointSetButton);
-            hLayout2->addChild(p.inPointResetButton);
-            hLayout->addChild(hLayout2);
-            hLayout->addExpander();
-            hLayout2 = UI::HorizontalLayout::create(context);
-            hLayout2->setSpacing(UI::MetricsRole::None);
-            hLayout2->addChild(p.outPointResetButton);
-            hLayout2->addChild(p.outPointSetButton);
-            hLayout2->addChild(p.outPointWidget);
-            hLayout->addChild(hLayout2);
-            hLayout->addChild(p.durationLabel);
-            p.playbackLayout->addChild(hLayout);
-            p.playbackLayout->setGridPos(hLayout, 1, 1);
-
-            p.layout = UI::StackLayout::create(context);
+            p.layout = UI::VerticalLayout::create(context);
+            p.layout->setSpacing(UI::MetricsRole::None);
             p.layout->setBackgroundRole(UI::ColorRole::OverlayLight);
-            p.layout->addChild(p.viewWidget);
-            p.layout->addChild(p.hud);
-            p.layout->addChild(p.pointerWidget);
-            auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->addChild(p.titleBar);
-            vLayout->addExpander();
-            vLayout->addChild(p.playbackLayout);
-            p.layout->addChild(vLayout);
+            p.layout->addChild(p.titleBar);
+            auto stackLayout = UI::StackLayout::create(context);
+            stackLayout->addChild(p.viewWidget);
+            stackLayout->addChild(p.hud);
+            stackLayout->addChild(p.pointerWidget);
+            p.layout->addChild(stackLayout);
+            p.layout->setStretch(stackLayout, UI::RowStretch::Expand);
             addChild(p.layout);
 
-            _widgetUpdate();
-            _speedUpdate();
-            _realSpeedUpdate();
-            _audioUpdate();
-            _opacityUpdate();
             _hudUpdate();
 
             auto weak = std::weak_ptr<MediaWidget>(std::dynamic_pointer_cast<MediaWidget>(shared_from_this()));
-            p.playbackActionGroup->setExclusiveCallback(
-                [weak](int index)
+            p.titleBar->setMaximizeCallback(
+                [weak]
                 {
                     if (auto widget = weak.lock())
                     {
-                        if (auto media = widget->_p->media)
+                        if (auto canvas = std::dynamic_pointer_cast<UI::MDI::Canvas>(widget->getParent().lock()))
                         {
-                            Playback playback = Playback::Stop;
-                            switch (index)
-                            {
-                            case 0: playback = Playback::Forward; break;
-                            case 1: playback = Playback::Reverse; break;
-                            }
-                            media->setPlayback(playback);
+                            widget->moveToFront();
+                            canvas->setMaximize(!canvas->isMaximized());
                         }
+                    }
+                });
+            auto contextWeak = std::weak_ptr<Context>(context);
+            p.titleBar->setCloseCallback(
+                [media, contextWeak]
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        auto fileSystem = context->getSystemT<FileSystem>();
+                        fileSystem->close(media);
                     }
                 });
 
@@ -406,253 +232,6 @@ namespace djv
                     }
                 });
 
-            auto contextWeak = std::weak_ptr<Context>(context);
-
-            p.speedPopupButton->setOpenCallback(
-                [weak, contextWeak]() -> std::shared_ptr<UI::Widget>
-                {
-                    std::shared_ptr<UI::Widget> out;
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            out = PlaybackSpeedWidget::create(widget->_p->media, context);
-                        }
-                    }
-                    return out;
-                });
-
-            p.playbackModeButton->setCallback(
-                [weak, contextWeak](int index)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            const PlaybackMode playbackMode = static_cast<PlaybackMode>(index);
-                            if (auto media = widget->_p->media)
-                            {
-                                media->setPlaybackMode(playbackMode);
-                            }
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                            if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
-                            {
-                                playbackSettings->setPlaybackMode(playbackMode);
-                            }
-                            widget->_widgetUpdate();
-                        }
-                    }
-                });
-
-            p.currentFrameWidget->setCallback(
-                [weak](Frame::Index value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto media = widget->_p->media)
-                        {
-                            media->setCurrentFrame(value);
-                        }
-                    }
-                });
-
-            p.inPointWidget->setCallback(
-                [weak](Frame::Index value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto media = widget->_p->media)
-                        {
-                            const auto& inOutPoints = media->observeInOutPoints()->get();
-                            const size_t sequenceFrameCount = widget->_p->sequence.getFrameCount();
-                            media->setInOutPoints(AV::IO::InOutPoints(
-                                inOutPoints.isEnabled(),
-                                Math::clamp(value, static_cast<Frame::Index>(0), static_cast<Frame::Index>(sequenceFrameCount > 0 ? (sequenceFrameCount - 1) : 0)),
-                                inOutPoints.getOut()));
-                            widget->_widgetUpdate();
-                        }
-                    }
-                });
-
-            p.inPointSetButton->setClickedCallback(
-                [weak]
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto media = widget->_p->media)
-                        {
-                            media->setInPoint();
-                        }
-                    }
-                });
-
-            p.inPointResetButton->setClickedCallback(
-                [weak]
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto media = widget->_p->media)
-                        {
-                            media->resetInPoint();
-                        }
-                    }
-                });
-
-            p.outPointWidget->setCallback(
-                [weak](Frame::Index value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto media = widget->_p->media)
-                        {
-                            const auto& inOutPoints = media->observeInOutPoints()->get();
-                            const size_t sequenceFrameCount = widget->_p->sequence.getFrameCount();
-                            media->setInOutPoints(AV::IO::InOutPoints(
-                                inOutPoints.isEnabled(),
-                                inOutPoints.getIn(),
-                                Math::clamp(value, static_cast<Frame::Index>(0), static_cast<Frame::Index>(sequenceFrameCount > 0 ? (sequenceFrameCount - 1) : 0))));
-                            widget->_widgetUpdate();
-                        }
-                    }
-                });
-
-            p.outPointSetButton->setClickedCallback(
-                [weak]
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto media = widget->_p->media)
-                        {
-                            media->setOutPoint();
-                        }
-                    }
-                });
-
-            p.outPointResetButton->setClickedCallback(
-                [weak]
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto media = widget->_p->media)
-                        {
-                            media->resetOutPoint();
-                        }
-                    }
-                });
-
-            p.timelineSlider->setCurrentFrameCallback(
-                [weak](Frame::Index value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto media = widget->_p->media)
-                        {
-                            media->setCurrentFrame(value, false);
-                        }
-                    }
-                });
-
-            p.timelineSlider->setCurrentFrameDragCallback(
-                [weak](bool value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto media = widget->_p->media)
-                        {
-                            if (value)
-                            {
-                                widget->_p->playbackPrev = media->observePlayback()->get();
-                            }
-                            else if (widget->_p->playbackPrev != Playback::Count)
-                            {
-                                media->setPlayback(widget->_p->playbackPrev);
-                            }
-                        }
-                    }
-                });
-
-            p.audioPopupButton->setOpenCallback(
-                [media, contextWeak]() -> std::shared_ptr<UI::Widget>
-                {
-                    std::shared_ptr<UI::Widget> out;
-                    if (auto context = contextWeak.lock())
-                    {
-                        out = AudioWidget::create(media, context);
-                    }
-                    return out;
-                });
-
-            p.maximizeButton->setClickedCallback(
-                [weak]
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto canvas = std::dynamic_pointer_cast<UI::MDI::Canvas>(widget->getParent().lock()))
-                        {
-                            widget->moveToFront();
-                            canvas->setMaximize(!canvas->isMaximized());
-                        }
-                    }
-                });
-
-            p.closeButton->setClickedCallback(
-                [media, contextWeak]
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        auto fileSystem = context->getSystemT<FileSystem>();
-                        fileSystem->close(media);
-                    }
-                });
-
-            p.actions["InPoint"]->setClickedCallback(
-                [weak]
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto media = widget->_p->media)
-                        {
-                            media->inPoint();
-                        }
-                    }
-                });
-
-            p.actions["PrevFrame"]->setClickedCallback(
-                [weak]
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto media = widget->_p->media)
-                        {
-                            media->prevFrame();
-                        }
-                    }
-                });
-
-            p.actions["NextFrame"]->setClickedCallback(
-                [weak]
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto media = widget->_p->media)
-                        {
-                            media->nextFrame();
-                        }
-                    }
-                });
-
-            p.actions["OutPoint"]->setClickedCallback(
-                [weak]
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto media = widget->_p->media)
-                        {
-                            media->outPoint();
-                        }
-                    }
-                });
-
             auto avSystem = context->getSystemT<AV::AVSystem>();
             p.timeUnitsObserver = ValueObserver<Time::Units>::create(
                 avSystem->observeTimeUnits(),
@@ -661,20 +240,7 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->timeUnits = value;
-                        widget->_widgetUpdate();
                         widget->_hudUpdate();
-                    }
-                });
-
-            p.ioInfoObserver = ValueObserver<AV::IO::Info>::create(
-                p.media->observeInfo(),
-                [weak](const AV::IO::Info& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->ioInfo = value;
-                        widget->_widgetUpdate();
-                        widget->_audioUpdate();
                     }
                 });
 
@@ -708,21 +274,7 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->speed = value;
-                        widget->_widgetUpdate();
-                        widget->_speedUpdate();
                         widget->_hudUpdate();
-                    }
-                });
-
-            p.defaultSpeedObserver = ValueObserver<Math::Rational>::create(
-                p.media->observeDefaultSpeed(),
-                [weak](const Math::Rational& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->defaultSpeed = value;
-                        widget->_widgetUpdate();
-                        widget->_speedUpdate();
                     }
                 });
 
@@ -733,20 +285,7 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->realSpeed = value;
-                        widget->_realSpeedUpdate();
                         widget->_hudUpdate();
-                    }
-                });
-
-            p.playbackModeObserver = ValueObserver<PlaybackMode>::create(
-                p.media->observePlaybackMode(),
-                [weak](PlaybackMode value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->playbackMode = value;
-                        widget->_widgetUpdate();
-                        widget->_speedUpdate();
                     }
                 });
 
@@ -757,7 +296,7 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->sequence = value;
-                        widget->_widgetUpdate();
+                        widget->_hudUpdate();
                     }
                 });
 
@@ -768,102 +307,7 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->currentFrame = value;
-                        widget->_widgetUpdate();
                         widget->_hudUpdate();
-                    }
-                });
-
-            p.inOutPointsObserver = ValueObserver<AV::IO::InOutPoints>::create(
-                p.media->observeInOutPoints(),
-                [weak](const AV::IO::InOutPoints& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->inOutPoints = value;
-                        widget->_widgetUpdate();
-                    }
-                });
-
-            p.playbackObserver = ValueObserver<Playback>::create(
-                p.media->observePlayback(),
-                [weak](Playback value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        int index = -1;
-                        switch (value)
-                        {
-                        case Playback::Forward: index = 0; break;
-                        case Playback::Reverse: index = 1; break;
-                        default: break;
-                        }
-                        widget->_p->playbackActionGroup->setChecked(index);
-                    }
-                });
-
-            p.audioEnabledObserver = ValueObserver<bool>::create(
-                p.media->observeAudioEnabled(),
-                [weak](bool value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->audioEnabled = value;
-                        widget->_audioUpdate();
-                    }
-                });
-
-            p.volumeObserver = ValueObserver<float>::create(
-                p.media->observeVolume(),
-                [weak](float value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->audioVolume = value;
-                        widget->_audioUpdate();
-                    }
-                });
-
-            p.muteObserver = ValueObserver<bool>::create(
-                p.media->observeMute(),
-                [weak](bool value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->audioMute = value;
-                        widget->_audioUpdate();
-                    }
-                });
-
-            if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
-            {
-                p.cacheEnabledObserver = ValueObserver<bool>::create(
-                    fileSettings->observeCacheEnabled(),
-                    [weak](bool value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->timelineSlider->setCacheEnabled(value);
-                        }
-                    });
-            }
-
-            p.cacheSequenceObserver = ValueObserver<Frame::Sequence>::create(
-                p.media->observeCacheSequence(),
-                [weak](const Frame::Sequence& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->timelineSlider->setCacheSequence(value);
-                    }
-                });
-
-            p.cachedFramesObserver = ValueObserver<Frame::Sequence>::create(
-                p.media->observeCachedFrames(),
-                [weak](const Frame::Sequence& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->timelineSlider->setCachedFrames(value);
                     }
                 });
 
@@ -876,20 +320,6 @@ namespace djv
                         widget->_p->viewWidget->setAnnotations(value);
                     }
                 });
-
-            if (auto windowSystem = context->getSystemT<WindowSystem>())
-            {
-                p.fadeObserver = ValueObserver<float>::create(
-                    windowSystem->observeFade(),
-                    [weak](float value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->fade = value;
-                            widget->_opacityUpdate();
-                        }
-                    });
-            }
 
             if (auto viewSettings = settingsSystem->getSettingsT<ViewSettings>())
             {
@@ -927,36 +357,6 @@ namespace djv
                         }
                     });
             }
-
-            p.imageOptionsObserver = ValueObserver<AV::Render2D::ImageOptions>::create(
-                p.viewWidget->observeImageOptions(),
-                [weak](const AV::Render2D::ImageOptions& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->timelineSlider->setImageOptions(value);
-                    }
-                });
-
-            p.imageRotateObserver = ValueObserver<UI::ImageRotate>::create(
-                p.viewWidget->observeImageRotate(),
-                [weak](UI::ImageRotate value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->timelineSlider->setImageRotate(value);
-                    }
-                });
-
-            p.imageAspectRatioObserver = ValueObserver<UI::ImageAspectRatio>::create(
-                p.viewWidget->observeImageAspectRatio(),
-                [weak](UI::ImageAspectRatio value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->timelineSlider->setImageAspectRatio(value);
-                    }
-                });
         }
 
         MediaWidget::MediaWidget() :
@@ -991,14 +391,7 @@ namespace djv
             const BBox2f imageBBox = p.viewWidget->getImageBBox();
             const float zoom = p.viewWidget->observeImageZoom()->get();
             const glm::vec2 imageSize = imageBBox.getSize() * zoom;
-            glm::vec2 size(ceilf(imageSize.x), ceilf(imageSize.y));
-            switch (p.viewLock)
-            {
-            case ViewLock::Frame:
-                size.y += _getTitleBarHeight() + _getPlaybackHeight();
-                break;
-            default: break;
-            }
+            glm::vec2 size(ceilf(imageSize.x), ceilf(imageSize.y + p.titleBar->getHeight()));
             resize(size + sh * 2.F);
         }
 
@@ -1031,19 +424,6 @@ namespace djv
             return _p->scroll;
         }
 
-        float MediaWidget::_getTitleBarHeight() const
-        {
-            DJV_PRIVATE_PTR();
-            return p.titleBar->getMinimumSize().y;
-        }
-
-        float MediaWidget::_getPlaybackHeight() const
-        {
-            DJV_PRIVATE_PTR();
-            return p.playbackLayout->isVisible() ? p.playbackLayout->getMinimumSize().y : 0.F;
-        }
-
-
         std::map<UI::MDI::Handle, std::vector<BBox2f> > MediaWidget::_getHandles() const
         {
             auto out = IWidget::_getHandles();
@@ -1054,7 +434,8 @@ namespace djv
         void MediaWidget::_setMaximize(float value)
         {
             IWidget::_setMaximize(value);
-            _opacityUpdate();
+            DJV_PRIVATE_PTR();
+            p.titleBar->setMaximize(value);
             _resize();
         }
 
@@ -1063,10 +444,8 @@ namespace djv
             IWidget::_setActiveWidget(value);
             DJV_PRIVATE_PTR();
             p.active = value;
+            p.titleBar->setActive(value);
             p.scroll->setAlways(ScrollData(glm::vec2(0.F, 0.F), 0, 0));
-            p.titleLabel->setTextColorRole(p.active ? UI::ColorRole::Foreground : UI::ColorRole::ForegroundDim);
-            p.maximizeButton->setForegroundColorRole(p.active ? UI::ColorRole::Foreground : UI::ColorRole::ForegroundDim);
-            p.closeButton->setForegroundColorRole(p.active ? UI::ColorRole::Foreground : UI::ColorRole::ForegroundDim);
             _imageUpdate();
         }
 
@@ -1091,14 +470,6 @@ namespace djv
             }
             glm::vec2 size(ceilf(imageSize.x), ceilf(imageSize.y));
             
-            switch (p.viewLock)
-            {
-            case ViewLock::Frame:
-                size.y += _getTitleBarHeight() + _getPlaybackHeight();
-                break;
-            default: break;
-            }
-
             _setMinimumSize(size + sh * 2.F);
         }
 
@@ -1109,168 +480,12 @@ namespace djv
             const float sh = style->getMetric(UI::MetricsRole::Shadow);
             const BBox2f g = getGeometry().margin(-sh);
             p.layout->setGeometry(g);
-            const BBox2f frame = BBox2f(
-                glm::vec2(
-                    g.min.x,
-                    g.min.y + _getTitleBarHeight()),
-                glm::vec2(
-                    g.max.x,
-                    g.max.y - _getPlaybackHeight()));
-            p.viewWidget->setImageFrame(frame);
-            p.hud->setHUDFrame(frame);
-        }
-
-        void MediaWidget::_initEvent(Event::Init& event)
-        {
-            IWidget::_initEvent(event);
-            DJV_PRIVATE_PTR();
-            if (event.getData().text)
-            {
-                p.actions["Forward"]->setTooltip(_getText(DJV_TEXT("playback_forward_tooltip")));
-                p.actions["Reverse"]->setTooltip(_getText(DJV_TEXT("playback_reverse_tooltip")));
-                p.actions["InPoint"]->setTooltip(_getText(DJV_TEXT("playback_go_to_in_point_tooltip")));
-                p.actions["NextFrame"]->setTooltip(_getText(DJV_TEXT("playback_next_frame_tooltip")));
-                p.actions["PrevFrame"]->setTooltip(_getText(DJV_TEXT("playback_previous_frame_tooltip")));
-                p.actions["OutPoint"]->setTooltip(_getText(DJV_TEXT("playback_go_to_out_point_tooltip")));
-
-                p.maximizeButton->setTooltip(_getText(DJV_TEXT("widget_media_maximize_tooltip")));
-                p.closeButton->setTooltip(_getText(DJV_TEXT("widget_media_close_tooltip")));
-
-                p.speedPopupButton->setTooltip(_getText(DJV_TEXT("playback_speed_popup_tooltip")));
-                p.realSpeedLabel->setTooltip(_getText(DJV_TEXT("playback_real_speed_tooltip")));
-                p.currentFrameWidget->setTooltip(_getText(DJV_TEXT("playback_current_frame_tooltip")));
-                p.inPointWidget->setTooltip(_getText(DJV_TEXT("playback_in_point_tooltip")));
-                p.inPointSetButton->setTooltip(_getText(DJV_TEXT("playback_set_in_point_tooltip")));
-                p.inPointResetButton->setTooltip(_getText(DJV_TEXT("playback_reset_in_point_tooltip")));
-                p.outPointWidget->setTooltip(_getText(DJV_TEXT("playback_out_point_tooltip")));
-                p.outPointSetButton->setTooltip(_getText(DJV_TEXT("playback_set_out_point_tooltip")));
-                p.outPointResetButton->setTooltip(_getText(DJV_TEXT("playback_reset_out_point_tooltip")));
-                p.durationLabel->setTooltip(_getText(DJV_TEXT("playback_duration_tooltip")));
-
-                p.audioPopupButton->setTooltip(_getText(DJV_TEXT("audio_popup_tooltip")));
-
-                _widgetUpdate();
-                _speedUpdate();
-            }
-        }
-
-        void MediaWidget::_widgetUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
-            {
-                auto playback = Playback::Stop;
-                playback = p.media->observePlayback()->get();
-                switch (playback)
-                {
-                case Playback::Stop:    p.playbackActionGroup->setChecked(-1); break;
-                case Playback::Forward: p.playbackActionGroup->setChecked( 0); break;
-                case Playback::Reverse: p.playbackActionGroup->setChecked( 1); break;
-                default: break;
-                }
-
-                p.playbackModeButton->setCurrentIndex(static_cast<int>(p.playbackMode));
-                switch (p.playbackMode)
-                {
-                case PlaybackMode::Once:
-                    p.playbackModeButton->setTooltip(_getText(DJV_TEXT("playback_mode_once_tooltip")));
-                    break;
-                case PlaybackMode::Loop:
-                    p.playbackModeButton->setTooltip(_getText(DJV_TEXT("playback_mode_loop_tooltip")));
-                    break;
-                case PlaybackMode::PingPong:
-                    p.playbackModeButton->setTooltip(_getText(DJV_TEXT("playback_mode_ping-pong_tooltip")));
-                    break;
-                default: break;
-                }
-
-                p.currentFrameWidget->setSequence(p.sequence);
-                p.currentFrameWidget->setSpeed(p.defaultSpeed);
-                p.currentFrameWidget->setFrame(p.currentFrame);
-                p.inPointWidget->setSequence(p.sequence);
-                p.inPointWidget->setSpeed(p.defaultSpeed);
-                p.inPointWidget->setFrame(p.inOutPoints.getIn());
-                p.inPointWidget->setEnabled(p.inOutPoints.isEnabled());
-                p.inPointResetButton->setEnabled(
-                    p.inOutPoints.isEnabled() &&
-                    p.inOutPoints.getIn() != 0);
-                p.outPointWidget->setSequence(p.sequence);
-                p.outPointWidget->setSpeed(p.defaultSpeed);
-                p.outPointWidget->setFrame(p.inOutPoints.getOut());
-                p.outPointWidget->setEnabled(p.inOutPoints.isEnabled());
-                p.outPointResetButton->setEnabled(
-                    p.inOutPoints.isEnabled() &&
-                    p.inOutPoints.getOut() != p.sequence.getLastIndex());
-
-                p.durationLabel->setText(Time::toString(p.sequence.getFrameCount(), p.defaultSpeed, p.timeUnits));
-
-                p.timelineSlider->setInOutPointsEnabled(p.inOutPoints.isEnabled());
-                p.timelineSlider->setInPoint(p.inOutPoints.getIn());
-                p.timelineSlider->setOutPoint(p.inOutPoints.getOut());
-
-                p.playbackLayout->setVisible(p.sequence.getFrameCount() > 1);
-            }
         }
 
         void MediaWidget::_imageUpdate()
         {
             DJV_PRIVATE_PTR();
             p.viewWidget->setImage(p.active && p.frameStoreEnabled && p.frameStore ? p.frameStore : p.image);
-        }
-
-        void MediaWidget::_speedUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
-            {
-                std::stringstream ss;
-                ss.precision(2);
-                ss << _getText(DJV_TEXT("playback_fps")) << ": " << std::fixed << p.speed.toFloat();
-                p.speedPopupButton->setText(ss.str());
-            }
-        }
-
-        void MediaWidget::_realSpeedUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            std::stringstream ss;
-            ss.precision(2);
-            ss << std::fixed << p.realSpeed;
-            p.realSpeedLabel->setText(ss.str());
-        }
-
-        void MediaWidget::_audioUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            p.audioPopupButton->setVisible(p.audioEnabled);
-            if (p.audioMute)
-            {
-                p.audioPopupButton->setIcon("djvIconAudioMute");
-            }
-            else if (p.audioVolume < 1.F / 4.F)
-            {
-                p.audioPopupButton->setIcon("djvIconAudio0");
-            }
-            else if (p.audioVolume < 2.F / 4.F)
-            {
-                p.audioPopupButton->setIcon("djvIconAudio1");
-            }
-            else if (p.audioVolume < 3.F / 4.F)
-            {
-                p.audioPopupButton->setIcon("djvIconAudio2");
-            }
-            else
-            {
-                p.audioPopupButton->setIcon("djvIconAudio3");
-            }
-        }
-
-        void MediaWidget::_opacityUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            const float maximize = 1.F - _getMaximize();
-            p.titleBar->setOpacity(p.fade * maximize);
-            p.playbackLayout->setOpacity(p.fade);
         }
 
         void MediaWidget::_hudUpdate()

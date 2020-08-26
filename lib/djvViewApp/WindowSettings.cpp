@@ -36,7 +36,6 @@ namespace djv
             std::shared_ptr<ValueSubject<int> > fullScreenMonitor;
             std::shared_ptr<ValueSubject<bool> > floatOnTop;
             std::shared_ptr<ValueSubject<bool> > maximize;
-            std::shared_ptr<ValueSubject<bool> > autoHide;
             std::shared_ptr<ValueSubject<std::string> > backgroundImage;
             std::shared_ptr<ValueSubject<bool> > backgroundImageScale;
             std::shared_ptr<ValueSubject<bool> > backgroundImageColorize;
@@ -53,7 +52,6 @@ namespace djv
             p.fullScreenMonitor = ValueSubject<int>::create(0);
             p.floatOnTop = ValueSubject<bool>::create(false);
             p.maximize = ValueSubject<bool>::create(true);
-            p.autoHide = ValueSubject<bool>::create(true);
             auto resourceSystem = context->getSystemT<Core::ResourceSystem>();
             const auto& iconsPath = resourceSystem->getPath(FileSystem::ResourcePath::Icons);
             p.backgroundImage = ValueSubject<std::string>::create(std::string(
@@ -162,16 +160,6 @@ namespace djv
             _p->maximize->setIfChanged(value);
         }
 
-        std::shared_ptr<IValueSubject<bool> > WindowSettings::observeAutoHide() const
-        {
-            return _p->autoHide;
-        }
-
-        void WindowSettings::setAutoHide(bool value)
-        {
-            _p->autoHide->setIfChanged(value);
-        }
-
         std::shared_ptr<IValueSubject<std::string> > WindowSettings::observeBackgroundImage() const
         {
             return _p->backgroundImage;
@@ -215,7 +203,6 @@ namespace djv
                 UI::Settings::read("FullScreenMonitor", value, p.fullScreenMonitor);
                 UI::Settings::read("FloatOnTop", value, p.floatOnTop);
                 UI::Settings::read("Maximize", value, p.maximize);
-                UI::Settings::read("AutoHide", value, p.autoHide);
                 UI::Settings::read("BackgroundImage", value, p.backgroundImage);
                 UI::Settings::read("BackgroundImageScale", value, p.backgroundImageScale);
                 UI::Settings::read("BackgroundImageColorize", value, p.backgroundImageColorize);
@@ -234,7 +221,6 @@ namespace djv
             UI::Settings::write("FullScreenMonitor", p.fullScreenMonitor->get(), out, allocator);
             UI::Settings::write("FloatOnTop", p.floatOnTop->get(), out, allocator);
             UI::Settings::write("Maximize", p.maximize->get(), out, allocator);
-            UI::Settings::write("AutoHide", p.autoHide->get(), out, allocator);
             UI::Settings::write("BackgroundImage", p.backgroundImage->get(), out, allocator);
             UI::Settings::write("BackgroundImageScale", p.backgroundImageScale->get(), out, allocator);
             UI::Settings::write("BackgroundImageColorize", p.backgroundImageColorize->get(), out, allocator);

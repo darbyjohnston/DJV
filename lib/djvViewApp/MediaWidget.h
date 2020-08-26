@@ -95,9 +95,6 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<ScrollData> > observeScroll() const;
 
         protected:
-            float _getTitleBarHeight() const;
-            float _getPlaybackHeight() const;
-
             virtual std::map<UI::MDI::Handle, std::vector<Core::BBox2f> > _getHandles() const override;
             void _setMaximize(float) override;
             void _setActiveWidget(bool) override;
@@ -105,15 +102,8 @@ namespace djv
             void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _layoutEvent(Core::Event::Layout&) override;
 
-            void _initEvent(Core::Event::Init&) override;
-
         private:
-            void _widgetUpdate();
             void _imageUpdate();
-            void _speedUpdate();
-            void _realSpeedUpdate();
-            void _audioUpdate();
-            void _opacityUpdate();
             void _hudUpdate();
 
             DJV_PRIVATE();

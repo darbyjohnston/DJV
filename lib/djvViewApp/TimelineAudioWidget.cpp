@@ -2,7 +2,7 @@
 // Copyright (c) 2020 Darby Johnston
 // All rights reserved.
 
-#include <djvViewApp/MediaWidgetPrivate.h>
+#include <djvViewApp/TimelineWidgetPrivate.h>
 
 #include <djvViewApp/Media.h>
 

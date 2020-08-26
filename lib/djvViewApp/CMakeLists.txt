@@ -56,6 +56,8 @@ set(header
     SystemLogWidget.h
     TimelinePIPWidget.h
     TimelineSlider.h
+    TimelineWidget.h
+    TimelineWidgetPrivate.h
     ToolSettings.h
     ToolSystem.h
 	View.h
@@ -111,10 +113,8 @@ set(source
     MagnifyWidget.cpp
     MainWindow.cpp
     Media.cpp
-	MediaAudioWidget.cpp
 	MediaCanvas.cpp
-	MediaFrameWidget.cpp
-    MediaPlaybackSpeedWidget.cpp
+	MediaTitleBar.cpp
 	MediaPointerWidget.cpp
 	MediaWidget.cpp
 	MemorySettingsWidget.cpp
@@ -131,8 +131,12 @@ set(source
     SettingsSystem.cpp
     SettingsWidget.cpp
     SystemLogWidget.cpp
+  	TimelineAudioWidget.cpp
+	TimelineFrameWidget.cpp
     TimelinePIPWidget.cpp
     TimelineSlider.cpp
+    TimelineSpeedWidget.cpp
+    TimelineWidget.cpp
     ToolSettings.cpp
     ToolSystem.cpp
 	View.cpp

@@ -10,6 +10,43 @@ namespace djv
 {
     namespace ViewApp
     {
+        class TitleBar : public UI::Widget
+        {
+            DJV_NON_COPYABLE(TitleBar);
+
+        protected:
+            void _init(
+                const std::string& text,
+                const std::string& tooltip,
+                const std::shared_ptr<Core::Context>&);
+            TitleBar();
+
+        public:
+            ~TitleBar() override;
+
+            static std::shared_ptr<TitleBar> create(
+                const std::string& text,
+                const std::string& toolTip,
+                const std::shared_ptr<Core::Context>&);
+
+            void setActive(bool);
+            void setMaximize(float);
+
+            void setMaximizeCallback(const std::function<void(void)>&);
+            void setCloseCallback(const std::function<void(void)>&);
+
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
+
+            void _initEvent(Core::Event::Init&) override;
+
+        private:
+            void _widgetUpdate();
+
+            DJV_PRIVATE();
+        };
+
         class PointerWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(PointerWidget);
@@ -38,91 +75,6 @@ namespace djv
         private:
             void _doHoverCallback(const PointerData&);
             void _doDragCallback(const PointerData&);
-
-            DJV_PRIVATE();
-        };
-
-        class PlaybackSpeedWidget : public UI::Widget
-        {
-            DJV_NON_COPYABLE(PlaybackSpeedWidget);
-
-        protected:
-            void _init(
-                const std::shared_ptr<Media>&,
-                const std::shared_ptr<Core::Context>&);
-            PlaybackSpeedWidget();
-
-        public:
-            ~PlaybackSpeedWidget() override;
-
-            static std::shared_ptr<PlaybackSpeedWidget> create(
-                const std::shared_ptr<Media>&,
-                const std::shared_ptr<Core::Context>&);
-
-        protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
-
-            void _initEvent(Core::Event::Init&) override;
-
-        private:
-            void _textUpdate();
-            void _widgetUpdate();
-
-            DJV_PRIVATE();
-        };
-
-        class FrameWidget : public UI::Widget
-        {
-            DJV_NON_COPYABLE(FrameWidget);
-
-        protected:
-            void _init(const std::shared_ptr<Core::Context>&);
-            FrameWidget();
-
-        public:
-            static std::shared_ptr<FrameWidget> create(const std::shared_ptr<Core::Context>&);
-
-            void setSequence(const Core::Frame::Sequence&);
-            void setSpeed(const Core::Math::Rational&);
-            void setFrame(const Core::Frame::Index);
-            void setCallback(const std::function<void(Core::Frame::Index)>&);
-
-        protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
-            void _paintEvent(Core::Event::Paint&) override;
-
-        private:
-            void _setFrame(Core::Frame::Index);
-            void _widgetUpdate();
-
-            DJV_PRIVATE();
-        };
-
-        class AudioWidget : public UI::Widget
-        {
-            DJV_NON_COPYABLE(AudioWidget);
-
-        protected:
-            void _init(
-                const std::shared_ptr<Media>&,
-                const std::shared_ptr<Core::Context>&);
-            AudioWidget();
-
-        public:
-            static std::shared_ptr<AudioWidget> create(
-                const std::shared_ptr<Media>&,
-                const std::shared_ptr<Core::Context>&);
-
-        protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
-
-            void _initEvent(Core::Event::Init&) override;
-
-        private:
-            void _widgetUpdate();
 
             DJV_PRIVATE();
         };

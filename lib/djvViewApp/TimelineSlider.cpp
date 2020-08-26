@@ -5,9 +5,9 @@
 #include <djvViewApp/TimelineSlider.h>
 
 #include <djvViewApp/Media.h>
-#include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/PlaybackSettings.h>
 #include <djvViewApp/TimelinePIPWidget.h>
+#include <djvViewApp/TimelineWidget.h>
 
 #include <djvUI/Label.h>
 #include <djvUI/Overlay.h>
@@ -500,7 +500,9 @@ namespace djv
                 if (!event.isRejected())
                 {
                     event.accept();
-                    if (p.pipEnabled && isEnabled())
+                    if (p.media &&
+                        p.pipEnabled &&
+                        isEnabled())
                     {
                         p.pipWidget->setFileInfo(p.media->getFileInfo());
                         _showPIP(true);
@@ -522,13 +524,16 @@ namespace djv
             event.accept();
             const auto & pos = event.getPointerInfo().projectedPos;
             const auto& style = _getStyle();
-            if (glm::length(pos - p.pointerReleasePos) > style->getMetric(UI::MetricsRole::Handle))
+            if (p.media &&
+                p.pipEnabled &&
+                isEnabled() &&
+                glm::length(pos - p.pointerReleasePos) > style->getMetric(UI::MetricsRole::Handle))
             {
                 _showPIP(true);
             }
             const BBox2f g = getMargin().bbox(getGeometry(), style);
             const Frame::Index frame = _posToFrame(static_cast<int>(pos.x - g.min.x));
-            if (auto parent = getParentRecursiveT<MediaWidget>())
+            if (auto parent = getParentRecursiveT<TimelineWidget>())
             {
                 const auto& style = _getStyle();
                 const float s = style->getMetric(UI::MetricsRole::Spacing);

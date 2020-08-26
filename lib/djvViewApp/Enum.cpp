@@ -16,7 +16,6 @@ namespace djv
         ViewApp,
         ViewLock,
         DJV_TEXT("view_lock_none"),
-        DJV_TEXT("view_lock_fill"),
         DJV_TEXT("view_lock_frame"),
         DJV_TEXT("view_lock_center"));
 

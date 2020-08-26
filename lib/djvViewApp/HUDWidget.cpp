@@ -41,7 +41,6 @@ namespace djv
         struct HUDWidget::Private
         {
             std::shared_ptr<AV::Font::System> fontSystem;
-            BBox2f frame;
             HUDData data;
             HUDOptions options;
             std::map<std::string, HUDLabel> labels;
@@ -77,15 +76,6 @@ namespace djv
             return out;
         }
 
-        void HUDWidget::setHUDFrame(const BBox2f& value)
-        {
-            DJV_PRIVATE_PTR();
-            if (value == p.frame)
-                return;
-            p.frame = value;
-            _redraw();
-        }
-
         void HUDWidget::setHUDData(const HUDData& value)
         {
             DJV_PRIVATE_PTR();
@@ -111,7 +101,7 @@ namespace djv
             {
                 const auto& style = _getStyle();
                 const float m = style->getMetric(UI::MetricsRole::MarginSmall);
-                const BBox2f g = p.frame.margin(-m);
+                const BBox2f g = getGeometry().margin(-m);
 
                 struct Label
                 {

@@ -37,7 +37,7 @@ namespace djv
             ISettings::_init("djv::ViewApp::ViewSettings", context);
 
             DJV_PRIVATE_PTR();
-            p.lock = ValueSubject<ViewLock>::create(ViewLock::Fill);
+            p.lock = ValueSubject<ViewLock>::create(ViewLock::Frame);
             p.gridOptions = ValueSubject<GridOptions>::create();
             p.hudOptions = ValueSubject<HUDOptions>::create();
             p.backgroundOptions = ValueSubject<ViewBackgroundOptions>::create();

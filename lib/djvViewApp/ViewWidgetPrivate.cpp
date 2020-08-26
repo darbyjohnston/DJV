@@ -89,15 +89,6 @@ namespace djv
             _redraw();
         }
 
-        void GridOverlay::setImageFrame(const BBox2f& value)
-        {
-            if (value == _imageFrame)
-                return;
-            _imageFrame = value;
-            _textUpdate();
-            _redraw();
-        }
-
         void GridOverlay::_layoutEvent(Event::Layout&)
         {
             const auto& style = _getStyle();
@@ -168,13 +159,13 @@ namespace djv
                         case Grid::Column:
                             rects.emplace_back(BBox2f(
                                 floorf(g.min.x + (i.first.second * _options.size + _options.size / 2.F) * _imageZoom + _imagePos.x - i.second.size.x / 2.F),
-                                floorf(std::max(_imageFrame.min.y, g.min.y + viewport.min.y)),
+                                floorf(g.min.y + viewport.min.y),
                                 ceilf(i.second.size.x + b * 2.F),
                                 ceilf(i.second.size.y + b * 2.F)));
                             break;
                         case Grid::Row:
                             rects.emplace_back(BBox2f(
-                                floorf(std::max(_imageFrame.min.x, g.min.x + viewport.min.x)),
+                                floorf(g.min.x + viewport.min.x),
                                 floorf(g.min.y + (i.first.second * _options.size + _options.size / 2.F) * _imageZoom + _imagePos.y - i.second.size.y / 2.F),
                                 ceilf(i.second.size.x + b * 2.F),
                                 ceilf(i.second.size.y + b * 2.F)));
@@ -195,13 +186,13 @@ namespace djv
                                 i.second.glyphs,
                                 glm::vec2(
                                     floorf(g.min.x + b + (i.first.second * _options.size + _options.size / 2.F) * _imageZoom + _imagePos.x - i.second.size.x / 2.F),
-                                    floorf(std::max(_imageFrame.min.y, g.min.y + viewport.min.y) + b + _fontMetrics.ascender - 1.F)));
+                                    floorf(g.min.y + viewport.min.y + b + _fontMetrics.ascender - 1.F)));
                             break;
                         case Grid::Row:
                             render->drawText(
                                 i.second.glyphs,
                                 glm::vec2(
-                                    floorf(std::max(_imageFrame.min.x, g.min.x + viewport.min.x) + b),
+                                    floorf(g.min.x + viewport.min.x + b),
                                     floorf(g.min.y + b + (i.first.second * _options.size + _options.size / 2.F) * _imageZoom + _imagePos.y - i.second.size.y / 2.F + _fontMetrics.ascender - 1.F)));
                             break;
                         default: break;

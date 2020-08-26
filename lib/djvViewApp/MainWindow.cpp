@@ -15,6 +15,7 @@
 #include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/SettingsWidget.h>
 #include <djvViewApp/SettingsSystem.h>
+#include <djvViewApp/TimelineWidget.h>
 #include <djvViewApp/ToolSystem.h>
 #include <djvViewApp/ViewSystem.h>
 #include <djvViewApp/WindowSystem.h>
@@ -43,8 +44,6 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
-//#define DJV_DEMO
-
 using namespace djv::Core;
 
 namespace djv
@@ -63,16 +62,13 @@ namespace djv
             std::shared_ptr<UI::MenuBar> menuBar;
             std::shared_ptr<MediaCanvas> mediaCanvas;
             std::shared_ptr<UI::MDI::Canvas> canvas;
-#ifdef DJV_DEMO
-            std::shared_ptr<UI::Label> titleLabel;
-#endif // DJV_DEMO
-            std::shared_ptr<UI::StackLayout> layout;
+            std::shared_ptr<TimelineWidget> timelineWidget;
+            std::shared_ptr<UI::VerticalLayout> layout;
 
             std::shared_ptr<ValueObserver<bool> > settingsActionObserver;
             std::shared_ptr<ListObserver<std::shared_ptr<Media> > > mediaObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<bool> > maximizeObserver;
-            std::shared_ptr<ValueObserver<float> > fadeObserver;
         };
         
         void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
@@ -113,21 +109,17 @@ namespace djv
             p.mediaButton->setEnabled(false);
 
             auto maximizeButton = UI::ToolButton::create(context);
-            auto autoHideButton = UI::ToolButton::create(context);
             auto windowSystem = context->getSystemT<WindowSystem>();
             if (windowSystem)
             {
                 maximizeButton->addAction(windowSystem->getActions()["Maximize"]);
-                autoHideButton->addAction(windowSystem->getActions()["AutoHide"]);
             }
 
-            auto viewFillButton = UI::ToolButton::create(context);
             auto viewFrameButton = UI::ToolButton::create(context);
             auto viewCenterButton = UI::ToolButton::create(context);
             auto viewSystem = context->getSystemT<ViewSystem>();
             if (viewSystem)
             {
-                viewFillButton->addAction(viewSystem->getActions()["FillLock"]);
                 viewFrameButton->addAction(viewSystem->getActions()["FrameLock"]);
                 viewCenterButton->addAction(viewSystem->getActions()["CenterLock"]);
             }
@@ -151,7 +143,6 @@ namespace djv
             auto settingsDrawer = UI::Drawer::create(UI::Side::Right, context);
 
             p.menuBar = UI::MenuBar::create(context);
-            p.menuBar->setBackgroundRole(UI::ColorRole::OverlayLight);
             for (auto i : menus)
             {
                 p.menuBar->addChild(i.second);
@@ -161,11 +152,9 @@ namespace djv
             p.menuBar->setStretch(p.mediaButton, UI::RowStretch::Expand, UI::Side::Right);
             p.menuBar->addSeparator(UI::Side::Right);
             p.menuBar->addChild(maximizeButton);
-            p.menuBar->addChild(autoHideButton);
             p.menuBar->addSeparator(UI::Side::Right);
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::MetricsRole::None);
-            hLayout->addChild(viewFillButton);
             hLayout->addChild(viewFrameButton);
             hLayout->addChild(viewCenterButton);
             p.menuBar->addChild(hLayout);
@@ -190,31 +179,21 @@ namespace djv
                 system->setCanvas(p.canvas);
             }
 
-#ifdef DJV_DEMO
-            p.titleLabel = UI::Label::create(context);
-            p.titleLabel->setFontSizeRole(UI::MetricsRole::TextColumn);
-            p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
-#endif // DJV_DEMO
+            p.timelineWidget = TimelineWidget::create(context);
 
-            p.layout = UI::StackLayout::create(context);
+            p.layout = UI::VerticalLayout::create(context);
+            p.layout->setSpacing(UI::MetricsRole::None);
+            p.layout->addChild(p.menuBar);
+            p.layout->addSeparator();
             auto stackLayout = UI::StackLayout::create(context);
             stackLayout->addChild(backgroundImageWidget);
             stackLayout->addChild(p.mediaCanvas);
             stackLayout->addChild(p.canvas);
+            stackLayout->addChild(settingsDrawer);
             p.layout->addChild(stackLayout);
-            auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::MetricsRole::None);
-            vLayout->addChild(p.menuBar);
-            vLayout->addChild(settingsDrawer);
-            vLayout->setStretch(settingsDrawer, UI::Layout::RowStretch::Expand);
-            p.layout->addChild(vLayout);
-#ifdef DJV_DEMO
-            vLayout = UI::VerticalLayout::create(context);
-            vLayout->setMargin(UI::MetricsRole::MarginDialog);
-            vLayout->setSpacing(UI::MetricsRole::SpacingLarge);
-            vLayout->addChild(p.titleLabel);
-            p.layout->addChild(vLayout);
-#endif // DJV_DEMO
+            p.layout->setStretch(stackLayout, UI::Layout::RowStretch::Expand);
+            p.layout->addSeparator();
+            p.layout->addChild(p.timelineWidget);
             addChild(p.layout);
 
             auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
@@ -299,53 +278,50 @@ namespace djv
                     });
             }
 
-            if (auto context = getContext().lock())
+            if (auto fileSystem = context->getSystemT<FileSystem>())
             {
-                if (auto fileSystem = context->getSystemT<FileSystem>())
-                {
-                    p.mediaObserver = ListObserver<std::shared_ptr<Media>>::create(
-                        fileSystem->observeMedia(),
-                        [weak](const std::vector<std::shared_ptr<Media> >& value)
+                p.mediaObserver = ListObserver<std::shared_ptr<Media>>::create(
+                    fileSystem->observeMedia(),
+                    [weak](const std::vector<std::shared_ptr<Media> >& value)
+                    {
+                        if (auto widget = weak.lock())
                         {
-                            if (auto widget = weak.lock())
+                            widget->_p->media = value;
+                            std::vector<std::shared_ptr<UI::Action> > actions;
+                            widget->_p->mediaMenu->clearActions();
+                            for (const auto& i : widget->_p->media)
                             {
-                                widget->_p->media = value;
-                                std::vector<std::shared_ptr<UI::Action> > actions;
-                                widget->_p->mediaMenu->clearActions();
-                                for (const auto& i : widget->_p->media)
-                                {
-                                    auto action = UI::Action::create();
-                                    action->setText(i->getFileInfo().getFileName());
-                                    actions.push_back(action);
-                                    widget->_p->mediaMenu->addAction(action);
-                                }
-                                widget->_p->mediaActionGroup->setActions(actions);
-                                widget->_p->mediaButton->setEnabled(widget->_p->media.size() > 0);
+                                auto action = UI::Action::create();
+                                action->setText(i->getFileInfo().getFileName());
+                                actions.push_back(action);
+                                widget->_p->mediaMenu->addAction(action);
                             }
-                        });
+                            widget->_p->mediaActionGroup->setActions(actions);
+                            widget->_p->mediaButton->setEnabled(widget->_p->media.size() > 0);
+                        }
+                    });
 
-                    p.currentMediaObserver = ValueObserver<std::shared_ptr<Media>>::create(
-                        fileSystem->observeCurrentMedia(),
-                        [weak](const std::shared_ptr<Media>& value)
+                p.currentMediaObserver = ValueObserver<std::shared_ptr<Media>>::create(
+                    fileSystem->observeCurrentMedia(),
+                    [weak](const std::shared_ptr<Media>& value)
+                    {
+                        if (auto widget = weak.lock())
                         {
-                            if (auto widget = weak.lock())
+                            const auto i = std::find(widget->_p->media.begin(), widget->_p->media.end(), value);
+                            if (i != widget->_p->media.end())
                             {
-                                const auto i = std::find(widget->_p->media.begin(), widget->_p->media.end(), value);
-                                if (i != widget->_p->media.end())
-                                {
-                                    widget->_p->mediaActionGroup->setChecked(i - widget->_p->media.begin());
-                                }
-                                widget->_p->mediaButton->setText(
-                                    value ?
-                                    value->getFileInfo().getFileName(Frame::invalid, false) :
-                                    "-");
-                                widget->_p->mediaButton->setTooltip(std::string(
-                                    value ?
-                                    value->getFileInfo() :
-                                    Core::FileSystem::FileInfo()));
+                                widget->_p->mediaActionGroup->setChecked(i - widget->_p->media.begin());
                             }
-                        });
-                }
+                            widget->_p->mediaButton->setText(
+                                value ?
+                                value->getFileInfo().getFileName(Frame::invalid, false) :
+                                "-");
+                            widget->_p->mediaButton->setTooltip(std::string(
+                                value ?
+                                value->getFileInfo() :
+                                Core::FileSystem::FileInfo()));
+                        }
+                    });
             }
 
             if (windowSystem)
@@ -359,16 +335,6 @@ namespace djv
                             widget->_p->mediaCanvas->setMaximize(value);
                         }
                     });
-
-                p.fadeObserver = ValueObserver<float>::create(
-                    windowSystem->observeFade(),
-                    [weak](float value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->menuBar->setOpacity(value);
-                    }
-                });
             }
         }
 
@@ -411,9 +377,6 @@ namespace djv
             if (event.getData().text)
             {
                 p.mediaButton->setTooltip(_getText(DJV_TEXT("menu_media_popup_tooltip")));
-#ifdef DJV_DEMO
-                p.titleLabel->setText(_getText(DJV_TEXT("djv_2_0_4")));
-#endif // DJV_DEMO
             }
         }
 

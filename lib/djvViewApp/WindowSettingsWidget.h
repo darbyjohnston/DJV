@@ -63,30 +63,6 @@ namespace djv
 
             DJV_PRIVATE();
         };
-
-        //! This class provides the auto-hide settings widget.
-        class AutoHideSettingsWidget : public UI::ISettingsWidget
-        {
-            DJV_NON_COPYABLE(AutoHideSettingsWidget);
-
-        protected:
-            void _init(const std::shared_ptr<Core::Context>&);
-            AutoHideSettingsWidget();
-
-        public:
-            static std::shared_ptr<AutoHideSettingsWidget> create(const std::shared_ptr<Core::Context>&);
-
-            std::string getSettingsGroup() const override;
-            std::string getSettingsSortKey() const override;
-
-            void setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>&) override;
-
-        protected:
-            void _initEvent(Core::Event::Init&) override;
-
-        private:
-            DJV_PRIVATE();
-        };
         
         //! This class provides the background image settings widget.
         class BackgroundImageSettingsWidget : public UI::ISettingsWidget

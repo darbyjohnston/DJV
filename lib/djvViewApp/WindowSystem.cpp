@@ -22,7 +22,6 @@
 #include <djvAV/AVSystem.h>
 #include <djvAV/GLFWSystem.h>
 
-#include <djvCore/Animation.h>
 #include <djvCore/Context.h>
 #include <djvCore/IEventSystem.h>
 #include <djvCore/TextSystem.h>
@@ -41,9 +40,6 @@ namespace djv
         {
             //! \todo Should this be configurable?
             const glm::ivec2 windowSizeMin = glm::ivec2(320, 240);
-            const size_t     fadeTimeout   = 3000;
-            const size_t     fadeInTime    = 200;
-            const size_t     fadeOutTime   = 1000;
         }
 
         struct WindowSystem::Private
@@ -55,14 +51,9 @@ namespace djv
             std::weak_ptr<MediaCanvas> canvas;
             std::shared_ptr<ValueSubject<std::shared_ptr<MediaWidget> > > activeWidget;
             std::shared_ptr<ValueSubject<bool> > fullScreen;
+            std::shared_ptr<ValueSubject<bool> > presentation;
             std::shared_ptr<ValueSubject<bool> > floatOnTop;
             std::shared_ptr<ValueSubject<bool> > maximize;
-            std::shared_ptr<ValueSubject<float> > fade;
-            bool fadeEnabled = false;
-            std::shared_ptr<Time::Timer> fadeTimer;
-            std::map<Event::PointerID, glm::vec2> pointerMotion;
-            bool textFocusActive = false;
-            bool textFocusInit = false;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             glm::ivec2 monitorSize = glm::ivec2(0, 0);
@@ -72,11 +63,6 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > fullScreenObserver;
             std::shared_ptr<ValueObserver<bool> > floatOnTopObserver;
             std::shared_ptr<ValueObserver<bool> > maximizeObserver;
-            std::shared_ptr<ValueObserver<Event::PointerInfo> > pointerObserver;
-            std::shared_ptr<ValueObserver<bool> > textFocusActiveObserver;
-            std::shared_ptr<ValueObserver<bool> > fadeObserver;
-
-            std::shared_ptr<Animation::Animation> fadeAnimation;
 
             void setFullScreen(bool);
             void setFloatOnTop(bool);
@@ -120,13 +106,12 @@ namespace djv
             p.fullScreen = ValueSubject<bool>::create(false);
             p.floatOnTop = ValueSubject<bool>::create(false);
             p.maximize = ValueSubject<bool>::create(false);
-            p.fade = ValueSubject<float>::create(1.F);
-            p.fadeTimer = Time::Timer::create(context);
-            p.fadeAnimation = Animation::Animation::create(context);
 
             p.actions["FullScreen"] = UI::Action::create();
             p.actions["FullScreen"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["FullScreen"]->setIcon("djvIconWindowFullScreen");
+            p.actions["Presentation"] = UI::Action::create();
+            p.actions["Presentation"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["FloatOnTop"] = UI::Action::create();
             p.actions["FloatOnTop"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["Maximize"] = UI::Action::create();
@@ -134,10 +119,6 @@ namespace djv
             p.actions["Maximize"]->setIcon("djvIconMDI");
             p.actions["Maximize"]->setCheckedIcon("djvIconSDI");
             p.actions["Fit"] = UI::Action::create();
-            p.actions["AutoHide"] = UI::Action::create();
-            p.actions["AutoHide"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["AutoHide"]->setIcon("djvIconVisible");
-            p.actions["AutoHide"]->setCheckedIcon("djvIconHidden");
 
             _addShortcut("shortcut_window_full_screen", GLFW_KEY_U);
             _addShortcut("shortcut_window_maximize", GLFW_KEY_M);
@@ -146,12 +127,11 @@ namespace djv
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["FullScreen"]);
+            p.menu->addAction(p.actions["Presentation"]);
             p.menu->addAction(p.actions["FloatOnTop"]);
             p.menu->addSeparator();
             p.menu->addAction(p.actions["Maximize"]);
             p.menu->addAction(p.actions["Fit"]);
-            p.menu->addSeparator();
-            p.menu->addAction(p.actions["AutoHide"]);
 
             _actionsUpdate();
             _textUpdate();
@@ -164,6 +144,15 @@ namespace djv
                     if (auto system = weak.lock())
                     {
                         system->setFullScreen(value);
+                    }
+                });
+
+            p.actions["Presentation"]->setCheckedCallback(
+                [weak](bool value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->setPresentation(value);
                     }
                 });
 
@@ -197,19 +186,6 @@ namespace djv
                     }
                 });
 
-            auto contextWeak = std::weak_ptr<Context>(context);
-            p.actions["AutoHide"]->setCheckedCallback(
-                [weak, contextWeak](bool value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            system->_p->settings->setAutoHide(value);
-                        }
-                    }
-                });
-
             p.fullScreenObserver = ValueObserver<bool>::create(
                 p.settings->observeFullScreen(),
                 [weak](bool value)
@@ -239,95 +215,6 @@ namespace djv
                         system->setMaximize(value);
                     }
                 });
-
-            p.fadeObserver = ValueObserver<bool>::create(
-                p.settings->observeAutoHide(),
-                [weak](bool value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        if (!value)
-                        {
-                            system->_p->fade->setIfChanged(1.F);
-                        }
-                        system->_p->fadeEnabled = value;
-                        system->_actionsUpdate();
-                        if (system->_p->fadeEnabled && !system->_p->textFocusActive)
-                        {
-                            system->_p->fadeTimer->start(
-                                std::chrono::milliseconds(fadeTimeout),
-                                [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
-                            {
-                                if (auto system = weak.lock())
-                                {
-                                    system->_fadeStart();
-                                }
-                            });
-                        }
-                        else
-                        {
-                            system->_fadeStop();
-                        }
-                    }
-                });
-
-            auto eventSystem = context->getSystemT<Event::IEventSystem>();
-            p.pointerObserver = ValueObserver<Event::PointerInfo>::create(
-                eventSystem->observePointer(),
-                [weak, contextWeak](const Event::PointerInfo& value)
-            {
-                if (auto context = contextWeak.lock())
-                {
-                    if (auto system = weak.lock())
-                    {
-                        const auto i = system->_p->pointerMotion.find(value.id);
-                        if (i != system->_p->pointerMotion.end())
-                        {
-                            system->_fadeStop();
-                            if (system->_p->fadeEnabled && !system->_p->textFocusActive)
-                            {
-                                system->_p->fadeTimer->start(
-                                    std::chrono::milliseconds(fadeTimeout),
-                                    [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
-                                {
-                                    if (auto system = weak.lock())
-                                    {
-                                        system->_fadeStart();
-                                    }
-                                });
-                            }
-                        }
-                        system->_p->pointerMotion[value.id] = value.projectedPos;
-                    }
-                }
-            });
-
-            p.textFocusActiveObserver = ValueObserver<bool>::create(
-                eventSystem->observeTextFocusActive(),
-                [weak](bool value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_p->textFocusActive = value;
-                    if (value)
-                    {
-                        system->_p->textFocusInit = true;
-                        system->_fadeStop();
-                    }
-                    else if (system->_p->fadeEnabled && system->_p->textFocusInit)
-                    {
-                        system->_p->fadeTimer->start(
-                            std::chrono::milliseconds(fadeTimeout),
-                            [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
-                        {
-                            if (auto system = weak.lock())
-                            {
-                                system->_fadeStart();
-                            }
-                        });
-                    }
-                }
-            });
         }
 
         WindowSystem::WindowSystem() :
@@ -402,6 +289,11 @@ namespace djv
             }
         }
 
+        void WindowSystem::setPresentation(bool value)
+        {
+
+        }
+
         std::shared_ptr<IValueSubject<bool> > WindowSystem::observeFloatOnTop() const
         {
             return _p->floatOnTop;
@@ -433,11 +325,6 @@ namespace djv
             }
         }
 
-        std::shared_ptr<IValueSubject<float> > WindowSystem::observeFade() const
-        {
-            return _p->fade;
-        }
-
         std::map<std::string, std::shared_ptr<UI::Action> > WindowSystem::getActions() const
         {
             return _p->actions;
@@ -465,8 +352,6 @@ namespace djv
                 p.actions["Maximize"]->setTooltip(_getText(DJV_TEXT("menu_window_maximize_tooltip")));
                 p.actions["Fit"]->setText(_getText(DJV_TEXT("menu_window_fit")));
                 p.actions["Fit"]->setTooltip(_getText(DJV_TEXT("menu_window_fit_tooltip")));
-                p.actions["AutoHide"]->setText(_getText(DJV_TEXT("menu_window_auto_hide")));
-                p.actions["AutoHide"]->setTooltip(_getText(DJV_TEXT("menu_window_auto_hide_tooltip")));
 
                 p.menu->setText(_getText(DJV_TEXT("menu_window")));
             }
@@ -480,68 +365,6 @@ namespace djv
                 p.actions["FullScreen"]->setShortcuts(_getShortcuts("shortcut_window_full_screen"));
                 p.actions["Maximize"]->setShortcuts(_getShortcuts("shortcut_window_maximize"));
                 p.actions["Fit"]->setShortcuts(_getShortcuts("shortcut_window_fit"));
-                p.actions["AutoHide"]->setShortcuts(_getShortcuts("shortcut_window_auto_hide"));
-            }
-        }
-
-        void WindowSystem::_fadeStart()
-        {
-            DJV_PRIVATE_PTR();
-            auto weak = std::weak_ptr<WindowSystem>(std::dynamic_pointer_cast<WindowSystem>(shared_from_this()));
-            p.fadeAnimation->start(
-                p.fade->get(),
-                0.F,
-                std::chrono::milliseconds(fadeOutTime),
-                [weak](float value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        system->_p->fade->setIfChanged(value);
-                    }
-                },
-                [weak](float value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        if (auto context = system->getContext().lock())
-                        {
-                            system->_p->fade->setIfChanged(value);
-                            system->_p->desktopGLFWSystem->hideCursor();
-                        }
-                    }
-                });
-        }
-
-        void WindowSystem::_fadeStop()
-        {
-            DJV_PRIVATE_PTR();
-            p.fadeTimer->stop();
-            if (!p.desktopGLFWSystem->isCursorVisible())
-            {
-                p.desktopGLFWSystem->showCursor();
-            }
-            const float fade = p.fade->get();
-            if (fade < 1.F)
-            {
-                auto weak = std::weak_ptr<WindowSystem>(std::dynamic_pointer_cast<WindowSystem>(shared_from_this()));
-                p.fadeAnimation->start(
-                    p.fade->get(),
-                    1.F,
-                    std::chrono::milliseconds(fadeInTime),
-                    [weak](float value)
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            system->_p->fade->setIfChanged(value);
-                        }
-                    },
-                    [weak](float value)
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            system->_p->fade->setIfChanged(value);
-                        }
-                    });
             }
         }
 
@@ -551,7 +374,6 @@ namespace djv
             p.actions["FullScreen"]->setChecked(p.fullScreen->get());
             p.actions["FloatOnTop"]->setChecked(p.floatOnTop->get());
             p.actions["Maximize"]->setChecked(p.maximize->get());
-            p.actions["AutoHide"]->setChecked(p.fadeEnabled);
         }
 
         void WindowSystem::Private::setFullScreen(bool value)
