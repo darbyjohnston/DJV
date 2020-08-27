@@ -2,7 +2,7 @@
 // Copyright (c) 2020 Darby Johnston
 // All rights reserved.
 
-#include <djvViewApp/HUDWidget.h>
+#include <djvViewApp/ViewWidgetPrivate.h>
 
 #include <djvAV/FontSystem.h>
 #include <djvAV/Render2D.h>
@@ -38,7 +38,7 @@ namespace djv
 
         } // namespace
 
-        struct HUDWidget::Private
+        struct HUDOverlay::Private
         {
             std::shared_ptr<AV::Font::System> fontSystem;
             HUDData data;
@@ -52,31 +52,31 @@ namespace djv
             std::map< std::string, std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > > glyphsFutures;
         };
 
-        void HUDWidget::_init(const std::shared_ptr<Context>& context)
+        void HUDOverlay::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
 
-            setClassName("djv::ViewApp::HUDWidget");
+            setClassName("djv::ViewApp::HUDOverlay");
 
             p.fontSystem = context->getSystemT<AV::Font::System>();
         }
 
-        HUDWidget::HUDWidget() :
+        HUDOverlay::HUDOverlay() :
             _p(new Private)
         {}
 
-        HUDWidget::~HUDWidget()
+        HUDOverlay::~HUDOverlay()
         {}
 
-        std::shared_ptr<HUDWidget> HUDWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<HUDOverlay> HUDOverlay::create(const std::shared_ptr<Context>& context)
         {
-            auto out = std::shared_ptr<HUDWidget>(new HUDWidget);
+            auto out = std::shared_ptr<HUDOverlay>(new HUDOverlay);
             out->_init(context);
             return out;
         }
 
-        void HUDWidget::setHUDData(const HUDData& value)
+        void HUDOverlay::setHUDData(const HUDData& value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.data)
@@ -85,7 +85,7 @@ namespace djv
             _textUpdate();
         }
 
-        void HUDWidget::setHUDOptions(const HUDOptions& value)
+        void HUDOverlay::setHUDOptions(const HUDOptions& value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.options)
@@ -94,7 +94,7 @@ namespace djv
             _redraw();
         }
 
-        void HUDWidget::_paintEvent(Event::Paint&)
+        void HUDOverlay::_paintEvent(Event::Paint&)
         {
             DJV_PRIVATE_PTR();
             if (p.options.enabled && p.glyphs.size())
@@ -219,7 +219,7 @@ namespace djv
             }
         }
 
-        void HUDWidget::_initEvent(Event::Init & event)
+        void HUDOverlay::_initEvent(Event::Init & event)
         {
             if (event.getData().resize ||
                 event.getData().font ||
@@ -229,7 +229,7 @@ namespace djv
             }
         }
 
-        void HUDWidget::_updateEvent(Event::Update& event)
+        void HUDOverlay::_updateEvent(Event::Update& event)
         {
             DJV_PRIVATE_PTR();
             if (p.fontMetricsFuture.valid() &&
@@ -291,7 +291,7 @@ namespace djv
             }
         }
 
-        void HUDWidget::_textUpdate()
+        void HUDOverlay::_textUpdate()
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();

@@ -367,7 +367,7 @@ namespace djv
                         system->_p->settings->setHUDOptions(system->_p->hudOptions);
                         if (system->_p->activeWidget)
                         {
-                            system->_p->activeWidget->setHUDOptions(system->_p->hudOptions);
+                            system->_p->activeWidget->getViewWidget()->setHUDOptions(system->_p->hudOptions);
                         }
                     }
                 });
@@ -394,7 +394,7 @@ namespace djv
                                     }
                                 });
                                 system->_p->hudOptionsObserver = ValueObserver<HUDOptions>::create(
-                                    system->_p->activeWidget->observeHUDOptions(),
+                                    system->_p->activeWidget->getViewWidget()->observeHUDOptions(),
                                     [weak](const HUDOptions& value)
                                 {
                                     if (auto system = weak.lock())

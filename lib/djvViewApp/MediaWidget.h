@@ -14,7 +14,6 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct HUDOptions;
         class Media;
         class ViewWidget;
 
@@ -87,9 +86,6 @@ namespace djv
 
             void fitWindow();
 
-            std::shared_ptr<Core::IValueSubject<HUDOptions> > observeHUDOptions() const;
-            void setHUDOptions(const HUDOptions&);
-
             std::shared_ptr<Core::IValueSubject<PointerData> > observeHover() const;
             std::shared_ptr<Core::IValueSubject<PointerData> > observeDrag() const;
             std::shared_ptr<Core::IValueSubject<ScrollData> > observeScroll() const;
@@ -104,7 +100,6 @@ namespace djv
 
         private:
             void _imageUpdate();
-            void _hudUpdate();
 
             DJV_PRIVATE();
         };

@@ -54,6 +54,35 @@ namespace djv
             DJV_PRIVATE();
         };
 
+        class HUDOverlay : public UI::Widget
+        {
+            DJV_NON_COPYABLE(HUDOverlay);
+
+        protected:
+            void _init(const std::shared_ptr<Core::Context>&);
+            HUDOverlay();
+
+        public:
+            ~HUDOverlay() override;
+
+            static std::shared_ptr<HUDOverlay> create(const std::shared_ptr<Core::Context>&);
+
+            void setHUDFrame(const Core::BBox2f&);
+            void setHUDData(const HUDData&);
+            void setHUDOptions(const HUDOptions&);
+
+        protected:
+            void _paintEvent(Core::Event::Paint&) override;
+
+            void _initEvent(Core::Event::Init&) override;
+            void _updateEvent(Core::Event::Update&) override;
+
+        private:
+            void _textUpdate();
+
+            DJV_PRIVATE();
+        };
+
     } // namespace ViewApp
 } // namespace djv
 

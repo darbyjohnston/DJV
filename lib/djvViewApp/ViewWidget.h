@@ -28,6 +28,7 @@ namespace djv
     namespace ViewApp
     {
         struct GridOptions;
+        struct HUDOptions;
         struct ViewBackgroundOptions;
         class AnnotatePrimitive;
         class Media;
@@ -38,13 +39,17 @@ namespace djv
             DJV_NON_COPYABLE(ViewWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(
+                const std::shared_ptr<Media>&,
+                const std::shared_ptr<Core::Context>&);
             ViewWidget();
 
         public:
             ~ViewWidget() override;
 
-            static std::shared_ptr<ViewWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ViewWidget> create(
+                const std::shared_ptr<Media>&,
+                const std::shared_ptr<Core::Context>&);
 
             std::shared_ptr<Core::IValueSubject<std::shared_ptr<AV::Image::Image> > > observeImage() const;
             void setImage(const std::shared_ptr<AV::Image::Image>&);
@@ -71,6 +76,9 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<GridOptions> > observeGridOptions() const;
             void setGridOptions(const GridOptions&);
 
+            std::shared_ptr<Core::IValueSubject<HUDOptions> > observeHUDOptions() const;
+            void setHUDOptions(const HUDOptions&);
+
             std::shared_ptr<Core::IValueSubject<ViewBackgroundOptions> > observeBackgroundOptions() const;
             void setBackgroundOptions(const ViewBackgroundOptions&);
 
@@ -88,6 +96,8 @@ namespace djv
 
             void _animatePosAndZoom(const glm::vec2&, float);
             void _setPosAndZoom(const glm::vec2&, float);
+
+            void _hudUpdate();
 
             DJV_PRIVATE();
         };

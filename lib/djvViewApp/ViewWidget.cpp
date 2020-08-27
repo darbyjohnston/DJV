@@ -6,13 +6,16 @@
 
 #include <djvViewApp/Annotate.h>
 #include <djvViewApp/ImageSettings.h>
-#include <djvViewApp/ViewWidgetPrivate.h>
+#include <djvViewApp/Media.h>
+#include <djvViewApp/View.h>
 #include <djvViewApp/ViewSettings.h>
+#include <djvViewApp/ViewWidgetPrivate.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/DrawUtil.h>
 #include <djvUI/ImageWidget.h>
 #include <djvUI/SettingsSystem.h>
+#include <djvUI/StackLayout.h>
 #include <djvUI/Style.h>
 
 #include <djvAV/AVSystem.h>
@@ -22,6 +25,7 @@
 
 #include <djvCore/Animation.h>
 #include <djvCore/Context.h>
+#include <djvCore/FileInfo.h>
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/matrix_transform_2d.hpp>
@@ -41,6 +45,8 @@ namespace djv
 
         struct ViewWidget::Private
         {
+            Time::Units timeUnits = Time::Units::First;
+            std::shared_ptr<Media> media;
             std::shared_ptr<ValueSubject<std::shared_ptr<AV::Image::Image> > > image;
             std::shared_ptr<ValueSubject<AV::Render2D::ImageOptions> > imageOptions;
             AV::OCIO::Config ocioConfig;
@@ -51,23 +57,42 @@ namespace djv
             std::shared_ptr<ValueSubject<UI::ImageAspectRatio> > imageAspectRatio;
             ViewLock lock = ViewLock::None;
             std::shared_ptr<ValueSubject<GridOptions> > gridOptions;
+            std::shared_ptr<ValueSubject<HUDOptions> > hudOptions;
             std::shared_ptr<ValueSubject<ViewBackgroundOptions> > backgroundOptions;
+            Math::Rational speed;
+            float realSpeed = 0.F;
+            Frame::Sequence sequence;
+            Frame::Index currentFrame = Frame::invalidIndex;
             std::vector<std::shared_ptr<AnnotatePrimitive> > annotations;
             glm::vec2 pressedImagePos = glm::vec2(0.F, 0.F);
             bool viewInit = true;
+
             std::shared_ptr<GridOverlay> gridOverlay;
+            std::shared_ptr<HUDOverlay> hudOverlay;
+            std::shared_ptr<UI::StackLayout> layout;
+
+            std::shared_ptr<ValueObserver<Time::Units> > timeUnitsObserver;
+            std::shared_ptr<ValueObserver<std::pair<std::vector<AV::Image::Info>, int> > > layersObserver;
             std::shared_ptr<ValueObserver<ViewLock> > lockObserver;
             std::shared_ptr<ValueObserver<AV::OCIO::Config> > ocioConfigObserver;
+            std::shared_ptr<ValueObserver<Math::Rational> > speedObserver;
+            std::shared_ptr<ValueObserver<float> > realSpeedObserver;
+            std::shared_ptr<ValueObserver<Frame::Sequence> > sequenceObserver;
+            std::shared_ptr<ValueObserver<Frame::Index> > currentFrameObserver;
+
             std::shared_ptr<Animation::Animation> zoomAnimation;
         };
 
-        void ViewWidget::_init(const std::shared_ptr<Context>& context)
+        void ViewWidget::_init(
+            const std::shared_ptr<Media>& media,
+            const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
 
             setClassName("djv::ViewApp::ViewWidget");
 
+            p.media = media;
             auto avSystem = context->getSystemT<AV::AVSystem>();
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
             auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
@@ -84,6 +109,7 @@ namespace djv
             p.imageRotate = ValueSubject<UI::ImageRotate>::create(imageSettings->observeRotate()->get());
             p.imageAspectRatio = ValueSubject<UI::ImageAspectRatio>::create(imageSettings->observeAspectRatio()->get());
             p.gridOptions = ValueSubject<GridOptions>::create(viewSettings->observeGridOptions()->get());
+            p.hudOptions = ValueSubject<HUDOptions>::create(viewSettings->observeHUDOptions()->get());
             p.backgroundOptions = ValueSubject<ViewBackgroundOptions>::create(viewSettings->observeBackgroundOptions()->get());
 
             p.gridOverlay = GridOverlay::create(context);
@@ -92,9 +118,39 @@ namespace djv
             p.gridOverlay->setImageRotate(p.imageRotate->get());
             p.gridOverlay->setImageAspectRatio(p.imageAspectRatio->get(), 1.F, 1.F);
             p.gridOverlay->setImageBBox(getImageBBox());
-            addChild(p.gridOverlay);
+
+            p.hudOverlay = HUDOverlay::create(context);
+            p.hudOverlay->setHUDOptions(p.hudOptions->get());
+
+            p.layout = UI::StackLayout::create(context);
+            p.layout->addChild(p.gridOverlay);
+            p.layout->addChild(p.hudOverlay);
+            addChild(p.layout);
+
+            _hudUpdate();
 
             auto weak = std::weak_ptr<ViewWidget>(std::dynamic_pointer_cast<ViewWidget>(shared_from_this()));
+            p.timeUnitsObserver = ValueObserver<Time::Units>::create(
+                avSystem->observeTimeUnits(),
+                [weak](Time::Units value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->timeUnits = value;
+                        widget->_hudUpdate();
+                    }
+                });
+
+            p.layersObserver = ValueObserver<std::pair<std::vector<AV::Image::Info>, int> >::create(
+                p.media->observeLayers(),
+                [weak](const std::pair<std::vector<AV::Image::Info>, int>& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_hudUpdate();
+                    }
+                });
+
             p.lockObserver = ValueObserver<ViewLock>::create(
                 viewSettings->observeLock(),
                 [weak](ViewLock value)
@@ -126,6 +182,50 @@ namespace djv
                         }
                     }
                 });
+
+            p.speedObserver = ValueObserver<Math::Rational>::create(
+                p.media->observeSpeed(),
+                [weak](const Math::Rational& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->speed = value;
+                        widget->_hudUpdate();
+                    }
+                });
+
+            p.realSpeedObserver = ValueObserver<float>::create(
+                p.media->observeRealSpeed(),
+                [weak](float value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->realSpeed = value;
+                        widget->_hudUpdate();
+                    }
+                });
+
+            p.sequenceObserver = ValueObserver<Frame::Sequence>::create(
+                p.media->observeSequence(),
+                [weak](const Frame::Sequence& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->sequence = value;
+                        widget->_hudUpdate();
+                    }
+                });
+
+            p.currentFrameObserver = ValueObserver<Frame::Index>::create(
+                p.media->observeCurrentFrame(),
+                [weak](Frame::Index value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->currentFrame = value;
+                        widget->_hudUpdate();
+                    }
+                });
                 
             p.zoomAnimation = Animation::Animation::create(context);
             p.zoomAnimation->setType(Animation::Type::SmoothStep);
@@ -138,10 +238,12 @@ namespace djv
         ViewWidget::~ViewWidget()
         {}
 
-        std::shared_ptr<ViewWidget> ViewWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ViewWidget> ViewWidget::create(
+            const std::shared_ptr<Media>& media,
+            const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<ViewWidget>(new ViewWidget);
-            out->_init(context);
+            out->_init(media, context);
             return out;
         }
 
@@ -325,6 +427,20 @@ namespace djv
             }
         }
 
+        std::shared_ptr<Core::IValueSubject<HUDOptions> > ViewWidget::observeHUDOptions() const
+        {
+            return _p->hudOptions;
+        }
+
+        void ViewWidget::setHUDOptions(const HUDOptions& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.hudOptions->setIfChanged(value))
+            {
+                p.hudOverlay->setHUDOptions(value);
+            }
+        }
+
         std::shared_ptr<IValueSubject<ViewBackgroundOptions> > ViewWidget::observeBackgroundOptions() const
         {
             return _p->backgroundOptions;
@@ -349,7 +465,10 @@ namespace djv
         {
             const auto& style = _getStyle();
             const float sa = style->getMetric(UI::MetricsRole::ScrollArea);
-            _setMinimumSize(glm::vec2(sa, sa));
+            glm::vec2 size = _p->layout->getMinimumSize();
+            size.x = std::max(size.x, sa);
+            size.y = std::max(size.x, sa);
+            _setMinimumSize(size);
         }
 
         void ViewWidget::_layoutEvent(Event::Layout&)
@@ -370,7 +489,8 @@ namespace djv
             {
                 p.viewInit = false;
             }
-            p.gridOverlay->setGeometry(getGeometry());
+            const BBox2f& g = getGeometry();
+            p.layout->setGeometry(g);
             p.gridOverlay->setImageBBox(getImageBBox());
         }
 
@@ -574,6 +694,26 @@ namespace djv
             }
             p.gridOverlay->setImagePosAndZoom(p.imagePos->get(), p.imageZoom->get());
             p.gridOverlay->setImageBBox(getImageBBox());
+        }
+
+        void ViewWidget::_hudUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            HUDData data;
+            data.fileName = p.media->getFileInfo().getFileName(Frame::invalid, false);
+            const auto& layers = p.media->observeLayers()->get();
+            if (layers.second >= 0 && layers.second < static_cast<int>(layers.first.size()))
+            {
+                const auto& layer = layers.first[layers.second];
+                data.layer = layer.name;
+                data.size = layer.size;
+                data.type = layer.type;
+            }
+            data.isSequence = p.sequence.getFrameCount() > 1;
+            data.currentFrame = Time::toString(p.sequence.getFrame(p.currentFrame), p.speed, p.timeUnits);
+            data.speed = p.speed;
+            data.realSpeed = p.realSpeed;
+            p.hudOverlay->setHUDData(data);
         }
 
     } // namespace ViewApp

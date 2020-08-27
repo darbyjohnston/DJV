@@ -582,7 +582,7 @@ namespace djv
                             widget->_widgetUpdate();
                             if (widget->_p->activeWidget)
                             {
-                                widget->_p->activeWidget->setHUDOptions(widget->_p->hudOptions);
+                                widget->_p->activeWidget->getViewWidget()->setHUDOptions(widget->_p->hudOptions);
                             }
                             auto settingsSystem = context->getSystemT<UI::Settings::System>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
@@ -601,7 +601,7 @@ namespace djv
                             widget->_widgetUpdate();
                             if (widget->_p->activeWidget)
                             {
-                                widget->_p->activeWidget->setHUDOptions(widget->_p->hudOptions);
+                                widget->_p->activeWidget->getViewWidget()->setHUDOptions(widget->_p->hudOptions);
                             }
                             auto settingsSystem = context->getSystemT<UI::Settings::System>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
@@ -620,7 +620,7 @@ namespace djv
                             widget->_widgetUpdate();
                             if (widget->_p->activeWidget)
                             {
-                                widget->_p->activeWidget->setHUDOptions(widget->_p->hudOptions);
+                                widget->_p->activeWidget->getViewWidget()->setHUDOptions(widget->_p->hudOptions);
                             }
                             auto settingsSystem = context->getSystemT<UI::Settings::System>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
@@ -641,7 +641,7 @@ namespace djv
                             if (widget->_p->activeWidget)
                             {
                                 widget->_p->hudOptionsObserver = ValueObserver<HUDOptions>::create(
-                                    widget->_p->activeWidget->observeHUDOptions(),
+                                    widget->_p->activeWidget->getViewWidget()->observeHUDOptions(),
                                     [weak](const HUDOptions& value)
                                     {
                                         if (auto widget = weak.lock())

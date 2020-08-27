@@ -26,7 +26,7 @@ namespace djv
             ViewLock viewLock = ViewLock::First;
             uint32_t pressedID = Event::invalidID;
 
-            std::shared_ptr<ViewWidget> viewWidget;
+            //std::shared_ptr<ViewWidget> viewWidget;
             std::shared_ptr<UI::StackLayout> layout;
 
             std::function<void(void)> closeCallback;
@@ -48,14 +48,14 @@ namespace djv
             setClassName("djv::ViewApp::PresentationWidget");
             setPointerEnabled(true);
 
-            p.viewWidget = ViewWidget::create(context);
+            //p.viewWidget = ViewWidget::create(context);
 
             p.layout = UI::StackLayout::create(context);
-            p.layout->addChild(p.viewWidget);
+            //p.layout->addChild(p.viewWidget);
             addChild(p.layout);
 
             auto weak = std::weak_ptr<PresentationWidget>(std::dynamic_pointer_cast<PresentationWidget>(shared_from_this()));
-            if (auto windowSystem = context->getSystemT<WindowSystem>())
+            /*if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
                 p.activeWidgetObserver = ValueObserver<std::shared_ptr<MediaWidget> >::create(
                     windowSystem->observeActiveWidget(),
@@ -137,10 +137,10 @@ namespace djv
                             }
                         }
                     });
-            }
+            }*/
 
             auto settings = context->getSystemT<UI::Settings::System>();
-            if (auto viewSettings = settings->getSettingsT<ViewSettings>())
+            /*if (auto viewSettings = settings->getSettingsT<ViewSettings>())
             {
                 p.viewLockObserver = ValueObserver<ViewLock>::create(
                     viewSettings->observeLock(),
@@ -160,7 +160,7 @@ namespace djv
                             }
                         }
                     });
-            }
+            }*/
         }
 
         PresentationWidget::PresentationWidget() :

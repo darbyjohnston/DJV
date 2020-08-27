@@ -20,7 +20,6 @@ set(header
     FileSettingsWidget.h
     HelpSystem.h
     HistogramWidget.h
-	HUDWidget.h
     IToolSystem.h
     IViewSystem.h
     ImageControlsWidget.h
@@ -97,7 +96,6 @@ set(source
     FileSystem.cpp
     HelpSystem.cpp
     HistogramWidget.cpp
-	HUDWidget.cpp
     IToolSystem.cpp
     IViewSystem.cpp
     ImageControlsWidget.cpp
@@ -143,10 +141,11 @@ set(source
 	View.cpp
     ViewControlsWidget.cpp
     ViewControlsWidgetPrivate.cpp
+    ViewGridOverlay.cpp
+	ViewHUDOverlay.cpp
 	ViewSettings.cpp
     ViewSystem.cpp
     ViewWidget.cpp
-    ViewGridOverlay.cpp
 	WindowBackgroundWidget.cpp
 	WindowSettings.cpp
 	WindowSettingsWidget.cpp

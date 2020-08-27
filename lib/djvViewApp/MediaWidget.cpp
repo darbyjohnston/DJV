@@ -5,7 +5,6 @@
 #include <djvViewApp/MediaWidget.h>
 
 #include <djvViewApp/FileSystem.h>
-#include <djvViewApp/HUDWidget.h>
 #include <djvViewApp/ImageSystem.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidgetPrivate.h>
@@ -16,8 +15,6 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/StackLayout.h>
-
-#include <djvAV/AVSystem.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
@@ -78,19 +75,11 @@ namespace djv
 
         struct MediaWidget::Private
         {
-            Time::Units timeUnits = Time::Units::First;
             std::shared_ptr<Media> media;
-            std::vector<AV::Image::Info> layers;
-            int currentLayer = -1;
             std::shared_ptr<AV::Image::Image> image;
             ViewLock viewLock = ViewLock::First;
-            std::shared_ptr<ValueSubject<HUDOptions> > hudOptions;
             bool frameStoreEnabled = false;
             std::shared_ptr<AV::Image::Image> frameStore;
-            Math::Rational speed;
-            float realSpeed = 0.F;
-            Frame::Sequence sequence;
-            Frame::Index currentFrame = Frame::invalidIndex;
             bool active = false;
             std::shared_ptr<ValueSubject<PointerData> > hover;
             std::shared_ptr<ValueSubject<PointerData> > drag;
@@ -99,19 +88,12 @@ namespace djv
             std::shared_ptr<TitleBar> titleBar;
             std::shared_ptr<PointerWidget> pointerWidget;
             std::shared_ptr<ViewWidget> viewWidget;
-            std::shared_ptr<HUDWidget> hud;
             std::shared_ptr<UI::VerticalLayout> layout;
 
-            std::shared_ptr<ValueObserver<Time::Units> > timeUnitsObserver;
-            std::shared_ptr<ValueObserver<std::pair<std::vector<AV::Image::Info>, int> > > layersObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
             std::shared_ptr<ValueObserver<ViewLock> > viewLockObserver;
             std::shared_ptr<ValueObserver<bool> > frameStoreEnabledObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > frameStoreObserver;
-            std::shared_ptr<ValueObserver<Math::Rational> > speedObserver;
-            std::shared_ptr<ValueObserver<float> > realSpeedObserver;
-            std::shared_ptr<ValueObserver<Frame::Sequence> > sequenceObserver;
-            std::shared_ptr<ValueObserver<Frame::Index> > currentFrameObserver;
             std::shared_ptr<ListObserver<std::shared_ptr<AnnotatePrimitive> > > annotationsObserver;
         };
 
@@ -123,9 +105,6 @@ namespace djv
             setClassName("djv::ViewApp::MediaWidget");
 
             p.media = media;
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
-            auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-            p.hudOptions = ValueSubject<HUDOptions>::create(viewSettings->observeHUDOptions()->get());
             p.hover = ValueSubject<PointerData>::create();
             p.drag = ValueSubject<PointerData>::create();
             p.scroll = ValueSubject<ScrollData>::create();
@@ -137,10 +116,7 @@ namespace djv
 
             p.pointerWidget = PointerWidget::create(context);
 
-            p.viewWidget = ViewWidget::create(context);
-
-            p.hud = HUDWidget::create(context);
-            p.hud->setHUDOptions(p.hudOptions->get());
+            p.viewWidget = ViewWidget::create(media, context);
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
@@ -148,13 +124,10 @@ namespace djv
             p.layout->addChild(p.titleBar);
             auto stackLayout = UI::StackLayout::create(context);
             stackLayout->addChild(p.viewWidget);
-            stackLayout->addChild(p.hud);
             stackLayout->addChild(p.pointerWidget);
             p.layout->addChild(stackLayout);
             p.layout->setStretch(stackLayout, UI::RowStretch::Expand);
             addChild(p.layout);
-
-            _hudUpdate();
 
             auto weak = std::weak_ptr<MediaWidget>(std::dynamic_pointer_cast<MediaWidget>(shared_from_this()));
             p.titleBar->setMaximizeCallback(
@@ -211,30 +184,6 @@ namespace djv
                     }
                 });
 
-            auto avSystem = context->getSystemT<AV::AVSystem>();
-            p.timeUnitsObserver = ValueObserver<Time::Units>::create(
-                avSystem->observeTimeUnits(),
-                [weak](Time::Units value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->timeUnits = value;
-                        widget->_hudUpdate();
-                    }
-                });
-
-            p.layersObserver = ValueObserver<std::pair<std::vector<AV::Image::Info>, int> >::create(
-                p.media->observeLayers(),
-                [weak](const std::pair<std::vector<AV::Image::Info>, int>& value)
-            {
-                if (auto widget = weak.lock())
-                {
-                    widget->_p->layers = value.first;
-                    widget->_p->currentLayer = value.second;
-                    widget->_hudUpdate();
-                }
-            });
-
             p.imageObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
                 p.media->observeCurrentImage(),
                 [weak](const std::shared_ptr<AV::Image::Image>& value)
@@ -243,50 +192,6 @@ namespace djv
                     {
                         widget->_p->image = value;
                         widget->_imageUpdate();
-                    }
-                });
-
-            p.speedObserver = ValueObserver<Math::Rational>::create(
-                p.media->observeSpeed(),
-                [weak](const Math::Rational& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->speed = value;
-                        widget->_hudUpdate();
-                    }
-                });
-
-            p.realSpeedObserver = ValueObserver<float>::create(
-                p.media->observeRealSpeed(),
-                [weak](float value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->realSpeed = value;
-                        widget->_hudUpdate();
-                    }
-                });
-
-            p.sequenceObserver = ValueObserver<Frame::Sequence>::create(
-                p.media->observeSequence(),
-                [weak](const Frame::Sequence& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->sequence = value;
-                        widget->_hudUpdate();
-                    }
-                });
-
-            p.currentFrameObserver = ValueObserver<Frame::Index>::create(
-                p.media->observeCurrentFrame(),
-                [weak](Frame::Index value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->currentFrame = value;
-                        widget->_hudUpdate();
                     }
                 });
 
@@ -300,6 +205,7 @@ namespace djv
                     }
                 });
 
+            auto settingsSystem = context->getSystemT<UI::Settings::System>();
             if (auto viewSettings = settingsSystem->getSettingsT<ViewSettings>())
             {
                 p.viewLockObserver = ValueObserver<ViewLock>::create(
@@ -372,20 +278,6 @@ namespace djv
             const glm::vec2 imageSize = imageBBox.getSize() * zoom;
             glm::vec2 size(ceilf(imageSize.x), ceilf(imageSize.y + p.titleBar->getHeight()));
             resize(size + sh * 2.F);
-        }
-
-        std::shared_ptr<Core::IValueSubject<HUDOptions> > MediaWidget::observeHUDOptions() const
-        {
-            return _p->hudOptions;
-        }
-
-        void MediaWidget::setHUDOptions(const HUDOptions& value)
-        {
-            DJV_PRIVATE_PTR();
-            if (p.hudOptions->setIfChanged(value))
-            {
-                p.hud->setHUDOptions(value);
-            }
         }
 
         std::shared_ptr<IValueSubject<PointerData> > MediaWidget::observeHover() const
@@ -465,25 +357,6 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.viewWidget->setImage(p.active && p.frameStoreEnabled && p.frameStore ? p.frameStore : p.image);
-        }
-
-        void MediaWidget::_hudUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            HUDData data;
-            data.fileName = p.media->getFileInfo().getFileName(Frame::invalid, false);
-            if (p.currentLayer >= 0 && p.currentLayer < static_cast<int>(p.layers.size()))
-            {
-                const auto& layer = p.layers[p.currentLayer];
-                data.layer = layer.name;
-                data.size = layer.size;
-                data.type = layer.type;
-            }
-            data.isSequence = p.sequence.getFrameCount() > 1;
-            data.currentFrame = Time::toString(p.sequence.getFrame(p.currentFrame), p.speed, p.timeUnits);
-            data.speed = p.speed;
-            data.realSpeed = p.realSpeed;
-            p.hud->setHUDData(data);
         }
 
     } // namespace ViewApp
