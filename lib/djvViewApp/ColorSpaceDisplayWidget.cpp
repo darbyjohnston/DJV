@@ -12,7 +12,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/Spacer.h>
-#include <djvUI/Toolbar.h>
+#include <djvUI/ToolBar.h>
 
 #include <djvAV/OCIOSystem.h>
 
