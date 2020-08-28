@@ -149,6 +149,9 @@ elseif (APPLE)
     find_library(CORE_SERVICES CoreServices)
     set(LIBRARIES ${LIBRARIES} ${CORE_SERVICES})
 endif()
+if (${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "arm")
+    set(LIBRARIES ${LIBRARIES} atomic)
+endif()
 target_link_libraries(djvCore ${LIBRARIES})
 set_target_properties(
     djvCore
