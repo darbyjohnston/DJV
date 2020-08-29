@@ -7,6 +7,7 @@
 #include <djvAV/IOSystem.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/Error.h>
 #include <djvCore/String.h>
 #include <djvCore/Timer.h>
 
@@ -200,8 +201,7 @@ namespace djv
                     ".cin",
                     ".dpx",
                     ".ppm",
-                    ".png",
-                    ".txt"
+                    ".png"
                 };
                 const std::vector<Image::Size> sizes =
                 {
@@ -282,8 +282,10 @@ namespace djv
                                     }
                                 }
                             }
-                            catch (const std::exception&)
-                            {}
+                            catch (const std::exception& e)
+                            {
+                                std::cout << Error::format(e) << std::endl;
+                            }
                         }
                     }
                 }
@@ -324,8 +326,10 @@ namespace djv
                     {
                         io->setOptions(i, rapidjson::Value());
                     }
-                    catch (const std::exception&)
-                    {}
+                    catch (const std::exception& e)
+                    {
+                        std::cout << Error::format(e) << std::endl;
+                    }
                 }
                 
                 {

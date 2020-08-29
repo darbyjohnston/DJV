@@ -86,8 +86,7 @@ int main(int argc, char ** argv)
         std::vector<std::shared_ptr<Test::ITest> > tests;
         if (0)
         {
-            tests.emplace_back(new UITest::ActionGroupTest(context));
-            tests.emplace_back(new UITest::ButtonGroupTest(context));
+            tests.emplace_back(new AVTest::IOTest(context));
         }
         else
         {
