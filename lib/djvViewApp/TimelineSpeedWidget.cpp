@@ -40,7 +40,6 @@ namespace djv
             Math::Rational speed;
             bool playEveryFrame = false;
 
-            std::shared_ptr<UI::Label> titleLabel;
             std::map<PlaybackSpeed, std::shared_ptr<UI::CheckBox> > speedCheckBoxes;
             std::map<Time::FPS, std::shared_ptr<UI::ListButton> > presetSpeedButtons;
             std::shared_ptr<UI::FloatEdit> customSpeedFloatEdit;
@@ -71,11 +70,6 @@ namespace djv
             setClassName("djv::ViewApp::SpeedWidget");
 
             p.media = media;
-
-            p.titleLabel = UI::Label::create(context);
-            p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
-            p.titleLabel->setMargin(UI::MetricsRole::MarginSmall);
-            p.titleLabel->setBackgroundRole(UI::ColorRole::Trough);
 
             p.customSpeedFloatEdit = UI::FloatEdit::create(context);
             p.customSpeedFloatEdit->setRange(FloatRange(.1F, 1000.F));
@@ -142,13 +136,9 @@ namespace djv
 
             auto layout = UI::VerticalLayout::create(context);
             layout->setSpacing(UI::MetricsRole::None);
-            layout->addChild(p.titleLabel);
-            layout->addSeparator();
-
             layout->addChild(p.speedButtonLayout);
             layout->addSeparator();
             layout->addChild(p.playEveryFrameCheckBox);
-
             p.scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             p.scrollWidget->setMinimumSizeRole(UI::MetricsRole::None);
             p.scrollWidget->setBorder(false);
@@ -305,8 +295,6 @@ namespace djv
         void SpeedWidget::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-
-            p.titleLabel->setText(_getText(DJV_TEXT("playback_speed")));
 
             for (auto i : getPlaybackSpeedEnums())
             {

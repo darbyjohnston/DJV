@@ -25,10 +25,9 @@ namespace djv
             float volume = 0.F;
             bool mute = false;
 
-            std::shared_ptr<UI::Label> label;
             std::shared_ptr<UI::FloatSlider> volumeSlider;
             std::shared_ptr<UI::ToolButton> muteButton;
-            std::shared_ptr<UI::VerticalLayout> layout;
+            std::shared_ptr<UI::HorizontalLayout> layout;
 
             std::shared_ptr<Core::ValueObserver<float> > volumeObserver;
             std::shared_ptr<Core::ValueObserver<bool> > muteObserver;
@@ -45,11 +44,6 @@ namespace djv
 
             p.media = media;
 
-            p.label = UI::Label::create(context);
-            p.label->setTextHAlign(UI::TextHAlign::Left);
-            p.label->setMargin(UI::MetricsRole::MarginSmall);
-            p.label->setBackgroundRole(UI::ColorRole::Trough);
-
             p.volumeSlider = UI::FloatSlider::create(context);
             p.volumeSlider->setRange(FloatRange(0.F, 100.F));
             p.volumeSlider->getModel()->setSmallIncrement(1.F);
@@ -60,15 +54,10 @@ namespace djv
             p.muteButton->setButtonType(UI::ButtonType::Toggle);
             p.muteButton->setVAlign(UI::VAlign::Fill);
 
-            p.layout = UI::VerticalLayout::create(context);
+            p.layout = UI::HorizontalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
-            p.layout->addChild(p.label);
-            p.layout->addSeparator();
-            auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
-            hLayout->addChild(p.volumeSlider);
-            hLayout->addChild(p.muteButton);
-            p.layout->addChild(hLayout);
+            p.layout->addChild(p.volumeSlider);
+            p.layout->addChild(p.muteButton);
             addChild(p.layout);
 
             auto weak = std::weak_ptr<AudioWidget>(std::dynamic_pointer_cast<AudioWidget>(shared_from_this()));
@@ -147,7 +136,6 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (event.getData().text)
             {
-                p.label->setText(_getText(DJV_TEXT("playback_menu_audio")));
                 p.volumeSlider->setTooltip(_getText(DJV_TEXT("audio_volume_tooltip")));
                 p.muteButton->setTooltip(_getText(DJV_TEXT("audio_mute_tooltip")));
             }

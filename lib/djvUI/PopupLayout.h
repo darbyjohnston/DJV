@@ -27,7 +27,7 @@ namespace djv
                 static std::shared_ptr<Popup> create(const std::shared_ptr<Core::Context>&);
 
                 void setButton(const std::weak_ptr<Widget>&);
-
+                void setPopupDefault(UI::Popup);
                 void clearPopups();
 
             protected:

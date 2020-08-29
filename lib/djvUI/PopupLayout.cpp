@@ -19,6 +19,7 @@ namespace djv
             struct Popup::Private
             {
                 std::weak_ptr<Widget> button;
+                UI::Popup popupDefault = UI::Popup::BelowRight;
                 std::map<std::shared_ptr<IObject>, UI::Popup> popups;
             };
 
@@ -45,7 +46,17 @@ namespace djv
 
             void Popup::setButton(const std::weak_ptr<Widget>& value)
             {
-                _p->button = value;
+                DJV_PRIVATE_PTR();
+                p.button = value;
+                _resize();
+            }
+
+            void Popup::setPopupDefault(UI::Popup value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.popupDefault)
+                    return;
+                p.popupDefault = value;
                 _resize();
             }
 
@@ -64,7 +75,7 @@ namespace djv
                     {
                         const auto& buttonBBox = button->getGeometry();
                         const auto& minimumSize = i->getMinimumSize();
-                        UI::Popup popup = UI::Popup::BelowRight;
+                        UI::Popup popup = p.popupDefault;
                         auto j = p.popups.find(i);
                         if (j == p.popups.end())
                         {

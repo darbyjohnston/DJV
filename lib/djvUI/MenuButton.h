@@ -38,10 +38,10 @@ namespace djv
                 const std::string& getText() const;
                 void setText(const std::string&);
 
-                const std::string& getFont() const;
+                const std::string& getFontFamily() const;
                 const std::string& getFontFace() const;
                 MetricsRole getFontSizeRole() const;
-                void setFont(const std::string&);
+                void setFontFamily(const std::string&);
                 void setFontFace(const std::string&);
                 void setFontSizeRole(MetricsRole);
 

@@ -28,7 +28,7 @@ namespace djv
                 bool open = false;
                 MenuButtonStyle buttonStyle = MenuButtonStyle::Flat;
                 bool textFocusEnabled = false;
-                std::string font;
+                std::string fontFamily;
                 std::string fontFace;
                 MetricsRole fontSizeRole = MetricsRole::FontMedium;
                 int elide = 0;
@@ -156,7 +156,7 @@ namespace djv
                         {
                             p.label = Label::create(context);
                             p.label->setTextHAlign(TextHAlign::Left);
-                            p.label->setFontFamily(p.font);
+                            p.label->setFontFamily(p.fontFamily);
                             p.label->setFontFace(p.fontFace);
                             p.label->setFontSizeRole(p.fontSizeRole);
                             p.label->setElide(p.elide);
@@ -174,9 +174,9 @@ namespace djv
                 }
             }
 
-            const std::string& Menu::getFont() const
+            const std::string& Menu::getFontFamily() const
             {
-                return _p->font;
+                return _p->fontFamily;
             }
 
             const std::string& Menu::getFontFace() const
@@ -189,10 +189,10 @@ namespace djv
                 return _p->fontSizeRole;
             }
 
-            void Menu::setFont(const std::string& value)
+            void Menu::setFontFamily(const std::string& value)
             {
                 DJV_PRIVATE_PTR();
-                p.font = value;
+                p.fontFamily = value;
                 if (p.label)
                 {
                     p.label->setFontFamily(value);

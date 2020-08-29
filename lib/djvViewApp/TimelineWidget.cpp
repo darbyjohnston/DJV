@@ -122,6 +122,9 @@ namespace djv
 
             p.speedPopupButton = UI::PopupButton::create(UI::MenuButtonStyle::Tool, context);
             p.speedPopupButton->setPopupIcon("djvIconPopupMenu");
+            p.speedPopupButton->setPopupDefault(UI::Popup::AboveRight);
+            p.speedPopupButton->setFontFamily(AV::Font::familyMono);
+            p.speedPopupButton->setFontSizeRole(UI::MetricsRole::FontSmall);
             p.realSpeedLabel = UI::Label::create(context);
             p.realSpeedLabel->setFontFamily(AV::Font::familyMono);
             p.realSpeedLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
@@ -162,6 +165,7 @@ namespace djv
             p.timelineSlider->setMargin(UI::MetricsRole::MarginInside);
 
             p.audioPopupButton = UI::PopupButton::create(UI::MenuButtonStyle::Tool, context);
+            p.audioPopupButton->setPopupDefault(UI::Popup::AboveLeft);
             p.audioPopupButton->setVAlign(UI::VAlign::Center);
 
             auto toolBar = UI::ToolBar::create(context);
