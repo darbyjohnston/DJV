@@ -102,7 +102,7 @@ namespace djv
                 void setPath(const Path& path, FileType fileType, const Frame::Sequence&, bool stat = true);
 
                 //! Get the file name.
-                //! \param frame Specify a frame number or -1 for the entire sequence.
+                //! \param frame Specify a frame number or Frame::invalid for the entire sequence.
                 //! \param path Include the path in the file name.
                 std::string getFileName(Frame::Number frame = Frame::invalid, bool path = true) const;
 
