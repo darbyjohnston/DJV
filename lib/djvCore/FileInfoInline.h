@@ -96,7 +96,7 @@ namespace djv
                             _type = FileType::Sequence;
                         }
                     }
-                    Frame::Sequence sequence = _parseSequence(value.getPath().getNumber());
+                    const Frame::Sequence sequence = _parseSequence(value.getPath().getNumber());
                     for (const auto& range : sequence.getRanges())
                     {
                         _sequence.add(range);
