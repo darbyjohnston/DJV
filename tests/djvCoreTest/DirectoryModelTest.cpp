@@ -74,14 +74,14 @@ namespace djv
                 model->setPath(path);
                 model->setHistoryMax(0);
 
-                model->setFileExtensions({ ".txt" });
-                model->setFileExtensions({ ".txt" });
+                model->setExtensions({ ".txt" });
+                model->setExtensions({ ".txt" });
 
-                model->setFileSequences(true);
-                model->setFileSequenceExtensions({ ".txt" });
-                model->setFileSequenceExtensions({ ".txt" });
+                model->setSequences(true);
+                model->setSequenceExtensions({ ".txt" });
+                model->setSequenceExtensions({ ".txt" });
                 model->setShowHidden(true);
-                DJV_ASSERT(model->observeFileSequences()->get());
+                DJV_ASSERT(model->observeSequences()->get());
                 DJV_ASSERT(model->observeShowHidden()->get());
 
                 model->setSort(FileSystem::DirectoryListSort::Size);

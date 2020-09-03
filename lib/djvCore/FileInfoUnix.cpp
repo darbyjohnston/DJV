@@ -119,10 +119,10 @@ namespace djv
                         {
                             filter = true;
                         }
-                        if (!filter && !(de->d_type & DT_DIR) && options.fileExtensions.size())
+                        if (!filter && !(de->d_type & DT_DIR) && options.extensions.size())
                         {
                             bool match = false;
-                            for (const auto& i : options.fileExtensions)
+                            for (const auto& i : options.extensions)
                             {
                                 if (String::match(fileName, '\\' + i + '$'))
                                 {

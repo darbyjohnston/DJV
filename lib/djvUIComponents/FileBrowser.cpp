@@ -99,7 +99,7 @@ namespace djv
 
                 p.directoryModel = FileSystem::DirectoryModel::create(context);
                 auto io = context->getSystemT<AV::IO::System>();
-                p.directoryModel->setFileSequenceExtensions(io->getSequenceExtensions());
+                p.directoryModel->setSequenceExtensions(io->getSequenceExtensions());
                 p.shortcutsModel = ShortcutsModel::create(context);
                 p.recentPathsModel = FileSystem::RecentFilesModel::create();
                 p.recentPathsModel->setFilesMax(10);
@@ -574,7 +574,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->directoryModel->setFileSequences(value);
+                        widget->_p->directoryModel->setSequences(value);
                         widget->_p->actions["FileSequences"]->setChecked(value);
                     }
                 });
@@ -812,7 +812,7 @@ namespace djv
 
             void FileBrowser::setFileExtensions(const std::set<std::string>& value)
             {
-                _p->directoryModel->setFileExtensions(value);
+                _p->directoryModel->setExtensions(value);
             }
 
             const FileSystem::Path& FileBrowser::getPath() const

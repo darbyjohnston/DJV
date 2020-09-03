@@ -107,8 +107,8 @@ namespace djv
             {
                 FileInfo out(path);
                 DirectoryListOptions options;
-                options.fileSequences = true;
-                options.fileSequenceExtensions = extensions;
+                options.sequences = true;
+                options.sequenceExtensions = extensions;
                 std::string dir = path.getDirectoryName();
                 if (dir.empty())
                 {
@@ -130,10 +130,10 @@ namespace djv
                 std::string extension = fileInfo.getPath().getExtension();
                 std::transform(extension.begin(), extension.end(), extension.begin(), tolower);
                 const auto i = std::find(
-                    options.fileSequenceExtensions.begin(),
-                    options.fileSequenceExtensions.end(),
+                    options.sequenceExtensions.begin(),
+                    options.sequenceExtensions.end(),
                     extension);
-                if (options.fileSequences && i != options.fileSequenceExtensions.end())
+                if (options.sequences && i != options.sequenceExtensions.end())
                 {
                     const size_t size = out.size();
                     size_t j = 0;

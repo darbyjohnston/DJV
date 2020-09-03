@@ -74,12 +74,12 @@ namespace djv
                 //! \name Options
                 ///@{
 
-                void setFileExtensions(const std::set<std::string>&);
+                void setExtensions(const std::set<std::string>&);
 
-                std::shared_ptr<IValueSubject<bool> > observeFileSequences() const;
+                std::shared_ptr<IValueSubject<bool> > observeSequences() const;
                 std::shared_ptr<IValueSubject<bool> > observeShowHidden() const;
-                void setFileSequences(bool);
-                void setFileSequenceExtensions(const std::set<std::string>&);
+                void setSequences(bool);
+                void setSequenceExtensions(const std::set<std::string>&);
                 void setShowHidden(bool);
 
                 std::shared_ptr<IValueSubject<DirectoryListSort> > observeSort() const;

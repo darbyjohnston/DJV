@@ -59,9 +59,9 @@ namespace djv
             //! This struct provides directory listing options.
             struct DirectoryListOptions
             {
-                std::set<std::string>       fileExtensions;
-                bool                        fileSequences           = false;
-                std::set<std::string>       fileSequenceExtensions;
+                std::set<std::string>       extensions;
+                bool                        sequences               = false;
+                std::set<std::string>       sequenceExtensions;
                 bool                        showHidden              = false;
                 DirectoryListSort           sort                    = DirectoryListSort::Name;
                 bool                        reverseSort             = false;
