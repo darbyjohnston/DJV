@@ -372,19 +372,12 @@ namespace djv
                         Cineon::isValid(out.film.offset, 2) && Cineon::isValid(out.film.prefix, 6) &&
                         Cineon::isValid(out.film.count, 4))
                     {
-                        try
-                        {
-                            info.tags.setTag("Keycode", Time::keycodeToString(
-                                std::stoi(std::string(out.film.id, 2)),
-                                std::stoi(std::string(out.film.type, 2)),
-                                std::stoi(std::string(out.film.prefix, 6)),
-                                std::stoi(std::string(out.film.count, 4)),
-                                std::stoi(std::string(out.film.offset, 2))));
-                        }
-                        catch (const std::exception& e)
-                        {
-                            //! \bug How should we handle this exception?
-                        }
+                        info.tags.setTag("Keycode", Time::keycodeToString(
+                            std::stoi(std::string(out.film.id, 2)),
+                            std::stoi(std::string(out.film.type, 2)),
+                            std::stoi(std::string(out.film.prefix, 6)),
+                            std::stoi(std::string(out.film.count, 4)),
+                            std::stoi(std::string(out.film.offset, 2))));
                     }
                     if (Cineon::isValid(out.film.format, 32))
                     {

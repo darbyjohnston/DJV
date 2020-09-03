@@ -377,19 +377,12 @@ namespace djv
                         isValid(&out.film.prefix) &&
                         isValid(&out.film.count))
                     {
-                        try
-                        {
-                            info.tags.setTag( "Keycode", Time::keycodeToString(
-                                out.film.id,
-                                out.film.type,
-                                out.film.prefix,
-                                out.film.count,
-                                out.film.offset));
-                        }
-                        catch (const std::exception& e)
-                        {
-                            //! \bug How should we handle this exception?
-                        }
+                        info.tags.setTag( "Keycode", Time::keycodeToString(
+                            out.film.id,
+                            out.film.type,
+                            out.film.prefix,
+                            out.film.count,
+                            out.film.offset));
                     }
                     if (isValid(out.film.format, 32))
                     {
