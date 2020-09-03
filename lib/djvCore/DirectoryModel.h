@@ -52,46 +52,33 @@ namespace djv
                 //! \name Navigation
                 ///@{
 
-                void cdUp();
                 std::shared_ptr<IValueSubject<bool> > observeHasUp() const;
+
+                void cdUp();
 
                 ///@}
 
                 //! \name History
                 ///@{
 
-                void setHistoryMax(size_t);
-                void setHistoryIndex(size_t);
-                void goBack();
-                void goForward();
                 std::shared_ptr<IListSubject<Path> > observeHistory() const;
                 std::shared_ptr<IValueSubject<size_t> > observeHistoryIndex() const;
                 std::shared_ptr<IValueSubject<bool> > observeHasBack() const;
                 std::shared_ptr<IValueSubject<bool> > observeHasForward() const;
+
+                void setHistoryMax(size_t);
+                void setHistoryIndex(size_t);
+                void goBack();
+                void goForward();
 
                 ///@}
 
                 //! \name Options
                 ///@{
 
-                void setExtensions(const std::set<std::string>&);
+                std::shared_ptr<IValueSubject<DirectoryListOptions> > observeOptions() const;
 
-                std::shared_ptr<IValueSubject<bool> > observeSequences() const;
-                std::shared_ptr<IValueSubject<bool> > observeShowHidden() const;
-                void setSequences(bool);
-                void setSequenceExtensions(const std::set<std::string>&);
-                void setShowHidden(bool);
-
-                std::shared_ptr<IValueSubject<DirectoryListSort> > observeSort() const;
-                std::shared_ptr<IValueSubject<bool> > observeReverseSort() const;
-                std::shared_ptr<IValueSubject<bool> > observeSortDirectoriesFirst() const;
-                void setSort(DirectoryListSort);
-                void setReverseSort(bool);
-                void setSortDirectoriesFirst(bool);
-
-                std::shared_ptr<IValueSubject<std::string> > observeFilter() const;
-                void setFilter(const std::string&);
-                void clearFilter();
+                void setOptions(const DirectoryListOptions&);
 
                 ///@}
 

@@ -8,6 +8,19 @@ namespace djv
     {
         namespace FileSystem
         {
+            inline bool DirectoryListOptions::operator == (const DirectoryListOptions& other) const
+            {
+                return
+                    extensions == other.extensions &&
+                    sequences == other.sequences &&
+                    sequenceExtensions == other.sequenceExtensions &&
+                    showHidden == other.showHidden &&
+                    sort == other.sort &&
+                    reverseSort == other.reverseSort &&
+                    sortDirectoriesFirst == other.sortDirectoriesFirst &&
+                    filter == other.filter;
+            }
+
             inline FileInfo::FileInfo()
             {}
 

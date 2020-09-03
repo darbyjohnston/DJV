@@ -74,31 +74,17 @@ namespace djv
                 model->setPath(path);
                 model->setHistoryMax(0);
 
-                model->setExtensions({ ".txt" });
-                model->setExtensions({ ".txt" });
-
-                model->setSequences(true);
-                model->setSequenceExtensions({ ".txt" });
-                model->setSequenceExtensions({ ".txt" });
-                model->setShowHidden(true);
-                DJV_ASSERT(model->observeSequences()->get());
-                DJV_ASSERT(model->observeShowHidden()->get());
-
-                model->setSort(FileSystem::DirectoryListSort::Size);
-                model->setReverseSort(true);
-                model->setReverseSort(true);
-                model->setSortDirectoriesFirst(false);
-                model->setSortDirectoriesFirst(false);
-                DJV_ASSERT(FileSystem::DirectoryListSort::Size == model->observeSort()->get());
-                DJV_ASSERT(model->observeReverseSort()->get());
-                DJV_ASSERT(!model->observeSortDirectoriesFirst()->get());
-
-                DJV_ASSERT(model->observeFilter()->get().empty());
-                model->setFilter("txt");
-                model->setFilter("txt");
-                DJV_ASSERT("txt" == model->observeFilter()->get());
-                model->clearFilter();
-                DJV_ASSERT(model->observeFilter()->get().empty());
+                FileSystem::DirectoryListOptions options;
+                options.extensions.insert(".txt");
+                options.sequences = true;
+                options.sequenceExtensions.insert(".txt");
+                options.showHidden = true;
+                options.sort = FileSystem::DirectoryListSort::Size;
+                options.reverseSort = true;
+                options.sortDirectoriesFirst = false;
+                options.filter = ".txt";
+                model->setOptions(options);
+                DJV_ASSERT(options == model->observeOptions()->get());
                 
                 _tickFor(std::chrono::milliseconds(1000));
 

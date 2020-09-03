@@ -28,14 +28,7 @@ namespace djv
                 std::shared_ptr<ValueSubject<bool> > hasUp;
                 std::shared_ptr<ValueSubject<bool> > hasBack;
                 std::shared_ptr<ValueSubject<bool> > hasForward;
-                std::set<std::string> extensions;
-                std::shared_ptr<ValueSubject<bool> > sequences;
-                std::set<std::string> sequenceExtensions;
-                std::shared_ptr<ValueSubject<bool> > showHidden;
-                std::shared_ptr<ValueSubject<DirectoryListSort> > sort;
-                std::shared_ptr<ValueSubject<bool> > reverseSort;
-                std::shared_ptr<ValueSubject<bool> > sortDirectoriesFirst;
-                std::shared_ptr<ValueSubject<std::string> > filter;
+                std::shared_ptr<ValueSubject<DirectoryListOptions> > options;
                 std::future<std::pair<std::vector<FileInfo>, std::vector<std::string> > > future;
                 std::shared_ptr<Time::Timer> futureTimer;
                 std::shared_ptr<DirectoryWatcher> directoryWatcher;
@@ -52,12 +45,7 @@ namespace djv
                 p.hasUp = ValueSubject<bool>::create(false);
                 p.hasBack = ValueSubject<bool>::create(false);
                 p.hasForward = ValueSubject<bool>::create(false);
-                p.sequences = ValueSubject<bool>::create(false);
-                p.showHidden = ValueSubject<bool>::create(false);
-                p.sort = ValueSubject<DirectoryListSort>::create(DirectoryListSort::First);
-                p.reverseSort = ValueSubject<bool>::create(false);
-                p.sortDirectoriesFirst = ValueSubject<bool>::create(true);
-                p.filter = ValueSubject<std::string>::create();
+                p.options = ValueSubject<DirectoryListOptions>::create();
 
                 p.futureTimer = Time::Timer::create(context);
                 p.futureTimer->setRepeating(true);
@@ -131,6 +119,11 @@ namespace djv
                 _pathUpdate();
             }
 
+            std::shared_ptr<IValueSubject<bool> > DirectoryModel::observeHasUp() const
+            {
+                return _p->hasUp;
+            }
+
             void DirectoryModel::cdUp()
             {
                 DJV_PRIVATE_PTR();
@@ -141,9 +134,24 @@ namespace djv
                 }
             }
 
-            std::shared_ptr<IValueSubject<bool> > DirectoryModel::observeHasUp() const
+            std::shared_ptr<IListSubject<Path> > DirectoryModel::observeHistory() const
             {
-                return _p->hasUp;
+                return _p->history;
+            }
+
+            std::shared_ptr<IValueSubject<size_t> > DirectoryModel::observeHistoryIndex() const
+            {
+                return _p->historyIndex;
+            }
+
+            std::shared_ptr<IValueSubject<bool> > DirectoryModel::observeHasBack() const
+            {
+                return _p->hasBack;
+            }
+
+            std::shared_ptr<IValueSubject<bool> > DirectoryModel::observeHasForward() const
+            {
+                return _p->hasForward;
             }
 
             void DirectoryModel::setHistoryMax(size_t value)
@@ -208,140 +216,25 @@ namespace djv
                 }
             }
 
-            std::shared_ptr<IListSubject<Path> > DirectoryModel::observeHistory() const
+            std::shared_ptr<IValueSubject<DirectoryListOptions> > DirectoryModel::observeOptions() const
             {
-                return _p->history;
+                return _p->options;
             }
 
-            std::shared_ptr<IValueSubject<size_t> > DirectoryModel::observeHistoryIndex() const
-            {
-                return _p->historyIndex;
-            }
-
-            std::shared_ptr<IValueSubject<bool> > DirectoryModel::observeHasBack() const
-            {
-                return _p->hasBack;
-            }
-
-            std::shared_ptr<IValueSubject<bool> > DirectoryModel::observeHasForward() const
-            {
-                return _p->hasForward;
-            }
-
-            void DirectoryModel::setExtensions(const std::set<std::string>& value)
+            void DirectoryModel::setOptions(const DirectoryListOptions& value)
             {
                 DJV_PRIVATE_PTR();
-                if (value == p.extensions)
-                    return;
-                p.extensions = value;
-                _pathUpdate();
-            }
-
-            std::shared_ptr<IValueSubject<bool> > DirectoryModel::observeSequences() const
-            {
-                return _p->sequences;
-            }
-
-            std::shared_ptr<IValueSubject<bool> > DirectoryModel::observeShowHidden() const
-            {
-                return _p->showHidden;
-            }
-
-            void DirectoryModel::setSequences(bool value)
-            {
-                if (_p->sequences->setIfChanged(value))
+                if (_p->options->setIfChanged(value))
                 {
                     _pathUpdate();
                 }
-            }
-
-            void DirectoryModel::setSequenceExtensions(const std::set<std::string>& value)
-            {
-                DJV_PRIVATE_PTR();
-                if (value == p.sequenceExtensions)
-                    return;
-                p.sequenceExtensions = value;
-                _pathUpdate();
-            }
-
-            void DirectoryModel::setShowHidden(bool value)
-            {
-                if (_p->showHidden->setIfChanged(value))
-                {
-                    _pathUpdate();
-                }
-            }
-
-            std::shared_ptr<IValueSubject<DirectoryListSort> > DirectoryModel::observeSort() const
-            {
-                return _p->sort;
-            }
-
-            std::shared_ptr<IValueSubject<bool> > DirectoryModel::observeReverseSort() const
-            {
-                return _p->reverseSort;
-            }
-
-            std::shared_ptr<IValueSubject<bool> > DirectoryModel::observeSortDirectoriesFirst() const
-            {
-                return _p->sortDirectoriesFirst;
-            }
-
-            void DirectoryModel::setSort(DirectoryListSort value)
-            {
-                if (_p->sort->setIfChanged(value))
-                {
-                    _pathUpdate();
-                }
-            }
-
-            void DirectoryModel::setReverseSort(bool value)
-            {
-                if (_p->reverseSort->setIfChanged(value))
-                {
-                    _pathUpdate();
-                }
-            }
-
-            void DirectoryModel::setSortDirectoriesFirst(bool value)
-            {
-                if (_p->sortDirectoriesFirst->setIfChanged(value))
-                {
-                    _pathUpdate();
-                }
-            }
-
-            std::shared_ptr<IValueSubject<std::string> > DirectoryModel::observeFilter() const
-            {
-                return _p->filter;
-            }
-
-            void DirectoryModel::setFilter(const std::string& value)
-            {
-                if (_p->filter->setIfChanged(value))
-                {
-                    _pathUpdate();
-                }
-            }
-
-            void DirectoryModel::clearFilter()
-            {
-                setFilter(std::string());
             }
 
             void DirectoryModel::_pathUpdate()
             {
                 DJV_PRIVATE_PTR();
                 const Path path = p.path->get();
-                DirectoryListOptions options;
-                options.extensions = p.extensions;
-                options.sequences = p.sequences->get();
-                options.sequenceExtensions = p.sequenceExtensions;
-                options.showHidden = p.showHidden->get();
-                options.sort = p.sort->get();
-                options.reverseSort = p.reverseSort->get();
-                options.sortDirectoriesFirst = p.sortDirectoriesFirst->get();
-                options.filter = p.filter->get();
+                const auto options = p.options->get();
                 p.future = std::async(
                     std::launch::async,
                     [path, options]

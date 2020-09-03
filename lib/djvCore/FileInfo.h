@@ -67,6 +67,8 @@ namespace djv
                 bool                        reverseSort             = false;
                 bool                        sortDirectoriesFirst    = true;
                 std::string                 filter;
+
+                bool operator == (const DirectoryListOptions&) const;
             };
 
             //! This class provides information about files and file sequences.

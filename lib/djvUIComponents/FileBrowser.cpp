@@ -45,6 +45,7 @@ namespace djv
         {
             struct FileBrowser::Private
             {
+                FileSystem::DirectoryListOptions options;
                 std::shared_ptr<FileSystem::DirectoryModel> directoryModel;
                 FileSystem::Path path;
                 size_t itemCount = 0;
@@ -97,9 +98,9 @@ namespace djv
 
                 setClassName("djv::UI::FileBrowser::FileBrowser");
 
-                p.directoryModel = FileSystem::DirectoryModel::create(context);
                 auto io = context->getSystemT<AV::IO::System>();
-                p.directoryModel->setSequenceExtensions(io->getSequenceExtensions());
+                p.options.sequenceExtensions = io->getSequenceExtensions();
+                p.directoryModel = FileSystem::DirectoryModel::create(context);
                 p.shortcutsModel = ShortcutsModel::create(context);
                 p.recentPathsModel = FileSystem::RecentFilesModel::create();
                 p.recentPathsModel->setFilesMax(10);
@@ -205,6 +206,8 @@ namespace djv
                 p.layout->addChild(hLayout);
                 p.layout->setStretch(hLayout, RowStretch::Expand);
                 addChild(p.layout);
+
+                _optionsUpdate();
 
                 auto weak = std::weak_ptr<FileBrowser>(std::dynamic_pointer_cast<FileBrowser>(shared_from_this()));
                 p.actions["Paths"]->setCheckedCallback(
@@ -392,7 +395,8 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->directoryModel->setFilter(value);
+                            widget->_p->options.filter = value;
+                            widget->_optionsUpdate();
                         }
                     });
 
@@ -574,8 +578,9 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->directoryModel->setSequences(value);
+                        widget->_p->options.sequences = value;
                         widget->_p->actions["FileSequences"]->setChecked(value);
+                        widget->_optionsUpdate();
                     }
                 });
 
@@ -585,8 +590,9 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->directoryModel->setShowHidden(value);
+                        widget->_p->options.showHidden = value;
                         widget->_p->actions["ShowHidden"]->setChecked(value);
+                        widget->_optionsUpdate();
                     }
                 });
 
@@ -596,9 +602,10 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->directoryModel->setSort(value);
+                        widget->_p->options.sort = value;
                         widget->_p->sortActionGroup->setChecked(static_cast<int>(value));
                         widget->_p->listViewHeader->setSort(static_cast<size_t>(value));
+                        widget->_optionsUpdate();
                     }
                 });
 
@@ -608,9 +615,10 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->directoryModel->setReverseSort(value);
+                        widget->_p->options.reverseSort = value;
                         widget->_p->actions["ReverseSort"]->setChecked(value);
                         widget->_p->listViewHeader->setReverseSort(value);
+                        widget->_optionsUpdate();
                     }
                 });
 
@@ -620,8 +628,9 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->directoryModel->setSortDirectoriesFirst(value);
+                        widget->_p->options.sortDirectoriesFirst = value;
                         widget->_p->actions["SortDirectoriesFirst"]->setChecked(value);
+                        widget->_optionsUpdate();
                     }
                 });
 
@@ -812,7 +821,10 @@ namespace djv
 
             void FileBrowser::setFileExtensions(const std::set<std::string>& value)
             {
-                _p->directoryModel->setExtensions(value);
+                if (value == _p->options.extensions)
+                    return;
+                _p->options.extensions = value;
+                _optionsUpdate();
             }
 
             const FileSystem::Path& FileBrowser::getPath() const
@@ -909,6 +921,11 @@ namespace djv
                 std::stringstream ss;
                 ss << size << " " << _getText(DJV_TEXT("file_browser_items"));
                 return ss.str();
+            }
+
+            void FileBrowser::_optionsUpdate()
+            {
+                _p->directoryModel->setOptions(_p->options);
             }
 
         } // namespace FileBrowser
