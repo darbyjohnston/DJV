@@ -28,17 +28,34 @@ namespace djv
         
         void MemoryTest::_label()
         {
-            for (const auto& i :
-                {
-                    Memory::kilobyte,
-                    Memory::megabyte,
-                    Memory::gigabyte,
-                    Memory::terabyte
-                })
             {
-                std::stringstream ss;
-                ss << "size label: " << _getText(Memory::getSizeLabel(i));
-                _print(ss.str());                
+                for (const auto& i :
+                    {
+                        Memory::kilobyte,
+                        Memory::megabyte,
+                        Memory::gigabyte,
+                        Memory::terabyte
+                    })
+                {
+                    std::stringstream ss;
+                    ss << "size label: " << _getText(Memory::getSizeLabel(i));
+                    _print(ss.str());
+                }
+            }
+
+            {
+                for (const auto& i :
+                    {
+                        Memory::kilobyte,
+                        Memory::megabyte,
+                        Memory::gigabyte,
+                        Memory::terabyte
+                    })
+                {
+                    std::stringstream ss;
+                    ss << "unit label: " << _getText(Memory::getUnitLabel(i));
+                    _print(ss.str());
+                }
             }
         }
         
