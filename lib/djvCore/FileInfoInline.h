@@ -136,16 +136,8 @@ namespace djv
             inline Frame::Sequence FileInfo::_parseSequence(const std::string& number)
             {
                 Frame::Sequence out;
-                try
-                {
-                    std::stringstream ss(number);
-                    ss.exceptions(std::istream::failbit | std::istream::badbit);
-                    ss >> out;
-                }
-                catch (const std::exception&)
-                {
-                    //! \bug How should this be handled?
-                }
+                std::stringstream ss(number);
+                ss >> out;
                 return out;
             }
 
