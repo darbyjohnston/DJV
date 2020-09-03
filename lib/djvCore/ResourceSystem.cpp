@@ -100,7 +100,7 @@ namespace djv
             }
             catch (const std::exception& e)
             {
-                //! \bug How should we really handle this error?
+                //! \bug How should we handle this error?
                 std::cerr << "[ERROR] Cannot find the application path: " << e.what() << std::endl;
             }
             
@@ -137,7 +137,7 @@ namespace djv
                 }
                 catch (const std::exception& e)
                 {
-                    //! \bug How should we really handle this error?
+                    //! \bug How should we handle this error?
                     std::cerr << "[ERROR] Cannot create the documents path: " << e.what() << std::endl;
                 }
             }
