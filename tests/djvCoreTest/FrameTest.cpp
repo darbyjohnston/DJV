@@ -37,6 +37,7 @@ namespace djv
                 DJV_ASSERT(0 == sequence.getFrameCount());
                 DJV_ASSERT(Frame::invalid == sequence.getFrame(0));
                 DJV_ASSERT(Frame::invalid == sequence.getIndex(0));
+                DJV_ASSERT(Frame::invalid == sequence.getLastIndex());
             }
             
             {
@@ -47,7 +48,8 @@ namespace djv
                 DJV_ASSERT(sequence.contains(0));
                 DJV_ASSERT(100 == sequence.getFrameCount());
                 DJV_ASSERT(0 == sequence.getFrame(0));
-                DJV_ASSERT(0 == sequence.getIndex(0));                
+                DJV_ASSERT(0 == sequence.getIndex(0));
+                DJV_ASSERT(99 == sequence.getLastIndex());
             }
             
             {
@@ -58,7 +60,8 @@ namespace djv
                 DJV_ASSERT(sequence.contains(0));
                 DJV_ASSERT(100 == sequence.getFrameCount());
                 DJV_ASSERT(0 == sequence.getFrame(0));
-                DJV_ASSERT(0 == sequence.getIndex(0));                
+                DJV_ASSERT(0 == sequence.getIndex(0));
+                DJV_ASSERT(99 == sequence.getLastIndex());
             }
             
             {
