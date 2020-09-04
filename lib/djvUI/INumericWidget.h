@@ -39,8 +39,8 @@ namespace djv
         public:
             virtual ~INumericWidget() = 0;
 
-            const Core::Range::Range<T>& getRange() const;
-            void setRange(const Core::Range::Range<T>&);
+            const Core::Math::Range<T>& getRange() const;
+            void setRange(const Core::Math::Range<T>&);
 
             T getValue() const;
             void setValue(T);

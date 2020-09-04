@@ -11,13 +11,13 @@ namespace djv
         {}
 
         template<typename T>
-        inline const Core::Range::Range<T>& INumericWidget<T>::getRange() const
+        inline const Core::Math::Range<T>& INumericWidget<T>::getRange() const
         {
             return _model->observeRange()->get();
         }
 
         template<typename T>
-        inline void INumericWidget<T>::setRange(const Core::Range::Range<T>& value)
+        inline void INumericWidget<T>::setRange(const Core::Math::Range<T>& value)
         {
             _model->setRange(value);
         }

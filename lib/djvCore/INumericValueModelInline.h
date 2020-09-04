@@ -11,7 +11,7 @@ namespace djv
         template<typename T>
         inline void INumericValueModel<T>::_init()
         {
-            _range          = ValueSubject<Range::Range<T> >::create();
+            _range          = ValueSubject<Math::Range<T> >::create();
             _value          = ValueSubject<T>::create();
             _isMin          = ValueSubject<bool>::create();
             _isMax          = ValueSubject<bool>::create();
@@ -29,13 +29,13 @@ namespace djv
         {}
 
         template<typename T>
-        inline std::shared_ptr<IValueSubject<Range::Range<T> > > INumericValueModel<T>::observeRange() const
+        inline std::shared_ptr<IValueSubject<Math::Range<T> > > INumericValueModel<T>::observeRange() const
         {
             return _range;
         }
 
         template<typename T>
-        inline void INumericValueModel<T>::setRange(const Range::Range<T>& value)
+        inline void INumericValueModel<T>::setRange(const Math::Range<T>& value)
         {
             if (_range->setIfChanged(value))
             {

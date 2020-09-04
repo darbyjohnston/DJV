@@ -27,6 +27,7 @@
 #include <djvCoreTest/PathTest.h>
 #include <djvCoreTest/RangeTest.h>
 #include <djvCoreTest/RapidJSONTest.h>
+#include <djvCoreTest/RationalTest.h>
 #include <djvCoreTest/SpeedTest.h>
 #include <djvCoreTest/StringFormatTest.h>
 #include <djvCoreTest/StringTest.h>
@@ -91,9 +92,9 @@ int main(int argc, char ** argv)
         else
         {
             const bool coreTest     = true;
-            const bool avTest       = false;
-            const bool uiTest       = false;
-            const bool viewAppTest  = false;
+            const bool avTest       = true;
+            const bool uiTest       = true;
+            const bool viewAppTest  = true;
             
             if (coreTest)
             {
@@ -119,8 +120,9 @@ int main(int argc, char ** argv)
                 tests.emplace_back(new CoreTest::OSTest(context));
                 tests.emplace_back(new CoreTest::ObjectTest(context));
                 tests.emplace_back(new CoreTest::PathTest(context));
-                tests.emplace_back(new CoreTest::RapidJSONTest(context));
                 tests.emplace_back(new CoreTest::RangeTest(context));
+                tests.emplace_back(new CoreTest::RapidJSONTest(context));
+                tests.emplace_back(new CoreTest::RationalTest(context));
                 tests.emplace_back(new CoreTest::SpeedTest(context));
                 tests.emplace_back(new CoreTest::StringFormatTest(context));
                 tests.emplace_back(new CoreTest::StringTest(context));

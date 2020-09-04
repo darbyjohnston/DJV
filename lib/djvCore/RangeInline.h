@@ -6,7 +6,7 @@ namespace djv
 {
     namespace Core
     {
-        namespace Range
+        namespace Math
         {
             template<typename T>
             constexpr Range<T>::Range() noexcept
@@ -104,11 +104,11 @@ namespace djv
                 return _min < value._min;
             }
 
-        } // namespace Range
+        } // namespace Math
     } // namespace Core
 
     template<typename T>
-    inline std::ostream& operator << (std::ostream& os, const Core::Range::Range<T>& value)
+    inline std::ostream& operator << (std::ostream& os, const Core::Math::Range<T>& value)
     {
         os << value.getMin() << " ";
         os << value.getMax();
@@ -116,7 +116,7 @@ namespace djv
     }
 
     template<typename T>
-    inline std::istream& operator >> (std::istream& is, Core::Range::Range<T>& out)
+    inline std::istream& operator >> (std::istream& is, Core::Math::Range<T>& out)
     {
         try
         {
@@ -125,7 +125,7 @@ namespace djv
             is >> min;
             T max = static_cast<T>(0);
             is >> max;
-            out = Core::Range::Range<T>(min, max);
+            out = Core::Math::Range<T>(min, max);
         }
         catch (const std::exception&)
         {

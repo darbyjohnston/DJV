@@ -130,7 +130,7 @@ namespace djv
                 Core::Frame::Index getIn() const;
                 Core::Frame::Index getOut() const;
 
-                Core::Range::Range<Core::Frame::Index> getRange(size_t) const;
+                Core::Math::Range<Core::Frame::Index> getRange(size_t) const;
 
                 bool operator == (const InOutPoints&) const;
 

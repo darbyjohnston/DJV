@@ -23,6 +23,7 @@ set(header
     ObjectTest.h
     PathTest.h
 	RangeTest.h
+	RationalTest.h
 	RapidJSONTest.h
 	SpeedTest.h
     StringFormatTest.h
@@ -58,6 +59,7 @@ set(source
     PathTest.cpp
 	RangeTest.cpp
 	RapidJSONTest.cpp
+	RationalTest.cpp
 	SpeedTest.cpp
     StringFormatTest.cpp
     StringTest.cpp

@@ -124,7 +124,7 @@ namespace djv
                 return _out;
             }
 
-            inline Core::Range::Range<Core::Frame::Index> InOutPoints::getRange(size_t size) const
+            inline Core::Math::Range<Core::Frame::Index> InOutPoints::getRange(size_t size) const
             {
                 Core::Frame::Index min = 0;
                 Core::Frame::Index max = size ? (size - 1) : 0;
@@ -139,7 +139,7 @@ namespace djv
                         max = _out;
                     }
                 }
-                return Core::Range::Range<Core::Frame::Index>(min, max);
+                return Core::Math::Range<Core::Frame::Index>(min, max);
             }
 
             inline bool InOutPoints::operator == (const InOutPoints& other) const

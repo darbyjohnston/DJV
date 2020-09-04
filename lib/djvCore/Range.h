@@ -12,8 +12,7 @@ namespace djv
 {
     namespace Core
     {
-        //! This namespace provides number range functionality.
-        namespace Range
+        namespace Math
         {
             //! This class provides a range of numbers.
             template<typename T>
@@ -50,26 +49,26 @@ namespace djv
                 T _max = static_cast<T>(0);
             };
 
-        } // namespace Range
+        } // namespace Math
 
         //! This typedef provides an integer range.
-        typedef Range::Range<int> IntRange;
+        typedef Math::Range<int> IntRange;
 
         //! This typedef provides a size_t range.
-        typedef Range::Range<size_t> SizeTRange;
+        typedef Math::Range<size_t> SizeTRange;
 
         //! This typedef provides a floating point range.
-        typedef Range::Range<float> FloatRange;
+        typedef Math::Range<float> FloatRange;
 
     } // namespace Core
 
     template<typename T>
-    std::ostream& operator << (std::ostream&, const Core::Range::Range<T>&);
+    std::ostream& operator << (std::ostream&, const Core::Math::Range<T>&);
 
     //! Throws:
     //! - std::exception
     template<typename T>
-    std::istream& operator >> (std::istream&, Core::Range::Range<T>&);
+    std::istream& operator >> (std::istream&, Core::Math::Range<T>&);
 
 } // namespace djv
 

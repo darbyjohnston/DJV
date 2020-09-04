@@ -27,7 +27,7 @@ namespace djv
             const int64_t invalidIndex = std::numeric_limits<int64_t>::min();
 
             //! This typedef provides a frame number range.
-            typedef Core::Range::Range<Number> Range;
+            typedef Math::Range<Number> Range;
             
             //! This class provides a sequence of frame numbers. A sequence is
             //! composed of multiple frame number ranges (e.g., 1-10,20-30).

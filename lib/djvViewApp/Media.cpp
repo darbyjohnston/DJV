@@ -372,7 +372,7 @@ namespace djv
         void Media::setCurrentFrame(Frame::Index value, bool inOutPoints)
         {
             DJV_PRIVATE_PTR();
-            Range::Range<Frame::Index> range;
+            Math::Range<Frame::Index> range;
             if (inOutPoints)
             {
                 range = p.inOutPoints->get().getRange(p.sequence->get().getFrameCount());
