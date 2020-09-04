@@ -19,31 +19,22 @@ if (WIN32)
 
 		WriteRegStr HKCR '.iff' '' 'djv'
 		WriteRegStr HKCR '.z' '' 'djv'
-
-		WriteRegStr HKCR '.ifl' '' 'djv'
 		
 		WriteRegStr HKCR '.jpeg' '' 'djv'
 		WriteRegStr HKCR '.jpg' '' 'djv'
 		WriteRegStr HKCR '.jfif' '' 'djv'
 
-		WriteRegStr HKCR '.lut' '' 'djv'
-		WriteRegStr HKCR '.1dl' '' 'djv'
-
 		WriteRegStr HKCR '.exr' '' 'djv'
-
-		WriteRegStr HKCR '.pic' '' 'djv'
 		
 		WriteRegStr HKCR '.png' '' 'djv'
 
 		WriteRegStr HKCR '.ppm' '' 'djv'
-		WriteRegStr HKCR '.pnm' '' 'djv'
-		WriteRegStr HKCR '.pgm' '' 'djv'
-		WriteRegStr HKCR '.pbm' '' 'djv'
 
 		WriteRegStr HKCR '.avi' '' 'djv'
 		WriteRegStr HKCR '.dv' '' 'djv'
 		WriteRegStr HKCR '.gif' '' 'djv'
 		WriteRegStr HKCR '.flv' '' 'djv'
+		WriteRegStr HKCR '.m2v' '' 'djv'
 		WriteRegStr HKCR '.mkv' '' 'djv'
 		WriteRegStr HKCR '.mov' '' 'djv'
 		WriteRegStr HKCR '.mpg' '' 'djv'
@@ -51,6 +42,11 @@ if (WIN32)
 		WriteRegStr HKCR '.mp4' '' 'djv'
 		WriteRegStr HKCR '.m4v' '' 'djv'
 		WriteRegStr HKCR '.mxf' '' 'djv'
+		WriteRegStr HKCR '.ps' '' 'djv'
+		WriteRegStr HKCR '.ts' '' 'djv'
+		WriteRegStr HKCR '.vob' '' 'djv'
+		WriteRegStr HKCR '.wav' '' 'djv'
+		WriteRegStr HKCR '.webp' '' 'djv'
 
 		WriteRegStr HKCR '.rla' '' 'djv'
 		WriteRegStr HKCR '.rpf' '' 'djv'
