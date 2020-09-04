@@ -301,7 +301,7 @@ namespace djv
 #endif // DJV_MMAP
             }
             
-            inline bool FileIO::isEOF() const
+            bool FileIO::isEOF() const
             {
 #if defined(DJV_MMAP)
                 return
