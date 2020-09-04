@@ -108,5 +108,3 @@ namespace djv
     
 } // namespace djv
 
-#include <djvCore/TimerInline.h>
-

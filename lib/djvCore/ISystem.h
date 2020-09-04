@@ -84,4 +84,3 @@ namespace djv
     } // namespace Core
 } // namespace djv
 
-#include <djvCore/ISystemInline.h>

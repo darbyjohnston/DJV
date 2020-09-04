@@ -18,6 +18,252 @@ namespace djv
     {
         namespace String
         {
+            std::vector<std::string> split(const char * s, size_t size, char delimeter, bool keepEmpty)
+            {
+                std::vector<std::string> out;
+                bool word = false;
+                size_t wordStart = 0;
+                size_t i = 0;
+                for (; i < size; ++i)
+                {
+                    if (s[i] != delimeter)
+                    {
+                        if (!word)
+                        {
+                            word = true;
+                            wordStart = i;
+                        }
+                    }
+                    else
+                    {
+                        if (word)
+                        {
+                            word = false;
+                            out.push_back(std::string(s + wordStart, i - wordStart));
+                        }
+                        if (keepEmpty && i > 0 && s[i - 1] == delimeter)
+                        {
+                            out.push_back(std::string());
+                        }
+                    }
+                }
+                if (word)
+                {
+                    out.push_back(std::string(s + wordStart, i - wordStart));
+                }
+                return out;
+            }
+
+            std::vector<std::string> split(const std::string& s, char delimeter, bool keepEmpty)
+            {
+                std::vector<std::string> out;
+                bool word = false;
+                size_t wordStart = 0;
+                size_t i = 0;
+                for (; i < s.size(); ++i)
+                {
+                    if (s[i] != delimeter)
+                    {
+                        if (!word)
+                        {
+                            word = true;
+                            wordStart = i;
+                        }
+                    }
+                    else
+                    {
+                        if (word)
+                        {
+                            word = false;
+                            out.push_back(s.substr(wordStart, i - wordStart));
+                        }
+                        if (keepEmpty && i > 0 && s[i - 1] == delimeter)
+                        {
+                            out.push_back(std::string());
+                        }
+                    }
+                }
+                if (word)
+                {
+                    out.push_back(s.substr(wordStart, i - wordStart));
+                }
+                return out;
+            }
+
+            std::vector<std::string> split(const std::string& s, const std::vector<char>& delimeters, bool keepEmpty)
+            {
+                std::vector<std::string> out;
+                bool word = false;
+                size_t wordStart = 0;
+                size_t i = 0;
+                for (; i < s.size(); ++i)
+                {
+                    if (std::find(delimeters.begin(), delimeters.end(), s[i]) == delimeters.end())
+                    {
+                        if (!word)
+                        {
+                            word = true;
+                            wordStart = i;
+                        }
+                    }
+                    else
+                    {
+                        if (word)
+                        {
+                            word = false;
+                            out.push_back(s.substr(wordStart, i - wordStart));
+                        }
+                        if (keepEmpty && i > 0 && std::find(delimeters.begin(), delimeters.end(), s[i - 1]) != delimeters.end())
+                        {
+                            out.push_back(std::string());
+                        }
+                    }
+                }
+                if (word)
+                {
+                    out.push_back(s.substr(wordStart, i - wordStart));
+                }
+                return out;
+            }
+
+            std::string join(const std::vector<std::string>& value)
+            {
+                std::string out;
+                for (const auto& s : value)
+                {
+                    out += s;
+                }
+                return out;
+            }
+
+            std::string join(const std::vector<std::string>& value, char delimeter)
+            {
+                std::string out;
+                if (const size_t size = value.size())
+                {
+                    size_t j = 0;
+                    for (auto i = value.begin(); i != value.end(); ++i, ++j)
+                    {
+                        out += *i;
+                        if (j < size - 1)
+                        {
+                            out += delimeter;
+                        }
+                    }
+                }
+                return out;
+            }
+
+            std::string join(const std::vector<std::string>& value, const std::string& delimeter)
+            {
+                std::string out;
+                if (const size_t size = value.size())
+                {
+                    size_t j = 0;
+                    for (auto i = value.begin(); i != value.end(); ++i, ++j)
+                    {
+                        out += *i;
+                        if (j < size - 1)
+                        {
+                            out += delimeter;
+                        }
+                    }
+                }
+                return out;
+            }
+
+            std::string joinList(const std::list<std::string>& value)
+            {
+                std::string out;
+                for (const auto& s : value)
+                {
+                    out += s;
+                }
+                return out;
+            }
+
+            std::string joinList(const std::list<std::string>& value, char delimeter)
+            {
+                std::string out;
+                if (const size_t size = value.size())
+                {
+                    size_t j = 0;
+                    for (auto i = value.begin(); i != value.end(); ++i, ++j)
+                    {
+                        out += *i;
+                        if (j < size - 1)
+                        {
+                            out += delimeter;
+                        }
+                    }
+                }
+                return out;
+            }
+
+            std::string joinList(const std::list<std::string>& value, const std::string& delimeter)
+            {
+                std::string out;
+                if (const size_t size = value.size())
+                {
+                    size_t j = 0;
+                    for (auto i = value.begin(); i != value.end(); ++i, ++j)
+                    {
+                        out += *i;
+                        if (j < size - 1)
+                        {
+                            out += delimeter;
+                        }
+                    }
+                }
+                return out;
+            }
+
+            std::string joinSet(const std::set<std::string>& value)
+            {
+                std::string out;
+                for (const auto& s : value)
+                {
+                    out += s;
+                }
+                return out;
+            }
+
+            std::string joinSet(const std::set<std::string>& value, char delimeter)
+            {
+                std::string out;
+                if (const size_t size = value.size())
+                {
+                    size_t j = 0;
+                    for (auto i = value.begin(); i != value.end(); ++i, ++j)
+                    {
+                        out += *i;
+                        if (j < size - 1)
+                        {
+                            out += delimeter;
+                        }
+                    }
+                }
+                return out;
+            }
+
+            std::string joinSet(const std::set<std::string>& value, const std::string& delimeter)
+            {
+                std::string out;
+                if (const size_t size = value.size())
+                {
+                    size_t j = 0;
+                    for (auto i = value.begin(); i != value.end(); ++i, ++j)
+                    {
+                        out += *i;
+                        if (j < size - 1)
+                        {
+                            out += delimeter;
+                        }
+                    }
+                }
+                return out;
+            }
+
             std::string toUpper(const std::string& value)
             {
                 std::string out;
@@ -71,6 +317,92 @@ namespace djv
                     out = false;
                 }
                 return out;
+            }
+
+            void fromString(const char * s, size_t size, int& out)
+            {
+                out = 0;
+
+                // Find the sign.
+                bool negativeSign = false;
+                if ('-' == s[0])
+                {
+                    negativeSign = true;
+                    ++s;
+                    --size;
+                }
+                else if ('+' == s[0])
+                {
+                    ++s;
+                    --size;
+                }
+
+                // Find the end.
+                size_t end = 0;
+                for (; end < size && s[end]; ++end)
+                    ;
+
+                // Add up the digits.
+                int tens = 1;
+                for (int i = int(end) - 1; i >= 0; --i, tens *= 10)
+                {
+                    out += (s[i] - 48) * tens;
+                }
+
+                // Apply the sign.
+                if (negativeSign)
+                {
+                    out = -out;
+                }
+            }
+
+            void fromString(const char * s, size_t size, int64_t& out)
+            {
+                out = 0;
+
+                // Find the sign.
+                bool negativeSign = false;
+                if ('-' == s[0])
+                {
+                    negativeSign = true;
+                    ++s;
+                    --size;
+                }
+                else if ('+' == s[0])
+                {
+                    ++s;
+                    --size;
+                }
+
+                // Find the end.
+                size_t end = 0;
+                for (; end < size && s[end]; ++end)
+                    ;
+
+                // Add up the digits.
+                int64_t tens = 1;
+                for (int i = int(end) - 1; i >= 0; --i, tens *= 10)
+                {
+                    out += (static_cast<int64_t>(s[i]) - 48) * tens;
+                }
+
+                // Apply the sign.
+                if (negativeSign)
+                {
+                    out = -out;
+                }
+            }
+
+            void fromString(const char * s, size_t size, size_t& out)
+            {
+                out = 0;
+
+                // Add up the digits.
+                size_t tens = 1;
+                for (int i = int(size) - 1; i >= 0; --i, tens *= 10)
+                {
+                    out += (static_cast<size_t>(s[i]) - 48) * tens;
+                }
             }
 
             void fromString(const char * s, size_t size, float& out)

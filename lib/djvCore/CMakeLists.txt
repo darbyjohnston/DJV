@@ -1,6 +1,5 @@
 set(header
     Animation.h
-    AnimationInline.h
     BBox.h
     BBoxInline.h
     Cache.h
@@ -14,15 +13,11 @@ set(header
     DrivesModel.h
     Enum.h
     Event.h
-    EventInline.h
     Error.h
     FileIO.h
-    FileIOInline.h
     FileInfo.h
-    FileInfoInline.h
     FileSystem.h
     Frame.h
-    FrameInline.h
     ICommand.h
     IEventSystem.h
     INumericValueModel.h
@@ -30,7 +25,6 @@ set(header
     IObject.h
     IObjectInline.h
     ISystem.h
-    ISystemInline.h
     ListObserver.h
     ListObserverInline.h
     LogSystem.h
@@ -46,14 +40,12 @@ set(header
     OS.h
     Observer.h
     Path.h
-    PathInline.h
     Range.h
     RangeInline.h
     RapidJSON.h
     RapidJSONTemplates.h
     RapidJSONTemplatesInline.h
     Rational.h
-    RationalInline.h
     Ray.h
     RayInline.h
     RecentFilesModel.h
@@ -61,13 +53,10 @@ set(header
     Speed.h
     String.h
     StringFormat.h
-    StringFormatInline.h
     StringInline.h
     TextSystem.h
     Time.h
-    TimeInline.h
     Timer.h
-    TimerInline.h
     UID.h
     UndoStack.h
     ValueObserver.h

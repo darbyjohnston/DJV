@@ -122,6 +122,9 @@ namespace djv
                 }
             });
         }
+        
+        Context::Context()
+        {}
 
         Context::~Context()
         {}
@@ -131,6 +134,16 @@ namespace djv
             auto out = std::shared_ptr<Context>(new Context);
             out->_init(argv0);
             return out;
+        }
+        
+        const std::string& Context::getName() const
+        {
+            return _name;
+        }
+
+        std::vector<std::shared_ptr<ISystemBase> > Context::getSystems() const
+        {
+            return _systems;
         }
 
         void Context::removeSystem(const std::shared_ptr<ISystemBase>& value)
@@ -184,6 +197,16 @@ namespace djv
             }
             
             ++_tickCount;
+        }
+
+        float Context::getFPSAverage() const
+        {
+            return _fpsAverage;
+        }
+
+        const std::vector<std::pair<std::string, Time::Duration> >& Context::getSystemTickTimes() const
+        {
+            return _systemTickTimes;
         }
 
         void Context::_addSystem(const std::shared_ptr<ISystemBase>& system)

@@ -47,10 +47,23 @@ namespace djv
                 out->_init(context);
                 return out;
             }
+            
+            Timer::Timer()
+            {}
+
+            bool Timer::isRepeating() const
+            {
+                return _repeating;
+            }
 
             void Timer::setRepeating(bool value)
             {
                 _repeating = value;
+            }
+
+            bool Timer::isActive() const
+            {
+                return _active;
             }
 
             void Timer::start(

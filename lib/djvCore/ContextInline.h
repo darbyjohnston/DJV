@@ -6,19 +6,6 @@ namespace djv
 {
     namespace Core
     {
-        inline Context::Context()
-        {}
-           
-        inline const std::string& Context::getName() const
-        {
-            return _name;
-        }
-
-        inline std::vector<std::shared_ptr<ISystemBase> > Context::getSystems() const
-        {
-            return _systems;
-        }
-
         template<typename T>
         inline std::vector<std::shared_ptr<T> > Context::getSystemsT() const
         {
@@ -46,16 +33,6 @@ namespace djv
                 }
             }
             return out;
-        }
-
-        inline float Context::getFPSAverage() const
-        {
-            return _fpsAverage;
-        }
-
-        inline const std::vector<std::pair<std::string, Time::Duration> >& Context::getSystemTickTimes() const
-        {
-            return _systemTickTimes;
         }
 
     } // namespace Core

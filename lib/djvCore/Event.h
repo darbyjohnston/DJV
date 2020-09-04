@@ -385,4 +385,3 @@ namespace djv
 
 } // namespace djv
 
-#include <djvCore/EventInline.h>

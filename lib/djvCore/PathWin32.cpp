@@ -26,6 +26,11 @@ namespace djv
     {
         namespace FileSystem
         {
+            char Path::getCurrentSeparator() noexcept
+            {
+                return getSeparator(PathSeparator::Windows);
+            }
+
             void Path::mkdir(const Path& value)
             {
                 if (_wmkdir(String::toWide(value.get()).c_str()) != 0)

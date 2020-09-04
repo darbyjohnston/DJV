@@ -55,4 +55,3 @@ namespace djv
 
 } // namespace djv
 
-#include <djvCore/RationalInline.h>

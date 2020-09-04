@@ -221,5 +221,3 @@ namespace std
 
 } // namespace std
 
-#include <djvCore/PathInline.h>
-

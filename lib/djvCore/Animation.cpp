@@ -41,12 +41,20 @@ namespace djv
                 auto system = context->getSystemT<System>();
                 system->_addAnimation(shared_from_this());
             }
+            
+            Animation::Animation()
+            {}
 
             std::shared_ptr<Animation> Animation::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<Animation>(new Animation);
                 out->_init(context);
                 return out;
+            }
+            
+            Type Animation::getType() const
+            {
+                return _type;
             }
 
             void Animation::setType(Type type)
@@ -55,9 +63,19 @@ namespace djv
                 _function = getFunction(_type);
             }
 
+            bool Animation::isRepeating() const
+            {
+                return _repeating;
+            }
+
             void Animation::setRepeating(bool value)
             {
                 _repeating = value;
+            }
+
+            bool Animation::isActive() const
+            {
+                return _active;
             }
 
             void Animation::start(
@@ -67,11 +85,6 @@ namespace djv
                 const Callback& callback,
                 const Callback& endCallback)
             {
-                /*if (_active && _endCallback)
-                {
-                    _endCallback(_end);
-                }*/
-
                 _active      = true;
                 _begin       = begin;
                 _end         = end;
@@ -107,19 +120,17 @@ namespace djv
 
                 if (_time > (_start + _duration))
                 {
-                    if (_callback)
+                    if (_repeating)
+                    {
+                        _start = now;
+                    }
+                    else
                     {
                         if (_endCallback)
                         {
                             _endCallback(_end);
                         }
                         _active = false;
-                    }
-
-                    if (_repeating)
-                    {
-                        _active = true;
-                        _start = now;
                     }
                 }
             }

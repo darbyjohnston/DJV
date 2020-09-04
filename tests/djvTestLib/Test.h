@@ -25,17 +25,17 @@ namespace djv
         class ITest
         {
         public:
-            ITest(const std::string & name, const std::shared_ptr<Core::Context>&);
+            ITest(const std::string& name, const std::shared_ptr<Core::Context>&);
             virtual ~ITest() = 0;
 
             const std::weak_ptr<Core::Context>& getContext() const;
-            const std::string & getName() const;
+            const std::string& getName() const;
             
             virtual void run() = 0;
 
         protected:
             std::string _getText(const std::string&) const;
-            void _print(const std::string &);
+            void _print(const std::string&);
 
         private:
             DJV_PRIVATE();

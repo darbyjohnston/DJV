@@ -248,6 +248,18 @@ namespace djv
                 return out;
             }
             
+            bool FileIO::isOpen() const
+            {
+                return _f != -1;
+            }
+
+            bool FileIO::isEOF() const
+            {
+                return
+                    -1 == _f ||
+                    (_size ? _pos >= _size : true);
+            }
+            
             void FileIO::read(void* in, size_t size, size_t wordSize)
             {
                 switch (_mode)

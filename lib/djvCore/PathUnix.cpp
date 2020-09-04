@@ -26,6 +26,11 @@ namespace djv
     {
         namespace FileSystem
         {
+            char Path::getCurrentSeparator() noexcept
+            {
+                return getSeparator(PathSeparator::Unix);
+            }
+
             void Path::mkdir(const Path& value)
             {
                 if (::mkdir(value.get().c_str(), S_IRWXU) != 0)

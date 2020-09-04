@@ -20,7 +20,7 @@ namespace djv
             std::string name;
         };
         
-        ITest::ITest(const std::string & name, const std::shared_ptr<Core::Context>& context) :
+        ITest::ITest(const std::string& name, const std::shared_ptr<Core::Context>& context) :
             _p(new Private)
         {
             _p->context = context;
@@ -36,7 +36,7 @@ namespace djv
             return _p->context;
         }
 
-        const std::string & ITest::getName() const
+        const std::string& ITest::getName() const
         {
             return _p->name;
         }
@@ -47,7 +47,7 @@ namespace djv
             return p.textSystem ? p.textSystem->getText(id) : id;
         }
 
-        void ITest::_print(const std::string & value)
+        void ITest::_print(const std::string& value)
         {
             std::cout << _p->name << ": " << value << std::endl;
         }

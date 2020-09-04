@@ -291,7 +291,29 @@ namespace djv
 
                 return out;
             }
-
+            
+            bool FileIO::isOpen() const
+            {
+#if defined(DJV_MMAP)
+                return _f != INVALID_HANDLE_VALUE;
+#else // DJV_MMAP
+                return _f != nullptr;
+#endif // DJV_MMAP
+            }
+            
+            inline bool FileIO::isEOF() const
+            {
+#if defined(DJV_MMAP)
+                return
+                    _f == INVALID_HANDLE_VALUE ||
+                    (_size ? _pos >= _size : true);
+#else // DJV_MMAP
+                return
+                    !_f ||
+                    (_size ? _pos >= _size : true);
+#endif // DJV_MMAP
+            }
+            
             void FileIO::read(void * in, size_t size, size_t wordSize)
             {
                 switch (_mode)

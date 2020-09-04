@@ -26,6 +26,9 @@ namespace djv
             _context = context;
             context->_addSystem(std::dynamic_pointer_cast<ISystemBase>(shared_from_this()));
         }
+        
+        ISystemBase::ISystemBase()
+        {}
 
         ISystemBase::~ISystemBase()
         {
@@ -34,6 +37,21 @@ namespace djv
                 _dependencies.pop_back();
             }
             --systemCount;
+        }
+
+        const std::string& ISystemBase::getSystemName() const
+        {
+            return _name;
+        }
+
+        const std::weak_ptr<Context>& ISystemBase::getContext() const
+        {
+            return _context;
+        }
+
+        const std::vector<std::shared_ptr<ISystemBase> >& ISystemBase::getDependencies() const
+        {
+            return _dependencies;
         }
 
         void ISystemBase::addDependency(const std::shared_ptr<ISystemBase>& value)
@@ -58,6 +76,9 @@ namespace djv
                 _log(ss.str());
             }
         }
+        
+        ISystem::ISystem()
+        {}
 
         ISystem::~ISystem()
         {

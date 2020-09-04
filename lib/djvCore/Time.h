@@ -89,6 +89,7 @@ namespace djv
                 int& minute,
                 int& second,
                 int& frame);
+
             uint32_t timeToTimecode(
                 int hour,
                 int minute,
@@ -96,6 +97,7 @@ namespace djv
                 int frame);
 
             Frame::Number timecodeToFrame(uint32_t timecode, const Math::Rational&);
+
             uint32_t frameToTimecode(Frame::Number, const Math::Rational&);
 
             std::string timecodeToString(uint32_t);
@@ -141,4 +143,3 @@ namespace djv
 
 } // namespace djv
 
-#include <djvCore/TimeInline.h>

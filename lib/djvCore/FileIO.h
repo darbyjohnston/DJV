@@ -222,4 +222,3 @@ namespace djv
     } // namespace Core
 } // namespace djv
 
-#include <djvCore/FileIOInline.h>

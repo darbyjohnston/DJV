@@ -20,6 +20,42 @@ namespace djv
     {
         namespace FileSystem
         {
+            Path::Path()
+            {}
+
+            Path::Path(const std::string& value)
+            {
+                set(value);
+            }
+
+            Path::Path(const Path& value, const std::string& append)
+            {
+                *this = value;
+                this->append(append);
+            }
+
+            Path::Path(const std::string& value, const std::string& append)
+            {
+                set(value);
+                this->append(append);
+            }
+
+            Path::Path(
+                const std::string& directoryName,
+                const std::string& baseName,
+                const std::string& number,
+                const std::string& extension) :
+                _directoryName(directoryName),
+                _baseName(baseName),
+                _number(number),
+                _extension(extension)
+            {}
+
+            std::string Path::get() const
+            {
+                return _directoryName + _baseName + _number + _extension;
+            }
+            
             void Path::set(std::string value)
             {
                 if (value == get())
@@ -45,6 +81,11 @@ namespace djv
                 {
                     set(path + value);
                 }
+            }
+
+            bool Path::isEmpty() const noexcept
+            {
+                return get().empty();
             }
 
             bool Path::isRoot() const
@@ -114,6 +155,31 @@ namespace djv
                 return false;
             }
 
+            const std::string& Path::getDirectoryName() const noexcept
+            {
+                return _directoryName;
+            }
+
+            std::string Path::getFileName() const
+            {
+                return _baseName + _number + _extension;
+            }
+
+            const std::string& Path::getBaseName() const noexcept
+            {
+                return _baseName;
+            }
+
+            const std::string& Path::getNumber() const noexcept
+            {
+                return _number;
+            }
+
+            const std::string& Path::getExtension() const noexcept
+            {
+                return _extension;
+            }
+
             void Path::setDirectoryName(const std::string& value)
             {
                 _directoryName = value;
@@ -137,6 +203,16 @@ namespace djv
             void Path::setExtension(const std::string& value)
             {
                 _extension = value;
+            }
+
+            bool Path::isSeparator(char c) noexcept
+            {
+                return '/' == c || '\\' == c;
+            }
+
+            char Path::getSeparator(PathSeparator value) noexcept
+            {
+                return PathSeparator::Unix == value ? '/' : '\\';
             }
 
             void Path::removeTrailingSeparator(std::string& value)
@@ -231,6 +307,26 @@ namespace djv
                 return out;
             }
 
+            bool Path::operator == (const Path& other) const
+            {
+                return get() == other.get();
+            }
+
+            bool Path::operator != (const Path& other) const
+            {
+                return !(*this == other);
+            }
+
+            bool Path::operator < (const Path& other) const
+            {
+                return get().compare(other.get()) < 0;
+            }
+
+            Path::operator std::string() const
+            {
+                return get();
+            }
+
         } // namespace FileSystem
     } // namespace Core
 
@@ -304,4 +400,15 @@ namespace djv
         DJV_TEXT("resource_path_documentation"));
 
 } // namespace djv
+
+namespace std
+{
+    std::size_t hash<djv::Core::FileSystem::Path>::operator() (const djv::Core::FileSystem::Path& value) const noexcept
+    {
+        size_t hash = 0;
+        djv::Core::Memory::hashCombine<std::string>(hash, value.get());
+        return hash;
+    }
+
+} // namespace std
 

@@ -198,5 +198,3 @@ namespace djv
     
 } // namespace djv
 
-#include <djvCore/FileInfoInline.h>
-

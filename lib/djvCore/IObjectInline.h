@@ -6,39 +6,6 @@ namespace djv
 {
     namespace Core
     {
-        inline IObject::IObject()
-        {}
-
-        inline const std::weak_ptr<Context>& IObject::getContext() const
-        {
-            return _context;
-        }
-
-        inline const std::string& IObject::getClassName() const
-        {
-            return _className;
-        }
-
-        inline void IObject::setClassName(const std::string& name)
-        {
-            _className = name;
-        }
-
-        inline const std::string& IObject::getObjectName() const
-        {
-            return _objectName;
-        }
-
-        inline void IObject::setObjectName(const std::string& name)
-        {
-            _objectName = name;
-        }
-
-        inline const std::weak_ptr<IObject>& IObject::getParent() const
-        {
-            return _parent;
-        }
-
         template<typename T>
         inline std::shared_ptr<T> IObject::getParentRecursiveT() const
         {
@@ -50,11 +17,6 @@ namespace djv
                 }
             }
             return nullptr;
-        }
-
-        inline const std::vector<std::shared_ptr<IObject> >& IObject::getChildren() const
-        {
-            return _children;
         }
 
         template<typename T>
@@ -108,26 +70,6 @@ namespace djv
                 }
             }
             return out;
-        }
-
-        inline bool IObject::isEnabled(bool parents) const
-        {
-            return parents ? (_parentsEnabled && _enabled) : _enabled;
-        }
-
-        inline const std::shared_ptr<ResourceSystem>& IObject::_getResourceSystem() const
-        {
-            return _resourceSystem;
-        }
-
-        inline const std::shared_ptr<LogSystem>& IObject::_getLogSystem() const
-        {
-            return _logSystem;
-        }
-
-        inline const std::shared_ptr<TextSystem>& IObject::_getTextSystem() const
-        {
-            return _textSystem;
         }
 
         template<typename T>

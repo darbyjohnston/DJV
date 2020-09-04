@@ -130,5 +130,3 @@ namespace djv
 
 } // namespace djv
 
-#include <djvCore/AnimationInline.h>
-

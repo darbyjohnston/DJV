@@ -122,4 +122,3 @@ namespace djv
 
 } // namespace djv
 
-#include <djvCore/FrameInline.h>
