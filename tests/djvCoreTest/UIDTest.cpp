@@ -24,7 +24,11 @@ namespace djv
             uint64_t a = createUID();
             uint64_t b = createUID();
             uint64_t c = createUID();
-            _print(String::Format("{0}, {1}, {2}").arg(a).arg(b).arg(c));
+            _print(String::Format(
+                "{0}, {1}, {2}").
+                arg(static_cast<size_t>(a)).
+                arg(static_cast<size_t>(b)).
+                arg(static_cast<size_t>(c)));
             DJV_ASSERT(a != b);
             DJV_ASSERT(b != c);
         }

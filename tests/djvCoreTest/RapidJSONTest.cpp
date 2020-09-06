@@ -276,7 +276,7 @@ namespace djv
             {
                 std::string buf =
                     "{\n"
-                    "    error\n";
+                    "    error\n"
                     "}\n";
                 rapidjson::Document document;
                 rapidjson::ParseResult result = document.Parse(buf.c_str(), buf.size());
