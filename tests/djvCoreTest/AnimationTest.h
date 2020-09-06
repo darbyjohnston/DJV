@@ -13,7 +13,9 @@ namespace djv
         class AnimationTest : public Test::ITickTest
         {
         public:
-            AnimationTest(const std::shared_ptr<Core::Context>&);
+            AnimationTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
         };

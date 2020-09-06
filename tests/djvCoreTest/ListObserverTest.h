@@ -13,7 +13,9 @@ namespace djv
         class ListObserverTest : public Test::ITest
         {
         public:
-            ListObserverTest(const std::shared_ptr<Core::Context>&);
+            ListObserverTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
         };

@@ -20,8 +20,10 @@ namespace djv
 {
     namespace AVTest
     {
-        Render2DTest::Render2DTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::AVTest::Render2DTest", context)
+        Render2DTest::Render2DTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Context>& context) :
+            ITest("djv::AVTest::Render2DTest", tempPath, context)
         {}
         
         void Render2DTest::run()

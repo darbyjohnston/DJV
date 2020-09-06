@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: BSD-3-Clause
-// Copyright (c) 2004-2020 Darby Johnston
+// Copyright (c) 2020 Darby Johnston
 // All rights reserved.
 
 #pragma once
@@ -10,17 +10,14 @@ namespace djv
 {
     namespace CoreTest
     {
-        class FrameTest : public Test::ITest
+        class RecentFilesModelTest : public Test::ITest
         {
         public:
-            FrameTest(const std::shared_ptr<Core::Context>&);
+            RecentFilesModelTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
-            
-        private:
-            void _sequence();
-            void _conversion();
-            void _serialize();
         };
         
     } // namespace CoreTest

@@ -8,6 +8,7 @@
 #include <djvCore/FileSystem.h>
 #include <djvCore/Math.h>
 #include <djvCore/Memory.h>
+#include <djvCore/Path.h>
 #include <djvCore/StringFormat.h>
 
 #include <iostream>
@@ -69,43 +70,43 @@ namespace djv
                     switch (type)
                     {
                     case ErrorType::Open:
-                        out.push_back(String::Format("{0}: Cannot open file.").arg(fileName));
+                        out.push_back(String::Format("{0}: Cannot open file:").arg(fileName));
                         out.push_back(getErrorString());
                         break;
                     case ErrorType::Stat:
-                        out.push_back(String::Format("{0}: Cannot stat file.").arg(fileName));
+                        out.push_back(String::Format("{0}: Cannot stat file:").arg(fileName));
                         out.push_back(getErrorString());
                         break;
                     case ErrorType::MemoryMap:
-                        out.push_back(String::Format("{0}: Cannot memory map.").arg(fileName));
+                        out.push_back(String::Format("{0}: Cannot memory map:").arg(fileName));
                         out.push_back(getErrorString());
                         break;
                     case ErrorType::Close:
-                        out.push_back(String::Format("{0}: Cannot close.").arg(fileName));
+                        out.push_back(String::Format("{0}: Cannot close:").arg(fileName));
                         out.push_back(getErrorString());
                         break;
                     case ErrorType::CloseMemoryMap:
-                        out.push_back(String::Format("{0}: Cannot unmap.").arg(fileName));
+                        out.push_back(String::Format("{0}: Cannot unmap:").arg(fileName));
                         out.push_back(getErrorString());
                         break;
                     case ErrorType::Read:
-                        out.push_back(String::Format("{0}: Cannot read.").arg(fileName));
+                        out.push_back(String::Format("{0}: Cannot read:").arg(fileName));
                         out.push_back(getErrorString());
                         break;
                     case ErrorType::ReadMemoryMap:
-                        out.push_back(String::Format("{0}: Cannot read memory map.").arg(fileName));
+                        out.push_back(String::Format("{0}: Cannot read memory map:").arg(fileName));
                         out.push_back(getErrorString());
                         break;
                     case ErrorType::Write:
-                        out.push_back(String::Format("{0}: Cannot write.").arg(fileName));
+                        out.push_back(String::Format("{0}: Cannot write:").arg(fileName));
                         out.push_back(getErrorString());
                         break;
                     case ErrorType::Seek:
-                        out.push_back(String::Format("{0}: Cannot seek.").arg(fileName));
+                        out.push_back(String::Format("{0}: Cannot seek:").arg(fileName));
                         out.push_back(getErrorString());
                         break;
                     case ErrorType::SeekMemoryMap:
-                        out.push_back(String::Format("{0}: Cannot seek memory map.").arg(fileName));
+                        out.push_back(String::Format("{0}: Cannot seek memory map:").arg(fileName));
                         out.push_back(getErrorString());
                         break;
                     default: break;
@@ -181,7 +182,8 @@ namespace djv
                 close();
 
                 // Open the file.
-                const std::string fileName = "XXXXXX";
+                const Path path(Path::getTemp(), "XXXXXX");
+                const std::string fileName = path.get();
                 const size_t size = fileName.size();
                 std::vector<char> buf(size + 1);
                 memcpy(buf.data(), fileName.c_str(), size);
@@ -241,7 +243,7 @@ namespace djv
                     _f = -1;
                 }
 
-                _mode = static_cast<Mode>(0);
+                _mode = Mode::First;
                 _pos  = 0;
                 _size = 0;
                 

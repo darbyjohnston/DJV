@@ -11,7 +11,9 @@ namespace djv
         class Render2DTest : public Test::ITest
         {
         public:
-            Render2DTest(const std::shared_ptr<Core::Context>&);
+            Render2DTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
             

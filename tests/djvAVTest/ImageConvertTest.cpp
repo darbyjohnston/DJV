@@ -16,8 +16,10 @@ namespace djv
 {
     namespace AVTest
     {
-        ImageConvertTest::ImageConvertTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::AVTest::ImageConvertTest", context)
+        ImageConvertTest::ImageConvertTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Context>& context) :
+            ITest("djv::AVTest::ImageConvertTest", tempPath, context)
         {}
         
         void ImageConvertTest::run()

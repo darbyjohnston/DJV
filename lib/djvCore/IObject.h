@@ -134,7 +134,7 @@ namespace djv
             virtual void _updateEvent(Event::Update&);
 
             //! Over-ride this function to filter events for other objects.
-            virtual bool _eventFilter(const std::shared_ptr<IObject>&, Event::Event&) { return false; }
+            virtual bool _eventFilter(const std::shared_ptr<IObject>&, Event::Event&);
 
             ///@}
 

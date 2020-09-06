@@ -13,7 +13,9 @@ namespace djv
         class TextSystemTest : public Test::ITickTest
         {
         public:
-            TextSystemTest(const std::shared_ptr<Core::Context>&);
+            TextSystemTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
         };

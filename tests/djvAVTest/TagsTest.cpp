@@ -13,8 +13,10 @@ namespace djv
 {
     namespace AVTest
     {
-        TagsTest::TagsTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::AVTest::TagsTest", context)
+        TagsTest::TagsTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Context>& context) :
+            ITest("djv::AVTest::TagsTest", tempPath, context)
         {}
         
         void TagsTest::run()

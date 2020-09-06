@@ -12,8 +12,10 @@ namespace djv
 {
     namespace CoreTest
     {
-        EnumTest::EnumTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::CoreTest::EnumTest", context)
+        EnumTest::EnumTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Core::Context>& context) :
+            ITest("djv::CoreTest::EnumTest", tempPath, context)
         {}
         
         void EnumTest::run()
@@ -36,19 +38,16 @@ namespace djv
                 DJV_ASSERT(i == j);
             }
             
+            try
             {
+                Memory::Endian endian = Memory::Endian::First;
                 std::stringstream ss;
-                ss << "none";
-                try
-                {
-                    Memory::Endian endian = Memory::Endian::First;
-                    ss >> endian;
-                    DJV_ASSERT(true);
-                }
-                catch (const std::exception& e)
-                {
-                    _print(e.what());
-                }
+                ss >> endian;
+                DJV_ASSERT(true);
+            }
+            catch (const std::exception& e)
+            {
+                _print(e.what());
             }
         }
         

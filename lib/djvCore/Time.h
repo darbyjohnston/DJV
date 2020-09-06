@@ -5,7 +5,7 @@
 #pragma once
 
 #include <djvCore/Enum.h>
-#include <djvCore/Frame.h>
+#include <djvCore/FrameNumber.h>
 #include <djvCore/Rational.h>
 
 #include <chrono>

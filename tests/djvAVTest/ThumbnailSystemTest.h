@@ -11,7 +11,9 @@ namespace djv
         class ThumbnailSystemTest : public Test::ITickTest
         {
         public:
-            ThumbnailSystemTest(const std::shared_ptr<Core::Context>&);
+            ThumbnailSystemTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
         };

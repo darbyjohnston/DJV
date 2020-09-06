@@ -13,8 +13,10 @@ namespace djv
 {
     namespace AVTest
     {
-        EnumTest::EnumTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::AVTest::EnumTest", context)
+        EnumTest::EnumTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Context>& context) :
+            ITest("djv::AVTest::EnumTest", tempPath, context)
         {}
         
         void EnumTest::run()

@@ -20,10 +20,12 @@ namespace djv
         class IEventSystemTest : public Test::ITickTest
         {
         public:
-            IEventSystemTest(const std::shared_ptr<Core::Context>&);
+            IEventSystemTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
-            
+
         private:
             void _clipboard();
             void _textFocus();
@@ -36,6 +38,7 @@ namespace djv
             std::shared_ptr<Core::ValueObserver<std::shared_ptr<Core::IObject> > > _hoverObserver;
             std::shared_ptr<Core::ValueObserver<std::shared_ptr<Core::IObject> > > _grabObserver;
             std::shared_ptr<Core::ValueObserver<std::shared_ptr<Core::IObject> > > _keyGrabObserver;
+            std::shared_ptr<Core::ValueObserver<bool> > _textFocusActiveObserver;
         };
         
     } // namespace CoreTest

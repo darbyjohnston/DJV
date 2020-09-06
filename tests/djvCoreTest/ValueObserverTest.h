@@ -13,7 +13,9 @@ namespace djv
         class ValueObserverTest : public Test::ITest
         {
         public:
-            ValueObserverTest(const std::shared_ptr<Core::Context>&);
+            ValueObserverTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
         };

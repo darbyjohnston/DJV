@@ -13,9 +13,17 @@ namespace djv
         class TimeTest : public Test::ITest
         {
         public:
-            TimeTest(const std::shared_ptr<Core::Context>&);
+            TimeTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
+        
+        private:
+            void _conversion();
+            void _keycode();
+            void _timecode();
+            void _serialize();
         };
         
     } // namespace CoreTest

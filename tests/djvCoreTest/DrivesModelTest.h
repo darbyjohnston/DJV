@@ -13,7 +13,9 @@ namespace djv
         class DrivesModelTest : public Test::ITickTest
         {
         public:
-            DrivesModelTest(const std::shared_ptr<Core::Context>&);
+            DrivesModelTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
         };

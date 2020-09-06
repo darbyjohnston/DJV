@@ -205,7 +205,8 @@ namespace djv
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #endif // DJV_OPENGL_ES2
             glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-            if (OS::getIntEnv("DJV_OPENGL_DEBUG") != 0)
+            int env = 0;
+            if (OS::getIntEnv("DJV_OPENGL_DEBUG", env) && env != 0)
             {
                 glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
             }

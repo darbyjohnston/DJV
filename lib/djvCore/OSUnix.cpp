@@ -84,19 +84,24 @@ namespace djv
                 return out;
             }
 
-            std::string getEnv(const std::string& name)
+            bool getEnv(const std::string& name, std::string& out)
             {
-                std::string out;
-                if (const char * p = ::getenv(name.c_str()))
+                if (const char* p = ::getenv(name.c_str()))
                 {
-                    out = p;
+                    out = std::string(p);
+                    return true;
                 }
-                return out;
+                return false;
             }
 
             bool setEnv(const std::string& name, const std::string& value)
             {
                 return ::setenv(name.c_str(), value.c_str(), 1) == 0;
+            }
+        
+            bool clearEnv(const std::string& name)
+            {
+                return ::unsetenv(name.c_str()) == 0;
             }
         
             std::string getUserName()

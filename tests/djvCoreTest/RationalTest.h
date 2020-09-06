@@ -13,7 +13,9 @@ namespace djv
         class RationalTest : public Test::ITest
         {
         public:
-            RationalTest(const std::shared_ptr<Core::Context>&);
+            RationalTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
         

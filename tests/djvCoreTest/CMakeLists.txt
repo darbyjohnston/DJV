@@ -11,25 +11,31 @@ set(header
     EventTest.h
     FileIOTest.h
     FileInfoTest.h
-	FrameTest.h
+    FileSystemTest.h
+	FrameNumberTest.h
 	IEventSystemTest.h
 	ISystemTest.h
     ListObserverTest.h
     LogSystemTest.h
     MapObserverTest.h
     MathTest.h
+    MatrixTest.h
     MemoryTest.h
+    NumericValueModelsTest.h
     OSTest.h
     ObjectTest.h
     PathTest.h
 	RangeTest.h
 	RationalTest.h
 	RapidJSONTest.h
+	RecentFilesModelTest.h
 	SpeedTest.h
     StringFormatTest.h
     StringTest.h
     TextSystemTest.h
     TimeTest.h
+    TimerTest.h
+    UIDTest.h
     UndoStackTest.h
     ValueObserverTest.h
     VectorTest.h)
@@ -46,25 +52,31 @@ set(source
     EventTest.cpp
     FileIOTest.cpp
     FileInfoTest.cpp
-	FrameTest.cpp
+    FileSystemTest.cpp
+	FrameNumberTest.cpp
 	IEventSystemTest.cpp
 	ISystemTest.cpp
     ListObserverTest.cpp
     LogSystemTest.cpp
     MapObserverTest.cpp
     MathTest.cpp
+    MatrixTest.cpp
     MemoryTest.cpp
+    NumericValueModelsTest.cpp
     OSTest.cpp
     ObjectTest.cpp
     PathTest.cpp
 	RangeTest.cpp
 	RapidJSONTest.cpp
+	RecentFilesModelTest.cpp
 	RationalTest.cpp
 	SpeedTest.cpp
     StringFormatTest.cpp
     StringTest.cpp
     TextSystemTest.cpp
     TimeTest.cpp
+    TimerTest.cpp
+    UIDTest.cpp
     UndoStackTest.cpp
     ValueObserverTest.cpp
     VectorTest.cpp)

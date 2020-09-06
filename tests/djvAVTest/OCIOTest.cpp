@@ -13,8 +13,10 @@ namespace djv
 {
     namespace AVTest
     {
-        OCIOTest::OCIOTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::AVTest::OCIOTest", context)
+        OCIOTest::OCIOTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Context>& context) :
+            ITest("djv::AVTest::OCIOTest", tempPath, context)
         {}
         
         void OCIOTest::run()

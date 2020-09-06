@@ -137,7 +137,8 @@ namespace djv
                 glfwWindowHint(GLFW_SAMPLES, 1);
                 glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
                 glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
-                if (OS::getIntEnv("DJV_OPENGL_DEBUG") != 0)
+                int env = 0;
+                if (OS::getIntEnv("DJV_OPENGL_DEBUG", env) && env != 0)
                 {
                     glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
                 }

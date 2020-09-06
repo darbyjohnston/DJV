@@ -13,7 +13,9 @@ namespace djv
         class PathTest : public Test::ITest
         {
         public:
-            PathTest(const std::shared_ptr<Core::Context>&);
+            PathTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
             

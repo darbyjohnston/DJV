@@ -87,7 +87,9 @@ namespace djv
                 }
                 else
                 {
-                    const auto& searchPaths = OS::getStringListEnv("PATH");
+                    std::vector<std::string> searchPaths;
+                    if (OS::getStringListEnv("PATH", searchPaths))
+                    {
                     for (const auto& i : searchPaths)
                     {
                         if (doesExecutableExist(Path(i, argv0).get()))
@@ -95,6 +97,7 @@ namespace djv
                             p.applicationPath = Path(i);
                             break;
                         }
+                    }
                     }
                 }
             }
@@ -104,8 +107,8 @@ namespace djv
                 std::cerr << "[ERROR] Cannot find the application path: " << e.what() << std::endl;
             }
             
-            std::string env = OS::getEnv("DJV_RESOURCE_PATH");
-            if (!env.empty())
+            std::string env;
+            if (OS::getEnv("DJV_RESOURCE_PATH", env) && !env.empty())
             {
                 p.paths[ResourcePath::Application] = Path(env);
             }
@@ -115,8 +118,7 @@ namespace djv
             }
 
             Path documents;
-            env = OS::getEnv("DJV_DOCUMENTS_PATH");
-            if (!env.empty())
+            if (OS::getEnv("DJV_DOCUMENTS_PATH", env) && !env.empty())
             {
                 documents = Path(env);
             }

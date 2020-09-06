@@ -109,9 +109,9 @@ namespace djv
 
     void fromJSON(const rapidjson::Value& value, int64_t& out)
     {
-        if (value.IsInt())
+        if (value.IsInt64())
         {
-            out = value.GetInt();
+            out = value.GetInt64();
         }
         else
         {

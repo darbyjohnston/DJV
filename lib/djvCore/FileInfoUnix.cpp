@@ -47,7 +47,8 @@ namespace djv
                     {
                         _STAT info;
                         memset(&info, 0, sizeof(_STAT));
-                        if (_STAT_FNC(getFileName(i).c_str(), &info) != 0)
+                        const std::string fileName = getFileName(i);
+                        if (_STAT_FNC(fileName.c_str(), &info) != 0)
                         {
                             return false;
                         }

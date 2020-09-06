@@ -13,7 +13,9 @@ namespace djv
         class MathTest : public Test::ITest
         {
         public:
-            MathTest(const std::shared_ptr<Core::Context>&);
+            MathTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
             
@@ -21,6 +23,8 @@ namespace djv
             void _misc();
             void _rational();
             void _random();
+            void _conversion();
+            void _comparison();
         };
         
     } // namespace CoreTest

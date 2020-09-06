@@ -20,7 +20,9 @@ namespace djv
         class FileSystemTest : public Test::ITest
         {
         public:
-            FileSystemTest(const std::shared_ptr<Core::Context>&);
+            FileSystemTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
 

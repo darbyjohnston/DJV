@@ -13,8 +13,10 @@ namespace djv
 {
     namespace CoreTest
     {
-        MathTest::MathTest(const std::shared_ptr<Context>& context) :
-            ITest("djv::CoreTest::MathTest", context)
+        MathTest::MathTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Core::Context>& context) :
+            ITest("djv::CoreTest::MathTest", tempPath, context)
         {}
         
         void MathTest::run()
@@ -22,6 +24,8 @@ namespace djv
             _misc();
             _rational();
             _random();
+            _conversion();
+            _comparison();
         }
 
         void MathTest::_misc()
@@ -134,6 +138,37 @@ namespace djv
                 std::stringstream ss;
                 ss << "Random -1.0-1.0: " << Math::getRandom(-1.f, 1.f);
                 _print(ss.str());
+            }
+        }
+
+        void MathTest::_conversion()
+        {
+            {
+                DJV_ASSERT(.5F == Math::getFraction<float>(.5F));
+                DJV_ASSERT(.5F == Math::getFraction<float>(1.5F));
+            }
+            
+            {
+                DJV_ASSERT(1 == Math::toPow2(0));
+                DJV_ASSERT(1 == Math::toPow2(1));
+                DJV_ASSERT(2 == Math::toPow2(2));
+                DJV_ASSERT(4 == Math::toPow2(3));
+            }
+            
+            {
+                DJV_ASSERT(fuzzyCompare(Math::rad2deg(0.F), 0.F));
+                DJV_ASSERT(fuzzyCompare(Math::rad2deg(Math::pi), 180.F));
+                DJV_ASSERT(fuzzyCompare(Math::deg2rad(0.F), 0.F));
+                DJV_ASSERT(fuzzyCompare(Math::deg2rad(180.F), Math::pi));
+            }
+        }
+
+        void MathTest::_comparison()
+        {
+            {
+                DJV_ASSERT(Math::haveSameSign(1, 1));
+                DJV_ASSERT(Math::haveSameSign(-1, -1));
+                DJV_ASSERT(!Math::haveSameSign(1, -1));
             }
         }
         

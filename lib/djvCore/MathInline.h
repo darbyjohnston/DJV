@@ -204,11 +204,13 @@ namespace djv
                 return value[getRandom(0, static_cast<int>(value.size()) - 1)];
             }
 
+            template<>
             constexpr float getFraction(float value) noexcept
             {
                 return value - static_cast<int>(value);
             }
 
+            template<>
             constexpr double getFraction(double value) noexcept
             {
                 return value - static_cast<int>(value);

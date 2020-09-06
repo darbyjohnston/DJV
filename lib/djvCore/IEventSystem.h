@@ -58,10 +58,10 @@ namespace djv
                 void tick() override;
 
             protected:
-                virtual void _init(Init&) {}
+                virtual void _init(Init&) = 0;
                 void _initRecursive(const std::shared_ptr<IObject>&, Init&);
-                virtual void _update(Update&) {}
-                void _udateRecursive(const std::shared_ptr<IObject>&, Update&);
+                virtual void _update(Update&) = 0;
+                void _updateRecursive(const std::shared_ptr<IObject>&, Update&);
 
                 void _pointerMove(const PointerInfo&);
                 void _buttonPress(int);

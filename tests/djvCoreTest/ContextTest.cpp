@@ -5,7 +5,7 @@
 #include <djvCoreTest/ContextTest.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/ResourceSystem.h>
+#include <djvCore/ISystem.h>
 #include <djvCore/String.h>
 
 using namespace djv::Core;
@@ -14,13 +14,31 @@ namespace djv
 {
     namespace CoreTest
     {
-        ContextTest::ContextTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::CoreTest::ContextTest", context)
+        ContextTest::ContextTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Core::Context>& context) :
+            ITest("djv::CoreTest::ContextTest", tempPath, context)
         {}
         
         namespace
         {
-            class System : public ISystem {};
+            class System : public ISystem
+            {
+                DJV_NON_COPYABLE(System);
+                System()
+                {}
+                
+            public:
+                ~System() override
+                {}
+
+                static std::shared_ptr<System> create(const std::shared_ptr<Context>& context)
+                {
+                    auto out = std::shared_ptr<System>(new System);
+                    out->_init("System", context);
+                    return out;
+                }
+            };
         
         } // namespace
         
@@ -41,14 +59,10 @@ namespace djv
                     _print(ss.str());
                 }
                 
-                {
-                    auto resourceSystem = context->getSystemT<ResourceSystem>();
-                    DJV_ASSERT(resourceSystem);
-                }
-                
-                {
-                    DJV_ASSERT(!context->getSystemT<System>());
-                }
+                DJV_ASSERT(!context->getSystemT<System>());
+                auto system = System::create(context);
+                DJV_ASSERT(context->getSystemT<System>());
+                DJV_ASSERT(!context->getSystemsT<System>().empty());
                 
                 auto time = std::chrono::steady_clock::now();
                 std::chrono::milliseconds delta;
@@ -58,6 +72,13 @@ namespace djv
                     auto now = std::chrono::steady_clock::now();
                     delta = std::chrono::duration_cast<std::chrono::milliseconds>(now - time);
                     time = now;
+                }
+                
+                for (const auto& i : context->getSystemTickTimes())
+                {
+                    std::stringstream ss;
+                    ss << i.first << ": " << i.second.count();
+                    _print(ss.str());
                 }
                 
                 {

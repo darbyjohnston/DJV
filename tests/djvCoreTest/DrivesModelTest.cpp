@@ -16,8 +16,10 @@ namespace djv
 {
     namespace CoreTest
     {
-        DrivesModelTest::DrivesModelTest(const std::shared_ptr<Core::Context>& context) :
-            ITickTest("djv::CoreTest::DrivesModelTest", context)
+        DrivesModelTest::DrivesModelTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Core::Context>& context) :
+            ITickTest("djv::CoreTest::DrivesModelTest", tempPath, context)
         {}
         
         void DrivesModelTest::run()

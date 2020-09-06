@@ -13,7 +13,9 @@ namespace djv
         class LogSystemTest : public Test::ITickTest
         {
         public:
-            LogSystemTest(const std::shared_ptr<Core::Context>&);
+            LogSystemTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
         };

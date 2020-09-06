@@ -63,7 +63,7 @@ namespace djv
 
         protected:
             void _add(const std::weak_ptr<ValueObserver<T> >&);
-            void _remove(ValueObserver<T> *);
+            void _removeExpired();
 
             std::vector<std::weak_ptr<ValueObserver<T> > > _observers;
 

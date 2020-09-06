@@ -44,6 +44,7 @@ namespace djv
                 ///@{
 
                 const std::vector<Range>& getRanges() const noexcept;
+                
                 void add(const Range&);
 
                 bool isValid() const noexcept;
@@ -54,6 +55,7 @@ namespace djv
                 ///@{
 
                 size_t getPad() const noexcept;
+                
                 void setPad(size_t);
 
                 ///@}
@@ -62,8 +64,10 @@ namespace djv
                 ///@{
 
                 bool contains(Index) const noexcept;
+                
                 size_t getFrameCount() const noexcept;
                 Number getFrame(Index) const noexcept;
+                
                 Index getIndex(Number) const noexcept;
                 Index getLastIndex() const noexcept;
 

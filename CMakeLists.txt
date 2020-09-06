@@ -49,6 +49,9 @@ if(DJV_PYTHON)
     add_definitions(-DDJV_PYTHON)
 endif()
 
+# Debugging options.
+set(DJV_SYSTEM_DOT_GRAPH FALSE CACHE BOOL "Write a Graphviz .dot file (systems.dot) of the system dependencies")
+
 #-------------------------------------------------------------------------------
 # Configuration
 #-------------------------------------------------------------------------------
@@ -116,11 +119,10 @@ if(UNIX)
         endif()
         if(DJV_GCOV)
             include(CodeCoverage)
-            set(DJV_COVERAGE_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage -fno-inline -fno-inline-small-functions -fno-default-inline")
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${DJV_COVERAGE_FLAGS}")
-            set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${DJV_COVERAGE_FLAGS}")
-            set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${DJV_COVERAGE_FLAGS}")
-            set(STATIC_LIBRARY_FLAGS "${STATIC_LIBRARY_FLAGS} ${DJV_COVERAGE_FLAGS}")
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_COVERAGE}")
+            set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_COVERAGE}")
+            set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${CMAKE_EXE_LINKER_FLAGS_COVERAGE}")
+            set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${CMAKE_SHARED_LINKER_FLAGS_COVERAGE}")
         endif()
     endif()
 endif()

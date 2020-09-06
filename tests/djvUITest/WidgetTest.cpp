@@ -37,6 +37,7 @@ namespace djv
         class TestEventSystem : public EventSystem
         {
             DJV_NON_COPYABLE(TestEventSystem);
+            
             void _init(const std::shared_ptr<Context>& context)
             {
                 EventSystem::_init("TestEventSystem", context);
@@ -165,8 +166,10 @@ namespace djv
             Event::PointerInfo _pointerInfo;
         };
         
-        WidgetTest::WidgetTest(const std::shared_ptr<Core::Context>& context) :
-            ITickTest("djv::UITest::WidgetTest", context)
+        WidgetTest::WidgetTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Context>& context) :
+            ITickTest("djv::UITest::WidgetTest", tempPath, context)
         {}
         
         void WidgetTest::run()

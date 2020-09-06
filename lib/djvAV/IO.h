@@ -8,7 +8,7 @@
 #include <djvAV/Image.h>
 #include <djvAV/Tags.h>
 
-#include <djvCore/Frame.h>
+#include <djvCore/FrameNumber.h>
 #include <djvCore/Speed.h>
 
 #include <future>

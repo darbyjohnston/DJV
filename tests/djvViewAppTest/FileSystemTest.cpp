@@ -26,8 +26,13 @@ namespace djv
 {
     namespace ViewAppTest
     {        
-        FileSystemTest::FileSystemTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::FileSystemTest::FileSystemTest", context)
+        FileSystemTest::FileSystemTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Context>& context) :
+            ITest(
+                "djv::ViewAppTest::FileSystemTest",
+                FileSystem::Path(tempPath, "ViewAppFileSystemTest"),
+                context)
         {
             auto glfwSystem = Desktop::GLFWSystem::create(context);
             auto uiSystem = UI::UISystem::create(true, context);
@@ -43,12 +48,12 @@ namespace djv
             {
                 {
                     const auto fileInfoA = Core::FileSystem::FileInfo(
-                        Core::FileSystem::Path("testA.#.png"),
+                        Core::FileSystem::Path(getTempPath(), "testA.#.png"),
                         Core::FileSystem::FileType::Sequence,
                         Frame::Sequence(1, 3));
                     _writeImage(fileInfoA);
                     const auto fileInfoB = Core::FileSystem::FileInfo(
-                        Core::FileSystem::Path("testB.#.png"),
+                        Core::FileSystem::Path(getTempPath(), "testB.#.png"),
                         Core::FileSystem::FileType::Sequence,
                         Frame::Sequence(3, 6));
                     _writeImage(fileInfoB);
@@ -112,40 +117,40 @@ namespace djv
 
                 // https://github.com/darbyjohnston/DJV/issues/31
                 {
-                    const std::string fileName = "wallpaper2960819.png";
-                    _writeImage(Core::FileSystem::FileInfo(fileName));
+                    const Core::FileSystem::Path path(getTempPath(), "wallpaper2960819.png");
+                    _writeImage(Core::FileSystem::FileInfo(path));
                     auto fileSystem = ViewApp::FileSystem::create(context);
-                    fileSystem->open(std::vector<std::string>({ fileName }));
+                    fileSystem->open(std::vector<std::string>({ path.get() }));
                     auto media = fileSystem->observeCurrentMedia()->get();
                     DJV_ASSERT(media->isValid());
                 }
                 {
-                    const std::string fileName = "wallpaper2960819-test.png";
-                    _writeImage(Core::FileSystem::FileInfo(fileName));
+                    const Core::FileSystem::Path path(getTempPath(), "wallpaper2960819-test.png");
+                    _writeImage(Core::FileSystem::FileInfo(path));
                     auto fileSystem = ViewApp::FileSystem::create(context);
-                    fileSystem->open(std::vector<std::string>({ fileName }));
+                    fileSystem->open(std::vector<std::string>({ path.get() }));
                     auto media = fileSystem->observeCurrentMedia()->get();
                     DJV_ASSERT(media->isValid());
                 }
 
                 // https://github.com/darbyjohnston/DJV/issues/96
                 {
-                    const std::string fileName = "dump.png";
-                    _writeImage(Core::FileSystem::FileInfo(fileName));
-                    _writeImage(Core::FileSystem::FileInfo("dump1.png"));
+                    const Core::FileSystem::Path path(getTempPath(), "dump.png");
+                    _writeImage(Core::FileSystem::FileInfo(path));
+                    _writeImage(Core::FileSystem::FileInfo(Core::FileSystem::Path(getTempPath(), "dump1.png")));
                     auto fileSystem = ViewApp::FileSystem::create(context);
-                    fileSystem->open(std::vector<std::string>({ fileName }));
+                    fileSystem->open(std::vector<std::string>({ path.get() }));
                     auto media = fileSystem->observeCurrentMedia()->get();
                     DJV_ASSERT(media->isValid());
-                    DJV_ASSERT(fileName == media->getFileInfo().getFileName(Frame::invalid, false));
+                    DJV_ASSERT(path.get() == media->getFileInfo().getFileName(Frame::invalid));
                 }
 
                 // https://github.com/darbyjohnston/DJV/issues/115
                 {
-                    const std::string fileName = "Screenshot from 2019-07-17 0-14.png";
-                    _writeImage(Core::FileSystem::FileInfo(fileName));
+                    const Core::FileSystem::Path path(getTempPath(), "Screenshot from 2019-07-17 0-14.png");
+                    _writeImage(Core::FileSystem::FileInfo(path));
                     auto fileSystem = ViewApp::FileSystem::create(context);
-                    fileSystem->open(std::vector<std::string>({ fileName }));
+                    fileSystem->open(std::vector<std::string>({ path.get() }));
                     auto media = fileSystem->observeCurrentMedia()->get();
                     DJV_ASSERT(media->isValid());
                 }

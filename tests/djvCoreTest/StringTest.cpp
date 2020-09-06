@@ -15,8 +15,10 @@ namespace djv
 {
     namespace CoreTest
     {
-        StringTest::StringTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::CoreTest::StringTest", context)
+        StringTest::StringTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Core::Context>& context) :
+            ITest("djv::CoreTest::StringTest", tempPath, context)
         {}
         
         void StringTest::run()
@@ -126,6 +128,20 @@ namespace djv
                     const auto s = String::join(d.first, "/");
                     DJV_ASSERT(s == d.second);
                 }
+            }
+            
+            {
+                const std::list<std::string> data({ "a", "b", "c" });
+                DJV_ASSERT("abc" == String::joinList(data));
+                DJV_ASSERT("a/b/c" == String::joinList(data, '/'));
+                DJV_ASSERT("a/b/c" == String::joinList(data, "/"));
+            }
+            
+            {
+                const std::set<std::string> data({ "a", "b", "c" });
+                DJV_ASSERT("abc" == String::joinSet(data));
+                DJV_ASSERT("a/b/c" == String::joinSet(data, '/'));
+                DJV_ASSERT("a/b/c" == String::joinSet(data, "/"));
             }
             
             {

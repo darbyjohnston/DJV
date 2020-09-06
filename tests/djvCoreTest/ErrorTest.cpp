@@ -15,8 +15,10 @@ namespace djv
 {
     namespace CoreTest
     {
-        ErrorTest::ErrorTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::CoreTest::ErrorTest", context)
+        ErrorTest::ErrorTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Core::Context>& context) :
+            ITest("djv::CoreTest::ErrorTest", tempPath, context)
         {}
         
         void ErrorTest::run()

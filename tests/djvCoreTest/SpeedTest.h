@@ -13,9 +13,15 @@ namespace djv
         class SpeedTest : public Test::ITest
         {
         public:
-            SpeedTest(const std::shared_ptr<Core::Context>&);
+            SpeedTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
+            
+        private:
+            void _enum();
+            void _serialize();
         };
         
     } // namespace CoreTest

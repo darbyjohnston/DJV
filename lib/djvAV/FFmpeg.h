@@ -6,8 +6,6 @@
 
 #include <djvAV/IOPlugin.h>
 
-#include <djvCore/Frame.h>
-
 #if defined(DJV_PLATFORM_LINUX)
 #define __STDC_CONSTANT_MACROS
 #endif // DJV_PLATFORM_LINUX

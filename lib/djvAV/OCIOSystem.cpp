@@ -100,8 +100,8 @@ namespace djv
                     _log(ss.str());
                 }
                 
-                std::string env = OS::getEnv("OCIO");
-                if (!env.empty())
+                std::string env;
+                if (OS::getEnv("OCIO", env) && !env.empty())
                 {
                     p.hasEnvConfig = true;
                     if (auto ocioConfig = _OCIO::Config::CreateFromEnv())

@@ -13,7 +13,9 @@ namespace djv
         class VectorTest : public Test::ITest
         {
         public:
-            VectorTest(const std::shared_ptr<Core::Context>&);
+            VectorTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
             

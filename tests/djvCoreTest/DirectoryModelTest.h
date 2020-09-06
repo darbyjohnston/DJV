@@ -13,7 +13,9 @@ namespace djv
         class DirectoryModelTest : public Test::ITickTest
         {
         public:
-            DirectoryModelTest(const std::shared_ptr<Core::Context>&);
+            DirectoryModelTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
         };

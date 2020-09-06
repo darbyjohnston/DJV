@@ -11,7 +11,9 @@ namespace djv
         class IOTest : public Test::ITest
         {
         public:
-            IOTest(const std::shared_ptr<Core::Context>&);
+            IOTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
             

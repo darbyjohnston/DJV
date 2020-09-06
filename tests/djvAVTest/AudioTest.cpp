@@ -24,8 +24,10 @@ namespace djv
 {
     namespace AVTest
     {
-        AudioTest::AudioTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::AVTest::AudioTest", context)
+        AudioTest::AudioTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Context>& context) :
+            ITest("djv::AVTest::AudioTest", tempPath, context)
         {}
         
         void AudioTest::run()

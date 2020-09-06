@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvCore/Frame.h>
+#include <djvCore/FrameNumber.h>
 #include <djvCore/Path.h>
 #include <djvCore/RapidJSON.h>
 

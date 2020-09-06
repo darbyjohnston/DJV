@@ -5,9 +5,13 @@
 #include <djvTestLib/Test.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/FileInfo.h>
+#include <djvCore/Path.h>
 #include <djvCore/TextSystem.h>
 
 #include <iostream>
+
+using namespace djv::Core;
 
 namespace djv
 {
@@ -15,23 +19,33 @@ namespace djv
     {
         struct ITest::Private
         {
-            std::weak_ptr<Core::Context> context;
-            std::shared_ptr<Core::TextSystem> textSystem;
+            std::weak_ptr<Context> context;
+            std::shared_ptr<TextSystem> textSystem;
             std::string name;
+            FileSystem::Path tempPath;
         };
         
-        ITest::ITest(const std::string& name, const std::shared_ptr<Core::Context>& context) :
+        ITest::ITest(
+            const std::string& name,
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Context>& context) :
             _p(new Private)
         {
             _p->context = context;
-            _p->textSystem = context->getSystemT<Core::TextSystem>();
+            _p->textSystem = context->getSystemT<TextSystem>();
             _p->name = name;
+            _p->tempPath = tempPath;
+            
+            if (!FileSystem::FileInfo(tempPath).doesExist())
+            {
+                FileSystem::Path::mkdir(tempPath);
+            }
         }
         
         ITest::~ITest()
         {}
         
-        const std::weak_ptr<Core::Context>& ITest::getContext() const
+        const std::weak_ptr<Context>& ITest::getContext() const
         {
             return _p->context;
         }
@@ -39,6 +53,11 @@ namespace djv
         const std::string& ITest::getName() const
         {
             return _p->name;
+        }
+
+        const FileSystem::Path& ITest::getTempPath() const
+        {
+            return _p->tempPath;
         }
 
         std::string ITest::_getText(const std::string& id) const

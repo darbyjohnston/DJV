@@ -2,9 +2,9 @@
 // Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 
-#include <djvCoreTest/FrameTest.h>
+#include <djvCoreTest/FrameNumberTest.h>
 
-#include <djvCore/Frame.h>
+#include <djvCore/FrameNumber.h>
 
 #include <iostream>
 #include <sstream>
@@ -15,18 +15,21 @@ namespace djv
 {
     namespace CoreTest
     {
-        FrameTest::FrameTest(const std::shared_ptr<Context>& context) :
-            ITest("djv::CoreTest::FrameTest", context)
+        FrameNumberTest::FrameNumberTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Core::Context>& context) :
+            ITest("djv::CoreTest::FrameNumberTest", tempPath, context)
         {}
         
-        void FrameTest::run()
+        void FrameNumberTest::run()
         {
             _sequence();
             _conversion();
+            _operators();
             _serialize();
         }
 
-        void FrameTest::_sequence()
+        void FrameNumberTest::_sequence()
         {
             {
                 const Frame::Sequence sequence;
@@ -89,7 +92,7 @@ namespace djv
             }
         }
         
-        void FrameTest::_conversion()
+        void FrameNumberTest::_conversion()
         {
             {
                 std::vector<Frame::Number> frames = {};
@@ -196,10 +199,36 @@ namespace djv
                 DJV_ASSERT("10" == Frame::toString(10));
                 DJV_ASSERT("-10" == Frame::toString(-10));
                 DJV_ASSERT("0010" == Frame::toString(10, 4));
-                DJV_ASSERT("1-10" == Frame::toString(Frame::Range(1, 10)));
-                DJV_ASSERT("0001-0010" == Frame::toString(Frame::Range(1, 10), 4));
-                DJV_ASSERT("1-10" == Frame::toString(Frame::Sequence(Frame::Range(1, 10))));
-                DJV_ASSERT("0001-0010" == Frame::toString(Frame::Sequence(Frame::Range(1, 10), 4)));
+            }
+            
+            {
+                const Frame::Range r(1, 10);
+                DJV_ASSERT("1-10" == Frame::toString(r));
+                Frame::Range r2;
+                size_t pad = 0;
+                Frame::fromString("1-10", r2, pad);
+                DJV_ASSERT(r == r2);
+                DJV_ASSERT(0 == pad);
+                DJV_ASSERT("0001-0010" == Frame::toString(r, 4));
+                Frame::fromString("0001-0010", r2, pad);
+                DJV_ASSERT(r == r2);
+                DJV_ASSERT(4 == pad);
+            }
+                        
+            {
+                const Frame::Sequence s(Frame::Range(1, 10));
+                DJV_ASSERT("1-10" == Frame::toString(s));
+                Frame::Sequence s2;
+                Frame::fromString("1-10", s2);
+                DJV_ASSERT(s == s2);
+            }
+                        
+            {
+                const Frame::Sequence s(Frame::Range(1, 10), 4);
+                DJV_ASSERT("0001-0010" == Frame::toString(s));
+                Frame::Sequence s2;
+                Frame::fromString("0001-0010", s2);
+                DJV_ASSERT(s == s2);
             }
             
             {
@@ -209,18 +238,57 @@ namespace djv
                 DJV_ASSERT(range == Frame::Range(1, 10));
                 DJV_ASSERT(4 == pad);
             }
+            
+            {
+                const Frame::Sequence s(Frame::Range(1, 10), 4);
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(s, allocator);
+                Frame::Sequence s2;
+                fromJSON(json, s2);
+                DJV_ASSERT(s == s2);
+            }
+            
+            try
+            {
+                auto json = rapidjson::Value();
+                Frame::Sequence s;
+                fromJSON(json, s);
+                DJV_ASSERT(false);
+            }
+            catch (const std::exception&)
+            {}
         }
         
-        void FrameTest::_serialize()
+        void FrameNumberTest::_operators()
         {
             {
-                const Frame::Range range(1, 100);
-                std::stringstream ss;
-                ss << range;
-                Frame::Range range2;
-                ss >> range2;
-                DJV_ASSERT(range == range2);
+                const Frame::Sequence sequence(Frame::Range(1, 3));
+                DJV_ASSERT(sequence == sequence);
+                DJV_ASSERT(sequence != Frame::Sequence());
             }
+        }
+        
+        void FrameNumberTest::_serialize()
+        {
+            {
+                const Frame::Sequence s(Frame::Range(1, 3));
+                std::stringstream ss;
+                ss << s;
+                Frame::Sequence s2;
+                ss >> s2;
+                DJV_ASSERT(s == s2);
+            }
+            
+            try
+            {
+                Frame::Sequence s;
+                std::stringstream ss;
+                ss >> s;
+                DJV_ASSERT(false);
+            }
+            catch (const std::exception&)
+            {}
         }
                 
     } // namespace CoreTest

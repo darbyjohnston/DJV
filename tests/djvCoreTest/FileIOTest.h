@@ -13,7 +13,9 @@ namespace djv
         class FileIOTest : public Test::ITest
         {
         public:
-            FileIOTest(const std::shared_ptr<Core::Context>&);
+            FileIOTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
 

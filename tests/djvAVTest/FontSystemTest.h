@@ -11,7 +11,9 @@ namespace djv
         class FontSystemTest : public Test::ITickTest
         {
         public:
-            FontSystemTest(const std::shared_ptr<Core::Context>&);
+            FontSystemTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
         

@@ -13,8 +13,10 @@ namespace djv
 {
     namespace CoreTest
     {
-        TextSystemTest::TextSystemTest(const std::shared_ptr<Core::Context>& context) :
-            ITickTest("djv::CoreTest::TextSystemTest", context)
+        TextSystemTest::TextSystemTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Core::Context>& context) :
+            ITickTest("djv::CoreTest::TextSystemTest", tempPath, context)
         {}
                 
         void TextSystemTest::run()
@@ -40,9 +42,15 @@ namespace djv
                     });
                 
                 {
+                    _print(system->getText("boolean_true"));
+                    _print(system->getID("True"));
+                }
+                
+                {
                     system->setCurrentLocale("zh");
                     system->setCurrentLocale("zh");
                     DJV_ASSERT("zh" == system->observeCurrentLocale()->get());
+                    _print(system->getText("boolean_true"));
                     system->setCurrentLocale("en");
                 }
             }

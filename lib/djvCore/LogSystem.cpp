@@ -74,7 +74,7 @@ namespace djv
             addDependency(resourceSystem);
             
             p.path = resourceSystem->getPath(FileSystem::ResourcePath::LogFile);
-
+            p.consoleOutput = false;
             p.warningsSubject = ListSubject<std::string>::create();
             p.errorsSubject = ListSubject<std::string>::create();
 
@@ -83,7 +83,11 @@ namespace djv
                 [this]
             {
                 DJV_PRIVATE_PTR();
-                p.consoleOutput = OS::getIntEnv("DJV_LOG_CONSOLE") != 0;
+                int env = 0;
+                if (OS::getIntEnv("DJV_LOG_CONSOLE", env))
+                {
+                    p.consoleOutput = env != 0;
+                }
 
                 try
                 {

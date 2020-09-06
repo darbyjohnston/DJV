@@ -11,7 +11,9 @@ namespace djv
         class AVSystemTest : public Test::ITest
         {
         public:
-            AVSystemTest(const std::shared_ptr<Core::Context>&);
+            AVSystemTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
         };

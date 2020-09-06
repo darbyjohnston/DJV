@@ -5,6 +5,7 @@
 #include <djvCoreTest/FileIOTest.h>
 
 #include <djvCore/FileIO.h>
+#include <djvCore/Path.h>
 
 #include <sstream>
 
@@ -14,9 +15,14 @@ namespace djv
 {
     namespace CoreTest
     {
-        FileIOTest::FileIOTest(const std::shared_ptr<Context>& context) :
-            ITest("djv::CoreTest::FileIOTest", context),
-            _fileName("FileIOTest"),
+        FileIOTest::FileIOTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Core::Context>& context) :
+            ITest(
+                "djv::CoreTest::FileIOTest",
+                FileSystem::Path(tempPath, "FileIOTest"),
+                context),
+            _fileName("file.txt"),
             _text("Hello"),
             _text2("world!")
         {}
@@ -38,18 +44,26 @@ namespace djv
                 DJV_ASSERT(0 == io->getSize());
                 DJV_ASSERT(0 == io->getPos());
                 DJV_ASSERT(io->isEOF());
-                io->open(_fileName, FileSystem::FileIO::Mode::Write);
+                const std::string fileName = FileSystem::Path(getTempPath(), _fileName).get();
+                io->open(
+                    fileName,
+                    FileSystem::FileIO::Mode::Write);
                 DJV_ASSERT(io->isOpen());
-                DJV_ASSERT(io->getFileName() == _fileName);
+                DJV_ASSERT(io->getFileName() == fileName);
                 io->write(_text + " ");
             }
 
             {
                 auto io = FileSystem::FileIO::create();
-                io->open(_fileName, FileSystem::FileIO::Mode::Append);
+                const std::string fileName = FileSystem::Path(getTempPath(), _fileName).get();
+                io->open(
+                    fileName,
+                    FileSystem::FileIO::Mode::Append);
                 io->write(_text2);
 
-                io->open(_fileName, FileSystem::FileIO::Mode::Read);
+                io->open(
+                    fileName,
+                    FileSystem::FileIO::Mode::Read);
                 std::string buf = FileSystem::FileIO::readContents(io);
                 _print(buf);
                 DJV_ASSERT((_text + " " + _text2) == buf);
@@ -58,15 +72,18 @@ namespace djv
             }
 
             {
+                const std::string fileName = FileSystem::Path(getTempPath(), _fileName).get();
                 FileSystem::FileIO::writeLines(
-                    _fileName,
+                    fileName,
                     {
                         "# This is a comment",
                         _text + " " + _text2
                     });
 
                 auto io = FileSystem::FileIO::create();
-                io->open(_fileName, FileSystem::FileIO::Mode::ReadWrite);
+                io->open(
+                    fileName,
+                    FileSystem::FileIO::Mode::ReadWrite);
                 char buf[String::cStringLength];
                 FileSystem::FileIO::readWord(io, buf);
                 _print(buf);
@@ -77,11 +94,16 @@ namespace djv
             }
 
             {
+                const std::string fileName = FileSystem::Path(getTempPath(), _fileName).get();
                 auto io = FileSystem::FileIO::create();
-                io->open(_fileName, FileSystem::FileIO::Mode::Write);
+                io->open(
+                    fileName,
+                    FileSystem::FileIO::Mode::Write);
                 io->write(_text + "\n" + _text2);
 
-                io->open(_fileName, FileSystem::FileIO::Mode::Read);
+                io->open(
+                    fileName,
+                    FileSystem::FileIO::Mode::Read);
                 char buf[String::cStringLength];
                 FileSystem::FileIO::readLine(io, buf);
                 _print(buf);
@@ -92,15 +114,16 @@ namespace djv
             }
 
             {
+                const std::string fileName = FileSystem::Path(getTempPath(), _fileName).get();
                 FileSystem::FileIO::writeLines(
-                    _fileName,
+                    fileName,
                     {
                         _text,
                         "# This is a comment",
                         _text2
                     });
 
-                const auto lines = FileSystem::FileIO::readLines(_fileName);
+                const auto lines = FileSystem::FileIO::readLines(fileName);
                 for (const auto& i : lines)
                 {
                     _print(i);
@@ -117,8 +140,11 @@ namespace djv
                 const int32_t  i32 = std::numeric_limits<int32_t>::max();
                 const uint32_t u32 = std::numeric_limits<uint32_t>::max();
                 const float    f   = std::numeric_limits<float>::max();
+                const std::string fileName = FileSystem::Path(getTempPath(), _fileName).get();
                 auto io = FileSystem::FileIO::create();
-                io->open(_fileName, FileSystem::FileIO::Mode::Write);
+                io->open(
+                    fileName,
+                    FileSystem::FileIO::Mode::Write);
                 io->write8(i8);
                 io->writeU8(u8);
                 io->write16(i16);
@@ -127,7 +153,9 @@ namespace djv
                 io->writeU32(u32);
                 io->writeF32(f);
 
-                io->open(_fileName, FileSystem::FileIO::Mode::Read);
+                io->open(
+                    fileName,
+                    FileSystem::FileIO::Mode::Read);
                 int8_t   _i8  = 0;
                 uint8_t  _u8  = 0;
                 int16_t  _i16 = 0;
@@ -197,6 +225,48 @@ namespace djv
             {
                 _print(e.what());
             }
+
+            try
+            {
+                const std::string fileName = FileSystem::Path(getTempPath(), _fileName).get();
+                auto io = FileSystem::FileIO::create();
+                io->open(fileName, FileSystem::FileIO::Mode::Write);
+                io->open(fileName, FileSystem::FileIO::Mode::Read);
+                uint8_t buf[16];
+                io->read(buf, 16, 1);
+                DJV_ASSERT(false);
+            }
+            catch (const std::exception& e)
+            {
+                _print(e.what());
+            }
+            
+            try
+            {
+                const std::string fileName = FileSystem::Path(getTempPath(), _fileName).get();
+                auto io = FileSystem::FileIO::create();
+                io->open(fileName, FileSystem::FileIO::Mode::Write);
+                io->open(fileName, FileSystem::FileIO::Mode::ReadWrite);
+                uint8_t buf[16];
+                io->read(buf, 16, 1);
+                DJV_ASSERT(false);
+            }
+            catch (const std::exception& e)
+            {
+                _print(e.what());
+            }
+            
+            try
+            {
+                auto io = FileSystem::FileIO::create();
+                uint8_t buf[16];
+                io->write(buf, 16, 1);
+                DJV_ASSERT(false);
+            }
+            catch (const std::exception& e)
+            {
+                _print(e.what());
+            }
         }
 
         void FileIOTest::_endian()
@@ -212,16 +282,33 @@ namespace djv
             
             auto io = FileSystem::FileIO::create();
             DJV_ASSERT(!io->hasEndianConversion());
-            io->open(_fileName, FileSystem::FileIO::Mode::Write);
+            const std::string fileName = FileSystem::Path(getTempPath(), _fileName).get();
+            io->open(
+                fileName,
+                FileSystem::FileIO::Mode::Write);
             io->writeU32(a);
             io->setEndianConversion(true);
             DJV_ASSERT(io->hasEndianConversion());
             io->writeU32(a);
 
-            io->open(_fileName, FileSystem::FileIO::Mode::Read);
+            io->open(
+                fileName,
+                FileSystem::FileIO::Mode::Read);
             io->setEndianConversion(false);
             uint32_t _a = 0;
             uint32_t _b = 0;
+            io->readU32(&_a);
+            DJV_ASSERT(a == _a);
+            io->setEndianConversion(true);
+            io->readU32(&_b);
+            DJV_ASSERT(a == _b);
+
+            io->open(
+                fileName,
+                FileSystem::FileIO::Mode::ReadWrite);
+            io->setEndianConversion(false);
+            _a = 0;
+            _b = 0;
             io->readU32(&_a);
             DJV_ASSERT(a == _a);
             io->setEndianConversion(true);

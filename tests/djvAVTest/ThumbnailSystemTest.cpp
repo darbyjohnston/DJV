@@ -18,8 +18,10 @@ namespace djv
 {
     namespace AVTest
     {
-        ThumbnailSystemTest::ThumbnailSystemTest(const std::shared_ptr<Core::Context>& context) :
-            ITickTest("djv::AVTest::ThumbnailSystemTest", context)
+        ThumbnailSystemTest::ThumbnailSystemTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Context>& context) :
+            ITickTest("djv::AVTest::ThumbnailSystemTest", tempPath, context)
         {}
         
         void ThumbnailSystemTest::run()

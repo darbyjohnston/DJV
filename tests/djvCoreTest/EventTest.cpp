@@ -16,8 +16,10 @@ namespace djv
 {
     namespace CoreTest
     {
-        EventTest::EventTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::CoreTest::EventTest", context)
+        EventTest::EventTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Core::Context>& context) :
+            ITest("djv::CoreTest::EventTest", tempPath, context)
         {}
         
         void EventTest::run()

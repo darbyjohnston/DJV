@@ -13,7 +13,9 @@ namespace djv
         class ErrorTest : public Test::ITest
         {
         public:
-            ErrorTest(const std::shared_ptr<Core::Context>&);
+            ErrorTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
         };

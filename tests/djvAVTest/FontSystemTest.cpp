@@ -16,8 +16,10 @@ namespace djv
 {
     namespace AVTest
     {
-        FontSystemTest::FontSystemTest(const std::shared_ptr<Core::Context>& context) :
-            ITickTest("djv::AVTest::FontSystemTest", context)
+        FontSystemTest::FontSystemTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Context>& context) :
+            ITickTest("djv::AVTest::FontSystemTest", tempPath, context)
         {}
         
         void FontSystemTest::run()

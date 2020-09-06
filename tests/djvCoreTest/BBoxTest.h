@@ -13,7 +13,9 @@ namespace djv
         class BBoxTest : public Test::ITest
         {
         public:
-            BBoxTest(const std::shared_ptr<Core::Context>&);
+            BBoxTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
 

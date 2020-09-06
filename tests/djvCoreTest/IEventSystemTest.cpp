@@ -26,6 +26,8 @@ namespace djv
 
         public:
             static std::shared_ptr<TestObject> create(const std::shared_ptr<Context>&);
+            
+            bool event(Event::Event&) override;
         };
 
         class TestObject2 : public TestObject
@@ -42,7 +44,7 @@ namespace djv
             static std::shared_ptr<TestObject2> create(const std::shared_ptr<Context>&);
 
         protected:
-            bool _eventFilter(const std::shared_ptr<Core::IObject>&, Core::Event::Event&) override;
+            bool _eventFilter(const std::shared_ptr<IObject>&, Event::Event&) override;
 
         private:
             size_t _moveCount = 0;
@@ -53,28 +55,30 @@ namespace djv
         {
             DJV_NON_COPYABLE(TestEventSystem);
 
-            void _init(const std::shared_ptr<Context>&);
+            void _init(
+                const std::shared_ptr<IObject>& parent,
+                const std::shared_ptr<Context>&);
 
             TestEventSystem();
 
         public:
-            static std::shared_ptr<TestEventSystem> create(const std::shared_ptr<Context>&);
+            static std::shared_ptr<TestEventSystem> create(
+                const std::shared_ptr<IObject>& parent,
+                const std::shared_ptr<Context>&);
 
             void tick() override;
 
         protected:
-            void _addObject(const std::shared_ptr<TestObject>&);
+            void _init(Event::Init&) override;
+            void _update(Event::Update&) override;
 
-            void _hover(const std::shared_ptr<IObject>&, Core::Event::PointerMove&, std::shared_ptr<Core::IObject>&);
+            void _hover(const std::shared_ptr<IObject>&, Event::PointerMove&, std::shared_ptr<IObject>&);
             void _hover(Event::PointerMove&, std::shared_ptr<IObject>&) override;
 
         private:
+            std::shared_ptr<IObject> _parent;
             size_t _tick = 0;
-            std::vector<std::weak_ptr<TestObject> > _objects;
             Event::PointerInfo _pointerInfo;
-
-            friend class TestObject;
-            friend class TestObject2;
         };
 
         TestObject::TestObject()
@@ -84,8 +88,27 @@ namespace djv
         {
             auto out = std::shared_ptr<TestObject>(new TestObject);
             out->_init(context);
-            auto eventSystem = context->getSystemT<TestEventSystem>();
-            eventSystem->_addObject(out);
+            return out;
+        }
+
+        bool TestObject::event(Event::Event& event)
+        {
+            bool out = IObject::event(event);
+            if (!out)
+            {
+                switch (event.getEventType())
+                {
+                case Event::Type::PointerEnter:
+                case Event::Type::PointerLeave:
+                case Event::Type::PointerMove:
+                case Event::Type::ButtonPress:
+                case Event::Type::ButtonRelease:
+                    event.accept();
+                    break;
+                default: break;
+                }
+                out = event.isAccepted();
+            }
             return out;
         }
 
@@ -153,34 +176,38 @@ namespace djv
         {
             auto out = std::shared_ptr<TestObject2>(new TestObject2);
             out->_init(context);
-            auto eventSystem = context->getSystemT<TestEventSystem>();
-            eventSystem->_addObject(out);
             return out;
         }
             
-        bool TestObject2::_eventFilter(const std::shared_ptr<Core::IObject> &, Core::Event::Event &)
+        bool TestObject2::_eventFilter(const std::shared_ptr<IObject> &, Event::Event &)
         {
             return false;
         }
 
-        void TestEventSystem::_init(const std::shared_ptr<Context>& context)
+        void TestEventSystem::_init(
+            const std::shared_ptr<IObject>& parent,
+            const std::shared_ptr<Context>& context)
         {
             IEventSystem::_init("TestEventSystem", context);
+            _parent = parent;
         }
             
         TestEventSystem::TestEventSystem()
         {}
 
-        std::shared_ptr<TestEventSystem> TestEventSystem::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<TestEventSystem> TestEventSystem::create(
+            const std::shared_ptr<IObject>& parent,
+            const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<TestEventSystem>(new TestEventSystem);
-            out->_init(context);
+            out->_init(parent, context);
             return out;
         }
             
         void TestEventSystem::tick()
         {
             IEventSystem::tick();
+            
             _pointerMove(_pointerInfo);
             _pointerInfo.projectedPos.x += Math::getRandom(1.f);
             _pointerInfo.projectedPos.y += Math::getRandom(1.f);
@@ -210,13 +237,18 @@ namespace djv
             }
             ++_tick;
         }
-            
-        void TestEventSystem::_addObject(const std::shared_ptr<TestObject>& value)
-        {
-            _objects.push_back(value);
-        }
 
-        void TestEventSystem::_hover(const std::shared_ptr<IObject>& object, Core::Event::PointerMove& event, std::shared_ptr<Core::IObject>& hover)
+        void TestEventSystem::_init(Event::Init& event)
+        {
+            _initRecursive(_parent, event);
+        }
+        
+        void TestEventSystem::_update(Event::Update& event)
+        {
+            _updateRecursive(_parent, event);
+        }
+            
+        void TestEventSystem::_hover(const std::shared_ptr<IObject>& object, Event::PointerMove& event, std::shared_ptr<IObject>& hover)
         {
             const auto children = object->getChildrenT<IObject>();
             for (auto i = children.rbegin(); i != children.rend(); ++i)
@@ -239,34 +271,26 @@ namespace djv
             
         void TestEventSystem::_hover(Event::PointerMove& event, std::shared_ptr<IObject>& hover)
         {
-            for (auto i = _objects.rbegin(); i != _objects.rend(); ++i)
-            {
-                if (auto object = i->lock())
-                {
-                    _hover(object, event, hover);
-                    if (event.isAccepted())
-                    {
-                        break;
-                    }
-                }
-            }
+            _hover(_parent, event, hover);
         }
         
-        IEventSystemTest::IEventSystemTest(const std::shared_ptr<Core::Context>& context) :
-            ITickTest("djv::CoreTest::IEventSystemTest", context)
+        IEventSystemTest::IEventSystemTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Context>& context) :
+            ITickTest("djv::CoreTest::IEventSystemTest", tempPath, context)
         {}
                 
         void IEventSystemTest::run()
         {
             if (auto context = getContext().lock())
             {
-                _system = TestEventSystem::create(context);
-                
                 _object = TestObject::create(context);
                 _object2 = TestObject2::create(context);
                 _object2->installEventFilter(_object);
                 _object->addChild(_object2);
 
+                _system = TestEventSystem::create(_object, context);
+                
                 _clipboard();
                 _textFocus();
                 _tick();
@@ -341,6 +365,17 @@ namespace djv
                         {
                             std::stringstream ss;
                             ss << "key grab: " << value->getClassName();
+                            _print(ss.str());
+                        }
+                    });
+                _textFocusActiveObserver = ValueObserver<bool>::create(
+                    _system->observeTextFocusActive(),
+                    [this](bool value)
+                    {
+                        if (value)
+                        {
+                            std::stringstream ss;
+                            ss << "text focus active: " << value;
                             _print(ss.str());
                         }
                     });

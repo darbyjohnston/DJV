@@ -328,7 +328,7 @@ namespace djv
             {
                 if (auto window = i.lock())
                 {
-                    _udateRecursive(window, event);
+                    _updateRecursive(window, event);
                 }
             }
         }

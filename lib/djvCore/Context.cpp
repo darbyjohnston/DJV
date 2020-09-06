@@ -121,6 +121,8 @@ namespace djv
                     context->_logSystem->log("djv::Core::Context", ss.str());
                 }
             });
+            
+            OS::getIntEnv("DJV_DEBUG", _debugEnv);
         }
         
         Context::Context()
@@ -168,7 +170,10 @@ namespace djv
             {
                 _logSystemOrderInit = false;
                 _logSystemOrder();
-                //_writeSystemDotGraph();
+                if (_debugEnv)
+                {
+                    _writeSystemDotGraph();
+                }
             }
 
             _calcFPS();
@@ -239,8 +244,6 @@ namespace djv
         void Context::_logSystemOrder()
         {
             size_t count = 0;
-            std::vector<std::string> dot;
-            dot.push_back("digraph {");
             for (const auto& system : _systems)
             {
                 {
@@ -249,16 +252,7 @@ namespace djv
                     _logSystem->log("djv::Core::Context", ss.str());
                     ++count;
                 }
-                for (const auto& dependency : system->getDependencies())
-                {
-                    std::stringstream ss;
-                    ss << "    " << "\"" << system->getSystemName() << "\"";
-                    ss << " -> " << "\"" << dependency->getSystemName() << "\"";
-                    dot.push_back(ss.str());
-                }
             }
-            dot.push_back("}");
-            //FileSystem::FileIO::writeLines("systems.dot", dot);
         }
         
         void Context::_writeSystemDotGraph()
@@ -286,7 +280,6 @@ namespace djv
             _fpsTime = now;
             addSample(_fpsSamples, delta.count());
             _fpsAverage = 1.F / averageSamples(_fpsSamples);
-            //std::cout << "fps = " << _fpsAverage << std::endl;
         }
 
     } // namespace ViewExperiment

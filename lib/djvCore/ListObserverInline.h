@@ -31,7 +31,7 @@ namespace djv
         {
             if (auto subject = _subject.lock())
             {
-                subject->_remove(this);
+                subject->_removeExpired();
             }
         }
 
@@ -68,24 +68,12 @@ namespace djv
         }
 
         template<typename T>
-        inline void IListSubject<T>::_remove(ListObserver<T> * observer)
+        inline void IListSubject<T>::_removeExpired()
         {
             auto i = _observers.begin();
             while (i != _observers.end())
             {
-                bool erase = false;
-                if (auto j = i->lock())
-                {
-                    if (observer == j.get())
-                    {
-                        erase = true;
-                    }
-                }
-                else
-                {
-                    erase = true;
-                }
-                if (erase)
+                if (i->expired())
                 {
                     i = _observers.erase(i);
                 }
@@ -163,7 +151,7 @@ namespace djv
         }
         
         template<typename T>
-        void ListSubject<T>::setItem(size_t index, const T& value)
+        inline void ListSubject<T>::setItem(size_t index, const T& value)
         {
             _value[index] = value;
             for (const auto& s : IListSubject<T>::_observers)
@@ -176,7 +164,7 @@ namespace djv
         }
 
         template<typename T>
-        void ListSubject<T>::setItemOnlyIfChanged(size_t index, const T& value)
+        inline void ListSubject<T>::setItemOnlyIfChanged(size_t index, const T& value)
         {
             if (value == _value[index])
                 return;
@@ -191,7 +179,7 @@ namespace djv
         }
 
         template<typename T>
-        void ListSubject<T>::pushBack(const T& value)
+        inline void ListSubject<T>::pushBack(const T& value)
         {
             _value.push_back(value);
             for (const auto& s : IListSubject<T>::_observers)
@@ -204,7 +192,7 @@ namespace djv
         }
 
         template<typename T>
-        void ListSubject<T>::removeItem(size_t index)
+        inline void ListSubject<T>::removeItem(size_t index)
         {
             _value.erase(_value.begin() + index);
             for (const auto& s : IListSubject<T>::_observers)

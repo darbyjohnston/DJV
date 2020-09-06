@@ -15,11 +15,21 @@ namespace djv
 {
     namespace CoreTest
     {
-        TimeTest::TimeTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::CoreTest::TimeTest", context)
+        TimeTest::TimeTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Core::Context>& context) :
+            ITest("djv::CoreTest::TimeTest", tempPath, context)
         {}
         
         void TimeTest::run()
+        {
+            _conversion();
+            _keycode();
+            _timecode();
+            _serialize();
+        }
+        
+        void TimeTest::_conversion()
         {
             {
                 std::stringstream ss;
@@ -65,7 +75,10 @@ namespace djv
                 ss << "localtime: " << i << " = " << result.tm_hour << ":" << result.tm_min << ":" << result.tm_sec;
                 _print(ss.str());
             }
-            
+        }
+        
+        void TimeTest::_keycode()
+        {
             {
                 const int id = 0;
                 const int type = 1;
@@ -98,7 +111,10 @@ namespace djv
             }
             catch (const std::exception&)
             {}
-            
+        }
+        
+        void TimeTest::_timecode()
+        {
             {
                 uint32_t t = Time::timeToTimecode(1, 2, 3, 4);
                 int64_t f = Time::timecodeToFrame(t, Time::fromSpeed(Time::getDefaultSpeed()));
@@ -143,18 +159,47 @@ namespace djv
                 ss2 << "time units string: " << _getText(ss.str());
                 _print(ss2.str());
             }
-
+        }
+        
+        void TimeTest::_serialize()
+        {
             {
+                const Frame::Number frame = 100;
+                const std::string s = Time::toString(frame, Time::fromSpeed(Time::getDefaultSpeed()), Time::Units::Frames);
                 std::stringstream ss;
-                ss << "frames label: " << Time::toString(100, Time::fromSpeed(Time::getDefaultSpeed()), Time::Units::Frames);
+                ss << "frames label: " << s;
                 _print(ss.str());
+                DJV_ASSERT(frame == Time::fromString(s, Time::fromSpeed(Time::getDefaultSpeed()), Time::Units::Frames));
             }
 
             {
+                const Frame::Number frame = 100;
+                const std::string s = Time::toString(frame, Time::fromSpeed(Time::getDefaultSpeed()), Time::Units::Timecode);
                 std::stringstream ss;
-                ss << "timecode label: " << Time::toString(100, Time::fromSpeed(Time::getDefaultSpeed()), Time::Units::Frames);
+                ss << "timecode label: " << s;
                 _print(ss.str());
+                DJV_ASSERT(frame == Time::fromString(s, Time::fromSpeed(Time::getDefaultSpeed()), Time::Units::Timecode));
             }
+            
+            {
+                const Time::Units v = Time::Units::Frames;
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(v, allocator);
+                Time::Units v2 = Time::Units::First;
+                fromJSON(json, v2);
+                DJV_ASSERT(v == v2);
+            }
+
+            try
+            {
+                auto json = rapidjson::Value(rapidjson::kObjectType);
+                Time::Units v = Time::Units::First;
+                fromJSON(json, v);
+                DJV_ASSERT(false);
+            }
+            catch (const std::exception&)
+            {}
         }
         
     } // namespace CoreTest

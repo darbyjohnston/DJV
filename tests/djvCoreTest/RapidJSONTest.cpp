@@ -5,9 +5,13 @@
 #include <djvCoreTest/RapidJSONTest.h>
 
 #include <djvCore/FileIO.h>
+#include <djvCore/Path.h>
 #include <djvCore/RapidJSON.h>
+#include <djvCore/RapidJSONTemplates.h>
+#include <djvCore/StringFormat.h>
 
 #include <rapidjson/prettywriter.h>
+#include <rapidjson/error/en.h>
 
 using namespace djv::Core;
 
@@ -15,8 +19,13 @@ namespace djv
 {
     namespace CoreTest
     {
-        RapidJSONTest::RapidJSONTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::CoreTest::RapidJSONTest", context)
+        RapidJSONTest::RapidJSONTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Core::Context>& context) :
+            ITest(
+                "djv::CoreTest::RapidJSONTest",
+                FileSystem::Path(tempPath, "RapidJSONTest"),
+                context)
         {}
         
         void RapidJSONTest::run()
@@ -30,8 +39,7 @@ namespace djv
             rapidjson::Document document;
             document.SetObject();
             auto& allocator = document.GetAllocator();
-            document.AddMember("string", rapidjson::Value("1", allocator), allocator);
-            //json.AddMember("double", rapidjson::Value(2.0, allocator), allocator);
+            document.AddMember("string", toJSON("1", allocator), allocator);
             {
                 rapidjson::Value value(rapidjson::kArrayType);
                 value.PushBack(rapidjson::Value("1", allocator), allocator);
@@ -46,27 +54,28 @@ namespace djv
                 value.AddMember("c", rapidjson::Value("3", allocator), allocator);
                 document.AddMember("object", value, allocator);
             }
-            for (size_t i : { 0, 4 })
-            {
-                rapidjson::StringBuffer buffer;
-                rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
-                document.Accept(writer);
+            rapidjson::StringBuffer buffer;
+            rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
+            document.Accept(writer);
 
-                auto io = FileSystem::FileIO::create();
-                io->open("RapidJSONTest.json", FileSystem::FileIO::Mode::Write);
-                io->write(buffer.GetString());
-                io->open("RapidJSONTest.json", FileSystem::FileIO::Mode::Read);
-                std::vector<char> buf;
-                const size_t bufSize = io->getSize();
-                buf.resize(bufSize);
-                io->read(buf.data(), bufSize);
-                const char* bufP = buf.data();
+            auto io = FileSystem::FileIO::create();
+            io->open(
+                FileSystem::Path(getTempPath(), "file.json").get(),
+                FileSystem::FileIO::Mode::Write);
+            io->write(buffer.GetString());
+            io->open(
+                FileSystem::Path(getTempPath(), "file.json").get(),
+                FileSystem::FileIO::Mode::Read);
+            std::vector<char> buf;
+            const size_t bufSize = io->getSize();
+            buf.resize(bufSize);
+            io->read(buf.data(), bufSize);
+            const char* bufP = buf.data();
 
-                rapidjson::Document document2;
-                rapidjson::ParseResult result = document2.Parse(bufP, bufSize);
-                DJV_ASSERT(result);
-                DJV_ASSERT(document2 == document);
-            }
+            rapidjson::Document document2;
+            rapidjson::ParseResult result = document2.Parse(bufP, bufSize);
+            DJV_ASSERT(result);
+            DJV_ASSERT(document2 == document);
         }
         
         void RapidJSONTest::_conversion()
@@ -112,6 +121,26 @@ namespace djv
             {}
             
             {
+                const int64_t value = 1;
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(value, allocator);
+                int64_t value2 = 0;
+                fromJSON(json, value2);
+                DJV_ASSERT(value == value2);
+            }
+            
+            try
+            {
+                auto json = rapidjson::Value(rapidjson::kObjectType);
+                int64_t value = 0;
+                fromJSON(json, value);
+                DJV_ASSERT(false);                
+            }
+            catch (const std::exception&)
+            {}
+            
+            {
                 const float value = 1.F;
                 rapidjson::Document document;
                 auto& allocator = document.GetAllocator();
@@ -125,6 +154,26 @@ namespace djv
             {
                 auto json = rapidjson::Value(rapidjson::kObjectType);
                 float value = 0.F;
+                fromJSON(json, value);
+                DJV_ASSERT(false);                
+            }
+            catch (const std::exception&)
+            {}
+            
+            {
+                const double value = 1.0;
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(value, allocator);
+                double value2 = 0.F;
+                fromJSON(json, value2);
+                DJV_ASSERT(value == value2);
+            }
+            
+            try
+            {
+                auto json = rapidjson::Value(rapidjson::kObjectType);
+                double value = 0.0;
                 fromJSON(json, value);
                 DJV_ASSERT(false);                
             }
@@ -180,6 +229,68 @@ namespace djv
             }
             catch (const std::exception&)
             {}
+            
+            {
+                const std::vector<std::string> value({ "one", "two", "three" });
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(value, allocator);
+                std::vector<std::string> value2;
+                fromJSON(json, value2);
+                DJV_ASSERT(value == value2);
+            }
+            
+            try
+            {
+                auto json = rapidjson::Value(rapidjson::kObjectType);
+                std::vector<std::string> value;
+                fromJSON(json, value);
+                DJV_ASSERT(false);
+            }
+            catch (const std::exception&)
+            {}
+            
+            {
+                const std::map<std::string, std::string> value({
+                    { "one", "1" },
+                    { "two", "2" },
+                    { "three", "3" } });
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(value, allocator);
+                std::map<std::string, std::string> value2;
+                fromJSON(json, value2);
+                DJV_ASSERT(value == value2);
+            }
+            
+            try
+            {
+                auto json = rapidjson::Value(rapidjson::kArrayType);
+                std::map<std::string, std::string> value;
+                fromJSON(json, value);
+                DJV_ASSERT(false);                
+            }
+            catch (const std::exception&)
+            {}
+            
+            {
+                std::string buf =
+                    "{\n"
+                    "    error\n";
+                    "}\n";
+                rapidjson::Document document;
+                rapidjson::ParseResult result = document.Parse(buf.c_str(), buf.size());
+                DJV_ASSERT(!result);
+                size_t line = 0;
+                size_t character = 0;
+                RapidJSON::errorLineNumber(buf.c_str(), buf.size(), result.Offset(), line, character);
+                _print(String::Format("{0} {1} {2}, {3} {4}").
+                    arg(rapidjson::GetParseError_En(result.Code())).
+                    arg("Line").
+                    arg(line).
+                    arg("Character").
+                    arg(character));
+            }
         }
         
     } // namespace CoreTest

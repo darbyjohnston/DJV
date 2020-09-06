@@ -2,7 +2,7 @@
 // Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 
-#include <djvCore/Frame.h>
+#include <djvCore/FrameNumber.h>
 
 #include <djvCore/Math.h>
 
@@ -157,14 +157,7 @@ namespace djv
                 Index tmp = 0;
                 for (const auto& i : _ranges)
                 {
-                    if (i.getMin() < i.getMax())
-                    {
-                        tmp += i.getMax() - i.getMin() + 1;
-                    }
-                    else
-                    {
-                        tmp += i.getMin() - i.getMax() + 1;
-                    }
+                    tmp += i.getMax() - i.getMin() + 1;
                 }
                 return _ranges.size() ? (tmp - 1) : invalidIndex;
             }

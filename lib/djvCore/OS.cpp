@@ -30,15 +30,26 @@ namespace djv
 #endif // DJV_PLATFORM_WINDOWS
             }
 
-            std::vector<std::string> getStringListEnv(const std::string& name)
+            bool getStringListEnv(const std::string& name, std::vector<std::string>& out)
             {
-                return String::split(OS::getEnv(name), OS::getCurrentListSeparator());
+                std::string value;
+                if (OS::getEnv(name, value))
+                {
+                    out = String::split(value, OS::getCurrentListSeparator());
+                    return true;
+                }
+                return false;
             }
 
-            int getIntEnv(const std::string& name)
+            bool getIntEnv(const std::string& name, int& out)
             {
-                const std::string env = getEnv(name);
-                return !env.empty() ? std::stoi(env) : 0;
+                std::string value;
+                if (getEnv(name, value))
+                {
+                    out = !value.empty() ? std::stoi(value) : 0;
+                    return true;
+                }
+                return false;
             }
 
         } // namespace OS

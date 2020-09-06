@@ -99,6 +99,7 @@ namespace djv
             std::list<float> _fpsSamples;
             float _fpsAverage = 0.F;
             std::shared_ptr<Time::Timer> _fpsTimer;
+            int _debugEnv = 0;
 
             friend class ISystemBase;
         };

@@ -18,8 +18,13 @@ namespace djv
 {
     namespace AVTest
     {
-        IOTest::IOTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::AVTest::IOTest", context)
+        IOTest::IOTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Context>& context) :
+            ITest(
+                "djv::AVTest::IOTest",
+                FileSystem::Path(tempPath, "IOTest"),
+                context)
         {}
         
         void IOTest::run()
@@ -229,9 +234,9 @@ namespace djv
                                 image->zero();
                                 
                                 std::stringstream ss;
-                                ss << "IOTest" << "_" << size.w << "x" << size.h << "_" << type << extension;
+                                ss << size.w << "x" << size.h << "_" << type << extension;
                                 _print(ss.str());
-                                FileSystem::Path path(ss.str());
+                                FileSystem::Path path(getTempPath(), ss.str());
                                 {
                                     IO::Info info;
                                     info.video.push_back(imageInfo);

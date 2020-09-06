@@ -235,7 +235,7 @@ namespace djv
                 const float m = style->getMetric(MetricsRole::MarginInside);
                 const float b = style->getMetric(MetricsRole::Border);
                 const float is = style->getMetric(MetricsRole::Icon);
-                const BBox2f& g = getGeometry().margin(-b);
+                const BBox2f& g = getGeometry();
 
                 const auto& render = _getRender();
                 render->setFillColor(style->getColor(ColorRole::Border));

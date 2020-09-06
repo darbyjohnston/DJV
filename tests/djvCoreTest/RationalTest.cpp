@@ -12,8 +12,10 @@ namespace djv
 {
     namespace CoreTest
     {
-        RationalTest::RationalTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::CoreTest::RationalTest", context)
+        RationalTest::RationalTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Core::Context>& context) :
+            ITest("djv::CoreTest::RationalTest", tempPath, context)
         {}
         
         void RationalTest::run()
@@ -85,6 +87,16 @@ namespace djv
                 DJV_ASSERT(r == r2);
             }
 
+            try
+            {
+                Math::Rational r;
+                std::stringstream ss;
+                ss >> r;
+                DJV_ASSERT(false);
+            }
+            catch (const std::exception&)
+            {}
+
             {
                 const Math::Rational r(24);
                 rapidjson::Document document;
@@ -94,6 +106,16 @@ namespace djv
                 fromJSON(json, r2);
                 DJV_ASSERT(r == r2);
             }
+
+            try
+            {
+                auto json = rapidjson::Value(rapidjson::kObjectType);
+                Math::Rational value;
+                fromJSON(json, value);
+                DJV_ASSERT(false);
+            }
+            catch (const std::exception&)
+            {}
         }
         
     } // namespace CoreTest

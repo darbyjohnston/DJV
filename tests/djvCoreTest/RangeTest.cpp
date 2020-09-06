@@ -12,8 +12,10 @@ namespace djv
 {
     namespace CoreTest
     {
-        RangeTest::RangeTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::CoreTest::RangeTest", context)
+        RangeTest::RangeTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Core::Context>& context) :
+            ITest("djv::CoreTest::RangeTest", tempPath, context)
         {}
         
         void RangeTest::run()
@@ -55,6 +57,13 @@ namespace djv
             }
             
             {
+                FloatRange range(1.F, 10.F);
+                range.zero();
+                DJV_ASSERT(0.F == range.getMin());
+                DJV_ASSERT(0.F == range.getMax());
+            }
+            
+            {
                 IntRange range(1, 10);
                 DJV_ASSERT(range.intersects(IntRange(5, 20)));
                 DJV_ASSERT(!range.intersects(IntRange(11, 20)));
@@ -93,6 +102,16 @@ namespace djv
                 ss >> range2;
                 DJV_ASSERT(range == range2);
             }
+
+            try
+            {
+                IntRange range;
+                std::stringstream ss;
+                ss >> range;
+                DJV_ASSERT(false);
+            }
+            catch (const std::exception&)
+            {}
         }
         
     } // namespace CoreTest

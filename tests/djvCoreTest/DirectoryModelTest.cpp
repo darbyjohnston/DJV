@@ -13,8 +13,13 @@ namespace djv
 {
     namespace CoreTest
     {
-        DirectoryModelTest::DirectoryModelTest(const std::shared_ptr<Core::Context>& context) :
-            ITickTest("djv::CoreTest::DirectoryModelTest", context)
+        DirectoryModelTest::DirectoryModelTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Core::Context>& context) :
+            ITickTest(
+                "djv::CoreTest::DirectoryModelTest",
+                FileSystem::Path(tempPath, "DirectoryModelTest"),
+                context)
         {}
         
         void DirectoryModelTest::run()
@@ -22,74 +27,142 @@ namespace djv
             if (auto context = getContext().lock())
             {
                 auto model = FileSystem::DirectoryModel::create(context);
-                model->setPath(FileSystem::Path("."));
-                auto path = model->observePath()->get();
+                
+                FileSystem::Path path;
+                std::vector<FileSystem::FileInfo> fileInfo;
+                std::vector<std::string> fileNames;
+                bool hasUp = false;
+                std::vector<FileSystem::Path> history;
+                size_t historyIndex = 0;
+                bool hasBack = false;
+                bool hasForward = false;
+                FileSystem::DirectoryListOptions options;
+                
+                auto pathObserver = ValueObserver<FileSystem::Path>::create(
+                    model->observePath(),
+                    [&path](const FileSystem::Path& value)
+                    {
+                        path = value;
+                    });
+                auto fileInfoObserver = ListObserver<FileSystem::FileInfo>::create(
+                    model->observeFileInfo(),
+                    [&fileInfo](const std::vector<FileSystem::FileInfo>& value)
+                    {
+                        fileInfo = value;
+                    });
+                auto fileNamesObserver = ListObserver<std::string>::create(
+                    model->observeFileNames(),
+                    [&fileNames](const std::vector<std::string>& value)
+                    {
+                        fileNames = value;
+                    });
+                auto hasUpObserver = ValueObserver<bool>::create(
+                    model->observeHasUp(),
+                    [&hasUp](bool value)
+                    {
+                        hasUp = value;
+                    });
+                auto historyObserver = ListObserver<FileSystem::Path>::create(
+                    model->observeHistory(),
+                    [&history](const std::vector<FileSystem::Path>& value)
+                    {
+                        history = value;
+                    });
+                auto historyIndexObserver = ValueObserver<size_t>::create(
+                    model->observeHistoryIndex(),
+                    [&historyIndex](size_t value)
+                    {
+                        historyIndex = value;
+                    });
+                auto hasBackObserver = ValueObserver<bool>::create(
+                    model->observeHasBack(),
+                    [&hasBack](bool value)
+                    {
+                        hasBack = value;
+                    });
+                auto hasForwardObserver = ValueObserver<bool>::create(
+                    model->observeHasForward(),
+                    [&hasForward](bool value)
+                    {
+                        hasForward = value;
+                    });
+                auto optionsObserver = ValueObserver<FileSystem::DirectoryListOptions>::create(
+                    model->observeOptions(),
+                    [&options](const FileSystem::DirectoryListOptions& value)
+                    {
+                        options = value;
+                    });
+                
+                model->setPath(getTempPath());
                 {
                     std::stringstream ss;
                     ss << "path: " << path;
                     _print(ss.str());
                 }
                 model->reload();
-                for (const auto& i : model->observeFileInfo()->get())
+                for (const auto& i : fileInfo)
                 {
                     std::stringstream ss;
                     ss << "file info: " << i;
                     _print(ss.str());
                 }
-                for (const auto& i : model->observeFileNames()->get())
+                for (const auto& i : fileNames)
                 {
                     std::stringstream ss;
                     ss << "file name: " << i;
                     _print(ss.str());
                 }
 
+                const auto pathA = path;
                 model->cdUp();
-                auto path2 = model->observePath()->get();
+                const auto pathB = path;
                 {
                     std::stringstream ss;
-                    ss << "path 2: " << path2;
+                    ss << "path: " << path;
                     _print(ss.str());
                 }
-                DJV_ASSERT(model->observeHasUp()->get());
+                DJV_ASSERT(hasUp);
 
                 model->setHistoryMax(100);
                 model->setHistoryMax(100);
                 model->setHistoryMax(10);
                 model->setHistoryIndex(0);
-                DJV_ASSERT(path == model->observePath()->get());
+                DJV_ASSERT(path == pathA);
                 model->goForward();
-                DJV_ASSERT(path2 == model->observePath()->get());
+                DJV_ASSERT(path == pathB);
                 model->goBack();
-                DJV_ASSERT(path == model->observePath()->get());
-                for (const auto& i : model->observeHistory()->get())
+                DJV_ASSERT(path == pathA);
+                for (const auto& i : history)
                 {
                     std::stringstream ss;
                     ss << "history: " << i;
                     _print(ss.str());
                 }
-                DJV_ASSERT(0 == model->observeHistoryIndex()->get());
-                DJV_ASSERT(!model->observeHasBack()->get());
-                DJV_ASSERT(model->observeHasForward()->get());
-                model->setPath(path2);
-                model->setPath(path);
+                DJV_ASSERT(0 == historyIndex);
+                DJV_ASSERT(!hasBack);
+                DJV_ASSERT(hasForward);
+                model->setPath(pathB);
+                model->setPath(pathA);
                 model->setHistoryMax(0);
 
-                FileSystem::DirectoryListOptions options;
-                options.extensions.insert(".txt");
-                options.sequences = true;
-                options.sequenceExtensions.insert(".txt");
-                options.showHidden = true;
-                options.sort = FileSystem::DirectoryListSort::Size;
-                options.reverseSort = true;
-                options.sortDirectoriesFirst = false;
-                options.filter = ".txt";
-                model->setOptions(options);
-                DJV_ASSERT(options == model->observeOptions()->get());
+                FileSystem::DirectoryListOptions optionsA;
+                optionsA.extensions.insert(".txt");
+                optionsA.sequences = true;
+                optionsA.sequenceExtensions.insert(".txt");
+                optionsA.showHidden = true;
+                optionsA.sort = FileSystem::DirectoryListSort::Size;
+                optionsA.reverseSort = true;
+                optionsA.sortDirectoriesFirst = false;
+                optionsA.filter = ".txt";
+                model->setOptions(optionsA);
+                DJV_ASSERT(options == optionsA);
                 
                 _tickFor(std::chrono::milliseconds(1000));
 
                 auto io = FileSystem::FileIO::create();
-                io->open("DirectoryModelTest", FileSystem::FileIO::Mode::Write);
+                io->open(
+                    FileSystem::Path(path, "file.txt").get(),
+                    FileSystem::FileIO::Mode::Write);
                 io->close();
 
                 _tickFor(std::chrono::milliseconds(1000));

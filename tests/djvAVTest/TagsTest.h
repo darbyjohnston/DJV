@@ -11,7 +11,9 @@ namespace djv
         class TagsTest : public Test::ITest
         {
         public:
-            TagsTest(const std::shared_ptr<Core::Context>&);
+            TagsTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
         };

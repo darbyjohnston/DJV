@@ -6,6 +6,8 @@
 
 #include <djvTestLib/Test.h>
 
+#include <djvCore/FrameNumber.h>
+
 namespace djv
 {
     namespace CoreTest
@@ -13,7 +15,9 @@ namespace djv
         class FileInfoTest : public Test::ITest
         {
         public:
-            FileInfoTest(const std::shared_ptr<Core::Context>&);
+            FileInfoTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
 
@@ -28,6 +32,7 @@ namespace djv
 
             std::string _fileName;
             std::string _sequenceName;
+            Core::Frame::Sequence _sequence;
         };
         
     } // namespace CoreTest

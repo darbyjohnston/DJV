@@ -112,7 +112,7 @@ namespace djv
             //! Find the closest power of two.
             int toPow2(int) noexcept;
 
-            //! Convert readians to degrees.
+            //! Convert radians to degrees.
             constexpr float rad2deg(float) noexcept;
 
             //! Convert degrees to radians.

@@ -41,8 +41,10 @@ namespace djv
             }
         };
 
-        ISystemTest::ISystemTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::CoreTest::ISystemTest", context)
+        ISystemTest::ISystemTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Core::Context>& context) :
+            ITest("djv::CoreTest::ISystemTest", tempPath, context)
         {}
                 
         void ISystemTest::run()
@@ -50,6 +52,7 @@ namespace djv
             if (auto context = getContext().lock())
             {
                 auto system = TestSystem::create(context);
+                DJV_ASSERT(system->getDependencies().empty());
             }
         }
                 

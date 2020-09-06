@@ -13,7 +13,9 @@ namespace djv
         class UndoStackTest : public Test::ITest
         {
         public:
-            UndoStackTest(const std::shared_ptr<Core::Context>&);
+            UndoStackTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
 

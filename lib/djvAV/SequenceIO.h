@@ -6,8 +6,6 @@
 
 #include <djvAV/IOPlugin.h>
 
-#include <djvCore/Frame.h>
-
 namespace djv
 {
     namespace AV

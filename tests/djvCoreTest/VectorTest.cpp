@@ -13,8 +13,10 @@ namespace djv
 {
     namespace CoreTest
     {
-        VectorTest::VectorTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::CoreTest::VectorTest", context)
+        VectorTest::VectorTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Core::Context>& context) :
+            ITest("djv::CoreTest::VectorTest", tempPath, context)
         {}
         
         void VectorTest::run()
@@ -47,6 +49,82 @@ namespace djv
         
         void VectorTest::_serialize()
         {
+            {
+                const glm::ivec2 v(0, 1);
+                std::stringstream ss;
+                ss << v;
+                glm::ivec2 v2(0, 0);
+                ss >> v2;
+                DJV_ASSERT(v == v2);
+            }
+
+            try
+            {
+                glm::ivec2 v;
+                std::stringstream ss;
+                ss >> v;
+                DJV_ASSERT(false);
+            }
+            catch (const std::exception&)
+            {}
+            
+            {
+                const glm::vec2 v(0.F, 1.F);
+                std::stringstream ss;
+                ss << v;
+                glm::vec2 v2(0.F, 0.F);
+                ss >> v2;
+                DJV_ASSERT(v == v2);
+            }
+
+            try
+            {
+                glm::vec2 v;
+                std::stringstream ss;
+                ss >> v;
+                DJV_ASSERT(false);
+            }
+            catch (const std::exception&)
+            {}
+            
+            {
+                const glm::vec3 v(0.F, 1.F, 2.F);
+                std::stringstream ss;
+                ss << v;
+                glm::vec3 v2(0.F, 0.F, 0.F);
+                ss >> v2;
+                DJV_ASSERT(v == v2);
+            }
+
+            try
+            {
+                glm::vec3 v;
+                std::stringstream ss;
+                ss >> v;
+                DJV_ASSERT(false);
+            }
+            catch (const std::exception&)
+            {}
+            
+            {
+                const glm::vec4 v(0.F, 1.F, 2.F, 3.F);
+                std::stringstream ss;
+                ss << v;
+                glm::vec4 v2(0.F, 0.F, 0.F, 0.F);
+                ss >> v2;
+                DJV_ASSERT(v == v2);
+            }
+
+            try
+            {
+                glm::vec4 v;
+                std::stringstream ss;
+                ss >> v;
+                DJV_ASSERT(false);
+            }
+            catch (const std::exception&)
+            {}
+            
             {
                 const glm::ivec2 v(0, 1);
                 rapidjson::Document document;

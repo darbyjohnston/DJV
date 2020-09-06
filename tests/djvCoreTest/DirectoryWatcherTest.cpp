@@ -15,8 +15,13 @@ namespace djv
 {
     namespace CoreTest
     {
-        DirectoryWatcherTest::DirectoryWatcherTest(const std::shared_ptr<Core::Context>& context) :
-            ITickTest("djv::CoreTest::DirectoryWatcherTest", context)
+        DirectoryWatcherTest::DirectoryWatcherTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Core::Context>& context) :
+            ITickTest(
+                "djv::CoreTest::DirectoryWatcherTest",
+                FileSystem::Path(tempPath, "DirectoryWatcherTest"),
+                context)
         {}
         
         void DirectoryWatcherTest::run()
@@ -24,7 +29,7 @@ namespace djv
             if (auto context = getContext().lock())
             {
                 auto watcher = FileSystem::DirectoryWatcher::create(context);
-                const FileSystem::Path path(".");
+                const FileSystem::Path path(getTempPath());
                 watcher->setPath(path);
                 DJV_ASSERT(path == watcher->getPath());
                 bool changed = false;
@@ -36,11 +41,15 @@ namespace djv
                 
                 _tickFor(std::chrono::milliseconds(1000));
                 
-                auto io = FileSystem::FileIO::create();
-                io->open(
-                    std::string(FileSystem::Path(path, "DirectoryWatcherTest")),
-                    FileSystem::FileIO::Mode::Write);
-                io->close();
+                for (size_t i = 0; i < 10; ++i)
+                {
+                    std::stringstream ss;
+                    ss << "file" << i << ".txt";
+                    auto io = FileSystem::FileIO::create();
+                    io->open(
+                        FileSystem::Path(path, ss.str()).get(),
+                        FileSystem::FileIO::Mode::Write);
+                }
                 
                 _tickFor(std::chrono::milliseconds(1000));
                 

@@ -182,8 +182,8 @@ namespace djv
             }
 
             // Get the system locale.
-            std::string djvLang = OS::getEnv("DJV_LANG");
-            if (djvLang.size())
+            std::string djvLang;
+            if (OS::getEnv("DJV_LANG", djvLang) && !djvLang.empty())
             {
                 {
                     std::stringstream ss;
@@ -359,11 +359,14 @@ namespace djv
 
             try
             {
-                const auto envPaths = OS::getStringListEnv("DJV_TEXT_PATH");
-                for (const auto& path : envPaths)
+                std::vector<std::string> envPaths;
+                if (OS::getStringListEnv("DJV_TEXT_PATH", envPaths))
                 {
-                    list = FileSystem::FileInfo::directoryList(FileSystem::Path(path), options);
-                    out.insert(out.end(), list.begin(), list.end());
+                    for (const auto& path : envPaths)
+                    {
+                        list = FileSystem::FileInfo::directoryList(FileSystem::Path(path), options);
+                        out.insert(out.end(), list.begin(), list.end());
+                    }
                 }
             }
             catch (const std::exception& e)

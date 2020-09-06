@@ -17,7 +17,7 @@ set(header
     FileIO.h
     FileInfo.h
     FileSystem.h
-    Frame.h
+    FrameNumber.h
     ICommand.h
     IEventSystem.h
     INumericValueModel.h
@@ -76,7 +76,7 @@ set(source
     FileIO.cpp
     FileInfo.cpp
     FileSystem.cpp
-    Frame.cpp
+    FrameNumber.cpp
     ICommand.cpp
     IEventSystem.cpp
     IObject.cpp

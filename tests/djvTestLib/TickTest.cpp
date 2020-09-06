@@ -8,6 +8,8 @@
 
 #include <thread>
 
+using namespace djv::Core;
+
 namespace djv
 {
     namespace Test
@@ -19,20 +21,23 @@ namespace djv
         
         } // namespace
         
-        ITickTest::ITickTest(const std::string & name, const std::shared_ptr<Core::Context>& context) :
-            ITest(name, context)
+        ITickTest::ITickTest(
+            const std::string& name,
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Context>& context) :
+            ITest(name, tempPath, context)
         {}
         
         ITickTest::~ITickTest()
         {}
 
-        void ITickTest::_tickFor(const Core::Time::Duration& value)
+        void ITickTest::_tickFor(const Time::Duration& value)
         {
             if (auto context = getContext().lock())
             {
                 auto time = std::chrono::steady_clock::now();
                 auto timeout = time + value;
-                Core::Time::Duration delta;
+                Time::Duration delta;
                 while (time < timeout)
                 {
                     context->tick();

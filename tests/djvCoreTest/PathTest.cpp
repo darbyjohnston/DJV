@@ -5,6 +5,9 @@
 #include <djvCoreTest/PathTest.h>
 
 #include <djvCore/Error.h>
+#if defined(DJV_PLATFORM_MACOS) || defined(DJV_PLATFORM_LINUX)
+#include <djvCore/OS.h>
+#endif // DJV_PLATFORM_MACOS || DJV_PLATFORM_LINUX
 #include <djvCore/Path.h>
 
 using namespace djv::Core;
@@ -13,8 +16,10 @@ namespace djv
 {
     namespace CoreTest
     {
-        PathTest::PathTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::CoreTest::PathTest", context)
+        PathTest::PathTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Core::Context>& context) :
+            ITest("djv::CoreTest::PathTest", tempPath, context)
         {}
         
         void PathTest::run()
@@ -239,7 +244,7 @@ namespace djv
             }
             
             {
-                const FileSystem::Path path = FileSystem::Path::getAbsolute(FileSystem::Path("."));
+                const FileSystem::Path path = FileSystem::Path::getAbsolute(getTempPath());
                 std::stringstream ss;
                 ss << "absolute: " << path;
                 _print(ss.str());
@@ -265,6 +270,27 @@ namespace djv
                 ss << "temp: " << path;
                 _print(ss.str());
             }
+
+#if defined(DJV_PLATFORM_MACOS) || defined(DJV_PLATFORM_LINUX)
+            for (const auto& i : std::vector<std::string>({ "TEMP", "TMP", "TMPDIR" }))
+            {
+                std::string prev;
+                bool hasPrev = OS::getEnv(i, prev);
+                OS::setEnv(i, i);
+                const FileSystem::Path path = FileSystem::Path::getTemp();
+                std::stringstream ss;
+                ss << "temp: " << path;
+                _print(ss.str());
+                if (hasPrev)
+                {
+                    OS::setEnv(i, prev);
+                }
+                else
+                {
+                    OS::clearEnv(i);
+                }
+            }
+#endif // DJV_PLATFORM_MACOS || DJV_PLATFORM_LINUX
         }
         
         void PathTest::_operators()

@@ -11,7 +11,9 @@ namespace djv
         class OCIOSystemTest : public Test::ITest
         {
         public:
-            OCIOSystemTest(const std::shared_ptr<Core::Context>&);
+            OCIOSystemTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
             

@@ -13,7 +13,9 @@ namespace djv
         class DirectoryWatcherTest : public Test::ITickTest
         {
         public:
-            DirectoryWatcherTest(const std::shared_ptr<Core::Context>&);
+            DirectoryWatcherTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
         };

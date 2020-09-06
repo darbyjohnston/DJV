@@ -13,7 +13,9 @@ namespace djv
         class RangeTest : public Test::ITest
         {
         public:
-            RangeTest(const std::shared_ptr<Core::Context>&);
+            RangeTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
         

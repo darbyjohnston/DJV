@@ -13,7 +13,9 @@ namespace djv
         class MemoryTest : public Test::ITest
         {
         public:
-            MemoryTest(const std::shared_ptr<Core::Context>&);
+            MemoryTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
         

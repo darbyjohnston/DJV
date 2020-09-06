@@ -11,7 +11,9 @@ namespace djv
         class PixelTest : public Test::ITest
         {
         public:
-            PixelTest(const std::shared_ptr<Core::Context>&);
+            PixelTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
             

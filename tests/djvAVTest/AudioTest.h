@@ -12,7 +12,9 @@ namespace djv
         class AudioTest : public Test::ITest
         {
         public:
-            AudioTest(const std::shared_ptr<Core::Context>&);
+            AudioTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
             

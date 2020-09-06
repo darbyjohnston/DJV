@@ -14,8 +14,10 @@ namespace djv
 {
     namespace CoreTest
     {
-        ObjectTest::ObjectTest(const std::shared_ptr<Context>& context) :
-            ITest("djv::CoreTest::ObjectTest", context)
+        ObjectTest::ObjectTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Core::Context>& context) :
+            ITest("djv::CoreTest::ObjectTest", tempPath, context)
         {}
         
         namespace
@@ -28,6 +30,13 @@ namespace djv
                 void _init(const std::shared_ptr<Context>& context)
                 {
                     IObject::_init(context);
+                    
+                    DJV_ASSERT(_getResourceSystem());
+                    DJV_ASSERT(_getLogSystem());
+                    DJV_ASSERT(_getTextSystem());
+
+                    setClassName("TestObject");
+
                     _log(_getText("TestObject"));
                 }
 
@@ -63,8 +72,9 @@ namespace djv
                 }
             
             protected:
-                void _hover(Event::PointerMove&, std::shared_ptr<IObject>&) override
-                {}
+                void _init(Event::Init&) override {}
+                void _update(Event::Update&) override {}
+                void _hover(Event::PointerMove&, std::shared_ptr<IObject>&) override {}
             };
         
         } // namespace
@@ -77,9 +87,14 @@ namespace djv
                 
                 {
                     auto o = TestObject::create(context);
+                    DJV_ASSERT(o->getContext().lock());
+                    DJV_ASSERT(!o->getClassName().empty());
+                    DJV_ASSERT(o->getObjectName().empty());
                     DJV_ASSERT(!o->getParent().lock());
                     DJV_ASSERT(o->getChildren().size() == 0);
                     DJV_ASSERT(o->isEnabled());
+                    o->setObjectName("Object");
+                    DJV_ASSERT("Object" == o->getObjectName());
                 }
                 
                 {
@@ -125,6 +140,12 @@ namespace djv
                     parent->clearChildren();
                     DJV_ASSERT(parent->getChildren().size() == 0);
                     DJV_ASSERT(!child->getParent().lock());
+                    
+                    parent->addChild(child);
+                    child->addChild(child2);
+                    parent->addChild(child2);
+                    DJV_ASSERT(parent->getChildren().size() == 2);
+                    DJV_ASSERT(child->getChildren().size() == 0);
                 }
 
                 context->removeSystem(system);

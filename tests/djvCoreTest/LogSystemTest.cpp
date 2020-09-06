@@ -15,8 +15,10 @@ namespace djv
 {
     namespace CoreTest
     {
-        LogSystemTest::LogSystemTest(const std::shared_ptr<Core::Context>& context) :
-            ITickTest("djv::CoreTest::LogSystemTest", context)
+        LogSystemTest::LogSystemTest(
+            const FileSystem::Path& tempPath,
+            const std::shared_ptr<Core::Context>& context) :
+            ITickTest("djv::CoreTest::LogSystemTest", tempPath, context)
         {}
                 
         void LogSystemTest::run()

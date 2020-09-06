@@ -13,7 +13,9 @@ namespace djv
         class EventTest : public Test::ITest
         {
         public:
-            EventTest(const std::shared_ptr<Core::Context>&);
+            EventTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
 

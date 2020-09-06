@@ -11,7 +11,9 @@ namespace djv
         class ColorTest : public Test::ITest
         {
         public:
-            ColorTest(const std::shared_ptr<Core::Context>&);
+            ColorTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
             

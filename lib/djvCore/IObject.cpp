@@ -298,6 +298,11 @@ namespace djv
             // Default implementation does nothing.
         }
 
+        bool IObject::_eventFilter(const std::shared_ptr<IObject>&, Event::Event&)
+        {
+            return false;
+        }
+
         const std::string& IObject::_getText(const std::string& id) const
         {
             return _textSystem->getText(id);

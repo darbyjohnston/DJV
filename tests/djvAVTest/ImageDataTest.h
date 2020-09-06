@@ -11,7 +11,9 @@ namespace djv
         class ImageDataTest : public Test::ITest
         {
         public:
-            ImageDataTest(const std::shared_ptr<Core::Context>&);
+            ImageDataTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
         

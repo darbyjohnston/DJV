@@ -9,7 +9,7 @@
 #include <djvAV/Color.h>
 #include <djvAV/ImageData.h>
 
-#include <djvCore/Frame.h>
+#include <djvCore/FrameNumber.h>
 #include <djvCore/RapidJSON.h>
 #include <djvCore/Speed.h>
 

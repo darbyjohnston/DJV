@@ -13,7 +13,9 @@ namespace djv
         class StringFormatTest : public Test::ITest
         {
         public:
-            StringFormatTest(const std::shared_ptr<Core::Context>&);
+            StringFormatTest(
+                const Core::FileSystem::Path& tempPath,
+                const std::shared_ptr<Core::Context>&);
             
             void run() override;
         };

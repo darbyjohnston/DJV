@@ -56,24 +56,28 @@ namespace djv
 
             //! Throws:
             //! - std::exception
-            std::string getEnv(const std::string& name);
+            bool getEnv(const std::string& name, std::string&);
 
             //! Get an environment variable and convert it to an integer. If the
             //! variable is empty then zero is returned.
             //!
             //! Throws:
             //! - std::exception
-            int getIntEnv(const std::string& name);
+            bool getIntEnv(const std::string& name, int& value);
 
             //! Get an environment variable and convert it to a list of strings.
             //!
             //! Throws:
             //! - std::exception
-            std::vector<std::string> getStringListEnv(const std::string& name);
+            bool getStringListEnv(const std::string& name, std::vector<std::string>&);
 
             //! Throws:
             //! - std::exception
             bool setEnv(const std::string& name, const std::string&);
+            
+            //! Throws:
+            //! - std::exception
+            bool clearEnv(const std::string& name);
             
             ///@}
             

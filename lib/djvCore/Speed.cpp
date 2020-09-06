@@ -7,6 +7,7 @@
 #include <djvCore/String.h>
 
 #include <algorithm>
+#include <array>
 #include <cmath>
 
 namespace djv
@@ -33,7 +34,7 @@ namespace djv
 
             Math::Rational fromSpeed(FPS fps)
             {
-                const int scale[] =
+                const std::array<int, static_cast<size_t>(FPS::Count)> scale =
                 {
                     1,
                     3,
@@ -53,8 +54,7 @@ namespace djv
                     120,
                     240
                 };
-                DJV_ASSERT(static_cast<size_t>(FPS::Count) == sizeof(scale) / sizeof(scale[0]));
-                const int duration[] =
+                const std::array<int, static_cast<size_t>(FPS::Count)> duration =
                 {
                     1,
                     1,
@@ -74,7 +74,6 @@ namespace djv
                     1,
                     1
                 };
-                DJV_ASSERT(static_cast<size_t>(FPS::Count) == sizeof(duration) / sizeof(duration[0]));
                 return Math::Rational(scale[static_cast<size_t>(fps)], duration[static_cast<size_t>(fps)]);
             }
 
@@ -155,3 +154,4 @@ namespace djv
     }
 
 } // namespace djv
+
