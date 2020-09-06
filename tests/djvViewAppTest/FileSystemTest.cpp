@@ -27,11 +27,11 @@ namespace djv
     namespace ViewAppTest
     {        
         FileSystemTest::FileSystemTest(
-            const FileSystem::Path& tempPath,
+            const Core::FileSystem::Path& tempPath,
             const std::shared_ptr<Context>& context) :
             ITest(
                 "djv::ViewAppTest::FileSystemTest",
-                FileSystem::Path(tempPath, "ViewAppFileSystemTest"),
+                Core::FileSystem::Path(tempPath, "ViewAppFileSystemTest"),
                 context)
         {
             auto glfwSystem = Desktop::GLFWSystem::create(context);

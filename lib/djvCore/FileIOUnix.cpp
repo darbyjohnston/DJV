@@ -264,6 +264,11 @@ namespace djv
             
             void FileIO::read(void* in, size_t size, size_t wordSize)
             {
+                if (-1 == _f)
+                {
+                    throw Error(getErrorMessage(ErrorType::Read, _fileName));
+                }
+                    
                 switch (_mode)
                 {
                 case Mode::Read:
@@ -316,6 +321,11 @@ namespace djv
 
             void FileIO::write(const void* in, size_t size, size_t wordSize)
             {
+                if (-1 == _f)
+                {
+                    throw Error(getErrorMessage(ErrorType::Write, _fileName));
+                }
+
                 const uint8_t* inP = reinterpret_cast<const uint8_t*>(in);
                 std::vector<uint8_t> tmp;
                 if (_endianConversion && wordSize > 1)
