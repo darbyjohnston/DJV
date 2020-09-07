@@ -19,6 +19,7 @@
 #include <stdlib.h>
 #include <VersionHelpers.h>
 
+#include <array>
 #include <codecvt>
 #include <locale>
 
@@ -45,7 +46,7 @@ namespace djv
 
                 std::string getLabel(Windows value)
                 {
-                    const std::vector<std::string> data =
+                    const std::array<std::string, static_cast<size_t>(Windows::Count)> data =
                     {
                         "Unknown",
                         "Windows 7",
@@ -53,7 +54,6 @@ namespace djv
                         "Windows 8.1",
                         "Windows 10"
                     };
-                    DJV_ASSERT(data.size() == static_cast<size_t>(Windows::Count));
                     return data[static_cast<size_t>(value)];
                 }
 

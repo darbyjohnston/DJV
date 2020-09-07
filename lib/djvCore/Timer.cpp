@@ -17,7 +17,7 @@ namespace djv
         {
             size_t getValue(TimerValue value)
             {
-                const std::vector<size_t> data =
+                const std::array<size_t, static_cast<size_t>(TimerValue::Count)> data =
                 {
                     10000,
                     1000,
@@ -25,7 +25,6 @@ namespace djv
                     10,
                     1
                 };
-                DJV_ASSERT(data.size() == static_cast<size_t>(TimerValue::Count));
                 return data[static_cast<size_t>(value)];
             }
 

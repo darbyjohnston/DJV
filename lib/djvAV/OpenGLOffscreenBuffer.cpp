@@ -57,7 +57,7 @@ namespace djv
 
             GLenum getInternalFormat(OffscreenDepthType value)
             {
-                const std::vector<GLenum> data =
+                const std::array<GLenum, static_cast<size_t>(OffscreenDepthType::Count)> data =
                 {
                     GL_NONE,
 #if !defined(DJV_OPENGL_ES2)
@@ -71,31 +71,28 @@ namespace djv
                     GL_DEPTH_COMPONENT
 #endif // DJV_OPENGL_ES2
                 };
-                DJV_ASSERT(data.size() == static_cast<size_t>(OffscreenDepthType::Count));
                 return data[static_cast<size_t>(value)];
             }
 
             GLenum getGLFormat(OffscreenDepthType value)
             {
-                const std::vector<GLenum> data =
+                const std::array<GLenum, static_cast<size_t>(OffscreenDepthType::Count)> data =
                 {
                     GL_NONE,
                     GL_DEPTH_COMPONENT,
                     GL_DEPTH_COMPONENT
                 };
-                DJV_ASSERT(data.size() == static_cast<size_t>(OffscreenDepthType::Count));
                 return data[static_cast<size_t>(value)];
             }
 
             GLenum getGLType(OffscreenDepthType value)
             {
-                const std::vector<GLenum> data =
+                const std::array<GLenum, static_cast<size_t>(OffscreenDepthType::Count)> data =
                 {
                     GL_NONE,
                     GL_UNSIGNED_INT,
                     GL_FLOAT
                 };
-                DJV_ASSERT(data.size() == static_cast<size_t>(OffscreenDepthType::Count));
                 return data[static_cast<size_t>(value)];
             }
 

@@ -4,6 +4,8 @@
 
 #include <djvAV/OpenGLTexture.h>
 
+#include <array>
+
 //#pragma optimize("", off)
 
 using namespace djv::Core;
@@ -227,7 +229,7 @@ namespace djv
 
             GLenum Texture::getInternalFormat(Image::Type type)
             {
-                const GLenum data[] =
+                const std::array<GLenum, static_cast<size_t>(Image::Type::Count)> data =
                 {
                     GL_NONE,
 #if defined(DJV_OPENGL_ES2)
@@ -282,7 +284,6 @@ namespace djv
                     GL_RGBA32F
 #endif // DJV_OPENGL_ES2
                 };
-                DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(Image::Type::Count));
                 return data[static_cast<size_t>(type)];
             }
 
