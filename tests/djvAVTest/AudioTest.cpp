@@ -44,8 +44,16 @@ namespace djv
                 std::stringstream ss;
                 ss << i;
                 std::stringstream ss2;
-                ss2 << "type string: " << _getText(ss.str());
+                ss2 << "Type string: " << _getText(ss.str());
                 _print(ss2.str());
+            }
+
+            for (auto i : Audio::getTypeEnums())
+            {
+                std::stringstream ss;
+                ss << Audio::toRtAudio(i);
+                ss << "RtAudio: " << ss.str();
+                _print(ss.str());
             }
         }
         

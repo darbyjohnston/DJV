@@ -96,7 +96,12 @@ namespace djv
             }
 
             template<typename T>
-            inline void Data::extract(const T* value, T* out, size_t sampleCount, uint8_t inChannelCount, uint8_t outChannelCount)
+            inline void Data::extract(
+                const T* value,
+                T* out,
+                size_t sampleCount,
+                uint8_t inChannelCount,
+                uint8_t outChannelCount)
             {
                 const T* inP = value;
                 T* outP = out;
@@ -129,7 +134,7 @@ namespace djv
             }
 
             template<typename T>
-            inline void Data::planarInterleave(const T** value, T* out, size_t sampleCount, uint8_t channelCount)
+            inline void Data::planarInterleave(const T** value, T* out, uint8_t channelCount, size_t sampleCount)
             {
                 switch (channelCount)
                 {

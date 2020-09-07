@@ -5,6 +5,7 @@
 #include <djvAVTest/AVSystemTest.h>
 
 #include <djvAV/AVSystem.h>
+#include <djvAV/Render2DData.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/ValueObserver.h>
@@ -33,7 +34,7 @@ namespace djv
                     [this](Time::Units value)
                     {
                         std::stringstream ss;
-                        ss << "time units: " << value;
+                        ss << "Time units: " << value;
                         _print(ss.str());
                     });
                 auto alphaBlendObserver = ValueObserver<AlphaBlend>::create(
@@ -41,7 +42,7 @@ namespace djv
                     [this](AlphaBlend value)
                     {
                         std::stringstream ss;
-                        ss << "alpha blend: " << value;
+                        ss << "Alpha blend: " << value;
                         _print(ss.str());
                     });
                 auto defaultSpeedObserver = ValueObserver<Time::FPS>::create(
@@ -49,13 +50,33 @@ namespace djv
                     [this](Time::FPS value)
                     {
                         std::stringstream ss;
-                        ss << "defaut speed: " << value;
+                        ss << "Default speed: " << value;
+                        _print(ss.str());
+                    });
+                auto imageFilterOptionsObserver = ValueObserver<Render2D::ImageFilterOptions>::create(
+                    system->observeImageFilterOptions(),
+                    [this](const Render2D::ImageFilterOptions& value)
+                    {
+                        std::stringstream ss;
+                        ss << "Image filter: " << value.min << " " << value.mag;
+                        _print(ss.str());
+                    });
+                auto textLCDRenderingObserver = ValueObserver<bool>::create(
+                    system->observeTextLCDRendering(),
+                    [this](bool value)
+                    {
+                        std::stringstream ss;
+                        ss << "Text LCD rendering: " << value;
                         _print(ss.str());
                     });
 
                 system->setTimeUnits(Time::Units::Frames);
                 system->setAlphaBlend(AlphaBlend::Premultiplied);
                 system->setDefaultSpeed(Time::FPS::_60);
+                system->setImageFilterOptions(Render2D::ImageFilterOptions(
+                    Render2D::ImageFilter::Nearest,
+                    Render2D::ImageFilter::Nearest));
+                system->setTextLCDRendering(false);
             }
         }
 

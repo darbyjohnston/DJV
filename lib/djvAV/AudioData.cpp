@@ -124,14 +124,14 @@ namespace djv
             namespace
             {
                 template<typename U>
-                void _planarInterleave(const U * value, U * out, size_t channelCount, size_t size)
+                void _planarInterleave(const U* value, U* out, uint8_t channelCount, size_t size)
                 {
-                    const size_t planeSize = size / channelCount;
-                    for (size_t c = 0; c < channelCount; ++c)
+                    const size_t planeSize = size;
+                    for (uint8_t c = 0; c < channelCount; ++c)
                     {
-                        const U * inP = value + c * planeSize;
-                        const U * endP = inP + planeSize;
-                        U * outP = out + c;
+                        const U* inP = value + c * planeSize;
+                        const U* endP = inP + planeSize;
+                        U* outP = out + c;
                         for (; inP < endP; ++inP, outP += channelCount)
                         {
                             *outP = *inP;
@@ -148,19 +148,19 @@ namespace djv
                 switch (data->getType())
                 {
                 case Type::S8:
-                    _planarInterleave(reinterpret_cast<const S8_T *> (data->getData()), reinterpret_cast<S8_T *> (out->getData()), channelCount, sampleCount);
+                    _planarInterleave(reinterpret_cast<const S8_T*> (data->getData()), reinterpret_cast<S8_T*> (out->getData()), channelCount, sampleCount);
                     break;
                 case Type::S16:
-                    _planarInterleave(reinterpret_cast<const S16_T *>(data->getData()), reinterpret_cast<S16_T *>(out->getData()), channelCount, sampleCount);
+                    _planarInterleave(reinterpret_cast<const S16_T*>(data->getData()), reinterpret_cast<S16_T*>(out->getData()), channelCount, sampleCount);
                     break;
                 case Type::S32:
-                    _planarInterleave(reinterpret_cast<const S32_T *>(data->getData()), reinterpret_cast<S32_T *>(out->getData()), channelCount, sampleCount);
+                    _planarInterleave(reinterpret_cast<const S32_T*>(data->getData()), reinterpret_cast<S32_T*>(out->getData()), channelCount, sampleCount);
                     break;
                 case Type::F32:
-                    _planarInterleave(reinterpret_cast<const F32_T *>(data->getData()), reinterpret_cast<F32_T *>(out->getData()), channelCount, sampleCount);
+                    _planarInterleave(reinterpret_cast<const F32_T*>(data->getData()), reinterpret_cast<F32_T*>(out->getData()), channelCount, sampleCount);
                     break;
                 case Type::F64:
-                    _planarInterleave(reinterpret_cast<const F64_T *>(data->getData()), reinterpret_cast<F64_T *>(out->getData()), channelCount, sampleCount);
+                    _planarInterleave(reinterpret_cast<const F64_T*>(data->getData()), reinterpret_cast<F64_T*>(out->getData()), channelCount, sampleCount);
                     break;
                 default: break;
                 }
@@ -172,7 +172,7 @@ namespace djv
                 template<typename T>
                 void _planarDeinterleave(const T* value, T* out, uint8_t channelCount, size_t size)
                 {
-                    const size_t planeSize = size / channelCount;
+                    const size_t planeSize = size;
                     for (uint8_t c = 0; c < channelCount; ++c)
                     {
                         const T* inP = value + c;
@@ -193,19 +193,19 @@ namespace djv
                 switch (data->getType())
                 {
                 case Type::S8:
-                    _planarDeinterleave(reinterpret_cast<const S8_T *> (data->getData()), reinterpret_cast<S8_T *> (out->getData()), channelCount, sampleCount);
+                    _planarDeinterleave(reinterpret_cast<const S8_T*> (data->getData()), reinterpret_cast<S8_T*>(out->getData()), channelCount, sampleCount);
                     break;
                 case Type::S16:
-                    _planarDeinterleave(reinterpret_cast<const S16_T *>(data->getData()), reinterpret_cast<S16_T *>(out->getData()), channelCount, sampleCount);
+                    _planarDeinterleave(reinterpret_cast<const S16_T*>(data->getData()), reinterpret_cast<S16_T*>(out->getData()), channelCount, sampleCount);
                     break;
                 case Type::S32:
-                    _planarDeinterleave(reinterpret_cast<const S32_T *>(data->getData()), reinterpret_cast<S32_T *>(out->getData()), channelCount, sampleCount);
+                    _planarDeinterleave(reinterpret_cast<const S32_T*>(data->getData()), reinterpret_cast<S32_T*>(out->getData()), channelCount, sampleCount);
                     break;
                 case Type::F32:
-                    _planarDeinterleave(reinterpret_cast<const F32_T *>(data->getData()), reinterpret_cast<F32_T *>(out->getData()), channelCount, sampleCount);
+                    _planarDeinterleave(reinterpret_cast<const F32_T*>(data->getData()), reinterpret_cast<F32_T*>(out->getData()), channelCount, sampleCount);
                     break;
                 case Type::F64:
-                    _planarDeinterleave(reinterpret_cast<const F64_T *>(data->getData()), reinterpret_cast<F64_T *>(out->getData()), channelCount, sampleCount);
+                    _planarDeinterleave(reinterpret_cast<const F64_T*>(data->getData()), reinterpret_cast<F64_T*>(out->getData()), channelCount, sampleCount);
                     break;
                 default: break;
                 }

@@ -148,8 +148,8 @@ namespace djv
                         Audio::Data::planarInterleave(
                             c,
                             reinterpret_cast<int16_t*>(out->getData()),
-                            out->getSampleCount(),
-                            outChannelCount);
+                            outChannelCount,
+                            out->getSampleCount());
                         delete[] c;
                         break;
                     }
@@ -163,8 +163,8 @@ namespace djv
                         Audio::Data::planarInterleave(
                             c,
                             reinterpret_cast<int32_t*>(out->getData()),
-                            out->getSampleCount(),
-                            outChannelCount);
+                            outChannelCount,
+                            out->getSampleCount());
                         delete[] c;
                         break;
                     }
@@ -178,8 +178,8 @@ namespace djv
                         Audio::Data::planarInterleave(
                             c,
                             reinterpret_cast<float*>(out->getData()),
-                            out->getSampleCount(),
-                            outChannelCount);
+                            outChannelCount,
+                            out->getSampleCount());
                         delete[] c;
                         break;
                     }
@@ -193,8 +193,8 @@ namespace djv
                         Audio::Data::planarInterleave(
                             c,
                             reinterpret_cast<double*>(out->getData()),
-                            out->getSampleCount(),
-                            outChannelCount);
+                            outChannelCount,
+                            out->getSampleCount());
                         delete[] c;
                         break;
                     }

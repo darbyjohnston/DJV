@@ -79,7 +79,7 @@ namespace djv
 
                 static std::shared_ptr<Data> planarInterleave(const std::shared_ptr<Data>&);
                 template<typename T>
-                static void planarInterleave(const T**, T*, size_t sampleCount, uint8_t channelCount);
+                static void planarInterleave(const T**, T*, uint8_t channelCount, size_t sampleCount);
                 static std::shared_ptr<Data> planarDeinterleave(const std::shared_ptr<Data>&);
 
                 static void volume(
