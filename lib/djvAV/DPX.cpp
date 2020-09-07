@@ -11,6 +11,8 @@
 #include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 
+#include <array>
+
 using namespace djv::Core;
 
 namespace djv
@@ -874,6 +876,9 @@ namespace djv
                 {
                     return Write::create(fileInfo, info, options, _p->options, _textSystem, _resourceSystem, _logSystem);
                 }
+
+                DJV_ENUM_HELPERS_IMPLEMENTATION(Version);
+                DJV_ENUM_HELPERS_IMPLEMENTATION(Endian);
 
             } // namespace DPX
         } // namespace IO

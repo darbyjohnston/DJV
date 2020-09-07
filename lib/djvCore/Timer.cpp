@@ -7,6 +7,7 @@
 #include <djvCore/Context.h>
 
 #include <algorithm>
+#include <array>
 
 namespace djv
 {
@@ -155,9 +156,11 @@ namespace djv
                 _p->newTimers.push_back(value);
             }
 
+            DJV_ENUM_HELPERS_IMPLEMENTATION(TimerValue);
+
         } // namespace Time
     } // namespace Core
-    
+
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         Core::Time,
         TimerValue,

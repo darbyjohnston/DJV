@@ -107,6 +107,8 @@ namespace djv
                 return false;
             }
 
+            DJV_ENUM_HELPERS_IMPLEMENTATION(FPS);
+
         } // namespace Time
     } // namespace Core
 

@@ -5,11 +5,19 @@
 #include <djvAV/Enum.h>
 
 #include <algorithm>
+#include <array>
 
 using namespace djv::Core;
 
 namespace djv
 {
+    namespace AV
+    {
+        DJV_ENUM_HELPERS_IMPLEMENTATION(Side);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(SwapInterval);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(AlphaBlend);
+    }
+
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV,
         Side,

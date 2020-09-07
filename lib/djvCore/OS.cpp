@@ -7,6 +7,7 @@
 #include <djvCore/String.h>
 
 #include <algorithm>
+#include <array>
 
 //#pragma optimize("", off)
 
@@ -51,6 +52,8 @@ namespace djv
                 }
                 return false;
             }
+
+            DJV_ENUM_HELPERS_IMPLEMENTATION(DirectoryShortcut);
 
         } // namespace OS
     } // namespace Core

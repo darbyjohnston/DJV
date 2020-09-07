@@ -7,6 +7,8 @@
 #include <djvCore/FileIO.h>
 #include <djvCore/String.h>
 
+#include <array>
+
 using namespace djv::Core;
 
 namespace djv
@@ -133,6 +135,8 @@ namespace djv
                 {
                     return Write::create(fileInfo, info, options, _p->options, _textSystem, _resourceSystem, _logSystem);
                 }
+
+                DJV_ENUM_HELPERS_IMPLEMENTATION(Data);
 
             } // namespace PPM
         } // namespace IO

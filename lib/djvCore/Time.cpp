@@ -7,6 +7,7 @@
 #include <djvCore/Speed.h>
 #include <djvCore/String.h>
 
+#include <array>
 #include <climits>
 #include <iomanip>
 
@@ -283,6 +284,8 @@ namespace djv
                 }
                 return out;
             }
+
+            DJV_ENUM_HELPERS_IMPLEMENTATION(Units);
 
         } // namespace Time
     } // namespace Core

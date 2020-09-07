@@ -10,6 +10,8 @@
 
 #include <djvCore/Context.h>
 
+#include <array>
+
 using namespace djv::Core;
 
 namespace djv
@@ -194,6 +196,8 @@ namespace djv
                 _shader->setUniform(_locations["transform.mvp"], data.camera * data.model);
                 _shader->setUniform(_locations["transform.normals"], glm::transpose(glm::inverse(glm::mat3x3(data.model))));
             }
+
+            DJV_ENUM_HELPERS_IMPLEMENTATION(DefaultMaterialMode);
 
         } // namespace Render3D
     } // namespace AV

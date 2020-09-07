@@ -8,6 +8,8 @@
 
 #include <djvAV/Render2D.h>
 
+#include <array>
+
 using namespace djv::Core;
 
 namespace djv
@@ -274,6 +276,9 @@ namespace djv
             }
             p.undo->setAlways(true);
         }
+
+        DJV_ENUM_HELPERS_IMPLEMENTATION(AnnotateTool);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(AnnotateLineSize);
 
     } // namespace ViewApp
 

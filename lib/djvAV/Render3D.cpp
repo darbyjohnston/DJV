@@ -17,6 +17,8 @@
 #include <djvCore/LogSystem.h>
 #include <djvCore/Timer.h>
 
+#include <array>
+
 using namespace djv::Core;
 
 namespace djv
@@ -479,9 +481,11 @@ namespace djv
                 }
             }
 
+            DJV_ENUM_HELPERS_IMPLEMENTATION(DepthBufferMode);
+
         } // namespace Render3D
     } // namespace AV
-
+    
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::Render3D,
         DepthBufferMode,

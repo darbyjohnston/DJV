@@ -12,6 +12,8 @@
 
 #include <OpenColorIO/OpenColorIO.h>
 
+#include <array>
+
 // These need to be included last on macOS.
 #include <djvCore/RapidJSONTemplates.h>
 #include <djvUI/ISettingsTemplates.h>
@@ -643,9 +645,11 @@ namespace djv
                 colorSpacesSubject->setIfChanged(colorSpaces);
             }
 
+            DJV_ENUM_HELPERS_IMPLEMENTATION(ConfigMode);
+
         } // namespace OCIO
     } // namespace AV
-   
+
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::OCIO,
         ConfigMode,

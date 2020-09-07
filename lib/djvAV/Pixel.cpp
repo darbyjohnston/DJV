@@ -5,6 +5,7 @@
 #include <djvAV/Pixel.h>
 
 #include <algorithm>
+#include <array>
 #include <functional>
 #include <map>
 
@@ -538,6 +539,10 @@ namespace djv
                     function(in, out, size);
                 }
             }
+
+            DJV_ENUM_HELPERS_IMPLEMENTATION(Type);
+            DJV_ENUM_HELPERS_IMPLEMENTATION(Channels);
+            DJV_ENUM_HELPERS_IMPLEMENTATION(DataType);
 
         } // namespace Image
     } // namespace AV

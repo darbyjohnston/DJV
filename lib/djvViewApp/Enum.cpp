@@ -7,11 +7,26 @@
 #include <djvCore/Speed.h>
 
 #include <algorithm>
+#include <array>
 
 using namespace djv::Core;
 
 namespace djv
 {
+    namespace ViewApp
+    {
+        DJV_ENUM_HELPERS_IMPLEMENTATION(ViewLock);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(GridLabels);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(HUDBackground);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(ViewBackground);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(ScrollWheelSpeed);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(Playback);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(PlaybackSpeed);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(PlaybackMode);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(CmdLineMode);
+
+    } // namespace ViewApp
+
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         ViewApp,
         ViewLock,

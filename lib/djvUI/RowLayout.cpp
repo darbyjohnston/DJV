@@ -11,6 +11,8 @@
 
 #include <djvCore/Math.h>
 
+#include <array>
+
 //#pragma optimize("", off)
 
 using namespace djv::Core;
@@ -411,6 +413,8 @@ namespace djv
                 out->_init(context);
                 return out;
             }
+
+            DJV_ENUM_HELPERS_IMPLEMENTATION(RowStretch);
 
         } // namespace Layout
     } // namespace UI    

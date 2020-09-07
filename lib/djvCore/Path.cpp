@@ -8,6 +8,8 @@
 #include <djvCore/Memory.h>
 #include <djvCore/String.h>
 
+#include <array>
+
 extern "C"
 {
 #include <fseq.h>
@@ -327,8 +329,27 @@ namespace djv
                 return get();
             }
 
+            DJV_ENUM_HELPERS_IMPLEMENTATION(ResourcePath);
+
         } // namespace FileSystem
     } // namespace Core
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        Core::FileSystem,
+        ResourcePath,
+        DJV_TEXT("resource_path_application"),
+        DJV_TEXT("resource_path_documents"),
+        DJV_TEXT("resource_path_log_file"),
+        DJV_TEXT("resource_path_settings_file"),
+        DJV_TEXT("resource_path_audio"),
+        DJV_TEXT("resource_path_fonts"),
+        DJV_TEXT("resource_path_icons"),
+        DJV_TEXT("resource_path_images"),
+        DJV_TEXT("resource_path_models"),
+        DJV_TEXT("resource_path_shaders"),
+        DJV_TEXT("resource_path_text"),
+        DJV_TEXT("resource_path_color"),
+        DJV_TEXT("resource_path_documentation"));
 
     rapidjson::Value toJSON(const Core::FileSystem::Path& value, rapidjson::Document::AllocatorType& allocator)
     {
@@ -381,23 +402,6 @@ namespace djv
         os << value.get();
         return os;
     }
-
-    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        Core::FileSystem,
-        ResourcePath,
-        DJV_TEXT("resource_path_application"),
-        DJV_TEXT("resource_path_documents"),
-        DJV_TEXT("resource_path_log_file"),
-        DJV_TEXT("resource_path_settings_file"),
-        DJV_TEXT("resource_path_audio"),
-        DJV_TEXT("resource_path_fonts"),
-        DJV_TEXT("resource_path_icons"),
-        DJV_TEXT("resource_path_images"),
-        DJV_TEXT("resource_path_models"),
-        DJV_TEXT("resource_path_shaders"),
-        DJV_TEXT("resource_path_text"),
-        DJV_TEXT("resource_path_color"),
-        DJV_TEXT("resource_path_documentation"));
 
 } // namespace djv
 

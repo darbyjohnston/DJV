@@ -5,6 +5,7 @@
 #include <djvUI/Enum.h>
 
 #include <algorithm>
+#include <array>
 
 using namespace djv::Core;
 
@@ -78,6 +79,24 @@ namespace djv
             }
             return out;
         }
+
+        DJV_ENUM_HELPERS_IMPLEMENTATION(Orientation);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(Side);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(Corner);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(Expand);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(HAlign);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(VAlign);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(TextHAlign);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(TextVAlign);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(SelectionType);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(SortOrder);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(ButtonType);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(ViewType);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(ColorRole);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(MetricsRole);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(ImageRotate);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(ImageAspectRatio);
+        DJV_ENUM_HELPERS_IMPLEMENTATION(Popup);
 
     } // namespace UI
 

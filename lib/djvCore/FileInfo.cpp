@@ -4,6 +4,8 @@
 
 #include <djvCore/FileInfo.h>
 
+#include <array>
+
 //#pragma optimize("", off)
 
 namespace djv
@@ -379,6 +381,9 @@ namespace djv
                     });
                 }
             }
+
+            DJV_ENUM_HELPERS_IMPLEMENTATION(FileType);
+            DJV_ENUM_HELPERS_IMPLEMENTATION(DirectoryListSort);
 
         } // namespace FileSystem
     } // namespace Core

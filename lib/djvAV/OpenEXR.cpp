@@ -13,6 +13,8 @@
 #include <ImfStandardAttributes.h>
 #include <ImfThreading.h>
 
+#include <array>
+
 using namespace djv::Core;
 
 namespace djv
@@ -1047,6 +1049,9 @@ namespace djv
                 {
                     return Write::create(fileInfo, info, options, _p->options, _textSystem, _resourceSystem, _logSystem);
                 }
+
+                DJV_ENUM_HELPERS_IMPLEMENTATION(Channels);
+                DJV_ENUM_HELPERS_IMPLEMENTATION(Compression);
 
             } // namespace OpenEXR
         } // namespace IO

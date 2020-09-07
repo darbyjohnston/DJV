@@ -5,6 +5,7 @@
 #include <djvCore/Event.h>
 
 #include <algorithm>
+#include <array>
 
 namespace djv
 {
@@ -301,9 +302,11 @@ namespace djv
                 return _textModifiers;
             }
 
-        } // namespace Event
+            DJV_ENUM_HELPERS_IMPLEMENTATION(Type);
+
+    } // namespace Event
     } // namespace Core
-    
+        
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         Core::Event,
         Type,

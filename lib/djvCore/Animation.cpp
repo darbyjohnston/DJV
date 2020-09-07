@@ -9,6 +9,7 @@
 #include <djvCore/TextSystem.h>
 
 #include <algorithm>
+#include <array>
 
 //#pragma optimize("", off)
 
@@ -20,7 +21,7 @@ namespace djv
         {
             Function getFunction(Type value)
             {
-                const std::vector<Function> data =
+                const std::array<Function, 5> data =
                 {
                     [](float t) { return t; },
                     [](float t) { return powf(t, 2.F); },
@@ -31,7 +32,6 @@ namespace djv
                     return (sinf(t * Math::pi2 - Math::pi / 2.F) + 1.F) * .5F;
                 }
                 };
-                DJV_ASSERT(data.size() == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];
             }
 
@@ -188,6 +188,8 @@ namespace djv
             {
                 _p->newAnimations.push_back(value);
             }
+
+            DJV_ENUM_HELPERS_IMPLEMENTATION(Type);
 
         } // namespace Animation
     } // namespace Core

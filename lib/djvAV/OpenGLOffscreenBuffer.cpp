@@ -8,6 +8,8 @@
 
 #include <djvCore/Error.h>
 
+#include <array>
+
 //#pragma optimize("", off)
 
 using namespace djv::Core;
@@ -332,6 +334,9 @@ namespace djv
 
             OffscreenBufferBinding::~OffscreenBufferBinding()
             {}
+
+            DJV_ENUM_HELPERS_IMPLEMENTATION(OffscreenDepthType);
+            DJV_ENUM_HELPERS_IMPLEMENTATION(OffscreenSampling);
 
         } // namespace OpenGL
     } // namespace AV

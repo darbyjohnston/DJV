@@ -22,6 +22,7 @@
 
 #include <glm/geometric.hpp>
 
+#include <array>
 #include <list>
 
 using namespace djv::Core;
@@ -1254,6 +1255,8 @@ namespace djv
                 swipeStop();
             }
         }
+
+        DJV_ENUM_HELPERS_IMPLEMENTATION(ScrollType);
 
     } // namespace UI    
 

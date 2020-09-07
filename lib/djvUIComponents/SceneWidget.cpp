@@ -17,6 +17,8 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
+#include <array>
+
 using namespace djv::Core;
 
 namespace djv
@@ -399,6 +401,8 @@ namespace djv
                 _redraw();
             }
         }
+
+        DJV_ENUM_HELPERS_IMPLEMENTATION(SceneRotate);
 
     } // namespace UI
 

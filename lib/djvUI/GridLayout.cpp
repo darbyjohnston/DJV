@@ -10,6 +10,7 @@
 
 #include <djvCore/Math.h>
 
+#include <array>
 #include <unordered_map>
 
 //#pragma optimize("", off)
@@ -558,8 +559,10 @@ namespace djv
                 }
             }
 
+            DJV_ENUM_HELPERS_IMPLEMENTATION(GridStretch);
+
         } // namespace Layout
-    } // namespace UI    
+    } // namespace UI
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI::Layout,

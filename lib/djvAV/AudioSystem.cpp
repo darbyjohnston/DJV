@@ -13,6 +13,8 @@
 
 #include <RtAudio.h>
 
+#include <array>
+
 using namespace djv::Core;
 
 namespace djv
@@ -235,6 +237,8 @@ namespace djv
                 }
                 return out;
             }
+
+            DJV_ENUM_HELPERS_IMPLEMENTATION(DeviceFormat);
 
         } // namespace Audio
     } // namespace AV

@@ -4,6 +4,8 @@
 
 #include <djvAV/Render2DData.h>
 
+#include <array>
+
 #if defined(GetObject)
 #undef GetObject
 #endif // GetObject
@@ -12,6 +14,17 @@ using namespace djv::Core;
 
 namespace djv
 {
+    namespace AV
+    {
+        namespace Render2D
+        {
+            DJV_ENUM_HELPERS_IMPLEMENTATION(ImageChannelDisplay);
+            DJV_ENUM_HELPERS_IMPLEMENTATION(ImageCache);
+            DJV_ENUM_HELPERS_IMPLEMENTATION(ImageFilter);
+
+        } // namespace Render2D
+    } // namespace AV
+
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::Render2D,
         ImageChannelDisplay,

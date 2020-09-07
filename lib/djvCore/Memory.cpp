@@ -5,6 +5,7 @@
 #include <djvCore/Memory.h>
 
 #include <algorithm>
+#include <array>
 #include <functional>
 
 #include <string.h>
@@ -178,6 +179,9 @@ namespace djv
                     break;
                 }
             }
+
+            DJV_ENUM_HELPERS_IMPLEMENTATION(Unit);
+            DJV_ENUM_HELPERS_IMPLEMENTATION(Endian);
 
         } // namespace Memory
     } // namespace Core

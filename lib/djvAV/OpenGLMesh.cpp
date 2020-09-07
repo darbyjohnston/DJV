@@ -8,6 +8,7 @@
 
 #include <djvCore/Math.h>
 
+#include <array>
 #include <iostream>
 
 //#pragma optimize("", off)
@@ -382,6 +383,8 @@ namespace djv
             {
                 glDrawArrays(mode, static_cast<GLsizei>(offset), static_cast<GLsizei>(size));
             }
+
+            DJV_ENUM_HELPERS_IMPLEMENTATION(VBOType);
 
         } // namespace OpenGL
     } // namespace AV

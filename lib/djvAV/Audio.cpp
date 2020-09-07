@@ -5,6 +5,7 @@
 #include <djvAV/Audio.h>
 
 #include <algorithm>
+#include <array>
 
 namespace djv
 {
@@ -25,6 +26,8 @@ namespace djv
                 return out;
             }*/
             
+            DJV_ENUM_HELPERS_IMPLEMENTATION(Type);
+
         } // namespace Audio
     } // namespace AV
 
