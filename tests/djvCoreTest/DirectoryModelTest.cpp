@@ -95,31 +95,23 @@ namespace djv
                 
                 model->setPath(getTempPath());
                 {
-                    std::stringstream ss;
-                    ss << "path: " << path;
-                    _print(ss.str());
+                    _print("Path: " + path.get());
                 }
                 model->reload();
                 for (const auto& i : fileInfo)
                 {
-                    std::stringstream ss;
-                    ss << "file info: " << i;
-                    _print(ss.str());
+                    _print("File info: " + std::string(i));
                 }
                 for (const auto& i : fileNames)
                 {
-                    std::stringstream ss;
-                    ss << "file name: " << i;
-                    _print(ss.str());
+                    _print("File name: " + i);
                 }
 
                 const auto pathA = path;
                 model->cdUp();
                 const auto pathB = path;
                 {
-                    std::stringstream ss;
-                    ss << "path: " << path;
-                    _print(ss.str());
+                    _print("Path: " + path.get());
                 }
                 DJV_ASSERT(hasUp);
 
@@ -134,9 +126,7 @@ namespace djv
                 DJV_ASSERT(path == pathA);
                 for (const auto& i : history)
                 {
-                    std::stringstream ss;
-                    ss << "history: " << i;
-                    _print(ss.str());
+                    _print("History: " + i.get());
                 }
                 DJV_ASSERT(0 == historyIndex);
                 DJV_ASSERT(!hasBack);

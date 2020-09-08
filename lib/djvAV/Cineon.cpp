@@ -143,12 +143,7 @@ namespace djv
                 {
                     DJV_ASSERT(maxLen >= 0);
                     const char* c = string.c_str();
-                    const size_t length =
-                        maxLen ?
-                        std::min(
-                            string.length(),
-                            maxLen - static_cast<int>(terminate)) :
-                            (string.length() + static_cast<int>(terminate));
+                    const size_t length = std::min(string.length(), maxLen - static_cast<int>(terminate));
                     size_t i = 0;
                     for (; i < length; ++i)
                     {
@@ -622,6 +617,10 @@ namespace djv
                 {
                     return Write::create(fileInfo, info, options, _textSystem, _resourceSystem, _logSystem);
                 }
+                
+                DJV_ENUM_HELPERS_IMPLEMENTATION(ColorProfile);
+                DJV_ENUM_HELPERS_IMPLEMENTATION(Orient);
+                DJV_ENUM_HELPERS_IMPLEMENTATION(Descriptor);
 
             } // namespace Cineon
         } // namespace IO

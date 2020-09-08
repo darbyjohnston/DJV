@@ -25,7 +25,7 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << i;
-                _print(_getText(ss.str()));
+                _print("Type: " + _getText(ss.str()));
                 for (size_t j = 0; j <= 10; ++j)
                 {
                     const float v = j / static_cast<float>(10);

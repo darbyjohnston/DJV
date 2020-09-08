@@ -90,12 +90,10 @@ namespace djv
                         out.push_back(getErrorString());
                         break;
                     case ErrorType::Read:
-                        out.push_back(String::Format("{0}: Cannot read:").arg(fileName));
-                        out.push_back(getErrorString());
+                        out.push_back(String::Format("{0}: Cannot read.").arg(fileName));
                         break;
                     case ErrorType::ReadMemoryMap:
-                        out.push_back(String::Format("{0}: Cannot read memory map:").arg(fileName));
-                        out.push_back(getErrorString());
+                        out.push_back(String::Format("{0}: Cannot read memory map.").arg(fileName));
                         break;
                     case ErrorType::Write:
                         out.push_back(String::Format("{0}: Cannot write:").arg(fileName));
@@ -106,8 +104,7 @@ namespace djv
                         out.push_back(getErrorString());
                         break;
                     case ErrorType::SeekMemoryMap:
-                        out.push_back(String::Format("{0}: Cannot seek memory map:").arg(fileName));
-                        out.push_back(getErrorString());
+                        out.push_back(String::Format("{0}: Cannot seek memory map.").arg(fileName));
                         break;
                     default: break;
                     }

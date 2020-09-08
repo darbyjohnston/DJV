@@ -1,8 +1,11 @@
 set(header
     AVSystemTest.h
     AudioDataTest.h
+    AudioSystemTest.h
     AudioTest.h
+    CineonTest.h
     ColorTest.h
+    DPXTest.h
     EnumTest.h
     FontSystemTest.h
     IOTest.h
@@ -18,8 +21,11 @@ set(header
 set(source
     AVSystemTest.cpp
     AudioDataTest.cpp
+    AudioSystemTest.cpp
     AudioTest.cpp
+    CineonTest.cpp
     ColorTest.cpp
+    DPXTest.cpp
     EnumTest.cpp
     FontSystemTest.cpp
     IOTest.cpp

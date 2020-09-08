@@ -28,7 +28,7 @@ namespace djv
                 for (const auto& i : system->getLocales())
                 {
                     std::stringstream ss;
-                    ss << "locale: " << i;
+                    ss << "Locale: " << i;
                     _print(ss.str());
                 }
 
@@ -37,7 +37,7 @@ namespace djv
                     [this](const std::string& value)
                     {
                         std::stringstream ss;
-                        ss << "current locale: " << value;
+                        ss << "Current locale: " << value;
                         _print(ss.str());
                     });
                 

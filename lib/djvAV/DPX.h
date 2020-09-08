@@ -64,8 +64,12 @@ namespace djv
                     TopBottomLeftRight,
                     TopBottomRightLeft,
                     BottomTopLeftRight,
-                    BottomTopRightLeft
+                    BottomTopRightLeft,
+                    
+                    Count,
+                    First = LeftRightTopBottom
                 };
+                DJV_ENUM_HELPERS(Orient);
 
                 //! This enumeration provides the DPX file channel descriptors.
                 enum class Descriptor
@@ -110,8 +114,12 @@ namespace djv
                     NTSC,
                     PAL,
                     Z,
-                    ZHomogeneous
+                    ZHomogeneous,
+                    
+                    Count,
+                    First = User
                 };
+                DJV_ENUM_HELPERS(Transfer);
 
                 //! This enumeration provides the colorimetric information for 1.0 version
                 //! DPX files.
@@ -148,8 +156,12 @@ namespace djv
                 {
                     Pack,
                     TypeA,
-                    TypeB
+                    TypeB,
+                    
+                    Count,
+                    First = Pack
                 };
+                DJV_ENUM_HELPERS(Components);
 
                 //! This stuct provides the DPX file header.
                 struct Header
@@ -264,6 +276,9 @@ namespace djv
                 //! Zero out the data in a DPX file header.
                 void zero(Header&);
 
+                //! Convert then endian of a DPX file header.
+                void convertEndian(Header&);
+                
                 //! Read a DPX file header.
                 //!
                 //! Throws:
@@ -271,7 +286,7 @@ namespace djv
                 Header read(
                     const std::shared_ptr<Core::FileSystem::FileIO>&,
                     Info&,
-                    Cineon::ColorProfile&,
+                    Transfer&,
                     const std::shared_ptr<Core::TextSystem>&);
                 
                 //! Write a DPX file header.
@@ -283,7 +298,7 @@ namespace djv
                     const Info&,
                     Version,
                     Endian,
-                    Cineon::ColorProfile);
+                    Transfer);
 
                 //! Finish writing the DPX file header after image data is written.
                 void writeFinish(const std::shared_ptr<Core::FileSystem::FileIO>&);
@@ -293,6 +308,8 @@ namespace djv
                 {
                     Version     version    = Version::_2_0;
                     Endian      endian     = Endian::MSB;
+                    
+                    bool operator == (const Options&) const;
                 };
 
                 //! This class provides the DPX file reader.

@@ -186,12 +186,12 @@ namespace djv
                 }
                 {
                     std::stringstream ss;
-                    ss << "cache frames: " << cache.getFrames();
+                    ss << "Cache frames: " << cache.getFrames();
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "cache sequence: " << cache.getSequence();
+                    ss << "Cache sequence: " << cache.getSequence();
                     _print(ss.str());
                 }
             }
@@ -305,12 +305,12 @@ namespace djv
                 const auto pluginNames = io->getPluginNames();
                 {
                     std::stringstream ss;
-                    ss << "plugins: " << String::joinSet(pluginNames, ", ");
+                    ss << "Plugins: " << String::joinSet(pluginNames, ", ");
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "file extensions: " << String::joinSet(io->getFileExtensions(), ", ");
+                    ss << "File extensions: " << String::joinSet(io->getFileExtensions(), ", ");
                     _print(ss.str());
                 }
 
@@ -319,7 +319,7 @@ namespace djv
                     [this](bool value)
                     {
                         std::stringstream ss;
-                        ss << "options changed: " << value;
+                        ss << "Options changed: " << value;
                         _print(ss.str());
                     });
                 for (const auto& i : pluginNames)
@@ -339,7 +339,7 @@ namespace djv
                 
                 {
                     std::stringstream ss;
-                    ss << "sequence extensions: " << String::joinSet(io->getSequenceExtensions(), ", ");
+                    ss << "Sequence extensions: " << String::joinSet(io->getSequenceExtensions(), ", ");
                     _print(ss.str());
                 }
                 const std::vector<std::string> fileNames =
@@ -352,19 +352,19 @@ namespace djv
                 for (const auto& i : fileNames)
                 {
                     std::stringstream ss;
-                    ss << "can sequence: " << i << " = " << io->canSequence(FileSystem::FileInfo(i));
+                    ss << "Can sequence: " << i << " = " << io->canSequence(FileSystem::FileInfo(i));
                     _print(ss.str());
                 }
                 for (const auto& i : fileNames)
                 {
                     std::stringstream ss;
-                    ss << "can read: " << i << " = " << io->canRead(FileSystem::FileInfo(i));
+                    ss << "Can read: " << i << " = " << io->canRead(FileSystem::FileInfo(i));
                     _print(ss.str());
                 }
                 for (const auto& i : fileNames)
                 {
                     std::stringstream ss;
-                    ss << "can write: " << i << " = ";
+                    ss << "Can write: " << i << " = ";
                     ss << io->canWrite(FileSystem::FileInfo(i), IO::Info());
                     _print(ss.str());
                 }

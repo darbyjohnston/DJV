@@ -98,17 +98,17 @@ namespace djv
                 
                 {
                     std::stringstream ss;
-                    ss << "texture atlas percentage: " << render->getTextureAtlasPercentage();
+                    ss << "Texture atlas percentage: " << render->getTextureAtlasPercentage();
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "dynamic texture count: " << render->getDynamicTextureCount();
+                    ss << "Dynamic texture count: " << render->getDynamicTextureCount();
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "vbo size: " << render->getVBOSize();
+                    ss << "VBO size: " << render->getVBOSize();
                     _print(ss.str());
                 }
             }

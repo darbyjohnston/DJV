@@ -45,8 +45,11 @@
 
 #include <djvAVTest/AVSystemTest.h>
 #include <djvAVTest/AudioDataTest.h>
+#include <djvAVTest/AudioSystemTest.h>
 #include <djvAVTest/AudioTest.h>
+#include <djvAVTest/CineonTest.h>
 #include <djvAVTest/ColorTest.h>
+#include <djvAVTest/DPXTest.h>
 #include <djvAVTest/EnumTest.h>
 #include <djvAVTest/FontSystemTest.h>
 #include <djvAVTest/IOTest.h>
@@ -94,7 +97,7 @@ int main(int argc, char ** argv)
         
         //! \bug This path should be unique to this process.
         const FileSystem::Path tempPath(FileSystem::Path::getTemp(), "djvTest");
-        std::cout << "temp path: " << tempPath.get() << std::endl;
+        std::cout << "Temp path: " << tempPath.get() << std::endl;
 
         std::vector<std::shared_ptr<Test::ITest> > tests;
         
@@ -141,8 +144,11 @@ int main(int argc, char ** argv)
 
         tests.emplace_back(new AVTest::AVSystemTest(tempPath, context));
         tests.emplace_back(new AVTest::AudioDataTest(tempPath, context));
+        tests.emplace_back(new AVTest::AudioSystemTest(tempPath, context));
         tests.emplace_back(new AVTest::AudioTest(tempPath, context));
+        tests.emplace_back(new AVTest::CineonTest(tempPath, context));
         tests.emplace_back(new AVTest::ColorTest(tempPath, context));
+        tests.emplace_back(new AVTest::DPXTest(tempPath, context));
         tests.emplace_back(new AVTest::EnumTest(tempPath, context));
         tests.emplace_back(new AVTest::FontSystemTest(tempPath, context));
         tests.emplace_back(new AVTest::IOTest(tempPath, context));

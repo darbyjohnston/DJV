@@ -33,7 +33,7 @@ namespace djv
         {
             {
                 std::stringstream ss;
-                ss << "timebase: " << Time::getTimebaseRational();
+                ss << "Timebase: " << Time::getTimebaseRational();
                 _print(ss.str());
             }
             
@@ -56,14 +56,14 @@ namespace djv
             for (double i : { 0.0, 1000.0, 10000.0 })
             {
                 std::stringstream ss;
-                ss << "label: " << i << " = " << Time::getLabel(i);
+                ss << "Label: " << i << " = " << Time::getLabel(i);
                 _print(ss.str());
             }
             
             for (time_t i : { 0, 1000, 10000 })
             {
                 std::stringstream ss;
-                ss << "label: " << i << " = " << Time::getLabel(i);
+                ss << "Label: " << i << " = " << Time::getLabel(i);
                 _print(ss.str());
             }
             
@@ -72,7 +72,7 @@ namespace djv
                 tm result;
                 Time::localtime(&i, &result);
                 std::stringstream ss;
-                ss << "localtime: " << i << " = " << result.tm_hour << ":" << result.tm_min << ":" << result.tm_sec;
+                ss << "Localtime: " << i << " = " << result.tm_hour << ":" << result.tm_min << ":" << result.tm_sec;
                 _print(ss.str());
             }
         }
@@ -155,9 +155,7 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << i;
-                std::stringstream ss2;
-                ss2 << "time units string: " << _getText(ss.str());
-                _print(ss2.str());
+                _print("Time units: " + _getText(ss.str()));
             }
         }
         
@@ -166,18 +164,14 @@ namespace djv
             {
                 const Frame::Number frame = 100;
                 const std::string s = Time::toString(frame, Time::fromSpeed(Time::getDefaultSpeed()), Time::Units::Frames);
-                std::stringstream ss;
-                ss << "frames label: " << s;
-                _print(ss.str());
+                _print("Frames: " + s);
                 DJV_ASSERT(frame == Time::fromString(s, Time::fromSpeed(Time::getDefaultSpeed()), Time::Units::Frames));
             }
 
             {
                 const Frame::Number frame = 100;
                 const std::string s = Time::toString(frame, Time::fromSpeed(Time::getDefaultSpeed()), Time::Units::Timecode);
-                std::stringstream ss;
-                ss << "timecode label: " << s;
-                _print(ss.str());
+                _print("Timecode: " + s);
                 DJV_ASSERT(frame == Time::fromString(s, Time::fromSpeed(Time::getDefaultSpeed()), Time::Units::Timecode));
             }
             

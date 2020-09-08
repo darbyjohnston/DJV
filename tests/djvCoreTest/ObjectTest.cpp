@@ -114,7 +114,7 @@ namespace djv
                     
                     {
                         std::stringstream ss;
-                        ss << "global object count: " << IObject::getGlobalObjectCount();
+                        ss << "Global object count: " << IObject::getGlobalObjectCount();
                         _print(ss.str());
                     }
                     {
@@ -153,7 +153,7 @@ namespace djv
             
             {
                 std::stringstream ss;
-                ss << "global object count: " << IObject::getGlobalObjectCount();
+                ss << "Global object count: " << IObject::getGlobalObjectCount();
                 _print(ss.str());
             }
         }

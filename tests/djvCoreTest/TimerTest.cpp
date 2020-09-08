@@ -25,7 +25,7 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << i;
-                _print(_getText(ss.str()));
+                _print("Timer value: " + _getText(ss.str()));
             }
 
             if (auto context = getContext().lock())

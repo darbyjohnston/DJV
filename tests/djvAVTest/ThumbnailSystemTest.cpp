@@ -63,24 +63,24 @@ namespace djv
                 if (info.video.size())
                 {
                     std::stringstream ss;
-                    ss << "info: " << info.video[0].size;
+                    ss << "Info: " << info.video[0].size;
                     _print(ss.str());
                 }
                 if (image)
                 {
                     std::stringstream ss;
-                    ss << "image: " << image->getSize();
+                    ss << "Image: " << image->getSize();
                     _print(ss.str());
                 }
                 
                 {
                     std::stringstream ss;
-                    ss << "info cache percentage: " << system->getInfoCachePercentage();
+                    ss << "Info cache percentage: " << system->getInfoCachePercentage();
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "image cache percentage: " << system->getImageCachePercentage();
+                    ss << "Image cache percentage: " << system->getImageCachePercentage();
                     _print(ss.str());
                 }
                 

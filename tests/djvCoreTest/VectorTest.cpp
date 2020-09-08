@@ -213,7 +213,7 @@ namespace djv
                 const glm::ivec2 v(0, 1);
                 Memory::hashCombine(i, v);
                 std::stringstream ss;
-                ss << "hash: " << v << " = " << i;
+                ss << "Hash: " << v << " = " << i;
                 _print(ss.str());
             }
             
@@ -222,7 +222,7 @@ namespace djv
                 const glm::vec2 v(0.F, 1.F);
                 Memory::hashCombine(i, v);
                 std::stringstream ss;
-                ss << "hash: " << v << " = " << i;
+                ss << "Hash: " << v << " = " << i;
                 _print(ss.str());
             }
         }

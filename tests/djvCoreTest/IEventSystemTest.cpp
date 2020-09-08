@@ -304,7 +304,7 @@ namespace djv
         {
             {
                 std::stringstream ss;
-                ss << "clipboard: " << _system->getClipboard();
+                ss << "Clipboard: " << _system->getClipboard();
                 _print(ss.str());
             }
             _system->setClipboard(std::string());
@@ -332,7 +332,7 @@ namespace djv
                     [this](const Event::PointerInfo& value)
                     {
                         std::stringstream ss;
-                        ss << "pointer: " << value.projectedPos;
+                        ss << "Pointer: " << value.projectedPos;
                         _print(ss.str());
                     });
                 _hoverObserver = ValueObserver<std::shared_ptr<IObject> >::create(
@@ -342,7 +342,7 @@ namespace djv
                         if (value)
                         {
                             std::stringstream ss;
-                            ss << "hover: " << value->getClassName();
+                            ss << "Hover: " << value->getClassName();
                             _print(ss.str());
                         }
                     });
@@ -353,7 +353,7 @@ namespace djv
                         if (value)
                         {
                             std::stringstream ss;
-                            ss << "grab: " << value->getClassName();
+                            ss << "Grab: " << value->getClassName();
                             _print(ss.str());
                         }
                     });
@@ -364,7 +364,7 @@ namespace djv
                         if (value)
                         {
                             std::stringstream ss;
-                            ss << "key grab: " << value->getClassName();
+                            ss << "Key grab: " << value->getClassName();
                             _print(ss.str());
                         }
                     });
@@ -375,7 +375,7 @@ namespace djv
                         if (value)
                         {
                             std::stringstream ss;
-                            ss << "text focus active: " << value;
+                            ss << "Text focus active: " << value;
                             _print(ss.str());
                         }
                     });

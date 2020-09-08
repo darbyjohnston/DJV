@@ -66,9 +66,6 @@ namespace djv
                             case Image::DataType::U10:
                                 Memory::endian(out->getData(), dataByteCount / 4, 4);
                                 break;
-                            case Image::DataType::U16:
-                                Memory::endian(out->getData(), dataByteCount / 2, 2);
-                                break;
                             default: break;                            
                         }
                     }

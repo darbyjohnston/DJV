@@ -30,6 +30,7 @@ namespace djv
                     Count,
                     First = Raw
                 };
+                DJV_ENUM_HELPERS(ColorProfile);
 
                 //! This constant provides the Cineon file header magic numbers.
                 const uint32_t magic[] =
@@ -48,8 +49,12 @@ namespace djv
                     TopBottomLeftRight,
                     TopBottomRightLeft,
                     BottomTopLeftRight,
-                    BottomTopRightLeft
+                    BottomTopRightLeft,
+                    
+                    Count,
+                    First = LeftRightTopBottom
                 };
+                DJV_ENUM_HELPERS(Orient);
 
                 //! This enumeration provides the Cineon file descriptors.
                 enum class Descriptor
@@ -60,8 +65,12 @@ namespace djv
                     BlueFilmPrint,
                     RedCCIRXA11,
                     GreenCCIRXA11,
-                    BlueCCIRXA11
+                    BlueCCIRXA11,
+                    
+                    Count,
+                    First = Luminance
                 };
+                DJV_ENUM_HELPERS(Descriptor);
 
                 //! This stuct provides the Cineon file header.
                 struct Header
@@ -163,6 +172,9 @@ namespace djv
                     
                 //! Zero out the data in a Cineon file header.
                 void zero(Header&);
+                
+                //! Convert then endian of a Cineon file header.
+                void convertEndian(Header&);
 
                 //! Read a Cineon file header.
                 //!

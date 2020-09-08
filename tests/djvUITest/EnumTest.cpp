@@ -25,156 +25,126 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << i;
-                std::stringstream ss2;
-                ss2 << "orientation string: " << _getText(ss.str());
-                _print(ss2.str());
+                _print("Orientation: " + _getText(ss.str()));
             }
 
             for (auto i : getOrientationEnums())
             {
                 std::stringstream ss;
                 ss << getOpposite(i);
-                std::stringstream ss2;
-                ss2 << "orientation opposite: " << _getText(ss.str());
-                _print(ss2.str());
+                _print("Orientation opposite: " + _getText(ss.str()));
             }
             
             for (auto i : getSideEnums())
             {
                 std::stringstream ss;
                 ss << i;
-                std::stringstream ss2;
-                ss2 << "side string: " << _getText(ss.str());
-                _print(ss2.str());
+                _print("Side: " + _getText(ss.str()));
             }
             
             for (auto i : getExpandEnums())
             {
                 std::stringstream ss;
                 ss << i;
-                std::stringstream ss2;
-                ss2 << "expand string: " << _getText(ss.str());
-                _print(ss2.str());
+                _print("Expand: " + _getText(ss.str()));
             }
             
             for (auto i : getHAlignEnums())
             {
                 std::stringstream ss;
                 ss << i;
-                std::stringstream ss2;
-                ss2 << "horizontal align string: " << _getText(ss.str());
-                _print(ss2.str());
+                _print("Horizontal align: " + _getText(ss.str()));
             }
             
             for (auto i : getVAlignEnums())
             {
                 std::stringstream ss;
                 ss << i;
-                std::stringstream ss2;
-                ss2 << "vertical align string: " << _getText(ss.str());
-                _print(ss2.str());
+                _print("Vertical align: " + _getText(ss.str()));
             }
             
             for (auto i : getTextHAlignEnums())
             {
                 std::stringstream ss;
                 ss << i;
-                std::stringstream ss2;
-                ss2 << "text horizontal align string: " << _getText(ss.str());
-                _print(ss2.str());
+                _print("Text horizontal align: " + _getText(ss.str()));
             }
             
             for (auto i : getTextVAlignEnums())
             {
                 std::stringstream ss;
                 ss << i;
-                std::stringstream ss2;
-                ss2 << "text vertical align string: " << _getText(ss.str());
-                _print(ss2.str());
+                _print("Text vertical align: " + _getText(ss.str()));
             }
             
             for (auto i : getSelectionTypeEnums())
             {
                 std::stringstream ss;
                 ss << i;
-                std::stringstream ss2;
-                ss2 << "selection type string: " << _getText(ss.str());
-                _print(ss2.str());
+                _print("Selection type: " + _getText(ss.str()));
             }
             
             for (auto i : getSortOrderEnums())
             {
                 std::stringstream ss;
                 ss << i;
-                std::stringstream ss2;
-                ss2 << "sort order string: " << _getText(ss.str());
-                _print(ss2.str());
+                _print("Sort order: " + _getText(ss.str()));
             }
             
             for (auto i : getButtonTypeEnums())
             {
                 std::stringstream ss;
                 ss << i;
-                std::stringstream ss2;
-                ss2 << "button type string: " << _getText(ss.str());
-                _print(ss2.str());
+                _print("Button type: " + _getText(ss.str()));
             }
             
             for (auto i : getColorRoleEnums())
             {
                 std::stringstream ss;
                 ss << i;
-                std::stringstream ss2;
-                ss2 << "color role string: " << _getText(ss.str());
-                _print(ss2.str());
+                _print("Color role: " + _getText(ss.str()));
             }
             
             for (auto i : getMetricsRoleEnums())
             {
                 std::stringstream ss;
                 ss << i;
-                std::stringstream ss2;
-                ss2 << "metrics role string: " << _getText(ss.str());
-                _print(ss2.str());
+                _print("Metrics role: " + _getText(ss.str()));
             }
             
             for (auto i : getImageAspectRatioEnums())
             {
                 std::stringstream ss;
                 ss << i;
-                std::stringstream ss2;
-                ss2 << "image aspect ratio string: " << _getText(ss.str());
-                _print(ss2.str());
+                _print("Image aspect ratio: " + _getText(ss.str()));
             }
             
             for (auto i : getImageAspectRatioEnums())
             {
                 std::stringstream ss;
-                ss << "image aspect ratio: " << getImageAspectRatio(i);
-                _print(ss.str());
+                ss << getImageAspectRatio(i);
+                _print("Image aspect ratio: " + ss.str());
             }
             
             for (auto i : getImageAspectRatioEnums())
             {
                 std::stringstream ss;
-                ss << "pixel aspect ratio: " << getPixelAspectRatio(i, 1.F);
-                _print(ss.str());
+                ss << getPixelAspectRatio(i, 1.F);
+                _print("Pixel aspect ratio: " + ss.str());
             }
 
             for (auto i : getImageAspectRatioEnums())
             {
                 std::stringstream ss;
-                ss << "aspect ratio scale: " << getAspectRatioScale(i, 1.F);
-                _print(ss.str());
+                ss << getAspectRatioScale(i, 1.F);
+                _print("Aspect ratio scale: " + ss.str());
             }
             
             for (auto i : getPopupEnums())
             {
                 std::stringstream ss;
                 ss << i;
-                std::stringstream ss2;
-                ss2 << "popup string: " << _getText(ss.str());
-                _print(ss2.str());
+                _print("Popup: " + _getText(ss.str()));
             }
         }
 

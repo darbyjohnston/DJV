@@ -33,9 +33,7 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << i;
-                std::stringstream ss2;
-                ss2 << "fps string: " << _getText(ss.str());
-                _print(ss.str());
+                _print("FPS: " + _getText(ss.str()));
             }
         }
         

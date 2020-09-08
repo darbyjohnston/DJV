@@ -119,7 +119,7 @@ namespace djv
                         for (const auto& i : value)
                         {
                             std::stringstream ss;
-                            ss << "font: " << i.second;
+                            ss << "Font: " << i.second;
                             _print(ss.str());
                         }
                     });
@@ -175,39 +175,39 @@ namespace djv
                 
                 {
                     std::stringstream ss;
-                    ss << "ascender: " << metrics.ascender;
+                    ss << "Ascender: " << metrics.ascender;
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "descender: " << metrics.descender;
+                    ss << "Descender: " << metrics.descender;
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "line height: " << metrics.lineHeight;
+                    ss << "Line height: " << metrics.lineHeight;
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "measure: " << measure;
+                    ss << "Measure: " << measure;
                     _print(ss.str());
                 }
                 for (const auto& i : textLines)
                 {
                     std::stringstream ss;
-                    ss << "text line: " << i.text;
+                    ss << "Text line: " << i.text;
                     _print(ss.str());
                 }
                 
                 {
                     std::stringstream ss;
-                    ss << "glyph cache size: " << system->getGlyphCacheSize();
+                    ss << "Glyph cache size: " << system->getGlyphCacheSize();
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "glyph cache percentage: " << system->getGlyphCachePercentage();
+                    ss << "Glyph cache percentage: " << system->getGlyphCachePercentage();
                     _print(ss.str());
                 }
             }

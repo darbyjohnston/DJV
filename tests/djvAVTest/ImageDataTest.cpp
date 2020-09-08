@@ -140,49 +140,49 @@ namespace djv
                 const Image::Info info(1, 2, Image::Type::RGB_U8);
                 {
                     std::stringstream ss;
-                    ss << "info";
+                    ss << "Info";
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "    size: " << info.size;
+                    ss << "    Size: " << info.size;
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
                     ss << info.type;
                     std::stringstream ss2;
-                    ss << "    type: " << _getText(ss.str());
+                    ss << "    Type: " << _getText(ss.str());
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "    aspect ratio: " << info.getAspectRatio();
+                    ss << "    Aspect ratio: " << info.getAspectRatio();
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "    gl format: " << info.getGLFormat();
+                    ss << "    GL format: " << info.getGLFormat();
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "    gl type: " << info.getGLType();
+                    ss << "    GL type: " << info.getGLType();
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "    pixel byte count: " << info.getPixelByteCount();
+                    ss << "    Pixel byte count: " << info.getPixelByteCount();
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "    scanline byte count: " << info.getScanlineByteCount();
+                    ss << "    Scanline byte count: " << info.getScanlineByteCount();
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "    data byte count: " << info.getDataByteCount();
+                    ss << "    Data byte count: " << info.getDataByteCount();
                     _print(ss.str());
                 }
             }

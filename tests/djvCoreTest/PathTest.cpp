@@ -38,9 +38,7 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << i;
-                std::stringstream ss2;
-                ss2 << "resource path string: " << _getText(ss.str());
-                _print(ss2.str());
+                _print("Resource path: " + _getText(ss.str()));
             }
         }
                
@@ -154,7 +152,7 @@ namespace djv
                 const std::string & number = value.getNumber();
                 const std::string & extension = value.getExtension();
                 std::stringstream ss;
-                ss << "components: " << d.value << " = " << directoryName << "|" << fileName << "|" << baseName << "|" << number << "|" << extension;
+                ss << "Components: " << d.value << " = " << directoryName << "|" << fileName << "|" << baseName << "|" << number << "|" << extension;
                 _print(ss.str());
                 DJV_ASSERT(directoryName == d.directoryName);
                 DJV_ASSERT(fileName == d.fileName);
@@ -172,7 +170,7 @@ namespace djv
                 DJV_ASSERT('/' == FileSystem::Path::getSeparator(FileSystem::PathSeparator::Unix));
                 {
                     std::stringstream ss;
-                    ss << "current separator: " << FileSystem::Path::getCurrentSeparator();
+                    ss << "Current separator: " << FileSystem::Path::getCurrentSeparator();
                     _print(ss.str());
                 }
             }
@@ -209,7 +207,7 @@ namespace djv
                     DJV_ASSERT(pieces == d.pieces);
                     const std::string path = FileSystem::Path::joinDirs(pieces, d.seperator);
                     std::stringstream ss;
-                    ss << "split/join: " << d.path << " = " << path;
+                    ss << "Split/join: " << d.path << " = " << path;
                     _print(ss.str());
                     DJV_ASSERT(d.path == path);
                 }
@@ -246,28 +244,28 @@ namespace djv
             {
                 const FileSystem::Path path = FileSystem::Path::getAbsolute(getTempPath());
                 std::stringstream ss;
-                ss << "absolute: " << path;
+                ss << "Absolute: " << path;
                 _print(ss.str());
             }
             
             {
                 const FileSystem::Path path = FileSystem::Path::getAbsolute(FileSystem::Path());
                 std::stringstream ss;
-                ss << "absolute: " << path;
+                ss << "Absolute: " << path;
                 _print(ss.str());
             }
 
             {
                 const FileSystem::Path path = FileSystem::Path::getCWD();
                 std::stringstream ss;
-                ss << "cwd: " << path;
+                ss << "CWD: " << path;
                 _print(ss.str());
             }
 
             {
                 const FileSystem::Path path = FileSystem::Path::getTemp();
                 std::stringstream ss;
-                ss << "temp: " << path;
+                ss << "Temp: " << path;
                 _print(ss.str());
             }
 
@@ -279,7 +277,7 @@ namespace djv
                 OS::setEnv(i, i);
                 const FileSystem::Path path = FileSystem::Path::getTemp();
                 std::stringstream ss;
-                ss << "temp: " << path;
+                ss << "Temp: " << path;
                 _print(ss.str());
                 if (hasPrev)
                 {

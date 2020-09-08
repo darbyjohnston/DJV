@@ -23,6 +23,12 @@ namespace djv
         {
             namespace DPX
             {
+                bool Options::operator == (const Options& other) const
+                {
+                    return version == other.version &&
+                        endian == other.endian;
+                }
+                
                 namespace
                 {
                     void zero(char* in, int size)
@@ -151,7 +157,7 @@ namespace djv
                 Header read(
                     const std::shared_ptr<Core::FileSystem::FileIO>& io,
                     Info& info,
-                    Cineon::ColorProfile& colorProfile,
+                    Transfer& transfer,
                     const std::shared_ptr<Core::TextSystem>& textSystem)
                 {
                     Header out;
@@ -293,7 +299,7 @@ namespace djv
 
                     if (Transfer::FilmPrint == static_cast<Transfer>(out.image.elem[0].transfer))
                     {
-                        colorProfile = Cineon::ColorProfile::FilmPrint;
+                        transfer = Transfer::FilmPrint;
                     }
 
                     if (Cineon::isValid(out.file.time, 24))
@@ -383,7 +389,7 @@ namespace djv
                     }
                     if (Cineon::isValid(out.film.format, 32))
                     {
-                        info.tags.setTag("Film Format", std::string(out.film.format, 32));
+                        info.tags.setTag("Film Format", Cineon::toString(out.film.format, 32));
                     }
                     if (isValid(&out.film.frame))
                     {
@@ -418,16 +424,18 @@ namespace djv
                     }
                     if (Cineon::isValid(out.film.frameId, 32))
                     {
-                        info.tags.setTag("Film Frame ID", std::string(out.film.frameId, 32));
+                        info.tags.setTag("Film Frame ID", Cineon::toString(out.film.frameId, 32));
                     }
                     if (Cineon::isValid(out.film.slate, 100))
                     {
-                        info.tags.setTag("Film Slate", std::string(out.film.slate, 100));
+                        info.tags.setTag("Film Slate", Cineon::toString(out.film.slate, 100));
                     }
 
                     if (isValid(&out.tv.timecode))
                     {
-                        info.tags.setTag("Timecode", Time::timecodeToString(out.tv.timecode));
+                        std::stringstream ss;
+                        ss << out.tv.timecode;
+                        info.tags.setTag("Timecode", ss.str());
                     }
                     if (isValid(&out.tv.interlace))
                     {
@@ -525,7 +533,7 @@ namespace djv
                     const Info& info,
                     Version version,
                     Endian endian,
-                    Cineon::ColorProfile colorProfile)
+                    Transfer transfer)
                 {
                     Header header;
                     zero(header);
@@ -596,9 +604,9 @@ namespace djv
                     default: break;
                     }
 
-                    switch (colorProfile)
+                    switch (transfer)
                     {
-                    case Cineon::ColorProfile::FilmPrint:
+                    case Transfer::FilmPrint:
                         header.image.elem[0].transfer = static_cast<uint8_t>(Transfer::FilmPrint);
                         switch (version)
                         {
@@ -635,19 +643,15 @@ namespace djv
                     }
                     if (info.tags.hasTag("Creator"))
                     {
-                        Cineon::fromString(info.tags.getTag("Creator"), header.file.time, 100, false);
+                        Cineon::fromString(info.tags.getTag("Creator"), header.file.creator, 100, false);
                     }
                     if (info.tags.hasTag("Project"))
                     {
-                        Cineon::fromString(info.tags.getTag("Project"), header.file.time, 200, false);
+                        Cineon::fromString(info.tags.getTag("Project"), header.file.project, 200, false);
                     }
                     if (info.tags.hasTag("Copyright"))
                     {
-                        Cineon::fromString(info.tags.getTag("Copyright"), header.file.time, 200, false);
-                    }
-                    if (info.tags.hasTag("Creator"))
-                    {
-                        Cineon::fromString(info.tags.getTag("Creator"), header.file.time, 100, false);
+                        Cineon::fromString(info.tags.getTag("Copyright"), header.file.copyright, 200, false);
                     }
 
                     if (info.tags.hasTag("Source Offset"))
@@ -776,11 +780,11 @@ namespace djv
                     }
                     if (info.tags.hasTag("TV Frame Rate"))
                     {
-                        header.tv.videoSignal = std::stof(info.tags.getTag("TV Frame Rate"));
+                        header.tv.frameRate = std::stof(info.tags.getTag("TV Frame Rate"));
                     }
                     if (info.tags.hasTag("TV Time Offset"))
                     {
-                        header.tv.videoSignal = std::stof(info.tags.getTag("TV Time Offset"));
+                        header.tv.timeOffset = std::stof(info.tags.getTag("TV Time Offset"));
                     }
                     if (info.tags.hasTag("TV Gamma"))
                     {
@@ -794,9 +798,9 @@ namespace djv
                     {
                         header.tv.blackGain = std::stof(info.tags.getTag("TV Black Gain"));
                     }
-                    if (info.tags.hasTag("TV Break Point"))
+                    if (info.tags.hasTag("TV Breakpoint"))
                     {
-                        header.tv.breakpoint = std::stof(info.tags.getTag("TV Break Point"));
+                        header.tv.breakpoint = std::stof(info.tags.getTag("TV Breakpoint"));
                     }
                     if (info.tags.hasTag("TV White Level"))
                     {
@@ -879,6 +883,9 @@ namespace djv
 
                 DJV_ENUM_HELPERS_IMPLEMENTATION(Version);
                 DJV_ENUM_HELPERS_IMPLEMENTATION(Endian);
+                DJV_ENUM_HELPERS_IMPLEMENTATION(Orient);
+                DJV_ENUM_HELPERS_IMPLEMENTATION(Transfer);
+                DJV_ENUM_HELPERS_IMPLEMENTATION(Components);
 
             } // namespace DPX
         } // namespace IO

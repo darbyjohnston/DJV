@@ -90,16 +90,12 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << i;
-                std::stringstream ss2;
-                ss2 << "directory shortcut string: " << _getText(ss.str());
-                _print(ss2.str());
+                _print("Directory shortcut: " + _getText(ss.str()));
             }
             
             for (auto i : OS::getDirectoryShortcutEnums())
             {
-                std::stringstream ss;
-                ss << "directory shortcut: " << OS::getPath(i);
-                _print(ss.str());
+                _print("Directory shortcut path: " + OS::getPath(i).get());
             }
         }
         

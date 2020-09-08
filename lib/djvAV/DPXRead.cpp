@@ -18,7 +18,7 @@ namespace djv
             {
                 struct Read::Private
                 {
-                    Cineon::ColorProfile colorProfile = Cineon::ColorProfile::FilmPrint;
+                    Transfer transfer = Transfer::FilmPrint;
                     Options options;
                 };
 
@@ -68,7 +68,7 @@ namespace djv
                     info.videoSpeed = _speed;
                     info.videoSequence = _sequence;
                     info.video.push_back(Image::Info());
-                    DPX::read(io, info, p.colorProfile, _textSystem);
+                    DPX::read(io, info, p.transfer, _textSystem);
                     return info;
                 }
 

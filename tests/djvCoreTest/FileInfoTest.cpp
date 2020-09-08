@@ -57,9 +57,7 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << i;
-                std::stringstream ss2;
-                ss2 << "file type string: " << _getText(ss.str());
-                _print(ss2.str());
+                _print("File type: " + _getText(ss.str()));
             }
             
             for (auto i :
@@ -70,7 +68,7 @@ namespace djv
                 })
             {
                 std::stringstream ss;
-                ss << "file permissions string: " << FileSystem::getFilePermissionsLabel(static_cast<int>(i));
+                ss << "File permissions: " << FileSystem::getFilePermissionsLabel(static_cast<int>(i));
                 _print(ss.str());
             }
             
@@ -78,9 +76,7 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << i;
-                std::stringstream ss2;
-                ss2 << "directory list sort string: " << _getText(ss.str());
-                _print(ss2.str());
+                _print("Directory list sort: " + _getText(ss.str()));
             }
         }
 
@@ -123,22 +119,22 @@ namespace djv
                 DJV_ASSERT(FileSystem::FileType::File == fileInfo.getType());
                 {
                     std::stringstream ss;
-                    ss << "size: " << fileInfo.getSize();
+                    ss << "Size: " << fileInfo.getSize();
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "user: " << fileInfo.getUser();
+                    ss << "User: " << fileInfo.getUser();
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "permissions: " << fileInfo.getPermissions();
+                    ss << "Permissions: " << fileInfo.getPermissions();
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "time: " << fileInfo.getTime();
+                    ss << "Time: " << fileInfo.getTime();
                     _print(ss.str());
                 }
             }
@@ -150,22 +146,22 @@ namespace djv
                 DJV_ASSERT(FileSystem::FileType::File == fileInfo.getType());
                 {
                     std::stringstream ss;
-                    ss << "size: " << fileInfo.getSize();
+                    ss << "Size: " << fileInfo.getSize();
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "user: " << fileInfo.getUser();
+                    ss << "User: " << fileInfo.getUser();
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "permissions: " << fileInfo.getPermissions();
+                    ss << "Permissions: " << fileInfo.getPermissions();
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "time: " << fileInfo.getTime();
+                    ss << "Time: " << fileInfo.getTime();
                     _print(ss.str());
                 }
             }
@@ -180,22 +176,22 @@ namespace djv
                 DJV_ASSERT(FileSystem::FileType::Sequence == fileInfo.getType());
                 {
                     std::stringstream ss;
-                    ss << "size: " << fileInfo.getSize();
+                    ss << "Size: " << fileInfo.getSize();
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "user: " << fileInfo.getUser();
+                    ss << "User: " << fileInfo.getUser();
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "permissions: " << fileInfo.getPermissions();
+                    ss << "Permissions: " << fileInfo.getPermissions();
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "time: " << fileInfo.getTime();
+                    ss << "Time: " << fileInfo.getTime();
                     _print(ss.str());
                 }
             }
@@ -288,7 +284,7 @@ namespace djv
                     FileSystem::Path(getTempPath(), "render.1.exr"),
                     { ".exr" });
                 std::stringstream ss;
-                ss << "file sequence: " << fileInfo;
+                ss << "File sequence: " << fileInfo;
                 _print(ss.str());
                 DJV_ASSERT(fileInfo.getFileName(Frame::invalid, false) == "render.1-100.exr");
             }

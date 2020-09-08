@@ -23,7 +23,6 @@ namespace djv
         void MemoryTest::run()
         {
             _label();
-            _enum();
             _endian();
             _hash();
         }
@@ -38,9 +37,7 @@ namespace djv
                     Memory::terabyte
                 })
             {
-                std::stringstream ss;
-                ss << "size label: " << _getText(Memory::getSizeLabel(i));
-                _print(ss.str());
+                _print("Size: " + _getText(Memory::getSizeLabel(i)));
             }
 
             for (const auto& i :
@@ -51,21 +48,7 @@ namespace djv
                     Memory::terabyte
                 })
             {
-                std::stringstream ss;
-                ss << "unit label: " << _getText(Memory::getUnitLabel(i));
-                _print(ss.str());
-            }
-        }
-        
-        void MemoryTest::_enum()
-        {
-            for (auto i : Memory::getEndianEnums())
-            {
-                std::stringstream ss;
-                ss << i;
-                std::stringstream ss2;
-                ss2 << "endian string: " << _getText(ss.str());
-                _print(ss2.str());
+                _print("Unit: " + _getText(Memory::getUnitLabel(i)));
             }
         }
         
@@ -74,17 +57,13 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << Memory::getEndian();
-                std::stringstream ss2;
-                ss2 << "current endian: " << _getText(ss.str());
-                _print(ss2.str());
+                _print("Current endian: " + _getText(ss.str()));
             }
             
             {
                 std::stringstream ss;
                 ss << Memory::opposite(Memory::getEndian());
-                std::stringstream ss2;
-                ss2 << "opposite endian: " << _getText(ss.str());
-                _print(ss2.str());
+                _print("Opposite endian: " + _getText(ss.str()));
             }
             
             {
@@ -172,14 +151,14 @@ namespace djv
             Memory::hashCombine(hash, 100);
             {
                 std::stringstream ss;
-                ss << "hash: " << hash;
+                ss << "Hash: " << hash;
                 _print(ss.str());
             }
             
             Memory::hashCombine(hash, 100.f);
             {
                 std::stringstream ss;
-                ss << "hash: " << hash;
+                ss << "Hash: " << hash;
                 _print(ss.str());
             }
         }

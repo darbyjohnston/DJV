@@ -38,9 +38,7 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << i;
-                std::stringstream ss2;
-                ss2 << "event type string: " << _getText(ss.str());
-                _print(ss2.str());
+                _print("Event type: " + _getText(ss.str()));
             }
             
             for (auto i : Event::getTypeEnums())

@@ -25,18 +25,21 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << i;
-                std::stringstream ss2;
-                ss2 << "side string: " << _getText(ss.str());
-                _print(ss2.str());
+                _print("Side: " + _getText(ss.str()));
+            }
+
+            for (auto i : getSwapIntervalEnums())
+            {
+                std::stringstream ss;
+                ss << i;
+                _print("Swap interval: " + _getText(ss.str()));
             }
 
             for (auto i : getAlphaBlendEnums())
             {
                 std::stringstream ss;
                 ss << i;
-                std::stringstream ss2;
-                ss2 << "alpha blend string: " << _getText(ss.str());
-                _print(ss2.str());
+                _print("Alpha blend: " + _getText(ss.str()));
             }
             
             {
@@ -53,6 +56,26 @@ namespace djv
             {
                 auto json = rapidjson::Value(rapidjson::kObjectType);
                 AlphaBlend value;
+                fromJSON(json, value);
+                DJV_ASSERT(false);
+            }
+            catch (const std::exception&)
+            {}
+            
+            {
+                const SwapInterval value = SwapInterval::First;
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(value, allocator);
+                SwapInterval value2 = SwapInterval::Count;
+                fromJSON(json, value2);
+                DJV_ASSERT(value == value2);
+            }
+
+            try
+            {
+                auto json = rapidjson::Value(rapidjson::kObjectType);
+                SwapInterval value;
                 fromJSON(json, value);
                 DJV_ASSERT(false);
             }

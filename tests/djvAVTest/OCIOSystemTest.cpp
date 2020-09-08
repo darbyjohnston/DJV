@@ -75,12 +75,12 @@ namespace djv
                         for (const auto& i : value.first)
                         {
                             std::stringstream ss;
-                            ss << "config " << j << ": " << i.name;
+                            ss << "Config " << j << ": " << i.name;
                             _print(ss.str());
                             ++j;
                         }
                         std::stringstream ss;
-                        ss << "current config: " << value.second;
+                        ss << "Current config: " << value.second;
                         _print(ss.str());
                     });
                 
@@ -89,7 +89,7 @@ namespace djv
                     [this](const OCIO::Config& value)
                     {
                         std::stringstream ss;
-                        ss << "current config: " << value.name;
+                        ss << "Current config: " << value.name;
                         _print(ss.str());
                     });
 
@@ -101,12 +101,12 @@ namespace djv
                         for (const auto& i : value.first)
                         {
                             std::stringstream ss;
-                            ss << "display " << j << ": " << i;
+                            ss << "Display " << j << ": " << i;
                             _print(ss.str());
                             ++j;
                         }
                         std::stringstream ss;
-                        ss << "current display: " << value.second;
+                        ss << "Current display: " << value.second;
                         _print(ss.str());
                     });
                 auto viewsObserver = ValueObserver<OCIO::Views>::create(
@@ -117,12 +117,12 @@ namespace djv
                         for (const auto& i : value.first)
                         {
                             std::stringstream ss;
-                            ss << "view " << j << ": " << i;
+                            ss << "View " << j << ": " << i;
                             _print(ss.str());
                             ++j;
                         }
                         std::stringstream ss;
-                        ss << "current view: " << value.second;
+                        ss << "Current view: " << value.second;
                         _print(ss.str());
                     });
 

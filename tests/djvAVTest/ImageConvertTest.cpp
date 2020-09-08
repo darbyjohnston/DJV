@@ -31,7 +31,7 @@ namespace djv
                 data->getData()[0] = Image::U8Range.getMax();
                 {
                     std::stringstream ss;
-                    ss << "input: " << static_cast<uint16_t>(data->getData()[0]);
+                    ss << "Input: " << static_cast<uint16_t>(data->getData()[0]);
                     _print(ss.str());
                 }
                 
@@ -43,7 +43,7 @@ namespace djv
                 const Image::U8_T u8 = reinterpret_cast<const Image::U8_T*>(data2->getData())[0];
                 {
                     std::stringstream ss;
-                    ss << "output: " << static_cast<uint16_t>(u8);
+                    ss << "Output: " << static_cast<uint16_t>(u8);
                     _print(ss.str());
                 }
                 //DJV_ASSERT(Image::U8Range.max == u8);

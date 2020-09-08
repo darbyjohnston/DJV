@@ -43,17 +43,14 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << i;
-                std::stringstream ss2;
-                ss2 << "Type string: " << _getText(ss.str());
-                _print(ss2.str());
+                _print("Type: " + _getText(ss.str()));
             }
 
             for (auto i : Audio::getTypeEnums())
             {
                 std::stringstream ss;
                 ss << Audio::toRtAudio(i);
-                ss << "RtAudio: " << ss.str();
-                _print(ss.str());
+                _print("RtAudio: " + ss.str());
             }
         }
         
