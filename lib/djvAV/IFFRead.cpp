@@ -136,7 +136,7 @@ namespace djv
 
                             // Get tag.
                             Tags tags;
-                            tags.setTag("Creator", s);
+                            tags.set("Creator", s);
 
                             // Set tag.
                             out->setTags(tags);

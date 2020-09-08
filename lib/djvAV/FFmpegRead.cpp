@@ -292,7 +292,7 @@ namespace djv
                             AVDictionaryEntry* tag = nullptr;
                             while ((tag = av_dict_get(p.avFormatContext->metadata, "", tag, AV_DICT_IGNORE_SUFFIX)))
                             {
-                                p.info.tags.setTag(tag->key, tag->value);
+                                p.info.tags.set(tag->key, tag->value);
                             }
 
                             p.infoPromise.set_value(p.info);

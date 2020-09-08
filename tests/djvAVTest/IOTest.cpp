@@ -249,8 +249,8 @@ namespace djv
                 };
                 const std::vector<Image::Type> types = Image::getTypeEnums();
                 Tags tags;
-                tags.setTag("Description", "This is a description.");
-                tags.setTag("Time", "Tue Oct 8 13:18:20 PDT 2019");
+                tags.set("Description", "This is a description.");
+                tags.set("Time", "Tue Oct 8 13:18:20 PDT 2019");
                 auto io = context->getSystemT<AV::IO::System>();
                 for (const auto& extension : extensions)
                 {

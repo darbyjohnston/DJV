@@ -33,9 +33,9 @@ namespace djv
                 auto image = Image::Image::create(Image::Info(1, 2, Image::Type::RGB_U8));
                 DJV_ASSERT(image->getTags().isEmpty());
                 Tags tags;
-                tags.setTag("a", "1");
-                tags.setTag("b", "2");
-                tags.setTag("c", "3");
+                tags.set("a", "1");
+                tags.set("b", "2");
+                tags.set("c", "3");
                 image->setTags(tags);
                 DJV_ASSERT(tags == image->getTags());
             }

@@ -326,45 +326,45 @@ namespace djv
                     }
                     if (isValid(out.file.time, 24))
                     {
-                        info.tags.setTag("Time", toString(out.file.time, 24));
+                        info.tags.set("Time", toString(out.file.time, 24));
                     }
                     if (isValid(&out.source.offset[0]) && isValid(&out.source.offset[1]))
                     {
                         std::stringstream ss;
                         ss << out.source.offset[0] << " " << out.source.offset[1];
-                        info.tags.setTag("Source Offset", ss.str());
+                        info.tags.set("Source Offset", ss.str());
                     }
                     if (isValid(out.source.file, 100))
                     {
-                        info.tags.setTag("Source File", toString(out.source.file, 100));
+                        info.tags.set("Source File", toString(out.source.file, 100));
                     }
                     if (isValid(out.source.time, 24))
                     {
-                        info.tags.setTag("Source Time", toString(out.source.time, 24));
+                        info.tags.set("Source Time", toString(out.source.time, 24));
                     }
                     if (isValid(out.source.inputDevice, 64))
                     {
-                        info.tags.setTag("Source Input Device", toString(out.source.inputDevice, 64));
+                        info.tags.set("Source Input Device", toString(out.source.inputDevice, 64));
                     }
                     if (isValid(out.source.inputModel, 32))
                     {
-                        info.tags.setTag("Source Input Model", toString(out.source.inputModel, 32));
+                        info.tags.set("Source Input Model", toString(out.source.inputModel, 32));
                     }
                     if (isValid(out.source.inputSerial, 32))
                     {
-                        info.tags.setTag("Source Input Serial", toString(out.source.inputSerial, 32));
+                        info.tags.set("Source Input Serial", toString(out.source.inputSerial, 32));
                     }
                     if (isValid(&out.source.inputPitch[0]) && isValid(&out.source.inputPitch[1]))
                     {
                         std::stringstream ss;
                         ss << out.source.inputPitch[0] << " " << out.source.inputPitch[1];
-                        info.tags.setTag("Source Input Pitch", ss.str());
+                        info.tags.set("Source Input Pitch", ss.str());
                     }
                     if (isValid(&out.source.gamma))
                     {
                         std::stringstream ss;
                         ss << out.source.gamma;
-                        info.tags.setTag("Source Gamma", ss.str());
+                        info.tags.set("Source Gamma", ss.str());
                     }
                     if (isValid(&out.film.id) &&
                         isValid(&out.film.type) &&
@@ -372,7 +372,7 @@ namespace djv
                         isValid(&out.film.prefix) &&
                         isValid(&out.film.count))
                     {
-                        info.tags.setTag( "Keycode", Time::keycodeToString(
+                        info.tags.set( "Keycode", Time::keycodeToString(
                             out.film.id,
                             out.film.type,
                             out.film.prefix,
@@ -381,28 +381,28 @@ namespace djv
                     }
                     if (isValid(out.film.format, 32))
                     {
-                        info.tags.setTag("Film Format", toString(out.film.format, 32));
+                        info.tags.set("Film Format", toString(out.film.format, 32));
                     }
                     if (isValid(&out.film.frame))
                     {
                         std::stringstream ss;
                         ss << out.film.frame;
-                        info.tags.setTag("Film Frame", ss.str());
+                        info.tags.set("Film Frame", ss.str());
                     }
                     if (isValid(&out.film.frameRate) && out.film.frameRate >= _minSpeed)
                     {
                         info.videoSpeed = Time::fromSpeed(out.film.frameRate);
                         std::stringstream ss;
                         ss << out.film.frameRate;
-                        info.tags.setTag("Film Frame Rate", ss.str());
+                        info.tags.set("Film Frame Rate", ss.str());
                     }
                     if (isValid(out.film.frameId, 32))
                     {
-                        info.tags.setTag("Film Frame ID", toString(out.film.frameId, 32));
+                        info.tags.set("Film Frame ID", toString(out.film.frameId, 32));
                     }
                     if (isValid(out.film.slate, 200))
                     {
-                        info.tags.setTag("Film Slate", toString(out.film.slate, 200));
+                        info.tags.set("Film Slate", toString(out.film.slate, 200));
                     }
                     switch (static_cast<Descriptor>(out.image.channel[0].descriptor[1]))
                     {
@@ -486,82 +486,82 @@ namespace djv
 
                     // Set the tags.
                     fromString(info.video[0].name, header.file.name, 100, false);
-                    if (info.tags.hasTag("Time"))
+                    if (info.tags.contains("Time"))
                     {
-                        fromString(info.tags.getTag("Time"), header.file.time, 24, false);
+                        fromString(info.tags.get("Time"), header.file.time, 24, false);
                     }
-                    if (info.tags.hasTag("Source Offset"))
+                    if (info.tags.contains("Source Offset"))
                     {
-                        std::stringstream ss(info.tags.getTag("Source Offset"));
+                        std::stringstream ss(info.tags.get("Source Offset"));
                         ss >> header.source.offset[0];
                         ss >> header.source.offset[1];
                     }
-                    if (info.tags.hasTag("Source File"))
+                    if (info.tags.contains("Source File"))
                     {
-                        fromString(info.tags.getTag("Source File"), header.source.file, 100, false);
+                        fromString(info.tags.get("Source File"), header.source.file, 100, false);
                     }
-                    if (info.tags.hasTag("Source Time"))
+                    if (info.tags.contains("Source Time"))
                     {
-                        fromString(info.tags.getTag("Source Time"), header.source.time, 24, false);
+                        fromString(info.tags.get("Source Time"), header.source.time, 24, false);
                     }
-                    if (info.tags.hasTag("Source Input Device"))
+                    if (info.tags.contains("Source Input Device"))
                     {
-                        fromString(info.tags.getTag("Source Input Device"), header.source.inputDevice, 64, false);
+                        fromString(info.tags.get("Source Input Device"), header.source.inputDevice, 64, false);
                     }
-                    if (info.tags.hasTag("Source Input Model"))
+                    if (info.tags.contains("Source Input Model"))
                     {
-                        fromString(info.tags.getTag("Source Input Model"), header.source.inputModel, 32, false);
+                        fromString(info.tags.get("Source Input Model"), header.source.inputModel, 32, false);
                     }
-                    if (info.tags.hasTag("Source Input Serial"))
+                    if (info.tags.contains("Source Input Serial"))
                     {
-                        fromString(info.tags.getTag("Source Input Serial"), header.source.inputSerial, 32, false);
+                        fromString(info.tags.get("Source Input Serial"), header.source.inputSerial, 32, false);
                     }
-                    if (info.tags.hasTag("Source Input Pitch"))
+                    if (info.tags.contains("Source Input Pitch"))
                     {
-                        std::stringstream ss(info.tags.getTag("Source Input Pitch"));
+                        std::stringstream ss(info.tags.get("Source Input Pitch"));
                         ss >> header.source.inputPitch[0];
                         ss >> header.source.inputPitch[1];
                     }
-                    if (info.tags.hasTag("Source Gamma"))
+                    if (info.tags.contains("Source Gamma"))
                     {
-                        std::stringstream ss(info.tags.getTag("Source Gamma"));
+                        std::stringstream ss(info.tags.get("Source Gamma"));
                         ss >> header.source.gamma;
                     }
-                    if (info.tags.hasTag("Keycode"))
+                    if (info.tags.contains("Keycode"))
                     {
                         int id     = 0;
                         int type   = 0;
                         int prefix = 0;
                         int count  = 0;
                         int offset = 0;
-                        Time::stringToKeycode(info.tags.getTag("Keycode"), id, type, prefix, count, offset);
+                        Time::stringToKeycode(info.tags.get("Keycode"), id, type, prefix, count, offset);
                         header.film.id     = id;
                         header.film.type   = type;
                         header.film.offset = offset;
                         header.film.prefix = prefix;
                         header.film.count  = count;
                     }
-                    if (info.tags.hasTag("Film Format"))
+                    if (info.tags.contains("Film Format"))
                     {
-                        fromString(info.tags.getTag("Film Format"), header.film.format, 32, false);
+                        fromString(info.tags.get("Film Format"), header.film.format, 32, false);
                     }
-                    if (info.tags.hasTag("Film Frame"))
+                    if (info.tags.contains("Film Frame"))
                     {
-                        std::stringstream ss(info.tags.getTag("Film Frame"));
+                        std::stringstream ss(info.tags.get("Film Frame"));
                         ss >> header.film.frame;
                     }
-                    if (info.tags.hasTag("Film Frame Rate"))
+                    if (info.tags.contains("Film Frame Rate"))
                     {
-                        std::stringstream ss(info.tags.getTag("Film Frame Rate"));
+                        std::stringstream ss(info.tags.get("Film Frame Rate"));
                         ss >> header.film.frameRate;
                     }
-                    if (info.tags.hasTag("Film Frame ID"))
+                    if (info.tags.contains("Film Frame ID"))
                     {
-                        fromString(info.tags.getTag("Film Frame ID"), header.film.frameId, 32, false);
+                        fromString(info.tags.get("Film Frame ID"), header.film.frameId, 32, false);
                     }
-                    if (info.tags.hasTag("Film Slate"))
+                    if (info.tags.contains("Film Slate"))
                     {
-                        fromString(info.tags.getTag("Film Slate"), header.film.slate, 200, false);
+                        fromString(info.tags.get("Film Slate"), header.film.slate, 200, false);
                     }
 
                     // Write the header.

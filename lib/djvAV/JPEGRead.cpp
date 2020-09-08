@@ -255,7 +255,7 @@ namespace djv
                     const jpeg_saved_marker_ptr marker = f->jpeg.marker_list;
                     if (marker)
                     {
-                        info.tags.setTag("Description", std::string((const char*)marker->data, marker->data_length));
+                        info.tags.set("Description", std::string((const char*)marker->data, marker->data_length));
                     }
 
                     return info;

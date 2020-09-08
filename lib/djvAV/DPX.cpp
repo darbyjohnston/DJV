@@ -304,54 +304,54 @@ namespace djv
 
                     if (Cineon::isValid(out.file.time, 24))
                     {
-                        info.tags.setTag("Time", Cineon::toString(out.file.time, 24));
+                        info.tags.set("Time", Cineon::toString(out.file.time, 24));
                     }
                     if (Cineon::isValid(out.file.creator, 100))
                     {
-                        info.tags.setTag("Creator", Cineon::toString(out.file.creator, 100));
+                        info.tags.set("Creator", Cineon::toString(out.file.creator, 100));
                     }
                     if (Cineon::isValid(out.file.project, 200))
                     {
-                        info.tags.setTag("Project", Cineon::toString(out.file.project, 200));
+                        info.tags.set("Project", Cineon::toString(out.file.project, 200));
                     }
                     if (Cineon::isValid(out.file.copyright, 200))
                     {
-                        info.tags.setTag("Copyright", Cineon::toString(out.file.copyright, 200));
+                        info.tags.set("Copyright", Cineon::toString(out.file.copyright, 200));
                     }
 
                     if (isValid(&out.source.offset[0]) && isValid(&out.source.offset[1]))
                     {
                         std::stringstream ss;
                         ss << out.source.offset[0] << " " << out.source.offset[1];
-                        info.tags.setTag("Source Offset", ss.str());
+                        info.tags.set("Source Offset", ss.str());
                     }
                     if (isValid(&out.source.center[0]) && isValid(&out.source.center[1]))
                     {
                         std::stringstream ss;
                         ss << out.source.center[0] << " " << out.source.center[1];
-                        info.tags.setTag("Source Center", ss.str());
+                        info.tags.set("Source Center", ss.str());
                     }
                     if (isValid(&out.source.size[0]) && isValid(&out.source.size[1]))
                     {
                         std::stringstream ss;
                         ss << out.source.size[0] << " " << out.source.size[1];
-                        info.tags.setTag("Source Size", ss.str());
+                        info.tags.set("Source Size", ss.str());
                     }
                     if (Cineon::isValid(out.source.file, 100))
                     {
-                        info.tags.setTag("Source File", Cineon::toString(out.source.file, 100));
+                        info.tags.set("Source File", Cineon::toString(out.source.file, 100));
                     }
                     if (Cineon::isValid(out.source.time, 24))
                     {
-                        info.tags.setTag("Source Time", Cineon::toString(out.source.time, 24));
+                        info.tags.set("Source Time", Cineon::toString(out.source.time, 24));
                     }
                     if (Cineon::isValid(out.source.inputDevice, 32))
                     {
-                        info.tags.setTag("Source Input Device", Cineon::toString(out.source.inputDevice, 32));
+                        info.tags.set("Source Input Device", Cineon::toString(out.source.inputDevice, 32));
                     }
                     if (Cineon::isValid(out.source.inputSerial, 32))
                     {
-                        info.tags.setTag("Source Input Serial", Cineon::toString(out.source.inputSerial, 32));
+                        info.tags.set("Source Input Serial", Cineon::toString(out.source.inputSerial, 32));
                     }
                     if (isValid(&out.source.border[0]) && isValid(&out.source.border[1]) &&
                         isValid(&out.source.border[2]) && isValid(&out.source.border[3]))
@@ -361,26 +361,26 @@ namespace djv
                         ss << out.source.border[1] << " ";
                         ss << out.source.border[2] << " ";
                         ss << out.source.border[3];
-                        info.tags.setTag("Source Border", ss.str());
+                        info.tags.set("Source Border", ss.str());
                     }
                     if (isValid(&out.source.pixelAspect[0]) && isValid(&out.source.pixelAspect[1]))
                     {
                         std::stringstream ss;
                         ss << out.source.pixelAspect[0] << " " << out.source.pixelAspect[1];
-                        info.tags.setTag("Source Pixel Aspect", ss.str());
+                        info.tags.set("Source Pixel Aspect", ss.str());
                     }
                     if (isValid(&out.source.scanSize[0]) && isValid(&out.source.scanSize[1]))
                     {
                         std::stringstream ss;
                         ss << out.source.scanSize[0] << " " << out.source.scanSize[1];
-                        info.tags.setTag("Source Scan Size", ss.str());
+                        info.tags.set("Source Scan Size", ss.str());
                     }
 
                     if (Cineon::isValid(out.film.id, 2) && Cineon::isValid(out.film.type, 2) &&
                         Cineon::isValid(out.film.offset, 2) && Cineon::isValid(out.film.prefix, 6) &&
                         Cineon::isValid(out.film.count, 4))
                     {
-                        info.tags.setTag("Keycode", Time::keycodeToString(
+                        info.tags.set("Keycode", Time::keycodeToString(
                             std::stoi(std::string(out.film.id, 2)),
                             std::stoi(std::string(out.film.type, 2)),
                             std::stoi(std::string(out.film.prefix, 6)),
@@ -389,126 +389,126 @@ namespace djv
                     }
                     if (Cineon::isValid(out.film.format, 32))
                     {
-                        info.tags.setTag("Film Format", Cineon::toString(out.film.format, 32));
+                        info.tags.set("Film Format", Cineon::toString(out.film.format, 32));
                     }
                     if (isValid(&out.film.frame))
                     {
                         std::stringstream ss;
                         ss << out.film.frame;
-                        info.tags.setTag("Film Frame", ss.str());
+                        info.tags.set("Film Frame", ss.str());
                     }
                     if (isValid(&out.film.sequence))
                     {
                         std::stringstream ss;
                         ss << out.film.sequence;
-                        info.tags.setTag("Film Sequence", ss.str());
+                        info.tags.set("Film Sequence", ss.str());
                     }
                     if (isValid(&out.film.hold))
                     {
                         std::stringstream ss;
                         ss << out.film.hold;
-                        info.tags.setTag("Film Hold", ss.str());
+                        info.tags.set("Film Hold", ss.str());
                     }
                     if (isValid(&out.film.frameRate) && out.film.frameRate > _minSpeed)
                     {
                         info.videoSpeed = Time::fromSpeed(out.film.frameRate);
                         std::stringstream ss;
                         ss << out.film.frameRate;
-                        info.tags.setTag("Film Frame Rate", ss.str());
+                        info.tags.set("Film Frame Rate", ss.str());
                     }
                     if (isValid(&out.film.shutter))
                     {
                         std::stringstream ss;
                         ss << out.film.shutter;
-                        info.tags.setTag("Film Shutter", ss.str());
+                        info.tags.set("Film Shutter", ss.str());
                     }
                     if (Cineon::isValid(out.film.frameId, 32))
                     {
-                        info.tags.setTag("Film Frame ID", Cineon::toString(out.film.frameId, 32));
+                        info.tags.set("Film Frame ID", Cineon::toString(out.film.frameId, 32));
                     }
                     if (Cineon::isValid(out.film.slate, 100))
                     {
-                        info.tags.setTag("Film Slate", Cineon::toString(out.film.slate, 100));
+                        info.tags.set("Film Slate", Cineon::toString(out.film.slate, 100));
                     }
 
                     if (isValid(&out.tv.timecode))
                     {
                         std::stringstream ss;
                         ss << out.tv.timecode;
-                        info.tags.setTag("Timecode", ss.str());
+                        info.tags.set("Timecode", ss.str());
                     }
                     if (isValid(&out.tv.interlace))
                     {
                         std::stringstream ss;
                         ss << static_cast<unsigned int>(out.tv.interlace);
-                        info.tags.setTag("TV Interlace", ss.str());
+                        info.tags.set("TV Interlace", ss.str());
                     }
                     if (isValid(&out.tv.field))
                     {
                         std::stringstream ss;
                         ss << static_cast<unsigned int>(out.tv.field);
-                        info.tags.setTag("TV Field", ss.str());
+                        info.tags.set("TV Field", ss.str());
                     }
                     if (isValid(&out.tv.videoSignal))
                     {
                         std::stringstream ss;
                         ss << static_cast<unsigned int>(out.tv.videoSignal);
-                        info.tags.setTag("TV Video Signal", ss.str());
+                        info.tags.set("TV Video Signal", ss.str());
                     }
                     if (isValid(&out.tv.sampleRate[0]) && isValid(&out.tv.sampleRate[1]))
                     {
                         std::stringstream ss;
                         ss << out.tv.sampleRate[0] << " " << out.tv.sampleRate[1];
-                        info.tags.setTag("TV Sample Rate", ss.str());
+                        info.tags.set("TV Sample Rate", ss.str());
                     }
                     if (isValid(&out.tv.frameRate) && out.tv.frameRate > _minSpeed)
                     {
                         info.videoSpeed = Time::fromSpeed(out.tv.frameRate);
                         std::stringstream ss;
                         ss << out.tv.frameRate;
-                        info.tags.setTag("TV Frame Rate", ss.str());
+                        info.tags.set("TV Frame Rate", ss.str());
                     }
                     if (isValid(&out.tv.timeOffset))
                     {
                         std::stringstream ss;
                         ss << out.tv.timeOffset;
-                        info.tags.setTag("TV Time Offset", ss.str());
+                        info.tags.set("TV Time Offset", ss.str());
                     }
                     if (isValid(&out.tv.gamma))
                     {
                         std::stringstream ss;
                         ss << out.tv.gamma;
-                        info.tags.setTag("TV Gamma", ss.str());
+                        info.tags.set("TV Gamma", ss.str());
                     }
                     if (isValid(&out.tv.blackLevel))
                     {
                         std::stringstream ss;
                         ss << out.tv.blackLevel;
-                        info.tags.setTag("TV Black Level", ss.str());
+                        info.tags.set("TV Black Level", ss.str());
                     }
                     if (isValid(&out.tv.blackGain))
                     {
                         std::stringstream ss;
                         ss << out.tv.blackGain;
-                        info.tags.setTag("TV Black Gain", ss.str());
+                        info.tags.set("TV Black Gain", ss.str());
                     }
                     if (isValid(&out.tv.breakpoint))
                     {
                         std::stringstream ss;
                         ss << out.tv.breakpoint;
-                        info.tags.setTag("TV Breakpoint", ss.str());
+                        info.tags.set("TV Breakpoint", ss.str());
                     }
                     if (isValid(&out.tv.whiteLevel))
                     {
                         std::stringstream ss;
                         ss << out.tv.whiteLevel;
-                        info.tags.setTag("TV White Level", ss.str());
+                        info.tags.set("TV White Level", ss.str());
                     }
                     if (isValid(&out.tv.integrationTimes))
                     {
                         std::stringstream ss;
                         ss << out.tv.integrationTimes;
-                        info.tags.setTag("TV Integration Times", ss.str());
+                        info.tags.set("TV Integration Times", ss.str());
                     }
 
                     // Set the file position.
@@ -637,178 +637,178 @@ namespace djv
                     header.image.elem[0].linePadding = 0;
                     header.image.elem[0].elemPadding = 0;
 
-                    if (info.tags.hasTag("Time"))
+                    if (info.tags.contains("Time"))
                     {
-                        Cineon::fromString(info.tags.getTag("Time"), header.file.time, 24, false);
+                        Cineon::fromString(info.tags.get("Time"), header.file.time, 24, false);
                     }
-                    if (info.tags.hasTag("Creator"))
+                    if (info.tags.contains("Creator"))
                     {
-                        Cineon::fromString(info.tags.getTag("Creator"), header.file.creator, 100, false);
+                        Cineon::fromString(info.tags.get("Creator"), header.file.creator, 100, false);
                     }
-                    if (info.tags.hasTag("Project"))
+                    if (info.tags.contains("Project"))
                     {
-                        Cineon::fromString(info.tags.getTag("Project"), header.file.project, 200, false);
+                        Cineon::fromString(info.tags.get("Project"), header.file.project, 200, false);
                     }
-                    if (info.tags.hasTag("Copyright"))
+                    if (info.tags.contains("Copyright"))
                     {
-                        Cineon::fromString(info.tags.getTag("Copyright"), header.file.copyright, 200, false);
+                        Cineon::fromString(info.tags.get("Copyright"), header.file.copyright, 200, false);
                     }
 
-                    if (info.tags.hasTag("Source Offset"))
+                    if (info.tags.contains("Source Offset"))
                     {
-                        std::stringstream ss(info.tags.getTag("Source Offset"));
+                        std::stringstream ss(info.tags.get("Source Offset"));
                         ss >> header.source.offset[0];
                         ss >> header.source.offset[1];
                     }
-                    if (info.tags.hasTag("Source Center"))
+                    if (info.tags.contains("Source Center"))
                     {
-                        std::stringstream ss(info.tags.getTag("Source Center"));
+                        std::stringstream ss(info.tags.get("Source Center"));
                         ss >> header.source.center[0];
                         ss >> header.source.center[1];
                     }
-                    if (info.tags.hasTag("Source Size"))
+                    if (info.tags.contains("Source Size"))
                     {
-                        std::stringstream ss(info.tags.getTag("Source Size"));
+                        std::stringstream ss(info.tags.get("Source Size"));
                         ss >> header.source.size[0];
                         ss >> header.source.size[1];
                     }
-                    if (info.tags.hasTag("Source File"))
+                    if (info.tags.contains("Source File"))
                     {
-                        Cineon::fromString(info.tags.getTag("Source File"), header.source.file, 100, false);
+                        Cineon::fromString(info.tags.get("Source File"), header.source.file, 100, false);
                     }
-                    if (info.tags.hasTag("Source Time"))
+                    if (info.tags.contains("Source Time"))
                     {
-                        Cineon::fromString(info.tags.getTag("Source Time"), header.source.time, 24, false);
+                        Cineon::fromString(info.tags.get("Source Time"), header.source.time, 24, false);
                     }
-                    if (info.tags.hasTag("Source Input Device"))
+                    if (info.tags.contains("Source Input Device"))
                     {
-                        Cineon::fromString(info.tags.getTag("Source Input Device"), header.source.inputDevice, 32, false);
+                        Cineon::fromString(info.tags.get("Source Input Device"), header.source.inputDevice, 32, false);
                     }
-                    if (info.tags.hasTag("Source Input Serial"))
+                    if (info.tags.contains("Source Input Serial"))
                     {
-                        Cineon::fromString(info.tags.getTag("Source Input Serial"), header.source.inputSerial, 32, false);
+                        Cineon::fromString(info.tags.get("Source Input Serial"), header.source.inputSerial, 32, false);
                     }
-                    if (info.tags.hasTag("Source Border"))
+                    if (info.tags.contains("Source Border"))
                     {
-                        std::stringstream ss(info.tags.getTag("Source Border"));
+                        std::stringstream ss(info.tags.get("Source Border"));
                         ss >> header.source.border[0];
                         ss >> header.source.border[1];
                         ss >> header.source.border[2];
                         ss >> header.source.border[3];
                     }
-                    if (info.tags.hasTag("Source Pixel Aspect"))
+                    if (info.tags.contains("Source Pixel Aspect"))
                     {
-                        std::stringstream ss(info.tags.getTag("Source Pixel Aspect"));
+                        std::stringstream ss(info.tags.get("Source Pixel Aspect"));
                         ss >> header.source.pixelAspect[0];
                         ss >> header.source.pixelAspect[1];
                     }
-                    if (info.tags.hasTag("Source Scan Size"))
+                    if (info.tags.contains("Source Scan Size"))
                     {
-                        std::stringstream ss(info.tags.getTag("Source Scan Size"));
+                        std::stringstream ss(info.tags.get("Source Scan Size"));
                         ss >> header.source.scanSize[0];
                         ss >> header.source.scanSize[1];
                     }
 
-                    if (info.tags.hasTag("Keycode"))
+                    if (info.tags.contains("Keycode"))
                     {
                         int id     = 0;
                         int type   = 0;
                         int prefix = 0;
                         int count  = 0;
                         int offset = 0;
-                        Time::stringToKeycode(info.tags.getTag("Keycode"), id, type, prefix, count, offset);
+                        Time::stringToKeycode(info.tags.get("Keycode"), id, type, prefix, count, offset);
                         DJV_SNPRINTF(header.film.id, 2, "%d", id);
                         DJV_SNPRINTF(header.film.type, 2, "%d", type);
                         DJV_SNPRINTF(header.film.prefix, 6, "%d", prefix);
                         DJV_SNPRINTF(header.film.count, 4, "%d", count);
                         DJV_SNPRINTF(header.film.offset, 2, "%d", offset);
                     }
-                    if (info.tags.hasTag("Film Format"))
+                    if (info.tags.contains("Film Format"))
                     {
-                        Cineon::fromString(info.tags.getTag("Film Format"), header.film.format, 32, false);
+                        Cineon::fromString(info.tags.get("Film Format"), header.film.format, 32, false);
                     }
-                    if (info.tags.hasTag("Film Frame"))
+                    if (info.tags.contains("Film Frame"))
                     {
-                        header.film.frame = std::stoi(info.tags.getTag("Film Frame"));
+                        header.film.frame = std::stoi(info.tags.get("Film Frame"));
                     }
-                    if (info.tags.hasTag("Film Sequence"))
+                    if (info.tags.contains("Film Sequence"))
                     {
-                        header.film.sequence = std::stoi(info.tags.getTag("Film Sequence"));
+                        header.film.sequence = std::stoi(info.tags.get("Film Sequence"));
                     }
-                    if (info.tags.hasTag("Film Hold"))
+                    if (info.tags.contains("Film Hold"))
                     {
-                        header.film.hold = std::stoi(info.tags.getTag("Film Hold"));
+                        header.film.hold = std::stoi(info.tags.get("Film Hold"));
                     }
-                    if (info.tags.hasTag("Film Frame Rate"))
+                    if (info.tags.contains("Film Frame Rate"))
                     {
-                        header.film.frameRate = std::stof(info.tags.getTag("Film Frame Rate"));
+                        header.film.frameRate = std::stof(info.tags.get("Film Frame Rate"));
                     }
-                    if (info.tags.hasTag("Film Shutter"))
+                    if (info.tags.contains("Film Shutter"))
                     {
-                        header.film.shutter = std::stof(info.tags.getTag("Film Shutter"));
+                        header.film.shutter = std::stof(info.tags.get("Film Shutter"));
                     }
-                    if (info.tags.hasTag("Film Frame ID"))
+                    if (info.tags.contains("Film Frame ID"))
                     {
-                        Cineon::fromString(info.tags.getTag("Film Frame ID"), header.film.frameId, 32, false);
+                        Cineon::fromString(info.tags.get("Film Frame ID"), header.film.frameId, 32, false);
                     }
-                    if (info.tags.hasTag("Film Slate"))
+                    if (info.tags.contains("Film Slate"))
                     {
-                        Cineon::fromString(info.tags.getTag("Film Slate"), header.film.slate, 100, false);
+                        Cineon::fromString(info.tags.get("Film Slate"), header.film.slate, 100, false);
                     }
 
-                    if (info.tags.hasTag("Timecode"))
+                    if (info.tags.contains("Timecode"))
                     {
-                        Time::stringToTimecode(info.tags.getTag("Timecode"), header.tv.timecode);
+                        Time::stringToTimecode(info.tags.get("Timecode"), header.tv.timecode);
                     }
-                    if (info.tags.hasTag("TV Interlace"))
+                    if (info.tags.contains("TV Interlace"))
                     {
-                        header.tv.interlace = std::stoi(info.tags.getTag("TV Interlace"));
+                        header.tv.interlace = std::stoi(info.tags.get("TV Interlace"));
                     }
-                    if (info.tags.hasTag("TV Field"))
+                    if (info.tags.contains("TV Field"))
                     {
-                        header.tv.field = std::stoi(info.tags.getTag("TV Field"));
+                        header.tv.field = std::stoi(info.tags.get("TV Field"));
                     }
-                    if (info.tags.hasTag("TV Video Signal"))
+                    if (info.tags.contains("TV Video Signal"))
                     {
-                        header.tv.videoSignal = std::stoi(info.tags.getTag("TV Video Signal"));
+                        header.tv.videoSignal = std::stoi(info.tags.get("TV Video Signal"));
                     }
-                    if (info.tags.hasTag("TV Sample Rate"))
+                    if (info.tags.contains("TV Sample Rate"))
                     {
-                        std::stringstream ss(info.tags.getTag("TV Sample Rate"));
+                        std::stringstream ss(info.tags.get("TV Sample Rate"));
                         ss >> header.tv.sampleRate[0];
                         ss >> header.tv.sampleRate[1];
                     }
-                    if (info.tags.hasTag("TV Frame Rate"))
+                    if (info.tags.contains("TV Frame Rate"))
                     {
-                        header.tv.frameRate = std::stof(info.tags.getTag("TV Frame Rate"));
+                        header.tv.frameRate = std::stof(info.tags.get("TV Frame Rate"));
                     }
-                    if (info.tags.hasTag("TV Time Offset"))
+                    if (info.tags.contains("TV Time Offset"))
                     {
-                        header.tv.timeOffset = std::stof(info.tags.getTag("TV Time Offset"));
+                        header.tv.timeOffset = std::stof(info.tags.get("TV Time Offset"));
                     }
-                    if (info.tags.hasTag("TV Gamma"))
+                    if (info.tags.contains("TV Gamma"))
                     {
-                        header.tv.gamma = std::stof(info.tags.getTag("TV Gamma"));
+                        header.tv.gamma = std::stof(info.tags.get("TV Gamma"));
                     }
-                    if (info.tags.hasTag("TV Black Level"))
+                    if (info.tags.contains("TV Black Level"))
                     {
-                        header.tv.blackLevel = std::stof(info.tags.getTag("TV Black Level"));
+                        header.tv.blackLevel = std::stof(info.tags.get("TV Black Level"));
                     }
-                    if (info.tags.hasTag("TV Black Gain"))
+                    if (info.tags.contains("TV Black Gain"))
                     {
-                        header.tv.blackGain = std::stof(info.tags.getTag("TV Black Gain"));
+                        header.tv.blackGain = std::stof(info.tags.get("TV Black Gain"));
                     }
-                    if (info.tags.hasTag("TV Breakpoint"))
+                    if (info.tags.contains("TV Breakpoint"))
                     {
-                        header.tv.breakpoint = std::stof(info.tags.getTag("TV Breakpoint"));
+                        header.tv.breakpoint = std::stof(info.tags.get("TV Breakpoint"));
                     }
-                    if (info.tags.hasTag("TV White Level"))
+                    if (info.tags.contains("TV White Level"))
                     {
-                        header.tv.whiteLevel = std::stof(info.tags.getTag("TV White Level"));
+                        header.tv.whiteLevel = std::stof(info.tags.get("TV White Level"));
                     }
-                    if (info.tags.hasTag("TV Integration Times"))
+                    if (info.tags.contains("TV Integration Times"))
                     {
-                        header.tv.integrationTimes = std::stof(info.tags.getTag("TV Integration Times"));
+                        header.tv.integrationTimes = std::stof(info.tags.get("TV Integration Times"));
                     }
 
                     Memory::Endian fileEndian = Memory::getEndian();

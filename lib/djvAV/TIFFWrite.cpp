@@ -191,22 +191,22 @@ namespace djv
                     TIFFSetField(f.f, TIFFTAG_COMPRESSION, compression);
                     TIFFSetField(f.f, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
 
-                    std::string tag = _info.tags.getTag("Creator");
+                    std::string tag = _info.tags.get("Creator");
                     if (!tag.empty())
                     {
                         TIFFSetField(f.f, TIFFTAG_ARTIST, tag.data());
                     }
-                    tag = _info.tags.getTag("Copyright");
+                    tag = _info.tags.get("Copyright");
                     if (!tag.empty())
                     {
                         TIFFSetField(f.f, TIFFTAG_COPYRIGHT, tag.data());
                     }
-                    tag = _info.tags.getTag("Time");
+                    tag = _info.tags.get("Time");
                     if (!tag.empty())
                     {
                         TIFFSetField(f.f, TIFFTAG_DATETIME, tag.data());
                     }
-                    tag = _info.tags.getTag("Description");;
+                    tag = _info.tags.get("Description");;
                     if (!tag.empty())
                     {
                         TIFFSetField(f.f, TIFFTAG_IMAGEDESCRIPTION, tag.data());

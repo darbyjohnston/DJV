@@ -125,7 +125,7 @@ namespace djv
                         jpeg_set_defaults(jpeg);
                         jpeg_set_quality(jpeg, options.quality, static_cast<boolean>(1));
                         jpeg_start_compress(jpeg, static_cast<boolean>(1));
-                        std::string tag = tags.getTag("Description");
+                        std::string tag = tags.get("Description");
                         if (tag.length())
                         {
                             jpeg_write_marker(

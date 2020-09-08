@@ -21,17 +21,17 @@ namespace djv
             
             bool isEmpty() const;
             size_t getCount() const;
-            const std::map<std::string, std::string>& getTags() const;
-            bool hasTag(const std::string& key) const;
-            const std::string& getTag(const std::string& key) const;
+            const std::map<std::string, std::string>& get() const;
+            const std::string& get(const std::string& key) const;
+            bool contains(const std::string& key) const;
 
-            void setTags(const std::map<std::string, std::string>&);
-            void setTag(const std::string& key, const std::string& value);
+            void set(const std::map<std::string, std::string>&);
+            void set(const std::string& key, const std::string& value);
 
             bool operator == (const Tags&) const;
 
         private:
-            std::map<std::string, std::string> _tags;
+            std::map<std::string, std::string> _map;
             static const std::string _empty;
         };
 

@@ -15,44 +15,44 @@ namespace djv
         
         bool Tags::isEmpty() const
         {
-            return 0 == _tags.size();
+            return 0 == _map.size();
         }
 
         size_t Tags::getCount() const
         {
-            return _tags.size();
+            return _map.size();
         }
 
-        const std::map<std::string, std::string>& Tags::getTags() const
+        const std::map<std::string, std::string>& Tags::get() const
         {
-            return _tags;
+            return _map;
         }
 
-        bool Tags::hasTag(const std::string& key) const
-        {
-            return _tags.find(key) != _tags.end();
-        }
-
-        const std::string& Tags::getTag(const std::string& key) const
+        const std::string& Tags::get(const std::string& key) const
         {
             static const std::string empty;
-            const auto i = _tags.find(key);
-            return i != _tags.end() ? i->second : _empty;
+            const auto i = _map.find(key);
+            return i != _map.end() ? i->second : _empty;
         }
 
-        void Tags::setTags(const std::map<std::string, std::string>& tags)
+        bool Tags::contains(const std::string& key) const
         {
-            _tags = tags;
+            return _map.find(key) != _map.end();
         }
 
-        void Tags::setTag(const std::string& key, const std::string& value)
+        void Tags::set(const std::map<std::string, std::string>& tags)
         {
-            _tags[key] = value;
+            _map = tags;
+        }
+
+        void Tags::set(const std::string& key, const std::string& value)
+        {
+            _map[key] = value;
         }
 
         bool Tags::operator == (const Tags& other) const
         {
-            return _tags == other._tags;
+            return _map == other._map;
         }
 
     } // namespace AV

@@ -25,9 +25,9 @@ namespace djv
                 const Tags tags;
                 DJV_ASSERT(tags.isEmpty());
                 DJV_ASSERT(0 == tags.getCount());
-                DJV_ASSERT(tags.getTags().empty());
-                DJV_ASSERT(!tags.hasTag("tag"));
-                DJV_ASSERT(tags.getTag("tag").empty());
+                DJV_ASSERT(tags.get().empty());
+                DJV_ASSERT(!tags.contains("tag"));
+                DJV_ASSERT(tags.get("tag").empty());
             }
             
             {
@@ -38,11 +38,11 @@ namespace djv
                     { "b", "2" },
                     { "c", "3" }
                 };
-                tags.setTags(map);
-                DJV_ASSERT(map == tags.getTags());
-                tags.setTag("d", "4");
-                DJV_ASSERT(tags.hasTag("d"));
-                DJV_ASSERT("4" == tags.getTag("d"));
+                tags.set(map);
+                DJV_ASSERT(map == tags.get());
+                tags.set("d", "4");
+                DJV_ASSERT(tags.contains("d"));
+                DJV_ASSERT("4" == tags.get("d"));
             }
             
             {
@@ -53,9 +53,9 @@ namespace djv
                     { "b", "2" },
                     { "c", "3" }
                 };
-                tags.setTags(map);
+                tags.set(map);
                 Tags tags2;
-                tags2.setTags(map);
+                tags2.set(map);
                 DJV_ASSERT(tags == tags2);
             }
         }

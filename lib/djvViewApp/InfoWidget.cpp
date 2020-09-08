@@ -406,7 +406,7 @@ namespace djv
                 if (!p.info.tags.isEmpty())
                 {
                     bool match = false;
-                    for (const auto& i : p.info.tags.getTags())
+                    for (const auto& i : p.info.tags.get())
                     {
                         match |= String::match(i.first, p.filter);
                         match |= String::match(i.second, p.filter);
@@ -414,7 +414,7 @@ namespace djv
                     if (match)
                     {
                         auto formLayout = p.createFormLayout(context);
-                        for (const auto& i : p.info.tags.getTags())
+                        for (const auto& i : p.info.tags.get())
                         {
                             if (String::match(i.first, p.filter) || String::match(i.second, p.filter))
                             {

@@ -172,28 +172,28 @@ namespace djv
                     {
                         if (tag)
                         {
-                            tags.setTag("Creator", tag);
+                            tags.set("Creator", tag);
                         }
                     }
                     if (TIFFGetField(f.f, TIFFTAG_IMAGEDESCRIPTION, &tag))
                     {
                         if (tag)
                         {
-                            tags.setTag("Description", tag);
+                            tags.set("Description", tag);
                         }
                     }
                     if (TIFFGetField(f.f, TIFFTAG_COPYRIGHT, &tag))
                     {
                         if (tag)
                         {
-                            tags.setTag("Copyright", tag);
+                            tags.set("Copyright", tag);
                         }
                     }
                     if (TIFFGetField(f.f, TIFFTAG_DATETIME, &tag))
                     {
                         if (tag)
                         {
-                            tags.setTag("Time", tag);
+                            tags.set("Time", tag);
                         }
                     }
 
