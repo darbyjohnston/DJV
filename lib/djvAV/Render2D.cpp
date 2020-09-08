@@ -150,7 +150,7 @@ namespace djv
                         DJV_PRIVATE_PTR();
                         std::stringstream ss;
                         ss << "Primitives: " << p.primitivesCount << "\n";
-                        ss << "Texture atlas: " << p.textureAtlas->getPercentageUsed() << "%\n";
+                        ss << "Texture atlas: " << std::fixed << p.textureAtlas->getPercentageUsed() << "%\n";
                         ss << "Texture IDs: " << p.textureIDs.size() << "%\n";
                         ss << "Glyph texture IDs: " << p.glyphTextureIDs.size() << "\n";
                         ss << "Dynamic textures: " << p.dynamicTextures.size() << "\n";

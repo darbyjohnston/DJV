@@ -44,8 +44,13 @@ namespace djv
         struct SceneRenderOptions
         {
             AV::Render3D::DefaultMaterialMode   shaderMode      = AV::Render3D::DefaultMaterialMode::Default;
+#if defined(DJV_OPENGL_ES2)
+            AV::Render3D::DepthBufferMode       depthBufferMode = AV::Render3D::DepthBufferMode::Standard;
+            AV::OpenGL::OffscreenDepthType      depthBufferType = AV::OpenGL::OffscreenDepthType::_24;
+#else // DJV_OPENGL_ES2
             AV::Render3D::DepthBufferMode       depthBufferMode = AV::Render3D::DepthBufferMode::Reverse;
             AV::OpenGL::OffscreenDepthType      depthBufferType = AV::OpenGL::OffscreenDepthType::_32;
+#endif // DJV_OPENGL_ES2
             AV::OpenGL::OffscreenSampling       multiSampling   = AV::OpenGL::OffscreenSampling::None;
 
             bool operator == (const SceneRenderOptions&) const;

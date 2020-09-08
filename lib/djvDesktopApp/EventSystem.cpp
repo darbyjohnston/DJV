@@ -20,10 +20,10 @@
 #include <djvCore/Context.h>
 #include <djvCore/Event.h>
 #include <djvCore/IObject.h>
+#include <djvCore/Timer.h>
 #if defined(DJV_OPENGL_ES2)
 #include <djvCore/ResourceSystem.h>
 #endif // DJV_OPENGL_ES2
-#include <djvCore/Timer.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -327,16 +327,14 @@ namespace djv
                     -1.F,
                     1.F);
                 p.shader->setUniform("transform.mvp", viewMatrix);
-                
-                glActiveTexture(GL_TEXTURE0);
-                glBindTexture(GL_TEXTURE_2D, p.offscreenBuffer->getColorID());
-                
-                p.shader->setUniform("transform.mvp", viewMatrix);
                 p.shader->setUniform("imageFormat", 3);
                 p.shader->setUniform("colorMode", 5);
                 const GLfloat color[] = { 1.F, 1.F, 1.F, 1.F };
                 p.shader->setUniform("color", color);
                 p.shader->setUniform("textureSampler", 0);
+                
+                glActiveTexture(GL_TEXTURE0);
+                glBindTexture(GL_TEXTURE_2D, p.offscreenBuffer->getColorID());
                                 
                 auto vbo = AV::OpenGL::VBO::create(2 * 4, AV::OpenGL::VBOType::Pos2_F32_UV_U16);
                 std::vector<uint8_t> vboData(6 * (2 * 4 + 2 * 2));

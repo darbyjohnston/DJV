@@ -8,21 +8,6 @@ namespace djv
     {
         namespace OpenGL
         {
-            inline size_t getVertexByteCount(VBOType value) noexcept
-            {
-                const size_t data[] =
-                {
-                    12, // 2 * sizeof(float) + 2 * sizeof(uint16_t)
-                    12, // 3 * sizeof(float)
-                    16, // 3 * sizeof(float) + 2 * sizeof(uint16_t)
-                    20, // 3 * sizeof(float) + 2 * sizeof(uint16_t) + sizeof(PackedNormal)
-                    24, // 3 * sizeof(float) + 2 * sizeof(uint16_t) + sizeof(PackedNormal) + sizeof(PackedColor)
-                    44, // 3 * sizeof(float) + 2 * sizeof(float) + 3 * sizeof(float) + 3 * sizeof(float)
-                    16  // 3 * sizeof(float) + sizeof(PackedColor)
-                };
-                return data[static_cast<size_t>(value)];
-            }
-
             inline VBO::VBO()
             {}
 

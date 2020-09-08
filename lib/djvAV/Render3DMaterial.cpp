@@ -100,6 +100,7 @@ namespace djv
 
             void DefaultMaterial::bind(const BindData& data)
             {
+                size_t hemisphereLightCount = 0;
                 size_t directionalLightCount = 0;
                 size_t pointLightCount = 0;
                 size_t spotLightCount = 0;
@@ -111,7 +112,7 @@ namespace djv
                         _shader->setUniform(_locations["hemisphereLight.up"], hemisphereLight->getUp());
                         _shader->setUniformF(_locations["hemisphereLight.topColor"], hemisphereLight->getTopColor());
                         _shader->setUniformF(_locations["hemisphereLight.bottomColor"], hemisphereLight->getBottomColor());
-                        _shader->setUniform(_locations["hemisphereLightEnabled"], 1);
+                        ++hemisphereLightCount;
                     }
                     else if (auto directionalLight = std::dynamic_pointer_cast<DirectionalLight>(*light))
                     {
@@ -175,6 +176,7 @@ namespace djv
                         }
                     }
                 }
+                _shader->setUniform(_locations["hemisphereLightEnabled"], hemisphereLightCount ? 1 : 0);
                 _shader->setUniform(_locations["directionalLightsCount"], static_cast<int>(directionalLightCount));
                 _shader->setUniform(_locations["pointLightsCount"], static_cast<int>(pointLightCount));
                 _shader->setUniform(_locations["spotLightsCount"], static_cast<int>(spotLightCount));

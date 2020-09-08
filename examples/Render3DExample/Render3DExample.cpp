@@ -8,6 +8,7 @@
 #include <djvAV/OpenGL.h>
 #include <djvAV/Render3D.h>
 #include <djvAV/Render3DCamera.h>
+#include <djvAV/Render3DLight.h>
 #include <djvAV/Render3DMaterial.h>
 #include <djvAV/Shape.h>
 #include <djvAV/TriangleMesh.h>
@@ -42,7 +43,9 @@ private:
 
     std::vector<AV::Geom::TriangleMesh> _meshes;
     std::shared_ptr<AV::Render3D::IMaterial> _material;
-    glm::vec3 _camera = glm::vec3(15.F, 15.F, 15.F);
+    glm::vec3 _cameraPos = glm::vec3(15.F, 15.F, 15.F);
+    std::shared_ptr<AV::Render3D::DirectionalLight> _light;
+    std::shared_ptr<AV::Render3D::DefaultCamera> _camera;
     AV::Render3D::RenderOptions _options;
     std::shared_ptr<Core::Time::Timer> _timer;
 };
@@ -101,6 +104,11 @@ void Application::_init(std::list<std::string>& args)
 
     _material = AV::Render3D::DefaultMaterial::create(shared_from_this());
 
+    _camera = AV::Render3D::DefaultCamera::create();
+    
+    _light = AV::Render3D::DirectionalLight::create();
+    
+    _options.camera = _camera;
     _options.size = AV::Image::Size(1280, 720);
 
     _timer = Core::Time::Timer::create(shared_from_this());
@@ -109,7 +117,7 @@ void Application::_init(std::list<std::string>& args)
         std::chrono::milliseconds(10),
         [this](const std::chrono::steady_clock::time_point&, const Core::Time::Duration&)
     {
-            _camera.y += .1F;
+            _cameraPos.y += .1F;
     });
 
     auto glfwWindow = getSystemT<AV::GLFW::System>()->getGLFWWindow();
@@ -147,16 +155,16 @@ void Application::_render()
     glfwGetWindowSize(glfwWindow, &windowSize.x, &windowSize.y);
     glm::mat4x4 v(1.F);
     glm::mat4x4 p(1.F);
-    v = glm::translate(glm::mat4x4(1.F), glm::vec3(0.F, 0.F, -_camera.z));
-    v = glm::rotate(v, Core::Math::deg2rad(_camera.x), glm::vec3(1.F, 0.F, 0.F));
-    v = glm::rotate(v, Core::Math::deg2rad(_camera.y), glm::vec3(0.F, 1.F, 0.F));
+    v = glm::translate(glm::mat4x4(1.F), glm::vec3(0.F, 0.F, -_cameraPos.z));
+    v = glm::rotate(v, Core::Math::deg2rad(_cameraPos.x), glm::vec3(1.F, 0.F, 0.F));
+    v = glm::rotate(v, Core::Math::deg2rad(_cameraPos.y), glm::vec3(0.F, 1.F, 0.F));
     p = glm::perspective(45.F, windowSize.x / static_cast<float>(windowSize.y > 0 ? windowSize.y : 1.F), .01F, 1000.F);
-    auto renderCamera = AV::Render3D::DefaultCamera::create();
-    renderCamera->setV(v);
-    renderCamera->setP(p);
+    _camera->setV(v);
+    _camera->setP(p);
     _options.size.w = windowSize.x;
     _options.size.h = windowSize.y;
     render->beginFrame(_options);
+    render->addLight(_light);
     render->setMaterial(_material);
     for (const auto& i : _meshes)
     {

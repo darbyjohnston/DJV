@@ -21,6 +21,22 @@ namespace djv
     {
         namespace OpenGL
         {
+            size_t getVertexByteCount(VBOType value) noexcept
+            {
+                const std::array<size_t, static_cast<size_t>(VBOType::Count)> data =
+                {
+                    12, // 2 * sizeof(float) + 2 * sizeof(uint16_t)
+                    12, // 3 * sizeof(float)
+                    16, // 3 * sizeof(float) + 2 * sizeof(uint16_t)
+                    20, // 3 * sizeof(float) + 2 * sizeof(uint16_t) + sizeof(PackedNormal)
+                    24, // 3 * sizeof(float) + 2 * sizeof(uint16_t) + sizeof(PackedNormal) + sizeof(PackedColor)
+                    32, // 3 * sizeof(float) + 2 * sizeof(float) + 3 * sizeof(float)
+                    44, // 3 * sizeof(float) + 2 * sizeof(float) + 3 * sizeof(float) + 3 * sizeof(float)
+                    16  // 3 * sizeof(float) + sizeof(PackedColor)
+                };
+                return data[static_cast<size_t>(value)];
+            }
+
             namespace
             {
                 struct PackedNormal
@@ -236,6 +252,39 @@ namespace djv
                         }
                     }
                     break;
+                case VBOType::Pos3_F32_UV_F32_Normal_F32:
+                    for (size_t i = range.getMin(); i <= range.getMax(); ++i)
+                    {
+                        const Geom::TriangleMesh::Vertex* vertices[] =
+                        {
+                            &mesh.triangles[i].v0,
+                            &mesh.triangles[i].v1,
+                            &mesh.triangles[i].v2
+                        };
+                        for (size_t k = 0; k < 3; ++k)
+                        {
+                            const size_t v = vertices[k]->v;
+                            float* pf = reinterpret_cast<float*>(p);
+                            pf[0] = v ? mesh.v[v - 1][0] : 0.F;
+                            pf[1] = v ? mesh.v[v - 1][1] : 0.F;
+                            pf[2] = v ? mesh.v[v - 1][2] : 0.F;
+                            p += 3 * sizeof(float);
+
+                            const size_t t = vertices[k]->t;
+                            pf = reinterpret_cast<float*>(p);
+                            pf[0] = t ? mesh.t[t - 1][0] : 0.F;
+                            pf[1] = t ? mesh.t[t - 1][1] : 0.F;
+                            p += 2 * sizeof(float);
+
+                            const size_t n = vertices[k]->n;
+                            pf = reinterpret_cast<float*>(p);
+                            pf[0] = n ? mesh.n[n - 1][0] : 0.F;
+                            pf[1] = n ? mesh.n[n - 1][1] : 0.F;
+                            pf[2] = n ? mesh.n[n - 1][2] : 0.F;
+                            p += 3 * sizeof(float);
+                        }
+                    }
+                    break;
                 case VBOType::Pos3_F32_UV_F32_Normal_F32_Color_F32:
                     for (size_t i = range.getMin(); i <= range.getMax(); ++i)
                     {
@@ -275,7 +324,7 @@ namespace djv
                         }
                     }
                     break;
-                    default: break;
+                default: break;
                 }
                 return out;
             }
@@ -330,6 +379,14 @@ namespace djv
                     glEnableVertexAttribArray(3);
                     break;
 #endif // DJV_OPENGL_ES2
+                case VBOType::Pos3_F32_UV_F32_Normal_F32:
+                    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)0);
+                    glEnableVertexAttribArray(0);
+                    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)12);
+                    glEnableVertexAttribArray(1);
+                    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)20);
+                    glEnableVertexAttribArray(2);
+                    break;
                 case VBOType::Pos3_F32_UV_F32_Normal_F32_Color_F32:
                     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)0);
                     glEnableVertexAttribArray(0);
@@ -397,6 +454,7 @@ namespace djv
         DJV_TEXT("vbo_type_pos3_f32_uv_u16"),
         DJV_TEXT("vbo_type_pos3_f32_uv_u16_normal_u10"),
         DJV_TEXT("vbo_type_pos3_f32_uv_u16_normal_u10_color_u8"),
+        DJV_TEXT("vbo_type_pos3_f32_uv_f32_normal_f32"),
         DJV_TEXT("vbo_type_pos3_f32_uv_f32_normal_f32_color_f32"),
         DJV_TEXT("vbo_type_pos3_f32_u8"));
 

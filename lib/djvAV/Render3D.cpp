@@ -30,10 +30,17 @@ namespace djv
             namespace
             {
                 //! \todo Should this be configurable?
-                const uint8_t  textureAtlasCount        = 4;
-                const uint16_t textureAtlasSize         = 8192;
-                const size_t   shadedMeshCacheSize      = 50000000;
-                const size_t   solidColorMeshCacheSize  = 10000000;
+                const uint8_t         textureAtlasCount       = 4;
+                const uint16_t        textureAtlasSize        = 8192;
+                const size_t          shadedMeshCacheSize     = 50000000;
+                const size_t          solidColorMeshCacheSize = 10000000;
+#if defined(DJV_OPENGL_ES2)
+                const OpenGL::VBOType shadedMeshType          = OpenGL::VBOType::Pos3_F32_UV_F32_Normal_F32;
+                const OpenGL::VBOType solidColorMeshType      = OpenGL::VBOType::Pos3_F32;
+#else // DJV_OPENGL_ES2
+                const OpenGL::VBOType shadedMeshType          = OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10;
+                const OpenGL::VBOType solidColorMeshType      = OpenGL::VBOType::Pos3_F32;
+#endif // DJV_OPENGL_ES2
 
                 struct Primitive
                 {
@@ -99,12 +106,12 @@ namespace djv
                     GL_NEAREST,
                     0));
 
-                p.meshCache[OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10].reset(new OpenGL::MeshCache(
+                p.meshCache[shadedMeshType].reset(new OpenGL::MeshCache(
                     shadedMeshCacheSize,
-                    OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10));
-                p.meshCache[OpenGL::VBOType::Pos3_F32].reset(new OpenGL::MeshCache(
+                    shadedMeshType));
+                p.meshCache[solidColorMeshType].reset(new OpenGL::MeshCache(
                     solidColorMeshCacheSize,
-                    OpenGL::VBOType::Pos3_F32));
+                    solidColorMeshType));
 
                 p.statsTimer = Time::Timer::create(context);
                 p.statsTimer->setRepeating(true);
@@ -114,7 +121,7 @@ namespace djv
                     {
                         DJV_PRIVATE_PTR();
                         std::stringstream ss;
-                        ss << "Texture atlas: " << p.textureAtlas->getPercentageUsed() << "%\n";
+                        ss << "Texture atlas: " << std::fixed << p.textureAtlas->getPercentageUsed() << "%\n";
                         for (const auto& i : p.meshCache)
                         {
                             ss << "Mesh cache " << i.first << ": " << i.second->getPercentageUsed() << "%\n";
@@ -288,8 +295,8 @@ namespace djv
                     {
                         if (i && i->v.size())
                         {
-                            auto& meshCache = p.meshCache[OpenGL::VBOType::Pos3_F32];
-                            auto& meshCacheUIDs = p.meshCacheUIDs[OpenGL::VBOType::Pos3_F32];
+                            auto& meshCache = p.meshCache[solidColorMeshType];
+                            auto& meshCacheUIDs = p.meshCacheUIDs[solidColorMeshType];
                             SizeTRange range;
                             bool cached = false;
                             const UID uid = i->getUID();
@@ -300,14 +307,14 @@ namespace djv
                             }
                             if (!cached)
                             {
-                                const auto data = OpenGL::VBO::convert(*i, OpenGL::VBOType::Pos3_F32);
+                                const auto data = OpenGL::VBO::convert(*i, solidColorMeshType);
                                 meshCacheUIDs[uid] = meshCache->addItem(data, range);
                             }
                             primitive->vaoRange.push_back(range);
                         }
                     }
 
-                    p.primitives[OpenGL::VBOType::Pos3_F32][primitive->material].push_back(primitive);
+                    p.primitives[solidColorMeshType][primitive->material].push_back(primitive);
                 }
             }
 
@@ -322,8 +329,8 @@ namespace djv
                     primitive->color = p.currentColor;
                     primitive->material = p.currentMaterial;
 
-                    auto& meshCache = p.meshCache[OpenGL::VBOType::Pos3_F32];
-                    auto& meshCacheUIDs = p.meshCacheUIDs[OpenGL::VBOType::Pos3_F32];
+                    auto& meshCache = p.meshCache[solidColorMeshType];
+                    auto& meshCacheUIDs = p.meshCacheUIDs[solidColorMeshType];
                     SizeTRange range;
                     const UID uid = value->getUID();
                     const auto i = meshCacheUIDs.find(uid);
@@ -333,12 +340,12 @@ namespace djv
                     }
                     if (range.getMin() == range.getMax())
                     {
-                        const auto data = OpenGL::VBO::convert(*value, OpenGL::VBOType::Pos3_F32);
+                        const auto data = OpenGL::VBO::convert(*value, solidColorMeshType);
                         meshCacheUIDs[uid] = meshCache->addItem(data, range);
                     }
                     primitive->vaoRange.push_back(range);
 
-                    p.primitives[OpenGL::VBOType::Pos3_F32][primitive->material].push_back(primitive);
+                    p.primitives[solidColorMeshType][primitive->material].push_back(primitive);
                 }
             }
 
@@ -357,8 +364,8 @@ namespace djv
                     {
                         if (i->v.size())
                         {
-                            auto& meshCache = p.meshCache[OpenGL::VBOType::Pos3_F32];
-                            auto& meshCacheUIDs = p.meshCacheUIDs[OpenGL::VBOType::Pos3_F32];
+                            auto& meshCache = p.meshCache[solidColorMeshType];
+                            auto& meshCacheUIDs = p.meshCacheUIDs[solidColorMeshType];
                             SizeTRange range;
                             const UID uid = i->getUID();
                             const auto j = meshCacheUIDs.find(uid);
@@ -368,14 +375,14 @@ namespace djv
                             }
                             if (range.getMin() == range.getMax())
                             {
-                                const auto data = OpenGL::VBO::convert(*i, OpenGL::VBOType::Pos3_F32);
+                                const auto data = OpenGL::VBO::convert(*i, solidColorMeshType);
                                 meshCacheUIDs[uid] = meshCache->addItem(data, range);
                             }
                             primitive->vaoRange.push_back(range);
                         }
                     }
 
-                    p.primitives[OpenGL::VBOType::Pos3_F32][primitive->material].push_back(primitive);
+                    p.primitives[solidColorMeshType][primitive->material].push_back(primitive);
                 }
             }
 
@@ -389,8 +396,8 @@ namespace djv
                     primitive->color = p.currentColor;
                     primitive->material = p.currentMaterial;
 
-                    auto& meshCache = p.meshCache[OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10];
-                    auto& meshCacheUIDs = p.meshCacheUIDs[OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10];
+                    auto& meshCache = p.meshCache[shadedMeshType];
+                    auto& meshCacheUIDs = p.meshCacheUIDs[shadedMeshType];
                     SizeTRange range;
                     const UID uid = value.getUID();
                     const auto i = meshCacheUIDs.find(uid);
@@ -400,12 +407,12 @@ namespace djv
                     }
                     if (range.getMin() == range.getMax())
                     {
-                        const auto data = OpenGL::VBO::convert(value, OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
+                        const auto data = OpenGL::VBO::convert(value, shadedMeshType);
                         meshCacheUIDs[uid] = meshCache->addItem(data, range);
                     }
                     primitive->vaoRange.push_back(range);
 
-                    p.primitives[OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10][primitive->material].push_back(primitive);
+                    p.primitives[shadedMeshType][primitive->material].push_back(primitive);
                 }
             }
 
@@ -419,8 +426,8 @@ namespace djv
                     primitive->color = p.currentColor;
                     primitive->material = p.currentMaterial;
 
-                    auto& meshCache = p.meshCache[OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10];
-                    auto& meshCacheUIDs = p.meshCacheUIDs[OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10];
+                    auto& meshCache = p.meshCache[shadedMeshType];
+                    auto& meshCacheUIDs = p.meshCacheUIDs[shadedMeshType];
                     for (const auto& i : value)
                     {
                         if (i.triangles.size())
@@ -434,14 +441,14 @@ namespace djv
                             }
                             if (range.getMin() == range.getMax())
                             {
-                                const auto data = OpenGL::VBO::convert(i, OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
+                                const auto data = OpenGL::VBO::convert(i, shadedMeshType);
                                 meshCacheUIDs[uid] = meshCache->addItem(data, range);
                             }
                             primitive->vaoRange.push_back(range);
                         }
                     }
 
-                    p.primitives[OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10][primitive->material].push_back(primitive);
+                    p.primitives[shadedMeshType][primitive->material].push_back(primitive);
                 }
             }
 
@@ -455,8 +462,8 @@ namespace djv
                     primitive->color = p.currentColor;
                     primitive->material = p.currentMaterial;
 
-                    auto& meshCache = p.meshCache[OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10];
-                    auto& meshCacheUIDs = p.meshCacheUIDs[OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10];
+                    auto& meshCache = p.meshCache[shadedMeshType];
+                    auto& meshCacheUIDs = p.meshCacheUIDs[shadedMeshType];
                     for (const auto& i : value)
                     {
                         if (i->triangles.size())
@@ -470,14 +477,14 @@ namespace djv
                             }
                             if (range.getMin() == range.getMax())
                             {
-                                const auto data = OpenGL::VBO::convert(*i, OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
+                                const auto data = OpenGL::VBO::convert(*i, shadedMeshType);
                                 meshCacheUIDs[uid] = meshCache->addItem(data, range);
                             }
                             primitive->vaoRange.push_back(range);
                         }
                     }
 
-                    p.primitives[OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10][primitive->material].push_back(primitive);
+                    p.primitives[shadedMeshType][primitive->material].push_back(primitive);
                 }
             }
 
