@@ -16,6 +16,10 @@ set(header
     OCIOTest.h
     PixelTest.h
     Render2DTest.h
+    Render3DCameraTest.h
+    Render3DLightTest.h
+    Render3DMaterialTest.h
+    ShaderTest.h
     ThumbnailSystemTest.h
     TagsTest.h)
 set(source
@@ -36,7 +40,11 @@ set(source
     OCIOTest.cpp
     PixelTest.cpp
     Render2DTest.cpp
+    Render3DCameraTest.cpp
+    Render3DLightTest.cpp
+    Render3DMaterialTest.cpp
     ThumbnailSystemTest.cpp
+    ShaderTest.cpp
     TagsTest.cpp)
 
 add_library(djvAVTest ${header} ${source})
