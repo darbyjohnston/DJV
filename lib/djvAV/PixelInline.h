@@ -5,6 +5,8 @@
 #include <djvCore/Math.h>
 #include <djvCore/Memory.h>
 
+#include <array>
+
 namespace djv
 {
     namespace AV
@@ -39,7 +41,7 @@ namespace djv
 
             inline Channels getChannels(Type value) noexcept
             {
-                const Channels data[] =
+                const std::array<Channels, static_cast<size_t>(Type::Count)> data =
                 {
                     Channels::None,
                     
@@ -68,13 +70,12 @@ namespace djv
                     Channels::RGBA,
                     Channels::RGBA
                 };
-                DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];
             }
 
             inline uint8_t getChannelCount(Type value) noexcept
             {
-                const uint8_t data[] =
+                const std::array<uint8_t, static_cast<size_t>(Type::Count)> data =
                 {
                     0,
                     1, 1, 1, 1, 1,
@@ -82,13 +83,12 @@ namespace djv
                     3, 3, 3, 3, 3, 3,
                     4, 4, 4, 4, 4
                 };
-                DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];
             }
 
             inline DataType getDataType(Type value) noexcept
             {
-                const DataType data[] =
+                const std::array<DataType, static_cast<size_t>(Type::Count)> data =
                 {
                     DataType::None,
 
@@ -117,13 +117,12 @@ namespace djv
                     DataType::F16,
                     DataType::F32
                 };
-                DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];
             }
 
             inline uint8_t getBitDepth(Type value) noexcept
             {
-                const uint8_t data[] =
+                const std::array<uint8_t, static_cast<size_t>(Type::Count)> data =
                 {
                     0,
                     8, 16, 32, 16, 32,
@@ -131,13 +130,12 @@ namespace djv
                     8, 10, 16, 32, 16, 32,
                     8, 16, 32, 16, 32
                 };
-                DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];
             }
 
             inline uint8_t getBitDepth(DataType value) noexcept
             {
-                const uint8_t data[] =
+                const std::array<uint8_t, static_cast<size_t>(DataType::Count)> data =
                 {
                     0,
                     8,
@@ -147,13 +145,12 @@ namespace djv
                     16,
                     32
                 };
-                DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(DataType::Count));
                 return data[static_cast<size_t>(value)];
             }
 
             inline size_t getByteCount(Type value) noexcept
             {
-                const size_t data[] =
+                const std::array<size_t, static_cast<size_t>(Type::Count)> data =
                 {
                     0,
                     1, 2, 4, 2, 4,
@@ -161,13 +158,12 @@ namespace djv
                     3, 4, 6, 12, 6, 12,
                     4, 8, 16, 8, 16
                 };
-                DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];
             }
 
             inline size_t getByteCount(DataType value) noexcept
             {
-                const size_t data[] =
+                const std::array<size_t, static_cast<size_t>(DataType::Count)> data =
                 {
                     0,
                     1,
@@ -177,13 +173,12 @@ namespace djv
                     2,
                     4
                 };
-                DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(DataType::Count));
                 return data[static_cast<size_t>(value)];
             }
 
             inline bool isIntType(Type value) noexcept
             {
-                const bool data[] =
+                const std::array<bool, static_cast<size_t>(Type::Count)> data =
                 {
                     false,
                     true, true, true, false, false,
@@ -191,13 +186,12 @@ namespace djv
                     true, true, true, true, false, false,
                     true, true, true, false, false,
                 };
-                DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];
             }
 
             inline bool isFloatType(Type value) noexcept
             {
-                const bool data[] =
+                const std::array<bool, static_cast<size_t>(Type::Count)> data =
                 {
                     false,
                     false, false, false, true, true,
@@ -205,14 +199,13 @@ namespace djv
                     false, false, false, false, true, true,
                     false, false, false, true, true
                 };
-                DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];
             }
 
             inline Core::IntRange getIntRange(Type value)
             {
                 using namespace Core;
-                const IntRange data[] =
+                const std::array<IntRange, static_cast<size_t>(Type::Count)> data =
                 {
                     IntRange(0, 0),
 
@@ -241,14 +234,13 @@ namespace djv
                     IntRange(0, 0),
                     IntRange(0, 0),
                 };
-                DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];
             }
 
             inline Core::FloatRange getFloatRange(Type value)
             {
                 using namespace Core;
-                const FloatRange data[] =
+                const std::array<FloatRange, static_cast<size_t>(Type::Count)> data =
                 {
                     FloatRange(0.F, 0.F),
 
@@ -277,7 +269,6 @@ namespace djv
                     FloatRange(F16Range.getMin(), F16Range.getMax()),
                     FloatRange(F32Range.getMin(), F32Range.getMax()),
                 };
-                DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];
             }
 
@@ -370,7 +361,7 @@ namespace djv
 
             inline GLenum getGLFormat(Type value) noexcept
             {
-                const GLenum data[] =
+                const std::array<GLenum, static_cast<size_t>(Type::Count)> data =
                 {
                     GL_NONE,
 
@@ -426,13 +417,12 @@ namespace djv
                     GL_RGBA
 #endif // DJV_OPENGL_ES2
                 };
-                DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];
             }
 
             inline GLenum getGLType(Type value) noexcept
             {
-                const GLenum data[] =
+                const std::array<GLenum, static_cast<size_t>(Type::Count)> data =
                 {
                     GL_NONE,
 
@@ -488,7 +478,6 @@ namespace djv
                     GL_FLOAT
 #endif // DJV_OPENGL_ES2
                 };
-                DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];
             }
 

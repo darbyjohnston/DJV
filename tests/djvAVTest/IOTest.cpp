@@ -34,6 +34,7 @@ namespace djv
             _videoQueue();
             _audioFrame();
             _audioQueue();
+            _inOutPoints();
             _cache();
             _io();
             _system();
@@ -49,6 +50,13 @@ namespace djv
                 DJV_ASSERT(info.videoSequence == Frame::Sequence());
                 DJV_ASSERT(info.audio == Audio::Info());
                 DJV_ASSERT(info.tags.isEmpty());
+            }
+            
+            {
+                IO::Info info;
+                info.fileName = "render.exr";
+                info.video.push_back(Image::Info(1, 2, Image::Type::RGB_U8));
+                DJV_ASSERT(info == info);
             }
         }
         
@@ -141,6 +149,30 @@ namespace djv
                 DJV_ASSERT(queue.isEmpty());
                 queue.setFinished(true);
                 DJV_ASSERT(queue.isFinished());
+            }
+        }
+        
+        void IOTest::_inOutPoints()
+        {
+            {
+                const IO::InOutPoints inOutPoints;
+                DJV_ASSERT(!inOutPoints.isEnabled());
+                DJV_ASSERT(Frame::invalid == inOutPoints.getIn());
+                DJV_ASSERT(Frame::invalid == inOutPoints.getOut());
+                DJV_ASSERT(Math::Range<Frame::Index>(0, 0) == inOutPoints.getRange(1));
+            }
+            
+            {
+                const IO::InOutPoints inOutPoints(true, 1, 2);
+                DJV_ASSERT(inOutPoints.isEnabled());
+                DJV_ASSERT(1 == inOutPoints.getIn());
+                DJV_ASSERT(2 == inOutPoints.getOut());
+                DJV_ASSERT(Math::Range<Frame::Index>(1, 2) == inOutPoints.getRange(4));
+            }
+            
+            {
+                const IO::InOutPoints inOutPoints(true, 1, 2);
+                DJV_ASSERT(inOutPoints == inOutPoints);
             }
         }
         

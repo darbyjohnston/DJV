@@ -34,6 +34,7 @@ namespace djv
         {
             _enum();
             _constants();
+            _util();
             _convert();
         }
                 
@@ -106,6 +107,76 @@ namespace djv
             }
         }
         
+        void PixelTest::_util()
+        {
+            for (const auto& i : Image::getTypeEnums())
+            {
+                std::stringstream ss;
+                ss << i;
+                {
+                    std::stringstream ss2;
+                    ss2 << Image::getChannels(i);
+                    _print(_getText(ss.str()) + " channels: " + _getText(ss2.str()));
+                }
+                {
+                    std::stringstream ss2;
+                    ss2 << Image::getChannelCount(i);
+                    _print(_getText(ss.str()) + " channel count: " + ss2.str());
+                }
+                {
+                    std::stringstream ss2;
+                    ss2 << Image::getDataType(i);
+                    _print(_getText(ss.str()) + " data type: " + _getText(ss2.str()));
+                }
+                {
+                    std::stringstream ss2;
+                    ss2 << Image::getBitDepth(i);
+                    _print(_getText(ss.str()) + " bit depth: " + ss2.str());
+                }
+                {
+                    std::stringstream ss2;
+                    ss2 << Image::getByteCount(i);
+                    _print(_getText(ss.str()) + " byte count: " + ss2.str());
+                }
+                {
+                    std::stringstream ss2;
+                    ss2 << Image::isIntType(i);
+                    _print(_getText(ss.str()) + " int type: " + ss2.str());
+                }
+                {
+                    std::stringstream ss2;
+                    ss2 << Image::isFloatType(i);
+                    _print(_getText(ss.str()) + " float type: " + ss2.str());
+                }
+                {
+                    std::stringstream ss2;
+                    ss2 << Image::getIntRange(i);
+                    _print(_getText(ss.str()) + " int range: " + ss2.str());
+                }
+                {
+                    std::stringstream ss2;
+                    ss2 << Image::getFloatRange(i);
+                    _print(_getText(ss.str()) + " float range: " + ss2.str());
+                }
+            }
+            
+            for (const auto& i : Image::getDataTypeEnums())
+            {
+                std::stringstream ss;
+                ss << i;
+                {
+                    std::stringstream ss2;
+                    ss2 << Image::getBitDepth(i);
+                    _print(_getText(ss.str()) + " bit depth: " + ss2.str());
+                }
+                {
+                    std::stringstream ss2;
+                    ss2 << Image::getByteCount(i);
+                    _print(_getText(ss.str()) + " byte count: " + ss2.str());
+                }
+            }
+        }
+        
         void PixelTest::_convert()
         {
             {
@@ -119,7 +190,8 @@ namespace djv
             
             {
                 std::stringstream ss;
-                ss << "U8 " << Image::U8Range << " =";
+                ss << "U8 " << static_cast<int>(Image::U8Range.getMin()) << " " <<
+                    static_cast<int>(Image::U8Range.getMax()) << " =";
                 _print(ss.str());
                 CONVERT(U8, Image::U8Range, U10);
                 CONVERT(U8, Image::U8Range, U16);

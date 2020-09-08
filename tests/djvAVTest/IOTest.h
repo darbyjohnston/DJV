@@ -23,6 +23,7 @@ namespace djv
             void _videoQueue();
             void _audioFrame();
             void _audioQueue();
+            void _inOutPoints();
             void _cache();
             void _io();
             void _system();
