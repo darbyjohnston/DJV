@@ -20,8 +20,9 @@ set(header
     Render3DLightTest.h
     Render3DMaterialTest.h
     ShaderTest.h
+    TagsTest.h
     ThumbnailSystemTest.h
-    TagsTest.h)
+    TriangleMeshTest.h)
 set(source
     AVSystemTest.cpp
     AudioDataTest.cpp
@@ -43,9 +44,10 @@ set(source
     Render3DCameraTest.cpp
     Render3DLightTest.cpp
     Render3DMaterialTest.cpp
-    ThumbnailSystemTest.cpp
     ShaderTest.cpp
-    TagsTest.cpp)
+    TagsTest.cpp
+    ThumbnailSystemTest.cpp
+    TriangleMeshTest.cpp)
 
 add_library(djvAVTest ${header} ${source})
 target_link_libraries(djvAVTest djvTestLib djvAV)
