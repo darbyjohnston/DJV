@@ -12,7 +12,7 @@
 #include <djvAV/Shape.h>
 #include <djvAV/TriangleMesh.h>
 
-#include <djvCore/Context.h>
+#include <djvCore/TextSystem.h>
 #include <djvCore/ResourceSystem.h>
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -27,6 +27,8 @@ namespace djv
         {
             struct Convert::Private
             {
+                std::shared_ptr<TextSystem> textSystem;
+                std::shared_ptr<ResourceSystem> resourceSystem;
                 Size size;
                 Mirror mirror;
                 std::shared_ptr<OpenGL::OffscreenBuffer> offscreenBuffer;
@@ -37,9 +39,13 @@ namespace djv
                 glm::mat4x4 mvp = glm::mat4x4(1.F);
             };
 
-            void Convert::_init(const std::shared_ptr<ResourceSystem>& resourceSystem)
+            void Convert::_init(
+                const std::shared_ptr<TextSystem>& textSystem,
+                const std::shared_ptr<ResourceSystem>& resourceSystem)
             {
                 DJV_PRIVATE_PTR();
+                p.textSystem = textSystem;
+                p.resourceSystem = resourceSystem;
                 const FileSystem::Path shaderPath = resourceSystem->getPath(Core::FileSystem::ResourcePath::Shaders);
                 p.shader = AV::OpenGL::Shader::create(Render::Shader::create(
                     FileSystem::Path(shaderPath, "djvAVImageConvertVertex.glsl"),
@@ -53,10 +59,12 @@ namespace djv
             Convert::~Convert()
             {}
 
-            std::shared_ptr<Convert> Convert::create(const std::shared_ptr<ResourceSystem>& resourceSystem)
+            std::shared_ptr<Convert> Convert::create(
+                const std::shared_ptr<TextSystem>& textSystem,
+                const std::shared_ptr<ResourceSystem>& resourceSystem)
             {
                 auto out = std::shared_ptr<Convert>(new Convert);
-                out->_init(resourceSystem);
+                out->_init(textSystem, resourceSystem);
                 return out;
             }
 
@@ -68,7 +76,7 @@ namespace djv
                 create |= p.offscreenBuffer && info.type != p.offscreenBuffer->getColorType();
                 if (create)
                 {
-                    p.offscreenBuffer = OpenGL::OffscreenBuffer::create(info.size, info.type);
+                    p.offscreenBuffer = OpenGL::OffscreenBuffer::create(info.size, info.type, p.textSystem);
                 }
                 const OpenGL::OffscreenBufferBinding binding(p.offscreenBuffer);
 

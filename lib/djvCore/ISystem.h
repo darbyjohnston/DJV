@@ -69,16 +69,19 @@ namespace djv
             //! Log a message.
             void _log(const std::string& message, Core::LogLevel = Core::LogLevel::Information);
             
-            //! Get the resource system.
-            std::shared_ptr<ResourceSystem> _getResourceSystem() const;
-            
             //! Translate a text ID.
             const std::string& _getText(const std::string& id) const;
 
+            //! Get the text system.
+            std::shared_ptr<TextSystem> _getTextSystem() const;
+            
+            //! Get the resource system.
+            std::shared_ptr<ResourceSystem> _getResourceSystem() const;
+            
         private:
-            std::shared_ptr<LogSystem> _logSystem;
-            std::shared_ptr<ResourceSystem> _resourceSystem;
             std::shared_ptr<TextSystem> _textSystem;
+            std::shared_ptr<ResourceSystem> _resourceSystem;
+            std::shared_ptr<LogSystem> _logSystem;
         };
 
     } // namespace Core

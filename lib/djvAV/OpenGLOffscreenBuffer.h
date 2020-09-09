@@ -11,6 +11,12 @@
 
 namespace djv
 {
+    namespace Core
+    {
+        class TextSystem;
+    
+    } // namespace Core
+
     namespace AV
     {
         namespace OpenGL
@@ -59,7 +65,8 @@ namespace djv
                     const Image::Size&,
                     Image::Type,
                     OffscreenDepthType,
-                    OffscreenSampling);
+                    OffscreenSampling,
+                    const std::shared_ptr<Core::TextSystem>&);
                 OffscreenBuffer();
 
             public:
@@ -71,8 +78,17 @@ namespace djv
                 static std::shared_ptr<OffscreenBuffer> create(
                     const Image::Size&,
                     Image::Type,
-                    OffscreenDepthType = OffscreenDepthType::None,
-                    OffscreenSampling = OffscreenSampling::None);
+                    const std::shared_ptr<Core::TextSystem>&);
+
+                //! Create a new offscreen buffer.
+                //! Throws:
+                //! - OffscreenBufferError
+                static std::shared_ptr<OffscreenBuffer> create(
+                    const Image::Size&,
+                    Image::Type,
+                    OffscreenDepthType,
+                    OffscreenSampling,
+                    const std::shared_ptr<Core::TextSystem>&);
 
                 const Image::Size& getSize() const;
                 Image::Type getColorType() const;

@@ -326,14 +326,17 @@ namespace djv
                 create |= p.offscreenBuffer && p.size != p.offscreenBuffer->getSize();
                 if (create)
                 {
+                    auto textSystem = _getTextSystem();
                     p.offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(
                         p.size,
                         AV::Image::Type::RGBA_U8,
                         renderOptions.depthBufferType,
-                        renderOptions.multiSampling);
+                        renderOptions.multiSampling,
+                        textSystem);
                     p.offscreenBuffer2 = AV::OpenGL::OffscreenBuffer::create(
                         p.size,
-                        AV::Image::Type::RGBA_U8);
+                        AV::Image::Type::RGBA_U8,
+                        textSystem);
                 }
             }
             else

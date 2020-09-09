@@ -11,6 +11,7 @@
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/TextSystem.h>
 #include <djvCore/Timer.h>
 
 using namespace djv::Core;
@@ -37,7 +38,10 @@ namespace djv
             if (auto context = getContext().lock())
             {
                 const Image::Size size(1280, 720);
-                auto offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(size, AV::Image::Type::RGBA_U8);
+                auto offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(
+                    size,
+                    AV::Image::Type::RGBA_U8,
+                    context->getSystemT<TextSystem>());
                 offscreenBuffer->bind();
                 auto render = context->getSystemT<AV::Render2D::Render>();
                 render->beginFrame(size);

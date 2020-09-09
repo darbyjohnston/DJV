@@ -250,7 +250,7 @@ namespace djv
                         throw ThumbnailError(p.textSystem->getText(DJV_TEXT("error_glad_init")));
                     }
 
-                    auto convert = Image::Convert::create(resourceSystem);
+                    auto convert = Image::Convert::create(p.textSystem, resourceSystem);
 
                     const auto timeout = Time::getValue(Time::TimerValue::Medium);
                     while (p.running)

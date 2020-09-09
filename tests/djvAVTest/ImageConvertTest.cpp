@@ -8,6 +8,7 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/ResourceSystem.h>
+#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 using namespace djv::AV;
@@ -65,6 +66,8 @@ namespace djv
                         types.erase(j);
                     }
                 }
+                const auto& textSystem = context->getSystemT<TextSystem>();
+                const auto& resourceSystem = context->getSystemT<ResourceSystem>();
                 for (const auto& i : types)
                 {
                     for (const auto& j : types)
@@ -92,7 +95,7 @@ namespace djv
                             const Image::Info info2(64, 64, j);
                             auto data2 = Image::Data::create(info2);
                             
-                            auto convert = Image::Convert::create(context->getSystemT<ResourceSystem>());
+                            auto convert = Image::Convert::create(textSystem, resourceSystem);
                             convert->process(*data, info2, *data2);
                             const Image::U8_T u8 = reinterpret_cast<const Image::U8_T*>(data2->getData())[0];
                         }

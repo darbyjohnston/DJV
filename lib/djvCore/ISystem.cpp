@@ -67,9 +67,9 @@ namespace djv
         void ISystem::_init(const std::string& name, const std::shared_ptr<Context>& context)
         {
             ISystemBase::_init(name, context);
-            _logSystem = context->getSystemT<LogSystem>();
-            _resourceSystem = context->getSystemT<ResourceSystem>();
             _textSystem = context->getSystemT<TextSystem>();
+            _resourceSystem = context->getSystemT<ResourceSystem>();
+            _logSystem = context->getSystemT<LogSystem>();
             {
                 std::stringstream ss;
                 ss << name << " starting...";
@@ -94,14 +94,19 @@ namespace djv
             _logSystem->log(getSystemName(), message, level);
         }
 
-        std::shared_ptr<ResourceSystem> ISystem::_getResourceSystem() const
-        {
-            return _resourceSystem;
-        }
-
         const std::string& ISystem::_getText(const std::string& id) const
         {
             return _textSystem->getText(id);
+        }
+
+        std::shared_ptr<TextSystem> ISystem::_getTextSystem() const
+        {
+            return _textSystem;
+        }
+
+        std::shared_ptr<ResourceSystem> ISystem::_getResourceSystem() const
+        {
+            return _resourceSystem;
         }
 
     } // namespace Core

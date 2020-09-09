@@ -576,7 +576,7 @@ namespace djv
                             throw FileSystem::Error(_textSystem->getText(DJV_TEXT("error_glad_init")));
                         }
 
-                        p.convert = Image::Convert::create(_resourceSystem);
+                        p.convert = Image::Convert::create(_textSystem, _resourceSystem);
 
                         const auto timeout = Time::getValue(Time::TimerValue::VeryFast);
                         while (p.running)

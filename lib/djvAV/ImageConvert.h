@@ -10,6 +10,7 @@ namespace djv
 {
     namespace Core
     {
+        class TextSystem;
         class ResourceSystem;
 
     } // namespace Core
@@ -24,7 +25,9 @@ namespace djv
                 DJV_NON_COPYABLE(Convert);
 
             protected:
-                void _init(const std::shared_ptr<Core::ResourceSystem>&);
+                void _init(
+                    const std::shared_ptr<Core::TextSystem>&,
+                    const std::shared_ptr<Core::ResourceSystem>&);
                 Convert();
 
             public:
@@ -34,7 +37,9 @@ namespace djv
                 //! Throws:
                 //! - OpenGL::ShaderError
                 //! - Render::ShaderError
-                static std::shared_ptr<Convert> create(const std::shared_ptr<Core::ResourceSystem>&);
+                static std::shared_ptr<Convert> create(
+                    const std::shared_ptr<Core::TextSystem>&,
+                    const std::shared_ptr<Core::ResourceSystem>&);
 
                 //! Note that this function requires an OpenGL context.
                 //! Throws:

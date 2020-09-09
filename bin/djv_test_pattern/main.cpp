@@ -101,7 +101,10 @@ namespace djv
             }
             _info = AV::Image::Info(*_size, *_type);
 
-            _offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(_info.size, _info.type);
+            _offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(
+                _info.size,
+                _info.type,
+                getSystemT<Core::TextSystem>());
             _render = getSystemT<AV::Render2D::Render>();
 
             auto io = getSystemT<AV::IO::System>();

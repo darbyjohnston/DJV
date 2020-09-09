@@ -556,7 +556,10 @@ namespace djv
                     create |= p.offscreenBuffer && type != p.offscreenBuffer->getColorType();
                     if (create)
                     {
-                        p.offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(size, type);
+                        p.offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(
+                            size,
+                            type,
+                            _getTextSystem());
                     }
 
                     p.offscreenBuffer->bind();

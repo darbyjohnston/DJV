@@ -178,7 +178,10 @@ namespace djv
                 const AV::Image::Size size(p.resize.x, p.resize.y);
                 if (size.isValid())
                 {
-                    p.offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(size, AV::Image::Type::RGBA_U8);
+                    p.offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(
+                        size,
+                        AV::Image::Type::RGBA_U8,
+                        _getTextSystem());
                 }
                 else
                 {

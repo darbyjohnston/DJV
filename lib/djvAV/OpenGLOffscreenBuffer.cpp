@@ -7,6 +7,7 @@
 #include <djvAV/OpenGLTexture.h>
 
 #include <djvCore/Error.h>
+#include <djvCore/TextSystem.h>
 
 #include <array>
 
@@ -30,23 +31,24 @@ namespace djv
                     Init
                 };
                 
-                std::string getErrorMessage(Error error)
+                std::string getErrorMessage(
+                    Error error,
+                    const std::shared_ptr<TextSystem> textSystem)
                 {
-                    //! \todo How can we translate this?
                     std::stringstream ss;
                     switch (error)
                     {
                     case Error::ColorTexture:
-                        ss << DJV_TEXT("error_opengl_color_texture_creation");
+                        ss << textSystem->getText(DJV_TEXT("error_opengl_color_texture_creation"));
                         break;
                     case Error::DepthTexture:
-                        ss << DJV_TEXT("error_opengl_depth_texture_creation");
+                        ss << textSystem->getText(DJV_TEXT("error_opengl_depth_texture_creation"));
                         break;
                     case Error::Create:
-                        ss << DJV_TEXT("error_opengl_frame_buffer_creation");
+                        ss << textSystem->getText(DJV_TEXT("error_opengl_frame_buffer_creation"));
                         break;
                     case Error::Init:
-                        ss << DJV_TEXT("error_opengl_frame_buffer_init");
+                        ss << textSystem->getText(DJV_TEXT("error_opengl_frame_buffer_init"));
                         break;
                     default: break;
                     }
@@ -104,7 +106,8 @@ namespace djv
                 const Image::Size& size,
                 Image::Type colorType,
                 OffscreenDepthType depthType,
-                OffscreenSampling sampling)
+                OffscreenSampling sampling,
+                const std::shared_ptr<TextSystem>& textSystem)
             {
                 _size = size;
                 _colorType = colorType;
@@ -143,7 +146,7 @@ namespace djv
                     glGenTextures(1, &_colorID);
                     if (!_colorID)
                     {
-                        throw OffscreenBufferError(getErrorMessage(Error::ColorTexture));
+                        throw OffscreenBufferError(getErrorMessage(Error::ColorTexture, textSystem));
                     }
                     glBindTexture(target, _colorID);
 #if defined(DJV_OPENGL_ES2)
@@ -203,7 +206,7 @@ namespace djv
                     glGenTextures(1, &_depthID);
                     if (!_depthID)
                     {
-                        throw OffscreenBufferError(getErrorMessage(Error::DepthTexture));
+                        throw OffscreenBufferError(getErrorMessage(Error::DepthTexture, textSystem));
                     }
                     glBindTexture(target, _depthID);
 #if defined(DJV_OPENGL_ES2)
@@ -260,7 +263,7 @@ namespace djv
                 glGenFramebuffers(1, &_id);
                 if (!_id)
                 {
-                    throw OffscreenBufferError(getErrorMessage(Error::Create));
+                    throw OffscreenBufferError(getErrorMessage(Error::Create, textSystem));
                 }
                 const OffscreenBufferBinding binding(shared_from_this());
                 if (colorType != Image::Type::None)
@@ -284,7 +287,7 @@ namespace djv
                 GLenum error = glCheckFramebufferStatus(GL_FRAMEBUFFER);
                 if (error != GL_FRAMEBUFFER_COMPLETE)
                 {
-                    throw OffscreenBufferError(getErrorMessage(Error::Init));
+                    throw OffscreenBufferError(getErrorMessage(Error::Init, textSystem));
                 }
             }
 
@@ -310,11 +313,32 @@ namespace djv
             std::shared_ptr<OffscreenBuffer> OffscreenBuffer::create(
                 const Image::Size& size,
                 Image::Type colorType,
-                OffscreenDepthType depthType,
-                OffscreenSampling sampling)
+                const std::shared_ptr<TextSystem>& textSystem)
             {
                 auto out = std::shared_ptr<OffscreenBuffer>(new OffscreenBuffer);
-                out->_init(size, colorType, depthType, sampling);
+                out->_init(
+                    size,
+                    colorType,
+                    OffscreenDepthType::None,
+                    OffscreenSampling::None,
+                    textSystem);
+                return out;
+            }
+
+            std::shared_ptr<OffscreenBuffer> OffscreenBuffer::create(
+                const Image::Size& size,
+                Image::Type colorType,
+                OffscreenDepthType depthType,
+                OffscreenSampling sampling,
+                const std::shared_ptr<TextSystem>& textSystem)
+            {
+                auto out = std::shared_ptr<OffscreenBuffer>(new OffscreenBuffer);
+                out->_init(
+                    size,
+                    colorType,
+                    depthType,
+                    sampling,
+                    textSystem);
                 return out;
             }
 
