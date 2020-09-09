@@ -153,9 +153,9 @@ namespace djv
 
             namespace
             {
-                bool checkExtension(const std::string& value, const std::set<std::string>& extensions)
+                bool checkExtension(const FileSystem::FileInfo& fileInfo, const std::set<std::string>& extensions)
                 {
-                    std::string extension = FileSystem::Path(value).getExtension();
+                    std::string extension = fileInfo.getPath().getExtension();
                     std::transform(extension.begin(), extension.end(), extension.begin(), tolower);
                     return std::find(extensions.begin(), extensions.end(), extension) != extensions.end();
                 }
@@ -164,12 +164,12 @@ namespace djv
 
             bool IPlugin::canRead(const FileSystem::FileInfo& fileInfo) const
             {
-                return checkExtension(std::string(fileInfo), _fileExtensions);
+                return checkExtension(fileInfo, _fileExtensions);
             }
 
             bool IPlugin::canWrite(const FileSystem::FileInfo& fileInfo, const Info&) const
             {
-                return checkExtension(std::string(fileInfo), _fileExtensions);
+                return checkExtension(fileInfo, _fileExtensions);
             }
 
             rapidjson::Value IPlugin::getOptions(rapidjson::Document::AllocatorType&) const
