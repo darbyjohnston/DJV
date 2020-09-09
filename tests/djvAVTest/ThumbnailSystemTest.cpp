@@ -8,6 +8,7 @@
 #include <djvAV/ThumbnailSystem.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/Error.h>
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/Timer.h>
 
@@ -29,47 +30,112 @@ namespace djv
             if (auto context = getContext().lock())
             {
                 auto resourceSystem = context->getSystemT<ResourceSystem>();
+                auto system = context->getSystemT<ThumbnailSystem>();
+                
+                // Request a thumbnail.
+                std::vector<ThumbnailSystem::InfoFuture> infoFutures;
+                std::vector<ThumbnailSystem::ImageFuture> imageFutures;
                 const FileSystem::FileInfo fileInfo(FileSystem::Path(
                     resourceSystem->getPath(FileSystem::ResourcePath::Icons),
                     "96DPI/djvIconFile.png"));
-                auto system = context->getSystemT<ThumbnailSystem>();
-                auto infoFuture = system->getInfo(fileInfo);
-                auto imageFuture = system->getImage(fileInfo, Image::Size(32, 32));
+                infoFutures.push_back(system->getInfo(fileInfo));
+                imageFutures.push_back(system->getImage(fileInfo, Image::Size(32, 32)));
                 
+                // Request the same thumbnail.
+                for (size_t i = 0; i < 10; ++i)
+                {
+                    infoFutures.push_back(system->getInfo(fileInfo));
+                    imageFutures.push_back(system->getImage(fileInfo, Image::Size(32, 32)));
+                }
+                
+                // Request different sizes of the thumbnail.
+                for (const auto& i : {
+                    Image::Size(16, 128),
+                    Image::Size(128, 16),
+                    Image::Size(0, 0) })
+                {
+                    infoFutures.push_back(system->getInfo(fileInfo));
+                    imageFutures.push_back(system->getImage(fileInfo, i));
+                }
+                
+                // Request a missing thumbnail.
+                infoFutures.push_back(system->getInfo(FileSystem::FileInfo()));
+                imageFutures.push_back(system->getImage(FileSystem::FileInfo(), Image::Size(32, 32)));
+
+                // Request and cancel a thumbnail.
                 auto infoCancelFuture = system->getInfo(fileInfo);
                 auto imageCancelFuture = system->getImage(fileInfo, Image::Size(32, 32));
                 system->cancelInfo(infoCancelFuture.uid);
                 system->cancelImage(imageCancelFuture.uid);
-                
-                IO::Info info;
-                std::shared_ptr<Image::Image> image;
-                while (
-                    infoFuture.future.valid() ||
-                    imageFuture.future.valid())
+
+                // Wait for and collect info.
+                std::vector<IO::Info> infos;
+                while (!infoFutures.empty())
                 {
                     _tickFor(Time::getTime(Time::TimerValue::Fast));
-                    if (infoFuture.future.valid() &&
-                        infoFuture.future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                    auto i = infoFutures.begin();
+                    while (i != infoFutures.end())
                     {
-                        info = infoFuture.future.get();
+                        if (i->future.valid() &&
+                            i->future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                        {
+                            try
+                            {
+                                infos.push_back(i->future.get());
+                            }
+                            catch (const std::exception& e)
+                            {
+                                _print(Error::format(e.what()));
+                            }
+                            i = infoFutures.erase(i);
+                        }
+                        else
+                        {
+                            ++i;
+                        }
                     }
-                    if (imageFuture.future.valid() &&
-                        imageFuture.future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                }
+                for (const auto& i : infos)
+                {
+                    if (i.video.size())
                     {
-                        image = imageFuture.future.get();
+                        std::stringstream ss;
+                        ss << "Info: " << i.video[0].size;
+                        _print(ss.str());
                     }
                 }
                 
-                if (info.video.size())
+                // Wait for and collect images.
+                std::vector<std::shared_ptr<Image::Image> > images;
+                while (!imageFutures.empty())
                 {
-                    std::stringstream ss;
-                    ss << "Info: " << info.video[0].size;
-                    _print(ss.str());
+                    _tickFor(Time::getTime(Time::TimerValue::Fast));
+                    auto i = imageFutures.begin();
+                    while (i != imageFutures.end())
+                    {
+                        if (i->future.valid() &&
+                            i->future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                        {
+                            try
+                            {
+                                images.push_back(i->future.get());
+                            }
+                            catch (const std::exception& e)
+                            {
+                                _print(Error::format(e.what()));
+                            }
+                            i = imageFutures.erase(i);
+                        }
+                        else
+                        {
+                            ++i;
+                        }
+                    }
                 }
-                if (image)
+                for (const auto& i : images)
                 {
                     std::stringstream ss;
-                    ss << "Image: " << image->getSize();
+                    ss << "Image: " << i->getSize();
                     _print(ss.str());
                 }
                 

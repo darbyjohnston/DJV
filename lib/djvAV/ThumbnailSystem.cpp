@@ -479,24 +479,10 @@ namespace djv
                 if (i->infoFuture.valid() &&
                     i->infoFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                 {
-                    try
-                    {
-                        const auto info = i->infoFuture.get();
-                        p.infoCache.add(getInfoCacheKey(i->fileInfo), info);
-                        p.infoCachePercentage = p.infoCache.getPercentageUsed();
-                        i->promise.set_value(info);
-                    }
-                    catch (const std::exception&)
-                    {
-                        try
-                        {
-                            i->promise.set_exception(std::current_exception());
-                        }
-                        catch (const std::exception& e)
-                        {
-                            _log(e.what(), LogLevel::Error);
-                        }
-                    }
+                    const auto info = i->infoFuture.get();
+                    p.infoCache.add(getInfoCacheKey(i->fileInfo), info);
+                    p.infoCachePercentage = p.infoCache.getPercentageUsed();
+                    i->promise.set_value(info);
                     i = p.pendingInfoRequests.erase(i);
                 }
                 else
