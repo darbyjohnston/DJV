@@ -276,6 +276,25 @@ namespace djv
         {
             {
                 const Image::Size value(1, 2);
+                std::stringstream ss;
+                ss << value;
+                Image::Size value2;
+                ss >> value2;
+                DJV_ASSERT(value == value2);
+            }
+
+            try
+            {
+                Image::Size value;
+                std::stringstream ss;
+                ss >> value;
+                DJV_ASSERT(false);
+            }
+            catch (const std::exception&)
+            {}
+            
+            {
+                const Image::Size value(1, 2);
                 rapidjson::Document document;
                 auto& allocator = document.GetAllocator();
                 auto json = toJSON(value, allocator);
@@ -287,8 +306,8 @@ namespace djv
             try
             {
                 auto json = rapidjson::Value(rapidjson::kObjectType);
-                Image::Size b;
-                fromJSON(json, b);
+                Image::Size value;
+                fromJSON(json, value);
                 DJV_ASSERT(false);
             }
             catch (const std::exception&)

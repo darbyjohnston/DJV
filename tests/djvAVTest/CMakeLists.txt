@@ -12,6 +12,7 @@ set(header
     ImageConvertTest.h
     ImageDataTest.h
     ImageTest.h
+    ImageUtilTest.h
     OCIOSystemTest.h
     OCIOTest.h
     PixelTest.h
@@ -37,6 +38,7 @@ set(source
     ImageConvertTest.cpp
     ImageDataTest.cpp
     ImageTest.cpp
+    ImageUtilTest.cpp
     OCIOSystemTest.cpp
     OCIOTest.cpp
     PixelTest.cpp

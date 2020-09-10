@@ -56,6 +56,7 @@
 #include <djvAVTest/ImageConvertTest.h>
 #include <djvAVTest/ImageDataTest.h>
 #include <djvAVTest/ImageTest.h>
+#include <djvAVTest/ImageUtilTest.h>
 #include <djvAVTest/OCIOSystemTest.h>
 #include <djvAVTest/OCIOTest.h>
 #include <djvAVTest/PixelTest.h>
@@ -160,6 +161,7 @@ int main(int argc, char ** argv)
         tests.emplace_back(new AVTest::ImageConvertTest(tempPath, context));
         tests.emplace_back(new AVTest::ImageDataTest(tempPath, context));
         tests.emplace_back(new AVTest::ImageTest(tempPath, context));
+        tests.emplace_back(new AVTest::ImageUtilTest(tempPath, context));
         tests.emplace_back(new AVTest::OCIOSystemTest(tempPath, context));
         tests.emplace_back(new AVTest::OCIOTest(tempPath, context));
         tests.emplace_back(new AVTest::PixelTest(tempPath, context));

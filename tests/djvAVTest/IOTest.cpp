@@ -5,10 +5,14 @@
 #include <djvAVTest/IOTest.h>
 
 #include <djvAV/IOSystem.h>
+#include <djvAV/PNG.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/Error.h>
+#include <djvCore/LogSystem.h>
+#include <djvCore/ResourceSystem.h>
 #include <djvCore/String.h>
+#include <djvCore/TextSystem.h>
 #include <djvCore/Timer.h>
 
 using namespace djv::Core;
@@ -36,6 +40,7 @@ namespace djv
             _audioQueue();
             _inOutPoints();
             _cache();
+            _plugin();
             _io();
             _system();
         }
@@ -226,6 +231,58 @@ namespace djv
                     ss << "Cache sequence: " << cache.getSequence();
                     _print(ss.str());
                 }
+            }
+        }
+        
+        void IOTest::_plugin()
+        {
+            if (auto context = getContext().lock())
+            {
+                const AV::IO::ReadOptions options;
+                auto read = AV::IO::PNG::Read::create(
+                    FileSystem::FileInfo(),
+                    options,
+                    context->getSystemT<TextSystem>(),
+                    context->getSystemT<ResourceSystem>(),
+                    context->getSystemT<LogSystem>());
+                read->setPlayback(true);
+                read->setLoop(true);
+                read->setInOutPoints(AV::IO::InOutPoints(true, 1, 2));
+            }
+
+            if (auto context = getContext().lock())
+            {
+                const AV::IO::ReadOptions options;
+                auto read = AV::IO::PNG::Read::create(
+                    FileSystem::FileInfo(),
+                    options,
+                    context->getSystemT<TextSystem>(),
+                    context->getSystemT<ResourceSystem>(),
+                    context->getSystemT<LogSystem>());
+                DJV_ASSERT(!read->hasCache());
+                DJV_ASSERT(!read->isCacheEnabled());
+                {
+                    std::stringstream ss;
+                    ss << read->getCacheMaxByteCount();
+                    _print("Cache max byte count: " + ss.str());
+                }
+                {
+                    std::stringstream ss;
+                    ss << read->getCacheByteCount();
+                    _print("Cache byte count: " + ss.str());
+                }
+                {
+                    std::stringstream ss;
+                    ss << read->getCacheSequence();
+                    _print("Cache sequence: " + ss.str());
+                }
+                {
+                    std::stringstream ss;
+                    ss << read->getCachedFrames();
+                    _print("Cached frames: " + ss.str());
+                }
+                read->setCacheEnabled(true);
+                read->setCacheMaxByteCount(0);
             }
         }
         

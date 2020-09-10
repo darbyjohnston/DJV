@@ -175,6 +175,27 @@ namespace djv
                     _print(_getText(ss.str()) + " byte count: " + ss2.str());
                 }
             }
+            
+            for (int c : { 1, 2, 3, 4 })
+            {
+                for (int b : { 8, 10, 16, 32 })
+                {
+                    {
+                        std::stringstream ss;
+                        ss << Image::getIntType(c, b);
+                        std::stringstream ss2;
+                        ss2 << "Int type " << c << "/" << b << ": " << _getText(ss.str());
+                        _print(ss2.str());
+                    }
+                    {
+                        std::stringstream ss;
+                        ss << Image::getFloatType(c, b);
+                        std::stringstream ss2;
+                        ss2 << "Float type " << c << "/" << b << ": " << _getText(ss.str());
+                        _print(ss2.str());
+                    }
+                }
+            }
         }
         
         void PixelTest::_convert()

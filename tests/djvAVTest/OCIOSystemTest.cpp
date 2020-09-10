@@ -7,7 +7,11 @@
 #include <djvAV/OCIOSystem.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/Error.h>
+#include <djvCore/ResourceSystem.h>
 #include <djvCore/ValueObserver.h>
+
+#include <iostream>
 
 using namespace djv::Core;
 using namespace djv::AV;
@@ -24,10 +28,21 @@ namespace djv
         
         void OCIOSystemTest::run()
         {
+            _enum();
             _config();
             _system();
             _operators();
             _serialize();
+        }
+        
+        void OCIOSystemTest::_enum()
+        {
+            for (const auto& i : OCIO::getConfigModeEnums())
+            {
+                std::stringstream ss;
+                ss << i;
+                _print("Config mode: " + _getText(ss.str()));
+            }
         }
         
         void OCIOSystemTest::_config()
@@ -67,66 +82,127 @@ namespace djv
             {
                 auto system = context->getSystemT<OCIO::System>();
                 
+                {
+                    std::stringstream ss;
+                    ss << system->hasEnvConfig();
+                    _print("Env config: " + ss.str());
+                }
+                
+                OCIO::ConfigMode configMode = OCIO::ConfigMode::First;
+                OCIO::Config cmdLineConfig;
+                OCIO::Config envConfig;
+                OCIO::UserConfigs userConfigs;
+                OCIO::Config currentConfig;
+                OCIO::Displays displays;
+                OCIO::Views views;
+                OCIO::ImageColorSpaces imageColorSpaces;
+                std::vector<std::string> colorSpaces;
+                
+                auto configModeObserver = ValueObserver<OCIO::ConfigMode>::create(
+                    system->observeConfigMode(),
+                    [&configMode](OCIO::ConfigMode value)
+                    {
+                        configMode = value;
+                    });
+                
+                auto cmdLineConfigObserver = ValueObserver<OCIO::Config>::create(
+                    system->observeCmdLineConfig(),
+                    [&cmdLineConfig](const OCIO::Config& value)
+                    {
+                        cmdLineConfig = value;
+                    });
+                
+                auto envConfigObserver = ValueObserver<OCIO::Config>::create(
+                    system->observeEnvConfig(),
+                    [&envConfig](const OCIO::Config& value)
+                    {
+                        envConfig = value;
+                    });
+                
                 auto userConfigsObserver = ValueObserver<OCIO::UserConfigs>::create(
                     system->observeUserConfigs(),
-                    [this](const OCIO::UserConfigs& value)
+                    [&userConfigs](const OCIO::UserConfigs& value)
                     {
-                        size_t j = 0;
-                        for (const auto& i : value.first)
-                        {
-                            std::stringstream ss;
-                            ss << "Config " << j << ": " << i.name;
-                            _print(ss.str());
-                            ++j;
-                        }
-                        std::stringstream ss;
-                        ss << "Current config: " << value.second;
-                        _print(ss.str());
+                        userConfigs = value;
                     });
                 
                 auto currentConfigObserver = ValueObserver<OCIO::Config>::create(
                     system->observeCurrentConfig(),
-                    [this](const OCIO::Config& value)
+                    [&currentConfig](const OCIO::Config& value)
                     {
-                        std::stringstream ss;
-                        ss << "Current config: " << value.name;
-                        _print(ss.str());
+                        currentConfig = value;
                     });
 
                 auto displaysObserver = ValueObserver<OCIO::Displays>::create(
                     system->observeDisplays(),
-                    [this](const OCIO::Displays& value)
+                    [&displays](const OCIO::Displays& value)
                     {
-                        size_t j = 0;
-                        for (const auto& i : value.first)
-                        {
-                            std::stringstream ss;
-                            ss << "Display " << j << ": " << i;
-                            _print(ss.str());
-                            ++j;
-                        }
-                        std::stringstream ss;
-                        ss << "Current display: " << value.second;
-                        _print(ss.str());
-                    });
-                auto viewsObserver = ValueObserver<OCIO::Views>::create(
-                    system->observeViews(),
-                    [this](const OCIO::Views& value)
-                    {
-                        size_t j = 0;
-                        for (const auto& i : value.first)
-                        {
-                            std::stringstream ss;
-                            ss << "View " << j << ": " << i;
-                            _print(ss.str());
-                            ++j;
-                        }
-                        std::stringstream ss;
-                        ss << "Current view: " << value.second;
-                        _print(ss.str());
+                        displays = value;
                     });
 
-                auto userConfigs = system->observeUserConfigs()->get();
+                auto viewsObserver = ValueObserver<OCIO::Views>::create(
+                    system->observeViews(),
+                    [&views](const OCIO::Views& value)
+                    {
+                        views = value;
+                    });
+
+                auto imageColorSpacesObserver = MapObserver<std::string, std::string>::create(
+                    system->observeImageColorSpaces(),
+                    [&imageColorSpaces](const std::map<std::string, std::string>& value)
+                    {
+                        imageColorSpaces = value;
+                    });
+
+                auto colorSpacesObserver = ListObserver<std::string>::create(
+                    system->observeColorSpaces(),
+                    [&colorSpaces](const std::vector<std::string>& value)
+                    {
+                        colorSpaces = value;
+                    });
+
+                auto resourceSystem = context->getSystemT<ResourceSystem>();
+                OCIO::Config config;
+                const std::string fileName = FileSystem::Path(
+                    resourceSystem->getPath(FileSystem::ResourcePath::Color),
+                    "spi-vfx/config.ocio").get();
+                config.fileName = fileName;
+                system->setConfigMode(OCIO::ConfigMode::CmdLine);
+                system->setCmdLineConfig(config);
+                if (displays.first.size() > 1)
+                {
+                    system->setCurrentDisplay(0);
+                    system->setCurrentDisplay(1);
+                }
+                if (views.first.size() > 1)
+                {
+                    system->setCurrentView(0);
+                    system->setCurrentView(1);
+                }
+                OCIO::ImageColorSpaces imageColorSpaces2;
+                imageColorSpaces2["Cineon"] = "lg10";
+                imageColorSpaces2["OpenEXR"] = "lnh";
+                system->setImageColorSpaces(imageColorSpaces2);
+                OCIO::Config errorConfig;
+                errorConfig.fileName = "error";
+                system->setCmdLineConfig(errorConfig);
+
+                system->setConfigMode(OCIO::ConfigMode::Env);
+                system->setEnvConfig(config);
+                if (displays.first.size() > 1)
+                {
+                    system->setCurrentDisplay(0);
+                    system->setCurrentDisplay(1);
+                }
+                if (views.first.size() > 1)
+                {
+                    system->setCurrentView(0);
+                    system->setCurrentView(1);
+                }
+                system->setImageColorSpaces(imageColorSpaces2);
+                system->setEnvConfig(errorConfig);
+
+                system->setConfigMode(OCIO::ConfigMode::User);
                 if (!userConfigs.first.empty())
                 {
                     OCIO::Config config = userConfigs.first[0];
@@ -136,13 +212,35 @@ namespace djv
                     system->setCurrentUserConfig(index);
                     DJV_ASSERT(config == system->observeCurrentConfig()->get());
                 }
-
+                system->addUserConfig(fileName);
+                if (displays.first.size() > 1)
+                {
+                    system->setCurrentDisplay(0);
+                    system->setCurrentDisplay(1);
+                }
+                if (views.first.size() > 1)
+                {
+                    system->setCurrentView(0);
+                    system->setCurrentView(1);
+                }
+                if (displays.first.size() > 1)
+                {
+                    for (const auto& j : views.first)
+                    {
+                        std::stringstream ss;
+                        ss << "Color space " << displays.first[1] << "/";
+                        ss << (!j.empty() ? j : "Default") << ": ";
+                        ss << system->getColorSpace(displays.first[1], j);
+                        _print(ss.str());
+                    }
+                }
+                system->setImageColorSpaces(imageColorSpaces2);
                 for (size_t i = 0; i < userConfigs.first.size(); ++i)
                 {
                     system->removeUserConfig(i);
                 }
-
                 DJV_ASSERT(system->getColorSpace(std::string(), std::string()).empty());
+                system->addUserConfig(errorConfig);
             }
         }
         
@@ -156,6 +254,26 @@ namespace djv
         
         void OCIOSystemTest::_serialize()
         {
+            {
+                OCIO::ConfigMode value = OCIO::ConfigMode::First;
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(value, allocator);
+                OCIO::ConfigMode value2;
+                fromJSON(json, value2);
+                DJV_ASSERT(value == value2);
+            }
+
+            try
+            {
+                auto json = rapidjson::Value();
+                OCIO::ConfigMode value;
+                fromJSON(json, value);
+                DJV_ASSERT(false);
+            }
+            
+            catch (const std::exception&)
+            {}
             {
                 OCIO::Config config = createConfig();
                 rapidjson::Document document;

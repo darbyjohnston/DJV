@@ -25,6 +25,7 @@ namespace djv
             void _audioQueue();
             void _inOutPoints();
             void _cache();
+            void _plugin();
             void _io();
             void _system();
         };

@@ -68,7 +68,6 @@ namespace djv
                 Config getCurrentConfig() const;
 
                 std::string getDisplayName(int) const;
-                static std::vector<std::string> getViews(const std::string& display, const std::vector<Display>&);
                 std::string getViewName(int displayIndex, int) const;
 
                 int getDisplayIndex(const std::string&) const;
@@ -446,23 +445,6 @@ namespace djv
                 if (value >= 0 && value < static_cast<int>(displays.size()))
                 {
                     out = displays[value].name;
-                }
-                return out;
-            }
-
-            std::vector<std::string> System::Private::getViews(const std::string& display, const std::vector<Display>& displays)
-            {
-                std::vector<std::string> out;
-                for (const auto& i : displays)
-                {
-                    if (display == i.name)
-                    {
-                        for (const auto& j : i.views)
-                        {
-                            out.push_back(j.name);
-                        }
-                        break;
-                    }
                 }
                 return out;
             }
