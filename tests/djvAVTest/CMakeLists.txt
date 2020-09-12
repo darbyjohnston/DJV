@@ -15,6 +15,12 @@ set(header
     ImageUtilTest.h
     OCIOSystemTest.h
     OCIOTest.h
+    OpenGLMeshCacheTest.h
+    OpenGLMeshTest.h
+    OpenGLOffscreenBufferTest.h
+    OpenGLShaderTest.h
+    OpenGLTextureAtlasTest.h
+    OpenGLTextureTest.h
     PPMTest.h
     PixelTest.h
     Render2DTest.h
@@ -42,6 +48,12 @@ set(source
     ImageUtilTest.cpp
     OCIOSystemTest.cpp
     OCIOTest.cpp
+    OpenGLMeshCacheTest.cpp
+    OpenGLMeshTest.cpp
+    OpenGLOffscreenBufferTest.cpp
+    OpenGLShaderTest.cpp
+    OpenGLTextureAtlasTest.cpp
+    OpenGLTextureTest.cpp
     PPMTest.cpp
     PixelTest.cpp
     Render2DTest.cpp

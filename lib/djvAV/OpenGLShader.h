@@ -62,6 +62,8 @@ namespace djv
 
                 GLuint getProgram() const;
 
+                void bind();
+
                 void setUniform(GLint, int);
                 void setUniform(GLint, float);
                 void setUniform(GLint, const glm::vec2&);
@@ -93,8 +95,6 @@ namespace djv
                 void setUniform(const std::string&, const std::vector<float>&);
                 void setUniform(const std::string&, const std::vector<glm::vec3>&);
                 void setUniform(const std::string&, const std::vector<glm::vec4>&);
-
-                void bind();
 
             private:
                 std::shared_ptr<Render::Shader> _shader;

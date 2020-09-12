@@ -113,6 +113,11 @@ namespace djv
                 return _program;
             }
 
+            void Shader::bind()
+            {
+                glUseProgram(_program);
+            }
+
             void Shader::setUniform(GLint location, int value)
             {
                 glUniform1i(location, value);
@@ -370,11 +375,6 @@ namespace djv
             {
                 const GLint location = glGetUniformLocation(_program, name.c_str());
                 glUniform4fv(location, value.size(), &value[0][0]);
-            }
-
-            void Shader::bind()
-            {
-                glUseProgram(_program);
             }
 
         } // namespace OpenGL

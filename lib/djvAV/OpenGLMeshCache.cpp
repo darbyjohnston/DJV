@@ -68,7 +68,7 @@ namespace djv
                 return _p->vao;
             }
 
-            bool MeshCache::getItem(UID uid, SizeTRange& out)
+            bool MeshCache::getItem(UID uid, SizeTRange& range)
             {
                 DJV_PRIVATE_PTR();
                 const auto i = p.uids.find(uid);
@@ -79,73 +79,76 @@ namespace djv
                     {
                         j->second = ++_timestamp;
                     }
-                    out = i->second;
+                    range = i->second;
                     return true;
                 }
                 return false;
             }
 
-            UID MeshCache::addItem(const std::vector<uint8_t>& data, SizeTRange& out)
+            UID MeshCache::addItem(const std::vector<uint8_t>& data, SizeTRange& range)
             {
                 DJV_PRIVATE_PTR();
+                
+                UID out = 0;
 
                 const size_t vertexByteCount = getVertexByteCount(p.vboType);
                 const size_t dataSize = data.size() / vertexByteCount;
-                if (_find(dataSize, out))
+                if (_find(dataSize, range))
                 {
-                    const UID uid = createUID();
-                    p.ranges[out] = uid;
-                    p.uids[uid] = out;
+                    out = createUID();
+                    p.ranges[range] = out;
+                    p.uids[out] = range;
                     ++_timestamp;
-                    p.timestamps[_timestamp] = uid;
-                    p.vbo->copy(data, out.getMin() * vertexByteCount);
-                    return uid;
+                    p.timestamps[_timestamp] = out;
+                    p.vbo->copy(data, range.getMin() * vertexByteCount);
                 }
-
-                auto i = p.timestamps.begin();
-                while (i != p.timestamps.end())
+                else
                 {
-                    const auto j = p.uids.find(i->second);
-                    if (j != p.uids.end())
+                    auto i = p.timestamps.begin();
+                    while (i != p.timestamps.end())
                     {
-                        const auto k = p.ranges.find(j->second);
-                        if (k != p.ranges.end())
+                        const auto j = p.uids.find(i->second);
+                        if (j != p.uids.end())
                         {
-                            bool intersects = false;
-                            for (auto l = p.empty.begin(); l != p.empty.end(); ++l)
+                            const auto k = p.ranges.find(j->second);
+                            if (k != p.ranges.end())
                             {
-                                if (k->first.intersects(*l))
+                                bool intersects = false;
+                                for (auto l = p.empty.begin(); l != p.empty.end(); ++l)
                                 {
-                                    intersects = true;
-                                    SizeTRange newRange = k->first;
-                                    newRange.expand(*l);
-                                    p.empty.erase(l);
-                                    p.empty.insert(newRange);
+                                    if (k->first.intersects(*l))
+                                    {
+                                        intersects = true;
+                                        SizeTRange newRange = k->first;
+                                        newRange.expand(*l);
+                                        p.empty.erase(l);
+                                        p.empty.insert(newRange);
+                                    }
                                 }
+                                if (!intersects)
+                                {
+                                    p.empty.insert(k->first);
+                                }
+                                p.ranges.erase(k);
                             }
-                            if (!intersects)
-                            {
-                                p.empty.insert(k->first);
-                            }
-                            p.ranges.erase(k);
+                            p.uids.erase(j);
                         }
-                        p.uids.erase(j);
-                    }
-                    i = p.timestamps.erase(i);
+                        i = p.timestamps.erase(i);
 
-                    if (_find(dataSize, out))
-                    {
-                        const UID uid = createUID();
-                        p.ranges[out] = uid;
-                        p.uids[uid] = out;
-                        ++_timestamp;
-                        p.timestamps[_timestamp] = uid;
-                        p.vbo->copy(data, out.getMin() * vertexByteCount);
-                        return uid;
+                        if (_find(dataSize, range))
+                        {
+                            out = createUID();
+                            p.ranges[range] = out;
+                            p.uids[out] = range;
+                            ++_timestamp;
+                            p.timestamps[_timestamp] = out;
+                            p.vbo->copy(data, range.getMin() * vertexByteCount);
+                            break;
+                        }
                     }
                 }
-
-                return 0;
+                
+                return out;
             }
 
             float MeshCache::getPercentageUsed() const
@@ -159,7 +162,7 @@ namespace djv
                 return static_cast<float>(used) / static_cast<float>(p.vboSize) * 100.F;
             }
 
-            bool MeshCache::_find(size_t size, SizeTRange& out)
+            bool MeshCache::_find(size_t size, SizeTRange& range)
             {
                 DJV_PRIVATE_PTR();
                 for (auto i = p.empty.begin(); i != p.empty.end(); ++i)
@@ -167,14 +170,14 @@ namespace djv
                     const size_t emptySize = i->getMax() - i->getMin() + 1;
                     if (size == emptySize)
                     {
-                        out = *i;
+                        range = *i;
                         p.empty.erase(i);
                         return true;
                     }
                     else if (size < emptySize)
                     {
-                        out = SizeTRange(i->getMin(), i->getMin() + size - 1);
-                        SizeTRange empty(out.getMax() + 1, i->getMax());
+                        range = SizeTRange(i->getMin(), i->getMin() + size - 1);
+                        SizeTRange empty(range.getMax() + 1, i->getMax());
                         p.empty.erase(i);
                         p.empty.insert(empty);
                         return true;

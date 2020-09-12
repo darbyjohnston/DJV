@@ -9,6 +9,7 @@
 #include <djvCore/BBox.h>
 
 #include <map>
+#include <tuple>
 
 using namespace djv::Core;
 
@@ -189,6 +190,7 @@ namespace djv
                 if (i != p.cache.end())
                 {
                     _toTextureAtlasItem(i->second, out);
+                    i->second->timestamp = ++_timestamp;
                     return true;
                 }
                 return false;
@@ -222,7 +224,9 @@ namespace djv
                 std::sort(nodes.begin(), nodes.end(),
                     [](const std::shared_ptr<BoxPackingNode>& a, const std::shared_ptr<BoxPackingNode>& b)
                 {
-                    return a->timestamp < b->timestamp;
+                    const int aArea = a->bbox.getArea();
+                    const int bArea = b->bbox.getArea();
+                    return std::tie(aArea, a->timestamp) < std::tie(bArea, b->timestamp);
                 });
                 const glm::ivec2 dataSize = glm::ivec2(data->getWidth(), data->getHeight()) + p.border * 2;
                 for (auto node : nodes)
@@ -268,21 +272,27 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 float out = 0.F;
-                for (uint8_t i = 0; i < p.textureCount; ++i)
+                if (p.textureCount && p.textureSize)
                 {
-                    size_t used = 0;
-                    std::vector<std::shared_ptr<BoxPackingNode> > leafs;
-                    _getLeafNodes(p.boxPackingNodes[i], leafs);
-                    for (const auto& j : leafs)
+                    for (uint8_t i = 0; i < p.textureCount; ++i)
                     {
-                        if (j->isOccupied())
+                        size_t used = 0;
+                        std::vector<std::shared_ptr<BoxPackingNode> > leafs;
+                        _getLeafNodes(p.boxPackingNodes[i], leafs);
+                        for (const auto& j : leafs)
                         {
-                            used += j->bbox.getArea();
+                            if (j->isOccupied())
+                            {
+                                used += j->bbox.getArea();
+                            }
                         }
+                        out += static_cast<float>(used);
                     }
-                    out += static_cast<float>(used);
+                    out /= static_cast<float>(p.textureSize * p.textureSize);
+                    out /= static_cast<float>(p.textureCount);
+                    out *= 100.F;
                 }
-                return out / static_cast<float>(p.textureSize * p.textureSize) / static_cast<float>(p.textureCount) * 100.F;
+                return out;
             }
 
             void TextureAtlas::_getAllNodes(

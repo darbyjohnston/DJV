@@ -152,8 +152,8 @@ namespace djv
                     std::stringstream ss;
                     ss << info.type;
                     std::stringstream ss2;
-                    ss << "    Type: " << _getText(ss.str());
-                    _print(ss.str());
+                    ss2 << "    Type: " << _getText(ss.str());
+                    _print(ss2.str());
                 }
                 {
                     std::stringstream ss;

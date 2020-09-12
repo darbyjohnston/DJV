@@ -59,6 +59,12 @@
 #include <djvAVTest/ImageUtilTest.h>
 #include <djvAVTest/OCIOSystemTest.h>
 #include <djvAVTest/OCIOTest.h>
+#include <djvAVTest/OpenGLMeshCacheTest.h>
+#include <djvAVTest/OpenGLMeshTest.h>
+#include <djvAVTest/OpenGLOffscreenBufferTest.h>
+#include <djvAVTest/OpenGLShaderTest.h>
+#include <djvAVTest/OpenGLTextureTest.h>
+#include <djvAVTest/OpenGLTextureAtlasTest.h>
 #include <djvAVTest/PPMTest.h>
 #include <djvAVTest/PixelTest.h>
 #include <djvAVTest/Render2DTest.h>
@@ -171,6 +177,12 @@ int main(int argc, char ** argv)
         tests.emplace_back(new AVTest::ImageUtilTest(tempPath, context));
         tests.emplace_back(new AVTest::OCIOSystemTest(tempPath, context));
         tests.emplace_back(new AVTest::OCIOTest(tempPath, context));
+        tests.emplace_back(new AVTest::OpenGLMeshCacheTest(tempPath, context));
+        tests.emplace_back(new AVTest::OpenGLMeshTest(tempPath, context));
+        tests.emplace_back(new AVTest::OpenGLOffscreenBufferTest(tempPath, context));
+        tests.emplace_back(new AVTest::OpenGLShaderTest(tempPath, context));
+        tests.emplace_back(new AVTest::OpenGLTextureAtlasTest(tempPath, context));
+        tests.emplace_back(new AVTest::OpenGLTextureTest(tempPath, context));
         tests.emplace_back(new AVTest::PPMTest(tempPath, context));
         tests.emplace_back(new AVTest::PixelTest(tempPath, context));
         tests.emplace_back(new AVTest::Render2DTest(tempPath, context));

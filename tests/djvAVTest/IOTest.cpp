@@ -17,6 +17,7 @@
 
 using namespace djv::Core;
 using namespace djv::AV;
+using namespace djv::AV::IO;
 
 namespace djv
 {
@@ -48,7 +49,7 @@ namespace djv
         void IOTest::_info()
         {
             {
-                const IO::Info info;
+                const Info info;
                 DJV_ASSERT(info.fileName.empty());
                 DJV_ASSERT(info.video.empty());
                 DJV_ASSERT(info.videoSpeed == Time::fromSpeed(Time::getDefaultSpeed()));
@@ -58,7 +59,7 @@ namespace djv
             }
             
             {
-                IO::Info info;
+                Info info;
                 info.fileName = "render.exr";
                 info.video.push_back(Image::Info(1, 2, Image::Type::RGB_U8));
                 DJV_ASSERT(info == info);
@@ -68,7 +69,7 @@ namespace djv
         void IOTest::_videoFrame()
         {
             {
-                const IO::VideoFrame frame;
+                const VideoFrame frame;
                 DJV_ASSERT(0 == frame.frame);
                 DJV_ASSERT(!frame.image.get());
             }
@@ -76,7 +77,7 @@ namespace djv
             {
                 const Frame::Number number = 1;
                 auto image = Image::Image::create(Image::Info(1, 2, Image::Type::RGB_U8));
-                const IO::VideoFrame frame(number, image);
+                const VideoFrame frame(number, image);
                 DJV_ASSERT(number == frame.frame);
                 DJV_ASSERT(image == frame.image);
             }
@@ -85,22 +86,22 @@ namespace djv
         void IOTest::_videoQueue()
         {
             {
-                const IO::VideoQueue queue;
+                const VideoQueue queue;
                 DJV_ASSERT(0 == queue.getMax());
                 DJV_ASSERT(queue.isEmpty());
                 DJV_ASSERT(0 == queue.getCount());
-                DJV_ASSERT(IO::VideoFrame() == queue.getFrame());
+                DJV_ASSERT(VideoFrame() == queue.getFrame());
                 DJV_ASSERT(!queue.isFinished());
             }
             
             {
-                IO::VideoQueue queue;
+                VideoQueue queue;
                 queue.setMax(1000);
                 DJV_ASSERT(1000 == queue.getMax());
-                const IO::VideoFrame frame(1, nullptr);
+                const VideoFrame frame(1, nullptr);
                 queue.addFrame(frame);
-                queue.addFrame(IO::VideoFrame(2, nullptr));
-                queue.addFrame(IO::VideoFrame(3, nullptr));
+                queue.addFrame(VideoFrame(2, nullptr));
+                queue.addFrame(VideoFrame(3, nullptr));
                 DJV_ASSERT(!queue.isEmpty());
                 DJV_ASSERT(3 == queue.getCount());
                 DJV_ASSERT(frame == queue.getFrame());
@@ -115,13 +116,13 @@ namespace djv
         void IOTest::_audioFrame()
         {
             {
-                const IO::AudioFrame frame;
+                const AudioFrame frame;
                 DJV_ASSERT(!frame.audio.get());
             }
             
             {
                 auto audio = Audio::Data::create(Audio::Info(1, Audio::Type::S16, 2, 3));
-                const IO::AudioFrame frame(audio);
+                const AudioFrame frame(audio);
                 DJV_ASSERT(audio == frame.audio);
             }
         }
@@ -129,23 +130,23 @@ namespace djv
         void IOTest::_audioQueue()
         {
             {
-                const IO::AudioQueue queue;
+                const AudioQueue queue;
                 DJV_ASSERT(0 == queue.getMax());
                 DJV_ASSERT(queue.isEmpty());
                 DJV_ASSERT(0 == queue.getCount());
-                DJV_ASSERT(IO::AudioFrame() == queue.getFrame());
+                DJV_ASSERT(AudioFrame() == queue.getFrame());
                 DJV_ASSERT(!queue.isFinished());
             }
 
             {
-                IO::AudioQueue queue;
+                AudioQueue queue;
                 queue.setMax(1000);
                 DJV_ASSERT(1000 == queue.getMax());
                 auto audio = Audio::Data::create(Audio::Info(1, Audio::Type::S16, 2, 3));
-                const IO::AudioFrame frame(audio);
+                const AudioFrame frame(audio);
                 queue.addFrame(frame);
-                queue.addFrame(IO::AudioFrame(nullptr));
-                queue.addFrame(IO::AudioFrame(nullptr));
+                queue.addFrame(AudioFrame(nullptr));
+                queue.addFrame(AudioFrame(nullptr));
                 DJV_ASSERT(!queue.isEmpty());
                 DJV_ASSERT(3 == queue.getCount());
                 DJV_ASSERT(frame == queue.getFrame());
@@ -160,7 +161,7 @@ namespace djv
         void IOTest::_inOutPoints()
         {
             {
-                const IO::InOutPoints inOutPoints;
+                const InOutPoints inOutPoints;
                 DJV_ASSERT(!inOutPoints.isEnabled());
                 DJV_ASSERT(Frame::invalid == inOutPoints.getIn());
                 DJV_ASSERT(Frame::invalid == inOutPoints.getOut());
@@ -168,7 +169,7 @@ namespace djv
             }
             
             {
-                const IO::InOutPoints inOutPoints(true, 1, 2);
+                const InOutPoints inOutPoints(true, 1, 2);
                 DJV_ASSERT(inOutPoints.isEnabled());
                 DJV_ASSERT(1 == inOutPoints.getIn());
                 DJV_ASSERT(2 == inOutPoints.getOut());
@@ -176,7 +177,7 @@ namespace djv
             }
             
             {
-                const IO::InOutPoints inOutPoints(true, 1, 2);
+                const InOutPoints inOutPoints(true, 1, 2);
                 DJV_ASSERT(inOutPoints == inOutPoints);
             }
         }
@@ -184,18 +185,18 @@ namespace djv
         void IOTest::_cache()
         {
             {
-                const IO::Cache cache;
+                const Cache cache;
                 DJV_ASSERT(0 == cache.getMax());
                 DJV_ASSERT(0 == cache.getTotalByteCount());
                 DJV_ASSERT(Frame::Sequence() == cache.getFrames());
                 DJV_ASSERT(Frame::Sequence() == cache.getSequence());
                 DJV_ASSERT(!cache.contains(0));
-                std::shared_ptr<AV::Image::Image> image;
+                std::shared_ptr<Image::Image> image;
                 DJV_ASSERT(!cache.get(0, image));
             }
             
             {
-                IO::Cache cache;
+                Cache cache;
                 cache.setMax(10);
                 DJV_ASSERT(10 == cache.getMax());
                 cache.setCurrentFrame(1);
@@ -210,13 +211,13 @@ namespace djv
                 {
                     cache.add(i, Image::Image::create(Image::Info(1, 2, Image::Type::RGB_U8)));
                 }
-                cache.setDirection(IO::Direction::Reverse);
-                cache.setDirection(IO::Direction::Reverse);
+                cache.setDirection(Direction::Reverse);
+                cache.setDirection(Direction::Reverse);
                 for (Frame::Index i = 20; i >= 0; --i)
                 {
                     cache.add(i, Image::Image::create(Image::Info(1, 2, Image::Type::RGB_U8)));
                 }
-                std::shared_ptr<AV::Image::Image> image;
+                std::shared_ptr<Image::Image> image;
                 for (Frame::Index i = 0; i < 20; ++i)
                 {
                     cache.get(i, image);
@@ -238,22 +239,38 @@ namespace djv
         {
             if (auto context = getContext().lock())
             {
-                const AV::IO::ReadOptions options;
-                auto read = AV::IO::PNG::Read::create(
+                auto plugin = PNG::Plugin::create(context);
+                _print("Plugin name: " + plugin->getPluginName());
+                _print("Plugin info: " + _getText(plugin->getPluginInfo()));
+                _print("Plugin file extensions: " + String::joinSet(plugin->getFileExtensions(), ", "));
+                DJV_ASSERT(plugin->canSequence());
+                DJV_ASSERT(plugin->canRead(FileSystem::FileInfo("image.png")));
+                Info info;
+                info.video.push_back(Image::Info(512, 512, Image::Type::RGB_U8));
+                DJV_ASSERT(plugin->canWrite(FileSystem::FileInfo("image.png"), info));
+            }
+            
+            if (auto context = getContext().lock())
+            {
+                const ReadOptions options;
+                auto read = PNG::Read::create(
                     FileSystem::FileInfo(),
                     options,
                     context->getSystemT<TextSystem>(),
                     context->getSystemT<ResourceSystem>(),
                     context->getSystemT<LogSystem>());
+                DJV_ASSERT(4 == read->getThreadCount());
+                read->setThreadCount(1);
+                DJV_ASSERT(1 == read->getThreadCount());                
                 read->setPlayback(true);
                 read->setLoop(true);
-                read->setInOutPoints(AV::IO::InOutPoints(true, 1, 2));
+                read->setInOutPoints(InOutPoints(true, 1, 2));
             }
 
             if (auto context = getContext().lock())
             {
-                const AV::IO::ReadOptions options;
-                auto read = AV::IO::PNG::Read::create(
+                const ReadOptions options;
+                auto read = PNG::Read::create(
                     FileSystem::FileInfo(),
                     options,
                     context->getSystemT<TextSystem>(),
@@ -308,7 +325,7 @@ namespace djv
                 Tags tags;
                 tags.set("Description", "This is a description.");
                 tags.set("Time", "Tue Oct 8 13:18:20 PDT 2019");
-                auto io = context->getSystemT<AV::IO::System>();
+                auto io = context->getSystemT<System>();
                 for (const auto& extension : extensions)
                 {
                     for (const auto& size : sizes)
@@ -327,13 +344,13 @@ namespace djv
                                 _print(ss.str());
                                 FileSystem::Path path(getTempPath(), ss.str());
                                 {
-                                    IO::Info info;
+                                    Info info;
                                     info.video.push_back(imageInfo);
                                     auto write = io->write(FileSystem::FileInfo(path), info);
                                     {
                                         std::lock_guard<std::mutex> lock(write->getMutex());
                                         auto& writeQueue = write->getVideoQueue();
-                                        writeQueue.addFrame(IO::VideoFrame(0, image));
+                                        writeQueue.addFrame(VideoFrame(0, image));
                                         writeQueue.setFinished(true);
                                     }
                                     while (write->isRunning())
@@ -390,7 +407,7 @@ namespace djv
         {
             if (auto context = getContext().lock())
             {
-                auto io = context->getSystemT<IO::System>();
+                auto io = context->getSystemT<System>();
                 const auto pluginNames = io->getPluginNames();
                 {
                     std::stringstream ss;
@@ -454,7 +471,7 @@ namespace djv
                 {
                     std::stringstream ss;
                     ss << "Can write: " << i << " = ";
-                    ss << io->canWrite(FileSystem::FileInfo(i), IO::Info());
+                    ss << io->canWrite(FileSystem::FileInfo(i), Info());
                     _print(ss.str());
                 }
             }

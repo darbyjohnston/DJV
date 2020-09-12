@@ -25,7 +25,9 @@ namespace djv
             Shader::~Shader()
             {}
 
-            std::shared_ptr<Shader> Shader::create(const std::string& vertex, const std::string& fragment)
+            std::shared_ptr<Shader> Shader::create(
+                const std::string& vertex,
+                const std::string& fragment)
             {
                 auto out = std::shared_ptr<Shader>(new Shader);
                 out->_vertex.second = vertex;
@@ -33,7 +35,9 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<Shader> Shader::create(const FileSystem::Path& vertex, const FileSystem::Path& fragment)
+            std::shared_ptr<Shader> Shader::create(
+                const FileSystem::Path& vertex,
+                const FileSystem::Path& fragment)
             {
                 auto out = std::shared_ptr<Shader>(new Shader);
                 try
