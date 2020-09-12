@@ -19,14 +19,17 @@ namespace djv
         PPMTest::PPMTest(
             const FileSystem::Path& tempPath,
             const std::shared_ptr<Context>& context) :
-            ITest("djv::AVTest::PPMTest", tempPath, context)
+            ITest(
+                "djv::AVTest::PPMTest",
+                FileSystem::Path(tempPath, "PPMTest"),
+                context)
         {}
         
         void PPMTest::run()
         {
             _serialize();
         }
-
+        
         void PPMTest::_serialize()
         {
             {

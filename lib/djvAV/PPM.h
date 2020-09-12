@@ -45,7 +45,7 @@ namespace djv
                 size_t getScanlineByteCount(
                     int    width,
                     size_t channelCount,
-                    size_t componentSize);
+                    size_t bitDepth);
 
                 //! Read PPM file ASCII data.
                 void readASCII(

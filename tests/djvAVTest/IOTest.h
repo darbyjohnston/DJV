@@ -4,6 +4,8 @@
 
 #include <djvTestLib/Test.h>
 
+#include <djvAV/IOSystem.h>
+
 namespace djv
 {
     namespace AVTest
@@ -27,6 +29,13 @@ namespace djv
             void _cache();
             void _plugin();
             void _io();
+            void _io(
+                const std::string& name,
+                const std::string& extension,
+                const AV::Image::Size,
+                AV::Image::Type,
+                const AV::Tags&,
+                const std::shared_ptr<AV::IO::System>&);
             void _system();
         };
         

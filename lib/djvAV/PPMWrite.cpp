@@ -115,7 +115,10 @@ namespace djv
                     {
                     case Data::ASCII:
                     {
-                        std::vector<uint8_t> scanline(info.getScanlineByteCount());
+                        std::vector<uint8_t> scanline(getScanlineByteCount(
+                            info.size.w,
+                            Image::getChannelCount(info.type),
+                            Image::getBitDepth(info.type)));
                         for (uint16_t y = 0; y < info.size.h; ++y)
                         {
                             const size_t size = writeASCII(
