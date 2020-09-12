@@ -45,7 +45,7 @@ namespace djv
                 std::string toString(AVSampleFormat value)
                 {
                     //! \todo How can we translate this?
-                    std::map<AVSampleFormat, std::string> data =
+                    const std::map<AVSampleFormat, std::string> data =
                     {
                         { AV_SAMPLE_FMT_NONE, DJV_TEXT("av_sample_format_none") },
                         { AV_SAMPLE_FMT_S16, DJV_TEXT("av_sample_format_s16") },
@@ -209,6 +209,11 @@ namespace djv
                     return std::string(buf);
                 }
 
+                bool Options::operator == (const Options& other) const
+                {
+                    return threadCount == other.threadCount;
+                }
+                
                 namespace
                 {
                     std::weak_ptr<LogSystem> _logSystem;

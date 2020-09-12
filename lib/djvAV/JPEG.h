@@ -36,6 +36,8 @@ namespace djv
                 struct Options
                 {
                     int quality = 90;
+                    
+                    bool operator == (const Options&) const;
                 };
 
                 //! This struct provides libjpeg error handling.

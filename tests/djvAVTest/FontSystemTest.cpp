@@ -126,7 +126,7 @@ namespace djv
 
                 Font::FontInfo fontInfo(1, 1, 14, dpiDefault);
                 auto metricsFuture = system->getMetrics(fontInfo);
-                const std::string text = String::getRandomText(5);
+                const std::string text = String::getRandomText(50);
                 auto measureFuture = system->measure(text, fontInfo);
                 auto measureGlyphsFuture = system->measureGlyphs(text, fontInfo);
                 auto textLinesFuture = system->textLines(text, 100, fontInfo);
@@ -198,6 +198,38 @@ namespace djv
                     std::stringstream ss;
                     ss << "Text line: " << i.text;
                     _print(ss.str());
+                }
+                
+                system->setLCDRendering(true);
+                system->setLCDRendering(true);
+                const uint16_t elide = text.size() / 2;
+                measureFuture = system->measure(text, fontInfo, elide);
+                measureGlyphsFuture = system->measureGlyphs(text, fontInfo, elide);
+                glyphsFuture = system->getGlyphs(text, fontInfo, elide);
+                glyphs.clear();
+                measure = glm::vec2(0.F, 0.F);
+                measureGlyphs.clear();
+                while (
+                    measureFuture.valid() ||
+                    measureGlyphsFuture.valid() ||
+                    glyphsFuture.valid())
+                {
+                    _tickFor(Time::getTime(Time::TimerValue::Fast));
+                    if (measureFuture.valid() &&
+                        measureFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                    {
+                        measure = measureFuture.get();
+                    }
+                    if (measureGlyphsFuture.valid() &&
+                        measureGlyphsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                    {
+                        measureGlyphs = measureGlyphsFuture.get();
+                    }
+                    if (glyphsFuture.valid() &&
+                        glyphsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                    {
+                        glyphs = glyphsFuture.get();
+                    }
                 }
                 
                 {

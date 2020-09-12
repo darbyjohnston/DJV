@@ -17,6 +17,11 @@ namespace djv
         {
             namespace JPEG
             {
+                bool Options::operator == (const Options& other) const
+                {
+                    return quality == other.quality;
+                }
+                
                 struct Plugin::Private
                 {
                     Options options;

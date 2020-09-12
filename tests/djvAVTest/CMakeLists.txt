@@ -7,20 +7,25 @@ set(header
     ColorTest.h
     DPXTest.h
     EnumTest.h
+    FFmpegTest.h
     FontSystemTest.h
     IOTest.h
     ImageConvertTest.h
     ImageDataTest.h
     ImageTest.h
     ImageUtilTest.h
+    JPEGTest.h
     OCIOSystemTest.h
     OCIOTest.h
+    OpenEXRTest.h
+    PPMTest.h
     PixelTest.h
     Render2DTest.h
     Render3DCameraTest.h
     Render3DLightTest.h
     Render3DMaterialTest.h
     ShaderTest.h
+    TIFFTest.h
     TagsTest.h
     ThumbnailSystemTest.h
     TriangleMeshTest.h)
@@ -33,20 +38,25 @@ set(source
     ColorTest.cpp
     DPXTest.cpp
     EnumTest.cpp
+    FFmpegTest.cpp
     FontSystemTest.cpp
     IOTest.cpp
     ImageConvertTest.cpp
     ImageDataTest.cpp
     ImageTest.cpp
     ImageUtilTest.cpp
+    JPEGTest.cpp
     OCIOSystemTest.cpp
     OCIOTest.cpp
+    OpenEXRTest.cpp
+    PPMTest.cpp
     PixelTest.cpp
     Render2DTest.cpp
     Render3DCameraTest.cpp
     Render3DLightTest.cpp
     Render3DMaterialTest.cpp
     ShaderTest.cpp
+    TIFFTest.cpp
     TagsTest.cpp
     ThumbnailSystemTest.cpp
     TriangleMeshTest.cpp)

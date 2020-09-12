@@ -117,7 +117,7 @@ namespace djv
                             return &i.channel();
                         }
                     }
-                    return 0;
+                    return nullptr;
                 }
 
                 namespace
@@ -302,10 +302,13 @@ namespace djv
                                 // Group as many additional channels as possible.
                                 for (;
                                     i != in.end() &&
-                                    i.channel() == channel &&
-                                    std::find(reserved.begin(), reserved.end(), &i.channel()) != reserved.end();
+                                    i.channel() == channel;
                                     ++i)
                                 {
+                                    if (std::find(reserved.begin(), reserved.end(), &i.channel()) != reserved.end())
+                                    {
+                                        continue;
+                                    }
                                     list.push_back(fromImf(i.name(), i.channel()));
                                 }
                             }
@@ -1006,7 +1009,16 @@ namespace djv
                         fromImf(channel.type),
                         glm::ivec2(channel.xSampling, channel.ySampling));
                 }
-
+                    
+                bool Options::operator == (const Options& other) const
+                {
+                    return
+                        threadCount == other.threadCount &&
+                        channels == other.channels &&
+                        compression == other.compression &&
+                        dwaCompressionLevel == other.dwaCompressionLevel;
+                }
+                
                 struct Plugin::Private
                 {
                     Options options;

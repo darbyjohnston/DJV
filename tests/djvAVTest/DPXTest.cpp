@@ -408,6 +408,18 @@ namespace djv
                 fromJSON(json, options2);
                 DJV_ASSERT(options == options2);
             }
+            
+            try
+            {
+                auto json = rapidjson::Value(rapidjson::kObjectType);
+                DPX::Options options;
+                fromJSON(json, options);
+                DJV_ASSERT(options == options);
+            }
+            catch (const std::exception& e)
+            {
+                _print(Error::format(e.what()));
+            }
         }
 
     } // namespace AVTest

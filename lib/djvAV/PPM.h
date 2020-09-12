@@ -37,6 +37,8 @@ namespace djv
                 struct Options
                 {
                     Data data = Data::Binary;
+                    
+                    bool operator == (const Options&) const;
                 };
 
                 //! Get the number of bytes in a scanline.

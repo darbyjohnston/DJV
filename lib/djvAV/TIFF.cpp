@@ -16,7 +16,7 @@ namespace djv
         {
             namespace TIFF
             {
-                void paletteLoad(
+                void readPalette(
                     uint8_t *  in,
                     int        size,
                     int        bytes,
@@ -55,6 +55,11 @@ namespace djv
                     }
                 }
 
+                bool Options::operator == (const Options& other) const
+                {
+                    return compression == other.compression;
+                }
+                
                 struct Plugin::Private
                 {
                     Options options;

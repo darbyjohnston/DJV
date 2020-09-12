@@ -39,10 +39,12 @@ namespace djv
                 struct Options
                 {
                     Compression compression = Compression::LZW;
+                    
+                    bool operator == (const Options&) const;
                 };
 
-                //! Load a TIFF file palette.
-                void paletteLoad(
+                //! Read a TIFF file palette.
+                void readPalette(
                     uint8_t *  out,
                     int        size,
                     int        bytes,

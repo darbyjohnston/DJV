@@ -73,6 +73,11 @@ namespace djv
                 _inOutPoints = value;
             }
             
+            bool IRead::hasCache() const
+            {
+                return false;
+            }
+
             bool IRead::isCacheEnabled() const
             {
                 return _cacheEnabled;

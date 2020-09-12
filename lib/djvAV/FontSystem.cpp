@@ -1141,7 +1141,9 @@ namespace djv
                                 pos.y += static_cast<float>(ftFace->size->metrics.height) / 64.F;
                                 rsbDeltaPrev = 0;
                             }
-                            else if (pos.x > 0.F && pos.x + (!isSpace(*i) ? static_cast<float>(x) : 0.F) >= maxLineWidth)
+                            else if (
+                                pos.x > 0.F &&
+                                pos.x + (!isSpace(*i) ? static_cast<float>(x) : 0.F) >= maxLineWidth)
                             {
                                 if (textLine != utf32.end())
                                 {

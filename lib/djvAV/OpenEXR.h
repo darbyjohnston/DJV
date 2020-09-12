@@ -128,6 +128,8 @@ namespace djv
                     Channels    channels            = Channels::Known;
                     Compression compression         = Compression::None;
                     float       dwaCompressionLevel = 45.F;
+                    
+                    bool operator == (const Options&) const;
                 };
 
                 //! This class provides a memory-mapped input stream.

@@ -79,7 +79,7 @@ namespace djv
                         }
                         if (f.palette)
                         {
-                            TIFF::paletteLoad(
+                            TIFF::readPalette(
                                 out->getData(y),
                                 info.video[0].size.w,
                                 static_cast<int>(Image::getChannelCount(info.video[0].type)),

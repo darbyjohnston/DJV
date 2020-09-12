@@ -66,6 +66,8 @@ namespace djv
                 struct Options
                 {
                     size_t threadCount = 4;
+                    
+                    bool operator == (const Options&) const;
                 };
 
                 //! This class provides the FFmpeg file reader.

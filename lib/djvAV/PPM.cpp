@@ -96,6 +96,11 @@ namespace djv
                     return 0;
                 }
 
+                bool Options::operator == (const Options& other) const
+                {
+                    return data == other.data;
+                }
+                
                 struct Plugin::Private
                 {
                     Options options;
