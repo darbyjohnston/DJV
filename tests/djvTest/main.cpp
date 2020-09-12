@@ -51,17 +51,14 @@
 #include <djvAVTest/ColorTest.h>
 #include <djvAVTest/DPXTest.h>
 #include <djvAVTest/EnumTest.h>
-#include <djvAVTest/FFmpegTest.h>
 #include <djvAVTest/FontSystemTest.h>
 #include <djvAVTest/IOTest.h>
 #include <djvAVTest/ImageConvertTest.h>
 #include <djvAVTest/ImageDataTest.h>
 #include <djvAVTest/ImageTest.h>
 #include <djvAVTest/ImageUtilTest.h>
-#include <djvAVTest/JPEGTest.h>
 #include <djvAVTest/OCIOSystemTest.h>
 #include <djvAVTest/OCIOTest.h>
-#include <djvAVTest/OpenEXRTest.h>
 #include <djvAVTest/PPMTest.h>
 #include <djvAVTest/PixelTest.h>
 #include <djvAVTest/Render2DTest.h>
@@ -69,10 +66,15 @@
 #include <djvAVTest/Render3DLightTest.h>
 #include <djvAVTest/Render3DMaterialTest.h>
 #include <djvAVTest/ShaderTest.h>
-#include <djvAVTest/TIFFTest.h>
 #include <djvAVTest/TagsTest.h>
 #include <djvAVTest/ThumbnailSystemTest.h>
 #include <djvAVTest/TriangleMeshTest.h>
+#if !defined(DJV_BUILD_TINY) && !defined(DJV_BUILD_MINIMAL)
+#include <djvAVTest/FFmpegTest.h>
+#include <djvAVTest/JPEGTest.h>
+#include <djvAVTest/OpenEXRTest.h>
+#include <djvAVTest/TIFFTest.h>
+#endif
 
 #include <djvUITest/ActionGroupTest.h>
 #include <djvUITest/ButtonGroupTest.h>
@@ -161,17 +163,14 @@ int main(int argc, char ** argv)
         tests.emplace_back(new AVTest::ColorTest(tempPath, context));
         tests.emplace_back(new AVTest::DPXTest(tempPath, context));
         tests.emplace_back(new AVTest::EnumTest(tempPath, context));
-        tests.emplace_back(new AVTest::FFmpegTest(tempPath, context));
         tests.emplace_back(new AVTest::FontSystemTest(tempPath, context));
         tests.emplace_back(new AVTest::IOTest(tempPath, context));
         tests.emplace_back(new AVTest::ImageConvertTest(tempPath, context));
         tests.emplace_back(new AVTest::ImageDataTest(tempPath, context));
         tests.emplace_back(new AVTest::ImageTest(tempPath, context));
         tests.emplace_back(new AVTest::ImageUtilTest(tempPath, context));
-        tests.emplace_back(new AVTest::JPEGTest(tempPath, context));
         tests.emplace_back(new AVTest::OCIOSystemTest(tempPath, context));
         tests.emplace_back(new AVTest::OCIOTest(tempPath, context));
-        tests.emplace_back(new AVTest::OpenEXRTest(tempPath, context));
         tests.emplace_back(new AVTest::PPMTest(tempPath, context));
         tests.emplace_back(new AVTest::PixelTest(tempPath, context));
         tests.emplace_back(new AVTest::Render2DTest(tempPath, context));
@@ -179,10 +178,15 @@ int main(int argc, char ** argv)
         tests.emplace_back(new AVTest::Render3DLightTest(tempPath, context));
         tests.emplace_back(new AVTest::Render3DMaterialTest(tempPath, context));
         tests.emplace_back(new AVTest::ShaderTest(tempPath, context));
-        tests.emplace_back(new AVTest::TIFFTest(tempPath, context));
         tests.emplace_back(new AVTest::TagsTest(tempPath, context));
         tests.emplace_back(new AVTest::ThumbnailSystemTest(tempPath, context));
         tests.emplace_back(new AVTest::TriangleMeshTest(tempPath, context));
+#if !defined(DJV_BUILD_TINY) && !defined(DJV_BUILD_MINIMAL)
+        tests.emplace_back(new AVTest::FFmpegTest(tempPath, context));
+        tests.emplace_back(new AVTest::JPEGTest(tempPath, context));
+        tests.emplace_back(new AVTest::OpenEXRTest(tempPath, context));
+        tests.emplace_back(new AVTest::TIFFTest(tempPath, context));
+#endif
 
         tests.emplace_back(new UITest::ActionGroupTest(tempPath, context));
         tests.emplace_back(new UITest::ButtonGroupTest(tempPath, context));

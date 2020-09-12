@@ -7,17 +7,14 @@ set(header
     ColorTest.h
     DPXTest.h
     EnumTest.h
-    FFmpegTest.h
     FontSystemTest.h
     IOTest.h
     ImageConvertTest.h
     ImageDataTest.h
     ImageTest.h
     ImageUtilTest.h
-    JPEGTest.h
     OCIOSystemTest.h
     OCIOTest.h
-    OpenEXRTest.h
     PPMTest.h
     PixelTest.h
     Render2DTest.h
@@ -25,7 +22,6 @@ set(header
     Render3DLightTest.h
     Render3DMaterialTest.h
     ShaderTest.h
-    TIFFTest.h
     TagsTest.h
     ThumbnailSystemTest.h
     TriangleMeshTest.h)
@@ -38,17 +34,14 @@ set(source
     ColorTest.cpp
     DPXTest.cpp
     EnumTest.cpp
-    FFmpegTest.cpp
     FontSystemTest.cpp
     IOTest.cpp
     ImageConvertTest.cpp
     ImageDataTest.cpp
     ImageTest.cpp
     ImageUtilTest.cpp
-    JPEGTest.cpp
     OCIOSystemTest.cpp
     OCIOTest.cpp
-    OpenEXRTest.cpp
     PPMTest.cpp
     PixelTest.cpp
     Render2DTest.cpp
@@ -56,10 +49,23 @@ set(source
     Render3DLightTest.cpp
     Render3DMaterialTest.cpp
     ShaderTest.cpp
-    TIFFTest.cpp
     TagsTest.cpp
     ThumbnailSystemTest.cpp
     TriangleMeshTest.cpp)
+if (NOT DJV_BUILD_TINY AND NOT DJV_BUILD_MINIMAL)
+    set(header
+        ${header}
+        FFmpegTest.h
+        JPEGTest.h
+        OpenEXRTest.h
+        TIFFTest.h)
+    set(header
+        ${header}
+        FFmpegTest.cpp
+        JPEGTest.cpp
+        OpenEXRTest.cpp
+        TIFFTest.cpp)
+endif()
 
 add_library(djvAVTest ${header} ${source})
 target_link_libraries(djvAVTest djvTestLib djvAV)
@@ -68,3 +74,4 @@ set_target_properties(
     PROPERTIES
     FOLDER tests
     CXX_STANDARD 11)
+
