@@ -345,6 +345,15 @@ namespace djv
                         for (const auto& type : types)
                         {
                             _io(i.first, i.second.extension, size, type, tags, io);
+                        }
+                    }
+                }
+                for (const auto& i : pluginInfo)
+                {
+                    for (const auto& size : sizes)
+                    {
+                        for (const auto& type : types)
+                        {
                             for (const auto& options : i.second.options)
                             {
                                 io->setOptions(i.first, options);
