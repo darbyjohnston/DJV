@@ -22,6 +22,7 @@ namespace djv
             void _constants();
             void _util();
             void _convert();
+            void _serialize();
         };
         
     } // namespace AVTest

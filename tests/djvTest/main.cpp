@@ -71,7 +71,9 @@
 #include <djvAVTest/Render3DCameraTest.h>
 #include <djvAVTest/Render3DLightTest.h>
 #include <djvAVTest/Render3DMaterialTest.h>
+#include <djvAVTest/Render3DTest.h>
 #include <djvAVTest/ShaderTest.h>
+#include <djvAVTest/ShapeTest.h>
 #include <djvAVTest/TagsTest.h>
 #include <djvAVTest/ThumbnailSystemTest.h>
 #include <djvAVTest/TriangleMeshTest.h>
@@ -189,7 +191,9 @@ int main(int argc, char ** argv)
         tests.emplace_back(new AVTest::Render3DCameraTest(tempPath, context));
         tests.emplace_back(new AVTest::Render3DLightTest(tempPath, context));
         tests.emplace_back(new AVTest::Render3DMaterialTest(tempPath, context));
+        tests.emplace_back(new AVTest::Render3DTest(tempPath, context));
         tests.emplace_back(new AVTest::ShaderTest(tempPath, context));
+        tests.emplace_back(new AVTest::ShapeTest(tempPath, context));
         tests.emplace_back(new AVTest::TagsTest(tempPath, context));
         tests.emplace_back(new AVTest::ThumbnailSystemTest(tempPath, context));
         tests.emplace_back(new AVTest::TriangleMeshTest(tempPath, context));

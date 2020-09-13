@@ -228,6 +228,11 @@ namespace djv
                 _capped = value;
             }
 
+            void Cylinder::setTextureSpan(bool value)
+            {
+                _textureSpan = value;
+            }
+
             void Cylinder::triangulate(TriangleMesh& mesh) const
             {
                 const float l = _length / 2.F;

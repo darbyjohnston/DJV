@@ -27,7 +27,9 @@ set(header
     Render3DCameraTest.h
     Render3DLightTest.h
     Render3DMaterialTest.h
+    Render3DTest.h
     ShaderTest.h
+    ShapeTest.h
     TagsTest.h
     ThumbnailSystemTest.h
     TriangleMeshTest.h)
@@ -60,7 +62,9 @@ set(source
     Render3DCameraTest.cpp
     Render3DLightTest.cpp
     Render3DMaterialTest.cpp
+    Render3DTest.cpp
     ShaderTest.cpp
+    ShapeTest.cpp
     TagsTest.cpp
     ThumbnailSystemTest.cpp
     TriangleMeshTest.cpp)

@@ -229,7 +229,7 @@ namespace djv
                 Image::Color c;
                 std::stringstream ss;
                 ss >> c;
-                DJV_ASSERT(true);
+                DJV_ASSERT(false);
             }
             catch (const std::exception& e)
             {
@@ -328,7 +328,7 @@ namespace djv
                 auto json = rapidjson::Value(rapidjson::kObjectType);
                 Image::Color c;
                 fromJSON(json, c);
-                DJV_ASSERT(true);
+                DJV_ASSERT(false);
             }
             catch (const std::exception&)
             {}

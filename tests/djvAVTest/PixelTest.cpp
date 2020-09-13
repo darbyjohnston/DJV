@@ -36,6 +36,7 @@ namespace djv
             _constants();
             _util();
             _convert();
+            _serialize();
         }
                 
         void PixelTest::_enum()
@@ -275,6 +276,29 @@ namespace djv
                 CONVERT(F32, Image::F32Range, U32);
                 CONVERT(F32, Image::F32Range, F16);
             }
+        }
+
+        void PixelTest::_serialize()
+        {
+            {
+                Image::Type value = Image::Type::RGBA_F32;
+                rapidjson::Document document;
+                auto& allocator = document.GetAllocator();
+                auto json = toJSON(value, allocator);
+                Image::Type value2 = Image::Type::None;
+                fromJSON(json, value2);
+                DJV_ASSERT(value == value2);
+            }
+
+            try
+            {
+                auto json = rapidjson::Value(rapidjson::kObjectType);
+                Image::Type value = Image::Type::None;
+                fromJSON(json, value);
+                DJV_ASSERT(true);
+            }
+            catch (const std::exception&)
+            {}
         }
         
     } // namespace AVTest
