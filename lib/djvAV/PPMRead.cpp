@@ -69,33 +69,17 @@ namespace djv
                     }
                     case Data::Binary:
                     {
+                        if (imageInfo.layout.endian != Memory::getEndian())
+                        {
+                            imageInfo.layout.endian = Memory::getEndian();
+                        }
 #if defined(DJV_MMAP)
                         out = Image::Image::create(imageInfo, io);
 #else // DJV_MMAP
-                        bool convertEndian = false;
-                        if (imageInfo.layout.endian != Memory::getEndian())
-                        {
-                            convertEndian = true;
-                            imageInfo.layout.endian = Memory::getEndian();
-                        }
                         out = Image::Image::create(imageInfo);
-                        out->setPluginName(pluginName);
                         io->read(out->getData(), out->getDataByteCount());
-                        if (convertEndian)
-                        {
-                            const size_t dataByteCount = out->getDataByteCount();
-                            switch (Image::getDataType(imageInfo.type))
-                            {
-                                case Image::DataType::U10:
-                                    Memory::endian(out->getData(), dataByteCount / 4, 4);
-                                    break;
-                                case Image::DataType::U16:
-                                    Memory::endian(out->getData(), dataByteCount / 2, 2);
-                                    break;
-                                default: break;                            
-                            }
-                        }
 #endif // DJV_MMAP
+                        out->setPluginName(pluginName);
                         break;
                     }
                     default: break;
