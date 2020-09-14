@@ -11,7 +11,7 @@
 #include <djvCore/Cache.h>
 #include <djvCore/Context.h>
 #include <djvCore/LogSystem.h>
-#include <djvCore/OS.h>
+#include <djvCore/OSFunc.h>
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/TextSystem.h>
 #include <djvCore/Timer.h>

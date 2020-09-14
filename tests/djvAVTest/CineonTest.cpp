@@ -5,7 +5,7 @@
 #include <djvAVTest/CineonTest.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/Error.h>
+#include <djvCore/ErrorFunc.h>
 #include <djvCore/FileIO.h>
 #include <djvCore/Memory.h>
 #include <djvCore/TextSystem.h>

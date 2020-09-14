@@ -10,12 +10,11 @@
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/Error.h>
+#include <djvCore/ErrorFunc.h>
 #include <djvCore/FileInfo.h>
 #include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 #include <djvCore/Timer.h>
-#include <djvCore/Vector.h>
 
 #include <iostream>
 

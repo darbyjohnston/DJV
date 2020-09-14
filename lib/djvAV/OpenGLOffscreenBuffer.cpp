@@ -6,7 +6,7 @@
 
 #include <djvAV/OpenGLTexture.h>
 
-#include <djvCore/Error.h>
+#include <djvCore/ErrorFunc.h>
 #include <djvCore/TextSystem.h>
 
 #include <array>

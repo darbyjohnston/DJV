@@ -6,26 +6,17 @@
 
 #include <djvCore/Core.h>
 
-#include <sstream>
-#include <vector>
-
 //! This macro provides enum helpers.
+//!
+//! Required includes:
+//! - vector
 #define DJV_ENUM_HELPERS(name)  \
     std::vector<name> get##name##Enums()
 
-//! This macro provides the enum helpers implementation.
-#define DJV_ENUM_HELPERS_IMPLEMENTATION(name)  \
-    std::vector<name> get##name##Enums() \
-    { \
-        std::vector<name> out; \
-        for (size_t i = 0; i < static_cast<size_t>(name::Count); ++i) \
-        { \
-            out.push_back(static_cast<name>(i)); \
-        } \
-        return out; \
-    }
-
 //! This macro provides enum serialziation helpers.
+//!
+//! Required includes:
+//! - sstream
 //!
 //! oeprator >> throws:
 //! - std::invalid_argument
@@ -46,6 +37,21 @@ namespace djv
         };
     }
 }
+
+//! This macro provides the enum helpers implementation.
+//!
+//! Required includes:
+//! - vector
+#define DJV_ENUM_HELPERS_IMPLEMENTATION(name)  \
+    std::vector<name> get##name##Enums() \
+    { \
+        std::vector<name> out; \
+        for (size_t i = 0; i < static_cast<size_t>(name::Count); ++i) \
+        { \
+            out.push_back(static_cast<name>(i)); \
+        } \
+        return out; \
+    }
 
 //! This macro provides the enum serialziation helpers implementation.
 //!

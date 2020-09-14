@@ -7,7 +7,10 @@
 #include <djvUI/UI.h>
 
 #include <djvCore/Enum.h>
-#include <djvCore/RapidJSON.h>
+#include <djvCore/RapidJSONFunc.h>
+
+#include <sstream>
+#include <vector>
 
 namespace djv
 {

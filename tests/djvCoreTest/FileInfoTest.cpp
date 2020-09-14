@@ -6,8 +6,10 @@
 
 #include <djvCore/FileIO.h>
 #include <djvCore/FileInfo.h>
+#include <djvCore/FrameNumberFunc.h>
 
 #include <iomanip>
+#include <sstream>
 
 using namespace djv::Core;
 
@@ -42,42 +44,10 @@ namespace djv
                     FileSystem::FileIO::Mode::Write);
             }
             
-            _enum();
             _ctor();
             _path();
             _sequences();
-            _util();
             _operators();
-            _serialize();
-        }
-
-        void FileInfoTest::_enum()
-        {
-            for (auto i : FileSystem::getFileTypeEnums())
-            {
-                std::stringstream ss;
-                ss << i;
-                _print("File type: " + _getText(ss.str()));
-            }
-            
-            for (auto i :
-                {
-                    FileSystem::FilePermissions::Read,
-                    FileSystem::FilePermissions::Write,
-                    FileSystem::FilePermissions::Exec
-                })
-            {
-                std::stringstream ss;
-                ss << "File permissions: " << FileSystem::getFilePermissionsLabel(static_cast<int>(i));
-                _print(ss.str());
-            }
-            
-            for (auto i : FileSystem::getDirectoryListSortEnums())
-            {
-                std::stringstream ss;
-                ss << i;
-                _print("Directory list sort: " + _getText(ss.str()));
-            }
         }
 
         void FileInfoTest::_ctor()
@@ -207,7 +177,7 @@ namespace djv
             }
             
             {
-                const std::string root(1, FileSystem::getCurrentSeparator());
+                const std::string root(1, FileSystem::Path::getCurrentSeparator());
                 FileSystem::FileInfo fileInfo(root);
                 DJV_ASSERT(root == fileInfo.getFileName());
             }
@@ -250,52 +220,6 @@ namespace djv
             }
         }
 
-        void FileInfoTest::_util()
-        {
-            {
-                DJV_ASSERT(!FileSystem::isSequenceWildcard(std::string()));
-                DJV_ASSERT(FileSystem::isSequenceWildcard("#"));
-                DJV_ASSERT(FileSystem::isSequenceWildcard("####"));
-                DJV_ASSERT(!FileSystem::isSequenceWildcard("#0"));
-            }
-            
-            {
-                std::vector<FileSystem::DirectoryListOptions> optionsList;
-                for (auto i : FileSystem::getDirectoryListSortEnums())
-                {
-                    FileSystem::DirectoryListOptions options;
-                    options.sort = i;
-                    optionsList.push_back(options);
-                }
-                for (const auto& i : optionsList)
-                {
-                    FileSystem::directoryList(FileSystem::Path(getTempPath()), i);
-                }
-            }
-            
-            {
-                FileSystem::DirectoryListOptions options;
-                options.extensions.insert(".exr");
-                FileSystem::directoryList(FileSystem::Path(getTempPath()), options);
-            }
-            
-            {
-                const FileSystem::FileInfo fileInfo = FileSystem::getFileSequence(
-                    FileSystem::Path(getTempPath(), "render.1.exr"),
-                    { ".exr" });
-                std::stringstream ss;
-                ss << "File sequence: " << fileInfo;
-                _print(ss.str());
-                DJV_ASSERT(fileInfo.getFileName(Frame::invalid, false) == "render.1-100.exr");
-            }
-            
-            {
-                FileSystem::Path path;
-                const auto fileInfo = FileSystem::getFileSequence(path, {});
-                DJV_ASSERT(fileInfo.getPath() == path);
-            }
-        }
-
         void FileInfoTest::_operators()
         {
             {
@@ -305,79 +229,6 @@ namespace djv
                 DJV_ASSERT(fileInfo < FileSystem::FileInfo());
                 DJV_ASSERT(_fileName == std::string(fileInfo));
             }
-        }
-
-        void FileInfoTest::_serialize()
-        {
-            for (const auto i : FileSystem::getFileTypeEnums())
-            {
-                rapidjson::Document document;
-                auto& allocator = document.GetAllocator();
-                auto json = toJSON(i, allocator);
-                FileSystem::FileType j = FileSystem::FileType::First;
-                fromJSON(json, j);
-                DJV_ASSERT(i == j);
-            }
-
-            try
-            {
-                auto json = rapidjson::Value(rapidjson::kObjectType);
-                FileSystem::FileType t;
-                fromJSON(json, t);
-                DJV_ASSERT(false);
-            }
-            catch (const std::exception&)
-            {}
-            
-            for (const auto i : FileSystem::getDirectoryListSortEnums())
-            {
-                rapidjson::Document document;
-                auto& allocator = document.GetAllocator();
-                auto json = toJSON(i, allocator);
-                FileSystem::DirectoryListSort j = FileSystem::DirectoryListSort::First;
-                fromJSON(json, j);
-                DJV_ASSERT(i == j);
-            }
-
-            try
-            {
-                auto json = rapidjson::Value(rapidjson::kObjectType);
-                FileSystem::DirectoryListSort t;
-                fromJSON(json, t);
-                DJV_ASSERT(false);
-            }
-            catch (const std::exception&)
-            {}
-            
-            {
-                const FileSystem::FileInfo fileInfo(_fileName);
-                rapidjson::Document document;
-                auto& allocator = document.GetAllocator();
-                auto json = toJSON(fileInfo, allocator);
-                FileSystem::FileInfo fileInfo2;
-                fromJSON(json, fileInfo2);
-                DJV_ASSERT(fileInfo == fileInfo2);
-            }
-            
-            {
-                const FileSystem::FileInfo fileInfo(FileSystem::Path("render.1-100.exr"), FileSystem::FileType::Sequence, _sequence, false);
-                rapidjson::Document document;
-                auto& allocator = document.GetAllocator();
-                auto json = toJSON(fileInfo, allocator);
-                FileSystem::FileInfo fileInfo2;
-                fromJSON(json, fileInfo2);
-                DJV_ASSERT(fileInfo == fileInfo2);
-            }
-
-            try
-            {
-                auto json = rapidjson::Value();
-                FileSystem::FileInfo fileInfo;
-                fromJSON(json, fileInfo);
-                DJV_ASSERT(false);
-            }
-            catch (const std::exception&)
-            {}
         }
         
     } // namespace CoreTest

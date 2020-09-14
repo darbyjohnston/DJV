@@ -8,6 +8,8 @@
 #include <djvAV/PointList.h>
 #include <djvAV/TriangleMesh.h>
 
+#include <sstream>
+
 using namespace djv::Core;
 using namespace djv::AV;
 using namespace djv::AV::OpenGL;

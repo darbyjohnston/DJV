@@ -15,7 +15,7 @@
 #include <djvUI/ToggleButton.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/OS.h>
+#include <djvCore/OSFunc.h>
 
 using namespace djv::Core;
 

@@ -6,8 +6,8 @@
 
 #include <djvAV/Pixel.h>
 
-#include <djvCore/Memory.h>
-#include <djvCore/RapidJSON.h>
+#include <djvCore/MemoryFunc.h>
+#include <djvCore/RapidJSONFunc.h>
 #include <djvCore/UID.h>
 
 #include <memory>

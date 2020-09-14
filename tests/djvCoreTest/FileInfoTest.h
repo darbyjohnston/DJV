@@ -22,13 +22,10 @@ namespace djv
             void run() override;
 
         private:
-            void _enum();
             void _ctor();
             void _path();
             void _sequences();
-            void _util();
             void _operators();
-            void _serialize();
 
             std::string _fileName;
             std::string _sequenceName;

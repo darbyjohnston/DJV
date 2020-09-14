@@ -20,12 +20,9 @@ namespace djv
             void run() override;
             
         private:
-            void _enum();
             void _path();
             void _split();
-            void _util();
             void _operators();
-            void _serialize();
         };
         
     } // namespace CoreTest

@@ -4,7 +4,10 @@
 
 #pragma once
 
-#include <djvCore/Vector.h>
+#include <djvCore/Core.h>
+
+#include <glm/vec2.hpp>
+#include <glm/vec3.hpp>
 
 namespace djv
 {

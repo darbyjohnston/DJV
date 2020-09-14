@@ -5,7 +5,7 @@
 #include <djvUIComponents/FileBrowserPrivate.h>
 
 #include <djvCore/Path.h>
-#include <djvCore/OS.h>
+#include <djvCore/OSFunc.h>
 
 using namespace djv::Core;
 

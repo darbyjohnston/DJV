@@ -16,12 +16,17 @@ set(header
     DrivesModel.h
     Enum.h
     Event.h
-    Error.h
+    EventFunc.h
+    ErrorFunc.h
     FileIO.h
+    FileIOFunc.h
     FileInfo.h
+    FileInfoFunc.h
     FileInfoPrivate.h
     FileSystem.h
+    FileSystemFunc.h
     FrameNumber.h
+    FrameNumberFunc.h
     ICommand.h
     IEventSystem.h
     INumericValueModel.h
@@ -35,39 +40,51 @@ set(header
     MapObserver.h
     MapObserverInline.h
     Math.h
-    MathInline.h
-    Matrix.h
-    MatrixInline.h
+    MathFunc.h
+    MathFuncInline.h
+    MatrixFunc.h
+    MatrixFuncInline.h
     Memory.h
-    MemoryInline.h
+    MemoryFunc.h
+    MemoryFuncInline.h
     NumericValueModels.h
-    OS.h
+    OSFunc.h
     Observer.h
+    PathFunc.h
     Path.h
     Range.h
+    RangeFunc.h
+    RangeFuncInline.h
     RangeInline.h
-    RapidJSON.h
+    RapidJSONFunc.h
     RapidJSONTemplates.h
     RapidJSONTemplatesInline.h
     Rational.h
+    RationalFunc.h
     Ray.h
+    RayFunc.h
+    RayFuncInline.h
     RayInline.h
     RecentFilesModel.h
     ResourceSystem.h
     Speed.h
+    SpeedFunc.h
     StringFormat.h
     StringFunc.h
     StringFuncInline.h
     String.h
     TextSystem.h
     Time.h
+    TimeFunc.h
     Timer.h
+    TimerFunc.h
     UID.h
+    UIDFunc.h
     UndoStack.h
     ValueObserver.h
     ValueObserverInline.h
-    Vector.h
-    VectorInline.h)
+    VectorFunc.h
+    VectorFuncInline.h)
 set(source
     Animation.cpp
     AnimationFunc.h
@@ -78,34 +95,41 @@ set(source
     DirectoryModel.cpp
     DrivesModel.cpp
     Event.cpp
-    Error.cpp
+    EventFunc.cpp
+    ErrorFunc.cpp
     FileIO.cpp
+    FileIOFunc.cpp
+    FileInfoFunc.cpp
     FileInfo.cpp
     FileSystem.cpp
     FrameNumber.cpp
+    FrameNumberFunc.cpp
     ICommand.cpp
     IEventSystem.cpp
     IObject.cpp
     ISystem.cpp
     LogSystem.cpp
-    Math.cpp
-    Memory.cpp
+    MathFunc.cpp
+    MemoryFunc.cpp
     NumericValueModels.cpp
-    OS.cpp
-    RapidJSON.cpp
+    OSFunc.cpp
+    RapidJSONFunc.cpp
     Rational.cpp
+    RationalFunc.cpp
     RecentFilesModel.cpp
     ResourceSystem.cpp
+    PathFunc.cpp
     Path.cpp
-    Speed.cpp
+    SpeedFunc.cpp
     StringFormat.cpp
     StringFunc.cpp
     TextSystem.cpp
-    Time.cpp
+    TimeFunc.cpp
     Timer.cpp
-    UID.cpp
+    TimerFunc.cpp
+    UIDFunc.cpp
     UndoStack.cpp
-    Vector.cpp)
+    VectorFunc.cpp)
 if (WIN32)
     set(source
         ${source}
@@ -113,22 +137,26 @@ if (WIN32)
         DrivesModelWin32.cpp
         ErrorWin32.cpp
         FileIOWin32.cpp
+        FileInfoFuncWin32.cpp
         FileInfoWin32.cpp
-        FileSystemWin32.cpp
-        OSWin32.cpp
+        FileSystemFuncWin32.cpp
+        OSFuncWin32.cpp
+        PathFuncWin32.cpp
         PathWin32.cpp
-        TimeWin32.cpp)
+        TimeFuncWin32.cpp)
 else()
     set(source
         ${source}
         DirectoryWatcherUnix.cpp
         DrivesModelUnix.cpp
         FileIOUnix.cpp
+        FileInfoFuncUnix.cpp
         FileInfoUnix.cpp
-        FileSystemUnix.cpp
-        OSUnix.cpp
+        FileSystemFuncUnix.cpp
+        OSFuncUnix.cpp
+        PathFuncUnix.cpp
         PathUnix.cpp
-        TimeUnix.cpp)
+        TimeFuncUnix.cpp)
 endif()
 
 add_library(djvCore ${header} ${source})

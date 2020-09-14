@@ -12,38 +12,46 @@
 #include <djvCoreTest/DirectoryWatcherTest.h>
 #include <djvCoreTest/DrivesModelTest.h>
 #include <djvCoreTest/EnumTest.h>
-#include <djvCoreTest/ErrorTest.h>
+#include <djvCoreTest/ErrorFuncTest.h>
+#include <djvCoreTest/EventFuncTest.h>
 #include <djvCoreTest/EventTest.h>
+#include <djvCoreTest/FileIOFuncTest.h>
 #include <djvCoreTest/FileIOTest.h>
+#include <djvCoreTest/FileInfoFuncTest.h>
 #include <djvCoreTest/FileInfoTest.h>
-#include <djvCoreTest/FileSystemTest.h>
+#include <djvCoreTest/FileSystemFuncTest.h>
+#include <djvCoreTest/FrameNumberFuncTest.h>
 #include <djvCoreTest/FrameNumberTest.h>
 #include <djvCoreTest/IEventSystemTest.h>
 #include <djvCoreTest/ISystemTest.h>
 #include <djvCoreTest/ListObserverTest.h>
 #include <djvCoreTest/LogSystemTest.h>
 #include <djvCoreTest/MapObserverTest.h>
-#include <djvCoreTest/MathTest.h>
-#include <djvCoreTest/MatrixTest.h>
-#include <djvCoreTest/MemoryTest.h>
+#include <djvCoreTest/MathFuncTest.h>
+#include <djvCoreTest/MatrixFuncTest.h>
+#include <djvCoreTest/MemoryFuncTest.h>
 #include <djvCoreTest/NumericValueModelsTest.h>
-#include <djvCoreTest/OSTest.h>
+#include <djvCoreTest/OSFuncTest.h>
 #include <djvCoreTest/ObjectTest.h>
+#include <djvCoreTest/PathFuncTest.h>
 #include <djvCoreTest/PathTest.h>
+#include <djvCoreTest/RangeFuncTest.h>
 #include <djvCoreTest/RangeTest.h>
-#include <djvCoreTest/RapidJSONTest.h>
+#include <djvCoreTest/RapidJSONFuncTest.h>
+#include <djvCoreTest/RationalFuncTest.h>
 #include <djvCoreTest/RationalTest.h>
 #include <djvCoreTest/RecentFilesModelTest.h>
-#include <djvCoreTest/SpeedTest.h>
+#include <djvCoreTest/SpeedFuncTest.h>
 #include <djvCoreTest/StringFormatTest.h>
 #include <djvCoreTest/StringFuncTest.h>
 #include <djvCoreTest/TextSystemTest.h>
-#include <djvCoreTest/TimeTest.h>
+#include <djvCoreTest/TimeFuncTest.h>
+#include <djvCoreTest/TimerFuncTest.h>
 #include <djvCoreTest/TimerTest.h>
-#include <djvCoreTest/UIDTest.h>
+#include <djvCoreTest/UIDFuncTest.h>
 #include <djvCoreTest/UndoStackTest.h>
 #include <djvCoreTest/ValueObserverTest.h>
-#include <djvCoreTest/VectorTest.h>
+#include <djvCoreTest/VectorFuncTest.h>
 
 #include <djvAVTest/AVSystemTest.h>
 #include <djvAVTest/AudioDataTest.h>
@@ -100,9 +108,9 @@
 #include <djvAV/AVSystem.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/Error.h>
+#include <djvCore/ErrorFunc.h>
 #include <djvCore/FileInfo.h>
-#include <djvCore/Path.h>
+#include <djvCore/PathFunc.h>
 #include <djvCore/StringFunc.h>
 
 #include <iostream>
@@ -135,38 +143,46 @@ int main(int argc, char ** argv)
         tests.emplace_back(new CoreTest::DirectoryWatcherTest(tempPath, context));
         tests.emplace_back(new CoreTest::DrivesModelTest(tempPath, context));
         tests.emplace_back(new CoreTest::EnumTest(tempPath, context));
-        tests.emplace_back(new CoreTest::ErrorTest(tempPath, context));
+        tests.emplace_back(new CoreTest::ErrorFuncTest(tempPath, context));
+        tests.emplace_back(new CoreTest::EventFuncTest(tempPath, context));
         tests.emplace_back(new CoreTest::EventTest(tempPath, context));
+        tests.emplace_back(new CoreTest::FileIOFuncTest(tempPath, context));
         tests.emplace_back(new CoreTest::FileIOTest(tempPath, context));
+        tests.emplace_back(new CoreTest::FileInfoFuncTest(tempPath, context));
         tests.emplace_back(new CoreTest::FileInfoTest(tempPath, context));
-        tests.emplace_back(new CoreTest::FileSystemTest(tempPath, context));
+        tests.emplace_back(new CoreTest::FileSystemFuncTest(tempPath, context));
+        tests.emplace_back(new CoreTest::FrameNumberFuncTest(tempPath, context));
         tests.emplace_back(new CoreTest::FrameNumberTest(tempPath, context));
         tests.emplace_back(new CoreTest::IEventSystemTest(tempPath, context));
         tests.emplace_back(new CoreTest::ISystemTest(tempPath, context));
         tests.emplace_back(new CoreTest::ListObserverTest(tempPath, context));
         tests.emplace_back(new CoreTest::LogSystemTest(tempPath, context));
         tests.emplace_back(new CoreTest::MapObserverTest(tempPath, context));
-        tests.emplace_back(new CoreTest::MathTest(tempPath, context));
-        tests.emplace_back(new CoreTest::MatrixTest(tempPath, context));
-        tests.emplace_back(new CoreTest::MemoryTest(tempPath, context));
+        tests.emplace_back(new CoreTest::MathFuncTest(tempPath, context));
+        tests.emplace_back(new CoreTest::MatrixFuncTest(tempPath, context));
+        tests.emplace_back(new CoreTest::MemoryFuncTest(tempPath, context));
         tests.emplace_back(new CoreTest::NumericValueModelsTest(tempPath, context));
-        tests.emplace_back(new CoreTest::OSTest(tempPath, context));
+        tests.emplace_back(new CoreTest::OSFuncTest(tempPath, context));
         tests.emplace_back(new CoreTest::ObjectTest(tempPath, context));
+        tests.emplace_back(new CoreTest::PathFuncTest(tempPath, context));
         tests.emplace_back(new CoreTest::PathTest(tempPath, context));
+        tests.emplace_back(new CoreTest::RangeFuncTest(tempPath, context));
         tests.emplace_back(new CoreTest::RangeTest(tempPath, context));
-        tests.emplace_back(new CoreTest::RapidJSONTest(tempPath, context));
+        tests.emplace_back(new CoreTest::RapidJSONFuncTest(tempPath, context));
+        tests.emplace_back(new CoreTest::RationalFuncTest(tempPath, context));
         tests.emplace_back(new CoreTest::RationalTest(tempPath, context));
         tests.emplace_back(new CoreTest::RecentFilesModelTest(tempPath, context));
-        tests.emplace_back(new CoreTest::SpeedTest(tempPath, context));
+        tests.emplace_back(new CoreTest::SpeedFuncTest(tempPath, context));
         tests.emplace_back(new CoreTest::StringFormatTest(tempPath, context));
         tests.emplace_back(new CoreTest::StringFuncTest(tempPath, context));
         tests.emplace_back(new CoreTest::TextSystemTest(tempPath, context));
-        tests.emplace_back(new CoreTest::TimeTest(tempPath, context));
+        tests.emplace_back(new CoreTest::TimeFuncTest(tempPath, context));
+        tests.emplace_back(new CoreTest::TimerFuncTest(tempPath, context));
         tests.emplace_back(new CoreTest::TimerTest(tempPath, context));
-        tests.emplace_back(new CoreTest::UIDTest(tempPath, context));
+        tests.emplace_back(new CoreTest::UIDFuncTest(tempPath, context));
         tests.emplace_back(new CoreTest::UndoStackTest(tempPath, context));
         tests.emplace_back(new CoreTest::ValueObserverTest(tempPath, context));
-        tests.emplace_back(new CoreTest::VectorTest(tempPath, context));
+        tests.emplace_back(new CoreTest::VectorFuncTest(tempPath, context));
 
         tests.emplace_back(new AVTest::AVSystemTest(tempPath, context));
         tests.emplace_back(new AVTest::AudioDataTest(tempPath, context));

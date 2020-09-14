@@ -8,6 +8,8 @@
 #include <djvCore/ISystem.h>
 #include <djvCore/String.h>
 
+#include <sstream>
+
 using namespace djv::Core;
 
 namespace djv

@@ -12,7 +12,6 @@
 #include <djvCore/ListObserver.h>
 #include <djvCore/MapObserver.h>
 #include <djvCore/ValueObserver.h>
-#include <djvCore/Vector.h>
 
 namespace djv
 {

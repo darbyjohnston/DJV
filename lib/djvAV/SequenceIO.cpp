@@ -10,8 +10,9 @@
 #include <djvCore/FileSystem.h>
 #include <djvCore/FileInfo.h>
 #include <djvCore/LogSystem.h>
-#include <djvCore/OS.h>
+#include <djvCore/OSFunc.h>
 #include <djvCore/Path.h>
+#include <djvCore/SpeedFunc.h>
 #include <djvCore/String.h>
 #include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>

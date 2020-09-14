@@ -4,11 +4,9 @@
 
 #include <djvCoreTest/PathTest.h>
 
-#include <djvCore/Error.h>
-#if defined(DJV_PLATFORM_MACOS) || defined(DJV_PLATFORM_LINUX)
-#include <djvCore/OS.h>
-#endif // DJV_PLATFORM_MACOS || DJV_PLATFORM_LINUX
 #include <djvCore/Path.h>
+
+#include <sstream>
 
 using namespace djv::Core;
 
@@ -24,24 +22,11 @@ namespace djv
         
         void PathTest::run()
         {
-            _enum();
             _path();
             _split();
-            _util();
             _operators();
-            _serialize();
         }
-                
-        void PathTest::_enum()
-        {
-            for (auto i : FileSystem::getResourcePathEnums())
-            {
-                std::stringstream ss;
-                ss << i;
-                _print("Resource path: " + _getText(ss.str()));
-            }
-        }
-               
+
         void PathTest::_path()
         {
             {
@@ -71,6 +56,16 @@ namespace djv
                 DJV_ASSERT("/a/c0001.ext" == path.get());
             }
 
+            {
+                DJV_ASSERT(FileSystem::Path::isSeparator('/'));
+                DJV_ASSERT('/' == FileSystem::Path::getSeparator(FileSystem::PathSeparator::Unix));
+                {
+                    std::stringstream ss;
+                    ss << "Current separator: " << FileSystem::Path::getCurrentSeparator();
+                    _print(ss.str());
+                }
+            }
+            
             {
                 DJV_ASSERT(!FileSystem::Path().isRoot());
                 DJV_ASSERT(FileSystem::Path("/").isRoot());
@@ -163,134 +158,6 @@ namespace djv
             }
         }
         
-        void PathTest::_util()
-        {
-            {
-                DJV_ASSERT(FileSystem::isSeparator('/'));
-                DJV_ASSERT('/' == FileSystem::getSeparator(FileSystem::PathSeparator::Unix));
-                {
-                    std::stringstream ss;
-                    ss << "Current separator: " << FileSystem::getCurrentSeparator();
-                    _print(ss.str());
-                }
-            }
-            
-            {
-                std::string path("/a/b/");
-                FileSystem::removeTrailingSeparator(path);
-                DJV_ASSERT("/a/b" == path);
-            }
-            
-            {
-                struct Data
-                {
-                    std::string              path;
-                    char                     seperator;
-                    std::vector<std::string> pieces;
-                };
-                std::vector<Data> data =
-                {
-                    { "a", '/', { "a" } },
-                    { "a/b", '/', { "a", "b" } },
-                    { "/a/b", '/', { "/", "a", "b" } },
-                    { "/", '/', { "/" } },
-                    { "a\\b", '\\', { "a", "b" } },
-                    { "\\a\\b", '\\', { "\\", "a", "b" } },
-                    { "a:\\b", '\\', { "a:", "b" } },
-                    { "\\", '\\', { "\\" } },
-                    { "\\\\a", '\\', { "\\\\a" } },
-                    { "\\\\a\\b", '\\', { "\\\\a", "b" } }
-                };
-                for (const auto & d : data)
-                {
-                    const auto pieces = FileSystem::splitDir(d.path);
-                    DJV_ASSERT(pieces == d.pieces);
-                    const std::string path = FileSystem::joinDirs(pieces, d.seperator);
-                    std::stringstream ss;
-                    ss << "Split/join: " << d.path << " = " << path;
-                    _print(ss.str());
-                    DJV_ASSERT(d.path == path);
-                }
-            }
-            
-            {
-                const FileSystem::Path path("foo");
-                FileSystem::mkdir(path);
-                FileSystem::rmdir(path);
-            }
-
-            {            
-                const FileSystem::Path path("foo");
-                try
-                {
-                    FileSystem::mkdir(path);
-                    FileSystem::mkdir(path);
-                }
-                catch (const std::exception & e)
-                {
-                    _print(Error::format(e));
-                }
-                try
-                {
-                    FileSystem::rmdir(path);
-                    FileSystem::rmdir(path);
-                }
-                catch (const std::exception & e)
-                {
-                    _print(Error::format(e));
-                }
-            }
-            
-            {
-                const FileSystem::Path path = FileSystem::getAbsolute(getTempPath());
-                std::stringstream ss;
-                ss << "Absolute: " << path;
-                _print(ss.str());
-            }
-            
-            {
-                const FileSystem::Path path = FileSystem::getAbsolute(FileSystem::Path());
-                std::stringstream ss;
-                ss << "Absolute: " << path;
-                _print(ss.str());
-            }
-
-            {
-                const FileSystem::Path path = FileSystem::getCWD();
-                std::stringstream ss;
-                ss << "CWD: " << path;
-                _print(ss.str());
-            }
-
-            {
-                const FileSystem::Path path = FileSystem::getTemp();
-                std::stringstream ss;
-                ss << "Temp: " << path;
-                _print(ss.str());
-            }
-
-#if defined(DJV_PLATFORM_MACOS) || defined(DJV_PLATFORM_LINUX)
-            for (const auto& i : std::vector<std::string>({ "TEMP", "TMP", "TMPDIR" }))
-            {
-                std::string prev;
-                bool hasPrev = OS::getEnv(i, prev);
-                OS::setEnv(i, i);
-                const FileSystem::Path path = FileSystem::getTemp();
-                std::stringstream ss;
-                ss << "Temp: " << path;
-                _print(ss.str());
-                if (hasPrev)
-                {
-                    OS::setEnv(i, prev);
-                }
-                else
-                {
-                    OS::clearEnv(i);
-                }
-            }
-#endif // DJV_PLATFORM_MACOS || DJV_PLATFORM_LINUX
-        }
-        
         void PathTest::_operators()
         {
             const FileSystem::Path path("/a/b");
@@ -300,26 +167,6 @@ namespace djv
             DJV_ASSERT(path2 < path);
         }
         
-        void PathTest::_serialize()
-        {
-            {
-                const FileSystem::Path path("/a/b");
-                rapidjson::Document document;
-                auto& allocator = document.GetAllocator();
-                auto json = toJSON(path, allocator);
-                FileSystem::Path path2;
-                fromJSON(json, path2);
-                DJV_ASSERT(path == path2);
-            }
-
-            {
-                auto json = rapidjson::Value(rapidjson::kObjectType);
-                FileSystem::Path path;
-                fromJSON(json, path);
-                DJV_ASSERT(FileSystem::Path() == path);
-            }
-        }
-                
     } // namespace CoreTest
 } // namespace djv
 

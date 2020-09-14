@@ -32,6 +32,7 @@
 #include <djvCore/Animation.h>
 #include <djvCore/Context.h>
 #include <djvCore/LogSystem.h>
+#include <djvCore/Math.h>
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/TextSystem.h>
 #include <djvCore/Timer.h>

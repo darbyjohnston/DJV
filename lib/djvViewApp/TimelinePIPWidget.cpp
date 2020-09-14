@@ -23,6 +23,7 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/Math.h>
+#include <djvCore/TimeFunc.h>
 #include <djvCore/Timer.h>
 
 using namespace djv::Core;

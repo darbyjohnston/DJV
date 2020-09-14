@@ -27,7 +27,6 @@ namespace djv
 
             std::string _fileName;
             std::string _text;
-            std::string _text2;
         };
         
     } // namespace CoreTest

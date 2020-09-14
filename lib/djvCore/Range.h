@@ -6,7 +6,7 @@
 
 #include <djvCore/Core.h>
 
-#include <sstream>
+#include <stddef.h>
 
 namespace djv
 {
@@ -61,15 +61,7 @@ namespace djv
         typedef Math::Range<float> FloatRange;
 
     } // namespace Core
-
-    template<typename T>
-    std::ostream& operator << (std::ostream&, const Core::Math::Range<T>&);
-
-    //! Throws:
-    //! - std::exception
-    template<typename T>
-    std::istream& operator >> (std::istream&, Core::Math::Range<T>&);
-
 } // namespace djv
 
 #include <djvCore/RangeInline.h>
+

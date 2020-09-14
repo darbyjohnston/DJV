@@ -18,6 +18,7 @@
 #include <djvCore/TextSystem.h>
 
 #include <map>
+#include <sstream>
 
 using namespace djv::Core;
 

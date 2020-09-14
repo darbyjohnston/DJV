@@ -15,7 +15,7 @@
 #include <djvUI/Window.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/FileIO.h>
+#include <djvCore/FileIOFunc.h>
 #include <djvCore/Path.h>
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/StringFunc.h>

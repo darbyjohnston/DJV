@@ -10,7 +10,7 @@
 
 #include <djvCore/Cache.h>
 #include <djvCore/Context.h>
-#include <djvCore/FileInfo.h>
+#include <djvCore/FileInfoFunc.h>
 #include <djvCore/FileSystem.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/ResourceSystem.h>

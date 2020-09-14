@@ -9,6 +9,7 @@
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Math.h>
+#include <djvCore/VectorFunc.h>
 
 #include <array>
 #include <unordered_map>

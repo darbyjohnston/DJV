@@ -4,9 +4,7 @@
 
 #pragma once
 
-#include <djvCore/RapidJSON.h>
-
-#include <sstream>
+#include <djvCore/Core.h>
 
 namespace djv
 {
@@ -40,18 +38,5 @@ namespace djv
 
         } // namespace Math
     } // namespace Core
-
-    std::ostream& operator << (std::ostream&, const Core::Math::Rational&);
-
-    //! Throws:
-    //! - std::exception
-    std::istream& operator >> (std::istream&, Core::Math::Rational&);
-
-    rapidjson::Value toJSON(const Core::Math::Rational&, rapidjson::Document::AllocatorType&);
-
-    //! Throws:
-    //! - std::exception
-    void fromJSON(const rapidjson::Value&, Core::Math::Rational&);
-
 } // namespace djv
 

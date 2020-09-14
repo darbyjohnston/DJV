@@ -11,7 +11,7 @@
 #include <djvAV/OpenGL.h>
 #include <djvAV/Render2D.h>
 
-#include <djvCore/Error.h>
+#include <djvCore/ErrorFunc.h>
 #include <djvCore/StringFunc.h>
 #include <djvCore/ResourceSystem.h>
 

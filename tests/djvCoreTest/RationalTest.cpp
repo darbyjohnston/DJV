@@ -24,7 +24,6 @@ namespace djv
             _conversion();
             _util();
             _operators();
-            _serialize();
         }
 
         void RationalTest::_ctor()
@@ -74,48 +73,6 @@ namespace djv
                 DJV_ASSERT(r == r);
                 DJV_ASSERT(Math::Rational() != r);
             }
-        }
-        
-        void RationalTest::_serialize()
-        {
-            {
-                const Math::Rational r(24);
-                std::stringstream ss;
-                ss << r;
-                Math::Rational r2;
-                ss >> r2;
-                DJV_ASSERT(r == r2);
-            }
-
-            try
-            {
-                Math::Rational r;
-                std::stringstream ss;
-                ss >> r;
-                DJV_ASSERT(false);
-            }
-            catch (const std::exception&)
-            {}
-
-            {
-                const Math::Rational r(24);
-                rapidjson::Document document;
-                auto& allocator = document.GetAllocator();
-                auto json = toJSON(r, allocator);
-                Math::Rational r2;
-                fromJSON(json, r2);
-                DJV_ASSERT(r == r2);
-            }
-
-            try
-            {
-                auto json = rapidjson::Value(rapidjson::kObjectType);
-                Math::Rational value;
-                fromJSON(json, value);
-                DJV_ASSERT(false);
-            }
-            catch (const std::exception&)
-            {}
         }
         
     } // namespace CoreTest

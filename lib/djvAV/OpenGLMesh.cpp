@@ -6,10 +6,10 @@
 
 #include <djvAV/TriangleMesh.h>
 
-#include <djvCore/Math.h>
+#include <djvCore/MathFunc.h>
 
 #include <array>
-#include <iostream>
+#include <sstream>
 
 //#pragma optimize("", off)
 

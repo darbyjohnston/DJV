@@ -8,7 +8,7 @@
 
 #include <djvCore/BBoxFunc.h>
 #include <djvCore/Context.h>
-#include <djvCore/FileInfo.h>
+#include <djvCore/FileInfoFunc.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>

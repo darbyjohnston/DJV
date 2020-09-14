@@ -11,7 +11,7 @@
 
 #include <djvCore/BBox.h>
 #include <djvCore/MapObserver.h>
-#include <djvCore/RapidJSON.h>
+#include <djvCore/RapidJSONFunc.h>
 #include <djvCore/ValueObserver.h>
 
 #include <glm/vec2.hpp>

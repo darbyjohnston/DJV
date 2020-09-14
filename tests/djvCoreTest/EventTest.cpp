@@ -9,6 +9,7 @@
 
 #include <codecvt>
 #include <locale>
+#include <sstream>
 
 using namespace djv::Core;
 
@@ -24,31 +25,11 @@ namespace djv
         
         void EventTest::run()
         {
-            _enum();
             _event();
             _familyEvent();
             _coreEvent();
             _renderEvent();
             _inputEvent();
-        }
-
-        void EventTest::_enum()
-        {
-            for (auto i : Event::getTypeEnums())
-            {
-                std::stringstream ss;
-                ss << i;
-                _print("Event type: " + _getText(ss.str()));
-            }
-            
-            for (auto i : Event::getTypeEnums())
-            {
-                std::stringstream ss;
-                ss << i;
-                Event::Type j = Event::Type::First;
-                ss >> j;
-                DJV_ASSERT(i == j);
-            }
         }
 
         namespace

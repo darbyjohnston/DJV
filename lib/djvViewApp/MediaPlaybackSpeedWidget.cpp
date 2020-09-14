@@ -17,7 +17,7 @@
 #include <djvUI/SettingsSystem.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/Speed.h>
+#include <djvCore/SpeedFunc.h>
 
 using namespace djv::Core;
 

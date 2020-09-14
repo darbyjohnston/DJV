@@ -5,6 +5,7 @@
 #include <djvViewApp/PlaybackSettings.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/RationalFunc.h>
 #include <djvCore/Speed.h>
 
 // These need to be included last on macOS.

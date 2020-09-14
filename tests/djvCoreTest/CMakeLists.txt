@@ -9,38 +9,46 @@ set(header
     DirectoryWatcherTest.h
     DrivesModelTest.h
     EnumTest.h
-    ErrorTest.h
+    ErrorFuncTest.h
+    EventFuncTest.h
     EventTest.h
+    FileIOFuncTest.h
     FileIOTest.h
+    FileInfoFuncTest.h
     FileInfoTest.h
-    FileSystemTest.h
+    FileSystemFuncTest.h
+	FrameNumberFuncTest.h
 	FrameNumberTest.h
 	IEventSystemTest.h
 	ISystemTest.h
     ListObserverTest.h
     LogSystemTest.h
     MapObserverTest.h
-    MathTest.h
-    MatrixTest.h
-    MemoryTest.h
+    MathFuncTest.h
+    MatrixFuncTest.h
+    MemoryFuncTest.h
     NumericValueModelsTest.h
-    OSTest.h
+    OSFuncTest.h
     ObjectTest.h
+    PathFuncTest.h
     PathTest.h
+	RangeFuncTest.h
 	RangeTest.h
+	RationalFuncTest.h
 	RationalTest.h
-	RapidJSONTest.h
+	RapidJSONFuncTest.h
 	RecentFilesModelTest.h
-	SpeedTest.h
+	SpeedFuncTest.h
     StringFormatTest.h
     StringFuncTest.h
     TextSystemTest.h
-    TimeTest.h
+    TimeFuncTest.h
+    TimerFuncTest.h
     TimerTest.h
-    UIDTest.h
+    UIDFuncTest.h
     UndoStackTest.h
     ValueObserverTest.h
-    VectorTest.h)
+    VectorFuncTest.h)
 set(source
     AnimationTest.cpp
     AnimationFuncTest.cpp
@@ -52,38 +60,46 @@ set(source
     DirectoryWatcherTest.cpp
     DrivesModelTest.cpp
     EnumTest.cpp
-    ErrorTest.cpp
+    ErrorFuncTest.cpp
+    EventFuncTest.cpp
     EventTest.cpp
+    FileIOFuncTest.cpp
     FileIOTest.cpp
+    FileInfoFuncTest.cpp
     FileInfoTest.cpp
-    FileSystemTest.cpp
+    FileSystemFuncTest.cpp
+	FrameNumberFuncTest.cpp
 	FrameNumberTest.cpp
 	IEventSystemTest.cpp
 	ISystemTest.cpp
     ListObserverTest.cpp
     LogSystemTest.cpp
     MapObserverTest.cpp
-    MathTest.cpp
-    MatrixTest.cpp
-    MemoryTest.cpp
+    MathFuncTest.cpp
+    MatrixFuncTest.cpp
+    MemoryFuncTest.cpp
     NumericValueModelsTest.cpp
-    OSTest.cpp
+    OSFuncTest.cpp
     ObjectTest.cpp
+    PathFuncTest.cpp
     PathTest.cpp
+	RangeFuncTest.cpp
 	RangeTest.cpp
-	RapidJSONTest.cpp
+	RapidJSONFuncTest.cpp
 	RecentFilesModelTest.cpp
+	RationalFuncTest.cpp
 	RationalTest.cpp
-	SpeedTest.cpp
+	SpeedFuncTest.cpp
     StringFormatTest.cpp
     StringFuncTest.cpp
     TextSystemTest.cpp
-    TimeTest.cpp
+    TimeFuncTest.cpp
+    TimerFuncTest.cpp
     TimerTest.cpp
-    UIDTest.cpp
+    UIDFuncTest.cpp
     UndoStackTest.cpp
     ValueObserverTest.cpp
-    VectorTest.cpp)
+    VectorFuncTest.cpp)
 
 add_library(djvCoreTest ${header} ${source})
 target_link_libraries(djvCoreTest djvTestLib)

@@ -9,6 +9,8 @@
 #include <djvCore/BBox.h>
 #include <djvCore/UID.h>
 
+#include <vector>
+
 namespace djv
 {
     namespace AV

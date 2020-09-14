@@ -8,9 +8,11 @@
 #include <djvAV/PPM.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/Error.h>
+#include <djvCore/ErrorFunc.h>
+#include <djvCore/FrameNumberFunc.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/ResourceSystem.h>
+#include <djvCore/SpeedFunc.h>
 #include <djvCore/StringFunc.h>
 #include <djvCore/TextSystem.h>
 #include <djvCore/Timer.h>

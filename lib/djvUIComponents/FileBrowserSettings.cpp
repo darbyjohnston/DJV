@@ -7,8 +7,9 @@
 #include <djvAV/ImageData.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/FileInfo.h>
-#include <djvCore/OS.h>
+#include <djvCore/FileInfoFunc.h>
+#include <djvCore/OSFunc.h>
+#include <djvCore/PathFunc.h>
 #include <djvCore/TextSystem.h>
 
 #if defined(GetObject)

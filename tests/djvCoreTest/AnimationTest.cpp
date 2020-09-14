@@ -8,6 +8,8 @@
 #include <djvCore/AnimationFunc.h>
 #include <djvCore/Context.h>
 
+#include <sstream>
+
 using namespace djv::Core;
 
 namespace djv

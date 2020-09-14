@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvCore/RapidJSON.h>
+#include <djvCore/RapidJSONFunc.h>
 
 #include <map>
 #include <memory>

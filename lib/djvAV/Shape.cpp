@@ -7,6 +7,7 @@
 #include <djvAV/TriangleMesh.h>
 
 #include <djvCore/Math.h>
+#include <djvCore/MathFunc.h>
 
 using namespace djv::Core;
 

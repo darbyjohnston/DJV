@@ -12,6 +12,7 @@
 #include <djvAV/AVSystem.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/TimeFunc.h>
 
 using namespace djv::Core;
 

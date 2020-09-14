@@ -4,8 +4,9 @@
 
 #pragma once
 
-#include <djvCore/Enum.h>
-#include <djvCore/RapidJSON.h>
+#include <djvCore/Core.h>
+
+#include <string>
 
 namespace djv
 {
@@ -19,15 +20,6 @@ namespace djv
                 Unix,
                 Windows
             };
-
-            //! Is this character a path separator?
-            bool isSeparator(char) noexcept;
-
-            //! Get the path separator.
-            char getSeparator(PathSeparator) noexcept;
-
-            //! Get the current path separator.
-            char getCurrentSeparator() noexcept;
 
             //! This enumeration provides resource paths.
             enum class ResourcePath
@@ -49,7 +41,6 @@ namespace djv
                 Count,
                 First = Application
             };
-            DJV_ENUM_HELPERS(ResourcePath);
 
             //! This class provides a file system path.
             //!
@@ -102,6 +93,15 @@ namespace djv
                 std::string get() const;
                 
                 void set(std::string);
+
+                //! Is this character a path separator?
+                static bool isSeparator(char) noexcept;
+
+                //! Get the path separator.
+                static char getSeparator(PathSeparator) noexcept;
+
+                //! Get the current path separator.
+                static char getCurrentSeparator() noexcept;
                 
                 void append(const std::string&, char separator = getCurrentSeparator());
 
@@ -149,72 +149,7 @@ namespace djv
                 std::string _extension;
             };
 
-            //! Remove a trailing path separator.
-            void removeTrailingSeparator(std::string&);
-
-            //! Split a path into components.
-            void split(
-                const std::string&  in,
-                std::string&        directoryName,
-                std::string&        baseName,
-                std::string&        number,
-                std::string&        extension);
-
-            //! Split a directory path into sub-directories.
-            //! For example: "var/tmp" -> { "var", "tmp" }
-            std::vector<std::string> splitDir(const std::string&);
-
-            //! Join a list of sub-directories into a directory path.
-            //! For example: var, tmp -> var/tmp
-            std::string joinDirs(const std::vector<std::string>&, char separator = getCurrentSeparator());
-
-            //! Create a directory.
-            //! Throws:
-            //! - std::exception
-            void mkdir(const Path&);
-
-            //! Remove a directory. The directory must be empty.
-            //! Throws:
-            //! - std::exception
-            void rmdir(const Path&);
-
-            //! Get the absolute path.
-            //! Throws:
-            //! - std::exception
-            Path getAbsolute(const Path&);
-
-            //! Get the current working directory path.
-            //! Throws:
-            //! - std::exception
-            Path getCWD();
-
-            //! Get the temp file path.
-            //! Throws:
-            //! - std::exception
-            Path getTemp();
-
         } // namespace FileSystem
     } // namespace Core
-
-    DJV_ENUM_SERIALIZE_HELPERS(Core::FileSystem::ResourcePath);
-
-    rapidjson::Value toJSON(const Core::FileSystem::Path&, rapidjson::Document::AllocatorType&);
-
-    //! Throws:
-    //! - std::exception
-    void fromJSON(const rapidjson::Value&, Core::FileSystem::Path&);
-
-    std::ostream& operator << (std::ostream&, const Core::FileSystem::Path&);
-
 } // namespace djv
-
-namespace std
-{
-    template<>
-    struct hash<djv::Core::FileSystem::Path>
-    {
-        std::size_t operator() (const djv::Core::FileSystem::Path&) const noexcept;
-    };
-
-} // namespace std
 

@@ -6,7 +6,9 @@
 
 #include <djvViewApp/IViewSystem.h>
 
+#include <djvCore/FrameNumber.h>
 #include <djvCore/ListObserver.h>
+#include <djvCore/Rational.h>
 #include <djvCore/ValueObserver.h>
 
 #include <glm/vec2.hpp>

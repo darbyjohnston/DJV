@@ -10,7 +10,7 @@
 #include <djvCore/ISystem.h>
 #include <djvCore/ListObserver.h>
 #include <djvCore/MapObserver.h>
-#include <djvCore/RapidJSON.h>
+#include <djvCore/RapidJSONFunc.h>
 #include <djvCore/ValueObserver.h>
 
 #include <OpenColorIO/OpenColorIO.h>

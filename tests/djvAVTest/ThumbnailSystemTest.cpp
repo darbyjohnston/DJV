@@ -8,7 +8,7 @@
 #include <djvAV/ThumbnailSystem.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/Error.h>
+#include <djvCore/ErrorFunc.h>
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/Timer.h>
 

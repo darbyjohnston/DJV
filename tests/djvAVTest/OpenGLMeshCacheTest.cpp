@@ -7,6 +7,8 @@
 #include <djvAV/OpenGLMesh.h>
 #include <djvAV/OpenGLMeshCache.h>
 
+#include <sstream>
+
 using namespace djv::Core;
 using namespace djv::AV;
 using namespace djv::AV::OpenGL;

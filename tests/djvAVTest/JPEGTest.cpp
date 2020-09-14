@@ -6,7 +6,7 @@
 
 #include <djvAV/JPEG.h>
 
-#include <djvCore/Error.h>
+#include <djvCore/ErrorFunc.h>
 
 using namespace djv::Core;
 using namespace djv::AV;

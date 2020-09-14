@@ -9,7 +9,6 @@
 #include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 #include <djvCore/Timer.h>
-#include <djvCore/Vector.h>
 
 extern "C"
 {

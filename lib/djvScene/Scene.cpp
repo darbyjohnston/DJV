@@ -8,7 +8,7 @@
 #include <djvScene/IPrimitive.h>
 
 #include <djvCore/BBoxFunc.h>
-#include <djvCore/Matrix.h>
+#include <djvCore/MatrixFunc.h>
 
 #include <glm/gtc/matrix_transform.hpp>
 

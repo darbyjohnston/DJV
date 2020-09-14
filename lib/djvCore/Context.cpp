@@ -5,10 +5,12 @@
 #include <djvCore/Context.h>
 
 #include <djvCore/CoreSystem.h>
-#include <djvCore/FileIO.h>
+#include <djvCore/FileIOFunc.h>
 #include <djvCore/IObject.h>
 #include <djvCore/LogSystem.h>
-#include <djvCore/OS.h>
+#include <djvCore/MemoryFunc.h>
+#include <djvCore/OSFunc.h>
+#include <djvCore/PathFunc.h>
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/TextSystem.h>
 #include <djvCore/Time.h>

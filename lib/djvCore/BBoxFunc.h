@@ -5,8 +5,11 @@
 #pragma once
 
 #include <djvCore/BBox.h>
+#include <djvCore/RapidJSONFunc.h>
 
 #include <glm/mat4x4.hpp>
+
+#include <sstream>
 
 namespace djv
 {

@@ -10,8 +10,8 @@
 #include <djvAV/ImageData.h>
 
 #include <djvCore/FrameNumber.h>
-#include <djvCore/RapidJSON.h>
-#include <djvCore/Speed.h>
+#include <djvCore/RapidJSONFunc.h>
+#include <djvCore/Rational.h>
 
 namespace djv
 {

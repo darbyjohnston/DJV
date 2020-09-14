@@ -6,7 +6,7 @@
 
 #include <djvAV/FFmpeg.h>
 
-#include <djvCore/Error.h>
+#include <djvCore/ErrorFunc.h>
 
 #include <libavutil/error.h>
 

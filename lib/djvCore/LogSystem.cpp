@@ -5,12 +5,12 @@
 #include <djvCore/LogSystem.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/Error.h>
+#include <djvCore/ErrorFunc.h>
 #include <djvCore/FileIO.h>
-#include <djvCore/OS.h>
-#include <djvCore/Path.h>
+#include <djvCore/OSFunc.h>
+#include <djvCore/PathFunc.h>
 #include <djvCore/ResourceSystem.h>
-#include <djvCore/Time.h>
+#include <djvCore/TimeFunc.h>
 #include <djvCore/Timer.h>
 
 #include <atomic>

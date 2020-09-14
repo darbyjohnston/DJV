@@ -4,7 +4,7 @@
 
 #include <djvCoreTest/EnumTest.h>
 
-#include <djvCore/Memory.h>
+#include <djvCore/MemoryFunc.h>
 
 using namespace djv::Core;
 

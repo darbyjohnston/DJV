@@ -7,6 +7,7 @@
 #include <djvUIComponents/FileBrowser.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/Path.h>
 
 using namespace djv::Core;
 

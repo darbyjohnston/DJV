@@ -6,6 +6,8 @@
 
 #include <djvAV/TriangleMesh.h>
 
+#include <djvCore/VectorFunc.h>
+
 using namespace djv::Core;
 using namespace djv::AV;
 

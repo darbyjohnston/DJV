@@ -4,11 +4,11 @@
 
 #include <djvCore/FileIO.h>
 
-#include <djvCore/Error.h>
+#include <djvCore/ErrorFunc.h>
 #include <djvCore/FileSystem.h>
 #include <djvCore/Math.h>
-#include <djvCore/Memory.h>
-#include <djvCore/Path.h>
+#include <djvCore/MemoryFunc.h>
+#include <djvCore/PathFunc.h>
 #include <djvCore/StringFormat.h>
 #include <djvCore/StringFunc.h>
 

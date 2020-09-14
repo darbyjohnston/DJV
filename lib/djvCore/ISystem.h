@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvCore/Time.h>
+#include <djvCore/Enum.h>
 
 #include <chrono>
 #include <memory>

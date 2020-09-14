@@ -6,7 +6,7 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
-#include <djvCore/Path.h>
+#include <djvCore/PathFunc.h>
 #include <djvCore/TextSystem.h>
 
 #include <iostream>

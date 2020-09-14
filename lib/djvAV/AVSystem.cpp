@@ -15,9 +15,10 @@
 #include <djvAV/ThumbnailSystem.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/Error.h>
+#include <djvCore/ErrorFunc.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/OS.h>
+#include <djvCore/SpeedFunc.h>
 #include <djvCore/TextSystem.h>
 
 #include <iomanip>

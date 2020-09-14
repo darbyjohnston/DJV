@@ -21,9 +21,7 @@ namespace djv
             
         private:
             void _sequence();
-            void _conversion();
             void _operators();
-            void _serialize();
         };
         
     } // namespace CoreTest

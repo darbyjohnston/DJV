@@ -4,10 +4,9 @@
 
 #pragma once
 
-#include <djvCore/String.h>
+#include <djvCore/Core.h>
 
 #include <memory>
-#include <vector>
 
 #if defined(DJV_PLATFORM_WINDOWS)
 #if defined(DJV_MMAP)
@@ -188,32 +187,6 @@ namespace djv
 #endif // DJV_MMAP
 #endif //DJV_PLATFORM_WINDOWS
             };
-
-            //! Read the contents from a file.
-            //! Throws:
-            //! - Error
-            std::string readContents(const std::shared_ptr<FileIO>&);
-
-            //! Read a word from a file.
-            //! Throws:
-            //! - Error
-            void readWord(const std::shared_ptr<FileIO>&, char*, size_t maxLen = String::cStringLength);
-
-            //! Read a line from a file.
-            //! Throws:
-            //! - Error
-            //! \todo Should we handle comments like readWord()?
-            void readLine(const std::shared_ptr<FileIO>&, char*, size_t maxLen = String::cStringLength);
-
-            //! Read all the lines from a file.
-            //! Throws:
-            //! - Error
-            std::vector<std::string> readLines(const std::string& fileName);
-
-            //! Write lines to a file.
-            //! Throws:
-            //! - Error
-            void writeLines(const std::string& fileName, const std::vector<std::string>&);
 
         } // namespace FileSystem
     } // namespace Core

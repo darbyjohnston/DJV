@@ -9,12 +9,13 @@
 #include <djvCore/Context.h>
 #include <djvCore/CoreSystem.h>
 #include <djvCore/LogSystem.h>
-#include <djvCore/OS.h>
+#include <djvCore/OSFunc.h>
 #include <djvCore/TextSystem.h>
-#include <djvCore/Vector.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
+
+#include <glm/vec2.hpp>
 
 using namespace djv::Core;
 

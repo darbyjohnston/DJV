@@ -9,9 +9,10 @@
 #include <djvAV/AVSystem.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/Error.h>
+#include <djvCore/ErrorFunc.h>
 #include <djvCore/FileIO.h>
 #include <djvCore/FileInfo.h>
+#include <djvCore/PathFunc.h>
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/StringFormat.h>
 

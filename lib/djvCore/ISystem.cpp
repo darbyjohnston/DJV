@@ -9,6 +9,8 @@
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/TextSystem.h>
 
+#include <sstream>
+
 namespace djv
 {
     namespace Core

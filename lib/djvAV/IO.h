@@ -9,7 +9,7 @@
 #include <djvAV/Tags.h>
 
 #include <djvCore/FrameNumber.h>
-#include <djvCore/Speed.h>
+#include <djvCore/Rational.h>
 
 #include <future>
 #include <queue>

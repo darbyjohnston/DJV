@@ -9,12 +9,11 @@
 #include <stdexcept>
 #include <string>
 
-#include <stdio.h>
-
 namespace djv
 {
     namespace Core
     {
+        //! This namespace provides file system functionality.
         namespace FileSystem
         {
             //! This class provides a file system error.
@@ -23,11 +22,6 @@ namespace djv
             public:
                 explicit Error(const std::string&);
             };
-
-            //! This function provides a wrapper for fopen().
-            //! Throws:
-            //! - std::exception
-            FILE* fopen(const std::string& fileName, const std::string& mode);
 
         } // namespace FileSystem
     } // namespace Core

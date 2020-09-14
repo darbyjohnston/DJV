@@ -5,6 +5,7 @@
 #include <djvCore/DirectoryWatcher.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/Path.h>
 #include <djvCore/Timer.h>
 
 #include <ctime>

@@ -7,11 +7,10 @@
 #include <djvCore/Cache.h>
 #include <djvCore/Context.h>
 #include <djvCore/CoreSystem.h>
-#include <djvCore/FileInfo.h>
+#include <djvCore/FileInfoFunc.h>
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/StringFunc.h>
 #include <djvCore/Timer.h>
-#include <djvCore/Vector.h>
 
 #include <ft2build.h>
 #include FT_FREETYPE_H

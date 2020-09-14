@@ -5,7 +5,7 @@
 #include <djvAV/PNG.h>
 
 #include <djvCore/FileIO.h>
-#include <djvCore/FileSystem.h>
+#include <djvCore/FileSystemFunc.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/StringFormat.h>
 #include <djvCore/StringFunc.h>

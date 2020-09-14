@@ -6,8 +6,8 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/CoreSystem.h>
-#include <djvCore/FileInfo.h>
-#include <djvCore/OS.h>
+#include <djvCore/FileInfoFunc.h>
+#include <djvCore/OSFunc.h>
 #include <djvCore/ResourceSystem.h>
 
 #include <OpenColorIO/OpenColorIO.h>

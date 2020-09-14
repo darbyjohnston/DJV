@@ -13,7 +13,7 @@
 #include <djvAV/Shape.h>
 #include <djvAV/TriangleMesh.h>
 
-#include <djvCore/Error.h>
+#include <djvCore/ErrorFunc.h>
 #include <djvCore/Math.h>
 #include <djvCore/Timer.h>
 

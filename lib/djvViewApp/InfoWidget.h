@@ -8,6 +8,9 @@
 
 #include <djvAV/Audio.h>
 
+#include <djvCore/FrameNumber.h>
+#include <djvCore/Rational.h>
+
 namespace djv
 {
     namespace ViewApp

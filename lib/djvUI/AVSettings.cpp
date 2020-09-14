@@ -10,6 +10,8 @@
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/SpeedFunc.h>
+#include <djvCore/TimeFunc.h>
 
 #if defined(GetObject)
 #undef GetObject

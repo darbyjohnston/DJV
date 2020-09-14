@@ -6,7 +6,7 @@
 
 #include <djvAV/Pixel.h>
 
-#include <djvCore/RapidJSON.h>
+#include <djvCore/RapidJSONFunc.h>
 
 namespace djv
 {

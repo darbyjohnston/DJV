@@ -5,7 +5,10 @@
 #pragma once
 
 #include <djvCore/Enum.h>
-#include <djvCore/RapidJSON.h>
+#include <djvCore/RapidJSONFunc.h>
+
+#include <sstream>
+#include <vector>
 
 namespace djv
 {

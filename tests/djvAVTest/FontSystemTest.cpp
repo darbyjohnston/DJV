@@ -9,6 +9,7 @@
 #include <djvCore/Context.h>
 #include <djvCore/StringFunc.h>
 #include <djvCore/Timer.h>
+#include <djvCore/VectorFunc.h>
 
 using namespace djv::Core;
 using namespace djv::AV;

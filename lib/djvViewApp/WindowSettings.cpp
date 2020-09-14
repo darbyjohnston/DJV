@@ -7,7 +7,7 @@
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
 #include <djvCore/ResourceSystem.h>
-#include <djvCore/Vector.h>
+#include <djvCore/VectorFunc.h>
 
 // These need to be included last on macOS.
 #include <djvCore/RapidJSONTemplates.h>

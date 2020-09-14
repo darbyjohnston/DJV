@@ -6,7 +6,7 @@
 
 #include <djvAV/OpenEXR.h>
 
-#include <djvCore/Error.h>
+#include <djvCore/ErrorFunc.h>
 
 #include <ImfStandardAttributes.h>
 

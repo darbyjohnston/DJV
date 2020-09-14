@@ -7,6 +7,8 @@
 #include <djvCore/Timer.h>
 #include <djvCore/Context.h>
 
+#include <sstream>
+
 using namespace djv::Core;
 
 namespace djv
@@ -21,13 +23,6 @@ namespace djv
         
         void TimerTest::run()
         {
-            for (auto i : Time::getTimerValueEnums())
-            {
-                std::stringstream ss;
-                ss << i;
-                _print("Timer value: " + _getText(ss.str()));
-            }
-
             if (auto context = getContext().lock())
             {
                 auto timer = Time::Timer::create(context);

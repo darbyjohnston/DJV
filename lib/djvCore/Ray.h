@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvCore/Vector.h>
+#include <djvCore/Core.h>
 
 #include <glm/vec3.hpp>
 
@@ -45,15 +45,7 @@ namespace djv
         using Ray::Ray3f;
 
     } // namespace Core
-
-    template<typename T, glm::precision P = glm::defaultp>
-    std::ostream& operator << (std::ostream&, const Core::Ray::tRay3<T, P>&);
-
-    //! Throws:
-    //! - std::exception
-    template<typename T, glm::precision P = glm::defaultp>
-    std::istream& operator >> (std::istream&, Core::Ray::tRay3<T, P>&);
-
 } // namespace djv
 
 #include <djvCore/RayInline.h>
+

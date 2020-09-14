@@ -5,6 +5,7 @@
 #include <djvAV/Shader.h>
 
 #include <djvCore/FileIO.h>
+#include <djvCore/FileIOFunc.h>
 #include <djvCore/Path.h>
 
 using namespace djv::Core;

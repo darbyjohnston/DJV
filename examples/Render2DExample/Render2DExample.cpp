@@ -9,7 +9,7 @@
 #include <djvAV/OpenGL.h>
 #include <djvAV/Render2D.h>
 
-#include <djvCore/Error.h>
+#include <djvCore/ErrorFunc.h>
 #include <djvCore/Timer.h>
 
 #define GLFW_INCLUDE_NONE

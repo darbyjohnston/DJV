@@ -4,8 +4,7 @@
 
 #pragma once
 
-#include <djvCore/Enum.h>
-#include <djvCore/Rational.h>
+#include <djvCore/Core.h>
 
 namespace djv
 {
@@ -37,36 +36,8 @@ namespace djv
                 Count,
                 First = _1
             };
-            DJV_ENUM_HELPERS(FPS);
-
-            //! \name Default Speed
-            ///@{
-
-            FPS getDefaultSpeed();
-            
-            void setDefaultSpeed(FPS);
-
-            ///@}
-
-            //! \name Utilities
-            ///@{
-
-            Math::Rational fromSpeed(FPS);
-            Math::Rational fromSpeed(float);
-            
-            bool toSpeed(const Math::Rational&, FPS&);
-
-            ///@}
 
         } // namespace Time
     } // namespace Core
-
-    DJV_ENUM_SERIALIZE_HELPERS(Core::Time::FPS);
-
-    rapidjson::Value toJSON(Core::Time::FPS, rapidjson::Document::AllocatorType&);
-
-    //! Throws:
-    //! - std::exception
-    void fromJSON(const rapidjson::Value&, Core::Time::FPS&);
-
 } // namespace djv
+

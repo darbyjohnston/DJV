@@ -11,7 +11,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/Window.h>
 
-#include <djvCore/Error.h>
+#include <djvCore/ErrorFunc.h>
 #include <djvCore/NumericValueModels.h>
 #include <djvCore/Range.h>
 

@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <djvCore/Enum.h>
 #include <djvCore/Event.h>
 
 namespace djv

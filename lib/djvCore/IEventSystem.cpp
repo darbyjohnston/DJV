@@ -11,6 +11,7 @@
 #include <djvCore/Timer.h>
 
 #include <map>
+#include <sstream>
 
 using namespace djv::Core;
 

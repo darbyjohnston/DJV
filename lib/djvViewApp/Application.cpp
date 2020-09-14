@@ -38,6 +38,7 @@
 
 #include <djvCore/LogSystem.h>
 #include <djvCore/ResourceSystem.h>
+#include <djvCore/SpeedFunc.h>
 #include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
 #include <djvCore/Timer.h>

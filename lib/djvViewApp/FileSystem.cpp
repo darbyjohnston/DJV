@@ -23,12 +23,14 @@
 #include <djvAV/IOSystem.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/FileInfo.h>
+#include <djvCore/FileInfoFunc.h>
 #include <djvCore/LogSystem.h>
+#include <djvCore/PathFunc.h>
 #include <djvCore/RecentFilesModel.h>
 #include <djvCore/StringFormat.h>
 #include <djvCore/StringFunc.h>
 #include <djvCore/TextSystem.h>
+#include <djvCore/TimeFunc.h>
 #include <djvCore/Timer.h>
 
 #define GLFW_INCLUDE_NONE

@@ -7,11 +7,11 @@
 #include <djvAV/OCIOSystem.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/Error.h>
+#include <djvCore/ErrorFunc.h>
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/ValueObserver.h>
 
-#include <iostream>
+#include <sstream>
 
 using namespace djv::Core;
 using namespace djv::AV;

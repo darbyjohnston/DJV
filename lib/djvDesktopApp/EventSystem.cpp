@@ -21,6 +21,7 @@
 #include <djvCore/Event.h>
 #include <djvCore/IObject.h>
 #include <djvCore/Timer.h>
+#include <djvCore/VectorFunc.h>
 #if defined(DJV_OPENGL_ES2)
 #include <djvCore/ResourceSystem.h>
 #endif // DJV_OPENGL_ES2

@@ -6,7 +6,7 @@
 
 #include <djvAV/SequenceIO.h>
 
-#include <djvCore/RapidJSON.h>
+#include <djvCore/RapidJSONFunc.h>
 #include <djvCore/String.h>
 
 #if defined(DJV_PLATFORM_WINDOWS)

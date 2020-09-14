@@ -9,8 +9,8 @@
 
 #include <djvUI/Window.h>
 
-#include <djvCore/Error.h>
-#include <djvCore/FileInfo.h>
+#include <djvCore/ErrorFunc.h>
+#include <djvCore/FileInfoFunc.h>
 
 using namespace djv;
 

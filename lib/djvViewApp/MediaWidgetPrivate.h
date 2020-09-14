@@ -6,6 +6,8 @@
 
 #include <djvViewApp/MediaWidget.h>
 
+#include <djvCore/FrameNumber.h>
+
 namespace djv
 {
     namespace ViewApp

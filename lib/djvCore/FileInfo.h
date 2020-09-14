@@ -6,7 +6,6 @@
 
 #include <djvCore/FrameNumber.h>
 #include <djvCore/Path.h>
-#include <djvCore/RapidJSON.h>
 
 #include <set>
 
@@ -20,7 +19,6 @@ namespace djv
 {
     namespace Core
     {
-        //! This namespace provides file system functionality.
         namespace FileSystem
         {
             //! This enumeration provides file types.
@@ -33,7 +31,6 @@ namespace djv
                 Count,
                 First = File
             };
-            DJV_ENUM_HELPERS(FileType);
 
             //! This enumeration provides the file permissions.
             enum class FilePermissions
@@ -42,7 +39,6 @@ namespace djv
                 Write = 2, //!< Writable
                 Exec  = 4, //!< Executable
             };
-            std::string getFilePermissionsLabel(int);
 
             //! This enumeration provides the directory listing sort options.
             enum class DirectoryListSort
@@ -54,7 +50,6 @@ namespace djv
                 Count,
                 First = Name
             };
-            DJV_ENUM_HELPERS(DirectoryListSort);
 
             //! This struct provides directory listing options.
             struct DirectoryListOptions
@@ -158,38 +153,7 @@ namespace djv
                 Frame::Sequence _sequence;
             };
 
-            //! Test whether the string contains all '#' characters.
-            bool isSequenceWildcard(const std::string&) noexcept;
-
-            //! Get the contents of the given directory.
-            std::vector<FileInfo> directoryList(const Path& path, const DirectoryListOptions& options = DirectoryListOptions());
-
-            //! Get the file sequence for the given file.
-            FileInfo getFileSequence(const Path&, const std::set<std::string>& extensions);
-
         } // namespace Core
-    } // namespace FileSystem
-
-    DJV_ENUM_SERIALIZE_HELPERS(Core::FileSystem::FileType);
-    DJV_ENUM_SERIALIZE_HELPERS(Core::FileSystem::DirectoryListSort);
-
-    rapidjson::Value toJSON(Core::FileSystem::FileType, rapidjson::Document::AllocatorType&);
-    rapidjson::Value toJSON(Core::FileSystem::DirectoryListSort, rapidjson::Document::AllocatorType&);
-    rapidjson::Value toJSON(const Core::FileSystem::FileInfo&, rapidjson::Document::AllocatorType&);
-
-    //! Throws:
-    //! - std::exception
-    void fromJSON(const rapidjson::Value&, Core::FileSystem::FileType&);
-
-    //! Throws:
-    //! - std::exception
-    void fromJSON(const rapidjson::Value&, Core::FileSystem::DirectoryListSort&);
-
-    //! Throws:
-    //! - std::exception
-    void fromJSON(const rapidjson::Value&, Core::FileSystem::FileInfo&);
-
-    std::ostream& operator << (std::ostream&, const Core::FileSystem::FileInfo&);
-    
+    } // namespace FileSystem    
 } // namespace djv
 

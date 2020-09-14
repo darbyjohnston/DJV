@@ -7,12 +7,14 @@
 #include <djvAV/OpenGL.h>
 
 #include <djvCore/Enum.h>
-#include <djvCore/RapidJSON.h>
+#include <djvCore/RapidJSONFunc.h>
 #include <djvCore/Range.h>
 
 #include <OpenEXR/half.h>
 
 #include <limits>
+#include <sstream>
+#include <vector>
 
 namespace djv
 {

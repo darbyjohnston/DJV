@@ -5,6 +5,7 @@
 #include <djvAV/PPM.h>
 
 #include <djvCore/FileIO.h>
+#include <djvCore/FileIOFunc.h>
 #include <djvCore/FileSystem.h>
 #include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>

@@ -20,7 +20,6 @@ namespace djv
             void run() override;
 
         private:
-            void _enum();
             void _event();
             void _familyEvent();
             void _coreEvent();

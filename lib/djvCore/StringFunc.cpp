@@ -4,7 +4,7 @@
 
 #include <djvCore/StringFunc.h>
 
-#include <djvCore/Math.h>
+#include <djvCore/MathFunc.h>
 
 #include <cctype>
 #include <codecvt>

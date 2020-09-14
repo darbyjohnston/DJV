@@ -9,6 +9,7 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/FileIO.h>
+#include <djvCore/FileIOFunc.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/ResourceSystem.h>
 

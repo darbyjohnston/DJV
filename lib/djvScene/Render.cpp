@@ -16,8 +16,6 @@
 #include <djvAV/Render3DLight.h>
 #include <djvAV/Render3DMaterial.h>
 
-#include <djvCore/Matrix.h>
-
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <unordered_map>

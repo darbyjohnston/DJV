@@ -8,7 +8,7 @@
 #include <djvAV/Image.h>
 #include <djvAV/OCIO.h>
 
-#include <djvCore/RapidJSON.h>
+#include <djvCore/RapidJSONFunc.h>
 
 namespace djv
 {

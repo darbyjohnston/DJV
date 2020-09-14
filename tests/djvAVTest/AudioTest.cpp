@@ -6,6 +6,8 @@
 
 #include <djvAV/Audio.h>
 
+#include <djvCore/RangeFunc.h>
+
 using namespace djv::Core;
 using namespace djv::AV;
 

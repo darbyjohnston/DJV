@@ -8,11 +8,12 @@
 #include <djvAV/IOSystem.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/Error.h>
-#include <djvCore/FileInfo.h>
+#include <djvCore/ErrorFunc.h>
+#include <djvCore/FileInfoFunc.h>
+#include <djvCore/PathFunc.h>
 #include <djvCore/StringFormat.h>
 #include <djvCore/TextSystem.h>
-#include <djvCore/Vector.h>
+#include <djvCore/TimeFunc.h>
 
 using namespace djv;
 

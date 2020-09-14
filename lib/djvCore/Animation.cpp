@@ -8,10 +8,12 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/Math.h>
+#include <djvCore/MathFunc.h>
 #include <djvCore/TextSystem.h>
 
 #include <algorithm>
 #include <array>
+#include <sstream>
 
 //#pragma optimize("", off)
 

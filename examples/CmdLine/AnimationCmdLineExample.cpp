@@ -6,7 +6,7 @@
 
 #include <djvCore/Animation.h>
 
-#include <djvCore/Error.h>
+#include <djvCore/ErrorFunc.h>
 
 #include <iostream>
 

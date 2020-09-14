@@ -5,7 +5,7 @@
 #include <djvCore/DirectoryWatcher.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/Error.h>
+#include <djvCore/ErrorFunc.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/String.h>
 #include <djvCore/StringFormat.h>

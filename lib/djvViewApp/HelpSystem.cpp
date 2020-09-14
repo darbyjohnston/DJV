@@ -14,7 +14,7 @@
 #include <djvUI/SettingsSystem.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/OS.h>
+#include <djvCore/OSFunc.h>
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/TextSystem.h>
 

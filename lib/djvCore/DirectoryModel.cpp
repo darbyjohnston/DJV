@@ -5,9 +5,10 @@
 #include <djvCore/DirectoryModel.h>
 
 #include <djvCore/DirectoryWatcher.h>
-#include <djvCore/FileInfo.h>
+#include <djvCore/FileInfoFunc.h>
 #include <djvCore/Timer.h>
 #include <djvCore/OS.h>
+#include <djvCore/PathFunc.h>
 
 #include <future>
 

@@ -8,7 +8,7 @@
 #include <djvUI/GridLayout.h>
 #include <djvUI/Window.h>
 
-#include <djvCore/Error.h>
+#include <djvCore/ErrorFunc.h>
 #include <djvCore/StringFunc.h>
 
 using namespace djv;

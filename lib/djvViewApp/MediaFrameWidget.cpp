@@ -14,6 +14,8 @@
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/Rational.h>
+#include <djvCore/TimeFunc.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>

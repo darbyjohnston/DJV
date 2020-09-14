@@ -43,6 +43,7 @@
 #include <djvCore/FileInfo.h>
 #include <djvCore/NumericValueModels.h>
 #include <djvCore/Path.h>
+#include <djvCore/TimeFunc.h>
 #include <djvCore/Timer.h>
 
 #include <iomanip>

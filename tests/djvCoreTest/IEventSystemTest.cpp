@@ -7,7 +7,8 @@
 #include <djvCore/Context.h>
 #include <djvCore/IEventSystem.h>
 #include <djvCore/IObject.h>
-#include <djvCore/Math.h>
+#include <djvCore/MathFunc.h>
+#include <djvCore/VectorFunc.h>
 
 using namespace djv::Core;
 

@@ -4,6 +4,8 @@
 
 #include <djvUI/LayoutUtil.h>
 
+#include <djvCore/MathFunc.h>
+
 #include <map>
 
 using namespace djv::Core;

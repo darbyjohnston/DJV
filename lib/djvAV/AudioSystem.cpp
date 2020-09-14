@@ -6,7 +6,7 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/CoreSystem.h>
-#include <djvCore/Error.h>
+#include <djvCore/ErrorFunc.h>
 #include <djvCore/OS.h>
 #include <djvCore/StringFormat.h>
 #include <djvCore/StringFunc.h>

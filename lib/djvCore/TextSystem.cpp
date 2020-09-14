@@ -6,12 +6,12 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/DirectoryWatcher.h>
-#include <djvCore/FileInfo.h>
+#include <djvCore/FileInfoFunc.h>
 #include <djvCore/FileIO.h>
 #include <djvCore/FileSystem.h>
 #include <djvCore/LogSystem.h>
-#include <djvCore/OS.h>
-#include <djvCore/RapidJSON.h>
+#include <djvCore/OSFunc.h>
+#include <djvCore/RapidJSONFunc.h>
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/StringFormat.h>
 #include <djvCore/StringFunc.h>

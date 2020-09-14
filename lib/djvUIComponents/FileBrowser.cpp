@@ -30,6 +30,7 @@
 #include <djvCore/DirectoryModel.h>
 #include <djvCore/DrivesModel.h>
 #include <djvCore/FileInfo.h>
+#include <djvCore/PathFunc.h>
 #include <djvCore/RecentFilesModel.h>
 #include <djvCore/StringFormat.h>
 #include <djvCore/StringFunc.h>

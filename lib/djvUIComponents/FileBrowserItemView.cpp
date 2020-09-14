@@ -15,8 +15,9 @@
 #include <djvAV/ThumbnailSystem.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/FileInfo.h>
+#include <djvCore/FileInfoFunc.h>
 #include <djvCore/StringFormat.h>
+#include <djvCore/TimeFunc.h>
 
 using namespace djv::Core;
 

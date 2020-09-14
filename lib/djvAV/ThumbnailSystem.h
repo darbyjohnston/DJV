@@ -8,7 +8,6 @@
 
 #include <djvCore/ISystem.h>
 #include <djvCore/UID.h>
-#include <djvCore/Vector.h>
 
 #include <future>
 

@@ -8,6 +8,8 @@
 #include <djvAV/Render2DData.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/SpeedFunc.h>
+#include <djvCore/TimeFunc.h>
 #include <djvCore/ValueObserver.h>
 
 using namespace djv::Core;
