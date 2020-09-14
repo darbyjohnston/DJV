@@ -492,7 +492,7 @@ namespace djv
                             FileSystem::Path resourcePath = FileSystem::Path(resourceSystem->getPath(FileSystem::ResourcePath::Color), tmp.fileName);
                             FileSystem::DirectoryListOptions options;
                             options.filter = ".*\\.ocio$";
-                            auto directoryList = FileSystem::FileInfo::directoryList(resourcePath, options);
+                            auto directoryList = FileSystem::directoryList(resourcePath, options);
                             if (directoryList.size())
                             {
                                 fileInfo = directoryList[0];

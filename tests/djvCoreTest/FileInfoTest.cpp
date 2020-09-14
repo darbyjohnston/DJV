@@ -207,7 +207,7 @@ namespace djv
             }
             
             {
-                const std::string root(1, FileSystem::Path::getCurrentSeparator());
+                const std::string root(1, FileSystem::getCurrentSeparator());
                 FileSystem::FileInfo fileInfo(root);
                 DJV_ASSERT(root == fileInfo.getFileName());
             }
@@ -253,10 +253,10 @@ namespace djv
         void FileInfoTest::_util()
         {
             {
-                DJV_ASSERT(!FileSystem::FileInfo::isSequenceWildcard(std::string()));
-                DJV_ASSERT(FileSystem::FileInfo::isSequenceWildcard("#"));
-                DJV_ASSERT(FileSystem::FileInfo::isSequenceWildcard("####"));
-                DJV_ASSERT(!FileSystem::FileInfo::isSequenceWildcard("#0"));
+                DJV_ASSERT(!FileSystem::isSequenceWildcard(std::string()));
+                DJV_ASSERT(FileSystem::isSequenceWildcard("#"));
+                DJV_ASSERT(FileSystem::isSequenceWildcard("####"));
+                DJV_ASSERT(!FileSystem::isSequenceWildcard("#0"));
             }
             
             {
@@ -269,18 +269,18 @@ namespace djv
                 }
                 for (const auto& i : optionsList)
                 {
-                    FileSystem::FileInfo::directoryList(FileSystem::Path(getTempPath()), i);
+                    FileSystem::directoryList(FileSystem::Path(getTempPath()), i);
                 }
             }
             
             {
                 FileSystem::DirectoryListOptions options;
                 options.extensions.insert(".exr");
-                FileSystem::FileInfo::directoryList(FileSystem::Path(getTempPath()), options);
+                FileSystem::directoryList(FileSystem::Path(getTempPath()), options);
             }
             
             {
-                const FileSystem::FileInfo fileInfo = FileSystem::FileInfo::getFileSequence(
+                const FileSystem::FileInfo fileInfo = FileSystem::getFileSequence(
                     FileSystem::Path(getTempPath(), "render.1.exr"),
                     { ".exr" });
                 std::stringstream ss;
@@ -291,7 +291,7 @@ namespace djv
             
             {
                 FileSystem::Path path;
-                const FileSystem::FileInfo fileInfo = FileSystem::FileInfo::getFileSequence(path, {});
+                const auto fileInfo = FileSystem::getFileSequence(path, {});
                 DJV_ASSERT(fileInfo.getPath() == path);
             }
         }

@@ -4,7 +4,7 @@
 
 #include <djvCore/RapidJSON.h>
 
-#include <djvCore/String.h>
+#include <djvCore/StringFunc.h>
 
 #include <sstream>
 

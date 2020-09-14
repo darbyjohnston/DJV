@@ -21,7 +21,7 @@
 #include <djvCore/Context.h>
 #include <djvCore/IEventSystem.h>
 #include <djvCore/LogSystem.h>
-#include <djvCore/String.h>
+#include <djvCore/StringFunc.h>
 #include <djvCore/TextSystem.h>
 
 #define GLFW_INCLUDE_NONE

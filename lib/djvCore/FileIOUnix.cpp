@@ -10,6 +10,7 @@
 #include <djvCore/Memory.h>
 #include <djvCore/Path.h>
 #include <djvCore/StringFormat.h>
+#include <djvCore/StringFunc.h>
 
 #include <iostream>
 #include <sstream>
@@ -179,7 +180,7 @@ namespace djv
                 close();
 
                 // Open the file.
-                const Path path(Path::getTemp(), "XXXXXX");
+                const Path path(getTemp(), "XXXXXX");
                 const std::string fileName = path.get();
                 const size_t size = fileName.size();
                 std::vector<char> buf(size + 1);

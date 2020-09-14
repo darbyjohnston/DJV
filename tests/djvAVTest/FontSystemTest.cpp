@@ -7,6 +7,7 @@
 #include <djvAV/FontSystem.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/StringFunc.h>
 #include <djvCore/Timer.h>
 
 using namespace djv::Core;

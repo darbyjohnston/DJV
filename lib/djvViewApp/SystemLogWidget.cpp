@@ -18,7 +18,7 @@
 #include <djvCore/FileIO.h>
 #include <djvCore/Path.h>
 #include <djvCore/ResourceSystem.h>
-#include <djvCore/String.h>
+#include <djvCore/StringFunc.h>
 
 using namespace djv::Core;
 
@@ -140,8 +140,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             try
             {
-                p.log = FileSystem::FileIO::readLines(std::string(
-                    _getResourceSystem()->getPath(FileSystem::ResourcePath::LogFile)));
+                p.log = FileSystem::readLines(
+                    std::string(_getResourceSystem()->getPath(FileSystem::ResourcePath::LogFile)));
             }
             catch (const std::exception & e)
             {

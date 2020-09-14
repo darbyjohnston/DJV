@@ -4,6 +4,8 @@
 
 #include <djvCore/Animation.h>
 
+#include <djvCore/AnimationFunc.h>
+
 #include <djvCore/Context.h>
 #include <djvCore/Math.h>
 #include <djvCore/TextSystem.h>

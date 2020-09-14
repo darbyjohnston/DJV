@@ -7,6 +7,8 @@
 #include <djvCore/RapidJSON.h>
 #include <djvCore/Range.h>
 
+#include <vector>
+
 namespace djv
 {
     namespace Core

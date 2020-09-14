@@ -2,9 +2,10 @@
 // Copyright (c) 2018-2020 Darby Johnston
 // All rights reserved.
 
-#include <djvCore/FileInfo.h>
+#include <djvCore/FileInfoPrivate.h>
 
 #include <djvCore/Memory.h>
+#include <djvCore/StringFunc.h>
 
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -89,7 +90,7 @@ namespace djv
                 return true;
             }
 
-            std::vector<FileInfo> FileInfo::directoryList(const Path& value, const DirectoryListOptions& options)
+            std::vector<FileInfo> directoryList(const Path& value, const DirectoryListOptions& options)
             {
                 std::vector<FileInfo> out;
                 
@@ -139,14 +140,14 @@ namespace djv
 
                         if (!filter)
                         {
-                            _fileSequence(fileInfo, options, out);
+                            fileSequence(fileInfo, options, out);
                         }
                     }
                     closedir(dir);
                 }
                     
                 // Sort the items.
-                _sort(options, out);
+                sort(options, out);
                 
                 return out;
             }

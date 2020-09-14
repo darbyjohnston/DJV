@@ -9,7 +9,7 @@ namespace djv
     //! This namespace provides core functionality.
     namespace Core
     {
-        //! This function provides an assert (use the DJV_ASSERT macro instead).
+        //! This function provides an assert (for convenience use the DJV_ASSERT macro).
         void _assert(const char * file, int line);
 
     } // namespace Core
@@ -45,10 +45,7 @@ namespace djv
 #if defined(DJV_PLATFORM_WINDOWS)
 //! \bug https://social.msdn.microsoft.com/Forums/vstudio/en-US/8f40dcd8-c67f-4eba-9134-a19b9178e481/vs-2015-rc-linker-stdcodecvt-error?forum=vcgeneral
 typedef unsigned int djv_char_t;
-#define DJV_SNPRINTF sprintf_s
-#define DJV_STRNCPY strncpy_s
 #else // DJV_PLATFORM_WINDOWS
 typedef char32_t djv_char_t;
-#define DJV_SNPRINTF snprintf
-#define DJV_STRNCPY strncpy
 #endif // DJV_PLATFORM_WINDOWS
+

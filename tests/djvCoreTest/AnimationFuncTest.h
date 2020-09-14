@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: BSD-3-Clause
-// Copyright (c) 2004-2020 Darby Johnston
+// Copyright (c) 2020 Darby Johnston
 // All rights reserved.
 
 #pragma once
@@ -10,10 +10,10 @@ namespace djv
 {
     namespace CoreTest
     {
-        class StringTest : public Test::ITest
+        class AnimationFuncTest : public Test::ITest
         {
         public:
-            StringTest(
+            AnimationFuncTest(
                 const Core::FileSystem::Path& tempPath,
                 const std::shared_ptr<Core::Context>&);
             

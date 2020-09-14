@@ -13,8 +13,8 @@
 #include <djvCore/OS.h>
 #include <djvCore/RapidJSON.h>
 #include <djvCore/ResourceSystem.h>
-#include <djvCore/String.h>
 #include <djvCore/StringFormat.h>
+#include <djvCore/StringFunc.h>
 #include <djvCore/Timer.h>
 
 #include <rapidjson/error/en.h>
@@ -351,10 +351,10 @@ namespace djv
             options.filter = "\\.text$";
 
             const auto textPath = resourceSystem->getPath(FileSystem::ResourcePath::Text);
-            out = FileSystem::FileInfo::directoryList(textPath, options);
+            out = FileSystem::directoryList(textPath, options);
             
             const auto documentsPath = resourceSystem->getPath(FileSystem::ResourcePath::Documents);
-            auto list = FileSystem::FileInfo::directoryList(documentsPath, options);
+            auto list = FileSystem::directoryList(documentsPath, options);
             out.insert(out.end(), list.begin(), list.end());
 
             try
@@ -364,7 +364,7 @@ namespace djv
                 {
                     for (const auto& path : envPaths)
                     {
-                        list = FileSystem::FileInfo::directoryList(FileSystem::Path(path), options);
+                        list = FileSystem::directoryList(FileSystem::Path(path), options);
                         out.insert(out.end(), list.begin(), list.end());
                     }
                 }

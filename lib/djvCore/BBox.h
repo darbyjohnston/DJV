@@ -6,8 +6,6 @@
 
 #include <djvCore/Vector.h>
 
-#include <glm/mat4x4.hpp>
-
 namespace djv
 {
     namespace Core
@@ -41,6 +39,7 @@ namespace djv
                 glm::tvec2<T, P> getCenter() const noexcept;
                 T getArea() const noexcept;
                 float getAspect() const noexcept;
+                
                 void zero() noexcept;
 
                 ///@}
@@ -93,6 +92,7 @@ namespace djv
                 constexpr bool isValid() const noexcept;
                 glm::tvec3<T, P> getSize() const noexcept;
                 glm::tvec3<T, P> getCenter() const noexcept;
+                
                 void zero() noexcept;
 
                 ///@}
@@ -154,40 +154,7 @@ namespace djv
         using BBox::BBox3f;
 
     } // namespace Core
-
-    template<typename T, glm::precision P = glm::defaultp>
-    bool fuzzyCompare(const Core::BBox::tBBox2<T, P>&, const Core::BBox::tBBox2<T, P>&) noexcept;
-    template<typename T, glm::precision P = glm::defaultp>
-    bool fuzzyCompare(const Core::BBox::tBBox3<T, P>&, const Core::BBox::tBBox3<T, P>&) noexcept;
-
-    template<typename T, glm::precision P = glm::defaultp>
-    Core::BBox::tBBox3<T, P> operator * (const Core::BBox::tBBox3<T, P>&, const glm::mat4&) noexcept;
-
-    template<typename T, glm::precision P = glm::defaultp>
-    std::ostream& operator << (std::ostream&, const Core::BBox::tBBox2<T, P>&);
-    template<typename T, glm::precision P = glm::defaultp>
-    std::ostream& operator << (std::ostream&, const Core::BBox::tBBox3<T, P>&);
-
-    //! Throws:
-    //! - std::exception
-    template<typename T, glm::precision P = glm::defaultp>
-    std::istream& operator >> (std::istream&, Core::BBox::tBBox2<T, P>&);
-
-    //! Throws:
-    //! - std::exception
-    template<typename T, glm::precision P = glm::defaultp>
-    std::istream& operator >> (std::istream&, Core::BBox::tBBox3<T, P>&);
-
-    rapidjson::Value toJSON(const Core::BBox2i&, rapidjson::Document::AllocatorType&);
-    rapidjson::Value toJSON(const Core::BBox2f&, rapidjson::Document::AllocatorType&);
-    rapidjson::Value toJSON(const Core::BBox3f&, rapidjson::Document::AllocatorType&);
-
-    //! Throws:
-    //! - std::exception
-    void fromJSON(const rapidjson::Value&, Core::BBox2i&);
-    void fromJSON(const rapidjson::Value&, Core::BBox2f&);
-    void fromJSON(const rapidjson::Value&, Core::BBox3f&);
-
 } // namespace djv
 
 #include <djvCore/BBoxInline.h>
+

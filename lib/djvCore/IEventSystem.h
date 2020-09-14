@@ -42,7 +42,9 @@ namespace djv
                 ///@{
 
                 const std::weak_ptr<IObject>& getTextFocus() const;
+                
                 std::shared_ptr<Core::IValueSubject<bool> > observeTextFocusActive() const;
+                
                 void setTextFocus(const std::shared_ptr<IObject>&);
 
                 ///@}
@@ -51,6 +53,7 @@ namespace djv
                 ///@{
 
                 virtual std::string getClipboard() const;
+                
                 virtual void setClipboard(const std::string&);
 
                 ///@}

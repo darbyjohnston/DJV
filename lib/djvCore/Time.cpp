@@ -5,7 +5,7 @@
 #include <djvCore/Time.h>
 
 #include <djvCore/Speed.h>
-#include <djvCore/String.h>
+#include <djvCore/StringFunc.h>
 
 #include <array>
 #include <climits>

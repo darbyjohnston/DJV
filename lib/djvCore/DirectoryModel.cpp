@@ -85,7 +85,7 @@ namespace djv
             void DirectoryModel::setPath(const Path& value)
             {
                 DJV_PRIVATE_PTR();
-                const auto absolute = FileSystem::Path::getAbsolute(value);
+                const auto absolute = FileSystem::getAbsolute(value);
                 if (p.path->setIfChanged(absolute))
                 {
                     p.hasUp->setIfChanged(!absolute.isRoot());
@@ -240,7 +240,7 @@ namespace djv
                     [path, options]
                 {
                     std::pair<std::vector<FileInfo>, std::vector<std::string> > out;
-                    out.first = FileInfo::directoryList(path, options);
+                    out.first = FileSystem::directoryList(path, options);
                     for (const auto& fileInfo : out.first)
                     {
                         out.second.push_back(fileInfo.getFileName(-1, false));

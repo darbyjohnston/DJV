@@ -2,7 +2,7 @@
 // Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 
-#include <djvCore/BBox.h>
+#include <djvCore/BBoxFunc.h>
 
 #include <iostream>
 

@@ -5,6 +5,7 @@
 #include <djvCore/FrameNumber.h>
 
 #include <djvCore/Math.h>
+#include <djvCore/StringFunc.h>
 
 #include <algorithm>
 #include <sstream>

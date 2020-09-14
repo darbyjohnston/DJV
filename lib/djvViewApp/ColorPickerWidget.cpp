@@ -35,6 +35,7 @@
 #endif // DJV_OPENGL_ES2
 
 #include <djvCore/Context.h>
+#include <djvCore/StringFunc.h>
 #if defined(DJV_OPENGL_ES2)
 #include <djvCore/ResourceSystem.h>
 #endif // DJV_OPENGL_ES2

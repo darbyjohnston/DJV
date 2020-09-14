@@ -14,6 +14,7 @@
 #include <djvCore/Context.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/StringFormat.h>
+#include <djvCore/StringFunc.h>
 #include <djvCore/TextSystem.h>
 #include <djvCore/Timer.h>
 #include <djvCore/UndoStack.h>

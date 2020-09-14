@@ -8,6 +8,7 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/ResourceSystem.h>
+#include <djvCore/StringFunc.h>
 #include <djvCore/TextSystem.h>
 
 using namespace djv::Core;

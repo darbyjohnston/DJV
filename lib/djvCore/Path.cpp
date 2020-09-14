@@ -6,7 +6,7 @@
 
 #include <djvCore/Math.h>
 #include <djvCore/Memory.h>
-#include <djvCore/String.h>
+#include <djvCore/StringFunc.h>
 
 #include <array>
 
@@ -22,6 +22,16 @@ namespace djv
     {
         namespace FileSystem
         {
+            bool isSeparator(char c) noexcept
+            {
+                return '/' == c || '\\' == c;
+            }
+
+            char getSeparator(PathSeparator value) noexcept
+            {
+                return PathSeparator::Unix == value ? '/' : '\\';
+            }
+
             Path::Path()
             {}
 
@@ -207,17 +217,27 @@ namespace djv
                 _extension = value;
             }
 
-            bool Path::isSeparator(char c) noexcept
+            bool Path::operator == (const Path& other) const
             {
-                return '/' == c || '\\' == c;
+                return get() == other.get();
             }
 
-            char Path::getSeparator(PathSeparator value) noexcept
+            bool Path::operator != (const Path& other) const
             {
-                return PathSeparator::Unix == value ? '/' : '\\';
+                return !(*this == other);
             }
 
-            void Path::removeTrailingSeparator(std::string& value)
+            bool Path::operator < (const Path& other) const
+            {
+                return get().compare(other.get()) < 0;
+            }
+
+            Path::operator std::string() const
+            {
+                return get();
+            }
+
+            void removeTrailingSeparator(std::string& value)
             {
                 if (value.size() > 2)
                 {
@@ -229,7 +249,7 @@ namespace djv
                 }
             }
 
-            void Path::split(
+            void split(
                 const std::string& in,
                 std::string& path,
                 std::string& base,
@@ -245,7 +265,7 @@ namespace djv
                 extension = in.substr(sizes.path + static_cast<size_t>(sizes.base) + static_cast<size_t>(sizes.number), sizes.extension);
             }
 
-            std::vector<std::string> Path::splitDir(const std::string& value)
+            std::vector<std::string> splitDir(const std::string& value)
             {
                 std::vector<std::string> out;
 
@@ -284,7 +304,7 @@ namespace djv
                 return out;
             }
 
-            std::string Path::joinDirs(const std::vector<std::string>& value, char separator)
+            std::string joinDirs(const std::vector<std::string>& value, char separator)
             {
                 std::string out;
 
@@ -307,26 +327,6 @@ namespace djv
                 }
 
                 return out;
-            }
-
-            bool Path::operator == (const Path& other) const
-            {
-                return get() == other.get();
-            }
-
-            bool Path::operator != (const Path& other) const
-            {
-                return !(*this == other);
-            }
-
-            bool Path::operator < (const Path& other) const
-            {
-                return get().compare(other.get()) < 0;
-            }
-
-            Path::operator std::string() const
-            {
-                return get();
             }
 
             DJV_ENUM_HELPERS_IMPLEMENTATION(ResourcePath);

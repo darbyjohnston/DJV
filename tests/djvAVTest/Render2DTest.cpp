@@ -13,6 +13,7 @@
 #include <djvAV/Render2DPrivate.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/StringFunc.h>
 #include <djvCore/TextSystem.h>
 #include <djvCore/Timer.h>
 

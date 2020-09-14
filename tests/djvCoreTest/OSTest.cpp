@@ -6,7 +6,7 @@
 
 #include <djvCore/OS.h>
 #include <djvCore/Path.h>
-#include <djvCore/String.h>
+#include <djvCore/StringFunc.h>
 
 using namespace djv::Core;
 

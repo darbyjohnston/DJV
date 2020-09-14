@@ -25,10 +25,12 @@ namespace djv
                 static std::shared_ptr<RecentFilesModel> create();
 
                 std::shared_ptr<IListSubject<FileInfo> > observeFiles() const;
+                
                 void setFiles(std::vector<FileInfo>);
                 void addFile(const FileInfo&);
 
                 std::shared_ptr<IValueSubject<size_t> > observeFilesMax() const;
+                
                 void setFilesMax(size_t);
 
             private:

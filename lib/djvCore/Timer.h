@@ -50,6 +50,7 @@ namespace djv
                 ///@{
 
                 bool isRepeating() const;
+                
                 void setRepeating(bool);
 
                 ///@}

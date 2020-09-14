@@ -2,9 +2,9 @@
 // Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 
-#include <djvCoreTest/StringTest.h>
+#include <djvCoreTest/StringFuncTest.h>
 
-#include <djvCore/String.h>
+#include <djvCore/StringFunc.h>
 
 #include <iostream>
 #include <sstream>
@@ -15,13 +15,13 @@ namespace djv
 {
     namespace CoreTest
     {
-        StringTest::StringTest(
+        StringFuncTest::StringFuncTest(
             const FileSystem::Path& tempPath,
             const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::CoreTest::StringTest", tempPath, context)
+            ITest("djv::CoreTest::StringFuncTest", tempPath, context)
         {}
         
-        void StringTest::run()
+        void StringFuncTest::run()
         {
             {
                 std::vector<std::pair<std::string, std::vector<std::string> > > data =

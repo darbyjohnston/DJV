@@ -53,14 +53,14 @@ namespace djv
             return _className;
         }
 
-        void IObject::setClassName(const std::string& name)
-        {
-            _className = name;
-        }
-
         const std::string& IObject::getObjectName() const
         {
             return _objectName;
+        }
+
+        void IObject::setClassName(const std::string& name)
+        {
+            _className = name;
         }
 
         void IObject::setObjectName(const std::string& name)

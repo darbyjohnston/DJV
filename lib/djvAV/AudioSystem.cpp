@@ -9,6 +9,7 @@
 #include <djvCore/Error.h>
 #include <djvCore/OS.h>
 #include <djvCore/StringFormat.h>
+#include <djvCore/StringFunc.h>
 #include <djvCore/TextSystem.h>
 
 #include <RtAudio.h>

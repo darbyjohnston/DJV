@@ -6,8 +6,8 @@
 
 #include <djvCore/Error.h>
 #include <djvCore/Path.h>
-#include <djvCore/String.h>
 #include <djvCore/StringFormat.h>
+#include <djvCore/StringFunc.h>
 
 #if defined(DJV_PLATFORM_MACOS)
 #include <ApplicationServices/ApplicationServices.h>

@@ -12,7 +12,7 @@
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Error.h>
-#include <djvCore/String.h>
+#include <djvCore/StringFunc.h>
 #include <djvCore/ResourceSystem.h>
 
 #define GLFW_INCLUDE_NONE

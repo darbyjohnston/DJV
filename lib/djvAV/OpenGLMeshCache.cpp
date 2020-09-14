@@ -7,6 +7,7 @@
 #include <djvCore/Range.h>
 
 #include <map>
+#include <set>
 
 using namespace djv::Core;
 

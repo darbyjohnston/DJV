@@ -28,11 +28,11 @@ namespace djv
             Path getApplicationRoot(const Path& value)
             {
                 Path out;
-                auto pieces = Path::splitDir(std::string(value));
+                auto pieces = splitDir(std::string(value));
                 const size_t max = 3;
                 for (size_t i = 0; i < max && pieces.size() && out.isEmpty(); ++i)
                 {
-                    const std::string tmp = Path::joinDirs(pieces);
+                    const std::string tmp = joinDirs(pieces);
                     const std::vector<std::string> tests =
                     {
                         "djvCore.en.text",
@@ -83,7 +83,7 @@ namespace djv
                 // if that doesn't work check the search path.
                 if (doesExecutableExist(argv0))
                 {
-                    p.applicationPath = Path::getAbsolute(Path(Path(argv0).getDirectoryName()));
+                    p.applicationPath = getAbsolute(Path(Path(argv0).getDirectoryName()));
                 }
                 else
                 {
@@ -129,12 +129,12 @@ namespace djv
                 {
                     if (!FileInfo(documents).doesExist())
                     {
-                        Path::mkdir(documents);
+                        mkdir(documents);
                     }
                     documents.append("DJV");
                     if (!FileInfo(documents).doesExist())
                     {
-                        Path::mkdir(documents);
+                        mkdir(documents);
                     }
                 }
                 catch (const std::exception& e)

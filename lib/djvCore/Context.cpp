@@ -270,7 +270,7 @@ namespace djv
                 }
             }
             dot.push_back("}");
-            FileSystem::FileIO::writeLines("systems.dot", dot);
+            FileSystem::writeLines("systems.dot", dot);
         }
 
         void Context::_calcFPS()

@@ -6,6 +6,7 @@
 
 #include <djvViewApp/View.h>
 
+#include <djvCore/BBoxFunc.h>
 #include <djvCore/Context.h>
 
 #if defined(GetObject)

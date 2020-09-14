@@ -4,6 +4,7 @@
 
 #include <djvUI/ShortcutData.h>
 
+#include <djvCore/StringFunc.h>
 #include <djvCore/TextSystem.h>
 
 #define GLFW_INCLUDE_NONE

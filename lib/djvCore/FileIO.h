@@ -7,6 +7,7 @@
 #include <djvCore/String.h>
 
 #include <memory>
+#include <vector>
 
 #if defined(DJV_PLATFORM_WINDOWS)
 #if defined(DJV_MMAP)
@@ -78,6 +79,7 @@ namespace djv
                 ///@{
 
                 size_t getPos() const;
+                
                 void setPos(size_t);
 
                 //! Move the position relative to the current position.
@@ -93,15 +95,15 @@ namespace djv
                 //! - Error
                 ///@{
 
-                void read(void *, size_t, size_t wordSize = 1);
+                void read(void*, size_t, size_t wordSize = 1);
 
-                void read8(int8_t *, size_t = 1);
-                void readU8(uint8_t *, size_t = 1);
-                void read16(int16_t *, size_t = 1);
-                void readU16(uint16_t *, size_t = 1);
-                void read32(int32_t *, size_t = 1);
-                void readU32(uint32_t *, size_t = 1);
-                void readF32(float *, size_t = 1);
+                void read8(int8_t*, size_t = 1);
+                void readU8(uint8_t*, size_t = 1);
+                void read16(int16_t*, size_t = 1);
+                void readU16(uint16_t*, size_t = 1);
+                void read32(int32_t*, size_t = 1);
+                void readU32(uint32_t*, size_t = 1);
+                void readF32(float*, size_t = 1);
 
                 ///@}
 
@@ -110,15 +112,15 @@ namespace djv
                 //! - Error
                 ///@{
 
-                void write(const void *, size_t, size_t wordSize = 1);
+                void write(const void*, size_t, size_t wordSize = 1);
 
-                void write8(const int8_t *, size_t);
-                void writeU8(const uint8_t *, size_t);
-                void write16(const int16_t *, size_t);
-                void writeU16(const uint16_t *, size_t);
-                void write32(const int32_t *, size_t);
-                void writeU32(const uint32_t *, size_t);
-                void writeF32(const float *, size_t);
+                void write8(const int8_t*, size_t);
+                void writeU8(const uint8_t*, size_t);
+                void write16(const int16_t*, size_t);
+                void writeU16(const uint16_t*, size_t);
+                void write32(const int32_t*, size_t);
+                void writeU32(const uint32_t*, size_t);
+                void writeF32(const float*, size_t);
 
                 void write8(int8_t);
                 void writeU8(uint8_t);
@@ -137,10 +139,10 @@ namespace djv
 
 #if defined(DJV_MMAP)
                 //! Get the current memory-map position.
-                const uint8_t * mmapP() const;
+                const uint8_t* mmapP() const;
 
                 //! Get a pointer to the end of the memory-map.
-                const uint8_t * mmapEnd() const;
+                const uint8_t* mmapEnd() const;
 #endif // DJV_MMAP
 
                 ///@}
@@ -156,67 +158,62 @@ namespace djv
 
                 ///@}
 
-                //! \name Utilities
-                ///@{
-
-                //! Read the contents from a file.
-                //! Throws:
-                //! - Error
-                static std::string readContents(const std::shared_ptr<FileIO>&);
-
-                //! Read a word from a file.
-                //! Throws:
-                //! - Error
-                static void readWord(const std::shared_ptr<FileIO>&, char *, size_t maxLen = String::cStringLength);
-
-                //! Read a line from a file.
-                //! Throws:
-                //! - Error
-                //! \todo Should we handle comments like readWord()?
-                static void readLine(const std::shared_ptr<FileIO>&, char *, size_t maxLen = String::cStringLength);
-
-                //! Read all the lines from a file.
-                //! Throws:
-                //! - Error
-                static std::vector<std::string> readLines(const std::string& fileName);
-
-                //! Write lines to a file.
-                //! Throws:
-                //! - Error
-                static void writeLines(const std::string& fileName, const std::vector<std::string>&);
-
-                ///@}
-
             private:
                 void _setPos(size_t, bool seek);
 
-                std::string     _fileName;
-                Mode            _mode               = Mode::First;
-                size_t          _pos                = 0;
-                size_t          _size               = 0;
-                bool            _endianConversion   = false;
+                std::string    _fileName;
+                Mode           _mode               = Mode::First;
+                size_t         _pos                = 0;
+                size_t         _size               = 0;
+                bool           _endianConversion   = false;
 #if defined(DJV_PLATFORM_WINDOWS)
 #if defined(DJV_MMAP)
-                HANDLE          _f                  = INVALID_HANDLE_VALUE;
+                HANDLE         _f                  = INVALID_HANDLE_VALUE;
 #else // DJV_MMAP
-                FILE*           _f                  = nullptr;
+                FILE*          _f                  = nullptr;
 #endif // DJV_MMAP
 #if defined(DJV_MMAP)
-                void *          _mmap               = nullptr;
-                const uint8_t * _mmapStart          = nullptr;
-                const uint8_t * _mmapEnd            = nullptr;
-                const uint8_t * _mmapP              = nullptr;
+                void*          _mmap               = nullptr;
+                const uint8_t* _mmapStart          = nullptr;
+                const uint8_t* _mmapEnd            = nullptr;
+                const uint8_t* _mmapP              = nullptr;
 #endif // DJV_MMAP
 #else // DJV_PLATFORM_WINDOWS
-                int             _f                  = -1;
+                int            _f                  = -1;
 #if defined(DJV_MMAP)
-                void *          _mmap               = reinterpret_cast<void *>(-1);
-                const uint8_t * _mmapStart          = nullptr;
-                const uint8_t * _mmapEnd            = nullptr;
-                const uint8_t * _mmapP              = nullptr;
+                void*          _mmap               = reinterpret_cast<void*>(-1);
+                const uint8_t* _mmapStart          = nullptr;
+                const uint8_t* _mmapEnd            = nullptr;
+                const uint8_t* _mmapP              = nullptr;
 #endif // DJV_MMAP
 #endif //DJV_PLATFORM_WINDOWS
             };
+
+            //! Read the contents from a file.
+            //! Throws:
+            //! - Error
+            std::string readContents(const std::shared_ptr<FileIO>&);
+
+            //! Read a word from a file.
+            //! Throws:
+            //! - Error
+            void readWord(const std::shared_ptr<FileIO>&, char*, size_t maxLen = String::cStringLength);
+
+            //! Read a line from a file.
+            //! Throws:
+            //! - Error
+            //! \todo Should we handle comments like readWord()?
+            void readLine(const std::shared_ptr<FileIO>&, char*, size_t maxLen = String::cStringLength);
+
+            //! Read all the lines from a file.
+            //! Throws:
+            //! - Error
+            std::vector<std::string> readLines(const std::string& fileName);
+
+            //! Write lines to a file.
+            //! Throws:
+            //! - Error
+            void writeLines(const std::string& fileName, const std::vector<std::string>&);
 
         } // namespace FileSystem
     } // namespace Core

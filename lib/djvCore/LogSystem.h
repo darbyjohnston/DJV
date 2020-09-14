@@ -43,6 +43,7 @@ namespace djv
             ///@{
             
             bool hasConsoleOutput() const;
+            
             void setConsoleOutput(bool);
             
             ///@}

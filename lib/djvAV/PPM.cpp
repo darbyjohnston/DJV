@@ -5,7 +5,7 @@
 #include <djvAV/PPM.h>
 
 #include <djvCore/FileIO.h>
-#include <djvCore/String.h>
+#include <djvCore/StringFunc.h>
 
 #include <array>
 
@@ -43,7 +43,7 @@ namespace djv
                         T* outP = reinterpret_cast<T*>(out);
                         for (int i = 0; i < size; ++i)
                         {
-                            FileSystem::FileIO::readWord(io, tmp, String::cStringLength);
+                            FileSystem::readWord(io, tmp, String::cStringLength);
                             int value = 0;
                             String::fromString(tmp, String::cStringLength, value);
                             outP[i] = value;

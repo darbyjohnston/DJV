@@ -22,6 +22,7 @@
 #include <djvCore/OS.h>
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/StringFormat.h>
+#include <djvCore/StringFunc.h>
 #include <djvCore/TextSystem.h>
 
 using namespace djv::Core;

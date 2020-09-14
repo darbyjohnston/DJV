@@ -13,6 +13,8 @@
 #include <djvCore/ISystem.h>
 #include <djvCore/RapidJSON.h>
 
+#include <glm/mat3x3.hpp>
+
 #include <list>
 
 namespace djv

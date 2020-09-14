@@ -9,6 +9,7 @@
 #include <djvCore/CoreSystem.h>
 #include <djvCore/FileInfo.h>
 #include <djvCore/ResourceSystem.h>
+#include <djvCore/StringFunc.h>
 #include <djvCore/Timer.h>
 #include <djvCore/Vector.h>
 
@@ -510,7 +511,7 @@ namespace djv
                         ss << "FreeType version: " << versionMajor << "." << versionMinor << "." << versionPatch;
                         _log(ss.str());
                     }
-                    for (const auto& i : FileSystem::FileInfo::directoryList(p.fontPath))
+                    for (const auto& i : FileSystem::directoryList(p.fontPath))
                     {
                         const std::string& fileName = i.getFileName();
                         {

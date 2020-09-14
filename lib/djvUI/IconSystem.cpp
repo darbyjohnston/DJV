@@ -136,7 +136,7 @@ namespace djv
                 try
                 {
                     // Find the DPI values.
-                    for (const auto& i : FileSystem::FileInfo::directoryList(p.iconPath))
+                    for (const auto& i : FileSystem::directoryList(p.iconPath))
                     {
                         const std::string fileName = i.getFileName(Frame::invalid, false);
                         const size_t size = fileName.size();

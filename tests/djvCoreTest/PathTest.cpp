@@ -166,18 +166,18 @@ namespace djv
         void PathTest::_util()
         {
             {
-                DJV_ASSERT(FileSystem::Path::isSeparator('/'));
-                DJV_ASSERT('/' == FileSystem::Path::getSeparator(FileSystem::PathSeparator::Unix));
+                DJV_ASSERT(FileSystem::isSeparator('/'));
+                DJV_ASSERT('/' == FileSystem::getSeparator(FileSystem::PathSeparator::Unix));
                 {
                     std::stringstream ss;
-                    ss << "Current separator: " << FileSystem::Path::getCurrentSeparator();
+                    ss << "Current separator: " << FileSystem::getCurrentSeparator();
                     _print(ss.str());
                 }
             }
             
             {
                 std::string path("/a/b/");
-                FileSystem::Path::removeTrailingSeparator(path);
+                FileSystem::removeTrailingSeparator(path);
                 DJV_ASSERT("/a/b" == path);
             }
             
@@ -203,9 +203,9 @@ namespace djv
                 };
                 for (const auto & d : data)
                 {
-                    const auto pieces = FileSystem::Path::splitDir(d.path);
+                    const auto pieces = FileSystem::splitDir(d.path);
                     DJV_ASSERT(pieces == d.pieces);
-                    const std::string path = FileSystem::Path::joinDirs(pieces, d.seperator);
+                    const std::string path = FileSystem::joinDirs(pieces, d.seperator);
                     std::stringstream ss;
                     ss << "Split/join: " << d.path << " = " << path;
                     _print(ss.str());
@@ -215,16 +215,16 @@ namespace djv
             
             {
                 const FileSystem::Path path("foo");
-                FileSystem::Path::mkdir(path);
-                FileSystem::Path::rmdir(path);
+                FileSystem::mkdir(path);
+                FileSystem::rmdir(path);
             }
 
             {            
                 const FileSystem::Path path("foo");
                 try
                 {
-                    FileSystem::Path::mkdir(path);
-                    FileSystem::Path::mkdir(path);
+                    FileSystem::mkdir(path);
+                    FileSystem::mkdir(path);
                 }
                 catch (const std::exception & e)
                 {
@@ -232,8 +232,8 @@ namespace djv
                 }
                 try
                 {
-                    FileSystem::Path::rmdir(path);
-                    FileSystem::Path::rmdir(path);
+                    FileSystem::rmdir(path);
+                    FileSystem::rmdir(path);
                 }
                 catch (const std::exception & e)
                 {
@@ -242,28 +242,28 @@ namespace djv
             }
             
             {
-                const FileSystem::Path path = FileSystem::Path::getAbsolute(getTempPath());
+                const FileSystem::Path path = FileSystem::getAbsolute(getTempPath());
                 std::stringstream ss;
                 ss << "Absolute: " << path;
                 _print(ss.str());
             }
             
             {
-                const FileSystem::Path path = FileSystem::Path::getAbsolute(FileSystem::Path());
+                const FileSystem::Path path = FileSystem::getAbsolute(FileSystem::Path());
                 std::stringstream ss;
                 ss << "Absolute: " << path;
                 _print(ss.str());
             }
 
             {
-                const FileSystem::Path path = FileSystem::Path::getCWD();
+                const FileSystem::Path path = FileSystem::getCWD();
                 std::stringstream ss;
                 ss << "CWD: " << path;
                 _print(ss.str());
             }
 
             {
-                const FileSystem::Path path = FileSystem::Path::getTemp();
+                const FileSystem::Path path = FileSystem::getTemp();
                 std::stringstream ss;
                 ss << "Temp: " << path;
                 _print(ss.str());
@@ -275,7 +275,7 @@ namespace djv
                 std::string prev;
                 bool hasPrev = OS::getEnv(i, prev);
                 OS::setEnv(i, i);
-                const FileSystem::Path path = FileSystem::Path::getTemp();
+                const FileSystem::Path path = FileSystem::getTemp();
                 std::stringstream ss;
                 ss << "Temp: " << path;
                 _print(ss.str());

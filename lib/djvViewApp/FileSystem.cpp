@@ -27,6 +27,7 @@
 #include <djvCore/LogSystem.h>
 #include <djvCore/RecentFilesModel.h>
 #include <djvCore/StringFormat.h>
+#include <djvCore/StringFunc.h>
 #include <djvCore/TextSystem.h>
 #include <djvCore/Timer.h>
 
@@ -503,7 +504,7 @@ namespace djv
                     }
                     if (options.frame &&
                         !options.frame->empty() &&
-                        !Core::FileSystem::FileInfo::isSequenceWildcard(*options.frame))
+                        !Core::FileSystem::isSequenceWildcard(*options.frame))
                     {
                         const Frame::Index i = sequence.getIndex(Time::fromString(*options.frame, speed, timeUnits));
                         frame = i != Frame::invalid ? Math::clamp(i, inPoint, outPoint) : inPoint;
@@ -842,7 +843,7 @@ namespace djv
                     try
                     {
                         out.push_back(std::make_pair(
-                            Core::FileSystem::FileInfo(Core::FileSystem::Path::getAbsolute(path)),
+                            Core::FileSystem::FileInfo(Core::FileSystem::getAbsolute(path)),
                             std::string()));
                     }
                     catch (const std::exception& e)
@@ -884,7 +885,7 @@ namespace djv
                     {
                         if (Core::FileSystem::FileType::File == i.first.getType())
                         {
-                            const auto fileInfo = Core::FileSystem::FileInfo::getFileSequence(
+                            const auto fileInfo = Core::FileSystem::getFileSequence(
                                 i.first.getPath(),
                                 io->getSequenceExtensions());
                             if (fileInfo.getSequence().getFrameCount() > 1)
@@ -905,11 +906,11 @@ namespace djv
                     if (Core::FileSystem::FileType::File == i.first.getType())
                     {
                         const std::string& number = i.first.getPath().getNumber();
-                        const bool wildcard = Core::FileSystem::FileInfo::isSequenceWildcard(number);
+                        const bool wildcard = Core::FileSystem::isSequenceWildcard(number);
                         Core::FileSystem::FileInfo fileSequence;
                         if (wildcard)
                         {
-                            fileSequence = Core::FileSystem::FileInfo::getFileSequence(i.first.getPath(), io->getSequenceExtensions());
+                            fileSequence = Core::FileSystem::getFileSequence(i.first.getPath(), io->getSequenceExtensions());
                         }
                         if (wildcard &&
                             (number.size() == 1 || number.size() == fileSequence.getSequence().getPad()))

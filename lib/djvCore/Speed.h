@@ -43,6 +43,7 @@ namespace djv
             ///@{
 
             FPS getDefaultSpeed();
+            
             void setDefaultSpeed(FPS);
 
             ///@}
@@ -52,6 +53,7 @@ namespace djv
 
             Math::Rational fromSpeed(FPS);
             Math::Rational fromSpeed(float);
+            
             bool toSpeed(const Math::Rational&, FPS&);
 
             ///@}

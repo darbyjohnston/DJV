@@ -1,5 +1,7 @@
 set(header
     AnimationTest.h
+    AnimationFuncTest.h
+    BBoxFuncTest.h
     BBoxTest.h
 	CacheTest.h
 	ContextTest.h
@@ -31,7 +33,7 @@ set(header
 	RecentFilesModelTest.h
 	SpeedTest.h
     StringFormatTest.h
-    StringTest.h
+    StringFuncTest.h
     TextSystemTest.h
     TimeTest.h
     TimerTest.h
@@ -41,6 +43,8 @@ set(header
     VectorTest.h)
 set(source
     AnimationTest.cpp
+    AnimationFuncTest.cpp
+    BBoxFuncTest.cpp
     BBoxTest.cpp
 	CacheTest.cpp
 	ContextTest.cpp
@@ -72,7 +76,7 @@ set(source
 	RationalTest.cpp
 	SpeedTest.cpp
     StringFormatTest.cpp
-    StringTest.cpp
+    StringFuncTest.cpp
     TextSystemTest.cpp
     TimeTest.cpp
     TimerTest.cpp

@@ -6,6 +6,7 @@
 
 #include <djvAV/OCIOSystem.h>
 
+#include <djvCore/BBoxFunc.h>
 #include <djvCore/Context.h>
 
 // These need to be included last on macOS.

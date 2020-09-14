@@ -125,11 +125,11 @@ namespace djv
                     default: break;
                     }
                     char tmp[String::cStringLength] = "";
-                    FileSystem::FileIO::readWord(io, tmp, String::cStringLength);
+                    FileSystem::readWord(io, tmp, String::cStringLength);
                     const int w = std::stoi(tmp);
-                    FileSystem::FileIO::readWord(io, tmp, String::cStringLength);
+                    FileSystem::readWord(io, tmp, String::cStringLength);
                     const int h = std::stoi(tmp);
-                    FileSystem::FileIO::readWord(io, tmp, String::cStringLength);
+                    FileSystem::readWord(io, tmp, String::cStringLength);
                     const int maxValue = std::stoi(tmp);
                     const size_t bitDepth = maxValue < 256 ? 8 : 16;
                     const auto imageType = Image::getIntType(channelCount, bitDepth);

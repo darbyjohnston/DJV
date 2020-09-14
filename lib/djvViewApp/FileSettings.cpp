@@ -6,6 +6,7 @@
 
 #include <djvAV/ImageData.h>
 
+#include <djvCore/BBoxFunc.h>
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
 

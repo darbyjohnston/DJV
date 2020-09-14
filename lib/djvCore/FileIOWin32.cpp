@@ -10,6 +10,7 @@
 #include <djvCore/Memory.h>
 #include <djvCore/Path.h>
 #include <djvCore/StringFormat.h>
+#include <djvCore/StringFunc.h>
 
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN

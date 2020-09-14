@@ -22,6 +22,7 @@
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/StringFunc.h>
 #include <djvCore/TextSystem.h>
 
 using namespace djv::Core;

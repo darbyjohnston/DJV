@@ -4,6 +4,7 @@
 
 #include <djvAV/OpenEXR.h>
 
+#include <djvCore/StringFunc.h>
 #include <djvCore/Time.h>
 
 #include <ImfDoubleAttribute.h>

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvCore/String.h>
+#include <djvCore/Core.h>
 
 #include <sstream>
 

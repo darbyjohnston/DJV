@@ -64,7 +64,7 @@ namespace djv
                 io->open(
                     fileName,
                     FileSystem::FileIO::Mode::Read);
-                std::string buf = FileSystem::FileIO::readContents(io);
+                std::string buf = FileSystem::readContents(io);
                 _print(buf);
                 DJV_ASSERT((_text + " " + _text2) == buf);
                 io->setPos(0);
@@ -73,7 +73,7 @@ namespace djv
 
             {
                 const std::string fileName = FileSystem::Path(getTempPath(), _fileName).get();
-                FileSystem::FileIO::writeLines(
+                FileSystem::writeLines(
                     fileName,
                     {
                         "# This is a comment",
@@ -85,10 +85,10 @@ namespace djv
                     fileName,
                     FileSystem::FileIO::Mode::ReadWrite);
                 char buf[String::cStringLength];
-                FileSystem::FileIO::readWord(io, buf);
+                FileSystem::readWord(io, buf);
                 _print(buf);
                 DJV_ASSERT(_text == buf);
-                FileSystem::FileIO::readWord(io, buf);
+                FileSystem::readWord(io, buf);
                 _print(buf);
                 DJV_ASSERT(_text2 == buf);
             }
@@ -105,17 +105,17 @@ namespace djv
                     fileName,
                     FileSystem::FileIO::Mode::Read);
                 char buf[String::cStringLength];
-                FileSystem::FileIO::readLine(io, buf);
+                FileSystem::readLine(io, buf);
                 _print(buf);
                 DJV_ASSERT(_text == buf);
-                FileSystem::FileIO::readLine(io, buf);
+                FileSystem::readLine(io, buf);
                 _print(buf);
                 DJV_ASSERT(_text2 == buf);
             }
 
             {
                 const std::string fileName = FileSystem::Path(getTempPath(), _fileName).get();
-                FileSystem::FileIO::writeLines(
+                FileSystem::writeLines(
                     fileName,
                     {
                         _text,
@@ -123,7 +123,7 @@ namespace djv
                         _text2
                     });
 
-                const auto lines = FileSystem::FileIO::readLines(fileName);
+                const auto lines = FileSystem::readLines(fileName);
                 for (const auto& i : lines)
                 {
                     _print(i);

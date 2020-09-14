@@ -6,6 +6,8 @@
 
 #include <djvUI/Widget.h>
 
+#include <glm/mat3x3.hpp>
+
 namespace djv
 {
     namespace AV

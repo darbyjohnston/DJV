@@ -3,6 +3,8 @@
 // All rights reserved.
 
 #include <djvCoreTest/AnimationTest.h>
+#include <djvCoreTest/AnimationFuncTest.h>
+#include <djvCoreTest/BBoxFuncTest.h>
 #include <djvCoreTest/BBoxTest.h>
 #include <djvCoreTest/CacheTest.h>
 #include <djvCoreTest/ContextTest.h>
@@ -34,7 +36,7 @@
 #include <djvCoreTest/RecentFilesModelTest.h>
 #include <djvCoreTest/SpeedTest.h>
 #include <djvCoreTest/StringFormatTest.h>
-#include <djvCoreTest/StringTest.h>
+#include <djvCoreTest/StringFuncTest.h>
 #include <djvCoreTest/TextSystemTest.h>
 #include <djvCoreTest/TimeTest.h>
 #include <djvCoreTest/TimerTest.h>
@@ -99,8 +101,9 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/Error.h>
-#include <djvCore/Path.h>
 #include <djvCore/FileInfo.h>
+#include <djvCore/Path.h>
+#include <djvCore/StringFunc.h>
 
 #include <iostream>
 
@@ -117,12 +120,14 @@ int main(int argc, char ** argv)
         auto uiSystem = UI::UISystem::create(true, context);
         
         //! \bug This path should be unique to this process.
-        const FileSystem::Path tempPath(FileSystem::Path::getTemp(), "djvTest");
+        const FileSystem::Path tempPath(FileSystem::getTemp(), "djvTest");
         std::cout << "Temp path: " << tempPath.get() << std::endl;
 
         std::vector<std::shared_ptr<Test::ITest> > tests;
         
         tests.emplace_back(new CoreTest::AnimationTest(tempPath, context));
+        tests.emplace_back(new CoreTest::AnimationFuncTest(tempPath, context));
+        tests.emplace_back(new CoreTest::BBoxFuncTest(tempPath, context));
         tests.emplace_back(new CoreTest::BBoxTest(tempPath, context));
         tests.emplace_back(new CoreTest::CacheTest(tempPath, context));
         tests.emplace_back(new CoreTest::ContextTest(tempPath, context));
@@ -154,7 +159,7 @@ int main(int argc, char ** argv)
         tests.emplace_back(new CoreTest::RecentFilesModelTest(tempPath, context));
         tests.emplace_back(new CoreTest::SpeedTest(tempPath, context));
         tests.emplace_back(new CoreTest::StringFormatTest(tempPath, context));
-        tests.emplace_back(new CoreTest::StringTest(tempPath, context));
+        tests.emplace_back(new CoreTest::StringFuncTest(tempPath, context));
         tests.emplace_back(new CoreTest::TextSystemTest(tempPath, context));
         tests.emplace_back(new CoreTest::TimeTest(tempPath, context));
         tests.emplace_back(new CoreTest::TimerTest(tempPath, context));

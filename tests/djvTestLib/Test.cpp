@@ -38,7 +38,7 @@ namespace djv
             
             if (!FileSystem::FileInfo(tempPath).doesExist())
             {
-                FileSystem::Path::mkdir(tempPath);
+                FileSystem::mkdir(tempPath);
             }
         }
         

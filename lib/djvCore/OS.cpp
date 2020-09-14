@@ -4,7 +4,7 @@
 
 #include <djvCore/OS.h>
 
-#include <djvCore/String.h>
+#include <djvCore/StringFunc.h>
 
 #include <algorithm>
 #include <array>

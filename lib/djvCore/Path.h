@@ -20,6 +20,15 @@ namespace djv
                 Windows
             };
 
+            //! Is this character a path separator?
+            bool isSeparator(char) noexcept;
+
+            //! Get the path separator.
+            char getSeparator(PathSeparator) noexcept;
+
+            //! Get the current path separator.
+            char getCurrentSeparator() noexcept;
+
             //! This enumeration provides resource paths.
             enum class ResourcePath
             {
@@ -91,7 +100,9 @@ namespace djv
                 ///@{
 
                 std::string get() const;
+                
                 void set(std::string);
+                
                 void append(const std::string&, char separator = getCurrentSeparator());
 
                 //! Is the path empty?
@@ -125,64 +136,6 @@ namespace djv
 
                 ///@}
 
-                //! \name Utilities
-                ///@{
-
-                //! Is this character a path separator?
-                static bool isSeparator(char) noexcept;
-
-                //! Get the path separator.
-                static char getSeparator(PathSeparator) noexcept;
-
-                //! Get the current path separator.
-                static char getCurrentSeparator() noexcept;
-
-                //! Remove a trailing path separator.
-                static void removeTrailingSeparator(std::string&);
-
-                //! Split a path into components.
-                static void split(
-                    const std::string&  in,
-                    std::string&        directoryName,
-                    std::string&        baseName,
-                    std::string&        number,
-                    std::string&        extension);
-
-                //! Split a directory path into sub-directories.
-                //! For example: "var/tmp" -> { "var", "tmp" }
-                static std::vector<std::string> splitDir(const std::string&);
-
-                //! Join a list of sub-directories into a directory path.
-                //! For example: var, tmp -> var/tmp
-                static std::string joinDirs(const std::vector<std::string>&, char separator = getCurrentSeparator());
-
-                //! Create a directory.
-                //! Throws:
-                //! - std::exception
-                static void mkdir(const Path&);
-
-                //! Remove a directory. The directory must be empty.
-                //! Throws:
-                //! - std::exception
-                static void rmdir(const Path&);
-
-                //! Get the absolute path.
-                //! Throws:
-                //! - std::exception
-                static Path getAbsolute(const Path&);
-
-                //! Get the current working directory path.
-                //! Throws:
-                //! - std::exception
-                static Path getCWD();
-
-                //! Get the temp file path.
-                //! Throws:
-                //! - std::exception
-                static Path getTemp();
-
-                ///@}
-
                 bool operator == (const Path&) const;
                 bool operator != (const Path&) const;
                 bool operator < (const Path&) const;
@@ -195,6 +148,50 @@ namespace djv
                 std::string _number;
                 std::string _extension;
             };
+
+            //! Remove a trailing path separator.
+            void removeTrailingSeparator(std::string&);
+
+            //! Split a path into components.
+            void split(
+                const std::string&  in,
+                std::string&        directoryName,
+                std::string&        baseName,
+                std::string&        number,
+                std::string&        extension);
+
+            //! Split a directory path into sub-directories.
+            //! For example: "var/tmp" -> { "var", "tmp" }
+            std::vector<std::string> splitDir(const std::string&);
+
+            //! Join a list of sub-directories into a directory path.
+            //! For example: var, tmp -> var/tmp
+            std::string joinDirs(const std::vector<std::string>&, char separator = getCurrentSeparator());
+
+            //! Create a directory.
+            //! Throws:
+            //! - std::exception
+            void mkdir(const Path&);
+
+            //! Remove a directory. The directory must be empty.
+            //! Throws:
+            //! - std::exception
+            void rmdir(const Path&);
+
+            //! Get the absolute path.
+            //! Throws:
+            //! - std::exception
+            Path getAbsolute(const Path&);
+
+            //! Get the current working directory path.
+            //! Throws:
+            //! - std::exception
+            Path getCWD();
+
+            //! Get the temp file path.
+            //! Throws:
+            //! - std::exception
+            Path getTemp();
 
         } // namespace FileSystem
     } // namespace Core

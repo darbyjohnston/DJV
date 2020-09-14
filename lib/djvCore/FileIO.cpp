@@ -50,72 +50,72 @@ namespace djv
                 _setPos(in, true);
             }
             
-            void FileIO::read8(int8_t * value, size_t size)
+            void FileIO::read8(int8_t* value, size_t size)
             {
                 return read(value, size, 1);
             }
 
-            void FileIO::readU8(uint8_t * value, size_t size)
+            void FileIO::readU8(uint8_t* value, size_t size)
             {
                 return read(value, size, 1);
             }
 
-            void FileIO::read16(int16_t * value, size_t size)
+            void FileIO::read16(int16_t* value, size_t size)
             {
                 return read(value, size, 2);
             }
 
-            void FileIO::readU16(uint16_t * value, size_t size)
+            void FileIO::readU16(uint16_t* value, size_t size)
             {
                 return read(value, size, 2);
             }
 
-            void FileIO::read32(int32_t * value, size_t size)
+            void FileIO::read32(int32_t* value, size_t size)
             {
                 return read(value, size, 4);
             }
 
-            void FileIO::readU32(uint32_t * value, size_t size)
+            void FileIO::readU32(uint32_t* value, size_t size)
             {
                 return read(value, size, 4);
             }
 
-            void FileIO::readF32(float * value, size_t size)
+            void FileIO::readF32(float* value, size_t size)
             {
                 return read(value, size, 4);
             }
 
-            void FileIO::write8(const int8_t * value, size_t size)
+            void FileIO::write8(const int8_t* value, size_t size)
             {
                 write(value, size, 1);
             }
 
-            void FileIO::writeU8(const uint8_t * value, size_t size)
+            void FileIO::writeU8(const uint8_t* value, size_t size)
             {
                 write(value, size, 1);
             }
 
-            void FileIO::write16(const int16_t * value, size_t size)
+            void FileIO::write16(const int16_t* value, size_t size)
             {
                 write(value, size, 2);
             }
 
-            void FileIO::writeU16(const uint16_t * value, size_t size)
+            void FileIO::writeU16(const uint16_t* value, size_t size)
             {
                 write(value, size, 2);
             }
 
-            void FileIO::write32(const int32_t * value, size_t size)
+            void FileIO::write32(const int32_t* value, size_t size)
             {
                 return write(value, size, 4);
             }
 
-            void FileIO::writeU32(const uint32_t * value, size_t size)
+            void FileIO::writeU32(const uint32_t* value, size_t size)
             {
                 return write(value, size, 4);
             }
 
-            void FileIO::writeF32(const float * value, size_t size)
+            void FileIO::writeF32(const float* value, size_t size)
             {
                 write(value, size, 4);
             }
@@ -157,16 +157,16 @@ namespace djv
 
             void FileIO::write(const std::string& value)
             {
-                write8(reinterpret_cast<const int8_t *>(value.c_str()), value.size());
+                write8(reinterpret_cast<const int8_t*>(value.c_str()), value.size());
             }
             
 #if defined(DJV_MMAP)
-            const uint8_t * FileIO::mmapP() const
+            const uint8_t* FileIO::mmapP() const
             {
                 return _mmapP;
             }
 
-            const uint8_t * FileIO::mmapEnd() const
+            const uint8_t* FileIO::mmapEnd() const
             {
                 return _mmapEnd;
             }
@@ -182,12 +182,12 @@ namespace djv
                 _endianConversion = in;
             }
 
-            std::string FileIO::readContents(const std::shared_ptr<FileIO>& io)
+            std::string readContents(const std::shared_ptr<FileIO>& io)
             {
 #ifdef DJV_MMAP
-                const uint8_t * p = io->mmapP();
-                const uint8_t * end = io->mmapEnd();
-                return std::string(reinterpret_cast<const char *>(p), end - p);
+                const uint8_t* p = io->mmapP();
+                const uint8_t* end = io->mmapEnd();
+                return std::string(reinterpret_cast<const char*>(p), end - p);
 #else // DJV_MMAP
                 const size_t fileSize = io->getSize();
                 std::string out;
@@ -197,7 +197,7 @@ namespace djv
 #endif // DJV_MMAP
             }
 
-            void FileIO::readWord(const std::shared_ptr<FileIO>& io, char * out, size_t maxLen)
+            void readWord(const std::shared_ptr<FileIO>& io, char* out, size_t maxLen)
             {
                 DJV_ASSERT(maxLen);
                 out[0] = 0;
@@ -245,7 +245,7 @@ namespace djv
                 out[i] = 0;
             }
 
-            void FileIO::readLine(const std::shared_ptr<FileIO>& io, char * out, size_t maxLen)
+            void readLine(const std::shared_ptr<FileIO>& io, char* out, size_t maxLen)
             {
                 DJV_ASSERT(maxLen);
                 size_t i = 0;
@@ -270,7 +270,7 @@ namespace djv
                 out[i] = 0;
             }
 
-            std::vector<std::string> FileIO::readLines(const std::string& fileName)
+            std::vector<std::string> readLines(const std::string& fileName)
             {
                 std::vector<std::string> out;
                 auto io = FileIO::create();
@@ -284,7 +284,7 @@ namespace djv
                 return out;
             }
 
-            void FileIO::writeLines(const std::string& fileName, const std::vector<std::string>& lines)
+            void writeLines(const std::string& fileName, const std::vector<std::string>& lines)
             {
                 auto io = FileIO::create();
                 io->open(fileName, FileIO::Mode::Write);

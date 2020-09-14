@@ -100,6 +100,7 @@ namespace djv
 
                 const Path& getPath() const noexcept;
                 bool isEmpty() const noexcept;
+                
                 void setPath(const Path& path, bool stat = true);
                 void setPath(const Path& path, FileType fileType, const Frame::Sequence&, bool stat = true);
 
@@ -131,24 +132,11 @@ namespace djv
                 ///@{
 
                 const Frame::Sequence& getSequence() const noexcept;
-                void setSequence(const Frame::Sequence&);
                 bool isCompatible(const FileInfo&) const;
+                
+                void setSequence(const Frame::Sequence&);
                 bool addToSequence(const FileInfo&);
                 
-                ///@}
-
-                //! \name Utilities
-                ///@{
-
-                //! Test whether the string contains all '#' characters.
-                static bool isSequenceWildcard(const std::string&) noexcept;
-
-                //! Get the contents of the given directory.
-                static std::vector<FileInfo> directoryList(const Path& path, const DirectoryListOptions& options = DirectoryListOptions());
-
-                //! Get the file sequence for the given file.
-                static FileInfo getFileSequence(const Path&, const std::set<std::string>& extensions);
-
                 ///@}
 
                 bool operator == (const FileInfo&) const;
@@ -159,8 +147,6 @@ namespace djv
 
             private:
                 static Frame::Sequence _parseSequence(const std::string&);
-                static void _fileSequence(FileInfo&, const DirectoryListOptions&, std::vector<FileInfo>&);
-                static void _sort(const DirectoryListOptions&, std::vector<FileInfo>&);
                 
                 Path            _path;
                 bool            _exists      = false;
@@ -171,8 +157,17 @@ namespace djv
                 time_t          _time        = 0;
                 Frame::Sequence _sequence;
             };
-        } // namespace Core
 
+            //! Test whether the string contains all '#' characters.
+            bool isSequenceWildcard(const std::string&) noexcept;
+
+            //! Get the contents of the given directory.
+            std::vector<FileInfo> directoryList(const Path& path, const DirectoryListOptions& options = DirectoryListOptions());
+
+            //! Get the file sequence for the given file.
+            FileInfo getFileSequence(const Path&, const std::set<std::string>& extensions);
+
+        } // namespace Core
     } // namespace FileSystem
 
     DJV_ENUM_SERIALIZE_HELPERS(Core::FileSystem::FileType);

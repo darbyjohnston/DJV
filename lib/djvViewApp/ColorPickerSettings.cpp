@@ -4,6 +4,8 @@
 
 #include <djvViewApp/ColorPickerSettings.h>
 
+#include <djvCore/BBoxFunc.h>
+
 #if defined(GetObject)
 #undef GetObject
 #endif // GetObject

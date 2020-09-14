@@ -6,6 +6,7 @@
 
 #include <djvCore/FileInfo.h>
 #include <djvCore/Memory.h>
+#include <djvCore/String.h>
 
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN

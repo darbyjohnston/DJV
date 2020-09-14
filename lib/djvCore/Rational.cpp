@@ -4,7 +4,7 @@
 
 #include <djvCore/Rational.h>
 
-#include <djvCore/String.h>
+#include <djvCore/StringFunc.h>
 
 #include <math.h>
 

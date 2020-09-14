@@ -82,7 +82,7 @@ namespace djv
                         Core::FileSystem::DirectoryListOptions options;
                         options.sequences = true;
                         options.sequenceExtensions = io->getSequenceExtensions();
-                        for (const auto& j : Core::FileSystem::FileInfo::directoryList(i.getPath(), options))
+                        for (const auto& j : Core::FileSystem::directoryList(i.getPath(), options))
                         {
                             _print(j.getFileName(Core::Frame::invalid, false));
                         }

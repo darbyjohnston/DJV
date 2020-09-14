@@ -37,9 +37,9 @@ namespace djv
             const std::weak_ptr<Context>& getContext() const;
 
             const std::string& getClassName() const;
-            void setClassName(const std::string&);
-
             const std::string& getObjectName() const;
+
+            void setClassName(const std::string&);
             void setObjectName(const std::string&);
 
             //! \name Object Hierarchy
@@ -93,6 +93,7 @@ namespace djv
             ///@{
 
             bool isEnabled(bool parents = false) const;
+            
             virtual void setEnabled(bool);
 
             ///@}

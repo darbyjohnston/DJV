@@ -31,13 +31,9 @@ namespace djv
                 First = Linear,
                 Last = Sine
             };
-            DJV_ENUM_HELPERS(Type);
 
             //! This typedef provides an animation function.
             typedef std::function<float(float)> Function;
-
-            //! Get an animation function.
-            Function getFunction(Type);
 
             //! This class provides an animated value.
             class Animation : public std::enable_shared_from_this<Animation>
@@ -54,6 +50,7 @@ namespace djv
                 ///@{
 
                 Type getType() const;
+                
                 void setType(Type);
 
                 ///@}
@@ -62,6 +59,7 @@ namespace djv
                 ///@{
 
                 bool isRepeating() const;
+                
                 void setRepeating(bool);
 
                 ///@}
@@ -124,9 +122,5 @@ namespace djv
 
         } // namespace Animation
     } // namespace Core
-
-    DJV_ENUM_SERIALIZE_HELPERS(Core::Animation::Type);
-    DJV_ENUM_SERIALIZE_HELPERS(Core::Animation::Type);
-
 } // namespace djv
 

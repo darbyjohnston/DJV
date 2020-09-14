@@ -7,6 +7,7 @@
 #include <djvScene/Camera.h>
 #include <djvScene/IPrimitive.h>
 
+#include <djvCore/BBoxFunc.h>
 #include <djvCore/Matrix.h>
 
 #include <glm/gtc/matrix_transform.hpp>

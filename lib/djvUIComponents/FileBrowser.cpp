@@ -32,6 +32,7 @@
 #include <djvCore/FileInfo.h>
 #include <djvCore/RecentFilesModel.h>
 #include <djvCore/StringFormat.h>
+#include <djvCore/StringFunc.h>
 
 #include <ctime>
 
@@ -426,7 +427,7 @@ namespace djv
                         else if (widget->_p->callback)
                         {
                             std::string s = value.getPath().getDirectoryName();
-                            FileSystem::Path::removeTrailingSeparator(s);
+                            FileSystem::removeTrailingSeparator(s);
                             widget->_p->recentPathsModel->addFile(s);
                             widget->_p->callback(value);
                         }

@@ -11,7 +11,7 @@
 #include <djvCore/Error.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/ResourceSystem.h>
-#include <djvCore/String.h>
+#include <djvCore/StringFunc.h>
 #include <djvCore/TextSystem.h>
 #include <djvCore/Timer.h>
 

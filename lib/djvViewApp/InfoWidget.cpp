@@ -20,6 +20,7 @@
 #include <djvAV/AVSystem.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/StringFunc.h>
 
 using namespace djv::Core;
 

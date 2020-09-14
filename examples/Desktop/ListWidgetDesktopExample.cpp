@@ -16,6 +16,7 @@
 #include <djvUI/Window.h>
 
 #include <djvCore/Error.h>
+#include <djvCore/StringFunc.h>
 #include <djvCore/TextSystem.h>
 
 using namespace djv;

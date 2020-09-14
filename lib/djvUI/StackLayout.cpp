@@ -6,6 +6,8 @@
 
 #include <djvUI/LayoutUtil.h>
 
+#include <glm/glm.hpp>
+
 using namespace djv::Core;
 
 namespace djv

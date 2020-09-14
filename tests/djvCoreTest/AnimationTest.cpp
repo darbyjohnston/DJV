@@ -5,6 +5,7 @@
 #include <djvCoreTest/AnimationTest.h>
 
 #include <djvCore/Animation.h>
+#include <djvCore/AnimationFunc.h>
 #include <djvCore/Context.h>
 
 using namespace djv::Core;
@@ -21,20 +22,6 @@ namespace djv
         
         void AnimationTest::run()
         {
-            for (auto i : Animation::getTypeEnums())
-            {
-                std::stringstream ss;
-                ss << i;
-                _print("Type: " + _getText(ss.str()));
-                for (size_t j = 0; j <= 10; ++j)
-                {
-                    const float v = j / static_cast<float>(10);
-                    std::stringstream ss;
-                    ss << "    " << v << " = " << Animation::getFunction(i)(v);
-                    _print(ss.str());
-                }
-            }
-
             if (auto context = getContext().lock())
             {
                 for (auto i : Animation::getTypeEnums())

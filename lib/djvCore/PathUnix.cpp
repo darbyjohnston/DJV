@@ -26,12 +26,12 @@ namespace djv
     {
         namespace FileSystem
         {
-            char Path::getCurrentSeparator() noexcept
+            char getCurrentSeparator() noexcept
             {
                 return getSeparator(PathSeparator::Unix);
             }
 
-            void Path::mkdir(const Path& value)
+            void mkdir(const Path& value)
             {
                 if (::mkdir(value.get().c_str(), S_IRWXU) != 0)
                 {
@@ -42,7 +42,7 @@ namespace djv
                 }
             }
             
-            void Path::rmdir(const Path& value)
+            void rmdir(const Path& value)
             {
                 if (::rmdir(value.get().c_str()) != 0)
                 {
@@ -53,7 +53,7 @@ namespace djv
                 }
             }
             
-            Path Path::getAbsolute(const Path& value)
+            Path getAbsolute(const Path& value)
             {
                 std::string directoryName = value.getDirectoryName();
                 std::string fileName = value.getFileName();
@@ -84,7 +84,7 @@ namespace djv
                 return Path(buf, fileName);
             }
 
-            Path Path::getCWD()
+            Path getCWD()
             {
                 char buf[PATH_MAX];
                 if (!getcwd(buf, PATH_MAX))
@@ -94,7 +94,7 @@ namespace djv
                 return Path(buf);
             }
 
-            Path Path::getTemp()
+            Path getTemp()
             {
                 Path out;
                 char* env = nullptr;

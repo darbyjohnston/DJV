@@ -34,6 +34,7 @@ namespace djv
 
             std::shared_ptr<Core::IValueSubject<bool> > observeHasUndo() const;
             std::shared_ptr<Core::IValueSubject<bool> > observeHasRedo() const;
+            
             void undo();
             void redo();
 

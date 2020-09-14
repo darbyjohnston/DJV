@@ -8,6 +8,7 @@
 #include <djvCore/LogSystem.h>
 #include <djvCore/FileSystem.h>
 #include <djvCore/StringFormat.h>
+#include <djvCore/StringFunc.h>
 #include <djvCore/TextSystem.h>
 
 using namespace djv::Core;

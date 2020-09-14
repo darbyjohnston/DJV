@@ -7,8 +7,8 @@
 #include <djvCore/FileIO.h>
 #include <djvCore/FileSystem.h>
 #include <djvCore/Memory.h>
-#include <djvCore/String.h>
 #include <djvCore/StringFormat.h>
+#include <djvCore/StringFunc.h>
 #include <djvCore/TextSystem.h>
 
 #include <array>

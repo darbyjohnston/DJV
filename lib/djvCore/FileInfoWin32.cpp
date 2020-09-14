@@ -2,9 +2,10 @@
 // Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 
-#include <djvCore/FileInfo.h>
+#include <djvCore/FileInfoPrivate.h>
 
 #include <djvCore/Memory.h>
+#include <djvCore/StringFunc.h>
 
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
@@ -195,7 +196,7 @@ namespace djv
 
             } // namespace
 
-            std::vector<FileInfo> FileInfo::directoryList(const Path& value, const DirectoryListOptions& options)
+            std::vector<FileInfo> directoryList(const Path& value, const DirectoryListOptions& options)
             {
                 std::vector<FileInfo> out;
                 if (!value.isEmpty())
@@ -256,7 +257,7 @@ namespace djv
                                 if (!filter)
                                 {
                                     FileInfo fileInfo(Path(value, fileName));
-                                    _fileSequence(fileInfo, options, out);
+                                    fileSequence(fileInfo, options, out);
                                 }
                             } while (FindNextFileW(hFind, &ffd) != 0);
                         }
@@ -286,7 +287,7 @@ namespace djv
                     }
                     
                     // Sort the items.
-                    _sort(options, out);
+                    sort(options, out);
                 }
                 return out;
             }

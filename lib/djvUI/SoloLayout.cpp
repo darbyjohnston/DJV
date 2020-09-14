@@ -8,6 +8,8 @@
 
 #include <djvCore/Animation.h>
 
+#include <glm/glm.hpp>
+
 using namespace djv::Core;
 
 namespace djv

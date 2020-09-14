@@ -36,6 +36,7 @@ namespace djv
             ///@{
 
             std::shared_ptr<IValueSubject<Math::Range<T> > > observeRange() const;
+            
             void setRange(const Math::Range<T>&);
 
             ///@}
@@ -46,6 +47,7 @@ namespace djv
             std::shared_ptr<IValueSubject<T> > observeValue() const;
             std::shared_ptr<IValueSubject<bool> > observeIsMin() const;
             std::shared_ptr<IValueSubject<bool> > observeIsMax() const;
+            
             void setValue(T);
             void setMin();
             void setMax();
@@ -57,6 +59,7 @@ namespace djv
 
             std::shared_ptr<IValueSubject<T> > observeSmallIncrement() const;
             std::shared_ptr<IValueSubject<T> > observeLargeIncrement() const;
+            
             void incrementSmall();
             void incrementLarge();
             void decrementSmall();
@@ -70,6 +73,7 @@ namespace djv
             ///@{
 
             std::shared_ptr<IValueSubject<NumericValueOverflow> > observeOverflow() const;
+            
             void setOverflow(NumericValueOverflow);
 
             ///@}

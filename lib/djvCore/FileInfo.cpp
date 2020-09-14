@@ -2,8 +2,9 @@
 // Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 
-#include <djvCore/FileInfo.h>
+#include <djvCore/FileInfoPrivate.h>
 
+#include <algorithm>
 #include <array>
 
 //#pragma optimize("", off)
@@ -173,14 +174,6 @@ namespace djv
                 return _sequence;
             }
 
-            void FileInfo::setSequence(const Frame::Sequence& in)
-            {
-                _sequence = in;
-                std::stringstream s;
-                s << _sequence;
-                _path.setNumber(s.str());
-            }
-
             bool FileInfo::isCompatible(const FileInfo& value) const
             {
                 if (_path.getNumber().empty() || value._path.getNumber().empty())
@@ -192,6 +185,14 @@ namespace djv
                 if (_path.getDirectoryName() != value._path.getDirectoryName())
                     return false;
                 return true;
+            }
+
+            void FileInfo::setSequence(const Frame::Sequence& in)
+            {
+                _sequence = in;
+                std::stringstream s;
+                s << _sequence;
+                _path.setNumber(s.str());
             }
 
             bool FileInfo::addToSequence(const FileInfo& value)
@@ -233,38 +234,7 @@ namespace djv
                 }
                 return false;
             }
-            
-            bool FileInfo::isSequenceWildcard(const std::string& value) noexcept
-            {
-                auto i = value.begin();
-                auto end = value.end();
-                for (; i != end && '#' == *i; ++i)
-                    ;
-                return !value.empty() && i == end;
-            }
-
-            FileInfo FileInfo::getFileSequence(const Path& path, const std::set<std::string>& extensions)
-            {
-                FileInfo out(path);
-                DirectoryListOptions options;
-                options.sequences = true;
-                options.sequenceExtensions = extensions;
-                std::string dir = path.getDirectoryName();
-                if (dir.empty())
-                {
-                    dir = ".";
-                }
-                for (const auto& fileInfo : directoryList(Path(dir), options))
-                {
-                    if (fileInfo.isCompatible(out))
-                    {
-                        out = fileInfo;
-                        break;
-                    }
-                }
-                return out;
-            }
-            
+                        
             bool FileInfo::operator == (const FileInfo& in) const
             {
                 return
@@ -299,7 +269,7 @@ namespace djv
                 return out;
             }
 
-            void FileInfo::_fileSequence(FileInfo& fileInfo, const DirectoryListOptions& options, std::vector<FileInfo>& out)
+            void fileSequence(FileInfo& fileInfo, const DirectoryListOptions& options, std::vector<FileInfo>& out)
             {
                 std::string extension = fileInfo.getPath().getExtension();
                 std::transform(extension.begin(), extension.end(), extension.begin(), tolower);
@@ -329,15 +299,18 @@ namespace djv
                 }
             }
 
-            void FileInfo::_sort(const DirectoryListOptions& options, std::vector<FileInfo>& out)
+            void sort(const DirectoryListOptions& options, std::vector<FileInfo>& out)
             {
                 for (auto& i : out)
                 {
-                    if (FileType::Sequence == i._type)
+                    if (FileType::Sequence == i.getType())
                     {
+                        const auto sequence = i.getSequence();
                         std::stringstream s;
-                        s << i._sequence;
-                        i._path.setNumber(s.str());
+                        s << sequence;
+                        Path path = i.getPath();
+                        path.setNumber(s.str());
+                        i.setPath(path, FileType::Sequence, sequence, false);
                     }
                 }
 
@@ -380,6 +353,37 @@ namespace djv
                         return FileType::Directory == a.getType() && b.getType() != FileType::Directory;
                     });
                 }
+            }
+
+            bool isSequenceWildcard(const std::string& value) noexcept
+            {
+                auto i = value.begin();
+                auto end = value.end();
+                for (; i != end && '#' == *i; ++i)
+                    ;
+                return !value.empty() && i == end;
+            }
+
+            FileInfo getFileSequence(const Path& path, const std::set<std::string>& extensions)
+            {
+                FileInfo out(path);
+                DirectoryListOptions options;
+                options.sequences = true;
+                options.sequenceExtensions = extensions;
+                std::string dir = path.getDirectoryName();
+                if (dir.empty())
+                {
+                    dir = ".";
+                }
+                for (const auto& fileInfo : directoryList(Path(dir), options))
+                {
+                    if (fileInfo.isCompatible(out))
+                    {
+                        out = fileInfo;
+                        break;
+                    }
+                }
+                return out;
             }
 
             DJV_ENUM_HELPERS_IMPLEMENTATION(FileType);

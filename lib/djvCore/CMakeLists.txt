@@ -1,6 +1,9 @@
 set(header
     Animation.h
+    AnimationFunc.h
     BBox.h
+    BBoxFunc.h
+    BBoxFuncInline.h
     BBoxInline.h
     Cache.h
     CacheInline.h
@@ -16,6 +19,7 @@ set(header
     Error.h
     FileIO.h
     FileInfo.h
+    FileInfoPrivate.h
     FileSystem.h
     FrameNumber.h
     ICommand.h
@@ -51,9 +55,10 @@ set(header
     RecentFilesModel.h
     ResourceSystem.h
     Speed.h
-    String.h
     StringFormat.h
-    StringInline.h
+    StringFunc.h
+    StringFuncInline.h
+    String.h
     TextSystem.h
     Time.h
     Timer.h
@@ -65,7 +70,8 @@ set(header
     VectorInline.h)
 set(source
     Animation.cpp
-    BBox.cpp
+    AnimationFunc.h
+    BBoxFunc.cpp
     Context.cpp
     Core.cpp
     CoreSystem.cpp
@@ -92,8 +98,8 @@ set(source
     ResourceSystem.cpp
     Path.cpp
     Speed.cpp
-    String.cpp
     StringFormat.cpp
+    StringFunc.cpp
     TextSystem.cpp
     Time.cpp
     Timer.cpp
