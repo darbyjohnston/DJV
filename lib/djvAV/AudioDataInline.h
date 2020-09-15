@@ -4,6 +4,8 @@
 
 #include <djvAV/AudioFunc.h>
 
+#include <cstring>
+
 namespace djv
 {
     namespace AV

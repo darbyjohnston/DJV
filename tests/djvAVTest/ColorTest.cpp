@@ -27,7 +27,6 @@ namespace djv
             _getSet();
             _util();
             _operators();
-            _serialize();
         }
                 
         void ColorTest::_ctor()
