@@ -10,10 +10,10 @@ namespace djv
 {
     namespace AVTest
     {
-        class DPXTest : public Test::ITest
+        class DPXFuncTest : public Test::ITest
         {
         public:
-            DPXTest(
+            DPXFuncTest(
                 const Core::FileSystem::Path& tempPath,
                 const std::shared_ptr<Core::Context>&);
             

@@ -8,10 +8,10 @@ namespace djv
 {
     namespace AVTest
     {
-        class EnumTest : public Test::ITest
+        class Render2DDataTest : public Test::ITest
         {
         public:
-            EnumTest(
+            Render2DDataTest(
                 const Core::FileSystem::Path& tempPath,
                 const std::shared_ptr<Core::Context>&);
             

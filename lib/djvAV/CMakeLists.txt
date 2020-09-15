@@ -9,10 +9,14 @@ set(header
     AudioSystem.h
     AudioSystemFunc.h
     Cineon.h
+    CineonFunc.h
     Color.h
+    ColorFunc.h
     ColorInline.h
     DPX.h
+    DPXFunc.h
     Enum.h
+    EnumFunc.h
     FontSystem.h
     FontSystemInline.h
     GLFWSystem.h
@@ -49,6 +53,7 @@ set(header
     RLA.h
     Render2D.h
     Render2DData.h
+    Render2DDataFunc.h
     Render2DDataInline.h
     Render2DInline.h
     Render2DPrivate.h
@@ -76,13 +81,16 @@ set(source
     AudioSystem.cpp
     AudioSystemFunc.cpp
     Cineon.cpp
+    CineonFunc.cpp
     CineonRead.cpp
     CineonWrite.cpp
     Color.cpp
+    ColorFunc.cpp
     DPX.cpp
+    DPXFunc.cpp
     DPXRead.cpp
     DPXWrite.cpp
-    Enum.cpp
+    EnumFunc.cpp
     FontSystem.cpp
     GLFWSystem.cpp
     IFF.cpp
@@ -109,7 +117,7 @@ set(source
     RLA.cpp
     RLARead.cpp
     Render2D.cpp
-    Render2DData.cpp
+    Render2DDataFunc.cpp
     Render2DPrivate.cpp
     Render3D.cpp
     Render3DCamera.cpp

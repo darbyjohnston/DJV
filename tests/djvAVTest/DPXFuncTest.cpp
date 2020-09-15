@@ -2,7 +2,9 @@
 // Copyright (c) 2020 Darby Johnston
 // All rights reserved.
 
-#include <djvAVTest/DPXTest.h>
+#include <djvAVTest/DPXFuncTest.h>
+
+#include <djvAV/DPXFunc.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/ErrorFunc.h>
@@ -18,23 +20,23 @@ namespace djv
 {
     namespace AVTest
     {
-        DPXTest::DPXTest(
+        DPXFuncTest::DPXFuncTest(
             const FileSystem::Path& tempPath,
             const std::shared_ptr<Context>& context) :
             ITest(
-                "djv::AVTest::DPXTest",
-                FileSystem::Path(tempPath, "DPXTest"),
+                "djv::AVTest::DPXFuncTest",
+                FileSystem::Path(tempPath, "DPXFuncTest"),
                 context)
         {}
                 
-        void DPXTest::run()
+        void DPXFuncTest::run()
         {
             _enum();
             _header();
             _serialize();
         }
         
-        void DPXTest::_enum()
+        void DPXFuncTest::_enum()
         {
             for (const auto& i : DPX::getVersionEnums())
             {
@@ -51,7 +53,7 @@ namespace djv
             }
         }
                 
-        void DPXTest::_header()
+        void DPXFuncTest::_header()
         {
             if (auto context = getContext().lock())
             {
@@ -358,7 +360,7 @@ namespace djv
             }
         }
 
-        void DPXTest::_headerIO(
+        void DPXFuncTest::_headerIO(
             DPX::Header& header,
             AV::IO::Info& info,
             DPX::Version version,
@@ -397,7 +399,7 @@ namespace djv
             }
         }
 
-        void DPXTest::_serialize()
+        void DPXFuncTest::_serialize()
         {
             {
                 DPX::Options options;

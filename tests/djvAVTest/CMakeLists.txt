@@ -5,10 +5,11 @@ set(header
     AudioSystemTest.h
     AudioSystemFuncTest.h
     AudioTest.h
-    CineonTest.h
+    CineonFuncTest.h
+    ColorFuncTest.h
     ColorTest.h
-    DPXTest.h
-    EnumTest.h
+    DPXFuncTest.h
+    EnumFuncTest.h
     FontSystemTest.h
     IOTest.h
     ImageConvertTest.h
@@ -25,6 +26,8 @@ set(header
     OpenGLTextureTest.h
     PPMTest.h
     PixelTest.h
+    Render2DDataFuncTest.h
+    Render2DDataTest.h
     Render2DTest.h
     Render3DCameraTest.h
     Render3DLightTest.h
@@ -42,10 +45,11 @@ set(source
     AudioSystemTest.cpp
     AudioSystemFuncTest.cpp
     AudioTest.cpp
-    CineonTest.cpp
+    CineonFuncTest.cpp
+    ColorFuncTest.cpp
     ColorTest.cpp
-    DPXTest.cpp
-    EnumTest.cpp
+    DPXFuncTest.cpp
+    EnumFuncTest.cpp
     FontSystemTest.cpp
     IOTest.cpp
     ImageConvertTest.cpp
@@ -62,6 +66,8 @@ set(source
     OpenGLTextureTest.cpp
     PPMTest.cpp
     PixelTest.cpp
+    Render2DDataFuncTest.cpp
+    Render2DDataTest.cpp
     Render2DTest.cpp
     Render3DCameraTest.cpp
     Render3DLightTest.cpp

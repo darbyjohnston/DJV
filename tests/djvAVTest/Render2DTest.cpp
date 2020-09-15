@@ -33,48 +33,6 @@ namespace djv
         
         void Render2DTest::run()
         {
-            _enum();
-            _data();
-            _system();
-            _serialize();
-        }
-        
-        void Render2DTest::_enum()
-        {
-            for (const auto& i : getImageChannelDisplayEnums())
-            {
-                std::stringstream ss;
-                ss << i;
-                _print("Image channel display: " + _getText(ss.str()));
-            }
-
-            for (const auto& i : getImageCacheEnums())
-            {
-                std::stringstream ss;
-                ss << i;
-                _print("Image channel display: " + _getText(ss.str()));
-            }
-
-            for (const auto& i : getImageFilterEnums())
-            {
-                std::stringstream ss;
-                ss << i;
-                _print("Image channel display: " + _getText(ss.str()));
-            }
-        }
-
-        void Render2DTest::_data()
-        {
-            {
-                ImageOptions options;
-                options.channelDisplay = ImageChannelDisplay::Red;
-                DJV_ASSERT(options == options);
-                DJV_ASSERT(options != ImageOptions());
-            }
-        }
-
-        void Render2DTest::_system()
-        {
             if (auto context = getContext().lock())
             {
                 const Image::Size size(1280, 720);
@@ -213,49 +171,6 @@ namespace djv
                     _print(ss.str());
                 }
             }
-        }
-        
-        void Render2DTest::_serialize()
-        {
-            {
-                const ImageFilter value = ImageFilter::Linear;
-                rapidjson::Document document;
-                auto& allocator = document.GetAllocator();
-                auto json = toJSON(value, allocator);
-                ImageFilter value2 = ImageFilter::First;
-                fromJSON(json, value2);
-                DJV_ASSERT(value == value2);
-            }
-
-            try
-            {
-                ImageFilter value = ImageFilter::First;
-                auto json = rapidjson::Value(rapidjson::kObjectType);
-                fromJSON(json, value);
-                DJV_ASSERT(false);
-            }
-            catch (const std::exception&)
-            {}
-            
-            {
-                const ImageFilterOptions value;
-                rapidjson::Document document;
-                auto& allocator = document.GetAllocator();
-                auto json = toJSON(value, allocator);
-                ImageFilterOptions value2;
-                fromJSON(json, value2);
-                DJV_ASSERT(value == value2);
-            }
-
-            try
-            {
-                ImageFilterOptions value;
-                auto json = rapidjson::Value(rapidjson::kArrayType);
-                fromJSON(json, value);
-                DJV_ASSERT(false);
-            }
-            catch (const std::exception&)
-            {}
         }
         
     } // namespace AVTest

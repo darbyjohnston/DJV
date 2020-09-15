@@ -4,9 +4,11 @@
 
 #include <djvAVTest/ImageUtilTest.h>
 
-#include <djvAV/Color.h>
+#include <djvAV/ColorFunc.h>
 #include <djvAV/ImageData.h>
 #include <djvAV/ImageUtil.h>
+
+#include <sstream>
 
 using namespace djv::Core;
 using namespace djv::AV;

@@ -30,7 +30,6 @@ namespace djv
                     Count,
                     First = Raw
                 };
-                DJV_ENUM_HELPERS(ColorProfile);
 
                 //! This constant provides the Cineon file header magic numbers.
                 const uint32_t magic[] =
@@ -54,7 +53,6 @@ namespace djv
                     Count,
                     First = LeftRightTopBottom
                 };
-                DJV_ENUM_HELPERS(Orient);
 
                 //! This enumeration provides the Cineon file descriptors.
                 enum class Descriptor
@@ -70,7 +68,6 @@ namespace djv
                     Count,
                     First = Luminance
                 };
-                DJV_ENUM_HELPERS(Descriptor);
 
                 //! This stuct provides the Cineon file header.
                 struct Header
@@ -156,47 +153,6 @@ namespace djv
                     };
                     Film film;
                 };
-
-                //! Check whether the value is valid.
-                bool isValid(const char*, size_t size);
-                
-                //! Convert to std::string.
-                std::string toString(const char* in, size_t size);
-                
-                //! Convert from std::string.
-                size_t fromString(
-                    const std::string& string,
-                    char*              out,
-                    size_t             maxLen,
-                    bool               terminate);
-                    
-                //! Zero out the data in a Cineon file header.
-                void zero(Header&);
-                
-                //! Convert then endian of a Cineon file header.
-                void convertEndian(Header&);
-
-                //! Read a Cineon file header.
-                //!
-                //! Throws:
-                //! - Core::FileSystem::Error
-                Header read(
-                    const std::shared_ptr<Core::FileSystem::FileIO>&,
-                    Info&,
-                    ColorProfile&,
-                    const std::shared_ptr<Core::TextSystem>&);
-                
-                //! Write a Cineon file header.
-                //!
-                //! Throws:
-                //! - Core::FileSystem::Error
-                void write(
-                    const std::shared_ptr<Core::FileSystem::FileIO>&,
-                    const Info& info,
-                    ColorProfile);
-
-                //! Finish writing the Cineon file header after image data is written.
-                void writeFinish(const std::shared_ptr<Core::FileSystem::FileIO>&);
 
                 //! This class provides the Cineon file reader.
                 class Read : public ISequenceRead

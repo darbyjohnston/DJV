@@ -4,7 +4,6 @@
 
 #pragma once
 
-#include <djvAV/Cineon.h>
 #include <djvAV/SequenceIO.h>
 
 namespace djv
@@ -33,7 +32,6 @@ namespace djv
                     Count,
                     First = _1_0
                 };
-                DJV_ENUM_HELPERS(Version);
 
                 //! This enumeration provides DPX file endian options.
                 enum class Endian
@@ -45,7 +43,6 @@ namespace djv
                     Count,
                     First = Auto
                 };
-                DJV_ENUM_HELPERS(Endian);
 
                 //! This constant provides the DPX file magic numbers.
                 static const char magic[][5] =
@@ -69,7 +66,6 @@ namespace djv
                     Count,
                     First = LeftRightTopBottom
                 };
-                DJV_ENUM_HELPERS(Orient);
 
                 //! This enumeration provides the DPX file channel descriptors.
                 enum class Descriptor
@@ -119,7 +115,6 @@ namespace djv
                     Count,
                     First = User
                 };
-                DJV_ENUM_HELPERS(Transfer);
 
                 //! This enumeration provides the colorimetric information for 1.0 version
                 //! DPX files.
@@ -161,7 +156,6 @@ namespace djv
                     Count,
                     First = Pack
                 };
-                DJV_ENUM_HELPERS(Components);
 
                 //! This stuct provides the DPX file header.
                 struct Header
@@ -273,41 +267,11 @@ namespace djv
                     TV tv;
                 };
 
-                //! Zero out the data in a DPX file header.
-                void zero(Header&);
-
-                //! Convert then endian of a DPX file header.
-                void convertEndian(Header&);
-                
-                //! Read a DPX file header.
-                //!
-                //! Throws:
-                //! - Core::FileSystem::Error
-                Header read(
-                    const std::shared_ptr<Core::FileSystem::FileIO>&,
-                    Info&,
-                    Transfer&,
-                    const std::shared_ptr<Core::TextSystem>&);
-                
-                //! Write a DPX file header.
-                //!
-                //! Throws:
-                //! - Core::FileSystem::Error
-                void write(
-                    const std::shared_ptr<Core::FileSystem::FileIO>&,
-                    const Info&,
-                    Version,
-                    Endian,
-                    Transfer);
-
-                //! Finish writing the DPX file header after image data is written.
-                void writeFinish(const std::shared_ptr<Core::FileSystem::FileIO>&);
-
                 //! This struct provides the DPX file I/O options.
                 struct Options
                 {
-                    Version     version    = Version::_2_0;
-                    Endian      endian     = Endian::MSB;
+                    Version version = Version::_2_0;
+                    Endian  endian  = Endian::MSB;
                     
                     bool operator == (const Options&) const;
                 };
@@ -394,14 +358,4 @@ namespace djv
             } // namespace DPX
         } // namespace IO
     } // namespace AV
-
-    DJV_ENUM_SERIALIZE_HELPERS(AV::IO::DPX::Version);
-    DJV_ENUM_SERIALIZE_HELPERS(AV::IO::DPX::Endian);
-
-    rapidjson::Value toJSON(const AV::IO::DPX::Options&, rapidjson::Document::AllocatorType&);
-
-    //! Throws:
-    //! - std::exception
-    void fromJSON(const rapidjson::Value&, AV::IO::DPX::Options&);
-
 } // namespace djv

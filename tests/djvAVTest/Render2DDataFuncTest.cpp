@@ -2,60 +2,70 @@
 // Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 
-#include <djvAVTest/EnumTest.h>
+#include <djvAVTest/Render2DDataFuncTest.h>
 
-#include <djvAV/Enum.h>
+#include <djvAV/Render2DDataFunc.h>
 
 using namespace djv::Core;
 using namespace djv::AV;
+using namespace djv::AV::Render2D;
 
 namespace djv
 {
     namespace AVTest
     {
-        EnumTest::EnumTest(
+        Render2DDataFuncTest::Render2DDataFuncTest(
             const FileSystem::Path& tempPath,
             const std::shared_ptr<Context>& context) :
-            ITest("djv::AVTest::EnumTest", tempPath, context)
+            ITest("djv::AVTest::Render2DDataFuncTest", tempPath, context)
         {}
         
-        void EnumTest::run()
+        void Render2DDataFuncTest::run()
         {
-            for (auto i : getSideEnums())
+            _enum();
+            _serialize();
+        }
+        
+        void Render2DDataFuncTest::_enum()
+        {
+            for (const auto& i : getImageChannelDisplayEnums())
             {
                 std::stringstream ss;
                 ss << i;
-                _print("Side: " + _getText(ss.str()));
+                _print("Image channel display: " + _getText(ss.str()));
             }
 
-            for (auto i : getSwapIntervalEnums())
+            for (const auto& i : getImageCacheEnums())
             {
                 std::stringstream ss;
                 ss << i;
-                _print("Swap interval: " + _getText(ss.str()));
+                _print("Image channel display: " + _getText(ss.str()));
             }
 
-            for (auto i : getAlphaBlendEnums())
+            for (const auto& i : getImageFilterEnums())
             {
                 std::stringstream ss;
                 ss << i;
-                _print("Alpha blend: " + _getText(ss.str()));
+                _print("Image channel display: " + _getText(ss.str()));
             }
-            
+        }
+        
+        void Render2DDataFuncTest::_serialize()
+        {
             {
-                const AlphaBlend value = AlphaBlend::First;
+                const ImageFilter value = ImageFilter::Linear;
                 rapidjson::Document document;
                 auto& allocator = document.GetAllocator();
                 auto json = toJSON(value, allocator);
-                AlphaBlend value2 = AlphaBlend::Count;
+                ImageFilter value2 = ImageFilter::First;
                 fromJSON(json, value2);
                 DJV_ASSERT(value == value2);
             }
 
             try
             {
+                ImageFilter value = ImageFilter::First;
                 auto json = rapidjson::Value(rapidjson::kObjectType);
-                AlphaBlend value;
                 fromJSON(json, value);
                 DJV_ASSERT(false);
             }
@@ -63,26 +73,26 @@ namespace djv
             {}
             
             {
-                const SwapInterval value = SwapInterval::First;
+                const ImageFilterOptions value;
                 rapidjson::Document document;
                 auto& allocator = document.GetAllocator();
                 auto json = toJSON(value, allocator);
-                SwapInterval value2 = SwapInterval::Count;
+                ImageFilterOptions value2;
                 fromJSON(json, value2);
                 DJV_ASSERT(value == value2);
             }
 
             try
             {
-                auto json = rapidjson::Value(rapidjson::kObjectType);
-                SwapInterval value;
+                ImageFilterOptions value;
+                auto json = rapidjson::Value(rapidjson::kArrayType);
                 fromJSON(json, value);
                 DJV_ASSERT(false);
             }
             catch (const std::exception&)
             {}
         }
-
+        
     } // namespace AVTest
 } // namespace djv
 

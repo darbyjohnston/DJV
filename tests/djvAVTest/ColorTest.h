@@ -23,7 +23,6 @@ namespace djv
             void _rgbToHSV(float, float, float);
             void _util();
             void _operators();
-            void _serialize();
         };
         
     } // namespace AVTest

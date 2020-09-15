@@ -8,10 +8,10 @@ namespace djv
 {
     namespace AVTest
     {
-        class AudioSystemTest : public Test::ITest
+        class AudioSystemFuncTest : public Test::ITest
         {
         public:
-            AudioSystemTest(
+            AudioSystemFuncTest(
                 const Core::FileSystem::Path& tempPath,
                 const std::shared_ptr<Core::Context>&);
             

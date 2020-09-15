@@ -5,9 +5,10 @@
 #include <djvUI/AVSettings.h>
 
 #include <djvAV/AVSystem.h>
+#include <djvAV/EnumFunc.h>
 #include <djvAV/GLFWSystem.h>
 #include <djvAV/IOSystem.h>
-#include <djvAV/Render2D.h>
+#include <djvAV/Render2DDataFunc.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/SpeedFunc.h>

@@ -2,7 +2,7 @@
 // Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 
-#include <djvAV/Enum.h>
+#include <djvAV/EnumFunc.h>
 
 #include <algorithm>
 #include <array>

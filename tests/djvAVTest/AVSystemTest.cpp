@@ -5,7 +5,8 @@
 #include <djvAVTest/AVSystemTest.h>
 
 #include <djvAV/AVSystem.h>
-#include <djvAV/Render2DData.h>
+#include <djvAV/EnumFunc.h>
+#include <djvAV/Render2DDataFunc.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/SpeedFunc.h>

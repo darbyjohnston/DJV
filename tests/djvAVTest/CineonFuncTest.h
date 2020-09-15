@@ -10,10 +10,10 @@ namespace djv
 {
     namespace AVTest
     {
-        class CineonTest : public Test::ITest
+        class CineonFuncTest : public Test::ITest
         {
         public:
-            CineonTest(
+            CineonFuncTest(
                 const Core::FileSystem::Path& tempPath,
                 const std::shared_ptr<Core::Context>&);
             

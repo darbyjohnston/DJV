@@ -8,14 +8,18 @@ namespace djv
 {
     namespace AVTest
     {
-        class Render2DTest : public Test::ITest
+        class Render2DDataFuncTest : public Test::ITest
         {
         public:
-            Render2DTest(
+            Render2DDataFuncTest(
                 const Core::FileSystem::Path& tempPath,
                 const std::shared_ptr<Core::Context>&);
             
             void run() override;
+            
+        private:
+            void _enum();
+            void _serialize();
         };
         
     } // namespace AVTest

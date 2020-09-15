@@ -6,8 +6,6 @@
 
 #include <djvAV/Pixel.h>
 
-#include <djvCore/RapidJSONFunc.h>
-
 namespace djv
 {
     namespace AV
@@ -67,19 +65,6 @@ namespace djv
 
         } // namespace Image
     } // namespace AV
-
-    std::ostream& operator << (std::ostream&, const AV::Image::Color&);
-
-    //! Throws:
-    //! - std::exception
-    std::istream& operator >> (std::istream&, AV::Image::Color&);
-
-    rapidjson::Value toJSON(const AV::Image::Color&, rapidjson::Document::AllocatorType&);
-
-    //! Throws:
-    //! - std::exception
-    void fromJSON(const rapidjson::Value&, AV::Image::Color&);
-
 } // namespace djv
 
 #include <djvAV/ColorInline.h>

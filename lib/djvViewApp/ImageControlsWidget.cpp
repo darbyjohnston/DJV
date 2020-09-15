@@ -25,7 +25,8 @@
 #include <djvUI/ToolButton.h>
 
 #include <djvAV/AVSystem.h>
-#include <djvAV/Render2D.h>
+#include <djvAV/EnumFunc.h>
+#include <djvAV/Render2DDataFunc.h>
 
 #include <djvCore/Context.h>
 

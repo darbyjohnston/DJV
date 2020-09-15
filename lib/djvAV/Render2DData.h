@@ -8,8 +8,6 @@
 #include <djvAV/Image.h>
 #include <djvAV/OCIO.h>
 
-#include <djvCore/RapidJSONFunc.h>
-
 namespace djv
 {
     namespace AV
@@ -29,7 +27,6 @@ namespace djv
                 Count,
                 First = Color
             };
-            DJV_ENUM_HELPERS(ImageChannelDisplay);
 
             //! This eumeration provides the image cache options.
             enum class ImageCache
@@ -40,7 +37,6 @@ namespace djv
                 Count,
                 First = Atlas
             };
-            DJV_ENUM_HELPERS(ImageCache);
             
             //! This class provides color values.
             class ImageColor
@@ -121,8 +117,6 @@ namespace djv
                 Count,
                 First = Nearest
             };
-            DJV_ENUM_HELPERS(ImageFilter);
-            GLenum toGL(ImageFilter);
 
             class ImageFilterOptions
             {
@@ -140,19 +134,6 @@ namespace djv
 
         } // namespace Render2D
     } // namespace AV
-
-    DJV_ENUM_SERIALIZE_HELPERS(AV::Render2D::ImageChannelDisplay);
-    DJV_ENUM_SERIALIZE_HELPERS(AV::Render2D::ImageCache);
-    DJV_ENUM_SERIALIZE_HELPERS(AV::Render2D::ImageFilter);
-
-    rapidjson::Value toJSON(AV::Render2D::ImageFilter, rapidjson::Document::AllocatorType&);
-    rapidjson::Value toJSON(const AV::Render2D::ImageFilterOptions&, rapidjson::Document::AllocatorType&);
-
-    //! Throws:
-    //! - std::exception
-    void fromJSON(const rapidjson::Value&, AV::Render2D::ImageFilter&);
-    void fromJSON(const rapidjson::Value&, AV::Render2D::ImageFilterOptions&);
-
 } // namespace djv
 
 #include <djvAV/Render2DDataInline.h>

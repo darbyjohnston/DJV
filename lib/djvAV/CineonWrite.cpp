@@ -4,6 +4,8 @@
 
 #include <djvAV/Cineon.h>
 
+#include <djvAV/CineonFunc.h>
+
 #include <djvCore/FileIO.h>
 
 using namespace djv::Core;

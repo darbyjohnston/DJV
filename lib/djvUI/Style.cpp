@@ -8,6 +8,8 @@
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/StyleSettings.h>
 
+#include <djvAV/ColorFunc.h>
+
 #include <djvCore/Context.h>
 #include <djvCore/LogSystem.h>
 

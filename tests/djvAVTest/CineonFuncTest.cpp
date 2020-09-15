@@ -2,7 +2,9 @@
 // Copyright (c) 2020 Darby Johnston
 // All rights reserved.
 
-#include <djvAVTest/CineonTest.h>
+#include <djvAVTest/CineonFuncTest.h>
+
+#include <djvAV/CineonFunc.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/ErrorFunc.h>
@@ -18,22 +20,22 @@ namespace djv
 {
     namespace AVTest
     {
-        CineonTest::CineonTest(
+        CineonFuncTest::CineonFuncTest(
             const FileSystem::Path& tempPath,
             const std::shared_ptr<Context>& context) :
             ITest(
-                "djv::AVTest::CineonTest",
-                FileSystem::Path(tempPath, "CineonTest"),
+                "djv::AVTest::CineonFuncTest",
+                FileSystem::Path(tempPath, "CineonFuncTest"),
                 context)
         {}
                 
-        void CineonTest::run()
+        void CineonFuncTest::run()
         {
             _util();
             _header();
         }
         
-        void CineonTest::_util()
+        void CineonFuncTest::_util()
         {
             {
                 DJV_ASSERT(!Cineon::isValid("", 0));
@@ -65,7 +67,7 @@ namespace djv
             }
         }
         
-        void CineonTest::_header()
+        void CineonFuncTest::_header()
         {
             if (auto context = getContext().lock())
             {
@@ -391,7 +393,7 @@ namespace djv
             }
         }
 
-        void CineonTest::_headerIO(
+        void CineonFuncTest::_headerIO(
             Cineon::Header& header,
             AV::IO::Info& info,
             Cineon::ColorProfile colorProfile)

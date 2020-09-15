@@ -4,6 +4,8 @@
 
 #include <djvAV/DPX.h>
 
+#include <djvAV/DPXFunc.h>
+
 #include <djvCore/FileIO.h>
 
 using namespace djv::Core;

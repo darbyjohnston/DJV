@@ -2,13 +2,10 @@
 // Copyright (c) 2020 Darby Johnston
 // All rights reserved.
 
-#include <djvAV/Render2DData.h>
+#include <djvAV/Render2DDataFunc.h>
 
 #include <array>
-
-#if defined(GetObject)
-#undef GetObject
-#endif // GetObject
+#include <sstream>
 
 using namespace djv::Core;
 

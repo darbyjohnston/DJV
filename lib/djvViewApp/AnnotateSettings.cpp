@@ -4,7 +4,7 @@
 
 #include <djvViewApp/AnnotateSettings.h>
 
-#include <djvAV/Color.h>
+#include <djvAV/ColorFunc.h>
 
 #include <djvCore/BBoxFunc.h>
 

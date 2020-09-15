@@ -56,12 +56,14 @@
 #include <djvAVTest/AVSystemTest.h>
 #include <djvAVTest/AudioDataTest.h>
 #include <djvAVTest/AudioFuncTest.h>
+#include <djvAVTest/AudioSystemFuncTest.h>
 #include <djvAVTest/AudioSystemTest.h>
 #include <djvAVTest/AudioTest.h>
-#include <djvAVTest/CineonTest.h>
+#include <djvAVTest/CineonFuncTest.h>
+#include <djvAVTest/ColorFuncTest.h>
 #include <djvAVTest/ColorTest.h>
-#include <djvAVTest/DPXTest.h>
-#include <djvAVTest/EnumTest.h>
+#include <djvAVTest/DPXFuncTest.h>
+#include <djvAVTest/EnumFuncTest.h>
 #include <djvAVTest/FontSystemTest.h>
 #include <djvAVTest/IOTest.h>
 #include <djvAVTest/ImageConvertTest.h>
@@ -78,6 +80,8 @@
 #include <djvAVTest/OpenGLTextureAtlasTest.h>
 #include <djvAVTest/PPMTest.h>
 #include <djvAVTest/PixelTest.h>
+#include <djvAVTest/Render2DDataFuncTest.h>
+#include <djvAVTest/Render2DDataTest.h>
 #include <djvAVTest/Render2DTest.h>
 #include <djvAVTest/Render3DCameraTest.h>
 #include <djvAVTest/Render3DLightTest.h>
@@ -188,12 +192,14 @@ int main(int argc, char ** argv)
         tests.emplace_back(new AVTest::AVSystemTest(tempPath, context));
         tests.emplace_back(new AVTest::AudioDataTest(tempPath, context));
         tests.emplace_back(new AVTest::AudioFuncTest(tempPath, context));
+        tests.emplace_back(new AVTest::AudioSystemFuncTest(tempPath, context));
         tests.emplace_back(new AVTest::AudioSystemTest(tempPath, context));
         tests.emplace_back(new AVTest::AudioTest(tempPath, context));
-        tests.emplace_back(new AVTest::CineonTest(tempPath, context));
+        tests.emplace_back(new AVTest::CineonFuncTest(tempPath, context));
+        tests.emplace_back(new AVTest::ColorFuncTest(tempPath, context));
         tests.emplace_back(new AVTest::ColorTest(tempPath, context));
-        tests.emplace_back(new AVTest::DPXTest(tempPath, context));
-        tests.emplace_back(new AVTest::EnumTest(tempPath, context));
+        tests.emplace_back(new AVTest::DPXFuncTest(tempPath, context));
+        tests.emplace_back(new AVTest::EnumFuncTest(tempPath, context));
         tests.emplace_back(new AVTest::FontSystemTest(tempPath, context));
         tests.emplace_back(new AVTest::IOTest(tempPath, context));
         tests.emplace_back(new AVTest::ImageConvertTest(tempPath, context));
@@ -210,6 +216,8 @@ int main(int argc, char ** argv)
         tests.emplace_back(new AVTest::OpenGLTextureTest(tempPath, context));
         tests.emplace_back(new AVTest::PPMTest(tempPath, context));
         tests.emplace_back(new AVTest::PixelTest(tempPath, context));
+        tests.emplace_back(new AVTest::Render2DDataFuncTest(tempPath, context));
+        tests.emplace_back(new AVTest::Render2DDataTest(tempPath, context));
         tests.emplace_back(new AVTest::Render2DTest(tempPath, context));
         tests.emplace_back(new AVTest::Render3DCameraTest(tempPath, context));
         tests.emplace_back(new AVTest::Render3DLightTest(tempPath, context));

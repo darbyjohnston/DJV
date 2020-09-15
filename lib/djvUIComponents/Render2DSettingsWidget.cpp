@@ -11,7 +11,7 @@
 #include <djvUI/ToggleButton.h>
 
 #include <djvAV/AVSystem.h>
-#include <djvAV/Render2D.h>
+#include <djvAV/Render2DDataFunc.h>
 
 #include <djvCore/Context.h>
 
