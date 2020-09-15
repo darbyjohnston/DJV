@@ -7,6 +7,8 @@
 #include <djvAV/Audio.h>
 
 #include <memory>
+#include <string>
+#include <vector>
 
 namespace djv
 {

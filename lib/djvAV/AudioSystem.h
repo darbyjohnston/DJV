@@ -26,7 +26,6 @@ namespace djv
                 Count,
                 First = S8
             };
-            DJV_ENUM_HELPERS(DeviceFormat);
 
             struct Device
             {
@@ -65,7 +64,4 @@ namespace djv
 
         } // namespace Audio
     } // namespace AV
-
-    DJV_ENUM_SERIALIZE_HELPERS(AV::Audio::DeviceFormat);
-
 } // namespace djv

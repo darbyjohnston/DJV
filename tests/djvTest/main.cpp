@@ -55,6 +55,7 @@
 
 #include <djvAVTest/AVSystemTest.h>
 #include <djvAVTest/AudioDataTest.h>
+#include <djvAVTest/AudioFuncTest.h>
 #include <djvAVTest/AudioSystemTest.h>
 #include <djvAVTest/AudioTest.h>
 #include <djvAVTest/CineonTest.h>
@@ -186,6 +187,7 @@ int main(int argc, char ** argv)
 
         tests.emplace_back(new AVTest::AVSystemTest(tempPath, context));
         tests.emplace_back(new AVTest::AudioDataTest(tempPath, context));
+        tests.emplace_back(new AVTest::AudioFuncTest(tempPath, context));
         tests.emplace_back(new AVTest::AudioSystemTest(tempPath, context));
         tests.emplace_back(new AVTest::AudioTest(tempPath, context));
         tests.emplace_back(new AVTest::CineonTest(tempPath, context));

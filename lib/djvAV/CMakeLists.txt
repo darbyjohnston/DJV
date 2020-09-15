@@ -4,8 +4,10 @@ set(header
     Audio.h
     AudioData.h
     AudioDataInline.h
-    AudioInline.h
+    AudioFunc.h
+    AudioFuncInline.h
     AudioSystem.h
+    AudioSystemFunc.h
     Cineon.h
     Color.h
     ColorInline.h
@@ -69,9 +71,10 @@ set(header
     TriangleMeshInline.h)
 set(source
     AVSystem.cpp
-    Audio.cpp
     AudioData.cpp
+    AudioFunc.cpp
     AudioSystem.cpp
+    AudioSystemFunc.cpp
     Cineon.cpp
     CineonRead.cpp
     CineonWrite.cpp

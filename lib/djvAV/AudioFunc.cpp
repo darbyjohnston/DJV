@@ -2,7 +2,7 @@
 // Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 
-#include <djvAV/Audio.h>
+#include <djvAV/AudioFunc.h>
 
 #include <algorithm>
 #include <array>

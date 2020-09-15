@@ -1,7 +1,9 @@
 set(header
     AVSystemTest.h
     AudioDataTest.h
+    AudioFuncTest.h
     AudioSystemTest.h
+    AudioSystemFuncTest.h
     AudioTest.h
     CineonTest.h
     ColorTest.h
@@ -36,7 +38,9 @@ set(header
 set(source
     AVSystemTest.cpp
     AudioDataTest.cpp
+    AudioFuncTest.cpp
     AudioSystemTest.cpp
+    AudioSystemFuncTest.cpp
     AudioTest.cpp
     CineonTest.cpp
     ColorTest.cpp
