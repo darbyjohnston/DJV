@@ -7,6 +7,7 @@
 #include <djvCore/FileInfoPrivate.h>
 
 #include <djvCore/Memory.h>
+#include <djvCore/PathFunc.h>
 #include <djvCore/StringFunc.h>
 
 #ifndef WIN32_LEAN_AND_MEAN
@@ -191,7 +192,7 @@ namespace djv
                     else if (value.isServer())
                     {
                         std::string path = value.get();
-                        Path::removeTrailingSeparator(path);
+                        removeTrailingSeparator(path);
 
                         const size_t bufSize = path.size() + 1;
                         std::vector<char> buf(bufSize);

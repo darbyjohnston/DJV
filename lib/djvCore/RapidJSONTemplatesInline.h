@@ -2,6 +2,8 @@
 // Copyright (c) 2004-2020 Darby Johnston
 // All rights reserved.
 
+#include <stdexcept>
+
 namespace djv
 {
     template<typename T>

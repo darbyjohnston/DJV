@@ -18,6 +18,7 @@
 #include <djvAV/TriangleMesh.h>
 
 #include <djvCore/StringFormat.h>
+#include <djvCore/StringFunc.h>
 #include <djvCore/TextSystem.h>
 
 #include <opennurbs/opennurbs.h>

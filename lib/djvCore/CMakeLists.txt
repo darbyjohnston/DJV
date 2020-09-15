@@ -135,7 +135,7 @@ if (WIN32)
         ${source}
         DirectoryWatcherWin32.cpp
         DrivesModelWin32.cpp
-        ErrorWin32.cpp
+        ErrorFuncWin32.cpp
         FileIOWin32.cpp
         FileInfoFuncWin32.cpp
         FileInfoWin32.cpp

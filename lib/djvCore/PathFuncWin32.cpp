@@ -5,8 +5,8 @@
 #include <djvCore/PathFunc.h>
 
 #include <djvCore/FileInfo.h>
-#include <djvCore/String.h>
 #include <djvCore/StringFormat.h>
+#include <djvCore/StringFunc.h>
 
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN

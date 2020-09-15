@@ -39,9 +39,9 @@ namespace djv
                         ss << "Time units: " << value;
                         _print(ss.str());
                     });
-                auto alphaBlendObserver = ValueObserver<AlphaBlend>::create(
+                auto alphaBlendObserver = ValueObserver<AV::AlphaBlend>::create(
                     system->observeAlphaBlend(),
-                    [this](AlphaBlend value)
+                    [this](AV::AlphaBlend value)
                     {
                         std::stringstream ss;
                         ss << "Alpha blend: " << value;

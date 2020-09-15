@@ -30,11 +30,11 @@ namespace djv
         void TIFFTest::_serialize()
         {
             {
-                TIFF::Options options;
+                IO::TIFF::Options options;
                 rapidjson::Document document;
                 auto& allocator = document.GetAllocator();
                 auto json = toJSON(options, allocator);
-                TIFF::Options options2;
+                IO::TIFF::Options options2;
                 fromJSON(json, options2);
                 DJV_ASSERT(options == options2);
             }
@@ -42,7 +42,7 @@ namespace djv
             try
             {
                 auto json = rapidjson::Value(rapidjson::kObjectType);
-                TIFF::Options options;
+                IO::TIFF::Options options;
                 fromJSON(json, options);
                 DJV_ASSERT(options == options);
             }

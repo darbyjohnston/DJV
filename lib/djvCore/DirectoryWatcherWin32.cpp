@@ -7,7 +7,8 @@
 #include <djvCore/Context.h>
 #include <djvCore/ErrorFunc.h>
 #include <djvCore/LogSystem.h>
-#include <djvCore/String.h>
+#include <djvCore/Path.h>
+#include <djvCore/StringFunc.h>
 #include <djvCore/StringFormat.h>
 #include <djvCore/Timer.h>
 

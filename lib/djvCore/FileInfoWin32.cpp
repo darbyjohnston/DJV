@@ -5,6 +5,7 @@
 #include <djvCore/FileInfoPrivate.h>
 
 #include <djvCore/Memory.h>
+#include <djvCore/FrameNumberFunc.h>
 #include <djvCore/StringFunc.h>
 
 #ifndef WIN32_LEAN_AND_MEAN

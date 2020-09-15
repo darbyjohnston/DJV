@@ -7,6 +7,7 @@
 #include <djvCore/Core.h>
 
 #include <memory>
+#include <string>
 
 #if defined(DJV_PLATFORM_WINDOWS)
 #if defined(DJV_MMAP)

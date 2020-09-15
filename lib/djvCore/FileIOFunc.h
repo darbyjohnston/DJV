@@ -7,6 +7,7 @@
 #include <djvCore/String.h>
 
 #include <memory>
+#include <string>
 #include <vector>
 
 namespace djv
