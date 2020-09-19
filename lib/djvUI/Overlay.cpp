@@ -7,8 +7,8 @@
 #include <djvUI/Action.h>
 #include <djvUI/StackLayout.h>
 
-#include <djvCore/Animation.h>
-#include <djvCore/Timer.h>
+#include <djvSystem/Animation.h>
+#include <djvSystem/Timer.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -34,12 +34,12 @@ namespace djv
                 bool captureKeyboard = true;
                 bool fadeIn = true;
                 bool closeOnEscape = true;
-                std::shared_ptr<Animation::Animation> fadeAnimation;
-                std::map<Event::PointerID, bool> pressedIDs;
+                std::shared_ptr<System::Animation::Animation> fadeAnimation;
+                std::map<System::Event::PointerID, bool> pressedIDs;
                 std::function<void(void)> closeCallback;
             };
 
-            void Overlay::_init(const std::shared_ptr<Context>& context)
+            void Overlay::_init(const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
                 DJV_PRIVATE_PTR();
@@ -48,7 +48,7 @@ namespace djv
                 setBackgroundRole(ColorRole::Overlay);
                 setPointerEnabled(true);
 
-                p.fadeAnimation = Animation::Animation::create(context);
+                p.fadeAnimation = System::Animation::Animation::create(context);
             }
 
             Overlay::Overlay() :
@@ -58,7 +58,7 @@ namespace djv
             Overlay::~Overlay()
             {}
 
-            std::shared_ptr<Overlay> Overlay::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<Overlay> Overlay::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<Overlay>(new Overlay);
                 out->_init(context);
@@ -145,19 +145,19 @@ namespace djv
                 return out;
             }
 
-            void Overlay::_preLayoutEvent(Event::PreLayout& event)
+            void Overlay::_preLayoutEvent(System::Event::PreLayout& event)
             {
                 const auto& style = _getStyle();
                 _setMinimumSize(Stack::minimumSize(getChildWidgets(), Margin(), style) + getMargin().getSize(style));
             }
 
-            void Overlay::_layoutEvent(Event::Layout& event)
+            void Overlay::_layoutEvent(System::Event::Layout& event)
             {
                 const auto& style = _getStyle();
                 Stack::layout(getMargin().bbox(getGeometry(), style), getChildWidgets(), Margin(), style);
             }
 
-            void Overlay::_pointerEnterEvent(Event::PointerEnter& event)
+            void Overlay::_pointerEnterEvent(System::Event::PointerEnter& event)
             {
                 if (_p->capturePointer && !event.isRejected())
                 {
@@ -165,7 +165,7 @@ namespace djv
                 }
             }
 
-            void Overlay::_pointerLeaveEvent(Event::PointerLeave& event)
+            void Overlay::_pointerLeaveEvent(System::Event::PointerLeave& event)
             {
                 if (_p->capturePointer)
                 {
@@ -173,7 +173,7 @@ namespace djv
                 }
             }
 
-            void Overlay::_pointerMoveEvent(Event::PointerMove& event)
+            void Overlay::_pointerMoveEvent(System::Event::PointerMove& event)
             {
                 if (_p->capturePointer)
                 {
@@ -181,7 +181,7 @@ namespace djv
                 }
             }
 
-            void Overlay::_buttonPressEvent(Event::ButtonPress& event)
+            void Overlay::_buttonPressEvent(System::Event::ButtonPress& event)
             {
                 DJV_PRIVATE_PTR();
                 if (p.capturePointer)
@@ -192,7 +192,7 @@ namespace djv
                 }
             }
 
-            void Overlay::_buttonReleaseEvent(Event::ButtonRelease& event)
+            void Overlay::_buttonReleaseEvent(System::Event::ButtonRelease& event)
             {
                 DJV_PRIVATE_PTR();
                 const auto i = p.pressedIDs.find(event.getPointerInfo().id);
@@ -203,7 +203,7 @@ namespace djv
                 }
             }
 
-            void Overlay::_keyPressEvent(Event::KeyPress& event)
+            void Overlay::_keyPressEvent(System::Event::KeyPress& event)
             {
                 Widget::_keyPressEvent(event);
                 DJV_PRIVATE_PTR();

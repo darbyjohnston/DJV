@@ -14,7 +14,8 @@
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/ToggleButton.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
+
 #include <djvCore/OSFunc.h>
 
 using namespace djv::Core;
@@ -30,7 +31,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > enabledObserver;
         };
 
-        void MemoryCacheEnabledWidget::_init(const std::shared_ptr<Core::Context>& context)
+        void MemoryCacheEnabledWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -40,13 +41,13 @@ namespace djv
 
             addChild(p.button);
 
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.button->setCheckedCallback(
                 [contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
                     {
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                         if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
                         {
                             fileSettings->setCacheEnabled(value);
@@ -56,7 +57,7 @@ namespace djv
 
             auto weak = std::weak_ptr<MemoryCacheEnabledWidget>(
                 std::dynamic_pointer_cast<MemoryCacheEnabledWidget>(shared_from_this()));
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
             {
                 p.enabledObserver = ValueObserver<bool>::create(
@@ -78,25 +79,25 @@ namespace djv
         MemoryCacheEnabledWidget::~MemoryCacheEnabledWidget()
         {}
 
-        std::shared_ptr<MemoryCacheEnabledWidget> MemoryCacheEnabledWidget::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<MemoryCacheEnabledWidget> MemoryCacheEnabledWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<MemoryCacheEnabledWidget>(new MemoryCacheEnabledWidget);
             out->_init(context);
             return out;
         }
 
-        void MemoryCacheEnabledWidget::_preLayoutEvent(Event::PreLayout&)
+        void MemoryCacheEnabledWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             const auto& style = _getStyle();
             _setMinimumSize(_p->button->getMinimumSize() + getMargin().getSize(style));
         }
 
-        void MemoryCacheEnabledWidget::_layoutEvent(Event::Layout&)
+        void MemoryCacheEnabledWidget::_layoutEvent(System::Event::Layout&)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const BBox2f g = getMargin().bbox(getGeometry(), style);
-            const BBox2f g2 = UI::Layout::getAlign(
+            const Math::BBox2f g = getMargin().bbox(getGeometry(), style);
+            const Math::BBox2f g2 = UI::Layout::getAlign(
                 g,
                 p.button->getMinimumSize(),
                 p.button->getHAlign(),
@@ -113,14 +114,14 @@ namespace djv
             std::shared_ptr<ValueObserver<int> > sizeObserver;
         };
 
-        void MemoryCacheSizeWidget::_init(const std::shared_ptr<Core::Context>& context)
+        void MemoryCacheSizeWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::MemoryCacheSizeWidget");
 
             p.slider = UI::IntSlider::create(context);
-            p.slider->setRange(IntRange(1, OS::getRAMSize() / Memory::gigabyte));
+            p.slider->setRange(Math::IntRange(1, OS::getRAMSize() / Memory::gigabyte));
             p.label = UI::Label::create(context);
             p.label->setTextHAlign(UI::TextHAlign::Left);
 
@@ -131,13 +132,13 @@ namespace djv
             p.layout->addChild(p.label);
             addChild(p.layout);
 
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.slider->setValueCallback(
                 [contextWeak](int value)
                 {
                     if (auto context = contextWeak.lock())
                     {
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                         if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
                         {
                             fileSettings->setCacheSize(value);
@@ -147,7 +148,7 @@ namespace djv
 
             auto weak = std::weak_ptr<MemoryCacheSizeWidget>(
                 std::dynamic_pointer_cast<MemoryCacheSizeWidget>(shared_from_this()));
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
             {
                 p.sizeObserver = ValueObserver<int>::create(
@@ -169,26 +170,26 @@ namespace djv
         MemoryCacheSizeWidget::~MemoryCacheSizeWidget()
         {}
 
-        std::shared_ptr<MemoryCacheSizeWidget> MemoryCacheSizeWidget::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<MemoryCacheSizeWidget> MemoryCacheSizeWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<MemoryCacheSizeWidget>(new MemoryCacheSizeWidget);
             out->_init(context);
             return out;
         }
 
-        void MemoryCacheSizeWidget::_preLayoutEvent(Event::PreLayout&)
+        void MemoryCacheSizeWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             const auto& style = _getStyle();
             _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
         }
 
-        void MemoryCacheSizeWidget::_layoutEvent(Event::Layout&)
+        void MemoryCacheSizeWidget::_layoutEvent(System::Event::Layout&)
         {
             const auto& style = _getStyle();
             _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
         }
 
-        void MemoryCacheSizeWidget::_initEvent(Event::Init& event)
+        void MemoryCacheSizeWidget::_initEvent(System::Event::Init& event)
         {
             DJV_PRIVATE_PTR();
             if (event.getData().text)
@@ -206,7 +207,7 @@ namespace djv
             std::shared_ptr<UI::FormLayout> layout;
         };
 
-        void MemorySettingsWidget::_init(const std::shared_ptr<Context>& context)
+        void MemorySettingsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -227,7 +228,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<MemorySettingsWidget> MemorySettingsWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<MemorySettingsWidget> MemorySettingsWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<MemorySettingsWidget>(new MemorySettingsWidget);
             out->_init(context);
@@ -249,7 +250,7 @@ namespace djv
             _p->layout->setLabelSizeGroup(value);
         }
 
-        void MemorySettingsWidget::_initEvent(Event::Init& event)
+        void MemorySettingsWidget::_initEvent(System::Event::Init& event)
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();

@@ -16,13 +16,13 @@ namespace djv
             DJV_NON_COPYABLE(AudioSystem);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             AudioSystem();
 
         public:
             ~AudioSystem() override;
 
-            static std::shared_ptr<AudioSystem> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<AudioSystem> create(const std::shared_ptr<System::Context>&);
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
             MenuData getMenu() const override;

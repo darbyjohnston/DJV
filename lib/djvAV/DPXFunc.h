@@ -23,26 +23,26 @@ namespace djv
                 //! Read a DPX file header.
                 //!
                 //! Throws:
-                //! - Core::FileSystem::Error
+                //! - System::File::Error
                 Header read(
-                    const std::shared_ptr<Core::FileSystem::FileIO>&,
+                    const std::shared_ptr<System::File::IO>&,
                     Info&,
                     Transfer&,
-                    const std::shared_ptr<Core::TextSystem>&);
+                    const std::shared_ptr<System::TextSystem>&);
                 
                 //! Write a DPX file header.
                 //!
                 //! Throws:
-                //! - Core::FileSystem::Error
+                //! - System::File::Error
                 void write(
-                    const std::shared_ptr<Core::FileSystem::FileIO>&,
+                    const std::shared_ptr<System::File::IO>&,
                     const Info&,
                     Version,
                     Endian,
                     Transfer);
 
                 //! Finish writing the DPX file header after image data is written.
-                void writeFinish(const std::shared_ptr<Core::FileSystem::FileIO>&);
+                void writeFinish(const std::shared_ptr<System::File::IO>&);
 
                 DJV_ENUM_HELPERS(Version);
                 DJV_ENUM_HELPERS(Endian);

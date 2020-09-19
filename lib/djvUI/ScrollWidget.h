@@ -7,8 +7,9 @@
 #include <djvUI/Margin.h>
 #include <djvUI/Widget.h>
 
-#include <djvCore/Range.h>
-#include <djvCore/Timer.h>
+#include <djvSystem/Timer.h>
+
+#include <djvMath/Range.h>
 
 namespace djv
 {
@@ -34,13 +35,13 @@ namespace djv
             DJV_NON_COPYABLE(ScrollWidget);
 
         protected:
-            void _init(ScrollType, const std::shared_ptr<Core::Context>&);
+            void _init(ScrollType, const std::shared_ptr<System::Context>&);
             ScrollWidget();
 
         public:
             ~ScrollWidget() override;
 
-            static std::shared_ptr<ScrollWidget> create(ScrollType, const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ScrollWidget> create(ScrollType, const std::shared_ptr<System::Context>&);
 
             ScrollType getScrollType() const;
             void setScrollType(ScrollType);
@@ -71,13 +72,13 @@ namespace djv
             void clearChildren() override;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
-            void _clipEvent(Core::Event::Clip&) override;
-            void _keyPressEvent(Core::Event::KeyPress&) override;
-            void _scrollEvent(Core::Event::Scroll&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
+            void _clipEvent(System::Event::Clip&) override;
+            void _keyPressEvent(System::Event::KeyPress&) override;
+            void _scrollEvent(System::Event::Scroll&) override;
 
-            bool _eventFilter(const std::shared_ptr<IObject>&, Core::Event::Event&) override;
+            bool _eventFilter(const std::shared_ptr<IObject>&, System::Event::Event&) override;
 
         private:
             DJV_PRIVATE();

@@ -4,7 +4,7 @@
 
 #include <djvUIComponents/IOSettings.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 // These need to be included last on macOS.
 #include <djvCore/RapidJSONTemplates.h>
@@ -25,7 +25,7 @@ namespace djv
                 std::shared_ptr<ValueSubject<size_t> > threadCount;
             };
 
-            void IO::_init(const std::shared_ptr<Context>& context)
+            void IO::_init(const std::shared_ptr<System::Context>& context)
             {
                 ISettings::_init("djv::UI::Settings::IO", context);
                 
@@ -42,7 +42,7 @@ namespace djv
             IO::~IO()
             {}
 
-            std::shared_ptr<IO> IO::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<IO> IO::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<IO>(new IO);
                 out->_init(context);

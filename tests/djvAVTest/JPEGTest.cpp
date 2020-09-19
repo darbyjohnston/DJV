@@ -17,8 +17,8 @@ namespace djv
     namespace AVTest
     {
         JPEGTest::JPEGTest(
-            const FileSystem::Path& tempPath,
-            const std::shared_ptr<Context>& context) :
+            const System::File::Path& tempPath,
+            const std::shared_ptr<System::Context>& context) :
             ITest("djv::AVTest::JPEGTest", tempPath, context)
         {}
         

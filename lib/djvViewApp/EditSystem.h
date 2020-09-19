@@ -12,7 +12,7 @@ namespace djv
     {
         class ICommand;
     
-    } // namespace
+    } // namespace Core
 
     namespace ViewApp
     {
@@ -22,13 +22,13 @@ namespace djv
             DJV_NON_COPYABLE(EditSystem);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             EditSystem();
 
         public:
             ~EditSystem() override;
 
-            static std::shared_ptr<EditSystem> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<EditSystem> create(const std::shared_ptr<System::Context>&);
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
             MenuData getMenu() const override;

@@ -6,16 +6,18 @@
 
 #include <djvAV/IOSystem.h>
 #include <djvAV/PPM.h>
+#include <djvAV/SpeedFunc.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/LogSystem.h>
+#include <djvSystem/ResourceSystem.h>
+#include <djvSystem/TextSystem.h>
+#include <djvSystem/TimerFunc.h>
+
+#include <djvMath/FrameNumberFunc.h>
+
 #include <djvCore/ErrorFunc.h>
-#include <djvCore/FrameNumberFunc.h>
-#include <djvCore/LogSystem.h>
-#include <djvCore/ResourceSystem.h>
-#include <djvCore/SpeedFunc.h>
 #include <djvCore/StringFunc.h>
-#include <djvCore/TextSystem.h>
-#include <djvCore/Timer.h>
 
 using namespace djv::Core;
 using namespace djv::AV;
@@ -26,11 +28,11 @@ namespace djv
     namespace AVTest
     {
         IOTest::IOTest(
-            const FileSystem::Path& tempPath,
-            const std::shared_ptr<Context>& context) :
+            const System::File::Path& tempPath,
+            const std::shared_ptr<System::Context>& context) :
             ITest(
                 "djv::AVTest::IOTest",
-                FileSystem::Path(tempPath, "IOTest"),
+                System::File::Path(tempPath, "IOTest"),
                 context)
         {}
         
@@ -54,8 +56,8 @@ namespace djv
                 const Info info;
                 DJV_ASSERT(info.fileName.empty());
                 DJV_ASSERT(info.video.empty());
-                DJV_ASSERT(info.videoSpeed == Time::fromSpeed(Time::getDefaultSpeed()));
-                DJV_ASSERT(info.videoSequence == Frame::Sequence());
+                DJV_ASSERT(info.videoSpeed == fromSpeed(getDefaultSpeed()));
+                DJV_ASSERT(info.videoSequence == Math::Frame::Sequence());
                 DJV_ASSERT(info.audio == Audio::Info());
                 DJV_ASSERT(info.tags.isEmpty());
             }
@@ -77,7 +79,7 @@ namespace djv
             }
             
             {
-                const Frame::Number number = 1;
+                const Math::Frame::Number number = 1;
                 auto image = Image::Image::create(Image::Info(1, 2, Image::Type::RGB_U8));
                 const VideoFrame frame(number, image);
                 DJV_ASSERT(number == frame.frame);
@@ -165,9 +167,9 @@ namespace djv
             {
                 const InOutPoints inOutPoints;
                 DJV_ASSERT(!inOutPoints.isEnabled());
-                DJV_ASSERT(Frame::invalid == inOutPoints.getIn());
-                DJV_ASSERT(Frame::invalid == inOutPoints.getOut());
-                DJV_ASSERT(Math::Range<Frame::Index>(0, 0) == inOutPoints.getRange(1));
+                DJV_ASSERT(Math::Frame::invalid == inOutPoints.getIn());
+                DJV_ASSERT(Math::Frame::invalid == inOutPoints.getOut());
+                DJV_ASSERT(Math::Range<Math::Frame::Index>(0, 0) == inOutPoints.getRange(1));
             }
             
             {
@@ -175,7 +177,7 @@ namespace djv
                 DJV_ASSERT(inOutPoints.isEnabled());
                 DJV_ASSERT(1 == inOutPoints.getIn());
                 DJV_ASSERT(2 == inOutPoints.getOut());
-                DJV_ASSERT(Math::Range<Frame::Index>(1, 2) == inOutPoints.getRange(4));
+                DJV_ASSERT(Math::Range<Math::Frame::Index>(1, 2) == inOutPoints.getRange(4));
             }
             
             {
@@ -190,8 +192,8 @@ namespace djv
                 const Cache cache;
                 DJV_ASSERT(0 == cache.getMax());
                 DJV_ASSERT(0 == cache.getTotalByteCount());
-                DJV_ASSERT(Frame::Sequence() == cache.getFrames());
-                DJV_ASSERT(Frame::Sequence() == cache.getSequence());
+                DJV_ASSERT(Math::Frame::Sequence() == cache.getFrames());
+                DJV_ASSERT(Math::Frame::Sequence() == cache.getSequence());
                 DJV_ASSERT(!cache.contains(0));
                 std::shared_ptr<Image::Image> image;
                 DJV_ASSERT(!cache.get(0, image));
@@ -204,23 +206,23 @@ namespace djv
                 cache.setCurrentFrame(1);
                 cache.setCurrentFrame(1);
                 cache.setSequenceSize(10);
-                for (Frame::Index i = 0; i < 20; ++i)
+                for (Math::Frame::Index i = 0; i < 20; ++i)
                 {
                     cache.add(i, Image::Image::create(Image::Info(1, 2, Image::Type::RGB_U8)));
                 }
                 DJV_ASSERT(cache.getCount() > 0);
-                for (Frame::Index i = 0; i < 20; i += 3)
+                for (Math::Frame::Index i = 0; i < 20; i += 3)
                 {
                     cache.add(i, Image::Image::create(Image::Info(1, 2, Image::Type::RGB_U8)));
                 }
                 cache.setDirection(Direction::Reverse);
                 cache.setDirection(Direction::Reverse);
-                for (Frame::Index i = 20; i >= 0; --i)
+                for (Math::Frame::Index i = 20; i >= 0; --i)
                 {
                     cache.add(i, Image::Image::create(Image::Info(1, 2, Image::Type::RGB_U8)));
                 }
                 std::shared_ptr<Image::Image> image;
-                for (Frame::Index i = 0; i < 20; ++i)
+                for (Math::Frame::Index i = 0; i < 20; ++i)
                 {
                     cache.get(i, image);
                 }
@@ -246,21 +248,21 @@ namespace djv
                 _print("Plugin info: " + _getText(plugin->getPluginInfo()));
                 _print("Plugin file extensions: " + String::joinSet(plugin->getFileExtensions(), ", "));
                 DJV_ASSERT(plugin->canSequence());
-                DJV_ASSERT(plugin->canRead(FileSystem::FileInfo("image.ppm")));
+                DJV_ASSERT(plugin->canRead(System::File::Info("image.ppm")));
                 Info info;
                 info.video.push_back(Image::Info(64, 64, Image::Type::RGB_U8));
-                DJV_ASSERT(plugin->canWrite(FileSystem::FileInfo("image.ppm"), info));
+                DJV_ASSERT(plugin->canWrite(System::File::Info("image.ppm"), info));
             }
             
             if (auto context = getContext().lock())
             {
                 const ReadOptions options;
                 auto read = PPM::Read::create(
-                    FileSystem::FileInfo(),
+                    System::File::Info(),
                     options,
-                    context->getSystemT<TextSystem>(),
-                    context->getSystemT<ResourceSystem>(),
-                    context->getSystemT<LogSystem>());
+                    context->getSystemT<System::TextSystem>(),
+                    context->getSystemT<System::ResourceSystem>(),
+                    context->getSystemT<System::LogSystem>());
                 DJV_ASSERT(4 == read->getThreadCount());
                 read->setThreadCount(1);
                 DJV_ASSERT(1 == read->getThreadCount());                
@@ -273,11 +275,11 @@ namespace djv
             {
                 const ReadOptions options;
                 auto read = PPM::Read::create(
-                    FileSystem::FileInfo(),
+                    System::File::Info(),
                     options,
-                    context->getSystemT<TextSystem>(),
-                    context->getSystemT<ResourceSystem>(),
-                    context->getSystemT<LogSystem>());
+                    context->getSystemT<System::TextSystem>(),
+                    context->getSystemT<System::ResourceSystem>(),
+                    context->getSystemT<System::LogSystem>());
                 DJV_ASSERT(!read->hasCache());
                 DJV_ASSERT(!read->isCacheEnabled());
                 {
@@ -335,11 +337,11 @@ namespace djv
                 };
                 const std::vector<Image::Type> types = Image::getTypeEnums();
                 
-                Tags tags;
+                Image::Tags tags;
                 tags.set("Description", "This is a description.");
                 tags.set("Time", "Tue Oct 8 13:18:20 PDT 2019");
                 
-                auto io = context->getSystemT<System>();
+                auto io = context->getSystemT<IOSystem>();
                 for (const auto& i : pluginInfo)
                 {
                     for (const auto& size : sizes)
@@ -372,8 +374,8 @@ namespace djv
             const std::string& extension,
             const Image::Size size,
             Image::Type type,
-            const Tags& tags,
-            const std::shared_ptr<System>& io)
+            const Image::Tags& tags,
+            const std::shared_ptr<IOSystem>& io)
         {
             try
             {
@@ -385,11 +387,11 @@ namespace djv
                 std::stringstream ss;
                 ss << size.w << "x" << size.h << "_" << type << extension;
                 _print(ss.str());
-                FileSystem::Path path(getTempPath(), ss.str());
+                System::File::Path path(getTempPath(), ss.str());
                 {
                     Info info;
                     info.video.push_back(imageInfo);
-                    auto write = io->write(FileSystem::FileInfo(path), info);
+                    auto write = io->write(System::File::Info(path), info);
                     {
                         std::lock_guard<std::mutex> lock(write->getMutex());
                         auto& writeQueue = write->getVideoQueue();
@@ -401,7 +403,7 @@ namespace djv
                 }
 
                 {
-                    auto read = io->read(FileSystem::FileInfo(path));
+                    auto read = io->read(System::File::Info(path));
                     bool running = true;
                     while (running)
                     {
@@ -431,7 +433,7 @@ namespace djv
                         }
                         if (sleep)
                         {
-                            std::this_thread::sleep_for(Time::getTime(Time::TimerValue::Fast));
+                            std::this_thread::sleep_for(System::getTimerDuration(System::TimerValue::Fast));
                         }
                     }
                 }
@@ -446,7 +448,7 @@ namespace djv
         {
             if (auto context = getContext().lock())
             {
-                auto io = context->getSystemT<System>();
+                auto io = context->getSystemT<IOSystem>();
                 const auto pluginNames = io->getPluginNames();
                 {
                     std::stringstream ss;
@@ -497,20 +499,20 @@ namespace djv
                 for (const auto& i : fileNames)
                 {
                     std::stringstream ss;
-                    ss << "Can sequence: " << i << " = " << io->canSequence(FileSystem::FileInfo(i));
+                    ss << "Can sequence: " << i << " = " << io->canSequence(System::File::Info(i));
                     _print(ss.str());
                 }
                 for (const auto& i : fileNames)
                 {
                     std::stringstream ss;
-                    ss << "Can read: " << i << " = " << io->canRead(FileSystem::FileInfo(i));
+                    ss << "Can read: " << i << " = " << io->canRead(System::File::Info(i));
                     _print(ss.str());
                 }
                 for (const auto& i : fileNames)
                 {
                     std::stringstream ss;
                     ss << "Can write: " << i << " = ";
-                    ss << io->canWrite(FileSystem::FileInfo(i), Info());
+                    ss << io->canWrite(System::File::Info(i), Info());
                     _print(ss.str());
                 }
             }

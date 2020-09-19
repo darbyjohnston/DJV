@@ -10,8 +10,9 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/Window.h>
 
+#include <djvSystem/Timer.h>
+
 #include <djvCore/ErrorFunc.h>
-#include <djvCore/Timer.h>
 
 using namespace djv;
 
@@ -50,7 +51,7 @@ int main(int argc, char ** argv)
 
         // Start a timer to drive the line graphs.
         Core::Time::Duration t = Core::Time::Duration::zero();
-        auto timer = Core::Time::Timer::create(app);
+        auto timer = System::Timer::create(app);
         timer->setRepeating(true);
         timer->start(
             std::chrono::milliseconds(30),

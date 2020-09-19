@@ -4,8 +4,9 @@
 
 #include <djvAV/PPM.h>
 
-#include <djvCore/FileIO.h>
-#include <djvCore/FileIOFunc.h>
+#include <djvSystem/FileIO.h>
+#include <djvSystem/FileIOFunc.h>
+
 #include <djvCore/StringFunc.h>
 
 #include <array>
@@ -38,13 +39,13 @@ namespace djv
                 namespace
                 {
                     template<typename T>
-                    void _readASCII(const std::shared_ptr<FileSystem::FileIO>& io, uint8_t * out, size_t size)
+                    void _readASCII(const std::shared_ptr<System::File::IO>& io, uint8_t * out, size_t size)
                     {
                         char tmp[String::cStringLength] = "";
                         T* outP = reinterpret_cast<T*>(out);
                         for (int i = 0; i < size; ++i)
                         {
-                            FileSystem::readWord(io, tmp, String::cStringLength);
+                            System::File::readWord(io, tmp, String::cStringLength);
                             int value = 0;
                             String::fromString(tmp, String::cStringLength, value);
                             outP[i] = value;
@@ -53,7 +54,7 @@ namespace djv
 
                 } // namespace
 
-                void readASCII(const std::shared_ptr<FileSystem::FileIO>& io, uint8_t* out, size_t size, size_t bitDepth)
+                void readASCII(const std::shared_ptr<System::File::IO>& io, uint8_t* out, size_t size, size_t bitDepth)
                 {
                     switch (bitDepth)
                     {
@@ -111,7 +112,7 @@ namespace djv
                     _p(new Private)
                 {}
 
-                std::shared_ptr<Plugin> Plugin::create(const std::shared_ptr<Context>& context)
+                std::shared_ptr<Plugin> Plugin::create(const std::shared_ptr<System::Context>& context)
                 {
                     auto out = std::shared_ptr<Plugin>(new Plugin);
                     out->_init(
@@ -132,12 +133,12 @@ namespace djv
                     fromJSON(value, _p->options);
                 }
 
-                std::shared_ptr<IRead> Plugin::read(const FileSystem::FileInfo& fileInfo, const ReadOptions& options) const
+                std::shared_ptr<IRead> Plugin::read(const System::File::Info& fileInfo, const ReadOptions& options) const
                 {
                     return Read::create(fileInfo, options, _textSystem, _resourceSystem, _logSystem);
                 }
 
-                std::shared_ptr<IWrite> Plugin::write(const FileSystem::FileInfo& fileInfo, const Info& info, const WriteOptions& options) const
+                std::shared_ptr<IWrite> Plugin::write(const System::File::Info& fileInfo, const Info& info, const WriteOptions& options) const
                 {
                     return Write::create(fileInfo, info, options, _p->options, _textSystem, _resourceSystem, _logSystem);
                 }

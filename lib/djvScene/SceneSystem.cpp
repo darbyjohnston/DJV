@@ -6,9 +6,13 @@
 
 #include <djvScene/IO.h>
 
+#include <djvRender3D/Render.h>
+
+#include <djvRender2D/Render2DSystem.h>
+
 #include <djvAV/AVSystem.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -20,11 +24,13 @@ namespace djv
         {
         };
 
-        void SceneSystem::_init(const std::shared_ptr<Core::Context>& context)
+        void SceneSystem::_init(const std::shared_ptr<System::Context>& context)
         {
-            ISystem::_init("djv::Scene::AVSystem", context);
-            addDependency(context->getSystemT<AV::AVSystem>());
-            addDependency(IO::System::create(context));
+            ISystem::_init("djv::Scene::SceneSystem", context);
+            addDependency(AV::AVSystem::create(context));
+            addDependency(Render2D::Render2DSystem::create(context));
+            addDependency(Render3D::Render::create(context));
+            addDependency(IO::IOSystem::create(context));
         }
 
         SceneSystem::SceneSystem() :
@@ -34,7 +40,7 @@ namespace djv
         SceneSystem::~SceneSystem()
         {}
 
-        std::shared_ptr<SceneSystem> SceneSystem::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<SceneSystem> SceneSystem::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<SceneSystem>(new SceneSystem);
             out->_init(context);

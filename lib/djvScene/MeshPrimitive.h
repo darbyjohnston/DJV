@@ -6,7 +6,7 @@
 
 #include <djvScene/IPrimitive.h>
 
-#include <djvAV/TriangleMesh.h>
+#include <djvGeom/TriangleMesh.h>
 
 namespace djv
 {
@@ -23,14 +23,14 @@ namespace djv
         public:
             static std::shared_ptr<MeshPrimitive> create();
 
-            void addMesh(const std::shared_ptr<AV::Geom::TriangleMesh>&);
+            void addMesh(const std::shared_ptr<Geom::TriangleMesh>&);
 
             std::string getClassName() const override;
-            const std::vector<std::shared_ptr<AV::Geom::TriangleMesh> >& getMeshes() const override;
+            const std::vector<std::shared_ptr<Geom::TriangleMesh> >& getMeshes() const override;
             size_t getPointCount() const override;
 
         private:
-            std::vector<std::shared_ptr<AV::Geom::TriangleMesh> > _meshes;
+            std::vector<std::shared_ptr<Geom::TriangleMesh> > _meshes;
             size_t _pointCount = 0;
         };
 

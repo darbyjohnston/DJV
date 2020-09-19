@@ -4,7 +4,7 @@
 
 #include <djvUI/UISettings.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 // These need to be included last on macOS.
 #include <djvCore/RapidJSONTemplates.h>
@@ -24,7 +24,7 @@ namespace djv
                 std::shared_ptr<ValueSubject<bool> > reverseScrolling;
             };
 
-            void UI::_init(const std::shared_ptr<Core::Context>& context)
+            void UI::_init(const std::shared_ptr<System::Context>& context)
             {
                 ISettings::_init("djv::UI::Settings::UI", context);
                 DJV_PRIVATE_PTR();
@@ -40,7 +40,7 @@ namespace djv
             UI::~UI()
             {}
 
-            std::shared_ptr<UI> UI::create(const std::shared_ptr<Core::Context>& context)
+            std::shared_ptr<UI> UI::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<UI>(new UI);
                 out->_init(context);

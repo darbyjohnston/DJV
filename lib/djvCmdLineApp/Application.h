@@ -6,7 +6,9 @@
 
 #include <djvCmdLineApp/CmdLineApp.h>
 
-#include <djvCore/Context.h>
+#include <djvAV/Time.h>
+
+#include <djvSystem/Context.h>
 
 struct GLFWwindow;
 
@@ -22,12 +24,12 @@ namespace djv
     {
         struct Arguments
         {
-            std::unique_ptr<Core::Time::Units> timeUnits;
+            std::unique_ptr<AV::Time::Units> timeUnits;
             std::unique_ptr<bool> logConsole;
         };
 
         //! This class provides a command-line application.
-        class Application : public Core::Context
+        class Application : public System::Context
         {
             DJV_NON_COPYABLE(Application);
 

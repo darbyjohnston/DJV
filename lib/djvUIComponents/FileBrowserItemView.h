@@ -8,23 +8,23 @@
 
 namespace djv
 {
-    namespace Core
+    namespace System
     {
-        namespace FileSystem
+        namespace File
         {
-            class FileInfo;
+            class Info;
     
-        } // namespace FileSystem
-    } // namespace Core
+        } // namespace File
+    } // namespace System
+
+    namespace Image
+    {
+        class Size;
+    
+    } // namespace Image
 
     namespace AV
     {
-        namespace Image
-        {
-            class Size;
-        
-        } // namespace Image
-
         namespace IO
         {
             class Info;
@@ -46,40 +46,40 @@ namespace djv
                 DJV_NON_COPYABLE(ItemView);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 ItemView();
 
             public:
                 ~ItemView() override;
 
-                static std::shared_ptr<ItemView> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<ItemView> create(const std::shared_ptr<System::Context>&);
 
                 void setViewType(ViewType);
-                void setThumbnailSize(const AV::Image::Size&);
+                void setThumbnailSize(const Image::Size&);
                 void setSplit(const std::vector<float>&);
-                void setItems(const std::vector<Core::FileSystem::FileInfo>&);
-                void setCallback(const std::function<void(const Core::FileSystem::FileInfo&)>&);
+                void setItems(const std::vector<System::File::Info>&);
+                void setCallback(const std::function<void(const System::File::Info&)>&);
 
                 float getHeightForWidth(float) const override;
 
             protected:
-                void _layoutEvent(Core::Event::Layout&) override;
-                void _clipEvent(Core::Event::Clip&) override;
-                void _paintEvent(Core::Event::Paint&) override;
-                void _pointerEnterEvent(Core::Event::PointerEnter&) override;
-                void _pointerLeaveEvent(Core::Event::PointerLeave&) override;
-                void _pointerMoveEvent(Core::Event::PointerMove&) override;
-                void _buttonPressEvent(Core::Event::ButtonPress&) override;
-                void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
+                void _layoutEvent(System::Event::Layout&) override;
+                void _clipEvent(System::Event::Clip&) override;
+                void _paintEvent(System::Event::Paint&) override;
+                void _pointerEnterEvent(System::Event::PointerEnter&) override;
+                void _pointerLeaveEvent(System::Event::PointerLeave&) override;
+                void _pointerMoveEvent(System::Event::PointerMove&) override;
+                void _buttonPressEvent(System::Event::ButtonPress&) override;
+                void _buttonReleaseEvent(System::Event::ButtonRelease&) override;
 
                 std::shared_ptr<ITooltipWidget> _createTooltip(const glm::vec2& pos) override;
 
-                void _initEvent(Core::Event::Init&) override;
-                void _updateEvent(Core::Event::Update&) override;
+                void _initEvent(System::Event::Init&) override;
+                void _updateEvent(System::Event::Update&) override;
 
             private:
-                std::string _getTooltip(const Core::FileSystem::FileInfo&) const;
-                std::string _getTooltip(const Core::FileSystem::FileInfo&, const AV::IO::Info&) const;
+                std::string _getTooltip(const System::File::Info&) const;
+                std::string _getTooltip(const System::File::Info&, const AV::IO::Info&) const;
                 
                 void _iconsUpdate();
                 void _thumbnailsSizeUpdate();

@@ -10,20 +10,17 @@
 
 namespace djv
 {
-    namespace AV
+    namespace Image
     {
-        namespace Image
-        {
-            class Image;
+        class Image;
 
-        } // namespace Image
+    } // namespace Image
 
-        namespace Render2D
-        {
-            class ImageOptions;
+    namespace Render2D
+    {
+        class ImageOptions;
 
-        } // namespace Render2D
-    } // namespace AV
+    } // namespace Render2D
 
     namespace UI
     {
@@ -33,17 +30,17 @@ namespace djv
             DJV_NON_COPYABLE(ImageWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             ImageWidget();
 
         public:
             ~ImageWidget() override;
 
-            static std::shared_ptr<ImageWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ImageWidget> create(const std::shared_ptr<System::Context>&);
 
-            const std::shared_ptr<AV::Image::Image>& getImage() const;
-            void setImage(const std::shared_ptr<AV::Image::Image>&);
-            void setImageOptions(const AV::Render2D::ImageOptions&);
+            const std::shared_ptr<Image::Image>& getImage() const;
+            void setImage(const std::shared_ptr<Image::Image>&);
+            void setImageOptions(const Render2D::ImageOptions&);
             void setImageRotate(ImageRotate);
             void setImageAspectRatio(ImageAspectRatio);
 
@@ -54,14 +51,14 @@ namespace djv
             void setSizeRole(MetricsRole);
 
             static glm::mat3x3 getXForm(
-                const std::shared_ptr<AV::Image::Image>&,
+                const std::shared_ptr<Image::Image>&,
                 UI::ImageRotate,
                 const glm::vec2& scale,
                 UI::ImageAspectRatio);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _paintEvent(Core::Event::Paint&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _paintEvent(System::Event::Paint&) override;
 
         private:
             DJV_PRIVATE();

@@ -36,7 +36,7 @@
 
 #include <djvUI/Action.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -50,7 +50,7 @@ namespace djv
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
         };
 
-        void SettingsSystem::_init(const std::shared_ptr<Core::Context>& context)
+        void SettingsSystem::_init(const std::shared_ptr<System::Context>& context)
         {
             IViewSystem::_init("djv::ViewApp::SettingsSystem", context);
         }
@@ -62,7 +62,7 @@ namespace djv
         SettingsSystem::~SettingsSystem()
         {}
 
-        std::shared_ptr<SettingsSystem> SettingsSystem::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<SettingsSystem> SettingsSystem::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<SettingsSystem>(new SettingsSystem);
             out->_init(context);

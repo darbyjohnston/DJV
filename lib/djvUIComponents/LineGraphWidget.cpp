@@ -8,7 +8,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/Style.h>
 
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
 #include <list>
 
@@ -22,14 +22,14 @@ namespace djv
         {
             std::list<float> samples;
             size_t samplesSize = 0;
-            FloatRange samplesRange = FloatRange(0.F, 0.F);
+            Math::FloatRange samplesRange = Math::FloatRange(0.F, 0.F);
             size_t precision = 2;
             std::shared_ptr<Label> label;
             std::shared_ptr<Label> labelValue;
             std::shared_ptr<HorizontalLayout> layout;
         };
 
-        void LineGraphWidget::_init(const std::shared_ptr<Context>& context)
+        void LineGraphWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
 
@@ -42,7 +42,7 @@ namespace djv
             p.label->setFontSizeRole(MetricsRole::FontSmall);
             
             p.labelValue = Label::create(context);
-            p.labelValue->setFontFamily(AV::Font::familyMono);
+            p.labelValue->setFontFamily(Render2D::Font::familyMono);
             p.labelValue->setFontSizeRole(MetricsRole::FontSmall);
             
             p.layout = HorizontalLayout::create(context);
@@ -61,14 +61,14 @@ namespace djv
         LineGraphWidget::~LineGraphWidget()
         {}
 
-        std::shared_ptr<LineGraphWidget> LineGraphWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<LineGraphWidget> LineGraphWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<LineGraphWidget>(new LineGraphWidget);
             out->_init(context);
             return out;
         }
 
-        const FloatRange& LineGraphWidget::getSampleRange() const
+        const Math::FloatRange& LineGraphWidget::getSampleRange() const
         {
             return _p->samplesRange;
         }
@@ -77,23 +77,23 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.samples.push_front(value);
-            p.samplesRange = FloatRange(
+            p.samplesRange = Math::FloatRange(
                 std::min(value, p.samplesRange.getMin()),
                 std::max(value, p.samplesRange.getMax()));
             while (p.samples.size() > p.samplesSize)
             {
                 p.samples.pop_back();
             }
-            p.samplesRange = FloatRange(0.F);
+            p.samplesRange = Math::FloatRange(0.F);
             auto i = p.samples.begin();
             if (i != p.samples.end())
             {
-                p.samplesRange = FloatRange(p.samples.front());
+                p.samplesRange = Math::FloatRange(p.samples.front());
                 ++i;
             }
             for (; i != p.samples.end(); ++i)
             {
-                p.samplesRange = FloatRange(
+                p.samplesRange = Math::FloatRange(
                     std::min(p.samplesRange.getMin(), *i),
                     std::max(p.samplesRange.getMax(), *i));
             }
@@ -120,18 +120,18 @@ namespace djv
             _redraw();
         }
 
-        void LineGraphWidget::_preLayoutEvent(Event::PreLayout& event)
+        void LineGraphWidget::_preLayoutEvent(System::Event::PreLayout& event)
         {
             const auto& style = _getStyle();
             const float tc = style->getMetric(MetricsRole::TextColumn);
             _setMinimumSize(glm::vec2(tc, tc / 3.F));
         }
 
-        void LineGraphWidget::_layoutEvent(Event::Layout&)
+        void LineGraphWidget::_layoutEvent(System::Event::Layout&)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const BBox2f& g = getGeometry();
+            const Math::BBox2f& g = getGeometry();
             const float b = style->getMetric(MetricsRole::Border) * 2.F;
             const float w = g.w();
             p.samplesSize = static_cast<size_t>(w > 0.F ? (g.w() / b) : 0.F);
@@ -140,28 +140,28 @@ namespace djv
                 p.samples.pop_back();
             }
             const glm::vec2 layoutSize = p.layout->getMinimumSize();
-            p.layout->setGeometry(BBox2f(g.min.x, g.max.y - layoutSize.y, layoutSize.x, layoutSize.y));
+            p.layout->setGeometry(Math::BBox2f(g.min.x, g.max.y - layoutSize.y, layoutSize.x, layoutSize.y));
         }
 
-        void LineGraphWidget::_paintEvent(Event::Paint& event)
+        void LineGraphWidget::_paintEvent(System::Event::Paint& event)
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const float b = style->getMetric(MetricsRole::Border) * 2.F;
-            const BBox2f& g = getMargin().bbox(getGeometry(), style).margin(0, 0, 0, -b);
+            const Math::BBox2f& g = getMargin().bbox(getGeometry(), style).margin(0, 0, 0, -b);
             const auto& render = _getRender();
             auto color1 = style->getColor(ColorRole::Checked);
             auto color2 = style->getColor(ColorRole::Checked);
             color2.setF32(color2.getF32(3) * .5F, 3);
             float x = g.min.x;
             const float range = p.samplesRange.getMax() - p.samplesRange.getMin();
-            std::vector<BBox2f> rects[2];
+            std::vector<Math::BBox2f> rects[2];
             for (const auto& i : p.samples)
             {
                 float h = (i - p.samplesRange.getMin()) / range * g.h();
-                rects[0].emplace_back(BBox2f(x, g.min.y + g.h() - h, b, b));
-                rects[1].emplace_back(BBox2f(x, g.min.y + g.h() - h + b, b, h));
+                rects[0].emplace_back(Math::BBox2f(x, g.min.y + g.h() - h, b, b));
+                rects[1].emplace_back(Math::BBox2f(x, g.min.y + g.h() - h + b, b, h));
                 x += b;
             }
             render->setFillColor(color1);
@@ -170,7 +170,7 @@ namespace djv
             render->drawRects(rects[1]);
         }
 
-        void LineGraphWidget::_initEvent(Event::Init& event)
+        void LineGraphWidget::_initEvent(System::Event::Init& event)
         {
             if (event.getData().text)
             {

@@ -11,7 +11,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -30,7 +30,7 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Bellows> > bellows;
         };
 
-        void ViewControlsWidget::_init(const std::shared_ptr<Core::Context>& context)
+        void ViewControlsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             MDIWidget::_init(context);
 
@@ -86,7 +86,7 @@ namespace djv
         ViewControlsWidget::~ViewControlsWidget()
         {}
 
-        std::shared_ptr<ViewControlsWidget> ViewControlsWidget::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<ViewControlsWidget> ViewControlsWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ViewControlsWidget>(new ViewControlsWidget);
             out->_init(context);
@@ -117,12 +117,12 @@ namespace djv
             }
         }
 
-        void ViewControlsWidget::_initLayoutEvent(Event::InitLayout&)
+        void ViewControlsWidget::_initLayoutEvent(System::Event::InitLayout&)
         {
             _p->sizeGroup->calcMinimumSize();
         }
 
-        void ViewControlsWidget::_initEvent(Event::Init & event)
+        void ViewControlsWidget::_initEvent(System::Event::Init & event)
         {
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();

@@ -4,17 +4,22 @@
 
 #include <djvCmdLineApp/Application.h>
 
+#include <djvRender2D/Render.h>
+
 #include <djvAV/AVSystem.h>
 #include <djvAV/IOSystem.h>
-#include <djvAV/OpenGLOffscreenBuffer.h>
-#include <djvAV/Render2D.h>
 
-#include <djvCore/Context.h>
+#include <djvGL/OffscreenBuffer.h>
+
+#include <djvImage/ImageDataFunc.h>
+
+#include <djvSystem/Context.h>
+#include <djvSystem/FileInfo.h>
+#include <djvSystem/TextSystem.h>
+#include <djvSystem/TimerFunc.h>
+
 #include <djvCore/ErrorFunc.h>
-#include <djvCore/FileInfo.h>
 #include <djvCore/StringFormat.h>
-#include <djvCore/TextSystem.h>
-#include <djvCore/Timer.h>
 
 #include <iostream>
 
@@ -27,9 +32,9 @@ namespace djv
     {
         namespace
         {
-            const size_t            frameCountDefault   = 100;
-            const AV::Image::Size   sizeDefault         = AV::Image::Size(1920, 1080);
-            const AV::Image::Type   typeDefault         = AV::Image::Type::RGBA_U8;
+            const size_t      frameCountDefault = 100;
+            const Image::Size sizeDefault       = Image::Size(1920, 1080);
+            const Image::Type typeDefault       = Image::Type::RGBA_U8;
 
         } // namespace
 
@@ -55,16 +60,16 @@ namespace djv
         private:
             std::string _output;
             std::unique_ptr<size_t> _frameCount;
-            std::unique_ptr<AV::Image::Size> _size;
-            std::unique_ptr<AV::Image::Type> _type;
+            std::unique_ptr<Image::Size> _size;
+            std::unique_ptr<Image::Type> _type;
             size_t _frame = 0;
-            AV::Image::Info _info;
-            std::list<std::shared_ptr<AV::Image::Image> > _images;
+            Image::Info _info;
+            std::list<std::shared_ptr<Image::Image> > _images;
             float _x = 0.F;
-            std::shared_ptr<AV::OpenGL::OffscreenBuffer> _offscreenBuffer;
-            std::shared_ptr<AV::Render2D::Render> _render;
+            std::shared_ptr<GL::OffscreenBuffer> _offscreenBuffer;
+            std::shared_ptr<Render2D::Render> _render;
             std::shared_ptr<AV::IO::IWrite> _write;
-            std::shared_ptr<Core::Time::Timer> _statsTimer;
+            std::shared_ptr<System::Timer> _statsTimer;
         };
 
         void Application::_init(std::list<std::string>& args)
@@ -92,34 +97,34 @@ namespace djv
             }
             if (!_size)
             {
-                _size.reset(new AV::Image::Size(sizeDefault));
+                _size.reset(new Image::Size(sizeDefault));
             }
             if (!_type)
             {
-                _type.reset(new AV::Image::Type(typeDefault));
+                _type.reset(new Image::Type(typeDefault));
             }
-            _info = AV::Image::Info(*_size, *_type);
+            _info = Image::Info(*_size, *_type);
 
-            _offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(
+            _offscreenBuffer = GL::OffscreenBuffer::create(
                 _info.size,
                 _info.type,
-                getSystemT<Core::TextSystem>());
-            _render = getSystemT<AV::Render2D::Render>();
+                getSystemT<System::TextSystem>());
+            _render = getSystemT<Render2D::Render>();
 
-            auto io = getSystemT<AV::IO::System>();
+            auto io = getSystemT<AV::IO::IOSystem>();
             AV::IO::WriteOptions writeOptions;
             AV::IO::Info ioInfo;
             ioInfo.video.push_back(_info);
-            const Core::FileSystem::FileInfo fileInfo(
-                Core::FileSystem::Path(_output),
-                Core::FileSystem::FileType::Sequence,
-                Core::Frame::Sequence(1, *_frameCount));
+            const System::File::Info fileInfo(
+                System::File::Path(_output),
+                System::File::Type::Sequence,
+                Math::Frame::Sequence(1, *_frameCount));
             _write = io->write(fileInfo, ioInfo, writeOptions);
 
-            _statsTimer = Core::Time::Timer::create(shared_from_this());
+            _statsTimer = System::Timer::create(shared_from_this());
             _statsTimer->setRepeating(true);
             _statsTimer->start(
-                Core::Time::getTime(Core::Time::TimerValue::Slow),
+                System::getTimerDuration(System::TimerValue::Slow),
                 [this](const std::chrono::steady_clock::time_point&, const Core::Time::Duration&)
                 {
                     std::cout << static_cast<size_t>(_frame / static_cast<float>(*_frameCount - 1) * 100.F) << "%" << std::endl;
@@ -148,24 +153,24 @@ namespace djv
             }
             if (_frame < *_frameCount && !_images.size())
             {
-                const AV::OpenGL::OffscreenBufferBinding binding(_offscreenBuffer);
+                const GL::OffscreenBufferBinding binding(_offscreenBuffer);
                 _render->beginFrame(*_size);
-                _render->setFillColor(AV::Image::Color(.5F, .5F, .5F));
-                _render->drawRect(Core::BBox2f(0.F, 0.F, static_cast<float>(_size->w), static_cast<float>(_size->h)));
-                _render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F));
+                _render->setFillColor(Image::Color(.5F, .5F, .5F));
+                _render->drawRect(Math::BBox2f(0.F, 0.F, static_cast<float>(_size->w), static_cast<float>(_size->h)));
+                _render->setFillColor(Image::Color(1.F, 1.F, 1.F));
                 const float rectWidth = 10.F;
                 const float rectSpacing = 100.F;
                 for (float x = _x - (static_cast<int>(_x / rectSpacing) * rectSpacing) - rectWidth;
                     x < static_cast<float>(_size->w - 1 + rectWidth);
                     x = x + rectSpacing)
                 {
-                    _render->drawRect(Core::BBox2f(x, 0.F, rectWidth, static_cast<float>(_size->h - 1)));
+                    _render->drawRect(Math::BBox2f(x, 0.F, rectWidth, static_cast<float>(_size->h - 1)));
                 }
                 _x = _x + 1.F;
                 _render->endFrame();
-                auto image = AV::Image::Image::create(_info);
+                auto image = Image::Image::create(_info);
                 glPixelStorei(GL_PACK_ALIGNMENT, 1);
-#if !defined(DJV_OPENGL_ES2)
+#if !defined(DJV_GL_ES2)
                 glPixelStorei(GL_PACK_SWAP_BYTES, _info.layout.endian != Core::Memory::getEndian());
 #endif
                 glReadPixels(
@@ -186,7 +191,7 @@ namespace djv
             CmdLine::Application::_parseCmdLine(args);
             if (0 == getExitCode())
             {
-                auto textSystem = getSystemT<Core::TextSystem>();
+                auto textSystem = getSystemT<System::TextSystem>();
                 auto i = args.begin();
                 while (i != args.end())
                 {
@@ -214,11 +219,11 @@ namespace djv
                                 arg("-size").
                                 arg(textSystem->getText(DJV_TEXT("error_cannot_parse_argument"))));
                         }
-                        AV::Image::Size value;
+                        Image::Size value;
                         std::stringstream ss(*i);
                         ss >> value;
                         i = args.erase(i);
-                        _size.reset(new AV::Image::Size(value));
+                        _size.reset(new Image::Size(value));
                     }
                     else if ("-type" == *i)
                     {
@@ -229,11 +234,11 @@ namespace djv
                                 arg("-type").
                                 arg(textSystem->getText(DJV_TEXT("error_cannot_parse_argument"))));
                         }
-                        AV::Image::Type value = AV::Image::Type::None;
+                        Image::Type value = Image::Type::None;
                         std::stringstream ss(*i);
                         ss >> value;
                         i = args.erase(i);
-                        _type.reset(new AV::Image::Type(value));
+                        _type.reset(new Image::Type(value));
                     }
                     else
                     {
@@ -259,7 +264,7 @@ namespace djv
 
         void Application::_printUsage()
         {
-            auto textSystem = getSystemT<Core::TextSystem>();
+            auto textSystem = getSystemT<System::TextSystem>();
             std::cout << std::endl;
             std::cout << " " << textSystem->getText(DJV_TEXT("djv_test_pattern_cli_description")) << std::endl;
             std::cout << std::endl;

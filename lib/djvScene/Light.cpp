@@ -4,8 +4,7 @@
 
 #include <djvScene/Light.h>
 
-#include <djvAV/Render3D.h>
-#include <djvAV/Render3DLight.h>
+#include <djvRender3D/Light.h>
 
 using namespace djv::Core;
 
@@ -19,7 +18,7 @@ namespace djv
             return out;
         }
 
-        /*void HemisphereLight::render(const glm::mat4x4& xform, const std::shared_ptr<AV::Render3D::Render>& render)
+        /*void HemisphereLight::render(const glm::mat4x4& xform, const std::shared_ptr<Render3D::Render>& render)
         {
             if (isEnabled())
             {
@@ -32,11 +31,11 @@ namespace djv
             return out;
         }
 
-        /*void DirectionalLight::render(const glm::mat4x4& xform, const std::shared_ptr<AV::Render3D::Render>& render)
+        /*void DirectionalLight::render(const glm::mat4x4& xform, const std::shared_ptr<Render3D::Render>& render)
         {
             if (isEnabled())
             {
-                auto renderLight = AV::Render3D::DirectionalLight::create();
+                auto renderLight = Render3D::DirectionalLight::create();
                 glm::vec3 renderDirection = xform * glm::vec4(_direction.x, _direction.y, _direction.z, 1.F);
                 glm::vec3 renderPosition = xform * glm::vec4(0.F, 0.F, 0.F, 1.F);
                 renderLight->setIntensity(getIntensity());
@@ -51,11 +50,11 @@ namespace djv
             return out;
         }
 
-        /*void PointLight::render(const glm::mat4x4& xform, const std::shared_ptr<AV::Render3D::Render>& render)
+        /*void PointLight::render(const glm::mat4x4& xform, const std::shared_ptr<Render3D::Render>& render)
         {
             if (isEnabled())
             {
-                auto renderLight = AV::Render3D::PointLight::create();
+                auto renderLight = Render3D::PointLight::create();
                 glm::vec3 renderPosition = xform * glm::vec4(0.F, 0.F, 0.F, 1.F);
                 renderLight->setIntensity(getIntensity());
                 renderLight->setPosition(renderPosition);
@@ -69,11 +68,11 @@ namespace djv
             return out;
         }
 
-        /*void SpotLight::render(const glm::mat4x4& xform, const std::shared_ptr<AV::Render3D::Render>& render)
+        /*void SpotLight::render(const glm::mat4x4& xform, const std::shared_ptr<Render3D::Render>& render)
         {
             if (isEnabled())
             {
-                auto renderLight = AV::Render3D::SpotLight::create();
+                auto renderLight = Render3D::SpotLight::create();
                 glm::vec3 renderDirection = xform * glm::vec4(_direction.x, _direction.y, _direction.z, 1.F);
                 glm::vec3 renderPosition = xform * glm::vec4(0.F, 0.F, 0.F, 1.F);
                 renderLight->setIntensity(getIntensity());

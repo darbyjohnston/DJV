@@ -21,21 +21,21 @@ namespace djv
             DJV_NON_COPYABLE(ViewControlsViewWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             ViewControlsViewWidget();
 
         public:
             ~ViewControlsViewWidget() override;
 
-            static std::shared_ptr<ViewControlsViewWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ViewControlsViewWidget> create(const std::shared_ptr<System::Context>&);
 
             void setLabelSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>&);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
 
-            void _initEvent(Core::Event::Init&) override;
+            void _initEvent(System::Event::Init&) override;
 
         private:
             void _setPos(const glm::vec2&);
@@ -50,23 +50,23 @@ namespace djv
             DJV_NON_COPYABLE(ViewControlsGridWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             ViewControlsGridWidget();
 
         public:
             ~ViewControlsGridWidget() override;
 
-            static std::shared_ptr<ViewControlsGridWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ViewControlsGridWidget> create(const std::shared_ptr<System::Context>&);
 
             const std::shared_ptr<UI::ToolButton>& getEnabledButton() const;
 
             void setLabelSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>&);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
 
-            void _initEvent(Core::Event::Init&) override;
+            void _initEvent(System::Event::Init&) override;
 
         private:
             void _widgetUpdate();
@@ -79,23 +79,23 @@ namespace djv
             DJV_NON_COPYABLE(ViewControlsHUDWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             ViewControlsHUDWidget();
 
         public:
             ~ViewControlsHUDWidget() override;
 
-            static std::shared_ptr<ViewControlsHUDWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ViewControlsHUDWidget> create(const std::shared_ptr<System::Context>&);
 
             const std::shared_ptr<UI::ToolButton>& getEnabledButton() const;
 
             void setLabelSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>&);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
 
-            void _initEvent(Core::Event::Init&) override;
+            void _initEvent(System::Event::Init&) override;
 
         private:
             void _widgetUpdate();
@@ -108,21 +108,21 @@ namespace djv
             DJV_NON_COPYABLE(ViewControlsBackgroundWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             ViewControlsBackgroundWidget();
 
         public:
             ~ViewControlsBackgroundWidget() override;
 
-            static std::shared_ptr<ViewControlsBackgroundWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ViewControlsBackgroundWidget> create(const std::shared_ptr<System::Context>&);
 
             void setLabelSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>&);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
 
-            void _initEvent(Core::Event::Init&) override;
+            void _initEvent(System::Event::Init&) override;
 
         private:
             void _widgetUpdate();
@@ -135,23 +135,23 @@ namespace djv
             DJV_NON_COPYABLE(ViewControlsBorderWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             ViewControlsBorderWidget();
 
         public:
             ~ViewControlsBorderWidget() override;
 
-            static std::shared_ptr<ViewControlsBorderWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ViewControlsBorderWidget> create(const std::shared_ptr<System::Context>&);
 
             const std::shared_ptr<UI::ToolButton>& getEnabledButton() const;
 
             void setLabelSizeGroup(const std::shared_ptr<UI::LabelSizeGroup>&);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
 
-            void _initEvent(Core::Event::Init&) override;
+            void _initEvent(System::Event::Init&) override;
 
         private:
             void _widgetUpdate();

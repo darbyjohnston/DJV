@@ -9,8 +9,9 @@
 #include <djvScene/Camera.h>
 #include <djvScene/Render.h>
 
-#include <djvAV/OpenGLOffscreenBuffer.h>
-#include <djvAV/Render3D.h>
+#include <djvRender3D/Render.h>
+
+#include <djvGL/OffscreenBuffer.h>
 
 #include <djvCore/ValueObserver.h>
 
@@ -43,15 +44,15 @@ namespace djv
         //! This struct provides render options.
         struct SceneRenderOptions
         {
-            AV::Render3D::DefaultMaterialMode   shaderMode      = AV::Render3D::DefaultMaterialMode::Default;
-#if defined(DJV_OPENGL_ES2)
-            AV::Render3D::DepthBufferMode       depthBufferMode = AV::Render3D::DepthBufferMode::Standard;
-            AV::OpenGL::OffscreenDepthType      depthBufferType = AV::OpenGL::OffscreenDepthType::_24;
-#else // DJV_OPENGL_ES2
-            AV::Render3D::DepthBufferMode       depthBufferMode = AV::Render3D::DepthBufferMode::Reverse;
-            AV::OpenGL::OffscreenDepthType      depthBufferType = AV::OpenGL::OffscreenDepthType::_32;
-#endif // DJV_OPENGL_ES2
-            AV::OpenGL::OffscreenSampling       multiSampling   = AV::OpenGL::OffscreenSampling::None;
+            Render3D::DefaultMaterialMode shaderMode      = Render3D::DefaultMaterialMode::Default;
+#if defined(DJV_GL_ES2)
+            Render3D::DepthBufferMode     depthBufferMode = Render3D::DepthBufferMode::Standard;
+            GL::OffscreenDepthType        depthBufferType = GL::OffscreenDepthType::_24;
+#else // DJV_GL_ES2
+            Render3D::DepthBufferMode     depthBufferMode = Render3D::DepthBufferMode::Reverse;
+            GL::OffscreenDepthType        depthBufferType = GL::OffscreenDepthType::_32;
+#endif // DJV_GL_ES2
+            GL::OffscreenSampling         multiSampling   = GL::OffscreenSampling::None;
 
             bool operator == (const SceneRenderOptions&) const;
         };
@@ -62,13 +63,13 @@ namespace djv
             DJV_NON_COPYABLE(SceneWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             SceneWidget();
 
         public:
             ~SceneWidget() override;
 
-            static std::shared_ptr<SceneWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<SceneWidget> create(const std::shared_ptr<System::Context>&);
 
             const std::shared_ptr<Scene::Scene>& getScene() const;
             void setScene(const std::shared_ptr<Scene::Scene>&);
@@ -84,18 +85,18 @@ namespace djv
 
             void frameView();
 
-            std::shared_ptr<Core::IValueSubject<Core::BBox3f> > observeBBox() const;
+            std::shared_ptr<Core::IValueSubject<Math::BBox3f> > observeBBox() const;
             std::shared_ptr<Core::IValueSubject<size_t> > observePrimitivesCount() const;
             std::shared_ptr<Core::IValueSubject<size_t> > observePointCount() const;
 
         protected:
-            void _layoutEvent(Core::Event::Layout&) override;
-            void _paintEvent(Core::Event::Paint&) override;
-            void _pointerMoveEvent(Core::Event::PointerMove&) override;
-            void _buttonPressEvent(Core::Event::ButtonPress&) override;
-            void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
+            void _layoutEvent(System::Event::Layout&) override;
+            void _paintEvent(System::Event::Paint&) override;
+            void _pointerMoveEvent(System::Event::PointerMove&) override;
+            void _buttonPressEvent(System::Event::ButtonPress&) override;
+            void _buttonReleaseEvent(System::Event::ButtonRelease&) override;
 
-            void _updateEvent(Core::Event::Update&) override;
+            void _updateEvent(System::Event::Update&) override;
 
         private:
             void _sceneUpdate();

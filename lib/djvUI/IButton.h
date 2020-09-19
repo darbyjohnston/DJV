@@ -49,11 +49,11 @@ namespace djv
                 virtual void _doClick();
                 virtual void _doCheck(bool);
 
-                void _pointerEnterEvent(Core::Event::PointerEnter&) override;
-                void _pointerLeaveEvent(Core::Event::PointerLeave&) override;
-                void _pointerMoveEvent(Core::Event::PointerMove&) override;
-                void _buttonPressEvent(Core::Event::ButtonPress&) override;
-                void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
+                void _pointerEnterEvent(System::Event::PointerEnter&) override;
+                void _pointerLeaveEvent(System::Event::PointerLeave&) override;
+                void _pointerMoveEvent(System::Event::PointerMove&) override;
+                void _buttonPressEvent(System::Event::ButtonPress&) override;
+                void _buttonReleaseEvent(System::Event::ButtonRelease&) override;
 
             private:
                 void _actionUpdate();

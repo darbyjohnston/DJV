@@ -6,7 +6,7 @@
 
 #include <djvUI/Widget.h>
 
-#include <djvCore/Range.h>
+#include <djvMath/Range.h>
 
 namespace djv
 {
@@ -21,13 +21,13 @@ namespace djv
             DJV_NON_COPYABLE(LineEditBase);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             LineEditBase();
 
         public:
             ~LineEditBase() override;
 
-            static std::shared_ptr<LineEditBase> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<LineEditBase> create(const std::shared_ptr<System::Context>&);
 
             const std::string& getText() const;
             void setText(const std::string&);
@@ -54,28 +54,28 @@ namespace djv
             bool acceptFocus(TextFocusDirection) override;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
-            void _clipEvent(Core::Event::Clip&) override;
-            void _paintEvent(Core::Event::Paint&) override;
-            void _pointerEnterEvent(Core::Event::PointerEnter&) override;
-            void _pointerLeaveEvent(Core::Event::PointerLeave&) override;
-            void _pointerMoveEvent(Core::Event::PointerMove&) override;
-            void _buttonPressEvent(Core::Event::ButtonPress&) override;
-            void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
-            void _keyPressEvent(Core::Event::KeyPress&) override;
-            void _textFocusEvent(Core::Event::TextFocus&) override;
-            void _textFocusLostEvent(Core::Event::TextFocusLost&) override;
-            void _textInputEvent(Core::Event::TextInput&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
+            void _clipEvent(System::Event::Clip&) override;
+            void _paintEvent(System::Event::Paint&) override;
+            void _pointerEnterEvent(System::Event::PointerEnter&) override;
+            void _pointerLeaveEvent(System::Event::PointerLeave&) override;
+            void _pointerMoveEvent(System::Event::PointerMove&) override;
+            void _buttonPressEvent(System::Event::ButtonPress&) override;
+            void _buttonReleaseEvent(System::Event::ButtonRelease&) override;
+            void _keyPressEvent(System::Event::KeyPress&) override;
+            void _textFocusEvent(System::Event::TextFocus&) override;
+            void _textFocusLostEvent(System::Event::TextFocusLost&) override;
+            void _textInputEvent(System::Event::TextInput&) override;
 
-            void _initEvent(Core::Event::Init&) override;
-            void _updateEvent(Core::Event::Update&) override;
+            void _initEvent(System::Event::Init&) override;
+            void _updateEvent(System::Event::Update&) override;
 
         private:
             std::string _fromUtf32(const std::basic_string<djv_char_t>&);
             std::basic_string<djv_char_t> _toUtf32(const std::string&);
             
-            Core::SizeTRange _getSelection() const;
+            Math::SizeTRange _getSelection() const;
 
             void _textUpdate();
             void _cursorUpdate();

@@ -1,83 +1,21 @@
 set(header
     AVSystemTest.h
-    AudioDataTest.h
-    AudioFuncTest.h
-    AudioSystemTest.h
-    AudioSystemFuncTest.h
-    AudioTest.h
     CineonFuncTest.h
-    ColorFuncTest.h
-    ColorTest.h
     DPXFuncTest.h
-    EnumFuncTest.h
-    FontSystemTest.h
     IOTest.h
-    ImageConvertTest.h
-    ImageDataTest.h
-    ImageTest.h
-    ImageUtilTest.h
-    OCIOSystemTest.h
-    OCIOTest.h
-    OpenGLMeshCacheTest.h
-    OpenGLMeshTest.h
-    OpenGLOffscreenBufferTest.h
-    OpenGLShaderTest.h
-    OpenGLTextureAtlasTest.h
-    OpenGLTextureTest.h
     PPMTest.h
-    PixelTest.h
-    Render2DDataFuncTest.h
-    Render2DDataTest.h
-    Render2DTest.h
-    Render3DCameraTest.h
-    Render3DLightTest.h
-    Render3DMaterialTest.h
-    Render3DTest.h
-    ShaderTest.h
-    ShapeTest.h
-    TagsTest.h
+	SpeedFuncTest.h
     ThumbnailSystemTest.h
-    TriangleMeshTest.h)
+    TimeFuncTest.h)
 set(source
     AVSystemTest.cpp
-    AudioDataTest.cpp
-    AudioFuncTest.cpp
-    AudioSystemTest.cpp
-    AudioSystemFuncTest.cpp
-    AudioTest.cpp
     CineonFuncTest.cpp
-    ColorFuncTest.cpp
-    ColorTest.cpp
     DPXFuncTest.cpp
-    EnumFuncTest.cpp
-    FontSystemTest.cpp
     IOTest.cpp
-    ImageConvertTest.cpp
-    ImageDataTest.cpp
-    ImageTest.cpp
-    ImageUtilTest.cpp
-    OCIOSystemTest.cpp
-    OCIOTest.cpp
-    OpenGLMeshCacheTest.cpp
-    OpenGLMeshTest.cpp
-    OpenGLOffscreenBufferTest.cpp
-    OpenGLShaderTest.cpp
-    OpenGLTextureAtlasTest.cpp
-    OpenGLTextureTest.cpp
     PPMTest.cpp
-    PixelTest.cpp
-    Render2DDataFuncTest.cpp
-    Render2DDataTest.cpp
-    Render2DTest.cpp
-    Render3DCameraTest.cpp
-    Render3DLightTest.cpp
-    Render3DMaterialTest.cpp
-    Render3DTest.cpp
-    ShaderTest.cpp
-    ShapeTest.cpp
-    TagsTest.cpp
+	SpeedFuncTest.cpp
     ThumbnailSystemTest.cpp
-    TriangleMeshTest.cpp)
+    TimeFuncTest.cpp)
 if (NOT DJV_BUILD_TINY AND NOT DJV_BUILD_MINIMAL)
     set(header
         ${header}

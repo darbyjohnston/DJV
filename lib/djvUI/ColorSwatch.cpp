@@ -7,7 +7,7 @@
 #include <djvUI/DrawUtil.h>
 #include <djvUI/Style.h>
 
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -20,14 +20,14 @@ namespace djv
     {
         struct ColorSwatch::Private
         {
-            AV::Image::Color color;
+            Image::Color color;
             MetricsRole swatchSizeRole = MetricsRole::Swatch;
             bool border = true;
-            Event::PointerID pressedID = Event::invalidID;
+            System::Event::PointerID pressedID = System::Event::invalidID;
             std::function<void(void)> clickedCallback;
         };
 
-        void ColorSwatch::_init(const std::shared_ptr<Context>& context)
+        void ColorSwatch::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             setClassName("djv::UI::ColorSwatch");
@@ -42,19 +42,19 @@ namespace djv
         ColorSwatch::~ColorSwatch()
         {}
 
-        std::shared_ptr<ColorSwatch> ColorSwatch::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ColorSwatch> ColorSwatch::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ColorSwatch>(new ColorSwatch);
             out->_init(context);
             return out;
         }
 
-        const AV::Image::Color& ColorSwatch::getColor() const
+        const Image::Color& ColorSwatch::getColor() const
         {
             return _p->color;
         }
 
-        void ColorSwatch::setColor(const AV::Image::Color& value)
+        void ColorSwatch::setColor(const Image::Color& value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.color)
@@ -102,7 +102,7 @@ namespace djv
             return out;
         }
 
-        void ColorSwatch::_preLayoutEvent(Event::PreLayout& event)
+        void ColorSwatch::_preLayoutEvent(System::Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
@@ -121,16 +121,16 @@ namespace djv
             _setMinimumSize(size);
         }
 
-        void ColorSwatch::_paintEvent(Event::Paint& event)
+        void ColorSwatch::_paintEvent(System::Event::Paint& event)
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const float b = style->getMetric(MetricsRole::Border);
             const float btf = style->getMetric(MetricsRole::BorderTextFocus);
-            const BBox2f& g = getGeometry();
+            const Math::BBox2f& g = getGeometry();
 
-            BBox2f g2 = g;
+            Math::BBox2f g2 = g;
             const auto& render = _getRender();
             if (p.clickedCallback)
             {
@@ -158,8 +158,8 @@ namespace djv
                 render,
                 g2,
                 checkerSize,
-                AV::Image::Color(.6F, .6F, .6F),
-                AV::Image::Color(.4F, .4F, .4F));
+                Image::Color(.6F, .6F, .6F),
+                Image::Color(.4F, .4F, .4F));
             
             render->setFillColor(p.color);
             render->drawRect(g2);
@@ -176,7 +176,7 @@ namespace djv
             }
         }
 
-        void ColorSwatch::_pointerEnterEvent(Event::PointerEnter& event)
+        void ColorSwatch::_pointerEnterEvent(System::Event::PointerEnter& event)
         {
             DJV_PRIVATE_PTR();
             if (p.clickedCallback)
@@ -189,7 +189,7 @@ namespace djv
             }
         }
 
-        void ColorSwatch::_pointerLeaveEvent(Event::PointerLeave& event)
+        void ColorSwatch::_pointerLeaveEvent(System::Event::PointerLeave& event)
         {
             DJV_PRIVATE_PTR();
             if (p.clickedCallback)
@@ -202,7 +202,7 @@ namespace djv
             }
         }
 
-        void ColorSwatch::_pointerMoveEvent(Event::PointerMove& event)
+        void ColorSwatch::_pointerMoveEvent(System::Event::PointerMove& event)
         {
             DJV_PRIVATE_PTR();
             if (p.clickedCallback)
@@ -211,7 +211,7 @@ namespace djv
             }
         }
 
-        void ColorSwatch::_buttonPressEvent(Event::ButtonPress& event)
+        void ColorSwatch::_buttonPressEvent(System::Event::ButtonPress& event)
         {
             DJV_PRIVATE_PTR();
             if (p.clickedCallback)
@@ -226,7 +226,7 @@ namespace djv
             }
         }
 
-        void ColorSwatch::_buttonReleaseEvent(Event::ButtonRelease& event)
+        void ColorSwatch::_buttonReleaseEvent(System::Event::ButtonRelease& event)
         {
             DJV_PRIVATE_PTR();
             if (p.clickedCallback)
@@ -235,8 +235,8 @@ namespace djv
                 if (pointerInfo.id == p.pressedID)
                 {
                     event.accept();
-                    p.pressedID = Event::invalidID;
-                    const BBox2f& g = getGeometry();
+                    p.pressedID = System::Event::invalidID;
+                    const Math::BBox2f& g = getGeometry();
                     const auto& hover = _getPointerHover();
                     const auto i = hover.find(pointerInfo.id);
                     if (i != hover.end() && g.contains(i->second))
@@ -248,7 +248,7 @@ namespace djv
             }
         }
 
-        void ColorSwatch::_keyPressEvent(Event::KeyPress& event)
+        void ColorSwatch::_keyPressEvent(System::Event::KeyPress& event)
         {
             Widget::_keyPressEvent(event);
             DJV_PRIVATE_PTR();
@@ -273,12 +273,12 @@ namespace djv
             }
         }
 
-        void ColorSwatch::_textFocusEvent(Event::TextFocus&)
+        void ColorSwatch::_textFocusEvent(System::Event::TextFocus&)
         {
             _redraw();
         }
 
-        void ColorSwatch::_textFocusLostEvent(Event::TextFocusLost&)
+        void ColorSwatch::_textFocusLostEvent(System::Event::TextFocusLost&)
         {
             _redraw();
         }

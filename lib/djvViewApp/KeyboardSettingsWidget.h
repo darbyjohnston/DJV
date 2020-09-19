@@ -16,11 +16,11 @@ namespace djv
             DJV_NON_COPYABLE(KeyboardShortcutSettingsWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             KeyboardShortcutSettingsWidget();
 
         public:
-            static std::shared_ptr<KeyboardShortcutSettingsWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<KeyboardShortcutSettingsWidget> create(const std::shared_ptr<System::Context>&);
 
             std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;

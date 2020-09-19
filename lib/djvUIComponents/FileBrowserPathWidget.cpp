@@ -15,8 +15,8 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/SoloLayout.h>
 
-#include <djvCore/FileInfo.h>
-#include <djvCore/PathFunc.h>
+#include <djvSystem/FileInfo.h>
+#include <djvSystem/PathFunc.h>
 
 using namespace djv::Core;
 
@@ -28,8 +28,8 @@ namespace djv
         {
             struct PathWidget::Private
             {
-                FileSystem::Path path;
-                std::vector<FileSystem::Path> history;
+                System::File::Path path;
+                std::vector<System::File::Path> history;
                 std::shared_ptr<ActionGroup> historyActionGroup;
                 std::shared_ptr<UI::Menu> historyMenu;
                 std::shared_ptr<Button::Menu> historyButton;
@@ -37,11 +37,11 @@ namespace djv
                 std::shared_ptr<LineEdit> lineEdit;
                 std::shared_ptr<SoloLayout> soloLayout;
                 std::shared_ptr<HorizontalLayout> layout;
-                std::function<void(const FileSystem::Path &)> pathCallback;
+                std::function<void(const System::File::Path &)> pathCallback;
                 std::function<void(size_t)> historyIndexCallback;
             };
 
-            void PathWidget::_init(const std::shared_ptr<Context>& context)
+            void PathWidget::_init(const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
 
@@ -127,7 +127,7 @@ namespace djv
                             case UI::TextEditReason::Accepted:
                                 if (widget->_p->pathCallback)
                                 {
-                                    widget->_p->pathCallback(FileSystem::Path(value));
+                                    widget->_p->pathCallback(System::File::Path(value));
                                 }
                                 break;
                             case UI::TextEditReason::LostFocus:
@@ -154,14 +154,14 @@ namespace djv
             PathWidget::~PathWidget()
             {}
 
-            std::shared_ptr<PathWidget> PathWidget::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<PathWidget> PathWidget::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<PathWidget>(new PathWidget);
                 out->_init(context);
                 return out;
             }
 
-            void PathWidget::setPath(const FileSystem::Path & path)
+            void PathWidget::setPath(const System::File::Path & path)
             {
                 DJV_PRIVATE_PTR();
                 if (auto context = getContext().lock())
@@ -170,11 +170,11 @@ namespace djv
                         return;
                     p.path = path;
 
-                    auto split = FileSystem::splitDir(std::string(path));
-                    std::vector<FileSystem::Path> paths;
+                    auto split = System::File::splitDir(std::string(path));
+                    std::vector<System::File::Path> paths;
                     while (split.size())
                     {
-                        paths.push_back(FileSystem::Path(FileSystem::joinDirs(split)));
+                        paths.push_back(System::File::Path(System::File::joinDirs(split)));
                         split.pop_back();
                     }
 
@@ -221,12 +221,12 @@ namespace djv
                 }
             }
 
-            void PathWidget::setPathCallback(const std::function<void(const FileSystem::Path &)> & value)
+            void PathWidget::setPathCallback(const std::function<void(const System::File::Path &)> & value)
             {
                 _p->pathCallback = value;
             }
 
-            void PathWidget::setHistory(const std::vector<FileSystem::Path> & value)
+            void PathWidget::setHistory(const std::vector<System::File::Path> & value)
             {
                 DJV_PRIVATE_PTR();
                 if (value == p.history)
@@ -268,17 +268,17 @@ namespace djv
                     std::static_pointer_cast<Widget>(p.buttonLayout));
             }
 
-            void PathWidget::_preLayoutEvent(Event::PreLayout& event)
+            void PathWidget::_preLayoutEvent(System::Event::PreLayout& event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
             }
 
-            void PathWidget::_layoutEvent(Event::Layout& event)
+            void PathWidget::_layoutEvent(System::Event::Layout& event)
             {
                 _p->layout->setGeometry(getGeometry());
             }
 
-            void PathWidget::_initEvent(Event::Init & event)
+            void PathWidget::_initEvent(System::Event::Init & event)
             {
                 DJV_PRIVATE_PTR();
                 if (event.getData().text)
@@ -287,14 +287,14 @@ namespace djv
                 }
             }
 
-            bool PathWidget::_eventFilter(const std::shared_ptr<IObject> & object, Event::Event & event)
+            bool PathWidget::_eventFilter(const std::shared_ptr<System::IObject> & object, System::Event::Event & event)
             {
                 DJV_PRIVATE_PTR();
                 if (object == p.buttonLayout)
                 {
                     switch (event.getEventType())
                     {
-                    case Event::Type::ButtonPress:
+                    case System::Event::Type::ButtonPress:
 
                         event.accept();
                         setEdit(true);
@@ -305,7 +305,7 @@ namespace djv
                 return false;
             }
 
-            std::string PathWidget::_getLabel(const Core::FileSystem::Path& value)
+            std::string PathWidget::_getLabel(const System::File::Path& value)
             {
                 return (value.isRoot() || value.isServer()) ? value.get() : value.getFileName();
             }

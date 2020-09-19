@@ -26,7 +26,7 @@ namespace djv
                 std::map<std::shared_ptr<Widget>, std::shared_ptr<Label>> widgetToLabel;
             };
 
-            void Form::_init(const std::shared_ptr<Context>& context)
+            void Form::_init(const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
                 DJV_PRIVATE_PTR();
@@ -45,7 +45,7 @@ namespace djv
             Form::~Form()
             {}
 
-            std::shared_ptr<Form> Form::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<Form> Form::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<Form>(new Form);
                 out->_init(context);
@@ -200,17 +200,17 @@ namespace djv
                 _widgetUpdate();
             }
 
-            void Form::_preLayoutEvent(Event::PreLayout& event)
+            void Form::_preLayoutEvent(System::Event::PreLayout& event)
             {
                 const auto& style = _getStyle();
                 _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
             }
 
-            void Form::_layoutEvent(Event::Layout& event)
+            void Form::_layoutEvent(System::Event::Layout& event)
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
-                const BBox2f g = getMargin().bbox(getGeometry(), style);
+                const Math::BBox2f g = getMargin().bbox(getGeometry(), style);
                 p.layout->setGeometry(g);
             }
 

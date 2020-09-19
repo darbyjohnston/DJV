@@ -11,9 +11,10 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/Window.h>
 
+#include <djvMath/NumericValueModels.h>
+#include <djvMath/Range.h>
+
 #include <djvCore/ErrorFunc.h>
-#include <djvCore/NumericValueModels.h>
-#include <djvCore/Range.h>
 
 using namespace djv;
 
@@ -34,11 +35,11 @@ int main(int argc, char ** argv)
         // Create some integer sliders.
         auto vLayout = UI::VerticalLayout::create(app);
         vLayout->setMargin(UI::MetricsRole::Margin);
-        const std::vector<Core::IntRange> intRange =
+        const std::vector<Math::IntRange> intRange =
         {
-            Core::IntRange(    0,   10),
-            Core::IntRange(    1,  100),
-            Core::IntRange(-1000, 1000)
+            Math::IntRange(    0,   10),
+            Math::IntRange(    1,  100),
+            Math::IntRange(-1000, 1000)
         };
         for (size_t i = 0; i < 3; ++i)
         {
@@ -59,11 +60,11 @@ int main(int argc, char ** argv)
         // Create some floating-point sliders.
         vLayout = UI::VerticalLayout::create(app);
         vLayout->setMargin(UI::MetricsRole::Margin);
-        const std::vector<Core::FloatRange> floatRange =
+        const std::vector<Math::FloatRange> floatRange =
         {
-            Core::FloatRange(   0.f,   1.f),
-            Core::FloatRange(   1.f,  10.f),
-            Core::FloatRange(-100.f, 100.f)
+            Math::FloatRange(   0.f,   1.f),
+            Math::FloatRange(   1.f,  10.f),
+            Math::FloatRange(-100.f, 100.f)
         };
         for (size_t i = 0; i < 3; ++i)
         {

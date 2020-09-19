@@ -11,7 +11,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ToolButton.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -30,13 +30,13 @@ namespace djv
             std::shared_ptr<UI::ToolButton> muteButton;
             std::shared_ptr<UI::VerticalLayout> layout;
 
-            std::shared_ptr<Core::ValueObserver<float> > volumeObserver;
-            std::shared_ptr<Core::ValueObserver<bool> > muteObserver;
+            std::shared_ptr<ValueObserver<float> > volumeObserver;
+            std::shared_ptr<ValueObserver<bool> > muteObserver;
         };
 
         void AudioWidget::_init(
             const std::shared_ptr<Media>& media,
-            const std::shared_ptr<Context>& context)
+            const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -51,7 +51,7 @@ namespace djv
             p.label->setBackgroundRole(UI::ColorRole::Trough);
 
             p.volumeSlider = UI::FloatSlider::create(context);
-            p.volumeSlider->setRange(FloatRange(0.F, 100.F));
+            p.volumeSlider->setRange(Math::FloatRange(0.F, 100.F));
             p.volumeSlider->getModel()->setSmallIncrement(1.F);
             p.volumeSlider->getModel()->setLargeIncrement(10.F);
 
@@ -125,24 +125,24 @@ namespace djv
 
         std::shared_ptr<AudioWidget> AudioWidget::create(
             const std::shared_ptr<Media>& media,
-            const std::shared_ptr<Context>& context)
+            const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<AudioWidget>(new AudioWidget);
             out->_init(media, context);
             return out;
         }
 
-        void AudioWidget::_preLayoutEvent(Event::PreLayout&)
+        void AudioWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void AudioWidget::_layoutEvent(Event::Layout&)
+        void AudioWidget::_layoutEvent(System::Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
         }
 
-        void AudioWidget::_initEvent(Event::Init& event)
+        void AudioWidget::_initEvent(System::Event::Init& event)
         {
             DJV_PRIVATE_PTR();
             if (event.getData().text)

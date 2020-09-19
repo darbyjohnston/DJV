@@ -1,0 +1,8 @@
+{
+    "ocio_config_mode_cmd_line": "Command Line",
+    "ocio_config_mode_env": "Environment",
+    "ocio_config_mode_none": "None",
+    "ocio_config_mode_user": "User",
+    "error_cannot_parse_the_value": "Cannot parse the value."
+}
+

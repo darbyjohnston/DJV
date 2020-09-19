@@ -11,7 +11,7 @@
 #include <djvUI/SoloLayout.h>
 #include <djvUI/ToolButton.h>
 
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
 using namespace djv::Core;
 
@@ -29,7 +29,7 @@ namespace djv
             std::function<void(const std::string &)> filterCallback;
         };
 
-        void SearchBox::_init(const std::shared_ptr<Context>& context)
+        void SearchBox::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
 
@@ -102,7 +102,7 @@ namespace djv
         SearchBox::~SearchBox()
         {}
 
-        std::shared_ptr<SearchBox> SearchBox::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<SearchBox> SearchBox::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<SearchBox>(new SearchBox);
             out->_init(context);
@@ -140,7 +140,7 @@ namespace djv
             return out + btf * 2.F + m.y;
         }
 
-        void SearchBox::_preLayoutEvent(Event::PreLayout& event)
+        void SearchBox::_preLayoutEvent(System::Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
@@ -150,22 +150,22 @@ namespace djv
             _setMinimumSize(size + getMargin().getSize(style));
         }
 
-        void SearchBox::_layoutEvent(Event::Layout& event)
+        void SearchBox::_layoutEvent(System::Event::Layout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const float btf = style->getMetric(MetricsRole::BorderTextFocus);
-            const BBox2f g = getMargin().bbox(getGeometry(), style);
-            const BBox2f g2 = g.margin(-btf);
+            const Math::BBox2f g = getMargin().bbox(getGeometry(), style);
+            const Math::BBox2f g2 = g.margin(-btf);
             _p->layout->setGeometry(g2);
         }
 
-        void SearchBox::_paintEvent(Event::Paint& event)
+        void SearchBox::_paintEvent(System::Event::Paint& event)
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const BBox2f g = getMargin().bbox(getGeometry(), style);
+            const Math::BBox2f g = getMargin().bbox(getGeometry(), style);
             const float b = style->getMetric(UI::MetricsRole::Border);
             const float btf = style->getMetric(UI::MetricsRole::BorderTextFocus);
             const auto& render = _getRender();

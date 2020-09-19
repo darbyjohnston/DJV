@@ -6,7 +6,7 @@
 
 #include <djvUI/Style.h>
 
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
 using namespace djv::Core;
 
@@ -22,12 +22,12 @@ namespace djv
                 std::vector<float> split;
                 float splitterWidth = 0.F;
                 ColorRole handleColorRole = ColorRole::Background;
-                std::map<Event::PointerID, size_t> hover;
-                std::pair<Event::PointerID, size_t> pressedID;
+                std::map<System::Event::PointerID, size_t> hover;
+                std::pair<System::Event::PointerID, size_t> pressedID;
                 std::function<void(const std::vector<float>&)> splitCallback;
             };
 
-            void Splitter::_init(const std::shared_ptr<Context>& context)
+            void Splitter::_init(const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
                 setClassName("djv::UI::Layout::Splitter");
@@ -41,7 +41,7 @@ namespace djv
             Splitter::~Splitter()
             {}
 
-            std::shared_ptr<Splitter> Splitter::create(Orientation orientation, const std::shared_ptr<Context>& context)
+            std::shared_ptr<Splitter> Splitter::create(Orientation orientation, const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<Splitter>(new Splitter);
                 out->_init(context);
@@ -162,7 +162,7 @@ namespace djv
                 distributeEvenly();
             }
 
-            void Splitter::_preLayoutEvent(Event::PreLayout& event)
+            void Splitter::_preLayoutEvent(System::Event::PreLayout& event)
             {
                 DJV_PRIVATE_PTR();
                 glm::vec2 minimumSize = glm::vec2(0.F, 0.F);
@@ -204,7 +204,7 @@ namespace djv
                 _setMinimumSize(minimumSize + getMargin().getSize(style));
             }
 
-            void Splitter::_layoutEvent(Event::Layout& event)
+            void Splitter::_layoutEvent(System::Event::Layout& event)
             {
                 const auto g = _getChildGeometry();
                 size_t i = 0;
@@ -215,7 +215,7 @@ namespace djv
                 }
             }
 
-            void Splitter::_paintEvent(Event::Paint& event)
+            void Splitter::_paintEvent(System::Event::Paint& event)
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
@@ -250,7 +250,7 @@ namespace djv
                 }
             }
 
-            void Splitter::_pointerLeaveEvent(Event::PointerLeave&)
+            void Splitter::_pointerLeaveEvent(System::Event::PointerLeave&)
             {
                 DJV_PRIVATE_PTR();
                 if (p.hover.size())
@@ -260,7 +260,7 @@ namespace djv
                 }
             }
 
-            void Splitter::_pointerMoveEvent(Event::PointerMove& event)
+            void Splitter::_pointerMoveEvent(System::Event::PointerMove& event)
             {
                 DJV_PRIVATE_PTR();
                 event.accept();
@@ -329,7 +329,7 @@ namespace djv
                 }
             }
 
-            void Splitter::_buttonPressEvent(Event::ButtonPress& event)
+            void Splitter::_buttonPressEvent(System::Event::ButtonPress& event)
             {
                 DJV_PRIVATE_PTR();
                 if (p.pressedID.first)
@@ -345,18 +345,18 @@ namespace djv
                 }
             }
 
-            void Splitter::_buttonReleaseEvent(Event::ButtonRelease& event)
+            void Splitter::_buttonReleaseEvent(System::Event::ButtonRelease& event)
             {
                 DJV_PRIVATE_PTR();
                 if (event.getPointerInfo().id != p.pressedID.first)
                     return;
                 event.accept();
-                p.pressedID.first = Event::invalidID;
+                p.pressedID.first = System::Event::invalidID;
                 p.pressedID.second = 0;
                 _redraw();
             }
 
-            void Splitter::_initEvent(Event::Init& event)
+            void Splitter::_initEvent(System::Event::Init& event)
             {
                 DJV_PRIVATE_PTR();
                 if (event.getData().resize)
@@ -372,7 +372,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 float out = 0.F;
                 const auto& style = _getStyle();
-                const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
                 switch (p.orientation)
                 {
                 case Orientation::Horizontal:
@@ -391,7 +391,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 float out = 0.F;
                 const auto& style = _getStyle();
-                const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
                 switch (p.orientation)
                 {
                 case Orientation::Horizontal:
@@ -405,19 +405,19 @@ namespace djv
                 return out;
             }
 
-            std::vector<BBox2f> Splitter::_getChildGeometry() const
+            std::vector<Math::BBox2f> Splitter::_getChildGeometry() const
             {
                 DJV_PRIVATE_PTR();
-                std::vector<BBox2f> out;
+                std::vector<Math::BBox2f> out;
                 const auto& style = _getStyle();
-                const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const float sw = ceilf(p.splitterWidth / 2.F);
                 float x = g.min.x;
                 float y = g.min.y;
                 const auto& children = getChildWidgets();
                 for (size_t i = 0; i < children.size(); ++i)
                 {
-                    BBox2f bbox;
+                    Math::BBox2f bbox;
                     const float v = _valueToPos(p.split[i]);
                     switch (p.orientation)
                     {
@@ -442,12 +442,12 @@ namespace djv
                 return out;
             }
 
-            std::vector<BBox2f> Splitter::_getHandleGeometry() const
+            std::vector<Math::BBox2f> Splitter::_getHandleGeometry() const
             {
                 DJV_PRIVATE_PTR();
-                std::vector<BBox2f> out;
+                std::vector<Math::BBox2f> out;
                 const auto& style = _getStyle();
-                const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const float sw = ceilf(p.splitterWidth / 2.F);
                 float x = g.min.x;
                 float y = g.min.y;
@@ -456,7 +456,7 @@ namespace djv
                 {
                     if (i < children.size() - 1)
                     {
-                        BBox2f bbox;
+                        Math::BBox2f bbox;
                         const float v = _valueToPos(p.split[i]);
                         switch (p.orientation)
                         {

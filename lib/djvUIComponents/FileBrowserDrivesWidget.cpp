@@ -7,8 +7,8 @@
 #include <djvUI/ListButton.h>
 #include <djvUI/RowLayout.h>
 
-#include <djvCore/DrivesModel.h>
-#include <djvCore/FileInfo.h>
+#include <djvSystem/DrivesModel.h>
+#include <djvSystem/FileInfo.h>
 
 using namespace djv::Core;
 
@@ -20,16 +20,16 @@ namespace djv
         {
             struct DrivesWidget::Private
             {
-                std::vector<FileSystem::Path> drives;
+                std::vector<System::File::Path> drives;
 
                 std::shared_ptr<VerticalLayout> layout;
 
-                std::function<void(const FileSystem::Path &)> callback;
+                std::function<void(const System::File::Path &)> callback;
 
-                std::shared_ptr<ListObserver<FileSystem::Path> > drivesObserver;
+                std::shared_ptr<ListObserver<System::File::Path> > drivesObserver;
             };
 
-            void DrivesWidget::_init(const std::shared_ptr<FileSystem::DrivesModel>& model, const std::shared_ptr<Context>& context)
+            void DrivesWidget::_init(const std::shared_ptr<System::File::DrivesModel>& model, const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
                 DJV_PRIVATE_PTR();
@@ -41,10 +41,10 @@ namespace djv
                 addChild(p.layout);
 
                 auto weak = std::weak_ptr<DrivesWidget>(std::dynamic_pointer_cast<DrivesWidget>(shared_from_this()));
-                auto contextWeak = std::weak_ptr<Context>(context);
-                p.drivesObserver = ListObserver<FileSystem::Path>::create(
+                auto contextWeak = std::weak_ptr<System::Context>(context);
+                p.drivesObserver = ListObserver<System::File::Path>::create(
                     model->observeDrives(),
-                    [weak, contextWeak](const std::vector<FileSystem::Path> & value)
+                    [weak, contextWeak](const std::vector<System::File::Path> & value)
                     {
                         if (auto context = contextWeak.lock())
                         {
@@ -88,24 +88,24 @@ namespace djv
             DrivesWidget::~DrivesWidget()
             {}
 
-            std::shared_ptr<DrivesWidget> DrivesWidget::create(const std::shared_ptr<FileSystem::DrivesModel>& model, const std::shared_ptr<Context>& context)
+            std::shared_ptr<DrivesWidget> DrivesWidget::create(const std::shared_ptr<System::File::DrivesModel>& model, const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<DrivesWidget>(new DrivesWidget);
                 out->_init(model, context);
                 return out;
             }
 
-            void DrivesWidget::setCallback(const std::function<void(const FileSystem::Path &)> & value)
+            void DrivesWidget::setCallback(const std::function<void(const System::File::Path &)> & value)
             {
                 _p->callback = value;
             }
 
-            void DrivesWidget::_preLayoutEvent(Event::PreLayout& event)
+            void DrivesWidget::_preLayoutEvent(System::Event::PreLayout& event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
             }
 
-            void DrivesWidget::_layoutEvent(Event::Layout& event)
+            void DrivesWidget::_layoutEvent(System::Event::Layout& event)
             {
                 _p->layout->setGeometry(getGeometry());
             }

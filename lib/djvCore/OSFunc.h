@@ -4,10 +4,8 @@
 
 #pragma once
 
-#include <djvCore/Enum.h>
 #include <djvCore/OS.h>
 
-#include <sstream>
 #include <string>
 #include <vector>
 
@@ -79,13 +77,6 @@ namespace djv
             
             ///@}
             
-            //! \name Directory Shortcuts
-            ///@{
-            
-            FileSystem::Path getPath(DirectoryShortcut);
-
-            ///@}
-            
             //! \name Utility
             ///@{
 
@@ -94,12 +85,8 @@ namespace djv
             void openURL(const std::string&);
 
             ///@}
-
-            DJV_ENUM_HELPERS(DirectoryShortcut);
             
         } // namespace OS
     } // namespace Core
-
-    DJV_ENUM_SERIALIZE_HELPERS(Core::OS::DirectoryShortcut);
-
 } // namespace djv
+

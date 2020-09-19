@@ -8,9 +8,9 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/StackLayout.h>
 
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
-#include <djvCore/Animation.h>
+#include <djvSystem/Animation.h>
 
 using namespace djv::Core;
 
@@ -36,10 +36,10 @@ namespace djv
                 std::shared_ptr<Stack> childLayout;
                 std::function<std::shared_ptr<Widget>(void)> openCallback;
                 std::function<void(const std::shared_ptr<Widget>&)> closeCallback;
-                std::shared_ptr<Animation::Animation> openAnimation;
+                std::shared_ptr<System::Animation::Animation> openAnimation;
             };
 
-            void Drawer::_init(Side side, const std::shared_ptr<Context>& context)
+            void Drawer::_init(Side side, const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
                 DJV_PRIVATE_PTR();
@@ -51,8 +51,8 @@ namespace djv
                 p.childLayout = Stack::create(context);
                 Widget::addChild(p.childLayout);
 
-                p.openAnimation = Animation::Animation::create(context);
-                p.openAnimation->setType(Animation::Type::SmoothStep);
+                p.openAnimation = System::Animation::Animation::create(context);
+                p.openAnimation->setType(System::Animation::Type::SmoothStep);
             }
 
             Drawer::Drawer() :
@@ -62,7 +62,7 @@ namespace djv
             Drawer::~Drawer()
             {}
 
-            std::shared_ptr<Drawer> Drawer::create(Side side, const std::shared_ptr<Context>& context)
+            std::shared_ptr<Drawer> Drawer::create(Side side, const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<Drawer>(new Drawer);
                 out->_init(side, context);
@@ -195,7 +195,7 @@ namespace djv
                 _p->closeCallback = value;
             }
 
-            void Drawer::_preLayoutEvent(Event::PreLayout& event)
+            void Drawer::_preLayoutEvent(System::Event::PreLayout& event)
             {
                 DJV_PRIVATE_PTR();
                 const glm::vec2& minimumSize = p.childLayout->getMinimumSize();
@@ -217,12 +217,12 @@ namespace djv
                 _setMinimumSize(size);
             }
 
-            void Drawer::_layoutEvent(Event::Layout& event)
+            void Drawer::_layoutEvent(System::Event::Layout& event)
             {
                 DJV_PRIVATE_PTR();
-                const BBox2f& g = getGeometry();
+                const Math::BBox2f& g = getGeometry();
                 const glm::vec2& minimumSize = p.childLayout->getMinimumSize();
-                BBox2f childGeometry(0.F, 0.F, 0.F, 0.F);
+                Math::BBox2f childGeometry(0.F, 0.F, 0.F, 0.F);
                 const float inverseOpenAmount = 1.F - p.openAmount;
                 switch (p.side)
                 {

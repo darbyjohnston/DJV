@@ -1,0 +1,26 @@
+{
+    "render2d_alpha_none": "Никто",
+    "render2d_alpha_premultiplied": "предварительно умноженные",
+    "render2d_alpha_straight": "Прямо",
+    "render2d_side_bottom": "Дно",
+    "render2d_side_left": "Осталось",
+    "render2d_side_none": "Никто",
+    "render2d_side_right": "Правильно",
+    "render2d_side_top": "верхний",
+    "error_cannot_parse_the_value": "Невозможно проанализировать значение.",
+    "render2d_filter_linear": "линейный",
+    "render2d_filter_nearest": "ближайший",
+    "render2d_image_cache_atlas": "Атлас",
+    "render2d_image_cache_dynamic": "динамический",
+    "render2d_image_channel_alpha": "Альфа",
+    "render2d_image_channel_blue": "синий",
+    "render2d_image_channel_display_alpha": "Альфа",
+    "render2d_image_channel_display_blue": "синий",
+    "render2d_image_channel_display_color": "цвет",
+    "render2d_image_channel_display_green": "зеленый",
+    "render2d_image_channel_display_red": "красный",
+    "render2d_image_channel_green": "зеленый",
+    "render2d_image_channel_none": "Альфа",
+    "render2d_image_channel_red": "красный"
+}
+

@@ -6,7 +6,7 @@
 
 #include <djvScene/IPrimitive.h>
 
-#include <djvCore/Range.h>
+#include <djvMath/Range.h>
 
 #include <glm/mat4x4.hpp>
 
@@ -40,7 +40,7 @@ namespace djv
         {
             float               fov         = 45.F;
             float               aspect      = 1.F;
-            Core::FloatRange    clip        = Core::FloatRange(0.1F, 10000.F);
+            Math::FloatRange    clip        = Math::FloatRange(0.1F, 10000.F);
             glm::vec3           position    = glm::vec3(10.F, 20.F, -20.F);
             glm::vec3           target      = glm::vec3(0.F, 0.F, 0.F);
             glm::vec3           up          = glm::vec3(0.F, 1.F, 0.F);
@@ -65,7 +65,7 @@ namespace djv
             void setUp(const glm::vec3&);
             void setFOV(float);
             void setAspect(float);
-            void setClip(const Core::FloatRange&);
+            void setClip(const Math::FloatRange&);
 
             std::string getClassName() const override;
 
@@ -80,7 +80,7 @@ namespace djv
         {
             float               fov         = 45.F;
             float               aspect      = 1.F;
-            Core::FloatRange    clip        = Core::FloatRange(.1F, 10000.F);
+            Math::FloatRange    clip        = Math::FloatRange(.1F, 10000.F);
             glm::vec3           target      = glm::vec3(0.F, 0.F, 0.F);
             float               distance    = 20.F;
             float               latitude    = 30.F;
@@ -100,7 +100,7 @@ namespace djv
 
             const PolarCameraData& getData() const;
             float getFOV() const;
-            const Core::FloatRange& getClip() const;
+            const Math::FloatRange& getClip() const;
             const glm::vec3& getTarget() const;
             float getDistance() const;
             float getLatitude() const;
@@ -109,7 +109,7 @@ namespace djv
             void setData(const PolarCameraData&);
             void setFOV(float);
             void setAspect(float);
-            void setClip(const Core::FloatRange&);
+            void setClip(const Math::FloatRange&);
             void setTarget(const glm::vec3&);
             void setDistance(float);
             void setLatitude(float);

@@ -30,7 +30,7 @@ namespace djv
             std::shared_ptr<HorizontalLayout> layout;
         };
 
-        void ToolBar::_init(const std::shared_ptr<Context>& context)
+        void ToolBar::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -50,7 +50,7 @@ namespace djv
         ToolBar::~ToolBar()
         {}
 
-        std::shared_ptr<ToolBar> ToolBar::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ToolBar> ToolBar::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ToolBar>(new ToolBar);
             out->_init(context);
@@ -181,13 +181,13 @@ namespace djv
             _p->layout->clearChildren();
         }
 
-        void ToolBar::_preLayoutEvent(Event::PreLayout& event)
+        void ToolBar::_preLayoutEvent(System::Event::PreLayout& event)
         {
             const auto& style = _getStyle();
             _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
         }
 
-        void ToolBar::_layoutEvent(Event::Layout& event)
+        void ToolBar::_layoutEvent(System::Event::Layout& event)
         {
             const auto& style = _getStyle();
             _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));

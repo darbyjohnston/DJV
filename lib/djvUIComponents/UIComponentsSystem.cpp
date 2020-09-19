@@ -9,7 +9,7 @@
 
 #include <djvUI/UISystem.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -20,7 +20,7 @@ namespace djv
         struct UIComponentsSystem::Private
         {};
 
-        void UIComponentsSystem::_init(const std::shared_ptr<Context>& context)
+        void UIComponentsSystem::_init(const std::shared_ptr<System::Context>& context)
         {
             ISystem::_init("djv::UI::UIComponentsSystem", context);
 
@@ -37,7 +37,7 @@ namespace djv
         UIComponentsSystem::~UIComponentsSystem()
         {}
 
-        std::shared_ptr<UIComponentsSystem> UIComponentsSystem::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<UIComponentsSystem> UIComponentsSystem::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<UIComponentsSystem>(new UIComponentsSystem);
             out->_init(context);

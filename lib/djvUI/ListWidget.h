@@ -34,13 +34,13 @@ namespace djv
             DJV_NON_COPYABLE(ListWidget);
 
         protected:
-            void _init(ButtonType, const std::shared_ptr<Core::Context>&);
+            void _init(ButtonType, const std::shared_ptr<System::Context>&);
             ListWidget();
 
         public:
             ~ListWidget() override;
 
-            static std::shared_ptr<ListWidget> create(ButtonType, const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ListWidget> create(ButtonType, const std::shared_ptr<System::Context>&);
 
             void setItems(const std::vector<std::string>&);
             void setItems(const std::vector<ListItem>&);
@@ -59,9 +59,9 @@ namespace djv
             void setAlternateRowsRoles(ColorRole, ColorRole);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
-            void _keyPressEvent(Core::Event::KeyPress&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
+            void _keyPressEvent(System::Event::KeyPress&) override;
 
         private:
             void _itemsUpdate();

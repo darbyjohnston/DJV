@@ -19,9 +19,10 @@
 #include <djvUI/ToolButton.h>
 #include <djvUI/Window.h>
 
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
+
 #include <djvCore/StringFunc.h>
 
 #define GLFW_INCLUDE_NONE
@@ -40,13 +41,13 @@ namespace djv
                 DJV_NON_COPYABLE(KeyPressWidget);
 
             protected:
-                void _init(const std::shared_ptr<Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 KeyPressWidget();
 
             public:
                 ~KeyPressWidget() override;
 
-                static std::shared_ptr<KeyPressWidget> create(const std::shared_ptr<Context>&);
+                static std::shared_ptr<KeyPressWidget> create(const std::shared_ptr<System::Context>&);
 
                 void setShortcut(const ShortcutData&);
                 void setCallback(const std::function<void(const ShortcutData&)>&);
@@ -54,19 +55,19 @@ namespace djv
                 bool acceptFocus(TextFocusDirection) override;
 
             protected:
-                void _preLayoutEvent(Event::PreLayout&) override;
-                void _layoutEvent(Event::Layout&) override;
-                void _paintEvent(Event::Paint&) override;
-                void _pointerEnterEvent(Event::PointerEnter&) override;
-                void _pointerLeaveEvent(Event::PointerLeave&) override;
-                void _pointerMoveEvent(Event::PointerMove&) override;
-                void _buttonPressEvent(Event::ButtonPress&) override;
-                void _buttonReleaseEvent(Event::ButtonRelease&) override;
-                void _keyPressEvent(Event::KeyPress&) override;
-                void _textFocusEvent(Event::TextFocus&) override;
-                void _textFocusLostEvent(Event::TextFocusLost&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
+                void _paintEvent(System::Event::Paint&) override;
+                void _pointerEnterEvent(System::Event::PointerEnter&) override;
+                void _pointerLeaveEvent(System::Event::PointerLeave&) override;
+                void _pointerMoveEvent(System::Event::PointerMove&) override;
+                void _buttonPressEvent(System::Event::ButtonPress&) override;
+                void _buttonReleaseEvent(System::Event::ButtonRelease&) override;
+                void _keyPressEvent(System::Event::KeyPress&) override;
+                void _textFocusEvent(System::Event::TextFocus&) override;
+                void _textFocusLostEvent(System::Event::TextFocusLost&) override;
 
-                void _initEvent(Event::Init&) override;
+                void _initEvent(System::Event::Init&) override;
 
             private:
                 void _widgetUpdate();
@@ -74,10 +75,10 @@ namespace djv
                 ShortcutData _shortcut;
                 std::shared_ptr<Label> _label;
                 std::function<void(const ShortcutData&)> _callback;
-                Event::PointerID _pressedID = Event::invalidID;
+                System::Event::PointerID _pressedID = System::Event::invalidID;
             };
 
-            void KeyPressWidget::_init(const std::shared_ptr<Context>& context)
+            void KeyPressWidget::_init(const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
 
@@ -99,7 +100,7 @@ namespace djv
             KeyPressWidget::~KeyPressWidget()
             {}
 
-            std::shared_ptr<KeyPressWidget> KeyPressWidget::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<KeyPressWidget> KeyPressWidget::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<KeyPressWidget>(new KeyPressWidget);
                 out->_init(context);
@@ -130,7 +131,7 @@ namespace djv
                 return out;
             }
 
-            void KeyPressWidget::_preLayoutEvent(Event::PreLayout&)
+            void KeyPressWidget::_preLayoutEvent(System::Event::PreLayout&)
             {
                 const auto& style = _getStyle();
                 const float btf = style->getMetric(MetricsRole::BorderTextFocus);
@@ -139,21 +140,21 @@ namespace djv
                 _setMinimumSize(size);
             }
 
-            void KeyPressWidget::_layoutEvent(Event::Layout&)
+            void KeyPressWidget::_layoutEvent(System::Event::Layout&)
             {
                 const auto& style = _getStyle();
                 const float btf = style->getMetric(MetricsRole::BorderTextFocus);
-                const BBox2f& g = getGeometry();
-                const BBox2f g2 = g.margin(-btf);
+                const Math::BBox2f& g = getGeometry();
+                const Math::BBox2f g2 = g.margin(-btf);
                 _label->setGeometry(g2);
             }
 
-            void KeyPressWidget::_paintEvent(Event::Paint&)
+            void KeyPressWidget::_paintEvent(System::Event::Paint&)
             {
                 const auto& style = _getStyle();
                 const float b = style->getMetric(MetricsRole::Border);
                 const float btf = style->getMetric(MetricsRole::BorderTextFocus);
-                const BBox2f& g = getGeometry();
+                const Math::BBox2f& g = getGeometry();
                 const auto& render = _getRender();
                 if (hasTextFocus())
                 {
@@ -167,7 +168,7 @@ namespace djv
                 }
             }
 
-            void KeyPressWidget::_pointerEnterEvent(Event::PointerEnter& event)
+            void KeyPressWidget::_pointerEnterEvent(System::Event::PointerEnter& event)
             {
                 if (!event.isRejected())
                 {
@@ -175,17 +176,17 @@ namespace djv
                 }
             }
 
-            void KeyPressWidget::_pointerLeaveEvent(Event::PointerLeave& event)
+            void KeyPressWidget::_pointerLeaveEvent(System::Event::PointerLeave& event)
             {
                 event.accept();
             }
 
-            void KeyPressWidget::_pointerMoveEvent(Event::PointerMove& event)
+            void KeyPressWidget::_pointerMoveEvent(System::Event::PointerMove& event)
             {
                 event.accept();
             }
 
-            void KeyPressWidget::_buttonPressEvent(Event::ButtonPress& event)
+            void KeyPressWidget::_buttonPressEvent(System::Event::ButtonPress& event)
             {
                 if (_pressedID || !isEnabled(true))
                     return;
@@ -193,17 +194,17 @@ namespace djv
                 takeTextFocus();
             }
 
-            void KeyPressWidget::_buttonReleaseEvent(Event::ButtonRelease& event)
+            void KeyPressWidget::_buttonReleaseEvent(System::Event::ButtonRelease& event)
             {
                 const auto& pointerInfo = event.getPointerInfo();
                 if (pointerInfo.id == _pressedID)
                 {
                     event.accept();
-                    _pressedID = Event::invalidID;
+                    _pressedID = System::Event::invalidID;
                 }
             }
 
-            void KeyPressWidget::_keyPressEvent(Event::KeyPress& event)
+            void KeyPressWidget::_keyPressEvent(System::Event::KeyPress& event)
             {
                 Widget::_keyPressEvent(event);
                 if (auto context = getContext().lock())
@@ -247,19 +248,19 @@ namespace djv
                 }
             }
 
-            void KeyPressWidget::_textFocusEvent(Event::TextFocus& event)
+            void KeyPressWidget::_textFocusEvent(System::Event::TextFocus& event)
             {
                 event.accept();
                 _redraw();
             }
 
-            void KeyPressWidget::_textFocusLostEvent(Event::TextFocusLost& event)
+            void KeyPressWidget::_textFocusLostEvent(System::Event::TextFocusLost& event)
             {
                 event.accept();
                 _redraw();
             }
 
-            void KeyPressWidget::_initEvent(Event::Init& event)
+            void KeyPressWidget::_initEvent(System::Event::Init& event)
             {
                 if (event.getData().text)
                 {
@@ -305,7 +306,7 @@ namespace djv
             void currentItemUpdate();
         };
 
-        void ShortcutsWidget::_init(const std::shared_ptr<Context>& context)
+        void ShortcutsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -412,7 +413,7 @@ namespace djv
             _p(new Private(*this))
         {}
 
-        std::shared_ptr<ShortcutsWidget> ShortcutsWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ShortcutsWidget> ShortcutsWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ShortcutsWidget>(new ShortcutsWidget);
             out->_init(context);
@@ -435,21 +436,21 @@ namespace djv
             _p->shortcutsCallback = value;
         }
 
-        void ShortcutsWidget::_preLayoutEvent(Event::PreLayout&)
+        void ShortcutsWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             _setMinimumSize(p.layout->getMinimumSize() + getMargin().getSize(style));
         }
 
-        void ShortcutsWidget::_layoutEvent(Event::Layout&)
+        void ShortcutsWidget::_layoutEvent(System::Event::Layout&)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             p.layout->setGeometry(getMargin().bbox(getGeometry(), style));
         }
 
-        void ShortcutsWidget::_initEvent(Event::Init & event)
+        void ShortcutsWidget::_initEvent(System::Event::Init & event)
         {
             DJV_PRIVATE_PTR();
             if (event.getData().text)

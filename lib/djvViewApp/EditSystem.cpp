@@ -12,7 +12,7 @@
 #include <djvUI/Menu.h>
 #include <djvUI/ShortcutData.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -33,7 +33,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > hasRedoObserver;
         };
 
-        void EditSystem::_init(const std::shared_ptr<Core::Context>& context)
+        void EditSystem::_init(const std::shared_ptr<System::Context>& context)
         {
             IViewSystem::_init("djv::ViewApp::EditSystem", context);
             DJV_PRIVATE_PTR();
@@ -78,7 +78,7 @@ namespace djv
 
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
-                auto contextWeak = std::weak_ptr<Context>(context);
+                auto contextWeak = std::weak_ptr<System::Context>(context);
                 p.activeWidgetObserver = ValueObserver<std::shared_ptr<MediaWidget> >::create(
                     windowSystem->observeActiveWidget(),
                     [weak, contextWeak](const std::shared_ptr<MediaWidget>& value)
@@ -127,7 +127,7 @@ namespace djv
         EditSystem::~EditSystem()
         {}
 
-        std::shared_ptr<EditSystem> EditSystem::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<EditSystem> EditSystem::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<EditSystem>(new EditSystem);
             out->_init(context);

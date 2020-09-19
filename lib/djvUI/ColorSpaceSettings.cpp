@@ -6,9 +6,9 @@
 
 #include <djvUI/Widget.h>
 
-#include <djvAV/OCIOSystem.h>
+#include <djvOCIO/OCIOSystem.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 #if defined(GetObject)
 #undef GetObject
@@ -28,26 +28,26 @@ namespace djv
         {
             struct ColorSpace::Private
             {
-                std::shared_ptr<AV::OCIO::System> ocioSystem;
+                std::shared_ptr<OCIO::OCIOSystem> ocioSystem;
 
-                AV::OCIO::ConfigMode configMode = AV::OCIO::ConfigMode::User;
-                AV::OCIO::UserConfigs userConfigs;
-                AV::OCIO::Config envConfig;
+                OCIO::ConfigMode configMode = OCIO::ConfigMode::User;
+                OCIO::UserConfigs userConfigs;
+                OCIO::Config envConfig;
 
-                std::shared_ptr<ValueObserver<AV::OCIO::ConfigMode> > configModeObserver;
-                std::shared_ptr<ValueObserver<AV::OCIO::UserConfigs> > userConfigsObserver;
-                std::shared_ptr<ValueObserver<AV::OCIO::Config> > envConfigObserver;
+                std::shared_ptr<ValueObserver<OCIO::ConfigMode> > configModeObserver;
+                std::shared_ptr<ValueObserver<OCIO::UserConfigs> > userConfigsObserver;
+                std::shared_ptr<ValueObserver<OCIO::Config> > envConfigObserver;
             };
 
-            void ColorSpace::_init(const std::shared_ptr<Core::Context>& context)
+            void ColorSpace::_init(const std::shared_ptr<System::Context>& context)
             {
                 ISettings::_init("djv::UI::Settings::ColorSpace", context);
                 DJV_PRIVATE_PTR();
 
-                p.ocioSystem = context->getSystemT<AV::OCIO::System>();
+                p.ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
 
                 {
-                    AV::OCIO::Config config;
+                    OCIO::Config config;
                     config.fileName = "nuke-default";
                     config.name = "nuke-default";
                     config.display = "default";
@@ -62,7 +62,7 @@ namespace djv
                     p.userConfigs.first.emplace_back(config);
                 }
                 {
-                    AV::OCIO::Config config;
+                    OCIO::Config config;
                     config.fileName = "spi-anim";
                     config.name = "spi-anim";
                     config.display = "sRGB";
@@ -75,7 +75,7 @@ namespace djv
                     p.userConfigs.first.emplace_back(config);
                 }
                 {
-                    AV::OCIO::Config config;
+                    OCIO::Config config;
                     config.fileName = "spi-vfx";
                     config.name = "spi-vfx";
                     config.display = "sRGB";
@@ -92,12 +92,12 @@ namespace djv
 
                 _load();
 
-                if (p.ocioSystem->observeConfigMode()->get() != AV::OCIO::ConfigMode::Env)
+                if (p.ocioSystem->observeConfigMode()->get() != OCIO::ConfigMode::Env)
                 {
                     p.ocioSystem->setConfigMode(
-                        AV::OCIO::ConfigMode::None == p.configMode ?
-                        AV::OCIO::ConfigMode::None :
-                        AV::OCIO::ConfigMode::User);
+                        OCIO::ConfigMode::None == p.configMode ?
+                        OCIO::ConfigMode::None :
+                        OCIO::ConfigMode::User);
                 }
                 for (const auto& i : p.userConfigs.first)
                 {
@@ -110,27 +110,27 @@ namespace djv
                 }
 
                 auto weak = std::weak_ptr<ColorSpace>(std::dynamic_pointer_cast<ColorSpace>(shared_from_this()));
-                p.configModeObserver = ValueObserver<AV::OCIO::ConfigMode>::create(
+                p.configModeObserver = ValueObserver<OCIO::ConfigMode>::create(
                     p.ocioSystem->observeConfigMode(),
-                    [weak](const AV::OCIO::ConfigMode& value)
+                    [weak](const OCIO::ConfigMode& value)
                     {
                         if (auto settings = weak.lock())
                         {
                             settings->_p->configMode = value;
                         }
                     });
-                p.userConfigsObserver = ValueObserver<AV::OCIO::UserConfigs>::create(
+                p.userConfigsObserver = ValueObserver<OCIO::UserConfigs>::create(
                     p.ocioSystem->observeUserConfigs(),
-                    [weak](const AV::OCIO::UserConfigs& value)
+                    [weak](const OCIO::UserConfigs& value)
                     {
                         if (auto settings = weak.lock())
                         {
                             settings->_p->userConfigs = value;
                         }
                     });
-                p.envConfigObserver = ValueObserver<AV::OCIO::Config>::create(
+                p.envConfigObserver = ValueObserver<OCIO::Config>::create(
                     p.ocioSystem->observeEnvConfig(),
-                    [weak](const AV::OCIO::Config& value)
+                    [weak](const OCIO::Config& value)
                     {
                         if (auto settings = weak.lock())
                         {
@@ -146,7 +146,7 @@ namespace djv
             ColorSpace::~ColorSpace()
             {}
 
-            std::shared_ptr<ColorSpace> ColorSpace::create(const std::shared_ptr<Core::Context>& context)
+            std::shared_ptr<ColorSpace> ColorSpace::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<ColorSpace>(new ColorSpace);
                 out->_init(context);
@@ -158,7 +158,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (value.IsObject())
                 {
-                    std::vector<AV::OCIO::Config> configs;
+                    std::vector<OCIO::Config> configs;
                     UI::Settings::read("ConfigMode", value, p.configMode);
                     UI::Settings::read("UserConfigs", value, p.userConfigs.first);
                     UI::Settings::read("CurrentUserConfig", value, p.userConfigs.second);

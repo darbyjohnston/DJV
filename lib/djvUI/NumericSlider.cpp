@@ -7,10 +7,11 @@
 #include <djvUI/DrawUtil.h>
 #include <djvUI/Style.h>
 
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/Timer.h>
+#include <djvSystem/Context.h>
+
+#include <djvSystem/Timer.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -26,13 +27,13 @@ namespace djv
             Orientation orientation = Orientation::First;
             float handleWidth = 0.F;
             Time::Duration delay = Time::Duration::zero();
-            std::shared_ptr<Time::Timer> delayTimer;
-            Event::PointerID pressedID = Event::invalidID;
+            std::shared_ptr<System::Timer> delayTimer;
+            System::Event::PointerID pressedID = System::Event::invalidID;
             glm::vec2 pressedPos = glm::vec2(0.F, 0.F);
             glm::vec2 prevPos = glm::vec2(0.F, 0.F);
         };
 
-        void NumericSlider::_init(Orientation orientation, const std::shared_ptr<Context>& context)
+        void NumericSlider::_init(Orientation orientation, const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -46,7 +47,7 @@ namespace djv
             }
 
             p.orientation = orientation;
-            p.delayTimer = Time::Timer::create(context);
+            p.delayTimer = System::Timer::create(context);
         }
 
         NumericSlider::NumericSlider() :
@@ -91,7 +92,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const BBox2f& g = getMargin().bbox(getGeometry(), style);
+            const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
             const float m = style->getMetric(MetricsRole::MarginSmall);
             const float b = style->getMetric(MetricsRole::Border);
             const float btf = style->getMetric(MetricsRole::BorderTextFocus);
@@ -103,21 +104,21 @@ namespace djv
                 drawBorder(render, g, btf);
             }
 
-            const BBox2f g2 = g.margin(-btf);
+            const Math::BBox2f g2 = g.margin(-btf);
             if (_getPointerHover().size())
             {
                 render->setFillColor(style->getColor(ColorRole::Hovered));
                 render->drawRect(g2);
             }
 
-            const BBox2f g3 = g2.margin(-m);
+            const Math::BBox2f g3 = g2.margin(-m);
             float troughHeight = 0.F;
             switch (p.orientation)
             {
             case Orientation::Horizontal:
             {
                 troughHeight = g3.h() / 3.F;
-                const BBox2f g4 = BBox2f(
+                const Math::BBox2f g4 = Math::BBox2f(
                     g3.min.x,
                     floorf(g3.min.y + g3.h() / 2.F - troughHeight / 2.F),
                     g3.w(),
@@ -125,10 +126,10 @@ namespace djv
                 render->setFillColor(style->getColor(ColorRole::Border));
                 drawBorder(render, g4, b);
                 render->setFillColor(style->getColor(ColorRole::Trough));
-                const BBox2f g5 = g4.margin(-b);
+                const Math::BBox2f g5 = g4.margin(-b);
                 render->drawRect(g5);
                 render->setFillColor(style->getColor(ColorRole::Checked));
-                render->drawRect(BBox2f(
+                render->drawRect(Math::BBox2f(
                     g5.min.x,
                     g5.min.y,
                     ceilf((g5.w() - p.handleWidth / 2.F) * v),
@@ -138,7 +139,7 @@ namespace djv
             case Orientation::Vertical:
             {
                 troughHeight = g3.w() / 3.F;
-                const BBox2f g4 = BBox2f(
+                const Math::BBox2f g4 = Math::BBox2f(
                     floorf(g3.min.x + g3.w() / 2.F - troughHeight / 2.F),
                     g3.min.y,
                     troughHeight,
@@ -146,10 +147,10 @@ namespace djv
                 render->setFillColor(style->getColor(ColorRole::Border));
                 drawBorder(render, g4, b);
                 render->setFillColor(style->getColor(ColorRole::Trough));
-                const BBox2f g5 = g4.margin(-b);
+                const Math::BBox2f g5 = g4.margin(-b);
                 render->drawRect(g5);
                 render->setFillColor(style->getColor(ColorRole::Checked));
-                render->drawRect(BBox2f(
+                render->drawRect(Math::BBox2f(
                     g5.min.x,
                     g5.min.y,
                     g5.w(),
@@ -159,18 +160,18 @@ namespace djv
             default: break;
             }
 
-            BBox2f handleBBox;
+            Math::BBox2f handleBBox;
             switch (p.orientation)
             {
             case Orientation::Horizontal:
-                handleBBox = BBox2f(
+                handleBBox = Math::BBox2f(
                     floorf(pos - p.handleWidth / 2.F),
                     g3.min.y,
                     p.handleWidth,
                     g3.h());
                 break;
             case Orientation::Vertical:
-                handleBBox = BBox2f(
+                handleBBox = Math::BBox2f(
                     g3.min.x,
                     floorf(pos - p.handleWidth / 2.F),
                     g3.w(),
@@ -182,7 +183,7 @@ namespace djv
             render->drawRect(handleBBox);
             render->setFillColor(style->getColor(ColorRole::Button));
             render->drawRect(handleBBox.margin(-b));
-            if (p.pressedID != Event::invalidID)
+            if (p.pressedID != System::Event::invalidID)
             {
                 render->setFillColor(style->getColor(ColorRole::Pressed));
                 render->drawRect(handleBBox);
@@ -194,7 +195,7 @@ namespace djv
             }
         }
 
-        void NumericSlider::_preLayoutEvent(Event::PreLayout& event)
+        void NumericSlider::_preLayoutEvent(System::Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
@@ -213,7 +214,7 @@ namespace djv
             _setMinimumSize(size + m * 2.F + btf * 2.F + getMargin().getSize(style));
         }
 
-        void NumericSlider::_pointerEnterEvent(Event::PointerEnter& event)
+        void NumericSlider::_pointerEnterEvent(System::Event::PointerEnter& event)
         {
             if (!event.isRejected())
             {
@@ -225,7 +226,7 @@ namespace djv
             }
         }
 
-        void NumericSlider::_pointerLeaveEvent(Event::PointerLeave& event)
+        void NumericSlider::_pointerLeaveEvent(System::Event::PointerLeave& event)
         {
             event.accept();
             if (isEnabled(true))
@@ -234,7 +235,7 @@ namespace djv
             }
         }
 
-        void NumericSlider::_pointerMoveEvent(Event::PointerMove& event)
+        void NumericSlider::_pointerMoveEvent(System::Event::PointerMove& event)
         {
             DJV_PRIVATE_PTR();
             event.accept();
@@ -262,7 +263,7 @@ namespace djv
             }
         }
 
-        void NumericSlider::_buttonPressEvent(Event::ButtonPress& event)
+        void NumericSlider::_buttonPressEvent(System::Event::ButtonPress& event)
         {
             DJV_PRIVATE_PTR();
             if (p.pressedID)
@@ -292,21 +293,21 @@ namespace djv
             _redraw();
         }
 
-        void NumericSlider::_buttonReleaseEvent(Event::ButtonRelease& event)
+        void NumericSlider::_buttonReleaseEvent(System::Event::ButtonRelease& event)
         {
             DJV_PRIVATE_PTR();
             const auto& pointerInfo = event.getPointerInfo();
             if (pointerInfo.id == p.pressedID)
             {
                 event.accept();
-                p.pressedID = Event::invalidID;
+                p.pressedID = System::Event::invalidID;
                 _buttonRelease();
                 p.delayTimer->stop();
                 _redraw();
             }
         }
 
-        void NumericSlider::_keyPressEvent(Event::KeyPress& event)
+        void NumericSlider::_keyPressEvent(System::Event::KeyPress& event)
         {
             Widget::_keyPressEvent(event);
             if (!event.isAccepted() && hasTextFocus())
@@ -329,17 +330,17 @@ namespace djv
             }
         }
 
-        void NumericSlider::_textFocusEvent(Event::TextFocus&)
+        void NumericSlider::_textFocusEvent(System::Event::TextFocus&)
         {
             _redraw();
         }
 
-        void NumericSlider::_textFocusLostEvent(Event::TextFocusLost&)
+        void NumericSlider::_textFocusLostEvent(System::Event::TextFocusLost&)
         {
             _redraw();
         }
 
-        void NumericSlider::_scrollEvent(Event::Scroll& event)
+        void NumericSlider::_scrollEvent(System::Event::Scroll& event)
         {
             if (isEnabled(true))
             {
@@ -349,7 +350,7 @@ namespace djv
             }
         }
 
-        void NumericSlider::_initEvent(Event::Init& event)
+        void NumericSlider::_initEvent(System::Event::Init& event)
         {
             DJV_PRIVATE_PTR();
             if (event.getData().resize)

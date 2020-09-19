@@ -4,13 +4,15 @@
 
 #include <djvUIComponents/FileBrowserSettings.h>
 
-#include <djvAV/ImageData.h>
+#include <djvImage/ImageData.h>
+#include <djvImage/ImageDataFunc.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/FileInfoFunc.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/FileInfoFunc.h>
+#include <djvSystem/PathFunc.h>
+#include <djvSystem/TextSystem.h>
+
 #include <djvCore/OSFunc.h>
-#include <djvCore/PathFunc.h>
-#include <djvCore/TextSystem.h>
 
 #if defined(GetObject)
 #undef GetObject
@@ -37,39 +39,39 @@ namespace djv
             {
                 std::shared_ptr<ValueSubject<bool> > pathsOpen;
                 std::shared_ptr<MapSubject<std::string, bool> > pathsBellowsState;
-                std::shared_ptr<ListSubject<FileSystem::Path> > shortcuts;
-                std::shared_ptr<ListSubject<FileSystem::Path> > recentPaths;
+                std::shared_ptr<ListSubject<System::File::Path> > shortcuts;
+                std::shared_ptr<ListSubject<System::File::Path> > recentPaths;
                 std::shared_ptr<ValueSubject<ViewType> > viewType;
-                std::shared_ptr<ValueSubject<AV::Image::Size> > thumbnailSize;
+                std::shared_ptr<ValueSubject<Image::Size> > thumbnailSize;
                 std::shared_ptr<ListSubject<float> > listViewHeaderSplit;
                 std::shared_ptr<ValueSubject<bool> > fileSequences;
                 std::shared_ptr<ValueSubject<bool> > showHidden;
-                std::shared_ptr<ValueSubject<FileSystem::DirectoryListSort> > sort;
+                std::shared_ptr<ValueSubject<System::File::DirectoryListSort> > sort;
                 std::shared_ptr<ValueSubject<bool> > reverseSort;
                 std::shared_ptr<ValueSubject<bool> > sortDirectoriesFirst;
                 std::shared_ptr<MapSubject<std::string, ShortcutDataPair> > keyShortcuts;
             };
 
-            void FileBrowser::_init(const std::shared_ptr<Context>& context)
+            void FileBrowser::_init(const std::shared_ptr<System::Context>& context)
             {
                 ISettings::_init("djv::UI::Settings::FileBrowser", context);
                 
                 DJV_PRIVATE_PTR();
                 p.pathsOpen = ValueSubject<bool>::create();
                 p.pathsBellowsState = MapSubject<std::string, bool>::create();
-                p.shortcuts = ListSubject<FileSystem::Path>::create();
-                for (size_t i = 0; i < static_cast<size_t>(OS::DirectoryShortcut::Count); ++i)
+                p.shortcuts = ListSubject<System::File::Path>::create();
+                for (size_t i = 0; i < static_cast<size_t>(System::File::DirectoryShortcut::Count); ++i)
                 {
-                    const auto shortcut = OS::getPath(static_cast<OS::DirectoryShortcut>(i));
+                    const auto shortcut = System::File::getPath(static_cast<System::File::DirectoryShortcut>(i));
                     p.shortcuts->pushBack(shortcut);
                 }
-                p.recentPaths = ListSubject<FileSystem::Path>::create();
+                p.recentPaths = ListSubject<System::File::Path>::create();
                 p.viewType = ValueSubject<ViewType>::create(ViewType::Tiles);
-                p.thumbnailSize = ValueSubject<AV::Image::Size>::create(AV::Image::Size(200, 100));
+                p.thumbnailSize = ValueSubject<Image::Size>::create(Image::Size(200, 100));
                 p.listViewHeaderSplit = ListSubject<float>::create({ .7F, .8F, 1.F });
                 p.fileSequences = ValueSubject<bool>::create(true);
                 p.showHidden = ValueSubject<bool>::create(false);
-                p.sort = ValueSubject<FileSystem::DirectoryListSort>::create(FileSystem::DirectoryListSort::Name);
+                p.sort = ValueSubject<System::File::DirectoryListSort>::create(System::File::DirectoryListSort::Name);
                 p.reverseSort = ValueSubject<bool>::create(false);
                 p.sortDirectoriesFirst = ValueSubject<bool>::create(true);
                 p.keyShortcuts = MapSubject<std::string, ShortcutDataPair>::create({
@@ -99,7 +101,7 @@ namespace djv
             FileBrowser::~FileBrowser()
             {}
 
-            std::shared_ptr<FileBrowser> FileBrowser::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<FileBrowser> FileBrowser::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<FileBrowser>(new FileBrowser);
                 out->_init(context);
@@ -126,22 +128,22 @@ namespace djv
                 _p->pathsBellowsState->setIfChanged(value);
             }
 
-            std::shared_ptr<IListSubject<FileSystem::Path> > FileBrowser::observeShortcuts() const
+            std::shared_ptr<IListSubject<System::File::Path> > FileBrowser::observeShortcuts() const
             {
                 return _p->shortcuts;
             }
 
-            void FileBrowser::setShortcuts(const std::vector<FileSystem::Path>& value)
+            void FileBrowser::setShortcuts(const std::vector<System::File::Path>& value)
             {
                 _p->shortcuts->setIfChanged(value);
             }
 
-            std::shared_ptr<IListSubject<FileSystem::Path> > FileBrowser::observeRecentPaths() const
+            std::shared_ptr<IListSubject<System::File::Path> > FileBrowser::observeRecentPaths() const
             {
                 return _p->recentPaths;
             }
 
-            void FileBrowser::setRecentPaths(const std::vector<FileSystem::Path>& value)
+            void FileBrowser::setRecentPaths(const std::vector<System::File::Path>& value)
             {
                 _p->recentPaths->setIfChanged(value);
             }
@@ -156,12 +158,12 @@ namespace djv
                 _p->viewType->setIfChanged(value);
             }
 
-            std::shared_ptr<IValueSubject<AV::Image::Size> > FileBrowser::observeThumbnailSize() const
+            std::shared_ptr<IValueSubject<Image::Size> > FileBrowser::observeThumbnailSize() const
             {
                 return _p->thumbnailSize;
             }
 
-            void FileBrowser::setThumbnailSize(const AV::Image::Size& value)
+            void FileBrowser::setThumbnailSize(const Image::Size& value)
             {
                 _p->thumbnailSize->setIfChanged(value);
             }
@@ -196,12 +198,12 @@ namespace djv
                 _p->showHidden->setIfChanged(value);
             }
 
-            std::shared_ptr<IValueSubject<FileSystem::DirectoryListSort> > FileBrowser::observeSort() const
+            std::shared_ptr<IValueSubject<System::File::DirectoryListSort> > FileBrowser::observeSort() const
             {
                 return _p->sort;
             }
 
-            void FileBrowser::setSort(FileSystem::DirectoryListSort value)
+            void FileBrowser::setSort(System::File::DirectoryListSort value)
             {
                 _p->sort->setIfChanged(value);
             }

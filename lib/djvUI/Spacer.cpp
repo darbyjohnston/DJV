@@ -21,7 +21,7 @@ namespace djv
                 MetricsRole spacerOppositeSize = MetricsRole::None;
             };
 
-            void Spacer::_init(const std::shared_ptr<Context>& context)
+            void Spacer::_init(const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
                 setClassName("djv::UI::Layout::Spacer");
@@ -34,7 +34,7 @@ namespace djv
             Spacer::~Spacer()
             {}
 
-            std::shared_ptr<Spacer> Spacer::create(Orientation orientation, const std::shared_ptr<Context>& context)
+            std::shared_ptr<Spacer> Spacer::create(Orientation orientation, const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<Spacer>(new Spacer);
                 out->_init(context);
@@ -84,7 +84,7 @@ namespace djv
                 _resize();
             }
 
-            void Spacer::_preLayoutEvent(Event::PreLayout& event)
+            void Spacer::_preLayoutEvent(System::Event::PreLayout& event)
             {
                 glm::vec2 minimumSize = glm::vec2(0.F, 0.F);
                 DJV_PRIVATE_PTR();
@@ -107,7 +107,7 @@ namespace djv
             HorizontalSpacer::HorizontalSpacer()
             {}
 
-            std::shared_ptr<HorizontalSpacer> HorizontalSpacer::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<HorizontalSpacer> HorizontalSpacer::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<HorizontalSpacer>(new HorizontalSpacer);
                 out->_init(context);
@@ -118,7 +118,7 @@ namespace djv
             VerticalSpacer::VerticalSpacer()
             {}
 
-            std::shared_ptr<VerticalSpacer> VerticalSpacer::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<VerticalSpacer> VerticalSpacer::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<VerticalSpacer>(new VerticalSpacer);
                 out->_init(context);

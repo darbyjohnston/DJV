@@ -6,10 +6,12 @@
 
 #include <djvUI/Enum.h>
 
-#include <djvAV/Color.h>
-#include <djvAV/FontSystem.h>
+#include <djvRender2D/FontSystem.h>
 
-#include <djvCore/BBox.h>
+#include <djvImage/Color.h>
+
+#include <djvMath/BBox.h>
+
 #include <djvCore/MapObserver.h>
 #include <djvCore/RapidJSONFunc.h>
 #include <djvCore/ValueObserver.h>
@@ -32,8 +34,8 @@ namespace djv
             public:
                 Palette();
 
-                const AV::Image::Color& getColor(ColorRole) const;
-                void setColor(ColorRole, const AV::Image::Color&);
+                const Image::Color& getColor(ColorRole) const;
+                void setColor(ColorRole, const Image::Color&);
 
                 float getDisabledMult() const;
                 void setDisabledMult(float);
@@ -41,7 +43,7 @@ namespace djv
                 bool operator == (const Palette&) const;
 
             private:
-                std::map<ColorRole, AV::Image::Color> _colors;
+                std::map<ColorRole, Image::Color> _colors;
                 float _disabledMult = .65F;
             };
 
@@ -64,18 +66,18 @@ namespace djv
             class Style : public std::enable_shared_from_this<Style>
             {
                 DJV_NON_COPYABLE(Style);
-                void _init(const std::shared_ptr<Core::Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 Style();
 
             public:
                 //! Create a new style.
-                static std::shared_ptr<Style> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<Style> create(const std::shared_ptr<System::Context>&);
 
                 //! \name Color Palette
                 ///@{
 
                 const Palette& getPalette() const;
-                AV::Image::Color getColor(ColorRole) const;
+                Image::Color getColor(ColorRole) const;
                 float getBrightness() const;
                 float getContrast() const;
 
@@ -104,8 +106,8 @@ namespace djv
                 const std::string getFont() const;
                 void setFont(const std::string&);
 
-                AV::Font::FontInfo getFontInfo(const std::string& family, const std::string& face, MetricsRole) const;
-                AV::Font::FontInfo getFontInfo(const std::string& face, MetricsRole) const;
+                Render2D::Font::FontInfo getFontInfo(const std::string& family, const std::string& face, MetricsRole) const;
+                Render2D::Font::FontInfo getFontInfo(const std::string& face, MetricsRole) const;
 
                 ///@}
 
@@ -118,20 +120,20 @@ namespace djv
                 Palette _palette;
                 float _brightness = 1.F;
                 float _contrast = 1.F;
-                glm::vec2 _dpi = glm::vec2(AV::dpiDefault, AV::dpiDefault);
+                glm::vec2 _dpi = glm::vec2(Render2D::dpiDefault, Render2D::dpiDefault);
                 Metrics _metrics;
-                std::string _font = AV::Font::familyDefault;
-                std::map<AV::Font::FamilyID, std::string> _fontNames;
-                std::map<std::string, AV::Font::FamilyID> _fontNameToId;
-                std::map<AV::Font::FamilyID, std::map<AV::Font::FaceID, std::string> > _fontFaces;
-                std::map<std::pair<AV::Font::FamilyID, std::string>, AV::Font::FaceID> _fontFaceToId;
+                std::string _font = Render2D::Font::familyDefault;
+                std::map<Render2D::Font::FamilyID, std::string> _fontNames;
+                std::map<std::string, Render2D::Font::FamilyID> _fontNameToId;
+                std::map<Render2D::Font::FamilyID, std::map<Render2D::Font::FaceID, std::string> > _fontFaces;
+                std::map<std::pair<Render2D::Font::FamilyID, std::string>, Render2D::Font::FaceID> _fontFaceToId;
                 std::shared_ptr<Core::ValueObserver<UI::Style::Palette> > _paletteObserver;
                 std::shared_ptr<Core::ValueObserver<float> > _brightnessObserver;
                 std::shared_ptr<Core::ValueObserver<float> > _contrastObserver;
                 std::shared_ptr<Core::ValueObserver<UI::Style::Metrics> > _metricsObserver;
                 std::shared_ptr<Core::ValueObserver<std::string> > _fontObserver;
-                std::shared_ptr<Core::MapObserver<AV::Font::FamilyID, std::string> > _fontNamesObserver;
-                std::shared_ptr<Core::MapObserver<AV::Font::FamilyID, std::map<AV::Font::FaceID, std::string> > > _fontFacesObserver;
+                std::shared_ptr<Core::MapObserver<Render2D::Font::FamilyID, std::string> > _fontNamesObserver;
+                std::shared_ptr<Core::MapObserver<Render2D::Font::FamilyID, std::map<Render2D::Font::FaceID, std::string> > > _fontFacesObserver;
                 bool _paletteDirty = true;
                 bool _sizeDirty = true;
                 bool _fontDirty = true;

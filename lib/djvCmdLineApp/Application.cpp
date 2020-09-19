@@ -8,23 +8,20 @@
 #include <djvScene/SceneSystem.h>
 
 #include <djvAV/AVSystem.h>
-#include <djvAV/AudioSystem.h>
-#include <djvAV/FontSystem.h>
-#include <djvAV/GLFWSystem.h>
-#include <djvAV/IO.h>
-#include <djvAV/OpenGL.h>
-#include <djvAV/Render2D.h>
-#include <djvAV/OCIOSystem.h>
+#include <djvAV/TimeFunc.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/LogSystem.h>
+#include <djvSystem/ResourceSystem.h>
+#include <djvSystem/TextSystem.h>
+
 #include <djvCore/ErrorFunc.h>
-#include <djvCore/LogSystem.h>
 #include <djvCore/OS.h>
-#include <djvCore/ResourceSystem.h>
 #include <djvCore/StringFormat.h>
 #include <djvCore/StringFunc.h>
-#include <djvCore/TextSystem.h>
-#include <djvCore/TimeFunc.h>
+
+#include <iostream>
+#include <sstream>
 
 using namespace djv::Core;
 
@@ -56,7 +53,7 @@ namespace djv
             Context::_init(argv0);
 
             // Parse the command line.
-            auto logSystem = getSystemT<LogSystem>();
+            auto logSystem = getSystemT<System::LogSystem>();
             {
                 std::stringstream ss;
                 ss << "Command line arguments: " << String::joinList(args, ' ');
@@ -84,7 +81,6 @@ namespace djv
             }
 
             // Create the systems.
-            auto avSystem = AV::AVSystem::create(shared_from_this());
             auto sceneSystem = Scene::SceneSystem::create(shared_from_this());
         }
 
@@ -157,7 +153,7 @@ namespace djv
 
         void Application::_parseCmdLine(std::list<std::string>& args)
         {
-            auto textSystem = getSystemT<Core::TextSystem>();
+            auto textSystem = getSystemT<System::TextSystem>();
             auto arg = args.begin();
             while (arg != args.end())
             {
@@ -170,7 +166,7 @@ namespace djv
                             arg("-time_units").
                             arg(textSystem->getText(DJV_TEXT("error_cannot_parse_argument"))));
                     }
-                    Time::Units value = Time::Units::First;
+                    AV::Time::Units value = AV::Time::Units::First;
                     std::string s = textSystem->getID(*arg);
                     std::stringstream ss(s);
                     ss >> value;
@@ -194,14 +190,14 @@ namespace djv
 
         void Application::_printUsage()
         {
-            auto textSystem = getSystemT<Core::TextSystem>();
+            auto textSystem = getSystemT<System::TextSystem>();
             std::cout << " " << textSystem->getText(DJV_TEXT("cli_general_options")) << std::endl;
             std::cout << std::endl;
             std::cout << "   " << textSystem->getText(DJV_TEXT("cli_option_time_units")) << std::endl;
             {
                 std::vector<std::string> options;
                 std::string value;
-                for (auto i : Time::getUnitsEnums())
+                for (auto i : AV::Time::getUnitsEnums())
                 {
                     std::stringstream ss;
                     ss << i;

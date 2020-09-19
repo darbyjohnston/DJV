@@ -5,7 +5,16 @@ add_executable(djvTest ${header} ${source})
 set(libraries
     ${libraries}
     djvAVTest
+    djvAudioTest
     djvCoreTest
+    djvMathTest
+    djvImageTest
+    djvGLTest
+    djvGeomTest
+    djvOCIOTest
+    djvRender2DTest
+    djvRender3DTest
+    djvSystemTest
     djvUITest)
 if(NOT DJV_BUILD_TINY AND NOT DJV_BUILD_MINIMAL)
     set(libraries

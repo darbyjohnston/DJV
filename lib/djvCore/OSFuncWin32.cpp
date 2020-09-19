@@ -4,7 +4,6 @@
 
 #include <djvCore/OSFunc.h>
 
-#include <djvCore/FileInfo.h>
 #include <djvCore/Memory.h>
 #include <djvCore/String.h>
 
@@ -15,8 +14,6 @@
 #define NOMINMAX
 #endif // NOMINMAX
 #include <windows.h>
-#include <Shlobj.h>
-#include <shellapi.h>
 #include <stdlib.h>
 #include <VersionHelpers.h>
 
@@ -152,30 +149,6 @@ namespace djv
             {
                 std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
                 return _wputenv_s(utf16.from_bytes(name).c_str(), utf16.from_bytes(std::string()).c_str()) == 0;
-            }
-
-            FileSystem::Path getPath(DirectoryShortcut value)
-            {
-                FileSystem::Path out;
-                KNOWNFOLDERID id;
-                memset(&id, 0, sizeof(KNOWNFOLDERID));
-                switch (value)
-                {
-                case DirectoryShortcut::Home:      id = FOLDERID_Profile;   break;
-                case DirectoryShortcut::Desktop:   id = FOLDERID_Desktop;   break;
-                case DirectoryShortcut::Documents: id = FOLDERID_Documents; break;
-                case DirectoryShortcut::Downloads: id = FOLDERID_Downloads; break;
-                default: break;
-                }
-                wchar_t * path = nullptr;
-                HRESULT result = SHGetKnownFolderPath(id, 0, NULL, &path);
-                if (S_OK == result && path)
-                {
-                    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
-                    out = FileSystem::Path(utf16.to_bytes(path));
-                }
-                CoTaskMemFree(path);
-                return out;
             }
 
             void openURL(const std::string& value)

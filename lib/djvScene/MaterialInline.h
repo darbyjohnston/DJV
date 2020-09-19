@@ -15,22 +15,22 @@ namespace djv
         inline DefaultMaterial::DefaultMaterial()
         {}
 
-        inline const AV::Image::Color& DefaultMaterial::getAmbient() const
+        inline const Image::Color& DefaultMaterial::getAmbient() const
         {
             return _ambient;
         }
 
-        inline const AV::Image::Color& DefaultMaterial::getDiffuse() const
+        inline const Image::Color& DefaultMaterial::getDiffuse() const
         {
             return _diffuse;
         }
 
-        inline const AV::Image::Color& DefaultMaterial::getEmission() const
+        inline const Image::Color& DefaultMaterial::getEmission() const
         {
             return _emission;
         }
 
-        inline const AV::Image::Color& DefaultMaterial::getSpecular() const
+        inline const Image::Color& DefaultMaterial::getSpecular() const
         {
             return _specular;
         }
@@ -55,22 +55,22 @@ namespace djv
             return _disableLighting;
         }
 
-        inline void DefaultMaterial::setAmbient(const AV::Image::Color& value)
+        inline void DefaultMaterial::setAmbient(const Image::Color& value)
         {
             _ambient = value;
         }
 
-        inline void DefaultMaterial::setDiffuse(const AV::Image::Color& value)
+        inline void DefaultMaterial::setDiffuse(const Image::Color& value)
         {
             _diffuse = value;
         }
 
-        inline void DefaultMaterial::setEmission(const AV::Image::Color& value)
+        inline void DefaultMaterial::setEmission(const Image::Color& value)
         {
             _emission = value;
         }
 
-        inline void DefaultMaterial::setSpecular(const AV::Image::Color& value)
+        inline void DefaultMaterial::setSpecular(const Image::Color& value)
         {
             _specular = value;
         }

@@ -19,8 +19,8 @@ namespace djv
     namespace AVTest
     {
         OpenEXRTest::OpenEXRTest(
-            const FileSystem::Path& tempPath,
-            const std::shared_ptr<Context>& context) :
+            const System::File::Path& tempPath,
+            const std::shared_ptr<System::Context>& context) :
             ITest("djv::AVTest::OpenEXRTest", tempPath, context)
         {}
         
@@ -272,7 +272,7 @@ namespace djv
                 header.insert("box2i", Imf::Box2iAttribute(box2i));
                 
                 Math::Rational speed;
-                Tags tags;
+                Image::Tags tags;
                 OpenEXR::readTags(header, tags, speed);
                 
                 DJV_ASSERT(tags.contains("box2i"));

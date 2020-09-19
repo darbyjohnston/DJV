@@ -6,11 +6,11 @@
 
 #include <djvUI/Widget.h>
 
-#include <djvCore/Range.h>
+#include <djvMath/Range.h>
 
 namespace djv
 {
-    namespace Core
+    namespace Math
     {
         class IntValueModel;
 
@@ -24,22 +24,22 @@ namespace djv
             DJV_NON_COPYABLE(IntLabel);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             IntLabel();
 
         public:
             ~IntLabel() override;
 
-            static std::shared_ptr<IntLabel> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<IntLabel> create(const std::shared_ptr<System::Context>&);
 
-            const std::shared_ptr<Core::IntValueModel>& getModel() const;
-            void setModel(const std::shared_ptr<Core::IntValueModel>&);
+            const std::shared_ptr<Math::IntValueModel>& getModel() const;
+            void setModel(const std::shared_ptr<Math::IntValueModel>&);
 
-            static std::string getSizeString(const Core::IntRange&);
+            static std::string getSizeString(const Math::IntRange&);
             
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
 
         private:
             void _textUpdate();

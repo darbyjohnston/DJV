@@ -10,8 +10,9 @@
 #include <djvAV/IOSystem.h>
 #include <djvAV/JPEG.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/NumericValueModels.h>
+#include <djvSystem/Context.h>
+
+#include <djvMath/NumericValueModels.h>
 
 using namespace djv::Core;
 
@@ -25,7 +26,7 @@ namespace djv
             std::shared_ptr<FormLayout> layout;
         };
 
-        void JPEGSettingsWidget::_init(const std::shared_ptr<Context>& context)
+        void JPEGSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -33,7 +34,7 @@ namespace djv
             setClassName("djv::UI::JPEGSettingsWidget");
 
             p.qualitySlider = IntSlider::create(context);
-            p.qualitySlider->setRange(IntRange(0, 100));
+            p.qualitySlider->setRange(Math::IntRange(0, 100));
 
             p.layout = FormLayout::create(context);
             p.layout->addChild(p.qualitySlider);
@@ -42,7 +43,7 @@ namespace djv
             _widgetUpdate();
 
             auto weak = std::weak_ptr<JPEGSettingsWidget>(std::dynamic_pointer_cast<JPEGSettingsWidget>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.qualitySlider->setValueCallback(
                 [weak, contextWeak](int value)
                 {
@@ -50,7 +51,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            auto io = context->getSystemT<AV::IO::System>();
+                            auto io = context->getSystemT<AV::IO::IOSystem>();
                             AV::IO::JPEG::Options options;
                             rapidjson::Document document;
                             auto& allocator = document.GetAllocator();
@@ -66,7 +67,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<JPEGSettingsWidget> JPEGSettingsWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<JPEGSettingsWidget> JPEGSettingsWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<JPEGSettingsWidget>(new JPEGSettingsWidget);
             out->_init(context);
@@ -93,7 +94,7 @@ namespace djv
             _p->layout->setLabelSizeGroup(value);
         }
 
-        void JPEGSettingsWidget::_initEvent(Event::Init & event)
+        void JPEGSettingsWidget::_initEvent(System::Event::Init & event)
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
@@ -108,7 +109,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                auto io = context->getSystemT<AV::IO::System>();
+                auto io = context->getSystemT<AV::IO::IOSystem>();
                 AV::IO::JPEG::Options options;
                 rapidjson::Document document;
                 auto& allocator = document.GetAllocator();

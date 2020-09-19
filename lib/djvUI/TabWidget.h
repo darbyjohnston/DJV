@@ -16,13 +16,13 @@ namespace djv
             DJV_NON_COPYABLE(TabWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             TabWidget();
 
         public:
             ~TabWidget() override;
 
-            static std::shared_ptr<TabWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<TabWidget> create(const std::shared_ptr<System::Context>&);
             
             void setText(const std::shared_ptr<Widget>&, const std::string&);
 
@@ -38,8 +38,8 @@ namespace djv
             void clearChildren() override;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
 
         private:
             void _widgetUpdate();

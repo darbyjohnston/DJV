@@ -6,7 +6,7 @@
 
 #include <djvAV/SequenceIO.h>
 
-#include <djvCore/BBox.h>
+#include <djvMath/BBox.h>
 
 #include <ImathBox.h>
 #include <ImfChannelList.h>
@@ -102,15 +102,15 @@ namespace djv
                 std::vector<Layer> getLayers(const Imf::ChannelList&, Channels);
 
                 //! Read the tags from an Imf header.
-                void readTags(const Imf::Header&, Tags&, Core::Math::Rational&);
+                void readTags(const Imf::Header&, Image::Tags&, Math::Rational&);
 
                 //! Write tags to an Imf header.
                 //!
                 //! \todo Write all the tags that are handled by readTags().
-                void writeTags(const Tags&, const Core::Math::Rational& speed, Imf::Header&);
+                void writeTags(const Image::Tags&, const Math::Rational& speed, Imf::Header&);
 
                 //! Convert an Imath box type.
-                Core::BBox2i fromImath(const Imath::Box2i&);
+                Math::BBox2i fromImath(const Imath::Box2i&);
 
                 //! Convert to an Imf pixel type.
                 Imf::PixelType toImf(Image::DataType);
@@ -163,12 +163,12 @@ namespace djv
                     ~Read() override;
 
                     static std::shared_ptr<Read> create(
-                        const Core::FileSystem::FileInfo&,
+                        const System::File::Info&,
                         const ReadOptions&,
                         const Options&,
-                        const std::shared_ptr<Core::TextSystem>&,
-                        const std::shared_ptr<Core::ResourceSystem>&,
-                        const std::shared_ptr<Core::LogSystem>&);
+                        const std::shared_ptr<System::TextSystem>&,
+                        const std::shared_ptr<System::ResourceSystem>&,
+                        const std::shared_ptr<System::LogSystem>&);
 
                 protected:
                     Info _readInfo(const std::string& fileName) override;
@@ -193,13 +193,13 @@ namespace djv
                     ~Write() override;
 
                     static std::shared_ptr<Write> create(
-                        const Core::FileSystem::FileInfo&,
+                        const System::File::Info&,
                         const Info&,
                         const WriteOptions&,
                         const Options&,
-                        const std::shared_ptr<Core::TextSystem>&,
-                        const std::shared_ptr<Core::ResourceSystem>&,
-                        const std::shared_ptr<Core::LogSystem>&);
+                        const std::shared_ptr<System::TextSystem>&,
+                        const std::shared_ptr<System::ResourceSystem>&,
+                        const std::shared_ptr<System::LogSystem>&);
 
                 protected:
                     Image::Type _getImageType(Image::Type) const override;
@@ -219,13 +219,13 @@ namespace djv
                     Plugin();
 
                 public:
-                    static std::shared_ptr<Plugin> create(const std::shared_ptr<Core::Context>&);
+                    static std::shared_ptr<Plugin> create(const std::shared_ptr<System::Context>&);
 
                     rapidjson::Value getOptions(rapidjson::Document::AllocatorType&) const override;
                     void setOptions(const rapidjson::Value&) override;
 
-                    std::shared_ptr<IRead> read(const Core::FileSystem::FileInfo&, const ReadOptions&) const override;
-                    std::shared_ptr<IWrite> write(const Core::FileSystem::FileInfo&, const Info&, const WriteOptions&) const override;
+                    std::shared_ptr<IRead> read(const System::File::Info&, const ReadOptions&) const override;
+                    std::shared_ptr<IWrite> write(const System::File::Info&, const Info&, const WriteOptions&) const override;
 
                 private:
                     DJV_PRIVATE();

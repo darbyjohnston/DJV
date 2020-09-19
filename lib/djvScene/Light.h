@@ -46,19 +46,19 @@ namespace djv
             static std::shared_ptr<HemisphereLight> create();
 
             const glm::vec3& getUp() const;
-            const AV::Image::Color& getTopColor() const;
-            const AV::Image::Color& getBottomColor() const;
+            const Image::Color& getTopColor() const;
+            const Image::Color& getBottomColor() const;
 
             void setUp(const glm::vec3&);
-            void setTopColor(const AV::Image::Color&);
-            void setBottomColor(const AV::Image::Color&);
+            void setTopColor(const Image::Color&);
+            void setBottomColor(const Image::Color&);
 
             std::string getClassName() const override;
 
         private:
             glm::vec3 _up = glm::vec3(0.F, 1.F, 0.F);
-            AV::Image::Color _topColor = AV::Image::Color::RGB_F32(1.F, 1.F, 1.F);
-            AV::Image::Color _bottomColor = AV::Image::Color::RGB_F32(.4F, .4F, .8F);
+            Image::Color _topColor = Image::Color::RGB_F32(1.F, 1.F, 1.F);
+            Image::Color _bottomColor = Image::Color::RGB_F32(.4F, .4F, .8F);
         };
 
         //! This class provides a directional light.

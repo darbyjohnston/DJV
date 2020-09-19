@@ -15,9 +15,9 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 
-#include <djvAV/OCIOSystem.h>
+#include <djvOCIO/OCIOSystem.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -27,11 +27,11 @@ namespace djv
     {
         struct ColorSpaceWidget::Private
         {
-            AV::OCIO::ConfigMode configMode = AV::OCIO::ConfigMode::First;
-            AV::OCIO::Config envConfig;
-            AV::OCIO::Config cmdLineConfig;
-            AV::OCIO::UserConfigs userConfigs;
-            AV::OCIO::Config currentConfig;
+            OCIO::ConfigMode configMode = OCIO::ConfigMode::First;
+            OCIO::Config envConfig;
+            OCIO::Config cmdLineConfig;
+            OCIO::UserConfigs userConfigs;
+            OCIO::Config currentConfig;
 
             std::shared_ptr<UI::ComboBox> configModeComboBox;
             std::shared_ptr<UI::PopupButton> configPopupButton;
@@ -43,14 +43,14 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Bellows> > bellows;
             std::shared_ptr<UI::ScrollWidget> scrollWidget;
 
-            std::shared_ptr<ValueObserver<AV::OCIO::ConfigMode> > configModeObserver;
-            std::shared_ptr<ValueObserver<AV::OCIO::Config> > envConfigObserver;
-            std::shared_ptr<ValueObserver<AV::OCIO::Config> > cmdLineConfigObserver;
-            std::shared_ptr<ValueObserver<AV::OCIO::UserConfigs> > userConfigsObserver;
-            std::shared_ptr<ValueObserver<AV::OCIO::Config> > currentConfigObserver;
+            std::shared_ptr<ValueObserver<OCIO::ConfigMode> > configModeObserver;
+            std::shared_ptr<ValueObserver<OCIO::Config> > envConfigObserver;
+            std::shared_ptr<ValueObserver<OCIO::Config> > cmdLineConfigObserver;
+            std::shared_ptr<ValueObserver<OCIO::UserConfigs> > userConfigsObserver;
+            std::shared_ptr<ValueObserver<OCIO::Config> > currentConfigObserver;
         };
 
-        void ColorSpaceWidget::_init(const std::shared_ptr<Core::Context>& context)
+        void ColorSpaceWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             MDIWidget::_init(context);
             DJV_PRIVATE_PTR();
@@ -97,14 +97,14 @@ namespace djv
             p.scrollWidget->addChild(vLayout);
             addChild(p.scrollWidget);
 
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.configModeComboBox->setCallback(
                 [contextWeak](int value)
                 {
                     if (auto context = contextWeak.lock())
                     {
-                        auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-                        ocioSystem->setConfigMode(static_cast<AV::OCIO::ConfigMode>(value));
+                        auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
+                        ocioSystem->setConfigMode(static_cast<OCIO::ConfigMode>(value));
                     }
                 });
 
@@ -141,11 +141,11 @@ namespace djv
                     return out;
                 });
 
-            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+            auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
             auto weak = std::weak_ptr<ColorSpaceWidget>(std::dynamic_pointer_cast<ColorSpaceWidget>(shared_from_this()));
-            p.configModeObserver = ValueObserver<AV::OCIO::ConfigMode>::create(
+            p.configModeObserver = ValueObserver<OCIO::ConfigMode>::create(
                 ocioSystem->observeConfigMode(),
-                [weak](const AV::OCIO::ConfigMode& value)
+                [weak](const OCIO::ConfigMode& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -154,9 +154,9 @@ namespace djv
                     }
                 });
 
-            p.envConfigObserver = ValueObserver<AV::OCIO::Config>::create(
+            p.envConfigObserver = ValueObserver<OCIO::Config>::create(
                 ocioSystem->observeEnvConfig(),
-                [weak](const AV::OCIO::Config& value)
+                [weak](const OCIO::Config& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -165,9 +165,9 @@ namespace djv
                     }
                 });
 
-            p.cmdLineConfigObserver = ValueObserver<AV::OCIO::Config>::create(
+            p.cmdLineConfigObserver = ValueObserver<OCIO::Config>::create(
                 ocioSystem->observeCmdLineConfig(),
-                [weak](const AV::OCIO::Config& value)
+                [weak](const OCIO::Config& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -176,9 +176,9 @@ namespace djv
                     }
                 });
 
-            p.userConfigsObserver = ValueObserver<AV::OCIO::UserConfigs>::create(
+            p.userConfigsObserver = ValueObserver<OCIO::UserConfigs>::create(
                 ocioSystem->observeUserConfigs(),
-                [weak](const AV::OCIO::UserConfigs& value)
+                [weak](const OCIO::UserConfigs& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -187,9 +187,9 @@ namespace djv
                     }
                 });
 
-            p.currentConfigObserver = ValueObserver<AV::OCIO::Config>::create(
+            p.currentConfigObserver = ValueObserver<OCIO::Config>::create(
                 ocioSystem->observeCurrentConfig(),
-                [weak](const AV::OCIO::Config& value)
+                [weak](const OCIO::Config& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -206,7 +206,7 @@ namespace djv
         ColorSpaceWidget::~ColorSpaceWidget()
         {}
 
-        std::shared_ptr<ColorSpaceWidget> ColorSpaceWidget::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<ColorSpaceWidget> ColorSpaceWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ColorSpaceWidget>(new ColorSpaceWidget);
             out->_init(context);
@@ -237,12 +237,12 @@ namespace djv
             }
         }
 
-        void ColorSpaceWidget::_initLayoutEvent(Event::InitLayout&)
+        void ColorSpaceWidget::_initLayoutEvent(System::Event::InitLayout&)
         {
             _p->sizeGroup->calcMinimumSize();
         }
 
-        void ColorSpaceWidget::_initEvent(Event::Init & event)
+        void ColorSpaceWidget::_initEvent(System::Event::Init & event)
         {
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
@@ -264,7 +264,7 @@ namespace djv
             if (auto context = getContext().lock())
             {
                 std::vector<std::shared_ptr<UI::Action> > items;
-                for (const auto& i : AV::OCIO::getConfigModeEnums())
+                for (const auto& i : OCIO::getConfigModeEnums())
                 {
                     auto action = UI::Action::create();
                     std::stringstream ss;
@@ -272,24 +272,24 @@ namespace djv
                     action->setText(_getText(DJV_TEXT(ss.str())));
                     items.push_back(action);
                 }
-                items[static_cast<int>(AV::OCIO::ConfigMode::Env)]->setEnabled(p.envConfig.isValid());
-                items[static_cast<int>(AV::OCIO::ConfigMode::CmdLine)]->setEnabled(p.cmdLineConfig.isValid());
+                items[static_cast<int>(OCIO::ConfigMode::Env)]->setEnabled(p.envConfig.isValid());
+                items[static_cast<int>(OCIO::ConfigMode::CmdLine)]->setEnabled(p.cmdLineConfig.isValid());
                 p.configModeComboBox->setItems(items);
                 p.configModeComboBox->setCurrentItem(static_cast<int>(p.configMode));
 
                 std::string text;
                 switch (p.configMode)
                 {
-                case AV::OCIO::ConfigMode::None:
-                case AV::OCIO::ConfigMode::Env:
-                case AV::OCIO::ConfigMode::CmdLine:
+                case OCIO::ConfigMode::None:
+                case OCIO::ConfigMode::Env:
+                case OCIO::ConfigMode::CmdLine:
                 {
                     std::stringstream ss;
                     ss << p.configMode;
                     text = _getText(ss.str());
                     break;
                 }
-                case AV::OCIO::ConfigMode::User:
+                case OCIO::ConfigMode::User:
                     text = p.userConfigs.second >= 0 &&
                         p.userConfigs.second < static_cast<int>(p.userConfigs.first.size()) ?
                         p.userConfigs.first[p.userConfigs.second].name :

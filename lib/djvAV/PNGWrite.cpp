@@ -4,12 +4,14 @@
 
 #include <djvAV/PNG.h>
 
-#include <djvCore/FileIO.h>
-#include <djvCore/FileSystemFunc.h>
-#include <djvCore/LogSystem.h>
+#include <djvSystem/File.h>
+#include <djvSystem/FileFunc.h>
+#include <djvSystem/FileIO.h>
+#include <djvSystem/LogSystem.h>
+#include <djvSystem/TextSystem.h>
+
 #include <djvCore/StringFormat.h>
 #include <djvCore/StringFunc.h>
-#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -35,12 +37,12 @@ namespace djv
                 }
 
                 std::shared_ptr<Write> Write::create(
-                    const FileSystem::FileInfo& fileInfo,
+                    const System::File::Info& fileInfo,
                     const Info& info,
                     const WriteOptions& writeOptions,
-                    const std::shared_ptr<TextSystem>& textSystem,
-                    const std::shared_ptr<ResourceSystem>& resourceSystem,
-                    const std::shared_ptr<LogSystem>& logSystem)
+                    const std::shared_ptr<System::TextSystem>& textSystem,
+                    const std::shared_ptr<System::ResourceSystem>& resourceSystem,
+                    const std::shared_ptr<System::LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Write>(new Write);
                     out->_init(fileInfo, info, writeOptions, textSystem, resourceSystem, logSystem);
@@ -87,7 +89,7 @@ namespace djv
 
                         bool open(const std::string& fileName)
                         {
-                            f = FileSystem::fopen(fileName.c_str(), "wb");
+                            f = System::File::fopen(fileName.c_str(), "wb");
                             return f;
                         }
 
@@ -117,13 +119,13 @@ namespace djv
                         int colorType = 0;
                         switch (info.getGLFormat())
                         {
-#if defined(DJV_OPENGL_ES2)
+#if defined(DJV_GL_ES2)
                         case GL_LUMINANCE:       colorType = PNG_COLOR_TYPE_GRAY;       break;
                         case GL_LUMINANCE_ALPHA: colorType = PNG_COLOR_TYPE_GRAY_ALPHA; break;
-#else // DJV_OPENGL_ES2
+#else // DJV_GL_ES2
                         case GL_RED:             colorType = PNG_COLOR_TYPE_GRAY;       break;
                         case GL_RG:              colorType = PNG_COLOR_TYPE_GRAY_ALPHA; break;
-#endif // DJV_OPENGL_ES2
+#endif // DJV_GL_ES2
                         case GL_RGB:             colorType = PNG_COLOR_TYPE_RGB;        break;
                         case GL_RGBA:            colorType = PNG_COLOR_TYPE_RGB_ALPHA;  break;
                         default: break;
@@ -212,11 +214,11 @@ namespace djv
                         {
                             messages.push_back(i);
                         }
-                        throw FileSystem::Error(String::join(messages, ' '));
+                        throw System::File::Error(String::join(messages, ' '));
                     }
                     if (!f->open(fileName))
                     {
-                        throw FileSystem::Error(String::Format("{0}: {1}").
+                        throw System::File::Error(String::Format("{0}: {1}").
                             arg(fileName).
                             arg(_textSystem->getText(DJV_TEXT("error_file_open"))));
                     }
@@ -231,7 +233,7 @@ namespace djv
                         {
                             messages.push_back(i);
                         }
-                        throw FileSystem::Error(String::join(messages, ' '));
+                        throw System::File::Error(String::join(messages, ' '));
                     }
 
                     // Write the file.
@@ -247,7 +249,7 @@ namespace djv
                             {
                                 messages.push_back(i);
                             }
-                            throw FileSystem::Error(String::join(messages, ' '));
+                            throw System::File::Error(String::join(messages, ' '));
                         }
                     }
                     if (!pngEnd(f->png, f->pngInfo))
@@ -260,7 +262,7 @@ namespace djv
                         {
                             messages.push_back(i);
                         }
-                        throw FileSystem::Error(String::join(messages, ' '));
+                        throw System::File::Error(String::join(messages, ' '));
                     }
 
                     // Log any warnings.
@@ -269,7 +271,7 @@ namespace djv
                         _logSystem->log(
                             pluginName,
                             String::Format("{0}: {1}").arg(fileName).arg(i),
-                            LogLevel::Warning);
+                            System::LogLevel::Warning);
                     }
                 }
 

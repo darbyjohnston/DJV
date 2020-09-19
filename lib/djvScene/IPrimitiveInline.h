@@ -38,12 +38,12 @@ namespace djv
             _visible = value;
         }
 
-        inline const Core::BBox3f& IPrimitive::getBBox() const
+        inline const Math::BBox3f& IPrimitive::getBBox() const
         {
             return _bbox;
         }
 
-        inline void IPrimitive::setBBox(const Core::BBox3f& value)
+        inline void IPrimitive::setBBox(const Math::BBox3f& value)
         {
             _bbox = value;
         }
@@ -69,7 +69,7 @@ namespace djv
             return _colorAssignment;
         }
 
-        inline const AV::Image::Color& IPrimitive::getColor() const
+        inline const Image::Color& IPrimitive::getColor() const
         {
             return _color;
         }
@@ -79,7 +79,7 @@ namespace djv
             _colorAssignment = value;
         }
 
-        inline void IPrimitive::setColor(const AV::Image::Color& value)
+        inline void IPrimitive::setColor(const Image::Color& value)
         {
             _color = value;
         }
@@ -124,17 +124,17 @@ namespace djv
             return _children;
         }
 
-        inline const std::vector<std::shared_ptr<AV::Geom::TriangleMesh> >& IPrimitive::getMeshes() const
+        inline const std::vector<std::shared_ptr<Geom::TriangleMesh> >& IPrimitive::getMeshes() const
         {
             return _meshesDummy;
         }
 
-        inline const std::vector<std::shared_ptr<AV::Geom::PointList> >& IPrimitive::getPolyLines() const
+        inline const std::vector<std::shared_ptr<Geom::PointList> >& IPrimitive::getPolyLines() const
         {
             return _polyLinesDummy;
         }
 
-        inline const std::shared_ptr<AV::Geom::PointList>& IPrimitive::getPointList() const
+        inline const std::shared_ptr<Geom::PointList>& IPrimitive::getPointList() const
         {
             return _pointListDummy;
         }

@@ -21,7 +21,7 @@ namespace djv
             std::shared_ptr<ScrollWidget> scrollWidget;
         };
 
-        void TextEdit::_init(const std::shared_ptr<Context>& context)
+        void TextEdit::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -42,7 +42,7 @@ namespace djv
         TextEdit::~TextEdit()
         {}
 
-        std::shared_ptr<TextEdit> TextEdit::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<TextEdit> TextEdit::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<TextEdit>(new TextEdit);
             out->_init(context);
@@ -119,12 +119,12 @@ namespace djv
             return _p->scrollWidget->getHeightForWidth(value);
         }
 
-        void TextEdit::_preLayoutEvent(Event::PreLayout&)
+        void TextEdit::_preLayoutEvent(System::Event::PreLayout&)
         {
             _setMinimumSize(_p->scrollWidget->getMinimumSize());
         }
 
-        void TextEdit::_layoutEvent(Event::Layout&)
+        void TextEdit::_layoutEvent(System::Event::Layout&)
         {
             _p->scrollWidget->setGeometry(getGeometry());
         }

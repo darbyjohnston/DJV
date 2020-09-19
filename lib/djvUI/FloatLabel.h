@@ -6,15 +6,15 @@
 
 #include <djvUI/Widget.h>
 
-#include <djvCore/Range.h>
+#include <djvMath/Range.h>
 
 namespace djv
 {
-    namespace Core
+    namespace Math
     {
         class FloatValueModel;
 
-    } // namespace Core
+    } // namespace Math
 
     namespace UI
     {
@@ -24,25 +24,25 @@ namespace djv
             DJV_NON_COPYABLE(FloatLabel);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             FloatLabel();
 
         public:
             ~FloatLabel() override;
 
-            static std::shared_ptr<FloatLabel> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<FloatLabel> create(const std::shared_ptr<System::Context>&);
 
-            const std::shared_ptr<Core::FloatValueModel>& getModel() const;
-            void setModel(const std::shared_ptr<Core::FloatValueModel>&);
+            const std::shared_ptr<Math::FloatValueModel>& getModel() const;
+            void setModel(const std::shared_ptr<Math::FloatValueModel>&);
 
             size_t getPrecision();
             void setPrecision(size_t);
             
-            static std::string getSizeString(const Core::FloatRange&, size_t precision);
+            static std::string getSizeString(const Math::FloatRange&, size_t precision);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
 
         private:
             void _textUpdate();

@@ -19,13 +19,13 @@ namespace djv
             DJV_NON_COPYABLE(SettingsSystem);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             SettingsSystem();
 
         public:
             ~SettingsSystem() override;
 
-            static std::shared_ptr<SettingsSystem> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<SettingsSystem> create(const std::shared_ptr<System::Context>&);
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
             std::vector<std::shared_ptr<UI::ISettingsWidget> > createSettingsWidgets() const override;

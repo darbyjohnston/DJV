@@ -4,7 +4,7 @@
 
 #include <djvTestLib/TickTest.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 #include <thread>
 
@@ -23,8 +23,8 @@ namespace djv
         
         ITickTest::ITickTest(
             const std::string& name,
-            const FileSystem::Path& tempPath,
-            const std::shared_ptr<Context>& context) :
+            const System::File::Path& tempPath,
+            const std::shared_ptr<System::Context>& context) :
             ITest(name, tempPath, context)
         {}
         

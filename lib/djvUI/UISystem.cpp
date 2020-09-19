@@ -5,11 +5,13 @@
 #include <djvUI/UISystem.h>
 
 #include <djvUI/AVSettings.h>
-#include <djvUI/DialogSystem.h>
 #include <djvUI/ColorSpaceSettings.h>
+#include <djvUI/DialogSystem.h>
+#include <djvUI/GLFWSettings.h>
 #include <djvUI/GeneralSettings.h>
 #include <djvUI/FontSettings.h>
 #include <djvUI/IconSystem.h>
+#include <djvUI/Render2DSettings.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Style.h>
 #include <djvUI/StyleSettings.h>
@@ -17,9 +19,9 @@
 
 #include <djvAV/AVSystem.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/FileInfo.h>
-#include <djvCore/TextSystem.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/FileInfo.h>
+#include <djvSystem/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -32,7 +34,7 @@ namespace djv
             std::shared_ptr<Style::Style> style;
         };
 
-        void UISystem::_init(bool resetSettings, const std::shared_ptr<Core::Context>& context)
+        void UISystem::_init(bool resetSettings, const std::shared_ptr<System::Context>& context)
         {
             ISystem::_init("djv::UI::UISystem", context);
 
@@ -40,11 +42,13 @@ namespace djv
 
             addDependency(context->getSystemT<AV::AVSystem>());
 
-            auto settingsSystem = Settings::System::create(resetSettings, context);
+            auto settingsSystem = Settings::SettingsSystem::create(resetSettings, context);
             Settings::AV::create(context);
             Settings::ColorSpace::create(context);
+            Settings::GLFW::create(context);
             Settings::General::create(context);
             Settings::Font::create(context);
+            Settings::Render2D::create(context);
             Settings::UI::create(context);
             Settings::Style::create(context);
 
@@ -66,7 +70,7 @@ namespace djv
         UISystem::~UISystem()
         {}
 
-        std::shared_ptr<UISystem> UISystem::create(bool resetSettings, const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<UISystem> UISystem::create(bool resetSettings, const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<UISystem>(new UISystem);
             out->_init(resetSettings, context);

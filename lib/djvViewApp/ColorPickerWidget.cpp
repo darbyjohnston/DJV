@@ -24,21 +24,24 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ToolButton.h>
 
-#include <djvAV/OCIOSystem.h>
-#include <djvAV/ImageUtil.h>
-#include <djvAV/OpenGLOffscreenBuffer.h>
-#include <djvAV/Render2D.h>
-#if defined(DJV_OPENGL_ES2)
-#include <djvAV/OpenGLMesh.h>
-#include <djvAV/OpenGLShader.h>
-#include <djvAV/Shader.h>
-#endif // DJV_OPENGL_ES2
+#include <djvRender2D/Render.h>
 
-#include <djvCore/Context.h>
+#include <djvOCIO/OCIOSystem.h>
+
+#include <djvGL/OffscreenBuffer.h>
+#if defined(DJV_GL_ES2)
+#include <djvGL/Mesh.h>
+#include <djvGL/Shader.h>
+#endif // DJV_GL_ES2
+
+#include <djvImage/ImageFunc.h>
+
+#include <djvSystem/Context.h>
+#if defined(DJV_GL_ES2)
+#include <djvSystem/ResourceSystem.h>
+#endif // DJV_GL_ES2
+
 #include <djvCore/StringFunc.h>
-#if defined(DJV_OPENGL_ES2)
-#include <djvCore/ResourceSystem.h>
-#endif // DJV_OPENGL_ES2
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/matrix_transform_2d.hpp>
@@ -65,19 +68,19 @@ namespace djv
         {
             bool currentTool = false;
             size_t sampleSize = 1;
-            AV::Image::Type lockType = AV::Image::Type::None;
+            Image::Type lockType = Image::Type::None;
             bool applyColorOperations = true;
             bool applyColorSpace = true;
-            AV::Image::Color color = AV::Image::Color(0.F, 0.F, 0.F);
+            Image::Color color = Image::Color(0.F, 0.F, 0.F);
             glm::vec2 pickerPos = glm::vec2(0.F, 0.F);
-            std::shared_ptr<AV::Image::Image> image;
-            AV::Render2D::ImageOptions imageOptions;
+            std::shared_ptr<Image::Image> image;
+            Render2D::ImageOptions imageOptions;
             glm::vec2 imagePos = glm::vec2(0.F, 0.F);
             float imageZoom = 1.F;
             UI::ImageRotate imageRotate = UI::ImageRotate::First;
             UI::ImageAspectRatio imageAspectRatio = UI::ImageAspectRatio::First;
             glm::vec2 pixelPos = glm::vec2(0.F, 0.F);
-            AV::OCIO::Config ocioConfig;
+            OCIO::Config ocioConfig;
             std::string outputColorSpace;
             std::shared_ptr<MediaWidget> activeWidget;
 
@@ -93,24 +96,24 @@ namespace djv
             std::shared_ptr<UI::FormLayout> formLayout;
             std::shared_ptr<UI::VerticalLayout> layout;
 
-            std::shared_ptr<AV::OpenGL::OffscreenBuffer> offscreenBuffer;
-#if defined(DJV_OPENGL_ES2)
-            std::shared_ptr<AV::OpenGL::Shader> shader;
-#endif // DJV_OPENGL_ES2
+            std::shared_ptr<GL::OffscreenBuffer> offscreenBuffer;
+#if defined(DJV_GL_ES2)
+            std::shared_ptr<GL::Shader> shader;
+#endif // DJV_GL_ES2
 
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
-            std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
-            std::shared_ptr<ValueObserver<AV::Render2D::ImageOptions> > imageOptionsObserver;
+            std::shared_ptr<ValueObserver<std::shared_ptr<Image::Image> > > imageObserver;
+            std::shared_ptr<ValueObserver<Render2D::ImageOptions> > imageOptionsObserver;
             std::shared_ptr<ValueObserver<glm::vec2> > imagePosObserver;
             std::shared_ptr<ValueObserver<float> > imageZoomObserver;
             std::shared_ptr<ValueObserver<UI::ImageRotate> > imageRotateObserver;
             std::shared_ptr<ValueObserver<UI::ImageAspectRatio> > imageAspectRatioObserver;
-            std::shared_ptr<ValueObserver<AV::OCIO::Config> > ocioConfigObserver;
+            std::shared_ptr<ValueObserver<OCIO::Config> > ocioConfigObserver;
             std::shared_ptr<ValueObserver<PointerData> > dragObserver;
         };
 
-        void ColorPickerWidget::_init(const std::shared_ptr<Core::Context>& context)
+        void ColorPickerWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             MDIWidget::_init(context);
 
@@ -129,15 +132,15 @@ namespace djv
             p.colorSwatch->setHAlign(UI::HAlign::Fill);
 
             p.colorLabel = UI::Label::create(context);
-            p.colorLabel->setFontFamily(AV::Font::familyMono);
+            p.colorLabel->setFontFamily(Render2D::Font::familyMono);
             p.colorLabel->setTextHAlign(UI::TextHAlign::Left);
 
             p.pixelLabel = UI::Label::create(context);
-            p.pixelLabel->setFontFamily(AV::Font::familyMono);
+            p.pixelLabel->setFontFamily(Render2D::Font::familyMono);
             p.pixelLabel->setTextHAlign(UI::TextHAlign::Left);
 
             p.sampleSizeSlider = UI::IntSlider::create(context);
-            p.sampleSizeSlider->setRange(IntRange(1, sampleSizeMax));
+            p.sampleSizeSlider->setRange(Math::IntRange(1, sampleSizeMax));
 
             p.typeWidget = UI::ColorTypeWidget::create(context);
 
@@ -174,13 +177,13 @@ namespace djv
             p.layout->addChild(hLayout);
             addChild(p.layout);
 
-#if defined(DJV_OPENGL_ES2)
+#if defined(DJV_GL_ES2)
             auto resourceSystem = context->getSystemT<ResourceSystem>();
-            const Core::FileSystem::Path shaderPath = resourceSystem->getPath(Core::FileSystem::ResourcePath::Shaders);
-            p.shader = AV::OpenGL::Shader::create(AV::Render::Shader::create(
-                Core::FileSystem::Path(shaderPath, "djvAVRender2DVertex.glsl"),
-                Core::FileSystem::Path(shaderPath, "djvAVRender2DFragment.glsl")));
-#endif // DJV_OPENGL_ES2
+            const System::File::Path shaderPath = resourceSystem->getPath(Core::FileSystem::ResourcePath::Shaders);
+            p.shader = GL::Shader::create(
+                System::File::Path(shaderPath, "djvAVRender2DVertex.glsl"),
+                System::File::Path(shaderPath, "djvAVRender2DFragment.glsl"));
+#endif // DJV_GL_ES2
 
             _sampleUpdate();
             _widgetUpdate();
@@ -194,7 +197,7 @@ namespace djv
                         if (auto eventSystem = widget->_getEventSystem().lock())
                         {
                             std::stringstream ss;
-                            ss << AV::Image::Color::getLabel(widget->_p->color) << ", ";
+                            ss << Image::Color::getLabel(widget->_p->color) << ", ";
                             ss << floorf(widget->_p->pixelPos.x) << " ";
                             ss << floorf(widget->_p->pixelPos.y);
                             eventSystem->setClipboard(ss.str());
@@ -214,12 +217,12 @@ namespace djv
                 });
 
             p.typeWidget->setTypeCallback(
-                [weak](AV::Image::Type value)
+                [weak](Image::Type value)
                 {
                     if (auto widget = weak.lock())
                     {
                         widget->_p->color = widget->_p->color.convert(value);
-                        if (widget->_p->lockType != AV::Image::Type::None)
+                        if (widget->_p->lockType != Image::Type::None)
                         {
                             widget->_p->lockType = value;
                         }
@@ -239,7 +242,7 @@ namespace djv
                     }
                     else
                     {
-                        widget->_p->lockType = AV::Image::Type::None;
+                        widget->_p->lockType = Image::Type::None;
                     }
                 }
             });
@@ -279,9 +282,9 @@ namespace djv
                             widget->_p->activeWidget = value;
                             if (widget->_p->activeWidget)
                             {
-                                widget->_p->imageObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
+                                widget->_p->imageObserver = ValueObserver<std::shared_ptr<Image::Image> >::create(
                                     widget->_p->activeWidget->getViewWidget()->observeImage(),
-                                    [weak](const std::shared_ptr<AV::Image::Image>& value)
+                                    [weak](const std::shared_ptr<Image::Image>& value)
                                     {
                                         if (auto widget = weak.lock())
                                         {
@@ -291,9 +294,9 @@ namespace djv
                                         }
                                     });
 
-                                widget->_p->imageOptionsObserver = ValueObserver<AV::Render2D::ImageOptions>::create(
+                                widget->_p->imageOptionsObserver = ValueObserver<Render2D::ImageOptions>::create(
                                     widget->_p->activeWidget->getViewWidget()->observeImageOptions(),
-                                    [weak](const AV::Render2D::ImageOptions& value)
+                                    [weak](const Render2D::ImageOptions& value)
                                     {
                                         if (auto widget = weak.lock())
                                         {
@@ -380,17 +383,17 @@ namespace djv
                     });
             }
 
-            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-            auto contextWeak = std::weak_ptr<Context>(context);
-            p.ocioConfigObserver = ValueObserver<AV::OCIO::Config>::create(
+            auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
+            auto contextWeak = std::weak_ptr<System::Context>(context);
+            p.ocioConfigObserver = ValueObserver<OCIO::Config>::create(
                 ocioSystem->observeCurrentConfig(),
-                [weak, contextWeak](const AV::OCIO::Config& value)
+                [weak, contextWeak](const OCIO::Config& value)
                 {
                     if (auto context = contextWeak.lock())
                     {
                         if (auto widget = weak.lock())
                         {
-                            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                            auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
                             widget->_p->ocioConfig = value;
                             widget->_p->outputColorSpace = ocioSystem->getColorSpace(value.display, value.view);
                             widget->_sampleUpdate();
@@ -407,7 +410,7 @@ namespace djv
         ColorPickerWidget::~ColorPickerWidget()
         {}
 
-        std::shared_ptr<ColorPickerWidget> ColorPickerWidget::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<ColorPickerWidget> ColorPickerWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ColorPickerWidget>(new ColorPickerWidget);
             out->_init(context);
@@ -438,18 +441,18 @@ namespace djv
             _widgetUpdate();
         }
 
-        AV::Image::Type ColorPickerWidget::getLockType() const
+        Image::Type ColorPickerWidget::getLockType() const
         {
             return _p->lockType;
         }
 
-        void ColorPickerWidget::setLockType(AV::Image::Type value)
+        void ColorPickerWidget::setLockType(Image::Type value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.lockType)
                 return;
             p.lockType = value;
-            if (p.lockType != AV::Image::Type::None)
+            if (p.lockType != Image::Type::None)
             {
                 p.color = p.color.convert(p.lockType);
             }
@@ -501,7 +504,7 @@ namespace djv
             _widgetUpdate();
         }
 
-        void ColorPickerWidget::_initEvent(Event::Init & event)
+        void ColorPickerWidget::_initEvent(System::Event::Init & event)
         {
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
@@ -549,15 +552,15 @@ namespace djv
                     pixelPos = glm::inverse(glm::translate(m, glm::vec2(-.5F, -.5F))) * pixelPos;
 
                     const size_t sampleSize = std::max(p.sampleSize, bufferSizeMin);
-                    const AV::Image::Size size(sampleSize, sampleSize);
-                    const AV::Image::Type type = p.lockType != AV::Image::Type::None ? p.lockType : p.image->getType();
+                    const Image::Size size(sampleSize, sampleSize);
+                    const Image::Type type = p.lockType != Image::Type::None ? p.lockType : p.image->getType();
                     
                     bool create = !p.offscreenBuffer;
                     create |= p.offscreenBuffer && size != p.offscreenBuffer->getSize();
                     create |= p.offscreenBuffer && type != p.offscreenBuffer->getColorType();
                     if (create)
                     {
-                        p.offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(
+                        p.offscreenBuffer = GL::OffscreenBuffer::create(
                             size,
                             type,
                             _getTextSystem());
@@ -566,11 +569,11 @@ namespace djv
                     p.offscreenBuffer->bind();
                     const auto& render = _getRender();
                     const auto imageFilterOptions = render->getImageFilterOptions();
-                    render->setImageFilterOptions(AV::Render2D::ImageFilterOptions(AV::Render2D::ImageFilter::Nearest));
+                    render->setImageFilterOptions(Render2D::ImageFilterOptions(Render2D::ImageFilter::Nearest));
                     render->beginFrame(size);
-                    render->setFillColor(AV::Image::Color(0.F, 0.F, 0.F));
-                    render->drawRect(BBox2f(0.F, 0.F, sampleSize, sampleSize));
-                    render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F));
+                    render->setFillColor(Image::Color(0.F, 0.F, 0.F));
+                    render->drawRect(Math::BBox2f(0.F, 0.F, sampleSize, sampleSize));
+                    render->setFillColor(Image::Color(1.F, 1.F, 1.F));
                     render->pushTransform(m);
                     auto options = p.imageOptions;
                     if (!p.applyColorOperations)
@@ -597,34 +600,34 @@ namespace djv
                         }
                         options.colorSpace.output = p.outputColorSpace;
                     }
-                    options.cache = AV::Render2D::ImageCache::Dynamic;
+                    options.cache = Render2D::ImageCache::Dynamic;
                     render->drawImage(p.image, glm::vec2(0.F, 0.F), options);
                     render->popTransform();
                     render->endFrame();
                     render->setImageFilterOptions(imageFilterOptions);
-                    auto data = AV::Image::Data::create(AV::Image::Info(p.sampleSize, p.sampleSize, type));
+                    auto data = Image::Data::create(Image::Info(p.sampleSize, p.sampleSize, type));
                     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-#if !defined(DJV_OPENGL_ES2)  // \todo GL_READ_FRAMEBUFFER, glClampColor not in OpenGL ES 2
+#if !defined(DJV_GL_ES2)  // \todo GL_READ_FRAMEBUFFER, glClampColor not in OpenGL ES 2
                     glBindFramebuffer(GL_READ_FRAMEBUFFER, p.offscreenBuffer->getID());
                     glClampColor(GL_CLAMP_READ_COLOR, GL_FALSE);
-#endif
+#endif // DJV_GL_ES2
                     glPixelStorei(GL_PACK_ALIGNMENT, 1);
                     glReadPixels(
                         0,
                         static_cast<int>(sampleSize) - static_cast<int>(data->getHeight()),
                         data->getWidth(),
                         data->getHeight(),
-                        AV::Image::getGLFormat(type),
-                        AV::Image::getGLType(type),
+                        Image::getGLFormat(type),
+                        Image::getGLType(type),
                         data->getData());
-                    p.color = AV::Image::getAverageColor(data);
+                    p.color = Image::getAverageColor(data);
                 }
                 catch (const std::exception& e)
                 {
                     std::vector<std::string> messages;
                     messages.push_back(_getText(DJV_TEXT("error_cannot_sample_color")));
                     messages.push_back(e.what());
-                    _log(String::join(messages, ' '), LogLevel::Error);
+                    _log(String::join(messages, ' '), System::LogLevel::Error);
                 }
             }
             else if (p.offscreenBuffer)
@@ -651,16 +654,16 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
 
-            const AV::Image::Type type = p.color.getType();
+            const Image::Type type = p.color.getType();
             p.typeWidget->setType(type);
 
-            const bool lockType = p.lockType != AV::Image::Type::None;
+            const bool lockType = p.lockType != Image::Type::None;
             p.actions["LockType"]->setChecked(lockType);
             p.actions["ApplyColorOperations"]->setChecked(p.applyColorOperations);
             p.actions["ApplyColorSpace"]->setChecked(p.applyColorSpace);
 
             p.colorSwatch->setColor(p.color);
-            p.colorLabel->setText(AV::Image::Color::getLabel(p.color, 2, false));
+            p.colorLabel->setText(Image::Color::getLabel(p.color, 2, false));
             p.colorLabel->setTooltip(_getText(DJV_TEXT("color_label_tooltip")));
             {
                 std::stringstream ss;

@@ -1,139 +1,53 @@
 set(header
-    AV.h
     AVSystem.h
-    Audio.h
-    AudioData.h
-    AudioDataInline.h
-    AudioFunc.h
-    AudioFuncInline.h
-    AudioSystem.h
-    AudioSystemFunc.h
     Cineon.h
     CineonFunc.h
-    Color.h
-    ColorFunc.h
-    ColorInline.h
     DPX.h
     DPXFunc.h
-    Enum.h
-    EnumFunc.h
-    FontSystem.h
-    FontSystemInline.h
-    GLFWSystem.h
     IFF.h
     IO.h
     IOInline.h
     IOPlugin.h
     IOPluginInline.h
     IOSystem.h
-    Image.h
-    ImageConvert.h
-    ImageData.h
-    ImageDataInline.h
-    ImageUtil.h
-	OCIO.h
-	OCIOInline.h
-	OCIOSystem.h
-	OCIOSystemInline.h
-    OpenGL.h
-    OpenGLMesh.h
-    OpenGLMeshCache.h
-    OpenGLMeshInline.h
-    OpenGLOffscreenBuffer.h
-    OpenGLOffscreenBufferInline.h
-    OpenGLShader.h
-    OpenGLTexture.h
-    OpenGLTextureAtlas.h
-    OpenGLTextureInline.h
     PPM.h
-    PointList.h
-    PointListInline.h
-    Pixel.h
-    PixelInline.h
     RLA.h
-    Render2D.h
-    Render2DData.h
-    Render2DDataFunc.h
-    Render2DDataInline.h
-    Render2DInline.h
-    Render2DPrivate.h
-    Render3D.h
-    Render3DCamera.h
-    Render3DCameraInline.h
-    Render3DLight.h
-    Render3DLightInline.h
-    Render3DMaterial.h
-    Render3DMaterialInline.h
     SGI.h
     SequenceIO.h
-    Shader.h
-    ShaderSystem.h
-    Shape.h
-    Tags.h
+    Speed.h
+    SpeedFunc.h
     Targa.h
     ThumbnailSystem.h
-    TriangleMesh.h
-    TriangleMeshInline.h)
+    Time.h
+    TimeFunc.h)
 set(source
     AVSystem.cpp
-    AudioData.cpp
-    AudioFunc.cpp
-    AudioSystem.cpp
-    AudioSystemFunc.cpp
     Cineon.cpp
     CineonFunc.cpp
     CineonRead.cpp
     CineonWrite.cpp
-    Color.cpp
-    ColorFunc.cpp
     DPX.cpp
     DPXFunc.cpp
     DPXRead.cpp
     DPXWrite.cpp
-    EnumFunc.cpp
-    FontSystem.cpp
-    GLFWSystem.cpp
     IFF.cpp
     IFFRead.cpp
     IO.cpp
     IOPlugin.cpp
     IOSystem.cpp
-    Image.cpp
-    ImageConvert.cpp
-    ImageData.cpp
-    ImageUtil.cpp
-	OCIO.cpp
-	OCIOSystem.cpp
-    OpenGLMesh.cpp
-    OpenGLMeshCache.cpp
-    OpenGLOffscreenBuffer.cpp
-    OpenGLShader.cpp
-    OpenGLTextureAtlas.cpp
-    OpenGLTexture.cpp
     PPM.cpp
     PPMRead.cpp
     PPMWrite.cpp
-    Pixel.cpp
     RLA.cpp
     RLARead.cpp
-    Render2D.cpp
-    Render2DDataFunc.cpp
-    Render2DPrivate.cpp
-    Render3D.cpp
-    Render3DCamera.cpp
-    Render3DLight.cpp
-    Render3DMaterial.cpp
     SequenceIO.cpp
-    Shape.cpp
-    Shader.cpp
-    ShaderSystem.cpp
     SGI.cpp
     SGIRead.cpp
-    Tags.cpp
+    SpeedFunc.cpp
     Targa.cpp
     TargaRead.cpp
     ThumbnailSystem.cpp
-    TriangleMesh.cpp)
+    TimeFunc.cpp)
 if(FFmpeg_FOUND)
     set(header
         ${header}
@@ -186,16 +100,10 @@ endif()
 
 add_library(djvAV ${header} ${source})
 set(LIBRARIES
-    glad
-    GLFW
-    FreeType
-    IlmBase::Imath
-    IlmBase::IlmThread
-    OCIO
+    djvOCIO
+    djvAudio
     #OpenAL
-    RtAudio
-    OpenGL::GL
-    djvCore)
+    RtAudio)
 if(FFmpeg_FOUND)
     set(LIBRARIES ${LIBRARIES} FFmpeg)
 endif()

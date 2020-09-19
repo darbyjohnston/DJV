@@ -21,8 +21,8 @@
 #include <djvUI/Style.h>
 #include <djvUI/UISystem.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/TextSystem.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/TextSystem.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -38,13 +38,13 @@ namespace djv
             std::shared_ptr<PlaybackSettings> settings;
             std::shared_ptr<Media> currentMedia;
             Math::Rational speed;
-            Frame::Sequence sequence;
+            Math::Frame::Sequence sequence;
             bool playEveryFrame = false;
             Playback playback = Playback::Forward;
             bool inOutPointsEnabled = false;
             glm::vec2 hoverPos = glm::vec2(0.F, 0.F);
             glm::vec2 dragStart = glm::vec2(0.F, 0.F);
-            Frame::Index dragStartFrame = Frame::invalidIndex;
+            Math::Frame::Index dragStartFrame = Math::Frame::invalidIndex;
             Playback dragStartPlayback = Playback::Stop;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> playbackActionGroup;
@@ -53,7 +53,7 @@ namespace djv
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<Math::Rational> > speedObserver;
             std::shared_ptr<ValueObserver<bool> > playEveryFrameObserver;
-            std::shared_ptr<ValueObserver<Frame::Sequence> > sequenceObserver;
+            std::shared_ptr<ValueObserver<Math::Frame::Sequence> > sequenceObserver;
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
             std::shared_ptr<ValueObserver<PlaybackMode> > playbackModeObserver;
             std::shared_ptr<ValueObserver<AV::IO::InOutPoints> > inOutPointsEnabledObserver;
@@ -62,11 +62,11 @@ namespace djv
             std::shared_ptr<ValueObserver<PointerData> > dragObserver;
             std::shared_ptr<ValueObserver<ScrollData> > scrollObserver;
 
-            void drag(const PointerData&, const std::weak_ptr<Context>&);
-            void scroll(const ScrollData&, const std::weak_ptr<Context>&);
+            void drag(const PointerData&, const std::weak_ptr<System::Context>&);
+            void scroll(const ScrollData&, const std::weak_ptr<System::Context>&);
         };
 
-        void PlaybackSystem::_init(const std::shared_ptr<Core::Context>& context)
+        void PlaybackSystem::_init(const std::shared_ptr<System::Context>& context)
         {
             IViewSystem::_init("djv::ViewApp::PlaybackSystem", context);
 
@@ -456,9 +456,9 @@ namespace djv
                                     }
                                 });
 
-                            system->_p->sequenceObserver = ValueObserver<Frame::Sequence>::create(
+                            system->_p->sequenceObserver = ValueObserver<Math::Frame::Sequence>::create(
                                 value->observeSequence(),
-                                [weak](const Frame::Sequence& value)
+                                [weak](const Math::Frame::Sequence& value)
                                 {
                                     if (auto system = weak.lock())
                                     {
@@ -514,7 +514,7 @@ namespace djv
                         else
                         {
                             system->_p->speed = Math::Rational();
-                            system->_p->sequence = Frame::Sequence();
+                            system->_p->sequence = Math::Frame::Sequence();
                             system->_p->playEveryFrame = false;
                             system->_p->playback = Playback::Stop;
                             system->_p->inOutPointsEnabled = false;
@@ -590,7 +590,7 @@ namespace djv
         PlaybackSystem::~PlaybackSystem()
         {}
 
-        std::shared_ptr<PlaybackSystem> PlaybackSystem::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<PlaybackSystem> PlaybackSystem::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<PlaybackSystem>(new PlaybackSystem);
             out->_init(context);
@@ -731,7 +731,7 @@ namespace djv
             return values[static_cast<size_t>(value)];
         }
 
-        void PlaybackSystem::Private::drag(const PointerData& value, const std::weak_ptr<Context>& contextWeak)
+        void PlaybackSystem::Private::drag(const PointerData& value, const std::weak_ptr<System::Context>& contextWeak)
         {
             if (auto media = currentMedia)
             {
@@ -759,13 +759,13 @@ namespace djv
                         break;
                     case PointerState::Move:
                     {
-                        if (dragStartFrame != Frame::invalidIndex)
+                        if (dragStartFrame != Math::Frame::invalidIndex)
                         {
                             if (auto context = contextWeak.lock())
                             {
                                 auto uiSystem = context->getSystemT<UI::UISystem>();
                                 auto style = uiSystem->getStyle();
-                                const Frame::Index offset =
+                                const Math::Frame::Index offset =
                                     (value.pos.x - dragStart.x) / style->getMetric(UI::MetricsRole::Scrub);
                                 media->setCurrentFrame(dragStartFrame + offset);
                             }
@@ -781,7 +781,7 @@ namespace djv
             }
         }
 
-        void PlaybackSystem::Private::scroll(const ScrollData& value, const std::weak_ptr<Context>& contextWeak)
+        void PlaybackSystem::Private::scroll(const ScrollData& value, const std::weak_ptr<System::Context>& contextWeak)
         {
             if (auto media = currentMedia)
             {
@@ -792,8 +792,8 @@ namespace djv
                 {
                     if (auto context = contextWeak.lock())
                     {
-                        Frame::Index frame = media->observeCurrentFrame()->get();
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        Math::Frame::Index frame = media->observeCurrentFrame()->get();
+                        auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                         auto mouseSettings = settingsSystem->getSettingsT<MouseSettings>();
                         const float speed = _getScrollWheelSpeed(mouseSettings->observeScrollWheelSpeed()->get());
                         media->setCurrentFrame(frame + value.delta.y * speed);

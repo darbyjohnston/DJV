@@ -26,8 +26,12 @@
 #include <djvUI/StackLayout.h>
 #include <djvUI/ToolBar.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/FileInfo.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/FileInfo.h>
+#include <djvSystem/TimerFunc.h>
+
+#include <djvMath/MathFunc.h>
+
 #include <djvCore/StringFunc.h>
 
 #define GLFW_INCLUDE_NONE
@@ -50,22 +54,22 @@ namespace djv
             protected:
                 void _init(
                     const std::map<std::string, std::shared_ptr<UI::Action> >&,
-                    const std::shared_ptr<Context>&);
+                    const std::shared_ptr<System::Context>&);
                 SettingsWidget();
 
             public:
                 static std::shared_ptr<SettingsWidget> create(
                     const std::map<std::string, std::shared_ptr<UI::Action> >&,
-                    const std::shared_ptr<Context>&);
+                    const std::shared_ptr<System::Context>&);
 
                 std::map<std::string, bool> getBellowsState() const;
                 void setBellowsState(const std::map<std::string, bool>&);
 
             protected:
-                void _preLayoutEvent(Event::PreLayout&) override;
-                void _layoutEvent(Event::Layout&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
 
-                void _initEvent(Event::Init&) override;
+                void _initEvent(System::Event::Init&) override;
 
             private:
                 std::shared_ptr<UI::IntSlider> _maxSlider;
@@ -74,18 +78,18 @@ namespace djv
                 std::shared_ptr<UI::ScrollWidget> _scrollWidget;
 
                 std::shared_ptr<ValueObserver<size_t> > _recentFilesMaxObserver;
-                std::shared_ptr<ValueObserver<AV::Image::Size> > _thumbnailSizeSettingsObserver;
+                std::shared_ptr<ValueObserver<Image::Size> > _thumbnailSizeSettingsObserver;
             };
 
             void SettingsWidget::_init(
                 const std::map<std::string, std::shared_ptr<UI::Action> >& actions,
-                const std::shared_ptr<Context>& context)
+                const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
 
                 _maxSlider = UI::IntSlider::create(context);
-                _maxSlider->setRange(IntRange(5, 100));
-                _maxSlider->setDelay(Time::getTime(Time::TimerValue::Medium));
+                _maxSlider->setRange(Math::IntRange(5, 100));
+                _maxSlider->setDelay(System::getTimerDuration(System::TimerValue::Medium));
 
                 auto increaseThumbnailSizeButton = UI::ActionButton::create(context);
                 increaseThumbnailSizeButton->addAction(actions.at("IncreaseThumbnailSize"));
@@ -94,7 +98,7 @@ namespace djv
 
                 _thumbnailSizeSlider = UI::IntSlider::create(context);
                 _thumbnailSizeSlider->setRange(UI::FileBrowser::thumbnailSizeRange);
-                _thumbnailSizeSlider->setDelay(Time::getTime(Time::TimerValue::Medium));
+                _thumbnailSizeSlider->setDelay(System::getTimerDuration(System::TimerValue::Medium));
 
                 auto vLayout = UI::VerticalLayout::create(context);
                 vLayout->setSpacing(UI::MetricsRole::None);
@@ -121,7 +125,7 @@ namespace djv
                 _scrollWidget->addChild(vLayout);
                 addChild(_scrollWidget);
 
-                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                 auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
                 auto weak = std::weak_ptr<SettingsWidget>(std::dynamic_pointer_cast<SettingsWidget>(shared_from_this()));
                 _recentFilesMaxObserver = ValueObserver<size_t>::create(
@@ -135,9 +139,9 @@ namespace djv
                     });
 
                 auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
-                _thumbnailSizeSettingsObserver = ValueObserver<AV::Image::Size>::create(
+                _thumbnailSizeSettingsObserver = ValueObserver<Image::Size>::create(
                     fileBrowserSettings->observeThumbnailSize(),
-                    [weak](const AV::Image::Size& value)
+                    [weak](const Image::Size& value)
                     {
                         if (auto widget = weak.lock())
                         {
@@ -145,13 +149,13 @@ namespace djv
                         }
                     });
 
-                auto contextWeak = std::weak_ptr<Context>(context);
+                auto contextWeak = std::weak_ptr<System::Context>(context);
                 _maxSlider->setValueCallback(
                     [contextWeak](int value)
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
                             fileSettings->setRecentFilesMax(value);
                         }
@@ -162,9 +166,9 @@ namespace djv
                     {
                         if (auto context = contextWeak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
-                            fileBrowserSettings->setThumbnailSize(AV::Image::Size(value, ceilf(value / 2.F)));
+                            fileBrowserSettings->setThumbnailSize(Image::Size(value, ceilf(value / 2.F)));
                         }
                     });
             }
@@ -174,7 +178,7 @@ namespace djv
 
             std::shared_ptr<SettingsWidget> SettingsWidget::create(
                 const std::map<std::string, std::shared_ptr<UI::Action> >& actions,
-                const std::shared_ptr<Context>& context)
+                const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<SettingsWidget>(new SettingsWidget);
                 out->_init(actions, context);
@@ -203,17 +207,17 @@ namespace djv
                 }
             }
 
-            void SettingsWidget::_preLayoutEvent(Event::PreLayout&)
+            void SettingsWidget::_preLayoutEvent(System::Event::PreLayout&)
             {
                 _setMinimumSize(_scrollWidget->getMinimumSize());
             }
 
-            void SettingsWidget::_layoutEvent(Event::Layout&)
+            void SettingsWidget::_layoutEvent(System::Event::Layout&)
             {
                 _scrollWidget->setGeometry(getGeometry());
             }
 
-            void SettingsWidget::_initEvent(Event::Init& event)
+            void SettingsWidget::_initEvent(System::Event::Init& event)
             {
                 if (event.getData().text)
                 {
@@ -227,7 +231,7 @@ namespace djv
 
         struct RecentFilesDialog::Private
         {
-            std::vector<Core::FileSystem::FileInfo> recentFiles;
+            std::vector<System::File::Info> recentFiles;
             std::string filter;
             size_t itemCount = 0;
 
@@ -238,14 +242,14 @@ namespace djv
             std::shared_ptr<UI::Label> itemCountLabel;
             std::shared_ptr<UI::VerticalLayout> layout;
 
-            std::function<void(const Core::FileSystem::FileInfo&)> callback;
+            std::function<void(const System::File::Info&)> callback;
 
-            std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver;
-            std::shared_ptr<ValueObserver<AV::Image::Size> > thumbnailSizeSettingsObserver;
+            std::shared_ptr<ListObserver<System::File::Info> > recentFilesObserver;
+            std::shared_ptr<ValueObserver<Image::Size> > thumbnailSizeSettingsObserver;
             std::shared_ptr<MapObserver<std::string, UI::ShortcutDataPair> > shortcutsObserver;
         };
 
-        void RecentFilesDialog::_init(const std::shared_ptr<Core::Context>& context)
+        void RecentFilesDialog::_init(const std::shared_ptr<System::Context>& context)
         {
             IDialog::_init(context);
 
@@ -301,13 +305,13 @@ namespace djv
 
             _recentFilesUpdate();
 
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.actions["IncreaseThumbnailSize"]->setClickedCallback(
                 [contextWeak]
                 {
                     if (auto context = contextWeak.lock())
                     {
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                         auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
                         auto size = fileBrowserSettings->observeThumbnailSize()->get();
                         size.w = Math::clamp(
@@ -324,7 +328,7 @@ namespace djv
                 {
                     if (auto context = contextWeak.lock())
                     {
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                         auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
                         auto size = fileBrowserSettings->observeThumbnailSize()->get();
                         size.w = Math::clamp(
@@ -352,7 +356,7 @@ namespace djv
                         if (auto widget = weak.lock())
                         {
                             widget->_p->settingsWidget = SettingsWidget::create(widget->_p->actions, context);
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
                             widget->_p->settingsWidget->setBellowsState(fileSettings->getRecentFilesSettingsBellowsState());
                             out = widget->_p->settingsWidget;
@@ -369,7 +373,7 @@ namespace djv
                         {
                             if (widget->_p->settingsWidget)
                             {
-                                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                                auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                                 auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
                                 fileSettings->setRecentFilesSettingsBellowsState(widget->_p->settingsWidget->getBellowsState());
                                 widget->_p->settingsWidget.reset();
@@ -379,7 +383,7 @@ namespace djv
                 });
 
             p.itemView->setCallback(
-                [weak](const Core::FileSystem::FileInfo& value)
+                [weak](const System::File::Info& value)
             {
                 if (auto widget = weak.lock())
                 {
@@ -400,11 +404,11 @@ namespace djv
                 }
             });
 
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
-            p.recentFilesObserver = ListObserver<Core::FileSystem::FileInfo>::create(
+            p.recentFilesObserver = ListObserver<System::File::Info>::create(
                 fileSettings->observeRecentFiles(),
-                [weak](const std::vector<Core::FileSystem::FileInfo>& value)
+                [weak](const std::vector<System::File::Info>& value)
             {
                 if (auto widget = weak.lock())
                 {
@@ -414,9 +418,9 @@ namespace djv
             });
 
             auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
-            p.thumbnailSizeSettingsObserver = ValueObserver<AV::Image::Size>::create(
+            p.thumbnailSizeSettingsObserver = ValueObserver<Image::Size>::create(
                 fileBrowserSettings->observeThumbnailSize(),
-                [weak](const AV::Image::Size& value)
+                [weak](const Image::Size& value)
             {
                 if (auto widget = weak.lock())
                 {
@@ -456,26 +460,26 @@ namespace djv
             {
                 if (p.settingsWidget)
                 {
-                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                    auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                     auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
                     fileSettings->setRecentFilesSettingsBellowsState(p.settingsWidget->getBellowsState());
                 }
             }
         }
 
-        std::shared_ptr<RecentFilesDialog> RecentFilesDialog::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<RecentFilesDialog> RecentFilesDialog::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<RecentFilesDialog>(new RecentFilesDialog);
             out->_init(context);
             return out;
         }
 
-        void RecentFilesDialog::setCallback(const std::function<void(const Core::FileSystem::FileInfo&)>& value)
+        void RecentFilesDialog::setCallback(const std::function<void(const System::File::Info&)>& value)
         {
             _p->callback = value;
         }
 
-        void RecentFilesDialog::_initEvent(Event::Init& event)
+        void RecentFilesDialog::_initEvent(System::Event::Init& event)
         {
             IDialog::_initEvent(event);
             DJV_PRIVATE_PTR();
@@ -504,7 +508,7 @@ namespace djv
         void RecentFilesDialog::_recentFilesUpdate()
         {
             DJV_PRIVATE_PTR();
-            std::vector<Core::FileSystem::FileInfo> recentFiles;
+            std::vector<System::File::Info> recentFiles;
             std::regex r(p.filter);
             for (const auto& i : p.recentFiles)
             {

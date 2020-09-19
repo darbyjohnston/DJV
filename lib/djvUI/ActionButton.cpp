@@ -12,11 +12,12 @@
 #include <djvUI/Shortcut.h>
 #include <djvUI/ShortcutData.h>
 
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/TextSystem.h>
+
 #include <djvCore/StringFunc.h>
-#include <djvCore/TextSystem.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -36,25 +37,25 @@ namespace djv
                     DJV_NON_COPYABLE(CheckBox);
 
                 protected:
-                    void _init(const std::shared_ptr<Context>&);
+                    void _init(const std::shared_ptr<System::Context>&);
                     CheckBox();
 
                 public:
                     ~CheckBox() override;
 
-                    static std::shared_ptr<CheckBox> create(const std::shared_ptr<Context>&);
+                    static std::shared_ptr<CheckBox> create(const std::shared_ptr<System::Context>&);
 
                     void setChecked(bool);
 
                 protected:
-                    void _preLayoutEvent(Event::PreLayout&) override;
-                    void _paintEvent(Event::Paint&) override;
+                    void _preLayoutEvent(System::Event::PreLayout&) override;
+                    void _paintEvent(System::Event::Paint&) override;
 
                 private:
                     bool _checked = false;
                 };
 
-                void CheckBox::_init(const std::shared_ptr<Context>& context)
+                void CheckBox::_init(const std::shared_ptr<System::Context>& context)
                 {
                     Widget::_init(context);
                 }
@@ -65,7 +66,7 @@ namespace djv
                 CheckBox::~CheckBox()
                 {}
 
-                std::shared_ptr<CheckBox> CheckBox::create(const std::shared_ptr<Context>& context)
+                std::shared_ptr<CheckBox> CheckBox::create(const std::shared_ptr<System::Context>& context)
                 {
                     auto out = std::shared_ptr<CheckBox>(new CheckBox);
                     out->_init(context);
@@ -80,7 +81,7 @@ namespace djv
                     _redraw();
                 }
 
-                void CheckBox::_preLayoutEvent(Event::PreLayout&)
+                void CheckBox::_preLayoutEvent(System::Event::PreLayout&)
                 {
                     const auto& style = _getStyle();
                     const float m = style->getMetric(MetricsRole::MarginInside);
@@ -88,13 +89,13 @@ namespace djv
                     _setMinimumSize(checkBoxSize + m * 2.F);
                 }
 
-                void CheckBox::_paintEvent(Event::Paint&)
+                void CheckBox::_paintEvent(System::Event::Paint&)
                 {
                     const auto& style = _getStyle();
                     const float m = style->getMetric(MetricsRole::MarginInside);
-                    const BBox2f g = getGeometry().margin(-m);
+                    const Math::BBox2f g = getGeometry().margin(-m);
                     const glm::vec2 checkBoxSize = getCheckBoxSize(style);
-                    const BBox2f checkBoxGeometry(g.min.x, g.min.y + floorf(g.h() / 2.F - checkBoxSize.y / 2.F), checkBoxSize.x, checkBoxSize.y);
+                    const Math::BBox2f checkBoxGeometry(g.min.x, g.min.y + floorf(g.h() / 2.F - checkBoxSize.y / 2.F), checkBoxSize.x, checkBoxSize.y);
                     const auto& render = _getRender();
                     drawCheckBox(render, style, checkBoxGeometry, _checked);
                 }
@@ -114,7 +115,7 @@ namespace djv
                 std::shared_ptr<ListObserver<std::shared_ptr<Shortcut> > > shortcutsObserver;
             };
 
-            void ActionButton::_init(const std::shared_ptr<Context>& context)
+            void ActionButton::_init(const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
 
@@ -162,7 +163,7 @@ namespace djv
             ActionButton::~ActionButton()
             {}
 
-            std::shared_ptr<ActionButton> ActionButton::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<ActionButton> ActionButton::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<ActionButton>(new ActionButton);
                 out->_init(context);
@@ -223,7 +224,7 @@ namespace djv
                 return out;
             }
 
-            void ActionButton::_preLayoutEvent(Event::PreLayout& event)
+            void ActionButton::_preLayoutEvent(System::Event::PreLayout& event)
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
@@ -231,7 +232,7 @@ namespace djv
                 _setMinimumSize(p.layout->getMinimumSize() + bt * 2.F);
             }
 
-            void ActionButton::_layoutEvent(Event::Layout&)
+            void ActionButton::_layoutEvent(System::Event::Layout&)
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
@@ -239,12 +240,12 @@ namespace djv
                 p.layout->setGeometry(getGeometry().margin(-bt));
             }
 
-            void ActionButton::_paintEvent(Event::Paint& event)
+            void ActionButton::_paintEvent(System::Event::Paint& event)
             {
                 IButton::_paintEvent(event);
                 const auto& style = _getStyle();
                 const float bt = style->getMetric(MetricsRole::BorderTextFocus);
-                const BBox2f& g = getGeometry();
+                const Math::BBox2f& g = getGeometry();
 
                 const auto& render = _getRender();
                 if (hasTextFocus())
@@ -253,7 +254,7 @@ namespace djv
                     drawBorder(render, g, bt);
                 }
 
-                const BBox2f g2 = g.margin(-bt);
+                const Math::BBox2f g2 = g.margin(-bt);
                 if (_isPressed())
                 {
                     render->setFillColor(style->getColor(ColorRole::Pressed));
@@ -266,7 +267,7 @@ namespace djv
                 }
             }
 
-            void ActionButton::_keyPressEvent(Event::KeyPress& event)
+            void ActionButton::_keyPressEvent(System::Event::KeyPress& event)
             {
                 IButton::_keyPressEvent(event);
                 DJV_PRIVATE_PTR();
@@ -306,12 +307,12 @@ namespace djv
                 }
             }
 
-            void ActionButton::_textFocusEvent(Event::TextFocus&)
+            void ActionButton::_textFocusEvent(System::Event::TextFocus&)
             {
                 _redraw();
             }
 
-            void ActionButton::_textFocusLostEvent(Event::TextFocusLost&)
+            void ActionButton::_textFocusLostEvent(System::Event::TextFocusLost&)
             {
                 _redraw();
             }
@@ -350,7 +351,7 @@ namespace djv
                         {
                             if (auto context = widget->getContext().lock())
                             {
-                                auto textSystem = context->getSystemT<TextSystem>();
+                                auto textSystem = context->getSystemT<System::TextSystem>();
                                 std::vector<std::string> labels;
                                 for (const auto& i : value)
                                 {

@@ -6,10 +6,10 @@
 
 #include <djvUI/LayoutUtil.h>
 
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
-#include <djvCore/Math.h>
-#include <djvCore/VectorFunc.h>
+#include <djvMath/Math.h>
+#include <djvMath/VectorFunc.h>
 
 #include <array>
 #include <unordered_map>
@@ -35,7 +35,7 @@ namespace djv
                 Spacing spacing = Spacing(MetricsRole::Spacing, MetricsRole::Spacing);
             };
 
-            void Grid::_init(const std::shared_ptr<Context>& context)
+            void Grid::_init(const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
 
@@ -49,7 +49,7 @@ namespace djv
             Grid::~Grid()
             {}
 
-            std::shared_ptr<Grid> Grid::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<Grid> Grid::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<Grid>(new Grid);
                 out->_init(context);
@@ -307,7 +307,7 @@ namespace djv
                 }
             }
             
-            void Grid::_preLayoutEvent(Event::PreLayout&)
+            void Grid::_preLayoutEvent(System::Event::PreLayout&)
             {
                 DJV_PRIVATE_PTR();
 
@@ -362,12 +362,12 @@ namespace djv
                 _setMinimumSize(minimumSize + getMargin().getSize(style));
             }
 
-            void Grid::_layoutEvent(Event::Layout& event)
+            void Grid::_layoutEvent(System::Event::Layout& event)
             {
                 DJV_PRIVATE_PTR();
 
                 const auto& style = _getStyle();
-                const BBox2f& g = getGeometry();
+                const Math::BBox2f& g = getGeometry();
                 const float gw = g.w();
                 const float gh = g.h();
 
@@ -467,7 +467,7 @@ namespace djv
                 // Calculate the geometry.
                 p.rowPosAndHeight.clear();
                 p.columnPosAndWidth.clear();
-                std::map<std::shared_ptr<Widget>, BBox2f> childrenGeometry;
+                std::map<std::shared_ptr<Widget>, Math::BBox2f> childrenGeometry;
                 glm::vec2 pos(g.min.x + getMargin().get(Side::Left, style), g.min.y + getMargin().get(Side::Top, style));
                 for (int x = 0; x < gridSize.x; ++x)
                 {
@@ -486,7 +486,7 @@ namespace djv
                             {
                                 p.columnPosAndWidth[x].first = pos.x;
                                 p.columnPosAndWidth[x].second = std::max(p.columnPosAndWidth[x].second, w);
-                                childrenGeometry[i->second] = BBox2f(pos.x, 0.F, w, 0.F);
+                                childrenGeometry[i->second] = Math::BBox2f(pos.x, 0.F, w, 0.F);
                             }
                         }
                     }
@@ -509,8 +509,8 @@ namespace djv
                             {
                                 p.rowPosAndHeight[y].first = pos.y;
                                 p.rowPosAndHeight[y].second = std::max(p.rowPosAndHeight[y].second, h);
-                                const BBox2f bbox = childrenGeometry[i->second];
-                                childrenGeometry[i->second] = BBox2f(bbox.x(), pos.y, bbox.w(), h);
+                                const Math::BBox2f bbox = childrenGeometry[i->second];
+                                childrenGeometry[i->second] = Math::BBox2f(bbox.x(), pos.y, bbox.w(), h);
                             }
                         }
                     }
@@ -527,21 +527,21 @@ namespace djv
                 }
             }
 
-            void Grid::_paintEvent(Event::Paint& event)
+            void Grid::_paintEvent(System::Event::Paint& event)
             {
                 Widget::_paintEvent(event);
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
-                const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const auto& render = _getRender();
-                std::map<ColorRole, std::vector<BBox2f> > rects;
+                std::map<ColorRole, std::vector<Math::BBox2f> > rects;
                 for (const auto& i : p.rowPosAndHeight)
                 {
                     const auto j = p.rowBackgroundRoles.find(i.first);
                     if (j != p.rowBackgroundRoles.end())
                     {
                         const auto& row = i.second;
-                        rects[j->second].emplace_back(BBox2f(g.min.x, row.first, g.w(), row.second));
+                        rects[j->second].emplace_back(Math::BBox2f(g.min.x, row.first, g.w(), row.second));
                     }
                 }
                 for (const auto& i : p.columnPosAndWidth)
@@ -550,7 +550,7 @@ namespace djv
                     if (j != p.columnBackgroundRoles.end())
                     {
                         const auto& column = i.second;
-                        rects[j->second].emplace_back(BBox2f(column.first, g.min.y, column.second, g.h()));
+                        rects[j->second].emplace_back(Math::BBox2f(column.first, g.min.y, column.second, g.h()));
                     }
                 }
                 for (const auto& i : rects)

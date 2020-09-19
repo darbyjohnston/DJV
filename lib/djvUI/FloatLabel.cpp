@@ -6,7 +6,8 @@
 
 #include <djvUI/Label.h>
 
-#include <djvCore/NumericValueModels.h>
+#include <djvMath/NumericValueModels.h>
+
 #include <djvCore/ValueObserver.h>
 
 using namespace djv::Core;
@@ -17,14 +18,14 @@ namespace djv
     {
         struct FloatLabel::Private
         {
-            std::shared_ptr<FloatValueModel> model;
+            std::shared_ptr<Math::FloatValueModel> model;
             size_t precision = 2;
             std::shared_ptr<Label> label;
-            std::shared_ptr<ValueObserver<FloatRange> > rangeObserver;
+            std::shared_ptr<ValueObserver<Math::FloatRange> > rangeObserver;
             std::shared_ptr<ValueObserver<float> > valueObserver;
         };
 
-        void FloatLabel::_init(const std::shared_ptr<Context>& context)
+        void FloatLabel::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -45,19 +46,19 @@ namespace djv
         FloatLabel::~FloatLabel()
         {}
 
-        std::shared_ptr<FloatLabel> FloatLabel::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<FloatLabel> FloatLabel::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<FloatLabel>(new FloatLabel);
             out->_init(context);
             return out;
         }
 
-        const std::shared_ptr<FloatValueModel>& FloatLabel::getModel() const
+        const std::shared_ptr<Math::FloatValueModel>& FloatLabel::getModel() const
         {
             return _p->model;
         }
 
-        void FloatLabel::setModel(const std::shared_ptr<FloatValueModel>& model)
+        void FloatLabel::setModel(const std::shared_ptr<Math::FloatValueModel>& model)
         {
             DJV_PRIVATE_PTR();
             if (p.model)
@@ -68,9 +69,9 @@ namespace djv
             if (p.model)
             {
                 auto weak = std::weak_ptr<FloatLabel>(std::dynamic_pointer_cast<FloatLabel>(shared_from_this()));
-                p.rangeObserver = ValueObserver<FloatRange>::create(
+                p.rangeObserver = ValueObserver<Math::FloatRange>::create(
                     p.model->observeRange(),
-                    [weak](const FloatRange& value)
+                    [weak](const Math::FloatRange& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -103,7 +104,7 @@ namespace djv
             _textUpdate();
         }
         
-        std::string FloatLabel::getSizeString(const FloatRange& range, size_t precision)
+        std::string FloatLabel::getSizeString(const Math::FloatRange& range, size_t precision)
         {
             std::string out;
             const size_t digits = std::max(Math::getNumDigits(range.getMin()), Math::getNumDigits(range.getMax()));
@@ -120,14 +121,14 @@ namespace djv
             return out;
         }
 
-        void FloatLabel::_preLayoutEvent(Event::PreLayout& event)
+        void FloatLabel::_preLayoutEvent(System::Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             _setMinimumSize(p.label->getMinimumSize() + getMargin().getSize(style));
         }
 
-        void FloatLabel::_layoutEvent(Event::Layout& event)
+        void FloatLabel::_layoutEvent(System::Event::Layout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();

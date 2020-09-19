@@ -6,9 +6,10 @@
 
 #include <djvUI/ISettings.h>
 
-#include <djvAV/Pixel.h>
+#include <djvImage/Pixel.h>
 
-#include <djvCore/BBox.h>
+#include <djvMath/BBox.h>
+
 #include <djvCore/ValueObserver.h>
 
 #include <map>
@@ -23,14 +24,14 @@ namespace djv
             DJV_NON_COPYABLE(ToolSettings);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
 
             ToolSettings();
 
         public:
             ~ToolSettings() override;
 
-            static std::shared_ptr<ToolSettings> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ToolSettings> create(const std::shared_ptr<System::Context>&);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeMessagesPopup() const;
             void setMessagesPopup(bool);
@@ -38,8 +39,8 @@ namespace djv
             std::map<std::string, bool> getDebugBellowsState() const;
             void setDebugBellowsState(const std::map<std::string, bool>&);
 
-            const std::map<std::string, Core::BBox2f>& getWidgetGeom() const;
-            void setWidgetGeom(const std::map<std::string, Core::BBox2f>&);
+            const std::map<std::string, Math::BBox2f>& getWidgetGeom() const;
+            void setWidgetGeom(const std::map<std::string, Math::BBox2f>&);
 
             void load(const rapidjson::Value &) override;
             rapidjson::Value save(rapidjson::Document::AllocatorType&) override;

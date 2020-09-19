@@ -36,7 +36,7 @@ namespace djv
             void closeMenus();
         };
 
-        void MenuBar::_init(const std::shared_ptr<Context>& context)
+        void MenuBar::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);            
             DJV_PRIVATE_PTR();
@@ -67,7 +67,7 @@ namespace djv
         MenuBar::~MenuBar()
         {}
 
-        std::shared_ptr<MenuBar> MenuBar::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<MenuBar> MenuBar::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<MenuBar>(new MenuBar);
             out->_init(context);
@@ -146,7 +146,7 @@ namespace djv
 
                     auto weak = std::weak_ptr<MenuBar>(std::dynamic_pointer_cast<MenuBar>(shared_from_this()));
                     auto menuWeak = std::weak_ptr<Menu>(std::dynamic_pointer_cast<Menu>(menu));
-                    auto contextWeak = std::weak_ptr<Context>(context);
+                    auto contextWeak = std::weak_ptr<System::Context>(context);
                     button->setOpenCallback(
                         [weak, menuWeak](bool open)
                         {
@@ -228,26 +228,26 @@ namespace djv
             }
         }
 
-        void MenuBar::_preLayoutEvent(Event::PreLayout& event)
+        void MenuBar::_preLayoutEvent(System::Event::PreLayout& event)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void MenuBar::_layoutEvent(Event::Layout& event)
+        void MenuBar::_layoutEvent(System::Event::Layout& event)
         {
-            const BBox2f& g = getGeometry();
+            const Math::BBox2f& g = getGeometry();
             const auto& style = _getStyle();
             _p->layout->setGeometry(getMargin().bbox(g, style));
         }
 
-        bool MenuBar::_eventFilter(const std::shared_ptr<IObject>&, Event::Event& event)
+        bool MenuBar::_eventFilter(const std::shared_ptr<IObject>&, System::Event::Event& event)
         {
             DJV_PRIVATE_PTR();
             switch (event.getEventType())
             {
-            case Event::Type::PointerMove:
+            case System::Event::Type::PointerMove:
             {
-                Event::PointerMove& moveEvent = static_cast<Event::PointerMove&>(event);
+                System::Event::PointerMove& moveEvent = static_cast<System::Event::PointerMove&>(event);
                 for (const auto& i : p.buttonsToMenus)
                 {
                     if (i.first->getGeometry().contains(moveEvent.getPointerInfo().projectedPos))

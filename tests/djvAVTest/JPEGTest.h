@@ -12,8 +12,8 @@ namespace djv
         {
         public:
             JPEGTest(
-                const Core::FileSystem::Path& tempPath,
-                const std::shared_ptr<Core::Context>&);
+                const System::File::Path& tempPath,
+                const std::shared_ptr<System::Context>&);
             
             void run() override;
             

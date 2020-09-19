@@ -5,8 +5,9 @@
 #include <djvCoreTest/OSFuncTest.h>
 
 #include <djvCore/OSFunc.h>
-#include <djvCore/Path.h>
 #include <djvCore/StringFunc.h>
+
+#include <sstream>
 
 using namespace djv::Core;
 
@@ -15,8 +16,8 @@ namespace djv
     namespace CoreTest
     {
         OSFuncTest::OSFuncTest(
-            const FileSystem::Path& tempPath,
-            const std::shared_ptr<Core::Context>& context) :
+            const System::File::Path& tempPath,
+            const std::shared_ptr<System::Context>& context) :
             ITest("djv::CoreTest::OSFuncTest", tempPath, context)
         {}
         
@@ -84,18 +85,6 @@ namespace djv
                 DJV_ASSERT("one" == value[0]);
                 DJV_ASSERT("two" == value[1]);
                 DJV_ASSERT("three" == value[2]);
-            }
-            
-            for (auto i : OS::getDirectoryShortcutEnums())
-            {
-                std::stringstream ss;
-                ss << i;
-                _print("Directory shortcut: " + _getText(ss.str()));
-            }
-            
-            for (auto i : OS::getDirectoryShortcutEnums())
-            {
-                _print("Directory shortcut path: " + OS::getPath(i).get());
             }
         }
         

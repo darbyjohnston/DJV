@@ -16,13 +16,13 @@ namespace djv
             DJV_NON_COPYABLE(NumericEditButtons);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             NumericEditButtons();
 
         public:
             ~NumericEditButtons() override;
 
-            static std::shared_ptr<NumericEditButtons> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<NumericEditButtons> create(const std::shared_ptr<System::Context>&);
 
             void setIncrementEnabled(bool);
             void setDecrementEnabled(bool);
@@ -31,8 +31,8 @@ namespace djv
             void setDecrementCallback(const std::function<void(void)>&);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
 
         private:
             DJV_PRIVATE();
@@ -44,7 +44,7 @@ namespace djv
             DJV_NON_COPYABLE(NumericEdit);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             NumericEdit();
 
         public:
@@ -60,11 +60,11 @@ namespace djv
             void _setIsMin(bool);
             void _setIsMax(bool);
 
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
-            void _paintEvent(Core::Event::Paint&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
+            void _paintEvent(System::Event::Paint&) override;
 
-            bool _eventFilter(const std::shared_ptr<IObject>&, Core::Event::Event&) override;
+            bool _eventFilter(const std::shared_ptr<IObject>&, System::Event::Event&) override;
 
         private:
             DJV_PRIVATE();

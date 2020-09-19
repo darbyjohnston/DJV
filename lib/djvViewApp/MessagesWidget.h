@@ -16,13 +16,13 @@ namespace djv
             DJV_NON_COPYABLE(MessagesWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             MessagesWidget();
 
         public:
             ~MessagesWidget() override;
 
-            static std::shared_ptr<MessagesWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<MessagesWidget> create(const std::shared_ptr<System::Context>&);
 
             void setText(const std::string&);
             void setPopup(bool);
@@ -32,7 +32,7 @@ namespace djv
             void setClearCallback(const std::function<void(void)>&);
 
         protected:
-            void _initEvent(Core::Event::Init &) override;
+            void _initEvent(System::Event::Init &) override;
 
         private:
             DJV_PRIVATE();

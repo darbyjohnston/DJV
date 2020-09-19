@@ -14,16 +14,10 @@ namespace djv
         {
         public:
             TimeFuncTest(
-                const Core::FileSystem::Path& tempPath,
-                const std::shared_ptr<Core::Context>&);
+                const System::File::Path& tempPath,
+                const std::shared_ptr<System::Context>&);
             
             void run() override;
-        
-        private:
-            void _conversion();
-            void _keycode();
-            void _timecode();
-            void _serialize();
         };
         
     } // namespace CoreTest

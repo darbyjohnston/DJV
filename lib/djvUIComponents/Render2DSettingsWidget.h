@@ -16,11 +16,11 @@ namespace djv
             DJV_NON_COPYABLE(Render2DImageSettingsWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             Render2DImageSettingsWidget();
 
         public:
-            static std::shared_ptr<Render2DImageSettingsWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<Render2DImageSettingsWidget> create(const std::shared_ptr<System::Context>&);
 
             std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;
@@ -29,7 +29,7 @@ namespace djv
             void setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>&) override;
 
         protected:
-            void _initEvent(Core::Event::Init&) override;
+            void _initEvent(System::Event::Init&) override;
 
         private:
             void _widgetUpdate();
@@ -43,11 +43,11 @@ namespace djv
             DJV_NON_COPYABLE(Render2DTextSettingsWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             Render2DTextSettingsWidget();
 
         public:
-            static std::shared_ptr<Render2DTextSettingsWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<Render2DTextSettingsWidget> create(const std::shared_ptr<System::Context>&);
 
             std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;
@@ -56,7 +56,7 @@ namespace djv
             void setLabelSizeGroup(const std::weak_ptr<UI::LabelSizeGroup>&) override;
 
         protected:
-            void _initEvent(Core::Event::Init&) override;
+            void _initEvent(System::Event::Init&) override;
 
         private:
             DJV_PRIVATE();

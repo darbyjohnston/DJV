@@ -6,7 +6,7 @@
 
 #include <djvUI/ISettings.h>
 
-#include <djvCore/BBox.h>
+#include <djvMath/BBox.h>
 #include <djvCore/ListObserver.h>
 #include <djvCore/MapObserver.h>
 #include <djvCore/ValueObserver.h>
@@ -15,14 +15,14 @@
 
 namespace djv
 {
-    namespace Core
+    namespace System
     {
-        namespace FileSystem
+        namespace File
         {
-            class FileInfo;
+            class Info;
 
-        } // namespace FileSystem
-    } // namespace Core
+        } // namespace File
+    } // namespace System
 
     namespace ViewApp
     {
@@ -32,22 +32,22 @@ namespace djv
             DJV_NON_COPYABLE(FileSettings);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
 
             FileSettings();
 
         public:
             ~FileSettings() override;
 
-            static std::shared_ptr<FileSettings> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<FileSettings> create(const std::shared_ptr<System::Context>&);
             
             std::shared_ptr<Core::IValueSubject<size_t> > observeOpenMax() const;
             void setOpenMax(size_t);
 
-            std::shared_ptr<Core::IListSubject<Core::FileSystem::FileInfo> > observeRecentFiles() const;
+            std::shared_ptr<Core::IListSubject<System::File::Info> > observeRecentFiles() const;
             std::shared_ptr<Core::IValueSubject<size_t> > observeRecentFilesMax() const;
             std::map<std::string, bool> getRecentFilesSettingsBellowsState() const;
-            void setRecentFiles(const std::vector<Core::FileSystem::FileInfo>&);
+            void setRecentFiles(const std::vector<System::File::Info>&);
             void setRecentFilesMax(size_t);
             void setRecentFilesSettingsBellowsState(const std::map<std::string, bool>&);
 
@@ -61,8 +61,8 @@ namespace djv
             void setCacheEnabled(bool);
             void setCacheSize(int);
 
-            const std::map<std::string, Core::BBox2f>& getWidgetGeom() const;
-            void setWidgetGeom(const std::map<std::string, Core::BBox2f>&);
+            const std::map<std::string, Math::BBox2f>& getWidgetGeom() const;
+            void setWidgetGeom(const std::map<std::string, Math::BBox2f>&);
 
             void load(const rapidjson::Value&) override;
             rapidjson::Value save(rapidjson::Document::AllocatorType&) override;

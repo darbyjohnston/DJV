@@ -17,7 +17,7 @@ namespace djv
             std::shared_ptr<VerticalLayout> childLayout;
         };
 
-        void ISettingsWidget::_init(const std::shared_ptr<Context>& context)
+        void ISettingsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
 
@@ -56,12 +56,12 @@ namespace djv
             _p->childLayout->clearChildren();
         }
 
-        void ISettingsWidget::_preLayoutEvent(Event::PreLayout& event)
+        void ISettingsWidget::_preLayoutEvent(System::Event::PreLayout& event)
         {
             _setMinimumSize(_p->childLayout->getMinimumSize());
         }
 
-        void ISettingsWidget::_layoutEvent(Event::Layout&)
+        void ISettingsWidget::_layoutEvent(System::Event::Layout&)
         {
             _p->childLayout->setGeometry(getGeometry());
         }

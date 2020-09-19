@@ -17,18 +17,18 @@ namespace djv
             DJV_NON_COPYABLE(FloatEdit);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             FloatEdit();
 
         public:
             ~FloatEdit() override;
 
-            static std::shared_ptr<FloatEdit> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<FloatEdit> create(const std::shared_ptr<System::Context>&);
 
             int getPrecision();
             void setPrecision(int);
 
-            void setModel(const std::shared_ptr<Core::INumericValueModel<float> >&) override;
+            void setModel(const std::shared_ptr<Math::INumericValueModel<float> >&) override;
 
         protected:
             void _setIsMin(bool) override;

@@ -17,7 +17,7 @@ namespace djv
             std::shared_ptr<Border> border;
         };
 
-        void PopupWidget::_init(const std::shared_ptr<Context>& context)
+        void PopupWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -37,7 +37,7 @@ namespace djv
         PopupWidget::~PopupWidget()
         {}
 
-        std::shared_ptr<PopupWidget> PopupWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<PopupWidget> PopupWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<PopupWidget>(new PopupWidget);
             out->_init(context);
@@ -64,22 +64,22 @@ namespace djv
             return _p->border->getHeightForWidth(value);
         }
 
-        void PopupWidget::_preLayoutEvent(Event::PreLayout& event)
+        void PopupWidget::_preLayoutEvent(System::Event::PreLayout& event)
         {
             _setMinimumSize(_p->border->getMinimumSize());
         }
 
-        void PopupWidget::_layoutEvent(Event::Layout& event)
+        void PopupWidget::_layoutEvent(System::Event::Layout& event)
         {
             _p->border->setGeometry(getGeometry());
         }
 
-        void PopupWidget::_buttonPressEvent(Event::ButtonPress& event)
+        void PopupWidget::_buttonPressEvent(System::Event::ButtonPress& event)
         {
             event.accept();
         }
 
-        void PopupWidget::_buttonReleaseEvent(Event::ButtonRelease& event)
+        void PopupWidget::_buttonReleaseEvent(System::Event::ButtonRelease& event)
         {
             event.accept();
         }

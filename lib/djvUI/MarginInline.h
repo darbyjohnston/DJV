@@ -59,7 +59,7 @@ namespace djv
                 return get(Side::Top, style) + get(Side::Bottom, style);
             }
 
-            inline Core::BBox2f Margin::bbox(const Core::BBox2f& value, const std::shared_ptr<Style::Style>& style) const
+            inline Math::BBox2f Margin::bbox(const Math::BBox2f& value, const std::shared_ptr<Style::Style>& style) const
             {
                 return value.margin(
                     -get(Side::Left, style),

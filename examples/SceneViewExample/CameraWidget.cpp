@@ -6,6 +6,8 @@
 
 #include <djvUI/RowLayout.h>
 
+#include <djvMath/Range.h>
+
 using namespace djv;
 
 namespace
@@ -13,12 +15,12 @@ namespace
     const float posMax = 10000000.F;
 }
 
-void CameraWidget::_init(const std::shared_ptr<Core::Context>& context)
+void CameraWidget::_init(const std::shared_ptr<System::Context>& context)
 {
     ISettingsWidget::_init(context);
 
     _floatEdits["FOV"] = UI::FloatEdit::create(context);
-    _floatEdits["FOV"]->setRange(Core::FloatRange(10.F, 170.F));
+    _floatEdits["FOV"]->setRange(Math::FloatRange(10.F, 170.F));
     auto model = _floatEdits["FOV"]->getModel();
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
@@ -29,13 +31,13 @@ void CameraWidget::_init(const std::shared_ptr<Core::Context>& context)
     _groupBoxes["Lens"]->addChild(_layouts["Lens"]);
 
     _floatEdits["ClippingNear"] = UI::FloatEdit::create(context);
-    _floatEdits["ClippingNear"]->setRange(Core::FloatRange(.001F, posMax));
+    _floatEdits["ClippingNear"]->setRange(Math::FloatRange(.001F, posMax));
     _floatEdits["ClippingNear"]->setPrecision(3);
     model = _floatEdits["ClippingNear"]->getModel();
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
     _floatEdits["ClippingFar"] = UI::FloatEdit::create(context);
-    _floatEdits["ClippingFar"]->setRange(Core::FloatRange(.001F, posMax));
+    _floatEdits["ClippingFar"]->setRange(Math::FloatRange(.001F, posMax));
     _floatEdits["ClippingFar"]->setPrecision(3);
     model = _floatEdits["ClippingFar"]->getModel();
     model->setSmallIncrement(1.F);
@@ -48,17 +50,17 @@ void CameraWidget::_init(const std::shared_ptr<Core::Context>& context)
     _groupBoxes["Clipping"]->addChild(_layouts["Clipping"]);
 
     _floatEdits["TargetX"] = UI::FloatEdit::create(context);
-    _floatEdits["TargetX"]->setRange(Core::FloatRange(-posMax, posMax));
+    _floatEdits["TargetX"]->setRange(Math::FloatRange(-posMax, posMax));
     model = _floatEdits["TargetX"]->getModel();
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
     _floatEdits["TargetY"] = UI::FloatEdit::create(context);
-    _floatEdits["TargetY"]->setRange(Core::FloatRange(-posMax, posMax));
+    _floatEdits["TargetY"]->setRange(Math::FloatRange(-posMax, posMax));
     model = _floatEdits["TargetY"]->getModel();
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
     _floatEdits["TargetZ"] = UI::FloatEdit::create(context);
-    _floatEdits["TargetZ"]->setRange(Core::FloatRange(-posMax, posMax));
+    _floatEdits["TargetZ"]->setRange(Math::FloatRange(-posMax, posMax));
     model = _floatEdits["TargetZ"]->getModel();
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
@@ -71,17 +73,17 @@ void CameraWidget::_init(const std::shared_ptr<Core::Context>& context)
     _groupBoxes["Target"]->addChild(_layouts["Target"]);
 
     _floatEdits["PositionDistance"] = UI::FloatEdit::create(context);
-    _floatEdits["PositionDistance"]->setRange(Core::FloatRange(1.F, posMax));
+    _floatEdits["PositionDistance"]->setRange(Math::FloatRange(1.F, posMax));
     model = _floatEdits["PositionDistance"]->getModel();
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
     _floatEdits["PositionLatitude"] = UI::FloatEdit::create(context);
-    _floatEdits["PositionLatitude"]->setRange(Core::FloatRange(-89.F, 89.F));
+    _floatEdits["PositionLatitude"]->setRange(Math::FloatRange(-89.F, 89.F));
     model = _floatEdits["PositionLatitude"]->getModel();
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
     _floatEdits["PositionLongitude"] = UI::FloatEdit::create(context);
-    _floatEdits["PositionLongitude"]->setRange(Core::FloatRange(0.F, 360.F));
+    _floatEdits["PositionLongitude"]->setRange(Math::FloatRange(0.F, 360.F));
     model = _floatEdits["PositionLongitude"]->getModel();
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
@@ -122,7 +124,7 @@ void CameraWidget::_init(const std::shared_ptr<Core::Context>& context)
         {
             if (auto widget = weak.lock())
             {
-                widget->_cameraData.clip = Core::FloatRange(value, widget->_cameraData.clip.getMax());
+                widget->_cameraData.clip = Math::FloatRange(value, widget->_cameraData.clip.getMax());
                 if (widget->_cameraDataCallback)
                 {
                     widget->_cameraDataCallback(widget->_cameraData);
@@ -134,7 +136,7 @@ void CameraWidget::_init(const std::shared_ptr<Core::Context>& context)
         {
             if (auto widget = weak.lock())
             {
-                widget->_cameraData.clip = Core::FloatRange(widget->_cameraData.clip.getMin(), value);
+                widget->_cameraData.clip = Math::FloatRange(widget->_cameraData.clip.getMin(), value);
                 if (widget->_cameraDataCallback)
                 {
                     widget->_cameraDataCallback(widget->_cameraData);
@@ -227,7 +229,7 @@ CameraWidget::CameraWidget()
 CameraWidget::~CameraWidget()
 {}
 
-std::shared_ptr<CameraWidget> CameraWidget::create(const std::shared_ptr<Core::Context>& context)
+std::shared_ptr<CameraWidget> CameraWidget::create(const std::shared_ptr<System::Context>& context)
 {
     auto out = std::shared_ptr<CameraWidget>(new CameraWidget);
     out->_init(context);
@@ -253,7 +255,7 @@ void CameraWidget::setLabelSizeGroup(const std::weak_ptr<djv::UI::LabelSizeGroup
     }
 }
 
-void CameraWidget::_initEvent(Core::Event::Init& event)
+void CameraWidget::_initEvent(System::Event::Init& event)
 {
     ISettingsWidget::_initEvent(event);
     if (event.getData().text)

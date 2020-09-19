@@ -15,7 +15,7 @@
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/SettingsSystem.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -33,7 +33,7 @@ namespace djv
             std::shared_ptr<UI::ScrollWidget> scrollWidget;
         };
 
-        void SettingsWidget::_init(const std::shared_ptr<Context>& context)
+        void SettingsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -54,10 +54,10 @@ namespace djv
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
 
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto appSettings = settingsSystem->getSettingsT<ApplicationSettings>();
             const auto& settingsBellows = appSettings->observeSettingsBellows()->get();
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             const size_t widgetsSize = p.widgets.size();
             for (const auto& i : p.widgets)
             {
@@ -107,7 +107,7 @@ namespace djv
                         {
                             if (auto context = contextWeak.lock())
                             {
-                                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                                auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                                 auto appSettings = settingsSystem->getSettingsT<ApplicationSettings>();
                                 auto settingsBellows = appSettings->observeSettingsBellows()->get();
                                 settingsBellows[group] = value;
@@ -133,30 +133,30 @@ namespace djv
         SettingsWidget::~SettingsWidget()
         {}
 
-        std::shared_ptr<SettingsWidget> SettingsWidget::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<SettingsWidget> SettingsWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<SettingsWidget>(new SettingsWidget);
             out->_init(context);
             return out;
         }
 
-        void SettingsWidget::_initLayoutEvent(Event::InitLayout& event)
+        void SettingsWidget::_initLayoutEvent(System::Event::InitLayout& event)
         {
             Widget::_initLayoutEvent(event);
             _p->sizeGroup->calcMinimumSize();
         }
 
-        void SettingsWidget::_preLayoutEvent(Event::PreLayout& event)
+        void SettingsWidget::_preLayoutEvent(System::Event::PreLayout& event)
         {
             _setMinimumSize(_p->scrollWidget->getMinimumSize());
         }
 
-        void SettingsWidget::_layoutEvent(Event::Layout& event)
+        void SettingsWidget::_layoutEvent(System::Event::Layout& event)
         {
             _p->scrollWidget->setGeometry(getGeometry());
         }
 
-        void SettingsWidget::_initEvent(Event::Init& event)
+        void SettingsWidget::_initEvent(System::Event::Init& event)
         {
             if (event.getData().text)
             {

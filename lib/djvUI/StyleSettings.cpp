@@ -7,8 +7,8 @@
 #include <djvUI/FontSettings.h>
 #include <djvUI/SettingsSystem.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/TextSystem.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/TextSystem.h>
 
 #if defined(GetObject)
 #undef GetObject
@@ -43,7 +43,7 @@ namespace djv
                 std::shared_ptr<MapObserver<std::string, std::string> > localeFontsObserver;
             };
 
-            void Style::_init(const std::shared_ptr<Core::Context>& context)
+            void Style::_init(const std::shared_ptr<System::Context>& context)
             {
                 ISettings::_init("djv::UI::Settings::Style", context);
 
@@ -51,27 +51,27 @@ namespace djv
                 palettes[DJV_TEXT("style_palette_dark")] = UI::Style::Palette();
 
                 UI::Style::Palette palette;
-                palette.setColor(ColorRole::Background, AV::Image::Color(.92F, .92F, .92F, 1.F));
-                palette.setColor(ColorRole::BackgroundBellows, AV::Image::Color(.85F, .85F, .85F, 1.F));
-                palette.setColor(ColorRole::BackgroundHeader, AV::Image::Color(.8F, .8F, .8F, 1.F));
-                palette.setColor(ColorRole::BackgroundToolBar, AV::Image::Color(.88F, .88F, .88F, 1.F));
-                palette.setColor(ColorRole::Border, AV::Image::Color(.65F, .65F, .65F, 1.F));
-                palette.setColor(ColorRole::BorderButton, AV::Image::Color(.85F, .85F, .85F, 1.F));
-                palette.setColor(ColorRole::Button, AV::Image::Color(1.F, 1.F, 1.F, 1.F));
-                palette.setColor(ColorRole::Checked, AV::Image::Color(.69F, .76F, .89F, 1.F));
-                palette.setColor(ColorRole::TextFocus, AV::Image::Color(.49F, .66F, .89F, 1.F));
-                palette.setColor(ColorRole::Foreground, AV::Image::Color(0.F, 0.F, 0.F, 1.F));
-                palette.setColor(ColorRole::ForegroundDim, AV::Image::Color(.5F, .5F, .5F, 1.F));
-                palette.setColor(ColorRole::Handle, AV::Image::Color(.49F, .66F, .89F, 1.F));
-                palette.setColor(ColorRole::Hovered, AV::Image::Color(0.F, 0.F, 0.F, .06F));
-                palette.setColor(ColorRole::Overlay, AV::Image::Color(0.F, 0.F, 0.F, .7F));
-                palette.setColor(ColorRole::OverlayLight, AV::Image::Color(1.F, 1.F, 1.F, .7F));
-                palette.setColor(ColorRole::Pressed, AV::Image::Color(0.F, 0.F, 0.F, .1F));
-                palette.setColor(ColorRole::Shadow, AV::Image::Color(0.F, 0.F, 0.F, .12F));
-                palette.setColor(ColorRole::Trough, AV::Image::Color(.95F, .95F, .95F, 1.F));
-                palette.setColor(ColorRole::Cached, AV::Image::Color(.69F, .89F, .76F, 1.F));
-                palette.setColor(ColorRole::Warning, AV::Image::Color(.8F, .8F, .2F, 1.F));
-                palette.setColor(ColorRole::Error, AV::Image::Color(.8F, .2F, .2F, 1.F));
+                palette.setColor(ColorRole::Background, Image::Color(.92F, .92F, .92F, 1.F));
+                palette.setColor(ColorRole::BackgroundBellows, Image::Color(.85F, .85F, .85F, 1.F));
+                palette.setColor(ColorRole::BackgroundHeader, Image::Color(.8F, .8F, .8F, 1.F));
+                palette.setColor(ColorRole::BackgroundToolBar, Image::Color(.88F, .88F, .88F, 1.F));
+                palette.setColor(ColorRole::Border, Image::Color(.65F, .65F, .65F, 1.F));
+                palette.setColor(ColorRole::BorderButton, Image::Color(.85F, .85F, .85F, 1.F));
+                palette.setColor(ColorRole::Button, Image::Color(1.F, 1.F, 1.F, 1.F));
+                palette.setColor(ColorRole::Checked, Image::Color(.69F, .76F, .89F, 1.F));
+                palette.setColor(ColorRole::TextFocus, Image::Color(.49F, .66F, .89F, 1.F));
+                palette.setColor(ColorRole::Foreground, Image::Color(0.F, 0.F, 0.F, 1.F));
+                palette.setColor(ColorRole::ForegroundDim, Image::Color(.5F, .5F, .5F, 1.F));
+                palette.setColor(ColorRole::Handle, Image::Color(.49F, .66F, .89F, 1.F));
+                palette.setColor(ColorRole::Hovered, Image::Color(0.F, 0.F, 0.F, .06F));
+                palette.setColor(ColorRole::Overlay, Image::Color(0.F, 0.F, 0.F, .7F));
+                palette.setColor(ColorRole::OverlayLight, Image::Color(1.F, 1.F, 1.F, .7F));
+                palette.setColor(ColorRole::Pressed, Image::Color(0.F, 0.F, 0.F, .1F));
+                palette.setColor(ColorRole::Shadow, Image::Color(0.F, 0.F, 0.F, .12F));
+                palette.setColor(ColorRole::Trough, Image::Color(.95F, .95F, .95F, 1.F));
+                palette.setColor(ColorRole::Cached, Image::Color(.69F, .89F, .76F, 1.F));
+                palette.setColor(ColorRole::Warning, Image::Color(.8F, .8F, .2F, 1.F));
+                palette.setColor(ColorRole::Error, Image::Color(.8F, .2F, .2F, 1.F));
                 palette.setDisabledMult(.5F);
                 palettes[DJV_TEXT("style_palette_light")] = palette;
                 
@@ -108,7 +108,7 @@ namespace djv
                 _load();
 
                 auto weak = std::weak_ptr<Style>(std::dynamic_pointer_cast<Style>(shared_from_this()));
-                if (auto textSystem = context->getSystemT<TextSystem>())
+                if (auto textSystem = context->getSystemT<System::TextSystem>())
                 {
                     p.currentLocaleObserver = ValueObserver<std::string>::create(
                         textSystem->observeCurrentLocale(),
@@ -122,7 +122,7 @@ namespace djv
                     });
                 }
 
-                auto settingsSystem = context->getSystemT<System>();
+                auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
                 auto fontSettings = settingsSystem->getSettingsT<Settings::Font>();
                 p.localeFontsObserver = MapObserver<std::string, std::string>::create(
                     fontSettings->observeLocaleFonts(),
@@ -143,7 +143,7 @@ namespace djv
             Style::~Style()
             {}
 
-            std::shared_ptr<Style> Style::create(const std::shared_ptr<Core::Context>& context)
+            std::shared_ptr<Style> Style::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<Style>(new Style);
                 out->_init(context);

@@ -6,12 +6,14 @@
 
 #include <djvUI/Style.h>
 
-#include <djvAV/FontSystem.h>
-#include <djvAV/Render2D.h>
+#include <djvRender2D/FontSystem.h>
+#include <djvRender2D/Render.h>
+
+#include <djvSystem/Context.h>
+
+#include <djvMath/Math.h>
 
 #include <djvCore/Cache.h>
-#include <djvCore/Context.h>
-#include <djvCore/Math.h>
 #include <djvCore/Memory.h>
 
 //#pragma optimize("", off)
@@ -24,7 +26,7 @@ namespace djv
     {
         struct TextBlock::Private
         {
-            std::shared_ptr<AV::Font::System> fontSystem;
+            std::shared_ptr<Render2D::Font::FontSystem> fontSystem;
 
             std::string text;
             TextHAlign textHAlign = TextHAlign::Left;
@@ -34,27 +36,27 @@ namespace djv
             std::string fontFace;
             std::string fontFamily;
             MetricsRole fontSizeRole = MetricsRole::FontMedium;
-            AV::Font::FontInfo fontInfo;
-            AV::Font::Metrics fontMetrics;
-            std::future<AV::Font::Metrics> fontMetricsFuture;
+            Render2D::Font::FontInfo fontInfo;
+            Render2D::Font::Metrics fontMetrics;
+            std::future<Render2D::Font::Metrics> fontMetricsFuture;
 
             bool wordWrap = true;
 
-            typedef std::pair<AV::Font::FontInfo, float> TextCacheKey;
-            typedef std::pair<std::vector<AV::Font::TextLine>, glm::vec2> TextCacheValue;
+            typedef std::pair<Render2D::Font::FontInfo, float> TextCacheKey;
+            typedef std::pair<std::vector<Render2D::Font::TextLine>, glm::vec2> TextCacheValue;
             Memory::Cache<TextCacheKey, TextCacheValue> textCache;
 
-            BBox2f clipRect;
+            Math::BBox2f clipRect;
 
             TextCacheValue textLines(float);
         };
 
-        void TextBlock::_init(const std::shared_ptr<Context>& context)
+        void TextBlock::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
             setClassName("djv::UI::TextBlock");
-            p.fontSystem = context->getSystemT<AV::Font::System>();
+            p.fontSystem = context->getSystemT<Render2D::Font::FontSystem>();
             p.textCache.setMax(5);
         }
         
@@ -65,7 +67,7 @@ namespace djv
         TextBlock::~TextBlock()
         {}
 
-        std::shared_ptr<TextBlock> TextBlock::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<TextBlock> TextBlock::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<TextBlock>(new TextBlock);
             out->_init(context);
@@ -200,7 +202,7 @@ namespace djv
             return textSize.y + getMargin().getHeight(style);
         }
 
-        void TextBlock::_preLayoutEvent(Event::PreLayout& event)
+        void TextBlock::_preLayoutEvent(System::Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
@@ -211,26 +213,26 @@ namespace djv
             _setMinimumSize(size + getMargin().getSize(style));
         }
 
-        void TextBlock::_layoutEvent(Event::Layout&)
+        void TextBlock::_layoutEvent(System::Event::Layout&)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const BBox2f& g = getMargin().bbox(getGeometry(), style);
+            const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
             const float w = g.w();
             p.textLines(w);
         }
 
-        void TextBlock::_clipEvent(Event::Clip& event)
+        void TextBlock::_clipEvent(System::Event::Clip& event)
         {
             _p->clipRect = event.getClipRect();
         }
 
-        void TextBlock::_paintEvent(Event::Paint& event)
+        void TextBlock::_paintEvent(System::Event::Paint& event)
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const BBox2f& g = getMargin().bbox(getGeometry(), style);
+            const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
             const auto key = std::make_pair(p.fontInfo, g.w());
             Private::TextCacheValue cacheValue;
             if (p.textCache.get(key, cacheValue))
@@ -239,7 +241,7 @@ namespace djv
                 glm::vec2 pos = g.min;
                 
                 const auto& render = _getRender();
-                //render->setFillColor(AV::Image::Color(1.F, 0.F, 0.F, .5F));
+                //render->setFillColor(Image::Color(1.F, 0.F, 0.F, .5F));
                 //render->drawRect(g);
 
                 render->setFillColor(style->getColor(p.textColorRole));
@@ -269,7 +271,7 @@ namespace djv
             }
         }
 
-        void TextBlock::_initEvent(Event::Init& event)
+        void TextBlock::_initEvent(System::Event::Init& event)
         {
             if (event.getData().resize || event.getData().font)
             {
@@ -277,7 +279,7 @@ namespace djv
             }
         }
 
-        void TextBlock::_updateEvent(Event::Update& event)
+        void TextBlock::_updateEvent(System::Event::Update& event)
         {
             DJV_PRIVATE_PTR();
             const bool fontMetricsFutureValid = p.fontMetricsFuture.valid();
@@ -291,7 +293,7 @@ namespace djv
                 }
                 catch (const std::exception& e)
                 {
-                    _log(e.what(), LogLevel::Error);
+                    _log(e.what(), System::LogLevel::Error);
                 }
             }
         }

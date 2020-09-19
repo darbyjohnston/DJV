@@ -6,18 +6,15 @@
 
 #include <djvUI/Widget.h>
 
-#include <djvAV/Pixel.h>
+#include <djvImage/Pixel.h>
 
 namespace djv
 {
-    namespace AV
+    namespace Image
     {
-        namespace Image
-        {
-            class Color;
-    
-        } // Image
-    } // AV
+        class Color;
+
+    } // Image
 
     namespace UI
     {
@@ -27,23 +24,23 @@ namespace djv
             DJV_NON_COPYABLE(ColorTypeWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             ColorTypeWidget();
 
         public:
             ~ColorTypeWidget() override;
 
-            static std::shared_ptr<ColorTypeWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ColorTypeWidget> create(const std::shared_ptr<System::Context>&);
 
-            AV::Image::Type getType() const;
-            void setType(AV::Image::Type);
-            void setTypeCallback(const std::function<void(AV::Image::Type)> &);
+            Image::Type getType() const;
+            void setType(Image::Type);
+            void setTypeCallback(const std::function<void(Image::Type)> &);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
 
-            void _initEvent(Core::Event::Init &) override;
+            void _initEvent(System::Event::Init &) override;
 
         private:
             void _widgetUpdate();
@@ -59,26 +56,26 @@ namespace djv
             DJV_NON_COPYABLE(ColorSliders);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             ColorSliders();
 
         public:
             ~ColorSliders() override;
 
-            static std::shared_ptr<ColorSliders> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ColorSliders> create(const std::shared_ptr<System::Context>&);
 
-            const AV::Image::Color & getColor() const;
-            void setColor(const AV::Image::Color &);
-            void setColorCallback(const std::function<void(const AV::Image::Color &)> &);
+            const Image::Color & getColor() const;
+            void setColor(const Image::Color &);
+            void setColorCallback(const std::function<void(const Image::Color &)> &);
             
             bool hasHSV() const;
             void setHSV(bool);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
 
-            void _initEvent(Core::Event::Init &) override;
+            void _initEvent(System::Event::Init &) override;
 
         private:
             void _widgetUpdate();
@@ -94,21 +91,21 @@ namespace djv
             DJV_NON_COPYABLE(ColorPicker);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             ColorPicker();
 
         public:
             ~ColorPicker() override;
 
-            static std::shared_ptr<ColorPicker> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ColorPicker> create(const std::shared_ptr<System::Context>&);
 
-            const AV::Image::Color& getColor() const;
-            void setColor(const AV::Image::Color&);
-            void setColorCallback(const std::function<void(const AV::Image::Color&)>&);
+            const Image::Color& getColor() const;
+            void setColor(const Image::Color&);
+            void setColorCallback(const std::function<void(const Image::Color&)>&);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
 
         private:
             void _colorUpdate();
@@ -122,17 +119,17 @@ namespace djv
             DJV_NON_COPYABLE(ColorPickerSwatch);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             ColorPickerSwatch();
 
         public:
             ~ColorPickerSwatch() override;
 
-            static std::shared_ptr<ColorPickerSwatch> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ColorPickerSwatch> create(const std::shared_ptr<System::Context>&);
 
-            const AV::Image::Color& getColor() const;
-            void setColor(const AV::Image::Color&);
-            void setColorCallback(const std::function<void(const AV::Image::Color&)>&);
+            const Image::Color& getColor() const;
+            void setColor(const Image::Color&);
+            void setColorCallback(const std::function<void(const Image::Color&)>&);
 
             MetricsRole getSwatchSizeRole() const;
             void setSwatchSizeRole(MetricsRole);
@@ -141,8 +138,8 @@ namespace djv
             void close();
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
 
         private:
             void _colorUpdate();

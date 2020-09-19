@@ -13,8 +13,8 @@
 
 #include <djvAV/AVSystem.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/TextSystem.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -33,7 +33,7 @@ namespace djv
             std::shared_ptr<MapObserver<std::string, std::string> > localeFontsObserver;
         };
 
-        void LanguageWidget::_init(const std::shared_ptr<Context>& context)
+        void LanguageWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
 
@@ -45,7 +45,7 @@ namespace djv
             addChild(p.comboBox);
 
             auto weak = std::weak_ptr<LanguageWidget>(std::dynamic_pointer_cast<LanguageWidget>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.comboBox->setCallback(
                 [weak, contextWeak](int value)
                 {
@@ -53,7 +53,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            auto textSystem = context->getSystemT<TextSystem>();
+                            auto textSystem = context->getSystemT<System::TextSystem>();
                             const auto i = widget->_p->indexToLocale.find(value);
                             if (i != widget->_p->indexToLocale.end())
                             {
@@ -63,7 +63,7 @@ namespace djv
                     }
                 });
 
-            auto textSystem = context->getSystemT<TextSystem>();
+            auto textSystem = context->getSystemT<System::TextSystem>();
             p.localeObserver = ValueObserver<std::string>::create(
                 textSystem->observeCurrentLocale(),
                 [weak](const std::string & value)
@@ -75,7 +75,7 @@ namespace djv
                 }
             });
 
-            auto settingsSystem = context->getSystemT<Settings::System>();
+            auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
             auto fontSettings = settingsSystem->getSettingsT<Settings::Font>();
             p.localeFontsObserver = MapObserver<std::string, std::string>::create(
                 fontSettings->observeLocaleFonts(),
@@ -93,7 +93,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<LanguageWidget> LanguageWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<LanguageWidget> LanguageWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<LanguageWidget>(new LanguageWidget);
             out->_init(context);
@@ -105,17 +105,17 @@ namespace djv
             return _p->comboBox->getHeightForWidth(value);
         }
 
-        void LanguageWidget::_preLayoutEvent(Event::PreLayout&)
+        void LanguageWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             _setMinimumSize(_p->comboBox->getMinimumSize());
         }
 
-        void LanguageWidget::_layoutEvent(Event::Layout&)
+        void LanguageWidget::_layoutEvent(System::Event::Layout&)
         {
             _p->comboBox->setGeometry(getGeometry());
         }
 
-        void LanguageWidget::_initEvent(Event::Init& event)
+        void LanguageWidget::_initEvent(System::Event::Init& event)
         {
             if (event.getData().text)
             {
@@ -175,7 +175,7 @@ namespace djv
             std::shared_ptr<FormLayout> layout;
         };
 
-        void LanguageSettingsWidget::_init(const std::shared_ptr<Context>& context)
+        void LanguageSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -193,7 +193,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<LanguageSettingsWidget> LanguageSettingsWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<LanguageSettingsWidget> LanguageSettingsWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<LanguageSettingsWidget>(new LanguageSettingsWidget);
             out->_init(context);
@@ -215,7 +215,7 @@ namespace djv
             _p->layout->setLabelSizeGroup(value);
         }
 
-        void LanguageSettingsWidget::_initEvent(Event::Init& event)
+        void LanguageSettingsWidget::_initEvent(System::Event::Init& event)
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();

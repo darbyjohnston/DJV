@@ -21,18 +21,6 @@ namespace djv
                 Windows
             };
             
-            //! This enumeration provides directory shortcuts.
-            enum class DirectoryShortcut
-            {
-                Home,
-                Desktop,
-                Documents,
-                Downloads,
-
-                Count,
-                First = Home
-            };
-            
         } // namespace OS
     } // namespace Core
 } // namespace djv

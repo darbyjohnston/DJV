@@ -4,7 +4,7 @@
 
 #include <djvAV/IO.h>
 
-#include <djvCore/SpeedFunc.h>
+#include <djvAV/SpeedFunc.h>
 
 using namespace djv::Core;
 
@@ -15,7 +15,7 @@ namespace djv
         namespace IO
         {
             Info::Info() :
-                videoSpeed(Time::fromSpeed(Time::getDefaultSpeed()))
+                videoSpeed(fromSpeed(getDefaultSpeed()))
             {}
 
             void VideoQueue::setMax(size_t value)
@@ -86,10 +86,10 @@ namespace djv
                 _finished = value;
             }
 
-            Frame::Sequence Cache::getFrames() const
+            Math::Frame::Sequence Cache::getFrames() const
             {
-                Frame::Sequence out;
-                std::vector<Frame::Index> frames;
+                Math::Frame::Sequence out;
+                std::vector<Math::Frame::Index> frames;
                 for (const auto& i : _cache)
                 {
                     frames.push_back(i.first);
@@ -98,24 +98,24 @@ namespace djv
                 if (size)
                 {
                     std::sort(frames.begin(), frames.end());
-                    Frame::Number rangeStart = frames[0];
-                    Frame::Number prevFrame = frames[0];
+                    Math::Frame::Number rangeStart = frames[0];
+                    Math::Frame::Number prevFrame = frames[0];
                     size_t i = 1;
                     for (; i < size; prevFrame = frames[i], ++i)
                     {
                         if (frames[i] != prevFrame + 1)
                         {
-                            out.add(Frame::Range(rangeStart, prevFrame));
+                            out.add(Math::Frame::Range(rangeStart, prevFrame));
                             rangeStart = frames[i];
                         }
                     }
                     if (size > 1)
                     {
-                        out.add(Frame::Range(rangeStart, prevFrame));
+                        out.add(Math::Frame::Range(rangeStart, prevFrame));
                     }
                     else
                     {
-                        out.add(Frame::Range(rangeStart));
+                        out.add(Math::Frame::Range(rangeStart));
                     }
                 }
                 return out;
@@ -153,7 +153,7 @@ namespace djv
                 _cacheUpdate();
             }
 
-            void Cache::setCurrentFrame(Frame::Index value)
+            void Cache::setCurrentFrame(Math::Frame::Index value)
             {
                 if (value == _currentFrame)
                     return;
@@ -161,7 +161,7 @@ namespace djv
                 _cacheUpdate();
             }
 
-            void Cache::add(Frame::Index index, const std::shared_ptr<AV::Image::Image>& image)
+            void Cache::add(Math::Frame::Index index, const std::shared_ptr<Image::Image>& image)
             {
                 _cache[index] = image;
                 _cacheUpdate();
@@ -170,8 +170,8 @@ namespace djv
             void Cache::_cacheUpdate()
             {
                 const auto range = _inOutPoints.getRange(_sequenceSize);
-                Frame::Index frame = _currentFrame;
-                _sequence = Frame::Sequence();
+                Math::Frame::Index frame = _currentFrame;
+                _sequence = Math::Frame::Sequence();
                 switch (_direction)
                 {
                 case Direction::Forward:
@@ -184,8 +184,8 @@ namespace djv
                             frame = range.getMax();
                         }
                     }
-                    _sequence.add(Frame::Range(frame));
-                    const Frame::Index first = frame;
+                    _sequence.add(Math::Frame::Range(frame));
+                    const Math::Frame::Index first = frame;
                     for (size_t i = 0; i < _max; ++i)
                     {
                         ++frame;
@@ -198,12 +198,12 @@ namespace djv
                             frame = range.getMin();
                             if (frame != _sequence.getRanges().back().getMax())
                             {
-                                _sequence.add(Frame::Range(frame));
+                                _sequence.add(Math::Frame::Range(frame));
                             }
                         }
                         else
                         {
-                            _sequence.add(Frame::Range(frame));
+                            _sequence.add(Math::Frame::Range(frame));
                         }
                     }
                     break;
@@ -218,8 +218,8 @@ namespace djv
                             frame = range.getMin();
                         }
                     }
-                    _sequence.add(Frame::Range(frame));
-                    const Frame::Index first = frame;
+                    _sequence.add(Math::Frame::Range(frame));
+                    const Math::Frame::Index first = frame;
                     for (size_t i = 0; i < _max; ++i)
                     {
                         --frame;
@@ -232,12 +232,12 @@ namespace djv
                             frame = range.getMax();
                             if (frame != _sequence.getRanges().back().getMin())
                             {
-                                _sequence.add(Frame::Range(frame));
+                                _sequence.add(Math::Frame::Range(frame));
                             }
                         }
                         else
                         {
-                            _sequence.add(Frame::Range(frame));
+                            _sequence.add(Math::Frame::Range(frame));
                         }
                     }
                     break;

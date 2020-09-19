@@ -22,12 +22,12 @@ namespace djv
             DJV_NON_COPYABLE(KeyboardSettings);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>& context);
+            void _init(const std::shared_ptr<System::Context>& context);
 
             KeyboardSettings();
 
         public:
-            static std::shared_ptr<KeyboardSettings> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<KeyboardSettings> create(const std::shared_ptr<System::Context>&);
 
             std::shared_ptr<Core::MapSubject<std::string, UI::ShortcutDataPair> > observeShortcuts() const;
             void setShortcuts(const UI::ShortcutDataMap&);

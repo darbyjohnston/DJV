@@ -16,19 +16,19 @@ namespace djv
             DJV_NON_COPYABLE(DebugWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             DebugWidget();
 
         public:
             ~DebugWidget() override;
 
-            static std::shared_ptr<DebugWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<DebugWidget> create(const std::shared_ptr<System::Context>&);
 
             std::map<std::string, bool> getBellowsState() const;
             void setBellowsState(const std::map<std::string, bool>&);
 
         protected:
-            void _initEvent(Core::Event::Init &) override;
+            void _initEvent(System::Event::Init &) override;
 
         private:
             DJV_PRIVATE();

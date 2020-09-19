@@ -14,10 +14,10 @@ namespace djv
             return std::shared_ptr<MeshPrimitive>(new MeshPrimitive);
         }
 
-        inline void MeshPrimitive::addMesh(const std::shared_ptr<AV::Geom::TriangleMesh>& value)
+        inline void MeshPrimitive::addMesh(const std::shared_ptr<Geom::TriangleMesh>& value)
         {
             _meshes.push_back(value);
-            Core::BBox3f bbox = getBBox();
+            Math::BBox3f bbox = getBBox();
             if (!bbox.isValid())
             {
                 bbox = value->bbox;
@@ -35,7 +35,7 @@ namespace djv
             return "MeshPrimitive";
         }
 
-        inline const std::vector<std::shared_ptr<AV::Geom::TriangleMesh> >& MeshPrimitive::getMeshes() const
+        inline const std::vector<std::shared_ptr<Geom::TriangleMesh> >& MeshPrimitive::getMeshes() const
         {
             return _meshes;
         }

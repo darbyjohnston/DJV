@@ -11,9 +11,9 @@
 #include <djvUI/SettingsSystem.h>
 
 #include <djvAV/AVSystem.h>
+#include <djvAV/Speed.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/Speed.h>
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -28,7 +28,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > startPlaybackObserver;
         };
 
-        void PlaybackSettingsWidget::_init(const std::shared_ptr<Context>& context)
+        void PlaybackSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -42,7 +42,7 @@ namespace djv
             addChild(p.layout);
 
             auto weak = std::weak_ptr<PlaybackSettingsWidget>(std::dynamic_pointer_cast<PlaybackSettingsWidget>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.startPlaybackButton->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
@@ -50,7 +50,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
                             {
                                 playbackSettings->setStartPlayback(value);
@@ -59,7 +59,7 @@ namespace djv
                     }
                 });
 
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
             {
                 p.startPlaybackObserver = ValueObserver<bool>::create(
@@ -78,7 +78,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<PlaybackSettingsWidget> PlaybackSettingsWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<PlaybackSettingsWidget> PlaybackSettingsWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<PlaybackSettingsWidget>(new PlaybackSettingsWidget);
             out->_init(context);
@@ -100,7 +100,7 @@ namespace djv
             _p->layout->setLabelSizeGroup(value);
         }
 
-        void PlaybackSettingsWidget::_initEvent(Event::Init& event)
+        void PlaybackSettingsWidget::_initEvent(System::Event::Init& event)
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
@@ -117,7 +117,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > pipEnabledObserver;
         };
 
-        void TimelineSettingsWidget::_init(const std::shared_ptr<Context>& context)
+        void TimelineSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -131,7 +131,7 @@ namespace djv
             addChild(p.layout);
 
             auto weak = std::weak_ptr<TimelineSettingsWidget>(std::dynamic_pointer_cast<TimelineSettingsWidget>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.pipEnabledButton->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
@@ -139,7 +139,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
                             {
                                 playbackSettings->setPIPEnabled(value);
@@ -148,7 +148,7 @@ namespace djv
                     }
                 });
 
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
             {
                 p.pipEnabledObserver = ValueObserver<bool>::create(
@@ -167,7 +167,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<TimelineSettingsWidget> TimelineSettingsWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<TimelineSettingsWidget> TimelineSettingsWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<TimelineSettingsWidget>(new TimelineSettingsWidget);
             out->_init(context);
@@ -189,7 +189,7 @@ namespace djv
             _p->layout->setLabelSizeGroup(value);
         }
 
-        void TimelineSettingsWidget::_initEvent(Event::Init& event)
+        void TimelineSettingsWidget::_initEvent(System::Event::Init& event)
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();

@@ -18,14 +18,14 @@ namespace djv
                 DJV_NON_COPYABLE(AV);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
 
                 AV();
 
             public:
                 ~AV() override;
 
-                static std::shared_ptr<AV> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<AV> create(const std::shared_ptr<System::Context>&);
 
                 void load(const rapidjson::Value&) override;
                 rapidjson::Value save(rapidjson::Document::AllocatorType&) override;

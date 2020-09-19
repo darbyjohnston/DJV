@@ -12,14 +12,11 @@
 
 namespace djv
 {
-    namespace Core
+    namespace Math
     {
-        namespace Math
-        {
-            class Rational;
+        class Rational;
 
-        } // namespace Math
-    } // namespace Core
+    } // namespace Math
 
     namespace ViewApp
     {

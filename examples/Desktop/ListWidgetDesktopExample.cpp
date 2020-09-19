@@ -17,7 +17,6 @@
 
 #include <djvCore/ErrorFunc.h>
 #include <djvCore/StringFunc.h>
-#include <djvCore/TextSystem.h>
 
 using namespace djv;
 

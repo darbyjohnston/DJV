@@ -18,13 +18,13 @@ namespace djv
             DJV_NON_COPYABLE(PopupMenu);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             PopupMenu();
 
         public:
             ~PopupMenu() override;
 
-            static std::shared_ptr<PopupMenu> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<PopupMenu> create(const std::shared_ptr<System::Context>&);
 
             void setMenu(const std::shared_ptr<Menu>&);
 
@@ -32,8 +32,8 @@ namespace djv
             void setInsideMargin(MetricsRole);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
 
         private:
             DJV_PRIVATE();

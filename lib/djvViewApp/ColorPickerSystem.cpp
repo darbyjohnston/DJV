@@ -11,8 +11,8 @@
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/ShortcutData.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/TextSystem.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/TextSystem.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -30,7 +30,7 @@ namespace djv
             std::weak_ptr<ColorPickerWidget> widget;
         };
 
-        void ColorPickerSystem::_init(const std::shared_ptr<Context>& context)
+        void ColorPickerSystem::_init(const std::shared_ptr<System::Context>& context)
         {
             IToolSystem::_init("djv::ViewApp::ColorPickerSystem", context);
             DJV_PRIVATE_PTR();
@@ -58,7 +58,7 @@ namespace djv
             p.settings->setWidgetGeom(_getWidgetGeom());
         }
 
-        std::shared_ptr<ColorPickerSystem> ColorPickerSystem::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ColorPickerSystem> ColorPickerSystem::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ColorPickerSystem>(new ColorPickerSystem);
             out->_init(context);

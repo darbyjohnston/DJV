@@ -20,7 +20,7 @@ namespace djv
             DJV_NON_COPYABLE(ISettingsWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             ISettingsWidget();
 
         public:
@@ -39,8 +39,8 @@ namespace djv
             void clearChildren() override;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
 
         private:
             DJV_PRIVATE();

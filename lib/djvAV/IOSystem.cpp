@@ -6,7 +6,6 @@
 
 #include <djvAV/Cineon.h>
 #include <djvAV/DPX.h>
-#include <djvAV/GLFWSystem.h>
 #include <djvAV/IFF.h>
 #include <djvAV/PPM.h>
 #include <djvAV/RLA.h>
@@ -29,11 +28,14 @@
 #include <djvAV/TIFF.h>
 #endif // TIFF_FOUND
 
-#include <djvCore/Context.h>
-#include <djvCore/FileSystem.h>
+#include <djvGL/GLFWSystem.h>
+
+#include <djvSystem/Context.h>
+#include <djvSystem/File.h>
+#include <djvSystem/TextSystem.h>
+
 #include <djvCore/StringFormat.h>
 #include <djvCore/StringFunc.h>
-#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -43,24 +45,24 @@ namespace djv
     {
         namespace IO
         {
-            struct System::Private
+            struct IOSystem::Private
             {
-                std::shared_ptr<TextSystem> textSystem;
+                std::shared_ptr<System::TextSystem> textSystem;
                 std::shared_ptr<ValueSubject<bool> > optionsChanged;
                 std::map<std::string, std::shared_ptr<IPlugin> > plugins;
                 std::set<std::string> sequenceExtensions;
                 std::set<std::string> nonSequenceExtensions;
             };
 
-            void System::_init(const std::shared_ptr<Context>& context)
+            void IOSystem::_init(const std::shared_ptr<System::Context>& context)
             {
-                ISystem::_init("djv::AV::IO::System", context);
+                ISystem::_init("djv::AV::IO::IOSystem", context);
 
                 DJV_PRIVATE_PTR();
 
-                addDependency(context->getSystemT<GLFW::System>());
+                addDependency(context->getSystemT<GL::GLFW::GLFWSystem>());
 
-                p.textSystem = context->getSystemT<TextSystem>();
+                p.textSystem = context->getSystemT<System::TextSystem>();
 
                 p.optionsChanged = ValueSubject<bool>::create();
 
@@ -108,21 +110,21 @@ namespace djv
                 }
             }
 
-            System::System() :
+            IOSystem::IOSystem() :
                 _p(new Private)
             {}
 
-            System::~System()
+            IOSystem::~IOSystem()
             {}
 
-            std::shared_ptr<System> System::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<IOSystem> IOSystem::create(const std::shared_ptr<System::Context>& context)
             {
-                auto out = std::shared_ptr<System>(new System);
+                auto out = std::shared_ptr<IOSystem>(new IOSystem);
                 out->_init(context);
                 return out;
             }
 
-            std::set<std::string> System::getPluginNames() const
+            std::set<std::string> IOSystem::getPluginNames() const
             {
                 DJV_PRIVATE_PTR();
                 std::set<std::string> out;
@@ -133,7 +135,7 @@ namespace djv
                 return out;
             }
 
-            std::set<std::string> System::getFileExtensions() const
+            std::set<std::string> IOSystem::getFileExtensions() const
             {
                 DJV_PRIVATE_PTR();
                 std::set<std::string> out;
@@ -145,7 +147,7 @@ namespace djv
                 return out;
             }
 
-            rapidjson::Value System::getOptions(const std::string& pluginName, rapidjson::Document::AllocatorType& allocator) const
+            rapidjson::Value IOSystem::getOptions(const std::string& pluginName, rapidjson::Document::AllocatorType& allocator) const
             {
                 DJV_PRIVATE_PTR();
                 const auto i = p.plugins.find(pluginName);
@@ -156,7 +158,7 @@ namespace djv
                 return rapidjson::Value();
             }
 
-            void System::setOptions(const std::string& pluginName, const rapidjson::Value& value)
+            void IOSystem::setOptions(const std::string& pluginName, const rapidjson::Value& value)
             {
                 DJV_PRIVATE_PTR();
                 const auto i = p.plugins.find(pluginName);
@@ -167,22 +169,22 @@ namespace djv
                 }
             }
 
-            std::shared_ptr<IValueSubject<bool> > System::observeOptionsChanged() const
+            std::shared_ptr<IValueSubject<bool> > IOSystem::observeOptionsChanged() const
             {
                 return _p->optionsChanged;
             }
 
-            const std::set<std::string>& System::getSequenceExtensions() const
+            const std::set<std::string>& IOSystem::getSequenceExtensions() const
             {
                 return _p->sequenceExtensions;
             }
 
-            const std::set<std::string>& System::getNonSequenceExtensions() const
+            const std::set<std::string>& IOSystem::getNonSequenceExtensions() const
             {
                 return _p->nonSequenceExtensions;
             }
 
-            bool System::canSequence(const FileSystem::FileInfo& fileInfo) const
+            bool IOSystem::canSequence(const System::File::Info& fileInfo) const
             {
                 DJV_PRIVATE_PTR();
                 return std::find(
@@ -191,7 +193,7 @@ namespace djv
                     fileInfo.getPath().getExtension()) != p.sequenceExtensions.end();
             }
 
-            bool System::canRead(const FileSystem::FileInfo& fileInfo) const
+            bool IOSystem::canRead(const System::File::Info& fileInfo) const
             {
                 DJV_PRIVATE_PTR();
                 for (const auto& i : p.plugins)
@@ -204,7 +206,7 @@ namespace djv
                 return false;
             }
 
-            bool System::canWrite(const FileSystem::FileInfo& fileInfo, const Info& info) const
+            bool IOSystem::canWrite(const System::File::Info& fileInfo, const Info& info) const
             {
                 DJV_PRIVATE_PTR();
                 for (const auto& i : p.plugins)
@@ -217,7 +219,7 @@ namespace djv
                 return false;
             }
 
-            std::shared_ptr<IRead> System::read(const FileSystem::FileInfo& fileInfo, const ReadOptions& options)
+            std::shared_ptr<IRead> IOSystem::read(const System::File::Info& fileInfo, const ReadOptions& options)
             {
                 DJV_PRIVATE_PTR();
                 std::shared_ptr<IRead> out;
@@ -231,14 +233,14 @@ namespace djv
                 }
                 if (!out)
                 {
-                    throw FileSystem::Error(String::Format("{0}: {1}").
+                    throw System::File::Error(String::Format("{0}: {1}").
                         arg(fileInfo.getFileName()).
                         arg(p.textSystem->getText(DJV_TEXT("error_file_read"))));
                 }
                 return out;
             }
 
-            std::shared_ptr<IWrite> System::write(const FileSystem::FileInfo& fileInfo, const Info& info, const WriteOptions& options)
+            std::shared_ptr<IWrite> IOSystem::write(const System::File::Info& fileInfo, const Info& info, const WriteOptions& options)
             {
                 DJV_PRIVATE_PTR();
                 std::shared_ptr<IWrite> out;
@@ -252,7 +254,7 @@ namespace djv
                 }
                 if (!out)
                 {
-                    throw FileSystem::Error(String::Format("{0}: {1}").
+                    throw System::File::Error(String::Format("{0}: {1}").
                         arg(fileInfo.getFileName()).
                         arg(p.textSystem->getText(DJV_TEXT("error_file_write"))));
                 }

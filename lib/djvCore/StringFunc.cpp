@@ -4,7 +4,7 @@
 
 #include <djvCore/StringFunc.h>
 
-#include <djvCore/MathFunc.h>
+#include <djvCore/RandomFunc.h>
 
 #include <cctype>
 #include <codecvt>
@@ -741,7 +741,7 @@ namespace djv
                 std::vector<std::string> out;
                 for (size_t i = 0; i < value; ++i)
                 {
-                    out.push_back(Math::getRandom(data));
+                    out.push_back(Random::getRandom(data));
                 }
                 return out;
             }
@@ -749,7 +749,7 @@ namespace djv
             std::string getRandomName()
             {
                 const std::vector<std::string>& data = getTestNames();
-                return Math::getRandom(data);
+                return Random::getRandom(data);
             }
 
             std::vector<std::string> getTestSentences()
@@ -890,7 +890,7 @@ namespace djv
             {
                 const std::vector<std::string> data = getTestSentences();
                 const int size = static_cast<int>(data.size());
-                return data[Math::getRandom(size - 1)];
+                return data[Random::getRandom(size - 1)];
             }
 
             std::vector<std::string> getRandomSentences(size_t value)
@@ -898,7 +898,7 @@ namespace djv
                 const std::vector<std::string> data = getTestSentences();
                 std::vector<std::string> out;
                 const int size = static_cast<int>(data.size());
-                int index = Math::getRandom(size - 1);
+                int index = Random::getRandom(size - 1);
                 for (size_t i = 0; i < value; ++i)
                 {
                     out.push_back(data[index]);

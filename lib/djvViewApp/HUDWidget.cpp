@@ -4,10 +4,10 @@
 
 #include <djvViewApp/HUDWidget.h>
 
-#include <djvAV/FontSystem.h>
-#include <djvAV/Render2D.h>
+#include <djvRender2D/FontSystem.h>
+#include <djvRender2D/Render.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -40,27 +40,27 @@ namespace djv
 
         struct HUDWidget::Private
         {
-            std::shared_ptr<AV::Font::System> fontSystem;
-            BBox2f frame;
+            std::shared_ptr<Render2D::Font::FontSystem> fontSystem;
+            Math::BBox2f frame;
             HUDData data;
             HUDOptions options;
             std::map<std::string, HUDLabel> labels;
-            AV::Font::Metrics fontMetrics;
-            std::future<AV::Font::Metrics> fontMetricsFuture;
+            Render2D::Font::Metrics fontMetrics;
+            std::future<Render2D::Font::Metrics> fontMetricsFuture;
             std::map<std::string, glm::vec2> textSizes;
             std::map<std::string, std::future<glm::vec2> > textSizeFutures;
-            std::map<std::string, std::vector<std::shared_ptr<AV::Font::Glyph> > > glyphs;
-            std::map< std::string, std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > > glyphsFutures;
+            std::map<std::string, std::vector<std::shared_ptr<Render2D::Font::Glyph> > > glyphs;
+            std::map< std::string, std::future<std::vector<std::shared_ptr<Render2D::Font::Glyph> > > > glyphsFutures;
         };
 
-        void HUDWidget::_init(const std::shared_ptr<Context>& context)
+        void HUDWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
 
             setClassName("djv::ViewApp::HUDWidget");
 
-            p.fontSystem = context->getSystemT<AV::Font::System>();
+            p.fontSystem = context->getSystemT<Render2D::Font::FontSystem>();
         }
 
         HUDWidget::HUDWidget() :
@@ -70,14 +70,14 @@ namespace djv
         HUDWidget::~HUDWidget()
         {}
 
-        std::shared_ptr<HUDWidget> HUDWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<HUDWidget> HUDWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<HUDWidget>(new HUDWidget);
             out->_init(context);
             return out;
         }
 
-        void HUDWidget::setHUDFrame(const BBox2f& value)
+        void HUDWidget::setHUDFrame(const Math::BBox2f& value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.frame)
@@ -104,19 +104,19 @@ namespace djv
             _redraw();
         }
 
-        void HUDWidget::_paintEvent(Event::Paint&)
+        void HUDWidget::_paintEvent(System::Event::Paint&)
         {
             DJV_PRIVATE_PTR();
             if (p.options.enabled && p.glyphs.size())
             {
                 const auto& style = _getStyle();
                 const float m = style->getMetric(UI::MetricsRole::MarginSmall);
-                const BBox2f g = p.frame.margin(-m);
+                const Math::BBox2f g = p.frame.margin(-m);
 
                 struct Label
                 {
                     std::string id;
-                    BBox2f geometry;
+                    Math::BBox2f geometry;
                 };
                 std::map<UI::Corner, std::map<std::string, Label> > labels;
 
@@ -140,7 +140,7 @@ namespace djv
                             const auto k = p.textSizes.find(j.second.id);
                             if (k != p.textSizes.end())
                             {
-                                j.second.geometry = BBox2f(pos.x, pos.y, k->second.x + m * 2.F, h);
+                                j.second.geometry = Math::BBox2f(pos.x, pos.y, k->second.x + m * 2.F, h);
                                 pos.y += h;
                             }
                         }
@@ -154,7 +154,7 @@ namespace djv
                             if (k != p.textSizes.end())
                             {
                                 const float w = k->second.x + m * 2.F;
-                                j.second.geometry = BBox2f(pos.x - w, pos.y, w, h);
+                                j.second.geometry = Math::BBox2f(pos.x - w, pos.y, w, h);
                                 pos.y += h;
                             }
                         }
@@ -168,7 +168,7 @@ namespace djv
                             if (k != p.textSizes.end())
                             {
                                 const float w = k->second.x + m * 2.F;
-                                j.second.geometry = BBox2f(pos.x - w, pos.y, w, h);
+                                j.second.geometry = Math::BBox2f(pos.x - w, pos.y, w, h);
                                 pos.y -= h;
                             }
                         }
@@ -181,7 +181,7 @@ namespace djv
                             const auto k = p.textSizes.find(j.second.id);
                             if (k != p.textSizes.end())
                             {
-                                j.second.geometry = BBox2f(pos.x, pos.y, k->second.x + m * 2.F, h);
+                                j.second.geometry = Math::BBox2f(pos.x, pos.y, k->second.x + m * 2.F, h);
                                 pos.y -= h;
                             }
                         }
@@ -196,7 +196,7 @@ namespace djv
                 {
                 case HUDBackground::Overlay:
                 {
-                    std::vector<BBox2f> rects;
+                    std::vector<Math::BBox2f> rects;
                     for (const auto& i : labels)
                     {
                         for (const auto& j : i.second)
@@ -229,7 +229,7 @@ namespace djv
             }
         }
 
-        void HUDWidget::_initEvent(Event::Init & event)
+        void HUDWidget::_initEvent(System::Event::Init & event)
         {
             if (event.getData().resize ||
                 event.getData().font ||
@@ -239,7 +239,7 @@ namespace djv
             }
         }
 
-        void HUDWidget::_updateEvent(Event::Update& event)
+        void HUDWidget::_updateEvent(System::Event::Update& event)
         {
             DJV_PRIVATE_PTR();
             if (p.fontMetricsFuture.valid() &&
@@ -252,7 +252,7 @@ namespace djv
                 }
                 catch (const std::exception& e)
                 {
-                    _log(e.what(), LogLevel::Error);
+                    _log(e.what(), System::LogLevel::Error);
                 }
             }
             auto i = p.textSizeFutures.begin();
@@ -268,7 +268,7 @@ namespace djv
                     }
                     catch (const std::exception& e)
                     {
-                        _log(e.what(), LogLevel::Error);
+                        _log(e.what(), System::LogLevel::Error);
                     }
                     i = p.textSizeFutures.erase(i);
                 }
@@ -290,7 +290,7 @@ namespace djv
                     }
                     catch (const std::exception& e)
                     {
-                        _log(e.what(), LogLevel::Error);
+                        _log(e.what(), System::LogLevel::Error);
                     }
                     j = p.glyphsFutures.erase(j);
                 }
@@ -305,7 +305,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const auto fontInfo = style->getFontInfo(AV::Font::familyMono, std::string(), UI::MetricsRole::FontMedium);
+            const auto fontInfo = style->getFontInfo(Render2D::Font::familyMono, std::string(), UI::MetricsRole::FontMedium);
             p.fontMetricsFuture = p.fontSystem->getMetrics(fontInfo);
             p.textSizeFutures.clear();
             {

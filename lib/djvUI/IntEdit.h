@@ -17,15 +17,15 @@ namespace djv
             DJV_NON_COPYABLE(IntEdit);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             IntEdit();
 
         public:
             ~IntEdit() override;
 
-            static std::shared_ptr<IntEdit> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<IntEdit> create(const std::shared_ptr<System::Context>&);
 
-            void setModel(const std::shared_ptr<Core::INumericValueModel<int> >&) override;
+            void setModel(const std::shared_ptr<Math::INumericValueModel<int> >&) override;
 
         protected:
             void _setIsMin(bool) override;

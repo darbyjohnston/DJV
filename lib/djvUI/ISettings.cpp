@@ -6,7 +6,7 @@
 
 #include <djvUI/SettingsSystem.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -18,17 +18,17 @@ namespace djv
         {
             struct ISettings::Private
             {
-                std::weak_ptr<Context> context;
+                std::weak_ptr<System::Context> context;
                 std::string name;
             };
 
-            void ISettings::_init(const std::string& name, const std::shared_ptr<Core::Context>& context)
+            void ISettings::_init(const std::string& name, const std::shared_ptr<System::Context>& context)
             {
                 DJV_PRIVATE_PTR();
                 p.context = context;
                 p.name = name;
 
-                if (auto system = context->getSystemT<System>())
+                if (auto system = context->getSystemT<SettingsSystem>())
                 {
                     system->_addSettings(shared_from_this());
                 }
@@ -41,7 +41,7 @@ namespace djv
             ISettings::~ISettings()
             {}
 
-            const std::weak_ptr<Core::Context>& ISettings::getContext() const
+            const std::weak_ptr<System::Context>& ISettings::getContext() const
             {
                 return _p->context;
             }
@@ -55,7 +55,7 @@ namespace djv
             {
                 if (auto context = _p->context.lock())
                 {
-                    if (auto system = context->getSystemT<System>())
+                    if (auto system = context->getSystemT<SettingsSystem>())
                     {
                         system->_loadSettings(shared_from_this());
                     }

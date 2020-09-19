@@ -36,24 +36,24 @@ namespace djv
                 //! Read a Cineon file header.
                 //!
                 //! Throws:
-                //! - Core::FileSystem::Error
+                //! - System::File::Error
                 Header read(
-                    const std::shared_ptr<Core::FileSystem::FileIO>&,
+                    const std::shared_ptr<System::File::IO>&,
                     Info&,
                     ColorProfile&,
-                    const std::shared_ptr<Core::TextSystem>&);
+                    const std::shared_ptr<System::TextSystem>&);
                 
                 //! Write a Cineon file header.
                 //!
                 //! Throws:
-                //! - Core::FileSystem::Error
+                //! - System::File::Error
                 void write(
-                    const std::shared_ptr<Core::FileSystem::FileIO>&,
+                    const std::shared_ptr<System::File::IO>&,
                     const Info& info,
                     ColorProfile);
 
                 //! Finish writing the Cineon file header after image data is written.
-                void writeFinish(const std::shared_ptr<Core::FileSystem::FileIO>&);
+                void writeFinish(const std::shared_ptr<System::File::IO>&);
 
                 DJV_ENUM_HELPERS(ColorProfile);
                 DJV_ENUM_HELPERS(Orient);

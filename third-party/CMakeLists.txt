@@ -10,7 +10,7 @@ find_package(Threads REQUIRED)
 find_package(OpenGL REQUIRED)
 
 # Select the GLAD OpenGL version.
-if(DJV_OPENGL_ES2)
+if(DJV_GL_ES2)
     include_directories(${CMAKE_SOURCE_DIR}/gladGL2ES)
     add_subdirectory(gladGL2ES)
 else()

@@ -22,18 +22,20 @@ namespace djv
         {
             struct ShortcutsWidget::Private
             {
-                FileSystem::Path path;
+                System::File::Path path;
                 bool edit = false;
                 std::shared_ptr<ToolButton> addButton;
                 std::shared_ptr<ToolButton> editButton;
                 std::shared_ptr<ButtonGroup> deleteButtonGroup;
                 std::shared_ptr<GridLayout> itemLayout;
                 std::shared_ptr<VerticalLayout> layout;
-                std::function<void(const FileSystem::Path&)> callback;
-                std::shared_ptr<ListObserver<FileSystem::Path> > shortcutsObserver;
+                std::function<void(const System::File::Path&)> callback;
+                std::shared_ptr<ListObserver<System::File::Path> > shortcutsObserver;
             };
 
-            void ShortcutsWidget::_init(const std::shared_ptr<ShortcutsModel> & model, const std::shared_ptr<Context>& context)
+            void ShortcutsWidget::_init(
+                const std::shared_ptr<ShortcutsModel> & model,
+                const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
 
@@ -93,10 +95,10 @@ namespace djv
                         model->removeShortcut(value);
                     });
 
-                auto contextWeak = std::weak_ptr<Context>(context);
-                p.shortcutsObserver = ListObserver<FileSystem::Path>::create(
+                auto contextWeak = std::weak_ptr<System::Context>(context);
+                p.shortcutsObserver = ListObserver<System::File::Path>::create(
                     model->observeShortcuts(),
-                    [weak, contextWeak](const std::vector<FileSystem::Path> & value)
+                    [weak, contextWeak](const std::vector<System::File::Path> & value)
                     {
                         if (auto context = contextWeak.lock())
                         {
@@ -156,34 +158,36 @@ namespace djv
             ShortcutsWidget::~ShortcutsWidget()
             {}
 
-            std::shared_ptr<ShortcutsWidget> ShortcutsWidget::create(const std::shared_ptr<ShortcutsModel> & model, const std::shared_ptr<Context>& context)
+            std::shared_ptr<ShortcutsWidget> ShortcutsWidget::create(
+                const std::shared_ptr<ShortcutsModel> & model,
+                const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<ShortcutsWidget>(new ShortcutsWidget);
                 out->_init(model, context);
                 return out;
             }
 
-            void ShortcutsWidget::setPath(const FileSystem::Path& value)
+            void ShortcutsWidget::setPath(const System::File::Path& value)
             {
                 _p->path = value;
             }
 
-            void ShortcutsWidget::setCallback(const std::function<void(const FileSystem::Path &)> & value)
+            void ShortcutsWidget::setCallback(const std::function<void(const System::File::Path&)> & value)
             {
                 _p->callback = value;
             }
 
-            void ShortcutsWidget::_preLayoutEvent(Event::PreLayout& event)
+            void ShortcutsWidget::_preLayoutEvent(System::Event::PreLayout& event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
             }
 
-            void ShortcutsWidget::_layoutEvent(Event::Layout& event)
+            void ShortcutsWidget::_layoutEvent(System::Event::Layout& event)
             {
                 _p->layout->setGeometry(getGeometry());
             }
             
-            void ShortcutsWidget::_initEvent(Event::Init& event)
+            void ShortcutsWidget::_initEvent(System::Event::Init& event)
             {
                 DJV_PRIVATE_PTR();
                 if (event.getData().text)

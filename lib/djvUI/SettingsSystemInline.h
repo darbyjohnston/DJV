@@ -8,13 +8,13 @@ namespace djv
     {
         namespace Settings
         {
-            inline const std::vector<std::shared_ptr<ISettings> >& System::getSettings() const
+            inline const std::vector<std::shared_ptr<ISettings> >& SettingsSystem::getSettings() const
             {
                 return _settings;
             }
 
             template<typename T>
-            inline std::shared_ptr<T> System::getSettingsT() const
+            inline std::shared_ptr<T> SettingsSystem::getSettingsT() const
             {
                 for (const auto& i : _settings)
                 {

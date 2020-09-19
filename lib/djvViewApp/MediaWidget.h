@@ -71,7 +71,7 @@ namespace djv
         protected:
             void _init(
                 const std::shared_ptr<Media>&,
-                const std::shared_ptr<Core::Context>&);
+                const std::shared_ptr<System::Context>&);
             MediaWidget();
 
         public:
@@ -79,7 +79,7 @@ namespace djv
 
             static std::shared_ptr<MediaWidget> create(
                 const std::shared_ptr<Media>&,
-                const std::shared_ptr<Core::Context>&);
+                const std::shared_ptr<System::Context>&);
 
             const std::shared_ptr<Media>& getMedia() const;
 
@@ -98,14 +98,14 @@ namespace djv
             float _getTitleBarHeight() const;
             float _getPlaybackHeight() const;
 
-            virtual std::map<UI::MDI::Handle, std::vector<Core::BBox2f> > _getHandles() const override;
+            virtual std::map<UI::MDI::Handle, std::vector<Math::BBox2f> > _getHandles() const override;
             void _setMaximize(float) override;
             void _setActiveWidget(bool) override;
 
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
 
-            void _initEvent(Core::Event::Init&) override;
+            void _initEvent(System::Event::Init&) override;
 
         private:
             void _widgetUpdate();

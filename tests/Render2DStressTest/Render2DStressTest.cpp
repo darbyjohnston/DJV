@@ -4,16 +4,21 @@
 
 #include <djvCmdLineApp/Application.h>
 
+#include <djvRender2D/Render.h>
+
 #include <djvAV/AVSystem.h>
-#include <djvAV/Color.h>
-#include <djvAV/GLFWSystem.h>
 #include <djvAV/IOSystem.h>
-#include <djvAV/OpenGL.h>
-#include <djvAV/Render2D.h>
+
+#include <djvGL/GL.h>
+#include <djvGL/GLFWSystem.h>
+
+#include <djvImage/Color.h>
+
+#include <djvSystem/ResourceSystem.h>
 
 #include <djvCore/ErrorFunc.h>
+#include <djvCore/RandomFunc.h>
 #include <djvCore/StringFunc.h>
-#include <djvCore/ResourceSystem.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -22,25 +27,25 @@ using namespace djv;
 
 const size_t drawCount = 10000;
 const size_t randomCount = 1000;
-AV::Image::Size windowSize;
+Image::Size windowSize;
 
 struct RandomColor
 {
     RandomColor() : c(
-        Core::Math::getRandom(0.f, 1.f),
-        Core::Math::getRandom(0.f, 1.f),
-        Core::Math::getRandom(0.f, 1.f),
-        Core::Math::getRandom(0.f, 1.f))
+        Core::Random::getRandom(0.f, 1.f),
+        Core::Random::getRandom(0.f, 1.f),
+        Core::Random::getRandom(0.f, 1.f),
+        Core::Random::getRandom(0.f, 1.f))
     {}
-    AV::Image::Color c;
+    Image::Color c;
     RandomColor * next = nullptr;
 };
 
 struct RandomPos
 {
     RandomPos() : v(
-        floorf(Core::Math::getRandom(windowSize.w / -2.f, windowSize.w * 1.5f)),
-        floorf(Core::Math::getRandom(windowSize.h / -2.f, windowSize.h * 1.5f)))
+        floorf(Core::Random::getRandom(windowSize.w / -2.f, windowSize.w * 1.5f)),
+        floorf(Core::Random::getRandom(windowSize.h / -2.f, windowSize.h * 1.5f)))
     {}
     glm::vec2 v;
     RandomPos * next = nullptr;
@@ -49,8 +54,8 @@ struct RandomPos
 struct RandomSize
 {
     RandomSize() : v(
-        ceilf(Core::Math::getRandom(10.f, 500.f)),
-        ceilf(Core::Math::getRandom(10.f, 500.f)))
+        ceilf(Core::Random::getRandom(10.f, 500.f)),
+        ceilf(Core::Random::getRandom(10.f, 500.f)))
     {}
     glm::vec2 v;
     RandomSize * next = nullptr;
@@ -60,7 +65,7 @@ struct RandomText
 {
     RandomText() :
         s(Core::String::getRandomName()),
-        size(sizes[Core::Math::getRandom(static_cast<int>(sizes.size()) - 1)])
+        size(sizes[Core::Random::getRandom(static_cast<int>(sizes.size()) - 1)])
     {}
     std::string s;
     static const std::vector<float> sizes;
@@ -72,11 +77,11 @@ const std::vector<float> RandomText::sizes = { 12.f, 24.f, 48.f, 96.f, 1000.f };
 
 struct RandomIcon
 {
-    RandomIcon(const std::vector<std::shared_ptr<AV::Image::Image> >& images)
+    RandomIcon(const std::vector<std::shared_ptr<Image::Image> >& images)
     {
-        image = images[Core::Math::getRandom(static_cast<int>(images.size()) - 1)];
+        image = images[Core::Random::getRandom(static_cast<int>(images.size()) - 1)];
     }
-    std::shared_ptr<AV::Image::Image> image;
+    std::shared_ptr<Image::Image> image;
     RandomIcon * next = nullptr;
 };
 
@@ -105,7 +110,7 @@ private:
     void _render();
 
     GLFWwindow*  _glfwWindow   = nullptr;
-    std::shared_ptr<AV::Render2D::Render> _render2D;
+    std::shared_ptr<Render2D::Render> _render2D;
     RandomColor* _randomColors = nullptr;
     RandomColor* _currentColor = nullptr;
     RandomPos*   _randomPos    = nullptr;
@@ -116,30 +121,30 @@ private:
     RandomText*  _currentText  = nullptr;
     RandomIcon*  _randomIcon   = nullptr;
     RandomIcon*  _currentIcon  = nullptr;
-    std::vector<std::shared_ptr<AV::Image::Image> > _images;
+    std::vector<std::shared_ptr<Image::Image> > _images;
 };
 
 void Application::_init(std::list<std::string>& args)
 {
     CmdLine::Application::_init(args);
 
-    _glfwWindow = getSystemT<AV::GLFW::System>()->getGLFWWindow();
+    _glfwWindow = getSystemT<GL::GLFW::GLFWSystem>()->getGLFWWindow();
     //glfwSetWindowSize(_glfwWindow, 1280, 720);
     glfwShowWindow(_glfwWindow);
-    _render2D = getSystemT<AV::Render2D::Render>();
+    _render2D = getSystemT<Render2D::Render>();
 
     static const std::vector<std::string> names =
     {
         "96DPI/djvIconAdd.png"
     };
-    auto io = getSystemT<AV::IO::System>();
-    auto resourceSystem = getSystemT<Core::ResourceSystem>();
+    auto io = getSystemT<AV::IO::IOSystem>();
+    auto resourceSystem = getSystemT<System::ResourceSystem>();
     for (const auto& i : names)
     {
         try
         {
-            auto read = io->read(Core::FileSystem::Path(
-                resourceSystem->getPath(Core::FileSystem::ResourcePath::Icons),
+            auto read = io->read(System::File::Path(
+                resourceSystem->getPath(System::File::ResourcePath::Icons),
                 i));
             while (1)
             {
@@ -227,27 +232,27 @@ void Application::_initRandomNumbers()
     _currentSize  = _randomSizes;
     _currentText  = _randomText;
     _currentIcon  = _randomIcon;
-    int random = Core::Math::getRandom(static_cast<int>(randomCount));
+    int random = Core::Random::getRandom(static_cast<int>(randomCount));
     for (int i = 0; i < random; ++i)
     {
         _currentColor = _currentColor->next;
     }
-    random = Core::Math::getRandom(static_cast<int>(randomCount));
+    random = Core::Random::getRandom(static_cast<int>(randomCount));
     for (int i = 0; i < random; ++i)
     {
         _currentPos = _currentPos->next;
     }
-    random = Core::Math::getRandom(static_cast<int>(randomCount));
+    random = Core::Random::getRandom(static_cast<int>(randomCount));
     for (int i = 0; i < random; ++i)
     {
         _currentSize = _currentSize->next;
     }
-    random = Core::Math::getRandom(static_cast<int>(randomCount));
+    random = Core::Random::getRandom(static_cast<int>(randomCount));
     for (int i = 0; i < random; ++i)
     {
         _currentText = _currentText->next;
     }
-    random = Core::Math::getRandom(static_cast<int>(randomCount));
+    random = Core::Random::getRandom(static_cast<int>(randomCount));
     for (int i = 0; i < random; ++i)
     {
         _currentIcon = _currentIcon->next;
@@ -257,7 +262,7 @@ void Application::_initRandomNumbers()
 void Application::_drawRandomRectangle()
 {
     _render2D->setFillColor(_currentColor->c);
-    _render2D->drawRect(Core::BBox2f(_currentPos->v.x, _currentPos->v.y, _currentSize->v.x, _currentSize->v.y));
+    _render2D->drawRect(Math::BBox2f(_currentPos->v.x, _currentPos->v.y, _currentSize->v.x, _currentSize->v.y));
     _currentColor = _currentColor->next;
     _currentPos = _currentPos->next;
     _currentSize = _currentSize->next;
@@ -267,7 +272,7 @@ void Application::_drawRandomPill()
 {
     _render2D->setFillColor(_currentColor->c);
     _render2D->drawPill(
-        Core::BBox2f(_currentPos->v.x, _currentPos->v.y, _currentSize->v.x, _currentSize->v.y));
+        Math::BBox2f(_currentPos->v.x, _currentPos->v.y, _currentSize->v.x, _currentSize->v.y));
     _currentColor = _currentColor->next;
     _currentPos = _currentPos->next;
     _currentSize = _currentSize->next;
@@ -285,8 +290,8 @@ void Application::_drawRandomCircle()
 void Application::_drawRandomText()
 {
     _render2D->setFillColor(_currentColor->c);
-    auto fontSystem = getSystemT<AV::Font::System>();
-    const AV::Font::FontInfo fontInfo(1, 1, _currentText->size, AV::dpiDefault);
+    auto fontSystem = getSystemT<Render2D::Font::FontSystem>();
+    const Render2D::Font::FontInfo fontInfo(1, 1, _currentText->size, Render2D::dpiDefault);
     _render2D->drawText(fontSystem->getGlyphs(_currentText->s, fontInfo).get(), _currentPos->v);
     _currentColor = _currentColor->next;
     _currentPos = _currentPos->next;

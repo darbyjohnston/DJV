@@ -4,8 +4,9 @@
 
 #include <djvUI/ShortcutData.h>
 
+#include <djvSystem/TextSystem.h>
+
 #include <djvCore/StringFunc.h>
-#include <djvCore/TextSystem.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -166,7 +167,7 @@ namespace djv
             };
         }
 
-        std::string ShortcutData::getText(int key, int keyModifiers, const std::shared_ptr<TextSystem>& textSystem)
+        std::string ShortcutData::getText(int key, int keyModifiers, const std::shared_ptr<System::TextSystem>& textSystem)
         {
             std::vector<std::string> out;
             if (keyModifiers & GLFW_MOD_SHIFT)

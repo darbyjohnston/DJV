@@ -17,13 +17,13 @@ namespace djv
             DJV_NON_COPYABLE(TextEdit);
             
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             TextEdit();
 
         public:
             ~TextEdit() override;
 
-            static std::shared_ptr<TextEdit> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<TextEdit> create(const std::shared_ptr<System::Context>&);
 
             const std::string& getText() const;
             void setText(const std::string&);
@@ -45,8 +45,8 @@ namespace djv
             float getHeightForWidth(float) const override;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
 
         private:
             DJV_PRIVATE();

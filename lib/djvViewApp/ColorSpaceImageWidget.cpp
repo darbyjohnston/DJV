@@ -22,9 +22,10 @@
 #include <djvUI/ToolButton.h>
 
 #include <djvAV/IOSystem.h>
-#include <djvAV/OCIOSystem.h>
 
-#include <djvCore/Context.h>
+#include <djvOCIO/OCIOSystem.h>
+
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -39,28 +40,28 @@ namespace djv
                 DJV_NON_COPYABLE(ColorSpacesWidget);
 
             protected:
-                void _init(const std::shared_ptr<Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 ColorSpacesWidget();
 
             public:
                 ~ColorSpacesWidget() override;
 
-                static std::shared_ptr<ColorSpacesWidget> create(const std::shared_ptr<Context>&);
+                static std::shared_ptr<ColorSpacesWidget> create(const std::shared_ptr<System::Context>&);
 
                 void setImage(const std::string& value);
 
             protected:
-                void _preLayoutEvent(Event::PreLayout&) override;
-                void _layoutEvent(Event::Layout&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
 
-                void _initEvent(Event::Init&) override;
+                void _initEvent(System::Event::Init&) override;
 
             private:
                 void _widgetUpdate();
 
                 std::string _image;
                 std::vector<std::string> _colorSpaces;
-                AV::OCIO::ImageColorSpaces _imageColorSpaces;
+                OCIO::ImageColorSpaces _imageColorSpaces;
 
                 std::shared_ptr<UI::ListWidget> _listWidget;
                 std::shared_ptr<UI::SearchBox> _searchBox;
@@ -71,7 +72,7 @@ namespace djv
                 std::shared_ptr<MapObserver<std::string, std::string> > _imageColorSpacesObserver;
             };
 
-            void ColorSpacesWidget::_init(const std::shared_ptr<Context>& context)
+            void ColorSpacesWidget::_init(const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
 
@@ -99,7 +100,7 @@ namespace djv
                 addChild(_layout);
 
                 auto weak = std::weak_ptr<ColorSpacesWidget>(std::dynamic_pointer_cast<ColorSpacesWidget>(shared_from_this()));
-                auto contextWeak = std::weak_ptr<Context>(context);
+                auto contextWeak = std::weak_ptr<System::Context>(context);
                 _listWidget->setRadioCallback(
                     [weak, contextWeak](int value)
                     {
@@ -112,7 +113,7 @@ namespace djv
                                     value >= 0 && value < static_cast<int>(widget->_colorSpaces.size()) ?
                                     widget->_colorSpaces[value] :
                                     std::string();
-                                auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                                auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
                                 ocioSystem->setImageColorSpaces(imageColorSpaces);
                             }
                         }
@@ -127,7 +128,7 @@ namespace djv
                         }
                     });
 
-                auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
                 _colorSpacesObserver = ListObserver<std::string>::create(
                     ocioSystem->observeColorSpaces(),
                     [weak](const std::vector<std::string>& value)
@@ -141,7 +142,7 @@ namespace djv
 
                 _imageColorSpacesObserver = MapObserver<std::string, std::string>::create(
                     ocioSystem->observeImageColorSpaces(),
-                    [weak](const AV::OCIO::ImageColorSpaces& value)
+                    [weak](const OCIO::ImageColorSpaces& value)
                     {
                         if (auto widget = weak.lock())
                         {
@@ -157,7 +158,7 @@ namespace djv
             ColorSpacesWidget::~ColorSpacesWidget()
             {}
 
-            std::shared_ptr<ColorSpacesWidget> ColorSpacesWidget::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<ColorSpacesWidget> ColorSpacesWidget::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<ColorSpacesWidget>(new ColorSpacesWidget);
                 out->_init(context);
@@ -172,17 +173,17 @@ namespace djv
                 _widgetUpdate();
             }
 
-            void ColorSpacesWidget::_preLayoutEvent(Event::PreLayout&)
+            void ColorSpacesWidget::_preLayoutEvent(System::Event::PreLayout&)
             {
                 _setMinimumSize(_layout->getMinimumSize());
             }
 
-            void ColorSpacesWidget::_layoutEvent(Event::Layout&)
+            void ColorSpacesWidget::_layoutEvent(System::Event::Layout&)
             {
                 _layout->setGeometry(getGeometry());
             }
 
-            void ColorSpacesWidget::_initEvent(Event::Init& event)
+            void ColorSpacesWidget::_initEvent(System::Event::Init& event)
             {
                 if (event.getData().text)
                 {
@@ -222,7 +223,7 @@ namespace djv
 
         struct ColorSpaceImageWidget::Private
         {
-            AV::OCIO::ImageColorSpaces imageColorSpaces;
+            OCIO::ImageColorSpaces imageColorSpaces;
             std::vector<std::string> images;
             bool deleteEnabled = false;
 
@@ -240,7 +241,7 @@ namespace djv
             std::shared_ptr<MapObserver<std::string, std::string> > imageColorSpacesObserver;
         };
 
-        void ColorSpaceImageWidget::_init(const std::shared_ptr<Context>& context)
+        void ColorSpaceImageWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -276,7 +277,7 @@ namespace djv
             _widgetUpdate();
 
             auto weak = std::weak_ptr<ColorSpaceImageWidget>(std::dynamic_pointer_cast<ColorSpaceImageWidget>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.deleteButtonGroup->setPushCallback(
                 [weak, contextWeak](int value)
                 {
@@ -294,7 +295,7 @@ namespace djv
                                     break;
                                 }
                             }
-                            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                            auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
                             ocioSystem->setImageColorSpaces(imageColorSpaces);
                         }
                     }
@@ -310,10 +311,10 @@ namespace djv
                     }
                 });
 
-            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+            auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
             p.imageColorSpacesObserver = MapObserver<std::string, std::string>::create(
                 ocioSystem->observeImageColorSpaces(),
-                [weak](const AV::OCIO::ImageColorSpaces& value)
+                [weak](const OCIO::ImageColorSpaces& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -343,7 +344,7 @@ namespace djv
         ColorSpaceImageWidget::~ColorSpaceImageWidget()
         {}
 
-        std::shared_ptr<ColorSpaceImageWidget> ColorSpaceImageWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ColorSpaceImageWidget> ColorSpaceImageWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ColorSpaceImageWidget>(new ColorSpaceImageWidget);
             out->_init(context);
@@ -355,17 +356,17 @@ namespace djv
             _p->formLayout->setLabelSizeGroup(value);
         }
 
-        void ColorSpaceImageWidget::_preLayoutEvent(Event::PreLayout&)
+        void ColorSpaceImageWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void ColorSpaceImageWidget::_layoutEvent(Event::Layout&)
+        void ColorSpaceImageWidget::_layoutEvent(System::Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
         }
 
-        void ColorSpaceImageWidget::_initEvent(Event::Init& event)
+        void ColorSpaceImageWidget::_initEvent(System::Event::Init& event)
         {
             DJV_PRIVATE_PTR();
             if (event.getData().text)
@@ -413,7 +414,7 @@ namespace djv
                     button->setTooltip(text);
                     p.buttons.push_back(button);
                     std::string image = i.first;
-                    auto weakContext = std::weak_ptr<Context>(context);
+                    auto weakContext = std::weak_ptr<System::Context>(context);
                     button->setOpenCallback(
                         [weakContext, image]() -> std::shared_ptr<UI::Widget>
                         {
@@ -448,7 +449,7 @@ namespace djv
                 }
                 p.deleteButtonGroup->setButtons(deleteButtons);
 
-                auto io = context->getSystemT<AV::IO::System>();
+                auto io = context->getSystemT<AV::IO::IOSystem>();
                 auto pluginNames = io->getPluginNames();
                 pluginNames.insert(pluginNames.begin(), std::string());
                 std::vector<std::string> pluginNamesList;
@@ -467,7 +468,7 @@ namespace djv
                 }
                 p.addActionGroup->setActions(actions);
                 auto weak = std::weak_ptr<ColorSpaceImageWidget>(std::dynamic_pointer_cast<ColorSpaceImageWidget>(shared_from_this()));
-                auto contextWeak = std::weak_ptr<Context>(context);
+                auto contextWeak = std::weak_ptr<System::Context>(context);
                 p.addActionGroup->setPushCallback(
                     [pluginNamesList, weak, contextWeak](int value)
                     {
@@ -479,7 +480,7 @@ namespace djv
                                 {
                                     auto imageColorSpaces = widget->_p->imageColorSpaces;
                                     imageColorSpaces[pluginNamesList[value]] = std::string();
-                                    auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                                    auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
                                     ocioSystem->setImageColorSpaces(imageColorSpaces);
                                 }
                             }

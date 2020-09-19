@@ -4,11 +4,11 @@
 
 #pragma once
 
-#include <djvAV/Enum.h>
+#include <djvAV/Speed.h>
+#include <djvAV/Time.h>
 
-#include <djvCore/ISystem.h>
-#include <djvCore/Speed.h>
-#include <djvCore/Time.h>
+#include <djvSystem/ISystem.h>
+
 #include <djvCore/ValueObserver.h>
 
 namespace djv
@@ -22,33 +22,24 @@ namespace djv
         } // namespace Render2D
 
         //! This class provides an AV system.
-        class AVSystem : public Core::ISystem
+        class AVSystem : public System::ISystem
         {
             DJV_NON_COPYABLE(AVSystem);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             AVSystem();
 
         public:
             ~AVSystem() override;
 
-            static std::shared_ptr<AVSystem> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<AVSystem> create(const std::shared_ptr<System::Context>&);
 
-            std::shared_ptr<Core::IValueSubject<Core::Time::Units> > observeTimeUnits() const;
-            void setTimeUnits(Core::Time::Units);
+            std::shared_ptr<Core::IValueSubject<Time::Units> > observeTimeUnits() const;
+            void setTimeUnits(Time::Units);
 
-            std::shared_ptr<Core::IValueSubject<AlphaBlend> > observeAlphaBlend() const;
-            void setAlphaBlend(AlphaBlend);
-
-            std::shared_ptr<Core::IValueSubject<Core::Time::FPS> > observeDefaultSpeed() const;
-            void setDefaultSpeed(Core::Time::FPS);
-
-            std::shared_ptr<Core::IValueSubject<Render2D::ImageFilterOptions> > observeImageFilterOptions() const;
-            void setImageFilterOptions(const Render2D::ImageFilterOptions&);
-
-            std::shared_ptr<Core::IValueSubject<bool> > observeTextLCDRendering() const;
-            void setTextLCDRendering(bool);
+            std::shared_ptr<Core::IValueSubject<FPS> > observeDefaultSpeed() const;
+            void setDefaultSpeed(FPS);
 
         private:
             DJV_PRIVATE();

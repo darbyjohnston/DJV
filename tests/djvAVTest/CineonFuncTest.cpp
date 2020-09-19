@@ -6,11 +6,12 @@
 
 #include <djvAV/CineonFunc.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/FileIO.h>
+#include <djvSystem/TextSystem.h>
+
 #include <djvCore/ErrorFunc.h>
-#include <djvCore/FileIO.h>
 #include <djvCore/Memory.h>
-#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 using namespace djv::AV;
@@ -21,11 +22,11 @@ namespace djv
     namespace AVTest
     {
         CineonFuncTest::CineonFuncTest(
-            const FileSystem::Path& tempPath,
-            const std::shared_ptr<Context>& context) :
+            const System::File::Path& tempPath,
+            const std::shared_ptr<System::Context>& context) :
             ITest(
                 "djv::AVTest::CineonFuncTest",
-                FileSystem::Path(tempPath, "CineonFuncTest"),
+                System::File::Path(tempPath, "CineonFuncTest"),
                 context)
         {}
                 
@@ -71,13 +72,13 @@ namespace djv
         {
             if (auto context = getContext().lock())
             {
-                auto textSystem = context->getSystemT<TextSystem>();
+                auto textSystem = context->getSystemT<System::TextSystem>();
                 
                 try
                 {
-                    auto io = FileSystem::FileIO::create();
-                    io->open(FileSystem::Path(getTempPath(), "empty.cin").get(), FileSystem::FileIO::Mode::Write);
-                    io->open(FileSystem::Path(getTempPath(), "empty.cin").get(), FileSystem::FileIO::Mode::Read);
+                    auto io = System::File::IO::create();
+                    io->open(System::File::Path(getTempPath(), "empty.cin").get(), System::File::IO::Mode::Write);
+                    io->open(System::File::Path(getTempPath(), "empty.cin").get(), System::File::IO::Mode::Read);
                     Info info;
                     Cineon::ColorProfile colorProfile = Cineon::ColorProfile::First;
                     Cineon::read(io, info, colorProfile, textSystem);
@@ -90,15 +91,15 @@ namespace djv
                 
                 try
                 {
-                    auto io = FileSystem::FileIO::create();
-                    io->open(FileSystem::Path(getTempPath(), "test.cin").get(), FileSystem::FileIO::Mode::Write);
+                    auto io = System::File::IO::create();
+                    io->open(System::File::Path(getTempPath(), "test.cin").get(), System::File::IO::Mode::Write);
                     Cineon::Header header;
                     Cineon::zero(header);
                     io->write(&header.file, sizeof(Cineon::Header::File));
                     io->write(&header.image, sizeof(Cineon::Header::Image));
                     io->write(&header.source, sizeof(Cineon::Header::Source));
                     io->write(&header.film, sizeof(Cineon::Header::Film));
-                    io->open(FileSystem::Path(getTempPath(), "test.cin").get(), FileSystem::FileIO::Mode::Read);
+                    io->open(System::File::Path(getTempPath(), "test.cin").get(), System::File::IO::Mode::Read);
                     Info info;
                     Cineon::ColorProfile colorProfile = Cineon::ColorProfile::First;
                     Cineon::read(io, info, colorProfile, textSystem);
@@ -355,16 +356,16 @@ namespace djv
 
                 for (const auto& i : Cineon::getColorProfileEnums())
                 {
-                    auto io = FileSystem::FileIO::create();
-                    io->open(FileSystem::Path(getTempPath(), "test.cin").get(), FileSystem::FileIO::Mode::Write);
+                    auto io = System::File::IO::create();
+                    io->open(System::File::Path(getTempPath(), "test.cin").get(), System::File::IO::Mode::Write);
                     Info info;
                     info.video.push_back(Image::Info());
                     Cineon::write(io, info, i);
                 }
 
                 {
-                    auto io = FileSystem::FileIO::create();
-                    io->open(FileSystem::Path(getTempPath(), "test.cin").get(), FileSystem::FileIO::Mode::Write);
+                    auto io = System::File::IO::create();
+                    io->open(System::File::Path(getTempPath(), "test.cin").get(), System::File::IO::Mode::Write);
                     Info info;
                     info.video.push_back(Image::Info());
                     info.tags.set("Time", " ");
@@ -383,7 +384,7 @@ namespace djv
                     info.tags.set("Film Frame ID", " ");
                     info.tags.set("Film Slate", " ");
                     Cineon::write(io, info, Cineon::ColorProfile::Raw);
-                    io->open(FileSystem::Path(getTempPath(), "test.cin").get(), FileSystem::FileIO::Mode::Read);
+                    io->open(System::File::Path(getTempPath(), "test.cin").get(), System::File::IO::Mode::Read);
                     Info info2;
                     info2.video.push_back(Image::Info());
                     Cineon::ColorProfile colorProfile = Cineon::ColorProfile::First;
@@ -400,9 +401,9 @@ namespace djv
         {
             if (auto context = getContext().lock())
             {
-                auto textSystem = context->getSystemT<TextSystem>();
-                auto io = FileSystem::FileIO::create();
-                io->open(FileSystem::Path(getTempPath(), "test.cin").get(), FileSystem::FileIO::Mode::Write);
+                auto textSystem = context->getSystemT<System::TextSystem>();
+                auto io = System::File::IO::create();
+                io->open(System::File::Path(getTempPath(), "test.cin").get(), System::File::IO::Mode::Write);
                 const bool flipEndian = Memory::getEndian() != Memory::Endian::MSB;
                 io->setEndianConversion(flipEndian);
                 if (flipEndian)
@@ -418,7 +419,7 @@ namespace djv
                 io->write(&header.image, sizeof(Cineon::Header::Image));
                 io->write(&header.source, sizeof(Cineon::Header::Source));
                 io->write(&header.film, sizeof(Cineon::Header::Film));
-                io->open(FileSystem::Path(getTempPath(), "test.cin").get(), FileSystem::FileIO::Mode::Read);
+                io->open(System::File::Path(getTempPath(), "test.cin").get(), System::File::IO::Mode::Read);
                 Cineon::read(io, info, colorProfile, textSystem);
             }
         }

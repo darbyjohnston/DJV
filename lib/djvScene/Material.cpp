@@ -4,7 +4,7 @@
 
 #include <djvScene/Material.h>
 
-#include <djvAV/Render3DMaterial.h>
+#include <djvRender3D/Material.h>
 
 using namespace djv::Core;
 
@@ -18,9 +18,9 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<AV::Render3D::IMaterial> DefaultMaterial::createMaterial(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<Render3D::IMaterial> DefaultMaterial::createMaterial(const std::shared_ptr<System::Context>& context)
         {
-            auto out = AV::Render3D::DefaultMaterial::create(context);
+            auto out = Render3D::DefaultMaterial::create(context);
             out->setAmbient(_ambient);
             out->setDiffuse(_diffuse);
             out->setEmission(_emission);

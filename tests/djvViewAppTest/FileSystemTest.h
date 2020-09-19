@@ -6,14 +6,14 @@
 
 namespace djv
 {
-    namespace Core
+    namespace System
     {
-        namespace FileSystem
+        namespace File
         {
-            class FileInfo;
+            class Info;
         
-        } // namespace FileSystem
-    } // namespace Core
+        } // namespace File
+    } // namespace System
 
     namespace ViewAppTest
     {
@@ -21,13 +21,13 @@ namespace djv
         {
         public:
             FileSystemTest(
-                const Core::FileSystem::Path& tempPath,
-                const std::shared_ptr<Core::Context>&);
+                const System::File::Path& tempPath,
+                const std::shared_ptr<System::Context>&);
             
             void run() override;
 
         private:
-            void _writeImage(const Core::FileSystem::FileInfo&);
+            void _writeImage(const System::File::Info&);
         };
         
     } // namespace ViewAppTest

@@ -10,20 +10,17 @@
 
 namespace djv
 {
-    namespace AV
+    namespace Image
     {
-        namespace Image
-        {
-            class Image;
-    
-        } // namespace Image
+        class Image;
 
-        namespace Render2D
-        {
-            class ImageOptions;
+    } // namespace Image
 
-        } // namespace Render
-    } // namespace AV
+    namespace Render2D
+    {
+        class ImageOptions;
+
+    } // namespace Render
 
     namespace ViewApp
     {
@@ -38,25 +35,25 @@ namespace djv
             DJV_NON_COPYABLE(ViewWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             ViewWidget();
 
         public:
             ~ViewWidget() override;
 
-            static std::shared_ptr<ViewWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ViewWidget> create(const std::shared_ptr<System::Context>&);
 
-            std::shared_ptr<Core::IValueSubject<std::shared_ptr<AV::Image::Image> > > observeImage() const;
-            void setImage(const std::shared_ptr<AV::Image::Image>&);
+            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Image::Image> > > observeImage() const;
+            void setImage(const std::shared_ptr<Image::Image>&);
 
-            std::shared_ptr<Core::IValueSubject<AV::Render2D::ImageOptions> > observeImageOptions() const;
-            void setImageOptions(const AV::Render2D::ImageOptions&);
+            std::shared_ptr<Core::IValueSubject<Render2D::ImageOptions> > observeImageOptions() const;
+            void setImageOptions(const Render2D::ImageOptions&);
 
             std::shared_ptr<Core::IValueSubject<glm::vec2> > observeImagePos() const;
             std::shared_ptr<Core::IValueSubject<float> > observeImageZoom() const;
             std::shared_ptr<Core::IValueSubject<UI::ImageRotate> > observeImageRotate() const;
             std::shared_ptr<Core::IValueSubject<UI::ImageAspectRatio> > observeImageAspectRatio() const;
-            Core::BBox2f getImageBBox() const;
+            Math::BBox2f getImageBBox() const;
             void setImagePos(const glm::vec2&, bool animate = false);
             void setImageZoom(float, bool animate = false);
             void setImageZoomFocus(float, const glm::vec2&, bool animate = false);
@@ -66,7 +63,7 @@ namespace djv
             void setImageAspectRatio(UI::ImageAspectRatio);
 
             void imageFill(bool animate = false);
-            void setImageFrame(const Core::BBox2f&);
+            void setImageFrame(const Math::BBox2f&);
             void imageFrame(bool animate = false);
             void imageCenter(bool animate = false);
 
@@ -79,14 +76,14 @@ namespace djv
             void setAnnotations(const std::vector<std::shared_ptr<AnnotatePrimitive> >&);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
-            void _paintEvent(Core::Event::Paint &) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
+            void _paintEvent(System::Event::Paint &) override;
 
         private:
             std::vector<glm::vec3> _getImagePoints(bool posAndZoom = false) const;
             static glm::vec2 _getCenter(const std::vector<glm::vec3>&);
-            static Core::BBox2f _getBBox(const std::vector<glm::vec3>&);
+            static Math::BBox2f _getBBox(const std::vector<glm::vec3>&);
 
             void _animatePosAndZoom(const glm::vec2&, float);
             void _setPosAndZoom(const glm::vec2&, float);

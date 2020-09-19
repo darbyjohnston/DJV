@@ -13,8 +13,8 @@ namespace djv
     namespace CoreTest
     {
         ValueObserverTest::ValueObserverTest(
-            const FileSystem::Path& tempPath,
-            const std::shared_ptr<Core::Context>& context) :
+            const System::File::Path& tempPath,
+            const std::shared_ptr<System::Context>& context) :
             ITest("djv::CoreTest::ValueObserverTest", tempPath, context)
         {}
         

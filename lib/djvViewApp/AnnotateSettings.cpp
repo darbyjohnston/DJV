@@ -4,9 +4,9 @@
 
 #include <djvViewApp/AnnotateSettings.h>
 
-#include <djvAV/ColorFunc.h>
+#include <djvImage/ColorFunc.h>
 
-#include <djvCore/BBoxFunc.h>
+#include <djvMath/BBoxFunc.h>
 
 // These need to be included last on macOS.
 #include <djvCore/RapidJSONTemplates.h>
@@ -22,24 +22,24 @@ namespace djv
         {
             std::shared_ptr<ValueSubject<AnnotateTool> > tool;
             std::shared_ptr<ValueSubject<AnnotateLineSize> > lineSize;
-            std::shared_ptr<ListSubject<AV::Image::Color> > colors;
+            std::shared_ptr<ListSubject<Image::Color> > colors;
             std::shared_ptr<ValueSubject<int> > currentColor;
-            std::map<std::string, BBox2f> widgetGeom;
+            std::map<std::string, Math::BBox2f> widgetGeom;
         };
 
-        void AnnotateSettings::_init(const std::shared_ptr<Core::Context>& context)
+        void AnnotateSettings::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettings::_init("djv::ViewApp::AnnotateSettings", context);
             DJV_PRIVATE_PTR();
             p.tool = ValueSubject<AnnotateTool>::create(AnnotateTool::Polyline);
             p.lineSize = ValueSubject<AnnotateLineSize>::create(AnnotateLineSize::Medium);
-            p.colors = ListSubject<AV::Image::Color>::create(
+            p.colors = ListSubject<Image::Color>::create(
                 {
-                    AV::Image::Color(1.F, 0.F, 0.F),
-                    AV::Image::Color(0.F, 1.F, 0.F),
-                    AV::Image::Color(0.F, 0.F, 1.F),
-                    AV::Image::Color(1.F, 1.F, 1.F),
-                    AV::Image::Color(0.F, 0.F, 0.F)
+                    Image::Color(1.F, 0.F, 0.F),
+                    Image::Color(0.F, 1.F, 0.F),
+                    Image::Color(0.F, 0.F, 1.F),
+                    Image::Color(1.F, 1.F, 1.F),
+                    Image::Color(0.F, 0.F, 0.F)
                 });
             p.currentColor = ValueSubject<int>::create(0);
             _load();
@@ -52,7 +52,7 @@ namespace djv
         AnnotateSettings::~AnnotateSettings()
         {}
 
-        std::shared_ptr<AnnotateSettings> AnnotateSettings::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<AnnotateSettings> AnnotateSettings::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<AnnotateSettings>(new AnnotateSettings);
             out->_init(context);
@@ -80,12 +80,12 @@ namespace djv
             _p->lineSize->setIfChanged(value);
         }
 
-        std::shared_ptr<Core::IListSubject<AV::Image::Color> > AnnotateSettings::observeColors() const
+        std::shared_ptr<Core::IListSubject<Image::Color> > AnnotateSettings::observeColors() const
         {
             return _p->colors;
         }
 
-        void AnnotateSettings::setColors(const std::vector<AV::Image::Color>& value)
+        void AnnotateSettings::setColors(const std::vector<Image::Color>& value)
         {
             _p->colors->setIfChanged(value);
         }
@@ -100,12 +100,12 @@ namespace djv
             _p->currentColor->setIfChanged(value);
         }
 
-        const std::map<std::string, BBox2f>& AnnotateSettings::getWidgetGeom() const
+        const std::map<std::string, Math::BBox2f>& AnnotateSettings::getWidgetGeom() const
         {
             return _p->widgetGeom;
         }
 
-        void AnnotateSettings::setWidgetGeom(const std::map<std::string, BBox2f>& value)
+        void AnnotateSettings::setWidgetGeom(const std::map<std::string, Math::BBox2f>& value)
         {
             _p->widgetGeom = value;
         }

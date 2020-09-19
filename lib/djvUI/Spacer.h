@@ -18,13 +18,13 @@ namespace djv
                 DJV_NON_COPYABLE(Spacer);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 Spacer();
 
             public:
                 ~Spacer() override;
 
-                static std::shared_ptr<Spacer> create(Orientation, const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<Spacer> create(Orientation, const std::shared_ptr<System::Context>&);
 
                 Orientation getOrientation() const;
                 void setOrientation(Orientation);
@@ -36,7 +36,7 @@ namespace djv
                 void setSpacerOppositeSize(MetricsRole);
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
 
             private:
                 DJV_PRIVATE();
@@ -51,7 +51,7 @@ namespace djv
                 HorizontalSpacer();
 
             public:
-                static std::shared_ptr<HorizontalSpacer> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<HorizontalSpacer> create(const std::shared_ptr<System::Context>&);
             };
 
             //! This class provides a vertical spacer for use in layouts.
@@ -63,7 +63,7 @@ namespace djv
                 VerticalSpacer();
 
             public:
-                static std::shared_ptr<VerticalSpacer> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<VerticalSpacer> create(const std::shared_ptr<System::Context>&);
             };
 
         } // namespace Layout

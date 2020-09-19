@@ -10,8 +10,9 @@
 #include <djvUI/IntSlider.h>
 #include <djvUI/SettingsSystem.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/NumericValueModels.h>
+#include <djvSystem/Context.h>
+
+#include <djvMath/NumericValueModels.h>
 
 using namespace djv::Core;
 
@@ -26,7 +27,7 @@ namespace djv
             std::shared_ptr<ValueObserver<size_t> > threadCountObserver;
         };
 
-        void IOThreadsSettingsWidget::_init(const std::shared_ptr<Context>& context)
+        void IOThreadsSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -34,14 +35,14 @@ namespace djv
             setClassName("djv::UI::IOThreadsSettingsWidget");
 
             p.threadCountSlider = IntSlider::create(context);
-            p.threadCountSlider->setRange(IntRange(2, 64));
+            p.threadCountSlider->setRange(Math::IntRange(2, 64));
 
             p.layout = FormLayout::create(context);
             p.layout->addChild(p.threadCountSlider);
             addChild(p.layout);
 
             auto weak = std::weak_ptr<IOThreadsSettingsWidget>(std::dynamic_pointer_cast<IOThreadsSettingsWidget>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.threadCountSlider->setValueCallback(
                 [weak, contextWeak](int value)
                 {
@@ -49,7 +50,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             if (auto ioSettings = settingsSystem->getSettingsT<Settings::IO>())
                             {
                                 ioSettings->setThreadCount(static_cast<size_t>(value));
@@ -58,7 +59,7 @@ namespace djv
                     }
                 });
 
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             if (auto ioSettings = settingsSystem->getSettingsT<Settings::IO>())
             {
                 p.threadCountObserver = ValueObserver<size_t>::create(
@@ -77,7 +78,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<IOThreadsSettingsWidget> IOThreadsSettingsWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<IOThreadsSettingsWidget> IOThreadsSettingsWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<IOThreadsSettingsWidget>(new IOThreadsSettingsWidget);
             out->_init(context);
@@ -99,7 +100,7 @@ namespace djv
             _p->layout->setLabelSizeGroup(value);
         }
 
-        void IOThreadsSettingsWidget::_initEvent(Event::Init & event)
+        void IOThreadsSettingsWidget::_initEvent(System::Event::Init & event)
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();

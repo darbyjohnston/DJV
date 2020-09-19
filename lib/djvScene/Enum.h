@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include <djvCore/Enum.h>
-
 namespace djv
 {
     namespace Scene

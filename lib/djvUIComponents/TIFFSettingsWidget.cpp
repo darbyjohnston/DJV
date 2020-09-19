@@ -11,7 +11,7 @@
 #include <djvAV/IOSystem.h>
 #include <djvAV/TIFF.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -25,7 +25,7 @@ namespace djv
             std::shared_ptr<FormLayout> layout;
         };
 
-        void TIFFSettingsWidget::_init(const std::shared_ptr<Context>& context)
+        void TIFFSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -41,13 +41,13 @@ namespace djv
             _widgetUpdate();
 
             auto weak = std::weak_ptr<TIFFSettingsWidget>(std::dynamic_pointer_cast<TIFFSettingsWidget>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.compressionComboBox->setCallback(
                 [weak, contextWeak](int value)
                 {
                     if (auto context = contextWeak.lock())
                     {
-                        auto io = context->getSystemT<AV::IO::System>();
+                        auto io = context->getSystemT<AV::IO::IOSystem>();
                         AV::IO::TIFF::Options options;
                         rapidjson::Document document;
                         auto& allocator = document.GetAllocator();
@@ -62,7 +62,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<TIFFSettingsWidget> TIFFSettingsWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<TIFFSettingsWidget> TIFFSettingsWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<TIFFSettingsWidget>(new TIFFSettingsWidget);
             out->_init(context);
@@ -89,7 +89,7 @@ namespace djv
             _p->layout->setLabelSizeGroup(value);
         }
 
-        void TIFFSettingsWidget::_initEvent(Event::Init & event)
+        void TIFFSettingsWidget::_initEvent(System::Event::Init & event)
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
@@ -105,7 +105,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                auto io = context->getSystemT<AV::IO::System>();
+                auto io = context->getSystemT<AV::IO::IOSystem>();
                 AV::IO::TIFF::Options options;
                 rapidjson::Document document;
                 auto& allocator = document.GetAllocator();

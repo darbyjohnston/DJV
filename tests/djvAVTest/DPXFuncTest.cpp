@@ -6,11 +6,12 @@
 
 #include <djvAV/DPXFunc.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/FileIO.h>
+#include <djvSystem/TextSystem.h>
+
 #include <djvCore/ErrorFunc.h>
-#include <djvCore/FileIO.h>
 #include <djvCore/Memory.h>
-#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 using namespace djv::AV;
@@ -21,11 +22,11 @@ namespace djv
     namespace AVTest
     {
         DPXFuncTest::DPXFuncTest(
-            const FileSystem::Path& tempPath,
-            const std::shared_ptr<Context>& context) :
+            const System::File::Path& tempPath,
+            const std::shared_ptr<System::Context>& context) :
             ITest(
                 "djv::AVTest::DPXFuncTest",
-                FileSystem::Path(tempPath, "DPXFuncTest"),
+                System::File::Path(tempPath, "DPXFuncTest"),
                 context)
         {}
                 
@@ -57,13 +58,13 @@ namespace djv
         {
             if (auto context = getContext().lock())
             {
-                auto textSystem = context->getSystemT<TextSystem>();
+                auto textSystem = context->getSystemT<System::TextSystem>();
                 
                 try
                 {
-                    auto io = FileSystem::FileIO::create();
-                    io->open(FileSystem::Path(getTempPath(), "empty.dpx").get(), FileSystem::FileIO::Mode::Write);
-                    io->open(FileSystem::Path(getTempPath(), "empty.dpx").get(), FileSystem::FileIO::Mode::Read);
+                    auto io = System::File::IO::create();
+                    io->open(System::File::Path(getTempPath(), "empty.dpx").get(), System::File::IO::Mode::Write);
+                    io->open(System::File::Path(getTempPath(), "empty.dpx").get(), System::File::IO::Mode::Read);
                     Info info;
                     DPX::Transfer transfer = DPX::Transfer::First;
                     DPX::read(io, info, transfer, textSystem);
@@ -76,8 +77,8 @@ namespace djv
                 
                 try
                 {
-                    auto io = FileSystem::FileIO::create();
-                    io->open(FileSystem::Path(getTempPath(), "test.dpx").get(), FileSystem::FileIO::Mode::Write);
+                    auto io = System::File::IO::create();
+                    io->open(System::File::Path(getTempPath(), "test.dpx").get(), System::File::IO::Mode::Write);
                     DPX::Header header;
                     DPX::zero(header);
                     io->write(&header.file, sizeof(DPX::Header::File));
@@ -85,7 +86,7 @@ namespace djv
                     io->write(&header.source, sizeof(DPX::Header::Source));
                     io->write(&header.film, sizeof(DPX::Header::Film));
                     io->write(&header.tv, sizeof(DPX::Header::TV));
-                    io->open(FileSystem::Path(getTempPath(), "test.dpx").get(), FileSystem::FileIO::Mode::Read);
+                    io->open(System::File::Path(getTempPath(), "test.dpx").get(), System::File::IO::Mode::Read);
                     Info info;
                     DPX::Transfer transfer = DPX::Transfer::First;
                     DPX::read(io, info, transfer, textSystem);
@@ -291,8 +292,8 @@ namespace djv
                 }
                 
                 {
-                    auto io = FileSystem::FileIO::create();
-                    io->open(FileSystem::Path(getTempPath(), "test.dpx").get(), FileSystem::FileIO::Mode::Write);
+                    auto io = System::File::IO::create();
+                    io->open(System::File::Path(getTempPath(), "test.dpx").get(), System::File::IO::Mode::Write);
                     Info info;
                     info.video.push_back(Image::Info(0, 0, Image::Type::RGB_U10));
                     info.tags.set("Time", " ");
@@ -332,7 +333,7 @@ namespace djv
                     info.tags.set("TV White Level", "1");
                     info.tags.set("TV Integration Times", "1");
                     DPX::write(io, info, DPX::Version::_2_0, DPX::Endian::Auto, DPX::Transfer::First);
-                    io->open(FileSystem::Path(getTempPath(), "test.dpx").get(), FileSystem::FileIO::Mode::Read);
+                    io->open(System::File::Path(getTempPath(), "test.dpx").get(), System::File::IO::Mode::Read);
                     Info info2;
                     info2.video.push_back(Image::Info());
                     DPX::Transfer transfer = DPX::Transfer::First;
@@ -348,8 +349,8 @@ namespace djv
                         {
                             for (const auto& l : DPX::getTransferEnums())                
                             {
-                                auto io = FileSystem::FileIO::create();
-                                io->open(FileSystem::Path(getTempPath(), "test.dpx").get(), FileSystem::FileIO::Mode::Write);
+                                auto io = System::File::IO::create();
+                                io->open(System::File::Path(getTempPath(), "test.dpx").get(), System::File::IO::Mode::Write);
                                 Info info;
                                 info.video.push_back(Image::Info(0, 0, i));
                                 DPX::write(io, info, j, k, l);
@@ -369,9 +370,9 @@ namespace djv
         {
             if (auto context = getContext().lock())
             {
-                auto textSystem = context->getSystemT<TextSystem>();
-                auto io = FileSystem::FileIO::create();
-                io->open(FileSystem::Path(getTempPath(), "test.dpx").get(), FileSystem::FileIO::Mode::Write);
+                auto textSystem = context->getSystemT<System::TextSystem>();
+                auto io = System::File::IO::create();
+                io->open(System::File::Path(getTempPath(), "test.dpx").get(), System::File::IO::Mode::Write);
                 Memory::Endian fileEndian = Memory::getEndian();
                 switch (endian)
                 {
@@ -394,7 +395,7 @@ namespace djv
                 io->write(&header.film, sizeof(DPX::Header::Film));
                 io->write(&header.tv, sizeof(DPX::Header::TV));
                 
-                io->open(FileSystem::Path(getTempPath(), "test.dpx").get(), FileSystem::FileIO::Mode::Read);
+                io->open(System::File::Path(getTempPath(), "test.dpx").get(), System::File::IO::Mode::Read);
                 DPX::read(io, info, transfer, textSystem);
             }
         }

@@ -16,13 +16,13 @@ namespace djv
             DJV_NON_COPYABLE(Window);
             
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             Window();
 
         public:
             ~Window() override;
 
-            static std::shared_ptr<Window> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<Window> create(const std::shared_ptr<System::Context>&);
 
             bool isClosed() const;
 
@@ -30,10 +30,10 @@ namespace djv
             void close();
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
 
-            void _initEvent(Core::Event::Init&) override;
+            void _initEvent(System::Event::Init&) override;
 
         private:
             DJV_PRIVATE();

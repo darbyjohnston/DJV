@@ -20,11 +20,13 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/Window.h>
 
-#include <djvAV/Color.h>
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/NumericValueModels.h>
+#include <djvImage/Color.h>
+
+#include <djvSystem/Context.h>
+
+#include <djvMath/NumericValueModels.h>
 
 using namespace djv::Core;
 
@@ -34,12 +36,12 @@ namespace djv
     {
         struct ColorTypeWidget::Private
         {
-            AV::Image::Type type = AV::Image::Type::First;
+            Image::Type type = Image::Type::First;
             std::shared_ptr<ComboBox> comboBox;
-            std::function<void(AV::Image::Type)> typeCallback;
+            std::function<void(Image::Type)> typeCallback;
         };
 
-        void ColorTypeWidget::_init(const std::shared_ptr<Context>& context)
+        void ColorTypeWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
 
@@ -59,7 +61,7 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    const auto type = static_cast<AV::Image::Type>(value + 1);
+                    const auto type = static_cast<Image::Type>(value + 1);
                     widget->setType(type);
                     if (widget->_p->typeCallback)
                     {
@@ -76,19 +78,19 @@ namespace djv
         ColorTypeWidget::~ColorTypeWidget()
         {}
 
-        std::shared_ptr<ColorTypeWidget> ColorTypeWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ColorTypeWidget> ColorTypeWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ColorTypeWidget>(new ColorTypeWidget);
             out->_init(context);
             return out;
         }
 
-        AV::Image::Type ColorTypeWidget::getType() const
+        Image::Type ColorTypeWidget::getType() const
         {
             return _p->type;
         }
 
-        void ColorTypeWidget::setType(AV::Image::Type value)
+        void ColorTypeWidget::setType(Image::Type value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.type)
@@ -97,22 +99,22 @@ namespace djv
             p.comboBox->setCurrentItem(static_cast<int>(p.type) - 1);
         }
 
-        void ColorTypeWidget::setTypeCallback(const std::function<void(AV::Image::Type)> & callback)
+        void ColorTypeWidget::setTypeCallback(const std::function<void(Image::Type)> & callback)
         {
             _p->typeCallback = callback;
         }
 
-        void ColorTypeWidget::_preLayoutEvent(Event::PreLayout& event)
+        void ColorTypeWidget::_preLayoutEvent(System::Event::PreLayout& event)
         {
             _setMinimumSize(_p->comboBox->getMinimumSize());
         }
 
-        void ColorTypeWidget::_layoutEvent(Event::Layout&)
+        void ColorTypeWidget::_layoutEvent(System::Event::Layout&)
         {
             _p->comboBox->setGeometry(getGeometry());
         }
 
-        void ColorTypeWidget::_initEvent(Event::Init & event)
+        void ColorTypeWidget::_initEvent(System::Event::Init & event)
         {
             if (event.getData().text)
             {
@@ -125,10 +127,10 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             std::vector<std::string> items;
-            for (size_t i = static_cast<size_t>(AV::Image::Type::L_U8); i < static_cast<size_t>(AV::Image::Type::Count); ++i)
+            for (size_t i = static_cast<size_t>(Image::Type::L_U8); i < static_cast<size_t>(Image::Type::Count); ++i)
             {
                 std::stringstream ss;
-                ss << static_cast<AV::Image::Type>(i);
+                ss << static_cast<Image::Type>(i);
                 items.push_back(_getText(ss.str()));
             }
             p.comboBox->setItems(items);
@@ -137,7 +139,7 @@ namespace djv
 
         struct ColorSliders::Private
         {
-            AV::Image::Color color = AV::Image::Color(0.F, 0.F, 0.F);
+            Image::Color color = Image::Color(0.F, 0.F, 0.F);
             bool hsv = false;
             std::vector<std::shared_ptr<Label> > intLabels;
             std::vector<std::shared_ptr<IntEdit> > intEdits;
@@ -146,12 +148,12 @@ namespace djv
             std::vector<std::shared_ptr<FloatEdit> > floatEdits;
             std::vector<std::shared_ptr<BasicFloatSlider> > floatSliders;
             std::shared_ptr<GridLayout> layout;
-            std::function<void(const AV::Image::Color &)> colorCallback;
+            std::function<void(const Image::Color &)> colorCallback;
             std::vector<std::shared_ptr<ValueObserver<int> > > intObservers;
             std::vector < std::shared_ptr<ValueObserver<float> > > floatObservers;
         };
 
-        void ColorSliders::_init(const std::shared_ptr<Context>& context)
+        void ColorSliders::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
 
@@ -173,19 +175,19 @@ namespace djv
         ColorSliders::~ColorSliders()
         {}
 
-        std::shared_ptr<ColorSliders> ColorSliders::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ColorSliders> ColorSliders::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ColorSliders>(new ColorSliders);
             out->_init(context);
             return out;
         }
 
-        const AV::Image::Color & ColorSliders::getColor() const
+        const Image::Color & ColorSliders::getColor() const
         {
             return _p->color;
         }
 
-        void ColorSliders::setColor(const AV::Image::Color & value)
+        void ColorSliders::setColor(const Image::Color & value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.color)
@@ -203,7 +205,7 @@ namespace djv
             _textUpdate();
         }
 
-        void ColorSliders::setColorCallback(const std::function<void(const AV::Image::Color &)> & callback)
+        void ColorSliders::setColorCallback(const std::function<void(const Image::Color &)> & callback)
         {
             _p->colorCallback = callback;
         }
@@ -223,19 +225,19 @@ namespace djv
             _textUpdate();
         }
 
-        void ColorSliders::_preLayoutEvent(Event::PreLayout& event)
+        void ColorSliders::_preLayoutEvent(System::Event::PreLayout& event)
         {
             const auto& style = _getStyle();
             _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
         }
 
-        void ColorSliders::_layoutEvent(Event::Layout&)
+        void ColorSliders::_layoutEvent(System::Event::Layout&)
         {
             const auto& style = _getStyle();
             _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
         }
 
-        void ColorSliders::_initEvent(Event::Init & event)
+        void ColorSliders::_initEvent(System::Event::Init & event)
         {
             if (event.getData().text)
             {
@@ -259,10 +261,10 @@ namespace djv
                 p.floatObservers.clear();
 
                 const auto type = p.color.getType();
-                const size_t channelCount = AV::Image::getChannelCount(type);
+                const size_t channelCount = Image::getChannelCount(type);
                 for (size_t i = 0; i < channelCount; ++i)
                 {
-                    if (AV::Image::isIntType(type))
+                    if (Image::isIntType(type))
                     {
                         auto intLabel = Label::create(context);
                         p.layout->addChild(intLabel);
@@ -307,7 +309,7 @@ namespace djv
                 auto weak = std::weak_ptr<ColorSliders>(std::dynamic_pointer_cast<ColorSliders>(shared_from_this()));
                 for (size_t i = 0; i < channelCount; ++i)
                 {
-                    if (AV::Image::isIntType(type))
+                    if (Image::isIntType(type))
                     {
                         p.intObservers.push_back(ValueObserver<int>::create(
                             p.intSliders[i]->getModel()->observeValue(),
@@ -316,12 +318,12 @@ namespace djv
                                 if (auto widget = weak.lock())
                                 {
                                     auto color = widget->_p->color;
-                                    switch (AV::Image::getDataType(color.getType()))
+                                    switch (Image::getDataType(color.getType()))
                                     {
-                                    case AV::Image::DataType::U8:  color.setU8(static_cast<AV::Image::U8_T> (value), i); break;
-                                    case AV::Image::DataType::U10: color.setU10(static_cast<AV::Image::U10_T>(value), i); break;
-                                    case AV::Image::DataType::U16: color.setU16(static_cast<AV::Image::U16_T>(value), i); break;
-                                    case AV::Image::DataType::U32: color.setU32(static_cast<AV::Image::U32_T>(value), i); break;
+                                    case Image::DataType::U8:  color.setU8(static_cast<Image::U8_T> (value), i); break;
+                                    case Image::DataType::U10: color.setU10(static_cast<Image::U10_T>(value), i); break;
+                                    case Image::DataType::U16: color.setU16(static_cast<Image::U16_T>(value), i); break;
+                                    case Image::DataType::U32: color.setU32(static_cast<Image::U32_T>(value), i); break;
                                     default: break;
                                     }
                                     widget->setColor(color);
@@ -341,10 +343,10 @@ namespace djv
                                 if (auto widget = weak.lock())
                                 {
                                     auto color = widget->_p->color;
-                                    switch (AV::Image::getDataType(color.getType()))
+                                    switch (Image::getDataType(color.getType()))
                                     {
-                                    case AV::Image::DataType::F16: color.setF16(static_cast<AV::Image::F16_T>(value), i); break;
-                                    case AV::Image::DataType::F32: color.setF32(static_cast<AV::Image::F32_T>(value), i); break;
+                                    case Image::DataType::F16: color.setF16(static_cast<Image::F16_T>(value), i); break;
+                                    case Image::DataType::F32: color.setF32(static_cast<Image::F32_T>(value), i); break;
                                     default: break;
                                     }
                                     widget->setColor(color);
@@ -363,20 +365,20 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const auto type = p.color.getType();
-            const size_t channelCount = AV::Image::getChannelCount(type);
+            const size_t channelCount = Image::getChannelCount(type);
             for (size_t i = 0; i < channelCount; ++i)
             {
-                if (AV::Image::isIntType(type))
+                if (Image::isIntType(type))
                 {
                     auto slider = p.intSliders[i];
-                    slider->setRange(AV::Image::getIntRange(type));
+                    slider->setRange(Image::getIntRange(type));
                     int v = 0;
-                    switch (AV::Image::getDataType(type))
+                    switch (Image::getDataType(type))
                     {
-                    case AV::Image::DataType::U8:  v = p.color.getU8(i); break;
-                    case AV::Image::DataType::U10: v = p.color.getU10(i); break;
-                    case AV::Image::DataType::U16: v = p.color.getU16(i); break;
-                    case AV::Image::DataType::U32: v = p.color.getU32(i); break;
+                    case Image::DataType::U8:  v = p.color.getU8(i); break;
+                    case Image::DataType::U10: v = p.color.getU10(i); break;
+                    case Image::DataType::U16: v = p.color.getU16(i); break;
+                    case Image::DataType::U32: v = p.color.getU32(i); break;
                     default: break;
                     }
                     slider->setValue(v);
@@ -384,12 +386,12 @@ namespace djv
                 else
                 {
                     auto slider = p.floatSliders[i];
-                    slider->setRange(AV::Image::getFloatRange(type));
+                    slider->setRange(Image::getFloatRange(type));
                     float v = 0.F;
-                    switch (AV::Image::getDataType(type))
+                    switch (Image::getDataType(type))
                     {
-                    case AV::Image::DataType::F16: v = p.color.getF16(i); break;
-                    case AV::Image::DataType::F32: v = p.color.getF32(i); break;
+                    case Image::DataType::F16: v = p.color.getF16(i); break;
+                    case Image::DataType::F32: v = p.color.getF32(i); break;
                     default: break;
                     }
                     slider->setValue(v);
@@ -401,7 +403,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const auto type = p.color.getType();
-            const size_t channelCount = AV::Image::getChannelCount(type);
+            const size_t channelCount = Image::getChannelCount(type);
             switch (channelCount)
             {
             case 1:
@@ -414,7 +416,7 @@ namespace djv
                 {
                     _getText(DJV_TEXT("color_sliders_luminance_tooltip"))
                 };
-                if (AV::Image::isIntType(type))
+                if (Image::isIntType(type))
                 {
                     p.intLabels[0]->setText(text[0]);
                     p.intLabels[0]->setTooltip(tooltips[0]);
@@ -442,7 +444,7 @@ namespace djv
                     _getText(DJV_TEXT("color_sliders_luminance_tooltip")),
                     _getText(DJV_TEXT("color_sliders_alpha_tooltip"))
                 };
-                if (AV::Image::isIntType(type))
+                if (Image::isIntType(type))
                 {
                     for (size_t i = 0; i < 2; ++i)
                     {
@@ -504,7 +506,7 @@ namespace djv
                         _getText(DJV_TEXT("color_sliders_blue_tooltip"))
                     };
                 }
-                if (AV::Image::isIntType(type))
+                if (Image::isIntType(type))
                 {
                     for (size_t i = 0; i < 3; ++i)
                     {
@@ -570,7 +572,7 @@ namespace djv
                         _getText(DJV_TEXT("color_sliders_alpha_tooltip"))
                     };
                 }
-                if (AV::Image::isIntType(type))
+                if (Image::isIntType(type))
                 {
                     for (size_t i = 0; i < 4; ++i)
                     {
@@ -603,15 +605,15 @@ namespace djv
 
         struct ColorPicker::Private
         {
-            AV::Image::Color color = AV::Image::Color(0.F, 0.F, 0.F);
+            Image::Color color = Image::Color(0.F, 0.F, 0.F);
             std::shared_ptr<ColorSwatch> colorSwatch;
             std::shared_ptr<ColorSliders> sliders;
             std::shared_ptr<ColorTypeWidget> typeWidget;
             std::shared_ptr<HorizontalLayout> layout;
-            std::function<void(const AV::Image::Color &)> colorCallback;
+            std::function<void(const Image::Color &)> colorCallback;
         };
 
-        void ColorPicker::_init(const std::shared_ptr<Context>& context)
+        void ColorPicker::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
 
@@ -638,7 +640,7 @@ namespace djv
 
             auto weak = std::weak_ptr<ColorPicker>(std::dynamic_pointer_cast<ColorPicker>(shared_from_this()));
             p.sliders->setColorCallback(
-                [weak](const AV::Image::Color & value)
+                [weak](const Image::Color & value)
             {
                 if (auto widget = weak.lock())
                 {
@@ -651,7 +653,7 @@ namespace djv
             });
 
             p.typeWidget->setTypeCallback(
-                [weak](AV::Image::Type value)
+                [weak](Image::Type value)
             {
                 if (auto widget = weak.lock())
                 {
@@ -672,19 +674,19 @@ namespace djv
         ColorPicker::~ColorPicker()
         {}
 
-        std::shared_ptr<ColorPicker> ColorPicker::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ColorPicker> ColorPicker::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ColorPicker>(new ColorPicker);
             out->_init(context);
             return out;
         }
 
-        const AV::Image::Color & ColorPicker::getColor() const
+        const Image::Color & ColorPicker::getColor() const
         {
             return _p->color;
         }
 
-        void ColorPicker::setColor(const AV::Image::Color & value)
+        void ColorPicker::setColor(const Image::Color & value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.color)
@@ -693,22 +695,22 @@ namespace djv
             _colorUpdate();
         }
 
-        void ColorPicker::setColorCallback(const std::function<void(const AV::Image::Color &)> & callback)
+        void ColorPicker::setColorCallback(const std::function<void(const Image::Color &)> & callback)
         {
             _p->colorCallback = callback;
         }
 
-        void ColorPicker::_preLayoutEvent(Event::PreLayout& event)
+        void ColorPicker::_preLayoutEvent(System::Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             _setMinimumSize(p.layout->getMinimumSize() + getMargin().getSize(style));
         }
 
-        void ColorPicker::_layoutEvent(Event::Layout&)
+        void ColorPicker::_layoutEvent(System::Event::Layout&)
         {
             DJV_PRIVATE_PTR();
-            const BBox2f g = getGeometry();
+            const Math::BBox2f& g = getGeometry();
             const auto& style = _getStyle();
             p.layout->setGeometry(Layout::getAlign(getMargin().bbox(g, style), p.layout->getMinimumSize(), getHAlign(), getVAlign()));
         }
@@ -723,13 +725,13 @@ namespace djv
 
         struct ColorPickerSwatch::Private
         {
-            AV::Image::Color color = AV::Image::Color(0.F, 0.F, 0.F);
+            Image::Color color = Image::Color(0.F, 0.F, 0.F);
             std::shared_ptr<ColorSwatch> colorSwatch;
             std::shared_ptr<Window> window;
-            std::function<void(const AV::Image::Color&)> colorCallback;
+            std::function<void(const Image::Color&)> colorCallback;
         };
 
-        void ColorPickerSwatch::_init(const std::shared_ptr<Context>& context)
+        void ColorPickerSwatch::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
 
@@ -760,19 +762,19 @@ namespace djv
         ColorPickerSwatch::~ColorPickerSwatch()
         {}
 
-        std::shared_ptr<ColorPickerSwatch> ColorPickerSwatch::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ColorPickerSwatch> ColorPickerSwatch::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ColorPickerSwatch>(new ColorPickerSwatch);
             out->_init(context);
             return out;
         }
 
-        const AV::Image::Color& ColorPickerSwatch::getColor() const
+        const Image::Color& ColorPickerSwatch::getColor() const
         {
             return _p->color;
         }
 
-        void ColorPickerSwatch::setColor(const AV::Image::Color& value)
+        void ColorPickerSwatch::setColor(const Image::Color& value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.color)
@@ -781,7 +783,7 @@ namespace djv
             _colorUpdate();
         }
 
-        void ColorPickerSwatch::setColorCallback(const std::function<void(const AV::Image::Color&)>& callback)
+        void ColorPickerSwatch::setColorCallback(const std::function<void(const Image::Color&)>& callback)
         {
             _p->colorCallback = callback;
         }
@@ -824,7 +826,7 @@ namespace djv
                     
                     auto weak = std::weak_ptr<ColorPickerSwatch>(std::dynamic_pointer_cast<ColorPickerSwatch>(shared_from_this()));
                     colorPicker->setColorCallback(
-                        [weak](const AV::Image::Color& value)
+                        [weak](const Image::Color& value)
                         {
                             if (auto widget = weak.lock())
                             {
@@ -862,17 +864,17 @@ namespace djv
             p.colorSwatch->takeTextFocus();
         }
 
-        void ColorPickerSwatch::_preLayoutEvent(Event::PreLayout& event)
+        void ColorPickerSwatch::_preLayoutEvent(System::Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             _setMinimumSize(p.colorSwatch->getMinimumSize() + getMargin().getSize(style));
         }
 
-        void ColorPickerSwatch::_layoutEvent(Event::Layout&)
+        void ColorPickerSwatch::_layoutEvent(System::Event::Layout&)
         {
             DJV_PRIVATE_PTR();
-            const BBox2f g = getGeometry();
+            const Math::BBox2f& g = getGeometry();
             const auto& style = _getStyle();
             p.colorSwatch->setGeometry(Layout::getAlign(getMargin().bbox(g, style), p.colorSwatch->getMinimumSize(), getHAlign(), getVAlign()));
         }
@@ -880,7 +882,7 @@ namespace djv
         void ColorPickerSwatch::_colorUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.colorSwatch->setEnabled(p.color.getType() != AV::Image::Type::None);
+            p.colorSwatch->setEnabled(p.color.getType() != Image::Type::None);
             p.colorSwatch->setColor(p.color);
         }
 

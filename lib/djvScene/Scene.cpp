@@ -7,8 +7,8 @@
 #include <djvScene/Camera.h>
 #include <djvScene/IPrimitive.h>
 
-#include <djvCore/BBoxFunc.h>
-#include <djvCore/MatrixFunc.h>
+#include <djvMath/BBoxFunc.h>
+#include <djvMath/MatrixFunc.h>
 
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -44,7 +44,7 @@ namespace djv
 
         void Scene::bboxUpdate()
         {
-            _bbox = BBox3f();
+            _bbox = Math::BBox3f();
             _bboxInit = true;
             _xforms.clear();
             glm::mat4x4 m(1.F);
@@ -118,7 +118,7 @@ namespace djv
                         _pushXForm(primitive->getXForm());
                     }
                     const glm::mat4x4& xform = _getCurrentXForm();
-                    const BBox3f& bbox = primitive->getBBox();
+                    const Math::BBox3f& bbox = primitive->getBBox();
                     if (_bboxInit)
                     {
                         _bboxInit = false;

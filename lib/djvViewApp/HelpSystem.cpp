@@ -13,10 +13,11 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/ResourceSystem.h>
+#include <djvSystem/TextSystem.h>
+
 #include <djvCore/OSFunc.h>
-#include <djvCore/ResourceSystem.h>
-#include <djvCore/TextSystem.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -34,7 +35,7 @@ namespace djv
             std::shared_ptr<AboutDialog> aboutDialog;
         };
 
-        void HelpSystem::_init(const std::shared_ptr<Core::Context>& context)
+        void HelpSystem::_init(const std::shared_ptr<System::Context>& context)
         {
             IViewSystem::_init("djv::ViewApp::HelpSystem", context);
             DJV_PRIVATE_PTR();
@@ -50,7 +51,7 @@ namespace djv
             _textUpdate();
             
             auto weak = std::weak_ptr<HelpSystem>(std::dynamic_pointer_cast<HelpSystem>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.actions["Documentation"]->setClickedCallback(
                 [weak, contextWeak]
                 {
@@ -58,15 +59,15 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            auto resourceSystem = context->getSystemT<ResourceSystem>();
-                            auto path = resourceSystem->getPath(Core::FileSystem::ResourcePath::Documentation);
+                            auto resourceSystem = context->getSystemT<System::ResourceSystem>();
+                            auto path = resourceSystem->getPath(System::File::ResourcePath::Documentation);
                             try
                             {
                                 OS::openURL(path.get());
                             }
                             catch (const std::exception& e)
                             {
-                                system->_log(e.what(), LogLevel::Error);
+                                system->_log(e.what(), System::LogLevel::Error);
                             }
                         }
                     }
@@ -114,7 +115,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<HelpSystem> HelpSystem::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<HelpSystem> HelpSystem::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<HelpSystem>(new HelpSystem);
             out->_init(context);

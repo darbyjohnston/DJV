@@ -13,7 +13,7 @@
 #include <djvAV/IOSystem.h>
 #include <djvAV/OpenEXR.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -30,7 +30,7 @@ namespace djv
             std::shared_ptr<FormLayout> layout;
         };
 
-        void OpenEXRSettingsWidget::_init(const std::shared_ptr<Context>& context)
+        void OpenEXRSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -38,14 +38,14 @@ namespace djv
             setClassName("djv::UI::OpenEXRSettingsWidget");
 
             p.threadCountSlider = IntSlider::create(context);
-            p.threadCountSlider->setRange(IntRange(1, 16));
+            p.threadCountSlider->setRange(Math::IntRange(1, 16));
 
             p.channelsComboBox = ComboBox::create(context);
             
             p.compressionComboBox = ComboBox::create(context);
 
             p.dwaCompressionLevelSlider = FloatSlider::create(context);
-            p.dwaCompressionLevelSlider->setRange(FloatRange(0.F, 200.F));
+            p.dwaCompressionLevelSlider->setRange(Math::FloatRange(0.F, 200.F));
 
             p.layout = FormLayout::create(context);
             p.layout->addChild(p.threadCountSlider);
@@ -57,7 +57,7 @@ namespace djv
             _widgetUpdate();
 
             auto weak = std::weak_ptr<OpenEXRSettingsWidget>(std::dynamic_pointer_cast<OpenEXRSettingsWidget>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.threadCountSlider->setValueCallback(
                 [weak, contextWeak](int value)
                 {
@@ -65,7 +65,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            auto io = context->getSystemT<AV::IO::System>();
+                            auto io = context->getSystemT<AV::IO::IOSystem>();
                             AV::IO::OpenEXR::Options options;
                             rapidjson::Document document;
                             auto& allocator = document.GetAllocator();
@@ -83,7 +83,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            auto io = context->getSystemT<AV::IO::System>();
+                            auto io = context->getSystemT<AV::IO::IOSystem>();
                             AV::IO::OpenEXR::Options options;
                             rapidjson::Document document;
                             auto& allocator = document.GetAllocator();
@@ -101,7 +101,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            auto io = context->getSystemT<AV::IO::System>();
+                            auto io = context->getSystemT<AV::IO::IOSystem>();
                             AV::IO::OpenEXR::Options options;
                             rapidjson::Document document;
                             auto& allocator = document.GetAllocator();
@@ -119,7 +119,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            auto io = context->getSystemT<AV::IO::System>();
+                            auto io = context->getSystemT<AV::IO::IOSystem>();
                             AV::IO::OpenEXR::Options options;
                             rapidjson::Document document;
                             auto& allocator = document.GetAllocator();
@@ -135,7 +135,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<OpenEXRSettingsWidget> OpenEXRSettingsWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<OpenEXRSettingsWidget> OpenEXRSettingsWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<OpenEXRSettingsWidget>(new OpenEXRSettingsWidget);
             out->_init(context);
@@ -162,7 +162,7 @@ namespace djv
             _p->layout->setLabelSizeGroup(value);
         }
 
-        void OpenEXRSettingsWidget::_initEvent(Event::Init& event)
+        void OpenEXRSettingsWidget::_initEvent(System::Event::Init& event)
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
@@ -181,7 +181,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                auto io = context->getSystemT<AV::IO::System>();
+                auto io = context->getSystemT<AV::IO::IOSystem>();
                 AV::IO::OpenEXR::Options options;
                 rapidjson::Document document;
                 auto& allocator = document.GetAllocator();

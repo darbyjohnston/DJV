@@ -10,11 +10,11 @@
 
 namespace djv
 {
-    namespace Core
+    namespace System
     {
         class Context;
     
-    } // namespace Core
+    } // namespace System
 
     namespace UI
     {
@@ -25,14 +25,14 @@ namespace djv
             class ISettings : public std::enable_shared_from_this<ISettings>
             {
             protected:
-                void _init(const std::string& name, const std::shared_ptr<Core::Context>&);
+                void _init(const std::string& name, const std::shared_ptr<System::Context>&);
 
             public:
                 ISettings();
                 virtual ~ISettings() = 0;
 
                 // Get the context.
-                const std::weak_ptr<Core::Context>& getContext() const;
+                const std::weak_ptr<System::Context>& getContext() const;
 
                 // Get the settings name.
                 const std::string& getName() const;

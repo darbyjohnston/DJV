@@ -4,10 +4,6 @@
 
 #include <djvScene/Enum.h>
 
-#include <algorithm>
-
-using namespace djv::Core;
-
 namespace djv
 {
     namespace Scene

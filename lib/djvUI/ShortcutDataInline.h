@@ -58,7 +58,7 @@ namespace djv
             return out;
         }
 
-        inline std::string ShortcutData::getText(const ShortcutData& shortcutData, const std::shared_ptr<Core::TextSystem>& textSystem)
+        inline std::string ShortcutData::getText(const ShortcutData& shortcutData, const std::shared_ptr<System::TextSystem>& textSystem)
         {
             return getText(shortcutData.key, shortcutData.modifiers, textSystem);
         }

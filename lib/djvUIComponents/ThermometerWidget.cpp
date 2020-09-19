@@ -6,7 +6,7 @@
 
 #include <djvUI/Style.h>
 
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
 using namespace djv::Core;
 
@@ -22,7 +22,7 @@ namespace djv
             MetricsRole sizeRole = MetricsRole::Slider;
         };
 
-        void ThermometerWidget::_init(const std::shared_ptr<Context>& context)
+        void ThermometerWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
 
@@ -37,7 +37,7 @@ namespace djv
         ThermometerWidget::~ThermometerWidget()
         {}
 
-        std::shared_ptr<ThermometerWidget> ThermometerWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ThermometerWidget> ThermometerWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ThermometerWidget>(new ThermometerWidget);
             out->_init(context);
@@ -100,7 +100,7 @@ namespace djv
             _resize();
         }
 
-        void ThermometerWidget::_preLayoutEvent(Event::PreLayout& event)
+        void ThermometerWidget::_preLayoutEvent(System::Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
@@ -116,15 +116,15 @@ namespace djv
             _setMinimumSize(size);
         }
 
-        void ThermometerWidget::_layoutEvent(Event::Layout&)
+        void ThermometerWidget::_layoutEvent(System::Event::Layout&)
         {}
 
-        void ThermometerWidget::_paintEvent(Event::Paint& event)
+        void ThermometerWidget::_paintEvent(System::Event::Paint& event)
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const BBox2f& g = getMargin().bbox(getGeometry(), style);
+            const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
             const auto& render = _getRender();
             render->setFillColor(style->getColor(p.colorRole));
             switch (p.orientation)
@@ -132,13 +132,13 @@ namespace djv
             case Orientation::Horizontal:
             {
                 const float w = p.percentage / 100.F * g.w();
-                render->drawRect(BBox2f(g.min.x, g.min.y, w, g.h()));
+                render->drawRect(Math::BBox2f(g.min.x, g.min.y, w, g.h()));
                 break;
             }
             case Orientation::Vertical:
             {
                 const float h = p.percentage / 100.F * g.h();
-                render->drawRect(BBox2f(g.min.x, g.max.y - h, g.w(), h));
+                render->drawRect(Math::BBox2f(g.min.x, g.max.y - h, g.w(), h));
                 break;
             }
             default: break;

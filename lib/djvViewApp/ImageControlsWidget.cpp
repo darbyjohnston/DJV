@@ -24,11 +24,11 @@
 #include <djvUI/ToggleButton.h>
 #include <djvUI/ToolButton.h>
 
-#include <djvAV/AVSystem.h>
-#include <djvAV/EnumFunc.h>
-#include <djvAV/Render2DDataFunc.h>
+#include <djvRender2D/EnumFunc.h>
+#include <djvRender2D/DataFunc.h>
+#include <djvRender2D/Render2DSystem.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -38,11 +38,11 @@ namespace djv
     {
         struct ImageControlsWidget::Private
         {
-            AV::Render2D::ImageOptions imageOptions;
+            Render2D::ImageOptions imageOptions;
             UI::ImageRotate rotate = UI::ImageRotate::First;
             UI::ImageAspectRatio aspectRatio = UI::ImageAspectRatio::First;
             bool frameStoreEnabled = false;
-            std::shared_ptr<AV::Image::Image> frameStore;
+            std::shared_ptr<Image::Image> frameStore;
 
             std::shared_ptr<MediaWidget> activeWidget;
 
@@ -73,14 +73,14 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Bellows> > bellows;
 
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
-            std::shared_ptr<ValueObserver<AV::Render2D::ImageOptions> > imageOptionsObserver;
+            std::shared_ptr<ValueObserver<Render2D::ImageOptions> > imageOptionsObserver;
             std::shared_ptr<ValueObserver<UI::ImageRotate> > rotateObserver;
             std::shared_ptr<ValueObserver<UI::ImageAspectRatio> > aspectRatioObserver;
             std::shared_ptr<ValueObserver<bool> > frameStoreEnabledObserver;
-            std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > frameStoreObserver;
+            std::shared_ptr<ValueObserver<std::shared_ptr<Image::Image> > > frameStoreObserver;
         };
 
-        void ImageControlsWidget::_init(const std::shared_ptr<Core::Context>& context)
+        void ImageControlsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             MDIWidget::_init(context);
 
@@ -103,14 +103,14 @@ namespace djv
             p.colorEnabledButton->setCheckedIcon("djvIconVisible");
             p.colorEnabledButton->setInsideMargin(UI::MetricsRole::None);
             p.colorSliders["Brightness"] = UI::FloatSlider::create(context);
-            p.colorSliders["Brightness"]->setRange(FloatRange(0.F, 4.F));
-            const AV::Render2D::ImageColor color;
+            p.colorSliders["Brightness"]->setRange(Math::FloatRange(0.F, 4.F));
+            const Render2D::ImageColor color;
             p.colorSliders["Brightness"]->setDefault(color.brightness);
             p.colorSliders["Contrast"] = UI::FloatSlider::create(context);
-            p.colorSliders["Contrast"]->setRange(FloatRange(0.F, 4.F));
+            p.colorSliders["Contrast"]->setRange(Math::FloatRange(0.F, 4.F));
             p.colorSliders["Contrast"]->setDefault(color.contrast);
             p.colorSliders["Saturation"] = UI::FloatSlider::create(context);
-            p.colorSliders["Saturation"]->setRange(FloatRange(0.F, 4.F));
+            p.colorSliders["Saturation"]->setRange(Math::FloatRange(0.F, 4.F));
             p.colorSliders["Saturation"]->setDefault(color.saturation);
             for (const auto& slider : p.colorSliders)
             {
@@ -124,12 +124,12 @@ namespace djv
             p.levelsEnabledButton->setCheckedIcon("djvIconVisible");
             p.levelsEnabledButton->setInsideMargin(UI::MetricsRole::None);
             p.levelsSliders["InLow"] = UI::FloatSlider::create(context);
-            const AV::Render2D::ImageLevels levels;
+            const Render2D::ImageLevels levels;
             p.levelsSliders["InLow"]->setDefault(levels.inLow);
             p.levelsSliders["InHigh"] = UI::FloatSlider::create(context);
             p.levelsSliders["InHigh"]->setDefault(levels.inHigh);
             p.levelsSliders["Gamma"] = UI::FloatSlider::create(context);
-            p.levelsSliders["Gamma"]->setRange(FloatRange(.1F, 4.F));
+            p.levelsSliders["Gamma"]->setRange(Math::FloatRange(.1F, 4.F));
             p.levelsSliders["Gamma"]->setDefault(levels.gamma);
             p.levelsSliders["OutLow"] = UI::FloatSlider::create(context);
             p.levelsSliders["OutLow"]->setDefault(levels.outLow);
@@ -146,17 +146,17 @@ namespace djv
             p.exposureEnabledButton->setCheckedIcon("djvIconVisible");
             p.exposureEnabledButton->setInsideMargin(UI::MetricsRole::None);
             p.exposureSliders["Exposure"] = UI::FloatSlider::create(context);
-            p.exposureSliders["Exposure"]->setRange(FloatRange(-10.F, 10.F));
-            const AV::Render2D::ImageExposure exposure;
+            p.exposureSliders["Exposure"]->setRange(Math::FloatRange(-10.F, 10.F));
+            const Render2D::ImageExposure exposure;
             p.exposureSliders["Exposure"]->setDefault(exposure.exposure);
             p.exposureSliders["Defog"] = UI::FloatSlider::create(context);
-            p.exposureSliders["Defog"]->setRange(FloatRange(0.F, .01F));
+            p.exposureSliders["Defog"]->setRange(Math::FloatRange(0.F, .01F));
             p.exposureSliders["Defog"]->setDefault(exposure.defog);
             p.exposureSliders["KneeLow"] = UI::FloatSlider::create(context);
-            p.exposureSliders["KneeLow"]->setRange(FloatRange(-3.F, 3.F));
+            p.exposureSliders["KneeLow"]->setRange(Math::FloatRange(-3.F, 3.F));
             p.exposureSliders["KneeLow"]->setDefault(exposure.kneeLow);
             p.exposureSliders["KneeHigh"] = UI::FloatSlider::create(context);
-            p.exposureSliders["KneeHigh"]->setRange(FloatRange(3.5F, 7.5F));
+            p.exposureSliders["KneeHigh"]->setRange(Math::FloatRange(3.5F, 7.5F));
             p.exposureSliders["KneeHigh"]->setDefault(exposure.kneeHigh);
             for (const auto& slider : p.exposureSliders)
             {
@@ -278,7 +278,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->imageOptions.channelDisplay = static_cast<AV::Render2D::ImageChannelDisplay>(value);
+                        widget->_p->imageOptions.channelDisplay = static_cast<Render2D::ImageChannelDisplay>(value);
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
@@ -287,7 +287,7 @@ namespace djv
                     }
                 });
 
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.alphaComboBox->setCallback(
                 [weak, contextWeak](int value)
                 {
@@ -295,14 +295,14 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->imageOptions.alphaBlend = static_cast<AV::AlphaBlend>(value);
+                            widget->_p->imageOptions.alphaBlend = static_cast<Render2D::AlphaBlend>(value);
                             widget->_widgetUpdate();
                             if (widget->_p->activeWidget)
                             {
                                 widget->_p->activeWidget->getViewWidget()->setImageOptions(widget->_p->imageOptions);
                             }
-                            auto avSystem = context->getSystemT<AV::AVSystem>();
-                            avSystem->setAlphaBlend(static_cast<AV::AlphaBlend>(value));
+                            auto render2DSystem = context->getSystemT<Render2D::Render2DSystem>();
+                            render2DSystem->setAlphaBlend(static_cast<Render2D::AlphaBlend>(value));
                         }
                     }
                 });
@@ -347,7 +347,7 @@ namespace djv
                             {
                                 widget->_p->activeWidget->getViewWidget()->setImageRotate(widget->_p->rotate);
                             }
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
                             imageSettings->setRotate(widget->_p->rotate);
                         }
@@ -367,7 +367,7 @@ namespace djv
                             {
                                 widget->_p->activeWidget->getViewWidget()->setImageAspectRatio(widget->_p->aspectRatio);
                             }
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
                             imageSettings->setAspectRatio(widget->_p->aspectRatio);
                         }
@@ -653,9 +653,9 @@ namespace djv
                             widget->_p->activeWidget = value;
                             if (widget->_p->activeWidget)
                             {
-                                widget->_p->imageOptionsObserver = ValueObserver<AV::Render2D::ImageOptions>::create(
+                                widget->_p->imageOptionsObserver = ValueObserver<Render2D::ImageOptions>::create(
                                     widget->_p->activeWidget->getViewWidget()->observeImageOptions(),
-                                    [weak](const AV::Render2D::ImageOptions& value)
+                                    [weak](const Render2D::ImageOptions& value)
                                     {
                                         if (auto widget = weak.lock())
                                         {
@@ -706,9 +706,9 @@ namespace djv
                     }
                 });
 
-            p.frameStoreObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
+            p.frameStoreObserver = ValueObserver<std::shared_ptr<Image::Image> >::create(
                 imageSystem->observeFrameStore(),
-                [weak](const std::shared_ptr<AV::Image::Image>& value)
+                [weak](const std::shared_ptr<Image::Image>& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -725,7 +725,7 @@ namespace djv
         ImageControlsWidget::~ImageControlsWidget()
         {}
 
-        std::shared_ptr<ImageControlsWidget> ImageControlsWidget::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<ImageControlsWidget> ImageControlsWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ImageControlsWidget>(new ImageControlsWidget);
             out->_init(context);
@@ -756,12 +756,12 @@ namespace djv
             }
         }
 
-        void ImageControlsWidget::_initLayoutEvent(Event::InitLayout&)
+        void ImageControlsWidget::_initLayoutEvent(System::Event::InitLayout&)
         {
             _p->sizeGroup->calcMinimumSize();
         }
         
-        void ImageControlsWidget::_initEvent(Event::Init & event)
+        void ImageControlsWidget::_initEvent(System::Event::Init & event)
         {
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
@@ -819,7 +819,7 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             std::vector<std::string> items;
-            for (auto i : AV::Render2D::getImageChannelDisplayEnums())
+            for (auto i : Render2D::getImageChannelDisplayEnums())
             {
                 std::stringstream ss;
                 ss << i;
@@ -829,7 +829,7 @@ namespace djv
             p.channelDisplayComboBox->setCurrentItem(static_cast<int>(p.imageOptions.channelDisplay));
 
             items.clear();
-            for (auto i : AV::getAlphaBlendEnums())
+            for (auto i : Render2D::getAlphaBlendEnums())
             {
                 std::stringstream ss;
                 ss << i;

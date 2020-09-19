@@ -7,7 +7,7 @@
 #include <djvUI/Action.h>
 #include <djvUI/Style.h>
 
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
 //#pragma optimize("", off)
 
@@ -29,7 +29,7 @@ namespace djv
                 std::function<void(void)> clickedCallback;
                 std::function<void(bool)> checkedCallback;
 
-                Event::PointerID pressedID = Event::invalidID;
+                System::Event::PointerID pressedID = System::Event::invalidID;
                 glm::vec2 pressedPos = glm::vec2(0.F, 0.F);
                 bool canRejectPressed = true;
 
@@ -146,7 +146,7 @@ namespace djv
                 _actionUpdate();
             }
 
-            void IButton::_pointerEnterEvent(Event::PointerEnter& event)
+            void IButton::_pointerEnterEvent(System::Event::PointerEnter& event)
             {
                 event.accept();
                 if (isEnabled(true))
@@ -155,7 +155,7 @@ namespace djv
                 }
             }
 
-            void IButton::_pointerLeaveEvent(Event::PointerLeave& event)
+            void IButton::_pointerLeaveEvent(System::Event::PointerLeave& event)
             {
                 event.accept();
                 if (isEnabled(true))
@@ -164,7 +164,7 @@ namespace djv
                 }
             }
 
-            void IButton::_pointerMoveEvent(Event::PointerMove& event)
+            void IButton::_pointerMoveEvent(System::Event::PointerMove& event)
             {
                 DJV_PRIVATE_PTR();
                 event.accept();
@@ -178,13 +178,13 @@ namespace djv
                     event.setAccepted(accepted);
                     if (!accepted)
                     {
-                        p.pressedID = Event::invalidID;
+                        p.pressedID = System::Event::invalidID;
                         _redraw();
                     }
                 }
             }
 
-            void IButton::_buttonPressEvent(Event::ButtonPress& event)
+            void IButton::_buttonPressEvent(System::Event::ButtonPress& event)
             {
                 DJV_PRIVATE_PTR();
                 if (p.pressedID)
@@ -196,15 +196,15 @@ namespace djv
                 _redraw();
             }
 
-            void IButton::_buttonReleaseEvent(Event::ButtonRelease& event)
+            void IButton::_buttonReleaseEvent(System::Event::ButtonRelease& event)
             {
                 DJV_PRIVATE_PTR();
                 const auto& pointerInfo = event.getPointerInfo();
                 if (pointerInfo.id == p.pressedID)
                 {
                     event.accept();
-                    p.pressedID = Event::invalidID;
-                    const BBox2f& g = getGeometry();
+                    p.pressedID = System::Event::invalidID;
+                    const Math::BBox2f& g = getGeometry();
                     const auto& hover = _getPointerHover();
                     const auto i = hover.find(pointerInfo.id);
                     if (i != hover.end() && g.contains(i->second))
@@ -224,7 +224,7 @@ namespace djv
                     const auto i = hover.find(p.pressedID);
                     if (i != hover.end())
                     {
-                        const BBox2f& g = getGeometry();
+                        const Math::BBox2f& g = getGeometry();
                         switch (p.buttonType)
                         {
                         case ButtonType::Toggle:

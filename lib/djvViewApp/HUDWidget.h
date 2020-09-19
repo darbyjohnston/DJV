@@ -18,23 +18,23 @@ namespace djv
             DJV_NON_COPYABLE(HUDWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             HUDWidget();
 
         public:
             ~HUDWidget() override;
 
-            static std::shared_ptr<HUDWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<HUDWidget> create(const std::shared_ptr<System::Context>&);
 
-            void setHUDFrame(const Core::BBox2f&);
+            void setHUDFrame(const Math::BBox2f&);
             void setHUDData(const HUDData&);
             void setHUDOptions(const HUDOptions&);
 
         protected:
-            void _paintEvent(Core::Event::Paint&) override;
+            void _paintEvent(System::Event::Paint&) override;
 
-            void _initEvent(Core::Event::Init &) override;
-            void _updateEvent(Core::Event::Update&) override;
+            void _initEvent(System::Event::Init &) override;
+            void _updateEvent(System::Event::Update&) override;
 
         private:
             void _textUpdate();

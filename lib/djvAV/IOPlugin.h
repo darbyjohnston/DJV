@@ -6,18 +6,18 @@
 
 #include <djvAV/IO.h>
 
-#include <djvCore/FileInfo.h>
+#include <djvSystem/FileInfo.h>
 
 namespace djv
 {
-    namespace Core
+    namespace System
     {
         class Context;
         class LogSystem;
         class ResourceSystem;
         class TextSystem;
 
-    } // namespace Core
+    } // namespace System
 
     namespace AV
     {
@@ -36,11 +36,11 @@ namespace djv
             {
             protected:
                 void _init(
-                    const Core::FileSystem::FileInfo&,
+                    const System::File::Info&,
                     const IOOptions&,
-                    const std::shared_ptr<Core::TextSystem>&,
-                    const std::shared_ptr<Core::ResourceSystem>&,
-                    const std::shared_ptr<Core::LogSystem>&);
+                    const std::shared_ptr<System::TextSystem>&,
+                    const std::shared_ptr<System::ResourceSystem>&,
+                    const std::shared_ptr<System::LogSystem>&);
 
             public:
                 virtual ~IIO() = 0;
@@ -55,10 +55,10 @@ namespace djv
                 AudioQueue& getAudioQueue();
 
             protected:
-                std::shared_ptr<Core::LogSystem> _logSystem;
-                std::shared_ptr<Core::ResourceSystem> _resourceSystem;
-                std::shared_ptr<Core::TextSystem> _textSystem;
-                Core::FileSystem::FileInfo _fileInfo;
+                std::shared_ptr<System::LogSystem> _logSystem;
+                std::shared_ptr<System::ResourceSystem> _resourceSystem;
+                std::shared_ptr<System::TextSystem> _textSystem;
+                System::File::Info _fileInfo;
                 std::mutex _mutex;
                 VideoQueue _videoQueue;
                 AudioQueue _audioQueue;
@@ -77,11 +77,11 @@ namespace djv
             {
             protected:
                 void _init(
-                    const Core::FileSystem::FileInfo&,
+                    const System::File::Info&,
                     const ReadOptions&,
-                    const std::shared_ptr<Core::TextSystem>&,
-                    const std::shared_ptr<Core::ResourceSystem>&,
-                    const std::shared_ptr<Core::LogSystem>&);
+                    const std::shared_ptr<System::TextSystem>&,
+                    const std::shared_ptr<System::ResourceSystem>&,
+                    const std::shared_ptr<System::LogSystem>&);
 
             public:
                 virtual ~IRead() = 0;
@@ -100,8 +100,8 @@ namespace djv
                 bool isCacheEnabled() const;
                 size_t getCacheMaxByteCount() const;
                 size_t getCacheByteCount();
-                Core::Frame::Sequence getCacheSequence();
-                Core::Frame::Sequence getCachedFrames();
+                Math::Frame::Sequence getCacheSequence();
+                Math::Frame::Sequence getCachedFrames();
                 void setCacheEnabled(bool);
                 void setCacheMaxByteCount(size_t);
 
@@ -114,8 +114,8 @@ namespace djv
                 bool _cacheEnabled = false;
                 size_t _cacheMaxByteCount = 0;
                 size_t _cacheByteCount = 0;
-                Core::Frame::Sequence _cacheSequence;
-                Core::Frame::Sequence _cachedFrames;
+                Math::Frame::Sequence _cacheSequence;
+                Math::Frame::Sequence _cachedFrames;
                 Cache _cache;
             };
 
@@ -130,12 +130,12 @@ namespace djv
             {
             protected:
                 void _init(
-                    const Core::FileSystem::FileInfo&,
+                    const System::File::Info&,
                     const Info&,
                     const WriteOptions&,
-                    const std::shared_ptr<Core::TextSystem>&,
-                    const std::shared_ptr<Core::ResourceSystem>&,
-                    const std::shared_ptr<Core::LogSystem>&);
+                    const std::shared_ptr<System::TextSystem>&,
+                    const std::shared_ptr<System::ResourceSystem>&,
+                    const std::shared_ptr<System::LogSystem>&);
 
             public:
                 virtual ~IWrite() = 0;
@@ -153,7 +153,7 @@ namespace djv
                     const std::string& pluginName,
                     const std::string& pluginInfo,
                     const std::set<std::string>& fileExtensions,
-                    const std::shared_ptr<Core::Context>&);
+                    const std::shared_ptr<System::Context>&);
 
             public:
                 virtual ~IPlugin() = 0;
@@ -163,8 +163,8 @@ namespace djv
                 const std::set<std::string>& getFileExtensions() const;
 
                 virtual bool canSequence() const;
-                virtual bool canRead(const Core::FileSystem::FileInfo&) const;
-                virtual bool canWrite(const Core::FileSystem::FileInfo&, const Info&) const;
+                virtual bool canRead(const System::File::Info&) const;
+                virtual bool canWrite(const System::File::Info&, const Info&) const;
 
                 virtual rapidjson::Value getOptions(rapidjson::Document::AllocatorType&) const;
 
@@ -174,17 +174,17 @@ namespace djv
 
                 //! Throws:
                 //! - std::exception
-                virtual std::shared_ptr<IRead> read(const Core::FileSystem::FileInfo&, const ReadOptions&) const;
+                virtual std::shared_ptr<IRead> read(const System::File::Info&, const ReadOptions&) const;
 
                 //! Throws:
                 //! - std::exception
-                virtual std::shared_ptr<IWrite> write(const Core::FileSystem::FileInfo&, const Info&, const WriteOptions&) const;
+                virtual std::shared_ptr<IWrite> write(const System::File::Info&, const Info&, const WriteOptions&) const;
 
             protected:
-                std::weak_ptr<Core::Context> _context;
-                std::shared_ptr<Core::LogSystem> _logSystem;
-                std::shared_ptr<Core::ResourceSystem> _resourceSystem;
-                std::shared_ptr<Core::TextSystem> _textSystem;
+                std::weak_ptr<System::Context> _context;
+                std::shared_ptr<System::LogSystem> _logSystem;
+                std::shared_ptr<System::ResourceSystem> _resourceSystem;
+                std::shared_ptr<System::TextSystem> _textSystem;
                 std::string _pluginName;
                 std::string _pluginInfo;
                 std::set<std::string> _fileExtensions;

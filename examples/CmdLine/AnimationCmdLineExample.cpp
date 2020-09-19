@@ -4,7 +4,7 @@
 
 #include <djvCmdLineApp/Application.h>
 
-#include <djvCore/Animation.h>
+#include <djvSystem/Animation.h>
 
 #include <djvCore/ErrorFunc.h>
 
@@ -22,8 +22,8 @@ int main(int argc, char ** argv)
         auto app = CmdLine::Application::create(args);
 
         // Create an animation.
-        auto animation = Core::Animation::Animation::create(app);
-        animation->setType(Core::Animation::Type::Sine);
+        auto animation = System::Animation::Animation::create(app);
+        animation->setType(System::Animation::Type::Sine);
         animation->setRepeating(true);
         animation->start(
             0.f,

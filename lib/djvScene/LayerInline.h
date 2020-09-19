@@ -51,12 +51,12 @@ namespace djv
             _visible = value;
         }
 
-        inline const AV::Image::Color& Layer::getColor() const
+        inline const Image::Color& Layer::getColor() const
         {
             return _color;
         }
 
-        inline void Layer::setColor(const AV::Image::Color& value)
+        inline void Layer::setColor(const Image::Color& value)
         {
             _color = value;
         }

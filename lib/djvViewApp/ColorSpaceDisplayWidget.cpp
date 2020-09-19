@@ -14,9 +14,9 @@
 #include <djvUI/Spacer.h>
 #include <djvUI/ToolBar.h>
 
-#include <djvAV/OCIOSystem.h>
+#include <djvOCIO/OCIOSystem.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -26,16 +26,16 @@ namespace djv
     {
         struct ColorSpaceDisplayWidget::Private
         {
-            AV::OCIO::Displays displays;
+            OCIO::Displays displays;
 
             std::shared_ptr<UI::ListWidget> listWidget;
             std::shared_ptr<UI::SearchBox> searchBox;
             std::shared_ptr<UI::VerticalLayout> layout;
 
-            std::shared_ptr<ValueObserver<AV::OCIO::Displays> > displaysObserver;
+            std::shared_ptr<ValueObserver<OCIO::Displays> > displaysObserver;
         };
 
-        void ColorSpaceDisplayWidget::_init(const std::shared_ptr<Context>& context)
+        void ColorSpaceDisplayWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -63,13 +63,13 @@ namespace djv
             p.layout->addChild(toolBar);
             addChild(p.layout);
 
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.listWidget->setRadioCallback(
                 [contextWeak](int value)
                 {
                     if (auto context = contextWeak.lock())
                     {
-                        auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                        auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
                         ocioSystem->setCurrentDisplay(value);
                     }
                 });
@@ -84,10 +84,10 @@ namespace djv
                     }
                 });
 
-            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-            p.displaysObserver = ValueObserver<AV::OCIO::Displays>::create(
+            auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
+            p.displaysObserver = ValueObserver<OCIO::Displays>::create(
                 ocioSystem->observeDisplays(),
-                [weak](const AV::OCIO::Displays& value)
+                [weak](const OCIO::Displays& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -104,24 +104,24 @@ namespace djv
         ColorSpaceDisplayWidget::~ColorSpaceDisplayWidget()
         {}
 
-        std::shared_ptr<ColorSpaceDisplayWidget> ColorSpaceDisplayWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ColorSpaceDisplayWidget> ColorSpaceDisplayWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ColorSpaceDisplayWidget>(new ColorSpaceDisplayWidget);
             out->_init(context);
             return out;
         }
 
-        void ColorSpaceDisplayWidget::_preLayoutEvent(Event::PreLayout&)
+        void ColorSpaceDisplayWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void ColorSpaceDisplayWidget::_layoutEvent(Event::Layout&)
+        void ColorSpaceDisplayWidget::_layoutEvent(System::Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
         }
 
-        void ColorSpaceDisplayWidget::_initEvent(Event::Init& event)
+        void ColorSpaceDisplayWidget::_initEvent(System::Event::Init& event)
         {
             if (event.getData().text)
             {

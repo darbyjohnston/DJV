@@ -14,12 +14,14 @@
 #include <djvScene/PolyLinePrimitive.h>
 #include <djvScene/Scene.h>
 
-#include <djvAV/Color.h>
-#include <djvAV/TriangleMesh.h>
+#include <djvImage/Color.h>
+
+#include <djvSystem/TextSystem.h>
+
+#include <djvGeom/TriangleMesh.h>
 
 #include <djvCore/StringFormat.h>
 #include <djvCore/StringFunc.h>
-#include <djvCore/TextSystem.h>
 
 #include <opennurbs/opennurbs.h>
 
@@ -39,17 +41,17 @@ namespace djv
             {
                 namespace
                 {
-                    AV::Image::Color fromONColor3(const ON_Color& value)
+                    Image::Color fromONColor3(const ON_Color& value)
                     {
-                        return AV::Image::Color::RGB_U8(
+                        return Image::Color::RGB_U8(
                             value.Red  (),
                             value.Green(),
                             value.Blue ());
                     }
 
-                    AV::Image::Color fromONColor4(const ON_Color& value)
+                    Image::Color fromONColor4(const ON_Color& value)
                     {
-                        return AV::Image::Color(
+                        return Image::Color(
                             value.Red  (),
                             value.Green(),
                             value.Blue (),
@@ -80,9 +82,9 @@ namespace djv
                             value.m_xform[0][3], value.m_xform[1][3], value.m_xform[2][3], value.m_xform[3][3]);
                     }
 
-                    std::shared_ptr<AV::Geom::TriangleMesh> readMesh(const ON_Mesh* onMesh)
+                    std::shared_ptr<Geom::TriangleMesh> readMesh(const ON_Mesh* onMesh)
                     {
-                        auto out = std::make_shared<AV::Geom::TriangleMesh>();
+                        auto out = std::make_shared<Geom::TriangleMesh>();
 
                         const int faceCount = onMesh->FaceCount();
                         const bool hasTexCoord = onMesh->HasTextureCoordinates();
@@ -120,37 +122,37 @@ namespace djv
                                 if (onMesh->m_V[f.vi[0]].DistanceTo(onMesh->m_V[f.vi[2]]) <=
                                     onMesh->m_V[f.vi[1]].DistanceTo(onMesh->m_V[f.vi[3]]))
                                 {
-                                    AV::Geom::TriangleMesh::Triangle a;
-                                    a.v0 = AV::Geom::TriangleMesh::Vertex(v + 0, hasTexCoord ? t + 0 : 0, hasNormals ? n + 0 : 0);
-                                    a.v1 = AV::Geom::TriangleMesh::Vertex(v + 1, hasTexCoord ? t + 1 : 0, hasNormals ? n + 1 : 0);
-                                    a.v2 = AV::Geom::TriangleMesh::Vertex(v + 2, hasTexCoord ? t + 2 : 0, hasNormals ? n + 2 : 0);
+                                    Geom::TriangleMesh::Triangle a;
+                                    a.v0 = Geom::TriangleMesh::Vertex(v + 0, hasTexCoord ? t + 0 : 0, hasNormals ? n + 0 : 0);
+                                    a.v1 = Geom::TriangleMesh::Vertex(v + 1, hasTexCoord ? t + 1 : 0, hasNormals ? n + 1 : 0);
+                                    a.v2 = Geom::TriangleMesh::Vertex(v + 2, hasTexCoord ? t + 2 : 0, hasNormals ? n + 2 : 0);
                                     out->triangles.push_back(a);
-                                    AV::Geom::TriangleMesh::Triangle b;
-                                    a.v0 = AV::Geom::TriangleMesh::Vertex(v + 0, hasTexCoord ? t + 0 : 0, hasNormals ? n + 0 : 0);
-                                    a.v1 = AV::Geom::TriangleMesh::Vertex(v + 2, hasTexCoord ? t + 2 : 0, hasNormals ? n + 2 : 0);
-                                    a.v2 = AV::Geom::TriangleMesh::Vertex(v + 3, hasTexCoord ? t + 3 : 0, hasNormals ? n + 3 : 0);
+                                    Geom::TriangleMesh::Triangle b;
+                                    a.v0 = Geom::TriangleMesh::Vertex(v + 0, hasTexCoord ? t + 0 : 0, hasNormals ? n + 0 : 0);
+                                    a.v1 = Geom::TriangleMesh::Vertex(v + 2, hasTexCoord ? t + 2 : 0, hasNormals ? n + 2 : 0);
+                                    a.v2 = Geom::TriangleMesh::Vertex(v + 3, hasTexCoord ? t + 3 : 0, hasNormals ? n + 3 : 0);
                                     out->triangles.push_back(a);
                                 }
                                 else
                                 {
-                                    AV::Geom::TriangleMesh::Triangle a;
-                                    a.v0 = AV::Geom::TriangleMesh::Vertex(v + 1, hasTexCoord ? t + 1 : 0, hasNormals ? n + 1 : 0);
-                                    a.v1 = AV::Geom::TriangleMesh::Vertex(v + 2, hasTexCoord ? t + 2 : 0, hasNormals ? n + 2 : 0);
-                                    a.v2 = AV::Geom::TriangleMesh::Vertex(v + 3, hasTexCoord ? t + 3 : 0, hasNormals ? n + 3 : 0);
+                                    Geom::TriangleMesh::Triangle a;
+                                    a.v0 = Geom::TriangleMesh::Vertex(v + 1, hasTexCoord ? t + 1 : 0, hasNormals ? n + 1 : 0);
+                                    a.v1 = Geom::TriangleMesh::Vertex(v + 2, hasTexCoord ? t + 2 : 0, hasNormals ? n + 2 : 0);
+                                    a.v2 = Geom::TriangleMesh::Vertex(v + 3, hasTexCoord ? t + 3 : 0, hasNormals ? n + 3 : 0);
                                     out->triangles.push_back(a);
-                                    AV::Geom::TriangleMesh::Triangle b;
-                                    a.v0 = AV::Geom::TriangleMesh::Vertex(v + 1, hasTexCoord ? t + 1 : 0, hasNormals ? n + 1 : 0);
-                                    a.v1 = AV::Geom::TriangleMesh::Vertex(v + 3, hasTexCoord ? t + 3 : 0, hasNormals ? n + 3 : 0);
-                                    a.v2 = AV::Geom::TriangleMesh::Vertex(v + 0, hasTexCoord ? t + 0 : 0, hasNormals ? n + 0 : 0);
+                                    Geom::TriangleMesh::Triangle b;
+                                    a.v0 = Geom::TriangleMesh::Vertex(v + 1, hasTexCoord ? t + 1 : 0, hasNormals ? n + 1 : 0);
+                                    a.v1 = Geom::TriangleMesh::Vertex(v + 3, hasTexCoord ? t + 3 : 0, hasNormals ? n + 3 : 0);
+                                    a.v2 = Geom::TriangleMesh::Vertex(v + 0, hasTexCoord ? t + 0 : 0, hasNormals ? n + 0 : 0);
                                     out->triangles.push_back(a);
                                 }
                             }
                             else
                             {
-                                AV::Geom::TriangleMesh::Triangle a;
-                                a.v0 = AV::Geom::TriangleMesh::Vertex(v + 0, hasTexCoord ? t + 0 : 0, hasNormals ? n + 0 : 0);
-                                a.v1 = AV::Geom::TriangleMesh::Vertex(v + 1, hasTexCoord ? t + 1 : 0, hasNormals ? n + 1 : 0);
-                                a.v2 = AV::Geom::TriangleMesh::Vertex(v + 2, hasTexCoord ? t + 2 : 0, hasNormals ? n + 2 : 0);
+                                Geom::TriangleMesh::Triangle a;
+                                a.v0 = Geom::TriangleMesh::Vertex(v + 0, hasTexCoord ? t + 0 : 0, hasNormals ? n + 0 : 0);
+                                a.v1 = Geom::TriangleMesh::Vertex(v + 1, hasTexCoord ? t + 1 : 0, hasNormals ? n + 1 : 0);
+                                a.v2 = Geom::TriangleMesh::Vertex(v + 2, hasTexCoord ? t + 2 : 0, hasNormals ? n + 2 : 0);
                                 out->triangles.push_back(a);
                             }
                         }
@@ -165,7 +167,7 @@ namespace djv
                         std::map<const ON_Material*, std::shared_ptr<IMaterial> > onMaterialToMaterial;
                         std::map<const ON_InstanceDefinition*, std::shared_ptr<IPrimitive> > onInstanceDefToInstance;
                         std::map<std::shared_ptr<InstancePrimitive>, const ON_InstanceDefinition* > instanceToOnInstanceDef;
-                        std::map<const ON_Mesh*, std::shared_ptr<AV::Geom::TriangleMesh> > onMeshToMesh;
+                        std::map<const ON_Mesh*, std::shared_ptr<Geom::TriangleMesh> > onMeshToMesh;
                     };
 
                     std::shared_ptr<IPrimitive> readGeometryComponent(
@@ -211,7 +213,7 @@ namespace djv
                             if (auto onPoint = ON_Point::Cast(onModelGeometryComponent->Geometry(nullptr)))
                             {
                                 auto newPrimitive = PointListPrimitive::create();
-                                auto pointList = std::shared_ptr<AV::Geom::PointList>(new AV::Geom::PointList);
+                                auto pointList = std::shared_ptr<Geom::PointList>(new Geom::PointList);
                                 pointList->v.push_back(fromON(*onPoint));
                                 newPrimitive->setPointList(pointList);
                                 out = newPrimitive;
@@ -223,7 +225,7 @@ namespace djv
                                 if (onCurve->IsPolyline(&onPoints, &onParameters) >= 2)
                                 {
                                     auto newPrimitive = PolyLinePrimitive::create();
-                                    auto pointList = std::shared_ptr<AV::Geom::PointList>(new AV::Geom::PointList);
+                                    auto pointList = std::shared_ptr<Geom::PointList>(new Geom::PointList);
                                     for (unsigned int i = 0; i < onPoints.Count(); ++i)
                                     {
                                         pointList->v.push_back(fromON(onPoints[i]));
@@ -234,7 +236,7 @@ namespace djv
                             }
                             else if (auto onMesh = ON_Mesh::Cast(onModelGeometryComponent->Geometry(nullptr)))
                             {
-                                std::shared_ptr<AV::Geom::TriangleMesh> mesh;
+                                std::shared_ptr<Geom::TriangleMesh> mesh;
                                 const auto i = data.onMeshToMesh.find(onMesh);
                                 if (i != data.onMeshToMesh.end())
                                 {
@@ -259,7 +261,7 @@ namespace djv
                                 const int onMeshCount = onBrep->GetMesh(ON::render_mesh, onMeshes);
                                 for (int i = 0; i < onMeshCount; ++i)
                                 {
-                                    std::shared_ptr<AV::Geom::TriangleMesh> mesh;
+                                    std::shared_ptr<Geom::TriangleMesh> mesh;
                                     const auto j = data.onMeshToMesh.find(onMeshes[i]);
                                     if (j != data.onMeshToMesh.end())
                                     {
@@ -285,7 +287,7 @@ namespace djv
                             {
                                 if (auto onMesh = onExtrusion->Mesh(ON::render_mesh))
                                 {
-                                    std::shared_ptr<AV::Geom::TriangleMesh> mesh;
+                                    std::shared_ptr<Geom::TriangleMesh> mesh;
                                     const auto i = data.onMeshToMesh.find(onMesh);
                                     if (i != data.onMeshToMesh.end())
                                     {
@@ -562,10 +564,10 @@ namespace djv
                 {}
 
                 std::shared_ptr<Read> Read::create(
-                    const Core::FileSystem::FileInfo& fileInfo,
-                    const std::shared_ptr<Core::TextSystem>& textSystem,
-                    const std::shared_ptr<Core::ResourceSystem>& resourceSystem,
-                    const std::shared_ptr<Core::LogSystem>& logSystem)
+                    const System::File::Info& fileInfo,
+                    const std::shared_ptr<System::TextSystem>& textSystem,
+                    const std::shared_ptr<System::ResourceSystem>& resourceSystem,
+                    const std::shared_ptr<System::LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
                     out->_init(fileInfo, textSystem, resourceSystem, logSystem);

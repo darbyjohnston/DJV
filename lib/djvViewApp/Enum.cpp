@@ -4,8 +4,6 @@
 
 #include <djvViewApp/Enum.h>
 
-#include <djvCore/Speed.h>
-
 #include <algorithm>
 #include <array>
 

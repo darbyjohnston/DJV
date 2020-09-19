@@ -21,9 +21,9 @@
 #include <djvUI/ToolBar.h>
 #include <djvUI/ToolButton.h>
 
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -38,23 +38,23 @@ namespace djv
                 DJV_NON_COPYABLE(ColorButton);
 
             protected:
-                void _init(const AV::Image::Color&, const std::shared_ptr<Context>&);
+                void _init(const Image::Color&, const std::shared_ptr<System::Context>&);
                 ColorButton();
 
             public:
                 ~ColorButton() override;
 
-                static std::shared_ptr<ColorButton> create(const AV::Image::Color&, const std::shared_ptr<Context>&);
+                static std::shared_ptr<ColorButton> create(const Image::Color&, const std::shared_ptr<System::Context>&);
 
             protected:
-                void _preLayoutEvent(Event::PreLayout&) override;
-                void _paintEvent(Event::Paint&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _paintEvent(System::Event::Paint&) override;
 
             private:
-                AV::Image::Color _color;
+                Image::Color _color;
             };
 
-            void ColorButton::_init(const AV::Image::Color& color, const std::shared_ptr<Context>& context)
+            void ColorButton::_init(const Image::Color& color, const std::shared_ptr<System::Context>& context)
             {
                 IButton::_init(context);
                 setButtonType(UI::ButtonType::Radio);
@@ -67,14 +67,14 @@ namespace djv
             ColorButton::~ColorButton()
             {}
 
-            std::shared_ptr<ColorButton> ColorButton::create(const AV::Image::Color& color, const std::shared_ptr<Context>& context)
+            std::shared_ptr<ColorButton> ColorButton::create(const Image::Color& color, const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<ColorButton>(new ColorButton);
                 out->_init(color, context);
                 return out;
             }
 
-            void ColorButton::_preLayoutEvent(Event::PreLayout&)
+            void ColorButton::_preLayoutEvent(System::Event::PreLayout&)
             {
                 const auto& style = _getStyle();
                 const float m = style->getMetric(UI::MetricsRole::MarginSmall);
@@ -82,11 +82,11 @@ namespace djv
                 _setMinimumSize(glm::vec2(sw, sw) + m * 2.F);
             }
 
-            void ColorButton::_paintEvent(Event::Paint& event)
+            void ColorButton::_paintEvent(System::Event::Paint& event)
             {
                 Widget::_paintEvent(event);
                 const auto& style = _getStyle();
-                const BBox2f& g = getGeometry();
+                const Math::BBox2f& g = getGeometry();
                 const float m = style->getMetric(UI::MetricsRole::MarginSmall);
                 const auto& render = _getRender();
 
@@ -96,7 +96,7 @@ namespace djv
                     render->drawRect(g);
                 }
 
-                const BBox2f g2 = g.margin(-m);
+                const Math::BBox2f g2 = g.margin(-m);
                 render->setFillColor(_color);
                 render->drawRect(g2);
 
@@ -116,7 +116,7 @@ namespace djv
 
         struct AnnotateWidget::Private
         {
-            std::vector<AV::Image::Color> colors;
+            std::vector<Image::Color> colors;
             int currentColor = -1;
 
             std::shared_ptr<UI::ButtonGroup> colorButtonGroup;
@@ -129,16 +129,16 @@ namespace djv
             std::shared_ptr<UI::VerticalLayout> exportLayout;
             std::shared_ptr<UI::TabWidget> tabWidget;
 
-            std::function<void(const AV::Image::Color&)> colorCallback;
+            std::function<void(const Image::Color&)> colorCallback;
             std::function<void(float)> lineWidthCallback;
 
-            std::shared_ptr<ListObserver<AV::Image::Color> > colorsObserver;
+            std::shared_ptr<ListObserver<Image::Color> > colorsObserver;
             std::shared_ptr<ValueObserver<int> > currentColorObserver;
         };
 
         void AnnotateWidget::_init(
             std::map<std::string, std::shared_ptr<UI::Action> >& actions,
-            const std::shared_ptr<Context>& context)
+            const std::shared_ptr<System::Context>& context)
         {
             MDIWidget::_init(context);
             DJV_PRIVATE_PTR();
@@ -208,24 +208,24 @@ namespace djv
             p.tabWidget->addChild(p.exportLayout);
             addChild(p.tabWidget);
             
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.colorButtonGroup->setRadioCallback(
                 [contextWeak](int value)
             {
                 if (auto context = contextWeak.lock())
                 {
-                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                    auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                     auto annotateSettings = settingsSystem->getSettingsT<AnnotateSettings>();
                     annotateSettings->setCurrentColor(value);
                 }
             });
 
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto annotateSettings = settingsSystem->getSettingsT<AnnotateSettings>();
             auto weak = std::weak_ptr<AnnotateWidget>(std::dynamic_pointer_cast<AnnotateWidget>(shared_from_this()));
-            p.colorsObserver = ListObserver<AV::Image::Color>::create(
+            p.colorsObserver = ListObserver<Image::Color>::create(
                 annotateSettings->observeColors(),
-                [weak](const std::vector<AV::Image::Color>& value)
+                [weak](const std::vector<Image::Color>& value)
             {
                 if (auto widget = weak.lock())
                 {
@@ -255,14 +255,14 @@ namespace djv
 
         std::shared_ptr<AnnotateWidget> AnnotateWidget::create(
             std::map<std::string, std::shared_ptr<UI::Action> >& actions,
-            const std::shared_ptr<Context>& context)
+            const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<AnnotateWidget>(new AnnotateWidget);
             out->_init(actions, context);
             return out;
         }
         
-        void AnnotateWidget::_initEvent(Event::Init & event)
+        void AnnotateWidget::_initEvent(System::Event::Init & event)
         {
             MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();

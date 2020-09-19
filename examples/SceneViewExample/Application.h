@@ -9,7 +9,7 @@
 #include <djvScene/IO.h>
 #include <djvScene/Scene.h>
 
-#include <djvCore/Timer.h>
+#include <djvSystem/Timer.h>
 
 class MainWindow;
 
@@ -29,16 +29,16 @@ public:
     void run() override;
 
 private:
-    void _open(const djv::Core::FileSystem::FileInfo&);
+    void _open(const djv::System::File::Info&);
     void _close();
 
-    std::vector< djv::Core::FileSystem::FileInfo> _inputs;
-    djv::Core::FileSystem::FileInfo _fileInfo;
+    std::vector<djv::System::File::Info> _inputs;
+    djv::System::File::Info _fileInfo;
     std::shared_ptr<djv::Scene::Scene> _scene;
     std::shared_ptr<djv::Scene::IO::IRead> _sceneRead;
     std::future<std::shared_ptr<djv::Scene::Scene> > _sceneReadFuture;
 
-    std::shared_ptr<djv::Core::Time::Timer> _futureTimer;
+    std::shared_ptr<djv::System::Timer> _futureTimer;
 
     std::shared_ptr<MainWindow> _mainWindow;
 };

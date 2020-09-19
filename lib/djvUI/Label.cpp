@@ -6,10 +6,10 @@
 
 #include <djvUI/Style.h>
 
-#include <djvAV/FontSystem.h>
-#include <djvAV/Render2D.h>
+#include <djvRender2D/FontSystem.h>
+#include <djvRender2D/Render.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 //#pragma optimize("", off)
 
@@ -21,7 +21,7 @@ namespace djv
     {
         struct Label::Private
         {
-            std::shared_ptr<AV::Font::System> fontSystem;
+            std::shared_ptr<Render2D::Font::FontSystem> fontSystem;
 
             std::string text;
             TextHAlign textHAlign = TextHAlign::Center;
@@ -31,9 +31,9 @@ namespace djv
             std::string fontFamily;
             std::string fontFace;
             MetricsRole fontSizeRole = MetricsRole::FontMedium;
-            AV::Font::FontInfo fontInfo;
-            AV::Font::Metrics fontMetrics;
-            std::future<AV::Font::Metrics> fontMetricsFuture;
+            Render2D::Font::FontInfo fontInfo;
+            Render2D::Font::Metrics fontMetrics;
+            std::future<Render2D::Font::Metrics> fontMetricsFuture;
 
             int elide = 0;
 
@@ -44,22 +44,22 @@ namespace djv
             glm::vec2 sizeStringSize = glm::vec2(0.F, 0.F);
             std::future<glm::vec2> sizeStringFuture;
 
-            std::vector<std::shared_ptr<AV::Font::Glyph> > glyphs;
-            std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > glyphsFuture;
+            std::vector<std::shared_ptr<Render2D::Font::Glyph> > glyphs;
+            std::future<std::vector<std::shared_ptr<Render2D::Font::Glyph> > > glyphsFuture;
 
             bool labelMinimumSizeInit = true;
             std::weak_ptr<LabelSizeGroup> sizeGroup;
 
-            BBox2f paintGeometry = BBox2f(0.F, 0.F, 0.F, 0.F);
+            Math::BBox2f paintGeometry = Math::BBox2f(0.F, 0.F, 0.F, 0.F);
             glm::vec2 paintCenter = glm::vec2(0.F, 0.F);
         };
 
-        void Label::_init(const std::shared_ptr<Context>& context)
+        void Label::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             setClassName("djv::UI::Label");
             setVAlign(VAlign::Center);
-            _p->fontSystem = context->getSystemT<AV::Font::System>();
+            _p->fontSystem = context->getSystemT<Render2D::Font::FontSystem>();
         }
         
         Label::Label() :
@@ -69,7 +69,7 @@ namespace djv
         Label::~Label()
         {}
 
-        std::shared_ptr<Label> Label::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<Label> Label::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<Label>(new Label);
             out->_init(context);
@@ -216,7 +216,7 @@ namespace djv
             }
         }
 
-        void Label::_initLayoutEvent(Event::InitLayout&)
+        void Label::_initLayoutEvent(System::Event::InitLayout&)
         {
             DJV_PRIVATE_PTR();
             if (p.labelMinimumSizeInit)
@@ -228,7 +228,7 @@ namespace djv
             }
         }
 
-        void Label::_preLayoutEvent(Event::PreLayout&)
+        void Label::_preLayoutEvent(System::Event::PreLayout&)
         {
             DJV_PRIVATE_PTR();
             glm::vec2 minimumSize = _labelMinimumSize;
@@ -242,7 +242,7 @@ namespace djv
             _setMinimumSize(minimumSize);
         }
 
-        void Label::_layoutEvent(Event::Layout&)
+        void Label::_layoutEvent(System::Event::Layout&)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
@@ -265,7 +265,7 @@ namespace djv
             }
         }
 
-        void Label::_paintEvent(Event::Paint& event)
+        void Label::_paintEvent(System::Event::Paint& event)
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
@@ -274,7 +274,7 @@ namespace djv
                 const auto& style = _getStyle();
 
                 const auto& render = _getRender();
-                //render->setFillColor(AV::Image::Color(1.F, 0.F, 0.F, .5F));
+                //render->setFillColor(Image::Color(1.F, 0.F, 0.F, .5F));
                 //render->drawRect(p.paintGeometry);
 
                 glm::vec2 pos = p.paintGeometry.min;
@@ -305,7 +305,7 @@ namespace djv
                 default: break;
                 }
 
-                //render->setFillColor(AV::Image::Color(1.F, 0.F, 0.F));
+                //render->setFillColor(Image::Color(1.F, 0.F, 0.F));
                 //render->drawRect(BBox2f(pos.x, pos.y, p.textSize.x, p.textSize.y));
 
                 render->setFillColor(style->getColor(p.textColorRole));
@@ -314,7 +314,7 @@ namespace djv
             }
         }
 
-        void Label::_initEvent(Event::Init& event)
+        void Label::_initEvent(System::Event::Init& event)
         {
             if (event.getData().resize || event.getData().font)
             {
@@ -322,7 +322,7 @@ namespace djv
             }
         }
 
-        void Label::_updateEvent(Event::Update& event)
+        void Label::_updateEvent(System::Event::Update& event)
         {
             DJV_PRIVATE_PTR();
             if (p.fontMetricsFuture.valid() &&
@@ -336,7 +336,7 @@ namespace djv
                 }
                 catch (const std::exception& e)
                 {
-                    _log(e.what(), LogLevel::Error);
+                    _log(e.what(), System::LogLevel::Error);
                 }
             }
             if (p.textSizeFuture.valid() &&
@@ -350,7 +350,7 @@ namespace djv
                 }
                 catch (const std::exception& e)
                 {
-                    _log(e.what(), LogLevel::Error);
+                    _log(e.what(), System::LogLevel::Error);
                 }
             }
             if (p.sizeStringFuture.valid() &&
@@ -364,7 +364,7 @@ namespace djv
                 }
                 catch (const std::exception& e)
                 {
-                    _log(e.what(), LogLevel::Error);
+                    _log(e.what(), System::LogLevel::Error);
                 }
             }
             if (p.glyphsFuture.valid() &&
@@ -377,7 +377,7 @@ namespace djv
                 }
                 catch (const std::exception& e)
                 {
-                    _log(e.what(), LogLevel::Error);
+                    _log(e.what(), System::LogLevel::Error);
                 }
             }
         }

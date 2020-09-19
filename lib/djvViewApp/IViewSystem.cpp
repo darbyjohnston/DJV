@@ -13,8 +13,8 @@
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Shortcut.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/TextSystem.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -24,30 +24,30 @@ namespace djv
     {
         struct IViewSystem::Private
         {
-            std::shared_ptr<UI::Settings::System> settingsSystem;
+            std::shared_ptr<UI::Settings::SettingsSystem> settingsSystem;
             std::shared_ptr<KeyboardSettings> keyboardSettings;
 
             std::shared_ptr<UI::MDI::Canvas> canvas;
             std::map<std::string, std::shared_ptr<MDIWidget> > widgets;
-            std::map<std::string, BBox2f> widgetGeom;
+            std::map<std::string, Math::BBox2f> widgetGeom;
 
             std::shared_ptr<ValueObserver<bool> > textChangedObserver;
             std::shared_ptr<MapObserver<std::string, UI::ShortcutDataPair> > shortcutsObserver;
         };
 
-        void IViewSystem::_init(const std::string& name, const std::shared_ptr<Core::Context>& context)
+        void IViewSystem::_init(const std::string& name, const std::shared_ptr<System::Context>& context)
         {
             ISystem::_init(name, context);
             DJV_PRIVATE_PTR();
 
             addDependency(context->getSystemT<UI::UIComponentsSystem>());
 
-            p.settingsSystem = context->getSystemT<UI::Settings::System>();
+            p.settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             p.keyboardSettings = p.settingsSystem->getSettingsT<KeyboardSettings>();
 
             auto weak = std::weak_ptr<IViewSystem>(std::dynamic_pointer_cast<IViewSystem>(shared_from_this()));
             p.textChangedObserver = ValueObserver<bool>::create(
-                context->getSystemT<TextSystem>()->observeTextChanged(),
+                context->getSystemT<System::TextSystem>()->observeTextChanged(),
                 [weak](bool value)
                 {
                     if (value)
@@ -130,7 +130,7 @@ namespace djv
             {
                 const glm::vec2& pos = p.canvas->getWidgetPos(i->second);
                 const glm::vec2& size = i->second->getSize();
-                p.widgetGeom[name] = BBox2f(pos.x, pos.y, size.x, size.y);
+                p.widgetGeom[name] = Math::BBox2f(pos.x, pos.y, size.x, size.y);
                 p.canvas->removeChild(i->second);
                 p.widgets.erase(i);
             }
@@ -141,12 +141,12 @@ namespace djv
             return _p->widgets;
         }
 
-        const std::map<std::string, BBox2f>& IViewSystem::_getWidgetGeom() const
+        const std::map<std::string, Math::BBox2f>& IViewSystem::_getWidgetGeom() const
         {
             return _p->widgetGeom;
         }
 
-        void IViewSystem::_setWidgetGeom(const std::map<std::string, BBox2f>& value)
+        void IViewSystem::_setWidgetGeom(const std::map<std::string, Math::BBox2f>& value)
         {
             _p->widgetGeom = value;
         }

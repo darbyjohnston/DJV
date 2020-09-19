@@ -5,10 +5,11 @@
 
 #include <djvAV/IFF.h>
 
-#include <djvCore/FileIO.h>
-#include <djvCore/FileSystem.h>
+#include <djvSystem/File.h>
+#include <djvSystem/FileIO.h>
+#include <djvSystem/TextSystem.h>
+
 #include <djvCore/StringFormat.h>
-#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -33,7 +34,7 @@ namespace djv
                         return size;
                     }
 
-                    size_t readRle(const std::shared_ptr<FileSystem::FileIO>& io, uint8_t* out, size_t size)
+                    size_t readRle(const std::shared_ptr<System::File::IO>& io, uint8_t* out, size_t size)
                     {
                         const size_t pos = io->getPos();
                         const uint8_t* const end = out + size;
@@ -77,11 +78,11 @@ namespace djv
                 }
 
                 std::shared_ptr<Read> Read::create(
-                    const FileSystem::FileInfo& fileInfo,
+                    const System::File::Info& fileInfo,
                     const ReadOptions& readOptions,
-                    const std::shared_ptr<TextSystem>& textSystem,
-                    const std::shared_ptr<ResourceSystem>& resourceSystem,
-                    const std::shared_ptr<LogSystem>& logSystem)
+                    const std::shared_ptr<System::TextSystem>& textSystem,
+                    const std::shared_ptr<System::ResourceSystem>& resourceSystem,
+                    const std::shared_ptr<System::LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
                     out->_init(fileInfo, readOptions, textSystem, resourceSystem, logSystem);
@@ -90,14 +91,14 @@ namespace djv
 
                 Info Read::_readInfo(const std::string& fileName)
                 {
-                    auto io = FileSystem::FileIO::create();
+                    auto io = System::File::IO::create();
                     return _open(fileName, io);
                 }
 
                 std::shared_ptr<Image::Image> Read::_readImage(const std::string& fileName)
                 {
                     std::shared_ptr<Image::Image> out;
-                    auto io = FileSystem::FileIO::create();
+                    auto io = System::File::IO::create();
                     const auto info = _open(fileName, io);
                     out = Image::Image::create(info.video[0]);
                     out->setPluginName(pluginName);
@@ -135,7 +136,7 @@ namespace djv
                             }
 
                             // Get tag.
-                            Tags tags;
+                            Image::Tags tags;
                             tags.set("Creator", s);
 
                             // Set tag.
@@ -190,7 +191,7 @@ namespace djv
                                             xmax >= info.video[0].size.w ||
                                             ymax >= info.video[0].size.h)
                                         {
-                                            throw FileSystem::Error(String::Format("{0}: {1}").
+                                            throw System::File::Error(String::Format("{0}: {1}").
                                                 arg(fileName).
                                                 arg(_textSystem->getText(DJV_TEXT("error_file_not_supported"))));
                                         }
@@ -203,7 +204,7 @@ namespace djv
 
                                         if (!tw || !th)
                                         {
-                                            throw FileSystem::Error(String::Format("{0}: {1}").
+                                            throw System::File::Error(String::Format("{0}: {1}").
                                                 arg(fileName).
                                                 arg(_textSystem->getText(DJV_TEXT("error_file_not_supported"))));
                                         }
@@ -265,7 +266,7 @@ namespace djv
                                                 // Test.
                                                 if (p != imageSize - 8)
                                                 {
-                                                    throw FileSystem::Error(String::Format("{0}: {1}").
+                                                    throw System::File::Error(String::Format("{0}: {1}").
                                                         arg(fileName).
                                                         arg(_textSystem->getText(DJV_TEXT("error_file_not_supported"))));
                                                 }
@@ -288,7 +289,7 @@ namespace djv
 
                                                         if (size < static_cast<uint32_t>(byteCount))
                                                         {
-                                                            throw FileSystem::Error(String::Format("{0}: {1}").
+                                                            throw System::File::Error(String::Format("{0}: {1}").
                                                                 arg(fileName).
                                                                 arg(_textSystem->getText(DJV_TEXT("error_file_not_supported"))));
                                                         }
@@ -378,7 +379,7 @@ namespace djv
                                                 // Test.
                                                 if (p != imageSize - 8)
                                                 {
-                                                    throw FileSystem::Error(String::Format("{0}: {1}").
+                                                    throw System::File::Error(String::Format("{0}: {1}").
                                                         arg(fileName).
                                                         arg(_textSystem->getText(DJV_TEXT("error_file_not_supported"))));
                                                 }
@@ -401,7 +402,7 @@ namespace djv
 
                                                         if (size < static_cast<uint32_t>(byteCount))
                                                         {
-                                                            throw FileSystem::Error(String::Format("{0}: {1}").
+                                                            throw System::File::Error(String::Format("{0}: {1}").
                                                                 arg(fileName).
                                                                 arg(_textSystem->getText(DJV_TEXT("error_file_not_supported"))));
                                                         }
@@ -485,11 +486,11 @@ namespace djv
                     {
                     public:
                         void read(
-                            const std::shared_ptr<FileSystem::FileIO>&,
+                            const std::shared_ptr<System::File::IO>&,
                             Image::Info&,
                             int& tiles,
                             bool& compression,
-                            const std::shared_ptr<TextSystem>&);
+                            const std::shared_ptr<System::TextSystem>&);
 
                     private:
                         struct Data
@@ -506,11 +507,11 @@ namespace djv
                     };
 
                     void Header::read(
-                        const std::shared_ptr<FileSystem::FileIO>& io,
+                        const std::shared_ptr<System::File::IO>& io,
                         Image::Info& info,
                         int& tiles,
                         bool& compression,
-                        const std::shared_ptr<TextSystem>& textSystem)
+                        const std::shared_ptr<System::TextSystem>& textSystem)
                     {
                         uint8_t  type[4];
                         uint32_t size;
@@ -566,7 +567,7 @@ namespace djv
                                             // Test if size if correct.
                                             if (tbhdsize != 24 && tbhdsize != 32)
                                             {
-                                                throw FileSystem::Error(String::Format("{0}: {1}").
+                                                throw System::File::Error(String::Format("{0}: {1}").
                                                     arg(io->getFileName()).
                                                     arg(textSystem->getText(DJV_TEXT("error_reading_header"))));
                                             }
@@ -602,7 +603,7 @@ namespace djv
                                             {
                                                 // no compression or non-rle compression not
                                                 // supported
-                                                throw FileSystem::Error(String::Format("{0}: {1}").
+                                                throw System::File::Error(String::Format("{0}: {1}").
                                                     arg(io->getFileName()).
                                                     arg(textSystem->getText(DJV_TEXT("error_file_not_supported"))));
                                             }
@@ -734,7 +735,7 @@ namespace djv
 
                         if (Image::Type::None == info.type)
                         {
-                            throw FileSystem::Error(String::Format("{0}: {1}").
+                            throw System::File::Error(String::Format("{0}: {1}").
                                 arg(io->getFileName()).
                                 arg(textSystem->getText(DJV_TEXT("error_file_not_supported"))));
                         }
@@ -744,10 +745,10 @@ namespace djv
 
                 } // namespace
 
-                Info Read::_open(const std::string& fileName, const std::shared_ptr<FileSystem::FileIO>& io)
+                Info Read::_open(const std::string& fileName, const std::shared_ptr<System::File::IO>& io)
                 {
                     io->setEndianConversion(Memory::getEndian() != Memory::Endian::MSB);
-                    io->open(fileName, FileSystem::FileIO::Mode::Read);
+                    io->open(fileName, System::File::IO::Mode::Read);
                     Image::Info imageInfo;
                     Header().read(io, imageInfo, _tiles, _compression, _textSystem);
                     Info info;

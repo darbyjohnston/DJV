@@ -8,31 +8,33 @@
 
 #include <djvUI/IButton.h>
 
-#include <djvAV/Image.h>
+#include <djvImage/Image.h>
+
+#include <djvSystem/Path.h>
+
+#include <djvMath/Range.h>
 
 #include <djvCore/ListObserver.h>
-#include <djvCore/Path.h>
-#include <djvCore/Range.h>
 
 namespace djv
 {
-    namespace Core
+    namespace System
     {
-        namespace FileSystem
+        namespace File
         {
             class DirectoryModel;
             class DrivesModel;
             class Path;
             class RecentFilesModel;
 
-        } // namespace FileSystem
-    } // namespace Core
+        } // namespace File
+    } // namespace System
 
     namespace UI
     {
         namespace FileBrowser
         {
-            const Core::IntRange thumbnailSizeRange(50, 800);
+            const Math::IntRange thumbnailSizeRange(50, 800);
 
             //! This class provides a file browser path widget.
             class PathWidget : public UI::Widget
@@ -40,32 +42,32 @@ namespace djv
                 DJV_NON_COPYABLE(PathWidget);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 PathWidget();
 
             public:
                 ~PathWidget() override;
 
-                static std::shared_ptr<PathWidget> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<PathWidget> create(const std::shared_ptr<System::Context>&);
 
-                void setPath(const Core::FileSystem::Path&);
-                void setPathCallback(const std::function<void(const Core::FileSystem::Path&)>&);
+                void setPath(const System::File::Path&);
+                void setPathCallback(const std::function<void(const System::File::Path&)>&);
 
-                void setHistory(const std::vector<Core::FileSystem::Path>&);
+                void setHistory(const std::vector<System::File::Path>&);
                 void setHistoryIndex(size_t);
                 void setHistoryIndexCallback(const std::function<void(size_t)>&);
 
                 void setEdit(bool);
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
 
-                void _initEvent(Core::Event::Init&) override;
-                bool _eventFilter(const std::shared_ptr<Core::IObject>&, Core::Event::Event&) override;
+                void _initEvent(System::Event::Init&) override;
+                bool _eventFilter(const std::shared_ptr<System::IObject>&, System::Event::Event&) override;
 
             private:
-                static std::string _getLabel(const Core::FileSystem::Path&);
+                static std::string _getLabel(const System::File::Path&);
 
                 DJV_PRIVATE();
             };
@@ -76,17 +78,17 @@ namespace djv
                 DJV_NON_COPYABLE(ShortcutsModel);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 ShortcutsModel();
 
             public:
                 virtual ~ShortcutsModel();
 
-                static std::shared_ptr<ShortcutsModel> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<ShortcutsModel> create(const std::shared_ptr<System::Context>&);
 
-                std::shared_ptr<Core::IListSubject<Core::FileSystem::Path> > observeShortcuts() const;
-                void setShortcuts(const std::vector<Core::FileSystem::Path>&);
-                void addShortcut(const Core::FileSystem::Path&);
+                std::shared_ptr<Core::IListSubject<System::File::Path> > observeShortcuts() const;
+                void setShortcuts(const std::vector<System::File::Path>&);
+                void addShortcut(const System::File::Path&);
                 void removeShortcut(size_t index);
 
             private:
@@ -99,22 +101,22 @@ namespace djv
                 DJV_NON_COPYABLE(ShortcutsWidget);
 
             protected:
-                void _init(const std::shared_ptr<ShortcutsModel>&, const std::shared_ptr<Core::Context>&);
+                void _init(const std::shared_ptr<ShortcutsModel>&, const std::shared_ptr<System::Context>&);
                 ShortcutsWidget();
 
             public:
                 ~ShortcutsWidget() override;
 
-                static std::shared_ptr<ShortcutsWidget> create(const std::shared_ptr<ShortcutsModel>&, const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<ShortcutsWidget> create(const std::shared_ptr<ShortcutsModel>&, const std::shared_ptr<System::Context>&);
 
-                void setPath(const Core::FileSystem::Path&);
-                void setCallback(const std::function<void(const Core::FileSystem::Path&)>&);
+                void setPath(const System::File::Path&);
+                void setCallback(const std::function<void(const System::File::Path&)>&);
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
 
-                void _initEvent(Core::Event::Init&) override;
+                void _initEvent(System::Event::Init&) override;
 
             private:
                 DJV_PRIVATE();
@@ -126,19 +128,19 @@ namespace djv
                 DJV_NON_COPYABLE(RecentPathsWidget);
 
             protected:
-                void _init(const std::shared_ptr<Core::FileSystem::RecentFilesModel>&, const std::shared_ptr<Core::Context>&);
+                void _init(const std::shared_ptr<System::File::RecentFilesModel>&, const std::shared_ptr<System::Context>&);
                 RecentPathsWidget();
 
             public:
                 ~RecentPathsWidget() override;
 
-                static std::shared_ptr<RecentPathsWidget> create(const std::shared_ptr<Core::FileSystem::RecentFilesModel>&, const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<RecentPathsWidget> create(const std::shared_ptr<System::File::RecentFilesModel>&, const std::shared_ptr<System::Context>&);
 
-                void setCallback(const std::function<void(const Core::FileSystem::Path&)>&);
+                void setCallback(const std::function<void(const System::File::Path&)>&);
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
 
             private:
                 DJV_PRIVATE();
@@ -150,19 +152,19 @@ namespace djv
                 DJV_NON_COPYABLE(DrivesWidget);
 
             protected:
-                void _init(const std::shared_ptr<Core::FileSystem::DrivesModel>&, const std::shared_ptr<Core::Context>&);
+                void _init(const std::shared_ptr<System::File::DrivesModel>&, const std::shared_ptr<System::Context>&);
                 DrivesWidget();
 
             public:
                 ~DrivesWidget() override;
 
-                static std::shared_ptr<DrivesWidget> create(const std::shared_ptr<Core::FileSystem::DrivesModel>&, const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<DrivesWidget> create(const std::shared_ptr<System::File::DrivesModel>&, const std::shared_ptr<System::Context>&);
 
-                void setCallback(const std::function<void(const Core::FileSystem::Path&)>&);
+                void setCallback(const std::function<void(const System::File::Path&)>&);
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
 
             private:
                 DJV_PRIVATE();
@@ -175,28 +177,28 @@ namespace djv
 
             protected:
                 void _init(
-                    const std::shared_ptr<Core::FileSystem::DirectoryModel>&,
+                    const std::shared_ptr<System::File::DirectoryModel>&,
                     const std::shared_ptr<ShortcutsModel>&,
-                    const std::shared_ptr<Core::FileSystem::RecentFilesModel>&,
-                    const std::shared_ptr<Core::FileSystem::DrivesModel>&,
-                    const std::shared_ptr<Core::Context>&);
+                    const std::shared_ptr<System::File::RecentFilesModel>&,
+                    const std::shared_ptr<System::File::DrivesModel>&,
+                    const std::shared_ptr<System::Context>&);
                 DrawerWidget();
 
             public:
                 ~DrawerWidget() override;
 
                 static std::shared_ptr<DrawerWidget> create(
-                    const std::shared_ptr<Core::FileSystem::DirectoryModel>&,
+                    const std::shared_ptr<System::File::DirectoryModel>&,
                     const std::shared_ptr<ShortcutsModel>&,
-                    const std::shared_ptr<Core::FileSystem::RecentFilesModel>&,
-                    const std::shared_ptr<Core::FileSystem::DrivesModel>&,
-                    const std::shared_ptr<Core::Context>&);
+                    const std::shared_ptr<System::File::RecentFilesModel>&,
+                    const std::shared_ptr<System::File::DrivesModel>&,
+                    const std::shared_ptr<System::Context>&);
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
 
-                void _initEvent(Core::Event::Init&) override;
+                void _initEvent(System::Event::Init&) override;
 
             private:
                 void _saveBellowsState();
@@ -212,7 +214,7 @@ namespace djv
             protected:
                 void _init(
                     const std::map<std::string, std::shared_ptr<Action> >&,
-                    const std::shared_ptr<Core::Context>&);
+                    const std::shared_ptr<System::Context>&);
                 Menu();
 
             public:
@@ -220,13 +222,13 @@ namespace djv
 
                 static std::shared_ptr<Menu> create(
                     const std::map<std::string, std::shared_ptr<Action> >&,
-                    const std::shared_ptr<Core::Context>&);
+                    const std::shared_ptr<System::Context>&);
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
 
-                void _initEvent(Core::Event::Init&) override;
+                void _initEvent(System::Event::Init&) override;
 
             private:
                 DJV_PRIVATE();

@@ -4,8 +4,9 @@
 
 #include <djvCoreTest/RapidJSONFuncTest.h>
 
-#include <djvCore/FileIO.h>
-#include <djvCore/Path.h>
+#include <djvSystem/FileIO.h>
+#include <djvSystem/Path.h>
+
 #include <djvCore/RapidJSONFunc.h>
 #include <djvCore/RapidJSONTemplates.h>
 #include <djvCore/StringFormat.h>
@@ -20,11 +21,11 @@ namespace djv
     namespace CoreTest
     {
         RapidJSONFuncTest::RapidJSONFuncTest(
-            const FileSystem::Path& tempPath,
-            const std::shared_ptr<Core::Context>& context) :
+            const System::File::Path& tempPath,
+            const std::shared_ptr<System::Context>& context) :
             ITest(
                 "djv::CoreTest::RapidJSONFuncTest",
-                FileSystem::Path(tempPath, "RapidJSONFuncTest"),
+                System::File::Path(tempPath, "RapidJSONFuncTest"),
                 context)
         {}
         
@@ -58,14 +59,14 @@ namespace djv
             rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
             document.Accept(writer);
 
-            auto io = FileSystem::FileIO::create();
+            auto io = System::File::IO::create();
             io->open(
-                FileSystem::Path(getTempPath(), "file.json").get(),
-                FileSystem::FileIO::Mode::Write);
+                System::File::Path(getTempPath(), "file.json").get(),
+                System::File::IO::Mode::Write);
             io->write(buffer.GetString());
             io->open(
-                FileSystem::Path(getTempPath(), "file.json").get(),
-                FileSystem::FileIO::Mode::Read);
+                System::File::Path(getTempPath(), "file.json").get(),
+                System::File::IO::Mode::Read);
             std::vector<char> buf;
             const size_t bufSize = io->getSize();
             buf.resize(bufSize);

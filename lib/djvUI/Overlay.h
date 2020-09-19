@@ -18,12 +18,12 @@ namespace djv
                 DJV_NON_COPYABLE(Overlay);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 Overlay();
 
             public:
                 ~Overlay() override;
-                static std::shared_ptr<Overlay> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<Overlay> create(const std::shared_ptr<System::Context>&);
 
                 bool hasCapturePointer() const;
                 bool hasCaptureKeyboard() const;
@@ -39,14 +39,14 @@ namespace djv
                 float getHeightForWidth(float) const override;
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
-                void _pointerEnterEvent(Core::Event::PointerEnter&) override;
-                void _pointerLeaveEvent(Core::Event::PointerLeave&) override;
-                void _pointerMoveEvent(Core::Event::PointerMove&) override;
-                void _buttonPressEvent(Core::Event::ButtonPress&) override;
-                void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
-                void _keyPressEvent(Core::Event::KeyPress&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
+                void _pointerEnterEvent(System::Event::PointerEnter&) override;
+                void _pointerLeaveEvent(System::Event::PointerLeave&) override;
+                void _pointerMoveEvent(System::Event::PointerMove&) override;
+                void _buttonPressEvent(System::Event::ButtonPress&) override;
+                void _buttonReleaseEvent(System::Event::ButtonRelease&) override;
+                void _keyPressEvent(System::Event::KeyPress&) override;
 
             private:
                 void _doCloseCallback();

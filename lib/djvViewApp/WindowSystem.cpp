@@ -20,13 +20,14 @@
 #include <djvUI/UISystem.h>
 
 #include <djvAV/AVSystem.h>
-#include <djvAV/GLFWSystem.h>
 
-#include <djvCore/Animation.h>
-#include <djvCore/Context.h>
-#include <djvCore/IEventSystem.h>
-#include <djvCore/TextSystem.h>
-#include <djvCore/Timer.h>
+#include <djvGL/GLFWSystem.h>
+
+#include <djvSystem/Animation.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/IEventSystem.h>
+#include <djvSystem/TextSystem.h>
+#include <djvSystem/Timer.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -48,7 +49,7 @@ namespace djv
 
         struct WindowSystem::Private
         {
-            std::shared_ptr<AV::GLFW::System> avGLFWSystem;
+            std::shared_ptr<GL::GLFW::GLFWSystem> glGLFWSystem;
             std::shared_ptr<Desktop::GLFWSystem> desktopGLFWSystem;
 
             std::shared_ptr<WindowSettings> settings;
@@ -59,41 +60,41 @@ namespace djv
             std::shared_ptr<ValueSubject<bool> > maximize;
             std::shared_ptr<ValueSubject<float> > fade;
             bool fadeEnabled = false;
-            std::shared_ptr<Time::Timer> fadeTimer;
-            std::map<Event::PointerID, glm::vec2> pointerMotion;
+            std::shared_ptr<System::Timer> fadeTimer;
+            std::map<System::Event::PointerID, glm::vec2> pointerMotion;
             bool textFocusActive = false;
             bool textFocusInit = false;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             glm::ivec2 monitorSize = glm::ivec2(0, 0);
             int monitorRefresh = 0;
-            BBox2i windowGeom = BBox2i(0, 0, 0, 0);
+            Math::BBox2i windowGeom = Math::BBox2i(0, 0, 0, 0);
             
             std::shared_ptr<ValueObserver<bool> > fullScreenObserver;
             std::shared_ptr<ValueObserver<bool> > floatOnTopObserver;
             std::shared_ptr<ValueObserver<bool> > maximizeObserver;
-            std::shared_ptr<ValueObserver<Event::PointerInfo> > pointerObserver;
+            std::shared_ptr<ValueObserver<System::Event::PointerInfo> > pointerObserver;
             std::shared_ptr<ValueObserver<bool> > textFocusActiveObserver;
             std::shared_ptr<ValueObserver<bool> > fadeObserver;
 
-            std::shared_ptr<Animation::Animation> fadeAnimation;
+            std::shared_ptr<System::Animation::Animation> fadeAnimation;
 
             void setFullScreen(bool);
             void setFloatOnTop(bool);
         };
 
-        void WindowSystem::_init(const std::shared_ptr<Context>& context)
+        void WindowSystem::_init(const std::shared_ptr<System::Context>& context)
         {
             IViewSystem::_init("djv::ViewApp::WindowSystem", context);
 
             DJV_PRIVATE_PTR();
 
-            p.avGLFWSystem = context->getSystemT<AV::GLFW::System>();
+            p.glGLFWSystem = context->getSystemT<GL::GLFW::GLFWSystem>();
             p.desktopGLFWSystem = context->getSystemT<Desktop::GLFWSystem>();
 
             p.settings = WindowSettings::create(context);
 
-            auto glfwWindow = p.avGLFWSystem->getGLFWWindow();
+            auto glfwWindow = p.glGLFWSystem->getGLFWWindow();
             if (p.settings->observeRestoreSize()->get())
             {
                 const glm::ivec2& windowSize = p.settings->getWindowSize();
@@ -121,8 +122,8 @@ namespace djv
             p.floatOnTop = ValueSubject<bool>::create(false);
             p.maximize = ValueSubject<bool>::create(false);
             p.fade = ValueSubject<float>::create(1.F);
-            p.fadeTimer = Time::Timer::create(context);
-            p.fadeAnimation = Animation::Animation::create(context);
+            p.fadeTimer = System::Timer::create(context);
+            p.fadeAnimation = System::Animation::Animation::create(context);
 
             p.actions["FullScreen"] = UI::Action::create();
             p.actions["FullScreen"]->setButtonType(UI::ButtonType::Toggle);
@@ -197,7 +198,7 @@ namespace djv
                     }
                 });
 
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.actions["AutoHide"]->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
@@ -271,10 +272,10 @@ namespace djv
                     }
                 });
 
-            auto eventSystem = context->getSystemT<Event::IEventSystem>();
-            p.pointerObserver = ValueObserver<Event::PointerInfo>::create(
+            auto eventSystem = context->getSystemT<System::Event::IEventSystem>();
+            p.pointerObserver = ValueObserver<System::Event::PointerInfo>::create(
                 eventSystem->observePointer(),
-                [weak, contextWeak](const Event::PointerInfo& value)
+                [weak, contextWeak](const System::Event::PointerInfo& value)
             {
                 if (auto context = contextWeak.lock())
                 {
@@ -337,7 +338,7 @@ namespace djv
         WindowSystem::~WindowSystem()
         {
             DJV_PRIVATE_PTR();
-            auto glfwWindow = p.avGLFWSystem->getGLFWWindow();
+            auto glfwWindow = p.glGLFWSystem->getGLFWWindow();
             if (!p.fullScreen->get())
             {
                 glm::ivec2 pos(0.F, 0.F);
@@ -349,7 +350,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<WindowSystem> WindowSystem::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<WindowSystem> WindowSystem::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<WindowSystem>(new WindowSystem);
             out->_init(context);
@@ -556,7 +557,7 @@ namespace djv
 
         void WindowSystem::Private::setFullScreen(bool value)
         {
-            auto glfwWindow = avGLFWSystem->getGLFWWindow();
+            auto glfwWindow = glGLFWSystem->getGLFWWindow();
             auto glfwMonitor = glfwGetWindowMonitor(glfwWindow);
             if (value && glfwWindow && !glfwMonitor)
             {
@@ -582,7 +583,7 @@ namespace djv
                 int h = 0;
                 glfwGetWindowPos(glfwWindow, &x, &y);
                 glfwGetWindowSize(glfwWindow, &w, &h);
-                windowGeom = BBox2i(x, y, w, h);
+                windowGeom = Math::BBox2i(x, y, w, h);
 
                 glfwSetWindowAttrib(glfwWindow, GLFW_AUTO_ICONIFY, glfwMonitor == glfwGetPrimaryMonitor());
                 glfwSetWindowMonitor(
@@ -618,7 +619,7 @@ namespace djv
 
         void WindowSystem::Private::setFloatOnTop(bool value)
         {
-            if (auto glfwWindow = avGLFWSystem->getGLFWWindow())
+            if (auto glfwWindow = glGLFWSystem->getGLFWWindow())
             {
                 glfwSetWindowAttrib(glfwWindow, GLFW_FLOATING, value);
             }

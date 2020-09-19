@@ -12,7 +12,7 @@
 #include <djvUI/StackLayout.h>
 #include <djvUI/ToolButton.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -31,7 +31,7 @@ namespace djv
             std::shared_ptr<ValueObserver<float> > fadeObserver;
         };
 
-        void MDIWidget::_init(const std::shared_ptr<Core::Context>& context)
+        void MDIWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             IWidget::_init(context);
 
@@ -149,7 +149,7 @@ namespace djv
             _p->childLayout->clearChildren();
         }
 
-        std::map<UI::MDI::Handle, std::vector<Core::BBox2f> > MDIWidget::_getHandles() const
+        std::map<UI::MDI::Handle, std::vector<Math::BBox2f> > MDIWidget::_getHandles() const
         {
             DJV_PRIVATE_PTR();
             auto out = IWidget::_getHandles();
@@ -165,17 +165,17 @@ namespace djv
             p.closeButton->setForegroundColorRole(value ? UI::ColorRole::Foreground : UI::ColorRole::ForegroundDim);
         }
 
-        void MDIWidget::_preLayoutEvent(Event::PreLayout& event)
+        void MDIWidget::_preLayoutEvent(System::Event::PreLayout& event)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void MDIWidget::_layoutEvent(Event::Layout&)
+        void MDIWidget::_layoutEvent(System::Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
         }
 
-        void MDIWidget::_initEvent(Event::Init & event)
+        void MDIWidget::_initEvent(System::Event::Init & event)
         {
             IWidget::_initEvent(event);
             DJV_PRIVATE_PTR();

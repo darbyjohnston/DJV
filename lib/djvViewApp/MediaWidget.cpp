@@ -36,15 +36,18 @@
 #include <djvUI/ToolBar.h>
 #include <djvUI/ToolButton.h>
 
-#include <djvAV/AVSystem.h>
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/FileInfo.h>
-#include <djvCore/NumericValueModels.h>
-#include <djvCore/Path.h>
-#include <djvCore/TimeFunc.h>
-#include <djvCore/Timer.h>
+#include <djvAV/AVSystem.h>
+#include <djvAV/TimeFunc.h>
+
+#include <djvSystem/Context.h>
+#include <djvSystem/FileInfo.h>
+#include <djvSystem/Path.h>
+#include <djvSystem/Timer.h>
+
+#include <djvMath/Math.h>
+#include <djvMath/NumericValueModels.h>
 
 #include <iomanip>
 
@@ -104,22 +107,22 @@ namespace djv
         {
             std::shared_ptr<Media> media;
             AV::IO::Info ioInfo;
-            std::vector<AV::Image::Info> layers;
+            std::vector<Image::Info> layers;
             int currentLayer = -1;
-            std::shared_ptr<AV::Image::Image> image;
+            std::shared_ptr<Image::Image> image;
             Math::Rational defaultSpeed;
             Math::Rational speed;
             float realSpeed = 0.F;
             PlaybackMode playbackMode = PlaybackMode::First;
-            Frame::Sequence sequence;
-            Frame::Index currentFrame = Frame::invalidIndex;
+            Math::Frame::Sequence sequence;
+            Math::Frame::Index currentFrame = Math::Frame::invalidIndex;
             AV::IO::InOutPoints inOutPoints;
             Playback playbackPrev = Playback::Count;
-            Time::Units timeUnits = Time::Units::First;
+            AV::Time::Units timeUnits = AV::Time::Units::First;
             ViewLock viewLock = ViewLock::First;
             std::shared_ptr<ValueSubject<HUDOptions> > hudOptions;
             bool frameStoreEnabled = false;
-            std::shared_ptr<AV::Image::Image> frameStore;
+            std::shared_ptr<Image::Image> frameStore;
             bool audioEnabled = false;
             float audioVolume = 0.F;
             bool audioMute = false;
@@ -155,35 +158,35 @@ namespace djv
             std::shared_ptr<UI::GridLayout> playbackLayout;
             std::shared_ptr<UI::StackLayout> layout;
 
-            std::shared_ptr<ValueObserver<Time::Units> > timeUnitsObserver;
+            std::shared_ptr<ValueObserver<AV::Time::Units> > timeUnitsObserver;
             std::shared_ptr<ValueObserver<AV::IO::Info> > ioInfoObserver;
-            std::shared_ptr<ValueObserver<std::pair<std::vector<AV::Image::Info>, int> > > layersObserver;
-            std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
+            std::shared_ptr<ValueObserver<std::pair<std::vector<Image::Info>, int> > > layersObserver;
+            std::shared_ptr<ValueObserver<std::shared_ptr<Image::Image> > > imageObserver;
             std::shared_ptr<ValueObserver<Math::Rational> > speedObserver;
             std::shared_ptr<ValueObserver<Math::Rational> > defaultSpeedObserver;
             std::shared_ptr<ValueObserver<float> > realSpeedObserver;
             std::shared_ptr<ValueObserver<PlaybackMode> > playbackModeObserver;
-            std::shared_ptr<ValueObserver<Frame::Sequence> > sequenceObserver;
-            std::shared_ptr<ValueObserver<Frame::Index> > currentFrameObserver;
+            std::shared_ptr<ValueObserver<Math::Frame::Sequence> > sequenceObserver;
+            std::shared_ptr<ValueObserver<Math::Frame::Index> > currentFrameObserver;
             std::shared_ptr<ValueObserver<AV::IO::InOutPoints> > inOutPointsObserver;
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
             std::shared_ptr<ValueObserver<bool> > audioEnabledObserver;
             std::shared_ptr<ValueObserver<float> > volumeObserver;
             std::shared_ptr<ValueObserver<bool> > muteObserver;
             std::shared_ptr<ValueObserver<bool> > cacheEnabledObserver;
-            std::shared_ptr<ValueObserver<Frame::Sequence> > cacheSequenceObserver;
-            std::shared_ptr<ValueObserver<Frame::Sequence> > cachedFramesObserver;
+            std::shared_ptr<ValueObserver<Math::Frame::Sequence> > cacheSequenceObserver;
+            std::shared_ptr<ValueObserver<Math::Frame::Sequence> > cachedFramesObserver;
             std::shared_ptr<ListObserver<std::shared_ptr<AnnotatePrimitive> > > annotationsObserver;
             std::shared_ptr<ValueObserver<float> > fadeObserver;
             std::shared_ptr<ValueObserver<ViewLock> > viewLockObserver;
             std::shared_ptr<ValueObserver<bool> > frameStoreEnabledObserver;
-            std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > frameStoreObserver;
-            std::shared_ptr<ValueObserver<AV::Render2D::ImageOptions> > imageOptionsObserver;
+            std::shared_ptr<ValueObserver<std::shared_ptr<Image::Image> > > frameStoreObserver;
+            std::shared_ptr<ValueObserver<Render2D::ImageOptions> > imageOptionsObserver;
             std::shared_ptr<ValueObserver<UI::ImageRotate> > imageRotateObserver;
             std::shared_ptr<ValueObserver<UI::ImageAspectRatio> > imageAspectRatioObserver;
         };
 
-        void MediaWidget::_init(const std::shared_ptr<Media>& media, const std::shared_ptr<Context>& context)
+        void MediaWidget::_init(const std::shared_ptr<Media>& media, const std::shared_ptr<System::Context>& context)
         {
             IWidget::_init(context);
 
@@ -191,7 +194,7 @@ namespace djv
             setClassName("djv::ViewApp::MediaWidget");
 
             p.media = media;
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
             p.hudOptions = ValueSubject<HUDOptions>::create(viewSettings->observeHUDOptions()->get());
             p.hover = ValueSubject<PointerData>::create();
@@ -221,7 +224,7 @@ namespace djv
             p.actions["OutPoint"]->setIcon("djvIconFrameEnd");
 
             p.titleLabel = UI::Label::create(context);
-            p.titleLabel->setText(media->getFileInfo().getFileName(Frame::invalid, false));
+            p.titleLabel->setText(media->getFileInfo().getFileName(Math::Frame::invalid, false));
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
             p.titleLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin, UI::MetricsRole::Margin, UI::MetricsRole::None, UI::MetricsRole::None));
             p.titleLabel->setTooltip(std::string(media->getFileInfo()));
@@ -250,7 +253,7 @@ namespace djv
             p.speedPopupButton = UI::PopupButton::create(UI::MenuButtonStyle::Tool, context);
             p.speedPopupButton->setPopupIcon("djvIconPopupMenu");
             p.realSpeedLabel = UI::Label::create(context);
-            p.realSpeedLabel->setFontFamily(AV::Font::familyMono);
+            p.realSpeedLabel->setFontFamily(Render2D::Font::familyMono);
             p.realSpeedLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
             p.realSpeedLabel->setMargin(UI::MetricsRole::MarginSmall);
             p.playbackModeButton = UI::MultiStateButton::create(context);
@@ -280,7 +283,7 @@ namespace djv
             p.outPointResetButton->setVAlign(UI::VAlign::Center);
 
             p.durationLabel = UI::Label::create(context);
-            p.durationLabel->setFontFamily(AV::Font::familyMono);
+            p.durationLabel->setFontFamily(Render2D::Font::familyMono);
             p.durationLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
             p.durationLabel->setMargin(UI::MetricsRole::MarginSmall);
 
@@ -381,7 +384,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        const BBox2f& g = widget->_p->viewWidget->getGeometry();
+                        const Math::BBox2f& g = widget->_p->viewWidget->getGeometry();
                         widget->_p->hover->setIfChanged(
                             PointerData(data.state, data.pos - g.min, data.buttons, data.key, data.keyModifiers));
                     }
@@ -392,7 +395,7 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->moveToFront();
-                        const BBox2f& g = widget->_p->viewWidget->getGeometry();
+                        const Math::BBox2f& g = widget->_p->viewWidget->getGeometry();
                         widget->_p->drag->setIfChanged(
                             PointerData(data.state, data.pos - g.min, data.buttons, data.key, data.keyModifiers));
                     }
@@ -407,8 +410,7 @@ namespace djv
                     }
                 });
 
-            auto contextWeak = std::weak_ptr<Context>(context);
-
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.speedPopupButton->setOpenCallback(
                 [weak, contextWeak]() -> std::shared_ptr<UI::Widget>
                 {
@@ -435,7 +437,7 @@ namespace djv
                             {
                                 media->setPlaybackMode(playbackMode);
                             }
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                             if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
                             {
                                 playbackSettings->setPlaybackMode(playbackMode);
@@ -446,7 +448,7 @@ namespace djv
                 });
 
             p.currentFrameWidget->setCallback(
-                [weak](Frame::Index value)
+                [weak](Math::Frame::Index value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -458,7 +460,7 @@ namespace djv
                 });
 
             p.inPointWidget->setCallback(
-                [weak](Frame::Index value)
+                [weak](Math::Frame::Index value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -468,7 +470,7 @@ namespace djv
                             const size_t sequenceFrameCount = widget->_p->sequence.getFrameCount();
                             media->setInOutPoints(AV::IO::InOutPoints(
                                 inOutPoints.isEnabled(),
-                                Math::clamp(value, static_cast<Frame::Index>(0), static_cast<Frame::Index>(sequenceFrameCount > 0 ? (sequenceFrameCount - 1) : 0)),
+                                Math::clamp(value, static_cast<Math::Frame::Index>(0), static_cast<Math::Frame::Index>(sequenceFrameCount > 0 ? (sequenceFrameCount - 1) : 0)),
                                 inOutPoints.getOut()));
                             widget->_widgetUpdate();
                         }
@@ -500,7 +502,7 @@ namespace djv
                 });
 
             p.outPointWidget->setCallback(
-                [weak](Frame::Index value)
+                [weak](Math::Frame::Index value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -511,7 +513,7 @@ namespace djv
                             media->setInOutPoints(AV::IO::InOutPoints(
                                 inOutPoints.isEnabled(),
                                 inOutPoints.getIn(),
-                                Math::clamp(value, static_cast<Frame::Index>(0), static_cast<Frame::Index>(sequenceFrameCount > 0 ? (sequenceFrameCount - 1) : 0))));
+                                Math::clamp(value, static_cast<Math::Frame::Index>(0), static_cast<Math::Frame::Index>(sequenceFrameCount > 0 ? (sequenceFrameCount - 1) : 0))));
                             widget->_widgetUpdate();
                         }
                     }
@@ -542,7 +544,7 @@ namespace djv
                 });
 
             p.timelineSlider->setCurrentFrameCallback(
-                [weak](Frame::Index value)
+                [weak](Math::Frame::Index value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -655,9 +657,9 @@ namespace djv
                 });
 
             auto avSystem = context->getSystemT<AV::AVSystem>();
-            p.timeUnitsObserver = ValueObserver<Time::Units>::create(
+            p.timeUnitsObserver = ValueObserver<AV::Time::Units>::create(
                 avSystem->observeTimeUnits(),
-                [weak](Time::Units value)
+                [weak](AV::Time::Units value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -679,9 +681,9 @@ namespace djv
                     }
                 });
 
-            p.layersObserver = ValueObserver<std::pair<std::vector<AV::Image::Info>, int> >::create(
+            p.layersObserver = ValueObserver<std::pair<std::vector<Image::Info>, int> >::create(
                 p.media->observeLayers(),
-                [weak](const std::pair<std::vector<AV::Image::Info>, int>& value)
+                [weak](const std::pair<std::vector<Image::Info>, int>& value)
             {
                 if (auto widget = weak.lock())
                 {
@@ -691,9 +693,9 @@ namespace djv
                 }
             });
 
-            p.imageObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
+            p.imageObserver = ValueObserver<std::shared_ptr<Image::Image> >::create(
                 p.media->observeCurrentImage(),
-                [weak](const std::shared_ptr<AV::Image::Image>& value)
+                [weak](const std::shared_ptr<Image::Image>& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -751,9 +753,9 @@ namespace djv
                     }
                 });
 
-            p.sequenceObserver = ValueObserver<Frame::Sequence>::create(
+            p.sequenceObserver = ValueObserver<Math::Frame::Sequence>::create(
                 p.media->observeSequence(),
-                [weak](const Frame::Sequence& value)
+                [weak](const Math::Frame::Sequence& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -762,9 +764,9 @@ namespace djv
                     }
                 });
 
-            p.currentFrameObserver = ValueObserver<Frame::Index>::create(
+            p.currentFrameObserver = ValueObserver<Math::Frame::Index>::create(
                 p.media->observeCurrentFrame(),
-                [weak](Frame::Index value)
+                [weak](Math::Frame::Index value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -848,9 +850,9 @@ namespace djv
                     });
             }
 
-            p.cacheSequenceObserver = ValueObserver<Frame::Sequence>::create(
+            p.cacheSequenceObserver = ValueObserver<Math::Frame::Sequence>::create(
                 p.media->observeCacheSequence(),
-                [weak](const Frame::Sequence& value)
+                [weak](const Math::Frame::Sequence& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -858,9 +860,9 @@ namespace djv
                     }
                 });
 
-            p.cachedFramesObserver = ValueObserver<Frame::Sequence>::create(
+            p.cachedFramesObserver = ValueObserver<Math::Frame::Sequence>::create(
                 p.media->observeCachedFrames(),
-                [weak](const Frame::Sequence& value)
+                [weak](const Math::Frame::Sequence& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -917,9 +919,9 @@ namespace djv
                             widget->_imageUpdate();
                         }
                     });
-                p.frameStoreObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
+                p.frameStoreObserver = ValueObserver<std::shared_ptr<Image::Image> >::create(
                     imageSystem->observeFrameStore(),
-                    [weak](const std::shared_ptr<AV::Image::Image>& value)
+                    [weak](const std::shared_ptr<Image::Image>& value)
                     {
                         if (auto widget = weak.lock())
                         {
@@ -929,9 +931,9 @@ namespace djv
                     });
             }
 
-            p.imageOptionsObserver = ValueObserver<AV::Render2D::ImageOptions>::create(
+            p.imageOptionsObserver = ValueObserver<Render2D::ImageOptions>::create(
                 p.viewWidget->observeImageOptions(),
-                [weak](const AV::Render2D::ImageOptions& value)
+                [weak](const Render2D::ImageOptions& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -967,7 +969,7 @@ namespace djv
         MediaWidget::~MediaWidget()
         {}
 
-        std::shared_ptr<MediaWidget> MediaWidget::create(const std::shared_ptr<Media>& media, const std::shared_ptr<Context>& context)
+        std::shared_ptr<MediaWidget> MediaWidget::create(const std::shared_ptr<Media>& media, const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<MediaWidget>(new MediaWidget);
             out->_init(media, context);
@@ -989,7 +991,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const float sh = style->getMetric(UI::MetricsRole::Shadow);
-            const BBox2f imageBBox = p.viewWidget->getImageBBox();
+            const Math::BBox2f imageBBox = p.viewWidget->getImageBBox();
             const float zoom = p.viewWidget->observeImageZoom()->get();
             const glm::vec2 imageSize = imageBBox.getSize() * zoom;
             glm::vec2 size(ceilf(imageSize.x), ceilf(imageSize.y));
@@ -1045,7 +1047,7 @@ namespace djv
         }
 
 
-        std::map<UI::MDI::Handle, std::vector<BBox2f> > MediaWidget::_getHandles() const
+        std::map<UI::MDI::Handle, std::vector<Math::BBox2f> > MediaWidget::_getHandles() const
         {
             auto out = IWidget::_getHandles();
             out[UI::MDI::Handle::Move] = { _p->titleBar->getGeometry() };
@@ -1071,7 +1073,7 @@ namespace djv
             _imageUpdate();
         }
 
-        void MediaWidget::_preLayoutEvent(Event::PreLayout&)
+        void MediaWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
@@ -1103,14 +1105,14 @@ namespace djv
             _setMinimumSize(size + sh * 2.F);
         }
 
-        void MediaWidget::_layoutEvent(Event::Layout&)
+        void MediaWidget::_layoutEvent(System::Event::Layout&)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const float sh = style->getMetric(UI::MetricsRole::Shadow);
-            const BBox2f g = getGeometry().margin(-sh);
+            const Math::BBox2f g = getGeometry().margin(-sh);
             p.layout->setGeometry(g);
-            const BBox2f frame = BBox2f(
+            const Math::BBox2f frame = Math::BBox2f(
                 glm::vec2(
                     g.min.x,
                     g.min.y + _getTitleBarHeight()),
@@ -1121,7 +1123,7 @@ namespace djv
             p.hud->setHUDFrame(frame);
         }
 
-        void MediaWidget::_initEvent(Event::Init& event)
+        void MediaWidget::_initEvent(System::Event::Init& event)
         {
             IWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
@@ -1203,7 +1205,7 @@ namespace djv
                     p.inOutPoints.isEnabled() &&
                     p.inOutPoints.getOut() != p.sequence.getLastIndex());
 
-                p.durationLabel->setText(Time::toString(p.sequence.getFrameCount(), p.defaultSpeed, p.timeUnits));
+                p.durationLabel->setText(AV::Time::toString(p.sequence.getFrameCount(), p.defaultSpeed, p.timeUnits));
 
                 p.timelineSlider->setInOutPointsEnabled(p.inOutPoints.isEnabled());
                 p.timelineSlider->setInPoint(p.inOutPoints.getIn());
@@ -1278,7 +1280,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             HUDData data;
-            data.fileName = p.media->getFileInfo().getFileName(Frame::invalid, false);
+            data.fileName = p.media->getFileInfo().getFileName(Math::Frame::invalid, false);
             if (p.currentLayer >= 0 && p.currentLayer < static_cast<int>(p.layers.size()))
             {
                 const auto& layer = p.layers[p.currentLayer];
@@ -1287,7 +1289,7 @@ namespace djv
                 data.type = layer.type;
             }
             data.isSequence = p.sequence.getFrameCount() > 1;
-            data.currentFrame = Time::toString(p.sequence.getFrame(p.currentFrame), p.speed, p.timeUnits);
+            data.currentFrame = AV::Time::toString(p.sequence.getFrame(p.currentFrame), p.speed, p.timeUnits);
             data.speed = p.speed;
             data.realSpeed = p.realSpeed;
             p.hud->setHUDData(data);

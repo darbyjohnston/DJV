@@ -18,13 +18,13 @@ namespace djv
             DJV_NON_COPYABLE(MenuBar);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             MenuBar();
 
         public:
             ~MenuBar() override;
 
-            static std::shared_ptr<MenuBar> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<MenuBar> create(const std::shared_ptr<System::Context>&);
 
             void setSide(const std::shared_ptr<Widget>&, Side);
 
@@ -40,10 +40,10 @@ namespace djv
             void removeChild(const std::shared_ptr<IObject>&) override;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void _preLayoutEvent(System::Event::PreLayout&) override;
+            void _layoutEvent(System::Event::Layout&) override;
 
-            bool _eventFilter(const std::shared_ptr<IObject>&, Core::Event::Event&) override;
+            bool _eventFilter(const std::shared_ptr<IObject>&, System::Event::Event&) override;
 
         private:
             void _openCallback(bool, const std::weak_ptr<Menu>&);

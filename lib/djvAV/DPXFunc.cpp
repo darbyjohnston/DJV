@@ -5,15 +5,16 @@
 #include <djvAV/DPXFunc.h>
 
 #include <djvAV/CineonFunc.h>
+#include <djvAV/SpeedFunc.h>
+#include <djvAV/TimeFunc.h>
 
-#include <djvCore/FileIO.h>
-#include <djvCore/FileSystem.h>
+#include <djvSystem/File.h>
+#include <djvSystem/FileIO.h>
+#include <djvSystem/TextSystem.h>
+
 #include <djvCore/Memory.h>
-#include <djvCore/SpeedFunc.h>
 #include <djvCore/StringFormat.h>
 #include <djvCore/StringFunc.h>
-#include <djvCore/TextSystem.h>
-#include <djvCore/TimeFunc.h>
 
 #include <array>
 
@@ -153,10 +154,10 @@ namespace djv
                 } // namespace
 
                 Header read(
-                    const std::shared_ptr<Core::FileSystem::FileIO>& io,
+                    const std::shared_ptr<System::File::IO>& io,
                     Info& info,
                     Transfer& transfer,
-                    const std::shared_ptr<Core::TextSystem>& textSystem)
+                    const std::shared_ptr<System::TextSystem>& textSystem)
                 {
                     Header out;
                     zero(out);
@@ -178,7 +179,7 @@ namespace djv
                     }
                     else
                     {
-                        throw FileSystem::Error(String::Format("{0}: {1}").
+                        throw System::File::Error(String::Format("{0}: {1}").
                             arg(io->getFileName()).
                             arg(textSystem->getText(DJV_TEXT("error_bad_magic_number"))));
                     }
@@ -200,7 +201,7 @@ namespace djv
                     // Collect information.
                     if (out.image.elemSize != 1)
                     {
-                        throw FileSystem::Error(String::Format("{0}: {1}").
+                        throw System::File::Error(String::Format("{0}: {1}").
                             arg(io->getFileName()).
                             arg(textSystem->getText(DJV_TEXT("error_unsupported_file"))));
                     }
@@ -268,7 +269,7 @@ namespace djv
                     }
                     if (Image::Type::None == info.video[0].type)
                     {
-                        throw FileSystem::Error(String::Format("{0}: {1}").
+                        throw System::File::Error(String::Format("{0}: {1}").
                             arg(io->getFileName()).
                             arg(textSystem->getText(DJV_TEXT("error_unsupported_file"))));
                     }
@@ -276,21 +277,21 @@ namespace djv
                     const size_t ioSize = io->getSize();
                     if (dataByteCount > ioSize - out.file.imageOffset)
                     {
-                        throw FileSystem::Error(String::Format("{0}: {1}").
+                        throw System::File::Error(String::Format("{0}: {1}").
                             arg(io->getFileName()).
                             arg(textSystem->getText(DJV_TEXT("error_incomplete_file"))));
                     }
 
                     if (out.image.elem[0].encoding)
                     {
-                        throw FileSystem::Error(String::Format("{0}: {1}").
+                        throw System::File::Error(String::Format("{0}: {1}").
                             arg(io->getFileName()).
                             arg(textSystem->getText(DJV_TEXT("error_unsupported_file"))));
                     }
 
                     if (isValid(&out.image.elem[0].linePadding) && out.image.elem[0].linePadding)
                     {
-                        throw FileSystem::Error(String::Format("{0}: {1}").
+                        throw System::File::Error(String::Format("{0}: {1}").
                             arg(io->getFileName()).
                             arg(textSystem->getText(DJV_TEXT("error_unsupported_file"))));
                     }
@@ -409,7 +410,7 @@ namespace djv
                     }
                     if (isValid(&out.film.frameRate) && out.film.frameRate > _minSpeed)
                     {
-                        info.videoSpeed = Time::fromSpeed(out.film.frameRate);
+                        info.videoSpeed = fromSpeed(out.film.frameRate);
                         std::stringstream ss;
                         ss << out.film.frameRate;
                         info.tags.set("Film Frame Rate", ss.str());
@@ -461,7 +462,7 @@ namespace djv
                     }
                     if (isValid(&out.tv.frameRate) && out.tv.frameRate > _minSpeed)
                     {
-                        info.videoSpeed = Time::fromSpeed(out.tv.frameRate);
+                        info.videoSpeed = fromSpeed(out.tv.frameRate);
                         std::stringstream ss;
                         ss << out.tv.frameRate;
                         info.tags.set("TV Frame Rate", ss.str());
@@ -518,7 +519,7 @@ namespace djv
                     const size_t fileDataByteCount = ioSize > 0 ? (ioSize - ioPos) : 0;
                     if (dataByteCount > fileDataByteCount)
                     {
-                        throw FileSystem::Error(String::Format("{0}: {1}").
+                        throw System::File::Error(String::Format("{0}: {1}").
                             arg(io->getFileName()).
                             arg(textSystem->getText(DJV_TEXT("error_incomplete_file"))));
                     }
@@ -527,7 +528,7 @@ namespace djv
                 }
 
                 void write(
-                    const std::shared_ptr<Core::FileSystem::FileIO>& io,
+                    const std::shared_ptr<System::File::IO>& io,
                     const Info& info,
                     Version version,
                     Endian endian,
@@ -832,7 +833,7 @@ namespace djv
                     io->write(&header.tv, sizeof(Header::TV));
                 }
 
-                void writeFinish(const std::shared_ptr<Core::FileSystem::FileIO>& io)
+                void writeFinish(const std::shared_ptr<System::File::IO>& io)
                 {
                     const uint32_t size = static_cast<uint32_t>(io->getPos());
                     io->setPos(12);

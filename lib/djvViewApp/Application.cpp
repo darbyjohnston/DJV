@@ -31,17 +31,21 @@
 #include <djvUI/SettingsSystem.h>
 
 #include <djvAV/AVSystem.h>
-#include <djvAV/GLFWSystem.h>
 #include <djvAV/IOSystem.h>
-#include <djvAV/OCIOSystem.h>
-#include <djvAV/Render2D.h>
+#include <djvAV/SpeedFunc.h>
+#include <djvSystem/TextSystem.h>
+#include <djvSystem/TimerFunc.h>
 
-#include <djvCore/LogSystem.h>
-#include <djvCore/ResourceSystem.h>
-#include <djvCore/SpeedFunc.h>
+#include <djvOCIO/OCIOSystem.h>
+
+#include <djvGL/GLFWSystem.h>
+
+#include <djvRender2D/Render.h>
+
+#include <djvSystem/LogSystem.h>
+#include <djvSystem/ResourceSystem.h>
+
 #include <djvCore/StringFormat.h>
-#include <djvCore/TextSystem.h>
-#include <djvCore/Timer.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -54,7 +58,7 @@ namespace djv
     {
         struct Application::Private
         {
-            std::vector<std::shared_ptr<ISystem> > systems;
+            std::vector<std::shared_ptr<System::ISystem> > systems;
 
             CmdLineMode cmdLineMode = CmdLineMode::DJV;
             std::shared_ptr<bool> fullScreenCmdLine;
@@ -64,7 +68,7 @@ namespace djv
             std::shared_ptr<std::string> ocioViewCmdLine;
             std::shared_ptr<std::string> ocioImageCmdLine;
             std::shared_ptr<Math::Rational> speedCmdLine;
-            std::shared_ptr<Core::Frame::Range> startEndMayaCmdLine;
+            std::shared_ptr<Math::Frame::Range> startEndMayaCmdLine;
             std::shared_ptr<std::string> inPointCmdLine;
             std::shared_ptr<std::string> outPointCmdLine;
             std::shared_ptr<std::string> frameCmdLine;
@@ -74,8 +78,8 @@ namespace djv
             std::vector<std::string> cmdlinePaths;
 
             std::vector<std::shared_ptr<AV::IO::IRead> > read;
-            std::vector<std::shared_ptr<AV::Image::Image> > icons;
-            std::shared_ptr<Time::Timer> timer;
+            std::vector<std::shared_ptr<Image::Image> > icons;
+            std::shared_ptr<System::Timer> timer;
 
             std::shared_ptr<MainWindow> mainWindow;
             std::shared_ptr<NUXWidget> nuxWidget;
@@ -86,7 +90,7 @@ namespace djv
             class CmdLineLocale
             {
             public:
-                CmdLineLocale(const std::shared_ptr<TextSystem>& textSystem) :
+                CmdLineLocale(const std::shared_ptr<System::TextSystem>& textSystem) :
                     _textSystem(textSystem)
                 {
                     _currentLocale = _textSystem->observeCurrentLocale()->get();
@@ -99,7 +103,7 @@ namespace djv
                 }
 
             private:
-                std::shared_ptr<TextSystem> _textSystem;
+                std::shared_ptr<System::TextSystem> _textSystem;
                 std::string _currentLocale;
             };
 
@@ -144,7 +148,7 @@ namespace djv
                 }
                 ++arg;
             }
-            auto textSystem = getSystemT<Core::TextSystem>();
+            auto textSystem = getSystemT<System::TextSystem>();
             CmdLineLocale cmdLineLocale(textSystem);
             _parseCmdLine(args);
         }
@@ -197,10 +201,10 @@ namespace djv
             _readIcon("djv-reel-128.png");
             _readIcon("djv-reel-512.png");
             _readIcon("djv-reel-1024.png");
-            p.timer = Time::Timer::create(shared_from_this());
+            p.timer = System::Timer::create(shared_from_this());
             p.timer->setRepeating(true);
             p.timer->start(
-                Time::getTime(Time::TimerValue::Fast),
+                System::getTimerDuration(System::TimerValue::Fast),
                 [this](const std::chrono::steady_clock::time_point&, const Time::Duration&)
                 {
                     DJV_PRIVATE_PTR();
@@ -233,7 +237,7 @@ namespace djv
                     if (!p.read.size())
                     {
                         p.timer->stop();
-                        auto glfwSystem = getSystemT<AV::GLFW::System>();
+                        auto glfwSystem = getSystemT<GL::GLFW::GLFWSystem>();
                         auto glfwWindow = glfwSystem->getGLFWWindow();
                         std::vector<GLFWimage> glfwImages;
                         for (const auto& i : p.icons)
@@ -256,7 +260,7 @@ namespace djv
             // Apply command-line arguments.
             if (p.fullScreenMonitorCmdLine && windowSystem)
             {
-                auto settingsSystem = getSystemT<UI::Settings::System>();
+                auto settingsSystem = getSystemT<UI::Settings::SettingsSystem>();
                 auto windowSettings = settingsSystem->getSettingsT<WindowSettings>();
                 windowSettings->setFullScreenMonitor(*(p.fullScreenMonitorCmdLine));
             }
@@ -266,11 +270,11 @@ namespace djv
             }
             if (p.ocioConfigCmdLine || p.ocioDisplayCmdLine || p.ocioViewCmdLine || p.ocioImageCmdLine)
             {
-                AV::OCIO::Config config;
+                OCIO::Config config;
                 if (p.ocioConfigCmdLine)
                 {
                     config.fileName = *p.ocioConfigCmdLine;
-                    config.name = AV::OCIO::Config::getNameFromFileName(config.fileName);
+                    config.name = OCIO::Config::getNameFromFileName(config.fileName);
                 }
                 if (p.ocioDisplayCmdLine)
                 {
@@ -288,9 +292,9 @@ namespace djv
                 {
                     config.imageColorSpaces[std::string()] = *p.ocioImageCmdLine;
                 }
-                auto ocioSystem = getSystemT<AV::OCIO::System>();
+                auto ocioSystem = getSystemT<OCIO::OCIOSystem>();
                 ocioSystem->setCmdLineConfig(config);
-                ocioSystem->setConfigMode(AV::OCIO::ConfigMode::CmdLine);
+                ocioSystem->setConfigMode(OCIO::ConfigMode::CmdLine);
             }
 
             // Show the main window.
@@ -317,7 +321,7 @@ namespace djv
         void Application::_parseCmdLineDJV(std::list<std::string>& args)
         {
             DJV_PRIVATE_PTR();
-            auto textSystem = getSystemT<Core::TextSystem>();
+            auto textSystem = getSystemT<System::TextSystem>();
             auto arg = args.begin();
             while (arg != args.end())
             {
@@ -426,7 +430,7 @@ namespace djv
                     Math::Rational speed;
                     if (value >= 1.F)
                     {
-                        speed = Time::fromSpeed(value);
+                        speed = AV::fromSpeed(value);
                     }
                     else if (value > 0.F && value < 1.F)
                     {
@@ -477,7 +481,7 @@ namespace djv
         void Application::_parseCmdLineMaya(std::list<std::string>& args)
         {
             DJV_PRIVATE_PTR();
-            auto textSystem = getSystemT<Core::TextSystem>();
+            auto textSystem = getSystemT<System::TextSystem>();
             auto arg = args.begin();
             while (arg != args.end())
             {
@@ -517,7 +521,7 @@ namespace djv
                     Math::Rational speed;
                     if (value >= 1.F)
                     {
-                        speed = Time::fromSpeed(value);
+                        speed = AV::fromSpeed(value);
                     }
                     else if (value > 0.F && value < 1.F)
                     {
@@ -534,8 +538,8 @@ namespace djv
                             arg("-start_end").
                             arg(textSystem->getText(DJV_TEXT("error_cannot_parse_argument"))));
                     }
-                    Frame::Number min = 0;
-                    Frame::Number max = 0;
+                    Math::Frame::Number min = 0;
+                    Math::Frame::Number max = 0;
                     {
                         std::stringstream ss(*arg);
                         ss >> min;
@@ -551,7 +555,7 @@ namespace djv
                         std::stringstream ss(*arg);
                         ss >> max;
                     }
-                    p.startEndMayaCmdLine.reset(new Core::Frame::Range(min, max));
+                    p.startEndMayaCmdLine.reset(new Math::Frame::Range(min, max));
                     arg = args.erase(arg);
                 }
                 else
@@ -577,7 +581,7 @@ namespace djv
         void Application::_printUsageDJV()
         {
             DJV_PRIVATE_PTR();
-            auto textSystem = getSystemT<Core::TextSystem>();
+            auto textSystem = getSystemT<System::TextSystem>();
             std::cout << std::endl;
             std::cout << " " << textSystem->getText(DJV_TEXT("djv_cli_description")) << std::endl;
             std::cout << std::endl;
@@ -630,7 +634,7 @@ namespace djv
         void Application::_printUsageMaya()
         {
             DJV_PRIVATE_PTR();
-            auto textSystem = getSystemT<Core::TextSystem>();
+            auto textSystem = getSystemT<System::TextSystem>();
             std::cout << std::endl;
             std::cout << " " << textSystem->getText(DJV_TEXT("djv_cli_description")) << std::endl;
             std::cout << std::endl;
@@ -660,18 +664,18 @@ namespace djv
             DJV_PRIVATE_PTR();
             try
             {
-                auto resourceSystem = getSystemT<Core::ResourceSystem>();
-                const auto& iconsPath = resourceSystem->getPath(Core::FileSystem::ResourcePath::Icons);
-                auto io = getSystemT<AV::IO::System>();
-                p.read.push_back(io->read(Core::FileSystem::Path(iconsPath, fileName)));
+                auto resourceSystem = getSystemT<System::ResourceSystem>();
+                const auto& iconsPath = resourceSystem->getPath(System::File::ResourcePath::Icons);
+                auto io = getSystemT<AV::IO::IOSystem>();
+                p.read.push_back(io->read(System::File::Path(iconsPath, fileName)));
             }
             catch (const std::exception& e)
             {
-                auto logSystem = getSystemT<LogSystem>();
+                auto logSystem = getSystemT<System::LogSystem>();
                 logSystem->log(
                     "djv::ViewApp::Application",
                     String::Format("{0}: {1}").arg(fileName).arg(e.what()),
-                    LogLevel::Error);
+                    System::LogLevel::Error);
             }
         }
 

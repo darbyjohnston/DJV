@@ -21,19 +21,6 @@ namespace djv
             //! This typedef provides the default time point.
             typedef std::chrono::steady_clock::time_point TimePoint;
 
-            // This is the same timebase as FFmpeg (libavutil.h/avutil.h).
-            const int64_t timebase = 1000000;
-
-            //! This enumeration provides time units.
-            enum class Units
-            {
-                Timecode,
-                Frames,
-
-                Count,
-                First = Timecode
-            };
-
         } // namespace Time
     } // namespace Core
 } // namespace djv

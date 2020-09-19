@@ -18,11 +18,12 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ShortcutData.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/IEventSystem.h>
-#include <djvCore/LogSystem.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/IEventSystem.h>
+#include <djvSystem/LogSystem.h>
+#include <djvSystem/TextSystem.h>
+
 #include <djvCore/StringFunc.h>
-#include <djvCore/TextSystem.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -60,7 +61,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > messagesPopupObserver;
         };
 
-        void ToolSystem::_init(const std::shared_ptr<Core::Context>& context)
+        void ToolSystem::_init(const std::shared_ptr<System::Context>& context)
         {
             IViewSystem::_init("djv::ViewApp::ToolSystem", context);
             DJV_PRIVATE_PTR();
@@ -147,7 +148,7 @@ namespace djv
                     }
                 });
 
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.actionObservers["Info"] = ValueObserver<bool>::create(
                 p.actions["Info"]->observeChecked(),
                 [weak, contextWeak](bool value)
@@ -235,7 +236,7 @@ namespace djv
                     }
                 });
 
-            auto logSystem = context->getSystemT<LogSystem>();
+            auto logSystem = context->getSystemT<System::LogSystem>();
             p.warningsObserver = ListObserver<std::string>::create(
                 logSystem->observeWarnings(),
                 [weak](const std::vector<std::string>& value)
@@ -322,7 +323,7 @@ namespace djv
             p.settings->setWidgetGeom(_getWidgetGeom());
         }
 
-        std::shared_ptr<ToolSystem> ToolSystem::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<ToolSystem> ToolSystem::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ToolSystem>(new ToolSystem);
             out->_init(context);
@@ -433,7 +434,7 @@ namespace djv
                             {
                                 if (auto system = weak.lock())
                                 {
-                                    auto eventSystem = context->getSystemT<Event::IEventSystem>();
+                                    auto eventSystem = context->getSystemT<System::Event::IEventSystem>();
                                     eventSystem->setClipboard(system->_getMessagesString().c_str());
                                 }
                             }

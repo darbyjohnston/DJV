@@ -26,7 +26,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > closeObserver;
         };
 
-        void PopupMenu::_init(const std::shared_ptr<Context>& context)
+        void PopupMenu::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -64,7 +64,7 @@ namespace djv
         PopupMenu::~PopupMenu()
         {}
 
-        std::shared_ptr<PopupMenu> PopupMenu::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<PopupMenu> PopupMenu::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<PopupMenu>(new PopupMenu);
             out->_init(context);
@@ -133,12 +133,12 @@ namespace djv
             _p->button->setInsideMargin(value);
         }
 
-        void PopupMenu::_preLayoutEvent(Event::PreLayout& event)
+        void PopupMenu::_preLayoutEvent(System::Event::PreLayout& event)
         {
             _setMinimumSize(_p->button->getMinimumSize());
         }
 
-        void PopupMenu::_layoutEvent(Event::Layout& event)
+        void PopupMenu::_layoutEvent(System::Event::Layout& event)
         {
             _p->button->setGeometry(getGeometry());
         }

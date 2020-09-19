@@ -16,13 +16,13 @@ namespace djv
             DJV_NON_COPYABLE(ColorPickerSystem);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             ColorPickerSystem();
 
         public:
             ~ColorPickerSystem() override;
 
-            static std::shared_ptr<ColorPickerSystem> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ColorPickerSystem> create(const std::shared_ptr<System::Context>&);
 
             ToolActionData getToolAction() const override;
             void setCurrentTool(bool, int) override;

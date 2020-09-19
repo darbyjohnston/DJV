@@ -4,7 +4,7 @@
 
 #include <djvViewApp/View.h>
 
-#include <djvAV/ColorFunc.h>
+#include <djvImage/ColorFunc.h>
 
 #if defined(GetObject)
 #undef GetObject

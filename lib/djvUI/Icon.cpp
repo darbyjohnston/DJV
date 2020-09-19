@@ -6,11 +6,13 @@
 
 #include <djvUI/IconSystem.h>
 
-#include <djvAV/IO.h>
-#include <djvAV/Image.h>
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
-#include <djvCore/Context.h>
+#include <djvAV/IO.h>
+
+#include <djvImage/Image.h>
+
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -26,14 +28,14 @@ namespace djv
             ColorRole iconColorRole = ColorRole::Foreground;
             MetricsRole iconSizeRole = MetricsRole::Icon;
 
-            std::future<std::shared_ptr<AV::Image::Image> > imageFuture;
-            std::shared_ptr<AV::Image::Image> image;
+            std::future<std::shared_ptr<Image::Image> > imageFuture;
+            std::shared_ptr<Image::Image> image;
 
-            BBox2f paintGeometry = BBox2f(0.F, 0.F, 0.F, 0.F);
+            Math::BBox2f paintGeometry = Math::BBox2f(0.F, 0.F, 0.F, 0.F);
             glm::vec2 paintCenter = glm::vec2(0.F, 0.F);
         };
 
-        void Icon::_init(const std::shared_ptr<Context>& context)
+        void Icon::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             setClassName("djv::UI::Icon");
@@ -47,7 +49,7 @@ namespace djv
         Icon::~Icon()
         {}
 
-        std::shared_ptr<Icon> Icon::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<Icon> Icon::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<Icon>(new Icon);
             out->_init(context);
@@ -66,7 +68,7 @@ namespace djv
             {
                 if (value == p.name)
                     return;
-                p.imageFuture = std::future<std::shared_ptr<AV::Image::Image> >();
+                p.imageFuture = std::future<std::shared_ptr<Image::Image> >();
                 p.name = value;
                 if (!p.name.empty())
                 {
@@ -110,7 +112,7 @@ namespace djv
             _resize();
         }
 
-        void Icon::_preLayoutEvent(Event::PreLayout& event)
+        void Icon::_preLayoutEvent(System::Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
@@ -126,7 +128,7 @@ namespace djv
             _setMinimumSize(size + getMargin().getSize(style));
         }
 
-        void Icon::_layoutEvent(Event::Layout& event)
+        void Icon::_layoutEvent(System::Event::Layout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
@@ -150,14 +152,14 @@ namespace djv
             }
         }
 
-        void Icon::_paintEvent(Event::Paint& event)
+        void Icon::_paintEvent(System::Event::Paint& event)
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
 
             const auto& render = _getRender();
-            //render->setFillColor(AV::Image::Color(1.F, 0.F, 0.f));
+            //render->setFillColor(Image::Color(1.F, 0.F, 0.f));
             //render->drawRect(p.paintGeometry);
 
             if (p.image && p.image->isValid())
@@ -188,13 +190,13 @@ namespace djv
                 }
                 else
                 {
-                    render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F));
+                    render->setFillColor(Image::Color(1.F, 1.F, 1.F));
                     render->drawImage(p.image, pos);
                 }
             }
         }
 
-        void Icon::_initEvent(Event::Init& event)
+        void Icon::_initEvent(System::Event::Init& event)
         {
             DJV_PRIVATE_PTR();
             if (event.getData().resize)
@@ -211,7 +213,7 @@ namespace djv
             }
         }
 
-        void Icon::_updateEvent(Core::Event::Update&)
+        void Icon::_updateEvent(System::Event::Update&)
         {
             DJV_PRIVATE_PTR();
             if (p.imageFuture.valid() &&
@@ -224,7 +226,7 @@ namespace djv
                 catch (const std::exception& e)
                 {
                     p.image.reset();
-                    _log(e.what(), LogLevel::Error);
+                    _log(e.what(), System::LogLevel::Error);
                 }
                 _resize();
             }

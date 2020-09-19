@@ -4,10 +4,10 @@
 
 #include <djvTestLib/Test.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/FileInfo.h>
-#include <djvCore/PathFunc.h>
-#include <djvCore/TextSystem.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/FileInfo.h>
+#include <djvSystem/PathFunc.h>
+#include <djvSystem/TextSystem.h>
 
 #include <iostream>
 
@@ -19,33 +19,33 @@ namespace djv
     {
         struct ITest::Private
         {
-            std::weak_ptr<Context> context;
-            std::shared_ptr<TextSystem> textSystem;
+            std::weak_ptr<System::Context> context;
+            std::shared_ptr<System::TextSystem> textSystem;
             std::string name;
-            FileSystem::Path tempPath;
+            System::File::Path tempPath;
         };
         
         ITest::ITest(
             const std::string& name,
-            const FileSystem::Path& tempPath,
-            const std::shared_ptr<Context>& context) :
+            const System::File::Path& tempPath,
+            const std::shared_ptr<System::Context>& context) :
             _p(new Private)
         {
             _p->context = context;
-            _p->textSystem = context->getSystemT<TextSystem>();
+            _p->textSystem = context->getSystemT<System::TextSystem>();
             _p->name = name;
             _p->tempPath = tempPath;
             
-            if (!FileSystem::FileInfo(tempPath).doesExist())
+            if (!System::File::Info(tempPath).doesExist())
             {
-                FileSystem::mkdir(tempPath);
+                System::File::mkdir(tempPath);
             }
         }
         
         ITest::~ITest()
         {}
         
-        const std::weak_ptr<Context>& ITest::getContext() const
+        const std::weak_ptr<System::Context>& ITest::getContext() const
         {
             return _p->context;
         }
@@ -55,7 +55,7 @@ namespace djv
             return _p->name;
         }
 
-        const FileSystem::Path& ITest::getTempPath() const
+        const System::File::Path& ITest::getTempPath() const
         {
             return _p->tempPath;
         }

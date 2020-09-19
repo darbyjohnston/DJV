@@ -18,8 +18,8 @@ namespace djv
         public:
             ITickTest(
                 const std::string& name,
-                const Core::FileSystem::Path& tempPath,
-                const std::shared_ptr<Core::Context>&);
+                const System::File::Path& tempPath,
+                const std::shared_ptr<System::Context>&);
             virtual ~ITickTest() = 0;
 
         protected:

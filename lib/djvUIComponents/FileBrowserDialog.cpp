@@ -6,8 +6,8 @@
 
 #include <djvUIComponents/FileBrowser.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/Path.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/Path.h>
 
 using namespace djv::Core;
 
@@ -20,10 +20,10 @@ namespace djv
             struct Dialog::Private
             {
                 std::shared_ptr<FileBrowser> fileBrowser;
-                std::function<void(const FileSystem::FileInfo&)> callback;
+                std::function<void(const System::File::Info&)> callback;
             };
 
-            void Dialog::_init(const std::shared_ptr<Context>& context)
+            void Dialog::_init(const std::shared_ptr<System::Context>& context)
             {
                 IDialog::_init(context);
 
@@ -31,13 +31,13 @@ namespace djv
                 setClassName("djv::UIComponents::FileBrowser::Dialog");
 
                 p.fileBrowser = FileBrowser::create(context);
-                p.fileBrowser->setPath(FileSystem::Path("."));
+                p.fileBrowser->setPath(System::File::Path("."));
                 addChild(p.fileBrowser);
                 setStretch(p.fileBrowser, UI::RowStretch::Expand);
 
                 auto weak = std::weak_ptr<Dialog>(std::dynamic_pointer_cast<Dialog>(shared_from_this()));
                 p.fileBrowser->setCallback(
-                    [weak](const FileSystem::FileInfo & value)
+                    [weak](const System::File::Info & value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -56,7 +56,7 @@ namespace djv
             Dialog::~Dialog()
             {}
 
-            std::shared_ptr<Dialog> Dialog::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<Dialog> Dialog::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<Dialog>(new Dialog);
                 out->_init(context);
@@ -68,22 +68,22 @@ namespace djv
                 _p->fileBrowser->setFileExtensions(value);
             }
 
-            const FileSystem::Path& Dialog::getPath() const
+            const System::File::Path& Dialog::getPath() const
             {
                 return _p->fileBrowser->getPath();
             }
 
-            void Dialog::setPath(const FileSystem::Path& value)
+            void Dialog::setPath(const System::File::Path& value)
             {
                 _p->fileBrowser->setPath(value);
             }
 
-            void Dialog::setCallback(const std::function<void(const FileSystem::FileInfo&)>& value)
+            void Dialog::setCallback(const std::function<void(const System::File::Info&)>& value)
             {
                 _p->callback = value;
             }
 
-            void Dialog::_initEvent(Event::Init& event)
+            void Dialog::_initEvent(System::Event::Init& event)
             {
                 IDialog::_initEvent(event);
                 if (event.getData().text)

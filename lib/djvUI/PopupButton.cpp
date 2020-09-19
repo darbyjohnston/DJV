@@ -15,9 +15,9 @@
 #include <djvUI/Style.h>
 #include <djvUI/Window.h>
 
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -43,7 +43,7 @@ namespace djv
                 std::function<void(const std::shared_ptr<Widget>&)> closeCallback;
             };
 
-            void Popup::_init(MenuButtonStyle buttonStyle, const std::shared_ptr<Context>& context)
+            void Popup::_init(MenuButtonStyle buttonStyle, const std::shared_ptr<System::Context>& context)
             {
                 Widget::_init(context);
                 DJV_PRIVATE_PTR();
@@ -109,7 +109,7 @@ namespace djv
                 }
             }
 
-            std::shared_ptr<Popup> Popup::create(MenuButtonStyle buttonStyle, const std::shared_ptr<Context>& context)
+            std::shared_ptr<Popup> Popup::create(MenuButtonStyle buttonStyle, const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<Popup>(new Popup);
                 out->_init(buttonStyle, context);
@@ -263,12 +263,12 @@ namespace djv
                 _p->closeCallback = value;
             }
 
-            void Popup::_preLayoutEvent(Event::PreLayout& event)
+            void Popup::_preLayoutEvent(System::Event::PreLayout& event)
             {
                 _setMinimumSize(_p->button->getMinimumSize());
             }
 
-            void Popup::_layoutEvent(Event::Layout& event)
+            void Popup::_layoutEvent(System::Event::Layout& event)
             {
                 _p->button->setGeometry(getGeometry());
             }

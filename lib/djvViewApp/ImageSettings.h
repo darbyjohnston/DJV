@@ -9,7 +9,7 @@
 #include <djvUI/Enum.h>
 #include <djvUI/ISettings.h>
 
-#include <djvCore/BBox.h>
+#include <djvMath/BBox.h>
 #include <djvCore/MapObserver.h>
 #include <djvCore/ValueObserver.h>
 
@@ -23,12 +23,12 @@ namespace djv
             DJV_NON_COPYABLE(ImageSettings);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
 
             ImageSettings();
 
         public:
-            static std::shared_ptr<ImageSettings> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ImageSettings> create(const std::shared_ptr<System::Context>&);
 
             std::map<std::string, bool> getControlsBellowsState() const;
             std::map<std::string, bool> getColorSpaceBellowsState() const;
@@ -40,8 +40,8 @@ namespace djv
             void setRotate(UI::ImageRotate);
             void setAspectRatio(UI::ImageAspectRatio);
 
-            const std::map<std::string, Core::BBox2f>& getWidgetGeom() const;
-            void setWidgetGeom(const std::map<std::string, Core::BBox2f>&);
+            const std::map<std::string, Math::BBox2f>& getWidgetGeom() const;
+            void setWidgetGeom(const std::map<std::string, Math::BBox2f>&);
 
             void load(const rapidjson::Value &) override;
             rapidjson::Value save(rapidjson::Document::AllocatorType&) override;

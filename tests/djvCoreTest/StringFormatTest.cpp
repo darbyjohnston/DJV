@@ -16,8 +16,8 @@ namespace djv
     namespace CoreTest
     {
         StringFormatTest::StringFormatTest(
-            const FileSystem::Path& tempPath,
-            const std::shared_ptr<Core::Context>& context) :
+            const System::File::Path& tempPath,
+            const std::shared_ptr<System::Context>& context) :
             ITest("djv::CoreTest::StringFormatTest", tempPath, context)
         {}
         

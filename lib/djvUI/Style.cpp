@@ -8,10 +8,10 @@
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/StyleSettings.h>
 
-#include <djvAV/ColorFunc.h>
+#include <djvImage/ColorFunc.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/LogSystem.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/LogSystem.h>
 
 #if defined(GetObject)
 #undef GetObject
@@ -32,38 +32,38 @@ namespace djv
                 _colors =
                 {
                     // These colors should be specified as RGBA F32.
-                    { ColorRole::None, AV::Image::Color(0.F, 0.F, 0.F, 0.F) },
-                    { ColorRole::Background, AV::Image::Color(.18F, .18F, .18F, 1.F) },
-                    { ColorRole::BackgroundHeader, AV::Image::Color(.4F, .4F, .4F, 1.F) },
-                    { ColorRole::BackgroundBellows, AV::Image::Color(.3F, .3F, .3F, 1.F) },
-                    { ColorRole::BackgroundToolBar, AV::Image::Color(.35F, .35F, .35F, 1.F) },
-                    { ColorRole::Foreground, AV::Image::Color(1.F, 1.F, 1.F, 1.F) },
-                    { ColorRole::ForegroundDim, AV::Image::Color(.67F, .67F, .67F, 1.F) },
-                    { ColorRole::Border, AV::Image::Color(.25F, .25F, .25F, 1.F) },
-                    { ColorRole::BorderButton, AV::Image::Color(.49F, .49F, .49F, 1.F) },
-                    { ColorRole::Trough, AV::Image::Color(.15F, .15F, .15F, 1.F) },
-                    { ColorRole::Button, AV::Image::Color(.4F, .4F, .4F, 1.F) },
-                    { ColorRole::Hovered, AV::Image::Color(1.F, 1.F, 1.F, .06F) },
-                    { ColorRole::Pressed, AV::Image::Color(1.F, 1.F, 1.F, .18F) },
-                    { ColorRole::Checked, AV::Image::Color(.58F, .32F, .18F, 1.F) },
-                    { ColorRole::TextFocus, AV::Image::Color(.7F, .5F, .2F, 1.F) },
-                    { ColorRole::TooltipBackground, AV::Image::Color(1.F, 1.F, .75F, 1.F) },
-                    { ColorRole::TooltipForeground, AV::Image::Color(0.F, 0.F, 0.F, 1.F) },
-                    { ColorRole::Overlay, AV::Image::Color(0.F, 0.F, 0.F, .7F) },
-                    { ColorRole::OverlayLight, AV::Image::Color(0.F, 0.F, 0.F, .7F) },
-                    { ColorRole::Shadow, AV::Image::Color(0.F, 0.F, 0.F, .16F) },
-                    { ColorRole::Handle, AV::Image::Color(.58F, .32F, .18F, 1.F) },
-                    { ColorRole::Cached, AV::Image::Color(.32F, .58F, .18F, 1.F) },
-                    { ColorRole::Warning, AV::Image::Color(.5F, .5F, .2F, 1.F) },
-                    { ColorRole::Error, AV::Image::Color(.5F, .2F, .2F, 1.F) }
+                    { ColorRole::None, Image::Color(0.F, 0.F, 0.F, 0.F) },
+                    { ColorRole::Background, Image::Color(.18F, .18F, .18F, 1.F) },
+                    { ColorRole::BackgroundHeader, Image::Color(.4F, .4F, .4F, 1.F) },
+                    { ColorRole::BackgroundBellows, Image::Color(.3F, .3F, .3F, 1.F) },
+                    { ColorRole::BackgroundToolBar, Image::Color(.35F, .35F, .35F, 1.F) },
+                    { ColorRole::Foreground, Image::Color(1.F, 1.F, 1.F, 1.F) },
+                    { ColorRole::ForegroundDim, Image::Color(.67F, .67F, .67F, 1.F) },
+                    { ColorRole::Border, Image::Color(.25F, .25F, .25F, 1.F) },
+                    { ColorRole::BorderButton, Image::Color(.49F, .49F, .49F, 1.F) },
+                    { ColorRole::Trough, Image::Color(.15F, .15F, .15F, 1.F) },
+                    { ColorRole::Button, Image::Color(.4F, .4F, .4F, 1.F) },
+                    { ColorRole::Hovered, Image::Color(1.F, 1.F, 1.F, .06F) },
+                    { ColorRole::Pressed, Image::Color(1.F, 1.F, 1.F, .18F) },
+                    { ColorRole::Checked, Image::Color(.58F, .32F, .18F, 1.F) },
+                    { ColorRole::TextFocus, Image::Color(.7F, .5F, .2F, 1.F) },
+                    { ColorRole::TooltipBackground, Image::Color(1.F, 1.F, .75F, 1.F) },
+                    { ColorRole::TooltipForeground, Image::Color(0.F, 0.F, 0.F, 1.F) },
+                    { ColorRole::Overlay, Image::Color(0.F, 0.F, 0.F, .7F) },
+                    { ColorRole::OverlayLight, Image::Color(0.F, 0.F, 0.F, .7F) },
+                    { ColorRole::Shadow, Image::Color(0.F, 0.F, 0.F, .16F) },
+                    { ColorRole::Handle, Image::Color(.58F, .32F, .18F, 1.F) },
+                    { ColorRole::Cached, Image::Color(.32F, .58F, .18F, 1.F) },
+                    { ColorRole::Warning, Image::Color(.5F, .5F, .2F, 1.F) },
+                    { ColorRole::Error, Image::Color(.5F, .2F, .2F, 1.F) }
                 };
             }
 
-            void Palette::setColor(ColorRole role, const AV::Image::Color& value)
+            void Palette::setColor(ColorRole role, const Image::Color& value)
             {
-                _colors[role] = value.getType() != AV::Image::Type::None ?
-                    value.convert(AV::Image::Type::RGBA_F32) :
-                    AV::Image::Color(AV::Image::Type::RGBA_F32);
+                _colors[role] = value.getType() != Image::Type::None ?
+                    value.convert(Image::Type::RGBA_F32) :
+                    Image::Color(Image::Type::RGBA_F32);
             }
 
             void Palette::setDisabledMult(float value)
@@ -132,9 +132,9 @@ namespace djv
                 return _metrics == other._metrics;
             }
 
-            void Style::_init(const std::shared_ptr<Core::Context>& context)
+            void Style::_init(const std::shared_ptr<System::Context>& context)
             {
-                auto settingsSystem = context->getSystemT<Settings::System>();
+                auto settingsSystem = context->getSystemT<Settings::SettingsSystem>();
                 auto styleSettings = settingsSystem->getSettingsT<Settings::Style>();
                 auto weak = std::weak_ptr<Style>(shared_from_this());
                 _paletteObserver = ValueObserver<UI::Style::Palette>::create(
@@ -187,10 +187,10 @@ namespace djv
                     }
                 });
 
-                auto fontSystem = context->getSystemT<AV::Font::System>();
-                _fontNamesObserver = MapObserver<AV::Font::FamilyID, std::string>::create(
+                auto fontSystem = context->getSystemT<Render2D::Font::FontSystem>();
+                _fontNamesObserver = MapObserver<Render2D::Font::FamilyID, std::string>::create(
                     fontSystem->observeFontNames(),
-                    [weak](const std::map<AV::Font::FamilyID, std::string>& value)
+                    [weak](const std::map<Render2D::Font::FamilyID, std::string>& value)
                     {
                         if (auto style = weak.lock())
                         {
@@ -203,9 +203,9 @@ namespace djv
                         }
                     });
 
-                _fontFacesObserver = MapObserver<AV::Font::FamilyID, std::map<AV::Font::FaceID, std::string> >::create(
+                _fontFacesObserver = MapObserver<Render2D::Font::FamilyID, std::map<Render2D::Font::FaceID, std::string> >::create(
                     fontSystem->observeFontFaces(),
-                    [weak](const std::map<AV::Font::FamilyID, std::map<AV::Font::FaceID, std::string> >& value)
+                    [weak](const std::map<Render2D::Font::FamilyID, std::map<Render2D::Font::FaceID, std::string> >& value)
                     {
                         if (auto style = weak.lock())
                         {
@@ -225,7 +225,7 @@ namespace djv
             Style::Style()
             {}
 
-            std::shared_ptr<Style> Style::create(const std::shared_ptr<Core::Context>& context)
+            std::shared_ptr<Style> Style::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<Style>(new Style);
                 out->_init(context);
@@ -241,25 +241,25 @@ namespace djv
 
             } // namespace
 
-            AV::Image::Color Style::getColor(ColorRole role) const
+            Image::Color Style::getColor(ColorRole role) const
             {
                 auto color = _palette.getColor(role);
                 if (_brightness != 1.F || _contrast != 1.F)
                 {
                     switch (color.getType())
                     {
-                    case AV::Image::Type::L_F32:
-                    case AV::Image::Type::LA_F32:
+                    case Image::Type::L_F32:
+                    case Image::Type::LA_F32:
                         color.setF32(colorCorrection(color.getF32(0), _brightness, _contrast), 0);
                         break;
-                    case AV::Image::Type::RGB_F32:
-                    case AV::Image::Type::RGBA_F32:
+                    case Image::Type::RGB_F32:
+                    case Image::Type::RGBA_F32:
                         color.setF32(colorCorrection(color.getF32(0), _brightness, _contrast), 0);
                         color.setF32(colorCorrection(color.getF32(1), _brightness, _contrast), 1);
                         color.setF32(colorCorrection(color.getF32(2), _brightness, _contrast), 2);
                         break;
                     default:
-                        color = color.convert(AV::Image::Type::RGBA_F32);
+                        color = color.convert(Image::Type::RGBA_F32);
                         color.setF32(colorCorrection(color.getF32(0), _brightness, _contrast), 0);
                         color.setF32(colorCorrection(color.getF32(1), _brightness, _contrast), 1);
                         color.setF32(colorCorrection(color.getF32(2), _brightness, _contrast), 2);
@@ -317,24 +317,24 @@ namespace djv
                 _fontDirty = true;
             }
 
-            AV::Font::FontInfo Style::getFontInfo(const std::string& family, const std::string& face, MetricsRole role) const
+            Render2D::Font::FontInfo Style::getFontInfo(const std::string& family, const std::string& face, MetricsRole role) const
             {
-                const auto i = _fontNameToId.find(family.empty() ? AV::Font::familyDefault : family);
-                const AV::Font::FamilyID familyID = i != _fontNameToId.end() ? i->second : 1;
-                const auto j = _fontFaceToId.find(std::make_pair(familyID, face.empty() ? AV::Font::faceDefault : face));
-                return AV::Font::FontInfo(
+                const auto i = _fontNameToId.find(family.empty() ? Render2D::Font::familyDefault : family);
+                const Render2D::Font::FamilyID familyID = i != _fontNameToId.end() ? i->second : 1;
+                const auto j = _fontFaceToId.find(std::make_pair(familyID, face.empty() ? Render2D::Font::faceDefault : face));
+                return Render2D::Font::FontInfo(
                     familyID,
                     j != _fontFaceToId.end() ? j->second : 1,
                     ceilf(getMetric(role)),
                     static_cast<uint16_t>(_dpi.x));
             }
 
-            AV::Font::FontInfo Style::getFontInfo(const std::string& face, MetricsRole role) const
+            Render2D::Font::FontInfo Style::getFontInfo(const std::string& face, MetricsRole role) const
             {
                 const auto i = _fontNameToId.find(_font);
-                const AV::Font::FamilyID familyID = i != _fontNameToId.end() ? i->second : 1;
-                const auto j = _fontFaceToId.find(std::make_pair(familyID, face.empty() ? AV::Font::faceDefault : face));
-                return AV::Font::FontInfo(
+                const Render2D::Font::FamilyID familyID = i != _fontNameToId.end() ? i->second : 1;
+                const auto j = _fontFaceToId.find(std::make_pair(familyID, face.empty() ? Render2D::Font::faceDefault : face));
+                return Render2D::Font::FontInfo(
                     familyID,
                     j != _fontFaceToId.end() ? j->second : 1,
                     ceilf(getMetric(role)),
@@ -401,7 +401,7 @@ namespace djv
                             UI::ColorRole role = UI::ColorRole::First;
                             std::stringstream ss(j.name.GetString());
                             ss >> role;
-                            AV::Image::Color color;
+                            Image::Color color;
                             fromJSON(j.value, color);
                             out.setColor(role, color);
                         }

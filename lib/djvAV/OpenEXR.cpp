@@ -4,8 +4,9 @@
 
 #include <djvAV/OpenEXR.h>
 
+#include <djvAV/TimeFunc.h>
+
 #include <djvCore/StringFunc.h>
-#include <djvCore/TimeFunc.h>
 
 #include <ImfDoubleAttribute.h>
 #include <ImfFloatVectorAttribute.h>
@@ -569,7 +570,7 @@ namespace djv
 
                 } // namespace
 
-                void readTags(const Imf::Header& header, Tags& tags, Math::Rational& speed)
+                void readTags(const Imf::Header& header, Image::Tags& tags, Math::Rational& speed)
                 {
                     // Predefined attributes.
                     tags.set("Display Window", serialize(header.displayWindow()));
@@ -881,7 +882,7 @@ namespace djv
                     }
                 }
 
-                void writeTags(const Tags& tags, const Math::Rational& speed, Imf::Header& header)
+                void writeTags(const Image::Tags& tags, const Math::Rational& speed, Imf::Header& header)
                 {
                     if (tags.contains("Chromaticities"))
                     {
@@ -973,9 +974,9 @@ namespace djv
                         Imf::Rational(speed.getNum(), speed.getDen()));
                 }
 
-                BBox2i fromImath(const Imath::Box2i& value)
+                Math::BBox2i fromImath(const Imath::Box2i& value)
                 {
-                    return BBox2i(glm::ivec2(value.min.x, value.min.y), glm::ivec2(value.max.x, value.max.y));
+                    return Math::BBox2i(glm::ivec2(value.min.x, value.min.y), glm::ivec2(value.max.x, value.max.y));
                 }
 
                 Imf::PixelType toImf(Image::DataType value)
@@ -1029,7 +1030,7 @@ namespace djv
                     _p(new Private)
                 {}
 
-                std::shared_ptr<Plugin> Plugin::create(const std::shared_ptr<Context>& context)
+                std::shared_ptr<Plugin> Plugin::create(const std::shared_ptr<System::Context>& context)
                 {
                     auto out = std::shared_ptr<Plugin>(new Plugin);
                     Imf::setGlobalThreadCount(out->_p->options.threadCount);
@@ -1053,12 +1054,12 @@ namespace djv
                     Imf::setGlobalThreadCount(p.options.threadCount);
                 }
 
-                std::shared_ptr<IRead> Plugin::read(const FileSystem::FileInfo& fileInfo, const ReadOptions& options) const
+                std::shared_ptr<IRead> Plugin::read(const System::File::Info& fileInfo, const ReadOptions& options) const
                 {
                     return Read::create(fileInfo, options, _p->options, _textSystem, _resourceSystem, _logSystem);
                 }
 
-                std::shared_ptr<IWrite> Plugin::write(const FileSystem::FileInfo& fileInfo, const Info& info, const WriteOptions& options) const
+                std::shared_ptr<IWrite> Plugin::write(const System::File::Info& fileInfo, const Info& info, const WriteOptions& options) const
                 {
                     return Write::create(fileInfo, info, options, _p->options, _textSystem, _resourceSystem, _logSystem);
                 }

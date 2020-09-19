@@ -20,11 +20,12 @@
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/ShortcutData.h>
 
-#include <djvAV/Image.h>
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/TextSystem.h>
+#include <djvImage/Image.h>
+
+#include <djvSystem/Context.h>
+#include <djvSystem/TextSystem.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -42,10 +43,10 @@ namespace djv
             std::map<std::string, bool> controlsBellowsState;
             std::map<std::string, bool> colorSpaceBellowsState;
             std::shared_ptr<ValueSubject<bool> > frameStoreEnabled;
-            std::shared_ptr<ValueSubject<std::shared_ptr<AV::Image::Image> > > frameStore;
-            std::shared_ptr<AV::Image::Image> currentImage;
+            std::shared_ptr<ValueSubject<std::shared_ptr<Image::Image> > > frameStore;
+            std::shared_ptr<Image::Image> currentImage;
             std::shared_ptr<MediaWidget> activeWidget;
-            AV::Render2D::ImageOptions imageOptions;
+            Render2D::ImageOptions imageOptions;
 
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> channelActionGroup;
@@ -54,13 +55,13 @@ namespace djv
             std::weak_ptr<ColorSpaceWidget> colorSpaceWidget;
 
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
-            std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > currentImageObserver;
-            std::shared_ptr<ValueObserver<AV::Render2D::ImageOptions> > imageOptionsObserver;
+            std::shared_ptr<ValueObserver<std::shared_ptr<Image::Image> > > currentImageObserver;
+            std::shared_ptr<ValueObserver<Render2D::ImageOptions> > imageOptionsObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<MapObserver<std::string, std::vector<UI::ShortcutData> > > shortcutsObserver;
         };
 
-        void ImageSystem::_init(const std::shared_ptr<Core::Context>& context)
+        void ImageSystem::_init(const std::shared_ptr<System::Context>& context)
         {
             IViewSystem::_init("djv::ViewApp::ImageSystem", context);
 
@@ -72,7 +73,7 @@ namespace djv
             _setWidgetGeom(p.settings->getWidgetGeom());
 
             p.frameStoreEnabled = ValueSubject<bool>::create();
-            p.frameStore = ValueSubject<std::shared_ptr<AV::Image::Image> >::create();
+            p.frameStore = ValueSubject<std::shared_ptr<Image::Image> >::create();
 
             p.actions["ImageControls"] = UI::Action::create();
             p.actions["ImageControls"]->setButtonType(UI::ButtonType::Toggle);
@@ -135,7 +136,7 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        system->_p->imageOptions.channelDisplay = static_cast<AV::Render2D::ImageChannelDisplay>(value + 1);
+                        system->_p->imageOptions.channelDisplay = static_cast<Render2D::ImageChannelDisplay>(value + 1);
                         if (system->_p->activeWidget)
                         {
                             system->_p->activeWidget->getViewWidget()->setImageOptions(system->_p->imageOptions);
@@ -143,7 +144,7 @@ namespace djv
                     }
                 });
 
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.actions["ImageControls"]->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
@@ -251,9 +252,9 @@ namespace djv
                         {
                             if (value)
                             {
-                                system->_p->currentImageObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
+                                system->_p->currentImageObserver = ValueObserver<std::shared_ptr<Image::Image> >::create(
                                     value->observeCurrentImage(),
-                                    [weak](const std::shared_ptr<AV::Image::Image>& value)
+                                    [weak](const std::shared_ptr<Image::Image>& value)
                                     {
                                         if (auto system = weak.lock())
                                         {
@@ -283,9 +284,9 @@ namespace djv
                             system->_p->activeWidget = value;
                             if (system->_p->activeWidget)
                             {
-                                system->_p->imageOptionsObserver = ValueObserver<AV::Render2D::ImageOptions>::create(
+                                system->_p->imageOptionsObserver = ValueObserver<Render2D::ImageOptions>::create(
                                     system->_p->activeWidget->getViewWidget()->observeImageOptions(),
-                                    [weak](const AV::Render2D::ImageOptions& value)
+                                    [weak](const Render2D::ImageOptions& value)
                                     {
                                         if (auto system = weak.lock())
                                         {
@@ -318,7 +319,7 @@ namespace djv
             p.settings->setWidgetGeom(_getWidgetGeom());
         }
 
-        std::shared_ptr<ImageSystem> ImageSystem::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<ImageSystem> ImageSystem::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ImageSystem>(new ImageSystem);
             out->_init(context);
@@ -330,7 +331,7 @@ namespace djv
             return _p->frameStoreEnabled;
         }
 
-        std::shared_ptr<IValueSubject<std::shared_ptr<AV::Image::Image> > > ImageSystem::observeFrameStore() const
+        std::shared_ptr<IValueSubject<std::shared_ptr<Image::Image> > > ImageSystem::observeFrameStore() const
         {
             return _p->frameStore;
         }
@@ -450,9 +451,9 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const bool activeWidget = p.activeWidget.get();
-#if defined(DJV_OPENGL_ES2)
+#if defined(DJV_GL_ES2)
             p.actions["ColorSpace"]->setEnabled(false);
-#endif // DJV_OPENGL_ES2
+#endif // DJV_GL_ES2
             p.actions["RedChannel"]->setEnabled(activeWidget);
             p.actions["GreenChannel"]->setEnabled(activeWidget);
             p.actions["BlueChannel"]->setEnabled(activeWidget);

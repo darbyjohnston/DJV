@@ -18,25 +18,25 @@ namespace djv
                 DJV_NON_COPYABLE(Toggle);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 Toggle();
 
             public:
                 ~Toggle() override;
 
-                static std::shared_ptr<Toggle> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<Toggle> create(const std::shared_ptr<System::Context>&);
 
                 void setChecked(bool) override;
 
                 bool acceptFocus(TextFocusDirection) override;
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _paintEvent(Core::Event::Paint&) override;
-                void _buttonPressEvent(Core::Event::ButtonPress&) override;
-                void _keyPressEvent(Core::Event::KeyPress&) override;
-                void _textFocusEvent(Core::Event::TextFocus&) override;
-                void _textFocusLostEvent(Core::Event::TextFocusLost&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _paintEvent(System::Event::Paint&) override;
+                void _buttonPressEvent(System::Event::ButtonPress&) override;
+                void _keyPressEvent(System::Event::KeyPress&) override;
+                void _textFocusEvent(System::Event::TextFocus&) override;
+                void _textFocusLostEvent(System::Event::TextFocusLost&) override;
 
             private:
                 DJV_PRIVATE();

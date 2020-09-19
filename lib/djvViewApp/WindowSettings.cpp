@@ -4,10 +4,11 @@
 
 #include <djvViewApp/WindowSettings.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/FileInfo.h>
-#include <djvCore/ResourceSystem.h>
-#include <djvCore/VectorFunc.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/FileInfo.h>
+#include <djvSystem/ResourceSystem.h>
+
+#include <djvMath/VectorFunc.h>
 
 // These need to be included last on macOS.
 #include <djvCore/RapidJSONTemplates.h>
@@ -42,7 +43,7 @@ namespace djv
             std::shared_ptr<ValueSubject<bool> > backgroundImageColorize;
         };
 
-        void WindowSettings::_init(const std::shared_ptr<Core::Context>& context)
+        void WindowSettings::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettings::_init("djv::ViewApp::WindowSettings", context);
 
@@ -54,10 +55,10 @@ namespace djv
             p.floatOnTop = ValueSubject<bool>::create(false);
             p.maximize = ValueSubject<bool>::create(true);
             p.autoHide = ValueSubject<bool>::create(true);
-            auto resourceSystem = context->getSystemT<Core::ResourceSystem>();
-            const auto& iconsPath = resourceSystem->getPath(FileSystem::ResourcePath::Icons);
+            auto resourceSystem = context->getSystemT<System::ResourceSystem>();
+            const auto& iconsPath = resourceSystem->getPath(System::File::ResourcePath::Icons);
             p.backgroundImage = ValueSubject<std::string>::create(std::string(
-                FileSystem::Path(iconsPath, "djv-tshirt-v02.png")));
+                System::File::Path(iconsPath, "djv-tshirt-v02.png")));
             p.backgroundImageScale = ValueSubject<bool>::create(false);
             p.backgroundImageColorize = ValueSubject<bool>::create(true);
             _load();
@@ -70,7 +71,7 @@ namespace djv
         WindowSettings::~WindowSettings()
         {}
 
-        std::shared_ptr<WindowSettings> WindowSettings::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<WindowSettings> WindowSettings::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<WindowSettings>(new WindowSettings);
             out->_init(context);

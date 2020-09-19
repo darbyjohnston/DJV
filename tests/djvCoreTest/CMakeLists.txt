@@ -1,105 +1,35 @@
 set(header
-    AnimationTest.h
-    AnimationFuncTest.h
-    BBoxFuncTest.h
-    BBoxTest.h
 	CacheTest.h
-	ContextTest.h
-    DirectoryModelTest.h
-    DirectoryWatcherTest.h
-    DrivesModelTest.h
     EnumTest.h
     ErrorFuncTest.h
-    EventFuncTest.h
-    EventTest.h
-    FileIOFuncTest.h
-    FileIOTest.h
-    FileInfoFuncTest.h
-    FileInfoTest.h
-    FileSystemFuncTest.h
-	FrameNumberFuncTest.h
-	FrameNumberTest.h
-	IEventSystemTest.h
-	ISystemTest.h
     ListObserverTest.h
-    LogSystemTest.h
     MapObserverTest.h
-    MathFuncTest.h
-    MatrixFuncTest.h
     MemoryFuncTest.h
-    NumericValueModelsTest.h
     OSFuncTest.h
-    ObjectTest.h
-    PathFuncTest.h
-    PathTest.h
-	RangeFuncTest.h
-	RangeTest.h
-	RationalFuncTest.h
-	RationalTest.h
+	RandomFuncTest.h
 	RapidJSONFuncTest.h
-	RecentFilesModelTest.h
-	SpeedFuncTest.h
     StringFormatTest.h
     StringFuncTest.h
-    TextSystemTest.h
     TimeFuncTest.h
-    TimerFuncTest.h
-    TimerTest.h
     UIDFuncTest.h
     UndoStackTest.h
-    ValueObserverTest.h
-    VectorFuncTest.h)
+    ValueObserverTest.h)
 set(source
-    AnimationTest.cpp
-    AnimationFuncTest.cpp
-    BBoxFuncTest.cpp
-    BBoxTest.cpp
 	CacheTest.cpp
-	ContextTest.cpp
-    DirectoryModelTest.cpp
-    DirectoryWatcherTest.cpp
-    DrivesModelTest.cpp
     EnumTest.cpp
     ErrorFuncTest.cpp
-    EventFuncTest.cpp
-    EventTest.cpp
-    FileIOFuncTest.cpp
-    FileIOTest.cpp
-    FileInfoFuncTest.cpp
-    FileInfoTest.cpp
-    FileSystemFuncTest.cpp
-	FrameNumberFuncTest.cpp
-	FrameNumberTest.cpp
-	IEventSystemTest.cpp
-	ISystemTest.cpp
     ListObserverTest.cpp
-    LogSystemTest.cpp
     MapObserverTest.cpp
-    MathFuncTest.cpp
-    MatrixFuncTest.cpp
     MemoryFuncTest.cpp
-    NumericValueModelsTest.cpp
     OSFuncTest.cpp
-    ObjectTest.cpp
-    PathFuncTest.cpp
-    PathTest.cpp
-	RangeFuncTest.cpp
-	RangeTest.cpp
+	RandomFuncTest.cpp
 	RapidJSONFuncTest.cpp
-	RecentFilesModelTest.cpp
-	RationalFuncTest.cpp
-	RationalTest.cpp
-	SpeedFuncTest.cpp
     StringFormatTest.cpp
     StringFuncTest.cpp
-    TextSystemTest.cpp
     TimeFuncTest.cpp
-    TimerFuncTest.cpp
-    TimerTest.cpp
     UIDFuncTest.cpp
     UndoStackTest.cpp
-    ValueObserverTest.cpp
-    VectorFuncTest.cpp)
+    ValueObserverTest.cpp)
 
 add_library(djvCoreTest ${header} ${source})
 target_link_libraries(djvCoreTest djvTestLib)

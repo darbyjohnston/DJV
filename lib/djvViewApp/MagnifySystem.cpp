@@ -10,8 +10,8 @@
 #include <djvUI/Action.h>
 #include <djvUI/ShortcutData.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/TextSystem.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/TextSystem.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -29,7 +29,7 @@ namespace djv
             std::weak_ptr<MagnifyWidget> widget;
         };
 
-        void MagnifySystem::_init(const std::shared_ptr<Context>& context)
+        void MagnifySystem::_init(const std::shared_ptr<System::Context>& context)
         {
             IToolSystem::_init("djv::ViewApp::MagnifySystem", context);
             DJV_PRIVATE_PTR();
@@ -57,7 +57,7 @@ namespace djv
             p.settings->setWidgetGeom(_getWidgetGeom());
         }
 
-        std::shared_ptr<MagnifySystem> MagnifySystem::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<MagnifySystem> MagnifySystem::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<MagnifySystem>(new MagnifySystem);
             out->_init(context);

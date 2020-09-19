@@ -1,0 +1,9 @@
+{
+    "render3d_default_material_mode_default": "По умолчанию",
+    "render3d_default_material_mode_normals": "нормативы",
+    "render3d_default_material_mode_unlit": "незажженный",
+    "render3d_default_material_mode_uvs": "UVs",
+    "render3d_depth_buffer_mode_reverse": "Задний ход",
+    "render3d_depth_buffer_mode_standard": "стандарт"
+}
+

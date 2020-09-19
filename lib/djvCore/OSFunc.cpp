@@ -6,9 +6,6 @@
 
 #include <djvCore/StringFunc.h>
 
-#include <algorithm>
-#include <array>
-
 //#pragma optimize("", off)
 
 namespace djv
@@ -53,17 +50,6 @@ namespace djv
                 return false;
             }
 
-            DJV_ENUM_HELPERS_IMPLEMENTATION(DirectoryShortcut);
-
         } // namespace OS
     } // namespace Core
-
-    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        Core::OS,
-        DirectoryShortcut,
-        DJV_TEXT("directory_shortcut_home"),
-        DJV_TEXT("directory_shortcut_desktop"),
-        DJV_TEXT("directory_shortcut_documents"),
-        DJV_TEXT("directory_shortcut_downloads"));
-
 } // namespace djv

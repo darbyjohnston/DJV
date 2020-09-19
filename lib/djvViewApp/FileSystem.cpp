@@ -21,17 +21,18 @@
 
 #include <djvAV/AVSystem.h>
 #include <djvAV/IOSystem.h>
+#include <djvAV/TimeFunc.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/FileInfoFunc.h>
-#include <djvCore/LogSystem.h>
-#include <djvCore/PathFunc.h>
-#include <djvCore/RecentFilesModel.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/FileInfoFunc.h>
+#include <djvSystem/LogSystem.h>
+#include <djvSystem/PathFunc.h>
+#include <djvSystem/RecentFilesModel.h>
+#include <djvSystem/TextSystem.h>
+#include <djvSystem/TimerFunc.h>
+
 #include <djvCore/StringFormat.h>
 #include <djvCore/StringFunc.h>
-#include <djvCore/TextSystem.h>
-#include <djvCore/TimeFunc.h>
-#include <djvCore/Timer.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -60,26 +61,26 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
-            Core::FileSystem::Path fileBrowserPath = Core::FileSystem::Path(".");
+            System::File::Path fileBrowserPath = System::File::Path(".");
             std::shared_ptr<RecentFilesDialog> recentFilesDialog;
             size_t threadCount = 4;
-            std::shared_ptr<Core::FileSystem::RecentFilesModel> recentFilesModel;
-            std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver;
-            std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver2;
+            std::shared_ptr<System::File::RecentFilesModel> recentFilesModel;
+            std::shared_ptr<ListObserver<System::File::Info> > recentFilesObserver;
+            std::shared_ptr<ListObserver<System::File::Info> > recentFilesObserver2;
             std::shared_ptr<ValueObserver<size_t> > threadCountObserver;
             std::shared_ptr<ValueObserver<bool> > cacheEnabledObserver;
             std::shared_ptr<ValueObserver<int> > cacheSizeObserver;
-            std::shared_ptr<Time::Timer> cacheTimer;
+            std::shared_ptr<System::Timer> cacheTimer;
 
-            typedef std::pair<Core::FileSystem::FileInfo, std::string> FileInfoAndNumber;
+            typedef std::pair<System::File::Info, std::string> FileInfoAndNumber;
 
             std::vector<FileInfoAndNumber> processFileNames(
                 const std::vector<std::string>&,
                 const OpenOptions&,
-                const std::weak_ptr<Context>&);
+                const std::weak_ptr<System::Context>&);
         };
 
-        void FileSystem::_init(const std::shared_ptr<Core::Context>& context)
+        void FileSystem::_init(const std::shared_ptr<System::Context>& context)
         {
             IViewSystem::_init("djv::ViewApp::FileSystem", context);
 
@@ -144,7 +145,7 @@ namespace djv
             //p.menu->addSeparator();
             p.menu->addAction(p.actions["Exit"]);
 
-            p.recentFilesModel = Core::FileSystem::RecentFilesModel::create();
+            p.recentFilesModel = System::File::RecentFilesModel::create();
 
             _actionsUpdate();
             _textUpdate();
@@ -249,7 +250,7 @@ namespace djv
                 }
             });
 
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.actions["NextLayer"]->setClickedCallback(
                 [weak, contextWeak]
                 {
@@ -308,9 +309,9 @@ namespace djv
                     }
                 });
 
-            p.recentFilesObserver = ListObserver<Core::FileSystem::FileInfo>::create(
+            p.recentFilesObserver = ListObserver<System::File::Info>::create(
                 p.settings->observeRecentFiles(),
-                [weak](const std::vector<Core::FileSystem::FileInfo>& value)
+                [weak](const std::vector<System::File::Info>& value)
                 {
                     if (auto system = weak.lock())
                     {
@@ -318,9 +319,9 @@ namespace djv
                     }
                 });
 
-            p.recentFilesObserver2 = ListObserver<Core::FileSystem::FileInfo>::create(
+            p.recentFilesObserver2 = ListObserver<System::File::Info>::create(
                 p.recentFilesModel->observeFiles(),
-                [weak](const std::vector<Core::FileSystem::FileInfo>& value)
+                [weak](const std::vector<System::File::Info>& value)
                 {
                     if (auto system = weak.lock())
                     {
@@ -348,7 +349,7 @@ namespace djv
                     }
                 });
 
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             auto ioSettings = settingsSystem->getSettingsT<UI::Settings::IO>();
             p.threadCountObserver = ValueObserver<size_t>::create(
                 ioSettings->observeThreadCount(),
@@ -365,10 +366,10 @@ namespace djv
                     }
                 });
 
-            p.cacheTimer = Time::Timer::create(context);
+            p.cacheTimer = System::Timer::create(context);
             p.cacheTimer->setRepeating(true);
             p.cacheTimer->start(
-                Time::getTime(Time::TimerValue::Medium),
+                System::getTimerDuration(System::TimerValue::Medium),
                 [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
                 {
                     if (auto system = weak.lock())
@@ -410,7 +411,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<FileSystem> FileSystem::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<FileSystem> FileSystem::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<FileSystem>(new FileSystem);
             out->_init(context);
@@ -452,7 +453,7 @@ namespace djv
             _showFileBrowserDialog();
         }
 
-        void FileSystem::open(const Core::FileSystem::FileInfo& fileInfo, const OpenOptions& options)
+        void FileSystem::open(const System::File::Info& fileInfo, const OpenOptions& options)
         {
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
@@ -472,7 +473,7 @@ namespace djv
                 }
                 else
                 {
-                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                    auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                     if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
                     {
                         media->setPlaybackSpeed(playbackSettings->observePlaybackSpeed()->get());
@@ -482,39 +483,39 @@ namespace djv
                 if (options.inPoint || options.outPoint || options.frame)
                 {
                     auto avSystem = context->getSystemT<AV::AVSystem>();
-                    const Time::Units timeUnits = avSystem->observeTimeUnits()->get();
+                    const AV::Time::Units timeUnits = avSystem->observeTimeUnits()->get();
                     const auto& speed = media->observeDefaultSpeed()->get();
                     const auto& sequence = media->observeSequence()->get();
-                    const Frame::Index start = 0;
-                    const Frame::Index end = sequence.getLastIndex();
+                    const Math::Frame::Index start = 0;
+                    const Math::Frame::Index end = sequence.getLastIndex();
                     bool inOutEnabled = false;
-                    Frame::Index inPoint = start;
-                    Frame::Index outPoint = end;
-                    Frame::Index frame = start;
+                    Math::Frame::Index inPoint = start;
+                    Math::Frame::Index outPoint = end;
+                    Math::Frame::Index frame = start;
                     if (options.inPoint)
                     {
                         inOutEnabled = true;
-                        const Frame::Index i = sequence.getIndex(Time::fromString(*options.inPoint, speed, timeUnits));
-                        inPoint = i != Frame::invalidIndex ? i : start;
+                        const Math::Frame::Index i = sequence.getIndex(AV::Time::fromString(*options.inPoint, speed, timeUnits));
+                        inPoint = i != Math::Frame::invalidIndex ? i : start;
                         frame = inPoint;
                     }
                     if (options.outPoint)
                     {
                         inOutEnabled = true;
-                        const Frame::Index i = sequence.getIndex(Time::fromString(*options.outPoint, speed, timeUnits));
-                        outPoint = i != Frame::invalidIndex ? i : end;
+                        const Math::Frame::Index i = sequence.getIndex(AV::Time::fromString(*options.outPoint, speed, timeUnits));
+                        outPoint = i != Math::Frame::invalidIndex ? i : end;
                     }
                     if (options.frame &&
                         !options.frame->empty() &&
-                        !Core::FileSystem::isSequenceWildcard(*options.frame))
+                        !System::File::isSequenceWildcard(*options.frame))
                     {
-                        const Frame::Index i = sequence.getIndex(Time::fromString(*options.frame, speed, timeUnits));
-                        frame = i != Frame::invalid ? Math::clamp(i, inPoint, outPoint) : inPoint;
+                        const Math::Frame::Index i = sequence.getIndex(AV::Time::fromString(*options.frame, speed, timeUnits));
+                        frame = i != Math::Frame::invalid ? Math::clamp(i, inPoint, outPoint) : inPoint;
                     }
                     media->setInOutPoints(AV::IO::InOutPoints(inOutEnabled, inPoint, outPoint));
                     media->setCurrentFrame(frame);
                 }
-                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                 if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
                 {
                     media->setPlayEveryFrame(playbackSettings->observePlayEveryFrame()->get());
@@ -676,12 +677,12 @@ namespace djv
                     p.fileBrowserDialog->close();
                 }
                 p.fileBrowserDialog = UI::FileBrowser::Dialog::create(context);
-                auto io = context->getSystemT<AV::IO::System>();
+                auto io = context->getSystemT<AV::IO::IOSystem>();
                 p.fileBrowserDialog->setFileExtensions(io->getFileExtensions());
-                Core::FileSystem::Path path;
+                System::File::Path path;
                 if (auto media = p.currentMedia->get())
                 {
-                    path = Core::FileSystem::Path(media->getFileInfo().getPath().getDirectoryName());
+                    path = System::File::Path(media->getFileInfo().getPath().getDirectoryName());
                 }
                 else
                 {
@@ -690,7 +691,7 @@ namespace djv
                 p.fileBrowserDialog->setPath(path);
                 auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
                 p.fileBrowserDialog->setCallback(
-                    [weak](const Core::FileSystem::FileInfo& value)
+                    [weak](const System::File::Info& value)
                     {
                         if (auto system = weak.lock())
                         {
@@ -732,7 +733,7 @@ namespace djv
                 p.recentFilesDialog = RecentFilesDialog::create(context);
                 auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
                 p.recentFilesDialog->setCallback(
-                    [weak](const Core::FileSystem::FileInfo& value)
+                    [weak](const System::File::Info& value)
                     {
                         if (auto system = weak.lock())
                         {
@@ -827,7 +828,7 @@ namespace djv
         std::vector<FileSystem::Private::FileInfoAndNumber> FileSystem::Private::processFileNames(
             const std::vector<std::string>& fileNames,
             const OpenOptions& options,
-            const std::weak_ptr<Context>& contextWeak)
+            const std::weak_ptr<System::Context>& contextWeak)
         {
             {
                 std::stringstream ss;
@@ -841,22 +842,22 @@ namespace djv
                 // Get absolute paths.
                 for (const auto& i : fileNames)
                 {
-                    auto path = Core::FileSystem::Path(i);
+                    auto path = System::File::Path(i);
                     try
                     {
                         out.push_back(std::make_pair(
-                            Core::FileSystem::FileInfo(Core::FileSystem::getAbsolute(path)),
+                            System::File::Info(System::File::getAbsolute(path)),
                             std::string()));
                     }
                     catch (const std::exception& e)
                     {
-                        p._log(String::Format("{0}: {1}").arg(path.get()).arg(e.what()), LogLevel::Error);
+                        p._log(String::Format("{0}: {1}").arg(path.get()).arg(e.what()), System::LogLevel::Error);
                     }
                 }
 
                 // Find arguments that belong to the same sequence (for
                 // example when a shell wildcard is used).
-                auto io = context->getSystemT<AV::IO::System>();
+                auto io = context->getSystemT<AV::IO::IOSystem>();
                 auto i = out.begin();
                 while (i != out.end())
                 {
@@ -885,9 +886,9 @@ namespace djv
                     const bool firstFrame = settings->observeSequencesFirstFrame()->get();
                     for (auto& i : out)
                     {
-                        if (Core::FileSystem::FileType::File == i.first.getType())
+                        if (System::File::Type::File == i.first.getType())
                         {
-                            const auto fileInfo = Core::FileSystem::getFileSequence(
+                            const auto fileInfo = System::File::getSequence(
                                 i.first.getPath(),
                                 io->getSequenceExtensions());
                             if (fileInfo.getSequence().getFrameCount() > 1)
@@ -905,21 +906,23 @@ namespace djv
                 // Check the directory for wildcards.
                 for (auto& i : out)
                 {
-                    if (Core::FileSystem::FileType::File == i.first.getType())
+                    if (System::File::Type::File == i.first.getType())
                     {
                         const std::string& number = i.first.getPath().getNumber();
-                        const bool wildcard = Core::FileSystem::isSequenceWildcard(number);
-                        Core::FileSystem::FileInfo fileSequence;
+                        const bool wildcard = System::File::isSequenceWildcard(number);
+                        System::File::Info fileSequence;
                         if (wildcard)
                         {
-                            fileSequence = Core::FileSystem::getFileSequence(i.first.getPath(), io->getSequenceExtensions());
+                            fileSequence = System::File::getSequence(
+                                i.first.getPath(),
+                                io->getSequenceExtensions());
                         }
                         if (wildcard &&
                             (number.size() == 1 || number.size() == fileSequence.getSequence().getPad()))
                         {
                             if (options.startEnd)
                             {
-                                fileSequence.setSequence(Core::Frame::Sequence(*options.startEnd, fileSequence.getSequence().getPad()));
+                                fileSequence.setSequence(Math::Frame::Sequence(*options.startEnd, fileSequence.getSequence().getPad()));
                             }
                             i.first = fileSequence;
                         }
@@ -934,7 +937,7 @@ namespace djv
                     {
                         for (const auto& j : extensions)
                         {
-                            Core::FileSystem::FileInfo fileInfo(i.first.getFileName() + j);
+                            System::File::Info fileInfo(i.first.getFileName() + j);
                             if (fileInfo.doesExist())
                             {
                                 i.first = fileInfo;
@@ -952,12 +955,12 @@ namespace djv
                     {
                         out.pop_back();
                     }
-                    auto logSystem = context->getSystemT<LogSystem>();
-                    auto textSystem = context->getSystemT<TextSystem>();
+                    auto logSystem = context->getSystemT<System::LogSystem>();
+                    auto textSystem = context->getSystemT<System::TextSystem>();
                     logSystem->log(
                         "djv::ViewApp::FileSystem",
                         String::Format(textSystem->getText(DJV_TEXT("error_max_files"))).arg(openMax),
-                        LogLevel::Error);
+                        System::LogLevel::Error);
                 }
             }
 

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <djvAV/Color.h>
+#include <djvImage/Color.h>
 
 #include <djvCore/Enum.h>
 #include <djvCore/ICommand.h>
@@ -16,20 +16,17 @@
 
 namespace djv
 {
-    namespace Core
+    namespace System
     {
         class Context;
         
-    } // namespace Core
+    } // namespace System
     
-    namespace AV
+    namespace Render2D
     {
-        namespace Render2D
-        {
-            class Render;
-            
-        } // namespace Render
-    } // namespace AV
+        class Render;
+        
+    } // namespace Render
     
     namespace ViewApp
     {
@@ -62,7 +59,7 @@ namespace djv
         struct AnnotateOptions
         {
             AnnotateTool tool = AnnotateTool::First;
-            AV::Image::Color color = AV::Image::Color(1.F, 1.F, 1.F);
+            Image::Color color = Image::Color(1.F, 1.F, 1.F);
             float lineSize = 0.F;
         };
         
@@ -71,7 +68,7 @@ namespace djv
             DJV_NON_COPYABLE(AnnotatePrimitive);
             
         protected:
-            void _init(const AnnotateOptions&, const std::shared_ptr<Core::Context>&);
+            void _init(const AnnotateOptions&, const std::shared_ptr<System::Context>&);
             AnnotatePrimitive();
             
         public:
@@ -79,12 +76,12 @@ namespace djv
             
             const AnnotateOptions& getOptions() const;
             
-            virtual void draw(const std::shared_ptr<AV::Render2D::Render>&) = 0;
+            virtual void draw(const std::shared_ptr<Render2D::Render>&) = 0;
             
             virtual void addPoint(const glm::vec2&) = 0;
             
         protected:
-            const std::weak_ptr<Core::Context>& getContext() const;
+            const std::weak_ptr<System::Context>& getContext() const;
                         
         private:
             DJV_PRIVATE();
@@ -95,15 +92,15 @@ namespace djv
             DJV_NON_COPYABLE(AnnotatePolyline);
 
         protected:
-            void _init(const AnnotateOptions&, const std::shared_ptr<Core::Context>&);
+            void _init(const AnnotateOptions&, const std::shared_ptr<System::Context>&);
             AnnotatePolyline();
 
         public:
             ~AnnotatePolyline() override;
 
-            static std::shared_ptr<AnnotatePolyline> create(const AnnotateOptions&, const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<AnnotatePolyline> create(const AnnotateOptions&, const std::shared_ptr<System::Context>&);
 
-            void draw(const std::shared_ptr<AV::Render2D::Render>&) override;
+            void draw(const std::shared_ptr<Render2D::Render>&) override;
             void addPoint(const glm::vec2&) override;
 
         private:
@@ -115,15 +112,15 @@ namespace djv
             DJV_NON_COPYABLE(AnnotateLine);
 
         protected:
-            void _init(const AnnotateOptions&, const std::shared_ptr<Core::Context>&);
+            void _init(const AnnotateOptions&, const std::shared_ptr<System::Context>&);
             AnnotateLine();
 
         public:
             ~AnnotateLine() override;
 
-            static std::shared_ptr<AnnotateLine> create(const AnnotateOptions&, const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<AnnotateLine> create(const AnnotateOptions&, const std::shared_ptr<System::Context>&);
 
-            void draw(const std::shared_ptr<AV::Render2D::Render>&) override;
+            void draw(const std::shared_ptr<Render2D::Render>&) override;
             void addPoint(const glm::vec2&) override;
 
         private:
@@ -135,15 +132,15 @@ namespace djv
             DJV_NON_COPYABLE(AnnotateRectangle);
 
         protected:
-            void _init(const AnnotateOptions&, const std::shared_ptr<Core::Context>&);
+            void _init(const AnnotateOptions&, const std::shared_ptr<System::Context>&);
             AnnotateRectangle();
 
         public:
             ~AnnotateRectangle() override;
 
-            static std::shared_ptr<AnnotateRectangle> create(const AnnotateOptions&, const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<AnnotateRectangle> create(const AnnotateOptions&, const std::shared_ptr<System::Context>&);
 
-            void draw(const std::shared_ptr<AV::Render2D::Render>&) override;
+            void draw(const std::shared_ptr<Render2D::Render>&) override;
             void addPoint(const glm::vec2&) override;
 
         private:
@@ -155,15 +152,15 @@ namespace djv
             DJV_NON_COPYABLE(AnnotateEllipse);
 
         protected:
-            void _init(const AnnotateOptions&, const std::shared_ptr<Core::Context>&);
+            void _init(const AnnotateOptions&, const std::shared_ptr<System::Context>&);
             AnnotateEllipse();
 
         public:
             ~AnnotateEllipse() override;
 
-            static std::shared_ptr<AnnotateEllipse> create(const AnnotateOptions&, const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<AnnotateEllipse> create(const AnnotateOptions&, const std::shared_ptr<System::Context>&);
 
-            void draw(const std::shared_ptr<AV::Render2D::Render>&) override;
+            void draw(const std::shared_ptr<Render2D::Render>&) override;
             void addPoint(const glm::vec2&) override;
 
         private:

@@ -4,10 +4,11 @@
 
 #include <djvAV/TIFF.h>
 
-#include <djvCore/FileIO.h>
-#include <djvCore/FileSystem.h>
+#include <djvSystem/File.h>
+#include <djvSystem/FileIO.h>
+#include <djvSystem/TextSystem.h>
+
 #include <djvCore/StringFormat.h>
-#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -45,11 +46,11 @@ namespace djv
                 }
 
                 std::shared_ptr<Read> Read::create(
-                    const FileSystem::FileInfo& fileInfo,
+                    const System::File::Info& fileInfo,
                     const ReadOptions& readOptions,
-                    const std::shared_ptr<TextSystem>& textSystem,
-                    const std::shared_ptr<ResourceSystem>& resourceSystem,
-                    const std::shared_ptr<LogSystem>& logSystem)
+                    const std::shared_ptr<System::TextSystem>& textSystem,
+                    const std::shared_ptr<System::ResourceSystem>& resourceSystem,
+                    const std::shared_ptr<System::LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
                     out->_init(fileInfo, readOptions, textSystem, resourceSystem, logSystem);
@@ -73,7 +74,7 @@ namespace djv
                     {
                         if (TIFFReadScanline(f.f, (tdata_t *)out->getData(y), y) == -1)
                         {
-                            throw FileSystem::Error(String::Format("{0}: {1}").
+                            throw System::File::Error(String::Format("{0}: {1}").
                                 arg(fileName).
                                 arg(_textSystem->getText(DJV_TEXT("error_read_scanline"))));
                         }
@@ -98,7 +99,7 @@ namespace djv
 #endif // DJV_WINDOWS
                     if (!f.f)
                     {
-                        throw FileSystem::Error(String::Format("{0}: {1}").
+                        throw System::File::Error(String::Format("{0}: {1}").
                             arg(fileName).
                             arg(_textSystem->getText(DJV_TEXT("error_file_open"))));
                     }
@@ -149,7 +150,7 @@ namespace djv
                     }
                     if (Image::Type::None == imageType)
                     {
-                        throw FileSystem::Error(String::Format("{0}: {1}").
+                        throw System::File::Error(String::Format("{0}: {1}").
                             arg(fileName).
                             arg(_textSystem->getText(DJV_TEXT("error_unsupported_image_type"))));
                     }
@@ -166,7 +167,7 @@ namespace djv
                     f.compression = compression != COMPRESSION_NONE;
                     f.palette = PHOTOMETRIC_PALETTE == photometric;
 
-                    AV::Tags tags;
+                    Image::Tags tags;
                     char * tag = 0;
                     if (TIFFGetField(f.f, TIFFTAG_ARTIST, &tag))
                     {

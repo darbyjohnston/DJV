@@ -10,7 +10,7 @@
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/ToggleButton.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 using namespace djv::Core;
 
@@ -27,7 +27,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > firstFrameObserver;
         };
 
-        void SequenceSettingsWidget::_init(const std::shared_ptr<Context>& context)
+        void SequenceSettingsWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -43,13 +43,13 @@ namespace djv
             p.layout->addChild(p.firstFrameButton);
             addChild(p.layout);
 
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.autoDetectButton->setCheckedCallback(
                 [contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
                     {
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                         if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
                         {
                             fileSettings->setAutoDetectSequences(value);
@@ -62,7 +62,7 @@ namespace djv
                 {
                     if (auto context = contextWeak.lock())
                     {
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
                         if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
                         {
                             fileSettings->setSequencesFirstFrame(value);
@@ -70,7 +70,7 @@ namespace djv
                     }
                 });
 
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto settingsSystem = context->getSystemT<UI::Settings::SettingsSystem>();
             if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
             {
                 auto weak = std::weak_ptr<SequenceSettingsWidget>(std::dynamic_pointer_cast<SequenceSettingsWidget>(shared_from_this()));
@@ -100,7 +100,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<SequenceSettingsWidget> SequenceSettingsWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<SequenceSettingsWidget> SequenceSettingsWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<SequenceSettingsWidget>(new SequenceSettingsWidget);
             out->_init(context);
@@ -127,7 +127,7 @@ namespace djv
             _p->layout->setLabelSizeGroup(value);
         }
 
-        void SequenceSettingsWidget::_initEvent(Event::Init& event)
+        void SequenceSettingsWidget::_initEvent(System::Event::Init& event)
         {
             ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();

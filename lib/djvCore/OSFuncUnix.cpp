@@ -5,15 +5,8 @@
 #include <djvCore/OSFunc.h>
 
 #include <djvCore/ErrorFunc.h>
-#include <djvCore/Path.h>
 #include <djvCore/StringFormat.h>
 #include <djvCore/StringFunc.h>
-
-#if defined(DJV_PLATFORM_MACOS)
-#include <ApplicationServices/ApplicationServices.h>
-#include <CoreFoundation/CFBundle.h>
-#include <CoreServices/CoreServices.h>
-#endif // DJV_PLATFORM_MACOS
 
 #include <sstream>
 
@@ -24,10 +17,8 @@
 #else // DJV_PLATFORM_MACOS
 #include <sys/sysinfo.h>
 #endif // DJV_PLATFORM_MACOS
-#include <sys/termios.h>
 #include <sys/utsname.h>
 #include <pwd.h>
-#include <stdlib.h>
 #include <unistd.h>
 
 //#pragma optimize("", off)
@@ -111,48 +102,6 @@ namespace djv
                 {
                     out = std::string(buf->pw_name);
                 }
-                return out;
-            }
-
-            FileSystem::Path getPath(DirectoryShortcut value)
-            {
-                FileSystem::Path out;
-#if defined(DJV_PLATFORM_MACOS)
-                OSType folderType = kDesktopFolderType;
-                switch (value)
-                {
-                case DirectoryShortcut::Home:      folderType = kCurrentUserFolderType; break;
-                case DirectoryShortcut::Desktop:   folderType = kDesktopFolderType;     break;
-                case DirectoryShortcut::Documents: folderType = kDocumentsFolderType;   break;
-                case DirectoryShortcut::Downloads: folderType = kCurrentUserFolderType; break;
-                default: break;
-                }
-                FSRef ref;
-                FSFindFolder(kUserDomain, folderType, kCreateFolder, &ref);
-                char path[PATH_MAX];
-                FSRefMakePath(&ref, (UInt8*)&path, PATH_MAX);
-                if (DirectoryShortcut::Downloads == value)
-                {
-                    out = FileSystem::Path(path, "Downloads");
-                }
-                else
-                {
-                    out = FileSystem::Path(path);
-                }
-#else // DJV_PLATFORM_MACOS
-                if (struct passwd* buf = ::getpwuid(::getuid()))
-                {
-                    const std::string dir(buf->pw_dir);
-                    switch (value)
-                    {
-                    case DirectoryShortcut::Home:      out = FileSystem::Path(dir);              break;
-                    case DirectoryShortcut::Desktop:   out = FileSystem::Path(dir, "Desktop");   break;
-                    case DirectoryShortcut::Documents: out = FileSystem::Path(dir, "Documents"); break;
-                    case DirectoryShortcut::Downloads: out = FileSystem::Path(dir, "Downloads"); break;
-                    default: break;
-                    }
-                }
-#endif // DJV_PLATFORM_MACOS
                 return out;
             }
 

@@ -12,16 +12,16 @@
 
 namespace djv
 {
-    namespace Core
+    namespace System
     {
         class Context;
         
-        namespace FileSystem
+        namespace File
         {
             class Path;
             
-        } // namespace FileSystem
-    } // namespace Core
+        } // namespace File
+    } // namespace System
 
     //! This namespace provides confidence test functionality.
     namespace Test
@@ -32,13 +32,13 @@ namespace djv
         public:
             ITest(
                 const std::string& name,
-                const Core::FileSystem::Path& tempPath,
-                const std::shared_ptr<Core::Context>&);
+                const System::File::Path& tempPath,
+                const std::shared_ptr<System::Context>&);
             virtual ~ITest() = 0;
 
-            const std::weak_ptr<Core::Context>& getContext() const;
+            const std::weak_ptr<System::Context>& getContext() const;
             const std::string& getName() const;
-            const Core::FileSystem::Path& getTempPath() const;
+            const System::File::Path& getTempPath() const;
             
             virtual void run() = 0;
 

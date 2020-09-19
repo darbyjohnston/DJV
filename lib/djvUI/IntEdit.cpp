@@ -6,7 +6,8 @@
 
 #include <djvUI/IntLabel.h>
 
-#include <djvCore/NumericValueModels.h>
+#include <djvMath/NumericValueModels.h>
+
 #include <djvCore/ValueObserver.h>
 
 using namespace djv::Core;
@@ -17,15 +18,15 @@ namespace djv
     {
         struct IntEdit::Private
         {
-            std::shared_ptr<ValueObserver<IntRange> > rangeObserver;
+            std::shared_ptr<ValueObserver<Math::IntRange> > rangeObserver;
             std::shared_ptr<ValueObserver<int> > valueObserver;
         };
 
-        void IntEdit::_init(const std::shared_ptr<Context>& context)
+        void IntEdit::_init(const std::shared_ptr<System::Context>& context)
         {
             NumericEdit::_init(context);
             setClassName("djv::UI::IntEdit");
-            setModel(IntValueModel::create());
+            setModel(Math::IntValueModel::create());
         }
 
         IntEdit::IntEdit() :
@@ -35,23 +36,23 @@ namespace djv
         IntEdit::~IntEdit()
         {}
 
-        std::shared_ptr<IntEdit> IntEdit::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<IntEdit> IntEdit::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<IntEdit>(new IntEdit);
             out->_init(context);
             return out;
         }
 
-        void IntEdit::setModel(const std::shared_ptr<INumericValueModel<int> >& model)
+        void IntEdit::setModel(const std::shared_ptr<Math::INumericValueModel<int> >& model)
         {
             INumericEdit<int>::setModel(model);
             DJV_PRIVATE_PTR();
             if (model)
             {
                 auto weak = std::weak_ptr<IntEdit>(std::dynamic_pointer_cast<IntEdit>(shared_from_this()));
-                p.rangeObserver = ValueObserver<IntRange>::create(
+                p.rangeObserver = ValueObserver<Math::IntRange>::create(
                     model->observeRange(),
-                    [weak](const IntRange&)
+                    [weak](const Math::IntRange&)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -95,7 +96,7 @@ namespace djv
                 }
                 catch (const std::exception& e)
                 {
-                    _log(e.what(), LogLevel::Error);
+                    _log(e.what(), System::LogLevel::Error);
                 }
                 _textUpdate();
                 _doCallback(reason);

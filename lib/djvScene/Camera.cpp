@@ -4,7 +4,7 @@
 
 #include <djvScene/Camera.h>
 
-#include <djvCore/Math.h>
+#include <djvMath/Math.h>
 
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -50,7 +50,7 @@ namespace djv
             _update();
         }
 
-        void DefaultCamera::setClip(const FloatRange& value)
+        void DefaultCamera::setClip(const Math::FloatRange& value)
         {
             _data.clip = value;
             _update();
@@ -104,7 +104,7 @@ namespace djv
             _update();
         }
 
-        void PolarCamera::setClip(const FloatRange& value)
+        void PolarCamera::setClip(const Math::FloatRange& value)
         {
             _data.clip = value;
             _update();
@@ -113,8 +113,8 @@ namespace djv
         void PolarCamera::_update()
         {
             _v = glm::translate(glm::mat4x4(1.F), glm::vec3(0.F, 0.F, -_data.distance));
-            _v = glm::rotate(_v, Core::Math::deg2rad(_data.latitude), glm::vec3(1.F, 0.F, 0.F));
-            _v = glm::rotate(_v, Core::Math::deg2rad(_data.longitude), glm::vec3(0.F, 1.F, 0.F));
+            _v = glm::rotate(_v, Math::deg2rad(_data.latitude), glm::vec3(1.F, 0.F, 0.F));
+            _v = glm::rotate(_v, Math::deg2rad(_data.longitude), glm::vec3(0.F, 1.F, 0.F));
             _v = glm::translate(_v, -_data.target);
             _p = glm::perspective(Math::deg2rad(_data.fov), _data.aspect, _data.clip.getMin(), _data.clip.getMax());
         }

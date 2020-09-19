@@ -8,7 +8,7 @@
 #include <djvUI/Label.h>
 #include <djvUI/Style.h>
 
-#include <djvAV/Render2D.h>
+#include <djvRender2D/Render.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -28,7 +28,7 @@ namespace djv
                 std::shared_ptr<Label> label;
             };
 
-            void CheckBox::_init(const std::shared_ptr<Context>& context)
+            void CheckBox::_init(const std::shared_ptr<System::Context>& context)
             {
                 IButton::_init(context);
 
@@ -52,7 +52,7 @@ namespace djv
             CheckBox::~CheckBox()
             {}
 
-            std::shared_ptr<CheckBox> CheckBox::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<CheckBox> CheckBox::create(const std::shared_ptr<System::Context>& context)
             {
                 auto out = std::shared_ptr<CheckBox>(new CheckBox);
                 out->_init(context);
@@ -115,7 +115,7 @@ namespace djv
                 return out;
             }
 
-            void CheckBox::_preLayoutEvent(Event::PreLayout& event)
+            void CheckBox::_preLayoutEvent(System::Event::PreLayout& event)
             {
                 const auto& style = _getStyle();
                 const float m = 0.F;// style->getMetric(MetricsRole::MarginInside);
@@ -128,17 +128,17 @@ namespace djv
                 _setMinimumSize(size);
             }
 
-            void CheckBox::_layoutEvent(Event::Layout&)
+            void CheckBox::_layoutEvent(System::Event::Layout&)
             {
                 _p->label->setGeometry(_getLabelGeometry());
             }
 
-            void CheckBox::_paintEvent(Event::Paint& event)
+            void CheckBox::_paintEvent(System::Event::Paint& event)
             {
                 IButton::_paintEvent(event);
                 const auto& style = _getStyle();
                 const float bt = style->getMetric(MetricsRole::BorderTextFocus);
-                const BBox2f& g = getGeometry();
+                const Math::BBox2f& g = getGeometry();
 
                 const auto& render = _getRender();
                 if (hasTextFocus())
@@ -147,7 +147,7 @@ namespace djv
                     drawBorder(render, g, bt);
                 }
 
-                const BBox2f g2 = g.margin(-bt);
+                const Math::BBox2f g2 = g.margin(-bt);
                 if (_isPressed())
                 {
                     render->setFillColor(style->getColor(ColorRole::Pressed));
@@ -162,7 +162,7 @@ namespace djv
                 drawCheckBox(render, style, _getCheckGeometry(), _isToggled());
             }
 
-            void CheckBox::_buttonPressEvent(Event::ButtonPress& event)
+            void CheckBox::_buttonPressEvent(System::Event::ButtonPress& event)
             {
                 IButton::_buttonPressEvent(event);
                 if (event.isAccepted())
@@ -171,7 +171,7 @@ namespace djv
                 }
             }
 
-            void CheckBox::_keyPressEvent(Event::KeyPress& event)
+            void CheckBox::_keyPressEvent(System::Event::KeyPress& event)
             {
                 IButton::_keyPressEvent(event);
                 if (!event.isAccepted() && hasTextFocus())
@@ -207,36 +207,36 @@ namespace djv
                 }
             }
 
-            void CheckBox::_textFocusEvent(Event::TextFocus&)
+            void CheckBox::_textFocusEvent(System::Event::TextFocus&)
             {
                 _redraw();
             }
 
-            void CheckBox::_textFocusLostEvent(Event::TextFocusLost&)
+            void CheckBox::_textFocusLostEvent(System::Event::TextFocusLost&)
             {
                 _redraw();
             }
 
-            BBox2f CheckBox::_getCheckGeometry() const
+            Math::BBox2f CheckBox::_getCheckGeometry() const
             {
                 const auto& style = _getStyle();
                 const glm::vec2 size = getCheckBoxSize(style);
                 const float m = style->getMetric(MetricsRole::MarginInside);
                 const float bt = style->getMetric(MetricsRole::BorderTextFocus);
-                const BBox2f& g = getGeometry();
-                const BBox2f g2 = g.margin(-(m + bt));
-                return BBox2f(g2.min.x, floorf(g2.min.y + g2.h() / 2.F - size.y / 2.F), size.x, size.y);
+                const Math::BBox2f& g = getGeometry();
+                const Math::BBox2f g2 = g.margin(-(m + bt));
+                return Math::BBox2f(g2.min.x, floorf(g2.min.y + g2.h() / 2.F - size.y / 2.F), size.x, size.y);
             }
 
-            BBox2f CheckBox::_getLabelGeometry() const
+            Math::BBox2f CheckBox::_getLabelGeometry() const
             {
                 const auto& style = _getStyle();
                 const glm::vec2 size = getCheckBoxSize(style);
                 const float m = style->getMetric(MetricsRole::MarginInside);
                 const float bt = style->getMetric(MetricsRole::BorderTextFocus);
-                const BBox2f& g = getGeometry();
-                const BBox2f g2 = g.margin(-(m + bt));
-                return BBox2f(g2.min.x + size.x, g2.min.y, g2.w() - size.y, g2.h());
+                const Math::BBox2f& g = getGeometry();
+                const Math::BBox2f g2 = g.margin(-(m + bt));
+                return Math::BBox2f(g2.min.x + size.x, g2.min.y, g2.w() - size.y, g2.h());
             }
 
             void CheckBox::_widgetUpdate()

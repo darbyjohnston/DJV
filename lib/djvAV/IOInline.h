@@ -22,7 +22,7 @@ namespace djv
             inline VideoFrame::VideoFrame()
             {}
 
-            inline VideoFrame::VideoFrame(Core::Frame::Number frame, const std::shared_ptr<Image::Image>& image) :
+            inline VideoFrame::VideoFrame(Math::Frame::Number frame, const std::shared_ptr<Image::Image>& image) :
                 frame(frame),
                 image(image)
             {}
@@ -103,7 +103,7 @@ namespace djv
             inline InOutPoints::InOutPoints()
             {}
 
-            inline InOutPoints::InOutPoints(bool enabled, Core::Frame::Index in, Core::Frame::Index out) :
+            inline InOutPoints::InOutPoints(bool enabled, Math::Frame::Index in, Math::Frame::Index out) :
                 _enabled(enabled),
                 _in(std::min(in, out)),
                 _out(std::max(in, out))
@@ -114,32 +114,32 @@ namespace djv
                 return _enabled;
             }
 
-            inline Core::Frame::Index InOutPoints::getIn() const
+            inline Math::Frame::Index InOutPoints::getIn() const
             {
                 return _in;
             }
 
-            inline Core::Frame::Index InOutPoints::getOut() const
+            inline Math::Frame::Index InOutPoints::getOut() const
             {
                 return _out;
             }
 
-            inline Core::Math::Range<Core::Frame::Index> InOutPoints::getRange(size_t size) const
+            inline Math::Range<Math::Frame::Index> InOutPoints::getRange(size_t size) const
             {
-                Core::Frame::Index min = 0;
-                Core::Frame::Index max = size ? (size - 1) : 0;
+                Math::Frame::Index min = 0;
+                Math::Frame::Index max = size ? (size - 1) : 0;
                 if (_enabled)
                 {
-                    if (_in != Core::Frame::invalid)
+                    if (_in != Math::Frame::invalid)
                     {
                         min = _in;
                     }
-                    if (_out != Core::Frame::invalid)
+                    if (_out != Math::Frame::invalid)
                     {
                         max = _out;
                     }
                 }
-                return Core::Math::Range<Core::Frame::Index>(min, max);
+                return Math::Range<Math::Frame::Index>(min, max);
             }
 
             inline bool InOutPoints::operator == (const InOutPoints& other) const
@@ -180,17 +180,17 @@ namespace djv
                 return _readBehind;
             }
 
-            inline const Core::Frame::Sequence& Cache::getSequence() const
+            inline const Math::Frame::Sequence& Cache::getSequence() const
             {
                 return _sequence;
             }
 
-            inline bool Cache::contains(Core::Frame::Index value) const
+            inline bool Cache::contains(Math::Frame::Index value) const
             {
                 return _cache.find(value) != _cache.end();
             }
 
-            inline bool Cache::get(Core::Frame::Index index, std::shared_ptr<AV::Image::Image>& out) const
+            inline bool Cache::get(Math::Frame::Index index, std::shared_ptr<Image::Image>& out) const
             {
                 const auto i = _cache.find(index);
                 const bool found = i != _cache.end();

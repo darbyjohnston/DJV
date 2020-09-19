@@ -20,12 +20,12 @@ namespace djv
             DJV_NON_COPYABLE(MouseSettings);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>& context);
+            void _init(const std::shared_ptr<System::Context>& context);
 
             MouseSettings();
 
         public:
-            static std::shared_ptr<MouseSettings> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<MouseSettings> create(const std::shared_ptr<System::Context>&);
 
             std::shared_ptr<Core::IValueSubject<ScrollWheelSpeed> > observeScrollWheelSpeed() const;
             void setScrollWheelSpeed(ScrollWheelSpeed);

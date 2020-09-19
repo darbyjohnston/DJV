@@ -4,14 +4,15 @@
 
 #include <djvDesktopApp/GLFWSystem.h>
 
-#include <djvAV/GLFWSystem.h>
-#include <djvAV/OpenGL.h>
+#include <djvGL/GLFWSystem.h>
+#include <djvGL/GL.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/CoreSystem.h>
-#include <djvCore/LogSystem.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/CoreSystem.h>
+#include <djvSystem/LogSystem.h>
+#include <djvSystem/TimerFunc.h>
+
 #include <djvCore/OS.h>
-#include <djvCore/Timer.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -46,28 +47,28 @@ namespace djv
         struct GLFWSystem::Private
         {
             std::shared_ptr<ListSubject<MonitorInfo> > monitorInfo;
-            std::shared_ptr<Time::Timer> monitorTimer;
+            std::shared_ptr<System::Timer> monitorTimer;
             bool cursorVisible = true;
             GLFWcursor* arrowCursor  = nullptr;
             GLFWcursor* hiddenCursor = nullptr;
         };
 
-        void GLFWSystem::_init(const std::shared_ptr<Core::Context>& context)
+        void GLFWSystem::_init(const std::shared_ptr<System::Context>& context)
         {
             ISystem::_init("djv::Desktop::GLFWSystem", context);
             DJV_PRIVATE_PTR();
 
             p.monitorInfo = ListSubject<MonitorInfo>::create();
 
-            auto avGLFWSystem = context->getSystemT<AV::GLFW::System>();
+            auto avGLFWSystem = context->getSystemT<GL::GLFW::GLFWSystem>();
             addDependency(avGLFWSystem);
 
             // Poll for monitor information.
-            p.monitorTimer = Time::Timer::create(context);
+            p.monitorTimer = System::Timer::create(context);
             p.monitorTimer->setRepeating(true);
             auto weak = std::weak_ptr<GLFWSystem>(std::dynamic_pointer_cast<GLFWSystem>(shared_from_this()));
             p.monitorTimer->start(
-                Time::getTime(Time::TimerValue::Slow),
+                System::getTimerDuration(System::TimerValue::Slow),
                 [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
                 {
                     if (auto system = weak.lock())
@@ -86,7 +87,7 @@ namespace djv
                             int w = 0;
                             int h = 0;
                             glfwGetMonitorWorkarea(monitors[0], &x, &y, &w, &h);
-                            m.geometry = BBox2i(x, y, w, h);
+                            m.geometry = Math::BBox2i(x, y, w, h);
                             glfwGetMonitorPhysicalSize(monitors[0], &m.physicalSizeMM.x, &m.physicalSizeMM.y);
                             info.push_back(m);
                         }
@@ -131,7 +132,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<GLFWSystem> GLFWSystem::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<GLFWSystem> GLFWSystem::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<GLFWSystem>(new GLFWSystem);
             out->_init(context);
@@ -156,7 +157,7 @@ namespace djv
                 p.cursorVisible = true;
                 if (auto context = getContext().lock())
                 {
-                    auto avGLFWSystem = context->getSystemT<AV::GLFW::System>();
+                    auto avGLFWSystem = context->getSystemT<GL::GLFW::GLFWSystem>();
                     auto glfwWindow = avGLFWSystem->getGLFWWindow();
                     glfwSetCursor(glfwWindow, p.arrowCursor);
                 }
@@ -171,7 +172,7 @@ namespace djv
                 p.cursorVisible = false;
                 if (auto context = getContext().lock())
                 {
-                    auto avGLFWSystem = context->getSystemT<AV::GLFW::System>();
+                    auto avGLFWSystem = context->getSystemT<GL::GLFW::GLFWSystem>();
                     auto glfwWindow = avGLFWSystem->getGLFWWindow();
                     glfwSetCursor(glfwWindow, p.hiddenCursor);
                 }

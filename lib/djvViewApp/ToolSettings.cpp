@@ -4,7 +4,7 @@
 
 #include <djvViewApp/ToolSettings.h>
 
-#include <djvCore/BBoxFunc.h>
+#include <djvMath/BBoxFunc.h>
 
 #if defined(GetObject)
 #undef GetObject
@@ -24,10 +24,10 @@ namespace djv
         {
             std::shared_ptr<ValueSubject<bool> > messagesPopup;
             std::map<std::string, bool> debugBellowsState;
-            std::map<std::string, BBox2f> widgetGeom;
+            std::map<std::string, Math::BBox2f> widgetGeom;
         };
 
-        void ToolSettings::_init(const std::shared_ptr<Core::Context>& context)
+        void ToolSettings::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettings::_init("djv::ViewApp::ToolSettings", context);
             DJV_PRIVATE_PTR();
@@ -42,7 +42,7 @@ namespace djv
         ToolSettings::~ToolSettings()
         {}
 
-        std::shared_ptr<ToolSettings> ToolSettings::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<ToolSettings> ToolSettings::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ToolSettings>(new ToolSettings);
             out->_init(context);
@@ -69,12 +69,12 @@ namespace djv
             _p->debugBellowsState = value;
         }
 
-        const std::map<std::string, BBox2f>& ToolSettings::getWidgetGeom() const
+        const std::map<std::string, Math::BBox2f>& ToolSettings::getWidgetGeom() const
         {
             return _p->widgetGeom;
         }
 
-        void ToolSettings::setWidgetGeom(const std::map<std::string, BBox2f>& value)
+        void ToolSettings::setWidgetGeom(const std::map<std::string, Math::BBox2f>& value)
         {
             _p->widgetGeom = value;
         }

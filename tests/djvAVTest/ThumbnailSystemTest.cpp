@@ -7,10 +7,13 @@
 #include <djvAV/IOSystem.h>
 #include <djvAV/ThumbnailSystem.h>
 
-#include <djvCore/Context.h>
+#include <djvImage/ImageDataFunc.h>
+
+#include <djvSystem/Context.h>
+#include <djvSystem/ResourceSystem.h>
+#include <djvSystem/TimerFunc.h>
+
 #include <djvCore/ErrorFunc.h>
-#include <djvCore/ResourceSystem.h>
-#include <djvCore/Timer.h>
 
 using namespace djv::Core;
 using namespace djv::AV;
@@ -20,8 +23,8 @@ namespace djv
     namespace AVTest
     {
         ThumbnailSystemTest::ThumbnailSystemTest(
-            const FileSystem::Path& tempPath,
-            const std::shared_ptr<Context>& context) :
+            const System::File::Path& tempPath,
+            const std::shared_ptr<System::Context>& context) :
             ITickTest("djv::AVTest::ThumbnailSystemTest", tempPath, context)
         {}
         
@@ -29,14 +32,14 @@ namespace djv
         {
             if (auto context = getContext().lock())
             {
-                auto resourceSystem = context->getSystemT<ResourceSystem>();
+                auto resourceSystem = context->getSystemT<System::ResourceSystem>();
                 auto system = context->getSystemT<ThumbnailSystem>();
                 
                 // Request a thumbnail.
                 std::vector<ThumbnailSystem::InfoFuture> infoFutures;
                 std::vector<ThumbnailSystem::ImageFuture> imageFutures;
-                const FileSystem::FileInfo fileInfo(FileSystem::Path(
-                    resourceSystem->getPath(FileSystem::ResourcePath::Icons),
+                const System::File::Info fileInfo(System::File::Path(
+                    resourceSystem->getPath(System::File::ResourcePath::Icons),
                     "96DPI/djvIconFile.png"));
                 infoFutures.push_back(system->getInfo(fileInfo));
                 imageFutures.push_back(system->getImage(fileInfo, Image::Size(32, 32)));
@@ -59,8 +62,8 @@ namespace djv
                 }
                 
                 // Request a missing thumbnail.
-                infoFutures.push_back(system->getInfo(FileSystem::FileInfo()));
-                imageFutures.push_back(system->getImage(FileSystem::FileInfo(), Image::Size(32, 32)));
+                infoFutures.push_back(system->getInfo(System::File::Info()));
+                imageFutures.push_back(system->getImage(System::File::Info(), Image::Size(32, 32)));
 
                 // Request and cancel a thumbnail.
                 auto infoCancelFuture = system->getInfo(fileInfo);
@@ -72,7 +75,7 @@ namespace djv
                 std::vector<IO::Info> infos;
                 while (!infoFutures.empty())
                 {
-                    _tickFor(Time::getTime(Time::TimerValue::Fast));
+                    _tickFor(System::getTimerDuration(System::TimerValue::Fast));
                     auto i = infoFutures.begin();
                     while (i != infoFutures.end())
                     {
@@ -109,7 +112,7 @@ namespace djv
                 std::vector<std::shared_ptr<Image::Image> > images;
                 while (!imageFutures.empty())
                 {
-                    _tickFor(Time::getTime(Time::TimerValue::Fast));
+                    _tickFor(System::getTimerDuration(System::TimerValue::Fast));
                     auto i = imageFutures.begin();
                     while (i != imageFutures.end())
                     {

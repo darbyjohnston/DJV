@@ -6,7 +6,8 @@
 
 #include <djvUI/Style.h>
 
-#include <djvCore/IObject.h>
+#include <djvSystem/IObject.h>
+
 #include <djvCore/ValueObserver.h>
 
 namespace djv
@@ -23,18 +24,18 @@ namespace djv
         } // namespace Button
 
         //! This class provides a popup menu widget.
-        class Menu : public Core::IObject
+        class Menu : public System::IObject
         {
             DJV_NON_COPYABLE(Menu);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             Menu();
 
         public:
             ~Menu() override;
 
-            static std::shared_ptr<Menu> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<Menu> create(const std::shared_ptr<System::Context>&);
 
             std::shared_ptr<Core::IValueSubject<std::string> > observeIcon() const;
             std::shared_ptr<Core::IValueSubject<std::string> > observeText() const;

@@ -6,7 +6,7 @@
 
 #include <djvUI/Enum.h>
 
-#include <djvCore/BBox.h>
+#include <djvMath/BBox.h>
 
 namespace djv
 {
@@ -16,30 +16,30 @@ namespace djv
         namespace Layout
         {
             //! Calculate widget geometry.
-            Core::BBox2f getAlign(
-                const Core::BBox2f&,
+            Math::BBox2f getAlign(
+                const Math::BBox2f&,
                 const glm::vec2& minimumSize,
                 HAlign,
                 VAlign);
 
-            Core::BBox2f getPopupGeometry(
+            Math::BBox2f getPopupGeometry(
                 UI::Popup,
                 const glm::vec2& pos,
                 const glm::vec2& minimumSize);
-            Core::BBox2f getPopupGeometry(
+            Math::BBox2f getPopupGeometry(
                 UI::Popup,
-                const Core::BBox2f& button,
+                const Math::BBox2f& button,
                 const glm::vec2& minimumSize);
 
             UI::Popup getPopup(
                 UI::Popup,
-                const Core::BBox2f& area,
+                const Math::BBox2f& area,
                 const glm::vec2& pos,
                 const glm::vec2& minimumSize);
             UI::Popup getPopup(
                 UI::Popup,
-                const Core::BBox2f& area,
-                const Core::BBox2f& button,
+                const Math::BBox2f& area,
+                const Math::BBox2f& button,
                 const glm::vec2& minimumSize);
 
         } // namespace Layout

@@ -40,9 +40,9 @@ set(DJV_GPROF FALSE CACHE BOOL "Enable gprof profiling")
 set(DJV_GCOV FALSE CACHE BOOL "Enable gcov code coverage")
 
 # Experimental options.
-set(DJV_OPENGL_ES2 FALSE CACHE BOOL "OpenGL ES 2.0 rendering (experiemental)")
-if(DJV_OPENGL_ES2)
-    add_definitions(-DDJV_OPENGL_ES2)
+set(DJV_GL_ES2 FALSE CACHE BOOL "OpenGL ES 2.0 rendering (experiemental)")
+if(DJV_GL_ES2)
+    add_definitions(-DDJV_GL_ES2)
 endif()
 set(DJV_PYTHON FALSE CACHE BOOL "Python support (experimental)")
 if(DJV_PYTHON)
@@ -100,7 +100,7 @@ include_directories(${INCLUDE_DIRS})
 
 # Miscellaneous settings.
 #add_definitions(-DDJV_MMAP)
-#add_definitions(-DDJV_OPENGL_PBO)
+#add_definitions(-DDJV_GL_PBO)
 add_definitions(-DDJV_ASSERT)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 if(DJV_DEMO)
@@ -252,7 +252,7 @@ file(COPY ${DJV_AUDIO_FILES} DESTINATION ${DJV_BUILD_DIR}/etc/Audio)
 install(FILES ${DJV_AUDIO_FILES} DESTINATION etc/Audio)
 
 # Shaders.
-if(DJV_OPENGL_ES2)
+if(DJV_GL_ES2)
     file(GLOB_RECURSE DJV_SHADER_FILES ${CMAKE_SOURCE_DIR}/etc/Shaders/GL2ES/*.glsl)
 else()
     file(GLOB_RECURSE DJV_SHADER_FILES ${CMAKE_SOURCE_DIR}/etc/Shaders/GL4_1/*.glsl)

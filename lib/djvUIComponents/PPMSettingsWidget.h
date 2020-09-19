@@ -16,11 +16,11 @@ namespace djv
             DJV_NON_COPYABLE(PPMSettingsWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             PPMSettingsWidget();
 
         public:
-            static std::shared_ptr<PPMSettingsWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<PPMSettingsWidget> create(const std::shared_ptr<System::Context>&);
 
             std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;
@@ -29,7 +29,7 @@ namespace djv
             void setLabelSizeGroup(const std::weak_ptr<LabelSizeGroup>&) override;
 
         protected:
-            void _initEvent(Core::Event::Init &) override;
+            void _initEvent(System::Event::Init &) override;
 
         private:
             void _widgetUpdate();

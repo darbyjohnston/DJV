@@ -17,15 +17,27 @@ namespace djv
 {
     namespace Core
     {
-        class Context;
         class ICommand;
 
-        namespace FileSystem
-        {
-            class FileInfo;
-
-        } // namespace FileSystem
     } // namespace Core
+
+    namespace Image
+    {
+        class Image;
+        class Info;
+
+    } // namespace Image
+
+    namespace System
+    {
+        class Context;
+
+        namespace File
+        {
+            class Info;
+
+        } // namespace File
+    } // namespace System
 
     namespace ViewApp
     {
@@ -38,8 +50,8 @@ namespace djv
 
         protected:
             void _init(
-                const Core::FileSystem::FileInfo&,
-                const std::shared_ptr<Core::Context>&);
+                const System::File::Info&,
+                const std::shared_ptr<System::Context>&);
             Media();
 
         public:
@@ -47,14 +59,14 @@ namespace djv
 
             //! Create a new media object.
             static std::shared_ptr<Media> create(
-                const Core::FileSystem::FileInfo&,
-                const std::shared_ptr<Core::Context>&);
+                const System::File::Info&,
+                const std::shared_ptr<System::Context>&);
 
             //! \name File
             ///@{
 
             bool isValid() const;
-            const Core::FileSystem::FileInfo& getFileInfo() const;
+            const System::File::Info& getFileInfo() const;
 
             std::shared_ptr<Core::IValueSubject<AV::IO::Info> > observeInfo() const;
             std::shared_ptr<Core::IValueSubject<bool> > observeReload() const;
@@ -66,7 +78,7 @@ namespace djv
             //! \name Layers
             ///@{
 
-            std::shared_ptr<Core::IValueSubject<std::pair<std::vector<AV::Image::Info>, int> > > observeLayers() const;
+            std::shared_ptr<Core::IValueSubject<std::pair<std::vector<Image::Info>, int> > > observeLayers() const;
 
             void setLayer(int);
             void nextLayer();
@@ -77,29 +89,29 @@ namespace djv
             //! \name Image
             ///@{
 
-            std::shared_ptr<Core::IValueSubject<std::shared_ptr<AV::Image::Image> > > observeCurrentImage() const;
+            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Image::Image> > > observeCurrentImage() const;
 
             ///@}
 
             //! \name Playback
             ///@{
 
-            std::shared_ptr<Core::IValueSubject<Core::Math::Rational> > observeSpeed() const;
+            std::shared_ptr<Core::IValueSubject<Math::Rational> > observeSpeed() const;
             std::shared_ptr<Core::IValueSubject<PlaybackSpeed> > observePlaybackSpeed() const;
-            std::shared_ptr<Core::IValueSubject<Core::Math::Rational> > observeDefaultSpeed() const;
-            std::shared_ptr<Core::IValueSubject<Core::Math::Rational> > observeCustomSpeed() const;
+            std::shared_ptr<Core::IValueSubject<Math::Rational> > observeDefaultSpeed() const;
+            std::shared_ptr<Core::IValueSubject<Math::Rational> > observeCustomSpeed() const;
             std::shared_ptr<Core::IValueSubject<float> > observeRealSpeed() const;
             std::shared_ptr<Core::IValueSubject<bool> > observePlayEveryFrame() const;
-            std::shared_ptr<Core::IValueSubject<Core::Frame::Sequence> > observeSequence() const;
-            std::shared_ptr<Core::IValueSubject<Core::Frame::Index> > observeCurrentFrame() const;
+            std::shared_ptr<Core::IValueSubject<Math::Frame::Sequence> > observeSequence() const;
+            std::shared_ptr<Core::IValueSubject<Math::Frame::Index> > observeCurrentFrame() const;
             std::shared_ptr<Core::IValueSubject<Playback> > observePlayback() const;
             std::shared_ptr<Core::IValueSubject<PlaybackMode> > observePlaybackMode() const;
             std::shared_ptr<Core::IValueSubject<AV::IO::InOutPoints> > observeInOutPoints() const;
 
             void setPlaybackSpeed(PlaybackSpeed);
-            void setCustomSpeed(const Core::Math::Rational&);
+            void setCustomSpeed(const Math::Rational&);
             void setPlayEveryFrame(bool);
-            void setCurrentFrame(Core::Frame::Index, bool inOutPoints = true);
+            void setCurrentFrame(Math::Frame::Index, bool inOutPoints = true);
             void setPlayback(Playback);
             void setPlaybackMode(PlaybackMode);
             void inPoint();
@@ -143,8 +155,8 @@ namespace djv
             bool hasCache() const;
             size_t getCacheMaxByteCount() const;
             size_t getCacheByteCount() const;
-            std::shared_ptr<Core::IValueSubject<Core::Frame::Sequence> > observeCacheSequence() const;
-            std::shared_ptr<Core::IValueSubject<Core::Frame::Sequence> > observeCachedFrames() const;
+            std::shared_ptr<Core::IValueSubject<Math::Frame::Sequence> > observeCacheSequence() const;
+            std::shared_ptr<Core::IValueSubject<Math::Frame::Sequence> > observeCachedFrames() const;
 
             void setCacheEnabled(bool);
             void setCacheMaxByteCount(size_t);
@@ -189,9 +201,9 @@ namespace djv
             bool _isAudioEnabled() const;
             bool _hasAudioSyncPlayback() const;
             void _open();
-            void _setSpeed(const Core::Math::Rational&);
-            void _setCurrentFrame(Core::Frame::Index);
-            void _seek(Core::Frame::Index);
+            void _setSpeed(const Math::Rational&);
+            void _setCurrentFrame(Math::Frame::Index);
+            void _seek(Math::Frame::Index);
             void _playbackUpdate();
             void _playbackTick();
             void _startAudioStream();

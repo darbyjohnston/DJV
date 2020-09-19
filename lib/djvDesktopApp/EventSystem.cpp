@@ -9,29 +9,30 @@
 #include <djvUI/Widget.h>
 #include <djvUI/Window.h>
 
-#include <djvAV/OpenGLOffscreenBuffer.h>
-#include <djvAV/Render2D.h>
-#if defined(DJV_OPENGL_ES2)
-#include <djvAV/OpenGLMesh.h>
-#include <djvAV/OpenGLShader.h>
-#include <djvAV/Shader.h>
-#endif // DJV_OPENGL_ES2
+#include <djvRender2D/Render.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/Event.h>
-#include <djvCore/IObject.h>
-#include <djvCore/Timer.h>
-#include <djvCore/VectorFunc.h>
-#if defined(DJV_OPENGL_ES2)
-#include <djvCore/ResourceSystem.h>
-#endif // DJV_OPENGL_ES2
+#include <djvGL/OffscreenBuffer.h>
+#if defined(DJV_GL_ES2)
+#include <djvGL/Mesh.h>
+#include <djvGL/Shader.h>
+#endif // DJV_GL_ES2
+
+#include <djvSystem/Context.h>
+#include <djvSystem/Event.h>
+#include <djvSystem/IObject.h>
+#include <djvSystem/TimerFunc.h>
+#if defined(DJV_GL_ES2)
+#include <djvSystem/ResourceSystem.h>
+#endif // DJV_GL_ES2
+
+#include <djvMath/VectorFunc.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
-#if defined(DJV_OPENGL_ES2)
+#if defined(DJV_GL_ES2)
 #include <glm/gtc/matrix_transform.hpp>
-#endif // DJV_OPENGL_ES2
+#endif // DJV_GL_ES2
 
 #include <codecvt>
 #include <locale>
@@ -44,7 +45,7 @@ namespace djv
     {
         namespace
         {
-            const Event::PointerID pointerID = 1;
+            const System::Event::PointerID pointerID = 1;
 
             int fromGLFWPointerButton(int value)
             {
@@ -66,34 +67,34 @@ namespace djv
             GLFWwindow * glfwWindow = nullptr;
             glm::ivec2 resize = glm::ivec2(0, 0);
             glm::vec2 contentScale = glm::vec2(1.F, 1.F);
-            std::shared_ptr<AV::Render2D::Render> render;
-            std::shared_ptr<AV::OpenGL::OffscreenBuffer> offscreenBuffer;
-#if defined(DJV_OPENGL_ES2)
-            std::shared_ptr<AV::OpenGL::Shader> shader;
-#endif // DJV_OPENGL_ES2
-            std::shared_ptr<Time::Timer> statsTimer;
+            std::shared_ptr<Render2D::Render> render;
+            std::shared_ptr<GL::OffscreenBuffer> offscreenBuffer;
+#if defined(DJV_GL_ES2)
+            std::shared_ptr<GL::Shader> shader;
+#endif // DJV_GL_ES2
+            std::shared_ptr<System::Timer> statsTimer;
         };
 
-        void EventSystem::_init(GLFWwindow * glfwWindow, const std::shared_ptr<Context>& context)
+        void EventSystem::_init(GLFWwindow * glfwWindow, const std::shared_ptr<System::Context>& context)
         {
             UI::EventSystem::_init("djv::Desktop::EventSystem", context);
 
             DJV_PRIVATE_PTR();
 
             p.glfwWindow = glfwWindow;
-            p.render = context->getSystemT<AV::Render2D::Render>();
+            p.render = context->getSystemT<Render2D::Render>();
 
             glm::vec2 contentScale = glm::vec2(1.F, 1.F);
             glfwGetWindowContentScale(p.glfwWindow, &contentScale.x, &contentScale.y);
             _contentScale(contentScale);
 
-#if defined(DJV_OPENGL_ES2)
+#if defined(DJV_GL_ES2)
             auto resourceSystem = context->getSystemT<ResourceSystem>();
-            const Core::FileSystem::Path shaderPath = resourceSystem->getPath(Core::FileSystem::ResourcePath::Shaders);
-            p.shader = AV::OpenGL::Shader::create(AV::Render::Shader::create(
-                Core::FileSystem::Path(shaderPath, "djvAVRender2DVertex.glsl"),
-                Core::FileSystem::Path(shaderPath, "djvAVRender2DFragment.glsl")));
-#endif // DJV_OPENGL_ES2
+            const System::File::Path shaderPath = resourceSystem->getPath(Core::FileSystem::ResourcePath::Shaders);
+            p.shader = GL::Shader::create(
+                System::File::Path(shaderPath, "djvAVRender2DVertex.glsl"),
+                System::File::Path(shaderPath, "djvAVRender2DFragment.glsl"));
+#endif // DJV_GL_ES2
 
             glfwGetFramebufferSize(glfwWindow, &p.resize.x, &p.resize.y);
             {
@@ -113,11 +114,11 @@ namespace djv
             glfwSetCharModsCallback(glfwWindow, _charCallback);
             glfwSetScrollCallback(glfwWindow, _scrollCallback);
 
-            p.statsTimer = Time::Timer::create(context);
+            p.statsTimer = System::Timer::create(context);
             p.statsTimer->setRepeating(true);
             auto weak = std::weak_ptr<EventSystem>(std::dynamic_pointer_cast<EventSystem>(shared_from_this()));
             p.statsTimer->start(
-                Time::getTime(Time::TimerValue::VerySlow),
+                System::getTimerDuration(System::TimerValue::VerySlow),
                 [weak](const std::chrono::steady_clock::time_point&, const Time::Duration&)
             {
                 if (auto system = weak.lock())
@@ -149,7 +150,7 @@ namespace djv
             glfwSetScrollCallback(p.glfwWindow, nullptr);
         }
 
-        std::shared_ptr<EventSystem> EventSystem::create(GLFWwindow * glfwWindow, const std::shared_ptr<Context>& context)
+        std::shared_ptr<EventSystem> EventSystem::create(GLFWwindow * glfwWindow, const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<EventSystem>(new EventSystem);
             out->_init(glfwWindow, context);
@@ -176,12 +177,12 @@ namespace djv
             const bool resizeRequest = _resizeRequestReset();
             if (resizeRequest)
             {
-                const AV::Image::Size size(p.resize.x, p.resize.y);
+                const Image::Size size(p.resize.x, p.resize.y);
                 if (size.isValid())
                 {
-                    p.offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(
+                    p.offscreenBuffer = GL::OffscreenBuffer::create(
                         size,
-                        AV::Image::Type::RGBA_U8,
+                        Image::Type::RGBA_U8,
                         _getTextSystem());
                 }
                 else
@@ -221,18 +222,18 @@ namespace djv
                         {
                             window->resize(glm::vec2(size.w, size.h));
 
-                            Event::InitLayout initLayout;
+                            System::Event::InitLayout initLayout;
                             _initLayoutRecursive(window, initLayout);
 
-                            Event::PreLayout preLayout;
+                            System::Event::PreLayout preLayout;
                             _preLayoutRecursive(window, preLayout);
 
                             if (window->isVisible())
                             {
-                                Event::Layout layout;
+                                System::Event::Layout layout;
                                 _layoutRecursive(window, layout);
 
-                                Event::Clip clip(BBox2f(0.F, 0.F, static_cast<float>(size.w), static_cast<float>(size.h)));
+                                System::Event::Clip clip(Math::BBox2f(0.F, 0.F, static_cast<float>(size.w), static_cast<float>(size.h)));
                                 _clipRecursive(window, clip);
                             }
                         }
@@ -249,8 +250,8 @@ namespace djv
                         {
                             if (window->isVisible())
                             {
-                                Event::Paint paintEvent(BBox2f(0.F, 0.F, static_cast<float>(size.w), static_cast<float>(size.h)));
-                                Event::PaintOverlay paintOverlayEvent(BBox2f(0.F, 0.F, static_cast<float>(size.w), static_cast<float>(size.h)));
+                                System::Event::Paint paintEvent(Math::BBox2f(0.F, 0.F, static_cast<float>(size.w), static_cast<float>(size.h)));
+                                System::Event::PaintOverlay paintOverlayEvent(Math::BBox2f(0.F, 0.F, static_cast<float>(size.w), static_cast<float>(size.h)));
                                 _paintRecursive(window, paintEvent, paintOverlayEvent);
                             }
                         }
@@ -264,7 +265,7 @@ namespace djv
             _redraw();
         }
 
-        void EventSystem::_pushClipRect(const Core::BBox2f& value)
+        void EventSystem::_pushClipRect(const Math::BBox2f& value)
         {
             _p->render->pushClipRect(value);
         }
@@ -295,7 +296,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 p.contentScale = value;
-                const glm::vec2 dpi(AV::dpiDefault * p.contentScale.x, AV::dpiDefault * p.contentScale.y);
+                const glm::vec2 dpi(Render2D::dpiDefault * p.contentScale.x, Render2D::dpiDefault * p.contentScale.y);
                 {
                     std::stringstream ss;
                     ss << "Content scale: " << p.contentScale << std::endl;
@@ -321,7 +322,7 @@ namespace djv
                     0,
                     GLsizei(size.w),
                     GLsizei(size.h));
-#if defined(DJV_OPENGL_ES2)
+#if defined(DJV_GL_ES2)
                 p.shader->bind();
                 const auto viewMatrix = glm::ortho(
                     0.F,
@@ -340,7 +341,7 @@ namespace djv
                 glActiveTexture(GL_TEXTURE0);
                 glBindTexture(GL_TEXTURE_2D, p.offscreenBuffer->getColorID());
                                 
-                auto vbo = AV::OpenGL::VBO::create(2 * 4, AV::OpenGL::VBOType::Pos2_F32_UV_U16);
+                auto vbo = GL::VBO::create(2 * 4, GL::VBOType::Pos2_F32_UV_U16);
                 std::vector<uint8_t> vboData(6 * (2 * 4 + 2 * 2));
                 struct Data
                 {
@@ -381,9 +382,9 @@ namespace djv
                 vboP->v = 0;
                 ++vboP;
                 vbo->copy(vboData);
-                auto vao = AV::OpenGL::VAO::create(AV::OpenGL::VBOType::Pos2_F32_UV_U16, vbo->getID());
+                auto vao = GL::VAO::create(GL::VBOType::Pos2_F32_UV_U16, vbo->getID());
                 vao->draw(GL_TRIANGLES, 0, 6);
-#else // DJV_OPENGL_ES2
+#else // DJV_GL_ES2
                 glBindFramebuffer(GL_READ_FRAMEBUFFER, p.offscreenBuffer->getID());
                 glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
                 glBlitFramebuffer(
@@ -391,11 +392,11 @@ namespace djv
                     0, 0, size.w, size.h,
                     GL_COLOR_BUFFER_BIT,
                     GL_NEAREST);
-#endif // DJV_OPENGL_ES2
+#endif // DJV_GL_ES2
             }
         }
 
-        void EventSystem::_hover(Event::PointerMove& event, std::shared_ptr<IObject>& hover)
+        void EventSystem::_hover(System::Event::PointerMove& event, std::shared_ptr<System::IObject>& hover)
         {
             const auto windows = _getWindows();
             for (auto i = windows.rbegin(); i != windows.rend(); ++i)
@@ -414,7 +415,7 @@ namespace djv
             }
         }
 
-        void EventSystem::_hover(const std::shared_ptr<UI::Widget>& widget, Event::PointerMove& event, std::shared_ptr<IObject>& hover)
+        void EventSystem::_hover(const std::shared_ptr<UI::Widget>& widget, System::Event::PointerMove& event, std::shared_ptr<System::IObject>& hover)
         {
             const auto children = widget->getChildWidgets();
             for (auto i = children.rbegin(); i != children.rend(); ++i)
@@ -442,7 +443,7 @@ namespace djv
 
         void EventSystem::_focusCallback(GLFWwindow* window, int value)
         {
-            if (Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window)))
+            if (auto context = reinterpret_cast<System::Context*>(glfwGetWindowUserPointer(window)))
             {
                 if (auto system = context->getSystemT<EventSystem>())
                 {
@@ -453,7 +454,7 @@ namespace djv
 
         void EventSystem::_resizeCallback(GLFWwindow * window, int width, int height)
         {
-            if (Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window)))
+            if (auto context = reinterpret_cast<System::Context*>(glfwGetWindowUserPointer(window)))
             {
                 if (auto system = context->getSystemT<EventSystem>())
                 {
@@ -464,7 +465,7 @@ namespace djv
 
         void EventSystem::_contentScaleCallback(GLFWwindow* window, float scaleX, float scaleY)
         {
-            if (Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window)))
+            if (auto context = reinterpret_cast<System::Context*>(glfwGetWindowUserPointer(window)))
             {
                 if (auto system = context->getSystemT<EventSystem>())
                 {
@@ -475,7 +476,7 @@ namespace djv
 
         void EventSystem::_redrawCallback(GLFWwindow * window)
         {
-            if (Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window)))
+            if (auto context = reinterpret_cast<System::Context*>(glfwGetWindowUserPointer(window)))
             {
                 if (auto system = context->getSystemT<EventSystem>())
                 {
@@ -486,13 +487,13 @@ namespace djv
 
         void EventSystem::_pointerEnterCallback(GLFWwindow* window, int value)
         {
-            if (Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window)))
+            if (auto context = reinterpret_cast<System::Context*>(glfwGetWindowUserPointer(window)))
             {
                 if (auto system = context->getSystemT<EventSystem>())
                 {
                     if (GLFW_FALSE == value)
                     {
-                        Event::PointerInfo info;
+                        System::Event::PointerInfo info;
                         info.id = pointerID;
                         info.pos.x = -1.F;
                         info.pos.y = -1.F;
@@ -509,11 +510,11 @@ namespace djv
 
         void EventSystem::_pointerCallback(GLFWwindow * window, double x, double y)
         {
-            if (Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window)))
+            if (auto context = reinterpret_cast<System::Context*>(glfwGetWindowUserPointer(window)))
             {
                 if (auto system = context->getSystemT<EventSystem>())
                 {
-                    Event::PointerInfo info;
+                    System::Event::PointerInfo info;
                     info.id = pointerID;
                     info.pos.x = static_cast<float>(x);
                     info.pos.y = static_cast<float>(y);
@@ -533,7 +534,7 @@ namespace djv
 
         void EventSystem::_buttonCallback(GLFWwindow * window, int button, int action, int modifiers)
         {
-            if (Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window)))
+            if (auto context = reinterpret_cast<System::Context*>(glfwGetWindowUserPointer(window)))
             {
                 if (auto system = context->getSystemT<EventSystem>())
                 {
@@ -549,7 +550,7 @@ namespace djv
 
         void EventSystem::_dropCallback(GLFWwindow * window, int count, const char ** paths)
         {
-            if (Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window)))
+            if (auto context = reinterpret_cast<System::Context*>(glfwGetWindowUserPointer(window)))
             {
                 if (auto system = context->getSystemT<EventSystem>())
                 {
@@ -565,7 +566,7 @@ namespace djv
 
         void EventSystem::_keyCallback(GLFWwindow * window, int key, int scancode, int action, int modifiers)
         {
-            if (Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window)))
+            if (auto context = reinterpret_cast<System::Context*>(glfwGetWindowUserPointer(window)))
             {
                 if (auto system = context->getSystemT<EventSystem>())
                 {
@@ -582,7 +583,7 @@ namespace djv
 
         void EventSystem::_charCallback(GLFWwindow * window, unsigned int character, int modifiers)
         {
-            if (Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window)))
+            if (auto context = reinterpret_cast<System::Context*>(glfwGetWindowUserPointer(window)))
             {
                 if (auto system = context->getSystemT<EventSystem>())
                 {
@@ -595,7 +596,7 @@ namespace djv
 
         void EventSystem::_scrollCallback(GLFWwindow * window, double x, double y)
         {
-            if (Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window)))
+            if (auto context = reinterpret_cast<System::Context*>(glfwGetWindowUserPointer(window)))
             {
                 if (auto system = context->getSystemT<EventSystem>())
                 {

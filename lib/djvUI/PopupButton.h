@@ -18,13 +18,13 @@ namespace djv
                 DJV_NON_COPYABLE(Popup);
 
             protected:
-                void _init(MenuButtonStyle, const std::shared_ptr<Core::Context>&);
+                void _init(MenuButtonStyle, const std::shared_ptr<System::Context>&);
                 Popup();
 
             public:
                 ~Popup() override;
 
-                static std::shared_ptr<Popup> create(MenuButtonStyle, const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<Popup> create(MenuButtonStyle, const std::shared_ptr<System::Context>&);
 
                 void open();
                 void close();
@@ -59,8 +59,8 @@ namespace djv
                 void setCloseCallback(const std::function<void(const std::shared_ptr<Widget>&)>&);
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
 
             private:
                 DJV_PRIVATE();

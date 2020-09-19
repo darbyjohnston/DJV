@@ -5,16 +5,19 @@
 #include <djvAV/ThumbnailSystem.h>
 
 #include <djvAV/IOSystem.h>
-#include <djvAV/Image.h>
-#include <djvAV/ImageConvert.h>
+
+#include <djvGL/ImageConvert.h>
+
+#include <djvImage/Image.h>
+
+#include <djvSystem/Context.h>
+#include <djvSystem/LogSystem.h>
+#include <djvSystem/ResourceSystem.h>
+#include <djvSystem/TextSystem.h>
+#include <djvSystem/TimerFunc.h>
 
 #include <djvCore/Cache.h>
-#include <djvCore/Context.h>
-#include <djvCore/LogSystem.h>
 #include <djvCore/OSFunc.h>
-#include <djvCore/ResourceSystem.h>
-#include <djvCore/TextSystem.h>
-#include <djvCore/Timer.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -68,7 +71,7 @@ namespace djv
                 }
 
                 UID uid = 0;
-                FileSystem::FileInfo fileInfo;
+                System::File::Info fileInfo;
                 std::shared_ptr<IO::IRead> read;
                 std::future<IO::Info> infoFuture;
                 std::promise<IO::Info> promise;
@@ -107,21 +110,21 @@ namespace djv
                 }
 
                 UID uid = 0;
-                FileSystem::FileInfo fileInfo;
+                System::File::Info fileInfo;
                 Image::Size size;
                 Image::Type type = Image::Type::None;
                 std::shared_ptr<IO::IRead> read;
                 std::promise<std::shared_ptr<Image::Image> > promise;
             };
 
-            size_t getInfoCacheKey(const FileSystem::FileInfo& fileInfo)
+            size_t getInfoCacheKey(const System::File::Info& fileInfo)
             {
                 size_t out = 0;
                 Memory::hashCombine(out, fileInfo.getFileName());
                 return out;
             }
 
-            size_t getImageCacheKey(const FileSystem::FileInfo& fileInfo, const Image::Size& size, Image::Type type)
+            size_t getImageCacheKey(const System::File::Info& fileInfo, const Image::Size& size, Image::Type type)
             {
                 size_t out = 0;
                 Memory::hashCombine(out, fileInfo.getFileName());
@@ -155,8 +158,8 @@ namespace djv
         
         struct ThumbnailSystem::Private
         {
-            std::shared_ptr<TextSystem> textSystem;
-            std::shared_ptr<IO::System> io;
+            std::shared_ptr<System::TextSystem> textSystem;
+            std::shared_ptr<IO::IOSystem> io;
 
             std::list<InfoRequest> infoRequests;
             std::list<ImageRequest> imageRequests;
@@ -173,19 +176,19 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > ioOptionsObserver;
 
             GLFWwindow * glfwWindow = nullptr;
-            std::shared_ptr<Time::Timer> statsTimer;
+            std::shared_ptr<System::Timer> statsTimer;
             std::thread thread;
             std::atomic<bool> running;
         };
 
-        void ThumbnailSystem::_init(const std::shared_ptr<Core::Context>& context)
+        void ThumbnailSystem::_init(const std::shared_ptr<System::Context>& context)
         {
             ISystem::_init("djv::AV::ThumbnailSystem", context);
 
             DJV_PRIVATE_PTR();
 
-            p.textSystem = context->getSystemT<TextSystem>();
-            p.io = context->getSystemT<IO::System>();
+            p.textSystem = context->getSystemT<System::TextSystem>();
+            p.io = context->getSystemT<IO::IOSystem>();
             addDependency(p.io);
 
             p.infoCache.setMax(infoCacheMax);
@@ -194,19 +197,19 @@ namespace djv
             p.imageCachePercentage = 0.F;
             p.clearCache = false;
 
-#if defined(DJV_OPENGL_ES2)
+#if defined(DJV_GL_ES2)
             glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
             glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-#else // DJV_OPENGL_ES2
+#else // DJV_GL_ES2
             glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
             glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-#endif // DJV_OPENGL_ES2
+#endif // DJV_GL_ES2
             glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
             int env = 0;
-            if (OS::getIntEnv("DJV_OPENGL_DEBUG", env) && env != 0)
+            if (OS::getIntEnv("DJV_GL_DEBUG", env) && env != 0)
             {
                 glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
             }
@@ -216,10 +219,10 @@ namespace djv
                 throw ThumbnailError(p.textSystem->getText(DJV_TEXT("error_glfw_window_creation")));
             }
 
-            p.statsTimer = Time::Timer::create(context);
+            p.statsTimer = System::Timer::create(context);
             p.statsTimer->setRepeating(true);
             p.statsTimer->start(
-                Time::getTime(Time::TimerValue::VerySlow),
+                System::getTimerDuration(System::TimerValue::VerySlow),
                 [this](const std::chrono::steady_clock::time_point&, const Time::Duration&)
             {
                 DJV_PRIVATE_PTR();
@@ -231,8 +234,8 @@ namespace djv
                 _log(ss.str());
             });
 
-            auto logSystem = context->getSystemT<LogSystem>();
-            auto resourceSystem = context->getSystemT<ResourceSystem>();
+            auto logSystem = context->getSystemT<System::LogSystem>();
+            auto resourceSystem = context->getSystemT<System::ResourceSystem>();
             p.running = true;
             p.thread = std::thread(
                 [this, resourceSystem, logSystem]
@@ -241,18 +244,18 @@ namespace djv
                 try
                 {
                     glfwMakeContextCurrent(p.glfwWindow);
-#if defined(DJV_OPENGL_ES2)
+#if defined(DJV_GL_ES2)
                     if (!gladLoadGLES2Loader((GLADloadproc)glfwGetProcAddress))
-#else // DJV_OPENGL_ES2
+#else // DJV_GL_ES2
                     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-#endif // DJV_OPENGL_ES2
+#endif // DJV_GL_ES2
                     {
                         throw ThumbnailError(p.textSystem->getText(DJV_TEXT("error_glad_init")));
                     }
 
-                    auto convert = Image::Convert::create(p.textSystem, resourceSystem);
+                    auto convert = GL::ImageConvert::create(p.textSystem, resourceSystem);
 
-                    const auto timeout = Time::getValue(Time::TimerValue::Medium);
+                    const auto timeout = System::getTimerValue(System::TimerValue::Medium);
                     while (p.running)
                     {
                         if (p.clearCache)
@@ -293,7 +296,7 @@ namespace djv
                 }
                 catch (const std::exception& e)
                 {
-                    logSystem->log("djv::AV::ThumbnailSystem", e.what(), LogLevel::Error);
+                    logSystem->log("djv::AV::ThumbnailSystem", e.what(), System::LogLevel::Error);
                 }
             });
 
@@ -330,14 +333,14 @@ namespace djv
             }
         }
 
-        std::shared_ptr<ThumbnailSystem> ThumbnailSystem::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<ThumbnailSystem> ThumbnailSystem::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ThumbnailSystem>(new ThumbnailSystem);
             out->_init(context);
             return out;
         }
 
-        ThumbnailSystem::InfoFuture ThumbnailSystem::getInfo(const FileSystem::FileInfo& fileInfo)
+        ThumbnailSystem::InfoFuture ThumbnailSystem::getInfo(const System::File::Info& fileInfo)
         {
             DJV_PRIVATE_PTR();
             InfoRequest request;
@@ -371,9 +374,9 @@ namespace djv
         }
 
         ThumbnailSystem::ImageFuture ThumbnailSystem::getImage(
-            const FileSystem::FileInfo& fileInfo,
-            const Image::Size&          size,
-            Image::Type                 type)
+            const System::File::Info& fileInfo,
+            const Image::Size&        size,
+            Image::Type               type)
         {
             DJV_PRIVATE_PTR();
             ImageRequest request;
@@ -466,7 +469,7 @@ namespace djv
                         }
                         catch (const std::exception& e)
                         {
-                            _log(e.what(), LogLevel::Error);
+                            _log(e.what(), System::LogLevel::Error);
                         }
                     }
                 }
@@ -492,7 +495,7 @@ namespace djv
             }
         }
 
-        void ThumbnailSystem::_handleImageRequests(const std::shared_ptr<Image::Convert>& convert)
+        void ThumbnailSystem::_handleImageRequests(const std::shared_ptr<GL::ImageConvert>& convert)
         {
             DJV_PRIVATE_PTR();
 
@@ -542,7 +545,7 @@ namespace djv
                         }
                         catch (const std::exception& e)
                         {
-                            _log(e.what(), LogLevel::Error);
+                            _log(e.what(), System::LogLevel::Error);
                         }
                     }
                 }
@@ -587,9 +590,9 @@ namespace djv
                             }
                             const auto type = i->type != Image::Type::None ? i->type : image->getType();
                             auto info = Image::Info(size, type);
-#if defined(DJV_OPENGL_ES2)
+#if defined(DJV_GL_ES2)
                             info.type = Image::Type::RGBA_U8;
-#endif // DJV_OPENGL_ES2
+#endif // DJV_GL_ES2
                             auto tmp = Image::Image::create(info);
                             tmp->setPluginName(image->getPluginName());
                             tmp->setTags(image->getTags());
@@ -608,7 +611,7 @@ namespace djv
                         }
                         catch (const std::exception& e)
                         {
-                            _log(e.what(), LogLevel::Error);
+                            _log(e.what(), System::LogLevel::Error);
                         }
                     }
                 }

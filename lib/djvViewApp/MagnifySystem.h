@@ -16,13 +16,13 @@ namespace djv
             DJV_NON_COPYABLE(MagnifySystem);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             MagnifySystem();
 
         public:
             ~MagnifySystem() override;
 
-            static std::shared_ptr<MagnifySystem> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<MagnifySystem> create(const std::shared_ptr<System::Context>&);
 
             ToolActionData getToolAction() const override;
             void setCurrentTool(bool, int) override;

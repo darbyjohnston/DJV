@@ -14,10 +14,10 @@ namespace djv
             return std::shared_ptr<PointListPrimitive>(new PointListPrimitive);
         }
 
-        inline void  PointListPrimitive::setPointList(const std::shared_ptr<AV::Geom::PointList>& value)
+        inline void  PointListPrimitive::setPointList(const std::shared_ptr<Geom::PointList>& value)
         {
             _pointList = value;
-            Core::BBox3f bbox = getBBox();
+            Math::BBox3f bbox = getBBox();
             auto i = _pointList->v.begin();
             if (i != _pointList->v.end())
             {
@@ -40,7 +40,7 @@ namespace djv
             return false;
         }
 
-        inline const std::shared_ptr<AV::Geom::PointList>& PointListPrimitive::getPointList() const
+        inline const std::shared_ptr<Geom::PointList>& PointListPrimitive::getPointList() const
         {
             return _pointList;
         }

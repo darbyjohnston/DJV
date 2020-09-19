@@ -37,7 +37,8 @@
 #include <djvUI/ToolBar.h>
 #include <djvUI/ToolButton.h>
 
-#include <djvCore/FileInfo.h>
+#include <djvSystem/FileInfo.h>
+
 #include <djvCore/OS.h>
 
 #define GLFW_INCLUDE_NONE
@@ -75,7 +76,7 @@ namespace djv
             std::shared_ptr<ValueObserver<float> > fadeObserver;
         };
         
-        void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
+        void MainWindow::_init(const std::shared_ptr<System::Context>& context)
         {
             UI::Window::_init(context);
 
@@ -218,7 +219,7 @@ namespace djv
             addChild(p.layout);
 
             auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.mediaActionGroup->setRadioCallback(
                 [weak, contextWeak](int value)
                 {
@@ -337,12 +338,12 @@ namespace djv
                                 }
                                 widget->_p->mediaButton->setText(
                                     value ?
-                                    value->getFileInfo().getFileName(Frame::invalid, false) :
+                                    value->getFileInfo().getFileName(Math::Frame::invalid, false) :
                                     "-");
                                 widget->_p->mediaButton->setTooltip(std::string(
                                     value ?
                                     value->getFileInfo() :
-                                    Core::FileSystem::FileInfo()));
+                                    System::File::Info()));
                             }
                         });
                 }
@@ -379,7 +380,7 @@ namespace djv
         MainWindow::~MainWindow()
         {}
 
-        std::shared_ptr<MainWindow> MainWindow::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<MainWindow> MainWindow::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<MainWindow>(new MainWindow);
             out->_init(context);
@@ -391,7 +392,7 @@ namespace djv
             return _p->mediaCanvas;
         }
 
-        void MainWindow::_dropEvent(Event::Drop & event)
+        void MainWindow::_dropEvent(System::Event::Drop & event)
         {
             if (auto context = getContext().lock())
             {
@@ -404,7 +405,7 @@ namespace djv
             }
         }
 
-        void MainWindow::_initEvent(Event::Init& event)
+        void MainWindow::_initEvent(System::Event::Init& event)
         {
             Window::_initEvent(event);
             DJV_PRIVATE_PTR();

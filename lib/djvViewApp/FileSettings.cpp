@@ -4,11 +4,12 @@
 
 #include <djvViewApp/FileSettings.h>
 
-#include <djvAV/ImageData.h>
+#include <djvImage/ImageData.h>
 
-#include <djvCore/BBoxFunc.h>
-#include <djvCore/Context.h>
-#include <djvCore/FileInfoFunc.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/FileInfoFunc.h>
+
+#include <djvMath/BBoxFunc.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -30,22 +31,22 @@ namespace djv
         struct FileSettings::Private
         {
             std::shared_ptr<ValueSubject<size_t> > openMax;
-            std::shared_ptr<ListSubject<Core::FileSystem::FileInfo> > recentFiles;
+            std::shared_ptr<ListSubject<System::File::Info> > recentFiles;
             std::shared_ptr<ValueSubject<size_t> > recentFilesMax;
             std::map<std::string, bool> recentFilesSettingsBellowsState;
             std::shared_ptr<ValueSubject<bool> > autoDetectSequences;
             std::shared_ptr<ValueSubject<bool> > sequencesFirstFrame;
             std::shared_ptr<ValueSubject<bool> > cacheEnabled;
             std::shared_ptr<ValueSubject<int> > cacheSize;
-            std::map<std::string, BBox2f> widgetGeom;
+            std::map<std::string, Math::BBox2f> widgetGeom;
         };
 
-        void FileSettings::_init(const std::shared_ptr<Context>& context)
+        void FileSettings::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettings::_init("djv::ViewApp::FileSettings", context);
             DJV_PRIVATE_PTR();
             p.openMax = ValueSubject<size_t>::create(16);
-            p.recentFiles = ListSubject<Core::FileSystem::FileInfo>::create();
+            p.recentFiles = ListSubject<System::File::Info>::create();
             p.recentFilesMax = ValueSubject<size_t>::create(10);
             p.autoDetectSequences = ValueSubject<bool>::create(true);
             p.sequencesFirstFrame = ValueSubject<bool>::create(true);
@@ -61,7 +62,7 @@ namespace djv
         FileSettings::~FileSettings()
         {}
 
-        std::shared_ptr<FileSettings> FileSettings::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<FileSettings> FileSettings::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<FileSettings>(new FileSettings);
             out->_init(context);
@@ -78,7 +79,7 @@ namespace djv
             _p->openMax->setIfChanged(value);
         }
         
-        std::shared_ptr<IListSubject<Core::FileSystem::FileInfo> > FileSettings::observeRecentFiles() const
+        std::shared_ptr<IListSubject<System::File::Info> > FileSettings::observeRecentFiles() const
         {
             return _p->recentFiles;
         }
@@ -93,10 +94,10 @@ namespace djv
             return _p->recentFilesSettingsBellowsState;
         }
 
-        void FileSettings::setRecentFiles(const std::vector<Core::FileSystem::FileInfo>& value)
+        void FileSettings::setRecentFiles(const std::vector<System::File::Info>& value)
         {
             DJV_PRIVATE_PTR();
-            std::vector<Core::FileSystem::FileInfo> files;
+            std::vector<System::File::Info> files;
             for (size_t i = 0; i < value.size() && i < p.recentFilesMax->get(); ++i)
             {
                 files.push_back(value[i]);
@@ -109,7 +110,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.recentFilesMax->setIfChanged(value);
             const auto& files = _p->recentFiles->get();
-            std::vector<Core::FileSystem::FileInfo> filesMax;
+            std::vector<System::File::Info> filesMax;
             for (size_t i = 0; i < files.size() && i < value; ++i)
             {
                 filesMax.push_back(files[i]);
@@ -162,12 +163,12 @@ namespace djv
             _p->cacheSize->setIfChanged(value);
         }
 
-        const std::map<std::string, BBox2f>& FileSettings::getWidgetGeom() const
+        const std::map<std::string, Math::BBox2f>& FileSettings::getWidgetGeom() const
         {
             return _p->widgetGeom;
         }
 
-        void FileSettings::setWidgetGeom(const std::map<std::string, BBox2f>& value)
+        void FileSettings::setWidgetGeom(const std::map<std::string, Math::BBox2f>& value)
         {
             _p->widgetGeom = value;
         }
@@ -178,7 +179,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 UI::Settings::read("OpenMax", value, p.openMax);
-                std::vector< Core::FileSystem::FileInfo> recentFiles;
+                std::vector< System::File::Info> recentFiles;
                 UI::Settings::read("RecentFiles", value, recentFiles);
                 auto i = recentFiles.begin();
                 while (i != recentFiles.end())

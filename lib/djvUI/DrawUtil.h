@@ -6,27 +6,23 @@
 
 #include <djvUI/UI.h>
 
-#include <djvCore/BBox.h>
+#include <djvMath/BBox.h>
 
 #include <memory>
 
 namespace djv
 {
-    namespace AV
+    namespace Image
     {
-        namespace Image
-        {
-            class Color;
+        class Color;
 
-        } // namespace Image
+    } // namespace Image
 
-        namespace Render2D
-        {
-            class Render;
+    namespace Render2D
+    {
+        class Render;
 
-        } // namespace Render
-
-    } // namespace AV
+    } // namespace Render
 
     namespace UI
     {
@@ -37,22 +33,22 @@ namespace djv
         } // namespace Style
 
         void drawBorder(
-            const std::shared_ptr<AV::Render2D::Render>&,
-            const Core::BBox2f& box,
+            const std::shared_ptr<Render2D::Render>&,
+            const Math::BBox2f& box,
             float width);
 
         void drawCheckers(
-            const std::shared_ptr<AV::Render2D::Render>&,
-            const Core::BBox2f& box,
+            const std::shared_ptr<Render2D::Render>&,
+            const Math::BBox2f& box,
             float size,
-            const AV::Image::Color& color0,
-            const AV::Image::Color& color1);
+            const Image::Color& color0,
+            const Image::Color& color1);
 
         glm::vec2 getCheckBoxSize(const std::shared_ptr<Style::Style>&);
         void drawCheckBox(
-            const std::shared_ptr<AV::Render2D::Render>&,
+            const std::shared_ptr<Render2D::Render>&,
             const std::shared_ptr<Style::Style>&,
-            const Core::BBox2f&,
+            const Math::BBox2f&,
             bool checked);
 
     } // namespace UI

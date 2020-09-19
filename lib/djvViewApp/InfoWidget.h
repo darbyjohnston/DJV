@@ -6,10 +6,10 @@
 
 #include <djvViewApp/MDIWidget.h>
 
-#include <djvAV/Audio.h>
+#include <djvAudio/Audio.h>
 
-#include <djvCore/FrameNumber.h>
-#include <djvCore/Rational.h>
+#include <djvMath/FrameNumber.h>
+#include <djvMath/Rational.h>
 
 namespace djv
 {
@@ -21,26 +21,26 @@ namespace djv
             DJV_NON_COPYABLE(InfoWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             InfoWidget();
 
         public:
             ~InfoWidget() override;
 
-            static std::shared_ptr<InfoWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<InfoWidget> create(const std::shared_ptr<System::Context>&);
 
         protected:
-            void _initLayoutEvent(djv::Core::Event::InitLayout&) override;
+            void _initLayoutEvent(djv::System::Event::InitLayout&) override;
 
-            void _initEvent(Core::Event::Init &) override;
+            void _initEvent(System::Event::Init &) override;
 
         private:
             std::string _text(int) const;
-            std::string _text(const Core::Math::Rational&) const;
-            std::string _text(const Core::Frame::Sequence&, const Core::Math::Rational&) const;
-            std::string _text(AV::Image::Type) const;
-            std::string _text(const AV::Image::Size&) const;
-            std::string _text(AV::Audio::Type) const;
+            std::string _text(const Math::Rational&) const;
+            std::string _text(const Math::Frame::Sequence&, const Math::Rational&) const;
+            std::string _text(Image::Type) const;
+            std::string _text(const Image::Size&) const;
+            std::string _text(Audio::Type) const;
             std::string _textSampleRate(size_t) const;
             std::string _textDuration(size_t, size_t) const;
 

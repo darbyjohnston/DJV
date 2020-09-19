@@ -4,7 +4,7 @@
 
 #include <djvAV/PPM.h>
 
-#include <djvCore/FileIO.h>
+#include <djvSystem/FileIO.h>
 
 using namespace djv::Core;
 
@@ -31,13 +31,13 @@ namespace djv
                 }
 
                 std::shared_ptr<Write> Write::create(
-                    const FileSystem::FileInfo& fileInfo,
+                    const System::File::Info& fileInfo,
                     const Info& info,
                     const WriteOptions& writeOptions,
                     const Options& options,
-                    const std::shared_ptr<TextSystem>& textSystem,
-                    const std::shared_ptr<ResourceSystem>& resourceSystem,
-                    const std::shared_ptr<LogSystem>& logSystem)
+                    const std::shared_ptr<System::TextSystem>& textSystem,
+                    const std::shared_ptr<System::ResourceSystem>& resourceSystem,
+                    const std::shared_ptr<System::LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Write>(new Write);
                     out->_p->options = options;
@@ -96,8 +96,8 @@ namespace djv
                     }
                     char magic[] = "P \n";
                     magic[1] = '0' + ppmType;
-                    auto io = FileSystem::FileIO::create();
-                    io->open(fileName, FileSystem::FileIO::Mode::Write);
+                    auto io = System::File::IO::create();
+                    io->open(fileName, System::File::IO::Mode::Write);
                     io->write(magic, 3);
 
                     std::stringstream ss;

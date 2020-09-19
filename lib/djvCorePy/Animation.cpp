@@ -5,7 +5,7 @@
 #include <djvCorePy/CorePy.h>
 
 #include <djvCore/Animation.h>
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/chrono.h>

@@ -14,8 +14,8 @@ namespace djv
         {
         public:
             IOTest(
-                const Core::FileSystem::Path& tempPath,
-                const std::shared_ptr<Core::Context>&);
+                const System::File::Path& tempPath,
+                const std::shared_ptr<System::Context>&);
             
             void run() override;
             
@@ -32,10 +32,10 @@ namespace djv
             void _io(
                 const std::string& name,
                 const std::string& extension,
-                const AV::Image::Size,
-                AV::Image::Type,
-                const AV::Tags&,
-                const std::shared_ptr<AV::IO::System>&);
+                const Image::Size,
+                Image::Type,
+                const Image::Tags&,
+                const std::shared_ptr<AV::IO::IOSystem>&);
             void _system();
         };
         

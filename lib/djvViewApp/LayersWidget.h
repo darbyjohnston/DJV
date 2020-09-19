@@ -16,16 +16,16 @@ namespace djv
             DJV_NON_COPYABLE(LayersWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             LayersWidget();
 
         public:
             ~LayersWidget() override;
 
-            static std::shared_ptr<LayersWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<LayersWidget> create(const std::shared_ptr<System::Context>&);
 
         protected:
-            void _initEvent(Core::Event::Init &) override;
+            void _initEvent(System::Event::Init &) override;
 
         private:
             void _layersUpdate();

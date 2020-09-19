@@ -17,10 +17,10 @@
 #include <djvUI/ToolBar.h>
 #include <djvUI/ToolButton.h>
 
-#include <djvAV/OCIOSystem.h>
+#include <djvOCIO/OCIOSystem.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/FileInfo.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/FileInfo.h>
 
 using namespace djv::Core;
 
@@ -30,9 +30,9 @@ namespace djv
     {
         struct ColorSpaceConfigWidget::Private
         {
-            AV::OCIO::ConfigMode configMode = AV::OCIO::ConfigMode::First;
-            AV::OCIO::UserConfigs userConfigs;
-            Core::FileSystem::Path fileBrowserPath = Core::FileSystem::Path(".");
+            OCIO::ConfigMode configMode = OCIO::ConfigMode::First;
+            OCIO::UserConfigs userConfigs;
+            System::File::Path fileBrowserPath = System::File::Path(".");
             bool deleteEnabled = false;
 
             std::shared_ptr<UI::ButtonGroup> userConfigButtonGroup;
@@ -43,11 +43,11 @@ namespace djv
             std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
 
-            std::shared_ptr<ValueObserver<AV::OCIO::ConfigMode> > configModeObserver;
-            std::shared_ptr<ValueObserver<AV::OCIO::UserConfigs> > userConfigsObserver;
+            std::shared_ptr<ValueObserver<OCIO::ConfigMode> > configModeObserver;
+            std::shared_ptr<ValueObserver<OCIO::UserConfigs> > userConfigsObserver;
         };
 
-        void ColorSpaceConfigWidget::_init(const std::shared_ptr<Context>& context)
+        void ColorSpaceConfigWidget::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -78,13 +78,13 @@ namespace djv
             p.layout->addChild(toolBar);
             addChild(p.layout);
 
-            auto contextWeak = std::weak_ptr<Context>(context);
+            auto contextWeak = std::weak_ptr<System::Context>(context);
             p.userConfigButtonGroup->setExclusiveCallback(
                 [contextWeak](int value)
                 {
                     if (auto context = contextWeak.lock())
                     {
-                        auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                        auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
                         ocioSystem->setCurrentUserConfig(static_cast<int>(value));
                     }
                 });
@@ -106,7 +106,7 @@ namespace djv
                             widget->_p->fileBrowserDialog->setFileExtensions({ ".ocio" });
                             widget->_p->fileBrowserDialog->setPath(widget->_p->fileBrowserPath);
                             widget->_p->fileBrowserDialog->setCallback(
-                                [weak, contextWeak](const Core::FileSystem::FileInfo& value)
+                                [weak, contextWeak](const System::File::Info& value)
                                 {
                                     if (auto context = contextWeak.lock())
                                     {
@@ -115,7 +115,7 @@ namespace djv
                                             widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
                                             widget->_p->fileBrowserDialog->close();
                                             widget->_p->fileBrowserDialog.reset();
-                                            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                                            auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
                                             ocioSystem->addUserConfig(value.getPath().get());
                                         }
                                     }
@@ -143,7 +143,7 @@ namespace djv
                 {
                     if (auto context = contextWeak.lock())
                     {
-                        auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                        auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
                         ocioSystem->removeUserConfig(static_cast<int>(value));
                     }
                 });
@@ -158,10 +158,10 @@ namespace djv
                     }
                 });
 
-            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-            p.configModeObserver = ValueObserver<AV::OCIO::ConfigMode>::create(
+            auto ocioSystem = context->getSystemT<OCIO::OCIOSystem>();
+            p.configModeObserver = ValueObserver<OCIO::ConfigMode>::create(
                 ocioSystem->observeConfigMode(),
-                [weak](const AV::OCIO::ConfigMode& value)
+                [weak](const OCIO::ConfigMode& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -170,9 +170,9 @@ namespace djv
                     }
                 });
 
-            p.userConfigsObserver = ValueObserver<AV::OCIO::UserConfigs>::create(
+            p.userConfigsObserver = ValueObserver<OCIO::UserConfigs>::create(
                 ocioSystem->observeUserConfigs(),
-                [weak](const AV::OCIO::UserConfigs& value)
+                [weak](const OCIO::UserConfigs& value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -195,24 +195,24 @@ namespace djv
             }
         }
 
-        std::shared_ptr<ColorSpaceConfigWidget> ColorSpaceConfigWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ColorSpaceConfigWidget> ColorSpaceConfigWidget::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<ColorSpaceConfigWidget>(new ColorSpaceConfigWidget);
             out->_init(context);
             return out;
         }
 
-        void ColorSpaceConfigWidget::_preLayoutEvent(Event::PreLayout&)
+        void ColorSpaceConfigWidget::_preLayoutEvent(System::Event::PreLayout&)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void ColorSpaceConfigWidget::_layoutEvent(Event::Layout&)
+        void ColorSpaceConfigWidget::_layoutEvent(System::Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
         }
 
-        void ColorSpaceConfigWidget::_initEvent(Event::Init& event)
+        void ColorSpaceConfigWidget::_initEvent(System::Event::Init& event)
         {
             DJV_PRIVATE_PTR();
             if (event.getData().text)
@@ -228,11 +228,11 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                const bool userConfigMode = AV::OCIO::ConfigMode::User == p.configMode;
+                const bool userConfigMode = OCIO::ConfigMode::User == p.configMode;
                 p.userConfigButtonLayout->clearChildren();
                 std::vector<std::shared_ptr<UI::Button::IButton> > buttons;
                 std::vector<std::shared_ptr<UI::Button::IButton> > deleteButtons;
-                auto contextWeak = std::weak_ptr<Context>(context);
+                auto contextWeak = std::weak_ptr<System::Context>(context);
                 for (size_t i = 0; i < p.userConfigs.first.size(); ++i)
                 {
                     const auto& config = p.userConfigs.first[i];

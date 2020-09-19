@@ -4,23 +4,38 @@
 
 #pragma once
 
-#include <djvAV/Pixel.h>
+#include <djvImage/Pixel.h>
 
-#include <djvCore/ISystem.h>
+#include <djvSystem/ISystem.h>
+
 #include <djvCore/UID.h>
 
 #include <future>
 
 namespace djv
 {
-    namespace Core
+    namespace System
     {
-        namespace FileSystem
+        namespace File
         {
-            class FileInfo;
+            class Info;
 
-        } // namespace FileSystem
-    } // namespace Core
+        } // namespace File
+    } // namespace System
+
+    namespace Image
+    {
+        class Image;
+        class Info;
+        class Size;
+        
+    } // namespace Image
+
+    namespace GL
+    {
+        class ImageConvert;
+        
+    } // namespace GL
 
     namespace AV
     {
@@ -29,15 +44,6 @@ namespace djv
             class Info;
 
         } // namespace IO
-
-        namespace Image
-        {
-            class Size;
-            class Info;
-            class Convert;
-            class Image;
-            
-        } // namespace Image
             
         //! This class provides a thumbnail error.
         class ThumbnailError : public std::runtime_error
@@ -47,12 +53,12 @@ namespace djv
         };
         
         //! This class provides a system for generating thumbnail images from files.
-        class ThumbnailSystem : public Core::ISystem
+        class ThumbnailSystem : public System::ISystem
         {
             DJV_NON_COPYABLE(ThumbnailSystem);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             ThumbnailSystem();
 
         public:
@@ -61,7 +67,7 @@ namespace djv
             //! Create a new thumbnail system.
             //! Throws:
             //! - ThumbnailError
-            static std::shared_ptr<ThumbnailSystem> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ThumbnailSystem> create(const std::shared_ptr<System::Context>&);
 
             //! This structure provides information about a file.
             struct InfoFuture
@@ -73,7 +79,7 @@ namespace djv
             };
             
             //! Get information about a file.
-            InfoFuture getInfo(const Core::FileSystem::FileInfo&);
+            InfoFuture getInfo(const System::File::Info&);
 
             //! Cancel information about a file.
             void cancelInfo(Core::UID);
@@ -89,9 +95,9 @@ namespace djv
 
             //! Get a thumbnail image for the given file.
             ImageFuture getImage(
-                const Core::FileSystem::FileInfo& path,
-                const Image::Size&                size,
-                Image::Type                       type = Image::Type::None);
+                const System::File::Info& path,
+                const Image::Size&        size,
+                Image::Type               type = Image::Type::None);
 
             //! Cancel a thumbnail image.
             void cancelImage(Core::UID);
@@ -107,7 +113,7 @@ namespace djv
 
         private:
             void _handleInfoRequests();
-            void _handleImageRequests(const std::shared_ptr<Image::Convert>&);
+            void _handleImageRequests(const std::shared_ptr<GL::ImageConvert>&);
 
             DJV_PRIVATE();
         };

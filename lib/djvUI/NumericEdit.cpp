@@ -9,10 +9,11 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/ToolButton.h>
 
-#include <djvAV/FontSystem.h>
-#include <djvAV/Render2D.h>
+#include <djvRender2D/FontSystem.h>
+#include <djvRender2D/Render.h>
 
-#include <djvCore/NumericValueModels.h>
+#include <djvMath/NumericValueModels.h>
+
 #include <djvCore/ValueObserver.h>
 
 #define GLFW_INCLUDE_NONE
@@ -31,7 +32,7 @@ namespace djv
             std::function<void(void)> decrementCallback;
         };
 
-        void NumericEditButtons::_init(const std::shared_ptr<Context>& context)
+        void NumericEditButtons::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -86,7 +87,7 @@ namespace djv
         NumericEditButtons::~NumericEditButtons()
         {}
 
-        std::shared_ptr<NumericEditButtons> NumericEditButtons::create(const std::shared_ptr<Context>& value)
+        std::shared_ptr<NumericEditButtons> NumericEditButtons::create(const std::shared_ptr<System::Context>& value)
         {
             auto out = std::shared_ptr<NumericEditButtons>(new NumericEditButtons);
             out->_init(value);
@@ -113,7 +114,7 @@ namespace djv
             _p->decrementCallback = callback;
         }
 
-        void NumericEditButtons::_preLayoutEvent(Event::PreLayout&)
+        void NumericEditButtons::_preLayoutEvent(System::Event::PreLayout&)
         {
             DJV_PRIVATE_PTR();
             glm::vec2 size = glm::vec2(0.F, 0.F);
@@ -126,17 +127,17 @@ namespace djv
             _setMinimumSize(size);
         }
 
-        void NumericEditButtons::_layoutEvent(Event::Layout&)
+        void NumericEditButtons::_layoutEvent(System::Event::Layout&)
         {
             DJV_PRIVATE_PTR();
-            const BBox2f& g = getGeometry();
+            const Math::BBox2f& g = getGeometry();
             float x = g.min.x;
             float y = g.min.y;
             float w = g.w();
             float h = ceilf(g.h() / 2.F);
-            p.incButtons[0]->setGeometry(BBox2f(x, y, w, h));
+            p.incButtons[0]->setGeometry(Math::BBox2f(x, y, w, h));
             y = g.max.y - h;
-            p.incButtons[1]->setGeometry(BBox2f(x, y, w, h));
+            p.incButtons[1]->setGeometry(Math::BBox2f(x, y, w, h));
         }
 
         struct NumericEdit::Private
@@ -145,7 +146,7 @@ namespace djv
             std::shared_ptr<NumericEditButtons> buttons;
         };
 
-        void NumericEdit::_init(const std::shared_ptr<Context>& context)
+        void NumericEdit::_init(const std::shared_ptr<System::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -154,7 +155,7 @@ namespace djv
             setVAlign(VAlign::Center);
 
             p.lineEditBase = LineEditBase::create(context);
-            p.lineEditBase->setFont(AV::Font::familyMono);
+            p.lineEditBase->setFont(Render2D::Font::familyMono);
             p.lineEditBase->installEventFilter(shared_from_this());
             addChild(p.lineEditBase);
 
@@ -204,7 +205,7 @@ namespace djv
         NumericEdit::~NumericEdit()
         {}
 
-        void NumericEdit::_preLayoutEvent(Event::PreLayout& event)
+        void NumericEdit::_preLayoutEvent(System::Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
             glm::vec2 size = glm::vec2(0.F, 0.F);
@@ -219,22 +220,22 @@ namespace djv
             _setMinimumSize(size + btf * 2.F + getMargin().getSize(style));
         }
 
-        void NumericEdit::_layoutEvent(Event::Layout& event)
+        void NumericEdit::_layoutEvent(System::Event::Layout& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const BBox2f& g = getMargin().bbox(getGeometry(), style);
+            const Math::BBox2f& g = getMargin().bbox(getGeometry(), style);
             const float btf = style->getMetric(MetricsRole::BorderTextFocus);
             glm::vec2 tmp = p.buttons->getMinimumSize();
-            BBox2f g2 = g.margin(-btf);
+            Math::BBox2f g2 = g.margin(-btf);
             float x = g2.max.x - tmp.x;
             float y = g2.min.y;
             float w = tmp.x;
             float h = g2.h();
-            p.buttons->setGeometry(BBox2f(x, y, w, h));
+            p.buttons->setGeometry(Math::BBox2f(x, y, w, h));
             x = g2.min.x;
             w = g2.w() - tmp.x;
-            p.lineEditBase->setGeometry(BBox2f(x, y, w, h));
+            p.lineEditBase->setGeometry(Math::BBox2f(x, y, w, h));
         }
 
         void NumericEdit::_textUpdate(const std::string& text, const std::string& sizeString)
@@ -256,14 +257,14 @@ namespace djv
             p.buttons->setIncrementEnabled(!value);
         }
 
-        void NumericEdit::_paintEvent(Event::Paint& event)
+        void NumericEdit::_paintEvent(System::Event::Paint& event)
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const float b = style->getMetric(UI::MetricsRole::Border);
             const float btf = style->getMetric(MetricsRole::BorderTextFocus);
-            const BBox2f& g = getGeometry();
+            const Math::BBox2f& g = getGeometry();
             const auto& render = _getRender();
             if (p.lineEditBase->hasTextFocus())
             {
@@ -277,14 +278,14 @@ namespace djv
             }
         }
 
-        bool NumericEdit::_eventFilter(const std::shared_ptr<IObject>& object, Event::Event& event)
+        bool NumericEdit::_eventFilter(const std::shared_ptr<IObject>& object, System::Event::Event& event)
         {
             DJV_PRIVATE_PTR();
             switch (event.getEventType())
             {
-            case Event::Type::KeyPress:
+            case System::Event::Type::KeyPress:
             {
-                auto& keyPressEvent = static_cast<Event::KeyPress&>(event);
+                auto& keyPressEvent = static_cast<System::Event::KeyPress&>(event);
                 if (_keyPress(keyPressEvent.getKey()))
                 {
                     keyPressEvent.accept();
@@ -292,9 +293,9 @@ namespace djv
                 }
                 break;
             }
-            case Event::Type::Scroll:
+            case System::Event::Type::Scroll:
             {
-                auto& scrollEvent = static_cast<Event::Scroll&>(event);
+                auto& scrollEvent = static_cast<System::Event::Scroll&>(event);
                 scrollEvent.accept();
                 p.lineEditBase->takeTextFocus();
                 _scroll(scrollEvent.getScrollDelta().y);

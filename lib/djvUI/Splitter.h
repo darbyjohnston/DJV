@@ -18,13 +18,13 @@ namespace djv
                 DJV_NON_COPYABLE(Splitter);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 Splitter();
 
             public:
                 ~Splitter() override;
 
-                static std::shared_ptr<Splitter> create(Orientation, const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<Splitter> create(Orientation, const std::shared_ptr<System::Context>&);
 
                 Orientation getOrientation() const;
                 void setOrientation(Orientation);
@@ -43,21 +43,21 @@ namespace djv
                 void removeChild(const std::shared_ptr<IObject>&) override;
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
-                void _paintEvent(Core::Event::Paint&) override;
-                void _pointerLeaveEvent(Core::Event::PointerLeave&) override;
-                void _pointerMoveEvent(Core::Event::PointerMove&) override;
-                void _buttonPressEvent(Core::Event::ButtonPress&) override;
-                void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
+                void _paintEvent(System::Event::Paint&) override;
+                void _pointerLeaveEvent(System::Event::PointerLeave&) override;
+                void _pointerMoveEvent(System::Event::PointerMove&) override;
+                void _buttonPressEvent(System::Event::ButtonPress&) override;
+                void _buttonReleaseEvent(System::Event::ButtonRelease&) override;
 
-                void _initEvent(Core::Event::Init&) override;
+                void _initEvent(System::Event::Init&) override;
 
             private:
                 float _valueToPos(float) const;
                 float _posToValue(float) const;
-                std::vector<Core::BBox2f> _getChildGeometry() const;
-                std::vector<Core::BBox2f> _getHandleGeometry() const;
+                std::vector<Math::BBox2f> _getChildGeometry() const;
+                std::vector<Math::BBox2f> _getHandleGeometry() const;
 
                 DJV_PRIVATE();
             };

@@ -4,9 +4,10 @@
 
 #include <djvAV/FFmpeg.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/FileSystem.h>
-#include <djvCore/LogSystem.h>
+#include <djvSystem/File.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/LogSystem.h>
+
 #include <djvCore/String.h>
 
 extern "C"
@@ -216,7 +217,7 @@ namespace djv
                 
                 namespace
                 {
-                    std::weak_ptr<LogSystem> _logSystem;
+                    std::weak_ptr<System::LogSystem> _logSystem;
 
                     void avLogCallback(void * ptr, int level, const char * fmt, va_list vl)
                     {
@@ -237,7 +238,7 @@ namespace djv
                     Options options;
                 };
 
-                void Plugin::_init(const std::shared_ptr<Context>& context)
+                void Plugin::_init(const std::shared_ptr<System::Context>& context)
                 {
                     IPlugin::_init(
                         pluginName,
@@ -245,7 +246,7 @@ namespace djv
                         fileExtensions,
                         context);
                         
-                    _logSystem = context->getSystemT<LogSystem>();
+                    _logSystem = context->getSystemT<System::LogSystem>();
                     av_log_set_level(AV_LOG_ERROR);
                     av_log_set_callback(avLogCallback);
                }
@@ -254,7 +255,7 @@ namespace djv
                     _p(new Private)
                 {}
 
-                std::shared_ptr<Plugin> Plugin::create(const std::shared_ptr<Context>& context)
+                std::shared_ptr<Plugin> Plugin::create(const std::shared_ptr<System::Context>& context)
                 {
                     auto out = std::shared_ptr<Plugin>(new Plugin);
                     out->_init(context);
@@ -273,7 +274,7 @@ namespace djv
                     fromJSON(value, p.options);
                 }
 
-                std::shared_ptr<IRead> Plugin::read(const FileSystem::FileInfo& fileInfo, const ReadOptions& options) const
+                std::shared_ptr<IRead> Plugin::read(const System::File::Info& fileInfo, const ReadOptions& options) const
                 {
                     DJV_PRIVATE_PTR();
                     return Read::create(fileInfo, options, p.options, _textSystem, _resourceSystem, _logSystem);

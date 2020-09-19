@@ -4,7 +4,7 @@
 
 #include <djvViewApp/NUXSettings.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
 
 // These need to be included last on macOS.
 #include <djvCore/RapidJSONTemplates.h>
@@ -21,7 +21,7 @@ namespace djv
             std::shared_ptr<ValueSubject<bool> > nux;
         };
 
-        void NUXSettings::_init(const std::shared_ptr<Core::Context>& context)
+        void NUXSettings::_init(const std::shared_ptr<System::Context>& context)
         {
             ISettings::_init("djv::ViewApp::NUXSettings", context);
 
@@ -34,7 +34,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<NUXSettings> NUXSettings::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<NUXSettings> NUXSettings::create(const std::shared_ptr<System::Context>& context)
         {
             auto out = std::shared_ptr<NUXSettings>(new NUXSettings);
             out->_init(context);

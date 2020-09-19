@@ -13,8 +13,8 @@ namespace djv
     namespace CoreTest
     {
         CacheTest::CacheTest(
-            const FileSystem::Path& tempPath,
-            const std::shared_ptr<Core::Context>& context) :
+            const System::File::Path& tempPath,
+            const std::shared_ptr<System::Context>& context) :
             ITest("djv::CoreTest::CacheTest", tempPath, context)
         {}
         

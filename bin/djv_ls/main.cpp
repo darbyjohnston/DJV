@@ -6,12 +6,13 @@
 
 #include <djvAV/IOSystem.h>
 
-#include <djvCore/Context.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/FileInfoFunc.h>
+#include <djvSystem/PathFunc.h>
+#include <djvSystem/TextSystem.h>
+
 #include <djvCore/ErrorFunc.h>
-#include <djvCore/FileInfoFunc.h>
-#include <djvCore/PathFunc.h>
 #include <djvCore/StringFormat.h>
-#include <djvCore/TextSystem.h>
 
 using namespace djv;
 
@@ -34,14 +35,14 @@ namespace djv
                 bool hasInputs = args.size();
                 while (args.size())
                 {
-                    Core::FileSystem::FileInfo fileInfo(args.front());
+                    System::File::Info fileInfo(args.front());
                     if (fileInfo.doesExist())
                     {
                         _inputs.push_back(fileInfo);
                     }
                     else
                     {
-                        auto textSystem = getSystemT<Core::TextSystem>();
+                        auto textSystem = getSystemT<System::TextSystem>();
                         const std::string s = Core::String::Format("{0}: {1}").
                             arg(fileInfo.getFileName()).
                             arg(textSystem->getText(DJV_TEXT("error_file_open")));
@@ -51,7 +52,7 @@ namespace djv
                 }
                 if (!_inputs.size() && !hasInputs)
                 {
-                    _inputs.push_back(Core::FileSystem::FileInfo("."));
+                    _inputs.push_back(System::File::Info("."));
                 }
             }
 
@@ -68,23 +69,23 @@ namespace djv
 
             void run() override
             {
-                auto io = getSystemT<AV::IO::System>();
+                auto io = getSystemT<AV::IO::IOSystem>();
                 for (const auto& i : _inputs)
                 {
                     switch (i.getType())
                     {
-                    case Core::FileSystem::FileType::File:
+                    case System::File::Type::File:
                         _print(std::string(i));
                         break;
-                    case Core::FileSystem::FileType::Directory:
+                    case System::File::Type::Directory:
                     {
                         std::cout << i.getPath() << ":" << std::endl;
-                        Core::FileSystem::DirectoryListOptions options;
+                        System::File::DirectoryListOptions options;
                         options.sequences = true;
                         options.sequenceExtensions = io->getSequenceExtensions();
-                        for (const auto& j : Core::FileSystem::directoryList(i.getPath(), options))
+                        for (const auto& j : System::File::directoryList(i.getPath(), options))
                         {
-                            _print(j.getFileName(Core::Frame::invalid, false));
+                            _print(j.getFileName(Math::Frame::invalid, false));
                         }
                         break;
                     }
@@ -96,7 +97,7 @@ namespace djv
         protected:
             void _printUsage() override
             {
-                auto textSystem = getSystemT<Core::TextSystem>();
+                auto textSystem = getSystemT<System::TextSystem>();
                 std::cout << std::endl;
                 std::cout << " " << textSystem->getText(DJV_TEXT("djv_ls_description")) << std::endl;
                 std::cout << std::endl;
@@ -108,7 +109,7 @@ namespace djv
                 CmdLine::Application::_printUsage();
             }
 
-            std::vector<Core::FileSystem::FileInfo> _inputs;
+            std::vector<System::File::Info> _inputs;
 
         private:
             void _print(const std::string & fileName)

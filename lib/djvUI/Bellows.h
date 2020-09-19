@@ -18,13 +18,13 @@ namespace djv
                 DJV_NON_COPYABLE(Bellows);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>&);
+                void _init(const std::shared_ptr<System::Context>&);
                 Bellows();
 
             public:
                 ~Bellows() override;
 
-                static std::shared_ptr<Bellows> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<Bellows> create(const std::shared_ptr<System::Context>&);
                 
                 const std::string& getText() const;
                 void setText(const std::string&);
@@ -46,8 +46,8 @@ namespace djv
                 void clearChildren() override;
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
+                void _preLayoutEvent(System::Event::PreLayout&) override;
+                void _layoutEvent(System::Event::Layout&) override;
 
             private:
                 void _widgetUpdate();

@@ -4,13 +4,15 @@
 
 #include <djvAV/JPEG.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/FileIO.h>
-#include <djvCore/FileSystemFunc.h>
-#include <djvCore/LogSystem.h>
+#include <djvSystem/Context.h>
+#include <djvSystem/File.h>
+#include <djvSystem/FileFunc.h>
+#include <djvSystem/FileIO.h>
+#include <djvSystem/LogSystem.h>
+#include <djvSystem/TextSystem.h>
+
 #include <djvCore/StringFormat.h>
 #include <djvCore/StringFunc.h>
-#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -37,13 +39,13 @@ namespace djv
                 }
 
                 std::shared_ptr<Write> Write::create(
-                    const FileSystem::FileInfo& fileInfo,
+                    const System::File::Info& fileInfo,
                     const Info& info,
                     const WriteOptions& writeOptions,
                     const Options& options,
-                    const std::shared_ptr<TextSystem>& textSystem,
-                    const std::shared_ptr<ResourceSystem>& resourceSystem,
-                    const std::shared_ptr<LogSystem>& logSystem)
+                    const std::shared_ptr<System::TextSystem>& textSystem,
+                    const std::shared_ptr<System::ResourceSystem>& resourceSystem,
+                    const std::shared_ptr<System::LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Write>(new Write);
                     out->_p->options = options;
@@ -102,7 +104,7 @@ namespace djv
                         FILE* f,
                         jpeg_compress_struct* jpeg,
                         const Image::Info& info,
-                        const Tags& tags,
+                        const Image::Tags& tags,
                         const Options& options,
                         JPEGErrorStruct* error)
                     {
@@ -214,13 +216,13 @@ namespace djv
                         {
                             messages.push_back(i);
                         }
-                        throw FileSystem::Error(String::join(messages, ' '));
+                        throw System::File::Error(String::join(messages, ' '));
                     }
                     f->jpegInit = true;
-                    f->f = FileSystem::fopen(fileName.c_str(), "wb");
+                    f->f = System::File::fopen(fileName.c_str(), "wb");
                     if (!f->f)
                     {
-                        throw FileSystem::Error(String::Format("{0}: {1}").
+                        throw System::File::Error(String::Format("{0}: {1}").
                             arg(fileName).
                             arg(_textSystem->getText(DJV_TEXT("error_file_open"))));
                     }
@@ -235,7 +237,7 @@ namespace djv
                         {
                             messages.push_back(i);
                         }
-                        throw FileSystem::Error(String::join(messages, ' '));
+                        throw System::File::Error(String::join(messages, ' '));
                     }
 
                     // Write the file.
@@ -244,7 +246,7 @@ namespace djv
                     {
                         if (!jpegScanline(&f->jpeg, image->getData(y), &f->jpegError))
                         {
-                            throw FileSystem::Error(f->jpegError.messages.size() ?
+                            throw System::File::Error(f->jpegError.messages.size() ?
                                 f->jpegError.messages.back() :
                                 _textSystem->getText(DJV_TEXT("error_write_scanline")));
                         }
@@ -259,7 +261,7 @@ namespace djv
                         {
                             messages.push_back(i);
                         }
-                        throw FileSystem::Error(String::join(messages, ' '));
+                        throw System::File::Error(String::join(messages, ' '));
                     }
 
                     // Log any warnings.
@@ -268,7 +270,7 @@ namespace djv
                         _logSystem->log(
                             pluginName,
                             String::Format("{0}: {1}").arg(fileName).arg(i),
-                            LogLevel::Warning);
+                            System::LogLevel::Warning);
                     }
                 }
 

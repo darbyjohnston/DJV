@@ -16,16 +16,16 @@ namespace djv
             DJV_NON_COPYABLE(HistogramWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(const std::shared_ptr<System::Context>&);
             HistogramWidget();
 
         public:
             ~HistogramWidget() override;
 
-            static std::shared_ptr<HistogramWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<HistogramWidget> create(const std::shared_ptr<System::Context>&);
 
         protected:
-            void _initEvent(Core::Event::Init &) override;
+            void _initEvent(System::Event::Init &) override;
 
         private:
             DJV_PRIVATE();
