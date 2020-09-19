@@ -7,6 +7,7 @@
 #include <djvMath/Math.h>
 #include <djvMath/MathFunc.h>
 
+#include <array>
 #include <sstream>
 
 namespace djv

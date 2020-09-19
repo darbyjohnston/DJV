@@ -20,6 +20,8 @@
 
 #include <djvSystem/Context.h>
 
+#include <cmath>
+
 using namespace djv::Core;
 
 namespace djv

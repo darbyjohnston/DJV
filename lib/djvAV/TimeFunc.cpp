@@ -123,7 +123,7 @@ namespace djv
                 offset = std::stoi(pieces[4]);
             }
 
-            inline void timecodeToTime(
+            void timecodeToTime(
                 uint32_t in,
                 int& hour,
                 int& minute,
@@ -136,7 +136,7 @@ namespace djv
                 frame   = (in >>  4 & 0x0f) * 10 + (in >>  0 & 0x0f);
             }
 
-            inline uint32_t timeToTimecode(
+            uint32_t timeToTimecode(
                 int hour,
                 int minute,
                 int seconds,
@@ -149,7 +149,7 @@ namespace djv
                     (frame   / 10 & 0x0f) <<  4 | (frame   % 10 & 0x0f) <<  0;
             }
 
-            inline Math::Frame::Number timecodeToFrame(uint32_t in, const Math::Rational& r)
+            Math::Frame::Number timecodeToFrame(uint32_t in, const Math::Rational& r)
             {
                 if (!r.isValid())
                     return 0;
@@ -167,7 +167,7 @@ namespace djv
                     static_cast<int64_t>(frame);
             }
 
-            inline uint32_t frameToTimecode(Math::Frame::Number frame, const Math::Rational& r)
+            uint32_t frameToTimecode(Math::Frame::Number frame, const Math::Rational& r)
             {
                 if (!r.isValid())
                     return 0;

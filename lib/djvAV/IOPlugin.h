@@ -68,6 +68,8 @@ namespace djv
             //! This class provides options for reading.
             struct ReadOptions : IOOptions
             {
+                ReadOptions();
+                
                 size_t layer = 0;
                 std::string colorSpace;
             };

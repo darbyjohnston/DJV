@@ -8,6 +8,12 @@
 #include <djvCore/StringFormat.h>
 #include <djvCore/StringFunc.h>
 
+#if defined(DJV_PLATFORM_MACOS)
+#include <ApplicationServices/ApplicationServices.h>
+#include <CoreFoundation/CFBundle.h>
+#include <CoreServices/CoreServices.h>
+#endif // DJV_PLATFORM_MACOS
+
 #include <sstream>
 
 #include <sys/ioctl.h>

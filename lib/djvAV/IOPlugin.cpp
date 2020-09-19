@@ -17,6 +17,9 @@ namespace djv
     {
         namespace IO
         {
+            ReadOptions::ReadOptions()
+            {}
+            
             void IIO::_init(
                 const System::File::Info& fileInfo,
                 const IOOptions& options,

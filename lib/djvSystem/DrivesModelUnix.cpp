@@ -5,6 +5,7 @@
 #include <djvSystem/DrivesModel.h>
 
 #include <djvSystem/FileInfo.h>
+#include <djvSystem/FileInfoFunc.h>
 
 //#pragma optimize("", off)
 
@@ -18,7 +19,7 @@ namespace djv
             {
                 std::vector<Path> out;
 #if defined(DJV_PLATFORM_MACOS)
-                for (const auto& fileInfo : FileInfo::directoryList(Path("/Volumes")))
+                for (const auto& fileInfo : directoryList(Path("/Volumes")))
                 {
                     out.push_back(fileInfo.getPath());
                 }
